@@ -41,6 +41,4 @@ def_int $damage = randominc(5);
 damage($player, 1, $damage);
 
 [queue,damagetest](int $var1, string $var2, int $var3)
-mes(tostring($var1));
-mes($var2);
-mes(tostring($var3));
+mes(tostring(map_clock));
