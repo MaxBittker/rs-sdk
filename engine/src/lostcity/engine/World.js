@@ -1,3 +1,4 @@
+import { toBase37 } from '#jagex2/jstring/JString.js';
 import Npc from '#lostcity/entity/Npc.js';
 import { ClientProtLengths } from '#lostcity/server/ClientProt.js';
 import { loadDir } from '#lostcity/tools/pack/NameMap.js';
@@ -293,6 +294,7 @@ class World {
     }
 
     removePlayer(player) {
+        player.save();
         this.players[player.pid] = null;
     }
 
@@ -305,6 +307,11 @@ class World {
 
     getPlayer(pid) {
         return this.players[pid];
+    }
+
+    getPlayerByUsername(username) {
+        let username37 = toBase37(username);
+        return this.players.find(p => p && p.username37 === username37);
     }
 
     getTotalPlayers() {

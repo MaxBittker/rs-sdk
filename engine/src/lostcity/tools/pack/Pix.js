@@ -172,7 +172,7 @@ export async function convertImage(index, srcPath, safeName) {
     } else {
         // generate color palette by counting unique colors
 
-        console.log('generating color palette', safeName);
+        // console.log('generating color palette', safeName);
         for (let j = 0; j < img.bitmap.width * img.bitmap.height; j++) {
             let pos = j * 4;
 

@@ -1,6 +1,8 @@
+import ScriptProvider from '#lostcity/engine/ScriptProvider.js';
 import ScriptRunner from '#lostcity/engine/ScriptRunner.js';
 import ScriptState from '#lostcity/engine/ScriptState.js';
 import World from '#lostcity/engine/World.js';
+import { Position } from './Position.js';
 
 export default class Npc {
     static ANIM = 0x2;
@@ -24,7 +26,8 @@ export default class Npc {
     orientation = -1;
 
     walkDir = -1;
-    steps = [];
+    walkStep = -1;
+    walkQueue = [];
 
     mask = 0;
     faceX = -1;
@@ -41,10 +44,59 @@ export default class Npc {
     delay = 0;
     queue = [];
     timers = [];
+    apScript = null;
+    opScript = null;
+    currentApRange = 10;
+    apRangeCalled = false;
     target = null;
+    persistent = false;
+
+    updateMovementStep() {
+        let dst = this.walkQueue[this.walkStep];
+        let dir = Position.face(this.x, this.z, dst.x, dst.z);
+
+        this.x = Position.moveX(this.x, dir);
+        this.z = Position.moveZ(this.z, dir);
+
+        if (dir == -1) {
+            this.walkStep--;
+
+            if (this.walkStep < this.walkQueue.length - 1 && this.walkStep != -1) {
+                dir = this.updateMovementStep();
+            }
+        }
+
+        return dir;
+    }
+
+    updateMovement() {
+        if (this.walkStep != -1 && this.walkStep < this.walkQueue.length) {
+            this.walkDir = this.updateMovementStep();
+
+            if (this.walkDir != -1) {
+                this.orientation = this.walkDir;
+            }
+        } else {
+            this.walkDir = -1;
+            this.walkQueue = [];
+        }
+    }
+
+    resetInteraction() {
+        this.apScript = null;
+        this.opScript = null;
+        this.currentApRange = 10;
+        this.apRangeCalled = false;
+        this.target = null;
+        this.persistent = false;
+    }
 
     delayed() {
         return this.delay > 0;
+    }
+
+    hasSteps() {
+        return this.walkQueue.length > 0;
     }
 
     processQueue() {

@@ -11,12 +11,12 @@ export default class WSServer {
 
     start() {
         this.wss = new WebSocketServer({ port: (Number(process.env.GAME_PORT) + 1), host: '0.0.0.0' }, () => {
-            console.log(`[WebSocket]: Listening on port ${Number(process.env.GAME_PORT) + 1}`);
+            console.log(`[WSWorld]: Listening on port ${Number(process.env.GAME_PORT) + 1}`);
         });
 
         this.wss.on('connection', (ws, req) => {
             const ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : req.connection.remoteAddress;
-            console.log(`WSServer connection from ${ip}`);
+            console.log(`[WSWorld]: Connection from ${ip}`);
 
             let socket = new ClientSocket(ws, ip, ClientSocket.WEBSOCKET);
 
@@ -40,7 +40,7 @@ export default class WSServer {
                     World.removePlayerBySocket(socket);
                 }
 
-                console.log(`WSServer disconnected from ${ip}`);
+                console.log(`[WSWorld]: Disconnected from ${ip}`);
             });
         });
     }

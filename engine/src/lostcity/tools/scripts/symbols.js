@@ -40,6 +40,17 @@ for (let i = 0; i < seqs.length; i++) {
 }
 fs.writeFileSync('data/symbols/seq.tsv', seqSymbols);
 
+let comSymbols = '';
+let coms = loadPack('data/pack/interface.pack');
+for (let i = 0; i < coms.length; i++) {
+    if (!coms[i] || coms[i] === 'null:null') {
+        continue;
+    }
+
+    comSymbols += `${i}\t${coms[i]}\n`;
+}
+fs.writeFileSync('data/symbols/component.tsv', comSymbols);
+
 let scriptSymbols = '';
 let scripts = loadPack('data/pack/script.pack');
 for (let i = 0; i < scripts.length; i++) {

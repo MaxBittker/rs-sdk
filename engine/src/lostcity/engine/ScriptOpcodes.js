@@ -45,6 +45,7 @@ const ScriptOpcodes = {
     P_APRANGE: 2085,
     P_DELAY: 2088,
     P_PAUSEBUTTON: 2092,
+    P_LOGOUT: 2109,
 
     IF_CHATSELECT: 2500,
     CHATNPC: 2501,

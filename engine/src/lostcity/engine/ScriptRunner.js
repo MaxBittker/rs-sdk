@@ -338,6 +338,10 @@ export default class ScriptRunner {
         [ScriptOpcodes.P_PAUSEBUTTON]: (state) => {
         },
 
+        [ScriptOpcodes.P_LOGOUT]: (state) => {
+            state.self.logout();
+        },
+
         // ----
 
         [ScriptOpcodes.IF_CHATSELECT]: (state) => {

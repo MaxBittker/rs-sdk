@@ -150,7 +150,7 @@ export default class Player {
         }
 
         sav.pos = sav.length - 4;
-        let crc = sav.g4();
+        let crc = sav.g4s();
         if (crc != Packet.crc32(sav, sav.length - 4)) {
             throw new Error('Player save corrupted');
         }
@@ -498,8 +498,10 @@ export default class Player {
 
                 let objType = ObjType.get(this.lastVerifyObj);
                 let script = ScriptProvider.getByName(`[${trigger},${objType.config}]`);
-                let state = ScriptRunner.init(script, this, null, null, objType);
-                this.executeInterface(state);
+                if (script) {
+                    let state = ScriptRunner.init(script, this, null, null, objType);
+                    this.executeInterface(state);
+                }
             } else if (opcode === ClientProt.OPNPC1 || opcode === ClientProt.OPNPC2 || opcode === ClientProt.OPNPC3 || opcode === ClientProt.OPNPC4 || opcode === ClientProt.OPNPC5) {
                 let nid = data.g2();
 
@@ -515,6 +517,16 @@ export default class Player {
                 this.messageType = 0;
                 this.message = data.gdata();
                 this.mask |= Player.CHAT;
+            } else if (opcode === ClientProt.IF_BUTTON) {
+                let com = data.g2();
+
+                let script = ScriptProvider.getByName(`[if_button,${IfType.get(com).config}]`);
+                if (script) {
+                    let state = ScriptRunner.init(script, this);
+                    this.executeInterface(state);
+                } else {
+                    this.messageGame('Nothing interesting happens.');
+                }
             }
         }
 

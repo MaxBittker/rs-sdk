@@ -8,7 +8,7 @@ class Login {
     readIn(socket, data) {
         let opcode = data.g1();
 
-        if (opcode === 16) { // || opcode === 18) {
+        if (opcode === 16 || opcode === 18) {
             let login = data.gPacket(data.g1());
 
             let revision = login.g1();
@@ -42,12 +42,26 @@ class Login {
 
             let uid = login.g4();
             let username = login.gjstr();
-            if (!username) {
-                username = 'player';
+            if (username.length < 1 || username.length > 12) {
+                socket.send(Uint8Array.from([3]));
+                socket.kill();
+                return;
             }
-            let password = login.gjstr();
 
-            let player = Player.load('player');
+            let password = login.gjstr();
+            if (password.length < 4 || password.length > 20) {
+                socket.send(Uint8Array.from([3]));
+                socket.kill();
+                return;
+            }
+
+            if (World.getPlayerByUsername(username)) {
+                socket.send(Uint8Array.from([5]));
+                socket.kill();
+                return;
+            }
+
+            let player = Player.load(username);
             player.client = socket;
             player.lowMemory = (info & 0x1) === 1;
             player.webClient = socket.isWebSocket();
