@@ -7,6 +7,9 @@
             ],
             "#lostcity/*": [
                 "src/lostcity/*"
+            ],
+            "#rsrmod/*": [
+                "src/rsrmod/*"
             ]
         }
     },

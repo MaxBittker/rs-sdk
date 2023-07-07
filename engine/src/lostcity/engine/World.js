@@ -1,7 +1,10 @@
 import { toBase37 } from '#jagex2/jstring/JString.js';
+import LocType from '#lostcity/cache/LocType.js';
 import Npc from '#lostcity/entity/Npc.js';
 import { ClientProtLengths } from '#lostcity/server/ClientProt.js';
 import { loadDir } from '#lostcity/tools/pack/NameMap.js';
+import CollisionFlagMap from '#rsmod/collision/CollisionFlagMap.js';
+import CollisionFlag from '#rsmod/flag/CollisionFlag.js';
 
 class World {
     members = typeof process.env.MEMBERS_WORLD !== 'undefined' ? true : false;
@@ -11,6 +14,7 @@ class World {
     players = new Array(2048);
     npcs = new Array(8192);
     // zones = [];
+    gameMap = new CollisionFlagMap();
 
     start() {
         for (let i = 0; i < this.players.length; i++) {
@@ -37,13 +41,57 @@ class World {
                 }
 
                 if (section === 'MAP') {
-                    // let parts = line.split(':');
-                    // let [level, x, z] = parts[0].split(' ');
-                    // let data = parts[1].slice(1).split(' ');
+                    let parts = line.split(':');
+                    let [level, x, z] = parts[0].split(' ');
+                    let data = parts[1].slice(1).split(' ');
+
+                    level = parseInt(level);
+                    x = parseInt(x);
+                    z = parseInt(z);
+                    x += mapsquareX << 6;
+                    z += mapsquareZ << 6;
+
+                    this.gameMap.set(x, z, level, 0);
                 } else if (section === 'LOC') {
-                    // let parts = line.split(':');
-                    // let [level, x, z] = parts[0].split(' ');
-                    // let [id, shape, rotation] = parts[1].split(' ');
+                    let parts = line.split(':');
+                    let [level, x, z] = parts[0].split(' ');
+                    let [id, shape, rotation] = parts[1].slice(1).split(' ');
+
+                    level = parseInt(level);
+                    x = parseInt(x);
+                    z = parseInt(z);
+                    x += mapsquareX << 6;
+                    z += mapsquareZ << 6;
+
+                    id = parseInt(id);
+                    shape = parseInt(shape);
+                    rotation = parseInt(rotation);
+
+                    let loc = LocType.get(id);
+                    if (!loc) {
+                        // means we're loading newer data, oops!
+                        // console.log(`Missing loc: ${id}`);
+                        continue;
+                    }
+
+                    let flags = CollisionFlag.OBJECT;
+                    if (loc.blockrange) {
+                        flags += CollisionFlag.OBJECT_PROJECTILE_BLOCKER;
+                    }
+
+                    let sizeX = loc.width;
+                    let sizeZ = loc.length;
+                    if (rotation == 1 || rotation == 3) {
+                        let tmp = sizeX;
+                        sizeX = sizeZ;
+                        sizeZ = tmp;
+                    }
+
+                    for (let tx = x; tx < x + sizeX; tx++) {
+                        for (let tz = z; tz < z + sizeZ; tz++) {
+                            this.gameMap.set(tx, tz, level, flags);
+                        }
+                    }
                 } else if (section === 'NPC') {
                     let parts = line.split(':');
                     let [level, localX, localZ] = parts[0].split(' ');

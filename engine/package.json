@@ -4,7 +4,8 @@
   "type": "module",
   "imports": {
     "#jagex2/*": "./src/jagex2/*",
-    "#lostcity/*": "./src/lostcity/*"
+    "#lostcity/*": "./src/lostcity/*",
+    "#rsmod/*": "./src/rsmod/*"
   },
   "scripts": {
     "start": "nodemon --ignore data/ --ignore dump/ src/lostcity/app.js",

@@ -17,6 +17,7 @@ import World from '#lostcity/engine/World.js';
 import Npc from '#lostcity/entity/Npc.js';
 import LocType from '#lostcity/cache/LocType.js';
 import NpcType from '#lostcity/cache/NpcType.js';
+import ReachStrategy from '#rsmod/reach/ReachStrategy.js';
 
 // * 10
 const EXP_LEVELS = [
@@ -670,6 +671,12 @@ export default class Player {
             case 'anim': {
                 this.playAnimation(422, 0);
             } break;
+            case 'coord': {
+                this.messageGame(`Coord: ${this.level}_${Position.mapsquare(this.x)}_${Position.mapsquare(this.z)}_${Position.localOrigin(this.x)}_${Position.localOrigin(this.z)}`);
+            } break;
+            case 'pos': {
+                this.messageGame(`Position: ${this.x} ${this.z} ${this.level}`);
+            } break;
         }
     }
 
@@ -765,7 +772,9 @@ export default class Player {
                 x: subject.x,
                 z: subject.z,
                 level: this.level,
-                locId: subject.locId
+                locId: subject.locId,
+                width: type.width,
+                length: type.length
             };
 
             this.faceX = (target.x * 2) + type.width;
@@ -858,6 +867,11 @@ export default class Player {
 
     // check if the player is in melee distance and has line of walk
     inOperableDistance(target) {
+        // temp branch code
+        if (target.width) {
+            return ReachStrategy.reached(World.gameMap, this.level, this.x, this.z, target.x, target.z, target.width, target.length, 1, 0, 10, 0);
+        }
+
         let dx = Math.abs(this.x - target.x);
         let dz = Math.abs(this.z - target.z);
 
