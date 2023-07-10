@@ -560,6 +560,10 @@ export default class Player extends PathingEntity {
                     let state = ScriptRunner.init(script, this, null, null, objType);
                     this.executeInterface(state);
                 } else {
+                    if (!process.env.PROD_MODE) {
+                        this.messageGame(`No trigger for [${trigger},${objType.configName}]`);
+                    }
+
                     this.messageGame('Nothing interesting happens.');
                 }
             } else if (opcode === ClientProt.OPNPC1 || opcode === ClientProt.OPNPC2 || opcode === ClientProt.OPNPC3 || opcode === ClientProt.OPNPC4 || opcode === ClientProt.OPNPC5) {
@@ -588,8 +592,9 @@ export default class Player extends PathingEntity {
                     let state = ScriptRunner.init(script, this);
                     this.executeInterface(state);
                 } else {
-                    console.log(`Unhandled if_button: ${ifType.comName}`);
-                    this.messageGame('Nothing interesting happens.');
+                    if (!process.env.PROD_MODE) {
+                        this.messageGame(`No trigger for [if_button,${ifType.comName}]`);
+                    }
                 }
             } else if (opcode === ClientProt.OPLOC1 || opcode === ClientProt.OPLOC2 || opcode === ClientProt.OPLOC3 || opcode === ClientProt.OPLOC4 || opcode === ClientProt.OPLOC5) {
                 let x = data.g2();
@@ -648,7 +653,9 @@ export default class Player extends PathingEntity {
                     let state = ScriptRunner.init(script, this, null, null, objType);
                     this.executeInterface(state);
                 } else {
-                    this.messageGame('Nothing interesting happens.');
+                    if (!process.env.PROD_MODE) {
+                        this.messageGame(`No trigger for [${trigger},${ifType.comName}]`);
+                    }
                 }
             }
         }
@@ -818,8 +825,34 @@ export default class Player extends PathingEntity {
             case 'coord': {
                 this.messageGame(`Coord: ${this.level}_${Position.mapsquare(this.x)}_${Position.mapsquare(this.z)}_${Position.localOrigin(this.x)}_${Position.localOrigin(this.z)}`);
             } break;
+            case 'jtele': {
+                if (args.length < 1) {
+                    this.messageGame('Usage: ::jtele level_mx_mz_lx_lz');
+                    return;
+                }
+
+                let level = parseInt(args[0]);
+                let mx = parseInt(args[1]);
+                let mz = parseInt(args[2]);
+                let lx = parseInt(args[3]);
+                let lz = parseInt(args[4]);
+
+                this.teleport((mx << 6) + lx, (mz << 6) + lz, level);
+            } break;
             case 'pos': {
                 this.messageGame(`Position: ${this.x} ${this.z} ${this.level}`);
+            } break;
+            case 'tele': {
+                if (args.length < 2) {
+                    this.messageGame('Usage: ::tele <x> <z> (level)');
+                    return;
+                }
+
+                let x = parseInt(args[0]);
+                let z = parseInt(args[1]);
+                let level = parseInt(args[2]) || this.level;
+
+                this.teleport(x, z, level);
             } break;
             case 'setlevel': {
                 if (args.length < 2) {
@@ -950,7 +983,7 @@ export default class Player extends PathingEntity {
             this.mask |= Player.FACE_ENTITY;
         } else if (typeof subject.pid !== 'undefined') {
             target = World.getPlayer(subject.pid);
-            type = {}; // TODO: need to search ScriptProvider by trigger name?
+            type = { configName: '' }; // TODO: need to search ScriptProvider by trigger name?
 
             this.faceEntity = target!.pid + 32768;
             this.mask |= Player.FACE_ENTITY;
@@ -1010,6 +1043,10 @@ export default class Player extends PathingEntity {
         this.target = target;
 
         if (!script) {
+            if (!process.env.PROD_MODE) {
+                this.messageGame(`No trigger for [${trigger},${type.configName}]`);
+            }
+
             return;
         }
 
@@ -2084,7 +2121,6 @@ export default class Player extends PathingEntity {
 
     executeInterface(script: ScriptState) {
         if (!script) {
-            this.messageGame('Nothing interesting happens.');
             return;
         }
 
