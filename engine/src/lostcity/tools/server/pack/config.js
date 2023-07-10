@@ -12,6 +12,17 @@ if (shouldBuild('data/src/scripts', '.npc', 'data/pack/category.pack') || should
     console.time('Category ID generation');
     fs.writeFileSync('data/pack/category.pack', regenPack(loadPack('data/pack/category.pack'), crawlConfigCategories()));
     console.timeEnd('Category ID generation');
+
+    let categories = loadPack('data/pack/category.pack');
+
+    console.time('Packing categories');
+    let dat = new Packet();
+    dat.p2(categories.length);
+    for (let i = 0; i < categories.length; i++) {
+        dat.pjstr(categories[i]);
+    }
+    dat.save('data/pack/server/category.dat');
+    console.timeEnd('Packing categories');
 }
 
 if (shouldBuild('data/src/scripts', '.param', 'data/pack/param.pack')) {

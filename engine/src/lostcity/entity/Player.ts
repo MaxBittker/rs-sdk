@@ -18,7 +18,6 @@ import Npc from '#lostcity/entity/Npc.js';
 import LocType from '#lostcity/cache/LocType.js';
 import NpcType from '#lostcity/cache/NpcType.js';
 import ReachStrategy from '#rsmod/reach/ReachStrategy.js';
-import { loadPack } from '#lostcity/util/NameMap.js';
 import { EntityQueueRequest, QueueType, ScriptArgument } from "#lostcity/entity/EntityQueueRequest.js";
 import Script from "#lostcity/engine/Script.js";
 import PathingEntity from "#lostcity/entity/PathingEntity.js";
@@ -26,8 +25,7 @@ import Loc from '#lostcity/entity/Loc.js';
 import ParamType from '#lostcity/cache/ParamType.js';
 import EnumType from '#lostcity/cache/EnumType.js';
 import StructType from '#lostcity/cache/StructType.js';
-
-let categoryPack = loadPack('data/pack/category.pack');
+import CategoryType from '#lostcity/cache/CategoryType.js';
 
 // * 10
 const EXP_LEVELS = [
@@ -733,6 +731,7 @@ export default class Player extends PathingEntity {
         switch (cmd) {
             case 'reload': {
                 // TODO: only reload config types that have changed to save time
+                CategoryType.load('data/pack/server');
                 ParamType.load('data/pack/server');
                 EnumType.load('data/pack/server');
                 StructType.load('data/pack/server');
@@ -931,13 +930,7 @@ export default class Player extends PathingEntity {
         if (target) {
             // priority: ap,subject -> ap,_category -> op,subject -> op,_category -> ap,_ -> op,_ (less and less specific)
             let operable = this.inOperableDistance(target);
-
-            let category = '';
-            if (typeof type.category === 'string') {
-                category = type.category; // temp until everything is in a binary format
-            } else if (type.category !== -1) {
-                category = categoryPack[type.category];
-            }
+            let category = type.category !== -1 ? CategoryType.get(type.category) : null;
 
             // ap,subject
             if (!operable) {

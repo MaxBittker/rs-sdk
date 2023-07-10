@@ -1,5 +1,6 @@
 import Packet from '#jagex2/io/Packet.js';
 import { toBase37 } from '#jagex2/jstring/JString.js';
+import CategoryType from '#lostcity/cache/CategoryType.js';
 import EnumType from '#lostcity/cache/EnumType.js';
 import IfType from '#lostcity/cache/IfType.js';
 import InvType from '#lostcity/cache/InvType.js';
@@ -36,6 +37,10 @@ class World {
         for (let i = 0; i < this.npcs.length; i++) {
             this.npcs[i] = null;
         }
+
+        console.time('Loading category.dat');
+        CategoryType.load('data/pack/server');
+        console.timeEnd('Loading category.dat');
 
         console.time('Loading param.dat');
         ParamType.load('data/pack/server');
