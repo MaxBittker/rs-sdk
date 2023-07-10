@@ -32,6 +32,8 @@ if (last_comsubid = 3) return($ret3);
 if (last_comsubid = 4) return($ret4);
 return($ret5);
 
+// ----
+
 [label,multi2](string $string1, label $label1, string $string2, label $label2)
 def_int $choice = ~p_choice2($string1, 1, $string2, 2);
 if ($choice = 1) jump($label1);
@@ -57,6 +59,8 @@ if ($choice = 2) jump($label2);
 if ($choice = 3) jump($label3);
 if ($choice = 4) jump($label4);
 jump($label5);
+
+// ----
 
 [proc,chatnpc](string $text)
 /*npc_setmode(playerfaceclose);
@@ -101,14 +105,14 @@ if ($lines = 0) {
 if_openbottom($interface);
 
 [proc,mesbox](string $string)
-split_init($string, 470, 5, q8);
+split_init($string, 300, 5, q8);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
-//while ($page < $pagetotal) {
+while ($page < $pagetotal) {
     ~mesbox_page($page, true);
-//    p_pausebutton;
-//    $page = calc($page + 1);
-//}
+    p_pausebutton;
+    $page = calc($page + 1);
+}
 
 [debugproc,mestest]
-~mesbox("Test test test!");
+~mesbox("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
