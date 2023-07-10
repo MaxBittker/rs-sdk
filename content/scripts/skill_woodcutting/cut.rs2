@@ -14,13 +14,9 @@ if (%skill_clock < map_clock) {
 
 [label,cut_tree]
 if (%skill_clock = map_clock) {
-    def_int $roll = randominc(255);
-    def_int $axe_levelrequire = 1; // todo: read param on axe
-    def_int $chance = calc(interpolate(loc_param(tree_chance_high), loc_param(tree_chance_low), 1, 99, min(stat(woodcutting), 99)) + calc($axe_levelrequire - 1));
-
-    mes("roll: <tostring($roll)> chance: <tostring($chance)>");
-    if ($roll > $chance) {
+    if (stat_random(stat(woodcutting), loc_param(tree_chance_low), loc_param(tree_chance_high)) = true) {
         mes("You get some logs.");
+        inv_add(inv, obj_1511, 1);
         return;
     }
 
