@@ -8,9 +8,9 @@ export default class FontType {
         let charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"£$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
 
         for (let i = 0; i < 256; i++) {
-            let c = 74;
-            if (i < charset.length) {
-                c = charset.charCodeAt(i);
+            let c = charset.indexOf(String.fromCharCode(i));
+            if (c == -1) {
+                c = 74;
             }
 
             FontType.CHAR_LOOKUP[i] = c;
@@ -73,7 +73,7 @@ export default class FontType {
 			} else if (type == 1) {
 				for (let x = 0; x < w; x++) {
 					for (let y = 0; y < h; y++) {
-						this.charMask[i][x + y * w] = dat.g1();
+						this.charMask[i][x + (y * w)] = dat.g1();
 					}
 				}
 			}
@@ -85,22 +85,26 @@ export default class FontType {
 			this.charOffsetX[i] = 1;
 			this.charAdvance[i] = w + 2;
 
+            // ----
+
 			let space = 0;
-			for (let j = h / 7; j < h; j++) {
-				space += this.charMask[i][j * w];
+			for (let y = Math.floor(h / 7); y < h; y++) {
+				space += this.charMask[i][y * w];
 			}
 
-			if (space <= h / 7) {
+			if (space <= Math.floor(h / 7)) {
 				this.charAdvance[i]--;
 				this.charOffsetX[i] = 0;
 			}
 
+            // ----
+
 			space = 0;
-			for (let j = h / 7; j < h; j++) {
-				space += this.charMask[i][w + j * w - 1];
+			for (let y = Math.floor(h / 7); y < h; y++) {
+				space += this.charMask[i][w + (y * w) - 1];
 			}
 
-			if (space <= h / 7) {
+			if (space <= Math.floor(h / 7)) {
 				this.charAdvance[i]--;
 			}
         }

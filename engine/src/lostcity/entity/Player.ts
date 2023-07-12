@@ -511,6 +511,8 @@ export default class Player extends PathingEntity {
                     if (this.target) {
                         this.resetInteraction();
                     }
+
+                    this.closeModal();
                 } else {
                     this.clearWalkingQueue();
                 }
