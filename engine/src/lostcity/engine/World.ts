@@ -332,6 +332,7 @@ class World {
                 // - timers
 
                 // - engine queue
+                player.onMapEnter();
 
                 // - loc/obj ops
 

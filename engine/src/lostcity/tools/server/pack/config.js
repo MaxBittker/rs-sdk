@@ -203,9 +203,17 @@ function lookupParamValue(type, value) {
             return structPack.indexOf(value);
         case ScriptVarType.BOOLEAN:
             return value === 'yes' ? 1 : 0;
-        case ScriptVarType.COORD:
-            // TODO: return packed coord
-            return -1;
+        case ScriptVarType.COORD: {
+            let parts = value.split('_');
+            let level = parseInt(parts[0]);
+            let mX = parseInt(parts[1]);
+            let mZ = parseInt(parts[2]);
+            let lX = parseInt(parts[3]);
+            let lZ = parseInt(parts[4]);
+            let x = (mX << 6) + lX;
+            let z = (mZ << 6) + lZ;
+            return z | (x << 14) | (level << 28);
+        }
         case ScriptVarType.CATEGORY:
             return categoryPack.indexOf(value);
         case ScriptVarType.SPOTANIM:

@@ -130,7 +130,10 @@ const ServerOps: CommandHandlers = {
         let x = (coord >> 14) & 0x3fff;
         let z = coord & 0x3fff;
 
-        state.pushString(`${x >> 6}_${z >> 6}`);
+        let mX = x >> 6;
+        let mZ = z >> 6;
+
+        state.pushInt((mZ << 6) | ((mX << 6) << 14) | (0 << 28));
     },
 };
 
