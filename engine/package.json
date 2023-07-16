@@ -13,6 +13,7 @@
     "server:pack": "ts-node --esm src/lostcity/tools/server/pack/all.js",
     "script:symbols": "ts-node --esm src/lostcity/tools/server/scripts/symbols.js",
     "script:compile": "cd data && java -jar ../RuneScriptCompiler.jar src/scripts pack/server",
+    "script:run": "ts-node --esm src/lostcity/tools/server/runscript.ts",
     "server:clean": "ts-node --esm src/lostcity/tools/server/clean.ts",
     "server:build": "npm run server:pack && npm run script:symbols && npm run script:compile",
     "server:watch": "watch \"npm run server:build\" ./data/src/scripts"

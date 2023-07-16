@@ -51,7 +51,7 @@ class World {
         return container;
     }
 
-    start() {
+    start(skipMaps = false) {
         for (let i = 0; i < this.players.length; i++) {
             this.players[i] = null;
         }
@@ -60,25 +60,25 @@ class World {
             this.npcs[i] = null;
         }
 
-        console.time('Loading category.dat');
+        // console.time('Loading category.dat');
         CategoryType.load('data/pack/server');
-        console.timeEnd('Loading category.dat');
+        // console.timeEnd('Loading category.dat');
 
-        console.time('Loading param.dat');
+        // console.time('Loading param.dat');
         ParamType.load('data/pack/server');
-        console.timeEnd('Loading param.dat');
+        // console.timeEnd('Loading param.dat');
 
-        console.time('Loading enum.dat');
+        // console.time('Loading enum.dat');
         EnumType.load('data/pack/server');
-        console.timeEnd('Loading enum.dat');
+        // console.timeEnd('Loading enum.dat');
 
-        console.time('Loading struct.dat');
+        // console.time('Loading struct.dat');
         StructType.load('data/pack/server');
-        console.timeEnd('Loading struct.dat');
+        // console.timeEnd('Loading struct.dat');
 
-        console.time('Loading inv.dat');
+        // console.time('Loading inv.dat');
         InvType.load('data/pack/server');
-        console.timeEnd('Loading inv.dat');
+        // console.timeEnd('Loading inv.dat');
 
         for (let i = 0; i < InvType.count; i++) {
             let inv = InvType.get(i);
@@ -88,180 +88,182 @@ class World {
             }
         }
 
-        console.time('Loading varp.dat');
+        // console.time('Loading varp.dat');
         VarPlayerType.load('data/pack/server');
-        console.timeEnd('Loading varp.dat');
+        // console.timeEnd('Loading varp.dat');
 
-        console.time('Loading obj.dat');
+        // console.time('Loading obj.dat');
         ObjType.load('data/pack/server');
-        console.timeEnd('Loading obj.dat');
+        // console.timeEnd('Loading obj.dat');
 
-        console.time('Loading loc.dat');
+        // console.time('Loading loc.dat');
         LocType.load('data/pack/server');
-        console.timeEnd('Loading loc.dat');
+        // console.timeEnd('Loading loc.dat');
 
-        console.time('Loading npc.dat');
+        // console.time('Loading npc.dat');
         NpcType.load('data/pack/server');
-        console.timeEnd('Loading npc.dat');
+        // console.timeEnd('Loading npc.dat');
 
-        console.time('Loading interface.dat');
+        // console.time('Loading interface.dat');
         IfType.load('data/pack/server');
-        console.timeEnd('Loading interface.dat');
+        // console.timeEnd('Loading interface.dat');
 
-        console.time('Loading frame_del.dat');
+        // console.time('Loading frame_del.dat');
         SeqFrame.load('data/pack/server');
-        console.timeEnd('Loading frame_del.dat');
+        // console.timeEnd('Loading frame_del.dat');
 
-        console.time('Loading seq.dat');
+        // console.time('Loading seq.dat');
         SeqType.load('data/pack/server');
-        console.timeEnd('Loading seq.dat');
+        // console.timeEnd('Loading seq.dat');
 
-        console.time('Loading fonts');
+        // console.time('Loading fonts');
         FontType.load('data/pack/client');
-        console.timeEnd('Loading fonts');
+        // console.timeEnd('Loading fonts');
 
-        console.time('Loading mesanim.dat');
+        // console.time('Loading mesanim.dat');
         MesanimType.load('data/pack/server');
-        console.timeEnd('Loading mesanim.dat');
+        // console.timeEnd('Loading mesanim.dat');
 
-        console.time('Loading dbtable.dat');
+        // console.time('Loading dbtable.dat');
         DbTableType.load('data/pack/server');
-        console.timeEnd('Loading dbtable.dat');
+        // console.timeEnd('Loading dbtable.dat');
 
-        console.time('Loading dbrow.dat');
+        // console.time('Loading dbrow.dat');
         DbRowType.load('data/pack/server');
-        console.timeEnd('Loading dbrow.dat');
+        // console.timeEnd('Loading dbrow.dat');
 
-        console.time('Loading maps');
-        let maps = fs.readdirSync('data/pack/server/maps').filter(x => x[0] === 'm');
-        for (let i = 0; i < maps.length; i++) {
-            let [mapsquareX, mapsquareZ] = maps[i].substring(1).split('_').map(x => parseInt(x));
+        if (!skipMaps) {
+            // console.time('Loading maps');
+            let maps = fs.readdirSync('data/pack/server/maps').filter(x => x[0] === 'm');
+            for (let i = 0; i < maps.length; i++) {
+                let [mapsquareX, mapsquareZ] = maps[i].substring(1).split('_').map(x => parseInt(x));
 
-            let landMap = Packet.load(`data/pack/server/maps/m${mapsquareX}_${mapsquareZ}`);
-            for (let level = 0; level < 4; level++) {
-                for (let localX = 0; localX < 64; localX++) {
-                    for (let localZ = 0; localZ < 64; localZ++) {
-                        this.gameMap.set(mapsquareX * 64 + localX, mapsquareZ * 64 + localZ, level, 0);
+                let landMap = Packet.load(`data/pack/server/maps/m${mapsquareX}_${mapsquareZ}`);
+                for (let level = 0; level < 4; level++) {
+                    for (let localX = 0; localX < 64; localX++) {
+                        for (let localZ = 0; localZ < 64; localZ++) {
+                            this.gameMap.set(mapsquareX * 64 + localX, mapsquareZ * 64 + localZ, level, 0);
 
-                        while (true) {
-                            let code = landMap.g1();
-                            if (code === 0) {
-                                // perlin height
-                                break;
-                            } else if (code === 1) {
-                                let height = landMap.g1();
-                                break;
-                            }
+                            while (true) {
+                                let code = landMap.g1();
+                                if (code === 0) {
+                                    // perlin height
+                                    break;
+                                } else if (code === 1) {
+                                    let height = landMap.g1();
+                                    break;
+                                }
 
-                            if (code <= 49) {
-                                let overlay = landMap.g1();
-                            } else if (code <= 81) {
-                                // flags = code - 49
-                            } else {
-                                // underlay
+                                if (code <= 49) {
+                                    let overlay = landMap.g1();
+                                } else if (code <= 81) {
+                                    // flags = code - 49
+                                } else {
+                                    // underlay
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            let locMap = Packet.load(`data/pack/server/maps/l${mapsquareX}_${mapsquareZ}`);
-            let locId = -1;
-            while (locMap.available > 0) {
-                let deltaId = locMap.gsmart();
-                if (deltaId === 0) {
-                    break;
-                }
-
-                locId += deltaId;
-
-                let locData = 0;
+                let locMap = Packet.load(`data/pack/server/maps/l${mapsquareX}_${mapsquareZ}`);
+                let locId = -1;
                 while (locMap.available > 0) {
-                    let deltaData = locMap.gsmart();
-                    if (deltaData === 0) {
+                    let deltaId = locMap.gsmart();
+                    if (deltaId === 0) {
                         break;
                     }
 
-                    locData += deltaData - 1;
+                    locId += deltaId;
 
-                    let locLevel = (locData >> 12) & 0x3;
-                    let locX = (locData >> 6) & 0x3F;
-                    let locZ = locData & 0x3F;
+                    let locData = 0;
+                    while (locMap.available > 0) {
+                        let deltaData = locMap.gsmart();
+                        if (deltaData === 0) {
+                            break;
+                        }
 
-                    let locInfo = locMap.g1();
-                    let locShape = locInfo >> 2;
-                    let locRotation = locInfo & 0x3;
+                        locData += deltaData - 1;
 
-                    let loc = LocType.get(locId);
-                    if (!loc) {
-                        // means we're loading newer data, expect a client crash here!
-                        // console.log(`Missing loc: ${locId}`);
-                        continue;
-                    }
+                        let locLevel = (locData >> 12) & 0x3;
+                        let locX = (locData >> 6) & 0x3F;
+                        let locZ = locData & 0x3F;
 
-                    let flags = CollisionFlag.OBJECT;
-                    if (loc.blockrange) {
-                        flags += CollisionFlag.OBJECT_PROJECTILE_BLOCKER;
-                    }
+                        let locInfo = locMap.g1();
+                        let locShape = locInfo >> 2;
+                        let locRotation = locInfo & 0x3;
 
-                    let sizeX = loc.width;
-                    let sizeZ = loc.length;
-                    if (locRotation == 1 || locRotation == 3) {
-                        let tmp = sizeX;
-                        sizeX = sizeZ;
-                        sizeZ = tmp;
-                    }
+                        let loc = LocType.get(locId);
+                        if (!loc) {
+                            // means we're loading newer data, expect a client crash here!
+                            // console.log(`Missing loc: ${locId}`);
+                            continue;
+                        }
 
-                    for (let tx = locX; tx < locX + sizeX; tx++) {
-                        for (let tz = locZ; tz < locZ + sizeZ; tz++) {
-                            this.gameMap.set(tx, tz, locLevel, flags);
+                        let flags = CollisionFlag.OBJECT;
+                        if (loc.blockrange) {
+                            flags += CollisionFlag.OBJECT_PROJECTILE_BLOCKER;
+                        }
+
+                        let sizeX = loc.width;
+                        let sizeZ = loc.length;
+                        if (locRotation == 1 || locRotation == 3) {
+                            let tmp = sizeX;
+                            sizeX = sizeZ;
+                            sizeZ = tmp;
+                        }
+
+                        for (let tx = locX; tx < locX + sizeX; tx++) {
+                            for (let tz = locZ; tz < locZ + sizeZ; tz++) {
+                                this.gameMap.set(tx, tz, locLevel, flags);
+                            }
                         }
                     }
                 }
-            }
 
-            let npcMap = Packet.load(`data/pack/server/maps/n${mapsquareX}_${mapsquareZ}`);
-            while (npcMap.available > 0) {
-                let pos = npcMap.g2();
-                let level = (pos >> 12) & 0x3;
-                let localX = (pos >> 6) & 0x3F;
-                let localZ = (pos & 0x3F);
+                let npcMap = Packet.load(`data/pack/server/maps/n${mapsquareX}_${mapsquareZ}`);
+                while (npcMap.available > 0) {
+                    let pos = npcMap.g2();
+                    let level = (pos >> 12) & 0x3;
+                    let localX = (pos >> 6) & 0x3F;
+                    let localZ = (pos & 0x3F);
 
-                let count = npcMap.g1();
-                for (let j = 0; j < count; j++) {
-                    let id = npcMap.g2();
+                    let count = npcMap.g1();
+                    for (let j = 0; j < count; j++) {
+                        let id = npcMap.g2();
 
-                    let npc = new Npc();
-                    npc.nid = this.getNextNid();
-                    npc.type = id;
-                    npc.startX = (mapsquareX << 6) + localX;
-                    npc.startZ = (mapsquareZ << 6) + localZ;
-                    npc.x = npc.startX;
-                    npc.z = npc.startZ;
-                    npc.level = level;
+                        let npc = new Npc();
+                        npc.nid = this.getNextNid();
+                        npc.type = id;
+                        npc.startX = (mapsquareX << 6) + localX;
+                        npc.startZ = (mapsquareZ << 6) + localZ;
+                        npc.x = npc.startX;
+                        npc.z = npc.startZ;
+                        npc.level = level;
 
-                    this.npcs[npc.nid] = npc;
+                        this.npcs[npc.nid] = npc;
+                    }
+                }
+
+                let objMap = Packet.load(`data/pack/server/maps/o${mapsquareX}_${mapsquareZ}`);
+                while (objMap.available > 0) {
+                    let pos = objMap.g2();
+                    let level = (pos >> 12) & 0x3;
+                    let localX = (pos >> 6) & 0x3F;
+                    let localZ = (pos & 0x3F);
+
+                    let count = objMap.g1();
+                    for (let j = 0; j < count; j++) {
+                        let id = objMap.g1();
+                    }
                 }
             }
-
-            let objMap = Packet.load(`data/pack/server/maps/o${mapsquareX}_${mapsquareZ}`);
-            while (objMap.available > 0) {
-                let pos = objMap.g2();
-                let level = (pos >> 12) & 0x3;
-                let localX = (pos >> 6) & 0x3F;
-                let localZ = (pos & 0x3F);
-
-                let count = objMap.g1();
-                for (let j = 0; j < count; j++) {
-                    let id = objMap.g1();
-                }
-            }
+            // console.timeEnd('Loading maps');
         }
-        console.timeEnd('Loading maps');
 
-        console.time('Loading script.dat');
+        // console.time('Loading script.dat');
         ScriptProvider.load('data/pack/server');
-        console.timeEnd('Loading script.dat');
+        // console.timeEnd('Loading script.dat');
 
         this.cycle();
     }
@@ -278,7 +280,7 @@ class World {
         for (let i = 1; i < this.players.length; i++) {
             let player = this.players[i];
 
-            if (!player) {
+            if (!player || !player.client) {
                 continue;
             }
 
@@ -402,7 +404,7 @@ class World {
         for (let i = 1; i < this.players.length; i++) {
             let player = this.players[i];
 
-            if (!player) {
+            if (!player || !player.client) {
                 continue;
             }
 
@@ -497,7 +499,10 @@ class World {
 
         this.players[pid] = player;
         player.pid = pid;
-        player.onLogin();
+
+        if (!process.env.CLIRUNNER) {
+            player.onLogin();
+        }
     }
 
     getPlayerBySocket(socket: ClientSocket) {

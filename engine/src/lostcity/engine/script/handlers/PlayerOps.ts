@@ -187,7 +187,13 @@ const PlayerOps: CommandHandlers = {
     },
 
     [ScriptOpcode.MES]: checkedHandler(ActivePlayer, (state) => {
-        state.activePlayer.messageGame(state.popString());
+        let message = state.popString();
+
+        if (process.env.CLIRUNNER) {
+            console.log(message);
+        }
+
+        state.activePlayer.messageGame(message);
     }),
 
     [ScriptOpcode.NAME]: checkedHandler(ActivePlayer, (state) => {
