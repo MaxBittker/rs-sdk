@@ -61,7 +61,7 @@ category=mining_rock
 param=mining_ore_name,rune essence
 param=mining_rock_level,1
 param=mining_rock_exp,50
-param=mining_rock_output,obj_1436
+param=mining_rock_output,blankrune
 param=mining_rock_is_ess,true
 
 [copper_rock_1]

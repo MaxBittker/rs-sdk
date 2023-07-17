@@ -1232,18 +1232,6 @@ param=slashdefence,3
 param=crushdefence,1
 param=strengthbonus,10
 
-[obj_1436]
-name=Rune essence
-desc=An uncharged Rune Stone.
-cost=4
-model=model_2349_obj
-2dyof=1
-2dzoom=740
-2dxan=516
-weight=2g
-category=category_91
-tradeable=yes
-
 [obj_1464]
 name=Archery ticket
 desc=I can exchange this for equipment.

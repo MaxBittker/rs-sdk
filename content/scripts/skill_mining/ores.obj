@@ -1,3 +1,15 @@
+[blankrune]
+name=Rune essence
+desc=An uncharged Rune Stone.
+cost=4
+model=model_2349_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+weight=2g
+category=category_91
+tradeable=yes
+
 [clay]
 name=Clay
 desc=Some hard dry clay.
