@@ -5,7 +5,6 @@
 mes("Welcome to RuneScape.");
 
 %music_mode = 1; // set to auto on login
-~music_playbyregion(coord);
 
 inv_transmit(inv, inventory:inv);
 inv_transmit(worn, wornitems:wear);
@@ -17,3 +16,11 @@ softtimer(stat_replenish, 100);
 
 [mapenter,_]
 ~music_playbyregion(coord);
+
+[oploc1,loc_1530]
+loc_del(10);
+loc_add(movecoord(loc_coord, 1, 0, 0), loc_1531, calc(loc_angle + 1), wall_straight, 10);
+
+[oploc1,loc_1531]
+loc_del(10);
+loc_add(movecoord(loc_coord, -1, 0, 0), loc_1530, calc(loc_angle + 3), wall_straight, 10);

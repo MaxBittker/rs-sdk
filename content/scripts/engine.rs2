@@ -157,6 +157,7 @@
 [command,obj_addall](coord $coord, obj $obj, int $count, int $duration)
 [command,obj_param]/*(param $param)(dynamic)*/
 [command,obj_name]()(string)
+[command,obj_del]
 
 // Npc config ops (4000-4099)
 [command,nc_name](npc $npc)(string)
