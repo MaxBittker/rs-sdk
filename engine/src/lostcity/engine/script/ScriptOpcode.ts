@@ -128,7 +128,7 @@ const ScriptOpcode = {
     MIDI_SONG: 2069,
     MIDI_JINGLE: 2070,
     LAST_INV: 2071,
-    REBUILDAPPEARANCE: 2072,
+    HINT_COORD: 2072,
     CAM_SHAKE: 2073,
     SOFTTIMER: 2074,
     CLEARSOFTTIMER: 2075,
@@ -137,6 +137,9 @@ const ScriptOpcode = {
     STAT_ADD: 2078,
     STAT_SUB: 2079,
     SPOTANIM_Pl: 2080,
+    HINT_STOP: 2081,
+    IF_CLOSESTICKY: 2082,
+    INV_CLEAR: 2083,
 
     // Npc ops (2500-2999)
     NPC_FINDUID: 2500,

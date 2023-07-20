@@ -465,7 +465,7 @@ const PlayerOps: CommandHandlers = {
         state.pushInt(state.self.lastInv);
     },
 
-    [ScriptOpcode.REBUILDAPPEARANCE]: (state) => {
+    [ScriptOpcode.BUILDAPPEARANCE]: (state) => {
         state.self.generateAppearance(state.popInt());
     },
 
@@ -504,6 +504,22 @@ const PlayerOps: CommandHandlers = {
 
         state.activePlayer.clearTimer(timerId);
     }),
+
+    [ScriptOpcode.HINT_COORD]: (state) => {
+        const [offset, coord, height] = state.popInts(3);
+
+        const x = (coord >> 14) & 0x3fff;
+        const z = coord & 0x3fff;
+        state.activePlayer.hintTile(offset, x, z, height);
+    },
+
+    [ScriptOpcode.HINT_STOP]: (state) => {
+        state.activePlayer.stopHint();
+    },
+
+    [ScriptOpcode.IF_CLOSESTICKY]: (state) => {
+        state.activePlayer.closeSticky();
+    },
 };
 
 /**

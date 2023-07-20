@@ -89,6 +89,12 @@ const InvOps: CommandHandlers = {
 
         state.pushInt(state.activePlayer.invFreeSpace(inv) as number);
     },
+
+    [ScriptOpcode.INV_CLEAR]: (state) => {
+        const inv = state.popInt();
+
+        state.activePlayer.invClear(inv);
+    },
 };
 
 export default InvOps;
