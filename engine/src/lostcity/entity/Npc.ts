@@ -8,6 +8,8 @@ import ScriptProvider from '#lostcity/engine/script/ScriptProvider.js';
 import ServerTriggerType from '#lostcity/engine/script/ServerTriggerType.js';
 import NpcType from '#lostcity/cache/NpcType.js';
 import { Interaction } from '#lostcity/entity/Interaction.js';
+import World from '#lostcity/engine/World.js';
+import CollisionStrategies from '#rsmod/collision/CollisionStrategies.js';
 
 export default class Npc extends PathingEntity {
     static ANIM = 0x2;
@@ -138,7 +140,33 @@ export default class Npc extends PathingEntity {
         this.queue.push(request);
     }
 
+    randomWalk() {
+        const dx = Math.round((Math.random() * 10) - 5);
+        const dz = Math.round((Math.random() * 10) - 5);
+
+        const type = NpcType.get(this.type);
+        if (dx != 0 || dz != 0) {
+            const destX = this.startX + dx;
+            const destZ = this.startZ + dz;
+
+            const path = World.linePathFinder!.lineOfWalk(this.level, this.x, this.z, destX, destZ, type.size);
+            // const path = World.pathFinder!.findPath(this.level, this.x, this.z, destX, destZ, type.size, 1, 1, 0, -2, false, 0, 10, CollisionStrategies.NORMAL);
+            this.walkQueue = [];
+            // for (const waypoint of path.waypoints) {
+            for (const waypoint of path.coordinates) {
+                this.walkQueue.push({ x: waypoint.x, z: waypoint.z });
+            }
+            this.walkQueue.reverse();
+            this.walkStep = this.walkQueue.length - 1;
+        }
+    }
+
     processNpcModes() {
+        if (!this.hasSteps() && Math.random() * 1000 < 300) {
+            this.randomWalk();
+        }
+
+        this.updateMovement();
     }
 
     // ----

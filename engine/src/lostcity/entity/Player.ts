@@ -868,8 +868,11 @@ export default class Player extends PathingEntity {
             let path;
             if (this.interaction) {
                 const target = this.interaction.target;
-                if (target instanceof Player || target instanceof Npc) {
+                if (target instanceof Player) {
                     path = World.pathFinder!.findPath(this.level, this.x, this.z, target.x, target.z, 1, 1, 1, 0, -2);
+                } else if (target instanceof Npc) {
+                    const type = NpcType.get(target.type);
+                    path = World.pathFinder!.findPath(this.level, this.x, this.z, target.x, target.z, 1, type.size, type.size, 0, -2);
                 } else if (target instanceof Loc) {
                     const type = LocType.get(target.type);
                     path = World.pathFinder!.findPath(this.level, this.x, this.z, target.x, target.z, 1, type.width, type.length, target.rotation, target.shape);
@@ -1262,6 +1265,35 @@ export default class Player extends PathingEntity {
             this.mask |= Player.FACE_COORD;
             this.alreadyFaced = true;
         }
+
+        // if we've arrived to our original destination, check if the target has moved since, so we can path to their latest coord and try again later
+        if (this.interaction && !this.hasSteps() && (this.interaction.target.x !== this.interaction.x || this.interaction.target.z !== this.interaction.z)) {
+            const target = this.interaction.target;
+
+            let path;
+            if (target instanceof Player) {
+                path = World.pathFinder!.findPath(this.level, this.x, this.z, target.x, target.z, 1, 1, 1, 0, -2);
+            } else if (target instanceof Npc) {
+                const type = NpcType.get(target.type);
+                path = World.pathFinder!.findPath(this.level, this.x, this.z, target.x, target.z, 1, type.size, type.size, 0, -2);
+            }
+
+            if (path) {
+                this.walkQueue = [];
+                for (const waypoint of path.waypoints) {
+                    this.walkQueue.push({ x: waypoint.x, z: waypoint.z });
+                }
+                this.walkQueue.reverse();
+                this.walkStep = this.walkQueue.length - 1;
+            }
+
+            this.interaction.x = target.x;
+            this.interaction.z = target.z;
+
+            if (this.walkDir === -1) {
+                this.updateMovement();
+            }
+        }
     }
 
     // ----
@@ -1270,6 +1302,8 @@ export default class Player extends PathingEntity {
         this.interaction = {
             mode,
             target,
+            x: target.x,
+            z: target.z,
             ap: true, // true so we check for existence of ap script first
             apRange: 10,
             apRangeCalled: false,
