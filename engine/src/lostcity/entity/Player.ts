@@ -384,7 +384,8 @@ export default class Player extends PathingEntity {
     animId = -1;
     animDelay = -1;
     faceEntity = -1;
-    alreadyFaced = false;
+    alreadyFacedCoord = false;
+    alreadyFacedEntity = false;
     forcedChat: string | null = null;
     damageTaken = -1;
     damageType = -1;
@@ -412,14 +413,14 @@ export default class Player extends PathingEntity {
         this.animId = -1;
         this.animDelay = -1;
 
-        if (this.alreadyFaced && this.faceX !== -1) {
+        if (this.alreadyFacedCoord && this.faceX !== -1) {
             this.faceX = -1;
             this.faceZ = -1;
-            this.alreadyFaced = false;
-        } else if (this.alreadyFaced && !this.interaction && this.faceEntity != -1) {
+            this.alreadyFacedCoord = false;
+        } else if (this.alreadyFacedEntity && !this.interaction) {
             this.mask |= Player.FACE_ENTITY;
             this.faceEntity = -1;
-            this.alreadyFaced = false;
+            this.alreadyFacedEntity = false;
         }
 
         this.forcedChat = null;
@@ -870,6 +871,11 @@ export default class Player extends PathingEntity {
                 return;
             }
 
+            if (!this.interaction || this.interaction.target instanceof Loc || this.interaction.target instanceof Obj) {
+                this.faceEntity = -1;
+                this.mask |= Player.FACE_ENTITY;
+            }
+
             let path;
             if (this.interaction) {
                 const target = this.interaction.target;
@@ -1268,7 +1274,7 @@ export default class Player extends PathingEntity {
 
         if (!this.hasSteps() && this.faceX != -1) {
             this.mask |= Player.FACE_COORD;
-            this.alreadyFaced = true;
+            this.alreadyFacedCoord = true;
         }
 
         // if we've arrived to our original destination, check if the target has moved since, so we can path to their latest coord and try again later
@@ -2051,7 +2057,10 @@ export default class Player extends PathingEntity {
         }
 
         if (mask & Player.FACE_ENTITY) {
-            this.alreadyFaced = true;
+            if (this.faceEntity !== -1) {
+                this.alreadyFacedEntity = true;
+            }
+
             out.p2(this.faceEntity);
         }
 
