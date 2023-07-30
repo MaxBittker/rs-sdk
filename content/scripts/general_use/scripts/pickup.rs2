@@ -1,0 +1,5 @@
+[proc,pickup]
+def_namedobj $obj = obj_type;
+def_int $count = obj_count;
+obj_del;
+inv_add(inv, $obj, $count);

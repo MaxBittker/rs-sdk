@@ -1,0 +1,29 @@
+[red_clock_spindle]
+name=Clock spindle
+desc=Seems to be some kind of clock part.
+model=model_loc_25
+active=yes
+recol1s=41905
+recol1d=960
+
+[black_clock_spindle]
+name=Clock spindle
+desc=Seems to be some kind of clock part.
+model=model_loc_25
+active=yes
+recol1s=41905
+recol1d=0
+
+[white_clock_spindle]
+name=Clock spindle
+desc=Seems to be some kind of clock part.
+model=model_loc_25
+active=yes
+recol1s=41905
+recol1d=127
+
+[blue_clock_spindle]
+name=Clock spindle
+desc=Seems to be some kind of clock part.
+model=model_loc_25
+active=yes

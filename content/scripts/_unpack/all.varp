@@ -21,9 +21,6 @@ scope=perm
 
 [varp_9]
 
-[cog_progress]
-scope=perm
-
 [fishingcompo_progress]
 scope=perm
 

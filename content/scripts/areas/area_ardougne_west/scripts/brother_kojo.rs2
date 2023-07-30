@@ -1,0 +1,19 @@
+[opnpc1,brother_kojo]
+if(%cog_progress = 0) {
+    @cog_start_quest;
+} else if(inv_total(inv, obj_2576) > 0 & inv_total(inv, obj_2574) > 0) {
+    ~chatplayer("default", "Hello.");
+    ~chatnpc("default", "Hello, traveller, how can I help?");
+    ~chatplayer("default", "I'm trying to learn to be a navigator.");
+    ~chatnpc("default", "I don't know if I can help you there.");
+    ~chatplayer("default", "The profressor from the Observatory says that I need a watch.");
+    ~chatnpc("default", "Ah, that I can help you with. I've been thinkeing with this new idea of a watch and made a few. The problem is the villagers don't see the point as they have the Clock Tower!");
+    ~chatplayer("default", "Can I have one?");
+    ~chatnpc("default", "You can have this one! It's the display model.");
+    ~objbox(obj_2575, 250, "Brother Kojo has given you a watch.");
+    if(inv_freespace(inv) = 0) {
+        // TODO - spawn on ground
+    } else {
+        inv_add(inv, obj_2575, 1);
+    }
+}

@@ -84,9 +84,12 @@ if(inv_total(inv, obj_2146) > 0 & inv_total(inv, rats_tail) > 0 & inv_total(inv,
 [oploc1,loc_2024]
 if(%hetty_progress = 2) {
     ~mesbox("You drink from the cauldron, it tastes horrible! You feel yourself imbued with power.");
-    givexp(magic, 3250);
-    %hetty_progress = 3;
-    ~send_quest_complete(quest_journal:hetty, eye_of_newt, 1, "You have completed the\\nWitches Potion Quest!");
+    queue(hetty_quest_complete, 0);
 } else {
     ~chatplayer("quiz", "As nice as that looks I think I'll give it a miss for now.");
 }
+
+[queue,hetty_quest_complete]
+%hetty_progress = 3;
+givexp(magic, 3250);
+~send_quest_complete(quest_journal:hetty, eye_of_newt, 1, "You have completed the\\nWitches Potion Quest!");

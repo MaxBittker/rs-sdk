@@ -40,6 +40,7 @@ def_int $option = ~p_choice2("Yes, I'll help you.", 1,"No I don't feel like it. 
 
 if($option = 1) {
     %cook_progress = 1;
+    ~send_quest_progress(quest_journal:cook, %cook_progress, 2);
     ~chatplayer("default","Yes, I'll help you.");
     ~chatnpc("default","Oh thank you, thank you. I need milk, eggs and flour. I'd be very grateful if you can get them to me.");
 } else if($option = 2) {
@@ -90,18 +91,12 @@ inv_del(inv, egg, 1);
 inv_del(inv, bucket_milk, 1);
 inv_del(inv, pot_of_flour, 1);
 ~mesbox("You give some milk, an egg and some flour to the cook.");
-queue(cooks_assistant_complete, 0);
+queue(cooks_quest_complete, 0);
 
-[queue,cooks_assistant_complete]
+[queue,cooks_quest_complete]
 %cook_progress = 2;
-%questpoints = calc(%questpoints + 1);
-if_settext(quest_complete:com_3, "You have completed the\\nCooks' Quest!");
-if_settext(quest_complete:com_9, "1");
-if_setobject(quest_complete:com_4, cake, 250);
-if_opentop(quest_complete);
-if_setcolour(quest_journal:cook, 480);
 givexp(cooking, 3000);
-mes("Congratulations! Quest complete!");
+~send_quest_complete(quest_journal:cook, cake, 1, "You have completed the\\nCooks' Potion Quest!");
 
 [label,cooks_assistant_complete]
 ~chatnpc("default", "How is the adventuring going, my friend?");

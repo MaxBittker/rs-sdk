@@ -4,35 +4,46 @@ def_coord $coord = loc_coord();
 // lumbridge castle stairs level 0
 if($coord = 0_50_50_4_7) {
     p_telejump(1_50_50_5_9);
+} else if($coord = 0_40_50_12_40) { // Clock Tower - level 0
+    p_telejump(1_40_50_11_41);
+} else {
+    mes("unhandled stair <~coord_tostring($coord)>");
 }
 
 [oploc2,loc_1739]
 def_coord $coord = loc_coord();
 
-// lumbridge castle stairs level 1 climb-up
-if($coord = 1_50_50_4_7) {
+// Climb-up
+if($coord = 1_50_50_4_7) { // Lumbridge Castle - level 1
     p_telejump(2_50_50_5_9);
+} else if($coord = 1_40_50_12_40) { // Clock Tower - level 1
+    p_telejump(2_40_50_11_41);
+} else {
+    mes("unhandled stair <~coord_tostring($coord)>");
 }
 
 [oploc3,loc_1739]
 def_coord $coord = loc_coord();
 
-// lumbridge castle stairs level 1 climb-down
-if($coord = 1_50_50_4_7) {
+// Climb-down
+if($coord = 1_50_50_4_7) { // Lumbridge Castle - level 1
     p_telejump(0_50_50_5_9);
+} else if($coord = 1_40_50_12_40) { // Clock Tower - level 1
+    p_telejump(0_40_50_11_41);
+} else {
+    mes("unhandled stair <~coord_tostring($coord)>");
 }
 
 [oploc1,loc_1739]
 def_coord $coord = loc_coord();
 
-// lumbridge castle stairs level 1
-if($coord = 1_50_50_4_7) {
-    def_int $option = ~p_choice2_header("Climb up the stairs.", 1, "Climb down the stairs.", 2, "Climb up or down the stairs?");
-    if ($option = 1) {
-        p_telejump(2_50_50_5_9);
-    } else if ($option = 2) {
-        p_telejump(0_50_50_5_9);
-    }
+// Option for up/down
+if($coord = 1_50_50_4_7) { // Lumbridge Castle - level 1
+    ~stair_options(2_50_50_5_9, 0_50_50_5_9);
+} else if($coord = 1_40_50_12_40) { // Clock Tower - level 1
+    ~stair_options(2_40_50_11_41, 0_40_50_11_41);
+} else {
+    mes("unhandled stair <~coord_tostring($coord)>");
 }
 
 [oploc1,loc_1740]
@@ -41,4 +52,16 @@ def_coord $coord = loc_coord();
 // lumbridge castle stairs level 2
 if($coord = 2_50_50_5_8) {
     p_telejump(1_50_50_5_9);
+} else if($coord = 2_40_50_12_41) { // Clock Tower - top level
+    p_telejump(1_40_50_11_41);
+} else {
+    mes("unhandled stair <~coord_tostring($coord)>");
+}
+
+[proc,stair_options](coord $up, coord $down)
+def_int $option = ~p_choice2_header("Climb up the stairs.", 1, "Climb down the stairs.", 2, "Climb up or down the stairs?");
+if ($option = 1) {
+    p_telejump($up);
+} else if ($option = 2) {
+    p_telejump($down);
 }

@@ -1,4 +1,4 @@
-[obj_20]
+[white_cog]
 name=Cog
 desc=A cog from some machinery.
 model=model_2351_obj
@@ -7,7 +7,7 @@ members=yes
 2dxan=292
 weight=1kg
 
-[obj_21]
+[black_cog]
 name=Cog
 desc=A cog from some machinery.
 model=model_2351_obj
@@ -18,7 +18,7 @@ members=yes
 2dxan=292
 weight=1kg
 
-[obj_22]
+[blue_cog]
 name=Cog
 desc=A cog from some machinery.
 model=model_2351_obj
@@ -29,7 +29,7 @@ members=yes
 2dxan=292
 weight=1kg
 
-[obj_23]
+[red_cog]
 name=Cog
 desc=A cog from some machinery.
 model=model_2351_obj
@@ -40,7 +40,7 @@ members=yes
 2dxan=292
 weight=1kg
 
-[obj_24]
+[rat_poison]
 name=Rat poison
 desc=Doesn't look very tasty.
 model=model_2714_obj

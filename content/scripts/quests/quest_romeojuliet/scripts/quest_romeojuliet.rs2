@@ -98,10 +98,4 @@ queue(romeo_and_juliet_complete, 0);
 
 [queue,romeo_and_juliet_complete]
 %romeojuliet_progress = 8;
-%questpoints = calc(%questpoints + 5);
-if_settext(quest_complete:com_3, "You have completed the\\nRomeo & Juliet Quest!");
-if_settext(quest_complete:com_9, "5");
-if_setobject(quest_complete:com_4, obj_756, 250);
-if_opentop(quest_complete);
-if_setcolour(quest_journal:romeojuliet, 480);
-mes("Congratulations! Quest complete!");
+~send_quest_complete(quest_journal:romeojuliet, obj_756, 5, "You have completed the\\nRomeo & Juliet Quest!");

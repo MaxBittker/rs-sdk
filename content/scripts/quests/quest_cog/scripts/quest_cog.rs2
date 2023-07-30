@@ -1,0 +1,47 @@
+[label,cog_start_quest]
+~chatplayer("default", "Hello monk.");
+~chatnpc("default", "Hello adventurer. My name is Brother Kojo. Do you happen to know the time?");
+~chatplayer("default", "No, sorry, I don't");
+~chatnpc("default", "Exactly! This clock tower has recently broken down,|and without it nobody can tell the correct time. I must|fix it before the town people become too angry!");
+~chatnpc("default", "I don't suppose you could assist me in the repairs? I'll|pay you for your help.");
+@cog_start_options;
+
+[label,cog_start_options]
+def_int $option = ~p_choice3("OK old monk, what can I do?", 1, "How much reward are we talking?", 2, "Not now old monk.", 3);
+if($option = 1) {
+    ~chatplayer("default", "OK old monk, what can I do?");
+    %cog_progress = 1;
+    ~send_quest_progress(quest_journal:cog, %cog_progress, 15);
+    ~chatnpc("default", "Oh, thank you kind sir!|In the cellar below, you'll find four cogs.|They're too heavy for me, but you should be able to carry them one at a time.");
+    ~chatnpc("default", "I know one goes on each floor... but I can't exactly remember which goes where specifically. Oh well, I'm sure you can figure it out fairly easily.");
+    ~chatplayer("default", "Well, I'll do my best.");
+    ~chatnpc("default", "Thank you again! And remember to be careful, the cellar is full of strange beasts!");
+} else if($option = 2) {
+    ~chatplayer("default", "So... how much reward are we talking then?");
+    ~chatnpc("default", "Well, I'm only a monk so I'm not exactly rich, btu I assure you I will give you a fair reward for the tiem spent assisting me in repairing the clock.");
+    @cog_start_options;
+} else if($option = 3) {
+    ~chatplayer("default", "Not now old monk.");
+    ~chatnpc("default", "OK then. Come back and let me know if you change your mind.");
+}
+
+[opobj3,black_cog]
+if(inv_total(inv, bucket_water) > 0) {
+    ~mesbox("You pour water over the cog. It quickly cools down enough to take.");
+    inv_del(inv, bucket_water, 1);
+    inv_add(inv, bucket_empty, 1);
+    ~pickup();
+} else {
+    ~mesbox("");
+}
+
+[opobju,black_cog] {
+    if(last_item = bucket_water) {
+        ~mesbox("You pour water over the cog. It quickly cools down enough to take.");
+        inv_del(inv, bucket_water, 1);
+        inv_add(inv, bucket_empty, 1);
+        ~pickup();
+    } else {
+        @nothing_interesting_happens;
+    }
+}

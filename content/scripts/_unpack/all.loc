@@ -248,36 +248,6 @@ desc=Seems to be some kind of clock part.
 model=model_loc_25
 active=yes
 
-[loc_29]
-name=Clock spindle
-desc=Seems to be some kind of clock part.
-model=model_loc_25
-active=yes
-recol1s=41905
-recol1d=960
-
-[loc_30]
-name=Clock spindle
-desc=Seems to be some kind of clock part.
-model=model_loc_25
-active=yes
-recol1s=41905
-recol1d=0
-
-[loc_31]
-name=Clock spindle
-desc=Seems to be some kind of clock part.
-model=model_loc_25
-active=yes
-recol1s=41905
-recol1d=127
-
-[loc_32]
-name=Clock spindle
-desc=Seems to be some kind of clock part.
-model=model_loc_25
-active=yes
-
 [loc_33]
 name=Lever
 desc=Yup, definitely a lever.

@@ -91,15 +91,7 @@ if(%runemysteries_progress = 0) {
 
 [queue,rune_mysteries_complete]
 %runemysteries_progress = 5;
-~send_quest_progress(quest_journal:runemysteries, %runemysteries_progress, 5);
-
-%questpoints = calc(%questpoints + 1);
-if_settext(quest_complete:com_3, "You have completed the\\nMysteries Of The Runes Quest!");
-if_settext(quest_complete:com_9, "1");
-if_setobject(quest_complete:com_4, air_talisman, 250);
-if_opentop(quest_complete);
-~send_quest_progress(quest_journal:runemysteries, %runemysteries_progress, 5);
-mes("Congratulations! Quest complete!");
+~send_quest_complete(quest_journal:runemysteries, air_talisman, 1, "You have completed the\\nMysteries Of The Runes Quest!");
 
 [label,rune_mysteries]
 def_int $option = ~p_choice3("Nothing thanks. Im just looking around.", 1, "What are you doing down here?", 2, "I'm looking for the head wizard.", 3);

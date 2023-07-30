@@ -303,7 +303,7 @@ shadowed=yes
 text=Biohazard
 colour=0x9F9F9F
 
-[com_24]
+[cog]
 layer=com_0
 type=text
 x=10

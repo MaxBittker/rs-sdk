@@ -35,6 +35,14 @@ p_arrivedelay;
 p_arrivedelay;
 @climb_ladder(movecoord(coord(), 0, -1, 0), false);
 
+[oploc1,loc_1754]
+p_arrivedelay;
+@climb_ladder(movecoord(coord(), 0, 0, 6400), false);
+
+[oploc1,loc_1755]
+p_arrivedelay;
+@climb_ladder(movecoord(coord(), 0, 0, -6400), true);
+
 
 // Climb-up op
 [oploc1,loc_2148]
