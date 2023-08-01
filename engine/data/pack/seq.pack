@@ -464,7 +464,7 @@
 463=seq_463
 464=seq_464
 465=seq_465
-466=seq_466
+466=spinningwheel
 467=seq_467
 468=seq_468
 469=seq_469
@@ -882,7 +882,7 @@
 881=human_thieving_pickpocket
 882=seq_882
 883=seq_883
-884=seq_884
+884=human_glassblowing
 885=seq_885
 886=seq_886
 887=seq_887
@@ -892,9 +892,9 @@
 891=seq_891
 892=seq_892
 893=seq_893
-894=seq_894
-895=seq_895
-896=seq_896
+894=human_spinningwheel
+895=human_fillbucket_sandpit
+896=human_potterywheel
 897=seq_897
 898=seq_898
 899=seq_899
