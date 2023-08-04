@@ -2,7 +2,8 @@ import Packet from '#jagex2/io/Packet.js';
 
 import ParamType from '#lostcity/cache/ParamType.js';
 
-import { PACKFILE, LocModelShape, ConfigValue, ConfigLine, lookupParamValue, ParamValue } from '#lostcity/tools/packconfig/PackShared.js';
+import { PACKFILE, LocModelShape, ConfigValue, ConfigLine, ParamValue } from '#lostcity/tools/packconfig/PackShared.js';
+import { lookupParamValue } from '#lostcity/tools/packconfig/ParamConfig.js';
 
 // these suffixes are simply the map editor keybinds
 enum LocShapeSuffix {
@@ -57,11 +58,46 @@ export function parseLocConfig(key: string, value: string): ConfigValue | null |
     if (stringKeys.includes(key)) {
         return value;
     } else if (numberKeys.includes(key)) {
+        let number;
         if (value.startsWith('0x')) {
-            return parseInt(value, 16);
+            number = parseInt(value, 16);
         } else {
-            return parseInt(value);
+            number = parseInt(value);
         }
+
+        if (isNaN(number)) {
+            return null;
+        }
+
+        if ((key === 'width' || key === 'length') && (number < 1 || number > 255)) {
+            return null;
+        }
+
+        if (key.startsWith('recol') && (number < 0 || number > 65535)) {
+            return null;
+        }
+
+        if (key === 'walloff' && (number < 0 || number > 32 || number % 8 !== 0)) {
+            return null;
+        }
+
+        if ((key === 'ambient' || key === 'contrast') && (number < -128 || number > 127)) {
+            return null;
+        }
+
+        if (key === 'mapfunction' && (number < 0 || number > 50)) {
+            return null;
+        }
+
+        if ((key === 'resizex' || key === 'resizey' || key === 'resizez') && (number < 0 || number > 512)) {
+            return null;
+        }
+
+        if (key === 'mapscene' && (number < 0 || number > 50)) {
+            return null;
+        }
+
+        return number;
     } else if (booleanKeys.includes(key)) {
         if (value !== 'yes' && value !== 'no') {
             return null;

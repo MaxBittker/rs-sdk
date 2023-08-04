@@ -2,7 +2,8 @@ import Packet from '#jagex2/io/Packet.js';
 
 import ParamType from '#lostcity/cache/ParamType.js';
 
-import { PACKFILE, lookupParamValue, ParamValue, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/PackShared.js';
+import { PACKFILE, ParamValue, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/PackShared.js';
+import { lookupParamValue } from '#lostcity/tools/packconfig/ParamConfig.js';
 
 export function parseNpcConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys = [
@@ -12,7 +13,7 @@ export function parseNpcConfig(key: string, value: string): ConfigValue | null |
     const numberKeys = [
         'size',
         'recol1s', 'recol1d', 'recol2s', 'recol2d', 'recol3s', 'recol3d', 'recol4s', 'recol4d', 'recol5s', 'recol5d', 'recol6s', 'recol6d',
-        'code90', 'code91', 'code92',
+        'resizex', 'resizey', 'resizez', // not actually used in client
         'resizeh', 'resizev'
     ];
     const booleanKeys = [
@@ -22,11 +23,34 @@ export function parseNpcConfig(key: string, value: string): ConfigValue | null |
     if (stringKeys.includes(key)) {
         return value;
     } else if (numberKeys.includes(key)) {
+        let number;
         if (value.startsWith('0x')) {
-            return parseInt(value, 16);
+            number = parseInt(value, 16);
         } else {
-            return parseInt(value);
+            number = parseInt(value);
         }
+
+        if (isNaN(number)) {
+            return null;
+        }
+
+        if (key === 'size' && (number < 0 || number > 5)) {
+            return null;
+        }
+
+        if (key.startsWith('recol') && (number < 0 || number > 65535)) {
+            return null;
+        }
+
+        if ((key === 'resizex' || key === 'resizey' || key === 'resizez') && (number < 0 || number > 512)) {
+            return null;
+        }
+
+        if ((key === 'resizeh' || key === 'resizev') && (number < 0 || number > 512)) {
+            return null;
+        }
+
+        return number;
     } else if (booleanKeys.includes(key)) {
         if (value !== 'yes' && value !== 'no') {
             return null;
@@ -83,7 +107,12 @@ export function parseNpcConfig(key: string, value: string): ConfigValue | null |
         if (value === 'hide') {
             return 0;
         } else {
-            return parseInt(value);
+            const number = parseInt(value);
+            if (isNaN(number)) {
+                return null;
+            }
+
+            return number;
         }
     } else if (key === 'category') {
         const index = PACKFILE.get('category')!.indexOf(value);
@@ -188,13 +217,13 @@ function packNpcConfig(configs: Map<string, ConfigLine[]>, transmitAll: boolean)
                 const index = parseInt(key.substring('op'.length)) - 1;
                 dat.p1(30 + index);
                 dat.pjstr(value as string);
-            } else if (key === 'code90') {
+            } else if (key === 'resizex') {
                 dat.p1(90);
                 dat.p2(value as number);
-            } else if (key === 'code91') {
+            } else if (key === 'resizey') {
                 dat.p1(91);
                 dat.p2(value as number);
-            } else if (key === 'code92') {
+            } else if (key === 'resizez') {
                 dat.p1(92);
                 dat.p2(value as number);
             } else if (key === 'visonmap') {

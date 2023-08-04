@@ -1,5 +1,7 @@
 import Packet from '#jagex2/io/Packet.js';
+
 import InvType from '#lostcity/cache/InvType.js';
+
 import { PACKFILE, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/PackShared.js';
 
 export function parseInvConfig(key: string, value: string): ConfigValue | null | undefined {
@@ -14,11 +16,22 @@ export function parseInvConfig(key: string, value: string): ConfigValue | null |
     if (stringKeys.includes(key)) {
         return value;
     } else if (numberKeys.includes(key)) {
+        let number;
         if (value.startsWith('0x')) {
-            return parseInt(value, 16);
+            number = parseInt(value, 16);
         } else {
-            return parseInt(value);
+            number = parseInt(value);
         }
+
+        if (isNaN(number)) {
+            return null;
+        }
+
+        if (key === 'size' && (number < 0 || number > 500)) {
+            return null;
+        }
+
+        return number;
     } else if (booleanKeys.includes(key)) {
         if (value !== 'yes' && value !== 'no') {
             return null;

@@ -1,7 +1,7 @@
 import Jagfile from '#jagex2/io/Jagfile.js';
 import Packet from '#jagex2/io/Packet.js';
 
-import { shouldBuild, shouldBuildFile } from '#lostcity/util/PackFile.js';
+import { shouldBuild } from '#lostcity/util/PackFile.js';
 
 import { readConfigs } from '#lostcity/tools/packconfig/PackShared.js';
 import { packFloClient, parseFloConfig } from '#lostcity/tools/packconfig/FloConfig.js';

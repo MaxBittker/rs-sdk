@@ -3,6 +3,8 @@ import Packet from '#jagex2/io/Packet.js';
 import { shouldBuild, shouldBuildFile } from '#lostcity/util/PackFile.js';
 import { listFilesExt } from '#lostcity/util/Parse.js';
 
+import DbTableType from '#lostcity/cache/DbTableType.js';
+
 import { PACKFILE, readConfigs } from '#lostcity/tools/packconfig/PackShared.js';
 import { packFloServer, parseFloConfig } from '#lostcity/tools/packconfig/FloConfig.js';
 import { packIdkServer, parseIdkConfig } from '#lostcity/tools/packconfig/IdkConfig.js';
@@ -18,7 +20,6 @@ import { packEnumConfigs, parseEnumConfig } from '#lostcity/tools/packconfig/Enu
 import { packInvConfigs, parseInvConfig } from '#lostcity/tools/packconfig/InvConfig.js';
 import { packMesAnimConfigs, parseMesAnimConfig } from '#lostcity/tools/packconfig/MesAnimConfig.js';
 import { packStructConfigs, parseStructConfig } from '#lostcity/tools/packconfig/StructConfig.js';
-import DbTableType from '#lostcity/cache/DbTableType.js';
 
 // not a config but we want the server to know all the possible categories
 if (shouldBuildFile('data/pack/category.pack', 'data/pack/server/category.dat') ||

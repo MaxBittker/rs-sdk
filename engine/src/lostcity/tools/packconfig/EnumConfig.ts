@@ -1,6 +1,9 @@
 import Packet from '#jagex2/io/Packet.js';
+
 import ScriptVarType from '#lostcity/cache/ScriptVarType.js';
-import { PACKFILE, ConfigValue, ConfigLine, lookupParamValue } from '#lostcity/tools/packconfig/PackShared.js';
+
+import { PACKFILE, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/PackShared.js';
+import { lookupParamValue } from '#lostcity/tools/packconfig/ParamConfig.js';
 
 export function parseEnumConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
@@ -10,11 +13,18 @@ export function parseEnumConfig(key: string, value: string): ConfigValue | null 
     if (stringKeys.includes(key)) {
         return value;
     } else if (numberKeys.includes(key)) {
+        let number;
         if (value.startsWith('0x')) {
-            return parseInt(value, 16);
+            number = parseInt(value, 16);
         } else {
-            return parseInt(value);
+            number = parseInt(value);
         }
+
+        if (isNaN(number)) {
+            return null;
+        }
+
+        return number;
     } else if (booleanKeys.includes(key)) {
         if (value !== 'yes' && value !== 'no') {
             return null;

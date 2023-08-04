@@ -3,7 +3,8 @@ import Packet from '#jagex2/io/Packet.js';
 import ObjType from '#lostcity/cache/ObjType.js';
 import ParamType from '#lostcity/cache/ParamType.js';
 
-import { PACKFILE, lookupParamValue, ParamValue, ConfigValue, ConfigLine, packStepError } from '#lostcity/tools/packconfig/PackShared.js';
+import { PACKFILE, ParamValue, ConfigValue, ConfigLine, packStepError } from '#lostcity/tools/packconfig/PackShared.js';
+import { lookupParamValue } from '#lostcity/tools/packconfig/ParamConfig.js';
 
 export function parseObjConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys = [
@@ -23,11 +24,49 @@ export function parseObjConfig(key: string, value: string): ConfigValue | null |
     if (stringKeys.includes(key)) {
         return value;
     } else if (numberKeys.includes(key)) {
+        let number;
         if (value.startsWith('0x')) {
-            return parseInt(value, 16);
+            // check that the string contains only hexadecimal characters, and minus sign if applicable
+            if (!/^-?[0-9a-fA-F]+$/.test(value.slice(2))) {
+                return null;
+            }
+
+            number = parseInt(value, 16);
         } else {
-            return parseInt(value);
+            // check that the string contains only numeric characters, and minus sign if applicable
+            if (!/^-?[0-9]+$/.test(value)) {
+                return null;
+            }
+
+            number = parseInt(value);
         }
+
+        if (Number.isNaN(number)) {
+            return null;
+        }
+
+        // range checks
+        if (key === '2dzoom' && (number < 0 || number > 5000)) {
+            return null;
+        }
+
+        if ((key === '2dxan' || key === '2dyan' || key === '2dzan') && (number < 0 || number > 5000)) {
+            return null;
+        }
+
+        if ((key === '2dxof' || key === '2dyof') && (number < -5000 || number > 5000)) {
+            return null;
+        }
+
+        if (key.startsWith('recol') && (number < 0 || number > 65535)) {
+            return null;
+        }
+
+        if (key === 'cost' && (number < 0 || number > 0x7FFF_FFFF)) {
+            return null;
+        }
+
+        return number;
     } else if (booleanKeys.includes(key)) {
         if (value !== 'yes' && value !== 'no') {
             return null;
@@ -86,6 +125,8 @@ export function parseObjConfig(key: string, value: string): ConfigValue | null |
         } else if (value.indexOf('g') !== -1) {
             // in g
             grams = Number(value.substring(0, value.indexOf('g')));
+        } else {
+            return null;
         }
 
         if (grams < -32768 || grams > 32767) {
@@ -105,7 +146,7 @@ export function parseObjConfig(key: string, value: string): ConfigValue | null |
         }
 
         const count = parseInt(parts[1]);
-        if (isNaN(count)) {
+        if (isNaN(count) || count < 1 || count > 65535) {
             return null;
         }
 
