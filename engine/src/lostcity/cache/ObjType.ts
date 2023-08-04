@@ -62,6 +62,41 @@ export default class ObjType extends ConfigType {
         return this.get(id);
     }
 
+    static getWearPosId(name: string): number {
+        switch (name) {
+            case 'hat':
+                return 0;
+            case 'back':
+                return 1;
+            case 'front':
+                return 2;
+            case 'righthand':
+                return 3;
+            case 'torso':
+                return 4;
+            case 'lefthand':
+                return 5;
+            case 'arms':
+                return 6;
+            case 'legs':
+                return 7;
+            case 'head':
+                return 8;
+            case 'hands':
+                return 9;
+            case 'feet':
+                return 10;
+            case 'jaw':
+                return 11;
+            case 'ring':
+                return 12;
+            case 'quiver':
+                return 13;
+            default:
+                return -1;
+        }
+    }
+
     // ----
     model = 0;
     name: string | null = 'null';

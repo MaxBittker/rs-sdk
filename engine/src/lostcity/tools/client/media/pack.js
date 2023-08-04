@@ -1,6 +1,7 @@
 import Jagfile from '#jagex2/io/Jagfile.js';
 import Packet from '#jagex2/io/Packet.js';
-import { convertImage } from '#lostcity/tools/client/pack/Pix.js';
+
+import { convertImage } from '#lostcity/util/PixPack.js';
 
 console.log('Packing media.jag');
 //console.time('media.jag');

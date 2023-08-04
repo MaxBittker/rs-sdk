@@ -162,7 +162,8 @@ function nameToFont(name) {
 }
 
 if (shouldBuild('data/src/scripts', '.if', 'data/pack/server/interface.dat')) {
-    console.time('Packing .if');
+    console.log('Packing interfaces');
+    // console.time('Packing .if');
     let component = {};
 
     for (let i = 0; i < interfaceOrder.length; i++) {
@@ -472,27 +473,47 @@ if (shouldBuild('data/src/scripts', '.if', 'data/pack/server/interface.dat')) {
         if (type === 6) {
             if (src.model) {
                 let modelId = modelPack.indexOf(src.model);
+                if (modelId === -1) {
+                    console.error('\nError packing interfaces');
+                    console.error(com.root, 'Invalid model:', src.model);
+                    process.exit(1);
+                }
                 data.p2(modelId + 0x100);
             } else {
                 data.p1(0);
             }
-
+    
             if (src.activemodel) {
                 let modelId = modelPack.indexOf(src.activemodel);
+                if (modelId === -1) {
+                    console.error('\nError packing interfaces');
+                    console.error(com.root, 'Invalid activemodel:', src.model);
+                    process.exit(1);
+                }
                 data.p2(modelId + 0x100);
             } else {
                 data.p1(0);
             }
-
+    
             if (src.anim) {
                 let seqId = seqPack.indexOf(src.anim);
+                if (seqId === -1) {
+                    console.error('\nError packing interfaces');
+                    console.error(com.root, 'Invalid anim:', src.seqId);
+                    process.exit(1);
+                }
                 data.p2(seqId + 0x100);
             } else {
                 data.p1(0);
             }
-
+    
             if (src.activeanim) {
                 let seqId = seqPack.indexOf(src.activeanim);
+                if (seqId === -1) {
+                    console.error('\nError packing interfaces');
+                    console.error(com.root, 'Invalid activeanim:', src.seqId);
+                    process.exit(1);
+                }
                 data.p2(seqId + 0x100);
             } else {
                 data.p1(0);
@@ -557,5 +578,5 @@ if (shouldBuild('data/src/scripts', '.if', 'data/pack/server/interface.dat')) {
 
     data.save('data/pack/server/interface.dat');
     // no idx
-    console.timeEnd('Packing .if');
+    // console.timeEnd('Packing .if');
 }

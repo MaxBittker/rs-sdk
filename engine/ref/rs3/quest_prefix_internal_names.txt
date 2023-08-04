@@ -1,0 +1,308 @@
+Year   Quest Name                                   Quest Prefix             Formerly (eg pre-rework)
+2001   Cook's Assistant                             cook
+       Demon Slayer                                 dslay                    demonslayer or demon
+       The Restless Ghost                           priest
+       Sheep Shearer                                sheep
+       Shield of Arrav                              phoenixgang              blackarmgang
+       Ernest the Chicken                           haunted
+       Vampyre Slayer                               vampire
+       Imp Catcher                                  imp
+       Stolen Hearts                                ozan1                    prince
+       Diamond in the Rough                         ozan2
+       What's Mine Is Yours                         pnr                      doric
+       Witch's Potion                               hetty
+       The Knight's Sword                           squire
+       Goblin Diplomacy                             gobdip
+       Pirate's Treasure                            hunt
+       Dragon Slayer                                dragon
+2002   Druidic Ritual                               druid_quest_2            druid
+       Lost City                                    zanaris
+       Witch's House                                ball
+       Merlin's Crystal                             arthur
+       Heroes' Quest                                hero
+       Bar Crawl                                    barcrawl
+       Scorpion Catcher                             scorpcatcher
+       Family Crest                                 crest
+       Tribal Totem                                 totem
+       Fishing Contest                              fishingcompo
+       Monk's Friend                                drunkmonk
+       Temple of Ikov                               ikov
+       Clock Tower                                  cog
+       Holy Grail                                   grail
+       Tree Gnome Village                           tree
+       Fight Arena                                  arena
+       Hazeel Cult                                  hazeelcult
+       Sheep Herder                                 sheepherder
+       Plague City                                  elena
+       Sea Slug                                     seaslug
+       Waterfall Quest                              waterfall
+       Biohazard                                    biohazard
+       Jungle Potion                                junglepotion
+       The Grand Tree                               grandtree
+2003   Shilo Village                                zombiequeen
+       Underground Pass                             upass
+       Observatory Quest                            itgronigen
+       The Tourist Trap                             desertrescue
+       Watch Tower                                  itwatchtower
+       Dwarf Cannon                                 mcannon
+       Murder Mystery                               murder
+       The Dig Site                                 itexam
+       Gertrude's Cat                               fluffs
+       Legends' Quest                               legends
+       Rune Mysteries                               ariane1                  runemysteries
+       Rune Memories                                ariane2
+2004   Big Chompy Bird Hunting                      chompybird
+       Elemental Workshop I                         elemental_workshop
+       Priest in Peril                              priest
+       Nature Spirit                                druidspirit
+       Death Plateau                                death
+       Troll Stronghold                             troll
+       Tai Bwo Wannai Trio                          tbwt
+       Regicide                                     regicide
+       Eadgar's Ruse                                eadgar
+       Shades of Mort'ton                           morttonquest
+       The Fremennik Trials                         viking
+       Horror from the Deep                         horror
+       Throne of Miscellania                        misc
+       Monkey Madness                               mm
+       Haunted Mine                                 hauntedmine
+2005   Troll Romance                                troll_love
+       In Search of the Myreque                     route
+       Creature of Fenkenstrain                     fenk
+       Roving Elves                                 roving_elves
+       Ghosts Ahoy                                  ahoy
+       One Small Favour                             onesmallfavour
+       Mountain Daughter                            mdaughter
+       Between a Rock�                              dwarfrock
+       The Feud                                     feud
+       The Golem                                    golem
+       Desert Treasure                              deserttreasure
+       Icthlarin's Little Helper                    ics
+       Tears of Guthix                              tog
+       Zogre Flesh Eaters                           zogre
+       The Lost Tribe                               lost_tribe
+       Giant Dwarf                                  giantdwarf
+       Enter the Abyss                              abyss
+       Recruitment Drive                            rd
+       Mourning's End                               mourning
+       Forgettable Tale of a Drunken Dwarf          forget
+       The Curse of Zaros                           secret_ghost
+       Garden of Tranquillity                       garden
+       A Tail of Two Cats                           twocats
+       Wanted!                                      wanted
+       Mourning's End Part II                       mourning
+       Rum Deal                                     deal
+       Shadow of the Storm                          agrith
+       Making History                               makinghistory
+       Rat Catchers                                 ratcatch
+       Spirits of the Elid                          elid
+       Devious Minds                                devious
+2006   Hand in the Sand                             handsand
+       Enakhra's Lament                             enakh
+       Cabin Fever                                  fever
+       A Fairy Tale I - Growing Pains               fairy
+       Recipe for Disaster                          hundred
+       Recipe for Disaster: Freeing the Mountain Dwahundred_dwarf
+       Recipe for Disaster: Freeing the Goblin Gener100goblin
+       Recipe for Disaster: Freeing Pirate Pete     100_pirate
+       Recipe for Disaster: Freeing the Lumbridge Sa100guide
+       Recipe for Disaster: Freeing Evil Dave       hundred_dave
+       Recipe for Disaster: Freeing Skrach Uglogwee 100_ogre
+       Recipe for Disaster: Freeing Sir Amik Varze  chicken
+       Recipe for Disaster: Freeing King Awowogei   hundred_ilm
+       In Aid of the Myreque                        myreque_2
+       A Soul's Bane                                soulbane
+       Rag and Bone Man                             rag
+       Swan Song                                    swansong
+       Royal Trouble                                royal
+       Death to the Dorgeshuun                      dttd
+       A Fairy Tale II - Cure a Queen               fairy2
+       Lunar Diplomacy                              lunar
+       The Eyes of Glouphrie                        eyeglo
+       The Darkness of Hallowvale                   myq3
+       The Slug Menace                              slug2
+       Elemental Workshop II                        elemental_quest_2
+       My Arm's Big Adventure                       myarm
+       Enlightened Journey                          zep
+       Eagles' Peak                                 eaglepeak
+       Animal Magnetism                             anma
+2007   Contact!                                     contact
+       Lair of Tarn Razorlor                        lotr
+       Cold War                                     peng
+       The Fremennik Isles                          fris
+       The General's Shadow                         shadow_maj
+       Tower of Life                                tol
+       The Great Brain Robbery                      brain
+       What Lies Below                              surok
+       The Hunt for Surok                           dsd
+       Olaf's Quest                                 olaf
+       Another Slice of H.A.M.                      slice
+       Dream Mentor                                 dream
+       Grim Tales                                   grim
+       King's Ransom                                kr
+       The Path of Glouphrie                        pog
+       Back to my Roots                             roots
+       One Foot in the Grave                        handsand2
+       Land of the Goblins                          lotg
+       Hopespear's Will                             hopespears_will
+2008   Dealing with Scabaras                        scab
+       Wolf Whistle                                 wolf_quest_2             wolf
+       As a First Resort                            afr
+       Catapult Construction                        catcon
+       Kennith's Concerns                           ken
+       Legacy of Seergaze                           myq4
+       Perils of Ice Mountain                       icemt
+       TokTz-Ket-Dill                               dillo
+       Smoking Kills                                smki
+       Desert Slayer Dungeon                        smki_miniquest
+       Rocking Out                                  rocko
+       Spirit of Summer                             sum1
+       Meeting History                              hist
+       All Fired Up                                 firedup
+       Summer's End                                 sum2
+       Defender of Varrock                          zemo
+       Swept Away                                   swept
+       Purple Cat                                   swept_cat
+       While Guthix Sleeps                          luc2
+       Myths of the White Lands                     motwl
+2009   In Pyre Need                                 phoenix
+       The Chosen Commander                         chosen
+       Glorious Memories                            glomem
+       The Tale of the Muspah                       mah1
+       Missing My Mummy                             mom2
+       Hunt for Red Raktuber                        peng_rak
+       The Curse of Arrav                           mah3
+       Fur 'n Seek                                  rag2
+       Forgiveness of a Chaos Dwarf                 ra3
+       Within the Light                             wtl
+       The Temple at Senntisten                     mah4
+       Blood Runs Deep                              evq (Epic Viking Quest)
+2010   Nomad's Requiem                              nom
+       Rune Mechanics                               rm
+       Blood Pact                                   lumbcat
+       Buyers and Cellars                           thigui (Thieves' Guild)
+       From Tiny Acorns                             caper_acorns
+       Lost Her Marbles                             caper_marbles
+       A Guild of Our Own                           caper_ourown
+       A Fairy Tale III - Battle at Ork's Rift      ft3
+       Elemental Workshop III                       elem_3
+       Quiet Before the Swarm                       vkq1
+       Love Story                                   love
+       A Void Dance                                 vkq2
+       Gunnar's Ground                              romcom
+       The Void Stares Back                         vkq3
+       Do No Evil                                   apmeken
+2011   King of the Dwarves                          ra4
+       The Prisoner of Glouphrie                    glo3
+       Elemental Workshop IV                        elem_4
+       A Clockwork Syringe                          acs
+       Three's Company                              fremsaga_signature
+       Vengeance                                    fremsaga_vengeance
+       Thok It To 'Em                               fremsaga_thok
+       Deadliest Catch                              deadly
+       Salt in the Wound                            slug3
+       The Branches of Darkmeyer                    myq5
+       Ritual of the Mahjarrat                      mah5
+       One Piercing Note                            opn
+2012   The Firemaker's Curse                        fmc
+       Let Them Eat Pie                             ltep
+       The Elder Kiln                               tzhaar2
+       Nadir                                        fremsaga_bilrach
+       Thok Your Block Off                          fremsaga_thok2
+       Song from the Depths                         qbd1
+       Carnillean Rising                            carni
+       Some Like It Cold                            peng_pow
+       Doric's Task I                               pnr_artisan_task
+       Doric's Task II                              pnr_denulth_task
+       Doric's Task III                             pnr_goblin_task
+       Doric's Task IV                              pnr_artisan_task2
+       Doric's Task V                               pnr_gnome_task
+       Doric's Task VI                              pnr_skulgrimen_task
+       Doric's Task VII                             pnr_santiri_task
+       Doric's Task VIII                            pnr_monkey_task
+       Boric's Task I                               pnr_boric_coal_task
+       Boric's Task II                              pnr_boric_ore_task
+       Boric's Task III                             pnr_boric_guild_task
+       The Brink of Extinction                      tzhaar3
+       Wandering Ga'al                              tzhaar3_eegg
+2013   Koschei's Troubles                           kharshai
+       The World Wakes                              tsd (The Sleeping Dog)
+       Bringing Home the Bacon                      bacon
+       The Death of Chivalry                        owen1                    spy
+       Birthright of the Dwarves                    ra5
+       Missing, Presumed Death                      sliske1
+2014   One of a Kind                                ooak
+       Mahjarrat Memories                           mahmem
+       Fate of the Gods                             tpr (The Purple Rose)
+       A Shadow over Ashdale                        ash1
+       The Mighty Fall                              tmf
+       Plague's End                                 me3 (Mourning's End Part III)
+       Broken Home                                  house
+       Heart of Stone                               egq (Elder God Quest)
+2015   Dishonour among Thieves                      sliske2
+       Dimension of Disaster                        q200
+       Dimension of Disaster: Shield of Arrav       q200_soa
+       Dimension of Disaster: Demon Slayer          q200_ds
+       Dimension of Disaster: Defender of Varrock   q200_dov
+       Dimension of Disaster: Curse of Arrav        q200_coa
+       Hero's Welcome                               dov (Death of V)
+       The Light Within                             seren (Seren quest)
+       The Lord of Vampyrium                        myq6
+       Call of the Ancestors                        goebie1
+       Beneath Cursed Tides                         tutisland
+2016   Nomad's Elegy                                nomel
+       Tales of the God Wars                        gwd2_miniquest
+       Benedict's World Tour                        nxtwt (NXT World Tour)
+       In Memory of the Myreque                     myq7_memorial
+       The Lost Toys                                myq7_lost_toys
+       River of Blood                               myq7
+       Kindred Spirits                              sister (Barrows Sister quest)
+       Gower Quest                                  gower
+       Tales of Nomad                               nomel_pq
+       Children of Mah                              fotg2
+       Impressing the Locals                        elr0
+       Flag Fall                                    elr1_minq_flag
+       Head of the Family                           elr1_minq_head
+       Spiritual Enlightenment                      elr1_minq_slayer
+       Jed Hunter                                   elr1_minq_jed
+       Eye for an Eye                               elr2_minq_cyclosis
+       Harbinger                                    elr2_minq_harbinger
+       Tuai Leit's Own                              elr2_minq_tuaileit
+       Ghosts from the Past                         elr2_minq_exturtles
+       Damage Control                               elr2_minq_goshima
+       Final Destination                            elr2_minq_finale
+       Sliske's Endgame                             endgame
+2017   Back to the Freezer                          peng_bttf
+       The Jack of Spades                           ozan3
+       Crocodile Tears                              crondis
+       Our Man in the North                         het
+       'Phite Club                                  pharoah
+       Evil Dave's Big Day Out                      dave
+2018   Pieces of Hate                               piratefinale
+       Rebuilding Edgeville                         mah5_edge
+       You Are It                                   trail
+       The Needle Skips                             tns
+       Violet is Blue                               xmas18
+2019   Chef's Assistant                             cheesecake
+       Curse of the Black Stone                     elitedungeons
+       Desperate Times                              charos
+       Helping Laniakea                             dino_laniakea_fetch
+       Father and Son                               dino_hunter_master
+2020   Once Upon a Slime                            valentines2020
+       Desperate Measures                           dm
+       Sins of the Father                           kerapac_dnd
+       Raksha, the Shadow Colossus                  dino_boss
+       Violet is Blue Too                           vib2
+2021   The Vault of Shadows                         trindine
+       Foreshadowing                                out1
+       Tortle Combat                                tortle_combat
+       Heartstealer                                 heartstealer
+       Azzanadra's Quest                            azzanadra
+       Flashback                                    out2
+       Battle of the Monolith                       egwd_prerelease
+       City of Senntisten                           senntisten
+       Fortunes                                     out3
+       Finale                                       out4
+       Once Upon a Time in Gielinor                 out0
+2022   Eye of Het I                                 duel_arena_removal
+       Eye of Het II                                duel_arena_removal_part2

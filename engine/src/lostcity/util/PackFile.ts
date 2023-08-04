@@ -238,7 +238,7 @@ export function validateFilesPack(packPath: string, srcPath: string, ext: string
         }
 
         if (!names.includes(pack[i])) {
-            throw new Error(`Missing [config] for ${pack[i]} tracked in ${packPath}`);
+            throw new Error(`Missing file ${pack[i]} tracked in ${packPath}`);
         }
     }
 
@@ -263,14 +263,18 @@ export function validateConfigPack(packPath: string, ext: string, regen = false,
     // check if we've got something in the pack file that's missing a config
     for (let i = 0; i < pack.length; i++) {
         if (!names.includes(pack[i]) && !pack[i].startsWith('cert_')) {
-            throw new Error(`Missing a config tracked in ${packPath}: ${pack[i]}`);
+            console.error(`\n${packPath}:${i + 1}`);
+            console.error(`${pack[i]} was defined in the pack file, but it's missing a config`);
+            process.exit(1);
         }
     }
 
     // check if we've got a config created that's not in the pack file
     for (let i = 0; i < names.length; i++) {
         if (!pack.includes(names[i])) {
-            throw new Error(`Packfile entry missing in ${packPath}: ${names[i]}`);
+            console.error(`\n${packPath}`);
+            console.error(`${pack[i]} is missing from the .pack file`);
+            process.exit(1);
         }
     }
 
@@ -278,11 +282,14 @@ export function validateConfigPack(packPath: string, ext: string, regen = false,
 }
 
 export function validateCategoryPack() {
-    const names = crawlConfigCategories();
-    const pack = regenPack(loadPack('data/pack/category.pack'), names);
-    packToFile(pack, 'data/pack/category.pack');
-
-    return pack;
+    if (shouldBuild('data/src/scripts', '.loc', 'data/pack/category.pack') || shouldBuild('data/src/scripts', '.npc', 'data/pack/category.pack') || shouldBuild('data/src/scripts', '.obj', 'data/pack/category.pack')) {
+        const names = crawlConfigCategories();    
+        const pack = regenPack(loadPack('data/pack/category.pack'), names);
+        packToFile(pack, 'data/pack/category.pack');
+        return pack;
+    } else {
+        return loadPack('data/pack/category.pack');
+    }
 }
 
 export function validateInterfacePack() {

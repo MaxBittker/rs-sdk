@@ -1,8 +1,9 @@
 import fs from 'fs';
 
-import Packet from '#jagex2/io/Packet.js';
-import { convertImage } from '#lostcity/tools/client/pack/Pix.js';
 import Jagfile from '#jagex2/io/Jagfile.js';
+import Packet from '#jagex2/io/Packet.js';
+
+import { convertImage } from '#lostcity/util/PixPack.js';
 
 console.log('Packing textures.jag');
 //console.time('textures.jag');

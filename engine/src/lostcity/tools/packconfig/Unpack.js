@@ -307,19 +307,19 @@ for (let id = 0; id < count; id++) {
         } else if (code === 68) {
             locConfig.push(`mapscene=${loc.g2()}`);
         } else if (code === 69) {
-            // north = 1
-            // east = 2
-            // south = 4
-            // west = 8
+            // top = 1
+            // right = 2
+            // bottom = 4
+            // left = 8
             let flags = loc.g1();
             if ((flags & 0x1) === 0) {
-                locConfig.push('forceapproach=north');
+                locConfig.push('forceapproach=top');
             } else if ((flags & 0x2) === 0) {
-                locConfig.push('forceapproach=east');
+                locConfig.push('forceapproach=right');
             } else if ((flags & 0x4) === 0) {
-                locConfig.push('forceapproach=south');
+                locConfig.push('forceapproach=bottom');
             } else if ((flags & 0x8) === 0) {
-                locConfig.push('forceapproach=west');
+                locConfig.push('forceapproach=left');
             }
         } else if (code === 70) {
             locConfig.push(`xoff=${loc.g2s()}`);

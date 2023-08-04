@@ -64,6 +64,75 @@ export default class ScriptVarType {
         }
     }
 
+    static getTypeChar(type: string) {
+        let char = 'i'; // sane default
+
+        switch (type) {
+            case 'int':
+                char = 'i';
+                break;
+            case 'autoint':
+                char = 'a';
+                break;
+            case 'string':
+                char = 's';
+                break;
+            // official, despite how weird some are:
+            case 'enum':
+                char = 'g';
+                break;
+            case 'obj':
+                char = 'o';
+                break;
+            case 'loc':
+                char = 'l';
+                break;
+            case 'component': // may not need this on server
+                char = 'I';
+                break;
+            case 'namedobj':
+                char = 'O';
+                break;
+            case 'struct':
+                char = 'J';
+                break;
+            case 'boolean':
+                char = '1';
+                break;
+            case 'coord':
+                char = 'c';
+                break;
+            case 'category':
+                char = 'y';
+                break;
+            case 'spotanim':
+                char = 't';
+                break;
+            case 'npc':
+                char = 'n';
+                break;
+            case 'inv':
+                char = 'v';
+                break;
+            case 'synth':
+                char = 'P';
+                break;
+            case 'seq':
+                char = 'A';
+                break;
+            case 'stat':
+                char = 'S';
+                break;
+            case 'varp':
+                char = 'V';
+                break;
+            default:
+                return null;
+        }
+
+        return char.charCodeAt(0);
+    }
+
     static getDefault(type: number) {
         if (type === ScriptVarType.STRING) {
             return '';
