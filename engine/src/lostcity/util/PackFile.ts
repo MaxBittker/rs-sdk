@@ -273,7 +273,7 @@ export function validateConfigPack(packPath: string, ext: string, regen = false,
     for (let i = 0; i < names.length; i++) {
         if (!pack.includes(names[i])) {
             console.error(`\n${packPath}`);
-            console.error(`${pack[i]} is missing from the .pack file`);
+            console.error(`${names[i]} is missing from the .pack file`);
             process.exit(1);
         }
     }
