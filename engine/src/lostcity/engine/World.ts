@@ -30,6 +30,8 @@ import Obj from '#lostcity/entity/Obj.js';
 import PathFinder from '#rsmod/PathFinder.js';
 import LinePathFinder from '#rsmod/LinePathFinder.js';
 import { Position } from '#lostcity/entity/Position.js';
+import CollisionManager from '#lostcity/engine/collision/CollisionManager.js';
+import CollisionFlagMap from '#rsmod/collision/CollisionFlagMap.js';
 
 class World {
     members = process.env.MEMBERS_WORLD === 'true';
@@ -45,8 +47,21 @@ class World {
     buffers: Map<number, Packet> = new Map();
     futureUpdates: Map<number, number[]> = new Map();
 
-    pathFinder: PathFinder | null = null;
-    linePathFinder: LinePathFinder | null = null;
+    get collisionManager(): CollisionManager {
+        return this.gameMap.collisionManager;
+    }
+
+    get collisionFlags(): CollisionFlagMap {
+        return this.collisionManager.flags;
+    }
+
+    get pathFinder(): PathFinder {
+        return this.collisionManager.pathFinder;
+    }
+
+    get linePathFinder(): LinePathFinder {
+        return this.collisionManager.linePathFinder;
+    }
 
     start(skipMaps = false) {
         console.log('Starting world...');
@@ -137,9 +152,6 @@ class World {
         // console.time('Loading script.dat');
         ScriptProvider.load('data/pack/server');
         // console.timeEnd('Loading script.dat');
-
-        this.pathFinder = new PathFinder(this.gameMap.collisionManager.flags);
-        this.linePathFinder = new LinePathFinder(this.gameMap.collisionManager.flags);
 
         console.log('World ready!');
         this.cycle();
@@ -491,6 +503,14 @@ class World {
 
     getZoneNpcs(x: number, z: number, level: number) {
         return this.getZone(x, z, level).npcs;
+    }
+
+    addNpc(npc: Npc) {
+        this.npcs[npc.nid] = npc;
+        const zone = this.getZone(npc.x, npc.z, npc.level);
+        zone.addNpc(npc);
+
+        this.gameMap.collisionManager.changeEntityCollision(npc.x, npc.z, npc.level, true);
     }
 
     removeNpc(npc: Npc) {

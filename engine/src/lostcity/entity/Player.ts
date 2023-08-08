@@ -37,6 +37,7 @@ import Entity from '#lostcity/entity/Entity.js';
 import Obj from '#lostcity/entity/Obj.js';
 import { Interaction } from '#lostcity/entity/Interaction.js';
 import ClientSocket from '#lostcity/server/ClientSocket.js';
+import { MoveRestrict } from '#lostcity/entity/MoveRestrict.js';
 
 // * 10
 const EXP_LEVELS = [
@@ -389,7 +390,7 @@ export default class Player extends PathingEntity {
     exactFaceDirection: number = -1;
 
     constructor(username: string, username37: bigint) {
-        super(0, 3094, 3106, 1, 1); // tutorial island.
+        super(0, 3094, 3106, 1, 1, MoveRestrict.NORMAL); // tutorial island.
         this.username = username;
         this.username37 = username37;
         this.displayName = toTitleCase(username);
@@ -965,15 +966,15 @@ export default class Player extends PathingEntity {
             if (this.interaction) {
                 const target = this.interaction.target;
                 if (target instanceof Player || target instanceof Npc) {
-                    path = World.pathFinder!.findPath(this.level, this.x, this.z, target.x, target.z, 1, target.width, target.length, 0, -2);
+                    path = World.pathFinder.findPath(this.level, this.x, this.z, target.x, target.z, 1, target.width, target.length, 0, -2);
                 } else if (target instanceof Loc) {
                     const forceapproach = LocType.get(target.type).forceapproach;
-                    path = World.pathFinder!.findPath(this.level, this.x, this.z, target.x, target.z, 1, target.width, target.length, target.rotation, target.shape, false, forceapproach);
+                    path = World.pathFinder.findPath(this.level, this.x, this.z, target.x, target.z, 1, target.width, target.length, target.rotation, target.shape, false, forceapproach);
                 }
             }
 
             if (!path) {
-                path = World.pathFinder!.findPath(this.level, this.x, this.z, this.pathfindX, this.pathfindZ);
+                path = World.pathFinder.findPath(this.level, this.x, this.z, this.pathfindX, this.pathfindZ);
             }
 
             this.queueWalkWaypoints(path.waypoints);
@@ -1323,12 +1324,10 @@ export default class Player extends PathingEntity {
                     npcType.size,
                     npcType.size,
                     World.getNextNid(),
-                    npcType.id
+                    npcType.id,
+                    npcType.moverestrict
                 );
-
-                World.npcs[npc.nid] = npc;
-
-                World.gameMap.zoneManager.getZone(npc.x, npc.z, npc.level).addNpc(npc);
+                World.addNpc(npc);
             } break;
             case 'loc': {
                 const name = args.shift();
@@ -1407,11 +1406,11 @@ export default class Player extends PathingEntity {
     // ----
 
     refreshZonePresence(preX: number, preZ: number) {
-        if (Position.zone(preX) !== Position.zone(this.x) || Position.zone(preZ) !== Position.zone(this.z)) {
-            // update collision map
-            World.gameMap.collisionManager.changeEntityCollision(preX, preZ, this.level, false);
-            World.gameMap.collisionManager.changeEntityCollision(this.x, this.z, this.level, true);
+        // update collision map
+        World.collisionManager.changeEntityCollision(preX, preZ, this.level, false);
+        World.collisionManager.changeEntityCollision(this.x, this.z, this.level, true);
 
+        if (Position.zone(preX) !== Position.zone(this.x) || Position.zone(preZ) !== Position.zone(this.z)) {
             // update zone entities
             World.getZone(preX, preZ, this.level).removePlayer(this);
             World.getZone(this.x, this.z, this.level).addPlayer(this);
@@ -1448,7 +1447,7 @@ export default class Player extends PathingEntity {
 
             let path;
             if (target instanceof Player || target instanceof Npc) {
-                path = World.pathFinder!.findPath(this.level, this.x, this.z, target.x, target.z, 1, target.width, target.length, 0, -2);
+                path = World.pathFinder.findPath(this.level, this.x, this.z, target.x, target.z, 1, target.width, target.length, 0, -2);
             }
 
             if (path) {
@@ -1697,10 +1696,10 @@ export default class Player extends PathingEntity {
         }
 
         if (target instanceof Player || target instanceof Npc || target instanceof Obj) {
-            return ReachStrategy.reached(World.gameMap.collisionManager.flags, this.level, this.x, this.z, target.x, target.z, 1, 1, 1, 0, -2);
+            return ReachStrategy.reached(World.collisionFlags, this.level, this.x, this.z, target.x, target.z, 1, 1, 1, 0, -2);
         } else if (target instanceof Loc) {
             const type = LocType.get(target.type);
-            return ReachStrategy.reached(World.gameMap.collisionManager.flags, this.level, this.x, this.z, target.x, target.z, type.width, type.length, 1, target.rotation, target.shape);
+            return ReachStrategy.reached(World.collisionFlags, this.level, this.x, this.z, target.x, target.z, type.width, type.length, 1, target.rotation, target.shape);
         }
 
         return false;
@@ -1710,12 +1709,12 @@ export default class Player extends PathingEntity {
         const target = interaction.target;
 
         if (target instanceof Player || target instanceof Npc) {
-            return World.linePathFinder!.lineOfSight(this.level, this.x, this.z, target.x, target.z, 1, 1, 1).success && Position.distanceTo(this, target) <= interaction.apRange;
+            return World.linePathFinder.lineOfSight(this.level, this.x, this.z, target.x, target.z, 1, 1, 1).success && Position.distanceTo(this, target) <= interaction.apRange;
         } else if (target instanceof Loc) {
             const type = LocType.get(target.type);
-            return World.linePathFinder!.lineOfSight(this.level, this.x, this.z, target.x, target.z, 1, type.width, type.length).success && Position.distanceTo(this, target) <= interaction.apRange;
+            return World.linePathFinder.lineOfSight(this.level, this.x, this.z, target.x, target.z, 1, type.width, type.length).success && Position.distanceTo(this, target) <= interaction.apRange;
         } else if (target instanceof Obj) {
-            return World.linePathFinder!.lineOfSight(this.level, this.x, this.z, target.x, target.z, 1).success && Position.distanceTo(this, target) <= interaction.apRange;
+            return World.linePathFinder.lineOfSight(this.level, this.x, this.z, target.x, target.z, 1).success && Position.distanceTo(this, target) <= interaction.apRange;
         }
 
         return false;

@@ -41,16 +41,15 @@ export default class GameMap {
                         size,
                         size,
                         World.getNextNid(),
-                        id
+                        id,
+                        npcType.moverestrict
                     );
 
                     if (npcType.timer !== -1) {
                         npc.setTimer(npcType.timer);
                     }
 
-                    World.npcs[npc.nid] = npc;
-
-                    this.zoneManager.getZone(npc.x, npc.z, npc.level).addNpc(npc);
+                    World.addNpc(npc);
                 }
             }
 

@@ -8,6 +8,7 @@ import ServerTriggerType from '#lostcity/engine/script/ServerTriggerType.js';
 import NpcType from '#lostcity/cache/NpcType.js';
 import { Interaction } from '#lostcity/entity/Interaction.js';
 import World from '#lostcity/engine/World.js';
+import { MoveRestrict } from '#lostcity/entity/MoveRestrict.js';
 
 export default class Npc extends PathingEntity {
     static ANIM = 0x2;
@@ -55,8 +56,8 @@ export default class Npc extends PathingEntity {
     private graphicHeight: number = -1;
     private graphicDelay: number = -1;
 
-    constructor(level: number, x: number, z: number, width: number, length: number, nid: number, type: number) {
-        super(level, x, z, width, length);
+    constructor(level: number, x: number, z: number, width: number, length: number, nid: number, type: number, moveRestrict: MoveRestrict) {
+        super(level, x, z, width, length, moveRestrict);
         this.nid = nid;
         this.type = type;
         this.startX = this.x;
@@ -73,9 +74,9 @@ export default class Npc extends PathingEntity {
             if (this.walkDir != -1) {
                 this.orientation = this.walkDir;
                 // Remove collision at their previous position.
-                World.gameMap.collisionManager.changeEntityCollision(capturedX, capturedZ, this.level, false);
+                World.collisionManager.changeEntityCollision(capturedX, capturedZ, this.level, false);
                 // Add collision at their new position.
-                World.gameMap.collisionManager.changeEntityCollision(this.x, this.z, this.level, true);
+                World.collisionManager.changeEntityCollision(this.x, this.z, this.level, true);
             }
         } else {
             this.walkDir = -1;
@@ -135,14 +136,14 @@ export default class Npc extends PathingEntity {
     randomWalk() {
         const type = NpcType.get(this.type);
 
-        const dx = Math.round((Math.random() * type.wanderrange) - type.wanderrange);
-        const dz = Math.round((Math.random() * type.wanderrange) - type.wanderrange);
+        const dx = Math.round((Math.random() * (type.wanderrange * 2)) - type.wanderrange);
+        const dz = Math.round((Math.random() * (type.wanderrange * 2)) - type.wanderrange);
 
         if (dx != 0 || dz != 0) {
             const destX = this.startX + dx;
             const destZ = this.startZ + dz;
 
-            const path = World.pathFinder!.naiveDestination(this.x, this.z, type.size, type.size, destX, destZ, 1, 1);
+            const path = World.pathFinder.naiveDestination(this.x, this.z, type.size, type.size, destX, destZ, 1, 1);
             this.queueWalkWaypoint(path.x, path.z);
         }
     }

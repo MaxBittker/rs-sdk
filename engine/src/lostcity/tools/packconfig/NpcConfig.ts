@@ -3,6 +3,8 @@ import Packet from '#jagex2/io/Packet.js';
 import ParamType from '#lostcity/cache/ParamType.js';
 import ScriptVarType from '#lostcity/cache/ScriptVarType.js';
 
+import { MoveRestrict } from '#lostcity/entity/MoveRestrict.js';
+
 import { PACKFILE, ParamValue, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/PackShared.js';
 import { lookupParamValue } from '#lostcity/tools/packconfig/ParamConfig.js';
 
@@ -174,8 +176,24 @@ export function parseNpcConfig(key: string, value: string): ConfigValue | null |
             value: paramValue
         };
     } else if (key === 'moverestrict') {
-        // TODO
-        return value;
+        switch (value) {
+            case 'normal':
+                return MoveRestrict.NORMAL;
+            case 'blocked':
+                return MoveRestrict.BLOCKED;
+            case 'blocked+normal':
+                return MoveRestrict.BLOCKED_NORMAL;
+            case 'indoors':
+                return MoveRestrict.INDOORS;
+            case 'outdoors':
+                return MoveRestrict.OUTDOORS;
+            case 'nomove':
+                return MoveRestrict.NOMOVE;
+            case 'passthru':
+                return MoveRestrict.PASSTHRU;
+            default:
+                return null;
+        }
     } else if (key === 'blockwalk') {
         // TODO
         return value;
@@ -316,7 +334,10 @@ function packNpcConfig(configs: Map<string, ConfigLine[]>, transmitAll: boolean)
                     dat.p2(value as number);
                 }
             } else if (key === 'moverestrict') {
-                // TODO
+                if (transmitAll === true) {
+                    dat.p1(206);
+                    dat.p1(value as number);
+                }
             } else if (key === 'blockwalk') {
                 // TODO
             } else if (key === 'huntmode') {
