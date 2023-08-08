@@ -10876,6 +10876,7 @@ head1=model_46_idk_head
 head2=model_41_obj_wear
 head3=model_79_idk_head
 category=shop_keeper
+moverestrict=nomove
 
 [spice_seller]
 vislevel=hide
