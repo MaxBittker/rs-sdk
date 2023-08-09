@@ -2831,14 +2831,14 @@ export default class Player extends PathingEntity {
         }
     }
 
-    playJingle(name: string, delay: number): void {
+    playJingle(name: string, length: number): void {
         name = name.toLowerCase().replaceAll('_', ' ');
         if (!name) {
             return;
         }
         const jingle = PRELOADED.get(name + '.mid');
         if (jingle) {
-            this.midiJingle(delay, jingle);
+            this.midiJingle(length, jingle);
         }
     }
 
@@ -3622,13 +3622,13 @@ export default class Player extends PathingEntity {
         this.netOut.push(out);
     }
 
-    midiJingle(delay: number, bytes: Uint8Array) {
+    midiJingle(length: number, bytes: Uint8Array) {
         const out = new Packet();
         out.p1(ServerProt.MIDI_JINGLE);
         out.p2(0);
         const start = out.pos;
 
-        out.p2(delay);
+        out.p2(length);
         out.p4(bytes.length);
         out.pdata(bytes, true);
 

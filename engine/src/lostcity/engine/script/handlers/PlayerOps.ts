@@ -497,9 +497,10 @@ const PlayerOps: CommandHandlers = {
     },
 
     [ScriptOpcode.MIDI_JINGLE]: (state) => {
-        const delay = state.popInt();
+        // length of time of the midi in millis.
+        const length = state.popInt();
         const name = state.popString();
-        state.self.playJingle(name, delay);
+        state.self.playJingle(name, length);
     },
 
     [ScriptOpcode.LAST_INV]: (state) => {
