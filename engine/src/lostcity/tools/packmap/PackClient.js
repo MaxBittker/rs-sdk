@@ -70,8 +70,7 @@ mapFiles.forEach((file, index) => {
     let map = readMap(data);
 
     // encode land data
-    // TODO: mtime check
-    if (!fs.existsSync(`data/pack/client/maps/m${x}_${z}`)) {
+    if (!fs.existsSync(`data/pack/client/maps/m${x}_${z}`) || fs.statSync(`data/src/maps/${file}`).mtimeMs > fs.statSync(`data/pack/client/maps/m${x}_${z}`).mtimeMs) {
         let levelHeightmap = [];
         let levelTileOverlayIds = [];
         let levelTileOverlayShape = [];
@@ -229,8 +228,7 @@ mapFiles.forEach((file, index) => {
     }
 
     // encode loc data
-    // TODO: mtime check
-    if (!fs.existsSync(`data/pack/client/maps/l${x}_${z}`)) {
+    if (!fs.existsSync(`data/pack/client/maps/l${x}_${z}`) || fs.statSync(`data/src/maps/${file}`).mtimeMs > fs.statSync(`data/pack/client/maps/l${x}_${z}`).mtimeMs) {
         let locs = {};
 
         for (let level = 0; level < 4; level++) {
