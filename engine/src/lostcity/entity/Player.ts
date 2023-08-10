@@ -334,10 +334,10 @@ export default class Player extends PathingEntity {
     runenergy: number;
     runweight: number;
     playtime: number;
-    stats: Int32Array;
-    levels: Uint8Array;
+    stats: Int32Array = new Int32Array(21);
+    levels: Uint8Array = new Uint8Array(21);
     varps: Int32Array;
-    invs: Map<number, Inventory>;
+    invs: Map<number, Inventory> = new Map<number, Inventory>();
 
     // runtime variables
     lowMemory: boolean = false;
@@ -346,6 +346,7 @@ export default class Player extends PathingEntity {
     headicons: number = 0;
     appearance: Packet | null = null; // cached appearance
     baseLevel = new Uint8Array(21);
+    lastStats: Int32Array = new Int32Array(21); // we track this so we know to flush stats only once a tick on changes
     loadedX: number = -1; // build area
     loadedZ: number = -1;
     loadedZones: any = {};
@@ -415,9 +416,7 @@ export default class Player extends PathingEntity {
         this.runenergy = 10000;
         this.runweight = 0;
         this.playtime = 0;
-        this.stats = new Int32Array(21);
-        this.levels = new Uint8Array(21);
-        this.invs = new Map<number, Inventory>();
+        this.lastStats.fill(-1);
     }
 
     resetTransient() {
@@ -1055,10 +1054,6 @@ export default class Player extends PathingEntity {
                     this.varpLarge(i, varp);
                 }
             }
-        }
-
-        for (let i = 0; i < this.stats.length; i++) {
-            this.updateStat(i, this.stats[i], this.levels[i]);
         }
 
         // TODO: move to runescript
@@ -2510,6 +2505,15 @@ export default class Player extends PathingEntity {
         this.npcInfo(out);
     }
 
+    updateStats() {
+        for (let i = 0; i < this.stats.length; i++) {
+            if (this.stats[i] !== this.lastStats[i]) {
+                this.updateStat(i, this.stats[i], this.levels[i]);
+                this.lastStats[i] = this.stats[i];
+            }
+        }
+    }
+
     // ----
 
     updateInvs() {
@@ -2714,10 +2718,10 @@ export default class Player extends PathingEntity {
         }
     }
 
-    giveXp(stat: number, xp: number) {
-        // require xp is >= 0. there is no reason for a requested giveXp to be negative.
+    addXp(stat: number, xp: number) {
+        // require xp is >= 0. there is no reason for a requested addXp to be negative.
         if (xp < 0) {
-            throw new Error(`Invalid xp parameter for giveXp call: Stat was: ${stat}, Exp was: ${xp}`);
+            throw new Error(`Invalid xp parameter for addXp call: Stat was: ${stat}, Exp was: ${xp}`);
         }
 
         // if the xp arg is 0, then we do not have to change anything or send an unnecessary stat packet.
@@ -2735,10 +2739,8 @@ export default class Player extends PathingEntity {
 
         // TODO: levelup trigger
         this.baseLevel[stat] = getLevelByExp(this.stats[stat]);
-        // TODO: update this.levels[stat]?
-        this.updateStat(stat, this.stats[stat], this.levels[stat]);
 
-        if (this.getCombatLevel() != this.combatLevel) {
+        if (this.combatLevel != this.getCombatLevel()) {
             this.combatLevel = this.getCombatLevel();
             this.generateAppearance(InvType.getId('worn'));
         }
