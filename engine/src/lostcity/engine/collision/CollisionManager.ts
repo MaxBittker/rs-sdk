@@ -74,8 +74,6 @@ export default class CollisionManager {
                         const coord = this.packCoord(x, z, level);
                         const land = landMap[coord];
 
-                        this.flags.allocateIfAbsent(absoluteX, absoluteZ, level);
-
                         if ((land & 0x4) != 0) {
                             this.changeRoofCollision(absoluteX, absoluteZ, level, true);
                         }
