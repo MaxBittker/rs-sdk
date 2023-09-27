@@ -9,7 +9,7 @@ def_int $slot = last_slot;
 // check if the slot is valid.
 if ($slot < 0 | $slot >= inv_size(bank)) return;
 // check if the slot was empty.
-def_namedobj $obj = inv_getobj(bank, $slot);
+def_obj $obj = inv_getobj(bank, $slot);
 if ($obj = null) return;
 // TODO inv_buttond does not set a last_verifyobj. Maybe it should?
 def_int $slot2 = last_useslot;
@@ -23,6 +23,7 @@ inv_swap(bank, $slot, $slot2);
 [if_close,bank]
 inv_stoptransmit(inv, bank_deposit:inv);
 inv_stoptransmit(bank, bank:inv);
+~reorganize_bank;
 
 [label,openbank]
 ~reorganize_bank;
@@ -34,7 +35,7 @@ if_opensub(bank, bank_deposit);
 // Check the slot was valid.
 if ($slot < 0 | $slot >= inv_size(bank)) return;
 // Check if the slot was empty.
-def_namedobj $item = inv_getobj(bank, $slot);
+def_obj $item = inv_getobj(bank, $slot);
 if ($item = null) return;
 if (objectverify($item, last_verifyobj) = false) {
     inv_resendslot(bank, 0);
@@ -53,8 +54,8 @@ if ($requested_number < $number) $number = $requested_number;
 // Okay, withdraw it from the bank.
 ~bank_withdraw_request(inv, $item, $number, $slot);
 
-[proc,bank_withdraw_request](inv $inv, namedobj $obj, int $amount, int $slot)
-def_namedobj $cert_or_uncert = oc_uncert($obj);
+[proc,bank_withdraw_request](inv $inv, obj $obj, int $amount, int $slot)
+def_obj $cert_or_uncert = oc_uncert($obj);
 if (%bank_noted ! 0) {
     $cert_or_uncert = oc_cert($obj);
 }
@@ -80,7 +81,7 @@ switch_int (%bank_noted) {
         inv_moveitem_cert(bank, $inv, $obj, sub($amount, $overflow));
 }
 
-[proc,bank_deposit_request](inv $inv, namedobj $obj, int $amount, int $slot)
+[proc,bank_deposit_request](inv $inv, obj $obj, int $amount, int $slot)
 def_int $overflow = inv_itemspace2(bank, oc_uncert($obj), $amount, ^max_32bit_int);
 if ($overflow >= $amount) {
     // https://youtu.be/2BgXLZD-xgo?t=28
@@ -90,7 +91,7 @@ if ($overflow >= $amount) {
 }
 inv_moveitem_uncert($inv, bank, $obj, sub($amount, $overflow));
 
-[proc,bank_check_nobreak](namedobj $obj)(boolean)
+[proc,bank_check_nobreak](obj $obj)(boolean)
 if (~bank_find_obj_unbankable($obj) = true) {
     @a_magical_force_prevents_you_from_banking_this_item;
 }
@@ -152,8 +153,8 @@ return($slot);
 
 // returns if an obj is considered to be unbankable.
 // experience lamps, quest items, etc.
-[proc,bank_find_obj_unbankable](namedobj $obj)(boolean)
-switch_namedobj ($obj) {
+[proc,bank_find_obj_unbankable](obj $obj)(boolean)
+switch_obj ($obj) {
     case lamp : return(true); // cant bank xp lamps
     case default : return(false);
 }

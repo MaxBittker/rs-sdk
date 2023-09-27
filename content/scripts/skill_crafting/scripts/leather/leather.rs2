@@ -99,7 +99,7 @@ if (inv_total(inv, thread) < 1) {
     ~objbox(thread, 200, "You need some thread to make anything out of leather.");
     return;
 }
-def_namedobj $leather = inv_getobj(inv, $last);
+def_namedobj $leather = inv_getobj_deprecated(inv, $last);
 db_find(dhide_interface_table:leather, $leather);
 def_dbrow $leather_data = db_findnext;
 if ($leather_data = null) {

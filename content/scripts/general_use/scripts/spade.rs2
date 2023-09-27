@@ -1,7 +1,9 @@
 [opheld1,spade]
 // Treasure Trails
 if(~trail_hasclue_inv = true) {
-    def_namedobj $clue = ~trail_getclue_inv;
+    def_obj $clue;
+    def_int $slot;
+    $clue, $slot = ~trail_getclue_inv;
     if(~trail_clue_coord($clue) = true) {
         if(oc_param($clue, trail_coord) = coord) {
             if(oc_param($clue, trail_sextant) = true) {
@@ -11,7 +13,9 @@ if(~trail_hasclue_inv = true) {
                 }
             }
 
-            inv_del(inv, $clue, 1);
+            // inv_del(inv, $clue, 1);
+            def_int $total = inv_total(inv, $clue);
+            inv_setslot(inv, $slot, null, sub($total, 1));
             if(oc_category($clue) = trail_clue_easy) {
                 ~trail_clue_easy_progress;
                 inv_add(inv, trail_casket_easy, 1);

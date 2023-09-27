@@ -44,7 +44,7 @@ if (last_useitem = ball_of_wool) {
 
 
 [label,string_amulet](int $last)
-def_namedobj $unstrung = inv_getobj(inv, $last);
+def_namedobj $unstrung = inv_getobj_deprecated(inv, $last);
 def_struct $struct = oc_param($unstrung, crafting_jewelry_struct);
 
 // delete items

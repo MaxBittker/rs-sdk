@@ -9,7 +9,7 @@ def_int $slot = last_slot;
 // check if the slot is valid.
 if ($slot < 0 | $slot >= inv_size(inv)) return;
 // check if the slot was empty.
-def_namedobj $obj = inv_getobj(inv, $slot);
+def_obj $obj = inv_getobj(inv, $slot);
 if ($obj = null) return;
 // TODO inv_buttond does not set a last_verifyobj. Maybe it should?
 def_int $slot2 = last_useslot;
@@ -21,7 +21,7 @@ inv_swap(inv, $slot, $slot2);
 // Check the slot was valid.
 if ($slot < 0 | $slot >= inv_size(inv)) return;
 // Check if the slot was empty.
-def_namedobj $item = inv_getobj(inv, $slot);
+def_obj $item = inv_getobj(inv, $slot);
 if ($item = null) return;
 if (objectverify($item, last_verifyobj) = false) {
     inv_resendslot(inv, 0);

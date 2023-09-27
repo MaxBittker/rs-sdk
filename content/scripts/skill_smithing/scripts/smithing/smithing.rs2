@@ -164,9 +164,9 @@ if_opentop(smithing);
 
 [label,attempt_smithing](inv $last_inv, int $last_slot, int $count)
 if_close;
-def_namedobj $product = inv_getobj($last_inv, $last_slot);
+def_obj $ifproduct = inv_getobj($last_inv, $last_slot);
 // get item data from db
-db_find(smithing:product, $product);
+db_find(smithing:ifproduct, $ifproduct);
 def_dbrow $data = db_findnext;
 if ($data = null) {
     @nothing_interesting_happens;
@@ -182,7 +182,7 @@ if ($data = null) {
 //         }
 // }
 // check if mems obj is selected
-if (oc_members($product) = true) {
+if (oc_members($ifproduct) = true) {
     ~require_members_make_item;
 }
 // check if player has enough bars

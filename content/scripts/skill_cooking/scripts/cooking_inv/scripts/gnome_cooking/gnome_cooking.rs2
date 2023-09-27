@@ -5,7 +5,7 @@ switch_obj(last_useitem) {
 };
 
 [label,make_raw_gnome](int $last)
-def_namedobj $tin = inv_getobj(inv, $last);
+def_namedobj $tin = inv_getobj_deprecated(inv, $last);
 //delete items
 inv_del(inv, gianne_dough, 1);
 inv_del(inv, $tin, 1);

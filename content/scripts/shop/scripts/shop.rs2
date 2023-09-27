@@ -19,7 +19,7 @@ inv_stoptransmit(last_inv, shop:com_75);
 // Player Inventory buttons
 // Value
 [inv_button1,shop_sell:inv]
-def_namedobj $item = inv_getobj(inv, last_slot);
+def_obj $item = inv_getobj(inv, last_slot);
 def_string $item_name = oc_name($item);
 def_int $item_value = ~adjusted_item_cost_selling($item);
 def_boolean $item_is_tradable = oc_tradeable($item);
@@ -41,40 +41,40 @@ mes("<$item_name>: currently costs <tostring($item_value)>gp.");
 
 // Sell 1
 [inv_button2,shop_sell:inv]
-def_namedobj $item = inv_getobj(inv, last_slot);
+def_obj $item = inv_getobj(inv, last_slot);
 
 // Sell 5
 [inv_button3,shop_sell:inv]
-def_namedobj $item = inv_getobj(inv, last_slot);
+def_obj $item = inv_getobj(inv, last_slot);
 
 // Sell 10
 [inv_button4,shop_sell:inv]
-def_namedobj $item = inv_getobj(inv, last_slot);
+def_obj $item = inv_getobj(inv, last_slot);
 
 // Shop Inventory Buttons
 // Value
 [inv_button1,shop:com_75]
-def_namedobj $item = inv_getobj(%shop, last_slot);
+def_obj $item = inv_getobj(%shop, last_slot);
 def_string $item_name = oc_name($item);
 def_int $item_value = oc_cost($item);
 mes("<$item_name>: currently costs <tostring($item_value)>gp.");
 
 // Buy 1
 [inv_button2,shop:com_75]
-def_namedobj $item = inv_getobj(%shop, last_slot);
+def_obj $item = inv_getobj(%shop, last_slot);
 @buy_item($item, 1);
 
 // Buy 5
 [inv_button3,shop:com_75]
-def_namedobj $item = inv_getobj(%shop, last_slot);
+def_obj $item = inv_getobj(%shop, last_slot);
 @buy_item($item, 5);
 
 // Buy 10
 [inv_button4,shop:com_75]
-def_namedobj $item = inv_getobj(%shop, last_slot);
+def_obj $item = inv_getobj(%shop, last_slot);
 @buy_item($item, 10);
 
-[label,buy_item](namedobj $obj, int $amount)
+[label,buy_item](obj $obj, int $amount)
 def_int $cost = oc_cost($obj);
 def_int $total_cost = ~script7261($cost, %shop_haggle, %shop_sell, 0);
 mes("Total cost: <tostring($total_cost)>");
@@ -84,22 +84,22 @@ if (inv_total(inv, coins) < $total_cost) {
 }
 
 def_int $items_to_be_purchased = ~calculate_items_amount_purchased($obj , $amount, $total_cost);
-inv_add(inv, $obj, $items_to_be_purchased);
+inv_moveitem_uncert(%shop, inv, $obj, $items_to_be_purchased);
 inv_del(inv, coins, calc($items_to_be_purchased * ~adjusted_item_cost_buying($obj)));
 
 if ($items_to_be_purchased < $amount) {
     mes("You don't have enough coins.");
 }
 
-[proc,adjusted_item_cost_buying](namedobj $obj)(int)
+[proc,adjusted_item_cost_buying](obj $obj)(int)
 def_int $cost = oc_cost($obj);
 return (~script7261($cost, %shop_haggle, %shop_sell, 0));
 
-[proc,adjusted_item_cost_selling](namedobj $obj)(int)
+[proc,adjusted_item_cost_selling](obj $obj)(int)
 def_int $cost = oc_cost($obj);
 return (~script7261($cost, %shop_haggle, %shop_buy, 0));
 
-[proc,calculate_items_amount_purchased](namedobj $item, int $amount, int $cost)(int)
+[proc,calculate_items_amount_purchased](obj $item, int $amount, int $cost)(int)
 def_int $player_coins = inv_total(inv, coins);
 def_int $purchasable_amount = calc($player_coins / $cost);
 

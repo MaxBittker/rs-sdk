@@ -38,7 +38,7 @@ inv_add(inv, pie_shell, 1);
 mes("You put the pastry dough into the pie dish to make a pie shell.");
 
 [label,make_uncooked_pie](int $last)
-def_namedobj $ingredient = inv_getobj(inv, $last);
+def_namedobj $ingredient = inv_getobj_deprecated(inv, $last);
 def_struct $struct = oc_param($ingredient, uncooked_pie_struct);
 if (stat(cooking) < struct_param($struct, levelrequired)) {
     ~mesbox("You need a Cooking level of <tostring(struct_param($struct, levelrequired))> to make <struct_param($struct, levelfailmessage)>.");

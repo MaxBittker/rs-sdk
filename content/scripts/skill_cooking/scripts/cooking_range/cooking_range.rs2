@@ -23,7 +23,7 @@ switch_obj (last_item)
 
 
 [label,cook_item_range] (int $last_slot, loc $loc)
-def_namedobj $uncooked_item = inv_getobj(inv, $last_slot);
+def_namedobj $uncooked_item = inv_getobj_deprecated(inv, $last_slot);
 // get item data from db
 db_find(cooking_generic:uncooked, $uncooked_item);
 def_dbrow $data = db_findnext;

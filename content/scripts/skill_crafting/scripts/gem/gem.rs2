@@ -55,7 +55,7 @@ if (last_useitem = chisel) {
 
 //--- Label to craft a gem
 [label,crafting_gem](int $last)
-def_namedobj $uncut_gem = inv_getobj(inv, $last);
+def_namedobj $uncut_gem = inv_getobj_deprecated(inv, $last);
 def_struct $struct = oc_param($uncut_gem, crafting_gem_struct);
 // check if the player has the required level
 if (stat(crafting) < struct_param($struct, levelrequired)) {

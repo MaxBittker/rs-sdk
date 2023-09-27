@@ -24,7 +24,7 @@ if (stat(cooking) < 25) {
     ~mesbox("You need a Cooking level of 25 to make a Stew.");
     return;
 }
-def_namedobj $ingredient = inv_getobj(inv, $last);
+def_namedobj $ingredient = inv_getobj_deprecated(inv, $last);
 inv_del(inv, bowl_water, 1);
 inv_del(inv, $ingredient, 1);
 if ($ingredient = cooked_meat | $ingredient = cooked_chicken) {
@@ -40,8 +40,8 @@ if (stat(cooking) < 25) {
     ~mesbox("You need a Cooking level of 25 to make a Stew.");
     return;
 }
-def_namedobj $used_on = inv_getobj(inv, $last_slot);
-def_namedobj $used_with = inv_getobj(inv, $last_useslot);
+def_namedobj $used_on = inv_getobj_deprecated(inv, $last_slot);
+def_namedobj $used_with = inv_getobj_deprecated(inv, $last_useslot);
 //delete the items
 inv_del(inv, $used_on, 1);
 inv_del(inv, $used_with, 1);

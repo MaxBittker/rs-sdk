@@ -210,15 +210,15 @@
 [command,oc_cost](obj $obj)(int)
 [command,oc_tradeable](obj $obj)(boolean)
 [command,oc_debugname](obj $obj)(string)
-[command,oc_cert](obj $obj)(namedobj)
-[command,oc_uncert](obj $obj)(namedobj)
+[command,oc_cert](obj $obj)(obj)
+[command,oc_uncert](obj $obj)(obj)
 [command,oc_stackable](obj $obj)(boolean)
 
 // Inventory ops (4300-4399)
 [command,inv_add](inv $inv, namedobj $obj, int $count)
 [command,inv_changeslot](inv $inv, namedobj $find, namedobj $replace, int $replace_count) // Unconfirmed arguments, inferred from comment in a released script
 [command,inv_del](inv $inv, namedobj $obj, int $count)
-[command,inv_getobj](inv $inv, int $slot)(namedobj)
+[command,inv_getobj](inv $inv, int $slot)(obj)
 [command,inv_itemspace2](inv $inv, obj $obj, int $count, int $size)(int)
 [command,inv_moveitem](inv $from_inv, inv $to_inv, obj $obj, int $count)
 [command,inv_resendslot](inv $inv, int $slot)
@@ -236,6 +236,7 @@
 [command,inv_getnum](inv $inv, int $slot)(int)
 [command,inv_moveitem_cert](inv $from_inv, inv $to_inv, obj $obj, int $count)
 [command,inv_moveitem_uncert](inv $from_inv, inv $to_inv, obj $obj, int $count)
+[command,inv_getobj_deprecated](inv $inv, int $slot)(namedobj)
 
 // Enum ops (4400-4499)
 [command,enum] // (type $input, type $output, enum $enum, dynamic $key)(dynamic)

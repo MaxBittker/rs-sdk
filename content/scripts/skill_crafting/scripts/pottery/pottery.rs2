@@ -64,7 +64,7 @@ mes("You make the clay into a <substring($name, 8, string_length($name))>.");
 
 // No level req for some reason (does have a success chance though)
 [label,fire_pottery](int $last)
-def_namedobj $last_obj = inv_getobj(inv, $last);
+def_namedobj $last_obj = inv_getobj_deprecated(inv, $last);
 def_struct $struct = oc_param($last_obj, crafting_pottery_struct);
 mes("You put the <oc_name(struct_param($struct, product))> in the oven.");
 sound_synth(furnace, 0, 0);

@@ -2,7 +2,7 @@
 [opnpc2,npc_800] @fish_lava_eel;
 
 [opnpcu,npc_800]
-def_namedobj $last = inv_getobj(inv, last_slot);
+def_namedobj $last = inv_getobj_deprecated(inv, last_slot);
 switch_obj(last_item) {
     case obj_1585 : @attempt_fish_lava_eel;
     case net, net_big : ~burnup_fishing_equipment($last, "net");
@@ -33,7 +33,7 @@ if (npc_range(coord) > 1)
   p_aprange(1);
   return;
 }
-def_namedobj $last = inv_getobj(inv, last_slot);
+def_namedobj $last = inv_getobj_deprecated(inv, last_slot);
 switch_obj(last_item) {
     case obj_1585 : @attempt_fish_lava_eel;
     case net, net_big : ~burnup_fishing_equipment($last, "net");

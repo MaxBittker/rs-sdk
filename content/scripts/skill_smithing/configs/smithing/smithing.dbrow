@@ -1,5 +1,6 @@
 [bronze_dagger]
 table=smithing
+data=ifproduct,bronze_dagger
 data=product,bronze_dagger
 data=product_amount,1
 data=levelrequired,1
@@ -10,6 +11,7 @@ data=bar_amount,1
 
 [iron_dagger]
 table=smithing
+data=ifproduct,iron_dagger
 data=product,iron_dagger
 data=product_amount,1
 data=levelrequired,15
@@ -20,6 +22,7 @@ data=bar_amount,1
 
 [steel_dagger]
 table=smithing
+data=ifproduct,steel_dagger
 data=product,steel_dagger
 data=product_amount,1
 data=levelrequired,30
@@ -30,6 +33,7 @@ data=bar_amount,1
 
 [mithril_dagger]
 table=smithing
+data=ifproduct,mithril_dagger
 data=product,mithril_dagger
 data=product_amount,1
 data=levelrequired,50
@@ -40,6 +44,7 @@ data=bar_amount,1
 
 [adamant_dagger]
 table=smithing
+data=ifproduct,adamant_dagger
 data=product,adamant_dagger
 data=product_amount,1
 data=levelrequired,70
@@ -50,6 +55,7 @@ data=bar_amount,1
 
 [rune_dagger]
 table=smithing
+data=ifproduct,rune_dagger
 data=product,rune_dagger
 data=product_amount,1
 data=levelrequired,85
@@ -60,6 +66,7 @@ data=bar_amount,1
 
 [bronze_sword]
 table=smithing
+data=ifproduct,bronze_sword
 data=product,bronze_sword
 data=product_amount,1
 data=levelrequired,4
@@ -70,6 +77,7 @@ data=bar_amount,1
 
 [iron_sword]
 table=smithing
+data=ifproduct,iron_sword
 data=product,iron_sword
 data=product_amount,1
 data=levelrequired,19
@@ -80,6 +88,7 @@ data=bar_amount,1
 
 [steel_sword]
 table=smithing
+data=ifproduct,steel_sword
 data=product,steel_sword
 data=product_amount,1
 data=levelrequired,34
@@ -90,6 +99,7 @@ data=bar_amount,1
 
 [mithril_sword]
 table=smithing
+data=ifproduct,mithril_sword
 data=product,mithril_sword
 data=product_amount,1
 data=levelrequired,54
@@ -100,6 +110,7 @@ data=bar_amount,1
 
 [adamant_sword]
 table=smithing
+data=ifproduct,adamant_sword
 data=product,adamant_sword
 data=product_amount,1
 data=levelrequired,74
@@ -110,6 +121,7 @@ data=bar_amount,1
 
 [rune_sword]
 table=smithing
+data=ifproduct,rune_sword
 data=product,rune_sword
 data=product_amount,1
 data=levelrequired,89
@@ -120,6 +132,7 @@ data=bar_amount,1
 
 [bronze_scimitar]
 table=smithing
+data=ifproduct,bronze_scimitar
 data=product,bronze_scimitar
 data=product_amount,1
 data=levelrequired,5
@@ -130,6 +143,7 @@ data=bar_amount,2
 
 [iron_scimitar]
 table=smithing
+data=ifproduct,iron_scimitar
 data=product,iron_scimitar
 data=product_amount,1
 data=levelrequired,20
@@ -140,6 +154,7 @@ data=bar_amount,2
 
 [steel_scimitar]
 table=smithing
+data=ifproduct,steel_scimitar
 data=product,steel_scimitar
 data=product_amount,1
 data=levelrequired,35
@@ -150,6 +165,7 @@ data=bar_amount,2
 
 [mithril_scimitar]
 table=smithing
+data=ifproduct,mithril_scimitar
 data=product,mithril_scimitar
 data=product_amount,1
 data=levelrequired,55
@@ -160,6 +176,7 @@ data=bar_amount,2
 
 [adamant_scimitar]
 table=smithing
+data=ifproduct,adamant_scimitar
 data=product,adamant_scimitar
 data=product_amount,1
 data=levelrequired,75
@@ -170,6 +187,7 @@ data=bar_amount,2
 
 [rune_scimitar]
 table=smithing
+data=ifproduct,rune_scimitar
 data=product,rune_scimitar
 data=product_amount,1
 data=levelrequired,90
@@ -180,6 +198,7 @@ data=bar_amount,2
 
 [bronze_longsword]
 table=smithing
+data=ifproduct,bronze_longsword
 data=product,bronze_longsword
 data=product_amount,1
 data=levelrequired,6
@@ -190,6 +209,7 @@ data=bar_amount,2
 
 [iron_longsword]
 table=smithing
+data=ifproduct,iron_longsword
 data=product,iron_longsword
 data=product_amount,1
 data=levelrequired,21
@@ -200,6 +220,7 @@ data=bar_amount,2
 
 [steel_longsword]
 table=smithing
+data=ifproduct,steel_longsword
 data=product,steel_longsword
 data=product_amount,1
 data=levelrequired,36
@@ -210,6 +231,7 @@ data=bar_amount,2
 
 [mithril_longsword]
 table=smithing
+data=ifproduct,mithril_longsword
 data=product,mithril_longsword
 data=product_amount,1
 data=levelrequired,56
@@ -220,6 +242,7 @@ data=bar_amount,2
 
 [adamant_longsword]
 table=smithing
+data=ifproduct,adamant_longsword
 data=product,adamant_longsword
 data=product_amount,1
 data=levelrequired,76
@@ -230,6 +253,7 @@ data=bar_amount,2
 
 [rune_longsword]
 table=smithing
+data=ifproduct,rune_longsword
 data=product,rune_longsword
 data=product_amount,1
 data=levelrequired,91
@@ -240,6 +264,7 @@ data=bar_amount,2
 
 [bronze_2h_sword]
 table=smithing
+data=ifproduct,bronze_2h_sword
 data=product,bronze_2h_sword
 data=product_amount,1
 data=levelrequired,14
@@ -250,6 +275,7 @@ data=bar_amount,3
 
 [iron_2h_sword]
 table=smithing
+data=ifproduct,iron_2h_sword
 data=product,iron_2h_sword
 data=product_amount,1
 data=levelrequired,29
@@ -260,6 +286,7 @@ data=bar_amount,3
 
 [steel_2h_sword]
 table=smithing
+data=ifproduct,steel_2h_sword
 data=product,steel_2h_sword
 data=product_amount,1
 data=levelrequired,44
@@ -270,6 +297,7 @@ data=bar_amount,3
 
 [mithril_2h_sword]
 table=smithing
+data=ifproduct,mithril_2h_sword
 data=product,mithril_2h_sword
 data=product_amount,1
 data=levelrequired,64
@@ -280,6 +308,7 @@ data=bar_amount,3
 
 [adamant_2h_sword]
 table=smithing
+data=ifproduct,adamant_2h_sword
 data=product,adamant_2h_sword
 data=product_amount,1
 data=levelrequired,84
@@ -290,6 +319,7 @@ data=bar_amount,3
 
 [rune_2h_sword]
 table=smithing
+data=ifproduct,rune_2h_sword
 data=product,rune_2h_sword
 data=product_amount,1
 data=levelrequired,99
@@ -300,6 +330,7 @@ data=bar_amount,3
 
 [bronze_axe]
 table=smithing
+data=ifproduct,bronze_axe
 data=product,bronze_axe
 data=product_amount,1
 data=levelrequired,1
@@ -310,6 +341,7 @@ data=bar_amount,1
 
 [iron_axe]
 table=smithing
+data=ifproduct,iron_axe
 data=product,iron_axe
 data=product_amount,1
 data=levelrequired,16
@@ -320,6 +352,7 @@ data=bar_amount,1
 
 [steel_axe]
 table=smithing
+data=ifproduct,steel_axe
 data=product,steel_axe
 data=product_amount,1
 data=levelrequired,31
@@ -330,6 +363,7 @@ data=bar_amount,1
 
 [mithril_axe]
 table=smithing
+data=ifproduct,mithril_axe
 data=product,mithril_axe
 data=product_amount,1
 data=levelrequired,51
@@ -340,6 +374,7 @@ data=bar_amount,1
 
 [adamant_axe]
 table=smithing
+data=ifproduct,adamant_axe
 data=product,adamant_axe
 data=product_amount,1
 data=levelrequired,71
@@ -350,6 +385,7 @@ data=bar_amount,1
 
 [rune_axe]
 table=smithing
+data=ifproduct,rune_axe
 data=product,rune_axe
 data=product_amount,1
 data=levelrequired,86
@@ -360,6 +396,7 @@ data=bar_amount,1
 
 [bronze_mace]
 table=smithing
+data=ifproduct,bronze_mace
 data=product,bronze_mace
 data=product_amount,1
 data=levelrequired,2
@@ -370,6 +407,7 @@ data=bar_amount,1
 
 [iron_mace]
 table=smithing
+data=ifproduct,iron_mace
 data=product,iron_mace
 data=product_amount,1
 data=levelrequired,17
@@ -380,6 +418,7 @@ data=bar_amount,1
 
 [steel_mace]
 table=smithing
+data=ifproduct,steel_mace
 data=product,steel_mace
 data=product_amount,1
 data=levelrequired,32
@@ -390,6 +429,7 @@ data=bar_amount,1
 
 [mithril_mace]
 table=smithing
+data=ifproduct,mithril_mace
 data=product,mithril_mace
 data=product_amount,1
 data=levelrequired,52
@@ -400,6 +440,7 @@ data=bar_amount,1
 
 [adamant_mace]
 table=smithing
+data=ifproduct,adamant_mace
 data=product,adamant_mace
 data=product_amount,1
 data=levelrequired,72
@@ -410,6 +451,7 @@ data=bar_amount,1
 
 [rune_mace]
 table=smithing
+data=ifproduct,rune_mace
 data=product,rune_mace
 data=product_amount,1
 data=levelrequired,87
@@ -420,6 +462,7 @@ data=bar_amount,1
 
 [bronze_warhammer]
 table=smithing
+data=ifproduct,bronze_warhammer
 data=product,bronze_warhammer
 data=product_amount,1
 data=levelrequired,9
@@ -430,6 +473,7 @@ data=bar_amount,3
 
 [iron_warhammer]
 table=smithing
+data=ifproduct,iron_warhammer
 data=product,iron_warhammer
 data=product_amount,1
 data=levelrequired,24
@@ -440,6 +484,7 @@ data=bar_amount,3
 
 [steel_warhammer]
 table=smithing
+data=ifproduct,steel_warhammer
 data=product,steel_warhammer
 data=product_amount,1
 data=levelrequired,39
@@ -450,6 +495,7 @@ data=bar_amount,3
 
 [mithril_warhammer]
 table=smithing
+data=ifproduct,mithril_warhammer
 data=product,mithril_warhammer
 data=product_amount,1
 data=levelrequired,59
@@ -460,6 +506,7 @@ data=bar_amount,3
 
 [adamant_warhammer]
 table=smithing
+data=ifproduct,adamant_warhammer
 data=product,adamant_warhammer
 data=product_amount,1
 data=levelrequired,79
@@ -470,6 +517,7 @@ data=bar_amount,3
 
 [rune_warhammer]
 table=smithing
+data=ifproduct,rune_warhammer
 data=product,rune_warhammer
 data=product_amount,1
 data=levelrequired,94
@@ -480,6 +528,7 @@ data=bar_amount,3
 
 [bronze_battleaxe]
 table=smithing
+data=ifproduct,bronze_battleaxe
 data=product,bronze_battleaxe
 data=product_amount,1
 data=levelrequired,10
@@ -490,6 +539,7 @@ data=bar_amount,3
 
 [iron_battleaxe]
 table=smithing
+data=ifproduct,iron_battleaxe
 data=product,iron_battleaxe
 data=product_amount,1
 data=levelrequired,25
@@ -500,6 +550,7 @@ data=bar_amount,3
 
 [steel_battleaxe]
 table=smithing
+data=ifproduct,steel_battleaxe
 data=product,steel_battleaxe
 data=product_amount,1
 data=levelrequired,40
@@ -510,6 +561,7 @@ data=bar_amount,3
 
 [mithril_battleaxe]
 table=smithing
+data=ifproduct,mithril_battleaxe
 data=product,mithril_battleaxe
 data=product_amount,1
 data=levelrequired,60
@@ -520,6 +572,7 @@ data=bar_amount,3
 
 [adamant_battleaxe]
 table=smithing
+data=ifproduct,adamant_battleaxe
 data=product,adamant_battleaxe
 data=product_amount,1
 data=levelrequired,80
@@ -530,6 +583,7 @@ data=bar_amount,3
 
 [rune_battleaxe]
 table=smithing
+data=ifproduct,rune_battleaxe
 data=product,rune_battleaxe
 data=product_amount,1
 data=levelrequired,95
@@ -540,6 +594,7 @@ data=bar_amount,3
 
 [bronze_chainbody]
 table=smithing
+data=ifproduct,bronze_chainbody
 data=product,bronze_chainbody
 data=product_amount,1
 data=levelrequired,11
@@ -550,6 +605,7 @@ data=bar_amount,3
 
 [iron_chainbody]
 table=smithing
+data=ifproduct,iron_chainbody
 data=product,iron_chainbody
 data=product_amount,1
 data=levelrequired,26
@@ -560,6 +616,7 @@ data=bar_amount,3
 
 [steel_chainbody]
 table=smithing
+data=ifproduct,steel_chainbody
 data=product,steel_chainbody
 data=product_amount,1
 data=levelrequired,41
@@ -570,6 +627,7 @@ data=bar_amount,3
 
 [mithril_chainbody]
 table=smithing
+data=ifproduct,mithril_chainbody
 data=product,mithril_chainbody
 data=product_amount,1
 data=levelrequired,61
@@ -580,6 +638,7 @@ data=bar_amount,3
 
 [adamant_chainbody]
 table=smithing
+data=ifproduct,adamant_chainbody
 data=product,adamant_chainbody
 data=product_amount,1
 data=levelrequired,81
@@ -590,6 +649,7 @@ data=bar_amount,3
 
 [rune_chainbody]
 table=smithing
+data=ifproduct,rune_chainbody
 data=product,rune_chainbody
 data=product_amount,1
 data=levelrequired,96
@@ -600,6 +660,7 @@ data=bar_amount,3
 
 [bronze_platelegs]
 table=smithing
+data=ifproduct,bronze_platelegs
 data=product,bronze_platelegs
 data=product_amount,1
 data=levelrequired,16
@@ -610,6 +671,7 @@ data=bar_amount,3
 
 [iron_platelegs]
 table=smithing
+data=ifproduct,iron_platelegs
 data=product,iron_platelegs
 data=product_amount,1
 data=levelrequired,31
@@ -620,6 +682,7 @@ data=bar_amount,3
 
 [steel_platelegs]
 table=smithing
+data=ifproduct,steel_platelegs
 data=product,steel_platelegs
 data=product_amount,1
 data=levelrequired,46
@@ -630,6 +693,7 @@ data=bar_amount,3
 
 [mithril_platelegs]
 table=smithing
+data=ifproduct,mithril_platelegs
 data=product,mithril_platelegs
 data=product_amount,1
 data=levelrequired,66
@@ -640,6 +704,7 @@ data=bar_amount,3
 
 [adamant_platelegs]
 table=smithing
+data=ifproduct,adamant_platelegs
 data=product,adamant_platelegs
 data=product_amount,1
 data=levelrequired,86
@@ -650,6 +715,7 @@ data=bar_amount,3
 
 [rune_platelegs]
 table=smithing
+data=ifproduct,rune_platelegs
 data=product,rune_platelegs
 data=product_amount,1
 data=levelrequired,99
@@ -660,6 +726,7 @@ data=bar_amount,3
 
 [bronze_plateskirt]
 table=smithing
+data=ifproduct,bronze_plateskirt
 data=product,bronze_plateskirt
 data=product_amount,1
 data=levelrequired,16
@@ -670,6 +737,7 @@ data=bar_amount,3
 
 [iron_plateskirt]
 table=smithing
+data=ifproduct,iron_plateskirt
 data=product,iron_plateskirt
 data=product_amount,1
 data=levelrequired,31
@@ -680,6 +748,7 @@ data=bar_amount,3
 
 [steel_plateskirt]
 table=smithing
+data=ifproduct,steel_plateskirt
 data=product,steel_plateskirt
 data=product_amount,1
 data=levelrequired,46
@@ -690,6 +759,7 @@ data=bar_amount,3
 
 [mithril_plateskirt]
 table=smithing
+data=ifproduct,mithril_plateskirt
 data=product,mithril_plateskirt
 data=product_amount,1
 data=levelrequired,66
@@ -700,6 +770,7 @@ data=bar_amount,3
 
 [adamant_plateskirt]
 table=smithing
+data=ifproduct,adamant_plateskirt
 data=product,adamant_plateskirt
 data=product_amount,1
 data=levelrequired,86
@@ -710,6 +781,7 @@ data=bar_amount,3
 
 [rune_plateskirt]
 table=smithing
+data=ifproduct,rune_plateskirt
 data=product,rune_plateskirt
 data=product_amount,1
 data=levelrequired,99
@@ -720,6 +792,7 @@ data=bar_amount,3
 
 [bronze_platebody]
 table=smithing
+data=ifproduct,bronze_platebody
 data=product,bronze_platebody
 data=product_amount,1
 data=levelrequired,18
@@ -730,6 +803,7 @@ data=bar_amount,5
 
 [iron_platebody]
 table=smithing
+data=ifproduct,iron_platebody
 data=product,iron_platebody
 data=product_amount,1
 data=levelrequired,33
@@ -740,6 +814,7 @@ data=bar_amount,5
 
 [steel_platebody]
 table=smithing
+data=ifproduct,steel_platebody
 data=product,steel_platebody
 data=product_amount,1
 data=levelrequired,48
@@ -750,6 +825,7 @@ data=bar_amount,5
 
 [mithril_platebody]
 table=smithing
+data=ifproduct,mithril_platebody
 data=product,mithril_platebody
 data=product_amount,1
 data=levelrequired,68
@@ -760,6 +836,7 @@ data=bar_amount,5
 
 [adamant_platebody]
 table=smithing
+data=ifproduct,adamant_platebody
 data=product,adamant_platebody
 data=product_amount,1
 data=levelrequired,88
@@ -770,6 +847,7 @@ data=bar_amount,5
 
 [rune_platebody]
 table=smithing
+data=ifproduct,rune_platebody
 data=product,rune_platebody
 data=product_amount,1
 data=levelrequired,99
@@ -780,6 +858,7 @@ data=bar_amount,5
 
 [bronze_med_helm]
 table=smithing
+data=ifproduct,bronze_med_helm
 data=product,bronze_med_helm
 data=product_amount,1
 data=levelrequired,3
@@ -790,6 +869,7 @@ data=bar_amount,1
 
 [iron_med_helm]
 table=smithing
+data=ifproduct,iron_med_helm
 data=product,iron_med_helm
 data=product_amount,1
 data=levelrequired,18
@@ -800,6 +880,7 @@ data=bar_amount,1
 
 [steel_med_helm]
 table=smithing
+data=ifproduct,steel_med_helm
 data=product,steel_med_helm
 data=product_amount,1
 data=levelrequired,33
@@ -810,6 +891,7 @@ data=bar_amount,1
 
 [mithril_med_helm]
 table=smithing
+data=ifproduct,mithril_med_helm
 data=product,mithril_med_helm
 data=product_amount,1
 data=levelrequired,53
@@ -820,6 +902,7 @@ data=bar_amount,1
 
 [adamant_med_helm]
 table=smithing
+data=ifproduct,adamant_med_helm
 data=product,adamant_med_helm
 data=product_amount,1
 data=levelrequired,73
@@ -830,6 +913,7 @@ data=bar_amount,1
 
 [rune_med_helm]
 table=smithing
+data=ifproduct,rune_med_helm
 data=product,rune_med_helm
 data=product_amount,1
 data=levelrequired,88
@@ -840,6 +924,7 @@ data=bar_amount,1
 
 [bronze_full_helm]
 table=smithing
+data=ifproduct,bronze_full_helm
 data=product,bronze_full_helm
 data=product_amount,1
 data=levelrequired,7
@@ -850,6 +935,7 @@ data=bar_amount,2
 
 [iron_full_helm]
 table=smithing
+data=ifproduct,iron_full_helm
 data=product,iron_full_helm
 data=product_amount,1
 data=levelrequired,22
@@ -860,6 +946,7 @@ data=bar_amount,2
 
 [steel_full_helm]
 table=smithing
+data=ifproduct,steel_full_helm
 data=product,steel_full_helm
 data=product_amount,1
 data=levelrequired,37
@@ -870,6 +957,7 @@ data=bar_amount,2
 
 [mithril_full_helm]
 table=smithing
+data=ifproduct,mithril_full_helm
 data=product,mithril_full_helm
 data=product_amount,1
 data=levelrequired,57
@@ -880,6 +968,7 @@ data=bar_amount,2
 
 [adamant_full_helm]
 table=smithing
+data=ifproduct,adamant_full_helm
 data=product,adamant_full_helm
 data=product_amount,1
 data=levelrequired,77
@@ -890,6 +979,7 @@ data=bar_amount,2
 
 [rune_full_helm]
 table=smithing
+data=ifproduct,rune_full_helm
 data=product,rune_full_helm
 data=product_amount,1
 data=levelrequired,92
@@ -900,6 +990,7 @@ data=bar_amount,2
 
 [bronze_sq_shield]
 table=smithing
+data=ifproduct,bronze_sq_shield
 data=product,bronze_sq_shield
 data=product_amount,1
 data=levelrequired,8
@@ -910,6 +1001,7 @@ data=bar_amount,2
 
 [iron_sq_shield]
 table=smithing
+data=ifproduct,iron_sq_shield
 data=product,iron_sq_shield
 data=product_amount,1
 data=levelrequired,23
@@ -920,6 +1012,7 @@ data=bar_amount,2
 
 [steel_sq_shield]
 table=smithing
+data=ifproduct,steel_sq_shield
 data=product,steel_sq_shield
 data=product_amount,1
 data=levelrequired,38
@@ -930,6 +1023,7 @@ data=bar_amount,2
 
 [mithril_sq_shield]
 table=smithing
+data=ifproduct,mithril_sq_shield
 data=product,mithril_sq_shield
 data=product_amount,1
 data=levelrequired,58
@@ -940,6 +1034,7 @@ data=bar_amount,2
 
 [adamant_sq_shield]
 table=smithing
+data=ifproduct,adamant_sq_shield
 data=product,adamant_sq_shield
 data=product_amount,1
 data=levelrequired,78
@@ -950,6 +1045,7 @@ data=bar_amount,2
 
 [rune_sq_shield]
 table=smithing
+data=ifproduct,rune_sq_shield
 data=product,rune_sq_shield
 data=product_amount,1
 data=levelrequired,93
@@ -960,6 +1056,7 @@ data=bar_amount,2
 
 [bronze_kiteshield]
 table=smithing
+data=ifproduct,bronze_kiteshield
 data=product,bronze_kiteshield
 data=product_amount,1
 data=levelrequired,12
@@ -970,6 +1067,7 @@ data=bar_amount,3
 
 [iron_kiteshield]
 table=smithing
+data=ifproduct,iron_kiteshield
 data=product,iron_kiteshield
 data=product_amount,1
 data=levelrequired,27
@@ -980,6 +1078,7 @@ data=bar_amount,3
 
 [steel_kiteshield]
 table=smithing
+data=ifproduct,steel_kiteshield
 data=product,steel_kiteshield
 data=product_amount,1
 data=levelrequired,42
@@ -990,6 +1089,7 @@ data=bar_amount,3
 
 [mithril_kiteshield]
 table=smithing
+data=ifproduct,mithril_kiteshield
 data=product,mithril_kiteshield
 data=product_amount,1
 data=levelrequired,62
@@ -1000,6 +1100,7 @@ data=bar_amount,3
 
 [adamant_kiteshield]
 table=smithing
+data=ifproduct,adamant_kiteshield
 data=product,adamant_kiteshield
 data=product_amount,1
 data=levelrequired,82
@@ -1010,6 +1111,7 @@ data=bar_amount,3
 
 [rune_kiteshield]
 table=smithing
+data=ifproduct,rune_kiteshield
 data=product,rune_kiteshield
 data=product_amount,1
 data=levelrequired,97
@@ -1020,6 +1122,7 @@ data=bar_amount,3
 
 [bronze_dart_tip]
 table=smithing
+data=ifproduct,bronze_dart_tip
 data=product,bronze_dart_tip
 data=product_amount,10
 data=levelrequired,4
@@ -1030,6 +1133,7 @@ data=bar_amount,1
 
 [iron_dart_tip]
 table=smithing
+data=ifproduct,iron_dart_tip
 data=product,iron_dart_tip
 data=product_amount,10
 data=levelrequired,19
@@ -1040,6 +1144,7 @@ data=bar_amount,1
 
 [steel_dart_tip]
 table=smithing
+data=ifproduct,steel_dart_tip
 data=product,steel_dart_tip
 data=product_amount,10
 data=levelrequired,34
@@ -1050,6 +1155,7 @@ data=bar_amount,1
 
 [mithril_dart_tip]
 table=smithing
+data=ifproduct,mithril_dart_tip
 data=product,mithril_dart_tip
 data=product_amount,10
 data=levelrequired,54
@@ -1060,6 +1166,7 @@ data=bar_amount,1
 
 [adamant_dart_tip]
 table=smithing
+data=ifproduct,adamant_dart_tip
 data=product,adamant_dart_tip
 data=product_amount,10
 data=levelrequired,74
@@ -1070,6 +1177,7 @@ data=bar_amount,1
 
 [rune_dart_tip]
 table=smithing
+data=ifproduct,rune_dart_tip
 data=product,rune_dart_tip
 data=product_amount,10
 data=levelrequired,89
@@ -1080,6 +1188,7 @@ data=bar_amount,1
 
 [bronze_arrowheads]
 table=smithing
+data=ifproduct,bronze_arrowheads
 data=product,bronze_arrowheads
 data=product_amount,15
 data=levelrequired,5
@@ -1090,6 +1199,7 @@ data=bar_amount,1
 
 [iron_arrowheads]
 table=smithing
+data=ifproduct,iron_arrowheads
 data=product,iron_arrowheads
 data=product_amount,15
 data=levelrequired,20
@@ -1100,6 +1210,7 @@ data=bar_amount,1
 
 [steel_arrowheads]
 table=smithing
+data=ifproduct,steel_arrowheads
 data=product,steel_arrowheads
 data=product_amount,15
 data=levelrequired,35
@@ -1110,6 +1221,7 @@ data=bar_amount,1
 
 [mithril_arrowheads]
 table=smithing
+data=ifproduct,mithril_arrowheads
 data=product,mithril_arrowheads
 data=product_amount,15
 data=levelrequired,55
@@ -1120,6 +1232,7 @@ data=bar_amount,1
 
 [adamant_arrowheads]
 table=smithing
+data=ifproduct,adamant_arrowheads
 data=product,adamant_arrowheads
 data=product_amount,15
 data=levelrequired,75
@@ -1130,6 +1243,7 @@ data=bar_amount,1
 
 [rune_arrowheads]
 table=smithing
+data=ifproduct,rune_arrowheads
 data=product,rune_arrowheads
 data=product_amount,15
 data=levelrequired,90
@@ -1140,6 +1254,7 @@ data=bar_amount,1
 
 [bronze_knife]
 table=smithing
+data=ifproduct,bronze_knife
 data=product,bronze_knife
 data=product_amount,5
 data=levelrequired,7
@@ -1150,6 +1265,7 @@ data=bar_amount,1
 
 [iron_knife]
 table=smithing
+data=ifproduct,iron_knife
 data=product,iron_knife
 data=product_amount,5
 data=levelrequired,22
@@ -1160,6 +1276,7 @@ data=bar_amount,1
 
 [steel_knife]
 table=smithing
+data=ifproduct,steel_knife
 data=product,steel_knife
 data=product_amount,5
 data=levelrequired,37
@@ -1170,6 +1287,7 @@ data=bar_amount,1
 
 [mithril_knife]
 table=smithing
+data=ifproduct,mithril_knife
 data=product,mithril_knife
 data=product_amount,5
 data=levelrequired,57
@@ -1180,6 +1298,7 @@ data=bar_amount,1
 
 [adamant_knife]
 table=smithing
+data=ifproduct,adamant_knife
 data=product,adamant_knife
 data=product_amount,5
 data=levelrequired,77
@@ -1190,6 +1309,7 @@ data=bar_amount,1
 
 [rune_knife]
 table=smithing
+data=ifproduct,rune_knife
 data=product,rune_knife
 data=product_amount,5
 data=levelrequired,92
@@ -1200,6 +1320,7 @@ data=bar_amount,1
 
 [bronze_wire]
 table=smithing
+data=ifproduct,bronze_wire
 data=product,bronze_wire
 data=product_amount,1
 data=levelrequired,4
@@ -1210,6 +1331,7 @@ data=bar_amount,1
 
 [steel_studs]
 table=smithing
+data=ifproduct,steel_studs
 data=product,steel_studs
 data=product_amount,1
 data=levelrequired,36
@@ -1220,6 +1342,7 @@ data=bar_amount,1
 
 [nails]
 table=smithing
+data=ifproduct,nails
 data=product,nails
 data=product_amount,2
 data=levelrequired,34

@@ -62,7 +62,7 @@ switch_obj (last_useitem) {
 
 
 [proc,uncooked_pizza_message](int $last)
-def_namedobj $ingredient = inv_getobj(inv, $last);
+def_namedobj $ingredient = inv_getobj_deprecated(inv, $last);
 def_struct $struct = oc_param($ingredient, pizza_topping_struct);
 mes("I need to cook this pizza before I can add <lowercase(struct_param($struct, productmessage))> to it.");
 return;
@@ -98,7 +98,7 @@ mes("You add the cheese to the pizza.");
 
 
 [label,make_pizza_with_topping](int $last)
-def_namedobj $ingredient = inv_getobj(inv, $last);
+def_namedobj $ingredient = inv_getobj_deprecated(inv, $last);
 if (oc_members($ingredient) = true) {
     ~require_members_make_item;
 }

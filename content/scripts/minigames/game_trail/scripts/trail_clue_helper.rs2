@@ -32,18 +32,18 @@ while ($slot < inv_size(inv)) {
 
 return(false);
 
-[proc,trail_getclue_inv](namedobj)
+[proc,trail_getclue_inv](obj, int)
 def_int $slot = 0;
 
 while ($slot < inv_size(inv)) {
-    def_namedobj $slotobj = inv_getobj(inv, $slot);
+    def_obj $slotobj = inv_getobj(inv, $slot);
     if(oc_category($slotobj) = trail_clue_easy | oc_category($slotobj) = trail_clue_medium | oc_category($slotobj) = trail_clue_hard) {
-        return($slotobj);
+        return($slotobj, $slot);
     }
     $slot = calc($slot + 1);
 }
 
-[proc,trail_clue_coord](namedobj $clue)(boolean)
+[proc,trail_clue_coord](obj $clue)(boolean)
 def_coord $default_coord = 0_0_0_0_0;
 if(oc_param($clue, trail_coord) ! $default_coord) {
     return(true);
@@ -65,10 +65,14 @@ queue(trail_give_reward, 0);
 def_int $slot = 0;
 
 while ($slot < inv_size(reward_inv)) {
-    def_namedobj $slotobj = inv_getobj(reward_inv, $slot);
+    def_obj $slotobj = inv_getobj(reward_inv, $slot);
     if($slotobj ! null) {
         if(inv_itemspace(inv, $slotobj, inv_total(reward_inv, $slotobj), inv_freespace(inv)) = true) {
-            inv_add(inv, $slotobj, inv_getnum(reward_inv, $slot));
+            if (oc_cert($slotobj) = $slotobj) {
+                inv_moveitem_cert(reward_inv, inv, $slotobj, inv_getnum(reward_inv, $slot));
+            } else {
+                inv_moveitem_uncert(reward_inv, inv, $slotobj, inv_getnum(reward_inv, $slot));
+            }
         } else {
             obj_add(coord, $slotobj, inv_getnum(reward_inv, $slot), 200);
         }

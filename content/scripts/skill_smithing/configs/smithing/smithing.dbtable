@@ -1,4 +1,5 @@
 [smithing]
+column=ifproduct,obj
 column=product,namedobj
 column=product_amount,int
 column=levelrequired,int

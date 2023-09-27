@@ -5,7 +5,7 @@ def_int $slot = last_slot;
 if ($slot < 0 | $slot >= inv_size(inv)) return;
 
 // first: we remove the inventory item, so the slot can be filled with inv_add
-def_namedobj $obj = inv_getobj(inv, $slot);
+def_namedobj $obj = inv_getobj_deprecated(inv, $slot);
 // check if the slot was empty.
 if ($obj = null) return;
 if (objectverify($obj, last_verifyobj) = false) {
@@ -35,7 +35,7 @@ def_int $slot = last_slot;
 // check the slot is valid.
 if ($slot < 0 | $slot >= inv_size(worn)) return;
 
-def_namedobj $obj = inv_getobj(worn, $slot);
+def_namedobj $obj = inv_getobj_deprecated(worn, $slot);
 // check if the slot was empty.
 if ($obj = null) return;
 if (objectverify($obj, last_verifyobj) = false) {
@@ -73,7 +73,7 @@ def_int $rangedbonus = 0;
 def_int $size = inv_size(worn);
 def_int $i = 0;
 while ($i < $size) {
-    def_namedobj $obj = inv_getobj(worn, $i);
+    def_namedobj $obj = inv_getobj_deprecated(worn, $i);
     if ($obj ! null) {
         $stabattack = calc($stabattack + oc_param($obj, stabattack));
         $slashattack = calc($slashattack + oc_param($obj, slashattack));
@@ -181,7 +181,7 @@ if ($colliders = true) {
     def_int $size = inv_size(worn);
     def_int $i = 0;
     while ($i < $size & $success = true) {
-        def_namedobj $other_obj = inv_getobj(worn, $i);
+        def_namedobj $other_obj = inv_getobj_deprecated(worn, $i);
         if ($other_obj ! null) {
             def_int $other_count = inv_getnum(worn, $i);
             def_int $other_slot2 = oc_wearpos2($other_obj);
@@ -214,7 +214,7 @@ if ($move_item = true | $colliders = false) {
 return(~equip_validate_and_move($obj, $count, $slot, $slot1, $slot2, $slot3, true, true, false));
 
 [proc,equip_validate_and_move_primary](namedobj $obj, int $count, int $slot, int $primary_slot, boolean $move_item, boolean $swapped)(boolean, boolean)
-def_namedobj $primary_obj = inv_getobj(worn, $primary_slot);
+def_namedobj $primary_obj = inv_getobj_deprecated(worn, $primary_slot);
 def_int $primary_count = inv_getnum(worn, $primary_slot);
 
 if ($primary_count > 0 & oc_stackable($primary_obj) = false) {
@@ -273,7 +273,7 @@ if ($primary_count > 0 & oc_stackable($primary_obj) = false) {
 return(true, $swapped);
 
 [proc,equip_validate_and_move_secondary](int $count, int $slot, int $previous_secondary_slot, int $secondary_slot, boolean $move_item, boolean $swapped, int $index)(boolean, boolean)
-def_namedobj $secondary_obj = inv_getobj(worn, $secondary_slot);
+def_namedobj $secondary_obj = inv_getobj_deprecated(worn, $secondary_slot);
 def_int $secondary_count = inv_getnum(worn, $secondary_slot);
 
 if ($secondary_count > 0 & oc_stackable($secondary_obj) = false) {
@@ -314,7 +314,7 @@ if ($secondary_count > 0 & oc_stackable($secondary_obj) = false) {
 return(true, $swapped);
 
 [proc,update_bas]
-def_namedobj $weapon = inv_getobj(worn, ^wearpos_rhand);
+def_namedobj $weapon = inv_getobj_deprecated(worn, ^wearpos_rhand);
 
 bas_readyanim(oc_param($weapon, readyanim));
 bas_turnonspot(oc_param($weapon, turnonspot));
