@@ -156,7 +156,7 @@ const ScriptOpcode = {
     BAS_WALK_L: 2096,
     BAS_WALK_R: 2097,
     BAS_RUNNING: 2098,
-    GENDER: 2029,
+    GENDER: 2099,
 
     // Npc ops (2500-2999)
     NPC_FINDUID: 2500,
