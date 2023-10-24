@@ -12,6 +12,7 @@ import NpcMode from '#lostcity/entity/NpcMode.js';
 import Player from '#lostcity/entity/Player.js';
 import {Direction, Position} from '#lostcity/entity/Position.js';
 import World from '#lostcity/engine/World.js';
+import VarNpcType from '#lostcity/cache/VarNpcType.js';
 
 export default class Npc extends PathingEntity {
     static ANIM = 0x2;
@@ -40,6 +41,7 @@ export default class Npc extends PathingEntity {
 
     // runtime variables
     static: boolean = true; // static (map) or dynamic (scripted) npc
+    vars: Int32Array;
 
     mask: number = 0;
     faceX: number = -1;
@@ -85,6 +87,18 @@ export default class Npc extends PathingEntity {
         if (npcType.timer !== -1) {
             this.setTimer(npcType.timer);
         }
+
+        this.vars = new Int32Array(VarNpcType.count);
+    }
+
+    getVar(varn: number) {
+        console.log(this.vars, varn);
+        return this.vars[varn];
+    }
+
+    setVar(varn: number, value: number) {
+        this.vars[varn] = value;
+        console.log(this.vars, varn);
     }
 
     resetEntity(respawn: boolean) {

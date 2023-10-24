@@ -35,7 +35,18 @@ PACKFILE.set('struct', validateConfigPack('data/pack/struct.pack', '.struct', tr
 PACKFILE.set('texture', validateFilesPack('data/pack/texture.pack', 'data/src/textures', '.png'));
 PACKFILE.set('varp', validateConfigPack('data/pack/varp.pack', '.varp', true));
 PACKFILE.set('hunt', validateConfigPack('data/pack/hunt.pack', '.hunt', true, false, false, true));
+PACKFILE.set('varn', validateConfigPack('data/pack/varn.pack', '.varn', true, false, false, true));
 // console.timeEnd('Validated .pack files');
+
+// check if var domains have any conflicts - comparing varp and varn
+const varp = PACKFILE.get('varp')!;
+const varn = PACKFILE.get('varn')!;
+for (let i = 0; i < varp.length; i++) {
+    if (varn.includes(varp[i])) {
+        console.error(`Varp and varn name conflict: ${varp[i]}\nPick a different name for one of them!`);
+        process.exit(1);
+    }
+}
 
 export function findFiles(path: string, extension: string, results: string[] = []): string[] {
     const files = fs.readdirSync(path);

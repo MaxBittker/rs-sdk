@@ -7,6 +7,7 @@ import ScriptVarType from '#lostcity/cache/ScriptVarType.js';
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import VarPlayerType from '#lostcity/cache/VarPlayerType.js';
 import NpcMode from '#lostcity/entity/NpcMode.js';
+import VarNpcType from '#lostcity/cache/VarNpcType.js';
 
 fs.writeFileSync('data/pack/script.pack', regenPack(loadPack('data/pack/script.pack'), crawlConfigNames('.rs2', true)));
 
@@ -111,16 +112,29 @@ fs.writeFileSync('data/symbols/interface.tsv', interfaceSymbols);
 
 VarPlayerType.load('data/pack/server');
 let varpSymbols = '';
-let vars = loadPack('data/pack/varp.pack');
-for (let i = 0; i < vars.length; i++) {
-    if (!vars[i]) {
+let varps = loadPack('data/pack/varp.pack');
+for (let i = 0; i < varps.length; i++) {
+    if (!varps[i]) {
         continue;
     }
 
     let varp = VarPlayerType.get(i);
-    varpSymbols += `${i}\t${vars[i]}\t${ScriptVarType.getType(varp.type)}\n`;
+    varpSymbols += `${i}\t${varps[i]}\t${ScriptVarType.getType(varp.type)}\n`;
 }
 fs.writeFileSync('data/symbols/varp.tsv', varpSymbols);
+
+VarNpcType.load('data/pack/server');
+let varnSymbols = '';
+let varns = loadPack('data/pack/varn.pack');
+for (let i = 0; i < varns.length; i++) {
+    if (!varns[i]) {
+        continue;
+    }
+
+    let varn = VarNpcType.get(i);
+    varnSymbols += `${i}\t${varns[i]}\t${ScriptVarType.getType(varn.type)}\n`;
+}
+fs.writeFileSync('data/symbols/varn.tsv', varnSymbols);
 
 console.time('Loading param.dat');
 ParamType.load('data/pack/server');
@@ -158,12 +172,6 @@ for (let i = 0; i < hunts.length; i++) {
     huntSymbols += `${i}\t${hunts[i]}\n`;
 }
 fs.writeFileSync('data/symbols/hunt.tsv', huntSymbols);
-
-let npc_modes = [
-    'off', 'opplayer1', 'opplayer2', 'applayer1', 'applayer2'
-];
-
-fs.writeFileSync('data/symbols/npc_mode.tsv', npc_modes.map((name, index) => `${index}\t${name}`).join('\n') + '\n');
 
 let mesanimSymbols = '';
 let mesanims = loadPack('data/pack/mesanim.pack');

@@ -69,13 +69,21 @@ const CoreOps: CommandHandlers = {
         state._activePlayer.setVarp(varp, value);
     },
 
-    [ScriptOpcode.PUSH_VARBIT]: (state) => {
-
-        throw new Error('unimplemented');
+    [ScriptOpcode.PUSH_VARN]: (state) => {
+        if (state._activeNpc === null) {
+            throw new Error('No active_npc.');
+        }
+        const varp = state.intOperand;
+        state.pushInt(state._activeNpc.getVar(varp));
     },
 
-    [ScriptOpcode.POP_VARBIT]: (state) => {
-        throw new Error('unimplemented');
+    [ScriptOpcode.POP_VARN]: (state) => {
+        if (state._activeNpc === null) {
+            throw new Error('No active_npc.');
+        }
+        const varp = state.intOperand;
+        const value = state.popInt();
+        state._activeNpc.setVar(varp, value);
     },
 
     [ScriptOpcode.PUSH_INT_LOCAL]: (state) => {
