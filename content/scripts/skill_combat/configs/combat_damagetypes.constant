@@ -3,3 +3,4 @@
 ^crush = 2
 ^ranged = 3
 ^magic = 4
+^melee = 5

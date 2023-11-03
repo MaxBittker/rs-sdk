@@ -1,6 +1,6 @@
 [damagetype]
 type=int
-default=0
+default=2
 
 [attack_anim]
 type=seq
@@ -29,10 +29,6 @@ default=bones
 [demonbane_vulnerable]
 type=boolean
 default=no
-
-[wearpos_rhand]
-type=obj
-default=null
 
 [gender]
 type=int

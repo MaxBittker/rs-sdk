@@ -1,44 +1,9 @@
-// returns the calculated accuracy for this npc
-[proc,npc_melee_accuracy]()(int)
-def_int $attack_level = npc_stat(attack);
-def_int $attackbonus = npc_param(attackbonus);
-//return(~combat_melee_accuracy(~combat_stat_attack(0, $attack_level, 0), $attackbonus));
-def_obj $weapon = npc_param(wearpos_rhand);
-if ($weapon = null) {
-    return(~combat_melee_accuracy(~combat_stat_attack(0, $attack_level, 0), $attackbonus));
-}
-def_int $accuracybonus_weapon = ~combat_melee_weapon_accuracybonus($weapon, npc_param(damagetype));
-return(~combat_melee_accuracy(~combat_stat_attack($accuracybonus_weapon, $attack_level, 0), $attackbonus));
-
 // returns the calculated max hit for this npc
 [proc,npc_melee_maxhit]()(int)
 def_int $strength_level = npc_stat(strength);
 def_int $strengthbonus = npc_param(strengthbonus);
-//return(~combat_melee_maximum_hit(~combat_stat_strength(0, $strength_level, 0), $strengthbonus));
-def_int $strengthbonus_weapon = ~combat_melee_weapon_strengthbonus(npc_param(wearpos_rhand), npc_param(damagetype));
-return(~combat_melee_maximum_hit(~combat_stat_strength($strengthbonus_weapon, $strength_level, 0), $strengthbonus));
-
-// returns the npc combat swing animation and sound
-[proc,npc_combat_swing_anim_and_synth]()(seq, synth)
-def_obj $weapon = npc_param(wearpos_rhand);
-if ($weapon = null) {
-    // if the npc is not wearing a weapon
-    return(npc_param(attack_anim), npc_param(attack_sound));
-}
-// if the npc is wearing a weapon
-def_seq $attack_anim;
-def_synth $attack_sound;
-$attack_anim, $attack_sound = ~combat_swing_anim_and_synth($weapon, npc_param(damagetype));
-return($attack_anim, $attack_sound);
-
-// returns the defend anim for this npc
-[proc,npc_combat_defend_anim]()(seq)
-def_obj $weapon = npc_param(wearpos_rhand);
-if ($weapon = null) {
-    // if the npc is not wearing a weapon
-    return(npc_param(defend_anim));
-}
-return(~combat_defend_anim($weapon));
+//npcs are essentially always on controlled
+return(~combat_melee_maximum_hit(~combat_effective_strength(1, $strength_level, 0), $strengthbonus));
 
 // returns the defend sound for this npc
 [proc,npc_combat_defend_sound]()(synth)
@@ -54,20 +19,25 @@ if (npc_param(gender) = ^gender_female) {
 }
 return(npc_param(death_sound));
 
-// returns the defence roll for an attacking style.
-[proc,npc_effective_defence](int $style)(int)
-def_int $defence_level = npc_stat(defence);
-def_int $defencebonus = ~npc_combat_defencebonus($style);
-return(~combat_stat_defence(add($defence_level, 9), $defencebonus));
 
-// returns the attack rate of the npc
-[proc,npc_combat_attackspeed]()(int)
-def_obj $weapon = npc_param(wearpos_rhand);
-if ($weapon = null) {
-    // if the npc is not wearing a weapon
-    return(npc_param(attackrate));
+// returns the npc attack roll for this npc
+// npcs only have one attackbonus.
+[proc,npc_attack_roll]()(int)
+if (~check_protect_prayer(^melee) = true) {
+    return(0);
 }
-return(oc_param($weapon, attackrate));
+def_int $attackbonus = npc_param(attackbonus);
+def_int $effective_attack = ~combat_effective_attack(1, npc_stat(attack), $attackbonus);
+//npcs are essentially always on controlled
+def_int $attack_roll = ~combat_melee_attack_roll($effective_attack, $attackbonus);
+return($attack_roll);
+
+// returns the defence roll for an attacking style.
+[proc,npc_defence_roll_specific](int $damagetype)(int)
+def_int $defencebonus = ~npc_combat_defencebonus($damagetype);
+def_int $effective_defence = ~combat_effective_defence(1, npc_stat(defence), $defencebonus);
+def_int $defence_roll = ~combat_melee_defence_roll($effective_defence, $defencebonus);
+return($defence_roll);
 
 // get the npc bonus depending on the attacking style
 [proc,npc_combat_defencebonus](int $style)(int)

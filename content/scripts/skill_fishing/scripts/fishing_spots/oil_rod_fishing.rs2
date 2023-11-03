@@ -46,21 +46,21 @@ inv_del(inv, $equipment, 1);
 if (~oil_rod_fishing_check_requirements = false) {
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 5);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 5);
     p_opnpc(1);
-} else if (%skill_clock = calc(map_clock + 4)) {
+} else if (%action_delay = calc(map_clock + 4)) {
     anim(human_fishing_casting, 0);
     sound_synth(fishing_cast, 0, 39);
     mes("You cast out your line...");
     p_opnpc(1);
-} else if (%skill_clock = calc(map_clock + 3)) {
+} else if (%action_delay = calc(map_clock + 3)) {
     mes("You attempt to catch an eel.");
     p_opnpc(2);
 } else {
     p_opnpc(1);
 }
-if (%skill_clock = map_clock) {
+if (%action_delay = map_clock) {
     ~fish_roll(raw_lava_eel, null, fishing_bait);
 }
 
@@ -68,11 +68,11 @@ if (%skill_clock = map_clock) {
 if (~oil_rod_fishing_check_requirements = false) {
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 4);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 4);
     anim(human_fish_onspot, 0);
 }
-if (%skill_clock = map_clock) {
+if (%action_delay = map_clock) {
     ~fish_roll(raw_lava_eel, null, fishing_bait);
 }
 p_opnpc(2);

@@ -1,5 +1,5 @@
 [ai_queue1,_] gosub(npc_default_retaliate);
-[ai_queue2,_] ~npc_default_damage(randominc(7)); // TODO damage
+[ai_queue2,_] ~npc_default_damage(randominc(25)); // TODO damage
 [ai_queue3,_] gosub(npc_default_death);
 [ai_opplayer2,_] gosub(npc_default_attack);
 
@@ -14,12 +14,8 @@ if (finduid(%npc_retaliation_pid) = true) {
 if (%npc_action_delay > map_clock) return;
 anim(%com_defendanim, 0);
 
-def_seq $attack_anim;
-def_synth $attack_sound;
-$attack_anim, $attack_sound = ~npc_combat_swing_anim_and_synth;
-
-npc_anim($attack_anim, 0);
-sound_synth($attack_sound, 0, 0);
+npc_anim(npc_param(attack_anim), 0);
+sound_synth(npc_param(attack_sound), 0, 0);
 ~npc_meleeattack;
 
 // a default damage script.
@@ -52,16 +48,17 @@ obj_add(npc_coord, $drop, 1, 200);
 
 // perform a basic melee attack from the npc to the player.
 [proc,npc_meleeattack]
-def_int $accuracy = ~npc_melee_accuracy;
+def_int $attack_roll = ~npc_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
 def_int $maxhit = ~npc_melee_maxhit;
 
-npc_say("Clock: <tostring(map_clock)>, Accuracy: <tostring($accuracy)>, Max Hit: <tostring($maxhit)>");
+npc_say("Clock: <tostring(map_clock)>, NPC A: <tostring($attack_roll)>, Player D: <tostring($defence_roll)>, NPC Max: <tostring($maxhit)>");
 
-if (randominc($accuracy) > randominc(~player_effective_defence(npc_param(damagetype)))) {
-    ~playerhit_n_melee(randominc($maxhit), ~npc_combat_attackspeed);
+if (randominc($attack_roll) > randominc($defence_roll)) {
+    ~playerhit_n_melee(randominc($maxhit), npc_param(attackrate));
     return;
 }
-~playerhit_n_melee(0, ~npc_combat_attackspeed);
+~playerhit_n_melee(0, npc_param(attackrate));
 
 [proc,playerhit_n_melee](int $damage, int $delay)
 ~damage_self($damage);
@@ -73,7 +70,7 @@ queue(playerhit_n_retaliate, 0, npc_uid); // this should be a queue* command
 if (%auto_retaliate = ^player_auto_retaliate_on & npc_finduid($nid) = true) {
     // npc flinches player
     if (%action_delay < map_clock) {
-        %action_delay = add(map_clock, divide(~npc_combat_attackspeed, 2));
+        %action_delay = add(map_clock, divide(npc_param(attackrate), 2));
     }
     p_opnpc(2);
 }

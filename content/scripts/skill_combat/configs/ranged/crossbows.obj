@@ -18,6 +18,7 @@ tradeable=yes
 param=rangeattack,6
 param=levelrequire,1
 param=attackrate,6
+param=attackrange,7
 param=rangeattack_anim,human_crossbow
 param=defend_anim,human_unarmedblock
 param=rangeattack_sound,crossbow

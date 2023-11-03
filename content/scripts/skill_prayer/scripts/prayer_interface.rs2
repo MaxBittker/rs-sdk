@@ -487,9 +487,8 @@ if (~prayers_are_active = false) {
     //clearqueue(start_draining);
     return;
 }
-// mes("<tostring(map_clock)>: drain_prayer;");
-%prayer_drain_resistance = 60;
-if (%prayer_drain_counter >= %prayer_drain_resistance) {
+// not sure if drain resistance drops below 60.
+if (%prayer_drain_counter >= max(%prayer_drain_resistance, 60)) {
     def_int $reduce_points = divide(%prayer_drain_counter, %prayer_drain_resistance);
     %prayer_drain_counter = sub(%prayer_drain_counter, multiply(%prayer_drain_resistance, $reduce_points));
     stat_sub(prayer, $reduce_points, 0);

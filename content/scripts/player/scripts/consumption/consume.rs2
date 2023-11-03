@@ -97,8 +97,8 @@ if (objectverify($obj, last_verifyobj) = false) {
 if_close;
 //p_stopaction;
 // check if item is members
-// mes("Before locals: <tostring(map_clock)>, <tostring($eat_delay)>, <tostring($eat_delay2)>, <tostring($drink_delay)>, <tostring(%skill_clock)>");
-// mes("Before Varps: <tostring(map_clock)>, <tostring(%eat_delay)>, <tostring(%eat_delay2)>, <tostring(%drink_delay)>, <tostring(%skill_clock)>");
+// mes("Before locals: <tostring(map_clock)>, <tostring($eat_delay)>, <tostring($eat_delay2)>, <tostring($drink_delay)>, <tostring(%action_delay)>");
+// mes("Before Varps: <tostring(map_clock)>, <tostring(%eat_delay)>, <tostring(%eat_delay2)>, <tostring(%drink_delay)>, <tostring(%action_delay)>");
 if (oc_members($obj) = true) {
     // complete guess
     ~require_members_use_item;
@@ -123,10 +123,10 @@ if ($drink_delay ! null) {
     %drink_delay = calc(map_clock + $drink_delay);
 }
 if ($skill_delay ! null) {
-    %skill_clock = calc(%skill_clock + $skill_delay);
+    %action_delay = calc(%action_delay + $skill_delay);
 }
-// mes("After locals: <tostring(map_clock)>, <tostring($eat_delay)>, <tostring($eat_delay2)>, <tostring($drink_delay)>, <tostring(%skill_clock)>");
-// mes("After Varps: <tostring(map_clock)>, <tostring(%eat_delay)>, <tostring(%eat_delay2)>, <tostring(%drink_delay)>, <tostring(%skill_clock)>");
+// mes("After locals: <tostring(map_clock)>, <tostring($eat_delay)>, <tostring($eat_delay2)>, <tostring($drink_delay)>, <tostring(%action_delay)>");
+// mes("After Varps: <tostring(map_clock)>, <tostring(%eat_delay)>, <tostring(%eat_delay2)>, <tostring(%drink_delay)>, <tostring(%action_delay)>");
 // consume effect
 jump($consume_effect);
 

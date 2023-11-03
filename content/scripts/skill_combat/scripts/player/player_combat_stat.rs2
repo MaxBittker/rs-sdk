@@ -1,0 +1,123 @@
+[proc,player_combat_stat]
+def_int $stabattack;
+def_int $slashattack;
+def_int $crushattack;
+def_int $magicattack;
+def_int $rangeattack;
+def_int $stabdefence;
+def_int $slashdefence;
+def_int $crushdefence;
+def_int $magicdefence;
+def_int $rangedefence;
+def_int $strengthbonus;
+def_int $prayerbonus;
+def_int $attack_prayer;
+def_int $defence_prayer;
+def_int $strength_prayer;
+def_int $rangebonus;
+
+$stabattack,
+$slashattack,
+$crushattack,
+$magicattack,
+$rangeattack,
+$stabdefence,
+$slashdefence,
+$crushdefence,
+$magicdefence,
+$rangedefence,
+$strengthbonus,
+$prayerbonus = ~equip_get_bonuses;
+
+//adjust prayer drain
+%prayer_drain_resistance = add(60, multiply($prayerbonus, 2));
+
+$attack_prayer = ~check_attack_prayer();
+$defence_prayer = ~check_defence_prayer();
+$strength_prayer = ~check_strength_prayer();
+
+def_int $attack_level = stat(attack);
+def_int $strength_level = stat(strength);
+def_int $defence_level = stat(defence);
+def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
+
+// get style data
+def_dbrow $data = ~combat_get_weapon_style_data($weapon);
+
+// might be worth having a %damagetype, and %damagestyle varp
+def_int $damagetype = ~combat_get_damagetype($data, %attackstyle);
+def_int $damagestyle = ~combat_get_damagestyle($data, %attackstyle);
+
+// attack range
+
+
+// style bonuses
+def_int $attack_stylebonus;
+def_int $strength_stylebonus;
+def_int $defence_stylebonus;
+def_int $ranged_stylebonus;
+$attack_stylebonus,
+$strength_stylebonus,
+$defence_stylebonus,
+$ranged_stylebonus = ~combat_get_damagestyle_bonuses($damagestyle);
+
+// effective levels
+def_int $effective_attack_level = ~combat_effective_attack($attack_stylebonus, $attack_level, $attack_prayer);
+def_int $effective_strength_level = ~combat_effective_strength($strength_stylebonus, $strength_level, $strength_prayer);
+def_int $effective_defence_level = ~combat_effective_defence($defence_stylebonus, $defence_level, $defence_prayer);
+
+// style related varps
+%damagetype = $damagetype;
+%damagestyle = $damagestyle;
+
+// defence rolls and attack rolls
+%com_stabattack = ~combat_melee_attack_roll($effective_attack_level, $stabattack);
+%com_stabdef = ~combat_melee_defence_roll($effective_defence_level, $stabdefence);
+%com_slashattack = ~combat_melee_attack_roll($effective_attack_level, $stabattack);
+%com_slashdef = ~combat_melee_defence_roll($effective_defence_level, $stabdefence);
+%com_crushattack = ~combat_melee_attack_roll($effective_attack_level, $stabattack);
+%com_crushdef = ~combat_melee_defence_roll($effective_defence_level, $stabdefence);
+%com_magicattack = 0;
+%com_magicdef = 0;
+%com_rangeattack = 0;
+%com_rangedef = 0;
+
+// maximum hit with all bonuses applied
+%com_maxhit = ~combat_melee_maximum_hit($effective_strength_level, $strengthbonus);
+
+// weapon related varps
+%com_attackanim, %com_attacksound = ~combat_swing_anim_and_synth($weapon, $damagetype);
+%com_defendanim = ~combat_defend_anim($weapon);
+if ($weapon = null) {
+    %attackrange = null;
+} else {
+    %attackrange = min(oc_param($weapon, attackrange), 10);
+    if ($damagestyle = ^style_ranged_longrange) {
+        %attackrange = min(add(%attackrange, 2), 10);
+    }
+}
+
+
+[proc,check_attack_prayer]()(int)
+if (%prayer_clarity = ^true) return (105);
+if (%prayer_improvedreflexes = ^true) return (110);
+if (%prayer_incrediblereflexes = ^true) return (115);
+else return(100);
+
+[proc,check_defence_prayer]()(int)
+if (%prayer_thickskin = ^true) return (105);
+if (%prayer_rockskin = ^true) return (110);
+if (%prayer_steelskin = ^true) return (115);
+else return(100);
+
+[proc,check_strength_prayer]()(int)
+if (%prayer_strengthburst = ^true) return (105);
+if (%prayer_superhumanstrength = ^true) return (110);
+if (%prayer_ultimatestrength = ^true) return (115);
+else return(100);
+
+[proc,check_protect_prayer](int $style)(boolean)
+if (($style = ^melee | $style = ^stab | $style = ^slash | $style = ^crush) & %prayer_protectfrommelee = ^true) return (true);
+if (($style = ^ranged) & %prayer_protectfrommissiles = ^true) return (true);
+if (($style = ^magic) & %prayer_protectfrommagic = ^true) return (true);
+else return (false);

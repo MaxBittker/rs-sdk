@@ -225,7 +225,7 @@ defence=8
 param=attackrate,6
 param=attackbonus,5
 param=strengthbonus,6
-param=wearpos_rhand,bronze_spear
+param=damagetype,0
 
 [npc_8]
 name=Thief
@@ -290,7 +290,7 @@ param=slashdefence,25
 param=crushdefence,19
 param=magicdefence,-4
 param=rangedefence,20
-param=wearpos_rhand,bronze_sword
+param=damagetype,0
 
 [guard_crossbow]
 name=Guard
@@ -320,6 +320,7 @@ attack=15
 strength=15
 defence=16
 ranged=16
+param=attackrate,6
 param=attackbonus,6
 param=strengthbonus,10
 param=rangebonus,10
@@ -328,7 +329,7 @@ param=slashdefence,17
 param=crushdefence,14
 param=magicdefence,-4
 param=rangedefence,15
-param=wearpos_rhand,crossbow
+param=damagetype,3
 
 [npc_11]
 walkanims=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -498,7 +499,6 @@ param=crushdefence,37
 param=magicdefence,-10
 param=rangedefence,38
 param=damagetype,0
-param=wearpos_rhand,steel_sword
 param=gender,1
 
 [man_black]
@@ -607,7 +607,7 @@ param=crushdefence,10
 param=magicdefence,-1
 param=rangedefence,12
 param=damagetype,1
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [npc_19]
 name=White Knight
@@ -638,6 +638,7 @@ hitpoints=52
 attack=27
 strength=29
 defence=21
+param=attackrate,7
 param=attackbonus,30
 param=strengthbonus,31
 param=stabdefence,83
@@ -646,7 +647,6 @@ param=crushdefence,70
 param=magicdefence,-11
 param=rangedefence,74
 param=damagetype,1
-param=wearpos_rhand,steel_2h_sword
 
 [paladin]
 name=Paladin
@@ -681,6 +681,7 @@ hitpoints=57
 attack=54
 strength=54
 defence=54
+param=attackrate,5
 param=attackbonus,20
 param=strengthbonus,22
 param=stabdefence,87
@@ -688,8 +689,7 @@ param=slashdefence,84
 param=crushdefence,76
 param=magicdefence,-10
 param=rangedefence,79
-param=damagetype,0
-param=wearpos_rhand,steel_longsword
+param=damagetype,1
 
 [hero]
 name=Hero
@@ -725,6 +725,7 @@ hitpoints=82
 attack=54
 strength=55
 defence=54
+param=attackrate,5
 param=attackbonus,20
 param=strengthbonus,22
 param=stabdefence,87
@@ -733,7 +734,6 @@ param=crushdefence,76
 param=magicdefence,-10
 param=rangedefence,79
 param=damagetype,1
-param=wearpos_rhand,rune_longsword
 
 [npc_22]
 name=Forester
@@ -766,11 +766,11 @@ hitpoints=17
 attack=14
 strength=13
 defence=8
+param=attackrate,4
 param=stabdefence,4
 param=slashdefence,3
 param=crushdefence,5
 param=damagetype,1
-param=wearpos_rhand,steel_axe
 
 [knight_of_ardougne_1]
 name=Knight of Ardougne
@@ -803,6 +803,7 @@ hitpoints=52
 attack=38
 strength=40
 defence=31
+param=attackrate,5
 param=attackbonus,8
 param=strengthbonus,10
 param=stabdefence,39
@@ -811,7 +812,6 @@ param=crushdefence,36
 param=magicdefence,-11
 param=rangedefence,36
 param=damagetype,1
-param=wearpos_rhand,steel_longsword
 
 [man_cavalier]
 name=Man
@@ -909,6 +909,7 @@ hitpoints=52
 attack=38
 strength=40
 defence=31
+param=attackrate,5
 param=attackbonus,8
 param=strengthbonus,10
 param=stabdefence,39
@@ -917,7 +918,6 @@ param=crushdefence,36
 param=magicdefence,-11
 param=rangedefence,36
 param=damagetype,1
-param=wearpos_rhand,steel_longsword
 
 [npc_27]
 name=Archer
@@ -944,13 +944,14 @@ attack=0
 strength=0
 defence=40
 ranged=40
+param=attackrate,6
 param=attackbonus,34
 param=stabdefence,39
 param=slashdefence,50
 param=crushdefence,49
 param=magicdefence,18
 param=rangedefence,45
-param=wearpos_rhand,longbow
+param=damagetype,3
 
 [npc_28]
 name=Zoo keeper
@@ -1067,6 +1068,7 @@ hitpoints=22
 attack=17
 strength=18
 defence=13
+param=attackrate,5
 param=attackbonus,9
 param=strengthbonus,7
 param=stabdefence,24
@@ -1075,7 +1077,6 @@ param=crushdefence,19
 param=magicdefence,4
 param=rangedefence,16
 param=damagetype,2
-param=wearpos_rhand,steel_mace
 
 [npc_33]
 vislevel=hide
@@ -1162,6 +1163,7 @@ hitpoints=22
 attack=26
 strength=25
 defence=26
+param=attackrate,5
 param=attackbonus,8
 param=strengthbonus,10
 param=stabdefence,24
@@ -1170,7 +1172,6 @@ param=crushdefence,19
 param=magicdefence,-4
 param=rangedefence,16
 param=damagetype,1
-param=wearpos_rhand,steel_longsword
 
 [wyson]
 name=Wyson the gardener
@@ -3476,13 +3477,13 @@ hitpoints=54
 attack=42
 strength=42
 defence=42
+param=attackrate,5
 param=stabdefence,30
 param=slashdefence,40
 param=crushdefence,20
 param=magicdefence,10
 param=rangedefence,30
 param=damagetype,2
-param=wearpos_rhand,bronze_mace
 
 [npc_125]
 hasalpha=yes
@@ -3524,7 +3525,6 @@ param=crushdefence,20
 param=magicdefence,10
 param=rangedefence,30
 param=damagetype,1
-param=wearpos_rhand,bronze_sword
 param=defend_sound,ice_warrior_hit
 param=death_sound,ice_warrior_death
 
@@ -4015,7 +4015,6 @@ param=crushdefence,20
 param=magicdefence,10
 param=rangedefence,30
 param=damagetype,1
-param=wearpos_rhand,bronze_sword
 
 [npc_146]
 name=Gull
@@ -4202,6 +4201,7 @@ hitpoints=67
 attack=36
 strength=33
 defence=36
+param=attackrate,4
 param=attackbonus,43
 param=strengthbonus,26
 param=stabdefence,43
@@ -4210,7 +4210,6 @@ param=crushdefence,19
 param=magicdefence,15
 param=rangedefence,38
 param=damagetype,1
-param=wearpos_rhand,bronze_battleaxe
 
 [npc_172]
 name=Dark wizard
@@ -4568,8 +4567,7 @@ strength=20
 defence=20
 param=attackbonus,10
 param=strengthbonus,9
-param=damagetype,0
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [npc_183]
 name=Pirate
@@ -4603,12 +4601,12 @@ hitpoints=20
 attack=21
 strength=21
 defence=21
+param=attackrate,5
 param=attackbonus,8
 param=strengthbonus,10
 param=stabdefence,3
 param=slashdefence,2
-param=damagetype,0
-param=wearpos_rhand,steel_longsword
+param=damagetype,1
 
 [npc_184]
 name=Pirate
@@ -4641,12 +4639,12 @@ hitpoints=23
 attack=23
 strength=23
 defence=23
+param=attackrate,5
 param=attackbonus,8
 param=strengthbonus,10
 param=stabdefence,3
 param=slashdefence,2
-param=damagetype,0
-param=wearpos_rhand,steel_longsword
+param=damagetype,1
 
 [npc_185]
 name=Pirate
@@ -4681,8 +4679,7 @@ defence=20
 param=attackbonus,10
 param=strengthbonus,9
 param=slashdefence,1
-param=damagetype,0
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [thug]
 name=Thug
@@ -4713,8 +4710,7 @@ param=strengthbonus,5
 param=stabdefence,2
 param=slashdefence,3
 param=crushdefence,3
-param=damagetype,1
-param=wearpos_rhand,steel_dagger
+param=damagetype,0
 
 [rogue]
 name=Rogue
@@ -4749,7 +4745,6 @@ param=stabdefence,6
 param=slashdefence,9
 param=crushdefence,11
 param=damagetype,0
-param=wearpos_rhand,steel_dagger
 
 [npc_188]
 walkanims=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4871,7 +4866,6 @@ param=stabdefence,4
 param=slashdefence,6
 param=crushdefence,6
 param=damagetype,0
-param=wearpos_rhand,iron_spear_p
 
 [dark_warrior]
 name=Dark warrior
@@ -4911,7 +4905,6 @@ param=stabdefence,96
 param=slashdefence,79
 param=crushdefence,59
 param=damagetype,1
-param=wearpos_rhand,iron_longsword
 
 [chaos_druid_warrior]
 name=Chaos druid warrior
@@ -4939,6 +4932,7 @@ hitpoints=40
 attack=32
 strength=34
 defence=25
+param=attackrate,5
 param=attackbonus,9
 param=strengthbonus,5
 param=stabdefence,13
@@ -4946,8 +4940,7 @@ param=slashdefence,17
 param=crushdefence,14
 param=magicdefence,-4
 param=rangedefence,14
-param=damagetype,1
-param=wearpos_rhand,steel_mace
+param=damagetype,2
 
 [necromancer]
 walkanims=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -5009,8 +5002,7 @@ param=attackbonus,11
 param=strengthbonus,12
 param=slashdefence,3
 param=crushdefence,2
-param=damagetype,2
-param=wearpos_rhand,iron_longsword
+param=damagetype,0
 
 [guard_bandit]
 name=Guard Bandit
@@ -5049,8 +5041,7 @@ param=slashdefence,8
 param=crushdefence,5
 param=magicdefence,1
 param=rangedefence,4
-param=damagetype,2
-param=wearpos_rhand,iron_longsword
+param=damagetype,0
 
 [npc_197]
 name=Barbarian guard
@@ -5137,6 +5128,7 @@ hitpoints=35
 attack=22
 strength=22
 defence=25
+param=attackrate,6
 param=attackbonus,8
 param=strengthbonus,13
 param=stabdefence,12
@@ -5144,8 +5136,7 @@ param=slashdefence,14
 param=crushdefence,10
 param=magicdefence,-1
 param=rangedefence,11
-param=damagetype,0
-param=wearpos_rhand,steel_battleaxe
+param=damagetype,1
 
 [npc_200]
 name=Lord Daquarius
@@ -5245,7 +5236,7 @@ param=strengthbonus,9
 param=stabdefence,9
 param=slashdefence,9
 param=crushdefence,10
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 param=gender,1
 
 [donny_the_lad]
@@ -5284,7 +5275,7 @@ param=strengthbonus,9
 param=stabdefence,9
 param=slashdefence,8
 param=crushdefence,10
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [speedy_keith]
 name=Speedy Keith
@@ -5322,7 +5313,7 @@ param=strengthbonus,9
 param=stabdefence,9
 param=slashdefence,8
 param=crushdefence,10
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [salarin_the_twisted]
 name=Salarin the twisted
@@ -6117,7 +6108,7 @@ param=strengthbonus,16
 param=stabdefence,99
 param=slashdefence,82
 param=crushdefence,62
-param=wearpos_rhand,iron_longsword
+param=damagetype,1
 
 [thrantax_the_mighty]
 name=Thrantax The Mighty
@@ -6415,7 +6406,7 @@ param=strengthbonus,16
 param=stabdefence,99
 param=slashdefence,82
 param=crushdefence,45
-param=wearpos_rhand,iron_longsword
+param=damagetype,1
 
 [npc_248]
 vislevel=hide
@@ -6600,7 +6591,7 @@ param=strengthbonus,14
 param=stabdefence,44
 param=slashdefence,38
 param=crushdefence,30
-param=wearpos_rhand,iron_battleaxe
+param=damagetype,1
 
 [npc_254]
 name=Khazard Guard
@@ -6636,7 +6627,7 @@ param=strengthbonus,14
 param=stabdefence,44
 param=slashdefence,38
 param=crushdefence,30
-param=wearpos_rhand,iron_battleaxe
+param=damagetype,1
 
 [npc_255]
 name=Khazard Guard
@@ -6671,7 +6662,7 @@ param=strengthbonus,14
 param=stabdefence,44
 param=slashdefence,38
 param=crushdefence,30
-param=wearpos_rhand,iron_battleaxe
+param=damagetype,1
 
 [npc_256]
 name=Khazard Guard
@@ -6707,7 +6698,7 @@ param=strengthbonus,14
 param=stabdefence,44
 param=slashdefence,38
 param=crushdefence,30
-param=wearpos_rhand,iron_battleaxe
+param=damagetype,1
 
 [npc_257]
 name=Khazard Guard
@@ -6739,7 +6730,7 @@ param=strengthbonus,14
 param=stabdefence,44
 param=slashdefence,38
 param=crushdefence,30
-param=wearpos_rhand,iron_battleaxe
+param=damagetype,1
 
 [general_khazard]
 name=General Khazard
@@ -6767,7 +6758,7 @@ hitpoints=170
 attack=75
 strength=78
 defence=80
-param=wearpos_rhand,iron_2h_sword
+param=damagetype,1
 
 [npc_259]
 vislevel=hide
@@ -7162,6 +7153,7 @@ hitpoints=50
 attack=37
 strength=37
 defence=37
+param=attackrate,5
 param=attackbonus,14
 param=strengthbonus,16
 param=stabdefence,43
@@ -7169,7 +7161,7 @@ param=slashdefence,55
 param=crushdefence,50
 param=magicdefence,-12
 param=rangedefence,51
-param=wearpos_rhand,rune_longsword
+param=damagetype,1
 
 [npc_275]
 name=Guardian of Armadyl
@@ -7207,6 +7199,7 @@ hitpoints=40
 attack=37
 strength=37
 defence=37
+param=attackrate,5
 param=attackbonus,14
 param=strengthbonus,16
 param=stabdefence,43
@@ -7214,7 +7207,7 @@ param=slashdefence,55
 param=crushdefence,50
 param=magicdefence,-12
 param=rangedefence,51
-param=wearpos_rhand,rune_longsword
+param=damagetype,1
 param=gender,1
 
 [npc_276]
@@ -7342,13 +7335,14 @@ hitpoints=37
 attack=24
 strength=18
 defence=16
+param=attackrate,5
 param=strengthbonus,10
 param=stabdefence,8
 param=slashdefence,14
 param=crushdefence,15
 param=magicdefence,4
 param=rangedefence,9
-param=wearpos_rhand,steel_longsword
+param=damagetype,1
 
 [doric]
 vislevel=hide
@@ -8553,6 +8547,7 @@ hitpoints=57
 attack=54
 strength=54
 defence=54
+param=attackrate,5
 param=attackbonus,20
 param=strengthbonus,22
 param=stabdefence,87
@@ -8560,8 +8555,7 @@ param=slashdefence,84
 param=crushdefence,76
 param=magicdefence,-10
 param=rangedefence,79
-param=damagetype,0
-param=wearpos_rhand,steel_longsword
+param=damagetype,1
 
 [npc_366]
 vislevel=hide
@@ -10494,6 +10488,7 @@ hitpoints=29
 attack=16
 strength=14
 defence=9
+param=attackrate,5
 param=attackbonus,8
 param=strengthbonus,10
 param=stabdefence,46
@@ -10501,7 +10496,7 @@ param=slashdefence,50
 param=crushdefence,45
 param=magicdefence,-12
 param=rangedefence,45
-param=wearpos_rhand,iron_longsword
+param=damagetype,1
 param=defend_sound,animated_hit
 param=death_sound,animated_death
 param=death_drop,null
@@ -10858,6 +10853,7 @@ hitpoints=22
 attack=17
 strength=18
 defence=12
+param=attackrate,6
 param=attackbonus,8
 param=strengthbonus,10
 param=stabdefence,33
@@ -10865,7 +10861,7 @@ param=slashdefence,34
 param=crushdefence,29
 param=magicdefence,-7
 param=rangedefence,33
-param=wearpos_rhand,iron_mace
+param=damagetype,2
 
 [npc_476]
 name=Khazard trooper
@@ -10890,6 +10886,7 @@ hitpoints=22
 attack=17
 strength=18
 defence=12
+param=attackrate,6
 param=attackbonus,8
 param=strengthbonus,10
 param=stabdefence,33
@@ -10897,7 +10894,7 @@ param=slashdefence,34
 param=crushdefence,29
 param=magicdefence,-7
 param=rangedefence,33
-param=wearpos_rhand,iron_spear
+param=damagetype,2
 
 [khazard_warlord]
 name=Khazard warlord
@@ -10931,8 +10928,7 @@ hitpoints=170
 attack=75
 strength=78
 defence=80
-param=damagetype,1
-param=wearpos_rhand,rune_warhammer
+param=damagetype,2
 
 [khazard_commander]
 name=Khazard commander
@@ -10961,7 +10957,7 @@ hitpoints=22
 attack=50
 strength=45
 defence=50
-param=wearpos_rhand,iron_spear
+param=damagetype,0
 
 [npc_479]
 name=Gnome troop
@@ -13856,6 +13852,7 @@ attack=20
 strength=20
 defence=20
 ranged=40
+param=attackrate,6
 param=attackbonus,19
 param=strengthbonus,8
 param=rangebonus,8
@@ -13864,7 +13861,7 @@ param=slashdefence,23
 param=crushdefence,27
 param=magicdefence,10
 param=rangedefence,19
-param=wearpos_rhand,longbow
+param=damagetype,3
 
 [npc_679]
 vislevel=hide
@@ -14100,10 +14097,11 @@ attack=10
 strength=10
 defence=10
 ranged=20
+param=attackrate,6
 param=rangebonus,16
 param=magicdefence,6
 param=rangedefence,12
-param=wearpos_rhand,longbow
+param=damagetype,3
 
 [npc_689]
 name=Tower Archer
@@ -14131,10 +14129,11 @@ attack=10
 strength=10
 defence=10
 ranged=40
+param=attackrate,6
 param=rangebonus,22
 param=magicdefence,24
 param=rangedefence,40
-param=wearpos_rhand,longbow
+param=damagetype,3
 
 [npc_690]
 name=Tower Archer
@@ -14162,10 +14161,11 @@ attack=10
 strength=10
 defence=10
 ranged=60
+param=attackrate,6
 param=rangebonus,31
 param=magicdefence,20
 param=rangedefence,45
-param=wearpos_rhand,longbow
+param=damagetype,3
 
 [npc_691]
 name=Tower Archer
@@ -14193,10 +14193,11 @@ attack=10
 strength=10
 defence=10
 ranged=80
+param=attackrate,6
 param=rangebonus,49
 param=magicdefence,34
 param=rangedefence,66
-param=wearpos_rhand,longbow
+param=damagetype,3
 
 [npc_692]
 vislevel=hide
@@ -16267,7 +16268,7 @@ param=strengthbonus,7
 param=stabdefence,16
 param=slashdefence,27
 param=crushdefence,22
-param=wearpos_rhand,steel_battleaxe
+param=damagetype,1
 
 [npc_794]
 vislevel=hide
@@ -16454,7 +16455,7 @@ param=strengthbonus,16
 param=stabdefence,30
 param=slashdefence,39
 param=crushdefence,30
-param=wearpos_rhand,black_longsword
+param=damagetype,1
 
 [npc_805]
 name= Master crafter
@@ -17024,7 +17025,6 @@ attack=7
 strength=7
 defence=7
 param=damagetype,2
-param=wearpos_rhand,steel_pickaxe
 
 [npc_828]
 name=Mercenary
@@ -17068,7 +17068,7 @@ param=slashdefence,15
 param=crushdefence,19
 param=magicdefence,-3
 param=rangedefence,19
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [npc_829]
 name=Mercenary
@@ -17111,7 +17111,7 @@ param=slashdefence,15
 param=crushdefence,19
 param=magicdefence,-3
 param=rangedefence,19
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [npc_830]
 name=Mercenary Captain
@@ -17159,7 +17159,7 @@ param=slashdefence,15
 param=crushdefence,19
 param=magicdefence,-3
 param=rangedefence,19
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [npc_831]
 name=Captain Siad
@@ -17300,7 +17300,7 @@ strength=50
 defence=60
 param=attackbonus,9
 param=strengthbonus,14
-param=wearpos_rhand,steel_scimitar
+param=damagetype,1
 
 [npc_835]
 vislevel=hide
@@ -17394,7 +17394,7 @@ param=slashdefence,15
 param=crushdefence,18
 param=magicdefence,6
 param=rangedefence,15
-param=wearpos_rhand,steel_sword
+param=damagetype,0
 
 [npc_838]
 name=Shantay Guard
@@ -18966,7 +18966,7 @@ magic=0
 ranged=0
 param=attackbonus,8
 param=strengthbonus,10
-param=wearpos_rhand,iron_spear
+param=damagetype,0
 
 [npc_932]
 vislevel=hide
@@ -20472,6 +20472,7 @@ hitpoints=57
 attack=54
 strength=54
 defence=54
+param=attackrate,5
 param=attackbonus,20
 param=strengthbonus,22
 param=stabdefence,87
@@ -20479,7 +20480,7 @@ param=slashdefence,84
 param=crushdefence,76
 param=magicdefence,-10
 param=rangedefence,79
-param=wearpos_rhand,steel_longsword
+param=damagetype,1
 
 [sir_carl]
 name=Sir Carl
@@ -20510,6 +20511,7 @@ hitpoints=57
 attack=54
 strength=54
 defence=54
+param=attackrate,5
 param=attackbonus,20
 param=strengthbonus,22
 param=stabdefence,87
@@ -20517,7 +20519,7 @@ param=slashdefence,84
 param=crushdefence,76
 param=magicdefence,-10
 param=rangedefence,79
-param=wearpos_rhand,steel_longsword
+param=damagetype,1
 
 [sir_harry]
 name=Sir Harry
@@ -20548,6 +20550,7 @@ hitpoints=57
 attack=54
 strength=54
 defence=54
+param=attackrate,5
 param=attackbonus,20
 param=strengthbonus,22
 param=stabdefence,87
@@ -20555,7 +20558,7 @@ param=slashdefence,84
 param=crushdefence,76
 param=magicdefence,-10
 param=rangedefence,79
-param=wearpos_rhand,steel_longsword
+param=damagetype,1
 
 [npc_991]
 size=2

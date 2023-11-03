@@ -112,20 +112,20 @@ if (%ring_of_forging_charges_used >= 140) {
 //     ~mesbox(struct_param($struct, processfailure));
 //     return;
 // }
-// if (%skill_clock < map_clock) {
-//     %skill_clock = calc(map_clock + 3);
+// if (%action_delay < map_clock) {
+//     %action_delay = calc(map_clock + 3);
 //     anim(human_furnace, 0); // plays here for somereason
 //     sound_synth(furnace, 0, 2);
 //     mes(struct_param($struct, processmessage));
 //     weakqueue(smelting_ore, 2, $struct);
 // } else {
-//     weakqueue(start_smelting_ore, calc(%skill_clock - map_clock - 1), $struct);
+//     weakqueue(start_smelting_ore, calc(%action_delay - map_clock - 1), $struct);
 // }
 // //----------------------------
 
 // //----------------------------
 // [weakqueue,start_smelting_ore](struct $struct)
-// %skill_clock = calc(map_clock + 3);
+// %action_delay = calc(map_clock + 3);
 // anim(human_furnace, 0); // plays here for somereason
 // sound_synth(furnace, 0, 2);
 // mes(struct_param($struct, processmessage));

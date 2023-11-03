@@ -37,12 +37,12 @@ if (inv_freespace(inv) < 1) {
     anim(null, 0);
     @your_inventory_is_full($product);
 }
-if (%skill_clock < map_clock) {
+if (%action_delay < map_clock) {
     // scuffed implimentation for lining up skill sounds (very first chop)
     if (%skill_sound = calc(map_clock + 4)) {
         sound_synth(woodchop_4,0,20);
     }
-    %skill_clock = calc(map_clock + 3);
+    %action_delay = calc(map_clock + 3);
     %skill_anim = calc(map_clock + 3);
     p_oploc(1);
 } else {
@@ -92,11 +92,11 @@ if (%skill_anim <= map_clock) {
 }
 // this is here because theres always a tick where no mes("You swing your axe at the tree.") when spam clicking on tree
 // this tick is when you get you get a roll. so that means that skill clock is set next tick after roll is given
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 3);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 3);
 }
 
-if (%skill_clock = map_clock) {
+if (%action_delay = map_clock) {
     // get lows and highs
     def_int $tree_chance_low;
     def_int $tree_chance_high;

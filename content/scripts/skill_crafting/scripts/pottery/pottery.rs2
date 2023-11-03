@@ -40,8 +40,8 @@ def_namedobj $choice = ~obj_choice3(
 );
 @craft_pottery($choice);
 
-// osrs is a weak queue that sets and checks %skill_clock.
-// if %skill_clock is under a certain point then it gives a roll
+// osrs is a weak queue that sets and checks %action_delay.
+// if %action_delay is under a certain point then it gives a roll
 // Before sep 2004, it was likely just a p_delay()
 [label,craft_pottery](namedobj $item)
 if_close;
@@ -96,21 +96,21 @@ if (stat_random(stat(crafting), 180, 800) = true) {
 // def_namedobj $last_obj = inv_getobj(inv, $last);
 // def_struct $struct = oc_param($last, crafting_pottery_struct);
 // // skill clock used to prevent spamming.
-// if (%skill_clock < map_clock) {
-//     %skill_clock = calc(map_clock + 5);
+// if (%action_delay < map_clock) {
+//     %action_delay = calc(map_clock + 5);
 //     // "You put a x in the oven."
 //     mes("You put the <oc_name(struct_param($struct, product))> in the oven.");
 //     sound_synth(furnace, 0, 0);
 //     anim(human_furnace, 0); //plays once here and once in weak queue
 //     weakqueue(firing_pottery, 1, $struct);
 // } else {
-//     weakqueue(start_firing_pottery, calc(%skill_clock - map_clock - 1), $struct);
+//     weakqueue(start_firing_pottery, calc(%action_delay - map_clock - 1), $struct);
 // }
 // //-------------------------------
 
 // [weakqueue,start_firing_pottery](struct $struct)
 // mes(tostring(map_clock));
-// %skill_clock = calc(map_clock + 5);
+// %action_delay = calc(map_clock + 5);
 // mes("You put the <oc_name(struct_param($struct, product))> in the oven.");
 // sound_synth(furnace, 0, 0);
 // anim(human_furnace, 0); //plays once here and once in weak queue

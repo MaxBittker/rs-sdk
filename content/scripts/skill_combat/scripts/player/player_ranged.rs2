@@ -1,0 +1,53 @@
+[proc,player_ranged_attack]
+// npc_setmode(opplayer2);
+// facesquare(npc_coord);
+
+// TODO this is for flinching players (pvp etc)
+//if (autoretaliateenabled && action_clock < gameClock()) action_clock = gameClock() + (weaponSpeed / 2)
+
+if (npc_stat(hitpoints) = 0) {
+    return; // this means the npc is not avail to fight i.e dead
+}
+
+if (%action_delay > map_clock) {
+    p_opnpc(2); // TODO p_apnpc()
+    return;
+}
+
+~player_combat_stat; // update combat varps before swinging
+
+// for flinching
+// npc needs to be 8 ticks out of combat(since it was last able to atk) before it can be flinched
+if (add(%npc_action_delay, 8) < map_clock) {
+    %npc_action_delay = add(map_clock, add(divide(npc_param(attackrate), 2), 1));
+}
+
+// check hit, give combat xp
+def_int $damage = 0;
+if (~player_npc_melee_hit_roll(%damagetype) = true) {
+    $damage = randominc(%com_maxhit);
+    ~give_combat_experience(%damagestyle, $damage);
+    mes("Hit successful.");
+} else {
+    mes("Hit failed.");
+}
+mes("attackstyle: <tostring(%attackstyle)>, damagestyle: <tostring(%damagestyle)>, damage: <tostring($damage)>, damagetype: <tostring(%damagetype)>");
+// TODO shoot arrow, 1/5 chance to delete, 4/5 chance to drop
+anim(%com_attackanim, 0);
+sound_synth(%com_attacksound, 0, 0);
+npc_queue(1, 0);
+npc_queue(2, 0);
+npc_anim(npc_param(defend_anim), 0); // delay npc this tick
+sound_synth(~npc_combat_defend_sound, 0, 20); // delay 1 client tick for the hit queue
+%npc_retaliation_pid = uid;
+// set the skill clock depending on the weapon attack rate
+def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
+if ($weapon = null) {
+    %action_delay = add(map_clock, 4);
+} else {
+    %action_delay = add(map_clock, oc_param($weapon, attackrate));
+}
+if (%damagestyle = ^style_ranged_rapid) {
+    %action_delay = sub(%action_delay, 1);
+}
+p_opnpc(2); // TODO p_apnpc()

@@ -1,24 +1,26 @@
-[opheld1,bones] @bury_bones(bones);
-[opheld1,burnt_bones] @bury_bones(burnt_bones);
-[opheld1,bat_bones] @bury_bones(bat_bones);
-[opheld1,big_bones] @bury_bones(big_bones);
-[opheld1,babydragon_bones] @bury_bones(babydragon_bones);
-[opheld1,dragon_bones] @bury_bones(dragon_bones);
-[opheld1,wolf_bones] @bury_bones(wolf_bones);
+[opheld1,bones] @bury_bones(last_slot);
+[opheld1,burnt_bones] @bury_bones(last_slot);
+[opheld1,bat_bones] @bury_bones(last_slot);
+[opheld1,big_bones] @bury_bones(last_slot);
+[opheld1,babydragon_bones] @bury_bones(last_slot);
+[opheld1,dragon_bones] @bury_bones(last_slot);
+[opheld1,wolf_bones] @bury_bones(last_slot);
 
-[label,bury_bones](namedobj $bone)
+[label,bury_bones](int $slot)
 if (getqueue(finish_bury) > 0) {
     return;
 }
 
 mes("You dig a hole in the ground...");
-inv_del(inv, $bone, 1);
-givexp(prayer, oc_param(last_item, bone_exp));
 anim(human_pickupfloor, 0);
 sound_synth(bones_down, 1, 0);
+inv_delslot(inv, $slot);
 // this is strong queue in later revs
-queue(finish_bury, 1);
+// TODO: Stop movement
+if_close;
+queue(finish_bury, 0);
 
 [queue,finish_bury]
 if_close;
+givexp(prayer, oc_param(last_item, bone_exp));
 mes("You bury the bones.");

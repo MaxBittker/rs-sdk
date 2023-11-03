@@ -1,0 +1,9 @@
+^style_melee_accurate = 0
+^style_melee_aggressive = 1
+^style_melee_defensive = 2
+^style_melee_controlled = 3
+^style_ranged_accurate = 4
+^style_ranged_rapid = 5
+^style_ranged_longrange = 6
+^style_magic_normal = 7
+^style_magic_defensive = 8

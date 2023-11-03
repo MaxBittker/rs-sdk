@@ -1,16 +1,16 @@
 [opnpc1,_net_bait_fishing] 
-//mes("<tostring(map_clock)>, <tostring(%skill_clock)>");
+//mes("<tostring(map_clock)>, <tostring(%action_delay)>");
 @attempt_fish_shrimp;
 [opnpc3,_net_bait_fishing]
-//mes("<tostring(map_clock)>, <tostring(%skill_clock)>");
+//mes("<tostring(map_clock)>, <tostring(%action_delay)>");
 @attempt_fish_sardine;
 
 // hidden ops
 [opnpc2,_net_bait_fishing] 
-//mes("<tostring(map_clock)>, <tostring(%skill_clock)>");
+//mes("<tostring(map_clock)>, <tostring(%action_delay)>");
 @fish_shrimp;
 [opnpc4,_net_bait_fishing]
-//mes("<tostring(map_clock)>, <tostring(%skill_clock)>");
+//mes("<tostring(map_clock)>, <tostring(%action_delay)>");
 @fish_sardine;
 
 [opnpcu,_net_bait_fishing]
@@ -38,18 +38,18 @@ if (inv_freespace(inv) < 1) {
     ~mesbox("You can't carry any more fish.");
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 4);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 4);
     p_opnpc(1);
 } 
-if (%skill_clock = calc(map_clock + 3)) {
+if (%action_delay = calc(map_clock + 3)) {
     mes("You cast out your net...");
     anim(human_smallnet, 0);
     sound_synth(fishing_cast, 0, 15);
     %skill_anim = calc(map_clock + 5);
     p_opnpc(2);
 }
-if (%skill_clock = map_clock) { 
+if (%action_delay = map_clock) { 
     if (stat(fishing) >= 15) {
         ~fish_roll(raw_anchovies, raw_shrimps, null);
     } else {
@@ -67,10 +67,10 @@ if (inv_freespace(inv) < 1) {
     ~mesbox("You can't carry any more fish.");
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 5);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 5);
 } else
-if (%skill_clock = map_clock) {
+if (%action_delay = map_clock) {
     if (stat(fishing) >= 15) {
         ~fish_roll(raw_anchovies, raw_shrimps, null);
     } else {
@@ -104,20 +104,20 @@ if (inv_freespace(inv) < 1) {
     ~mesbox("You can't carry any more fish.");
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 5);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 5);
     p_opnpc(3);
 } 
-if (%skill_clock = calc(map_clock + 4)) {
+if (%action_delay = calc(map_clock + 4)) {
     mes("You cast out your line...");
     anim(human_fishing_casting, 0);
     p_opnpc(3);
 }
-if (%skill_clock = calc(map_clock + 3)) {
+if (%action_delay = calc(map_clock + 3)) {
     mes("You attempt to catch a fish.");
     p_opnpc(4);
 }
-if (%skill_clock = map_clock) {
+if (%action_delay = map_clock) {
     if (stat(fishing) >= 10) {
         ~fish_roll(raw_sardine, raw_herring, fishing_bait);
     } else {
@@ -138,12 +138,12 @@ if (inv_freespace(inv) < 1) {
     ~mesbox("You can't carry any more fish.");
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 4);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 4);
     sound_synth(fishing_cast, 0, 0);
     anim(human_fish_onspot, 0);
 }
-if (%skill_clock = map_clock) {
+if (%action_delay = map_clock) {
     if (stat(fishing) >= 10) {
         ~fish_roll(raw_sardine, raw_herring, fishing_bait);
     } else {

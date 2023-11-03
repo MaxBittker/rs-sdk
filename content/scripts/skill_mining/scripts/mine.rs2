@@ -48,14 +48,14 @@ if ($pickaxe = null) {
     return;
 }
 def_int $mining_rate = oc_param($pickaxe, mining_rate);
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + $mining_rate);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + $mining_rate);
     if (%skill_sound = calc(map_clock + $mining_rate)) {
         sound_synth(mine_quick, 0, 0);
     }
     p_oploc(1);
 } else {
-    %skill_anim = %skill_clock;
+    %skill_anim = %action_delay;
     %skill_sound = calc(map_clock + $mining_rate + 1);
     anim(oc_param($pickaxe, mining_animation), 0);
     mes("You swing your pick at the rock.");
@@ -65,7 +65,7 @@ if (%skill_clock < map_clock) {
 
 [label,mining_continue](proc $get_ore)
 // mes("mining_continue: %skill_anim = <tostring(%skill_anim)>, %skill_sound = <tostring(%skill_sound)>");
-// mes("%skill_clock = <tostring(%skill_clock)>, map_clock = <tostring(map_clock)>");
+// mes("%action_delay = <tostring(%action_delay)>, map_clock = <tostring(map_clock)>");
 db_find(mining_table:rock, loc_type);
 def_dbrow $data = db_findnext;
 if ($data = null) {
@@ -98,9 +98,9 @@ if (%skill_anim < calc(map_clock + 1)) {
     sound_synth(mine_quick, 0, 0);
 }
 // if roll is due
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + $mining_rate);
-} else if (%skill_clock = map_clock) {
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + $mining_rate);
+} else if (%action_delay = map_clock) {
     gosub($get_ore);
 }
 if (%skill_sound = calc(map_clock + $mining_rate)) {

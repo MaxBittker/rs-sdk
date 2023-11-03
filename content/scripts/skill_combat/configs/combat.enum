@@ -1,0 +1,19 @@
+// TODO: allow outputtype=dbrow
+
+// [combat_style_enum]
+// inputtype=category
+// outputtype=dbrow
+// default=weapon_unarmed_table
+// val=weapon_2h_sword,weapon_2h_sword_table
+// val=weapon_axe,weapon_axe_table
+// val=weapon_blunt,weapon_blunt_table
+// val=weapon_pickaxe,weapon_pickaxe_table
+// val=weapon_scythe,weapon_scythe_table
+// val=weapon_slash,weapon_slash_table
+// val=weapon_spear,weapon_spear_table
+// val=weapon_spiked,weapon_spiked_table
+// val=weapon_stab,weapon_stab_table
+// val=weapon_bow,weapon_bow_table
+// val=weapon_crossbow,weapon_crossbow_table
+// val=weapon_thrown,weapon_thrown_table
+// val=weapon_javelin,weapon_thrown_table

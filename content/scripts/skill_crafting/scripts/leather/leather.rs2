@@ -165,7 +165,7 @@ if ($count < $crafting_bar_count) {
     return;
 }
 
-if (%skill_clock < calc(map_clock + 1)) {
+if (%action_delay < calc(map_clock + 1)) {
     inv_del(inv, $crafting_ingredient, $crafting_bar_count);
     inv_add(inv, $crafting_product, 1);
     givexp(crafting, $crafting_exp);
@@ -178,7 +178,7 @@ if (%skill_clock < calc(map_clock + 1)) {
         %thread_used = 0;
     }
     $count = sub($count, $crafting_bar_count);
-    %skill_clock = calc(map_clock + 1);
+    %action_delay = calc(map_clock + 1);
     weakqueue(crafting_leather, 3, $crafting_exp, $crafting_product, $crafting_message, $crafting_anim, $count, $crafting_bar_count, $crafting_ingredient, $crafting_productfailure);
 }
 */

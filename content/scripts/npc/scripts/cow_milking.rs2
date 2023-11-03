@@ -1,0 +1,20 @@
+[opnpcu,npc_81]
+switch_obj(last_item) {
+    case bucket_empty : @milk_cow;
+    case default : mes("The cow doesn't want that."); // osrs
+}
+[opnpcu,npc_397]
+switch_obj(last_item) {
+    case bucket_empty : @milk_cow;
+    case default : mes("The cow doesn't want that."); // osrs
+}
+[opnpcu,npc_955]
+switch_obj(last_item) {
+    case bucket_empty : @milk_cow;
+    case default : mes("The cow doesn't want that."); // osrs
+}
+
+[label,milk_cow]
+inv_del(inv, bucket_empty, 1);
+inv_add(inv, bucket_milk, 1);
+mes("You milk the cow."); // osrs and rsc

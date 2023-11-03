@@ -9709,30 +9709,6 @@ op1=Close
 blockwalk=no
 blockrange=no
 
-[loc_1532]
-model=model_loc_3
-active=no
-recol1s=2
-recol1d=0
-recol2s=24
-recol2d=4762
-
-[loc_1535]
-model=model_loc_3
-active=no
-recol1s=2
-recol1d=45
-recol2s=24
-recol2d=4762
-
-[loc_1538]
-model=model_loc_3
-active=no
-recol1s=2
-recol1d=4
-recol2s=24
-recol2d=4762
-
 [loc_1539]
 name=Door
 desc=Solid bars of iron.
@@ -11407,6 +11383,7 @@ recol1s=2
 recol1d=45
 recol2s=24
 recol2d=4762
+param=next_loc_stage,loc_1535
 
 [loc_1805]
 name=Door

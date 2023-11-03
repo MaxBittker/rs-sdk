@@ -1,11 +1,21 @@
-[opnpc2,_] ~player_melee_attack;
-[apnpc2,_]
-if (npc_range(coord) > 1) {
-    // TODO
-    p_aprange(1);
+[opnpc2,_]
+if (%damagetype = ^ranged) {
+    ~player_ranged_attack;
     return;
 }
 ~player_melee_attack;
+[apnpc2,_] 
+mes(tostring(npc_range(coord)));
+mes(tostring(%attackrange));
+if (npc_range(coord) > %attackrange) {
+    p_aprange(%attackrange);
+    return;
+}
+// TODO: Range and mage check
+if (%damagetype = ^ranged) {
+    ~player_ranged_attack;
+    return;
+}
 
 //[apnpc2,_]
 //mes("apnpc combat");
@@ -18,144 +28,38 @@ if (npc_range(coord) > 1) {
 //}
 //@combat_begin;
 
-// begins combat
-[proc,player_melee_attack]
-// npc_setmode(opplayer2);
-// facesquare(npc_coord);
-
-// TODO this is for flinching players (pvp etc)
-//if (autoretaliateenabled && action_clock < gameClock()) action_clock = gameClock() + (weaponSpeed / 2)
-
-if (npc_stat(hitpoints) = 0) {
-    return; // this means the npc is not avail to fight i.e dead
-}
-
-if (%action_delay > map_clock) {
-    p_opnpc(2); // TODO p_apnpc()
-    return;
-}
-
-~player_combat_stat; // update combat varps before swinging
-
-// for flinching
-// npc needs to be 8 ticks out of combat(since it was last able to atk) before it can be flinched
-if (add(%npc_action_delay, 8) < map_clock) {
-    %npc_action_delay = add(map_clock, add(divide(~npc_combat_attackspeed, 2), 1));
-}
-
-if (~player_npc_melee_hit_roll = true) {
-    // TODO give combat xp
-    mes("Hit successful.");
-} else {
-    mes("Hit failed.");
-}
-
-anim(%com_attackanim, 0);
-sound_synth(%com_attacksound, 0, 0);
-npc_queue(1, 0);
-npc_queue(2, 0);
-npc_anim(~npc_combat_defend_anim, 0); // delay npc this tick
-sound_synth(~npc_combat_defend_sound, 0, 20); // delay 1 client tick for the hit queue
-%npc_retaliation_pid = uid;
-// set the skill clock depending on the weapon attack rate
-def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
-if ($weapon = null) {
-    %action_delay = add(map_clock, 4);
-} else {
-    %action_delay = add(map_clock, oc_param($weapon, attackrate));
-}
-p_opnpc(2);
-
 // do a combat defend
 [proc,combat_defend]
 anim(%com_defendanim, 0);
 
-[proc,player_npc_melee_hit_roll]()(boolean)
-def_int $attack_roll;
-def_int $npc_defence_roll;
-$attack_roll, $npc_defence_roll = ~player_npc_melee_attack_roll;
-say("Clock: <tostring(map_clock)>, Accuracy: <tostring($attack_roll)>, Max Hit: <tostring(%com_maxhit)>");
-if (randominc($attack_roll) > randominc($npc_defence_roll)) {
+[proc,player_npc_melee_hit_roll](int $damagetype)(boolean)
+def_int $attack_roll = ~player_attack_roll_specific($damagetype);
+def_int $defence_roll = ~npc_defence_roll_specific($damagetype);
+say("Clock: <tostring(map_clock)>, Player A: <tostring($attack_roll)>, NPC D: <tostring($defence_roll)>, Player Max: <tostring(%com_maxhit)>");
+if (randominc($attack_roll) > randominc($defence_roll)) {
     return(true);
 }
 return(false);
 
 // returns the correct combat calculated attack damage for weapon
-[proc,player_npc_melee_attack_roll]()(int, int)
+[proc,player_attack_roll_specific](int $damagetype)(int)
 def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
-def_int $style = ~combat_melee_style($weapon, %attackstyle);
-switch_int ($style) {
-    case ^stab: return(%com_stabattack, ~npc_effective_defence($style));
-    case ^slash: return(%com_slashattack, ~npc_effective_defence($style));
-    case ^crush: return(%com_crushattack, ~npc_effective_defence($style));
-    case ^ranged: return(%com_rangeattack, ~npc_effective_defence($style));
-    case ^magic: return(%com_magicattack, ~npc_effective_defence($style));
+switch_int ($damagetype) {
+    case ^stab: return(%com_stabattack);
+    case ^slash: return(%com_slashattack);
+    case ^crush: return(%com_crushattack);
+    case ^ranged: return(%com_rangeattack);
+    case ^magic: return(%com_magicattack);
 }
-error("combat style of <tostring($style)> not defined in switch for p_npc_melee_roll");
+error("combat style of <tostring($damagetype)> not defined in switch for p_npc_melee_roll");
 
-[proc,player_combat_stat]
-def_int $stabattack;
-def_int $slashattack;
-def_int $crushattack;
-def_int $magicattack;
-def_int $rangeattack;
-def_int $stabdefence;
-def_int $slashdefence;
-def_int $crushdefence;
-def_int $magicdefence;
-def_int $rangedefence;
-def_int $strengthbonus;
-def_int $prayerbonus;
-def_int $rangebonus;
-
-$stabattack,
-$slashattack,
-$crushattack,
-$magicattack,
-$rangeattack,
-$stabdefence,
-$slashdefence,
-$crushdefence,
-$magicdefence,
-$rangedefence,
-$strengthbonus,
-$prayerbonus = ~equip_get_bonuses;
-
-def_int $attack_level = stat(attack);
-def_int $strength_level = stat(strength);
-def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
-
-// effective combat calculations
-def_int $accuracybonus = ~combat_melee_weapon_accuracybonus($weapon, %attackstyle);
-%com_stabattack = ~combat_melee_accuracy(~combat_stat_attack($accuracybonus, $attack_level, $prayerbonus), $stabattack); // TODO overhead bonus etc
-%com_stabdef = 0;
-%com_slashattack = ~combat_melee_accuracy(~combat_stat_attack($accuracybonus, $attack_level, $prayerbonus), $slashattack); // TODO overhead bonus etc
-%com_slashdef = 0;
-%com_crushattack = ~combat_melee_accuracy(~combat_stat_attack($accuracybonus, $attack_level, $prayerbonus), $crushattack); // TODO overhead bonus etc
-%com_crushdef = 0;
-%com_magicattack = 0;
-%com_magicdef = 0;
-%com_rangeattack = 0;
-%com_rangedef = 0;
-
-// maximum hit with all bonuses applied
-%com_maxhit = ~combat_melee_maximum_hit(~combat_stat_strength(~combat_melee_weapon_strengthbonus($weapon, %attackstyle), $strength_level, $prayerbonus), $strengthbonus); // TODO overhead bonus etc
-
-// weapon related varps
-%com_attackanim, %com_attacksound = ~combat_swing_anim_and_synth($weapon, %attackstyle);
-%com_defendanim = ~combat_defend_anim($weapon);
-
-// returns the combat defense stat for an attack
-[proc,player_effective_defence](int $style)(int)
-def_obj $weapon = npc_param(wearpos_rhand);
-if ($weapon ! null) {
-    $style = ~combat_melee_style($weapon, $style);
-}
-switch_int ($style) {
+// returns the player's defence roll, depending on style
+[proc,player_defence_roll_specific](int $damagetype)(int)
+switch_int ($damagetype) {
     case ^stab: return(%com_stabdef);
     case ^slash: return(%com_slashdef);
     case ^crush: return(%com_crushdef);
     case ^ranged: return(%com_rangedef);
     case ^magic: return(%com_magicdef);
 }
-error("style of <tostring($style)> not defined in switch for player_effective_defence");
+error("style of <tostring($damagetype)> not defined in switch for player_defence_roll_specific");

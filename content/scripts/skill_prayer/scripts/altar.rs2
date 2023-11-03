@@ -1,16 +1,18 @@
 [oploc1,_prayer_altar] @pray_at_altar(stat_base(prayer));
 
 [label,pray_at_altar](int $amount)
+// p in "Prayer" is uppercase in osrs. but old videos such as: https://youtu.be/Rif_5-90nkI?t=210
+// are lower case
 if (stat(prayer) >= $amount) {
-    mes("You already have full Prayer points.");
+    mes("You already have full prayer points.");
     return;
 }
 // prayer boost
 if (stat(prayer) >= stat_base(prayer)) {
-    mes("You boost your Prayer points.");
+    mes("You boost your prayer points.");
     sound_synth(prayer_boost, 0, 0);
 } else {
-    mes("You recharge your Prayer points.");
+    mes("You recharge your prayer points.");
     sound_synth(prayer_recharge, 0, 0);
 }
 anim(human_pray, 0);

@@ -1,0 +1,48 @@
+[oplocu,loc_1804]
+switch_obj(last_item) {
+    case obj_983 : @open_edgeville_dungeon_door;
+    case default : @nothing_interesting_happens;
+}
+
+[oploc1,loc_1804] @open_edgeville_dungeon_door;
+
+[label,open_edgeville_dungeon_door]
+if (inv_total(inv, obj_983) > 0) {
+    mes("You unlock the door.");
+    sound_synth(locked, 0, 0);
+    def_coord $loc_coord = loc_coord;
+    def_int $angle = loc_angle;
+    def_locshape $shape = loc_shape;
+    def_loc $replacement = loc_param(next_loc_stage);
+    def_int $x;
+    def_int $z;
+    $x, $z = ~door_open($angle);
+
+    // walk through door, but if entering, walk next to door and then through
+    def_boolean $entering = ~check_axis(coord,  $loc_coord, $angle);
+    def_coord $dest = $loc_coord;
+    if ($entering = true) {
+        if (coord ! $loc_coord) {
+            p_walk($loc_coord);
+            // initially thought p_delay(0); was the right speed.
+            // but it seems to have buggy clipping; you move through too early
+            p_delay(2);
+            sound_synth(door_open, 0, 0);
+        } else {
+            p_delay(0);
+            sound_synth(door_open, 0, 0);
+        }
+        $dest = movecoord($loc_coord, $x, 0, $z);
+    } else {
+        p_delay(0);
+        sound_synth(door_open, 0, 0);
+    }
+
+    p_teleport($dest);
+
+    loc_del(2);
+    loc_add($loc_coord, loc_83, $angle, $shape, 2);
+    loc_add(movecoord($loc_coord, $x, 0, $z), $replacement, modulo(add($angle, 1), 4), $shape, 2);
+} else {
+    mes("The door is locked.");
+}

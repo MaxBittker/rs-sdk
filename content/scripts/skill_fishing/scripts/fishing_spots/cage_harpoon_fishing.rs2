@@ -38,11 +38,11 @@ if (inv_freespace(inv) < 1) {
     ~mesbox("You can't carry any more lobsters.");
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 4);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 4);
     p_opnpc(1);
 }  else
-if (%skill_clock = calc(map_clock + 3)) {
+if (%action_delay = calc(map_clock + 3)) {
     %skill_anim = calc(map_clock + 8);
     %skill_sound = calc(map_clock + 2);
     anim(human_lobster, 0);
@@ -52,7 +52,7 @@ if (%skill_clock = calc(map_clock + 3)) {
     // not sure if its delayed by a tick
     p_opnpc(2);
 }
-if (%skill_clock = map_clock) { 
+if (%action_delay = map_clock) { 
     ~fish_roll(raw_lobster, null, null);
     anim(human_lobster, 0);
     sound_synth(fishing_cast, 0, 20);
@@ -72,10 +72,10 @@ if (inv_freespace(inv) < 1) {
     ~mesbox("You can't carry any more lobsters.");
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 5);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 5);
 } else
-if (%skill_clock = map_clock) {
+if (%action_delay = map_clock) {
     ~fish_roll(raw_lobster, null, null);
 }
 if (%skill_anim < map_clock) {
@@ -105,18 +105,18 @@ if (inv_freespace(inv) < 1) {
     ~mesbox("You can't carry any more fish.");
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 5);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 5);
     p_opnpc(3);
 } else
-if (%skill_clock = calc(map_clock + 4)) {
+if (%action_delay = calc(map_clock + 4)) {
     mes("You start Harpooning fish.");
     %skill_anim = calc(map_clock + 7);
     %skill_sound = calc(map_clock + 7);
     anim(human_harpoon, 0);
     p_opnpc(4);
 } else
-if (%skill_clock = map_clock) { 
+if (%action_delay = map_clock) { 
     if (stat(fishing) >= 50) {
         ~fish_roll(raw_swordfish, raw_tuna, null);
     } else {
@@ -139,10 +139,10 @@ if (inv_freespace(inv) < 1) {
     ~mesbox("You can't carry any more fish.");
     return;
 }
-if (%skill_clock < map_clock) {
-    %skill_clock = calc(map_clock + 5);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 5);
 } else
-if (%skill_clock = map_clock) {
+if (%action_delay = map_clock) {
     if (stat(fishing) >= 50) {
         ~fish_roll(raw_swordfish, raw_tuna, null);
     } else {
