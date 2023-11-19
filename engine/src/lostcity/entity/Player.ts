@@ -722,8 +722,7 @@ export default class Player extends PathingEntity {
                     this.executeScript(ScriptRunner.init(script, this));
                 } else {
                     if (!process.env.PROD_MODE) {
-                        const objType = ObjType.get(this.lastItem);
-                        this.messageGame(`No trigger for [${ServerTriggerType.toString(trigger)},${objType.debugname}]`);
+                        this.messageGame(`No trigger for [${ServerTriggerType.toString(trigger)},${type.debugname}]`);
                     }
                 }
             } else if (opcode === ClientProt.OPHELDU) {
@@ -789,9 +788,16 @@ export default class Player extends PathingEntity {
                 this.lastSlot = data.g2();
                 const comId = data.g2();
                 const spellComId = data.g2();
-                this.lastVerifyObj = this.lastItem;
 
-                // TODO: expose spell to script
+                const type = IfType.get(spellComId);
+                const script = ScriptProvider.getByTrigger(ServerTriggerType.OPHELDT, type.id, -1);
+                if (script) {
+                    this.executeScript(ScriptRunner.init(script, this));
+                } else {
+                    if (!process.env.PROD_MODE) {
+                        this.messageGame(`No trigger for [opheldt,${type.comName}]`);
+                    }
+                }
             } else if (opcode === ClientProt.OPLOC1 || opcode === ClientProt.OPLOC2 || opcode === ClientProt.OPLOC3 || opcode === ClientProt.OPLOC4 || opcode === ClientProt.OPLOC5) {
                 const x = data.g2();
                 const z = data.g2();
