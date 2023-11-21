@@ -1,0 +1,265 @@
+[levelup_attack]
+table=levelup
+data=stat,attack
+data=interface,levelup_attack
+data=title,levelup_attack:line1
+data=body,levelup_attack:line2
+data=message,"Congratulations, you just advanced an attack level."
+data=level_prefix,Your attack level is now
+data=levelup_jingle,^advance_attack_jingle
+data=levelup_jingle_millis,^advance_attack_millis
+data=unlocks_jingle,^advance_attack_2_jingle
+data=unlocks_jingle_millis,^advance_attack_2_millis
+data=unlocks_levels,levelup_unlocks_attack
+
+[levelup_strength]
+table=levelup
+data=stat,strength
+data=interface,levelup_strength
+data=title,levelup_strength:line1
+data=body,levelup_strength:line2
+data=message,"Congratulations, you just advanced a strength level."
+data=level_prefix,Your strength level is now
+data=levelup_jingle,^advance_strength_jingle
+data=levelup_jingle_millis,^advance_strength_millis
+data=unlocks_jingle,^advance_strength_2_jingle
+data=unlocks_jingle_millis,^advance_strength_2_millis
+data=unlocks_levels,levelup_unlocks_strength
+
+[levelup_ranged]
+table=levelup
+data=stat,ranged
+data=interface,levelup_ranged
+data=title,levelup_ranged:line1
+data=body,levelup_ranged:line2
+data=message,"Congratulations, you just advanced a ranged level."
+data=level_prefix,Your ranging level is now
+data=levelup_jingle,^advance_ranged_jingle
+data=levelup_jingle_millis,^advance_ranged_millis
+data=unlocks_jingle,^advance_ranged_2_jingle
+data=unlocks_jingle_millis,^advance_ranged_2_millis
+data=unlocks_levels,levelup_unlocks_ranged
+
+[levelup_magic]
+table=levelup
+data=stat,magic
+data=interface,levelup_magic
+data=title,levelup_magic:line1
+data=body,levelup_magic:line2
+data=message,"Congratulations, you just advanced a magic level."
+data=level_prefix,Your magic level is now
+data=levelup_jingle,^advance_magic_jingle
+data=levelup_jingle_millis,^advance_magic_millis
+data=unlocks_jingle,^advance_magic_2_jingle
+data=unlocks_jingle_millis,^advance_magic_2_millis
+data=unlocks_levels,levelup_unlocks_magic
+
+[levelup_defence]
+table=levelup
+data=stat,defence
+data=interface,levelup_defence
+data=title,levelup_defence:line1
+data=body,levelup_defence:line2
+data=message,"Congratulations, you just advanced a defence level."
+data=level_prefix,Your defence level is now
+data=levelup_jingle,^advance_defense_jingle
+data=levelup_jingle_millis,^advance_defense_millis
+data=unlocks_jingle,^advance_defense_2_jingle
+data=unlocks_jingle_millis,^advance_defense_2_millis
+data=unlocks_levels,levelup_unlocks_defence
+
+[levelup_hitpoints]
+table=levelup
+data=stat,hitpoints
+data=interface,levelup_hitpoints
+data=title,levelup_hitpoints:line1
+data=body,levelup_hitpoints:line2
+data=message,"Congratulations, you just advanced a hitpoints level."
+data=level_prefix,Your hitpoints are now
+data=levelup_jingle,^advance_hitpoints_jingle
+data=levelup_jingle_millis,^advance_hitpoints_millis
+data=unlocks_jingle,^advance_hitpoints_2_jingle
+data=unlocks_jingle_millis,^advance_hitpoints_2_millis
+data=unlocks_levels,levelup_unlocks_hitpoints
+
+[levelup_prayer]
+table=levelup
+data=stat,prayer
+data=interface,levelup_prayer
+data=title,levelup_prayer:line1
+data=body,levelup_prayer:line2
+data=message,"Congratulations, you just advanced a prayer level."
+data=level_prefix,Your prayer level is now
+data=levelup_jingle,^advance_prayer_jingle
+data=levelup_jingle_millis,^advance_prayer_millis
+data=unlocks_jingle,^advance_prayer_2_jingle
+data=unlocks_jingle_millis,^advance_prayer_2_millis
+data=unlocks_levels,levelup_unlocks_prayer
+
+[levelup_agility]
+table=levelup
+data=stat,agility
+data=interface,levelup_agility
+data=title,levelup_agility:line1
+data=body,levelup_agility:line2
+data=message,"Congratulations, you just advanced an agility level."
+data=level_prefix,Your agility level is now
+data=levelup_jingle,^advance_agility_jingle
+data=levelup_jingle_millis,^advance_agility_millis
+data=unlocks_jingle,^advance_agility_jingle
+data=unlocks_jingle_millis,^advance_agility_millis
+data=unlocks_levels,levelup_unlocks_agility
+
+[levelup_herblore]
+table=levelup
+data=stat,herblore
+data=interface,levelup_herblore
+data=title,levelup_herblore:line1
+data=body,levelup_herblore:line2
+data=message,"Congratulations, you just advanced a herblore level."
+data=level_prefix,Your herblore level is now
+data=levelup_jingle,^advance_herblaw_jingle
+data=levelup_jingle_millis,^advance_herblaw_millis
+data=unlocks_jingle,^advance_herblaw_2_jingle
+data=unlocks_jingle_millis,^advance_herblaw_2_millis
+data=unlocks_levels,levelup_unlocks_herblore
+
+[levelup_thieving]
+table=levelup
+data=stat,thieving
+data=interface,levelup_thieving
+data=title,levelup_thieving:line1
+data=body,levelup_thieving:line2
+data=message,"Congratulations, you just advanced a thieving level."
+data=level_prefix,Your thieving level is now
+data=levelup_jingle,^advance_thieving_jingle
+data=levelup_jingle_millis,^advance_thieving_millis
+data=unlocks_jingle,^advance_thieving_2_jingle
+data=unlocks_jingle_millis,^advance_thieving_2_millis
+data=unlocks_levels,levelup_unlocks_thieving
+
+[levelup_crafting]
+table=levelup
+data=stat,crafting
+data=interface,levelup_crafting
+data=title,levelup_crafting:line1
+data=body,levelup_crafting:line2
+data=message,"Congratulations, you just advanced a crafting level."
+data=level_prefix,Your crafting level is now
+data=levelup_jingle,^advance_crafting_jingle
+data=levelup_jingle_millis,^advance_crafting_millis
+data=unlocks_jingle,^advance_crafting_2_jingle
+data=unlocks_jingle_millis,^advance_crafting_2_millis
+data=unlocks_levels,levelup_unlocks_crafting
+
+[levelup_runecraft]
+table=levelup
+data=stat,runecraft
+data=interface,levelup_runecraft
+data=title,levelup_runecraft:line1
+data=body,levelup_runecraft:line2
+data=message,"Congratulations, you just advanced a runecraft level."
+data=level_prefix,Your runecraft level is now
+data=levelup_jingle,^advance_runecraft_jingle
+data=levelup_jingle_millis,^advance_runecraft_millis
+data=unlocks_jingle,^advance_runecraft_2_jingle
+data=unlocks_jingle_millis,^advance_runecraft_2_millis
+data=unlocks_levels,levelup_unlocks_runecraft
+
+[levelup_mining]
+table=levelup
+data=stat,mining
+data=interface,levelup_mining
+data=title,levelup_mining:line1
+data=body,levelup_mining:line2
+data=message,"Congratulations, you just advanced a mining level."
+data=level_prefix,Your mining level is now
+data=levelup_jingle,^advance_mining_jingle
+data=levelup_jingle_millis,^advance_mining_millis
+data=unlocks_jingle,^advance_mining_2_jingle
+data=unlocks_jingle_millis,^advance_mining_2_millis
+data=unlocks_levels,levelup_unlocks_mining
+
+[levelup_smithing]
+table=levelup
+data=stat,smithing
+data=interface,levelup_smithing
+data=title,levelup_smithing:line1
+data=body,levelup_smithing:line2
+data=message,"Congratulations, you just advanced a smithing level."
+data=level_prefix,Your smithing level is now
+data=levelup_jingle,^advance_smithing_jingle
+data=levelup_jingle_millis,^advance_smithing_millis
+data=unlocks_jingle,^advance_smithing_2_jingle
+data=unlocks_jingle_millis,^advance_smithing_2_millis
+data=unlocks_levels,levelup_unlocks_smithing
+
+[levelup_fishing]
+table=levelup
+data=stat,fishing
+data=interface,levelup_fishing
+data=title,levelup_fishing:line1
+data=body,levelup_fishing:line2
+data=message,"Congratulations, you just advanced a fishing level."
+data=level_prefix,Your fishing level is now
+data=levelup_jingle,^advance_fishing_jingle
+data=levelup_jingle_millis,^advance_fishing_millis
+data=unlocks_jingle,^advance_fishing_2_jingle
+data=unlocks_jingle_millis,^advance_fishing_2_millis
+data=unlocks_levels,levelup_unlocks_fishing
+
+[levelup_cooking]
+table=levelup
+data=stat,cooking
+data=interface,levelup_cooking
+data=title,levelup_cooking:line1
+data=body,levelup_cooking:line2
+data=message,"Congratulations, you just advanced a cooking level."
+data=level_prefix,Your cooking level is now
+data=levelup_jingle,^advance_cooking_jingle
+data=levelup_jingle_millis,^advance_cooking_millis
+data=unlocks_jingle,^advance_cooking_2_jingle
+data=unlocks_jingle_millis,^advance_cooking_2_millis
+data=unlocks_levels,levelup_unlocks_cooking
+
+[levelup_firemaking]
+table=levelup
+data=stat,firemaking
+data=interface,levelup_firemaking
+data=title,levelup_firemaking:line1
+data=body,levelup_firemaking:line2
+data=message,"Congratulations, you just advanced a firemaking level."
+data=level_prefix,Your firemaking level is now
+data=levelup_jingle,^advance_firemarking_jingle
+data=levelup_jingle_millis,^advance_firemarking_millis
+data=unlocks_jingle,^advance_firemarking_2_jingle
+data=unlocks_jingle_millis,^advance_firemarking_2_millis
+data=unlocks_levels,levelup_unlocks_firemaking
+
+[levelup_woodcutting]
+table=levelup
+data=stat,woodcutting
+data=interface,levelup_woodcutting
+data=title,levelup_woodcutting:line1
+data=body,levelup_woodcutting:line2
+data=message,"Congratulations, you just advanced a woodcutting level."
+data=level_prefix,Your woodcutting level is now
+data=levelup_jingle,^advance_woodcutting_jingle
+data=levelup_jingle_millis,^advance_woodcutting_millis
+data=unlocks_jingle,^advance_woodcutting_2_jingle
+data=unlocks_jingle_millis,^advance_woodcutting_2_millis
+data=unlocks_levels,levelup_unlocks_woodcutting
+
+[levelup_fletching]
+table=levelup
+data=stat,fletching
+data=interface,levelup_fletching
+data=title,levelup_fletching:line1
+data=body,levelup_fletching:line2
+data=message,"Congratulations, you just advanced an fletching level."
+data=level_prefix,Your fletching level is now
+data=levelup_jingle,^advance_fletching_jingle
+data=levelup_jingle_millis,^advance_fletching_millis
+data=unlocks_jingle,^advance_fletching_2_jingle
+data=unlocks_jingle_millis,^advance_fletching_2_millis
+data=unlocks_levels,levelup_unlocks_fletching

@@ -34,7 +34,7 @@ param=crushdefence,14
 param=magicdefence,-4
 param=crushdefence,15
 param=attackrate,6
-param=damagetype,0
+param=damagetype,^stab_style
 
 [black_knight_knight]
 vislevel=hide

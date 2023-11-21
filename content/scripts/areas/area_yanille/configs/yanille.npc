@@ -32,7 +32,7 @@ param=strengthbonus,8
 param=stabdefence,23
 param=slashdefence,35
 param=crushdefence,28
-param=damagetype,0
+param=damagetype,^stab_style
 
 [colonel_radick]
 name=Colonel Radick
@@ -73,7 +73,7 @@ param=strengthbonus,13
 param=stabdefence,39
 param=slashdefence,31
 param=crushdefence,34
-param=damagetype,1
+param=damagetype,^slash_style
 
 [sigbert_the_adventurer]
 vislevel=hide

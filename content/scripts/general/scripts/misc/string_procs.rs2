@@ -37,3 +37,9 @@ if (compare(~string_right($noun, 3), "ces") = 0 | compare(~string_right($noun, 3
 } else {
     return ($noun);
 }
+
+[proc,string_isnullorempty](string $string)(boolean)
+if (compare($string, "null") = 0 | compare($string, "") = 0) {
+    return(true);
+}
+return(false);

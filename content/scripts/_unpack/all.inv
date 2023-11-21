@@ -751,7 +751,7 @@ size=14
 
 [bank]
 scope=perm
-size=240
+size=^bank_total_slots
 stackall=yes
 
 [inv_96]

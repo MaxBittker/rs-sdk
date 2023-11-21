@@ -86,7 +86,7 @@ hitpoints=5
 attack=2
 strength=2
 defence=3
-param=damagetype,2
+param=damagetype,^crush_style
 
 [silver_merchant]
 vislevel=hide

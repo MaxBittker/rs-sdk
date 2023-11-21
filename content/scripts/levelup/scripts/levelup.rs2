@@ -1,0 +1,57 @@
+[levelup,attack] queue(levelup, 0, enum(int, stat, stats, ^attack));
+[levelup,strength] queue(levelup, 0, enum(int, stat, stats, ^strength));
+[levelup,ranged] queue(levelup, 0, enum(int, stat, stats, ^ranged));
+[levelup,magic] queue(levelup, 0, enum(int, stat, stats, ^magic));
+[levelup,defence] queue(levelup, 0, enum(int, stat, stats, ^defence));
+[levelup,hitpoints] queue(levelup, 0, enum(int, stat, stats, ^hitpoints));
+[levelup,prayer] queue(levelup, 0, enum(int, stat, stats, ^prayer));
+[levelup,agility] queue(levelup, 0, enum(int, stat, stats, ^agility));
+[levelup,herblore] queue(levelup, 0, enum(int, stat, stats, ^herblore));
+[levelup,thieving] queue(levelup, 0, enum(int, stat, stats, ^thieving));
+[levelup,crafting] queue(levelup, 0, enum(int, stat, stats, ^crafting));
+[levelup,runecraft] queue(levelup, 0, enum(int, stat, stats, ^runecraft));
+[levelup,mining] queue(levelup, 0, enum(int, stat, stats, ^mining));
+[levelup,smithing] queue(levelup, 0, enum(int, stat, stats, ^smithing));
+[levelup,fishing] queue(levelup, 0, enum(int, stat, stats, ^fishing));
+[levelup,cooking] queue(levelup, 0, enum(int, stat, stats, ^cooking));
+[levelup,firemaking] queue(levelup, 0, enum(int, stat, stats, ^firemaking));
+[levelup,woodcutting] queue(levelup, 0, enum(int, stat, stats, ^woodcutting));
+[levelup,fletching] queue(levelup, 0, enum(int, stat, stats, ^fletching));
+
+[queue,levelup](stat $stat)
+db_find(levelup:stat, $stat);
+def_dbrow $unlock_row = db_findnext;
+if ($unlock_row = null) {
+    return;
+}
+def_int $level = stat_base($stat);
+def_string $message = db_getfield($unlock_row, levelup:message, 0);
+mes($message);
+// play the fireworks
+spotanim_pl(levelup_anim, 124, 0);
+sound_synth(firework, 0, 0);
+def_enum $unlocks_levels = db_getfield($unlock_row, levelup:unlocks_levels, 0);
+def_boolean $has_unlocks = false;
+if ($unlocks_levels ! null) {
+    $has_unlocks = ~enum_containsintvalue($unlocks_levels, $level);
+}
+// play the jingle
+def_string $jingle;
+def_int $jingle_millis;
+if ($has_unlocks = false) {
+    $jingle = db_getfield($unlock_row, levelup:levelup_jingle, 0);
+    $jingle_millis = db_getfield($unlock_row, levelup:levelup_jingle_millis, 0);
+} else {
+    $jingle = db_getfield($unlock_row, levelup:unlocks_jingle, 0);
+    $jingle_millis = db_getfield($unlock_row, levelup:unlocks_jingle_millis, 0);
+}
+midi_jingle($jingle, $jingle_millis);
+// the level up dialogue box
+if_settext(db_getfield($unlock_row, levelup:title, 0), "@dbl@<$message>");
+if_settext(db_getfield($unlock_row, levelup:body, 0), "<db_getfield($unlock_row, levelup:level_prefix, 0)> <tostring($level)>.");
+if_openbottom(db_getfield($unlock_row, levelup:interface, 0));
+p_pausebutton;
+if ($has_unlocks = false) {
+    return;
+}
+jump(~levelup_unlocks($stat));

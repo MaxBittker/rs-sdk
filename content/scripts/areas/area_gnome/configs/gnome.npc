@@ -117,7 +117,7 @@ param=slashdefence,-42
 param=crushdefence,-42
 param=magicdefence,-42
 param=rangedefence,-42
-param=damagetype,2
+param=damagetype,^crush_style
 param=death_anim,midget_death
 
 [gnome_child_blue]
@@ -146,7 +146,7 @@ param=slashdefence,-42
 param=crushdefence,-42
 param=magicdefence,-42
 param=rangedefence,-42
-param=damagetype,2
+param=damagetype,^crush_style
 param=death_anim,midget_death
 
 [gnome_child_green]
@@ -173,7 +173,7 @@ param=slashdefence,-42
 param=crushdefence,-42
 param=magicdefence,-42
 param=rangedefence,-42
-param=damagetype,2
+param=damagetype,^crush_style
 param=death_anim,midget_death
 
 [npc_163]
@@ -196,7 +196,7 @@ strength=17
 defence=17
 param=attackbonus,8
 param=strengthbonus,13
-param=damagetype,1
+param=damagetype,^slash_style
 param=death_anim,midget_death
 
 [npc_164]
@@ -223,7 +223,7 @@ param=stabdefence,8
 param=slashdefence,9
 param=crushdefence,7
 param=rangedefence,8
-param=damagetype,1
+param=damagetype,^slash_style
 param=death_anim,midget_death
 
 [npc_165]
@@ -293,7 +293,7 @@ param=slashdefence,-42
 param=crushdefence,-42
 param=magicdefence,-42
 param=rangedefence,-42
-param=damagetype,2
+param=damagetype,^crush_style
 param=death_anim,midget_death
 
 [gnome_woman_black]
@@ -328,7 +328,7 @@ param=slashdefence,-42
 param=crushdefence,-42
 param=magicdefence,-42
 param=rangedefence,-42
-param=damagetype,2
+param=damagetype,^crush_style
 param=death_anim,midget_death
 
 [npc_170]

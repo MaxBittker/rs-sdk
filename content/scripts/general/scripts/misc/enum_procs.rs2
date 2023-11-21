@@ -1,0 +1,11 @@
+// enum must be keyed by int and valued by int
+[proc,enum_containsintvalue](enum $enum, int $value)(boolean)
+def_int $index = 0;
+while ($index < enum_getoutputcount($enum)) {
+    def_int $contain = enum(int, int, $enum, $index);
+    if ($contain = $value) {
+        return(true);
+    }
+    $index = calc($index + 1);
+}
+return(false);

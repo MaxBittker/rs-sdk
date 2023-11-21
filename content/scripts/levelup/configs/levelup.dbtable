@@ -1,0 +1,12 @@
+[levelup]
+column=stat,stat
+column=interface,interface
+column=title,component
+column=body,component
+column=message,string
+column=level_prefix,string
+column=levelup_jingle,string
+column=levelup_jingle_millis,int
+column=unlocks_jingle,string
+column=unlocks_jingle_millis,int
+column=unlocks_levels,enum

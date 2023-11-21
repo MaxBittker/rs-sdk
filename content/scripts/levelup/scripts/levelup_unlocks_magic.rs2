@@ -1,0 +1,5 @@
+[label,levelup_magic]
+switch_int(stat_base(magic)) {
+    case 3: ~objboxt(battlestaff, "You can now cast @dbl@Confuse@bla@!");
+    case 5: ~objboxt(battlestaff, "You can now cast @dbl@Water Strike@bla@!");
+}

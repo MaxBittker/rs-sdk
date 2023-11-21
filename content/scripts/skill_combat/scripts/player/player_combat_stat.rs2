@@ -117,7 +117,7 @@ if (%prayer_ultimatestrength = ^true) return (115);
 else return(100);
 
 [proc,check_protect_prayer](int $style)(boolean)
-if (($style = ^melee | $style = ^stab | $style = ^slash | $style = ^crush) & %prayer_protectfrommelee = ^true) return (true);
-if (($style = ^ranged) & %prayer_protectfrommissiles = ^true) return (true);
-if (($style = ^magic) & %prayer_protectfrommagic = ^true) return (true);
+if (($style = ^melee_style | $style = ^stab_style | $style = ^slash_style | $style = ^crush_style) & %prayer_protectfrommelee = ^true) return (true);
+if (($style = ^ranged_style) & %prayer_protectfrommissiles = ^true) return (true);
+if (($style = ^magic_style) & %prayer_protectfrommagic = ^true) return (true);
 else return (false);

@@ -1,5 +1,5 @@
 [opnpc2,_]
-if (%damagetype = ^ranged) {
+if (%damagetype = ^ranged_style) {
     ~player_ranged_attack;
     return;
 }
@@ -12,7 +12,7 @@ if (npc_range(coord) > %attackrange) {
     return;
 }
 // TODO: Range and mage check
-if (%damagetype = ^ranged) {
+if (%damagetype = ^ranged_style) {
     ~player_ranged_attack;
     return;
 }
@@ -45,21 +45,21 @@ return(false);
 [proc,player_attack_roll_specific](int $damagetype)(int)
 def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
 switch_int ($damagetype) {
-    case ^stab: return(%com_stabattack);
-    case ^slash: return(%com_slashattack);
-    case ^crush: return(%com_crushattack);
-    case ^ranged: return(%com_rangeattack);
-    case ^magic: return(%com_magicattack);
+    case ^stab_style: return(%com_stabattack);
+    case ^slash_style: return(%com_slashattack);
+    case ^crush_style: return(%com_crushattack);
+    case ^ranged_style: return(%com_rangeattack);
+    case ^magic_style: return(%com_magicattack);
 }
 error("combat style of <tostring($damagetype)> not defined in switch for p_npc_melee_roll");
 
 // returns the player's defence roll, depending on style
 [proc,player_defence_roll_specific](int $damagetype)(int)
 switch_int ($damagetype) {
-    case ^stab: return(%com_stabdef);
-    case ^slash: return(%com_slashdef);
-    case ^crush: return(%com_crushdef);
-    case ^ranged: return(%com_rangedef);
-    case ^magic: return(%com_magicdef);
+    case ^stab_style: return(%com_stabdef);
+    case ^slash_style: return(%com_slashdef);
+    case ^crush_style: return(%com_crushdef);
+    case ^ranged_style: return(%com_rangedef);
+    case ^magic_style: return(%com_magicdef);
 }
 error("style of <tostring($damagetype)> not defined in switch for player_defence_roll_specific");

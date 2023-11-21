@@ -61,26 +61,3 @@ if (calc($level - $debuff) < $min_level) {
 
 // subtract the debuff, with no percent
 stat_sub($stat, $debuff, 0);
-
-[proc,stat_name_for_stat](stat $stat)(string)
-switch_stat ($stat) {
-    case attack : return("Attack");
-    case defence : return("Defence");
-    case strength : return("Strength");
-    case hitpoints : return("Hitpoints");
-    case ranged : return("Ranged");
-    case prayer : return("Prayer");
-    case magic : return("Magic");
-    case cooking : return("Cooking");
-    case woodcutting : return("Woodcutting");
-    case fletching : return("Fletching");
-    case fishing : return("Fishing");
-    case firemaking : return("Firemaking");
-    case crafting : return("Crafting");
-    case smithing : return("Smithing");
-    case mining : return("Mining");
-    case herblore : return("Herblore");
-    case agility : return("Agility");
-    case thieving : return("Thieving");
-    case runecraft : return("Runecraft");
-}

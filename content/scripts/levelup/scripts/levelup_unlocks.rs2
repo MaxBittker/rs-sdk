@@ -1,0 +1,4 @@
+[proc,levelup_unlocks](stat $stat)(label)
+switch_stat($stat) {
+    case magic: return(levelup_magic);
+}

@@ -23,7 +23,7 @@ return(npc_param(death_sound));
 // returns the npc attack roll for this npc
 // npcs only have one attackbonus.
 [proc,npc_attack_roll]()(int)
-if (~check_protect_prayer(^melee) = true) {
+if (~check_protect_prayer(^melee_style) = true) {
     return(0);
 }
 def_int $attackbonus = npc_param(attackbonus);
@@ -42,10 +42,10 @@ return($defence_roll);
 // get the npc bonus depending on the attacking style
 [proc,npc_combat_defencebonus](int $style)(int)
 switch_int ($style) {
-    case ^stab: return(npc_param(stabdefence));
-    case ^slash: return(npc_param(slashdefence));
-    case ^crush: return(npc_param(crushdefence));
-    case ^ranged: return(npc_param(rangedefence));
-    case ^magic: return(npc_param(magicdefence));
+    case ^stab_style: return(npc_param(stabdefence));
+    case ^slash_style: return(npc_param(slashdefence));
+    case ^crush_style: return(npc_param(crushdefence));
+    case ^ranged_style: return(npc_param(rangedefence));
+    case ^magic_style: return(npc_param(magicdefence));
 }
 error("style of <tostring($style)> not defined in switch for npc_combat_defencebonus");

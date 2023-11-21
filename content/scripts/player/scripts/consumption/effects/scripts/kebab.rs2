@@ -77,10 +77,10 @@ if ($rand > $chance) {
     def_stat $random_stat = enum(int, stat, stats, random(enum_getoutputcount(stats)));
     if (stat($random_stat) > 4) {
         stat_sub($random_stat, 3, 0);
-        mes("Eating the kebab has damaged your <~stat_name_for_stat($random_stat)> stat.");
+        mes("Eating the kebab has damaged your <enum(stat, string, stat_names, $random_stat)> stat.");
     } else if (stat($random_stat) > 2){
         stat_sub($random_stat, calc(stat($random_stat) - 2), 0);
-        mes("Eating the kebab has damaged your <~stat_name_for_stat($random_stat)> stat.");
+        mes("Eating the kebab has damaged your <enum(stat, string, stat_names, $random_stat)> stat.");
     }
     return;
 }

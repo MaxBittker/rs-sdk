@@ -1,6 +1,6 @@
-^stab = 0
-^slash = 1
-^crush = 2
-^ranged = 3
-^magic = 4
-^melee = 5
+^stab_style = 0
+^slash_style = 1
+^crush_style = 2
+^ranged_style = 3
+^magic_style = 4
+^melee_style = 5

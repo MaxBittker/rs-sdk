@@ -1,4 +1,4 @@
-[com_0]
+[line1]
 type=text
 x=73
 y=15
@@ -8,7 +8,7 @@ center=yes
 font=q8
 text=Line1
 
-[com_1]
+[line2]
 type=text
 x=73
 y=44
@@ -18,7 +18,7 @@ center=yes
 font=q8
 text=Line2
 
-[com_2]
+[continue]
 type=text
 x=93
 y=74
@@ -31,7 +31,7 @@ text=Click here to continue
 colour=0xFFFF00
 overcolour=0x00C000
 
-[com_3]
+[icon]
 type=model
 x=43
 y=19
@@ -42,7 +42,7 @@ zoom=408
 xan=254
 yan=1257
 
-[com_4]
+[icon2]
 type=model
 x=46
 y=44

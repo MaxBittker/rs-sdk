@@ -86,7 +86,7 @@ if (~bank_find_obj_unbankable($obj) = true) {
 
 if (map_members = false) {
     // check for f2p bank limits.
-    if ((inv_total(bank, oc_uncert($obj)) = 0) & (sub(inv_size(bank), inv_freespace(bank)) > ^free_bank_size)) {
+    if ((inv_total(bank, oc_uncert($obj)) = 0) & (sub(inv_size(bank), inv_freespace(bank)) > ^bank_free_slots)) {
         // https://youtu.be/yv-H5-IoRLs?t=9
         @you_need_to_subscribe_for_a_members_account_if_you_want_to_store_any_more_items_in_the_bank;
     }

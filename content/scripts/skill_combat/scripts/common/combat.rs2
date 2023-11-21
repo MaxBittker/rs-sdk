@@ -94,10 +94,10 @@ if ($weapon = null) {
     }
 }
 switch_int ($damagetype) {
-    case ^stab : return(oc_param($weapon, stabattack_anim), oc_param($weapon, stab_sound));
-    case ^slash : return(oc_param($weapon, slashattack_anim), oc_param($weapon, slash_sound));
-    case ^crush : return(oc_param($weapon, crushattack_anim), oc_param($weapon, crush_sound));
-    case ^ranged : return(oc_param($weapon, rangeattack_anim), oc_param($weapon, rangeattack_sound));
+    case ^stab_style : return(oc_param($weapon, stabattack_anim), oc_param($weapon, stab_sound));
+    case ^slash_style : return(oc_param($weapon, slashattack_anim), oc_param($weapon, slash_sound));
+    case ^crush_style : return(oc_param($weapon, crushattack_anim), oc_param($weapon, crush_sound));
+    case ^ranged_style : return(oc_param($weapon, rangeattack_anim), oc_param($weapon, rangeattack_sound));
 }
 
 [proc,give_combat_experience](int $damagestyle, int $damage)

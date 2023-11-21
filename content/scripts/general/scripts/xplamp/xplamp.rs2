@@ -71,7 +71,7 @@ switch_stat ($stat) {
     case woodcutting: @xplamp_select_stat(^xplamp_woodcutting);
     case fletching: @xplamp_select_stat(^xplamp_fletching);
 }
-error("case not found for stat: <~stat_name_for_stat($stat)>");
+error("case not found for stat: <enum(stat, string, stat_names, $stat)>");
 
 [label,xplamp_select_stat](int $selection)
 switch_int ($selection) {
@@ -107,8 +107,7 @@ def_int $base_level = stat_base($stat);
 givexp($stat, multiply($base_level, 100)); // stat level * 10
 sound_synth(found_gem, 0, 0);
 
-def_string $stat_name = ~stat_name_for_stat($stat);
-~mesbox("Your wish has been granted!|You have been awarded <tostring(multiply($base_level, 10))> <$stat_name> experience!");
+~mesbox("Your wish has been granted!|You have been awarded <tostring(multiply($base_level, 10))> <enum(stat, string, stat_names, $stat)> experience!");
 
 [proc,require_members_gain_experience_in_stat](stat $stat)
 if (map_members = true) {
