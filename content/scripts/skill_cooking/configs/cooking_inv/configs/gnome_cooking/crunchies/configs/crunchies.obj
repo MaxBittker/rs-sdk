@@ -1,4 +1,4 @@
-[worm_crunchies]
+[premade_worm_crunchies]
 name=Worm crunchies
 desc=It actually smells quite good.
 model=model_2753_obj
@@ -14,7 +14,7 @@ weight=250g
 category=category_128
 tradeable=yes
 
-[choc_chip_crunchies]
+[premade_choc_chip_crunchies]
 name=Chocchip crunchies
 desc=Yum... smells good.
 model=model_2753_obj
@@ -28,7 +28,7 @@ weight=250g
 category=category_128
 tradeable=yes
 
-[spicy_crunchies]
+[premade_spicy_crunchies]
 name=Spicy crunchies
 desc=Yum... smells good.
 model=model_2753_obj
@@ -44,7 +44,7 @@ weight=250g
 category=category_128
 tradeable=yes
 
-[toad_crunchies]
+[premade_toad_crunchies]
 name=Toad crunchies
 desc=It actually smells quite good.
 model=model_2753_obj
@@ -138,7 +138,7 @@ members=yes
 tradeable=yes
 param=gnome_cooking_type,2
 
-[premade_worm_crunchies]
+[worm_crunchies]
 category=category_123
 cost=2
 name=Worm crunchies
@@ -169,7 +169,7 @@ members=yes
 tradeable=yes
 param=gnome_cooking_type,2
 
-[premade_choc_chip_crunchies]
+[choc_chip_crunchies]
 category=category_123
 cost=2
 name=Chocchip crunchies
@@ -201,7 +201,7 @@ members=yes
 tradeable=yes
 param=gnome_cooking_type,2
 
-[premade_spicy_crunchies]
+[spicy_crunchies]
 category=category_123
 cost=2
 name=Spicy crunchies
@@ -234,7 +234,7 @@ members=yes
 tradeable=yes
 param=gnome_cooking_type,2
 
-[premade_toad_crunchies]
+[toad_crunchies]
 name=Toad crunchies
 desc=It actually smells quite good.
 cost=2
