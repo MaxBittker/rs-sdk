@@ -181,17 +181,17 @@ function packSeqConfigs(configs: Map<string, ConfigLine[]>, transmitAll: boolean
             dat.p1(1);
 
             dat.p1(frames.length);
-            for (let i = 0; i < frames.length; i++) {
-                dat.p2(frames[i]);
+            for (let j = 0; j < frames.length; j++) {
+                dat.p2(frames[j]);
 
-                if (typeof iframes[i] !== 'undefined') {
-                    dat.p2(iframes[i]);
+                if (typeof iframes[j] !== 'undefined') {
+                    dat.p2(iframes[j]);
                 } else {
                     dat.p2(-1);
                 }
 
-                if (typeof delays[i] !== 'undefined') {
-                    dat.p2(delays[i]);
+                if (typeof delays[j] !== 'undefined') {
+                    dat.p2(delays[j]);
                 } else {
                     dat.p2(0);
                 }
