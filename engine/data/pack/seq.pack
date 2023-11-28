@@ -433,11 +433,11 @@
 432=seq_432
 433=seq_433
 434=seq_434
-435=seq_435
-436=seq_436
-437=seq_437
-438=seq_438
-439=seq_439
+435=human_scythe_block
+436=human_scythe_def
+437=human_scythe_lunge
+438=human_scythe_sweep
+439=human_scythe_spin
 440=human_spear_slash
 441=seq_441
 442=seq_442

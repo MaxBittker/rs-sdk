@@ -300,13 +300,13 @@ export default class Npc extends PathingEntity {
 
     noMode(): void {
         this.mode = NpcMode.NONE;
-        this.resetInteraction(true);
+        this.resetInteraction();
     }
 
     defaultMode(): void {
         const type = NpcType.get(this.type);
         this.mode = type.defaultmode;
-        this.resetInteraction(true);
+        this.resetInteraction();
     }
 
     wanderMode(): void {
@@ -584,15 +584,13 @@ export default class Npc extends PathingEntity {
         }
     }
 
-    resetInteraction(faceEntity: boolean) {
+    resetInteraction() {
         if (!this.interaction) {
             return;
         }
         this.interaction = null;
-        if (faceEntity) {
-            this.faceEntity = -1;
-            this.mask |= Npc.FACE_ENTITY;
-        }
+        this.faceEntity = -1;
+        this.mask |= Npc.FACE_ENTITY;
     }
 
     // ----

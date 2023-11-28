@@ -202,7 +202,7 @@ const NpcOps: CommandHandlers = {
     [ScriptOpcode.NPC_SETMODE]: checkedHandler(ActiveNpc, (state) => {
         const mode = state.popInt();
 
-        if (mode === -1 || mode > NpcMode.APNPC5) {
+        if (mode > NpcMode.APNPC5) {
             throw new Error('NPC_SETMODE attempted to use an npc mode that was null.');
         }
 
@@ -210,7 +210,7 @@ const NpcOps: CommandHandlers = {
         state.activeNpc.clearWalkSteps();
 
         if (mode === NpcMode.NULL || mode === NpcMode.NONE || mode === NpcMode.WANDER || mode === NpcMode.PATROL) {
-            state.activeNpc.interaction = null;
+            state.activeNpc.resetInteraction();
             return;
         }
 
@@ -226,11 +226,10 @@ const NpcOps: CommandHandlers = {
         }
 
         if (target) {
-            state.activeNpc.resetInteraction(true);
+            state.activeNpc.resetInteraction();
             state.activeNpc.setInteraction(mode, target);
         } else {
-            state.activeNpc.mode = NpcMode.NONE;
-            state.activeNpc.interaction = null;
+            state.activeNpc.noMode();
         }
     }),
 
