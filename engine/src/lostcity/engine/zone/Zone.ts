@@ -39,22 +39,29 @@ export default class Zone {
         return out;
     }
 
-    static mapProjAnim(srcX: number, srcZ: number) {
+    // variables fully broken out for now
+    //coord $from, coord $to, spotanim $spotanim, int $fromHeight, int $toHeight, int $startDelay, int $endDelay, int $peak, int $arc
+    static mapProjAnim(srcX: number, srcZ: number,
+        dstX: number, dstZ: number,
+        target: number, spotanim: number,
+        srcHeight: number, dstHeight: number,
+        startDelay: number, endDelay: number,
+        peak: number, arc: number)
+    {
         const out = new Packet();
         out.p1(ServerProt.MAP_PROJANIM);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
-
-        // p1 dst x (relative srcX)
-        // p1 dst z (relative srcZ)
-        // p2 target (> 0 npc, < 0 player, == 0 coord)
-        // p2 spotanim
-        // p1 src height
-        // p1 dst height
-        // p2 start
-        // p2 end
-        // p1 peak
-        // p1 arc
+        out.p1(dstX - srcX);
+        out.p1(dstZ - srcZ);
+        out.p2(target); // 0: coord, > 0: npc, < 0: player
+        out.p2(spotanim);
+        out.p1(srcHeight);
+        out.p1(dstHeight);
+        out.p2(startDelay);
+        out.p2(endDelay);
+        out.p1(peak);
+        out.p1(arc);
 
         return out;
     }
@@ -81,7 +88,12 @@ export default class Zone {
     }
 
     // merge player with loc, e.g. agility training through pipes
-    static locMerge(srcX: number, srcZ: number, shape: number, rotation: number, locId: number, startCycle: number, endCycle: number, pid: number, east: number, south: number, west: number, north: number) {
+    // useful due to draw prioritizes
+    static locMerge(srcX: number, srcZ: number,
+        shape: number, rotation: number, locId: number,
+        startCycle: number, endCycle: number,
+        pid: number, east: number, south: number, west: number, north: number)
+    {
         const out = new Packet();
         out.p1(ServerProt.LOC_MERGE);
 
@@ -195,7 +207,23 @@ export default class Zone {
         this.lastEvent = World.currentTick;
     }
 
-    // TODO: projanim
+    mapProjAnim(x: number, z: number,
+        dstX: number, dstZ: number,
+        target: number, spotanim: number,
+        srcHeight: number, dstHeight: number,
+        startDelay: number, endDelay: number,
+        peak: number, arc: number)
+    {
+        const event = new ZoneEvent(ServerProt.MAP_PROJANIM);
+
+        event.buffer = Zone.mapProjAnim(x, z, dstX, dstZ, target, spotanim, srcHeight, dstHeight, startDelay, endDelay, peak, arc);
+        event.x = x;
+        event.z = z;
+        event.tick = World.currentTick;
+
+        this.updates.push(event);
+        this.lastEvent = World.currentTick;
+    }
 
     // ---- players/npcs are not zone tracked for events ----
 
