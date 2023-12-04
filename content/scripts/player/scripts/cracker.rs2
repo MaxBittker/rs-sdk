@@ -8,7 +8,8 @@ if(.busy = true) {
     mes("<.displayname> is busy.");
     return;
 }
-mes("You pull a Christmas cracker...");
+mes("Pulling cracker");
+mes("You pull a christmas cracker...");
 anim(explodingvial, 0);
 inv_del(inv, christmas_cracker, 1);
 if (random(2) = 1) {

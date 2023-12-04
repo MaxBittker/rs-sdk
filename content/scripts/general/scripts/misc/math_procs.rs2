@@ -1,0 +1,19 @@
+[proc,multiply2](int $int1, int $int2, int $m)(int, int)
+$int1 = calc($int1 * $m);
+$int2 = calc($int2 * $m);
+return($int1, $int2);
+
+[proc,add2](int $int1, int $int2, int $a)(int, int)
+$int1 = calc($int1 + $a);
+$int2 = calc($int2 + $a);
+return($int1, $int2);
+
+[proc,sub2](int $int1, int $int2, int $s)(int, int)
+$int1 = calc($int1 - $s);
+$int2 = calc($int2 - $s);
+return($int1, $int2);
+
+[proc,divide2](int $int1, int $int2, int $d)(int, int)
+$int1 = calc($int1 / $d);
+$int2 = calc($int2 / $d);
+return($int1, $int2);

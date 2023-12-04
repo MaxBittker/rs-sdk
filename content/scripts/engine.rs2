@@ -34,6 +34,7 @@
 [command,map_projanim_npc](coord $from, npc_uid $to, spotanim $spotanim, int $fromHeight, int $toHeight, int $delay, int $duration, int $peak, int $arc, int $scalar)
 [command,map_projanim_coord](coord $from, coord $to, spotanim $spotanim, int $fromHeight, int $toHeight, int $delay, int $duration, int $peak, int $arc, int $scalar)
 [command,map_shutdown](int $delay)
+[command,map_locaddunsafe](coord $coord)(boolean)
 
 // Player ops (2000-2499)
 [command,finduid](player_uid $player)(boolean)
@@ -356,17 +357,13 @@
 // [command,mes_typed](int $type, string $message)
 // [command,controller_queue](int $id, int $type, int $delay)
 // [command,controller_findexact](regioncoord $coord, int $type)(boolean)
-// [command,.controller_findexact](regioncoord $coord, int $type)(boolean)
 // [command,region_getcoord](int $int1, int $int2, int $int3)(regioncoord)
 // [command,sound_area](coord $coord, int $int1, synth $sound, int $int2, int $int3)
 // [command,p_transmogrify](npc $npc)
 // [command,if_setevents](component $component, int $int1, int $int2, boolean $boolean1, int $int3, int $int4, int $int5, boolean $boolean2, boolean $boolean3)
 // [command,runclientscript](string $string)
-// [command,.npc_add](coord $coord, npc $npc, int $int)
-// [command,.npc_sethuntmode](hunt)
-// [command,.npc_sethunt](int $int)
-// [command,.npc_setmode](npc_mode)
 // [command,obj_getvar]
 // [command,obj_setvar]
 // [command,inv_totalparam](inv $inv, param param)(int)
 // [command,inv_totalparam_stack](inv $inv, param param)(int)
+// [command,obj_adddelayed]

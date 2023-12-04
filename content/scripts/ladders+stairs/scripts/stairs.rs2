@@ -225,5 +225,5 @@ if ($option = 1) {
     p_telejump($down);
 }
 
-[label,unhandled_stairs](coord $loccoord)
-mes("Unhandled stair: <~coord_tostring($loccoord)>");
+[label,unhandled_stairs](coord $coord)
+mes("Unhandled stairs: <lc_debugname(loc_type)> at <~coord_tostring($coord)>");

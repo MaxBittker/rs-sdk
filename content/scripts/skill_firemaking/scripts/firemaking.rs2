@@ -9,7 +9,7 @@ if (stat(firemaking) < $level) {
 }
 // check if the coord is already occupied by an interactable loc
 // unconfirmed
-if (map_blocked(obj_coord) = true | ~inzone_coord_pair_table(bank_zones, coord) = true | ~inzone_coord_pair_table(party_room_zones, coord) = true) {
+if (map_locaddunsafe(obj_coord) = true | ~inzone_coord_pair_table(bank_zones, coord) = true | ~inzone_coord_pair_table(party_room_zones, coord) = true) {
     mes("You can't light a fire here.");
     return;
 }

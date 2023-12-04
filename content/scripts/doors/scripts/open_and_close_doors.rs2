@@ -30,15 +30,3 @@ loc_add($loc_coord, loc_83, $angle, $shape, 2);
 loc_add(movecoord($loc_coord, $x, 0, $z), $replacement, modulo(add($angle, 1), 4), $shape, 2);
 
 sound_synth(door_open, 0, 0);
-
-
-[proc,check_axis](coord $coord, coord $loc_coord, int $angle)(boolean)
-if ($angle = 1 | $angle = 3) {
-    if (coordz($coord) = coordz($loc_coord)) {
-        return(true);
-    }
-} else if ($angle = 0 | $angle = 2) {
-    if (coordx($coord) = coordx($loc_coord)) {
-        return(true);
-    }
-}

@@ -1,0 +1,35 @@
+[proc,door_open](int $angle)(int, int)
+switch_int($angle) {
+    case ^loc_west: return(-1, 0);
+    case ^loc_north: return(0, 1);
+    case ^loc_east: return(1, 0);
+    case ^loc_south: return(0, -1);
+    case default: error("angle not found for door_open: <tostring($angle)>");
+}
+
+[proc,door_close](int $angle)(int, int)
+switch_int($angle) {
+    case ^loc_west: return(0, 1);
+    case ^loc_north: return(1, 0);
+    case ^loc_east: return(0, -1);
+    case ^loc_south: return(-1, 0);
+    case default: error("angle not found for door_close: <tostring($angle)>");
+}
+
+[proc,check_axis](coord $coord, coord $loc_coord, int $angle)(boolean)
+switch_int($angle) {
+    case ^loc_north, ^loc_south: {
+        if (coordz($coord) = coordz($loc_coord)) {
+            return(true);
+        }
+    }
+    case ^loc_west, ^loc_east: {
+        if (coordx($coord) = coordx($loc_coord)) {
+            return(true);
+        }
+    }
+}
+return(false);
+
+[proc,movecoord_loc_return](int $x, int $z)(coord)
+return(movecoord(loc_coord, $x, 0, $z));

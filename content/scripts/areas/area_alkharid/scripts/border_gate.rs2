@@ -147,7 +147,7 @@ def_coord $other = movecoord(loc_coord, 0, 0, 1);
 loc_del(2);
 .loc_add(loc_coord, loc_83, loc_angle, loc_shape, 2);
 
-def_coord $coord = ~movecoord_loc_return(~door_left_open(loc_angle));
+def_coord $coord = ~movecoord_loc_return(~door_open(loc_angle));
 .loc_add($coord, loc_83, loc_angle, wall_straight, 2);
 loc_add($coord, loc_param(next_loc_stage), calc(loc_angle + 3), loc_shape, 2);
 
@@ -179,7 +179,7 @@ while (loc_findnext = true) {
         loc_del(2);
         .loc_add(loc_coord, loc_83, loc_angle, wall_straight, 2);
 
-        def_coord $coord = ~movecoord_loc_return(~door_left_open(loc_angle));
+        def_coord $coord = ~movecoord_loc_return(~door_open(loc_angle));
         .loc_add($coord, loc_83, loc_angle, wall_straight, 2);
         loc_add($coord, loc_param(next_loc_stage), modulo(add(loc_angle, 3), 4), loc_shape, 2);
     }

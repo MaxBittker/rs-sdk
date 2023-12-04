@@ -1,7 +1,7 @@
 [proc,gangplank_dir_mod](int)
 switch_int (loc_angle) {
-    case 0,1: return (1);
-    case 2,3: return (-1);
+    case ^loc_west,^loc_north: return (1);
+    case ^loc_east,^loc_south: return (-1);
 }
 return (0);
 
@@ -9,11 +9,11 @@ return (0);
 def_int $dir_mod = ~gangplank_dir_mod;
 def_string $board_mes = loc_param(board_message);
 switch_int (loc_angle) {
-    case 0,2:
+    case ^loc_west,^loc_east:
         p_teleport(movecoord(coord, $dir_mod, 0, 0));
         p_delay(0);
         p_telejump(movecoord(coord, calc(2 * $dir_mod), 1, 0));
-    case 1,3:
+    case ^loc_north,^loc_south:
         p_teleport(movecoord(coord, 0, 0, calc(-1 * $dir_mod)));
         p_delay(0);
         p_telejump(movecoord(coord, 0, 1, calc(-2 * $dir_mod)));
@@ -26,11 +26,11 @@ if(string_length($board_mes) ! 0) {
 [oploc1,_gangplank_disembark]
 def_int $dir_mod = ~gangplank_dir_mod;
 switch_int (loc_angle) {
-    case 0,2:
+    case ^loc_west,^loc_east:
         p_teleport(movecoord(coord, calc(-1 * $dir_mod), 0, 0));
         p_delay(0);
         p_telejump(movecoord(coord, calc(-2 * $dir_mod), -1, 0));
-    case 1,3:
+    case ^loc_north,^loc_south:
         p_teleport(movecoord(coord, 0, 0, $dir_mod));
         p_delay(0);
         p_telejump(movecoord(coord, 0, -1, calc(2 * $dir_mod)));
