@@ -79,8 +79,6 @@ export class Inventory {
     items: (Item | null)[] = [];
     update = false;
 
-    // player & component list
-    listeners: {pid: number, com: number}[] = [];
     type = -1; // inv ID
 
     constructor(capacity: number, stackType = Inventory.NORMAL_STACK) {
@@ -90,22 +88,6 @@ export class Inventory {
         for (let i = 0; i < capacity; i++) {
             this.items.push(null);
         }
-    }
-
-    addListener(pid: number, com: number) {
-        this.listeners.push({ pid, com });
-    }
-
-    getListenersFor(pid: number) {
-        return this.listeners.filter(l => l.pid == pid);
-    }
-
-    isListening(pid: number) {
-        return this.listeners.some(l => l.pid == pid);
-    }
-
-    removeListener(pid: number, com: number) {
-        this.listeners = this.listeners.filter(l => l.pid != pid && l.com != com);
     }
 
     contains(id: number) {

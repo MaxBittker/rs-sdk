@@ -463,25 +463,6 @@ class World {
         // - flush packets
         this.computeSharedEvents();
 
-        /// send all shared inventories to players
-        for (let i = 0; i < this.invs.length; i++) {
-            const inv = this.invs[i];
-            if (!inv.listeners.length || !inv.update) {
-                continue;
-            }
-
-            for (let j = 0; j < inv.listeners.length; j++) {
-                const listener = inv.listeners[j];
-                if (!listener) {
-                    continue;
-                }
-
-                this.getPlayer(listener.pid)?.updateInvFull(listener.com, inv);
-            }
-
-            inv.update = false;
-        }
-
         /// we're doing a pass to convert p_tele to walk/run if needed, todo refactor
         for (let i = 0; i < this.playerIds.length; i++) {
             if (this.playerIds[i] === -1) {
@@ -552,6 +533,14 @@ class World {
             }
 
             player.resetEntity(false);
+
+            for (const inv of this.invs.values()) {
+                if (!inv) {
+                    continue;
+                }
+
+                inv.update = false;
+            }    
         }
 
         for (let i = 1; i < this.npcs.length; i++) {
@@ -562,6 +551,15 @@ class World {
             }
 
             npc.resetEntity(false);
+        }
+
+        for (let i = 0; i < this.invs.length; i++) {
+            const inv = this.invs[i];
+            if (!inv) {
+                continue;
+            }
+
+            inv.update = false;
         }
 
         const end = Date.now();

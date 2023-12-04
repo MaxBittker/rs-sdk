@@ -342,6 +342,18 @@ const InvOps: CommandHandlers = {
         const [inv, category] = state.popInts(2);
         state.pushInt(state.activePlayer.invTotalCat(inv, category));
     },
+
+    [ScriptOpcode.INVOTHER_TRANSMIT]: (state) => {
+        const [player, inv, com] = state.popInts(3);
+
+        state.activePlayer.invListenOnCom(inv, com, player);
+    },
+
+    [ScriptOpcode.INVOTHER_STOPTRANSMIT]: (state) => {
+        const [player, inv, com] = state.popInts(3);
+
+        state.activePlayer.invStopListenOnCom(inv, com, player);
+    },
 };
 
 export default InvOps;

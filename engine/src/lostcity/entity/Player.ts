@@ -366,6 +366,12 @@ export default class Player extends PathingEntity {
     basWalkRight: number = -1;
     basRunning: number = -1;
     logoutRequested: boolean = false;
+    invListeners: {
+        type: number, // InvType
+        com: number, // IfType
+        source: number, // pid or -1 for world
+        firstSeen: boolean
+    }[] = [];
 
     client: ClientSocket | null = null;
     netOut: Packet[] = [];
@@ -1051,6 +1057,7 @@ export default class Player extends PathingEntity {
                     mode = ServerTriggerType.APPLAYER4;
                 }
 
+                console.log(`Player interaction: ${ServerTriggerType.toString(mode)}`);
                 this.setInteraction(mode, player);
                 pathfindRequest = true;
             } else if (opcode === ClientProt.OPPLAYERU) {
@@ -1135,7 +1142,7 @@ export default class Player extends PathingEntity {
     encodeOut() {
         if (this.modalTop !== this.lastModalTop || this.modalBottom !== this.lastModalBottom || this.modalSidebar !== this.lastModalSidebar || this.refreshModalClose) {
             if (this.refreshModalClose) {
-                this.ifCloseSub();
+                this.ifClose();
             }
             this.refreshModalClose = false;
 
@@ -1634,35 +1641,32 @@ export default class Player extends PathingEntity {
 
         if (this.modalTop !== -1) {
             const modalType = IfType.get(this.modalTop);
+            this.modalTop = -1;
 
             const script = ScriptProvider.getByName(`[if_close,${modalType.comName}]`);
             if (script) {
                 this.executeScript(ScriptRunner.init(script, this));
             }
-
-            this.modalTop = -1;
         }
 
         if (this.modalBottom !== -1) {
             const modalType = IfType.get(this.modalBottom);
+            this.modalBottom = -1;
 
             const script = ScriptProvider.getByName(`[if_close,${modalType.comName}]`);
             if (script) {
                 this.executeScript(ScriptRunner.init(script, this));
             }
-
-            this.modalBottom = -1;
         }
 
         if (this.modalSidebar !== -1) {
             const modalType = IfType.get(this.modalSidebar);
+            this.modalSidebar = -1;
 
             const script = ScriptProvider.getByName(`[if_close,${modalType.comName}]`);
             if (script) {
                 this.executeScript(ScriptRunner.init(script, this));
             }
-
-            this.modalSidebar = -1;
         }
 
         this.modalState = 0;
@@ -2500,23 +2504,40 @@ export default class Player extends PathingEntity {
     // ----
 
     updateInvs() {
-        // TODO change to listeningInvs
-
-        for (const inv of this.invs.values()) {
-            if (!inv || !inv.listeners.length || !inv.update) {
+        for (let i = 0; i < this.invListeners.length; i++) {
+            const listener = this.invListeners[i];
+            if (!listener) {
                 continue;
             }
 
-            for (let j = 0; j < inv.listeners.length; j++) {
-                const listener = inv.listeners[j];
-                if (!listener) {
+            if (listener.source === -1) {
+                // world inventory
+                const inv = World.getInventory(listener.type);
+                if (!inv) {
                     continue;
                 }
 
-                this.updateInvFull(listener.com, inv);
-            }
+                if (inv.update || listener.firstSeen) {
+                    this.updateInvFull(listener.com, inv);
+                    listener.firstSeen = false;
+                }
+            } else {
+                // player inventory
+                const player = World.getPlayer(listener.source);
+                if (!player) {
+                    continue;
+                }
 
-            inv.update = false;
+                const inv = player.getInventory(listener.type);
+                if (!inv) {
+                    continue;
+                }
+
+                if (inv.update || listener.firstSeen) {
+                    this.updateInvFull(listener.com, inv);
+                    listener.firstSeen = false;
+                }
+            }
         }
     }
 
@@ -2542,26 +2563,41 @@ export default class Player extends PathingEntity {
         return container;
     }
 
-    invListenOnCom(inv: number, com: number) {
-        const container = this.getInventory(inv);
-        if (!container) {
-            throw new Error('invGetSlot: Invalid inventory type: ' + inv);
+    invListenOnCom(inv: number, com: number, source: number = this.pid) {
+        if (inv === -1) {
+            return;
         }
 
-        container.listeners.push({ pid: this.pid, com: com });
-        container.update = true;
+        const index = this.invListeners.findIndex(l => l.type === inv && l.com === com);
+        if (index !== -1) {
+            // already listening
+            return;
+        }
+
+        const invType = InvType.get(inv);
+        if (invType.scope === InvType.SCOPE_SHARED) {
+            source = -1;
+        }
+
+        this.invListeners.push({ type: inv, com, source, firstSeen: true });
     }
 
-    invStopListenOnCom(inv: number, com: number) {
-        const container = this.getInventory(inv);
-        if (!container) {
-            throw new Error('invGetSlot: Invalid inventory type: ' + inv);
+    invStopListenOnCom(inv: number, com: number, source: number = this.pid) {
+        if (inv === -1) {
+            return;
         }
 
-        const index = container.listeners.findIndex(x => x && x.pid === this.pid && x.com === com);
-        if (index !== -1) {
-            container.listeners.splice(index, 1);
+        const invType = InvType.get(inv);
+        if (invType.scope === InvType.SCOPE_SHARED) {
+            source = -1;
         }
+
+        const index = this.invListeners.findIndex(l => l.type === inv && l.com === com && l.source === source);
+        if (index === -1) {
+            return;
+        }
+
+        this.invListeners.splice(index, 1);
     }
 
     invGetSlot(inv: number, slot: number) {
@@ -3080,9 +3116,9 @@ export default class Player extends PathingEntity {
         this.netOut.push(out);
     }
 
-    ifCloseSub() {
+    ifClose() {
         const out = new Packet();
-        out.p1(ServerProt.IF_CLOSESUB);
+        out.p1(ServerProt.IF_CLOSE);
 
         this.netOut.push(out);
     }

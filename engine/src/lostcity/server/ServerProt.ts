@@ -8,7 +8,7 @@ export const ServerProt = {
     IF_SETMODEL: 87,
     IF_SETMODEL_COLOUR: 103,
     IF_SETTAB_FLASH: 126,
-    IF_CLOSESUB: 129,
+    IF_CLOSE: 129,
     IF_SETANIM: 146,
     IF_SETTAB: 167,
     IF_OPENMAINMODAL: 168,
