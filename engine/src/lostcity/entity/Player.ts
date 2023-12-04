@@ -857,9 +857,19 @@ export default class Player extends PathingEntity {
                 const x = data.g2();
                 const z = data.g2();
                 const locId = data.g2();
-                this.lastItem = data.g2();
-                this.lastSlot = data.g2();
-                this.lastCom = data.g2();
+                const lastItem = data.g2();
+                const lastSlot = data.g2();
+                const lastCom = data.g2();
+
+                this.resetInteraction();
+                this.closeModal();
+                if (this.delayed()) {
+                    continue;
+                }
+
+                this.lastItem = lastItem;
+                this.lastSlot = lastSlot;
+                this.lastCom = lastCom;
                 this.lastVerifyObj = this.lastItem;
 
                 const loc = World.getLoc(x, z, this.level, locId);
@@ -874,6 +884,12 @@ export default class Player extends PathingEntity {
                 const z = data.g2();
                 const locId = data.g2();
                 const spellComId = data.g2();
+
+                this.resetInteraction();
+                this.closeModal();
+                if (this.delayed()) {
+                    continue;
+                }
 
                 const loc = World.getLoc(x, z, this.level, locId);
                 if (!loc) {
@@ -907,9 +923,19 @@ export default class Player extends PathingEntity {
                 pathfindRequest = true;
             } else if (opcode === ClientProt.OPNPCU) {
                 const nid = data.g2();
-                this.lastItem = data.g2();
-                this.lastSlot = data.g2();
-                this.lastCom = data.g2();
+                const lastItem = data.g2();
+                const lastSlot = data.g2();
+                const lastCom = data.g2();
+
+                this.resetInteraction();
+                this.closeModal();
+                if (this.delayed()) {
+                    continue;
+                }
+
+                this.lastItem = lastItem;
+                this.lastSlot = lastSlot;
+                this.lastCom = lastCom;
                 this.lastVerifyObj = this.lastItem;
 
                 const npc = World.getNpc(nid);
@@ -922,6 +948,12 @@ export default class Player extends PathingEntity {
             } else if (opcode === ClientProt.OPNPCT) {
                 const nid = data.g2();
                 const spellComId = data.g2();
+
+                this.resetInteraction();
+                this.closeModal();
+                if (this.delayed()) {
+                    continue;
+                }
 
                 const npc = World.getNpc(nid);
                 if (!npc || !this.getNearbyNpcs().some(x => x.nid === nid)) {
@@ -959,9 +991,19 @@ export default class Player extends PathingEntity {
                 const x = data.g2();
                 const z = data.g2();
                 const objId = data.g2();
-                this.lastItem = data.g2();
-                this.lastSlot = data.g2();
-                this.lastCom = data.g2();
+                const lastItem = data.g2();
+                const lastSlot = data.g2();
+                const lastCom = data.g2();
+
+                this.resetInteraction();
+                this.closeModal();
+                if (this.delayed()) {
+                    continue;
+                }
+
+                this.lastItem = lastItem;
+                this.lastSlot = lastSlot;
+                this.lastCom = lastCom;
                 this.lastVerifyObj = this.lastItem;
 
                 const obj = World.getObj(x, z, this.level, objId);
@@ -977,6 +1019,12 @@ export default class Player extends PathingEntity {
                 const objId = data.g2();
                 const spellComId = data.g2();
 
+                this.resetInteraction();
+                this.closeModal();
+                if (this.delayed()) {
+                    continue;
+                }
+
                 const obj = World.getObj(x, z, this.level, objId);
                 if (!obj) {
                     continue;
@@ -987,19 +1035,58 @@ export default class Player extends PathingEntity {
             } else if (opcode === ClientProt.OPPLAYER1 || opcode === ClientProt.OPPLAYER2 || opcode === ClientProt.OPPLAYER3 || opcode === ClientProt.OPPLAYER4) {
                 const pid = data.g2();
 
-                // TODO: player trigger
+                const player = World.getPlayer(pid);
+                if (!player) {
+                    continue;
+                }
+
+                let mode: ServerTriggerType;
+                if (opcode === ClientProt.OPPLAYER1) {
+                    mode = ServerTriggerType.APPLAYER1;
+                } else if (opcode === ClientProt.OPPLAYER2) {
+                    mode = ServerTriggerType.APPLAYER2;
+                } else if (opcode === ClientProt.OPPLAYER3) {
+                    mode = ServerTriggerType.APPLAYER3;
+                } else {
+                    mode = ServerTriggerType.APPLAYER4;
+                }
+
+                this.setInteraction(mode, player);
+                pathfindRequest = true;
             } else if (opcode === ClientProt.OPPLAYERU) {
                 const pid = data.g2();
-                this.lastItem = data.g2();
-                this.lastSlot = data.g2();
-                this.lastCom = data.g2();
+                const lastItem = data.g2();
+                const lastSlot = data.g2();
+                const lastCom = data.g2();
+
+                this.resetInteraction();
+                this.closeModal();
+                if (this.delayed()) {
+                    continue;
+                }
+
+                this.lastItem = lastItem;
+                this.lastSlot = lastSlot;
+                this.lastCom = lastCom;
                 this.lastVerifyObj = this.lastItem;
 
-                // TODO: player trigger
+                const player = World.getPlayer(pid);
+                if (!player) {
+                    continue;
+                }
+
+                this.setInteraction(ServerTriggerType.APPLAYERU, player);
+                pathfindRequest = true;
             } else if (opcode === ClientProt.OPPLAYERT) {
                 const pid = data.g2();
                 const comId = data.g2();
                 const spellComId = data.g2();
+
+                this.resetInteraction();
+                this.closeModal();
+                if (this.delayed()) {
+                    continue;
+                }
 
                 // TODO: player trigger, expose spell to script
             }

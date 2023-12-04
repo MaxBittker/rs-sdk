@@ -729,7 +729,18 @@ const PlayerOps: CommandHandlers = {
     }),
 
     [ScriptOpcode.P_OPPLAYER]: checkedHandler(ProtectedActivePlayer, (state) => {
-        throw new Error('unimplemented');
+        const type = state.popInt() - 1;
+        if (type < 0 || type >= 5) {
+            throw new Error(`Invalid opplayer: ${type + 1}`);
+        }
+        if (state.activePlayer.hasSteps()) {
+            return;
+        }
+        const target = state._activePlayer2;
+        if (!target) {
+            return;
+        }
+        state.activePlayer.setInteraction(ServerTriggerType.APPLAYER1 + type, target);
     }),
 
     [ScriptOpcode.P_STOPLOGOUT]: checkedHandler(ProtectedActivePlayer, (state) => {

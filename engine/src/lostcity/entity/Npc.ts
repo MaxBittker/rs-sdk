@@ -172,12 +172,10 @@ export default class Npc extends PathingEntity {
     }
 
     updateMovement(running: number = -1): void {
-        if (this.x === this.lastX && this.z === this.lastZ) {
-            if (running === -1 && !this.forceMove) {
-                running = 0;
-            }
-            super.processMovement(running);
+        if (running === -1 && !this.forceMove) {
+            running = 0;
         }
+        super.processMovement(running);
     }
 
     blockWalkFlag(): number {
