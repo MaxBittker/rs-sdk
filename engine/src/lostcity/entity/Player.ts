@@ -1193,7 +1193,7 @@ export default class Player extends PathingEntity {
                     continue;
                 }
 
-                if (this.npcIds.indexOf(npc.uid) === -1 || npc.delayed()) {
+                if (this.npcIds.indexOf(npc.nid) === -1 || npc.delayed()) {
                     continue;
                 }
 
@@ -1249,7 +1249,7 @@ export default class Player extends PathingEntity {
                     continue;
                 }
 
-                if (this.npcIds.indexOf(npc.uid) === -1 || npc.delayed()) {
+                if (this.npcIds.indexOf(npc.nid) === -1 || npc.delayed()) {
                     continue;
                 }
 
@@ -1280,7 +1280,7 @@ export default class Player extends PathingEntity {
                     continue;
                 }
 
-                if (this.npcIds.indexOf(npc.uid) === -1 || npc.delayed()) {
+                if (this.npcIds.indexOf(npc.nid) === -1 || npc.delayed()) {
                     continue;
                 }
 
@@ -2871,8 +2871,8 @@ export default class Player extends PathingEntity {
 
         const updates: number[] = [];
         for (let i = 0; i < this.npcIds.length; i++) {
-            const uid = this.npcIds[i];
-            const npc = World.getNpcByUid(uid);
+            const nid = this.npcIds[i];
+            const npc = World.getNpc(nid);
             if (!npc) {
                 // npc deleted
                 out.pBit(1, 1);
@@ -2881,7 +2881,7 @@ export default class Player extends PathingEntity {
                 continue;
             }
 
-            if (nearby.findIndex(n => n.uid === uid) === -1) {
+            if (nearby.findIndex(n => n.nid === nid) === -1) {
                 // no longer observing this npc
                 out.pBit(1, 1);
                 out.pBit(2, 3);
@@ -2913,7 +2913,7 @@ export default class Player extends PathingEntity {
             }
 
             if (npc.mask > 0) {
-                updates.push(uid);
+                updates.push(nid);
             }
         }
 
@@ -2921,11 +2921,11 @@ export default class Player extends PathingEntity {
         const newlyObserved: number[] = [];
         for (let i = 0; i < nearby.length; i++) {
             const npc = nearby[i];
-            if (this.npcIds.indexOf(npc.uid) !== -1) {
+            if (this.npcIds.indexOf(npc.nid) !== -1) {
                 continue;
             }
 
-            if (!World.getNpcByUid(npc.uid)) {
+            if (!World.getNpc(npc.nid)) {
                 continue;
             }
 
@@ -2939,11 +2939,11 @@ export default class Player extends PathingEntity {
             const hasUpdate = npc.mask > 0 || npc.orientation !== -1 || npc.faceX !== -1 || npc.faceZ !== -1 || npc.faceEntity !== -1;
             out.pBit(1, hasUpdate ? 1 : 0);
 
-            this.npcIds.push(npc.uid);
-            newlyObserved.push(npc.uid);
+            this.npcIds.push(npc.nid);
+            newlyObserved.push(npc.nid);
 
             if (hasUpdate) {
-                updates.push(npc.uid);
+                updates.push(npc.nid);
             }
         }
 
@@ -2954,13 +2954,13 @@ export default class Player extends PathingEntity {
         out.bytes();
 
         for (let i = 0; i < updates.length; i++) {
-            const uid = updates[i];
-            const npc = World.getNpcByUid(uid);
+            const nid = updates[i];
+            const npc = World.getNpc(nid);
             if (!npc) {
                 continue;
             }
 
-            npc.writeUpdate(out, newlyObserved.indexOf(uid) !== -1);
+            npc.writeUpdate(out, newlyObserved.indexOf(nid) !== -1);
         }
 
         // out.save('dump/' + World.currentTick + '.' + this.username + '.npc.bin');
