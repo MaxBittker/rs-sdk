@@ -1,0 +1,15 @@
+[opnpc1,helemos]
+~chatnpc(default, "Welcome to the Heroes' Guild!");
+
+def_int $choice = ~p_choice2("So do you sell anything here?", 1, "So what can I do here?", 2);
+
+switch_int ($choice) {
+    case 1:
+    ~chatplayer(default, "So do you sell anything good here?");
+    ~chatnpc(default, "Why yes! We DO run an exclusive shop for our members!");
+    ~openshop_activenpc;
+
+    case 2:
+    ~chatplayer(default, "So what can I do here?");
+    ~chatnpc(default, "Look around... there are all sorts of things to keep our guild members entertained!");
+}

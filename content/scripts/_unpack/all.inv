@@ -259,15 +259,6 @@ stock7=bronze_axe,10,100
 [inv_44]
 size=1
 
-[inv_45]
-scope=shared
-size=40
-restock=yes
-stackall=yes
-allstock=no
-stock1=dragon_battleaxe,1,500
-stock2=dragon_mace,1,500
-
 [generalshop11]
 scope=shared
 size=40

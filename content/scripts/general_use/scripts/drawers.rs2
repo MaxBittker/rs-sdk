@@ -28,7 +28,7 @@ if(loc_coord = 1_50_53_50_28 & inv_total(inv, trail_clue_easy_simple_exp011) = 1
 
 [oploc3,_empty_drawer]
 p_arrivedelay;
-anim(seq_534,0);
+anim(human_closechest,0);
 p_delay(0);
 // TODO - Sound
 loc_del(300);

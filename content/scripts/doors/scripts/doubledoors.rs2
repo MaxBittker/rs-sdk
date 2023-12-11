@@ -1,4 +1,7 @@
 [oploc1,_door_left_closed]
+@door_left_closed;
+
+[label,door_left_closed]
 def_coord $opposite = ~movecoord_loc_return(~door_close(loc_angle));
 sound_synth(door_open, 0, 0);
 loc_del(500);
@@ -13,6 +16,9 @@ while (loc_findnext = true) {
 }
 
 [oploc1,_door_right_closed]
+@door_right_closed;
+
+[label,door_right_closed]
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_close(loc_angle), -1));
 sound_synth(door_open, 0, 0);
 loc_del(500);
@@ -27,6 +33,9 @@ while (loc_findnext = true) {
 }
 
 [oploc1,_door_left_opened]
+@door_left_opened;
+
+[label,door_left_opened]
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_open(loc_angle), -1));
 sound_synth(door_close, 0, 0);
 loc_del(500);
@@ -40,7 +49,10 @@ while (loc_findnext = true) {
     }
 }
 
-[oploc1,_door_right_opened]
+[oploc1,_door_right_opened] 
+@door_right_opened;
+
+[label,door_right_opened]
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_open(loc_angle), -1));
 sound_synth(door_close, 0, 0);
 loc_del(500);

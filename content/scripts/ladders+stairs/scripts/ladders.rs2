@@ -79,6 +79,17 @@ if(loc_coord = 0_50_149_22_52) { // Zanaris ladder (entrance room)
 }
 @climb_ladder(movecoord(coord(), 0, 0, -6400), true);
 
+[oploc1,loc_1757] // Herores' Guild ladder, up from mine.
+p_arrivedelay;
+
+switch_coord (loc_coord) {
+    case 0_45_154_12_51:
+    @climb_ladder(movecoord(coord(), 0, 0, -6400), true);
+
+    case default: 
+    mes("unhandled ladder <~coord_tostring(loc_coord)>");
+}
+
 [oploc1,loc_1759]
 p_arrivedelay;
 @climb_ladder(movecoord(coord(), 0, 0, 6400), false);
