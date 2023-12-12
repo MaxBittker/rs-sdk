@@ -330,12 +330,21 @@ class _LoginClient {
 
     async connect() {
         return new Promise(res => {
+            let counter = 0;
+
             const interval = setInterval(() => {
+                counter++;
+
                 if (!this.socket || this.state === LoginState.DISCONNECTED) {
                     this.start();
                 } else if (this.state === LoginState.CONNECTED) {
                     clearInterval(interval);
                     return res(true);
+                }
+
+                if (counter > 1) {
+                    clearInterval(interval);
+                    return res(false);
                 }
             }, 1000);
         });

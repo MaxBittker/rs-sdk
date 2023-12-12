@@ -11,7 +11,9 @@ import Session from '@fastify/session';
 import Cors from '@fastify/cors';
 import ejs from 'ejs';
 
-let fastify = Fastify();
+let fastify = Fastify({
+    autoload: 15000
+});
 
 fastify.register(FormBody);
 fastify.register(Multipart);
