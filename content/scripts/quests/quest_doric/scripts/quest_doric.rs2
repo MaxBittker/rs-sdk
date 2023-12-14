@@ -49,6 +49,8 @@ if (%doric_progress = 0) {
     }
 } else {
 // Do regular anvil stuff
+    if (oc_category(last_useitem) = category_151) @smithing_anvil_interface(last_useitem);
+    else if (last_useitem = shield_left_half | last_useitem = shield_right_half) @make_dragon_sq;
 }
 
 [label,doric_not_started_anvil]

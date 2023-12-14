@@ -78,7 +78,8 @@ if ($last_item ! steel_bar) {
 // each bar needs to be shifted down, since only bronze level req is in the interface
 switch_obj ($last_item)
 {
-    case bronze_bar : 
+    case bronze_bar :
+        %smithing_level = calc($player_level + 1);
         inv_transmit(bronze1, smithing:column1);
         inv_transmit(bronze2, smithing:column2);
         inv_transmit(bronze3, smithing:column3);
