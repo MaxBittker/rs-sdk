@@ -116,13 +116,7 @@ class Login {
             }
 
             let player = World.getPlayerByUsername(username);
-            if (opcode === 18 && !player && !Environment.LOCAL_DEV) {
-                socket.send(Uint8Array.from([5]));
-                socket.close();
-                return;
-            }
-
-            if ((opcode === 16 && player) || (opcode === 18 && player && player.client !== null)) {
+            if ((opcode === 16 && player) || (opcode === 18 && !player) || (opcode === 18 && player && player.client !== null)) {
                 socket.send(Uint8Array.from([5]));
                 socket.close();
                 return;

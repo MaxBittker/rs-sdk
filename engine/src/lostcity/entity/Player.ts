@@ -531,6 +531,7 @@ export default class Player extends PathingEntity {
     }
 
     decodeIn() {
+        // this.lastResponse = World.currentTick; // use to keep headless players in the world
         if (this.client === null || this.client.inOffset < 1) {
             return;
         }
@@ -2526,7 +2527,7 @@ export default class Player extends PathingEntity {
             out.pBit(2, 0);
         }
 
-        // update other players
+        // update other players (255 max - 8 bits)
         out.pBit(8, this.playerIds.length);
 
         const updates: number[] = [];
@@ -2578,8 +2579,10 @@ export default class Player extends PathingEntity {
         }
 
         // add new players
+        // todo: add based on a radius that shrinks if too many players are visible?
         const newlyObserved: number[] = [];
-        for (let i = 0; i < nearby.length; i++) {
+        let updateSizeGuess = 0;
+        for (let i = 0; i < nearby.length && this.playerIds.length < 255; i++) {
             const player = nearby[i];
             if (this.playerIds.indexOf(player.uid) !== -1) {
                 continue;
@@ -2587,6 +2590,15 @@ export default class Player extends PathingEntity {
 
             if (!World.getPlayerByUid(player.uid)) {
                 continue;
+            }
+
+            updateSizeGuess += 2 + (player.appearance?.length ?? 0) + 7;
+            // worst-case mask size (2 bytes) + appearance buffer +
+            // 7 bytes is a fair guess but we can calculate this later
+            // more players will get added again next tick
+
+            if (updateSizeGuess + out.length > 5000) {
+                break;
             }
 
             out.pBit(11, player.pid);
@@ -2884,7 +2896,7 @@ export default class Player extends PathingEntity {
         const out = new Packet();
         out.bits();
 
-        // update existing npcs
+        // update existing npcs (255 max - 8 bits)
         out.pBit(8, this.npcIds.length);
 
         const updates: number[] = [];
@@ -2937,7 +2949,8 @@ export default class Player extends PathingEntity {
 
         // add new npcs
         const newlyObserved: number[] = [];
-        for (let i = 0; i < nearby.length; i++) {
+        let updateSizeGuess = 0;
+        for (let i = 0; i < nearby.length && this.npcIds.length < 255; i++) {
             const npc = nearby[i];
             if (this.npcIds.indexOf(npc.nid) !== -1) {
                 continue;
@@ -2947,6 +2960,17 @@ export default class Player extends PathingEntity {
                 continue;
             }
 
+            const hasUpdate = npc.mask > 0 || npc.orientation !== -1 || npc.faceX !== -1 || npc.faceZ !== -1 || npc.faceEntity !== -1;
+            if (hasUpdate) {
+                // mask size (1 byte) + 7 bytes is a fair guess but we can calculate this later
+                // more npcs will get added again next tick
+                updateSizeGuess += 1 + 7;
+            }
+
+            if (updateSizeGuess + out.length > 5000) {
+                break;
+            }
+
             out.pBit(13, npc.nid);
             out.pBit(11, npc.type);
             out.pBit(5, npc.x - this.x);
@@ -2954,7 +2978,6 @@ export default class Player extends PathingEntity {
 
             // TODO: tele optimization
 
-            const hasUpdate = npc.mask > 0 || npc.orientation !== -1 || npc.faceX !== -1 || npc.faceZ !== -1 || npc.faceEntity !== -1;
             out.pBit(1, hasUpdate ? 1 : 0);
 
             this.npcIds.push(npc.nid);

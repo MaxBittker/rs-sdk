@@ -211,11 +211,18 @@ class World {
 
         this.vars = new Int32Array(VarSharedType.count);
 
-        console.log('World ready!');
-
         if (Environment.LOGIN_KEY) {
             await LoginClient.reset();
         }
+
+        // for (let i = 0; i < 1999; i++) {
+        //     const player = Player.load('test' + i);
+        //     player.x = 3232 + Math.random() * 32 - 16;
+        //     player.z = 3232 + Math.random() * 32 - 16;
+        //     this.addPlayer(player, new ClientSocket(null, '127.0.0.1', ClientSocket.TCP, 1));
+        // }
+
+        console.log('World ready!');
 
         if (startCycle) {
             await this.cycle();
@@ -1024,7 +1031,9 @@ class World {
             player.client.close();
         }
 
-        await LoginClient.save(player.username37, sav.data);
+        if (Environment.LOGIN_KEY) {
+            await LoginClient.save(player.username37, sav.data);
+        }
     }
 
     getPlayer(pid: number) {
@@ -1094,13 +1103,16 @@ class World {
     getNextPid(client: ClientSocket | null = null) {
         let pid = -1;
 
+        // valid pid range is 1-2046
         if (client) {
             // pid = first available index starting from (low ip octet % 20) * 100
             const ip = client.remoteAddress;
             const octets = ip.split('.');
             const start = (parseInt(octets[3]) % 20) * 100;
 
-            for (let i = 0; i < 100; i++) {
+            // start searching at 1 if the calculated start is 0
+            const init = start === 0 ? 1 : 0;
+            for (let i = init; i < 100; i++) {
                 const index = start + i;
                 if (this.playerIds[index] === -1) {
                     pid = index;
@@ -1110,8 +1122,8 @@ class World {
         }
 
         if (pid === -1) {
-            // pid = first available index starting at 0
-            for (let i = 0; i < this.playerIds.length; i++) {
+            // pid = first available index starting at 1 (0 is reserved for the protocol's local character)
+            for (let i = 1; i < this.playerIds.length - 1; i++) {
                 if (this.playerIds[i] === -1) {
                     pid = i;
                     break;

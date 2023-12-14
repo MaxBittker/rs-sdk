@@ -49,6 +49,10 @@ export default class ClientSocket {
     }
 
     send(data: Uint8Array) {
+        if (!this.socket) {
+            return;
+        }
+
         this.totalBytesWritten += data.length;
         if (this.isTCP()) {
             (this.socket as Socket).write(data);
@@ -59,6 +63,10 @@ export default class ClientSocket {
 
     // close the connection gracefully
     close() {
+        if (!this.socket) {
+            return;
+        }
+
         // TODO: revisit this to make sure no overflow attacks can be done
         setTimeout(() => {
             if (this.isTCP()) {
@@ -71,6 +79,10 @@ export default class ClientSocket {
 
     // terminate the connection immediately
     terminate() {
+        if (!this.socket) {
+            return;
+        }
+
         if (this.isTCP()) {
             (this.socket as Socket).destroy();
         } else if (this.isWebSocket()) {
