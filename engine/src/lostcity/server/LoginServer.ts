@@ -75,6 +75,8 @@ export class LoginServer {
                         }
                     }
 
+                    this.players[world].push(username37);
+
                     const username = fromBase37(username37);
                     if (!fs.existsSync(`data/players/${username}.sav`)) {
                         // new player save
@@ -90,8 +92,6 @@ export class LoginServer {
                     reply.p2(save.length);
                     reply.pdata(save);
                     await this.write(socket, reply.data);
-
-                    this.players[world].push(username37);
                 } else if (opcode === 2) {
                     // logout
                     const world = data.g2();
@@ -137,8 +137,8 @@ export class LoginServer {
             socket.on('error', () => { });
         });
 
-        this.server.listen({ port: Environment.LOGIN_PORT, host: Environment.LOGIN_HOST }, () => {
-            console.log(`[Login]: Listening on ${Environment.LOGIN_HOST}:${Environment.LOGIN_PORT}`);
+        this.server.listen({ port: Environment.LOGIN_PORT, host: '0.0.0.0' }, () => {
+            console.log(`[Login]: Listening on port ${Environment.LOGIN_PORT}`);
         });
     }
 
