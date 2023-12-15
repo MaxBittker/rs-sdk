@@ -367,7 +367,7 @@ class _LoginClient {
         request.p8(username37);
         request.p2(data.length);
         request.pdata(data);
-        await this.write(LoginOpcode.PLAYER_LOGIN, request);
+        await this.write(LoginOpcode.PLAYER_LOGOUT, request);
     }
 
     async reset(): Promise<void> {
