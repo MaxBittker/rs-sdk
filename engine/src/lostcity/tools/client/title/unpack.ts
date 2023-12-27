@@ -41,7 +41,8 @@ for (let i = 0; i < title.fileCount; i++) {
 
     let dest = 'title';
     const safeName = title.fileName[i].replace('.dat', '');
-    if (safeName === 'p11' || safeName === 'p12' || safeName === 'b12' || safeName === 'q8') {
+    if (safeName === 'p11' || safeName === 'p12' || safeName === 'b12' || safeName === 'q8' ||
+        safeName === 'p11_full' || safeName === 'p12_full' || safeName === 'b12_full' || safeName === 'q8_full') {
         dest = 'fonts';
     }
 

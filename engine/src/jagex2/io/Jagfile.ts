@@ -12,7 +12,7 @@ function genHash(name: string) {
     return hash;
 }
 
-type FileQueueFile = {
+type JagQueueFile = {
     hash: number,
     name: string,
     data?: Packet,
@@ -33,7 +33,7 @@ export default class Jagfile {
     filePos: number[] = [];
     unpacked = false;
 
-    fileQueue: FileQueueFile[] = [];
+    fileQueue: JagQueueFile[] = [];
     fileWrite: (Packet | Buffer)[] = [];
 
     static load(path: string) {

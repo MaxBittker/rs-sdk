@@ -59,7 +59,7 @@ export default class Packet {
     }
 
     resize(size: number) {
-        if (this.length < size) {
+        if (this.data.length < size) {
             const temp = new Uint8Array(size);
             temp.set(this.data);
             this.data = temp;
@@ -68,7 +68,7 @@ export default class Packet {
 
     ensure(size: number) {
         if (this.available < size) {
-            this.resize(this.data.length + size);
+            this.resize(this.pos + size);
         }
     }
 
@@ -172,12 +172,6 @@ export default class Packet {
         }
         this.data[this.pos++] = 0;
     }
-
-    // pdata(src: Uint8Array, offset: number, length: number) {
-    //     this.ensure(length);
-    //     this.data.set(src.subarray(offset, offset + length), this.pos);
-    //     this.pos += length;
-    // }
 
     pdata(src: Uint8Array | Buffer | Packet, advance: boolean = true) {
         if (src instanceof Packet) {
