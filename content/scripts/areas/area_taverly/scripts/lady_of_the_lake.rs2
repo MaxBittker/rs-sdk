@@ -1,0 +1,44 @@
+[opnpc1,lady_of_the_lake]
+~chatnpc(neutral, "Good day to you <text_gender("sir", "madam")>.");
+def_int $option;
+if(%arthur_progress >= ^arthur_spoken_morgan_lefaye & inv_total(inv, excalibur) = 0 & inv_total(bank, excalibur) = 0 ) {
+    $option = ~p_choice3("Who are you?", 1, "Good day.", 2, "I seek the sword Excalibur.", 3);
+} else {
+    $option = ~p_choice2("Who are you?", 1, "Good day.", 2);
+}
+switch_int($option) {
+    case 1:
+        ~chatplayer(neutral, "Who are you?");
+        ~chatnpc(neutral, "I am the Lady of the Lake.");
+    case 2:
+        ~chatplayer(neutral, "Good day.");
+    case 3:
+        ~chatplayer(confused, "I seek the sword Excalibur.");
+        ~chatnpc(neutral, "Aye, I have that artefact in my possession.");
+        ~chatnpc(neutral, "'Tis very valuable, and not an artefact to be given away lightly.");
+        ~chatnpc(neutral, "I would want to give it away only to one who is worthy and good.");
+        if(%arthur_progress = ^arthur_freed_merlin) {
+            ~chatnpc(neutral, "...But you have already proved thyself to be worthy of wielding it once already. I shall return it to you if you can prove yourself to still be worthy.");
+            ~chatplayer(quiz, "...And how can I do that?");
+            ~chatnpc(neutral, "Why, by proving yourself to be above material goods.");
+            ~chatplayer(quiz, "...And how can I do that?");
+            ~chatnpc(happy, "500 gold coins ought to do it.");
+            if(inv_total(inv, coins) < 500) {
+                ~chatplayer(sad, "I don't have that kind of money...");
+                ~chatnpc(neutral, "Well, come back when you do.");
+                return;
+            }
+            ~chatplayer(happy, "Ok, here you go.");
+            ~chatnpc(happy, "You are still worthy to wield Excalibur! And thanks for the cash! I felt like getting a new haircut!");
+            inv_del(inv, coins, 500);
+            inv_add(inv, excalibur, 1);
+            return;
+        }
+        ~chatplayer(quiz, "And how am I meant to prove that?");
+        ~chatnpc(neutral, "I shall set a test for you.");
+        ~chatnpc(neutral, "First I need you to travel to Port Sarim.|Then go to the upstairs room of the jeweller's shop there.");
+        ~chatplayer(happy, "Ok. That seems easy enough.");
+        // OSRS probably uses a seperate varp for this since you can reset by retalking to the lady
+        %excalibur_components_progress = clearbit_range(%excalibur_components_progress, ^excalibur_started, ^excalibur_rewarded); 
+        %excalibur_components_progress = setbit(%excalibur_components_progress, ^excalibur_started);
+}

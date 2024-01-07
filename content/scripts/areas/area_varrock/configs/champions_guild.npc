@@ -21,6 +21,13 @@ model4=model_353_idk
 model5=model_421_idk
 model6=model_358_idk
 head1=model_113_idk_head
+category=shop_keeper
+param=owned_shop,valaines_shop_of_champions
+param=shop_sell_multiplier,1300
+param=shop_buy_multiplier,400
+param=shop_delta,30
+param=shop_title,Valaine's Shop of Champions.
+moverestrict=indoors
 
 [scavvo]
 vislevel=hide
@@ -47,6 +54,13 @@ model6=model_176_idk
 model7=model_181_idk
 head1=model_46_idk_head
 head2=model_85_idk_head
+category=shop_keeper
+param=owned_shop,scavvos_rune_store
+param=shop_sell_multiplier,1000
+param=shop_buy_multiplier,600
+param=shop_delta,20
+param=shop_title,Scavvo's Rune Store.
+moverestrict=indoors
 
 [guild_master]
 vislevel=hide

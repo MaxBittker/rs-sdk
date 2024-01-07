@@ -1,0 +1,22 @@
+[opnpc1,sir_bedivere]
+~chatnpc(happy, "May I help you?");
+switch_int (%arthur_progress) {
+    case ^arthur_not_started:
+        ~chatplayer(neutral, "I'm really just looking for a quest...");
+        ~chatnpc(neutral, "Fortune favours us both then adventurer.|I suggest you go and speak to King Arthur.");
+    case ^arthur_started:
+        ~chatplayer(quiz, "Merlin's in a crystal. Little help?");
+        ~chatnpc(sad, "That is what we were hoping for from you, adventurer!");
+        ~chatplayer(confused, "Hmmm. Well, ok, thanks anyway.");
+    case ^arthur_spoken_gawain, ^arthur_spoken_lancelot:
+        ~chatplayer(quiz, "I don't suppose you have any idea how to break into Mordred's fort do you?");
+        ~chatnpc(sad, "I am afraid not. Would that we could! Mordred and his cronies have been thorns in our side for far too long already!");
+        ~chatplayer(neutral, "Ok. Thanks. See you later!");
+        ~chatnpc(neutral, "Take care adventurer, Mordred is an evil and powerful foe.");
+    case ^arthur_spoken_morgan_lefaye, ^arthur_excalibur_bound, ^arthur_freed_merlin:
+        ~chatplayer(quiz, "Know anything about Excalibur?");
+        ~chatnpc(confused, "Um... it's a really good sword?");
+        ~chatplayer(quiz, "Know where I can find it?");
+        ~chatnpc(neutral, "Nope, sorry.");
+    case ^arthur_complete: ~chatnpc(happy, "All Knights of the Round thank you for your assistance in this trying time for us.");
+}

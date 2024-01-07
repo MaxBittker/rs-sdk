@@ -80,7 +80,7 @@ if(%squire_progress = 3) {
     ~chatplayer(happy, "I have found an Imcando Dwarf named Thurgo! I have given him Redberry pie, I hope he will help me now.");
 } else if(%squire_progress = 4) {
     ~chatplayer(happy, "I have found an Imcando dwarf but he needs a picture of the sword before he can make it.");
-    ~chatnpc(confused, "A picture eh? Hmmm.... The only one I can think of is in a small portrait of Sir Vyvin's father... Sir Vyvin keeps it in a cupboard in is room I think.");
+    ~chatnpc(confused, "A picture eh? Hmmm.... The only one I can think of is in a small portrait of Sir Vyvin's father... Sir Vyvin keeps it in a cupboard in his room I think.");
     ~chatplayer(neutral, "Ok, I'll try to get that then.");
     %squire_progress = 5;   
     ~chatnpc(confused, "Please don't let him catch you! He MUSTN'T know what happened!");
@@ -116,8 +116,8 @@ if(%squire_progress = 3) {
 ~chatnpc(happy, "Ah yes... for many hundreds of years they were the world's most skilled smiths. They used secret smithing knowledge passed down from generation to generation.");
 ~chatnpc(happy, "Unfortunately, about a century ago, the once thriving race was wiped out during the barbarian invasions of that time.");
 ~chatplayer(quiz, "So are there any Imcando left at all?");
-~chatnpc(happy, "I believe a few of them survived, but with the bulk of their population destroyed their numbers have dwindled even further.");
-~chatnpc(happy, "I believe I remember a couple living in Asgarnia near the cliffs on the Asgarnian southern peninusla, but they DO tend to keep to themselves.");
+~chatnpc(happy, "I believe a few of them survived,|but with the bulk of their population destroyed|their numbers have dwindled even further.");
+~chatnpc(happy, "I believe I remember a couple living in Asgarnia|near the cliffs on the Asgarnian southern peninsula,|but they DO tend to keep to themselves.");
 ~chatnpc(default, "They tend not to tell people that they're the descendants of the Imcando, which is why people think that the tribe has died out totally, but you may well have more luck talking to them if you bring them some");
 ~chatnpc(neutral, "redberry pie. They REALLY like redberry pie.");
 %squire_progress = 2;
@@ -158,7 +158,7 @@ inv_del(inv, redberry_pie, 1);
 ~chatnpc(default, "A Knight's sword eh? Well I'd need to know exactly how it looked before I could make a new one.");
 ~chatnpc(happy, "All the Faladian knights used to have swords with unique designs according to their position. Could you bring me a picture or something?");
 %squire_progress = 4;
-~chatplayer(neutral, "I'll go and ask if his squire and see if I can find one.");
+~chatplayer(neutral, "I'll go and ask his squire and see if I can find one.");
 
 [label,thurgo_about_sword]
 ~chatplayer(neutral, "About that sword...");

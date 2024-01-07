@@ -7,6 +7,10 @@ mes("...You make it safely to the other side.");
 ~update_gnome_varp(1);
 
 [oploc1,gnome_obstacle_net_1]
+if(coordz(coord) <= coordz(loc_coord)) {
+    mes("You can not do that from here.");
+    return;
+}
 mes("You climb the netting...");
 ~gnome_trainer_say("Move it, move it, move it!");
 ~agility_climb_up(75, movecoord(coord, 0, 1, -2));
@@ -26,9 +30,12 @@ mes("You carefully cross the tightrope.");
 ~agility_force_move(75, human_walk_logbalance, movecoord(coord, 6, 0, 0));
 ~update_gnome_varp(4);
 
-[oploc1,gnome_tree_branch_2]
+[oploc1,gnome_tree_branch_2] @climbdown_gnome_tree_branch;
+[oploc1,gnome_tree_branch_3] @climbdown_gnome_tree_branch;
+
+[label,climbdown_gnome_tree_branch]
 mes("You climb down the tree.");
-~agility_climb_up(50, movecoord(loc_coord, 1, -2, 1));
+~agility_climb_up(50, 0_38_53_55_28);
 mes("You land on the ground.");
 ~update_gnome_varp(5);
 

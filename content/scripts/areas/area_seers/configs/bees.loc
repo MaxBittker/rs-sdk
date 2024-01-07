@@ -1,0 +1,6 @@
+[loc_68]
+name=Beehive
+desc=Where bees live.
+model=model_loc_68
+active=yes
+op1=Take-from

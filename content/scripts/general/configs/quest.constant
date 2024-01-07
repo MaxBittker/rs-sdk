@@ -28,6 +28,7 @@
 ^phoenixgang_complete = 10
 ^elena_complete = 17
 ^seaslug_complete = 12
+^arthur_complete = 7
 
 ^blackarmgang_questpoints = 1
 ^blackknight_questpoints = 3
@@ -55,3 +56,4 @@
 ^totem_questpoints = 1
 ^vampire_questpoints = 3
 ^zanaris_questpoints = 3
+^arthur_questpoints = 6

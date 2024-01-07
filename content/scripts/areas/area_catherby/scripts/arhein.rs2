@@ -12,6 +12,9 @@ if($option = 1) {
 } else if($option = 3) {
     ~chatplayer(quiz, "Is that your ship?");
     ~chatnpc(happy, "Yes, I use it to make deliveries to my customers up and down the coast. These crates here are all ready for my next trip.");
+    if(%arthur_progress = ^arthur_spoken_lancelot) {
+        @multi3("Do you deliver to the fort just down the coast?", arhein_fort, "Where do you deliver to?", arhein_deliver, "Are you rich then?", arhein_rich);
+    }
     @multi2("Where do you deliver to?", arhein_deliver, "Are you rich then?", arhein_rich);
 }
 
@@ -32,6 +35,18 @@ if($option = 1) {
 [label,arhein_rich]
 ~chatplayer(neutral, "Are you rich then?");
 ~chatnpc(happy, "Business is going reasonably well...|I wouldn't say I was the richest of merchants ever,|but I'm doing fairly well all things considered.");
+
+[label,arhein_fort]
+~chatplayer(neutral, "Do you deliver to the fort just down the coast?");
+~chatnpc(happy, "Yes, I do have orders to deliver there from time to time. I think I may have some bits and pieces for them when I leave here next actually.");
+switch_int(~p_choice2("Can you drop me off on the way down please?", 1, "Aren't you worried about supplying evil knights?", 2)) {
+    case 1:
+        ~chatplayer(neutral, "Can you drop me off on the way down please?");
+        ~chatnpc(happy, "I don't think Sir Mordred would like that.|He wants as few outsiders visiting as possible.|I wouldn't want to lose his business.");
+    case 2:
+        ~chatplayer(neutral, "Aren't you worried about supplying evil knights?");
+        ~chatnpc(happy, "Hey, you gotta take business where you can find it these days! Besides, if I didn't supply them, someone else would.");
+}
 
 [label,trail_arhein]
 ~chatnpc(default, "Well done, matey!");

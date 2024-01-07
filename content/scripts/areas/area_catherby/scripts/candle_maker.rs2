@@ -1,9 +1,37 @@
 [opnpc1,candle_maker]
+if(testbit(%excalibur_components_progress, ^blackcandle_index) = true) {
+    ~chatnpc(quiz, "Have you got any wax yet?");
+    if(inv_total(inv, bucket_wax) = 0) {
+        ~chatplayer(sad, "Nope, not yet.");
+        return;
+    }
+    ~chatplayer(happy, "Yes, I have some now.");
+    ~mesbox("You exchange the wax with the candle maker for a black candle.");
+    inv_del(inv, bucket_wax, 1);
+    inv_add(inv, black_candle, 1);
+    %excalibur_components_progress = togglebit(%excalibur_components_progress, ^blackcandle_index);
+    return;
+}
 ~chatnpc(happy, "Hi! Would you be interested in some of my fine candles?");
-def_int $option = ~p_choice2("Yes Please.", 1, "No thank you.", 2);
+def_int $option;
+if(%arthur_progress = ^arthur_spoken_morgan_lefaye) {
+    $option = ~p_choice3("Have you got any black candles?", 3, "Yes please.", 1, "No thank you.", 2);
+} else {
+    $option = ~p_choice2("Yes Please.", 1, "No thank you.", 2);
+}
 if($option = 1) {
     ~chatplayer(neutral, "Yes please.");
     ~openshop_activenpc;
 } else if($option = 2) {
     ~chatplayer(happy, "No thank you.");
+} else if($option = 3) {
+    ~chatplayer(quiz, "Have you got any black candles?");
+    ~chatnpc(shock, "BLACK candles???");
+    ~chatnpc(confused, "Hmmm. In the candle making trade,|we have a tradition that|it's very bad luck to make black candles.");
+    ~chatnpc(confused, "VERY bad luck.");
+    ~chatplayer(angry, "I will pay good money for one...");
+    ~chatnpc(confused, "I still dunno...");
+    ~chatnpc(confused, "Tell you what. I'll supply you with a black candle...");
+    ~chatnpc(confused, "IF you can bring me a bucket FULL of wax.");
+    %excalibur_components_progress = togglebit(%excalibur_components_progress, ^blackcandle_index);
 }

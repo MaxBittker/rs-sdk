@@ -35,8 +35,9 @@ if(inv_total(inv, spade) = 0) {
     return;
 }
 anim(human_dig, 0);
+mes("You use your spade with the vine.");
 p_delay(0);
-mes("You dig in amongst the vines.");
+mes("You dig in amoungst the vines.");
 mes("You find a red vine worm.");
 if(inv_freespace(inv) = 0) {
     mes("You do not have enough space to carry this.");

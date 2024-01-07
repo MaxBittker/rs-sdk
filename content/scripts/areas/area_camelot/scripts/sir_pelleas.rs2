@@ -1,0 +1,20 @@
+[opnpc1,sir_pelleas]
+~chatnpc(happy, "Greetings to the court of King Arthur!");
+switch_int (%arthur_progress) {
+    case ^arthur_not_started:
+        ~chatplayer(neutral, "Hello. I'm looking for a quest. Who should I talk to?");
+        ~chatnpc(neutral, "King Arthur will let you know.|I believe he has a quest at the moment.");
+    case ^arthur_started:
+        ~chatplayer(quiz, "Any suggestions on freeing Merlin?");
+        ~chatnpc(neutral, "My best guess would be some sort of magic. Unfortunately Merlin is our magic expert.");
+        ~chatplayer(quiz, "Ok, well, thanks anyway.");
+    case ^arthur_spoken_gawain, ^arthur_spoken_lancelot:
+        ~chatplayer(quiz, "Any suggestions on getting into Mordred's fort?");
+        ~chatnpc(neutral, "My best guess would be using magic. Unfortunately Merlin is our magic expert.");
+        ~chatplayer(quiz, "Ok, well, thanks anyway.");
+    case ^arthur_spoken_morgan_lefaye, ^arthur_excalibur_bound, ^arthur_freed_merlin:
+        ~chatplayer(quiz, "Any suggestions on finding Excalibur?");
+        ~chatnpc(neutral, "My best guess would be using magic. Unfortunately Merlin is our magic expert.");
+        ~chatplayer(quiz, "Ok, well, thanks anyway.");   
+    case ^arthur_complete: ~chatnpc(neutral, "You are a very talented Knight indeed to have freed Merlin so quickly. You have all of our gratitude.");
+}

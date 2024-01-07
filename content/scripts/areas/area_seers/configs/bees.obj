@@ -1,4 +1,4 @@
-[obj_28]
+[insect_repellent]
 name=Insect repellent
 desc=Drives away all known 6 legged creatures.
 cost=3
@@ -11,7 +11,7 @@ members=yes
 weight=1oz
 tradeable=yes
 
-[obj_30]
+[bucket_wax]
 name=Bucket of wax
 desc=It's a bucket of wax.
 cost=6

@@ -1,0 +1,45 @@
+[opnpc1,king_arthur]
+switch_int(%arthur_progress) {
+    case ^arthur_freed_merlin: @arthur_merlin_free;
+    case ^arthur_complete: @arthur_grailstart;
+    case default: @arthur_firstmeet;
+}
+
+[label,arthur_merlin_free]
+~chatplayer(happy, "I have freed Merlin from his crystal!");
+~chatnpc(happy, "Ah. A good job, well done.|I dub thee a Knight Of The Round Table.|You are now an honorary knight.");
+queue(arthur_quest_complete, 0);
+
+[label,arthur_grailstart]
+// holy grail quest (not implemented yet)
+~chatplayer(neutral, "Now I am a knight of the round table, do you have any more quests for me?");
+~chatnpc(neutral, "Aha! I'm glad you are here! I am sending out various knights on an important quest. I was wondering if you too would like to take up this quest?");
+~chatplayer(sad, "I am weary of questing for the time being...");
+~chatnpc(neutral, "Maybe later then?");
+~chatplayer(neutral, "Maybe so.");
+
+[label,arthur_firstmeet]
+~chatnpc(neutral, "Welcome to my court. I am King Arthur of the Knights of the Round Table.");
+switch_int(~p_choice3("I want to become a Knight of the Round Table!", 1, "So what are you doing in RuneScape?", 2, "Thank you very much.", 3)) {
+    case 1:
+        ~chatplayer(neutral, "I want to become a Knight of the Round Table!");
+        if(%arthur_progress > ^arthur_not_started) {
+            ~chatnpc(neutral, "Well then you must complete your quest to rescue Merlin. Talk to my knights if you need any help.");
+            return;
+        }
+        ~chatnpc(neutral, "Really? Well then you will need to go on a quest to prove yourself worthy.");
+        ~chatnpc(neutral, "My knights all appreciate a good quest.");
+        ~chatnpc(sad, "Unfortunately, our current quest is to rescue Merlin.");
+        ~chatnpc(confused, "Back in England, he got himself trapped in some|sort of magical crystal. We've moved|him from the cave we found him in and now|he's upstairs in his tower.");
+        %arthur_progress = ^arthur_started;
+        ~send_quest_progress(quest_journal:arthur, %arthur_progress, ^arthur_complete);
+        ~chatplayer(neutral, "I will see what I can do then.");
+        ~chatnpc(neutral, "Talk to my knights if you need any help.");
+    case 2:
+        ~chatplayer(neutral, "So what are you doing in RuneScape?");
+        ~chatnpc(neutral, "Well legend says we will return to Britain in its time of greatest need. But that's not for quite a while yet.");
+        ~chatnpc(neutral, "So we've moved the whole outfit here for now.");
+        ~chatnpc(neutral, "We're passing the time in RuneScape!");
+    case 3:
+        ~chatplayer(happy, "Thank you very much.");
+}

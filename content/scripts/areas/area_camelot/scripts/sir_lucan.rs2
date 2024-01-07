@@ -1,0 +1,23 @@
+[opnpc1,sir_lucan]
+~chatnpc(happy, "Hello there adventurer.");
+switch_int (%arthur_progress) {
+    case ^arthur_not_started:
+        ~chatplayer(neutral, "I'm looking for a quest...");
+        ~chatnpc(happy, "Talk to the King then adventurer. He is always looking for men of bravery to aid him in his actions.");
+    case ^arthur_started:
+        ~chatplayer(quiz, "Any suggestions on freeing Merlin?");
+        ~chatnpc(neutral, "I've tried all the weapons I can find, yet none are powerful enough to break his crystal prison...");
+        ~chatnpc(neutral, "Perhaps the mighty Excalibur would be|strong enough...");
+        ~chatplayer(happy, "Excalibur eh? Where would I find that?");
+        ~chatnpc(neutral, "The Lady of the Lake is looking after it I believe... but I know not where she resides currently.");
+        ~chatplayer(happy, "Thanks. I'll try and find someone who does.");
+    case ^arthur_spoken_gawain, ^arthur_spoken_lancelot:
+        ~chatplayer(quiz, "I need to get into Mordred's Fortress.");
+        ~chatnpc(neutral, "So... you think Mordred's behind this? I'm afraid I don't have any suggestions...");
+        ~chatplayer(happy, "Thanks. I'll try and find someone who does.");
+    case ^arthur_spoken_morgan_lefaye, ^arthur_excalibur_bound, ^arthur_freed_merlin:
+        ~chatplayer(quiz, "I need to find Excalibur.");
+        ~chatnpc(happy, "I'm afraid I don't have any suggestions...");
+        ~chatplayer(happy, "Thanks. I'll try and find someone who does.");
+    case ^arthur_complete: ~chatnpc(happy, "Congratulations on freeing Merlin!");
+}

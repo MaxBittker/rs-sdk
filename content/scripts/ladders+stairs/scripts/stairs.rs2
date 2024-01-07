@@ -357,6 +357,7 @@ switch_coord (loc_coord) {
     case 0_50_52_30_55: p_telejump(1_50_52_30_54); // Varrock misc house
     case 0_43_49_44_59: p_telejump(1_43_49_44_62); // Brimhaven house
     case 0_43_49_7_60: p_telejump(1_43_49_7_59); // Brimhaven house
+    case 0_42_54_62_54: p_telejump(1_42_54_62_57); // Camelot castle
     case default: @unhandled_stairs(loc_coord);
 }
 
@@ -371,6 +372,7 @@ switch_coord (loc_coord) {
     case 1_50_52_30_55: p_telejump(0_50_52_30_58); // Varrock misc house
     case 1_43_49_44_60: p_telejump(0_43_49_44_58); // Brimhaven house
     case 1_43_49_7_60: p_telejump(0_43_49_7_63); // Brimhaven house
+    case 1_42_54_62_55: p_telejump(0_42_54_62_53); // Camelot castle
     case default: @unhandled_stairs(loc_coord);
 }
 

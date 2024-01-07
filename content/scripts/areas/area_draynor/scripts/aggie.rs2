@@ -1,7 +1,7 @@
 [opnpc1,aggie]
 ~chatnpc(happy, "What can I help you with?");
 def_int $option;
-if(%prince_progress = 2) {
+if(%prince_progress >= 2 & %prince_progress < ^prince_saved) {
     $option = ~p_choice5("Could you think of a way to make skin paste?", 5, "What could you make for me?", 1, "Cool, do you turn people into frogs?", 2, "You mad old witch, you can't help me.", 3, "Can you make dyes for me please?", 4);
 }else {
     $option = ~p_choice4("What could you make for me?", 1, "Cool, do you turn people into frogs?", 2, "You mad old witch, you can't help me.", 3, "Can you make dyes for me please?", 4);
@@ -9,11 +9,11 @@ if(%prince_progress = 2) {
 
 if($option = 1) {
     ~chatplayer(quiz, "What could you make for me?");
-    ~chatnpc(default, "I mostly just make what I find pretty. I sometimes make dye for the women's clothes, brighten the place up. I can make red, yellow and blue dyes. Would you like some?");
+    ~chatnpc(neutral, "I mostly just make what I find pretty. I sometimes make dye for the women's clothes, brighten the place up. I can make red, yellow and blue dyes. Would you like some?");
     @aggie_dyes;
 } else if($option = 2) { 
     ~chatplayer(happy, "Cool, do you turn people into frogs?");
-    ~chatnpc(default, "Oh, not for years, but if you meet a talking chicken, you have probably met the professor in the manor north of here. A few years ago it was flying fish. That machine is a menace.");
+    ~chatnpc(neutral, "Oh, not for years, but if you meet a talking chicken, you have probably met the professor in the manor north of here. A few years ago it was flying fish. That machine is a menace.");
 } else if($option = 3) {
     ~chatplayer(angry, "You mad old witch, you can't help me.");
     @aggie_fine;
@@ -27,10 +27,10 @@ if($option = 1) {
         ~chatnpc(happy, "Yes I can, I see you already have the ingredients. Would you like me to mix some for you now?");
         @multi2("Yes please. Mix me some skin paste.", aggie_mix_paste, "No thank you, I don't need any skin paste right now.", aggie_no_paste);
     } else {
-        ~chatnpc(default, "Why, it's one of my most popular potions. The women here, they like to have smooth looking skin. And I must admit, some of the men buy it as well.");
-        ~chatnpc(default, "I can make it for you, just get me what's needed.");
+        ~chatnpc(happy, "Why, it's one of my most popular potions.|The women here, they like to have smooth looking skin.|And I must admit, some of the men buy it as well.");
+        ~chatnpc(happy, "I can make it for you, just get me what's needed.");
         ~chatplayer(quiz, "What do you need to make it?");
-        ~chatnpc(default, "Well dearie, you need a base for the paste. That's a mix of ash, flour and water. Then you need redberries to colour it as you want. Bring me those four items and I will make you some.");
+        ~chatnpc(neutral, "Well dearie, you need a base for the paste.|That's a mix of ash, flour and water.|Then you need redberries to colour it as you want.|Bring me those four items and I will make you some.");
     }
 }
 
@@ -39,20 +39,23 @@ if(inv_total(inv, coins) >= 21 & inv_total(inv, coins) < 101) {
     inv_del(inv, coins, 5);
     ~chatnpc(angry, "Oh, you like to call a witch names do you?");
     npc_anim(human_pickpocket, 0);
+    sound_synth(pick, 0, 0);
     ~objbox(coins_250, "Aggie waves her hands about, and you seem to be 5 coins poorer.");
-    ~chatnpc(default, "That's a fine for insulting a witch. You should learn some respect.");
+    ~chatnpc(neutral, "That's a fine for insulting a witch. You should learn some respect.");
 } else if(inv_total(inv, coins) >= 101) {
     inv_del(inv, coins, 20);
     ~chatnpc(angry, "Oh, you like to call a witch names do you?");
     npc_anim(human_pickpocket, 0);
+    sound_synth(pick, 0, 0);
     ~objbox(coins_250, "Aggie waves her hands about, and you seem to be 20 coins poorer.");
-    ~chatnpc(default, "That's a fine for insulting a witch. You should learn some respect.");
+    ~chatnpc(neutral, "That's a fine for insulting a witch. You should learn some respect.");
 } else if(inv_total(inv, pot_of_flour) >= 1) {
     inv_del(inv, pot_of_flour, 1);
     ~chatnpc(angry, "Oh, you like to call a witch names do you?");
     npc_anim(human_pickpocket, 0);
+    sound_synth(pick, 0, 0);
     ~objbox(pot_of_flour, "Aggie waves her hands near you, and you seem to have lost some flour.");
-    ~chatnpc(default, "Thank you for your kind present of flour. I am sure you never meant to insult me.");
+    ~chatnpc(neutral, "Thank you for your kind present of flour.|I am sure you never meant to insult me.");
 } else {
     ~chatnpc(angry, "You should be careful about insulting a witch. You never know what shape you could wake up in.");
 }
@@ -60,20 +63,20 @@ if(inv_total(inv, coins) >= 21 & inv_total(inv, coins) < 101) {
 [label,aggie_dyes]
 def_int $option = ~p_choice4("What do you need to make red dye?", 1, "What do you need to make yellow dye?", 2, "What do you need to make blue dye?", 3, "No thanks, I am happy the colour I am.", 4);
 if($option = 1) {
-    ~chatplayer(neutral, "What do you need to make red dye?");
-    ~chatnpc(default, "3 lots of redberries and 5 coins to you.");
+    ~chatplayer(quiz, "What do you need to make red dye?");
+    ~chatnpc(neutral, "3 lots of redberries and 5 coins to you.");
     @multi3("Okay, make me some red dye please.", aggie_red_dye, "I don't think I have all the ingredients yet.", aggie_ingredients, "I can do without dye at that price.", aggie_without_dye);
 } else if($option = 2) {
-    ~chatplayer(neutral, "What do you need to make yellow dye?");
-    ~chatnpc(default, "Yellow is a strange colour to get, comes from onion skins. I need 2 onions and 5 coins to make yellow dye.");
+    ~chatplayer(quiz, "What do you need to make yellow dye?");
+    ~chatnpc(neutral, "Yellow is a strange colour to get, comes from onion skins. I need 2 onions and 5 coins to make yellow dye.");
     @multi3("Okay, make me some yellow dye please.", aggie_yellow_dye, "I don't think I have all the ingredients yet.", aggie_ingredients, "I can do without dye at that price.", aggie_without_dye);
 } else if($option = 3) {
-    ~chatplayer(neutral, "What do you need to make blue dye?");
-    ~chatnpc(default, "2 woad leaves and 5 coins to you.");
+    ~chatplayer(quiz, "What do you need to make blue dye?");
+    ~chatnpc(neutral, "2 woad leaves and 5 coins to you.");
     @multi3("Okay, make me some blue dye please.", aggie_blue_dye, "I don't think I have all the ingredients yet.", aggie_ingredients, "I can do without dye at that price.", aggie_without_dye);
 } else if($option = 4) {
     ~chatplayer(neutral, "No thanks, I am happy the colour I am.");
-    ~chatnpc(default, "You are easily pleased with yourself then.|When you need dyes, come to me.");
+    ~chatnpc(neutral, "You are easily pleased with yourself then.|When you need dyes, come to me.");
 }
 
 [label,aggie_yellow_dye]
@@ -88,10 +91,10 @@ if(inv_total(inv, onion) < 2) {
 inv_del(inv, coins, 5);
 inv_del(inv, onion, 2);
 inv_add(inv, yellow_dye, 1);
-~objbox(yellow_dye, "You hand the onions and payment to Aggie. Aggie takes a yellow bottle from nowhere and hands it to you.");
+~objboxb(yellow_dye, "You hand the onions and payment to Aggie.|Aggie takes a yellow bottle from nowhere and hands it to you.");
 
 [label,aggie_red_dye]
-if(inv_total(inv, redberry) < 2) {
+if(inv_total(inv, redberry) < 3) {
     ~mesbox("You don't have enough berries to make the red dye!");
     return;
 } else if(inv_total(inv, coins) < 5) {
@@ -100,9 +103,9 @@ if(inv_total(inv, redberry) < 2) {
 }
 ~chatplayer(neutral, "Okay, make me some red dye please.");
 inv_del(inv, coins, 5);
-inv_del(inv, redberry, 2);
+inv_del(inv, redberry, 3);
 inv_add(inv, red_dye, 1);
-~objbox(red_dye, "You hand the berries and payment to Aggie. Aggie takes a red bottle from nowhere and hands it to you.");
+~objboxb(red_dye, "You hand the berries and payment to Aggie.|Aggie takes a red bottle from nowhere and hands it to you.");
 
 [label,aggie_blue_dye]
 if(inv_total(inv, woad_leaf) < 2) {
@@ -116,23 +119,18 @@ if(inv_total(inv, woad_leaf) < 2) {
 inv_del(inv, coins, 5);
 inv_del(inv, woad_leaf, 2);
 inv_add(inv, blue_dye, 1);
-~objbox(blue_dye, "You hand the woad leaves and payment to Aggie. Aggie takes a blue bottle from nowhere and hands it to you.");
+~objboxb(blue_dye, "You hand the woad leaves and payment to Aggie.|Aggie takes a blue bottle from nowhere and hands it to you.");
 
 [label,aggie_ingredients]
-~chatplayer(short, "I don't think I have all the ingredients yet.");
-~chatnpc(default, "You know what you need to get now, come back when you have them. Goodbye for now.");
+~chatplayer(confused, "I don't think I have all the ingredients yet.");
+~chatnpc(neutral, "You know what you need to get now, come back when you have them. Goodbye for now.");
 
 [label,aggie_without_dye]
 ~chatplayer(angry, "I can do without dye at that price.");
-~chatnpc(default, "That's your choice, but I would think you have killed for less. I can see it in your eyes.");
-
-[label,aggie_other_colours]
-~chatplayer(quiz, "What other colours can you make?");
-~chatnpc(quiz, "Red, yellow and blue. Which one would you like?");
-@aggie_dyes;
+~chatnpc(neutral, "That's your choice, but I would think you have killed for less. I can see it in your eyes.");
 
 [label,aggie_mix_paste]
-~chatplayer(neutral, "Yes please. Mix me some skin paste.");
+~chatplayer(happy, "Yes please. Mix me some skin paste.");
 ~chatnpc(happy, "That should be simple. Hand the things to Aggie then.");
 if(inv_total(inv, bucket_water) > 0) {
     inv_del(inv, bucket_water, 1);
@@ -146,8 +144,7 @@ inv_del(inv, pot_of_flour, 1);
 inv_del(inv, ashes, 1);
 inv_add(inv, paste, 1);
 ~mesbox("Aggie hands you the skin paste.");
-~chatnpc(happy, "There you go dearie. That will make you look good at the Varrock dances.");
-
+~chatnpc(happy, "There you go dearie, your skin potion.|That will make you look good at the Varrock dances.");
 
 [label,aggie_no_paste]
 ~chatplayer(neutral, "No thank you, I don't need any skin paste right now.");

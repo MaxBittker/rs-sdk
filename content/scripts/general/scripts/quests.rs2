@@ -143,6 +143,10 @@ if (%seaslug_progress = ^seaslug_complete) {
     $questpoints = add($questpoints, ^seaslug_questpoints);
 }
 
+if (%arthur_progress = ^arthur_complete) {
+    $questpoints = add($questpoints, ^arthur_questpoints);
+}
+
 %questpoints = $questpoints;
 
 ~send_quest_progress_colour(quest_journal:runemysteries, %runemysteries_progress, ^runemysteries_complete);
@@ -175,6 +179,7 @@ if(%phoenixgang_progress > 0) { // shield of arrav
 }
 ~send_quest_progress_colour(quest_journal:elena, %elena_progress, ^elena_complete);
 ~send_quest_progress_colour(quest_journal:seaslug, %seaslug_progress, ^seaslug_complete);
+~send_quest_progress_colour(quest_journal:arthur, %arthur_progress, ^arthur_complete);
 if_settab(quest_journal, ^tab_quest_journal);
 
 if (%drunkmonk_progress >= ^drunkmonk_spoken_to_omad) {

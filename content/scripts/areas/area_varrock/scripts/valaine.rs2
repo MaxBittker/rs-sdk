@@ -1,0 +1,9 @@
+[opnpc1,valaine]
+~chatnpc(neutral, "Hello there.|Want to have a look at what we're selling today?");
+switch_int(~p_choice2("Yes please.", 1, "No thank you.", 2)) {
+    case 1:
+        ~chatplayer(neutral, "Yes please.");
+        ~openshop_activenpc;
+    case 2:
+        ~chatplayer(neutral, "No thank you.");
+}

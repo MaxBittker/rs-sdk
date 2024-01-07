@@ -2,7 +2,7 @@
 if_settext(scroll:com_2, ^string_empty);
 if_settext(scroll:com_3, ^string_empty);
 if_settext(scroll:com_4, ^string_empty);
-if_settext(scroll:com_5, "Visit the city of the White Knights. In the park,");
+if_settext(scroll:com_5, "Visit the city of the White Knights, in the park");
 if_settext(scroll:com_6, "Saradomin points to the X which marks the spot.");
 if_settext(scroll:com_7, ^string_empty);
 if_settext(scroll:com_8, ^string_empty);

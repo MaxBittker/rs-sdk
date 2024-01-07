@@ -2,14 +2,39 @@
 if(inv_total(inv, trail_clue_easy_simple_exp026) = 1) {
     @trail_sir_kay;
 }
+~chatnpc(happy, "Good morrow <text_gender("sirrah!", "madam")>!");
+switch_int(%arthur_progress) {
+    case ^arthur_not_started:
+        ~chatplayer(neutral, "Morning. Know where an adventurer has to go to find a quest around here?");
+        ~chatnpc(neutral, "An adventurer eh? There is no service finer than serving the bountiful King Arthur, and I happen to know there's an important quest to fulfill.");
+    case ^arthur_started:
+        ~chatplayer(quiz, "Any ideas on getting Merlin out of that crystal?");
+        ~chatnpc(sad, "Unfortunately not, Sirrah.");
+        ~chatnpc(sad, "'Tis a magick most powerful and foul.");
+        ~chatnpc(sad, "The only person I know of who would possibly have been of help is Merlin...");
+        ~chatplayer(neutral, "Yeah, that's not actually too helpful.");
+        ~chatnpc(sad, "I am well aware of that, adventurer.");
+    case ^arthur_spoken_gawain, ^arthur_spoken_lancelot:
+        ~chatplayer(quiz, "Any ideas on getting into Mordred's fort?");
+        ~chatnpc(angry, "Mordred... So you think he may be involved with the curse upon Merlin?");
+        ~chatplayer(quiz, "Good a guess as any right?");
+        ~chatnpc(sad, "I think that you may be onto something there. Unfortunately his fortress is impregnable!");
+        ~chatplayer(neutral, "...I'll figure something out.");
+    case ^arthur_spoken_morgan_lefaye, ^arthur_excalibur_bound, ^arthur_freed_merlin:
+        ~chatnpc(quiz, "Any ideas on finding Excalibur?");
+        ~chatnpc(happy, "Unfortunately not, Sirrah.");
+    case ^arthur_complete:
+        ~chatnpc(happy, "Sir Knight! Many thanks for your assistance in restoring Merlin to his former freedom!");
+        ~chatplayer(neutral, "Hey, no problem.");     
+}
 
 [label,trail_sir_kay]
-~chatnpc("default", "A valiant effort!");
+~chatnpc(happy, "A valiant effort!");
 ~trail_clue_progress;
 inv_del(inv, trail_clue_easy_simple_exp026, 1);
 if(~trail_clue_easy_complete = true) {
     ~trail_clue_easy_reward;
 } else {
     inv_add(inv, ~trail_clue_easy_getrandom, 1);
-    ~objbox(trail_clue_hard_map001, "Sir Kay has given you another clue!");
+    ~objbox(trail_clue_hard_map001, "Sir Kay has given you another clue scroll!");
 }

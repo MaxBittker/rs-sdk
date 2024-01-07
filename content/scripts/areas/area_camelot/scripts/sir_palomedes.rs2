@@ -1,0 +1,19 @@
+[opnpc1,sir_palomedes]
+~chatnpc(happy, "Hello there adventurer, what do you want of me?");
+switch_int (%arthur_progress) {
+    case ^arthur_not_started:
+        ~chatplayer(neutral, "I'd like some advice on finding a quest.");
+        ~chatnpc(happy, "I do not know of any myself... but it would perhaps be worth your while asking the King if he has any tasks for you.");
+    case ^arthur_started:
+        ~chatplayer(quiz, "I'd like some advice on breaking that Crystal Merlin's trapped in.");
+        ~chatnpc(happy, "Sorry, I cannot help you with that.");
+    case ^arthur_spoken_gawain, ^arthur_spoken_lancelot:
+        ~chatplayer(quiz, "I'd like some advice on breaking into Mordred's fort.");
+        ~chatnpc(happy, "Sorry, I cannot help you with that.");
+    case ^arthur_spoken_morgan_lefaye, ^arthur_excalibur_bound, ^arthur_freed_merlin:
+        ~chatplayer(quiz, "I'd like some advice on finding Excalibur.");
+        ~chatnpc(happy, "orry, I cannot help you with that.");
+    case ^arthur_complete:
+        ~chatnpc(happy, "After your help freeing Merlin, my help is the least I can offer as a man of honour.");
+        ~chatplayer(happy, "Nothing right now, but I'll bear it in mind. Thanks.");
+}

@@ -105,5 +105,5 @@ if(npc_finduid(~npc_within_distance(coord, sinister_stranger, 8)) = true) {
 
 [queue,fishingcompo_quest_complete]
 %fishingcompo_progress = ^fishingcompo_complete;
-~send_quest_complete(quest_journal:fishingcompo, fishing_trophy, 250, ^fishingcompo_questpoints, "You have completed the\\nFishing Competition Quest!");
+~send_quest_complete(quest_journal:fishingcompo, fishing_trophy, 180, ^fishingcompo_questpoints, "You have completed the\\nFishing Competition Quest!");
 givexp(fishing, 24370);

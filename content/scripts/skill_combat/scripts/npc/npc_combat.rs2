@@ -1,11 +1,4 @@
-[ai_queue1,_](int $arg) 
-// for flinching
-// npc needs to be 8 ticks out of combat(since it was last able to atk) before it can be flinched
-if (add(%npc_action_delay, 8) < map_clock) {
-    %npc_action_delay = calc(map_clock + (npc_param(attackrate) / 2));
-}
-gosub(npc_default_retaliate);
-
+[ai_queue1,_](int $arg) gosub(npc_default_retaliate);
 [ai_queue2,_](int $damage) ~npc_default_damage($damage);
 [ai_queue3,_](int $arg) gosub(npc_default_death);
 [ai_opplayer2,_] gosub(npc_default_attack);

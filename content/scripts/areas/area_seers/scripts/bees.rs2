@@ -1,0 +1,36 @@
+[oploc1,loc_68]
+if(inv_total(inv, bucket_empty) = 0) {
+    ~mesbox("You'd need a suitable container to carry the wax in.");
+    return;
+}
+@take_beehive;
+
+[oplocu,loc_68]
+switch_obj(last_useitem) {
+    case insect_repellent: @pour_repellent_bees;
+    case bucket_empty: @take_beehive;
+    case tinderbox, lit_torch, lit_candle, lit_black_candle: mes("Burning the hive would be a rather extreme measure for repelling bees.");
+    case default: @nothing_interesting_happens; // OSRS mes is different but it doesn't even fit in orig chatbox so probably new
+}
+
+[label,pour_repellent_bees]
+if(%beehive_free = true) {
+    ~mesbox("You pour insect repellent on the beehive again.|The bees have already left.");
+    return;
+}
+%beehive_free = true;
+~mesbox("You pour insect repellent on the beehive.|You see bees leaving the hive.");
+
+[label,take_beehive]
+// https://youtu.be/yC68rzkRvCQ?si=VSPc8U4LsvI0GqgS&t=30
+if(%beehive_free = false) {
+    mes("Suddenly bees fly out of the hive and sting you.");
+    ~damage_self(2); // queue
+    return;
+}
+~mesbox("You try to get some wax from the beehive.");
+inv_del(inv, bucket_empty, 1);
+inv_add(inv, bucket_wax, 1);
+%beehive_free = false;
+~mesbox("You get some wax from the hive.");
+~mesbox("The bees fly back to the hive as the repellent wears off.");

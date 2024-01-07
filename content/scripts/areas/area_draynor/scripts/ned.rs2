@@ -24,7 +24,7 @@ if (last_useitem = crandor_map) {
 }
 
 [label,trail_ned]
-~chatnpc("default", "Well done!");
+~chatnpc(happy, "Well done!");
 ~trail_clue_progress;
 inv_del(inv, trail_clue_easy_simple_exp021, 1);
 if(~trail_clue_easy_complete = true) {
@@ -35,9 +35,9 @@ if(~trail_clue_easy_complete = true) {
 }
 
 [label,standard_ned]
-~chatnpc(default, "Why hello there, me friends call me Ned.|I was a man of the sea, but it's past me now.|Could I be making or selling you some rope?");
+~chatnpc(neutral, "Why hello there, me friends call me Ned.|I was a man of the sea, but it's past me now.|Could I be making or selling you some rope?");
 def_int $option;
-if(%prince_progress >= 2 & %prince_progress < 8) {
+if(%prince_progress >= 2 & %prince_progress < ^prince_saved) {
     if (~quest_dragon_getting_map_parts = true & %dragon_ned_hired = ^false) {
         $option = ~p_choice4("You're a sailor? Could you take me to the island of Crandor?", 4, "Ned, could you make other things from wool?", 3, "Yes, I would like some rope.", 1, "No thanks, Ned. I don't need any.", 2);
     } else {
@@ -64,7 +64,7 @@ if($option = 1) {
 
 [label,ned_start_rope_purchase]
 ~chatplayer(neutral, "Yes, I would like some rope.");
-~chatnpc(default, "Well, I can sell you some rope for 15 coins.|Or I can be making you some if you gets me 4 balls of wool.|I strands them together I does, makes em strong.");
+~chatnpc(happy, "Well, I can sell you some rope for 15 coins.|Or I can be making you some if you gets me 4 balls of wool.|I strands them together I does, makes em strong.");
 if(inv_total(inv, ball_of_wool) < 4) {
     @multi3("Okay, please sell me some rope.", ned_rope, "That's a little more than I want to pay.", ned_more_pay, "I will go and get some wool.", ned_get_wool);
 } else {
@@ -78,40 +78,40 @@ if(inv_total(inv, coins) < 15) {
 }
 ~chatplayer(neutral, "Okay, please sell me some rope.");
 ~chatnpc(happy, "There you go, finest rope in RuneScape.");
-~mesbox("You hand Ned 15 coins. Ned gives you a coil of rope.");
+~mesbox("You hand Ned 15 coins.|Ned gives you a coil of rope.");
 inv_del(inv, coins, 15);
 inv_add(inv, rope, 1);
 
 [label,ned_decline_rope]
 ~chatplayer(neutral, "No thanks, Ned. I don't need any.");
-~chatnpc(default, "Well, old Neddy is always here if you do.|Tell your friends. I can always be using the business.");
+~chatnpc(neutral, "Well, old Neddy is always here if you do.|Tell your friends. I can always be using the business.");
 
 [label,ned_get_wool]
 ~chatplayer(neutral, "I will go and get some wool.");
-~chatnpc(default, "Aye, you do that. Remember, it takes 4 balls of wool to make strong rope.");
+~chatnpc(neutral, "Aye, you do that.|Remember, it takes 4 balls of wool to make strong rope.");
 
 [label,ned_more_pay]
 ~chatplayer(neutral, "That's a little more than I want to pay.");
 ~chatnpc(bored, "Well, if you ever need rope that's the price. Sorry.|An old sailor needs money for a little drop o' rum.");
 
 [label,ned_have_wool]
-~chatplayer(default, "I have some balls of wool.|Could you make me some rope?");
+~chatplayer(neutral, "I have some balls of wool.|Could you make me some rope?");
 ~chatnpc(happy, "Sure I can.");
-~mesbox("You hand over 4 balls of wool. Ned gives you a coil of rope.");
+~mesbox("You hand over 4 balls of wool.|Ned gives you a coil of rope.");
 inv_del(inv, ball_of_wool, 4);
 inv_add(inv, rope, 1);
 
 [label,ned_sweater]
 ~chatplayer(neutral, "Could you knit me a sweater?");
 ~chatnpc(angry, "Do I look like a member of a sewing circle?|Be off wi' you. I have fought monsters that would turn your hair blue.");
-~chatnpc(sad, "I don't need to be laughed at just 'cos I am getting a bit old.");
+~chatnpc(angry, "I don't need to be laughed at just 'cos I am getting a bit old.");
 
 [label,ned_arrow_holes]
 ~chatplayer(quiz, "Could you repair the arrow holes in the back of my shirt?");
-~chatnpc(default, "Ah yes, it's a tough world these days.|There's a few brave enough to attack from 10 metres away.");
+~chatnpc(neutral, "Ah yes, it's a tough world these days.|There's a few brave enough to attack from 10 metres away.");
 ~mesbox("Ned pulls out a needle and attacks your shirt.");
 ~chatnpc(happy, "There you go, good as new.");
-~chatplayer(default, "Thanks Ned. Maybe next time they will attack me face to face.");
+~chatplayer(neutral, "Thanks Ned. Maybe next time they will attack me face to face.");
 
 [label,ned_wig]
 ~chatplayer(quiz, "How about some sort of wig?");
@@ -134,10 +134,8 @@ if(inv_total(inv, ball_of_wool) >= 3) {
     ~chatplayer(neutral, "Thanks Ned, there's more to you than meets the eye.");
 }
 
-
 [label,ned_come_back]
 ~chatplayer(neutral, "I will come back when I need you to make me one.");
-
 
 [label,ned_dragon_slayer_before_hired]
 ~chatplayer(quiz, "You're a sailor? Could you take me to the island of Crandor?");

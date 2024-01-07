@@ -1,0 +1,82 @@
+[opnpc1,sir_mordred]
+// https://web.archive.org/web/20050521020137im_/http://www.runeweb.net/fireball/Merlin%20Crystal%20Images/merlin10.PNG
+~chatnpc(angry, "You DARE to invade MY stronghold?!?!");
+~chatnpc(angry, "Have at thee knave!!!");
+~npc_retaliate(0);
+
+[opnpc2,sir_mordred]
+if(npc_stat(hitpoints) = 0) {
+    npc_statheal(hitpoints, npc_basestat(hitpoints), 0);
+}
+@player_combat_start;
+
+[ai_queue3,sir_mordred](int $arg)
+if (npc_findhero = true & %arthur_progress >= ^arthur_spoken_lancelot & %arthur_progress < ^arthur_complete) {
+    @lefaye_spare_son;
+} 
+gosub(npc_default_death);
+[ai_queue4,sir_mordred](int $arg) gosub(npc_default_death);
+
+[label,lefaye_spare_son]
+if_close;
+if(p_finduid(%npc_attacking_uid) = false) {
+    return;
+}
+// clear player and mordred interactions
+p_stopaction;
+npc_setmode(playerfaceclose);
+if(npc_finduid(~npc_within_distance(coord, morgan_le_faye, 6)) = false) { 
+    npc_add(^morgan_spawn_coord, morgan_le_faye, 50);
+    spotanim_map(spotanim_86, npc_coord, 124, 0);
+}
+~chatnpc(sad, "STOP! Please... spare my son.");
+switch_int(~p_choice3("Tell me how to untrap Merlin and I might.", 1, "No. He deserves to die.", 2, "Ok then.", 3)) {
+    case 1:
+        ~chatplayer(sad, "Tell me how to untrap Merlin and I might.");
+        ~chatnpc(neutral, "You have guessed correctly that I'm responsible for that.");
+        ~chatnpc(neutral, "I suppose I can live with that fool Merlin being loose for the sake of my son.");
+        ~chatnpc(neutral, "Setting him free won't be easy though.");
+        ~chatnpc(neutral, "You will need to find a magic symbol as close to the crystal as you can find.");
+        ~chatnpc(neutral, "You will then need to drop some bats' bones on the magic symbol while holding a lit black candle.");
+        ~chatnpc(neutral, "This will summon a mighty spirit named Thrantax.");
+        ~chatnpc(neutral, "You will need to bind him with magic words.");
+        ~chatnpc(neutral, "Then you will need the sword Excalibur with which the spell was bound in order to shatter the crystal.");
+        if(%arthur_progress = ^arthur_spoken_lancelot) {
+            %arthur_progress = ^arthur_spoken_morgan_lefaye;
+        }
+        @multi3("So where can I find Excalibur?", lefaye_excalibur, "OK I will go do all that.", lefaye_ok, "What are the magic words?", lefaye_magic_words);
+    case 2:
+        ~chatplayer(sad, "No. He deserves to die.");
+        if_close;
+        if(npc_finduid(~npc_within_distance(coord, sir_mordred, 6)) = true) { 
+            mes("You kill Mordred.");
+            npc_queue(4, 0, 0);
+            p_delay(1);
+        }
+        if(npc_finduid(~npc_within_distance(coord, morgan_le_faye, 6)) = true) { 
+            spotanim_map(spotanim_86, npc_coord, 124, 0);
+            npc_del;
+        }
+    case 3:
+        ~chatplayer(neutral, "OK then.");
+        spotanim_map(spotanim_86, npc_coord, 124, 0);
+        npc_del;
+        ~mesbox("Morgan Le Faye vanishes.");
+}
+
+[label,lefaye_excalibur]
+~chatplayer(neutral, "So where can I find Excalibur?");
+~chatnpc(neutral, "The lady of the lake has it.|I don't know if she'll give it to you though,|she can be rather temperamental.");
+@multi2("What are the magic words?", lefaye_magic_words, "OK I will go do all that.", lefaye_ok);
+
+[label,lefaye_magic_words]
+~chatplayer(neutral, "What are the magic words?");
+~chatnpc(neutral, "You will find the magic words at the base of one of the chaos altars.");
+~chatnpc(neutral, "Which chaos altar I cannot remember.");
+@multi2("So where can I find Excalibur?", lefaye_excalibur, "OK I will go do all that.", lefaye_ok);
+
+[label,lefaye_ok]
+~chatplayer(neutral, "Ok, I will go do all that.");
+spotanim_map(spotanim_86, npc_coord, 124, 0);
+npc_del;
+~mesbox("Morgan Le Faye vanishes.");

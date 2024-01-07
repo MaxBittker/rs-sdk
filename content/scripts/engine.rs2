@@ -354,6 +354,7 @@
 [command,scale](int $int0, int $int1, int $int2)(int)
 [command,bitcount](int $num)(int)
 [command,togglebit](int $num, int $bit)(int)
+[command,clearbit](int $num, int $bit)(int)
 [command,setbit_range](int $num, int $start_bit, int $end_bit)(int)
 [command,clearbit_range](int $num, int $start_bit, int $end_bit)(int)
 [command,getbit_range](int $num, int $start_bit, int $end_bit)(int)

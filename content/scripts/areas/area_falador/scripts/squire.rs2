@@ -5,7 +5,7 @@ if(inv_total(inv, trail_clue_easy_simple_exp017) = 1) {
 } else if(%squire_progress = 0) {
     @squire_start;
 } else if(%squire_progress = ^squire_complete) {
-    ~chatnpc(default, "Hello friend! Many thanks for all of your help! Vyvin never even realised it was a different sword, and I still have my job!");
+    ~chatnpc(happy, "Hello friend! Many thanks for all of your help! Vyvin never even realised it was a different sword, and I still have my job!");
     ~chatplayer(happy, "I'm glad the new sword worked out alright.");
 } else {
     ~chatnpc(quiz, "So how are you doing getting a sword?");

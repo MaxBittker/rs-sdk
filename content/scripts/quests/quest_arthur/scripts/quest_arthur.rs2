@@ -1,0 +1,277 @@
+[oploc1,loc_24] 
+// merlin door
+mes("The door won't open.");
+
+[oploc1,loc_65] @leave_arhein_crate;
+[oploc2,loc_63]
+if(%arthur_progress >= ^arthur_spoken_lancelot) {
+    ~mesbox("The crate is empty. It's just about big enough to hide inside.");
+    def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "Would you like to hide inside the crate?");
+    if ($choice = 2) {
+        return;
+    }
+    // https://youtu.be/rCASNmyFdGE?si=6b-G5XHgfCKT-mCn&t=162
+    anim(human_pickupfloor, 0);
+    ~mesbox("You climb inside the crate and wait.");
+    p_teleport(0_43_153_26_47);
+    ~mesbox("You wait.");
+    ~mesbox("And wait...");
+    ~mesbox("And wait...");
+    ~mesbox("You hear voices outside the crate.|@dbl@Is this your crate, Arhein?");
+    ~mesbox("@dre@Yeah, I think so. Pack it aboard soon as you can.|@dre@I'm on a tight schedule for deliveries!");
+    ~mesbox("You feel the crate being lifted.|@dbl@Oof. Wow, this is pretty heavy!|@dbl@I never knew candles weighed so much!");
+    ~mesbox("@dre@Quit your whining, and stow it in the hold.");
+    ~mesbox("You feel the crate being put down inside the ship.");
+    ~mesbox("You wait...");
+    ~mesbox("And wait...");
+    ~mesbox("@dre@Casting off!");
+    ~mesbox("You feel the ship start to move.");
+    ~mesbox("Feels like you're now out at sea.");
+    ~mesbox("The ship comes to a stop.");
+    ~mesbox("@dre@Unload Mordred's deliveries onto the jetty.|@dbl@Aye-aye cap'n!");
+    ~mesbox("You feel the crate being lifted.");
+    ~mesbox("You can hear someone mumbling outside the crate.||@dbl@...stupid Arhein... making me... candles...|@dbl@never weigh THIS much....hurts....union about this!...");
+    ~mesbox("@dbl@...if....MY ship be different!...|@dbl@stupid Arhein...");
+    ~mesbox("You feel the crate being put down.");
+    %arhein_crate_coord = ^keep_crate_coord;
+    @leave_arhein_crate;
+}
+mes("You have no reason to do that...");
+
+[oploc2,loc_64]
+~mesbox("The crate is empty. It's just about big enough to hide inside.");
+def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "Would you like to hide inside the crate?");
+if ($choice = 2) {
+    return;
+}
+anim(human_pickupfloor, 0);
+~mesbox("You climb inside the crate and wait.");
+p_teleport(0_43_153_26_47);
+~mesbox("You wait.");
+~mesbox("And wait...");
+~mesbox("And wait...");
+~mesbox("You hear voices outside the crate.|@dbl@Are these the crates for pick up?");
+~mesbox("@dre@Yeah, I think so. Mordred wants them out of the way for his next @dre@shipment.");
+~mesbox("You feel the crate being lifted.|@dbl@Oof. Wow, this is pretty heavy!|@dbl@What is she shipping back?");
+~mesbox("@dre@Quit your whining, and stow it in the hold.");
+~mesbox("You feel the crate being put down inside the ship.");
+~mesbox("You wait...");
+~mesbox("And wait...");
+~mesbox("@dre@Casting off!");
+~mesbox("You feel the ship start to move.");
+~mesbox("Feels like you're now out at sea.");
+~mesbox("The ship comes to a stop.");
+~mesbox("@dre@Unload the crates to the pier.|@dbl@Aye-aye cap'n!");
+~mesbox("You feel the crate being lifted.");
+~mesbox("You feel the crate being put down.");
+%arhein_crate_coord = ^catherby_crate_coord;
+@leave_arhein_crate;
+
+[label,leave_arhein_crate]
+def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "Would you like to get back out of the crate?");
+if ($choice = 2) {
+    ~mesbox("You wait.");
+    ~mesbox("And wait...");
+    ~mesbox("And wait...");
+    @leave_arhein_crate;
+}
+~mesbox("You climb out of the crate.");
+if(%arhein_crate_coord = 0_0_0_0_0) { // if varp hasn't been set yet
+    %arhein_crate_coord = ^catherby_crate_coord;
+}
+p_teleport(%arhein_crate_coord);
+
+
+[oploc1,loc_69]
+if (npc_finduid(~npc_within_distance(coord, arhein, 12)) = true) {
+    ~chatnpc(angry, "Hey buddy! Get away from my ship alright?");
+    ~chatplayer(sad, "Yeah... uh... sorry...");
+}
+
+[oploc1,_keep_lefaye_door] 
+if(~check_axis(coord, loc_coord, loc_angle) = true) {
+    ~mesbox("The door is securely locked. You will have to find another way in.");
+    return;
+}
+loc_findallzone(coord);
+while(loc_findnext = true) {
+     if(loc_category = keep_lefaye_door) {
+            def_coord $central_coord = loc_coord;
+            def_int $orig_angle = loc_angle;
+            loc_del(2);
+            if(loc_type = loc_71) {
+                loc_add(movecoord($central_coord, 1, 0, 0), blackknight_double_door_left, 1, loc_shape, 2);
+                loc_add(movecoord($central_coord, 1, 0, -1), blackknight_double_door_right, 3, loc_shape, 2); 
+            }
+            loc_add($central_coord, loc_83, $orig_angle, loc_shape, 2);
+     }
+}
+p_teleport(movecoord(coord, -1, 0, 0));
+sound_synth(door_open, 0, 0);
+
+[oploc2,_keep_lefaye_door]
+if(~check_axis(coord, loc_coord, loc_angle) = false) { 
+    ~chatplayer(confused, "Uh... I don't think anyone outside will answer me if I knock on the door...");
+    return;
+}
+~mesbox("You knock at the door. You hear a voice from inside...");
+~chatnpc_specific(nc_name(renegade_knight), renegade_knight, angry, "Yes? What do you want?");
+~chatplayer(confused, "Um....");
+switch_int(~p_choice4("Pizza Delivery!", 1, "Have you ever thought about letting Saradomin into your life?", 2, "Can I interest you in some double glazing?", 3, "Would you like to buy some lucky heather?", 4)) {
+    case 1:
+        ~chatplayer(happy, "Pizza delivery!");
+        ~chatnpc_specific(nc_name(renegade_knight), renegade_knight, angry, "We didn't order any Pizza. Get lost!");
+    case 2:
+        ~chatplayer(happy, "Have you ever considered letting the glory of Saradomin into your life? I have some pamphlets you may be interested in reading and discussing with me.");
+        ~chatnpc_specific(nc_name(renegade_knight), renegade_knight, angry, "No. Go away.");
+    case 3:
+        ~chatplayer(happy, "Can I interest you in some double glazing? An old castle like this must get very draughty in the winter...");
+        ~chatnpc_specific(nc_name(renegade_knight), renegade_knight, angry, "No. Get out of here before I run you through.");
+    case 4:
+        ~chatplayer(happy, "Would you like to buy some lucky heather?");
+        ~chatnpc_specific(nc_name(renegade_knight), renegade_knight, angry, "No. Go away.");
+}
+~mesbox("It looks like you'll have to find another way in...");
+
+[oploc2,loc_61]
+if(%arthur_progress ! ^arthur_spoken_morgan_lefaye) {
+    mes("An altar to the evil god Zamorak.");
+    return;
+}
+%excalibur_components_progress = setbit(%excalibur_components_progress, ^chaosaltar_index);
+~mesbox("You find a small inscription at the bottom of the altar.|It reads: 'Snarthon Candtrick Termanto'.");
+
+[opheld5,bat_bones]
+if(inzone(movecoord(^camelot_magic_symbol, -1, 0, -1), movecoord(^camelot_magic_symbol, 1, 0, 1), coord) = true) { 
+    if(inv_total(inv, lit_black_candle) > 0 & %arthur_progress = ^arthur_spoken_morgan_lefaye) {
+        if(testbit(%excalibur_components_progress, ^chaosaltar_index) = false) {
+            ~mesbox("I think I'd better learn the words of binding before summoning a mighty spirit...");
+            return;
+        }
+        def_int $dx = calc(coordx(^camelot_magic_symbol) - coordx(coord));
+        if($dx >= 0) {
+            $dx = calc($dx - 1);
+        }
+        // pathing this way intentionally 
+        if($dx ! 0) {
+            p_teleport(movecoord(coord, $dx, 0, calc(coordz(^camelot_magic_symbol) - coordz(coord))));
+            p_delay(0);
+        }
+        ~agility_force_move(0, human_walk_f, movecoord(^camelot_magic_symbol, -2, 0, 0));
+        // 3t delay
+        sound_synth(smokepuff, 0, 0);
+        npc_add(^camelot_magic_symbol, thrantax_the_mighty, 100);
+        spotanim_map(spotanim_86, npc_coord, 124, 0);
+        ~mesbox("Suddenly a mighty spirit appears!");
+        ~chatplayer(shock, "Now what were those magic words again?");
+        def_int $rand = random(3);
+        def_int $choice;
+        switch_int($rand) {
+            case 0: $choice = ~p_choice3("Snarthon Candtrick Termanto", 2, "Snarthtrick Candanto Termon", 1, "Snarthanto Candon Termtrick", 3);
+            case 1: $choice = ~p_choice3("Snarthtrick Candanto Termon", 1, "Snarthon Candtrick Termanto", 2, "Snarthanto Candon Termtrick", 3);
+            case default: $choice = ~p_choice3("Snarthanto Candon Termtrick", 3, "Snarthtrick Candanto Termon", 1, "Snarthon Candtrick Termanto", 2);
+        }
+        switch_int($choice) {
+            case 1:
+                ~chatplayer(quiz, "Snarthtrick...");
+                ~chatplayer(quiz, "Candato...");
+                ~chatplayer(quiz, "Termon!");
+                // respawn if removed
+                ~chatnpc(angry, "GRAAAAAARGH!");
+                inv_del(inv, lit_black_candle, 1);
+                ~npc_retaliate(0);
+            case 2:
+                ~chatplayer(quiz, "Snarthon...");
+                ~chatplayer(quiz, "Candtrick...");
+                ~chatplayer(quiz, "Termanto!");
+                // respawn if removed
+                ~chatnpc(angry, "GRAAAAAARGH!");
+                ~chatnpc(angry, "Thou hast me in thine control.|So that I mayst return from whence I came,|I must grant thee a boon.|What dost thou wish of me?");
+                ~chatplayer(shock, "I wish to free Merlin from his giant crystal!");
+                ~chatnpc(angry, "GRAAAAAARGH!");
+                // can't make black candles after this point, not sure about the chaos altar varp but we'll clear that as well
+                %excalibur_components_progress = clearbit_range(%excalibur_components_progress, ^chaosaltar_index, ^blackcandle_index); 
+                %arthur_progress = ^arthur_excalibur_bound;
+                ~chatnpc(angry, "The deed is done. Thou mayst now shatter Merlin's crystal with Excalibur, and I can once more rest. Begone! And leave me once more in peace.");
+                npc_del;
+            case 3:
+                ~chatplayer(quiz, "Snarthanto...");
+                ~chatplayer(quiz, "Candon...");
+                ~chatplayer(quiz, "Termtrick!");
+                ~chatnpc(angry, "GRAAAAAARGH!");
+                inv_del(inv, lit_black_candle, 1);
+                ~npc_retaliate(0);               
+        }
+    } else {
+        mes("You can sense a powerful presence here...");
+    }
+    return;
+}
+inv_dropslot(inv, coord, last_slot, 200);
+
+[oploc1,loc_59]
+if(testbit(%excalibur_components_progress, ^excalibur_rewarded) = false) {
+    if(testbit(%excalibur_components_progress, ^excalibur_spoken_beggar) = true) {
+        if(npc_finduid(~npc_within_distance(coord, beggar, 1)) = false) {
+            npc_add(movecoord(loc_coord, 0, 0, 1), beggar, 100);
+        }
+    } else if(testbit(%excalibur_components_progress, ^excalibur_started) = true) {
+        if(npc_finduid(~npc_within_distance(coord, beggar, 1)) = false) {
+            npc_add(movecoord(loc_coord, 0, 0, 1), beggar, 100);
+        }
+        @beggar_dialogue;
+    } 
+}
+~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);
+
+[oploc1,loc_60]
+p_arrivedelay;
+anim(human_reachforladdertop, 0);
+p_delay(0);
+p_telejump(movecoord(loc_coord, 0, 1, 1));
+if(testbit(%excalibur_components_progress, ^excalibur_rewarded) = false & testbit(%excalibur_components_progress, ^excalibur_started) = true & map_members = true) {
+    if(npc_finduid(~npc_within_distance(coord, lady_of_the_lake, 4)) = false) {
+        npc_add(movecoord(coord, -1, 0, 3), lady_of_the_lake, 100);
+    }
+    ~chatplayer(neutral, "Hello. I am here for Excalibur. Can I have it yet?");
+    ~chatnpc(neutral, "I don't think you are worthy enough.");
+    ~chatnpc(neutral, "Come back when you are a better person.");
+}
+
+[oplocu,loc_62]
+if(%arthur_progress = ^arthur_complete) {
+    mes("You have already freed Merlin from the giant crystal.");
+    return;
+}
+if(%arthur_progress = ^arthur_freed_merlin) {
+    ~mesbox("You have already freed Merlin from the crystal.|Go and see King Arthur for your reward.");
+    return;
+}
+switch_obj(last_useitem) {
+    case excalibur:
+        if(%arthur_progress < ^arthur_excalibur_bound) {
+            mes("You attempt to smash the crystal...");
+            mes("... but it seems to be protected by a dark force.");
+            return;
+        }
+        mes("You attempt to smash the crystal...");
+        mes("... and it shatters under the force of Excalibur!");
+        loc_del(50);
+        npc_add(loc_coord, merlin_arthur, 50);
+        // excalibur stuff is also cleared if you restarted it
+        %excalibur_components_progress = 0;
+        %arthur_progress = ^arthur_freed_merlin;
+        sound_synth(mine_quick, 0, 0);
+        ~chatnpc(happy, "Thank you! Thank you! Thank you!");
+        ~chatnpc(shock, "It's not fun being trapped in a giant crystal!");
+        ~chatnpc(happy, "Go speak to King Arthur, I'm sure he'll reward you!");
+        ~mesbox("You have set Merlin free. Now talk to King Arthur.");
+        npc_del;
+    case default: 
+        mes("You attempt to smash the crystal...");
+        mes("... but you fail to have any effect on it.");
+}
+
+[queue,arthur_quest_complete]
+%arthur_progress = ^arthur_complete;
+~send_quest_complete(quest_journal:arthur, excalibur, 250, ^arthur_questpoints, "You have completed the\\nMerlins' Crystal Quest!");

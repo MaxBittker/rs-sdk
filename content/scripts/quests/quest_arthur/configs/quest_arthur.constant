@@ -1,0 +1,18 @@
+^arthur_not_started = 0
+^arthur_started = 1
+^arthur_spoken_gawain = 2
+^arthur_spoken_lancelot = 3
+^arthur_spoken_morgan_lefaye = 4
+^arthur_excalibur_bound = 5
+^arthur_freed_merlin = 6
+
+^chaosaltar_index = 0
+^blackcandle_index = 1
+^excalibur_started = 2
+^excalibur_spoken_beggar = 3
+^excalibur_rewarded = 4
+
+^keep_crate_coord = 0_43_53_26_9
+^catherby_crate_coord = 0_43_53_50_49
+^morgan_spawn_coord = 2_43_53_18_11
+^camelot_magic_symbol = 0_43_54_28_59

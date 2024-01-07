@@ -24,7 +24,7 @@ while (npc_findnext = true) {
 // osrs using Pay-fare option on the gate gives different messages.
 ~chatplayer(quiz, "Can I come through this gate?");
 
-if (%prince_progress >= calc(^prince_complete - 1)) {
+if (%prince_progress >= ^prince_saved) {
     ~chatnpc(quiz, "You may pass for free, you are a friend of Al-Kharid.");
     @pass_toll_gate($loc_coord);
 }

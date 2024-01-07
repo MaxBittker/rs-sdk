@@ -97,7 +97,7 @@ if (inv_itemspace(inv, obj_type, obj_count, inv_size(inv)) = false) {
     mes("You don't have enough inventory space to hold that item.");
     return;
 }
-obj_takeitem(inv);
+@pickup_obj(obj_coord, obj_type, obj_count);
 
 [oploc1,loc_2399]
 def_boolean $leaving = ~check_axis(coord, loc_coord, loc_angle);

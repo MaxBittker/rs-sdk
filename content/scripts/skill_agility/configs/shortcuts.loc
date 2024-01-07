@@ -1,3 +1,12 @@
+[loc_993]
+name=Stile
+desc=I can climb over the fence with this.
+model=model_loc_993
+length=2
+hillskew=yes
+op1=Climb-over
+blockrange=no
+
 [loc_1947]
 name=Crumbling wall
 desc=It looks like I might be able to climb over this piece of the wall...
@@ -68,11 +77,26 @@ op1=Balance
 sharelight=yes
 mapscene=13
 
-[loc_993]
-name=Stile
-desc=I can climb over the fence with this.
-model=model_loc_993
-length=2
-hillskew=yes
-op1=Climb-over
-blockrange=no
+[loc_2333]
+name=Stepping stones
+desc=A rocky outcrop from the running water.
+model=model_loc_2311
+op1=Balance
+active=yes
+category=karamja_stepping_stone
+
+[loc_2334]
+name=Stepping stones
+desc=A rocky outcrop from the running water.
+model=model_loc_2311
+op1=Balance
+active=yes
+category=karamja_stepping_stone
+
+[loc_2335]
+name=Stepping stones
+desc=A rocky outcrop from the running water.
+model=model_loc_2311
+op1=Balance
+active=yes
+category=karamja_stepping_stone

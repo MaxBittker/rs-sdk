@@ -73,7 +73,7 @@ tradeable=yes
 category=light_source_unlit
 param=product,lit_candle
 
-[obj_38]
+[black_candle]
 name=Black candle
 desc=A spooky candle.
 members=yes

@@ -6,15 +6,15 @@ switch_int (%scorpcatcher_progress) {
 }
 
 [label,thormac_assistance]
-// Not sure if this is an OSRS update, you can only start the quest if the barcrawl has been previously completed
+// COMMENTED OUT FOR NOW: Not sure if this is an OSRS update, you can only start the quest if the barcrawl has been previously completed
 // (this doesn't include if you use a dupe card to redo the barcrawl, which is why i'm checking it like this)
-if(testbit(%barcrawl_progress, 1) = false) {
-    ~chatnpc(neutral, "Hello I am Thormac the sorcerer.");
-    ~chatplayer(quiz, "Do you need anything?");
-    ~chatnpc(neutral, "Not right now, but thank you for offering.");
-    ~mesbox("You do not meet all of the requirements to start|the Scorpion Catcher quest.");
-    return;
-}
+//if(testbit(%barcrawl_progress, 1) = false) {
+//    ~chatnpc(neutral, "Hello I am Thormac the sorcerer.");
+//    ~chatplayer(quiz, "Do you need anything?");
+//    ~chatnpc(neutral, "Not right now, but thank you for offering.");
+//    ~mesbox("You do not meet all of the requirements to start|the Scorpion Catcher quest.");
+//    return;
+//}
 ~chatnpc(neutral, "Hello I am Thormac the sorcerer.|I don't suppose you could be of assistance to me?");
 switch_int(~p_choice2("What do you need assistance with?", 1, "I'm a little busy.", 2)) {
     case 1:

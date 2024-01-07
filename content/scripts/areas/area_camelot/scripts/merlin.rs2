@@ -1,0 +1,4 @@
+[opnpc1,merlin_arthur]
+~chatplayer(happy, "Hello.");
+~chatnpc(confused, "Excuse me for rushing off like this,|but I must get back to my workroom.");
+npc_del;

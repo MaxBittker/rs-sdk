@@ -1,0 +1,51 @@
+[opnpc1,beggar]
+if(testbit(%excalibur_components_progress, ^excalibur_spoken_beggar) = true) {
+    ~chatnpc(quiz, "Have you got any bread for me yet?");
+    switch_int (~p_choice2("Yes, here you go.", 1, "No, I still have none.", 2)) {
+        case 1:
+            ~chatplayer(neutral, "Yes, here you go.");
+            if(inv_total(inv, bread) = 0) {
+                ~chatplayer(neutral, "Actually, I'm wrong. I still don't have any bread. Sorry.");
+                return;
+            }
+            @give_beggar_bread;
+        case 2: ~chatplayer(neutral, "Sorry, no, I still have none.");
+    }
+} else {
+    ~mesbox("The beggar isn't interested in talking.");
+}
+
+[label,beggar_dialogue]
+~chatnpc(sad, "Please kind <text_gender("sir", "lady")>... my family and I are starving...");
+~chatnpc(sad, "Could you find it in your heart to spare me a simple loaf of bread?");
+switch_int (~p_choice2("Yes certainly.", 1, "No I don't have any bread with me.", 2)) {
+     case 1:
+        ~chatplayer(neutral, "Yes, certainly.");
+        if(inv_total(inv, bread) = 0) {
+            ~chatplayer(sad, "... except I don't have any bread on me at the moment...");
+            @ignore_beggar;
+            return;
+        } 
+        @give_beggar_bread;
+    case 2: 
+        ~chatplayer(neutral, "No, I don't have any bread with me.");
+        @ignore_beggar;
+}
+
+[label,give_beggar_bread]
+~mesbox("You give bread to the beggar.");
+inv_del(inv, bread, 1);
+~chatnpc(happy, "Thank you very much!");
+npc_changetype(lady_of_the_lake); // re add if beggar doesn't exist
+~mesbox("The beggar has turned into the Lady of the Lake!");
+~chatnpc(neutral, "Well done. You have passed my test.");
+~chatnpc(neutral, "Here is Excalibur, guard it well.");
+%excalibur_components_progress = setbit(%excalibur_components_progress, ^excalibur_rewarded);
+inv_add(inv, excalibur, 1);
+npc_del;
+
+[label,ignore_beggar]
+~chatnpc(neutral, "Well, if you get some, you know where to come.");
+if_close;
+%excalibur_components_progress = setbit(%excalibur_components_progress, ^excalibur_spoken_beggar);
+~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);

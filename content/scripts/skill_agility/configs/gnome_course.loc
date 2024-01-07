@@ -36,6 +36,13 @@ model=model_loc_1138
 active=yes
 op1=Climb-down
 
+[gnome_tree_branch_3]
+name=Tree branch
+desc=I can climb down here.
+model=model_loc_1143
+active=yes
+op1=Climb-down
+
 [gnome_obstacle_net_2]
 name=Obstacle net
 desc=This must be climbed over.

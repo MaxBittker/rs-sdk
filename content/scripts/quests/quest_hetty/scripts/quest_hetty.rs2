@@ -34,7 +34,7 @@ if($option = 1) {
 ~chatnpc("happy", "Okay, I'm going to make a potion to help bring out|your darker self.");
 ~chatnpc("neutral", "You will need certain ingredients.");
 ~chatplayer("neutral", "What do I need?");
-~chatnpc("neutral", "You need an eye of newt, a rat's tail, an onion... Oh|and a peice of burnt meat.");
+~chatnpc("neutral", "You need an eye of newt, a rat's tail, an onion... Oh|and a piece of burnt meat.");
 ~chatplayer("happy", "Great, I'll go and get them.");
 
 [label,hetty_step_2]

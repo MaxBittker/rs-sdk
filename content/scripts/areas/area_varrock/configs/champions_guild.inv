@@ -23,4 +23,4 @@ allstock=yes
 stock1=blue_cape,2,1000
 stock2=black_full_helm,1,1000
 stock3=black_platelegs,1,20000
-stock4=adamant_platebody,14000
+stock4=adamant_platebody,1,14000

@@ -1,0 +1,12 @@
+[opnpc1,scavvo]
+~chatnpc(happy, "'Ello matey!|D'ya wanna buy some exciting new toys?");
+switch_int(~p_choice3("No, toys are for kids.", 1, "Let's have a look then.", 2, "Ooh, goody goody, toys!", 3)) {
+    case 1:
+        ~chatplayer(confused, "No, toys are for kids.");
+    case 2:
+        ~chatplayer(happy, "Let's have a look then.");
+        ~openshop_activenpc;
+    case 3:
+        ~chatplayer(happy, "Ooh goody goody, toys!");
+        ~openshop_activenpc;
+}

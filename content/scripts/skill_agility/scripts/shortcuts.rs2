@@ -187,3 +187,39 @@ p_teleport($start_coord);
 p_delay(0);
 ~agility_exactmove(human_walk_fence_north, 30, 2, $start_coord, $end_coord, 30, 94, $dir, true);
 p_teleport($walk_coord);
+
+[oploc1,_karamja_stepping_stone]
+if(coord = loc_coord) {
+    mes("You can't do that from here.");
+    return;
+}
+def_int $dz = -1;
+def_int $dir = ^exact_south;
+def_seq $fall_seq = seq_770;
+if(coordz(coord) < coordz(loc_coord)) {
+    $dz = 1;
+    $dir = ^exact_north;
+    $fall_seq = seq_771;
+}
+mes("You attempt to balance on the stepping stone.");
+// 1t longer delay than osrs for now, otherwise the fall seq won't play on fails 
+~agility_exactmove(human_steppingstonejump, 20, 2, coord, movecoord(coord, 0, 0, $dz), 48, 60, $dir, false);
+if(stat_random(stat(agility), 140, 250) = false) {
+    // slip and fall, exact move when falling but force walk afterwards
+    def_coord $fail_coord = 0_45_46_48_5;
+    def_int $damage_bound = calc(stat(hitpoints) * 10 / 100);
+    mes("You slip and fall...");
+    ~agility_exactmove($fall_seq, 30, 1, coord, $fail_coord, 52, 100, $dir, false);
+    sound_synth(pool_plop, 0, 0);
+    ~agility_force_move(0, human_swim, movecoord(coord, 1, 0, 0));
+    spotanim_map(watersplash, $fail_coord, 0, 1);
+    ~agility_force_move(0, human_swim, movecoord(coord, 1, 0, 0));
+    ~agility_force_move(0, human_swim, movecoord(coord, 1, 0, calc(2 * $dz)));
+    ~agility_force_move(0, human_swim, movecoord(coord, 0, 0, calc(2 * $dz)));
+    mes("You get washed up on the side of the river, after being nearly half drowned.");
+    ~damage_self(calc($damage_bound + random($damage_bound) + 1)); // 10 - 20%?
+    givexp(agility, 10);
+    return;
+}
+givexp(agility, 30);
+mes("You manage to make the jump.");

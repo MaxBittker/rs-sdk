@@ -162,16 +162,6 @@ model=model_loc_23
 op1=Prod
 op2=Open
 
-[loc_24]
-name=Door
-model=model_loc_3
-active=yes
-op1=Open
-recol1s=2
-recol1d=45
-recol2s=24
-recol2d=4762
-
 [loc_33]
 name=Lever
 desc=Yup, definitely a lever.
@@ -325,57 +315,6 @@ width=2
 length=2
 op1=Climb-down
 
-[loc_59]
-name=Door
-model=model_loc_3
-active=yes
-op1=Open
-recol1s=2
-recol1d=45
-recol2s=24
-recol2d=4762
-
-[loc_60]
-name=Ladder
-model=model_loc_11
-active=yes
-op1=Climb-up
-mapscene=7
-
-[loc_62]
-name=Giant crystal
-desc=Can I see something inside...?
-model=model_loc_62
-active=yes
-width=2
-length=2
-
-[loc_63]
-name=Crate
-desc=Used for storage.
-model=model_loc_63
-active=yes
-op2=Hide-in
-
-[loc_64]
-name=Crate
-desc=Used for storage.
-model=model_loc_63
-active=yes
-op2=Hide-in
-
-[loc_65]
-name=Crate wall
-desc=Surprisingly sturdy looking.
-model=model_loc_3
-sharelight=yes
-occlude=yes
-op1=Climb-out
-recol1s=2
-recol1d=22
-recol2s=24
-recol2d=3398
-
 [loc_66]
 name=Crate wall
 desc=Surprisingly sturdy looking.
@@ -395,21 +334,6 @@ model=model_loc_63
 active=yes
 op2=Check
 
-[loc_68]
-name=Beehive
-desc=Where bees live.
-model=model_loc_68
-active=yes
-op1=Take-from
-
-[loc_69]
-name=Gangplank
-desc=Handy for boarding boats.
-model=model_loc_69
-op1=Cross
-active=yes
-sharelight=yes
-
 [loc_70]
 name=Gangplank
 desc=Handy for boarding boats.
@@ -424,6 +348,7 @@ desc=Sturdy looking door.
 model=model_loc_71
 op1=Open
 op2=Knock-at
+category=keep_lefaye_door
 
 [loc_72]
 name=Large door
@@ -432,6 +357,7 @@ model=model_loc_71
 op1=Open
 op2=Knock-at
 mirror=yes
+category=keep_lefaye_door
 
 [loc_75]
 name=Chest
@@ -13920,13 +13846,6 @@ desc=I can climb out of here using these rocks.
 model=model_loc_448
 op1=Climb-up
 
-[loc_2315]
-name=Tree branch
-desc=I can climb down here.
-model=model_loc_1143
-active=yes
-op1=Climb-down
-
 [loc_2319]
 name=Monkeybars
 desc=I can traverse these.
@@ -13983,27 +13902,6 @@ contrast=25
 forcedecor=yes
 recol1s=6689
 recol1d=20
-
-[loc_2333]
-name=Stepping stones
-desc=A rocky outcrop from the running water.
-model=model_loc_2311
-op1=Balance
-active=yes
-
-[loc_2334]
-name=Stepping stones
-desc=A rocky outcrop from the running water.
-model=model_loc_2311
-op1=Balance
-active=yes
-
-[loc_2335]
-name=Stepping stones
-desc=A rocky outcrop from the running water.
-model=model_loc_2311
-op1=Balance
-active=yes
 
 [blackknight_hole]
 name=Hole
