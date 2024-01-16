@@ -1,9 +1,9 @@
 [label,levelup_defence]
 switch_int(stat_base(defence)) {
-    case 5: objbox(steel_platebody,"You can now wear @dbl@Steel Armour@bla@!");
-    case 10: objbox(black_platebody,"You can now wear @dbl@Black Armour@bla@!");
-    case 20: objbox(mithril_platebody,"You can now wear @dbl@Mithril Armour@bla@!");
-    case 30: objbox(adamant_platebody,"You can now wear @dbl@Adamant Armour@bla@!");
-    case 40: objbox(rune_platebody,"You can now wear @dbl@Rune Armour@bla@!");
-    case 60: objbox(dragon_med_helm,"Members can now wear @dbl@Dragon Armour@bla@!");
+    case 5: ~objbox(steel_platebody,"You can now wear @dbl@Steel Armour@bla@!");
+    case 10: ~objbox(black_platebody,"You can now wear @dbl@Black Armour@bla@!");
+    case 20: ~objbox(mithril_platebody,"You can now wear @dbl@Mithril Armour@bla@!");
+    case 30: ~objbox(adamant_platebody,"You can now wear @dbl@Adamant Armour@bla@!");
+    case 40: ~objbox(rune_platebody,"You can now wear @dbl@Rune Armour@bla@!");
+    case 60: ~objbox(dragon_med_helm,"Members can now wear @dbl@Dragon Armour@bla@!");
 }
