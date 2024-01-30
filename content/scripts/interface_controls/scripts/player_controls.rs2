@@ -67,6 +67,3 @@ if (p_finduid(uid) = false) {
 p_stopaction;
 anim($anim, 20);
 // p_delay(~seqlength20ms($anim));
-
-[debugproc,delay](int $delay)
-p_delay($delay);

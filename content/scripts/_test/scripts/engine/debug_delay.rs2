@@ -1,0 +1,2 @@
+[debugproc,delay](int $delay)
+p_delay($delay);

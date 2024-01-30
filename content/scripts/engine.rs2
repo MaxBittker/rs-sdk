@@ -155,6 +155,7 @@
 [command,last_targetslot]()(int)
 [command,setmovecheck]
 [command,clearqueue](queue $queue)
+[command,afk_event]()(int)
 
 // Npc ops (2500-2999)
 [command,npc_finduid](npc_uid $uid)(boolean)
