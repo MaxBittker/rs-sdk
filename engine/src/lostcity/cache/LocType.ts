@@ -27,7 +27,7 @@ export default class LocType extends ConfigType {
             config.decodeType(dat);
 
             if (config.active === -1) {
-                config.active = (config.shapes.length > 0 && config.shapes[0] === 10) ? 1 : 0;
+                config.active = config.shapes.length > 0 && config.shapes[0] === 10 ? 1 : 0;
 
                 if (config.ops.length > 0) {
                     config.active = 1;

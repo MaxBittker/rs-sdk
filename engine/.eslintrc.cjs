@@ -1,55 +1,38 @@
 module.exports = {
-    'env': {
-        'browser': true,
-        'es2021': true,
-        'node': true
+    env: {
+        browser: true,
+        es2021: true,
+        node: true
     },
-    'extends': [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended'
-    ],
-    'overrides': [
+    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+    overrides: [
         {
-            'env': {
-                'node': true
+            env: {
+                node: true
             },
-            'files': [
-                '.eslintrc.{js,cjs}'
-            ],
-            'parserOptions': {
-                'sourceType': 'script'
+            files: ['.eslintrc.{js,cjs}'],
+            parserOptions: {
+                sourceType: 'script'
             }
         }
     ],
-    'parser': '@typescript-eslint/parser',
-    'parserOptions': {
-        'ecmaVersion': 'latest',
-        'sourceType': 'module'
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module'
     },
-    'plugins': [
-        '@typescript-eslint'
-    ],
-    'rules': {
-        'indent': [
-            'error',
-            4,
-            { 'SwitchCase': 1 }
-        ],
-        'quotes': [
-            'error',
-            'single'
-        ],
-        'semi': [
-            'error',
-            'always'
-        ],
+    plugins: ['@typescript-eslint'],
+    rules: {
+        indent: ['error', 4, { SwitchCase: 1 }],
+        quotes: ['error', 'single', { avoidEscape: true }],
+        semi: ['error', 'always'],
 
         /**
          * https://eslint.org/docs/latest/rules/no-constant-condition#checkloops
          *
          * Allows constant conditions in loops but not in if statements
          */
-        'no-constant-condition': ['error', { 'checkLoops': false }],
+        'no-constant-condition': ['error', { checkLoops: false }],
 
         /**
          * (jkm) this rule is included in the default ruleset, we should consider
@@ -73,6 +56,6 @@ module.exports = {
          */
         '@typescript-eslint/no-namespace': 'warn',
         '@typescript-eslint/no-explicit-any': 'warn',
-        '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/no-unused-vars': 'warn'
     }
 };

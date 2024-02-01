@@ -9,6 +9,7 @@ import NpcMode from '#lostcity/entity/NpcMode.js';
 
 export function parseHuntConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
+    // prettier-ignore
     const numberKeys: string[] = [
         'rate'
     ];
@@ -43,7 +44,8 @@ export function parseHuntConfig(key: string, value: string): ConfigValue | null 
             return null;
         }
 
-        if (key === 'rate' && (number < 1 || number > 255)) { // min of 1 tick
+        if (key === 'rate' && (number < 1 || number > 255)) {
+            // min of 1 tick
             return null;
         }
 

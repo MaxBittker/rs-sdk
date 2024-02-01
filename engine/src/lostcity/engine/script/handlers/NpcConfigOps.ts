@@ -6,7 +6,7 @@ import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 
 const NpcConfigOps: CommandHandlers = {
-    [ScriptOpcode.NC_NAME]: (state) => {
+    [ScriptOpcode.NC_NAME]: state => {
         const npcId = state.popInt();
 
         if (npcId == -1) {
@@ -18,7 +18,7 @@ const NpcConfigOps: CommandHandlers = {
         state.pushString(npcType.name ?? npcType.debugname ?? 'null');
     },
 
-    [ScriptOpcode.NC_PARAM]: (state) => {
+    [ScriptOpcode.NC_PARAM]: state => {
         const [npcId, paramId] = state.popInts(2);
 
         if (npcId == -1) {
@@ -38,8 +38,8 @@ const NpcConfigOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.NC_CATEGORY]: (state) => {
-        const npcId= state.popInt();
+    [ScriptOpcode.NC_CATEGORY]: state => {
+        const npcId = state.popInt();
 
         if (npcId == -1) {
             throw new Error(`attempted to use npc with id: ${npcId}`);
@@ -50,7 +50,7 @@ const NpcConfigOps: CommandHandlers = {
         state.pushInt(npcType.category);
     },
 
-    [ScriptOpcode.NC_DESC]: (state) => {
+    [ScriptOpcode.NC_DESC]: state => {
         const npcId = state.popInt();
 
         if (npcId == -1) {
@@ -62,7 +62,7 @@ const NpcConfigOps: CommandHandlers = {
         state.pushString(npcType.desc ?? 'null');
     },
 
-    [ScriptOpcode.NC_DEBUGNAME]: (state) => {
+    [ScriptOpcode.NC_DEBUGNAME]: state => {
         const npcId = state.popInt();
 
         if (npcId == -1) {
@@ -74,7 +74,7 @@ const NpcConfigOps: CommandHandlers = {
         state.pushString(npcType.debugname ?? 'null');
     },
 
-    [ScriptOpcode.NC_OP]: (state) => {
+    [ScriptOpcode.NC_OP]: state => {
         const [npcId, op] = state.popInts(2);
         if (npcId == -1) {
             throw new Error(`attempted to use npc with id: ${npcId}`);

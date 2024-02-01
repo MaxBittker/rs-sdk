@@ -104,7 +104,8 @@ class Login {
                 player.webClient = client.isWebSocket();
 
                 World.addPlayer(player, client);
-            } break;
+                break;
+            }
             case 'logoutreply': {
                 const { username } = msg;
 
@@ -120,7 +121,8 @@ class Login {
 
                     this.logoutRequests.delete(player.username37);
                 }
-            } break;
+                break;
+            }
             default:
                 throw new Error('Unknown message type: ' + msg.type);
         }

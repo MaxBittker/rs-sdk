@@ -12,7 +12,10 @@ if (args.length < 1) {
 const path = args[0];
 const files = fs.readdirSync(path);
 
-BZip2.compressMany(files.map(file => `${path}/${file}`), true);
+BZip2.compressMany(
+    files.map(file => `${path}/${file}`),
+    true
+);
 for (let i = 0; i < files.length; i++) {
     fs.renameSync(`${path}/${files[i]}.bz2`, `${path}/${files[i]}`);
 }

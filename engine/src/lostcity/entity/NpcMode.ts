@@ -92,7 +92,7 @@ enum NpcMode {
     QUEUE17 = 63,
     QUEUE18 = 64,
     QUEUE19 = 65,
-    QUEUE20 = 66,
+    QUEUE20 = 66
 }
 
 export default NpcMode;

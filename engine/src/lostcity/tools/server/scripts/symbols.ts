@@ -1,6 +1,6 @@
 import fs from 'fs';
-import {loadDir, loadPack} from '#lostcity/util/NameMap.js';
-import {crawlConfigNames, regenPack} from '#lostcity/util/PackIds.js';
+import { loadDir, loadPack } from '#lostcity/util/NameMap.js';
+import { crawlConfigNames, regenPack } from '#lostcity/util/PackIds.js';
 import ParamType from '#lostcity/cache/ParamType.js';
 import DbTableType from '#lostcity/cache/DbTableType.js';
 import ScriptVarType from '#lostcity/cache/ScriptVarType.js';
@@ -15,10 +15,10 @@ fs.writeFileSync('data/pack/script.pack', regenPack(loadPack('data/pack/script.p
 
 // ----
 
-fs.mkdirSync('data/symbols', {recursive: true});
+fs.mkdirSync('data/symbols', { recursive: true });
 
 const constants: Record<string, string> = {};
-loadDir('data/src/scripts', '.constant', (src) => {
+loadDir('data/src/scripts', '.constant', src => {
     for (let i = 0; i < src.length; i++) {
         if (!src[i] || src[i].startsWith('//')) {
             continue;
@@ -369,10 +369,27 @@ for (let i = 0; i < dbrows.length; i++) {
 fs.writeFileSync('data/symbols/dbrow.tsv', dbRowSymbols);
 
 const stats = [
-    'attack', 'defence', 'strength', 'hitpoints', 'ranged', 'prayer',
-    'magic', 'cooking', 'woodcutting', 'fletching', 'fishing', 'firemaking',
-    'crafting', 'smithing', 'mining', 'herblore', 'agility', 'thieving',
-    'stat18', 'stat19', 'runecraft'
+    'attack',
+    'defence',
+    'strength',
+    'hitpoints',
+    'ranged',
+    'prayer',
+    'magic',
+    'cooking',
+    'woodcutting',
+    'fletching',
+    'fishing',
+    'firemaking',
+    'crafting',
+    'smithing',
+    'mining',
+    'herblore',
+    'agility',
+    'thieving',
+    'stat18',
+    'stat19',
+    'runecraft'
 ];
 
 fs.writeFileSync('data/symbols/stat.tsv', stats.map((name, index) => `${index}\t${name}`).join('\n') + '\n');
@@ -404,7 +421,7 @@ const locshapes = [
     'roofedge_diagonalcorner',
     'roofedge_l',
     'roofedge_squarecorner',
-    'grounddecor',
+    'grounddecor'
 ];
 
 fs.writeFileSync('data/symbols/locshape.tsv', locshapes.map((name, index) => `${index}\t${name}`).join('\n') + '\n');
@@ -460,7 +477,7 @@ const npcmodes = [
     '43\tapnpc2',
     '44\tapnpc3',
     '45\tapnpc4',
-    '46\tapnpc5',
+    '46\tapnpc5'
 ];
 fs.writeFileSync('data/symbols/npc_mode.tsv', npcmodes.join('\n') + '\n');
 

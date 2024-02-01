@@ -29,7 +29,7 @@ export default class WSServer {
     wss: WebSocketServer | null = null;
 
     start() {
-        const port = ((Environment.GAME_PORT as number) + 1);
+        const port = (Environment.GAME_PORT as number) + 1;
 
         this.wss = new WebSocketServer({ port, host: '0.0.0.0' }, () => {
             console.log(`[WSWorld]: Listening on port ${port}`);
@@ -42,8 +42,8 @@ export default class WSServer {
             const socket = new ClientSocket(ws, ip, ClientSocket.WEBSOCKET);
 
             const seed = Packet.alloc(8);
-            seed.p4(Math.floor(Math.random() * 0xFFFFFFFF));
-            seed.p4(Math.floor(Math.random() * 0xFFFFFFFF));
+            seed.p4(Math.floor(Math.random() * 0xffffffff));
+            seed.p4(Math.floor(Math.random() * 0xffffffff));
             socket.send(seed.data);
 
             ws.on('message', async (data: Buffer) => {

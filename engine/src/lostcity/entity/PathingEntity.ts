@@ -22,7 +22,7 @@ export default abstract class PathingEntity extends Entity {
     walkDir: number = -1;
     runDir: number = -1;
     waypointIndex: number = -1;
-    waypoints: { x: number, z: number }[] = [];
+    waypoints: { x: number; z: number }[] = [];
     lastX: number = -1;
     lastZ: number = -1;
     forceMove: boolean = false;
@@ -237,7 +237,13 @@ export default abstract class PathingEntity extends Entity {
      * Check if the number of tiles moved is > 2, we use Teleport for this PathingEntity.
      */
     validateDistanceWalked() {
-        const distanceCheck = Position.distanceTo(this, { x: this.lastX, z: this.lastZ, width: this.width, length: this.length }) > 2;
+        const distanceCheck =
+            Position.distanceTo(this, {
+                x: this.lastX,
+                z: this.lastZ,
+                width: this.width,
+                length: this.length
+            }) > 2;
         if (distanceCheck) {
             this.tele = true;
             this.jump = true;
@@ -251,7 +257,12 @@ export default abstract class PathingEntity extends Entity {
         let tele = this.tele;
 
         // convert p_teleport() into walk or run
-        const distanceMoved = Position.distanceTo(this, { x: this.lastX, z: this.lastZ, width: this.width, length: this.length });
+        const distanceMoved = Position.distanceTo(this, {
+            x: this.lastX,
+            z: this.lastZ,
+            width: this.width,
+            length: this.length
+        });
         if (tele && !this.jump && distanceMoved <= 2) {
             if (distanceMoved === 2) {
                 // run
@@ -282,7 +293,20 @@ export default abstract class PathingEntity extends Entity {
         return this.waypointIndex === 0;
     }
 
-    inOperableDistance(target: Player | Npc | Loc | Obj | { x: number, z: number, level: number, width: number, length: number }): boolean {
+    inOperableDistance(
+        target:
+            | Player
+            | Npc
+            | Loc
+            | Obj
+            | {
+                  x: number;
+                  z: number;
+                  level: number;
+                  width: number;
+                  length: number;
+              }
+    ): boolean {
         if (!target || target.level !== this.level) {
             return false;
         }
@@ -296,7 +320,21 @@ export default abstract class PathingEntity extends Entity {
         return ReachStrategy.reached(World.collisionFlags, this.level, this.x, this.z, target.x, target.z, target.width, target.length, this.width, 0, shape);
     }
 
-    inApproachDistance(range: number, target: Player | Npc | Loc | Obj | { x: number, z: number, level: number, width: number, length: number }): boolean {
+    inApproachDistance(
+        range: number,
+        target:
+            | Player
+            | Npc
+            | Loc
+            | Obj
+            | {
+                  x: number;
+                  z: number;
+                  level: number;
+                  width: number;
+                  length: number;
+              }
+    ): boolean {
         if (!target || target.level !== this.level) {
             return false;
         }
@@ -309,7 +347,7 @@ export default abstract class PathingEntity extends Entity {
     }
 
     getCollisionStrategy(): CollisionStrategy | null {
-        switch(this.moveRestrict) {
+        switch (this.moveRestrict) {
             case MoveRestrict.NORMAL:
                 return CollisionStrategies.NORMAL;
             case MoveRestrict.BLOCKED:

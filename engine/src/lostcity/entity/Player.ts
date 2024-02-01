@@ -61,7 +61,7 @@ for (let i = 0; i < 99; i++) {
     const level = i + 1;
     const delta = Math.floor(level + Math.pow(2.0, level / 7.0) * 300.0);
     acc += delta;
-    levelExperience[i] = Math.floor((acc / 4)) * 10;
+    levelExperience[i] = Math.floor(acc / 4) * 10;
 }
 
 function getLevelByExp(exp: number) {
@@ -157,18 +157,35 @@ export default class Player extends PathingEntity {
     static RUNECRAFT = 20;
 
     static SKILLS = [
-        'attack', 'defence', 'strength', 'hitpoints', 'ranged', 'prayer',
-        'magic', 'cooking', 'woodcutting', 'fletching', 'fishing', 'firemaking',
-        'crafting', 'smithing', 'mining', 'herblore', 'agility', 'thieving',
-        'stat18', 'stat19', 'runecraft'
+        'attack',
+        'defence',
+        'strength',
+        'hitpoints',
+        'ranged',
+        'prayer',
+        'magic',
+        'cooking',
+        'woodcutting',
+        'fletching',
+        'fishing',
+        'firemaking',
+        'crafting',
+        'smithing',
+        'mining',
+        'herblore',
+        'agility',
+        'thieving',
+        'stat18',
+        'stat19',
+        'runecraft'
     ];
 
     static DESIGN_BODY_COLORS: number[][] = [
-        [ 6798, 107, 10283, 16, 4797, 7744, 5799, 4634, 33697, 22433, 2983, 54193 ],
-        [ 8741, 12, 64030, 43162, 7735, 8404, 1701, 38430, 24094, 10153, 56621, 4783, 1341, 16578, 35003, 25239 ],
-        [ 25238, 8742, 12, 64030, 43162, 7735, 8404, 1701, 38430, 24094, 10153, 56621, 4783, 1341, 16578, 35003 ],
-        [ 4626, 11146, 6439, 12, 4758, 10270 ],
-        [ 4550, 4537, 5681, 5673, 5790, 6806, 8076, 4574 ]
+        [6798, 107, 10283, 16, 4797, 7744, 5799, 4634, 33697, 22433, 2983, 54193],
+        [8741, 12, 64030, 43162, 7735, 8404, 1701, 38430, 24094, 10153, 56621, 4783, 1341, 16578, 35003, 25239],
+        [25238, 8742, 12, 64030, 43162, 7735, 8404, 1701, 38430, 24094, 10153, 56621, 4783, 1341, 16578, 35003],
+        [4626, 11146, 6439, 12, 4758, 10270],
+        [4550, 4537, 5681, 5673, 5790, 6806, 8076, 4574]
     ];
 
     static loadFromFile(name: string) {
@@ -394,10 +411,10 @@ export default class Player extends PathingEntity {
     basRunning: number = -1;
     logoutRequested: boolean = false;
     invListeners: {
-        type: number, // InvType
-        com: number, // IfType
-        source: number, // uid or -1 for world
-        firstSeen: boolean
+        type: number; // InvType
+        com: number; // IfType
+        source: number; // uid or -1 for world
+        firstSeen: boolean;
     }[] = [];
     allowDesign: boolean = false;
     afkEventReady: boolean = false;
@@ -454,7 +471,7 @@ export default class Player extends PathingEntity {
 
     interacted: boolean = false;
     repathed: boolean = false;
-    target: (Player | Npc | Loc | Obj | null) = null;
+    target: Player | Npc | Loc | Obj | null = null;
     targetOp: number = -1;
     targetSubject: number = -1; // for [opplayeru,obj]
     apRange: number = 10;
@@ -485,15 +502,9 @@ export default class Player extends PathingEntity {
             26, // arms
             33, // gloves
             36, // legs
-            42, // boots
+            42 // boots
         ];
-        this.colors = [
-            0,
-            0,
-            0,
-            0,
-            0
-        ];
+        this.colors = [0, 0, 0, 0, 0];
         this.gender = 0;
         this.runenergy = 10000;
         this.runweight = 0;
@@ -560,7 +571,7 @@ export default class Player extends PathingEntity {
             if (length == -1) {
                 length = this.client.in[offset++];
             } else if (length == -2) {
-                length = this.client.in[offset++] << 8 | this.client.in[offset++];
+                length = (this.client.in[offset++] << 8) | this.client.in[offset++];
             }
 
             decoded.push({
@@ -633,7 +644,17 @@ export default class Player extends PathingEntity {
                     pathfindZ = data.g1s() + startZ;
                 }
 
-                if (this.delayed() || running < 0 || running > 1 || Position.distanceTo(this, { x: pathfindX, z: pathfindZ, width: this.width, length: this.length }) > 104) {
+                if (
+                    this.delayed() ||
+                    running < 0 ||
+                    running > 1 ||
+                    Position.distanceTo(this, {
+                        x: pathfindX,
+                        z: pathfindZ,
+                        width: this.width,
+                        length: this.length
+                    }) > 104
+                ) {
                     pathfindX = -1;
                     pathfindZ = -1;
                     this.unsetMapFlag();
@@ -816,11 +837,12 @@ export default class Player extends PathingEntity {
                     continue;
                 }
 
-                if (opcode === ClientProt.INV_BUTTON1 && !com.inventoryOptions[0] ||
-                    opcode === ClientProt.INV_BUTTON2 && !com.inventoryOptions[1] ||
-                    opcode === ClientProt.INV_BUTTON3 && !com.inventoryOptions[2] ||
-                    opcode === ClientProt.INV_BUTTON4 && !com.inventoryOptions[3] ||
-                    opcode === ClientProt.INV_BUTTON5 && !com.inventoryOptions[4]
+                if (
+                    (opcode === ClientProt.INV_BUTTON1 && !com.inventoryOptions[0]) ||
+                    (opcode === ClientProt.INV_BUTTON2 && !com.inventoryOptions[1]) ||
+                    (opcode === ClientProt.INV_BUTTON3 && !com.inventoryOptions[2]) ||
+                    (opcode === ClientProt.INV_BUTTON4 && !com.inventoryOptions[3]) ||
+                    (opcode === ClientProt.INV_BUTTON5 && !com.inventoryOptions[4])
                 ) {
                     continue;
                 }
@@ -916,11 +938,7 @@ export default class Player extends PathingEntity {
                 }
 
                 const type = ObjType.get(item);
-                if (opcode === ClientProt.OPHELD1 && !type.iops[0] ||
-                    opcode === ClientProt.OPHELD2 && !type.iops[1] ||
-                    opcode === ClientProt.OPHELD3 && !type.iops[2] ||
-                    opcode === ClientProt.OPHELD4 && !type.iops[3]
-                ) {
+                if ((opcode === ClientProt.OPHELD1 && !type.iops[0]) || (opcode === ClientProt.OPHELD2 && !type.iops[1]) || (opcode === ClientProt.OPHELD3 && !type.iops[2]) || (opcode === ClientProt.OPHELD4 && !type.iops[3])) {
                     continue;
                 }
 
@@ -1122,11 +1140,12 @@ export default class Player extends PathingEntity {
                 }
 
                 const locType = LocType.get(loc.type);
-                if (opcode === ClientProt.OPLOC1 && !locType.ops[0] ||
-                    opcode === ClientProt.OPLOC2 && !locType.ops[1] ||
-                    opcode === ClientProt.OPLOC3 && !locType.ops[2] ||
-                    opcode === ClientProt.OPLOC4 && !locType.ops[3] ||
-                    opcode === ClientProt.OPLOC5 && !locType.ops[4]
+                if (
+                    (opcode === ClientProt.OPLOC1 && !locType.ops[0]) ||
+                    (opcode === ClientProt.OPLOC2 && !locType.ops[1]) ||
+                    (opcode === ClientProt.OPLOC3 && !locType.ops[2]) ||
+                    (opcode === ClientProt.OPLOC4 && !locType.ops[3]) ||
+                    (opcode === ClientProt.OPLOC5 && !locType.ops[4])
                 ) {
                     continue;
                 }
@@ -1247,11 +1266,12 @@ export default class Player extends PathingEntity {
                 }
 
                 const npcType = NpcType.get(npc.type);
-                if (opcode === ClientProt.OPNPC1 && !npcType.ops[0] ||
-                    opcode === ClientProt.OPNPC2 && !npcType.ops[1] ||
-                    opcode === ClientProt.OPNPC3 && !npcType.ops[2] ||
-                    opcode === ClientProt.OPNPC4 && !npcType.ops[3] ||
-                    opcode === ClientProt.OPNPC5 && !npcType.ops[4]
+                if (
+                    (opcode === ClientProt.OPNPC1 && !npcType.ops[0]) ||
+                    (opcode === ClientProt.OPNPC2 && !npcType.ops[1]) ||
+                    (opcode === ClientProt.OPNPC3 && !npcType.ops[2]) ||
+                    (opcode === ClientProt.OPNPC4 && !npcType.ops[3]) ||
+                    (opcode === ClientProt.OPNPC5 && !npcType.ops[4])
                 ) {
                     continue;
                 }
@@ -1366,9 +1386,7 @@ export default class Player extends PathingEntity {
 
                 const objType = ObjType.get(obj.type);
                 // todo: validate all options
-                if (opcode === ClientProt.OPOBJ1 && !objType.ops[0] ||
-                    opcode === ClientProt.OPOBJ4 && !objType.ops[3]
-                ) {
+                if ((opcode === ClientProt.OPOBJ1 && !objType.ops[0]) || (opcode === ClientProt.OPOBJ4 && !objType.ops[3])) {
                     continue;
                 }
 
@@ -1690,7 +1708,7 @@ export default class Player extends PathingEntity {
             const out = this.netOut[j];
 
             if (this.client.encryptor) {
-                out.data[0] = (out.data[0] + this.client.encryptor.nextInt()) & 0xFF;
+                out.data[0] = (out.data[0] + this.client.encryptor.nextInt()) & 0xff;
             }
 
             World.lastCycleBandwidth[1] += out.length;
@@ -1707,7 +1725,7 @@ export default class Player extends PathingEntity {
         }
 
         if (this.client.encryptor) {
-            packet.data[0] = (packet.data[0] + this.client.encryptor.nextInt()) & 0xFF;
+            packet.data[0] = (packet.data[0] + this.client.encryptor.nextInt()) & 0xff;
         }
 
         this.client.write(packet);
@@ -1821,7 +1839,8 @@ export default class Player extends PathingEntity {
 
                 const count = ScriptProvider.load('data/pack/server');
                 this.messageGame(`Reloaded ${count} scripts.`);
-            } break;
+                break;
+            }
             case 'setvar': {
                 const varp = args.shift();
                 if (!varp) {
@@ -1842,7 +1861,8 @@ export default class Player extends PathingEntity {
                 } else {
                     this.messageGame(`Unknown var ${varp}`);
                 }
-            } break;
+                break;
+            }
             case 'getvar': {
                 const varp = args.shift();
                 if (!varp) {
@@ -1856,7 +1876,8 @@ export default class Player extends PathingEntity {
                 } else {
                     this.messageGame(`Unknown var ${varp}`);
                 }
-            } break;
+                break;
+            }
             case 'setlevel': {
                 if (args.length < 2) {
                     this.messageGame('Usage: ::setlevel <stat> <level>');
@@ -1870,7 +1891,8 @@ export default class Player extends PathingEntity {
                 }
 
                 this.setLevel(stat, parseInt(args[1]));
-            } break;
+                break;
+            }
             case 'setxp': {
                 if (args.length < 2) {
                     this.messageGame('Usage: ::setxp <stat> <xp>');
@@ -1886,7 +1908,8 @@ export default class Player extends PathingEntity {
                 const exp = parseInt(args[1]) * 10;
                 this.setLevel(stat, getLevelByExp(exp));
                 this.stats[stat] = exp;
-            } break;
+                break;
+            }
             case 'minlevel': {
                 for (let i = 0; i < Player.SKILLS.length; i++) {
                     if (i === Player.HITPOINTS) {
@@ -1895,11 +1918,13 @@ export default class Player extends PathingEntity {
                         this.setLevel(i, 1);
                     }
                 }
-            } break;
+                break;
+            }
             case 'serverdrop': {
                 this.client?.terminate();
                 this.client = null;
-            } break;
+                break;
+            }
             default: {
                 if (cmd.length <= 0) {
                     return;
@@ -1921,43 +1946,51 @@ export default class Player extends PathingEntity {
                             const value = args.shift();
 
                             params.push(value ?? '');
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.INT: {
                             const value = args.shift();
 
                             // todo: range check? runtime only operates on 32-bits
                             params.push(parseInt(value ?? '0', 10));
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.NAMEDOBJ: {
                             const name = args.shift();
 
                             params.push(ObjType.getId(name ?? ''));
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.NPC: {
                             const name = args.shift();
 
                             params.push(NpcType.getId(name ?? ''));
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.LOC: {
                             const name = args.shift();
 
                             params.push(LocType.getId(name ?? ''));
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.SEQ: {
                             const name = args.shift();
 
                             params.push(SeqType.getId(name ?? ''));
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.STAT: {
                             const name = args.shift();
 
                             params.push(Player.SKILLS.indexOf(name ?? ''));
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.INV: {
                             const name = args.shift();
 
                             params.push(InvType.getId(name ?? ''));
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.COORD: {
                             const args2 = cheat.split('_');
 
@@ -1968,17 +2001,20 @@ export default class Player extends PathingEntity {
                             const lz = parseInt(args2[4]);
 
                             params.push(Position.packCoord(level, (mx << 6) + lx, (mz << 6) + lz));
-                        } break;
+                            break;
+                        }
                         case ScriptVarType.INTERFACE: {
                             const name = args.shift();
 
                             params.push(IfType.getId(name ?? ''));
-                        } break;
+                            break;
+                        }
                     }
                 }
 
                 this.executeScript(ScriptRunner.init(script, this, null, null, params), true);
-            } break;
+                break;
+            }
         }
     }
 
@@ -2019,7 +2055,7 @@ export default class Player extends PathingEntity {
 
         if (this.target) {
             const apTrigger = this.getApTrigger();
-            const outOfRange = (!this.inApproachDistance(this.apRange, this.target) && apTrigger) && !this.inOperableDistance(this.target);
+            const outOfRange = !this.inApproachDistance(this.apRange, this.target) && apTrigger && !this.inOperableDistance(this.target);
             const targetMoved = this.hasWaypoints() && (this.waypoints[0].x !== this.target.x || this.waypoints[0].z !== this.target.z);
 
             // broken out to understand better
@@ -2082,7 +2118,7 @@ export default class Player extends PathingEntity {
                 // TODO: "Moving to an adjacent tile through walking will not drain energy, even if Run is turned on."
                 const weightKg = Math.floor(this.runweight / 1000);
                 const clampWeight = Math.min(Math.max(weightKg, 0), 64);
-                const loss = 67 + ((67 * clampWeight) / 64);
+                const loss = 67 + (67 * clampWeight) / 64;
 
                 this.runenergy = Math.max(this.runenergy - loss, 0);
                 if (this.runenergy === 0) {
@@ -2093,7 +2129,7 @@ export default class Player extends PathingEntity {
         }
 
         if (!this.delayed() && (!moved || !running) && this.runenergy < 10000) {
-            const recovered = (this.baseLevels[Player.AGILITY] / 9) + 8;
+            const recovered = this.baseLevels[Player.AGILITY] / 9 + 8;
 
             this.runenergy = Math.min(this.runenergy + recovered, 10000);
         }
@@ -2294,7 +2330,7 @@ export default class Player extends PathingEntity {
         }
     }
 
-    setInteraction(target: (Player | Npc | Loc | Obj), op: ServerTriggerType, subject?: number) {
+    setInteraction(target: Player | Npc | Loc | Obj, op: ServerTriggerType, subject?: number) {
         if (this.forceMove || this.delayed()) {
             // console.log('not setting interaction');
             this.unsetMapFlag();
@@ -2318,12 +2354,12 @@ export default class Player extends PathingEntity {
             this.mask |= Player.FACE_ENTITY;
         } else if (target instanceof Loc) {
             const type = LocType.get(target.type);
-            this.faceX = (target.x * 2) + type.width;
-            this.faceZ = (target.z * 2) + type.length;
+            this.faceX = target.x * 2 + type.width;
+            this.faceZ = target.z * 2 + type.length;
             this.mask |= Player.FACE_COORD;
         } else {
-            this.faceX = (target.x * 2) + 1;
-            this.faceZ = (target.z * 2) + 1;
+            this.faceX = target.x * 2 + 1;
+            this.faceZ = target.z * 2 + 1;
             this.mask |= Player.FACE_COORD;
         }
     }
@@ -2529,7 +2565,7 @@ export default class Player extends PathingEntity {
         }
 
         if (!this.interacted && !this.hasWaypoints() && !moved) {
-            this.messageGame('I can\'t reach that!');
+            this.messageGame("I can't reach that!");
             this.clearInteraction();
         }
 
@@ -2662,7 +2698,7 @@ export default class Player extends PathingEntity {
 
         // update local player
         bitBlock.bits();
-        bitBlock.pBit(1, (tele || walkDir !== -1 || runDir !== -1 || this.mask > 0) ? 1 : 0);
+        bitBlock.pBit(1, tele || walkDir !== -1 || runDir !== -1 || this.mask > 0 ? 1 : 0);
         if (tele) {
             bitBlock.pBit(2, 3);
             bitBlock.pBit(2, this.level);
@@ -2719,7 +2755,7 @@ export default class Player extends PathingEntity {
                 hasMaskUpdate = false;
             }
 
-            bitBlock.pBit(1, (walkDir !== -1 || runDir !== -1 || hasMaskUpdate) ? 1 : 0);
+            bitBlock.pBit(1, walkDir !== -1 || runDir !== -1 || hasMaskUpdate ? 1 : 0);
             if (runDir !== -1) {
                 bitBlock.pBit(2, 2);
                 bitBlock.pBit(3, walkDir);
@@ -2899,15 +2935,15 @@ export default class Player extends PathingEntity {
         if (newlyObserved && (this.orientation != -1 || this.faceX != -1 || this.faceZ != -1)) {
             mask |= Player.FACE_COORD;
         }
-        if (newlyObserved && (this.faceEntity != -1)) {
+        if (newlyObserved && this.faceEntity != -1) {
             mask |= Player.FACE_ENTITY;
         }
 
-        if (mask > 0xFF) {
+        if (mask > 0xff) {
             mask |= 0x80;
         }
 
-        if (self && (mask & Player.CHAT)) {
+        if (self && mask & Player.CHAT) {
             // don't echo back local chat
             mask &= ~Player.CHAT;
         }
@@ -2966,20 +3002,20 @@ export default class Player extends PathingEntity {
         if (newlyObserved && (this.orientation != -1 || this.faceX != -1 || this.faceZ != -1)) {
             mask |= Player.FACE_COORD;
         }
-        if (newlyObserved && (this.faceEntity != -1)) {
+        if (newlyObserved && this.faceEntity != -1) {
             mask |= Player.FACE_ENTITY;
         }
 
-        if (mask > 0xFF) {
+        if (mask > 0xff) {
             mask |= 0x80;
         }
 
-        if (self && (mask & Player.CHAT)) {
+        if (self && mask & Player.CHAT) {
             // don't echo back local chat
             mask &= ~Player.CHAT;
         }
 
-        out.p1(mask & 0xFF);
+        out.p1(mask & 0xff);
         if (mask & 0x80) {
             out.p1(mask >> 8);
         }
@@ -3141,7 +3177,7 @@ export default class Player extends PathingEntity {
                 hasMaskUpdate = false;
             }
 
-            bitBlock.pBit(1, (runDir !== -1 || walkDir !== -1 || hasMaskUpdate) ? 1 : 0);
+            bitBlock.pBit(1, runDir !== -1 || walkDir !== -1 || hasMaskUpdate ? 1 : 0);
             if (runDir !== -1) {
                 bitBlock.pBit(2, 2);
                 bitBlock.pBit(3, walkDir);
@@ -3458,7 +3494,7 @@ export default class Player extends PathingEntity {
         if (objType.certtemplate >= 0 && objType.certlink >= 0) {
             uncert = objType.certlink;
         }
-        if (objType.stackable || (uncert != obj) || container.stackType == Inventory.ALWAYS_STACK) {
+        if (objType.stackable || uncert != obj || container.stackType == Inventory.ALWAYS_STACK) {
             const stockObj = InvType.get(inv).stockobj.includes(obj);
             if (this.invTotal(inv, obj) == 0 && this.invFreeSpace(inv) == 0 && !stockObj) {
                 return count;
@@ -3522,7 +3558,10 @@ export default class Player extends PathingEntity {
             throw new Error(`invMoveFromSlot: Invalid from obj was null. This means the obj does not exist at this slot: ${fromSlot}`);
         }
 
-        return {overflow: fromObj.count - this.invAdd(toInv, fromObj.id, fromObj.count), fromObj: fromObj.id};
+        return {
+            overflow: fromObj.count - this.invAdd(toInv, fromObj.id, fromObj.count),
+            fromObj: fromObj.id
+        };
     }
 
     invTotalCat(inv: number, category: number): number {
@@ -3893,14 +3932,14 @@ export default class Player extends PathingEntity {
         out.p2(zoneZ);
 
         // build area is 13x13 zones (8*13 = 104 tiles), so we need to load 6 zones in each direction
-        const areas: { mapsquareX: number, mapsquareZ: number }[] = [];
+        const areas: { mapsquareX: number; mapsquareZ: number }[] = [];
         for (let x = zoneX - 6; x <= zoneX + 6; x++) {
             for (let z = zoneZ - 6; z <= zoneZ + 6; z++) {
                 const mapsquareX = Position.mapsquare(x << 3);
                 const mapsquareZ = Position.mapsquare(z << 3);
 
                 if (areas.findIndex(a => a.mapsquareX === mapsquareX && a.mapsquareZ === mapsquareZ) === -1) {
-                    areas.push({mapsquareX, mapsquareZ});
+                    areas.push({ mapsquareX, mapsquareZ });
                 }
             }
         }

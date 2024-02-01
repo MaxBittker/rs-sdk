@@ -56,7 +56,7 @@ for (let i = 0; i < media.fileCount; i++) {
 
         // ----
 
-        const pal = new Jimp(16, 16, 0xFF00FFFF).colorType(2);
+        const pal = new Jimp(16, 16, 0xff00ffff).colorType(2);
 
         for (let j = 1; j < pix.palette.length; j++) {
             const x = j % 16;
@@ -64,10 +64,10 @@ for (let i = 0; i < media.fileCount; i++) {
 
             const color = pix.palette[j];
 
-            const pos = (x + (y * 16)) * 4;
-            pal.bitmap.data[pos] = (color >> 16) & 0xFF;
-            pal.bitmap.data[pos + 1] = (color >> 8) & 0xFF;
-            pal.bitmap.data[pos + 2] = color & 0xFF;
+            const pos = (x + y * 16) * 4;
+            pal.bitmap.data[pos] = (color >> 16) & 0xff;
+            pal.bitmap.data[pos + 1] = (color >> 8) & 0xff;
+            pal.bitmap.data[pos + 2] = color & 0xff;
         }
 
         await pal.writeAsync(`dump/src/sprites/meta/${safeName}.pal.png`);
@@ -81,8 +81,8 @@ for (let i = 0; i < media.fileCount; i++) {
         let width = Math.ceil(Math.sqrt(count));
         let height = Math.ceil(count / width);
 
-        const override: Record<string, { width: number, height: number }> = {
-            'mapdots': { width: 4, height: 1 }
+        const override: Record<string, { width: number; height: number }> = {
+            mapdots: { width: 4, height: 1 }
         };
 
         if (override[safeName]) {
@@ -91,7 +91,8 @@ for (let i = 0; i < media.fileCount; i++) {
         } else if (isPrime(count)) {
             width = count;
             height = 1;
-        } if (width * height != count) {
+        }
+        if (width * height != count) {
             let heightTries = 0;
 
             // wrong aspect ratio, try subtracting from height and adding to width
@@ -127,7 +128,7 @@ for (let i = 0; i < media.fileCount; i++) {
             console.log('Could not determine size of spritesheet', safeName, width, height, count);
         }
 
-        const sheet = new Jimp(width * size.width, height * size.height, 0xFF00FFFF).colorType(2);
+        const sheet = new Jimp(width * size.width, height * size.height, 0xff00ffff).colorType(2);
 
         for (let j = 0; j < count; j++) {
             const x = j % width;
@@ -151,7 +152,7 @@ for (let i = 0; i < media.fileCount; i++) {
 
         // ----
 
-        const pal = new Jimp(16, 16, 0xFF00FFFF).colorType(2);
+        const pal = new Jimp(16, 16, 0xff00ffff).colorType(2);
 
         for (let j = 1; j < sprites[0].palette.length; j++) {
             const x = j % 16;
@@ -159,10 +160,10 @@ for (let i = 0; i < media.fileCount; i++) {
 
             const color = sprites[0].palette[j];
 
-            const pos = (x + (y * 16)) * 4;
-            pal.bitmap.data[pos] = (color >> 16) & 0xFF;
-            pal.bitmap.data[pos + 1] = (color >> 8) & 0xFF;
-            pal.bitmap.data[pos + 2] = color & 0xFF;
+            const pos = (x + y * 16) * 4;
+            pal.bitmap.data[pos] = (color >> 16) & 0xff;
+            pal.bitmap.data[pos + 1] = (color >> 8) & 0xff;
+            pal.bitmap.data[pos + 2] = color & 0xff;
         }
 
         await pal.writeAsync(`dump/src/sprites/meta/${safeName}.pal.png`);

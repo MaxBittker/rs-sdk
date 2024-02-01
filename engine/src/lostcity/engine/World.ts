@@ -1,8 +1,8 @@
-import {Worker} from 'worker_threads';
+import { Worker } from 'worker_threads';
 
 import Packet from '#jagex2/io/Packet.js';
 
-import {toBase37} from '#jagex2/jstring/JString.js';
+import { toBase37 } from '#jagex2/jstring/JString.js';
 
 import CategoryType from '#lostcity/cache/CategoryType.js';
 import DbRowType from '#lostcity/cache/DbRowType.js';
@@ -27,7 +27,7 @@ import VarSharedType from '#lostcity/cache/VarSharedType.js';
 import WordEnc from '#lostcity/cache/WordEnc.js';
 
 import GameMap from '#lostcity/engine/GameMap.js';
-import {Inventory} from '#lostcity/engine/Inventory.js';
+import { Inventory } from '#lostcity/engine/Inventory.js';
 import Login from '#lostcity/engine/Login.js';
 
 import CollisionManager from '#lostcity/engine/collision/CollisionManager.js';
@@ -44,14 +44,14 @@ import Npc from '#lostcity/entity/Npc.js';
 import Obj from '#lostcity/entity/Obj.js';
 import Player from '#lostcity/entity/Player.js';
 
-import {ClientProtLengths} from '#lostcity/server/ClientProt.js';
+import { ClientProtLengths } from '#lostcity/server/ClientProt.js';
 import ClientSocket from '#lostcity/server/ClientSocket.js';
-import {ServerProt} from '#lostcity/server/ServerProt.js';
+import { ServerProt } from '#lostcity/server/ServerProt.js';
 
 import Environment from '#lostcity/util/Environment.js';
-import {CollisionFlagMap, LineValidator, NaivePathFinder, PathFinder, StepValidator} from '@2004scape/rsmod-pathfinder';
-import {PlayerQueueType} from '#lostcity/entity/EntityQueueRequest.js';
-import {PlayerTimerType} from '#lostcity/entity/EntityTimer.js';
+import { CollisionFlagMap, LineValidator, NaivePathFinder, PathFinder, StepValidator } from '@2004scape/rsmod-pathfinder';
+import { PlayerQueueType } from '#lostcity/entity/EntityQueueRequest.js';
+import { PlayerTimerType } from '#lostcity/entity/EntityTimer.js';
 
 class World {
     id = Environment.WORLD_ID as number;
@@ -615,7 +615,7 @@ class World {
             this.players[index] = player;
             this.playerIds[pid] = index;
             player.pid = pid;
-            player.uid = ((Number(player.username37 & 0x1FFFFFn) << 11) | player.pid) >>> 0;
+            player.uid = ((Number(player.username37 & 0x1fffffn) << 11) | player.pid) >>> 0;
 
             this.getZone(player.x, player.z, player.level).enter(player);
 
@@ -780,7 +780,6 @@ class World {
             }
 
             inv.update = false;
-
 
             // Increase or Decrease shop stock
             const invType = InvType.get(inv.type);
@@ -1177,7 +1176,7 @@ class World {
             let opcode = stream.g1();
 
             if (socket.decryptor) {
-                opcode = (opcode - socket.decryptor.nextInt()) & 0xFF;
+                opcode = (opcode - socket.decryptor.nextInt()) & 0xff;
                 stream.data[start] = opcode;
             }
 
@@ -1251,20 +1250,20 @@ class World {
     }
 
     getPlayerByUid(uid: number) {
-        const pid = uid & 0x7FF;
-        const name37 = (uid >> 11) & 0x1FFFFF;
+        const pid = uid & 0x7ff;
+        const name37 = (uid >> 11) & 0x1fffff;
 
         const slot = this.playerIds[pid];
         if (slot === -1) {
             return null;
         }
-        
+
         const player = this.players[slot];
         if (!player) {
             return null;
         }
 
-        if (Number(player.username37 & 0x1FFFFFn) !== name37) {
+        if (Number(player.username37 & 0x1fffffn) !== name37) {
             return null;
         }
 
@@ -1289,8 +1288,8 @@ class World {
     }
 
     getNpcByUid(uid: number) {
-        const slot = uid & 0xFFFF;
-        const type = (uid >> 16) & 0xFFFF;
+        const slot = uid & 0xffff;
+        const type = (uid >> 16) & 0xffff;
 
         const npc = this.npcs[slot];
         if (!npc || npc.type !== type) {

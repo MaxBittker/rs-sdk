@@ -8,16 +8,19 @@ import { PACKFILE, ParamValue, ConfigValue, ConfigLine, packStepError } from '#l
 import { lookupParamValue } from '#lostcity/tools/packconfig/ParamConfig.js';
 
 export function parseObjConfig(key: string, value: string): ConfigValue | null | undefined {
+    // prettier-ignore
     const stringKeys = [
         'name', 'desc',
         'op1', 'op2', 'op3', 'op4', 'op5',
         'iop1', 'iop2', 'iop3', 'iop4', 'iop5'
     ];
+    // prettier-ignore
     const numberKeys = [
         '2dzoom', '2dxan', '2dyan', '2dxof', '2dyof', '2dzan',
         'recol1s', 'recol1d', 'recol2s', 'recol2d', 'recol3s', 'recol3d', 'recol4s', 'recol4d', 'recol5s', 'recol5d', 'recol6s', 'recol6d',
         'cost', 'respawnrate'
     ];
+    // prettier-ignore
     const booleanKeys = [
         'code9', 'stackable', 'members', 'tradeable'
     ];
@@ -68,7 +71,7 @@ export function parseObjConfig(key: string, value: string): ConfigValue | null |
             return null;
         }
 
-        if (key === 'cost' && (number < 0 || number > 0x7FFF_FFFF)) {
+        if (key === 'cost' && (number < 0 || number > 0x7fff_ffff)) {
             return null;
         }
 

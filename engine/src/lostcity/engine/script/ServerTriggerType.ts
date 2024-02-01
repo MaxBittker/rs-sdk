@@ -154,7 +154,7 @@ enum ServerTriggerType {
     MOVECHECK = 159,
     AI_MOVECHECK = 160,
 
-    LEVELUP = 161,
+    LEVELUP = 161
 }
 
 namespace ServerTriggerType {

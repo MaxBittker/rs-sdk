@@ -34,10 +34,12 @@ enum LocShapeSuffix {
 }
 
 export function parseLocConfig(key: string, value: string): ConfigValue | null | undefined {
+    // prettier-ignore
     const stringKeys = [
         'name', 'desc',
         'op1', 'op2', 'op3', 'op4', 'op5'
     ];
+    // prettier-ignore
     const numberKeys = [
         'width', 'length',
         'recol1s', 'recol1d', 'recol2s', 'recol2d', 'recol3s', 'recol3d', 'recol4s', 'recol4d', 'recol5s', 'recol5d', 'recol6s', 'recol6d',
@@ -48,6 +50,7 @@ export function parseLocConfig(key: string, value: string): ConfigValue | null |
         'mapscene',
         'xoff', 'yoff', 'zoff'
     ];
+    // prettier-ignore
     const booleanKeys = [
         'blockwalk', 'blockrange',
         'active', 'hillskew', 'sharelight', 'occlude',
@@ -408,4 +411,3 @@ export function packLocClient(configs: Map<string, ConfigLine[]>) {
 export function packLocServer(configs: Map<string, ConfigLine[]>) {
     return packLocConfig(configs, true);
 }
-

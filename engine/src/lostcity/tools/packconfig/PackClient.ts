@@ -26,7 +26,8 @@ const jag = new Jagfile();
   'varp.dat',     'varp.idx'
 */
 
-if (shouldBuild('data/src/scripts', '.seq', 'data/pack/client/config') ||
+if (
+    shouldBuild('data/src/scripts', '.seq', 'data/pack/client/config') ||
     shouldBuild('data/src/scripts', '.loc', 'data/pack/client/config') ||
     shouldBuild('data/src/scripts', '.flo', 'data/pack/client/config') ||
     shouldBuild('data/src/scripts', '.spotanim', 'data/pack/client/config') ||

@@ -116,7 +116,6 @@ export function listFiles(path: string, out: string[] = []): string[] {
     return out;
 }
 
-
 export type LoadDirCallback = (lines: string[], file: string) => void;
 
 // Read all files inside a directory
@@ -201,7 +200,7 @@ export function readConfigs(ext: string) {
                     if (configs.has(current)) {
                         throw new Error(`Duplicate config found in ${file}: ${current}`);
                     }
-        
+
                     configs.set(current, config);
                 }
 

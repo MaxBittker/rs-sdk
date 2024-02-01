@@ -103,7 +103,7 @@ export default class DbRowType extends ConfigType {
         for (let fieldId = 0; fieldId < fieldCount; fieldId++) {
             for (let typeId = 0; typeId < types.length; typeId++) {
                 const type = types[typeId];
-                const index = typeId + (fieldId * types.length);
+                const index = typeId + fieldId * types.length;
 
                 if (type === ScriptVarType.STRING) {
                     values[index] = packet.gjstr();

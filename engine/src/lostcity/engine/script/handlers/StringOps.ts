@@ -2,18 +2,18 @@ import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 
 const StringOps: CommandHandlers = {
-    [ScriptOpcode.APPEND_NUM]: (state) => {
+    [ScriptOpcode.APPEND_NUM]: state => {
         const text = state.popString();
         const num = state.popInt();
         state.pushString(text + num);
     },
 
-    [ScriptOpcode.APPEND]: (state) => {
+    [ScriptOpcode.APPEND]: state => {
         const [t1, t2] = state.popStrings(2);
         state.pushString(t1 + t2);
     },
 
-    [ScriptOpcode.APPEND_SIGNNUM]: (state) => {
+    [ScriptOpcode.APPEND_SIGNNUM]: state => {
         const text = state.popString();
         const num = state.popInt();
 
@@ -24,52 +24,52 @@ const StringOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.LOWERCASE]: (state) => {
+    [ScriptOpcode.LOWERCASE]: state => {
         state.pushString(state.popString().toLowerCase());
     },
 
-    [ScriptOpcode.TOSTRING]: (state) => {
+    [ScriptOpcode.TOSTRING]: state => {
         state.pushString(state.popInt().toString());
     },
 
-    [ScriptOpcode.COMPARE]: (state) => {
+    [ScriptOpcode.COMPARE]: state => {
         const [s1, s2] = state.popStrings(2);
         state.pushInt(javaStringCompare(s1, s2));
     },
 
-    [ScriptOpcode.TEXT_SWITCH]: (state) => {
+    [ScriptOpcode.TEXT_SWITCH]: state => {
         const value = state.popInt();
         const [s1, s2] = state.popStrings(2);
         state.pushString(value === 1 ? s1 : s2);
     },
 
-    [ScriptOpcode.APPEND_CHAR]: (state) => {
+    [ScriptOpcode.APPEND_CHAR]: state => {
         const text = state.popString();
         const char = state.popInt();
         state.pushString(text + String.fromCharCode(char));
     },
 
-    [ScriptOpcode.STRING_LENGTH]: (state) => {
+    [ScriptOpcode.STRING_LENGTH]: state => {
         state.pushInt(state.popString().length);
     },
 
-    [ScriptOpcode.SUBSTRING]: (state) => {
+    [ScriptOpcode.SUBSTRING]: state => {
         const text = state.popString();
         const [start, end] = state.popInts(2);
         state.pushString(text.substring(start, end));
     },
 
-    [ScriptOpcode.STRING_INDEXOF_CHAR]: (state) => {
+    [ScriptOpcode.STRING_INDEXOF_CHAR]: state => {
         const text = state.popString();
         const find = String.fromCharCode(state.popInt());
         state.pushInt(text.indexOf(find));
     },
 
-    [ScriptOpcode.STRING_INDEXOF_STRING]: (state) => {
+    [ScriptOpcode.STRING_INDEXOF_STRING]: state => {
         const text = state.popString();
         const find = state.popString();
         state.pushInt(text.indexOf(find));
-    },
+    }
 };
 
 function javaStringCompare(a: string, b: string): number {

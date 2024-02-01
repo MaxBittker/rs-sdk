@@ -42,7 +42,7 @@ PACKFILE.set('vars', validateConfigPack('data/pack/vars.pack', '.vars', true, fa
 
 export const CONSTANTS = new Map<string, string>();
 // console.time('Generating constants');
-loadDir('data/src/scripts', '.constant', (src) => {
+loadDir('data/src/scripts', '.constant', src => {
     for (let i = 0; i < src.length; i++) {
         if (!src[i] || src[i].startsWith('//')) {
             continue;
@@ -126,14 +126,18 @@ export function packStepError(debugname: string, message: string) {
     process.exit(1);
 }
 
-export type ParamValue = { id: number, type: number, value: string | number | boolean };
-export type LocModelShape = { model: number, shape: number };
+export type ParamValue = {
+    id: number;
+    type: number;
+    value: string | number | boolean;
+};
+export type LocModelShape = { model: number; shape: number };
 export type ConfigValue = string | number | boolean | number[] | LocModelShape[] | ParamValue;
-export type ConfigLine = { key: string, value: ConfigValue };
+export type ConfigLine = { key: string; value: ConfigValue };
 
 // we're using null for invalid values, undefined for invalid keys
 export type ConfigParseCallback = (key: string, value: string) => ConfigValue | null | undefined;
-export type ConfigDatIdx = { dat: Packet, idx: Packet };
+export type ConfigDatIdx = { dat: Packet; idx: Packet };
 export type ConfigPackCallback = (configs: Map<string, ConfigLine[]>) => ConfigDatIdx;
 export type ConfigSaveCallback = (dat: Packet, idx: Packet) => void;
 
@@ -162,7 +166,7 @@ export function readConfigs(extension: string, requiredProperties: string[], par
                     if (requiredProperties.length > 0) {
                         // check config keys against requiredProperties
                         for (let i = 0; i < requiredProperties.length; i++) {
-                            if (!config.some((value) => value.key === requiredProperties[i])) {
+                            if (!config.some(value => value.key === requiredProperties[i])) {
                                 throw parseStepError(file, -1, `Missing required property: ${requiredProperties[i]}`);
                             }
                         }
@@ -231,7 +235,7 @@ export function readConfigs(extension: string, requiredProperties: string[], par
             if (requiredProperties.length > 0) {
                 // check config keys against requiredProperties
                 for (let i = 0; i < requiredProperties.length; i++) {
-                    if (!config.some((value) => value.key === requiredProperties[i])) {
+                    if (!config.some(value => value.key === requiredProperties[i])) {
                         throw parseStepError(file, -1, `Missing required property: ${requiredProperties[i]}`);
                     }
                 }

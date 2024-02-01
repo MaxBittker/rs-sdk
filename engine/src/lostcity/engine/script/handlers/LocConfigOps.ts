@@ -6,7 +6,7 @@ import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 
 const LocConfigOps: CommandHandlers = {
-    [ScriptOpcode.LC_NAME]: (state) => {
+    [ScriptOpcode.LC_NAME]: state => {
         const locId = state.popInt();
 
         if (locId == -1) {
@@ -18,7 +18,7 @@ const LocConfigOps: CommandHandlers = {
         state.pushString(locType.name ?? locType.debugname ?? 'null');
     },
 
-    [ScriptOpcode.LC_PARAM]: (state) => {
+    [ScriptOpcode.LC_PARAM]: state => {
         const [locId, paramId] = state.popInts(2);
 
         if (locId == -1) {
@@ -38,8 +38,8 @@ const LocConfigOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.LC_CATEGORY]: (state) => {
-        const locId= state.popInt();
+    [ScriptOpcode.LC_CATEGORY]: state => {
+        const locId = state.popInt();
 
         if (locId == -1) {
             throw new Error(`attempted to use obj with id: ${locId}`);
@@ -50,7 +50,7 @@ const LocConfigOps: CommandHandlers = {
         state.pushInt(locType.category);
     },
 
-    [ScriptOpcode.LC_DESC]: (state) => {
+    [ScriptOpcode.LC_DESC]: state => {
         const locId = state.popInt();
 
         if (locId == -1) {
@@ -62,7 +62,7 @@ const LocConfigOps: CommandHandlers = {
         state.pushString(locType.desc ?? 'null');
     },
 
-    [ScriptOpcode.LC_DEBUGNAME]: (state) => {
+    [ScriptOpcode.LC_DEBUGNAME]: state => {
         const locId = state.popInt();
 
         if (locId == -1) {
@@ -72,7 +72,7 @@ const LocConfigOps: CommandHandlers = {
         const locType = LocType.get(locId);
 
         state.pushString(locType.debugname ?? 'null');
-    },
+    }
 };
 
 export default LocConfigOps;

@@ -11,10 +11,12 @@ import { lookupParamValue } from '#lostcity/tools/packconfig/ParamConfig.js';
 import BlockWalk from '#lostcity/entity/BlockWalk.js';
 
 export function parseNpcConfig(key: string, value: string): ConfigValue | null | undefined {
+    // prettier-ignore
     const stringKeys = [
         'name', 'desc',
         'op1', 'op2', 'op3', 'op4', 'op5'
     ];
+    // prettier-ignore
     const numberKeys = [
         'size',
         'recol1s', 'recol1d', 'recol2s', 'recol2d', 'recol3s', 'recol3d', 'recol4s', 'recol4d', 'recol5s', 'recol5d', 'recol6s', 'recol6d',
@@ -24,6 +26,7 @@ export function parseNpcConfig(key: string, value: string): ConfigValue | null |
         'hitpoints', 'attack', 'strength', 'defence', 'magic', 'ranged',
         'timer', 'respawnrate'
     ];
+    // prettier-ignore
     const booleanKeys = [
         'hasalpha', 'visonmap', 'members'
     ];
@@ -251,7 +254,7 @@ function packNpcConfig(configs: Map<string, ConfigLine[]>, transmitAll: boolean)
         const models: number[] = [];
         const heads: number[] = [];
         const params: ParamValue[] = [];
-        const stats: number[] = [ 1, 1, 1, 1, 1, 1 ];
+        const stats: number[] = [1, 1, 1, 1, 1, 1];
         let vislevel = false;
 
         for (let j = 0; j < config.length; j++) {

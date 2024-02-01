@@ -114,7 +114,7 @@ export function packDbRowConfigs(configs: Map<string, ConfigLine[]>) {
                 const parts = parseCsv(value as string);
                 const column = parts.shift();
                 const values = parts;
-    
+
                 data.push({ column, values });
             }
         }
@@ -126,24 +126,24 @@ export function packDbRowConfigs(configs: Map<string, ConfigLine[]>) {
 
         if (data.length) {
             dat.p1(3);
-    
+
             dat.p1(table!.types.length);
             for (let i = 0; i < table!.types.length; i++) {
                 dat.p1(i);
-    
+
                 const types = table!.types[i];
                 dat.p1(types.length);
                 for (let j = 0; j < types.length; j++) {
                     dat.p1(types[j]);
                 }
-    
+
                 const columnName = table!.columnNames[i];
                 const fields = data.filter(d => d.column === columnName);
 
                 dat.p1(fields.length);
                 for (let j = 0; j < fields.length; j++) {
                     const values = fields[j].values;
-    
+
                     for (let k = 0; k < values.length; k++) {
                         const type = types[k];
                         const value = lookupParamValue(type, values[k]);
@@ -151,7 +151,7 @@ export function packDbRowConfigs(configs: Map<string, ConfigLine[]>) {
                             packStepError(debugname, `Data invalid in row, double-check the reference exists: data=${fields[j].column},${values.join(',')}`);
                             process.exit(1);
                         }
-    
+
                         if (type === ScriptVarType.STRING) {
                             dat.pjstr(value as string);
                         } else {
@@ -162,7 +162,7 @@ export function packDbRowConfigs(configs: Map<string, ConfigLine[]>) {
             }
             dat.p1(255);
         }
-    
+
         if (table) {
             dat.p1(4);
             dat.p2(table.id);

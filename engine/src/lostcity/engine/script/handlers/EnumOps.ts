@@ -4,7 +4,7 @@ import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 
 const EnumOps: CommandHandlers = {
-    [ScriptOpcode.ENUM]: (state) => {
+    [ScriptOpcode.ENUM]: state => {
         const [inputType, outputType, enumId, key] = state.popInts(4);
         const enumType = EnumType.get(enumId);
 
@@ -21,12 +21,12 @@ const EnumOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.ENUM_GETOUTPUTCOUNT]: (state) => {
+    [ScriptOpcode.ENUM_GETOUTPUTCOUNT]: state => {
         const enumId = state.popInt();
         const enumType = EnumType.get(enumId);
 
         state.pushInt(enumType.values.size);
-    },
+    }
 };
 
 export default EnumOps;

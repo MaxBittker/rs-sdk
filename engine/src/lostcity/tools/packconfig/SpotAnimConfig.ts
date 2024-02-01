@@ -4,12 +4,14 @@ import { PACKFILE, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/Pa
 
 export function parseSpotAnimConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
+    // prettier-ignore
     const numberKeys = [
         'resizeh', 'resizev',
         'orientation',
         'ambient', 'contrast',
         'recol1s', 'recol1d', 'recol2s', 'recol2d', 'recol3s', 'recol3d', 'recol4s', 'recol4d', 'recol5s', 'recol5d', 'recol6s', 'recol6d'
     ];
+    // prettier-ignore
     const booleanKeys = [
         'hasalpha'
     ];

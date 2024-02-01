@@ -23,7 +23,7 @@ export function toUInt32(num: number): number {
 export function bitcount(num: number): number {
     num = num - ((num >> 1) & 0x55555555);
     num = (num & 0x33333333) + ((num >> 2) & 0x33333333);
-    return ((num + (num >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
+    return (((num + (num >> 4)) & 0xf0f0f0f) * 0x1010101) >> 24;
 }
 
 export function setBitRange(num: number, startBit: number, endBit: number): number {

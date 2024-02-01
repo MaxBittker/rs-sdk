@@ -9,16 +9,31 @@ import WordEncDomains from '#lostcity/cache/WordEncDomains.js';
 import WordEncTlds from '#lostcity/cache/WordEncTlds.js';
 
 export default class WordEnc {
-    static PERIOD = new Uint16Array(['d', 'o', 't'].join('').split('').map((char) => char.charCodeAt(0)));
-    static AMPERSAT = new Uint16Array(['(', 'a', ')'].join('').split('').map((char) => char.charCodeAt(0)));
-    static SLASH = new Uint16Array(['s', 'l', 'a', 's', 'h'].join('').split('').map((char) => char.charCodeAt(0)));
+    static PERIOD = new Uint16Array(
+        ['d', 'o', 't']
+            .join('')
+            .split('')
+            .map(char => char.charCodeAt(0))
+    );
+    static AMPERSAT = new Uint16Array(
+        ['(', 'a', ')']
+            .join('')
+            .split('')
+            .map(char => char.charCodeAt(0))
+    );
+    static SLASH = new Uint16Array(
+        ['s', 'l', 'a', 's', 'h']
+            .join('')
+            .split('')
+            .map(char => char.charCodeAt(0))
+    );
 
     private static wordEncFragments = new WordEncFragments();
     private static wordEncBadWords = new WordEncBadWords(this.wordEncFragments);
     private static wordEncDomains = new WordEncDomains(this.wordEncBadWords);
     private static wordEncTlds = new WordEncTlds(this.wordEncBadWords, this.wordEncDomains);
 
-    private static whitelist = ['cook', 'cook\'s', 'cooks', 'seeks', 'sheet'];
+    private static whitelist = ['cook', "cook's", 'cooks', 'seeks', 'sheet'];
 
     static load(dir: string): void {
         if (!fs.existsSync(`${dir}/wordenc`)) {
@@ -226,7 +241,7 @@ export default class WordEnc {
     }
 
     private static isCharacterAllowed(char: string): boolean {
-        return char >= ' ' && char <= '\u007f' || char == ' ' || char == '\n' || char == '\t' || char == '£' || char == '€';
+        return (char >= ' ' && char <= '\u007f') || char == ' ' || char == '\n' || char == '\t' || char == '£' || char == '€';
     }
 
     private static replaceUppercases(chars: string[], comparison: string[]): void {

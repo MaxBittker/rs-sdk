@@ -4,9 +4,11 @@ import { PACKFILE, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/Pa
 
 export function parseFloConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
+    // prettier-ignore
     const numberKeys = [
         'rgb'
     ];
+    // prettier-ignore
     const booleanKeys = [
         'overlay', 'occlude'
     ];

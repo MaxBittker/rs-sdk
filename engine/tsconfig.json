@@ -3,24 +3,15 @@
     "rootDir": "src",
     "outDir": "out",
     "target": "ESNext",
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "baseUrl": ".",
     "paths": {
-      "#jagex2/*": [
-        "src/jagex2/*"
-      ],
-      "#lostcity/*": [
-        "src/lostcity/*"
-      ]
+      "#jagex2/*": ["src/jagex2/*"],
+      "#lostcity/*": ["src/lostcity/*"]
     },
-    "types": [
-      "node",
-      "jest"
-    ],
+    "types": ["node", "jest"],
     "sourceMap": true,
     "allowJs": true,
     "checkJs": false,
@@ -30,14 +21,8 @@
     "esModuleInterop": true,
     "allowUnreachableCode": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.js"
-  ],
-  "exclude": [
-    "node_modules",
-    "<node_internals>/**"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.js"],
+  "exclude": ["node_modules", "<node_internals>/**"],
   "ts-node": {
     "swc": true,
     "esm": true

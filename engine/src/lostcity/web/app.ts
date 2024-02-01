@@ -64,7 +64,9 @@ async function registerAll(searchDir: string, importDir: string, prefix: string 
                 continue;
             }
 
-            fastify.register(await import(importDir + prefix + '/' + entry), { prefix });
+            fastify.register(await import(importDir + prefix + '/' + entry), {
+                prefix
+            });
             loaded.add(full);
         }
     }
@@ -76,13 +78,17 @@ if (Environment.GAME_PORT === 0) {
     ignored.add('#lostcity/web/routes/api/v1/world.js');
     ignored.add('#lostcity/web/routes/server/cache.js');
 
-    await registerAll('src/lostcity/web/routes', '#lostcity/web/routes');    
+    await registerAll('src/lostcity/web/routes', '#lostcity/web/routes');
 } else {
     // game server
     fastify.register(import('#lostcity/web/routes/cache.js'));
     fastify.register(import('#lostcity/web/routes/client.js'));
-    fastify.register(import('#lostcity/web/routes/api/v1/world.js'), { prefix: '/api/v1' });
-    fastify.register(import('#lostcity/web/routes/server/cache.js'), { prefix: '/server'});
+    fastify.register(import('#lostcity/web/routes/api/v1/world.js'), {
+        prefix: '/api/v1'
+    });
+    fastify.register(import('#lostcity/web/routes/server/cache.js'), {
+        prefix: '/server'
+    });
 
     fastify.get('/', (req: any, res: any) => {
         return res.redirect(302, `/client?world=${Environment.WORLD_ID}&detail=high&method=0`);
@@ -94,15 +100,18 @@ if (Environment.GAME_PORT === 0) {
 }
 
 export function startWeb() {
-    fastify.listen({
-        port: Environment.WEB_PORT as number,
-        host: '0.0.0.0'
-    }, (err: Error | null, address: string) => {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
+    fastify.listen(
+        {
+            port: Environment.WEB_PORT as number,
+            host: '0.0.0.0'
+        },
+        (err: Error | null, address: string) => {
+            if (err) {
+                console.error(err);
+                process.exit(1);
+            }
 
-        console.log(`[Web]: Listening on port ${Environment.WEB_PORT}`);
-    });
+            console.log(`[Web]: Listening on port ${Environment.WEB_PORT}`);
+        }
+    );
 }

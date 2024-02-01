@@ -22,7 +22,10 @@ export default class GameMap {
         console.time('Loading game map');
         const maps = fs.readdirSync('data/pack/server/maps').filter(x => x[0] === 'm');
         for (let index = 0; index < maps.length; index++) {
-            const [fileX, fileZ] = maps[index].substring(1).split('_').map(x => parseInt(x));
+            const [fileX, fileZ] = maps[index]
+                .substring(1)
+                .split('_')
+                .map(x => parseInt(x));
             const mapsquareX = fileX << 6;
             const mapsquareZ = fileZ << 6;
 
@@ -30,8 +33,8 @@ export default class GameMap {
             while (npcMap.available > 0) {
                 const pos = npcMap.g2();
                 const level = (pos >> 12) & 0x3;
-                const localX = (pos >> 6) & 0x3F;
-                const localZ = (pos & 0x3F);
+                const localX = (pos >> 6) & 0x3f;
+                const localZ = pos & 0x3f;
 
                 const count = npcMap.g1();
                 for (let j = 0; j < count; j++) {
@@ -40,17 +43,7 @@ export default class GameMap {
 
                     const size = npcType.size;
 
-                    const npc = new Npc(
-                        level,
-                        mapsquareX + localX,
-                        mapsquareZ + localZ,
-                        size,
-                        size,
-                        World.getNextNid(),
-                        id,
-                        npcType.moverestrict,
-                        npcType.blockwalk
-                    );
+                    const npc = new Npc(level, mapsquareX + localX, mapsquareZ + localZ, size, size, World.getNextNid(), id, npcType.moverestrict, npcType.blockwalk);
 
                     if (npcType.members === true && World.members === true) {
                         World.addNpc(npc);
@@ -64,21 +57,15 @@ export default class GameMap {
             while (objMap.available > 0) {
                 const pos = objMap.g2();
                 const level = (pos >> 12) & 0x3;
-                const localX = (pos >> 6) & 0x3F;
-                const localZ = (pos & 0x3F);
+                const localX = (pos >> 6) & 0x3f;
+                const localZ = pos & 0x3f;
 
                 const count = objMap.g1();
                 for (let j = 0; j < count; j++) {
                     const objId = objMap.g2();
                     const objCount = objMap.g1();
 
-                    const obj = new Obj(
-                        level,
-                        mapsquareX + localX,
-                        mapsquareZ + localZ,
-                        objId,
-                        objCount
-                    );
+                    const obj = new Obj(level, mapsquareX + localX, mapsquareZ + localZ, objId, objCount);
 
                     this.zoneManager.getZone(obj.x, obj.z, obj.level).addStaticObj(obj);
                 }

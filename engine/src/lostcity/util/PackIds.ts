@@ -73,7 +73,7 @@ export function crawlConfigNames(ext: string, includeBrackets = false) {
 export function crawlConfigCategories() {
     const names: string[] = [];
 
-    loadDir('data/src/scripts', '.loc', (src) => {
+    loadDir('data/src/scripts', '.loc', src => {
         for (let i = 0; i < src.length; i++) {
             const line = src[i];
 
@@ -87,7 +87,7 @@ export function crawlConfigCategories() {
         }
     });
 
-    loadDir('data/src/scripts', '.npc', (src) => {
+    loadDir('data/src/scripts', '.npc', src => {
         for (let i = 0; i < src.length; i++) {
             const line = src[i];
 
@@ -101,7 +101,7 @@ export function crawlConfigCategories() {
         }
     });
 
-    loadDir('data/src/scripts', '.obj', (src) => {
+    loadDir('data/src/scripts', '.obj', src => {
         for (let i = 0; i < src.length; i++) {
             const line = src[i];
 
@@ -158,5 +158,10 @@ export function regenPack(pack: string[], names: string[], reduce = false, reuse
         }
     }
 
-    return pack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n';
+    return (
+        pack
+            .map((name, id) => `${id}=${name}`)
+            .filter(x => x)
+            .join('\n') + '\n'
+    );
 }

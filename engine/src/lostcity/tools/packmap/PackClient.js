@@ -66,7 +66,11 @@ let mapFiles = fs.readdirSync('data/src/maps');
 mapFiles.forEach((file, index) => {
     let [x, z] = file.slice(1).split('.').shift().split('_');
 
-    let data = fs.readFileSync(`data/src/maps/${file}`, 'ascii').replace(/\r/g, '').split('\n').filter(x => x.length);
+    let data = fs
+        .readFileSync(`data/src/maps/${file}`, 'ascii')
+        .replace(/\r/g, '')
+        .split('\n')
+        .filter(x => x.length);
     let map = readMap(data);
 
     // encode land data
@@ -263,14 +267,20 @@ mapFiles.forEach((file, index) => {
                         }
 
                         locs[id].push({
-                            level, x, z, type: Number(type), rotation: Number(rotation)
+                            level,
+                            x,
+                            z,
+                            type: Number(type),
+                            rotation: Number(rotation)
                         });
                     }
                 }
             }
         }
 
-        let locIds = Object.keys(locs).map(id => parseInt(id)).sort((a, b) => a - b);
+        let locIds = Object.keys(locs)
+            .map(id => parseInt(id))
+            .sort((a, b) => a - b);
         let out = new Packet();
         let lastLocId = -1;
         for (let i = 0; i < locIds.length; i++) {

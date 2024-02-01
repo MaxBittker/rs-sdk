@@ -42,13 +42,7 @@ export default class Zone {
 
     // variables fully broken out for now
     //coord $from, coord $to, spotanim $spotanim, int $fromHeight, int $toHeight, int $startDelay, int $endDelay, int $peak, int $arc
-    static mapProjAnim(srcX: number, srcZ: number,
-        dstX: number, dstZ: number,
-        target: number, spotanim: number,
-        srcHeight: number, dstHeight: number,
-        startDelay: number, endDelay: number,
-        peak: number, arc: number)
-    {
+    static mapProjAnim(srcX: number, srcZ: number, dstX: number, dstZ: number, target: number, spotanim: number, srcHeight: number, dstHeight: number, startDelay: number, endDelay: number, peak: number, arc: number) {
         const out = new Packet();
         out.p1(ServerProt.MAP_PROJANIM);
 
@@ -90,11 +84,7 @@ export default class Zone {
 
     // merge player with loc, e.g. agility training through pipes
     // useful due to draw prioritizes
-    static locMerge(srcX: number, srcZ: number,
-        shape: number, angle: number, locId: number,
-        startCycle: number, endCycle: number,
-        pid: number, east: number, south: number, west: number, north: number)
-    {
+    static locMerge(srcX: number, srcZ: number, shape: number, angle: number, locId: number, startCycle: number, endCycle: number, pid: number, east: number, south: number, west: number, north: number) {
         const out = new Packet();
         out.p1(ServerProt.LOC_MERGE);
 
@@ -224,13 +214,7 @@ export default class Zone {
         this.lastEvent = World.currentTick;
     }
 
-    mapProjAnim(x: number, z: number,
-        dstX: number, dstZ: number,
-        target: number, spotanim: number,
-        srcHeight: number, dstHeight: number,
-        startDelay: number, endDelay: number,
-        peak: number, arc: number)
-    {
+    mapProjAnim(x: number, z: number, dstX: number, dstZ: number, target: number, spotanim: number, srcHeight: number, dstHeight: number, startDelay: number, endDelay: number, peak: number, arc: number) {
         const event = new ZoneEvent(ServerProt.MAP_PROJANIM);
 
         event.buffer = Zone.mapProjAnim(x, z, dstX, dstZ, target, spotanim, srcHeight, dstHeight, startDelay, endDelay, peak, arc);

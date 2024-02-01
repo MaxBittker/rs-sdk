@@ -21,27 +21,27 @@ import { Position } from '#lostcity/entity/Position.js';
 import { CollisionFlag } from '@2004scape/rsmod-pathfinder';
 
 const ServerOps: CommandHandlers = {
-    [ScriptOpcode.MAP_CLOCK]: (state) => {
+    [ScriptOpcode.MAP_CLOCK]: state => {
         state.pushInt(World.currentTick);
     },
 
-    [ScriptOpcode.MAP_MEMBERS]: (state) => {
+    [ScriptOpcode.MAP_MEMBERS]: state => {
         state.pushInt(World.members ? 1 : 0);
     },
 
-    [ScriptOpcode.MAP_PLAYERCOUNT]: (state) => {
+    [ScriptOpcode.MAP_PLAYERCOUNT]: state => {
         throw new Error('unimplemented');
     },
 
-    [ScriptOpcode.HUNTALL]: (state) => {
+    [ScriptOpcode.HUNTALL]: state => {
         throw new Error('unimplemented');
     },
 
-    [ScriptOpcode.HUNTNEXT]: (state) => {
+    [ScriptOpcode.HUNTNEXT]: state => {
         throw new Error('unimplemented');
     },
 
-    [ScriptOpcode.INZONE]: (state) => {
+    [ScriptOpcode.INZONE]: state => {
         const [c1, c2, c3] = state.popInts(3);
 
         if (c1 < 0 || c1 > Position.max) {
@@ -67,7 +67,7 @@ const ServerOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.LINEOFWALK]: (state) => {
+    [ScriptOpcode.LINEOFWALK]: state => {
         const [c1, c2] = state.popInts(2);
 
         if (c1 < 0 || c1 > Position.max) {
@@ -82,16 +82,16 @@ const ServerOps: CommandHandlers = {
         state.pushInt(World.lineValidator.hasLineOfWalk(from.level, from.x, from.z, to.x, to.z, 1, 1, 1) ? 1 : 0);
     },
 
-    [ScriptOpcode.STAT_RANDOM]: (state) => {
+    [ScriptOpcode.STAT_RANDOM]: state => {
         const [level, low, high] = state.popInts(3);
 
-        const value = Math.floor(low * (99 - level) / 98) + Math.floor(high * (level - 1) / 98) + 1;
+        const value = Math.floor((low * (99 - level)) / 98) + Math.floor((high * (level - 1)) / 98) + 1;
         const chance = Math.floor(Math.random() * 256);
 
         state.pushInt(value > chance ? 1 : 0);
     },
 
-    [ScriptOpcode.SPOTANIM_MAP]: (state) => {
+    [ScriptOpcode.SPOTANIM_MAP]: state => {
         const [spotanim, coord, height, delay] = state.popInts(4);
 
         if (coord < 0 || coord > Position.max) {
@@ -106,7 +106,7 @@ const ServerOps: CommandHandlers = {
         World.getZone(x, z, level).animMap(x, z, spotanim, height, delay);
     },
 
-    [ScriptOpcode.DISTANCE]: (state) => {
+    [ScriptOpcode.DISTANCE]: state => {
         const [c1, c2] = state.popInts(2);
 
         if (c1 < 0 || c1 > Position.max) {
@@ -124,7 +124,7 @@ const ServerOps: CommandHandlers = {
         state.pushInt(Math.max(dx, dz));
     },
 
-    [ScriptOpcode.MOVECOORD]: (state) => {
+    [ScriptOpcode.MOVECOORD]: state => {
         const [coord, x, y, z] = state.popInts(4);
 
         if (coord < 0 || coord > Position.max) {
@@ -135,13 +135,13 @@ const ServerOps: CommandHandlers = {
         state.pushInt(Position.packCoord(pos.level + y, pos.x + x, pos.z + z));
     },
 
-    [ScriptOpcode.SEQLENGTH]: (state) => {
+    [ScriptOpcode.SEQLENGTH]: state => {
         const seq = state.popInt();
 
         state.pushInt(SeqType.get(seq).duration);
     },
 
-    [ScriptOpcode.SPLIT_INIT]: (state) => {
+    [ScriptOpcode.SPLIT_INIT]: state => {
         const [maxWidth, linesPerPage, fontId, mesanimId] = state.popInts(4);
         const text = state.popString();
         const font = FontType.get(fontId);
@@ -154,23 +154,23 @@ const ServerOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.SPLIT_GET]: (state) => {
+    [ScriptOpcode.SPLIT_GET]: state => {
         const [page, line] = state.popInts(2);
 
         state.pushString(state.splitPages[page][line]);
     },
 
-    [ScriptOpcode.SPLIT_PAGECOUNT]: (state) => {
+    [ScriptOpcode.SPLIT_PAGECOUNT]: state => {
         state.pushInt(state.splitPages.length);
     },
 
-    [ScriptOpcode.SPLIT_LINECOUNT]: (state) => {
+    [ScriptOpcode.SPLIT_LINECOUNT]: state => {
         const page = state.popInt();
 
         state.pushInt(state.splitPages[page].length);
     },
 
-    [ScriptOpcode.SPLIT_GETANIM]: (state) => {
+    [ScriptOpcode.SPLIT_GETANIM]: state => {
         const page = state.popInt();
         if (state.splitMesanim === -1) {
             state.pushInt(-1);
@@ -181,7 +181,7 @@ const ServerOps: CommandHandlers = {
         state.pushInt(mesanimType.len[state.splitPages[page].length - 1]);
     },
 
-    [ScriptOpcode.STRUCT_PARAM]: (state) => {
+    [ScriptOpcode.STRUCT_PARAM]: state => {
         const [structId, paramId] = state.popInts(2);
         const param = ParamType.get(paramId);
         const struct = StructType.get(structId);
@@ -192,7 +192,7 @@ const ServerOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.COORDX]: (state) => {
+    [ScriptOpcode.COORDX]: state => {
         const coord = state.popInt();
 
         if (coord < 0 || coord > Position.max) {
@@ -202,7 +202,7 @@ const ServerOps: CommandHandlers = {
         state.pushInt((coord >> 14) & 0x3fff);
     },
 
-    [ScriptOpcode.COORDY]: (state) => {
+    [ScriptOpcode.COORDY]: state => {
         const coord = state.popInt();
 
         if (coord < 0 || coord > Position.max) {
@@ -212,7 +212,7 @@ const ServerOps: CommandHandlers = {
         state.pushInt((coord >> 28) & 0x3);
     },
 
-    [ScriptOpcode.COORDZ]: (state) => {
+    [ScriptOpcode.COORDZ]: state => {
         const coord = state.popInt();
 
         if (coord < 0 || coord > Position.max) {
@@ -222,11 +222,11 @@ const ServerOps: CommandHandlers = {
         state.pushInt(coord & 0x3fff);
     },
 
-    [ScriptOpcode.PLAYERCOUNT]: (state) => {
+    [ScriptOpcode.PLAYERCOUNT]: state => {
         state.pushInt(World.getTotalPlayers());
     },
 
-    [ScriptOpcode.MAP_BLOCKED]: (state) => {
+    [ScriptOpcode.MAP_BLOCKED]: state => {
         const coord = state.popInt();
 
         if (coord < 0 || coord > Position.max) {
@@ -237,7 +237,7 @@ const ServerOps: CommandHandlers = {
         state.pushInt(World.collisionFlags.isFlagged(pos.x, pos.z, pos.level, CollisionFlag.WALK_BLOCKED) ? 1 : 0);
     },
 
-    [ScriptOpcode.LINEOFSIGHT]: (state) => {
+    [ScriptOpcode.LINEOFSIGHT]: state => {
         const [c1, c2] = state.popInts(2);
 
         if (c1 < 0 || c1 > Position.max) {
@@ -252,12 +252,12 @@ const ServerOps: CommandHandlers = {
         state.pushInt(World.lineValidator.hasLineOfSight(from.level, from.x, from.z, to.x, to.z, 1, 1, 1) ? 1 : 0);
     },
 
-    [ScriptOpcode.WORLD_DELAY]: (state) => {
+    [ScriptOpcode.WORLD_DELAY]: state => {
         // arg is popped elsewhere
         state.execution = ScriptState.WORLD_SUSPENDED;
     },
 
-    [ScriptOpcode.PROJANIM_PL]: (state) => {
+    [ScriptOpcode.PROJANIM_PL]: state => {
         const [srcCoord, uid, spotanim, srcHeight, dstHeight, delay, duration, peak, arc] = state.popInts(9);
 
         if (srcCoord < 0 || srcCoord > Position.max) {
@@ -274,15 +274,15 @@ const ServerOps: CommandHandlers = {
         zone.mapProjAnim(srcPos.x, srcPos.z, player.x, player.z, -player.pid - 1, spotanim, srcHeight + 100, dstHeight + 100, delay, duration, peak, arc);
     },
 
-    [ScriptOpcode.PROJANIM_NPC]: (state) => {
+    [ScriptOpcode.PROJANIM_NPC]: state => {
         const [srcCoord, npcUid, spotanim, srcHeight, dstHeight, delay, duration, peak, arc] = state.popInts(9);
 
         if (srcCoord < 0 || srcCoord > Position.max) {
             throw new Error(`attempted to use coord that was out of range: ${srcCoord}. Range should be: 0 to ${Position.max}`);
         }
 
-        const slot = npcUid & 0xFFFF;
-        const expectedType = npcUid >> 16 & 0xFFFF;
+        const slot = npcUid & 0xffff;
+        const expectedType = (npcUid >> 16) & 0xffff;
 
         const npc = World.getNpc(slot);
         if (!npc) {
@@ -294,7 +294,7 @@ const ServerOps: CommandHandlers = {
         zone.mapProjAnim(srcPos.x, srcPos.z, npc.x, npc.z, npc.nid + 1, spotanim, srcHeight + 100, dstHeight + 100, delay, duration, peak, arc);
     },
 
-    [ScriptOpcode.PROJANIM_MAP]: (state) => {
+    [ScriptOpcode.PROJANIM_MAP]: state => {
         const [srcCoord, dstCoord, spotanim, srcHeight, dstHeight, delay, duration, peak, arc] = state.popInts(9);
 
         if (srcCoord < 0 || srcCoord > Position.max) {
@@ -309,7 +309,7 @@ const ServerOps: CommandHandlers = {
         zone.mapProjAnim(srcPos.x, srcPos.z, dstPos.x, dstPos.z, 0, spotanim, srcHeight + 100, dstHeight, delay, duration, peak, arc);
     },
 
-    [ScriptOpcode.MAP_LOCADDUNSAFE]: (state) => {
+    [ScriptOpcode.MAP_LOCADDUNSAFE]: state => {
         const coord = state.popInt();
 
         if (coord < 0 || coord > Position.max) {
@@ -341,11 +341,11 @@ const ServerOps: CommandHandlers = {
                     return;
                 }
             } else if (layer === LocLayer.GROUND) {
-                const width = (loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH) ? loc.length : loc.width;
-                const length = (loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH) ? loc.width : loc.length;
+                const width = loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH ? loc.length : loc.width;
+                const length = loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH ? loc.width : loc.length;
                 for (let index = 0; index < width * length; index++) {
                     const deltaX = loc.x + (index % width);
-                    const deltaZ = loc.z + (index / width);
+                    const deltaZ = loc.z + index / width;
                     if (deltaX === pos.x && deltaZ === pos.z) {
                         state.pushInt(1);
                         return;
@@ -359,7 +359,7 @@ const ServerOps: CommandHandlers = {
             }
         }
         state.pushInt(0);
-    },
+    }
 };
 
 export default ServerOps;

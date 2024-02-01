@@ -21,7 +21,7 @@ function gosub(state: ScriptState, id: number) {
         script: state.script,
         pc: state.pc,
         intLocals: state.intLocals,
-        stringLocals: state.stringLocals,
+        stringLocals: state.stringLocals
     };
 
     // lookup script and set it up
@@ -56,22 +56,22 @@ function setupNewScript(state: ScriptState, script: Script) {
 }
 
 const CoreOps: CommandHandlers = {
-    [ScriptOpcode.PUSH_CONSTANT_INT]: (state) => {
+    [ScriptOpcode.PUSH_CONSTANT_INT]: state => {
         state.pushInt(state.intOperand);
     },
 
-    [ScriptOpcode.PUSH_CONSTANT_STRING]: (state) => {
+    [ScriptOpcode.PUSH_CONSTANT_STRING]: state => {
         state.pushString(state.stringOperand);
     },
 
-    [ScriptOpcode.PUSH_VARP]: (state) => {
-        const secondary = state.intOperand >> 16 & 0x1;
+    [ScriptOpcode.PUSH_VARP]: state => {
+        const secondary = (state.intOperand >> 16) & 0x1;
         if (secondary && !state._activePlayer2) {
             throw new Error('No secondary active_player.');
         } else if (!secondary && !state._activePlayer) {
             throw new Error('No active_player.');
         }
-        const varp = state.intOperand & 0xFFFF;
+        const varp = state.intOperand & 0xffff;
         if (!secondary) {
             state.pushInt(state._activePlayer!.getVarp(varp));
         } else {
@@ -79,15 +79,15 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.POP_VARP]: (state) => {
-        const secondary = state.intOperand >> 16 & 0x1;
+    [ScriptOpcode.POP_VARP]: state => {
+        const secondary = (state.intOperand >> 16) & 0x1;
         if (secondary && !state._activePlayer2) {
             throw new Error('No secondary active_player.');
         } else if (!secondary && !state._activePlayer) {
             throw new Error('No active_player.');
         }
 
-        const varp = state.intOperand & 0xFFFF;
+        const varp = state.intOperand & 0xffff;
         const type = VarPlayerType.get(varp);
         if (!state.pointerGet(ProtectedActivePlayer[secondary]) && type.protect) {
             throw new Error(`%${type.debugname} requires protected access`);
@@ -101,14 +101,14 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.PUSH_VARN]: (state) => {
-        const secondary = state.intOperand >> 16 & 0x1;
+    [ScriptOpcode.PUSH_VARN]: state => {
+        const secondary = (state.intOperand >> 16) & 0x1;
         if (secondary && !state._activeNpc2) {
             throw new Error('No secondary active_npc.');
         } else if (!secondary && !state._activeNpc) {
             throw new Error('No active_npc.');
         }
-        const varn = state.intOperand & 0xFFFF;
+        const varn = state.intOperand & 0xffff;
         if (!secondary) {
             state.pushInt(state._activeNpc!.getVar(varn));
         } else {
@@ -116,14 +116,14 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.POP_VARN]: (state) => {
-        const secondary = state.intOperand >> 16 & 0x1;
+    [ScriptOpcode.POP_VARN]: state => {
+        const secondary = (state.intOperand >> 16) & 0x1;
         if (secondary && !state._activeNpc2) {
             throw new Error('No secondary active_npc.');
         } else if (!secondary && !state._activeNpc) {
             throw new Error('No active_npc.');
         }
-        const varn = state.intOperand & 0xFFFF;
+        const varn = state.intOperand & 0xffff;
         const value = state.popInt();
         if (!secondary) {
             state._activeNpc!.setVar(varn, value);
@@ -132,27 +132,27 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.PUSH_INT_LOCAL]: (state) => {
+    [ScriptOpcode.PUSH_INT_LOCAL]: state => {
         state.pushInt(state.intLocals[state.intOperand]);
     },
 
-    [ScriptOpcode.POP_INT_LOCAL]: (state) => {
+    [ScriptOpcode.POP_INT_LOCAL]: state => {
         state.intLocals[state.intOperand] = state.popInt();
     },
 
-    [ScriptOpcode.PUSH_STRING_LOCAL]: (state) => {
+    [ScriptOpcode.PUSH_STRING_LOCAL]: state => {
         state.pushString(state.stringLocals[state.intOperand]);
     },
 
-    [ScriptOpcode.POP_STRING_LOCAL]: (state) => {
+    [ScriptOpcode.POP_STRING_LOCAL]: state => {
         state.stringLocals[state.intOperand] = state.popString();
     },
 
-    [ScriptOpcode.BRANCH]: (state) => {
+    [ScriptOpcode.BRANCH]: state => {
         state.pc += state.intOperand;
     },
 
-    [ScriptOpcode.BRANCH_NOT]: (state) => {
+    [ScriptOpcode.BRANCH_NOT]: state => {
         const b = state.popInt();
         const a = state.popInt();
 
@@ -161,7 +161,7 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.BRANCH_EQUALS]: (state) => {
+    [ScriptOpcode.BRANCH_EQUALS]: state => {
         const b = state.popInt();
         const a = state.popInt();
 
@@ -170,7 +170,7 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.BRANCH_LESS_THAN]: (state) => {
+    [ScriptOpcode.BRANCH_LESS_THAN]: state => {
         const b = state.popInt();
         const a = state.popInt();
 
@@ -179,7 +179,7 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.BRANCH_GREATER_THAN]: (state) => {
+    [ScriptOpcode.BRANCH_GREATER_THAN]: state => {
         const b = state.popInt();
         const a = state.popInt();
 
@@ -188,7 +188,7 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.BRANCH_LESS_THAN_OR_EQUALS]: (state) => {
+    [ScriptOpcode.BRANCH_LESS_THAN_OR_EQUALS]: state => {
         const b = state.popInt();
         const a = state.popInt();
 
@@ -197,7 +197,7 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.BRANCH_GREATER_THAN_OR_EQUALS]: (state) => {
+    [ScriptOpcode.BRANCH_GREATER_THAN_OR_EQUALS]: state => {
         const b = state.popInt();
         const a = state.popInt();
 
@@ -206,15 +206,15 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.POP_INT_DISCARD]: (state) => {
+    [ScriptOpcode.POP_INT_DISCARD]: state => {
         state.isp--;
     },
 
-    [ScriptOpcode.POP_STRING_DISCARD]: (state) => {
+    [ScriptOpcode.POP_STRING_DISCARD]: state => {
         state.ssp--;
     },
 
-    [ScriptOpcode.RETURN]: (state) => {
+    [ScriptOpcode.RETURN]: state => {
         if (state.fp === 0) {
             state.execution = ScriptState.FINISHED;
             return;
@@ -227,7 +227,7 @@ const CoreOps: CommandHandlers = {
         state.stringLocals = frame.stringLocals;
     },
 
-    [ScriptOpcode.JOIN_STRING]: (state) => {
+    [ScriptOpcode.JOIN_STRING]: state => {
         const count = state.intOperand;
 
         const strings = [];
@@ -238,35 +238,35 @@ const CoreOps: CommandHandlers = {
         state.pushString(strings.reverse().join(''));
     },
 
-    [ScriptOpcode.GOSUB]: (state) => {
+    [ScriptOpcode.GOSUB]: state => {
         gosub(state, state.popInt());
     },
 
-    [ScriptOpcode.GOSUB_WITH_PARAMS]: (state) => {
+    [ScriptOpcode.GOSUB_WITH_PARAMS]: state => {
         gosub(state, state.intOperand);
     },
 
-    [ScriptOpcode.JUMP]: (state) => {
+    [ScriptOpcode.JUMP]: state => {
         jump(state, state.popInt());
     },
 
-    [ScriptOpcode.JUMP_WITH_PARAMS]: (state) => {
+    [ScriptOpcode.JUMP_WITH_PARAMS]: state => {
         jump(state, state.intOperand);
     },
 
-    [ScriptOpcode.DEFINE_ARRAY]: (state) => {
+    [ScriptOpcode.DEFINE_ARRAY]: state => {
         throw new Error('unimplemented');
     },
 
-    [ScriptOpcode.PUSH_ARRAY_INT]: (state) => {
+    [ScriptOpcode.PUSH_ARRAY_INT]: state => {
         throw new Error('unimplemented');
     },
 
-    [ScriptOpcode.POP_ARRAY_INT]: (state) => {
+    [ScriptOpcode.POP_ARRAY_INT]: state => {
         throw new Error('unimplemented');
     },
 
-    [ScriptOpcode.SWITCH]: (state) => {
+    [ScriptOpcode.SWITCH]: state => {
         const key = state.popInt();
         const table = state.script.switchTables[state.intOperand];
         if (table === undefined) {
@@ -279,16 +279,16 @@ const CoreOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.PUSH_VARS]: (state) => {
-        const vars = state.intOperand & 0xFFFF;
+    [ScriptOpcode.PUSH_VARS]: state => {
+        const vars = state.intOperand & 0xffff;
         state.pushInt(World.vars[vars]);
     },
 
-    [ScriptOpcode.POP_VARS]: (state) => {
-        const vars = state.intOperand & 0xFFFF;
+    [ScriptOpcode.POP_VARS]: state => {
+        const vars = state.intOperand & 0xffff;
         const value = state.popInt();
         World.vars[vars] = value;
-    },
+    }
 };
 
 export default CoreOps;

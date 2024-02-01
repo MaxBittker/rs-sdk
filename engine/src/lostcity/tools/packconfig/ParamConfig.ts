@@ -5,10 +5,27 @@ import ScriptVarType from '#lostcity/cache/ScriptVarType.js';
 import { PACKFILE, ConfigValue, ConfigLine, packStepError } from '#lostcity/tools/packconfig/PackShared.js';
 
 const stats: (string | null)[] = [
-    'attack', 'defence', 'strength', 'hitpoints', 'ranged', 'prayer',
-    'magic', 'cooking', 'woodcutting', 'fletching', 'fishing', 'firemaking',
-    'crafting', 'smithing', 'mining', 'herblore', 'agility', 'thieving',
-    null, null, 'runecraft'
+    'attack',
+    'defence',
+    'strength',
+    'hitpoints',
+    'ranged',
+    'prayer',
+    'magic',
+    'cooking',
+    'woodcutting',
+    'fletching',
+    'fishing',
+    'firemaking',
+    'crafting',
+    'smithing',
+    'mining',
+    'herblore',
+    'agility',
+    'thieving',
+    null,
+    null,
+    'runecraft'
 ];
 
 const npcStats = ['hitpoints', 'attack', 'strength', 'defence', 'magic', 'ranged'];
@@ -29,17 +46,17 @@ export function lookupParamValue(type: number, value: string): string | number |
                 if (!/^-?[0-9a-fA-F]+$/.test(value.slice(2))) {
                     return null;
                 }
-    
+
                 number = parseInt(value, 16);
             } else {
                 // check that the string contains only numeric characters, and minus sign if applicable
                 if (!/^-?[0-9]+$/.test(value)) {
                     return null;
                 }
-    
+
                 number = parseInt(value);
             }
-    
+
             if (Number.isNaN(number)) {
                 return null;
             }
@@ -51,7 +68,7 @@ export function lookupParamValue(type: number, value: string): string | number |
                 // arbitrary limit
                 return null;
             }
-    
+
             return value;
         case ScriptVarType.BOOLEAN:
             if (value !== 'yes' && value !== 'no' && value !== 'true' && value !== 'false') {
@@ -146,6 +163,7 @@ export function lookupParamValue(type: number, value: string): string | number |
 export function parseParamConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
     const numberKeys: string[] = [];
+    // prettier-ignore
     const booleanKeys: string[] = [
         'autodisable'
     ];

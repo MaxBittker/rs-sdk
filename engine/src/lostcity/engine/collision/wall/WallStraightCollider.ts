@@ -9,14 +9,7 @@ export default class WallStraightCollider {
         this.flags = flags;
     }
 
-    change(
-        x: number,
-        z: number,
-        level: number,
-        angle: number,
-        blockrange: boolean,
-        add: boolean
-    ): void {
+    change(x: number, z: number, level: number, angle: number, blockrange: boolean, add: boolean): void {
         const west = blockrange ? CollisionFlag.WALL_WEST_PROJ_BLOCKER : CollisionFlag.WALL_WEST;
         const east = blockrange ? CollisionFlag.WALL_EAST_PROJ_BLOCKER : CollisionFlag.WALL_EAST;
         const north = blockrange ? CollisionFlag.WALL_NORTH_PROJ_BLOCKER : CollisionFlag.WALL_NORTH;

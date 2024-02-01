@@ -7,10 +7,12 @@ let queue = [];
 
 fs.readdirSync('data/src/maps').forEach(file => {
     let [x, z] = file.slice(1).split('.').shift().split('_');
-    if (!shouldBuildFile(`data/src/maps/${file}`, `data/pack/server/maps/m${x}_${z}`) &&
+    if (
+        !shouldBuildFile(`data/src/maps/${file}`, `data/pack/server/maps/m${x}_${z}`) &&
         !shouldBuildFile(`data/src/maps/${file}`, `data/pack/server/maps/l${x}_${z}`) &&
         !shouldBuildFile(`data/src/maps/${file}`, `data/pack/server/maps/n${x}_${z}`) &&
-        !shouldBuildFile(`data/src/maps/${file}`, `data/pack/server/maps/o${x}_${z}`)) {
+        !shouldBuildFile(`data/src/maps/${file}`, `data/pack/server/maps/o${x}_${z}`)
+    ) {
         return;
     }
 
@@ -111,7 +113,11 @@ if (queue.length) {
 
     console.time('Packing maps');
     queue.forEach(({ file, x, z }) => {
-        let data = fs.readFileSync(`data/src/maps/${file}`, 'ascii').replace(/\r/g, '').split('\n').filter(x => x.length);
+        let data = fs
+            .readFileSync(`data/src/maps/${file}`, 'ascii')
+            .replace(/\r/g, '')
+            .split('\n')
+            .filter(x => x.length);
         let map = readMap(data);
 
         // encode land data
@@ -306,14 +312,20 @@ if (queue.length) {
                             }
 
                             locs[id].push({
-                                level, x, z, type: Number(type), rotation: Number(rotation)
+                                level,
+                                x,
+                                z,
+                                type: Number(type),
+                                rotation: Number(rotation)
                             });
                         }
                     }
                 }
             }
 
-            let locIds = Object.keys(locs).map(id => parseInt(id)).sort((a, b) => a - b);
+            let locIds = Object.keys(locs)
+                .map(id => parseInt(id))
+                .sort((a, b) => a - b);
             let out = new Packet();
             let lastLocId = -1;
             for (let i = 0; i < locIds.length; i++) {
@@ -397,7 +409,7 @@ if (queue.length) {
                         }
 
                         // we need to store 12 bits for x and z (0-64 each), and 2 bits for level (0-3), so we can fit all that in 14 bits
-                        let pos = ((level & 0x3) << 12) | ((x & 0x3F) << 6) | (z & 0x3F);
+                        let pos = ((level & 0x3) << 12) | ((x & 0x3f) << 6) | (z & 0x3f);
                         out.p2(pos);
 
                         let objs = map.obj[level][x][z];

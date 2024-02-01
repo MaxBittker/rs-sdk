@@ -24,8 +24,8 @@ export default class TcpServer {
             const socket = new ClientSocket(s, ip, ClientSocket.TCP);
 
             const seed = Packet.alloc(8);
-            seed.p4(Math.floor(Math.random() * 0xFFFFFFFF));
-            seed.p4(Math.floor(Math.random() * 0xFFFFFFFF));
+            seed.p4(Math.floor(Math.random() * 0xffffffff));
+            seed.p4(Math.floor(Math.random() * 0xffffffff));
             socket.send(seed.data);
 
             s.on('data', (_data: Buffer) => {

@@ -64,13 +64,20 @@ function readLand(data: Packet) {
     }
 
     // console.timeEnd('land');
-    return { heightmap, overlayIds, overlayShape, overlayRotation, flags, underlay };
+    return {
+        heightmap,
+        overlayIds,
+        overlayShape,
+        overlayRotation,
+        flags,
+        underlay
+    };
 }
 
 type Loc = {
-    id: number,
-    shape: number,
-    angle: number
+    id: number;
+    shape: number;
+    angle: number;
 };
 
 function readLocs(data: Packet) {
@@ -106,15 +113,19 @@ function readLocs(data: Packet) {
 
             locData += deltaData - 1;
 
-            const locZ = locData & 0x3F;
-            const locX = (locData >> 6) & 0x3F;
+            const locZ = locData & 0x3f;
+            const locX = (locData >> 6) & 0x3f;
             const locLevel = locData >> 12;
 
             const locInfo = data.g1();
             const locShape = locInfo >> 2;
             const locAngle = locInfo & 3;
 
-            locs[locLevel][locX][locZ].push({ id: locId, shape: locShape, angle: locAngle });
+            locs[locLevel][locX][locZ].push({
+                id: locId,
+                shape: locShape,
+                angle: locAngle
+            });
         }
     }
 

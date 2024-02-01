@@ -292,7 +292,7 @@ export default class Model {
             model.vertexLabel = [];
         }
 
-        if (meta.faceInfosOffset  >= 0) {
+        if (meta.faceInfosOffset >= 0) {
             model.faceInfo = [];
         }
 

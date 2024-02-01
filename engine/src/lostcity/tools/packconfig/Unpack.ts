@@ -63,7 +63,13 @@ for (let id = 0; id < count; id++) {
     }
 }
 
-fs.writeFileSync('dump/pack/flo.pack', floPack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/flo.pack',
+    floPack
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);
 fs.writeFileSync('dump/src/scripts/all.flo', floConfig.join('\n') + '\n');
 
 // ----
@@ -162,7 +168,13 @@ for (let id = 0; id < count; id++) {
     }
 }
 
-fs.writeFileSync('dump/pack/idk.pack', idkPack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/idk.pack',
+    idkPack
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);
 fs.writeFileSync('dump/src/scripts/all.idk', idkConfig.join('\n') + '\n');
 
 // ----
@@ -356,7 +368,13 @@ for (let id = 0; id < count; id++) {
     }
 }
 
-fs.writeFileSync('dump/pack/loc.pack', locPack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/loc.pack',
+    locPack
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);
 fs.writeFileSync('dump/src/scripts/all.loc', locConfig.join('\n') + '\n');
 
 // ----
@@ -446,7 +464,13 @@ for (let id = 0; id < count; id++) {
     }
 }
 
-fs.writeFileSync('dump/pack/npc.pack', npcPack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/npc.pack',
+    npcPack
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);
 fs.writeFileSync('dump/src/scripts/all.npc', npcConfig.join('\n') + '\n');
 
 // ----
@@ -547,7 +571,13 @@ for (let id = 0; id < count; id++) {
     }
 }
 
-fs.writeFileSync('dump/pack/obj.pack', objPack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/obj.pack',
+    objPack
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);
 fs.writeFileSync('dump/src/scripts/all.obj', objConfig.join('\n') + '\n');
 
 // ----
@@ -653,7 +683,13 @@ for (let id = 0; id < count; id++) {
     }
 }
 
-fs.writeFileSync('dump/pack/seq.pack', seqPack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/seq.pack',
+    seqPack
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);
 fs.writeFileSync('dump/src/scripts/all.seq', seqConfig.join('\n') + '\n');
 
 // ----
@@ -709,7 +745,13 @@ for (let id = 0; id < count; id++) {
     }
 }
 
-fs.writeFileSync('dump/pack/spotanim.pack', spotanimPack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/spotanim.pack',
+    spotanimPack
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);
 fs.writeFileSync('dump/src/scripts/all.spotanim', spotanimConfig.join('\n') + '\n');
 
 // ----
@@ -763,5 +805,11 @@ for (let id = 0; id < count; id++) {
     }
 }
 
-fs.writeFileSync('dump/pack/varp.pack', varpPack.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/varp.pack',
+    varpPack
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);
 fs.writeFileSync('dump/src/scripts/all.varp', varpConfig.join('\n') + '\n');

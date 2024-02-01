@@ -112,36 +112,16 @@ export enum ServerProt {
 
 // TODO: do this packet-by-packet instead of all at once
 export const ServerProtLengths: number[] = [
-    0, -2, 4, 6, -1, 0, 0, 2, 0, 0,
-    0, 0, 5, 4, 2, 2, 0, 0, 0, 0,
-    2, -2, 2, 14, 0, 6, 3, 0, 4, 0,
-    0, 0, 3, 0, 0, 0, 0, 0, 0, 0,
-    0, -1, 4, 2, 6, 0, 6, 0, 0, 3,
-    7, 0, 0, 0, -1, 0, 0, 0, 0, 4,
-    0, 0, 0, 0, 0, 0, 0, 0, 1, 15,
-    0, 0, 0, 0, 6, 0, 2, 0, 0, 0,
-    2, 0, 0, 0, 1, 0, 0, 4, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, -2, 0,
-    0, 0, 0, 6, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-    0, 0, -2, 0, 0, 2, 0, 0, 0, 2,
-    9, 0, 0, 0, 0, 0, 4, 0, 0, 0,
-    3, 7, 9, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, -2, 0, 0, 0, 0, 3, 2, 0,
-    0, 0, 0, 0, 0, 6, 0, 0, 0, 0,
-    0, 0, 0, 0, -2, 2, 0, 0, 0, 0,
-    0, 6, 0, 0, 0, 2, 0, 2, 0, 0,
-    0, -2, 0, 0, 4, 0, 0, 0, 0, 6,
-    0, 0, -2, -2, 0, 0, 0, 0, 0, 0,
-    -2, 0, 0, 5, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, -2, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 0
+    0, -2, 4, 6, -1, 0, 0, 2, 0, 0, 0, 0, 5, 4, 2, 2, 0, 0, 0, 0, 2, -2, 2, 14, 0, 6, 3, 0, 4, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, -1, 4, 2, 6, 0, 6, 0, 0, 3, 7, 0, 0, 0, -1, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 15, 0, 0, 0, 0, 6, 0, 2, 0, 0, 0,
+    2, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -2, 0, 0, 2, 0, 0, 0, 2, 9, 0, 0, 0, 0, 0, 4, 0, 0, 0, 3, 7, 9, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, -2, 0, 0, 0, 0, 3, 2, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, -2, 2, 0, 0, 0, 0, 0, 6, 0, 0, 0, 2, 0, 2, 0, 0, 0, -2, 0, 0, 4, 0, 0, 0, 0, 6, 0, 0, -2, -2, 0, 0, 0, 0, 0, 0, -2, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0
 ];
 
 // TODO: come up with another solution that preserves type-safety?
-export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) => void } = {
+export const ServerProtEncoders: {
+    [key: number]: (buf: Packet, ...args: any[]) => void;
+} = {
     [ServerProt.IF_OPENCHATMODAL]: (buf: Packet, com: number) => {
         buf.p2(com);
     },
@@ -150,8 +130,7 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
         buf.p2(comSide);
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.IF_CLOSE]: (_buf: Packet) => {
-    },
+    [ServerProt.IF_CLOSE]: (_buf: Packet) => {},
     [ServerProt.IF_OPENSIDEOVERLAY]: (buf: Packet, com: number, tab: number) => {
         buf.p2(com);
         buf.p1(tab);
@@ -288,8 +267,7 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
         buf.p1(stepScale);
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.CAM_RESET]: (_buf: Packet) => {
-    },
+    [ServerProt.CAM_RESET]: (_buf: Packet) => {},
 
     [ServerProt.NPC_INFO]: (buf: Packet, bitBlock: Packet, byteBlock: Packet) => {
         buf.pdata(bitBlock);
@@ -301,11 +279,9 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
     },
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.FINISH_TRACKING]: (_buf: Packet) => {
-    },
+    [ServerProt.FINISH_TRACKING]: (_buf: Packet) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.ENABLE_TRACKING]: (_buf: Packet) => {
-    },
+    [ServerProt.ENABLE_TRACKING]: (_buf: Packet) => {},
 
     [ServerProt.MESSAGE_GAME]: (buf: Packet, msg: string) => {
         buf.pjstr(msg);
@@ -332,8 +308,7 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
     },
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.UNSET_MAP_FLAG]: (_buf: Packet) => {
-    },
+    [ServerProt.UNSET_MAP_FLAG]: (_buf: Packet) => {},
     [ServerProt.UPDATE_RUNWEIGHT]: (buf: Packet, kg: number) => {
         buf.p2(kg);
     },
@@ -378,8 +353,7 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
         buf.p1((energy / 100) | 0);
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.RESET_ANIMS]: (_buf: Packet) => {
-    },
+    [ServerProt.RESET_ANIMS]: (_buf: Packet) => {},
     [ServerProt.UPDATE_UID192]: (buf: Packet, uid: number) => {
         buf.p2(uid);
     },
@@ -390,11 +364,9 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
         buf.p2(unreadMessageCount);
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.LOGOUT]: (_buf: Packet) => {
-    },
+    [ServerProt.LOGOUT]: (_buf: Packet) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.P_COUNTDIALOG]: (_buf: Packet) => {
-    },
+    [ServerProt.P_COUNTDIALOG]: (_buf: Packet) => {},
     [ServerProt.SET_MULTIWAY]: (buf: Packet, state: boolean) => {
         buf.pbool(state);
     },
@@ -442,8 +414,7 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
         buf.p4(value);
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [ServerProt.RESET_CLIENT_VARCACHE]: (_buf: Packet) => {
-    },
+    [ServerProt.RESET_CLIENT_VARCACHE]: (_buf: Packet) => {},
 
     [ServerProt.SYNTH_SOUND]: (buf: Packet, sound: number, loops: number, delay: number) => {
         buf.p2(sound);
@@ -477,11 +448,7 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
 
     // merge player with loc, e.g. agility training through pipes
     // useful for draw prioritizes
-    [ServerProt.LOC_MERGE]: (buf: Packet, srcX: number, srcZ: number,
-        shape: number, angle: number, loc: number,
-        startCycle: number, endCycle: number,
-        pid: number, east: number, south: number, west: number, north: number) =>
-    {
+    [ServerProt.LOC_MERGE]: (buf: Packet, srcX: number, srcZ: number, shape: number, angle: number, loc: number, startCycle: number, endCycle: number, pid: number, east: number, south: number, west: number, north: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p1((shape << 2) | (angle & 3));
         buf.p2(loc);
@@ -493,41 +460,27 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
         buf.p1(west - srcX);
         buf.p1(north - srcZ);
     },
-    [ServerProt.LOC_ANIM]: (buf: Packet, srcX: number, srcZ: number,
-        shape: number, angle: number, loc: number) =>
-    {
+    [ServerProt.LOC_ANIM]: (buf: Packet, srcX: number, srcZ: number, shape: number, angle: number, loc: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p1((shape << 2) | (angle & 3));
         buf.p2(loc);
     },
-    [ServerProt.OBJ_DEL]: (buf: Packet, srcX: number, srcZ: number,
-        obj: number) =>
-    {
+    [ServerProt.OBJ_DEL]: (buf: Packet, srcX: number, srcZ: number, obj: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p2(obj);
     },
-    [ServerProt.OBJ_REVEAL]: (buf: Packet, srcX: number, srcZ: number,
-        obj: number, count: number, owner: number) =>
-    {
+    [ServerProt.OBJ_REVEAL]: (buf: Packet, srcX: number, srcZ: number, obj: number, count: number, owner: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p2(obj);
         buf.p2(count);
         buf.p2(owner);
     },
-    [ServerProt.LOC_ADD_CHANGE]: (buf: Packet, srcX: number, srcZ: number,
-        shape: number, angle: number, loc: number) =>
-    {
+    [ServerProt.LOC_ADD_CHANGE]: (buf: Packet, srcX: number, srcZ: number, shape: number, angle: number, loc: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p1((shape << 2) | (angle & 3));
         buf.p2(loc);
     },
-    [ServerProt.MAP_PROJANIM]: (buf: Packet, srcX: number, srcZ: number,
-        dstX: number, dstZ: number,
-        target: number, spotanim: number,
-        srcHeight: number, dstHeight: number,
-        startDelay: number, endDelay: number,
-        peak: number, arc: number) =>
-    {
+    [ServerProt.MAP_PROJANIM]: (buf: Packet, srcX: number, srcZ: number, dstX: number, dstZ: number, target: number, spotanim: number, srcHeight: number, dstHeight: number, startDelay: number, endDelay: number, peak: number, arc: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p1(dstX - srcX);
         buf.p1(dstZ - srcZ);
@@ -540,30 +493,22 @@ export const ServerProtEncoders: { [key: number]: (buf: Packet, ...args: any[]) 
         buf.p1(peak);
         buf.p1(arc);
     },
-    [ServerProt.LOC_DEL]: (buf: Packet, srcX: number, srcZ: number,
-        shape: number, angle: number) =>
-    {
+    [ServerProt.LOC_DEL]: (buf: Packet, srcX: number, srcZ: number, shape: number, angle: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p1((shape << 2) | (angle & 3));
     },
-    [ServerProt.OBJ_COUNT]: (buf: Packet, srcX: number, srcZ: number,
-        obj: number, count: number) =>
-    {
+    [ServerProt.OBJ_COUNT]: (buf: Packet, srcX: number, srcZ: number, obj: number, count: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p2(obj);
         buf.p2(Math.min(count, 65536));
     },
-    [ServerProt.MAP_ANIM]: (buf: Packet, srcX: number, srcZ: number,
-        spotanim: number, height: number, delay: number) =>
-    {
+    [ServerProt.MAP_ANIM]: (buf: Packet, srcX: number, srcZ: number, spotanim: number, height: number, delay: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p2(spotanim);
         buf.p1(height);
         buf.p2(delay);
     },
-    [ServerProt.OBJ_ADD]: (buf: Packet, srcX: number, srcZ: number,
-        obj: number, count: number) =>
-    {
+    [ServerProt.OBJ_ADD]: (buf: Packet, srcX: number, srcZ: number, obj: number, count: number) => {
         buf.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         buf.p2(obj);
         buf.p2(Math.min(count, 65536));

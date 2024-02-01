@@ -52,5 +52,5 @@ export default {
     DB_HOST: tryParse(process.env.DB_HOST) ?? '',
     DB_USER: tryParse(process.env.DB_USER) ?? '',
     DB_PASS: tryParse(process.env.DB_PASS) ?? '',
-    DB_NAME: tryParse(process.env.DB_NAME) ?? '',
+    DB_NAME: tryParse(process.env.DB_NAME) ?? ''
 };

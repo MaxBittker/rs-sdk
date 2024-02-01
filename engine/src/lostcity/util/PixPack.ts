@@ -11,7 +11,7 @@ export function generatePixelOrder(img: Jimp) {
     let prev = 0;
     for (let j = 0; j < img.bitmap.width * img.bitmap.height; j += 4) {
         const pos = j * 4;
-        const current = img.bitmap.data[pos + 0] << 16 | img.bitmap.data[pos + 1] << 8 | img.bitmap.data[pos + 2];
+        const current = (img.bitmap.data[pos + 0] << 16) | (img.bitmap.data[pos + 1] << 8) | img.bitmap.data[pos + 2];
         rowMajorScore += current - prev;
         prev = current;
     }
@@ -20,8 +20,8 @@ export function generatePixelOrder(img: Jimp) {
     prev = 0;
     for (let x = 0; x < img.bitmap.width; x++) {
         for (let y = 0; y < img.bitmap.height; y++) {
-            const pos = (x + (y * img.bitmap.width)) * 4;
-            const current = img.bitmap.data[pos + 0] << 16 | img.bitmap.data[pos + 1] << 8 | img.bitmap.data[pos + 2];
+            const pos = (x + y * img.bitmap.width) * 4;
+            const current = (img.bitmap.data[pos + 0] << 16) | (img.bitmap.data[pos + 1] << 8) | img.bitmap.data[pos + 2];
             columnMajorScore += current - prev;
             prev = current;
         }
@@ -65,7 +65,7 @@ export function writeImage(img: Jimp, data: Packet, index: Packet, colors: numbe
                 continue;
             }
 
-            const pos = (j * 4) + (left * 4) + (top * img.bitmap.width * 4);
+            const pos = j * 4 + left * 4 + top * img.bitmap.width * 4;
 
             const red = img.bitmap.data[pos + 0];
             const green = img.bitmap.data[pos + 1];
@@ -74,7 +74,11 @@ export function writeImage(img: Jimp, data: Packet, index: Packet, colors: numbe
 
             const index = colors.indexOf(rgb);
             if (index === -1) {
-                console.error('color not found in palette', rgb.toString(16), colors.map(x => x.toString(16)));
+                console.error(
+                    'color not found in palette',
+                    rgb.toString(16),
+                    colors.map(x => x.toString(16))
+                );
                 break;
             }
 
@@ -87,7 +91,7 @@ export function writeImage(img: Jimp, data: Packet, index: Packet, colors: numbe
                     continue;
                 }
 
-                const pos = ((x + (y * img.bitmap.width)) * 4) + (left * 4) + (top * img.bitmap.width * 4);
+                const pos = (x + y * img.bitmap.width) * 4 + left * 4 + top * img.bitmap.width * 4;
 
                 const red = img.bitmap.data[pos + 0];
                 const green = img.bitmap.data[pos + 1];
@@ -125,7 +129,11 @@ export async function convertImage(index: Packet, srcPath: string, safeName: str
     const sprites: Sprite[] = [];
     const hasMeta = fs.existsSync(`${srcPath}/meta/${safeName}.opt`);
     if (hasMeta) {
-        const metadata = fs.readFileSync(`${srcPath}/meta/${safeName}.opt`, 'ascii').replace(/\r/g, '').split('\n').filter(x => x.length);
+        const metadata = fs
+            .readFileSync(`${srcPath}/meta/${safeName}.opt`, 'ascii')
+            .replace(/\r/g, '')
+            .split('\n')
+            .filter(x => x.length);
 
         if (metadata[0].indexOf('x') === -1) {
             const sprite = metadata[0].split(',');
@@ -159,7 +167,7 @@ export async function convertImage(index: Packet, srcPath: string, safeName: str
     index.p2(tileX);
     index.p2(tileY);
 
-    const colors = [ 0xFF00FF ]; // reserved for transparency
+    const colors = [0xff00ff]; // reserved for transparency
     if (fs.existsSync(`${srcPath}/meta/${safeName}.pal.png`)) {
         // read color palette from file to preserve order
         const pal = await Jimp.read(`${srcPath}/meta/${safeName}.pal.png`);
@@ -171,7 +179,7 @@ export async function convertImage(index: Packet, srcPath: string, safeName: str
             const green = pal.bitmap.data[pos + 1];
             const blue = pal.bitmap.data[pos + 2];
             const rgb = ((red << 16) | (green << 8) | blue) >>> 0;
-            if (rgb === 0xFF00FF) {
+            if (rgb === 0xff00ff) {
                 continue;
             }
 
@@ -188,7 +196,7 @@ export async function convertImage(index: Packet, srcPath: string, safeName: str
             const green = img.bitmap.data[pos + 1];
             const blue = img.bitmap.data[pos + 2];
             const rgb = ((red << 16) | (green << 8) | blue) >>> 0;
-            if (rgb === 0xFF00FF) {
+            if (rgb === 0xff00ff) {
                 continue;
             }
 
@@ -213,7 +221,7 @@ export async function convertImage(index: Packet, srcPath: string, safeName: str
         for (let y = 0; y < img.bitmap.height / tileY; y++) {
             for (let x = 0; x < img.bitmap.width / tileX; x++) {
                 const tile = img.clone().crop(x * tileX, y * tileY, tileX, tileY);
-                writeImage(tile, data, index, colors, sprites[x + (y * (img.bitmap.width / tileX))]);
+                writeImage(tile, data, index, colors, sprites[x + y * (img.bitmap.width / tileX)]);
             }
         }
     } else {

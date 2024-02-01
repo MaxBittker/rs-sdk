@@ -1,8 +1,8 @@
 import InvType from '#lostcity/cache/InvType.js';
 import ObjType from '#lostcity/cache/ObjType.js';
 
-type Item = { id: number, count: number }
-type TransactionResult = { slot: number, item: Item }
+type Item = { id: number; count: number };
+type TransactionResult = { slot: number; item: Item };
 
 export class InventoryTransaction {
     requested = 0;
@@ -35,9 +35,8 @@ export class InventoryTransaction {
     }
 }
 
-
 export class Inventory {
-    static STACK_LIMIT = 0x7FFFFFFF/* - 1*/;
+    static STACK_LIMIT = 0x7fffffff /* - 1*/;
 
     static NORMAL_STACK = 0;
     static ALWAYS_STACK = 1;

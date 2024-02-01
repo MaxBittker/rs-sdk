@@ -4,7 +4,7 @@ export default class WordEncFragments {
     readonly fragments: number[] = [];
 
     filter(chars: string[]): void {
-        for (let currentIndex = 0; currentIndex < chars.length;) {
+        for (let currentIndex = 0; currentIndex < chars.length; ) {
             const numberIndex = this.indexOfNumber(chars, currentIndex);
             if (numberIndex === -1) {
                 return;
@@ -47,7 +47,6 @@ export default class WordEncFragments {
         }
     }
 
-
     isBadFragment(chars: string[]): boolean {
         if (WordEnc.isNumericalChars(chars)) {
             return true;
@@ -86,7 +85,7 @@ export default class WordEncFragments {
             const char = chars[chars.length - index - 1];
             if (WordEnc.isLowercaseAlpha(char)) {
                 value = value * 38 + char.charCodeAt(0) + 1 - 'a'.charCodeAt(0);
-            } else if (char == '\'') {
+            } else if (char == "'") {
                 value = value * 38 + 27;
             } else if (WordEnc.isNumerical(char)) {
                 value = value * 38 + char.charCodeAt(0) + 28 - '0'.charCodeAt(0);

@@ -6,7 +6,7 @@ import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 
 const ObjConfigOps: CommandHandlers = {
-    [ScriptOpcode.OC_NAME]: (state) => {
+    [ScriptOpcode.OC_NAME]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -18,7 +18,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushString(objType.name ?? objType.debugname ?? 'null');
     },
 
-    [ScriptOpcode.OC_PARAM]: (state) => {
+    [ScriptOpcode.OC_PARAM]: state => {
         const [objId, paramId] = state.popInts(2);
 
         if (objId == -1) {
@@ -38,7 +38,7 @@ const ObjConfigOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.OC_CATEGORY]: (state) => {
+    [ScriptOpcode.OC_CATEGORY]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -50,7 +50,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushInt(objType.category);
     },
 
-    [ScriptOpcode.OC_DESC]: (state) => {
+    [ScriptOpcode.OC_DESC]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -62,7 +62,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushString(objType.desc ?? 'null');
     },
 
-    [ScriptOpcode.OC_MEMBERS]: (state) => {
+    [ScriptOpcode.OC_MEMBERS]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -74,7 +74,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushInt(objType.members ? 1 : 0);
     },
 
-    [ScriptOpcode.OC_WEIGHT]: (state) => {
+    [ScriptOpcode.OC_WEIGHT]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -86,7 +86,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushInt(objType.weight);
     },
 
-    [ScriptOpcode.OC_WEARPOS]: (state) => {
+    [ScriptOpcode.OC_WEARPOS]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -98,7 +98,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushInt(objType.wearpos);
     },
 
-    [ScriptOpcode.OC_WEARPOS2]: (state) => {
+    [ScriptOpcode.OC_WEARPOS2]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -110,7 +110,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushInt(objType.wearpos2);
     },
 
-    [ScriptOpcode.OC_WEARPOS3]: (state) => {
+    [ScriptOpcode.OC_WEARPOS3]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -122,7 +122,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushInt(objType.wearpos3);
     },
 
-    [ScriptOpcode.OC_COST]: (state) => {
+    [ScriptOpcode.OC_COST]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -133,7 +133,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushInt(obj?.cost);
     },
 
-    [ScriptOpcode.OC_TRADEABLE]: (state) => {
+    [ScriptOpcode.OC_TRADEABLE]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -144,7 +144,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushInt(obj?.tradeable ? 1 : 0);
     },
 
-    [ScriptOpcode.OC_DEBUGNAME]: (state) => {
+    [ScriptOpcode.OC_DEBUGNAME]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -156,7 +156,7 @@ const ObjConfigOps: CommandHandlers = {
         state.pushString(objType.debugname ?? 'null');
     },
 
-    [ScriptOpcode.OC_CERT]: (state) => {
+    [ScriptOpcode.OC_CERT]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -172,7 +172,7 @@ const ObjConfigOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.OC_UNCERT]: (state) => {
+    [ScriptOpcode.OC_UNCERT]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -188,7 +188,7 @@ const ObjConfigOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.OC_STACKABLE]: (state) => {
+    [ScriptOpcode.OC_STACKABLE]: state => {
         const objId = state.popInt();
 
         if (objId == -1) {
@@ -198,7 +198,7 @@ const ObjConfigOps: CommandHandlers = {
         const objType = ObjType.get(objId);
 
         state.pushInt(objType.stackable ? 1 : 0);
-    },
+    }
 };
 
 export default ObjConfigOps;

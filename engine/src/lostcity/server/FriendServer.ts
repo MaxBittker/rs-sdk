@@ -15,10 +15,10 @@ export class FriendServer {
     private players: bigint[][] = [];
     private messageId: number = 0;
     private messages: {
-        sender: bigint
-        messageId: number
-        staffModLevel: number
-        text: string
+        sender: bigint;
+        messageId: number;
+        staffModLevel: number;
+        text: string;
     }[][] = [];
     private loggedInEvents: bigint[][] = [];
     private loggedOutEvents: bigint[][] = [];
@@ -126,85 +126,67 @@ export class FriendServer {
                     const player = data.g8();
                     const other = data.g8();
 
-                    const playerAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(player))
-                        .selectAll().executeTakeFirst();
-                    const otherAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(other))
-                        .selectAll().executeTakeFirst();
+                    const playerAcc = await db.selectFrom('account').where('username', '=', fromBase37(player)).selectAll().executeTakeFirst();
+                    const otherAcc = await db.selectFrom('account').where('username', '=', fromBase37(other)).selectAll().executeTakeFirst();
 
                     if (!playerAcc || !otherAcc) {
                         return;
                     }
 
-                    await db.insertInto('friendlist')
+                    await db
+                        .insertInto('friendlist')
                         .values({
                             account_id: playerAcc.id,
                             friend_account_id: otherAcc?.id
                         })
-                        .ignore().execute();
+                        .ignore()
+                        .execute();
                 } else if (opcode === 7) {
                     // del friend
                     const player = data.g8();
                     const other = data.g8();
 
-                    const playerAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(player))
-                        .selectAll().executeTakeFirst();
-                    const otherAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(other))
-                        .selectAll().executeTakeFirst();
+                    const playerAcc = await db.selectFrom('account').where('username', '=', fromBase37(player)).selectAll().executeTakeFirst();
+                    const otherAcc = await db.selectFrom('account').where('username', '=', fromBase37(other)).selectAll().executeTakeFirst();
 
                     if (!playerAcc || !otherAcc) {
                         return;
                     }
 
-                    await db.deleteFrom('friendlist')
-                        .where('account_id', '=', playerAcc.id)
-                        .where('friend_account_id', '=', otherAcc.id)
-                        .execute();
+                    await db.deleteFrom('friendlist').where('account_id', '=', playerAcc.id).where('friend_account_id', '=', otherAcc.id).execute();
                 } else if (opcode === 8) {
                     // add ignore
                     const player = data.g8();
                     const other = data.g8();
 
-                    const playerAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(player))
-                        .selectAll().executeTakeFirst();
-                    const otherAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(other))
-                        .selectAll().executeTakeFirst();
+                    const playerAcc = await db.selectFrom('account').where('username', '=', fromBase37(player)).selectAll().executeTakeFirst();
+                    const otherAcc = await db.selectFrom('account').where('username', '=', fromBase37(other)).selectAll().executeTakeFirst();
 
                     if (!playerAcc || !otherAcc) {
                         return;
                     }
 
-                    await db.insertInto('ignorelist')
+                    await db
+                        .insertInto('ignorelist')
                         .values({
                             account_id: playerAcc.id,
                             ignore_account_id: otherAcc?.id
                         })
-                        .ignore().execute();
+                        .ignore()
+                        .execute();
                 } else if (opcode === 9) {
                     // del ignore
                     const player = data.g8();
                     const other = data.g8();
 
-                    const playerAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(player))
-                        .selectAll().executeTakeFirst();
-                    const otherAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(other))
-                        .selectAll().executeTakeFirst();
+                    const playerAcc = await db.selectFrom('account').where('username', '=', fromBase37(player)).selectAll().executeTakeFirst();
+                    const otherAcc = await db.selectFrom('account').where('username', '=', fromBase37(other)).selectAll().executeTakeFirst();
 
                     if (!playerAcc || !otherAcc) {
                         return;
                     }
 
-                    await db.deleteFrom('ignorelist')
-                        .where('account_id', '=', playerAcc.id)
-                        .where('ignore_account_id', '=', otherAcc.id)
-                        .execute();
+                    await db.deleteFrom('ignorelist').where('account_id', '=', playerAcc.id).where('ignore_account_id', '=', otherAcc.id).execute();
                 } else if (opcode === 10) {
                     // log private message
                     const world = data.g2();
@@ -220,13 +202,9 @@ export class FriendServer {
                         }
                     }
 
-                    const fromAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(from))
-                        .selectAll().executeTakeFirst();
-                    
-                    const toAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(to))
-                        .selectAll().executeTakeFirst();
+                    const fromAcc = await db.selectFrom('account').where('username', '=', fromBase37(from)).selectAll().executeTakeFirst();
+
+                    const toAcc = await db.selectFrom('account').where('username', '=', fromBase37(to)).selectAll().executeTakeFirst();
 
                     if (toWorld == -1 || !fromAcc || !toAcc) {
                         return;
@@ -246,36 +224,38 @@ export class FriendServer {
                         text: message
                     });
 
-                    await db.insertInto('private_chat')
+                    await db
+                        .insertInto('private_chat')
                         .values({
                             from_account_id: fromAcc.id,
                             to_account_id: toAcc.id,
                             message: message
-                        }).execute();
+                        })
+                        .execute();
                 } else if (opcode === 11) {
                     // log public message
                     const world = data.g2();
                     const from = data.g8();
                     const message = data.gjstr();
 
-                    const fromAcc = await db.selectFrom('account')
-                        .where('username', '=', fromBase37(from))
-                        .selectAll().executeTakeFirst();
+                    const fromAcc = await db.selectFrom('account').where('username', '=', fromBase37(from)).selectAll().executeTakeFirst();
 
                     if (!fromAcc) {
                         return;
                     }
 
-                    await db.insertInto('public_chat')
+                    await db
+                        .insertInto('public_chat')
                         .values({
                             account_id: fromAcc.id,
                             message: message
-                        }).execute();
+                        })
+                        .execute();
                 }
             });
 
-            socket.on('close', () => { });
-            socket.on('error', () => { });
+            socket.on('close', () => {});
+            socket.on('error', () => {});
         });
 
         this.server.listen({ port: Environment.FRIEND_PORT, host: '0.0.0.0' }, () => {

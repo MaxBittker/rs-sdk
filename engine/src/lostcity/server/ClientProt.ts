@@ -91,7 +91,7 @@ export enum ClientProt {
     FRIENDLIST_ADD = 118, // index: 252 - NXT naming
     CLIENT_CHEAT = 4, // index: 253 - NXT naming
     MESSAGE_PUBLIC = 158, // index: 254 - NXT naming
-    MOVE_GAMECLICK = 181, // index: 255 - NXT naming
+    MOVE_GAMECLICK = 181 // index: 255 - NXT naming
 }
 
 export const ClientProtLengths: number[] = [];

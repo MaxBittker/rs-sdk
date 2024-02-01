@@ -61,7 +61,7 @@ export default class DbTableType extends ConfigType {
             this.types = new Array(packet.g1());
 
             for (let setting = packet.g1(); setting != 255; setting = packet.g1()) {
-                const column = setting & 0x7F;
+                const column = setting & 0x7f;
                 const hasDefault = (setting & 0x80) !== 0;
 
                 const columnTypes: number[] = new Array(packet.g1());
@@ -93,7 +93,7 @@ export default class DbTableType extends ConfigType {
 
     getDefault(column: number) {
         if (!this.defaultValues[column]) {
-            const defaults: (ReturnType<typeof ScriptVarType.getDefault>)[] = [];
+            const defaults: ReturnType<typeof ScriptVarType.getDefault>[] = [];
             for (let i = 0; i < this.types[column].length; i++) {
                 defaults[i] = ScriptVarType.getDefault(this.types[column][i]);
             }
@@ -111,7 +111,7 @@ export default class DbTableType extends ConfigType {
         for (let fieldId = 0; fieldId < fieldCount; fieldId++) {
             for (let typeId = 0; typeId < types.length; typeId++) {
                 const type = types[typeId];
-                const index = typeId + (fieldId * types.length);
+                const index = typeId + fieldId * types.length;
 
                 if (type === ScriptVarType.STRING) {
                     values[index] = packet.gjstr();

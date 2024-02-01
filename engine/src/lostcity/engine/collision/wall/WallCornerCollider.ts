@@ -9,14 +9,7 @@ export default class WallCornerCollider {
         this.flags = flags;
     }
 
-    change(
-        x: number,
-        z: number,
-        level: number,
-        angle: number,
-        blockrange: boolean,
-        add: boolean
-    ): void {
+    change(x: number, z: number, level: number, angle: number, blockrange: boolean, add: boolean): void {
         const northWest = blockrange ? CollisionFlag.WALL_NORTH_WEST_PROJ_BLOCKER : CollisionFlag.WALL_NORTH_WEST;
         const southEast = blockrange ? CollisionFlag.WALL_SOUTH_EAST_PROJ_BLOCKER : CollisionFlag.WALL_SOUTH_EAST;
         const northEast = blockrange ? CollisionFlag.WALL_NORTH_EAST_PROJ_BLOCKER : CollisionFlag.WALL_NORTH_EAST;

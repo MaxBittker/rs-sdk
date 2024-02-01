@@ -41,7 +41,7 @@ export default class ClientSocket {
         this.type = type;
         this.state = state;
     }
-    
+
     isTCP() {
         return this.type === ClientSocket.TCP;
     }

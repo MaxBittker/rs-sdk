@@ -24,7 +24,7 @@ export default class RandomAccessFile {
         this.pos += length;
         return buffer;
     }
-    
+
     gPacket(length: number): Packet {
         return new Packet(this.gdata(length));
     }

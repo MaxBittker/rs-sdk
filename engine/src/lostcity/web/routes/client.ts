@@ -6,7 +6,7 @@ export default function (f: any, opts: any, next: any) {
     f.get('/jav_config.ws', async (req: any, res: any) => {
         let address = (Environment.HTTPS_ENABLED ? 'https://' : 'http://') + Environment.PUBLIC_IP;
         if (Environment.ADDRESS_SHOWPORT) {
-            if (Environment.HTTPS_ENABLED && (Environment.WEB_PORT != 443 && Environment.WEB_PORT != 80)) {
+            if (Environment.HTTPS_ENABLED && Environment.WEB_PORT != 443 && Environment.WEB_PORT != 80) {
                 address += ':' + Environment.WEB_PORT;
             } else if (!Environment.HTTPS_ENABLED && Environment.WEB_PORT != 80) {
                 address += ':' + Environment.WEB_PORT;
@@ -22,7 +22,7 @@ export default function (f: any, opts: any, next: any) {
             'applet_minwidth=789',
             'applet_minheight=532',
             'applet_maxwidth=5670',
-            'applet_maxheight=2160',
+            'applet_maxheight=2160'
         ];
 
         const localization: string[] = [
@@ -122,13 +122,13 @@ export default function (f: any, opts: any, next: any) {
             return res.view('webclient', {
                 world,
                 detail: req.query.detail,
-                method: req.query.method,
+                method: req.query.method
             });
         } else if (req.query.method == 1 || req.query.method == 2) {
             return res.view('javaclient', {
                 world,
                 detail: req.query.detail,
-                method: req.query.method,
+                method: req.query.method
             });
         } else {
             return res.redirect(302, '/');
@@ -157,13 +157,13 @@ export default function (f: any, opts: any, next: any) {
             return res.view('webclient-inner', {
                 world,
                 detail: req.query.detail,
-                method: req.query.method,
+                method: req.query.method
             });
         } else if (req.query.method == 1 || req.query.method == 2) {
             return res.view('javaclient-inner', {
                 world,
                 detail: req.query.detail,
-                method: req.query.method,
+                method: req.query.method
             });
         } else {
             return res.redirect(302, '/');

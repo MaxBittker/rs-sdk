@@ -59,10 +59,8 @@ export class LoginServer {
                     }
 
                     const username = fromBase37(username37);
-                    const account = await db.selectFrom('account')
-                        .where('username', '=', username)
-                        .selectAll().executeTakeFirst();
-                    if (!account || await bcrypt.compare(password.toLowerCase(), account.password) === false) {
+                    const account = await db.selectFrom('account').where('username', '=', username).selectAll().executeTakeFirst();
+                    if (!account || (await bcrypt.compare(password.toLowerCase(), account.password)) === false) {
                         // invalid credentials (bad user or bad pass)
                         const reply = new Packet();
                         reply.p1(5);
@@ -163,8 +161,8 @@ export class LoginServer {
                 }
             });
 
-            socket.on('close', () => { });
-            socket.on('error', () => { });
+            socket.on('close', () => {});
+            socket.on('error', () => {});
         });
 
         this.server.listen({ port: Environment.LOGIN_PORT, host: '0.0.0.0' }, () => {
@@ -277,7 +275,7 @@ export class LoginClient {
         }
     }
 
-    async load(username37: bigint, password: string, uid: number): Promise<{ reply: number, data: Packet | null }> {
+    async load(username37: bigint, password: string, uid: number): Promise<{ reply: number; data: Packet | null }> {
         await this.connect();
 
         if (this.socket === null) {

@@ -247,4 +247,10 @@ for (let i = 0; i < spotanims.length; i++) {
 }
 fs.writeFileSync('dump/src/scripts/all.spotanim', spotanims.join('\n'));
 
-fs.writeFileSync('dump/pack/model.pack', models.map((name, id) => `${id}=${name}`).filter(x => x).join('\n') + '\n');
+fs.writeFileSync(
+    'dump/pack/model.pack',
+    models
+        .map((name, id) => `${id}=${name}`)
+        .filter(x => x)
+        .join('\n') + '\n'
+);

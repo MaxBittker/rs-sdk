@@ -16,15 +16,7 @@ export default class WallCollider {
         this.wallCornerLCollider = new WallCornerLCollider(flags);
     }
 
-    change(
-        x: number,
-        z: number,
-        level: number,
-        angle: number,
-        shape: number,
-        blockrange: boolean,
-        add: boolean
-    ): void {
+    change(x: number, z: number, level: number, angle: number, shape: number, blockrange: boolean, add: boolean): void {
         switch (shape) {
             case LocShape.WALL_STRAIGHT:
                 this.wallStraightCollider.change(x, z, level, angle, blockrange, add);

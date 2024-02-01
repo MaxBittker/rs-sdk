@@ -14,16 +14,16 @@ import Player from '#lostcity/entity/Player.js';
 import { toInt32 } from '#lostcity/util/Numbers.js';
 
 export interface GosubStackFrame {
-    script: Script,
-    pc: number,
-    intLocals: number[],
-    stringLocals: string[],
+    script: Script;
+    pc: number;
+    intLocals: number[];
+    stringLocals: string[];
 }
 
 // for debugging stack traces
 export interface JumpStackFrame {
-    script: Script,
-    pc: number
+    script: Script;
+    pc: number;
 }
 
 export default class ScriptState {
@@ -122,7 +122,7 @@ export default class ScriptState {
 
     constructor(script: Script, args: ScriptArgument[] | null = []) {
         this.script = script;
-        this.trigger = script.info.lookupKey & 0xFF;
+        this.trigger = script.info.lookupKey & 0xff;
 
         if (args) {
             for (let i = 0; i < args.length; i++) {

@@ -7,20 +7,20 @@ function genHash(name: string): number {
     let hash: number = 0;
     name = name.toUpperCase();
     for (let i: number = 0; i < name.length; i++) {
-        hash = ((hash * 61 + name.charCodeAt(i)) - 32) | 0;
+        hash = (hash * 61 + name.charCodeAt(i) - 32) | 0;
     }
     return hash;
 }
 
 type JagQueueFile = {
-    hash: number,
-    name: string,
-    data?: Packet,
-    write?: boolean,
-    delete?: boolean,
-    rename?: boolean,
-    newName?: string,
-    newHash?: number,
+    hash: number;
+    name: string;
+    data?: Packet;
+    write?: boolean;
+    delete?: boolean;
+    rename?: boolean;
+    newName?: string;
+    newHash?: number;
 };
 
 export default class Jagfile {
@@ -120,7 +120,13 @@ export default class Jagfile {
         const oldHash: number = genHash(oldName);
         const newHash: number = genHash(newName);
 
-        this.fileQueue.push({ hash: oldHash, name: oldName, rename: true, newName, newHash });
+        this.fileQueue.push({
+            hash: oldHash,
+            name: oldName,
+            rename: true,
+            newName,
+            newHash
+        });
     }
 
     save(path: string, doNotCompressWhole: boolean = false): Packet {
@@ -479,7 +485,7 @@ for (let i: number = 0; i < KNOWN_NAMES.length; i++) {
 
     str = str.toUpperCase();
     for (let i: number = 0; i < str.length; i++) {
-        hash = ((hash * 61 + str.charCodeAt(i)) - 32) | 0;
+        hash = (hash * 61 + str.charCodeAt(i) - 32) | 0;
     }
 
     KNOWN_HASHES[i] = hash;

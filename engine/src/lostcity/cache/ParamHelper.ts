@@ -1,6 +1,6 @@
 import Packet from '#jagex2/io/Packet.js';
 
-export type ParamMap = Map<number, number | string>
+export type ParamMap = Map<number, number | string>;
 
 export interface ParamHolder {
     params: ParamMap | null;

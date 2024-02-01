@@ -7,12 +7,7 @@ export default class FloorCollider {
         this.flags = flags;
     }
 
-    change(
-        x: number,
-        z: number,
-        level: number,
-        add: boolean
-    ): void {
+    change(x: number, z: number, level: number, add: boolean): void {
         if (add) {
             this.flags.add(x, z, level, CollisionFlag.FLOOR);
         } else {

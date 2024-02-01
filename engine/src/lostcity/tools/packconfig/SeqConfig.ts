@@ -4,9 +4,11 @@ import { PACKFILE, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/Pa
 
 export function parseSeqConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
+    // prettier-ignore
     const numberKeys = [
         'replayoff', 'priority', 'replaycount'
     ];
+    // prettier-ignore
     const booleanKeys = [
         'stretches'
     ];

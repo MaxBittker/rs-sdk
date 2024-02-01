@@ -74,8 +74,8 @@ describe('WordEnc', () => {
             expect(WordEnc.filter(TextEncoder.toSentenceCase('c0m, badword'))).toBe('***, badword');
 
             expect(WordEnc.filter(TextEncoder.toSentenceCase('----vv vv vv rswalmart  c - 0 - nn sell cheap gold 1000k "="2.1(.u.s\'d)'))).toBe('----******** rswalmart c - 0 - nn sell cheap gold 1000k "="2.1(.*****)');
-            expect(WordEnc.filter(TextEncoder.toSentenceCase('Web:---4 r s_gold_c"..0..""\'|\\/|""cheap rs gold -20 \'m\'=18.3\'$'))).toBe('Web:---4 r s_gold_********************* rs gold -20 \'m\'=18.3\'$');
-            expect(WordEnc.filter(TextEncoder.toSentenceCase('Cheap sell gold>google open:___\'fzf\'__c"..0..\'|\\/|"">20m=17.23$'))).toBe('Cheap sell gold>google open:___\'fzf\'__******************=17.23$');
+            expect(WordEnc.filter(TextEncoder.toSentenceCase('Web:---4 r s_gold_c"..0..""\'|\\/|""cheap rs gold -20 \'m\'=18.3\'$'))).toBe("Web:---4 r s_gold_********************* rs gold -20 'm'=18.3'$");
+            expect(WordEnc.filter(TextEncoder.toSentenceCase('Cheap sell gold>google open:___\'fzf\'__c"..0..\'|\\/|"">20m=17.23$'))).toBe("Cheap sell gold>google open:___'fzf'__******************=17.23$");
             expect(WordEnc.filter(TextEncoder.toSentenceCase('..:::.4 r s g 0 l d..:::c:::0:::/y\\>>>20""m = 18.3----usd.'))).toBe('..:::.4 R s g 0 l ****************\\>>>***** = 18.3----Usd.');
         });
 

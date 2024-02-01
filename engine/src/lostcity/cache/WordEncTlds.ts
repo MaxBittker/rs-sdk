@@ -39,7 +39,7 @@ export default class WordEncTlds {
             if (tldType == 1 && periodFilterStatus > 0 && slashFilterStatus > 0) {
                 shouldFilter = true;
             }
-            if (tldType == 2 && (periodFilterStatus > 2 && slashFilterStatus > 0 || periodFilterStatus > 0 && slashFilterStatus > 2)) {
+            if (tldType == 2 && ((periodFilterStatus > 2 && slashFilterStatus > 0) || (periodFilterStatus > 0 && slashFilterStatus > 2))) {
                 shouldFilter = true;
             }
             if (tldType == 3 && periodFilterStatus > 0 && slashFilterStatus > 2) {
@@ -112,11 +112,11 @@ export default class WordEncTlds {
         }
     }
 
-    private processTlds(chars: string[], tld: Uint16Array, currentIndex: number): { currentIndex: number, tldIndex: number } {
+    private processTlds(chars: string[], tld: Uint16Array, currentIndex: number): { currentIndex: number; tldIndex: number } {
         let tldIndex = 0;
         while (currentIndex < chars.length && tldIndex < tld.length) {
             const currentChar = chars[currentIndex];
-            const nextChar = (currentIndex + 1 < chars.length) ? chars[currentIndex + 1] : '\u0000';
+            const nextChar = currentIndex + 1 < chars.length ? chars[currentIndex + 1] : '\u0000';
             let currentLength: number;
 
             if ((currentLength = this.wordEncDomains.getEmulatedDomainCharLen(nextChar, String.fromCharCode(tld[tldIndex]), currentChar)) > 0) {

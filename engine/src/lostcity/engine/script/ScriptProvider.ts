@@ -42,7 +42,7 @@ export default class ScriptProvider {
 
         const version = dat.g4();
         if (version !== ScriptProvider.COMPILER_VERSION) {
-            throw new Error(`Compiler is out of date - have version ${version} but we're expecting ${(ScriptProvider.COMPILER_VERSION)}. Check the #dev-resources channel in Discord for the latest RuneScriptCompiler.jar.`);
+            throw new Error(`Compiler is out of date - have version ${version} but we're expecting ${ScriptProvider.COMPILER_VERSION}. Check the #dev-resources channel in Discord for the latest RuneScriptCompiler.jar.`);
         }
 
         ScriptProvider.scripts = [];
@@ -62,7 +62,7 @@ export default class ScriptProvider {
                 ScriptProvider.scriptNames.set(script.name, id);
 
                 // add the script to lookup table if the value isn't -1
-                if (script.info.lookupKey !== 0xFFFFFFFF) {
+                if (script.info.lookupKey !== 0xffffffff) {
                     ScriptProvider.scriptLookup.set(script.info.lookupKey, script);
                 }
 
@@ -108,11 +108,11 @@ export default class ScriptProvider {
      * @param category The script subject category id.
      */
     static getByTrigger(trigger: ServerTriggerType | NpcMode, type: number = -1, category: number = -1): Script | undefined {
-        let script = ScriptProvider.scriptLookup.get(trigger | 0x2 << 8 | type << 10);
+        let script = ScriptProvider.scriptLookup.get(trigger | (0x2 << 8) | (type << 10));
         if (script) {
             return script;
         }
-        script = ScriptProvider.scriptLookup.get(trigger | 0x1 << 8 | category << 10);
+        script = ScriptProvider.scriptLookup.get(trigger | (0x1 << 8) | (category << 10));
         if (script) {
             return script;
         }
@@ -132,9 +132,9 @@ export default class ScriptProvider {
      */
     static getByTriggerSpecific(trigger: ServerTriggerType, type: number = -1, category: number = -1): Script | undefined {
         if (type !== -1) {
-            return ScriptProvider.scriptLookup.get(trigger | 0x2 << 8 | type << 10);
+            return ScriptProvider.scriptLookup.get(trigger | (0x2 << 8) | (type << 10));
         } else if (category !== -1) {
-            return ScriptProvider.scriptLookup.get(trigger | 0x1 << 8 | category << 10);
+            return ScriptProvider.scriptLookup.get(trigger | (0x1 << 8) | (category << 10));
         }
         return ScriptProvider.scriptLookup.get(trigger);
     }

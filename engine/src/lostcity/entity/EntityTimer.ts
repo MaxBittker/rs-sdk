@@ -16,25 +16,25 @@ export interface EntityTimer {
     /**
      * The type of the timer.
      */
-    type: TimerType,
+    type: TimerType;
 
     /**
      * The script to execute.
      */
-    script: Script,
+    script: Script;
 
     /**
      * The arguments to execute the script with.
      */
-    args: ScriptArgument[] | null,
+    args: ScriptArgument[] | null;
 
     /**
      * The time interval between executions.
      */
-    interval: number,
+    interval: number;
 
     /**
      * Tracks the time until execution.
      */
-    clock: number,
+    clock: number;
 }

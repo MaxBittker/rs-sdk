@@ -2,12 +2,12 @@ import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 
 const ScriptOpcodePointers: {
     [key: string]: {
-        require?: string[],
-        corrupt?: string[],
-        set?: string[],
-        conditional?: boolean,
-        secondary?: boolean,
-        secondaryRequire?: string[]
+        require?: string[];
+        corrupt?: string[];
+        set?: string[];
+        conditional?: boolean;
+        secondary?: boolean;
+        secondaryRequire?: string[];
     };
 } = {
     // Core language ops
@@ -159,7 +159,7 @@ const ScriptOpcodePointers: {
         require: ['active_player']
     },
     [ScriptOpcode.HUNTALL]: {
-        set: ['find_player'],
+        set: ['find_player']
     },
     [ScriptOpcode.HUNTNEXT]: {
         require: ['find_player'],
@@ -295,8 +295,18 @@ const ScriptOpcodePointers: {
         require: ['p_active_player'],
         corrupt: [
             // everything except active is assumed corrupted
-            'find_player', 'find_npc', 'find_loc', 'find_obj', 'find_db',
-            'last_com', 'last_int', 'last_item', 'last_slot', 'last_targetslot', 'last_useitem', 'last_useslot'
+            'find_player',
+            'find_npc',
+            'find_loc',
+            'find_obj',
+            'find_db',
+            'last_com',
+            'last_int',
+            'last_item',
+            'last_slot',
+            'last_targetslot',
+            'last_useitem',
+            'last_useslot'
         ]
     },
     [ScriptOpcode.P_COUNTDIALOG]: {
@@ -304,16 +314,35 @@ const ScriptOpcodePointers: {
         set: ['last_int'],
         corrupt: [
             // everything except active is assumed corrupted
-            'find_player', 'find_npc', 'find_loc', 'find_obj', 'find_db',
-            'last_com', 'last_item', 'last_slot', 'last_targetslot', 'last_useitem', 'last_useslot'
+            'find_player',
+            'find_npc',
+            'find_loc',
+            'find_obj',
+            'find_db',
+            'last_com',
+            'last_item',
+            'last_slot',
+            'last_targetslot',
+            'last_useitem',
+            'last_useslot'
         ]
     },
     [ScriptOpcode.P_DELAY]: {
         require: ['p_active_player'],
         corrupt: [
             // everything except active is assumed corrupted
-            'find_player', 'find_npc', 'find_loc', 'find_obj', 'find_db',
-            'last_com', 'last_int', 'last_item', 'last_slot', 'last_targetslot', 'last_useitem', 'last_useslot'
+            'find_player',
+            'find_npc',
+            'find_loc',
+            'find_obj',
+            'find_db',
+            'last_com',
+            'last_int',
+            'last_item',
+            'last_slot',
+            'last_targetslot',
+            'last_useitem',
+            'last_useslot'
         ]
     },
     [ScriptOpcode.P_EXACTMOVE]: {
@@ -351,8 +380,18 @@ const ScriptOpcodePointers: {
         require: ['p_active_player'],
         corrupt: [
             // everything except active is assumed corrupted
-            'find_player', 'find_npc', 'find_loc', 'find_obj', 'find_db',
-            'last_com', 'last_int', 'last_item', 'last_slot', 'last_targetslot', 'last_useitem', 'last_useslot'
+            'find_player',
+            'find_npc',
+            'find_loc',
+            'find_obj',
+            'find_db',
+            'last_com',
+            'last_int',
+            'last_item',
+            'last_slot',
+            'last_targetslot',
+            'last_useitem',
+            'last_useslot'
         ]
     },
     [ScriptOpcode.P_STOPACTION]: {
@@ -493,8 +532,18 @@ const ScriptOpcodePointers: {
         require: ['active_npc'],
         corrupt: [
             // everything except active is assumed corrupted
-            'find_player', 'find_npc', 'find_loc', 'find_obj', 'find_db',
-            'last_com', 'last_int', 'last_item', 'last_slot', 'last_targetslot', 'last_useitem', 'last_useslot'
+            'find_player',
+            'find_npc',
+            'find_loc',
+            'find_obj',
+            'find_db',
+            'last_com',
+            'last_int',
+            'last_item',
+            'last_slot',
+            'last_targetslot',
+            'last_useitem',
+            'last_useslot'
         ],
         secondary: true,
         secondaryRequire: ['active_npc2']
@@ -889,7 +938,7 @@ const ScriptOpcodePointers: {
     },
     [ScriptOpcode.DB_FIND_REFINE]: {
         require: ['find_db']
-    },
+    }
 };
 
 export default ScriptOpcodePointers;

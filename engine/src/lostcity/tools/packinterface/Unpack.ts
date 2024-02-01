@@ -17,8 +17,8 @@ if (!dat) {
 }
 
 type Component = Record<string, any> & {
-    id: number,
-    rootLayer: number
+    id: number;
+    rootLayer: number;
 };
 
 let order = '';
@@ -58,7 +58,7 @@ while (dat.available > 0) {
     if (com.overLayer == 0) {
         com.overLayer = -1;
     } else {
-        com.overLayer = (com.overLayer - 1 << 8) + dat.g1();
+        com.overLayer = ((com.overLayer - 1) << 8) + dat.g1();
     }
 
     const comparatorCount = dat.g1();
@@ -177,14 +177,14 @@ while (dat.available > 0) {
         if (com.anim == 0) {
             com.anim = -1;
         } else {
-            com.anim = (com.anim - 1 << 8) + dat.g1();
+            com.anim = ((com.anim - 1) << 8) + dat.g1();
         }
 
         com.activeAnim = dat.g1();
         if (com.activeAnim == 0) {
             com.activeAnim = -1;
         } else {
-            com.activeAnim = (com.activeAnim - 1 << 8) + dat.g1();
+            com.activeAnim = ((com.activeAnim - 1) << 8) + dat.g1();
         }
 
         com.zoom = dat.g2();

@@ -2,12 +2,20 @@ import { loadDir } from '#lostcity/util/NameMap.js';
 import fs from 'fs';
 
 const older: string[] = [];
-fs.readFileSync('data/pack/obj.pack', 'ascii').replace(/\r/g, '').split('\n').filter(x => x).map(line => line.split('=')).
-    forEach(([id, name]) => older[id as unknown as number] = name);
+fs.readFileSync('data/pack/obj.pack', 'ascii')
+    .replace(/\r/g, '')
+    .split('\n')
+    .filter(x => x)
+    .map(line => line.split('='))
+    .forEach(([id, name]) => (older[id as unknown as number] = name));
 
 const newer: string[] = [];
-fs.readFileSync('D:/Downloads/item-debugnames-guesses.txt', 'ascii').replace(/\r/g, '').split('\n').filter(x => x).map(line => line.split('=')).
-    forEach(([name, id]) => newer[id as unknown as number] = name);
+fs.readFileSync('D:/Downloads/item-debugnames-guesses.txt', 'ascii')
+    .replace(/\r/g, '')
+    .split('\n')
+    .filter(x => x)
+    .map(line => line.split('='))
+    .forEach(([name, id]) => (newer[id as unknown as number] = name));
 
 // update objs
 

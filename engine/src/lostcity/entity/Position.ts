@@ -6,10 +6,10 @@ export const Direction = {
     EAST: 4,
     SOUTH_WEST: 5,
     SOUTH: 6,
-    SOUTH_EAST: 7,
+    SOUTH_EAST: 7
 };
 // TODO (jkm) consider making this an enum
-type Direction = typeof Direction[keyof typeof Direction];
+type Direction = (typeof Direction)[keyof typeof Direction];
 
 // TODO (jkm) consider making this a class
 export const Position = {
@@ -20,7 +20,7 @@ export const Position = {
     mapsquare: (pos: number) => pos >> 6,
     local: (pos: number) => pos - (Position.zoneCenter(pos) << 3),
     localOrigin: (pos: number) => pos - (Position.mapsquare(pos) << 6),
-    zoneUpdate: (pos: number) => pos - (pos >> 3 << 3),
+    zoneUpdate: (pos: number) => pos - ((pos >> 3) << 3),
 
     face: (srcX: number, srcZ: number, dstX: number, dstZ: number) => {
         if (srcX == dstX) {
@@ -58,13 +58,13 @@ export const Position = {
         return pos + Position.deltaZ(dir);
     },
 
-    distanceTo(pos: { x: number, z: number, width: number, length: number }, other: { x: number, z: number, width: number, length: number }) {
+    distanceTo(pos: { x: number; z: number; width: number; length: number }, other: { x: number; z: number; width: number; length: number }) {
         const p1 = Position.closest(pos, other);
         const p2 = Position.closest(other, pos);
         return Math.max(Math.abs(p1.x - p2.x), Math.abs(p1.z - p2.z));
     },
 
-    closest(pos: { x: number, z: number, width: number, length: number }, other: { x: number, z: number, width: number, length: number }) {
+    closest(pos: { x: number; z: number; width: number; length: number }, other: { x: number; z: number; width: number; length: number }) {
         const occupiedX = pos.x + pos.width - 1;
         const occupiedZ = pos.z + pos.length - 1;
         return {
@@ -101,7 +101,7 @@ export const Position = {
         return 0;
     },
 
-    unpackCoord(coord: number): {level: number, x: number, z: number} {
+    unpackCoord(coord: number): { level: number; x: number; z: number } {
         const level = (coord >> 28) & 0x3;
         const x = (coord >> 14) & 0x3fff;
         const z = coord & 0x3fff;
@@ -109,6 +109,6 @@ export const Position = {
     },
 
     packCoord(level: number, x: number, z: number): number {
-        return ((z & 0x3fff) | ((x & 0x3fff) << 14) | (level & 0x3) << 28);
+        return (z & 0x3fff) | ((x & 0x3fff) << 14) | ((level & 0x3) << 28);
     }
 } as const;

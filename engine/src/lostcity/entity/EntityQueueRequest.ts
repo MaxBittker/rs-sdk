@@ -9,7 +9,7 @@ export enum PlayerQueueType {
     ENGINE,
     WEAK, // sept 2004
     STRONG, // late-2004
-    SOFT, // OSRS
+    SOFT // OSRS
 }
 
 export type QueueType = NpcQueueType | PlayerQueueType;

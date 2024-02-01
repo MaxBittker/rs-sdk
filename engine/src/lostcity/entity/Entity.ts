@@ -20,5 +20,5 @@ export default abstract class Entity {
         this.length = length;
     }
 
-    abstract resetEntity(respawn: boolean): void
+    abstract resetEntity(respawn: boolean): void;
 }

@@ -4,7 +4,7 @@ import { dirname } from 'path';
 
 export default class Packet {
     static crctable: Int32Array = new Int32Array(256);
-    static CRC32_POLYNOMIAL: number = 0xEDB88320;
+    static CRC32_POLYNOMIAL: number = 0xedb88320;
 
     static bitmask: Uint32Array = new Uint32Array(33);
 
@@ -12,7 +12,7 @@ export default class Packet {
         for (let i: number = 0; i < 32; i++) {
             Packet.bitmask[i] = (1 << i) - 1;
         }
-        Packet.bitmask[32] = 0xFFFFFFFF;
+        Packet.bitmask[32] = 0xffffffff;
 
         for (let i: number = 0; i < 256; i++) {
             let remainder: number = i;
@@ -79,10 +79,10 @@ export default class Packet {
             src = src.data;
         }
 
-        let crc: number = 0xFFFFFFFF;
+        let crc: number = 0xffffffff;
 
         for (let i: number = offset; i < offset + length; i++) {
-            crc = crc >>> 8 ^ Packet.crctable[(crc ^ src[i]) & 0xFF];
+            crc = (crc >>> 8) ^ Packet.crctable[(crc ^ src[i]) & 0xff];
         }
 
         return ~crc;
@@ -155,7 +155,7 @@ export default class Packet {
     p8(value: bigint): void {
         this.ensure(8);
         this.p4(Number(value >> 32n));
-        this.p4(Number(value & 0xFFFFFFFFn));
+        this.p4(Number(value & 0xffffffffn));
     }
 
     pjstr(str: string | null): void {
@@ -224,7 +224,7 @@ export default class Packet {
         if (value < 0x40 && value >= -0x40) {
             this.p1(value + 0x40);
         } else if (value < 0x4000 && value >= -0x4000) {
-            this.p2(value + 0xC000);
+            this.p2(value + 0xc000);
         } else {
             console.trace(`Error psmarts out of range: ${value}`);
         }
@@ -242,7 +242,7 @@ export default class Packet {
 
     g1s(): number {
         let value: number = this.g1();
-        if (value > 0x7F) {
+        if (value > 0x7f) {
             value -= 0x100;
         }
         return value;
@@ -253,12 +253,12 @@ export default class Packet {
     }
 
     ig2(): number {
-        return (this.data[this.pos++] >>> 0 | (this.data[this.pos++]) << 8);
+        return (this.data[this.pos++] >>> 0) | (this.data[this.pos++] << 8);
     }
 
     g2s(): number {
         let value: number = this.g2();
-        if (value > 0x7FFF) {
+        if (value > 0x7fff) {
             value -= 0x10000;
         }
         return value;
@@ -273,12 +273,12 @@ export default class Packet {
     }
 
     ig4(): number {
-        return (this.data[this.pos++] >>> 0 | (this.data[this.pos++] << 8) | (this.data[this.pos++] << 16) | (this.data[this.pos++] << 24));
+        return (this.data[this.pos++] >>> 0) | (this.data[this.pos++] << 8) | (this.data[this.pos++] << 16) | (this.data[this.pos++] << 24);
     }
 
     g4s(): number {
         let value: number = this.g4();
-        if (value > 0x7FFFFFFF) {
+        if (value > 0x7fffffff) {
             value -= 0x100000000;
         }
         return value;
@@ -319,11 +319,11 @@ export default class Packet {
     }
 
     gsmart(): number {
-        return (this.data[this.pos] & 0xFF) < 0x80 ? this.g1() : this.g2() - 0x8000;
+        return (this.data[this.pos] & 0xff) < 0x80 ? this.g1() : this.g2() - 0x8000;
     }
 
     gsmarts(): number {
-        return (this.data[this.pos] & 0xFF) < 0x80 ? this.g1() - 0x40 : this.g2() - 0xC000;
+        return (this.data[this.pos] & 0xff) < 0x80 ? this.g1() - 0x40 : this.g2() - 0xc000;
     }
 
     // ----

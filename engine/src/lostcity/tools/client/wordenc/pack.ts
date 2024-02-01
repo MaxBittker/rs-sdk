@@ -13,7 +13,11 @@ console.log('Packing wordenc.jag');
 const jag = new Jagfile();
 
 {
-    const badenc = fs.readFileSync('data/src/wordenc/badenc.txt', 'ascii').replace(/\r/g, '').split('\n').filter(x => x.length);
+    const badenc = fs
+        .readFileSync('data/src/wordenc/badenc.txt', 'ascii')
+        .replace(/\r/g, '')
+        .split('\n')
+        .filter(x => x.length);
 
     const out = new Packet();
     out.p4(badenc.length);
@@ -37,7 +41,11 @@ const jag = new Jagfile();
 }
 
 {
-    const fragmentsenc = fs.readFileSync('data/src/wordenc/fragmentsenc.txt', 'ascii').replace(/\r/g, '').split('\n').filter(x => x.length);
+    const fragmentsenc = fs
+        .readFileSync('data/src/wordenc/fragmentsenc.txt', 'ascii')
+        .replace(/\r/g, '')
+        .split('\n')
+        .filter(x => x.length);
 
     const out = new Packet();
     out.p4(fragmentsenc.length);
@@ -51,7 +59,11 @@ const jag = new Jagfile();
 }
 
 {
-    const tldlist = fs.readFileSync('data/src/wordenc/tldlist.txt', 'ascii').replace(/\r/g, '').split('\n').filter(x => x.length);
+    const tldlist = fs
+        .readFileSync('data/src/wordenc/tldlist.txt', 'ascii')
+        .replace(/\r/g, '')
+        .split('\n')
+        .filter(x => x.length);
 
     const out = new Packet();
     out.p4(tldlist.length);
@@ -70,7 +82,11 @@ const jag = new Jagfile();
 }
 
 {
-    const domainenc = fs.readFileSync('data/src/wordenc/domainenc.txt', 'ascii').replace(/\r/g, '').split('\n').filter(x => x.length);
+    const domainenc = fs
+        .readFileSync('data/src/wordenc/domainenc.txt', 'ascii')
+        .replace(/\r/g, '')
+        .split('\n')
+        .filter(x => x.length);
 
     const out = new Packet();
     out.p4(domainenc.length);

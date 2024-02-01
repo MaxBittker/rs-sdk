@@ -17,7 +17,7 @@ let locFindAllZone: Loc[] = [];
 let locFindAllZoneIndex = 0;
 
 const LocOps: CommandHandlers = {
-    [ScriptOpcode.LOC_ADD]: (state) => {
+    [ScriptOpcode.LOC_ADD]: state => {
         const [coord, type, angle, shape, duration] = state.popInts(5);
 
         if (type == -1) {
@@ -36,46 +36,37 @@ const LocOps: CommandHandlers = {
             throw new Error(`attempted to use angle that was out of range: ${angle}. Range should be: 0 to 3`);
         }
 
-        if (shape < 0 || shape > 0x1F) {
+        if (shape < 0 || shape > 0x1f) {
             throw new Error(`attempted to use shape that was out of range: ${shape}. Range should be: 0 to 31`);
         }
 
         const pos = Position.unpackCoord(coord);
 
         const locType = LocType.get(type);
-        const loc = new Loc(
-            pos.level,
-            pos.x,
-            pos.z,
-            locType.width,
-            locType.length,
-            type,
-            shape,
-            angle
-        );
+        const loc = new Loc(pos.level, pos.x, pos.z, locType.width, locType.length, type, shape, angle);
 
         World.addLoc(loc, duration);
         state.activeLoc = loc;
         state.pointerAdd(ActiveLoc[state.intOperand]);
     },
 
-    [ScriptOpcode.LOC_ANGLE]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_ANGLE]: checkedHandler(ActiveLoc, state => {
         state.pushInt(state.activeLoc.angle);
     }),
 
-    [ScriptOpcode.LOC_ANIM]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_ANIM]: checkedHandler(ActiveLoc, state => {
         const seq = state.popInt();
 
         const loc = state.activeLoc;
         World.getZone(loc.x, loc.z, loc.level).animLoc(loc, seq);
     }),
 
-    [ScriptOpcode.LOC_CATEGORY]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_CATEGORY]: checkedHandler(ActiveLoc, state => {
         const loc = LocType.get(state.activeLoc.type);
         state.pushInt(loc.category);
     }),
 
-    [ScriptOpcode.LOC_CHANGE]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_CHANGE]: checkedHandler(ActiveLoc, state => {
         // Not proper implementation Polar said, do proper later Pazaz
 
         const [newLoc, duration] = state.popInts(2);
@@ -85,29 +76,19 @@ const LocOps: CommandHandlers = {
         }
 
         const locType = LocType.get(newLoc);
-        const loc = new Loc(
-            state.activeLoc.level,
-            state.activeLoc.x,
-            state.activeLoc.z,
-            locType.width,
-            locType.length,
-            newLoc,
-            state.activeLoc.shape,
-            state.activeLoc.angle
-        );
+        const loc = new Loc(state.activeLoc.level, state.activeLoc.x, state.activeLoc.z, locType.width, locType.length, newLoc, state.activeLoc.shape, state.activeLoc.angle);
 
         World.addLoc(loc, duration);
         state.activeLoc = loc;
         state.pointerAdd(ActiveLoc[state.intOperand]);
-
     }),
 
-    [ScriptOpcode.LOC_COORD]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_COORD]: checkedHandler(ActiveLoc, state => {
         const loc = state.activeLoc;
         state.pushInt(Position.packCoord(loc.level, loc.x, loc.z));
     }),
 
-    [ScriptOpcode.LOC_DEL]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_DEL]: checkedHandler(ActiveLoc, state => {
         const duration = state.popInt();
 
         if (duration < 1) {
@@ -117,8 +98,8 @@ const LocOps: CommandHandlers = {
         World.removeLoc(state.activeLoc, duration);
     }),
 
-    [ScriptOpcode.LOC_FIND]: (state) => {
-        const [ coord, locId ] = state.popInts(2);
+    [ScriptOpcode.LOC_FIND]: state => {
+        const [coord, locId] = state.popInts(2);
 
         if (coord < 0 || coord > Position.max) {
             throw new Error(`attempted to use coord that was out of range: ${coord}. Range should be: 0 to ${Position.max}`);
@@ -136,7 +117,7 @@ const LocOps: CommandHandlers = {
         state.pushInt(1);
     },
 
-    [ScriptOpcode.LOC_FINDALLZONE]: (state) => {
+    [ScriptOpcode.LOC_FINDALLZONE]: state => {
         const coord = state.popInt();
 
         if (coord < 0 || coord > Position.max) {
@@ -155,7 +136,7 @@ const LocOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.LOC_FINDNEXT]: (state) => {
+    [ScriptOpcode.LOC_FINDNEXT]: state => {
         const loc = locFindAllZone[locFindAllZoneIndex++];
         if (!loc) {
             state.pushInt(0);
@@ -167,7 +148,7 @@ const LocOps: CommandHandlers = {
         state.pushInt(1);
     },
 
-    [ScriptOpcode.LOC_PARAM]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_PARAM]: checkedHandler(ActiveLoc, state => {
         const paramId = state.popInt();
         const param = ParamType.get(paramId);
         const loc = LocType.get(state.activeLoc.type);
@@ -178,19 +159,19 @@ const LocOps: CommandHandlers = {
         }
     }),
 
-    [ScriptOpcode.LOC_TYPE]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_TYPE]: checkedHandler(ActiveLoc, state => {
         state.pushInt(state.activeLoc.type);
     }),
 
-    [ScriptOpcode.LOC_NAME]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_NAME]: checkedHandler(ActiveLoc, state => {
         const loc = LocType.get(state.activeLoc.type);
-        
+
         state.pushString(loc.name ?? 'null');
     }),
 
-    [ScriptOpcode.LOC_SHAPE]: checkedHandler(ActiveLoc, (state) => {
+    [ScriptOpcode.LOC_SHAPE]: checkedHandler(ActiveLoc, state => {
         state.pushInt(state.activeLoc.shape);
-    }),
+    })
 };
 
 export default LocOps;

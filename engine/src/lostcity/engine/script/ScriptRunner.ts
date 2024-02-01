@@ -30,8 +30,8 @@ import Player from '#lostcity/entity/Player.js';
 
 export type CommandHandler = (state: ScriptState) => void;
 export type CommandHandlers = {
-    [opcode: number]: CommandHandler
-}
+    [opcode: number]: CommandHandler;
+};
 
 // script executor
 export default class ScriptRunner {
@@ -51,7 +51,7 @@ export default class ScriptRunner {
         ...StringOps,
         ...NumberOps,
         ...DbOps,
-        ...DebugOps,
+        ...DebugOps
     };
 
     /**
@@ -151,10 +151,8 @@ export default class ScriptRunner {
                 const opcode = state.script.opcodes[state.pc];
 
                 let secondary = state.intOperand;
-                if (opcode === ScriptOpcode.POP_VARP || opcode === ScriptOpcode.POP_VARN ||
-                    opcode === ScriptOpcode.PUSH_VARP || opcode === ScriptOpcode.PUSH_VARN)
-                {
-                    secondary = state.intOperand >> 16 & 0x1;
+                if (opcode === ScriptOpcode.POP_VARP || opcode === ScriptOpcode.POP_VARN || opcode === ScriptOpcode.PUSH_VARP || opcode === ScriptOpcode.PUSH_VARN) {
+                    secondary = (state.intOperand >> 16) & 0x1;
                 } else if (opcode <= ScriptOpcode.POP_ARRAY_INT) {
                     secondary = 0;
                 }

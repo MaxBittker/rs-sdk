@@ -5,17 +5,17 @@ import Packet from '#jagex2/io/Packet.js';
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 
 export interface ScriptInfo {
-    scriptName: string,
-    sourceFilePath: string,
-    lookupKey: number,
-    parameterTypes: number[],
-    pcs: number[],
-    lines: number[]
+    scriptName: string;
+    sourceFilePath: string;
+    lookupKey: number;
+    parameterTypes: number[];
+    pcs: number[];
+    lines: number[];
 }
 
 export type SwitchTable = {
-    [key: number]: number | undefined
-}
+    [key: number]: number | undefined;
+};
 
 // compiled bytecode representation
 export default class Script {

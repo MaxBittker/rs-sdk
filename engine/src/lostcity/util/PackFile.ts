@@ -49,7 +49,7 @@ export function loadPack(path: string): string[] {
         }
 
         const num = parseInt(index);
-        if (!isNaN(num)) {  
+        if (!isNaN(num)) {
             pack[num] = name;
         }
     }
@@ -298,7 +298,7 @@ export function validateCategoryPack() {
     const timer = codeTimer('validateCategoryPack');
 
     if (shouldBuild('data/src/scripts', '.loc', 'data/pack/category.pack') || shouldBuild('data/src/scripts', '.npc', 'data/pack/category.pack') || shouldBuild('data/src/scripts', '.obj', 'data/pack/category.pack')) {
-        const names = crawlConfigCategories();    
+        const names = crawlConfigCategories();
         const pack = regenPack(loadPack('data/pack/category.pack'), names);
         packToFile(pack, 'data/pack/category.pack');
 
@@ -307,7 +307,7 @@ export function validateCategoryPack() {
         return pack;
     } else {
         const pack = loadPack('data/pack/category.pack');
-        
+
         timer.stop();
 
         return pack;
@@ -347,7 +347,7 @@ export function validateInterfacePack() {
     const pack = loadPack('data/pack/interface.pack');
     // const pack = regenPack(loadPack('data/pack/interface.pack'), names);
     // packToFile(pack, 'data/pack/interface.pack');
-        
+
     timer.stop();
 
     return pack;

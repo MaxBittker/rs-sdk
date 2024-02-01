@@ -20,7 +20,7 @@ const priv = forge.pki.privateKeyFromPem(fs.readFileSync('data/config/private.pe
 parentPort.on('message', async msg => {
     try {
         if (!parentPort) throw new Error('This file must be run as a worker thread.');
-    
+
         switch (msg.type) {
             case 'reset': {
                 if (!Environment.LOGIN_KEY) {
@@ -29,7 +29,8 @@ parentPort.on('message', async msg => {
 
                 const login = new LoginClient();
                 await login.reset();
-            } break;
+                break;
+            }
             case 'heartbeat': {
                 if (!Environment.LOGIN_KEY) {
                     return;
@@ -37,7 +38,8 @@ parentPort.on('message', async msg => {
 
                 const login = new LoginClient();
                 await login.heartbeat(msg.players);
-            } break;
+                break;
+            }
             case 'loginreq': {
                 const { opcode, data, socket } = msg;
 
@@ -183,14 +185,15 @@ parentPort.on('message', async msg => {
                         save
                     });
                 }
-            } break;
+                break;
+            }
             case 'logout': {
                 const { username, save } = msg;
 
                 if (Environment.LOGIN_KEY) {
                     const login = new LoginClient();
                     const reply = await login.save(toBase37(username), save);
-    
+
                     if (reply === 0) {
                         parentPort.postMessage({
                             type: 'logoutreply',
@@ -203,7 +206,8 @@ parentPort.on('message', async msg => {
                         username
                     });
                 }
-            } break;
+                break;
+            }
             default:
                 console.error('Unknown message type: ' + msg.type);
                 break;

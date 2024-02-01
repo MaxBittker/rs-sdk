@@ -152,7 +152,7 @@ export default class ObjType extends ConfigType {
     tradeable = false;
     respawnrate = 100; // default to 1-minute
     params: ParamMap = new Map();
-    
+
     decode(code: number, dat: Packet): void {
         if (code === 1) {
             this.model = dat.g2();

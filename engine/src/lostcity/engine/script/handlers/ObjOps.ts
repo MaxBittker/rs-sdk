@@ -18,7 +18,7 @@ import Environment from '#lostcity/util/Environment.js';
 const ActiveObj = [ScriptPointer.ActiveObj, ScriptPointer.ActiveObj2];
 
 const ObjOps: CommandHandlers = {
-    [ScriptOpcode.OBJ_ADD]: (state) => {
+    [ScriptOpcode.OBJ_ADD]: state => {
         const [coord, objId, count, duration] = state.popInts(4);
 
         if (objId == -1) {
@@ -44,13 +44,7 @@ const ObjOps: CommandHandlers = {
 
         const pos = Position.unpackCoord(coord);
 
-        const obj = new Obj(
-            pos.level,
-            pos.x,
-            pos.z,
-            objId,
-            count
-        );
+        const obj = new Obj(pos.level, pos.x, pos.z, objId, count);
 
         World.addObj(obj, state.activePlayer, duration);
         state.activeObj = obj;
@@ -61,11 +55,11 @@ const ObjOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.OBJ_ADDALL]: (state) => {
+    [ScriptOpcode.OBJ_ADDALL]: state => {
         throw new Error('unimplemented');
     },
 
-    [ScriptOpcode.OBJ_PARAM]: (state) => {
+    [ScriptOpcode.OBJ_PARAM]: state => {
         const paramId = state.popInt();
         const param = ParamType.get(paramId);
 
@@ -77,29 +71,29 @@ const ObjOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.OBJ_NAME]: (state) => {
+    [ScriptOpcode.OBJ_NAME]: state => {
         const obj = ObjType.get(state.activeObj.type);
 
         state.pushString(obj.name ?? obj.debugname ?? 'null');
     },
 
-    [ScriptOpcode.OBJ_DEL]: (state) => {
+    [ScriptOpcode.OBJ_DEL]: state => {
         World.removeObj(state.activeObj, state.activePlayer);
     },
 
-    [ScriptOpcode.OBJ_COUNT]: (state) => {
+    [ScriptOpcode.OBJ_COUNT]: state => {
         state.pushInt(state.activeObj.count);
     },
 
-    [ScriptOpcode.OBJ_TYPE]: (state) => {
+    [ScriptOpcode.OBJ_TYPE]: state => {
         state.pushInt(state.activeObj.type);
     },
 
-    [ScriptOpcode.OBJ_TAKEITEM]: (state) => {
+    [ScriptOpcode.OBJ_TAKEITEM]: state => {
         const inv = state.popInt();
         const obj = state.activeObj;
 
-        if (World.getObj(obj.x, obj.z, obj.level, obj.id)){
+        if (World.getObj(obj.x, obj.z, obj.level, obj.id)) {
             const objType = ObjType.get(obj.type);
             state.activePlayer.playerLog('Picked up item', objType.debugname as string);
 
@@ -108,10 +102,10 @@ const ObjOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.OBJ_COORD]: (state) => {
+    [ScriptOpcode.OBJ_COORD]: state => {
         const obj = state.activeObj;
         state.pushInt(Position.packCoord(obj.level, obj.x, obj.z));
-    },
+    }
 };
 
 export default ObjOps;

@@ -58,8 +58,8 @@ export default class FontType {
             this.charOffsetX[i] = idx.g1();
             this.charOffsetY[i] = idx.g1();
 
-            const w = this.charMaskWidth[i] = idx.g2();
-            const h = this.charMaskHeight[i] = idx.g2();
+            const w = (this.charMaskWidth[i] = idx.g2());
+            const h = (this.charMaskHeight[i] = idx.g2());
 
             const type = idx.g1();
             const len = w * h;
@@ -73,7 +73,7 @@ export default class FontType {
             } else if (type == 1) {
                 for (let x = 0; x < w; x++) {
                     for (let y = 0; y < h; y++) {
-                        this.charMask[i][x + (y * w)] = dat.g1();
+                        this.charMask[i][x + y * w] = dat.g1();
                     }
                 }
             }
@@ -101,7 +101,7 @@ export default class FontType {
 
             space = 0;
             for (let y = Math.floor(h / 7); y < h; y++) {
-                space += this.charMask[i][w + (y * w) - 1];
+                space += this.charMask[i][w + y * w - 1];
             }
 
             if (space <= Math.floor(h / 7)) {

@@ -162,9 +162,9 @@ function nameToFont(name: string) {
 }
 
 type Component = {
-    root: string | null,
-    children: number[],
-    src: Record<string, string | number>
+    root: string | null;
+    children: number[];
+    src: Record<string, string | number>;
 };
 
 export function packInterface(server: boolean) {
@@ -179,7 +179,7 @@ export function packInterface(server: boolean) {
         component[id] = {
             root: null,
             children: [],
-            src: {},
+            src: {}
         };
     }
 
@@ -367,7 +367,8 @@ export function packInterface(server: boolean) {
 
                             data.p2(comLink);
                             data.p2(objLink);
-                        } break;
+                            break;
+                        }
                         case 'testvar': {
                             const varpLink = varpPack.indexOf(parts[1]);
                             if (varpLink === -1) {
@@ -375,7 +376,8 @@ export function packInterface(server: boolean) {
                             }
 
                             data.p2(varpLink);
-                        } break;
+                            break;
+                        }
                         case 'stat_xp_remaining':
                             data.p2(nameToStat(parts[1]));
                             break;
@@ -392,7 +394,8 @@ export function packInterface(server: boolean) {
 
                             data.p2(comLink);
                             data.p2(objLink);
-                        } break;
+                            break;
+                        }
                         case 'testbit': {
                             const varpLink = varpPack.indexOf(parts[1]);
                             if (varpLink === -1) {
@@ -401,7 +404,8 @@ export function packInterface(server: boolean) {
 
                             data.p2(varpLink);
                             data.p2(parseInt(parts[2]));
-                        } break;
+                            break;
+                        }
                     }
                 }
             }

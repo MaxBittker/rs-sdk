@@ -7,9 +7,11 @@ import { PACKFILE, ConfigValue, ConfigLine } from '#lostcity/tools/packconfig/Pa
 
 export function parseVarpConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
+    // prettier-ignore
     const numberKeys = [
         'clientcode'
     ];
+    // prettier-ignore
     const booleanKeys = [
         'protect', 'transmit'
     ];

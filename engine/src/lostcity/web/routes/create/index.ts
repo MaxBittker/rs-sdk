@@ -20,9 +20,7 @@ export default function (f: any, opts: any, next: any) {
 
         if (typeof req.session.createUsername !== 'undefined' && req.session.createStep !== CreateStep.FINISH) {
             // double check when loading between steps so the user isn't left confused if it gets sniped
-            const exists = await db.selectFrom('account')
-                .where('username', '=', toSafeName(req.session.createUsername))
-                .selectAll().executeTakeFirst();
+            const exists = await db.selectFrom('account').where('username', '=', toSafeName(req.session.createUsername)).selectAll().executeTakeFirst();
             if (exists) {
                 req.session.createStep = CreateStep.USERNAME;
                 req.session.createError = `The username "${req.session.createUsername}" is already taken.`;
@@ -63,10 +61,7 @@ export default function (f: any, opts: any, next: any) {
         const oneHourAgo = new Date();
         oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
-        const recentlyCreated = await db.selectFrom('account')
-            .where('registration_date', '>', oneHourAgo)
-            .where('registration_ip', '=', ip)
-            .selectAll().execute();
+        const recentlyCreated = await db.selectFrom('account').where('registration_date', '>', oneHourAgo).where('registration_ip', '=', ip).selectAll().execute();
         if (recentlyCreated.length >= 3) {
             req.session.createStep = CreateStep.USERNAME;
             req.session.createError = 'You have created too many accounts recently. Please try again later.';
@@ -81,7 +76,10 @@ export default function (f: any, opts: any, next: any) {
 
             const BLOCKED_NAMES = [
                 // thank you all
-                'andrew', 'paul', 'ian', 'ash'
+                'andrew',
+                'paul',
+                'ian',
+                'ash'
             ];
             const blocked = BLOCKED_NAMES.includes(name);
 
@@ -100,9 +98,7 @@ export default function (f: any, opts: any, next: any) {
             }
 
             req.session.createUsername = toDisplayName(username);
-            const exists = await db.selectFrom('account')
-                .where('username', '=', name)
-                .selectAll().executeTakeFirst();
+            const exists = await db.selectFrom('account').where('username', '=', name).selectAll().executeTakeFirst();
             if (exists) {
                 req.session.createStep = CreateStep.USERNAME;
                 req.session.createError = `The username "${req.session.createUsername}" is already taken.`;
@@ -133,12 +129,14 @@ export default function (f: any, opts: any, next: any) {
 
             // case insensitivity is authentic :(
             const hash = await bcrypt.hash(password.toLowerCase(), 10);
-            await db.insertInto('account')
+            await db
+                .insertInto('account')
                 .values({
                     username: toSafeName(username),
                     password: hash,
-                    registration_ip: ip,
-                }).execute();
+                    registration_ip: ip
+                })
+                .execute();
 
             req.session.createStep = CreateStep.FINISH;
         }

@@ -11,13 +11,7 @@ if (args.length < 2) {
 const inputDir = args[0];
 const outputDir = args[1];
 
-const names = [
-    ['', 'title', 'config', 'interface', 'media', 'versionlist', 'textures', 'wordenc', 'sounds'],
-    [],
-    [],
-    [],
-    []
-];
+const names = [['', 'title', 'config', 'interface', 'media', 'versionlist', 'textures', 'wordenc', 'sounds'], [], [], [], []];
 const extensions = ['jag', 'dat', 'dat', 'mid', 'dat'];
 
 const store = new JagStore(inputDir);
