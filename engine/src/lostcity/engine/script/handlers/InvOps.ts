@@ -58,13 +58,13 @@ const InvOps: CommandHandlers = {
 
     // inv write
     [ScriptOpcode.INV_ADD]: checkedHandler(ActivePlayer, (state) => {
-        const [inv, obj, count] = state.popInts(3);
+        const [inv, objId, count] = state.popInts(3);
 
         if (inv === -1) {
             throw new Error('$inv is null');
         }
 
-        if (obj === -1) {
+        if (objId === -1) {
             throw new Error('$obj is null');
         }
 
@@ -72,19 +72,28 @@ const InvOps: CommandHandlers = {
             throw new Error(`$count is out of range: ${count}`);
         }
 
+        const obj = ObjType.get(objId);
+        if (obj.dummyitem === 1) {
+            throw new Error(`attempted to add graphic_only dummy item: ${obj.debugname}`);
+        }
+
         const type = InvType.get(inv);
         if (!state.pointerGet(ProtectedActivePlayer[state.intOperand]) && type.protect && type.scope !== InvType.SCOPE_SHARED) {
             throw new Error(`$inv requires protected access: ${type.debugname}`);
         }
 
+        if (!type.dummyinv && obj.dummyitem !== 0) {
+            throw new Error(`dummyitem in non-dummyinv: ${obj.debugname} -> ${type.debugname}`);
+        }
+
         const player = state.activePlayer;
-        const overflow = count - player.invAdd(inv, obj, count);
+        const overflow = count - player.invAdd(inv, objId, count);
         if (overflow > 0) {
             const floorObj = new Obj(
                 player.level,
                 player.x,
                 player.z,
-                obj,
+                objId,
                 overflow
             );
 

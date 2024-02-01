@@ -19,9 +19,9 @@ const ActiveObj = [ScriptPointer.ActiveObj, ScriptPointer.ActiveObj2];
 
 const ObjOps: CommandHandlers = {
     [ScriptOpcode.OBJ_ADD]: (state) => {
-        const [coord, type, count, duration] = state.popInts(4);
+        const [coord, objId, count, duration] = state.popInts(4);
 
-        if (type == -1) {
+        if (objId == -1) {
             throw new Error('attempted to use obj was null.');
         }
 
@@ -37,13 +37,18 @@ const ObjOps: CommandHandlers = {
             throw new Error(`attempted to use coord that was out of range: ${coord}. Range should be: 0 to ${Position.max}`);
         }
 
+        const type = ObjType.get(objId);
+        if (type.dummyitem !== 0) {
+            throw new Error(`attempted to add dummy item: ${type.debugname}`);
+        }
+
         const pos = Position.unpackCoord(coord);
 
         const obj = new Obj(
             pos.level,
             pos.x,
             pos.z,
-            type,
+            objId,
             count
         );
 
