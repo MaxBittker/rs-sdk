@@ -421,6 +421,8 @@ param=stabdefence,1
 param=slashdefence,1
 param=attackrate,6
 category=barbarian
+param=attack_anim,human_baxe_slash
+param=defend_anim,human_blunt_defend
 
 [npc_13]
 name=Wizard
@@ -559,6 +561,8 @@ param=damagetype,^stab_style
 param=defend_sound,female_hit
 param=death_sound,female_death
 category=barbarian
+param=attack_anim,human_spear_stab
+param=defend_anim,human_spear_defend
 
 [alkharid_warrior]
 name=Al-Kharid warrior
@@ -1484,6 +1488,7 @@ param=damagetype,^stab_style
 param=attack_anim,hellhound_attack
 param=defend_anim,hellhound_block
 param=death_anim,hellhound_death
+huntmode=cowardly
 
 [king_black_dragon]
 size=5
@@ -1767,6 +1772,7 @@ param=attack_sound,insect_3
 param=defend_sound,insect_2
 param=death_sound,insect_1
 param=death_drop,null
+huntmode=cowardly
 
 [npc_60]
 walkanim=giantspider_walk
@@ -1793,6 +1799,7 @@ param=attack_sound,insect_3
 param=defend_sound,insect_2
 param=death_sound,insect_1
 param=death_drop,null
+huntmode=cowardly
 
 [npc_61]
 walkanim=spider_walk
@@ -1848,6 +1855,7 @@ param=attack_sound,insect_3
 param=defend_sound,insect_2
 param=death_sound,insect_1
 param=death_drop,null
+huntmode=cowardly
 
 [npc_63]
 walkanim=giantspider_walk
@@ -1879,6 +1887,7 @@ param=attack_sound,insect_3
 param=defend_sound,insect_2
 param=death_sound,insect_1
 param=death_drop,null
+huntmode=cowardly
 
 [npc_64]
 walkanim=giantspider_walk
@@ -1909,6 +1918,7 @@ param=attack_sound,insect_3
 param=defend_sound,insect_2
 param=death_sound,insect_1
 param=death_drop,null
+huntmode=cowardly
 
 [npc_65]
 walkanim=midget_walk
@@ -2114,6 +2124,7 @@ param=attack_sound,zombie_attack
 param=defend_sound,zombie_hit
 param=death_sound,zombie_death
 param=undead,^true
+huntmode=cowardly
 
 [npc_74]
 name=Zombie
@@ -2140,6 +2151,7 @@ param=attack_sound,zombie_attack
 param=defend_sound,zombie_hit
 param=death_sound,zombie_death
 param=undead,^true
+huntmode=cowardly
 
 [npc_75]
 name=Zombie
@@ -2168,6 +2180,7 @@ param=attack_sound,zombie_attack
 param=defend_sound,zombie_hit
 param=death_sound,zombie_death
 param=undead,^true
+huntmode=cowardly
 
 [zombie_entrana]
 name=Zombie
@@ -2250,6 +2263,7 @@ param=attack_sound,bat_attack
 param=defend_sound,bat_hit
 param=death_sound,bat_death
 param=death_drop,bat_bones
+huntmode=cowardly
 
 [death_wing]
 name=Death wing
@@ -2369,6 +2383,7 @@ param=attack_sound,demon_2
 param=defend_sound,demon_3
 param=death_sound,demon_1
 param=death_drop,ashes
+huntmode=aggressive_melee
 
 [npc_84]
 size=3
@@ -2402,6 +2417,7 @@ param=attack_sound,black_demon_attack
 param=defend_sound,black_demon_hit
 param=death_sound,black_demon_death
 param=death_drop,ashes
+huntmode=aggressive_melee
 
 [golem]
 name=Golem
@@ -2443,6 +2459,7 @@ param=death_anim,giantrat_death
 param=attack_sound,rat_attack
 param=defend_sound,rat_hit
 param=death_sound,rat_death
+huntmode=cowardly
 
 [npc_87]
 size=2
@@ -2467,7 +2484,7 @@ param=death_anim,giantrat_death
 param=attack_sound,rat_attack
 param=defend_sound,rat_hit
 param=death_sound,rat_death
-huntmode=aggressive_melee
+huntmode=cowardly
 
 [npc_88]
 size=2
@@ -2571,6 +2588,7 @@ param=attack_sound,skeleton_attack
 param=defend_sound,skelly_hit
 param=death_sound,skeleton_death
 param=undead,^true
+huntmode=cowardly
 
 [npc_92]
 name=Skeleton
@@ -2603,7 +2621,7 @@ param=attack_sound,skeleton_attack
 param=defend_sound,skelly_hit
 param=death_sound,skeleton_death
 param=undead,^true
-huntmode=aggressive_melee
+huntmode=cowardly
 
 [npc_93]
 name=Skeleton
@@ -2638,7 +2656,7 @@ param=attack_sound,skeleton_attack
 param=defend_sound,skelly_hit
 param=death_sound,skeleton_death
 param=undead,^true
-huntmode=aggressive_melee
+huntmode=cowardly
 
 [npc_94]
 name=Skeleton Mage
@@ -2688,7 +2706,7 @@ param=damagetype,^stab_style
 param=attack_anim,dog_attack
 param=defend_anim,dog_block
 param=death_anim,dog_death
-huntmode=aggressive_melee
+huntmode=cowardly
 param=death_drop,wolf_bones
 
 [npc_96]
@@ -2716,6 +2734,7 @@ param=attack_anim,dog_attack
 param=defend_anim,dog_block
 param=death_anim,dog_death
 param=death_drop,wolf_bones
+huntmode=cowardly
 
 [npc_97]
 size=2
@@ -2742,6 +2761,7 @@ param=attack_anim,dog_attack
 param=defend_anim,dog_block
 param=death_anim,dog_death
 param=death_drop,wolf_bones
+huntmode=cowardly
 
 [npc_98]
 name=Dog
@@ -2896,7 +2916,7 @@ param=defend_sound,ghost_hit
 param=death_sound,ghost_death
 param=death_drop,null
 param=undead,^true
-huntmode=aggressive_melee
+huntmode=cowardly
 
 [npc_104]
 name=Ghost
@@ -3006,6 +3026,7 @@ param=damagetype,^slash_style
 param=attack_anim,scorpion_attack
 param=defend_anim,scorpion_parry
 param=death_anim,scorpion_death
+huntmode=cowardly
 
 [npc_108]
 size=2
@@ -3031,6 +3052,7 @@ param=damagetype,^stab_style
 param=attack_anim,scorpion_attack
 param=defend_anim,scorpion_parry
 param=death_anim,scorpion_death
+huntmode=cowardly
 
 [npc_109]
 name=Pit Scorpion
@@ -3087,6 +3109,7 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
+huntmode=cowardly
 
 [ice_giant]
 size=2
@@ -3117,6 +3140,7 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
+huntmode=cowardly
 
 [moss_giant]
 size=2
@@ -3149,6 +3173,7 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
+huntmode=cowardly
 
 [jogre]
 size=2
@@ -3184,6 +3209,7 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
+huntmode=cowardly
 
 [npc_114]
 size=2
@@ -3210,6 +3236,7 @@ param=attack_anim,ogre_attack
 param=defend_anim,ogre_block
 param=death_anim,ogre_death
 param=death_drop,big_bones
+huntmode=cowardly
 
 [npc_115]
 size=2
@@ -3291,6 +3318,7 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
+huntmode=cowardly
 
 [npc_118]
 walkanim=dwarf_walk
@@ -3434,6 +3462,7 @@ param=damagetype,^crush_style
 param=attack_anim,hobgoblin_attack
 param=defend_anim,hobgoblin_block
 param=death_anim,hobgoblin_death
+huntmode=cowardly
 
 [npc_123]
 walkanim=hobgoblin_walk
@@ -3459,6 +3488,7 @@ param=damagetype,^stab_style
 param=attack_anim,hobgoblin_spear_attack
 param=defend_anim,hobgoblin_block
 param=death_anim,hobgoblin_death
+huntmode=cowardly
 
 [npc_124]
 hasalpha=yes
@@ -3503,6 +3533,7 @@ param=crushdefence,20
 param=magicdefence,10
 param=rangedefence,30
 param=damagetype,^crush_style
+huntmode=cowardly
 
 [npc_125]
 hasalpha=yes
@@ -3546,6 +3577,7 @@ param=rangedefence,30
 param=damagetype,^slash_style
 param=defend_sound,ice_warrior_hit
 param=death_sound,ice_warrior_death
+huntmode=cowardly
 
 [otherworldly_being]
 walkanims=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -3608,6 +3640,7 @@ param=attack_anim,magicaxe_attack
 param=defend_anim,magicaxe_block
 param=death_anim,magicaxe_death
 param=death_drop,iron_battleaxe
+huntmode=cowardly
 
 [snake]
 name=Snake
@@ -3629,6 +3662,7 @@ param=death_anim,snake_death
 param=attack_sound,snake_attack
 param=defend_sound,snake_hit
 param=death_sound,snake_death
+huntmode=cowardly
 
 [npc_129]
 walkanim=skavid_walk
@@ -3755,6 +3789,7 @@ param=attack_sound,insect_3
 param=defend_sound,insect_2
 param=death_sound,insect_1
 param=death_drop,null
+huntmode=cowardly
 
 [mammoth]
 size=3
@@ -3918,6 +3953,7 @@ param=damagetype,^stab_style
 param=attack_anim,dog_attack
 param=defend_anim,dog_block
 param=death_anim,dog_death
+huntmode=aggressive_melee
 
 [npc_142]
 size=2
@@ -3943,6 +3979,7 @@ param=damagetype,^stab_style
 param=attack_anim,dog_attack
 param=defend_anim,dog_block
 param=death_anim,dog_death
+huntmode=cowardly
 param=death_drop,wolf_bones
 
 [npc_143]
@@ -3996,6 +4033,7 @@ param=damagetype,^stab_style
 param=attack_anim,scorpion_attack
 param=defend_anim,scorpion_parry
 param=death_anim,scorpion_death
+huntmode=cowardly
 
 [npc_145]
 hasalpha=yes
@@ -4363,6 +4401,7 @@ strength=5
 defence=5
 param=strengthbonus,-21
 param=damagetype,^crush_style
+huntmode=cowardly
 
 [npc_176]
 name=Witch
@@ -4571,6 +4610,7 @@ attack=8
 strength=8
 defence=12
 param=damagetype,^crush_style
+huntmode=cowardly
 
 [npc_182]
 name=Pirate
@@ -4683,6 +4723,7 @@ param=stabdefence,3
 param=slashdefence,2
 param=damagetype,^slash_style
 category=pirate
+huntmode=cowardly
 
 [npc_185]
 name=Pirate
@@ -4750,6 +4791,7 @@ param=stabdefence,2
 param=slashdefence,3
 param=crushdefence,3
 param=damagetype,^stab_style
+huntmode=cowardly
 
 [rogue]
 name=Rogue
@@ -5158,6 +5200,8 @@ param=crushdefence,10
 param=magicdefence,-1
 param=rangedefence,11
 param=damagetype,^slash_style
+param=attack_anim,human_baxe_slash
+param=defend_anim,human_blunt_defend
 
 [npc_200]
 name=Lord Daquarius
@@ -10304,6 +10348,7 @@ param=attack_sound,black_demon_attack
 param=defend_sound,black_demon_hit
 param=death_sound,black_demon_death
 param=death_drop,ashes
+huntmode=cowardly
 
 [imp]
 name=Imp
