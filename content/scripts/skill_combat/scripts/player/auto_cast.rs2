@@ -1,20 +1,20 @@
 [if_button,attack_magic_battlestaff:com_24] @open_autocast_interface;
-[if_button,attack_magic_spell:com_0] @set_autocast_spell(^wind_strike);
-[if_button,attack_magic_spell:com_1] @set_autocast_spell(^water_strike);
-[if_button,attack_magic_spell:com_2] @set_autocast_spell(^earth_strike);
-[if_button,attack_magic_spell:com_3] @set_autocast_spell(^fire_strike);
-[if_button,attack_magic_spell:com_4] @set_autocast_spell(^wind_bolt);
-[if_button,attack_magic_spell:com_5] @set_autocast_spell(^water_bolt);
-[if_button,attack_magic_spell:com_6] @set_autocast_spell(^earth_bolt);
-[if_button,attack_magic_spell:com_7] @set_autocast_spell(^fire_bolt);
-[if_button,attack_magic_spell:com_8] @set_autocast_spell(^wind_blast);
-[if_button,attack_magic_spell:com_9] @set_autocast_spell(^water_blast);
-[if_button,attack_magic_spell:com_10] @set_autocast_spell(^earth_blast);
-[if_button,attack_magic_spell:com_11] @set_autocast_spell(^fire_blast);
-[if_button,attack_magic_spell:com_12] @set_autocast_spell(^wind_wave);
-[if_button,attack_magic_spell:com_13] @set_autocast_spell(^water_wave);
-[if_button,attack_magic_spell:com_14] @set_autocast_spell(^earth_wave);
-[if_button,attack_magic_spell:com_15] @set_autocast_spell(^fire_wave);
+[if_button,staff_spells:com_0] @set_autocast_spell(^wind_strike);
+[if_button,staff_spells:com_1] @set_autocast_spell(^water_strike);
+[if_button,staff_spells:com_2] @set_autocast_spell(^earth_strike);
+[if_button,staff_spells:com_3] @set_autocast_spell(^fire_strike);
+[if_button,staff_spells:com_4] @set_autocast_spell(^wind_bolt);
+[if_button,staff_spells:com_5] @set_autocast_spell(^water_bolt);
+[if_button,staff_spells:com_6] @set_autocast_spell(^earth_bolt);
+[if_button,staff_spells:com_7] @set_autocast_spell(^fire_bolt);
+[if_button,staff_spells:com_8] @set_autocast_spell(^wind_blast);
+[if_button,staff_spells:com_9] @set_autocast_spell(^water_blast);
+[if_button,staff_spells:com_10] @set_autocast_spell(^earth_blast);
+[if_button,staff_spells:com_11] @set_autocast_spell(^fire_blast);
+[if_button,staff_spells:com_12] @set_autocast_spell(^wind_wave);
+[if_button,staff_spells:com_13] @set_autocast_spell(^water_wave);
+[if_button,staff_spells:com_14] @set_autocast_spell(^earth_wave);
+[if_button,staff_spells:com_15] @set_autocast_spell(^fire_wave);
 
 [label,open_autocast_interface]
 if_close;
@@ -22,9 +22,9 @@ if (p_finduid(uid) = false) { // cant open autocast interface if delayed
     return;
 }
 %attackstyle_magic = 0;
-if_settab(attack_magic_spell, 0);
+if_settab(staff_spells, 0);
 
-[if_button,attack_magic_spell:com_174]
+[if_button,staff_spells:com_174]
 if_close;
 ~initalltabs;
 

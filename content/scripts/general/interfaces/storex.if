@@ -1,0 +1,13 @@
+[inv]
+type=inv
+x=16
+y=8
+width=4
+height=7
+draggable=yes
+margin=10,4
+option1=Store 1
+option2=Store 5
+option3=Store10
+option4=StoreAll
+option5=Store X

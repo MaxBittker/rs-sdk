@@ -1,9 +1,9 @@
-[inv_button1,bank_deposit_side:inv] @bank_deposit(last_slot, 1);
-[inv_button2,bank_deposit_side:inv] @bank_deposit(last_slot, 5);
-[inv_button3,bank_deposit_side:inv] @bank_deposit(last_slot, 10);
-[inv_button4,bank_deposit_side:inv] @bank_deposit(last_slot, ^max_32bit_int);
-[inv_button5,bank_deposit_side:inv] @bank_deposit(last_slot, null);
-[inv_buttond,bank_deposit_side:inv] inv_movetoslot(inv, inv, last_slot, last_targetslot);
+[inv_button1,bank_side:inv] @bank_deposit(last_slot, 1);
+[inv_button2,bank_side:inv] @bank_deposit(last_slot, 5);
+[inv_button3,bank_side:inv] @bank_deposit(last_slot, 10);
+[inv_button4,bank_side:inv] @bank_deposit(last_slot, ^max_32bit_int);
+[inv_button5,bank_side:inv] @bank_deposit(last_slot, null);
+[inv_buttond,bank_side:inv] inv_movetoslot(inv, inv, last_slot, last_targetslot);
 
 [label,bank_deposit](int $slot, int $requested_number)
 // Check if the slot was empty.
