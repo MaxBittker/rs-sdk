@@ -9,16 +9,23 @@ inv_add(inv, willow_logs, 3);
 inv_add(inv, oak_logs, 3);
 
 [debugproc,fmbank]
-~require_members_feature;
-def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "This clears your bank. Continue?");
-if ($choice = 2) {
-    return;
+if_close;
+if (p_finduid(uid) = true) {
+    ~require_members_feature;
+    def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "This clears your bank. Continue?");
+    if ($choice = 2) {
+        return;
+    }
+
+    inv_clear(bank);
+
+    inv_add(bank, tinderbox, 10);
+    inv_add(bank, logs, 10000);
+    inv_add(bank, magic_logs, 10000);
+    inv_add(bank, yew_logs, 10000);
+    inv_add(bank, maple_logs, 10000);
+    inv_add(bank, willow_logs, 10000);
+    inv_add(bank, oak_logs, 10000);
+} else {
+    @please_finish;
 }
-inv_clear(bank);
-inv_add(bank, tinderbox, 10);
-inv_add(bank, logs, 10000);
-inv_add(bank, magic_logs, 10000);
-inv_add(bank, yew_logs, 10000);
-inv_add(bank, maple_logs, 10000);
-inv_add(bank, willow_logs, 10000);
-inv_add(bank, oak_logs, 10000);

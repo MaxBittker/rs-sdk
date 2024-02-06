@@ -1,51 +1,62 @@
 [debugproc,dragslaystart]
-p_telejump(0_49_52_55_36);
-%questpoints = 32;
-%dragon_progress = 0;
-%dragon_ned_hired = 0;
-%dragon_oracle = 0;
-%dragon_wall = 0;
-%dragon_shield = 0;
-%dragon_goblin = 0;
-%dragon_planks = 0;
+if_close;
+if (p_finduid(uid) = true) {
+    p_telejump(0_49_52_55_36);
+    %questpoints = 32;
+    %dragon_progress = 0;
+    %dragon_ned_hired = 0;
+    %dragon_oracle = 0;
+    %dragon_wall = 0;
+    %dragon_shield = 0;
+    %dragon_goblin = 0;
+    %dragon_planks = 0;
+} else {
+    @please_finish;
+}
 
 [debugproc,dragslaybank]
-def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "This clears your bank. Continue?");
-if ($choice = 2) {
-    return;
+if_close;
+if (p_finduid(uid) = true) {
+    def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "This clears your bank. Continue?");
+    if ($choice = 2) {
+        return;
+    }
+
+    inv_clear(bank);
+
+    // give gp
+    inv_add(bank, coins, 1000000);
+
+    // give runes
+    inv_add(bank, airrune, 10000);
+    inv_add(bank, firerune, 10000);
+    inv_add(bank, waterrune, 10000);
+    inv_add(bank, earthrune, 10000);
+    inv_add(bank, lawrune, 10000);
+
+    // give food
+    inv_add(bank, lobster, 10000);
+    inv_add(bank, 3dose1strength, 10000);
+
+    // give armor
+    inv_add(bank, rune_scimitar, 10000);
+    inv_add(bank, rune_full_helm, 10000);
+    inv_add(bank, rune_chainbody, 10000);
+    inv_add(bank, rune_platelegs, 10000);
+    inv_add(bank, rune_kiteshield, 10000);
+    inv_add(bank, black_cape, 10000);
+    inv_add(bank, amulet_of_strength, 10000);
+    inv_add(bank, dragonhide_vamb, 10000);
+    inv_add(bank, leather_boots, 10000);
+
+    // give quest items
+    inv_add(bank, wizards_mind_bomb, 10000);
+    inv_add(bank, unfired_bowl, 10000);
+    inv_add(bank, lobster_pot, 10000);
+    inv_add(bank, silk, 10000);
+    inv_add(bank, plank, 10000);
+    inv_add(bank, nails, 10000);
+    inv_add(bank, hammer, 10000);
+} else {
+    @please_finish;
 }
-inv_clear(bank);
-
-// give gp
-inv_add(bank, coins, 1000000);
-
-// give runes
-inv_add(bank, airrune, 10000);
-inv_add(bank, firerune, 10000);
-inv_add(bank, waterrune, 10000);
-inv_add(bank, earthrune, 10000);
-inv_add(bank, lawrune, 10000);
-
-// give food
-inv_add(bank, lobster, 10000);
-inv_add(bank, 3dose1strength, 10000);
-
-// give armor
-inv_add(bank, rune_scimitar, 10000);
-inv_add(bank, rune_full_helm, 10000);
-inv_add(bank, rune_chainbody, 10000);
-inv_add(bank, rune_platelegs, 10000);
-inv_add(bank, rune_kiteshield, 10000);
-inv_add(bank, black_cape, 10000);
-inv_add(bank, amulet_of_strength, 10000);
-inv_add(bank, dragonhide_vamb, 10000);
-inv_add(bank, leather_boots, 10000);
-
-// give quest items
-inv_add(bank, wizards_mind_bomb, 10000);
-inv_add(bank, unfired_bowl, 10000);
-inv_add(bank, lobster_pot, 10000);
-inv_add(bank, silk, 10000);
-inv_add(bank, plank, 10000);
-inv_add(bank, nails, 10000);
-inv_add(bank, hammer, 10000);

@@ -6,3 +6,6 @@ if (string_length($example2) > 0) {
     mes("Usage --> <$command> --> <$example>");
     ~mesbox("@blu@Example for <$command>|<$example>");
 }
+
+[label,please_finish]
+mes("Please finish what you are doing first.");

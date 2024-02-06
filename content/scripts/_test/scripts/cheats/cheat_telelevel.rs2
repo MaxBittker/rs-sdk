@@ -4,5 +4,10 @@ if ($y <= 0) {
     return;
 }
 
-def_int $currentY = coordy(coord);
-p_teleport(movecoord(coord, 0, sub($y, $currentY), 0));
+if_close;
+if (p_finduid(uid) = true) {
+    def_int $currentY = coordy(coord);
+    p_teleport(movecoord(coord, 0, sub($y, $currentY), 0));
+} else {
+    @please_finish;
+}

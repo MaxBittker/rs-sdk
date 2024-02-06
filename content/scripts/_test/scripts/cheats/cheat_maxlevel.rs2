@@ -1,21 +1,26 @@
 [debugproc,maxlevel]
-def_int $max_xp = 130344310;
-givexp(attack, $max_xp);
-givexp(defence, $max_xp);
-givexp(strength, $max_xp);
-givexp(hitpoints, $max_xp);
-givexp(ranged, $max_xp);
-givexp(prayer, $max_xp);
-givexp(magic, $max_xp);
-givexp(cooking, $max_xp);
-givexp(woodcutting, $max_xp);
-givexp(fletching, $max_xp);
-givexp(fishing, $max_xp);
-givexp(firemaking, $max_xp);
-givexp(crafting, $max_xp);
-givexp(smithing, $max_xp);
-givexp(mining, $max_xp);
-givexp(herblore, $max_xp);
-givexp(agility, $max_xp);
-givexp(thieving, $max_xp);
-givexp(runecraft, $max_xp);
+if_close;
+if (p_finduid(uid) = true) {
+    def_int $max_xp = 130344310;
+    givexp(attack, $max_xp);
+    givexp(defence, $max_xp);
+    givexp(strength, $max_xp);
+    givexp(hitpoints, $max_xp);
+    givexp(ranged, $max_xp);
+    givexp(prayer, $max_xp);
+    givexp(magic, $max_xp);
+    givexp(cooking, $max_xp);
+    givexp(woodcutting, $max_xp);
+    givexp(fletching, $max_xp);
+    givexp(fishing, $max_xp);
+    givexp(firemaking, $max_xp);
+    givexp(crafting, $max_xp);
+    givexp(smithing, $max_xp);
+    givexp(mining, $max_xp);
+    givexp(herblore, $max_xp);
+    givexp(agility, $max_xp);
+    givexp(thieving, $max_xp);
+    givexp(runecraft, $max_xp);
+} else {
+    @please_finish;
+}

@@ -1,2 +1,71 @@
+[debugproc,home]
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_50_50_22_22);
+} else {
+    @please_finish;    
+}
+
+[debugproc,varrock]
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_50_53_13_31);
+} else {
+    @please_finish;    
+}
+
+[debugproc,falador]
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_46_52_21_51);
+} else {
+    @please_finish;    
+}
+
+[debugproc,draynor]
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_48_50_8_50);
+} else {
+    @please_finish;    
+}
+
+[debugproc,portsarim]
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_47_50_19_25);
+} else {
+    @please_finish;    
+}
+
+[debugproc,rimmington]
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_46_50_12_10);
+} else {
+    @please_finish;    
+}
+
+[debugproc,alkharid]
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_51_49_28_47);
+} else {
+    @please_finish;    
+}
+
+[debugproc,seers]
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_42_54_44_29);
+} else {
+    @please_finish;    
+}
+
 [debugproc,giants]
-p_telejump(0_48_153_38_38);
+if_close;
+if (p_finduid(uid) = true) {
+    ~player_teleport_normal(0_48_153_38_38);
+} else {
+    @please_finish;    
+}

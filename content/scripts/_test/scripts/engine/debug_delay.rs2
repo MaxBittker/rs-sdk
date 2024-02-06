@@ -3,4 +3,9 @@ if (map_localdev = false) {
     return;
 }
 
-p_delay($delay);
+if_close;
+if (p_finduid(uid) = true) {
+    p_delay($delay);
+} else {
+    @please_finish;
+}

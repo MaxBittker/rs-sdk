@@ -1,3 +1,8 @@
 [debugproc,energy]
-healenergy(10000); // 100=1%, 1000=10%, 10000=100%
-%player_run = ^player_run_on;
+if_close;
+if (p_finduid(uid) = true) {
+    healenergy(10000); // 100=1%, 1000=10%, 10000=100%
+    %player_run = ^player_run_on;
+} else {
+    @please_finish;
+}

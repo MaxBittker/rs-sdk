@@ -3,8 +3,18 @@ if ($inv = null) {
     $inv = inv;
 }
 
-inv_clear($inv);
+if ($inv = inv) {
+    // inv is unprotected and we cannot check in content if something is (currently)
+    inv_clear($inv);
+} else {
+    if_close;
+    if (p_finduid(uid) = true) {
+        inv_clear($inv);
 
-if ($inv = worn) {
-    buildappearance(worn);
+        if ($inv = worn) {
+            buildappearance(worn);
+        }
+    } else {
+        @please_finish;
+    }
 }

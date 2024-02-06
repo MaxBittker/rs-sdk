@@ -1,55 +1,60 @@
 [debugproc,fletchbank]
-~require_members_feature;
-def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "This clears your bank. Continue?");
-if ($choice = 2) {
-    return;
+if_close;
+if (p_finduid(uid) = true) {
+    ~require_members_feature;
+    def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "This clears your bank. Continue?");
+    if ($choice = 2) {
+        return;
+    }
+
+    inv_clear(bank);
+
+    // add a bunch of fletch items to bank
+    inv_add(bank, knife, 1000);
+    inv_add(bank, arrow_shaft, 1000);
+    inv_add(bank, headless_arrow, 1000);
+    inv_add(bank, feather, 1000);
+    inv_add(bank, bronze_arrowheads, 1000);
+    inv_add(bank, iron_arrowheads, 1000);
+    inv_add(bank, steel_arrowheads, 1000);
+    inv_add(bank, mithril_arrowheads, 1000);
+    inv_add(bank, adamant_arrowheads, 1000);
+    inv_add(bank, rune_arrowheads, 1000);
+    inv_add(bank, bronze_dart_tip, 1000);
+    inv_add(bank, iron_dart_tip, 1000);
+    inv_add(bank, steel_dart_tip, 1000);
+    inv_add(bank, mithril_dart_tip, 1000);
+    inv_add(bank, adamant_dart_tip, 1000);
+    inv_add(bank, rune_dart_tip, 1000);
+    inv_add(bank, bolt, 1000);
+    inv_add(bank, obj_45, 1000);
+    inv_add(bank, obj_46, 1000);
+    inv_add(bank, obj_47, 1000);
+    inv_add(bank, obj_48, 1000);
+    inv_add(bank, obj_50, 1000);
+    inv_add(bank, obj_54, 1000);
+    inv_add(bank, obj_56, 1000);
+    inv_add(bank, obj_58, 1000);
+    inv_add(bank, obj_60, 1000);
+    inv_add(bank, obj_62, 1000);
+    inv_add(bank, obj_64, 1000);
+    inv_add(bank, obj_66, 1000);
+    inv_add(bank, obj_68, 1000);
+    inv_add(bank, obj_70, 1000);
+    inv_add(bank, obj_72, 1000);
+    //add logs
+    inv_add(bank, logs, 1000);
+    inv_add(bank, oak_logs, 1000);
+    inv_add(bank, willow_logs, 1000);
+    inv_add(bank, maple_logs, 1000);
+    inv_add(bank, yew_logs, 1000);
+    inv_add(bank, magic_logs, 1000);
+    // bow string
+    inv_add(bank, bow_string, 1000);
+    //ogre
+    inv_add(bank, achey_logs, 1000);
+    inv_add(bank, obj_2864, 1000);
+    inv_add(bank, obj_2865, 1000);
+    inv_add(bank, wolf_bones, 1000);
+    inv_add(bank, chisel, 1000);
 }
-inv_clear(bank);
-// add a bunch of fletch items to bank
-inv_add(bank, knife, 1000);
-inv_add(bank, arrow_shaft, 1000);
-inv_add(bank, headless_arrow, 1000);
-inv_add(bank, feather, 1000);
-inv_add(bank, bronze_arrowheads, 1000);
-inv_add(bank, iron_arrowheads, 1000);
-inv_add(bank, steel_arrowheads, 1000);
-inv_add(bank, mithril_arrowheads, 1000);
-inv_add(bank, adamant_arrowheads, 1000);
-inv_add(bank, rune_arrowheads, 1000);
-inv_add(bank, bronze_dart_tip, 1000);
-inv_add(bank, iron_dart_tip, 1000);
-inv_add(bank, steel_dart_tip, 1000);
-inv_add(bank, mithril_dart_tip, 1000);
-inv_add(bank, adamant_dart_tip, 1000);
-inv_add(bank, rune_dart_tip, 1000);
-inv_add(bank, bolt, 1000);
-inv_add(bank, obj_45, 1000);
-inv_add(bank, obj_46, 1000);
-inv_add(bank, obj_47, 1000);
-inv_add(bank, obj_48, 1000);
-inv_add(bank, obj_50, 1000);
-inv_add(bank, obj_54, 1000);
-inv_add(bank, obj_56, 1000);
-inv_add(bank, obj_58, 1000);
-inv_add(bank, obj_60, 1000);
-inv_add(bank, obj_62, 1000);
-inv_add(bank, obj_64, 1000);
-inv_add(bank, obj_66, 1000);
-inv_add(bank, obj_68, 1000);
-inv_add(bank, obj_70, 1000);
-inv_add(bank, obj_72, 1000);
-//add logs
-inv_add(bank, logs, 1000);
-inv_add(bank, oak_logs, 1000);
-inv_add(bank, willow_logs, 1000);
-inv_add(bank, maple_logs, 1000);
-inv_add(bank, yew_logs, 1000);
-inv_add(bank, magic_logs, 1000);
-// bow string
-inv_add(bank, bow_string, 1000);
-//ogre
-inv_add(bank, achey_logs, 1000);
-inv_add(bank, obj_2864, 1000);
-inv_add(bank, obj_2865, 1000);
-inv_add(bank, wolf_bones, 1000);
-inv_add(bank, chisel, 1000);

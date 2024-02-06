@@ -4,28 +4,66 @@ if ($x <= 0 & $z <= 0 & $y <= 0) {
     return;
 }
 
-def_int $dx = sub($x, coordx(coord));
-def_int $dz = sub($z, coordz(coord));
-def_int $dy = sub($y, coordy(coord));
-p_teleport(movecoord(coord, $dx, $dy, $dz));
+if_close;
+if (p_finduid(uid) = true) {
+    def_int $dx = sub($x, coordx(coord));
+    def_int $dz = sub($z, coordz(coord));
+    def_int $dy = sub($y, coordy(coord));
+    p_teleport(movecoord(coord, $dx, $dy, $dz));
+}
 
 [debugproc,jtele](coord $coord)
-p_teleport($coord);
+if_close;
+if (p_finduid(uid) = true) {
+    p_teleport($coord);
+} else {
+    @please_finish;
+}
 
 [debugproc,west](int $distance)
-p_teleport(movecoord(coord, calc(0 - max($distance, 1)), 0, 0));
+if_close;
+if (p_finduid(uid) = true) {
+    p_teleport(movecoord(coord, calc(0 - max($distance, 1)), 0, 0));
+} else {
+    @please_finish;
+}
 
 [debugproc,east](int $distance)
-p_teleport(movecoord(coord, max($distance, 1), 0, 0));
+if_close;
+if (p_finduid(uid) = true) {
+    p_teleport(movecoord(coord, max($distance, 1), 0, 0));
+} else {
+    @please_finish;
+}
 
 [debugproc,up](int $distance)
-p_teleport(movecoord(coord, 0, max($distance, 1), 0));
+if_close;
+if (p_finduid(uid) = true) {
+    p_teleport(movecoord(coord, 0, max($distance, 1), 0));
+} else {
+    @please_finish;
+}
 
 [debugproc,down](int $distance)
-p_teleport(movecoord(coord, 0, calc(0 - max($distance, 1)), 0));
+if_close;
+if (p_finduid(uid) = true) {
+    p_teleport(movecoord(coord, 0, calc(0 - max($distance, 1)), 0));
+} else {
+    @please_finish;
+}
 
 [debugproc,north](int $distance)
-p_teleport(movecoord(coord, 0, 0, max($distance, 1)));
+if_close;
+if (p_finduid(uid) = true) {
+    p_teleport(movecoord(coord, 0, 0, max($distance, 1)));
+} else {
+    @please_finish;
+}
 
 [debugproc,south](int $distance)
-p_teleport(movecoord(coord, 0, 0, calc(0 - max($distance, 1))));
+if_close;
+if (p_finduid(uid) = true) {
+    p_teleport(movecoord(coord, 0, 0, calc(0 - max($distance, 1))));
+} else {
+    @please_finish;
+}

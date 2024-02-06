@@ -4,4 +4,9 @@ if ($stat = null | $amount < 1) {
     return;
 }
 
-givexp($stat, calc($amount * 10));
+if_close;
+if (p_finduid(uid) = true) {
+    givexp($stat, calc($amount * 10));
+} else {
+    @please_finish;
+}

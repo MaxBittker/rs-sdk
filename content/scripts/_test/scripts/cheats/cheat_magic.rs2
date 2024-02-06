@@ -15,55 +15,61 @@ inv_add(inv, bloodrune, 1000);
 inv_add(inv, soulrune, 1000);
 
 [debugproc,magicbank]
-~require_members_feature;
-def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "This clears your bank. Continue?");
-if ($choice = 2) {
-    return;
+if_close;
+if (p_finduid(uid) = true) {
+    ~require_members_feature;
+    def_int $choice = ~p_choice2_header("Yes.", 1, "No.", 2, "This clears your bank. Continue?");
+    if ($choice = 2) {
+        return;
+    }
+
+    inv_clear(bank);
+    inv_add(bank, airrune, 10000);
+    inv_add(bank, waterrune, 10000);
+    inv_add(bank, earthrune, 10000);
+    inv_add(bank, firerune, 10000);
+    inv_add(bank, mindrune, 10000);
+    inv_add(bank, cosmicrune, 10000);
+    inv_add(bank, deathrune, 10000);
+    inv_add(bank, naturerune, 10000);
+    inv_add(bank, bodyrune, 10000);
+    inv_add(bank, chaosrune, 10000);
+    inv_add(bank, lawrune, 10000);
+    inv_add(bank, bloodrune, 10000);
+    inv_add(bank, soulrune, 10000);
+    inv_add(bank, saradominstaff, 10000);
+    inv_add(bank, zamorakstaff, 10000);
+    inv_add(bank, guthixstaff, 10000);
+    inv_add(bank, iban_staff, 10000);
+    inv_add(bank, staff_of_air, 10000);
+    inv_add(bank, staff_of_water, 10000);
+    inv_add(bank, staff_of_earth, 10000);
+    inv_add(bank, staff_of_fire, 10000);
+    inv_add(bank, air_battlestaff, 10000);
+    inv_add(bank, water_battlestaff, 10000);
+    inv_add(bank, earth_battlestaff, 10000);
+    inv_add(bank, fire_battlestaff, 10000);
+    inv_add(bank, stafforb, 10000);
+    inv_add(bank, sapphire_amulet, 10000);
+    inv_add(bank, sapphire_ring, 10000);
+    inv_add(bank, emerald_amulet, 10000);
+    inv_add(bank, emerald_ring, 10000);
+    inv_add(bank, ruby_amulet, 10000);
+    inv_add(bank, ruby_ring, 10000);
+    inv_add(bank, diamond_amulet, 10000);
+    inv_add(bank, diamond_ring, 10000);
+    inv_add(bank, dragonstone_amulet, 10000);
+    inv_add(bank, dragonstone_ring, 10000);
+    // add ores for superheating
+    inv_add(bank, tin_ore, 10000);
+    inv_add(bank, copper_ore, 10000);
+    inv_add(bank, iron_ore, 10000);
+    inv_add(bank, silver_ore, 10000);
+    inv_add(bank, coal, 10000);
+    inv_add(bank, gold_ore, 10000);
+    inv_add(bank, mithril_ore, 10000);
+    inv_add(bank, adamantite_ore, 10000);
+    inv_add(bank, runite_ore, 10000);
+} else {
+    @please_finish;
 }
-inv_clear(bank);
-inv_add(bank, airrune, 10000);
-inv_add(bank, waterrune, 10000);
-inv_add(bank, earthrune, 10000);
-inv_add(bank, firerune, 10000);
-inv_add(bank, mindrune, 10000);
-inv_add(bank, cosmicrune, 10000);
-inv_add(bank, deathrune, 10000);
-inv_add(bank, naturerune, 10000);
-inv_add(bank, bodyrune, 10000);
-inv_add(bank, chaosrune, 10000);
-inv_add(bank, lawrune, 10000);
-inv_add(bank, bloodrune, 10000);
-inv_add(bank, soulrune, 10000);
-inv_add(bank, saradominstaff, 10000);
-inv_add(bank, zamorakstaff, 10000);
-inv_add(bank, guthixstaff, 10000);
-inv_add(bank, iban_staff, 10000);
-inv_add(bank, staff_of_air, 10000);
-inv_add(bank, staff_of_water, 10000);
-inv_add(bank, staff_of_earth, 10000);
-inv_add(bank, staff_of_fire, 10000);
-inv_add(bank, air_battlestaff, 10000);
-inv_add(bank, water_battlestaff, 10000);
-inv_add(bank, earth_battlestaff, 10000);
-inv_add(bank, fire_battlestaff, 10000);
-inv_add(bank, stafforb, 10000);
-inv_add(bank, sapphire_amulet, 10000);
-inv_add(bank, sapphire_ring, 10000);
-inv_add(bank, emerald_amulet, 10000);
-inv_add(bank, emerald_ring, 10000);
-inv_add(bank, ruby_amulet, 10000);
-inv_add(bank, ruby_ring, 10000);
-inv_add(bank, diamond_amulet, 10000);
-inv_add(bank, diamond_ring, 10000);
-inv_add(bank, dragonstone_amulet, 10000);
-inv_add(bank, dragonstone_ring, 10000);
-// add ores for superheating
-inv_add(bank, tin_ore, 10000);
-inv_add(bank, copper_ore, 10000);
-inv_add(bank, iron_ore, 10000);
-inv_add(bank, silver_ore, 10000);
-inv_add(bank, coal, 10000);
-inv_add(bank, gold_ore, 10000);
-inv_add(bank, mithril_ore, 10000);
-inv_add(bank, adamantite_ore, 10000);
-inv_add(bank, runite_ore, 10000);
