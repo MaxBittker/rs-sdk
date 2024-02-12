@@ -6,15 +6,15 @@
 <%- include('../_components/title-box.ejs', { title: 'Add News', links: [ { text: 'Latest News', href: '/news' } ] }); %>
 
 <% if (typeof preview !== 'undefined') { %>
-    <%- include('../_components/content-body-start.ejs'); %>
+    <%- include('../_components/content-body-start-left.ejs'); %>
     <center><b><%= date %> - <%= title %></b></center><br>
     <%- preview %>
-    <%- include('../_components/content-body-end.ejs'); %>
+    <%- include('../_components/content-body-end-left.ejs'); %>
 <% } else if (typeof newspost !== 'undefined') { %>
-    <%- include('../_components/content-body-start.ejs'); %>
+    <%- include('../_components/content-body-start-left.ejs'); %>
     <center><b><%= date %> - <%= newspost.title %></b></center><br>
     <%- newspost.content %>
-    <%- include('../_components/content-body-end.ejs'); %>
+    <%- include('../_components/content-body-end-left.ejs'); %>
 <% } %>
 
 <%- include('../_components/content-body-start.ejs'); %>
@@ -41,14 +41,14 @@
 
     <legend>Category:</label>
     <% for (const cat of categories) { if (cat.name == 'Archived') { continue; } %>
-    <% if (typeof category !== 'undefined') { %>
-        <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.id == category ? 'checked' : '' %> >
-    <% } else if (typeof newspost !== 'undefined') { %>
-        <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.id == newspost.category_id ? 'checked' : '' %> >
-    <% } else { %>
-        <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.name == 'Game Updates' ? 'checked' : '' %> >
-    <% } %>
-    <label for="cat-<%= cat.id %>" class="<%= cat.style %>"><%= cat.name %></label>
+        <% if (typeof category !== 'undefined') { %>
+            <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.id == category ? 'checked' : '' %> >
+        <% } else if (typeof newspost !== 'undefined') { %>
+            <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.id == newspost.category_id ? 'checked' : '' %> >
+        <% } else { %>
+            <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.name == 'Game Updates' ? 'checked' : '' %> >
+        <% } %>
+        <label for="cat-<%= cat.id %>" class="<%= cat.style %>"><%= cat.name %></label>
     <% } %>
     <br><br>
 
