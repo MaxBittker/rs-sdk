@@ -27,7 +27,8 @@ model newspost {
     category_id Int
     title       String   @db.TinyText
     content     String   @db.Text
-    date        DateTime
+    date        DateTime @default(now())
+    updated     DateTime? @default(now()) @updatedAt
 }
 
 model newspost_category {

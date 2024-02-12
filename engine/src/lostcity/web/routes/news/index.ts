@@ -1,4 +1,5 @@
 import { db } from '#lostcity/db/query.js';
+import Environment from '#lostcity/util/Environment.js';
 
 function getOrdinalNum(value: number) {
     let selector;
@@ -83,6 +84,119 @@ export default function (f: any, opts: any, next: any) {
             categories,
             prev,
             next
+        });
+    });
+
+    f.get('/create', async (req: any, res: any) => {
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        if (Environment.ADMIN_IP != ip) {
+            return res.redirect('/');
+        }
+
+        const { post } = req.query;
+
+        const categories = await db.selectFrom('newspost_category').selectAll().execute();
+
+        if (typeof post !== 'undefined') {
+            const newspost = await db.selectFrom('newspost').where('id', '=', post).selectAll().executeTakeFirst();
+            if (newspost) {
+                return res.view('news/create', {
+                    categories,
+                    date: niceDate(newspost.date),
+                    post,
+                    newspost
+                });
+            }
+        }
+
+        return res.view('news/create', {
+            categories
+        });
+    });
+
+    f.post('/create', async (req: any, res: any) => {
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        if (Environment.ADMIN_IP != ip) {
+            return res.redirect('/');
+        }
+
+        const { post, title, html, category } = req.body;
+
+        if (typeof title === 'undefined' || !title.length ||
+            typeof html === 'undefined' || !html.length ||
+            typeof category === 'undefined' || !category.length) {
+            return res.redirect('/news/create');
+        }
+
+        if (typeof post !== 'undefined') {
+            // update post
+            const updated = await db.updateTable('newspost').set({
+                title,
+                content: html,
+                category_id: category
+            }).where('id', '=', post).executeTakeFirst();
+
+            if (updated.numChangedRows == 1n) {
+                return res.redirect('/news/' + post);
+            }
+        } else {
+            // add post
+            const row = await db.insertInto('newspost').values({
+                title,
+                content: html,
+                category_id: category
+            }).executeTakeFirst();
+
+            if (row.numInsertedOrUpdatedRows == 1n) {
+                return res.redirect('/news/' + post);
+            }
+        }
+
+        // failed to add/update post
+        const categories = await db.selectFrom('newspost_category').selectAll().execute();
+
+        return res.view('news/create', {
+            categories,
+            post,
+            date: niceDate(new Date()),
+            title,
+            category,
+            preview: html
+        });
+    });
+
+    f.post('/preview', async (req: any, res: any) => {
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        if (Environment.ADMIN_IP != ip) {
+            return res.redirect('/');
+        }
+
+        const { post, title, html, category } = req.body;
+
+        const categories = await db.selectFrom('newspost_category').selectAll().execute();
+
+        if (typeof post !== 'undefined') {
+            const newspost = await db.selectFrom('newspost').where('id', '=', post).selectAll().executeTakeFirst();
+            if (newspost) {
+                return res.view('news/create', {
+                    categories,
+                    post,
+                    newspost,
+                    date: niceDate(newspost.date),
+                    title,
+                    category,
+                    preview: html
+                });
+            }
+        }
+
+        return res.view('news/create', {
+            categories,
+            post,
+            date: niceDate(new Date()),
+            title,
+            category,
+            preview: html
         });
     });
 

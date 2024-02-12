@@ -1,0 +1,74 @@
+<%- include('../_partial/header.ejs'); %>
+
+<%- include('../_components/frame-top.ejs'); %>
+<%- include('../_components/content-start.ejs'); %>
+
+<%- include('../_components/title-box.ejs', { title: 'Add News', links: [ { text: 'Latest News', href: '/news' } ] }); %>
+
+<% if (typeof preview !== 'undefined') { %>
+    <%- include('../_components/content-body-start.ejs'); %>
+    <center><b><%= date %> - <%= title %></b></center><br>
+    <%- preview %>
+    <%- include('../_components/content-body-end.ejs'); %>
+<% } else if (typeof newspost !== 'undefined') { %>
+    <%- include('../_components/content-body-start.ejs'); %>
+    <center><b><%= date %> - <%= newspost.title %></b></center><br>
+    <%- newspost.content %>
+    <%- include('../_components/content-body-end.ejs'); %>
+<% } %>
+
+<%- include('../_components/content-body-start.ejs'); %>
+
+<form action="/news/create" method="post">
+    <label for="title"><h3>Title</h3></label>
+    <% if (typeof title !== 'undefined') { %>
+        <input type="text" id="title" name="title" style="width: 100%; color: white; background: black;" value="<%= title %>">
+    <% } else if (typeof newspost !== 'undefined') { %>
+        <input type="text" id="title" name="title" style="width: 100%; color: white; background: black;" value="<%= newspost.title %>">
+    <% } else { %>
+        <input type="text" id="title" name="title" style="width: 100%; color: white; background: black;">
+    <% } %>
+
+    <label for="html"><h3>HTML Editor</h3></label>
+    <% if (typeof preview !== 'undefined') { %>
+        <textarea id="html" name="html" style="width: 100%; height: 300px; color: white; background: black;"><%- preview %></textarea>
+    <% } else if (typeof newspost !== 'undefined') { %>
+        <textarea id="html" name="html" style="width: 100%; height: 300px; color: white; background: black;"><%- newspost.content %></textarea>
+    <% } else { %>
+        <textarea id="html" name="html" style="width: 100%; height: 300px; color: white; background: black;"></textarea>
+    <% } %>
+    <br><br>
+
+    <legend>Category:</label>
+    <% for (const cat of categories) { if (cat.name == 'Archived') { continue; } %>
+    <% if (typeof category !== 'undefined') { %>
+        <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.id == category ? 'checked' : '' %> >
+    <% } else if (typeof newspost !== 'undefined') { %>
+        <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.id == newspost.category_id ? 'checked' : '' %> >
+    <% } else { %>
+        <input type="radio" id="cat-<%= cat.id %>" name="category" value="<%= cat.id %>" <%= cat.name == 'Game Updates' ? 'checked' : '' %> >
+    <% } %>
+    <label for="cat-<%= cat.id %>" class="<%= cat.style %>"><%= cat.name %></label>
+    <% } %>
+    <br><br>
+
+    <input type="submit">
+    <input type="button" id="preview" name="preview" value="Preview">
+
+    <% if (typeof post !== 'undefined') { %>
+        <input type="hidden" id="post" name="post" value="<%= post %>">
+    <% } %>
+</form>
+
+<%- include('../_components/content-body-end.ejs'); %>
+
+<script>
+    document.getElementById('preview').addEventListener('click', function() {
+        var form = this.form;
+        form.action = '/news/preview';
+        form.submit();
+    });
+</script>
+
+<%- include('../_components/content-end.ejs'); %>
+<%- include('../_partial/footer.ejs'); %>
