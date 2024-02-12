@@ -2625,11 +2625,13 @@ export default class Player extends PathingEntity {
 
                 const zone = World.getZone(x << 3, z << 3, this.level);
 
-                // todo: receiver/shared buffer logic
                 if (typeof this.loadedZones[zone.index] === 'undefined') {
                     // full update necessary to clear client zone memory
                     this.write(ServerProt.UPDATE_ZONE_FULL_FOLLOWS, x, z, this.loadedX, this.loadedZ);
-                    this.loadedZones[zone.index] = -1; // note: flash appears when changing floors
+                }
+
+                if (zone.buffer.length > 0) {
+                    this.write(ServerProt.UPDATE_ZONE_PARTIAL_ENCLOSED, x, z, this.loadedX, this.loadedZ, zone.buffer);
                 }
 
                 this.loadedZones[zone.index] = World.currentTick;
