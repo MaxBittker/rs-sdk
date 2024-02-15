@@ -34,13 +34,15 @@ for (let i = 0; i < jag1.fileCount; i++) {
                             console.log(`Checksum for ${j} is different`, diff1.checksums[j], diff2.checksums[j]);
                         } else if (diff1.sizes[j] !== diff2.sizes[j]) {
                             console.log(`Size for ${j} is different`, diff1.sizes[j], diff2.sizes[j]);
+                        } else if (diff1.offsets[j] !== diff2.offsets[j]) {
+                            console.log(`Offset for ${j} is different`, diff1.offsets[j], diff2.offsets[j]);
                         }
                     }
                 }
-            } else {
-                console.log(Buffer.from(file1.data).subarray(0, 25), file1.length);
-                console.log(Buffer.from(file2.data).subarray(0, 25), file2.length);
             }
+
+            console.log(Buffer.from(file1.data).subarray(0, 25), file1.length, Packet.crc32(file1));
+            console.log(Buffer.from(file2.data).subarray(0, 25), file2.length, Packet.crc32(file2));
 
             console.log();
 

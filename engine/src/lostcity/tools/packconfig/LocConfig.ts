@@ -228,6 +228,7 @@ function packLocConfig(configs: Map<string, ConfigLine[]>, transmitAll: boolean)
         const recol_d: number[] = [];
         let models: LocModelShape[] = [];
         let name: string | null = null;
+        let active: number = -1; // not written last, but affects name output
         let desc: string | null = null;
         const params: ParamValue[] = [];
 
@@ -266,6 +267,7 @@ function packLocConfig(configs: Map<string, ConfigLine[]>, transmitAll: boolean)
             } else if (key === 'active') {
                 dat.p1(19);
                 dat.pbool(value as boolean);
+                active = value ? 1 : 0;
             } else if (key === 'hillskew') {
                 if (value === true) {
                     dat.p1(21);
@@ -362,6 +364,26 @@ function packLocConfig(configs: Map<string, ConfigLine[]>, transmitAll: boolean)
             for (let k = 0; k < models.length; k++) {
                 dat.p2(models[k].model);
                 dat.p1(models[k].shape);
+            }
+        }
+
+        if (name === null && active !== 0) {
+            // edge case: a loc has no name= property but contains a centrepiece_straight shape or active=yes
+            //   we have to transmit a name - so we fall back to the debugname
+            let shouldTransmit: boolean = active === 1;
+
+            if (active === -1) {
+                for (let k = 0; k < models.length; k++) {
+                    if (models[k].shape === LocShapeSuffix._8) {
+                        // the presence of any _8 shape means we have to transmit a name
+                        shouldTransmit = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shouldTransmit) {
+                name = debugname;
             }
         }
 
