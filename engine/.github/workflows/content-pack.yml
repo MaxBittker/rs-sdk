@@ -1,4 +1,4 @@
-﻿name: Pack Server Cache
+﻿name: Pack Content
 
 on:
   pull_request:
@@ -31,5 +31,8 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
-    - name: Validate Cache
+    - name: Validate Client Cache
+      run: npm run client:pack
+
+    - name: Validate Server Cache
       run: npm run server:pack
