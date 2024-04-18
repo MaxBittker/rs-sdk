@@ -12,7 +12,7 @@ import { EntityQueueRequest, PlayerQueueType, ScriptArgument } from '#lostcity/e
 import { PlayerTimerType } from '#lostcity/entity/EntityTimer.js';
 import { Position } from '#lostcity/entity/Position.js';
 
-import { ServerProt } from '#lostcity/server/ServerProt.js';
+import ServerProt from '#lostcity/server/ServerProt.js';
 
 import Environment from '#lostcity/util/Environment.js';
 import {findPath} from '@2004scape/rsmod-pathfinder';

@@ -45,9 +45,8 @@ import Npc from '#lostcity/entity/Npc.js';
 import Obj from '#lostcity/entity/Obj.js';
 import Player from '#lostcity/entity/Player.js';
 
-import { ClientProtLengths } from '#lostcity/server/ClientProt.js';
 import ClientSocket from '#lostcity/server/ClientSocket.js';
-import { ServerProt } from '#lostcity/server/ServerProt.js';
+import ServerProt from '#lostcity/server/ServerProt.js';
 
 import Environment from '#lostcity/util/Environment.js';
 import { EntityQueueState } from '#lostcity/entity/EntityQueueRequest.js';
@@ -55,6 +54,7 @@ import { PlayerTimerType } from '#lostcity/entity/EntityTimer.js';
 import { getLatestModified, getModified } from '#lostcity/util/PackFile.js';
 import { ZoneEvent } from './zone/Zone.js';
 import LinkList from '#jagex2/datastruct/LinkList.js';
+import ClientProt from '#lostcity/server/ClientProt.js';
 
 class World {
     id = Environment.WORLD_ID as number;
@@ -994,7 +994,7 @@ class World {
 
             zone.updates = updates.filter((event: ZoneEvent): boolean => {
                 // filter transient updates
-                if ((event.type === ServerProt.LOC_MERGE || event.type === ServerProt.LOC_ANIM || event.type === ServerProt.MAP_ANIM || event.type === ServerProt.MAP_PROJANIM) && event.tick < this.currentTick) {
+                if ((event.type === ServerProt.LOC_MERGE.id || event.type === ServerProt.LOC_ANIM.id || event.type === ServerProt.MAP_ANIM.id || event.type === ServerProt.MAP_PROJANIM.id) && event.tick < this.currentTick) {
                     return false;
                 }
 
@@ -1014,7 +1014,7 @@ class World {
     getReceiverUpdates(zoneIndex: number, receiverId: number) {
         const updates = this.getUpdates(zoneIndex);
         return updates.filter((event: ZoneEvent): boolean => {
-            if (event.type !== ServerProt.OBJ_ADD && event.type !== ServerProt.OBJ_DEL && event.type !== ServerProt.OBJ_COUNT && event.type !== ServerProt.OBJ_REVEAL) {
+            if (event.type !== ServerProt.OBJ_ADD.id && event.type !== ServerProt.OBJ_DEL.id && event.type !== ServerProt.OBJ_COUNT.id && event.type !== ServerProt.OBJ_REVEAL.id) {
                 return false;
             }
 
@@ -1209,13 +1209,13 @@ class World {
                 stream.data[start] = opcode;
             }
 
-            let length = ClientProtLengths[opcode];
-            if (typeof length === 'undefined') {
+            if (typeof ClientProt.byId[opcode] === 'undefined') {
                 socket.state = -1;
                 socket.close();
                 return;
             }
 
+            let length = ClientProt.byId[opcode].length;
             if (length === -1) {
                 length = stream.g1();
             } else if (length === -2) {

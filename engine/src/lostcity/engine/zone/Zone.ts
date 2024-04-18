@@ -3,7 +3,7 @@ import Loc from '#lostcity/entity/Loc.js';
 import Npc from '#lostcity/entity/Npc.js';
 import Obj from '#lostcity/entity/Obj.js';
 import Player from '#lostcity/entity/Player.js';
-import { ServerProt } from '#lostcity/server/ServerProt.js';
+import ServerProt from '#lostcity/server/ServerProt.js';
 import World from '#lostcity/engine/World.js';
 import PathingEntity from '#lostcity/entity/PathingEntity.js';
 import {locShapeLayer} from '@2004scape/rsmod-pathfinder';
@@ -30,7 +30,7 @@ export class ZoneEvent {
 export default class Zone {
     static mapAnim(srcX: number, srcZ: number, id: number, height: number, delay: number) {
         const out = new Packet();
-        out.p1(ServerProt.MAP_ANIM);
+        out.p1(ServerProt.MAP_ANIM.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p2(id);
@@ -44,7 +44,7 @@ export default class Zone {
     //coord $from, coord $to, spotanim $spotanim, int $fromHeight, int $toHeight, int $startDelay, int $endDelay, int $peak, int $arc
     static mapProjAnim(srcX: number, srcZ: number, dstX: number, dstZ: number, target: number, spotanim: number, srcHeight: number, dstHeight: number, startDelay: number, endDelay: number, peak: number, arc: number) {
         const out = new Packet();
-        out.p1(ServerProt.MAP_PROJANIM);
+        out.p1(ServerProt.MAP_PROJANIM.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p1(dstX - srcX);
@@ -63,7 +63,7 @@ export default class Zone {
 
     static locAddChange(srcX: number, srcZ: number, id: number, shape: number, angle: number) {
         const out = new Packet();
-        out.p1(ServerProt.LOC_ADD_CHANGE);
+        out.p1(ServerProt.LOC_ADD_CHANGE.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p1((shape << 2) | (angle & 3));
@@ -74,7 +74,7 @@ export default class Zone {
 
     static locDel(srcX: number, srcZ: number, shape: number, angle: number) {
         const out = new Packet();
-        out.p1(ServerProt.LOC_DEL);
+        out.p1(ServerProt.LOC_DEL.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p1((shape << 2) | (angle & 3));
@@ -86,7 +86,7 @@ export default class Zone {
     // useful due to draw prioritizes
     static locMerge(srcX: number, srcZ: number, shape: number, angle: number, locId: number, startCycle: number, endCycle: number, pid: number, east: number, south: number, west: number, north: number) {
         const out = new Packet();
-        out.p1(ServerProt.LOC_MERGE);
+        out.p1(ServerProt.LOC_MERGE.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p1((shape << 2) | (angle & 3));
@@ -104,7 +104,7 @@ export default class Zone {
 
     static locAnim(srcX: number, srcZ: number, shape: number, angle: number, id: number) {
         const out = new Packet();
-        out.p1(ServerProt.LOC_ANIM);
+        out.p1(ServerProt.LOC_ANIM.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p1((shape << 2) | (angle & 3));
@@ -115,7 +115,7 @@ export default class Zone {
 
     static objAdd(srcX: number, srcZ: number, id: number, count: number) {
         const out = new Packet();
-        out.p1(ServerProt.OBJ_ADD);
+        out.p1(ServerProt.OBJ_ADD.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p2(id);
@@ -130,7 +130,7 @@ export default class Zone {
 
     static objCount(srcX: number, srcZ: number, id: number, count: number) {
         const out = new Packet();
-        out.p1(ServerProt.OBJ_COUNT);
+        out.p1(ServerProt.OBJ_COUNT.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p2(id);
@@ -145,7 +145,7 @@ export default class Zone {
 
     static objDel(srcX: number, srcZ: number, id: number, count: number) {
         const out = new Packet();
-        out.p1(ServerProt.OBJ_DEL);
+        out.p1(ServerProt.OBJ_DEL.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p2(id);
@@ -155,7 +155,7 @@ export default class Zone {
 
     static objReveal(srcX: number, srcZ: number, id: number, count: number, receiverId: number) {
         const out = new Packet();
-        out.p1(ServerProt.OBJ_REVEAL);
+        out.p1(ServerProt.OBJ_REVEAL.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
         out.p2(id);
