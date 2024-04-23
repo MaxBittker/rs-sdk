@@ -27,20 +27,20 @@ switch_int(%tutorial_progress) {
 //    return;
 //}
 
-//if (inv_total(inv, pot_of_flour) < 1 & inv_total(inv, bucket_water) < 1) {
-//    inv_add(inv, pot_of_flour, 1);
-//    ~objbox(pot_of_flour, "The Cooking Guide gives you some flour. He would have given you some water as well but you didn't have room for it. To get some drop something and talk to the |Cooking Guide again.");
+//if (inv_total(inv, tutorial_pot_of_flour) < 1 & inv_total(inv, bucket_water) < 1) {
+//    inv_add(inv, tutorial_pot_of_flour, 1);
+//    ~objbox(tutorial_pot_of_flour, "The Cooking Guide gives you some flour. He would have given you some water as well but you didn't have room for it. To get some drop something and talk to the |Cooking Guide again.");
 //    return;
 //}
 
-if (inv_total(inv, pot_of_flour) < 1 & inv_total(inv, bucket_water) < 1) {
-    inv_add(inv, pot_of_flour, 1);
+if (inv_total(inv, tutorial_pot_of_flour) < 1 & inv_total(inv, bucket_water) < 1) {
+    inv_add(inv, tutorial_pot_of_flour, 1);
     inv_add(inv, bucket_water, 1);
-    ~doubleobjbox(bucket_water, pot_of_flour, "The Cooking Guide gives you a |@blu@Bucket of Water@bla@ |and a|@blu@Pot of Flour!");
-} else if (inv_total(inv, pot_of_flour) < 1 & inv_total(inv, bucket_water) > 0) {
-    inv_add(inv, pot_of_flour, 1);
-    ~objbox(pot_of_flour, "The Cooking Guide gives you a |@blu@Pot of Flour.");
-} else if (inv_total(inv, bucket_water) < 1 & inv_total(inv, pot_of_flour) > 0) {
+    ~doubleobjbox(bucket_water, tutorial_pot_of_flour, "The Cooking Guide gives you a |@blu@Bucket of Water@bla@ |and a|@blu@Pot of Flour!");
+} else if (inv_total(inv, tutorial_pot_of_flour) < 1 & inv_total(inv, bucket_water) > 0) {
+    inv_add(inv, tutorial_pot_of_flour, 1);
+    ~objbox(tutorial_pot_of_flour, "The Cooking Guide gives you a |@blu@Pot of Flour.");
+} else if (inv_total(inv, bucket_water) < 1 & inv_total(inv, tutorial_pot_of_flour) > 0) {
     inv_add(inv, bucket_water, 1);
     ~objbox(bucket_water, "The Cooking Guide gives you a|@blu@Bucket of Water.");
 }

@@ -1,3 +1,9 @@
+[opobj4,tutorial_logs]
+    @tut_light_logs_ground;
+
+[opobju,tutorial_logs]
+    @tut_light_logs_ground;
+
 [label,tut_light_logs_ground]
 def_obj $log = obj_type;
 def_int $level = oc_param($log, levelrequire);

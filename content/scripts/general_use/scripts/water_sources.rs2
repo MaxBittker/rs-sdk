@@ -11,12 +11,8 @@ switch_obj (last_useitem)
 [opheldu,bucket_water]
 switch_obj (last_useitem)
 {
-    case pot_of_flour :
-        if (%tutorial_progress < ^tutorial_complete) {
-            @tut_make_dough;
-        } else {
-            @dough_interface(last_useslot);
-        };
+    case tutorial_pot_of_flour : @tut_make_dough;
+    case pot_of_flour : @dough_interface(last_useslot);
     case clay : @make_softclay(bucket_water);
     case jug_empty, bowl_empty : @water_fill(last_useslot, last_slot);
     case default : @nothing_interesting_happens;

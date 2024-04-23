@@ -1,31 +1,23 @@
 // trigger for logs on ground
 [opobj4,_category_22]
-if (%tutorial_progress < ^tutorial_complete) {
-    @tut_light_logs_ground;
-} else {
     @light_logs_ground;
-}
 
 [opobju,_category_22]
 if (last_useitem = tinderbox) {
-    if (%tutorial_progress < ^tutorial_complete) {
-        @tut_light_logs_ground;
-    } else {
-        @light_logs_ground;
-    }
+    @light_logs_ground;
 } else {
     @nothing_interesting_happens;
 }
 
 // opheldu for logs is handled in fletching
 [opheldu,tinderbox]
+if (last_useitem = tutorial_logs) {
+    @tut_light_logs_inv(last_useslot);
+    return;
+}
+
 switch_category(oc_category(last_useitem)) {
-    case category_22 :
-        if (%tutorial_progress < ^tutorial_complete) {
-            @tut_light_logs_inv(last_useslot);
-        } else {
-            @light_logs_inv(last_useslot);
-        }
+    case category_22 : @light_logs_inv(last_useslot);
     case light_source_unlit: @ignite_light_source(last_useitem);
     case default : @nothing_interesting_happens;
 }

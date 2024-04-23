@@ -1,0 +1,41 @@
+[tutorial_logs]
+name=Logs
+desc=A number of wooden logs.
+cost=4
+model=model_2800_obj
+weight=3lb
+2dxof=3
+2dyof=66
+2dzoom=670
+2dyan=120
+2dxan=280
+op4=Light
+weight=3lb
+
+[tutorial_raw_shrimps]
+name=Raw shrimps
+desc=I should try cooking this.
+model=model_2590_obj
+recol1s=6080
+recol1d=3299
+recol2s=4032
+recol2d=3546
+2dzoom=950
+2dyan=552
+2dxan=272
+cost=5
+weight=120g
+tradeable=yes
+
+[tutorial_pot_of_flour]
+name=Pot of flour
+desc=There is flour in this pot.
+model=model_2406_obj
+2dxof=-1
+2dyof=2
+2dzoom=990
+2dyan=8
+2dxan=112
+cost=10
+weight=3lb
+tradeable=yes

@@ -77,14 +77,14 @@ anim(null, $respawnrate);
 [label,tut_advance_woodcutting]
 %tutorial_progress = ^survival_guide_build_fire;
 hint_stop();
-inv_add(inv, logs, 1);
+inv_add(inv, tutorial_logs, 1);
 ~tutorial_step_build_fire;
-~objboxt(logs, "You get some logs.");
+~objboxt(tutorial_logs, "You get some logs.");
 
 [label,give_logs]
-inv_add(inv, logs, 1);
+inv_add(inv, tutorial_logs, 1);
 ~set_tutorial_progress;
-~objboxt(logs, "You get some logs.");
+~objboxt(tutorial_logs, "You get some logs.");
 
 [oploc1,loc_3037]
 if (%tutorial_progress < ^survival_guide_cut_tree) {

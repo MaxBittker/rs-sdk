@@ -25,7 +25,7 @@ p_delay(2);
 sound_synth(fishing_cast, 0, 15);
 p_delay(1);
 anim(null, 0);
-inv_add(inv, raw_shrimps, 1);
+inv_add(inv, tutorial_raw_shrimps, 1);
 ~tutorial_give_xp(fishing, 100);
 if (%tutorial_progress = ^survival_guide_fish_shrimps) {
     hint_stop();
