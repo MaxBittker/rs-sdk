@@ -32,7 +32,7 @@ if ($item = coins) {
 } else if ($item_is_tradable = false | (map_members = false & oc_members($item) = true)) {
     mes("You can't sell this item.");
     return (false);
-} else if (inv_allstock(%shop) = false & inv_stockbase(%shop, oc_uncert($item)) = -1) {
+} else if ((%shop = generalshop3 & $item = silk) | inv_allstock(%shop) = false & inv_stockbase(%shop, oc_uncert($item)) = -1) { // can't sell silk to al-kharid general store
     mes("You can't sell this item to this shop.");
     return (false);
 }
