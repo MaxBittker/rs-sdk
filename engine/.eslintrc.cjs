@@ -25,6 +25,7 @@ module.exports = {
             plugins: ['vitest'],
             rules: {
                 'vitest/no-focused-tests': 'error',
+                'vitest/no-disabled-tests': 'warn',
                 'vitest/consistent-test-it': 'warn',
                 'vitest/require-top-level-describe': [
                     'error',

@@ -120,13 +120,13 @@ describe('Packet2', () => {
             expect(result.gjstr()).toBe(string);
         });
 
-        // test('jnstr', () => {
-        //     const string = 'Hello World!';
-        //     const expected = Packet2.alloc(string.length + 1);
-        //     expected.pjnstr(string);
-        //     const result = new Packet2(expected.data);
-        //     expect(result.gjnstr()).toBe(string);
-        // });
+        test.skip('jnstr', () => {
+            const string = 'Hello World!';
+            const expected = Packet2.alloc(string.length + 1);
+            expected.pjnstr(string);
+            const result = new Packet2(expected.data);
+            expect(result.gjnstr()).toBe(string);
+        });
     });
 
     describe('test data', () => {
@@ -250,13 +250,13 @@ describe('Packet2', () => {
         });
     });
 
-    // describe('test packet', () => {
-    //     test('packet', () => {
-    //         const expected = Packet2.alloc(4);
-    //         expected.p4(2147483647);
-    //         expected.pos = 0;
-    //         const result = new Packet2(expected);
-    //         expect(result.gPacket()).toStrictEqual(expected);
-    //     });
-    // });
+    describe.skip('test packet', () => {
+        test('packet', () => {
+            const expected = Packet2.alloc(4);
+            expected.p4(2147483647);
+            expected.pos = 0;
+            const result = new Packet2(expected);
+            expect(result.gPacket()).toStrictEqual(expected);
+        });
+    });
 });

@@ -1,7 +1,6 @@
 import fs from 'fs';
 
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet from '#jagex2/io/Packet.js';
 
 import { convertImage } from '#lostcity/util/PixPack.js';
 import { shouldBuildFileAny } from '#lostcity/util/PackFile.js';
