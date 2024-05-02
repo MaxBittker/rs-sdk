@@ -480,7 +480,14 @@ export const KNOWN_NAMES: string[] = [
     'tldlist.txt',
 
     // sounds
-    'sounds.dat'
+    'sounds.dat',
+
+    // worldmap
+    'labels.dat',
+    'floorcol.dat',
+    'underlay.dat',
+    'overlay.dat',
+    'size.dat', // added later
 ];
 
 export const KNOWN_HASHES: number[] = [];

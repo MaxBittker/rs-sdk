@@ -38,6 +38,25 @@ export default class FloType extends ConfigType {
         }
     }
 
+    static loadJag(config: Jagfile) {
+        FloType.configNames = new Map();
+        FloType.configs = [];
+
+        const client = config.read('flo.dat')!;
+        const count = client.g2();
+
+        for (let id = 0; id < count; id++) {
+            const config = new FloType(id);
+            config.decodeType(client);
+
+            FloType.configs[id] = config;
+
+            if (config.debugname) {
+                FloType.configNames.set(config.debugname, id);
+            }
+        }
+    }
+
     static get(id: number): FloType {
         return FloType.configs[id];
     }
@@ -55,8 +74,23 @@ export default class FloType extends ConfigType {
         return this.get(id);
     }
 
+    // ----
+
+    rgb: number = 0;
+    texture: number = -1;
+    overlay: boolean = false;
+    occlude: boolean = true;
+
     decode(code: number, dat: Packet2): void {
-        if (code === 250) {
+        if (code === 1) {
+            this.rgb = dat.g3();
+        } else if (code === 2) {
+            this.texture = dat.g1();
+        } else if (code === 3) {
+            this.overlay = true;
+        } else if (code === 5) {
+            this.occlude = false;
+        } else if (code === 6) {
             this.debugname = dat.gjstr();
         } else {
             throw new Error(`Unrecognized flo config code: ${code}`);
