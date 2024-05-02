@@ -8,6 +8,22 @@ import LocType from '#lostcity/cache/LocType.js';
 import { convertImage } from '#lostcity/util/PixPack.js';
 import { LocShape } from '@2004scape/rsmod-pathfinder';
 import { shouldBuildFile, shouldBuildFileAny } from '#lostcity/util/PackFile.js';
+import NpcType from '#lostcity/cache/NpcType.js';
+
+function packWater(underlay: Packet2, overlay: Packet2, mx: number, mz: number) {
+    underlay.p1(mx);
+    underlay.p1(mz);
+
+    overlay.p1(mx);
+    overlay.p1(mz);
+
+    for (let i = 0; i < 4096; i++) {
+        underlay.p1(0);
+
+        overlay.p1(1 + FloType.getId('water'));
+        overlay.p1(0);
+    }
+}
 
 export async function packWorldmap() {
     if (!fs.existsSync('data/pack/server/maps')) {
@@ -23,6 +39,7 @@ export async function packWorldmap() {
 
     FloType.load('data/pack');
     LocType.load('data/pack');
+    NpcType.load('data/pack');
 
     // ---
 
@@ -30,9 +47,11 @@ export async function packWorldmap() {
 
     // ----
 
-    const underlay = Packet2.alloc(5);
+    const underlay = Packet2.alloc(20_000_000);
     const overlay = Packet2.alloc(20_000_000);
     const loc = Packet2.alloc(5);
+    const obj = Packet2.alloc(5);
+    const npc = Packet2.alloc(5);
 
     function unpackCoord(packed: number): { level: number; x: number; z: number } {
         const z: number = packed & 0x3f;
@@ -285,13 +304,118 @@ export async function packWorldmap() {
                 loc.p1(0);
             }
         }
+
+        // ----
+
+        const objs: number[][][] = [];
+        for (let level = 0; level < 4; level++) {
+            objs[level] = [];
+
+            for (let x = 0; x < 64; x++) {
+                objs[level][x] = [];
+
+                for (let z = 0; z < 64; z++) {
+                    objs[level][x][z] = -1;
+                }
+            }
+        }
+
+        const objBuf = Packet2.load(`data/pack/server/maps/o${mx}_${mz}`);
+        if (objBuf.data.length > 0) {
+            while (objBuf.available > 0) {
+                const pos = objBuf.g2();
+                const level = (pos >> 12) & 0x3;
+                const localX = (pos >> 6) & 0x3f;
+                const localZ = pos & 0x3f;
+
+                const count = objBuf.g1();
+                for (let j = 0; j < count; j++) {
+                    const objId = objBuf.g2();
+                    const objCount = objBuf.g1();
+                    objs[level][localX][localZ] = objId;
+                }
+            }
+
+            obj.p1(mx);
+            obj.p1(mz);
+
+            for (let x = 0; x < 64; x++) {
+                for (let z = 0; z < 64; z++) {
+                    obj.pbool(objs[0][x][z] !== -1);
+                }
+            }
+        }
+
+        // ---
+
+        const npcs: number[][][] = [];
+        for (let level = 0; level < 4; level++) {
+            npcs[level] = [];
+
+            for (let x = 0; x < 64; x++) {
+                npcs[level][x] = [];
+
+                for (let z = 0; z < 64; z++) {
+                    npcs[level][x][z] = -1;
+                }
+            }
+        }
+
+        const npcBuf = Packet2.load(`data/pack/server/maps/n${mx}_${mz}`);
+        if (npcBuf.data.length > 0) {
+            while (npcBuf.available > 0) {
+                const pos = npcBuf.g2();
+                const level = (pos >> 12) & 0x3;
+                const localX = (pos >> 6) & 0x3f;
+                const localZ = pos & 0x3f;
+
+                const count = npcBuf.g1();
+                for (let j = 0; j < count; j++) {
+                    const id = npcBuf.g2();
+                    const type = NpcType.get(id);
+
+                    if (type.minimap) {
+                        npcs[level][localX][localZ] = id;
+                    }
+                }
+            }
+
+            npc.p1(mx);
+            npc.p1(mz);
+
+            for (let x = 0; x < 64; x++) {
+                for (let z = 0; z < 64; z++) {
+                    npc.pbool(npcs[0][x][z] !== -1);
+                }
+            }
+        }
     }
 
-    jag.write('loc.dat', loc);
+    packWater(underlay, overlay, 42, 44);
+    packWater(underlay, overlay, 42, 45);
+    packWater(underlay, overlay, 42, 46);
+    packWater(underlay, overlay, 42, 47);
+    packWater(underlay, overlay, 42, 48);
+    packWater(underlay, overlay, 43, 44);
+    packWater(underlay, overlay, 44, 44);
+    packWater(underlay, overlay, 45, 44);
+    packWater(underlay, overlay, 46, 44);
+    packWater(underlay, overlay, 47, 44);
+    packWater(underlay, overlay, 47, 45);
+    packWater(underlay, overlay, 47, 46);
+    packWater(underlay, overlay, 48, 44);
+    packWater(underlay, overlay, 48, 45);
+    packWater(underlay, overlay, 48, 46);
 
     jag.write('underlay.dat', underlay);
 
     jag.write('overlay.dat', overlay);
+
+    jag.write('loc.dat', loc);
+
+    jag.write('obj.dat', obj);
+
+    jag.write('npc.dat', npc);
 
     const floorcol = Packet2.alloc(1);
     floorcol.p2(FloType.configs.length);
@@ -404,6 +528,9 @@ export async function packWorldmap() {
 
     const b12 = await convertImage(index, 'data/src/fonts', 'b12');
     jag.write('b12.dat', b12!);
+
+    const mapdots = await convertImage(index, 'data/src/sprites', 'mapdots');
+    jag.write('mapdots.dat', mapdots!);
 
     jag.write('index.dat', index);
 
