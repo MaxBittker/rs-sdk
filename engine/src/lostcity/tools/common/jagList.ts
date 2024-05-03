@@ -1,5 +1,5 @@
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 const args = process.argv.slice(2);
 
@@ -19,6 +19,6 @@ for (let i = 0; i < jag.fileCount; i++) {
         continue;
     }
 
-    const checksum = Packet2.getcrc(data.data, 0, data.data.length);
+    const checksum = Packet.getcrc(data.data, 0, data.data.length);
     console.log(name, checksum);
 }

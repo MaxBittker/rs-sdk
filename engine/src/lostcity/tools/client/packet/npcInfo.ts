@@ -79,7 +79,7 @@ fs.readdirSync('dump')
         }
 
         // readNewNpcs
-        while (buf.bitPos + 21 < buf.length * 8) {
+        while (buf.bitPos + 21 < buf.data.length * 8) {
             const id = buf.gBit(13);
             if (id === 8191) {
                 break;
@@ -145,8 +145,8 @@ fs.readdirSync('dump')
             const id = entityRemovalIds[i];
         }
 
-        if (buf.pos !== buf.length) {
-            console.error('size mismatch in getnpc', buf.pos, buf.length);
+        if (buf.pos !== buf.data.length) {
+            console.error('size mismatch in getnpc', buf.pos, buf.data.length);
             process.exit(1);
         }
 

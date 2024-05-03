@@ -11,7 +11,7 @@ import {locShapeLayer} from '@2004scape/rsmod-pathfinder';
 export class ZoneEvent {
     type = -1;
     receiverId = -1;
-    buffer: Packet = new Packet();
+    buffer: Packet = new Packet(new Uint8Array());
     tick = -1;
     static = false;
 
@@ -29,7 +29,7 @@ export class ZoneEvent {
 
 export default class Zone {
     static mapAnim(srcX: number, srcZ: number, id: number, height: number, delay: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 2 + 1 + 2));
         out.p1(ServerProt.MAP_ANIM.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -43,7 +43,7 @@ export default class Zone {
     // variables fully broken out for now
     //coord $from, coord $to, spotanim $spotanim, int $fromHeight, int $toHeight, int $startDelay, int $endDelay, int $peak, int $arc
     static mapProjAnim(srcX: number, srcZ: number, dstX: number, dstZ: number, target: number, spotanim: number, srcHeight: number, dstHeight: number, startDelay: number, endDelay: number, peak: number, arc: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 1 + 1 + 2 + 2 + 1 + 1 + 2 + 2 + 1 + 1));
         out.p1(ServerProt.MAP_PROJANIM.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -62,7 +62,7 @@ export default class Zone {
     }
 
     static locAddChange(srcX: number, srcZ: number, id: number, shape: number, angle: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 1 + 2));
         out.p1(ServerProt.LOC_ADD_CHANGE.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -73,7 +73,7 @@ export default class Zone {
     }
 
     static locDel(srcX: number, srcZ: number, shape: number, angle: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 1));
         out.p1(ServerProt.LOC_DEL.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -85,7 +85,7 @@ export default class Zone {
     // merge player with loc, e.g. agility training through pipes
     // useful due to draw prioritizes
     static locMerge(srcX: number, srcZ: number, shape: number, angle: number, locId: number, startCycle: number, endCycle: number, pid: number, east: number, south: number, west: number, north: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 1 + 2 + 2 + 2 + 2 + 1 + 1 + 1 + 1));
         out.p1(ServerProt.LOC_MERGE.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -103,7 +103,7 @@ export default class Zone {
     }
 
     static locAnim(srcX: number, srcZ: number, shape: number, angle: number, id: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 1 + 2));
         out.p1(ServerProt.LOC_ANIM.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -114,7 +114,7 @@ export default class Zone {
     }
 
     static objAdd(srcX: number, srcZ: number, id: number, count: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 2 + 2));
         out.p1(ServerProt.OBJ_ADD.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -129,7 +129,7 @@ export default class Zone {
     }
 
     static objCount(srcX: number, srcZ: number, id: number, count: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 2 + 2));
         out.p1(ServerProt.OBJ_COUNT.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -144,7 +144,7 @@ export default class Zone {
     }
 
     static objDel(srcX: number, srcZ: number, id: number, count: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 2));
         out.p1(ServerProt.OBJ_DEL.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -154,7 +154,7 @@ export default class Zone {
     }
 
     static objReveal(srcX: number, srcZ: number, id: number, count: number, receiverId: number) {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1 + 1 + 2 + 2 + 2));
         out.p1(ServerProt.OBJ_REVEAL.id);
 
         out.p1(((srcX & 0x7) << 4) | (srcZ & 0x7));
@@ -178,7 +178,7 @@ export default class Zone {
     // zone events
     updates: ZoneEvent[] = [];
     lastEvent = -1;
-    buffer: Packet = new Packet();
+    // buffer: Packet2 = new Packet2(new Uint8Array());
 
     constructor(index: number) {
         this.index = index;

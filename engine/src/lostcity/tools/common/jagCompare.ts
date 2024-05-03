@@ -1,5 +1,5 @@
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 const args = process.argv.slice(2);
 
@@ -16,8 +16,8 @@ for (let i = 0; i < jag1.fileCount; i++) {
         const file1 = jag1.get(i)!;
         const file2 = jag2.get(i)!;
 
-        const crc1 = Packet2.getcrc(file1.data, 0, file1.data.length);
-        const crc2 = Packet2.getcrc(file2.data, 0, file2.data.length);
+        const crc1 = Packet.getcrc(file1.data, 0, file1.data.length);
+        const crc2 = Packet.getcrc(file2.data, 0, file2.data.length);
 
         if (crc1 !== crc2) {
             console.log(`File ${jag1.fileName[i]} is different`);
@@ -41,8 +41,8 @@ for (let i = 0; i < jag1.fileCount; i++) {
                 }
             }
 
-            console.log(Buffer.from(file1.data).subarray(0, 25), file1.data.length, Packet2.getcrc(file1.data, 0, file1.data.length));
-            console.log(Buffer.from(file2.data).subarray(0, 25), file2.data.length, Packet2.getcrc(file2.data, 0, file2.data.length));
+            console.log(Buffer.from(file1.data).subarray(0, 25), file1.data.length, Packet.getcrc(file1.data, 0, file1.data.length));
+            console.log(Buffer.from(file2.data).subarray(0, 25), file2.data.length, Packet.getcrc(file2.data, 0, file2.data.length));
 
             console.log();
 

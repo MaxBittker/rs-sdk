@@ -154,7 +154,7 @@ export default class CollisionManager {
             return collision;
         }
         if (opcode >= 2 && opcode <= 49) {
-            packet.g1s();
+            packet.g1b();
         }
         return this.decodeLand(packet, opcode >= 50 && opcode <= 81 ? opcode - 49 : collision);
     }

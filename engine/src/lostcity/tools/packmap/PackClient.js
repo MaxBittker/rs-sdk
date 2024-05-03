@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import BZip2 from '#jagex2/io/BZip2.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet2 from '#jagex2/io/Packet.ts';
 import { shouldBuildFile } from '#lostcity/util/PackFile.js';
 
 function readMap(map) {

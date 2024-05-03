@@ -44,8 +44,8 @@ export default class NullClientSocket extends ClientSocket {
         return this.out.length - this.outOffset;
     }
 
-    write(data: Packet | Uint8Array) {
-        const dataArray = (data as Packet).data || data;
+    write(data: Packet) {
+        const dataArray = data.data || data;
 
         let offset = 0;
         let remaining = dataArray.length;

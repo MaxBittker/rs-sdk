@@ -1,5 +1,5 @@
 import Jagfile, {genHash} from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 describe('Jagfile', (): void => {
     describe('genHash', (): void => {
@@ -18,7 +18,7 @@ describe('Jagfile', (): void => {
 
     describe('constructor', (): void => {
         it('result after creation', (): void => {
-            const packet: Packet2 = new Packet2(new Uint8Array(18));
+            const packet: Packet = new Packet(new Uint8Array(18));
             packet.p3(1); // unpackedSize
             packet.p3(1); // packedSize
             packet.p2(1); // fileCount
@@ -44,7 +44,7 @@ describe('Jagfile', (): void => {
         });
 
         it('result after delete', (): void => {
-            const packet: Packet2 = new Packet2(new Uint8Array(18));
+            const packet: Packet = new Packet(new Uint8Array(18));
             packet.p3(1); // unpackedSize
             packet.p3(1); // packedSize
             packet.p2(1); // fileCount
@@ -72,7 +72,7 @@ describe('Jagfile', (): void => {
         });
 
         it('result after write', (): void => {
-            const packet: Packet2 = new Packet2(new Uint8Array(18));
+            const packet: Packet = new Packet(new Uint8Array(18));
             packet.p3(1); // unpackedSize
             packet.p3(1); // packedSize
             packet.p2(1); // fileCount
@@ -90,7 +90,7 @@ describe('Jagfile', (): void => {
             expect(jagfile.filePackedSize[0]).toBe(1);
             expect(jagfile.filePos[0]).toBe(18);
 
-            jagfile.write('gnomeball_buttons.dat', new Packet2(Uint8Array.of(0)));
+            jagfile.write('gnomeball_buttons.dat', new Packet(Uint8Array.of(0)));
             expect(jagfile.fileQueue.length).toBe(1);
             expect(jagfile.fileQueue[0].write).toBeTruthy();
             expect(jagfile.fileQueue[0].delete).toBeFalsy();
@@ -100,7 +100,7 @@ describe('Jagfile', (): void => {
         });
 
         it('result after rename', (): void => {
-            const packet: Packet2 = new Packet2(new Uint8Array(18));
+            const packet: Packet = new Packet(new Uint8Array(18));
             packet.p3(1); // unpackedSize
             packet.p3(1); // packedSize
             packet.p2(1); // fileCount

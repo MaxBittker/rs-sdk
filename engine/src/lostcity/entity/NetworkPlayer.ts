@@ -66,13 +66,13 @@ export class NetworkPlayer extends Player {
             } else if (length == -2) {
                 length = (this.client.in[offset++] << 8) | this.client.in[offset++];
             }
-            const data = new Packet(this.client.in.subarray(offset, offset + length));
+            const data = new Packet(this.client.in.slice(offset, offset + length));
             offset += length;
 
             if (packetType === ClientProt.REBUILD_GETMAPS) {
                 const requested = [];
 
-                for (let i = 0; i < data.length / 3; i++) {
+                for (let i = 0; i < data.data.length / 3; i++) {
                     const type = data.g1();
                     const x = data.g1();
                     const z = data.g1();
@@ -120,8 +120,8 @@ export class NetworkPlayer extends Player {
                 if (checkpoints != 0) {
                     // Just grab the last one we need skip the rest.
                     data.pos += (checkpoints - 1) << 1;
-                    pathfindX = data.g1s() + startX;
-                    pathfindZ = data.g1s() + startZ;
+                    pathfindX = data.g1b() + startX;
+                    pathfindZ = data.g1b() + startZ;
                 }
 
                 if (
@@ -173,7 +173,7 @@ export class NetworkPlayer extends Player {
             } else if (packetType === ClientProt.MESSAGE_PUBLIC) {
                 const colour = data.g1();
                 const effect = data.g1();
-                const message = WordPack.unpack(data, data.length - 2);
+                const message = WordPack.unpack(data, data.data.length - 2);
 
                 if (colour < 0 || colour > 11 || effect < 0 || effect > 2 || message.length > 100) {
                     continue;
@@ -183,10 +183,12 @@ export class NetworkPlayer extends Player {
                 this.messageEffect = effect;
                 this.messageType = 0;
 
-                const out = new Packet();
+                const out = Packet.alloc(0);
                 WordPack.pack(out, WordEnc.filter(message));
+                this.message = new Uint8Array(out.pos);
                 out.pos = 0;
-                this.message = out.gdata();
+                out.gdata(this.message, 0, this.message.length);
+                out.release();
                 this.mask |= Player.CHAT;
 
                 World.socialPublicMessage(this.username37, message);
@@ -1104,7 +1106,7 @@ export class NetworkPlayer extends Player {
                 }
             } else if (packetType === ClientProt.MESSAGE_PRIVATE) {
                 const other = data.g8();
-                const message = WordPack.unpack(data, data.length - 8);
+                const message = WordPack.unpack(data, data.data.length - 8);
 
                 World.socialPrivateMessage(this.username37, other, message);
             }
@@ -1164,18 +1166,26 @@ export class NetworkPlayer extends Player {
             this.refreshModal = false;
         }
 
-        for (let j = 0; j < this.netOut.length; j++) {
-            const out = this.netOut[j];
+        const out: Packet[] = this.netOut;
+        const length: number = out.length;
+        for (let index: number = 0; index < length; index++) {
+            const packet: Packet = out[index];
 
             if (this.client.encryptor) {
-                out.data[0] = (out.data[0] + this.client.encryptor.nextInt()) & 0xff;
+                packet.data[0] = (packet.data[0] + this.client.encryptor.nextInt()) & 0xff;
             }
 
-            World.lastCycleBandwidth[1] += out.length;
-            this.client.write(out);
+            World.lastCycleBandwidth[1] += packet.pos;
+            this.client.write(packet);
         }
 
         this.client.flush();
+
+        // release the packets after flushing.
+        for (let index: number = 0; index < length; index++) {
+            out[index].release();
+        }
+
         this.netOut = [];
     }
 
@@ -1193,7 +1203,7 @@ export class NetworkPlayer extends Player {
     }
 
     override logout() {
-        const out = new Packet();
+        const out = new Packet(new Uint8Array(1));
         out.p1(ServerProt.LOGOUT.id);
 
         this.writeImmediately(out);

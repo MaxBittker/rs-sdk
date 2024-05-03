@@ -1,11 +1,11 @@
 import fs from 'fs';
 
 import BZip2 from '#jagex2/io/BZip2.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 const maps = fs.readdirSync('data/pack/client/maps');
 
-function readLand(data: Packet2) {
+function readLand(data: Packet) {
     // console.time('land');
     const heightmap: number[][][] = [];
     const overlayIds: number[][][] = [];
@@ -80,7 +80,7 @@ type Loc = {
     angle: number;
 };
 
-function readLocs(data: Packet2) {
+function readLocs(data: Packet) {
     const locs: Loc[][][][] = [];
 
     for (let level = 0; level < 4; level++) {
@@ -148,7 +148,7 @@ maps.forEach(file => {
     // console.time('decompress');
     data = BZip2.decompress(data, 0, false, true);
     // console.timeEnd('decompress');
-    const land = readLand(new Packet2(data));
+    const land = readLand(new Packet(data));
 
     // console.time('write');
     let section = '';
@@ -205,7 +205,7 @@ maps.forEach(file => {
     // console.time('decompress');
     data = BZip2.decompress(data, 0, false, true);
     // console.timeEnd('decompress');
-    const locs = readLocs(new Packet2(data));
+    const locs = readLocs(new Packet(data));
 
     let section = '';
     for (let level = 0; level < 4; level++) {

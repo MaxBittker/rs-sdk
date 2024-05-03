@@ -38,10 +38,13 @@ class Login {
                 return;
             }
 
+            const post = new Uint8Array(length);
+            data.gdata(post, 0, post.length);
+
             this.loginThread.postMessage({
                 type: 'loginreq',
                 opcode,
-                data: data.gdata(length),
+                data: post,
                 socket: socket.uniqueId
             });
 

@@ -36,7 +36,7 @@ export default class ScriptProvider {
     static load(dir: string): number {
         const dat = Packet.load(`${dir}/server/script.dat`);
         const idx = Packet.load(`${dir}/server/script.idx`);
-        if (!dat.length || !idx.length) {
+        if (!dat.data.length || !idx.data.length) {
             console.log('\nFatal: No script.dat or script.idx found. Please run the server:build script.');
             process.exit(1);
         }
@@ -62,7 +62,9 @@ export default class ScriptProvider {
             }
 
             try {
-                const script = Script.decode(id, dat.gPacket(size));
+                const data: Uint8Array = new Uint8Array(size);
+                dat.gdata(data, 0, data.length);
+                const script = Script.decode(id, new Packet(data));
                 scripts[id] = script;
                 scriptNames.set(script.name, id);
 

@@ -6,7 +6,7 @@ import WordEncFragments from '#lostcity/cache/WordEncFragments.js';
 import WordEncBadWords from '#lostcity/cache/WordEncBadWords.js';
 import WordEncDomains from '#lostcity/cache/WordEncDomains.js';
 import WordEncTlds from '#lostcity/cache/WordEncTlds.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 export default class WordEnc {
     static PERIOD = new Uint16Array(
@@ -190,7 +190,7 @@ export default class WordEnc {
         return WordEnc.maskedCharsStatus(chars, symbolChars, offset, length, false);
     }
 
-    private static decodeTldList(packet: Packet2): void {
+    private static decodeTldList(packet: Packet): void {
         const count = packet.g4();
         for (let index = 0; index < count; index++) {
             this.wordEncTlds.tldTypes[index] = packet.g1();
@@ -198,7 +198,7 @@ export default class WordEnc {
         }
     }
 
-    private static decodeBadEnc(packet: Packet2): void {
+    private static decodeBadEnc(packet: Packet): void {
         const count = packet.g4();
         for (let index = 0; index < count; index++) {
             this.wordEncBadWords.bads[index] = new Uint16Array(packet.g1()).map(() => packet.g1());
@@ -209,14 +209,14 @@ export default class WordEnc {
         }
     }
 
-    private static decodeDomainEnc(packet: Packet2): void {
+    private static decodeDomainEnc(packet: Packet): void {
         const count = packet.g4();
         for (let index = 0; index < count; index++) {
             this.wordEncDomains.domains[index] = new Uint16Array(packet.g1()).map(() => packet.g1());
         }
     }
 
-    private static decodeFragmentsEnc(packet: Packet2): void {
+    private static decodeFragmentsEnc(packet: Packet): void {
         const count = packet.g4();
         for (let index = 0; index < count; index++) {
             this.wordEncFragments.fragments[index] = packet.g2();

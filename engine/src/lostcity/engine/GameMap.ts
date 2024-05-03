@@ -46,9 +46,9 @@ export default class GameMap {
 
                     const npc = new Npc(level, mapsquareX + localX, mapsquareZ + localZ, size, size, World.getNextNid(), id, npcType.moverestrict, npcType.blockwalk);
 
-                    if (npcType.members === true && World.members === true) {
+                    if (npcType.members && World.members) {
                         World.addNpc(npc);
-                    } else if (npcType.members === false) {
+                    } else if (!npcType.members) {
                         World.addNpc(npc);
                     }
                 }
@@ -69,9 +69,9 @@ export default class GameMap {
                     const obj = new Obj(level, mapsquareX + localX, mapsquareZ + localZ, objId, objCount);
 
                     const objType = ObjType.get(objId);
-                    if (objType.members === true && World.members === true) {
+                    if (objType.members && World.members) {
                         this.zoneManager.getZone(obj.x, obj.z, obj.level).addStaticObj(obj);
-                    } else if (objType.members === false) {
+                    } else if (!objType.members) {
                         this.zoneManager.getZone(obj.x, obj.z, obj.level).addStaticObj(obj);
                     }
                 }

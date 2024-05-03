@@ -1221,7 +1221,7 @@ class World {
     // ----
 
     async readIn(socket: ClientSocket, stream: Packet) {
-        this.lastCycleBandwidth[0] += stream.length;
+        this.lastCycleBandwidth[0] += stream.data.length;
 
         while (stream.available > 0) {
             const start = stream.pos;
@@ -1256,7 +1256,13 @@ class World {
                 continue;
             }
 
-            socket.in.set(stream.gdata(stream.pos - start, start, false), socket.inOffset);
+            const data = new Uint8Array(stream.pos - start);
+            const pos = stream.pos;
+            stream.pos = start;
+            stream.gdata(data, 0, data.length);
+            stream.pos = pos;
+
+            socket.in.set(data, socket.inOffset);
             socket.inOffset += stream.pos - start;
         }
     }

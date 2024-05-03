@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 import { ParamHelper, ParamMap } from '#lostcity/cache/ParamHelper.js';
@@ -20,7 +20,7 @@ export default class ObjType extends ConfigType {
             return;
         }
 
-        const server = Packet2.load(`${dir}/server/obj.dat`);
+        const server = Packet.load(`${dir}/server/obj.dat`);
         const count = server.g2();
 
         const jag = Jagfile.load(`${dir}/client/config`);
@@ -163,7 +163,7 @@ export default class ObjType extends ConfigType {
     respawnrate = 100; // default to 1-minute
     params: ParamMap = new Map();
 
-    decode(code: number, dat: Packet2): void {
+    decode(code: number, dat: Packet): void {
         if (code === 1) {
             this.model = dat.g2();
         } else if (code === 2) {

@@ -1,33 +1,33 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import MesanimType from '#lostcity/cache/MesanimType.js';
 
 describe('MesanimType', () => {
     describe('static load', () => {
         it('should load data from mesanim.dat', () => {
-            const dat = Packet2.alloc(0);
+            const dat = Packet.alloc(0);
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(dat);
+            Packet.load = vi.fn().mockReturnValue(dat);
 
             MesanimType.load('/path/to/data');
 
-            expect(Packet2.load).toHaveBeenCalledWith('/path/to/data/server/mesanim.dat');
+            expect(Packet.load).toHaveBeenCalledWith('/path/to/data/server/mesanim.dat');
             dat.release();
         });
 
         it('should return early if mesanim.dat does not exist', () => {
             fs.existsSync = vi.fn().mockReturnValue(false);
-            Packet2.load = vi.fn().mockReturnValue(undefined);
+            Packet.load = vi.fn().mockReturnValue(undefined);
 
             expect(MesanimType.load('/path/to/data')).toBeUndefined();
-            expect(Packet2.load).not.toHaveBeenCalled();
+            expect(Packet.load).not.toHaveBeenCalled();
         });
 
         it('should decode packet', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p1(1); // opcode
             packet.p2(2); // len[0]
             packet.p1(4); // opcode

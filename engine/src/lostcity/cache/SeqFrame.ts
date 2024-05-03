@@ -8,7 +8,7 @@ export default class SeqFrame {
         SeqFrame.instances = [];
 
         const frame_del = Packet.load(`${dir}/server/frame_del.dat`);
-        for (let i = 0; i < frame_del.length; i++) {
+        for (let i = 0; i < frame_del.data.length; i++) {
             const frame = new SeqFrame();
 
             frame.delay = frame_del.g1();
@@ -16,6 +16,8 @@ export default class SeqFrame {
             SeqFrame.instances[i] = frame;
         }
     }
+
+    // ----
 
     delay = 0;
 }

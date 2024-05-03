@@ -1,4 +1,4 @@
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 export abstract class ConfigType {
     readonly id: number;
@@ -9,9 +9,9 @@ export abstract class ConfigType {
         this.id = id;
     }
 
-    abstract decode(code: number, dat: Packet2): void;
+    abstract decode(code: number, dat: Packet): void;
 
-    decodeType(dat: Packet2): void {
+    decodeType(dat: Packet): void {
         while (dat.available > 0) {
             const code: number = dat.g1();
             if (code === 0) {

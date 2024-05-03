@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 import { ParamHelper, ParamMap } from '#lostcity/cache/ParamHelper.js';
@@ -19,7 +19,7 @@ export default class LocType extends ConfigType {
             return;
         }
 
-        const server = Packet2.load(`${dir}/server/loc.dat`);
+        const server = Packet.load(`${dir}/server/loc.dat`);
         const count = server.g2();
 
         const jag = Jagfile.load(`${dir}/client/config`);
@@ -107,7 +107,7 @@ export default class LocType extends ConfigType {
     category = -1;
     params: ParamMap = new Map();
 
-    decode(code: number, dat: Packet2) {
+    decode(code: number, dat: Packet) {
         if (code === 1) {
             const count = dat.g1();
 

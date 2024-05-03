@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 import ScriptVarType from '#lostcity/cache/ScriptVarType.js';
@@ -18,7 +18,7 @@ export default class EnumType extends ConfigType {
             return;
         }
 
-        const dat = Packet2.load(`${dir}/server/enum.dat`);
+        const dat = Packet.load(`${dir}/server/enum.dat`);
         const count = dat.g2();
 
         for (let id = 0; id < count; id++) {
@@ -62,7 +62,7 @@ export default class EnumType extends ConfigType {
     defaultString: string = 'null';
     values = new Map<number, number | string>();
 
-    decode(code: number, dat: Packet2): void {
+    decode(code: number, dat: Packet): void {
         if (code === 1) {
             this.inputtype = dat.g1();
         } else if (code === 2) {

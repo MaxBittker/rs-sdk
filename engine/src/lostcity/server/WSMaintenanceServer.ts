@@ -6,6 +6,7 @@ import Packet from '#jagex2/io/Packet.js';
 import ClientSocket from '#lostcity/server/ClientSocket.js';
 
 import Environment from '#lostcity/util/Environment.js';
+import {LoginResponse} from '#lostcity/server/LoginServer.js';
 
 function getIp(req: IncomingMessage) {
     let forwardedFor = req.headers['x-forwarded-for'];
@@ -38,13 +39,13 @@ export default class WSServer {
 
             const socket = new ClientSocket(ws, ip, ClientSocket.WEBSOCKET);
 
-            const seed = Packet.alloc(8);
+            const seed = new Packet(new Uint8Array(4 + 4));
             seed.p4(Math.floor(Math.random() * 0xffffffff));
             seed.p4(Math.floor(Math.random() * 0xffffffff));
             socket.send(seed.data);
 
             ws.on('message', (data: any) => {
-                socket.send(Uint8Array.from([14]));
+                socket.send(LoginResponse.SERVER_UPDATING);
                 socket.close();
             });
 

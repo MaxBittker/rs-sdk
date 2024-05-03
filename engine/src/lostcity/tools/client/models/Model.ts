@@ -1,5 +1,5 @@
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 class Metadata {
     vertexCount = 0;
@@ -29,20 +29,20 @@ export default class Model {
     static order: number[] = [];
     static metadata: Metadata[] = [];
 
-    static head: Packet2;
-    static face1: Packet2;
-    static face2: Packet2;
-    static face3: Packet2;
-    static face4: Packet2;
-    static face5: Packet2;
-    static point1: Packet2;
-    static point2: Packet2;
-    static point3: Packet2;
-    static point4: Packet2;
-    static point5: Packet2;
-    static vertex1: Packet2;
-    static vertex2: Packet2;
-    static axis: Packet2;
+    static head: Packet;
+    static face1: Packet;
+    static face2: Packet;
+    static face3: Packet;
+    static face4: Packet;
+    static face5: Packet;
+    static point1: Packet;
+    static point2: Packet;
+    static point3: Packet;
+    static point4: Packet;
+    static point5: Packet;
+    static vertex1: Packet;
+    static vertex2: Packet;
+    static axis: Packet;
 
     id!: number;
     meta!: Metadata;
@@ -510,7 +510,7 @@ export default class Model {
 
     // using 234+ format because it's suitable to be separate files and has tooling
     convert() {
-        const data = Packet2.alloc(0);
+        const data = Packet.alloc(0);
 
         data.pdata(this.rawVertexFlags, 0, this.rawVertexFlags.length);
         data.pdata(this.rawFaceOrientation, 0, this.rawFaceOrientation.length);

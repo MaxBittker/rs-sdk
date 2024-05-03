@@ -57,8 +57,9 @@ parentPort.on('message', async msg => {
 
                 const info = stream.g1();
 
-                const crcs = stream.gdata(9 * 4);
-                if (Packet.crc32(crcs) !== CrcBuffer32) {
+                const crcs = new Uint8Array(9 * 4);
+                stream.gdata(crcs, 0, crcs.length);
+                if (!Packet.checkcrc(crcs, 0, crcs.length, CrcBuffer32)) {
                     parentPort.postMessage({
                         type: 'loginreply',
                         status: LoginResponse.SERVER_UPDATED,

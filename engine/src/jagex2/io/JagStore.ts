@@ -63,8 +63,8 @@ export default class JagStore {
             return null;
         }
 
-        const data: Packet = Packet.alloc(size);
-        for (let part: number = 0; data.pos < data.length; part++) {
+        const data: Packet = new Packet(new Uint8Array(size));
+        for (let part: number = 0; data.pos < data.data.length; part++) {
             if (sector === 0) {
                 break;
             }
@@ -90,7 +90,8 @@ export default class JagStore {
                 return null;
             }
 
-            data.pdata(header.gdata());
+            data.pdata(header.data, header.pos, header.data.length);
+
             sector = nextSector;
         }
 
@@ -131,7 +132,7 @@ export default class JagStore {
         }
 
         idx.pos = file * 6;
-        const idxHeader: Packet = Packet.alloc(6);
+        const idxHeader: Packet = new Packet(new Uint8Array(6));
         idxHeader.p3(data.length);
         idxHeader.p3(sector);
         idx.pdata(idxHeader);
@@ -176,7 +177,7 @@ export default class JagStore {
             }
 
             this.dat.pos = sector * 520;
-            const header: Packet = Packet.alloc(8);
+            const header: Packet = new Packet(new Uint8Array(8));
             header.p2(file);
             header.p2(part);
             header.p3(nextSector);

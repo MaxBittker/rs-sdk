@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 import Jagfile from '#jagex2/io/Jagfile.js';
@@ -18,7 +18,7 @@ export default class SpotanimType extends ConfigType {
             return;
         }
 
-        const server = Packet2.load(`${dir}/server/spotanim.dat`);
+        const server = Packet.load(`${dir}/server/spotanim.dat`);
         const count = server.g2();
 
         const jag = Jagfile.load(`${dir}/client/config`);
@@ -72,7 +72,7 @@ export default class SpotanimType extends ConfigType {
     ambient: number = 0;
     contrast: number = 0;
 
-    decode(code: number, dat: Packet2) {
+    decode(code: number, dat: Packet) {
         if (code === 1) {
             this.model = dat.g2();
         } else if (code === 2) {

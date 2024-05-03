@@ -1,8 +1,8 @@
 import Jimp from 'jimp';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
-export function pixSize(dat: Packet2, idx: Packet2) {
+export function pixSize(dat: Packet, idx: Packet) {
     dat.pos = 0;
     idx.pos = dat.g2();
 
@@ -12,7 +12,7 @@ export function pixSize(dat: Packet2, idx: Packet2) {
     return { width, height };
 }
 
-export function countPix(dat: Packet2, idx: Packet2) {
+export function countPix(dat: Packet, idx: Packet) {
     dat.pos = 0;
     idx.pos = dat.g2();
 
@@ -67,7 +67,7 @@ export function countPix(dat: Packet2, idx: Packet2) {
     return count;
 }
 
-export function unpackPix(dat: Packet2, idx: Packet2, id = 0) {
+export function unpackPix(dat: Packet, idx: Packet, id = 0) {
     dat.pos = 0;
     idx.pos = dat.g2();
 

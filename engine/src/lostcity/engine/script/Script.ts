@@ -55,16 +55,17 @@ export default class Script {
 
     // decodes the same binary format as clientscript2
     static decode(id: number, stream: Packet): Script {
-        if (stream.length < 16) {
+        const length: number = stream.data.length;
+        if (length < 16) {
             throw new Error('Invalid script file (minimum length)');
         }
 
-        stream.pos = stream.length - 2;
+        stream.pos = length - 2;
 
         const trailerLen = stream.g2();
-        const trailerPos = stream.length - trailerLen - 12 - 2;
+        const trailerPos = length - trailerLen - 12 - 2;
 
-        if (trailerPos < 0 || trailerPos >= stream.length) {
+        if (trailerPos < 0 || trailerPos >= length) {
             throw new Error('Invalid script file (bad trailer pos)');
         }
 
@@ -84,7 +85,7 @@ export default class Script {
 
             for (let j = 0; j < count; j++) {
                 const key = stream.g4();
-                const offset = stream.g4s();
+                const offset = stream.g4();
                 table[key] = offset;
             }
 
@@ -92,8 +93,8 @@ export default class Script {
         }
 
         stream.pos = 0;
-        script.info.scriptName = stream.gjnstr();
-        script.info.sourceFilePath = stream.gjnstr();
+        script.info.scriptName = stream.gjstr(0);
+        script.info.sourceFilePath = stream.gjstr(0);
         script.info.lookupKey = stream.g4();
         const parameterTypeCount = stream.g1();
         for (let i = 0; i < parameterTypeCount; i++) {
@@ -111,9 +112,9 @@ export default class Script {
             const opcode = stream.g2();
 
             if (opcode === ScriptOpcode.PUSH_CONSTANT_STRING) {
-                script.stringOperands[instr] = stream.gjnstr();
+                script.stringOperands[instr] = stream.gjstr(0);
             } else if (Script.isLargeOperand(opcode)) {
-                script.intOperands[instr] = stream.g4s();
+                script.intOperands[instr] = stream.g4();
             } else {
                 script.intOperands[instr] = stream.g1();
             }

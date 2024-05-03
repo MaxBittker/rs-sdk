@@ -22,9 +22,11 @@ export class PlayerLoading {
         const name37 = toBase37(name);
         const safeName = fromBase37(name37);
 
-        let save = new Packet();
+        let save: Packet;
         if (fs.existsSync(`data/players/${safeName}.sav`)) {
             save = Packet.load(`data/players/${safeName}.sav`);
+        } else {
+            save = new Packet(new Uint8Array());
         }
 
         return PlayerLoading.load(name, save, null);
@@ -38,7 +40,7 @@ export class PlayerLoading {
             ? new NetworkPlayer(safeName, name37, client)
             : new Player(safeName, name37);
 
-        if (sav.length < 2) {
+        if (sav.data.length < 2) {
             for (let i = 0; i < 21; i++) {
                 player.stats[i] = 0;
                 player.baseLevels[i] = 1;
@@ -61,9 +63,9 @@ export class PlayerLoading {
             throw new Error('Unsupported player save format');
         }
 
-        sav.pos = sav.length - 4;
-        const crc = sav.g4s();
-        if (crc != Packet.crc32(sav, sav.length - 4)) {
+        sav.pos = sav.data.length - 4;
+        const crc = sav.g4();
+        if (crc != Packet.getcrc(sav.data, 0, sav.data.length - 4)) {
             throw new Error('Player save corrupted');
         }
 

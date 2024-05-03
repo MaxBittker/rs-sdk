@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 
@@ -24,7 +24,7 @@ export default class HuntType extends ConfigType {
             return;
         }
 
-        const dat = Packet2.load(`${dir}/server/hunt.dat`);
+        const dat = Packet.load(`${dir}/server/hunt.dat`);
         const count = dat.g2();
 
         for (let id = 0; id < count; id++) {
@@ -73,7 +73,7 @@ export default class HuntType extends ConfigType {
     checkAfk: boolean = false;
     rate: number = 1;
 
-    decode(code: number, dat: Packet2): void {
+    decode(code: number, dat: Packet): void {
         if (code === 1) {
             this.type = dat.g1();
         } else if (code == 2) {

@@ -1,4 +1,4 @@
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 export type ParamMap = Map<number, number | string>;
 
@@ -23,7 +23,7 @@ export const ParamHelper = {
         return value;
     },
 
-    decodeParams: function (dat: Packet2): ParamMap {
+    decodeParams: function (dat: Packet): ParamMap {
         const count = dat.g1();
         const params = new Map<number, number | string>();
         for (let i = 0; i < count; i++) {

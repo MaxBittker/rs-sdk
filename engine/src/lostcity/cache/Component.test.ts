@@ -1,102 +1,102 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import Component from '#lostcity/cache/Component.js';
 
 describe('Component', () => {
     describe('static load', () => {
         it('should load data from interface.dat', () => {
-            const dat = Packet2.alloc(0);
+            const dat = Packet.alloc(0);
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(dat);
+            Packet.load = vi.fn().mockReturnValue(dat);
 
             try {
                 Component.load('/path/to/data');
             } catch (e) { /* empty */ }
 
-            expect(Packet2.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
+            expect(Packet.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
         });
 
         it('should return early if interface.dat does not exist', () => {
             fs.existsSync = vi.fn().mockReturnValue(false);
-            Packet2.load = vi.fn().mockReturnValue(undefined);
+            Packet.load = vi.fn().mockReturnValue(undefined);
 
-            expect(Packet2.load).not.toHaveBeenCalled();
+            expect(Packet.load).not.toHaveBeenCalled();
         });
 
         it('test get', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
             } catch (e) { /* empty */ }
 
-            expect(Packet2.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
+            expect(Packet.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
             expect(Component.get(0).comName).toBe('jordan');
 
             packet.release();
         });
 
         it('test get id', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
             } catch (e) { /* empty */ }
 
-            expect(Packet2.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
+            expect(Packet.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
             expect(Component.getId('jordan')).toBe(0);
 
             packet.release();
         });
 
         it('test get by name', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
             } catch (e) { /* empty */ }
 
-            expect(Packet2.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
+            expect(Packet.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
             expect(Component.getByName('jordan')?.comName).toBe('jordan');
 
             packet.release();
         });
 
         it.skip('test get by name -1', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
             } catch (e) { /* empty */ }
 
-            expect(Packet2.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
+            expect(Packet.load).toHaveBeenCalledWith('/path/to/data/server/interface.dat');
             expect(Component.getByName('jordan')).toBeNull();
 
             packet.release();
@@ -105,7 +105,7 @@ describe('Component', () => {
 
     describe('decode', () => {
         it('decoded if type layer', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -136,7 +136,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
@@ -205,7 +205,7 @@ describe('Component', () => {
         });
 
         it('decoded if type inventory', () => {
-            const packet = Packet2.alloc(1);
+            const packet = Packet.alloc(1);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -252,7 +252,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
@@ -331,7 +331,7 @@ describe('Component', () => {
         });
 
         it('decoded if type rect', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -359,7 +359,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
@@ -424,7 +424,7 @@ describe('Component', () => {
         });
 
         it('decoded if type text', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -456,7 +456,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
@@ -521,7 +521,7 @@ describe('Component', () => {
         });
 
         it('decoded if type sprite', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -547,7 +547,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
@@ -612,7 +612,7 @@ describe('Component', () => {
         });
 
         it('decoded if type model', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -643,7 +643,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
@@ -708,7 +708,7 @@ describe('Component', () => {
         });
 
         it('decoded if type inventory text', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -742,7 +742,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
@@ -809,7 +809,7 @@ describe('Component', () => {
         });
 
         it('decoded if button option type', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -836,7 +836,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');
@@ -901,7 +901,7 @@ describe('Component', () => {
         });
 
         it('decoded if button action type', () => {
-            const packet = Packet2.alloc(0);
+            const packet = Packet.alloc(0);
             packet.p2(1); // count
             packet.p2(0); // id
             packet.pjstr('jordan'); //comName
@@ -930,7 +930,7 @@ describe('Component', () => {
             packet.pos = 0;
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(packet);
+            Packet.load = vi.fn().mockReturnValue(packet);
 
             try {
                 Component.load('/path/to/data');

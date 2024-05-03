@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 import Jagfile from '#jagex2/io/Jagfile.js';
@@ -18,7 +18,7 @@ export default class IdkType extends ConfigType {
             return;
         }
 
-        const server = Packet2.load(`${dir}/server/idk.dat`);
+        const server = Packet.load(`${dir}/server/idk.dat`);
         const count = server.g2();
 
         const jag = Jagfile.load(`${dir}/client/config`);
@@ -67,7 +67,7 @@ export default class IdkType extends ConfigType {
     recol_d: Uint16Array = new Uint16Array(10).fill(0);
     disable: boolean = false;
 
-    decode(code: number, dat: Packet2): void {
+    decode(code: number, dat: Packet): void {
         if (code === 1) {
             this.type = dat.g1();
         } else if (code === 2) {

@@ -52,9 +52,9 @@ export default class NetworkStream {
             return 0;
         }
 
-        if (destination.length - offset < length) {
+        /*if (destination.length - offset < length) {
             destination.resize(offset + length);
-        }
+        }*/
 
         if (this.available < length) {
             if (full) {

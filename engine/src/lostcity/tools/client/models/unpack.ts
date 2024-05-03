@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 import Model from '#lostcity/tools/client/models/Model.js';
 
 const models = Jagfile.load('data/client/models');
@@ -92,7 +92,7 @@ const models = Jagfile.load('data/client/models');
         const tend = type.pos;
         const labelend = label.pos;
 
-        const base = Packet2.alloc(0);
+        const base = Packet.alloc(0);
         // base.pdata(head.gdata(hend - hstart, hstart, false));
 
         const pp = new Uint8Array((tend - tstart));
@@ -188,7 +188,7 @@ const models = Jagfile.load('data/client/models');
         const t2end = tran2.pos;
         const dend = del.pos;
 
-        const frame = Packet2.alloc(2);
+        const frame = Packet.alloc(2);
 
         const p_hend = new Uint8Array((hend - hstart));
         head.pos = hstart;

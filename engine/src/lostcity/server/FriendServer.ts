@@ -41,16 +41,17 @@ export class FriendServer {
                 }
 
                 stream.waiting = 0;
-                const data = new Packet();
-                await stream.readBytes(socket, data, 0, 3);
+                const data2 = new Packet(new Uint8Array(3));
+                await stream.readBytes(socket, data2, 0, 3);
 
-                const opcode = data.g1();
-                const length = data.g2();
+                const opcode = data2.g1();
+                const length = data2.g2();
                 if (stream.available < length) {
                     stream.waiting = length - stream.available;
                     return;
                 }
 
+                const data = new Packet(new Uint8Array(length));
                 await stream.readBytes(socket, data, 0, length);
 
                 if (opcode === 1) {
@@ -111,7 +112,14 @@ export class FriendServer {
                         this.loggedOutEvents[world] = [];
                     }
 
-                    const reply = new Packet();
+                    let length = 0;
+                    length += 2;
+                    for (const message of this.messages[world]) {
+                        length += 8 + 2 + 1;
+                        length += message.text.length + 1;
+                    }
+
+                    const reply = new Packet(new Uint8Array(length));
                     reply.p2(this.messages[world].length);
                     for (const message of this.messages[world]) {
                         reply.p8(message.sender);
@@ -341,11 +349,11 @@ export class FriendClient {
             return;
         }
 
-        const packet = new Packet();
+        const packet = new Packet(new Uint8Array(1 + 2 + (data !== null ? data?.length : 0)));
         packet.p1(opcode);
         if (data !== null) {
             packet.p2(data.length);
-            packet.pdata(data);
+            packet.pdata(data, 0, data.length);
         } else {
             packet.p2(0);
         }
@@ -377,7 +385,7 @@ export class FriendClient {
             return -1;
         }
 
-        const request = new Packet();
+        const request = new Packet(new Uint8Array(2));
         request.p2(Environment.WORLD_ID as number);
         await this.write(this.socket, 1, request.data);
 
@@ -391,7 +399,7 @@ export class FriendClient {
             return -1;
         }
 
-        const request = new Packet();
+        const request = new Packet(new Uint8Array(2 + 2 + (players.length * 8)));
         request.p2(Environment.WORLD_ID as number);
         request.p2(players.length);
         for (const player of players) {
@@ -409,7 +417,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(2 + 8));
         data.p2(Environment.WORLD_ID as number);
         data.p8(player);
         await this.write(this.socket, 3, data.data);
@@ -422,7 +430,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(2 + 8));
         data.p2(Environment.WORLD_ID as number);
         data.p8(player);
         await this.write(this.socket, 4, data.data);
@@ -435,7 +443,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(2));
         data.p2(Environment.WORLD_ID as number);
         await this.write(this.socket, 5, data.data);
     }
@@ -447,7 +455,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(8 + 8));
         data.p8(player);
         data.p8(other);
         await this.write(this.socket, 6, data.data);
@@ -460,7 +468,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(8 + 8));
         data.p8(player);
         data.p8(other);
         await this.write(this.socket, 7, data.data);
@@ -473,7 +481,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(8 + 8));
         data.p8(player);
         data.p8(other);
         await this.write(this.socket, 8, data.data);
@@ -486,7 +494,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(8 + 8));
         data.p8(player);
         data.p8(other);
         await this.write(this.socket, 9, data.data);
@@ -499,7 +507,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(2 + 8 + 8 + message.length + 1));
         data.p2(Environment.WORLD_ID as number);
         data.p8(from);
         data.p8(to);
@@ -514,7 +522,7 @@ export class FriendClient {
             return;
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(2 + 8 + message.length + 1));
         data.p2(Environment.WORLD_ID as number);
         data.p8(from);
         data.pjstr(message);

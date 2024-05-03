@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 import { loadOrder } from '#lostcity/util/NameMap.js';
 import { SoundPack, shouldBuildFileAny } from '#lostcity/util/PackFile.js';
 
@@ -17,7 +17,7 @@ export function packClientSound() {
 
     const jag = new Jagfile();
 
-    const out = Packet2.alloc(4);
+    const out = Packet.alloc(4);
     for (let i = 0; i < order.length; i++) {
         const id = Number(order[i]);
         const name = SoundPack.getById(id);

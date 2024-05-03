@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 import { shouldBuildFileAny } from '#lostcity/util/PackFile.js';
 
 export function packClientWordenc() {
@@ -24,7 +24,7 @@ export function packClientWordenc() {
         .split('\n')
         .filter(x => x.length);
 
-    const badencout = Packet2.alloc(2);
+    const badencout = Packet.alloc(2);
     badencout.p4(badenc.length);
     for (let i = 0; i < badenc.length; i++) {
         const [word, ...combinations] = badenc[i].split(' ');
@@ -50,7 +50,7 @@ export function packClientWordenc() {
         .split('\n')
         .filter(x => x.length);
 
-    const fragmentsencout = Packet2.alloc(2);
+    const fragmentsencout = Packet.alloc(2);
     fragmentsencout.p4(fragmentsenc.length);
     for (let i = 0; i < fragmentsenc.length; i++) {
         const fragment = Number(fragmentsenc[i]);
@@ -66,7 +66,7 @@ export function packClientWordenc() {
         .split('\n')
         .filter(x => x.length);
 
-    const tldlistout = Packet2.alloc(2);
+    const tldlistout = Packet.alloc(2);
     tldlistout.p4(tldlist.length);
     for (let i = 0; i < tldlist.length; i++) {
         const [tld, type] = tldlist[i].split(' ');
@@ -87,7 +87,7 @@ export function packClientWordenc() {
         .split('\n')
         .filter(x => x.length);
 
-    const domainencout = Packet2.alloc(2);
+    const domainencout = Packet.alloc(2);
     domainencout.p4(domainenc.length);
     for (let i = 0; i < domainenc.length; i++) {
         const domain = domainenc[i];

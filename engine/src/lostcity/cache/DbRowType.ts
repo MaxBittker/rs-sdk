@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 import DbTableType from '#lostcity/cache/DbTableType.js';
@@ -19,7 +19,7 @@ export default class DbRowType extends ConfigType {
             return;
         }
 
-        const dat = Packet2.load(`${dir}/server/dbrow.dat`);
+        const dat = Packet.load(`${dir}/server/dbrow.dat`);
         const count = dat.g2();
 
         for (let id = 0; id < count; id++) {
@@ -61,7 +61,7 @@ export default class DbRowType extends ConfigType {
     types: number[][] = [];
     columnValues: (number | string)[][] = [];
 
-    decode(code: number, dat: Packet2) {
+    decode(code: number, dat: Packet) {
         if (code === 3) {
             const numColumns = dat.g1();
             this.types = new Array(numColumns);
@@ -95,7 +95,7 @@ export default class DbRowType extends ConfigType {
         return value;
     }
 
-    decodeValues(dat: Packet2, column: number) {
+    decodeValues(dat: Packet, column: number) {
         const types = this.types[column];
         const fieldCount = dat.g1();
         const values: string[] | number[] = new Array(fieldCount * types.length);

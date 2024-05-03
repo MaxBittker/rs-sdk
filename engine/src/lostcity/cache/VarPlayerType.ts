@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 import ScriptVarType from '#lostcity/cache/ScriptVarType.js';
@@ -22,7 +22,7 @@ export default class VarPlayerType extends ConfigType {
             return;
         }
 
-        const server = Packet2.load(`${dir}/server/varp.dat`);
+        const server = Packet.load(`${dir}/server/varp.dat`);
         const count = server.g2();
 
         const jag = Jagfile.load(`${dir}/client/config`);
@@ -73,7 +73,7 @@ export default class VarPlayerType extends ConfigType {
     protect = true;
     transmit = false;
 
-    decode(code: number, dat: Packet2) {
+    decode(code: number, dat: Packet) {
         if (code === 1) {
             this.scope = dat.g1();
         } else if (code === 2) {

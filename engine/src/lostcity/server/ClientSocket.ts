@@ -100,24 +100,24 @@ export default class ClientSocket {
         return this.out.length - this.outOffset;
     }
 
-    write(data: Packet | Uint8Array) {
-        const dataArray = (data as Packet).data || data;
+    write(data: Packet) {
+        const dataArray = data.data;
 
         let offset = 0;
-        let remaining = dataArray.length;
+        let remaining = data.pos;
 
         // pack as much data as we can into a single 5kb chunk, then flush and repeat
         while (remaining > 0) {
             const untilNextFlush = this.out.length - this.outOffset;
 
             if (remaining > untilNextFlush) {
-                this.out.set(dataArray.slice(offset, offset + untilNextFlush), this.outOffset);
+                this.out.set(dataArray.subarray(offset, offset + untilNextFlush), this.outOffset);
                 this.outOffset += untilNextFlush;
                 this.flush();
                 offset += untilNextFlush;
                 remaining -= untilNextFlush;
             } else {
-                this.out.set(dataArray.slice(offset, offset + remaining), this.outOffset);
+                this.out.set(dataArray.subarray(offset, offset + remaining), this.outOffset);
                 this.outOffset += remaining;
                 offset += remaining;
                 remaining = 0;
@@ -139,10 +139,10 @@ export default class ClientSocket {
     }
 
     flush() {
-        if (this.outOffset) {
-            // console.log('Flushing', this.out.slice(0, this.outOffset), this.outOffset);
-            this.send(this.out.slice(0, this.outOffset));
-            this.outOffset = 0;
+        if (!this.outOffset) {
+            return;
         }
+        this.send(this.out.subarray(0, this.outOffset));
+        this.outOffset = 0;
     }
 }

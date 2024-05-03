@@ -270,12 +270,16 @@ export const ServerProtEncoders: {
     [ServerProt.CAM_RESET.id]: (_buf: Packet) => {},
 
     [ServerProt.NPC_INFO.id]: (buf: Packet, bitBlock: Packet, byteBlock: Packet) => {
-        buf.pdata(bitBlock);
-        buf.pdata(byteBlock);
+        buf.pdata(bitBlock.data, 0, bitBlock.pos);
+        buf.pdata(byteBlock.data, 0, byteBlock.pos);
+        bitBlock.release();
+        byteBlock.release();
     },
     [ServerProt.PLAYER_INFO.id]: (buf: Packet, bitBlock: Packet, byteBlock: Packet) => {
-        buf.pdata(bitBlock);
-        buf.pdata(byteBlock);
+        buf.pdata(bitBlock.data, 0, bitBlock.pos);
+        buf.pdata(byteBlock.data, 0, byteBlock.pos);
+        bitBlock.release();
+        byteBlock.release();
     },
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -384,14 +388,14 @@ export const ServerProtEncoders: {
         buf.p1(z);
         buf.p2(offset);
         buf.p2(length);
-        buf.pdata(data);
+        buf.pdata(data, 0, data.length);
     },
     [ServerProt.DATA_LOC.id]: (buf: Packet, x: number, z: number, offset: number, length: number, data: Uint8Array) => {
         buf.p1(x);
         buf.p1(z);
         buf.p2(offset);
         buf.p2(length);
-        buf.pdata(data);
+        buf.pdata(data, 0, data.length);
     },
     [ServerProt.REBUILD_NORMAL.id]: (buf: Packet, zoneX: number, zoneZ: number, mapsquareX: number[], mapsquareZ: number[], landCrc: number[], locCrc: number[]) => {
         buf.p2(zoneX);
@@ -429,7 +433,7 @@ export const ServerProtEncoders: {
     [ServerProt.MIDI_JINGLE.id]: (buf: Packet, delay: number, data: Uint8Array) => {
         buf.p2(delay);
         buf.p4(data.length);
-        buf.pdata(data);
+        buf.pdata(data, 0, data.length);
     },
 
     [ServerProt.UPDATE_ZONE_PARTIAL_FOLLOWS.id]: (buf: Packet, zoneX: number, zoneZ: number, originX: number, originZ: number) => {
@@ -443,7 +447,7 @@ export const ServerProtEncoders: {
     [ServerProt.UPDATE_ZONE_PARTIAL_ENCLOSED.id]: (buf: Packet, zoneX: number, zoneZ: number, originX: number, originZ: number, data: Uint8Array) => {
         buf.p1((zoneX << 3) - Position.zoneOrigin(originX));
         buf.p1((zoneZ << 3) - Position.zoneOrigin(originZ));
-        buf.pdata(data);
+        buf.pdata(data, 0, data.length);
     },
 
     // merge player with loc, e.g. agility training through pipes

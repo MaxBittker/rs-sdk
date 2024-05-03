@@ -1,4 +1,4 @@
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 import { loadDir, loadOrder } from '#lostcity/util/NameMap.js';
 import { InterfacePack, ModelPack, ObjPack, SeqPack, VarpPack } from '#lostcity/util/PackFile.js';
 
@@ -228,7 +228,7 @@ export function packInterface(server: boolean) {
 
     // ----
 
-    const data = Packet2.alloc(4);
+    const data = Packet.alloc(4);
 
     let lastRoot = null;
     data.p2(InterfacePack.size);

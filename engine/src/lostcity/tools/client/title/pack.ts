@@ -1,5 +1,5 @@
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 import { shouldBuildFileAny } from '#lostcity/util/PackFile.js';
 
 import { convertImage } from '#lostcity/util/PixPack.js';
@@ -16,16 +16,16 @@ export async function packClientTitle() {
 
     const order = ['p11.dat', 'p12.dat', 'titlebox.dat', 'title.dat', 'runes.dat', 'q8.dat', 'index.dat', 'titlebutton.dat', 'logo.dat', 'b12.dat'];
 
-    const files: Record<string, Packet2> = {};
+    const files: Record<string, Packet> = {};
 
-    const title = Packet2.load('data/src/binary/title.jpg');
+    const title = Packet.load('data/src/binary/title.jpg');
     title.pos = title.data.length;
 
     files['title.dat'] = title;
 
     // ----
 
-    const index = Packet2.alloc(1);
+    const index = Packet.alloc(1);
 
     // TODO (jkm) check for presence , rather than using `!`
 

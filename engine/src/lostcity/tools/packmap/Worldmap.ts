@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import FloType from '#lostcity/cache/FloType.js';
 import LocType from '#lostcity/cache/LocType.js';
@@ -10,7 +10,7 @@ import { LocShape } from '@2004scape/rsmod-pathfinder';
 import { shouldBuildFile, shouldBuildFileAny } from '#lostcity/util/PackFile.js';
 import NpcType from '#lostcity/cache/NpcType.js';
 
-function packWater(underlay: Packet2, overlay: Packet2, mx: number, mz: number) {
+function packWater(underlay: Packet, overlay: Packet, mx: number, mz: number) {
     underlay.p1(mx);
     underlay.p1(mz);
 
@@ -47,11 +47,11 @@ export async function packWorldmap() {
 
     // ----
 
-    const underlay = Packet2.alloc(20_000_000);
-    const overlay = Packet2.alloc(20_000_000);
-    const loc = Packet2.alloc(5);
-    const obj = Packet2.alloc(5);
-    const npc = Packet2.alloc(5);
+    const underlay = Packet.alloc(20_000_000);
+    const overlay = Packet.alloc(20_000_000);
+    const loc = Packet.alloc(5);
+    const obj = Packet.alloc(5);
+    const npc = Packet.alloc(5);
 
     function unpackCoord(packed: number): { level: number; x: number; z: number } {
         const z: number = packed & 0x3f;
@@ -99,7 +99,7 @@ export async function packWorldmap() {
             }
         }
 
-        const landBuf = Packet2.load(`data/pack/server/maps/m${mx}_${mz}`);
+        const landBuf = Packet.load(`data/pack/server/maps/m${mx}_${mz}`);
         for (let level: number = 0; level < 4; level++) {
             for (let x: number = 0; x < 64; x++) {
                 for (let z: number = 0; z < 64; z++) {
@@ -174,7 +174,7 @@ export async function packWorldmap() {
             }
         }
 
-        const locBuf = Packet2.load(`data/pack/server/maps/l${mx}_${mz}`);
+        const locBuf = Packet.load(`data/pack/server/maps/l${mx}_${mz}`);
         let locId: number = -1;
         let locIdOffset: number = locBuf.gsmart();
         while (locIdOffset !== 0) {
@@ -312,7 +312,7 @@ export async function packWorldmap() {
             }
         }
 
-        const objBuf = Packet2.load(`data/pack/server/maps/o${mx}_${mz}`);
+        const objBuf = Packet.load(`data/pack/server/maps/o${mx}_${mz}`);
         if (objBuf.data.length > 0) {
             while (objBuf.available > 0) {
                 const pos = objBuf.g2();
@@ -353,7 +353,7 @@ export async function packWorldmap() {
             }
         }
 
-        const npcBuf = Packet2.load(`data/pack/server/maps/n${mx}_${mz}`);
+        const npcBuf = Packet.load(`data/pack/server/maps/n${mx}_${mz}`);
         if (npcBuf.data.length > 0) {
             while (npcBuf.available > 0) {
                 const pos = npcBuf.g2();
@@ -410,7 +410,7 @@ export async function packWorldmap() {
 
     jag.write('npc.dat', npc);
 
-    const floorcol = Packet2.alloc(1);
+    const floorcol = Packet.alloc(1);
     floorcol.p2(FloType.configs.length);
 
     const refColors = [
@@ -511,7 +511,7 @@ export async function packWorldmap() {
 
     // ----
 
-    const index = Packet2.alloc(1);
+    const index = Packet.alloc(1);
 
     const mapscene = await convertImage(index, 'data/src/sprites', 'mapscene');
     jag.write('mapscene.dat', mapscene!);
@@ -529,7 +529,7 @@ export async function packWorldmap() {
 
     // ----
 
-    const labels = Packet2.alloc(1);
+    const labels = Packet.alloc(1);
     const labelsSrc = fs.readFileSync('data/src/maps/labels.txt', 'ascii')
         .replace(/\r/g, '').split('\n')
         .filter((x: string) => x.startsWith('='))

@@ -55,7 +55,7 @@ export class LoginServer {
                 }
 
                 stream.waiting = 0;
-                const data = new Packet();
+                const data = new Packet(new Uint8Array(3));
                 await stream.readBytes(socket, data, 0, 3);
 
                 const opcode = data.g1();
@@ -82,7 +82,7 @@ export class LoginServer {
                     const account = await db.selectFrom('account').where('username', '=', username).selectAll().executeTakeFirst();
                     if (!account || !(await bcrypt.compare(password.toLowerCase(), account.password))) {
                         // invalid credentials (bad user or bad pass)
-                        const reply = new Packet();
+                        const reply = new Packet(new Uint8Array(1));
                         reply.p1(5);
                         await this.write(socket, reply.data);
                         return;
@@ -90,7 +90,7 @@ export class LoginServer {
 
                     if (this.players[world].includes(username37)) {
                         // logged into this world (reconnect logic)
-                        const reply = new Packet();
+                        const reply = new Packet(new Uint8Array(1));
                         reply.p1(2);
                         await this.write(socket, reply.data);
                         return;
@@ -103,7 +103,7 @@ export class LoginServer {
 
                         if (this.players[i].includes(username37)) {
                             // logged into another world
-                            const reply = new Packet();
+                            const reply = new Packet(new Uint8Array(1));
                             reply.p1(3);
                             await this.write(socket, reply.data);
                             return;
@@ -114,24 +114,25 @@ export class LoginServer {
 
                     if (!fs.existsSync(`data/players/${username}.sav`)) {
                         // new player save
-                        const reply = new Packet();
+                        const reply = new Packet(new Uint8Array(1));
                         reply.p1(4);
                         await this.write(socket, reply.data);
                         return;
                     }
 
                     const save = await fsp.readFile(`data/players/${username}.sav`);
-                    const reply = new Packet();
+                    const reply = new Packet(new Uint8Array(save.length + 2 + 1));
                     reply.p1(1);
                     reply.p2(save.length);
-                    reply.pdata(save);
+                    reply.pdata(save, 0, save.length);
                     await this.write(socket, reply.data);
                 } else if (opcode === 2) {
                     // logout
                     const world = data.g2();
                     const username37 = data.g8();
                     const saveLength = data.g2();
-                    const save = data.gdata(saveLength);
+                    const save = new Uint8Array(saveLength);
+                    data.gdata(save, 0, save.length);
 
                     const username = fromBase37(username37);
                     await fsp.writeFile(`data/players/${username}.sav`, save);
@@ -145,7 +146,7 @@ export class LoginServer {
                         this.players[world].splice(index, 1);
                     }
 
-                    const reply = new Packet();
+                    const reply = new Packet(new Uint8Array(1));
                     reply.p1(0);
                     await this.write(socket, reply.data);
                 } else if (opcode === 3) {
@@ -165,7 +166,7 @@ export class LoginServer {
                         this.players[world] = [];
                     }
 
-                    const reply = new Packet();
+                    const reply = new Packet(new Uint8Array(2));
                     reply.p2(this.players[world].length);
                     await this.write(socket, reply.data);
                 } else if (opcode === 5) {
@@ -268,11 +269,11 @@ export class LoginClient {
             return;
         }
 
-        const packet = new Packet();
+        const packet = new Packet(new Uint8Array(1 + 2 + (data !== null ? data?.length : 0)));
         packet.p1(opcode);
         if (data !== null) {
             packet.p2(data.length);
-            packet.pdata(data);
+            packet.pdata(data, 0, data.length);
         } else {
             packet.p2(0);
         }
@@ -302,7 +303,7 @@ export class LoginClient {
             return { reply: -1, data: null };
         }
 
-        const request = new Packet();
+        const request = new Packet(new Uint8Array(2 + 8 + password.length + 1 + 4));
         request.p2(Environment.WORLD_ID as number);
         request.p8(username37);
         request.pjstr(password);
@@ -315,28 +316,33 @@ export class LoginClient {
             return { reply, data: null };
         }
 
-        const data = new Packet();
+        const data = new Packet(new Uint8Array(2));
         await this.stream.readBytes(this.socket, data, 0, 2);
 
         const length = data.g2();
-        await this.stream.readBytes(this.socket, data, 0, length);
+        const data2 = new Packet(new Uint8Array(length));
+        await this.stream.readBytes(this.socket, data2, 0, length);
+        const out = new Packet(new Uint8Array(2 + length));
+        out.pdata(data.data, 0, data.data.length);
+        out.pdata(data2.data, 0, data2.data.length);
 
         this.disconnect();
-        return { reply, data };
+        return { reply, data: out };
     }
 
-    async save(username37: bigint, save: Packet | Uint8Array | Buffer) {
+    async save(username37: bigint, save: Packet) {
         await this.connect();
 
         if (this.socket === null) {
             return -1;
         }
 
-        const request = new Packet();
+        const request = new Packet(new Uint8Array(2 + 8 + 2 + save.data.length));
         request.p2(Environment.WORLD_ID as number);
         request.p8(username37);
-        request.p2(save.length);
-        request.pdata(save);
+        request.p2(save.data.length);
+        request.pdata(save.data, 0, save.data.length);
+        save.release();
         await this.write(this.socket, 2, request.data);
 
         const reply = await this.stream.readByte(this.socket);
@@ -351,7 +357,7 @@ export class LoginClient {
             return -1;
         }
 
-        const request = new Packet();
+        const request = new Packet(new Uint8Array(2));
         request.p2(Environment.WORLD_ID as number);
         await this.write(this.socket, 3, request.data);
 
@@ -365,11 +371,11 @@ export class LoginClient {
             return -1;
         }
 
-        const request = new Packet();
+        const request = new Packet(new Uint8Array(2));
         request.p2(world);
         await this.write(this.socket, 4, request.data);
 
-        const reply = new Packet();
+        const reply = new Packet(new Uint8Array(2));
         await this.stream.readBytes(this.socket, reply, 0, 2);
 
         const count = reply.g2();
@@ -385,7 +391,7 @@ export class LoginClient {
             return -1;
         }
 
-        const request = new Packet();
+        const request = new Packet(new Uint8Array(2 + 2 + (players.length * 8)));
         request.p2(Environment.WORLD_ID as number);
         request.p2(players.length);
         for (const player of players) {

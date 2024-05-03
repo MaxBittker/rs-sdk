@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import { ConfigType } from '#lostcity/cache/ConfigType.js';
 import SeqFrame from '#lostcity/cache/SeqFrame.js';
@@ -19,7 +19,7 @@ export default class SeqType extends ConfigType {
             return;
         }
 
-        const server = Packet2.load(`${dir}/server/seq.dat`);
+        const server = Packet.load(`${dir}/server/seq.dat`);
         const count = server.g2();
 
         const jag = Jagfile.load(`${dir}/client/config`);
@@ -75,7 +75,7 @@ export default class SeqType extends ConfigType {
 
     duration: number = 0;
 
-    decode(code: number, dat: Packet2) {
+    decode(code: number, dat: Packet) {
         if (code === 1) {
             const count = dat.g1();
 

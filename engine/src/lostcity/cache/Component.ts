@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 export default class Component {
     static TYPE_LAYER: number = 0;
@@ -32,7 +32,7 @@ export default class Component {
             return;
         }
 
-        const dat = Packet2.load(`${dir}/server/interface.dat`);
+        const dat = Packet.load(`${dir}/server/interface.dat`);
         dat.g2(); // count
 
         let rootLayer = -1;

@@ -4,7 +4,7 @@ import Jagfile from '#jagex2/io/Jagfile.js';
 
 import { convertImage } from '#lostcity/util/PixPack.js';
 import { shouldBuildFileAny } from '#lostcity/util/PackFile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 export async function packClientTexture() {
     if (!shouldBuildFileAny('data/src/textures', 'data/pack/client/textures')) {
@@ -68,7 +68,7 @@ export async function packClientTexture() {
         '49.dat'
     ];
 
-    const files: Record<string, Packet2> = {};
+    const files: Record<string, Packet> = {};
 
     // ----
 
@@ -82,7 +82,7 @@ export async function packClientTexture() {
             return { id: parseInt(parts[0]), name: parts[1] };
         });
 
-    const index = Packet2.alloc(1);
+    const index = Packet.alloc(1);
 
     for (let i = 0; i < pack.length; i++) {
         const data = await convertImage(index, 'data/src/textures', pack[i].name);

@@ -1,4 +1,4 @@
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 
 import fs from 'fs';
 
@@ -15,21 +15,21 @@ describe('WordEnc', () => {
     describe('static load', () => {
         // TODO: This started failing once we switched to Packet2
         it.skip('should load data from wordenc', () => {
-            const dat = new Packet2(new Uint8Array());
+            const dat = new Packet(new Uint8Array());
 
             fs.existsSync = vi.fn().mockReturnValue(true);
-            Packet2.load = vi.fn().mockReturnValue(dat);
+            Packet.load = vi.fn().mockReturnValue(dat);
 
             WordEnc.load('/path/to/data');
 
-            expect(Packet2.load).toHaveBeenCalledWith('/path/to/data/client/wordenc');
+            expect(Packet.load).toHaveBeenCalledWith('/path/to/data/client/wordenc');
         });
 
         it('should return early if wordenc does not exist', () => {
             fs.existsSync = vi.fn().mockReturnValue(false);
-            Packet2.load = vi.fn().mockReturnValue(undefined);
+            Packet.load = vi.fn().mockReturnValue(undefined);
 
-            expect(Packet2.load).not.toHaveBeenCalled();
+            expect(Packet.load).not.toHaveBeenCalled();
         });
     });
 

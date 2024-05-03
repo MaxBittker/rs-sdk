@@ -1,5 +1,5 @@
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet2 from '#jagex2/io/Packet2.js';
+import Packet from '#jagex2/io/Packet.js';
 import { shouldBuildFileAny } from '#lostcity/util/PackFile.js';
 
 import { convertImage } from '#lostcity/util/PixPack.js';
@@ -125,11 +125,11 @@ export async function packClientMedia() {
         'mapflag.dat' // 7440
     ];
 
-    const files: Record<string, Packet2> = {};
+    const files: Record<string, Packet> = {};
 
     // ----
 
-    const index = Packet2.alloc(2);
+    const index = Packet.alloc(2);
     for (let i = 0; i < indexOrder.length; i++) {
         const safeName = indexOrder[i].replace('.dat', '');
         const data = await convertImage(index, 'data/src/sprites', safeName);
