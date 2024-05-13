@@ -599,6 +599,10 @@ const ScriptOpcodePointers: {
         require: ['active_npc'],
         require2: ['active_npc2']
     },
+    [ScriptOpcode.NPC_ATTACKRANGE]: {
+        require: ['active_npc'],
+        require2: ['active_npc2']
+    },
 
     // Loc ops
     [ScriptOpcode.LOC_ADD]: {

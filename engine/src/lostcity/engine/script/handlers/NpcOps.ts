@@ -408,7 +408,13 @@ const NpcOps: CommandHandlers = {
         const current = npc.levels[stat];
         const subbed = current - (constant + (current * percent) / 100);
         npc.levels[stat] = Math.max(subbed, 0);
-    })
+    }),
+
+    // https://twitter.com/JagexAsh/status/1614498680144527360
+    [ScriptOpcode.NPC_ATTACKRANGE]: checkedHandler(ActiveNpc, state => {
+        const type: NpcType = NpcType.get(state.activeNpc.type);
+        state.pushInt(type.attackrange);
+    }),
 };
 
 export default NpcOps;
