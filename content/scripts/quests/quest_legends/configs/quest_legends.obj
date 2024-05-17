@@ -313,6 +313,8 @@ param=levelrequire,1
 param=attackrange,4
 param=rangeattack_anim,human_holy_water_throw
 param=defend_anim,human_unarmedblock
+param=proj_launch,holy_water_launch
+param=proj_travel,holy_water_travel
 param=rangeattack_sound,thrown
 
 [obj_733]

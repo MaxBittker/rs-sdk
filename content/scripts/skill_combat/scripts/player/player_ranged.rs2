@@ -76,8 +76,16 @@ if (%damagestyle = ^style_ranged_rapid) {
     %action_delay = sub(%action_delay, 1);
 }
 p_opnpc(2);
+if ($ammo = obj_732) {
+    world_delay(calc($delay / 30 - 2));
+    if (map_blocked(npc_coord) = true) {
+        return;
+    }
+    obj_add(npc_coord, obj_733, 1, 200);
+    return;
+}
 if (random(5) ! 0) {
-    world_delay(calc($delay / 30));
+    world_delay(calc($delay / 30 - 2));
     if (map_blocked(npc_coord) = true) {
         return;
     }
