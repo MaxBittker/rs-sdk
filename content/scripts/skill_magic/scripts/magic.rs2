@@ -11,8 +11,12 @@ return ($spell_data);
 // accounts for staff and returns runes and their adjusted counts.
 [proc,check_spell_requirements](dbrow $spell_data)(boolean)
 // check if members
-if (db_getfield($spell_data, magic_spell_table:members, 0) = true) {
-    ~require_members_spell;
+if (db_getfield($spell_data, magic_spell_table:members, 0) = true & map_members = false) {
+    // Camelot teleport: https://youtu.be/18eDNqcur2I
+    // Current osrs combat spells have "You need to be on a members' world to cast that spell."
+    // But i think this is after mems messages rework
+    mes("You need to be on a members' server to use this spell.");
+    return (false);
 }
 // check if high enough level
 if (stat(magic) < db_getfield($spell_data, magic_spell_table:levelrequired, 0)) {

@@ -16,12 +16,6 @@ if (map_members = true) {
 }
 @you_need_to_be_on_a_members_server_to_gain_experience_in_that_skill;
 
-[proc,require_members_spell]()
-if (map_members = true) {
-    return;
-}
-@you_need_to_be_on_a_members_world_to_cast_that_spell;
-
 [proc,require_members_do_that]()
 if (map_members = true) {
     return;
@@ -66,9 +60,6 @@ mes("You need to be on a members' world to gain experience in Thieving.");
 
 [label,you_need_to_be_on_a_members_world_to_gain_experience_in_fletching]
 mes("You need to be on a members' world to gain experience in Fletching.");
-
-[label,you_need_to_be_on_a_members_world_to_cast_that_spell]
-mes("You need to be on a members' world to cast that spell.");
 
 [label,you_need_to_subscribe_for_a_members_account_if_you_want_to_store_any_more_items_in_the_bank]
 // https://youtu.be/yv-H5-IoRLs?t=9 (2006)
