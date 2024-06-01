@@ -289,7 +289,7 @@ manwear=model_561_obj_wear,0
 womanwear=model_561_obj_wear,6
 weight=10g
 
-[obj_732]
+[holy_water]
 name=Holy water
 desc=A vial of holy water, good against certain demons.
 model=model_1736_obj

@@ -177,8 +177,8 @@
 176=explodingvial
 177=bind_casting
 178=bind_travel
-179=snare_impact
-180=snare_travel
+179=entangle_impact
+180=snare_impact
 181=bind_impact
 182=spotanim_182
 183=spotanim_183

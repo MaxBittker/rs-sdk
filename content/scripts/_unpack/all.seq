@@ -9642,7 +9642,7 @@ frame29=anim_2040
 frame30=anim_2343
 frame31=anim_2244
 
-[seq_727]
+[human_castwave]
 righthand=hide
 lefthand=hide
 priority=6

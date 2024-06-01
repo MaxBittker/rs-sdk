@@ -76,7 +76,7 @@ if (%damagestyle = ^style_ranged_rapid) {
     %action_delay = sub(%action_delay, 1);
 }
 p_opnpc(2);
-if ($ammo = obj_732) {
+if ($ammo = holy_water) {
     world_delay(calc($delay / 30 - 2));
     if (map_blocked(npc_coord) = true) {
         return;

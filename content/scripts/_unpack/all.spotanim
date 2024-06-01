@@ -1316,14 +1316,14 @@ hasalpha=yes
 ambient=40
 contrast=40
 
-[snare_impact]
+[entangle_impact]
 model=model_3128_spotanim
 anim=seq_704
 hasalpha=yes
 ambient=40
 contrast=40
 
-[snare_travel]
+[snare_impact]
 model=model_3130_spotanim
 anim=seq_704
 hasalpha=yes
