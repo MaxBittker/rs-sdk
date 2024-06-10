@@ -1,4 +1,4 @@
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 export default abstract class Entity {
     // constructor

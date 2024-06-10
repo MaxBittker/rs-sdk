@@ -11,7 +11,7 @@ import World from '#lostcity/engine/World.js';
 
 import Npc from '#lostcity/entity/Npc.js';
 import Obj from '#lostcity/entity/Obj.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 export default class GameMap {
     readonly collisionManager = new CollisionManager();

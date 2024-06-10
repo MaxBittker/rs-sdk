@@ -10,6 +10,8 @@ import World from '#lostcity/engine/World.js';
 
 import { NetworkPlayer } from '#lostcity/entity/NetworkPlayer.js';
 import Player, { getExpByLevel, getLevelByExp } from '#lostcity/entity/Player.js';
+import PlayerStat from '#lostcity/entity/PlayerStat.js';
+
 import Environment from '#lostcity/util/Environment.js';
 
 export class PlayerLoading {
@@ -48,9 +50,9 @@ export class PlayerLoading {
             }
 
             // hitpoints starts at level 10
-            player.stats[Player.HITPOINTS] = getExpByLevel(10);
-            player.baseLevels[Player.HITPOINTS] = 10;
-            player.levels[Player.HITPOINTS] = 10;
+            player.stats[PlayerStat.HITPOINTS] = getExpByLevel(10);
+            player.baseLevels[PlayerStat.HITPOINTS] = 10;
+            player.levels[PlayerStat.HITPOINTS] = 10;
             return player;
         }
 

@@ -11,7 +11,7 @@ import NpcMode from '#lostcity/entity/NpcMode.js';
 import MoveRestrict from '#lostcity/entity/MoveRestrict.js';
 import MoveSpeed from '#lostcity/entity/MoveSpeed.js';
 import { Direction, Position } from '#lostcity/entity/Position.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 import LocType from '#lostcity/cache/config/LocType.js';
 

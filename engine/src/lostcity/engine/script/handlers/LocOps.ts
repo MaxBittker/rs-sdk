@@ -13,7 +13,7 @@ import Zone from '#lostcity/engine/zone/Zone.js';
 
 import Loc from '#lostcity/entity/Loc.js';
 import { Position } from '#lostcity/entity/Position.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 import {
     check,

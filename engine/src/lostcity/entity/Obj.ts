@@ -1,5 +1,5 @@
 import NonPathingEntity from '#lostcity/entity/NonPathingEntity.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 export default class Obj extends NonPathingEntity {
     // constructor properties

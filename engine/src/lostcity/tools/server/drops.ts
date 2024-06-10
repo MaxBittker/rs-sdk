@@ -9,7 +9,7 @@ import ServerTriggerType from '#lostcity/engine/script/ServerTriggerType.js';
 import Npc from '#lostcity/entity/Npc.js';
 import { PlayerLoading } from '#lostcity/entity/PlayerLoading.js';
 import ObjType from '#lostcity/cache/config/ObjType.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 import Environment from '#lostcity/util/Environment.js';
 

@@ -16,6 +16,7 @@ import { isNetworkPlayer } from '#lostcity/entity/NetworkPlayer.js';
 import { Position } from '#lostcity/entity/Position.js';
 import CameraInfo from '#lostcity/entity/CameraInfo.js';
 import Interaction from '#lostcity/entity/Interaction.js';
+import PlayerStat from '#lostcity/entity/PlayerStat.js';
 
 import ServerProt from '#lostcity/server/ServerProt.js';
 
@@ -33,6 +34,7 @@ import {
     NpcTypeValid,
     NumberNotNull,
     ObjTypeValid,
+    PlayerStatValid,
     SeqTypeValid,
     SpotAnimTypeValid,
     StringNotNull,
@@ -390,13 +392,13 @@ const PlayerOps: CommandHandlers = {
     }),
 
     [ScriptOpcode.STAT]: checkedHandler(ActivePlayer, state => {
-        const stat = check(state.popInt(), NumberNotNull);
+        const stat: PlayerStat = check(state.popInt(), PlayerStatValid);
 
         state.pushInt(state.activePlayer.levels[stat]);
     }),
 
     [ScriptOpcode.STAT_BASE]: checkedHandler(ActivePlayer, state => {
-        const stat = check(state.popInt(), NumberNotNull);
+        const stat: PlayerStat = check(state.popInt(), PlayerStatValid);
 
         state.pushInt(state.activePlayer.baseLevels[stat]);
     }),
@@ -404,7 +406,7 @@ const PlayerOps: CommandHandlers = {
     [ScriptOpcode.STAT_ADD]: checkedHandler(ActivePlayer, state => {
         const [stat, constant, percent] = state.popInts(3);
 
-        check(stat, NumberNotNull);
+        check(stat, PlayerStatValid);
         check(constant, NumberNotNull);
         check(percent, NumberNotNull);
 
@@ -420,7 +422,7 @@ const PlayerOps: CommandHandlers = {
     [ScriptOpcode.STAT_SUB]: checkedHandler(ActivePlayer, state => {
         const [stat, constant, percent] = state.popInts(3);
 
-        check(stat, NumberNotNull);
+        check(stat, PlayerStatValid);
         check(constant, NumberNotNull);
         check(percent, NumberNotNull);
 
@@ -441,7 +443,7 @@ const PlayerOps: CommandHandlers = {
     [ScriptOpcode.STAT_HEAL]: checkedHandler(ActivePlayer, state => {
         const [stat, constant, percent] = state.popInts(3);
 
-        check(stat, NumberNotNull);
+        check(stat, PlayerStatValid);
         check(constant, NumberNotNull);
         check(percent, NumberNotNull);
 

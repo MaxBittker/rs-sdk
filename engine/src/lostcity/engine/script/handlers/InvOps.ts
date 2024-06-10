@@ -10,7 +10,7 @@ import {ActivePlayer, checkedHandler, ProtectedActivePlayer} from '#lostcity/eng
 
 import Obj from '#lostcity/entity/Obj.js';
 import {Position} from '#lostcity/entity/Position.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 import {
     CategoryTypeValid,

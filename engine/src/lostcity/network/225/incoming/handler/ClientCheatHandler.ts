@@ -21,6 +21,7 @@ import { tryParseInt } from '#lostcity/util/TryParse.js';
 import ScriptVarType from '#lostcity/cache/config/ScriptVarType.js';
 import { Position } from '#lostcity/entity/Position.js';
 import ScriptRunner from '#lostcity/engine/script/ScriptRunner.js';
+import PlayerStat from '#lostcity/entity/PlayerStat.js';
 
 export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
     handle(message: ClientCheat, player: Player): boolean {
@@ -186,7 +187,7 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
             player.stats[stat] = exp;
         } else if (cmd === 'minlevel') {
             for (let i = 0; i < Player.SKILLS.length; i++) {
-                if (i === Player.HITPOINTS) {
+                if (i === PlayerStat.HITPOINTS) {
                     player.setLevel(i, 10);
                 } else {
                     player.setLevel(i, 1);

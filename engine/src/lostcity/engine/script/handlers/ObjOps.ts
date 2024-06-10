@@ -11,7 +11,7 @@ import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 
 import Obj from '#lostcity/entity/Obj.js';
 import { Position } from '#lostcity/entity/Position.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 import Environment from '#lostcity/util/Environment.js';
 

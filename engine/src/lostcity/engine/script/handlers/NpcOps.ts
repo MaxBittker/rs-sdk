@@ -22,7 +22,7 @@ import NpcMode from '#lostcity/entity/NpcMode.js';
 import Entity from '#lostcity/entity/Entity.js';
 import Interaction from '#lostcity/entity/Interaction.js';
 import HuntVis from '#lostcity/entity/hunt/HuntVis.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 import Environment from '#lostcity/util/Environment.js';
 

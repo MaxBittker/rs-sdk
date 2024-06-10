@@ -23,6 +23,9 @@ import MesanimType from '#lostcity/cache/config/MesanimType.js';
 import StructType from '#lostcity/cache/config/StructType.js';
 import DbRowType from '#lostcity/cache/config/DbRowType.js';
 import DbTableType from '#lostcity/cache/config/DbTableType.js';
+import NpcStat from '#lostcity/entity/NpcStat.js';
+import HitType from '#lostcity/entity/HitType.js';
+import PlayerStat from '#lostcity/entity/PlayerStat.js';
 
 interface ScriptValidator<T, R> {
     validate(input: T): R;
@@ -96,11 +99,12 @@ export const DurationValid: ScriptValidator<number, number> = new ScriptInputRan
 export const CoordValid: ScriptValidator<number, Position> = new ScriptInputCoordValidator(0, 2147483647, 'Coord');
 export const ParamTypeValid: ScriptValidator<number, ParamType> = new ScriptInputConfigTypeValidator(ParamType.get, (input: number) => input >= 0 && input < ParamType.count, 'Param');
 export const NpcTypeValid: ScriptValidator<number, NpcType> = new ScriptInputConfigTypeValidator(NpcType.get, (input: number) => input >= 0 && input < NpcType.count, 'Npc');
-export const NpcStatValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(0, 6, 'NpcStat');
+export const NpcStatValid: ScriptValidator<number, NpcStat> = new ScriptInputRangeValidator(NpcStat.HITPOINTS, NpcStat.RANGED, 'NpcStat');
+export const PlayerStatValid: ScriptValidator<number, PlayerStat> = new ScriptInputRangeValidator(PlayerStat.ATTACK, PlayerStat.RUNECRAFT, 'PlayerStat');
 export const QueueValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(0, 19, 'AIQueue');
 export const HuntTypeValid: ScriptValidator<number, HuntType> = new ScriptInputConfigTypeValidator(HuntType.get, (input: number) => input >= 0 && input < HuntType.count, 'Hunt');
-export const NpcModeValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(NpcMode.NULL, NpcMode.APNPC5, 'NpcMode');
-export const HitTypeValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(0, 2, 'Hit');
+export const NpcModeValid: ScriptValidator<number, NpcMode> = new ScriptInputRangeValidator(NpcMode.NULL, NpcMode.APNPC5, 'NpcMode');
+export const HitTypeValid: ScriptValidator<number, HitType> = new ScriptInputRangeValidator(HitType.BLOCK, HitType.POISON, 'Hit');
 export const SpotAnimTypeValid: ScriptValidator<number, SpotanimType> = new ScriptInputConfigTypeValidator(SpotanimType.get, (input: number) => input >= 0 && input < SpotanimType.count, 'Spotanim');
 export const EnumTypeValid: ScriptValidator<number, EnumType> = new ScriptInputConfigTypeValidator(EnumType.get, (input: number) => input >= 0 && input < EnumType.count, 'Enum');
 export const ObjTypeValid: ScriptValidator<number, ObjType> = new ScriptInputConfigTypeValidator(ObjType.get, (input: number) => input >= 0 && input < ObjType.count, 'Obj');

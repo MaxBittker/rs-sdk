@@ -25,7 +25,8 @@ import PathingEntity from '#lostcity/entity/PathingEntity.js';
 import { Position } from '#lostcity/entity/Position.js';
 import CameraInfo from '#lostcity/entity/CameraInfo.js';
 import MoveSpeed from '#lostcity/entity/MoveSpeed.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
+import PlayerStat from '#lostcity/entity/PlayerStat.js';
 
 import ServerProt, { ServerProtEncoders } from '#lostcity/server/ServerProt.js';
 
@@ -73,35 +74,16 @@ export function getExpByLevel(level: number) {
 }
 
 export default class Player extends PathingEntity {
-    static APPEARANCE = 0x1;
-    static ANIM = 0x2;
-    static FACE_ENTITY = 0x4;
-    static SAY = 0x8;
-    static DAMAGE = 0x10;
-    static FACE_COORD = 0x20;
-    static CHAT = 0x40;
-    static SPOTANIM = 0x100;
-    static EXACT_MOVE = 0x200;
-
-    static ATTACK = 0;
-    static DEFENCE = 1;
-    static STRENGTH = 2;
-    static HITPOINTS = 3;
-    static RANGED = 4;
-    static PRAYER = 5;
-    static MAGIC = 6;
-    static COOKING = 7;
-    static WOODCUTTING = 8;
-    static FLETCHING = 9;
-    static FISHING = 10;
-    static FIREMAKING = 11;
-    static CRAFTING = 12;
-    static SMITHING = 13;
-    static MINING = 14;
-    static HERBLORE = 15;
-    static AGILITY = 16;
-    static THIEVING = 17;
-    static RUNECRAFT = 20;
+    static readonly APPEARANCE = 0x1;
+    static readonly ANIM = 0x2;
+    static readonly FACE_ENTITY = 0x4;
+    static readonly SAY = 0x8;
+    static readonly DAMAGE = 0x10;
+    static readonly FACE_COORD = 0x20;
+    static readonly CHAT = 0x40;
+    static readonly BIG_UPDATE = 0x80;
+    static readonly SPOTANIM = 0x100;
+    static readonly EXACT_MOVE = 0x200;
 
     static SKILLS = [
         'attack',
@@ -524,7 +506,7 @@ export default class Player extends PathingEntity {
         }
 
         if (!this.delayed() && (!moved || this.moveSpeed !== MoveSpeed.RUN) && this.runenergy < 10000) {
-            const recovered = this.baseLevels[Player.AGILITY] / 9 + 8;
+            const recovered = this.baseLevels[PlayerStat.AGILITY] / 9 + 8;
 
             this.runenergy = Math.min(this.runenergy + recovered, 10000);
         }
@@ -1256,10 +1238,10 @@ export default class Player extends PathingEntity {
     }
 
     getCombatLevel() {
-        const base = 0.25 * (this.baseLevels[Player.DEFENCE] + this.baseLevels[Player.HITPOINTS] + Math.floor(this.baseLevels[Player.PRAYER] / 2));
-        const melee = 0.325 * (this.baseLevels[Player.ATTACK] + this.baseLevels[Player.STRENGTH]);
-        const range = 0.325 * (Math.floor(this.baseLevels[Player.RANGED] / 2) + this.baseLevels[Player.RANGED]);
-        const magic = 0.325 * (Math.floor(this.baseLevels[Player.MAGIC] / 2) + this.baseLevels[Player.MAGIC]);
+        const base = 0.25 * (this.baseLevels[PlayerStat.DEFENCE] + this.baseLevels[PlayerStat.HITPOINTS] + Math.floor(this.baseLevels[PlayerStat.PRAYER] / 2));
+        const melee = 0.325 * (this.baseLevels[PlayerStat.ATTACK] + this.baseLevels[PlayerStat.STRENGTH]);
+        const range = 0.325 * (Math.floor(this.baseLevels[PlayerStat.RANGED] / 2) + this.baseLevels[PlayerStat.RANGED]);
+        const magic = 0.325 * (Math.floor(this.baseLevels[PlayerStat.MAGIC] / 2) + this.baseLevels[PlayerStat.MAGIC]);
         return Math.floor(base + Math.max(melee, range, magic));
     }
 
@@ -1353,7 +1335,7 @@ export default class Player extends PathingEntity {
         }
 
         if (mask > 0xff) {
-            mask |= 0x80;
+            mask |= Player.BIG_UPDATE;
         }
 
         if (self && mask & Player.CHAT) {
@@ -1362,7 +1344,7 @@ export default class Player extends PathingEntity {
         }
 
         length += 1;
-        if (mask & 0x80) {
+        if (mask & Player.BIG_UPDATE) {
             length += 1;
         }
 
@@ -1420,7 +1402,7 @@ export default class Player extends PathingEntity {
         }
 
         if (mask > 0xff) {
-            mask |= 0x80;
+            mask |= Player.BIG_UPDATE;
         }
 
         if (self && mask & Player.CHAT) {
@@ -1429,7 +1411,7 @@ export default class Player extends PathingEntity {
         }
 
         out.p1(mask & 0xff);
-        if (mask & 0x80) {
+        if (mask & Player.BIG_UPDATE) {
             out.p1(mask >> 8);
         }
 
@@ -1458,8 +1440,8 @@ export default class Player extends PathingEntity {
         if (mask & Player.DAMAGE) {
             out.p1(this.damageTaken);
             out.p1(this.damageType);
-            out.p1(this.levels[Player.HITPOINTS]);
-            out.p1(this.baseLevels[Player.HITPOINTS]);
+            out.p1(this.levels[PlayerStat.HITPOINTS]);
+            out.p1(this.baseLevels[PlayerStat.HITPOINTS]);
         }
 
         if (mask & Player.FACE_COORD) {
@@ -2088,12 +2070,12 @@ export default class Player extends PathingEntity {
         this.damageTaken = damage;
         this.damageType = type;
 
-        const current = this.levels[Player.HITPOINTS];
+        const current = this.levels[PlayerStat.HITPOINTS];
         if (current - damage <= 0) {
-            this.levels[Player.HITPOINTS] = 0;
+            this.levels[PlayerStat.HITPOINTS] = 0;
             this.damageTaken = current;
         } else {
-            this.levels[Player.HITPOINTS] = current - damage;
+            this.levels[PlayerStat.HITPOINTS] = current - damage;
         }
 
         this.mask |= Player.DAMAGE;

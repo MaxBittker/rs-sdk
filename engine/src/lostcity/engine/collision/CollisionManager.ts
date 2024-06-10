@@ -7,7 +7,7 @@ import ZoneManager from '#lostcity/engine/zone/ZoneManager.js';
 import LocType from '#lostcity/cache/config/LocType.js';
 
 import Loc from '#lostcity/entity/Loc.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
 import * as rsmod from '@2004scape/rsmod-pathfinder';
 import {LocAngle, LocLayer} from '@2004scape/rsmod-pathfinder';

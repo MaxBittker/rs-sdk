@@ -48,7 +48,7 @@ import Loc from '#lostcity/entity/Loc.js';
 import Npc from '#lostcity/entity/Npc.js';
 import Obj from '#lostcity/entity/Obj.js';
 import Player from '#lostcity/entity/Player.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import {NpcList, PlayerList} from '#lostcity/entity/EntityList.js';
 import { NetworkPlayer, isNetworkPlayer } from '#lostcity/entity/NetworkPlayer.js';
 import { EntityQueueState } from '#lostcity/entity/EntityQueueRequest.js';
@@ -68,7 +68,6 @@ import { makeCrcs } from '#lostcity/server/CrcTable.js';
 import { preloadClient } from '#lostcity/server/PreloadedPacks.js';
 
 import * as rsmod from '@2004scape/rsmod-pathfinder';
-import * as console from 'console';
 
 class World {
     id = Environment.WORLD_ID as number;

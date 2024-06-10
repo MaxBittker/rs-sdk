@@ -32,26 +32,20 @@ import {HuntIterator} from '#lostcity/engine/script/ScriptIterators.js';
 import MoveSpeed from '#lostcity/entity/MoveSpeed.js';
 import Entity from '#lostcity/entity/Entity.js';
 import Interaction from '#lostcity/entity/Interaction.js';
-import {EntityLifeCycle} from '#lostcity/entity/EntityLifeCycle.js';
+import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
+import NpcStat from '#lostcity/entity/NpcStat.js';
 
 import * as rsmod from '@2004scape/rsmod-pathfinder';
 import {CollisionFlag, CollisionType} from '@2004scape/rsmod-pathfinder';
 
 export default class Npc extends PathingEntity {
-    static ANIM = 0x2;
-    static FACE_ENTITY = 0x4;
-    static SAY = 0x8;
-    static DAMAGE = 0x10;
-    static CHANGE_TYPE = 0x20;
-    static SPOTANIM = 0x40;
-    static FACE_COORD = 0x80;
-
-    static HITPOINTS = 0;
-    static ATTACK = 1;
-    static STRENGTH = 2;
-    static DEFENCE = 3;
-    static MAGIC = 4;
-    static RANGED = 5;
+    static readonly ANIM = 0x2;
+    static readonly FACE_ENTITY = 0x4;
+    static readonly SAY = 0x8;
+    static readonly DAMAGE = 0x10;
+    static readonly CHANGE_TYPE = 0x20;
+    static readonly SPOTANIM = 0x40;
+    static readonly FACE_COORD = 0x80;
 
     // constructor properties
     nid: number;
@@ -60,8 +54,8 @@ export default class Npc extends PathingEntity {
     origType: number;
     startX: number;
     startZ: number;
-    levels: Uint8Array;
-    baseLevels: Uint8Array;
+    levels: Uint8Array = new Uint8Array(6);
+    baseLevels: Uint8Array = new Uint8Array(6);
 
     // runtime variables
     vars: Int32Array;
@@ -96,9 +90,6 @@ export default class Npc extends PathingEntity {
         this.origType = type;
 
         const npcType = NpcType.get(type);
-
-        this.levels = new Uint8Array(6);
-        this.baseLevels = new Uint8Array(6);
 
         for (let index = 0; index < npcType.stats.length; index++) {
             const level = npcType.stats[index];
@@ -812,12 +803,12 @@ export default class Npc extends PathingEntity {
         this.damageTaken = damage;
         this.damageType = type;
 
-        const current = this.levels[Npc.HITPOINTS];
+        const current = this.levels[NpcStat.HITPOINTS];
         if (current - damage <= 0) {
-            this.levels[Npc.HITPOINTS] = 0;
+            this.levels[NpcStat.HITPOINTS] = 0;
             this.damageTaken = current;
         } else {
-            this.levels[Npc.HITPOINTS] = current - damage;
+            this.levels[NpcStat.HITPOINTS] = current - damage;
         }
 
         this.mask |= Npc.DAMAGE;
@@ -917,8 +908,8 @@ export default class Npc extends PathingEntity {
         if (mask & Npc.DAMAGE) {
             out.p1(this.damageTaken);
             out.p1(this.damageType);
-            out.p1(this.levels[Npc.HITPOINTS]);
-            out.p1(this.baseLevels[Npc.HITPOINTS]);
+            out.p1(this.levels[NpcStat.HITPOINTS]);
+            out.p1(this.baseLevels[NpcStat.HITPOINTS]);
         }
 
         if (mask & Npc.CHANGE_TYPE) {
