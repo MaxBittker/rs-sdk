@@ -49,10 +49,14 @@ export default class WSServer {
             ws.on('message', async (data: Buffer) => {
                 const packet = new Packet(new Uint8Array(data));
 
-                if (socket.state === 1) {
-                    await World.readIn(socket, packet);
-                } else {
-                    await Login.readIn(socket, packet);
+                try {
+                    if (socket.state === 1) {
+                        await World.readIn(socket, packet);
+                    } else {
+                        await Login.readIn(socket, packet);
+                    }
+                } catch (err) {
+                    socket.close();
                 }
             });
 

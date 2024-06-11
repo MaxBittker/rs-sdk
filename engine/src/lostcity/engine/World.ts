@@ -903,6 +903,14 @@ class World {
             }
         }
 
+        if (this.currentTick % 1500 === 0 && this.currentTick > 0) {
+            // auto-save players every 15 mins
+            for (const player of this.players) {
+                const sav = player.save();
+                sav.release();
+            }
+        }
+
         const end = Date.now();
         // console.log(`tick ${this.currentTick} took ${end - start}ms: ${this.getTotalPlayers()} players`);
         // console.log(`${worldProcessing} ms world | ${clientInput} ms client in | ${npcProcessing} ms npcs | ${playerProcessing} ms players | ${playerLogout} ms logout | ${playerLogin} ms login | ${zoneProcessing} ms zones | ${clientOutput} ms client out | ${cleanup} ms cleanup`);
