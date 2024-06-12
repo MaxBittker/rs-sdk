@@ -191,8 +191,14 @@ switch_coord (loc_coord) {
     case 1_46_52_16_10: p_telejump(2_46_52_15_11); // White Knight's Castle - level 1
     case 2_46_52_13_10: p_telejump(3_46_52_12_11); // White Knight's Castle - level 1
     case 1_48_52_32_34: p_telejump(2_48_52_33_36); // Draynor Manor - level 1
-    case 0_50_54_2_41: p_telejump(1_50_54_3_40); // Varrock Palace Northwest Tower - level 0
-    case 0_50_54_18_40: p_telejump(1_50_54_20_40); // Varrock Palace North East - level 0
+    case 0_50_54_2_41: {
+        p_arrivedelay;
+        p_telejump(1_50_54_3_40); // Varrock Palace Northwest Tower - level 0
+    }
+    case 0_50_54_18_40: {
+        p_arrivedelay;
+        p_telejump(1_50_54_20_40); // Varrock Palace North East - level 0
+    }
     case 0_48_49_31_23: p_telejump(1_48_49_33_24); // Wizard Tower - level 0
     case 0_40_51_12_61: p_telejump(1_40_51_14_61); // Ardy, The Flying Horse - level 0
     case 0_40_51_6_58: p_telejump(1_40_51_6_57); // Ardy, house connected to Flying Horse - level 0
@@ -221,6 +227,10 @@ switch_coord (loc_coord) {
     case 0_41_73_9_8: p_telejump(1_41_73_10_10); // Grail castle - ground floor
     case 0_41_73_24_11: p_telejump(1_41_73_25_13); // Grail castle- ground floor
     case 0_48_48_43_35: p_telejump(1_48_48_45_35); // Tutorial Church - ground floor
+    case 2_50_54_21_16: {
+        p_arrivedelay;
+        p_telejump(3_50_54_23_16); // Varrock castle east tower - level 2
+    }
     case default: @unhandled_stairs(loc_coord);
 }
 
@@ -289,8 +299,14 @@ switch_coord (loc_coord) {
     case 2_46_52_16_11: p_telejump(1_46_52_16_12); // White Knight's Castle - level 2
     case 1_46_52_11_10: p_telejump(0_46_52_11_9); // White Knight's Castle - level 1
     case 2_48_52_33_35: p_telejump(1_48_52_34_35); // Draynor Manor - level 2
-    case 2_50_54_3_41: p_telejump(1_50_54_3_40); // Varrock Palace Northwest Tower - level 2
-    case 1_50_54_19_40: p_telejump(0_50_54_20_40); // Varrock Palace North East - level 1
+    case 2_50_54_3_41: {
+        p_arrivedelay;
+        p_telejump(1_50_54_3_40); // Varrock Palace Northwest Tower - level 2
+    }
+    case 1_50_54_19_40: {
+        p_arrivedelay;
+        p_telejump(0_50_54_20_40); // Varrock Palace North East - level 1
+    }
     case 2_48_49_32_24: p_telejump(1_48_49_33_24); // Wizard Tower - level 2
     case 1_40_51_13_61: p_telejump(0_40_51_13_60); // Ardy, The Flying Horse - level 1
     case 1_40_51_6_58: p_telejump(0_40_51_5_58); // Ardy, house connected to Flying Horse - level 1
@@ -320,6 +336,10 @@ switch_coord (loc_coord) {
     case 1_41_73_25_12: p_telejump(0_41_73_26_12); // Grail castle - level 1
     case 1_48_48_11_52: p_telejump(0_48_48_12_52); // Tutorial island Quest Guide house - 1st floor
     case 1_48_48_44_35: p_telejump(0_48_48_45_35); // Tutorial Church - upper floor
+    case 3_50_54_22_16: {
+        p_arrivedelay;
+        p_telejump(2_50_54_22_15); // Varrock castle east tower - level 3
+    }
     case default: @unhandled_stairs(loc_coord);
 }
 
