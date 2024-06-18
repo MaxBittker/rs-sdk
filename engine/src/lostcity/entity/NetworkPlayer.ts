@@ -25,7 +25,7 @@ export class NetworkPlayer extends Player {
     opcalled: boolean = false;
 
     // build area
-    loadedZones: Record<number, number> = {};
+    loadedZones: Set<number> = new Set();
     activeZones: Set<number> = new Set();
 
     constructor(username: string, username37: bigint, client: ClientSocket) {
@@ -172,7 +172,7 @@ export class NetworkPlayer extends Player {
 
             this.loadedX = this.x;
             this.loadedZ = this.z;
-            this.loadedZones = {};
+            this.loadedZones.clear();
         }
 
         for (let info = this.cameraPackets.head(); info !== null; info = this.cameraPackets.next()) {
@@ -183,7 +183,7 @@ export class NetworkPlayer extends Player {
         }
 
         if (this.moveSpeed === MoveSpeed.INSTANT && this.jump) {
-            this.loadedZones = {};
+            this.loadedZones.clear();
         }
 
         // update any newly tracked zones
@@ -215,13 +215,13 @@ export class NetworkPlayer extends Player {
             if (!zone) {
                 continue;
             }
-            if (typeof this.loadedZones[zone.index] === 'undefined') {
+            if (!this.loadedZones.has(zone.index)) {
                 zone.writeFullFollows(this);
             } else {
                 zone.writePartialEncloses(this);
                 zone.writePartialFollows(this);
             }
-            this.loadedZones[zone.index] = World.currentTick;
+            this.loadedZones.add(zone.index);
         }
     }
 

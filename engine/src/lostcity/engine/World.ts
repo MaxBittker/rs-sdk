@@ -910,7 +910,7 @@ class World {
             if (!isNetworkPlayer(player)) {
                 continue;
             }
-            for (const zone of Object.keys(player.loadedZones).map(Number)) {
+            for (const zone of player.loadedZones) {
                 zones.add(zone);
             }
         }
