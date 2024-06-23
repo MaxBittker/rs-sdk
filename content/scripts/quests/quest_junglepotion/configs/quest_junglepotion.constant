@@ -1,0 +1,11 @@
+^junglepotion_not_started = 0
+^junglepotion_get_snake_weed = 1
+^junglepotion_found_snake_weed = 2
+^junglepotion_get_ardrigal = 3
+^junglepotion_found_ardrigal = 4
+^junglepotion_get_sito_foil = 5
+^junglepotion_found_sito_foil = 6
+^junglepotion_get_volencia_moss = 7
+^junglepotion_found_volencia_moss = 8
+^junglepotion_get_rogues_purse = 9
+^junglepotion_found_rogues_purse = 10

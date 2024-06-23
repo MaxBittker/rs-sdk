@@ -1,0 +1,261 @@
+// NOTE: rs classic dialogue is slightly different, so this may be the updated dialogue after more jungle vines, more wall fungus, and seqs with sounds were added: https://www.youtube.com/watch?v=qm8ZwROiW8s
+// TODO: mesanims are just guesses
+
+[opnpcu,trufitus]
+if (last_useitem = snake_weed | last_useitem = ardrigal | last_useitem = sito_foil | last_useitem = volencia_moss | last_useitem = rogues_purse) {
+    switch_int(%junglepotion_progress) {
+        case ^junglepotion_get_snake_weed, ^junglepotion_found_snake_weed:
+			if (last_useitem = snake_weed) {
+				@accept_herb(last_useitem);
+			}
+        case ^junglepotion_get_ardrigal, ^junglepotion_found_ardrigal:
+			if (last_useitem = ardrigal) {
+				@accept_herb(last_useitem);
+			}
+        case ^junglepotion_get_sito_foil, ^junglepotion_found_sito_foil:
+			if (last_useitem = sito_foil) {
+				@accept_herb(last_useitem);
+			}
+        case ^junglepotion_get_volencia_moss, ^junglepotion_found_volencia_moss:
+			if (last_useitem = volencia_moss) {
+				@accept_herb(last_useitem);
+			}
+        case ^junglepotion_get_rogues_purse, ^junglepotion_found_rogues_purse:
+			if (last_useitem = rogues_purse) {
+				@accept_herb(last_useitem);
+			}
+		case ^junglepotion_complete:
+            def_int $coins_amount = ~random_range(1, 4);
+			inv_del(inv, last_useitem, 1);
+			inv_add(inv, coins, $coins_amount);
+            if ($coins_amount = 1) {
+    			if (last_useitem = rogues_purse) {
+                    mes("Trufitus gives you a coin for the rogue's purse.");
+                } else {
+                    mes("Trufitus gives you a coin for the <lowercase(oc_name(last_useitem))>");
+                }
+            } else {
+    			if (last_useitem = rogues_purse) {
+                    mes("Trufitus gives you <tostring($coins_amount)> coins for the rogue's purse.");
+                } else {
+                    mes("Trufitus gives you <tostring($coins_amount)> coins for the <lowercase(oc_name(last_useitem))>.");
+                }
+            }
+	}
+// TODO: check if unid says something else
+// } else if (last_useitem = unidentified_snake_weed | last_useitem = unidentified_ardrigal | last_useitem = unidentified_sito_foil | last_useitem = unidentified_volencia_moss | last_useitem = unidentified_rogues_purse) {
+// 	@decline_herb;
+} else {
+    mes("You hand over the item.");
+    ~chatnpc("<p,neutral>I'm sorry Bwana but I just don't have a use for that!");
+}
+
+[opnpc1,trufitus]
+if(%junglepotion_progress = ^junglepotion_not_started) {
+    ~chatnpc("<p,happy>Greetings Bwana! I am <npc_name> Shakaya of the Tai Bwo Wannai village.");
+    ~chatnpc("<p,happy>Welcome to our humble village.");
+    def_int $option = ~p_choice3("What does Bwana mean?", 1, "Tai Bwo Wannai? What does that mean?", 2, "It's a nice village, where is everyone?", 3);
+    if($option = 1) {
+        ~chatplayer("<p,confused>What does Bwana mean?");
+        ~chatnpc("<p,happy>It means friend, and friends come in peace. I assume that you come in peace?");
+        def_int $option2 = ~p_choice2("Yes, of course I do.", 1, "What does a warrior like me know about peace?", 2);
+        if($option2 = 1) {
+            ~chatplayer("<p,happy>Yes, of course I do.");
+            ~chatnpc("<p,happy>Well, that is good news, as I may have a proposition for you.");
+            def_int $option3 = ~p_choice2("A proposition eh? Sounds interesting!", 1, "I am sorry, but I am very busy.", 2); 
+            if($option3 = 1) {
+                ~chatplayer("<p,confused>A proposition eh? Sounds interesting!");
+                ~chatnpc("<p,neutral>I hoped you would think so. My people are afraid to stay in the village.");
+                ~chatnpc("<p,neutral>They have returned to the jungle and I need to commune with the gods");
+                ~chatnpc("<p,neutral>to see what fate befalls us. You can help me by collecting some herbs that I need.");
+                def_int $option4 = ~p_choice2("Me? How can I help?", 1, "I am very sorry, but I don't have time for that.", 2); 
+                if($option4 = 1) {
+                    @start_junglepotion;
+                } else if($option4 = 2) {
+                    ~chatplayer("<p,sad>I am very sorry, but I don't have time for that.");
+                    @farewell;
+                }
+            } else if($option3 = 2) {
+                ~chatplayer("<p,neutral>I am sorry, but I am very busy.");
+                @farewell;
+            }
+        } else if($option2 = 2) {
+            ~chatplayer("<p,neutral>What does a warrior like me know about peace?");
+            ~chatnpc("<p,neutral>When you grow weary of violence and seek a more enlightened path, please pay me a visit");
+            ~chatnpc("<p,neutral>as I may have a proposition for you. Now I need to attend to the plight of my people. Please excuse me...");
+        }
+    } else if($option = 2) {
+        ~chatplayer("<p,neutral>Tai Bwo Wannai? What does that mean?");
+        ~chatnpc("<p,happy>It means 'small clearing in the jungle' but it is now the name of our village.");
+        def_int $option2 = ~p_choice2("It's a nice village, where is everyone?", 1, "I am sorry, but I am very busy.", 2);
+        if($option2 = 1) {
+            @ask_village;
+        } else if($option2 = 2) {
+            ~chatplayer("<p,neutral>I am sorry, but I am very busy.");
+            @farewell;
+        }
+    } else if($option = 3) {
+        @ask_village;
+    }
+} else {
+    switch_int(%junglepotion_progress) {
+        case ^junglepotion_get_snake_weed, ^junglepotion_found_snake_weed:
+            ~give_herb(snake_weed, unidentified_snake_weed);
+        case ^junglepotion_get_ardrigal, ^junglepotion_found_ardrigal:
+            ~give_herb(ardrigal, unidentified_ardrigal);
+        case ^junglepotion_get_sito_foil, ^junglepotion_found_sito_foil:
+            ~give_herb(sito_foil, unidentified_sito_foil);
+        case ^junglepotion_get_volencia_moss, ^junglepotion_found_volencia_moss:
+            ~give_herb(volencia_moss, unidentified_volencia_moss);
+        case ^junglepotion_get_rogues_purse, ^junglepotion_found_rogues_purse:
+            ~give_herb(rogues_purse, unidentified_rogues_purse);
+        case ^junglepotion_complete:
+            @post_quest;
+    }
+}
+
+[label,start_junglepotion]
+~chatplayer("<p,confused>Me? How can I help?");
+~chatnpc("<p,happy>I need to make a special brew! A potion that helps me to commune with the gods. For this potion, I need very special herbs, that are only found in the deep jungle.");
+~chatnpc("<p,happy>I can only guide you so far as the herbs are not easy to find. With some luck, you will find each herb in turn and bring to me. I will give you details of where to find the next herb.");
+~chatnpc("<p,happy>In return for this great favour I will give you training in Herblore.");
+def_int $option5 = ~p_choice2_header("Yes.", 1, "No.", 2, "Start the Jungle Potion quest?");
+if($option5 = 1) {
+    if (%druid_progress = ^druid_complete & stat(herblore) >= 3) { // TODO: is this right place to put it?
+        %junglepotion_progress = ^junglepotion_get_snake_weed;
+        ~send_quest_progress(questlist:junglepotion, %junglepotion_progress, ^junglepotion_complete);
+        ~chatplayer("<p,confused>It sounds like just the challenge for me. And it would make a nice break from killing things!");
+        ~chatnpc("<p,happy>That is excellent Bwana! The first herb that you need to gather is called");
+        ~chatnpc("<p,happy>Snake Weed.");
+        ~chatnpc("<p,neutral>It grows near the vines in an area to the south west where");
+        ~chatnpc("<p,neutral>the ground turns soft and the water kisses your feet.");
+    } else {
+        ~mesbox("You do not meet all of the requirements to start|the Jungle Potion quest."); // TODO: what happens originally?
+    }
+} else if($option5 = 2) {
+    ~chatplayer("<p,confused>Hmmm, sounds difficult, I don't know if I am ready for the challenge.");
+    ~chatnpc("<p,neutral>Very well then Bwana, maybe you will return to me invigorated and ready to take up the challenge one day?");
+}
+
+[label,farewell]
+~chatnpc("<p,neutral>Very well then, may your journeys bring you much joy.");
+~chatnpc("<p,neutral>Maybe you will pass this way again and you then take up my proposal?");
+~chatnpc("<p,neutral>But for now, fare thee well.");
+
+[label,ask_village]
+~chatplayer("<p,neutral>It's a nice village, where is everyone?");
+~chatnpc("<p,sad>My people are afraid to stay in the village. They have returned to the jungle. I need to commune with the gods to see what fate befalls us.");
+~chatnpc("<p,neutral>You may be able to help with this.");
+def_int $option5 = ~p_choice2("Me? How can I help?", 1, "I am sorry, but I am very busy.", 2);
+if($option5 = 1) {
+    @start_junglepotion;
+} else if($option5 = 2) {
+    ~chatplayer("<p,neutral>I am sorry, but I am very busy.");
+    @farewell;
+}
+
+[proc,give_herb](namedobj $herb, namedobj $unid)
+switch_int(%junglepotion_progress) {
+    case ^junglepotion_get_snake_weed, ^junglepotion_found_snake_weed:
+        ~chatnpc("<p,happy>Hello Bwana, do you have the <oc_name(snake_weed)>?");
+    case ^junglepotion_get_ardrigal, ^junglepotion_found_ardrigal:
+        ~chatnpc("<p,happy>Hello Bwana, have you been able to get the <oc_name(ardrigal)>?");
+    case default:
+        ~chatnpc("<p,happy>Greetings Bwana, have you been successful in getting the <oc_name($herb)>?");
+}
+def_int $option6 = ~p_choice2("Of course!", 1, "Not yet, sorry, what's the clue again?", 2);
+if($option6 = 1) {
+    ~chatplayer("<p,happy>Of course!");
+    if(inv_total(inv, $herb) > 0) {
+		@accept_herb($herb);
+    } else if(inv_total(inv, $unid) > 0) {
+		@decline_herb;
+    } else {
+        switch_int(%junglepotion_progress) {
+            case ^junglepotion_get_volencia_moss, ^junglepotion_found_volencia_moss:
+                ~chatnpc("<p,angry>Please don't try to deceive me! I really need that <oc_name(volencia_moss)> if I am to make this potion.");
+            case ^junglepotion_get_rogues_purse, ^junglepotion_found_rogues_purse:
+                ~chatnpc("<p,angry>Please don't try to deceive me, I really need that <oc_name(rogues_purse)> if I am to make this potion.");
+            case default:
+                ~chatnpc("<p,angry>Please don't try to deceive me.");
+                ~mention_herb($herb);
+        }
+    }
+} else if($option6 = 2) {
+    if(%junglepotion_progress = ^junglepotion_get_ardrigal | %junglepotion_progress = ^junglepotion_found_ardrigal) {
+        ~chatplayer("<p,neutral>Not yet, sorry, what's the clue again ?");
+    } else {
+        ~chatplayer("<p,neutral>Not yet, sorry, what's the clue again?");
+    }
+    switch_int(%junglepotion_progress) {
+        case ^junglepotion_get_snake_weed, ^junglepotion_found_snake_weed:
+            ~chatnpc("<p,neutral>It grows near vines in an area to the south west where the ground turns soft and the water kisses your feet.");
+        case ^junglepotion_get_ardrigal, ^junglepotion_found_ardrigal:
+            ~chatnpc("<p,neutral>You are looking for <oc_name($herb)>. It is related to the palm and grows in its brother's shady profusion.");
+            ~chatnpc("<p,neutral>To the east you will find a small peninsula, it is just after the cliffs come down to meet the sands, here is where you should search for it.");
+        case ^junglepotion_get_sito_foil, ^junglepotion_found_sito_foil:
+            ~chatnpc("<p,neutral>You are looking for <oc_name($herb)>, and it grows best where the ground has been blackened by living flame.");
+        case ^junglepotion_get_volencia_moss, ^junglepotion_found_volencia_moss:
+            ~chatnpc("<p,neutral>You are looking for <oc_name($herb)>. It clings to rocks for its existence. It is difficult to see, so you must search for it well.");
+            ~chatnpc("<p,neutral>It prefers rocks of high metal content and a frequently disturbed environment. There is some, I believe to the south east of this village.");
+        case ^junglepotion_get_rogues_purse, ^junglepotion_found_rogues_purse:
+            ~chatnpc("<p,neutral>You are looking for <oc_name($herb)>");
+            ~chatnpc("<p,neutral>It inhabits the darkness of the underground, and grows in caverns to the north. A secret entrance to the caverns is set into the northern cliffs, be careful Bwana.");
+    }
+    if (%junglepotion_progress ! ^junglepotion_get_volencia_moss | %junglepotion_progress ! ^junglepotion_found_volencia_moss) {
+        ~mention_herb($herb);
+    }
+}
+
+[label,accept_herb](obj $herb)
+if(%junglepotion_progress = ^junglepotion_get_rogues_purse | %junglepotion_progress = ^junglepotion_found_rogues_purse) {
+    ~objbox($herb, "You give the Rogue's Pursee to <npc_name>.");
+} else {
+    ~objbox($herb, "You give the <oc_name($herb)> to <npc_name>.");
+}
+inv_del(inv, $herb, 1);
+
+switch_int(%junglepotion_progress) {
+case ^junglepotion_get_snake_weed, ^junglepotion_get_ardrigal, ^junglepotion_get_sito_foil, ^junglepotion_get_volencia_moss, ^junglepotion_get_rogues_purse:
+    @given_unid($herb); // TODO: need to confirm dialogue for the different unid herbs.
+case ^junglepotion_found_snake_weed:
+    %junglepotion_progress = ^junglepotion_get_ardrigal;
+    ~chatnpc("<p,happy>Great, you have the <oc_name(snake_weed)>! Many thanks. Ok, the next herb is called <oc_name(ardrigal)>. It is related to the palm and grows to the east in its brother's shady profusion.");
+    ~chatnpc("<p,happy>To the east you will find a small peninsula, it is just after the cliffs come down to meet the sands, here is where you should search for it.");
+case ^junglepotion_found_ardrigal:
+    %junglepotion_progress = ^junglepotion_get_sito_foil;
+    ~chatnpc("<p,happy>Great, you have the <oc_name(ardrigal)>! Many thanks.");
+    ~chatnpc("<p,happy>You are doing well Bwana. The next herb is called <oc_name(sito_foil)>, and it grows best where the ground has been blackened by the living flame.");
+case ^junglepotion_found_sito_foil:
+    %junglepotion_progress = ^junglepotion_get_volencia_moss;
+    ~chatnpc("<p,happy>Well done Bwana, just two more herbs to collect.");
+    ~chatnpc("<p,happy>The next herb is called <oc_name(volencia_moss)>. It clings to rocks for its existence. It is difficult to see, so you must search for it well.");
+    ~chatnpc("<p,happy>It prefers rocks of high metal content and a frequently disturbed environment. There is some, I believe to the south east of this village.");
+case ^junglepotion_found_volencia_moss:
+    %junglepotion_progress = ^junglepotion_get_rogues_purse;
+    ~chatnpc("<p,happy>Ah <oc_name(volencia_moss)>, beautiful. One final herb and the potion will be complete. This is the most difficult to find as it inhabits the darkness of the underground. It is called <oc_name(rogues_purse)>, and is only to be found in");
+    ~chatnpc("<p,happy>caverns in the northern part of this island. A secret entrance to the caverns is set into the northern cliffs of this land. Take care Bwana as it may be dangerous.");
+case ^junglepotion_found_rogues_purse:
+    queue(junglepotion_quest_complete, 0);
+    ~chatnpc("<p,happy>Most excellent Bwana! You have returned all the herbs to me and, I can finish the preparations for the potion, and at last divine with the gods.");
+    ~chatnpc("<p,happy>Many blessings on you! I must now prepare, please excuse me while I make the arrangements.");
+    ~mesbox("<npc_name> shows you some techniques in Herblore. You gain some experience in Herblore.");
+}
+
+[label,given_unid](obj $herb)
+~chatnpc("<p,neutral>That's not fresh <lowercase(oc_name($herb))>, did you pick it yourself? Go get me some fresh <lowercase(oc_name($herb))> and remember to pick it yourself.");
+
+[label,decline_herb]
+if(%junglepotion_progress = ^junglepotion_get_rogues_purse | %junglepotion_progress = ^junglepotion_found_rogues_purse) {
+    ~chatnpc("<p,neutral>Sorry Bwana, that herb is so dirty I can't even tell whether it is fresh. Please clean it first.");
+} else {
+    ~chatnpc("<p,neutral>Sorry, Bwana, that herb is so dirty that I can't even tell whether it is fresh. Please clean it first.");
+}
+
+[proc,mention_herb](namedobj $herb)
+~chatnpc("<p,neutral>I really need that <oc_name($herb)> if I am to make this potion.");
+
+[label,post_quest]
+// TODO: this chatnpc is only supposed to show once after junglepotion_complete, but maybe that's only after tai bwo wannai was added with the timfraku chatnpc?
+~chatnpc("<p,happy>My greatest respects, bwana. I have communed with my gods and the future looks good for my people. We are happy now that the gods are not angry with us. With some blessings, we will be safe here.");
+// ~chatnpc("<p,happy>You should deliver the good news to bwana Timfraku, chief of Tai Bwo Wannai. He lives in a raised hut not far from here.");

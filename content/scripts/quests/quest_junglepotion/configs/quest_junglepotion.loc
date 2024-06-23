@@ -1,0 +1,101 @@
+[junglepotion_marshy_jungle_vine]
+name=Marshy jungle vine
+desc=A marshy jungle vine.
+model=model_loc_1205
+hillskew=yes
+op2=Search
+recol1s=640
+recol1d=544
+recol2s=24449
+recol2d=30497
+
+[junglepotion_marshy_jungle_vine_empty]
+name=Marshy jungle vine
+desc=A marshy jungle vine.
+model=model_loc_1205
+hillskew=yes
+recol1s=24449
+recol1d=640
+
+[junglepotion_palm_tree]
+name=Palm tree
+desc=A tall palm tree with some plants growing at it's stem.
+model=model_loc_1311
+width=2
+length=2
+mapscene=5
+op2=Search
+
+[junglepotion_palm_tree_empty]
+name=Palm tree
+desc=A tall palm tree.
+model=model_loc_1311
+width=2
+length=2
+mapscene=5
+
+[junglepotion_scorched_earth]
+name=Scorched earth
+desc=The burnt ground has a plant growing on it.
+model=model_loc_2579
+mapscene=5
+hillskew=yes
+op2=Search
+recol1s=13505
+recol1d=6241
+recol2s=15586
+recol2d=8352
+
+[junglepotion_scorched_earth_empty]
+name=Scorched earth
+desc=The ground has been burnt here by a fire.
+model=model_loc_2579
+mapscene=5
+hillskew=yes
+recol1s=13505
+recol1d=6241
+recol2s=15586
+recol2d=8352
+
+[junglepotion_rock]
+name=Rock
+desc=A rock with green moss growing on it.
+model=model_loc_453
+mapscene=12
+op2=Search
+
+[junglepotion_rock_empty]
+name=Rock
+desc=A rock, it looks like something was growing here.
+model=model_loc_453
+mapscene=12
+
+[junglepotion_wall_fungus]
+name=Fungus covered Cavern wall
+desc=It looks as if it is covered in some fungus.
+model=model_loc_1446
+contrast=100
+ambient=50
+active=yes
+op2=Search
+recol1s=12580
+recol1d=448
+
+[junglepotion_rocks]
+name=Rocks
+desc=A collection of rocks over what looks like a depression.
+model=model_loc_2218
+width=2
+length=2
+hillskew=yes
+occlude=yes
+op2=Search
+
+[junglepotion_hand_holds]
+name=Hand holds
+desc=Rocky walls, you may be able to climb it.
+model=model_loc_1456
+contrast=100
+ambient=50
+active=yes
+op1=Climb

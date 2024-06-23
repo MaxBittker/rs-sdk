@@ -180,6 +180,10 @@ if (%arena_progress >= ^arena_complete) { // different completion states based o
     $questpoints = add($questpoints, ^arena_questpoints);
 }
 
+if (%junglepotion_progress = ^junglepotion_complete) {
+    $questpoints = add($questpoints, ^junglepotion_questpoints);
+}
+
 %questpoints = $questpoints;
 
 ~send_quest_progress_colour(questlist:runemysteries, %runemysteries_progress, ^runemysteries_complete);
@@ -221,6 +225,7 @@ if(%phoenixgang_progress > 0 & %blackarmgang_progress ! ^blackarmgang_complete) 
 ~send_quest_progress_colour(questlist:hazeelcult, %hazeelcult_progress, ^hazeelcult_complete);
 ~send_quest_progress_colour(questlist:itgronigen, %itgronigen_progress, ^itgronigen_complete);
 ~send_quest_progress_colour(questlist:arena, %arena_progress, ^arena_complete);
+~send_quest_progress_colour(questlist:junglepotion, %junglepotion_progress, ^junglepotion_complete);
 if_settab(questlist, ^tab_quest_journal);
 
 if (%drunkmonk_progress >= ^drunkmonk_spoken_to_omad) {

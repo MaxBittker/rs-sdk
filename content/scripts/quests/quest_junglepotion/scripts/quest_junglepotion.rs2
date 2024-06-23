@@ -1,0 +1,60 @@
+// NOTE: seqs+sounds for vine/fungus probably added later (seq 2094-2097) assuming no p_delay if there's no animation (unless they re-used some anim)
+// TODO: pre-quest can u pick these herbs or access cave? If yes, confirm dialogue for giving those to trufitus in advance.
+// TODO: tribesmen (near marshy jungle vines) should be aggressive according to https://oldschool.runescape.wiki/w/Tribesman
+
+[oploc2,junglepotion_marshy_jungle_vine]
+if (%junglepotion_progress = ^junglepotion_get_snake_weed) {
+	%junglepotion_progress = ^junglepotion_found_snake_weed;
+}
+~pick_herb("vine", unidentified_snake_weed, junglepotion_marshy_jungle_vine_empty);
+
+[oploc2,junglepotion_palm_tree]
+if (%junglepotion_progress = ^junglepotion_get_ardrigal) {
+	%junglepotion_progress = ^junglepotion_found_ardrigal;
+}
+~pick_herb("palm", unidentified_ardrigal, junglepotion_palm_tree_empty);
+
+[oploc2,junglepotion_scorched_earth]
+if (%junglepotion_progress = ^junglepotion_get_sito_foil) {
+	%junglepotion_progress = ^junglepotion_found_sito_foil;
+}
+~pick_herb("scorched earth", unidentified_sito_foil, junglepotion_scorched_earth_empty);
+
+[oploc2,junglepotion_rock]
+if (%junglepotion_progress = ^junglepotion_get_volencia_moss) {
+	%junglepotion_progress = ^junglepotion_found_volencia_moss;
+}
+~pick_herb("rock", unidentified_volencia_moss, junglepotion_rock_empty);
+
+[oploc2,junglepotion_wall_fungus]
+if (%junglepotion_progress = ^junglepotion_get_rogues_purse) {
+	%junglepotion_progress = ^junglepotion_found_rogues_purse;
+}
+~pick_herb("wall", unidentified_rogues_purse, null);
+
+[oploc2,junglepotion_rocks]
+~mesbox("You search the rocks... You find an entrance into some caves.");
+def_int $option = ~p_choice2_header("Yes, I'll enter the cave.", 1, "No thanks, I'll give it a miss.", 2, "Would you like to enter the caves?");
+if ($option = 1) {
+	~mesbox("You decide to enter the caves. You climb down several steep rock faces into the cavern below.");
+	p_telejump(0_44_148_14_48);
+}
+// TODO: what happens if No thanks is pressed on rocks?
+
+[oploc1,junglepotion_hand_holds]
+~mesbox("You attempt to climb the rocks back out.");
+p_telejump(0_44_48_7_48);
+
+[proc,pick_herb](string $str, namedobj $unid, loc $loc)
+mes("You search the <$str>...");
+// TODO: what happens if full inv while picking?
+inv_add(inv, $unid, 1);
+if ($loc ! null) {
+	loc_change($loc, ~scale_by_playercount(100)); // TODO: scale or not? wiki says 60s https://oldschool.runescape.wiki/w/Marshy_jungle_vine
+}
+~objbox($unid, "You find a herb.");
+
+[queue,junglepotion_quest_complete]
+%junglepotion_progress = ^junglepotion_complete;
+givexp(herblore, 7750);
+~send_quest_complete(questlist:junglepotion, ranarr_weed, 220, ^junglepotion_questpoints, "You have completed the\\nJungle Potion Quest!"); // TODO which herb on complete screen?
