@@ -119,7 +119,7 @@ export default class Player extends PathingEntity {
     save() {
         const sav = Packet.alloc(1);
         sav.p2(0x2004); // magic
-        sav.p2(2); // version
+        sav.p2(3); // version
 
         sav.p2(this.x);
         sav.p2(this.z);
@@ -179,6 +179,12 @@ export default class Player extends PathingEntity {
         }
         // set the total saved inv count as the placeholder
         sav.data[invStartPos] = invCount;
+
+        sav.p1(this.afkZones.length);
+        for (let index: number = 0; index < this.afkZones.length; index++) {
+            sav.p4(this.afkZones[index]);
+        }
+        sav.p2(this.lastAfkZone);
 
         sav.p4(Packet.getcrc(sav.data, 0, sav.pos));
         const safeName = fromBase37(this.username37);
@@ -287,6 +293,9 @@ export default class Player extends PathingEntity {
         uid: number;
         points: number;
     }[] = new Array(16); // be sure to reset when stats are recovered/reset
+
+    afkZones: Int32Array = new Int32Array(2);
+    lastAfkZone: number = 0;
 
     constructor(username: string, username37: bigint) {
         super(0, 3094, 3106, 1, 1, EntityLifeCycle.FOREVER, MoveRestrict.NORMAL, BlockWalk.NPC, MoveStrategy.SMART, Player.FACE_COORD, Player.FACE_ENTITY); // tutorial island.
@@ -1741,6 +1750,36 @@ export default class Player extends PathingEntity {
 
     isComponentVisible(com: Component) {
         return this.modalTop === com.rootLayer || this.modalBottom === com.rootLayer || this.modalSidebar === com.rootLayer || this.overlaySide.findIndex(l => l === com.rootLayer) !== -1 || this.modalSticky === com.rootLayer;
+    }
+
+    updateAfkZones(): void {
+        this.lastAfkZone = Math.min(1000, this.lastAfkZone + 1);
+        if (this.withinAfkZone()) {
+            return;
+        }
+        const coord: number = Position.packCoord(0, this.x - 10, this.z - 10); // level doesn't matter.
+        if (this.moveSpeed === MoveSpeed.INSTANT && this.jump) {
+            this.afkZones[1] = coord;
+        } else {
+            this.afkZones[1] = this.afkZones[0];
+        }
+        this.afkZones[0] = coord;
+        this.lastAfkZone = 0;
+    }
+
+    zonesAfk(): boolean {
+        return this.lastAfkZone === 1000;
+    }
+
+    private withinAfkZone(): boolean {
+        const size: number = 21;
+        for (let index: number = 0; index < this.afkZones.length; index++) {
+            const coord: Position = Position.unpackCoord(this.afkZones[index]);
+            if (Position.intersects(this.x, this.z, this.width, this.length, coord.x, coord.z, size, size)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // ----

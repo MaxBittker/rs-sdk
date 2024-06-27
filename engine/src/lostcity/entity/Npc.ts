@@ -805,6 +805,10 @@ export default class Npc extends PathingEntity {
                 throw new Error('[Npc] huntAll must be of type Player here.');
             }
 
+            if (player.zonesAfk()) {
+                continue;
+            }
+
             // TODO: probably zone check to see if they're in the wilderness as well?
             if (hunt.checkNotTooStrong === HuntCheckNotTooStrong.OUTSIDE_WILDERNESS && player.combatLevel > type.vislevel * 2) {
                 continue;
