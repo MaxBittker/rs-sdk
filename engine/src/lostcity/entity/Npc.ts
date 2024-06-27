@@ -1,5 +1,3 @@
-import Packet from '#jagex2/io/Packet.js';
-
 import NpcType from '#lostcity/cache/config/NpcType.js';
 import VarNpcType from '#lostcity/cache/config/VarNpcType.js';
 
@@ -36,8 +34,9 @@ import Interaction from '#lostcity/entity/Interaction.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import NpcStat from '#lostcity/entity/NpcStat.js';
 
-import {CollisionFlag} from '@2004scape/rsmod-pathfinder';
 import * as rsmod from '@2004scape/rsmod-pathfinder';
+import {CollisionFlag} from '@2004scape/rsmod-pathfinder';
+import HuntNobodyNear from '#lostcity/entity/hunt/HuntNobodyNear.js';
 
 export default class Npc extends PathingEntity {
     static readonly ANIM = 0x2;
@@ -299,8 +298,7 @@ export default class Npc extends PathingEntity {
             }
 
             if (!this.delayed() && request.delay <= 0) {
-                const state = ScriptRunner.init(request.script, this, null, request.args);
-                this.executeScript(state);
+                this.executeScript(ScriptRunner.init(request.script, this, null, request.args));
                 request.unlink();
             }
         }
@@ -766,14 +764,17 @@ export default class Npc extends PathingEntity {
     }
 
     huntAll(): void {
+        if (this.nextHuntTick > World.currentTick) {
+            return;
+        }
         const hunt: HuntType = HuntType.get(this.huntMode);
         if (hunt.type === HuntModeType.OFF) {
             return;
         }
-        if (!hunt.findKeepHunting && this.target !== null) {
+        if (hunt.nobodyNear === HuntNobodyNear.PAUSEHUNT && !World.getZoneGrid(this.level).isFlagged(Position.zone(this.x), Position.zone(this.z), 5)) {
             return;
         }
-        if (this.nextHuntTick > World.currentTick) {
+        if (!hunt.findKeepHunting && this.target !== null) {
             return;
         }
 
@@ -902,111 +903,5 @@ export default class Npc extends PathingEntity {
         this.type = type;
         this.mask |= Npc.CHANGE_TYPE;
         this.uid = (type << 16) | this.nid;
-    }
-
-    calculateUpdateSize(newlyObserved: boolean) {
-        let length = 0;
-        let mask = this.mask;
-        if (newlyObserved && (this.orientation !== -1 || this.faceX !== -1 || this.faceZ != -1)) {
-            mask |= Npc.FACE_COORD;
-        }
-        if (newlyObserved && this.faceEntity !== -1) {
-            mask |= Npc.FACE_ENTITY;
-        }
-        length += 1;
-
-        if (mask & Npc.ANIM) {
-            length += 3;
-        }
-
-        if (mask & Npc.FACE_ENTITY) {
-            length += 2;
-        }
-
-        if (mask & Npc.SAY) {
-            length += this.chat?.length ?? 0;
-        }
-
-        if (mask & Npc.DAMAGE) {
-            length += 4;
-        }
-
-        if (mask & Npc.CHANGE_TYPE) {
-            length += 2;
-        }
-
-        if (mask & Npc.SPOTANIM) {
-            length += 6;
-        }
-
-        if (mask & Npc.FACE_COORD) {
-            length += 4;
-        }
-
-        return length;
-    }
-
-    writeUpdate(out: Packet, newlyObserved: boolean) {
-        let mask = this.mask;
-        if (newlyObserved && (this.orientation !== -1 || this.faceX !== -1 || this.faceZ != -1)) {
-            mask |= Npc.FACE_COORD;
-        }
-        if (newlyObserved && this.faceEntity !== -1) {
-            mask |= Npc.FACE_ENTITY;
-        }
-        out.p1(mask);
-
-        if (mask & Npc.ANIM) {
-            out.p2(this.animId);
-            out.p1(this.animDelay);
-        }
-
-        if (mask & Npc.FACE_ENTITY) {
-            if (this.faceEntity !== -1) {
-                this.alreadyFacedEntity = true;
-            }
-
-            out.p2(this.faceEntity);
-        }
-
-        if (mask & Npc.SAY) {
-            out.pjstr(this.chat);
-        }
-
-        if (mask & Npc.DAMAGE) {
-            out.p1(this.damageTaken);
-            out.p1(this.damageType);
-            out.p1(this.levels[NpcStat.HITPOINTS]);
-            out.p1(this.baseLevels[NpcStat.HITPOINTS]);
-        }
-
-        if (mask & Npc.CHANGE_TYPE) {
-            out.p2(this.type);
-        }
-
-        if (mask & Npc.SPOTANIM) {
-            out.p2(this.graphicId);
-            out.p2(this.graphicHeight);
-            out.p2(this.graphicDelay);
-        }
-
-        if (mask & Npc.FACE_COORD) {
-            if (this.faceX !== -1) {
-                this.alreadyFacedCoord = true;
-            }
-
-            if (newlyObserved && this.faceX != -1) {
-                out.p2(this.faceX);
-                out.p2(this.faceZ);
-            } else if (newlyObserved && this.orientation != -1) {
-                const faceX = Position.moveX(this.x, this.orientation);
-                const faceZ = Position.moveZ(this.z, this.orientation);
-                out.p2(faceX * 2 + 1);
-                out.p2(faceZ * 2 + 1);
-            } else {
-                out.p2(this.faceX);
-                out.p2(this.faceZ);
-            }
-        }
     }
 }

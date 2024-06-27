@@ -12,7 +12,6 @@ export const Direction = {
 type Direction = (typeof Direction)[keyof typeof Direction];
 
 export type Position = {level: number, x: number, z: number};
-export type ZonePosition = {x: number, z: number};
 
 // TODO (jkm) consider making this a class
 export const Position = {
@@ -80,6 +79,12 @@ export const Position = {
         const deltaZ = Math.abs(pos.z - other.z);
 
         return Math.max(deltaX, deltaZ);
+    },
+
+    isWithinDistance(pos: { x: number, z: number }, other: { x: number, z: number }, distance: number) {
+        const dx = Math.abs(pos.x - other.x);
+        const dz = Math.abs(pos.z - other.z);
+        return dz < distance && dx < distance;
     },
 
     deltaX(dir: Direction): number {

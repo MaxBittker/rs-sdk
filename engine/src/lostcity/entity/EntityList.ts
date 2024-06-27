@@ -2,11 +2,12 @@ import Npc from '#lostcity/entity/Npc.js';
 import Player from '#lostcity/entity/Player.js';
 import Entity from '#lostcity/entity/Entity.js';
 
-// inpsired by https://github.com/rsmod/rsmod/blob/master/game/src/main/kotlin/org/rsmod/game/model/mob/list/MobList.kt
+// inspired by https://github.com/rsmod/rsmod/blob/master/game/src/main/kotlin/org/rsmod/game/model/mob/list/MobList.kt
 abstract class EntityList<T extends Entity> {
     // constructor
     private readonly entities: (T | null)[];
     private readonly free: Set<number>;
+    private readonly taken: Set<number>;
     protected readonly indexPadding: number;
     protected readonly ids: Int32Array;
 
@@ -17,6 +18,7 @@ abstract class EntityList<T extends Entity> {
         this.entities = new Array(size).fill(null);
         this.ids = new Int32Array(size).fill(-1);
         this.free = new Set<number>(Array.from({ length: size }, (_, index) => index));
+        this.taken = new Set();
         this.indexPadding = indexPadding;
     }
 
@@ -36,9 +38,9 @@ abstract class EntityList<T extends Entity> {
     }
 
     *[Symbol.iterator](): IterableIterator<T> {
-        for (const index of this.ids) {
+        for (const index of this.taken) {
             if (index === -1) {
-                continue;
+                throw new Error('[EntityList] index should not be -1 here');
             }
             const entity: T | null = this.entities[index];
             if (!entity) {
@@ -49,11 +51,7 @@ abstract class EntityList<T extends Entity> {
     }
 
     get count(): number {
-        let count: number = 0;
-        for (const _ of this[Symbol.iterator]()) {
-            count++;
-        }
-        return count;
+        return this.taken.size;
     }
 
     get(id: number): T | null {
@@ -67,6 +65,7 @@ abstract class EntityList<T extends Entity> {
         }
         const index = this.free.values().next().value;
         this.free.delete(index);
+        this.taken.add(index);
         this.ids[id] = index;
         this.entities[index] = entity;
         this.lastUsedIndex = id;
@@ -78,6 +77,7 @@ abstract class EntityList<T extends Entity> {
             this.entities[index] = null;
             this.ids[id] = -1;
             this.free.add(index);
+            this.taken.delete(index);
         }
     }
 
@@ -88,6 +88,7 @@ abstract class EntityList<T extends Entity> {
         for (let i: number = 0; i < this.ids.length; i++) {
             this.free.add(i);
         }
+        this.taken.clear();
     }
 }
 

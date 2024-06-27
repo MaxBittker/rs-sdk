@@ -1,5 +1,4 @@
 enum HuntNobodyNear {
-    OFF,
     KEEPHUNTING,
     PAUSEHUNT
 }

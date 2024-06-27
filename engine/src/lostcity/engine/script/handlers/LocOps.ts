@@ -9,7 +9,6 @@ import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import ScriptPointer, {ActiveLoc, checkedHandler} from '#lostcity/engine/script/ScriptPointer.js';
 import {CommandHandlers} from '#lostcity/engine/script/ScriptRunner.js';
 import {LocIterator} from '#lostcity/engine/script/ScriptIterators.js';
-import Zone from '#lostcity/engine/zone/Zone.js';
 
 import Loc from '#lostcity/entity/Loc.js';
 import {Position} from '#lostcity/entity/Position.js';
@@ -38,22 +37,16 @@ const LocOps: CommandHandlers = {
         const locShape: LocShape = check(shape, LocShapeValid);
         check(duration, DurationValid);
 
-        const zone: Zone = World.getZone(position.x, position.z, position.level);
-
-        let found: Loc | null = null;
-        for (const loc of zone.getAllLocsUnsafe()) {
-            if (loc.type === locType.id && loc.angle === locAngle && loc.shape === locShape && loc.x === position.x && loc.z === position.z && loc.lifecycle === EntityLifeCycle.RESPAWN) {
-                found = loc;
-                World.addLoc(loc, 0);
+        const created: Loc = new Loc(position.level, position.x, position.z, locType.width, locType.length, EntityLifeCycle.DESPAWN, locType.id, locShape, locAngle);
+        const locs: IterableIterator<Loc> = World.getZone(position.x, position.z, position.level).getLocsUnsafe(Position.packZoneCoord(position.x, position.z));
+        for (const loc of locs) {
+            if (loc !== created && loc.angle === locAngle && loc.shape === locShape) {
+                World.removeLoc(loc, duration);
                 break;
             }
         }
-        if (!found) {
-            found = new Loc(position.level, position.x, position.z, locType.width, locType.length, EntityLifeCycle.DESPAWN, locType.id, locShape, locAngle);
-            World.addLoc(found, duration);
-        }
-
-        state.activeLoc = found;
+        World.addLoc(created, duration);
+        state.activeLoc = created;
         state.pointerAdd(ActiveLoc[state.intOperand]);
     },
 
@@ -82,17 +75,18 @@ const LocOps: CommandHandlers = {
         // const loc = new Loc(state.activeLoc.level, state.activeLoc.x, state.activeLoc.z, locType.width, locType.length, EntityLifeCycle.DESPAWN, id, state.activeLoc.shape, state.activeLoc.angle);
         // World.addLoc(loc, duration);
 
-        const zone: Zone = World.getZone(state.activeLoc.x, state.activeLoc.z, state.activeLoc.level);
+        const {level, x, z, angle, shape} = state.activeLoc;
+        const locs: IterableIterator<Loc> = World.getZone(x, z, level).getLocsUnsafe(Position.packZoneCoord(x, z));
         let found: Loc | null = null;
-        for (const loc of zone.getAllLocsUnsafe()) {
-            if (loc.type === locType.id && loc.angle === state.activeLoc.angle && loc.shape === state.activeLoc.shape && loc.x === state.activeLoc.x && loc.z === state.activeLoc.z && loc.lifecycle === EntityLifeCycle.RESPAWN) {
+        for (const loc of locs) {
+            if (loc.type === locType.id && loc.angle === angle && loc.shape === shape && loc.lifecycle === EntityLifeCycle.RESPAWN) {
                 found = loc;
                 World.addLoc(loc, 0);
                 break;
             }
         }
         if (!found) {
-            found = new Loc(state.activeLoc.level, state.activeLoc.x, state.activeLoc.z, locType.width, locType.length, EntityLifeCycle.DESPAWN, locType.id, state.activeLoc.shape, state.activeLoc.angle);
+            found = new Loc(level, x, z, locType.width, locType.length, EntityLifeCycle.DESPAWN, locType.id, shape, angle);
             World.addLoc(found, duration);
         }
 
@@ -106,7 +100,17 @@ const LocOps: CommandHandlers = {
     }),
 
     [ScriptOpcode.LOC_DEL]: checkedHandler(ActiveLoc, state => {
-        World.removeLoc(state.activeLoc, check(state.popInt(), DurationValid));
+        const duration: number = check(state.popInt(), DurationValid);
+
+        const {level, x, z, angle, shape} = state.activeLoc;
+        const locs: IterableIterator<Loc> = World.getZone(x, z, level).getLocsUnsafe(Position.packZoneCoord(x, z));
+        for (const loc of locs) {
+            if (loc !== state.activeLoc && loc.angle === angle && loc.shape === shape) {
+                World.removeLoc(loc, duration);
+                break;
+            }
+        }
+        World.removeLoc(state.activeLoc, duration);
     }),
 
     [ScriptOpcode.LOC_FIND]: state => {

@@ -15,10 +15,10 @@ export default class OpLocHandler extends MessageHandler<OpLoc> {
             return false;
         }
 
-        const absLeftX = player.loadedX - 52;
-        const absRightX = player.loadedX + 52;
-        const absTopZ = player.loadedZ + 52;
-        const absBottomZ = player.loadedZ - 52;
+        const absLeftX = player.originX - 52;
+        const absRightX = player.originX + 52;
+        const absTopZ = player.originZ + 52;
+        const absBottomZ = player.originZ - 52;
         if (x < absLeftX || x > absRightX || z < absBottomZ || z > absTopZ) {
             return false;
         }

@@ -6,21 +6,20 @@ import NpcType from '#lostcity/cache/config/NpcType.js';
 import ObjType from '#lostcity/cache/config/ObjType.js';
 import LocType from '#lostcity/cache/config/LocType.js';
 
-import ZoneManager from '#lostcity/engine/zone/ZoneManager.js';
+import ZoneMap from '#lostcity/engine/zone/ZoneMap.js';
 import World from '#lostcity/engine/World.js';
 
 import Npc from '#lostcity/entity/Npc.js';
 import Obj from '#lostcity/entity/Obj.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import Loc from '#lostcity/entity/Loc.js';
+import {Position} from '#lostcity/entity/Position.js';
 
 import {LocAngle, LocLayer} from '@2004scape/rsmod-pathfinder';
 import * as rsmod from '@2004scape/rsmod-pathfinder';
 
 export default class GameMap {
-    readonly zoneManager: ZoneManager = new ZoneManager();
-
-    init(): void {
+    init(zoneMap: ZoneMap): void {
         console.time('Loading game map');
         const path: string = 'data/pack/server/maps/';
         const maps: string[] = fs.readdirSync(path).filter(x => x[0] === 'm');
@@ -30,11 +29,11 @@ export default class GameMap {
             const mapsquareZ: number = mz << 6;
 
             this.decodeNpcs(Packet.load(`${path}n${mx}_${mz}`), mapsquareX, mapsquareZ);
-            this.decodeObjs(Packet.load(`${path}o${mx}_${mz}`), mapsquareX, mapsquareZ);
+            this.decodeObjs(Packet.load(`${path}o${mx}_${mz}`), mapsquareX, mapsquareZ, zoneMap);
             // collision
             const lands: Int8Array = new Int8Array(4 * 64 * 64); // 4 * 64 * 64 size is guaranteed for lands
             this.decodeLands(lands, Packet.load(`${path}m${mx}_${mz}`), mapsquareX, mapsquareZ);
-            this.decodeLocs(lands, Packet.load(`${path}l${mx}_${mz}`), mapsquareX, mapsquareZ);
+            this.decodeLocs(lands, Packet.load(`${path}l${mx}_${mz}`), mapsquareX, mapsquareZ, zoneMap);
         }
         console.timeEnd('Loading game map');
     }
@@ -134,7 +133,7 @@ export default class GameMap {
         }
     }
 
-    private decodeObjs(packet: Packet, mapsquareX: number, mapsquareZ: number): void {
+    private decodeObjs(packet: Packet, mapsquareX: number, mapsquareZ: number, zoneMap: ZoneMap): void {
         while (packet.available > 0) {
             const {x, z, level} = this.unpackCoord(packet.g2());
             const absoluteX: number = mapsquareX + x;
@@ -144,9 +143,9 @@ export default class GameMap {
                 const objType: ObjType = ObjType.get(packet.g2());
                 const obj: Obj = new Obj(level, absoluteX, absoluteZ, EntityLifeCycle.RESPAWN, objType.id, packet.g1());
                 if (objType.members && World.members) {
-                    this.zoneManager.getZone(obj.x, obj.z, obj.level).addStaticObj(obj);
+                    zoneMap.zone(obj.x, obj.z, obj.level).addStaticObj(obj);
                 } else if (!objType.members) {
-                    this.zoneManager.getZone(obj.x, obj.z, obj.level).addStaticObj(obj);
+                    zoneMap.zone(obj.x, obj.z, obj.level).addStaticObj(obj);
                 }
             }
         }
@@ -209,7 +208,7 @@ export default class GameMap {
         }
     }
 
-    private decodeLocs(lands: Int8Array, packet: Packet, mapsquareX: number, mapsquareZ: number): void {
+    private decodeLocs(lands: Int8Array, packet: Packet, mapsquareX: number, mapsquareZ: number, zoneMap: ZoneMap): void {
         let locId: number = -1;
         let locIdOffset: number = packet.gsmart();
         while (locIdOffset !== 0) {
@@ -239,7 +238,7 @@ export default class GameMap {
                 const absoluteX: number = x + mapsquareX;
                 const absoluteZ: number = z + mapsquareZ;
 
-                this.zoneManager.getZone(absoluteX, absoluteZ, actualLevel).addStaticLoc(new Loc(actualLevel, absoluteX, absoluteZ, width, length, EntityLifeCycle.RESPAWN, locId, shape, angle));
+                zoneMap.zone(absoluteX, absoluteZ, actualLevel).addStaticLoc(new Loc(actualLevel, absoluteX, absoluteZ, width, length, EntityLifeCycle.RESPAWN, locId, shape, angle));
 
                 if (type.blockwalk) {
                     this.changeLocCollision(shape, angle, type.blockrange, length, width, type.active, absoluteX, absoluteZ, actualLevel, true);
@@ -253,7 +252,7 @@ export default class GameMap {
         return (z & 0x3f) | ((x & 0x3f) << 6) | ((level & 0x3) << 12);
     }
 
-    private unpackCoord(packed: number): { level: number; x: number; z: number } {
+    private unpackCoord(packed: number): Position {
         const z: number = packed & 0x3f;
         const x: number = (packed >> 6) & 0x3f;
         const level: number = (packed >> 12) & 0x3;

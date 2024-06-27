@@ -19,7 +19,24 @@ import Interaction from '#lostcity/entity/Interaction.js';
 import PlayerStat from '#lostcity/entity/PlayerStat.js';
 import Player from '#lostcity/entity/Player.js';
 
-import ServerProt from '#lostcity/server/ServerProt.js';
+import ServerProt from '#lostcity/network/225/outgoing/prot/ServerProt.js';
+import CamShake from '#lostcity/network/outgoing/model/CamShake.js';
+import CamReset from '#lostcity/network/outgoing/model/CamReset.js';
+import PCountDialog from '#lostcity/network/outgoing/model/PCountDialog.js';
+import SynthSound from '#lostcity/network/outgoing/model/SynthSound.js';
+import IfSetColour from '#lostcity/network/outgoing/model/IfSetColour.js';
+import IfSetHide from '#lostcity/network/outgoing/model/IfSetHide.js';
+import IfSetObject from '#lostcity/network/outgoing/model/IfSetObject.js';
+import IfShowSide from '#lostcity/network/outgoing/model/IfShowSide.js';
+import IfSetModel from '#lostcity/network/outgoing/model/IfSetModel.js';
+import IfSetRecol from '#lostcity/network/outgoing/model/IfSetRecol.js';
+import TutorialFlashSide from '#lostcity/network/outgoing/model/TutorialFlashSide.js';
+import IfSetAnim from '#lostcity/network/outgoing/model/IfSetAnim.js';
+import IfSetPlayerHead from '#lostcity/network/outgoing/model/IfSetPlayerHead.js';
+import IfSetText from '#lostcity/network/outgoing/model/IfSetText.js';
+import IfSetNpcHead from '#lostcity/network/outgoing/model/IfSetNpcHead.js';
+import IfSetPosition from '#lostcity/network/outgoing/model/IfSetPosition.js';
+import SetMultiway from '#lostcity/network/outgoing/model/SetMultiway.js';
 
 import Environment from '#lostcity/util/Environment.js';
 import ColorConversion from '#lostcity/util/ColorConversion.js';
@@ -163,11 +180,11 @@ const PlayerOps: CommandHandlers = {
     [ScriptOpcode.CAM_SHAKE]: checkedHandler(ActivePlayer, state => {
         const [type, jitter, amplitude, frequency] = state.popInts(4);
 
-        state.activePlayer.writeLowPriority(ServerProt.CAM_SHAKE, type, jitter, amplitude, frequency);
+        state.activePlayer.write(new CamShake(type, jitter, amplitude, frequency));
     }),
 
     [ScriptOpcode.CAM_RESET]: checkedHandler(ActivePlayer, state => {
-        state.activePlayer.writeLowPriority(ServerProt.CAM_RESET);
+        state.activePlayer.write(new CamReset());
     }),
 
     [ScriptOpcode.COORD]: checkedHandler(ActivePlayer, state => {
@@ -309,7 +326,7 @@ const PlayerOps: CommandHandlers = {
     }),
 
     [ScriptOpcode.P_COUNTDIALOG]: checkedHandler(ProtectedActivePlayer, state => {
-        state.activePlayer.writeLowPriority(ServerProt.P_COUNTDIALOG);
+        state.activePlayer.write(new PCountDialog());
         state.execution = ScriptState.COUNTDIALOG;
     }),
 
@@ -387,7 +404,7 @@ const PlayerOps: CommandHandlers = {
     [ScriptOpcode.SOUND_SYNTH]: checkedHandler(ActivePlayer, state => {
         const [synth, loops, delay] = state.popInts(3);
 
-        state.activePlayer.writeLowPriority(ServerProt.SYNTH_SOUND, synth, loops, delay);
+        state.activePlayer.write(new SynthSound(synth, loops, delay));
     }),
 
     [ScriptOpcode.STAFFMODLEVEL]: checkedHandler(ActivePlayer, state => {
@@ -475,7 +492,7 @@ const PlayerOps: CommandHandlers = {
         check(com, NumberNotNull);
         check(colour, NumberNotNull);
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETCOLOUR, com, ColorConversion.rgb24to15(colour));
+        state.activePlayer.write(new IfSetColour(com, ColorConversion.rgb24to15(colour)));
     }),
 
     [ScriptOpcode.IF_OPENCHAT]: checkedHandler(ActivePlayer, state => {
@@ -497,7 +514,7 @@ const PlayerOps: CommandHandlers = {
         check(com, NumberNotNull);
         check(hide, NumberNotNull);
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETHIDE, com, hide === 1);
+        state.activePlayer.write(new IfSetHide(com, hide === 1));
     }),
 
     [ScriptOpcode.IF_SETOBJECT]: checkedHandler(ActivePlayer, state => {
@@ -507,11 +524,11 @@ const PlayerOps: CommandHandlers = {
         check(obj, ObjTypeValid);
         check(scale, NumberNotNull);
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETOBJECT, com, obj, scale);
+        state.activePlayer.write(new IfSetObject(com, obj, scale));
     }),
 
     [ScriptOpcode.IF_SETTABACTIVE]: checkedHandler(ActivePlayer, state => {
-        state.activePlayer.writeLowPriority(ServerProt.IF_SHOWSIDE, check(state.popInt(), NumberNotNull));
+        state.activePlayer.write(new IfShowSide(check(state.popInt(), NumberNotNull)));
     }),
 
     [ScriptOpcode.IF_SETMODEL]: checkedHandler(ActivePlayer, state => {
@@ -520,7 +537,7 @@ const PlayerOps: CommandHandlers = {
         check(com, NumberNotNull);
         check(model, NumberNotNull);
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETMODEL, com, model);
+        state.activePlayer.write(new IfSetModel(com, model));
     }),
 
     [ScriptOpcode.IF_SETRECOL]: checkedHandler(ActivePlayer, state => {
@@ -528,11 +545,11 @@ const PlayerOps: CommandHandlers = {
 
         check(com, NumberNotNull);
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETRECOL, com, src, dest);
+        state.activePlayer.write(new IfSetRecol(com, src, dest));
     }),
 
     [ScriptOpcode.IF_SETTABFLASH]: checkedHandler(ActivePlayer, state => {
-        state.activePlayer.writeLowPriority(ServerProt.TUTORIAL_FLASHSIDE, check(state.popInt(), NumberNotNull));
+        state.activePlayer.write(new TutorialFlashSide(check(state.popInt(), NumberNotNull)));
     }),
 
     [ScriptOpcode.IF_SETANIM]: checkedHandler(ActivePlayer, state => {
@@ -545,7 +562,7 @@ const PlayerOps: CommandHandlers = {
             return;
         }
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETANIM, com, seq);
+        state.activePlayer.write(new IfSetAnim(com, seq));
     }),
 
     [ScriptOpcode.IF_SETTAB]: checkedHandler(ActivePlayer, state => {
@@ -569,14 +586,14 @@ const PlayerOps: CommandHandlers = {
     }),
 
     [ScriptOpcode.IF_SETPLAYERHEAD]: checkedHandler(ActivePlayer, state => {
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETPLAYERHEAD, check(state.popInt(), NumberNotNull));
+        state.activePlayer.write(new IfSetPlayerHead(check(state.popInt(), NumberNotNull)));
     }),
 
     [ScriptOpcode.IF_SETTEXT]: checkedHandler(ActivePlayer, state => {
         const text = state.popString();
         const com = check(state.popInt(), NumberNotNull);
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETTEXT, com, text);
+        state.activePlayer.write(new IfSetText(com, text));
     }),
 
     [ScriptOpcode.IF_SETNPCHEAD]: checkedHandler(ActivePlayer, state => {
@@ -585,7 +602,7 @@ const PlayerOps: CommandHandlers = {
         check(com, NumberNotNull);
         check(npc, NpcTypeValid);
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETNPCHEAD, com, npc);
+        state.activePlayer.write(new IfSetNpcHead(com, npc));
     }),
 
     [ScriptOpcode.IF_SETPOSITION]: checkedHandler(ActivePlayer, state => {
@@ -593,11 +610,11 @@ const PlayerOps: CommandHandlers = {
 
         check(com, NumberNotNull);
 
-        state.activePlayer.writeLowPriority(ServerProt.IF_SETPOSITION, com, x, y);
+        state.activePlayer.write(new IfSetPosition(com, x, y));
     }),
 
     [ScriptOpcode.IF_MULTIZONE]: checkedHandler(ActivePlayer, state => {
-        state.activePlayer.writeLowPriority(ServerProt.SET_MULTIWAY, check(state.popInt(), NumberNotNull) === 1);
+        state.activePlayer.write(new SetMultiway(check(state.popInt(), NumberNotNull) === 1));
     }),
 
     [ScriptOpcode.GIVEXP]: checkedHandler(ProtectedActivePlayer, state => {

@@ -436,7 +436,7 @@ export function packHuntConfigs(configs: Map<string, ConfigLine[]>): { client: P
                     server.p1(value as number);
                 }
             } else if (key === 'nobodynear') {
-                if (value !== HuntNobodyNear.OFF) {
+                if (value !== HuntNobodyNear.PAUSEHUNT) {
                     server.p1(7);
                     server.p1(value as number);
                 }

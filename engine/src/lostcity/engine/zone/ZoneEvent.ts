@@ -1,16 +1,14 @@
-import ServerProt from '#lostcity/server/ServerProt.js';
 import ZoneEventType from '#lostcity/engine/zone/ZoneEventType.js';
+import ZoneMessage from '#lostcity/network/outgoing/ZoneMessage.js';
 
 export default class ZoneEvent {
-    readonly prot: ServerProt;
     readonly type: ZoneEventType;
     readonly receiverId: number;
-    readonly buffer: Uint8Array;
+    readonly message: ZoneMessage;
 
-    constructor(prot: ServerProt, type: ZoneEventType, receiverId: number, buffer: Uint8Array) {
-        this.prot = prot;
+    constructor(type: ZoneEventType, receiverId: number, message: ZoneMessage) {
         this.type = type;
         this.receiverId = receiverId;
-        this.buffer = buffer;
+        this.message = message;
     }
 }

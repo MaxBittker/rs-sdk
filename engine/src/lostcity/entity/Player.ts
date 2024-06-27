@@ -28,8 +28,6 @@ import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import PlayerStat from '#lostcity/entity/PlayerStat.js';
 import MoveStrategy from '#lostcity/entity/MoveStrategy.js';
 
-import ServerProt, {ServerProtEncoders} from '#lostcity/server/ServerProt.js';
-
 import {Inventory} from '#lostcity/engine/Inventory.js';
 import World from '#lostcity/engine/World.js';
 
@@ -47,6 +45,23 @@ import Stack from '#jagex2/datastruct/Stack.js';
 
 import {CollisionFlag} from '@2004scape/rsmod-pathfinder';
 import {PRELOADED, PRELOADED_CRC} from '#lostcity/server/PreloadedPacks.js';
+import OutgoingMessage from '#lostcity/network/outgoing/OutgoingMessage.js';
+import IfClose from '#lostcity/network/outgoing/model/IfClose.js';
+import UpdateUid192 from '#lostcity/network/outgoing/model/UpdateUid192.js';
+import ResetAnims from '#lostcity/network/outgoing/model/ResetAnims.js';
+import ResetClientVarCache from '#lostcity/network/outgoing/model/ResetClientVarCache.js';
+import TutorialOpenChat from '#lostcity/network/outgoing/model/TutorialOpenChat.js';
+import UpdateInvStopTransmit from '#lostcity/network/outgoing/model/UpdateInvStopTransmit.js';
+import VarpSmall from '#lostcity/network/outgoing/model/VarpSmall.js';
+import VarpLarge from '#lostcity/network/outgoing/model/VarpLarge.js';
+import MidiSong from '#lostcity/network/outgoing/model/MidiSong.js';
+import MidiJingle from '#lostcity/network/outgoing/model/MidiJingle.js';
+import IfOpenSideOverlay from '#lostcity/network/outgoing/model/IfOpenSideOverlay.js';
+import UnsetMapFlag from '#lostcity/network/outgoing/model/UnsetMapFlag.js';
+import HintArrow from '#lostcity/network/outgoing/model/HintArrow.js';
+import LastLoginInfo from '#lostcity/network/outgoing/model/LastLoginInfo.js';
+import MessageGame from '#lostcity/network/outgoing/model/MessageGame.js';
+import ServerProtPriority from '#lostcity/network/outgoing/prot/ServerProtPriority.js';
 
 const levelExperience = new Int32Array(99);
 
@@ -221,8 +236,8 @@ export default class Player extends PathingEntity {
     baseLevels = new Uint8Array(21);
     lastStats: Int32Array = new Int32Array(21); // we track this so we know to flush stats only once a tick on changes
     lastLevels: Uint8Array = new Uint8Array(21); // we track this so we know to flush stats only once a tick on changes
-    loadedX: number = -1;
-    loadedZ: number = -1;
+    originX: number = -1;
+    originZ: number = -1;
     npcs: Set<number> = new Set(); // observed npcs
     otherPlayers: Set<number> = new Set(); // observed players
     lastMovement: number = 0; // for p_arrivedelay
@@ -244,8 +259,8 @@ export default class Player extends PathingEntity {
     afkEventReady: boolean = false;
     interactWalkTrigger: boolean = false;
 
-    highPriorityOut: Stack<Packet> = new Stack();
-    lowPriorityOut: Stack<Packet> = new Stack();
+    highPriorityOut: Stack<OutgoingMessage> = new Stack();
+    lowPriorityOut: Stack<OutgoingMessage> = new Stack();
     lastResponse = -1;
 
     messageColor: number | null = null;
@@ -370,13 +385,13 @@ export default class Player extends PathingEntity {
         this.playerLog('Logging in');
 
         // normalize client between logins
-        this.writeLowPriority(ServerProt.IF_CLOSE);
-        this.writeHighPriority(ServerProt.UPDATE_UID192, this.pid); // todo: low or high priority
+        this.write(new IfClose());
+        this.write(new UpdateUid192(this.pid));
         this.unsetMapFlag();
-        this.writeHighPriority(ServerProt.RESET_ANIMS); // todo: low or high priority
+        this.write(new ResetAnims());
         this.resetHeroPoints();
 
-        this.writeHighPriority(ServerProt.RESET_CLIENT_VARCACHE);
+        this.write(new ResetClientVarCache());
         for (let varp = 0; varp < this.vars.length; varp++) {
             const type = VarPlayerType.get(varp);
             const value = this.vars[varp];
@@ -536,7 +551,7 @@ export default class Player extends PathingEntity {
             }
 
             this.modalSticky = -1;
-            this.writeLowPriority(ServerProt.TUTORIAL_OPENCHAT, -1);
+            this.write(new TutorialOpenChat(-1));
         }
     }
 
@@ -1088,174 +1103,6 @@ export default class Player extends PathingEntity {
         stream.release();
     }
 
-    calculateUpdateSize(self = false, newlyObserved = false) {
-        let length = 0;
-        let mask = this.mask;
-        if (newlyObserved) {
-            mask |= Player.APPEARANCE;
-        }
-        if (newlyObserved && (this.orientation != -1 || this.faceX != -1 || this.faceZ != -1)) {
-            mask |= Player.FACE_COORD;
-        }
-        if (newlyObserved && this.faceEntity != -1) {
-            mask |= Player.FACE_ENTITY;
-        }
-
-        if (mask > 0xff) {
-            mask |= Player.BIG_UPDATE;
-        }
-
-        if (self && mask & Player.CHAT) {
-            // don't echo back local chat
-            mask &= ~Player.CHAT;
-        }
-
-        length += 1;
-        if (mask & Player.BIG_UPDATE) {
-            length += 1;
-        }
-
-        if (mask & Player.APPEARANCE) {
-            length += 1;
-            length += this.appearance?.length ?? 0;
-        }
-
-        if (mask & Player.ANIM) {
-            length += 3;
-        }
-
-        if (mask & Player.FACE_ENTITY) {
-            length += 2;
-        }
-
-        if (mask & Player.SAY) {
-            length += this.chat?.length ?? 0;
-        }
-
-        if (mask & Player.DAMAGE) {
-            length += 4;
-        }
-
-        if (mask & Player.FACE_COORD) {
-            length += 4;
-        }
-
-        if (mask & Player.CHAT) {
-            length += 4;
-            length += this.message?.length ?? 0;
-        }
-
-        if (mask & Player.SPOTANIM) {
-            length += 6;
-        }
-
-        if (mask & Player.EXACT_MOVE) {
-            length += 9;
-        }
-
-        return length;
-    }
-
-    writeUpdate(observer: Player, out: Packet, self = false, newlyObserved = false) {
-        let mask = this.mask;
-        if (newlyObserved) {
-            mask |= Player.APPEARANCE;
-        }
-        if (newlyObserved && (this.orientation != -1 || this.faceX != -1 || this.faceZ != -1)) {
-            mask |= Player.FACE_COORD;
-        }
-        if (newlyObserved && this.faceEntity != -1) {
-            mask |= Player.FACE_ENTITY;
-        }
-
-        if (mask > 0xff) {
-            mask |= Player.BIG_UPDATE;
-        }
-
-        if (self && mask & Player.CHAT) {
-            // don't echo back local chat
-            mask &= ~Player.CHAT;
-        }
-
-        out.p1(mask & 0xff);
-        if (mask & Player.BIG_UPDATE) {
-            out.p1(mask >> 8);
-        }
-
-        if (mask & Player.APPEARANCE) {
-            out.p1(this.appearance!.length);
-            out.pdata(this.appearance!, 0, this.appearance!.length);
-        }
-
-        if (mask & Player.ANIM) {
-            out.p2(this.animId);
-            out.p1(this.animDelay);
-        }
-
-        if (mask & Player.FACE_ENTITY) {
-            if (this.faceEntity !== -1) {
-                this.alreadyFacedEntity = true;
-            }
-
-            out.p2(this.faceEntity);
-        }
-
-        if (mask & Player.SAY) {
-            out.pjstr(this.chat);
-        }
-
-        if (mask & Player.DAMAGE) {
-            out.p1(this.damageTaken);
-            out.p1(this.damageType);
-            out.p1(this.levels[PlayerStat.HITPOINTS]);
-            out.p1(this.baseLevels[PlayerStat.HITPOINTS]);
-        }
-
-        if (mask & Player.FACE_COORD) {
-            if (this.faceX !== -1) {
-                this.alreadyFacedCoord = true;
-            }
-
-            if (newlyObserved && this.faceX != -1) {
-                out.p2(this.faceX);
-                out.p2(this.faceZ);
-            } else if (newlyObserved && this.orientation != -1) {
-                const faceX = Position.moveX(this.x, this.orientation);
-                const faceZ = Position.moveZ(this.z, this.orientation);
-                out.p2(faceX * 2 + 1);
-                out.p2(faceZ * 2 + 1);
-            } else {
-                out.p2(this.faceX);
-                out.p2(this.faceZ);
-            }
-        }
-
-        if (mask & Player.CHAT) {
-            out.p1(this.messageColor!);
-            out.p1(this.messageEffect!);
-            out.p1(this.messageType!);
-
-            out.p1(this.message!.length);
-            out.pdata(this.message!, 0, this.message!.length);
-        }
-
-        if (mask & Player.SPOTANIM) {
-            out.p2(this.graphicId);
-            out.p2(this.graphicHeight);
-            out.p2(this.graphicDelay);
-        }
-
-        if (mask & Player.EXACT_MOVE) {
-            out.p1(this.exactStartX - Position.zoneOrigin(observer.loadedX));
-            out.p1(this.exactStartZ - Position.zoneOrigin(observer.loadedZ));
-            out.p1(this.exactEndX - Position.zoneOrigin(observer.loadedX));
-            out.p1(this.exactEndZ - Position.zoneOrigin(observer.loadedZ));
-            out.p2(this.exactMoveStart);
-            out.p2(this.exactMoveEnd);
-            out.p1(this.exactMoveDirection);
-        }
-    }
-
     // ----
 
     getInventoryFromListener(listener: any) {
@@ -1323,7 +1170,7 @@ export default class Player extends PathingEntity {
         }
 
         this.invListeners.splice(index, 1);
-        this.writeHighPriority(ServerProt.UPDATE_INV_STOP_TRANSMIT, com);
+        this.write(new UpdateInvStopTransmit(com));
     }
 
     invGetSlot(inv: number, slot: number) {
@@ -1561,8 +1408,11 @@ export default class Player extends PathingEntity {
     }
 
     private writeVarp(id: number, value: number): void {
-        const prot: ServerProt = value >= -128 && value <= 127 ? ServerProt.VARP_SMALL : ServerProt.VARP_LARGE;
-        this.writeHighPriority(prot, id, value);
+        if (value >= -128 && value <= 127) {
+            this.write(new VarpSmall(id, value));
+        } else {
+            this.write(new VarpLarge(id, value));
+        }
     }
 
     addXp(stat: number, xp: number) {
@@ -1672,8 +1522,7 @@ export default class Player extends PathingEntity {
         const crc = PRELOADED_CRC.get(name + '.mid');
         if (song && crc) {
             const length = song.length;
-
-            this.writeLowPriority(ServerProt.MIDI_SONG, name, crc, length);
+            this.write(new MidiSong(name, crc, length));
         }
     }
 
@@ -1684,13 +1533,13 @@ export default class Player extends PathingEntity {
         }
         const jingle = PRELOADED.get(name + '.mid');
         if (jingle) {
-            this.writeLowPriority(ServerProt.MIDI_JINGLE, delay, jingle);
+            this.write(new MidiJingle(delay, jingle));
         }
     }
 
     openMainModal(com: number) {
         if (this.modalState & 4) {
-            this.writeLowPriority(ServerProt.IF_CLOSE); // need to close sidemodal
+            this.write(new IfClose());
             this.modalState &= ~4;
             this.modalSidebar = -1;
         }
@@ -1713,7 +1562,7 @@ export default class Player extends PathingEntity {
     }
 
     openChatSticky(com: number) {
-        this.writeLowPriority(ServerProt.TUTORIAL_OPENCHAT, com);
+        this.write(new TutorialOpenChat(com));
         this.modalState |= 8;
         this.modalSticky = com;
     }
@@ -1745,7 +1594,7 @@ export default class Player extends PathingEntity {
 
     setTab(com: number, tab: number) {
         this.overlaySide[tab] = com;
-        this.writeLowPriority(ServerProt.IF_OPENSIDEOVERLAY, com, tab);
+        this.write(new IfOpenSideOverlay(com, tab));
     }
 
     isComponentVisible(com: Component) {
@@ -1852,85 +1701,39 @@ export default class Player extends PathingEntity {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private writeInner(packetType: ServerProt, ...args: any[]): Packet | null {
-        if (!ServerProtEncoders[packetType.id]) {
-            return null;
-        }
-
-        let buf: Packet;
-        if (packetType.length === -1) {
-            buf = Packet.alloc(0);
-        } else if (packetType.length === -2) {
-            buf = Packet.alloc(2); // maybe this can be a type 1.
+    write(message: OutgoingMessage) {
+        if (message.priority === ServerProtPriority.HIGH) {
+            this.highPriorityOut.push(message);
         } else {
-            buf = new Packet(new Uint8Array(1 + packetType.length));
+            this.lowPriorityOut.push(message);
         }
-
-        buf.p1(packetType.id);
-
-        if (packetType.length === -1) {
-            buf.p1(0);
-        } else if (packetType.length === -2) {
-            buf.p2(0);
-        }
-        const start = buf.pos;
-
-        ServerProtEncoders[packetType.id](buf, ...args);
-
-        if (packetType.length === -1) {
-            buf.psize1(buf.pos - start);
-        } else if (packetType.length === -2) {
-            buf.psize2(buf.pos - start);
-        }
-
-        return buf;
-    }
-
-    writeHighPriority(packetType: ServerProt, ...args: any[]) {
-        const buf = this.writeInner(packetType, ...args);
-        if (buf === null) {
-            return;
-        }
-
-        this.highPriorityOut.push(buf);
-    }
-
-    writeLowPriority(packetType: ServerProt, ...args: any[]) {
-        const buf = this.writeInner(packetType, ...args);
-        if (buf === null) {
-            return;
-        }
-
-        this.lowPriorityOut.push(buf);
     }
 
     unsetMapFlag() {
         this.clearWaypoints();
         // in OSRS, SET_MAP_FLAG is high priority
-        this.writeHighPriority(ServerProt.UNSET_MAP_FLAG);
+        this.write(new UnsetMapFlag());
     }
 
     hintNpc(nid: number) {
-        // todo: is HINT_ARROW low or high priority?
-        this.writeLowPriority(ServerProt.HINT_ARROW, 1, nid, 0, 0, 0, 0);
+        this.write(new HintArrow(1, nid, 0, 0, 0, 0));
     }
 
     hintTile(offset: number, x: number, z: number, height: number) {
-        this.writeLowPriority(ServerProt.HINT_ARROW, offset, 0, 0, x, z, height);
+        this.write(new HintArrow(offset, 0, 0, x, z, height));
     }
 
     hintPlayer(pid: number) {
-        this.writeLowPriority(ServerProt.HINT_ARROW, 10, 0, pid, 0, 0, 0);
+        this.write(new HintArrow(10, 0, pid, 0, 0, 0));
     }
 
     stopHint() {
-        this.writeLowPriority(ServerProt.HINT_ARROW, -1, 0, 0, 0, 0, 0);
+        this.write(new HintArrow(-1, 0, 0, 0, 0, 0));
     }
 
     lastLoginInfo(lastLoginIp: number, daysSinceLogin: number, daysSinceRecoveryChange: number, unreadMessageCount: number) {
         // this is like an interface packet so assume low priority
-        this.writeLowPriority(ServerProt.LAST_LOGIN_INFO, lastLoginIp, daysSinceLogin, daysSinceRecoveryChange, unreadMessageCount);
+        this.write(new LastLoginInfo(lastLoginIp, daysSinceLogin, daysSinceRecoveryChange, unreadMessageCount));
         this.modalState |= 16;
     }
 
@@ -1943,42 +1746,6 @@ export default class Player extends PathingEntity {
     }
 
     messageGame(msg: string) {
-        this.writeHighPriority(ServerProt.MESSAGE_GAME, msg);
-    }
-
-    rebuildNormal(zoneX: number, zoneZ: number) {
-        const out = Packet.alloc(2);
-        out.p1(ServerProt.REBUILD_NORMAL.id);
-        out.p2(0);
-        const start = out.pos;
-
-        out.p2(zoneX);
-        out.p2(zoneZ);
-
-        // build area is 13x13 zones (8*13 = 104 tiles), so we need to load 6 zones in each direction
-        const areas: { mapsquareX: number; mapsquareZ: number }[] = [];
-        for (let x = zoneX - 6; x <= zoneX + 6; x++) {
-            for (let z = zoneZ - 6; z <= zoneZ + 6; z++) {
-                const mapsquareX = Position.mapsquare(x << 3);
-                const mapsquareZ = Position.mapsquare(z << 3);
-
-                if (areas.findIndex(a => a.mapsquareX === mapsquareX && a.mapsquareZ === mapsquareZ) === -1) {
-                    areas.push({ mapsquareX, mapsquareZ });
-                }
-            }
-        }
-
-        for (let i = 0; i < areas.length; i++) {
-            const { mapsquareX, mapsquareZ } = areas[i];
-            out.p1(mapsquareX);
-            out.p1(mapsquareZ);
-            out.p4(PRELOADED_CRC.get(`m${mapsquareX}_${mapsquareZ}`) ?? 0);
-            out.p4(PRELOADED_CRC.get(`l${mapsquareX}_${mapsquareZ}`) ?? 0);
-        }
-
-        out.psize2(out.pos - start);
-
-        // the packet is released elsewhere.
-        this.highPriorityOut.push(out);
+        this.write(new MessageGame(msg));
     }
 }

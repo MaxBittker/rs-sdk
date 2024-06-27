@@ -66,6 +66,10 @@ class ClientProtRepository {
     handlers: Map<number, MessageHandler<IncomingMessage>> = new Map();
 
     private bind(decoder: MessageDecoder<IncomingMessage>, handler?: MessageHandler<IncomingMessage>) {
+        if (this.decoders.has(decoder.prot.id)) {
+            throw new Error(`[ClientProtRepository] Already defines a ${decoder.prot.id}.`);
+        }
+
         this.decoders.set(decoder.prot.id, decoder);
 
         if (handler) {

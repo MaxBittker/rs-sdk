@@ -6,7 +6,7 @@ import Environment from '#lostcity/util/Environment.js';
 import ScriptProvider from '#lostcity/engine/script/ScriptProvider.js';
 import ScriptRunner from '#lostcity/engine/script/ScriptRunner.js';
 import ServerTriggerType from '#lostcity/engine/script/ServerTriggerType.js';
-import ServerProt from '#lostcity/server/ServerProt.js';
+import UpdateInvPartial from '#lostcity/network/outgoing/model/UpdateInvPartial.js';
 
 export default class InvButtonDHandler extends MessageHandler<InvButtonD> {
     handle(message: InvButtonD, player: Player): boolean {
@@ -30,7 +30,7 @@ export default class InvButtonDHandler extends MessageHandler<InvButtonD> {
 
         if (player.delayed()) {
             // do nothing; revert the client visual
-            player.writeHighPriority(ServerProt.UPDATE_INV_PARTIAL, comId, inv, [slot, targetSlot]);
+            player.write(new UpdateInvPartial(comId, inv, slot, targetSlot));
             return false;
         }
 

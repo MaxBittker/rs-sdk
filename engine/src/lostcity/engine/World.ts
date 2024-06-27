@@ -53,7 +53,6 @@ import {EntityQueueState} from '#lostcity/entity/EntityQueueRequest.js';
 import {PlayerTimerType} from '#lostcity/entity/EntityTimer.js';
 
 import ClientSocket from '#lostcity/server/ClientSocket.js';
-import ServerProt from '#lostcity/server/ServerProt.js';
 
 import Environment from '#lostcity/util/Environment.js';
 import {getLatestModified, getModified, shouldBuildFileAny} from '#lostcity/util/PackFile.js';
@@ -65,6 +64,11 @@ import ClientProt from '#lostcity/network/225/incoming/prot/ClientProt.js';
 import {makeCrcs} from '#lostcity/server/CrcTable.js';
 import {preloadClient} from '#lostcity/server/PreloadedPacks.js';
 import {Position} from '#lostcity/entity/Position.js';
+import UpdateRebootTimer from '#lostcity/network/outgoing/model/UpdateRebootTimer.js';
+import PlayerInfo from '#lostcity/network/outgoing/model/PlayerInfo.js';
+import NpcInfo from '#lostcity/network/outgoing/model/NpcInfo.js';
+import ZoneGrid from '#lostcity/engine/zone/ZoneGrid.js';
+import ZoneMap from '#lostcity/engine/zone/ZoneMap.js';
 
 class World {
     id = Environment.WORLD_ID as number;
@@ -81,7 +85,8 @@ class World {
     lastCycleStats: number[] = [];
     lastCycleBandwidth: number[] = [0, 0];
 
-    readonly gameMap = new GameMap();
+    readonly gameMap: GameMap = new GameMap();
+    readonly zoneMap: ZoneMap = new ZoneMap();
     readonly invs: Inventory[] = []; // shared inventories (shops)
     vars: Int32Array = new Int32Array(); // var shared
     varsString: string[] = [];
@@ -267,7 +272,7 @@ class World {
         this.reload();
 
         if (!skipMaps) {
-            this.gameMap.init();
+            this.gameMap.init(this.zoneMap);
         }
 
         Login.loginThread.postMessage({
@@ -375,7 +380,7 @@ class World {
         this.stopDevWatcher();
 
         for (const player of this.players) {
-            player.writeLowPriority(ServerProt.UPDATE_REBOOT_TIMER, this.shutdownTick - this.currentTick);
+            player.write(new UpdateRebootTimer(this.shutdownTick - this.currentTick));
         }
     }
 
@@ -668,8 +673,7 @@ class World {
             }
 
             if (this.shutdownTick > -1) {
-                // todo: confirm if reboot timer is low or high priority
-                player.writeLowPriority(ServerProt.UPDATE_REBOOT_TIMER, this.shutdownTick - this.currentTick);
+                player.write(new UpdateRebootTimer(this.shutdownTick - this.currentTick));
             }
 
             if (player instanceof NetworkPlayer && player.client) {
@@ -719,8 +723,8 @@ class World {
 
             try {
                 player.updateMap();
-                player.updatePlayers();
-                player.updateNpcs();
+                player.write(new PlayerInfo(player));
+                player.write(new NpcInfo(player));
                 player.updateZones();
                 player.updateInvs();
                 player.updateStats();
@@ -898,12 +902,16 @@ class World {
         return container;
     }
 
-    getZone(absoluteX: number, absoluteZ: number, level: number): Zone {
-        return this.gameMap.zoneManager.getZone(absoluteX, absoluteZ, level);
+    getZone(x: number, z: number, level: number): Zone {
+        return this.zoneMap.zone(x, z, level);
     }
 
-    getZoneIndex(zoneIndex: number): Zone | undefined {
-        return this.gameMap.zoneManager.zones.get(zoneIndex);
+    getZoneIndex(zoneIndex: number): Zone {
+        return this.zoneMap.zoneByIndex(zoneIndex);
+    }
+
+    getZoneGrid(level: number): ZoneGrid {
+        return this.zoneMap.grid(level);
     }
 
     computeSharedEvents(): void {
@@ -917,11 +925,7 @@ class World {
             }
         }
         for (const zoneIndex of zones) {
-            const zone: Zone | undefined = this.getZoneIndex(zoneIndex);
-            if (!zone) {
-                continue;
-            }
-            zone.computeShared();
+            this.getZoneIndex(zoneIndex).computeShared();
         }
     }
 

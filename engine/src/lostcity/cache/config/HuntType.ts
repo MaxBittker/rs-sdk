@@ -67,7 +67,7 @@ export default class HuntType extends ConfigType {
     checkNotBusy: boolean = false;
     findKeepHunting: boolean = false;
     findNewMode: NpcMode = NpcMode.NONE;
-    nobodyNear: HuntNobodyNear = HuntNobodyNear.OFF;
+    nobodyNear: HuntNobodyNear = HuntNobodyNear.PAUSEHUNT;
     checkNotCombat: number = -1;
     checkNotCombatSelf: number = -1;
     checkAfk: boolean = false;
