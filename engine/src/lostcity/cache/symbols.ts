@@ -373,7 +373,7 @@ export function generateServerSymbols() {
 
     fs.writeFileSync('data/symbols/stat.sym', stats.map((name, index) => `${index}\t${name}`).join('\n') + '\n');
 
-    const npcStats = ['hitpoints', 'attack', 'strength', 'defence', 'magic', 'ranged'];
+    const npcStats = ['attack', 'defence', 'strength', 'hitpoints', 'ranged', 'magic'];
 
     fs.writeFileSync('data/symbols/npc_stat.sym', npcStats.map((name, index) => `${index}\t${name}`).join('\n') + '\n');
 

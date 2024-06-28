@@ -335,6 +335,24 @@ export function packNpcConfigs(configs: Map<string, ConfigLine[]>): { client: Pa
                 const index = parseInt(key.substring('op'.length)) - 1;
                 client.p1(30 + index);
                 client.pjstr(value as string);
+            } else if (key === 'attack') {
+                server.p1(74);
+                server.p2(value as number);
+            } else if (key === 'defence') {
+                server.p1(75);
+                server.p2(value as number);
+            } else if (key === 'strength') {
+                server.p1(76);
+                server.p2(value as number);
+            } else if (key === 'hitpoints') {
+                server.p1(77);
+                server.p2(value as number);
+            } else if (key === 'ranged') {
+                server.p1(78);
+                server.p2(value as number);
+            } else if (key === 'magic') {
+                server.p1(79);
+                server.p2(value as number);
             } else if (key === 'resizex') {
                 client.p1(90);
                 client.p2(value as number);
@@ -394,18 +412,6 @@ export function packNpcConfigs(configs: Map<string, ConfigLine[]>): { client: Pa
                 }
             } else if (key.startsWith('patrol')) {
                 patrol.push(value);
-            }  else if (key === 'hitpoints') {
-                stats[0] = value as number;
-            } else if (key === 'attack') {
-                stats[1] = value as number;
-            } else if (key === 'strength') {
-                stats[2] = value as number;
-            } else if (key === 'defence') {
-                stats[3] = value as number;
-            } else if (key === 'magic') {
-                stats[4] = value as number;
-            } else if (key === 'ranged') {
-                stats[5] = value as number;
             } else if (key === 'givechase') {
                 if (value === false) {
                     server.p1(213);
@@ -454,14 +460,6 @@ export function packNpcConfigs(configs: Map<string, ConfigLine[]>): { client: Pa
             // TODO: calculate NPC level based on stats
             client.p1(95);
             client.p2(1);
-        }
-
-        if (stats.some(v => v !== 1)) {
-            server.p1(205);
-
-            for (let k = 0; k < stats.length; k++) {
-                server.p2(stats[k]);
-            }
         }
 
         if (patrol.length > 0) {

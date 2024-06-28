@@ -9,6 +9,7 @@ import BlockWalk from '#lostcity/entity/BlockWalk.js';
 import MoveRestrict from '#lostcity/entity/MoveRestrict.js';
 import NpcMode from '#lostcity/entity/NpcMode.js';
 import Jagfile from '#jagex2/io/Jagfile.js';
+import NpcStat from '#lostcity/entity/NpcStat.js';
 
 export default class NpcType extends ConfigType {
     static configNames = new Map();
@@ -159,6 +160,18 @@ export default class NpcType extends ConfigType {
             for (let i = 0; i < count; i++) {
                 this.heads[i] = dat.g2();
             }
+        } else if (code === 74) {
+            this.stats[NpcStat.ATTACK] = dat.g2();
+        } else if (code === 75) {
+            this.stats[NpcStat.DEFENCE] = dat.g2();
+        } else if (code === 76) {
+            this.stats[NpcStat.STRENGTH] = dat.g2();
+        } else if (code === 77) {
+            this.stats[NpcStat.HITPOINTS] = dat.g2();
+        } else if (code === 78) {
+            this.stats[NpcStat.RANGED] = dat.g2();
+        } else if (code === 79) {
+            this.stats[NpcStat.MAGIC] = dat.g2();
         } else if (code === 90) {
             this.resizex = dat.g2();
         } else if (code === 91) {
@@ -183,10 +196,6 @@ export default class NpcType extends ConfigType {
             this.timer = dat.g2();
         } else if (code === 204) {
             this.respawnrate = dat.g2();
-        } else if (code === 205) {
-            for (let i = 0; i < 6; i++) {
-                this.stats[i] = dat.g2();
-            }
         } else if (code === 206) {
             this.moverestrict = dat.g1();
         } else if (code == 207) {

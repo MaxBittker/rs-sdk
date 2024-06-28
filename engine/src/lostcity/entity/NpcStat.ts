@@ -1,10 +1,10 @@
 enum NpcStat {
-    HITPOINTS,
     ATTACK,
-    STRENGTH,
     DEFENCE,
-    MAGIC,
-    RANGED
+    STRENGTH,
+    HITPOINTS,
+    RANGED,
+    MAGIC
 }
 
 export default NpcStat;

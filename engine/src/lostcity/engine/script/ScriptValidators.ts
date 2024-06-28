@@ -99,7 +99,7 @@ export const DurationValid: ScriptValidator<number, number> = new ScriptInputRan
 export const CoordValid: ScriptValidator<number, Position> = new ScriptInputCoordValidator(0, 2147483647, 'Coord');
 export const ParamTypeValid: ScriptValidator<number, ParamType> = new ScriptInputConfigTypeValidator(ParamType.get, (input: number) => input >= 0 && input < ParamType.count, 'Param');
 export const NpcTypeValid: ScriptValidator<number, NpcType> = new ScriptInputConfigTypeValidator(NpcType.get, (input: number) => input >= 0 && input < NpcType.count, 'Npc');
-export const NpcStatValid: ScriptValidator<number, NpcStat> = new ScriptInputRangeValidator(NpcStat.HITPOINTS, NpcStat.RANGED, 'NpcStat');
+export const NpcStatValid: ScriptValidator<number, NpcStat> = new ScriptInputRangeValidator(NpcStat.ATTACK, NpcStat.MAGIC, 'NpcStat');
 export const PlayerStatValid: ScriptValidator<number, PlayerStat> = new ScriptInputRangeValidator(PlayerStat.ATTACK, PlayerStat.RUNECRAFT, 'PlayerStat');
 export const QueueValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(0, 19, 'AIQueue');
 export const HuntTypeValid: ScriptValidator<number, HuntType> = new ScriptInputConfigTypeValidator(HuntType.get, (input: number) => input >= 0 && input < HuntType.count, 'Hunt');
