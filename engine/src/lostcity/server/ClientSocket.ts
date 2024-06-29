@@ -123,6 +123,7 @@ export default class ClientSocket {
                 remaining = 0;
             }
         }
+        data.release();
     }
 
     writeNaive(data: Uint8Array) {
