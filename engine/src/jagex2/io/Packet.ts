@@ -338,13 +338,11 @@ export default class Packet extends Hashable {
     }
 
     bits(): void {
-        this.bitPos = this.pos * 8;
-        // this.bitPos = this.pos << 3;
+        this.bitPos = this.pos << 3;
     }
 
     bytes(): void {
-        this.pos = ((this.bitPos + 7) / 8) | 0;
-        // this.pos = (this.bitPos + 7) >>> 3;
+        this.pos = (this.bitPos + 7) >>> 3;
     }
 
     gBit(n: number): number {
@@ -373,18 +371,18 @@ export default class Packet extends Hashable {
         this.bitPos += n;
 
         for (; n > remaining; remaining = 8) {
-            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) & ~Packet.bitmask[remaining]);
-            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) | ((value >>> (n - remaining)) & Packet.bitmask[remaining]));
+            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) & ~((1 << remaining) - 1));
+            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) | ((value >>> (n - remaining)) & ((1 << remaining) - 1)));
             bytePos++;
             n -= remaining;
         }
 
         if (n == remaining) {
-            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) & ~Packet.bitmask[remaining]);
-            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) | value & Packet.bitmask[remaining]);
+            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) & ~((1 << remaining) - 1));
+            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) | value & ((1 << remaining) - 1));
         } else {
-            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) & (~Packet.bitmask[n] << (remaining - n)));
-            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) | ((value & Packet.bitmask[n]) << (remaining - n)));
+            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) & (~((1 << n) - 1) << (remaining - n)));
+            this.#view.setUint8(bytePos, this.#view.getUint8(bytePos) | ((value & ((1 << n) - 1)) << (remaining - n)));
         }
     }
 
