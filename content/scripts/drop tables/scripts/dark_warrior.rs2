@@ -1,4 +1,4 @@
-[ai_queue3,dark_warrior](int $arg) // Level 8
+[ai_queue3,dark_warrior] // Level 8
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

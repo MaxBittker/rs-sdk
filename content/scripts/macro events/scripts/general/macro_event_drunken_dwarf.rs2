@@ -7,41 +7,41 @@ npc_say("'Ello der <displayname>! *hic*");
 npc_setmode(playerfollow);
 npc_queue(4, 0, 10);
 
-[ai_queue4,macro_event_drunken_dwarf](int $progress)
+[ai_queue4,macro_event_drunken_dwarf]
 // warnings: https://youtu.be/Ww-PkAr4vt4?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT&t=96
 // todo: confirm these anims
 if (finduid(%npc_attacking_uid) = true) {
-    if ($progress = 0) {
+    if (last_int = 0) {
         npc_anim(dwarf_seq_103, 20);
         sound_synth(dwarf_whistle, 0, 0);
         npc_say("Aww comeon, talk to ikle me <displayname>!");
-    } else if ($progress = 1) {
+    } else if (last_int = 1) {
         npc_anim(dwarf_seq_105, 20);
         sound_synth(dwarf_whistle, 0, 0);
         npc_say("Oi, are you der <displayname>!");
-    } else if ($progress = 2) {
+    } else if (last_int = 2) {
         sound_synth(dwarf_whistle, 0, 0);
         npc_say("Dunt ignore your mate, <displayname>!");
-    } else if ($progress = 3) {
+    } else if (last_int = 3) {
         npc_anim(dwarf_seq_103, 20);
         sound_synth(dwarf_whistle, 0, 0);
         npc_say("I hates yoo <displayname>!");
-    } else if ($progress = 4) { // fail
+    } else if (last_int = 4) { // fail
         // todo: figure out the message that goes here
         %aggressive_npc = npc_uid; // interupt the player if they're in combat https://youtu.be/tw66JWQzpD0?t=32
         %macro_event = ^no_macro_event;
         npc_setmode(opplayer2);
         return;
     }
-    npc_queue(4, add($progress, 1), 10);
+    npc_queue(4, add(last_int, 1), 10);
 }
 
-[ai_queue5,macro_event_drunken_dwarf](int $arg) // despawn
+[ai_queue5,macro_event_drunken_dwarf] // despawn
 npc_say("Aww, me is all alone.");
 npc_delay(2); // osrs
 npc_del;
 
-[ai_queue6,macro_event_drunken_dwarf](int $arg) // say good bye
+[ai_queue6,macro_event_drunken_dwarf] // say good bye
 // Doesnt say goodbye :( https://youtu.be/R9eKmC7oLy0?t=122
 npc_del;
 

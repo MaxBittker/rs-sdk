@@ -1,4 +1,4 @@
-[ai_queue3,guard_dog](int $arg)
+[ai_queue3,guard_dog]
 if (npc_findhero = true) { // intentional, https://youtu.be/tDN_dxiRQB8?si=tCHeB803TT5FJcps&t=32
     ~trail_checkmediumdrop;
 }

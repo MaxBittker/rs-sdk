@@ -54,28 +54,28 @@ npc_queue(10, 1, 6);
 [opnpc1,partyroom_dancingknight]
 ~mesbox("He is too busy dancing to talk!");
 
-[ai_queue10,partyroom_dancingknight](int $arg)
+[ai_queue10,partyroom_dancingknight]
 def_int $delay = 5;
-switch_int($arg) {
-    case 1: npc_say("We're Knights of the Party Room");
-    case 2: npc_say("We dance round and round like a loon");
-    case 3: npc_say("Quite often we like to sing");
-    case 4: npc_say("Unfortunately we make a din");
-    case 5: npc_say("We're Knights of the Party Room");
-    case 6: npc_say("Do you like our helmet plumes?");
-    case 7: npc_say("Everyone's happy now we can move");
-    case 8: 
+switch_int (last_int) {
+    case 1 : npc_say("We're Knights of the Party Room");
+    case 2 : npc_say("We dance round and round like a loon");
+    case 3 : npc_say("Quite often we like to sing");
+    case 4 : npc_say("Unfortunately we make a din");
+    case 5 : npc_say("We're Knights of the Party Room");
+    case 6 : npc_say("Do you like our helmet plumes?");
+    case 7 : npc_say("Everyone's happy now we can move");
+    case 8 : 
         $delay = 3; // 2t
         npc_say("Like a party animal in the groove");
-    case 9:
+    case 9 :
         npc_queue(10, 10, 3); // 2t
         if (npc_find(npc_coord, party_pete, 16, 0) = true) {
             npc_say("The party room is a silly place!");
         }
         return;
 }
-if($arg < 9) {
-    npc_queue(10, calc($arg + 1), $delay);
+if (last_int < 9) {
+    npc_queue(10, calc(last_int + 1), $delay);
     return;
 }
 npc_findallzone(^partyroom_starting_knight_coord);

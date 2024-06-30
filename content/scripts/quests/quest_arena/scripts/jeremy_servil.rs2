@@ -130,15 +130,15 @@ cam_lookat(0_40_49_40_32, 270, 2, 1);
 p_delay(6);
 cam_reset;
 
-[ai_queue10,khazard_ogre](int $arg)
+[ai_queue10,khazard_ogre]
 npc_walk(0_40_49_44_32);
 npc_queue(11, 0, 4);
 
-[ai_queue11,khazard_ogre](int $arg)
+[ai_queue11,khazard_ogre]
 npc_walk(0_40_49_41_32);
 npc_queue(12, 0, 3);
 
-[ai_queue12,khazard_ogre](int $arg)
+[ai_queue12,khazard_ogre]
 npc_anim(npc_param(attack_anim), 0);
 npc_setmode(null);
 if (.npc_find(npc_coord, justin_servil, 1, 0) = true) {
@@ -146,15 +146,15 @@ if (.npc_find(npc_coord, justin_servil, 1, 0) = true) {
     .npc_setmode(null);
 }
 
-[ai_queue10,jeremy_servil](int $arg)
+[ai_queue10,jeremy_servil]
 npc_walk(0_40_49_56_31);
-npc_queue(11, 0, calc($arg + 1));
+npc_queue(11, 0, calc(last_int + 1));
 
-[ai_queue11,jeremy_servil](int $arg)
+[ai_queue11,jeremy_servil]
 npc_tele(movecoord(0_40_49_56_31, 1, 0, 0));
 npc_queue(12, 0, 2);
 
-[ai_queue12,jeremy_servil](int $arg)
+[ai_queue12,jeremy_servil]
 // https://youtu.be/etS0gMlcxx8?si=xHy9CJHoitA58DUW&t=185 switches back to default mode here?
 npc_say("I'll run ahead.");
 npc_setmode(null);

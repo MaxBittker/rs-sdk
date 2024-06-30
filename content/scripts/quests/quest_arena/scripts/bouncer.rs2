@@ -1,4 +1,4 @@
-[ai_queue3,bouncer](int $arg)
+[ai_queue3,bouncer]
 gosub(npc_death);
 if(npc_findhero = true) {
     if_close;

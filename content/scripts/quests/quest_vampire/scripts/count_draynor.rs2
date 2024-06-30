@@ -1,5 +1,5 @@
-[ai_queue3,count_draynor](int $arg) // do nothing
-[ai_queue4,count_draynor](int $arg) gosub(npc_death);
+[ai_queue3,count_draynor] // do nothing
+[ai_queue4,count_draynor] gosub(npc_death);
 
 [opnpc2,count_draynor]
 if (~player_in_combat_check = false) {
@@ -45,8 +45,8 @@ if (inv_total(inv, garlic) > 0) {
 }
 @player_combat_start_ap;
 
-[ai_queue2,count_draynor](int $damage)
-~npc_default_damage($damage);
+[ai_queue2,count_draynor]
+~npc_default_damage(last_int);
 if (npc_stat(hitpoints) = 0) {
     if (npc_findhero = true) {
         if (p_finduid(uid) = true) {

@@ -1,4 +1,4 @@
-[ai_queue3,farmer](int $arg)
+[ai_queue3,farmer]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

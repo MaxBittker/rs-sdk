@@ -1,6 +1,6 @@
-[ai_queue3,soldier](int $arg) @yanille_soldier_tower_guard;
-[ai_queue3,tower_guard](int $arg) @yanille_soldier_tower_guard;
-[ai_queue3,colonel_radick](int $arg) @yanille_soldier_tower_guard;
+[ai_queue3,soldier] @yanille_soldier_tower_guard;
+[ai_queue3,tower_guard] @yanille_soldier_tower_guard;
+[ai_queue3,colonel_radick] @yanille_soldier_tower_guard;
 
 [label,yanille_soldier_tower_guard]
 gosub(npc_death);

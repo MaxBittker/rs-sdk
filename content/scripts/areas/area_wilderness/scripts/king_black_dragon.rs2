@@ -1,6 +1,6 @@
-[ai_queue1,king_black_dragon](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,king_black_dragon] ~npc_default_retaliate_ap;
 
-[ai_queue3,king_black_dragon](int $arg)
+[ai_queue3,king_black_dragon]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

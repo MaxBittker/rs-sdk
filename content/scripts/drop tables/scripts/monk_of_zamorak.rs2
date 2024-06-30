@@ -1,4 +1,4 @@
-[ai_queue3,_monk_of_zamorak](int $arg)
+[ai_queue3,_monk_of_zamorak]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

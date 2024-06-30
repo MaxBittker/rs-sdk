@@ -1,6 +1,6 @@
-[ai_queue1,_](int $arg) gosub(npc_default_retaliate);
-[ai_queue2,_](int $damage) ~npc_default_damage($damage);
-[ai_queue3,_](int $arg) gosub(npc_default_death);
+[ai_queue1,_] gosub(npc_default_retaliate);
+[ai_queue2,_] ~npc_default_damage(last_int);
+[ai_queue3,_] gosub(npc_default_death);
 [ai_opplayer2,_] gosub(npc_default_attack);
 
 // a default melee retaliate script.

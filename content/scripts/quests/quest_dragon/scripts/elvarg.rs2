@@ -1,5 +1,5 @@
 // death
-[ai_queue3,elvarg](int $arg)
+[ai_queue3,elvarg]
 gosub(npc_death);
 // requires kill credit? https://youtu.be/6ZU7EIZcU4o?list=PLn23LiLYLb1aqrojPTi1_Np81LJku2Nd0&t=141
 if (npc_findhero = false) {
@@ -13,7 +13,7 @@ if (%dragon_progress < ^dragon_complete) {
     queue(dragon_complete, 0);
 }
 
-[ai_queue1,elvarg](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,elvarg] ~npc_default_retaliate_ap;
 
 // https://twitter.com/JagexAsh/status/1756992041777561878
 // "AP -> OP: 1/2, subject to a line-of-walk check.

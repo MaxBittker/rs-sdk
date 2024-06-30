@@ -2,7 +2,7 @@
 // These videos however are always insta react. 1t mustve been an osrs change later.
 // https://youtu.be/D8VG03tRR1w?t=60
 // https://youtu.be/cjmEFliibGI
-[ai_queue1,alkharid_warrior](int $arg)
+[ai_queue1,alkharid_warrior]
 def_npc_mode $npc_mode = npc_getmode;
 ~npc_default_retaliate;
 if (finduid(%npc_attacking_uid) = true & $npc_mode ! opplayer2) { // in osrs it checks mode rather than ~npc_out_of_combat

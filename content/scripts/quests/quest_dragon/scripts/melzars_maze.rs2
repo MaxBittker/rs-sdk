@@ -64,7 +64,7 @@ mes("The ladder is broken, I can't climb it."); // osrs
 }
 
 // rat
-[ai_queue3,melzar_maze_giant_rat](int $arg)
+[ai_queue3,melzar_maze_giant_rat]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
@@ -76,7 +76,7 @@ obj_add(npc_coord, maze_key_red, 1, ^lootdrop_duration);
 
 
 // ghost
-[ai_queue3,melzar_maze_ghost](int $arg)
+[ai_queue3,melzar_maze_ghost]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
@@ -86,7 +86,7 @@ obj_add(npc_coord, maze_key_orange, 1, ^lootdrop_duration);
 
 
 // skeleton
-[ai_queue3,melzar_maze_skeleton](int $arg)
+[ai_queue3,melzar_maze_skeleton]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
@@ -98,7 +98,7 @@ obj_add(npc_coord, maze_key_yellow, 1, ^lootdrop_duration);
 
 
 // zombie
-[ai_queue3,melzar_maze_zombie](int $arg)
+[ai_queue3,melzar_maze_zombie]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
@@ -110,7 +110,7 @@ obj_add(npc_coord, maze_key_blue, 1, ^lootdrop_duration);
 
 
 // melzar
-[ai_queue3,melzar](int $arg)
+[ai_queue3,melzar]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
@@ -122,7 +122,7 @@ obj_add(npc_coord, maze_key_magenta, 1, ^lootdrop_duration);
 
 
 // lesser demon
-[ai_queue3,melzar_maze_lesser_demon](int $arg)
+[ai_queue3,melzar_maze_lesser_demon]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

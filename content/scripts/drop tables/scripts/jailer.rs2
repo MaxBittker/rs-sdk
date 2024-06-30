@@ -1,4 +1,4 @@
-[ai_queue3,jailer](int $arg)
+[ai_queue3,jailer]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

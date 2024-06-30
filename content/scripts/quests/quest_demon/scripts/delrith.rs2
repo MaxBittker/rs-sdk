@@ -1,11 +1,11 @@
 // Can kill delrith with magic as long as Silverlight is equipped, otherwise no message is sent when trying to attack
 // https://runescape.salmoneus.net/forums/topic/366965-cant-get-past-demon-slayer/
 
-[ai_queue3,delrith](int $arg)
-[ai_queue4,delrith](int $arg) gosub(npc_death);
+[ai_queue3,delrith]
+[ai_queue4,delrith] gosub(npc_death);
 
-[ai_queue2,delrith](int $damage)
-~npc_default_damage($damage);
+[ai_queue2,delrith]
+~npc_default_damage(last_int);
 if (npc_stat(hitpoints) = 0) {
     if (npc_findhero = true) {
         queue(delrith_death, 1);

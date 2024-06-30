@@ -1,4 +1,4 @@
-[ai_queue1,highwayman](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,highwayman] ~npc_default_retaliate_ap;
 
 [ai_applayer2,highwayman]
 npc_say("Stand and deliver!");

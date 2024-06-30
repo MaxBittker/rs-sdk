@@ -1,4 +1,4 @@
-[ai_queue3,_guard](int $arg)
+[ai_queue3,_guard]
 // https://www.youtube.com/watch?v=w7uD8RdQahs
 if(npc_findhero = true) {
     ~trail_checkmediumdrop;

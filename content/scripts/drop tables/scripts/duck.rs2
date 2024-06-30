@@ -1,5 +1,5 @@
 // https://oldschool.runescape.wiki/w/Duck
-[ai_queue3,_duck](int $arg)
+[ai_queue3,_duck]
 gosub(npc_death);
 npc_findallzone(npc_coord);
 while (npc_findnext = true) {

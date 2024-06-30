@@ -97,7 +97,7 @@ if(npc_finduid($npc) = true) {
 }
 queue(hazeelcult_quest_complete, 0);
 
-[ai_queue3,alomone](int $arg)
+[ai_queue3,alomone]
 gosub(npc_death);
 if(npc_findhero = true) {
     if_close;

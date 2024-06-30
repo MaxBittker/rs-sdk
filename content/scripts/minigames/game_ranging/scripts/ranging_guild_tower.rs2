@@ -49,44 +49,44 @@ p_arrivedelay;
 mes("You climb down the ladder.");
 p_telejump(0_41_53_43_37);
 
-[ai_queue1,tower_archer_north](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,tower_archer_north] ~npc_default_retaliate_ap;
 [ai_opplayer2,tower_archer_north] npc_setmode(applayer2);
 [ai_applayer2,tower_archer_north] ~npc_rangeattack;
 
-[ai_queue3,tower_archer_north](int $arg)
+[ai_queue3,tower_archer_north]
 ~fill_towers; // attempt to fill any empty towers, this happens before npc_death, probably so it doesn't fill the same tower as the archer
 gosub(npc_death);
 if(npc_find(npc_coord, tower_archer_north, 2, 0) = false) {
     if(npc_findexact(2_41_53_43_38, tower_advisor_north) = true) npc_say("The north tower is defeated! Hurray!");
 }
 
-[ai_queue1,tower_archer_east](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,tower_archer_east] ~npc_default_retaliate_ap;
 [ai_opplayer2,tower_archer_east] npc_setmode(applayer2);
 [ai_applayer2,tower_archer_east] ~npc_rangeattack;
 
-[ai_queue3,tower_archer_east](int $arg)
+[ai_queue3,tower_archer_east]
 ~fill_towers;
 gosub(npc_death);
 if(npc_find(npc_coord, tower_archer_east, 2, 0) = false) {
     if(npc_findexact(2_41_53_46_37, tower_advisor_east) = true) npc_say("The east tower is defeated! Hurray!");
 }
 
-[ai_queue1,tower_archer_south](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,tower_archer_south] ~npc_default_retaliate_ap;
 [ai_opplayer2,tower_archer_south] npc_setmode(applayer2);
 [ai_applayer2,tower_archer_south] ~npc_rangeattack;
 
-[ai_queue3,tower_archer_south](int $arg)
+[ai_queue3,tower_archer_south]
 ~fill_towers;
 gosub(npc_death);
 if(npc_find(npc_coord, tower_archer_south, 2, 0) = false) {
     if(npc_findexact(2_41_53_45_34, tower_advisor_south) = true) npc_say("The south tower is defeated! Hurray!");
 }
 
-[ai_queue1,tower_archer_west](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,tower_archer_west] ~npc_default_retaliate_ap;
 [ai_opplayer2,tower_archer_west] npc_setmode(applayer2);
 [ai_applayer2,tower_archer_west] ~npc_rangeattack;
 
-[ai_queue3,tower_archer_west](int $arg)
+[ai_queue3,tower_archer_west]
 ~fill_towers;
 gosub(npc_death);
 if(npc_find(npc_coord, tower_archer_south, 2, 0) = false) {

@@ -2,7 +2,7 @@
 // this can be pics, videos, forum posts, recounts, anything.
 
 // auto retaliate
-[ai_queue1,wizard_grayzag](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,wizard_grayzag] ~npc_default_retaliate_ap;
 
 
 [ai_applayer2,wizard_grayzag]

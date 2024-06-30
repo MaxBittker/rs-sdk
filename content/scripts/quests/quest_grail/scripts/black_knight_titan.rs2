@@ -7,7 +7,7 @@ switch_int(~p_choice2("Ok, have at ye oh evil knight!", 1, "Actually I think I'l
     case 2: ~chatplayer("<p,shock>Actually I think I'll run away!");
 }
 
-[ai_queue3,black_knight_titan](int $arg)
+[ai_queue3,black_knight_titan]
 if(npc_findhero = true) {
     if_close;
     if(p_finduid(uid) = true) { 

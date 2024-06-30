@@ -19,7 +19,7 @@ npc_delay(2);
 %aggressive_npc = npc_uid; // interupt the player if they're in combat https://youtu.be/tw66JWQzpD0?t=32
 npc_setmode(opplayer2);
 
-// [ai_queue1,_macro_event_rock_golem](int $arg) ~npc_default_retaliate_ap;
+// [ai_queue1,_macro_event_rock_golem] ~npc_default_retaliate_ap;
 // pretty sure these guys dont have an op attack // https://youtu.be/3SqlpJe90jE?list=PLn23LiLYLb1bQvSMxsNH6T0eM0nRU-5w0&t=139
 // edit: Actually they probably removed the op attack in this update (dec 2006). https://oldschool.runescape.wiki/w/Update:Treasure_Trails,_spiders_and_sheep
 // before then they only melee'd. Ill keep this here for now
@@ -72,7 +72,7 @@ if (~macro_event_lost = true) {
     return;
 }
 
-[ai_queue3,_macro_event_rock_golem](int $arg)
+[ai_queue3,_macro_event_rock_golem]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

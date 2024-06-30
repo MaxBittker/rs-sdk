@@ -1,8 +1,8 @@
 //https://oldschool.runescape.wiki/w/Goblin#drops
-[ai_queue3,goblin_unarmed1](int $arg) @goblin_drop_table; //lvl 2
-[ai_queue3,goblin_armed](int $arg) @goblin_drop_table; //lvl 5
-[ai_queue3,goblin_unarmed2](int $arg) @goblin_drop_table; //lvl 13
-[ai_queue3,goblin_guard](int $arg) @goblin_drop_table; // guard in observatory dungeon
+[ai_queue3,goblin_unarmed1] @goblin_drop_table; //lvl 2
+[ai_queue3,goblin_armed] @goblin_drop_table; //lvl 5
+[ai_queue3,goblin_unarmed2] @goblin_drop_table; //lvl 13
+[ai_queue3,goblin_guard] @goblin_drop_table; // guard in observatory dungeon
 
 [label,goblin_drop_table]
 
@@ -58,8 +58,8 @@ if ($dropint < 1) {
 }
 
 
-[ai_queue3,goblin_armed_green](int $arg) @goblin_village_drop_table; // Green
-[ai_queue3,goblin_armed_red](int $arg) @goblin_village_drop_table; // Red
+[ai_queue3,goblin_armed_green] @goblin_village_drop_table; // Green
+[ai_queue3,goblin_armed_red] @goblin_village_drop_table; // Red
 
 [label,goblin_village_drop_table]
 gosub(npc_death);

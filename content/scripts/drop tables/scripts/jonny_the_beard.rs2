@@ -1,6 +1,6 @@
 [opnpc1,jonny_the_beard] mes("Jonny the Beard is not interested in talking.");
 
-[ai_queue3,jonny_the_beard](int $arg)
+[ai_queue3,jonny_the_beard]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

@@ -298,7 +298,7 @@ if (db_getfield($spell_data, magic_spell_table:freeze_time, 0) > 0) {
 //     mes("Spell can continue by autocast");
 // }
 
-[ai_queue8,_](int $arg)
+[ai_queue8,_]
 if (map_clock < %npc_stunned) {
     npc_walk(npc_coord);
     npc_walktrigger(8, 0);

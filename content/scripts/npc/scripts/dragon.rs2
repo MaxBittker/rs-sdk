@@ -1,11 +1,11 @@
 // - edit: elvarg was reworked after the dragon slayer rework. So no ap
 // - im guessing dragons worked the same
-// [ai_queue1,green_dragon](int $arg) ~npc_default_retaliate_ap;
-// [ai_queue1,baby_dragon](int $arg) ~npc_default_retaliate_ap;
-// [ai_queue1,baby_blue_dragon](int $arg) ~npc_default_retaliate_ap;
-// [ai_queue1,red_dragon](int $arg) ~npc_default_retaliate_ap;
-// [ai_queue1,blue_dragon](int $arg) ~npc_default_retaliate_ap;
-// [ai_queue1,black_dragon](int $arg) ~npc_default_retaliate_ap;
+// [ai_queue1,green_dragon] ~npc_default_retaliate_ap;
+// [ai_queue1,baby_dragon] ~npc_default_retaliate_ap;
+// [ai_queue1,baby_blue_dragon] ~npc_default_retaliate_ap;
+// [ai_queue1,red_dragon] ~npc_default_retaliate_ap;
+// [ai_queue1,blue_dragon] ~npc_default_retaliate_ap;
+// [ai_queue1,black_dragon] ~npc_default_retaliate_ap;
 
 // [ai_applayer2,green_dragon] @dragon_ai_applayer2;
 // [ai_applayer2,baby_dragon] @dragon_ai_applayer2;

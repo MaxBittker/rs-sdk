@@ -1,4 +1,4 @@
-[ai_queue3,wormbrain](int $arg)
+[ai_queue3,wormbrain]
 // dies normally https://web.archive.org/web/20051129162804/http://runehq.com/RHQMonsterView.php?id=152
 gosub(npc_death);
 if (npc_findhero = false) {

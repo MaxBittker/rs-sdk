@@ -72,9 +72,9 @@ if(%arena_progress = 9) {
     ~chatnpc("<p,neutral>I've seen them in here, although they don't look up to much. My advice to you is to leave before you end up in a cell too.");
 }
 
-[ai_queue10,khazard_guard_cutscene](int $arg)
+[ai_queue10,khazard_guard_cutscene]
 npc_walk(0_40_49_39_5);
 npc_queue(11, 0, 7);
 
-[ai_queue11,khazard_guard_cutscene](int $arg)
+[ai_queue11,khazard_guard_cutscene]
 npc_say("Right you, move it.");

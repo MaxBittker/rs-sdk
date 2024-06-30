@@ -1,4 +1,4 @@
-[ai_queue3,zombie_entrana](int $arg)
+[ai_queue3,zombie_entrana]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
@@ -31,8 +31,8 @@ if ($dropint < 50) {
 // Nothing - 8/128
 
 // Unarmed Zombie
-[ai_queue3,npc_73](int $arg) @unarmed_zombie;
-[ai_queue3,npc_74](int $arg) @unarmed_zombie;
+[ai_queue3,npc_73] @unarmed_zombie;
+[ai_queue3,npc_74] @unarmed_zombie;
 
 [label,unarmed_zombie]
 gosub(npc_death);
@@ -80,7 +80,7 @@ if ($dropint < 4) {
 }
 
 // Armed Zombie
-[ai_queue3,npc_75](int $arg) @armed_zombie;
+[ai_queue3,npc_75] @armed_zombie;
 
 [label,armed_zombie]
 gosub(npc_death);

@@ -1,4 +1,4 @@
-[ai_queue3,lesser_demon](int $arg) @ai_queue3_lesser_demon;
+[ai_queue3,lesser_demon] @ai_queue3_lesser_demon;
 
 [label,ai_queue3_lesser_demon]
 gosub(npc_death);

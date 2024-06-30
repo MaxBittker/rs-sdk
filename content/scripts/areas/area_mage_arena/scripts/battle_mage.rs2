@@ -21,9 +21,9 @@ if (~inzone_coord_pair_table(mage_arena, coord) = true) {
 }
 @player_combat_start_ap;
 
-[ai_queue1,battle_mage_zamorak](int $arg) ~npc_default_retaliate_ap;
-[ai_queue1,battle_mage_saradomin](int $arg) ~npc_default_retaliate_ap;
-[ai_queue1,battle_mage_guthix](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,battle_mage_zamorak] ~npc_default_retaliate_ap;
+[ai_queue1,battle_mage_saradomin] ~npc_default_retaliate_ap;
+[ai_queue1,battle_mage_guthix] ~npc_default_retaliate_ap;
 
 // todo: have mages agro the player after they defeat the boss
 [ai_applayer2,battle_mage_zamorak]

@@ -1,5 +1,5 @@
 // https://oldschool.runescape.wiki/w/Cow#Drops
-[ai_queue3,_cow](int $arg)
+[ai_queue3,_cow]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

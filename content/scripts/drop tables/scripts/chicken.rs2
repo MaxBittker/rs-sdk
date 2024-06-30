@@ -1,5 +1,5 @@
 // https://oldschool.runescape.wiki/w/Chicken#Drops
-[ai_queue3,_chicken](int $arg)
+[ai_queue3,_chicken]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

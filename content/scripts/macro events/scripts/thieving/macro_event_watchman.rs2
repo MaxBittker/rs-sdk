@@ -41,7 +41,7 @@ if (~macro_event_lost = true) {
 // - https://web.archive.org/web/20040606142810/http://www.tip.it/runescape/index.php?page=rs2randon.htm
 // - https://web.archive.org/web/20051105212509/http://www.tip.it/runescape/index.php?rs2monster_id=217
 // - https://web.archive.org/web/20050210102631/http://runehq.com/viewMonster.php?id=212
-[ai_queue3,_macro_event_watchman](int $arg)
+[ai_queue3,_macro_event_watchman]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

@@ -4,12 +4,12 @@
 ~chatnpc("<p,angry>Have at thee knave!!!");
 ~npc_retaliate(0);
 
-[ai_queue3,sir_mordred](int $arg)
+[ai_queue3,sir_mordred]
 if (npc_findhero = true & %arthur_progress >= ^arthur_spoken_lancelot & %arthur_progress < ^arthur_complete) {
     @lefaye_spare_son;
 } 
 gosub(npc_default_death);
-[ai_queue4,sir_mordred](int $arg) gosub(npc_default_death);
+[ai_queue4,sir_mordred] gosub(npc_default_death);
 
 [label,lefaye_spare_son]
 if_close;

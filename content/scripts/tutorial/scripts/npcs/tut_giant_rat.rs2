@@ -1,7 +1,7 @@
-[ai_queue1,tut_giant_rat](int $arg) gosub(npc_default_retaliate);
+[ai_queue1,tut_giant_rat] gosub(npc_default_retaliate);
 
 // death
-[ai_queue3,tut_giant_rat](int $arg)
+[ai_queue3,tut_giant_rat]
 gosub(npc_death);
 if (npc_findhero = true) {
     obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);

@@ -27,7 +27,7 @@ if (~macro_event_lost = true) {
     return;
 }
 
-[ai_queue3,_macro_event_zombie](int $arg)
+[ai_queue3,_macro_event_zombie]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

@@ -1,6 +1,6 @@
 // Note: none of these seem to be aggressive, but they will aggro you if you try taking the ball
 // (before defeating it once) or after killing the previous form, the next form will opplayer2
-[ai_queue3,witches_experiment_p1](int $arg)
+[ai_queue3,witches_experiment_p1]
 npc_del;
 if(npc_findhero = false) {
     return;
@@ -11,7 +11,7 @@ npc_setmode(opplayer2);
 mes("The shapeshifters' body begins to deform!");
 mes("The shapeshifter turns into a spider!");
 
-[ai_queue3,witches_experiment_p2](int $arg)
+[ai_queue3,witches_experiment_p2]
 npc_del;
 if(npc_findhero = false) {
     return;
@@ -22,7 +22,7 @@ npc_setmode(opplayer2);
 mes("The shapeshifters' body begins to twist!");
 mes("The shapeshifter turns into a bear!");
 
-[ai_queue3,witches_experiment_p3](int $arg)
+[ai_queue3,witches_experiment_p3]
 npc_del;
 if(npc_findhero = false) {
     return;
@@ -33,7 +33,7 @@ npc_setmode(opplayer2);
 mes("The shapeshifters' body pulses!");
 mes("The shapeshifter turns into a wolf!");
 
-[ai_queue3,witches_experiment_p4](int $arg)
+[ai_queue3,witches_experiment_p4]
 gosub(npc_death);
 if(npc_findhero = true) { // this doesn't if_close or strongqueue, just regular queue (confirmed on osrs)
     if(p_finduid(uid) = true) { // get protected access, if not then queue

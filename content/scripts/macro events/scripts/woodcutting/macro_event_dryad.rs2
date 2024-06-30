@@ -25,7 +25,7 @@ if (finduid(%npc_attacking_uid) = false) {
     return;
 }
 
-[ai_queue3,_macro_event_dryad](int $arg)
+[ai_queue3,_macro_event_dryad]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

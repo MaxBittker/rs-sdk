@@ -1,5 +1,5 @@
-[ai_queue3,npc_178](int $arg) @black_knight_drops;
-[ai_queue3,npc_179](int $arg) @black_knight_drops;
+[ai_queue3,npc_178] @black_knight_drops;
+[ai_queue3,npc_179] @black_knight_drops;
 
 
 [label,black_knight_drops]

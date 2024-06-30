@@ -11,16 +11,16 @@
 [ai_opplayer2,kolodion_demon_form] ~npc_cast_spell(~random_range(^flames_of_zamorak, ^saradomin_strike), 5);
 
 
-[ai_queue1,kolodion_human_form](int $arg) ~npc_default_retaliate_ap;
-[ai_queue1,kolodion_ogre_form](int $arg) ~npc_default_retaliate_ap;
-[ai_queue1,kolodion_arachnid_form](int $arg) ~npc_default_retaliate_ap;
-[ai_queue1,kolodion_ethereal_form](int $arg) ~npc_default_retaliate_ap;
-[ai_queue1,kolodion_demon_form](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,kolodion_human_form] ~npc_default_retaliate_ap;
+[ai_queue1,kolodion_ogre_form] ~npc_default_retaliate_ap;
+[ai_queue1,kolodion_arachnid_form] ~npc_default_retaliate_ap;
+[ai_queue1,kolodion_ethereal_form] ~npc_default_retaliate_ap;
+[ai_queue1,kolodion_demon_form] ~npc_default_retaliate_ap;
 
 // newer vids do npc_changetype the whole way (buggy with big npc's): https://youtu.be/CKDo9p08iRI?list=PLn23LiLYLb1Y4vxMPWXM-CVEvOUfuAP_o 
 // Older vids use npc_del and npc_add the whole way?: https://youtu.be/mQmeH32PdNk?list=PLn23LiLYLb1Y4vxMPWXM-CVEvOUfuAP_o
 
-[ai_queue3,kolodion_human_form](int $arg)
+[ai_queue3,kolodion_human_form]
 if (npc_findhero = false) {
     // in osrs, if you dont have kill credit the npc dies and you dont advance
     // with the exception of the last stage, demon
@@ -45,7 +45,7 @@ npc_delay(1);
 npc_say("This is only the beginning; you can't beat me!");
 
 
-[ai_queue3,kolodion_ogre_form](int $arg)
+[ai_queue3,kolodion_ogre_form]
 if (npc_findhero = false) {
     gosub(npc_death);
     return;
@@ -68,7 +68,7 @@ npc_delay(1);
 npc_say("Foolish mortal; I am unstoppable.");
 
 
-[ai_queue3,kolodion_arachnid_form](int $arg)
+[ai_queue3,kolodion_arachnid_form]
 if (npc_findhero = false) {
     gosub(npc_death);
     return;
@@ -91,7 +91,7 @@ npc_delay(1);
 npc_say("Now you feel it... The dark energy.");
 
 
-[ai_queue3,kolodion_ethereal_form](int $arg)
+[ai_queue3,kolodion_ethereal_form]
 if (npc_findhero = false) {
     gosub(npc_death);
     return;
@@ -114,7 +114,7 @@ npc_delay(1);
 npc_say("Aaaaaaaarrgghhhh! The power!");
 
 
-[ai_queue3,kolodion_demon_form](int $arg)
+[ai_queue3,kolodion_demon_form]
 if (npc_findhero = false) {
     // no death anim
     return;

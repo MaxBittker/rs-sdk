@@ -1,8 +1,8 @@
 // https://oldschool.runescape.wiki/w/Man#Drops
-[ai_queue3,_citizen](int $arg) @man_drop_table;
-[ai_queue3,alkharid_warrior](int $arg) @man_drop_table;
-[ai_queue3,thief](int $arg) @man_drop_table;
-[ai_queue3,npc_282](int $arg) @man_drop_table;
+[ai_queue3,_citizen] @man_drop_table;
+[ai_queue3,alkharid_warrior] @man_drop_table;
+[ai_queue3,thief] @man_drop_table;
+[ai_queue3,npc_282] @man_drop_table;
 
 [label,man_drop_table]
 gosub(npc_death);

@@ -1,5 +1,5 @@
-[ai_queue3,npc_90](int $arg) @skeleton_unarmed;
-[ai_queue3,npc_91](int $arg) @skeleton_unarmed;
+[ai_queue3,npc_90] @skeleton_unarmed;
+[ai_queue3,npc_91] @skeleton_unarmed;
 
 [label,skeleton_unarmed]
 gosub(npc_death);
@@ -57,8 +57,8 @@ if ($random < 7) {
     obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
 }
 
-[ai_queue3,npc_92](int $arg) @skeleton_armed;
-[ai_queue3,npc_93](int $arg) @skeleton_armed;
+[ai_queue3,npc_92] @skeleton_armed;
+[ai_queue3,npc_93] @skeleton_armed;
 
 [label,skeleton_armed]
 gosub(npc_death);

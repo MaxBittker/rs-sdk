@@ -1,5 +1,5 @@
 // auto retaliate
-[ai_queue1,melzar](int $arg) ~npc_default_retaliate_ap;
+[ai_queue1,melzar] ~npc_default_retaliate_ap;
 
 
 // his ap attacks dont have the curse spell. It is replaced with the zap spell

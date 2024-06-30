@@ -21,7 +21,7 @@ switch_int(%tree_progress) {
 }
 ~npc_retaliate(0);
 
-[ai_queue3,khazard_warlord](int $arg)
+[ai_queue3,khazard_warlord]
 gosub(npc_death);
 if(npc_findhero = true) {
     if_close;

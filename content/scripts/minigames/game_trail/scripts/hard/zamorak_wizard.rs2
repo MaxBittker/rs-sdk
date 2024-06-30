@@ -4,9 +4,9 @@
 [ai_opplayer2,zamorak_wizard]
 ~npc_cast_spell(^flames_of_zamorak, 5);
 
-[ai_queue1,zamorak_wizard](int $arg) gosub(npc_default_retaliate_ap);
+[ai_queue1,zamorak_wizard] gosub(npc_default_retaliate_ap);
 
-[ai_queue3,zamorak_wizard](int $arg)
+[ai_queue3,zamorak_wizard]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

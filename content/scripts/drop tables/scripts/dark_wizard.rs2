@@ -1,4 +1,4 @@
-[ai_queue3,dark_wizard_earth](int $arg) // Level 20
+[ai_queue3,dark_wizard_earth] // Level 20
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
@@ -70,7 +70,7 @@ if ($random < 4) {
     obj_add(npc_coord, fire_talisman, 1, ^lootdrop_duration);
 }
 
-[ai_queue3,dark_wizard_water](int $arg) // Level 7
+[ai_queue3,dark_wizard_water] // Level 7
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
