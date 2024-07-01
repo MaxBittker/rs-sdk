@@ -1496,14 +1496,17 @@ export default class Player extends PathingEntity {
         }
     }
 
-    playAnimation(seq: number, delay: number) {
-        if (seq >= SeqType.count) {
+    playAnimation(anim: number, delay: number) {
+        if (anim < 0 || anim >= SeqType.count) {
+            // client would hard crash
             return;
         }
 
-        this.animId = seq;
-        this.animDelay = delay;
-        this.mask |= Player.ANIM;
+        if (anim == -1 || this.animId == -1 || SeqType.get(anim).priority >= SeqType.get(this.animId).priority) {
+            this.animId = anim;
+            this.animDelay = delay;
+            this.mask |= Player.ANIM;
+        }
     }
 
     spotanim(spotanim: number, height: number, delay: number) {

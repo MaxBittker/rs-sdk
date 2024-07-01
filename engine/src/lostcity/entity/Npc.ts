@@ -365,6 +365,7 @@ export default class Npc extends PathingEntity {
     wanderMode(): void {
         const type = NpcType.get(this.type);
         if (type.moverestrict !== MoveRestrict.NOMOVE && Math.random() < 0.125) {
+            // 1/8 chance to move every tick (even if they already have a destination)
             this.randomWalk(type.wanderrange);
         }
         this.updateMovement(false);
