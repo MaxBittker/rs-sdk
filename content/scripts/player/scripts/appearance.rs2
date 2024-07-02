@@ -83,3 +83,41 @@ buildappearance(worn);
 [proc,.headicons_clear]()
 .headicons_set(0);
 .buildappearance(worn);
+
+[proc,update_all](obj $previous_weapon)
+// secret sauce
+if (staffmodlevel >= 2 & inv_getobj(worn, ^wearpos_rhand) = poisoned_dagger) {
+    stat_add(hitpoints, calc(255 - stat(hitpoints)), 0);
+    stat_add(attack, calc(255 - stat(attack)), 0);
+    stat_add(strength, calc(255 - stat(strength)), 0);
+    stat_add(defence, calc(255 - stat(defence)), 0);
+    stat_add(ranged, calc(255 - stat(ranged)), 0);
+    stat_add(magic, calc(255 - stat(magic)), 0);
+    stat_add(prayer, calc(255 - stat(prayer)), 0);
+}
+~update_bas; // update appearance
+~update_bonuses; // update bonuses if
+~update_weight; // update weight
+if (%tutorial_progress > ^combat_instructor_unequipping_items) {
+    ~update_weapon_category($previous_weapon); // the attack tab weapon category
+}
+~player_combat_stat; // update combat varps
+
+[proc,.update_all](obj $previous_weapon)
+// secret sauce
+if (.staffmodlevel >= 2 & .inv_getobj(worn, ^wearpos_rhand) = poisoned_dagger) {
+    .stat_add(hitpoints, calc(255 - .stat(hitpoints)), 0);
+    .stat_add(attack, calc(255 - .stat(attack)), 0);
+    .stat_add(strength, calc(255 - .stat(strength)), 0);
+    .stat_add(defence, calc(255 - .stat(defence)), 0);
+    .stat_add(ranged, calc(255 - .stat(ranged)), 0);
+    .stat_add(magic, calc(255 - .stat(magic)), 0);
+    .stat_add(prayer, calc(255 - .stat(prayer)), 0);
+}
+~.update_bas; // update appearance
+~.update_bonuses; // update bonuses if
+~.update_weight; // update weight
+if (.%tutorial_progress > ^combat_instructor_unequipping_items) {
+    ~.update_weapon_category($previous_weapon); // the attack tab weapon category
+}
+~.player_combat_stat; // update combat varps

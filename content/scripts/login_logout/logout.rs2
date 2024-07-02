@@ -1,9 +1,3 @@
-[if_button,logout:try_logout]
-if_close;
-if (p_finduid(uid) = true) {
-    p_logout;
-}
-
 [logout,_]()(boolean)
 if (busy = true) {
     return(false);
@@ -38,3 +32,9 @@ if (%tradepartner ! null) {
 ~set_antipoison_logout;
 
 return(true);
+
+[if_button,logout:try_logout]
+if_close;
+if (p_finduid(uid) = true) {
+    p_logout;
+}
