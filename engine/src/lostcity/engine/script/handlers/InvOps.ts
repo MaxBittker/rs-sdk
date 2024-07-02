@@ -314,7 +314,7 @@ const InvOps: CommandHandlers = {
             throw new Error('inv is null');
         }
 
-        // we're going to assume the content has made sure thiseration will go as expected
+        // we're going to assume the content has made sure this will go as expected
         for (let slot = 0; slot < fromInv.capacity; slot++) {
             const obj = fromInv.get(slot);
             if (!obj) {
@@ -323,9 +323,10 @@ const InvOps: CommandHandlers = {
 
             fromInv.delete(slot);
             toInv.add(obj.id, obj.count);
-        }
 
-        // todo: update run weights
+            fromPlayer.playerLog('Gave ' + ObjType.get(obj.id).name + ' x' + obj.count + ' during trade with ' + toPlayer.username);
+            toPlayer.playerLog('Received ' + ObjType.get(obj.id).name + ' x' + obj.count + ' during trade with ' + fromPlayer.username);
+        }
     }),
 
     // inv write
