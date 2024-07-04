@@ -43,4 +43,6 @@ export default {
 
     JMODS: tryParseArray(process.env.JMODS?.split(','), ['pazaz']),
     CLIENT_PATHFINDER: tryParseBoolean(process.env.CLIENT_PATHFINDER, true),
+
+    NO_SOCKET_TIMEOUT: tryParseBoolean(process.env.NO_SOCKET_TIMEOUT, false),
 };

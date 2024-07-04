@@ -49,7 +49,6 @@ export class NetworkPlayer extends Player {
     }
 
     decodeIn() {
-        // this.lastResponse = World.currentTick; // use to keep headless players in the world
         if (this.client === null || this.client.inOffset < 1) {
             return;
         }

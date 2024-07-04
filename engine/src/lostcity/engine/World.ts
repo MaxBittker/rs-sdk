@@ -580,7 +580,7 @@ class World {
                 if (this.shutdownTick < this.currentTick) {
                     // request logout on socket idle after 45 seconds (this may be 16 *ticks* in osrs!)
                     // increased timeout for compatibility with old PCs that take ages to load
-                    if (!Environment.LOCAL_DEV && this.currentTick - player.lastResponse >= 75) {
+                    if (!Environment.NO_SOCKET_TIMEOUT && this.currentTick - player.lastResponse >= 75) {
                         player.logoutRequested = true;
                     }
                 }
@@ -598,7 +598,7 @@ class World {
         // player logout
         let playerLogout = Date.now();
         for (const player of this.players) {
-            if (!Environment.LOCAL_DEV && this.currentTick - player.lastResponse >= 100) {
+            if (!Environment.NO_SOCKET_TIMEOUT && this.currentTick - player.lastResponse >= 100) {
                 // remove after 60 seconds
                 player.queue.clear();
                 player.weakQueue.clear();
