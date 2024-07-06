@@ -11,12 +11,13 @@ if (stat(fishing) < 20) {
 if (~check_fish_equipment(fly_fishing_rod) = false) {
     return;
 }
-%skill_anim = calc(%skill_anim + 1);
 if (%action_delay < map_clock) {
     %action_delay = calc(map_clock + 4);
 }
 if (%skill_anim < map_clock) {
     //mes("<tostring(map_clock)>, <tostring(%action_delay)>, <tostring(%skill_anim)>: Start ANIM"); // debug
+    anim(human_fishing_casting, 0);
+    sound_synth(fishing_cast, 0, 39);
     %skill_anim = calc(map_clock + 5);
 }
 mes("You cast out your line...");
@@ -40,8 +41,8 @@ if (inv_freespace(inv) = 0) {
     return;
 }
 if (%skill_anim = calc(map_clock + 4)) {
-    anim(human_fishing_casting, 0);
-    sound_synth(fishing_cast, 0, 39);
+    // anim(human_fishing_casting, 0);
+    // sound_synth(fishing_cast, 0, 39);
     mes("You attempt to catch a fish.");
 }
 if (%action_delay < map_clock) {
@@ -53,7 +54,6 @@ if (%action_delay = map_clock) {
     } else {
         ~fish_roll_waterfall(raw_trout, null, feather);
     }
-    %skill_anim = calc(map_clock - 1);
     anim(human_fish_onspot, 0);
     p_oploc(3);
 }
@@ -71,11 +71,12 @@ if (stat(fishing) < 25) {
 if (~check_fish_equipment(fishing_rod) = false) {
     return;
 }
-%skill_anim = calc(%skill_anim + 1);
 if (%action_delay < map_clock) {
     %action_delay = calc(map_clock + 5);
 }
-if (%skill_anim < map_clock) {
+if (%skill_anim < map_clock) { // spam clicking in osrs always plays anim
+    anim(human_fishing_casting, 0);
+    sound_synth(fishing_cast, 0, 39);
     %skill_anim = calc(map_clock + 5);
 }
 mes("You cast out your line...");
@@ -99,15 +100,14 @@ if (inv_freespace(inv) = 0) {
     return;
 }
 if (%skill_anim = calc(map_clock + 4)) {
-    anim(human_fishing_casting, 0);
-    sound_synth(fishing_cast, 0, 39);
+    // anim(human_fishing_casting, 0);
+    // sound_synth(fishing_cast, 0, 39);
     mes("You attempt to catch a fish.");
 }
 if (%action_delay < map_clock) {
     %action_delay = calc(map_clock + 4);
 }
 if (%action_delay = map_clock) {
-    %skill_anim = calc(map_clock - 1);
     ~fish_roll_waterfall(raw_pike, null, fishing_bait);
     if (randominc(5) = 5) { // 1/5 chance to recast
         //mes("<tostring(map_clock)>: Recast.");

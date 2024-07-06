@@ -204,13 +204,18 @@ if (stat_random($level, 1, 2) = true) {
     givexp(fishing, 100);
 }
 // cod
+if ($level < 23) {
+    return;
+}
 if (stat_random($level, 4, 55) = true) {
     inv_add(inv, raw_cod, 1);
     mes("You catch a cod.");
     givexp(fishing, 450);
 }
 // bass
-
+if ($level < 46) {
+    return;
+}
 if (stat_random($level, 3, 40) = true) {
     inv_add(inv, raw_bass, 1);
     mes("You catch a bass.");
