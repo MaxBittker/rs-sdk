@@ -35,7 +35,7 @@ if(stat(agility) < 20) {
     return;
 }
 mes("You walk carefully across the slippery log...");
-~set_bas(human_walk_logbalance);
+~set_walkbas(human_walk_logbalance);
 p_teleport(loc_coord);
 p_delay(0);
 def_int $z_dist = -4;

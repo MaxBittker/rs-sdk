@@ -178,14 +178,14 @@ if(coordz(coord) <= coordz(loc_coord)) {
     return;
 }
 mes("It looks like a long distance, but you swim out into the water.");
-~set_bas(human_swim);
+~set_walkbas(human_swim);
 p_walk(movecoord(loc_coord, 0, 0, 8));
 p_delay(0);
 p_teleport(movecoord(loc_coord, 0, 0, 7));
 spotanim_map(watersplash, coord, 0, 0);
 p_delay(0);
 ~agility_force_move(0, human_swim, movecoord(loc_coord, 0, 0, 4));
-~set_bas(human_drowning);
+~set_walkbas(human_drowning);
 mes("The current is too strong, you feel yourself being pulled under");
 p_delay(3);
 ~update_bas;
@@ -203,8 +203,8 @@ if(coordz(coord) <= coordz(loc_coord)) {
     return;
 }
 def_coord $rock_coord = loc_coord;
-~forcewalk(movecoord($rock_coord, 0, 0, 8)); // respects movespeed setting (will delay player)
-p_delay(0);
+~forcewalk(movecoord($rock_coord, 0, 0, 8)); 
+p_arrivedelay;
 anim(seq_774, 0);
 spotanim_map(spotanim_67, movecoord($rock_coord, 0, 0, 6), 0, 20);
 p_delay(1);
@@ -269,7 +269,8 @@ p_teleport(0_39_54_15_7);
 [oploc1,loc_2022]
 mes("You climb in the barrel and start rocking.");
 p_delay(1);
-mes("The barrel falls off the ledge.");
+// https://www.youtube.com/watch?v=D0aQvB7KG-U&t=36s
+mes("The barrel falls of the ledge.");
 p_delay(1);
 p_teleport(^waterfall_fail_coord);
 
@@ -425,12 +426,12 @@ if(%waterfall_progress = ^waterfall_complete) {
 mes("You hear the gushing of water.");
 p_delay(2);
 mes("Water floods into the cavern.");
-~set_bas(human_drowning);
+~set_walkbas(human_drowning);
 p_teleport(0_39_154_43_58);
 p_delay(0);
 ~agility_force_move(0, human_drowning, movecoord(coord, 0, 0, -2));
 ~agility_force_move(0, human_drowning, movecoord(coord, 1, 0, -1));
-~set_bas(seq_528);
+~set_walkbas(seq_528);
 p_delay(9);
 ~update_bas;
 mes("You are washed downstream but feel lucky to be alive.");

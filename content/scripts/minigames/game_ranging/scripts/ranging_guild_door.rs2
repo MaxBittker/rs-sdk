@@ -1,7 +1,7 @@
 [oploc1,loc_2514]
 if(coordx(coord) > coordx(loc_coord) | coordz(coord) < coordz(loc_coord)) {
     sound_synth(door_open, 0, 0); // gate_open 
-    ~forcewalk(movecoord(loc_coord, 1, 0, -1));
+    ~forcemove(movecoord(loc_coord, 1, 0, -1));
     def_int $x;
     def_int $z;
     def_coord $loc_coord = loc_coord;
@@ -20,7 +20,7 @@ if(stat(ranged) < 40) { // TODO: check if requirement is enforced from inside as
     return;
 }
 sound_synth(door_open, 0, 0);
-~forcewalk(movecoord(loc_coord, -1, 0, 1));
+~forcemove(movecoord(loc_coord, -1, 0, 1));
 def_int $x;
 def_int $z;
 def_coord $loc_coord = loc_coord;

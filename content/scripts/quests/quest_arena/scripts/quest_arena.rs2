@@ -123,7 +123,7 @@ if(coordx(coord) > coordx(loc_coord) | coordz(coord) < coordz(loc_coord)) {
             @ogre_attack_justin;
         case default:
             sound_synth(door_open, 0, 0);
-            ~forcewalk(0_40_49_45_17);
+            ~forcemove(0_40_49_45_17);
             def_int $x;
             def_int $z;
             def_coord $loc_coord = loc_coord;
@@ -173,7 +173,7 @@ if (%arena_progress = ^arena_entered_ogre_fight & npc_find(coord, jeremy_servil_
 
 [label,open_arena_door]
 sound_synth(door_open, 0, 0);
-~forcewalk(0_40_49_47_15);
+~forcemove(0_40_49_47_15);
 def_int $x;
 def_int $z;
 def_coord $loc_coord = loc_coord;
