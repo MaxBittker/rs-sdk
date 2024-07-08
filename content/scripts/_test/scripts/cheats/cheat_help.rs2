@@ -9,7 +9,7 @@ if (p_finduid(uid) = true) {
     ~mesbox("@blu@Client commands|@whi@::debug@bla@ - Toggles the debug overlay|@whi@::chat@bla@ - Switches the chat font-era|@whi@::perf@bla@ - Show FPS");
 
     // Content
-    ~mesbox("@blu@Content testing|@whi@::reset@bla@ - Reset your progress|@whi@::minlevel@bla@ - Set all your stats to level 1|@whi@::maxme@bla@ - Set all your stats to level 99|@whi@::setstat@bla@ - Set a stat to a specific level");
+    ~mesbox("@blu@Content testing|@whi@::reset@bla@ - Reset your progress|@whi@::minme@bla@ - Set all your stats to level 1|@whi@::maxme@bla@ - Set all your stats to level 99|@whi@::setstat@bla@ - Set a stat to a specific level");
     ~mesbox("@blu@Content testing|@whi@::addxp@bla@ - Add XP to a skill|@whi@::setxp@bla@ - Set your XP in a skill");
     ~mesbox("@blu@Content testing|@whi@::bank@bla@ - Open your bank anywhere|@whi@::bank_preset@bla@ - Fill your bank with common items|@whi@::clearinv@bla@ - Clear a named inventory|@whi@::give@bla@ - Give yourself any item");
     ~mesbox("@blu@Content testing|@whi@::1hp@bla@ - Set your health to 1|@whi@::foodbank@bla@ - Fill your bank with food|@whi@::energy@bla@ - Restore your run energy");

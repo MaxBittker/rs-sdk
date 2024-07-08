@@ -6,7 +6,7 @@ if (p_finduid(uid) = true) {
         return;
     }
 
-    ~mesbox("Use '::minlevel' to reset your stats after you log back in.");
+    ~mesbox("Use '::minme' to reset your stats after you log back in.");
 
     inv_clear(bank);
     inv_clear(inv);
