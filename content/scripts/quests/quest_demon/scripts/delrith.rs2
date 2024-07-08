@@ -97,7 +97,6 @@ if (npc_find(coord, weakened_delrith, 8, 0) = true) {
 // Everything below here is a guess. This is set up so if a player doesn't kill weakened delrith he becomes
 // Regular delrith again after a minute.
 [ai_timer,weakened_delrith]
-npc_settimer(100); // We'll set it to 1 minute to swap back
 npc_changetype(delrith);
 npc_statheal(hitpoints, npc_basestat(hitpoints), 0);
 npc_setmode(none);

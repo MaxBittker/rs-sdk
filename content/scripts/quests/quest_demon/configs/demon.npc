@@ -41,7 +41,6 @@ model1=model_2943_npc
 model2=model_3019_npc
 wanderrange=0
 moverestrict=nomove
-// timer in npc config doesn't seem to work
-// timer=100
+timer=100
 param=death_anim,delrith_banish
 param=death_sound,demon_death
