@@ -118,7 +118,8 @@ class Login {
                     return;
                 }
 
-                if (!Environment.NODE_PRODUCTION) {
+                if (!Environment.LOGIN_KEY) {
+                    // running without a login server
                     for (const player of World.players) {
                         if (player.username === username) {
                             client.writeImmediate(LoginResponse.LOGGED_IN);

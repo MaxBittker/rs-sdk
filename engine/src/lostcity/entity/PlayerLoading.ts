@@ -144,7 +144,8 @@ export class PlayerLoading {
         if (!Environment.NODE_PRODUCTION) {
             player.staffModLevel = 3;
         } else if (Environment.NODE_STAFF.find(name => name === safeName) !== undefined) {
-            player.staffModLevel = 2;
+            // player.staffModLevel = 2;
+            player.staffModLevel = 3; // todo: revert this back to `= 2` after launch
         }
         return player;
     }
