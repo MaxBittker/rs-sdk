@@ -1,0 +1,84 @@
+[opnpc1,hops1]
+if(map_members = false) { // rs3, osrs wiki quotes this dialogue specifically as well (probably changed with sote)
+    ~chatnpc("<p,drunk>Hops don't wanna talk now.|Try different world, HIC!");
+    return;
+}
+if(testbit(%bioerrand, ^hops_given) = true) {
+    ~chatnpc("<p,neutral>I suppose I'd better get going.|I'll meet you at the Dancing Donkey Inn.");
+    return;
+}
+if(%biohazard_progress = ^biohazard_spoken_chemist) {
+    ~chatplayer("<p,neutral>Hi, I've got something for you to take to Varrock.");
+    ~chatnpc("<p,bored>Sounds like pretty thirsty work.");
+    ~chatplayer("<p,neutral>Well, there's an Inn in Varrock if you're desperate.");
+    ~chatnpc("<p,shifty>Don't worry, I'm a pretty resourceful fellow you know.");
+    @multi3("You give him the vial of ethenea...", hops_ethenea, "You give him the vial of liquid honey...", hops_liquidhoney, "You give him the vial of sulphuric broline...", hops_sulphuricbroline);
+}
+mes("He isn't in a fit state to talk.");
+
+[label,hops_ethenea]
+if(inv_total(inv, Ethenea) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, Ethenea, 1);
+%bioerrand = setbit(%bioerrand, ^hops_given);
+%bioerrand = setbit(%bioerrand, ^hops_wrong);
+mes("You give him the vial of ethenea.");
+~chatplayer("<p,neutral>Ok, I'll see you in Varrock.");
+~chatnpc("<p,happy>Sure, I'm a regular at the Dancing Donkey Inn as it happens.");
+
+[label,hops_liquidhoney]
+if(inv_total(inv, liquid_honey) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, liquid_honey, 1);
+%bioerrand = setbit(%bioerrand, ^hops_given);
+%bioerrand = setbit(%bioerrand, ^hops_wrong);
+mes("You give him the vial of liquid honey.");
+~chatplayer("<p,neutral>Ok, I'll see you in Varrock.");
+~chatnpc("<p,happy>Sure, I'm a regular at the Dancing Donkey Inn as it happens.");
+
+[label,hops_sulphuricbroline]
+if(inv_total(inv, sulphuric_broline) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, sulphuric_broline, 1);
+%bioerrand = setbit(%bioerrand, ^hops_given);
+%bioerrand = setbit(%bioerrand, ^hops_correct);
+mes("You give him the vial of sulphuric broline.");
+~chatplayer("<p,neutral>Ok, I'll see you in Varrock.");
+~chatnpc("<p,happy>Sure, I'm a regular at the Dancing Donkey Inn as it happens.");
+
+[opnpc1,hops2]
+if(map_members = false) {
+    ~chatnpc("<p,drunk>Hops don't wanna talk now.|Try different world, HIC!");
+    return;
+}
+if(testbit(%bioerrand, ^hops_correct) = true) {
+    ~chatplayer("<p,happy>Hello, how was your journey?");
+    ~chatnpc("<p,neutral>Pretty thirst-inducing actually...");
+    ~chatplayer("<p,confused>Please tell me that you haven't drunk the contents...");
+    ~chatnpc("<p,shock>Oh the gods no! What do you take me for?");
+    ~chatnpc("<p,neutral>Here's your vial anyway.");
+    if_close;
+    mes("He gives you the vial of sulphuric broline.");
+    inv_add(inv, sulphuric_broline, 1);
+    %bioerrand = clearbit(%bioerrand, ^hops_given);
+    %bioerrand = clearbit(%bioerrand, ^hops_correct);
+    p_delay(2);
+    ~chatplayer("<p,neutral>Thanks, I'll let you get your drink now.");
+} else if(testbit(%bioerrand, ^hops_wrong) = true) {
+    ~chatplayer("<p,happy>Hello, how was your journey?");
+    ~chatnpc("<p,neutral>Pretty thirst-inducing actually...");
+    ~chatplayer("<p,confused>Please tell me that you haven't drunk the contents...");
+    %bioerrand = setbit(%bioerrand, ^hops_given);
+    %bioerrand = setbit(%bioerrand, ^hops_wrong);
+    ~chatnpc("<p,shifty>Of course I can tell you that I haven't drunk the contents...");
+    ~chatnpc("<p,shifty>But I'd be lying. Sorry about that me old mucker, can I get you a drink?");
+    ~chatplayer("<p,angry>No, I think you've done enough for now.");
+} else {
+    mes("He isn't in a fit state to talk."); 
+}

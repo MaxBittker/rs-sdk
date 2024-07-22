@@ -1,0 +1,90 @@
+// https://runescape.wiki/images/Runescript.png?e2d41, rs^devinci_correct(?) version of the script
+// based off usage in snippet i'm assuming bits 1-3 for correct vial given, 4-7 used to represent if a vial has been given, 7-9 for wrong vials
+[opnpc1,Artist1]
+if(map_members = false) {
+    ~chatnpc("<p,angry>Bah! A great artist such as myself should not have to suffer the HUMILIATION of spending time on these dreadful worlds where non-members wander everywhere!");
+    return;
+}
+if(testbit(%bioerrand, ^devinci_given) = true) {
+    ~chatnpc("<p,neutral>Oh, it's you again.|Please don't distract me now, I'm contemplating the sublime.");
+    return;
+}
+if(%biohazard_progress = ^biohazard_spoken_chemist) {
+    ~chatplayer("<p,neutral>Hello, I hear you're an errand boy for the chemist.");
+    ~chatnpc("<p,quiz>Well that's my job yes.|But I don't necessarily define my identity in such black and white terms.");
+    ~chatplayer("<p,neutral>Good for you.|Now can you take a vial to Varrock for me?");
+    ~chatnpc("<p,shifty>Go on then.");
+    @multi3("You give him the vial of ethenea...", devinci_ethenea, "You give him the vial of liquid honey...", devinci_liquidhoney, "You give him the vial of sulphuric broline...", devinci_sulphuricbroline);
+}
+mes("<nc_name(Artist1)> does not feel sufficiently moved to talk.");
+
+[label,devinci_ethenea]
+if(inv_total(inv, Ethenea) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, Ethenea, 1);
+%bioerrand = setbit(%bioerrand, ^devinci_given);
+%bioerrand = setbit(%bioerrand, ^devinci_correct);
+mes("You give him the vial of ethenea.");
+// https://youtu.be/_ZNalEQB70o?si=Gez4-^devinci_wrongbZUYtSRbZd&t=8^devinci_wrong8, assuming the other 2 also have this typo
+~chatplayer("<p,neutral>Ok, we're meeting at the Dancing Donkey in Varrock right?.");
+~chatnpc("<p,happy>That's right.");
+
+[label,devinci_liquidhoney]
+if(inv_total(inv, liquid_honey) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, liquid_honey, 1);
+%bioerrand = setbit(%bioerrand, ^devinci_given);
+%bioerrand = setbit(%bioerrand, ^devinci_wrong);
+mes("You give him the vial of liquid honey.");
+~chatplayer("<p,neutral>Ok, we're meeting at the Dancing Donkey in Varrock right?.");
+~chatnpc("<p,happy>That's right.");
+
+[label,devinci_sulphuricbroline]
+if(inv_total(inv, sulphuric_broline) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, sulphuric_broline, 1);
+%bioerrand = setbit(%bioerrand, ^devinci_given);
+%bioerrand = setbit(%bioerrand, ^devinci_wrong);
+mes("You give him the vial of sulphuric broline.");
+~chatplayer("<p,neutral>Ok, we're meeting at the Dancing Donkey in Varrock right?.");
+~chatnpc("<p,happy>That's right.");
+
+[opnpc1,Artist2]
+if(map_members = false) {
+    ~chatnpc("<p,angry>Bah! A great artist such as myself should not have to suffer the HUMILIATION of spending time on these dreadful worlds where non-members wander everywhere!");
+    return;
+}
+if(testbit(%bioerrand, ^devinci_correct) = true) {
+    ~chatnpc("<p,happy>Hello again.|I hope your journey was as pleasant as mine.");
+    ~chatplayer("<p,happy>Well, as they say, it's always sunny in RuneScape.");
+    ~chatnpc("<p,happy>Ok, here it is.");
+    mes("He gives you the vial of ethenea.");
+    inv_add(inv, Ethenea, 1);
+    %bioerrand = clearbit(%bioerrand, ^devinci_given);
+    %bioerrand = clearbit(%bioerrand, ^devinci_correct);
+    ~chatplayer("<p,happy>Thanks, you've been a big help.");
+} else if(testbit(%bioerrand, ^devinci_wrong) = true) {
+    ~chatnpc("<p,happy>Hello again.|I hope your journey was as pleasant as mine.");
+    ~chatplayer("<p,happy>Yep. Anyway, I'll take the package off you now.");
+    ~chatnpc("<p,quiz>Package? That's a funny way to describe a liquid of such exquisite beauty!");
+    %bioerrand = clearbit(%bioerrand, ^devinci_given);
+    %bioerrand = clearbit(%bioerrand, ^devinci_wrong);
+    switch_int(~p_choice2("I'm getting a bad feeling about this.", 1, "Just give me the stuff now please.", 2)) {
+        case 1: ~chatplayer("<p,sad>I'm getting a bad feeling about this.");
+        case 2: ~chatplayer("<p,neutral>Just give me the stuff now please.");
+    }
+    ~chatplayer("<p,quiz>You do still have it don't you?");
+    ~chatnpc("<p,happy>Absolutely.|It's just not stored in a vial anymore.");
+    ~chatplayer("<p,confused>What?");
+    ~chatnpc("<p,happy>Instead it has been liberated.|It now gleams from the canvas of my latest epic:|The Majesty of Varrock!");
+    ~chatplayer("<p,sad>That's great.|Thanks to you I'll have to walk back to East Ardougne to get another vial.");
+    ~chatnpc("<p,happy>Well you can't put a price on art.");
+} else {
+    mes("<nc_name(Artist2)> does not feel sufficiently moved to talk.");
+}

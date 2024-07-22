@@ -1,0 +1,36 @@
+[opnpc1,king_lathas]
+if(%biohazard_progress = ^biohazard_reported_elena) {
+    ~chatplayer("<p,quiz>I assume that you are the King of East Ardougne?");
+    ~chatnpc("<p,angry>You assume correctly, but where do you get such impertinence.");
+    ~chatplayer("<p,neutral>I get it from finding out that the plague is a hoax.");
+    ~chatnpc("<p,confused>A hoax? I've never heard such a ridiculous thing...");
+    ~chatplayer("<p,neutral>I have evidence, from Guidor of Varrock.");
+    ~chatnpc("<p,neutral>Ah... I see. Well then you are right about the plague. But I did it for the good of my people.");
+    ~chatplayer("<p,quiz>When is it ever good to lie to people like that?");
+    ~chatnpc("<p,sad>When it protects them from a far greater danger, a fear too big to fathom.");
+    switch_int(~p_choice2("I don't understand...", 1, "Well I've wasted enough of my time here.", 2)) {
+        case 1:
+            ~chatplayer("<p,confused>I don't understand...");
+            ~chatnpc("<p,sad>Their King, Tyras, journeyed out to the West on a voyage of discovery. But he was captured by the Dark Lord.");
+            ~chatnpc("<p,sad>The Dark Lord agreed to spare his life, but only on one condition... That he would drink from the Chalice of Eternity.");
+            ~chatplayer("<p,quiz>So what happened?");
+            ~chatnpc("<p,sad>The chalice corrupted him. He joined forces with the Dark Lord, the embodiment of pure evil, banished all those years ago...");
+            ~chatnpc("<p,sad>And so I erected this wall, not just to protect my people, but to protect all the people of RuneScape.");
+            ~chatnpc("<p,sad>Now, with the King of West Ardougne, the Dark Lord has an ally on the inside.");
+            ~chatnpc("<p,sad>So I'm sorry that I lied about the plague. I just hope that you can understand my reasons.");
+            ~chatplayer("<p,quiz>Well at least I know now, but what can we do about it?");
+            ~chatnpc("<p,neutral>Nothing at the moment, I'm waiting for my scouts to come back. They will tell us how we can get through the mountains.");
+            ~chatnpc("<p,quiz>When this happens, can I count on your support?");
+            ~chatplayer("<p,neutral>Absolutely!");
+            ~chatnpc("<p,happy>Thank the gods! I give you permission to use my training area.");
+            ~chatnpc("<p,happy>It's located just to the north west of Ardougne, there you can prepare for the challenge ahead.");
+            ~chatplayer("<p,quiz>Ok. There's just one thing I don't understand, how do you know so much about King Tyras?");
+            ~chatnpc("<p,sad>How could I not do? He was my brother.");
+            queue(quest_biohazard_complete, 0);
+        case 2:
+            ~chatplayer("<p,angry>I've wasted enough of my time here.");
+            ~chatnpc("<p,neutral>No time is ever wasted, thanks for all you've done.");
+    }
+} else {
+    mes("The king is too busy to talk.");
+}

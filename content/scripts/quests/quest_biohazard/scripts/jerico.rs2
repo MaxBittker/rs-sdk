@@ -1,0 +1,50 @@
+[opnpc1,jerico]
+if(%biohazard_progress >= ^biohazard_poisoned_stew) {
+    mes("Jerico is busy looking for his bird feed.");
+}
+switch_int(%biohazard_progress) { // ^biohazard_used_birdfeed intentionally has no dialogue!
+    case ^biohazard_climbed_ladder:
+        ~chatplayer("<p,happy>Hello again Jerico.");
+        ~chatnpc("<p,neutral>So you've returned traveller.|Did you get what you wanted?");
+        ~chatplayer("<p,neutral>Not yet.");
+        ~chatnpc("<p,neutral>Omart will be waiting by the wall,|in case you need to cross again.");
+    case ^biohazard_released_pigeons:
+        ~chatplayer("<p,happy>Hello there.");
+        ~chatnpc("<p,neutral>The guards are distracted by the birds,|you must go now,|quickly traveller.");
+    case ^biohazard_spoken_jerico: // mesanims (and dialogue) from rs3
+        ~chatplayer("<p,happy>Hello Jerico, I need someway to distract the watch tower, any ideas?");
+        ~chatnpc("<p,neutral>Hmmm. Nothing springs to mind.");
+        switch_int(~p_choice4("Maybe you could shout and scream, and call them away?", 1, "Maybe I could use your messenger pigeons to distract them?", 2, "Maybe if I'm really quiet they won't notice me?", 3, "I can't think of anything either.", 4)) {
+            case 1:
+                ~chatplayer("<p,quiz>Maybe you could shout and scream, and call them away?");
+                ~chatnpc("<p,neutral>So they chase after me?");
+                ~chatplayer("<p,neutral>Yes. How quickly can you run?");
+                ~chatnpc("<p,neutral>No. I don't like this idea.");
+            case 2:
+                ~chatplayer("<p,quiz>Maybe I could use your messenger pigeons to distract them?");
+                ~chatnpc("<p,neutral>You might have some luck with that idea. The pigeons are around the back of my house if you want to try that.");
+                ~chatplayer("<p,happy>Ok, maybe I'll give it a go.");
+            case 3:
+                ~chatplayer("<p,quiz>Maybe if I'm really quiet they won't notice me?");
+                ~chatnpc("<p,quiz>And what stops them seeing you?");
+                ~chatplayer("<p,quiz>Well... perhaps I wait till nightfall?");
+                ~chatnpc("<p,quiz>There's no time for that.");
+            case 4:
+                ~chatplayer("<p,quiz>I can't think of anything either.");
+                ~chatnpc("<p,neutral>That's too bad.");
+        }
+    case ^biohazard_started:
+        ~chatplayer("<p,happy>Hello Jerico.");
+        ~chatnpc("<p,neutral>Hello, I've been expecting you.|Elena tells me you need to cross the wall.");
+        ~chatplayer("<p,neutral>That's right.");
+        ~chatnpc("<p,neutral>My messenger pigeons help me communicate with friends over the wall.");
+        %biohazard_progress = ^biohazard_spoken_jerico;
+        // https://web.archive.org/web/20050515184744im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard5.PNG
+        ~chatnpc("<p,neutral>I have arranged for two friends|to aid you with a rope ladder.|Omart is waiting for you at the southend of the wall.");
+        ~chatnpc("<p,shifty>But be careful, if the mourners catch you the punishment will be severe.");
+        ~chatplayer("<p,neutral>Thanks Jerico.");
+    case ^biohazard_not_started:
+        ~chatplayer("<p,happy>Hello.");
+        ~chatnpc("<p,quiz>Can I help you?");
+        ~chatplayer("<p,neutral>Just passing by.");
+}

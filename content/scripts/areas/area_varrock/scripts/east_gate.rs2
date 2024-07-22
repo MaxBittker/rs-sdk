@@ -1,0 +1,62 @@
+[opnpc1,npc_368]
+~chatnpc("<p,neutral>Please don't disturb me, I've got to keep any eye out for suspicious individuals.");
+
+[oploc1,_varrock_gate]
+if(map_members = false) {
+    @you_need_to_be_on_a_members_server_to_use_this_gate;
+}
+if(~check_axis(coord, loc_coord, loc_angle) = false) {
+    if(map_members = false) {
+        @you_need_to_be_on_a_members_server_to_use_this_gate;
+    }
+    if(%biohazard_progress >= ^biohazard_given_distillator & %biohazard_progress < ^biohazard_complete & npc_find(coord, npc_368, 2, 0) = true) { // shouldn't ever fail...
+        ~chatnpc("<p,neutral>Halt. I need to conduct a search on you. There have been reports of someone bringing a virus into Varrock.");
+        if_close;
+        mes("The guard searches you.");
+        p_delay(3);
+        if(inv_total(inv, Ethenea) > 0) {
+            mes("He takes the vial of ethenea from you.");
+            inv_del(inv, Ethenea, 1);
+            p_delay(3);
+        }
+        if(inv_total(inv, liquid_honey) > 0) {
+            mes("He takes the vial of liquid honey from you.");
+            inv_del(inv, liquid_honey, 1);
+            p_delay(3);
+        }
+        if(inv_total(inv, sulphuric_broline) > 0) {
+            mes("He takes the vial of sulphuric broline from you.");
+            inv_del(inv, sulphuric_broline, 1);
+            p_delay(3);
+        }
+        ~chatnpc("<p,neutral>You may now pass.");
+        if_close;
+        ~forcemove(0_50_53_63_13); // only does this here for some reason
+        p_delay(0);
+        p_teleport(movecoord(coord, 1, 0, 0));
+        @open_varrockgate;
+    }
+}
+if(coordx(coord) < coordx(loc_coord)) { 
+    p_teleport(loc_coord);
+} else {
+    p_teleport(movecoord(loc_coord, -1, 0, 0));
+}
+@open_varrockgate;
+
+[label,open_varrockgate]
+loc_findallzone(movecoord(coord, 1, 0, 0));
+while(loc_findnext = true) {
+     if(loc_category = varrock_gate) {
+            def_coord $central_coord = loc_coord;
+            def_int $orig_angle = loc_angle;
+            def_loc $type = loc_type;
+            loc_change(loc_83, 2);
+            if($type = loc_2050) {
+                loc_add(movecoord($central_coord, -1, 0, 0), loc_2052, 3, loc_shape, 2);
+                loc_add(movecoord($central_coord, -2, 0, 0), loc_2053, 3, loc_shape, 2); 
+            }
+     }
+}
+sound_synth(door_open, 0, 0); // gate_open
+p_delay(0);

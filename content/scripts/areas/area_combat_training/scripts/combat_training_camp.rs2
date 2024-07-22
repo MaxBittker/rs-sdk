@@ -1,0 +1,64 @@
+// Shop Keeper
+[opnpc1,npc_561]
+~chatplayer("<p,happy>Hello.");
+~chatnpc("<p,neutral>So, are you looking to buy weapons?|King Lathas keeps us very well stocked.");
+def_int $option = ~p_choice2("What do you have?", 0, "No thanks.", 1);
+switch_int ($option) {
+    case 0: {
+        ~chatplayer("<p,quiz>What do you have?");
+        ~chatnpc("<p,happy>Take a look.");
+        ~openshop_activenpc;
+    }
+
+    case 1: {
+        ~chatplayer("<p,neutral>No thanks.");
+    }
+}
+
+// Mace Guard
+[opnpc1,npc_344]
+~chatplayer("<p,happy>Hello there.");
+~chatnpc("<p,angry>What do you want - leave us be!");
+
+// crossbow guard by ogre cage
+[opnpc1,npc_345]
+~chatplayer("<p,happy>Hello.");
+~chatnpc("<p,neutral>Well hello brave warrior.|These ogres have been terrorising the area,|they've eaten four of our children this week alone.");
+~chatplayer("<p,angry>Brutes!");
+~chatnpc("<p,neutral>So we decided to use them for target practice.|A fair punishment.");
+~chatplayer("<p,neutral>Indeed.");
+
+// regular crossbow guard
+[opnpc1,npc_346]
+~chatplayer("<p,happy>Hello.");
+~chatnpc("<p,neutral>Hello soldier.");
+~chatplayer("<p,confused>I'm more of an adventurer really.");
+~chatnpc("<p,neutral>In this day and age we're all soldiers.|No time to waste gassing, Fight! Fight! Fight!");
+
+[oploc1,loc_2039] @open_combat_training_gate(^left);
+[oploc1,loc_2041] @open_combat_training_gate(^right);
+
+[label,open_combat_training_gate](int $side)
+if(%biohazard_progress < ^biohazard_complete) {
+    ~chatnpc_specific(nc_name(npc_344), npc_344, "<p,neutral>This is a restricted area.|You can only enter under the authority of King Lathas.");
+    return;
+}
+~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), $side, grate_open);
+
+[oploc1,loc_2038] // Combat training camp dummy
+~player_combat_stat;
+if (%damagestyle = ^style_ranged_accurate | %damagestyle = ^style_ranged_longrange | %damagestyle = ^style_ranged_rapid) {
+    mes("You can't use ranged attacks on the dummy.");
+    return;
+}
+if (%biodummy < 6) {
+    %biodummy = add(%biodummy, 1);
+    givexp(attack, 500);
+} else {
+    mes("There's no more to learn from hitting this dummy.");
+    return;
+}
+anim(%com_attackanim, 0);
+sound_synth(%com_attacksound, 0, 0);
+mes("You hit the dummy.");
+p_delay(3);

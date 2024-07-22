@@ -31,7 +31,7 @@ if((oc_category(obj_type) = trail_clue_easy | oc_category(obj_type) = trail_clue
     return;
 }
 // These use a different mes compared to obj's with the telegrab_disabled param (maybe make a 2nd param)
-if(obj_type = holy_grail | obj_type = ghost_skull | obj_type = ice_arrow | obj_type = boy_ball) {
+if(obj_type = holy_grail | obj_type = ghost_skull | obj_type = ice_arrow | obj_type = boy_ball | obj_type = Ethenea | obj_type = liquid_honey | obj_type = sulphuric_broline | obj_type = plague_sample) {
     mes("I can't use Telekinetic Grab on this object.");
     return;
 }

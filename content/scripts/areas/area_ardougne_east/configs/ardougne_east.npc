@@ -118,6 +118,39 @@ defence=3
 param=damagetype,^crush_style
 param=retreat,2
 
+[king_lathas]
+vislevel=hide
+name=King Lathas
+desc=King Lathas of East Ardougne.
+walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
+readyanim=human_ready
+op1=Talk-to
+recol1s=7328
+recol1d=15360
+recol2s=14724
+recol2d=32767
+recol3s=2340
+recol3d=15360
+recol4s=7298
+recol4d=32767
+recol5s=8386
+recol5d=15360
+recol6s=31649
+recol6d=32767
+model1=model_230_idk
+model2=model_185_obj_wear
+model3=model_251_idk
+model4=model_313_npc
+model5=model_160_npc
+model6=model_176_idk
+model7=model_267_idk
+model8=model_1808_npc
+model9=model_323_obj_wear
+head1=model_63_idk_head
+head2=model_83_idk_head
+head3=model_2938_npc_head
+wanderrange=2
+
 [silver_merchant]
 vislevel=hide
 name=Silver merchant

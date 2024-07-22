@@ -1,5 +1,41 @@
 [opnpc1,omart]
-~chatplayer("<p,happy>Hello there.");
-~chatnpc("<p,happy>Hello.");
-~chatplayer("<p,quiz>How are you?");
-~chatnpc("<p,neutral>Fine thanks.");
+switch_int(%biohazard_progress) {
+    case default:
+        ~chatplayer("<p,happy>Hello Omart.");
+        ~chatnpc("<p,neutral>Hello adventurer.|I'm afraid it's too risky to use the ladder again,|but I believe that Edmond's working on another tunnel.");
+    case ^biohazard_found_distillator, ^biohazard_climbed_ladder, ^biohazard_poisoned_stew:
+        ~chatplayer("<p,happy>Hello Omart.");
+        ~chatnpc("<p,happy>Hello traveller. The guards are still distracted if you wish to cross the wall.");
+        @multi2("Ok, lets do it.", omart_letsdo, "I'll be back soon.", omart_backsoon);
+    case ^biohazard_released_pigeons:
+        ~chatnpc("<p,happy>Well done, the guards are having real trouble with those birds. You must go now traveller, it's your only chance.");
+        if_close;
+        mes("Omart calls to his associate.");
+        p_delay(5); // 6t?
+        ~chatnpc("<p,neutral>Kilron!");
+        if_close;
+        mes("He throws one end of the rope ladder over the wall.");
+        p_delay(3); // 4t
+        ~chatnpc("<p,neutral>You must go now traveller.");
+        @multi2("Ok, lets do it.", omart_letsdo, "I'll be back soon.", omart_backsoon);
+    case ^biohazard_spoken_jerico, ^biohazard_used_birdfeed:
+        ~chatplayer("<p,neutral>Omart, Jerico said you might be able to help me.");
+        ~chatnpc("<p,neutral>He informed me of your problem traveller. I would be glad to help, I have a rope ladder and my associate, Kilron, is waiting on the other side.");
+        ~chatplayer("<p,happy>Good stuff.");
+        ~chatnpc("<p,sad>Unfortunately we can't risk it with the watch tower so close. So first we need to distract the guards in the tower.");
+        ~chatplayer("<p,quiz>How?");
+        ~chatnpc("<p,neutral>Try asking Jerico, if he's not too busy with his pigeons. I'll be waiting here for you.");
+    case ^biohazard_not_started, ^biohazard_started:
+        ~chatplayer("<p,happy>Hello there.");
+        ~chatnpc("<p,happy>Hello.");
+        ~chatplayer("<p,quiz>How are you?");
+        ~chatnpc("<p,neutral>Fine thanks.");
+}
+
+[label,omart_letsdo]
+~chatplayer("<p,neutral>Ok, lets do it.");
+@biohazard_climb_ladder(0_39_51_60_3);
+
+[label,omart_backsoon]
+~chatplayer("<p,neutral>I'll be back soon.");
+~chatnpc("<p,neutral>Don't take too long, those mourners will soon be rid of those birds.");

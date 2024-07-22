@@ -35,7 +35,7 @@ switch_int(%elena_progress) {
 switch_int(%elena_progress) {
     case ^quest_elena_returned_book: {
         ~chatplayer("<p,neutral>Hello.");
-        ~mesbox("Milli ignores you.");
+        ~mesbox("Milli ignores you."); // mes in rs3?
     }
     case ^quest_elena_spoken_martha_ted: {
         ~chatplayer("<p,neutral>Hello.|Your parents say you saw what happened to <nc_name(elena)>...");

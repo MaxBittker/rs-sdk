@@ -106,7 +106,17 @@ model4=model_273_obj_wear
 model5=model_323_obj_wear
 model6=model_499_npc
 head1=model_51_obj_wear
-// TODO
+// stats based off: https://oldschool.runescape.wiki/w/Mourner?oldid=8089161#Lv_18, 70t respawn on rs3
+respawnrate=70
+hitpoints=13
+attack=17
+strength=17
+defence=17
+param=attackbonus,5
+param=strengthbonus,5
+param=stabdefence,5
+param=slashdefence,5
+param=crushdefence,7
 
 [npc_370]
 name=Mourner
@@ -133,7 +143,17 @@ model6=model_323_obj_wear
 head1=model_51_obj_wear
 wanderrange=1
 maxrange=3
-// TODO
+// stats based off: https://oldschool.runescape.wiki/w/Mourner?oldid=8089161#Lv_13, 70t respawn on rs3
+respawnrate=70
+hitpoints=19
+attack=10
+strength=10
+defence=10
+param=attackbonus,5
+param=strengthbonus,6
+param=stabdefence,3
+param=slashdefence,2
+param=crushdefence,4
 
 [npc_371]
 name=Mourner
@@ -160,7 +180,17 @@ model4=model_273_obj_wear
 model5=model_185_obj_wear
 model6=model_323_obj_wear
 head1=model_51_obj_wear
-// TODO
+// stats based off: https://oldschool.runescape.wiki/w/Mourner?oldid=8089161#Lv_12, 70t respawn on rs3
+respawnrate=70
+hitpoints=13
+attack=10
+strength=10
+defence=10
+param=attackbonus,5
+param=strengthbonus,6
+param=stabdefence,3
+param=slashdefence,2
+param=crushdefence,4
 
 [npc_372]
 vislevel=hide

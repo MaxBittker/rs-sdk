@@ -1,0 +1,61 @@
+[opnpc1,chemist]
+if(map_members = false) { // rs3
+    ~chatnpc("<p,neutral>It's very nice that you've come all the way down here, but I really don't have time to talk at the moment. Maybe if you come back later on a members' world I'll be able to help.");
+    return;
+}
+switch_int(%biohazard_progress) {
+    case ^biohazard_spoken_chemist, ^biohazard_found_secret:
+        ~chatplayer("<p,happy>Hello again.");
+        ~chatnpc("<p,quiz>Oh hello, do you need more touch paper?");
+        if(~obj_gettotal(touch_paper) = 0) {
+            ~chatplayer("<p,happy>Yes please.");
+            ~chatnpc("<p,happy>Ok, here you go.");
+            inv_add(inv, touch_paper, 1);
+            mes("The chemist gives you some touch paper.");
+            return;
+        }
+        ~chatplayer("<p,happy>No, I just wanted to say hello.");
+        ~chatnpc("<p,confused>Oh.. ok then... hello.");
+        ~chatplayer("<p,happy>Hi.");
+    case ^biohazard_given_distillator:
+        ~chatnpc("<p,neutral>Sorry, I'm afraid we're just closing now. You'll have to come back another time.");
+        if(inv_total(inv, plague_sample) = 0) {
+            return;
+        }
+        switch_int(~p_choice2("This can't wait, I'm carrying a plague sample.", 1, "It's ok, I'm Elena's friend.", 2)) {
+            case 1:
+                ~chatplayer("<p,neutral>This can't wait, I'm carrying a plague sample that desperately needs analysis.");
+                @chemist_takeplaguesample;
+            case 2:
+                ~chatplayer("<p,neutral>It's ok, I'm Elena's friend.");
+                ~chatnpc("<p,neutral>Oh, well that's different then. Must be pretty important to come all this way.");
+                ~chatnpc("<p,quiz>How's everyone doing there anyway? Wasn't there some plague scare?");
+                @multi2("I need some more touch paper for this plague sample.", chemist_touchpaperplague, "I just need some touch paper for a guy called Guidor.", chemist_touchpaperguidor);
+        }
+}
+mes("The chemist is busy at the moment."); // RSC, unsure what dialogue would have been pre march 2005 (if not the same as this mes)
+
+[label,chemist_touchpaperplague]
+~chatplayer("<p,neutral>That's why I'm here. I need some more touch paper for this plague sample.");
+@chemist_takeplaguesample;
+
+[label,chemist_takeplaguesample]
+inv_del(inv, plague_sample, 1);
+~chatnpc("<p,shock>You idiot! A plague sample should be confined to a lab! I'm taking it off you. I'm afraid it's the only responsible thing to do.");
+mes("He takes the plague sample from you.");
+
+[label,chemist_touchpaperguidor]
+~chatplayer("<p,neutral>Who knows... I just need some touch paper for a guy called Guidor.");
+~chatnpc("<p,neutral>Guidor? This one's on me then... the poor guy. Sorry for the interrogation.");
+~chatnpc("<p,shifty>It's just that there've been rumours of a <text_gender("man", "woman")> travelling with the plague on <text_gender("him", "her")>.");
+~chatnpc("<p,sad>They're even doing spot checks in Varrock. It's a pharmaceutical disaster!");
+~chatplayer("<p,neutral>Oh right... so am I going to be ok carrying these three vials with me?");
+~chatnpc("<p,neutral>With touch paper as well? You're asking for trouble. You'd better use my errand boys, outside. Give them a vial each.");
+// https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard14.PNG
+~chatnpc("<p,neutral>They're not the most reliable people in the world.|One's a painter, one's a gambler, and one's a drunk.|Still if you pay peanuts you'll get monkeys, right?");
+~chatnpc("<p,neutral>It's better than entering Varrock with half a laboratory in your napsack.");
+~chatplayer("<p,happy>Ok, thanks for your help. I know Elena appreciates it.");
+~chatnpc("<p,neutral>Yes well don't stand around here gassing.|You'd better hurry if you want to see Guidor...|He won't be around for much longer.");
+%biohazard_progress = ^biohazard_spoken_chemist;
+inv_add(inv, touch_paper, 1);
+mes("He gives you the touch paper.");

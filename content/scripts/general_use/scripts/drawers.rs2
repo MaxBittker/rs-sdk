@@ -7,7 +7,6 @@ if(map_members = true) {
     } else if(loc_coord = 0_42_54_21_22) {
         @riddle_loc_medium_exp004;
     }
-    return;
 }
 p_arrivedelay;
 anim(human_openchest,0);

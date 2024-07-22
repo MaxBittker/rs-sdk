@@ -1,0 +1,94 @@
+[opnpc1,chancy1]
+if(map_members = false) { // TODO: rs3, and OSRS wiki mentions this dialogue in old versions as well could be wrong since he isn't visibly playing w/cards before Sept 200^chancy_given, try to confirm for before that
+    ~chatplayer("<p,happy>Hello! Playing solitaire?");
+    ~chatnpc("<p,angry>Hush - I'm trying to perfect the art of dealing off the bottom of the deck. Whatever you want, come back later on a members' world and I'll speak to you then.");
+    return;
+}
+if(testbit(%bioerrand, ^chancy_given) = true) {
+    ~chatnpc("<p,neutral>Look, I've got your vial but I'm not taking two.|I always like to play the percentages.");
+    return;
+}
+if(%biohazard_progress = ^biohazard_spoken_chemist) {
+    ~chatplayer("<p,neutral>Hello, I've got a vial for you to take to Varrock.");
+    ~chatnpc("<p,shock>Tssch... that chemist asks for a lot for the wages he pays.");
+    ~chatplayer("<p,neutral>Maybe you should ask him for more money.");
+    ~chatnpc("<p,shifty>Nah... I just use my initiative here and there.");
+    @multi3("You give him the vial of ethenea...", chancy_ethenea, "You give him the vial of liquid honey...", chancy_liquidhoney, "You give him the vial of sulphuric broline...", chancy_sulphuricbroline);
+}
+mes("Chancy doesn't feel like talking."); 
+
+[label,chancy_ethenea]
+if(inv_total(inv, Ethenea) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, Ethenea, 1);
+%bioerrand = setbit(%bioerrand, ^chancy_given);
+%bioerrand = setbit(%bioerrand, ^chancy_wrong);
+mes("You give him the vial of ethenea.");
+~chatplayer("<p,neutral>Right. I'll see you later in the Dancing Donkey Inn.");
+~chatnpc("<p,happy>Be lucky!");
+
+[label,chancy_liquidhoney]
+if(inv_total(inv, liquid_honey) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, liquid_honey, 1);
+%bioerrand = setbit(%bioerrand, ^chancy_given);
+%bioerrand = setbit(%bioerrand, ^chancy_correct);
+mes("You give him the vial of liquid honey.");
+~chatplayer("<p,neutral>Right. I'll see you later in the Dancing Donkey Inn.");
+~chatnpc("<p,happy>Be lucky!");
+
+[label,chancy_sulphuricbroline]
+if(inv_total(inv, sulphuric_broline) < 1) {
+    ~mesbox("You can't give him what you don't have.");
+    return;
+}
+inv_del(inv, sulphuric_broline, 1);
+%bioerrand = setbit(%bioerrand, ^chancy_given);
+%bioerrand = setbit(%bioerrand, ^chancy_wrong);
+mes("You give him the vial of sulphuric broline.");
+~chatplayer("<p,neutral>Right. I'll see you later in the Dancing Donkey Inn.");
+~chatnpc("<p,happy>Be lucky!");
+
+[opnpc1,chancy2]
+if(map_members = false) {
+    ~chatplayer("<p,happy>Good morning.");
+    ~chatnpc("<p,angry>Leave me alone - I'm trying to find my gambling buddies! Whenever you want, come back on a members' world and I'll speak to you then.");
+    return;
+}
+if(testbit(%bioerrand, ^chancy_correct) = true) {
+    ~chatplayer("<p,happy>Hi, thanks for doing that.");
+    ~chatnpc("<p,happy>No problem.");
+    if_close;
+    mes("He gives you the vial of liquid honey.");
+    inv_add(inv, liquid_honey, 1);
+    %bioerrand = clearbit(%bioerrand, ^chancy_given);
+    %bioerrand = clearbit(%bioerrand, 2);
+    p_delay(2);
+    ~chatnpc("<p,sad>Next time give me something more valuable... I couldn't get anything for this on the blackmarket.");
+    ~chatplayer("<p,neutral>That was the idea.");
+} else if(testbit(%bioerrand, ^chancy_wrong) = true) {
+    ~chatplayer("<p,happy>Hi, thanks for doing that.");
+    ~chatnpc("<p,happy>No problem. I've got some money for you actually.");
+    ~chatplayer("<p,confused>What do you mean?");
+    ~chatnpc("<p,shifty>Well, it turns out that potion you gave me, was quite valuable...");
+    ~chatplayer("<p,shock>What?");
+    %bioerrand = setbit(%bioerrand, ^chancy_given);
+    %bioerrand = setbit(%bioerrand, ^chancy_wrong);
+    ~chatnpc("<p,shifty>I know that I probably shouldn't have sold it... but some friends and I were having a little wager, the odds were just too good!");
+    ~chatplayer("<p,angry>You sold my vial and gambled with the money?!");
+    ~chatnpc("<p,shifty>Actually yes... but praise be to Saradoming because I won! So all's well that ends well right?");
+    switch_int(~p_choice2("No! Nothing could be further from the truth!", 1, "You have no idea what you have just done!", 2)) {
+        case 1: 
+            ~chatplayer("<p,angry>No! Nothing could be further from the truth!");
+            ~chatnpc("<p,neutral>Well, there's no pleasing some people.");
+        case 2: 
+            ~chatplayer("<p,angry>You have no idea what you have just done!");
+            ~chatnpc("<p,neutral>Ignorance is bliss I'm afraid.");
+    }
+} else {
+    mes("Chancy doesn't feel like talking."); 
+}

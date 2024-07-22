@@ -1,5 +1,5 @@
 [oploc1,loc_2054]
 switch_int(%elena_progress) {
-    case ^elena_complete, ^elena_complete_read_scroll: ~open_and_close_door(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), false);
+    case ^elena_complete, ^elena_complete_read_scroll: ~open_and_close_door2(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), door_open);
     case default: mes("The door is locked.");
 }

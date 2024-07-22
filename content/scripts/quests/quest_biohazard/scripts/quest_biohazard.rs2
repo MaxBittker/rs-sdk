@@ -1,0 +1,153 @@
+[oploc1,loc_2032]
+def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
+if($entering = false) {
+    ~open_and_close_door2(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), door_open);
+    return;
+}
+if(map_members = false | %biohazard_progress < ^biohazard_spoken_chemist) {
+    ~chatplayer("<p,neutral>That's someone's bedroom.|I'm not going in there without a reason.");
+    return;
+}
+if(inv_total(worn, priest_gown_top) > 0 & inv_total(worn, priest_gown_bottom) > 0) {
+    mes("Guidor's wife allows you to go in.");
+    ~open_and_close_door2(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), door_open);
+    return;
+}
+mes("Guidor's wife refuses to let you enter.");
+if(npc_find(coord, guidors_wife, 5, 0) = true) {
+    ~chatnpc("<p,sad>Please leave my husband alone. He's very sick, and I don't want anyone bothering him.");
+    ~chatplayer("<p,quiz>I'm sorry to hear that.|Is there anything I can do?");
+    ~chatnpc("<p,sad>Thank you, but I just want him to see a priest.");
+    ~chatplayer("<p,neutral>A priest? Hmmm...");
+}
+
+[oploc1,loc_2067]
+if(npc_find(coord, npc_372, 5, 0) = true) {
+    // https://youtu.be/_ZNalEQB70o?si=0Dlqc2ZXalgpWD7H&t=270
+    ~chatnpc("<p,neutral>Keep away civilian.");
+    ~chatplayer("<p,neutral>What's it to you?");
+    ~chatnpc("<p,neutral>This tower's here for your protection.");
+}
+
+[oplocu,loc_2067]
+if(%biohazard_progress = ^biohazard_spoken_jerico & last_useitem = bird_feed) {
+    // https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard8.PNG
+    inv_del(inv, bird_feed, 1);
+    mes("You throw a hand full of seeds onto the watch tower");
+    p_delay(2);
+    %biohazard_progress = ^biohazard_used_birdfeed;
+    mes("The mourners do not seem to notice");
+    return;
+} 
+~displaymessage(^dm_default);
+
+[oploc1,loc_2057]
+// https://youtu.be/_ZNalEQB70o?si=aEyFbzV255lYgoNI&t=208
+~objbox(bird_feed, "The cupboard is full of birdfeed.");
+if(%biohazard_progress < ^biohazard_spoken_jerico) {
+    ~chatplayer("<p,neutral>I guess pigeons really love this stuff.");
+    return;
+}
+if(inv_total(inv, bird_feed) > 0 | %biohazard_progress >= ^biohazard_used_birdfeed) {
+    ~chatplayer("<p,neutral>I don't need any more birdfeed.");
+    return;
+}
+if(inv_total(bank, bird_feed) > 0) {
+    ~chatplayer("<p,neutral>I shouldn't take any more of Jerico's birdfeed. I've already got enough in the bank.");
+    return;
+}
+~chatplayer("<p,neutral>Mmm, birdfeed! Now what could I do with that?");
+inv_add(inv, bird_feed, 1);
+
+
+[opheld1,pigeon_cage]
+if(%biohazard_progress = ^biohazard_used_birdfeed & inzone(0_39_51_63_35, 0_40_51_5_43, coord) = true) {
+    mes("The pigeons fly towards the watch tower");
+    %biohazard_progress = ^biohazard_released_pigeons;
+    ~coord_projectile(coord, 0_39_51_63_39, spotanim_72, 16, 130, 25, 20, 21, 10, 20);
+    ~coord_projectile(coord, 0_40_51_0_40, spotanim_72, 16, 125, 15, 20, 31, 10, 20);
+    ~coord_projectile(coord, 0_40_51_1_41, spotanim_72, 16, 120, 5, 20, 41, 10, 20);
+    p_delay(4); // https://youtu.be/_ZNalEQB70o?si=VpjVRgRPfQ0D0GUu&t=273, 5t (not 6t like rsc would be if you combine mes)
+    mes("The mourners frantically try to scare them away");
+    return;
+}
+mes("You open the cage");
+mes("The pigeons don't want to leave");
+
+[label,biohazard_climb_ladder](coord $dest)
+if_close;
+mes("You climb up the rope ladder...");
+if (loc_find(0_39_51_61_3, loc_2066) = true) {
+    loc_change(loc_2065, 4);
+}
+if (loc_find(0_39_51_62_3, loc_2066) = true) {
+    loc_change(loc_2065, 4);
+}
+if(%biohazard_progress = ^biohazard_released_pigeons) %biohazard_progress = ^biohazard_climbed_ladder;
+p_delay(3); // 4t
+p_teleport($dest);
+mes("and drop down on the other side.");
+
+[oplocu,loc_2043]
+if(last_useitem = rotten_apples) {
+    mes("You place the rotten apple in the pot...");
+    inv_del(inv, rotten_apples, 1);
+    p_delay(3);
+    if(%biohazard_progress = ^biohazard_climbed_ladder) {
+        %biohazard_progress = ^biohazard_poisoned_stew;
+        mes("and it quickly dissolves into the stew.");
+        p_delay(2);
+    }
+    mes("That wasn't very nice.");
+}
+// no nothing interesting happens (rs3)
+
+[oploc1,loc_2063]
+mes("You search the cupboard...");
+if(~obj_gettotal(doctors_gown) = 0 & %biohazard_progress >= ^biohazard_poisoned_stew) {
+    mes("and find a <lowercase(oc_name(doctors_gown))>.");
+    inv_add(inv, doctors_gown, 1);
+    return;
+}
+mes("but you find nothing of interest.");
+
+[oploc1,loc_2058] @open_mournerhq_gate(^left, false);
+[oploc1,loc_2060] @open_mournerhq_gate(^right, false);
+
+[oplocu,loc_2058] 
+if(last_useitem = biohazard_key) @open_mournerhq_gate(^left, true);
+~displaymessage(^dm_default);
+
+[oplocu,loc_2060]
+if(last_useitem = biohazard_key) @open_mournerhq_gate(^right, true);
+~displaymessage(^dm_default);
+
+[label,open_mournerhq_gate](int $side, boolean $used_key)
+def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
+if($entering = true & inv_total(inv, biohazard_key) = 0 & $used_key = false) { // cant enter with oploc1
+    mes("The gate is locked.");
+    p_delay(3);
+    mes("You need a key.");
+    return;
+}
+if($used_key = true) {
+    mes("The key fits the gate.");
+    p_delay(3);
+}
+~open_and_close_double_door2($entering, $side, grate_open);
+
+[oploc1,loc_2064]
+mes("You search the crate.");
+p_delay(3);
+if(~obj_gettotal(distillator) > 0 | %biohazard_progress > ^biohazard_found_distillator) {
+    mes("It's empty.");
+    return;
+}
+if(%biohazard_progress = ^biohazard_poisoned_stew) %biohazard_progress = ^biohazard_found_distillator;
+inv_add(inv, distillator, 1);
+mes("and find Elena's distillator.");
+
+[queue,quest_biohazard_complete]
+givexp(thieving, 12500);
+%biohazard_progress = ^biohazard_complete;
+~send_quest_complete(questlist:biohazard, distillator, 250, ^biohazard_questpoints, "You have completed the\\nBiohazard Quest!");

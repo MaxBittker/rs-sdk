@@ -1,2 +1,8 @@
 [biohazard_progress]
 scope=perm
+
+[bioerrand]
+scope=perm
+
+[biodummy]
+scope=perm

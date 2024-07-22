@@ -59,6 +59,11 @@ if ($rum > 0) {
     inv_del(inv, karamja_rum, $rum);
     mes("Your Karamjan rum gets broken and spilled.");
 }
+if(inv_total(inv, plague_sample) > 0) {
+    inv_del(inv, plague_sample, ^max_32bit_int);
+    mes("The plague sample is too delicate...it disintegrates in the crossing.");
+    return;
+}
 if (%gnomeball_progress = ^gnomeball_game_started) {
     mes("You hear the ref call you out of the game as you leave.");
     def_int $ball_inv = inv_total(inv, gnomeball);

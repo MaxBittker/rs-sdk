@@ -53,7 +53,10 @@ switch_int(%elena_progress) {
             def_int $choice = ~p_choice2("Do you have any more of those scrolls?", 1, "No problem.", 2);
             if($choice = 1) {
                 ~chatplayer("<p,quiz>Do you have any more of those scrolls?"); 
-                // rsc doesn't have the bank check dialogue, going to assume same here "<p,neutral>But you've already got one! It's in your bank."
+                if(inv_total(bank, elena_teleport_scroll) > 0) {
+                    ~chatnpc("<p,neutral>But you've already got one! It's in your bank.");
+                    return;
+                }
                 inv_add(inv, elena_teleport_scroll, 1);
                 ~chatnpc("<p,happy>Yes, here you go.");
                 return;

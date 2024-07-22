@@ -1,0 +1,26 @@
+[opnpc1,guidors_wife]
+if(map_members = false | %biohazard_progress >= ^biohazard_reported_elena) {
+    ~chatplayer("<p,neutral>Hello.");
+    ~chatnpc("<p,sad>Oh hello, I can’t chat now.|I have to keep an eye on my husband.|He’s very ill!");
+    ~chatplayer("<p,sad>I’m sorry to hear that!");
+    return;
+}
+switch_int(%biohazard_progress) {
+    case ^biohazard_found_secret:
+        ~chatplayer("<p,neutral>Hello again.");
+        ~chatnpc("<p,sad>Hello there.|I fear Guidor may not be long for this world!");
+    case ^biohazard_spoken_chemist:
+        if(inv_total(worn, priest_gown_top) > 0 & inv_total(worn, priest_gown_bottom) > 0) {
+            ~chatnpc("<p,sad>Father, thank heavens you're here! My husband is very ill! Perhaps you could read him his final rites?");
+            ~chatplayer("<p,neutral>I'll see what I can do.");
+            return;
+        }
+        ~chatplayer("<p,neutral>Hello, I'm a friend of Elena, here to see Guidor.");
+        ~chatnpc("<p,sad>I'm afraid...(she sobs)...that Guidor is not long for this world! So I'm not letting people see him now.");
+        ~chatplayer("<p,neutral>I'm really sorry to hear about Guidor.");
+        ~chatplayer("<p,angry>But I do have some very important business to attend to!");
+        ~chatnpc("<p,angry>You heartless rogue! What could be more important than Guidor's life? A life spent well, if not always wisely... I just hope that Saradomin shows mercy on his soul!");
+        ~chatplayer("<p,confused>Guidor is a religious man?");
+        ~chatnpc("<p,sad>Oh god no! But I am! If only I could get him to see a priest!");
+    case default: ~chatnpc("<p,sad>Oh dear! Oh dear! I don't have time to chat!");
+}

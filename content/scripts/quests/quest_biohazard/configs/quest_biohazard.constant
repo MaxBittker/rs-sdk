@@ -1,0 +1,22 @@
+^biohazard_not_started = 0
+^biohazard_started = 1
+^biohazard_spoken_jerico = 2
+^biohazard_used_birdfeed = 3
+^biohazard_released_pigeons = 4
+^biohazard_climbed_ladder = 5
+^biohazard_poisoned_stew = 6
+^biohazard_found_distillator = 7
+^biohazard_given_distillator = 10
+^biohazard_spoken_chemist = 12
+^biohazard_found_secret = 14
+^biohazard_reported_elena = 15
+
+^hops_correct = 1
+^chancy_correct = 2
+^devinci_correct = 3
+^hops_given = 4
+^chancy_given = 5
+^devinci_given = 6
+^hops_wrong = 7
+^chancy_wrong = 8
+^devinci_wrong = 9

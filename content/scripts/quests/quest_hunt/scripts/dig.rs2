@@ -21,6 +21,7 @@ while (npc_findnext = true) {
     if (npc_type = wyson) @wyson_attack;
 }
 
+p_arrivedelay;
 anim(human_dig, 0);
 mes("You dig a hole in the ground...");
 

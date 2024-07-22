@@ -1,4 +1,5 @@
-[obj_415]
+// official name, item uses in quest don't have the misspelling either: https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard12.PNG
+[Ethenea]
 cost=10
 model=model_2747_obj
 members=yes
@@ -11,7 +12,7 @@ desc=An expensive colourless liquid.
 weight=30g
 param=no_alchemy,1
 
-[obj_416]
+[liquid_honey]
 cost=0
 model=model_2789_obj
 recol1s=15855
@@ -26,7 +27,7 @@ desc=This isn't worth much.
 weight=30g
 param=no_alchemy,1
 
-[obj_417]
+[sulphuric_broline]
 cost=1
 model=model_2789_obj
 recol1s=15855
@@ -41,7 +42,7 @@ desc=It's highly poisonous.
 weight=30g
 param=no_alchemy,1
 
-[obj_418]
+[plague_sample]
 name=Plague sample
 desc=Probably best I don't keep this too long.
 cost=1
@@ -54,7 +55,7 @@ weight=50g
 members=yes
 param=no_alchemy,1
 
-[obj_419]
+[touch_paper]
 name=Touch paper
 desc=A special kind of paper.
 cost=1
@@ -68,7 +69,7 @@ weight=10g
 members=yes
 param=no_alchemy,1
 
-[obj_420]
+[distillator]
 members=yes
 name=Distillator
 desc=Apparently it distills.
@@ -99,7 +100,7 @@ manwear=model_282_obj_wear,0
 womanwear=model_446_obj_wear,0
 weight=10g
 
-[obj_422]
+[bird_feed]
 name=Bird feed
 desc=Birds love this stuff!
 cost=1
@@ -113,7 +114,7 @@ weight=50g
 members=yes
 param=no_alchemy,1
 
-[obj_423]
+[biohazard_key]
 name=Key
 desc=Opens things.
 cost=1
@@ -127,7 +128,7 @@ weight=10g
 members=yes
 param=no_alchemy,1
 
-[obj_424]
+[pigeon_cage]
 cost=1
 name=Pigeon cage
 desc=It's full of pigeons.
@@ -142,7 +143,7 @@ weight=2kg
 members=yes
 param=no_alchemy,1
 
-[obj_425]
+[pigeon_cage_empty]
 cost=1
 name=Pigeon cage
 desc=It's empty...
@@ -193,7 +194,7 @@ weight=4lb
 tradeable=yes
 param=prayerbonus,3
 
-[obj_430]
+[doctors_gown]
 name=Doctors' gown
 desc=Medical looking.
 cost=40

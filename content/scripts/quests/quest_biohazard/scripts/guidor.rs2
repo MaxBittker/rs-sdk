@@ -1,0 +1,72 @@
+[opnpc1,guidor]
+if(map_members = false) {
+    ~chatnpc("<p,sad>I don't really want any visitors just now."); // rs3 and osrs
+    return;
+}
+switch_int(%biohazard_progress) {
+    case ^biohazard_found_secret, ^biohazard_reported_elena, ^biohazard_complete:
+        ~chatplayer("<p,happy>Hello again Guidor.");
+        ~chatnpc("<p,neutral>Well, hello traveller.|I still can't understand why they would lie about the plague.");
+        ~chatplayer("<p,neutral>It's strange, anyway how are you doing?");
+        ~chatnpc("<p,neutral>I'm hanging in there.");
+        ~chatplayer("<p,neutral>Good for you.");
+    case ^biohazard_spoken_chemist:
+        // https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard16.PNG
+        ~chatplayer("<p,neutral>Hello, you must be Guidor.|I understand that you are unwell.");
+        ~chatnpc("<p,angry>Is my wife asking priests to visit me now? I'm a man of science for god's sake.");
+        ~chatnpc("<p,neutral>Ever since she heard rumors of a plague carrier travelling from Ardougne she's kept me under house arrest.");
+        ~chatnpc("<p,sad>Of course she means well, and I am quite frail now... So what brings you here?");
+        switch_int(~p_choice2("I've come to ask your assistance in stopping a plague.", 1, "I was just going to bless your room and I've done that now.", 2)) {
+            case 1:
+                ~chatplayer("<p,neutral>Well it's funny you should ask actually... I've come to ask your assistance in stopping a plague that could kill thousands.");
+                ~chatnpc("<p,shock>So you're the plague carrier!");
+                switch_int(~p_choice2("No! Well, yes...", 1, "I've been sent by your old pupil Elena.", 2)) {
+                    case 1: ~chatplayer("<p,neutral>No! Well, yes... but not exactly. It's contained in a sealed unit from Elena.");
+                    case 2: ~chatplayer("<p,neutral>I've been sent by your old pupil Elena, she's trying to halt the virus.");
+                }
+                @guidor_elena;
+            case 2:
+                ~chatplayer("<p,neutral>Oh, nothing, I was just going to bless your room and I've done that now. Goodbye.");
+        }
+}
+
+
+[label,guidor_elena]
+~chatnpc("<p,quiz>Elena eh?");
+~chatplayer("<p,neutral>Yes, she wants you to analyse it. You might be the only one who can help.");
+~chatnpc("<p,happy>Right then, sounds like we'd better get to work!");
+if(inv_total(inv, plague_sample) = 0) {
+    ~chatnpc("<p,neutral>Seems like you don't actually HAVE the plague sample.|It's a long way to come empty-handed...|and quite a long way back to.");
+    return;
+}
+~chatplayer("<p,happy>I have the plague sample.");
+~chatnpc("<p,neutral>Now I'll be needing some liquid honey, some sulphuric broline, and then...");
+~chatplayer("<p,happy>... some ethenea?");
+~chatnpc("<p,happy>Indeed!");
+if(inv_total(inv, sulphuric_broline) = 0 | inv_total(inv, liquid_honey) = 0 | inv_total(inv, Ethenea) = 0) {
+    ~chatnpc("<p,neutral>Look, I need all three reagents to test the plague sample. Come back when you've got them.");
+    return;
+}
+if(inv_total(inv, touch_paper) = 0) {
+    ~chatnpc("<p,neutral>Oh. You don't have any touch paper,|and so I won't be able to help after all.");
+    return;
+}
+inv_del(inv, sulphuric_broline, 1);
+inv_del(inv, liquid_honey, 1);
+inv_del(inv, Ethenea, 1);
+inv_del(inv, plague_sample, 1);
+inv_del(inv, touch_paper, 1);
+%biohazard_progress = ^biohazard_found_secret;
+~chatnpc("<p,neutral>Now I'll just apply these to the sample and... I don't get it... the touch paper has remained the same.");
+switch_int(~p_choice2("That's why Elena wanted you to do it.", 1, "So what does that mean exactly?", 2)) {
+    case 1: 
+        ~chatplayer("<p,neutral>That's why Elena wanted you to do it, because she wasn't sure what was happening.");
+        ~chatnpc("<p,neutral>Well that's just it, nothing has happened.");
+    case 2: 
+        ~chatplayer("<p,quiz>So what does that mean exactly?");
+}
+~chatnpc("<p,neutral>I don't know what this sample is, but it certainly isn't toxic.");
+~chatplayer("<p,quiz>So what about the plague?");
+~chatnpc("<p,angry>Don't you understand? There is no Plague!");
+~chatnpc("<p,neutral>I'm very sorry, I can see that you've worked very hard for this... ... but it seems that someone has been lying to you.");
+~chatnpc("<p,confused>The only question is...|... why?");

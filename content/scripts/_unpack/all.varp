@@ -87,8 +87,6 @@ scope=perm
 [waterfall_golrie_and_puzzle]
 scope=perm
 
-[varp_69]
-
 [boat_takeoff]
 transmit=yes
 
@@ -98,8 +96,6 @@ scope=perm
 
 [xplamp]
 transmit=yes
-
-[varp_81]
 
 [questpoints]
 transmit=yes

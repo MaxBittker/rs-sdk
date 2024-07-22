@@ -1,4 +1,18 @@
 [opnpc1,kilron]
+if(%biohazard_progress >= ^biohazard_climbed_ladder) {
+    ~chatplayer("<p,happy>Hello Kilron.");
+    ~chatnpc("<p,neutral>Hello traveller. Do you need to go back over?");
+    switch_int(~p_choice2("Not yet Kilron.", 1, "Yes I do.", 2)) {
+        case 1:
+            ~chatplayer("<p,neutral>Not yet Kilron.");
+            ~chatnpc("<p,neutral>Okay, just give me the word.");
+        case 2:
+            ~chatplayer("<p,neutral>Yes I do.");
+            ~chatnpc("<p,shifty>Okay, quickly now!");
+            @biohazard_climb_ladder(0_39_51_63_3);
+    }
+    return;
+}
 ~chatplayer("<p,happy>Hello there.");
 ~chatnpc("<p,happy>Hello.");
 ~chatplayer("<p,quiz>How are you?");

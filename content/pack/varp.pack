@@ -62,13 +62,13 @@
 61=varp_61
 62=gobdip_progress
 63=runemysteries_progress
-64=warning_wilderness_teleport_lever
+64=exit_essence_mine_coord
 65=waterfall_progress
 66=waterfall_golrie_and_puzzle
 67=hetty_progress
 68=biohazard_progress
-69=varp_69
-70=exit_essence_mine_coord
+69=bioerrand
+70=biodummy
 71=hunt_progress
 72=hunt_store_employed
 73=crate_bananas
@@ -79,7 +79,7 @@
 78=pk_skull
 79=xplamp
 80=druid_progress
-81=varp_81
+81=warning_wilderness_teleport_lever
 82=prayer_guild
 83=prayer_thickskin
 84=prayer_strengthburst

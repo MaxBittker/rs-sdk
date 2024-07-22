@@ -3,8 +3,80 @@
 [opnpc1,npc_717] @mourner_talk_to_player; // mourner black outfit
 [opnpc1,head_mourner] @head_mourner_talk_to_player;
 
+[opnpc1,npc_369] 
+if(%biohazard_progress < ^biohazard_complete) {
+    if(inv_total(worn, doctors_gown) = 0) {
+        ~chatnpc("<p,angry>How did you get in here?|This is a restricted area!");
+        ~npc_retaliate(0);
+        return;
+    }
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,sad>Hello Doc, I feel terrible.|I think it was the stew.");
+    ~chatplayer("<p,neutral>Be more careful with your ingredients next time.");
+}
+
+[opnpc1,npc_371] 
+if(%biohazard_progress = ^biohazard_poisoned_stew) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,sad>Oh dear oh dear.|I feel terrible, I think it was the stew.");
+    ~chatplayer("<p,neutral>You should be more careful with your ingredients.");
+    if(inv_total(worn, doctors_gown) > 0) {
+        ~chatnpc("<p,sad>There is one mourner who's really sick. They're resting upstairs. You should see to them first.");
+        ~chatplayer("<p,neutral>Okay, I'll see what I can do.");
+    } else {
+        ~chatnpc("<p,sad>I need a doctor.|The nurse's hut is to the south west.|Go now and bring us a doctor, that's an order.");
+    }
+    return;
+} 
+mes("The mourner doesn't feel like talking.");
+
 [opnpc1,npc_719] // plague house mourners
 @mourner_talk_to_player;
+
+[opnpc1,npc_370] // mourner hq upstairs
+if(%biohazard_progress = ^biohazard_poisoned_stew & inv_total(worn, doctors_gown) > 0) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,sad>You're here at last! I don't know what I've eaten but I feel like I'm on death's door."); 
+    ~chatplayer("<p,neutral>Hmm... interesting, sounds like food poisoning.");
+    ~chatnpc("<p,sad>Yes, I'd figured that out already. What can you give me to help.");
+    switch_int(~p_choice3("Just hold your breath and count to ten.", 1, "The best I can do is pray for you.", 2, "There's nothing I can do, it's fatal.", 3)) {
+        case 1:
+            ~chatplayer("<p,neutral>Just hold your breath and count to ten.");
+            ~chatnpc("<p,confused>What? How will that help? What kind of doctor are you?");
+            ~chatplayer("<p,shifty>Erm... I'm new, I just started.");
+            ~chatnpc("<p,angry>You're no doctor!");
+            ~npc_retaliate(0);
+        case 2:
+            ~chatplayer("<p,neutral>The best I can do is pray for you.");
+            ~chatnpc("<p,angry>Pray for me? You're no doctor... You're an imposter!");
+            ~npc_retaliate(0);
+        case 3:
+            ~chatplayer("<p,neutral>There's nothing I can do, it's fatal.");
+            ~chatnpc("<p,shock>No, I'm too young to die! I've never even had a girlfriend.");
+            ~chatplayer("<p,neutral>That's life for you.");
+            ~chatnpc("<p,confused>Wait a minute, where's your equipment?");
+            ~chatplayer("<p,shifty>It's erm... at home.");
+            ~chatnpc("<p,angry>You're no doctor!");
+            ~npc_retaliate(0);
+    }
+    return;
+}
+mes("The mourner is sick.");
+p_delay(3);
+mes("He doesn't feel like talking.");
+
+[ai_queue3,npc_370]
+gosub(npc_death);
+if(npc_findhero = true) {
+    queue(defeat_biohazard_mourner, 0); // reg queue, doesn't if_close (OSRS)
+}
+
+[queue,defeat_biohazard_mourner]
+if(inv_total(inv, biohazard_key) = 0) {
+    mes("You search the mourner...");
+    mes("and find a key.");
+    inv_add(inv, biohazard_key, 1);
+}
 
 [label,mourner_stand_back_citizen]
 ~chatnpc("<p,neutral>Stand back citizen, do not approach me.");
@@ -12,7 +84,11 @@
 [label,mourner_talk_to_player]
 if (~inzone_coord_pair_table(ardougne_west, coord) = true) {
     ~chatnpc("<p,confused>Hmmm, how did you get over here? You're not one of this rabble. Ah well, you'll have to stay. Can't risk you going back now.");
-    @multi3("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena)>.", mourner_im_looking_for_a_woman);
+    if(%elena_progress < ^quest_elena_freed_elena) {
+        @multi3("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena)>.", mourner_im_looking_for_a_woman);
+    } else {
+        @multi2("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though);
+    }
 } else {
     @mourner_outside_gates;
 }

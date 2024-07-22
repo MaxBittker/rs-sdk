@@ -4,6 +4,7 @@ if (distance(coord, 0_46_52_55_55) <= 1) {
     @hunt_dig;
 }
 // Everything else
+p_arrivedelay;
 anim(human_dig, 0);
 // Treasure Trails
 if(map_members = true & ~trail_hasclue_inv = true) {

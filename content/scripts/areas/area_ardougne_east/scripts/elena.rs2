@@ -1,10 +1,133 @@
 [opnpc1,elena]
-~chatplayer("<p,happy>Good day to you <nc_name(elena)>.");
-~chatnpc("<p,happy>You too, thanks for freeing me.");
-~chatnpc("<p,sad>It's just a shame the mourners confiscated my equipment.");
-~chatplayer("<p,quiz>What did they take?");
-~chatnpc("<p,neutral>My distillator. I can't test any plague samples without it. They're holding it in the Mourners Headquarters in West Ardougne.");
-~chatnpc("<p,quiz>I must somehow retrieve that distillator if I am to find a cure for this awful affliction. Do you think you could help me?");
-// TODO Biohazard quest impl.
-~chatplayer("<p,neutral>I'm busy at the moment, I'm afraid.");
-~chatnpc("<p,neutral>Fair enough.");
+switch_int(%biohazard_progress) { // ^biohazard_used_birdfeed intentionally has no dialogue!
+    case ^biohazard_complete:
+        ~chatplayer("<p,happy>Hello Elena.");
+        ~chatnpc("<p,happy>Hey, how are you?");
+        ~chatplayer("<p,happy>Good thanks, yourself?");
+        ~chatnpc("<p,happy>Not bad, let me know when you hear from King Lathas again.");
+        ~chatplayer("<p,happy>Will do.");
+    case ^biohazard_reported_elena:
+        ~chatplayer("<p,happy>Hello Elena.");
+        ~chatnpc("<p,neutral>You must go see King Lathas immediately!");
+    case ^biohazard_found_secret:
+        ~chatnpc("<p,happy>You're back! So what did Guidor say?");
+        ~chatplayer("<p,confused>Nothing.");
+        ~chatnpc("<p,confused>What?");
+        ~chatplayer("<p,confused>He said that there is no plague.");
+        ~chatnpc("<p,quiz>So what, this thing has all been a big hoax?");
+        ~chatplayer("<p,neutral>Or maybe we're about to uncover something huge.");
+        ~chatnpc("<p,neutral>Then I think this thing may be bigger than both of us.");
+        ~chatplayer("<p,quiz>What do you mean?");
+        ~chatnpc("<p,neutral>I mean you need to go right to the top...|You need to see the King of East Ardougne!");
+        %biohazard_progress = ^biohazard_reported_elena;
+    case ^biohazard_given_distillator, ^biohazard_spoken_chemist:
+        ~chatnpc("<p,quiz>What are you doing back here?");
+        switch_int(~p_choice3("I just find it hard to say goodbye sometimes.", 1, "I'm afraid I've lost some of the stuff that you gave me...", 2, "I've forgotten what I need to do.", 3)) {
+            case 1:
+                ~chatplayer("<p,sad>I just find it hard to say goodbye sometimes.");
+                ~chatnpc("<p,confused>Yes... I have feelings for you too...");
+                ~chatnpc("<p,angry>Now get back to work!");
+            case 2:
+                ~chatplayer("<p,sad>I'm afraid I've lost some of the stuff that you gave me...");
+                ~chatnpc("<p,neutral>That's alright, I've got plenty.");
+                // unlike the initial batch these do drop to the floor
+                if(inv_total(inv, liquid_honey) = 0) {
+                    inv_add(inv, liquid_honey, 1);
+                }
+                if(inv_total(inv, Ethenea) = 0) {
+                    inv_add(inv, Ethenea, 1);
+                }
+                if(inv_total(inv, sulphuric_broline) = 0) {
+                    inv_add(inv, sulphuric_broline, 1);
+                }
+                if(inv_total(inv, plague_sample) = 0) {
+                    inv_add(inv, plague_sample, 1);
+                }
+                mes("Elena replaces your items.");
+                ~chatnpc("<p,neutral>Ok, so that's your colourless Ethenea...|Some highly toxic sulphuric broline...|And some bog-standard liquid honey...");
+                ~chatplayer("<p,happy>Great, I'll be on my way.");
+            case 3:
+                ~chatplayer("<p,sad>I've forgotten what I need to do.");
+                ~chatnpc("<p,neutral>Go to Rimmington and get some touch paper from the chemist. Use his errand boys to smuggle the vials into Varrock.");
+                ~chatnpc("<p,neutral>Then collect the samples and take them to Guidor, my old mentor.");
+                ~chatplayer("<p,neutral>Ok, I'll get to it.");
+        }
+    case ^biohazard_found_distillator:
+        ~chatnpc("<p,quiz>So, have you managed to retrieve my distillator?");
+        if(inv_total(inv, distillator) = 0) {
+            ~chatplayer("<p,sad>I'm afraid not.");
+            ~chatnpc("<p,sad>Oh, you haven't...|People may be dying even as we speak.");
+            return;
+        }
+        ~chatplayer("<p,happy>Yes, here it is!");
+        ~chatnpc("<p,happy>You have? That's great!|Now can you pass me those reaction agents please?");
+        mes("You hand Elena the distillator and an assortment of vials.");
+        ~chatplayer("<p,neutral>Those look pretty fancy.");
+        ~chatnpc("<p,neutral>Well, yes and no. The liquid honey isn't worth much, but the others are. Especially this colourless ethenea. Be careful with the sulphuric broline, it's highly poisonous.");
+        ~chatplayer("<p,neutral>You're not kidding, I can smell it from here!");
+        if_close;
+        p_delay(2);
+        mes("Elena puts the agents through the distillator.");
+        ~chatnpc("<p,confused>I don't understand... the touch paper hasn't changed colour at all...");
+        ~chatnpc("<p,neutral>You'll need to go and see my old mentor Guidor. He lives in Varrock. Take these vials and this sample to him.");
+        if_close;
+        %biohazard_progress = ^biohazard_given_distillator;
+        // doesn't drop to the ground? https://youtu.be/_ZNalEQB70o?si=qmcyRDUWvO1M4tA5&t=637
+        inv_del(inv, distillator, 1);
+        if(inv_freespace(inv) > 1) {
+            inv_add(inv, liquid_honey, 1);
+        }
+        if(inv_freespace(inv) > 1) {
+            inv_add(inv, Ethenea, 1);
+        }
+        if(inv_freespace(inv) > 1) {
+            inv_add(inv, sulphuric_broline, 1);
+        }
+        if(inv_freespace(inv) > 1) {
+            inv_add(inv, plague_sample, 1);
+        }
+        mes("Elena gives you three vials and a sample in a tin container.");
+        p_delay(2);
+        ~chatnpc("<p,neutral>But first you'll need some more touch paper. Go and see the chemist in Rimmington.");
+        ~chatnpc("<p,neutral>Just don't get into any fights, and be careful who you speak to.");
+        ~chatnpc("<p,neutral>Those vials are fragile, and plague carriers don't tend to be too popular.");
+    case ^biohazard_climbed_ladder, ^biohazard_poisoned_stew:
+        ~chatplayer("<p,happy>Hello again.");
+        ~chatnpc("<p,quiz>You're back, did you find the distillator?");
+        ~chatplayer("<p,sad>I'm afraid not.");
+        ~chatnpc("<p,sad>I can't test the samples without the distillator.|Please don't give up until you find it.");
+    case ^biohazard_released_pigeons:
+        ~chatplayer("<p,happy>Elena, I've distracted the guards at the watchtower.");
+        ~chatnpc("<p,neutral>Yes, I saw.|Quickly meet with Jerico's friends and cross the wall|before the pigeons fly off.");
+    case ^biohazard_spoken_jerico:
+        ~chatplayer("<p,happy>Hello Elena, I've spoken to Jerico.");
+        ~chatnpc("<p,quiz>Was he able to help?");
+        ~chatplayer("<p,neutral>He has two friends who will help me cross the wall,|but first I need to distract the watch tower.");
+        ~chatnpc("<p,confused>Hmm, could be tricky.");
+    case ^biohazard_started:
+        ~chatplayer("<p,happy>Hello Elena.");
+        ~chatnpc("<p,happy>Hello brave adventurer.|Any luck finding my distillator?");
+        ~chatplayer("<p,sad>No, I'm afraid not.");
+        ~chatnpc("<p,neutral>Speak to Jerico, he will help you to cross the wall.|He lives next to the chapel.");
+    case ^biohazard_not_started:
+        ~chatplayer("<p,happy>Good day to you <nc_name(elena)>.");
+        ~chatnpc("<p,happy>You too, thanks for freeing me.");
+        ~chatnpc("<p,sad>It's just a shame the mourners confiscated my equipment.");
+        ~chatplayer("<p,quiz>What did they take?");
+        // https://web.archive.org/web/20050515184744im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard2.PNG
+        ~chatnpc("<p,neutral>My distillator. I can't test any plague samples without it.|They're holding it in the mourner quarters|in West Ardougne.");
+        ~chatnpc("<p,neutral>I must somehow retrieve that distillator|if I am to find a cure for this awful affliction.");
+        switch_int(~p_choice2("I'll try to retrieve it for you.", 1, "Well, good luck.", 2)) {
+            case 1:
+                ~chatplayer("<p,neutral>I'll try to retrieve it for you.");
+                // https://web.archive.org/web/20050515184744im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard3.PNG
+                ~chatnpc("<p,neutral>I was hoping you would say that.|Unfortunately they discovered the tunnel and filled it in.|We need another way over the wall.");
+                ~chatplayer("<p,quiz>Any ideas?");
+                %biohazard_progress = ^biohazard_started;
+                ~send_quest_progress(questlist:biohazard, %biohazard_progress, ^biohazard_complete);
+                ~chatnpc("<p,neutral>My father's friend Jerico is in communication with West Ardougne. He might be able to help us, he lives next to the chapel.");
+            case 2:
+                ~chatplayer("<p,neutral>Well, good luck.");
+                ~chatnpc("<p,confused>Thanks traveller.");
+        }
+}

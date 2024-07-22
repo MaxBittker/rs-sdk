@@ -1,6 +1,20 @@
 [opnpc1,nurse_sarah]
-~chatplayer("<p,happy>Hello there.");
-~chatnpc("<p,happy>Hello my dear, how are you feeling?");
-~chatplayer("<p,happy>I'm okay thanks.");
-~chatnpc("<p,happy>Well in that case I'd better get back to work. Take care.");
-~chatplayer("<p,happy>You too.");
+if(%biohazard_progress = ^biohazard_poisoned_stew) {
+    ~chatplayer("<p,happy>Hello nurse.");
+    ~chatnpc("<p,happy>Oh hello there.");
+    ~chatnpc("<p,neutral>I'm afraid I can't stop and talk, a group of mourners have become ill with food poisoning. I need to go over and see what I can do.");
+    ~chatplayer("<p,shifty>Hmmm, strange that!");
+} else if (%biohazard_progress = ^biohazard_climbed_ladder) {
+    ~chatplayer("<p,happy>Hello nurse.");
+    ~chatnpc("<p,sad>I don't know how much longer I can cope here.");
+    ~chatplayer("<p,quiz>What? Is the plague getting to you?");
+    ~chatnpc("<p,confused>No, strangely enough the people here don't seem to be affected. It's just the awful living conditions that is making people ill.");
+    ~chatplayer("<p,confused>I was under the impression that everyone here was affected.");
+    ~chatnpc("<p,confused>Me too, but that doesn't seem to be the case.");
+} else {
+    ~chatplayer("<p,happy>Hello there.");
+    ~chatnpc("<p,happy>Hello my dear, how are you feeling?");
+    ~chatplayer("<p,happy>I'm okay thanks.");
+    ~chatnpc("<p,happy>Well in that case I'd better get back to work. Take care.");
+    ~chatplayer("<p,happy>You too.");
+}

@@ -1,3 +1,25 @@
+[loc_2034]
+name=Door
+desc=It's closed.
+model=model_loc_3
+active=yes
+op1=Open
+retex1s=wall
+retex1d=door
+recol2s=6342
+recol2d=11458
+param=next_loc_stage,loc_2035
+
+[loc_2035]
+name=Door
+desc=It's open.
+model=model_loc_3
+active=yes
+retex1s=wall
+retex1d=door
+recol2s=6342
+recol2d=11458
+
 [loc_2036]
 name=Door
 desc=It's closed.
@@ -8,7 +30,6 @@ retex1s=wall
 retex1d=door
 recol2s=6342
 recol2d=11458
-category=door_closed
 param=next_loc_stage,loc_2037
 
 [loc_2037]
@@ -20,8 +41,6 @@ retex1s=wall
 retex1d=door
 recol2s=6342
 recol2d=11458
-category=door_opened
-param=next_loc_stage,loc_2036
 
 [loc_2528]
 name=Door
@@ -33,7 +52,6 @@ retex1s=wall
 retex1d=door
 recol2s=6342
 recol2d=11458
-category=door_closed
 param=next_loc_stage,loc_2529
 
 [loc_2529]
@@ -44,8 +62,6 @@ retex1s=wall
 retex1d=door
 recol2s=6342
 recol2d=11458
-category=door_opened
-param=next_loc_stage,loc_2528
 
 [loc_2534]
 name=Door
@@ -57,7 +73,6 @@ retex1s=wall
 retex1d=door
 recol2s=6342
 recol2d=11458
-category=door_closed
 param=next_loc_stage,loc_2536
 
 [loc_2535]
@@ -79,8 +94,6 @@ retex1s=wall
 retex1d=door
 recol2s=6342
 recol2d=11458
-category=door_closed
-param=next_loc_stage,loc_2534
 
 [loc_2997]
 name=Door
