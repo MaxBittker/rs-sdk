@@ -30,7 +30,7 @@ switch_int(%elena_progress) {
     }
     case ^quest_elena_tied_rope: {
         ~chatplayer("<p,neutral>I've tied the other end of this rope to the grill.");
-        ~mesbox("<nc_name(edmond)> gets a good grip on the ripe. Together you tug the rope. You hear a clunk as you both fly backwards...");
+        ~mesbox("<nc_name(edmond)> gets a good grip on the rope. Together you tug the rope. You hear a clunk as you both fly backwards...");
         ~chatnpc("<p,neutral>That's done the job.");
         ~chatnpc("<p,neutral>Remember to always wear the gasmask,|otherwise you'll die over there for certain...|Please bring my Elena back safe and sound.");
         ~quest_elena_set_progress(^quest_elena_opened_pipe);
