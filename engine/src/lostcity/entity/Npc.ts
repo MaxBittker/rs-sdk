@@ -201,16 +201,19 @@ export default class Npc extends PathingEntity {
                 const distanceToX = Math.abs(this.target.x - this.startX);
                 const distanceToZ = Math.abs(this.target.z - this.startZ);
                 if (Math.max(distanceToX, distanceToZ) > type.maxrange + 1) {
+                    this.clearWaypoints();
                     this.defaultMode();
                     return false;
                 }
                 // remove corner
                 if (distanceToX === type.maxrange + 1 && distanceToZ === type.maxrange + 1) {
+                    this.clearWaypoints();
                     this.defaultMode();
                     return false; 
                 }
             } else if (this.targetOp >= NpcMode.APPLAYER1 && this.targetOp <= NpcMode.APPLAYER5) {
                 if (Position.distanceToSW(this.target, {x: this.startX, z: this.startZ}) > type.maxrange + type.attackrange) {
+                    this.clearWaypoints();
                     this.defaultMode();
                     return false;   
                 }
