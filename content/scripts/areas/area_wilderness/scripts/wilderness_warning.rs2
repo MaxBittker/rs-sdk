@@ -1,0 +1,74 @@
+// https://youtu.be/CI7BfqmDeWk?t=101
+// https://youtu.be/OTeZs6SIyx4?t=61
+// https://youtu.be/dpOJn0HyTx4?t=52
+// https://youtu.be/jdcT9ogpMwE?t=104 underground
+// all on the same z axis
+[label,wilderness_warning]
+if (coordz(last_coord) < coordz(coord)) { // if player is comin from the south
+    queue(wilderness_warning, 0);
+}
+
+[queue,wilderness_warning]
+// no idea if they had an area check before opening this interface
+p_stopaction;
+if_openmainmodal(wilderness_warning);
+
+[zone,0_45_54_48_56] @wilderness_warning;
+[zone,0_45_54_56_56] @wilderness_warning;
+[zone,0_46_54_0_56] @wilderness_warning;
+[zone,0_46_54_8_56] @wilderness_warning;
+[zone,0_46_54_16_56] @wilderness_warning;
+[zone,0_46_54_24_56] @wilderness_warning;
+[zone,0_46_54_32_56] @wilderness_warning;
+[zone,0_46_54_40_56] @wilderness_warning;
+[zone,0_46_54_48_56] @wilderness_warning;
+[zone,0_46_54_56_56] @wilderness_warning;
+[zone,0_47_54_0_56] @wilderness_warning;
+[zone,0_47_54_8_56] @wilderness_warning;
+[zone,0_47_54_16_56] @wilderness_warning;
+[zone,0_47_54_24_56] @wilderness_warning;
+[zone,0_47_54_32_56] @wilderness_warning;
+[zone,0_47_54_40_56] @wilderness_warning;
+[zone,0_47_54_48_56] @wilderness_warning;
+[zone,0_47_54_56_56] @wilderness_warning;
+[zone,0_48_54_0_56] @wilderness_warning;
+[zone,0_48_54_8_56] @wilderness_warning;
+[zone,0_48_54_16_56] @wilderness_warning;
+[zone,0_48_54_24_56] @wilderness_warning;
+[zone,0_48_54_32_56] @wilderness_warning;
+[zone,0_48_54_40_56] @wilderness_warning;
+[zone,0_48_54_48_56] @wilderness_warning;
+[zone,0_48_54_56_56] @wilderness_warning;
+[zone,0_49_54_0_56] @wilderness_warning;
+[zone,0_49_54_8_56] @wilderness_warning;
+[zone,0_49_54_16_56] @wilderness_warning;
+[zone,0_49_54_24_56] @wilderness_warning;
+[zone,0_49_54_32_56] @wilderness_warning;
+[zone,0_49_54_40_56] @wilderness_warning;
+[zone,0_49_54_48_56] @wilderness_warning;
+[zone,0_49_54_56_56] @wilderness_warning;
+[zone,0_50_54_0_56] @wilderness_warning;
+[zone,0_50_54_8_56] @wilderness_warning;
+[zone,0_50_54_16_56] @wilderness_warning;
+[zone,0_50_54_24_56] @wilderness_warning;
+[zone,0_50_54_32_56] @wilderness_warning;
+[zone,0_50_54_40_56] @wilderness_warning;
+[zone,0_50_54_48_56] @wilderness_warning;
+[zone,0_50_54_56_56] @wilderness_warning;
+[zone,0_51_54_0_56] @wilderness_warning;
+[zone,0_51_54_8_56] @wilderness_warning;
+[zone,0_51_54_16_56] @wilderness_warning;
+[zone,0_51_54_24_56] @wilderness_warning;
+[zone,0_51_54_32_56] @wilderness_warning;
+[zone,0_51_54_40_56] @wilderness_warning;
+[zone,0_51_54_48_56] @wilderness_warning;
+[zone,0_51_54_56_56] @wilderness_warning;
+[zone,0_52_54_0_56] @wilderness_warning;
+[zone,0_52_54_8_56] @wilderness_warning;
+[zone,0_52_54_16_56] @wilderness_warning;
+[zone,0_52_54_24_56] @wilderness_warning;
+[zone,0_52_54_32_56] @wilderness_warning;
+[zone,0_52_54_40_56] @wilderness_warning;
+[zone,0_52_54_48_56] @wilderness_warning;
+[zone,0_52_54_56_56] @wilderness_warning;
+[zone,0_48_154_56_56] @wilderness_warning;
