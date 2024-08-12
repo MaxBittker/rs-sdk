@@ -234,3 +234,4 @@ param=crushattack_anim,human_blunt_crush
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
 param=broken,black_axe_broken
+param=axe_head,black_axe_head
