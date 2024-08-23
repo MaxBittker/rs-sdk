@@ -14,11 +14,15 @@ if (npc_stat(hitpoints) < 1) {
 }
 // damage npc
 npc_damage(^hitmark_poison, divide(add(%npc_poison, 4), 5));
-
 if (npc_stat(hitpoints) > 0) { // if they lived from that damage:
     %npc_poison = sub(%npc_poison, 1);
-    npc_settimer(30);
-    return;
+    if (%npc_poison > 0) {
+        npc_settimer(30);
+        return;
+    } else {
+        ~npc_poison_clear;
+        return;
+    }
 }
 // else they died
 npc_queue(3, 0, 0);
