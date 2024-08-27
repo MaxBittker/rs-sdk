@@ -338,7 +338,7 @@ export default class Npc extends PathingEntity {
     }
 
     processTimers() {
-        if (this.timerInterval !== 0 && ++this.timerClock >= this.timerInterval) {
+        if (this.timerInterval !== 0 && this.timerClock >= this.timerInterval) {
             this.timerClock = 0;
 
             const type = NpcType.get(this.type);

@@ -745,11 +745,15 @@ class World {
     private processNpcs(): void {
         const start: number = Date.now();
         for (const npc of this.npcs) {
-            if (!npc.checkLifeCycle(this.currentTick)) {
-                continue;
-            }
-
             try {
+                // timers continue to tick when npc is despawned
+                if (npc.timerInterval !== 0) {
+                    npc.timerClock++;
+                }
+                if (!npc.checkLifeCycle(this.currentTick)) {
+                    continue;
+                }
+    
                 if (npc.delayed()) {
                     npc.delay--;
                 }
