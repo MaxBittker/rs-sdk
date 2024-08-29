@@ -1,6 +1,11 @@
-[loc_68]
+[beehive]
 name=Beehive
 desc=Where bees live.
-model=model_loc_68
+model=model_beehive
 active=yes
 op1=Take-from
+
+[beehive_scenery]
+name=Beehive
+desc=Where bees live.
+model=model_beehive

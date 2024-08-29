@@ -1174,11 +1174,6 @@ model=model_loc_152
 width=2
 length=2
 
-[loc_305]
-name=Beehive
-desc=Where bees live.
-model=model_loc_68
-
 [loc_306]
 name=Broken cart
 desc=A used cart seller will probably try and sell it later.

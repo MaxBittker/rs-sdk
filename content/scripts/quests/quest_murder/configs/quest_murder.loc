@@ -6,10 +6,10 @@ width=2
 length=2
 op2=Investigate
 
-[loc_2651]
+[quest_murder_beehive]
 name=Sinclair family beehive
 desc=A sturdily constructed home for bees.
-model=model_loc_68
+model=model_beehive
 op2=Investigate
 
 [loc_2652]

@@ -15,7 +15,7 @@ if(%murder_poisonproof_progress >= ^poisonproof_spoken_murderer) {
 }
 mes("It's a heap of compost.");
 
-[oploc2,loc_2651]
+[oploc2,quest_murder_beehive]
 if(%murder_progress ! ^murder_started) {
     mes("I need the guards' permission to do that.");
     return;
