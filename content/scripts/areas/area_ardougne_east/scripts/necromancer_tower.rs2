@@ -1,0 +1,66 @@
+[ai_queue1,npc_173] ~npc_default_retaliate;
+
+[ai_applayer2,npc_173] 
+npc_setmode(opplayer2);
+~invrigar_attack;
+
+[ai_opplayer2,npc_173] 
+~invrigar_attack;
+
+[ai_queue1,necromancer] ~npc_default_retaliate;
+
+[ai_applayer2,necromancer] 
+npc_setmode(opplayer2);
+~invrigar_attack;
+
+[ai_opplayer2,necromancer] 
+~necro_attack;
+
+[proc,invrigar_attack]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+def_int $attack_type = random(100); // rough estimate, 100 attacks
+if ($attack_type < 12) {
+    ~necro_summon_zombie;
+} else if ($attack_type < 56) {
+    // confuse -> weaken and then curse
+    if (stat_base(attack) <= stat(attack)) { 
+        ~npc_cast_spell(^confuse, 4);
+    } else if(stat_base(strength) <= stat(strength)) {
+        ~npc_cast_spell(^weaken, 4);
+    } else if(stat_base(defence) <= stat(defence)) {
+        ~npc_cast_spell(^defence, 4);
+    } else {
+        ~npc_default_attack;
+    }
+} else {
+    ~npc_default_attack;
+}
+
+[proc,necro_attack]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+def_int $attack_type = random(100); // rough estimate, 100 attacks
+if ($attack_type < 12) {
+    ~necro_summon_zombie;
+} else if ($attack_type < 56 & stat_base(defence) <= stat(defence)) {
+    ~npc_cast_spell(^curse, 4);
+} else {
+    ~npc_default_attack;
+}
+
+[proc,necro_summon_zombie]
+if_close;
+def_coord $zombie_coord = map_findsquare(npc_coord, 1, 3, ^map_findsquare_lineofwalk);
+npc_anim(human_castcurse, 0);
+spotanim_npc(curse_casting, 92, 0);
+sound_synth(summon_zombie, 0, 0);
+%npc_action_delay = calc(map_clock + 4);
+world_delay(1); // delay spawn by 2 ticks
+spotanim_map(teleport_casting, $zombie_coord, 92, 0);
+world_delay(1);
+// new active npc
+npc_add($zombie_coord, summoned_zombie, 200);
+npc_setmode(opplayer2);

@@ -1,0 +1,66 @@
+[ai_queue3,necromancer]
+gosub(npc_death);
+if (npc_findhero = false) {
+    return;
+}
+
+// Default drop from config.
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+def_int $random = random(20);
+
+if ($random < 8) {
+    obj_add(npc_coord, plainstaff, 1, ^lootdrop_duration);
+} else if ($random < 12) {
+    obj_add(npc_coord, zamorak_monk_bottom, 1, ^lootdrop_duration);
+} else if ($random < 15) {
+    obj_add(npc_coord, zamorak_monk_top, 1, ^lootdrop_duration);
+} else if ($random < 16) {
+    obj_add(npc_coord, staff_of_fire, 1, ^lootdrop_duration);
+} else if ($random < 20) {
+    obj_add(npc_coord, earthrune, 36, ^lootdrop_duration);
+} else if ($random < 23) {
+    obj_add(npc_coord, airrune, 10, ^lootdrop_duration);
+} else if ($random < 26) {
+    obj_add(npc_coord, waterrune, 10, ^lootdrop_duration);
+} else if ($random < 29) {
+    obj_add(npc_coord, earthrune, 10, ^lootdrop_duration);
+} else if ($random < 32) {
+    obj_add(npc_coord, firerune, 10, ^lootdrop_duration);
+} else if ($random < 34) {
+    obj_add(npc_coord, airrune, 18, ^lootdrop_duration);
+} else if ($random < 36) {
+    obj_add(npc_coord, waterrune, 18, ^lootdrop_duration);
+} else if ($random < 38) {
+    obj_add(npc_coord, earthrune, 18, ^lootdrop_duration);
+} else if ($random < 40) {
+    obj_add(npc_coord, firerune, 18, ^lootdrop_duration);
+} else if ($random < 47) {
+    obj_add(npc_coord, naturerune, 5, ^lootdrop_duration);
+} else if ($random < 53) {
+    obj_add(npc_coord, chaosrune, 4, ^lootdrop_duration);
+} else if ($random < 56) {
+    obj_add(npc_coord, mindrune, 10, ^lootdrop_duration);
+} else if ($random < 59) {
+    obj_add(npc_coord, bodyrune, 10, ^lootdrop_duration);
+} else if ($random < 61) {
+    obj_add(npc_coord, mindrune, 18, ^lootdrop_duration);
+} else if ($random < 63) {
+    obj_add(npc_coord, bodyrune, 18, ^lootdrop_duration);
+} else if ($random < 65) {
+    obj_add(npc_coord, bloodrune, 2, ^lootdrop_duration);
+} else if ($random < 66) {
+    obj_add(npc_coord, cosmicrune, 2, ^lootdrop_duration);
+} else if ($random < 67) {
+    obj_add(npc_coord, lawrune, 3, ^lootdrop_duration);
+} else if ($random < 84) {
+    obj_add(npc_coord, coins, 1, ^lootdrop_duration);
+} else if ($random < 100) {
+    obj_add(npc_coord, coins, 2, ^lootdrop_duration);
+} else if ($random < 109) {
+    obj_add(npc_coord, coins, 4, ^lootdrop_duration);
+} else if ($random < 112) {
+    obj_add(npc_coord, coins, 29, ^lootdrop_duration);
+}
+
+
+
