@@ -58,4 +58,10 @@ if ($dropint < 30) {
 } else if ($dropint < 80) {
     // 1/129
     obj_add(npc_coord, ~randomjewel, 200);
+} else if ($dropint < 85) {
+    // 1/129
+    obj_add(npc_coord, unidentified_snake_weed, 1, 200);
+} else if ($dropint < 90) {
+    // 1/129
+    obj_add(npc_coord, unidentified_rogues_purse, 1, 200);
 }

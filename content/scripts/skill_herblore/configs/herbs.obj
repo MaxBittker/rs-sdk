@@ -347,7 +347,7 @@ members=yes
 weight=7g
 param=identified_herb_level,3
 param=identified_herb_exp,25
-param=identified_herb_message,You identify the herb. It is Rogue's Purse.
+param=identified_herb_message,You identify the herb. It is Rogues Purse.
 // https://youtu.be/maeY2TnTNVY?t=1493
 // jagex name
 
