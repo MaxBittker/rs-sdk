@@ -132,7 +132,7 @@ export default abstract class PathingEntity extends Entity {
      * Returns true if a step was taken and movement processed.
      */
     processMovement(): boolean {
-        if (!this.hasWaypoints() || this.moveSpeed === MoveSpeed.STATIONARY || this.moveSpeed === MoveSpeed.INSTANT) {
+        if (!this.hasWaypoints() || this.moveSpeed === MoveSpeed.STATIONARY) {
             return false;
         }
 
@@ -255,6 +255,7 @@ export default abstract class PathingEntity extends Entity {
 
     teleJump(x: number, z: number, level: number): void {
         this.teleport(x, z, level);
+        this.clearWaypoints();
         this.jump = true;
     }
 
