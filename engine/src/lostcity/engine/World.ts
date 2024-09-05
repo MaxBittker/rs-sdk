@@ -1524,7 +1524,16 @@ class World {
 
         this.friendsThread.postMessage({
             type: 'player_login',
-            username: player.username
+            username: player.username,
+            chatModePrivate: player.chatModes.privateChat,
+        });
+    }
+
+    sendPrivateChatModeToFriendsServer(player: Player): void {
+        this.friendsThread.postMessage({
+            type: 'player_chat_setmode',
+            username: player.username,
+            chatModePrivate: player.chatModes.privateChat,
         });
     }
 

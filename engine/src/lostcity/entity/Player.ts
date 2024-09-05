@@ -66,6 +66,7 @@ import { ParamHelper } from '#lostcity/cache/config/ParamHelper.js';
 import ParamType from '#lostcity/cache/config/ParamType.js';
 import BuildArea from '#lostcity/entity/BuildArea.js';
 import ChatFilterSettings from '#lostcity/network/outgoing/model/ChatFilterSettings.js';
+import { ChatModePrivate, ChatModePublic, ChatModeTradeDuel } from '#lostcity/util/ChatModes.js';
 
 const levelExperience = new Int32Array(99);
 
@@ -238,13 +239,13 @@ export default class Player extends PathingEntity {
     invs: Map<number, Inventory> = new Map<number, Inventory>();
 
     chatModes: {
-        publicChat: number;
-        privateChat: number;
-        tradeDuel: number;
+        publicChat: ChatModePublic;
+        privateChat: ChatModePrivate;
+        tradeDuel: ChatModeTradeDuel;
     } = {
-            publicChat: 0,
-            privateChat: 0,
-            tradeDuel: 0
+            publicChat: ChatModePublic.ON,
+            privateChat: ChatModePrivate.ON,
+            tradeDuel: ChatModeTradeDuel.ON,
         };
 
     // runtime variables

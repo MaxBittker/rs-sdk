@@ -8,6 +8,7 @@ import NetworkStream from '#lostcity/server/NetworkStream.js';
 
 import Environment from '#lostcity/util/Environment.js';
 import { FriendsServerRepository } from './FriendsServerRepository.js';
+import { ChatModePrivate } from '#lostcity/util/ChatModes.js';
 
 /**
  * client -> server opcodes for friends server
@@ -18,6 +19,7 @@ export enum FriendsClientOpcodes {
     FRIENDLIST_DEL,
     PLAYER_LOGIN,
     PLAYER_LOGOUT,
+    PLAYER_CHAT_SETMODE,
 }
 
 /**
@@ -104,24 +106,30 @@ export class FriendsServer {
                         }
 
                         const username37 = data.g8();
+                        let privateChat: ChatModePrivate = data.g1();
+
+                        if (privateChat !== 0 && privateChat !== 1 && privateChat !== 2) {
+                            console.error(`[Friends]: Player ${fromBase37(username37)} tried to log in with invalid private chat setting ${privateChat}`);
+                            privateChat = ChatModePrivate.ON;
+                        }
                         
                         // remove player from previous world, if any
                         this.repository.unregister(username37);
 
-                        if (!await this.repository.register(world, username37)) {
+                        if (!await this.repository.register(world, username37, privateChat)) {
                             // TODO handle this better?
                             console.error(`[Friends]: World ${world} is full`);
                             return;
                         }
 
-                        console.log(`[Friends]: Player ${fromBase37(username37)} logged in to world ${world}`);
+                        console.log(`[Friends]: Player ${fromBase37(username37)} (${privateChat}) logged in to world ${world}`);
 
                         // notify the player who just logged in about their friends
                         await this.sendFriendsListToPlayer(username37, socket);
 
                         // notify all friends of the player who just logged in
-                        await this.broadcastWorldToFollowers(username37, world);
-                    } else if (opcode === FriendsClientOpcodes.PLAYER_LOGOUT) {                        
+                        await this.broadcastWorldToFollowers(username37);
+                    } else if (opcode === FriendsClientOpcodes.PLAYER_LOGOUT) {
                         if (world === null) {
                             console.error('[Friends]: Received PLAYER_LOGOUT before WORLD_CONNECT');
                             return;
@@ -135,8 +143,27 @@ export class FriendsServer {
                         // remove player from previous world, if any
                         this.repository.unregister(username37);
 
-                        await this.broadcastWorldToFollowers(username37, 0);
-                    } else if (opcode === FriendsClientOpcodes.FRIENDLIST_ADD) {                      
+                        await this.broadcastWorldToFollowers(username37);
+                    } else if (opcode === FriendsClientOpcodes.PLAYER_CHAT_SETMODE) {
+                        if (world === null) {
+                            console.error('[Friends]: Received PLAYER_CHAT_SETMODE before WORLD_CONNECT');
+                            return;
+                        }
+
+                        const username37 = data.g8();
+                        let privateChat: ChatModePrivate = data.g1();
+                        const username = fromBase37(username37);
+
+                        if (privateChat !== 0 && privateChat !== 1 && privateChat !== 2) {
+                            console.error(`[Friends]: Player ${fromBase37(username37)} tried to set chatmode to invalid private chat setting ${privateChat}`);
+                            privateChat = ChatModePrivate.ON;
+                        }
+
+                        console.log(`[Friends]: Player ${username} set chat mode to ${privateChat}`);
+
+                        this.repository.setChatMode(username37, privateChat);
+                        await this.broadcastWorldToFollowers(username37);
+                    } else if (opcode === FriendsClientOpcodes.FRIENDLIST_ADD) {
                         if (world === null) {
                             console.error('[Friends]: Received FRIENDLIST_ADD before WORLD_CONNECT');
                             return;
@@ -147,9 +174,11 @@ export class FriendsServer {
 
                         await this.repository.addFriend(username37, targetUsername37);
 
-                        const targetCurrentWorld = this.repository.getWorld(targetUsername37);
+                        await this.sendPlayerWorldUpdate(username37, targetUsername37);
 
-                        await this.sendPlayerWorldUpdate(username37, targetCurrentWorld ?? 0, targetUsername37);
+                        // we can refactor this to only send the update to the new friend
+                        // currently we broadcast this in case the player has private chat set to "Friends"
+                        await this.broadcastWorldToFollowers(username37);
                     } else if (opcode === FriendsClientOpcodes.FRIENDLIST_DEL) {
                         if (world === null) {
                             console.error('[Friends]: Received FRIENDLIST_DEL before WORLD_CONNECT');
@@ -160,6 +189,9 @@ export class FriendsServer {
                         const targetUsername37 = data.g8();
 
                         await this.repository.deleteFriend(username37, targetUsername37);
+
+                        // we can refactor this to only send the update to the ex-friend
+                        await this.broadcastWorldToFollowers(username37);
                     } else {
                         console.error(`[Friends]: Unknown opcode ${opcode}, length ${length}`);
                     }
@@ -195,11 +227,11 @@ export class FriendsServer {
         }
     }
 
-    private async broadcastWorldToFollowers(username37: bigint, world: number) {
+    private async broadcastWorldToFollowers(username37: bigint) {
         const followers = this.repository.getFollowers(username37);
 
         for (const follower of followers) {
-            await this.sendPlayerWorldUpdate(follower, world, username37);
+            await this.sendPlayerWorldUpdate(follower, username37);
         }
     }
 
@@ -212,17 +244,19 @@ export class FriendsServer {
         return this.socketByWorld[world] ?? null;
     }
 
-    private sendPlayerWorldUpdate(receiver: bigint, world: number, player: bigint) {
-        const socket = this.getPlayerWorldSocket(receiver);
+    private sendPlayerWorldUpdate(viewer: bigint, other: bigint) {
+        const socket = this.getPlayerWorldSocket(viewer);
 
         if (!socket) {
             return Promise.resolve();
         }
 
+        const otherPlayerWorld = this.repository.getWorld(other);
+
         const packet = new Packet(new Uint8Array(8 + 2 + 8));
-        packet.p8(receiver);
-        packet.p2(world);
-        packet.p8(player);
+        packet.p8(viewer);
+        packet.p2(this.repository.isVisibleTo(viewer, other) ? otherPlayerWorld : 0);
+        packet.p8(other);
 
         return this.write(socket, FriendsServerOpcodes.UPDATE_FRIENDLIST, packet.data);
     }
@@ -389,15 +423,16 @@ export class FriendsClient {
         await this.write(this.socket, FriendsClientOpcodes.WORLD_CONNECT, request.data);
     }
 
-    public async playerLogin(username: string) {
+    public async playerLogin(username: string, privateChat: number) {
         await this.connect();
 
         if (this.socket === null) {
             return -1;
         }
 
-        const request = new Packet(new Uint8Array(8));
+        const request = new Packet(new Uint8Array(9));
         request.p8(toBase37(username));
+        request.p1(privateChat);
         await this.write(this.socket, FriendsClientOpcodes.PLAYER_LOGIN, request.data);
     }
 
@@ -437,5 +472,18 @@ export class FriendsClient {
         request.p8(toBase37(username));
         request.p8(target);
         await this.write(this.socket, FriendsClientOpcodes.FRIENDLIST_DEL, request.data);
+    }
+
+    public async playerChatSetMode(username: string, privateChatMode: ChatModePrivate) {
+        await this.connect();
+
+        if (this.socket === null) {
+            return -1;
+        }
+
+        const request = new Packet(new Uint8Array(9));
+        request.p8(toBase37(username));
+        request.p1(privateChatMode);
+        await this.write(this.socket, FriendsClientOpcodes.PLAYER_CHAT_SETMODE, request.data);
     }
 }

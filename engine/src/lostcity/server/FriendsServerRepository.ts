@@ -1,6 +1,7 @@
 import { fromBase37, toBase37 } from '#jagex2/jstring/JString.js';
 
 import { db } from '#lostcity/db/query.js';
+import { ChatModePrivate } from '#lostcity/util/ChatModes.js';
 
 /**
  * Stores friends data related to players.
@@ -17,6 +18,11 @@ export class FriendsServerRepository {
      * worldByPlayer[username] = worldId
      */
     private worldByPlayer: Record<string, number> = {};
+
+    /**
+     * privateChatByPlayer[username] = privateChat
+     */
+    private privateChatByPlayer: Record<string, ChatModePrivate> = {};
 
     /**
      * playerFriends[username] = username37[]
@@ -37,7 +43,13 @@ export class FriendsServerRepository {
         return this.worldByPlayer[username];
     }
 
-    public async register(world: number, username37: bigint) {
+    public getPrivateChat(username37: bigint) {
+        const username = fromBase37(username37);
+
+        return this.privateChatByPlayer[username];
+    }
+
+    public async register(world: number, username37: bigint, privateChat: ChatModePrivate) {
         const username = fromBase37(username37);
 
         // add player to new world
@@ -50,6 +62,7 @@ export class FriendsServerRepository {
 
         this.playersByWorld[world][newIndex] = username37;
         this.worldByPlayer[username] = world;
+        this.privateChatByPlayer[username] = privateChat;
         await this.loadFriends(username37);
 
         return true;
@@ -66,6 +79,7 @@ export class FriendsServerRepository {
             if (player !== -1) {
                 this.playersByWorld[world][player] = null;
                 delete this.worldByPlayer[username];
+                delete this.privateChatByPlayer[username];
                 delete this.playerFriends[username];
                 return;
             }
@@ -82,6 +96,7 @@ export class FriendsServerRepository {
             if (player !== -1) {
                 this.playersByWorld[i][player] = null;
                 delete this.worldByPlayer[username];
+                delete this.privateChatByPlayer[username];
                 delete this.playerFriends[username];
             }
         }
@@ -134,6 +149,19 @@ export class FriendsServerRepository {
     }
 
     public async deleteFriend(username37: bigint, targetUsername37: bigint) {
+        const username = fromBase37(username37);
+        const targetUsername = fromBase37(targetUsername37);
+
+        this.playerFriends[username] = this.playerFriends[username] ?? [];
+        const index = this.playerFriends[username].indexOf(targetUsername37);
+
+        if (index === -1) {
+            console.error(`[Friends]: ${username} tried to remove ${targetUsername} from their friend list, but they are not friends`);
+            return;
+        }
+
+        this.playerFriends[username].splice(index, 1);
+
         // I tried to do all this in 1 query but Kyesly wasn't happy
         const accountId = await db
             .selectFrom('account')
@@ -162,6 +190,15 @@ export class FriendsServerRepository {
         const username = fromBase37(username37);
         const targetUsername = fromBase37(targetUsername37);
 
+        this.playerFriends[username] = this.playerFriends[username] ?? [];
+
+        if (this.playerFriends[username].includes(targetUsername37)) {
+            console.error(`[Friends]: ${username} tried to add ${targetUsername} to their friend list, but they are already friends`);
+            return;
+        }
+
+        this.playerFriends[username].push(targetUsername37);
+
         // I tried to do all this in 1 query but Kyesly wasn't happy
         const accountId = await db
             .selectFrom('account')
@@ -182,18 +219,6 @@ export class FriendsServerRepository {
             return;
         }
 
-        const existing = await db
-            .selectFrom('friendlist')
-            .select(['account_id', 'friend_account_id'])
-            .where('account_id', '=', accountId.id)
-            .where('friend_account_id', '=', friendAccountId.id)
-            .executeTakeFirst();
-
-        if (existing) {
-            console.error(`[Friends]: ${username} tried to add ${targetUsername} to their friend list, but they are already friends`);
-            return;
-        }
-
         // TODO check player is not over friends limit
 
         await db
@@ -203,6 +228,34 @@ export class FriendsServerRepository {
                 friend_account_id: friendAccountId.id,
             })
             .execute();
+    }
+
+    public setChatMode(username37: bigint, privateChat: ChatModePrivate) {
+        const username = fromBase37(username37);
+
+        this.privateChatByPlayer[username] = privateChat;
+    }
+
+    /**
+     * Is a player's online status visible to another player?
+     * 
+     * @param viewer37 The player who is viewing the online status
+     * @param other37 The player whose online status is being viewed
+     * @returns Whether the viewer can see the other player's online status
+     */
+    public isVisibleTo(viewer37: bigint, other37: bigint) {
+        const otherUsername = fromBase37(other37);
+        const otherChatMode = this.privateChatByPlayer[otherUsername] ?? ChatModePrivate.OFF;
+
+        if (otherChatMode === ChatModePrivate.OFF) {
+            return false;
+        }
+
+        if (otherChatMode === ChatModePrivate.FRIENDS) {
+            return this.playerFriends[otherUsername]?.includes(viewer37) ?? false;
+        }
+        
+        return true;
     }
 
     private async loadFriends(username37: bigint) {
@@ -217,11 +270,5 @@ export class FriendsServerRepository {
         const friendUsername37s = friendUsernames.map(f => toBase37(f.username));
 
         this.playerFriends[username] = friendUsername37s;
-    }
-
-    private isVisibleTo(playerUsername37: bigint, targetUsername37: bigint) {
-        const playerUsername = fromBase37(playerUsername37);
-        
-        return this.playerFriends[playerUsername]?.includes(targetUsername37) ?? false;
     }
 }
