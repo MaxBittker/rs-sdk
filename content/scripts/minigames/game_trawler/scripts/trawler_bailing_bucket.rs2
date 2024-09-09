@@ -1,4 +1,8 @@
 [opheld1,bailing_bucket_empty]
+if (~inzone_coord_pair_table(trawler_wreck_zones, coord) = true) {
+    mes("It's a bit late for that!"); // osrs
+    return;
+}
 if (~inzone_coord_pair_table(trawler_flood_zones, coord) = false) {
     mes("You don't really need to bail yet.");
     return;

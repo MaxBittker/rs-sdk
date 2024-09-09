@@ -138,9 +138,6 @@ if (map_blocked($coord) = true) {
 if (~inzone_coord_pair_table(bank_zones, $coord) = true) {
     return(false);
 }
-if (~inzone_coord_pair_table(trawler_game_zones, $coord) = true & coordy($coord) = 0) {
-    return(false);
-}
 return(true);
 
 

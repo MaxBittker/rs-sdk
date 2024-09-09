@@ -5,5 +5,9 @@ if (~in_duel_arena(coord) = true) {
     mes("You cannot drop items here."); // osrs pvp arena
     return;
 }
+if (~inzone_coord_pair_table(trawler_wreck_zones, coord) = true) {
+    mes("It would be seriously unwise for you to drop your items in the sea."); // osrs
+    return;
+}
 inv_dropslot(inv, coord, $last, 200);
 sound_synth(put_down, 0, 0);
