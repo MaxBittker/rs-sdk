@@ -1966,7 +1966,7 @@ param=attack_sound,zombie_attack
 param=defend_sound,zombie_hit
 param=death_sound,zombie_death
 param=undead,^true
-huntmode=aggressive_melee
+huntmode=cowardly
 huntrange=1
 
 [summoned_zombie]
