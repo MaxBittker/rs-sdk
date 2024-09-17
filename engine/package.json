@@ -82,7 +82,7 @@
     "prisma-kysely": "^1.8.0",
     "sort-package-json": "^2.10.0",
     "tinybench": "^2.8.0",
-    "typescript": "^5.5.4",
+    "typescript": "5.5.4",
     "vitest": "^1.6.0"
   },
   "optionalDependencies": {
