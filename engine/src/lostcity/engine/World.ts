@@ -563,118 +563,134 @@ class World {
     }
 
     async cycle(continueCycle: boolean = true): Promise<void> {
-        const start: number = Date.now();
+        try
+        {
+            const start: number = Date.now();
 
-        // world processing
-        // - world queue
-        // - calculate afk event readiness
-        // - npc spawn scripts
-        // - npc hunt
-        this.processWorld();
+            // world processing
+            // - world queue
+            // - calculate afk event readiness
+            // - npc spawn scripts
+            // - npc hunt
+            this.processWorld();
 
-        // client input
-        // - decode packets
-        // - process pathfinding/following
-        await this.processClientsIn();
+            // client input
+            // - decode packets
+            // - process pathfinding/following
+            await this.processClientsIn();
 
-        // npc processing (if npc is not busy)
-        // - resume suspended script
-        // - stat regen
-        // - timer
-        // - queue
-        // - movement
-        // - modes
-        this.processNpcs();
+            // npc processing (if npc is not busy)
+            // - resume suspended script
+            // - stat regen
+            // - timer
+            // - queue
+            // - movement
+            // - modes
+            this.processNpcs();
 
-        // player processing
-        // - resume suspended script
-        // - primary queue
-        // - weak queue
-        // - timers
-        // - soft timers
-        // - engine queue
-        // - interactions
-        // - movement
-        // - close interface if attempting to logout
-        await this.processPlayers();
+            // player processing
+            // - resume suspended script
+            // - primary queue
+            // - weak queue
+            // - timers
+            // - soft timers
+            // - engine queue
+            // - interactions
+            // - movement
+            // - close interface if attempting to logout
+            await this.processPlayers();
 
-        // player logout
-        await this.processLogouts();
+            // player logout
+            await this.processLogouts();
 
-        // player login, good spot for it (before packets so they immediately load but after processing so nothing hits them)
-        await this.processLogins();
+            // player login, good spot for it (before packets so they immediately load but after processing so nothing hits them)
+            await this.processLogins();
 
-        // process zones
-        // - build list of active zones around players
-        // - loc/obj despawn/respawn
-        // - compute shared buffer
-        this.processZones();
+            // process zones
+            // - build list of active zones around players
+            // - loc/obj despawn/respawn
+            // - compute shared buffer
+            this.processZones();
 
-        // process movement directions
-        // - convert player movements
-        // - convert npc movements
-        this.processMovementDirections();
+            // process movement directions
+            // - convert player movements
+            // - convert npc movements
+            this.processMovementDirections();
 
-        // client output
-        // - map update
-        // - player info
-        // - npc info
-        // - zone updates
-        // - inv changes
-        // - stat changes
-        // - afk zones changes
-        // - flush packets
-        await this.processClientsOut();
+            // client output
+            // - map update
+            // - player info
+            // - npc info
+            // - zone updates
+            // - inv changes
+            // - stat changes
+            // - afk zones changes
+            // - flush packets
+            await this.processClientsOut();
 
-        // cleanup
-        // - reset zones
-        // - reset players
-        // - reset npcs
-        // - reset invs
-        this.processCleanup();
+            // cleanup
+            // - reset zones
+            // - reset players
+            // - reset npcs
+            // - reset invs
+            this.processCleanup();
 
-        // ----
+            // ----
 
-        const tick: number = this.currentTick;
+            const tick: number = this.currentTick;
 
-        if (tick % World.LOGIN_PINGRATE === 0) {
-            this.heartbeat();
-        }
+            if (tick % World.LOGIN_PINGRATE === 0) {
+                this.heartbeat();
+            }
 
-        // server shutdown
-        if (this.shutdownTick > -1 && tick >= this.shutdownTick) {
-            await this.processShutdown();
-        }
+            // server shutdown
+            if (this.shutdownTick > -1 && tick >= this.shutdownTick) {
+                await this.processShutdown();
+            }
 
-        if (tick % World.PLAYER_SAVERATE === 0 && tick > 0) {
-            // auto-save players every 15 mins
-            this.savePlayers();
-        }
+            if (tick % World.PLAYER_SAVERATE === 0 && tick > 0) {
+                // auto-save players every 15 mins
+                this.savePlayers();
+            }
 
-        this.currentTick++;
-        this.cycleStats[WorldStat.CYCLE] = Date.now() - start;
+            this.currentTick++;
+            this.cycleStats[WorldStat.CYCLE] = Date.now() - start;
 
-        this.lastCycleStats[WorldStat.CYCLE] = this.cycleStats[WorldStat.CYCLE];
-        this.lastCycleStats[WorldStat.WORLD] = this.cycleStats[WorldStat.WORLD];
-        this.lastCycleStats[WorldStat.CLIENT_IN] = this.cycleStats[WorldStat.CLIENT_IN];
-        this.lastCycleStats[WorldStat.NPC] = this.cycleStats[WorldStat.NPC];
-        this.lastCycleStats[WorldStat.PLAYER] = this.cycleStats[WorldStat.PLAYER];
-        this.lastCycleStats[WorldStat.LOGOUT] = this.cycleStats[WorldStat.LOGOUT];
-        this.lastCycleStats[WorldStat.LOGIN] = this.cycleStats[WorldStat.LOGIN];
-        this.lastCycleStats[WorldStat.ZONE] = this.cycleStats[WorldStat.ZONE];
-        this.lastCycleStats[WorldStat.CLIENT_OUT] = this.cycleStats[WorldStat.CLIENT_OUT];
-        this.lastCycleStats[WorldStat.CLEANUP] = this.cycleStats[WorldStat.CLEANUP];
-        this.lastCycleStats[WorldStat.BANDWIDTH_IN] = this.cycleStats[WorldStat.BANDWIDTH_IN];
-        this.lastCycleStats[WorldStat.BANDWIDTH_OUT] = this.cycleStats[WorldStat.BANDWIDTH_OUT];
+            this.lastCycleStats[WorldStat.CYCLE] = this.cycleStats[WorldStat.CYCLE];
+            this.lastCycleStats[WorldStat.WORLD] = this.cycleStats[WorldStat.WORLD];
+            this.lastCycleStats[WorldStat.CLIENT_IN] = this.cycleStats[WorldStat.CLIENT_IN];
+            this.lastCycleStats[WorldStat.NPC] = this.cycleStats[WorldStat.NPC];
+            this.lastCycleStats[WorldStat.PLAYER] = this.cycleStats[WorldStat.PLAYER];
+            this.lastCycleStats[WorldStat.LOGOUT] = this.cycleStats[WorldStat.LOGOUT];
+            this.lastCycleStats[WorldStat.LOGIN] = this.cycleStats[WorldStat.LOGIN];
+            this.lastCycleStats[WorldStat.ZONE] = this.cycleStats[WorldStat.ZONE];
+            this.lastCycleStats[WorldStat.CLIENT_OUT] = this.cycleStats[WorldStat.CLIENT_OUT];
+            this.lastCycleStats[WorldStat.CLEANUP] = this.cycleStats[WorldStat.CLEANUP];
+            this.lastCycleStats[WorldStat.BANDWIDTH_IN] = this.cycleStats[WorldStat.BANDWIDTH_IN];
+            this.lastCycleStats[WorldStat.BANDWIDTH_OUT] = this.cycleStats[WorldStat.BANDWIDTH_OUT];
 
-        if (continueCycle) {
-            setTimeout(this.cycle.bind(this), this.tickRate - this.cycleStats[WorldStat.CYCLE]);
-        }
+            if (continueCycle) {
+                setTimeout(this.cycle.bind(this), this.tickRate - this.cycleStats[WorldStat.CYCLE]);
+            }
 
-        if (Environment.NODE_DEBUG_PROFILE) {
-            console.log(`tick ${this.currentTick} took ${this.cycleStats[WorldStat.CYCLE]}ms: ${this.getTotalPlayers()} players`);
-            console.log(`${this.cycleStats[WorldStat.WORLD]} ms world | ${this.cycleStats[WorldStat.CLIENT_IN]} ms client in | ${this.cycleStats[WorldStat.NPC]} ms npcs | ${this.cycleStats[WorldStat.PLAYER]} ms players | ${this.cycleStats[WorldStat.LOGOUT]} ms logout | ${this.cycleStats[WorldStat.LOGIN]} ms login | ${this.cycleStats[WorldStat.ZONE]} ms zones | ${this.cycleStats[WorldStat.CLIENT_OUT]} ms client out | ${this.cycleStats[WorldStat.CLEANUP]} ms cleanup`);
-            console.log('----');
+            if (Environment.NODE_DEBUG_PROFILE) {
+                console.log(`tick ${this.currentTick} took ${this.cycleStats[WorldStat.CYCLE]}ms: ${this.getTotalPlayers()} players`);
+                console.log(`${this.cycleStats[WorldStat.WORLD]} ms world | ${this.cycleStats[WorldStat.CLIENT_IN]} ms client in | ${this.cycleStats[WorldStat.NPC]} ms npcs | ${this.cycleStats[WorldStat.PLAYER]} ms players | ${this.cycleStats[WorldStat.LOGOUT]} ms logout | ${this.cycleStats[WorldStat.LOGIN]} ms login | ${this.cycleStats[WorldStat.ZONE]} ms zones | ${this.cycleStats[WorldStat.CLIENT_OUT]} ms client out | ${this.cycleStats[WorldStat.CLEANUP]} ms cleanup`);
+                console.log('----');
+            }
+        } catch (err) {
+            console.error('[World] eep eep cabbage! An unhandled error occurred during the cycle:', err);
+            console.error('[World] Removing all players...');
+
+            for (const player of this.players) {
+                await this.removePlayer(player);
+            }
+
+            // TODO inform Friends server that the world has gone offline
+
+            console.error('[World] All players removed.');
+            console.error('[World] Closing the server.');
+            process.exit(1);
         }
     }
 
