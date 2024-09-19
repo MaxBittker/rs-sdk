@@ -70,7 +70,7 @@ param=magicdefence,-7
 param=rangedefence,33
 param=damagetype,^stab_style
 param=attack_anim,human_spear_pound
-param=defend_anim,human_khazard_spear_defend
+param=defend_anim,human_spear_block
 param=attack_sound,staff_stab
 // param=defend_sound,blade5
 

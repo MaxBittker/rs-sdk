@@ -4275,7 +4275,7 @@ frame3=anim_668
 frame4=anim_957
 frame5=anim_1241
 
-[human_bow_defend]
+[seq_410]
 walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_1433
 frame2=anim_1731
@@ -4530,7 +4530,7 @@ frame8=anim_1918
 frame9=anim_1627
 frame10=anim_1340
 
-[human_khazard_spear_defend]
+[human_spear_block]
 walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_1426
 frame2=anim_1719
@@ -4603,7 +4603,7 @@ frame7=anim_2112
 frame8=anim_1814
 frame9=anim_1519
 
-[human_scythe_lunge]
+[human_scythe_sweep]
 walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 priority=6
 frame1=anim_2173
@@ -4616,7 +4616,7 @@ frame7=anim_1908
 frame8=anim_2208
 frame9=anim_492
 
-[human_scythe_sweep]
+[human_scythe_lunge]
 walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 priority=6
 frame1=anim_1749

@@ -24,11 +24,9 @@ param=prayerbonus,1
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
 param=stabattack_anim,human_blunt_stab
-// param=defend_anim,human_blunt_defend1
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=crush_sound,mace_crush
 param=stab_sound,mace_stab
-// osrs defend anim seq_403
 
 [bronze_mace]
 name=Bronze mace
@@ -56,11 +54,9 @@ param=prayerbonus,1
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
 param=stabattack_anim,human_blunt_stab
-// param=defend_anim,human_blunt_defend1
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=crush_sound,mace_crush
 param=stab_sound,mace_stab
-// osrs defend anim seq_403
 
 [steel_mace]
 name=Steel mace
@@ -86,11 +82,9 @@ param=prayerbonus,2
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
 param=stabattack_anim,human_blunt_stab
-// param=defend_anim,human_blunt_defend1
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=crush_sound,mace_crush
 param=stab_sound,mace_stab
-// osrs defend anim seq_403
 
 [black_mace]
 name=Black mace
@@ -118,11 +112,9 @@ param=prayerbonus,2
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
 param=stabattack_anim,human_blunt_stab
-// param=defend_anim,human_blunt_defend1
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=crush_sound,mace_crush
 param=stab_sound,mace_stab
-// osrs defend anim seq_403
 
 [mithril_mace]
 name=Mithril mace
@@ -150,11 +142,9 @@ param=prayerbonus,3
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
 param=stabattack_anim,human_blunt_stab
-// param=defend_anim,human_blunt_defend1
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=crush_sound,mace_crush
 param=stab_sound,mace_stab
-// osrs defend anim seq_403
 
 [adamant_mace]
 name=Adamant mace
@@ -182,11 +172,9 @@ param=prayerbonus,3
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
 param=stabattack_anim,human_blunt_stab
-// param=defend_anim,human_blunt_defend1
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=crush_sound,mace_crush
 param=stab_sound,mace_stab
-// osrs defend anim seq_403
 
 [rune_mace]
 name=Rune mace
@@ -214,11 +202,9 @@ param=prayerbonus,4
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
 param=stabattack_anim,human_blunt_stab
-// param=defend_anim,human_blunt_defend1
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=crush_sound,mace_crush
 param=stab_sound,mace_stab
-// osrs defend anim seq_403
 
 [dragon_mace]
 members=yes

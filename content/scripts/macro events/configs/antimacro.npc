@@ -844,12 +844,11 @@ defence=9
 // i assume the stats are identical to other random events
 category=macro_event_watchman
 param=attack_anim,human_blunt_crush
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=attack_sound,mace_crush
 // param=defend_sound,blade3_mail
 param=damagetype,^crush_style
 param=combat_xp_multiplier,25
-// possible old defend anim is seq_403
 
 [macro_event_watchman2]
 name=Watchman
@@ -879,12 +878,11 @@ strength=22
 defence=22
 category=macro_event_watchman
 param=attack_anim,human_blunt_crush
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=attack_sound,mace_crush
 // param=defend_sound,blade3_mail
 param=damagetype,^crush_style
 param=combat_xp_multiplier,25
-// possible old defend anim is seq_403
 
 [macro_event_watchman3]
 name=Watchman
@@ -914,12 +912,11 @@ strength=38
 defence=38
 category=macro_event_watchman
 param=attack_anim,human_blunt_crush
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=attack_sound,mace_crush
 // param=defend_sound,blade3_mail
 param=damagetype,^crush_style
 param=combat_xp_multiplier,25
-// possible old defend anim is seq_403
 
 [macro_event_watchman4]
 name=Watchman
@@ -949,12 +946,11 @@ strength=65
 defence=65
 category=macro_event_watchman
 param=attack_anim,human_blunt_crush
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=attack_sound,mace_crush
 // param=defend_sound,blade3_mail
 param=damagetype,^crush_style
 param=combat_xp_multiplier,25
-// possible old defend anim is seq_403
 
 [macro_event_watchman5]
 name=Watchman
@@ -984,12 +980,11 @@ strength=100
 defence=100
 category=macro_event_watchman
 param=attack_anim,human_blunt_crush
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=attack_sound,mace_crush
 // param=defend_sound,blade3_mail
 param=damagetype,^crush_style
 param=combat_xp_multiplier,25
-// possible old defend anim is seq_403
 
 [macro_event_watchman6]
 name=Watchman
@@ -1019,12 +1014,11 @@ strength=130
 defence=130
 category=macro_event_watchman
 param=attack_anim,human_blunt_crush
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=attack_sound,mace_crush
 // param=defend_sound,blade3_mail
 param=damagetype,^crush_style
 param=combat_xp_multiplier,25
-// possible old defend anim is seq_403
 
 [npc_437]
 name=Brownie

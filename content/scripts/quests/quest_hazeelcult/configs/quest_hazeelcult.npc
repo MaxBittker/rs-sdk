@@ -183,7 +183,7 @@ model7=model_286_obj_wear
 head1=model_48_npc_head
 head2=model_83_idk_head
 wanderrange=3
-// TODO try to get information about the attack range
+// TODO: maxrange= 
 respawnrate=50
 hitpoints=25
 attack=10
@@ -194,7 +194,7 @@ param=slashdefence,6
 param=crushdefence,8
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_defend2
-// TODO param=attack_sound,
+// TODO: param=attack_sound,
 // https://www.youtube.com/watch?v=ZYPB823IyRk&t=395s
 // https://www.youtube.com/watch?v=Tm1r7zi4oUY
 

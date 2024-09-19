@@ -654,6 +654,9 @@ param=magicdefence,10
 param=strengthbonus,50
 param=ready_baseanim,human_staffready
 param=attackrate,5
+// param=crushattack_anim,earthwarrior_chop
+// param=crushattack_anim,human_blunt_crush
+// param=defend_anim,human_blunt_defend1
 param=crushattack_anim,human_trans_axe_chop
 param=defend_anim,human_ibanstaff_2h_defend
 // osrs use attack seq_401 and defend seq_403 + the weapon was already 1 handed in 2006

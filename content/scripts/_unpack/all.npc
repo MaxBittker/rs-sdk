@@ -692,6 +692,7 @@ param=slashdefence,3
 param=crushdefence,5
 param=damagetype,^slash_style
 param=attack_anim,human_baxe_slash
+param=defend_anim,human_baxe_defend2
 param=attack_sound,baxe_slash
 // osrs side woodcutting guild forester use defend seq_398
 
@@ -987,9 +988,9 @@ param=attackbonus,6
 param=strengthbonus,6
 param=damagetype,^crush_style
 param=attack_anim,human_blunt_crush
+param=defend_anim,human_blunt_defend1
 param=attack_sound,baxe_slash
 category=shipyard_worker
-// osrs defend seq_403
 // osrs attack sound warhammer_crush
 
 [shark_Shipyard]
@@ -2321,9 +2322,8 @@ readyanim=skeleton_ready
 op2=Attack
 vislevel=18
 model1=model_2944_npc
-// Todo: proof old wander/maxranges  / osrs wr3/mr5 / runescape classic wanderrange is 8    --checkthis--
-// wanderrange=
-// maxrange=
+wanderrange=3
+maxrange=5
 respawnrate=70
 hitpoints=29
 attack=15
@@ -2343,6 +2343,7 @@ param=death_sound,skeleton_death
 param=undead,^true
 huntmode=cowardly
 huntrange=1
+// Todo: proof old wander/maxranges early 2004 / rsc wander 8
 
 [skeleton2]
 name=Skeleton
@@ -3407,13 +3408,13 @@ param=magicdefence,10
 param=rangedefence,30
 param=damagetype,^crush_style
 param=attack_anim,earthwarrior_chop
-param=defend_anim,earthwarrior_def
+param=defend_anim,human_baxe_defend2
+// param=defend_anim,earthwarrior_def
 param=death_anim,earthwarrior_death
 param=attack_sound,mace_crush
 // param=defend_sound,blade5
 huntmode=cowardly
 huntrange=1
-// osrs defend anim seq_398
 // osrs sound attack warhammer_crush
 
 [ice_warrior]
@@ -4011,15 +4012,16 @@ param=crushdefence,20
 param=magicdefence,10
 param=rangedefence,30
 param=damagetype,^slash_style
-param=attack_anim,human_sword_transslash
-param=defend_anim,earthwarrior_def
+param=attack_anim,human_sword_slash
+param=defend_anim,human_sword_defend2
+// param=attack_anim,human_sword_transslash
+// param=defend_anim,earthwarrior_def
 param=death_anim,earthwarrior_death
 param=attack_sound,hacksword_slash
 param=defend_sound,ice_warrior_hit
 param=death_sound,ice_warrior_death
 huntmode=cowardly
 huntrange=1
-// osrs attack animation seq_390 and defend seq_388
 
 [npc_146]
 name=Gull
@@ -5008,10 +5010,9 @@ param=magicdefence,-4
 param=rangedefence,14
 param=damagetype,^crush_style
 param=attack_anim,human_blunt_crush
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=attack_sound,mace_crush
 // param=defend_sound,steel_mail
-// osrs defend anim seq_403
 // osrs attack sound warhammer_crush
 huntmode=cowardly
 huntrange=1
@@ -8325,7 +8326,7 @@ param=attackbonus,8
 param=strengthbonus,10
 param=damagetype,^stab_style
 param=attack_anim,human_spear_stab
-param=defend_anim,human_khazard_spear_defend
+param=defend_anim,human_spear_block
 param=attack_sound,staff_stab
 huntmode=cowardly
 huntrange=1

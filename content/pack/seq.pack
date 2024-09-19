@@ -408,7 +408,7 @@
 407=human_2h_slash
 408=human_dspear_lunge
 409=human_spear_slash
-410=human_bow_defend
+410=seq_410
 411=human_2h_sword_defend
 412=human_staff_spike
 413=human_staff_pummel
@@ -429,14 +429,14 @@
 428=human_spear_stab
 429=human_spear_pound
 430=human_spear_def
-431=human_khazard_spear_defend
+431=human_spear_block
 432=human_spear_throw
 433=human_farmersfork_stab
 434=human_farmersfork_defend
 435=human_scythe_block
 436=human_scythe_def
-437=human_scythe_lunge
-438=human_scythe_sweep
+437=human_scythe_sweep
+438=human_scythe_lunge
 439=human_scythe_spin
 440=human_scythe_slash
 441=seq_441

@@ -503,7 +503,6 @@ param=slashattack_anim,human_sword_slash
 param=defend_anim,human_sword_defend2
 param=stab_sound,stabsword_stab
 param=slash_sound,stabsword_slash
-// osrs defend anim seq_388
 
 [obj_747]
 model=model_2733_obj
@@ -530,7 +529,6 @@ param=slashattack_anim,human_sword_slash
 param=defend_anim,human_sword_defend2
 param=stab_sound,stabsword_stab
 param=slash_sound,stabsword_slash
-// osrs defend anim seq_388
 
 [obj_748]
 name=Holy force

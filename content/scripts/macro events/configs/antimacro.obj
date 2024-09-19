@@ -28,8 +28,9 @@ cost=1
 tradeable=yes
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
-// possible defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=crush_sound,baxe_crush
+// Defend seq is guess.. it is either seq_397 or seq_403.
 
 [bronze_pickaxe_broken]
 name=Broken pickaxe
@@ -50,12 +51,11 @@ womanwear=model_530_obj_wear,6
 cost=0
 tradeable=yes
 param=attackrate,5
-param=stabattack_anim,human_blunt_stab
-param=crushattack_anim,human_blunt_crush
-//osrs defend anim seq_397
-param=stab_sound,baxe_crush
-param=crush_sound,baxe_slash
-//swapped stab and crush attack animations + sounds
+param=stabattack_anim,human_blunt_crush
+param=crushattack_anim,human_blunt_stab
+param=defend_anim,human_baxe_defend1
+param=stab_sound,baxe_slash
+param=crush_sound,baxe_crush
 param=to_be_fixed_by_nurmof,^true
 param=fixed,bronze_pickaxe
 
@@ -78,12 +78,11 @@ womanwear=model_530_obj_wear,6
 cost=0
 tradeable=yes
 param=attackrate,5
-param=stabattack_anim,human_blunt_stab
-param=crushattack_anim,human_blunt_crush
-//osrs defend anim seq_397
-param=stab_sound,baxe_crush
-param=crush_sound,baxe_slash
-//swapped stab and crush attack animations + sounds
+param=stabattack_anim,human_blunt_crush
+param=crushattack_anim,human_blunt_stab
+param=defend_anim,human_baxe_defend1
+param=stab_sound,baxe_slash
+param=crush_sound,baxe_crush
 param=to_be_fixed_by_nurmof,^true
 param=fixed,iron_pickaxe
 
@@ -104,12 +103,11 @@ womanwear=model_530_obj_wear,6
 cost=17
 tradeable=yes
 param=attackrate,5
-param=stabattack_anim,human_blunt_stab
-param=crushattack_anim,human_blunt_crush
-//osrs defend anim seq_397
-param=stab_sound,baxe_crush
-param=crush_sound,baxe_slash
-//swapped stab and crush attack animations + sounds
+param=stabattack_anim,human_blunt_crush
+param=crushattack_anim,human_blunt_stab
+param=defend_anim,human_baxe_defend1
+param=stab_sound,baxe_slash
+param=crush_sound,baxe_crush
 param=to_be_fixed_by_nurmof,^true
 param=fixed,steel_pickaxe
 
@@ -132,12 +130,11 @@ womanwear=model_530_obj_wear,6
 cost=43
 tradeable=yes
 param=attackrate,5
-param=stabattack_anim,human_blunt_stab
-param=crushattack_anim,human_blunt_crush
-//osrs defend anim seq_397
-param=stab_sound,baxe_crush
-param=crush_sound,baxe_slash
-//swapped stab and crush attack animations + sounds
+param=stabattack_anim,human_blunt_crush
+param=crushattack_anim,human_blunt_stab
+param=defend_anim,human_baxe_defend1
+param=stab_sound,baxe_slash
+param=crush_sound,baxe_crush
 param=to_be_fixed_by_nurmof,^true
 param=fixed,mithril_pickaxe
 
@@ -160,12 +157,11 @@ womanwear=model_530_obj_wear,6
 cost=107
 tradeable=yes
 param=attackrate,5
-param=stabattack_anim,human_blunt_stab
-param=crushattack_anim,human_blunt_crush
-//osrs defend anim seq_397
-param=stab_sound,baxe_crush
-param=crush_sound,baxe_slash
-//swapped stab and crush attack animations + sounds
+param=stabattack_anim,human_blunt_crush
+param=crushattack_anim,human_blunt_stab
+param=defend_anim,human_baxe_defend1
+param=stab_sound,baxe_slash
+param=crush_sound,baxe_crush
 param=to_be_fixed_by_nurmof,^true
 param=fixed,adamant_pickaxe
 
@@ -188,12 +184,11 @@ womanwear=model_530_obj_wear,6
 cost=1100
 tradeable=yes
 param=attackrate,5
-param=stabattack_anim,human_blunt_stab
-param=crushattack_anim,human_blunt_crush
-//osrs defend anim seq_397
-param=stab_sound,baxe_crush
-param=crush_sound,baxe_slash
-//swapped stab and crush attack animations + sounds
+param=stabattack_anim,human_blunt_crush
+param=crushattack_anim,human_blunt_stab
+param=defend_anim,human_baxe_defend1
+param=stab_sound,baxe_slash
+param=crush_sound,baxe_crush
 param=to_be_fixed_by_nurmof,^true
 param=fixed,rune_pickaxe
 
@@ -317,8 +312,9 @@ cost=1
 tradeable=yes
 param=attackrate,5
 param=crushattack_anim,human_blunt_crush
-// possible defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=crush_sound,baxe_crush
+// Defend seq is guess.. it is either seq_397 or seq_403.
 
 [bronze_axe_broken]
 name=Broken axe
@@ -340,7 +336,7 @@ tradeable=yes
 param=attackrate,5
 param=slashattack_anim,human_baxe_slash
 param=crushattack_anim,human_blunt_crush
-// osrs defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
 param=to_be_fixed_by_bob,^true
@@ -366,7 +362,7 @@ tradeable=yes
 param=attackrate,5
 param=slashattack_anim,human_baxe_slash
 param=crushattack_anim,human_blunt_crush
-// osrs defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
 param=to_be_fixed_by_bob,^true
@@ -390,7 +386,7 @@ tradeable=yes
 param=attackrate,5
 param=slashattack_anim,human_baxe_slash
 param=crushattack_anim,human_blunt_crush
-// osrs defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
 param=to_be_fixed_by_bob,^true
@@ -416,7 +412,7 @@ tradeable=yes
 param=attackrate,5
 param=slashattack_anim,human_baxe_slash
 param=crushattack_anim,human_blunt_crush
-// osrs defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
 param=to_be_fixed_by_bob,^true
@@ -442,7 +438,7 @@ tradeable=yes
 param=attackrate,5
 param=slashattack_anim,human_baxe_slash
 param=crushattack_anim,human_blunt_crush
-// osrs defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
 param=to_be_fixed_by_bob,^true
@@ -468,7 +464,7 @@ tradeable=yes
 param=attackrate,5
 param=slashattack_anim,human_baxe_slash
 param=crushattack_anim,human_blunt_crush
-// osrs defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
 param=to_be_fixed_by_bob,^true
@@ -494,7 +490,7 @@ tradeable=yes
 param=attackrate,5
 param=slashattack_anim,human_baxe_slash
 param=crushattack_anim,human_blunt_crush
-// osrs defend anim seq_397
+param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
 param=to_be_fixed_by_bob,^true

@@ -193,9 +193,8 @@ param=rangedefence,9
 param=attackrate,5
 param=damagetype,^crush_style
 param=attack_anim,human_blunt_crush
-param=defend_anim,human_blunt_defend2
+param=defend_anim,human_blunt_defend1
 param=attack_sound,mace_crush
-// osrs defend seq_403
 // At some point (in 2005?) the huntmode was updated to be aggressive
 // when players are 2x or less than the npc combat level instead of
 // being aggressive at every combat level.

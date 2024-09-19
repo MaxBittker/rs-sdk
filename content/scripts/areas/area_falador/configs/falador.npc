@@ -41,8 +41,7 @@ param=defend_anim,human_sword_defend2
 param=attack_sound,2H_crush
 param=defend_sound,sound_218
 // Despite the slash attack style they still use the crush anim today
-// osrs attack anim Seq_406 attack 2h sword crush.
-// osrs defend anim seq_410 defend 2h sword after 2h after update xxxx.
+// osrs attack anim seq_406 and defend anim seq_410.
 // osrs use sounds attack - 2H_crush & defend - blade3
 
 [wyson]

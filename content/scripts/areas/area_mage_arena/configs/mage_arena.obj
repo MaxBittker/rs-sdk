@@ -120,7 +120,9 @@ param=crushdefence,1
 param=magicdefence,6
 param=strengthbonus,2
 param=attackrate,5
-param=crushattack_anim,human_trans_axe_chop
+param=crushattack_anim,human_blunt_crush
+param=defend_anim,human_blunt_defend1
+// param=crushattack_anim,human_trans_axe_chop
 param=crush_sound,staff_hit
 // osrs use animations attack seq_401 and defend seq_403
 
@@ -150,7 +152,9 @@ param=crushdefence,1
 param=magicdefence,6
 param=strengthbonus,2
 param=attackrate,5
-param=crushattack_anim,human_trans_axe_chop
+param=crushattack_anim,human_blunt_crush
+param=defend_anim,human_blunt_defend1
+// param=crushattack_anim,human_trans_axe_chop
 param=crush_sound,staff_hit
 // osrs use animations attack seq_401 and defend seq_403
 
@@ -181,6 +185,8 @@ param=crushdefence,1
 param=magicdefence,6
 param=strengthbonus,2
 param=attackrate,5
-param=crushattack_anim,human_trans_axe_chop
+param=crushattack_anim,human_blunt_crush
+param=defend_anim,human_blunt_defend1
+// param=crushattack_anim,human_trans_axe_chop
 param=crush_sound,staff_hit
 // osrs use animations attack seq_401 and defend seq_403
