@@ -391,11 +391,21 @@ if (%gnome_restaurant_progress = 17) {
 [proc,gnome_restaurant_job_checks](string $finish, string $order, string $order_fail_start, string $order_fail_end, int $coins, namedobj $dish1, int $count1, namedobj $dish2, int $count2, namedobj $dish3, int $count3, namedobj $dish4, int $count4, namedobj $dish5, int $count5)
 if (inv_total(inv, $dish1) >= $count1 & inv_total(inv, $dish2) >= $count2 & inv_total(inv, $dish3) >= $count3 & inv_total(inv, $dish4) >= $count4 & inv_total(inv, $dish5) >= $count5) {
     ~chatplayer(append("<p,neutral>", $finish));
-    inv_del(inv, $dish1, $count1);
-    inv_del(inv, $dish2, $count2);
-    inv_del(inv, $dish3, $count3);
-    inv_del(inv, $dish4, $count4);
-    inv_del(inv, $dish5, $count5);
+    if ($dish1 ! null) {
+        inv_del(inv, $dish1, $count1);
+    }
+    if ($dish2 ! null) {
+        inv_del(inv, $dish2, $count2);
+    }
+    if ($dish3 ! null) {
+        inv_del(inv, $dish3, $count3);
+    }
+    if ($dish4 ! null) {
+        inv_del(inv, $dish4, $count4);
+    }
+    if ($dish5 ! null) {
+        inv_del(inv, $dish5, $count5);
+    }
     // gives 60 xp for each dish. This doesnt apply to cocktails it seems
     // https://web.archive.org/web/20040621000515/http://runehq.com/viewguidedb.php?id=00315
     stat_advance(cooking, calc(($count1 + $count2 + $count3 + $count4 + $count5) * 600));

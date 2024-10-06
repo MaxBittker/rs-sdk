@@ -1,6 +1,6 @@
 [opheldu,knife]
 switch_obj(last_useitem) {
-    case lemon, orange, lime, pineapple : @slice_or_dice_interface(last_item);
+    case lemon, orange, lime, pineapple : @slice_or_dice_interface(last_useitem);
     case achey_logs : @make_ogre_shafts;
     case dramenbranch: @cut_dramenstaff;
     case default : 

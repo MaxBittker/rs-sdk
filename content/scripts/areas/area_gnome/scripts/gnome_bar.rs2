@@ -1,9 +1,9 @@
 // *********************** TUTORIAL ************************
 [label,gnome_bar_start]
 ~chatplayer("<p,neutral>Hello.");
-~chatnpc("<p,happy>Well hello there <displayname()>. If you're looking for a cocktail|the barman will happily make you one.");
+~chatnpc("<p,happy>Well hello there <displayname()>.|If you're looking for a cocktail|the barman will happily make you one."); // line breaks are guessed
 ~chatplayer("<p,neutral>He looks pretty busy.");
-~chatnpc("<p,happy>I know, I just can't find any skilled staff.|I don't suppose you're looking for some part time work?|The pay isn't great but its a good way to meet people.");
+~chatnpc("<p,happy>I know, I just can't find any skilled staff.|I don't suppose you're looking for some part time work?|The pay isn't great but it's a good way to meet people.");
 def_int $choice = ~p_choice2("No thanks, I prefer to stay this side of the bar.", 1, "Ok then I'll give it a go.", 2);
 if ($choice = 1) {
     ~chatplayer("<p,neutral>No thanks, I prefer to stay this side of the bar.");
@@ -53,7 +53,9 @@ if (inv_total(inv, fruit_blast) > 0) {
     ~chatnpc("<p,neutral>Let me know when it's done.");
     return;
 }
-~gnome_bar_cocktail_checks(premade_fruit_blast, "Fruit Blast");
+if (~gnome_bar_cocktail_checks(premade_fruit_blast, "Fruit Blast") = false) {
+    return;
+}
 if (inv_total(inv, fruit_blast) < 1) {
     ~chatnpc("<p,angry>I don't know what you have there but it's no Fruit|Blast!");
     return;
@@ -70,7 +72,7 @@ if (inv_total(inv, drunk_dragon) > 0) {
     inv_add(inv, coins, 1);
     ~mesbox("Blurberry gives you 1 gold coin.");
     ~chatplayer("<p,happy>Thanks.");
-    ~chatnpc("<p,neutral>Okay then now I need an SGG");
+    ~chatnpc("<p,neutral>Okay then now I need an SGG.");
     ~chatplayer("<p,confused>A what?");
     ~chatnpc("<p,neutral>A Short Green Guy, and don't bring me a gnome.|Here's all you need.");
     inv_del(inv, drunk_dragon, 1);
@@ -82,7 +84,9 @@ if (inv_total(inv, drunk_dragon) > 0) {
     ~mesbox("Blurberry gives you four limes, some vodka and some equa leaves.");
     return;
 }
-~gnome_bar_cocktail_checks(premade_drunk_dragon, "Drunk Dragon");
+if (~gnome_bar_cocktail_checks(premade_drunk_dragon, "Drunk Dragon") = false) {
+    return;
+}
 if (inv_total(inv, drunk_dragon) < 1) {
     ~chatnpc("<p,angry>I don't know what you have there but it's no Drunk|Dragon!");
     return;
@@ -111,7 +115,9 @@ if (inv_total(inv, short_green_guy) > 0) {
     ~mesbox("Blurberry gives you some wisky, some milk, some equa leaves, a chocolate bar, some cream, and some chocolate dust.");
     return;
 }
-~gnome_bar_cocktail_checks(premade_short_green_guy, "SGG");
+if (~gnome_bar_cocktail_checks(premade_short_green_guy, "SGG") = false) {
+    return;
+}
 if (inv_total(inv, short_green_guy) < 1) {
     ~chatnpc("<p,angry>I don't know what you have there but it's no SGG!");
     return;
@@ -139,7 +145,9 @@ if (inv_total(inv, chocolate_saturday) > 0) {
     ~chatnpc("<p,neutral>I'm sure you'll make a great bartender.");
     return;
 }
-~gnome_bar_cocktail_checks(premade_chocolate_saturday, "Choc Saturday");
+if (~gnome_bar_cocktail_checks(premade_chocolate_saturday, "Choc Saturday") = false) {
+    return;
+}
 if (inv_total(inv, chocolate_saturday) < 1) {
     ~chatplayer("<p,sad>I haven't managed to make it yet.");
     ~chatnpc("<p,neutral>Ok, it's one Choc Saturday I need.  Let me know when|it's done.");
@@ -164,7 +172,9 @@ if (inv_total(inv, blurberry_special) > 0) {
     ~chatnpc("<p,happy>I'll always pay you more for the cocktail than you paid for the ingredients and it's a great way to learn how to prepare food and drinks.");
     return;
 }
-~gnome_bar_cocktail_checks(premade_blurberry_special, "Blurberry Special");
+if (~gnome_bar_cocktail_checks(premade_blurberry_special, "Blurberry Special") = false) {
+    return;
+}
 if (inv_total(inv, blurberry_special) < 1) {
     ~chatplayer("<p,sad>I haven't managed to make it yet.");
     ~chatnpc("<p,neutral>I need one Blurberry Special.  Let me know when|it's done.");
@@ -172,7 +182,7 @@ if (inv_total(inv, blurberry_special) < 1) {
 }
 
 
-[proc,gnome_bar_cocktail_checks](namedobj $premade_cocktail, string $name)
+[proc,gnome_bar_cocktail_checks](namedobj $premade_cocktail, string $name)(boolean)
 // Im not sure if this exists in our rev. It exists in osrs, but not in rsc. Since its kinda scuffed i assume it was added in 2006
 // if (inv_total(inv, cocktail_shaker) < 1) {
 //     def_int $choice = ~p_choice2("I'm afraid I lost the cocktail shaker you gave me.", 1, "I've not finished yet.", 2);
@@ -180,17 +190,18 @@ if (inv_total(inv, blurberry_special) < 1) {
 //         ~chatplayer("<p,sad>I'm afraid I lost the cocktail shaker you gave me.");
 //         inv_add(inv, cocktail_shaker, 1);
 //         ~chatnpc("<p,happy>I can see how that would make it hard to mix cocktails.|I'll give you another one, but please try not lose any|more.");
-//         @exit;
+//         return(false);
 //     }
 //     ~chatplayer("<p,neutral>I've not finished yet.");
 //     ~chatnpc("<p,neutral>Ok, well let me know when you're done.");
-//     @exit;
+//     return(false);
 // }
 if (inv_total(inv, $premade_cocktail) > 0) {
     ~chatplayer("<p,happy>I think I've got one.");
-    ~chatnpc("<p,happy>No, I need you to make the <$name> yourself. I'm|afraid it doesn't really work if you try to sell the bar its|own drinks.");
-    @exit;
+    ~chatnpc("<p,happy>No, I need you to make the <$name> yourself. I'm|afraid it doesn't really work if you try to sell the bar its|own drinks."); // osrs has no apostrophe for "its"
+    return(false);
 }
+return(true);
 // *********************** TUTORIAL ************************
 
 // *********************** JOBS ************************
@@ -279,10 +290,15 @@ if (%gnome_bar_progress = 13) {
 // no bonus xp for gnome bar
 if (inv_total(inv, $cocktail1) >= $count1 & inv_total(inv, $cocktail2) >= $count2 & inv_total(inv, $cocktail3) >= $count3 & inv_total(inv, $cocktail4) >= $count4) {
     ~chatplayer("<p,neutral>Here you go, <$order>.");
-    inv_del(inv, $cocktail1, $count1);
-    inv_del(inv, $cocktail2, $count2);
-    inv_del(inv, $cocktail3, $count3);
-    inv_del(inv, $cocktail4, $count4);
+    if ($cocktail1 ! null) {
+        inv_del(inv, $cocktail1, $count1);
+    }
+    if ($cocktail2 ! null) {
+        inv_del(inv, $cocktail2, $count2);
+    }
+    if ($cocktail3 ! null) {
+        inv_del(inv, $cocktail3, $count3);
+    }
     %gnome_bar_progress = 13;
     ~mesbox("You give blurberry <$order>.");
     ~chatnpc(append("<p,neutral>", $order_succeed));

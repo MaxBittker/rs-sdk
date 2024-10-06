@@ -6,6 +6,12 @@ switch_int(oc_param(last_useitem, gnome_cooking_type)) {
     case ^gnome_bowl, ^gnome_batta, ^gnome_crunchies: @finish_gnome_food(last_useitem, last_item);
     case default: ~displaymessage(^dm_default);
 }
+[opheldu,orange_chunks]
+switch_int(oc_param(last_useitem, gnome_cooking_type)) {
+    case ^gnome_cocktail: @finish_cocktail(last_useitem, last_item);
+    case ^gnome_bowl, ^gnome_batta, ^gnome_crunchies: @finish_gnome_food(last_useitem, last_item);
+    case default: ~displaymessage(^dm_default);
+}
 [opheldu,lime_chunks] 
 switch_int(oc_param(last_useitem, gnome_cooking_type)) {
     case ^gnome_cocktail: @finish_cocktail(last_useitem, last_item);
