@@ -442,6 +442,9 @@ export default class Player extends PathingEntity {
 
         this.lastStepX = this.x - 1;
         this.lastStepZ = this.z;
+        this.lastCoordX = this.x;
+        this.lastCoordZ = this.z;
+        this.lastCoordLevel = this.level;
     }
 
     triggerMapzone(x: number, z: number) {
