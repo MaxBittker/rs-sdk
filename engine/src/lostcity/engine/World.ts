@@ -1119,7 +1119,6 @@ class World {
 
         for (const player of this.players) {
             if (!isNetworkPlayer(player)) {
-                player.buffer.clear();
                 continue;
             }
 

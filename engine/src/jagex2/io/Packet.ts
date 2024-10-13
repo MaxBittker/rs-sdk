@@ -5,9 +5,9 @@ import PrivateKey = forge.pki.rsa.PrivateKey;
 import BigInteger = forge.jsbn.BigInteger;
 
 import LinkList from '#jagex2/datastruct/LinkList.js';
-import Hashable from '#jagex2/datastruct/Hashable.js';
+import DoublyLinkable from '#jagex2/datastruct/DoublyLinkable.js';
 
-export default class Packet extends Hashable {
+export default class Packet extends DoublyLinkable {
     private static readonly crctable: Int32Array = new Int32Array(256);
     private static readonly bitmask: Uint32Array = new Uint32Array(33);
 

@@ -120,7 +120,7 @@ export class NetworkPlayer extends Player {
 
         for (let message: OutgoingMessage | null = this.buffer.head(); message; message = this.buffer.next()) {
             this.writeInner(message);
-            message.uncache();
+            message.unlink2();
         }
 
         this.client.flush();
