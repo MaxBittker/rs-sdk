@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import zlib from 'zlib';
+
 import forge from 'node-forge';
 import PrivateKey = forge.pki.rsa.PrivateKey;
 import BigInteger = forge.jsbn.BigInteger;
@@ -187,6 +189,17 @@ export default class Packet extends DoublyLinkable {
 
             fs.writeFileSync(filePath, this.data.subarray(start, start + length));
         }
+    }
+
+    saveGz(filePath: string, length: number = this.pos, start: number = 0): void {
+        const dir: string = path.dirname(filePath);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+
+        const compressed = zlib.gzipSync(this.data.subarray(start, start + length));
+        compressed[9] = 0;
+        fs.writeFileSync(filePath, compressed);
     }
 
     p1(value: number): void {

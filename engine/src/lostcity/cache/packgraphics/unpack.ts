@@ -1,7 +1,6 @@
 import fs from 'fs';
 
 import Jagfile from '#jagex2/io/Jagfile.js';
-import Packet from '#jagex2/io/Packet.js';
 import Model from '#lostcity/cache/graphics/Model.js';
 import { printWarning } from '#lostcity/util/Logger.js';
 
@@ -13,27 +12,32 @@ const models = Jagfile.load('data/client/models');
     Model.unpack(models);
 
     let pack = '';
-    for (let i = 0; i < Model.metadata.length; i++) {
-        if (!Model.metadata[i]) {
-            continue;
-        }
-
-        pack += `${i}=model_${i}\n`;
-
-        const model = Model.get(i);
-        if (!model) {
-            printWarning('missing model: ' + i);
-            continue;
-        }
-
-        const raw = model.convert();
-        raw.save(`data/src/models/model_${i}.ob2`);
-        raw.release();
-    }
-
     let order = '';
-    for (let i = 0; i < Model.order.length; i++) {
-        order += `${Model.order[i]}\n`;
+
+    if (Model.metadata) {
+        for (let i = 0; i < Model.metadata.length; i++) {
+            if (!Model.metadata[i]) {
+                continue;
+            }
+
+            pack += `${i}=model_${i}\n`;
+
+            const model = Model.get(i);
+
+            if (!model) {
+                printWarning('missing model: ' + i);
+                continue;
+            }
+
+            const raw = model.convert();
+            raw.save(`data/src/models/model_${i}.ob2`);
+            // raw.saveGz(`data/src/models/${i}.dat.gz`);
+            raw.release();
+        }
+
+        for (let i = 0; i < Model.order.length; i++) {
+            order += `${Model.order[i]}\n`;
+        }
     }
 
     fs.writeFileSync('data/src/pack/model.pack', pack);
