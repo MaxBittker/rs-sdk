@@ -23,6 +23,8 @@ if ($ore1 = iron_ore & inv_total(inv, coal) > 1 & stat(smithing) >= 30) {
 // remove bar at end of name
 def_string $metal_name = substring(oc_name($bar), 0, calc(string_length(oc_name($bar)) - 4));
 def_struct $bar_struct = oc_param($bar, smelting_struct);
+// Ensure ore1 now refers to the primary ingredient (important for bronze)
+$ore1 = struct_param($bar_struct, ingredient);
 // if not enough level
 if (stat(smithing) < struct_param($bar_struct, levelrequired)) {
     mes("You need a smithing level of at least <tostring(struct_param($bar_struct, levelrequired))> to smelt <$metal_name>.");

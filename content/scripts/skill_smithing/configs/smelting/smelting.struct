@@ -1,6 +1,7 @@
 [smelting_bronze_bar]
 param=levelfailure,You need a Smithing level of 1 to smelt a bronze bar.
 param=processfailure,You need at least 1 Copper ore and 1 Tin ore to smelt a bronze bar.
+param=processfailure_superheat,You need one copper ore and one tin ore to make bronze.
 param=processmessage,You smelt the copper and tin together in the furnace.
 param=productmessage,You retrieve a bar of bronze.
 param=product,bronze_bar
