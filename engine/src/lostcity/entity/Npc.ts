@@ -856,8 +856,7 @@ export default class Npc extends PathingEntity {
         if (this.nextHuntTick > World.currentTick) {
             return;
         }
-        const npcType = NpcType.get(this.type);
-        if (npcType.huntrange < 1) {
+        if (this.huntrange < 1) {
             return;
         }
         const hunt: HuntType = HuntType.get(this.huntMode);
@@ -889,6 +888,7 @@ export default class Npc extends PathingEntity {
             const entity: Entity = hunted[Math.floor(Math.random() * hunted.length)];
             this.huntTarget = entity;
             if (NpcMode.QUEUE1 <= hunt.findNewMode && hunt.findNewMode <= NpcMode.QUEUE20) {
+                const npcType = NpcType.get(this.type);
                 const script = ScriptProvider.getByTrigger(ServerTriggerType.AI_QUEUE1 + (hunt.findNewMode - NpcMode.QUEUE1), npcType.id, npcType.category);
                 if (script) {
                     this.enqueueScript(script, 0, 0);
