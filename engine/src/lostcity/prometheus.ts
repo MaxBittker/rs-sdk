@@ -1,65 +1,77 @@
 import { Counter, Histogram } from 'prom-client';
 
-export const cycleHistogram = new Histogram({
-    name: 'scape_server_cycle_duration_milliseconds',
-    help: 'Total server cycle duration in milliseconds.',
+export const trackPlayerCount = new Histogram({
+    name: 'lostcity_active_players',
+    help: 'Active player count.',
+    buckets: [5, 10, 25, 50, 100, 250, 500, 750, 1000, 1500, 2000]
+});
+
+export const trackNpcCount = new Histogram({
+    name: 'lostcity_active_npcs',
+    help: 'Active NPC count.',
+    buckets: [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000]
+});
+
+export const trackCycleTime = new Histogram({
+    name: 'lostcity_cycle_ms',
+    help: 'Overall processing duration in milliseconds.',
     buckets: [10, 20, 30, 50, 80, 100, 150, 200, 250, 300, 400, 450, 550, 600, 800, 1000]
 });
 
-export const cycleWorldHistogram = new Histogram({
-    name: 'scape_server_world_cycle_duration_milliseconds',
-    help: 'Server world process cycle duration in milliseconds.',
+export const trackCycleWorldTime = new Histogram({
+    name: 'lostcity_cycle_world_ms',
+    help: 'World (not overall) processing duration in milliseconds.',
     buckets: [10, 20, 30, 40, 50, 100]
 });
 
-export const clientInCycleHistogram = new Histogram({
-    name: 'scape_server_client_in_cycle_duration_milliseconds',
-    help: 'Server client in process duration in milliseconds.',
+export const trackCycleClientInTime = new Histogram({
+    name: 'lostcity_cycle_client_in_ms',
+    help: 'Client In processing duration in milliseconds.',
     buckets: [10, 30, 50, 100, 200, 300, 400]
 });
 
-export const clientOutCycleHistogram = new Histogram({
-    name: 'scape_server_client_out_cycle_duration_milliseconds',
-    help: 'Server client out process duration in milliseconds.',
+export const trackCycleClientOutTime = new Histogram({
+    name: 'lostcity_cycle_client_out_ms',
+    help: 'Client Out processing duration in milliseconds.',
     buckets: [10, 30, 50, 100, 200, 300, 400]
 });
 
-export const npcCycleHistogram = new Histogram({
-    name: 'scape_server_npc_cycle_duration_milliseconds',
-    help: 'Server npc process duration in milliseconds.',
+export const trackCycleNpcTime = new Histogram({
+    name: 'lostcity_cycle_npc_ms',
+    help: 'NPC processing duration in milliseconds.',
     buckets: [10, 20, 30, 40, 50, 100]
 });
 
-export const playerCycleHistogram = new Histogram({
-    name: 'scape_server_player_cycle_duration_milliseconds',
-    help: 'Server player process duration in milliseconds.',
+export const trackCyclePlayerTime = new Histogram({
+    name: 'lostcity_cycle_player_ms',
+    help: 'Player processing duration in milliseconds.',
     buckets: [10, 20, 30, 40, 50, 100]
 });
 
-export const zoneCycleHistogram = new Histogram({
-    name: 'scape_server_zone_cycle_duration_milliseconds',
-    help: 'Server zone process duration in milliseconds.',
+export const trackCycleZoneTime = new Histogram({
+    name: 'lostcity_cycle_zone_ms',
+    help: 'Zone processing duration in milliseconds.',
     buckets: [10, 20, 30, 40, 50, 100]
 });
 
-export const loginCycleHistogram = new Histogram({
-    name: 'scape_server_login_cycle_duration_milliseconds',
-    help: 'Server login process duration in milliseconds.',
+export const trackCycleLoginTime = new Histogram({
+    name: 'lostcity_cycle_login_ms',
+    help: 'Login processing duration in milliseconds.',
     buckets: [10, 30, 50, 100]
 });
 
-export const logoutCycleHistogram = new Histogram({
-    name: 'scape_server_logout_cycle_duration_milliseconds',
-    help: 'Server logout process duration in milliseconds.',
+export const trackCycleLogoutTime = new Histogram({
+    name: 'lostcity_cycle_logout_ms',
+    help: 'Logout processing duration in milliseconds.',
     buckets: [10, 30, 50, 100]
 });
 
-export const bandwithInCounter = new Counter({
-    name: 'scape_server_bandwidth_in_bytes',
-    help: 'The server total bandwidth in in bytes.',
+export const trackCycleBandwidthInBytes = new Counter({
+    name: 'lostcity_cycle_bandwidth_in_bytes',
+    help: 'Total incoming bandwidth in bytes.'
 });
 
-export const bandwithOutCounter = new Counter({
-    name: 'scape_server_bandwidth_out_bytes',
-    help: 'The server total bandwidth out in bytes.',
+export const trackCycleBandwidthOutBytes = new Counter({
+    name: 'lostcity_cycle_bandwidth_out_bytes',
+    help: 'Total outgoing bandwidth in bytes.'
 });
