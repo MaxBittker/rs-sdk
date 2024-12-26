@@ -82,4 +82,4 @@ param=slashdefence,7
 param=crushdefence,7
 // param=rangedefence,
 param=damagetype,^crush_style
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_npc_4288
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4288

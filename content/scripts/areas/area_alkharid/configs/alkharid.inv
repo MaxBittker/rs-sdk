@@ -1,4 +1,6 @@
 [ranael_skirt]
+// https://classic.runescape.wiki/w/Ranael%27s_Plateskirt_Shop
+// https://storage.googleapis.com/tannerdino/images/rsal5.gif (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -12,6 +14,8 @@ stock5=mithril_plateskirt,1,2000
 stock6=adamant_plateskirt,1,13000
 
 [louie_leg]
+// https://classic.runescape.wiki/w/Louie%27s_Legs
+// https://storage.googleapis.com/tannerdino/images/AlKharid8.png (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -25,6 +29,8 @@ stock5=mithril_platelegs,1,2000
 stock6=adamant_platelegs,1,13000
 
 [alkharid_gem]
+// https://classic.runescape.wiki/w/Al_Kharid_gem_stall
+// https://storage.googleapis.com/tannerdino/images/AlKharid2.png
 scope=shared
 size=40
 restock=yes
@@ -40,6 +46,8 @@ stock7=ruby,0,2000
 stock8=diamond,0,4000
 
 [zeke_scimitar]
+// https://classic.runescape.wiki/w/Zeke%27s_Scimitar_Shop
+// https://web.archive.org/web/20040928001706im_/http://runevillage.com/images/rsal2.gif
 scope=shared
 size=40
 restock=yes
@@ -51,20 +59,25 @@ stock3=steel_scimitar,2,600
 stock4=mithril_scimitar,1,4000
 
 [generalshop3]
+// https://classic.runescape.wiki/w/Al_Kharid_General_Store
+// recheck
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=yes
-stock1=pot_empty,5,10
+stock1=pot_empty,3,100
 stock2=jug_empty,2,100
 stock3=shears,2,100
-stock4=bucket_empty,3,10
-stock7=tinderbox,2,100
-stock8=chisel,2,100
-stock9=hammer,5,100
+stock4=bucket_empty,2,100
+stock5=tinderbox,2,100
+stock6=chisel,2,100
+stock7=hammer,5,100
+// recheck
 
 [dommiks_crafting_store]
+// https://classic.runescape.wiki/w/Dommik%27s_Crafting_Equipment_Shop
+// https://storage.googleapis.com/tannerdino/images/AlKharid4.png (full stocks)
 scope=shared
 size=40
 restock=yes

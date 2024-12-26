@@ -1,4 +1,7 @@
-[dals_general_orge_supplies]
+[dals_generalstore]
+// https://oldschool.runescape.wiki/w/Dal%27s_General_Ogre_Supplies
+// https://classic.runescape.wiki/w/Ogre_trader_General_Store
+// https://web.archive.org/web/20120521193813im_/http://www.runehq.com/images/cityguides/OrgerArea/dalsstore1.png (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -11,3 +14,16 @@ stock4=bucket_empty,2,100
 stock5=tinderbox,2,100
 stock6=chisel,2,100
 stock7=hammer,5,100
+
+[gruds_herblore_stall]
+// https://oldschool.runescape.wiki/w/Grud%27s_Herblore_Stall. (Trivia)
+// https://classic.runescape.wiki/w/Grud%27s_herblaw_stall
+// https://web.archive.org/web/20120521193813im_/http://www.runehq.com/images/cityguides/OrgerArea/grudsstore.png (full stocks)
+scope=shared
+size=40
+restock=yes
+stackall=yes
+allstock=yes
+stock1=vial_empty,50,100
+stock2=pestle_and_mortar,3,100
+stock3=eye_of_newt,50,20

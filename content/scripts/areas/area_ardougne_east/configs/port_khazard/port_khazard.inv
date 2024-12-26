@@ -1,5 +1,7 @@
 [generalshop13]
 // dated sep 11, 2005
+// https://classic.runescape.wiki/w/Fishing_Trawler_General_Store
+// https://storage.googleapis.com/tannerdino/images/portkazardgeneralstorestock.png (full stocks)
 scope=shared
 size=40
 restock=yes

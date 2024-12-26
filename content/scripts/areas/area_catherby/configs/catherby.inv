@@ -1,4 +1,6 @@
 [harry_fish]
+// https://oldschool.runescape.wiki/w/Harry%27s_Fishing_Shop.
+// https://web.archive.org/web/20110713112002im_/http://runehq.com/images/cityguides/catherby4.jpg
 scope=shared
 size=40
 restock=yes
@@ -8,7 +10,7 @@ stock1=net,5,100
 stock2=fishing_rod,5,100
 stock3=harpoon,2,400
 stock4=lobster_pot,2,400
-stock5=fishing_bait,1200,100
+stock5=fishing_bait,1200,1
 stock6=net_big,5,100
 stock7=raw_shrimps,0,300
 stock8=raw_sardine,0,600
@@ -23,6 +25,8 @@ stock16=raw_swordfish,0,2900
 stock17=raw_shark,0,3500
 
 [hickton_archery]
+// https://oldschool.runescape.wiki/w/Hickton%27s_Archery_Emporium.
+// https://web.archive.org/web/20110713112002im_/http://runehq.com/images/cityguides/catherby5.jpg
 scope=shared
 size=40
 restock=yes
@@ -42,7 +46,7 @@ stock11=mithril_arrowheads,400,40
 stock12=adamant_arrowheads,200,40
 stock13=rune_arrowheads,100,40
 stock14=shortbow,4,100
-stock15=longbow,2,400
+stock15=longbow,2,200
 stock16=crossbow,2,400
 stock17=oak_shortbow,4,800
 stock18=oak_longbow,4,1600
@@ -50,6 +54,8 @@ stock19=studded_body,2,1000
 stock20=studded_chaps,2,1000
 
 [candleshop]
+// https://classic.runescape.wiki/w/Candle_Shop
+// https://storage.googleapis.com/tannerdino/images/catherby11.jpg (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -58,16 +64,19 @@ allstock=no
 stock1=candle,10,100
 
 [generalshop11]
+// https://oldschool.runescape.wiki/w/Arhein_Store
+// https://web.archive.org/web/20050209223727/http://www.runehq.com/images/cityguides/catherby12.jpg (full stocks)
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=yes
-stock1=bucket_empty,10,50
+stock1=bucket_empty,10,100
 stock2=bronze_pickaxe,2,100
+stock3=bowl_empty,2,100
+stock4=cake_tin,2,100
 stock5=tinderbox,2,100
 stock6=chisel,2,100
 stock7=hammer,5,100
 stock8=rope,2,300
 stock9=pot_empty,2,100
-stock10=knife,2,100

@@ -1,4 +1,6 @@
 [scavvos_rune_store]
+// https://oldschool.runescape.wiki/w/Scavvo%27s_Rune_Store.
+// https://web.archive.org/web/20111107025524im_/http://runevillage.com/images/rs2Cities/rsVarrock15.gif
 scope=shared
 size=40
 restock=yes
@@ -15,6 +17,8 @@ stock8=dragonhide_vamb,1,500
 stock9=coif,2,1000
 
 [valaines_shop_of_champions]
+// https://classic.runescape.wiki/w/Champion%27s_Store
+// https://web.archive.org/web/20111107025524im_/http://runevillage.com/images/rs2Cities/rsVarrock16.gif (full stocks)
 scope=shared
 size=40
 restock=yes

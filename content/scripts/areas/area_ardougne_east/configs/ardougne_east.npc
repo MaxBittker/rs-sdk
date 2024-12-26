@@ -419,7 +419,7 @@ head1=model_46_idk_head
 head2=model_41_obj_wear
 head3=model_79_idk_head
 category=shop_keeper
-param=owned_shop,ardougne_baker
+param=owned_shop,ardougne_baker_west
 param=shop_sell_multiplier,1000
 param=shop_buy_multiplier,800
 param=shop_delta,20
@@ -572,7 +572,6 @@ model7=model_265_obj_wear
 model8=model_202_obj_wear
 head1=model_53_idk_head
 head2=model_44_obj_wear
-wanderrange=7
 moverestrict=indoors
 
 [horacio]

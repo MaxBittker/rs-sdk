@@ -1,4 +1,6 @@
 [fancy_clothes_store]
+// https://classic.runescape.wiki/w/Tailor%27s_fancy_dress
+// https://storage.googleapis.com/tannerdino/images/varrock14.png
 scope=shared
 size=40
 restock=yes
@@ -23,19 +25,23 @@ stock16=red_cape,4,100
 stock17=eyepatch,3,2000
 
 [zaffs_superior_staffs_nonmem]
+// https://classic.runescape.wiki/w/Zaff%27s_staff_shop (differences no battlestaves.)
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=no
 stock1=plainstaff,5,100
-stock2=magicstaff,5,100
-stock3=staff_of_air,2,200
+stock2=magicstaff,5,200
+stock3=staff_of_air,2,1000
 stock4=staff_of_water,2,1000
 stock5=staff_of_earth,2,1000
 stock6=staff_of_fire,2,1000
 
 [zaffs_superior_staffs_mem]
+// https://classic.runescape.wiki/w/Zaff%27s_staff_shop
+// https://storage.googleapis.com/tannerdino/images/varrock6.png
+// https://storage.googleapis.com/tannerdino/images/rsMagicVARROCKstaffs.gif (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -43,13 +49,15 @@ stackall=yes
 allstock=no
 stock1=battlestaff,5,100
 stock2=plainstaff,5,100
-stock3=magicstaff,5,100
-stock4=staff_of_air,2,200
+stock3=magicstaff,5,200
+stock4=staff_of_air,2,1000
 stock5=staff_of_water,2,1000
 stock6=staff_of_earth,2,1000
 stock7=staff_of_fire,2,1000
 
 [thessalia_fine_clothes]
+// https://classic.runescape.wiki/w/The_Clothes_Shop
+// https://web.archive.org/web/20060912044934im_/http://img34.imageshack.us/img34/5558/WhiteApron.jpg (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -69,7 +77,8 @@ stock11=priest_gown_bottom,3,100
 stock12=priest_gown_top,3,100
 
 [auburys_rune_shop]
-//change per 1.25%. Unsure on deathrunes
+// https://storage.googleapis.com/tannerdino/images/varrock12.png
+// change per 1.25%. Unsure on deathrunes
 scope=shared
 size=40
 restock=yes
@@ -85,6 +94,8 @@ stock7=chaosrune,100,25
 stock8=deathrune,100,45
 
 [varrock_swordshop]
+// https://classic.runescape.wiki/w/Varrock_Swords
+// https://storage.googleapis.com/tannerdino/images/varrock2.png
 scope=shared
 size=40
 restock=yes
@@ -110,6 +121,8 @@ stock17=mithril_dagger,3,3000
 stock18=adamant_dagger,2,12000
 
 [lowes_archery_emporium]
+// https://oldschool.runescape.wiki/w/Lowe%27s_Archery_Emporium
+// https://storage.googleapis.com/tannerdino/images/varrock8.png
 scope=shared
 size=40
 restock=yes
@@ -126,6 +139,8 @@ stock8=oak_longbow,3,200
 stock9=crossbow,2,400
 
 [armourshop]
+// https://classic.runescape.wiki/w/Horvik%27s_Armour_Shop
+// https://storage.googleapis.com/tannerdino/images/varrock10.png
 scope=shared
 size=40
 restock=yes
@@ -145,20 +160,23 @@ stock11=studded_body,1,700
 stock12=studded_chaps,1,700
 
 [generalshop2]
+// https://classic.runescape.wiki/w/Varrock_General_Store
+// https://web.archive.org/web/20111107025524im_/http://runevillage.com/images/rs2Cities/rsVarrock10.gif
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=yes
-stock1=pot_empty,5,10
+stock1=pot_empty,3,100
 stock2=jug_empty,2,100
 stock3=shears,2,100
-stock4=bucket_empty,3,10
-stock7=tinderbox,2,100
-stock8=chisel,2,100
-stock9=hammer,5,100
+stock4=bucket_empty,2,100
+stock5=tinderbox,2,100
+stock6=chisel,2,100
+stock7=hammer,5,100
 
 [ye_old_tea_shoppe]
+// https://oldschool.runescape.wiki/w/Tea_Seller
 scope=shared
 size=40
 restock=yes

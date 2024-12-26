@@ -1,4 +1,6 @@
 [herquin_gems]
+// https://classic.runescape.wiki/w/Herquin%27s_Jewel_Shop
+// https://web.archive.org/web/20050702140802im_/http://www.runehq.com/images/otherguides/Falador2.png
 scope=shared
 size=40
 restock=yes
@@ -14,6 +16,8 @@ stock7=ruby,0,2000
 stock8=diamond,0,4000
 
 [cassie_shields]
+// https://classic.runescape.wiki/w/Cassie%27s_Shields
+// https://web.archive.org/web/20050702140809im_/http://www.runehq.com/images/otherguides/Falador6.png
 scope=shared
 size=40
 restock=yes
@@ -29,6 +33,9 @@ stock7=steel_kiteshield,0,1500
 stock8=mithril_sq_shield,0,1500
 
 [waynes_chains]
+// https://classic.runescape.wiki/w/Wayne%27s_Chains
+// https://web.archive.org/web/20050702140813im_/http://www.runehq.com/images/otherguides/Falador8.png
+// https://web.archive.org/web/20071108191823im_/http://runehq.com/image/cityguides/falador/chainmailshop.png (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -42,6 +49,9 @@ stock5=mithril_chainbody,1,3500
 stock6=adamant_chainbody,1,9000
 
 [flynn_maces]
+// https://classic.runescape.wiki/w/Flynn%27s_mace_shop
+// https://storage.googleapis.com/tannerdino/images/rsfally2.gif
+// https://web.archive.org/web/20071108191237im_/http://runehq.com/image/cityguides/falador/maceshop.png (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -54,15 +64,18 @@ stock4=mithril_mace,3,3000
 stock5=adamant_mace,2,12000
 
 [generalshop4]
+// https://classic.runescape.wiki/w/Falador_General_Store
+// recheck
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=yes
-stock1=pot_empty,5,10
+stock1=pot_empty,3,100
 stock2=jug_empty,2,100
 stock3=shears,2,100
-stock4=bucket_empty,3,10
-stock7=tinderbox,2,100
-stock8=chisel,2,100
-stock9=hammer,5,100
+stock4=bucket_empty,2,100
+stock5=tinderbox,2,100
+stock6=chisel,2,100
+stock7=hammer,5,100
+// recheck

@@ -1,4 +1,6 @@
 [fine_fashions]
+// https://classic.runescape.wiki/w/Rometti%27s_fashion_outlet
+// https://storage.googleapis.com/tannerdino/images/rsgnome13.gif (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -26,6 +28,8 @@ stock19=gnome_boots_cream,5,200
 stock20=gnome_boots_turqoise,5,200
 
 [funchs_fine_groceries]
+// https://classic.runescape.wiki/w/Heckel_funch%27s_grocery_store
+// https://storage.googleapis.com/tannerdino/images/rsgnome16.gif (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -50,6 +54,8 @@ stock16=knife,5,200
 stock17=cocktail_guide,5,100
 
 [grand_tree_groceries]
+// https://classic.runescape.wiki/w/Hudo_glenfad%27s_grocery_store
+// https://storage.googleapis.com/tannerdino/images/rsgnome12.gif (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -74,10 +80,12 @@ stock16=chocolate_bar,8,100
 stock17=chocolate_dust,5,100
 stock18=pot_of_cream,5,100
 stock19=bucket_milk,5,100
-stock20=knife,5,100
+stock20=knife,5,200
 stock21=gianne_cook_book,5,100
 
 [blurberry_bar]
+// https://oldschool.runescape.wiki/w/Blurberry_Bar
+// https://storage.googleapis.com/tannerdino/images/rsgnome14.gif (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -92,6 +100,9 @@ stock6=premade_short_green_guy,10,100
 stock7=premade_wizard_blizzard,10,100
 
 [gulluck_and_sons]
+// https://classic.runescape.wiki/w/Gulluck_and_Sons
+// https://web.archive.org/web/20110722115315im_/http://www.runevillage.com/images/rs2Cities/rsgnome17.gif (full stocks)
+// https://web.archive.org/web/20111216182054im_/http://www.runehq.com/images/cityguides/Sggulluck.jpg
 scope=shared
 size=40
 restock=yes
@@ -121,6 +132,8 @@ stock21=adamant_2h_sword,1,15000
 
 [bolkoys_village_shop]
 // dated July 05, 2005
+// https://classic.runescape.wiki/w/Tree_Gnome_Village_General_Store
+// http://web.archive.org/web/20120213031926im_/http://runehq.com/images/cityguides/treegnomevillage/shop.png (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -138,6 +151,8 @@ stock9=bronze_arrow,30,100
 stock10=cooked_meat,2,100
 
 [giannes_restaurant]
+// https://oldschool.runescape.wiki/w/Gianne%27s_Restaurant
+// https://storage.googleapis.com/tannerdino/images/rsgnome10.gif (full stocks)
 scope=shared
 size=40
 restock=yes

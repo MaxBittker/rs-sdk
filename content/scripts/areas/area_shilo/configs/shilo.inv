@@ -1,4 +1,6 @@
 [fernaheis_fishing]
+// https://web.archive.org/web/20051215235633im_/http://runevillage.com/images/rsshilovillagetown5.gif
+// https://oldschool.runescape.wiki/w/Fernahei%27s_Fishing_Hut.
 scope=shared
 size=40
 restock=yes
@@ -13,6 +15,8 @@ stock6=raw_pike,0,1800
 stock7=raw_salmon,0,2100
 
 [oblis_general_store]
+// https://oldschool.runescape.wiki/w/Obli%27s_General_Store.
+// https://web.archive.org/web/20051215235727im_/http://runevillage.com/images/rsshilovillagetown8.gif
 scope=shared
 size=40
 restock=yes

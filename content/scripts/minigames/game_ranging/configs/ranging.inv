@@ -1,4 +1,6 @@
 [authentic_throwing_weapons]
+// https://oldschool.runescape.wiki/w/Authentic_Throwing_Weapons.
+// https://storage.googleapis.com/tannerdino/images/Throwing_weapons.jpg (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -18,6 +20,8 @@ stock11=adamant_thrownaxe,500,80
 stock12=rune_thrownaxe,400,100
 
 [aarons_archery_appendages]
+// https://oldschool.runescape.wiki/w/Aaron%27s_Archery_Appendages.
+// https://storage.googleapis.com/tannerdino/images/rangearmourshop.gif (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -33,6 +37,8 @@ stock7=leather_cowl,10,70
 stock8=leather_vambraces,10,150
 
 [darguads_bow_and_arrows]
+// https://oldschool.runescape.wiki/w/Dargaud%27s_Bow_and_Arrows.
+// https://storage.googleapis.com/tannerdino/images/dargaudsbowandarrows.png (2006)
 scope=shared
 size=40
 restock=yes

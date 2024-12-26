@@ -1,4 +1,6 @@
 [helmet_shop]
+// https://classic.runescape.wiki/w/Peksa%27s_Helmet_Shop
+// https://web.archive.org/web/20110929202655im_/http://runehq.com/images/cityguides/rs2/barbarianvillage/PeksasHelmetShop.png
 scope=shared
 size=40
 restock=yes

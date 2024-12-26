@@ -1,4 +1,7 @@
 [gerrant_fish]
+// https://web.archive.org/web/20111216182350im_/http://www.runehq.com/images/cityguides/fishyshop.jpg
+// https://classic.runescape.wiki/w/Gerrant%27s_Fishing_Supplies
+// https://web.archive.org/web/20130122003100im_/http://www.runehq.com/image/cityguides/portsarim/fishshop.png
 scope=shared
 size=40
 restock=yes
@@ -23,6 +26,8 @@ stock16=raw_lobster,0,2600
 stock17=raw_swordfish,0,2900
 
 [grum_gold]
+// https://classic.runescape.wiki/w/Grum%27s_Jewellers
+// https://web.archive.org/web/20111216182350im_/http://www.runehq.com/images/cityguides/jewels.jpg
 scope=shared
 size=40
 restock=yes
@@ -45,6 +50,7 @@ stock14=ruby_amulet,0,4000
 stock15=diamond_amulet,0,5000
 
 [betty_magic]
+// https://web.archive.org/web/20111216182350im_/http://www.runehq.com/images/cityguides/sarimrunes.jpg
 scope=shared
 size=40
 restock=yes
@@ -63,6 +69,8 @@ stock10=wizards_hat_blue,1,100
 stock11=wizard_hat,1,100
 
 [brian_battleaxe]
+// https://classic.runescape.wiki/w/Brian%27s_Great_Axes
+// https://web.archive.org/web/20111216182350im_/http://www.runehq.com/images/cityguides/axes.jpg
 scope=shared
 size=40
 restock=yes
@@ -76,6 +84,8 @@ stock5=mithril_battleaxe,1,1000
 stock6=adamant_battleaxe,1,15000
 
 [food_store]
+// https://oldschool.runescape.wiki/w/Food_Store
+// https://web.archive.org/web/20111216182350im_/http://www.runehq.com/images/cityguides/food.jpg
 scope=shared
 size=40
 restock=yes

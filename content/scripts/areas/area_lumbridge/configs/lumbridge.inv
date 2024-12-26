@@ -1,4 +1,6 @@
 [bob_axes]
+// https://classic.runescape.wiki/w/Bob%27s_Axes
+// https://storage.googleapis.com/tannerdino/images/lumby6.jpg (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -13,16 +15,19 @@ stock6=steel_battleaxe,2,200
 stock7=mithril_battleaxe,1,3000
 
 [generalshop1]
+// https://classic.runescape.wiki/w/Lumbridge_General_Store
+// https://web.archive.org/web/20050313104939/http://server6.uploadit.org/files/Nishkid64-lumbridgegeneralstore.JPG  (full stocks) 2004
+// https://web.archive.org/web/20060117095525/http://runehq.com/images/cityguides/Lumbridge/lumbridgegeneralstorestock.png (late 2005 or early 2006)
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=yes
-stock1=pot_empty,5,10
+stock1=pot_empty,3,100
 stock2=jug_empty,2,100
 stock3=shears,2,100
-stock4=bucket_empty,3,10
-stock7=tinderbox,2,100
-stock8=chisel,2,100
-stock9=hammer,5,100
-stock10=newcomer_map,5,100
+stock4=bucket_empty,2,100
+stock5=tinderbox,2,100
+stock6=chisel,2,100
+stock7=hammer,5,100
+stock8=newcomer_map,5,100

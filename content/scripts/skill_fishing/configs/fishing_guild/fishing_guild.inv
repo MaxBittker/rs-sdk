@@ -1,4 +1,7 @@
 [fishing_guild_shop]
+// https://classic.runescape.wiki/w/Fishing_Guild_Shop
+// https://storage.googleapis.com/tannerdino/images/fishingguild3.gif
+// https://storage.googleapis.com/tannerdino/images/rsfishingguild5.gif (full stocks)
 scope=shared
 size=40
 restock=yes

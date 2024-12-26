@@ -246,3 +246,30 @@ param=damagetype,^crush_style
 param=max_dealt,0
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_304
+
+[npc_872]
+vislevel=hide
+name=Watchtower wizard
+desc=The hat is a dead give away.
+walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
+readyanim=human_ready
+op1=Talk-to
+recol1s=6273
+recol1d=20083
+recol2s=14724
+recol2d=239
+recol3s=2340
+recol3d=239
+model1=model_214_idk
+model2=model_181_idk
+model3=model_250_idk
+model4=model_292_idk
+model5=model_170_idk
+model6=model_176_idk
+model7=model_265_obj_wear
+model8=model_202_obj_wear
+model9=model_181_idk
+model10=model_323_obj_wear
+head1=model_52_idk_head
+head2=model_82_idk_head
+head3=model_44_obj_wear

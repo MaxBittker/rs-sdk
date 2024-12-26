@@ -1,4 +1,6 @@
 [legends_guild_general_store]
+// https://classic.runescape.wiki/w/Legends%27_Guild_General_Store
+// https://storage.googleapis.com/tannerdino/images/legends4.png (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -10,6 +12,8 @@ stock3=3dose1attack,3,100
 stock4=steel_arrow,500,100
 
 [legends_guild_shop_of_useful_items]
+// https://classic.runescape.wiki/w/Legends%27_Guild_Shop
+// https://storage.googleapis.com/tannerdino/images/rslegendguild9.gif (full stocks)
 scope=shared
 size=40
 restock=yes

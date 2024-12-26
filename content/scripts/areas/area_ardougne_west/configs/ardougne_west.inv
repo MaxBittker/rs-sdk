@@ -1,4 +1,6 @@
 [generalshop14]
+// https://oldschool.runescape.wiki/w/West_Ardougne_General_Store
+// https://web.archive.org/web/20071108152955im_/http://runehq.com/images/cityguides/rs2/West_Ardougne/shopstockWA.gif (full stocks)
 scope=shared
 size=40
 restock=yes

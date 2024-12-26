@@ -40,7 +40,7 @@ param=magicdefence,-4
 // param=rangedefence,
 param=damagetype,^slash_style
 param=attack_anim,human_baxe_slash
-param=defend_anim,human_baxe_defend2
+param=defend_anim,human_baxe_defend1
 param=attack_sound,baxe_slash
 // param=defend_sound,swordclash2
 // animations and sounds taken Gunthor the Brave

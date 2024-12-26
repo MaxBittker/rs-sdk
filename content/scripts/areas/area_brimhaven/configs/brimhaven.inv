@@ -1,4 +1,6 @@
 [davons_amulet_store]
+// https://oldschool.runescape.wiki/w/Davon%27s_Amulet_Store.#Default
+// https://storage.googleapis.com/tannerdino/images/brimhaven6.jpg
 scope=shared
 size=40
 restock=yes
@@ -11,6 +13,8 @@ stock4=amulet_of_strength,0,200
 stock5=amulet_of_power,0,200
 
 [shrimp_and_parrot]
+// https://classic.runescape.wiki/w/The_Shrimp_and_Parrot
+// https://storage.googleapis.com/tannerdino/images/brimhaven7.jpg
 scope=shared
 size=40
 restock=yes

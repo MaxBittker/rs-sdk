@@ -1,4 +1,6 @@
 [ardougne_spice]
+// https://classic.runescape.wiki/w/Spices_Stall
+// https://web.archive.org/web/20120207054637im_/http://runehq.com/images/cityguides/Ardougne_East/ardougne4.jpg (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -7,6 +9,8 @@ allstock=no
 stock1=spice,1,100
 
 [ardougne_gem]
+// https://classic.runescape.wiki/w/Gems_Stall
+// https://web.archive.org/web/20120207054638im_/http://runehq.com/images/cityguides/Ardougne_East/ardougne7.jpg
 scope=shared
 size=40
 restock=yes
@@ -17,18 +21,35 @@ stock2=emerald,1,35000
 stock3=ruby,1,60000
 stock4=diamond,0,4000
 
-[ardougne_baker]
+[ardougne_baker_west]
+// https://classic.runescape.wiki/w/Bakers_Stall
+// https://oldschool.runescape.wiki/w/Ardougne_Baker%27s_Stall.
+// https://web.archive.org/web/20120207054637im_/http://runehq.com/images/cityguides/Ardougne_East/ardougne6.jpg
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=no
-stock1=bread,10,150
-stock2=cake,3,1000
-stock3=chocolate_slice,6,400
-stock4=chocolate_bar,9,250
+stock1=bread,10,100
+stock2=cake,3,800
+stock3=chocolate_slice,8,200
+// stock4=chocolate_bar,7,200
+
+// [ardougne_baker_east]
+// https://oldschool.runescape.wiki/w/Ardougne_Baker%27s_Stall. (Trivia)
+// scope=shared
+// size=40
+// restock=yes
+// stackall=yes
+// allstock=no
+// stock1=bread,10,150
+// stock2=cake,3,1000
+// stock3=chocolate_slice,6,400
+// stock4=chocolate_bar,9,250
 
 [furshop]
+// https://classic.runescape.wiki/w/Fur_Stall
+// https://web.archive.org/web/20120207054637im_/http://runehq.com/images/cityguides/Ardougne_East/ardougne3.jpg
 scope=shared
 size=40
 restock=yes
@@ -38,16 +59,20 @@ stock1=bear_fur,3,100
 stock2=grey_wolf_fur,3,100
 
 [ardougne_silver]
+// https://classic.runescape.wiki/w/Silver_Stall
+// https://web.archive.org/web/20120207054638im_/http://runehq.com/images/cityguides/Ardougne_East/ardougne9.jpg (full stocks)
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=no
-stock1=unstrung_symbol,100
+stock1=unstrung_symbol,2,100
 stock2=silver_ore,1,2000
 stock3=silver_bar,1,1000
 
 [zenesha_platemail]
+// https://classic.runescape.wiki/w/Zenesha%27s_Plate_Mail_Top_Shop
+// https://web.archive.org/web/20120207054639im_/http://runehq.com/images/cityguides/Ardougne_East/platebodyshop.png (full stocks)
 scope=shared
 size=40
 restock=yes
@@ -60,7 +85,9 @@ stock4=black_platebody,1,3000
 stock5=mithril_platebody,1,3000
 
 [generalshop12]
-//empty vials could be a default stock of 300
+// empty vials could be a default stock of 300
+// https://classic.runescape.wiki/w/East_Ardougne_Adventurers%27_Store
+// https://web.archive.org/web/20120207054639im_/http://runehq.com/images/cityguides/Ardougne_East/ardougne12.jpg
 scope=shared
 size=40
 restock=yes

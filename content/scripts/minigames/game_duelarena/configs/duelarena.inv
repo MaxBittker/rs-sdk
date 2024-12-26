@@ -1,11 +1,12 @@
 [shop_of_distaste]
+// https://oldschool.runescape.wiki/w/Shop_of_Distaste
+// https://storage.googleapis.com/tannerdino/images/rsduel6.gif (full stocks)
 scope=shared
 size=40
 restock=yes
 stackall=yes
 allstock=no
 stock1=rotten_tomato,2000,10
-
 
 [stakeinv]
 size=29

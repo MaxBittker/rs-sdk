@@ -1,4 +1,8 @@
 [frenitas_cookery_shop]
+// https://classic.runescape.wiki/w/Frenita%27s_Cooking_Shop
+// On this site, the store's goods are listed as a text list and empty cup is not mentioned in the list.
+// https://web.archive.org/web/20060518195608/http://runevillage.com/rs2Cities/city2Yanille.php
+// https://web.archive.org/web/20110713111125im_/http://runehq.com/images/cityguides/Yanille/yanilleshop.png (full stocks xx.september.2005)
 scope=shared
 size=40
 restock=yes
@@ -9,9 +13,9 @@ stock2=cooking_apple,2,200
 stock3=cake_tin,2,200
 stock4=bowl_empty,2,200
 stock5=potato,5,200
-stock6=tinderbox,4,100
-stock7=jug_empty,1,15
+stock6=tinderbox,4,200
+stock7=jug_empty,1,100
 stock8=pot_empty,8,100
 stock9=chocolate_bar,2,100
 stock10=pot_of_flour,8,100
-stock11=cup_empty,20,50
+// stock11=cup_empty,20,50 (Possible added with Ghost ahoy quest 15 February 2005)

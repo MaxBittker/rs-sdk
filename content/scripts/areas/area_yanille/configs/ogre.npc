@@ -1,0 +1,674 @@
+[npc_114]
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+name=Ogre
+desc=A large dim looking humanoid.
+op2=Attack
+vislevel=48
+model1=model_2878_npc
+model2=model_2874_npc
+wanderrange=3
+maxrange=5
+respawnrate=60
+hitpoints=60
+attack=43
+strength=43
+defence=43
+param=attackrate,6
+param=attackbonus,22
+param=strengthbonus,20
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+param=defend_sound,giant_hit
+param=death_sound,giant_death
+param=death_drop,big_bones
+huntmode=cowardly
+huntrange=2
+// Stats match osrs version but our version Vislvl is different.
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2095
+
+[npc_115]
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+name=Ogre
+desc=A large dim looking humanoid.
+op2=Attack
+vislevel=48
+model1=model_2878_npc
+model2=model_2876_npc
+wanderrange=3
+maxrange=5
+respawnrate=60
+hitpoints=60
+attack=43
+strength=43
+defence=43
+param=attackrate,6
+param=attackbonus,22
+param=strengthbonus,20
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+param=defend_sound,mace_crush
+param=death_sound,giant_death
+param=death_drop,big_bones
+huntmode=cowardly
+huntrange=2
+// Stats match osrs version but our version Vislvl is different.
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2096
+
+[npc_129]
+walkanim=skavid_walk
+readyanim=skavid_ready
+name=Skavid
+desc=Servant race to the ogres.
+op2=Attack
+vislevel=2
+model1=model_2999_npc
+hitpoints=6
+param=damagetype,^crush_style
+param=attack_anim,skavid_attack
+param=defend_anim,skavid_block
+param=death_anim,skavid_death
+param=attack_sound,imp_attack
+param=defend_sound,imp_hit
+param=death_sound,imp_death
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2846
+
+[npc_852]
+name=Ogre chieftain
+desc=Tough looking.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op2=Attack
+vislevel=70
+model1=model_2880_npc
+model2=model_2876_npc
+head1=model_141_npc_head
+wanderrange=3
+maxrange=5
+respawnrate=600
+hitpoints=60
+attack=75
+strength=71
+defence=75
+param=attackbonus,5
+param=strengthbonus,7
+param=stabdefence,10
+param=slashdefence,21
+param=crushdefence,16
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,mace_crush
+// param=defend_sound,blade3_mail
+param=death_sound,giant_death
+param=death_drop,big_bones
+huntmode=cowardly
+huntrange=2
+// Stats match osrs version but our version Vislvl is different.
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4363
+
+[npc_853]
+vislevel=hide
+name=Og
+desc=A senior member of the ogre community.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+model1=model_2880_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+param=death_anim,giant_death
+param=death_sound,giant_death
+
+[npc_854]
+vislevel=hide
+name=Grew
+desc=Very probably an ogre.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+model1=model_2880_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+param=death_anim,giant_death
+param=death_sound,giant_death
+
+[npc_855]
+vislevel=hide
+name=Toban
+desc=Ogre-ish.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+model1=model_2880_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+param=death_anim,giant_death
+param=death_sound,giant_death
+
+[npc_856]
+name=Gorad
+desc=Big, dumb and ugly.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op2=Attack
+vislevel=58
+model1=model_2880_npc
+model2=model_2876_npc
+head1=model_141_npc_head
+wanderrange=3
+maxrange=5
+respawnrate=60
+hitpoints=80
+attack=54
+strength=54
+defence=54
+param=attackbonus,8
+param=strengthbonus,6
+param=stabdefence,15
+param=slashdefence,27
+param=crushdefence,21
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,mace_crush
+// param=defend_sound,blade3_mail
+param=death_sound,giant_death
+param=death_drop,big_bones
+// Stats match osrs version but our version Vislvl is different.
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4367
+
+[npc_857]
+name=Ogre guard
+desc=An ogre that guards.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+vislevel=74
+model1=model_2880_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+respawnrate=100
+hitpoints=80
+attack=70
+strength=70
+defence=70
+param=attackbonus,9
+param=strengthbonus,13
+param=stabdefence,13
+param=slashdefence,24
+param=crushdefence,19
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+// param=defend_sound,blade3_mail
+param=death_sound,giant_death
+param=death_drop,big_bones
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4368
+
+[npc_858]
+name=Ogre guard
+desc=These ogres protect the city.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+vislevel=74
+model1=model_2880_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+respawnrate=100
+hitpoints=80
+attack=70
+strength=70
+defence=70
+param=attackbonus,9
+param=strengthbonus,13
+param=stabdefence,13
+param=slashdefence,24
+param=crushdefence,19
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+// param=defend_sound,blade3_mail
+param=death_sound,giant_death
+param=death_drop,big_bones
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4369
+
+[npc_859]
+name=Ogre guard
+desc=An ogre that guards.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+vislevel=74
+model1=model_2880_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+respawnrate=100
+hitpoints=80
+attack=70
+strength=70
+defence=70
+param=attackbonus,9
+param=strengthbonus,13
+param=stabdefence,13
+param=slashdefence,24
+param=crushdefence,19
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+// param=defend_sound,blade3_mail
+param=death_sound,giant_death
+param=death_drop,big_bones
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4370
+
+[npc_860]
+name=Ogre guard
+desc=An ogre that guards.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+vislevel=74
+model1=model_2880_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+respawnrate=100
+hitpoints=80
+attack=70
+strength=70
+defence=70
+param=attackbonus,9
+param=strengthbonus,13
+param=stabdefence,13
+param=slashdefence,24
+param=crushdefence,19
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+// param=defend_sound,blade3_mail
+param=death_sound,giant_death
+param=death_drop,big_bones
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4371
+
+[npc_861]
+name=Ogre guard
+desc=An ogre that guards.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+vislevel=74
+model1=model_2880_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+respawnrate=100
+hitpoints=80
+attack=70
+strength=70
+defence=70
+param=attackbonus,9
+param=strengthbonus,13
+param=stabdefence,13
+param=slashdefence,24
+param=crushdefence,19
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+// param=defend_sound,blade3_mail
+param=death_sound,giant_death
+param=death_drop,big_bones
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4372
+
+[npc_862]
+name=City guard
+desc=Tries to keep the peace.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op2=Attack
+vislevel=74
+model1=model_2878_npc
+model2=model_2876_npc
+head1=model_141_npc_head
+respawnrate=100
+hitpoints=80
+attack=70
+strength=70
+defence=70
+param=attackbonus,9
+param=strengthbonus,13
+param=stabdefence,13
+param=slashdefence,24
+param=crushdefence,19
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,mace_crush
+param=defend_sound,giant_hit
+param=death_sound,giant_death
+param=death_drop,big_bones
+// Stats match osrs version but our version Vislvl is different.
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4373
+
+[npc_863]
+vislevel=hide
+name=Scared skavid
+desc=Frightened looking.
+size=2
+walkanim=skavid_walk
+readyanim=skavid_ready
+op1=Talk-to
+model1=model_2999_npc
+head1=model_146_npc_head
+param=death_anim,skavid_death
+param=death_sound,imp_death
+
+[npc_864]
+vislevel=hide
+name=Mad skavid
+desc=Looks mad.
+size=2
+walkanim=skavid_walk
+readyanim=skavid_ready
+op1=Talk-to
+recol1s=16871
+recol1d=9504
+model1=model_2999_npc
+head1=model_146_npc_head
+param=death_anim,skavid_death
+param=death_sound,imp_death
+
+[npc_865]
+vislevel=hide
+name=Skavid
+desc=A skavid.
+size=2
+walkanim=skavid_walk
+readyanim=skavid_ready
+op1=Talk-to
+model1=model_2999_npc
+head1=model_146_npc_head
+param=death_anim,skavid_death
+param=death_sound,imp_death
+
+[npc_866]
+vislevel=hide
+name=Skavid
+desc=A skavid.
+size=2
+walkanim=skavid_walk
+readyanim=skavid_ready
+op1=Talk-to
+model1=model_2999_npc
+head1=model_146_npc_head
+param=death_anim,skavid_death
+param=death_sound,imp_death
+
+[npc_867]
+vislevel=hide
+name=Skavid
+desc=A skavid.
+size=2
+walkanim=skavid_walk
+readyanim=skavid_ready
+op1=Talk-to
+model1=model_2999_npc
+head1=model_146_npc_head
+param=death_anim,skavid_death
+param=death_sound,imp_death
+
+[npc_868]
+vislevel=hide
+name=Skavid
+desc=A skavid.
+size=2
+walkanim=skavid_walk
+readyanim=skavid_ready
+op1=Talk-to
+model1=model_2999_npc
+head1=model_146_npc_head
+param=death_anim,skavid_death
+param=death_sound,imp_death
+
+[npc_869]
+vislevel=hide
+name=Skavid
+desc=A skavid.
+size=2
+walkanim=skavid_walk
+readyanim=skavid_ready
+op1=Talk-to
+model1=model_2999_npc
+head1=model_146_npc_head
+param=death_anim,skavid_death
+param=death_sound,imp_death
+
+[npc_870]
+name=Enclave guard
+desc=Big and ugly looking.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op2=Attack
+vislevel=74
+model1=model_2880_npc
+model2=model_2876_npc
+head1=model_141_npc_head
+wanderrange=1
+maxrange=3
+respawnrate=24
+hitpoints=80
+attack=70
+strength=70
+defence=70
+param=attackbonus,9
+param=strengthbonus,13
+param=stabdefence,13
+param=slashdefence,24
+param=crushdefence,19
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,mace_stab
+// param=defend_sound,blade3_mail
+param=death_sound,giant_death
+param=death_drop,big_bones
+// Stats match osrs version but our version Vislvl is different.
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4381
+
+[npc_871]
+name=Ogre shaman
+desc=Seems intelligent... for an ogre.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op2=Attack
+vislevel=113
+model1=model_2879_npc
+model2=model_2877_npc
+head1=model_141_npc_head
+respawnrate=102
+hitpoints=99
+attack=99
+strength=99
+defence=99
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=magicattack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+param=defend_sound,giant_hit
+param=death_sound,giant_death
+// TODO monster examine spell
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4382
+
+[npc_873]
+name=Ogre trader
+desc=Funnily enough, doesn't actually buy or sell ogres.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op1=Talk-to
+op2=Attack
+op3=Trade
+vislevel=60
+model1=model_2878_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+wanderrange=2
+maxrange=4
+hitpoints=60
+attack=62
+strength=60
+defence=63
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+param=defend_sound,giant_hit
+param=death_sound,giant_death
+param=death_drop,big_bones
+category=shop_keeper
+param=owned_shop,dals_generalstore
+param=shop_sell_multiplier,1300
+param=shop_buy_multiplier,400
+param=shop_delta,30
+param=shop_title,Dal's General Ogre Supplies
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4401
+
+[npc_874]
+name=Ogre merchant
+desc=Funnily enough, doesn't actually buy or sell ogres.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op1=Talk-to
+op2=Attack
+op3=Trade
+vislevel=60
+model1=model_2878_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+wanderrange=2
+maxrange=4
+hitpoints=60
+attack=62
+strength=60
+defence=63
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+param=defend_sound,giant_hit
+param=death_sound,giant_death
+param=death_drop,big_bones
+category=shop_keeper
+param=owned_shop,gruds_herblore_stall
+param=shop_sell_multiplier,1300
+param=shop_buy_multiplier,400
+param=shop_delta,30
+param=shop_title,Grud's Herblore Stall.
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4402
+
+[npc_875]
+name=Ogre trader
+desc=Funnily enough, doesn't actually buy or sell ogres.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op1=Talk-to
+op2=Attack
+op3=Trade
+vislevel=60
+model1=model_2878_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+wanderrange=2
+maxrange=4
+hitpoints=60
+attack=62
+strength=60
+defence=63
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+param=defend_sound,giant_hit
+param=death_sound,giant_death
+param=death_drop,big_bones
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4403
+
+[npc_876]
+name=Ogre trader
+desc=Funnily enough, doesn't actually buy or sell ogres.
+size=2
+walkanim=ogre_walk
+readyanim=ogre_ready
+op1=Talk-to
+op1=Talk-to
+op2=Attack
+op3=Trade
+vislevel=60
+model1=model_2878_npc
+model2=model_2874_npc
+head1=model_141_npc_head
+wanderrange=3
+maxrange=5
+hitpoints=60
+attack=62
+strength=60
+defence=63
+param=damagetype,^crush_style
+param=attack_anim,ogre_attack
+param=defend_anim,ogre_block
+param=death_anim,ogre_death
+param=attack_sound,giant_attack
+param=defend_sound,giant_hit
+param=death_sound,giant_death
+param=death_drop,big_bones
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4404
