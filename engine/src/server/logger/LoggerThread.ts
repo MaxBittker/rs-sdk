@@ -46,8 +46,8 @@ async function handleRequests(parentPort: ParentPort, msg: any) {
         case 'session_log': {
             if (Environment.LOGGER_SERVER) {
                 // todo: batch up logs, cache account->username queries
-                const { username, session_uuid, timestamp, coord, event } = msg;
-                await client.sessionLog(username, session_uuid, timestamp, coord, event);
+                const { username, session_uuid, timestamp, coord, event, event_type } = msg;
+                await client.sessionLog(username, session_uuid, timestamp, coord, event, event_type);
             }
             break;
         }

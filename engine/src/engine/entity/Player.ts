@@ -449,8 +449,8 @@ export default class Player extends PathingEntity {
         }
     }
 
-    addSessionLog(message: string, ...args: string[]): void {
-        World.addSessionLog(this.username, 'headless', CoordGrid.packCoord(this.level, this.x, this.z), message, ...args);
+    addSessionLog(type: number, message: string, ...args: string[]): void {
+        World.addSessionLog(this.username, 'headless', CoordGrid.packCoord(this.level, this.x, this.z), type, message, ...args);
     }
 
     processEngineQueue() {
@@ -1462,7 +1462,7 @@ export default class Player extends PathingEntity {
             }
 
             this.changeStat(stat);
-            this.addSessionLog('Advanced ' + Player.SKILLS[stat] + ' stat from ' + before + ' to ' + this.baseLevels[stat]);
+            this.addSessionLog(0, 'Advanced ' + Player.SKILLS[stat] + ' stat from ' + before + ' to ' + this.baseLevels[stat]);
 
             const script = ScriptProvider.getByTriggerSpecific(ServerTriggerType.ADVANCESTAT, stat, -1);
             if (script) {
@@ -1684,8 +1684,6 @@ export default class Player extends PathingEntity {
     // ----
 
     runScript(script: ScriptState, protect: boolean = false, force: boolean = false) {
-        // printDebug('Executing', script.script.info.scriptName);
-
         if (!force && protect && (this.protect || this.delayed())) {
             // can't get protected access, bye-bye
             // printDebug('No protected access:', script.script.info.scriptName, protect, this.protect);

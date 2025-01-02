@@ -20,7 +20,12 @@ export default class LoggerServer {
 
                     switch (type) {
                         case 'session_log': {
-                            const { game, username, session_uuid, timestamp, coord, event } = msg;
+                            const { game, username, session_uuid, timestamp, coord, event, event_type } = msg;
+
+                            // event_type:
+                            // 0 - engine
+                            // 1 - content
+                            // 2 - debug/verbose
 
                             const account = await db.selectFrom('account').where('username', '=', username).selectAll().executeTakeFirst();
 
@@ -34,7 +39,8 @@ export default class LoggerServer {
 
                                     timestamp: new Date(timestamp),
                                     coord,
-                                    event
+                                    event,
+                                    event_type
                                 }).execute();
                             }
 

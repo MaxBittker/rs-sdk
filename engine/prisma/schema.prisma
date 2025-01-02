@@ -41,6 +41,7 @@ model account_session {
     timestamp DateTime
     coord Int
     event String
+    event_type Int @default(-1)
 }
 
 // website

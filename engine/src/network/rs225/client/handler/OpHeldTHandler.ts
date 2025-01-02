@@ -6,6 +6,7 @@ import ScriptRunner from '#/engine/script/ScriptRunner.js';
 import Environment from '#/util/Environment.js';
 import Component from '#/cache/config/Component.js';
 import OpHeldT from '#/network/client/model/OpHeldT.js';
+import ObjType from '#/cache/config/ObjType.js';
 
 export default class OpHeldTHandler extends MessageHandler<OpHeldT> {
     handle(message: OpHeldT, player: Player): boolean {
@@ -16,7 +17,7 @@ export default class OpHeldTHandler extends MessageHandler<OpHeldT> {
             return false;
         }
 
-        const spellCom = Component.get(comId);
+        const spellCom = Component.get(spellComId);
         if (typeof spellCom === 'undefined' || !player.isComponentVisible(spellCom)) {
             return false;
         }
@@ -42,6 +43,8 @@ export default class OpHeldTHandler extends MessageHandler<OpHeldT> {
         player.closeModal();
         player.faceEntity = -1;
         player.masks |= player.entitymask;
+
+        player.addSessionLog(2, `opheldt: casting ${spellCom.comName} on ${ObjType.get(item).debugname}`);
 
         const script = ScriptProvider.getByTrigger(ServerTriggerType.OPHELDT, spellComId, -1);
         if (script) {

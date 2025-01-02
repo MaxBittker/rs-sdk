@@ -239,8 +239,8 @@ export class NetworkPlayer extends Player {
         this.client.terminate();
     }
 
-    override addSessionLog(message: string, ...args: string[]): void {
-        World.addSessionLog(this.username, isClientConnected(this) ? this.client.uuid : 'disconnected', CoordGrid.packCoord(this.level, this.x, this.z), message, ...args);
+    override addSessionLog(type: number, message: string, ...args: string[]): void {
+        World.addSessionLog(this.username, isClientConnected(this) ? this.client.uuid : 'disconnected', CoordGrid.packCoord(this.level, this.x, this.z), type, message, ...args);
     }
 
     updateMap() {

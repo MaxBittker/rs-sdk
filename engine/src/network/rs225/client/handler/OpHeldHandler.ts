@@ -58,6 +58,8 @@ export default class OpHeldHandler extends MessageHandler<OpHeld> {
             trigger = ServerTriggerType.OPHELD5;
         }
 
+        player.addSessionLog(2, `opheld${message.op}: using ${type.debugname}`);
+
         const script = ScriptProvider.getByTrigger(trigger, type.id, type.category);
         if (script) {
             player.executeScript(ScriptRunner.init(script, player), true);

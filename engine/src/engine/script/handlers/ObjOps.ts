@@ -153,8 +153,8 @@ const ObjOps: CommandHandlers = {
                 continue;
             }
 
-            // state.activePlayer.addSessionLog('Picked up item', objType.debugname as string);
             state.activePlayer.invAdd(invType.id, obj.type, obj.count);
+
             if (obj.lifecycle === EntityLifeCycle.RESPAWN) {
                 World.removeObj(obj, objType.respawnrate);
                 break;

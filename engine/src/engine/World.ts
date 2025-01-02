@@ -829,7 +829,7 @@ class World {
                     }
 
                     if (isClientConnected(other)) {
-                        player.addSessionLog('Logged to world ' + Environment.NODE_ID + ' replacing session', other.client.uuid);
+                        player.addSessionLog(0, 'Logged to world ' + Environment.NODE_ID + ' replacing session', other.client.uuid);
                         other.client.close();
                     }
 
@@ -873,9 +873,9 @@ class World {
 
             if (isClientConnected(player)) {
                 if (player.reconnecting) {
-                    player.addSessionLog('Logged into world ' + Environment.NODE_ID + ' (client reports reconnecting)');
+                    player.addSessionLog(0, 'Logged into world ' + Environment.NODE_ID + ' (client reports reconnecting)');
                 } else {
-                    player.addSessionLog('Logged into world ' + Environment.NODE_ID);
+                    player.addSessionLog(0, 'Logged into world ' + Environment.NODE_ID);
                 }
 
                 player.client.state = 1;
@@ -1415,7 +1415,7 @@ class World {
         player.pid = -1;
         player.uid = -1;
 
-        player.addSessionLog('Logged out of world ' + Environment.NODE_ID);
+        player.addSessionLog(0, 'Logged out of world ' + Environment.NODE_ID);
 
         const save = player.save();
         this.logoutRequests.set(player.username, save);
@@ -1841,7 +1841,7 @@ class World {
         client.opcode = -1;
     }
 
-    addSessionLog(username: string, session_uuid: string, coord: number, message: string, ...args: string[]) {
+    addSessionLog(username: string, session_uuid: string, coord: number, type: number, message: string, ...args: string[]) {
         this.loggerThread.postMessage({
             type: 'session_log',
             username,
@@ -1849,6 +1849,7 @@ class World {
             timestamp: Date.now(),
             coord,
             event: args.length ? message + ' ' + args.join(' ') : message,
+            event_type: type
         });
     }
 

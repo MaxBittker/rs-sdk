@@ -24,6 +24,7 @@ export type account_session = {
     timestamp: Timestamp;
     coord: number;
     event: string;
+    event_type: Generated<number>;
 };
 export type friendlist = {
     account_id: number;

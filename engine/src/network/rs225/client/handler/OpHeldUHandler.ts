@@ -94,6 +94,8 @@ export default class OpHeldUHandler extends MessageHandler<OpHeldU> {
             [player.lastSlot, player.lastUseSlot] = [player.lastUseSlot, player.lastSlot];
         }
 
+        player.addSessionLog(2, `opheldu: using ${useObjType.debugname} on ${objType.debugname}`);
+
         if (script) {
             player.executeScript(ScriptRunner.init(script, player), true);
         } else {

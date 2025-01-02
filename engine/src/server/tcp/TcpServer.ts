@@ -46,14 +46,14 @@ export default class TcpServer {
                 client.state = -1;
 
                 if (client.player) {
-                    client.player.addSessionLog('TCP socket closed');
+                    client.player.addSessionLog(2, 'TCP socket closed');
                     client.player.client = new NullClientSocket();
                 }
             });
 
             s.on('error', (err) => {
                 if (client.player) {
-                    client.player.addSessionLog('TCP socket error', err.message);
+                    client.player.addSessionLog(2, 'TCP socket error', err.message);
                 }
 
                 s.destroy();
@@ -61,7 +61,7 @@ export default class TcpServer {
 
             s.on('timeout', () => {
                 if (client.player) {
-                    client.player.addSessionLog('TCP socket timeout');
+                    client.player.addSessionLog(2, 'TCP socket timeout');
                 }
 
                 s.destroy();

@@ -57,14 +57,14 @@ export default class WSServer {
                 client.state = -1;
 
                 if (client.player) {
-                    client.player.addSessionLog('WS socket closed');
+                    client.player.addSessionLog(2, 'WS socket closed');
                     client.player.client = new NullClientSocket();
                 }
             });
 
             ws.on('error', (err) => {
                 if (client.player) {
-                    client.player.addSessionLog('WS socket error', err.message);
+                    client.player.addSessionLog(2, 'WS socket error', err.message);
                 }
 
                 ws.terminate();

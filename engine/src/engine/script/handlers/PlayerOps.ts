@@ -1072,7 +1072,7 @@ const PlayerOps: CommandHandlers = {
     }),
 
     [ScriptOpcode.SESSION_LOG]: checkedHandler(ActivePlayer, state => {
-        state.activePlayer.addSessionLog(state.popString());
+        state.activePlayer.addSessionLog(1, state.popString());
     }),
 };
 
