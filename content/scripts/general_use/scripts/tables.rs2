@@ -37,7 +37,10 @@ if ($x > 0) {
 } else if (calc($x + $width - 1) < 0) {
     $obj_coord = movecoord(coord, -1, 0, 0); // player is east of table
 }
-session_log("Placing <oc_debugname(last_useitem)> x<tostring(inv_getnum(inv, last_useslot))> on a table");
+
+def_int $item_count = inv_getnum(inv, last_useslot);
+wealth_log(^wealth_lost, calc($item_count * oc_cost(last_useitem)), "Placed <oc_debugname(last_useitem)> x<tostring($item_count)> on a table");
+
 inv_dropslot(inv, $obj_coord, last_useslot, 900); // 1 min to be visible, 9 min to disappear
 
 [oplocu,_unusable_table]

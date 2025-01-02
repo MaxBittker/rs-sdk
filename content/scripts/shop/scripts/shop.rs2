@@ -68,14 +68,14 @@ while($i < $amount) {
     def_int $current_stock = calc($shop_stock - $i);
     if(calc($total_cost + $added_amt) > $current_gp) {
         if ($i > 0) {
-            session_log("Bought <oc_debugname($obj)> x<tostring($i)> from a shop for <tostring($total_cost)> coins");
+            wealth_log(^wealth_lost, $total_cost, "Bought <oc_debugname($obj)> x<tostring($i)> from a shop for <tostring($total_cost)> coins");
         }
         mes("You don't have enough coins.");
         return;
     }
     if($current_stock <= 0) {
         if ($i > 0) {
-            session_log("Bought <oc_debugname($obj)> x<tostring($i)> from a shop for <tostring($total_cost)> coins");
+            wealth_log(^wealth_lost, $total_cost, "Bought <oc_debugname($obj)> x<tostring($i)> from a shop for <tostring($total_cost)> coins");
         }
         mes("The shop has run out of stock.");
         return;
@@ -84,7 +84,7 @@ while($i < $amount) {
     // is used. Not sure if this should be the case in 2004
     if($space_overflow >= calc($amount - $i) & calc($total_cost + $added_amt) ! $current_gp) {
         if ($i > 0) {
-            session_log("Bought <oc_debugname($obj)> x<tostring($i)> from a shop for <tostring($total_cost)> coins");
+            wealth_log(^wealth_lost, $total_cost, "Bought <oc_debugname($obj)> x<tostring($i)> from a shop for <tostring($total_cost)> coins");
         }
         mes("You don't have enough inventory space.");
         return;
@@ -94,7 +94,7 @@ while($i < $amount) {
     inv_moveitem_uncert(%shop, inv, $obj, 1);
     $i = calc($i + 1);
 }
-session_log("Bought <oc_debugname($obj)> x<tostring($i)> from a shop for <tostring($total_cost)> coins");
+wealth_log(^wealth_lost, $total_cost, "Bought <oc_debugname($obj)> x<tostring($i)> from a shop for <tostring($total_cost)> coins");
 
 // Sell an item to the shop
 [label,sell_item](obj $obj, int $amount)
@@ -123,7 +123,7 @@ while($i < $sell_amount) {
 }
 // now perform the transaction 
 inv_moveitem_uncert(inv, %shop, $obj, $sell_amount);
-session_log("Sold <oc_debugname($obj)> x<tostring($sell_amount)> to a shop for <tostring($total_value)> coins");
+wealth_log(^wealth_gained, $total_value, "Sold <oc_debugname($obj)> x<tostring($sell_amount)> to a shop for <tostring($total_value)> coins");
 if($total_value > 0) {
     inv_add(inv, coins, $total_value);
 }

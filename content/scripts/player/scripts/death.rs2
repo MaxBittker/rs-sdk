@@ -10,7 +10,7 @@ clearqueue(player_death);
 
 midi_jingle(^death_jingle_2, ^death_jingle_2_millis);
 mes("Oh dear you are dead.");
-session_log("Player died");
+session_log(^log_moderator, "Player died");
 if (~in_duel_arena(coord) = true & .finduid(%duelpartner) = true & ~.in_duel_arena(.coord) = true) {
     if_close;
     .if_close;

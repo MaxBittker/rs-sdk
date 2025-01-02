@@ -2,10 +2,8 @@
 
 [label,pickup_obj](coord $coord, namedobj $obj, int $amount)
 if (distance(coord, $coord) = 0) {
-    session_log("Picking up <oc_debugname($obj)> x<tostring($amount)> from the ground");
     @pickup_obj_floor($obj, $amount);
 } else {
-    session_log("Picking up <oc_debugname($obj)> x<tostring($amount)> from a table");
     @pickup_obj_table($obj, $amount);
 }
 
@@ -16,6 +14,7 @@ if (~pickup_obj_check_for_space($obj, $amount) = false) {
 anim(null, 0);
 obj_takeitem(inv);
 sound_synth(pick2, 0, 0);
+wealth_log(^wealth_gained, oc_cost($obj), "Picked up <oc_debugname($obj)> x<tostring($amount)> from the ground");
 
 [label,pickup_obj_table](namedobj $obj, int $amount)
 if (~pickup_obj_check_for_space($obj, $amount) = false) {
@@ -26,6 +25,7 @@ p_delay(0);
 anim(human_pickuptable, 0);
 obj_takeitem(inv);
 sound_synth(pick2, 0, 0);
+wealth_log(^wealth_gained, oc_cost($obj), "Picked up <oc_debugname($obj)> x<tostring($amount)> from a table");
 
 [proc,pickup_loc_floor](coord $coord, namedobj $replacement, int $respawn_ticks, boolean $worldpop_dependant)
 anim(human_pickupfloor, 0);
@@ -39,6 +39,7 @@ if ($worldpop_dependant = true) {
 
 loc_del($respawn_ticks);
 inv_add(inv, $replacement, 1);
+wealth_log(^wealth_gained, oc_cost($replacement), "Picked up <oc_debugname($replacement)> x1 from the ground");
 
 [proc,pickup_obj_check_for_space](namedobj $obj, int $amount)(boolean)
 if (inv_itemspace(inv, $obj, $amount, inv_size(inv)) = false) {

@@ -395,7 +395,9 @@
 // Requires protected access - clear the current interaction, but leave the walk queue intact
 [command,p_clearpendingaction]
 // Add an event to the player's session logs
-[command,session_log](string $event)
+[command,session_log](int $type, string $event)
+// Add a wealth event to the player's session logs
+[command,wealth_log](boolean $is_gained, int $amount, string $event)
 
 // Npc ops (2500-2999)
 // Get access to the npc if they are in the world

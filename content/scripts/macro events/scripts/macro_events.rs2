@@ -103,7 +103,7 @@ return(enum_getoutputcount(general_macro_events_free));
 
 // teleports the player to a random location, using the coords in configs/macro_events_teleports.enum
 [proc,macro_event_fail_teleport]
-session_log("Griefed by teleporting random event");
+session_log(^log_adventure, "Failed random event and got teleported");
 def_coord $teleport_coord;
 if (map_members = true) {
     $teleport_coord = enum(int, coord, macro_event_fail_teleports_members, random(enum_getoutputcount(macro_event_fail_teleports_members)));
@@ -126,7 +126,7 @@ sound_synth(smokepuff2, 0, 0);
 
 
 [proc,macro_event_fail_scatter_inv]
-session_log("Griefed by item scattering random event");
+session_log(^log_adventure, "Failed random event and had their items scattered");
 %macro_event = ^no_macro_event;
 npc_say("No one ignores me!");
 npc_anim(human_castteleport, 0);
@@ -145,7 +145,7 @@ while ($i < inv_size(inv)) {
 
 // not sure if this is a thing but people seem to remember it being a thing
 [proc,macro_event_fail_note_inv]
-session_log("Griefed by item noting random event");
+session_log(^log_adventure, "Failed random event and had their items noted");
 def_int $i = 0;
 while ($i < inv_size(inv)) {
     def_obj $obj = inv_getobj(inv, $i);

@@ -21,7 +21,7 @@ spotanim_pl(highlvlalchemy_casting, 92, 0);
 ~give_spell_xp($spell_data);
 // give 0.6x of item's value and delete item
 def_int $profit = max(scale(6, 10, oc_cost($item)), 1);
-session_log("High alching <oc_debugname($item)> to make <tostring($profit)> coins");
+wealth_log(^wealth_gained, $profit, "High alching <oc_debugname($item)>");
 inv_del(inv, $item, 1);
 inv_add(inv, coins, $profit);
 // delay by 5 ticks
@@ -56,7 +56,7 @@ spotanim_pl(lowlvlalchemy_casting, 92, 0);
 ~give_spell_xp($spell_data);
 // give 0.4x of item's value and delete item
 def_int $profit = max(scale(4, 10, oc_cost($item)), 1);
-session_log("Low alching <oc_debugname($item)> to make <tostring($profit)> coins");
+wealth_log(^wealth_gained, $profit, "Low alching <oc_debugname($item)>");
 inv_del(inv, $item, 1);
 inv_add(inv, coins, $profit);
 if_settabactive(^tab_magic);

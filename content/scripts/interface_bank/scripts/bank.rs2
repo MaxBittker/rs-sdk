@@ -63,7 +63,7 @@ if (inv_itemspace($inv, $cert_or_uncert, $amount, inv_size($inv)) = false){
 def_int $overflow = inv_itemspace2($inv, $cert_or_uncert, $amount, inv_size($inv));
 def_int $withdraw = sub($amount, $overflow);
 if ($withdraw > 0) {
-    session_log("Withdrawing <oc_debugname($obj)> x<tostring($withdraw)> from bank");
+    session_log(^log_moderator, "Withdrew <oc_debugname($obj)> x<tostring($withdraw)> from bank");
     switch_int (%bank_noted) {
         case 0 : inv_moveitem_uncert(bank, $inv, $obj, $withdraw);
         case default : inv_moveitem_cert(bank, $inv, $obj, $withdraw);
@@ -82,7 +82,7 @@ if (sub(^max_32bit_int, $amount) < inv_total(bank, $obj)) {
 }
 def_int $deposit = sub($amount, $overflow);
 if ($deposit > 0) {
-    session_log("Depositing <oc_debugname($obj)> x<tostring($deposit)> into bank");
+    session_log(^log_moderator, "Deposited <oc_debugname($obj)> x<tostring($deposit)> into bank");
     inv_moveitem_uncert($inv, bank, $obj, $deposit);
 }
 

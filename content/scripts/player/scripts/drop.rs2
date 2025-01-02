@@ -9,7 +9,11 @@ if (~inzone_coord_pair_table(trawler_wreck_zones, coord) = true) {
     mes("It would be seriously unwise for you to drop your items in the sea."); // osrs
     return;
 }
-session_log("Dropping <oc_debugname(inv_getobj(inv, $last))> x<tostring(inv_getnum(inv, $last))> on the ground");
+
+def_obj $item = inv_getobj(inv, $last);
+def_int $count = inv_getnum(inv, $last);
+wealth_log(^wealth_lost, calc($count * oc_cost($item)), "Dropping <oc_debugname($item)> x<tostring($count)> on the ground");
+
 inv_dropslot(inv, coord, $last, 200);
 anim(null, 0); // https://youtu.be/QvDYolBZNjY?t=164, https://youtu.be/DVHCP2JhQE0?t=142
 sound_synth(put_down, 0, 0);

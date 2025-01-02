@@ -27,3 +27,9 @@
 // for gettimespent
 ^millis = 0
 ^micros = 1
+
+// session logging
+^log_moderator = 0
+^log_adventure = 1
+^wealth_gained = true
+^wealth_lost = false
