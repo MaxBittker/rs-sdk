@@ -3,6 +3,17 @@
 [oploc1,loc_3034] @tut_woodcutting;
 [oploc1,loc_3036] @tut_woodcutting;
 
+[oplocu,loc_3033] @tut_woodcutting_useitem;
+[oplocu,loc_3034] @tut_woodcutting_useitem;
+[oplocu,loc_3036] @tut_woodcutting_useitem;
+
+[label,tut_woodcutting_useitem]
+if (last_useitem = bronze_axe) {
+    @tut_woodcutting;
+} else {
+    mes("Nothing interesting happens.");
+}
+
 [label,tut_woodcutting]
 if (%tutorial_progress < ^survival_guide_cut_tree) {
     ~mesbox("You cannot cut down this tree yet.|You must progress further in the tutorial.");
