@@ -608,6 +608,28 @@ export default class Player extends PathingEntity {
         }
     }
 
+    unlinkQueuedScript(scriptId: number, type: QueueType = PlayerQueueType.NORMAL) {
+        if (type === PlayerQueueType.ENGINE) {
+            for (let request = this.engineQueue.head(); request !== null; request = this.engineQueue.next()) {
+                if (request.script.id === scriptId) {
+                    request.unlink();
+                }
+            }
+        } else {
+            for (let request = this.queue.head(); request !== null; request = this.queue.next()) {
+                if (request.script.id === scriptId) {
+                    request.unlink();
+                }
+            }
+            for (let request = this.weakQueue.head(); request !== null; request = this.weakQueue.next()) {
+                if (request.script.id === scriptId) {
+                    request.unlink();
+                }
+            }
+        }
+        
+    }
+
     processQueues() {
         // the presence of a strong script closes modals before anything runs regardless of the order
         let hasStrong: boolean = false;
@@ -1485,6 +1507,7 @@ export default class Player extends PathingEntity {
 
             const script = ScriptProvider.getByTriggerSpecific(ServerTriggerType.ADVANCESTAT, stat, -1);
             if (script) {
+                this.unlinkQueuedScript(script.id, PlayerQueueType.ENGINE);
                 this.enqueueScript(script, PlayerQueueType.ENGINE);
             }
         }
