@@ -61,7 +61,7 @@ if (%blackknight_progress = 1) {
     ~chatnpc("<p,quiz>How's the mission going?");
     ~chatplayer("<p,neutral>I haven't managed to find what the secret weapon is yet.");
 } else if (%blackknight_progress = 2) {
-    ~chatnpc("<p,quiz>How' the mission going?");
+    ~chatnpc("<p,quiz>How's the mission going?");
     ~chatplayer("<p,neutral>I've found out what the Black Knight's secret weapon is. It's a potion of invincibility.");
     ~chatnpc("<p,sad>That is bad news.|If you can sabotage it somehow, you will be paid well.");
 } else if (%blackknight_progress = 3) {

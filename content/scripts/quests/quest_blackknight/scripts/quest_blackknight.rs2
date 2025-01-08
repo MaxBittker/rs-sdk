@@ -21,9 +21,9 @@ if ($is_outside = true & ((inv_getobj(worn, ^wearpos_hat) ! bronze_med_helm) | (
 [oploc1,blackknight_door_to_grill]
 def_boolean $is_outside = ~check_axis(coord, loc_coord, loc_angle);
 if ($is_outside = false) {
-    def_boolean $has_spoken = false;
-    $has_spoken = ~set_black_knight_aggro(1_47_54_17_55, $has_spoken);
-    ~set_black_knight_aggro(1_47_54_15_55, $has_spoken);
+    // black knights guarding the ladder down to the grill will aggress the player
+    ~set_black_knight_aggro(1_47_54_17_55);
+    ~set_black_knight_aggro(1_47_54_15_55);
 }
 ~open_and_close_door(loc_param(next_loc_stage), $is_outside, false);
 
@@ -53,7 +53,6 @@ if ($option = 1) {
 } else if ($option = 2) {
    ~chatplayer("<p,neutral>Oh sorry.");
    ~chatnpc("<p,angry>Don't let it happen again.");
-   // todo: Set all black knights in the banquet hall to attack player and yell "Die intruder!"
 } else if ($option = 3) {
     ~chatplayer("<p,neutral>So who does it belong to?");
     ~chatnpc("<p,angry>This fortress belongs to the order of Black Knights known as the Kinshra.");
@@ -89,11 +88,10 @@ if ($option = 1) {
 } else {
    ~chatplayer("<p,neutral>I don't care. I'm going in anyway.");
    ~open_and_close_door(loc_param(next_loc_stage), $is_inside, false);
-   // todo: Set all black knights in the banquet hall to attack player and yell "Die intruder!"
-   def_boolean $has_spoken = false;
-   $has_spoken =  ~set_black_knight_aggro(0_47_54_13_59, $has_spoken);
-   ~set_black_knight_aggro(0_47_54_21_59, $has_spoken);
-   ~set_black_knight_aggro(0_47_54_22_55, $has_spoken);
+   // black knights in the banquet hall will aggress the player
+   ~set_black_knight_aggro(0_47_54_13_59);
+   ~set_black_knight_aggro(0_47_54_21_59);
+   ~set_black_knight_aggro(0_47_54_22_55);
 }
 [oploc1,blackknight_potion_room_door]
 mes("It's locked.");
@@ -118,8 +116,11 @@ if (%blackknight_progress = 2) {
     p_delay(2);
     mes("You hear the witch groan in dismay.");
     p_delay(2);
-    ~chatplayer("<p,quiz>Right I think that's successfully sabotaged the secret weapon.");
+    // initially we did not update quest stage unless the player clicked here to
+    // continue on the chatplayer, but a few people got tripped up by that
+    // now we are updating quest stage first so it cannot be interrupted
     ~update_blackknight_progress;
+    ~chatplayer("<p,quiz>Right I think that's successfully sabotaged the secret weapon.");
 } else {
     ~chatplayer("<p,confused>Why would I want to do that?");
 }
@@ -153,18 +154,14 @@ if (%blackknight_progress = 1) {
     mes("I can't hear much right now.");
 }
 
-[proc,set_black_knight_aggro](coord $coord, boolean $has_spoken)(boolean)
+[proc,set_black_knight_aggro](coord $coord)
 npc_findallzone($coord);
 while (npc_findnext = true) {
     if (npc_type = black_knight_aggre) {
-        if ($has_spoken = false) {
-            npc_say("Die intruder!");
-            $has_spoken = true;
-        }
+        npc_say("Die intruder!");
         npc_setmode(opplayer2);
     }
 }
-return($has_spoken);
 
 [proc,update_blackknight_progress]
 %blackknight_progress = calc(%blackknight_progress + 1);
