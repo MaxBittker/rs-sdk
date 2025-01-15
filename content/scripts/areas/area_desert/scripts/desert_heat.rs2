@@ -23,8 +23,6 @@ if ($head ! null) {
 
 if ($body ! null) {
     if($body = desert_shirt) {
-        $time = calc($time + 20);
-    } else if($body = slave_shirt) {
         $time = calc($time + 10);
     } else if(oc_category($body) = armour_body) {
         $time = calc($time - 40);
@@ -34,8 +32,6 @@ if ($body ! null) {
 if ($legs ! null) {
     if($legs = desert_robe) {
         $time = calc($time + 20);
-    } else if($legs = slave_robe) {
-        $time = calc($time + 10);
     } else if(oc_category($legs) = armour_legs) {
         $time = calc($time - 30);
     }
@@ -44,8 +40,6 @@ if ($legs ! null) {
 if ($feet ! null) {
     if($feet = desert_boots) {
         $time = calc($time + 10);
-    } else if($feet = slave_boots) {
-        $time = calc($time + 5);
     }// else if(oc_category($feet) = armour_feet) {
      //   $time = calc($time - 10);
     //} no feet armour in 225?
@@ -65,6 +59,7 @@ settimer(desert_heat, $time);
 if(~inzone_coord_pair_table(desert_zones, coord) = false) {
     %desert = ^false;
     cleartimer(desert_heat);
+    mes("Desert effect is now over."); // found in 2004-2005 images
     return;
 }
 

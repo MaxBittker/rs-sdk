@@ -217,6 +217,13 @@ if(coordx(coord) > 3284) {
 if(distance(coord, loc_coord) > 2) {
     ~forcewalk2(0_51_47_18_29);
 }
+// https://web.archive.org/web/20060215230504/http://img.photobucket.com/albums/v72/me9alomaniac/tt1.png
+~mesbox("It looks as if there is a rocky escarpment that|you could climb up here. Would you like to try?");
+def_int $op = ~p_choice2("Yes, I'll give it a try.", 1, "No, I'd better stay here.", 2); // complete guess
+if($op = 2) {
+    mes("You decide not to climb the rocks."); // complete guess
+    return;
+}
 @desertrescue_climb_to_rocks;
 
 [aploc2,loc_2695] @desertrescue_climb_to_rocks;
@@ -681,8 +688,8 @@ if(loc_coord = ^desertrescue_upper_barrel_coord) {
 [oploc2,loc_2680]
 if(loc_coord = ^desertrescue_upper_barrel_coord) {
     if(testbit(%desertrescue_map_mechanisms, ^desertrescue_ana_lift_barrel) = true) {
-        ~mesbox("You search the barrel and find Ana.");
-        ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,angry>Let me out of here, I feel sick!");
+        // https://web.archive.org/web/20060215230522/http://img.photobucket.com/albums/v72/me9alomaniac/tt4.png
+        ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,angry>@dbl@-- You search the barrels and find Ana. --|Let me out of here, I feel sick!");
         if(inv_freespace(inv) = 0) {
             ~mesbox("You're carrying so many items that you cannot manage Ana as well.");
             return;
@@ -793,10 +800,11 @@ if(%desertrescue_progress = ^desertrescue_given_pineapple) %desertrescue_progres
 mes("You succeed!");
 if(loc_coord = ^desertrescue_lower_minecart_coord) {
     p_teleport(0_51_147_55_23);
-    ~mesbox("You appear in a large open room with what looks like lots of miners working away. This is a very rough looking area, the miners look like they're on their last legs.");
+    // https://web.archive.org/web/20060215230516/http://img.photobucket.com/albums/v72/me9alomaniac/tt3.png
+    ~mesbox("You appear in a large open room with what looks|like lots of miners working away.|This is a very rough looking area,|the miners look like they're on their last legs.");
 } else {
     p_teleport(0_51_147_38_9);
-    ~mesbox("You appear back in the barrel loading room. A nearby slave looks surprised to see you popping out of the cart.");
+    ~mesbox("You appear back in the barrel loading room.|A nearby slave looks surprised to see you popping out of the cart.");
 }
 
 [oplocu,loc_2684]
