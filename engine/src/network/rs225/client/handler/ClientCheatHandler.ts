@@ -37,31 +37,106 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
             return false;
         }
 
-        player.addSessionLog(LoggerEventType.MODERATOR, 'Ran cheat', cheat);
+        if (player.staffModLevel >= 2) {
+            player.addSessionLog(LoggerEventType.MODERATOR, 'Ran cheat', cheat);    
+        }
 
-        if (player.staffModLevel >= 3) {
+        if (!Environment.NODE_PRODUCTION && player.staffModLevel >= 3) {
             // developer commands
 
-            if (!Environment.STANDALONE_BUNDLE && !Environment.NODE_PRODUCTION) {
-                // local developer commands
+            if (cmd[0] === '~') {
+                // debugprocs are NOT allowed on live ;)
+                const script = ScriptProvider.getByName(`[debugproc,${cmd.slice(1)}]`);
+                if (!script) {
+                    return false;
+                }
 
-                if (cmd === 'reload') {
-                    World.reload();
-                } else if (cmd === 'rebuild') {
-                    player.messageGame('Rebuilding scripts...');
-                    World.rebuild();
-                } else if (cmd === 'objtest') {
-                    for (let x = player.x - 500; x < player.x + 500; x++) {
-                        for (let z = player.z - 500; z < player.z + 500; z++) {
-                            // using player.pid will result in individual packets rather than using zone_enclosed
-                            World.addObj(new Obj(player.level, x, z, EntityLifeCycle.DESPAWN, 1333, 1), Obj.NO_RECEIVER, 100);
+                const params = new Array(script.info.parameterTypes.length).fill(-1);
+                for (let i = 0; i < script.info.parameterTypes.length; i++) {
+                    const type = script.info.parameterTypes[i];
+
+                    try {
+                        switch (type) {
+                            case ScriptVarType.STRING: {
+                                const value = args.shift();
+                                params[i] = value ?? '';
+                                break;
+                            }
+                            case ScriptVarType.INT: {
+                                const value = args.shift();
+                                params[i] = parseInt(value ?? '0', 10) | 0;
+                                break;
+                            }
+                            case ScriptVarType.OBJ:
+                            case ScriptVarType.NAMEDOBJ: {
+                                const name = args.shift();
+                                params[i] = ObjType.getId(name ?? '');
+                                break;
+                            }
+                            case ScriptVarType.NPC: {
+                                const name = args.shift();
+                                params[i] = NpcType.getId(name ?? '');
+                                break;
+                            }
+                            case ScriptVarType.LOC: {
+                                const name = args.shift();
+                                params[i] = LocType.getId(name ?? '');
+                                break;
+                            }
+                            case ScriptVarType.SEQ: {
+                                const name = args.shift();
+                                params[i] = SeqType.getId(name ?? '');
+                                break;
+                            }
+                            case ScriptVarType.STAT: {
+                                const name = args.shift() ?? '';
+                                params[i] = PlayerStat[name.toUpperCase() as PlayerStatKey];
+                                break;
+                            }
+                            case ScriptVarType.INV: {
+                                const name = args.shift();
+                                params[i] = InvType.getId(name ?? '');
+                                break;
+                            }
+                            case ScriptVarType.COORD: {
+                                const args2 = cheat.split('_');
+
+                                const level = parseInt(args2[0].slice(6));
+                                const mx = parseInt(args2[1]);
+                                const mz = parseInt(args2[2]);
+                                const lx = parseInt(args2[3]);
+                                const lz = parseInt(args2[4]);
+
+                                params[i] = CoordGrid.packCoord(level, (mx << 6) + lx, (mz << 6) + lz);
+                                break;
+                            }
+                            case ScriptVarType.INTERFACE: {
+                                const name = args.shift();
+                                params[i] = Component.getId(name ?? '');
+                                break;
+                            }
+                            case ScriptVarType.SPOTANIM: {
+                                const name = args.shift();
+                                params[i] = SpotanimType.getId(name ?? '');
+                                break;
+                            }
+                            case ScriptVarType.IDKIT: {
+                                const name = args.shift();
+                                params[i] = IdkType.getId(name ?? '');
+                                break;
+                            }
                         }
+                    } catch (err) {
+                        return false;
                     }
                 }
-            }
 
-            if (cmd === 'serverdrop') {
-                player.terminate();
+                player.executeScript(ScriptRunner.init(script, player, null, params), false);
+            } else if (cmd === 'reload' && !Environment.STANDALONE_BUNDLE) {
+                World.reload();
+            } else if (cmd === 'rebuild' && !Environment.STANDALONE_BUNDLE) {
+                player.messageGame('Rebuilding scripts...');
+                World.rebuild();
             } else if (cmd === 'fly') {
                 if (player.moveStrategy === MoveStrategy.FLY) {
                     player.moveStrategy = MoveStrategy.SMART;
@@ -96,25 +171,33 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                         player.setLevel(i, 1);
                     }
                 }
+            } else if (cmd === 'objtest') {
+                for (let x = player.x - 500; x < player.x + 500; x++) {
+                    for (let z = player.z - 500; z < player.z + 500; z++) {
+                        // using player.pid will result in individual packets rather than using zone_enclosed
+                        World.addObj(new Obj(player.level, x, z, EntityLifeCycle.DESPAWN, 1333, 1), Obj.NO_RECEIVER, 100);
+                    }
+                }
+            } else if (cmd === 'serverdrop') {
+                player.terminate();
             }
         }
 
         if (Environment.NODE_ALLOW_CHEATS || player.staffModLevel >= 2) {
             // admin commands
-            if (cmd === 'broadcast') {
-                if (args.length < 0) {
-                    return false;
-                }
 
-                World.broadcastMes(cheat.substring(cmd.length + 1));
+            if (cmd === 'getcoord') {
+                // authentic
+                player.messageGame(CoordGrid.formatString(player.level, player.x, player.z, ','));
             } else if (cmd === 'tele') {
                 // authentic
                 if (args.length < 1) {
-                    // allowed formats:
-                    // ::tele level,x,z,x,z
-                    // ::tele x z level
-                    // ::tele up
-                    // ::tele down
+                    // ::tele level,mx,mz,lx,lz
+                    return false;
+                }
+
+                const coord = args[0].split(',');
+                if (coord.length !== 5) {
                     return false;
                 }
 
@@ -128,41 +211,22 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                 player.clearInteraction();
                 player.unsetMapFlag();
 
-                if (args[0] === 'up') {
-                    // not authentic: this would be handled in cs2 in 2007+ and did not exist in 2004
-                    player.teleJump(player.x, player.z, player.level + 1);
-                    player.messageGame('::tele ' + CoordGrid.formatString(player.level, player.x, player.z, ','));
-                } else if (args[0] === 'down') {
-                    // not authentic: this would be handled in cs2 in 2007+ and did not exist in 2004
-                    player.teleJump(player.x, player.z, player.level - 1);
-                    player.messageGame('::tele ' + CoordGrid.formatString(player.level, player.x, player.z, ','));
-                } else if (args[0].indexOf(',') === -1) {
-                    // not authentic: rsps is too used to absolute coordinates
-                    player.teleJump(tryParseInt(args[0], 3200), tryParseInt(args[1], 3200), tryParseInt(args[2], player.level));
-                } else {
-                    // authentic
-                    const coord = args[0].split(',');
-                    if (coord.length !== 5) {
-                        return false;
-                    }
+                const level = tryParseInt(coord[0], 0);
+                const mx = tryParseInt(coord[1], 50);
+                const mz = tryParseInt(coord[2], 50);
+                const lx = tryParseInt(coord[3], 0);
+                const lz = tryParseInt(coord[4], 0);
 
-                    const level = tryParseInt(coord[0], 0);
-                    const mx = tryParseInt(coord[1], 50);
-                    const mz = tryParseInt(coord[2], 50);
-                    const lx = tryParseInt(coord[3], 0);
-                    const lz = tryParseInt(coord[4], 0);
-
-                    if (level < 0 || level > 3 ||
-                        mx < 0 || mx > 255 ||
-                        mz < 0 || mz > 255 ||
-                        lx < 0 || lx > 63 ||
-                        lz < 0 || lz > 63
-                    ) {
-                        return false;
-                    }
-
-                    player.teleJump((mx << 6) + lx, (mz << 6) + lz, level);
+                if (level < 0 || level > 3 ||
+                    mx < 0 || mx > 255 ||
+                    mz < 0 || mz > 255 ||
+                    lx < 0 || lx > 63 ||
+                    lz < 0 || lz > 63
+                ) {
+                    return false;
                 }
+
+                player.teleJump((mx << 6) + lx, (mz << 6) + lz, level);
             } else if (cmd === 'teleto') {
                 if (args.length < 1) {
                     return false;
@@ -270,7 +334,6 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                 player.messageGame('set ' + args[1] + ': to ' + value + ' on ' + other.username);
             } else if (cmd === 'getvar') {
                 // authentic
-                // todo find a real usage to see if we have it right
                 if (args.length < 1) {
                     return false;
                 }
@@ -317,7 +380,6 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                 player.setLevel(stat, parseInt(args[1]));
             } else if (cmd === 'advancestat') {
                 // authentic
-                // todo find a real usage to see if we have it right
                 if (args.length < 1) {
                     // ::advancestat <name> (levels)
                     return false;
@@ -363,13 +425,14 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
 
                 const count = Math.max(1, Math.min(tryParseInt(args[2], 1), 0x7fffffff));
                 other.invAdd(InvType.INV, obj, count, false);
-            } else if (cmd === 'givecrap') {
-                // authentic
-                // todo find a real usage to be able to write this
-            } else if (cmd === 'givemany') {
-                // authentic
-                // todo find a real usage to be able to write this
-            } else if (cmd === 'ban') {
+            }
+            // todo:
+            // else if (cmd === 'givecrap') {
+            //     // authentic
+            // } else if (cmd === 'givemany') {
+            //     // authentic
+            // }
+            else if (cmd === 'ban') {
                 if (args.length < 2) {
                     // ::ban <username> <minutes>
                     return false;
@@ -396,15 +459,6 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                 if (other) {
                     World.removePlayer(other);
                 }
-            }
-        }
-
-        if (Environment.NODE_ALLOW_CHEATS || player.staffModLevel >= 1) {
-            // player mod commands
-            if (cmd === 'getcoord') {
-                // authentic
-                // todo find a real usage to see if we have it right
-                player.messageGame(CoordGrid.formatString(player.level, player.x, player.z, '_'));
             } else if (cmd === 'mute') {
                 if (args.length < 2) {
                     // ::mute <username> <minutes>
@@ -421,98 +475,13 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
 
                 other.muted_until = new Date(Date.now() + (minutes * 60 * 1000));
                 World.notifyPlayerMute(player.username, other.username, Date.now() + (minutes * 60 * 1000));
-            }
-        }
-
-        if (Environment.NODE_ALLOW_CHEATS || player.staffModLevel >= 3) {
-            // dev debugproc commands (scriptable commands)
-            const script = ScriptProvider.getByName(`[debugproc,${cmd}]`);
-            if (!script) {
-                return false;
-            }
-
-            const params = new Array(script.info.parameterTypes.length).fill(-1);
-
-            for (let i = 0; i < script.info.parameterTypes.length; i++) {
-                const type = script.info.parameterTypes[i];
-
-                try {
-                    switch (type) {
-                        case ScriptVarType.STRING: {
-                            const value = args.shift();
-                            params[i] = value ?? '';
-                            break;
-                        }
-                        case ScriptVarType.INT: {
-                            const value = args.shift();
-                            params[i] = parseInt(value ?? '0', 10) | 0;
-                            break;
-                        }
-                        case ScriptVarType.OBJ:
-                        case ScriptVarType.NAMEDOBJ: {
-                            const name = args.shift();
-                            params[i] = ObjType.getId(name ?? '');
-                            break;
-                        }
-                        case ScriptVarType.NPC: {
-                            const name = args.shift();
-                            params[i] = NpcType.getId(name ?? '');
-                            break;
-                        }
-                        case ScriptVarType.LOC: {
-                            const name = args.shift();
-                            params[i] = LocType.getId(name ?? '');
-                            break;
-                        }
-                        case ScriptVarType.SEQ: {
-                            const name = args.shift();
-                            params[i] = SeqType.getId(name ?? '');
-                            break;
-                        }
-                        case ScriptVarType.STAT: {
-                            const name = args.shift() ?? '';
-                            params[i] = PlayerStat[name.toUpperCase() as PlayerStatKey];
-                            break;
-                        }
-                        case ScriptVarType.INV: {
-                            const name = args.shift();
-                            params[i] = InvType.getId(name ?? '');
-                            break;
-                        }
-                        case ScriptVarType.COORD: {
-                            const args2 = cheat.split('_');
-
-                            const level = parseInt(args2[0].slice(6));
-                            const mx = parseInt(args2[1]);
-                            const mz = parseInt(args2[2]);
-                            const lx = parseInt(args2[3]);
-                            const lz = parseInt(args2[4]);
-
-                            params[i] = CoordGrid.packCoord(level, (mx << 6) + lx, (mz << 6) + lz);
-                            break;
-                        }
-                        case ScriptVarType.INTERFACE: {
-                            const name = args.shift();
-                            params[i] = Component.getId(name ?? '');
-                            break;
-                        }
-                        case ScriptVarType.SPOTANIM: {
-                            const name = args.shift();
-                            params[i] = SpotanimType.getId(name ?? '');
-                            break;
-                        }
-                        case ScriptVarType.IDKIT: {
-                            const name = args.shift();
-                            params[i] = IdkType.getId(name ?? '');
-                            break;
-                        }
-                    }
-                } catch (err) {
+            } else if (cmd === 'broadcast') {
+                if (args.length < 0) {
                     return false;
                 }
-            }
 
-            player.executeScript(ScriptRunner.init(script, player, null, params), false);
+                World.broadcastMes(cheat.substring(cmd.length + 1));
+            }
         }
 
         return true;
