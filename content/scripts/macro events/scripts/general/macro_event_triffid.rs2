@@ -1,7 +1,7 @@
 [proc,macro_event_triffid_spawn]
 npc_setmode(none);
 npc_anim(seq_348, 0);
-%npc_macro_event_status = ^triffid_growing;
+%npc_int = ^triffid_growing;
 %npc_macro_event_target = uid;
 sound_synth(triffid_appear, 0, 0);
 %macro_event = ^no_macro_event;
@@ -11,7 +11,7 @@ if (%npc_macro_event_target ! uid) {
     mes("It's not here for you."); // osrs
     return;
 }
-if (%npc_macro_event_status = ^triffid_growing) {
+if (%npc_int = ^triffid_growing) {
     // doesnt exist in osrs but i found a screenshot https://imgur.com/7xyWFHk
     mes("The fruit isn't ready to be picked yet...");
     return;
@@ -27,7 +27,7 @@ npc_del;
 // this timer runs twice, first is for plant growing, second is for becoming hostile
 // 90 ticks https://youtu.be/94bDnUMTMXQ?t=374
 [ai_timer,macro_event_triffid_friendly]
-if (%npc_macro_event_status = ^triffid_ready_to_attack) { // turn hostile
+if (%npc_int = ^triffid_ready_to_attack) { // turn hostile
     npc_anim(seq_351, 60);
     npc_delay(4);
 
@@ -39,7 +39,7 @@ if (%npc_macro_event_status = ^triffid_ready_to_attack) { // turn hostile
         npc_setmode(opplayer2);
     }
 }
-%npc_macro_event_status = ^triffid_ready_to_attack;
+%npc_int = ^triffid_ready_to_attack;
 
 
 // deletes if its not in opplayer2 mode

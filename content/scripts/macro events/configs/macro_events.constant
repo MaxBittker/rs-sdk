@@ -22,7 +22,12 @@
 ^triffid_ready_to_attack = 1
 
 ^drunken_dwarf_normal = 0
-^drunken_dwarf_angry = 1
+^drunken_dwarf_angry = -2
+^drunken_dwarf_happy = -1
+
+^genie_happy = -1
+
+^mysterious_old_man_happy = -1
 
 ^macro_event_cmb_14 = 1
 ^macro_event_cmb_29 = 2

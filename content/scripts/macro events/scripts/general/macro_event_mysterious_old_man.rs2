@@ -6,42 +6,41 @@ npc_say("Greetings <displayname>!");
 %npc_macro_event_target = uid;
 
 // to match genie in this video: https://www.youtube.com/watch?v=el-h9hbSH80&t=293s
-npc_queue(4, 0, 20);
 npc_setmode(playerfollow);
 
-[ai_queue4,macro_event_mysterious_old_man_general]
 // other videos:
 // https://youtu.be/_PPxvNjIgq4?t=63
 
 // warnings https://youtu.be/Ai89wqupYqA
 // https://youtu.be/HpmsgVshwxg?t=267
-if (finduid(%npc_macro_event_target) = true) {
-    if (%macro_event_uid ! npc_uid) {
-        npc_queue(5, 0, 2); // just incase
-        return;
-    }
-    if (last_int = 0) {
-        npc_anim(emote_wave, 20);
-        npc_say("ehem... Hello <displayname>!");
-    } else if (last_int = 1) {
-        npc_anim(emote_think, 20);
-        npc_say("Hello, are you there <displayname>!");
-    } else if (last_int = 2) {
-        npc_anim(emote_angry, 20);
-        npc_say("It's really rude to ignore someone, <displayname>!");
-    } else if (last_int = 3) { // fail
-        queue(mysterious_old_man_fail, 0);
-        return;
-    }
-    npc_queue(4, add(last_int, 1), 20);
+[ai_timer,macro_event_mysterious_old_man_general]
+if (~macro_event_lost = true) {
+    // only confirmed for mysterious old man https://youtu.be/HwGAzcmvF9k?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
+    npc_queue(5, 0, 0);
+    return;
 }
 
-
-[queue,mysterious_old_man_fail]
-if (npc_finduid(%macro_event_uid) = true) {
-    // https://youtu.be/Ai89wqupYqA?t=45
-    ~macro_event_fail_teleport;
-    ~macro_event_fail_note_inv; // not sure if this existed but Sudden and a couple others remember it being a thing
+if (finduid(%npc_macro_event_target) = true) {
+    if (%npc_int = 0) {
+        npc_anim(emote_wave, 20);
+        npc_say("ehem... Hello <displayname>!");
+    } else if (%npc_int = 1) {
+        npc_anim(emote_think, 20);
+        npc_say("Hello, are you there <displayname>!");
+    } else if (%npc_int = 2) {
+        npc_anim(emote_angry, 20);
+        npc_say("It's really rude to ignore someone, <displayname>!");
+    } else if (%npc_int = 3) { // fail
+        npc_say("No-one ignores me!");
+        npc_anim(human_castteleport, 0);
+        // https://youtu.be/Ai89wqupYqA?t=45
+        queue(macro_event_fail_teleport, 0);
+        queue(macro_event_fail_note_inv, 0);
+        npc_delay(0);
+        npc_del;
+        return;
+    }
+    %npc_int = add(%npc_int, 1);
 }
 
 [ai_queue5,macro_event_mysterious_old_man_general] // despawn
@@ -59,19 +58,20 @@ npc_delay(2);
 if (uid ! %npc_macro_event_target) {
     // https://youtu.be/U_TRFGTfIY0?t=276
     if (.finduid(%npc_macro_event_target) = true) {
-        ~chatnpc("<p,neutral>Sorry, but I'm trying to talk to <.displayname>. However he appears to be ignoring me...");
+        ~chatnpc("<p,neutral>Sorry, but I'm trying to talk to <.displayname>. However <.text_gender("he", "she")> appears to be ignoring me...");
     }
     return;
 }
-if (%macro_event_uid ! npc_uid) {
+if (%npc_int = ^mysterious_old_man_happy) {
     ~chatnpc("<p,neutral>Goodbye.");
     return;
 }
+%npc_int = ^mysterious_old_man_happy;
 %macro_event = ^no_macro_event;
-%macro_event_uid = null;
 inv_add(inv, ~macro_event_mysterious_old_man_general_reward);
 // dialogue taken from osrs. Neutral is a guess.
 npc_queue(6, 0, 2); // say goodbye to player
+npc_settimer(0);
 ~chatnpc("<p,neutral>Ah, so you are there. I hoped you would talk to me, I get so lonely. Here, have a present! I must be going now though."); // https://youtu.be/HpmsgVshwxg?t=305 uses chatnpc
 // delays are taken from this video: https://youtu.be/JeQUY1m1wRo?list=PLn23LiLYLb1bQ7Hwp77KoNBjKvpZQTfJT&t=137
 
@@ -104,16 +104,4 @@ if ($random < 16) { // 16/150 kebab?
     return(coins, 240);
 } else {
     return(casket, 1);
-}
-
-[ai_timer,macro_event_mysterious_old_man_general]
-if (~macro_event_lost = true) {
-    // only confirmed for mysterious old man https://youtu.be/HwGAzcmvF9k?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
-    npc_queue(5, 0, 0);
-    return;
-}
-if (finduid(%npc_macro_event_target) = true) {
-    if (%macro_event_uid = npc_uid) {
-        npc_setmode(playerfollow); // this is here because they used ~chatnpc back in the day, which sets the npc
-    }
 }

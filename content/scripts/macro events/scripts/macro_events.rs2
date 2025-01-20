@@ -1,9 +1,5 @@
 // timer is initiated on login, in scripts\player\scripts\global.rs2
 [timer,general_macro_events]
-// some general macro events use the %macro_event varp, so if multiple exist, it could cause issues
-if (~macro_event_general_active = true) {
-    return;
-}
 if (~macro_event_area(coord) = false) { // return before checking so random events are effectively "queued" for when the player leaves a no macro event area
     return;
 }
@@ -34,10 +30,6 @@ if (afk_event = ^true) {
 // - smithing at furnace. Confirmed? https://youtu.be/a6NobmSGBYw
 // - crafting at furnace. Confirmed: https://youtu.be/7pS6s5rvvEY
 [proc,macro_event_general_spawn](int $event)
-// double check area here, because stuff like bones and alching for example can spawn random events.
-if (~macro_event_general_active = true) {
-    return;
-}
 if (~macro_event_area(coord) = false) {
     return;
 }
@@ -74,7 +66,7 @@ return(true);
 
 // called when the player logs in
 [queue,macro_event_login]
-if (~macro_event_general_active = true & nc_param(~macro_event_npc(%macro_event), follow_player_on_logout) = ^true) {
+if (nc_param(~macro_event_npc(%macro_event), follow_player_on_logout) = ^true) {
     ~macro_event_general_spawn(%macro_event);
 }
 
@@ -102,7 +94,7 @@ if (map_members = true) {
 return(enum_getoutputcount(general_macro_events_free));
 
 // teleports the player to a random location, using the coords in configs/macro_events_teleports.enum
-[proc,macro_event_fail_teleport]
+[queue,macro_event_fail_teleport]
 session_log(^log_adventure, "Failed random event and got teleported");
 def_coord $teleport_coord;
 if (map_members = true) {
@@ -113,11 +105,7 @@ if (map_members = true) {
 // https://youtu.be/MS7ADB-hh18
 // doesnt if_close
 %macro_event = ^no_macro_event;
-npc_say("No one ignores me!");
-npc_anim(human_castteleport, 0);
 p_delay(1);
-npc_del;
-p_delay(0);
 // https://youtu.be/g5k3XuXxyYQ?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT&t=37
 spotanim_map(small_smokepuff, coord, 124, 0);
 sound_synth(smokepuff2, 0, 0);
@@ -125,14 +113,10 @@ sound_synth(smokepuff2, 0, 0);
 ~p_telejump_safe($teleport_coord); // todo: Confirm this
 
 
-[proc,macro_event_fail_scatter_inv]
+[queue,macro_event_fail_scatter_inv]
 session_log(^log_adventure, "Failed random event and had their items scattered");
 %macro_event = ^no_macro_event;
-npc_say("No one ignores me!");
-npc_anim(human_castteleport, 0);
 p_delay(1);
-npc_del;
-p_delay(0);
 def_int $i = 0;
 while ($i < inv_size(inv)) {
     def_coord $coord = map_findsquare(coord, 0, 5, ^map_findsquare_lineofwalk); // 11x11 for now. todo: confirm how scattering works
@@ -144,7 +128,7 @@ while ($i < inv_size(inv)) {
 }
 
 // not sure if this is a thing but people seem to remember it being a thing
-[proc,macro_event_fail_note_inv]
+[queue,macro_event_fail_note_inv]
 session_log(^log_adventure, "Failed random event and had their items noted");
 def_int $i = 0;
 while ($i < inv_size(inv)) {
@@ -178,18 +162,9 @@ if (npc_findhero = true) {
 spotanim_map(small_smokepuff, npc_coord, 124, 0);
 npc_del;
 
-// check if other general macro events already exist
-[proc,macro_event_general_active]()(boolean)
-if (npc_finduid(%macro_event_uid) = true) {
-    return(true);
-}
-
 [proc,macro_event_lost]()(boolean)
 if (finduid(%npc_macro_event_target) = true) {
     if (%macro_event_uid ! npc_uid) {
-        return(true);
-    }
-    if (~macro_event_general_active = false) {
         return(true);
     }
     if (~macro_event_area(coord) = false) {
@@ -197,6 +172,7 @@ if (finduid(%npc_macro_event_target) = true) {
     }
     // i think osrs added a distance check from spawn point after random event rework in 2014
     // so going up ladders for example would make the random event despawn
+    npc_setmode(playerfollow); // this is here because they used ~chatnpc back in the day, which sets the npc
     return(false);
 }
 return(true);
