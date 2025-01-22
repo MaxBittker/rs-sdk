@@ -1,10 +1,10 @@
 [proc,in_tutorial_island](coord $coord)(boolean)
-if (inzone(0_47_47_45_48, 0_49_49_20_0, $coord) = true) {
+if (inzone(0_47_47_45_48, 3_49_49_20_0, $coord) = true) {
     // taken from client code: x >= 3053 && x <= 3156 && z >= 3056 && z <= 3136
     return (true);
 }
 
-if (inzone(0_48_148_0_20, 0_48_148_46_63, $coord) = true) {
+if (inzone(0_48_148_0_20, 3_48_148_46_63, $coord) = true) {
     // taken from client code: x >= 3072 && x <= 3118 && z >= 9492 && z <= 9535
     return (true);
 }
