@@ -91,10 +91,6 @@ if (~bank_find_obj_unbankable($obj) = true) {
     mes("A magical force prevents you from banking this item!"); // osrs
     return(true);
 }
-if ($obj = anainabarrel) { // OSRS mes, no banks in the desert until 2005 so might've been added then
-    mes("She doesn't seem to approve.");
-    return(true);
-}
 
 if (map_members = false) {
     // check for f2p bank limits.
