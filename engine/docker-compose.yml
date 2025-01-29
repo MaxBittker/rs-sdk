@@ -1,19 +1,18 @@
-version: "3.8"
-
 services:
   2004scape:
     build:
       context: .
       dockerfile: ./Dockerfile
+    volumes:
+      - ./:/app
     environment:
-      - PUBLIC_IP
-      - WEB_PORT
-      - GAME_PORT
-      - LOCAL_DEV
-      - MEMBERS_WORLD
-      - XP_MULTIPLIER
-      - PROD_MODE
+      - NODE_WEB_PORT
+      - NODE_TCP_PORT
+      - NODE_MEMBERS
+      - NODE_XPRATE
+      - NODE_PRODUCTION
+      - NODE_ALLOW_CHEATS
+      - NODE_DEBUG
     ports:
-      - 80:80
+      - 8888:8888
       - 43594:43594
-      - 43595:43595
