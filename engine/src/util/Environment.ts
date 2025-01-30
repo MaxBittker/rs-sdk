@@ -11,7 +11,6 @@ export default {
 
     /// web server
     WEB_PORT: tryParseInt(process.env.WEB_PORT, process.platform === 'win32' || process.platform === 'darwin' ? 80 : 8888),
-    WEB_CORS: tryParseBoolean(process.env.WEB_CORS, true),
 
     // management server
     WEB_MANAGEMENT_PORT: tryParseInt(process.env.WEB_MANAGEMENT_PORT, 8898),
