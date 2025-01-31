@@ -141,3 +141,38 @@ say("Blearrgh!");
 [label,trail_bartender_varrock]
 ~chatnpc("<p,happy>Nicely solved!");
 ~progress_clue_easy(trail_clue_easy_simple_exp010, "The bartender hands you another scroll!");
+
+[opnpc1,bartender_dancingdonkey] // Dancing Donkey Inn
+~chatplayer("<p,happy>Hello.");
+~chatnpc("<p,happy> Good day to you, brave adventurer. Can I get you a refreshing beer?");
+@multi3(
+    "Yes please!", bartender_dancingdonkey_yes,
+    "No thanks.", bartender_dancingdonkey_no,
+    "How much?", bartender_dancingdonkey_howmuch
+);
+
+[label,bartender_dancingdonkey_yes]  
+~chatplayer("<p,happy>Yes please!");
+~chatnpc("<p,happy>Ok then, that's two gold coins please.");
+if (inv_total(inv, coins) < 2) {
+    mes("You don't have enough gold!");
+} else {
+    inv_del(inv, coins, 2);
+    inv_add(inv, beer, 1);
+    ~chatnpc("<p,happy>Cheers!");
+    ~chatplayer("<p,happy>Cheers!");
+    mes("You buy a pint of beer.");
+}
+
+[label,bartender_dancingdonkey_no]        
+~chatplayer("<p,neutral>No thanks.");
+~chatnpc("<p,confused>Let me know if you change your mind.");
+
+
+[label,bartender_dancingdonkey_howmuch]        
+~chatplayer("<p,quiz>How much?");
+~chatnpc("<p,happy>Two gold pieces a pint. So, what do you say?");
+@multi2(
+    "Yes please!", bartender_dancingdonkey_yes,
+    "No thanks.", bartender_dancingdonkey_no
+);
