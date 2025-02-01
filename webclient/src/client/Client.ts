@@ -663,7 +663,7 @@ export class Client extends GameShell {
             data = undefined;
         }
 
-        if (!data) {
+        if (!data || !data.length) {
             try {
                 data = await downloadUrl(`/${name}_${crc}.mid`);
                 if (length !== data.length) {
@@ -677,6 +677,7 @@ export class Client extends GameShell {
         if (!data) {
             return;
         }
+
         try {
             await this.db?.cachesave(name + '.mid', data);
             const uncompressed = BZip2.decompress(data, -1, false, true);
