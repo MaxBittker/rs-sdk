@@ -1773,6 +1773,13 @@ class World {
                 player.lowMemory = lowMemory;
                 player.muted_until = muted_until ? new Date(muted_until) : null;
 
+                if (this.logoutRequests.has(username)) {
+                    // already logged in (on another world)
+                    client.send(Uint8Array.from([5]));
+                    client.close();
+                    return;
+                }
+
                 this.newPlayers.add(player);
                 client.state = 1;
             } catch (err) {
