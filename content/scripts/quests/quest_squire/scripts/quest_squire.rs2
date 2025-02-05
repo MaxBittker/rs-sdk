@@ -180,6 +180,8 @@ if(%squire_progress = 4 | %squire_progress = 5 & inv_total(inv, portrait) = 0) {
     %squire_progress = 6;
 } else if (%squire_progress = 6) {
     @thurgo_check_blurite;
+} else if (%squire_progress = ^squire_complete) {
+    @thurgo_squire_complete;
 }
 
 [label,thurgo_check_blurite]
@@ -220,3 +222,7 @@ return(true);
 session_log(^log_adventure, "Quest complete: The Knight's Sword");
 ~send_quest_complete(questlist:squire, blurite_sword, 250, ^squire_questpoints, "You have completed the Knight's Sword Quest!");
 stat_advance(smithing, 127250);
+
+[label,thurgo_squire_complete]
+~chatplayer("<p,neutral>Thanks for all your help in getting it for me!");
+~chatnpc("<p,happy>No worries mate.");

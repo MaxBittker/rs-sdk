@@ -1,8 +1,7 @@
 [opnpc1,thurgo]
-// todo: Figure out if Thurgo has any possible post-quest dialogue pre-skillcapes
 switch_int (%squire_progress) {
     case 2 : @thurgo_inquire;
     case 3 : @thurgo_special_sword_post_pie;
-    case 4, 5, 6 : @thurgo_about_sword;
+    case 4, 5, 6, ^squire_complete : @thurgo_about_sword;
     case default : mes("Thurgo doesn't appear to be interested in talking.");
 }
