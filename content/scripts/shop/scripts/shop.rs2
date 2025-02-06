@@ -149,7 +149,7 @@ return ($value);
 // Sell value at a specific stack count
 [proc,adjusted_item_cost_selling](obj $obj, int $diff)(int)
 def_int $cost = oc_cost($obj);
-return (~calc_shop_value($cost, %shop_haggle, %shop_buy, ~price_mod(inv, $diff, $obj)));
+return (~calc_shop_value($cost, %shop_haggle, %shop_buy, ~price_mod(%shop, $diff, $obj)));
 
 // Calculate the amount of items a player has to sell relative to a desired amount
 [proc,calculate_items_amount_sold](obj $item, int $sell_amount)(int)
