@@ -224,7 +224,7 @@ export class NetworkPlayer extends Player {
             buf.psize2(buf.pos - start);
         }
 
-        this.client.send(buf.data.subarray(0, buf.pos));
+        this.client.send(buf.data.slice(0, buf.pos));
         World.cycleStats[WorldStat.BANDWIDTH_OUT] += buf.pos;
     }
 
