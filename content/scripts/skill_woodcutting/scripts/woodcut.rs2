@@ -210,7 +210,7 @@ if (($obj1 = bronze_axe | inv_total(inv, bronze_axe) > 0)) {
 // mes("You need an axe to chop down this tree."); // this message was added in 2005 when they fixed axe wc reqs
 // https://imgur.com/Cj7w6y9
 // https://imgur.com/fnmlJ7R
-mes("You do not have an axe which you have the woodcutting level to use.");
+mes("You do not have an axe which you have the level to use.");
 return(null);
 
 [proc,woodcutting_successchance](dbrow $data, namedobj $axe)(int, int)
