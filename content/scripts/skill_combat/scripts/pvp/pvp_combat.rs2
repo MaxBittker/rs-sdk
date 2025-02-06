@@ -99,33 +99,32 @@ if (~pvp_in_combat_check = false) {
 
 [proc,pvp_in_combat_check]()(boolean)
 // if multi, return true
-if (map_multiway(.coord) = true) {
-    return(true);
-}
-// if you have been attacked in the last 8 ticks, and the last person to attack you isnt your opponent
-// or an npc attacked you
-// https://cdn.discordapp.com/attachments/1126857544523063367/1332910417856565249/found-old-drive-with-rsdemon-and-some-screenshots-v0-36uacu7glqzd1.png?ex=67999c0f&is=67984a8f&hm=a4c34a40791a120dba06adebb15a652a722e486fddd6d5a9e47ee9aa2c329fb3&
-// 2006 year / osrs mes I'm already under attack.
-if (add(%lastcombat, 8) > map_clock) {
-    if (%pk_predator1 ! .uid & %pk_predator1 ! null) {
-        mes("I'm already under attack!");
-        return(false);
+if (map_multiway(.coord) = false) {
+    // if you have been attacked in the last 8 ticks, and the last person to attack you isnt your opponent
+    // or an npc attacked you
+    // https://cdn.discordapp.com/attachments/1126857544523063367/1332910417856565249/found-old-drive-with-rsdemon-and-some-screenshots-v0-36uacu7glqzd1.png?ex=67999c0f&is=67984a8f&hm=a4c34a40791a120dba06adebb15a652a722e486fddd6d5a9e47ee9aa2c329fb3&
+    // 2006 year / osrs mes I'm already under attack.
+    if (add(%lastcombat, 8) > map_clock) {
+        if (%pk_predator1 ! .uid & %pk_predator1 ! null) {
+            mes("I'm already under attack!");
+            return(false);
+        }
+        if (npc_finduid(%aggressive_npc) = true) {
+            mes("I'm already under attack!");
+            return(false);
+        }
     }
-    if (npc_finduid(%aggressive_npc) = true) {
-        mes("I'm already under attack!");
-        return(false);
-    }
-}
-// if your opponent has been attacked in the last 8 ticks, and the opponents last attacker is not you
-// or an npc attacked them 
-if (add(.%lastcombat, 8) > map_clock) {
-    if (.%pk_predator1 ! uid & .%pk_predator1 ! null) {
-        mes("Someone else is already fighting your opponent.");
-        return(false);
-    }
-    if (npc_finduid(.%aggressive_npc) = true) {
-        mes("Someone else is already fighting your opponent.");
-        return(false);
+    // if your opponent has been attacked in the last 8 ticks, and the opponents last attacker is not you
+    // or an npc attacked them 
+    if (add(.%lastcombat, 8) > map_clock) {
+        if (.%pk_predator1 ! uid & .%pk_predator1 ! null) {
+            mes("Someone else is already fighting your opponent.");
+            return(false);
+        }
+        if (npc_finduid(.%aggressive_npc) = true) {
+            mes("Someone else is already fighting your opponent.");
+            return(false);
+        }
     }
 }
 return(true);

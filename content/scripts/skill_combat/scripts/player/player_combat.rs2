@@ -83,25 +83,24 @@ switch_int ($damagetype) {
 }
 
 [proc,player_in_combat_check]()(boolean)
-if (map_multiway(npc_coord) = true) {
-    return(true);
-}
-// player has been attacked in the last 8 ticks, and not by the current npc
-// or player has been attacked in the last 8 ticks, and %aggressive_npc is null (for pvp)
-// https://cdn.discordapp.com/attachments/1126857544523063367/1332910417856565249/found-old-drive-with-rsdemon-and-some-screenshots-v0-36uacu7glqzd1.png?ex=67999c0f&is=67984a8f&hm=a4c34a40791a120dba06adebb15a652a722e486fddd6d5a9e47ee9aa2c329fb3&
-// 2006 year / osrs mes I'm already under attack.
-if (add(%lastcombat_pvp, 8) > map_clock) {
-    mes("I'm already under attack!");
-    return(false);
-}
-if (add(%lastcombat, 8) > map_clock & (%aggressive_npc ! npc_uid & %aggressive_npc ! null)) {
-    mes("I'm already under attack!");
-    return(false);
-}
-// npc has been attacked in the last 8 ticks, and not by the current player
-if ((add(%npc_lastcombat, 8) > map_clock & %npc_aggressive_player ! uid)) {
-    mes("Someone else is fighting that.");
-    return(false);
+if (map_multiway(npc_coord) = false) {
+    // player has been attacked in the last 8 ticks, and not by the current npc
+    // or player has been attacked in the last 8 ticks, and %aggressive_npc is null (for pvp)
+    // https://cdn.discordapp.com/attachments/1126857544523063367/1332910417856565249/found-old-drive-with-rsdemon-and-some-screenshots-v0-36uacu7glqzd1.png?ex=67999c0f&is=67984a8f&hm=a4c34a40791a120dba06adebb15a652a722e486fddd6d5a9e47ee9aa2c329fb3&
+    // 2006 year / osrs mes I'm already under attack.
+    if (add(%lastcombat_pvp, 8) > map_clock) {
+        mes("I'm already under attack!");
+        return(false);
+    }
+    if (add(%lastcombat, 8) > map_clock & (%aggressive_npc ! npc_uid & %aggressive_npc ! null)) {
+        mes("I'm already under attack!");
+        return(false);
+    }
+    // npc has been attacked in the last 8 ticks, and not by the current player
+    if ((add(%npc_lastcombat, 8) > map_clock & %npc_aggressive_player ! uid)) {
+        mes("Someone else is fighting that.");
+        return(false);
+    }
 }
 if (%npc_macro_event_target ! null & %npc_macro_event_target ! uid) {
     mes("It's not after you."); // https://youtu.be/y58EFTJNIH8
