@@ -1165,6 +1165,16 @@ export default class Player extends PathingEntity {
 
     // ----
 
+    refreshInvs() {
+        for (let i: number = 0; i < this.invListeners.length; i++) {
+            const listener = this.invListeners[i];
+            if (!listener) {
+                continue;
+            }
+            listener.firstSeen = true;
+        }
+    }
+
     getInventoryFromListener(listener: any) {
         if (listener.source === -1) {
             return World.getInventory(listener.type);
