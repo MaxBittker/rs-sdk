@@ -171,7 +171,7 @@ if ($freeze_time > 0) {
         $freeze_time = divide($freeze_time, 2); // 50% reduction https://oldschool.runescape.wiki/w/Update:RS2_bugfixes_-_part_4
     }
     if (.p_finduid(.uid) = true) {
-        .p_stopaction;
+        .p_walk(.coord);
     }
     .%pk_binder = uid;
     .queue(pvp_freeze_player, 0, $freeze_time);
