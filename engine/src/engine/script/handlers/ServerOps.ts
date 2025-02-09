@@ -21,7 +21,7 @@ import HuntVis from '#/engine/entity/hunt/HuntVis.js';
 
 import Environment from '#/util/Environment.js';
 
-import {LocLayer, LocAngle} from '@2004scape/rsmod-pathfinder';
+import { LocLayer, LocAngle } from '@2004scape/rsmod-pathfinder';
 
 import {
     isIndoors,
@@ -155,6 +155,11 @@ const ServerOps: CommandHandlers = {
         const to: CoordGrid = check(c2, CoordValid);
 
         if (from.level !== to.level) {
+            state.pushInt(0);
+            return;
+        }
+
+        if (!Environment.NODE_MEMBERS && !World.gameMap.isFreeToPlay(to.x, to.z)) {
             state.pushInt(0);
             return;
         }
@@ -296,6 +301,11 @@ const ServerOps: CommandHandlers = {
         const to: CoordGrid = check(c2, CoordValid);
 
         if (from.level !== to.level) {
+            state.pushInt(0);
+            return;
+        }
+
+        if (!Environment.NODE_MEMBERS && !World.gameMap.isFreeToPlay(to.x, to.z)) {
             state.pushInt(0);
             return;
         }
