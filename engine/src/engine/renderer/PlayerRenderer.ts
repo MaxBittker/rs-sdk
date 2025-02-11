@@ -43,13 +43,17 @@ export default class PlayerRenderer extends Renderer<Player>  {
         let highs: number = 0;
 
         if (masks & InfoProt.PLAYER_APPEARANCE.id && player.appearance) {
-            highs += lows += this.cache(pid, new PlayerInfoAppearance(player.appearance), InfoProt.PLAYER_APPEARANCE);
+            const length: number = this.cache(pid, new PlayerInfoAppearance(player.appearance), InfoProt.PLAYER_APPEARANCE);
+            highs += length;
+            lows += length;
         }
         if (masks & InfoProt.PLAYER_ANIM.id) {
             highs += this.cache(pid, new PlayerInfoAnim(player.animId, player.animDelay), InfoProt.PLAYER_ANIM);
         }
         if (masks & InfoProt.PLAYER_FACE_ENTITY.id) {
-            highs += lows += this.cache(pid, new PlayerInfoFaceEntity(player.faceEntity), InfoProt.PLAYER_FACE_ENTITY);
+            const length: number = this.cache(pid, new PlayerInfoFaceEntity(player.faceEntity), InfoProt.PLAYER_FACE_ENTITY);
+            highs += length;
+            lows += length;
         }
         if (masks & InfoProt.PLAYER_SAY.id && player.chat) {
             highs += this.cache(pid, new PlayerInfoSay(player.chat), InfoProt.PLAYER_SAY);
@@ -58,7 +62,9 @@ export default class PlayerRenderer extends Renderer<Player>  {
             highs += this.cache(pid, new PlayerInfoDamage(player.damageTaken, player.damageType, player.levels[PlayerStat.HITPOINTS], player.baseLevels[PlayerStat.HITPOINTS]), InfoProt.PLAYER_DAMAGE);
         }
         if (masks & InfoProt.PLAYER_FACE_COORD.id) {
-            highs += lows += this.cache(pid, new PlayerInfoFaceCoord(player.faceX, player.faceZ), InfoProt.PLAYER_FACE_COORD);
+            const length: number = this.cache(pid, new PlayerInfoFaceCoord(player.faceX, player.faceZ), InfoProt.PLAYER_FACE_COORD);
+            highs += length;
+            lows += length;
         }
         if (masks & InfoProt.PLAYER_CHAT.id && player.messageColor !== null && player.messageEffect !== null && player.messageType !== null && player.message) {
             highs += this.cache(pid, new PlayerInfoChat(player.messageColor, player.messageEffect, player.messageType, player.message), InfoProt.PLAYER_CHAT);

@@ -40,7 +40,9 @@ export default class NpcRenderer extends Renderer<Npc> {
             highs += this.cache(nid, new NpcInfoAnim(npc.animId, npc.animDelay), InfoProt.NPC_ANIM);
         }
         if (masks & InfoProt.NPC_FACE_ENTITY.id) {
-            highs += lows += this.cache(nid, new NpcInfoFaceEntity(npc.faceEntity), InfoProt.NPC_FACE_ENTITY);
+            const length: number = this.cache(nid, new NpcInfoFaceEntity(npc.faceEntity), InfoProt.NPC_FACE_ENTITY);
+            highs += length;
+            lows += length;
         }
         if (masks & InfoProt.NPC_SAY.id && npc.chat) {
             highs += this.cache(nid, new NpcInfoSay(npc.chat), InfoProt.NPC_SAY);
@@ -55,7 +57,9 @@ export default class NpcRenderer extends Renderer<Npc> {
             highs += this.cache(nid, new NpcInfoSpotanim(npc.graphicId, npc.graphicHeight, npc.graphicDelay), InfoProt.NPC_SPOTANIM);
         }
         if (masks & InfoProt.NPC_FACE_COORD.id) {
-            highs += lows += this.cache(nid, new NpcInfoFaceCoord(npc.faceX, npc.faceZ), InfoProt.NPC_FACE_COORD);
+            const length: number = this.cache(nid, new NpcInfoFaceCoord(npc.faceX, npc.faceZ), InfoProt.NPC_FACE_COORD);
+            highs += length;
+            lows += length;
         }
 
         if (highs > 0) {
