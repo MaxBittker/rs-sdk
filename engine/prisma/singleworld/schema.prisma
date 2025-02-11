@@ -174,3 +174,24 @@ model report {
     offender String
     reason   Int
 }
+
+model input_report {
+    id              Int @id @default(autoincrement())
+    account_id      Int
+    timestamp       DateTime
+    session_uuid    String
+}
+
+model input_report_event {
+    input_report_id Int
+    seq             Int
+    
+    input_type      Int    @default(-1)
+    delta           Int
+    coord           Int
+    mouse_x         Int?
+    mouse_y         Int?
+    key_code        Int?
+    
+    @@id([input_report_id, seq])
+}

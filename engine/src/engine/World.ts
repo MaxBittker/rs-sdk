@@ -96,6 +96,7 @@ import Isaac from '#/io/Isaac.js';
 import LoggerEventType from '#/server/logger/LoggerEventType.js';
 import MoveSpeed from '#/engine/entity/MoveSpeed.js';
 import ScriptVarType from '#/cache/config/ScriptVarType.js';
+import InputTrackingEvent from './entity/tracking/InputEvent.js';
 
 const priv = forge.pki.privateKeyFromPem(Environment.STANDALONE_BUNDLE ? await (await fetch('data/config/private.pem')).text() : fs.readFileSync('data/config/private.pem', 'ascii'));
 
@@ -2073,6 +2074,17 @@ class World {
             coord: player.coord,
             offender,
             reason
+        });
+    }
+
+    submitInputTracking(username: string, session_uuid: string, coord: number, events: InputTrackingEvent[]) {
+        this.loggerThread.postMessage({
+            type: 'input_track',
+            username,
+            session_uuid,
+            timestamp: Date.now(),
+            coord,
+            events
         });
     }
 

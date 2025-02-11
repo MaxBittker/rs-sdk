@@ -58,6 +58,13 @@ async function handleRequests(_parentPort: ParentPort, msg: any) {
             }
             break;
         }
+        case 'input_track': {
+            if (Environment.LOGGER_SERVER) {
+                const { username, session_uuid, timestamp, coord, events } = msg;
+                await client.inputTrack(username, session_uuid, timestamp, coord, events);
+            }
+            break;
+        }
         // todo: store session's packet traffic for analysis
         default:
             console.error('Unknown message type: ' + msg.type);

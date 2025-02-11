@@ -1,3 +1,4 @@
+import InputTrackingEvent from '#/engine/entity/tracking/InputEvent.js';
 import InternalClient from '#/server/InternalClient.js';
 
 import Environment from '#/util/Environment.js';
@@ -47,6 +48,25 @@ export default class LoggerClient extends InternalClient {
             coord,
             offender,
             reason
+        }));
+    }
+
+    public async inputTrack(username: string, session_uuid: string, timestamp: number, coord: number, events: InputTrackingEvent[]) {
+        await this.connect();
+
+        if (!this.ws || !this.wsr || !this.wsr.checkIfWsLive()) {
+            return;
+        }
+
+        this.ws.send(JSON.stringify({
+            type: 'input_track',
+            world: Environment.NODE_ID,
+            profile: Environment.NODE_PROFILE,
+            username,
+            session_uuid,
+            timestamp,
+            coord,
+            events
         }));
     }
 }

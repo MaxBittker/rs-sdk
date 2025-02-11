@@ -3,6 +3,10 @@ import EnableTracking from '#/network/server/model/EnableTracking.js';
 import FinishTracking from '#/network/server/model/FinishTracking.js';
 import World from '#/engine/World.js';
 import ReportEvent from '#/engine/entity/tracking/ReportEvent.js';
+import InputTrackingEvent from '#/engine/entity/tracking/InputEvent.js';
+import { NetworkPlayer } from '#/engine/entity/NetworkPlayer.js';
+import LoggerEventType from '#/server/logger/LoggerEventType.js';
+import { InputTrackingEventType } from '#/network/rs225/client/handler/EventTrackingHandler.js';
 
 export default class InputTracking {
     private static readonly TRACKING_RATE: number = 200; // 2m track interval +offset. lower this to be more aggressive.
@@ -15,6 +19,8 @@ export default class InputTracking {
     lastTrack: number = -1;
     waitingReport: boolean = false;
     lastReport: number = -1;
+    recordedEvents: InputTrackingEvent[] = [];
+    recordedEventCount: number = 0;
 
     constructor(player: Player) {
         this.player = player;
@@ -36,7 +42,7 @@ export default class InputTracking {
             this.enable();
             return;
         }
-        this.disable(false);
+        this.disable();
     }
 
     enable(): void {
@@ -49,14 +55,14 @@ export default class InputTracking {
         this.player.write(new EnableTracking());
     }
 
-    disable(early: boolean): void {
+    disable(): void {
         if (!this.enabled) {
             return;
         }
         this.enabled = false;
         this.lastTrack = World.currentTick + (InputTracking.TRACKING_RATE + this.offset(15));
         this.player.write(new FinishTracking());
-        if (!early && !this.waitingReport) {
+        if (!this.waitingReport) {
             // wait up to 15s for the client to send us the data.
             this.waitingReport = true;
             this.lastReport = World.currentTick;
@@ -67,6 +73,11 @@ export default class InputTracking {
         return this.enabled || this.waitingReport;
     }
 
+    record(type: InputTrackingEventType, delta: number, mouseX?: number, mouseY?: number, keyPress?: number): void {
+        this.recordedEvents.push(new InputTrackingEvent(type, this.recordedEventCount++, delta, mouseX, mouseY, keyPress));
+        this.report(ReportEvent.ACTIVE);
+    }
+
     report(event: ReportEvent): void {
         if (!this.waitingReport) {
             return;
@@ -75,13 +86,22 @@ export default class InputTracking {
             // this means that:
             // 1: the player is trying to avoid afk timer.
             // 2: the player is on a very slow connection and the report packet never came in.
-            // TODO: log this?
+            this.player.addSessionLog(LoggerEventType.ENGINE, 'Client did not submit an input tracking report');
             this.player.tryLogout = true;
             return;
         }
         // everything below means the player was active during this tracking.
         this.waitingReport = false;
         this.lastReport = -1;
+        if (this.recordedEvents.length > 0) {
+            World.submitInputTracking(
+                this.player.username, 
+                this.player instanceof NetworkPlayer ? this.player.client.uuid : 'headless', 
+                this.player.coord, 
+                this.recordedEvents);
+            this.recordedEvents = [];
+            this.recordedEventCount = 0;
+        }
     }
 
     offset(n: number): number {

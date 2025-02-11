@@ -3,6 +3,7 @@ import { WebSocketServer } from 'ws';
 import Environment from '#/util/Environment.js';
 import { printInfo } from '#/util/Logger.js';
 import { db, toDbDate } from '#/db/query.js';
+import InputTrackingEvent from '#/engine/entity/tracking/InputEvent.js';
 
 export default class LoggerServer {
     private server: WebSocketServer;
@@ -58,6 +59,34 @@ export default class LoggerServer {
                                 reason
                             }).execute();
 
+                            break;
+                        }
+                        case 'input_track': {
+                            const { username, session_uuid, timestamp, coord, events } = msg;
+
+                            const account = await db.selectFrom('account').where('username', '=', username).selectAll().executeTakeFirst();
+                            if (!account) {
+                                console.log(msg);
+                            } else {
+                                const report = await db.insertInto('input_report').values({
+                                    account_id: account.id,
+                                    session_uuid,
+                                    timestamp: toDbDate(timestamp),
+                                }).executeTakeFirst();
+                                const values = events.map((e: InputTrackingEvent) => {
+                                    return {
+                                        input_report_id: report.insertId,
+                                        input_type: e.type,
+                                        seq: e.seq,
+                                        delta: e.delta,
+                                        coord: coord,
+                                        mouse_x: e.mouseX,
+                                        mouse_y: e.mouseY,
+                                        key_code: e.keyPress
+                                    };
+                                });
+                                await db.insertInto('input_report_event').values(values).execute();
+                            }
                             break;
                         }
                     }

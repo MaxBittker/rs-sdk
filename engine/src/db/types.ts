@@ -69,6 +69,22 @@ export type login = {
     uid: number;
     ip: string | null;
 };
+export type input_report = {
+    id: Generated<number>;
+    account_id: number;
+    timestamp: Timestamp;
+    session_uuid: string;
+};
+export type input_report_event = {
+    input_report_id: number;
+    seq: number;
+    input_type: Generated<number>;
+    delta: number;
+    coord: number;
+    mouse_x: number | null;
+    mouse_y: number | null;
+    key_code: number | null;
+};
 export type newspost = {
     id: Generated<number>;
     category: number;
@@ -122,6 +138,8 @@ export type DB = {
     hiscore: hiscore;
     hiscore_large: hiscore_large;
     ignorelist: ignorelist;
+    input_report: input_report;
+    input_report_event: input_report_event;
     ipban: ipban;
     login: login;
     newspost: newspost;
