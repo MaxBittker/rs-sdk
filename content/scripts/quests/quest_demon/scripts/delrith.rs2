@@ -7,7 +7,7 @@
 [ai_queue2,delrith]
 ~npc_default_damage(last_int);
 if (npc_stat(hitpoints) = 0) {
-    if (npc_findhero = true) {
+    if (finduid(%npc_attacking_uid) = true) {
         queue(delrith_death, 1);
     }
 }
@@ -88,7 +88,7 @@ if (npc_find(coord, weakened_delrith, 8, 0) = true) {
 // Between 20 feb and 6 march 2006 this becomes 2 separate message boxes
 // https://www.youtube.com/watch?v=w7uLKC_rYfc
 ~mesbox("As you chant, Delrith is sucked towards the vortex...|Back to the dark dimension from which he came...");
-
+if_close;
 if (npc_find(coord, weakened_delrith, 8, 0) = true) {
     gosub(npc_death);
     queue(demon_slayer_complete, 1);
