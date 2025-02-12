@@ -591,6 +591,12 @@ export default class Player extends PathingEntity {
 
         this.modalState = 0;
 
+        // close any input dialogue suspended scripts.
+        if (this.activeScript?.execution === ScriptState.COUNTDIALOG || this.activeScript?.execution === ScriptState.PAUSEBUTTON) {
+            this.activeScript = null;
+        }
+
+        // close any main viewport interface
         if (this.modalMain !== -1) {
             const closeTrigger = ScriptProvider.getByTrigger(ServerTriggerType.IF_CLOSE, this.modalMain);
             if (closeTrigger) {
@@ -600,6 +606,7 @@ export default class Player extends PathingEntity {
             this.modalMain = -1;
         }
 
+        // close any chatbox interface
         if (this.modalChat !== -1) {
             const closeTrigger = ScriptProvider.getByTrigger(ServerTriggerType.IF_CLOSE, this.modalChat);
             if (closeTrigger) {
@@ -609,6 +616,7 @@ export default class Player extends PathingEntity {
             this.modalChat = -1;
         }
 
+        // close any sidebar tabs interface
         if (this.modalSide !== -1) {
             const closeTrigger = ScriptProvider.getByTrigger(ServerTriggerType.IF_CLOSE, this.modalSide);
             if (closeTrigger) {
