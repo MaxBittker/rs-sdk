@@ -515,15 +515,6 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                 const minutes = Math.max(0, tryParseInt(args[1], 60));
 
                 World.notifyPlayerBan(player.username, username, Date.now() + (minutes * 60 * 1000));
-
-                const other = World.getPlayerByUsername(username);
-                if (other) {
-                    other.loggingOut = true;
-                    if (isClientConnected(other)) {
-                        other.logout();
-                        other.client.close();
-                    }
-                }
                 player.messageGame(`Player '${args[0]}' has been banned for ${minutes} minutes.`);
             } else if (cmd === 'mute') {
                 // custom
@@ -537,11 +528,6 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                 const minutes = Math.max(0, tryParseInt(args[1], 60));
 
                 World.notifyPlayerMute(player.username, username, Date.now() + (minutes * 60 * 1000));
-
-                const other = World.getPlayerByUsername(username);
-                if (other) {
-                    other.muted_until = new Date(Date.now() + (minutes * 60 * 1000));
-                }
                 player.messageGame(`Player '${args[0]}' has been muted for ${minutes} minutes.`);
             } else if (cmd === 'kick') {
                 // custom

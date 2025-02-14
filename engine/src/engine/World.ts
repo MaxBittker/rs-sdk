@@ -2085,6 +2085,15 @@ class World {
     }
 
     notifyPlayerBan(staff: string, username: string, until: number) {
+        const other = this.getPlayerByUsername(username);
+        if (other) {
+            other.loggingOut = true;
+            if (isClientConnected(other)) {
+                other.logout();
+                other.client.close();
+            }
+        }
+
         this.loginThread.postMessage({
             type: 'player_ban',
             staff,
@@ -2094,6 +2103,11 @@ class World {
     }
 
     notifyPlayerMute(staff: string, username: string, until: number) {
+        const other = this.getPlayerByUsername(username);
+        if (other) {
+            other.muted_until = new Date(until);
+        }
+
         this.loginThread.postMessage({
             type: 'player_mute',
             staff,
