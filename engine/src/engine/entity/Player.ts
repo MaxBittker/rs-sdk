@@ -1620,7 +1620,6 @@ export default class Player extends PathingEntity {
 
             const script = ScriptProvider.getByTriggerSpecific(ServerTriggerType.ADVANCESTAT, stat, -1);
             if (script) {
-                this.unlinkQueuedScript(script.id, PlayerQueueType.ENGINE);
                 this.enqueueScript(script, PlayerQueueType.ENGINE);
             }
         }
