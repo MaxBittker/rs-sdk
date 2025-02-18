@@ -121,10 +121,9 @@ return (false);
 %prayer_protectfrommagic = ^false;
 %prayer_protectfrommissiles = ^false;
 %prayer_protectfrommelee = ^false;
-~headicons_clear;
-if (%pk_skull > 0) {
-    ~pk_skull(%pk_skull);
-}
+~headicon_del(^headicon_prayer_protectfrommelee);
+~headicon_del(^headicon_prayer_protectfromrange);
+~headicon_del(^headicon_prayer_protectfrommagic);
 %prayer_drain_effect = 0;
 %prayer_drain_counter = 0;
 

@@ -1,6 +1,9 @@
 // requires .active_player and active_player
 [proc,deserves_pk_skull]()(boolean)
-if (~headicon_exists(^headicon_skull) = true) { 
+if (~in_duel_arena(coord) = true) {
+    return(false);
+}
+if (%pk_skull > 0) { 
     // in osrs pk skull resets after each new player you attack.
     // this was not the case before this update though: https://oldschool.runescape.wiki/w/Update :Grand_Exchange_Tax_%26_Item_Sink
     return(false);
@@ -29,9 +32,6 @@ if (~deserves_pk_skull = true) {
 
 // requires active_player
 [proc,pk_skull](int $duration)
-if (~in_duel_arena(coord) = true) {
-    return; // prevent pk skull from being in duel arena
-}
 ~headicon_add(^headicon_skull);
 %pk_skull = add(map_clock, $duration);
 softtimer(pk_skull_timer, $duration);
@@ -41,16 +41,11 @@ softtimer(pk_skull_timer, $duration);
 clearsofttimer(pk_skull_timer);
 %pk_skull = 0;
 
-[proc,.clear_pk_skull]
-~.headicon_del(^headicon_skull);
-// .clearsofttimer(pk_skull_timer); todo
-
 [softtimer,pk_skull_timer]
 ~clear_pk_skull;
 
 [proc,set_pk_skull_logout]
-if (~headicon_exists(^headicon_skull) = false) {
-    %pk_skull = null;
+if (%pk_skull < 1) {
     return;
 }
 %pk_skull = sub(%pk_skull, map_clock);

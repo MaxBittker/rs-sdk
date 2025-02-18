@@ -1,5 +1,8 @@
-[debugproc,skull]
-~pk_skull(3000);
+[debugproc,skull](int $duration)
+~pk_skull($duration);
+
+[debugproc,checkskull]
+mes("map_clock: <tostring(map_clock)>, %pk_skull: <tostring(%pk_skull)>");
 
 [debugproc,clearskull]
 ~clear_pk_skull;
