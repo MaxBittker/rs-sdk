@@ -109,7 +109,7 @@ export default class InputTracking {
                     this.recordedEvents,
                 );
             }
-        } else {
+        } else if (!Environment.NODE_DEBUG) {
             // this means that:
             // 1: the player is trying to avoid afk timer.
             // 2: the player is on a very slow connection and the report packet never came in.
