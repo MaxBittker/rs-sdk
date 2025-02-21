@@ -553,7 +553,7 @@ export default class Zone {
             if (loc === entity) {
                 continue;
             }
-            if (loc.layer === entity.layer) {
+            if (loc.layer === entity.layer && entity.shape === loc.shape) {
                 return loc;
             }
         }

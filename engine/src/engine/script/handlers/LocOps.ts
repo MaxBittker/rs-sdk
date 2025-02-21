@@ -40,7 +40,8 @@ const LocOps: CommandHandlers = {
         const created: Loc = new Loc(position.level, position.x, position.z, locType.width, locType.length, EntityLifeCycle.DESPAWN, locType.id, locShape, locAngle);
         const locs: IterableIterator<Loc> = World.gameMap.getZone(position.x, position.z, position.level).getLocsUnsafe(CoordGrid.packZoneCoord(position.x, position.z));
         for (const loc of locs) {
-            if (loc !== created && loc.layer === created.layer && loc.lifecycle === EntityLifeCycle.RESPAWN) {
+            // wall_diagonal is a ground layer.
+            if (loc !== created && loc.layer === created.layer && loc.shape === created.shape && loc.lifecycle === EntityLifeCycle.RESPAWN) {
                 loc.setLifeCycle(World.currentTick + duration);
                 break;
             }
@@ -86,10 +87,11 @@ const LocOps: CommandHandlers = {
     [ScriptOpcode.LOC_DEL]: checkedHandler(ActiveLoc, state => {
         const duration: number = check(state.popInt(), DurationValid);
 
-        const {level, x, z, layer} = state.activeLoc;
+        const {level, x, z, layer, shape} = state.activeLoc;
         const locs: IterableIterator<Loc> = World.gameMap.getZone(x, z, level).getLocsUnsafe(CoordGrid.packZoneCoord(x, z));
         for (const loc of locs) {
-            if (loc !== state.activeLoc && loc.layer === layer && loc.lifecycle === EntityLifeCycle.RESPAWN) {
+            // wall_diagonal is a ground layer.
+            if (loc !== state.activeLoc && loc.layer === layer && loc.shape === shape && loc.lifecycle === EntityLifeCycle.RESPAWN) {
                 // extend duration of a static loc on this tile.
                 loc.setLifeCycle(World.currentTick + duration);
                 break;
