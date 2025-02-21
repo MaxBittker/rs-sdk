@@ -993,14 +993,12 @@ const PlayerOps: CommandHandlers = {
 
     [ScriptOpcode.SETGENDER]: (state) => {
         const gender = check(state.popInt(), GenderValid);
-        // convert idkit
+        // convert idkit, have to use a mapping cause order + there's not always an equivalence
         for (let i = 0; i < 7; i++) {
-            state.activePlayer.body[i] = -1;
-            for (let j = 0; j < IdkType.count; j++) {
-                if (!IdkType.get(j).disable && IdkType.get(j).type == i + (gender === 0 ? 0 : 7)) {
-                    state.activePlayer.body[i] = j;
-                    break;
-                }
+            if(gender === 1) {
+                state.activePlayer.body[i] = Player.MALE_FEMALE_MAP.get(state.activePlayer.body[i]) ?? -1;
+            } else {
+                state.activePlayer.body[i] = Player.FEMALE_MALE_MAP.get(state.activePlayer.body[i]) ?? -1;
             }
         }
         state.activePlayer.gender = gender;
