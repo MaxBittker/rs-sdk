@@ -930,6 +930,10 @@ class World {
                     state.pointerAdd(ScriptPointer.ProtectedActivePlayer);
                     ScriptRunner.execute(state);
 
+                    // Decrement observers of rendered npcs
+                    for (const npc of player.buildArea.npcs) {
+                        npc.observerCount--;
+                    }
                     this.removePlayer(player);
                 }
             }

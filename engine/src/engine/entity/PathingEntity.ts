@@ -404,7 +404,7 @@ export default abstract class PathingEntity extends Entity {
         return this.waypointIndex <= 0;
     }
 
-    protected inOperableDistance(target: Entity): boolean {
+    inOperableDistance(target: Entity): boolean {
         if (target.level !== this.level) {
             return false;
         }
@@ -575,10 +575,6 @@ export default abstract class PathingEntity extends Entity {
         } else {
             this.targetX = CoordGrid.fine(target.x, target.width);
             this.targetZ = CoordGrid.fine(target.z, target.length);
-        }
-
-        if (interaction === Interaction.SCRIPT) {
-            this.pathToTarget();
         }
 
         return true;

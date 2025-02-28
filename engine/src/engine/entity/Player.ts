@@ -1042,7 +1042,7 @@ export default class Player extends PathingEntity {
         this.clearWaypoints();
     }
 
-    protected inOperableDistance(target: Entity): boolean {
+    inOperableDistance(target: Entity): boolean {
         if (target.level !== this.level) {
             return false;
         }

@@ -7,7 +7,7 @@ import ObjType from '#/cache/config/ObjType.js';
 import World from '#/engine/World.js';
 
 import ScriptOpcode from '#/engine/script/ScriptOpcode.js';
-import ScriptPointer, {ActivePlayer, checkedHandler, ProtectedActivePlayer} from '#/engine/script/ScriptPointer.js';
+import ScriptPointer, { ActivePlayer, checkedHandler, ProtectedActivePlayer } from '#/engine/script/ScriptPointer.js';
 import ScriptProvider from '#/engine/script/ScriptProvider.js';
 import { CommandHandlers } from '#/engine/script/ScriptRunner.js';
 import ScriptState from '#/engine/script/ScriptState.js';
@@ -19,7 +19,7 @@ import { isBufferFull } from '#/engine/entity/NetworkPlayer.js';
 import { CoordGrid } from '#/engine/CoordGrid.js';
 import CameraInfo from '#/engine/entity/CameraInfo.js';
 import Interaction from '#/engine/entity/Interaction.js';
-import {PlayerStat} from '#/engine/entity/PlayerStat.js';
+import { PlayerStat } from '#/engine/entity/PlayerStat.js';
 import Player from '#/engine/entity/Player.js';
 
 import ServerProt from '#/network/rs225/server/prot/ServerProt.js';
@@ -42,7 +42,7 @@ import IfSetPosition from '#/network/server/model/IfSetPosition.js';
 
 import ColorConversion from '#/util/ColorConversion.js';
 
-import {findPath} from '#/engine/GameMap.js';
+import { findPath } from '#/engine/GameMap.js';
 
 import {
     check,
@@ -359,6 +359,9 @@ const PlayerOps: CommandHandlers = {
             return;
         }
         state.activePlayer.stopAction();
+        if (!state.activePlayer.inOperableDistance(state.activeLoc)) {
+            state.activePlayer.queueWaypoint(state.activeLoc.x, state.activeLoc.z);
+        }
         state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeLoc, ServerTriggerType.APLOC1 + type);
     }),
 
@@ -373,14 +376,14 @@ const PlayerOps: CommandHandlers = {
             return;
         }
         state.activePlayer.stopAction();
-        state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPC1 + type, {type: state.activeNpc.type, com: -1});
+        state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPC1 + type, { type: state.activeNpc.type, com: -1 });
     }),
 
     // https://x.com/JagexAsh/status/1791472651623370843
     [ScriptOpcode.P_OPNPCT]: checkedHandler(ProtectedActivePlayer, state => {
         const spellId: number = check(state.popInt(), NumberNotNull);
         state.activePlayer.stopAction();
-        state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPCT, {type: state.activeNpc.type, com: spellId});
+        state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPCT, { type: state.activeNpc.type, com: spellId });
     }),
 
     // https://x.com/JagexAsh/status/1389465615631519744
@@ -796,7 +799,7 @@ const PlayerOps: CommandHandlers = {
                 count++;
             }
         }
-        for (let request= state.activePlayer.weakQueue.head(); request !== null; request = state.activePlayer.weakQueue.next()) {
+        for (let request = state.activePlayer.weakQueue.head(); request !== null; request = state.activePlayer.weakQueue.next()) {
             if (request.script.id === scriptId) {
                 count++;
             }
@@ -892,6 +895,9 @@ const PlayerOps: CommandHandlers = {
             return;
         }
         state.activePlayer.stopAction();
+
+        // Sets player destination naively to the Obj's coordinate
+        state.activePlayer.queueWaypoint(state.activeObj.x, state.activeObj.z);
         state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeObj, ServerTriggerType.APOBJ1 + type);
     }),
 
@@ -953,7 +959,7 @@ const PlayerOps: CommandHandlers = {
         state.pushInt(state.activePlayer.lowMemory ? 1 : 0);
     },
 
-    [ScriptOpcode.SETIDKIT]: (state) => {
+    [ScriptOpcode.SETIDKIT]: state => {
         const [idkit, color] = state.popInts(2);
 
         const idkType: IdkType = check(idkit, IDKTypeValid);
@@ -970,7 +976,7 @@ const PlayerOps: CommandHandlers = {
         // 3 - boots
         // 4 - skin
         let type = idkType.type;
-        if(state.activePlayer.gender === 1) {
+        if (state.activePlayer.gender === 1) {
             type -= 7;
         }
         let colorSlot = -1;
@@ -991,14 +997,14 @@ const PlayerOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.SETGENDER]: (state) => {
+    [ScriptOpcode.SETGENDER]: state => {
         const gender = check(state.popInt(), GenderValid);
         // convert idkit, have to use a mapping cause order + there's not always an equivalence
         for (let i = 0; i < 7; i++) {
-            if(gender === 1) {
+            if (gender === 1) {
                 state.activePlayer.body[i] = Player.MALE_FEMALE_MAP.get(state.activePlayer.body[i]) ?? -1;
             } else {
-                if(i == 1) {
+                if (i == 1) {
                     state.activePlayer.body[i] = 14;
                     continue;
                 }
@@ -1008,7 +1014,7 @@ const PlayerOps: CommandHandlers = {
         state.activePlayer.gender = gender;
     },
 
-    [ScriptOpcode.SETSKINCOLOUR]: (state) => {
+    [ScriptOpcode.SETSKINCOLOUR]: state => {
         const skin = check(state.popInt(), SkinColourValid);
         state.activePlayer.colors[4] = skin;
     },
@@ -1021,7 +1027,7 @@ const PlayerOps: CommandHandlers = {
             return;
         }
         state.activePlayer.stopAction();
-        state.activePlayer.setInteraction(Interaction.SCRIPT, target, ServerTriggerType.APPLAYERT, {type: -1, com: spellId});
+        state.activePlayer.setInteraction(Interaction.SCRIPT, target, ServerTriggerType.APPLAYERT, { type: -1, com: spellId });
     }),
 
     // https://x.com/JagexAsh/status/1799020087086903511
@@ -1090,7 +1096,7 @@ const PlayerOps: CommandHandlers = {
 
         // todo: better way to sync engine varp
         state.activePlayer.setVar(VarPlayerType.RUN, state.activePlayer.run);
-    }),
+    })
 };
 
 /**
