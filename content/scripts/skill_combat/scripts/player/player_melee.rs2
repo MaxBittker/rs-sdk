@@ -1,12 +1,6 @@
 // begins combat
 [label,player_melee_attack]
 p_stopaction;
-// npc_setmode(opplayer2);
-// facesquare(npc_coord);
-
-// todo this is for flinching players (pvp etc)
-//if (autoretaliateenabled && action_clock < gameClock()) action_clock = gameClock() + (weaponSpeed / 2)
-
 if (~npc_is_attackable() = false) {
     return;
 }
@@ -14,10 +8,6 @@ if (~npc_is_attackable() = false) {
 if (%action_delay > map_clock) {
     p_opnpc(2); // it is guaranteed here that we are already within op distance
     return;
-}
-
-if(npc_stat(hitpoints) = 0 & (npc_type = sir_mordred | npc_type = black_knight_titan)) {
-    npc_statheal(hitpoints, npc_basestat(hitpoints), 0);
 }
 
 if (npc_stat(hitpoints) = 0) {
