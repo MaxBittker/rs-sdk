@@ -28,7 +28,7 @@ switch_int($option) {
     case 3 :
         // https://youtu.be/Oltfw1gvWjQ?si=Khm5ce54r4JF8Ynx&t=225
         ~chatplayer("<p,happy>I'd like a Khali brew please.");
-        if(inv_total(inv, coins) < 2) { 
+        if(inv_total(inv, coins) < 5) { 
             ~chatnpc("<p,neutral>That'll be five gold coins please.");
             ~chatplayer("<p,sad>Oh, I don't have enough money with me.");
             return;
