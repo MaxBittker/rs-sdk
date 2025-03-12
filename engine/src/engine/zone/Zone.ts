@@ -431,7 +431,9 @@ export default class Zone {
     *getAllObjsSafe(): IterableIterator<Obj> {
         for (let obj = this.objs.head(); obj !== null; obj = this.objs.next()) {
             if (obj.isValid()) {
+                const save = this.locs.cursor;
                 yield obj;
+                this.locs.cursor = save;
             }
         }
     }
@@ -443,7 +445,9 @@ export default class Zone {
     *getObjsSafe(coord: number): IterableIterator<Obj> {
         for (let obj = this.objs.head(); obj !== null; obj = this.objs.next()) {
             if (obj.isValid() && CoordGrid.packZoneCoord(obj.x, obj.z) === coord) {
+                const save = this.locs.cursor;
                 yield obj;
+                this.locs.cursor = save;
             }
         }
     }
@@ -456,7 +460,9 @@ export default class Zone {
     *getObjsUnsafe(coord: number): IterableIterator<Obj> {
         for (let obj = this.objs.head(); obj !== null; obj = this.objs.next()) {
             if (CoordGrid.packZoneCoord(obj.x, obj.z) === coord) {
+                const save = this.locs.cursor;
                 yield obj;
+                this.locs.cursor = save;
             }
         }
     }
@@ -468,7 +474,9 @@ export default class Zone {
      */
     *getAllObjsUnsafe(reverse: boolean = false): IterableIterator<Obj> {
         for (let obj = reverse ? this.objs.tail() : this.objs.head(); obj !== null; obj = reverse ? this.objs.prev() : this.objs.next()) {
+            const save = this.locs.cursor;
             yield obj;
+            this.locs.cursor = save;
         }
     }
 
@@ -479,7 +487,9 @@ export default class Zone {
     *getAllLocsSafe(): IterableIterator<Loc> {
         for (let loc = this.locs.head(); loc !== null; loc = this.locs.next()) {
             if (loc.isValid()) {
+                const save = this.locs.cursor;
                 yield loc;
+                this.locs.cursor = save;
             }
         }
     }
@@ -491,7 +501,9 @@ export default class Zone {
     *getLocsSafe(coord: number): IterableIterator<Loc> {
         for (let loc = this.locs.head(); loc !== null; loc = this.locs.next()) {
             if (loc.isValid() && CoordGrid.packZoneCoord(loc.x, loc.z) === coord) {
+                const save = this.locs.cursor;
                 yield loc;
+                this.locs.cursor = save;
             }
         }
     }
@@ -504,7 +516,9 @@ export default class Zone {
     *getLocsUnsafe(coord: number): IterableIterator<Loc> {
         for (let loc = this.locs.head(); loc !== null; loc = this.locs.next()) {
             if (CoordGrid.packZoneCoord(loc.x, loc.z) === coord) {
+                const save = this.locs.cursor;
                 yield loc;
+                this.locs.cursor = save;
             }
         }
     }
@@ -516,7 +530,9 @@ export default class Zone {
      */
     *getAllLocsUnsafe(reverse: boolean = false): IterableIterator<Loc> {
         for (let loc = reverse ? this.locs.tail() : this.locs.head(); loc !== null; loc = reverse ? this.locs.prev() : this.locs.next()) {
+            const save = this.locs.cursor;
             yield loc;
+            this.locs.cursor = save;
         }
     }
 
