@@ -4,7 +4,7 @@ if (npc_range(coord) > 2) {
     return;
 }
 // I don't think you can be in the jail area at this quest-stage?
-if(%arena_progress = 9) {
+if(%arena_progress = ^arena_sent_jail) {
     ~chatplayer("<p,quiz>Are you ok stranger?");
     ~chatnpc("<p,neutral>I'm fine thanks.");
     ~chatnpc("<p,quiz>So Khazard got his hands on you too?");
@@ -21,12 +21,14 @@ if(%arena_progress = 9) {
     npc_setmode(none);
     p_delay(0);
     // https://youtu.be/Y6eWjQnV4Mo?si=7aaHIhL6qoxCuntZ&t=170 the guard can get stuck at any point, doesnt interrupt anything
-    npc_walk(movecoord(coord, 1, 1, 0));
-    npc_queue(10, 0, 1);
-    p_delay(7);
+    npc_walk(0_40_49_39_5);
+    p_delay(9);
+    npc_say("Right you, move it.");
     def_int $delay_diff = distance(coord, 0_40_49_40_6);
     ~forcemove(0_40_49_40_6);
-    p_delay(calc(5 - $delay_diff));
+    p_delay(calc(4 - $delay_diff));
+    npc_anim(seq_553, 0);
+    p_delay(0);
     if(loc_find(0_40_49_40_6, loc_79) = true) {
         def_int $x;
         def_int $z;
@@ -40,11 +42,14 @@ if(%arena_progress = 9) {
     }
     p_teleport(movecoord(coord, 0, 0, -1));
     p_delay(1);
+    npc_walk(movecoord(0_40_49_47_6, -1, 0, 0));
     ~forcemove(0_40_49_42_5);
     ~forcemove(0_40_49_47_6);
+    npc_walk(movecoord(0_40_49_47_15, 1, 0, -1));
     ~forcemove(0_40_49_47_15);
     p_delay(1);
     npc_say("Get out there!");
+    npc_setmode(null);
     if(loc_find(0_40_49_46_16, loc_82) = true) {
         def_int $x;
         def_int $z;
@@ -71,10 +76,3 @@ if(%arena_progress = 9) {
     }
     ~chatnpc("<p,neutral>I've seen them in here, although they don't look up to much. My advice to you is to leave before you end up in a cell too.");
 }
-
-[ai_queue10,khazard_guard_cutscene]
-npc_walk(0_40_49_39_5);
-npc_queue(11, 0, 7);
-
-[ai_queue11,khazard_guard_cutscene]
-npc_say("Right you, move it.");

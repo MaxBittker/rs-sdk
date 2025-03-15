@@ -12,3 +12,6 @@
 ^arena_defeated_genkhazard = 13
 ^arena_complete = 14
 ^arena_complete_defeated_genkhazard = 15
+
+^arena_lower_coord = 0_40_49_21_15
+^arena_upper_coord = 0_40_49_46_35

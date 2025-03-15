@@ -5,13 +5,11 @@ if(npc_findhero = true) {
     if(p_finduid(uid) = true) { // get protected access, if not then queue
         @defeat_khazard_ogre;
     }
-    queue(queue_defeat_khazard_ogre, 0, npc_uid); //strongqueue probably
+    queue(queue_defeat_khazard_ogre, 0); //strongqueue probably
 }
 
-[queue,queue_defeat_khazard_ogre](npc_uid $npc)
-if (npc_finduid($npc) = true) {
-    if(distance(coord, npc_coord) < 17) @defeat_khazard_ogre;
-}
+[queue,queue_defeat_khazard_ogre]
+if (inzone(^arena_lower_coord, ^arena_upper_coord, coord) = true) @defeat_khazard_ogre;
 
 [label,defeat_khazard_ogre]
 if(%arena_progress = ^arena_entered_ogre_fight) {

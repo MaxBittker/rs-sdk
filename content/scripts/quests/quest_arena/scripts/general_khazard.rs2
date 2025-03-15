@@ -100,3 +100,15 @@ if (npc_find(movecoord(coord, 8, 0, 0), general_khazard, 15, 0) = false | ~npc_o
 ~chatnpc("<p,genkhazard>You however have caused me much trouble today. You must remain here so that I may at least have the pleasure of killing you myself.");
 %arena_progress = ^arena_freed_servils;
 ~npc_retaliate(0);
+
+[ai_queue3,general_khazard]
+gosub(npc_death);
+if(npc_findhero = true) {
+    if_close;
+    queue(queue_defeat_general_khazard, 0);
+}
+
+[queue,queue_defeat_general_khazard]
+if (inzone(^arena_lower_coord, ^arena_upper_coord, coord) = true & %arena_progress = ^arena_freed_servils) {
+    %arena_progress = ^arena_defeated_genkhazard;
+}
