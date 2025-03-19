@@ -62,8 +62,22 @@ if($total = 0 | inv_itemspace(partyroomoffer, $obj, $total, inv_size(partyroomof
 inv_moveitem(inv, partyroomoffer, $obj, $total);
 
 [if_button,party_drop_chest:com_94]
-if(inv_freespace(partyroominv) < calc(inv_size(partyroomoffer) - inv_freespace(partyroomoffer))) {
-    mes("The chest cannot hold your offer at the moment.");
+def_int $i = 0;
+def_boolean $moveditem = false;
+if(inv_freespace(partyroomoffer) = inv_size(partyroomoffer)) {
     return;
 }
-~moveallinv(partyroomoffer, partyroominv);
+while($i < inv_size(partyroomoffer)) {
+    def_obj $obj = inv_getobj(partyroomoffer, $i);
+    def_int $count = inv_getnum(partyroomoffer, $i);
+    if ($obj ! null) {
+        if(inv_itemspace(partyroominv, $obj, $count, inv_size(partyroominv)) = true) {
+            inv_moveitem(partyroomoffer, partyroominv, $obj, $count);
+            $moveditem = true;
+        }
+    }
+    $i = add($i, 1);
+}
+if($moveditem = false) {
+    mes("The chest cannot hold your offer at the moment.");
+}

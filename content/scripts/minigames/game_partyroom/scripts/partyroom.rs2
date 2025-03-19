@@ -138,17 +138,36 @@ p_delay(0);
 loc_change($broken_balloon, 6);
 // todo: chance was fixed before Jul 2004, was changed to scale off of chest freespace afterwards (this chance is just a guess unfortunately)
 if (~inzone_coord_pair_table(party_room_zones, loc_coord) = true & random(4) = 0) {
-    def_int $rand_slot = random(calc(inv_size(partyroominv) - inv_freespace(partyroominv)));
+    def_int $partyroom_size = inv_size(partyroominv);
+    def_int $free_slots = calc($partyroom_size - inv_freespace(partyroominv));
+    def_int $rand_slot = random(calc($free_slots + ~partyroom_empty_slots($free_slots)));
     def_obj $obj = inv_getobj(partyroominv, $rand_slot);
     def_int $count = 1;
+    def_int $obj_total = inv_getnum(partyroominv, $rand_slot);
     if($obj = null) {
         return;
     }
     if(oc_stackable($obj) = true | oc_uncert($obj) ! $obj) {
-        $count = ~random_range(1, inv_getnum(partyroominv, $rand_slot));
+        $count = ~random_range(1, $obj_total);
     }
     inv_dropitem(partyroominv, loc_coord, $obj, $count, 100);
+    // for w/e reason, in old videos the inv doesn't reorg sometimes, there doesn't seem to be any specific condition for it
+    // https://youtu.be/Ve5UF8B3BMw?si=NKO9H7bd6rJGY_LF&t=251
+    if($count = $obj_total & random(3) < 2) {
+        ~reorganize_inv(partyroominv);
+    }
     return;
 }
 p_delay(0);
 loc_del(1);
+
+[proc,partyroom_empty_slots](int $free_slots)(int)
+def_int $slot = 0;
+def_int $count = 0;
+while($slot < $free_slots) {
+    if(inv_getobj(partyroominv, $slot) = null) {
+        $count = add($count,1);
+    }
+    $slot = add($slot,1);
+}
+return ($count);

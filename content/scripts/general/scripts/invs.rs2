@@ -24,6 +24,46 @@ while ($i < enum_getoutputcount($slots)) {
 }
 return(true);
 
+// reorganize all of the slots towards the left of the inv.
+[proc,reorganize_inv](inv $inv)
+def_int $size = inv_size($inv);
+def_int $count = 0;
+
+while ($count < $size) {
+    def_int $slot_count = inv_getnum($inv, $count);
+
+    if ($slot_count = 0) {
+        def_int $peek_slot = ~inv_peek_next_available_obj_slot($inv, $count);
+
+        if ($peek_slot = -1) {
+            $count = add($size, 1);
+        } else {
+            inv_movetoslot($inv, $inv, $peek_slot, $count);
+            $count = add($count, 1);
+        }
+    } else {
+        $count = add($count, 1);
+    }
+}
+
+// used to check for any obj slots that are ahead of the input slot.
+// returns the slot or -1 if none available.
+[proc,inv_peek_next_available_obj_slot](inv $inv, int $from_slot)(int)
+def_int $size = inv_size($inv);
+def_int $count = $from_slot;
+def_int $slot = -1;
+
+while ($count < $size) {
+    def_int $slot_count = inv_getnum($inv, $count);
+    if ($slot_count = 0) {
+        $count = add($count, 1);
+    } else {
+        $slot = $count;
+        $count = add($size, 1);
+    }
+}
+return($slot);
+
 [proc,del_all_if_exists](inv $inv, namedobj $obj)
 def_int $total = inv_total($inv, $obj);
 if ($total > 0) {

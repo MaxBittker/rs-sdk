@@ -10,7 +10,7 @@
 
 [label,openbank]
 %bank_noted = 0;
-~reorganize_bank;
+~reorganize_inv(bank);
 inv_transmit(inv, bank_side:inv);
 inv_transmit(bank, bank_main:inv);
 if_openmain_side(bank_main, bank_side);
@@ -20,8 +20,12 @@ inv_stoptransmit(bank_side:inv);
 inv_stoptransmit(bank_main:inv);
 queue(reorganize_bank, 0); // confirmed queued
 
+// reorganize the bank like when you open the bank.
+// this is because a player can move objs around in the bank
+// to any slot that is available. so when they open the bank
+// we reorganize all of the slots towards the left of the bank.
 [queue,reorganize_bank]
-~reorganize_bank;
+~reorganize_inv(bank);
 
 [label,bank_withdraw](int $slot, int $requested_number)
 // Check if the slot was empty.
@@ -106,49 +110,6 @@ if (map_members = false) {
     }
 }
 return(false);
-
-// reorganize the bank like when you open the bank.
-// this is because a player can move objs around in the bank
-// to any slot that is available. so when they open the bank
-// we reorganize all of the slots towards the left of the bank.
-[proc,reorganize_bank]
-def_int $size = inv_size(bank);
-def_int $count = 0;
-
-while ($count < $size) {
-    def_int $slot_count = inv_getnum(bank, $count);
-
-    if ($slot_count = 0) {
-        def_int $peek_slot = ~bank_peek_next_available_obj_slot($count);
-
-        if ($peek_slot = -1) {
-            $count = add($size, 1);
-        } else {
-            inv_movetoslot(bank, bank, $peek_slot, $count);
-            $count = add($count, 1);
-        }
-    } else {
-        $count = add($count, 1);
-    }
-}
-
-// used to check for any obj slots that are ahead of the input slot.
-// returns the slot or -1 if none available.
-[proc,bank_peek_next_available_obj_slot](int $from_slot)(int)
-def_int $size = inv_size(bank);
-def_int $count = $from_slot;
-def_int $slot = -1;
-
-while ($count < $size) {
-    def_int $slot_count = inv_getnum(bank, $count);
-    if ($slot_count = 0) {
-        $count = add($count, 1);
-    } else {
-        $slot = $count;
-        $count = add($size, 1);
-    }
-}
-return($slot);
 
 // returns if an obj is considered to be unbankable.
 // experience lamps, quest items, etc.
