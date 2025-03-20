@@ -25,6 +25,7 @@ return (fishing_bait);
 
 [label,hemenster_catch](namedobj $bait)
 // RSC
+inv_del(inv, $bait, 1);
 if (npc_type = fishing_spot_fishcon_prizefish) { // Using red vine worm + north spot
    if($bait = red_vine_worm) {
         inv_add(inv, raw_giant_carp, 1);
@@ -42,7 +43,6 @@ if (npc_type = fishing_spot_fishcon_prizefish) { // Using red vine worm + north 
         mes("You catch some shrimps.");
    }
 }
-inv_del(inv, $bait, 1);
 %hemenster_comp_stage = calc(%hemenster_comp_stage + 1);
 anim(null, 0);
 if (%hemenster_comp_stage = ^hemenster_comp_all_fish_caught) { // 3 fish caught 

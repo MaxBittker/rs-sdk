@@ -13,47 +13,44 @@ return(false);
 
 [label,drunkmonk_party]
 if_close;
-def_npc_uid $omad_uid = npc_uid;
-def_npc_uid $monk_uid = ~random_monk_uid;
 npc_setmode(playerface);
-~monk_dance("Party!", $omad_uid, 0);
+~monk_dance("Party!", 0);
 ~spawn_drunkmonk_balloons;
 ~spawn_drunkmonk_balloons;
 ~player_monkdance("Woop!", -1);
 ~spawn_drunkmonk_balloons;
 ~spawn_drunkmonk_balloons;
 ~spawn_drunkmonk_balloons;
-~monk_dance("Let's boogie!", $omad_uid, 2);
+~monk_dance("Let's boogie!", 2);
 ~player_monkdance("Oh baby!", 2);
-if($omad_uid ! $monk_uid) {
-    // only send the ardy monk messages/dance if he was in the zone when the party started, always register the delay though (so 6t between if no dance)
-    ~monk_dance("GO!", $monk_uid, -1);
+if(.npc_find(coord, monk_ardougne, 5, 1) = true) { // this will refind on each attempt: https://youtu.be/dU6r-_242kk?si=lnwo34gbW9_pX1dv&t=140
+    ~.monk_dance("GO!", -1);
 }
 p_delay(2);
-~monk_dance("Get down!", $omad_uid, 2);
+~monk_dance("Get down!", 2);
 ~player_monkdance("Feel the rhythm!", 2);
-if($omad_uid ! $monk_uid) {
-    ~monk_dance("Dance!", $monk_uid, -1);
+if(.npc_find(coord, monk_ardougne, 5, 1) = true) {
+    ~.monk_dance("Dance!", -1);
 }
 p_delay(2);
-~monk_dance("Oh my!", $omad_uid, 2);
+~monk_dance("Oh my!", 2);
 ~player_monkdance("Watch me go!", 2);
-~monk_dance("You go!", $omad_uid, 2);
+if(.npc_find(coord, monk_ardougne, 5, 1) = true) {
+    ~.monk_dance("You go!", -1);
+}
+p_delay(2);
 queue(drunkmonk_complete, 0);
 
-[proc,random_monk_uid]()(npc_uid)
-npc_findallzone(coord);
-while (npc_findnext = true) {
-    if (npc_type = monk_ardougne) {
-        return (npc_uid);
-    }
-}
-return (npc_uid); // Return the current npc_uid, which should be Omad's
-
-[proc,monk_dance](string $text, npc_uid $dancer_uid, int $delay)
-npc_finduid($dancer_uid);
+[proc,monk_dance](string $text, int $delay)
 npc_anim(emote_dance, 0);
 npc_say($text);
+if($delay >= 0) {
+    p_delay($delay);
+}
+
+[proc,.monk_dance](string $text, int $delay)
+.npc_anim(emote_dance, 0);
+.npc_say($text);
 if($delay >= 0) {
     p_delay($delay);
 }
