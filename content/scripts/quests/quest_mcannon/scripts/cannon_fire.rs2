@@ -103,7 +103,7 @@ def_int $damage = 0;
 if (~player_npc_hit_roll(%damagetype) = true) {
     $damage = randominc(min(30, npc_param(max_dealt)));
     def_int $damage_capped = min($damage, npc_stat(hitpoints));
-    stat_advance(ranged, scale(%npc_combat_xp_multiplier, 1000, scale(200, 100, $damage_capped)));
+    stat_advance(ranged, multiply(scale(%npc_combat_xp_multiplier, 1000, scale(200, 100, $damage_capped)), 10));
     npc_heropoints($damage_capped);
 }
 
