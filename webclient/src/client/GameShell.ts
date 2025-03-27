@@ -1,3 +1,5 @@
+import MobileKeyboard from '#3rdparty/MobileKeyboard.ts';
+
 import { canvas, canvas2d } from '#/graphics/Canvas.js';
 import Pix3D from '#/graphics/Pix3D.js';
 import PixMap from '#/graphics/PixMap.js';
@@ -685,22 +687,24 @@ export default abstract class GameShell {
         this.nx = touch.screenX | 0;
         this.ny = touch.screenY | 0;
 
-        if (this.startedInViewport && this.getViewportInterfaceId() === -1) {
-            // Camera panning
-            if (this.mx - this.nx > 0) {
-                this.rotate(2);
-            } else if (this.mx - this.nx < 0) {
-                this.rotate(0);
-            }
+        if (!MobileKeyboard.isWithinCanvasKeyboard(this.mouseX, this.mouseY)) {
+            if (this.startedInViewport && this.getViewportInterfaceId() === -1) {
+                // Camera panning
+                if (this.mx - this.nx > 0) {
+                    this.rotate(2);
+                } else if (this.mx - this.nx < 0) {
+                    this.rotate(0);
+                }
 
-            if (this.my - this.ny > 0) {
-                this.rotate(3);
-            } else if (this.my - this.ny < 0) {
-                this.rotate(1);
+                if (this.my - this.ny > 0) {
+                    this.rotate(3);
+                } else if (this.my - this.ny < 0) {
+                    this.rotate(1);
+                }
+            } else if (this.startedInTabArea || this.getViewportInterfaceId() !== -1) {
+                // Drag and drop
+                this.onmousedown(new MouseEvent('mousedown', { clientX, clientY, button: 1 }));
             }
-        } else if (this.startedInTabArea || this.getViewportInterfaceId() !== -1) {
-            // Drag and drop
-            this.onmousedown(new MouseEvent('mousedown', { clientX, clientY, button: 1 }));
         }
 
         this.mx = this.nx;
@@ -709,7 +713,19 @@ export default abstract class GameShell {
 
     protected get isMobile(): boolean {
         const keywords: string[] = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 'Windows Phone'];
-        return keywords.some((keyword: string): boolean => navigator.userAgent.includes(keyword));
+        if (keywords.some((keyword: string): boolean => navigator.userAgent.includes(keyword))) {
+            return true;
+        }
+
+        // Annoyingly, iOS Safari shares UA with MacOS these days, so we have
+        // to do some feature testing.
+        if (navigator) {
+            const isiOSSafari = navigator.maxTouchPoints !== undefined && navigator.maxTouchPoints > 2 && (navigator as any).standalone !== undefined;
+            if (isiOSSafari) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private get isAndroid(): boolean {
