@@ -13,7 +13,9 @@ if (finduid(%npc_attacking_uid) = true) {
     if (coordy(coord) ! coordy(npc_coord) | npc_range(coord) > 15) {
         npc_tele(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk));
     }
+    return;
 }
+npc_del;
 
 [timer,petcat_growth]
 if (%follower_uid = null) {

@@ -195,7 +195,7 @@ return(true);
 
 [proc,macro_event_lost_hostile]()(boolean)
 if (finduid(%npc_macro_event_target) = true) {
-    if (npc_getmode = wander & npc_range(coord) > 3) { // seems like distance of 3? https://www.youtube.com/watch?v=GoRX3cp58eo&list=PLn23LiLYLb1am4weMQzkWn5m9b3m9fXv9&t=38s
+    if (npc_getmode = wander & (npc_range(coord) > 3 | coordy(npc_coord) ! coordy(coord))) { // seems like distance of 3? https://www.youtube.com/watch?v=GoRX3cp58eo&list=PLn23LiLYLb1am4weMQzkWn5m9b3m9fXv9&t=38s
         return(true);
     }
     return(false);
