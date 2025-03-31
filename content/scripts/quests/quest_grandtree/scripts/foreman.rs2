@@ -3,7 +3,7 @@ if((%grandtree_progress ! ^grandtree_released_prison & %grandtree_progress ! ^gr
     ~mesbox("The foreman is too busy to talk.");
     return;
 }
-if(inzone(0_46_47_6_11, 0_46_47_20_20, npc_coord) = true) {
+if(inzone(0_46_47_0_0, 0_46_47_32_63, npc_coord) = true) {
     @foreman_whyhere;
 }
 ~chatplayer("<p,neutral>Hello, are you in charge?");

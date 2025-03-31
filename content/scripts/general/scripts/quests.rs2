@@ -192,7 +192,7 @@ if (%arena_progress >= ^arena_complete) { // different completion states based o
     $questpoints = add($questpoints, ^arena_questpoints);
 }
 
-if (%junglepotion_progress = ^junglepotion_complete) {
+if (%junglepotion_progress >= ^junglepotion_complete) {
     $questpoints = add($questpoints, ^junglepotion_questpoints);
 }
 

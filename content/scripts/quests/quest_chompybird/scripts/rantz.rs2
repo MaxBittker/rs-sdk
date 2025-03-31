@@ -340,7 +340,6 @@ queue(quest_chompybird_complete, 0);
 
 // look for any chompy birds to shoot
 [ai_timer,chompybird_rantz]
-npc_settimer(calc(10 + (random(5) * 2)));
 if (.npc_find(npc_coord, chompy_bird, 17, ^vis_lineofsight) = true) {
     if (p_finduid(.%quest_chompybird_baiter) = true) {
         // we only run this logic for players in the right quest state
@@ -352,6 +351,7 @@ if (.npc_find(npc_coord, chompy_bird, 17, ^vis_lineofsight) = true) {
             npc_facesquare(.npc_coord);
             npc_setmode(none);
             npc_queue(11, 0, 2);
+            npc_settimer(calc(10 + (random(6) * 2)));
             return;
         }
     }

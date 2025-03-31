@@ -3,9 +3,8 @@
 [oploc1,loc_2535] mes("This door is locked."); // todo probs not right but yolo in 225 seems only 1 door is the correct one.
 
 [label,west_ardougne_plague_house_doors]
-def_loc $next_loc = loc_param(next_loc_stage);
 if (~check_axis(coord, loc_coord, loc_angle) = false) {
-    ~open_and_close_door($next_loc, ~check_axis(coord, loc_coord, loc_angle), false);
+    ~open_plague_door;
     return;
 }
 switch_int(%elena_progress) {
@@ -20,18 +19,43 @@ switch_int(%elena_progress) {
             ~chatnpcrange("<p,neutral>I'd stand away from there. That black cross means that house has been touched by the plague.");
             ~chatplayer("<p,neutral>I have a warrant from <nc_name(bravek)> to enter here.");
             if_close;
-            ~open_and_close_door($next_loc, ~check_axis(coord, loc_coord, loc_angle), false);
+            ~open_plague_door;
         } else if (npc_find(coord, mourner_blacksuit_3, 14, 0) = true) {
             ~mesbox("The door won't open.|You notice a black cross on the door.");
             ~chatnpcrange("<p,neutral>I'd stand away from there. That black cross means that house has been touched by the plague.");
         }
-    case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : ~open_and_close_door($next_loc, ~check_axis(coord, loc_coord, loc_angle), false);
+    case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : ~open_plague_door;
     case default :
         ~mesbox("The door won't open.|You notice a black cross on the door.");
         if (npc_find(coord, mourner_blacksuit_3, 14, 0) = true) {
             ~chatnpcrange("<p,neutral>I'd stand away from there. That black cross means that house has been touched by the plague.");
         }
 }
+
+[proc,open_plague_door]
+def_int $x;
+def_int $z;
+def_int $angle = loc_angle;
+def_locshape $shape = loc_shape;
+def_coord $loc_coord = loc_coord;
+$x, $z = ~door_open($angle, loc_shape);
+def_coord $dest = $loc_coord;
+sound_synth(door_open, 0, 0);
+if (~check_axis(coord, loc_coord, loc_angle) = true) {
+    if (coord ! $loc_coord) {
+        p_teleport($loc_coord);
+        p_delay(1);
+    }
+    $dest = movecoord(loc_coord, $x, 0, $z);
+}
+p_teleport($dest);
+// Temp note: dur updated
+if(.loc_find(loc_coord, loc_1572) = true) {
+    .loc_del(3);
+    .loc_add(movecoord($loc_coord, $x, 0, $z), loc_1572, modulo(add($angle, 1), 4), .loc_shape, 3);
+}
+loc_change(loc_83, 3);
+loc_add(movecoord($loc_coord, $x, 0, $z), loc_2536, modulo(add($angle, 1), 4), $shape, 3);
 
 [label,plague_house_but_i_think_a_kidnap_victim_is_in_here]
 ~chatplayer("<p,neutral>But I think a kidnap victim is in here.");
