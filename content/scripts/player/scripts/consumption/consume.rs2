@@ -53,7 +53,7 @@ def_int $eat_delay = 0;
 if (oc_param(last_item, next_obj_stage) = piedish) {
     $eat_delay = 1;
 }
-@player_consume_item(consume_effect_stat, $eat_delay, 3);
+@player_consume_item(consume_effect_stat2, $eat_delay, 3);
 
 // cakes
 [opheld1,_category_130]
@@ -61,15 +61,15 @@ def_int $eat_delay = 1;
 if (oc_param(last_item, next_obj_stage) = null) {
     $eat_delay = 2;
 }
-@player_consume_item(consume_effect_stat, $eat_delay, 3);
+@player_consume_item(consume_effect_stat2, $eat_delay, 3);
 
 // pizzas
 [opheld1,_category_132]
+def_int $eat_delay = 0;
 if (oc_param(last_item, next_obj_stage) = null) {
-    @player_consume_item(consume_effect_stat, 1, 3);
-    return;
+    $eat_delay = 1;
 }
-@player_consume_item(consume_effect_stat2, 0, 3); // uses consume_effect_stat2: https://oldschool.runescape.wiki/w/Update:Zoom_%26_The_Herb_Sack
+@player_consume_item(consume_effect_stat2, $eat_delay, 3); // uses consume_effect_stat2: https://oldschool.runescape.wiki/w/Update:Zoom_%26_The_Herb_Sack
 
 // potions
 [opheld1,jangerberries]@player_consume_item(consume_effect_stat, 2, 3);

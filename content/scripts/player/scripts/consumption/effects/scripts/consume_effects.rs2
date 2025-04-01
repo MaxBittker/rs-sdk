@@ -17,7 +17,9 @@ anim(human_eat, 0);
 def_obj $consumable = last_item;
 
 inv_delslot(inv, last_slot);
-inv_add(inv, oc_param($consumable, next_obj_stage), 1);
+if (oc_param($consumable, next_obj_stage) ! null) {
+    inv_add(inv, oc_param($consumable, next_obj_stage), 1);
+}
 anim(human_eat, 0);
 ~consume_effect_apply($consumable, false);
 
