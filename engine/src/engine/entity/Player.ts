@@ -530,6 +530,10 @@ export default class Player extends PathingEntity {
             this.write(new UpdateRebootTimer(ticksBeforeShutdown));
         }
         this.closeModal();
+        // tabs could have been updated while reconnecting, make sure we sync them now
+        for (let i = 0; i < this.tabs.length; i++) {
+            this.write(new IfSetTab(i, this.tabs[i]));
+        }
         this.refreshInvs();
         for (let i = 0; i < this.stats.length; i++) {
             this.write(new UpdateStat(i, this.stats[i], this.levels[i]));
