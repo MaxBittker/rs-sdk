@@ -1,5 +1,5 @@
 [opheldu,ground_bat_bones]
-if(last_useitem = vial_water | last_useitem = unf_guam_potion | last_useitem = vial_water_jangerberries) {
+if(last_useitem = vial_water | last_useitem = guamvial | last_useitem = jangervial) {
   if(%itwatchtower_progress < ^itwatchtower_learned_potion) { // this check is also one way
     ~chatplayer("<p,confused>Hmmm. Perhaps I shouldn't try and mix these items together. It might have unpredictable results...");
     return;
@@ -9,7 +9,7 @@ if(last_useitem = vial_water | last_useitem = unf_guam_potion | last_useitem = v
 ~displaymessage(^dm_default);
 
 [opheldu,jangerberries]
-if(last_useitem = vial_water | last_useitem = unf_guam_potion) {
+if(last_useitem = vial_water | last_useitem = guamvial) {
     if(%itwatchtower_progress < ^itwatchtower_learned_potion) {
         ~chatplayer("<p,confused>Hmm, perhaps I shouldn't mix these together. It might have unpredictable results...");
         return;
@@ -18,7 +18,7 @@ if(last_useitem = vial_water | last_useitem = unf_guam_potion) {
 }
 ~displaymessage(^dm_default);
 
-[opheldu,vial_water_jangerberries]
+[opheldu,jangervial]
 if(last_useitem ! guam_leaf & last_useitem ! ground_bat_bones) {
   ~displaymessage(^dm_default);
   return;
@@ -28,11 +28,11 @@ if(stat(herblore) < 14) {
   return;
 }
 switch_obj(last_useitem) {
-  case guam_leaf : ~potion_explosion(guam_leaf, vial_water_jangerberries, "You mix the guam leaf into the liquid.");
-  case unf_guam_potion : ~potion_explosion(ground_bat_bones, vial_water_jangerberries, "You mix the ground bones into the liquid.");
+  case guam_leaf : ~potion_explosion(guam_leaf, jangervial, "You mix the guam leaf into the liquid.");
+  case guamvial : ~potion_explosion(ground_bat_bones, jangervial, "You mix the ground bones into the liquid.");
 }
 
-[opheldu,mixture_guam_jangerberries]
+[opheldu,guamjangervial]
 if(last_useitem = bat_bones) {
     mes("The bat bones are too bulky to fit into the vial.");
     return;
@@ -46,7 +46,7 @@ if(stat(herblore) < 14) {
   return;
 }
 inv_del(inv, ground_bat_bones, 1);
-inv_del(inv, mixture_guam_jangerberries, 1);
+inv_del(inv, guamjangervial, 1);
 inv_add(inv, ogre_potion, 1);
 stat_advance(herblore, 100);
 mes("You mix the ground bones into the liquid.");
@@ -63,7 +63,7 @@ switch_obj($secondary) {
     inv_del(inv, vial_water, 1);
     inv_add(inv, vial_empty, 1);
     ~chatplayer("<p,sad>Oh dear, the mixture has evaporated.");
-  case unf_guam_potion : ~potion_explosion(ground_bat_bones, unf_guam_potion, "You mix the ground bones into the liquid.");
+  case guamvial : ~potion_explosion(ground_bat_bones, guamvial, "You mix the ground bones into the liquid.");
 
 }
 
@@ -76,13 +76,13 @@ switch_obj($secondary) {
   case vial_water :
     inv_del(inv, jangerberries, 1);
     inv_del(inv, vial_water, 1);
-    inv_add(inv, vial_water_jangerberries, 1);
+    inv_add(inv, jangervial, 1);
     stat_advance(herblore, 100);
     mes("You mix the jangerberries into the water.");
-  case unf_guam_potion :
+  case guamvial :
     inv_del(inv, jangerberries, 1);
-    inv_del(inv, unf_guam_potion, 1);
-    inv_add(inv, mixture_guam_jangerberries, 1);
+    inv_del(inv, guamvial, 1);
+    inv_add(inv, guamjangervial, 1);
     stat_advance(herblore, 100);
     mes("You mix the jangerberries into your potion.");
 }
@@ -90,7 +90,7 @@ switch_obj($secondary) {
 /** Potion explosion */
 [proc,potion_explosion](namedobj $ingredient, namedobj $solvent, string $message)
 mes($message);
-if($solvent ! vial_water_jangerberries & $ingredient ! ground_bat_bones) mes("You mixed the ingredients incorrectly and the mixure exploded.");
+if($solvent ! jangervial & $ingredient ! ground_bat_bones) mes("You mixed the ingredients incorrectly and the mixure exploded.");
 inv_del(inv, $ingredient, 1);
 inv_del(inv, $solvent, 1);
 inv_add(inv, vial_empty, 1);

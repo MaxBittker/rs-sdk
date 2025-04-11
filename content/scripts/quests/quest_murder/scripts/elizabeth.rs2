@@ -26,7 +26,7 @@ switch_int(%murder_progress) {
             case 3 :
                 ~chatplayer("<p,confused>Do you recognise this thread?");
                 ~mesbox("You show her the thread from the study window.");
-                if(inv_total(inv, murder_blue_thread) > 0) {
+                if(inv_total(inv, murderthreadb) > 0) {
                     ~chatnpc("<p,neutral>Looks like Blue thread to me. If you can't work that out for yourself I don't hold much hope of you solving this crime.");
                     ~chatplayer("<p,neutral>It looks a lot like the material your trousers are made of doesn't it?");
                     ~chatnpc("<p,angry>I suppose it does. So what?");

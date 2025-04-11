@@ -18,11 +18,11 @@ if(%biohazard_progress = ^biohazard_spoken_chemist) {
 mes("Chancy doesn't feel like talking."); 
 
 [label,chancy_ethenea]
-if(inv_total(inv, Ethenea) < 1) {
+if(inv_total(inv, ethenea) < 1) {
     ~mesbox("You can't give him what you don't have.");
     return;
 }
-inv_del(inv, Ethenea, 1);
+inv_del(inv, ethenea, 1);
 %bioerrand = setbit(%bioerrand, ^chancy_given);
 %bioerrand = setbit(%bioerrand, ^chancy_wrong);
 mes("You give him the vial of ethenea.");

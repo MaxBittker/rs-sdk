@@ -9,7 +9,7 @@ model=model_2389_obj
 weight=10g
 tradeable=no
 
-[wig_grey]
+[plainwig]
 model=model_2783_obj
 recol1s=29476
 recol1d=23252
@@ -23,7 +23,7 @@ name=Wig
 desc=A grey woollen wig.
 tradeable=no
 
-[wig_blonde]
+[blondwig]
 model=model_2783_obj
 2dxof=3
 2dyof=16
@@ -35,7 +35,7 @@ name=Wig
 desc=A wig that has been dyed slightly blonde.
 tradeable=no
 
-[paste]
+[skinpaste]
 name=Paste
 desc=A bottle of skin coloured paste.
 cost=5
@@ -49,7 +49,7 @@ recol1d=30385
 weight=15g
 tradeable=no
 
-[bronze_key]
+[princeskey]
 name=Bronze key
 desc=A heavy key made of bronze.
 model=model_2372_obj

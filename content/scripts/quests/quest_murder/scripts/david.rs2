@@ -25,7 +25,7 @@ switch_int(%murder_progress) {
             case 3 :
                 ~chatplayer("<p,confused>Do you recognise this thread?");
                 ~mesbox("You show him the thread you found on the study window");
-                if(inv_total(inv, murder_green_thread) > 0) {
+                if(inv_total(inv, murderthreadg) > 0) {
                     // no period
                     ~chatnpc("<p,angry>It's some Green thread, like my trousers are made of.|Are you finished? I'm not sure which I dislike more|about you, your face or your general bad odour");
                     return;

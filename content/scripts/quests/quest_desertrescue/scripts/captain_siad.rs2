@@ -4,7 +4,7 @@ p_delay(2);
 @captain_siad_dialogue;
 
 [label,captain_siad_dialogue]
-if(~obj_gettotal(technical_plans) > 0) {
+if(~obj_gettotal(thcaptplans) > 0) {
     ~chatnpc("<p,angry>I don't have time to talk to you.|Move along please!");
     return;
 }
@@ -172,12 +172,12 @@ if(%desertrescue_progress < ^desertrescue_complete) {
 if_close;
 mes("The guards search you!");
 p_delay(1);
-if(inv_total(inv, desertrescue_cell_door_key) > 0) {
-    inv_del(inv, desertrescue_cell_door_key, 1);
+if(inv_total(inv, thcelldoorkey) > 0) {
+    inv_del(inv, thcelldoorkey, 1);
     mes("The guards find the cell door key and remove it!");
 }
-if(inv_total(inv, desertrescue_metalkey) > 0) {
-    inv_del(inv, desertrescue_metalkey, 1);
+if(inv_total(inv, metal_key) > 0) {
+    inv_del(inv, metal_key, 1);
     mes("The guards find the main gate key and remove it!");
 }
 mes("Some guards rush to help the captain.");

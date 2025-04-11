@@ -1,4 +1,4 @@
-[paramaya_ticket]
+[paramayaticket]
 name=Paramaya ticket
 desc=Allows you to rest in the luxurious Paramayer Inn.
 cost=5
@@ -11,7 +11,7 @@ model=model_2560_obj
 weight=4g
 members=yes
 
-[ship_ticket]
+[shiloshipticket]
 name=Ship ticket
 desc=Allows you passage on the 'Lady of the waves' ship.
 cost=5

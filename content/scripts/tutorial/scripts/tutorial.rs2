@@ -307,7 +307,7 @@ inv_clear(inv);
 inv_add(inv, bronze_axe, 1);
 inv_add(inv, tinderbox, 1);
 inv_add(inv, net, 1);
-inv_add(inv, shrimps, 1);
+inv_add(inv, shrimp, 1);
 inv_add(inv, bucket_empty, 1);
 inv_add(inv, pot_empty, 1);
 inv_add(inv, bread, 1);

@@ -19,7 +19,7 @@ switch_int(%biohazard_progress) {
         ~chatplayer("<p,happy>Hi.");
     case ^biohazard_given_distillator :
         ~chatnpc("<p,neutral>Sorry, I'm afraid we're just closing now. You'll have to come back another time.");
-        if(inv_total(inv, plague_sample) = 0) {
+        if(inv_total(inv, plaguesample) = 0) {
             return;
         }
         switch_int(~p_choice2("This can't wait, I'm carrying a plague sample.", 1, "It's ok, I'm Elena's friend.", 2)) {
@@ -40,7 +40,7 @@ mes("The chemist is busy at the moment."); // RSC, unsure what dialogue would ha
 @chemist_takeplaguesample;
 
 [label,chemist_takeplaguesample]
-inv_del(inv, plague_sample, 1);
+inv_del(inv, plaguesample, 1);
 ~chatnpc("<p,shock>You idiot! A plague sample should be confined to a lab! I'm taking it off you. I'm afraid it's the only responsible thing to do.");
 mes("He takes the plague sample from you.");
 

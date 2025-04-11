@@ -81,9 +81,9 @@ if(stat_random(stat(thieving), 100, 240) = false) {
     def_int $rand = random(11);
 
     if ($rand < 3) {
-        if (~itexam_progress = ^itexam_first_exam & inv_total(inv, rock_sample_1) = 0) {
-            inv_add(inv, rock_sample_1, 1);
-            ~objbox(rock_sample_1, "You steal a rock sample.", 250, 0, divide(^objbox_height, 2));
+        if (~itexam_progress = ^itexam_first_exam & inv_total(inv, rock_sample1) = 0) {
+            inv_add(inv, rock_sample1, 1);
+            ~objbox(rock_sample1, "You steal a rock sample.", 250, 0, divide(^objbox_height, 2));
         } else {
             inv_add(inv, coins, 10);
             mes("You steal some money.");
@@ -110,8 +110,8 @@ if(stat_random(stat(thieving), 100, 240) = false) {
 }
 
 [opnpcu,digsite_workman]
-if (last_useitem = invitation_letter) {
-    inv_del(inv, invitation_letter, 1);
+if (last_useitem = digexpertscroll) {
+    inv_del(inv, digexpertscroll, 1);
     if(%itexam_progress = ^itexam_impress_archeological_expert) ~itexam_set_progress(^itexam_mineshaft_permit);
     ~chatplayer("<p,happy>Here, have a look at this...");
     ~chatnpc("<p,bored>I give permission... blah de blah... etc. Okay, that's all in order; you may use the mineshaft now. I'll hang onto this scroll, shall I?");

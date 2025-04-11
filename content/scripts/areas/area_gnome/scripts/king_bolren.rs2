@@ -1,7 +1,7 @@
 [opnpc1,king_bolren]
-if(inv_total(inv, trail_clue_medium_anagram_exp011) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram011) > 0) {
     ~chatnpc("<p,happy>Congratulations, human!");
-    ~progress_clue_medium(trail_clue_medium_anagram_exp011, "The king has given you another clue scroll!");
+    ~progress_clue_medium(trail_clue_medium_anagram011, "The king has given you another clue scroll!");
     return;
 }
 switch_int(%tree_progress) {

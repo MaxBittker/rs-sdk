@@ -28,7 +28,7 @@ if(%itwatchtower_progress < ^itwatchtower_given_relic) queue(defeat_gorad, 0);
 obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 
 [queue,defeat_gorad]
-if(inv_freespace(inv) = 0 | ~obj_gettotal(ogre_tooth) > 0) return; 
+if(inv_freespace(inv) = 0 | ~obj_gettotal(ogretooth) > 0) return; 
 mes("Gorad has gone.");
-inv_add(inv, ogre_tooth, 1);
-~objbox(ogre_tooth, "He's dropped a tooth; I'll keep that!", 250, 0, divide(^objbox_height, 2));
+inv_add(inv, ogretooth, 1);
+~objbox(ogretooth, "He's dropped a tooth; I'll keep that!", 250, 0, divide(^objbox_height, 2));

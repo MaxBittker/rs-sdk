@@ -1,13 +1,13 @@
 [mapzoneexit,0_37_54]
 if (%gnomeball_progress = ^gnomeball_game_started) {
     mes("You hear the ref call you out of the game as you leave.");
-    def_int $ball_inv = inv_total(inv, gnomeball);
-    def_int $ball_worn = inv_total(worn, gnomeball);
+    def_int $ball_inv = inv_total(inv, ball_gnomeball_game);
+    def_int $ball_worn = inv_total(worn, ball_gnomeball_game);
     if ($ball_inv > 0) {
-        inv_del(inv, gnomeball, $ball_inv);
+        inv_del(inv, ball_gnomeball_game, $ball_inv);
     }
     if ($ball_worn > 0) {
-        inv_del(worn, gnomeball, $ball_worn);
+        inv_del(worn, ball_gnomeball_game, $ball_worn);
         ~update_all(null);
     }
     ~gnomeball_reset;
@@ -32,31 +32,31 @@ if ($exiting = false) {
         ~unequip(^wearpos_lhand);
     }
     ~open_and_close_door(loc_param(next_loc_stage), $exiting, false);
-    if (inv_total(worn, gnomeball) > 0 | inv_total(inv, gnomeball) > 0) {
+    if (inv_total(worn, ball_gnomeball_game) > 0 | inv_total(inv, ball_gnomeball_game) > 0) {
         mes("The ref takes your ball for safe keeping. You will get it back when you leave.");
         inv_delslot(worn, ^wearpos_rhand);
-        inv_del(inv, gnomeball, inv_total(inv, gnomeball));
-        inv_add(foodshop, gnomeball, 1);
+        inv_del(inv, ball_gnomeball_game, inv_total(inv, ball_gnomeball_game));
+        inv_add(foodshop, ball_gnomeball_game, 1);
     }
 } else {
     ~open_and_close_door(loc_param(next_loc_stage), $exiting, false);
-    if (inv_total(foodshop, gnomeball) > 0) {
+    if (inv_total(foodshop, ball_gnomeball_game) > 0) {
         // give free gnomeball
         if (inv_freespace(inv) = 0) {
             ~gnomeball_reset;
-            inv_setslot(worn, ^wearpos_rhand, gnomeball, 1);
+            inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
             return; // https://youtu.be/acS5ZgHsZQM?t=190
         } else {
-            inv_add(inv, gnomeball, 1);
+            inv_add(inv, ball_gnomeball_game, 1);
         }
     } else  {
-        def_int $ball_inv = inv_total(inv, gnomeball);
-        def_int $ball_worn = inv_total(worn, gnomeball);
+        def_int $ball_inv = inv_total(inv, ball_gnomeball_game);
+        def_int $ball_worn = inv_total(worn, ball_gnomeball_game);
         if ($ball_inv > 0) {
-            inv_del(inv, gnomeball, $ball_inv);
+            inv_del(inv, ball_gnomeball_game, $ball_inv);
         }
         if ($ball_worn > 0) {
-            inv_del(worn, gnomeball, $ball_worn);
+            inv_del(worn, ball_gnomeball_game, $ball_worn);
         }
     }
     ~gnomeball_reset;
@@ -69,7 +69,7 @@ if (%gnomeball_progress > ^gnomeball_not_started) {
 }
 
 inv_clear(foodshop);
-if (inv_getobj(worn, ^wearpos_rhand) = gnomeball) {
+if (inv_getobj(worn, ^wearpos_rhand) = ball_gnomeball_game) {
     inv_delslot(worn, ^wearpos_rhand);
 }
 
@@ -111,7 +111,7 @@ if ($npc_uid ! null) {
 }
 return(false);
 
-[opheld5,gnomeball]
+[opheld5,ball_gnomeball_game]
 if (~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
     mes("The ball magically returns to the ref as you put it down.");
     inv_delslot(inv, last_slot);

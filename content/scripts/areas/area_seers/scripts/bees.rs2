@@ -9,7 +9,7 @@ if(inv_total(inv, bucket_empty) = 0) {
 switch_obj(last_useitem) {
     case insect_repellent : @pour_repellent_bees;
     case bucket_empty : @take_beehive;
-    case tinderbox, lit_torch, lit_candle, lit_black_candle : mes("Burning the hive would be a rather extreme measure for repelling bees.");
+    case tinderbox, torch_lit, lit_candle, lit_black_candle : mes("Burning the hive would be a rather extreme measure for repelling bees.");
     case default : ~displaymessage(^dm_default); // OSRS mes is different but it doesn't even fit in orig chatbox so probably new
 }
 

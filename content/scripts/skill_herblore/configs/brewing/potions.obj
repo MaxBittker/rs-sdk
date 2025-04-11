@@ -1,6 +1,6 @@
 // jagex name
 
-[4dose1strength]
+[strength4]
 name=Strength potion(4)
 desc=4 doses of strength potion.
 iop1=Drink
@@ -136,7 +136,7 @@ param=decant_potion_enum,potion_1attack
 param=dose_count,1
 // jagex name
 
-[3dose1restore]
+[3dosestatrestore]
 name=Restore potion(3)
 desc=3 doses of stat restoration potion.
 iop1=Drink
@@ -151,12 +151,12 @@ recol1d=28903
 weight=30g
 category=category_69
 members=yes
-param=next_obj_stage,2dose1restore
+param=next_obj_stage,2dosestatrestore
 param=decant_potion_enum,potion_1restore
 param=dose_count,3
 // jagex name
 
-[2dose1restore]
+[2dosestatrestore]
 name=Restore potion(2)
 desc=2 doses of stat restoration potion.
 iop1=Drink
@@ -171,12 +171,12 @@ recol1d=28903
 weight=25g
 category=category_69
 members=yes
-param=next_obj_stage,1dose1restore
+param=next_obj_stage,1dosestatrestore
 param=decant_potion_enum,potion_1restore
 param=dose_count,2
 // jagex name
 
-[1dose1restore]
+[1dosestatrestore]
 name=Restore potion(1)
 desc=1 dose of stat restoration potion.
 iop1=Drink
@@ -838,7 +838,7 @@ param=decant_potion_enum,potion_1attack
 param=dose_count,4
 // jagex name
 
-[4dose1restore]
+[4dosestatrestore]
 name=Restore potion(4)
 desc=4 doses of stat restoration potion.
 iop1=Drink
@@ -853,7 +853,7 @@ recol1d=28903
 weight=35g
 category=category_69
 members=yes
-param=next_obj_stage,3dose1restore
+param=next_obj_stage,3dosestatrestore
 param=decant_potion_enum,potion_1restore
 param=dose_count,1
 // jagex name

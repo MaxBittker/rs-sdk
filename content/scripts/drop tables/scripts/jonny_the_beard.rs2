@@ -7,5 +7,5 @@ if (npc_findhero = false) {
 }
 // always dropped in RSC, wiki mentions it used to be obtainable after quest so I think it was probably always dropped
 // before rework
-obj_add(npc_coord, blackarmgang_scroll, 1, ^lootdrop_duration);
+obj_add(npc_coord, intelligence_report, 1, ^lootdrop_duration);
 obj_add(npc_coord, bones, 1, ^lootdrop_duration);

@@ -67,7 +67,7 @@ switch_int(%hazeelcult_progress) {
         } else {
             ~chatplayer("<p,neutral>Hello again.");
             ~chatnpc("<p,quiz>Have you acquired the enchanted scroll required to resurrect Hazeel yet?");
-            if(inv_total(inv, scroll_of_hazeel) = 0) {
+            if(inv_total(inv, hazeel_scroll) = 0) {
                 ~chatplayer("<p,confused>Uh... yeah... about that... I seem to have, errm, misplayed it somewhere...");
                 ~chatnpc("<p,angry>Incompetent cretin! Return to the Carnillean household and do not return again without it!");
                 return;

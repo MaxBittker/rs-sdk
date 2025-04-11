@@ -10,7 +10,7 @@ session_log(^log_adventure, "Quest complete: Demon Slayer");
 ~mesbox("This is the drainpipe running from the kitchen sink to the sewer.");
 if (%demon_progress < ^demon_key_hunt) {
     ~mesbox("I can see a key but I can't quite reach it...");
-} else if ((%demon_progress > ^demon_silverlight) | inv_total(inv, demon_prysin_key) > 0 | inv_total(bank, demon_prysin_key) > 0){
+} else if ((%demon_progress > ^demon_silverlight) | inv_total(inv, silverlight_key_3) > 0 | inv_total(bank, silverlight_key_3) > 0){
     // OSRS could do with a 2004 source
     ~mesbox("Nothing interesting seems to have been dropped down here today.");
 } else {
@@ -28,7 +28,7 @@ if (last_useitem ! bucket_water) {
 mes("You pour the liquid down the drain.");
 inv_del(inv, bucket_water, 1);
 inv_add(inv, bucket_empty, 1);
-if ((%demon_progress > ^demon_silverlight) | inv_total(inv, demon_prysin_key) > 0 | inv_total(bank, demon_prysin_key) > 0) {
+if ((%demon_progress > ^demon_silverlight) | inv_total(inv, silverlight_key_3) > 0 | inv_total(bank, silverlight_key_3) > 0) {
     // do nothing
 } else {
     mes("Ok, I think I've washed the key down to the sewer.");
@@ -36,12 +36,12 @@ if ((%demon_progress > ^demon_silverlight) | inv_total(inv, demon_prysin_key) > 
     mes("I'd better go down and get it before someone else finds it.");
     // Tele to 3227 9898 0
     // todo: this should be instanced per player
-    obj_add(0_50_154_25_41, demon_prysin_key, 1, 300); // Guessing Duration is ticks?
+    obj_add(0_50_154_25_41, silverlight_key_3, 1, 300); // Guessing Duration is ticks?
 } 
 
 
 [proc,demon_has_prysin_key]()(boolean)
-if (%demon_progress >= ^demon_silverlight | inv_total(inv, demon_prysin_key) > 0 | inv_total(bank, demon_prysin_key) > 0){
+if (%demon_progress >= ^demon_silverlight | inv_total(inv, silverlight_key_3) > 0 | inv_total(bank, silverlight_key_3) > 0){
     return(true);
 }
 else{

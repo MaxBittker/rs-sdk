@@ -1,24 +1,24 @@
 [opnpc1,general_bentnoze]
 // if dragon slayer is in progress, then add this dialogue.
 // it only exists for bentnoze, not wartface.
-if(map_members = true & inv_total(inv, trail_clue_hard_riddle_exp017) > 0) {
-    if(~obj_gettotal(trail_clue_hard_puzzle_exp017) > 0) {
-        if(inv_total(inv, trail_clue_hard_puzzle_exp017) = 0) {
+if(map_members = true & inv_total(inv, trail_clue_hard_riddle017) > 0) {
+    if(~obj_gettotal(trail_clue_hard_riddle017_puzzlebox) > 0) {
+        if(inv_total(inv, trail_clue_hard_riddle017_puzzlebox) = 0) {
             ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
             ~chatnpc("<p,goblinchat>That not much use - human go fetch it!");
             return;
         }
         if(~trail_puzzle_complete = true) {
             ~chatnpc("<p,goblinchat>Thank you human!");
-            inv_del(inv, trail_clue_hard_puzzle_exp017, 1);
-            ~progress_clue_hard(trail_clue_hard_riddle_exp017, "Bentnoze has given you another clue scroll!");
+            inv_del(inv, trail_clue_hard_riddle017_puzzlebox, 1);
+            ~progress_clue_hard(trail_clue_hard_riddle017, "Bentnoze has given you another clue scroll!");
             return;
         } 
         ~chatnpc("<p,goblinchat>That not right!");
         return;
     }
     ~chatnpc("<p,goblinchat>Human do puzzle for me!");
-    ~give_trail_puzzle(trail_clue_hard_puzzle_exp017, "Bentnoze has given you a puzzle box!");
+    ~give_trail_puzzle(trail_clue_hard_riddle017_puzzlebox, "Bentnoze has given you a puzzle box!");
     return;
 }
 if (~quest_dragon_getting_map_parts = true & %dragon_goblin = ^quest_dragon_knows_about_goblin) {

@@ -1,5 +1,5 @@
 [opnpc1,arhein]
-if(inv_total(inv, trail_clue_easy_simple_exp025) = 1) {
+if(inv_total(inv, trail_clue_easy_simple025) = 1) {
     @trail_arhein;
 }
 ~chatnpc("<p,happy>Hello! Would you like to trade?");
@@ -51,4 +51,4 @@ switch_int(~p_choice2("Can you drop me off on the way down please?", 1, "Aren't 
 [label,trail_arhein]
 // https://www.youtube.com/watch?v=oLqbhQX1HpM
 ~chatnpc("<p,happy>Well done, matey!");
-~progress_clue_easy(trail_clue_easy_simple_exp025, "Arhein has given you another clue scroll!");
+~progress_clue_easy(trail_clue_easy_simple025, "Arhein has given you another clue scroll!");

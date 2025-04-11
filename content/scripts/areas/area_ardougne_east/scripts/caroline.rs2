@@ -41,7 +41,7 @@ switch_int(~p_choice2("I suppose so, how do I get there?", 1, "I'm sorry, I'm to
 // QUEST REWARD
 %seaslug_progress = ^seaslug_complete;
 %questpoints = add(%questpoints, ^seaslug_questpoints);
-inv_add(inv, oyster_pearls, 1);
+inv_add(inv, bigoysterpearls, 1);
 stat_advance(fishing, 71750);
 queue(seaslug_quest_complete, 0);
 ~chatplayer("<p,happy>Thanks!");

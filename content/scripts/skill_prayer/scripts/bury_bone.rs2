@@ -1,5 +1,5 @@
 [opheld1,bones] @bury_bones(last_slot);
-[opheld1,burnt_bones] @bury_bones(last_slot);
+[opheld1,bones_burnt] @bury_bones(last_slot);
 [opheld1,bat_bones] @bury_bones(last_slot);
 [opheld1,big_bones] @bury_bones(last_slot);
 [opheld1,babydragon_bones] @bury_bones(last_slot);

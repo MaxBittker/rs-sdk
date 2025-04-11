@@ -6,7 +6,7 @@ womanwear=model_549_obj_wear,6
 weight=2lb
 dummyitem=graphic_only
 
-[rocks]
+[swamprocks1]
 name=Rocks
 desc=Some rocks.
 model=model_2394_obj
@@ -14,7 +14,7 @@ weight=1g
 members=yes
 tradeable=no
 
-[orb_of_light1]
+[caveorb1]
 name=Orb of light
 desc=A magical sphere that glimmers within.
 cost=10
@@ -27,7 +27,7 @@ members=yes
 param=orb_bit,^upass_orb1_bit
 tradeable=no
 
-[orb_of_light2]
+[caveorb2]
 name=Orb of light
 desc=A magical sphere that glimmers within.
 cost=10
@@ -40,7 +40,7 @@ members=yes
 param=orb_bit,^upass_orb2_bit
 tradeable=no
 
-[orb_of_light3]
+[caveorb3]
 name=Orb of light
 desc=A magical sphere that glimmers within.
 cost=10
@@ -53,7 +53,7 @@ members=yes
 param=orb_bit,^upass_orb3_bit
 tradeable=no
 
-[orb_of_light4]
+[caveorb4]
 name=Orb of light
 desc=A magical sphere that glimmers within.
 cost=20
@@ -80,7 +80,7 @@ weight=12g
 members=yes
 tradeable=no
 
-[piece_of_railing]
+[caverailing]
 name=Piece of railing
 desc=A broken piece of railing.
 cost=10
@@ -94,7 +94,7 @@ weight=2kg
 members=yes
 tradeable=no
 
-[upass_unicorn_horn]
+[cave_unicorn_horn]
 name=Unicorn horn
 desc=A withered unicorn horn.
 model=model_2495_obj
@@ -108,7 +108,7 @@ cost=20
 weight=7g
 tradeable=no
 
-[upass_jerro_badge]
+[paladinbadge1]
 name=Paladin's badge
 desc=A coat of arms of the Ardougne Paladins.
 cost=10
@@ -122,7 +122,7 @@ weight=12g
 members=yes
 tradeable=no
 
-[upass_carl_badge]
+[paladinbadge2]
 name=Paladin's badge
 desc=A coat of arms of the Ardougne Paladins.
 cost=10
@@ -138,7 +138,7 @@ weight=12g
 members=yes
 tradeable=no
 
-[upass_harry_badge]
+[paladinbadge3]
 name=Paladin's badge
 desc=A coat of arms of the Ardougne Paladins.
 cost=10
@@ -154,7 +154,7 @@ weight=12g
 members=yes
 tradeable=no
 
-[upass_witches_cat]
+[cavewitchcat]
 name=Witches cat
 desc=A cat.
 model=model_3006_obj
@@ -170,7 +170,7 @@ weight=1200g
 members=yes
 tradeable=no
 
-[doll_of_iban]
+[ibandoll]
 name=Doll of iban
 desc=A simple doll with Iban's likeness.
 cost=2
@@ -185,7 +185,7 @@ iop1=Search
 weight=300g
 tradeable=no
 
-[old_journal]
+[upass_journal]
 name=Old journal
 desc=An account of the last times of someone.
 category=category_1328
@@ -203,7 +203,7 @@ members=yes
 iop1=Read
 tradeable=no
 
-[history_of_iban]
+[old_journal]
 name=History of iban
 desc=The tale of Iban.
 category=category_1328
@@ -245,7 +245,7 @@ param=crushdefence,7
 param=strengthbonus,2
 tradeable=no
 
-[ibans_dove]
+[ibansdove]
 name=Iban's dove
 desc=I thought you only saw these in pairs?
 cost=1
@@ -258,7 +258,7 @@ weight=100g
 members=yes
 tradeable=no
 
-[amulet_of_othanian]
+[othainian_amulet]
 name=Amulet of othanian
 desc=A mystical demonic amulet.
 cost=0
@@ -276,7 +276,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[amulet_of_doomion]
+[doomion_amulet]
 name=Amulet of doomion
 desc=A mystical demonic amulet.
 cost=0
@@ -294,7 +294,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[amulet_of_holthion]
+[holthion_amulet]
 name=Amulet of holthion
 desc=A mystical demonic amulet.
 cost=0
@@ -312,7 +312,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[ibans_shadow]
+[ibansshadow]
 name=Iban's shadow
 desc=A strange dark liquid.
 cost=2
@@ -323,7 +323,7 @@ weight=25g
 members=yes
 tradeable=no
 
-[dwarf_brew]
+[upassdwarfbrew]
 cost=2
 members=yes
 model=model_2504_obj
@@ -353,7 +353,7 @@ weight=2oz
 members=yes
 tradeable=no
 
-[orb_of_light_invisible]
+[caveorb4dot]
 name=Orb of light
 desc=A magical sphere that glimmers within.
 cost=1

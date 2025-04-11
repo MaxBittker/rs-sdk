@@ -1,7 +1,7 @@
 [opnpc1,donovan]
-if(inv_total(inv, trail_clue_medium_anagram_exp009) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram009) > 0) {
     ~chatnpc("<p,neutral>Here you go.");
-    ~progress_clue_medium(trail_clue_medium_anagram_exp009, "Donovan has given you another clue scroll!");
+    ~progress_clue_medium(trail_clue_medium_anagram009, "Donovan has given you another clue scroll!");
     return;
 }
 

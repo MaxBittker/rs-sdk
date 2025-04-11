@@ -11,9 +11,9 @@ switch_int ($itexam_progress) {
 [opnpcu,student3]
 def_obj $item = last_useitem;
 
-if ($item = cracked_rock_sample) {
+if ($item = cracked_sample) {
     ~chatnpc("<p,angry>Uh? That's not mine!");
-} else if ($item = rock_sample_3) {
+} else if ($item = rock_sample3) {
     @itexam_student3_deliver_sample;
 } else {
     ~displaymessage(^dm_default);
@@ -40,7 +40,7 @@ if ($errand_state = 0) {
     ~chatnpc("<p,happy>Oh great! Thanks!");
     ~itexam_set_errand_progress(^itexam_errand_student3, 1);
 } else if ($errand_state = 1) {
-    if (inv_total(inv, rock_sample_3) > 0) {
+    if (inv_total(inv, rock_sample3) > 0) {
         @itexam_student3_deliver_sample;
     } else {
         ~chatplayer("<p,happy>How's the study going?");
@@ -59,7 +59,7 @@ if ($errand_state = 0) {
 
 [label,itexam_student3_deliver_sample]
 ~chatplayer("<p,happy>Guess what I found.");
-inv_del(inv, rock_sample_3, ^max_32bit_int);
+inv_del(inv, rock_sample3, ^max_32bit_int);
 ~itexam_set_errand_progress(^itexam_errand_student3, 2);
 ~chatnpc("<p,happy>Hey! My sample! Thanks ever so much. Let me help you with those questions now.");
 ~chatnpc("<p,neutral>The proper health and safety points are:|Leather gloves and boots to be worn at all times,|proper tools must be used.");

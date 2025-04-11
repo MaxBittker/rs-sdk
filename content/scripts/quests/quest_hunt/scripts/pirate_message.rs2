@@ -3,7 +3,7 @@ mes("The chest is locked.");
 sound_synth(locked, 0, 0);
 
 [oplocu,hunt_chest]
-if (last_useitem ! hunt_chest_key) {
+if (last_useitem ! chest_key) {
     ~displaymessage(^dm_default);
     return;
 }
@@ -17,10 +17,10 @@ mes("All that's in the chest is a message...");
 p_delay(7);
 
 mes("You take the message from the chest.");
-inv_del(inv, hunt_chest_key, 1);
-inv_add(inv, pirate_message, 1);
+inv_del(inv, chest_key, 1);
+inv_add(inv, piratemessage, 1);
 
-[opheld1,pirate_message]
+[opheld1,piratemessage]
 if (%hunt_progress = 2) {
     %hunt_progress = 3;
 }

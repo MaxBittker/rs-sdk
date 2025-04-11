@@ -1,4 +1,4 @@
-[assorted_flowers]
+[flowers_waterfall_quest]
 name=Flowers
 desc=A posy of flowers.
 cost=100
@@ -21,7 +21,7 @@ param=strengthbonus,-10
 param=crushattack_anim,human_blunt_stab
 param=crush_sound,flower_attack
 
-[red_flowers]
+[flowers_waterfall_quest_red]
 name=Flowers
 desc=A posy of flowers.
 cost=100
@@ -50,7 +50,7 @@ param=strengthbonus,-10
 param=crushattack_anim,human_blunt_stab
 param=crush_sound,flower_attack
 
-[blue_flowers]
+[flowers_waterfall_quest_blue]
 name=Flowers
 desc=A posy of flowers.
 cost=100
@@ -79,7 +79,7 @@ param=strengthbonus,-10
 param=crushattack_anim,human_blunt_stab
 param=crush_sound,flower_attack
 
-[yellow_flowers]
+[flowers_waterfall_quest_yellow]
 name=Flowers
 desc=A posy of flowers.
 cost=100
@@ -108,7 +108,7 @@ param=strengthbonus,-10
 param=crushattack_anim,human_blunt_stab
 param=crush_sound,flower_attack
 
-[purple_flowers]
+[flowers_waterfall_quest_purple]
 name=Flowers
 desc=A posy of flowers.
 cost=100
@@ -137,7 +137,7 @@ param=strengthbonus,-10
 param=crushattack_anim,human_blunt_stab
 param=crush_sound,flower_attack
 
-[orange_flowers]
+[flowers_waterfall_quest_orange]
 name=Flowers
 desc=A posy of flowers.
 cost=100
@@ -166,7 +166,7 @@ param=strengthbonus,-10
 param=crushattack_anim,human_blunt_stab
 param=crush_sound,flower_attack
 
-[mixed_flowers]
+[flowers_waterfall_quest_mixed]
 name=Flowers
 desc=A posy of flowers.
 cost=100
@@ -195,7 +195,7 @@ param=strengthbonus,-10
 param=crushattack_anim,human_blunt_stab
 param=crush_sound,flower_attack
 
-[white_flowers]
+[flowers_waterfall_quest_white]
 name=Flowers
 desc=A posy of flowers.
 cost=100
@@ -224,7 +224,7 @@ param=strengthbonus,-10
 param=crushattack_anim,human_blunt_stab
 param=crush_sound,flower_attack
 
-[black_flowers]
+[flowers_waterfall_quest_black]
 name=Flowers
 desc=A posy of flowers.
 cost=100

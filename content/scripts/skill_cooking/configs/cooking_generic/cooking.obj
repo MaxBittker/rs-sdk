@@ -158,7 +158,7 @@ stackable=yes
 weight=1lb
 category=category_135
 
-[raw_swamp_paste]
+[rawswamppaste]
 name=Raw swamp paste
 desc=A thick tar like substance mixed with flour.
 cost=1
@@ -174,7 +174,7 @@ members=yes
 stackable=yes
 weight=18oz
 
-[swamp_paste]
+[swamppaste]
 name=Swamp paste
 desc=A tar like substance mixed with flour and warmed.
 cost=30
@@ -262,7 +262,7 @@ weight=1lb
 category=category_131
 param=batta_message,You add the Cabbage to the gnome batta.
 
-[cabbage_draynor]
+[magic_cabbage]
 name=Cabbage
 desc=Yuck I don't like cabbage.
 model=model_loc_1161_8
@@ -354,7 +354,7 @@ recol3d=27482
 weight=50g
 members=yes
 
-[rotten_apples]
+[rottenapples]
 name=Rotten apples
 desc=Rotten!
 model=model_2404_obj
@@ -414,7 +414,7 @@ model=model_2345_obj
 cost=1
 weight=1lb
 
-[obj_1946]
+[flour]
 name=Flour
 desc=A little heap of flour.
 cost=2

@@ -17,21 +17,21 @@ switch_int($option) {
         ~chatnpc("<p,neutral>My Lord instructs me to help you.");
         ~chatnpc("<p,neutral>Here is a mould to make a token for our Lord;|a mould for the unholy symbol of Zamorak.");
         %scorpius_given_symbol = 1;
-        inv_add(inv, unholy_mould, 1);
+        inv_add(inv, unholy_symbol_mould, 1);
         mes("The ghost gives you a casting mould.");
     case 2 :
         ~chatplayer("<p,neutral>I have come to seek a blessing.");
-        if(inv_total(inv, unpowered_symbol) > 0) {
+        if(inv_total(inv, stringsnake) > 0) {
             ~chatnpc("<p,happy>I see you have the unholy symbol of our Lord.|I will bless it for you.");
             mes("The ghost mutters in a strange voice.");
             mes("The unholy symbol throbs with power.");
             if_close;
-            inv_del(inv, unpowered_symbol, 1);
-            inv_add(inv, unholy_symbol, 1);
+            inv_del(inv, stringsnake, 1);
+            inv_add(inv, blessedsnake, 1);
             p_delay(5);
             ~chatnpc("<p,neutral>The symbol of our Lord has been blessed with power!");
             ~chatnpc("<p,neutral>My master calls.");
-        } else if(inv_total(inv, unholy_symbol) > 0) {
+        } else if(inv_total(inv, blessedsnake) > 0) {
             ~chatnpc("<p,happy>I see you have the unholy symbol of our Lord.|It is blessed with the Lord Zamorak's power.");
             ~chatnpc("<p,happy>Come to me when your faith weakens.");
         } else {
@@ -39,13 +39,13 @@ switch_int($option) {
         }
     case 3 :
         ~chatplayer("<p,neutral>I need another mould for the unholy symbol.");
-        if(inv_total(inv, unholy_mould) > 0) {
+        if(inv_total(inv, unholy_symbol_mould) > 0) {
             ~chatnpc("<p,neutral>One you already have, another is not needed.");
             ~chatplayer("<p,happy>Leave me be."); // this is npc dialogue in RSC, probably broken when converting over and never fixed
             return;
         }
         ~chatnpc("<p,neutral>To lose an object is easy to replace.|To lose the affections of our Lord is impossible to forgive.");
-        inv_add(inv, unholy_mould, 1);
+        inv_add(inv, unholy_symbol_mould, 1);
         mes("The ghost hands you another mould.");
     case 4 :
         ~chatplayer("<p,angry>I have come to kill you.");

@@ -1,6 +1,6 @@
-[opheld1,gloughs_journal]
+[opheld1,grandtree_journal]
 %book_page = 0;
-%open_book = gloughs_journal;
+%open_book = grandtree_journal;
 @open_gloughs_journal;
 
 [label,open_gloughs_journal]

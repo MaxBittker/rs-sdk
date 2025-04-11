@@ -33,7 +33,7 @@ switch_int(stat_base(smithing)) {
     case 33 : ~doubleobjbox(iron_platebody,steel_med_helm," You can now make @dbl@Iron Plate Bodies and Steel||@dbl@Medium Helms. ||", 200);
     case 34 : ~doubleobjbox(steel_sword,steel_dart_tip,"You can now make @dbl@Steel Short Swords@bla@ and members|can make @dbl@Steel Dart Tips.", 200);
     case 35 : ~doubleobjbox(steel_scimitar,steel_arrowheads,"You can now make @dbl@Steel Scimitars and members can|make @dbl@Steel Arrow Heads.", 200);
-    case 36 : ~doubleobjbox(steel_longsword,steel_studs,"You can now make @dbl@Steel Long Swords@bla@. Members can|make @dbl@Steel Studs.", 200);
+    case 36 : ~doubleobjbox(steel_longsword,studs,"You can now make @dbl@Steel Long Swords@bla@. Members can|make @dbl@Steel Studs.", 200);
     case 37 : ~doubleobjbox(steel_full_helm,steel_knife,"You can now make @dbl@Steel Full Helms@bla@ and members can|make @dbl@Steel Throwing Knives.", 200);
     case 38 : ~objbox(steel_sq_shield,"You can now make @dbl@Steel Square Shields.", 250, 0, 0);
     case 39 : ~objbox(steel_warhammer,"You can now make @dbl@Steel Warhammers.", 250, 0, 0);
@@ -68,7 +68,7 @@ switch_int(stat_base(smithing)) {
     case 76 : ~objbox(adamant_longsword,"You can now make @dbl@Adamant Long Swords.", 250, 0, 0);
     case 77 : ~doubleobjbox(adamant_full_helm,adamant_knife,"You can now make @dbl@Adamant Full Helms@bla@ and members|can make @dbl@Adamant Throwing Knives.", 200);
     case 78 : ~objbox(adamant_sq_shield,"You can now make @dbl@Adamant Square Shields.", 250, 0, 0);
-    case 79 : ~objbox(adamant_warhammer,"You can now make @dbl@Adamant Warhammers.", 250, 0, 0);
+    case 79 : ~objbox(adamnt_warhammer,"You can now make @dbl@Adamant Warhammers.", 250, 0, 0);
     case 80 : ~objbox(adamant_battleaxe,"You can now make @dbl@Adamant Battleaxes.", 250, 0, 0);
     case 81 : ~objbox(adamant_chainbody,"You can now make @dbl@Adamant Chainmail Bodies.", 250, 0, 0);
     case 82 : ~objbox(adamant_kiteshield,"You can now make @dbl@Adamant Kite Shields.", 250, 0, 0);

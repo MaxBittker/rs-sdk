@@ -139,8 +139,8 @@ switch_int (~determine_katrine_option) {
         ~chatnpc("<p,happy>Us thieves have been trying to get ahold of this one for a while!");
         ~chatnpc("<p,happy>You wanted to be ranked as a master thief didn't you? Well, I guess this just about ranks as good enough!");
         ~mesbox("Katrine gives you a master thief armband.");
-        inv_del(inv, petes_candlestick, 1);
-        inv_add(inv, thieves_armband, 1);
+        inv_del(inv, petecandlestick, 1);
+        inv_add(inv, master_thief_armband, 1);
         %hero_progress = ^hero_blackarm_obtained_armband;
     case 5 : // Showing candlestick (did not progress quest correctly)
         ~chatplayer("<p,neutral>I have a candlestick now!");
@@ -148,17 +148,17 @@ switch_int (~determine_katrine_option) {
     case 6 : // Lost armband
         ~chatplayer("<p,sad>I have lost my master thief's armband...");
         ~chatnpc("<p,neutral>Lucky I 'ave a spare ain't it? Don't lose it again.");
-        inv_add(inv, thieves_armband, 1);
+        inv_add(inv, master_thief_armband, 1);
 }
 
 [proc,determine_katrine_option]()(int)
-if (%hero_progress >= ^hero_blackarm_obtained_armband & ~obj_gettotal(thieves_armband) < 1) {
+if (%hero_progress >= ^hero_blackarm_obtained_armband & ~obj_gettotal(master_thief_armband) < 1) {
     return(6);
 }
 else if (%hero_progress < ^hero_started | %hero_progress >= ^hero_blackarm_obtained_armband) {
     return(~p_choice2("Who are all those people in there?", 1, "Teach me to be a top class criminal.", 2));
 }
-else if (%hero_progress >= ^hero_blackarm_gangmember_spoken & inv_total(inv, petes_candlestick) >= 1) {
+else if (%hero_progress >= ^hero_blackarm_gangmember_spoken & inv_total(inv, petecandlestick) >= 1) {
     def_int $option;
     if (%hero_progress = ^hero_blackarm_looted_chest) {
         $option = 4; // success

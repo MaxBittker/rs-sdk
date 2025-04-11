@@ -26,7 +26,7 @@ recol1d=28539
 2dxan=264
 weight=2oz
 
-[lit_torch]
+[torch_lit]
 cost=4
 name=Torch
 desc=A lit home-made torch.
@@ -39,7 +39,7 @@ weight=500g
 members=yes
 category=light_source_lit
 
-[unlit_torch]
+[torch_unlit]
 cost=4
 name=Torch
 desc=An unlit home-made torch.
@@ -50,9 +50,9 @@ model=model_2554_obj
 weight=500g
 members=yes
 category=light_source_unlit
-param=product,lit_torch
+param=product,torch_lit
 
-[unlit_arrow]
+[unlitarrow]
 name=Unlit arrows
 desc=Unlit arrows.
 members=yes
@@ -74,10 +74,11 @@ param=rangebonus,7
 param=levelrequire,1
 param=proj_launch,unlit_arrow_launch
 param=proj_travel,unlit_arrow_travel
-param=next_obj_stage,lit_arrows
+param=next_obj_stage,litarrow
 param=unlit_arrow,^true
 tradeable=no
 
+// rename: cert_unlitarrow
 [obj_599]
 tradeable=no
 

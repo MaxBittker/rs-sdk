@@ -46,7 +46,7 @@ model=model_2628_obj
 iop1=Look through
 tradeable=no
 
-[trail_casket_easy_map001]
+[trail_clue_easy_map001_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -61,6 +61,7 @@ members=yes
 category=trail_casket_easy
 tradeable=no
 
+// rename: cert_trail_clue_easy_map001_casket
 [obj_2715]
 name=Casket
 desc=I hope there's treasure in it.
@@ -76,7 +77,7 @@ members=yes
 stackable=yes
 tradeable=no
 
-[trail_casket_easy_map002]
+[trail_clue_easy_map002_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -91,6 +92,7 @@ members=yes
 category=trail_casket_easy
 tradeable=no
 
+// rename: cert_trail_clue_easy_map002_casket
 [obj_2718]
 name=Casket
 desc=I hope there's treasure in it.
@@ -106,7 +108,7 @@ members=yes
 stackable=yes
 tradeable=no
 
-[trail_casket_easy_map003]
+[trail_clue_easy_map003_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -121,6 +123,7 @@ members=yes
 category=trail_casket_easy
 tradeable=no
 
+// rename: cert_trail_clue_easy_map003_casket
 [obj_2721]
 name=Casket
 desc=I hope there's treasure in it.
@@ -136,7 +139,7 @@ members=yes
 stackable=yes
 tradeable=no
 
-[trail_casket_hard_sextant_exp001]
+[trail_clue_hard_sextant001_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -151,7 +154,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp002]
+[trail_clue_hard_sextant002_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -166,7 +169,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp003]
+[trail_clue_hard_sextant003_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -181,7 +184,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp007]
+[trail_clue_hard_sextant007_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -196,7 +199,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp008]
+[trail_clue_hard_sextant008_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -211,7 +214,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp009]
+[trail_clue_hard_sextant009_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -226,7 +229,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp010]
+[trail_clue_hard_sextant010_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -241,7 +244,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp011]
+[trail_clue_hard_sextant011_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -256,7 +259,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp012]
+[trail_clue_hard_sextant012_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -271,7 +274,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp013]
+[trail_clue_hard_sextant013_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -286,7 +289,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[obj_2749]
+[trail_slidingpuzzleb01]
 name=Sliding piece
 model=model_3413_obj
 2dxof=-1
@@ -299,7 +302,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,0
 
-[obj_2750]
+[trail_slidingpuzzleb02]
 name=Sliding piece
 model=model_3414_obj
 2dxof=-1
@@ -312,7 +315,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,1
 
-[obj_2751]
+[trail_slidingpuzzleb03]
 name=Sliding piece
 model=model_3415_obj
 2dxof=-1
@@ -325,7 +328,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,2
 
-[obj_2752]
+[trail_slidingpuzzleb04]
 name=Sliding piece
 model=model_3416_obj
 2dxof=-1
@@ -338,7 +341,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,3
 
-[obj_2753]
+[trail_slidingpuzzleb05]
 name=Sliding piece
 model=model_3417_obj
 2dxof=-1
@@ -351,7 +354,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,4
 
-[obj_2754]
+[trail_slidingpuzzleb06]
 name=Sliding piece
 model=model_3418_obj
 2dxof=-1
@@ -364,7 +367,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,5
 
-[obj_2755]
+[trail_slidingpuzzleb07]
 name=Sliding piece
 model=model_3419_obj
 2dxof=-1
@@ -377,7 +380,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,6
 
-[obj_2756]
+[trail_slidingpuzzleb08]
 name=Sliding piece
 model=model_3420_obj
 2dxof=-1
@@ -390,7 +393,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,7
 
-[obj_2757]
+[trail_slidingpuzzleb09]
 name=Sliding piece
 model=model_3421_obj
 2dxof=-1
@@ -403,7 +406,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,8
 
-[obj_2758]
+[trail_slidingpuzzleb10]
 name=Sliding piece
 model=model_3422_obj
 2dxof=-1
@@ -416,7 +419,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,9
 
-[obj_2759]
+[trail_slidingpuzzleb11]
 name=Sliding piece
 model=model_3423_obj
 2dxof=-1
@@ -429,7 +432,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,10
 
-[obj_2760]
+[trail_slidingpuzzleb12]
 name=Sliding piece
 model=model_3424_obj
 2dxof=-1
@@ -442,7 +445,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,11
 
-[obj_2761]
+[trail_slidingpuzzleb13]
 name=Sliding piece
 model=model_3425_obj
 2dxof=-1
@@ -455,7 +458,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,12
 
-[obj_2762]
+[trail_slidingpuzzleb14]
 name=Sliding piece
 model=model_3426_obj
 2dxof=-1
@@ -468,7 +471,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,13
 
-[obj_2763]
+[trail_slidingpuzzleb15]
 name=Sliding piece
 model=model_3427_obj
 2dxof=-1
@@ -481,7 +484,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,14
 
-[obj_2764]
+[trail_slidingpuzzleb16]
 name=Sliding piece
 model=model_3428_obj
 2dxof=-1
@@ -494,7 +497,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,15
 
-[obj_2765]
+[trail_slidingpuzzleb17]
 name=Sliding piece
 model=model_3429_obj
 2dxof=-1
@@ -507,7 +510,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,16
 
-[obj_2766]
+[trail_slidingpuzzleb18]
 name=Sliding piece
 model=model_3430_obj
 2dxof=-1
@@ -520,7 +523,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,17
 
-[obj_2767]
+[trail_slidingpuzzleb19]
 name=Sliding piece
 model=model_3431_obj
 2dxof=-1
@@ -533,7 +536,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,18
 
-[obj_2768]
+[trail_slidingpuzzleb20]
 name=Sliding piece
 model=model_3432_obj
 2dxof=-1
@@ -546,7 +549,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,19
 
-[obj_2769]
+[trail_slidingpuzzleb21]
 name=Sliding piece
 model=model_3433_obj
 2dxof=-1
@@ -559,7 +562,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,20
 
-[obj_2770]
+[trail_slidingpuzzleb22]
 name=Sliding piece
 model=model_3434_obj
 2dxof=-1
@@ -572,7 +575,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,21
 
-[obj_2771]
+[trail_slidingpuzzleb23]
 name=Sliding piece
 model=model_3435_obj
 2dxof=-1
@@ -585,7 +588,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,22
 
-[obj_2772]
+[trail_slidingpuzzleb24]
 name=Sliding piece
 model=model_3436_obj
 2dxof=-1
@@ -598,7 +601,7 @@ dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,23
 
-[trail_casket_hard_riddle_exp002]
+[trail_clue_hard_riddle002_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -613,7 +616,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_riddle_exp003]
+[trail_clue_hard_riddle003_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -628,7 +631,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_riddle_exp004]
+[trail_clue_hard_riddle004_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -643,7 +646,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_riddle_exp005]
+[trail_clue_hard_riddle005_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -658,7 +661,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_riddle_exp007]
+[trail_clue_hard_riddle007_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -673,7 +676,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_riddle_exp009]
+[trail_clue_hard_riddle009_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -688,7 +691,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_riddle_exp010]
+[trail_clue_hard_riddle010_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -703,7 +706,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_riddle_exp011]
+[trail_clue_hard_riddle011_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -718,7 +721,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_clue_hard_puzzle_exp014]
+[trail_clue_hard_riddle014_puzzlebox]
 name=Puzzle box
 desc=I need to solve this!
 cost=100
@@ -732,7 +735,7 @@ iop1=Open
 category=trail_puzzle
 tradeable=no
 
-[trail_clue_hard_puzzle_exp016]
+[trail_clue_hard_riddle016_puzzlebox]
 name=Puzzle box
 desc=I need to solve this!
 cost=100
@@ -746,7 +749,7 @@ iop1=Open
 category=trail_puzzle
 tradeable=no
 
-[trail_clue_hard_puzzle_exp017]
+[trail_clue_hard_riddle017_puzzlebox]
 name=Puzzle box
 desc=I need to solve this!
 cost=100
@@ -760,7 +763,7 @@ iop1=Open
 category=trail_puzzle
 tradeable=no
 
-[trail_casket_medium_sextant_exp001]
+[trail_clue_medium_sextant001_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -775,7 +778,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_map001]
+[trail_clue_medium_map001_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -790,7 +793,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_map002]
+[trail_clue_medium_map002_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -805,7 +808,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp002]
+[trail_clue_medium_sextant002_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -820,7 +823,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp003]
+[trail_clue_medium_sextant003_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -835,7 +838,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp004]
+[trail_clue_medium_sextant004_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -850,7 +853,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp005]
+[trail_clue_medium_sextant005_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -865,7 +868,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp006]
+[trail_clue_medium_sextant006_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -880,7 +883,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp007]
+[trail_clue_medium_sextant007_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -895,7 +898,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp008]
+[trail_clue_medium_sextant008_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -910,7 +913,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp009]
+[trail_clue_medium_sextant009_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -925,7 +928,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp010]
+[trail_clue_medium_sextant010_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -940,7 +943,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp011]
+[trail_clue_medium_sextant011_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -955,7 +958,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp012]
+[trail_clue_medium_sextant012_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -970,7 +973,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_casket_medium_sextant_exp013]
+[trail_clue_medium_sextant013_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -985,7 +988,7 @@ members=yes
 category=trail_casket_medium
 tradeable=no
 
-[trail_clue_medium_key_exp001]
+[trail_clue_medium_riddle001_key]
 name=Key
 desc=A key to unlock a treasure chest.
 members=yes
@@ -998,7 +1001,7 @@ model=model_2372_obj
 2dxan=328
 tradeable=no
 
-[trail_clue_medium_key_exp002]
+[trail_clue_medium_riddle002_key]
 name=Key
 desc=A key to some drawers.
 members=yes
@@ -1011,7 +1014,7 @@ model=model_2372_obj
 2dxan=328
 tradeable=no
 
-[trail_clue_medium_key_exp003]
+[trail_clue_medium_riddle003_key]
 name=Key
 desc=A key to some drawers.
 members=yes
@@ -1024,7 +1027,7 @@ model=model_2372_obj
 2dxan=328
 tradeable=no
 
-[trail_clue_medium_key_exp004]
+[trail_clue_medium_riddle004_key]
 name=Key
 desc=A key to some drawers.
 members=yes
@@ -1037,7 +1040,7 @@ model=model_2372_obj
 2dxan=328
 tradeable=no
 
-[trail_clue_medium_key_exp005]
+[trail_clue_medium_riddle005_key]
 name=Key
 desc=A key to some drawers.
 members=yes

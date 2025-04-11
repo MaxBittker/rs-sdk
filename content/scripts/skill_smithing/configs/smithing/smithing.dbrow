@@ -506,8 +506,8 @@ data=bar_amount,3
 
 [adamant_warhammer]
 table=smithing
-data=ifproduct,adamant_warhammer
-data=product,adamant_warhammer
+data=ifproduct,adamnt_warhammer
+data=product,adamnt_warhammer
 data=product_amount,1
 data=levelrequired,79
 data=end_message,a warhammer
@@ -1320,8 +1320,8 @@ data=bar_amount,1
 
 [bronze_wire]
 table=smithing
-data=ifproduct,bronze_wire
-data=product,bronze_wire
+data=ifproduct,bronzecraftwire
+data=product,bronzecraftwire
 data=product_amount,1
 data=levelrequired,4
 data=end_message,a piece of wire
@@ -1331,8 +1331,8 @@ data=bar_amount,1
 
 [steel_studs]
 table=smithing
-data=ifproduct,steel_studs
-data=product,steel_studs
+data=ifproduct,studs
+data=product,studs
 data=product_amount,1
 data=levelrequired,36
 data=end_message,set of studs

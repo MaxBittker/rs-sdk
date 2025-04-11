@@ -17,7 +17,7 @@ if(%upass_progress = ^upass_found_doll) {
     p_delay(1);
     mes("poison flows from the corpse over the soil.");
     p_delay(1);
-    if(inv_total(inv, doll_of_iban) = 0) {
+    if(inv_total(inv, ibandoll) = 0) {
         mes("It quickly seeps away into the earth.");
         p_delay(1);
         mes("You dare not collect any without Iban's doll.");

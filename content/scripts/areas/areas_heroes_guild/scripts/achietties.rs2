@@ -9,7 +9,7 @@ if (%hero_progress >= ^hero_complete) {
 
 if (~hero_in_progress = true) {
   ~chatnpc("<p,quiz>How goes thy quest adventurer?");
-  if ((inv_total(inv, fire_feather) >= 1) & (inv_total(inv, lava_eel) >= 1) & (inv_total(inv, thieves_armband) >= 1)) {
+  if ((inv_total(inv, fire_feather) >= 1) & (inv_total(inv, lava_eel) >= 1) & (inv_total(inv, master_thief_armband) >= 1)) {
     ~chatplayer("<p,happy>I have all the required items.");
     ~chatnpc("<p,neutral>I see that you have. Well done; Now, to complete the|quest, and gain entry to the Hero's Guild in your final|task all that you have to do is...");
     ~chatplayer("<p,shock>W-what? What do you mean? There's MORE???");
@@ -17,7 +17,7 @@ if (~hero_in_progress = true) {
     ~chatnpc("<p,happy>Congratulations! You have completed the Hero's Guild|entry requirements! You will find the door now open|for you! Enter, Hero! And take this reward!");
     queue(hero_quest_complete, 0);
     inv_del(inv, fire_feather, 1);
-    inv_del(inv, thieves_armband, 1);
+    inv_del(inv, master_thief_armband, 1);
     inv_del(inv, lava_eel, 1);
   } else {
     ~chatplayer("<p,confused>It's tough. I've not done it yet.");

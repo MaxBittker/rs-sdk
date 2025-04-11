@@ -29,8 +29,8 @@ param=crushattack_anim,human_blunt_crush
 param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
-param=broken,iron_axe_broken
-param=axe_head,iron_axe_head
+param=broken,macro_broken_iron_hatchet
+param=axe_head,macro_iron_hatchethead
 
 [bronze_axe]
 name=Bronze axe
@@ -62,8 +62,8 @@ param=crushattack_anim,human_blunt_crush
 param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
-param=broken,bronze_axe_broken
-param=axe_head,bronze_axe_head
+param=broken,macro_broken_bronze_hatchet
+param=axe_head,macro_bronze_hatchethead
 
 [steel_axe]
 name=Steel axe
@@ -93,8 +93,8 @@ param=crushattack_anim,human_blunt_crush
 param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
-param=broken,steel_axe_broken
-param=axe_head,steel_axe_head
+param=broken,macro_broken_steel_hatchet
+param=axe_head,macro_steel_hatchethead
 
 [mithril_axe]
 name=Mithril axe
@@ -126,8 +126,8 @@ param=crushattack_anim,human_blunt_crush
 param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
-param=broken,mithril_axe_broken
-param=axe_head,mithril_axe_head
+param=broken,macro_broken_mithril_hatchet
+param=axe_head,macro_mithril_hatchethead
 
 [adamant_axe]
 name=Adamant axe
@@ -159,8 +159,8 @@ param=crushattack_anim,human_blunt_crush
 param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
-param=broken,adamant_axe_broken
-param=axe_head,adamant_axe_head
+param=broken,macro_broken_adamant_hatchet
+param=axe_head,macro_adamant_hatchethead
 
 [rune_axe]
 name=Rune axe
@@ -192,8 +192,8 @@ param=crushattack_anim,human_blunt_crush
 param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
-param=broken,rune_axe_broken
-param=axe_head,rune_axe_head
+param=broken,macro_broken_rune_hatchet
+param=axe_head,macro_rune_hatchethead
 
 [black_axe]
 name=Black axe
@@ -226,5 +226,5 @@ param=crushattack_anim,human_blunt_crush
 param=defend_anim,human_baxe_defend1
 param=slash_sound,baxe_slash
 param=crush_sound,baxe_crush
-param=broken,black_axe_broken
-param=axe_head,black_axe_head
+param=broken,macro_broken_black_hatchet
+param=axe_head,macro_black_hatchethead

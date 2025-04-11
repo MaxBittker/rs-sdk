@@ -123,7 +123,7 @@ if(%legends_progress = ^legends_defeated_nezikchened_fire) {
     } else if(%legends_progress >= ^legends_water_pool_dried_up) {
         @multi3("I am on a quest to get more pure water.", ungadulu_quest, "What do you know about the source of the sacred water?", ungadulu_sacred_water, "I need more Yommi tree seeds.", ungadulu_need_seeds);
     }
-} else if(%legends_progress = ^legends_received_dagger | inv_total(inv, dark_dagger) > 0 | inv_total(inv, glowing_dagger) > 0) { // this is only an inv check, will override the later stage options
+} else if(%legends_progress = ^legends_received_dagger | inv_total(inv, deathdagger) > 0 | inv_total(inv, deathdaggerdone) > 0) { // this is only an inv check, will override the later stage options
     ~chatnpc("<p,quiz>Hello Bwana, how goes your quest to find the water?");
     if(testbit(%legends_bits, ^legends_killed_viyeldi) = true) {
         @multi5("I have killed Viyeldi!", ungadulu_killed_viyeldi, "I met a spirit in the Viyeldi Caves.", ungadulu_spirit, "The spirit told me to kill Viyeldi.", ungadulu_kill, "Do you know anything about daggers?", ungadulu_dagger, "I need more Yommi tree seeds.", ungadulu_need_seeds);
@@ -138,7 +138,7 @@ if(%legends_progress = ^legends_defeated_nezikchened_fire) {
     }
     @multi3("Yes, I've killed the Spirit.", ungadulu_killed_spirit, "Yes, I've got the water.", ungadulu_got_water, "I need more Yommi tree seeds.", ungadulu_need_seeds);
 } else if(%legends_progress >= ^legends_collected_totem) {
-    if(%legends_progress >= ^legends_collected_totem & %legends_progress < ^legends_replaced_totem & ~obj_gettotal(yommi_tree_seeds) = 0 & ~obj_gettotal(yommi_tree_seeds_germinated) = 0 & ~obj_gettotal(yommi_totem) = 0) {
+    if(%legends_progress >= ^legends_collected_totem & %legends_progress < ^legends_replaced_totem & ~obj_gettotal(yommiseeds) = 0 & ~obj_gettotal(yommiseeds_germ) = 0 & ~obj_gettotal(thtotempole) = 0) {
         ~chatnpc("<p,neutral>I see you have no totem pole, or Yommi tree seeds, is everything ok?");
         def_int $op = ~p_choice2("Yes, everything's fine.", 1, "I need more Yommi tree seeds.", 2);
         if($op = 2) @ungadulu_need_seeds;
@@ -210,23 +210,23 @@ if(testbit(%legends_bits, ^legends_given_dagger) = true) {
 
 [label,ungadulu_whatdo]
 ~chatplayer("<p,quiz>What can we do?");    
-if(~obj_gettotal(holy_force) > 0) {
+if(~obj_gettotal(holyforce) > 0) {
     ~chatnpc("<p,neutral>You can use that Holy Force spell to try and defeat the spirit. Come back and let me know if I can help in any other way.");
     return;
 }
 ~chatnpc("<p,confused>I am not sure at this time Bwana. Give me a few moments to think.");
 ~chatnpc("<p,neutral>Hmmm....");
-if(inv_total(inv, glowing_dagger) = 0 & inv_total(worn, glowing_dagger) = 0 & inv_total(inv, dark_dagger) = 0 & inv_total(worn, dark_dagger) = 0) {
+if(inv_total(inv, deathdaggerdone) = 0 & inv_total(worn, deathdaggerdone) = 0 & inv_total(inv, deathdagger) = 0 & inv_total(worn, deathdagger) = 0) {
     ~chatnpc("<p,neutral>I could make a spell that would help you to defeat the spirit. But I need you to bring me a possession that it once owned. If you have something like that, please show it to me. And I'll give you the spell.");
     return;
 }
 ~chatnpc("<p,neutral>Take this spell and pray that you can defeat this evil spirit before it's too late. I'll take that dagger from you now!");
-inv_add(inv, holy_force, 1);
-inv_del(inv, glowing_dagger, 1); // confirm this removal (does it do both, types, order...)
-inv_del(worn, glowing_dagger, 1);
-inv_del(inv, dark_dagger, 1); 
-inv_del(worn, dark_dagger, 1);
-~objbox(holy_force, "The wizened old Shaman hands over a piece of paper.", 250, 0, 0);
+inv_add(inv, holyforce, 1);
+inv_del(inv, deathdaggerdone, 1); // confirm this removal (does it do both, types, order...)
+inv_del(worn, deathdaggerdone, 1);
+inv_del(inv, deathdagger, 1); 
+inv_del(worn, deathdagger, 1);
+~objbox(holyforce, "The wizened old Shaman hands over a piece of paper.", 250, 0, 0);
 
 [label,ungadulu_spirit]
 ~chatplayer("<p,neutral>I met a spirit in the Viyeldi Caves.");
@@ -280,27 +280,27 @@ inv_del(worn, dark_dagger, 1);
 
 [label,ungadulu_need_seeds]
 ~chatplayer("<p,neutral> I need more Yommi tree seeds.");
-if(~obj_gettotal(yommi_tree_seeds) > 0 | ~obj_gettotal(yommi_tree_seeds_germinated) > 0) {
+if(~obj_gettotal(yommiseeds) > 0 | ~obj_gettotal(yommiseeds_germ) > 0) {
     ~chatnpc("<p,neutral>You already have some Yommi tree seeds. Use those first and then come back to me if you need any more.");
     ~mesbox("Ungadulu goes back to his studies.");
     return;
 }
-inv_add(inv, yommi_tree_seeds, 3);
-~objbox(yommi_tree_seeds, "Ungadulu gives you some more seeds.", 250, 0, divide(^objbox_height, 2));
+inv_add(inv, yommiseeds, 3);
+~objbox(yommiseeds, "Ungadulu gives you some more seeds.", 250, 0, divide(^objbox_height, 2));
 ~chatnpc("<p,neutral>Take more care of these this time around.");
 
 [label,ungadulu_yommi]
 ~chatplayer("<p,neutral>I need to collect some Yommi tree seeds for Gujuo.");
-if(inv_total(inv, yommi_tree_seeds) > 0) {
+if(inv_total(inv, yommiseeds) > 0) {
     ~chatnpc("<p,confused>I already gave you some Yommi tree seeds. Try using those first.");
     @multi2("How do I grow the Yommi tree?", ungadulu_grow,
         "What do you know about the pure water?", ungadulu_water);
 }
 ~chatnpc("<p,confused>Oh, yes, Bwana... you will be doing a great favour to|our people by doing this. However, you must know that|it is a difficult task, the Yommi tree is difficult to grow.");
 ~chatnpc("<p,neutral>You must have a natural ability with such things to have|a chance...");
-~objbox(yommi_tree_seeds, "The Shaman holds out his gnarly old hand and reveals|three largish green seeds.", 250, 0, divide(^objbox_height, 2));
+~objbox(yommiseeds, "The Shaman holds out his gnarly old hand and reveals|three largish green seeds.", 250, 0, divide(^objbox_height, 2));
 ~chatnpc("<p,neutral>Here you are, accept these with my gratitude. You'll|need to soak them in sacred water before planting them.|I notice that you must already be familiar with sacred|water to have passed into the flaming octagram.");
-inv_add(inv, yommi_tree_seeds, 3);
+inv_add(inv, yommiseeds, 3);
 @multi3("How do I grow the Yommi tree?", ungadulu_grow,
         "What do you know about the pure water?", ungadulu_water,
         "Ok, thanks...", ungadulu_thanks);
@@ -410,22 +410,22 @@ if (last_useitem = book_of_binding) {
     } else {
         ~chatnpc("<p,happy>Ha ha ha! There's no need to use that on me anymore... I'm cured now, remember?");
     }
-} else if (last_useitem = dark_dagger) {
-    ~objbox(dark_dagger, "You hand the dagger over to the shaman and his face turns pale.", 250, 0, 0);
+} else if (last_useitem = deathdagger) {
+    ~objbox(deathdagger, "You hand the dagger over to the shaman and his face turns pale.", 250, 0, 0);
     ~chatnpc("<p,shock>This dagger has been made for one purpose only... Praise the gods that you brought it to me.");
     ~chatnpc("<p,neutral>I can make you a spell with this item which will force the spirit to reveal its true self. Once activated, you will be able to attack it like any normal creature.");
-    if(~obj_gettotal(holy_force) > 0) {
-        inv_del(inv, dark_dagger, 1);
+    if(~obj_gettotal(holyforce) > 0) {
+        inv_del(inv, deathdagger, 1);
         ~chatnpc("<p,neutral>Use the Holy Force spell that I gave you earlier to defeat this spirit. Good luck. I'll take that dagger for safe keeping...");
         return;
     }
-    ~objbox(holy_force, "The Shaman takes the dagger and gives you a folded piece of paper.", 250, 0, 0);
-    inv_add(inv, holy_force, 1); // this order is correct 
-    inv_del(inv, dark_dagger, 1);
+    ~objbox(holyforce, "The Shaman takes the dagger and gives you a folded piece of paper.", 250, 0, 0);
+    inv_add(inv, holyforce, 1); // this order is correct 
+    inv_del(inv, deathdagger, 1);
     ~chatnpc("<p,neutral>Use this spell on the Spirit. It will force the spirit to show its true self. And it will also be vulnerable to normal attacks.");
-} else if(last_useitem = glowing_dagger) {
+} else if(last_useitem = deathdaggerdone) {
     // confirm mesanims and stuff here, can only get 1 dagger per account (afaik) so this is from chisel
-    ~objbox(glowing_dagger, "You hand the dagger over to the shaman and his face turns pale.", 250, 0, 0);
+    ~objbox(deathdaggerdone, "You hand the dagger over to the shaman and his face turns pale.", 250, 0, 0);
     ~chatnpc("<p,shock>Oh dear Bwana, I sense something terrible has happened. This dagger is a portent of some evil action. Please, reveal to me anything that you have done so that I might understand this better.");
     switch_int(~p_choice2("I've killed Viyeldi.", 1, "Er, I can't think of anything.", 2)) {
         case 1 :
@@ -433,9 +433,9 @@ if (last_useitem = book_of_binding) {
             ~chatnpc("<p,sad>Poor Viyeldi, he was the guardian of the dead heroes that protected the source. Their tormented spirits will now be at the beck and call of the one who gave you the dagger.");
             ~chatnpc("<p,neutral>Take this spell and pray that you can defeat this evil spirit before it's too late. The spell will force the spirit to reveal its true self. And it will also be vulnerable to normal attacks."); 
             // no holy force check here
-            inv_add(inv, holy_force, 1);
-            inv_del(inv, glowing_dagger, 1);
-            ~objbox(holy_force, "The wizened old Shaman hands over a piece of paper.", 250, 0, 0);
+            inv_add(inv, holyforce, 1);
+            inv_del(inv, deathdaggerdone, 1);
+            ~objbox(holyforce, "The wizened old Shaman hands over a piece of paper.", 250, 0, 0);
         case 2 :
             ~chatplayer("<p,neutral>Er, I can't think of anything.");
             ~chatnpc("<p,neutral>ell, that is strange. I sense a growing evil power since you visited the caves.");

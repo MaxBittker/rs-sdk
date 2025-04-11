@@ -22,7 +22,7 @@ if (map_members = false) {
     return;
 }
 //https://youtu.be/VXwMnz9tTUs
-if (inv_total(inv, shantay_disclaimer) < 1) {
+if (inv_total(inv, thshantaydisc) < 1) {
     ~mesbox("There is a large billboard poster near the gateway. It reads:");
     ~mesbox("The Desert is a VERY Dangerous place. Do not enter if|you are scared of dying. Beware of high temperatures,|sand storms, robbers, and slavers.");
     ~mesbox("That seems pretty scary! Are you sure you want to go through?");
@@ -35,8 +35,8 @@ if (inv_total(inv, shantay_disclaimer) < 1) {
 ~objbox(shantay_pass, "You hand over a Shantay Pass.", 250, 0, 0);
 ~chatplayer("<p,neutral>Sure, here you go!");
 inv_del(inv, shantay_pass, 1);
-if (inv_total(inv, shantay_disclaimer) < 1) {
-    inv_add(inv, shantay_disclaimer, 1);
+if (inv_total(inv, thshantaydisc) < 1) {
+    inv_add(inv, thshantaydisc, 1);
     ~chatnpc("<p,neutral>Here, have a disclaimer... It means that Shantay isn't|responsible if you die in the desert.");
 }
 if_close;
@@ -68,7 +68,7 @@ if (map_members = false) {
     mes(^mes_members_gate); // guess
     return;
 }
-if (inv_total(inv, anainabarrel) > 0 & %desertrescue_progress = ^desertrescue_escaped) {
+if (inv_total(inv, thanainabarrel) > 0 & %desertrescue_progress = ^desertrescue_escaped) {
     ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,neutral>@blu@-- Ana looks out of the barrel --|Hey great, we're at the Shantay pass!");
     @desertrescue_ana_rescued;
 }
@@ -87,7 +87,7 @@ if (inv_total(inv, shantay_pass) < 1) {
     return;
 }
 //https://youtu.be/VXwMnz9tTUs
-if (inv_total(inv, shantay_disclaimer) < 1) {
+if (inv_total(inv, thshantaydisc) < 1) {
     ~mesbox("There is a large billboard poster near the gateway. It reads:");
     ~mesbox("The Desert is a VERY Dangerous place. Do not enter if|you are scared of dying. Beware of high temperatures,|sand storms, robbers, and slavers.");
     ~mesbox("That seems pretty scary! Are you sure you want to go through?");
@@ -100,8 +100,8 @@ if (inv_total(inv, shantay_disclaimer) < 1) {
 ~objbox(shantay_pass, "You hand over a Shantay Pass.", 250, 0, 0);
 ~chatplayer("<p,neutral>Sure, here you go!");
 inv_del(inv, shantay_pass, 1);
-if (inv_total(inv, shantay_disclaimer) < 1) {
-    inv_add(inv, shantay_disclaimer, 1);
+if (inv_total(inv, thshantaydisc) < 1) {
+    inv_add(inv, thshantaydisc, 1);
     ~chatnpc("<p,neutral>Here, have a disclaimer... It means that Shantay isn't|responsible if you die in the desert.");
 }
 if_close;
@@ -120,5 +120,5 @@ p_telejump(movecoord(coord, 0, 0, -3));
 ~mesbox("Despite this warning lots of people seem to pass through the gate.");
 
 // todo: Find a screenshot of this
-[opheld1,shantay_disclaimer]
+[opheld1,thshantaydisc]
 ~mesbox("The Desert is a VERY Dangerous place. Do not enter if|you are scared of dying. Beware of high temperatures,|sand storms, robbers, and slavers."); // complete guess

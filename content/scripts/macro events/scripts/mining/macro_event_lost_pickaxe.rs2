@@ -10,11 +10,11 @@ def_namedobj $pickaxe_head = oc_param($pickaxe, pickaxe_head);
 // todo: use inv_changeslot?
 if (inv_total(worn, $pickaxe) > 0) {
     inv_del(worn, $pickaxe, 1);
-    inv_setslot(worn, ^wearpos_rhand, pickaxe_handle, 1);
+    inv_setslot(worn, ^wearpos_rhand, macro_pickaxehandle, 1);
     ~update_all($pickaxe);
 } else if (inv_total(inv, $pickaxe) > 0) {
     inv_del(inv, $pickaxe, 1);
-    inv_add(inv, pickaxe_handle, 1);
+    inv_add(inv, macro_pickaxehandle, 1);
 }
 def_coord $pickaxe_coord = map_findsquare(coord, 1, 7, ^map_findsquare_lineofwalk);
 anim(human_mining_pickaxe_handle, 0);
@@ -30,29 +30,29 @@ session_log(^log_adventure, "Lost their <oc_name($pickaxe)> head");
 
 [label,reattach_pickaxe](obj $pickaxe_head)
 def_namedobj $pickaxe = oc_param($pickaxe_head, fixed);
-if (inv_total(inv, pickaxe_handle) > 0 & inv_total(inv, $pickaxe_head) > 0) {
-    inv_del(inv, pickaxe_handle, 1);
+if (inv_total(inv, macro_pickaxehandle) > 0 & inv_total(inv, $pickaxe_head) > 0) {
+    inv_del(inv, macro_pickaxehandle, 1);
     inv_del(inv, $pickaxe_head, 1);
     inv_add(inv, $pickaxe, 1);
     sound_synth(attach_handle, 0, 0);
     mes("You carefully attach the two pieces together."); // https://youtu.be/tev6FR2iowQ?t=34
 }
 
-[opheldu,pickaxe_handle]
+[opheldu,macro_pickaxehandle]
 switch_obj(last_useitem) {
-    case bronze_pickaxe_head, iron_pickaxe_head, steel_pickaxe_head, mithril_pickaxe_head, adamant_pickaxe_head, rune_pickaxe_head : @reattach_pickaxe(last_useitem);
+    case macro_bronze_pickaxehead, macro_iron_pickaxehead, macro_steel_pickaxehead, macro_mithril_pickaxehead, macro_adamant_pickaxehead, macro_rune_pickaxehead : @reattach_pickaxe(last_useitem);
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,bronze_pickaxe_head] @check_pickaxe_head;
-[opheldu,iron_pickaxe_head] @check_pickaxe_head;
-[opheldu,steel_pickaxe_head] @check_pickaxe_head;
-[opheldu,mithril_pickaxe_head] @check_pickaxe_head;
-[opheldu,adamant_pickaxe_head] @check_pickaxe_head;
-[opheldu,rune_pickaxe_head] @check_pickaxe_head;
+[opheldu,macro_bronze_pickaxehead] @check_pickaxe_head;
+[opheldu,macro_iron_pickaxehead] @check_pickaxe_head;
+[opheldu,macro_steel_pickaxehead] @check_pickaxe_head;
+[opheldu,macro_mithril_pickaxehead] @check_pickaxe_head;
+[opheldu,macro_adamant_pickaxehead] @check_pickaxe_head;
+[opheldu,macro_rune_pickaxehead] @check_pickaxe_head;
 
 [label,check_pickaxe_head]
-if (last_useitem = pickaxe_handle) {
+if (last_useitem = macro_pickaxehandle) {
     @reattach_pickaxe(last_item);
 } else {
     ~displaymessage(^dm_default);

@@ -1,6 +1,6 @@
 [anchovy_topping]
 param=productexp,300
-param=product,anchovy_pizza
+param=product,anchovie_pizza
 param=productmessage,anchovies
 param=levelrequired,55
 param=levelfailmessage,Anchovy Pizza

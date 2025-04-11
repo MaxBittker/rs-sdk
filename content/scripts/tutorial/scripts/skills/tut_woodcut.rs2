@@ -31,7 +31,7 @@ if (%tutorial_progress > ^survival_guide_complete) {
     return;
 }
 
-if (inv_total(inv, tutorial_logs) > 2) {
+if (inv_total(inv, newbielogs) > 2) {
     ~mesbox("Perhaps you've got enough logs for now.");
     return;
 }
@@ -90,14 +90,14 @@ if (%tutorial_progress = ^survival_guide_cut_tree) {
 [label,tut_advance_woodcutting]
 %tutorial_progress = ^survival_guide_build_fire;
 hint_stop();
-inv_add(inv, tutorial_logs, 1);
+inv_add(inv, newbielogs, 1);
 ~tutorial_step_build_fire;
-~objbox(tutorial_logs, "You get some logs.", 250, 0, 0);
+~objbox(newbielogs, "You get some logs.", 250, 0, 0);
 
 [label,give_logs]
-inv_add(inv, tutorial_logs, 1);
+inv_add(inv, newbielogs, 1);
 ~set_tutorial_progress;
-~objbox(tutorial_logs, "You get some logs.", 250, 0, 0);
+~objbox(newbielogs, "You get some logs.", 250, 0, 0);
 
 [oploc1,loc_3037]
 if (%tutorial_progress < ^survival_guide_cut_tree) {

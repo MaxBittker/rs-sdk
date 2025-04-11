@@ -13,7 +13,7 @@ stock4=rune_chainbody,1,15000
 stock5=rune_longsword,1,14000
 stock6=rune_sword,1,10000
 stock7=dragonhide_chaps,1,500
-stock8=dragonhide_vamb,1,500
+stock8=dragon_vambraces,1,500
 stock9=coif,2,1000
 
 [championshop]

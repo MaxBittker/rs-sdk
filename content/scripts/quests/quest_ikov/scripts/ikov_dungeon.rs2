@@ -14,7 +14,7 @@ p_delay(0);
 
 [label,open_ikov_northgate](int $side)
 def_boolean $entering = ~check_axis_locactive(coord);
-if($entering = true | inv_total(worn, pendant_of_lucien) > 0) {
+if($entering = true | inv_total(worn, ikov_pendantoflucien) > 0) {
     ~open_and_close_double_door2($entering, $side, grate_open);
     return;
 }
@@ -216,7 +216,7 @@ cam_reset;
 npc_setmode(null);
 
 [oploc1,loc_99]
-if(inv_total(inv, shiny_key) = 0) {
+if(inv_total(inv, ikov_shinykey) = 0) {
     mes("The door is locked.");
     sound_synth(locked, 0, 0);
     return;
@@ -224,7 +224,7 @@ if(inv_total(inv, shiny_key) = 0) {
 ~open_and_close_door2(loc_1532, ~check_axis_locactive(coord), door_open);
 
 [oplocu,loc_99]
-if(last_useitem = shiny_key) {
+if(last_useitem = ikov_shinykey) {
     ~open_and_close_door2(loc_1532, ~check_axis_locactive(coord), door_open);
     return;
 }

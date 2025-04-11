@@ -1,7 +1,7 @@
 [opheld1,cocktail_guide] @open_cocktail_guide_index;
 [if_button,blurberry_cocktail_guide:index] @open_cocktail_guide_index;
 [if_button,blurberry_cocktail_guide2:rightarrow] 
-if (%open_book = gianne_cook_book) {
+if (%open_book = giannes_cook_book) {
     @flip_page_cook_book(1);
 } else {
     @flip_page_cocktail_guide(1);
@@ -11,7 +11,7 @@ if (%open_book = gianne_cook_book) {
 [if_button,blurberry_cocktail_guide2:drunk_dragon] @flip_page_cocktail_guide(3);
 [if_button,blurberry_cocktail_guide2:fruit_blast] @flip_page_cocktail_guide(4);
 [if_button,blurberry_cocktail_guide2:pineapple_punch] @flip_page_cocktail_guide(5);
-[if_button,blurberry_cocktail_guide2:short_green_guy] @flip_page_cocktail_guide(6);
+[if_button,blurberry_cocktail_guide2:sgg] @flip_page_cocktail_guide(6);
 [if_button,blurberry_cocktail_guide2:wizard_blizzard] @flip_page_cocktail_guide(7);
 [if_button,blurberry_cocktail_guide:leftarrow] @flip_page_cocktail_guide(calc(%book_page - 1));
 [if_button,blurberry_cocktail_guide:rightarrow] @flip_page_cocktail_guide(calc(%book_page + 1));

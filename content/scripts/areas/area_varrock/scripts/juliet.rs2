@@ -59,19 +59,19 @@ if($option = 1) {
 [label,juliet_agree_message]
 ~chatplayer("<p,happy>Certainly, I will deliver your message straight away.");
 ~chatnpc("<p,sad>It may be our only hope.");
-inv_add(inv, juliet_message, 1);
+inv_add(inv, julietmessage, 1);
 %romeojuliet_progress = ^romeojuliet_spoken_juliet;
 ~send_quest_progress(questlist:romeojuliet, %romeojuliet_progress, ^romeojuliet_complete);
 ~mesbox("Juliet gives you a message.");
 
 [label,juliet_deliver_letter]
-if(inv_total(inv, juliet_message) > 0 | inv_total(bank, juliet_message) > 0) {
+if(inv_total(inv, julietmessage) > 0 | inv_total(bank, julietmessage) > 0) {
     ~chatnpc("<p,sad>Please, deliver the message to Romeo with all speed!");
 } else {
     ~chatnpc("<p,angry>How could you lose this most important message?");
     ~chatnpc("<p,sad>Please, take this message to him, and please don't lose it.");
     ~mesbox("Juliet gives you another message.");
-    inv_add(inv, juliet_message, 1);
+    inv_add(inv, julietmessage, 1);
 }
 
 [label,juliet_message_passed]
@@ -86,7 +86,7 @@ if(inv_total(inv, juliet_message) > 0 | inv_total(bank, juliet_message) > 0) {
 ~chatnpc("<p,sad>But please, make haste. My father is close.");
 
 [label,juliet_potion_made]
-if(inv_total(inv, cadaver) = 0) {
+if(inv_total(inv, cadava) = 0) {
     ~chatplayer("<p,happy>I have to get a potion made for you.");
     ~chatplayer("<p,neutral>Not done that bit yet though. Still trying.");
     ~chatnpc("<p,neutral>Fair luck to you, the end is close.");
@@ -95,7 +95,7 @@ if(inv_total(inv, cadaver) = 0) {
 ~chatplayer("<p,happy>I have a Cadaver potion from Father Lawrence.");
 ~chatplayer("<p,neutral>It should make you seem dead,|and get you away from this place.");
 ~mesbox("You pass the potion to Juliet.");
-inv_del(inv, cadaver, 1);
+inv_del(inv, cadava, 1);
 %romeojuliet_progress = ^romeojuliet_juliet_crypt;
 ~chatnpc("<p,happy>Wonderful. I just hope Romeo can|remember to get me from the crypt.");
 ~chatnpc("<p,happy>Many thanks kind friend.");

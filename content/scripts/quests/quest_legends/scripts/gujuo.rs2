@@ -9,7 +9,7 @@ npc_setmode(none);
 
 [opnpcu,gujuo]
 switch_obj(last_useitem) {
-    case gold_bowl :
+    case goldbowl_empty :
         if (%legends_progress < ^legends_asked_gujuo_holy_water) {
             // shouldn't be possible under normal circumstances
             ~displaymessage(^dm_default);
@@ -36,7 +36,7 @@ if (p_finduid(uid) = false) {
     return;
 }
 if(%legends_progress >= ^legends_asked_gujuo_holy_water) {
-    if (inv_total(inv, gold_bowl) > 0) {
+    if (inv_total(inv, goldbowl_empty) > 0) {
         ~chatnpc("<p,neutral>Greetings Bwana. Ah I see you have the golden bowl! Would you like me to show you how to bless it?");
         def_int $choice = ~p_choice2("Yes, I'd like you to bless my gold bowl.", 1, "No thanks, I need help with something else.", 2);
         if ($choice = 1) {
@@ -79,30 +79,30 @@ else if (%legends_progress >= ^legends_accepted_rescue_ungadulu & %legends_progr
     }
 } else if (%legends_progress >= ^legends_defeated_nezikchened_water & %legends_progress < ^legends_defeated_nezikchened_final) {
     ~chatnpc("<p,happy>Hello Bwana, I'm very pleased to see you again. Things seem much happier now in the Kharazi Jungle. I suspect that it is down to your good doings!");
-    if(inv_total(inv, yommi_totem) > 0) {
+    if(inv_total(inv, thtotempole) > 0) {
         @multi4("I made the Totem pole, now what do I do with it?", gujuo_madetotem, "I found the source of the spring and I got the water.", gujuo_foundsource, "I killed the demon again.", gujuo_demon, "Ok thanks for your help.", gujuo_thanks);
     }
     @multi4("I found the source of the spring and I got the water.", gujuo_foundsource, "I killed the demon again.", gujuo_demon, "How do I make the totem pole?", gujuo_totem, "Ok thanks for your help.", gujuo_thanks);
 } else if(%legends_progress = ^legends_replaced_totem) {
     ~chatnpc("<p,neutral>Greetings Bwana, we saw your fight with the Demon from some distance away. My people are so pleased with your heroic efforts. Your strength and ability as a warrior are Legendary.");
-    ~objbox(gilded_totem, "Gujuo offers you an awe inspiring totem pole.", 250, 0, ^objbox_height);
+    ~objbox(thtotempolegift, "Gujuo offers you an awe inspiring totem pole.", 250, 0, ^objbox_height);
     ~chatnpc("<p,neutral>Please accept this as a token of our appreciation.");
-    inv_add(inv, gilded_totem, 1); // no invspace check
+    inv_add(inv, thtotempolegift, 1); // no invspace check
     %legends_progress = ^legends_got_gilded_totem;
     ~chatnpc("<p,neutral>Please, now consider yourself a friend of my people. And visit us anytime.");
-    if(inv_total(inv, yommi_tree_seeds_germinated) > 0 | inv_total(bank, yommi_tree_seeds_germinated) > 0) { // removes from both
-        inv_del(bank, yommi_tree_seeds_germinated, ^max_32bit_int);
-        inv_del(inv, yommi_tree_seeds_germinated, ^max_32bit_int);
+    if(inv_total(inv, yommiseeds_germ) > 0 | inv_total(bank, yommiseeds_germ) > 0) { // removes from both
+        inv_del(bank, yommiseeds_germ, ^max_32bit_int);
+        inv_del(inv, yommiseeds_germ, ^max_32bit_int);
         ~chatnpc("<p,neutral>I'll take those germinated Yommi tree seeds to Ungadulu, I'm sure he'll appreciate them.");
     }
-    if(inv_total(inv, yommi_tree_seeds) > 0 | inv_total(bank, yommi_tree_seeds_germinated) > 0) {
-        inv_del(bank, yommi_tree_seeds, ^max_32bit_int);
-        inv_del(inv, yommi_tree_seeds, ^max_32bit_int);
+    if(inv_total(inv, yommiseeds) > 0 | inv_total(bank, yommiseeds_germ) > 0) {
+        inv_del(bank, yommiseeds, ^max_32bit_int);
+        inv_del(inv, yommiseeds, ^max_32bit_int);
         ~chatnpc("<p,neutral>I'll take those Yommi tree seeds to Ungadulu, I'm sure he'll appreciate them.");
     }
     @gujuo_leave;
 } else if(%legends_progress = ^legends_got_gilded_totem) { // no dialogue for stages between this and quest completion, confirm this on rs3
-    if(~obj_gettotal(gilded_totem) = 0) {
+    if(~obj_gettotal(thtotempolegift) = 0) {
         ~chatnpc("<p,neutral>Good day Bwana, it's always good to see you.");
         @multi4("Do you have any news?", gujuo_news, "Where are all your people?", gujuo_people, "I've lost the tribal gift you gave me.", gujuo_lost_gift, "Ok thanks for your help.", gujuo_thanks);
     } else {
@@ -117,9 +117,9 @@ else if (%legends_progress >= ^legends_accepted_rescue_ungadulu & %legends_progr
 [label,gujuo_lost_gift]
 ~chatplayer("<p,neutral>I've lost the tribal gift you gave me.");
 ~chatnpc("<p,neutral>Well, that wasn't very nice of you. It took us a long time to make that Totem pole. Luckily, I made another one at the same time.");
-if(~obj_gettotal(gilded_totem) = 0) {
-    inv_add(inv, gilded_totem, 1);
-    ~objbox(gilded_totem, "Gujuo hands over another totem pole.", 250, 0, ^objbox_height);
+if(~obj_gettotal(thtotempolegift) = 0) {
+    inv_add(inv, thtotempolegift, 1);
+    ~objbox(thtotempolegift, "Gujuo hands over another totem pole.", 250, 0, ^objbox_height);
 }
 
 [label,gujuo_news]
@@ -313,7 +313,7 @@ if(%legends_progress = ^legends_water_pool_dried_up) %legends_progress = ^legend
 
 [label,gujuo_have_seeds]
 ~chatplayer("<p,neutral>I have the Yommi tree seeds.");
-if(inv_total(inv, yommi_tree_seeds) <= 0) {
+if(inv_total(inv, yommiseeds) <= 0) {
     ~chatnpc("<p,neutral>Hmmm, well I don't see them. You'd better go and ask Ungadulu for some more.");
     return;
 }
@@ -338,7 +338,7 @@ if (stat(prayer) < 42) {
     mes("You need a Prayer level of at least 42 to complete this task.");
     return;
 }
-if (inv_total(inv, blessed_gold_bowl) > 0) {
+if (inv_total(inv, goldbowlbless_empty) > 0) {
     // says hello again
     ~chatnpc("<p,neutral>Hello Bwana, I see that you already have a blessed golden bowl. Have you fallen under the spell of the metal of the sun? Alas, I cannot allow you to bless the vessel if you're possessed by greed.");
     return;
@@ -376,10 +376,10 @@ if(random(2) = 0) {
     }
 }
 else {
-    ~objbox(blessed_gold_bowl, "You're surrounded by a totally peaceful aura as you bring the blessings of your god down on the bowl.", 250, 0, divide(^objbox_height, 2));
-    inv_del(inv, gold_bowl, 1);
-    inv_add(inv, blessed_gold_bowl, 1);
-    ~objbox(blessed_gold_bowl, "The bowl is blessed!", 250, 0, divide(^objbox_height, 2));
+    ~objbox(goldbowlbless_empty, "You're surrounded by a totally peaceful aura as you bring the blessings of your god down on the bowl.", 250, 0, divide(^objbox_height, 2));
+    inv_del(inv, goldbowl_empty, 1);
+    inv_add(inv, goldbowlbless_empty, 1);
+    ~objbox(goldbowlbless_empty, "The bowl is blessed!", 250, 0, divide(^objbox_height, 2));
     @gujuo_how_goes_ungadulu;
 }
 
@@ -536,10 +536,10 @@ if (%legends_progress < ^legends_asked_gujuo_holy_water) {
 [label,gujuo_vessel]
 ~chatplayer("<p,neutral>What kind of a vessel?");
 ~chatnpc("<p,neutral>A vessel made of sun metal, but it can be of any shape. However, it must be blessed.");
-if (inv_total(inv, sketch) = 0) {
-    ~objbox(sketch, "Gujuo takes out a small scroll and some charcoal and draws a rough sketch. When he has finished, he gives the sketch to you.", 250, 0, 0);
+if (inv_total(inv, goldbowlpic) = 0) {
+    ~objbox(goldbowlpic, "Gujuo takes out a small scroll and some charcoal and draws a rough sketch. When he has finished, he gives the sketch to you.", 250, 0, 0);
     ~chatnpc("<p,neutral>Here, have this as an example... I pray that it will help you.");
-    inv_add(inv, sketch, 1);
+    inv_add(inv, goldbowlpic, 1);
 }
 else {
     ~chatnpc("<p,neutral>Similar to the picture I have already given you.");

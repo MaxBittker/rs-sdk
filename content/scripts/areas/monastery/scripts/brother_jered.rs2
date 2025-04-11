@@ -7,9 +7,9 @@ if ($choice = 2) {
 }
 ~chatplayer("<p,happy>What can you do to help a bold adventurer like myself?");
 // osrs but skill capes taken out.
-if (inv_total(inv, unblessed_symbol) > 0) {
+if (inv_total(inv, stringstar) > 0) {
     ~chatnpc("<p,neutral>Well I can bless that star of Saradomin you have!");
-} else if (inv_total(inv, unstrung_symbol) > 0) {
+} else if (inv_total(inv, nostringstar) > 0) {
     ~chatnpc("<p,neutral>Well if you put a string on that holy symbol I can|bless it for you.");
     return;
 } else {
@@ -28,6 +28,6 @@ if ($choice = 2) {
 ~chatplayer("<p,quiz>Yes please.");
 // https://i.imgur.com/0AuttJO.png 2006
 // https://web.archive.org/web/20060518200959/http://runevillage.com/rs2Guilds/guild2Prayer.php
-inv_del(inv, unblessed_symbol, 1);
+inv_del(inv, stringstar, 1);
 inv_add(inv, blessedstar, 1);
 ~objbox(blessedstar, "You give Jered the symbol.|Jered closes his eyes and places his hand on the symbol.|He softly chants.|Jered passes you the holy symbol.", 250, 0, 0);

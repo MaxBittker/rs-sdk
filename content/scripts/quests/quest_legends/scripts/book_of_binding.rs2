@@ -59,10 +59,10 @@ p_delay(0);
 stat_sub(prayer, calc(5 * $count), 0);
 stat_sub(magic, calc(5 * $count), 0);
 inv_del(inv, vial_empty, $count);
-inv_add(inv, enchanted_vial, $count);
+inv_add(inv, vial_enchanted, $count);
 def_string $text = "some vials";
 if($count = 1) $text = "a vial";
-~objbox(enchanted_vial, "You enchant <$text>!", 250, 0, ^objbox_height);
+~objbox(vial_enchanted, "You enchant <$text>!", 250, 0, ^objbox_height);
 
 [proc,book_activus](string $title, string $string)
 split_init($string, 175, 22, q8);

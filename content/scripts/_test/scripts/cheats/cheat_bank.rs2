@@ -20,9 +20,9 @@ if (p_finduid(uid) = true) {
     inv_add(bank, green_partyhat, 255);
     inv_add(bank, yellow_partyhat, 255);
     inv_add(bank, santa_hat, 255);
-    inv_add(bank, green_halloween_mask, 255);
-    inv_add(bank, blue_halloween_mask, 255);
-    inv_add(bank, red_halloween_mask, 255);
+    inv_add(bank, halloweenmask_green, 255);
+    inv_add(bank, halloweenmask_blue, 255);
+    inv_add(bank, halloweenmask_red, 255);
     inv_add(bank, easter_egg, 255);
     inv_add(bank, pumpkin, 255);
     inv_add(bank, disk_of_returning, 255);
@@ -84,11 +84,11 @@ if (p_finduid(uid) = true) {
     inv_add(bank, adamantite_bar, 65535);
     inv_add(bank, runite_bar, 65535);
 
-    inv_add(bank, shield_left_half, ^max_32bit_int);
-    inv_add(bank, shield_right_half, ^max_32bit_int);
+    inv_add(bank, dragonshield_a, ^max_32bit_int);
+    inv_add(bank, dragonshield_b, ^max_32bit_int);
 
     inv_add(bank, bones, ^max_32bit_int);
-    inv_add(bank, burnt_bones, ^max_32bit_int);
+    inv_add(bank, bones_burnt, ^max_32bit_int);
     inv_add(bank, bat_bones, ^max_32bit_int);
     inv_add(bank, big_bones, ^max_32bit_int);
     inv_add(bank, wolf_bones, ^max_32bit_int);
@@ -98,12 +98,12 @@ if (p_finduid(uid) = true) {
     inv_add(bank, vial_empty, ^max_32bit_int);
     inv_add(bank, vial_water, ^max_32bit_int);
 
-    inv_add(bank, unidentified_guam_leaf, 255);
+    inv_add(bank, unidentified_guam, 255);
     inv_add(bank, unidentified_marrentill, 255);
     inv_add(bank, unidentified_tarromin, 255);
     inv_add(bank, unidentified_harralander, 255);
-    inv_add(bank, unidentified_ranarr_weed, 255);
-    inv_add(bank, unidentified_irit_leaf, 255);
+    inv_add(bank, unidentified_ranarr, 255);
+    inv_add(bank, unidentified_irit, 255);
     inv_add(bank, unidentified_avantoe, 255);
     inv_add(bank, unidentified_kwuarm, 255);
     inv_add(bank, unidentified_cadantine, 255);
@@ -143,15 +143,15 @@ if (p_finduid(uid) = true) {
 
     inv_add(bank, lobster_pot, 255);
     inv_add(bank, net, 255);
-    inv_add(bank, net_big, 255);
+    inv_add(bank, big_net, 255);
     inv_add(bank, fishing_rod, 255);
     inv_add(bank, fly_fishing_rod, 255);
     inv_add(bank, harpoon, 65535);
     inv_add(bank, fishing_bait, ^max_32bit_int);
     inv_add(bank, feather, ^max_32bit_int);
 
-    inv_add(bank, shrimps, 65535);
-    inv_add(bank, raw_shrimps, 65535);
+    inv_add(bank, shrimp, 65535);
+    inv_add(bank, raw_shrimp, 65535);
     inv_add(bank, anchovies, 65535);
     inv_add(bank, raw_anchovies, 65535);
     inv_add(bank, sardine, 65535);
@@ -180,10 +180,10 @@ if (p_finduid(uid) = true) {
     inv_add(bank, lobster, 65535);
     inv_add(bank, raw_shark, 65535);
     inv_add(bank, shark, 65535);
-    inv_add(bank, raw_manta_ray, 65535);
-    inv_add(bank, manta_ray, 65535);
-    inv_add(bank, raw_sea_turtle, 65535);
-    inv_add(bank, sea_turtle, 65535);
+    inv_add(bank, raw_mantaray, 65535);
+    inv_add(bank, mantaray, 65535);
+    inv_add(bank, raw_seaturtle, 65535);
+    inv_add(bank, seaturtle, 65535);
     inv_add(bank, casket, ^max_32bit_int);
 
     inv_add(bank, chisel, 255);
@@ -224,11 +224,11 @@ if (p_finduid(uid) = true) {
     inv_add(bank, adamant_sq_shield, 255);
     inv_add(bank, amulet_of_strength, 255);
     inv_add(bank, amulet_of_power, 255);
-    inv_add(bank, amulet_accuracy, 255);
+    inv_add(bank, amulet_of_accuracy, 255);
     inv_add(bank, coif, 255);
     inv_add(bank, dragonhide_body, 255);
     inv_add(bank, dragonhide_chaps, 255);
-    inv_add(bank, dragonhide_vamb, 255);
+    inv_add(bank, dragon_vambraces, 255);
     inv_add(bank, leather_boots, 255);
     inv_add(bank, oak_shortbow, 255);
     inv_add(bank, crossbow, 255);
@@ -239,17 +239,17 @@ if (p_finduid(uid) = true) {
     inv_add(bank, staff_of_water, 255);
     inv_add(bank, staff_of_air, 255);
     inv_add(bank, amulet_of_magic, 255);
-    inv_add(bank, wizards_hat_blue, 255);
+    inv_add(bank, bluewizhat, 255);
     inv_add(bank, wizards_robe, 255);
     inv_add(bank, blue_skirt, 255);
-    inv_add(bank, wizards_hat_black, 255);
-    inv_add(bank, wizards_robe_black, 255);
+    inv_add(bank, blackwizhat, 255);
+    inv_add(bank, black_robe, 255);
     inv_add(bank, black_skirt, 255);
-    inv_add(bank, dragonfire_shield, 255);
+    inv_add(bank, antidragonbreathshield, 255);
     inv_add(bank, lobster, ^max_32bit_int);
     inv_add(bank, swordfish, ^max_32bit_int);
-    inv_add(bank, anchovy_pizza, ^max_32bit_int);
-    inv_add(bank, 4dose1strength, ^max_32bit_int);
+    inv_add(bank, anchovie_pizza, ^max_32bit_int);
+    inv_add(bank, strength4, ^max_32bit_int);
     inv_add(bank, airrune, ^max_32bit_int);
     inv_add(bank, firerune, ^max_32bit_int);
     inv_add(bank, deathrune, ^max_32bit_int);
@@ -263,8 +263,8 @@ if (p_finduid(uid) = true) {
     inv_add(bank, orange_cape, 255);
     inv_add(bank, yellow_cape, 255);
     inv_add(bank, leather_gloves, 255);
-    inv_add(bank, monk_robe_top, 255);
-    inv_add(bank, monk_robe_bottom, 255);
+    inv_add(bank, monkrobetop, 255);
+    inv_add(bank, monkrobebottom, 255);
     inv_add(bank, blessedstar, 255);
     inv_add(bank, studded_body, 255);
     inv_add(bank, studded_chaps, 255);

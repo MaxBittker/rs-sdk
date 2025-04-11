@@ -59,9 +59,9 @@ if(inv_total(inv, raw_giant_carp) > 0) {
     inv_del(inv, raw_sardine, 3);
     inv_del(inv, raw_giant_carp, 3);
     %fishingcompo_progress = ^fishingcompo_won_comp;
-    inv_add(inv, fishing_trophy, 1);
+    inv_add(inv, hemenster_fishing_trophy, 1);
     ~chatnpc("<p,happy>We have a new winner!|The heroic-looking person who was fishing by the pipes|has caught the biggest carp|I've seen since Grandpa Jack used to compete!");
-    ~objbox(fishing_trophy, "You are given the Hemenster fishing trophy!", 250, 0, ^objbox_height);
+    ~objbox(hemenster_fishing_trophy, "You are given the Hemenster fishing trophy!", 250, 0, ^objbox_height);
 } else {
     inv_del(inv, raw_sardine, 3);
     %fishingcompo_progress = ^fishingcompo_started;
@@ -86,12 +86,12 @@ if($option = 1) {
 
 [label,bonzo_champ]
 ~chatnpc("<p,happy>Hello champ!");
-if(%fishingcompo_progress = ^fishingcompo_won_comp & inv_total(inv, fishing_trophy) = 0) {
+if(%fishingcompo_progress = ^fishingcompo_won_comp & inv_total(inv, hemenster_fishing_trophy) = 0) {
     ~chatplayer("<p,sad>I don't feel like a champ...");
     ~chatnpc("<p,quiz>Why not champ?");
     ~chatplayer("<p,sad>I lost my fishing trophy...");
     ~chatnpc("<p,happy>Is that all chump? Don't worry, I have a spare!");
-    inv_add(inv, fishing_trophy, 1);
+    inv_add(inv, hemenster_fishing_trophy, 1);
     return;
 }
 ~chatnpc("<p,happy>So any hints on how to fish?");

@@ -1,6 +1,6 @@
 // guessed name
 
-[unf_guam_potion]
+[guamvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Guam potion.
 cost=3
@@ -16,7 +16,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_marrentill_potion]
+[marrentillvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Marentill potion.
 cost=5
@@ -32,7 +32,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_tarromin_potion]
+[tarrominvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Tarromin potion.
 cost=11
@@ -48,7 +48,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_harralander_potion]
+[harralandervial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Harralander potion.
 cost=20
@@ -64,7 +64,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_ranarr_potion]
+[ranarrvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Ranarr potion.
 cost=25
@@ -80,7 +80,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_irit_potion]
+[iritvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Irit potion.
 cost=40
@@ -96,7 +96,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_avantoe_potion]
+[avantoevial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Avantoe potion.
 cost=48
@@ -112,7 +112,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_kwuarm_potion]
+[kwuarmvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Kwuarm potion.
 cost=54
@@ -128,7 +128,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_cadantine_potion]
+[cadantinevial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Cadantine potion.
 cost=65
@@ -144,7 +144,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_dwarf_weed_potion]
+[dwarfweedvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Dwarf Weed potion.
 cost=70
@@ -160,7 +160,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_torstol_potion]
+[torstolvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Torstol potion.
 cost=25
@@ -176,7 +176,7 @@ category=category_69
 members=yes
 // guessed name
 
-[unf_lantadyme_potion]
+[lantadymevial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Lantadyme potion.
 cost=68

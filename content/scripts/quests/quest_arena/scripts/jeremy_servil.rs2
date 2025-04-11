@@ -8,7 +8,7 @@ switch_int(%arena_progress) {
     case ^arena_entered_ogre_fight, ^arena_defeated_ogre, ^arena_sent_jail, ^arena_defeated_scorpion, ^arena_defeated_bouncer : mes("Jeremy is in the arena with his father now.");
     case ^arena_obtained_armour, ^arena_spoken_drunkguard, ^arena_given_khali_brew :
         // https://youtu.be/Oltfw1gvWjQ?si=_bu-CCXvPLSecu_N&t=120
-        if(inv_total(inv, khazard_cell_keys) > 0) {
+        if(inv_total(inv, khazard_cellkeys) > 0) {
             @free_jeremy_servil;
         }
         ~chatplayer("<p,neutral>Hello.");

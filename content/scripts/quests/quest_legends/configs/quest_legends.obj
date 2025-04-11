@@ -1,4 +1,4 @@
-[radimus_notes]
+[thkaramjamap]
 name=Radimus notes
 desc=Notes given to you by Radimus Erkle, it includes a partially completed map.
 members=yes
@@ -17,7 +17,7 @@ iop2=Complete
 weight=20g
 tradeable=no
 
-[radimus_notes_complete]
+[thkaramjamapcomp]
 name=Radimus notes
 desc=Notes given to you by Radimus Erkle, it includes a partially completed map.
 members=yes
@@ -47,7 +47,7 @@ iop1=Swing
 weight=20g
 tradeable=no
 
-[scrawled_note]
+[scrawled_note1]
 name=Scrawled note
 desc=A scrawled note with spidery writing on it.
 members=yes
@@ -73,7 +73,7 @@ iop1=Read
 weight=20g
 tradeable=no
 
-[a_scribbled_note]
+[scrawled_note2]
 name=A scribbled note
 desc=A scrawled note with spidery writing on it.
 members=yes
@@ -99,7 +99,7 @@ iop1=Read
 weight=20g
 tradeable=no
 
-[scrumpled_note]
+[scrawled_note3]
 name=Scrumpled note
 desc=A scrawled note with spidery writing on it.
 members=yes
@@ -125,7 +125,7 @@ iop1=Read
 weight=20g
 tradeable=no
 
-[sketch]
+[goldbowlpic]
 name=Sketch
 desc=A rough sketch of a bowl shaped vessel given to you by Gujuo.
 cost=10
@@ -144,7 +144,7 @@ iop1=Look
 weight=20g
 tradeable=no
 
-[gold_bowl]
+[goldbowl_empty]
 name=Gold bowl
 desc=A specially made bowl constructed out of pure gold.
 cost=700
@@ -159,9 +159,9 @@ recol2d=31528
 2dxan=204
 weight=800g
 tradeable=no
-param=next_obj_stage,golden_bowl_water
+param=next_obj_stage,goldbowl_water
 
-[blessed_gold_bowl]
+[goldbowlbless_empty]
 name=Blessed gold bowl
 desc=A specially made bowl constructed out of pure gold and blessed.
 cost=700
@@ -176,9 +176,9 @@ recol2d=31528
 2dxan=204
 weight=800g
 tradeable=no
-param=next_obj_stage,blessed_golden_bowl_water
+param=next_obj_stage,goldbowlbless_water
 
-[golden_bowl_water]
+[goldbowl_water]
 name=Golden bowl
 desc=A specially made golden bowl with water.
 cost=700
@@ -193,9 +193,9 @@ iop1=Empty
 weight=1kg
 tradeable=no
 category=gold_bowl
-param=next_obj_stage,gold_bowl
+param=next_obj_stage,goldbowl_empty
 
-[golden_bowl_pure_water]
+[goldbowl_pure]
 name=Golden bowl
 desc=A specially made bowl constructed out of pure gold. It has pure water in it.
 cost=700
@@ -210,9 +210,9 @@ iop1=Empty
 weight=1kg
 tradeable=no
 category=gold_bowl
-param=next_obj_stage,gold_bowl
+param=next_obj_stage,goldbowl_empty
 
-[blessed_golden_bowl_water]
+[goldbowlbless_water]
 name=Golden bowl
 desc=A blessed golden bowl. It has water in it.
 cost=700
@@ -227,9 +227,9 @@ iop1=Empty
 weight=1kg
 tradeable=no
 category=gold_bowl
-param=next_obj_stage,blessed_gold_bowl
+param=next_obj_stage,goldbowlbless_empty
 
-[blessed_golden_bowl_pure_water]
+[goldbowlbless_pure]
 name=Golden bowl
 desc=A blessed golden bowl. It has pure sacred water in it.
 cost=700
@@ -244,9 +244,9 @@ iop1=Empty
 weight=1kg
 tradeable=no
 category=gold_bowl
-param=next_obj_stage,blessed_gold_bowl
+param=next_obj_stage,goldbowlbless_empty
 
-[hollow_reed]
+[reed_hollow]
 cost=2
 name=Hollow reed
 desc=One of nature's pipes.
@@ -300,7 +300,7 @@ iop1=Read
 weight=18oz
 tradeable=no
 
-[enchanted_vial]
+[vial_enchanted]
 name=Enchanted vial
 desc=An enchanted empty glass vial.
 model=model_1736_obj
@@ -356,7 +356,7 @@ model=model_2676_obj
 2dxan=412
 weight=2g
 
-[yommi_tree_seeds]
+[yommiseeds]
 name=Yommi tree seeds
 desc=These need to be germinated before they can be used.
 model=model_2381_obj
@@ -373,7 +373,7 @@ op1=Look
 weight=1g
 tradeable=no
 
-[yommi_tree_seeds_germinated]
+[yommiseeds_germ]
 name=Yommi tree seeds
 desc=These are germinated and ready to be planted in fertile soil.
 model=model_2381_obj
@@ -390,7 +390,7 @@ op1=Look
 weight=1g
 tradeable=no
 
-[snakeweed_mixture]
+[snakeweed_sol]
 name=Snakeweed mixture
 desc=It's a mixture of Snakeweed and water, I need another ingredient to finish this potion.
 model=model_2789_obj
@@ -404,7 +404,7 @@ weight=25g
 members=yes
 tradeable=no
 
-[ardrigal_mixture]
+[ardrigal_sol]
 name=Ardrigal mixture
 desc=It's a mixture of Ardrigal and water, I need another ingredient to finish this potion.
 model=model_2789_obj
@@ -418,7 +418,7 @@ members=yes
 weight=25g
 tradeable=no
 
-[bravery_potion]
+[bravery_pot]
 name=Bravery potion
 desc=A bravery potion which Gujuo gave you the details for, let's hope it works.
 model=model_2789_obj
@@ -433,7 +433,7 @@ iop1=Drink
 weight=25g
 tradeable=no
 
-[blue_hat]
+[viyeldihat]
 name=Blue hat
 desc=A strange blue wizards hat.
 cost=2
@@ -455,7 +455,7 @@ param=magicattack,3
 param=magicdefence,3
 tradeable=no
 
-[chunk_of_crystal]
+[heartcrystal_sectiona]
 name=Chunk of crystal
 desc=It looks like it's been snapped off of something.
 model=model_2842_obj
@@ -467,7 +467,7 @@ weight=50g
 tradeable=no
 param=crystal_bit,^legends_smelting_chunk
 
-[hunk_of_crystal]
+[heartcrystal_sectionb]
 name=Hunk of crystal
 desc=It looks like it's been snapped off of something.
 model=model_2843_obj
@@ -479,7 +479,7 @@ weight=50g
 tradeable=no
 param=crystal_bit,^legends_smelting_hunk
 
-[lump_of_crystal]
+[heartcrystal_sectionc]
 name=Lump of crystal
 desc=It looks like it's been snapped off of something.
 model=model_2844_obj
@@ -492,7 +492,7 @@ weight=50g
 tradeable=no
 param=crystal_bit,^legends_smelting_lump
 
-[heart_crystal]
+[heartcrystal]
 name=Heart crystal
 desc=A heart shaped crystal.
 model=model_2472_obj
@@ -504,7 +504,7 @@ weight=150g
 iop1=Look-at
 tradeable=no
 
-[glowing_heart_crystal]
+[heartcrystal_glow]
 name=Heart crystal
 desc=A heart shaped crystal.
 model=model_2827_obj
@@ -516,7 +516,7 @@ weight=150g
 iop1=Look-at
 tradeable=no
 
-[dark_dagger]
+[deathdagger]
 model=model_2614_obj
 members=yes
 2dxof=1
@@ -544,7 +544,7 @@ param=stab_sound,stabsword_stab
 param=slash_sound,stabsword_slash
 tradeable=no
 
-[glowing_dagger]
+[deathdaggerdone]
 model=model_2733_obj
 2dxof=1
 2dzoom=1000
@@ -571,7 +571,7 @@ param=stab_sound,stabsword_stab
 param=slash_sound,stabsword_slash
 tradeable=no
 
-[holy_force]
+[holyforce]
 name=Holy force
 desc=A powerful spell for good.
 model=model_2583_obj
@@ -584,7 +584,7 @@ iop1=Cast Spell
 weight=20g
 tradeable=no
 
-[yommi_totem]
+[thtotempole]
 name=Yommi totem
 desc=A well carved totem pole made from the trunk of a Yommi tree.
 members=yes
@@ -597,7 +597,7 @@ model=model_loc_870_8
 weight=3kg
 tradeable=no
 
-[gilded_totem]
+[thtotempolegift]
 name=Gilded totem
 desc=A gilded totem pole from the Kharazi tribe.
 model=model_loc_870_8

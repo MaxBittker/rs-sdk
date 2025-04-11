@@ -15,7 +15,7 @@ if ($choice = 1) {
 ~chatnpc("<p,happy>Really? Sorry, how rude of me. It just takes a little|while to get used to the funny names you humans|have.");
 ~chatnpc("<p,happy>Of course if you're going to work for me I'll have to|see what you're like first. Here, take a look at our|menu.");
 %gnome_restaurant_progress = 1;
-inv_add(inv, gianne_cook_book, 1);
+inv_add(inv, giannes_cook_book, 1);
 ~mesbox("Aluft hands you a cook book.");
 ~chatnpc("<p,neutral>When you've had a look at the book, come back here|and I'll let you prepare a few dishes.");
 ~chatplayer("<p,happy>Ok then.");
@@ -313,14 +313,14 @@ switch_int(%gnome_restaurant_progress) {
         ~chatnpc("<p,neutral>Hello again, are the dishes ready?");
         ~gnome_restaurant_job_checks("Here you go Aluft.", "a chocolate bomb, two portions of choc chip crunchies and two portions of toad crunchies", "Ok, I need ", ". Don't take too long, it's a full house tonight.", 75,
         chocolate_bomb, 1, 
-        choc_chip_crunchies, 2, 
+        chocchip_crunchies, 2, 
         toad_crunchies, 2, 
         null, 0, 
         null, 0);
     case 10 :
         ~chatnpc("<p,neutral>Hello again <displayname()> how did you do?");
         ~gnome_restaurant_job_checks("Here you go Aluft.", "two portions of choc chip crunchies", "I just need ", ". Should be easy", 30,
-        choc_chip_crunchies, 2, 
+        chocchip_crunchies, 2, 
         null, 0, 
         null, 0, 
         null, 0, 
@@ -329,7 +329,7 @@ switch_int(%gnome_restaurant_progress) {
         ~chatnpc("<p,neutral>Hello again <displayname()> how did you do?");
         ~gnome_restaurant_job_checks("Here you go Aluft.", "a chocolate bomb and two portions of choc chip crunchies", "I need ", " please", 45,
         chocolate_bomb, 1, 
-        choc_chip_crunchies, 2, 
+        chocchip_crunchies, 2, 
         null, 0, 
         null, 0, 
         null, 0);
@@ -453,7 +453,7 @@ if (inv_total(inv, batta_tin) < 1 & inv_total(inv, raw_batta) < 1 & inv_total(in
 return(false);
 
 [proc,gnome_restaurant_missing_gnomebowl_mould]()(boolean)
-if (inv_total(inv, gnomebowl_mould) < 1 & inv_total(inv, raw_gnomebowl) < 1 & inv_total(inv, half_baked_gnomebowl) < 1) {
+if (inv_total(inv, gnomebowl_mould) < 1 & inv_total(inv, raw_gnomebowl) < 1 & inv_total(inv, half_baked_bowl) < 1) {
     return(true);
 }
 return(false);

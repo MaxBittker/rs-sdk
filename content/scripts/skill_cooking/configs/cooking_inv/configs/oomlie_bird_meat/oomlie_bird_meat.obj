@@ -27,7 +27,7 @@ weight=100g
 members=yes
 
 //guess
-[burnt_wrapped_oomlie]
+[burnt_oomlie]
 name=Burnt oomlie wrap
 desc=Burnt oomlie meat in a palm leaf pouch.
 model=model_2687_obj
@@ -48,7 +48,7 @@ cost=1
 weight=275g
 members=yes
 
-[burnt_oomlie]
+[burnt_uw_oomlie]
 name=Burnt oomlie
 desc=Oh dear, it's totally burnt!
 cost=1
@@ -63,7 +63,7 @@ recol1d=5285
 weight=4oz
 
 //guess
-[cooked_wrapped_oomlie]
+[cooked_oomlie]
 name=Cooked oomlie wrap
 desc=Deliciously cooked oomlie meat in a palm leaf pouch.
 iop1=Eat

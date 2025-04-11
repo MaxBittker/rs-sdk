@@ -1,6 +1,6 @@
 [opnpc1,king_roald] @roald_dialogue;
 [opnpcu,king_roald]
-if(last_useitem = arravcert_scroll) {
+if(last_useitem = arravcertificate) {
     @roald_dialogue;
 }
 ~displaymessage(^dm_default);
@@ -8,7 +8,7 @@ if(last_useitem = arravcert_scroll) {
 // copying rsc logic here, no dialogue without both shield pieces or the certificate
 [label,roald_dialogue]
 ~chatplayer("<p,happy>Greetings, your majesty.");
-if(inv_total(inv, arravcert_scroll) > 0) {
+if(inv_total(inv, arravcertificate) > 0) {
     ~chatplayer("<p,happy>Your majesty.|I have come to claim the reward|for the return of the Shield Of Arrav.");
     if(%phoenixgang_progress < ^phoenixgang_joined & %blackarmgang_progress < ^blackarmgang_joined) {
         ~chatnpc("<p,confused>The name on this certificate isn't yours!|I can't give you the reward|unless you do the quest yourself!");
@@ -19,7 +19,7 @@ if(inv_total(inv, arravcert_scroll) > 0) {
         ~mesbox("Why don't you give this certificate|to the person who helped you get the shield?");
         return;
     }
-    ~objbox(arravcert_scroll, "You show the certificate to the king.", 250, 0, divide(^objbox_height, 2));
+    ~objbox(arravcertificate, "You show the certificate to the king.", 250, 0, divide(^objbox_height, 2));
     ~chatnpc("<p,happy>My goodness! This claim is for the reward offered by my father many years ago!");
     ~chatnpc("<p,happy>I never thought I'd see anyone claim this reward!");
     ~chatnpc("<p,happy>I see you are claiming half the reward,|so I will give you half of the bounty.|That comes to exactly 600 gold coins!");

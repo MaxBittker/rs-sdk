@@ -4,10 +4,10 @@
 if (%bunny_ears_unlocked = 0 & %scythe_unlocked = 0) { // player has not unlocked bunny_ears or scythe
     @thessalia_want_to_buy;
 } else if (%bunny_ears_unlocked = 1 & %scythe_unlocked = 1) { // player unlocked both
-    if ((inv_total(inv, bunny_ears) >= 1 | inv_total(bank, bunny_ears) >= 1 | inv_total(worn, bunny_ears) >= 1) &
+    if ((inv_total(inv, bunnyears) >= 1 | inv_total(bank, bunnyears) >= 1 | inv_total(worn, bunnyears) >= 1) &
         (inv_total(inv, scythe) >= 1 | inv_total(bank, scythe) >= 1 | inv_total(worn, scythe) >= 1)) { // player unlocked both, and has both
         @thessalia_want_to_buy;
-    } else if (inv_total(inv, bunny_ears) >= 1 | inv_total(bank, bunny_ears) >= 1 | inv_total(worn, bunny_ears) >= 1) { // player unlocked both, but lost scythe
+    } else if (inv_total(inv, bunnyears) >= 1 | inv_total(bank, bunnyears) >= 1 | inv_total(worn, bunnyears) >= 1) { // player unlocked both, but lost scythe
         ~chatnpc("<p,happy>Do you want to buy any fine clothes? Or would you like your scythe back?");
         @thessalia_lost_scythe;
     } else if (inv_total(inv, scythe) >= 1 | inv_total(bank, scythe) >= 1 | inv_total(worn, scythe) >= 1) { // player unlocked both, but lost bunny_ears
@@ -18,7 +18,7 @@ if (%bunny_ears_unlocked = 0 & %scythe_unlocked = 0) { // player has not unlocke
         @thessalia_lost_bunny_ears_and_scythe;
     }
 } else if (%bunny_ears_unlocked = 1 & %scythe_unlocked = 0) { // player unlocked bunny_ears, not scythe
-    if (inv_total(inv, bunny_ears) >= 1 | inv_total(bank, bunny_ears) >= 1 | inv_total(worn, bunny_ears) >= 1) { //player unlocked bunny_ears, and has bunny_ears
+    if (inv_total(inv, bunnyears) >= 1 | inv_total(bank, bunnyears) >= 1 | inv_total(worn, bunnyears) >= 1) { //player unlocked bunny_ears, and has bunny_ears
         @thessalia_want_to_buy;
     } else { // player unlocked bunny_ears, but lost bunny ears
         ~chatnpc("<p,quiz>Do you want to buy any fine clothes? Or would you like your bunny ears back?");
@@ -67,7 +67,7 @@ inv_add(inv, scythe, 1);
 [label,thessalia_return_bunny_ears]
 ~chatplayer("<p,quiz>Can I have my bunny ears back?");
 ~chatnpc("<p,happy>Certainly. Here you go.");
-inv_add(inv, bunny_ears, 1);
+inv_add(inv, bunnyears, 1);
 ~chatnpc("<p,quiz>Now, would you like to buy any clothes?");
 @thessalia_what_have_you_got;
 

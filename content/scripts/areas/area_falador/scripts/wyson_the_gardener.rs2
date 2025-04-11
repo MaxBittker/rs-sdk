@@ -18,7 +18,7 @@ if($option = 1) {
             ~chatplayer("<p,sad>I don't have enough coins to buy the leaves.|I'll come back later.");
         } else {
             inv_del(inv, coins, 15);
-            inv_add(inv, woad_leaf, 1);
+            inv_add(inv, woadleaf, 1);
             mes("You give Wyson 15 coins.");
             mes("Wyson the gardener gives you a woad leaf.");
         }
@@ -30,7 +30,7 @@ if($option = 1) {
         } else {
             ~chatnpc("<p,happy>Here, have two, you're a generous person.");
             inv_del(inv, coins, 20);
-            inv_add(inv, woad_leaf, 2);
+            inv_add(inv, woadleaf, 2);
             mes("You give Wyson 20 coins.");
             mes("Wyson the gardener gives you some woad leaves.");
         }

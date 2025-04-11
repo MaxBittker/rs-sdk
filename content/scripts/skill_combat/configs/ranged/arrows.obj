@@ -27,7 +27,7 @@ param=proj_launch,bronze_arrow_launch
 param=proj_travel,bronze_arrow_travel
 param=weapon_poisoned,bronze_arrow_p
 param=weapon_poisoned_message,You poison some arrows.
-param=next_obj_stage,unlit_arrow
+param=next_obj_stage,unlitarrow
 
 [bronze_arrow_p]
 name=Bronze arrow(p)
@@ -88,7 +88,7 @@ param=proj_launch,iron_arrow_launch
 param=proj_travel,iron_arrow_travel
 param=weapon_poisoned,iron_arrow_p
 param=weapon_poisoned_message,You poison some arrows.
-param=next_obj_stage,iron_fire_arrows_unlit
+param=next_obj_stage,iron_unlitarrow
 
 [iron_arrow_p]
 name=Iron arrow(p)
@@ -145,7 +145,7 @@ param=proj_launch,steel_arrow_launch
 param=proj_travel,steel_arrow_travel
 param=weapon_poisoned,steel_arrow_p
 param=weapon_poisoned_message,You poison some arrows.
-param=next_obj_stage,steel_fire_arrows_unlit
+param=next_obj_stage,steel_unlitarrow
 
 [steel_arrow_p]
 name=Steel arrow(p)
@@ -205,7 +205,7 @@ param=proj_launch,mithril_arrow_launch
 param=proj_travel,mithril_arrow_travel
 param=weapon_poisoned,mithril_arrow_p
 param=weapon_poisoned_message,You poison some arrows.
-param=next_obj_stage,mithril_fire_arrows_unlit
+param=next_obj_stage,mithril_unlitarrow
 
 [mithril_arrow_p]
 name=Mithril arrow(p)
@@ -267,7 +267,7 @@ param=proj_launch,adamant_arrow_launch
 param=proj_travel,adamant_arrow_travel
 param=weapon_poisoned,adamant_arrow_p
 param=weapon_poisoned_message,You poison some arrows.
-param=next_obj_stage,adamant_fire_arrows_unlit
+param=next_obj_stage,adamant_unlitarrow
 
 [adamant_arrow_p]
 name=Adamant arrow(p)
@@ -329,7 +329,7 @@ param=proj_launch,rune_arrow_launch
 param=proj_travel,rune_arrow_travel
 param=weapon_poisoned,rune_arrow_p
 param=weapon_poisoned_message,You poison some arrows.
-param=next_obj_stage,rune_fire_arrows_unlit
+param=next_obj_stage,rune_unlitarrow
 
 [rune_arrow_p]
 name=Rune arrow(p)
@@ -1009,7 +1009,7 @@ recol2d=14881
 2dxan=216
 dummyitem=inv_only
 
-[lit_arrows]
+[litarrow]
 name=Lit arrows
 desc=These arrows are ablaze with fire.
 members=yes
@@ -1035,7 +1035,7 @@ param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
 param=lit_arrow,^true
 
-[iron_fire_arrows_unlit]
+[iron_unlitarrow]
 name=Iron fire arrows
 desc=Arrows with iron heads and oil soaked cloth.
 members=yes
@@ -1058,9 +1058,9 @@ param=levelrequire,1
 param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
 param=unlit_arrow,^true
-param=next_obj_stage,iron_fire_arrows
+param=next_obj_stage,iron_litarrow
 
-[iron_fire_arrows]
+[iron_litarrow]
 name=Iron fire arrows
 desc=These iron headed arrows are ablaze with fire.
 members=yes
@@ -1086,7 +1086,7 @@ param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
 param=lit_arrow,^true
 
-[steel_fire_arrows_unlit]
+[steel_unlitarrow]
 name=Steel fire arrows
 desc=Arrows with steel heads and oil soaked cloth.
 members=yes
@@ -1108,10 +1108,10 @@ param=rangebonus,16
 param=levelrequire,5
 param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
-param=next_obj_stage,steel_fire_arrows
+param=next_obj_stage,steel_litarrow
 param=unlit_arrow,^true
 
-[steel_fire_arrows]
+[steel_litarrow]
 name=Steel fire arrows
 desc=These steel headed arrows are ablaze with fire.
 members=yes
@@ -1137,7 +1137,7 @@ param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
 param=lit_arrow,^true
 
-[mithril_fire_arrows_unlit]
+[mithril_unlitarrow]
 name=Mithril fire arrows
 desc=Arrows with mithril heads and oil soaked cloth.
 members=yes
@@ -1159,10 +1159,10 @@ param=rangebonus,22
 param=levelrequire,20
 param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
-param=next_obj_stage,mithril_fire_arrows
+param=next_obj_stage,mithril_litarrow
 param=unlit_arrow,^true
 
-[mithril_fire_arrows]
+[mithril_litarrow]
 name=Mithril fire arrows
 desc=These mithril headed arrows are ablaze with fire.
 members=yes
@@ -1188,7 +1188,7 @@ param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
 param=lit_arrow,^true
 
-[adamant_fire_arrows_unlit]
+[adamant_unlitarrow]
 name=Adamnt fire arrows
 desc=Arrows with adamant heads and oil soaked cloth.
 members=yes
@@ -1210,10 +1210,10 @@ param=rangebonus,31
 param=levelrequire,30
 param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
-param=next_obj_stage,adamant_fire_arrows
+param=next_obj_stage,adamant_litarrow
 param=unlit_arrow,^true
 
-[adamant_fire_arrows]
+[adamant_litarrow]
 name=Adamnt fire arrows
 desc=These adamant headed arrows are ablaze with fire.
 members=yes
@@ -1239,7 +1239,7 @@ param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
 param=lit_arrow,^true
 
-[rune_fire_arrows_unlit]
+[rune_unlitarrow]
 name=Rune fire arrows
 desc=Arrows with rune heads and oil soaked cloth.
 members=yes
@@ -1261,10 +1261,10 @@ param=rangebonus,49
 param=levelrequire,40
 param=proj_launch,fire_arrow_launch
 param=proj_travel,fire_arrow_travel
-param=next_obj_stage,rune_fire_arrows
+param=next_obj_stage,rune_litarrow
 param=unlit_arrow,^true
 
-[rune_fire_arrows]
+[rune_litarrow]
 name=Rune fire arrows
 desc=These rune headed arrows are ablaze with fire.
 members=yes

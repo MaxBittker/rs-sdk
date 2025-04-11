@@ -15,11 +15,11 @@ switch_int(stat_base(cooking)) {
     case 45 : ~doubleobjbox(swordfish,meat_pizza,"You can now cook @dbl@Meat Pizzas@bla@ and @dbl@Swordfish@bla@.", 200);
     case 50 : ~objbox(chocolate_cake,"You can now cook @dbl@Chocolate Cakes@bla@.", 250, 0, divide(^objbox_height, 2));
     case 53 : ~objbox(lava_eel,"Members can now cook @dbl@Lava Eel@bla@.", 250, 0, 0);
-    case 55 : ~objbox(anchovy_pizza,"You can now cook @dbl@Anchovy Pizza@bla@.", 250, 0, 0);
+    case 55 : ~objbox(anchovie_pizza,"You can now cook @dbl@Anchovy Pizza@bla@.", 250, 0, 0);
     case 58 : ~objbox(pitta_bread,"Members can now cook @dbl@Pitta Bread@bla@.", 250, 0, 0);
     case 60 : ~objbox(curry,"Members can now cook @dbl@Curry@bla@.", 250, 0, divide(^objbox_height, 2));
     case 65 : ~objbox(pineapple_pizza,"Members can now cook @dbl@Pineapple Pizza@bla@.", 250, 0, 0);
     case 80 : ~objbox(raw_shark,"Members can now cook @dbl@Shark@bla@.", 250, 0, 0);
-    case 82 : ~objbox(raw_sea_turtle,"Members can now cook @dbl@Sea Turtle@bla@.", 250, 0, 0);
-    case 91 : ~objbox(raw_manta_ray,"Members can now cook @dbl@Manta Rays@bla@.", 250, 0, 0);
+    case 82 : ~objbox(raw_seaturtle,"Members can now cook @dbl@Sea Turtle@bla@.", 250, 0, 0);
+    case 91 : ~objbox(raw_mantaray,"Members can now cook @dbl@Manta Rays@bla@.", 250, 0, 0);
 }

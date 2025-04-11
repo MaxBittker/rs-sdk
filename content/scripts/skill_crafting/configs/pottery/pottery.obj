@@ -1,4 +1,4 @@
-[soft_clay]
+[softclay]
 name=Soft clay
 desc=Clay soft enough to mould.
 model=model_2610_obj
@@ -11,7 +11,7 @@ weight=2lb
 cost=2
 param=crafting_pottery_struct,soft_clay
 
-[unfired_pot]
+[pot_unfired]
 name=Unfired pot
 desc=I need to put this in a pottery oven.
 model=model_2345_obj
@@ -26,7 +26,7 @@ cost=1
 weight=24oz
 param=crafting_pottery_struct,unfired_pot
 
-[unfired_piedish]
+[piedish_unfired]
 name=Unfired pie dish
 desc=I need to put this in a pottery oven.
 cost=3
@@ -44,7 +44,7 @@ recol3d=11488
 weight=24oz
 param=crafting_pottery_struct,unfired_piedish
 
-[unfired_bowl]
+[bowl_unfired]
 name=Unfired bowl
 desc=I need to put this in a pottery oven.
 cost=2

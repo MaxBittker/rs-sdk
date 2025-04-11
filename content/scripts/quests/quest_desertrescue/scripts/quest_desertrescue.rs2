@@ -5,7 +5,7 @@
 [oploc1,loc_2674] @open_desertcamp_gate(^right);
 
 [oplocu,loc_2673] 
-if(last_useitem = desertrescue_metalkey) {
+if(last_useitem = metal_key) {
     // this is to replicate osrs behaviour where you get nothing interesting happens after opening gate to leave w/key
     // this could just be a rework bug
     def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
@@ -18,7 +18,7 @@ if(last_useitem = desertrescue_metalkey) {
 ~displaymessage(^dm_default);
 
 [oplocu,loc_2674]
-if(last_useitem = desertrescue_metalkey) {
+if(last_useitem = metal_key) {
     def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
     if($entering = false) {
         ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), ^right, grate_open);
@@ -72,7 +72,7 @@ def_locshape $loc_shape = loc_shape;
 def_int $loc_angle = loc_angle;
 def_coord $loc_coord = loc_coord;
 // any piece, don't need whole outfit on
-if(inv_total(inv, anainabarrel) > 0) {
+if(inv_total(inv, thanainabarrel) > 0) {
     if(npc_find(coord, mercenary_2, 4, 2) = true) {
         mes("Guard: Hey! Where d'ya think you're going with that barrel?");
         npc_say("Hey! Where d'ya think you're going with that barrel?");
@@ -85,7 +85,7 @@ if(inv_total(inv, anainabarrel) > 0) {
         p_delay(2);
         mes("The guards prise the lid off the barrel...");
         p_delay(3);
-        inv_del(inv, anainabarrel, 1);
+        inv_del(inv, thanainabarrel, 1);
         .npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk), ana, 100);
         mes("Guard: Blimey - it's a jail break! Guards! Guards! Apprehend them!");
         npc_say("Blimey - it's a jail break! Guards! Guards! Apprehend them!");
@@ -116,7 +116,7 @@ if($entering = false & npc_find(coord, mercenary_2, 4, 2) = true & (inv_total(wo
     ~desertcamp_guard_search;
     return;
 }
-if(inv_total(inv, desertrescue_metalkey) > 0) {
+if(inv_total(inv, metal_key) > 0) {
     mes("You use the metal key to unlock the gates.");
     p_delay(2);
     mes("You manage to sneak past the guards!");
@@ -193,7 +193,7 @@ if($choice = 2) {
 ~mesbox("You focus all of your strength on the bar. Your muscles ripple!");
 if_close;
 p_delay(2);
-if(inv_total(inv, anainabarrel) > 0) {
+if(inv_total(inv, thanainabarrel) > 0) {
     ~mesbox("You'll never get Ana (in a barrel) through the window.|The barrel is just too big.");
     return;
 }
@@ -269,7 +269,7 @@ sound_synth(locked, 0, 0);
 mes("The door seems to be pretty locked.");
 
 [oplocu,loc_2689]
-if(last_useitem = desertrescue_cell_door_key) {
+if(last_useitem = thcelldoorkey) {
     ~open_and_close_door2(loc_1541, ~check_axis(coord, loc_coord, loc_angle), door_open);
     return;
 }
@@ -278,19 +278,19 @@ if(last_useitem = desertrescue_cell_door_key) {
 [oploc2,loc_2679]
 mes("You search the captains desk while he's not looking...");
 def_boolean $found = false;
-if(inv_total(inv, desertrescue_cell_door_key) = 0) {
-    ~objbox(desertrescue_cell_door_key, "You find a cell door key.", 250, 0, 0);
-    inv_add(inv, desertrescue_cell_door_key, 1);
+if(inv_total(inv, thcelldoorkey) = 0) {
+    ~objbox(thcelldoorkey, "You find a cell door key.", 250, 0, 0);
+    inv_add(inv, thcelldoorkey, 1);
     $found = true;
 }
-if(inv_total(inv, desertrescue_metalkey) = 0) {
-    ~objbox(desertrescue_metalkey, "You find the key to the main gate.", 250, 0, 0);
-    inv_add(inv, desertrescue_metalkey, 1);
+if(inv_total(inv, metal_key) = 0) {
+    ~objbox(metal_key, "You find the key to the main gate.", 250, 0, 0);
+    inv_add(inv, metal_key, 1);
     $found = true;
 }
-if(%desertrescue_progress = ^desertrescue_escaped & inv_total(inv, desertrescue_ironkey) = 0) {
-    ~objbox(desertrescue_ironkey, "You find the key to the main gate.", 250, 0, 0);
-    inv_add(inv, desertrescue_ironkey, 1);
+if(%desertrescue_progress = ^desertrescue_escaped & inv_total(inv, thgoodminekey) = 0) {
+    ~objbox(thgoodminekey, "You find the key to the main gate.", 250, 0, 0);
+    inv_add(inv, thgoodminekey, 1);
     $found = true;
 }
 if($found = false) mes("...but you find nothing of interest.");
@@ -299,7 +299,7 @@ if($found = false) mes("...but you find nothing of interest.");
 [oploc1,loc_2677]
 if(testbit(%desertrescue_map_mechanisms, ^desertrescue_distracted_siad) = true) {
     %desertrescue_map_mechanisms = clearbit(%desertrescue_map_mechanisms, ^desertrescue_distracted_siad);
-    if(inv_total(inv, bedobin_key) > 0) {
+    if(inv_total(inv, thbedobinkey) > 0) {
         @unlock_bedobin_chest;
     } else {
         mes("This chest needs a key to unlock it.");
@@ -313,7 +313,7 @@ if(npc_find(coord, captain_siad, 7, 0) = true) {
 }
 
 [oplocu,loc_2677]
-if(last_useitem = bedobin_key) {
+if(last_useitem = thbedobinkey) {
     def_boolean $can_open = testbit(%desertrescue_map_mechanisms, ^desertrescue_distracted_siad);
     %desertrescue_map_mechanisms = clearbit(%desertrescue_map_mechanisms, ^desertrescue_distracted_siad);
     if($can_open = true) {
@@ -327,13 +327,13 @@ if(last_useitem = bedobin_key) {
 
 [label,unlock_bedobin_chest]
 // https://web.archive.org/web/20050628074043im_/http://runescape.salmoneus.net/quests/TouristTrap/chestopen.gif
-if(~obj_gettotal(technical_plans) > 0) {
+if(~obj_gettotal(thcaptplans) > 0) {
     mes("The chest is empty.");
     return;
 }
-~objbox(technical_plans, "While the Captain's distracted, you quickly unlock the chest. You use the Bedobin Copy Key to open the chest. You open the chest and take out the plans.", 250, 0, 0);
+~objbox(thcaptplans, "While the Captain's distracted, you quickly unlock the chest. You use the Bedobin Copy Key to open the chest. You open the chest and take out the plans.", 250, 0, 0);
 if(%desertrescue_progress = ^desertrescue_given_bedobin_key) %desertrescue_progress = ^desertrescue_retrieved_plans;
-inv_add(inv, technical_plans, 1);
+inv_add(inv, thcaptplans, 1);
 
 [oploc1,loc_2678]
 ~mesbox("The captain seems to collect lots of books!");
@@ -358,7 +358,7 @@ if(testbit(%desertrescue_map_mechanisms, ^desertrescue_ready_rescue) = true) {
             if(%desertrescue_progress = ^desertrescue_ana_on_mining_cart) %desertrescue_progress = ^desertrescue_escaped;
             %desertrescue_map_mechanisms = clearbit_range(%desertrescue_map_mechanisms, ^desertrescue_ana_mining_cart, ^desertrescue_ready_rescue);
             p_teleport(0_50_47_58_21);
-            inv_add(inv, anainabarrel, 1);
+            inv_add(inv, thanainabarrel, 1);
             ~mesbox("As soon as you get on the cart, it starts to move. Before too long you are past the gates. You jump off the cart taking Ana with you.");
         case 2 : mes("You decide not to get onto the cart.");
         case 3 :
@@ -373,7 +373,7 @@ if(testbit(%desertrescue_map_mechanisms, ^desertrescue_ana_mining_cart) = true) 
     ~mesbox("You can see the barrel with Ana in it on the cart already.");
     return;
 }
-if(inv_total(inv, anainabarrel) > 0) {
+if(inv_total(inv, thanainabarrel) > 0) {
     ~mesbox("There should be enough space for Ana (in the barrel) to go on here.");
     return;
 }
@@ -381,10 +381,10 @@ mes("You search the mine cart.");
 mes("This looks like a mine cart which takes barrels out of the encampment to Al Kharid.");
 
 [oplocu,loc_2682]
-if(last_useitem = anainabarrel) {
+if(last_useitem = thanainabarrel) {
     if(%desertrescue_progress = ^desertrescue_retrieved_ana_liftbarrel) %desertrescue_progress = ^desertrescue_ana_on_mining_cart;
     %desertrescue_map_mechanisms = setbit(%desertrescue_map_mechanisms, ^desertrescue_ana_mining_cart);
-    inv_del(inv, anainabarrel, 1);
+    inv_del(inv, thanainabarrel, 1);
     ~mesbox("You place Ana (In the barrel) carefully on the cart. This was the last barrel to go on the cart, but the cart driver doesn't seem to be in any rush to get going. And the desert heat will soon get to Ana.");
     return;
 }
@@ -488,14 +488,14 @@ if(coordx(coord) < coordx(loc_coord)) {
         }
         return;
     }
-    if(inv_total(inv, anainabarrel) > 0) {
+    if(inv_total(inv, thanainabarrel) > 0) {
         if(npc_find(coord, mercenary_1, 6, 0) = true | npc_find(coord, mercenary_2, 6, 0) = true) { // basing off rsc w/osrs delays cause osrs version is not possible
             npc_say("Hey, where d'ya think you're going with that Barrel?");
             p_delay(3);
             mes("A guard comes over and takes the barrel off you.");
             p_delay(3);
-            inv_del(inv, anainabarrel, 1);
-            inv_add(inv, desertrescue_barrel, 1);
+            inv_del(inv, thanainabarrel, 1);
+            inv_add(inv, thminebarrel_empty, 1);
             npc_say("Cor! This barrel is really heavy! Have you been mining lead?");
             p_delay(3);
             npc_say("Har, har har!");
@@ -522,20 +522,20 @@ if(coordx(coord) < coordx(loc_coord)) {
     p_teleport(0_51_147_14_7);
 }
 
-[opheld1,technical_plans]
-~doubleobjbox(technical_plans, hammer, "The plans look very technical!|But you can see that this item will require|a bronze bar and at least 10 feathers.", 150);
+[opheld1,thcaptplans]
+~doubleobjbox(thcaptplans, hammer, "The plans look very technical!|But you can see that this item will require|a bronze bar and at least 10 feathers.", 150);
 
 [proc,desertcamp_guard_search]
 if(%desertrescue_progress = ^desertrescue_complete) {
     return;
 }
 p_stopaction;
-if(inv_total(inv, anainabarrel) > 0) {
+if(inv_total(inv, thanainabarrel) > 0) {
     npc_say("Hey, what's in this barrel?");
     p_delay(1);
     npc_say("Right... we'll take that off your hands.");
-    inv_del(inv, anainabarrel, 1); // not changeslot
-    inv_add(inv, desertrescue_barrel, 1);
+    inv_del(inv, thanainabarrel, 1); // not changeslot
+    inv_add(inv, thminebarrel_empty, 1);
     p_delay(1);
     mes("The guards drag Ana off into the distance.");
     p_delay(3);
@@ -543,12 +543,12 @@ if(inv_total(inv, anainabarrel) > 0) {
 mes("The guards search you!");
 p_delay(1);
 // seems completely random here?
-if(inv_total(inv, desertrescue_cell_door_key) > 0 & random(5) = 0) {
-    inv_del(inv, desertrescue_cell_door_key, 1);
+if(inv_total(inv, thcelldoorkey) > 0 & random(5) = 0) {
+    inv_del(inv, thcelldoorkey, 1);
     mes("The guards find the cell door key and remove it!");
 }
-if(inv_total(inv, desertrescue_metalkey) > 0 & random(5) = 0) {
-    inv_del(inv, desertrescue_metalkey, 1);
+if(inv_total(inv, metal_key) > 0 & random(5) = 0) {
+    inv_del(inv, metal_key, 1);
     mes("The guards find the main gate key and remove it!");
 }
 if(~inzone_coord_pair_table(mining_camp_zones, coord) = false) {
@@ -567,14 +567,14 @@ else p_teleport(^desertrescue_prison_coord);
 mes("To forge items use the metal you wish to work with the anvil.");
 
 [oplocu,loc_2672]
-if(last_useitem = bronze_bar | last_useitem = technical_plans) {
+if(last_useitem = bronze_bar | last_useitem = thcaptplans) {
     // order of checks matches osrs
-    if(~obj_gettotal(prototype_dart_tip) > 0) {
-        ~objbox(prototype_dart_tip, "You have already made the prototype dart tip. You don't need to make another one.", 250, 0, 0);
+    if(~obj_gettotal(thprotodarttip) > 0) {
+        ~objbox(thprotodarttip, "You have already made the prototype dart tip. You don't need to make another one.", 250, 0, 0);
         return;
     }
-    if(~obj_gettotal(prototype_dart) > 0) {
-        ~objbox(prototype_dart, "You have already made the prototype dart. You don't need to make another one.", 250, 0, 0);
+    if(~obj_gettotal(thprotodart) > 0) {
+        ~objbox(thprotodart, "You have already made the prototype dart. You don't need to make another one.", 250, 0, 0);
         return;
     }
     if(inv_total(inv, bronze_bar) = 0) {
@@ -585,11 +585,11 @@ if(last_useitem = bronze_bar | last_useitem = technical_plans) {
         ~objbox(hammer, "You need a hammer to work anything on the anvil.", 250, 0, 0);
         return;
     }
-    if(inv_total(inv, technical_plans) = 0) {
+    if(inv_total(inv, thcaptplans) = 0) {
         ~mesbox("This anvil is experimental... You need detailed plans of the item you want to make in order to use it.");
         return;
     }
-    ~objbox(technical_plans, "Do you want to follow the technical plans ?", 250, 0, 0); // intentional
+    ~objbox(thcaptplans, "Do you want to follow the technical plans ?", 250, 0, 0); // intentional
     switch_int(~p_choice2_header("Yes, I'd like to try.", 1, "No, not just yet.", 2, "Follow the technical plans?")) {
         case 1 :
             if(stat(smithing) < 20) {
@@ -620,7 +620,7 @@ if(last_useitem = bronze_bar | last_useitem = technical_plans) {
             mes("... dart tip.");
             anim(human_smithing, 128);
             p_delay(2);
-            inv_add(inv, prototype_dart_tip, 1);
+            inv_add(inv, thprotodarttip, 1);
             if(%desertrescue_progress = ^desertrescue_shown_plans_shabim) %desertrescue_progress = ^desertrescue_made_dart_tip;
             ~mesbox("You study the technical plans even more... You need to attach feathers to the tip to complete the weapon.");
         case 2 :
@@ -632,7 +632,7 @@ if(last_useitem = bronze_bar | last_useitem = technical_plans) {
     ~displaymessage(^dm_default);
 }
 
-[opheldu,prototype_dart_tip]
+[opheldu,thprotodarttip]
 if(last_useitem = feather) {
     @make_prototype_dart;
 }
@@ -654,14 +654,14 @@ if(stat_random(stat(fletching), 61, 254) = false) {
     return;
 }
 ~mesbox("Following the plans is tricky, but you persevere.");
-~objbox(prototype_dart, "You successfully attach the feathers to the dart tip.", 250, 0, 0);
+~objbox(thprotodart, "You successfully attach the feathers to the dart tip.", 250, 0, 0);
 if_close;
 p_delay(2);
 if(%desertrescue_progress = ^desertrescue_made_dart_tip) %desertrescue_progress = ^desertrescue_finished_dart;
 stat_advance(fletching, 100);
 inv_del(inv, feather, 10);
-inv_del(inv, prototype_dart_tip, 1);
-inv_add(inv, prototype_dart, 1);
+inv_del(inv, thprotodarttip, 1);
+inv_add(inv, thprotodart, 1);
 
 [oploc1,loc_2685] @open_desertrescue_camp_jail_gate(^left);
 [oploc1,loc_2686] @open_desertrescue_camp_jail_gate(^right);
@@ -681,10 +681,10 @@ if($entering = false) {
     return;
 }
 mes("This gate seems to be locked.");
-if(inv_total(inv, desertrescuerock) >= 15) {
+if(inv_total(inv, thpunishrock) >= 15) {
     ~chatplayer("<p,neutral>Okay, I have all your rocks here, let me out now.|@dbl@-- The guard unlocks the gate. --");
     ~chatnpc_specific(nc_name(mercenary_1), mercenary_1, "<p,neutral>Okay, okay, come on out.");
-    inv_del(inv, desertrescuerock, 15);
+    inv_del(inv, thpunishrock, 15);
     if(loc_find($loc_coord, $loc_type) = true) ~open_and_close_double_door2($entering, $side, grate_open); // iron_door_open
     else ~open_and_close_double_door3($entering, $loc_type, $loc_shape, $loc_angle, $loc_coord, $side, grate_open);
     ~chatnpc_specific(nc_name(mercenary_1), mercenary_1, "<p,neutral>Okay, you've got all the rocks, you can go now, but keep your nose clean in future.");
@@ -716,7 +716,7 @@ if(loc_coord = ^desertrescue_upper_barrel_coord) {
         }
         %desertrescue_map_mechanisms = clearbit(%desertrescue_map_mechanisms, ^desertrescue_ana_lift_barrel);
         if(%desertrescue_progress = ^desertrescue_retrieved_ana_lift) %desertrescue_progress = ^desertrescue_retrieved_ana_liftbarrel;
-        inv_add(inv, anainabarrel, 1);
+        inv_add(inv, thanainabarrel, 1);
         mes("You pick up Ana in a Barrel.");
     }
     return;
@@ -735,11 +735,11 @@ switch_int(random(6)) {
 ~mesbox("This looks like an empty mining barrel. Slaves use this to load up the rocks and stones that they're mining.");
 
 [oploc2,loc_2681]
-if(inv_total(inv, anainabarrel) > 0) {
+if(inv_total(inv, thanainabarrel) > 0) {
     mes("You cannot carry another barrel while you're carrying Ana.");
     return;
 }
-if(inv_total(inv, desertrescue_barrel) > 0) { // this is first
+if(inv_total(inv, thminebarrel_empty) > 0) { // this is first
     mes("You can only manage one of these at a time.");
     return;
 }
@@ -756,18 +756,18 @@ if(testbit(%desertrescue_map_mechanisms, ^desertrescue_ana_minecart_barrel) = tr
     }
     %desertrescue_map_mechanisms = clearbit(%desertrescue_map_mechanisms, ^desertrescue_ana_minecart_barrel);
     if(%desertrescue_progress = ^desertrescue_ana_minecart) %desertrescue_progress = ^desertrescue_retrieved_ana_minecart;
-    inv_add(inv, anainabarrel, 1);
+    inv_add(inv, thanainabarrel, 1);
     mes("You pick up Ana in a Barrel.");
     return;
 }
-~objbox(desertrescue_barrel, "This barrel is quite big, but you may be able to carry one. Would you like to take one?", 250, 0, ^objbox_height);
+~objbox(thminebarrel_empty, "This barrel is quite big, but you may be able to carry one. Would you like to take one?", 250, 0, ^objbox_height);
 def_int $op = ~p_choice2_header("Yeah, cool!", 1, "No thanks.", 2, "Take an empty barrel?");
 if($op = 2) {
     mes("You decide not to take the barrel.");
     return;
 }
-~objbox(desertrescue_barrel, "You take the barrel, it's not that heavy, just awkward.", 250, 0, ^objbox_height);
-inv_add(inv, desertrescue_barrel, 1);
+~objbox(thminebarrel_empty, "You take the barrel, it's not that heavy, just awkward.", 250, 0, ^objbox_height);
+inv_add(inv, thminebarrel_empty, 1);
 loc_del(100);
 
 [oploc1,loc_2668]
@@ -779,7 +779,7 @@ if(npc_find(coord, mercenary_2, 5, 0) = true | npc_find(coord, mercenary_1, 5, 0
         ~chatnpc("<p,neutral>Hey, you'd better go and operate that lift yourself if you want that big heavy barrel to go anywhere.");
         return;
     }
-    if(inv_total(inv, anainabarrel) > 0) {
+    if(inv_total(inv, thanainabarrel) > 0) {
         @camp_merc_barrel_help;
     }
     ~chatnpc("<p,quiz>Hey there, what do you want?");
@@ -787,7 +787,7 @@ if(npc_find(coord, mercenary_2, 5, 0) = true | npc_find(coord, mercenary_1, 5, 0
 }
 
 [oplocu,loc_2668]
-if(last_useitem = anainabarrel) {
+if(last_useitem = thanainabarrel) {
     if(npc_find(coord, mercenary_2, 5, 0) = true | npc_find(coord, mercenary_1, 5, 0) = true) {
         @camp_merc_barrel_help;
     }
@@ -806,7 +806,7 @@ if($op = 2) {
     mes("You decide not to get into the dangerous looking mine cart.");
     return;
 }
-if(inv_total(inv, anainabarrel) > 0) {
+if(inv_total(inv, thanainabarrel) > 0) {
     ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,silent>There isn't enough space for both you and this barrel in the cart.");
     return;
 }
@@ -828,7 +828,7 @@ if(loc_coord = ^desertrescue_lower_minecart_coord) {
 }
 
 [oplocu,loc_2684]
-if(last_useitem = anainabarrel) {
+if(last_useitem = thanainabarrel) {
     if(loc_coord = ^desertrescue_lower_minecart_coord) {
         ~mesbox("You dare not put the barrel back in the mine cart. The guards might see you.");
         return;
@@ -839,7 +839,7 @@ if(last_useitem = anainabarrel) {
     p_delay(2);
     if(%desertrescue_progress = ^desertrescue_caught_ana) %desertrescue_progress = ^desertrescue_ana_minecart;
     %desertrescue_map_mechanisms = setbit(%desertrescue_map_mechanisms, ^desertrescue_ana_minecart_barrel);
-    inv_del(inv, anainabarrel, 1);
+    inv_del(inv, thanainabarrel, 1);
 }
 
 [oploc1,loc_2687] @desertrescue_open_wrought_gate(^left);
@@ -852,7 +852,7 @@ if(last_useitem = anainabarrel) {
 [oploc2,loc_2688] @desertrescue_search_wrought_gate;
 
 [label,desertrescue_open_wrought_gate](int $side)
-if(inv_total(inv, desertrescue_ironkey) > 0 | coordz(coord) > coordz(loc_coord)) {
+if(inv_total(inv, thgoodminekey) > 0 | coordz(coord) > coordz(loc_coord)) {
     mes("You push the gates open and walk through.");
     ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), $side, grate_open);
     return;
@@ -860,7 +860,7 @@ if(inv_total(inv, desertrescue_ironkey) > 0 | coordz(coord) > coordz(loc_coord))
 mes("This gate looks like it needs a key to open it.");
 
 [label,desertrescue_useobj_wrought_gate](int $side)
-if(last_useitem = desertrescue_ironkey) {
+if(last_useitem = thgoodminekey) {
     mes("You use the wrought iron key on gates.");
     ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), $side, grate_open);
     return;
@@ -887,7 +887,7 @@ if(testbit(%desertrescue_map_mechanisms, ^desertrescue_ana_on_lift) = true) {
 mes("You pull on the winch and a heavy barrel filled with stone comes to the surface.");
 
 [label,desertrescue_ana_rescued]
-inv_del(inv, anainabarrel, 1);
+inv_del(inv, thanainabarrel, 1);
 %desertrescue_progress = ^desertrescue_saved_ana; // assuming it sets here instead of after talking cause no varb -> ana can dissapear and you have to go rescue her again
 npc_add(0_51_48_43_40, ana, 100);
 p_opnpc(1);

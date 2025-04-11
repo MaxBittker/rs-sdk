@@ -5,6 +5,6 @@ if (npc_findhero = false) {
 }
 
 obj_add(npc_coord, ashes, 1, ^lootdrop_duration);
-if(%upass_progress = ^upass_found_doll & inv_total(inv, amulet_of_othanian) = 0) {
-    obj_add(npc_coord, amulet_of_othanian, 1, ^lootdrop_duration);
+if(%upass_progress = ^upass_found_doll & inv_total(inv, othainian_amulet) = 0) {
+    obj_add(npc_coord, othainian_amulet, 1, ^lootdrop_duration);
 }

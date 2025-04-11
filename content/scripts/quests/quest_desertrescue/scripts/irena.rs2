@@ -15,7 +15,7 @@ if(%desertrescue_progress = ^desertrescue_not_started) {
 } else if(%desertrescue_progress < ^desertrescue_escaped) {
     ~chatnpc("<p,sad>Please bring my daughter back to me. She is most likely lost in the Desert somewhere. I miss her so much... Wahhhhh! *Sob*");
 } else if (%desertrescue_progress = ^desertrescue_escaped) {
-    if(inv_total(inv, anainabarrel) = 0) {
+    if(inv_total(inv, thanainabarrel) = 0) {
         ~chatnpc("<p,sad>Please bring my daughter back to me. She is most likely lost in the Desert somewhere. I miss her so much... Wahhhhh! *Sob*");
         return;
     }

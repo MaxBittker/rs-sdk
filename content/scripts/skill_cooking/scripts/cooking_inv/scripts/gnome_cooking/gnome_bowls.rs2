@@ -1,4 +1,4 @@
-[opheld1,half_baked_gnomebowl]
+[opheld1,half_baked_bowl]
 def_int $total_steps = ~get_bowl_ingredient_step();
 if ($total_steps < 1) {
     mes("The half baked bowl is empty.");
@@ -34,31 +34,31 @@ while ($i < enum_getoutputcount(gnome_bowl_ingredients)) {
 }
 mes("<$message>.");
 
-[opheldu,half_baked_gnomebowl]
+[opheldu,half_baked_bowl]
 switch_obj(last_useitem) {
-    case king_worm, onion, cheese, dwellberry, potato, equa_leaves, gnome_spice, toad_legs, chocolate_bar : @add_bowl_ingredient(last_useitem);
+    case king_worm, onion, cheese, dwellberry, potato, equa_leaves, gnome_spice, toads_legs, chocolate_bar : @add_bowl_ingredient(last_useitem);
     case default : ~displaymessage(^dm_default);
 }
 
 [opheldu,king_worm]
 switch_obj(last_useitem) {
     case gnome_spice : @opheldu_make_gnome_food(spicy_worm, "You add the gnome spice to the king worm.");
-    case half_baked_gnomebowl : @add_bowl_ingredient(last_item);
+    case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_crunchies : @add_crunchies_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,toad_legs]
+[opheldu,toads_legs]
 switch_obj(last_useitem) {
-    case gnome_spice : @opheldu_make_gnome_food(spicy_toad_legs, "You add the gnome spice to the toad legs.");
-    case equa_leaves : @opheldu_make_gnome_food(equa_toad_legs, "You add the equa leaves to the toad legs.");
-    case half_baked_gnomebowl : @add_bowl_ingredient(last_item);
+    case gnome_spice : @opheldu_make_gnome_food(spicy_toads_legs, "You add the gnome spice to the toad legs.");
+    case equa_leaves : @opheldu_make_gnome_food(equa_toads_legs, "You add the equa leaves to the toad legs.");
+    case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_crunchies : @add_crunchies_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
 }
 
 [proc,get_gnome_bowl_product]()(namedobj)
-def_int $null_count = calc(~get_bowl_ingredient_count(null) + ~get_bowl_ingredient_count(dwarf_remains));
+def_int $null_count = calc(~get_bowl_ingredient_count(null) + ~get_bowl_ingredient_count(mcannonremains));
 // chocolate bomb
 def_int $chocolate_bar_count = ~get_bowl_ingredient_count(chocolate_bar);
 def_int $equa_leaves_count = ~get_bowl_ingredient_count(equa_leaves);
@@ -72,25 +72,25 @@ def_int $potato_count = ~get_bowl_ingredient_count(potato);
 def_int $gnome_spice_count = ~get_bowl_ingredient_count(gnome_spice);
 if ($onion_count = 2 & $potato_count = 2 & $gnome_spice_count = 1 & $null_count = 6) {
     ~clear_bowl_ingredients;
-    return(unfinished_veg_ball1);
+    return(unfinished_veg_ball);
 }
 // worm hole
 def_int $king_worm_count = ~get_bowl_ingredient_count(king_worm);
 if ($king_worm_count = 4 & $onion_count = 2 & $gnome_spice_count = 1 & $null_count = 4) {
     ~clear_bowl_ingredients;
-    return(unfinished_worm_hole1);
+    return(unfinished_worm_hole);
 }
 // tangled toad legs
 def_int $cheese_count = ~get_bowl_ingredient_count(cheese);
 def_int $dwellberry_count = ~get_bowl_ingredient_count(dwellberry);
-def_int $toad_legs_count = ~get_bowl_ingredient_count(toad_legs);
+def_int $toad_legs_count = ~get_bowl_ingredient_count(toads_legs);
 if ($toad_legs_count = 4 & $cheese_count = 2 & $equa_leaves_count = 2 & $gnome_spice_count = 2 & $dwellberry_count = 1) {
     ~clear_bowl_ingredients;
     return(tangled_toads_legs);
 }
 
 ~clear_bowl_ingredients;
-return(odd_gnomebowl);
+return(spoilt_gnomebowl);
 
 
 [label,add_bowl_ingredient](obj $item)
@@ -125,17 +125,17 @@ if (string_length(oc_param($item, bowl_message)) < 1) {
 
 
 [proc,get_bowl_ingredient_step]()(int)
-if (%gnome_bowl_ingredient1 = null | %gnome_bowl_ingredient1 = dwarf_remains) return(0);
-if (%gnome_bowl_ingredient2 = null | %gnome_bowl_ingredient2 = dwarf_remains) return(1);
-if (%gnome_bowl_ingredient3 = null | %gnome_bowl_ingredient3 = dwarf_remains) return(2);
-if (%gnome_bowl_ingredient4 = null | %gnome_bowl_ingredient4 = dwarf_remains) return(3);
-if (%gnome_bowl_ingredient5 = null | %gnome_bowl_ingredient5 = dwarf_remains) return(4);
-if (%gnome_bowl_ingredient6 = null | %gnome_bowl_ingredient6 = dwarf_remains) return(5);
-if (%gnome_bowl_ingredient7 = null | %gnome_bowl_ingredient7 = dwarf_remains) return(6);
-if (%gnome_bowl_ingredient8 = null | %gnome_bowl_ingredient8 = dwarf_remains) return(7);
-if (%gnome_bowl_ingredient9 = null | %gnome_bowl_ingredient9 = dwarf_remains) return(8);
-if (%gnome_bowl_ingredient10 = null | %gnome_bowl_ingredient10 = dwarf_remains) return(9);
-if (%gnome_bowl_ingredient11 = null | %gnome_bowl_ingredient11 = dwarf_remains) return(10);
+if (%gnome_bowl_ingredient1 = null | %gnome_bowl_ingredient1 = mcannonremains) return(0);
+if (%gnome_bowl_ingredient2 = null | %gnome_bowl_ingredient2 = mcannonremains) return(1);
+if (%gnome_bowl_ingredient3 = null | %gnome_bowl_ingredient3 = mcannonremains) return(2);
+if (%gnome_bowl_ingredient4 = null | %gnome_bowl_ingredient4 = mcannonremains) return(3);
+if (%gnome_bowl_ingredient5 = null | %gnome_bowl_ingredient5 = mcannonremains) return(4);
+if (%gnome_bowl_ingredient6 = null | %gnome_bowl_ingredient6 = mcannonremains) return(5);
+if (%gnome_bowl_ingredient7 = null | %gnome_bowl_ingredient7 = mcannonremains) return(6);
+if (%gnome_bowl_ingredient8 = null | %gnome_bowl_ingredient8 = mcannonremains) return(7);
+if (%gnome_bowl_ingredient9 = null | %gnome_bowl_ingredient9 = mcannonremains) return(8);
+if (%gnome_bowl_ingredient10 = null | %gnome_bowl_ingredient10 = mcannonremains) return(9);
+if (%gnome_bowl_ingredient11 = null | %gnome_bowl_ingredient11 = mcannonremains) return(10);
 return(11);
 
 [proc,get_bowl_ingredient_name](obj $ingredient)(string, int)

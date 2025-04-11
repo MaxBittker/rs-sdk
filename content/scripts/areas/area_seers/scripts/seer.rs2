@@ -4,19 +4,19 @@ switch_int (%scorpcatcher_progress) {
         ~seers_greetings;
         @multi3("I need to locate some scorpions.", seer_locate_scorp, "Your friend Thormac sent me to speak to you.", seer_thormac, "I seek knowledge and power!", seer_knowledge_and_power);
     case ^scorpcatcher_first_hint :
-        if(inv_total(inv, scorpion_cage_all) > 0) {
+        if(inv_total(inv, scorpioncagefull) > 0) {
             ~seers_greetings;
             @multi2("Many greetings.", seer_many_greetings, "I seek knowledge and power!", seer_knowledge_and_power);
-        } else if(inv_total(inv, scorpion_cage_first_second) > 0) {
+        } else if(inv_total(inv, scorpioncageab) > 0) {
             @seer_second_scorp;
-        } else if(inv_total(inv, scorpion_cage_first) > 0 | inv_total(inv, scorpion_cage_first_third) > 0) {
+        } else if(inv_total(inv, scorpioncagea) > 0 | inv_total(inv, scorpioncageac) > 0) {
             @seer_first_scorp;
         } else {
             ~seers_greetings;
             @multi2("Where did you say that scorpion was again?", seer_where_scorp, "I seek knowledge and power!", seer_knowledge_and_power);
         } 
     case ^scorpcatcher_second_hint :
-        if(inv_total(inv, scorpion_cage_first) > 0 | inv_total(inv, scorpion_cage_first_third) > 0) {
+        if(inv_total(inv, scorpioncagea) > 0 | inv_total(inv, scorpioncageac) > 0) {
             @seer_first_scorp;
         } else {
             ~seers_greetings;

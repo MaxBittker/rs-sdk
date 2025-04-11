@@ -13,7 +13,7 @@
 switch_obj(last_useitem) {
     case harpoon : @attempt_fish_swordfish;
     case lobster_pot : @attempt_fish_lobster;
-    case net_big : ~mesbox("The fish here aren't suitable for catching with a big net.");
+    case big_net : ~mesbox("The fish here aren't suitable for catching with a big net.");
     case default : @fishing_wrong_spot_message(last_useitem);
 }
 

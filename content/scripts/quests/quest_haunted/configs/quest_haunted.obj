@@ -31,7 +31,7 @@ model=model_2714_obj
 2dxan=132
 weight=20g
 
-[poisoned_fish_good]
+[poisoned_fish_food]
 name=Poisoned fish food
 desc=Doesn't seem very nice to the poor fishes.
 model=model_2815_obj
@@ -43,7 +43,7 @@ model=model_2815_obj
 weight=30g
 tradeable=no
 
-[key_haunted]
+[closet_key]
 name=Key
 desc=A slightly smelly key.
 model=model_2372_obj

@@ -1,19 +1,19 @@
-[opheldu,half_key1]
-if (last_useitem = half_key2) {
+[opheldu,keyhalf1]
+if (last_useitem = keyhalf2) {
     @join_keys;
 } else {
     ~displaymessage(^dm_default);
 }
 
-[opheldu,half_key2]
-if (last_useitem = half_key1) {
+[opheldu,keyhalf2]
+if (last_useitem = keyhalf1) {
     @join_keys;
 } else {
     ~displaymessage(^dm_default);
 }
 
 [label,join_keys]
-inv_del(inv, half_key1, 1);
-inv_del(inv, half_key2, 1);
+inv_del(inv, keyhalf1, 1);
+inv_del(inv, keyhalf2, 1);
 inv_add(inv, crystal_key, 1);
 mes("You join the two halves of the key together.");

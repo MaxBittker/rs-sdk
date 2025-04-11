@@ -8,7 +8,7 @@ if(map_members = false | %biohazard_progress < ^biohazard_spoken_chemist) {
     ~chatplayer("<p,neutral>That's someone's bedroom.|I'm not going in there without a reason.");
     return;
 }
-if(inv_total(worn, priest_gown_top) > 0 & inv_total(worn, priest_gown_bottom) > 0) {
+if(inv_total(worn, priest_gown) > 0 & inv_total(worn, priest_robe) > 0) {
     mes("Guidor's wife allows you to go in.");
     ~open_and_close_door2(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), door_open);
     return;
@@ -30,9 +30,9 @@ if(npc_find(coord, mourner_watchtower, 5, 0) = true) {
 }
 
 [oplocu,loc_2067]
-if(%biohazard_progress = ^biohazard_spoken_jerico & last_useitem = bird_feed) {
+if(%biohazard_progress = ^biohazard_spoken_jerico & last_useitem = birdfeed) {
     // https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard8.PNG
-    inv_del(inv, bird_feed, 1);
+    inv_del(inv, birdfeed, 1);
     mes("You throw a hand full of seeds onto the watch tower");
     p_delay(2);
     %biohazard_progress = ^biohazard_used_birdfeed;
@@ -43,28 +43,28 @@ if(%biohazard_progress = ^biohazard_spoken_jerico & last_useitem = bird_feed) {
 
 [oploc1,loc_2057]
 // https://youtu.be/_ZNalEQB70o?si=aEyFbzV255lYgoNI&t=208
-~objbox(bird_feed, "The cupboard is full of birdfeed.", 250, 0, divide(^objbox_height, 2));
+~objbox(birdfeed, "The cupboard is full of birdfeed.", 250, 0, divide(^objbox_height, 2));
 if(%biohazard_progress < ^biohazard_spoken_jerico) {
     ~chatplayer("<p,neutral>I guess pigeons really love this stuff.");
     return;
 }
-if(inv_total(inv, bird_feed) > 0 | %biohazard_progress >= ^biohazard_used_birdfeed) {
+if(inv_total(inv, birdfeed) > 0 | %biohazard_progress >= ^biohazard_used_birdfeed) {
     ~chatplayer("<p,neutral>I don't need any more birdfeed.");
     return;
 }
-if(inv_total(bank, bird_feed) > 0) {
+if(inv_total(bank, birdfeed) > 0) {
     ~chatplayer("<p,neutral>I shouldn't take any more of Jerico's birdfeed. I've already got enough in the bank.");
     return;
 }
 ~chatplayer("<p,neutral>Mmm, birdfeed! Now what could I do with that?");
-inv_add(inv, bird_feed, 1);
+inv_add(inv, birdfeed, 1);
 
 
-[opheld1,pigeon_cage]
+[opheld1,pigeons]
 if(%biohazard_progress = ^biohazard_used_birdfeed & inzone(0_39_51_63_35, 0_40_51_5_43, coord) = true) {
     mes("The pigeons fly towards the watch tower");
-    inv_del(inv, pigeon_cage, 1);
-    inv_add(inv, pigeon_cage_empty, 1);
+    inv_del(inv, pigeons, 1);
+    inv_add(inv, pigeoncage, 1);
     %biohazard_progress = ^biohazard_released_pigeons;
     ~coord_projectile(coord, 0_39_51_63_39, spotanim_72, 16, 130, 25, 20, 21, 10, 20);
     ~coord_projectile(coord, 0_40_51_0_40, spotanim_72, 16, 125, 15, 20, 31, 10, 20);
@@ -93,9 +93,9 @@ p_teleport($dest);
 mes("and drop down on the other side.");
 
 [oplocu,loc_2043]
-if(last_useitem = rotten_apples) {
+if(last_useitem = rottenapples) {
     mes("You place the rotten apple in the pot...");
-    inv_del(inv, rotten_apples, 1);
+    inv_del(inv, rottenapples, 1);
     p_delay(3);
     if(%biohazard_progress = ^biohazard_climbed_ladder) {
         %biohazard_progress = ^biohazard_poisoned_stew;
@@ -119,11 +119,11 @@ mes("but you find nothing of interest.");
 [oploc1,loc_2060] @open_mournerhq_gate(^right, false);
 
 [oplocu,loc_2058] 
-if(last_useitem = biohazard_key) @open_mournerhq_gate(^left, true);
+if(last_useitem = mournerkeytw) @open_mournerhq_gate(^left, true);
 ~displaymessage(^dm_default);
 
 [oplocu,loc_2060]
-if(last_useitem = biohazard_key) @open_mournerhq_gate(^right, true);
+if(last_useitem = mournerkeytw) @open_mournerhq_gate(^right, true);
 ~displaymessage(^dm_default);
 
 [label,open_mournerhq_gate](int $side, boolean $used_key)
@@ -132,7 +132,7 @@ def_locshape $loc_shape = loc_shape;
 def_int $loc_angle = loc_angle;
 def_coord $loc_coord = loc_coord;
 def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
-if($entering = true & inv_total(inv, biohazard_key) = 0 & $used_key = false) { // cant enter with oploc1
+if($entering = true & inv_total(inv, mournerkeytw) = 0 & $used_key = false) { // cant enter with oploc1
     mes("The gate is locked.");
     p_delay(3);
     mes("You need a key.");

@@ -1,4 +1,4 @@
-[unstrung_symbol]
+[nostringstar]
 name=Unstrung symbol
 desc=It needs a string so I can wear it.
 cost=200
@@ -10,7 +10,7 @@ model=model_2480_obj
 weight=4g
 param=crafting_jewelry_struct,unstrung_symbol
 
-[unstrung_emblem]
+[nostringsnake]
 name=Unstrung emblem
 desc=It needs a string so I can wear it.
 cost=200

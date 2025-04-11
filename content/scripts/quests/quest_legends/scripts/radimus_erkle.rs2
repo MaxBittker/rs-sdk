@@ -24,7 +24,7 @@ if (%legends_progress = ^legends_not_started) {
     @multi3("Yes actually, what's involved?", radimus_erkle_yes,
         "Maybe some other time.", radimus_erkle_decline,
         "Who are you?", radimus_erkle_who);
-} else if (inv_total(inv, gilded_totem) > 0 & inv_total(inv, radimus_notes_complete) > 0 
+} else if (inv_total(inv, thtotempolegift) > 0 & inv_total(inv, thkaramjamapcomp) > 0 
         & %legends_progress = ^legends_got_gilded_totem) {
         @radimus_erkle_hand_in_totem;
 } else if (%legends_progress >= ^legends_returned_to_radimus & %legends_progress < ^legends_complete) {
@@ -36,14 +36,14 @@ if (%legends_progress = ^legends_not_started) {
 
 [opnpcu,radimus_erkle]
 switch_obj(last_useitem) {
-    case radimus_notes_complete : 
+    case thkaramjamapcomp : 
         ~chatnpc("<p,neutral>Well done, <text_gender("Sir", "Madam")>, very well done. However, you'll probably need it while you search for natives of the Kharazi tribe in the Kharazi Jungle.");
         ~chatnpc("<p,neutral>Remember, we would like a special token of friendship from them to place in the Legends Guild. I'll take the map off your hands once we get the proof that you have met the natives.");
-    case yommi_totem :
+    case thtotempole :
         ~chatnpc("<p,neutral>Hmmm, well, it is very impressive. Especially since it looks very heavy... However, it lacks a certain authenticity, my guess is that you made it, though I'm not sure why.");
         ~chatnpc("<p,neutral>We would like to have a really nice item to put on display in the Legends Guild main hall. Do you think you could get something more authentic?");
-    case gilded_totem : 
-        if (inv_total(inv, radimus_notes_complete) = 0) {
+    case thtotempolegift : 
+        if (inv_total(inv, thkaramjamapcomp) = 0) {
             ~chatnpc("<p,neutral>It's very nice, <text_gender("Sir", "Madam")>, but we also need something special to display in the Legends Guild.");
         }
         else {
@@ -121,15 +121,15 @@ if(string_length($skill_name) > 7) {
 // todo: mesanim check
 ~chatnpc("<p,neutral><text_gender("Sir", "Madam")>, this is truly amazing...");
 ~chatnpc("<p,neutral>That totem pole will take pride of place in the Legends Guild as a reminder of your quest to gain entry. And so that many other great adventurers can admire your bravery.");
-~objbox(gilded_totem, "Sir Radimus Erkle orders some guards to take the totem pole into the main Legends hall.", 250, 0, ^objbox_height);
+~objbox(thtotempolegift, "Sir Radimus Erkle orders some guards to take the totem pole into the main Legends hall.", 250, 0, ^objbox_height);
 ~chatnpc("<p,neutral>Well, you've completed the tasks I set you. That map of the Kharazi jungle will be very helpful for future|expeditions.|@blu@-- Sir Radimus takes the map and the totem pole --");
-inv_del(inv, gilded_totem, 1);
-inv_del(inv, radimus_notes_complete, 1);
+inv_del(inv, thtotempolegift, 1);
+inv_del(inv, thkaramjamapcomp, 1);
 %legends_progress = ^legends_returned_to_radimus;
 ~chatnpc("<p,neutral>Congratulations, welcome to the Legends Guild. Please, go through to the main Legends Guild building and I will join you shortly.");
 
 [label,radimus_erkle_midquest]
-if (~obj_gettotal(radimus_notes) = 0 & ~obj_gettotal(radimus_notes_complete) = 0) {
+if (~obj_gettotal(thkaramjamap) = 0 & ~obj_gettotal(thkaramjamapcomp) = 0) {
     @multi5("Terrible, I lost my map of the Kharazi Jungle.", radimus_erkle_lost_map,
             "It's ok, but I have forgotten what to do.", radimus_erkle_forgot,
             "I need another machete.", radimus_erkle_machete,
@@ -162,7 +162,7 @@ else {
         // Tested on OSRS: he always gives you incomplete notes, even if you have finished mapping the jungle
         // Additionally, he resets your mapping progress.
         // There's no free space check, notes will go on the ground if no space.
-        inv_add(inv, radimus_notes, 1);
+        inv_add(inv, thkaramjamap, 1);
         ~chatnpc("<p,neutral>Ok, please don't lose this one.");
     }
     else {
@@ -217,10 +217,10 @@ if (inv_freespace(inv) = 0) {
     return;
 }
 ~chatnpc("<p,neutral>Ok, you'll need this starting map of the Kharazi Jungle.");
-~objbox(radimus_notes, "Grand Vizier Erkle gives you some notes and a map.", 250, 0, 0);
+~objbox(thkaramjamap, "Grand Vizier Erkle gives you some notes and a map.", 250, 0, 0);
 %legends_progress = ^legends_started;
 ~send_quest_progress(questlist:legends, %legends_progress, ^legends_complete);
-inv_add(inv, radimus_notes, 1);
+inv_add(inv, thkaramjamap, 1);
 ~chatnpc("<p,neutral>Complete this map when you get to the Kharazi Jungle.|It's towards the southern most part of Karamja.");
 ~mesbox("Radimus shuffles around the back of his desk and gives you a stern|look.");
 ~chatnpc("<p,confused>It is likely to be very tough going. You'll need an axe|and machete to cut through the dense Kharazi Jungle,|collect a machete from the cupboard before you leave.|You'll need to find your own axe, preferably a good");

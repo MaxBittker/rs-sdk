@@ -40,7 +40,7 @@ recol1d=24205
 2dxan=204
 weight=2500g
 
-[glassblowing_pipe]
+[glassblowingpipe]
 name=Glassblowing pipe
 cost=2
 members=yes

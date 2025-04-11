@@ -32,7 +32,7 @@ if (p_finduid(uid) = true) {
     inv_add(bank, bolt, 1000);
     inv_add(bank, opal_bolttips, 1000);
     inv_add(bank, pearl_bolttips, 1000);
-    inv_add(bank, Barb_bolttips, 1000);
+    inv_add(bank, barbed_bolttips, 1000);
     inv_add(bank, unstrung_longbow, 1000);
     inv_add(bank, unstrung_shortbow, 1000);
     inv_add(bank, unstrung_oak_shortbow, 1000);
@@ -55,9 +55,9 @@ if (p_finduid(uid) = true) {
     // bow string
     inv_add(bank, bow_string, 1000);
     //ogre
-    inv_add(bank, achey_logs, 1000);
+    inv_add(bank, achey_tree_logs, 1000);
     inv_add(bank, ogre_arrow_shaft, 1000);
-    inv_add(bank, flighted_ogre_arrow, 1000);
+    inv_add(bank, ogre_headless_arrow, 1000);
     inv_add(bank, wolf_bones, 1000);
     inv_add(bank, chisel, 1000);
 }

@@ -1,7 +1,7 @@
 // i used some transcribed dialogue from this. https://web.archive.org/web/20051104084237/http://www.nomadgaming.com/index.php?page=rs2_dragonslayer
 
 [opnpc1,oziach]
-if(map_members = true & inv_total(inv, trail_clue_hard_riddle_exp014) > 0) {
+if(map_members = true & inv_total(inv, trail_clue_hard_riddle014) > 0) {
     @trail_oziach;
 }
 
@@ -119,10 +119,10 @@ if ($choice = 0) {
 ~chatplayer("<p,quiz>Where is the first piece of the map?");
 ~chatnpc("<p,neutral>Deep in a strange building known as Melzar's maze|located north west of Rimmington.");
 // tipit forum post from 2006 mentioning talk/drop trick working for this. source: https://forum.tip.it/topic/42769-melzars-maze-key/
-if (inv_total(inv, maze_key) = 0 & inv_total(bank, maze_key) = 0) {
+if (inv_total(inv, melzarkey) = 0 & inv_total(bank, melzarkey) = 0) {
     ~chatnpc("<p,neutral>You will need this to get in|this is the key to the front entrance to the maze.");
-    inv_add(inv, maze_key, 1);
-    ~objbox(maze_key, "Oziach hands you a key.", 250, 0, divide(^objbox_height, 2));
+    inv_add(inv, melzarkey, 1);
+    ~objbox(melzarkey, "Oziach hands you a key.", 250, 0, divide(^objbox_height, 2));
 }
 @multi4("Where can I get an antidragon shield?", oziach_dragon_shield, "Where is the second piece of the map?", oziach_second_piece, "Where is the third piece of the map?", oziach_third_piece, "Ok I'll try and get everything together.", oziach_farewell);
 
@@ -159,22 +159,22 @@ if ($choice = 0) {
 }
 
 [label,trail_oziach]
-if(inv_total(inv, trail_clue_hard_puzzle_exp014) > 0) {
+if(inv_total(inv, trail_clue_hard_riddle014_puzzlebox) > 0) {
     @puzzle_oziach;
 }
 ~chatnpc("<p,neutral>The solving of this puzzle could be the key to your treasure.");
-~give_trail_puzzle(trail_clue_hard_puzzle_exp014, "Oziach has given you a puzzle box!");
+~give_trail_puzzle(trail_clue_hard_riddle014_puzzlebox, "Oziach has given you a puzzle box!");
 
 [label,puzzle_oziach]
-if(inv_total(inv, trail_clue_hard_puzzle_exp014) = 0) {
+if(inv_total(inv, trail_clue_hard_riddle014_puzzlebox) = 0) {
     ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
     ~chatnpc("<p,angry>That's not much use - go and fetch it!");
     return;
 }
 if(~trail_puzzle_complete = true) {
     ~chatnpc("<p,neutral>Well done, traveller.");
-    inv_del(inv, trail_clue_hard_puzzle_exp014, 1);
-    ~progress_clue_hard(trail_clue_hard_riddle_exp014, "Oziach has given you another clue scroll!");
+    inv_del(inv, trail_clue_hard_riddle014_puzzlebox, 1);
+    ~progress_clue_hard(trail_clue_hard_riddle014, "Oziach has given you another clue scroll!");
     return;
 } 
 ~chatnpc("<p,neutral>That isn't right, keep trying.");

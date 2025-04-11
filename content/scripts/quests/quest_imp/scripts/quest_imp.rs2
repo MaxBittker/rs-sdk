@@ -1,6 +1,6 @@
 [queue,imp_quest_complete]
 %imp_progress = ^imp_complete;
-inv_add(inv, amulet_accuracy, 1);
+inv_add(inv, amulet_of_accuracy, 1);
 stat_advance(magic, 8750);
 session_log(^log_adventure, "Quest complete: Imp Catcher");
-~send_quest_complete(questlist:imp, amulet_accuracy, 200, ^imp_questpoints, "You have completed the\\nImp Catcher Quest!");
+~send_quest_complete(questlist:imp, amulet_of_accuracy, 200, ^imp_questpoints, "You have completed the\\nImp Catcher Quest!");

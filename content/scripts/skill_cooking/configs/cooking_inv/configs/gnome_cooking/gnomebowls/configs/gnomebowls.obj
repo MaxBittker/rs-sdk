@@ -115,7 +115,7 @@ cost=150
 weight=350g
 category=gnome_premade_and_toadlegs_kingworm
 
-[odd_gnomebowl]
+[spoilt_gnomebowl]
 name=Odd gnomebowl
 desc=This gnome bowl doesn't look very appetising.
 category=gnome_unf_odd_bowl
@@ -149,7 +149,7 @@ recol2d=10570
 2dxan=192
 weight=220g
 
-[half_baked_gnomebowl]
+[half_baked_bowl]
 iop1=Inspect
 name=Half baked bowl
 desc=This gnome bowl is in the early stages of preparation.
@@ -236,7 +236,7 @@ weight=300g
 members=yes
 param=gnome_cooking_type,1
 
-[unfinished_worm_hole1]
+[unfinished_worm_hole]
 name=Unfinished bowl
 desc=This dish is just missing those little finishing touches.
 category=gnome_unf_odd_bowl
@@ -250,7 +250,7 @@ weight=300g
 members=yes
 param=gnome_cooking_type,1
 
-[unfinished_veg_ball1]
+[unfinished_veg_ball]
 name=Unfinished bowl
 desc=This dish is just missing those little finishing touches.
 category=gnome_unf_odd_bowl

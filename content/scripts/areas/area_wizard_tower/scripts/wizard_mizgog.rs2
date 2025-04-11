@@ -5,20 +5,20 @@ switch_int(%imp_progress) {
         @multi2("Give me a quest!", mizgog_givequest, "Most of your friends are pretty quiet aren't they?", mizgog_quiet);
     case ^imp_started :
         ~chatnpc("<p,happy>So how are you doing finding my beads?");
-        if(inv_total(inv, imp_black_bead) > 0 & inv_total(inv, imp_white_bead) > 0 & inv_total(inv, imp_yellow_bead) > 0 & inv_total(inv, imp_red_bead) > 0) {
+        if(inv_total(inv, black_bead) > 0 & inv_total(inv, white_bead) > 0 & inv_total(inv, yellow_bead) > 0 & inv_total(inv, red_bead) > 0) {
             ~chatplayer("<p,happy>I've got all four beads.|It was hard work I can tell you.");
             ~chatnpc("<p,happy>Give them here and I'll sort out a reward.");
             ~mesbox("You give four coloured beads to Wizard Mizgog.");
-            inv_del(inv, imp_black_bead, 1);
-            inv_del(inv, imp_white_bead, 1);
-            inv_del(inv, imp_yellow_bead, 1);
-            inv_del(inv, imp_red_bead, 1);
+            inv_del(inv, black_bead, 1);
+            inv_del(inv, white_bead, 1);
+            inv_del(inv, yellow_bead, 1);
+            inv_del(inv, red_bead, 1);
             queue(imp_quest_complete, 0);
             ~chatnpc("<p,happy>Here's your reward then,|an amulet of accuracy.");
             mes("The Wizard hands you an amulet.");
             return;
         }
-        if(inv_total(inv, imp_black_bead) = 0 & inv_total(inv, imp_white_bead) = 0 & inv_total(inv, imp_yellow_bead) = 0 & inv_total(inv, imp_red_bead) = 0) {
+        if(inv_total(inv, black_bead) = 0 & inv_total(inv, white_bead) = 0 & inv_total(inv, yellow_bead) = 0 & inv_total(inv, red_bead) = 0) {
             ~chatplayer("<p,sad>I have not found any yet.");
             ~chatnpc("<p,neutral>Well get on with it.|I've lost a white bead, a red bead,|a black bead, and a yellow bead.|Go kill some imps!");
         } else {

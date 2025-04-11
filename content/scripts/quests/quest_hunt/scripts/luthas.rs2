@@ -1,7 +1,7 @@
 [opnpc1,luthas]
-if(map_members = true & inv_total(inv, trail_clue_medium_anagram_exp012) > 0) {
+if(map_members = true & inv_total(inv, trail_clue_medium_anagram012) > 0) {
     ~chatnpc("<p,neutral>Congratulations.");
-    ~progress_clue_medium(trail_clue_medium_anagram_exp012, "Luthas has given you another clue scroll!");
+    ~progress_clue_medium(trail_clue_medium_anagram012, "Luthas has given you another clue scroll!");
     return;
 }
 

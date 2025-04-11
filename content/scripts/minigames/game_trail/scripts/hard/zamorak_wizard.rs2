@@ -42,9 +42,9 @@ obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 def_int $random = random(128);
 
 if ($random < 4) {
-    obj_add(npc_coord, zamorak_monk_bottom, 1, ^lootdrop_duration);
+    obj_add(npc_coord, zamrobebottom, 1, ^lootdrop_duration);
 } else if ($random < 7) {
-    obj_add(npc_coord, zamorak_monk_top, 1, ^lootdrop_duration);
+    obj_add(npc_coord, zamrobetop, 1, ^lootdrop_duration);
 } else if ($random < 10) {
     obj_add(npc_coord, water_battlestaff, 1, ^lootdrop_duration);
 } else if ($random < 13) {

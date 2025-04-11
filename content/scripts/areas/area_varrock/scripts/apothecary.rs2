@@ -25,7 +25,7 @@ switch_int(~p_choice3("Can you make a strength potion?", 1, "Do you know any pot
                 inv_del(inv, red_spiders_eggs, 1);
                 inv_del(inv, limpwurt_root, 1);
                 inv_del(inv, coins, 5);
-                inv_add(inv, 4dose1strength, 1);
+                inv_add(inv, strength4, 1);
                 ~mesbox("The Apothecary gives you a strength potion.");
             } else if($option = 2) {
                 ~chatplayer("<p,neutral>No thanks.");
@@ -43,11 +43,11 @@ switch_int(~p_choice3("Can you make a strength potion?", 1, "Do you know any pot
     case 3 :
         ~chatplayer("<p,happy>Have you got any good potions to give away?");
         if(random(2) = 0) {
-            if(inv_total(inv, potion) > 0) {
+            if(inv_total(inv, acne_potion) > 0) {
                 ~chatnpc("<p,happy>Only that spot cream. Hope you enjoy it.");
                 return;
             }
-            inv_add(inv, potion, 1);
+            inv_add(inv, acne_potion, 1);
             ~chatnpc("<p,neutral>Ok then. Try this potion.");
         } else {
             ~chatnpc("<p,sad>Sorry, charity is not my strong point.");
@@ -55,15 +55,15 @@ switch_int(~p_choice3("Can you make a strength potion?", 1, "Do you know any pot
 }
 
 [label,apothecary_make_cadaver]
-if(inv_total(inv, cadaver) > 0) {
+if(inv_total(inv, cadava) > 0) {
     @apothecary_standard;
 }
-if(inv_total(inv, cadaver_berries) > 0) {
+if(inv_total(inv, cadavaberries) > 0) {
     ~chatnpc("<p,happy>Well done. You have the berries.");
     ~mesbox("You hand over the berries,|which the Apothecary shakes up in|a vial of strange liquid.");
     ~chatnpc("<p,happy>Here is what you need.");
-    inv_del(inv, cadaver_berries, 1);
-    inv_add(inv, cadaver, 1);
+    inv_del(inv, cadavaberries, 1);
+    inv_add(inv, cadava, 1);
     ~mesbox("The Apothecary gives you a Cadaver potion.");
 } else {
     ~chatnpc("<p,neutral>Keep searching for the berries.|They are needed for the potion.");

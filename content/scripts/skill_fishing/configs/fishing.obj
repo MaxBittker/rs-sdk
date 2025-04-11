@@ -26,7 +26,7 @@ womanwear=model_551_obj_wear,6
 weight=10lb
 param=fish_equipment_struct,fish_equipment_net
 
-[net_big]
+[big_net]
 name=Big fishing net
 desc=Useful for catching lots of fish.
 model=model_2626_obj
@@ -114,7 +114,7 @@ cost=2
 weight=2g
 category=category_532
 
-[shrimps]
+[shrimp]
 name=Shrimps
 desc=Some nicely cooked fish.
 model=model_2590_obj
@@ -126,7 +126,7 @@ iop1=Eat
 weight=100g
 category=category_58
 
-[raw_shrimps]
+[raw_shrimp]
 name=Raw shrimps
 desc=I should try cooking this.
 model=model_2590_obj
@@ -175,7 +175,7 @@ weight=120g
 category=category_57
 param=fishing_struct,fishing_struct_anchovies
 
-[burnt_shrimp_anchovies]
+[burntfish1]
 name=Burnt fish
 desc=Oops!
 model=model_2590_obj
@@ -368,7 +368,7 @@ weight=450g
 category=category_57
 members=yes
 
-[burnt_salmon_trout_carp_cod_pike]
+[burntfish2]
 name=Burnt fish
 desc=Oops!
 model=model_2354_obj
@@ -491,7 +491,7 @@ weight=300g
 category=category_58
 members=yes
 
-[burnt_mackerel]
+[burntfish3]
 name=Burnt fish
 desc=Oops!
 model=model_2353_obj
@@ -577,7 +577,7 @@ weight=350g
 category=category_58
 members=yes
 
-[burnt_tuna_bass]
+[burntfish4]
 name=Burnt fish
 desc=Oops!
 model=model_2355_obj
@@ -593,7 +593,7 @@ cost=1
 weight=300g
 category=category_116
 
-[burnt_sardine]
+[burntfish5]
 name=Burnt fish
 desc=Oops!
 model=model_2357_obj
@@ -760,7 +760,7 @@ weight=600g
 category=category_116
 members=yes
 
-[raw_manta_ray]
+[raw_mantaray]
 name=Raw manta ray
 desc=A rare catch.
 model=model_2722_obj
@@ -776,9 +776,9 @@ cost=500
 weight=450g
 category=category_57
 members=yes
-param=fishing_struct,fishing_struct_manta_ray
+param=fishing_struct,fishing_struct_mantaray
 
-[manta_ray]
+[mantaray]
 name=Manta ray
 desc=A rare catch.
 model=model_2722_obj
@@ -796,7 +796,7 @@ weight=400g
 category=category_58
 members=yes
 
-[burnt_manta_ray]
+[burnt_mantaray]
 name=Burnt manta ray
 desc=Oops!
 model=model_2722_obj
@@ -813,7 +813,7 @@ weight=350g
 category=category_116
 members=yes
 
-[raw_sea_turtle]
+[raw_seaturtle]
 name=Raw sea turtle
 desc=A rare catch.
 model=model_2619_obj
@@ -825,9 +825,9 @@ members=yes
 2dxan=236
 weight=400g
 category=category_57
-param=fishing_struct,fishing_struct_sea_turtle
+param=fishing_struct,fishing_struct_seaturtle
 
-[sea_turtle]
+[seaturtle]
 name=Sea turtle
 desc=Tasty!
 model=model_2619_obj
@@ -845,7 +845,7 @@ weight=350g
 category=category_58
 members=yes
 
-[burnt_sea_turtle]
+[burnt_seaturtle]
 name=Burnt sea turtle
 desc=Oops!
 model=model_2619_obj
@@ -905,7 +905,7 @@ iop1=Open
 weight=5kg
 members=yes
 
-[oyster]
+[oystershell]
 name=Oyster
 desc=It's a rare oyster.
 model=model_2363_obj
@@ -919,7 +919,7 @@ iop1=Open
 weight=100g
 members=yes
 
-[empty_oyster]
+[oysterempty]
 name=Empty oyster
 desc=It's empty.
 model=model_2593_obj
@@ -932,7 +932,7 @@ cost=5
 weight=80g
 members=yes
 
-[oyster_pearl]
+[smalloysterpearls]
 name=Oyster pearl
 desc=I could work wonders with a chisel on this pearl.
 model=model_2721_obj
@@ -945,7 +945,7 @@ cost=112
 weight=2g
 members=yes
 
-[oyster_pearls]
+[bigoysterpearls]
 name=Oyster pearls
 desc=I could work wonders with a chisel on these pearls.
 model=model_2377_obj

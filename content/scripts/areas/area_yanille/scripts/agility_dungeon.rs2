@@ -101,8 +101,8 @@ if(last_useitem = sinister_key) {
     mes("You find a lot of herbs in the chest...");
     inv_del(inv, sinister_key, 1);
     inv_add(inv, unidentified_harralander, 2);
-    inv_add(inv, unidentified_ranarr_weed, 3);
-    inv_add(inv, unidentified_irit_leaf, 1);
+    inv_add(inv, unidentified_ranarr, 3);
+    inv_add(inv, unidentified_irit, 1);
     inv_add(inv, unidentified_avantoe, 1);
     inv_add(inv, unidentified_kwuarm, 1);
     inv_add(inv, unidentified_torstol, 1);

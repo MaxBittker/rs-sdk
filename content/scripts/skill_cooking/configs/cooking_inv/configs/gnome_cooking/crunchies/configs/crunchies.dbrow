@@ -1,19 +1,19 @@
 [spicy_crunchies]
 table=gnome_food_cooking
-data=gnome_food,unfinished_spicy_crunchies1
-data=step,unfinished_spicy_crunchies1,gnome_spice,spicy_crunchies,odd_crunchies
+data=gnome_food,unfinished_spicy_crunchies
+data=step,unfinished_spicy_crunchies,gnome_spice,spicy_crunchies,spoilt_crunchies
 
 [toad_crunchies]
 table=gnome_food_cooking
-data=gnome_food,unfinished_toad_crunchies1
-data=step,unfinished_toad_crunchies1,equa_leaves,toad_crunchies,odd_crunchies
+data=gnome_food,unfinished_toad_crunchies
+data=step,unfinished_toad_crunchies,equa_leaves,toad_crunchies,spoilt_crunchies
 
 [worm_crunchies]
 table=gnome_food_cooking
-data=gnome_food,unfinished_worm_crunchies1
-data=step,unfinished_worm_crunchies1,gnome_spice,worm_crunchies,odd_crunchies
+data=gnome_food,unfinished_worm_crunchies
+data=step,unfinished_worm_crunchies,gnome_spice,worm_crunchies,spoilt_crunchies
 
-[choc_chip_crunchies]
+[chocchip_crunchies]
 table=gnome_food_cooking
-data=gnome_food,unfinished_choc_chip_crunchies1
-data=step,unfinished_choc_chip_crunchies1,chocolate_dust,choc_chip_crunchies,odd_crunchies
+data=gnome_food,unfinished_chocchip_crunchies
+data=step,unfinished_chocchip_crunchies,chocolate_dust,chocchip_crunchies,spoilt_crunchies

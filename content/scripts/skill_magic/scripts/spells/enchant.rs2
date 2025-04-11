@@ -44,7 +44,7 @@ inv_setslot(inv, $slot, $final_obj, 1);
 anim($anim, 0);
 spotanim_pl($spotanim, 92, 0);
 sound_synth($sound, 0, 0);
-if ($initial_obj = dragonstone_amulet) {
+if ($initial_obj = strung_dragonstone_amulet) {
     mes("You successfully enchant the dragonstone amulet.");
 } else {
     mes("You successfully enchant the <lowercase(oc_name($initial_obj))>.");

@@ -1,4 +1,4 @@
-[bark_sample]
+[grandtree_barksample]
 name=Bark sample
 desc=A sample of the bark from the Grand Tree.
 members=yes
@@ -14,7 +14,7 @@ recol1d=6240
 weight=15g
 tradeable=no
 
-[translation_book]
+[grandtree_translationbook]
 name=Translation book
 desc=A book to translate the ancient gnome language into English.
 members=yes
@@ -35,7 +35,7 @@ iop1=Read
 weight=18oz
 tradeable=no
 
-[gloughs_journal]
+[grandtree_journal]
 name=Glough's journal
 desc=Perhaps I should read it and see what Glough is up to!
 members=yes
@@ -54,7 +54,7 @@ iop1=Read
 weight=18oz
 tradeable=no
 
-[hazelmeres_scroll]
+[grandtree_scroll]
 name=Hazelmere's scroll
 desc=Hazelmere wrote something down on this scroll.
 members=yes
@@ -69,7 +69,7 @@ iop1=Read
 weight=20g
 tradeable=no
 
-[lumber_order]
+[grandtree_order]
 name=Lumber order
 desc=An order from the Karamja shipyard.
 members=yes
@@ -84,7 +84,7 @@ iop1=Read
 weight=20g
 tradeable=no
 
-[gloughs_key]
+[grandtree_gloughskey]
 name=Glough's key
 desc=The key to Glough's chest.
 members=yes
@@ -97,7 +97,7 @@ model=model_2372_obj
 weight=10g
 tradeable=no
 
-[twigs_t]
+[grandtree_twigt]
 name=Twigs
 desc=Twigs bound together in the shape of a T.
 model=model_2530_obj
@@ -110,7 +110,7 @@ members=yes
 weight=20g
 tradeable=no
 
-[twigs_u]
+[grandtree_twigu]
 name=Twigs
 desc=Twigs bound together in the shape of a U.
 model=model_2533_obj
@@ -123,7 +123,7 @@ members=yes
 weight=20g
 tradeable=no
 
-[twigs_z]
+[grandtree_twigz]
 name=Twigs
 desc=Twigs bound together in the shape of a Z.
 model=model_2538_obj
@@ -134,7 +134,7 @@ members=yes
 weight=20g
 tradeable=no
 
-[twigs_o]
+[grandtree_twigo]
 name=Twigs
 desc=Twigs bound together in the shape of a O.
 model=model_2526_obj
@@ -146,7 +146,7 @@ members=yes
 weight=20g
 tradeable=no
 
-[daconia_rock]
+[grandtree_daconiarock]
 model=model_2394_obj
 recol1s=13570
 recol1d=4264
@@ -160,7 +160,7 @@ weight=2lb
 members=yes
 tradeable=no
 
-[invasion_plans]
+[grandtree_invasionplans]
 name=Invasion plans
 desc=This is plans for an invasion!
 members=yes

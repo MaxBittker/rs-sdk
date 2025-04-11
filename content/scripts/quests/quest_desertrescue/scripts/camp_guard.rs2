@@ -9,14 +9,14 @@ if(~wearing_slave_robes = true) {
             ~chatplayer("<p,angry>You must be joking! The last one I gave you cost me double shifts working copper ore! You should be grateful you got one at all.");
             ~chatnpc("<p,angry>Alright, alright, I was only asking!");
         } else if(%desertrescue_progress < ^desertrescue_given_pineapple) {
-            if(inv_total(inv, tenti_pineapple) > 0 & %desertrescue_progress <= ^desertrescue_learned_darts) {
+            if(inv_total(inv, tentipineapple) > 0 & %desertrescue_progress <= ^desertrescue_learned_darts) {
                 @give_tenti_pineapple;
             }
             ~chatnpc("<p,angry>Yeah, what do you want?");
             @multi2("Er nothing really.", camp_merc_nothing, "I'd like to mine in a different area.", camp_merc_minearea);
         }
     } else if(inzone(0_51_147_26_14, 0_51_147_29_16, coord) = true) { // winch guard, it checks specifically the platform in OSRS
-        if(inv_total(inv, anainabarrel) > 0) {
+        if(inv_total(inv, thanainabarrel) > 0) {
             @camp_merc_barrel_help;
         }
         ~chatnpc("<p,neutral>Yes, what do you want?");
@@ -142,14 +142,14 @@ if(inzone(0_51_147_0_0, 0_51_147_63_63, coord) = true) {
         case pineapple : @give_reg_pineapple(pineapple);
         case pineapple_chunks : @give_reg_pineapple(pineapple_chunks);
         case pineapple_ring : @give_reg_pineapple(pineapple_ring);
-        case tenti_pineapple : @give_tenti_pineapple;
+        case tentipineapple : @give_tenti_pineapple;
     }
 }
 
 [label,give_tenti_pineapple]
 ~chatplayer("<p,shifty>Hey... I have something for you!");
-~objbox(tenti_pineapple, "You show the Tenti pineapple to the guard.", 250, 0, 0);
-inv_del(inv, tenti_pineapple, 1);
+~objbox(tentipineapple, "You show the Tenti pineapple to the guard.", 250, 0, 0);
+inv_del(inv, tentipineapple, 1);
 if(%desertrescue_progress = ^desertrescue_learned_darts) %desertrescue_progress = ^desertrescue_given_pineapple;
 ~chatnpc("<p,happy>Great! Just what I've been looking for! Mmmmmmm... Delicious!! This is soo nice! Mmmmm, *SLURP* Yummmm... Oh yes, this is great.");
 ~chatplayer("<p,quiz>So, can I go through now please?");
@@ -197,7 +197,7 @@ switch_int(~p_choice2("Yes please.", 1, "No thanks, I can manage.", 2)) {
                 ~chatnpc("<p,neutral>Anyway, let's get this barrel up to the surface, plenty more work for you to do!");
                 ~mesbox("The guard places the barrel carefully on the lift platform.");
                 ~chatnpc("<p,neutral>Oh, there's no one operating the lift up top, hope this barrel isn't urgent? You'd better get back to work!");
-                inv_del(inv, anainabarrel, 1);
+                inv_del(inv, thanainabarrel, 1);
                 if(%desertrescue_progress = ^desertrescue_retrieved_ana_minecart) %desertrescue_progress = ^desertrescue_ana_lift;
                 %desertrescue_map_mechanisms = setbit(%desertrescue_map_mechanisms, ^desertrescue_ana_on_lift);
             case 2 :

@@ -7,10 +7,10 @@ if(npc_find(coord, hajedy, 7, 0) = true) {
 }
 
 [opnpc1,hajedy]
-if(inv_total(inv, trail_clue_medium_anagram_exp005) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram005) > 0) {
     // https://youtube.com/watch?v=1jHmIS9FGSY
     ~chatnpc("<p,neutral>Well done.");
-    ~progress_clue_medium(trail_clue_medium_anagram_exp005, "Hajedy has given you another clue scroll!");
+    ~progress_clue_medium(trail_clue_medium_anagram005, "Hajedy has given you another clue scroll!");
     return;
 }
 // https://youtu.be/q7wrja-4s4A?si=rjWL42YDxEM1p2KW&t=286

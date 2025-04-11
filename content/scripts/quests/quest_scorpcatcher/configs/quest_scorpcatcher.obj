@@ -1,4 +1,4 @@
-[scorpion_cage_empty]
+[scorpioncageempty]
 members=yes
 model=model_2341_obj
 2dxof=-5
@@ -12,7 +12,7 @@ desc=It's empty!
 category=scorpcage
 tradeable=no
 
-[scorpion_cage_first]
+[scorpioncagea]
 members=yes
 model=model_2703_obj
 2dxof=-5
@@ -26,7 +26,7 @@ desc=There is 1 scorpion inside.
 category=scorpcage
 tradeable=no
 
-[scorpion_cage_first_second]
+[scorpioncageab]
 members=yes
 model=model_2703_obj
 2dxof=-5
@@ -40,7 +40,7 @@ desc=There are 2 scorpions inside.
 category=scorpcage
 tradeable=no
 
-[scorpion_cage_first_third]
+[scorpioncageac]
 cost=10
 members=yes
 model=model_2703_obj
@@ -54,7 +54,7 @@ desc=There are 2 scorpions inside.
 category=scorpcage
 tradeable=no
 
-[scorpion_cage_second]
+[scorpioncageb]
 cost=10
 members=yes
 model=model_2703_obj
@@ -68,7 +68,7 @@ desc=There is 1 scorpion inside.
 category=scorpcage
 tradeable=no
 
-[scorpion_cage_second_third]
+[scorpioncagebc]
 name=Scorpion cage
 desc=There are 2 scorpions inside.
 cost=10
@@ -82,7 +82,7 @@ weight=200g
 category=scorpcage
 tradeable=no
 
-[scorpion_cage_third]
+[scorpioncagec]
 cost=10
 members=yes
 model=model_2703_obj
@@ -96,7 +96,7 @@ desc=There is 1 scorpion inside.
 category=scorpcage
 tradeable=no
 
-[scorpion_cage_all]
+[scorpioncagefull]
 members=yes
 model=model_2703_obj
 2dxof=-5

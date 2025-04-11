@@ -1,4 +1,4 @@
-[murder_necklace]
+[murdernecklace]
 name=Silver necklace
 desc=Annas' shiny silver coated necklace.
 members=yes
@@ -16,12 +16,12 @@ manwear=model_281_obj_wear,0
 womanwear=model_445_obj_wear,0
 weight=10g
 category=murder_proofobj
-param=product,murder_flournecklace
+param=product,murdernecklacedust
 param=game_message,You sprinkle the flour on Anna's necklace.
 param=game_message2,The necklace is now coated with a thin layer of flour.
 tradeable=no
 
-[murder_flournecklace]
+[murdernecklacedust]
 name=Silver necklace
 desc=Annas' shiny silver coated necklace coated with a thin layer of flour.
 members=yes
@@ -39,13 +39,13 @@ manwear=model_281_obj_wear,0
 womanwear=model_445_obj_wear,0
 weight=10g
 category=murder_flourobj
-param=product,annas_print
-param=next_obj_stage,murder_necklace
+param=product,murderfingerprinta
+param=next_obj_stage,murdernecklace
 param=game_message,You use the flypaper on the flour covered necklace.
 param=game_message2,You have a clean impression of Anna's finger prints.
 tradeable=no
 
-[murder_cup]
+[murdercup]
 name=Silver cup
 desc=Bobs' shiny silver coated tea cup.
 members=yes
@@ -57,12 +57,12 @@ model=model_2347_obj
 2dxan=156
 weight=70g
 category=murder_proofobj
-param=product,murder_flourcup
+param=product,murdercupdust
 param=game_message,You sprinkle the flour on Bob's cup.
 param=game_message2,The cup is now coated with a thin layer of flour.
 tradeable=no
 
-[murder_flourcup]
+[murdercupdust]
 name=Silver cup
 desc=Bobs' shiny silver coated tea cup coated with a thin layer of flour.
 members=yes
@@ -76,13 +76,13 @@ recol1d=21140
 2dxan=156
 weight=70g
 category=murder_flourobj
-param=product,bobs_print
-param=next_obj_stage,murder_cup
+param=product,murderfingerprintb
+param=next_obj_stage,murdercup
 param=game_message,You use the flypaper on the flour covered cup.
 param=game_message2,You have a clean impression of Bob's finger prints.
 tradeable=no
 
-[murder_bottle]
+[murderbottle]
 name=Silver bottle
 desc=Carols' shiny silver coated bottle.
 members=yes
@@ -95,12 +95,12 @@ recol1d=21140
 2dxan=116
 weight=90g
 category=murder_proofobj
-param=product,murder_flourbottle
+param=product,murderbottledust
 param=game_message,You sprinkle the flour on Carol's bottle.
 param=game_message2,The bottle is now coated with a thin layer of flour.
 tradeable=no
 
-[murder_flourbottle]
+[murderbottledust]
 name=Silver bottle
 desc=Carols' shiny silver coated bottle coated with a thin layer of flour.
 members=yes
@@ -112,13 +112,13 @@ recol1d=21140
 2dxan=76
 weight=90g
 category=murder_flourobj
-param=product,carols_print
-param=next_obj_stage,murder_bottle
+param=product,murderfingerprintc
+param=next_obj_stage,murderbottle
 param=game_message,You use the flypaper on the flour covered bottle.
 param=game_message2,You have a clean impression of Carol's finger prints.
 tradeable=no
 
-[murder_book]
+[murderbook]
 name=Silver book
 desc=Davids' shiny silver coated book.
 members=yes
@@ -130,12 +130,12 @@ recol1d=21140
 2dxan=256
 weight=8oz
 category=murder_proofobj
-param=product,murder_flourbook
+param=product,murderbookdust
 param=game_message,You sprinkle the flour on David's book.
 param=game_message2,The Book is now coated with a thin layer of flour.
 tradeable=no
 
-[murder_flourbook]
+[murderbookdust]
 name=Silver book
 desc=Davids' shiny silver coated book coated with a thin layer of flour.
 members=yes
@@ -147,13 +147,13 @@ recol1d=21140
 2dxan=256
 weight=8oz
 category=murder_flourobj
-param=product,davids_print
-param=next_obj_stage,murder_book
+param=product,murderfingerprintd
+param=next_obj_stage,murderbook
 param=game_message,You use the flypaper on the flour covered book.
 param=game_message2,You have a clean impression of David's finger prints.
 tradeable=no
 
-[murder_needle]
+[murderneedle]
 name=Silver needle
 desc=Elizabeths' shiny silver coated needle.
 members=yes
@@ -167,12 +167,12 @@ recol1d=21140
 2dxan=368
 weight=1g
 category=murder_proofobj
-param=product,murder_flourneedle
+param=product,murderneedledust
 param=game_message,You sprinkle the flour on Elizabeth's needle.
 param=game_message2,The Needle is now coated with a thin layer of flour.
 tradeable=no
 
-[murder_flourneedle]
+[murderneedledust]
 name=Silver needle
 desc=Elizabeths' shiny silver coated needle coated with a thin layer of flour.
 members=yes
@@ -186,13 +186,13 @@ recol1d=21140
 2dxan=368
 weight=1g
 category=murder_flourobj
-param=product,elizabeths_print
-param=next_obj_stage,murder_needle
+param=product,murderfingerprinte
+param=next_obj_stage,murderneedle
 param=game_message,You use the flypaper on the flour covered needle.
 param=game_message2,You have a clean impression of Elizabeth's finger prints.
 tradeable=no
 
-[murder_pot]
+[murderpot]
 name=Silver pot
 desc=Franks' shiny silver coated pot.
 members=yes
@@ -206,12 +206,12 @@ recol1d=21140
 2dxan=112
 weight=2lb
 category=murder_proofobj
-param=product,murder_flourpot
+param=product,murderpotdust
 param=game_message,You sprinkle the flour on Frank's pot.
 param=game_message2,The Pot is now coated with a thin layer of flour.
 tradeable=no
 
-[murder_flourpot]
+[murderpotdust]
 name=Silver pot
 desc=Franks' shiny silver coated pot coated with a thin layer of flour.
 members=yes
@@ -225,13 +225,13 @@ recol1d=21140
 2dxan=112
 weight=2lb
 category=murder_flourobj
-param=product,franks_print
-param=next_obj_stage,murder_pot
+param=product,murderfingerprintf
+param=next_obj_stage,murderpot
 param=game_message,You use the flypaper on the flour covered pot.
 param=game_message2,You have a clean impression of Frank's finger prints.
 tradeable=no
 
-[murder_red_thread]
+[murderthreadr]
 name=Criminals' thread
 desc=Some red thread found at the murder scene.
 members=yes
@@ -246,7 +246,7 @@ recol1d=30753
 weight=2g
 tradeable=no
 
-[murder_green_thread]
+[murderthreadg]
 name=Criminals' thread
 desc=Some green thread found at the murder scene.
 members=yes
@@ -261,7 +261,7 @@ recol1d=992
 weight=2g
 tradeable=no
 
-[murder_blue_thread]
+[murderthreadb]
 name=Criminals' thread
 desc=Some blue thread found at the murder scene.
 members=yes
@@ -276,7 +276,7 @@ recol1d=31
 weight=2g
 tradeable=no
 
-[flypaper]
+[murderpaper]
 name=Flypaper
 desc=A piece of fly paper. It's sticky.
 model=model_2350_obj
@@ -289,7 +289,7 @@ members=yes
 weight=10g
 tradeable=no
 
-[pungent_pot]
+[murderpot2]
 name=Pungent pot
 desc=A pot found at the murder scene, with a sickly odour.
 members=yes
@@ -304,7 +304,7 @@ recol1d=18529
 weight=2lb
 tradeable=no
 
-[criminals_dagger]
+[murderweapon]
 name=Criminals' dagger
 desc=A flimsy looking dagger found at the crime scene.
 members=yes
@@ -317,12 +317,12 @@ recol1d=2214
 2dxan=472
 weight=1lb
 category=murder_proofobj
-param=product,murder_flourdagger
+param=product,murderweapondust
 param=game_message,You sprinkle a small amount of flour on the murderweapon.
 param=game_message2,The murderweapon is now coated with a thin layer of flour.
 tradeable=no
 
-[murder_flourdagger]
+[murderweapondust]
 name=Criminals' dagger
 desc=A flimsy looking dagger found at the crime scene coated with a thin layer of flour.
 members=yes
@@ -335,13 +335,13 @@ recol1d=2214
 2dxan=472
 weight=1lb
 category=murder_flourobj
-param=product,unknown_print
-param=next_obj_stage,criminals_dagger
+param=product,murderfingerprint1
+param=next_obj_stage,murderweapon
 param=game_message,You use the flypaper on the floury dagger.
 param=game_message2,You have a clean impression of the murderer's finger prints.
 tradeable=no
 
-[killers_print]
+[murderfingerprint]
 name=Killers' print
 desc=The fingerprints of the murderer.
 2dxof=2
@@ -354,7 +354,7 @@ model=model_2416_obj
 weight=10g
 tradeable=no
 
-[annas_print]
+[murderfingerprinta]
 name=Annas' print
 desc=An imprint of Annas' fingerprint.
 members=yes
@@ -369,7 +369,7 @@ category=murder_printobj
 param=murder_id_value,1
 tradeable=no
 
-[bobs_print]
+[murderfingerprintb]
 name=Bobs' print
 desc=An imprint of Bobs' fingerprint.
 members=yes
@@ -384,7 +384,7 @@ category=murder_printobj
 param=murder_id_value,2
 tradeable=no
 
-[carols_print]
+[murderfingerprintc]
 name=Carols' print
 desc=An imprint of Carols' fingerprint.
 members=yes
@@ -399,7 +399,7 @@ category=murder_printobj
 param=murder_id_value,3
 tradeable=no
 
-[davids_print]
+[murderfingerprintd]
 name=Davids' print
 desc=An imprint of Davids' fingerprint.
 members=yes
@@ -414,7 +414,7 @@ category=murder_printobj
 param=murder_id_value,4
 tradeable=no
 
-[elizabeths_print]
+[murderfingerprinte]
 name=Elizabeths' print
 desc=An imprint of Elizabeths' fingerprint.
 members=yes
@@ -429,7 +429,7 @@ category=murder_printobj
 param=murder_id_value,5
 tradeable=no
 
-[franks_print]
+[murderfingerprintf]
 name=Franks' print
 desc=An imprint of Franks' fingerprint.
 members=yes
@@ -444,7 +444,7 @@ category=murder_printobj
 param=murder_id_value,6
 tradeable=no
 
-[unknown_print]
+[murderfingerprint1]
 name=Unknown print
 desc=An unidentified fingerprint taken from the murder weapon.
 members=yes

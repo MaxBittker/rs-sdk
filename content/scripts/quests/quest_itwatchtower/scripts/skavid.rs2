@@ -148,14 +148,14 @@ if(%itwatchtower_progress >= ^itwatchtower_skavid_crystal) {
     switch_int(~p_choice2("But I've lost it!", 1, "Oh, okay then.", 2)) {
         case 1 :
             ~chatplayer("<p,sad>But I've lost it!");
-            if(inv_total(bank, watchtower_crystal2) > 0) return; // rs3
-            if(%itwatchtower_progress >= ^itwatchtower_complete | inv_total(inv, watchtower_crystal2) > 0) {
+            if(inv_total(bank, powering_crystal2) > 0) return; // rs3
+            if(%itwatchtower_progress >= ^itwatchtower_complete | inv_total(inv, powering_crystal2) > 0) {
                 ~chatnpc("<p,confused>I haves no more for you.");
                 return;
             }
             ~chatnpc("<p,confused>Alright, take this one then...");
-            ~objbox(watchtower_crystal2, "The skavid gives you a crystal.", 250, 0, ^objbox_height);
-            inv_add(inv, watchtower_crystal2, 1);
+            ~objbox(powering_crystal2, "The skavid gives you a crystal.", 250, 0, ^objbox_height);
+            inv_add(inv, powering_crystal2, 1);
         case 2 :
             ~chatplayer("<p,neutral>Oh, okay then.");
             ~chatnpc("<p,neutral>You be on your way, then.");
@@ -205,8 +205,8 @@ mes("The response was wrong.");
 [label,mad_skavid_correct]
 // https://web.archive.org/web/20041126094839im_/http://img14.imageshack.us/img14/1421/crystalpeicemad.jpg
 ~chatnpc("<p,happy>Heh-heh! So you speak a little skavid eh?|I'm impressed, here take this prize...");
-~objbox(watchtower_crystal2, "The skavid gives you a large crystal.", 250, 0, ^objbox_height);
-inv_add(inv, watchtower_crystal2, 1);
+~objbox(powering_crystal2, "The skavid gives you a large crystal.", 250, 0, ^objbox_height);
+inv_add(inv, powering_crystal2, 1);
 %itwatchtower_progress = ^itwatchtower_skavid_crystal;
 
 [label,skavid_no_skavid_speech]

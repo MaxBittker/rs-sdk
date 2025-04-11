@@ -11,50 +11,50 @@ if(last_useitem = ground_bat_bones) {
 }
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_guam_potion]
+[opheldu,guamvial]
 if(last_useitem = jangerberries) {
     if(%itwatchtower_progress < ^itwatchtower_learned_potion) {
         ~chatplayer("<p,confused>Hmm, perhaps I shouldn't mix these together. It might have unpredictable results...");
         return;
     }
-    @ogrepotion_add_jangerberries(unf_guam_potion);
+    @ogrepotion_add_jangerberries(guamvial);
 }
 if(last_useitem = ground_bat_bones) {
-  @ogrepotion_add_bat_bones(unf_guam_potion);
+  @ogrepotion_add_bat_bones(guamvial);
 }
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_marrentill_potion]
+[opheldu,marrentillvial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_tarromin_potion]
+[opheldu,tarrominvial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_harralander_potion]
+[opheldu,harralandervial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_ranarr_potion]
+[opheldu,ranarrvial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_irit_potion]
+[opheldu,iritvial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_avantoe_potion]
+[opheldu,avantoevial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_kwuarm_potion]
+[opheldu,kwuarmvial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_cadantine_potion]
+[opheldu,cadantinevial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_lantadyme_potion]
+[opheldu,lantadymevial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_dwarf_weed_potion]
+[opheldu,dwarfweedvial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
-[opheldu,unf_torstol_potion]
+[opheldu,torstolvial]
 ~attempt_brew_potion(last_useslot, last_slot);
 
 [opheldu,eye_of_newt]

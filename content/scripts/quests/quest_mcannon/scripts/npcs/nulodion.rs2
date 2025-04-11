@@ -122,22 +122,22 @@ if (%mcannon_coord ! null) {
 ~chatplayer("<p,neutral>Of course.");
 if (%mcannon_stage = ^cannon_stage_base) {
     mes("The dwarf gives you a new cannon part."); // osrs
-    inv_add(inv, cannon_base, 1);
+    inv_add(inv, twpart1, 1);
 } else if (%mcannon_stage = ^cannon_stage_stand) {
     mes("The dwarf gives you new cannon parts."); // osrs
-    inv_add(inv, cannon_base, 1);
-    inv_add(inv, cannon_stand, 1);
+    inv_add(inv, twpart1, 1);
+    inv_add(inv, twpart2, 1);
 } else if (%mcannon_stage = ^cannon_stage_barrels) {
     mes("The dwarf gives you new cannon parts."); // osrs
-    inv_add(inv, cannon_base, 1);
-    inv_add(inv, cannon_stand, 1);
-    inv_add(inv, cannon_barrels, 1);
+    inv_add(inv, twpart1, 1);
+    inv_add(inv, twpart2, 1);
+    inv_add(inv, twpart3, 1);
 } else if (%mcannon_stage = ^cannon_stage_full) {
     mes("The dwarf gives you a new cannon."); // osrs
-    inv_add(inv, cannon_base, 1);
-    inv_add(inv, cannon_stand, 1);
-    inv_add(inv, cannon_barrels, 1);
-    inv_add(inv, cannon_furnace, 1);
+    inv_add(inv, twpart1, 1);
+    inv_add(inv, twpart2, 1);
+    inv_add(inv, twpart3, 1);
+    inv_add(inv, twpart4, 1);
 }
 %mcannon_coord = null;
 %mcannon_stage = ^cannon_stage_none;
@@ -150,12 +150,12 @@ if (inv_total(inv, coins) < 750000) {
     ~chatnpc("<p,neutral>Sorry, I can't go any lower than that.");
 } else {
     inv_del(inv, coins, 750000);
-    inv_add(inv, cannon_base, 1);
-    inv_add(inv, cannon_stand, 1);
-    inv_add(inv, cannon_barrels, 1);
-    inv_add(inv, cannon_furnace, 1);
+    inv_add(inv, twpart1, 1);
+    inv_add(inv, twpart2, 1);
+    inv_add(inv, twpart3, 1);
+    inv_add(inv, twpart4, 1);
     inv_add(inv, ammo_mould, 1);
-    inv_add(inv, instruction_manual, 1);
+    inv_add(inv, mcannonbook, 1);
     ~mesbox("You give the Cannon Engineer 750,000 coins...");
     ~mesbox("He gives you the four parts that make the cannon, plus an ammo mould and an instruction manual.");
     ~chatnpc("<p,neutral>There you go, you be careful with that thing.");

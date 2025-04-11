@@ -4,8 +4,8 @@ if (npc_findhero = false) {
     return;
 }
 // no quest stage check, no bank check (RS3)
-if(inv_total(inv, upass_harry_badge) = 0) {
-    obj_add(npc_coord, upass_harry_badge, 1, ^lootdrop_duration);
+if(inv_total(inv, paladinbadge3) = 0) {
+    obj_add(npc_coord, paladinbadge3, 1, ^lootdrop_duration);
 }
 ~paladin_drops;
 

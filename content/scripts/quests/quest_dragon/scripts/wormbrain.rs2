@@ -7,7 +7,7 @@ if (npc_findhero = false) {
 // Default drop from config.
 obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 // Drop map part
-obj_add(npc_coord, crandor_map_part2, 1, ^lootdrop_duration);
+obj_add(npc_coord, mappart2, 1, ^lootdrop_duration);
 
 
 [opnpc1,wormbrain] @talk_to_wormbrain;
@@ -20,7 +20,7 @@ if (lineofsight(coord, npc_coord) = false) {
 @talk_to_wormbrain;
 
 [label,talk_to_wormbrain]
-if (~quest_dragon_getting_map_parts = false | inv_total(inv, crandor_map_part2) > 0 | %dragon_goblin ! ^quest_dragon_knows_about_goblin) {
+if (~quest_dragon_getting_map_parts = false | inv_total(inv, mappart2) > 0 | %dragon_goblin ! ^quest_dragon_knows_about_goblin) {
     @multi2("What are you in for?", wormbrain_in_for, "Sorry, thought this was a zoo.", wormbrain_zoo);
 }
 @multi3("I believe you've got a piece of map that I need.", wormbrain_map, "What are you in for?", wormbrain_in_for, "Sorry, thought this was a zoo.", wormbrain_zoo);
@@ -68,7 +68,7 @@ if (inv_total(inv, coins) < 10000) {
     return;
 }
 inv_del(inv, coins, 10000);
-inv_add(inv, crandor_map_part2, 1);
+inv_add(inv, mappart2, 1);
 ~mesbox("You buy the map piece from Wormbrain.");
 ~chatnpc("<p,goblinchat>Fank you very much! Now me can bribe da guards, hehehe."); // laugh in osrs
 

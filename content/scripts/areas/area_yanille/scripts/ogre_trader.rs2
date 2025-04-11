@@ -33,7 +33,7 @@ if(inv_freespace(inv) = 0) {
     return;
 }
 mes("You cautiously grab a cake from the stall.");
-inv_add(inv, rock_cake, 1);
+inv_add(inv, rockcake, 1);
 // Temp note: dur updated
 loc_change(loc_2792, 12); // 11t osrs
 stat_advance(thieving, 65);

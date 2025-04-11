@@ -15,7 +15,7 @@ stackable=yes
 weight=10g
 tradeable=no
 
-[fishing_trophy]
+[hemenster_fishing_trophy]
 name=Fishing trophy
 desc=Hemenster fishing contest trophy.
 model=model_2646_obj
@@ -27,7 +27,7 @@ members=yes
 weight=3oz
 tradeable=no
 
-[fishing_pass]
+[fishing_competition_pass]
 name=Fishing pass
 desc=Pass to the Hemenster fishing contest.
 model=model_2600_obj

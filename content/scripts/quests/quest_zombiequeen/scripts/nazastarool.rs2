@@ -47,7 +47,7 @@ if_close;
 
 [queue,defeat_nazastarool3]
 %zq_map_mechanisms = setbit(%zq_map_mechanisms, ^zq_defeated_nazastarool3);
-obj_add(0_45_148_13_15, rashiliya_corpse, 1, ^lootdrop_duration);
+obj_add(0_45_148_13_15, zqcorpse, 1, ^lootdrop_duration);
 queue(zq_corpseappear, 0);
 mes("You see something appear on the dolmen.");
 mes("Nazastarool: May you perish in the fires of Zamorak's furnace! Rashiliyia's");

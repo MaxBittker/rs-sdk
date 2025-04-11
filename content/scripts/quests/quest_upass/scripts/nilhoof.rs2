@@ -27,34 +27,34 @@ switch_int(%upass_progress) {
     case ^upass_found_doll :
         ~chatplayer("<p,happy><nc_name(nilhoof)>, I found the Witch's house.");
         ~chatnpc("<p,neutral>And...?");
-        if(inv_total(inv, doll_of_iban) > 0) {
+        if(inv_total(inv, ibandoll) > 0) {
             ~chatplayer("<p,neutral>I found a strange doll.");
         } else {
             ~chatplayer("<p,neutral>I found a strange doll and a book, but I've lost the doll.");
             ~chatnpc("<p,neutral>Well it's a good job I found it.");
-            inv_add(inv, doll_of_iban, 1); // no space check
+            inv_add(inv, ibandoll, 1); // no space check
         }
         ~chatnpc("<p,neutral>The witch's rag doll. This here be black magic traveller. Iban was magically conjured in that very item. His four elements of being are guarded somewhere in this cave...");
         ~chatnpc("<p,neutral>His shadow, his flesh, his conscience and his blood. If you can retrieve these, with the flask, you will be able destroy Iban and resurrect the 'Well of Voyage'.");
-        if(inv_total(inv, history_of_iban) = 0) {
+        if(inv_total(inv, old_journal) = 0) {
             ~chatnpc("<p,confused>I found this old book... I'm not sure if it's of any use to you traveller.");
-            inv_add(inv, history_of_iban, 1);
+            inv_add(inv, old_journal, 1);
         }
     case ^upass_confronted_iban :
         ~chatplayer("<p,happy>Hi <nc_name(nilhoof)>.");
         ~chatnpc("<p,happy>Traveller, thank the stars you're still around! ...I thought your time had come.");
         ~chatplayer("<p,happy>I've still a few years in me yet.");
-        if(inv_total(inv, doll_of_iban) = 0) {
+        if(inv_total(inv, ibandoll) = 0) {
             ~chatnpc("<p,neutral>I found something I think you need traveller...");
             ~chatplayer("<p,neutral>The doll?");
             ~chatnpc("<p,neutral>I found it while slaying some of the soulless. Here you go.");
-            inv_add(inv, doll_of_iban, 1);
+            inv_add(inv, ibandoll, 1);
             mes("<nc_name(nilhoof)> gives you the doll of Iban"); // no period
         }
-        if(inv_total(inv, history_of_iban) = 0) {
+        if(inv_total(inv, old_journal) = 0) {
             ~chatnpc("<p,neutral>I also found this old journal. I don't know if it's of any importance.");
             ~chatplayer("<p,happy>That's great <nc_name(nilhoof)>.");
-            inv_add(inv, history_of_iban, 1);
+            inv_add(inv, old_journal, 1);
             ~chatplayer("<p,neutral>It's about time I dealt with Iban.");
             ~chatnpc("<p,neutral>Good luck to you, you'll need it. May the strength of the Elders be with you...");
             ~chatplayer("<p,neutral>Take care <nc_name(nilhoof)>.");

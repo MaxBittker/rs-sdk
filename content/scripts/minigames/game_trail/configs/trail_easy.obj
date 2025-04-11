@@ -11,7 +11,7 @@ model=model_3374_obj
 iop1=Read
 category=trail_clue_easy
 param=trail_coord,0_49_52_41_32
-param=trail_casket,trail_casket_easy_map001
+param=trail_casket,trail_clue_easy_map001_casket
 tradeable=no
 
 [trail_clue_easy_map002]
@@ -27,7 +27,7 @@ model=model_3374_obj
 iop1=Read
 category=trail_clue_easy
 param=trail_coord,0_51_52_26_46
-param=trail_casket,trail_casket_easy_map002
+param=trail_casket,trail_clue_easy_map002_casket
 tradeable=no
 
 [trail_clue_easy_map003]
@@ -43,10 +43,10 @@ model=model_3374_obj
 iop1=Read
 category=trail_clue_easy
 param=trail_coord,0_47_53_35_6
-param=trail_casket,trail_casket_easy_map003
+param=trail_casket,trail_clue_easy_map003_casket
 tradeable=no
 
-[trail_clue_easy_simple_exp001]
+[trail_clue_easy_simple001]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -61,7 +61,7 @@ category=trail_clue_easy
 param=trail_desc,Search the chest in the|Duke of Lumbridge's bedroom.
 tradeable=no
 
-[trail_clue_easy_simple_exp002]
+[trail_clue_easy_simple002]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -76,7 +76,7 @@ category=trail_clue_easy
 param=trail_desc,Search the crate in the left-|hand tower of Lumbridge Castle.
 tradeable=no
 
-[trail_clue_easy_simple_exp003]
+[trail_clue_easy_simple003]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -91,7 +91,7 @@ category=trail_clue_easy
 param=trail_desc,Search the boxes in the goblin|house near Lumbridge.
 tradeable=no
 
-[trail_clue_easy_simple_exp004]
+[trail_clue_easy_simple004]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -106,7 +106,7 @@ category=trail_clue_easy
 param=trail_desc,Search the chests upstairs in|Al Kharid Palace.
 tradeable=no
 
-[trail_clue_easy_simple_exp005]
+[trail_clue_easy_simple005]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -121,7 +121,7 @@ category=trail_clue_easy
 param=trail_desc,Speak to Hans to|solve the clue.
 tradeable=no
 
-[trail_clue_easy_simple_exp006]
+[trail_clue_easy_simple006]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -136,7 +136,7 @@ category=trail_clue_easy
 param=trail_desc,Search the crates in the|most north-western house in Al Kharid.
 tradeable=no
 
-[trail_clue_easy_simple_exp007]
+[trail_clue_easy_simple007]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -151,7 +151,7 @@ category=trail_clue_easy
 param=trail_desc,Talk to Zeke in Al Kharid.
 tradeable=no
 
-[trail_clue_easy_simple_exp008]
+[trail_clue_easy_simple008]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -166,7 +166,7 @@ category=trail_clue_easy
 param=trail_desc,Speak to the tanner|in Al Kharid.
 tradeable=no
 
-[trail_clue_easy_simple_exp009]
+[trail_clue_easy_simple009]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -181,7 +181,7 @@ category=trail_clue_easy
 param=trail_desc,Search the boxes in|the house near the|south entrance to Varrock.
 tradeable=no
 
-[trail_clue_easy_simple_exp010]
+[trail_clue_easy_simple010]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -196,7 +196,7 @@ category=trail_clue_easy
 param=trail_desc,Speak to the bartender of the|Blue Moon Inn in Varrock.
 tradeable=no
 
-[trail_clue_easy_simple_exp011]
+[trail_clue_easy_simple011]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -211,7 +211,7 @@ category=trail_clue_easy
 param=trail_desc,Search the drawers, upstairs|in the bank to|the East of Varrock.
 tradeable=no
 
-[trail_clue_easy_simple_exp012]
+[trail_clue_easy_simple012]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -226,7 +226,7 @@ category=trail_clue_easy
 param=trail_desc,Search the crates|in Horvik's armoury.
 tradeable=no
 
-[trail_clue_easy_simple_exp013]
+[trail_clue_easy_simple013]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -241,7 +241,7 @@ category=trail_clue_easy
 param=trail_desc,Search the drawers in|one of Gertrude's bedrooms.
 tradeable=no
 
-[trail_clue_easy_simple_exp014]
+[trail_clue_easy_simple014]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -256,7 +256,7 @@ category=trail_clue_easy
 param=trail_desc,Search the boxes in the|Barbarian Village helmet shop.
 tradeable=no
 
-[trail_clue_easy_simple_exp015]
+[trail_clue_easy_simple015]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -271,7 +271,7 @@ category=trail_clue_easy
 param=trail_desc,Search the drawers upstairs|in Falador's shield shop.
 tradeable=no
 
-[trail_clue_easy_simple_exp016]
+[trail_clue_easy_simple016]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -286,7 +286,7 @@ category=trail_clue_easy
 param=trail_desc,Search the boxes of|Falador's general store.
 tradeable=no
 
-[trail_clue_easy_simple_exp017]
+[trail_clue_easy_simple017]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -301,7 +301,7 @@ category=trail_clue_easy
 param=trail_desc,Talk to the Squire in the|White Knights' castle in Falador.
 tradeable=no
 
-[trail_clue_easy_simple_exp018]
+[trail_clue_easy_simple018]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -316,7 +316,7 @@ category=trail_clue_easy
 param=trail_desc,Search the drawers in|Falador's chain mail shop.
 tradeable=no
 
-[trail_clue_easy_simple_exp019]
+[trail_clue_easy_simple019]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -331,7 +331,7 @@ category=trail_clue_easy
 param=trail_desc,Search the crates in the|Port Sarim Fishing shop.
 tradeable=no
 
-[trail_clue_easy_simple_exp020]
+[trail_clue_easy_simple020]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -346,7 +346,7 @@ category=trail_clue_easy
 param=trail_desc,Talk to the bartender of the|Rusty Anchor in Port Sarim.
 tradeable=no
 
-[trail_clue_easy_simple_exp021]
+[trail_clue_easy_simple021]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -361,7 +361,7 @@ category=trail_clue_easy
 param=trail_desc,Speak to Ned in|Draynor Village.
 tradeable=no
 
-[trail_clue_easy_simple_exp022]
+[trail_clue_easy_simple022]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -376,7 +376,7 @@ category=trail_clue_easy
 param=trail_desc,Speak to Doric, who|lives north of Falador.
 tradeable=no
 
-[trail_clue_easy_simple_exp023]
+[trail_clue_easy_simple023]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -391,7 +391,7 @@ category=trail_clue_easy
 param=trail_desc,Speak to Gaius in Taverley.
 tradeable=no
 
-[trail_clue_easy_simple_exp024]
+[trail_clue_easy_simple024]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -406,7 +406,7 @@ category=trail_clue_easy
 param=trail_desc,Search the drawers in|Catherby's Archery shop.
 tradeable=no
 
-[trail_clue_easy_simple_exp025]
+[trail_clue_easy_simple025]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -421,7 +421,7 @@ category=trail_clue_easy
 param=trail_desc,Speak to Arhein in Catherby.
 tradeable=no
 
-[trail_clue_easy_simple_exp026]
+[trail_clue_easy_simple026]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -436,7 +436,7 @@ category=trail_clue_easy
 param=trail_desc,Speak to Sir Kay|in Camelot Castle.
 tradeable=no
 
-[trail_clue_easy_riddle_exp001]
+[trail_clue_easy_simple027]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -451,7 +451,7 @@ category=trail_clue_easy
 param=trail_desc,Search the chest in the left-|hand tower of Camelot Castle.
 tradeable=no
 
-[trail_clue_easy_riddle_exp002]
+[trail_clue_easy_simple028]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -466,7 +466,7 @@ category=trail_clue_easy
 param=trail_desc,Search the crates in the|guard house of the northern|gate of East Ardougne.
 tradeable=no
 
-[trail_clue_easy_riddle_exp003]
+[trail_clue_easy_simple029]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -481,7 +481,7 @@ category=trail_clue_easy
 param=trail_desc,Search the boxes just|outside the Armour shop|in East Ardougne.
 tradeable=no
 
-[trail_clue_easy_riddle_exp004]
+[trail_clue_easy_simple030]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -496,7 +496,7 @@ category=trail_clue_easy
 param=trail_desc,Search the crates in East|Ardougne's general store.
 tradeable=no
 
-[trail_clue_easy_riddle_exp005]
+[trail_clue_easy_simple031]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -511,7 +511,7 @@ category=trail_clue_easy
 param=trail_desc,Search the crates in the shed|just north of East Ardougne.
 tradeable=no
 
-[trail_clue_easy_riddle_exp006]
+[trail_clue_easy_vague001]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -526,7 +526,7 @@ category=trail_clue_easy
 param=trail_desc,Search the drawers|above Varrock's shops.
 tradeable=no
 
-[trail_clue_easy_riddle_exp007]
+[trail_clue_easy_vague002]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -541,7 +541,7 @@ category=trail_clue_easy
 param=trail_desc,Search the crates near|a cart in Varrock.
 tradeable=no
 
-[trail_clue_easy_riddle_exp008]
+[trail_clue_easy_vague003]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -556,7 +556,7 @@ category=trail_clue_easy
 param=trail_desc,Search the drawers found upstairs|in East Ardougne's houses.
 tradeable=no
 
-[trail_clue_easy_riddle_exp009]
+[trail_clue_easy_vague004]
 name=Clue scroll
 desc=A clue!
 cost=1
@@ -571,7 +571,7 @@ category=trail_clue_easy
 param=trail_desc,A crate found in the|tower of a church is|your next location.
 tradeable=no
 
-[trail_clue_easy_riddle_exp010]
+[trail_clue_easy_vague005]
 name=Clue scroll
 desc=A clue!
 cost=1

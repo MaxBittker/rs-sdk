@@ -12,7 +12,7 @@ if ($random < 3) {
     if (map_members = true) {
         obj_add(npc_coord, bronze_spear, 1, ^lootdrop_duration);
     } else {
-        obj_add(npc_coord, goblin_mail, 1, ^lootdrop_duration);
+        obj_add(npc_coord, goblin_armour, 1, ^lootdrop_duration);
     }
 } else if ($random < 6) {
     obj_add(npc_coord, iron_sword, 1, ^lootdrop_duration);
@@ -63,7 +63,7 @@ if ($random < 3) {
 } else if ($random < 105) {
     obj_add(npc_coord, limpwurt_root, 1, ^lootdrop_duration);
 } else if ($random < 107) {
-    obj_add(npc_coord, goblin_mail, 1, ^lootdrop_duration);
+    obj_add(npc_coord, goblin_armour, 1, ^lootdrop_duration);
 } else if ($random < 109) {
     obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
 }
@@ -123,7 +123,7 @@ if ($random < 3) {
 } else if ($random < 111) {
     obj_add(npc_coord, limpwurt_root, 1, ^lootdrop_duration);
 } else if ($random < 113) {
-    obj_add(npc_coord, goblin_mail, 1, ^lootdrop_duration);
+    obj_add(npc_coord, goblin_armour, 1, ^lootdrop_duration);
 } else if ($random < 115) {
     obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
 }

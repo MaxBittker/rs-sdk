@@ -42,15 +42,15 @@ switch_int(%elena_progress) {
     case ^elena_complete, ^elena_complete_read_scroll :
         ~chatplayer("<p,happy>Hello there.");
         ~chatnpc("<p,happy>Ah hello. Thank you again for rescuing my daughter.");
-        if(inv_total(inv, elena_teleport_scroll) = 0 & %elena_progress = ^elena_complete) {
+        if(inv_total(inv, ardougnescroll) = 0 & %elena_progress = ^elena_complete) {
             def_int $choice = ~p_choice2("Do you have any more of those scrolls?", 1, "No problem.", 2);
             if($choice = 1) {
                 ~chatplayer("<p,quiz>Do you have any more of those scrolls?"); 
-                if(inv_total(bank, elena_teleport_scroll) > 0) {
+                if(inv_total(bank, ardougnescroll) > 0) {
                     ~chatnpc("<p,neutral>But you've already got one! It's in your bank.");
                     return;
                 }
-                inv_add(inv, elena_teleport_scroll, 1);
+                inv_add(inv, ardougnescroll, 1);
                 ~chatnpc("<p,happy>Yes, here you go.");
                 return;
             } 

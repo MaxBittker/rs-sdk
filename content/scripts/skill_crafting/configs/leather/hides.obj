@@ -11,7 +11,7 @@ recol1d=8416
 2dxan=440
 weight=5lb
 
-[hardleather]
+[hard_leather]
 name=Hard leather
 desc=It's a piece of hard leather.
 model=model_2338_obj

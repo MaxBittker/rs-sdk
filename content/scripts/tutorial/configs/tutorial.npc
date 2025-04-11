@@ -280,7 +280,7 @@ param=death_anim,giantrat_death
 param=attack_sound,rat_attack
 param=defend_sound,rat_hit
 param=death_sound,rat_death
-param=death_drop,tutorial_bones
+param=death_drop,newbiebones
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3313
 
 [tut_chicken]
@@ -301,7 +301,7 @@ param=death_anim,chicken_death
 param=attack_sound,chicken_attack
 param=defend_sound,chicken_hit
 param=death_sound,chicken_death
-param=death_drop,tutorial_bones
+param=death_drop,newbiebones
 category=chicken
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3316
 

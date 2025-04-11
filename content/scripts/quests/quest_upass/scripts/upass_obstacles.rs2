@@ -188,7 +188,7 @@ if (loc_find(coord, loc_3234) = true | loc_find(movecoord(coord, 0, 0, -1), loc_
 ~mesbox("The rock appears to move slightly as you touch it...|It's a trap!|You don't see any way to disarm it,|maybe you can find a way to cross over it...");
 
 [oplocu,loc_3230]
-if(last_useitem = plank) {
+if(last_useitem = woodplank) {
     mes("You place the plank across the flat rock...");
     anim(human_pickupfloor, 0);
     sound_synth(put_down, 0, 0);
@@ -231,12 +231,12 @@ if(stat_random(stat(thieving), 110, 320) = false) {
     mes("...and fail, activating the trap!");
     @upass_orboflight_trap;
 }
-if(inv_freespace(inv) = 0 | inv_total(inv, orb_of_light1) > 0 | testbit(%upass_map_mechanisms, oc_param(orb_of_light1, orb_bit)) = true) {
+if(inv_freespace(inv) = 0 | inv_total(inv, caveorb1) > 0 | testbit(%upass_map_mechanisms, oc_param(caveorb1, orb_bit)) = true) {
     mes("...and succeed, you hear it resetting after a few seconds.");
     return;
 }
-inv_add(inv, orb_of_light1, 1);
-if(obj_find(loc_coord, orb_of_light_invisible) = true) obj_del;
+inv_add(inv, caveorb1, 1);
+if(obj_find(loc_coord, caveorb4dot) = true) obj_del;
 if(loc_find(loc_coord, loc_3361) = true) loc_del(50); // rs3
 mes("...and succeed long enough to take the Orb.");
 

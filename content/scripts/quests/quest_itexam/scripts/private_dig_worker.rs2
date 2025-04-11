@@ -48,7 +48,7 @@ if ($choice = 1) {
 
 [label,digsite_workman_please3]
 ~chatplayer("<p,happy>Pretty please with sugar on top!");
-inv_add(inv, digsite_chest_key, 1);
+inv_add(inv, digchestkey, 1);
 ~chatnpc("<p,neutral>All right, all right!|Stop begging I can't stand it.|Here's the key... take care of it.");
 ~chatplayer("<p,happy>Thanks!");
 

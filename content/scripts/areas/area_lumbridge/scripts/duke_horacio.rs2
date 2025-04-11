@@ -1,7 +1,7 @@
 [opnpc1,duke_horacio]
 ~chatnpc("<p,neutral>Greetings. Welcome to my castle.");
 
-if (%dragon_shield = ^quest_dragon_knows_about_shield & inv_total(inv, dragonfire_shield) < 1 & inv_total(worn, dragonfire_shield) < 1) {
+if (%dragon_shield = ^quest_dragon_knows_about_shield & inv_total(inv, antidragonbreathshield) < 1 & inv_total(worn, antidragonbreathshield) < 1) {
     @multi3("I seek a shield that will protect me from the dragon's breath.", duke_horacio_shield, "Have you any quests for me?", ~duke_handle_rune_mysteries, "Where can I find money?", duke_horacio_money);
 } else {
     @multi2("Have you any quests for me?", ~duke_handle_rune_mysteries, "Where can I find money?", duke_horacio_money);
@@ -60,5 +60,5 @@ if(~obj_gettotal(air_talisman) = 0) {
 // Dialogue is taken from rsc
 ~chatplayer("<p,neutral>I seek a shield that will protect me from the dragon's breath.");
 ~chatnpc("<p,quiz>A knight going on a dragon quest, hmm?|A most worthy cause.|Guard this well my friend.");
-inv_add(inv, dragonfire_shield, 1);
-~objbox(dragonfire_shield, "The Duke hands you a shield.", 250, 0, 0);
+inv_add(inv, antidragonbreathshield, 1);
+~objbox(antidragonbreathshield, "The Duke hands you a shield.", 250, 0, 0);

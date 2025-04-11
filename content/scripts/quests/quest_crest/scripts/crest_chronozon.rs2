@@ -2,7 +2,7 @@
 if (finduid(%npc_aggressive_player) = true) {
     if (getbit_range(%crest_spells_levers_gauntlets, ^crest_wind_blast_used, ^crest_fire_blast_used) = ^crest_all_spells_cast) {
         if (%crest_progress = ^crest_cured_johnathon) { // before npc death, no heropoints check
-            obj_add(npc_coord, crest_part_3, 1, ^lootdrop_duration);
+            obj_add(npc_coord, johnathon_crest, 1, ^lootdrop_duration);
         }
         gosub(npc_death);
         if (npc_findhero = true){

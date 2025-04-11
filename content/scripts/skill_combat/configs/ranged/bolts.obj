@@ -17,10 +17,10 @@ param=rangebonus,10
 param=levelrequire,1
 param=proj_launch,crossbowbolt_launch
 param=proj_travel,crossbowbolt_travel
-param=weapon_poisoned,bolt_p
+param=weapon_poisoned,poison_bolt
 param=weapon_poisoned_message,You poison some bolts.
 
-[bolt_p]
+[poison_bolt]
 stackable=yes
 cost=3
 members=yes

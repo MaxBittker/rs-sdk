@@ -35,7 +35,7 @@ switch_int(%hazeelcult_progress) {
             ~chatnpc("<p,angry>I have no time to waste with the likes of you do-gooder.");
         } else {
             ~chatnpc("<p,quiz>Have you brought me the scroll of restoration to complete the ritual?");
-            if(inv_total(inv, scroll_of_hazeel) = 0) {
+            if(inv_total(inv, hazeel_scroll) = 0) {
                 ~chatplayer("<p,sad>Nope, sorry.");
                 ~chatnpc("<p,neutral>You must find it and bring it to me! Without it we cannot resurrect Hazeel and our efforts to do so will fail!");
                 return;

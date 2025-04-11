@@ -83,7 +83,7 @@ iop1=Inspect
 weight=150g
 tradeable=no
 
-[cocktail_glass]
+[cocktail_glass_empty]
 name=Cocktail glass
 desc=For sipping cocktails.
 model=model_2655_obj
@@ -110,7 +110,7 @@ recol1d=31297
 2dxan=104
 category=gnome_cocktail
 weight=450g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [premade_chocolate_saturday]
 name=Choc saturday
@@ -127,7 +127,7 @@ recol1d=16705
 2dxan=104
 category=gnome_cocktail
 weight=450g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [premade_drunk_dragon]
 name=Drunk dragon
@@ -142,7 +142,7 @@ model=model_2661_obj
 2dxan=104
 category=gnome_cocktail
 weight=450g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [premade_fruit_blast]
 name=Fruit blast
@@ -163,7 +163,7 @@ recol3d=31553
 2dxan=104
 category=gnome_cocktail
 weight=450g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [premade_pineapple_punch]
 name=Pineapple punch
@@ -184,9 +184,9 @@ recol3d=31201
 2dxan=104
 category=gnome_cocktail
 weight=450g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
-[premade_short_green_guy]
+[premade_sgg]
 name=Sgg
 desc=A Short Green Guy... looks good.
 cost=30
@@ -201,7 +201,7 @@ recol1d=17353
 2dxan=104
 category=gnome_cocktail
 weight=450g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [premade_wizard_blizzard]
 name=Wizard blizzard
@@ -218,7 +218,7 @@ recol1d=26517
 2dxan=104
 category=gnome_cocktail
 weight=450g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [unfinished_pineapple_punch1]
 name=Unfinished cocktail
@@ -235,7 +235,7 @@ recol1d=31589
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_pineapple_punch2]
@@ -253,7 +253,7 @@ recol1d=31589
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_pineapple_punch3]
@@ -271,7 +271,7 @@ recol1d=31589
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [pineapple_punch]
@@ -293,7 +293,7 @@ recol3d=31201
 2dxan=104
 category=gnome_cocktail
 weight=500g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [unfinished_wizard_blizzard1]
 name=Unfinished cocktail
@@ -310,7 +310,7 @@ recol1d=26517
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_wizard_blizzard2]
@@ -328,7 +328,7 @@ recol1d=26517
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [wizard_blizzard]
@@ -346,7 +346,7 @@ recol1d=26517
 2dxan=104
 category=gnome_cocktail
 weight=500g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [unfinished_blurberry_special1]
 name=Unfinished cocktail
@@ -363,7 +363,7 @@ recol1d=31297
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_blurberry_special2]
@@ -381,7 +381,7 @@ recol1d=31297
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_blurberry_special3]
@@ -399,7 +399,7 @@ recol1d=31297
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_blurberry_special4]
@@ -417,7 +417,7 @@ recol1d=31297
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [blurberry_special]
@@ -435,7 +435,7 @@ recol1d=31297
 2dxan=104
 category=gnome_cocktail
 weight=500g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [unfinished_chocolate_saturday1]
 name=Unfinished cocktail
@@ -452,7 +452,7 @@ recol1d=25199
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_chocolate_saturday2]
@@ -470,7 +470,7 @@ recol1d=16705
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_chocolate_saturday3]
@@ -488,7 +488,7 @@ recol1d=16705
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_chocolate_saturday4]
@@ -506,7 +506,7 @@ recol1d=16705
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [chocolate_saturday]
@@ -524,9 +524,9 @@ recol1d=16705
 2dxan=104
 category=gnome_cocktail
 weight=500g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
-[unfinished_short_green_guy1]
+[unfinished_sgg1]
 name=Unfinished cocktail
 desc=This cocktail is just missing those little finishing touches.
 cost=2
@@ -541,10 +541,10 @@ recol1d=17353
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
-[unfinished_short_green_guy2]
+[unfinished_sgg2]
 name=Unfinished cocktail
 desc=This cocktail is just missing those little finishing touches.
 cost=2
@@ -559,10 +559,10 @@ recol1d=17353
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
-[short_green_guy]
+[sgg]
 name=Sgg
 desc=A Short Green Guy... looks good.
 cost=30
@@ -577,7 +577,7 @@ recol1d=17353
 2dxan=104
 category=gnome_cocktail
 weight=500g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [unfinished_fruit_blast1]
 name=Unfinished cocktail
@@ -594,7 +594,7 @@ recol1d=31393
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [fruit_blast]
@@ -616,7 +616,7 @@ recol3d=31553
 2dxan=104
 category=gnome_cocktail
 weight=500g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [unfinished_drunk_dragon1]
 name=Unfinished cocktail
@@ -631,7 +631,7 @@ model=model_2532_obj
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_drunk_dragon2]
@@ -649,7 +649,7 @@ recol1d=473
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [unfinished_drunk_dragon3]
@@ -665,7 +665,7 @@ model=model_2661_obj
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 param=gnome_cooking_type,0
 
 [drunk_dragon]
@@ -681,9 +681,9 @@ model=model_2661_obj
 2dxan=104
 category=gnome_cocktail
 weight=500g
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
-[odd_cocktail1]
+[spoilt_cocktail]
 name=Odd cocktail
 desc=I'm not completely sure what this contains.
 cost=2
@@ -699,9 +699,9 @@ recol1d=16912
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
-[odd_cocktail2]
+[spoilt_cocktail_fruity]
 name=Odd cocktail
 desc=I'm not completely sure what this contains.
 cost=2
@@ -717,9 +717,9 @@ recol1d=16912
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
-[odd_cocktail3]
+[spoilt_cocktail_creamy]
 name=Odd cocktail
 desc=I'm not completely sure what this contains.
 cost=2
@@ -735,9 +735,9 @@ recol1d=16912
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
-[odd_cocktail4]
+[spoilt_cocktail_slice]
 name=Odd cocktail
 desc=I'm not completely sure what this contains.
 cost=2
@@ -757,7 +757,7 @@ recol3d=15855
 2dxan=104
 weight=400g
 category=gnome_unf_odd_cocktail
-param=next_obj_stage,cocktail_glass
+param=next_obj_stage,cocktail_glass_empty
 
 [lemon]
 name=Lemon

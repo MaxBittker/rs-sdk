@@ -1,6 +1,6 @@
 [opnpc1,mercenary_captain]
 if(%desertrescue_progress >= ^desertrescue_killed_capt) {
-    if(inv_total(inv, desertrescue_metalkey) = 0) { // only inv in osrs as well
+    if(inv_total(inv, metal_key) = 0) { // only inv in osrs as well
         @approach_merc_capt;
     }
     ~chatnpc("<p,angry>Move along now... we've had enough of your sort!");
@@ -204,16 +204,16 @@ obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 // https://web.archive.org/web/20050204075401/http://www.runehq.com/cacheguides/viewquestguide00356.htm auto-added to inv before rework as well it seems
 mes("You kill the captain!");
 if(%desertrescue_progress = ^desertrescue_approached_captain) %desertrescue_progress = ^desertrescue_killed_capt;
-if(inv_total(inv, desertrescue_metalkey) > 0) return;
-if(inv_total(bank, desertrescue_metalkey) > 0) { 
+if(inv_total(inv, metal_key) > 0) return;
+if(inv_total(bank, metal_key) > 0) { 
     mes("After killing the captain, you remember that you stored a mining gate key in your"); // did this exist originally?
     mes("bank.");
     return;
 }
 mes("The mercenary captain drops a metal key on the floor. You quickly grab the key");
 mes("and add it to your inventory.");
-inv_add(inv, desertrescue_metalkey, 1);
-~objbox(desertrescue_metalkey, "The mercenary captain drops a metal key on the floor.|You quickly grab the key and add it to your inventory.", 250, 0, 0);
+inv_add(inv, metal_key, 1);
+~objbox(metal_key, "The mercenary captain drops a metal key on the floor.|You quickly grab the key and add it to your inventory.", 250, 0, 0);
 
 [proc,mercenary_capt_attack](boolean $npct)(boolean)
 if(%npc_attacking_uid = uid | %desertrescue_progress >= ^desertrescue_killed_capt) {

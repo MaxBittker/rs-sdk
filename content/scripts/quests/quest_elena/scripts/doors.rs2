@@ -15,7 +15,7 @@ switch_int(%elena_progress) {
             @multi3("But I think a kidnap victim is in here.", plague_house_but_i_think_a_kidnap_victim_is_in_here, "I fear not a mere plague.", plague_house_i_fear_not_a_mere_plague, "Thanks for the warning.", plague_house_thanks_for_the_warning);
         }
     case ^quest_elena_spoke_cured_bravek :
-        if (inv_total(inv, elena_warrant) > 0 & npc_find(coord, mourner_blacksuit_3, 14, 0) = true) {
+        if (inv_total(inv, warrant) > 0 & npc_find(coord, mourner_blacksuit_3, 14, 0) = true) {
             ~chatnpcrange("<p,neutral>I'd stand away from there. That black cross means that house has been touched by the plague.");
             ~chatplayer("<p,neutral>I have a warrant from <nc_name(bravek)> to enter here.");
             if_close;
@@ -97,14 +97,14 @@ if (npc_find(coord, ted_rehnison, 7, 0) = false) {
 ~chatnpc("<p,angry>Go away. We don't want any.");
 switch_int(%elena_progress) {
     case ^quest_elena_shown_picture :
-        if (inv_total(inv, elena_book) > 0) {
+        if (inv_total(inv, turnip_book) > 0) {
             ~chatplayer("<p,neutral>I'm a friend of <nc_name(jethick)>'s, I have come to return a book he borrowed.");
             ~chatnpc("<p,neutral>Oh... Why didn't you say, come in then.");
             if_close; // very regarded
             ~quest_elena_set_progress(^quest_elena_returned_book);
             ~open_and_close_door($next_loc, ~check_axis(coord, loc_coord, loc_angle), false);
-            inv_del(inv, elena_book, 1);
-            ~objbox(elena_book, "You hand the book to Ted as you enter.", 250, 0, divide(^objbox_height, 2));
+            inv_del(inv, turnip_book, 1);
+            ~objbox(turnip_book, "You hand the book to Ted as you enter.", 250, 0, divide(^objbox_height, 2));
             ~chatnpc("<p,happy>Thanks, I've been missing that.");
         }
 }

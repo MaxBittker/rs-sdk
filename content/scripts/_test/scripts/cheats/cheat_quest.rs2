@@ -120,7 +120,7 @@ if (p_finduid(uid) = true) {
                 case 41 : 
                     %seaslug_progress = ^seaslug_complete;
                     %questpoints = add(%questpoints, ^seaslug_questpoints);
-                    inv_add(inv, oyster_pearls, 1);
+                    inv_add(inv, bigoysterpearls, 1);
                     stat_advance(fishing, 71750);
                     queue(seaslug_quest_complete, 0);
                 case 42 : queue(sheepherder_complete, 0);
@@ -148,7 +148,7 @@ if (p_finduid(uid) = true) {
                     // Rewards are given before quest completion, so give here
                     stat_advance(magic, 153000);
                     inv_add(inv, coins, 5000);
-                    inv_add(inv, spell_scroll, 1);
+                    inv_add(inv, watchtowerspell, 1);
                 case 50 : queue(waterfall_quest_complete, 0);
                 case 51 : queue(ball_quest_complete, 0);
                 case default : mes("Quest not found.");
@@ -318,7 +318,7 @@ queue(quest_elena_complete, 0);
 queue(scorpcatcher_quest_complete, 0);
 %seaslug_progress = ^seaslug_complete;
 %questpoints = add(%questpoints, ^seaslug_questpoints);
-inv_add(inv, oyster_pearls, 1);
+inv_add(inv, bigoysterpearls, 1);
 stat_advance(fishing, 71750);
 queue(seaslug_quest_complete, 0);
 queue(sheepherder_complete, 0);
@@ -331,7 +331,7 @@ queue(itwatchtower_quest_complete, 0);
                 // Rewards are given before quest completion, so give here
                 stat_advance(magic, 153000);
                 inv_add(inv, coins, 5000);
-                inv_add(inv, spell_scroll, 1);
+                inv_add(inv, watchtowerspell, 1);
 queue(waterfall_quest_complete, 0);
 queue(ball_quest_complete, 0);
 

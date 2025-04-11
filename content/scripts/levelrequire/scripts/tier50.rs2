@@ -3,9 +3,9 @@
 // Ranged
 [opheld2,magic_longbow] @levelrequire_ranged(50, last_slot);
 [opheld2,magic_shortbow] @levelrequire_ranged(50, last_slot);
-[opheld2,blue_dragonhide_vambraces] @levelrequire_ranged(50, last_slot);
+[opheld2,blue_dragon_vambraces] @levelrequire_ranged(50, last_slot);
 [opheld2,blue_dragonhide_chaps] @levelrequire_ranged(50, last_slot);
 [opheld2,blue_dragonhide_body] @levelrequire_ranged_and_defence(50, 40, last_slot);
 
 // Magic
-[opheld2,iban_staff] @levelrequire_iban_staff(last_slot);
+[opheld2,ibanstaff] @levelrequire_iban_staff(last_slot);

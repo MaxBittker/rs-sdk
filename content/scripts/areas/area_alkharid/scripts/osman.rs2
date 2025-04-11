@@ -74,7 +74,7 @@ if($option = 1) {
 %prince_progress = ^prince_spoken_osman;
 
 [label,osman_items]
-if(%prince_keystatus = ^prince_keyclaimed & ~obj_gettotal(bronze_key) = 0) { // guessed mesanims, dialogue from chisel (can't find any video)
+if(%prince_keystatus = ^prince_keyclaimed & ~obj_gettotal(princeskey) = 0) { // guessed mesanims, dialogue from chisel (can't find any video)
     ~chatplayer("<p,sad>I'm afraid I lost that key you gave me.");
     ~chatnpc("<p,angry>Foolish <text_gender("man", "woman")>! A new key will cost 15gp.");
     if(inv_total(inv, coins) < 15) {
@@ -102,7 +102,7 @@ if(%prince_keystatus = ^prince_keyclaimed & ~obj_gettotal(bronze_key) = 0) { // 
 [label,osman_still_need]
 ~chatplayer("<p,neutral>Can you tell me what I still need to get?");
 if(%prince_progress >= ^prince_prep_finished) {
-    if(inv_total(inv, bronze_key) > 0) {
+    if(inv_total(inv, princeskey) > 0) {
         ~chatnpc("<p,shifty>You have the key, good."); // RSC
     } else {
         ~chatnpc("<p,shifty>You can collect the key from Leela.");
@@ -110,7 +110,7 @@ if(%prince_progress >= ^prince_prep_finished) {
 } else {
     ~chatnpc("<p,shifty>A print of the key in soft clay and a bronze bar.|Then, collect the key from Leela.");
 }
-if(inv_total(inv, wig_blonde) >= 1) {
+if(inv_total(inv, blondwig) >= 1) {
     ~chatnpc("<p,shifty>The wig you have got, well done.");
 } else {
     ~chatnpc("<p,shifty>You need to make a blonde wig somehow. Leela may help.");
@@ -120,7 +120,7 @@ if(inv_total(inv, pink_skirt) >= 1) {
 } else {
     ~chatnpc("<p,shifty>You will need a skirt that looks the same as Keli's");
 }
-if(inv_total(inv, paste) >= 1) {
+if(inv_total(inv, skinpaste) >= 1) {
     ~chatnpc("<p,shifty>You have the skin paint, well done.|I thought you would struggle to make that.");
 } else {
     ~chatnpc("<p,shifty>Something to make the prince's skin appear lighter.");

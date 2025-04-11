@@ -18,7 +18,7 @@ weight=4g
 2dyan=176
 2dxan=440
 
-[achey_logs]
+[achey_tree_logs]
 name=Achey tree logs
 desc=These logs are longer than normal.
 cost=4
@@ -51,7 +51,7 @@ recol1d=11556
 2dxan=216
 weight=10g
 
-[flighted_ogre_arrow]
+[ogre_headless_arrow]
 name=Flighted ogre arrow
 desc=A wooden arrow shaft with four flights attached.
 cost=1

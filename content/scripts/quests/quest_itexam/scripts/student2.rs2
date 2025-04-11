@@ -11,10 +11,10 @@ switch_int ($itexam_progress) {
 [opnpcu,student2]
 def_obj $item = last_useitem;
 
-if ($item = cracked_rock_sample) {
+if ($item = cracked_sample) {
     ~chatplayer("<p,quiz>Is this yours?");
     ~chatnpc("<p,quiz>This broken rock? I hope not!");
-} else if ($item = rock_sample_2) {
+} else if ($item = rock_sample2) {
     @itexam_student2_deliver_sample;
 } else {
     ~displaymessage(^dm_default);
@@ -43,7 +43,7 @@ if ($errand_state = 0) {
     ~chatplayer("<p,happy>Okay, I'll see what I can do.");
     ~itexam_set_errand_progress(^itexam_errand_student2, 1);
 } else if ($errand_state = 1) {
-    if (inv_total(inv, rock_sample_2) > 0) {
+    if (inv_total(inv, rock_sample2) > 0) {
         @itexam_student2_deliver_sample;
     } else {
         ~chatplayer("<p,neutral>How's the study going?");
@@ -62,7 +62,7 @@ if ($errand_state = 0) {
 
 [label,itexam_student2_deliver_sample]
 ~chatplayer("<p,happy>Look what I found!");
-inv_del(inv, rock_sample_2, ^max_32bit_int);
+inv_del(inv, rock_sample2, ^max_32bit_int);
 ~itexam_set_errand_progress(^itexam_errand_student2, 2);
 ~chatnpc("<p,happy>Excellent! I'm so happy. Let me now help you with your exams...");
 ~chatnpc("<p,neutral>The eligible people to use the digsite are:|All that have passed the appropriate earth sciences exams.");

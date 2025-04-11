@@ -11,7 +11,7 @@ if (last_useitem = tinderbox) {
 
 // opheldu for logs is handled in fletching
 [opheldu,tinderbox]
-if (last_useitem = tutorial_logs) {
+if (last_useitem = newbielogs) {
     @tut_light_logs_inv(last_useslot);
 } else if(oc_param(last_useitem, unlit_arrow) = ^true) { // might not work on every fire?
     @light_firearrow(last_useitem);

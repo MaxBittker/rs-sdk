@@ -1,4 +1,4 @@
-[unblessed_symbol]
+[stringstar]
 name=Unblessed symbol
 desc=A symbol of Saradomin.
 cost=200
@@ -52,7 +52,7 @@ param=magicdefence,2
 param=rangedefence,2
 param=prayerbonus,8
 
-[unpowered_symbol]
+[stringsnake]
 name=Unpowered symbol
 desc=An unholy symbol of Zamorak.
 cost=200
@@ -78,7 +78,7 @@ womanwear2=model_450_obj_wear
 iop2=Wear
 weight=7g
 
-[unholy_symbol]
+[blessedsnake]
 name=Unholy symbol
 desc=An unholy symbol of Zamorak.
 cost=200
@@ -215,7 +215,7 @@ model=model_2552_obj
 2dxan=148
 weight=14g
 
-[woad_leaf]
+[woadleaf]
 name=Woad leaf
 desc=A slightly bluish leaf.
 cost=1
@@ -232,7 +232,7 @@ recol2d=531
 weight=10g
 stackable=yes
 
-[bronze_wire]
+[bronzecraftwire]
 name=Bronze wire
 desc=Useful for crafting items.
 cost=20

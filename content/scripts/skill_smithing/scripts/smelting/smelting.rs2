@@ -5,7 +5,7 @@ switch_obj (last_useitem)
     case silver_bar : @craft_silver;
     case steel_bar : @smelt_cannonballs;
     case bucket_sand, soda_ash : @smelt_glass;
-    case orb_of_light1, orb_of_light2, orb_of_light3, orb_of_light4 :
+    case caveorb1, caveorb2, caveorb3, caveorb4 :
         if(loc_type = furnace_legends) @destroy_orboflight(last_useitem);
         ~displaymessage(^dm_default);
     case default :

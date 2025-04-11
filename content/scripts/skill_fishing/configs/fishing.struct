@@ -70,8 +70,8 @@ param=productmessage,You catch a lava eel.
 param=success_low,16
 param=success_high,96
 
-[fishing_struct_manta_ray]
+[fishing_struct_mantaray]
 param=productexp,690
 
-[fishing_struct_sea_turtle]
+[fishing_struct_seaturtle]
 param=productexp,570

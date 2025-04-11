@@ -1,10 +1,10 @@
-[opheld2,saradomincape] if (~check_conflicting_god_staff(zamorakstaff, guthixstaff) = true) ~equip(last_slot);
-[opheld2,zamorakcape] if (~check_conflicting_god_staff(saradominstaff, guthixstaff) = true) ~equip(last_slot);
-[opheld2,guthixcape] if (~check_conflicting_god_staff(saradominstaff, zamorakstaff) = true) ~equip(last_slot);
+[opheld2,saradomin_cape] if (~check_conflicting_god_staff(zamorak_staff, guthix_staff) = true) ~equip(last_slot);
+[opheld2,zamorak_cape] if (~check_conflicting_god_staff(saradomin_staff, guthix_staff) = true) ~equip(last_slot);
+[opheld2,guthix_cape] if (~check_conflicting_god_staff(saradomin_staff, zamorak_staff) = true) ~equip(last_slot);
 
-[opheld2,saradominstaff] if (~check_conflicting_god_cape(zamorakcape, guthixcape) = true) ~equip(last_slot);
-[opheld2,zamorakstaff] if (~check_conflicting_god_cape(saradomincape, guthixcape) = true) ~equip(last_slot);
-[opheld2,guthixstaff] if (~check_conflicting_god_cape(saradomincape, zamorakcape) = true) ~equip(last_slot);
+[opheld2,saradomin_staff] if (~check_conflicting_god_cape(zamorak_cape, guthix_cape) = true) ~equip(last_slot);
+[opheld2,zamorak_staff] if (~check_conflicting_god_cape(saradomin_cape, guthix_cape) = true) ~equip(last_slot);
+[opheld2,guthix_staff] if (~check_conflicting_god_cape(saradomin_cape, zamorak_cape) = true) ~equip(last_slot);
 
 
 [proc,check_conflicting_god_cape](namedobj $item1, namedobj $item2)(boolean)
@@ -23,9 +23,9 @@ if (inv_total(worn, $item1) > 0 | inv_total(worn, $item2) > 0) {
 }
 return(true);
 
-[opheld5,saradomincape] @drop_god_cape;
-[opheld5,zamorakcape] @drop_god_cape;
-[opheld5,guthixcape] @drop_god_cape;
+[opheld5,saradomin_cape] @drop_god_cape;
+[opheld5,zamorak_cape] @drop_god_cape;
+[opheld5,guthix_cape] @drop_god_cape;
 
 [label,drop_god_cape]
 inv_delslot(inv, last_slot);
@@ -41,5 +41,5 @@ if (~obj_gettotalcat(armour_godcape) > 0) {
 @pickup_obj;
 
 [debugproc,dgc]
-obj_add(coord, zamorakcape, 1, 100);
-obj_add(coord, zamorakcape, 1, 100);
+obj_add(coord, zamorak_cape, 1, 100);
+obj_add(coord, zamorak_cape, 1, 100);

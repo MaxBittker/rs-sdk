@@ -4,14 +4,14 @@ if(%runemysteries_progress = ^runemysteries_given_package) {
     ~chatnpc("<p,neutral>Combined with the information I had already already collated regarding the Rune Essence, I think we have finally unlocked the power to");
     ~chatnpc("<p,neutral>...no. I am getting ahead of myself. Please take this summary of my research back to the head wizard at the Wizards' Tower. I trust his judgement on whether to let you in on our little secret or not.");
     %runemysteries_progress = ^runemysteries_received_notes;
-    inv_add(inv, notes, 1);
+    inv_add(inv, research_notes, 1);
     ~mesbox("Aubury gives you his research notes.");
 } else if(%runemysteries_progress = ^runemysteries_received_notes) {
     ~chatnpc("<p,neutral>I suggest you take those research notes of mine back to the head wizard at the Wizards' Tower.");
-    if(~obj_gettotal(notes) = 0) {
+    if(~obj_gettotal(research_notes) = 0) {
         ~chatplayer("<p,neutral>I can't... I lost them...");
         ~chatnpc("<p,neutral>Well, luckily I have duplicates. It's a good thing they are written in code, I would not want the wrong kind of person to get access to the information contained within.");
-        inv_add(inv, notes, 1);
+        inv_add(inv, research_notes, 1);
     } else {
        ~chatplayer("<p,neutral>Ok then, I will do that.");
        ~chatnpc("<p,neutral>Unless you were talking to me because you wished to buy some runes?");

@@ -46,7 +46,7 @@ if (%sheepherder_progress > ^sheepherder_not_started & %sheepherder_progress < ^
         ~chatplayer("<p,angry>I'm not prodding a sickly-looking sheep with my hands!");
          ~chatplayer("<p,neutral>I'll need to wield an appropriate tool.");
         return;
-    } else if ($rhand ! cattle_prod) {
+    } else if ($rhand ! cattleprod) {
         ~chatplayer("<p,neutral>I don't want to attack the sheep.|I need to make it move!");
          ~chatplayer("<p,neutral>I'll need to wield an appropriate tool.");
         return;
@@ -113,25 +113,25 @@ npc_setmode(null);
 
 [opnpcu,green_sheep]
 switch_obj(last_useitem) {
-    case cattle_prod : @cattle_prod_use_message;
+    case cattleprod : @cattle_prod_use_message;
     case poisoned_feed : @poison_sheep(npc_type);
 }
 
 [opnpcu,red_sheep]
 switch_obj(last_useitem) {
-    case cattle_prod : @cattle_prod_use_message;
+    case cattleprod : @cattle_prod_use_message;
     case poisoned_feed : @poison_sheep(npc_type);
 }
 
 [opnpcu,blue_sheep]
 switch_obj(last_useitem) {
-    case cattle_prod : @cattle_prod_use_message;
+    case cattleprod : @cattle_prod_use_message;
     case poisoned_feed : @poison_sheep(npc_type);
 }
 
 [opnpcu,yellow_sheep]
 switch_obj(last_useitem) {
-    case cattle_prod : @cattle_prod_use_message;
+    case cattleprod : @cattle_prod_use_message;
     case poisoned_feed : @poison_sheep(npc_type);
 }
 

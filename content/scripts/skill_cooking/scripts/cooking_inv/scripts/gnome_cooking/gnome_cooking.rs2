@@ -30,9 +30,9 @@ switch_int(oc_param(last_useitem, gnome_cooking_type)) {
 }
 switch_obj(last_useitem) {
     case king_worm : @opheldu_make_gnome_food(spicy_worm, "You add the gnome spice to the king worm.");
-    case toad_legs : @opheldu_make_gnome_food(spicy_toad_legs, "You add the gnome spice to the toad legs.");
-    case equa_toad_legs : @opheldu_make_gnome_food(seasoned_toad_legs, "You add the gnome spice to the equa toad legs.");
-    case half_baked_gnomebowl : @add_bowl_ingredient(last_item);
+    case toads_legs : @opheldu_make_gnome_food(spicy_toads_legs, "You add the gnome spice to the toad legs.");
+    case equa_toads_legs : @opheldu_make_gnome_food(seasoned_toads_legs, "You add the gnome spice to the equa toad legs.");
+    case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_crunchies : @add_crunchies_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
 }
@@ -79,7 +79,7 @@ if ($ingredient = pot_of_cream) {
 
 [opheld1,swamp_toad]
 inv_del(inv, swamp_toad, 1);
-inv_add(inv, toad_legs, 1);
+inv_add(inv, toads_legs, 1);
 mes("You pull the legs off the toad.");
 mes("Poor toad. At least they'll grow back.");
 

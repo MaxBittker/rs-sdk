@@ -10,8 +10,8 @@ switch_obj (last_useitem) {
 switch_obj (last_useitem) {
     case pizza_base : @make_incomplete_pizza;
     case bowl_empty : @make_bowl_mixture(last_slot);
-    case chopped_onion, chopped_ugthanki, chopped_ugthanki_onion : @make_bowl_mixture2(last_slot, last_useslot);
-    case chopped_tomato, chopped_ugthanki_tomato, chopped_onion_tomato : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
+    case bowl_onion, bowl_ugthanki, bowl_ugthankionion : @make_bowl_mixture2(last_slot, last_useslot);
+    case bowl_tomato, bowl_ugthankitomato, bowl_oniontomato : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
     case incomplete_pizza : mes("I think it's already got enough tomato on.");
     case half_baked_batta : @add_batta_ingredient(last_item);
     case raw_chompy : @quest_chompybird_add_ingredients_to_chompy_message;
@@ -22,7 +22,7 @@ switch_obj (last_useitem) {
 switch_obj  (last_useitem) {
     case pizza_base : mes("I should add the tomato first.");
     case incomplete_pizza : @make_uncooked_pizza;
-    case half_baked_gnomebowl : @add_bowl_ingredient(last_item);
+    case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_batta : @add_batta_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
 };

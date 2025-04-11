@@ -1,10 +1,10 @@
-[opheld1,gianne_cook_book] @open_cook_book_index;
+[opheld1,giannes_cook_book] @open_cook_book_index;
 [if_button,blurberry_cocktail_guide2:chocolate_bomb]@flip_page_cook_book(1);
 [if_button,blurberry_cocktail_guide2:tangled_toads_legs]@flip_page_cook_book(2);
 [if_button,blurberry_cocktail_guide2:worm_hole]@flip_page_cook_book(3);
 [if_button,blurberry_cocktail_guide2:veg_ball]@flip_page_cook_book(4);
 [if_button,blurberry_cocktail_guide2:premade_worm_crunchies]@flip_page_cook_book(5);
-[if_button,blurberry_cocktail_guide2:choc_chip_crunchies]@flip_page_cook_book(6);
+[if_button,blurberry_cocktail_guide2:chocchip_crunchies]@flip_page_cook_book(6);
 [if_button,blurberry_cocktail_guide2:premade_spicy_crunchies]@flip_page_cook_book(7);
 [if_button,blurberry_cocktail_guide2:premade_toad_crunchies]@flip_page_cook_book(8);
 [if_button,blurberry_cocktail_guide2:premade_worm_batta]@flip_page_cook_book(9);
@@ -19,7 +19,7 @@
 
 [label,open_cook_book_index]
 %book_page = 0;
-%open_book = gianne_cook_book;
+%open_book = giannes_cook_book;
 if_sethide(blurberry_cocktail_guide2:gnome_food_index_layer, false);
 if_sethide(blurberry_cocktail_guide2:cocktail_index_layer, true);
 if_settext(blurberry_cocktail_guide2:book_title, "Gianne's cook book");

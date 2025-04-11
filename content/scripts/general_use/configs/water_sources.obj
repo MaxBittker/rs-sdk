@@ -11,9 +11,9 @@ recol1d=15855
 2dxan=260
 cost=1
 weight=1lb
-param=next_obj_stage,jug_of_water
+param=next_obj_stage,jug_water
 
-[jug_of_water]
+[jug_water]
 name=Jug of water
 desc=It's full of water.
 model=model_2390_obj

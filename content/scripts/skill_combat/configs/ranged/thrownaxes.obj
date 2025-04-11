@@ -128,7 +128,7 @@ param=rangeattack_sound,throwingaxe
 param=proj_launch,mithril_taxe_launch
 param=proj_travel,mithril_taxe_travel
 
-[adamant_thrownaxe]
+[adamnt_thrownaxe]
 members=yes
 cost=176
 name=Adamnt thrownaxe

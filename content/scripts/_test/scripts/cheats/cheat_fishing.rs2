@@ -4,4 +4,4 @@ inv_add(inv, fishing_bait, 10000);
 inv_add(inv, fishing_rod, 1);
 inv_add(inv, fly_fishing_rod, 1);
 inv_add(inv, net, 1);
-inv_add(inv, net_big, 1);
+inv_add(inv, big_net, 1);

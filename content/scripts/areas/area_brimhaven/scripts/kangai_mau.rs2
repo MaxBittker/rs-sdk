@@ -59,11 +59,11 @@ if($option = 1) {
 
 [label,kangai_mau_totem_back]
 ~chatnpc("<p,neutral>Have you got our totem back?");
-if(inv_total(inv, totem) > 0 & %totem_progress = 4) { // shouldn't be able to get totem without progress = 4 anyways
+if(inv_total(inv, tribal_totem) > 0 & %totem_progress = 4) { // shouldn't be able to get totem without progress = 4 anyways
     ~chatplayer("<p,neutral>Yes I have.");
     ~chatnpc("<p,happy>You have??? Many thanks brave adventurer! Here, have some freshly cooked Karamjan fish, caught specially by my tribe.");
     ~mesbox("You hand over the Tribal Totem.");
-    inv_del(inv, totem, 1);
+    inv_del(inv, tribal_totem, 1);
     queue(totem_quest_complete, 0);
     return;
 }

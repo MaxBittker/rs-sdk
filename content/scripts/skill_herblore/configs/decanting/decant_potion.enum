@@ -4,7 +4,7 @@ outputtype=namedobj
 val=1,1dose1strength
 val=2,2dose1strength
 val=3,3dose1strength
-val=4,4dose1strength
+val=4,strength4
 
 [potion_1attack]
 inputtype=int
@@ -17,10 +17,10 @@ val=4,4dose1attack
 [potion_1restore]
 inputtype=int
 outputtype=namedobj
-val=1,1dose1restore
-val=2,2dose1restore
-val=3,3dose1restore
-val=4,4dose1restore
+val=1,1dosestatrestore
+val=2,2dosestatrestore
+val=3,4dosestatrestore
+val=4,4dosestatrestore
 
 [potion_1defense]
 inputtype=int

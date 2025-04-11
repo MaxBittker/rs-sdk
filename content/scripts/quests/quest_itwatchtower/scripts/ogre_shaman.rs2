@@ -49,7 +49,7 @@ if(last_useitem = magic_ogre_potion) {
             mes("You snatch it up quickly.");
             inv_del(inv, magic_ogre_potion, 1);
             inv_add(inv, vial_empty, 1);
-            inv_add(inv, watchtower_crystal3, 1);
+            inv_add(inv, powering_crystal3, 1);
     }
     return;
 }

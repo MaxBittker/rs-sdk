@@ -68,7 +68,7 @@ if($option = 1) {
         ~chatnpc("<p,happy>Okay, I entrust you with our competition pass.|Go to Hemenster and do us proud!");
         %fishingcompo_progress = ^fishingcompo_started;
         ~send_quest_progress(questlist:fishingcompo, %fishingcompo_progress, ^fishingcompo_complete);
-        inv_add(inv, fishing_pass, 1);
+        inv_add(inv, fishing_competition_pass, 1);
     } else if($start = 2) {
         // Option doesn't exist post-rework so some guessing here
         ~chatplayer("<p,sad>I'm not much of a fisherman either.");
@@ -81,7 +81,7 @@ if($option = 1) {
 [label,mountain_dwarf_spare_pass]
 ~chatplayer("<p,sad>I need another competition pass.");
 ~chatnpc("<p,confused>Hmmm. It's a good job they sent us spares.");
-inv_add(inv, fishing_pass, 1);
+inv_add(inv, fishing_competition_pass, 1);
 ~chatnpc("<p,confused>There you go.");
 
 [label,mountain_dwarf_grumpy]
@@ -93,15 +93,15 @@ inv_add(inv, fishing_pass, 1);
 if(%fishingcompo_progress = ^fishingcompo_won_comp) {
     ~chatplayer("<p,happy>Yes I have!");
     ~chatnpc("<p,happy>Well done! So where is the trophy?");
-    if(inv_total(inv, fishing_trophy) > 0) {
+    if(inv_total(inv, hemenster_fishing_trophy) > 0) {
         ~chatplayer("<p,happy>I have it right here!");
         ~mesbox("You give the trophy to the dwarf.");
-        inv_del(inv, fishing_trophy, 1);
+        inv_del(inv, hemenster_fishing_trophy, 1);
         queue(fishingcompo_quest_complete, 0);
         ~chatnpc("<p,happy>Okay, we will let you in now.");
         return;
     } 
-    if(inv_total(inv, fishing_pass) = 0 & inv_total(bank, fishing_pass) = 0) {
+    if(inv_total(inv, fishing_competition_pass) = 0 & inv_total(bank, fishing_competition_pass) = 0) {
         def_int $op = ~p_choice2("I need another competition pass.", 1, "I don't have it with me.", 2);
         if($op = 1) @mountain_dwarf_spare_pass;
     }
@@ -109,7 +109,7 @@ if(%fishingcompo_progress = ^fishingcompo_won_comp) {
     ~chatnpc("<p,confused>You'd better go get it then hadn't you?");
     return;
 }
-if(inv_total(inv, fishing_pass) = 0 & inv_total(bank, fishing_pass) = 0) {
+if(inv_total(inv, fishing_competition_pass) = 0 & inv_total(bank, fishing_competition_pass) = 0) {
     def_int $option = ~p_choice2("I need another competition pass.", 1, "No, it takes preparation to win fishing competitions.", 2);
     if($option = 1) {
         @mountain_dwarf_spare_pass;

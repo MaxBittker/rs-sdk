@@ -8126,8 +8126,8 @@ frame88=anim_5977
 delay88=20000
 
 [human_mining_pickaxe_handle]
-lefthand=pickaxe_handle
-righthand=pickaxe_handle
+lefthand=macro_pickaxehandle
+righthand=macro_pickaxehandle
 frame1=anim_2161
 frame2=anim_1866
 frame3=anim_1572
@@ -8156,7 +8156,7 @@ frame16=anim_3011
 frame17=anim_3014
 
 [human_woodcutting_axe_handle]
-righthand=axe_handle
+righthand=macro_hatchethandle
 lefthand=hide
 frame1=anim_1752
 frame2=anim_2052
@@ -9231,7 +9231,7 @@ frame15=anim_1247
 frame16=anim_1527
 
 [human_castibanblast]
-lefthand=iban_staff
+lefthand=ibanstaff
 righthand=hide
 priority=6
 frame1=anim_2395
@@ -10420,7 +10420,7 @@ frame9=anim_1667
 frame10=anim_1165
 
 [seq_783]
-lefthand=gnomeball
+lefthand=ball_gnomeball_game
 priority=6
 frame1=anim_1506
 frame2=anim_1803
@@ -10771,7 +10771,7 @@ frame15=anim_1543
 
 [human_cattleprod]
 righthand=hide
-lefthand=cattle_prod
+lefthand=cattleprod
 stretches=yes
 frame1=anim_597
 frame2=anim_894
@@ -12187,7 +12187,7 @@ frame21=anim_1014
 [human_machette_chop]
 walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 priority=6
-lefthand=machete
+lefthand=machette
 frame1=anim_2027
 frame2=anim_2331
 frame3=anim_613
@@ -12372,7 +12372,7 @@ frame21=anim_7061
 frame22=anim_7064
 
 [toy_horsey_brown_play]
-lefthand=toy_horsey_brown
+lefthand=horsey_brown
 righthand=hide
 stretches=yes
 priority=0
@@ -12394,7 +12394,7 @@ frame15=anim_7080
 frame16=anim_7078
 
 [toy_horsey_white_play]
-lefthand=toy_horsey_white
+lefthand=horsey_white
 righthand=hide
 stretches=yes
 priority=0
@@ -12416,7 +12416,7 @@ frame15=anim_7080
 frame16=anim_7078
 
 [toy_horsey_black_play]
-lefthand=toy_horsey_black
+lefthand=horsey_black
 righthand=hide
 stretches=yes
 priority=0
@@ -12438,7 +12438,7 @@ frame15=anim_7080
 frame16=anim_7078
 
 [toy_horsey_grey_play]
-lefthand=toy_horsey_grey
+lefthand=horsey_grey
 righthand=hide
 stretches=yes
 priority=0

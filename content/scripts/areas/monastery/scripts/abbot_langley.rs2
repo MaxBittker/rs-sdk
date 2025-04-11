@@ -1,8 +1,8 @@
 [opnpc1,abbot_langley]
 // https://www.youtube.com/watch?v=A45W72t3tjU
-if(map_members = true & inv_total(inv, trail_clue_hard_riddle_exp013) > 0) {
+if(map_members = true & inv_total(inv, trail_clue_hard_riddle013) > 0) {
     ~chatnpc("<p,happy>Congratulations, traveller!");
-    ~progress_clue_hard(trail_clue_hard_riddle_exp013, "Abbot Langley has given you another clue scroll!");
+    ~progress_clue_hard(trail_clue_hard_riddle013, "Abbot Langley has given you another clue scroll!");
     return;
 }
 ~chatnpc("<p,quiz>Greetings traveller.");

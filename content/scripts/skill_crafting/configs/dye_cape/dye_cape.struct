@@ -29,38 +29,38 @@ param=product,orange_cape
 param=cape,orange_cape
 param=color,orange
 param=processmessage,an orange
-param=ingredient,red_dye
-param=secondary_ingredient,yellow_dye
-param=product,orange_dye
+param=ingredient,reddye
+param=secondary_ingredient,yellowdye
+param=product,orangedye
 
 [green_dye]
 param=cape,green_cape
 param=color,green
 param=processmessage,a green
-param=ingredient,blue_dye
-param=secondary_ingredient,yellow_dye
-param=product,green_dye
+param=ingredient,bluedye
+param=secondary_ingredient,yellowdye
+param=product,greendye
 
 [purple_dye]
 param=cape,purple_cape
 param=color,purple
 param=processmessage,a purple
-param=ingredient,red_dye
-param=secondary_ingredient,blue_dye
-param=product,purple_dye
+param=ingredient,reddye
+param=secondary_ingredient,bluedye
+param=product,purpledye
 
 [red_dye]
 param=cape,red_cape
 param=color,red
-param=product,red_dye
+param=product,reddye
 
 [yellow_dye]
 param=cape,yellow_cape
 param=color,yellow
-param=product,yellow_dye
+param=product,yellowdye
 
 [blue_dye]
 param=cape,blue_cape
 param=color,blue
-param=product,blue_dye
+param=product,bluedye
 

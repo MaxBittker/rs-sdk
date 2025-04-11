@@ -122,31 +122,31 @@ recol2d=4228
 2dxan=424
 dummyitem=inv_only
 
-[obj_1668]
+[invis_necklace1]
 name=Sapphire necklace
 model=model_loc_2733_0
 param=crafting_jewelry_struct,sapphire_necklace
 dummyitem=inv_only
 
-[obj_1669]
+[invis_necklace2]
 name=Emerald necklace
 model=model_loc_2733_0
 param=crafting_jewelry_struct,emerald_necklace
 dummyitem=inv_only
 
-[obj_1670]
+[invis_necklace3]
 name=Ruby necklace
 model=model_loc_2733_0
 param=crafting_jewelry_struct,ruby_necklace
 dummyitem=inv_only
 
-[obj_1671]
+[invis_necklace4]
 name=Diamond necklace
 model=model_loc_2733_0
 param=crafting_jewelry_struct,diamond_necklace
 dummyitem=inv_only
 
-[obj_1672]
+[invis_necklace5]
 name=Dragon necklace
 model=model_loc_2733_0
 param=crafting_jewelry_struct,dragonstone_necklace

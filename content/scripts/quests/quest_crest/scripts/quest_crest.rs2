@@ -86,39 +86,39 @@ else {
     mes("This door is locked.");
 }
 
-[opheldu,crest_part_1]
-if (last_useitem = crest_part_2 | last_useitem = crest_part_3) {
+[opheldu,avan_crest]
+if (last_useitem = caleb_crest | last_useitem = johnathon_crest) {
     @combine_crest_parts;
-} else if (last_useitem ! crest_part_1) { // no NIH when using a piece on itself
+} else if (last_useitem ! avan_crest) { // no NIH when using a piece on itself
     ~displaymessage(^dm_default);
 }
 
-[opheldu,crest_part_2]
-if (last_useitem = crest_part_1 | last_useitem = crest_part_3) {
+[opheldu,caleb_crest]
+if (last_useitem = avan_crest | last_useitem = johnathon_crest) {
     @combine_crest_parts;
-} else if (last_useitem ! crest_part_2) {
+} else if (last_useitem ! caleb_crest) {
     ~displaymessage(^dm_default);
 }
 
-[opheldu,crest_part_3]
-if (last_useitem = crest_part_1 | last_useitem = crest_part_2) {
+[opheldu,johnathon_crest]
+if (last_useitem = avan_crest | last_useitem = caleb_crest) {
     @combine_crest_parts;
-} else if (last_useitem ! crest_part_3) {
+} else if (last_useitem ! johnathon_crest) {
     ~displaymessage(^dm_default);
 }
 
 [opheldu,family_crest]
 // OSRS behaviour
-if (last_useitem = crest_part_1 | last_useitem = crest_part_2 | last_useitem = crest_part_3) {
+if (last_useitem = avan_crest | last_useitem = caleb_crest | last_useitem = johnathon_crest) {
     return;
 }
 ~displaymessage(^dm_default);
 
 [label,combine_crest_parts]
-if (inv_total(inv, crest_part_1) > 0 & inv_total(inv, crest_part_2) > 0 & inv_total(inv, crest_part_3) > 0) {
-    inv_del(inv, crest_part_1, 1);
-    inv_del(inv, crest_part_2, 1);
-    inv_del(inv, crest_part_3, 1);
+if (inv_total(inv, avan_crest) > 0 & inv_total(inv, caleb_crest) > 0 & inv_total(inv, johnathon_crest) > 0) {
+    inv_del(inv, avan_crest, 1);
+    inv_del(inv, caleb_crest, 1);
+    inv_del(inv, johnathon_crest, 1);
     inv_add(inv, family_crest, 1);
     mes("You have restored the Family Crest.");
 } else {

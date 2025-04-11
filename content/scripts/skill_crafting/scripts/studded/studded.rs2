@@ -1,4 +1,4 @@
-[opheldu,steel_studs]
+[opheldu,studs]
 switch_obj (last_useitem)
 {
     case leather_chaps :
@@ -17,7 +17,7 @@ switch_obj (last_useitem)
 };
 
 [opheldu,leather_chaps]
-if (last_useitem = steel_studs) {
+if (last_useitem = studs) {
     if (map_members = false) {
         mes(^mes_members_feature);
         return;
@@ -27,7 +27,7 @@ if (last_useitem = steel_studs) {
 ~displaymessage(^dm_default);
 
 [opheldu,leather_body]
-if (last_useitem = steel_studs) {
+if (last_useitem = studs) {
     if (map_members = false) {
         mes(^mes_members_feature);
         return;
@@ -48,7 +48,7 @@ if (stat(crafting) < struct_param($struct, levelrequired)) {
 
 // delete items
 inv_del(inv, struct_param($struct, ingredient), 1);
-inv_del(inv, steel_studs, 1);
+inv_del(inv, studs, 1);
 
 // add item
 inv_add(inv, struct_param($struct, product), 1);

@@ -1,10 +1,10 @@
 [oploc1,loc_2268]
-if(inv_total(inv, paramaya_ticket) = 0) {
+if(inv_total(inv, paramayaticket) = 0) {
     ~chatnpc_specific(nc_name(kaleb_paramaya), kaleb_paramaya, "You can buy a ticket to the dormitory from me. And have a lovely night's rest.");
     return;
 }
 ~mesbox("The barman takes your ticket and allows you up to the dormitory.");
-inv_del(inv, paramaya_ticket, 1);
+inv_del(inv, paramayaticket, 1);
 if_close;
 p_delay(0);
 @climb_ladder(movecoord(coord, 0, 1, 0), true);
@@ -26,8 +26,8 @@ switch_int(~p_choice5("Can you tell me a bit about this this place?", 1, "Buy so
         ~chatnpc("<p,neutral>There is a dormitory upstairs if you are tired, it costs 35 gold pieces which covers the cost of laundry and cleaning.");
     case 2 : @paramaya_buy(1, jug_wine, 1, "You purchase a jug of wine.");
     case 3 : @paramaya_buy(2, beer, 1, "You purchase a frothy glass of beer.");
-    case 4 : @paramaya_buy(35, paramaya_ticket, 1, "You purchase a ticket to access the dormitory.");
-    case 5 : @paramaya_buy(175, paramaya_ticket, 5, "You purchase 5 tickets to access the dormitory.");
+    case 4 : @paramaya_buy(35, paramayaticket, 1, "You purchase a ticket to access the dormitory.");
+    case 5 : @paramaya_buy(175, paramayaticket, 5, "You purchase 5 tickets to access the dormitory.");
 }
 
 [label,paramaya_buy](int $cost, namedobj $obj, int $amt, string $purchase_text)

@@ -1,6 +1,6 @@
 [opnpc1,iban_disciple]
 ~chatplayer("<p,happy>Hi.");
-if(inv_total(worn, zamorak_monk_bottom) > 0 & inv_total(worn, zamorak_monk_top) > 0) { 
+if(inv_total(worn, zamrobebottom) > 0 & inv_total(worn, zamrobetop) > 0) { 
     // question marks here are all correct 
     switch_int(random(5)) {
         case 0 :
@@ -27,9 +27,9 @@ if (npc_findhero = false) {
 }
 obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 
-obj_add(npc_coord, zamorak_monk_bottom, 1, ^lootdrop_duration);
-obj_add(npc_coord, zamorak_monk_top, 1, ^lootdrop_duration);
+obj_add(npc_coord, zamrobebottom, 1, ^lootdrop_duration);
+obj_add(npc_coord, zamrobetop, 1, ^lootdrop_duration);
 
-if(%upass_progress = ^upass_complete & ~obj_gettotal(iban_staff) = 0 & ~obj_gettotal(broken_iban_staff) = 0) {
-    obj_add(npc_coord, broken_iban_staff, 1, ^lootdrop_duration);
+if(%upass_progress = ^upass_complete & ~obj_gettotal(ibanstaff) = 0 & ~obj_gettotal(brokenibanstaff) = 0) {
+    obj_add(npc_coord, brokenibanstaff, 1, ^lootdrop_duration);
 }

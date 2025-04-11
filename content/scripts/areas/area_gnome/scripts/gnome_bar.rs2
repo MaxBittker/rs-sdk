@@ -25,7 +25,7 @@ inv_add(inv, cocktail_guide, 1);
 inv_add(inv, lemon, 2);
 inv_add(inv, orange, 1);
 inv_add(inv, pineapple, 1);
-inv_add(inv, cocktail_glass, 1);
+inv_add(inv, cocktail_glass_empty, 1);
 inv_add(inv, knife, 1);
 inv_add(inv, cocktail_shaker, 1);
 %gnome_bar_progress = 2;
@@ -41,7 +41,7 @@ if (inv_total(inv, fruit_blast) > 0) {
     // slightly different than rsc and osrs. rsc has the "I wont be able to give you any more" after he gives u items
     ~chatnpc("<p,quiz>Now can you make me a Drunk Dragon?");
     inv_del(inv, fruit_blast, 1);
-    inv_add(inv, cocktail_glass, 1);
+    inv_add(inv, cocktail_glass_empty, 1);
     inv_add(inv, vodka, 1);
     inv_add(inv, gin, 1);
     inv_add(inv, dwellberry, 1);
@@ -73,7 +73,7 @@ if (inv_total(inv, drunk_dragon) > 0) {
     ~chatplayer("<p,confused>A what?");
     ~chatnpc("<p,neutral>A Short Green Guy, and don't bring me a gnome.|Here's all you need.");
     inv_del(inv, drunk_dragon, 1);
-    inv_add(inv, cocktail_glass, 1);
+    inv_add(inv, cocktail_glass_empty, 1);
     inv_add(inv, vodka, 1);
     inv_add(inv, lime, 4);
     inv_add(inv, equa_leaves, 1);
@@ -89,7 +89,7 @@ if (~gnome_bar_cocktail_checks(premade_drunk_dragon, "Drunk Dragon") = false) {
 [label,gnome_bar_assign_chocolate_saturday]
 ~chatplayer("<p,neutral>Hi Blurberry.");
 ~chatnpc("<p,quiz>So, have you got my SGG?");
-if (inv_total(inv, short_green_guy) > 0) {
+if (inv_total(inv, sgg) > 0) {
     ~chatplayer("<p,happy>Here you go.");
     ~mesbox("You give Blurberry the SGG. He takes a sip...");
     ~chatnpc("<p,happy>Hmmm, not bad, not bad at all. I can sell that.|There you go, that's your share.");
@@ -97,8 +97,8 @@ if (inv_total(inv, short_green_guy) > 0) {
     ~mesbox("Blurberry gives you 1 gold coin.");
     ~chatnpc("<p,neutral>You're doing quite well, I'm impressed.");
     ~chatnpc("<p,neutral>Ok let's try a Choc Saturday, I love them.");
-    inv_del(inv, short_green_guy, 1);
-    inv_add(inv, cocktail_glass, 1);
+    inv_del(inv, sgg, 1);
+    inv_add(inv, cocktail_glass_empty, 1);
     inv_add(inv, whisky, 1);
     inv_add(inv, bucket_milk, 1);
     inv_add(inv, equa_leaves, 1);
@@ -109,7 +109,7 @@ if (inv_total(inv, short_green_guy) > 0) {
     ~mesbox("Blurberry gives you some wisky, some milk, some equa leaves, a chocolate bar, some cream, and some chocolate dust.");
     return;
 }
-if (~gnome_bar_cocktail_checks(premade_short_green_guy, "SGG") = false) {
+if (~gnome_bar_cocktail_checks(premade_sgg, "SGG") = false) {
     return;
 }
 ~chatnpc("<p,angry>I don't know what you have there but it's no SGG!");
@@ -123,7 +123,7 @@ if (inv_total(inv, chocolate_saturday) > 0) {
     ~chatnpc("<p,happy>That's blurberry-tastic! You're quite a bartender.");
     ~chatnpc("<p,happy>Okay, let's test you once more. Make me a|Blurberry Special then we'll see if you have what it takes.|Here's your ingredients.");
     inv_del(inv, chocolate_saturday, 1);
-    inv_add(inv, cocktail_glass, 1);
+    inv_add(inv, cocktail_glass_empty, 1);
     inv_add(inv, vodka, 1);
     inv_add(inv, gin, 1);
     inv_add(inv, brandy, 1);
@@ -149,7 +149,7 @@ if (inv_total(inv, blurberry_special) > 0) {
     ~chatplayer("<p,quiz>I think I've made it right.");
     ~mesbox("You give Blurberry the Blurberry Special. He takes a sip...");
     inv_del(inv, blurberry_special, 1);
-    inv_add(inv, cocktail_glass, 1);
+    inv_add(inv, cocktail_glass_empty, 1);
     %gnome_bar_progress = 7;
     ~chatnpc("<p,shock>Well I never... incredible. Not many manage to get that|right, but this is perfect!");
     ~chatnpc("<p,quiz>It would be an honour to have you on the team.");
@@ -235,7 +235,7 @@ switch_int(%gnome_bar_progress) {
         ~gnome_bar_cocktail_job_checks (
             "two Wizard Blizzards and an SGG", "That's excellent, here's your share of the profit!", 150, 
             wizard_blizzard, 2,
-            short_green_guy, 1,
+            sgg, 1,
             null, null,
             null, null
         );
@@ -250,7 +250,7 @@ switch_int(%gnome_bar_progress) {
     case 11 :
         ~gnome_bar_cocktail_job_checks (
             "two SGG's and one Blurberry Special", "Great, here's your share of the profit!", 120, 
-            short_green_guy, 2,
+            sgg, 2,
             blurberry_special, 1,
             null, null,
             null, null

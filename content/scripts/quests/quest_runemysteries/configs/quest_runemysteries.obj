@@ -15,7 +15,7 @@ weight=2lb
 param=no_alchemy,1
 tradeable=no
 
-[notes]
+[research_notes]
 name=Notes
 desc=It seems to be written in some kind of code.
 cost=5

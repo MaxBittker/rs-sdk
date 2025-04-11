@@ -12,7 +12,7 @@ switch_obj (last_useitem)
 {
     case thread : ~chatplayer("<p,happy>Perhaps I should use a needle with a piece of leather instead.");
     case leather : @craft_leather_interface;
-    case hardleather : @craft_leather(hardleather_body);
+    case hard_leather : @craft_leather(hardleather_body);
     case dragon_leather, dragon_leather_blue, dragon_leather_red, dragon_leather_black : @craft_dhide_interface(last_useslot);
     case default : ~displaymessage(^dm_default);
 };
@@ -23,7 +23,7 @@ if (last_useitem = needle) {
 }
 ~displaymessage(^dm_default);
 
-[opheldu,hardleather]
+[opheldu,hard_leather]
 if (last_useitem = needle) @craft_leather(hardleather_body);
 ~displaymessage(^dm_default);
 

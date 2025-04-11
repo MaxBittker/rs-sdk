@@ -102,7 +102,7 @@ queue(playerhit_n_retaliate, calc($duration / 30), npc_uid); // this should be a
 // proc is used when the player has dragon fire shiled, prot magic, or antifire potion
 [proc,elvarg_max_hit]()(int)
 def_int $maxhit = 70;
-if (inv_total(worn, dragonfire_shield) > 0) {
+if (inv_total(worn, antidragonbreathshield) > 0) {
     // https://youtu.be/zmYEl97Smxs?list=PLn23LiLYLb1aqrojPTi1_Np81LJku2Nd0&t=169
     mes("Your shield absorbs most of the dragon fire!");
     $maxhit = sub($maxhit, 60);

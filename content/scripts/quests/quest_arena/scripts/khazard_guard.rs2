@@ -4,7 +4,7 @@ switch_int(%arena_progress) {
         ~chatplayer("<p,neutral>Hello.");
         @khazard_guard_killed_bouncer;
     case default :
-        if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_armour) > 0 & %arena_progress > ^arena_obtained_armour) {
+        if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_platemail) > 0 & %arena_progress > ^arena_obtained_armour) {
             ~chatplayer("<p,neutral>Hello.");
             ~chatnpc("<p,angry>Can I help you stranger?");
             ~chatnpc("<p,neutral>Oh, you're a guard as well. That's ok then. We don't like strangers around here.");
@@ -23,7 +23,7 @@ switch_int(%arena_progress) {
         npc_say("En garde fiend!");
         ~npc_retaliate(0);
     case default :
-        if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_armour) > 0 & %arena_progress > ^arena_obtained_armour) {
+        if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_platemail) > 0 & %arena_progress > ^arena_obtained_armour) {
             ~chatplayer("<p,neutral>Hello.");
             ~chatnpc("<p,angry>Despicable thieving scum, that was good armour. Did you see anyone around here soldier?");
             ~chatplayer("<p,shock>Me? No, no one!");
@@ -50,7 +50,7 @@ switch_int(%arena_progress) {
         }
         @khazard_guard_restricted;
     case default :
-        if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_armour) > 0 & %arena_progress > ^arena_obtained_armour) {
+        if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_platemail) > 0 & %arena_progress > ^arena_obtained_armour) {
             // https://youtu.be/Oltfw1gvWjQ?si=eSP7-x6D-mQvNEZx&t=132
             ~chatplayer("<p,neutral>Hello.");
             ~chatnpc("<p,angry>I've never seen you around here before!");
@@ -75,11 +75,11 @@ switch_int(%arena_progress) {
             ~chatnpc("<p,drunk>Go away. Thish areash resh... restricted! We don't like strangersh, 'specially ones who sway. Oooh!");
             return;
         }
-        if(inv_total(inv, khazard_cell_keys) = 0 & %arena_progress < ^arena_entered_ogre_fight) { // can't reclaim after this point on RS3, not sure if this was always the case
+        if(inv_total(inv, khazard_cellkeys) = 0 & %arena_progress < ^arena_entered_ogre_fight) { // can't reclaim after this point on RS3, not sure if this was always the case
             ~chatplayer("<p,quiz>Hi, er.. I lost the keys.");
             ~chatnpc("<p,angry>What?! You're foolish...");
             ~chatplayer("<p,drunk>...and I'm drunk. Here, take my spare set.");
-            inv_add(inv, khazard_cell_keys, 1);
+            inv_add(inv, khazard_cellkeys, 1);
         }
         ~chatplayer("<p,quiz>Hello, how's the job?");
         ~chatnpc("<p,drunk>Please, leave me alone. I'm sure the walls never used to sway that much.");
@@ -120,7 +120,7 @@ switch_int(%arena_progress) {
 ~chatplayer("<p,happy>Good idea. I'll look after the prisoners.");
 %arena_progress = ^arena_given_khali_brew;
 inv_del(inv, khali_brew, 1);
-inv_add(inv, khazard_cell_keys, 1);
+inv_add(inv, khazard_cellkeys, 1);
 ~chatnpc("<p,drunk>Yeesh, yes that shounds reasonable. Here, 'hiccup', take the keysch. Any trouble, you give... you givem a good beating.");
 ~chatplayer("<p,happy>No problem, I'll keep them in line.");
 

@@ -10,7 +10,7 @@ weight=1lb
 2dxan=308
 respawnrate=200
 
-[unholy_mould]
+[unholy_symbol_mould]
 name=Unholy mould
 desc=Used to make unholy symbols.
 cost=200
@@ -48,7 +48,7 @@ weight=1lb
 2dxan=316
 respawnrate=200
 
-[holy_mould]
+[holy_symbol_mould]
 name=Holy mould
 desc=Used to make Holy Symbols of Saradomin.
 cost=5

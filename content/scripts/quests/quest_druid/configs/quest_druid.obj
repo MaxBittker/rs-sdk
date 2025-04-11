@@ -1,4 +1,4 @@
-[druid_enchanted_beef]
+[enchanted_beef]
 name=Enchanted beef
 desc=I don't fancy eating this now.
 members=yes
@@ -16,7 +16,7 @@ cost=1
 weight=500g
 tradeable=no
 
-[druid_enchanted_rat]
+[enchanted_rat_meat]
 name=Enchanted rat
 desc=I don't fancy eating this now.
 members=yes
@@ -34,7 +34,7 @@ cost=1
 weight=200g
 tradeable=no
 
-[druid_enchanted_bear]
+[enchanted_bear_meat]
 name=Enchanted bear
 desc=I don't fancy eating this now.
 members=yes
@@ -52,7 +52,7 @@ cost=1
 weight=500g
 tradeable=no
 
-[druid_enchanted_chicken]
+[enchanted_chicken]
 name=Enchanted chicken
 desc=I don't fancy eating this now.
 members=yes

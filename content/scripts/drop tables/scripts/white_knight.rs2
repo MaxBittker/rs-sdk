@@ -62,7 +62,7 @@ if ($random < 2) { // 2
 } else if ($random < 124) { // 1
     obj_add(npc_coord, iron_ore, 1, ^lootdrop_duration);
 } else if ($random < 125) { // 1
-    obj_add(npc_coord, pot_of_flour, 1, ^lootdrop_duration);
+    obj_add(npc_coord, pot_flour, 1, ^lootdrop_duration);
 } else if ($random < 126) { // 1
     obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
 } // 2 for nothing

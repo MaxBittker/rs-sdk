@@ -17,19 +17,19 @@ p_arrivedelay;
 if($useitem = raw_rat_meat) {
     mes("You dip the raw rat meat in the cauldron.");
     inv_del(inv, raw_rat_meat, 1);
-    inv_add(inv, druid_enchanted_rat, 1);
+    inv_add(inv, enchanted_rat_meat, 1);
 } else if($useitem = raw_beef) {
     mes("You dip the raw beef in the cauldron.");
     inv_del(inv, raw_beef, 1);
-    inv_add(inv, druid_enchanted_beef, 1);
+    inv_add(inv, enchanted_beef, 1);
 } else if($useitem = raw_bear_meat) {
     mes("You dip the raw bear meat in the cauldron.");
     inv_del(inv, raw_bear_meat, 1);
-    inv_add(inv, druid_enchanted_bear, 1);
+    inv_add(inv, enchanted_bear_meat, 1);
 } else if($useitem = raw_chicken) {
     mes("You dip the raw chicken in the cauldron.");
     inv_del(inv, raw_chicken, 1);
-    inv_add(inv, druid_enchanted_chicken, 1);
+    inv_add(inv, enchanted_chicken, 1);
 } else {
     ~displaymessage(^dm_default);
 }

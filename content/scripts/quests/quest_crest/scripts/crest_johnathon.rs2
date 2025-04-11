@@ -51,7 +51,7 @@ if (last_useitem = 1doseantipoison | last_useitem = 2doseantipoison | last_useit
     "So how did you end up getting poisoned?", crest_johnathon_how);
 
 [label,crest_johnathon_postcure]
-if (inv_total(inv, crest_part_3) >= 1) {
+if (inv_total(inv, johnathon_crest) >= 1) {
     ~chatplayer("<p,happy>I have your piece of the crest!");
     ~chatnpc("<p,neutral>Well done! Now return it to my father!");
 }

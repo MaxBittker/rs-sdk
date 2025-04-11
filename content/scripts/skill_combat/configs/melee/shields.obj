@@ -222,7 +222,7 @@ param=slashdefence,52
 param=crushdefence,48
 param=rangedefence,50
 
-[dragonfire_shield]
+[antidragonbreathshield]
 name=Dragonfire shield
 desc=This shield is said to have magical properties against dragon flames.
 model=model_2572_obj

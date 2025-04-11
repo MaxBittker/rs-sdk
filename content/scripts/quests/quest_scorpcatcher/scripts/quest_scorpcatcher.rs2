@@ -13,29 +13,29 @@ mes("You catch a scorpion!");
 
 [opnpcu,kharid_scorpion_first]
 switch_obj (last_useitem) {
-    case scorpion_cage_first, scorpion_cage_first_second, scorpion_cage_first_second, scorpion_cage_all : @scorpion_caught;
-    case scorpion_cage_empty : @catch_scorp(scorpion_cage_first);
-    case scorpion_cage_second : @catch_scorp(scorpion_cage_first_second);
-    case scorpion_cage_third : @catch_scorp(scorpion_cage_first_third);
-    case scorpion_cage_second_third : @catch_scorp(scorpion_cage_all);
+    case scorpioncagea, scorpioncageab, scorpioncageab, scorpioncagefull : @scorpion_caught;
+    case scorpioncageempty : @catch_scorp(scorpioncagea);
+    case scorpioncageb : @catch_scorp(scorpioncageab);
+    case scorpioncagec : @catch_scorp(scorpioncageac);
+    case scorpioncagebc : @catch_scorp(scorpioncagefull);
 }
 
 [opnpcu,kharid_scorpion_second]
 switch_obj (last_useitem) {
-    case scorpion_cage_second, scorpion_cage_first_second, scorpion_cage_second_third, scorpion_cage_all : @scorpion_caught;
-    case scorpion_cage_empty : @catch_scorp(scorpion_cage_second);
-    case scorpion_cage_first : @catch_scorp(scorpion_cage_first_second);
-    case scorpion_cage_third : @catch_scorp(scorpion_cage_second_third);
-    case scorpion_cage_first_third : @catch_scorp(scorpion_cage_all);
+    case scorpioncageb, scorpioncageab, scorpioncagebc, scorpioncagefull : @scorpion_caught;
+    case scorpioncageempty : @catch_scorp(scorpioncageb);
+    case scorpioncagea : @catch_scorp(scorpioncageab);
+    case scorpioncagec : @catch_scorp(scorpioncagebc);
+    case scorpioncageac : @catch_scorp(scorpioncagefull);
 }
 
 [opnpcu,kharid_scorpion_third]
 switch_obj (last_useitem) {
-    case scorpion_cage_third, scorpion_cage_first_third, scorpion_cage_second_third, scorpion_cage_all : @scorpion_caught;
-    case scorpion_cage_empty : @catch_scorp(scorpion_cage_third);
-    case scorpion_cage_first : @catch_scorp(scorpion_cage_first_third);
-    case scorpion_cage_second : @catch_scorp(scorpion_cage_second_third);
-    case scorpion_cage_first_second : @catch_scorp(scorpion_cage_all);
+    case scorpioncagec, scorpioncageac, scorpioncagebc, scorpioncagefull : @scorpion_caught;
+    case scorpioncageempty : @catch_scorp(scorpioncagec);
+    case scorpioncagea : @catch_scorp(scorpioncageac);
+    case scorpioncageb : @catch_scorp(scorpioncagebc);
+    case scorpioncageab : @catch_scorp(scorpioncagefull);
 }
 
 [opnpc1,kharid_scorpion_first] @scorpion_sting;
@@ -53,8 +53,8 @@ mes("You've found a secret door");
 ~open_and_close_door2(oldwall, ~check_axis(coord, loc_coord, loc_angle), door_open);
 
 [queue,scorpcatcher_quest_complete]
-inv_del(inv, scorpion_cage_all, 1);
+inv_del(inv, scorpioncagefull, 1);
 %scorpcatcher_progress = ^scorpcatcher_complete;
 session_log(^log_adventure, "Quest complete: Scorpion Catcher");
-~send_quest_complete(questlist:scorpcatcher, scorpion_cage_all, 250, ^scorpcatcher_questpoints, "You have completed the\\nScorpion Catcher Quest!");
+~send_quest_complete(questlist:scorpcatcher, scorpioncagefull, 250, ^scorpcatcher_questpoints, "You have completed the\\nScorpion Catcher Quest!");
 stat_advance(strength, 66250);

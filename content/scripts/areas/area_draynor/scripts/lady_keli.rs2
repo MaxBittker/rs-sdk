@@ -87,7 +87,7 @@ if(%prince_progress >= ^prince_tied_keli) {
 ~chatplayer("<p,neutral>Could I see the key please? Just for a moment. It would be something I can tell my grandchildren. When you are even more famous than you are now.");
 ~chatnpc("<p,happy>As you put it that way I am sure you can see it.|You cannot steal the key, it is on a Runite chain.");
 ~mesbox("Keli shows you a small key on a strong looking chain.");
-if(%prince_progress = ^prince_spoken_osman & inv_total(inv, soft_clay) >= 1) { 
+if(%prince_progress = ^prince_spoken_osman & inv_total(inv, softclay) >= 1) { 
     @multi2("Could I touch the key for a moment?", lady_keli_touch_key, "I should not disturb someone as tough as you.", lady_keli_not_disturb);
 } else {
     ~chatnpc("<p,neutral>There, run along now, I am very busy.");
@@ -97,7 +97,7 @@ if(%prince_progress = ^prince_spoken_osman & inv_total(inv, soft_clay) >= 1) {
 ~chatplayer("<p,happy>Could I touch the key a moment please?");
 ~chatnpc("<p,neutral>Only for a moment then.");
 ~mesbox("You put a piece of your soft clay in your hand.|As you touch the key, you take an imprint of it.");
-inv_del(inv, soft_clay, 1);
+inv_del(inv, softclay, 1);
 inv_add(inv, key_print, 1);
 ~chatplayer("<p,happy>Thank you so much, you are too kind, o great Keli.");
 ~chatnpc("<p,neutral>You are welcome, run along now, I am very busy.");

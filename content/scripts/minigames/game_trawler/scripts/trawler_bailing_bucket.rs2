@@ -1,4 +1,4 @@
-[opheld1,bailing_bucket_empty]
+[opheld1,bucket_bailing]
 if (~inzone_coord_pair_table(trawler_wreck_zones, coord) = true) {
     mes("It's a bit late for that!"); // osrs
     return;
@@ -15,13 +15,13 @@ if (coordy(coord) ! 0) {
 anim(human_pickupfloor, 0);
 mes("You fill your bucket with water.");
 p_delay(0);
-inv_del(inv, bailing_bucket_empty, 1);
-inv_add(inv, bailing_bucket_full, 1);
+inv_del(inv, bucket_bailing, 1);
+inv_add(inv, bucket_bailingfull, 1);
 if (npc_find(^trawler_flood_center_under, murphy_flood, 5, 0) = true) {
     %npc_trawler_flood_status = sub(%npc_trawler_flood_status, 1);
 }
 
-[opheld1,bailing_bucket_full]
+[opheld1,bucket_bailingfull]
 def_coord $coord = coord;
 if (~inzone_coord_pair_table(trawler_flood_zones, $coord) = true & coordy($coord) = 0) {
     if (coordz($coord) = coordz(^trawler_flood_center_under)) {
@@ -41,5 +41,5 @@ if (~inzone_coord_pair_table(trawler_flood_zones, $coord) = true & coordy($coord
 }
 
 p_delay(0);
-inv_del(inv, bailing_bucket_full, 1);
-inv_add(inv, bailing_bucket_empty, 1);
+inv_del(inv, bucket_bailingfull, 1);
+inv_add(inv, bucket_bailing, 1);

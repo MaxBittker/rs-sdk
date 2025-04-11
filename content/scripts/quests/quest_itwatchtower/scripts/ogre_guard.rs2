@@ -59,7 +59,7 @@ p_teleport(^gutanoth_hill);
 
 [label,ogre_guard_friendship_proof]
 ~chatnpc("<p,quiz>Well, what proof of friendship did you bring?");
-if(inv_total(inv, ogre_relic) > 0) {
+if(inv_total(inv, ogrerelic) > 0) {
     ~chatplayer("<p,happy>I have a relic from a chieftan!");
     %itwatchtower_progress = ^itwatchtower_given_relic;
     ~chatnpc("<p,happy>It's got the statue of Dalgroth.|Welcome to Gu'Tanoth,|friend of the ogres.");
@@ -76,10 +76,10 @@ if(%itwatchtower_progress >= ^itwatchtower_given_relic) {
     ~chatnpc("<p,neutral>Don't need anything from you, creature."); // RS3
     return;
 }
-if(last_useitem = ogre_relic) {
+if(last_useitem = ogrerelic) {
     @ogre_guard_friendship_proof;
 }
-if(last_useitem = relic_part_1 | last_useitem = relic_part_2 | last_useitem = relic_part_3) {
+if(last_useitem = relicpart1 | last_useitem = relicpart2 | last_useitem = relicpart3) {
     ~chatnpc("<p,angry>What's this thing?|It looks a bit like our Dalgroth...|but it's in bits... Go away!");
     mes("The guard pushes you back down the hill.");
     p_teleport(^gutanoth_hill);
@@ -88,11 +88,11 @@ if(last_useitem = relic_part_1 | last_useitem = relic_part_2 | last_useitem = re
 [opnpc1,ogre_guard_battlements] @ogre_guard_battlements_dialogue;
 
 [opnpcu,ogre_guard_battlements]
-if(last_useitem = rock_cake) {
+if(last_useitem = rockcake) {
     if(getbit_range(%itwatchtower_bits, ^itwatchtower_market_lower, ^itwatchtower_market_upper) = 1) @battlements_rockcake;
     // https://youtu.be/R8E9Rir_kKg?si=Qg1oFtos6w4T8Mhh&t=851
     else ~chatplayer("<p,confused>Why am I giving this cake to an ogre?");
-} else if(last_useitem = ogre_relic) {
+} else if(last_useitem = ogrerelic) {
     ~chatnpc("<p,angry>It's a relic, what of it?");
     say("Ow!");
     mes("The guard gives you a smack around the head.");
@@ -104,7 +104,7 @@ if(last_useitem = rock_cake) {
 }
 
 [label,battlements_rockcake]
-inv_del(inv, rock_cake, 1);
+inv_del(inv, rockcake, 1);
 %itwatchtower_bits = setbit_range_toint(%itwatchtower_bits, 2, ^itwatchtower_market_lower, ^itwatchtower_market_upper);
 ~chatplayer("<p,neutral>How about this?");
 ~chatnpc("<p,happy>Well, well, look at this.|My favourite: rock cake!|Okay, we will let it through.");
@@ -116,7 +116,7 @@ switch_int(getbit_range(%itwatchtower_bits, ^itwatchtower_market_lower, ^itwatch
         ~chatnpc("<p,neutral>It's that creature again.|This time we will let it go.");
     case 1 :
         ~chatnpc("<p,neutral>Stop, creature! Oh it's you.|Well, what have you got for us, then?");
-        if(inv_total(inv, rock_cake) > 0) @battlements_rockcake;
+        if(inv_total(inv, rockcake) > 0) @battlements_rockcake;
         ~chatplayer("<p,sad>I didn't bring anything.");
         ~chatnpc("<p,angry>Didn't bring anything!|In that case shove off!");
         mes("The guard pushes you out of the city.");

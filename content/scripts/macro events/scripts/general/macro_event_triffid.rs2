@@ -15,7 +15,7 @@ if (%npc_int = ^triffid_growing) {
     mes("The fruit isn't ready to be picked yet...");
     return;
 }
-inv_add(inv, strange_fruit, 1);
+inv_add(inv, macro_triffidfruit, 1);
 sound_synth(pick, 0, 0);
 // https://youtu.be/ghfKpXe7N5s?t=24
 mes("You pick the fruit from the plant."); // osrs

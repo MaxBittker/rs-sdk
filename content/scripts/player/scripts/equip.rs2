@@ -62,7 +62,7 @@ if (p_finduid(uid) = true) {
     if (~duel_arena_flower_power_unequip_check($slot) = false) {
         return;
     }
-    if ($obj = gnomeball & ~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
+    if ($obj = ball_gnomeball_game & ~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
         mes("You feel it would be cheating to put the ball in your pack whilst on the pitch.");
         return;
     }
@@ -475,16 +475,16 @@ return(true, $swapped);
 
 
 [proc,update_weight_equipment] // can change to use categories and param when more weight reduction equipment exists
-if(inv_total(worn, boots_of_lightness_inv) > 0 & map_members = true) { // convert inv boots to worn boots if in p2p
-    inv_del(worn, boots_of_lightness_inv, 1);
-    inv_setslot(worn, ^wearpos_feet, boots_of_lightness_worn, 1);
-} else if(inv_total(worn, boots_of_lightness_worn) > 0 & map_members = false) { // convert worn boots to inv boots (in worn inv) if in f2p 
-    inv_del(worn, boots_of_lightness_worn, 1);
-    inv_setslot(worn, ^wearpos_feet, boots_of_lightness_inv, 1);
+if(inv_total(worn, ikov_bootsoflightness) > 0 & map_members = true) { // convert inv boots to worn boots if in p2p
+    inv_del(worn, ikov_bootsoflightness, 1);
+    inv_setslot(worn, ^wearpos_feet, ikov_bootsoflightnessworn, 1);
+} else if(inv_total(worn, ikov_bootsoflightnessworn) > 0 & map_members = false) { // convert worn boots to inv boots (in worn inv) if in f2p 
+    inv_del(worn, ikov_bootsoflightnessworn, 1);
+    inv_setslot(worn, ^wearpos_feet, ikov_bootsoflightness, 1);
 }
 
-if(inv_total(inv, boots_of_lightness_worn) > 0) {
-    def_int $count = inv_total(inv, boots_of_lightness_worn); // shouldnt ever be above 1?
-    inv_del(inv, boots_of_lightness_worn, $count); // should use inv_changeslot probably
-    inv_add(inv, boots_of_lightness_inv, $count);
+if(inv_total(inv, ikov_bootsoflightnessworn) > 0) {
+    def_int $count = inv_total(inv, ikov_bootsoflightnessworn); // shouldnt ever be above 1?
+    inv_del(inv, ikov_bootsoflightnessworn, $count); // should use inv_changeslot probably
+    inv_add(inv, ikov_bootsoflightness, $count);
 }

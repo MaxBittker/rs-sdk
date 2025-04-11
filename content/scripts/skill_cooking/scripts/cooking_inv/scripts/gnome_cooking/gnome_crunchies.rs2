@@ -36,40 +36,40 @@ mes("<$message>.");
 
 [opheldu,half_baked_crunchies]
 switch_obj(last_useitem) {
-    case king_worm, equa_leaves, gnome_spice, toad_legs, chocolate_bar : @add_crunchies_ingredient(last_useitem);
+    case king_worm, equa_leaves, gnome_spice, toads_legs, chocolate_bar : @add_crunchies_ingredient(last_useitem);
     case default : ~displaymessage(^dm_default);
 }
 
 [proc,get_gnome_crunchies_product]()(namedobj)
-def_int $null_count = calc(~get_crunchies_ingredient_count(null) + ~get_crunchies_ingredient_count(dwarf_remains));
+def_int $null_count = calc(~get_crunchies_ingredient_count(null) + ~get_crunchies_ingredient_count(mcannonremains));
 // spicy crunchies
 def_int $equa_leaves_count = ~get_crunchies_ingredient_count(equa_leaves);
 def_int $gnome_spice_count = ~get_crunchies_ingredient_count(gnome_spice);
 if ($gnome_spice_count = 3 & $equa_leaves_count = 2) {
     ~clear_crunchies_ingredients;
-    return(unfinished_spicy_crunchies1);
+    return(unfinished_spicy_crunchies);
 }
 // toad legs crunchies
-def_int $toad_legs_count = ~get_crunchies_ingredient_count(toad_legs);
+def_int $toad_legs_count = ~get_crunchies_ingredient_count(toads_legs);
 if ($toad_legs_count = 2 & $gnome_spice_count = 1 & $null_count = 2) {
     ~clear_crunchies_ingredients;
-    return(unfinished_toad_crunchies1);
+    return(unfinished_toad_crunchies);
 }
 // worm crunchies
 def_int $king_worm_count = ~get_crunchies_ingredient_count(king_worm);
 if ($king_worm_count = 2 & $equa_leaves_count = 1 & $gnome_spice_count = 1 & $null_count = 1) {
     ~clear_crunchies_ingredients;
-    return(unfinished_worm_crunchies1);
+    return(unfinished_worm_crunchies);
 }
 // choc chip crunchies
 def_int $chocolate_bar_count = ~get_crunchies_ingredient_count(chocolate_bar);
 if ($chocolate_bar_count = 2 & $gnome_spice_count = 1 & $null_count = 2) {
     ~clear_crunchies_ingredients;
-    return(unfinished_choc_chip_crunchies1);
+    return(unfinished_chocchip_crunchies);
 }
 
 ~clear_crunchies_ingredients;
-return(odd_crunchies);
+return(spoilt_crunchies);
 
 
 [label,add_crunchies_ingredient](obj $item)
@@ -98,11 +98,11 @@ if (string_length(oc_param($item, crunchies_message)) < 1) {
 
 
 [proc,get_crunchies_ingredient_step]()(int)
-if (%gnome_crunchies_ingredient1 = null | %gnome_crunchies_ingredient1 = dwarf_remains) return(0);
-if (%gnome_crunchies_ingredient2 = null | %gnome_crunchies_ingredient2 = dwarf_remains) return(1);
-if (%gnome_crunchies_ingredient3 = null | %gnome_crunchies_ingredient3 = dwarf_remains) return(2);
-if (%gnome_crunchies_ingredient4 = null | %gnome_crunchies_ingredient4 = dwarf_remains) return(3);
-if (%gnome_crunchies_ingredient5 = null | %gnome_crunchies_ingredient5 = dwarf_remains) return(4);
+if (%gnome_crunchies_ingredient1 = null | %gnome_crunchies_ingredient1 = mcannonremains) return(0);
+if (%gnome_crunchies_ingredient2 = null | %gnome_crunchies_ingredient2 = mcannonremains) return(1);
+if (%gnome_crunchies_ingredient3 = null | %gnome_crunchies_ingredient3 = mcannonremains) return(2);
+if (%gnome_crunchies_ingredient4 = null | %gnome_crunchies_ingredient4 = mcannonremains) return(3);
+if (%gnome_crunchies_ingredient5 = null | %gnome_crunchies_ingredient5 = mcannonremains) return(4);
 return(5);
 
 [proc,get_crunchies_ingredient_name](obj $ingredient)(string, int)

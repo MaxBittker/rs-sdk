@@ -28,9 +28,9 @@ recol2d=21921
 2dxan=180
 weight=200g
 category=category_130
-param=next_obj_stage,slice_of_cake
+param=next_obj_stage,cake_slice
 
-[slice_of_cake]
+[cake_slice]
 iop1=Eat
 name=Slice of cake
 desc=I'd rather have a whole cake.
@@ -124,7 +124,7 @@ recol2d=7399
 cost=1
 weight=150g
 
-[pot_of_flour]
+[pot_flour]
 name=Pot of flour
 desc=There is flour in this pot.
 model=model_2406_obj

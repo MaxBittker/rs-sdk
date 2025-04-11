@@ -9,11 +9,11 @@ def_namedobj $axe_head = oc_param($axe, axe_head);
 // todo: use inv_changeslot?
 if (inv_total(worn, $axe) > 0) {
     inv_del(worn, $axe, 1);
-    inv_setslot(worn, ^wearpos_rhand, axe_handle, 1);
+    inv_setslot(worn, ^wearpos_rhand, macro_hatchethandle, 1);
     ~update_all($axe);
 } else if (inv_total(inv, $axe) > 0) {
     inv_del(inv, $axe, 1);
-    inv_add(inv, axe_handle, 1);
+    inv_add(inv, macro_hatchethandle, 1);
 }
 def_coord $axe_coord = map_findsquare(coord, 1, 7, ^map_findsquare_lineofwalk);
 anim(human_woodcutting_axe_handle, 0);
@@ -30,30 +30,30 @@ session_log(^log_adventure, "Lost their <oc_name($axe)> head");
 
 [label,reattach_axe](obj $axe_head)
 def_namedobj $axe = oc_param($axe_head, fixed);
-if (inv_total(inv, axe_handle) > 0 & inv_total(inv, $axe_head) > 0) {
-    inv_del(inv, axe_handle, 1);
+if (inv_total(inv, macro_hatchethandle) > 0 & inv_total(inv, $axe_head) > 0) {
+    inv_del(inv, macro_hatchethandle, 1);
     inv_del(inv, $axe_head, 1);
     inv_add(inv, $axe, 1);
     sound_synth(attach_handle, 0, 0);
     mes("You carefully attach the two pieces together."); // https://youtu.be/tev6FR2iowQ?t=34
 }
 
-[opheldu,axe_handle]
+[opheldu,macro_hatchethandle]
 switch_obj(last_useitem) {
-    case bronze_axe_head, iron_axe_head, steel_axe_head, black_axe_head, mithril_axe_head, adamant_axe_head, rune_axe_head : @reattach_axe(last_useitem);
+    case macro_bronze_hatchethead, macro_iron_hatchethead, macro_steel_hatchethead, macro_black_hatchethead, macro_mithril_hatchethead, macro_adamant_hatchethead, macro_rune_hatchethead : @reattach_axe(last_useitem);
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,bronze_axe_head] @check_axe_head;
-[opheldu,iron_axe_head] @check_axe_head;
-[opheldu,steel_axe_head] @check_axe_head;
-[opheldu,black_axe_head] @check_axe_head;
-[opheldu,mithril_axe_head] @check_axe_head;
-[opheldu,adamant_axe_head] @check_axe_head;
-[opheldu,rune_axe_head] @check_axe_head;
+[opheldu,macro_bronze_hatchethead] @check_axe_head;
+[opheldu,macro_iron_hatchethead] @check_axe_head;
+[opheldu,macro_steel_hatchethead] @check_axe_head;
+[opheldu,macro_black_hatchethead] @check_axe_head;
+[opheldu,macro_mithril_hatchethead] @check_axe_head;
+[opheldu,macro_adamant_hatchethead] @check_axe_head;
+[opheldu,macro_rune_hatchethead] @check_axe_head;
 
 [label,check_axe_head]
-if (last_useitem = axe_handle) {
+if (last_useitem = macro_hatchethandle) {
     @reattach_axe(last_item);
 } else {
     ~displaymessage(^dm_default);

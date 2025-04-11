@@ -74,8 +74,8 @@ while ($i < calc(db_getfieldcount($data, gnome_food_cooking:step) + 1)) {
             return($next_gnome_food);
         }
         switch_obj ($ingredient) {
-            case lemon_slices, lime_slices, orange_slices : $fail_gnome_food = odd_cocktail4;
-            case pot_of_cream : $fail_gnome_food = odd_cocktail3;
+            case lemon_slices, lime_slices, orange_slices : $fail_gnome_food = spoilt_cocktail_slice;
+            case pot_of_cream : $fail_gnome_food = spoilt_cocktail_creamy;
             case lemon_chunks, lime_chunks, orange_chunks, pineapple_chunks, chocolate_bar, chocolate_dust, equa_leaves :
             case default : return(null);
         }

@@ -1,6 +1,6 @@
 [opnpc1,zeke]
 //Treasure Trail
-if(map_members = true & inv_total(inv, trail_clue_easy_simple_exp007) = 1) {
+if(map_members = true & inv_total(inv, trail_clue_easy_simple007) = 1) {
     @trail_zeke;
 }
 ~chatnpc("<p,happy>A thousand greetings, sir.");
@@ -27,4 +27,4 @@ else if ($option = 3) {
 [label,trail_zeke]
 // https://youtu.be/klvUCL0XFyw?si=WWWusRMnfJOBl7E_&t=19
 ~chatnpc("<p,happy>Well done!");
-~progress_clue_easy(trail_clue_easy_simple_exp007, "Zeke has given you your next clue!");
+~progress_clue_easy(trail_clue_easy_simple007, "Zeke has given you your next clue!");

@@ -5,7 +5,7 @@
 [opnpcu,jungle_forester_female] @jungle_forester_show_item;
 
 [label,jungle_forester_show_item]
-if (last_useitem = radimus_notes_complete) {
+if (last_useitem = thkaramjamapcomp) {
     if (~obj_gettotal(bullroarer) = 0) {
         // https://youtu.be/Lid8enDEF_U?t=746
         ~chatnpc("<p,neutral>*Gasp* @blu@-- The jungle forester looks speechless. --");

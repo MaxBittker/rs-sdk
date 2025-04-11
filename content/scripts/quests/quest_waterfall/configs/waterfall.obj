@@ -1,4 +1,4 @@
-[book_on_baxtorian]
+[baxtorian_book_waterfall_quest]
 cost=2
 name=Book on baxtorian
 desc=A book on elven history in north runescape.
@@ -13,7 +13,7 @@ iop1=Read
 weight=18oz
 tradeable=no
 
-[golrie_key]
+[golrie_key_waterfall_quest]
 name=A key
 desc=This will unlock something
 model=model_2372_obj
@@ -26,7 +26,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[glarials_pebble]
+[glarials_pebble_waterfall_quest]
 name=Glarials pebble
 desc=A small pebble with elven inscription.
 model=model_2701_obj
@@ -37,7 +37,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[glarials_amulet]
+[glarials_amulet_waterfall_quest]
 name=Glarials amulet
 desc=A bright green gem set in a necklace.
 model=model_2515_obj
@@ -56,7 +56,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[glarials_urn_full]
+[glarials_urn_full_waterfall_quest]
 name=Glarials urn
 desc=An urn containing glarials ashes
 model=model_2704_obj
@@ -68,7 +68,7 @@ weight=5oz
 members=yes
 tradeable=no
 
-[glarials_urn_empty]
+[glarials_urn_empty_waterfall_quest]
 name=Glarials urn
 desc=An empty urn made for glarials ashes
 model=model_2704_obj
@@ -80,7 +80,7 @@ weight=3oz
 members=yes
 tradeable=no
 
-[waterfall_key]
+[baxtorian_key_waterfall_quest]
 name=A key
 desc=This will unlock something
 model=model_2372_obj
@@ -93,7 +93,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[mithril_seeds]
+[mithril_seed]
 name=Mithril seeds
 desc=Magical seeds in a mithril case.
 cost=200

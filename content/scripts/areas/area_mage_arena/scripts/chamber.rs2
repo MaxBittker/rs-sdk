@@ -1,6 +1,6 @@
-[oploc1,loc_2873] @pray_at_statue("Saradomin", saradomincape);
-[oploc1,loc_2874] @pray_at_statue("Zamorak", zamorakcape);
-[oploc1,loc_2875] @pray_at_statue("Guthix", guthixcape);
+[oploc1,loc_2873] @pray_at_statue("Saradomin", saradomin_cape);
+[oploc1,loc_2874] @pray_at_statue("Zamorak", zamorak_cape);
+[oploc1,loc_2875] @pray_at_statue("Guthix", guthix_cape);
 
 [label,pray_at_statue](string $name, namedobj $cape)
 ~forcewalk2(movecoord(loc_coord, 0, 0, -2));

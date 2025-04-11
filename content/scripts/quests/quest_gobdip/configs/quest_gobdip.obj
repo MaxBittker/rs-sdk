@@ -1,4 +1,4 @@
-[goblin_mail_orange]
+[goblin_armour_orange]
 name=Orange goblin mail
 desc=Armour designed to fit goblins.
 model=model_2574_obj
@@ -12,7 +12,7 @@ weight=8lb
 category=category_528
 tradeable=no
 
-[goblin_mail_blue]
+[goblin_armour_darkblue]
 name=Blue goblin mail
 desc=Armour designed to fit goblins.
 model=model_2574_obj
@@ -26,7 +26,7 @@ weight=8lb
 category=category_528
 tradeable=no
 
-[goblin_mail]
+[goblin_armour]
 name=Goblin mail
 desc=Armour designed to fit goblins.
 model=model_2574_obj

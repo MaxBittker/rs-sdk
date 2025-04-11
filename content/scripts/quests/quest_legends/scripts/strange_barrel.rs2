@@ -69,10 +69,10 @@ else if($rand < 34) obj_add(loc_coord, rune_knife, 1, ^lootdrop_duration);
 else if($rand < 36) obj_add(loc_coord, bread, 1, ^lootdrop_duration);
 else if($rand < 38) obj_add(loc_coord, cheese, 1, ^lootdrop_duration);
 else if($rand < 40) obj_add(loc_coord, spinach_roll, 1, ^lootdrop_duration);
-else if($rand < 42) obj_add(loc_coord, half_redberry_pie, 1, ^lootdrop_duration);
-else if($rand < 44) obj_add(loc_coord, half_meat_pie, 1, ^lootdrop_duration);
+else if($rand < 42) obj_add(loc_coord, half_a_redberry_pie, 1, ^lootdrop_duration);
+else if($rand < 44) obj_add(loc_coord, half_a_meat_pie, 1, ^lootdrop_duration);
 else if($rand < 46) obj_add(loc_coord, half_an_apple_pie, 1, ^lootdrop_duration);
-else if($rand < 48) obj_add(loc_coord, slice_of_cake, 1, ^lootdrop_duration);
+else if($rand < 48) obj_add(loc_coord, cake_slice, 1, ^lootdrop_duration);
 else if($rand < 50) obj_add(loc_coord, gold_bar, 1, ^lootdrop_duration);
 else if($rand < 52) obj_add(loc_coord, stafforb, 1, ^lootdrop_duration);
 else if($rand < 54) obj_add(loc_coord, bow_string, 1, ^lootdrop_duration);
@@ -89,10 +89,10 @@ else if($rand < 68) obj_add(loc_coord, unidentified_snake_weed, 1, ^lootdrop_dur
 else if($rand < 69) obj_add(loc_coord, 1doseprayerrestore, 1, ^lootdrop_duration);
 else if($rand < 70) obj_add(loc_coord, pineapple, 1, ^lootdrop_duration);
 else if($rand < 71) ~legends_barrel_noted_drop;
-else if($rand < 72) obj_add(loc_coord, ship_ticket, 1, ^lootdrop_duration);
+else if($rand < 72) obj_add(loc_coord, shiloshipticket, 1, ^lootdrop_duration);
 else if($rand < 73) obj_add(loc_coord, tinderbox, 1, ^lootdrop_duration);
-else if($rand < 74) obj_add(loc_coord, unlit_torch, 1, ^lootdrop_duration);
-else if($rand < 75) obj_add(loc_coord, paramaya_ticket, 1, ^lootdrop_duration);
+else if($rand < 74) obj_add(loc_coord, torch_unlit, 1, ^lootdrop_duration);
+else if($rand < 75) obj_add(loc_coord, paramayaticket, 1, ^lootdrop_duration);
 else if($rand < 76) obj_add(loc_coord, logs, 1, ^lootdrop_duration);
 
 [proc,legends_barrel_noted_drop]

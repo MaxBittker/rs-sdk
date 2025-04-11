@@ -42,7 +42,7 @@ if ($random < 4) {
 } else if ($random < 36) {
     obj_add(npc_coord, tin_ore, 1, ^lootdrop_duration);
 } else if ($random < 37) {
-    obj_add(npc_coord, pot_of_flour, 1, ^lootdrop_duration);
+    obj_add(npc_coord, pot_flour, 1, ^lootdrop_duration);
 } else if ($random < 58) {
     obj_add(npc_coord, coins, 35, ^lootdrop_duration);
 } else if ($random < 72) {

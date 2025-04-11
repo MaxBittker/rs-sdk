@@ -1,5 +1,5 @@
 [opnpc1,hazelmere]
-if(inv_total(inv, trail_clue_medium_anagram_exp001) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram001) > 0) {
     @trail_hazelmere;
 }
 switch_int(%grandtree_progress) {
@@ -7,13 +7,13 @@ switch_int(%grandtree_progress) {
     case ^grandtree_started :
         ~mesbox("The mage starts to speak but all you hear is:");
         ~chatnpc("<p,happy>Blah. Blah, blah, blah, blah...blah!");
-        if(inv_total(inv, bark_sample) = 0) {
+        if(inv_total(inv, grandtree_barksample) = 0) {
             ~mesbox("You still can't understand the mage.|King Narnode said to give him the bark sample.");
             return;
         }
-        ~objbox(bark_sample, "You give the bark sample to Hazelmere.", 250, 0, 0);
+        ~objbox(grandtree_barksample, "You give the bark sample to Hazelmere.", 250, 0, 0);
         ~mesbox("The mage carefully examines the sample.");
-        inv_del(inv, bark_sample, 1);
+        inv_del(inv, grandtree_barksample, 1);
         %grandtree_progress = ^grandtree_spoken_hazelmere;
         @hazelmere_write_scroll;
     case default :
@@ -25,23 +25,23 @@ switch_int(%grandtree_progress) {
 [label,hazelmere_write_scroll]
 ~chatnpc("<p,neutral>Blah, blah...Daconia...blah, blah.");
 // https://youtu.be/LFvLBRCxFwk?si=R4nV14tr_dJApo7u&t=299
-if(~obj_gettotal(hazelmeres_scroll) > 0) {
+if(~obj_gettotal(grandtree_scroll) > 0) {
     ~mesbox("You still can't understand Hazelmere.|The mage wrote it down for you on a scroll.");
     return;
 }
 ~chatplayer("<p,neutral>Can you write this down and I'll try and translate it?");
 ~chatnpc("<p,quiz>Blah, blah?");
 ~mesbox("You make a writing motion.|The mage scribbles something down on a scroll.");
-~objbox(hazelmeres_scroll, "Hazelmere has given you the scroll.", 250, 0, 0);
-inv_add(inv, hazelmeres_scroll, 1);
+~objbox(grandtree_scroll, "Hazelmere has given you the scroll.", 250, 0, 0);
+inv_add(inv, grandtree_scroll, 1);
 
 [label,trail_hazelmere]
-if(inv_total(inv, trail_clue_medium_challenge_exp001) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram001_challenge) > 0) {
     @trail_challengenpc_prompt("<p,neutral>Blah, blah?", "<p,happy>Blah, blah, blah!", "<p,angry>Blah!",
-        "Hazelmere has given you another clue scroll!", trail_clue_medium_anagram_exp001, trail_clue_medium_challenge_exp001);
+        "Hazelmere has given you another clue scroll!", trail_clue_medium_anagram001, trail_clue_medium_anagram001_challenge);
 }
 ~chatnpc("<p,neutral>Blah, blah, blah...blah!");
 ~chatplayer("<p,confused>What?");
 ~chatnpc("<p,neutral>Blah, blah.");
-inv_add(inv, trail_clue_medium_challenge_exp001, 1);
-~objbox(trail_clue_medium_challenge_exp001, "Hazelmere has given you a challenge scroll!", 250, 0, 0);
+inv_add(inv, trail_clue_medium_anagram001_challenge, 1);
+~objbox(trail_clue_medium_anagram001_challenge, "Hazelmere has given you a challenge scroll!", 250, 0, 0);

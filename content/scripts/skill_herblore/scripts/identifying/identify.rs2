@@ -1,4 +1,4 @@
-[opheld1,unidentified_guam_leaf]
+[opheld1,unidentified_guam]
 ~attempt_identify_herb(guam_leaf, last_slot());
 
 [opheld1,unidentified_marrentill]
@@ -10,10 +10,10 @@
 [opheld1,unidentified_harralander]
 ~attempt_identify_herb(harralander, last_slot());
 
-[opheld1,unidentified_ranarr_weed]
+[opheld1,unidentified_ranarr]
 ~attempt_identify_herb(ranarr_weed, last_slot());
 
-[opheld1,unidentified_irit_leaf]
+[opheld1,unidentified_irit]
 ~attempt_identify_herb(irit_leaf, last_slot());
 
 [opheld1,unidentified_avantoe]

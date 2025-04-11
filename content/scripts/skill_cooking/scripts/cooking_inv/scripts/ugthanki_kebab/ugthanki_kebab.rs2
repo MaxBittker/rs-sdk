@@ -1,64 +1,64 @@
 [opheldu,onion]
 switch_obj(last_useitem) {
     case bowl_empty : @make_bowl_mixture(last_slot);
-    case chopped_tomato, chopped_ugthanki, chopped_ugthanki_tomato : @make_bowl_mixture2(last_slot, last_useslot);
-    case chopped_onion_tomato, chopped_onion, chopped_ugthanki_onion : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
-    case half_baked_gnomebowl : @add_bowl_ingredient(last_item);
+    case bowl_tomato, bowl_ugthanki, bowl_ugthankitomato : @make_bowl_mixture2(last_slot, last_useslot);
+    case bowl_oniontomato, bowl_onion, bowl_ugthankionion : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
+    case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_batta : @add_batta_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,ugthanki_meat]
+[opheldu,cooked_ugthanki_meat]
 switch_obj(last_useitem) {
     case bowl_empty : @make_bowl_mixture(last_slot);
-    case chopped_tomato, chopped_onion, chopped_onion_tomato : @make_bowl_mixture2(last_slot, last_useslot);
-    case chopped_ugthanki, chopped_ugthanki_tomato, chopped_ugthanki_onion : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
+    case bowl_tomato, bowl_onion, bowl_oniontomato : @make_bowl_mixture2(last_slot, last_useslot);
+    case bowl_ugthanki, bowl_ugthankitomato, bowl_ugthankionion : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,chopped_tomato]
+[opheldu,bowl_tomato]
 switch_obj(last_useitem) {
-    case onion, ugthanki_meat : @make_bowl_mixture2(last_useslot, last_slot);
+    case onion, cooked_ugthanki_meat : @make_bowl_mixture2(last_useslot, last_slot);
     case tomato : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,chopped_onion]
+[opheldu,bowl_onion]
 switch_obj(last_useitem) {
-    case tomato, ugthanki_meat : @make_bowl_mixture2(last_useslot, last_slot);
+    case tomato, cooked_ugthanki_meat : @make_bowl_mixture2(last_useslot, last_slot);
     case onion : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,chopped_ugthanki]
+[opheldu,bowl_ugthanki]
 switch_obj(last_useitem) {
     case tomato, onion : @make_bowl_mixture2(last_useslot, last_slot);
-    case ugthanki_meat : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
+    case cooked_ugthanki_meat : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,chopped_onion_tomato]
+[opheldu,bowl_oniontomato]
 switch_obj(last_useitem) {
-    case ugthanki_meat : @make_bowl_mixture2(last_useslot, last_slot);
+    case cooked_ugthanki_meat : @make_bowl_mixture2(last_useslot, last_slot);
     case tomato, onion : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,chopped_ugthanki_onion]
+[opheldu,bowl_ugthankionion]
 switch_obj(last_useitem) {
     case tomato : @make_bowl_mixture2(last_useslot, last_slot);
-    case onion, ugthanki_meat : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
+    case onion, cooked_ugthanki_meat : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,chopped_ugthanki_tomato]
+[opheldu,bowl_ugthankitomato]
 switch_obj(last_useitem) {
     case onion : @make_bowl_mixture2(last_useslot, last_slot);
-    case tomato, ugthanki_meat : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
+    case tomato, cooked_ugthanki_meat : mes("This mixture already contains enough <lowercase(oc_name(last_useitem))>.");
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,kebab_mix]
+[opheldu,bowl_oniontomugthanki]
 switch_obj(last_useitem) {
     case pitta_bread : @make_ugthanki_kebab(last_slot);
     case default : ~displaymessage(^dm_default);
@@ -66,7 +66,7 @@ switch_obj(last_useitem) {
 
 [opheldu,pitta_bread]
 switch_obj(last_useitem) {
-    case kebab_mix : @make_ugthanki_kebab(last_useslot);
+    case bowl_oniontomugthanki : @make_ugthanki_kebab(last_useslot);
     case default : ~displaymessage(^dm_default);
 }
 

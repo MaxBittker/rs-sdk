@@ -1,19 +1,19 @@
-[opobj3,white_cog]
+[opobj3,whitecog]
 if (~can_pickup_cog = true) {
     @pickup_obj;
 }
 
-[opobj3,blue_cog]
+[opobj3,bluecog]
 if (~can_pickup_cog = true) {
     @pickup_obj;
 }
 
-[opobj3,red_cog]
+[opobj3,redcog]
 if (~can_pickup_cog = true) {
     @pickup_obj;
 }
 
-[opobj3,black_cog]
+[opobj3,blackcog]
 if (~can_pickup_cog = true) {
     if(%cog_cooled = ^true) {
         @pickup_obj;
@@ -27,7 +27,7 @@ if (~can_pickup_cog = true) {
     }
 }
 
-[opobju,black_cog]
+[opobju,blackcog]
 if(last_useitem = bucket_water) {
     if (~can_pickup_cog = true) {
         inv_del(inv, bucket_water, 1);

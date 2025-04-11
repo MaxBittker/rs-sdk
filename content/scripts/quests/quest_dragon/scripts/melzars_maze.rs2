@@ -11,7 +11,7 @@ mes("The door is securely locked.");
 // ~open_and_close_door(loc_1535, $entering, false);
 
 [oplocu,melzar_maze_entrance] // https://youtu.be/tmPf68hogzw?t=54
- if (last_useitem = maze_key) {
+ if (last_useitem = melzarkey) {
     ~open_and_close_door(loc_1535, ~check_axis_locactive(coord), false);
 } else {
     ~displaymessage(^dm_default);
@@ -36,22 +36,22 @@ mes("The ladder is broken, I can't climb it."); // osrs
 
 // red door
 [oploc1,melzar_maze_red_door] mes("This door is securely locked."); // osrs
-[oplocu,melzar_maze_red_door] @open_melzar_maze_door(maze_key_red);
+[oplocu,melzar_maze_red_door] @open_melzar_maze_door(redkey);
 // orange door
 [oploc1,melzar_maze_orange_door] mes("This door is securely locked."); // osrs
-[oplocu,melzar_maze_orange_door] @open_melzar_maze_door(maze_key_orange);
+[oplocu,melzar_maze_orange_door] @open_melzar_maze_door(orangekey);
 // yellow door
 [oploc1,melzar_maze_yellow_door] mes("This door is securely locked."); // osrs
-[oplocu,melzar_maze_yellow_door] @open_melzar_maze_door(maze_key_yellow);
+[oplocu,melzar_maze_yellow_door] @open_melzar_maze_door(yellowkey);
 // blue door
 [oploc1,melzar_maze_blue_door] mes("This door is securely locked."); // osrs
-[oplocu,melzar_maze_blue_door] @open_melzar_maze_door(maze_key_blue);
+[oplocu,melzar_maze_blue_door] @open_melzar_maze_door(bluekey);
 // magenta door
 [oploc1,melzar_maze_magenta_door] mes("This door is securely locked."); // osrs
-[oplocu,melzar_maze_magenta_door] @open_melzar_maze_door(maze_key_magenta);
+[oplocu,melzar_maze_magenta_door] @open_melzar_maze_door(magentakey);
 // green door
 [oploc1,melzar_maze_green_door] mes("This door is securely locked."); // osrs
-[oplocu,melzar_maze_green_door] @open_melzar_maze_door(maze_key_green);
+[oplocu,melzar_maze_green_door] @open_melzar_maze_door(greenkey);
 
 
 [label,open_melzar_maze_door](obj $key)
@@ -74,7 +74,7 @@ if (npc_findhero = false) {
 // Default drop from config.
 obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 // Drop red key.
-obj_add(npc_coord, maze_key_red, 1, ^lootdrop_duration);
+obj_add(npc_coord, redkey, 1, ^lootdrop_duration);
 
 
 // ghost
@@ -84,7 +84,7 @@ if (npc_findhero = false) {
     return;
 }
 // Drop orange key.
-obj_add(npc_coord, maze_key_orange, 1, ^lootdrop_duration);
+obj_add(npc_coord, orangekey, 1, ^lootdrop_duration);
 
 
 // skeleton
@@ -96,7 +96,7 @@ if (npc_findhero = false) {
 // Default drop from config.
 obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 // Drop yellow key.
-obj_add(npc_coord, maze_key_yellow, 1, ^lootdrop_duration);
+obj_add(npc_coord, yellowkey, 1, ^lootdrop_duration);
 
 
 // zombie
@@ -108,7 +108,7 @@ if (npc_findhero = false) {
 // Default drop from config.
 obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 // Drop blue key.
-obj_add(npc_coord, maze_key_blue, 1, ^lootdrop_duration);
+obj_add(npc_coord, bluekey, 1, ^lootdrop_duration);
 
 
 // melzar
@@ -120,7 +120,7 @@ if (npc_findhero = false) {
 // Default drop from config.
 obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 // Drop magenta key.
-obj_add(npc_coord, maze_key_magenta, 1, ^lootdrop_duration);
+obj_add(npc_coord, magentakey, 1, ^lootdrop_duration);
 
 
 // lesser demon
@@ -132,7 +132,7 @@ if (npc_findhero = false) {
 // Default drop from config.
 obj_add(npc_coord, ashes, 1, ^lootdrop_duration);
 // Drop green key..
-obj_add(npc_coord, maze_key_green, 1, ^lootdrop_duration);
+obj_add(npc_coord, greenkey, 1, ^lootdrop_duration);
 
 
 // chest
@@ -156,14 +156,14 @@ p_delay(0);
 loc_change(melzar_maze_chest_closed, 300);
 
 [oploc1,melzar_maze_chest_opened]
-if (~quest_dragon_getting_map_parts = false | ~obj_gettotal(crandor_map_part1) > 0 | ~obj_gettotal(crandor_map) > 0) {
+if (~quest_dragon_getting_map_parts = false | ~obj_gettotal(mappart1) > 0 | ~obj_gettotal(dragonmap) > 0) {
     mes("You find nothing in the chest.");
 } else {
     // objbox looks soooo bad for our version, no way they used it
     // edit: confirmed it uses mesbox! https://youtu.be/tmPf68hogzw?t=471
     // ~objbox(crandor_map_part1, "You find a map piece in the chest.", 250, 0, divide(^objbox_height, 2));
     ~mesbox("You find a map piece in the chest.");
-    inv_add(inv, crandor_map_part1, 1);
+    inv_add(inv, mappart1, 1);
 }
 // Temp note: dur does not need updated
 loc_change(melzar_maze_chest_closed, 300);

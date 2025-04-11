@@ -10,13 +10,13 @@ switch_obj (last_useitem) {
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,mixed_chemicals1]
+[opheldu,precharcoalmixture]
 switch_obj (last_useitem) {
     case ground_charcoal : @itexam_mixed_chemicals2;
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,mixed_chemicals2]
+[opheldu,postcharcoalmixture]
 
 if (stat(herblore) < 10) {
     // TODO: Unconfirmed message
@@ -31,7 +31,7 @@ switch_obj (last_useitem) {
 [label,itexam_mixed_chemicals1]
 inv_del(inv, ammonium_nitrate, 1);
 inv_del(inv, nitroglycerin, 1);
-inv_add(inv, mixed_chemicals1, 1);
+inv_add(inv, precharcoalmixture, 1);
 stat_advance(herblore, 25);
 mes("You mix the nitrate powder into the liquid.");
 mes("It has produced a foul mixture.");
@@ -44,8 +44,8 @@ if (stat(herblore) < 10) {
     return;
 }
 inv_del(inv, ground_charcoal, 1);
-inv_del(inv, mixed_chemicals1, 1);
-inv_add(inv, mixed_chemicals2, 1);
+inv_del(inv, precharcoalmixture, 1);
+inv_add(inv, postcharcoalmixture, 1);
 stat_advance(herblore, 25);
 mes("You mix the charcoal into the liquid.");
 mes("It has produced an even fouler mixture.");
@@ -63,8 +63,8 @@ anim(human_herbing_vial, 0);
 sound_synth(grind, 0, 0);
 ~chatplayer("<p,happy>Excellent! This looks just right!");
 inv_del(inv, arcenia_root, 1);
-inv_del(inv, mixed_chemicals2, 1);
-inv_add(inv, chemical_compound, 1);
+inv_del(inv, postcharcoalmixture, 1);
+inv_add(inv, digcompound, 1);
 stat_advance(herblore, 25);
 
 [label,grind_charcoal]

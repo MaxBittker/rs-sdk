@@ -64,11 +64,11 @@ mes("You cut a branch from the Dramen tree.");
 if(%zanaris_progress = ^zanaris_spirit_defeated) { // probably for quest journal
     %zanaris_progress = ^zanaris_tree_chopped;
 }
-inv_add(inv, dramenbranch, 1);
+inv_add(inv, dramen_branch, 1);
 p_delay(1);
 anim(null, 0);
 
-[opheldu,dramenbranch]
+[opheldu,dramen_branch]
 if(last_useitem = knife) {
     @cut_dramenstaff;
 }
@@ -83,14 +83,14 @@ mes("You carve the branch into a staff.");
 if(%zanaris_progress = ^zanaris_tree_chopped) {
     %zanaris_progress = ^zanaris_staff_made;
 }
-inv_del(inv, dramenbranch, 1);
-inv_add(inv, dramenstaff, 1);
+inv_del(inv, dramen_branch, 1);
+inv_add(inv, dramen_staff, 1);
 
 [oploc1,loc_2406]
 def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
 ~open_and_close_door2(loc_1532, $entering, door_open);
 if($entering = false) {
-    if(inv_total(worn, dramenstaff) > 0 & map_members = true) {
+    if(inv_total(worn, dramen_staff) > 0 & map_members = true) {
         mes("The world starts to shimmer..."); // not sure what seq/spotanim would've been played here, just going to assume it was like a normal tele
         if(%zanaris_progress = ^zanaris_staff_made) {
             queue(zanaris_quest_complete, 0);

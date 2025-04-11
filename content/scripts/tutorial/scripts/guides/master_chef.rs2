@@ -33,14 +33,14 @@ switch_int(%tutorial_progress) {
 //    return;
 //}
 
-if (inv_total(inv, tutorial_pot_of_flour) < 1 & inv_total(inv, bucket_water) < 1) {
-    inv_add(inv, tutorial_pot_of_flour, 1);
+if (inv_total(inv, newbie_pot_flour) < 1 & inv_total(inv, bucket_water) < 1) {
+    inv_add(inv, newbie_pot_flour, 1);
     inv_add(inv, bucket_water, 1);
-    ~doubleobjbox(bucket_water, tutorial_pot_of_flour, "The Cooking Guide gives you a |@blu@Bucket of Water@bla@ |and a|@blu@Pot of Flour!", 200);
-} else if (inv_total(inv, tutorial_pot_of_flour) < 1 & inv_total(inv, bucket_water) > 0) {
-    inv_add(inv, tutorial_pot_of_flour, 1);
-    ~objbox(tutorial_pot_of_flour, "The Cooking Guide gives you a |@blu@Pot of Flour.", 250, 0, divide(^objbox_height, 2));
-} else if (inv_total(inv, bucket_water) < 1 & inv_total(inv, tutorial_pot_of_flour) > 0) {
+    ~doubleobjbox(bucket_water, newbie_pot_flour, "The Cooking Guide gives you a |@blu@Bucket of Water@bla@ |and a|@blu@Pot of Flour!", 200);
+} else if (inv_total(inv, newbie_pot_flour) < 1 & inv_total(inv, bucket_water) > 0) {
+    inv_add(inv, newbie_pot_flour, 1);
+    ~objbox(newbie_pot_flour, "The Cooking Guide gives you a |@blu@Pot of Flour.", 250, 0, divide(^objbox_height, 2));
+} else if (inv_total(inv, bucket_water) < 1 & inv_total(inv, newbie_pot_flour) > 0) {
     inv_add(inv, bucket_water, 1);
     ~objbox(bucket_water, "The Cooking Guide gives you a|@blu@Bucket of Water.", 250, 0, divide(^objbox_height, 2));
 }

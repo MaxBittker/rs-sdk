@@ -18,30 +18,30 @@ inv_transmit(trail_puzzleinv, trail_puzzle:com_4);
 if_openmain(trail_puzzle);
 
 [proc,init_trail_puzzle]
-inv_setslot(trail_puzzleinv, 0, obj_2749, 1);
-inv_setslot(trail_puzzleinv, 1, obj_2750, 1);
-inv_setslot(trail_puzzleinv, 2, obj_2751, 1);
-inv_setslot(trail_puzzleinv, 3, obj_2752, 1);
-inv_setslot(trail_puzzleinv, 4, obj_2753, 1);
-inv_setslot(trail_puzzleinv, 5, obj_2754, 1);
-inv_setslot(trail_puzzleinv, 6, obj_2755, 1);
-inv_setslot(trail_puzzleinv, 7, obj_2756, 1);
-inv_setslot(trail_puzzleinv, 8, obj_2757, 1);
-inv_setslot(trail_puzzleinv, 9, obj_2758, 1);
-inv_setslot(trail_puzzleinv, 10, obj_2759, 1);
-inv_setslot(trail_puzzleinv, 11, obj_2760, 1);
-inv_setslot(trail_puzzleinv, 12, obj_2761, 1);
-inv_setslot(trail_puzzleinv, 13, obj_2762, 1);
-inv_setslot(trail_puzzleinv, 14, obj_2763, 1);
-inv_setslot(trail_puzzleinv, 15, obj_2764, 1);
-inv_setslot(trail_puzzleinv, 16, obj_2765, 1);
-inv_setslot(trail_puzzleinv, 17, obj_2766, 1);
-inv_setslot(trail_puzzleinv, 18, obj_2767, 1);
-inv_setslot(trail_puzzleinv, 19, obj_2768, 1);
-inv_setslot(trail_puzzleinv, 20, obj_2769, 1);
-inv_setslot(trail_puzzleinv, 21, obj_2770, 1); 
-inv_setslot(trail_puzzleinv, 22, obj_2771, 1);
-inv_setslot(trail_puzzleinv, 23, obj_2772, 1);
+inv_setslot(trail_puzzleinv, 0, trail_slidingpuzzleb01, 1);
+inv_setslot(trail_puzzleinv, 1, trail_slidingpuzzleb02, 1);
+inv_setslot(trail_puzzleinv, 2, trail_slidingpuzzleb03, 1);
+inv_setslot(trail_puzzleinv, 3, trail_slidingpuzzleb04, 1);
+inv_setslot(trail_puzzleinv, 4, trail_slidingpuzzleb05, 1);
+inv_setslot(trail_puzzleinv, 5, trail_slidingpuzzleb06, 1);
+inv_setslot(trail_puzzleinv, 6, trail_slidingpuzzleb07, 1);
+inv_setslot(trail_puzzleinv, 7, trail_slidingpuzzleb08, 1);
+inv_setslot(trail_puzzleinv, 8, trail_slidingpuzzleb09, 1);
+inv_setslot(trail_puzzleinv, 9, trail_slidingpuzzleb10, 1);
+inv_setslot(trail_puzzleinv, 10, trail_slidingpuzzleb11, 1);
+inv_setslot(trail_puzzleinv, 11, trail_slidingpuzzleb12, 1);
+inv_setslot(trail_puzzleinv, 12, trail_slidingpuzzleb13, 1);
+inv_setslot(trail_puzzleinv, 13, trail_slidingpuzzleb14, 1);
+inv_setslot(trail_puzzleinv, 14, trail_slidingpuzzleb15, 1);
+inv_setslot(trail_puzzleinv, 15, trail_slidingpuzzleb16, 1);
+inv_setslot(trail_puzzleinv, 16, trail_slidingpuzzleb17, 1);
+inv_setslot(trail_puzzleinv, 17, trail_slidingpuzzleb18, 1);
+inv_setslot(trail_puzzleinv, 18, trail_slidingpuzzleb19, 1);
+inv_setslot(trail_puzzleinv, 19, trail_slidingpuzzleb20, 1);
+inv_setslot(trail_puzzleinv, 20, trail_slidingpuzzleb21, 1);
+inv_setslot(trail_puzzleinv, 21, trail_slidingpuzzleb22, 1); 
+inv_setslot(trail_puzzleinv, 22, trail_slidingpuzzleb23, 1);
+inv_setslot(trail_puzzleinv, 23, trail_slidingpuzzleb24, 1);
 
 ~shuffle_trail_puzzle;
 
@@ -121,30 +121,30 @@ if ($adj_slots > 0) {
 return ($down_slot);
 
 [proc,trail_puzzle_complete]()(boolean)
-if (inv_getobj(trail_puzzleinv, 0) = obj_2749 &
-        inv_getobj(trail_puzzleinv, 1) = obj_2750 &
-        inv_getobj(trail_puzzleinv, 2) = obj_2751 &
-        inv_getobj(trail_puzzleinv, 3) = obj_2752 &
-        inv_getobj(trail_puzzleinv, 4) = obj_2753 &
-        inv_getobj(trail_puzzleinv, 5) = obj_2754 &
-        inv_getobj(trail_puzzleinv, 6) = obj_2755 &
-        inv_getobj(trail_puzzleinv, 7) = obj_2756 &
-        inv_getobj(trail_puzzleinv, 8) = obj_2757 &
-        inv_getobj(trail_puzzleinv, 9) = obj_2758 &
-        inv_getobj(trail_puzzleinv, 10) = obj_2759 &
-        inv_getobj(trail_puzzleinv, 11) = obj_2760 &
-        inv_getobj(trail_puzzleinv, 12) = obj_2761 &
-        inv_getobj(trail_puzzleinv, 13) = obj_2762 &
-        inv_getobj(trail_puzzleinv, 14) = obj_2763 &
-        inv_getobj(trail_puzzleinv, 15) = obj_2764 &
-        inv_getobj(trail_puzzleinv, 16) = obj_2765 &
-        inv_getobj(trail_puzzleinv, 17) = obj_2766 &
-        inv_getobj(trail_puzzleinv, 18) = obj_2767 &
-        inv_getobj(trail_puzzleinv, 19) = obj_2768 &
-        inv_getobj(trail_puzzleinv, 20) = obj_2769 &
-        inv_getobj(trail_puzzleinv, 21) = obj_2770 &
-        inv_getobj(trail_puzzleinv, 22) = obj_2771 &
-        inv_getobj(trail_puzzleinv, 23) = obj_2772) {
+if (inv_getobj(trail_puzzleinv, 0) = trail_slidingpuzzleb01 &
+        inv_getobj(trail_puzzleinv, 1) = trail_slidingpuzzleb02 &
+        inv_getobj(trail_puzzleinv, 2) = trail_slidingpuzzleb03 &
+        inv_getobj(trail_puzzleinv, 3) = trail_slidingpuzzleb04 &
+        inv_getobj(trail_puzzleinv, 4) = trail_slidingpuzzleb05 &
+        inv_getobj(trail_puzzleinv, 5) = trail_slidingpuzzleb06 &
+        inv_getobj(trail_puzzleinv, 6) = trail_slidingpuzzleb07 &
+        inv_getobj(trail_puzzleinv, 7) = trail_slidingpuzzleb08 &
+        inv_getobj(trail_puzzleinv, 8) = trail_slidingpuzzleb09 &
+        inv_getobj(trail_puzzleinv, 9) = trail_slidingpuzzleb10 &
+        inv_getobj(trail_puzzleinv, 10) = trail_slidingpuzzleb11 &
+        inv_getobj(trail_puzzleinv, 11) = trail_slidingpuzzleb12 &
+        inv_getobj(trail_puzzleinv, 12) = trail_slidingpuzzleb13 &
+        inv_getobj(trail_puzzleinv, 13) = trail_slidingpuzzleb14 &
+        inv_getobj(trail_puzzleinv, 14) = trail_slidingpuzzleb15 &
+        inv_getobj(trail_puzzleinv, 15) = trail_slidingpuzzleb16 &
+        inv_getobj(trail_puzzleinv, 16) = trail_slidingpuzzleb17 &
+        inv_getobj(trail_puzzleinv, 17) = trail_slidingpuzzleb18 &
+        inv_getobj(trail_puzzleinv, 18) = trail_slidingpuzzleb19 &
+        inv_getobj(trail_puzzleinv, 19) = trail_slidingpuzzleb20 &
+        inv_getobj(trail_puzzleinv, 20) = trail_slidingpuzzleb21 &
+        inv_getobj(trail_puzzleinv, 21) = trail_slidingpuzzleb22 &
+        inv_getobj(trail_puzzleinv, 22) = trail_slidingpuzzleb23 &
+        inv_getobj(trail_puzzleinv, 23) = trail_slidingpuzzleb24) {
     return (true);
 }
 return (false);

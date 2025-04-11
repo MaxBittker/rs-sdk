@@ -1,4 +1,4 @@
 [queue,romeo_and_juliet_complete]
 %romeojuliet_progress = ^romeojuliet_complete;
 session_log(^log_adventure, "Quest complete: Romeo & Juliet");
-~send_quest_complete(questlist:romeojuliet, cadaver, 250, ^romeojuliet_questpoints, "You have completed the\\nRomeo & Juliet Quest!");
+~send_quest_complete(questlist:romeojuliet, cadava, 250, ^romeojuliet_questpoints, "You have completed the\\nRomeo & Juliet Quest!");

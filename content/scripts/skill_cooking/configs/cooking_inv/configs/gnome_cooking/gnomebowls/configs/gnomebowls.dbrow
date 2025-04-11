@@ -3,16 +3,16 @@ table=gnome_food_cooking
 data=gnome_food,unfinished_chocolate_bomb1
 data=gnome_food,unfinished_chocolate_bomb2
 data=gnome_food,unfinished_chocolate_bomb3
-data=step,unfinished_chocolate_bomb1,pot_of_cream,unfinished_chocolate_bomb2,odd_gnomebowl
-data=step,unfinished_chocolate_bomb2,pot_of_cream,unfinished_chocolate_bomb3,odd_gnomebowl
-data=step,unfinished_chocolate_bomb3,chocolate_dust,chocolate_bomb,odd_gnomebowl
+data=step,unfinished_chocolate_bomb1,pot_of_cream,unfinished_chocolate_bomb2,spoilt_gnomebowl
+data=step,unfinished_chocolate_bomb2,pot_of_cream,unfinished_chocolate_bomb3,spoilt_gnomebowl
+data=step,unfinished_chocolate_bomb3,chocolate_dust,chocolate_bomb,spoilt_gnomebowl
 
 [worm_hole]
 table=gnome_food_cooking
-data=gnome_food,unfinished_worm_hole1
-data=step,unfinished_worm_hole1,equa_leaves,worm_hole,odd_gnomebowl
+data=gnome_food,unfinished_worm_hole
+data=step,unfinished_worm_hole,equa_leaves,worm_hole,spoilt_gnomebowl
 
 [veg_ball]
 table=gnome_food_cooking
-data=gnome_food,unfinished_veg_ball1
-data=step,unfinished_veg_ball1,equa_leaves,veg_ball,odd_gnomebowl
+data=gnome_food,unfinished_veg_ball
+data=step,unfinished_veg_ball,equa_leaves,veg_ball,spoilt_gnomebowl

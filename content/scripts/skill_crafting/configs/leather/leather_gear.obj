@@ -55,7 +55,7 @@ param=stabdefence,2
 param=slashdefence,2
 param=crushdefence,1
 
-[dragonhide_vamb]
+[dragon_vambraces]
 cost=2500
 name=Dragon vambraces
 desc=Made from 100% real dragon hide.
@@ -302,7 +302,7 @@ param=magicdefence,4
 param=rangedefence,4
 
 
-[blue_dragonhide_vambraces]
+[blue_dragon_vambraces]
 cost=2500
 name=Dragon vambraces
 desc=Made from 100% real dragon hide.
@@ -332,7 +332,7 @@ param=slashdefence,3
 param=crushdefence,5
 param=magicdefence,4
 
-[red_dragonhide_vambraces]
+[red_dragon_vambraces]
 cost=2500
 name=Dragon vambraces
 desc=Made from 100% real dragon hide.
@@ -362,7 +362,7 @@ param=slashdefence,4
 param=crushdefence,6
 param=magicdefence,6
 
-[black_dragonhide_vambraces]
+[black_dragon_vambraces]
 cost=2500
 name=Dragon vambraces
 desc=Made from 100% real dragon hide.

@@ -1,4 +1,4 @@
-[tutorial_logs]
+[newbielogs]
 name=Logs
 desc=A number of wooden logs.
 cost=4
@@ -13,7 +13,7 @@ op4=Light
 weight=3lb
 tradeable=no
 
-[tutorial_raw_shrimps]
+[newbieraw_shrimp]
 name=Raw shrimps
 desc=I should try cooking this.
 model=model_2590_obj
@@ -27,7 +27,7 @@ recol2d=30319
 cost=5
 weight=120g
 
-[tutorial_pot_of_flour]
+[newbie_pot_flour]
 name=Pot of flour
 desc=There is flour in this pot.
 model=model_2406_obj
@@ -39,7 +39,7 @@ model=model_2406_obj
 cost=10
 weight=3lb
 
-[tutorial_bones]
+[newbiebones]
 name=Bones
 desc=Bones are for burying!
 model=model_2674_obj

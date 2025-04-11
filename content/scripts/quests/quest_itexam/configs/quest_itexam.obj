@@ -22,7 +22,7 @@ weight=2oz
 members=yes
 tradeable=no
 
-[rock_sample_1]
+[rock_sample1]
 model=model_2393_obj
 2dxof=8
 2dyof=-15
@@ -35,7 +35,7 @@ desc=A carefully kept safe rock sample.
 members=yes
 tradeable=no
 
-[rock_sample_2]
+[rock_sample2]
 model=model_2394_obj
 name=Rock sample 2
 desc=A carefully kept safe rock sample.
@@ -47,7 +47,7 @@ weight=3oz
 members=yes
 tradeable=no
 
-[rock_sample_3]
+[rock_sample3]
 model=model_2396_obj
 name=Rock sample 3
 desc=A carefully kept safe rock sample.
@@ -60,7 +60,7 @@ weight=3oz
 members=yes
 tradeable=no
 
-[cracked_rock_sample]
+[cracked_sample]
 model=model_2393_obj
 2dxof=8
 2dyof=-37
@@ -73,7 +73,7 @@ desc=A rough shaped piece of rock.
 members=yes
 tradeable=no
 
-[rock_pick]
+[rockpick]
 name=Rock pick
 desc=A small pick for cracking rock samples.
 model=model_2792_obj
@@ -99,7 +99,7 @@ weight=2oz
 members=yes
 tradeable=no
 
-[panning_tray_empty]
+[tray_empty]
 name=Panning tray
 desc=An empty tray for panning.
 model=model_2577_obj
@@ -112,7 +112,7 @@ members=yes
 iop2=Search
 tradeable=no
 
-[panning_tray_gold]
+[tray_gold]
 name=Panning tray
 desc=This tray contains gold.
 model=model_2513_obj
@@ -125,7 +125,7 @@ members=yes
 iop2=Search
 tradeable=no
 
-[panning_tray_mud]
+[tray_mud]
 name=Panning tray
 desc=This tray contains mud.
 model=model_2452_obj
@@ -151,7 +151,7 @@ members=yes
 stackable=yes
 tradeable=no
 
-[talisman_of_zaros]
+[digtalisman]
 name=Talisman of zaros
 desc=An unusual symbol of a lesser-known god.
 model=model_2449_obj
@@ -164,7 +164,7 @@ weight=3oz
 members=yes
 tradeable=no
 
-[unstamped_letter]
+[digplainletter]
 model=model_2600_obj
 name=Unstamped letter
 desc=A scroll waiting to be stamped.
@@ -177,7 +177,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[stamped_letter]
+[recommendedletter]
 model=model_2675_obj
 name=Stamped letter
 desc=A stamped scroll of recommendation.
@@ -190,7 +190,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[belt_buckle]
+[digsitebuckle]
 model=model_2516_obj
 name=Belt buckle
 desc=Used to hold up trousers!
@@ -217,7 +217,7 @@ weight=2oz
 members=yes
 tradeable=no
 
-[rusty_sword]
+[digsitesword]
 name=Rusty sword
 desc=A decent enough weapon gone rusty.
 model=model_2608_obj
@@ -229,7 +229,7 @@ weight=5lb
 members=yes
 tradeable=no
 
-[broken_arrow]
+[digsitearrow]
 name=Broken arrow
 desc=This must have been shot at high speed.
 model=model_2512_obj
@@ -242,7 +242,7 @@ weight=15g
 members=yes
 tradeable=no
 
-[buttons]
+[digsitebuttons]
 name=Buttons
 desc=Not Dick Whittingtons' helper at all!
 model=model_2549_obj
@@ -255,7 +255,7 @@ weight=1g
 members=yes
 tradeable=no
 
-[broken_staff]
+[digsitestaff]
 model=model_2459_obj
 name=Broken staff
 desc=I pity the poor person beaten with this!
@@ -268,7 +268,7 @@ weight=4lb
 members=yes
 tradeable=no
 
-[broken_glass]
+[digsiteglass]
 name=Broken glass
 desc=Watch those feet!
 model=model_2676_obj
@@ -281,7 +281,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[level_1_certificate]
+[level1certificate]
 model=model_2600_obj
 name=Level 1 certificate
 desc=The owner has passed earth sciences level 1 exam.
@@ -294,7 +294,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[level_2_certificate]
+[level2certificate]
 model=model_2600_obj
 name=Level 2 certificate
 desc=The owner has passed earth sciences level 2 exam.
@@ -307,7 +307,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[level_3_certificate]
+[level3certificate]
 model=model_2600_obj
 name=Level 3 certificate
 desc=The owner has passed earth sciences level 3 exam.
@@ -320,7 +320,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[ceramic_remains]
+[digsitepottery]
 name=Ceramic remains
 desc=Smashing!
 model=model_2493_obj
@@ -348,7 +348,7 @@ weight=1g
 members=yes
 tradeable=no
 
-[invitation_letter]
+[digexpertscroll]
 model=model_2600_obj
 name=Invitation letter
 desc=A letter inviting me to use the private digshafts.
@@ -362,7 +362,7 @@ iop2=Read
 weight=20g
 tradeable=no
 
-[damaged_armour]
+[digsitearmour1]
 name=Damaged armour
 desc=Beyond repair.
 model=model_loc_825_0
@@ -377,7 +377,7 @@ weight=17lb
 members=yes
 tradeable=no
 
-[broken_armour]
+[digsitearmour2]
 name=Broken armour
 desc=No use to me...
 model=model_loc_826_0
@@ -392,7 +392,7 @@ weight=17lb
 members=yes
 tradeable=no
 
-[stone_tablet]
+[zarosstonetablet]
 name=Stone tablet
 desc=An old stone slab with writing on it.
 model=model_2627_obj
@@ -405,7 +405,7 @@ iop2=Read
 weight=800g
 tradeable=no
 
-[chemical_powder]
+[unidentified_powder]
 name=Chemical powder
 desc=An acrid chemical.
 model=model_2742_obj
@@ -475,7 +475,7 @@ members=yes
 weight=8g
 tradeable=no
 
-[mixed_chemicals1]
+[precharcoalmixture]
 name=Mixed chemicals
 desc=A mixture of strong chemicals.
 model=model_2789_obj
@@ -489,7 +489,7 @@ weight=30g
 members=yes
 tradeable=no
 
-[mixed_chemicals2]
+[postcharcoalmixture]
 name=Mixed chemicals
 desc=A mixture of strong chemicals.
 model=model_2789_obj
@@ -503,7 +503,7 @@ weight=35g
 members=yes
 tradeable=no
 
-[chemical_compound]
+[digcompound]
 name=Chemical compound
 desc=A mixture of strong chemicals.
 model=model_2789_obj
@@ -530,7 +530,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[digsite_chest_key]
+[digchestkey]
 name=Chest key
 desc=This fits a chest.
 model=model_2372_obj
@@ -543,7 +543,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[digsite_vase]
+[digsitevase]
 name=Vase
 desc=A vessel for holding plants.
 model=model_2704_obj
@@ -557,7 +557,7 @@ weight=500g
 members=yes
 tradeable=no
 
-[book_on_chemicals]
+[digsitebook]
 name=Book on chemicals
 desc=It's about chemicals, judging from its' cover.
 model=model_2543_obj
@@ -591,5 +591,6 @@ weight=150g
 members=yes
 tradeable=no
 
+// rename: cert_display_tea
 [obj_713]
 tradeable=no

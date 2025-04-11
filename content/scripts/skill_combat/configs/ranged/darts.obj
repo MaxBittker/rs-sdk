@@ -402,7 +402,7 @@ param=proj_launch,rune_dart_launch
 param=proj_travel,rune_dart_travel
 param=poison_severity,20
 
-[poisoned_dart_p]
+[dart_poisoned_p]
 stackable=yes
 members=yes
 name=Poisoned dart(p)

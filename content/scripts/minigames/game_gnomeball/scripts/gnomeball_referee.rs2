@@ -1,23 +1,23 @@
 [label,trail_gnome_ball_ref]
-if(inv_total(inv, trail_clue_medium_challenge_exp006) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram008_challenge) > 0) {
     @trail_challengenpc_prompt("<p,neutral>Please enter the answer to the question.", "<p,happy>Well done!", "<p,angry>Wrong answer!",
-    "The ref has given you another clue scroll!", trail_clue_medium_anagram_exp008, trail_clue_medium_challenge_exp006);
+    "The ref has given you another clue scroll!", trail_clue_medium_anagram008, trail_clue_medium_anagram008_challenge);
 }
 ~chatnpc("<p,neutral>Right, you haven't finished quite yet.");
 ~chatplayer("<p,confused>Ugh.");
 ~chatnpc("<p,neutral>Answer this for me.");
-inv_add(inv, trail_clue_medium_challenge_exp006, 1);
-~objbox(trail_clue_medium_challenge_exp006, "The ref has given you a challenge scroll!", 250, 0, 0);
+inv_add(inv, trail_clue_medium_anagram008_challenge, 1);
+~objbox(trail_clue_medium_anagram008_challenge, "The ref has given you a challenge scroll!", 250, 0, 0);
 
 [opnpc1,gnome_ball_referee]
-if(inv_total(inv, trail_clue_medium_anagram_exp008) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram008) > 0) {
     @trail_gnome_ball_ref;
 }
 if (%gnomeball_progress = ^gnomeball_not_started) {
     @gnomeball_ref_first_start;
 }
 if (%gnomeball_progress = ^gnomeball_game_started) {
-    if (~gnomeball_inplay(npc_uid) = true | inv_getobj(worn, ^wearpos_rhand) = gnomeball) {
+    if (~gnomeball_inplay(npc_uid) = true | inv_getobj(worn, ^wearpos_rhand) = ball_gnomeball_game) {
         ~chatnpc("<p,neutral>You have a ball in play.|Do you need to hear the rules again?");
         @multi2("Yes please.", gnomeball_hear_rules, "No thanks.", gnomeball_no_hear_rules);
     } else {
@@ -39,12 +39,12 @@ if (%gnomeball_progress = ^gnomeball_game_started) {
 
 [proc,gnomeball_game_start]
 %gnomeball_progress = ^gnomeball_game_started;
-if (inv_getobj(worn, ^wearpos_rhand) = gnomeball) {
+if (inv_getobj(worn, ^wearpos_rhand) = ball_gnomeball_game) {
     ~chatnpc("<p,neutral>The ball you have in your hand is fine to play with...|Game on.");
     return;
-} else if (inv_total(inv, gnomeball) > 0) {
+} else if (inv_total(inv, ball_gnomeball_game) > 0) {
     ~chatnpc("<p,neutral>Ahh I see you have your own ball. We can't play with|that; I'll give it back when you leave.");
-    inv_del(inv, gnomeball, inv_total(inv, gnomeball));
+    inv_del(inv, ball_gnomeball_game, inv_total(inv, ball_gnomeball_game));
 }
 if_close;
 npc_say("Peeeeeeeeeep");
@@ -57,7 +57,7 @@ p_delay(0);
 mes("You jump up and catch it.");
 sound_synth(catch, 0, 0);
 p_delay(0);
-inv_setslot(worn, ^wearpos_rhand, gnomeball, 1);
+inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
 facesquare(npc_coord);
 ~update_all(inv_getobj(worn, ^wearpos_rhand));
 

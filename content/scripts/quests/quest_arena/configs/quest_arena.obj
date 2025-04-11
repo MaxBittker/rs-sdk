@@ -27,7 +27,7 @@ param=slashdefence,5
 param=crushdefence,3
 tradeable=no
 
-[khazard_armour]
+[khazard_platemail]
 members=yes
 name=Khazard armour
 desc=Armour, as worn by the minions of General Khazard.
@@ -54,7 +54,7 @@ param=slashdefence,11
 param=crushdefence,10
 tradeable=no
 
-[khazard_cell_keys]
+[khazard_cellkeys]
 members=yes
 name=Khazard cell keys
 desc=These keys open the cells at the Khazard fight arena.

@@ -1,5 +1,5 @@
 [opnpc1,sir_kay]
-if(inv_total(inv, trail_clue_easy_simple_exp026) = 1) {
+if(inv_total(inv, trail_clue_easy_simple026) = 1) {
     @trail_sir_kay;
 }
 ~chatnpc("<p,happy>Good morrow <text_gender("sirrah", "madam")>!");
@@ -37,4 +37,4 @@ switch_int(%arthur_progress) {
 [label,trail_sir_kay]
 // https://www.youtube.com/watch?v=zh2mAQzw6ow
 ~chatnpc("<p,happy>A valiant effort!");
-~progress_clue_easy(trail_clue_easy_simple_exp026, "Sir Kay has given you another clue scroll!");
+~progress_clue_easy(trail_clue_easy_simple026, "Sir Kay has given you another clue scroll!");

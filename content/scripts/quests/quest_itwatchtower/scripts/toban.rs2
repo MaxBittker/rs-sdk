@@ -9,11 +9,11 @@ if(%itwatchtower_progress >= ^itwatchtower_made_relic) {
             ~chatnpc("<p,shifty>Have you arrived for dinner?|Hahaha! Be gone, small thing!");
         case 2 :
             ~chatplayer("<p,sad>I can't find the relic part you gave me.");
-            if(inv_total(inv, relic_part_3) > 0) {
+            if(inv_total(inv, relicpart3) > 0) {
                 ~chatnpc("<p,angry>Small thing, you lie to me!|I always says that small things are big trouble.");
                 return;
             }
-            inv_add(inv, relic_part_3, 1);
+            inv_add(inv, relicpart3, 1);
             ~chatnpc("<p,bored>Small thing, how could you be so careless?|Here, take this one.");
     }
 } else if(testbit(%itwatchtower_bits, ^itwatchtower_spoken_toban) = true) {
@@ -37,11 +37,11 @@ if(last_useitem = dragon_bones) {
 ~chatnpc("<p,happy>Hahaha! Small thing returns.|Did you bring the dragon bone?");
 if(inv_total(inv, dragon_bones) > 0) {
     inv_del(inv, dragon_bones, 1);
-    inv_add(inv, relic_part_3, 1);
+    inv_add(inv, relicpart3, 1);
     %itwatchtower_bits = setbit(%itwatchtower_bits, ^itwatchtower_helped_toban);
     ~chatplayer("<p,happy>When I say I will get something, I get it!");
     ~chatnpc("<p,happy>Hahaha! Small thing has done it.|Toban is glad, take this...");
-    ~objbox(relic_part_3, "The ogre gives you part of a statue.", 250, 0, 0);
+    ~objbox(relicpart3, "The ogre gives you part of a statue.", 250, 0, 0);
     return;
 }
 ~chatplayer("<p,neutral>I don't have what you want.");

@@ -8,7 +8,7 @@ if(testbit(%excalibur_components_progress, ^blackcandle_index) = true) {
     ~chatplayer("<p,happy>Yes, I have some now.");
     ~mesbox("You exchange the wax with the candle maker for a black candle.");
     inv_del(inv, bucket_wax, 1);
-    inv_add(inv, black_candle, 1);
+    inv_add(inv, unlit_black_candle, 1);
     %excalibur_components_progress = togglebit(%excalibur_components_progress, ^blackcandle_index);
     return;
 }

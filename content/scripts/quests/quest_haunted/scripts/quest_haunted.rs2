@@ -39,9 +39,9 @@ if(last_useitem ! spade) {
 anim(human_dig, 0);
 mes("You dig through the compost heap.");
 p_delay(2);
-if(inv_total(inv, key_haunted) = 0 & %haunted_progress < ^haunted_complete) {
+if(inv_total(inv, closet_key) = 0 & %haunted_progress < ^haunted_complete) {
     mes("You find a small key.");
-    inv_add(inv, key_haunted, 1);
+    inv_add(inv, closet_key, 1);
     return;
 }
 mes("You find nothing of interest.");
@@ -51,7 +51,7 @@ mes("The door is locked.");
 sound_synth(locked, 0, 0);
 
 [oplocu,loc_131]
-if(last_useitem ! key_haunted) {
+if(last_useitem ! closet_key) {
     ~displaymessage(^dm_default);
     return;
 }
@@ -93,16 +93,16 @@ if(last_useitem = poison) @poison_fish_food;
 [label,poison_fish_food]
 inv_del(inv, fish_food, 1);
 inv_del(inv, poison, 1);
-inv_add(inv, poisoned_fish_good, 1);
+inv_add(inv, poisoned_fish_food, 1);
 mes("You poison the fish food.");
 
 [oplocu,loc_153]
-if(last_useitem ! poisoned_fish_good) { 
+if(last_useitem ! poisoned_fish_food) { 
     ~displaymessage(^dm_default);
     return;
 }
 anim(human_pickpocket, 0);
-inv_del(inv, poisoned_fish_good, 1);
+inv_del(inv, poisoned_fish_food, 1);
 mes("You pour the poisoned fish food into the fountain.");
 p_delay(1);
 mes("The piranhas start eating the food...");

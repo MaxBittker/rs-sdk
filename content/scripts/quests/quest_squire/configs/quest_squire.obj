@@ -1,4 +1,4 @@
-[portrait]
+[knights_portrait]
 name=Portrait
 desc=Picture of a posing Paladin.
 cost=3
@@ -9,7 +9,7 @@ model=model_2425_obj
 weight=3lb
 tradeable=no
 
-[blurite_sword]
+[faladian_sword]
 name=Blurite sword
 desc=A Faladian Knight's sword.
 cost=200

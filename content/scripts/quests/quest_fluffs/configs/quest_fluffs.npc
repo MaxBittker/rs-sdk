@@ -56,7 +56,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,kitten_greyblack
+param=pet_item_id,kittenobject
 param=cat_next_id,follower_cat_greyblack
 blockwalk=none
 
@@ -83,7 +83,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,kitten_white
+param=pet_item_id,kittenobject_light
 param=cat_next_id,follower_cat_white
 blockwalk=none
 
@@ -110,7 +110,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,kitten_brown
+param=pet_item_id,kittenobject_brown
 param=cat_next_id,follower_cat_brown
 blockwalk=none
 
@@ -137,7 +137,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,kitten_black
+param=pet_item_id,kittenobject_black
 param=cat_next_id,follower_cat_black
 blockwalk=none
 
@@ -162,7 +162,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,kitten_greybrown
+param=pet_item_id,kittenobject_browngrey
 param=cat_next_id,follower_cat_greybrown
 blockwalk=none
 
@@ -187,7 +187,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,kitten_greyblue
+param=pet_item_id,kittenobject_bluegrey
 param=cat_next_id,follower_cat_greyblue
 blockwalk=none
 
@@ -208,7 +208,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,cat_greyblack
+param=pet_item_id,growncatobject
 param=cat_next_id,follower_overgrown_greyblack
 blockwalk=none
 
@@ -235,7 +235,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,cat_white
+param=pet_item_id,growncatobject_light
 param=cat_next_id,follower_overgrown_white
 blockwalk=none
 
@@ -262,7 +262,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,cat_brown
+param=pet_item_id,growncatobject_brown
 param=cat_next_id,follower_overgrown_brown
 blockwalk=none
 
@@ -289,7 +289,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,cat_black
+param=pet_item_id,growncatobject_black
 param=cat_next_id,follower_overgrown_black
 blockwalk=none
 
@@ -314,7 +314,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,cat_greybrown
+param=pet_item_id,growncatobject_browngrey
 param=cat_next_id,follower_overgrown_greybrown
 blockwalk=none
 
@@ -339,7 +339,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,cat_greyblue
+param=pet_item_id,growncatobject_bluegrey
 param=cat_next_id,follower_overgrown_greyblue
 blockwalk=none
 
@@ -360,7 +360,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,overgrown_greyblack
+param=pet_item_id,overgrowncatobject
 blockwalk=none
 
 [follower_overgrown_white]
@@ -386,7 +386,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,overgrown_white
+param=pet_item_id,overgrowncatobject_light
 blockwalk=none
 
 [follower_overgrown_brown]
@@ -412,7 +412,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,overgrown_brown
+param=pet_item_id,overgrowncatobject_brown
 blockwalk=none
 
 [follower_overgrown_black]
@@ -438,7 +438,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,overgrown_black
+param=pet_item_id,overgrowncatobject_black
 blockwalk=none
 
 [follower_overgrown_greybrown]
@@ -462,7 +462,7 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,overgrown_greybrown
+param=pet_item_id,overgrowncatobject_browngrey
 blockwalk=none
 
 [follower_overgrown_greyblue]
@@ -486,5 +486,5 @@ model2=model_3006_obj
 param=death_anim,cat_death
 category=petcat
 timer=1
-param=pet_item_id,overgrown_greyblue
+param=pet_item_id,overgrowncatobject_bluegrey
 blockwalk=none

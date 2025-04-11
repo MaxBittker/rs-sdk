@@ -1,7 +1,7 @@
 [debugproc,setup_monks_friend]
 if_close;
 if (p_finduid(uid) = true) {
-  inv_add(inv, jug_of_water, 1);
+  inv_add(inv, jug_water, 1);
   inv_add(inv, logs, 1);
   ~player_teleport_normal(0_40_50_46_22);
 } else {

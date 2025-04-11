@@ -11,9 +11,9 @@ def_int $random = random(20);
 if ($random < 8) {
     obj_add(npc_coord, plainstaff, 1, ^lootdrop_duration);
 } else if ($random < 12) {
-    obj_add(npc_coord, zamorak_monk_bottom, 1, ^lootdrop_duration);
+    obj_add(npc_coord, zamrobebottom, 1, ^lootdrop_duration);
 } else if ($random < 15) {
-    obj_add(npc_coord, zamorak_monk_top, 1, ^lootdrop_duration);
+    obj_add(npc_coord, zamrobetop, 1, ^lootdrop_duration);
 } else if ($random < 16) {
     obj_add(npc_coord, staff_of_fire, 1, ^lootdrop_duration);
 } else if ($random < 20) {

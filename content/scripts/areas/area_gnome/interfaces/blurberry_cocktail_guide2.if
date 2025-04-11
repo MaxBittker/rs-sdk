@@ -88,7 +88,7 @@ center=yes
 font=q8
 text=Pineapple Punch
 
-[short_green_guy]
+[sgg]
 layer=cocktail_index_layer
 type=text
 x=0
@@ -220,7 +220,7 @@ center=yes
 font=q8
 text=Worm Crunchies
 
-[choc_chip_crunchies]
+[chocchip_crunchies]
 layer=gnome_food_index_layer
 type=text
 x=2

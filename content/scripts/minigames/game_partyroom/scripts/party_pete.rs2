@@ -1,8 +1,8 @@
 [opnpc1,party_pete]
 // clue scroll
-if(inv_total(inv, trail_clue_medium_anagram_exp010) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram010) > 0) {
     ~chatnpc("<p,happy>You've come to the right place!");
-    ~progress_clue_medium(trail_clue_medium_anagram_exp010, "Party Pete has given you another clue scroll!");
+    ~progress_clue_medium(trail_clue_medium_anagram010, "Party Pete has given you another clue scroll!");
     return;
 }
 

@@ -1,7 +1,7 @@
 // Source: https://www.youtube.com/watch?v=JrsT--Rr0Kk&t=94s
-[opheld1,arrav_book]
+[opheld1,the_shield_of_arrav]
 %book_page = 0;
-%open_book = arrav_book;
+%open_book = the_shield_of_arrav;
 @open_arrav_book;
 
 [label,open_arrav_book]

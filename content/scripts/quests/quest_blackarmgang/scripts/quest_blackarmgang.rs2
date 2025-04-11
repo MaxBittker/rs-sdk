@@ -3,13 +3,13 @@ if(%phoenixgang_progress ! 1) {
     mes("A large collection of books.");
     return;
 }
-if(inv_total(inv, arrav_book) > 0) {
+if(inv_total(inv, the_shield_of_arrav) > 0) {
     mes("You already own 'The Shield of Arrav', the book that was kept here.");
     return;
 }
 ~chatplayer("<p,happy>Aha! 'The Shield of Arrav'!|Exactly what I was looking for.");
 ~mesbox("You take the book from the bookcase.");
-inv_add(inv, arrav_book, 1);
+inv_add(inv, the_shield_of_arrav, 1);
 
 [oploc1,loc_2397]
 // 1 tile away from player
@@ -47,7 +47,7 @@ inv_add(inv, arravshield1, 1);
 
 [oploc1,loc_2398] @unlock_weaponstore_door(false);
 [oplocu,loc_2398]
-if(last_useitem = weapon_store_key) {
+if(last_useitem = phoenixkey2) {
     @unlock_weaponstore_door(true);
 } 
 ~displaymessage(^dm_default);
@@ -127,5 +127,5 @@ if(%phoenixgang_progress = ^phoenixgang_joined) {
     session_log(^log_adventure, "Quest complete: Shield of Arrav (Black Arm Gang)");
 }
 ~send_quest_complete(questlist:blackarmgang, coins, 250, ^blackarmgang_questpoints, "You have completed the\\nShield of Arrav Quest!");
-inv_del(inv, arravcert_scroll, 1);
+inv_del(inv, arravcertificate, 1);
 inv_add(inv, coins, 600);

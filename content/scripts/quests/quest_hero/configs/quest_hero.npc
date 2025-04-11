@@ -166,7 +166,7 @@ param=attack_anim,human_baxe_slash
 param=defend_anim,human_baxe_defend2
 param=attack_sound,baxe_slash
 // param=defend_sound,
-param=death_drop,grips_keyring
+param=death_drop,grip_keys
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4919
 

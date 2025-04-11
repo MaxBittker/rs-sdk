@@ -30,7 +30,7 @@ cost=56
 weight=4g
 category=category_530
 
-[Barb_bolttips]
+[barbed_bolttips]
 name=Barb bolttips
 desc=I can make bolts with these.
 model=model_2445_obj

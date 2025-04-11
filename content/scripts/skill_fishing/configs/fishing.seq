@@ -46,8 +46,8 @@ frame10=anim_1887
 frame11=anim_1594
 
 [human_largenet]
-righthand=net_big
-lefthand=net_big
+righthand=big_net
+lefthand=big_net
 stretches=yes
 priority=0
 replayoff=11

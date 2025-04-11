@@ -1,4 +1,4 @@
-[opheld1,tutorial_bones] @tut_bury_bones(last_slot);
+[opheld1,newbiebones] @tut_bury_bones(last_slot);
 
 [label,tut_bury_bones](int $slot)
 // if (getqueue(tut_finish_bury) > 0) {

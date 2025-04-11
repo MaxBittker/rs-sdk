@@ -1,6 +1,6 @@
 [opnpc1,falador_squire]
 // Treasure Trail
-if(inv_total(inv, trail_clue_easy_simple_exp017) = 1) {
+if(inv_total(inv, trail_clue_easy_simple017) = 1) {
     @trail_squire;
 } else if(%squire_progress = ^squire_not_started) {
     @squire_start;
@@ -14,4 +14,4 @@ if(inv_total(inv, trail_clue_easy_simple_exp017) = 1) {
 [label,trail_squire]
 // https://www.youtube.com/watch?v=8OoLv8-OsbY
 ~chatnpc("<p,neutral>OK, here you go.");
-~progress_clue_easy(trail_clue_easy_simple_exp017, "You've found another clue scroll!");
+~progress_clue_easy(trail_clue_easy_simple017, "You've found another clue scroll!");

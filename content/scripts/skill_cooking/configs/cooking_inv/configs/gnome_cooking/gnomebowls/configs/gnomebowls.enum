@@ -2,7 +2,7 @@
 inputtype=int
 outputtype=obj
 val=0,chocolate_bar
-val=1,toad_legs
+val=1,toads_legs
 val=2,king_worm
 val=3,potato
 val=4,onion

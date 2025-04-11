@@ -1,4 +1,4 @@
-[crandor_map_part1]
+[mappart1]
 name=Map part
 desc=An incomplete map piece.
 model=model_2686_obj
@@ -11,7 +11,7 @@ iop1=Study
 weight=5g
 tradeable=no
 
-[crandor_map_part2]
+[mappart2]
 name=Map part
 desc=An incomplete map piece.
 model=model_2689_obj
@@ -24,7 +24,7 @@ iop1=Study
 weight=5g
 tradeable=no
 
-[crandor_map_part3]
+[mappart3]
 name=Map part
 desc=An incomplete map piece.
 model=model_2692_obj
@@ -37,7 +37,7 @@ iop1=Study
 weight=5g
 tradeable=no
 
-[crandor_map]
+[dragonmap]
 name=Crandor map
 desc=A map to Crandor.
 model=model_2497_obj
@@ -63,7 +63,7 @@ stackable=yes
 weight=5g
 category=category_74
 
-[maze_key]
+[melzarkey]
 name=Maze key
 desc=A key to Melzars' Maze.
 cost=1
@@ -78,7 +78,7 @@ recol1d=15855
 weight=10g
 tradeable=no
 
-[maze_key_red]
+[redkey]
 name=Key
 desc=A red key.
 model=model_2372_obj
@@ -92,7 +92,7 @@ recol1d=30753
 weight=10g
 tradeable=no
 
-[maze_key_orange]
+[orangekey]
 name=Key
 desc=An orange key.
 model=model_2372_obj
@@ -106,7 +106,7 @@ recol1d=31201
 weight=10g
 tradeable=no
 
-[maze_key_yellow]
+[yellowkey]
 name=Key
 desc=A yellow key.
 model=model_2372_obj
@@ -120,7 +120,7 @@ recol1d=31649
 weight=10g
 tradeable=no
 
-[maze_key_blue]
+[bluekey]
 name=Key
 desc=A blue key.
 model=model_2372_obj
@@ -134,7 +134,7 @@ recol1d=31
 weight=10g
 tradeable=no
 
-[maze_key_magenta]
+[magentakey]
 name=Key
 desc=A magenta key.
 model=model_2372_obj
@@ -148,7 +148,7 @@ recol1d=30781
 weight=10g
 tradeable=no
 
-[maze_key_green]
+[greenkey]
 name=Key
 desc=A green key.
 model=model_2372_obj

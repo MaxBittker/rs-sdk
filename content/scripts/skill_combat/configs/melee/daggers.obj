@@ -582,7 +582,7 @@ param=stab_sound,stabsword_stab
 param=slash_sound,stabsword_slash
 param=poison_severity,20
 
-[poisoned_dagger]
+[poisoned_dagger_p]
 members=yes
 model=model_2478_obj
 name=Poisoned dagger(p)

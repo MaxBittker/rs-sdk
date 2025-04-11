@@ -31,7 +31,7 @@ data=members,true
 data=levelrequired,57
 data=name,a pair of green Dragonhide Vambraces
 data=leather,dragon_leather,1
-data=product,dragonhide_vamb
+data=product,dragon_vambraces
 data=productexp,620
 
 [craft_leather_chaps]
@@ -66,7 +66,7 @@ table=craft_leather_table
 data=members,false
 data=levelrequired,28
 data=name,a Hard Leather Body
-data=leather,hardleather,1
+data=leather,hard_leather,1
 data=product,hardleather_body
 data=productexp,350
 
@@ -103,7 +103,7 @@ data=members,true
 data=levelrequired,66
 data=name,a pair of blue Dragonhide Vambraces
 data=leather,dragon_leather_blue,1
-data=product,blue_dragonhide_vambraces
+data=product,blue_dragon_vambraces
 data=productexp,700
 
 [craft_dragonhide_vamb_red]
@@ -112,7 +112,7 @@ data=members,true
 data=levelrequired,73
 data=name,a pair of red Dragonhide Vambraces
 data=leather,dragon_leather_red,1
-data=product,red_dragonhide_vambraces
+data=product,red_dragon_vambraces
 data=productexp,780
 
 [craft_dragonhide_vamb_black]
@@ -121,7 +121,7 @@ data=members,true
 data=levelrequired,79
 data=name,a pair of black Dragonhide Vambraces
 data=leather,dragon_leather_black,1
-data=product,black_dragonhide_vambraces
+data=product,black_dragon_vambraces
 data=productexp,860
 
 [craft_dragonhide_chaps_blue]
@@ -182,22 +182,22 @@ data=productexp,2580
 table=dhide_interface_table
 data=color,Green
 data=leather,dragon_leather
-data=interface_items,dragonhide_body,dragonhide_vamb,dragonhide_chaps
+data=interface_items,dragonhide_body,dragon_vambraces,dragonhide_chaps
 
 [blue_dhide_interface_table]
 table=dhide_interface_table
 data=color,Blue
 data=leather,dragon_leather_blue
-data=interface_items,blue_dragonhide_body,blue_dragonhide_vambraces,blue_dragonhide_chaps
+data=interface_items,blue_dragonhide_body,blue_dragon_vambraces,blue_dragonhide_chaps
 
 [red_dhide_interface_table]
 table=dhide_interface_table
 data=color,Red
 data=leather,dragon_leather_red
-data=interface_items,red_dragonhide_body,red_dragonhide_vambraces,red_dragonhide_chaps
+data=interface_items,red_dragonhide_body,red_dragon_vambraces,red_dragonhide_chaps
 
 [black_dhide_interface_table]
 table=dhide_interface_table
 data=color,Black
 data=leather,dragon_leather_black
-data=interface_items,black_dragonhide_body,black_dragonhide_vambraces,black_dragonhide_chaps
+data=interface_items,black_dragonhide_body,black_dragon_vambraces,black_dragonhide_chaps

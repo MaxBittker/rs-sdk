@@ -10,7 +10,7 @@ switch_obj(last_useitem) {
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,flighted_ogre_arrow]
+[opheldu,ogre_headless_arrow]
 switch_obj(last_useitem) {
     case wolfbone_arrowheads : @make_ogre_arrows;
     case default : ~displaymessage(^dm_default);
@@ -32,7 +32,7 @@ if (stat(fletching) < 5) {
     return;
 }
 def_int $shaft_count = ~random_range(2, 6); // osrs
-inv_del(inv, achey_logs, 1);
+inv_del(inv, achey_tree_logs, 1);
 inv_add(inv, ogre_arrow_shaft, $shaft_count);
 
 mes("You carefully cut the wood into <tostring($shaft_count)> arrow shafts.");
@@ -84,7 +84,7 @@ def_int $feather_count = divide(min(inv_total(inv, feather), 24), 4);
 def_int $shaft_count = min(inv_total(inv, ogre_arrow_shaft), 6);
 def_int $arrow_count = min($feather_count, $shaft_count);
 
-if(inv_itemspace(inv, flighted_ogre_arrow, $arrow_count, inv_size(inv)) = false & (inv_total(inv, feather) > 4 | inv_total(inv, ogre_arrow_shaft) > 1)) {
+if(inv_itemspace(inv, ogre_headless_arrow, $arrow_count, inv_size(inv)) = false & (inv_total(inv, feather) > 4 | inv_total(inv, ogre_arrow_shaft) > 1)) {
     mes("You don't have enough inventory space to feather any shafts."); // OSRS
     return;
 }
@@ -97,7 +97,7 @@ if ($arrow_count > 1) {
 inv_del(inv, feather, multiply($arrow_count, 4));
 inv_del(inv, ogre_arrow_shaft, $arrow_count);
 
-inv_add(inv, flighted_ogre_arrow, $arrow_count);
+inv_add(inv, ogre_headless_arrow, $arrow_count);
 
 stat_advance(fletching, multiply($arrow_count, 15));
 
@@ -115,7 +115,7 @@ if (stat(fletching) < 5) {
     ~mesbox("You need a Fletching level of 5 to do that.");
     return;
 }
-def_int $headless_count = min(inv_total(inv, flighted_ogre_arrow), 6);
+def_int $headless_count = min(inv_total(inv, ogre_headless_arrow), 6);
 def_int $tip_count = min(inv_total(inv, wolfbone_arrowheads), 6);
 def_int $arrow_count = min($headless_count, $tip_count);
 
@@ -126,7 +126,7 @@ if ($arrow_count > 1) {
     mes("You make an ogre arrow.");
 }
 
-inv_del(inv, flighted_ogre_arrow, $arrow_count);
+inv_del(inv, ogre_headless_arrow, $arrow_count);
 inv_del(inv, wolfbone_arrowheads, $arrow_count);
 
 inv_add(inv, ogre_arrow, $arrow_count);

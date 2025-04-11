@@ -11,7 +11,7 @@ table=consume_table
 data=consumable,1dose1strength
 data=consumable,2dose1strength
 data=consumable,3dose1strength
-data=consumable,4dose1strength
+data=consumable,strength4
 data=stat_change,strength,3,10
 
 [defence_consumable_effect]
@@ -132,12 +132,12 @@ data=stat_heal,hitpoints,7,0
 
 [bad_wine_effect]
 table=consume_table
-data=consumable,jug_of_bad_wine
+data=consumable,jug_bad_wine
 data=stat_change,attack,-3,0
 
 [cabbage_draynor_effect]
 table=consume_table
-data=consumable,cabbage_draynor
+data=consumable,magic_cabbage
 data=stat_change,defence,1,2
 data=stat_heal,hitpoints,1,0
 data=consume_sound,eat
@@ -154,10 +154,10 @@ data=consume_sound,eat
 
 [restore_potion_effect]
 table=consume_table
-data=consumable,1dose1restore
-data=consumable,2dose1restore
-data=consumable,3dose1restore
-data=consumable,4dose1restore
+data=consumable,1dosestatrestore
+data=consumable,2dosestatrestore
+data=consumable,4dosestatrestore
+data=consumable,4dosestatrestore
 data=stat_heal,attack,10,30
 data=stat_heal,defence,10,30
 data=stat_heal,strength,10,30
@@ -216,8 +216,8 @@ data=stat_heal,hitpoints,5,0
 table=consume_table
 data=consumable,premade_wizard_blizzard
 data=consumable,wizard_blizzard
-data=consumable,premade_short_green_guy
-data=consumable,short_green_guy
+data=consumable,premade_sgg
+data=consumable,sgg
 data=stat_change,attack,-3,-2
 data=stat_change,strength,1,6
 data=stat_heal,hitpoints,5,0
@@ -233,10 +233,10 @@ data=stat_heal,hitpoints,9,0
 // really unsure if unfinished cocktails belong here
 [odd_cocktail_effect]
 table=consume_table
-data=consumable,odd_cocktail1
-data=consumable,odd_cocktail2
-data=consumable,odd_cocktail3
-data=consumable,odd_cocktail4
+data=consumable,spoilt_cocktail
+data=consumable,spoilt_cocktail_fruity
+data=consumable,spoilt_cocktail_creamy
+data=consumable,spoilt_cocktail_slice
 data=consumable,unfinished_wizard_blizzard1
 data=consumable,unfinished_wizard_blizzard2
 data=consumable,unfinished_blurberry_special1
@@ -247,8 +247,8 @@ data=consumable,unfinished_chocolate_saturday1
 data=consumable,unfinished_chocolate_saturday2
 data=consumable,unfinished_chocolate_saturday3
 data=consumable,unfinished_chocolate_saturday4
-data=consumable,unfinished_short_green_guy1
-data=consumable,unfinished_short_green_guy2
+data=consumable,unfinished_sgg1
+data=consumable,unfinished_sgg2
 data=consumable,unfinished_drunk_dragon1
 data=consumable,unfinished_drunk_dragon2
 data=consumable,unfinished_drunk_dragon3
@@ -272,9 +272,9 @@ data=stat_heal,hitpoints,3,0
 
 [odd_gnomefood_effect]
 table=consume_table
-data=consumable,odd_gnomebowl
-data=consumable,odd_batta
-data=consumable,odd_crunchies
+data=consumable,spoilt_gnomebowl
+data=consumable,spoilt_batta
+data=consumable,spoilt_crunchies
 data=stat_change,attack,-3,0
 data=stat_change,strength,-3,0
 data=stat_change,defence,-1,0

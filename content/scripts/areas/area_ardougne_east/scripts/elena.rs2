@@ -34,14 +34,14 @@ switch_int(%biohazard_progress) { // ^biohazard_used_birdfeed intentionally has 
                 if(inv_total(inv, liquid_honey) = 0) {
                     inv_add(inv, liquid_honey, 1);
                 }
-                if(inv_total(inv, Ethenea) = 0) {
-                    inv_add(inv, Ethenea, 1);
+                if(inv_total(inv, ethenea) = 0) {
+                    inv_add(inv, ethenea, 1);
                 }
                 if(inv_total(inv, sulphuric_broline) = 0) {
                     inv_add(inv, sulphuric_broline, 1);
                 }
-                if(inv_total(inv, plague_sample) = 0) {
-                    inv_add(inv, plague_sample, 1);
+                if(inv_total(inv, plaguesample) = 0) {
+                    inv_add(inv, plaguesample, 1);
                 }
                 mes("Elena replaces your items.");
                 ~chatnpc("<p,neutral>Ok, so that's your colourless Ethenea...|Some highly toxic sulphuric broline...|And some bog-standard liquid honey...");
@@ -78,13 +78,13 @@ switch_int(%biohazard_progress) { // ^biohazard_used_birdfeed intentionally has 
             inv_add(inv, liquid_honey, 1);
         }
         if(inv_freespace(inv) > 1) {
-            inv_add(inv, Ethenea, 1);
+            inv_add(inv, ethenea, 1);
         }
         if(inv_freespace(inv) > 1) {
             inv_add(inv, sulphuric_broline, 1);
         }
         if(inv_freespace(inv) > 1) {
-            inv_add(inv, plague_sample, 1);
+            inv_add(inv, plaguesample, 1);
         }
         mes("Elena gives you three vials and a sample in a tin container.");
         p_delay(2);

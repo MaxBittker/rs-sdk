@@ -1,7 +1,7 @@
-[opobj4,tutorial_logs]
+[opobj4,newbielogs]
     @tut_light_logs_ground;
 
-[opobju,tutorial_logs]
+[opobju,newbielogs]
     @tut_light_logs_ground;
 
 [label,tut_light_logs_ground]

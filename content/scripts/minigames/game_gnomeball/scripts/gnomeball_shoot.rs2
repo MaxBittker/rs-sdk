@@ -14,7 +14,7 @@ if (~inzone_coord_pair_table(gnomeball_zones, coord) = false) {
     mes("You may only score while on the pitch.");
     return;
 }
-if (inv_getobj(worn, ^wearpos_rhand) ! gnomeball) {
+if (inv_getobj(worn, ^wearpos_rhand) ! ball_gnomeball_game) {
     mes("You need a ball in your hand to throw.");
     return;
 }
@@ -40,14 +40,14 @@ def_coord $land_coord = ~gnomeball_shoot_random(loc_coord);
 def_int $duration = ~coord_projectile(coord, $land_coord, spotanim_55, 40, 2, 41, 15, 0, 11, 5);
 
 inv_delslot(worn, ^wearpos_rhand);
-~update_all(gnomeball);
+~update_all(ball_gnomeball_game);
 p_delay(divide($duration, 30));
 if ($land_coord = loc_coord) {
     mes("and score!"); // aug 2004, https://youtu.be/LWfcA_C2bJY?si=1xvGzgrQ53VgBsAx&t=50
     %gnomeball = min(add(max(%gnomeball, 0), 1), 5);
     if (%gnomeball = 5) {
         mes("You win!");
-        inv_add(foodshop, gnomeball, 1);
+        inv_add(foodshop, ball_gnomeball_game, 1);
         %gnomeball = 0;
         stat_advance(ranged, 300);
         stat_advance(agility, 300);

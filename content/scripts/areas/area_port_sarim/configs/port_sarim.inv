@@ -14,7 +14,7 @@ stock4=harpoon,2,400
 stock5=lobster_pot,2,400
 stock6=fishing_bait,1500,1
 stock7=feather,1000,1
-stock8=raw_shrimps,0,300
+stock8=raw_shrimp,0,300
 stock9=raw_sardine,200,1
 stock10=raw_herring,0,900
 stock11=raw_anchovies,0,1200
@@ -43,11 +43,11 @@ stock7=sapphire_necklace,0,2000
 stock8=emerald_necklace,0,2000
 stock9=ruby_necklace,0,3000
 stock10=diamond_necklace,0,3000
-stock11=gold_amulet,0,1000
-stock12=sapphire_amulet,0,2000
-stock13=emerald_amulet,0,3000
-stock14=ruby_amulet,0,4000
-stock15=diamond_amulet,0,5000
+stock11=strung_gold_amulet,0,1000
+stock12=strung_sapphire_amulet,0,2000
+stock13=strung_emerald_amulet,0,3000
+stock14=strung_ruby_amulet,0,4000
+stock15=strung_diamond_amulet,0,5000
 
 [magicshop]
 // https://web.archive.org/web/20111216182350im_/http://www.runehq.com/images/cityguides/sarimrunes.jpg
@@ -65,8 +65,8 @@ stock6=bodyrune,1000,10
 stock7=chaosrune,500,100
 stock8=deathrune,500,150
 stock9=eye_of_newt,300,10
-stock10=wizards_hat_blue,1,100
-stock11=wizards_hat_black,1,100
+stock10=bluewizhat,1,100
+stock11=blackwizhat,1,100
 
 [battleaxeshop]
 // https://classic.runescape.wiki/w/Brian%27s_Great_Axes
@@ -91,7 +91,7 @@ size=40
 restock=yes
 stackall=yes
 allstock=no
-stock1=pot_of_flour,3,100
+stock1=pot_flour,3,100
 stock2=raw_beef,1,100
 stock3=raw_chicken,1,100
 stock4=cabbage,3,100

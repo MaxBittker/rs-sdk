@@ -1,6 +1,6 @@
-[opheld1,elena_teleport_scroll]
+[opheld1,ardougnescroll]
 if(%elena_progress ! ^elena_complete) {
-    inv_del(inv, elena_teleport_scroll, 1);
+    inv_del(inv, ardougnescroll, 1);
     spotanim_pl(firewave_impact, 124, 0);
     sound_synth(fire_lit, 0, 0);
     ~damage_self(0);
@@ -8,8 +8,8 @@ if(%elena_progress ! ^elena_complete) {
     return;
 }
 // https://youtu.be/lw1AzW2OoT0?si=JAeu3X1AvUCdTpgq&t=1020 (linebreak from rsc)
-~objbox(elena_teleport_scroll, "You memorise what is written on the scroll.", 250, 0, 0);
+~objbox(ardougnescroll, "You memorise what is written on the scroll.", 250, 0, 0);
 %elena_progress = ^elena_complete_read_scroll;
 // sound wom_bless
-inv_del(inv, elena_teleport_scroll, 1);
+inv_del(inv, ardougnescroll, 1);
 ~mesbox("You can now cast the Ardougne Teleport spell|provided you have the required runes and magic level.");

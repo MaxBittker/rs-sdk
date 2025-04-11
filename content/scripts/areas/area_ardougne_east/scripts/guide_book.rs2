@@ -1,7 +1,7 @@
 // Source: https://www.youtube.com/watch?v=JrsT--Rr0Kk&t=94s
-[opheld1,guide_book]
+[opheld1,ardougne_book]
 %book_page = 0;
-%open_book = guide_book;
+%open_book = ardougne_book;
 @open_guide_ardougne;
 
 [label,open_guide_ardougne]

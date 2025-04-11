@@ -23,24 +23,24 @@ switch_int ($random) {
         inv_add(inv, coins, add(random(10), 1));
         ~objbox(coins, "You've found some spare coins!", 250, 0, 0);
     case 4 :
-        inv_add(inv, broken_arrow, 1);
-        ~objbox(broken_arrow, "You've found a broken arrow.", 250, ^objbox_width, 0); // guess
+        inv_add(inv, digsitearrow, 1);
+        ~objbox(digsitearrow, "You've found a broken arrow.", 250, ^objbox_width, 0); // guess
     case 5 :
-        inv_add(inv, broken_staff,  1);
-        ~objbox(broken_staff, "You've found a broken staff.", 250, 0, 0); // guess
+        inv_add(inv, digsitestaff,  1);
+        ~objbox(digsitestaff, "You've found a broken staff.", 250, 0, 0); // guess
     case 6 :
-        inv_add(inv, rusty_sword,  1);
-        ~objbox(rusty_sword, "You've found a rusty sword.", 250, 0, 0); // guess
+        inv_add(inv, digsitesword,  1);
+        ~objbox(digsitesword, "You've found a rusty sword.", 250, 0, 0); // guess
     case 7 :
-        inv_add(inv, damaged_armour, 1);
-        ~objbox(damaged_armour, "You've found some damaged armour.", 250, 0, 0);
+        inv_add(inv, digsitearmour1, 1);
+        ~objbox(digsitearmour1, "You've found some damaged armour.", 250, 0, 0);
     case 8 :
-        inv_add(inv, broken_glass, 1);
-        ~objbox(broken_glass, "You've found some broken glass.", 250, 0, 0);
+        inv_add(inv, digsiteglass, 1);
+        ~objbox(digsiteglass, "You've found some broken glass.", 250, 0, 0);
     case 9 :
         inv_add(inv, old_boot, 1);
         ~objbox(old_boot, "You've found an old boot.", 250, 0, divide(^objbox_height, 2));
     case 10 :
-        inv_add(inv, buttons, 1);
-        ~objbox(buttons, "You've found some buttons.", 250, 0, 0);
+        inv_add(inv, digsitebuttons, 1);
+        ~objbox(digsitebuttons, "You've found some buttons.", 250, 0, 0);
 }

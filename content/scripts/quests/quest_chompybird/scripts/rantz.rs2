@@ -178,8 +178,8 @@ switch_obj(last_useitem) {
 
         ~chatnpc("<p,neutral>Erk! You's creature can cook da chompy on da spit! Rantz not do it for you!");
 
-    case seasoned_chompy :
-        ~objbox(seasoned_chompy, "You show the seasoned chompy to Rantz.", 250, 0, divide(^objbox_height, 2));
+    case cooked_s_chompy :
+        ~objbox(cooked_s_chompy, "You show the seasoned chompy to Rantz.", 250, 0, divide(^objbox_height, 2));
         if (%chompybird_progress = ^chompybird_chompy_cooked) {
             @hand_chompy_to_rantz;
             return;
@@ -325,17 +325,17 @@ queue(cr_queue, 0);
 
 [label,hand_chompy_to_rantz]
 ~chatnpc("<p,angry>Hey creature, did you's get da cooked chompy yet?|I smelled something cooking and it mades me 'ungry.|Hand over da chompy if ya know what's good for ya.");
-if (inv_total(inv, seasoned_chompy) < 1) {
+if (inv_total(inv, cooked_s_chompy) < 1) {
     ~chatplayer("<p,neutral>Well, erm, I don't have one at the moment.");
     ~chatnpc("<p,angry>Well, 'urry up... else you's creature is looking tasty to me soon!");
     return;
 }
 ~chatplayer("<p,angry>Yes, here you go, here's your cooked chompy bird.");
-~objbox(seasoned_chompy, "You hand over the cooked chompy bird to Rantz.", 250, 0, divide(^objbox_height, 2));
+~objbox(cooked_s_chompy, "You hand over the cooked chompy bird to Rantz.", 250, 0, divide(^objbox_height, 2));
 ~chatnpc("<p,happy>Hey hey! We got da delicious chompy bird - yay!|This looks really tasty as well!");
 ~chatnpc("<p,happy>Tank's very much for da chompy...|Fycie an Bugs like very much da chompy yumms!|@blu@~ The family of ogres sit down together ~|@blu@~ and enjoy your well cooked chompy bird ~");
 ~chatplayer("<p,laugh>It's my pleasure!");
-inv_del(inv, seasoned_chompy, 1);
+inv_del(inv, cooked_s_chompy, 1);
 queue(quest_chompybird_complete, 0);
 
 // look for any chompy birds to shoot

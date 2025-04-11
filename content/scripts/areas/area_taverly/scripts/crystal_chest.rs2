@@ -52,9 +52,9 @@ if ($random < 34) {
 } else if ($random < 80) {
     inv_add(inv, coins, 750);
     if (random(2) = 0) {
-        inv_add(inv, half_key1, 1);
+        inv_add(inv, keyhalf1, 1);
     } else {
-        inv_add(inv, half_key2, 1);
+        inv_add(inv, keyhalf2, 1);
     }
 } else if ($random < 90) {
     inv_add(inv, cert_iron_ore, 150);

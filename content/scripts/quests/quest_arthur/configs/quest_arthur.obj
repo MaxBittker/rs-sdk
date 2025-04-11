@@ -59,7 +59,7 @@ param=slash_sound,hacksword_slash
 param=stab_sound,hacksword_stab
 tradeable=no
 
-[candle]
+[unlit_candle]
 name=Candle
 desc=A candle.
 members=yes
@@ -73,7 +73,7 @@ weight=1oz
 category=light_source_unlit
 param=product,lit_candle
 
-[black_candle]
+[unlit_black_candle]
 name=Black candle
 desc=A spooky candle.
 members=yes

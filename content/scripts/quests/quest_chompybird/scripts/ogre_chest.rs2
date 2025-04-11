@@ -41,5 +41,5 @@ if (inv_freespace(inv) = 0) {
     mes("You find some ogre bellows in the chest but do not have the space to take them."); // RS3
     return;
 }
-inv_add(inv, ogre_bellows_0, 1);
-~objbox(ogre_bellows_0, "You search the chest and find a pair of ogre bellows.", 250, 0, divide(^objbox_height, 2));
+inv_add(inv, empty_ogre_bellows, 1);
+~objbox(empty_ogre_bellows, "You search the chest and find a pair of ogre bellows.", 250, 0, divide(^objbox_height, 2));

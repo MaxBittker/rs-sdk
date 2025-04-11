@@ -19,7 +19,7 @@ switch_int(%zombiequeen_progress) {
         mes("Mosol leaves you by the gate and walks back out into the jungle.");
     case default : @mosol_belt;
     case ^zombiequeen_not_started :
-        if(~obj_gettotal(wampum_belt) > 0) {
+        if(~obj_gettotal(mosol_wampum_belt) > 0) {
             @mosol_belt;
         }
         ~mesbox("Mosol seems to be looking around very cautiously. He jumps a little when you approach and talk to him.");
@@ -88,7 +88,7 @@ switch_int(~p_choice2("Yes, of course!", 1, "Not yet, I've been busy.", 2)) {
 
 [label,mosol_shaman]
 ~chatplayer("<p,neutral>I'll go to see the Shaman.");
-if(~obj_gettotal(wampum_belt) > 0 | %zombiequeen_progress > ^zombiequeen_started) {
+if(~obj_gettotal(mosol_wampum_belt) > 0 | %zombiequeen_progress > ^zombiequeen_started) {
     ~chatnpc("<p,neutral>Well, if you go to see the Shaman, please give him that Wampum belt I gave to you, it will give him more details about our situation down here.");
 } else {
     ~chatnpc("<p,neutral>Well, that would be helpful Bwana. If you're sure you want to go, you can take a Wampum belt to him for me. It will give the Shaman, Trufitus the story of our problems down here. Are you sure you want to go?");
@@ -97,13 +97,13 @@ if(~obj_gettotal(wampum_belt) > 0 | %zombiequeen_progress > ^zombiequeen_started
 
 [label,mosol_wampumbelt]
 ~chatplayer("<p,neutral>Yes, I'm sure and I'll take the Wampum belt to Trufitus.");
-if(~obj_gettotal(wampum_belt) > 0 | %zombiequeen_progress > ^zombiequeen_started) {
+if(~obj_gettotal(mosol_wampum_belt) > 0 | %zombiequeen_progress > ^zombiequeen_started) {
     ~chatnpc("<p,neutral>That's great Bwana, if you give Trufitus the Wampum belt I gave you, it will give him more details of our current situation.");
     return;
 }
 ~chatnpc("<p,neutral>I would be very grateful if you did. Here take this...");
-inv_add(inv, wampum_belt, 1);
-~objbox(wampum_belt, "Mosol gives you a Wampum belt.", 250, 0, divide(^objbox_height, 2));
+inv_add(inv, mosol_wampum_belt, 1);
+~objbox(mosol_wampum_belt, "Mosol gives you a Wampum belt.", 250, 0, divide(^objbox_height, 2));
 ~chatnpc("<p,neutral>Please can you give it to Trufitus. He may be able to give you extra details on the legend surrounding Rashiliyia. Good luck!");
 
 [label,mosol_secondthoughts]

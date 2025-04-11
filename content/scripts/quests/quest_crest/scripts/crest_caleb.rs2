@@ -67,7 +67,7 @@ if (inv_total(inv, swordfish) >= 1 &
     inv_total(inv, bass) >= 1 & 
     inv_total(inv, tuna) >= 1 &
     inv_total(inv, salmon) >= 1 &
-    inv_total(inv, shrimps) >= 1) {
+    inv_total(inv, shrimp) >= 1) {
         ~chatplayer("<p,neutral>Got them all with me.");
         ~mesbox("You exchange the fish for Caleb's piece of the crest.");
         %crest_progress = ^crest_caleb_piece;
@@ -75,8 +75,8 @@ if (inv_total(inv, swordfish) >= 1 &
         inv_del(inv, bass, 1);
         inv_del(inv, tuna, 1);
         inv_del(inv, salmon, 1);
-        inv_del(inv, shrimps, 1);
-        inv_add(inv, crest_part_1, 1);
+        inv_del(inv, shrimp, 1);
+        inv_add(inv, avan_crest, 1);
         @multi2("Uh... what happened to the rest of it?", crest_caleb_rest, "Thank you very much!", crest_caleb_thanks);
     }
 else {
@@ -107,7 +107,7 @@ if (inv_total(inv, family_crest) >= 1) {
     ~chatplayer("<p,neutral>I've got it right here!");
     ~chatnpc("<p,neutral>Excellent work! Please take it to my father immediately.");
 }
-else if (inv_total(inv, crest_part_1) = 0 & inv_total(bank, crest_part_1) = 0) {
+else if (inv_total(inv, avan_crest) = 0 & inv_total(bank, avan_crest) = 0) {
     @multi2("I am still working on it.", crest_caleb_working, "I have lost the piece you gave me.", crest_caleb_lost);
 }
 else {
@@ -122,7 +122,7 @@ else {
 ~chatplayer("<p,neutral>I have lost the fragment you gave me...");
 ~chatnpc("<p,confused>I have some good news for you then. One of my customers found this on their travels and recognised it as mine and returned it to me here.");
 ~mesbox("Caleb hands over his crest piece again.");
-inv_add(inv, crest_part_1, 1);
+inv_add(inv, avan_crest, 1);
 ~chatnpc("<p,neutral>I suggest you be less careless in the future. The crest is extremely valuable, and utterly irreplaceable.");
 
 [label,crest_caleb_nothing]

@@ -8,7 +8,7 @@ if(%upass_progress < ^upass_complete) {
 }
 ~chatplayer("<p,neutral>I just wondered what you're doing?");
 ~chatnpc("<p,neutral>I experiment with dark magic. It's a dangerous craft.");
-if(inv_total(inv, broken_iban_staff) > 0) {
+if(inv_total(inv, brokenibanstaff) > 0) {
     ~chatplayer("<p,neutral>Could you fix this staff?");
     ~chatnpc("<p,shock>Almighty Zamorak! The Staff of Iban!");
     ~chatplayer("<p,neutral>Can you fix it?");
@@ -23,11 +23,11 @@ if(inv_total(inv, broken_iban_staff) > 0) {
             }
             if_close;
             inv_del(inv, coins, 200000);
-            inv_del(inv, broken_iban_staff, 1);
+            inv_del(inv, brokenibanstaff, 1);
             mes("You give the mage 200,000 coins and the staff.");
             p_delay(2); // 3t
-            inv_add(inv, iban_staff, 1);
-            ~objbox(iban_staff, "The mage fixes the staff and returns it to you.", 250, 0, divide(^objbox_height, 2));
+            inv_add(inv, ibanstaff, 1);
+            ~objbox(ibanstaff, "The mage fixes the staff and returns it to you.", 250, 0, divide(^objbox_height, 2));
             ~chatplayer("<p,happy>Thanks. I appreciate that.");
             ~chatnpc("<p,neutral>You be careful with that thing!");
         case 2 :

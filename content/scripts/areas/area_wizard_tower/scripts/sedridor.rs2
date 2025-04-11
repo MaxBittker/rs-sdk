@@ -43,7 +43,7 @@ if(%runemysteries_progress = ^runemysteries_not_started) {
 
 [opnpcu,sedridor]
 // no air talisman interaction i'm assuming since osrs dialogue is streamlined here (it starts from beginning in osrs)
-if(last_useitem = notes & %runemysteries_progress = ^runemysteries_received_notes) @sedridor_notes;
+if(last_useitem = research_notes & %runemysteries_progress = ^runemysteries_received_notes) @sedridor_notes;
 ~displaymessage(^dm_default);
 
 [label,rune_mysteries]
@@ -138,12 +138,12 @@ if ($option = 1) {
 ~chatnpc("<p,neutral>Ah, <displayname()>. How goes your quest? Have you delivered the research notes to my friend Aubury yet?");
 ~chatplayer("<p,neutral>Yes, I have. He gave me some research notes to pass on to you.");
 ~chatnpc("<p,neutral>May I have his notes then?");
-if(~obj_gettotal(notes) = 0) {
+if(~obj_gettotal(research_notes) = 0) {
     ~chatplayer("<p,neutral>Uh... I kind of... lost them...");
     ~chatnpc("<p,neutral>You did? You are extremely careless aren't you? I suggest you go and speak to Aubury once more, with luck he will have made copies of his research.");
     return;
 }
-if(inv_total(inv, notes) = 0) {
+if(inv_total(inv, research_notes) = 0) {
     ~chatplayer("<p,neutral>Sure, I'll go and get them from the bank.");
     return;
 }
@@ -172,6 +172,6 @@ if(inv_total(inv, notes) = 0) {
 ~chatnpc("<p,neutral>No... there are others... whom I will tell of your|authorisation to visit that place. When you speak|to them, they will know you, and grant you|access to that place when asked.");
 ~chatnpc("<p,neutral>Use the Air Talisman to locate the air temple,|and use any further talismans you find to locate|the other missing elemental temples.|Now... my research notes please?");
 ~mesbox("You hand the head wizard the research notes.|He hands you back the Air Talisman.");
-inv_del(inv, notes, 1);
+inv_del(inv, research_notes, 1);
 inv_add(inv, air_talisman, 1);
 queue(rune_mysteries_complete, 0);

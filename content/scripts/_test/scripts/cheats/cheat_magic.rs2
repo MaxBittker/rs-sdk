@@ -40,10 +40,10 @@ if (p_finduid(uid) = true) {
     inv_add(bank, lawrune, 10000);
     inv_add(bank, bloodrune, 10000);
     inv_add(bank, soulrune, 10000);
-    inv_add(bank, saradominstaff, 10000);
-    inv_add(bank, zamorakstaff, 10000);
-    inv_add(bank, guthixstaff, 10000);
-    inv_add(bank, iban_staff, 10000);
+    inv_add(bank, saradomin_staff, 10000);
+    inv_add(bank, zamorak_staff, 10000);
+    inv_add(bank, guthix_staff, 10000);
+    inv_add(bank, ibanstaff, 10000);
     inv_add(bank, staff_of_air, 10000);
     inv_add(bank, staff_of_water, 10000);
     inv_add(bank, staff_of_earth, 10000);
@@ -53,15 +53,15 @@ if (p_finduid(uid) = true) {
     inv_add(bank, earth_battlestaff, 10000);
     inv_add(bank, fire_battlestaff, 10000);
     inv_add(bank, stafforb, 10000);
-    inv_add(bank, sapphire_amulet, 10000);
+    inv_add(bank, strung_sapphire_amulet, 10000);
     inv_add(bank, sapphire_ring, 10000);
-    inv_add(bank, emerald_amulet, 10000);
+    inv_add(bank, strung_emerald_amulet, 10000);
     inv_add(bank, emerald_ring, 10000);
-    inv_add(bank, ruby_amulet, 10000);
+    inv_add(bank, strung_ruby_amulet, 10000);
     inv_add(bank, ruby_ring, 10000);
-    inv_add(bank, diamond_amulet, 10000);
+    inv_add(bank, strung_diamond_amulet, 10000);
     inv_add(bank, diamond_ring, 10000);
-    inv_add(bank, dragonstone_amulet, 10000);
+    inv_add(bank, strung_dragonstone_amulet, 10000);
     inv_add(bank, dragonstone_ring, 10000);
     // add ores for superheating
     inv_add(bank, tin_ore, 10000);

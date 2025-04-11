@@ -42,7 +42,7 @@ if ($option = 1) {
         if_close();
         p_delay(2);
         mes("Captain Rovin hands you a key.");
-        inv_add(inv, demon_rovin_key, 1);
+        inv_add(inv, silverlight_key_2, 1);
     } else if ($important_option = 2) {
         ~chatplayer("<p,sad>Erm I forgot.");
         ~chatnpc("<p,angry>Well it can't be that important then.");

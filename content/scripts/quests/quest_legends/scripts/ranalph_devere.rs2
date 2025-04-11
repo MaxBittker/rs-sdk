@@ -2,8 +2,8 @@
 if (~player_in_combat_check = false) {
     return;
 }
-if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(lump_of_crystal) = 0 & ~obj_gettotal(heart_crystal) = 0 
-        & ~obj_gettotal(glowing_heart_crystal) = 0 & testbit(%legends_bits, ^legends_smelting_lump) = false) {
+if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(heartcrystal_sectionc) = 0 & ~obj_gettotal(heartcrystal) = 0 
+        & ~obj_gettotal(heartcrystal_glow) = 0 & testbit(%legends_bits, ^legends_smelting_lump) = false) {
     npc_say("Your destiny awaits, adventurer...");
 } else {
     npc_say("My duty is done. I hope the source brings you all that you hoped for...");
@@ -12,8 +12,8 @@ if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(lump_of_crystal)
 [opnpc2,ranalph_devere]
 if(add(%lastcombat, 8) < map_clock & %aggressive_npc ! npc_uid) {
     %aggressive_npc = npc_uid;
-    if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(lump_of_crystal) = 0 & ~obj_gettotal(heart_crystal) = 0 
-        & ~obj_gettotal(glowing_heart_crystal) = 0 & testbit(%legends_bits, ^legends_smelting_lump) = false) {
+    if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(heartcrystal_sectionc) = 0 & ~obj_gettotal(heartcrystal) = 0 
+        & ~obj_gettotal(heartcrystal_glow) = 0 & testbit(%legends_bits, ^legends_smelting_lump) = false) {
         npc_say("Your destiny awaits, adventurer...");
     } else {
         npc_say("My duty is done. I hope the source brings you all that you hoped for...");
@@ -22,13 +22,13 @@ if(add(%lastcombat, 8) < map_clock & %aggressive_npc ! npc_uid) {
 @player_combat_start;
 
 [ai_opplayer2,ranalph_devere]
-if(inzone(0_43_45_0_0, 0_46_45_63_63, coord) = false & (%npc_aggressive_player ! uid & (~obj_gettotal(lump_of_crystal) > 0 | ~obj_gettotal(heart_crystal) > 0 | ~obj_gettotal(glowing_heart_crystal) > 0 | %legends_progress >= ^legends_heart_in_recess | testbit(%legends_bits, ^legends_smelting_lump) = true))) {
+if(inzone(0_43_45_0_0, 0_46_45_63_63, coord) = false & (%npc_aggressive_player ! uid & (~obj_gettotal(heartcrystal_sectionc) > 0 | ~obj_gettotal(heartcrystal) > 0 | ~obj_gettotal(heartcrystal_glow) > 0 | %legends_progress >= ^legends_heart_in_recess | testbit(%legends_bits, ^legends_smelting_lump) = true))) {
     npc_setmode(null);
     return;
 }
 if(add(%lastcombat, 8) < map_clock & %aggressive_npc ! npc_uid) {
-    if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(lump_of_crystal) = 0 & ~obj_gettotal(heart_crystal) = 0 
-        & ~obj_gettotal(glowing_heart_crystal) = 0 & testbit(%legends_bits, ^legends_smelting_lump) = false) {
+    if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(heartcrystal_sectionc) = 0 & ~obj_gettotal(heartcrystal) = 0 
+        & ~obj_gettotal(heartcrystal_glow) = 0 & testbit(%legends_bits, ^legends_smelting_lump) = false) {
         mes("Ranalph Devere: Upon my honour, I will defend the source to the bitter end.");
         mes("Ranalph Devere: May your aim be true, challenger...");
         npc_say("May your aim be true, challenger...");
@@ -61,12 +61,12 @@ if(finduid(%npc_aggressive_player) = true) {
         }
         // doesn't queue, the npc will sit at 0 hp if no prot access
         npc_del;
-        if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(lump_of_crystal) = 0 & ~obj_gettotal(heart_crystal) = 0 
-        & ~obj_gettotal(glowing_heart_crystal) = 0 & testbit(%legends_bits, ^legends_smelting_lump) = false) {
-            inv_add(inv, lump_of_crystal, 1); // no space check
+        if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(heartcrystal_sectionc) = 0 & ~obj_gettotal(heartcrystal) = 0 
+        & ~obj_gettotal(heartcrystal_glow) = 0 & testbit(%legends_bits, ^legends_smelting_lump) = false) {
+            inv_add(inv, heartcrystal_sectionc, 1); // no space check
             mes("Ranalph Devere: You have proved yourself of the honour.");
             ~chatnpc("<p,neutral>You have proved yourself of the honour.");
-            ~objbox(lump_of_crystal, "A lump of crystal forms mid-air and falls to the floor. You place the crystal lump into your inventory.", 250, 0, ^objbox_height);
+            ~objbox(heartcrystal_sectionc, "A lump of crystal forms mid-air and falls to the floor. You place the crystal lump into your inventory.", 250, 0, ^objbox_height);
         } else {
             ~chatnpc("<p,neutral>You fought well, adventurer.");
         }

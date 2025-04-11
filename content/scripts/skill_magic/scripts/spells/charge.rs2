@@ -37,13 +37,13 @@ if (%charge_god_spell < 1) {
 
 
 [proc,has_god_cape_and_staff]()(boolean)
-if (inv_total(worn, saradomincape) > 0 & inv_total(worn, saradominstaff) > 0) {
+if (inv_total(worn, saradomin_cape) > 0 & inv_total(worn, saradomin_staff) > 0) {
     return (true);
 }
-if (inv_total(worn, guthixcape) > 0 & inv_total(worn, guthixstaff) > 0) {
+if (inv_total(worn, guthix_cape) > 0 & inv_total(worn, guthix_staff) > 0) {
     return (true);
 }
-if (inv_total(worn, zamorakcape) > 0 & inv_total(worn, zamorakstaff) > 0) {
+if (inv_total(worn, zamorak_cape) > 0 & inv_total(worn, zamorak_staff) > 0) {
     return (true);
 }
 return (false);

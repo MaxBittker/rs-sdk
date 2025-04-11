@@ -2,7 +2,7 @@
 switch_obj (last_useitem)
 {
     case uncut_sapphire, uncut_emerald, uncut_ruby, uncut_diamond, uncut_dragonstone, uncut_opal, uncut_jade, uncut_red_topaz : @crafting_gem(last_useitem);
-    case opal, oyster_pearl, oyster_pearls : @make_bolt_tips(last_useitem);
+    case opal, smalloysterpearls, bigoysterpearls : @make_bolt_tips(last_useitem);
     case wolf_bones : @make_wolf_bone_tips;
     case zqbonebeads : @craft_ivorybeads;
     case default : ~displaymessage(^dm_default);

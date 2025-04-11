@@ -32,7 +32,7 @@ members=yes
 2dxan=320
 weight=120g
 
-[cat_training_medal]
+[felinemedal]
 cost=350
 name=Cat training medal
 desc=For feline training expertise.
@@ -48,7 +48,7 @@ manwear=model_289_obj_wear,0
 womanwear=model_453_obj_wear,0
 weight=10g
 
-[fluffs_kitten]
+[gertrudekittens]
 name=Fluffs' kitten
 desc=It looks like it's lost.
 model=model_3006_obj
@@ -64,7 +64,7 @@ members=yes
 op1=Use
 tradeable=no
 
-[kitten_greyblack]
+[kittenobject]
 name=Pet kitten
 desc=This kitten seems to like you.
 model=model_3009_obj
@@ -81,7 +81,7 @@ param=follower_id,follower_kitten_greyblack
 tradeable=no
 //https://chisel.weirdgloop.org/structs_rs3/index.html?type=items&id=1555
 
-[kitten_white]
+[kittenobject_light]
 name=Pet kitten
 desc=This kitten seems to like you.
 model=model_3009_obj
@@ -105,7 +105,7 @@ category=kitten
 param=follower_id,follower_kitten_white
 tradeable=no
 
-[kitten_brown]
+[kittenobject_brown]
 name=Pet kitten
 desc=This kitten seems to like you.
 model=model_3009_obj
@@ -127,7 +127,7 @@ category=kitten
 param=follower_id,follower_kitten_brown
 tradeable=no
 
-[kitten_black]
+[kittenobject_black]
 name=Pet kitten
 desc=This kitten seems to like you.
 model=model_3009_obj
@@ -149,7 +149,7 @@ category=kitten
 param=follower_id,follower_kitten_black
 tradeable=no
 
-[kitten_greybrown]
+[kittenobject_browngrey]
 name=Pet kitten
 desc=This kitten seems to like you.
 model=model_3009_obj
@@ -171,7 +171,7 @@ category=kitten
 param=follower_id,follower_kitten_greybrown
 tradeable=no
 
-[kitten_greyblue]
+[kittenobject_bluegrey]
 name=Pet kitten
 desc=This kitten seems to like you.
 model=model_3009_obj
@@ -193,7 +193,7 @@ category=kitten
 param=follower_id,follower_kitten_greyblue
 tradeable=no
 
-[cat_greyblack]
+[growncatobject]
 name=Pet cat
 desc=This cat definitely likes you.
 model=model_3006_obj
@@ -209,7 +209,7 @@ category=cat
 param=follower_id,follower_cat_greyblack
 tradeable=no
 
-[cat_white]
+[growncatobject_light]
 name=Pet cat
 desc=This cat definitely likes you.
 model=model_3006_obj
@@ -233,7 +233,7 @@ category=cat
 param=follower_id,follower_cat_white
 tradeable=no
 
-[cat_brown]
+[growncatobject_brown]
 name=Pet cat
 desc=This cat definitely likes you.
 model=model_3006_obj
@@ -255,7 +255,7 @@ category=cat
 param=follower_id,follower_cat_brown
 tradeable=no
 
-[cat_black]
+[growncatobject_black]
 name=Pet cat
 desc=This cat definitely likes you.
 model=model_3006_obj
@@ -277,7 +277,7 @@ category=cat
 param=follower_id,follower_cat_black
 tradeable=no
 
-[cat_greybrown]
+[growncatobject_browngrey]
 name=Pet cat
 desc=This cat definitely likes you.
 model=model_3006_obj
@@ -299,7 +299,7 @@ category=cat
 param=follower_id,follower_cat_greybrown
 tradeable=no
 
-[cat_greyblue]
+[growncatobject_bluegrey]
 name=Pet cat
 desc=This cat definitely likes you.
 model=model_3006_obj
@@ -321,7 +321,7 @@ category=cat
 param=follower_id,follower_cat_greyblue
 tradeable=no
 
-[overgrown_greyblack]
+[overgrowncatobject]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
 model=model_3007_obj
@@ -337,7 +337,7 @@ category=overgrown
 param=follower_id,follower_overgrown_greyblack
 tradeable=no
 
-[overgrown_white]
+[overgrowncatobject_light]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
 model=model_3007_obj
@@ -361,7 +361,7 @@ category=overgrown
 param=follower_id,follower_overgrown_white
 tradeable=no
 
-[overgrown_brown]
+[overgrowncatobject_brown]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
 model=model_3007_obj
@@ -383,7 +383,7 @@ category=overgrown
 param=follower_id,follower_overgrown_brown
 tradeable=no
 
-[overgrown_black]
+[overgrowncatobject_black]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
 model=model_3007_obj
@@ -405,7 +405,7 @@ category=overgrown
 param=follower_id,follower_overgrown_black
 tradeable=no
 
-[overgrown_greybrown]
+[overgrowncatobject_browngrey]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
 model=model_3007_obj
@@ -427,7 +427,7 @@ category=overgrown
 param=follower_id,follower_overgrown_greybrown
 tradeable=no
 
-[overgrown_greyblue]
+[overgrowncatobject_bluegrey]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
 model=model_3007_obj

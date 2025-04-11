@@ -11,10 +11,10 @@ switch_int ($itexam_progress) {
 [opnpcu,student1]
 def_obj $item = last_useitem;
 
-if ($item = cracked_rock_sample) {
+if ($item = cracked_sample) {
     ~chatplayer("<p,quiz>Is this yours?");
     ~chatnpc("<p,sad>This? Oh no....");
-} else if ($item = rock_sample_1) {
+} else if ($item = rock_sample1) {
     @itexam_student1_deliver_sample;
 } else {
     ~displaymessage(^dm_default);
@@ -43,7 +43,7 @@ if ($errand_state = 0) {
     ~chatplayer("<p,happy>Okay, I'll have a look for you.");
     ~itexam_set_errand_progress(^itexam_errand_student1, 1);
 } else if ($errand_state = 1) {
-    if (inv_total(inv, rock_sample_1) > 0) {
+    if (inv_total(inv, rock_sample1) > 0) {
         ~chatplayer("<p,happy>Hello there.");
         @itexam_student1_deliver_sample;
     } else {
@@ -62,7 +62,7 @@ if ($errand_state = 0) {
 
 [label,itexam_student1_deliver_sample]
 ~chatplayer("<p,happy>Is this your rock sample?");
-inv_del(inv, rock_sample_1, ^max_32bit_int);
+inv_del(inv, rock_sample1, ^max_32bit_int);
 ~itexam_set_errand_progress(^itexam_errand_student1, 2);
 ~chatnpc("<p,happy>Oh wow! You've found it! Thank you so much. I'll be glad to tell you what I know about the exam.");
 ~chatnpc("<p,neutral>The study of Earth Sciences is: The study of the earth, its contents and history.");

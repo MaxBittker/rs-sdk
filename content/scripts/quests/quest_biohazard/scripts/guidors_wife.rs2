@@ -10,7 +10,7 @@ switch_int(%biohazard_progress) {
         ~chatplayer("<p,neutral>Hello again.");
         ~chatnpc("<p,sad>Hello there.|I fear Guidor may not be long for this world!");
     case ^biohazard_spoken_chemist :
-        if(inv_total(worn, priest_gown_top) > 0 & inv_total(worn, priest_gown_bottom) > 0) {
+        if(inv_total(worn, priest_gown) > 0 & inv_total(worn, priest_robe) > 0) {
             ~chatnpc("<p,sad>Father, thank heavens you're here! My husband is very ill! Perhaps you could read him his final rites?");
             ~chatplayer("<p,neutral>I'll see what I can do.");
             return;

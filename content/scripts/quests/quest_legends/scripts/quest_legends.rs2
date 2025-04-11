@@ -12,22 +12,22 @@
 [oplocu,legends_fire_wall_1] @legends_use_on_fire_wall;
 [oplocu,legends_fire_wall_2] @legends_use_on_fire_wall;
 
-[opheld1,a_scribbled_note]
+[opheld1,scrawled_note2]
 ~mesbox("You try your best to decode the writing.|This is what you make out...");
-~objbox(a_scribbled_note, "I fear that the spirit of an ancient one resides within me and uses me... I am too weak to cast the curse myself and fight the beast within.", 250, 0, 0);
-~objbox(a_scribbled_note, "Day 3 ...my last hope is that someone will read this and aid me... I am undone and I fear....", 250, 0, 0);
+~objbox(scrawled_note2, "I fear that the spirit of an ancient one resides within me and uses me... I am too weak to cast the curse myself and fight the beast within.", 250, 0, 0);
+~objbox(scrawled_note2, "Day 3 ...my last hope is that someone will read this and aid me... I am undone and I fear....", 250, 0, 0);
 ~mesbox("The writing trails off at this point.");
 
-[opheld1,scrawled_note]
+[opheld1,scrawled_note1]
 ~mesbox("You try your best to decode the writing.|This is what you make out...");
-~objbox(scrawled_note, "Daily notes of Ungadulu...|Day 1... I have prepared the incantations and will invoke the spirits of my ancestors and pay them homage.", 250, 0, 0);
-~objbox(scrawled_note, "Though I feel a strange presence in these caves, it is with the heart of the lion that I fight my fears and mark the magical octagram.", 250, 0, 0);
-~objbox(scrawled_note, "Day 2... What have I done? My spirit is overthrown by feelings of fear and evil, I am not myself these days and feel helpless and weak. From my teachings...", 250, 0, 0);
+~objbox(scrawled_note1, "Daily notes of Ungadulu...|Day 1... I have prepared the incantations and will invoke the spirits of my ancestors and pay them homage.", 250, 0, 0);
+~objbox(scrawled_note1, "Though I feel a strange presence in these caves, it is with the heart of the lion that I fight my fears and mark the magical octagram.", 250, 0, 0);
+~objbox(scrawled_note1, "Day 2... What have I done? My spirit is overthrown by feelings of fear and evil, I am not myself these days and feel helpless and weak. From my teachings...", 250, 0, 0);
 ~mesbox("The writing trails off at this point.");
 
-[opheld1,scrumpled_note]
+[opheld1,scrawled_note3]
 ~mesbox("You try your best to decode the writing.|This is what you make out...");
-~objbox(scrumpled_note, "Day 4 ... These days come so fleetingly, I have no idea how long I have been here now...|Day 5... A wizened charm will release me, but never magic that would harm...", 250, 0, 0);
+~objbox(scrawled_note3, "Day 4 ... These days come so fleetingly, I have no idea how long I have been here now...|Day 5... A wizened charm will release me, but never magic that would harm...", 250, 0, 0);
 
 [opheld1,shamans_tome]
 ~mesbox("You read the ancient shaman's tome. It is written in a strange sort of language but you manage a rough translation.");
@@ -38,10 +38,10 @@
 
 [oploc2,legends_table]
 mes("You start searching the table...");
-if (inv_total(inv, a_scribbled_note) < 0) {
+if (inv_total(inv, scrawled_note2) < 0) {
     // no delay
-    ~objbox(a_scribbled_note, "You find a scrap of paper with what looks like nonsense written on it.", 250, 0, 0);
-    inv_add(inv, a_scribbled_note, 1);
+    ~objbox(scrawled_note2, "You find a scrap of paper with what looks like nonsense written on it.", 250, 0, 0);
+    inv_add(inv, scrawled_note2, 1);
 }
 else {
     mes("You cannot find anything else in here.");
@@ -52,10 +52,10 @@ else {
 
 [oploc2,legends_crate]
 mes("You search the crate.");
-if (inv_total(inv, scrawled_note) < 0) {
+if (inv_total(inv, scrawled_note1) < 0) {
     p_delay(0);
-    ~objbox(scrawled_note, "After some time you find a scrumpled up piece of paper. It looks like rubbish.", 250, 0, 0);
-    inv_add(inv, scrawled_note, 1);
+    ~objbox(scrawled_note1, "After some time you find a scrumpled up piece of paper. It looks like rubbish.", 250, 0, 0);
+    inv_add(inv, scrawled_note1, 1);
 }
 else {
     mes("You can't find anything else here.");
@@ -64,10 +64,10 @@ else {
 [oploc2,legends_bed]
 // no delay
 mes("You search the flea infested rags...");
-    if (inv_total(inv, scrumpled_note) < 0) {
+    if (inv_total(inv, scrawled_note3) < 0) {
     // mes instead of mesbox here
     mes("You find a scrap of paper with spidery writing on it.");;
-    inv_add(inv, scrumpled_note, 1);
+    inv_add(inv, scrawled_note3, 1);
 }
 else {
     mes("You cannot find anything else in here.");
@@ -135,13 +135,13 @@ else {
 
 [oploc2,legends_radimus_cupboard_open]
 // No quest progress check here
-if (inv_total(inv, machete) > 0 | inv_total(worn, machete) > 0) {
+if (inv_total(inv, machette) > 0 | inv_total(worn, machette) > 0) {
     ~mesbox("You don't think Radimus Erkle would be too pleased if he caught|you rifling through his cupboards without permission.");
 }
 else {
     // No inv space check
-    inv_add(inv, machete, 1);
-    ~objbox(machete, "You find a machete in the cupboard.", 250, 0, 0);
+    inv_add(inv, machette, 1);
+    ~objbox(machette, "You find a machete in the cupboard.", 250, 0, 0);
     mes("You find a machete.");
 }
 
@@ -273,7 +273,7 @@ if (npc_find(coord, ungadulu, 10, 0) = true) {
 }
 
 [label,legends_use_on_fire_wall]
-if (last_useitem = blessed_golden_bowl_pure_water) {
+if (last_useitem = goldbowlbless_pure) {
     // https://youtu.be/uF1a9xsV7zo?si=XkkWfOB4Hj2Bewwl&t=1764
     if(~player_in_fire_octagram = true) {
         return;
@@ -285,18 +285,18 @@ if (last_useitem = blessed_golden_bowl_pure_water) {
     def_int $bowl_uses = getbit_range(%legends_bits, ^legends_golden_bowl_uses_start, ^legends_golden_bowl_uses_end);
     %legends_bits = setbit_range_toint(%legends_bits, add($bowl_uses,1), ^legends_golden_bowl_uses_start, ^legends_golden_bowl_uses_end);
     if($bowl_uses >= 9) {
-        inv_del(inv, blessed_golden_bowl_pure_water, 1);
-        inv_add(inv, blessed_gold_bowl, 1);
+        inv_del(inv, goldbowlbless_pure, 1);
+        inv_add(inv, goldbowlbless_empty, 1);
         mes("The pure water in the golden bowl has run out...");
     }
     ~legends_fire_wall_walk;
-} else if(last_useitem = golden_bowl_water) {
+} else if(last_useitem = goldbowl_water) {
     inv_del(inv, last_useitem, 1);
     inv_add(inv, oc_param(last_useitem, next_obj_stage), 1);
     anim(human_pickuptable, 0);
     spotanim_map(small_smokepuff, loc_coord, 124, 0);
     mes("The water evaporates in a cloud of steam before it gets anywhere near the flames.");
-} else if(last_useitem = bucket_water | last_useitem = vial_water | last_useitem = jug_of_water | last_useitem = bowl_water) {
+} else if(last_useitem = bucket_water | last_useitem = vial_water | last_useitem = jug_water | last_useitem = bowl_water) {
     def_obj $last_useitem = last_useitem;
     mes("The water evaporates in a cloud of steam...");
     anim(human_pickuptable, 0);
@@ -537,7 +537,7 @@ if (stat_random(stat(mining), 0, 255) = true) {
     mes("You manage to smash the rock to bits.");
     if (inv_freespace(inv) > 0) {
         mes("You get some rock.");
-        inv_add(inv, rocks, 1);
+        inv_add(inv, swamprocks1, 1);
         stat_advance(mining, 350);
     }
     def_int $move = -1;
@@ -968,7 +968,7 @@ else {
 ~mesbox("It looks like you'll have problems getting some of the water as it's difficult to reach with all the rocks around it. There is a narrow gap that you simply won't be able to get a container into.");
 
 [oplocu,legends_water_pool]
-if (last_useitem = hollow_reed) {
+if (last_useitem = reed_hollow) {
     if (%legends_progress >= ^legends_germinated_seeds & %legends_progress < ^legends_defeated_nezikchened_water) {
         if (%legends_progress = ^legends_germinated_seeds) {
             %legends_progress = ^legends_water_pool_dried_up;
@@ -977,28 +977,28 @@ if (last_useitem = hollow_reed) {
         ~mesbox("It looks as if this pool has dried up. A thick black sludge has replaced|the sparkling pure water. There is a disgusting stench of death that|emanates from this area. Maybe Gujuo knows what's happened.");
         return;
     }
-    if (inv_total(inv, blessed_gold_bowl) > 0) {
-        inv_del(inv, blessed_gold_bowl, 1);
-        inv_del(inv, hollow_reed, 1);
-        inv_add(inv, blessed_golden_bowl_pure_water, 1);
+    if (inv_total(inv, goldbowlbless_empty) > 0) {
+        inv_del(inv, goldbowlbless_empty, 1);
+        inv_del(inv, reed_hollow, 1);
+        inv_add(inv, goldbowlbless_pure, 1);
         %legends_bits = setbit_range_toint(%legends_bits, 0, ^legends_golden_bowl_uses_start, ^legends_golden_bowl_uses_end);
         if(%legends_progress = ^legends_defeated_nezikchened_water) %legends_progress = ^legends_sacred_water_collected;
         if(%legends_progress = ^legends_asked_gujuo_holy_water) %legends_progress = ^legends_filled_bowl;
         // inconsistent use of "syphon" here is accurate, based off classic it seems like all uses have this
         // https://youtu.be/Lid8enDEF_U?t=1463
-        ~objbox(blessed_golden_bowl_pure_water, "You use the cut reed plant to syphon some water|from the pool into your blessed golden bowl.|The water seems to bubble and sparkle as if alive.", 250, 0, divide(^objbox_height, 2));
+        ~objbox(goldbowlbless_pure, "You use the cut reed plant to syphon some water|from the pool into your blessed golden bowl.|The water seems to bubble and sparkle as if alive.", 250, 0, divide(^objbox_height, 2));
     }
-    else if (inv_total(inv, enchanted_vial) > 0) {
-        inv_del(inv, enchanted_vial, 1);
-        inv_del(inv, hollow_reed, 1);
+    else if (inv_total(inv, vial_enchanted) > 0) {
+        inv_del(inv, vial_enchanted, 1);
+        inv_del(inv, reed_hollow, 1);
         inv_add(inv, holy_water, 1);
         ~objbox(holy_water, "You use the cut reed plant to syphon some water|from the pool into your enchanted vial.|The water seems to bubble and sparkle as if alive.", 250, 0, divide(^objbox_height, 2));
     }
-    else if (inv_total(inv, gold_bowl) > 0) {
-        inv_del(inv, gold_bowl, 1);
-        inv_del(inv, hollow_reed, 1);
-        inv_add(inv, golden_bowl_pure_water, 1);
-        ~objbox(golden_bowl_pure_water, "You use the cut reed plant to syphon some water from the pool into your golden bowl. The water doesn't seem as sparkly as it looked in the pool...", 250, 0, divide(^objbox_height, 2));
+    else if (inv_total(inv, goldbowl_empty) > 0) {
+        inv_del(inv, goldbowl_empty, 1);
+        inv_del(inv, reed_hollow, 1);
+        inv_add(inv, goldbowl_pure, 1);
+        ~objbox(goldbowl_pure, "You use the cut reed plant to syphon some water from the pool into your golden bowl. The water doesn't seem as sparkly as it looked in the pool...", 250, 0, divide(^objbox_height, 2));
     }
     // this order is correct (to OSRS)
     else if (inv_total(inv, bowl_empty) > 0) {
@@ -1015,12 +1015,12 @@ if (last_useitem = hollow_reed) {
     }
     else if (inv_total(inv, jug_empty) > 0) {
         inv_del(inv, jug_empty, 1);
-        inv_add(inv, jug_of_water, 1);
-        ~objbox(jug_of_water, "You use the cut reed plant to syphon some water from the pool into your jug The water doesn't seem as sparkly as it looked in the pool.", 250, 0, divide(^objbox_height, 2));
+        inv_add(inv, jug_water, 1);
+        ~objbox(jug_water, "You use the cut reed plant to syphon some water from the pool into your jug The water doesn't seem as sparkly as it looked in the pool.", 250, 0, divide(^objbox_height, 2));
     }
     else if (inv_total(inv, vial_empty) > 0) {
         inv_del(inv, vial_empty, 1);
-        inv_del(inv, hollow_reed, 1);
+        inv_del(inv, reed_hollow, 1);
         inv_add(inv, vial_water, 1);
         ~objbox(vial_water, "You use the cut reed plant to syphon some water from the pool into your vial The water doesn't seem as sparkly as it looked in the pool.", 250, 0, divide(^objbox_height, 2));
     }
@@ -1030,9 +1030,9 @@ if (last_useitem = hollow_reed) {
         mes("But you have nothing to put the water in.");
         return;
     }
-    ~objbox(hollow_reed, "The hollow reed is soaked through with water and is now all soggy.", 250, 0, 0);
+    ~objbox(reed_hollow, "The hollow reed is soaked through with water and is now all soggy.", 250, 0, 0);
 }
-else if (last_useitem = bucket_empty | last_useitem = vial_empty | last_useitem = gold_bowl | last_useitem = blessed_gold_bowl | last_useitem = enchanted_vial) {
+else if (last_useitem = bucket_empty | last_useitem = vial_empty | last_useitem = goldbowl_empty | last_useitem = goldbowlbless_empty | last_useitem = vial_enchanted) {
     ~mesbox("The water is too akward to get to, the gap to the water|is too narrow to reach with this item.");
 }
 else {
@@ -1041,7 +1041,7 @@ else {
 
 [oplocu,legends_polluted_water]
 // todo: test this assumption
-if (last_useitem = hollow_reed) {
+if (last_useitem = reed_hollow) {
     ~mesbox("It looks as if this pool has dried up. A thick black sludge has replaced|the sparkling pure water. There is a disgusting stench of death that|emanates from this area. Maybe Gujuo knows what's happened.");
 }
 else {
@@ -1059,13 +1059,13 @@ if (last_useitem = knife) {
     anim(human_knife_slash, 0);
     p_delay(0);
     mes("You use your knife to cut down a reed.");
-    inv_add(inv, hollow_reed, 1);
+    inv_add(inv, reed_hollow, 1);
 }
-else if (last_useitem = machete) {
+else if (last_useitem = machette) {
     anim(human_machette_chop, 0);
     p_delay(0);
     mes("You use your machete to cut down a reed.");
-    inv_add(inv, hollow_reed, 1);
+    inv_add(inv, reed_hollow, 1);
 }
 else {
     ~displaymessage(^dm_default);
@@ -1092,12 +1092,12 @@ switch_coord(loc_coord) {
 }
 
 [oplocu,legends_fertile_soil]
-if(last_useitem = yommi_tree_seeds) {
+if(last_useitem = yommiseeds) {
     ~mesbox("These seeds need to be germinated before you can plant them.");
     return;
 } 
-if(last_useitem = yommi_tree_seeds_germinated) {
-    if(inv_total(inv, yommi_totem) > 0) {
+if(last_useitem = yommiseeds_germ) {
+    if(inv_total(inv, thtotempole) > 0) {
         ~mesbox("You have already made the Yommi tree Totem Pole. You don't need to grow another tree.");
         return;
     }
@@ -1109,12 +1109,12 @@ if(last_useitem = yommi_tree_seeds_germinated) {
         ~mesbox("You need a Woodcutting skill of at least 50 to attempt to fell a Yommi tree.");
         return;
     }
-    if(inv_total(inv, blessed_golden_bowl_pure_water) = 0) {
+    if(inv_total(inv, goldbowlbless_pure) = 0) {
         ~mesbox("You'll need some pure sacred water to feed the tree when it starts growing.");
         return;
     }
     if(stat_random(stat(herblore), 93, 252) = false | %legends_progress < ^legends_sacred_water_collected) {
-        inv_del(inv, yommi_tree_seeds_germinated, 1);
+        inv_del(inv, yommiseeds_germ, 1);
         ~mesbox("You planted the seed incorrectly in the fertile soil. The plant withers and dies.");
         return;
     }
@@ -1122,7 +1122,7 @@ if(last_useitem = yommi_tree_seeds_germinated) {
     ~set_player_yommi_planter;
     loc_change(legends_yommi_tree_baby, 5);
     p_delay(1);
-    inv_del(inv, yommi_tree_seeds_germinated, 1);
+    inv_del(inv, yommiseeds_germ, 1);
     mes("It starts to grow at a remarkable rate.");
     p_delay(1);
     mes("It looks as if this Yommi tree needs to be watered.");
@@ -1135,14 +1135,14 @@ if(last_useitem = yommi_tree_seeds_germinated) {
 }
 
 [oplocu,legends_yommi_tree_sapling]
-if(last_useitem = blessed_golden_bowl_pure_water) {
+if(last_useitem = goldbowlbless_pure) {
     if(~get_yommi_planter ! uid) {
         mes("This is not your Yommi tree.");
         return;
     }
     mes("You water the Yommi tree from the Golden Bowl...");
-    inv_del(inv, blessed_golden_bowl_pure_water, 1);
-    inv_add(inv, blessed_gold_bowl, 1);
+    inv_del(inv, goldbowlbless_pure, 1);
+    inv_add(inv, goldbowlbless_empty, 1);
     p_delay(1);
     mes("It grows at a remarkable rate...");
     p_delay(1);
@@ -1240,7 +1240,7 @@ if(%legends_progress < ^legends_collected_totem) {
     %legends_bits = clearbit_range(%legends_bits, ^legends_defeated_san_final, ^legends_defeated_ranalph_final);
 }
 loc_change(legends_damaged_earth, 50);
-inv_add(inv, yommi_totem, 1);
+inv_add(inv, thtotempole, 1);
 mes("But you manage to lift it.");
 
 [oplocu,legends_dead_yommi_sapling]
@@ -1299,31 +1299,31 @@ while($rolls < 3) {
 p_delay(4);
 anim(null, 0);
 
-[opheld1,sketch]
-~objbox(sketch, "This is a crudely drawn picture of some kind of vessel, it looks vaguely bowl shaped - this is what Gujuo was referring to when he said that you needed to make a vessel made from the metal of the sun.", 250, 0, 0);
+[opheld1,goldbowlpic]
+~objbox(goldbowlpic, "This is a crudely drawn picture of some kind of vessel, it looks vaguely bowl shaped - this is what Gujuo was referring to when he said that you needed to make a vessel made from the metal of the sun.", 250, 0, 0);
 
 // none of these empty ops operate on the used slot, will empty the first instance of the item they find
-[opheld1,golden_bowl_pure_water]
-inv_del(inv, golden_bowl_pure_water, 1);
-inv_add(inv, gold_bowl, 1);
+[opheld1,goldbowl_pure]
+inv_del(inv, goldbowl_pure, 1);
+inv_add(inv, goldbowl_empty, 1);
 mes("You empty the pure water out of the golden bowl.");
 
-[opheld1,golden_bowl_water]
-inv_del(inv, golden_bowl_water, 1);
-inv_add(inv, gold_bowl, 1);
+[opheld1,goldbowl_water]
+inv_del(inv, goldbowl_water, 1);
+inv_add(inv, goldbowl_empty, 1);
 mes("You empty the plain water out of the golden bowl.");
 
-[opheld1,blessed_golden_bowl_water]
-inv_del(inv, blessed_golden_bowl_water, 1);
-inv_add(inv, blessed_gold_bowl, 1);
+[opheld1,goldbowlbless_water]
+inv_del(inv, goldbowlbless_water, 1);
+inv_add(inv, goldbowlbless_empty, 1);
 mes("You empty the plain water out of the blessed golden bowl.");
 
-[opheld1,blessed_golden_bowl_pure_water]
-inv_del(inv, blessed_golden_bowl_pure_water, 1);
-inv_add(inv, blessed_gold_bowl, 1);
+[opheld1,goldbowlbless_pure]
+inv_del(inv, goldbowlbless_pure, 1);
+inv_add(inv, goldbowlbless_empty, 1);
 mes("You empty the pure water out of the blessed golden bowl.");
 
-[opheldu,blessed_golden_bowl_pure_water]
+[opheldu,goldbowlbless_pure]
 // this doesn't work in reverse (bowl -> vial = nothing interesting happens)
 if (last_useitem = vial_empty) {
     mes("You decant some water from the golden bowl into the vial.");
@@ -1332,8 +1332,8 @@ if (last_useitem = vial_empty) {
     inv_add(inv, vial_water, 1);
     if ($bowl_uses = 1) {
         $bowl_uses = 10;
-        inv_del(inv, blessed_golden_bowl_pure_water, 1);
-        inv_add(inv, blessed_gold_bowl, 1);
+        inv_del(inv, goldbowlbless_pure, 1);
+        inv_add(inv, goldbowlbless_empty, 1);
         // osrs
         //mes("The golden bowl is empty. There's no sacred water left.");
         // rs3
@@ -1345,22 +1345,22 @@ if (last_useitem = vial_empty) {
     %legends_bits = setbit_range_toint(%legends_bits, $bowl_uses, ^legends_golden_bowl_uses_start, ^legends_golden_bowl_uses_end);
     mes("The water doesn't seem as effervescent as it was in the bowl.");
 }
-else if (last_useitem = yommi_tree_seeds) {
-    ~doubleobjbox(yommi_tree_seeds, blessed_golden_bowl_pure_water, "You place the seeds into the golden bowl of pure sacred|water.", 150);
+else if (last_useitem = yommiseeds) {
+    ~doubleobjbox(yommiseeds, goldbowlbless_pure, "You place the seeds into the golden bowl of pure sacred|water.", 150);
     if(%legends_progress = ^legends_defeated_nezikchened_fire) %legends_progress = ^legends_germinated_seeds;
-    def_int $seed_qty = inv_total(inv, yommi_tree_seeds);
-    inv_del(inv, yommi_tree_seeds, $seed_qty);
-    inv_add(inv, yommi_tree_seeds_germinated, $seed_qty);
+    def_int $seed_qty = inv_total(inv, yommiseeds);
+    inv_del(inv, yommiseeds, $seed_qty);
+    inv_add(inv, yommiseeds_germ, $seed_qty);
     // todo: confirm this always uses all the water
-    def_int $bowl_count_inv = inv_total(inv, blessed_golden_bowl_pure_water);
+    def_int $bowl_count_inv = inv_total(inv, goldbowlbless_pure);
     if($bowl_count_inv > 0) {
-        inv_del(inv, blessed_golden_bowl_pure_water, $bowl_count_inv);
-        inv_add(inv, blessed_gold_bowl, $bowl_count_inv);
+        inv_del(inv, goldbowlbless_pure, $bowl_count_inv);
+        inv_add(inv, goldbowlbless_empty, $bowl_count_inv);
     }
-    def_int $bowl_count_bank = inv_total(bank, blessed_golden_bowl_pure_water);
+    def_int $bowl_count_bank = inv_total(bank, goldbowlbless_pure);
     if($bowl_count_bank > 0) {
-        inv_del(bank, blessed_golden_bowl_pure_water, $bowl_count_bank);
-        inv_add(bank, blessed_gold_bowl, $bowl_count_bank);
+        inv_del(bank, goldbowlbless_pure, $bowl_count_bank);
+        inv_add(bank, goldbowlbless_empty, $bowl_count_bank);
     }
     ~mesbox("You start to see little shoots growing on the seeds. These seeds look|as if they're germinated now.");
 }
@@ -1368,52 +1368,52 @@ else {
     ~displaymessage(^dm_default);
 }
 
-[opheldu,ardrigal_mixture]
+[opheldu,ardrigal_sol]
 if (last_useitem = snake_weed) {
     // I don't think this is possible since you cant make the ardrigal mixture? But matches the snakeweed one
     if(%legends_progress < ^legends_talk_gujuo_pool) {
-        ~doubleobjbox(snake_weed, ardrigal_mixture, "You're not sure what mixing these two things together would do. You decide against experimenting. ", 150); // authentic space at end
+        ~doubleobjbox(snake_weed, ardrigal_sol, "You're not sure what mixing these two things together would do. You decide against experimenting. ", 150); // authentic space at end
         return;
     }
     // no full stop authentic
-    ~doubleobjbox(snake_weed, ardrigal_mixture, "You mix the two ingredients together", 150);
+    ~doubleobjbox(snake_weed, ardrigal_sol, "You mix the two ingredients together", 150);
     anim(human_herbing_vial, 0);
-    inv_del(inv, ardrigal_mixture, 1);
+    inv_del(inv, ardrigal_sol, 1);
     inv_del(inv, snake_weed, 1);
-    inv_add(inv, bravery_potion, 1);
-    ~objbox(bravery_potion, "It makes a heady brew. This must be what Gujuo was|talking about. You certainly would need to be brave to|drink this!", 250, 0, ^objbox_height);
+    inv_add(inv, bravery_pot, 1);
+    ~objbox(bravery_pot, "It makes a heady brew. This must be what Gujuo was|talking about. You certainly would need to be brave to|drink this!", 250, 0, ^objbox_height);
 }
 else {
     ~displaymessage(^dm_default);
 }
 
-[opheldu,snakeweed_mixture]
+[opheldu,snakeweed_sol]
 if (last_useitem = ardrigal) {
     // no full stop authentic
     if(%legends_progress < ^legends_talk_gujuo_pool) {
-        ~doubleobjbox(ardrigal, snakeweed_mixture, "You're not sure what mixing these two things together would do. You decide against experimenting. ", 150); // authentic space at end
+        ~doubleobjbox(ardrigal, snakeweed_sol, "You're not sure what mixing these two things together would do. You decide against experimenting. ", 150); // authentic space at end
         return;
     }
-    ~doubleobjbox(ardrigal, snakeweed_mixture, "You mix the two ingredients together", 150);
+    ~doubleobjbox(ardrigal, snakeweed_sol, "You mix the two ingredients together", 150);
     anim(human_herbing_vial, 0);
-    inv_del(inv, snakeweed_mixture, 1);
+    inv_del(inv, snakeweed_sol, 1);
     inv_del(inv, ardrigal, 1);
-    inv_add(inv, bravery_potion, 1);
-    ~objbox(bravery_potion, "It makes a heady brew. This must be what Gujuo was|talking about. You certainly would need to be brave to|drink this!", 250, 0, ^objbox_height);
+    inv_add(inv, bravery_pot, 1);
+    ~objbox(bravery_pot, "It makes a heady brew. This must be what Gujuo was|talking about. You certainly would need to be brave to|drink this!", 250, 0, ^objbox_height);
 }
 else {
     ~displaymessage(^dm_default);
 }
 
-[opheld1,bravery_potion]
-~objbox(bravery_potion, "This bravery potion bubbles with a strange effervescence, but it smells very strange, like oily burnt oranges. Are you sure you want to drink it?", 250, 0, ^objbox_height);
+[opheld1,bravery_pot]
+~objbox(bravery_pot, "This bravery potion bubbles with a strange effervescence, but it smells very strange, like oily burnt oranges. Are you sure you want to drink it?", 250, 0, ^objbox_height);
 def_int $op = ~p_choice2_header("Yes, I'll bravely drink the bravery potion.", 1, "Actually, let me consider this a bit longer first; it smells a bit odd.", 2, "Drink the so-called 'Bravery Potion'?");
 if($op = 2) {
-    ~objbox(bravery_potion,"You sensibly stopper the vial and place it back in your inventory. You consider that things aren't so desperate yet that you need to rely on strange jungle potions to make you brave.", 250, 0, ^objbox_height);
+    ~objbox(bravery_pot,"You sensibly stopper the vial and place it back in your inventory. You consider that things aren't so desperate yet that you need to rely on strange jungle potions to make you brave.", 250, 0, ^objbox_height);
     return;
 }
-~objbox(bravery_potion, "You bravely swig down the entire contents of the vial and then wait for some sort of internal explosion. After a few seconds, you realise that you actually feel quite okay.", 250, 0, ^objbox_height);
-inv_del(inv, bravery_potion, 1);
+~objbox(bravery_pot, "You bravely swig down the entire contents of the vial and then wait for some sort of internal explosion. After a few seconds, you realise that you actually feel quite okay.", 250, 0, ^objbox_height);
+inv_del(inv, bravery_pot, 1);
 inv_add(inv, vial_empty, 1);
 %legends_bits = setbit(%legends_bits, ^legends_drank_bravery_potion);
 
@@ -1461,7 +1461,7 @@ if (stat_random(stat(smithing), 31, 256) = false) {
 else {
     mes("You forge a beautiful bowl out of solid gold.");
     inv_del(inv, gold_bar, 2);
-    inv_add(inv, gold_bowl, 1);
+    inv_add(inv, goldbowl_empty, 1);
     stat_advance(smithing, 300);
 }
 
@@ -1856,20 +1856,20 @@ if($total = 0) {
     anim(human_furnace, 0);
     ~mesbox("The heat in the furnace slowly rises and soon fuses the parts together. As soon as the item cools, you pick it up.");
     if(%legends_progress = ^legends_enter_lower_dungeon) %legends_progress = ^legends_crystal_pieces_smelted;
-    inv_add(inv, heart_crystal, 1);
-    ~objbox(heart_crystal, "As the crystal touches your hands a voice inside|of your head says.. |@red@Bring life to the dragons eye.", 250, 0, ^objbox_height);
+    inv_add(inv, heartcrystal, 1);
+    ~objbox(heartcrystal, "As the crystal touches your hands a voice inside|of your head says.. |@red@Bring life to the dragons eye.", 250, 0, ^objbox_height);
 }
 
-[opheld1,heart_crystal] ~objbox(heart_crystal, "As the crystal touches your hands a voice inside|of your head says.. |@red@'Bring life to the dragons eye.'", 250, 0, ^objbox_height);
+[opheld1,heartcrystal] ~objbox(heartcrystal, "As the crystal touches your hands a voice inside|of your head says.. |@red@'Bring life to the dragons eye.'", 250, 0, ^objbox_height);
 
-[opheld1,glowing_heart_crystal] ~objbox(glowing_heart_crystal, "This crystal seems to glow and has a very mystical aura about it. It seems to be vaguely heart shaped.", 250, 0, ^objbox_height);
+[opheld1,heartcrystal_glow] ~objbox(heartcrystal_glow, "This crystal seems to glow and has a very mystical aura about it. It seems to be vaguely heart shaped.", 250, 0, ^objbox_height);
 
 [oplocu,furnace_underground]
 if(stat(crafting) < 50) {
     mes("You need a Crafting level of 50 to use this furnace.");
     return;
 }
-if(last_useitem = lump_of_crystal | last_useitem = hunk_of_crystal | last_useitem = chunk_of_crystal) {
+if(last_useitem = heartcrystal_sectionc | last_useitem = heartcrystal_sectionb | last_useitem = heartcrystal_sectiona) {
     def_obj $crystal = last_useitem;
     anim(human_pickuptable, 0);
     if(testbit(%legends_bits, oc_param($crystal, crystal_bit)) = true) {
@@ -1887,12 +1887,12 @@ mes("The furnace doesn't seem to be working.");
 mes("These rocks look somehow manufactured.");
 
 [oplocu,legends_mossy_rock_3]
-if(last_useitem = heart_crystal) {
+if(last_useitem = heartcrystal) {
     @heart_crystal_mossy_rock;
 }
 ~displaymessage(^dm_default);
 
-[opheld5,heart_crystal]
+[opheld5,heartcrystal]
 if(distance(coord, 0_37_73_42_43) <= 2) {
     @heart_crystal_mossy_rock;
 }
@@ -1900,17 +1900,17 @@ if(distance(coord, 0_37_73_42_43) <= 2) {
 
 [label,heart_crystal_mossy_rock]
 anim(human_pickuptable, 0);
-inv_del(inv, heart_crystal, 1);
-inv_add(inv, glowing_heart_crystal, 1);
-~objbox(glowing_heart_crystal, "You carefully place the dragon crystal on the rock. The rocks seem to vibrate and hum and the crystal starts to glow. The vibration in the area diminishes, but the crystal continues to glow.", 250, 0, ^objbox_height);
+inv_del(inv, heartcrystal, 1);
+inv_add(inv, heartcrystal_glow, 1);
+~objbox(heartcrystal_glow, "You carefully place the dragon crystal on the rock. The rocks seem to vibrate and hum and the crystal starts to glow. The vibration in the area diminishes, but the crystal continues to glow.", 250, 0, ^objbox_height);
 
 [oploc1,legends_recess]
 ~mesbox("You see a heart-shaped depression in the wall.|A message reads...|@blu@All ye who stand 'ere the dragons teeth,|@blu@Place your full true heart within, and proceed...");
 
 [oplocu,legends_recess]
-if(last_useitem = heart_crystal) {
+if(last_useitem = heartcrystal) {
     ~mesbox("The crystal seems to fit into the recess perfectly, but nothing interesting happens.");
-} else if(last_useitem = glowing_heart_crystal) {
+} else if(last_useitem = heartcrystal_glow) {
     if(%legends_progress >= ^legends_heart_in_recess) {
         mes("The cave is already open to you.");
         return;
@@ -1920,7 +1920,7 @@ if(last_useitem = heart_crystal) {
     anim(human_pickuptable, 0);
     spotanim_map(watersplash, coord, 128, 0);
     spotanim_map(watersplash, coord, 128, 0);
-    inv_del(inv, glowing_heart_crystal, 1);
+    inv_del(inv, heartcrystal_glow, 1);
     loc_change(legends_filled_recess, 15);
 }
 
@@ -1947,7 +1947,7 @@ p_delay(1);
 [oploc2,legends_shimmering_field]
 ~mesbox("You see a shimmering field right in front of your eyes. It seems to float in the air. You touch it with your hand and it seems to resist your movements. It will definitely bar you from getting into the next cave.");
 
-[opheld1,holy_force]
+[opheld1,holyforce]
 if(npc_find(coord, echned_zekin, 5, 0) = true) {
     @use_holy_force;
 } else {
@@ -1986,14 +1986,14 @@ loc_change(legends_leafy_palm_tree, 44); // static 43t
 obj_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk), palm_leaf, 1, 100);
 
 [oplocu,legends_totem_pole_1]
-if(last_useitem = yommi_totem) {
+if(last_useitem = thtotempole) {
     if(%legends_progress < ^legends_defeated_nezikchened_final) {
         ~mesbox("You attempt to replace the evil totem pole.|A black cloud emanates from the evil totem pole and|it slowly forms into the dread demon Nezikchened.");
         @summon_nezi_part3;
     } else if(%legends_progress = ^legends_defeated_nezikchened_final) {
         ~mesbox("You remove the evil totem pole and replace it with|the one you carved yourself.|As you do so, you feel a lightness in the air,|almost as if the Kharazi Jungle were sighing.");
         %legends_progress = ^legends_replaced_totem;
-        inv_del(inv, yommi_totem, 1);
+        inv_del(inv, thtotempole, 1);
         def_coord $coord = map_findsquare(coord, 1, 7, ^map_findsquare_lineofwalk);
         npc_add($coord, gujuo, 500);
         npc_walk(movecoord(coord, 1, 0, 0));
@@ -2032,7 +2032,7 @@ if(%legends_progress < ^legends_replaced_totem) {
 %legends_progress = ^legends_complete;
 // todo: older ref image?
 // https://storage.googleapis.com/tannerdino/images/legendscomplt.png
-~send_quest_complete(questlist:legends, gilded_totem, 250, ^legends_questpoints, "You have completed the\\nLegends Guild Quest!");
+~send_quest_complete(questlist:legends, thtotempolegift, 250, ^legends_questpoints, "You have completed the\\nLegends Guild Quest!");
 
 // Debug
 [debugproc,lf]

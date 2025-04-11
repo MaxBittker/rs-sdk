@@ -43,7 +43,7 @@ if (coordz(coord) = coordz(loc_coord)) {
 ~chatplayer("<p,neutral>This room isn't a lot of use on its own... Maybe I can|get extra help from the inside somehow... I wonder if|any of the other players have found a way in.");
 
 [oplocu,brimhaven_mansion_backdoor]
-if (last_useitem = miscellaneous_key) {
+if (last_useitem = misc_key) {
   ~open_and_close_door(loc_type, ~check_axis(coord, loc_coord, loc_angle), false);
   return;
 }
@@ -59,7 +59,7 @@ if (coord = loc_coord) {
 mes("The door is locked.");
 
 [oplocu,scarface_pete_trophy_room_door]
-if (last_useitem = grips_keyring) {
+if (last_useitem = grip_keys) {
   if (%hero_progress < ^hero_blackarm_id_papers_given) {
     // todo - need dialogue if you try opening door without progressing correctly
     mes("The key doesn't fit.");
@@ -77,14 +77,14 @@ mes("You open the chest.");
 loc_change(scarface_pete_candlestick_chest_open, 500); // todo - how long to keep open?
 
 [oploc1,scarface_pete_candlestick_chest_open]
-if (~obj_gettotal(petes_candlestick) > 0) {
+if (~obj_gettotal(petecandlestick) > 0) {
   ~mesbox("The chest is empty.");
-  if(inv_total(bank, petes_candlestick) > 0) {
+  if(inv_total(bank, petecandlestick) > 0) {
     ~chatplayer("<p,happy>I'm sure I've got a candlestick from this chest somewhere in my bank.");
   }
 } else {
   ~mesbox("You find two candlesticks in the chest. So that will be one for you, and one for the person who killed Grip for you.");
-  inv_add(inv, petes_candlestick, 2);
+  inv_add(inv, petecandlestick, 2);
   if (%hero_progress < ^hero_blackarm_looted_chest) {
     %hero_progress = ^hero_blackarm_looted_chest;
   }

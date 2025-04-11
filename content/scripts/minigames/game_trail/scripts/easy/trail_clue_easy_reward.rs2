@@ -74,8 +74,8 @@ switch_int ($random) {
     case 5 : inv_add(trail_rewardinv, black_platelegs_gold, 1);
     case 6 : inv_add(trail_rewardinv, black_full_helm_gold, 1);
     case 7 : inv_add(trail_rewardinv, black_kiteshield_gold, 1);
-    case 8 : inv_add(trail_rewardinv, trail_highwayman_mask, 1);
-    case 9 : inv_add(trail_rewardinv, trail_berret_blue, 1);
-    case 10 : inv_add(trail_rewardinv, trail_berret_black, 1);
-    case 11 : inv_add(trail_rewardinv, trail_berret_white, 1);
+    case 8 : inv_add(trail_rewardinv, highwaymanmask, 1);
+    case 9 : inv_add(trail_rewardinv, berret_blue, 1);
+    case 10 : inv_add(trail_rewardinv, berret_black, 1);
+    case 11 : inv_add(trail_rewardinv, berret_white, 1);
 }

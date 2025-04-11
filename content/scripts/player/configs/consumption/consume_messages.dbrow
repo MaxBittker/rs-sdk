@@ -6,14 +6,14 @@ data=restore_message2,It heals some health anyway.
 
 [cabbage_draynor_consume_messages]
 table=consume_messages_table
-data=consumable,cabbage_draynor
+data=consumable,magic_cabbage
 data=consume_message1,You eat the cabbage.
 data=consume_message2,It seems to taste nicer than normal.
 
 [plural_consume_messages]
 table=consume_messages_table
 data=consumable,anchovies
-data=consumable,shrimps
+data=consumable,shrimp
 data=restore_message2,They heal some health.
 
 [jangerberries_consume_messages]
@@ -190,12 +190,12 @@ table=consume_messages_table
 data=consumable,premade_blurberry_special
 data=consumable,premade_chocolate_saturday
 data=consumable,premade_drunk_dragon
-data=consumable,premade_short_green_guy
+data=consumable,premade_sgg
 data=consumable,premade_wizard_blizzard
 data=consumable,wizard_blizzard
 data=consumable,blurberry_special
 data=consumable,chocolate_saturday
-data=consumable,short_green_guy
+data=consumable,sgg
 data=consumable,drunk_dragon
 data=consume_message1,"You drink the cocktail. It tastes great,"
 data=consume_message2,although you feel slighlty dizzy.
@@ -213,16 +213,16 @@ data=restore_message2,You feel slightly reinvigorated.
 
 [odd_cocktail_consume_messages]
 table=consume_messages_table
-data=consumable,odd_cocktail1
-data=consumable,odd_cocktail2
-data=consumable,odd_cocktail3
-data=consumable,odd_cocktail4
+data=consumable,spoilt_cocktail
+data=consumable,spoilt_cocktail_fruity
+data=consumable,spoilt_cocktail_creamy
+data=consumable,spoilt_cocktail_slice
 data=consume_message1,You drink the cocktail.
 data=consume_message2,It tastes awful... yuck.
 
 [odd_batta_consume_messages]
 table=consume_messages_table
-data=consumable,odd_batta
+data=consumable,spoilt_batta
 data=consume_message1,You eat the batta.
 data=consume_message2,It tastes awful... yuck.
 data=restore_message2,0
@@ -230,7 +230,7 @@ data=message_delay,2
 
 [odd_gnomebowl_consume_messages]
 table=consume_messages_table
-data=consumable,odd_gnomebowl
+data=consumable,spoilt_gnomebowl
 data=consume_message1,You eat the gnomebowl.
 data=consume_message2,It tastes awful... yuck.
 data=restore_message2,0
@@ -238,7 +238,7 @@ data=message_delay,2
 
 [odd_crunchies_consume_messages]
 table=consume_messages_table
-data=consumable,odd_crunchies
+data=consumable,spoilt_crunchies
 data=consume_message1,You eat the crunchies.
 data=consume_message2,They taste awful... yuck.
 data=restore_message2,0
@@ -257,8 +257,8 @@ data=consumable,unfinished_chocolate_saturday1
 data=consumable,unfinished_chocolate_saturday2
 data=consumable,unfinished_chocolate_saturday3
 data=consumable,unfinished_chocolate_saturday4
-data=consumable,unfinished_short_green_guy1
-data=consumable,unfinished_short_green_guy2
+data=consumable,unfinished_sgg1
+data=consumable,unfinished_sgg2
 data=consumable,unfinished_drunk_dragon1
 data=consumable,unfinished_drunk_dragon2
 data=consumable,unfinished_drunk_dragon3
@@ -338,8 +338,8 @@ data=message_delay,2
 
 [premade_choc_chip_crunchies_consume_messages]
 table=consume_messages_table
-data=consumable,choc_chip_crunchies
-data=consumable,premade_choc_chip_crunchies
+data=consumable,chocchip_crunchies
+data=consumable,premade_chocchip_crunchies
 data=consume_message1,You eat the choc chip crunchies.
 data=consume_message2,They're very tasty.
 data=restore_message2,They're very tasty. They heal some health.
@@ -382,7 +382,7 @@ data=consume_message1,You eat the cream. You get some on your nose.
 
 [toad_legs_consume_messages]
 table=consume_messages_table
-data=consumable,toad_legs
+data=consumable,toads_legs
 data=consume_message1,You eat the toad's legs. They're a bit chewy.
 data=restore_message2,0
 // can be combo eaten in osrs
@@ -390,21 +390,21 @@ data=message_delay,2
 
 [equa_toad_legs_consume_messages]
 table=consume_messages_table
-data=consumable,equa_toad_legs
+data=consumable,equa_toads_legs
 data=consume_message1,You eat the equa toad's legs. They're a bit chewy.
 data=restore_message2,0
 data=message_delay,2
 
 [spicy_toad_legs_consume_messages]
 table=consume_messages_table
-data=consumable,spicy_toad_legs
+data=consumable,spicy_toads_legs
 data=consume_message1,You eat the spicy toad's legs. They're a bit chewy.
 data=restore_message2,0
 data=message_delay,2
 
 [seasoned_toad_legs_consume_messages]
 table=consume_messages_table
-data=consumable,seasoned_toad_legs
+data=consumable,seasoned_toads_legs
 data=consume_message1,You eat the seasoned toad's legs. They're a bit chewy.
 data=restore_message2,0
 data=message_delay,2
@@ -464,7 +464,7 @@ data=message_delay,2
 
 [cooked_wrapped_oomlie_consume_messages]
 table=consume_messages_table
-data=consumable,cooked_wrapped_oomlie
+data=consumable,cooked_oomlie
 data=consume_message1,You eat the oomlie meat; it tastes very gamy.
 
 [apple_pie_consume_messages]
@@ -487,13 +487,13 @@ data=restore_message2,0
 
 [half_meat_pie_consume_messages]
 table=consume_messages_table
-data=consumable,half_meat_pie
+data=consumable,half_a_meat_pie
 data=consume_message1,You eat the remaining meat pie.
 data=restore_message2,0
 
 [half_redberry_pie_consume_messages]
 table=consume_messages_table
-data=consumable,half_redberry_pie
+data=consumable,half_a_redberry_pie
 data=consume_message1,You eat the remaining redberry pie.
 data=restore_message2,0
 
@@ -516,7 +516,7 @@ data=restore_message2,0
 
 [anchovy_pizza_consume_messages]
 table=consume_messages_table
-data=consumable,anchovy_pizza
+data=consumable,anchovie_pizza
 data=consume_message1,You eat half of the anchovy pizza.
 data=restore_message2,0
 
@@ -539,7 +539,7 @@ data=restore_message2,0
 
 [half_anchovy_pizza_consume_messages]
 table=consume_messages_table
-data=consumable,half_anchovy_pizza
+data=consumable,half_anchovie_pizza
 data=consume_message1,You eat the remaining anchovy pizza.
 data=restore_message2,0
 
@@ -552,7 +552,7 @@ data=restore_message2,0
 [wine_consume_messages]
 table=consume_messages_table
 data=consumable,half_full_wine_jug
-data=consumable,jug_of_bad_wine
+data=consumable,jug_bad_wine
 data=consumable,jug_wine
 data=consume_message1,You drink the wine.
 data=consume_message2,It makes you feel a bit dizzy.
@@ -560,7 +560,7 @@ data=restore_message2,"It makes you feel a bit dizzy, but it heals some health."
 
 [strength_potion_consume_messages]
 table=consume_messages_table
-data=consumable,4dose1strength
+data=consumable,strength4
 data=consumable,3dose1strength
 data=consumable,2dose1strength
 data=consumable,1dose1strength
@@ -588,10 +588,10 @@ data=message_delay,1
 
 [restore_potion_consume_messages]
 table=consume_messages_table
-data=consumable,4dose1restore
-data=consumable,3dose1restore
-data=consumable,2dose1restore
-data=consumable,1dose1restore
+data=consumable,4dosestatrestore
+data=consumable,4dosestatrestore
+data=consumable,2dosestatrestore
+data=consumable,1dosestatrestore
 data=consume_message1,You drink some of your stat restoration potion.
 data=message_delay,1
 
@@ -671,17 +671,17 @@ data=message_delay,1
 
 [unfinished_batta_consume_messages]
 table=consume_messages_table
-data=consumable,unfinished_fruit_batta1
-data=consumable,unfinished_fruit_batta2
-data=consumable,unfinished_fruit_batta3
-data=consumable,unfinished_fruit_batta4
-data=consumable,unfinished_fruit_batta5
-data=consumable,unfinished_fruit_batta6
-data=consumable,unfinished_fruit_batta7
-data=consumable,unfinished_fruit_batta8
-data=consumable,unfinished_worm_batta1
+data=consumable,fruitless_batta
+data=consumable,fruit_batta_lime
+data=consumable,fruit_batta_orange
+data=consumable,fruit_batta_pineapple
+data=consumable,fruit_batta_limeorange
+data=consumable,fruit_batta_limepineapple
+data=consumable,fruit_batta_orangepineapple
+data=consumable,unfinished_fruit_batta
+data=consumable,unfinished_worm_batta
 data=consumable,unfinished_cheese_tom_batta1
-data=consumable,unfinished_vegetable_batta1
+data=consumable,unfinished_vegetable_batta
 data=consume_message1,You eat the batta.
 data=consume_message2,It doesn't taste right...
 data=restore_message2,0
@@ -689,10 +689,10 @@ data=message_delay,2
 
 [unfinished_crunchies_consume_messages]
 table=consume_messages_table
-data=consumable,unfinished_worm_crunchies1
-data=consumable,unfinished_choc_chip_crunchies1
-data=consumable,unfinished_spicy_crunchies1
-data=consumable,unfinished_toad_crunchies1
+data=consumable,unfinished_worm_crunchies
+data=consumable,unfinished_chocchip_crunchies
+data=consumable,unfinished_spicy_crunchies
+data=consumable,unfinished_toad_crunchies
 data=consume_message1,You eat the crunchies.
 data=consume_message2,They don't taste right...
 data=restore_message2,0
@@ -703,8 +703,8 @@ table=consume_messages_table
 data=consumable,unfinished_chocolate_bomb1
 data=consumable,unfinished_chocolate_bomb2
 data=consumable,unfinished_chocolate_bomb3
-data=consumable,unfinished_worm_hole1
-data=consumable,unfinished_veg_ball1
+data=consumable,unfinished_worm_hole
+data=consumable,unfinished_veg_ball
 data=consume_message1,You eat the gnomebowl.
 data=consume_message2,It doesn't taste right...
 data=restore_message2,0
@@ -712,7 +712,7 @@ data=message_delay,2
 
 [strange_fruit_consume_messages]
 table=consume_messages_table
-data=consumable,strange_fruit
+data=consumable,macro_triffidfruit
 data=consume_message1,You eat the fruit.
 data=consume_message2,"It tastes great, some of your energy is restored!"
 // says these messages even at 100% run and 100% hp

@@ -8,7 +8,7 @@ switch_obj(last_useitem) {
 switch_obj(last_useitem) {
     case ogre_arrow_shaft : @make_ogre_headless_arrows;
     case arrow_shaft : @make_headless_arrows;
-    case prototype_dart_tip : @make_prototype_dart;
+    case thprotodarttip : @make_prototype_dart;
     case default :
         if (oc_category(last_useitem) = category_969) {
             @make_darts(last_useitem);

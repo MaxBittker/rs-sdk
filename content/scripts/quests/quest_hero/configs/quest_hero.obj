@@ -1,4 +1,4 @@
-[grips_keyring]
+[grip_keys]
 name=Grips' keyring
 desc=Some keys on a keyring.
 members=yes
@@ -26,7 +26,7 @@ members=yes
 weight=10g
 tradeable=no
 
-[miscellaneous_key]
+[misc_key]
 name=Miscellaneous key
 desc=I wonder what this unlocks?
 model=model_2372_obj
@@ -40,7 +40,7 @@ recol1d=22945
 weight=10g
 members=yes
 
-[thieves_armband]
+[master_thief_armband]
 name=Thieves' armband
 desc=This denotes a Master Thief.
 cost=2
@@ -54,7 +54,7 @@ weight=25g
 members=yes
 tradeable=no
 
-[petes_candlestick]
+[petecandlestick]
 name=Pete's candlestick
 desc=Scarface Pete's Candlestick.
 cost=5

@@ -1,4 +1,4 @@
-[bailing_bucket_empty]
+[bucket_bailing]
 name=Bailing bucket
 desc=It's a bailing bucket.
 cost=10
@@ -13,7 +13,7 @@ iop1=Bail-with
 weight=1kg
 members=yes
 
-[bailing_bucket_full]
+[bucket_bailingfull]
 name=Bailing bucket
 desc=It's a bailing bucket full of salty water.
 cost=10

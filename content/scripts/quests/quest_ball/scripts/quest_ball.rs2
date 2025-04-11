@@ -1,22 +1,22 @@
 [oploc1,loc_2867]
 // https://youtu.be/stROSTIJ2q8?si=4wvlodUkO9x6pAV9&t=62
-if(inv_total(inv, ball_doorkey) > 0) { // no bank check (osrs)
+if(inv_total(inv, witches_doorkey) > 0) { // no bank check (osrs)
     mes("You don't find anything interesting.");
     return;
 }
 ~mesbox("You find a key hidden under the flower pot.");
-inv_add(inv, ball_doorkey, 1);
+inv_add(inv, witches_doorkey, 1);
 
 [oploc1,loc_2861]
 def_boolean $leaving = ~check_axis(coord, loc_coord, loc_angle);
-if(inv_total(inv, ball_doorkey) > 0 | $leaving = true) {
+if(inv_total(inv, witches_doorkey) > 0 | $leaving = true) {
     @open_witch_house_door($leaving);
 }
 mes("The door is locked.");
 
 [oplocu,loc_2861]
 def_boolean $leaving = ~check_axis(coord, loc_coord, loc_angle);
-if(last_useitem = ball_doorkey | $leaving = true) {
+if(last_useitem = witches_doorkey | $leaving = true) {
     @open_witch_house_door($leaving);
 }
 ~displaymessage(^dm_default);
@@ -135,7 +135,7 @@ if(%ball_progress >= ^ball_defeated_experiment) {
 mes("The shed door is locked.");
 
 [oplocu,loc_2863]
-if(last_useitem = ball_shedkey) {
+if(last_useitem = witches_shedkey) {
     // angles on these doors don't visually match osrs, but they actually do have the same loc_angle
     // prob just something weird with the new models
     def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
@@ -163,22 +163,22 @@ if(last_useitem = ball_shedkey) {
 mes("The shed door is locked.");
 
 [oploc2,loc_2864]
-if(~obj_gettotal(ball_shedkey) > 0) { // checks bank
+if(~obj_gettotal(witches_shedkey) > 0) { // checks bank
     mes("There is nothing in the fountain.");
     return;
 }
 // this does always mention the diary whether you've read/picked it up or not
 ~mesbox("You search for the secret compartment mentioned in the diary. Inside it you find a small key. You take the key.");
-inv_add(inv, ball_shedkey, 1);
+inv_add(inv, witches_shedkey, 1);
 
-[opobj3,boy_ball]
+[opobj3,ball]
 if(%ball_progress = ^ball_complete) {
     mes("Another ball! The witch must have found another one. You decide to leave this one");
     mes("here.");
     return;
 }
 if(%ball_progress = ^ball_defeated_experiment) {
-    if(inv_total(inv, boy_ball) > 0) { // doesn't check bank
+    if(inv_total(inv, ball) > 0) { // doesn't check bank
         mes("You already have the boys ball...");
         return;
     }
@@ -201,7 +201,7 @@ mes("A shapeshifter appears, and knocks you back from the ball!");
 [queue,ball_quest_complete]
 // https://web.archive.org/web/20060908030634im_/http://www.runeweb.net/fireball/Witchs%20House%20Images/Witch3.PNG
 %ball_progress = ^ball_complete;
-inv_del(inv, boy_ball, 1);
+inv_del(inv, ball, 1);
 stat_advance(hitpoints, 63250);
 session_log(^log_adventure, "Quest complete: Witches House");
-~send_quest_complete(questlist:ball, boy_ball, 180, ^ball_questpoints, "You have completed the\\nWitches' House Quest!");
+~send_quest_complete(questlist:ball, ball, 180, ^ball_questpoints, "You have completed the\\nWitches' House Quest!");

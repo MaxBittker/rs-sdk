@@ -127,7 +127,7 @@ model=model_2615_obj
 weight=2oz
 tradeable=no
 
-[staff_of_armadyl]
+[ikov_staffofarmardyl]
 name=Staff of armadyl
 desc=The power in this staff causes it to vibrate gently.
 members=yes
@@ -143,7 +143,7 @@ recol1d=21933
 weight=4lb
 tradeable=no
 
-[shiny_key]
+[ikov_shinykey]
 name=Shiny key
 desc=It catches the light!
 members=yes
@@ -157,7 +157,7 @@ model=model_2372_obj
 weight=10g
 tradeable=no
 
-[pendant_of_lucien]
+[ikov_pendantoflucien]
 name=Pendant of lucien
 desc=The amulet that Lucien gave you.
 model=model_2508_obj
@@ -177,7 +177,7 @@ iop2=Wear
 weight=10g
 tradeable=no
 
-[armadyl_pendant]
+[ikov_pendantofarmardyl]
 name=Armadyl pendant
 desc=Yet another amulet.
 model=model_2508_obj
@@ -197,7 +197,7 @@ iop2=Wear
 weight=10g
 tradeable=no
 
-[boots_of_lightness_inv]
+[ikov_bootsoflightness]
 wearpos=feet
 members=yes
 name=Boots of lightness
@@ -220,7 +220,7 @@ param=slashdefence,1
 param=crushdefence,1
 tradeable=no
 
-[boots_of_lightness_worn]
+[ikov_bootsoflightnessworn]
 wearpos=feet
 members=yes
 name=Boots of lightness

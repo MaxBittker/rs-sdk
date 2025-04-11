@@ -2,7 +2,7 @@
 // https://oldschool.runescape.wiki/w/Transcript:Oracle
 
 [opnpc1,oracle]
-if(map_members = true & inv_total(inv, trail_clue_medium_anagram_exp007) > 0) {
+if(map_members = true & inv_total(inv, trail_clue_medium_anagram007) > 0) {
     @trail_oracle;
 }
 
@@ -57,12 +57,12 @@ switch_int ($random) {
 }
 
 [label,trail_oracle]
-if(inv_total(inv, trail_clue_medium_challenge_exp005) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram007_challenge) > 0) {
     @trail_challengenpc_prompt("<p,neutral>Please enter the answer to the question.", "<p,happy>That's right, well done!", "<p,neutral>That's wrong I'm afraid.",
-    "The Oracle has given you another clue scroll!", trail_clue_medium_anagram_exp007, trail_clue_medium_challenge_exp005);
+    "The Oracle has given you another clue scroll!", trail_clue_medium_anagram007, trail_clue_medium_anagram007_challenge);
 }
 ~chatnpc("<p,neutral>I've got a little challenge for you.");
 ~chatplayer("<p,neutral>OK...");
 ~chatnpc("<p,neutral>Can you answer this for me please.");
-inv_add(inv, trail_clue_medium_challenge_exp005, 1);
-~objbox(trail_clue_medium_challenge_exp005, "The Oracle has given you a challenge scroll!", 250, 0, 0);
+inv_add(inv, trail_clue_medium_anagram007_challenge, 1);
+~objbox(trail_clue_medium_anagram007_challenge, "The Oracle has given you a challenge scroll!", 250, 0, 0);

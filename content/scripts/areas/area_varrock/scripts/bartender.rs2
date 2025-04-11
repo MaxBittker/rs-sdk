@@ -64,7 +64,7 @@ p_delay(2);
 
 [opnpc1,bartender_varrock]
 //Treasure Trails
-if(map_members = true & inv_total(inv, trail_clue_easy_simple_exp010) = 1) {
+if(map_members = true & inv_total(inv, trail_clue_easy_simple010) = 1) {
     @trail_bartender_varrock;
 }
 ~chatnpc("<p,quiz>What can I do yer for?");
@@ -140,7 +140,7 @@ say("Blearrgh!");
 
 [label,trail_bartender_varrock]
 ~chatnpc("<p,happy>Nicely solved!");
-~progress_clue_easy(trail_clue_easy_simple_exp010, "The bartender hands you another scroll!");
+~progress_clue_easy(trail_clue_easy_simple010, "The bartender hands you another scroll!");
 
 [opnpc1,bartender_dancingdonkey] // Dancing Donkey Inn
 ~chatplayer("<p,happy>Hello.");

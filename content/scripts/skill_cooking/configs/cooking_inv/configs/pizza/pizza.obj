@@ -56,7 +56,7 @@ recol3d=19489
 weight=450g
 category=category_132
 
-[anchovy_pizza]
+[anchovie_pizza]
 iop1=Eat
 name=Anchovy pizza
 desc=A pizza with anchovies.
@@ -74,9 +74,9 @@ recol3d=19489
 2dxan=260
 weight=900g
 category=category_132
-param=next_obj_stage,half_anchovy_pizza
+param=next_obj_stage,half_anchovie_pizza
 
-[half_anchovy_pizza]
+[half_anchovie_pizza]
 iop1=Eat
 name=1/2 anchovy pizza
 desc=Half of this pizza has been eaten.

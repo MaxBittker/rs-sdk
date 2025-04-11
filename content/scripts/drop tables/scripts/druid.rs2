@@ -37,9 +37,9 @@ if ($random < 4) {
 } else if ($random < 76) {
     obj_add(npc_coord, iron_dagger, 1, ^lootdrop_duration);
 } else if ($random < 82) {
-    obj_add(npc_coord, druid_robe_top, 1, ^lootdrop_duration);
+    obj_add(npc_coord, druidrobetop, 1, ^lootdrop_duration);
 } else if ($random < 87) {
-    obj_add(npc_coord, druid_robe_bottom, 1, ^lootdrop_duration);
+    obj_add(npc_coord, druidrobebottom, 1, ^lootdrop_duration);
 } else if ($random < 90) {
     obj_add(npc_coord, limpwurt_root, 1, ^lootdrop_duration);
 } else if ($random < 91) {

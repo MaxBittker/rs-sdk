@@ -1,6 +1,6 @@
 [opnpc1,kebab_seller]
 // https://www.youtube.com/watch?v=EJfNdZNjDvE
-if(map_members = true & inv_total(inv, trail_clue_medium_anagram_exp006) > 0) {
+if(map_members = true & inv_total(inv, trail_clue_medium_anagram006) > 0) {
     @trail_kebab_seller;
 }
 
@@ -27,13 +27,13 @@ inv_add(inv, kebab, 1);
 mes("You buy a kebab.");
 
 [label,trail_kebab_seller]
-if(inv_total(inv, trail_clue_medium_challenge_exp004) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram006_challenge) > 0) {
     @trail_challengenpc_prompt("<p,neutral>Please enter the answer to the riddle.", "<p,happy>Correct!", "<p,angry>No that's not right, think again.", 
-    "The salesman has given you another clue scroll!", trail_clue_medium_anagram_exp006, trail_clue_medium_challenge_exp004);
+    "The salesman has given you another clue scroll!", trail_clue_medium_anagram006, trail_clue_medium_anagram006_challenge);
 }
 ~chatnpc("<p,confused>I've got a little problem for you to solve.");
-inv_add(inv, trail_clue_medium_challenge_exp004, 1);
-~objbox(trail_clue_medium_challenge_exp004, "The salesman has given you a challenge scroll!", 250, 0, 0);
+inv_add(inv, trail_clue_medium_anagram006_challenge, 1);
+~objbox(trail_clue_medium_anagram006_challenge, "The salesman has given you a challenge scroll!", 250, 0, 0);
 
 [label,kebab_seller_crest]
 ~chatplayer("<p,neutral>I'm in search of a man named Avan Fitzharmon.");

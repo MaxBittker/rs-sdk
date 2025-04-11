@@ -1,4 +1,4 @@
-[cattle_prod]
+[cattleprod]
 name=Prod
 desc=An old cattle prod.
 members=yes
@@ -40,7 +40,7 @@ members=yes
 weight=5lb
 tradeable=no
 
-[red_sheep_bones]
+[sheepbonesa]
 name=Bones
 desc=These sheep remains are infected.
 members=yes
@@ -52,7 +52,7 @@ model=model_2674_obj
 weight=3lb
 tradeable=no
 
-[green_sheep_bones]
+[sheepbonesb]
 name=Bones
 desc=These sheep remains are infected.
 members=yes
@@ -64,7 +64,7 @@ model=model_2674_obj
 weight=3lb
 tradeable=no
 
-[blue_sheep_bones]
+[sheepbonesc]
 name=Bones
 desc=These sheep remains are infected.
 members=yes
@@ -76,7 +76,7 @@ model=model_2674_obj
 weight=3lb
 tradeable=no
 
-[yellow_sheep_bones]
+[sheepbonesd]
 name=Bones
 desc=These sheep remains are infected.
 members=yes

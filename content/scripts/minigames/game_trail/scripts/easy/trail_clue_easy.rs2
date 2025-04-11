@@ -45,4 +45,4 @@ p_delay(0);
 // Temp note: dur updated
 loc_change(loc_3369, 5);
 p_delay(0);
-~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp008);
+~trail_clue_easy_loc_interact(trail_clue_easy_vague003);

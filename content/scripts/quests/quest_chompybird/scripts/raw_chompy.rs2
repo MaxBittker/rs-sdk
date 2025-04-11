@@ -40,7 +40,7 @@ if (%chompybird_progress = ^chompybird_told_to_cook_chompy) {
 
 if (%chompybird_progress = ^chompybird_chompy_cooked) {
     // todo what if the player no longer has the original chompy? Does it still auto-hand in?
-    if(inv_total(inv, seasoned_chompy) = 0) {
+    if(inv_total(inv, cooked_s_chompy) = 0) {
         @cook_chompy_quest;
     }
     if (npc_find(loc_coord, chompybird_rantz, 10, 0) = true) {
@@ -201,10 +201,10 @@ if ($passes_roll = true) {
     p_delay(2);
     anim(human_pickuptable, 0);
     mes("Eventually the chompy is cooked.");
-    inv_add(inv, seasoned_chompy, 1);
+    inv_add(inv, cooked_s_chompy, 1);
     stat_advance(cooking, 142);
     p_delay(1);
-    ~objbox(seasoned_chompy, "You use the <$rantz_ingredient_name>, <$bugs_ingredient_name> and the <$fycie_ingredient_name>|with the chompy bird to make a seasoned chompy.", 250, 0, divide(^objbox_height, 2));
+    ~objbox(cooked_s_chompy, "You use the <$rantz_ingredient_name>, <$bugs_ingredient_name> and the <$fycie_ingredient_name>|with the chompy bird to make a seasoned chompy.", 250, 0, divide(^objbox_height, 2));
 } else {
     mes("You accidentally burn the chompy.");
     ~delete_chompy_ingredients($rantz_ingredient, $bugs_ingredient, $fycie_ingredient);

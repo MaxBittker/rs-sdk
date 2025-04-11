@@ -6,7 +6,7 @@ data=levelrequired,7
 data=runesrequired,waterrune,1,cosmicrune,1,null,null
 data=experience,175
 data=convertobj,sapphire_ring,ring_of_recoil,human_cast_enchantring,enchant_ring,enchant_sapphire_ring
-data=convertobj,sapphire_amulet,amulet_of_magic,human_enchantamuletlvl1,enchant_amulet_lvl1,enchant_sapphire_amulet
+data=convertobj,strung_sapphire_amulet,amulet_of_magic,human_enchantamuletlvl1,enchant_amulet_lvl1,enchant_sapphire_amulet
 data=additional_reqmessage,This spell can only be cast on sapphire rings and amulets.
 data=specificobj_reqmessage,unstrung_sapphire_amulet,You need to string the sapphire amulet before enchanting it.
 
@@ -17,8 +17,8 @@ data=members,false
 data=levelrequired,27
 data=runesrequired,airrune,3,cosmicrune,1,null,null
 data=experience,370
-data=convertobj,emerald_ring,ring_of_duel_8,human_cast_enchantring,enchant_ring,enchant_emerald_ring
-data=convertobj,emerald_amulet,amulet_of_defence,human_enchantamuletlvl2,enchant_amulet_lvl2,enchant_emerald_amulet
+data=convertobj,emerald_ring,ring_of_dueling_8,human_cast_enchantring,enchant_ring,enchant_emerald_ring
+data=convertobj,strung_emerald_amulet,amulet_of_defence,human_enchantamuletlvl2,enchant_amulet_lvl2,enchant_emerald_amulet
 data=additional_reqmessage,This spell can only be cast on emerald rings and amulets.
 data=specificobj_reqmessage,unstrung_emerald_amulet,You need to string the emerald amulet before enchanting it.
 
@@ -30,7 +30,7 @@ data=levelrequired,49
 data=runesrequired,firerune,5,cosmicrune,1,null,null
 data=experience,590
 data=convertobj,ruby_ring,ring_of_forging,human_cast_enchantring,enchant_ring,enchant_ruby_ring
-data=convertobj,ruby_amulet,amulet_of_strength,human_enchantamuletlvl3,enchant_amulet_lvl3,enchant_ruby_amulet
+data=convertobj,strung_ruby_amulet,amulet_of_strength,human_enchantamuletlvl3,enchant_amulet_lvl3,enchant_ruby_amulet
 data=additional_reqmessage,This spell can only be cast on ruby rings and amulets.
 data=specificobj_reqmessage,unstrung_ruby_amulet,You need to string the ruby amulet before enchanting it.
 
@@ -42,7 +42,7 @@ data=levelrequired,57
 data=runesrequired,earthrune,10,cosmicrune,1,null,null
 data=experience,670
 data=convertobj,diamond_ring,ring_of_life,human_cast_enchantring,enchant_ring,enchant_diamond_ring
-data=convertobj,diamond_amulet,amulet_of_power,human_enchantamuletlvl1,enchant_amulet2_lvl4,enchant_diamond_amulet
+data=convertobj,strung_diamond_amulet,amulet_of_power,human_enchantamuletlvl1,enchant_amulet2_lvl4,enchant_diamond_amulet
 data=additional_reqmessage,This spell can only be cast on diamond rings and amulets.
 data=specificobj_reqmessage,unstrung_diamond_amulet,You need to string the diamond amulet before enchanting it.
 
@@ -54,7 +54,7 @@ data=levelrequired,68
 data=runesrequired,earthrune,15,waterrune,15,cosmicrune,1
 data=experience,780
 data=convertobj,dragonstone_ring,ring_of_wealth,human_cast_enchantring,enchant_ring,enchant_dragon_ring
-data=convertobj,dragonstone_amulet,amulet_of_glory_4,human_enchantamuletlvl2,enchant_amulet2_lvl5,enchant_dragon_amulet
+data=convertobj,strung_dragonstone_amulet,amulet_of_glory_4,human_enchantamuletlvl2,enchant_amulet2_lvl5,enchant_dragon_amulet
 data=additional_reqmessage,This spell can only be cast on dragonstone rings and amulets.
 data=specificobj_reqmessage,unstrung_dragonstone_amulet,You need to string the dragonstone amulet before enchanting it.
 

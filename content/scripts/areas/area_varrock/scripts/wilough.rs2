@@ -1,25 +1,25 @@
 [opnpc1,wilough]
 // https://www.youtube.com/watch?v=fwWnxMS3d_Q
-if(map_members = true & inv_total(inv, trail_clue_hard_riddle_exp016) > 0) {
+if(map_members = true & inv_total(inv, trail_clue_hard_riddle016) > 0) {
     @trail_wilough;
 }
 @fluffs_boy_dialogue;
 
 [label,trail_wilough]
-if(~obj_gettotal(trail_clue_hard_puzzle_exp016) > 0) {
-    if(inv_total(inv, trail_clue_hard_puzzle_exp016) = 0) {
+if(~obj_gettotal(trail_clue_hard_riddle016_puzzlebox) > 0) {
+    if(inv_total(inv, trail_clue_hard_riddle016_puzzlebox) = 0) {
         ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
         ~chatnpc("<p,angry>That's not much use - go and fetch it!");
         return;
     }
     if(~trail_puzzle_complete = true) {
         ~chatnpc("<p,neutral>Thanks <text_gender("mister!", "miss")>!");
-        inv_del(inv, trail_clue_hard_puzzle_exp016, 1);
-        ~progress_clue_hard(trail_clue_hard_riddle_exp016, "Wilough has given you another clue scroll!");
+        inv_del(inv, trail_clue_hard_riddle016_puzzlebox, 1);
+        ~progress_clue_hard(trail_clue_hard_riddle016, "Wilough has given you another clue scroll!");
         return;
     } 
     ~chatnpc("<p,neutral>That not right!"); // todo: check mesanim
     return;
 }
 ~chatnpc("<p,happy>My brother reckons I can't solve this puzzle. I can't have him laughing at me! Do me a favour and solve it for me.");
-~give_trail_puzzle(trail_clue_hard_puzzle_exp016, "Wilough has given you a puzzle box!");
+~give_trail_puzzle(trail_clue_hard_riddle016_puzzlebox, "Wilough has given you a puzzle box!");

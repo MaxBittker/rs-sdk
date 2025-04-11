@@ -7,25 +7,25 @@
 if_close;
 mes("You look amongst the junk on the floor.");
 p_delay(2);
-if (inv_total(inv, glarials_pebble) < 1) { // no bank check again
+if (inv_total(inv, glarials_pebble_waterfall_quest) < 1) { // no bank check again
     mes("mixed with the junk on the floor you find Glarial's pebble.");
     p_delay(2);
     ~chatplayer("<p,neutral>Could I take this old pebble?");
     ~chatnpc("<p,neutral>Oh that, yes have it, it's just some old elven junk I believe.");
-    inv_add(inv, glarials_pebble, 1);
+    inv_add(inv, glarials_pebble_waterfall_quest, 1);
     %waterfall_golrie_and_puzzle = setbit(%waterfall_golrie_and_puzzle, 0); // gonna have waterfall_addl_values, bit 0 can be golrie's key, bits 1-18 will be pillars and runes
-    if(inv_total(inv, golrie_key) > 0) {
+    if(inv_total(inv, golrie_key_waterfall_quest) > 0) {
         if_close;
         mes("You give Golrie the key.");
-        inv_del(inv, golrie_key, 1);
+        inv_del(inv, golrie_key_waterfall_quest, 1);
         p_delay(2);
     }
 } else {
     mes("You find nothing of interest.");
     p_delay(2);
-    if(inv_total(inv, golrie_key) > 0) {
+    if(inv_total(inv, golrie_key_waterfall_quest) > 0) {
         mes("You give Golrie the key.");
-        inv_del(inv, golrie_key, 1);
+        inv_del(inv, golrie_key_waterfall_quest, 1);
         p_delay(2);
     }
 }

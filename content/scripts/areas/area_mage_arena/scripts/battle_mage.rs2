@@ -36,7 +36,7 @@ if (~inzone_coord_pair_table(mage_arena, coord) = true) {
 [label,battle_mage_saradomin_attack]
 // this video shows a random chance https://youtu.be/sJflCm4c-ns?list=PLn23LiLYLb1Y4vxMPWXM-CVEvOUfuAP_o&t=130
 // the zamorak battle mage says 'Hail Zamorak!' 12 times in ~150 ticks. Im guessing a 1/10 chance
-if (random(10) = 0 & inv_total(worn, saradominstaff) > 0 & inv_total(worn, saradomincape) > 0 & %npc_aggressive_player ! uid) {
+if (random(10) = 0 & inv_total(worn, saradomin_staff) > 0 & inv_total(worn, saradomin_cape) > 0 & %npc_aggressive_player ! uid) {
     npc_say("Hail Saradomin!");
     return;
 }
@@ -46,7 +46,7 @@ if (~npc_can_attack_player = true) {
 }
 
 [label,battle_mage_guthix_attack]
-if (random(10) = 0 & inv_total(worn, guthixstaff) > 0 & inv_total(worn, guthixcape) > 0 & %npc_aggressive_player ! uid) {
+if (random(10) = 0 & inv_total(worn, guthix_staff) > 0 & inv_total(worn, guthix_cape) > 0 & %npc_aggressive_player ! uid) {
     npc_say("Hail Guthix!");
     return;
 }
@@ -56,7 +56,7 @@ if (~npc_can_attack_player = true) {
 }
 
 [label,battle_mage_zamorak_attack]
-if (random(10) = 0 & inv_total(worn, zamorakstaff) > 0 & inv_total(worn, zamorakcape) > 0 & %npc_aggressive_player ! uid) {
+if (random(10) = 0 & inv_total(worn, zamorak_staff) > 0 & inv_total(worn, zamorak_cape) > 0 & %npc_aggressive_player ! uid) {
     npc_say("Hail Zamorak!");
     return;
 }

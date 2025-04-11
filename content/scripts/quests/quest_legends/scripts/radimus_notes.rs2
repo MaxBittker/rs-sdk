@@ -1,11 +1,11 @@
-[opheld1,radimus_notes_complete]
-~objbox(radimus_notes_complete, "The map of the Kharazi Jungle is complete, Sir Radimus Erkle will be pleased.", 250, 0, 0);
+[opheld1,thkaramjamapcomp]
+~objbox(thkaramjamapcomp, "The map of the Kharazi Jungle is complete, Sir Radimus Erkle will be pleased.", 250, 0, 0);
 // Capitalisation and full stops at the end of options are authentic
 @multi2("Read Mission Briefing.", radimus_notes_read,
         "Close.", radimus_notes_close);
 
-[opheld1,radimus_notes]
-~objbox(radimus_notes, "You open and start to read the scrolls that Radimus|gave you.", 250, 0, 0);
+[opheld1,thkaramjamap]
+~objbox(thkaramjamap, "You open and start to read the scrolls that Radimus|gave you.", 250, 0, 0);
 @multi2("Read Mission Briefing.", radimus_notes_read,
         "Start Mapping Kharazi Jungle.", radimus_notes_begin);
 
@@ -17,18 +17,18 @@
 [label,radimus_notes_close]
 mes("You put the scrolls away.");
 
-[opheld2,radimus_notes]
+[opheld2,thkaramjamap]
 @radimus_notes_begin;
 
 [label,radimus_notes_begin]
 if(getbit_range(%legends_bits, ^legends_jungle_west_mapped, ^legends_jungle_east_mapped) = sub(pow(2,3),1)) { // probably not possible?
-    inv_del(inv, radimus_notes, 1);
-    inv_add(inv, radimus_notes_complete, 1);
+    inv_del(inv, thkaramjamap, 1);
+    inv_add(inv, thkaramjamapcomp, 1);
     return;
 }
 if (~inzone_coord_pair_table(kharazi_jungle_west, coord) = true) {
     if (testbit(%legends_bits, ^legends_jungle_west_mapped) = true) {
-        ~objbox(radimus_notes, "You have already completed this part of the map.", 250, 0, 0);
+        ~objbox(thkaramjamap, "You have already completed this part of the map.", 250, 0, 0);
         @kharazi_jungle_mapping;
     }
     else {
@@ -37,7 +37,7 @@ if (~inzone_coord_pair_table(kharazi_jungle_west, coord) = true) {
 }
 else if (~inzone_coord_pair_table(kharazi_jungle_middle, coord) = true) {
     if (testbit(%legends_bits, ^legends_jungle_middle_mapped) = true) {
-        ~objbox(radimus_notes, "You have already completed this part of the map.", 250, 0, 0);
+        ~objbox(thkaramjamap, "You have already completed this part of the map.", 250, 0, 0);
         @kharazi_jungle_mapping;
     }
     else {
@@ -46,7 +46,7 @@ else if (~inzone_coord_pair_table(kharazi_jungle_middle, coord) = true) {
 }
 else if (~inzone_coord_pair_table(kharazi_jungle_east, coord) = true) {
     if (testbit(%legends_bits, ^legends_jungle_east_mapped) = true) {
-        ~objbox(radimus_notes, "You have already completed this part of the map.", 250, 0, 0);
+        ~objbox(thkaramjamap, "You have already completed this part of the map.", 250, 0, 0);
         @kharazi_jungle_mapping;
     }
     else {
@@ -78,7 +78,7 @@ if (stat(crafting) < 50) {
 if (stat_random(stat(crafting), 100, 250) = false) {
     def_int $rand = random(128);
     if($rand < 40) {
-        ~objbox(radimus_notes, "You make a mess but are able to rescue the paper.", 250, 0, 0);
+        ~objbox(thkaramjamap, "You make a mess but are able to rescue the paper.", 250, 0, 0);
     } else if ($rand < 65) {
         inv_del(inv, charcoal, 1);
         ~objbox(charcoal, "You snap your stick of charcoal.", 250, 0, 0);
@@ -101,7 +101,7 @@ anim(human_mapping, 0);
 p_delay(1);
 %legends_bits = setbit(%legends_bits, $jungle_section);
 // Crafting is capitalised in OSRS now, but lowercase is authentic
-~objbox(radimus_notes, "You use your crafting skill to neatly add a new section to your map.", 250, 0, 0);
+~objbox(thkaramjamap, "You use your crafting skill to neatly add a new section to your map.", 250, 0, 0);
 if_close;
 // Plays again
 anim(human_mapping, 0);
@@ -112,10 +112,10 @@ def_boolean $middle_mapped = testbit(%legends_bits, ^legends_jungle_middle_mappe
 def_boolean $east_mapped = testbit(%legends_bits, ^legends_jungle_east_mapped);
     
 if ($west_mapped = true & $middle_mapped = true & $east_mapped = true) {
-    ~objbox(radimus_notes_complete, "Well done! You have completed mapping the Kharazi Jungle.  Grand Vizier Erkle will be pleased.", 250, 0, 0);
+    ~objbox(thkaramjamapcomp, "Well done! You have completed mapping the Kharazi Jungle.  Grand Vizier Erkle will be pleased.", 250, 0, 0);
     // OSRS replaces the first instance of notes if you have multiple
-    inv_del(inv, radimus_notes, 1);
-    inv_add(inv, radimus_notes_complete, 1);
+    inv_del(inv, thkaramjamap, 1);
+    inv_add(inv, thkaramjamapcomp, 1);
     // Need to check because it's possible to do this multiple times, and we don't want to reset
     // quest progress if it happens again later
     if (%legends_progress < ^legends_mapped_jungle) {
@@ -150,4 +150,4 @@ if ($west_mapped = true)
 else 
     $map_result = append($map_result, "@red@Western Kharazi Jungle- *** Incomplete ***");
 
-~objbox(radimus_notes, $map_result, 250, 0, 0);
+~objbox(thkaramjamap, $map_result, 250, 0, 0);

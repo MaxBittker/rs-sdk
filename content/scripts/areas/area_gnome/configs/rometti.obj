@@ -103,7 +103,7 @@ members=yes
 param=slashdefence,1
 param=crushdefence,1
 
-[gnome_robe_top_pink]
+[gnome_robetop_pink]
 name=Robe top
 desc=The ultimate in gnome design.
 model=model_2786_obj
@@ -125,7 +125,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[gnome_robe_top_green]
+[gnome_robetop_green]
 name=Robe top
 desc=The ultimate in gnome design.
 model=model_2786_obj
@@ -147,7 +147,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[gnome_robe_top_blue]
+[gnome_robetop_blue]
 name=Robe top
 desc=The ultimate in gnome design.
 model=model_2786_obj
@@ -169,7 +169,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[gnome_robe_top_cream]
+[gnome_robetop_cream]
 name=Robe top
 desc=The ultimate in gnome design.
 model=model_2786_obj
@@ -191,7 +191,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[gnome_robe_top_turqoise]
+[gnome_robetop_turquoise]
 name=Robe top
 desc=The ultimate in gnome design.
 model=model_2786_obj
@@ -213,7 +213,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[gnome_robe_bottoms_pink]
+[gnome_robebottoms_pink]
 name=Robe bottoms
 desc=Made by Tree Gnomes.
 model=model_2521_obj
@@ -232,7 +232,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[gnome_robe_bottoms_green]
+[gnome_robebottoms_green]
 name=Robe bottoms
 desc=Made by Tree Gnomes.
 wearpos=legs
@@ -251,7 +251,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[robe_bottoms_blue]
+[gnome_robebottoms_blue]
 name=Robe bottoms
 desc=Made by Tree Gnomes.
 wearpos=legs
@@ -270,7 +270,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[gnome_robe_bottoms_cream]
+[gnome_robebottoms_craem]
 name=Robe bottoms
 desc=Made by Tree Gnomes.
 wearpos=legs
@@ -289,7 +289,7 @@ members=yes
 param=slashdefence,2
 param=crushdefence,2
 
-[gnome_robe_bottoms_turqoise]
+[gnome_robebottoms_turquoise]
 name=Robe bottoms
 desc=Made by Tree Gnomes.
 wearpos=legs

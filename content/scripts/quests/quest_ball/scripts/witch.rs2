@@ -24,8 +24,8 @@ if(lineofsight(npc_coord, coord) = true & (($dz > 0 & loc_find(movecoord(coord, 
         if(%ball_progress = ^ball_unlocked_mousedoor) {
             %ball_progress = ^ball_started;
         }
-        inv_del(inv, ball_shedkey, ^max_32bit_int);
-        inv_del(inv, boy_ball , ^max_32bit_int);
+        inv_del(inv, witches_shedkey, ^max_32bit_int);
+        inv_del(inv, ball , ^max_32bit_int);
         p_teleport(0_45_54_49_0);
         npc_settimer(1);
         npc_setmode(patrol);

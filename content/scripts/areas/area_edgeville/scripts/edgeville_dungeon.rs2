@@ -3,13 +3,13 @@ mes("The door is locked.");
 
 [oplocu,loc_1804]
 switch_obj(last_useitem) {
-    case brass_key : @open_edgeville_dungeon_door;
+    case edgevilledungeonkey : @open_edgeville_dungeon_door;
     case default : ~displaymessage(^dm_default);
 }
 
 
 [label,open_edgeville_dungeon_door]
-if (inv_total(inv, brass_key) > 0) {
+if (inv_total(inv, edgevilledungeonkey) > 0) {
     mes("You unlock the door.");
     sound_synth(locked, 0, 0);
     def_coord $loc_coord = loc_coord;

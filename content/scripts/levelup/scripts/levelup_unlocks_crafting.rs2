@@ -4,7 +4,7 @@ switch_int(stat_base(crafting)) {
     case 5 : ~objbox(gold_ring,"You can now craft @dbl@Gold Rings@bla@.", 250, 0, 0);
     case 6 : ~objbox(gold_necklace,"You can now craft @dbl@Gold Necklaces@bla@.", 250, 0, 0);
     case 7 : ~doubleobjbox(leather_boots,piedish,"You can now craft @dbl@Boots@bla@ and @dbl@Pie Dishes@bla@.", 200);
-    case 8 : ~doubleobjbox(gold_amulet,bowl_empty,"You can now craft @dbl@Bowls@bla@ and @dbl@Gold Amulets@bla@.", 200);
+    case 8 : ~doubleobjbox(strung_gold_amulet,bowl_empty,"You can now craft @dbl@Bowls@bla@ and @dbl@Gold Amulets@bla@.", 200);
     case 9 : ~objbox(leather_cowl,"You can now craft @dbl@Leather Cowls@bla@.", 250, 0, ^objbox_height);
     case 10 : ~objbox(bow_string,"Members can now craft @dbl@Bow Strings@bla@.", 250, 0, 0);
     case 11 : ~objbox(leather_vambraces,"You can now craft @dbl@Leather Vambraces@bla@.", 250, 0, 0);
@@ -14,11 +14,11 @@ switch_int(stat_base(crafting)) {
     case 18 : ~objbox(leather_chaps,"You can now craft @dbl@Leather Chaps@bla@.", 250, 0, 0);
     case 20 : ~doubleobjbox(sapphire,sapphire_ring,"You can now cut @dbl@Sapphires@bla@ and craft @dbl@Sapphire Rings@bla@.", 200);
     case 22 : ~objbox(sapphire_necklace,"You can now craft @dbl@Sapphire Necklaces@bla@.", 250, 0, 0);
-    case 24 : ~objbox(sapphire_amulet,"You can now craft @dbl@Sapphire Amulets@bla@.", 250, 0, 0);
+    case 24 : ~objbox(strung_sapphire_amulet,"You can now craft @dbl@Sapphire Amulets@bla@.", 250, 0, 0);
     case 27 : ~doubleobjbox(emerald,emerald_ring,"You can now cut @dbl@Emeralds@bla@ and craft @dbl@Emerald Rings@bla@.", 200);
     case 28 : ~objbox(hardleather_body,"You can now craft @dbl@Hard Leather Armour@bla@.", 250, 0, 0);
     case 29 : ~objbox(emerald_necklace,"You can now craft @dbl@Emerald Necklaces@bla@.", 250, 0, 0);
-    case 31 : ~objbox(emerald_amulet,"You can now craft @dbl@Emerald Amulets@bla@.", 250, 0, 0);
+    case 31 : ~objbox(strung_emerald_amulet,"You can now craft @dbl@Emerald Amulets@bla@.", 250, 0, 0);
     case 33 : ~objbox(vial_empty,"Members can now craft @dbl@Vials@bla@.", 250, 0, ^objbox_height);
     case 34 : ~doubleobjbox(ruby,ruby_ring,"You can now cut @dbl@Rubies@bla@ and craft @dbl@Ruby Rings@bla@.", 200);
     case 38 : ~objbox(coif,"Members can now craft @dbl@Leather Coifs@bla@.", 250, 0, ^objbox_height);
@@ -27,25 +27,25 @@ switch_int(stat_base(crafting)) {
     case 43 : ~doubleobjbox(diamond,diamond_ring,"You can now cut @dbl@Diamonds@bla@ and craft @dbl@Diamond Rings@bla@.", 200);
     case 44 : ~objbox(studded_chaps,"Members can now craft @dbl@Studded Leather Chaps@bla@.", 250, 0, 0);
     case 46 : ~objbox(stafforb,"Members can now craft @dbl@Orbs@bla@.", 250, 0, 0);
-    case 50 : ~objbox(ruby_amulet,"You can now craft @dbl@Ruby Amulets@bla@.", 250, 0, 0);
+    case 50 : ~objbox(strung_ruby_amulet,"You can now craft @dbl@Ruby Amulets@bla@.", 250, 0, 0);
     case 54 : ~objbox(water_battlestaff,"Members can now craft @dbl@Water Battlestaffs@bla@.", 250, 0, 0);
     case 55 : ~doubleobjbox(dragonstone,dragonstone_ring,"Members can now cut @dbl@Dragonstones|@bla@and craft @dbl@Dragonstone Rings.", 200); // imgur.com/m9Jq0hU
     case 56 : ~objbox(diamond_necklace,"You can now craft @dbl@Diamond Necklaces@bla@.", 250, 0, 0);
-    case 57 : ~objbox(dragonhide_vamb,"Members can now craft @dbl@Green Dragonhide Vambraces@bla@.", 250, 0, 0);
+    case 57 : ~objbox(dragon_vambraces,"Members can now craft @dbl@Green Dragonhide Vambraces@bla@.", 250, 0, 0);
     case 58 : ~objbox(earth_battlestaff,"Members can now craft @dbl@Earth Battlestaffs@bla@.", 250, 0, 0);
     case 60 : ~objbox(dragonhide_chaps,"Members can now craft @dbl@Green Dragonhide Chaps@bla@.", 250, 0, 0);
     case 62 : ~objbox(fire_battlestaff,"Members can now craft @dbl@Fire Battlestaffs@bla@.", 250, 0, 0);
     case 63 : ~objbox(dragonhide_body,"Members can now craft @dbl@Green Dragonhide Armour@bla@.", 250, 0, divide(^objbox_height, 2));
-    case 66 : ~doubleobjbox(air_battlestaff,blue_dragonhide_vambraces,"Members can now craft @dbl@Air Battlestaffs.|and @dbl@Blue Dragonhide Vambraces.", 200); //imgur.com/pl39sRP
+    case 66 : ~doubleobjbox(air_battlestaff,blue_dragon_vambraces,"Members can now craft @dbl@Air Battlestaffs.|and @dbl@Blue Dragonhide Vambraces.", 200); //imgur.com/pl39sRP
     case 68 : ~objbox(blue_dragonhide_chaps,"Members can now craft @dbl@Blue Dragonhide Chaps@bla@.", 250, 0, 0);
-    case 70 : ~objbox(diamond_amulet,"You can now craft @dbl@Diamond Amulets@bla@.", 250, 0, 0);
+    case 70 : ~objbox(strung_diamond_amulet,"You can now craft @dbl@Diamond Amulets@bla@.", 250, 0, 0);
     case 71 : ~objbox(blue_dragonhide_body,"Members can now craft @dbl@Blue Dragonhide Armour@bla@.", 250, 0, divide(^objbox_height, 2));
     case 72 : ~objbox(dragonstone_necklace,"Members can now craft @dbl@Dragonstone Necklaces@bla@.", 250, 0, 0);
-    case 73 : ~objbox(red_dragonhide_vambraces,"Members can now craft @dbl@Red Dragonhide Vambraces@bla@.", 250, 0, 0);
+    case 73 : ~objbox(red_dragon_vambraces,"Members can now craft @dbl@Red Dragonhide Vambraces@bla@.", 250, 0, 0);
     case 75 : ~objbox(red_dragonhide_chaps,"Members can now craft @dbl@Red Dragonhide Chaps@bla@.", 250, 0, 0);
     case 77 : ~objbox(red_dragonhide_body,"Members can now craft @dbl@Red Dragonhide Armour@bla@.", 250, 0, divide(^objbox_height, 2));
-    case 79 : ~objbox(black_dragonhide_vambraces,"Members can now craft @dbl@Black Dragonhide Vambraces@bla@.", 250, 0, 0);
-    case 80 : ~objbox(dragonstone_amulet,"Members can now craft @dbl@Dragonstone Amulets@bla@.", 250, 0, 0);
+    case 79 : ~objbox(black_dragon_vambraces,"Members can now craft @dbl@Black Dragonhide Vambraces@bla@.", 250, 0, 0);
+    case 80 : ~objbox(strung_dragonstone_amulet,"Members can now craft @dbl@Dragonstone Amulets@bla@.", 250, 0, 0);
     case 82 : ~objbox(black_dragonhide_chaps,"Members can now craft @dbl@Black Dragonhide Chaps@bla@.", 250, 0, 0);
     case 84 : ~objbox(black_dragonhide_body,"Members can now craft @dbl@Black Dragonhide Armour@bla@.", 250, 0, divide(^objbox_height, 2));
 }

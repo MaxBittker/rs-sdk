@@ -79,7 +79,7 @@ if ($choice = 1) {
         mes("You replace the railing with no problems.");
         p_delay(2);
         %mcannon_railings = setbit(%mcannon_railings, $railing_num);
-        inv_del(inv, mcannon_railing, 1);
+        inv_del(inv, mcannonrailing1_obj, 1);
     } else {
         mes("but fail and cut yourself trying.");
         // BerryPi gets hit for 2 damage multiple times - 29 HP

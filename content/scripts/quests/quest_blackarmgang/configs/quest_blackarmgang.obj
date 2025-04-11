@@ -1,4 +1,4 @@
-[arrav_book]
+[the_shield_of_arrav]
 name=Book
 desc=The Shield of Arrav by A R Wright.
 iop1=Read
@@ -9,7 +9,7 @@ model=model_2794_obj
 weight=200g
 tradeable=no
 
-[obj_758]
+[phoenixkey1]
 name=Key
 desc=The key to get into the Phoenix Gang HQ.
 model=model_2372_obj
@@ -21,7 +21,7 @@ model=model_2372_obj
 weight=10g
 tradeable=no
 
-[weapon_store_key]
+[phoenixkey2]
 name=Key
 desc=The key to the Phoenix Gang's weapons store.
 model=model_2372_obj
@@ -32,7 +32,7 @@ model=model_2372_obj
 2dxan=328
 weight=10g
 
-[blackarmgang_scroll]
+[intelligence_report]
 name=Scroll
 desc=An intelligence report.
 cost=5
@@ -92,7 +92,7 @@ param=rangeattack_anim,human_crossbow
 param=defend_anim,human_unarmedblock
 param=rangeattack_sound,crossbow
 
-[arravcert_scroll]
+[arravcertificate]
 name=Certificate
 desc=I can use this to claim a reward from the King.
 model=model_2600_obj

@@ -65,7 +65,7 @@ p_walk(coord);
 
 [oploc1,game_trawler_leak] @trawler_fix_leak;
 [oplocu,game_trawler_leak]
-if (last_useitem = swamp_paste) {
+if (last_useitem = swamppaste) {
     @trawler_fix_leak;
 } else {
     ~displaymessage(^dm_default);
@@ -76,7 +76,7 @@ if (last_useitem = swamp_paste) {
 [label,trawler_fix_leak]
 if (loc_type = game_trawler_leak) {
     p_arrivedelay;
-    if (inv_total(inv, swamp_paste) < 1) {
+    if (inv_total(inv, swamppaste) < 1) {
         mes("You'll need some swamp paste to fill that.");
         return;
     }
@@ -107,6 +107,6 @@ if (loc_type = game_trawler_leak) {
                 loc_change(game_trawler_repaired_leak, 1000);
             }
         } 
-        inv_del(inv, swamp_paste, 1);
+        inv_del(inv, swamppaste, 1);
     }
 }

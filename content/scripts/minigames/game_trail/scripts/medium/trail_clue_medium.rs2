@@ -26,22 +26,22 @@ if(~trail_clue_medium_complete = true) {
 [proc,trail_checkmediumdrop]
 // this was changed from black heather -> ardougne monks at some point, not sure when though
 // https://www.neoseeker.com/runescape/faqs/125252-treasure-trail.html, https://web.archive.org/web/20040813233712/http://runehq.com/viewguidedb.php?id=00350
-if(npc_type = black_heather & inv_total(inv, trail_clue_medium_riddle_exp001) > 0 & ~obj_gettotal(trail_clue_medium_key_exp001) = 0) {
-    obj_add(npc_coord, trail_clue_medium_key_exp001, 1, ^lootdrop_duration);
-} else if(npc_type = guard_dog & inv_total(inv, trail_clue_medium_riddle_exp002) > 0 & ~obj_gettotal(trail_clue_medium_key_exp002) = 0) {
-    obj_add(npc_coord, trail_clue_medium_key_exp002, 1, ^lootdrop_duration);
-} else if(npc_type = guard_ardougne & inv_total(inv, trail_clue_medium_riddle_exp003) > 0 & ~obj_gettotal(trail_clue_medium_key_exp003) = 0) {
-    obj_add(npc_coord, trail_clue_medium_key_exp003, 1, ^lootdrop_duration);
-} else if(npc_category = chicken & inv_total(inv, trail_clue_medium_riddle_exp004) > 0 & ~obj_gettotal(trail_clue_medium_key_exp004) = 0) {
-    obj_add(npc_coord, trail_clue_medium_key_exp004, 1, ^lootdrop_duration);
-} else if(compare(npc_name, "Man") = 0 & inv_total(inv, trail_clue_medium_riddle_exp005) > 0 & ~obj_gettotal(trail_clue_medium_key_exp005) = 0) {
-    obj_add(npc_coord, trail_clue_medium_key_exp005, 1, ^lootdrop_duration);
+if(npc_type = black_heather & inv_total(inv, trail_clue_medium_riddle001) > 0 & ~obj_gettotal(trail_clue_medium_riddle001_key) = 0) {
+    obj_add(npc_coord, trail_clue_medium_riddle001_key, 1, ^lootdrop_duration);
+} else if(npc_type = guard_dog & inv_total(inv, trail_clue_medium_riddle002) > 0 & ~obj_gettotal(trail_clue_medium_riddle002_key) = 0) {
+    obj_add(npc_coord, trail_clue_medium_riddle002_key, 1, ^lootdrop_duration);
+} else if(npc_type = guard_ardougne & inv_total(inv, trail_clue_medium_riddle003) > 0 & ~obj_gettotal(trail_clue_medium_riddle003_key) = 0) {
+    obj_add(npc_coord, trail_clue_medium_riddle003_key, 1, ^lootdrop_duration);
+} else if(npc_category = chicken & inv_total(inv, trail_clue_medium_riddle004) > 0 & ~obj_gettotal(trail_clue_medium_riddle004_key) = 0) {
+    obj_add(npc_coord, trail_clue_medium_riddle004_key, 1, ^lootdrop_duration);
+} else if(compare(npc_name, "Man") = 0 & inv_total(inv, trail_clue_medium_riddle005) > 0 & ~obj_gettotal(trail_clue_medium_riddle005_key) = 0) {
+    obj_add(npc_coord, trail_clue_medium_riddle005_key, 1, ^lootdrop_duration);
 }
 
 [label,riddle_loc_medium_exp001]
-if(inv_total(inv, trail_clue_medium_riddle_exp001) > 0) {
+if(inv_total(inv, trail_clue_medium_riddle001) > 0) {
     // https://www.youtube.com/watch?v=tfnYvJrHnqw
-    if(inv_total(inv, trail_clue_medium_key_exp001) > 0) {
+    if(inv_total(inv, trail_clue_medium_riddle001_key) > 0) {
         p_arrivedelay;
         anim(human_openchest, 0);
         sound_synth(chest_open, 0, 0);
@@ -49,8 +49,8 @@ if(inv_total(inv, trail_clue_medium_riddle_exp001) > 0) {
         // Temp note: dur updated
         loc_change(loc_3368, 5);
         p_delay(0);
-        inv_del(inv, trail_clue_medium_key_exp001, 1);
-        ~progress_clue_medium(trail_clue_medium_riddle_exp001, "You've found another clue scroll!");
+        inv_del(inv, trail_clue_medium_riddle001_key, 1);
+        ~progress_clue_medium(trail_clue_medium_riddle001, "You've found another clue scroll!");
         return;
     }
     ~mesbox("The chest is locked!|An inscription on the chest says:|Property of Black Heather.");
@@ -58,9 +58,9 @@ if(inv_total(inv, trail_clue_medium_riddle_exp001) > 0) {
 mes("The chest is locked.");
 
 [label,riddle_loc_medium_exp002]
-if(inv_total(inv, trail_clue_medium_riddle_exp002) > 0) {
+if(inv_total(inv, trail_clue_medium_riddle002) > 0) {
     // https://www.youtube.com/watch?v=tfnYvJrHnqw
-    if(inv_total(inv, trail_clue_medium_key_exp002) > 0) {
+    if(inv_total(inv, trail_clue_medium_riddle002_key) > 0) {
         p_arrivedelay;
         anim(human_openchest, 0);
         sound_synth(cupboard_open, 0, 0);
@@ -68,8 +68,8 @@ if(inv_total(inv, trail_clue_medium_riddle_exp002) > 0) {
         // Temp note: dur updated
         loc_change(loc_3369, 5);
         p_delay(0);
-        inv_del(inv, trail_clue_medium_key_exp002, 1);
-        ~progress_clue_medium(trail_clue_medium_riddle_exp002, "You've found another clue scroll!");
+        inv_del(inv, trail_clue_medium_riddle002_key, 1);
+        ~progress_clue_medium(trail_clue_medium_riddle002, "You've found another clue scroll!");
         return;
     }
     ~mesbox("The drawers are locked!  A note left on the drawers reads: Beware of the dog!");
@@ -77,9 +77,9 @@ if(inv_total(inv, trail_clue_medium_riddle_exp002) > 0) {
 mes("The drawers are locked.");
 
 [label,riddle_loc_medium_exp003]
-if(inv_total(inv, trail_clue_medium_riddle_exp003) > 0) {
+if(inv_total(inv, trail_clue_medium_riddle003) > 0) {
     // https://www.youtube.com/watch?v=cxAvPqh4WjM
-    if(inv_total(inv, trail_clue_medium_key_exp003) > 0) {
+    if(inv_total(inv, trail_clue_medium_riddle003_key) > 0) {
         p_arrivedelay;
         anim(human_openchest, 0);
         sound_synth(cupboard_open, 0, 0);
@@ -87,8 +87,8 @@ if(inv_total(inv, trail_clue_medium_riddle_exp003) > 0) {
         // Temp note: dur updated
         loc_change(loc_3369, 5);
         p_delay(0);
-        inv_del(inv, trail_clue_medium_key_exp003, 1);
-        ~progress_clue_medium(trail_clue_medium_riddle_exp003, "You've found another clue scroll!");
+        inv_del(inv, trail_clue_medium_riddle003_key, 1);
+        ~progress_clue_medium(trail_clue_medium_riddle003, "You've found another clue scroll!");
         return;
     }
     ~mesbox("The drawers are locked! A note is scratched on the top of the drawers: It's a guard's life.");
@@ -96,9 +96,9 @@ if(inv_total(inv, trail_clue_medium_riddle_exp003) > 0) {
 mes("The drawers are locked.");
 
 [label,riddle_loc_medium_exp004]
-if(inv_total(inv, trail_clue_medium_riddle_exp004) > 0) {
+if(inv_total(inv, trail_clue_medium_riddle004) > 0) {
     // https://www.youtube.com/watch?v=cxAvPqh4WjM
-    if(inv_total(inv, trail_clue_medium_key_exp004) > 0) {
+    if(inv_total(inv, trail_clue_medium_riddle004_key) > 0) {
         p_arrivedelay;
         anim(human_openchest, 0);
         sound_synth(cupboard_open, 0, 0);
@@ -106,8 +106,8 @@ if(inv_total(inv, trail_clue_medium_riddle_exp004) > 0) {
         // Temp note: dur updated
         loc_change(loc_3370, 5);
         p_delay(0);
-        inv_del(inv, trail_clue_medium_key_exp004, 1);
-        ~progress_clue_medium(trail_clue_medium_riddle_exp004, "You've found another clue scroll!");
+        inv_del(inv, trail_clue_medium_riddle004_key, 1);
+        ~progress_clue_medium(trail_clue_medium_riddle004, "You've found another clue scroll!");
         return;
     }
     ~mesbox("The drawers are locked!|A note left on the drawers reads: Don't forget to feed the chickens.");
@@ -115,9 +115,9 @@ if(inv_total(inv, trail_clue_medium_riddle_exp004) > 0) {
 mes("The drawers are locked.");
 
 [label,riddle_loc_medium_exp005]
-if(inv_total(inv, trail_clue_medium_riddle_exp005) > 0) {
+if(inv_total(inv, trail_clue_medium_riddle005) > 0) {
     // https://www.youtube.com/watch?v=cxAvPqh4WjM
-    if(inv_total(inv, trail_clue_medium_key_exp005) > 0) {
+    if(inv_total(inv, trail_clue_medium_riddle005_key) > 0) {
         p_arrivedelay;
         anim(human_openchest, 0);
         sound_synth(chest_open, 0, 0);
@@ -125,8 +125,8 @@ if(inv_total(inv, trail_clue_medium_riddle_exp005) > 0) {
         // Temp note: dur updated
         loc_change(loc_3368, 5);
         p_delay(0);
-        inv_del(inv, trail_clue_medium_key_exp005, 1);
-        ~progress_clue_medium(trail_clue_medium_riddle_exp005, "You've found another clue scroll!");
+        inv_del(inv, trail_clue_medium_riddle005_key, 1);
+        ~progress_clue_medium(trail_clue_medium_riddle005, "You've found another clue scroll!");
         return;
     }
     // intentional doublespace

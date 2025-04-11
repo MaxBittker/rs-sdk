@@ -121,7 +121,7 @@ anim($anim, 0);
 sound_synth(fry, 0, 0);
 switch_obj($uncooked_item) {
     case half_baked_batta : $cooked_item = ~get_gnome_batta_product();
-    case half_baked_gnomebowl : $cooked_item = ~get_gnome_bowl_product();
+    case half_baked_bowl : $cooked_item = ~get_gnome_bowl_product();
     case half_baked_crunchies : $cooked_item = ~get_gnome_crunchies_product();
 }
 // rsc delays for about 3 ticks.
@@ -137,7 +137,7 @@ if ($passes_roll = true) {
     }
     stat_advance(cooking, $experience);
     // these dont give additional items
-    if ($cooked_item = half_baked_batta | $cooked_item = half_baked_gnomebowl | $cooked_item = half_baked_crunchies) {
+    if ($cooked_item = half_baked_batta | $cooked_item = half_baked_bowl | $cooked_item = half_baked_crunchies) {
         return;
     }
     if ($additional_item ! null) {

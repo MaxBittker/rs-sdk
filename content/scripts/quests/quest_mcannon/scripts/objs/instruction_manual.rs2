@@ -1,6 +1,6 @@
-[opheld1,instruction_manual]
+[opheld1,mcannonbook]
 %book_page = 0;
-%open_book = instruction_manual;
+%open_book = mcannonbook;
 @open_cannon_instructions;
 
 [label,open_cannon_instructions]

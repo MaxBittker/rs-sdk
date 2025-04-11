@@ -12,8 +12,8 @@ switch_int (%prince_progress) {
             ~chatplayer("<p,sad>It's just too hot here. How can you stand it?");
             ~chatnpc("<p,neutral>We manage, in our humble way. We are a wealthy town and we have water. It cures many thirsts.");
             if(inv_freespace(inv) ! 0) {
-                inv_add(inv, jug_of_water, 1);
-                ~objbox(jug_of_water, "The chancellor hands you some water.", 250, 0, ^objbox_height);
+                inv_add(inv, jug_water, 1);
+                ~objbox(jug_water, "The chancellor hands you some water.", 250, 0, ^objbox_height);
             }
         } else if($option = 3) {
             ~chatplayer("<p,quiz>Do you mind if I just kill your warriors?");

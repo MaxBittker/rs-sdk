@@ -7,7 +7,7 @@
 
 [opnpc1,doric]
 // Treasure Trail
-if (map_members = true & inv_total(inv, trail_clue_easy_simple_exp022) = 1) {
+if (map_members = true & inv_total(inv, trail_clue_easy_simple022) = 1) {
     @trail_doric;
 }
 
@@ -30,7 +30,7 @@ if (%doric_progress = 0) {
 } else {
     // Do regular anvil stuff
     if (oc_category(last_useitem) = category_151) @smithing_anvil_interface(last_useitem);
-    else if (last_useitem = shield_left_half | last_useitem = shield_right_half) @make_dragon_sq;
+    else if (last_useitem = dragonshield_a | last_useitem = dragonshield_b) @make_dragon_sq;
     else ~displaymessage(^dm_default);
 }
 
@@ -118,4 +118,4 @@ session_log(^log_adventure, "Quest complete: Doric's Quest");
 [label,trail_doric]
 // https://www.youtube.com/watch?v=Smadil97tFc
 ~chatnpc("<p,neutral>So you've come to the right place?");
-~progress_clue_easy(trail_clue_easy_simple_exp022, "Doric has given you another clue scroll!");
+~progress_clue_easy(trail_clue_easy_simple022, "Doric has given you another clue scroll!");

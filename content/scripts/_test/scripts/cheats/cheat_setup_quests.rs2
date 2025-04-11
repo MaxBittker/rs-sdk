@@ -63,7 +63,7 @@ if (p_finduid(uid) = true) {
     stat_advance(thieving, calc(100000 * 10));
     inv_add(bank, knife, 5);
     inv_add(bank, limpwurt_root, 50);
-    inv_add(bank, candle,5);
+    inv_add(bank, unlit_candle, 5);
     inv_add(bank, tinderbox, 5);
     inv_add(bank, rune_arrow, 500);
     mes("Please check your ::~bank");

@@ -115,6 +115,6 @@ return(false);
 // experience lamps, quest items, etc.
 [proc,bank_find_obj_unbankable](obj $obj)(boolean)
 switch_obj ($obj) {
-    case lamp : return(true); // cant bank xp lamps
+    case macro_genilamp : return(true); // cant bank xp lamps
     case default : return(false);
 }

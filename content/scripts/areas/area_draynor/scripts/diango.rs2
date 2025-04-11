@@ -6,10 +6,10 @@
 );
 
 // may move these to another script later
-[opheld1,toy_horsey_brown] @toy_horsey_say(toy_horsey_brown_play); // the anim delay lets the client finish running visually
-[opheld1,toy_horsey_white] @toy_horsey_say(toy_horsey_white_play);
-[opheld1,toy_horsey_black] @toy_horsey_say(toy_horsey_black_play);
-[opheld1,toy_horsey_grey] @toy_horsey_say(toy_horsey_grey_play);
+[opheld1,horsey_brown] @toy_horsey_say(toy_horsey_brown_play); // the anim delay lets the client finish running visually
+[opheld1,horsey_white] @toy_horsey_say(toy_horsey_white_play);
+[opheld1,horsey_black] @toy_horsey_say(toy_horsey_black_play);
+[opheld1,horsey_grey] @toy_horsey_say(toy_horsey_grey_play);
 
 [label,diango_option1]
 // todo: this should probably branch into a little conversation before opening the shop

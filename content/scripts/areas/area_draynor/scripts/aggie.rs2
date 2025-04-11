@@ -23,7 +23,7 @@ if($option = 1) {
     @aggie_dyes;
 } else if($option = 5) {
     ~chatplayer("<p,quiz>Could you think of a way to make skin paste?");
-    if(inv_total(inv, redberry) > 0 & inv_total(inv, pot_of_flour) > 0 & (inv_total(inv, bucket_water) > 0 | inv_total(inv, jug_of_water) > 0) & inv_total(inv, ashes) > 0) {
+    if(inv_total(inv, redberry) > 0 & inv_total(inv, pot_flour) > 0 & (inv_total(inv, bucket_water) > 0 | inv_total(inv, jug_water) > 0) & inv_total(inv, ashes) > 0) {
         ~chatnpc("<p,happy>Yes I can, I see you already have the ingredients. Would you like me to mix some for you now?");
         @multi2("Yes please. Mix me some skin paste.", aggie_mix_paste, "No thank you, I don't need any skin paste right now.", aggie_no_paste);
     } else {
@@ -38,7 +38,7 @@ if($option = 1) {
 switch_obj(last_useitem) {
     case onion : @aggie_yellow_dye;
     case redberry : @aggie_red_dye;
-    case woad_leaf : @aggie_blue_dye;
+    case woadleaf : @aggie_blue_dye;
     case default : ~displaymessage(^dm_default);
 }
 
@@ -57,12 +57,12 @@ if(inv_total(inv, coins) >= 21 & inv_total(inv, coins) < 101) {
     sound_synth(pick, 0, 0);
     ~objbox(coins_250, "Aggie waves her hands about, and you seem to be 20 coins poorer.", 250, 0, divide(^objbox_height, 2));
     ~chatnpc("<p,neutral>That's a fine for insulting a witch. You should learn some respect.");
-} else if(inv_total(inv, pot_of_flour) >= 1) {
-    inv_del(inv, pot_of_flour, 1);
+} else if(inv_total(inv, pot_flour) >= 1) {
+    inv_del(inv, pot_flour, 1);
     ~chatnpc("<p,angry>Oh, you like to call a witch names do you?");
     npc_anim(human_pickpocket, 0);
     sound_synth(pick, 0, 0);
-    ~objbox(pot_of_flour, "Aggie waves her hands near you, and you seem to have lost some flour.", 250, 0, divide(^objbox_height, 2));
+    ~objbox(pot_flour, "Aggie waves her hands near you, and you seem to have lost some flour.", 250, 0, divide(^objbox_height, 2));
     ~chatnpc("<p,neutral>Thank you for your kind present of flour.|I am sure you never meant to insult me.");
 } else {
     ~chatnpc("<p,angry>You should be careful about insulting a witch. You never know what shape you could wake up in.");
@@ -98,8 +98,8 @@ if(inv_total(inv, onion) < 2) {
 ~chatplayer("<p,neutral>Okay, make me some yellow dye please.");
 inv_del(inv, coins, 5);
 inv_del(inv, onion, 2);
-inv_add(inv, yellow_dye, 1);
-~objbox(yellow_dye, "You hand the onions and payment to Aggie.|Aggie takes a yellow bottle from nowhere and hands it to you.", 250, 0, ^objbox_height);
+inv_add(inv, yellowdye, 1);
+~objbox(yellowdye, "You hand the onions and payment to Aggie.|Aggie takes a yellow bottle from nowhere and hands it to you.", 250, 0, ^objbox_height);
 
 [label,aggie_red_dye]
 if(inv_total(inv, redberry) < 3) {
@@ -112,11 +112,11 @@ if(inv_total(inv, redberry) < 3) {
 ~chatplayer("<p,neutral>Okay, make me some red dye please.");
 inv_del(inv, coins, 5);
 inv_del(inv, redberry, 3);
-inv_add(inv, red_dye, 1);
-~objbox(red_dye, "You hand the berries and payment to Aggie.|Aggie takes a red bottle from nowhere and hands it to you.", 250, 0, ^objbox_height);
+inv_add(inv, reddye, 1);
+~objbox(reddye, "You hand the berries and payment to Aggie.|Aggie takes a red bottle from nowhere and hands it to you.", 250, 0, ^objbox_height);
 
 [label,aggie_blue_dye]
-if(inv_total(inv, woad_leaf) < 2) {
+if(inv_total(inv, woadleaf) < 2) {
     ~mesbox("You don't have enough woad leaves to make the blue dye!");
     return;
 } else if(inv_total(inv, coins) < 5) {
@@ -125,9 +125,9 @@ if(inv_total(inv, woad_leaf) < 2) {
 }
 ~chatplayer("<p,neutral>Okay, make me some blue dye please.");
 inv_del(inv, coins, 5);
-inv_del(inv, woad_leaf, 2);
-inv_add(inv, blue_dye, 1);
-~objbox(blue_dye, "You hand the woad leaves and payment to Aggie.|Aggie takes a blue bottle from nowhere and hands it to you.", 250, 0, ^objbox_height);
+inv_del(inv, woadleaf, 2);
+inv_add(inv, bluedye, 1);
+~objbox(bluedye, "You hand the woad leaves and payment to Aggie.|Aggie takes a blue bottle from nowhere and hands it to you.", 250, 0, ^objbox_height);
 
 [label,aggie_ingredients]
 ~chatplayer("<p,confused>I don't think I have all the ingredients yet.");
@@ -142,15 +142,15 @@ inv_add(inv, blue_dye, 1);
 ~chatnpc("<p,happy>That should be simple. Hand the things to Aggie then.");
 if(inv_total(inv, bucket_water) > 0) {
     inv_del(inv, bucket_water, 1);
-} else if(inv_total(inv, jug_of_water) > 0) {
-    inv_del(inv, jug_of_water, 1);
+} else if(inv_total(inv, jug_water) > 0) {
+    inv_del(inv, jug_water, 1);
 }
 ~mesbox("You hand the ash, flour, water and redberries to Aggie.|Aggie tips the ingredients into a cauldron|and mutters some words.");
 ~chatnpc("<p,confused>Tourniquet, Fenderbaum, Tottenham, Marshmallow, Marblearch.");
 inv_del(inv, redberry, 1);
-inv_del(inv, pot_of_flour, 1);
+inv_del(inv, pot_flour, 1);
 inv_del(inv, ashes, 1);
-inv_add(inv, paste, 1);
+inv_add(inv, skinpaste, 1);
 ~mesbox("Aggie hands you the skin paste.");
 ~chatnpc("<p,happy>There you go dearie, your skin potion.|That will make you look good at the Varrock dances.");
 

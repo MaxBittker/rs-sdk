@@ -1,4 +1,4 @@
-[scroll_of_hazeel]
+[hazeel_scroll]
 name=Scroll of hazeel
 desc=Scroll containing a powerful enchantment of restoration.
 model=model_2600_obj
@@ -12,7 +12,7 @@ weight=10g
 param=no_alchemy,1
 tradeable=no
 
-[hazeelcult_key]
+[carnilleanchestkey]
 name=Key
 desc=This key opens a chest in the Carnillean household.
 members=yes

@@ -8,7 +8,7 @@
 // the success rates in here don't feel quite right, probably need tweaking
 
 [label,start_chop_jungle]
-if (inv_total(inv, radimus_notes) = 0 & inv_total(inv, radimus_notes_complete) = 0 & %legends_progress < ^legends_complete) {
+if (inv_total(inv, thkaramjamap) = 0 & inv_total(inv, thkaramjamapcomp) = 0 & %legends_progress < ^legends_complete) {
     ~mesbox("You'll get lost in this jungle without a map. You decide not to go any further.");
     return;
 }
@@ -18,34 +18,34 @@ if ($axe = null) {
     ~mesbox("You'll need an axe to get through this rough jungle. You don't think it would be a good idea to continue without one you've got the level to use.");
     return;
 }
-if (inv_total(inv, machete) = 0 & inv_total(worn, machete) = 0) {
+if (inv_total(inv, machette) = 0 & inv_total(worn, machette) = 0) {
     // Says bush even for tree
     mes("You need a machete to cut your way through this dense jungle bush.");
     return;
 }
-def_int $bowl_water_count = inv_total(inv, golden_bowl_water);
-def_int $bowl_pure_water_count = inv_total(inv, golden_bowl_pure_water);
-def_int $blessed_bowl_water_count = inv_total(inv, blessed_golden_bowl_water);
-def_int $blessed_bowl_pure_water_count = inv_total(inv, blessed_golden_bowl_pure_water);
+def_int $bowl_water_count = inv_total(inv, goldbowl_water);
+def_int $bowl_pure_water_count = inv_total(inv, goldbowl_pure);
+def_int $blessed_bowl_water_count = inv_total(inv, goldbowlbless_water);
+def_int $blessed_bowl_pure_water_count = inv_total(inv, goldbowlbless_pure);
 
 if (calc($bowl_water_count + $bowl_pure_water_count + $blessed_bowl_water_count + $blessed_bowl_pure_water_count) > 0) {
         mes("The heat in this jungle is terrific.");
         mes("The water from your golden bowl evaporates.");
         if ($bowl_water_count > 0) {
-            inv_del(inv, golden_bowl_water, $bowl_water_count);
-            inv_add(inv, gold_bowl, $bowl_water_count);
+            inv_del(inv, goldbowl_water, $bowl_water_count);
+            inv_add(inv, goldbowl_empty, $bowl_water_count);
         }
         if ($bowl_pure_water_count > 0) {
-            inv_del(inv, golden_bowl_pure_water, $bowl_pure_water_count);
-            inv_add(inv, gold_bowl, $bowl_pure_water_count);
+            inv_del(inv, goldbowl_pure, $bowl_pure_water_count);
+            inv_add(inv, goldbowl_empty, $bowl_pure_water_count);
         }
         if ($blessed_bowl_water_count > 0) {
-            inv_del(inv, blessed_golden_bowl_water, $blessed_bowl_water_count);
-            inv_add(inv, blessed_gold_bowl, $blessed_bowl_water_count);
+            inv_del(inv, goldbowlbless_water, $blessed_bowl_water_count);
+            inv_add(inv, goldbowlbless_empty, $blessed_bowl_water_count);
         }
         if ($blessed_bowl_pure_water_count > 0) {
-            inv_del(inv, blessed_golden_bowl_pure_water, $blessed_bowl_pure_water_count);
-            inv_add(inv, blessed_gold_bowl, $blessed_bowl_pure_water_count);
+            inv_del(inv, goldbowlbless_pure, $blessed_bowl_pure_water_count);
+            inv_add(inv, goldbowlbless_empty, $blessed_bowl_pure_water_count);
         }
     }
 db_find(woodcutting_trees:tree, loc_type);

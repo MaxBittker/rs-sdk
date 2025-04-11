@@ -18,7 +18,7 @@ switch_obj(last_useitem) {
     case fly_fishing_rod : ~displaymessage(^dm_default);
     case fishing_rod : @attempt_fish_sardine;
     case net : @attempt_fish_shrimp;
-    case net_big : ~mesbox("The fish here aren't suitable for catching with a Big Net.");
+    case big_net : ~mesbox("The fish here aren't suitable for catching with a Big Net.");
     case default : @fishing_wrong_spot_message(last_useitem);
 }
 
@@ -46,9 +46,9 @@ if (%action_delay = calc(map_clock + 3)) {
     p_opnpc(4);
 } else if (%action_delay = map_clock) { 
     if (stat(fishing) >= 15) {
-        ~fish_roll(raw_shrimps, raw_anchovies, net, null);
+        ~fish_roll(raw_shrimp, raw_anchovies, net, null);
     } else {
-        ~fish_roll(raw_shrimps, null, net, null);
+        ~fish_roll(raw_shrimp, null, net, null);
     }
     anim(human_smallnet, 0);
 }
@@ -72,9 +72,9 @@ if (%action_delay < map_clock) {
     %action_delay = calc(map_clock + 5);
 } else if (%action_delay = map_clock) {
     if (stat(fishing) >= 15) {
-        ~fish_roll(raw_shrimps, raw_anchovies, net, null);
+        ~fish_roll(raw_shrimp, raw_anchovies, net, null);
     } else {
-        ~fish_roll(raw_shrimps, null, net, null);
+        ~fish_roll(raw_shrimp, null, net, null);
     }
     anim(human_smallnet, 0);
 }

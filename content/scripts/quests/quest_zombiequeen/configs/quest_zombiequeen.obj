@@ -1,4 +1,4 @@
-[bone_shard]
+[zqboneshard]
 name=Bone shard
 desc=A slender bone shard given to you by Zadimus.
 model=model_2654_obj
@@ -12,7 +12,7 @@ iop1=Inspect
 weight=10g
 tradeable=no
 
-[bone_key]
+[zqbonekey]
 name=Bone key
 desc=A bone key fashioned from a shard of bone.
 model=model_2372_obj
@@ -27,7 +27,7 @@ members=yes
 weight=10g
 tradeable=no
 
-[stoneplaque]
+[zqplaque]
 name=Stone-plaque
 desc=A stone plaque with carved letters in it.
 model=model_2510_obj
@@ -41,7 +41,7 @@ weight=800g
 members=yes
 tradeable=no
 
-[tattered_scroll]
+[zqberviriusscroll]
 name=Tattered scroll
 desc=An ancient tattered scroll.
 model=model_2600_obj
@@ -57,7 +57,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[crumpled_scroll]
+[zqrashiliyiascroll]
 name=Crumpled scroll
 desc=An ancient crumpled scroll.
 model=model_2600_obj
@@ -73,7 +73,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[rashiliya_corpse]
+[zqcorpse]
 name=Rashiliya corpse
 desc=The remains of the Zombie Queen.
 model=model_2595_obj
@@ -86,7 +86,7 @@ weight=300g
 members=yes
 tradeable=no
 
-[zadimus_corpse]
+[zqzadimusbones]
 name=Zadimus corpse
 desc=The remains of Zadimus.
 2dxof=-4
@@ -177,7 +177,7 @@ weight=2lb
 members=yes
 tradeable=no
 
-[zqbeadsofthedead]
+[zqdeadbeads]
 name=Beads of the dead
 desc=A curious looking neck ornament.
 cost=1
@@ -208,7 +208,7 @@ param=strengthbonus,1
 param=prayerbonus,1
 tradeable=no
 
-[zqcoins]
+[fake_coins]
 cost=1
 name=Coins
 desc=Lovely money!
@@ -233,7 +233,7 @@ weight=1g
 members=yes
 tradeable=no
 
-[zqpommel]
+[zqbevsword]
 name=Sword pommel
 desc=An ivory sword pommel.
 model=model_2547_obj
@@ -247,7 +247,7 @@ weight=3oz
 members=yes
 tradeable=no
 
-[bervirius_notes]
+[zqberviriusscroll2]
 name=Bervirius notes
 desc=Notes taken from the tomb of Bervirius.
 cost=1
@@ -264,7 +264,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[wampum_belt]
+[mosol_wampum_belt]
 name=Wampum belt
 desc=A decorated belt used to trade information between distant villages.
 cost=5

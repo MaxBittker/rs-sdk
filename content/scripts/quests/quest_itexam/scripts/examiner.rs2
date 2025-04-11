@@ -27,7 +27,7 @@ def_int $choice = ~p_choice2("Can I take an exam?", 1, "Interesting...", 2);
 
 if ($choice = 1) {
     ~chatplayer("<p,neutral>Can I take an exam?");
-    inv_add(inv, unstamped_letter, 1);
+    inv_add(inv, digplainletter, 1);
     ~itexam_set_progress(^itexam_stamping);
     ~send_quest_progress(questlist:itexam, ~itexam_progress, ^itexam_complete);
     ~chatnpc("<p,neutral>You can if you get this letter stamped by the Curator of Varrock's museum.");
@@ -47,14 +47,14 @@ if ($choice = 1) {
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,happy>Hello again.");
 
-if (inv_total(inv, stamped_letter) > 0) {
+if (inv_total(inv, recommendedletter) > 0) {
     ~chatplayer("<p,happy>Here is the stamped letter you asked for.");
     ~chatnpc("<p,happy>Good good, we will begin the exam...");
-    inv_del(inv, stamped_letter, ^max_32bit_int);
+    inv_del(inv, recommendedletter, ^max_32bit_int);
     ~itexam_set_progress(^itexam_first_exam);
     @itexam_examiner_first_exam;
 } else {
-    if (inv_total(bank, stamped_letter) > 0) {
+    if (inv_total(bank, recommendedletter) > 0) {
         ~mesbox("Perhaps you should fetch the Letter of Recommendation from your bank before talking to the examiner.");
         return;
     }
@@ -63,12 +63,12 @@ if (inv_total(inv, stamped_letter) > 0) {
 
     if ($choice = 1) {
         ~chatplayer("<p,sad>I have lost the letter you gave me.");
-        if (inv_total(bank, unstamped_letter) > 0) {
+        if (inv_total(bank, digplainletter) > 0) {
             ~chatnpc("<p,confused>You already have the letter in your bank.");
-        } else if (inv_total(inv, unstamped_letter) > 0) {
+        } else if (inv_total(inv, digplainletter) > 0) {
             ~chatnpc("<p,confused>Oh now come on. You have it with you!");
         } else {
-            inv_add(inv, unstamped_letter, 1);
+            inv_add(inv, digplainletter, 1);
             ~chatnpc("<p,angry>That was foolish. Take this one and don't lose it!");
         }
     } else {
@@ -249,7 +249,7 @@ if ($correct_answer_count = 3) {
     ~itexam_set_progress(^itexam_second_exam);
     ~itexam_reset_student_errands;
     inv_add(inv, trowel, 1);
-    inv_add(inv, level_1_certificate, 1);
+    inv_add(inv, level1certificate, 1);
     ~chatnpc("<p,neutral>You got all the questions correct. Well done!");
     ~chatplayer("<p,neutral>Hey! Excellent!");
     ~chatnpc("<p,neutral>You have now passed the Earth Sciences level 1 general exam. Here is your certificate to prove it. You also get a decent trowel to dig with. Of course, you'll want to get studying for your next exam now!");
@@ -370,7 +370,7 @@ if (~itexam_errand_progress(^itexam_errand_student3) = 2 & $q3choice = 2) {
 if ($correct_answer_count = 3) {
     ~itexam_set_progress(^itexam_third_exam);
     ~itexam_reset_student_errands;
-    inv_add(inv, level_2_certificate, 1);
+    inv_add(inv, level2certificate, 1);
     ~chatnpc("<p,neutral>You got all the questions correct, well done!");
     ~chatplayer("<p,neutral> Great, I'm getting good at this.");
     ~chatnpc("<p,neutral>You have now passed the Earth Sciences level 2 intermediate exam. Here is your certificate. Of course, you'll want to get studying for your next exam now!");
@@ -492,7 +492,7 @@ if (~itexam_errand_progress(^itexam_errand_student3) = 2 & $q3choice = 3) {
 if ($correct_answer_count = 3) {
     ~itexam_set_progress(^itexam_impress_archeological_expert);
     ~itexam_reset_student_errands;
-    inv_add(inv, level_3_certificate, 1);
+    inv_add(inv, level3certificate, 1);
     ~chatnpc("<p,neutral>You got all the questions correct, well done!");
     ~chatplayer("<p,neutral>Hooray!");
     ~chatnpc("<p,neutral>Congratulations! You have now passed the Earth Sciences level 3 exam. Here is your level 3 certificate.");

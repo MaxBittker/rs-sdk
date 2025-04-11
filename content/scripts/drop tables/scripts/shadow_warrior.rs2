@@ -18,7 +18,7 @@ if ($random < 1) {
 } else if ($random < 4) {
     obj_add(npc_coord, black_longsword, 1, ^lootdrop_duration);
 } else if ($random < 5) {
-    obj_add(npc_coord, wizards_robe_black, 1, ^lootdrop_duration);
+    obj_add(npc_coord, black_robe, 1, ^lootdrop_duration);
 } else if ($random < 14) {
     obj_add(npc_coord, cosmicrune, 3, ^lootdrop_duration);
 } else if ($random < 20) {

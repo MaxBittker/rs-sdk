@@ -76,7 +76,7 @@ if(%squire_progress = ^squire_given_pie) {
     ~chatplayer("<p,neutral>Ok, I'll try to get that then.");
     ~chatnpc("<p,confused>Please don't let him catch you! He MUSTN'T know what happened!");
 } else if(%squire_progress = ^squire_looking_portrait) {
-    if(inv_total(inv, portrait) > 0) {
+    if(inv_total(inv, knights_portrait) > 0) {
         ~chatplayer("<p,happy>I have the picture, I'll just take it to the dwarf now!");
         ~chatnpc("<p,confused>Please hurry!");
     } else {
@@ -84,7 +84,7 @@ if(%squire_progress = ^squire_given_pie) {
         ~chatnpc("<p,sad>Please try and get it quickly... I am scared Sir Vyvin will find out!");
     }
 } else if(%squire_progress = ^squire_looking_blurite) {
-    if(inv_total(bank, blurite_sword) >= 1) {
+    if(inv_total(bank, faladian_sword) >= 1) {
         ~chatplayer("<p,neutral>I got a replacement sword made.");
         ~chatnpc("<p,happy>Thank you! Can I have it?");
         ~chatplayer("<p,neutral>It's in my bank.");
@@ -92,12 +92,12 @@ if(%squire_progress = ^squire_given_pie) {
         ~chatplayer("<p,neutral>Yeah, okay.");
         return;
     }
-    if(inv_total(inv, blurite_sword) >= 1 | inv_total(worn, blurite_sword) >= 1) {
+    if(inv_total(inv, faladian_sword) >= 1 | inv_total(worn, faladian_sword) >= 1) {
         ~chatplayer("<p,happy>I have retrieved your sword for you.");
-        if(inv_total(inv, blurite_sword) >= 1) {
+        if(inv_total(inv, faladian_sword) >= 1) {
             ~chatnpc("<p,happy>Thank you, thank you, thank you! I was seriously worried I would have to own up to Sir Vyvin!");
             ~mesbox("You give the sword to the squire.");
-            inv_del(inv, blurite_sword, 1);
+            inv_del(inv, faladian_sword, 1);
             queue(squire_complete, 0);
         } else {
             ~chatnpc("<p,confused>So can you un-equip it and hand it over to me now please?");
@@ -162,14 +162,14 @@ inv_del(inv, redberry_pie, 1);
 
 [label,thurgo_about_sword]
 ~chatplayer("<p,neutral>About that sword...");
-if(%squire_progress = ^squire_complete | inv_total(inv, blurite_sword) >= 1) { // only checks inv (RS3)
+if(%squire_progress = ^squire_complete | inv_total(inv, faladian_sword) >= 1) { // only checks inv (RS3)
     @thurgo_squire_complete;
 }
-if(%squire_progress = ^squire_spoken_thurgo | %squire_progress = ^squire_looking_portrait & inv_total(inv, portrait) = 0) {
+if(%squire_progress = ^squire_spoken_thurgo | %squire_progress = ^squire_looking_portrait & inv_total(inv, knights_portrait) = 0) {
     ~chatnpc("<p,quiz>Have you got a picture of the sword for me yet?");
     ~chatplayer("<p,sad>Sorry, not yet.");
     ~chatnpc("<p,neutral>Well, come back when you do.");
-} else if (%squire_progress = ^squire_looking_portrait & inv_total(inv, portrait) >= 1) {
+} else if (%squire_progress = ^squire_looking_portrait & inv_total(inv, knights_portrait) >= 1) {
     ~chatplayer("<p,neutral>I have found a picture of the sword I would like you to make.");
     ~mesbox("You give the portrait to Thurgo. Thurgo studies the portrait.");
     ~chatnpc("<p,neutral>Ok. You'll need to get me some stuff in order for me to make this.");
@@ -179,7 +179,7 @@ if(%squire_progress = ^squire_spoken_thurgo | %squire_progress = ^squire_looking
     ~chatnpc("<p,neutral>Most of the rocks in that cliff are pretty useless, and don't contain much of anything, but there's DEFINITELY some blurite in there.");
     ~chatnpc("<p,neutral>You'll need a little bit of mining experience to be able to find it.");
     ~chatplayer("<p,neutral>Ok. I'll go and find them then.");
-    inv_del(inv, portrait, 1);
+    inv_del(inv, knights_portrait, 1);
     %squire_progress = ^squire_looking_blurite;
 } else if (%squire_progress = ^squire_looking_blurite) {
     @thurgo_check_blurite;
@@ -192,7 +192,7 @@ if(inv_total(inv, blurite_ore) >= 1 & inv_total(inv, iron_bar) >= 2) {
     ~mesbox("You give the blurite ore and two iron bars to Thurgo. Thurgo starts to make the sword. Thurgo hands you a sword.");
     inv_del(inv, blurite_ore, 1);
     inv_del(inv, iron_bar, 2);
-    inv_add(inv, blurite_sword, 1);
+    inv_add(inv, faladian_sword, 1);
     ~chatplayer("<p,happy>Thank you very much!");
     ~chatnpc("<p,happy>Just remember to call in with more pie some time!");
 } else if(inv_total(inv, blurite_ore) >= 1) {
@@ -219,7 +219,7 @@ return(true);
 [queue,squire_complete]
 %squire_progress = ^squire_complete;
 session_log(^log_adventure, "Quest complete: The Knight's Sword");
-~send_quest_complete(questlist:squire, blurite_sword, 250, ^squire_questpoints, "You have completed the Knight's Sword Quest!");
+~send_quest_complete(questlist:squire, faladian_sword, 250, ^squire_questpoints, "You have completed the Knight's Sword Quest!");
 stat_advance(smithing, 127250);
 
 [label,thurgo_squire_complete]

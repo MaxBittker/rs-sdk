@@ -4,11 +4,11 @@ switch_int (%ikov_progress) {
         ~chatplayer("<p,angry>I thought I killed you?!");
         ~chatnpc("<p,madlaugh>Ha! Ha! Ha!");
         ~chatnpc("<p,angry>You can not kill me human!");
-        if(~obj_gettotal(pendant_of_lucien) = 0) {
+        if(~obj_gettotal(ikov_pendantoflucien) = 0) {
             ~chatplayer("<p,sad>I've lost the pendant you gave me.");
             ~chatnpc("<p,angry>Have another, it will remind you of my power!");
-            inv_add(inv, pendant_of_lucien, 1);
-            ~objbox(pendant_of_lucien, "Lucien has given you another pendant!", 250, 0, 0);
+            inv_add(inv, ikov_pendantoflucien, 1);
+            ~objbox(ikov_pendantoflucien, "Lucien has given you another pendant!", 250, 0, 0);
             return;
         }
     case ^ikov_not_started :
@@ -31,12 +31,12 @@ if(%ikov_progress >= ^ikov_completed_armadyl) {
 }
 // varp = 70, different on osrs: https://youtu.be/cePHhIOqsqg?si=PiP6lepYRxiJUmTB&t=1128
 ~chatnpc("<p,neutral>Have you got the Staff of Armadyl yet?");
-if(%ikov_progress = ^ikov_paid_winelda & inv_total(inv, staff_of_armadyl) > 0) {
+if(%ikov_progress = ^ikov_paid_winelda & inv_total(inv, ikov_staffofarmardyl) > 0) {
     // https://youtu.be/sCl0GprumNE?si=4WQbtK0D4xielNmx&t=578
     def_int $choice = ~p_choice2("Yes! Here it is.", 1, "No, not yet.", 2);
     if($choice = 1) {
         ~chatplayer("<p,happy>Yes! Here it is.");
-        ~objbox(staff_of_armadyl, "You give Lucien the Staff of Armadyl.", 250, 0, 0);
+        ~objbox(ikov_staffofarmardyl, "You give Lucien the Staff of Armadyl.", 250, 0, 0);
         ~chatnpc("<p,angry>Muhahahhahahaha!");
         ~chatnpc("<p,angry>I can feel the power of the staff running through me! I will be more powerful and they shall bow down to me!");
         ~chatnpc("<p,happy>I suppose you want your reward? I shall grant you much power!");
@@ -66,8 +66,8 @@ if(%ikov_progress = ^ikov_paid_winelda & inv_total(inv, staff_of_armadyl) > 0) {
 ~chatnpc("<p,neutral>Take this pendant. Without it you will not be able to enter the Chamber of Fear.");
 %ikov_progress = ^ikov_started;
 ~send_quest_progress(questlist:ikov, %ikov_progress, ^ikov_completed_armadyl);
-inv_add(inv, pendant_of_lucien, 1);
-~objbox(pendant_of_lucien, "Lucien has given you a pendant!", 250, 0, 0);
+inv_add(inv, ikov_pendantoflucien, 1);
+~objbox(ikov_pendantoflucien, "Lucien has given you a pendant!", 250, 0, 0);
 ~chatnpc("<p,sad>I cannot stay here much longer.");
 ~chatnpc("<p,neutral>I will be in the forest north of Varrock.|I have a small holding up there.");
 
@@ -87,11 +87,11 @@ inv_add(inv, pendant_of_lucien, 1);
 ~chatnpc("<p,sad>Hmph.");
 
 [label,lucien_mission]
-if(~obj_gettotal(pendant_of_lucien) = 0) {
+if(~obj_gettotal(ikov_pendantoflucien) = 0) {
     ~chatplayer("<p,sad>I've lost the pendant you gave me.");
     ~chatnpc("<p,angry>Imbecile!");
-    inv_add(inv, pendant_of_lucien, 1);
-    ~objbox(pendant_of_lucien, "Lucien has given you another pendant!", 250, 0, 0);
+    inv_add(inv, ikov_pendantoflucien, 1);
+    ~objbox(ikov_pendantoflucien, "Lucien has given you another pendant!", 250, 0, 0);
     return;
 }
 if(%ikov_progress <= ^ikov_helping_armadyl) { // guessing...

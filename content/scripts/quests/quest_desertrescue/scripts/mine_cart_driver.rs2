@@ -10,7 +10,7 @@ if(%desertrescue_progress = ^desertrescue_ana_on_mining_cart | %desertrescue_pro
         return;
     }
 }
-if(inv_total(inv, anainabarrel) > 0) {
+if(inv_total(inv, thanainabarrel) > 0) {
     ~chatnpc("<p,quiz>What're you doing carrying that big barrel around?|Put it in the back of the cart like all the others!");
     return;
 }

@@ -1,4 +1,4 @@
-[perfect_ring]
+[perfect_ruby_ring]
 name='perfect' ring
 desc=A perfect ruby ring.
 cost=2025
@@ -17,7 +17,7 @@ weight=7g
 members=yes
 tradeable=no
 
-[perfect_necklace]
+[perfect_ruby_necklace]
 cost=2175
 name='perfect' necklace
 desc=A perfect ruby necklace.
@@ -147,7 +147,7 @@ param=crushdefence,7
 param=strengthbonus,2
 tradeable=no
 
-[crest_part_1]
+[avan_crest]
 model=model_2688_obj
 name=Crest part
 desc=A fragment of the Fitzharmon family crest.
@@ -158,7 +158,7 @@ members=yes
 weight=4lb
 tradeable=no
 
-[crest_part_2]
+[caleb_crest]
 model=model_2691_obj
 name=Crest part
 desc=A fragment of the Fitzharmon family crest.
@@ -172,7 +172,7 @@ tradeable=no
 // This piece is visually identical to part 2.
 // 20 July 2004 - The model for Johnathon's part was corrected; previously it used the same model as Caleb's part.
 // https://oldschool.runescape.wiki/w/Crest_part#Changes
-[crest_part_3]
+[johnathon_crest]
 model=model_2691_obj
 name=Crest part
 desc=A fragment of the Fitzharmon family crest.

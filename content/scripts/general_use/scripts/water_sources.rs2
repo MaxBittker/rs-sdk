@@ -1,7 +1,7 @@
 [opheldu,bowl_water]
 switch_obj (last_useitem)
 {
-    case pot_of_flour : @dough_interface(last_item);
+    case pot_flour : @dough_interface(last_item);
     case clay : @make_softclay(bowl_water);
     case bucket_empty, jug_empty : @water_fill(last_useslot, last_slot);
     case potato, cooked_meat, cooked_chicken : @make_incomplete_stew(last_useslot);
@@ -11,19 +11,19 @@ switch_obj (last_useitem)
 [opheldu,bucket_water]
 switch_obj (last_useitem)
 {
-    case tutorial_pot_of_flour : @tut_make_dough;
-    case pot_of_flour : @dough_interface(last_item);
+    case newbie_pot_flour : @tut_make_dough;
+    case pot_flour : @dough_interface(last_item);
     case clay : @make_softclay(bucket_water);
     case jug_empty, bowl_empty : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
 };
 
-[opheldu,jug_of_water]
+[opheldu,jug_water]
 switch_obj (last_useitem)
 {
     case grapes : @make_wine;
-    case pot_of_flour : @dough_interface(last_item);
-    case clay : @make_softclay(jug_of_water);
+    case pot_flour : @dough_interface(last_item);
+    case clay : @make_softclay(jug_water);
     case bucket_empty, bowl_empty : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
 };
@@ -31,7 +31,7 @@ switch_obj (last_useitem)
 [opheldu,bucket_empty]
 switch_obj (last_useitem)
 {
-    case jug_of_water, bowl_water : @water_fill(last_useslot, last_slot);
+    case jug_water, bowl_water : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
 };
 
@@ -45,8 +45,8 @@ switch_obj (last_useitem)
 [opheldu,bowl_empty]
 switch_obj (last_useitem)
 {
-    case onion, tomato, ugthanki_meat : @make_bowl_mixture(last_useslot);
-    case bucket_water, jug_of_water : @water_fill(last_useslot, last_slot);
+    case onion, tomato, cooked_ugthanki_meat : @make_bowl_mixture(last_useslot);
+    case bucket_water, jug_water : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
 };
 
@@ -59,14 +59,14 @@ inv_setslot(inv, $use_slot, oc_param($used_with, next_obj_stage), 1); //new empt
 
 [oplocu,_watersource]
 switch_obj (last_useitem) {
-    case bucket_empty, jug_empty, vial_empty, bowl_empty, gold_bowl, blessed_gold_bowl : @fill_container_water(last_useitem);
+    case bucket_empty, jug_empty, vial_empty, bowl_empty, goldbowl_empty, goldbowlbless_empty : @fill_container_water(last_useitem);
     case default : ~displaymessage(^dm_default);
 }
 
 [label,fill_container_water](obj $container)
 def_string $source_name = lowercase(loc_name);
 def_string $container_name = lowercase(oc_name($container));
-if(compare($source_name, "well") = 0 & ($container = gold_bowl | $container = blessed_gold_bowl)) {
+if(compare($source_name, "well") = 0 & ($container = goldbowl_empty | $container = goldbowlbless_empty)) {
     mes("If I drop my bowl down there I don't think I'm likely to get it back.");
     return;
 }

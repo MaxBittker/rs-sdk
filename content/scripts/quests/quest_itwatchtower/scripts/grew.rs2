@@ -15,32 +15,32 @@ if(%itwatchtower_progress >= ^itwatchtower_complete) {
             ~chatnpc("<p,angry>I have nothing left for you but the cooking pot!");
         case 2 : 
             ~chatplayer("<p,sad>I've lost the relic part you gave me.");
-            if(inv_total(inv, relic_part_2) > 0) {
+            if(inv_total(inv, relicpart2) > 0) {
                 ~chatnpc("<p,angry>You lie to me, morsel!");
                 return;
             }
-            inv_add(inv, relic_part_2, 1);
+            inv_add(inv, relicpart2, 1);
             ~chatnpc("<p,angry>Stupid morsel, I have another.|Take it and go now before I lose my temper.");
         case 3 :
             ~chatplayer("<p,sad>I've lost the crystal you gave me.");
-            if(inv_total(inv, watchtower_crystal1) > 0) { // no bank check (RS3)
+            if(inv_total(inv, powering_crystal1) > 0) { // no bank check (RS3)
                 ~chatnpc("<p,angry>How dare you lie to me morsel! I will grind you up for my bread!");
                 return;
             }
-            inv_add(inv, watchtower_crystal1, 1);
+            inv_add(inv, powering_crystal1, 1);
             ~chatnpc("<p,neutral>I suppose you want another?|I suppose just this once I could give you my copy...");
     }
 } else if(getbit_range(%itwatchtower_bits, ^itwatchtower_spoken_grew, ^itwatchtower_helped_grew) = 1) {
     ~chatnpc("<p,neutral>The morsel is back.|Does it have our tooth for us?");
-    if(inv_total(inv, ogre_tooth) > 0) {
+    if(inv_total(inv, ogretooth) > 0) {
         %itwatchtower_bits = setbit_range_toint(%itwatchtower_bits, 2, ^itwatchtower_spoken_grew, ^itwatchtower_helped_grew);
-        inv_del(inv, ogre_tooth, 1);
-        inv_add(inv, relic_part_2, 1);
+        inv_del(inv, ogretooth, 1);
+        inv_add(inv, relicpart2, 1);
         ~chatplayer("<p,happy>I have it.");
         ~chatnpc("<p,happy>That'll annoy Gorad lots! Heheheheh!");
         ~chatnpc("<p,happy>Here's a token of my gratitude: some old gem I stole from Gorad, and an old part of a statue.");
-        inv_add(inv, watchtower_crystal1, 1);
-        ~doubleobjbox(relic_part_2, watchtower_crystal1, "You get part of a horrible statue... and one of the crystals!", 200);
+        inv_add(inv, powering_crystal1, 1);
+        ~doubleobjbox(relicpart2, powering_crystal1, "You get part of a horrible statue... and one of the crystals!", 200);
         return;
     }
     ~chatplayer("<p,neutral>Err, I don't have it.");
@@ -71,22 +71,22 @@ if(%itwatchtower_progress >= ^itwatchtower_complete) {
 
 [label,grew_spoken]
 ~chatnpc("<p,neutral>The morsel is back.|Does it have our tooth for us?");
-if(inv_total(inv, ogre_tooth) > 0) {
+if(inv_total(inv, ogretooth) > 0) {
     %itwatchtower_bits = setbit_range_toint(%itwatchtower_bits, 2, ^itwatchtower_spoken_grew, ^itwatchtower_helped_grew);
-    inv_del(inv, ogre_tooth, 1);
-    inv_add(inv, relic_part_2, 1);
+    inv_del(inv, ogretooth, 1);
+    inv_add(inv, relicpart2, 1);
     ~chatplayer("<p,happy>I have it.");
     ~chatnpc("<p,happy>That'll annoy Gorad lots! Heheheheh!");
     ~chatnpc("<p,happy>Here's a token of my gratitude: some old gem I stole from Gorad, and an old part of a statue.");
-    inv_add(inv, watchtower_crystal1, 1);
-    ~doubleobjbox(relic_part_2, watchtower_crystal1, "You get part of a horrible statue... and one of the crystals!", 200);
+    inv_add(inv, powering_crystal1, 1);
+    ~doubleobjbox(relicpart2, powering_crystal1, "You get part of a horrible statue... and one of the crystals!", 200);
     return;
 }
 ~chatplayer("<p,neutral>Err, I don't have it.");
 ~chatnpc("<p,angry>Morsel, you dare to return without the tooth!|Either you are stoopid, or wants to be eaten!");
 
 [opnpcu,grew]
-if(getbit_range(%itwatchtower_bits, ^itwatchtower_spoken_grew, ^itwatchtower_helped_grew) = 1 & last_useitem = ogre_tooth) {
+if(getbit_range(%itwatchtower_bits, ^itwatchtower_spoken_grew, ^itwatchtower_helped_grew) = 1 & last_useitem = ogretooth) {
    @grew_spoken;
 }
 // no NIH

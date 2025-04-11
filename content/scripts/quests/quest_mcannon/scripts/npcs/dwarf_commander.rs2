@@ -37,7 +37,7 @@ if (%mcannon_progress = ^mcannon_not_started) {
 ~chatnpc("<p,neutral>Thank you, we have no time to waste.|The Goblins are attacking from the forests to the south,|they managed to get through the broken railings,|could you please replace them with these new ones?");
 ~chatplayer("<p,neutral>Sounds easy enough...");
 ~mesbox("The Dwarf Commander gives you six railings.");
-inv_add(inv, mcannon_railing, 6);
+inv_add(inv, mcannonrailing1_obj, 6);
 ~chatnpc("<p,neutral>Let me know once you've fixed the railings.");    
 ~chatplayer("<p,neutral>Ok, commander.");
 
@@ -60,11 +60,11 @@ if (getbit_range(%mcannon_railings, 5, 10) = 63) {
     ~chatnpc("<p,neutral>The goblins are still getting in,|so there must still be some broken railings.");
     ~chatplayer("<p,neutral>Don't worry I'll find them soon enough.");
 
-    if (inv_total(inv, mcannon_railing) < 1) {
+    if (inv_total(inv, mcannonrailing1_obj) < 1) {
         ~chatplayer("<p,sad>But I'm out of railings...");
         ~chatnpc("<p,happy>Ok, we've got plenty.");
         ~mesbox("The Dwarf Commander gives you another railing.");
-        inv_add(inv, mcannon_railing, 1);
+        inv_add(inv, mcannonrailing1_obj, 1);
     }
 }
 
@@ -72,7 +72,7 @@ if (getbit_range(%mcannon_railings, 5, 10) = 63) {
 ~chatplayer("<p,neutral>Hello.");
 ~chatnpc("<p,quiz>Have you been to the watch tower yet?");
 ~chatplayer("<p,neutral>Yes, I went up but there was no one.");
-if (inv_total(inv, dwarf_remains) < 1) {
+if (inv_total(inv, mcannonremains) < 1) {
     ~chatnpc("<p,quiz>That's strange, Gilob never leaves his post.|His son was also with him, it's too strange.|Can you return and look for clues?");
     ~chatplayer("<p,neutral>Ok then.");
 } else {
@@ -81,7 +81,7 @@ if (inv_total(inv, dwarf_remains) < 1) {
     ~mesbox("You show the Dwarf Commander the remains.");
     if (%mcannon_progress = ^mcannon_tasked_with_checking_guard_tower) {
         %mcannon_progress = ^mcannon_tasked_with_finding_goblin_cave;
-        inv_del(inv, dwarf_remains, 1);
+        inv_del(inv, mcannonremains, 1);
     }
     ~chatnpc("<p,sad>What's this? Oh no, it can't be!");
     ~chatplayer("<p,neutral>Sorry, it looks like the goblins got him.");
@@ -118,7 +118,7 @@ if (inv_total(inv, dwarf_remains) < 1) {
 
 [label,mcannon_ill_see_what_i_can_do]
 ~chatplayer("<p,neutral>Ok, I'll see what I can do.");
-inv_add(inv, tool_kit, 1);
+inv_add(inv, mcannontoolkit, 1);
 if (%mcannon_progress = ^mcannon_return_to_dwarf_commander) {
     %mcannon_progress = ^mcannon_tasked_with_fixing_cannon;
 }
@@ -133,10 +133,10 @@ mes("The Dwarf Commander gives you a tool kit.");
 ~chatnpc("<p,happy>How are you doing in there bold adventurer?|We've been trying our best with that thing,|but I just haven't got the patience.");
 ~chatplayer("<p,neutral>It's not an easy job, but I'm getting there.");
 ~chatnpc("<p,happy>Good stuff, let me know if you have any luck.|If we manage to get that thing working...|those goblins will be no trouble at all.");
-if (inv_total(inv, tool_kit) < 1) {
+if (inv_total(inv, mcannontoolkit) < 1) {
     ~chatplayer("<p,sad>I'm afraid I lost the toolkit...");
     ~chatnpc("<p,neutral>That was silly...|never mind, here you go.");
-    inv_add(inv, tool_kit, 1);
+    inv_add(inv, mcannontoolkit, 1);
     mes("The Dwarf Commander gives you another toolkit.");
 }
 [label,dwarf_commander_repaired_cannon]

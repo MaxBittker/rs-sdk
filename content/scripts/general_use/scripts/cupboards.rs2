@@ -24,9 +24,9 @@ switch_coord (loc_coord) {
                 // regardless of whether you have the portrait or not, but also not before it
                 if(~vyvin_distracted = false) {
                     return;
-                } else if(inv_total(inv, portrait) = 0 & inv_total(bank, portrait) = 0) {
+                } else if(inv_total(inv, knights_portrait) = 0 & inv_total(bank, knights_portrait) = 0) {
                     ~mesbox("You find a small portrait in here which you take.");
-                    inv_add(inv, portrait, 1);
+                    inv_add(inv, knights_portrait, 1);
                     return;
                 }
             }

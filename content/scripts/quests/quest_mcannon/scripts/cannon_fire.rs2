@@ -140,10 +140,10 @@ if (%mcannon_coord ! null) {
 mes(tostring(%mcannon_stage));
 
 [debugproc,givemc]
-inv_add(inv, cannon_base, 1);
-inv_add(inv, cannon_stand, 1);
-inv_add(inv, cannon_barrels, 1);
-inv_add(inv, cannon_furnace, 1);
+inv_add(inv, twpart1, 1);
+inv_add(inv, twpart2, 1);
+inv_add(inv, twpart3, 1);
+inv_add(inv, twpart4, 1);
 inv_add(inv, mcannonball, 1000);
 
 [debugproc,completemc]

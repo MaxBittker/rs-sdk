@@ -139,7 +139,7 @@ param=crushattack_anim,human_blunt_crush
 param=defend_anim,human_blunt_defend1
 param=crush_sound,baxe_crush
 
-[adamant_warhammer]
+[adamnt_warhammer]
 cost=4120
 name=Adamnt warhammer
 desc=I don't think it's intended for joinery.

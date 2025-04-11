@@ -1,23 +1,23 @@
 [opnpc1,_guardian_of_armadyl]
 if(%ikov_progress = ^ikov_helping_armadyl) {
     ~chatnpc("<p,neutral>Have you killed Lucien?");
-    if(~obj_gettotal(armadyl_pendant) = 0) {
+    if(~obj_gettotal(ikov_pendantofarmardyl) = 0) {
         ~chatplayer("<p,sad>Not yet, I've lost the pendant you gave me!");
         ~chatnpc("<p,sad>Hurry friend! Time is against us!");
-        inv_add(inv, armadyl_pendant, 1);
-        ~objbox(armadyl_pendant, "The guardian has given you a pendant.", 250, 0, 0);
+        inv_add(inv, ikov_pendantofarmardyl, 1);
+        ~objbox(ikov_pendantofarmardyl, "The guardian has given you a pendant.", 250, 0, 0);
         return;
     }
     ~chatplayer("<p,neutral>Not yet.");
     ~chatnpc("<p,sad>Hurry friend! Time is against us!");
     return;
 }
-if(inv_total(inv, staff_of_armadyl) > 0) { 
+if(inv_total(inv, ikov_staffofarmardyl) > 0) { 
     ~chatnpc("<p,angry>Halt! You will not leave here with the Staff of Armadyl!");
     npc_setmode(opplayer2);
     return;
 }
-if(%ikov_progress = ^ikov_completed_lucien | inv_total(worn, pendant_of_lucien) > 0 | ~obj_gettotal(staff_of_armadyl) > 0) {
+if(%ikov_progress = ^ikov_completed_lucien | inv_total(worn, ikov_pendantoflucien) > 0 | ~obj_gettotal(ikov_staffofarmardyl) > 0) {
     ~chatnpc("<p,angry>Thou is a foul agent of Lucien! Such an agent must die!");
     npc_setmode(opplayer2);
     return;
@@ -115,8 +115,8 @@ switch_int(~p_choice3("Ok! I'll help!", 1, "No! I shall not turn against my empl
         ~chatnpc("<p,happy>So he is close by?");
         ~chatplayer("<p,happy>Yes!");
         ~chatnpc("<p,sad>He must be gaining in power again. If you can defeat him he will be banished from this plane for a while. You will need this pendant to attack him.");
-        inv_add(inv, armadyl_pendant, 1);
-        ~objbox(armadyl_pendant, "The guardian has given you a pendant.", 250, 0, 0);
+        inv_add(inv, ikov_pendantofarmardyl, 1);
+        ~objbox(ikov_pendantofarmardyl, "The guardian has given you a pendant.", 250, 0, 0);
     case 2 :
         ~chatplayer("<p,angry>No! I shall not turn against my employer!");
         ~chatnpc("<p,angry>Fool! You will die for your sins!");

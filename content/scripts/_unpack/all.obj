@@ -89,7 +89,7 @@ cost=50
 weight=3kg
 members=yes
 
-[plank]
+[woodplank]
 model=model_2694_obj
 name=Plank
 desc=A plank of wood!
@@ -124,7 +124,7 @@ recol1d=28433
 2dxan=160
 weight=80g
 
-[tile]
+[rooftile]
 name=Tile
 desc=A fraction of a roof.
 model=model_2617_obj
@@ -159,7 +159,7 @@ womanwear=model_532_obj_wear,6
 weight=20g
 members=yes
 
-[obj_972]
+[papyrus_used]
 name=Papyrus
 model=model_2838_obj
 manwear=model_532_obj_wear,0
@@ -184,7 +184,7 @@ womanwear=model_494_obj_wear,6
 2dxan=288
 weight=5g
 
-[machete]
+[machette]
 name=Machete
 desc=A jungle specific slashing device.
 cost=40
@@ -213,7 +213,7 @@ param=defend_anim,human_sword_defend2
 param=slash_sound,hacksword_slash
 param=stab_sound,hacksword_stab
 
-[obj_977]
+[cooking_pot]
 name=Cooking pot
 model=model_loc_692_8
 recol1s=10570
@@ -247,7 +247,7 @@ model=model_2724_obj
 2dxan=460
 weight=1lb
 
-[brass_key]
+[edgevilledungeonkey]
 name=Brass key
 desc=A mysterious key made of brass.
 model=model_2372_obj
@@ -260,7 +260,7 @@ recol1d=22945
 2dxan=328
 weight=10g
 
-[half_key1]
+[keyhalf1]
 name=Half of a key
 desc=A very shiny key.
 members=yes
@@ -272,7 +272,7 @@ model=model_2414_obj
 2dxan=296
 weight=5g
 
-[half_key2]
+[keyhalf2]
 name=Half of a key
 desc=A very shiny key.
 members=yes
@@ -510,7 +510,7 @@ manwear=model_265_obj_wear,0
 womanwear=model_428_idk,0
 weight=2lb
 
-[eyepatch]
+[eye_patch]
 name=Eye patch
 desc=A black piece of cloth on a string.
 model=model_2417_obj
@@ -527,7 +527,7 @@ womanhead=model_126_obj_wear
 weight=6g
 members=yes
 
-[zamorak_monk_bottom]
+[zamrobebottom]
 name=Robe of zamorak
 desc=A robe worn by worshippers of Zamorak.
 cost=30
@@ -548,7 +548,7 @@ param=magicattack,2
 param=magicdefence,3
 param=prayerbonus,3
 
-[zamorak_monk_top]
+[zamrobetop]
 name=Robe of zamorak
 desc=A robe worn by worshippers of Zamorak.
 model=model_2786_obj
@@ -594,7 +594,7 @@ param=magicdefence,7
 param=rangedefence,7
 tradeable=no
 
-[iban_staff]
+[ibanstaff]
 members=yes
 model=model_2569_obj
 2dyof=-15
@@ -630,7 +630,7 @@ param=defend_anim,human_blunt_defend1
 // osrs use attack seq_401 and defend seq_403 + the weapon was already 1 handed in 2006
 tradeable=no
 
-[broken_iban_staff]
+[brokenibanstaff]
 name=Broken iban staff
 desc=The staff is unusable in this state.
 model=model_2835_obj
@@ -643,7 +643,7 @@ cost=20
 weight=4lb
 tradeable=no
 
-[obj_1411]
+[farmers_fork]
 name=Farmers fork
 model=model_2411_obj
 2dxof=-2
@@ -653,7 +653,7 @@ model=model_2411_obj
 2dxan=812
 weight=5lb
 
-[obj_1413]
+[halberd]
 name=Halberd
 model=model_2791_obj
 2dxof=-7
@@ -663,7 +663,7 @@ model=model_2791_obj
 2dxan=224
 weight=10lb
 
-[obj_1415]
+[warhammer]
 name=Warhammer
 model=model_2731_obj
 2dxof=3
@@ -673,7 +673,7 @@ model=model_2731_obj
 2dxan=344
 weight=4lb
 
-[obj_1417]
+[javelin]
 name=Javelin
 model=model_2763_obj
 2dxof=-2
@@ -729,7 +729,7 @@ members=yes
 stackable=yes
 weight=5g
 
-[obj_1465]
+[display_weapon_poison]
 name=Weapon poison
 desc=For use on daggers and projectiles.
 cost=11
@@ -744,7 +744,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[sea_slug]
+[seasluginv]
 cost=4
 members=yes
 name=Sea slug
@@ -790,7 +790,7 @@ iop1=Rub-together
 weight=2oz
 tradeable=no
 
-[seaslug_broken_glass]
+[broken_glass]
 members=yes
 name=Broken glass
 desc=Smashed glass.
@@ -804,7 +804,7 @@ cost=0
 weight=2oz
 tradeable=no
 
-[amulet_accuracy]
+[amulet_of_accuracy]
 name=Amulet of accuracy
 desc=It increases my aim.
 cost=100
@@ -891,6 +891,7 @@ weight=3lb
 members=yes
 tradeable=no
 
+// rename: cert_grip_keys
 [obj_1589]
 tradeable=no
 
@@ -1068,7 +1069,7 @@ recol1d=13840
 members=yes
 stackable=yes
 
-[desertrescuerock]
+[thpunishrock]
 name=Rock
 desc=Looks like a plain rock, must have some ore in it?
 weight=500g
@@ -1083,21 +1084,26 @@ recol1d=7400
 members=yes
 tradeable=no
 
+// rename: cert_blondwig
 [obj_2420]
 tradeable=no
 
+// rename: cert_plainwig
 [obj_2422]
 tradeable=no
 
+// rename: cert_skinpaste
 [obj_2425]
 tradeable=no
 
+// rename: cert_ground_charcoal
 [obj_2480]
 tradeable=no
 
-[obj_2512]
+[newbieshrimp]
 tradeable=no
 
+// rename: cert_newbieshrimp
 [obj_2513]
 tradeable=no
 
@@ -1117,7 +1123,7 @@ cost=1
 weight=80g
 members=yes
 
-[toy_horsey_brown]
+[horsey_brown]
 cost=100
 name=Toy horsey
 desc=A brown toy horse.
@@ -1132,7 +1138,7 @@ womanwear=model_3333_obj_wear,6
 weight=50g
 iop1=Play-with
 
-[toy_horsey_white]
+[horsey_white]
 cost=100
 name=Toy horsey
 desc=A white toy horse.
@@ -1151,7 +1157,7 @@ womanwear=model_3333_obj_wear,6
 weight=50g
 iop1=Play-with
 
-[toy_horsey_black]
+[horsey_black]
 cost=100
 name=Toy horsey
 desc=A black toy horse.
@@ -1170,7 +1176,7 @@ womanwear=model_3333_obj_wear,6
 weight=50g
 iop1=Play-with
 
-[toy_horsey_grey]
+[horsey_grey]
 cost=100
 name=Toy horsey
 desc=A grey toy horse.

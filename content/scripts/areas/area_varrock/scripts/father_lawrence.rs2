@@ -7,11 +7,11 @@ switch_int (%romeojuliet_progress) {
         ~chatnpc("<p,neutral>Remember, Cadaver potion, for Father Lawrence.");
     case ^romeojuliet_spoken_apothecary :
         ~chatnpc("<p,quiz>Did you find the Apothecary?");
-        if(inv_total(inv, cadaver) > 0) {
+        if(inv_total(inv, cadava) > 0) {
             ~chatplayer("<p,happy>I've got the Cadaver potion.");
             ~chatnpc("<p,happy>Good! Good work! Ok, take it to Juliet, she's expecting you.");
             ~chatnpc("<p,happy>I'll talk to Romeo and make sure he knows what to do.");
-        } else if(inv_total(inv, cadaver_berries) > 0) {
+        } else if(inv_total(inv, cadavaberries) > 0) {
             ~chatplayer("<p,happy>I am on my way back to him with the ingredients.");
             ~chatnpc("<p,happy>Good work. Get the potion to Juliet when you have it.");
             ~chatnpc("<p,happy>I will tell Romeo to be ready.");

@@ -1,4 +1,4 @@
-[jug_of_bad_wine]
+[jug_bad_wine]
 name=Jug of bad wine
 desc=Oh dear, this wine is terrible!
 iop1=Drink
@@ -65,7 +65,7 @@ weight=1kg
 category=alcoholic_drinks
 param=next_obj_stage,jug_empty
 
-[unfermented_wine]
+[jug_unfermented_wine]
 cost=10
 name=Unfermented wine
 desc=This wine needs to ferment before it can be drunk.

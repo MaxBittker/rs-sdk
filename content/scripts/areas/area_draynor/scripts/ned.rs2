@@ -1,6 +1,6 @@
 [opnpc1,ned]
 // Treasure Trail
-if(map_members = true & inv_total(inv, trail_clue_easy_simple_exp021) = 1) {
+if(map_members = true & inv_total(inv, trail_clue_easy_simple021) = 1) {
     @trail_ned;
 } else if (%dragon_progress = ^quest_dragon_sailed_to_crandor) {
     // really dont know if ned should still have this after the quest is finished. 
@@ -17,7 +17,7 @@ if(map_members = true & inv_total(inv, trail_clue_easy_simple_exp021) = 1) {
 }
 
 [opnpcu,ned]
-if (last_useitem = crandor_map) {
+if (last_useitem = dragonmap) {
     @give_map_to_ned;
 } else {
     ~displaymessage(^dm_default);
@@ -26,7 +26,7 @@ if (last_useitem = crandor_map) {
 [label,trail_ned]
 // https://www.youtube.com/watch?v=u70m7CofypU
 ~chatnpc("<p,happy>Well done!");
-~progress_clue_easy(trail_clue_easy_simple_exp021, "Ned has given you another clue!");
+~progress_clue_easy(trail_clue_easy_simple021, "Ned has given you another clue!");
 
 [label,standard_ned]
 ~chatnpc("<p,neutral>Why hello there, me friends call me Ned.|I was a man of the sea, but it's past me now.|Could I be making or selling you some rope?");
@@ -116,7 +116,7 @@ if(inv_total(inv, ball_of_wool) < 3) {
 ~mesbox("You hand Ned 3 balls of wool. Ned works with the wool.|His hands move with a speed you couldn't imagine.");
 if(inv_total(inv, ball_of_wool) >= 3) {
     inv_del(inv, ball_of_wool, 3);
-    inv_add(inv, wig_grey, 1);
+    inv_add(inv, plainwig, 1);
     ~chatnpc("<p,happy>Here you go, how's that for a quick effort?|Not bad I think!");
     ~mesbox("Ned gives you a pretty good wig.");
     ~chatplayer("<p,neutral>Thanks Ned, there's more to you than meets the eye.");
@@ -183,7 +183,7 @@ if ($choice = 1) {
         return;
     }
     ~chatnpc("<p,neutral>Ok, show me the map and we'll set sail now.");
-    if (inv_total(inv, crandor_map) < 1) {
+    if (inv_total(inv, dragonmap) < 1) {
         return;
     }
     @give_map_to_ned;
@@ -228,7 +228,7 @@ if (%dragon_ned_hired = 0 | %dragon_progress ! ^quest_dragon_repaired_ship) {
     return;
 }
 ~mesbox("You give the map to Ned.");
-inv_del(inv, crandor_map, inv_total(inv, crandor_map));
+inv_del(inv, dragonmap, inv_total(inv, dragonmap));
 %dragon_progress = ^quest_dragon_ned_given_map;
 ~chatplayer("<p,quiz>Here you go.");
 ~chatnpc("<p,neutral>I'll meet you at the ship then.");

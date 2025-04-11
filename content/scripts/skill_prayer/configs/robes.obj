@@ -1,4 +1,4 @@
-[druid_robe_bottom]
+[druidrobebottom]
 model=model_2521_obj
 recol1s=2340
 recol1d=32767
@@ -16,7 +16,7 @@ womanwear=model_428_idk,0
 weight=2lb
 param=prayerbonus,4
 
-[druid_robe_top]
+[druidrobetop]
 model=model_2786_obj
 recol1s=14724
 recol1d=32767
@@ -37,7 +37,7 @@ womanwear2=model_456_idk
 weight=2lb
 param=prayerbonus,4
 
-[monk_robe_bottom]
+[monkrobebottom]
 model=model_2521_obj
 recol1s=2340
 recol1d=13539
@@ -54,7 +54,7 @@ womanwear=model_428_idk,0
 weight=2lb
 param=prayerbonus,6
 
-[monk_robe_top]
+[monkrobetop]
 model=model_2786_obj
 recol1s=14724
 recol1d=13539
@@ -74,7 +74,7 @@ womanwear2=model_456_idk
 weight=2lb
 param=prayerbonus,5
 
-[shade_robe_top]
+[blackrobetop]
 model=model_2786_obj
 recol1s=14724
 recol1d=0
@@ -94,7 +94,7 @@ womanwear2=model_456_idk
 weight=2lb
 param=prayerbonus,5
 
-[shade_robe_bottom]
+[blackrobebottom]
 model=model_2521_obj
 recol1s=2340
 recol1d=0

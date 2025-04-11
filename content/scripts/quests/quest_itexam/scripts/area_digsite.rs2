@@ -10,7 +10,7 @@ if (~itexam_testbit(^itexam_bit_panning_guide_tea_given) = false) {
     }
 }
 
-if (inv_total(inv, panning_tray_empty) > 0) {
+if (inv_total(inv, tray_empty) > 0) {
     @panning_action;
 } else {
     mes("You need a panning tray to pan here!");
@@ -22,30 +22,30 @@ mes("You scrape the tray along the bottom");
 p_delay(2);
 mes("You swirl away the excess water");
 p_delay(1);
-inv_del(inv, panning_tray_empty, 1);
-inv_add(inv, panning_tray_mud, 1);
+inv_del(inv, tray_empty, 1);
+inv_add(inv, tray_mud, 1);
 stat_advance(mining, 20);
 stat_advance(fishing, 20);
-~objbox(panning_tray_mud, "You lift the full tray from the water.", 250, 0, divide(^objbox_height, 2));
+~objbox(tray_mud, "You lift the full tray from the water.", 250, 0, divide(^objbox_height, 2));
 
-[opheld2,panning_tray_empty]
+[opheld2,tray_empty]
 ~chatplayer("<p,confused>Err, why am I searching an empty tray?");
 
-[opheld2,panning_tray_mud]
+[opheld2,tray_mud]
 mes("You search the contents of the tray...");
-inv_del(inv, panning_tray_mud, 1);
-inv_add(inv, panning_tray_empty, 1);
+inv_del(inv, tray_mud, 1);
+inv_add(inv, tray_empty, 1);
 @search_panning_tray;
 
 [label,search_panning_tray]
 def_int $rand = random(40);
 
 if ($rand < 3) {
-    if (~itexam_progress = ^itexam_first_exam & inv_total(inv, rock_sample_2) = 0) {
-        inv_add(inv, rock_sample_2, 1);
-        ~objbox(rock_sample_2, "You find a rock sample covered in mud.", 250, 0, divide(^objbox_height, 2));
+    if (~itexam_progress = ^itexam_first_exam & inv_total(inv, rock_sample2) = 0) {
+        inv_add(inv, rock_sample2, 1);
+        ~objbox(rock_sample2, "You find a rock sample covered in mud.", 250, 0, divide(^objbox_height, 2));
     } else {
-        ~objbox(panning_tray_mud, "The tray contains only plain mud.", 250, 0, divide(^objbox_height, 2));
+        ~objbox(tray_mud, "The tray contains only plain mud.", 250, 0, divide(^objbox_height, 2));
     }
 } else if ($rand < 6) {
     inv_add(inv, uncut_opal, 1);
@@ -54,16 +54,16 @@ if ($rand < 3) {
     inv_add(inv, uncut_jade, 1);
     ~objbox(uncut_jade, "You find a gem within the mud!", 250, 0, divide(^objbox_height, 2));
 } else if ($rand < 12) {
-    inv_add(inv, oyster, 1);
-    ~objbox(oyster, "You find an oyster within the mud!", 250, 0, divide(^objbox_height, 2));
+    inv_add(inv, oystershell, 1);
+    ~objbox(oystershell, "You find an oyster within the mud!", 250, 0, divide(^objbox_height, 2));
 } else if ($rand < 16) {
     inv_add(inv, nuggets, 1);
-    ~objbox(panning_tray_gold, "You find some gold nuggets within the mud.", 250, 0, divide(^objbox_height, 2));
+    ~objbox(tray_gold, "You find some gold nuggets within the mud.", 250, 0, divide(^objbox_height, 2));
 } else if ($rand < 20) {
     inv_add(inv, coins, calc(1 + random(10)));
     ~objbox(coins, "You find some coins within the mud.", 250, 0, divide(^objbox_height, 2));
 } else {
-    ~objbox(panning_tray_mud, "The tray contains only plain mud.", 250, 0, divide(^objbox_height, 2));
+    ~objbox(tray_mud, "The tray contains only plain mud.", 250, 0, divide(^objbox_height, 2));
 }
 
 ////////////////////////////////////////////////
@@ -77,15 +77,15 @@ mes("You search the bush...You find nothing of interest.");
 [oploc1,digsite_bush_rock_sample]
 anim(human_pickuptable, 0);
 
-if (~itexam_progress > ^itexam_first_exam | inv_total(inv, rock_sample_3) > 0) {
+if (~itexam_progress > ^itexam_first_exam | inv_total(inv, rock_sample3) > 0) {
     mes("You search the bush...");
     mes("You find nothing of interest.");
 } else {
     ~chatplayer("<p,happy>Hey, something has been dropped here...");
     // We're inferring the correct sample here because obj 673 in osrs is the teddy bear
-    inv_add(inv, rock_sample_3, 1);
+    inv_add(inv, rock_sample3, 1);
     // From RSC
-    ~objbox(rock_sample_3, "You find a rock sample!", 250, 0, divide(^objbox_height, 2));
+    ~objbox(rock_sample3, "You find a rock sample!", 250, 0, divide(^objbox_height, 2));
 }
 
 ////////////////////////////////////////////////
@@ -122,7 +122,7 @@ if (inv_total(inv, specimen_jar) > 0) {
 [oplocu,_digsite_soil]
 def_obj $item = last_useitem;
 
-if ($item = panning_tray_empty) {
+if ($item = tray_empty) {
     ~chatplayer("<p,confused>No, I'd better not. It may damage the tray...");
     return;
 }
@@ -182,7 +182,7 @@ if (inzone(0_52_53_22_12, 0_52_53_29_20, loc_coord) = true | inzone(0_52_53_42_4
 mes("This site is for training purposes only.");
 
 [label,dig_training_site](obj $item)
-if ($item = rock_pick) {
+if ($item = rockpick) {
     if (npc_find(coord, digsite_workman, 10, 0) = true) {
         ~chatnpcnoturn("<p,confused>No, no; rock picks should only be used to dig at a level 2 site.");
     } else {
@@ -217,13 +217,13 @@ if ($rand < 8) {
     inv_add(inv, charcoal, 1);
     mes("You find some charcoal.");
 } else if ($rand < 11) {
-    inv_add(inv, broken_arrow, 1);
+    inv_add(inv, digsitearrow, 1);
     mes("You find a broken arrow.");
 } else if ($rand < 12) {
-    inv_add(inv, ceramic_remains, 1);
+    inv_add(inv, digsitepottery, 1);
     mes("You find some pottery.");
 } else if ($rand < 13) {
-    inv_add(inv, cracked_rock_sample, 1);
+    inv_add(inv, cracked_sample, 1);
     mes("You find a cracked rock.");
 }
 
@@ -235,7 +235,7 @@ if ($rand < 8) {
 mes("Level 1 digs only.");
 
 [label,dig_level_1_site](obj $item)
-if ($item = rock_pick) {
+if ($item = rockpick) {
     if (npc_find(coord, digsite_workman, 10, 0) = true) {
         ~chatnpcnoturn("<p,confused>No, no; rock picks should only be used to dig at a level 2 site.");
     } else {
@@ -283,10 +283,10 @@ def_int $rand = random(12);
 if ($rand < 2) {
     mes("You find nothing.");
 } else if ($rand < 3) {
-    inv_add(inv, buttons, 1);
+    inv_add(inv, digsitebuttons, 1);
     mes("You find some buttons.");
 } else if ($rand < 4) {
-    inv_add(inv, digsite_vase, 1);
+    inv_add(inv, digsitevase, 1);
     mes("You find an old vase.");
 } else if ($rand < 5) {
     inv_add(inv, copper_ore, 1);
@@ -301,13 +301,13 @@ if ($rand < 2) {
     inv_add(inv, old_tooth, 1);
     mes("You find an old tooth.");
 } else if ($rand < 9) {
-    inv_add(inv, rotten_apples, 1);
+    inv_add(inv, rottenapples, 1);
     mes("You find a rotten apple.");
 } else if ($rand < 10) {
-    inv_add(inv, broken_glass, 1);
+    inv_add(inv, digsiteglass, 1);
     mes("You find some broken glass.");
 } else if ($rand < 11) {
-    inv_add(inv, rusty_sword, 1);
+    inv_add(inv, digsitesword, 1);
     mes("You find a rusty sword.");
 } else if ($rand < 12) {
     inv_add(inv, bones, 1);
@@ -331,7 +331,7 @@ if ($item = trowel) {
     return;
 }
 
-if ($item ! rock_pick) {
+if ($item ! rockpick) {
     return;
 }
 
@@ -354,7 +354,7 @@ if ($rand < 3) {
     inv_add(inv, bones, 1);
     mes("You find some bones.");
 } else if ($rand < 6) {
-    inv_add(inv, damaged_armour, 1);
+    inv_add(inv, digsitearmour1, 1);
     mes("You find some old armour.");
 } else if ($rand < 7) {
     inv_add(inv, leather_boots, 1);
@@ -363,16 +363,16 @@ if ($rand < 3) {
     inv_add(inv, bowl_empty, 1);
     mes("You find an old bowl.");
 } else if ($rand < 9) {
-    inv_add(inv, broken_staff, 1);
+    inv_add(inv, digsitestaff, 1);
     mes("You find a broken staff.");
 } else if ($rand < 10) {
-    inv_add(inv, broken_armour, 1);
+    inv_add(inv, digsitearmour2, 1);
     mes("You find some old armour.");
 } else if ($rand < 11) {
     inv_add(inv, uncut_jade, 1);
     mes("You find a gem.");
 } else if ($rand < 12) {
-    inv_add(inv, broken_glass, 1);
+    inv_add(inv, digsiteglass, 1);
     mes("You find some broken glass.");
 } else if ($rand < 13) {
     inv_add(inv, jug_empty, 1);
@@ -396,7 +396,7 @@ if ($rand < 3) {
 mes("Level 3 digs only.");
 
 [label,dig_level_3_site](obj $item)
-if ($item = rock_pick) {
+if ($item = rockpick) {
     if (npc_find(coord, digsite_workman, 10, 0) = true) {
         ~chatnpcnoturn("<p,confused>No, no; rock picks should only be used to dig at a level 2 site.");
     } else {
@@ -443,15 +443,15 @@ if ($rand < 2) {
     mes("You find nothing.");
     return;
 } else if ($rand < 3) {
-    if (~itexam_testbit(^itexam_bit_shown_ancient_symbol) = false & inv_total(inv, talisman_of_zaros) = 0) {
-        inv_add(inv, talisman_of_zaros, 1);
-        ~objbox(talisman_of_zaros, "You find a strange talisman.", 250, 0, divide(^objbox_height, 2));
+    if (~itexam_testbit(^itexam_bit_shown_ancient_symbol) = false & inv_total(inv, digtalisman) = 0) {
+        inv_add(inv, digtalisman, 1);
+        ~objbox(digtalisman, "You find a strange talisman.", 250, 0, divide(^objbox_height, 2));
     } else {
         inv_add(inv, coins, 10);
         mes("You find some coins.");
     }
 } else if ($rand < 4) {
-    inv_add(inv, belt_buckle, 1);
+    inv_add(inv, digsitebuckle, 1);
     mes("You find a belt buckle.");
 } else if ($rand < 5) {
     inv_add(inv, black_med_helm, 1);
@@ -460,28 +460,28 @@ if ($rand < 2) {
     inv_add(inv, bones, 1);
     mes("You find some bones.");
 } else if ($rand < 7) {
-    inv_add(inv, broken_armour, 1);
+    inv_add(inv, digsitearmour2, 1);
     mes("You find some old armour.");
 } else if ($rand < 8) {
-    inv_add(inv, broken_arrow, 1);
+    inv_add(inv, digsitearrow, 1);
     mes("You find a broken arrow.");
 } else if ($rand < 9) {
-    inv_add(inv, broken_staff, 1);
+    inv_add(inv, digsitestaff, 1);
     mes("You find a broken staff.");
 } else if ($rand < 10) {
     inv_add(inv, bronze_spear, 1);
     mes("You find a bronze spear.");
 } else if ($rand < 11) {
-    inv_add(inv, buttons, 1);
+    inv_add(inv, digsitebuttons, 1);
     mes("You find some buttons.");
 } else if ($rand < 12) {
-    inv_add(inv, ceramic_remains, 1);
+    inv_add(inv, digsitepottery, 1);
     mes("You find some old pottery.");
 } else if ($rand < 13) {
     inv_add(inv, clay, 1);
     mes("You find some clay.");
 } else if ($rand < 14) {
-    inv_add(inv, damaged_armour, 1);
+    inv_add(inv, digsitearmour1, 1);
     mes("You find some old armour.");
 } else if ($rand < 15) {
     inv_add(inv, iron_knife, 1);
@@ -544,16 +544,16 @@ if (inv_total(inv, specimen_jar) = 0) {
         inv_add(inv, charcoal, 1);
         mes("You find some charcoal.");
     } else if ($rand < 8) {
-        inv_add(inv, broken_arrow, 1);
+        inv_add(inv, digsitearrow, 1);
         mes("You find a broken arrow.");
     } else if ($rand < 9) {
-        inv_add(inv, broken_glass, 1);
+        inv_add(inv, digsiteglass, 1);
         mes("You find some broken glass.");
     } else if ($rand < 10) {
-        inv_add(inv, ceramic_remains, 1);
+        inv_add(inv, digsitepottery, 1);
         mes(" You find some pottery.");
     } else if ($rand < 11) {
-        inv_add(inv, cracked_rock_sample, 1);
+        inv_add(inv, cracked_sample, 1);
         mes("You find a cracked rock.");
     }
 }
@@ -712,10 +712,10 @@ if (~itexam_progress = ^itexam_poured_compound_on_bricks) {
 [oplocu,digsite_blocked_altar_brick]
 def_obj $item = last_useitem;
 
-if ($item = chemical_compound) {
+if ($item = digcompound) {
     mes("You pour the compound over the bricks...");
     anim(human_pickupfloor, 0);
-    inv_del(inv, chemical_compound, 1);
+    inv_del(inv, digcompound, 1);
     ~itexam_set_progress(^itexam_poured_compound_on_bricks);
     ~chatplayer("<p,happy>Okay, the mixture is all over the bricks. I need some way to ignite this compound.");
 }
@@ -764,7 +764,7 @@ p_teleport(0_52_152_40_39);
 ~itexam_set_progress(^itexam_removed_blockage);
 ~chatplayer("<p,shock>Wow, that was a big explosion! What's that noise I can hear? Sounds like bones moving or something...");
 
-[opheld2,stone_tablet]
+[opheld2,zarosstonetablet]
 ~chatplayer("<p,shock>It says: Tremble mortal, before the altar of our dread lord Zaros.");
 
 ////////////////////////////////////////////////
@@ -775,10 +775,10 @@ p_teleport(0_52_152_40_39);
 mes("The chest is locked.");
 
 [oplocu,digsite_chest]
-if (last_useitem = digsite_chest_key) {
+if (last_useitem = digchestkey) {
     mes("You use the key in the chest.");
     anim(human_openchest, 0);
-    inv_del(inv, digsite_chest_key, 1);
+    inv_del(inv, digchestkey, 1);
     p_delay(0);
     // Temp note: dur does not need updated
     loc_change(digsite_chest_open, 300);
@@ -788,8 +788,8 @@ if (last_useitem = digsite_chest_key) {
 
 [oploc1,digsite_chest_open]
 // There's no quest state check on osrs, anyone can search the chest and get the powder at any time
-inv_add(inv, chemical_powder, 1);
-~objbox(chemical_powder, "You find some unusual powder inside...", 250, 0, divide(^objbox_height, 2));
+inv_add(inv, unidentified_powder, 1);
+~objbox(unidentified_powder, "You find some unusual powder inside...", 250, 0, divide(^objbox_height, 2));
 
 ////////////////////////////////////////////////
 // NITROGLYCERIN BARREL
@@ -850,7 +850,7 @@ cam_reset;
 mes("You were injured by the burning liquid.");
 say("Ow! The nitroglycerin exploded!");
 
-[opheld5,mixed_chemicals1]
+[opheld5,precharcoalmixture]
 anim(human_pickupfloor, 0);
 inv_delslot(inv, last_slot);
 sound_synth(exploding_vial, 0, 0);
@@ -863,7 +863,7 @@ cam_reset;
 mes("You were quite badly injured by the burning liquid.");
 say("Ow! The chemicals exploded!");
 
-[opheld5,mixed_chemicals2]
+[opheld5,postcharcoalmixture]
 anim(human_pickupfloor, 0);
 inv_delslot(inv, last_slot);
 sound_synth(exploding_vial, 0, 0);
@@ -876,7 +876,7 @@ cam_reset;
 mes("You were badly by the burning liquid.");
 say("Ow! The mixture exploded!");
 
-[opheld5,chemical_compound]
+[opheld5,digcompound]
 anim(human_pickupfloor, 0);
 inv_delslot(inv, last_slot);
 sound_synth(exploding_vial, 0, 0);

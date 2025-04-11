@@ -1,5 +1,5 @@
 // official name, item uses in quest don't have the misspelling either: https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard12.PNG
-[Ethenea]
+[ethenea]
 cost=10
 model=model_2747_obj
 members=yes
@@ -42,7 +42,7 @@ desc=It's highly poisonous.
 weight=30g
 tradeable=no
 
-[plague_sample]
+[plaguesample]
 name=Plague sample
 desc=Probably best I don't keep this too long.
 cost=1
@@ -83,7 +83,7 @@ model=model_2613_obj
 weight=20g
 tradeable=no
 
-[lathas_amulet]
+[king_lathas_amulet]
 name=Lathas' amulet
 desc=Yup. It's an amulet.
 cost=10
@@ -101,7 +101,7 @@ womanwear=model_446_obj_wear,0
 weight=10g
 tradeable=no
 
-[bird_feed]
+[birdfeed]
 name=Bird feed
 desc=Birds love this stuff!
 cost=1
@@ -115,7 +115,7 @@ weight=50g
 members=yes
 tradeable=no
 
-[biohazard_key]
+[mournerkeytw]
 name=Key
 desc=Opens things.
 cost=1
@@ -129,7 +129,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[pigeon_cage]
+[pigeons]
 cost=1
 name=Pigeon cage
 desc=It's full of pigeons.
@@ -144,7 +144,7 @@ weight=2kg
 members=yes
 tradeable=no
 
-[pigeon_cage_empty]
+[pigeoncage]
 cost=1
 name=Pigeon cage
 desc=It's empty...
@@ -156,7 +156,7 @@ weight=500g
 members=yes
 tradeable=no
 
-[priest_gown_top]
+[priest_gown]
 name=Priest gown
 desc=Top half of a priest suit.
 cost=5
@@ -176,7 +176,7 @@ womanwear2=model_348_idk
 weight=4lb
 param=prayerbonus,3
 
-[priest_gown_bottom]
+[priest_robe]
 name=Priest gown
 desc=Bottom half of a priest suit.
 cost=5

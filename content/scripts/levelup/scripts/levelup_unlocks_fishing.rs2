@@ -11,11 +11,11 @@ switch_int(stat_base(fishing)) {
     case 30 : ~doubleobjbox(raw_salmon,fly_fishing_rod,"You can now try fishing for @dbl@Salmon.", 200);
     case 35 : ~doubleobjbox(raw_tuna,harpoon,"You can now try harpooning @dbl@Tuna.", 200);
     case 40 : ~doubleobjbox(raw_lobster,lobster_pot,"You can now try to catch @dbl@Lobsters.", 200);
-    case 46 : ~doubleobjbox(raw_bass,net_big,"Members can now try fishing for @dbl@Sea Bass with a large net.", 200);
+    case 46 : ~doubleobjbox(raw_bass,big_net,"Members can now try fishing for @dbl@Sea Bass with a large net.", 200);
     case 50 : ~doubleobjbox(raw_swordfish,harpoon,"You can now try harpooning @dbl@Swordfish.", 200);
     case 53 : ~doubleobjbox(raw_lava_eel,fishing_rod,"Members can now try catching @dbl@Lava Eels.", 200);
     case 68 : ~mesbox("Members are now qualified to enter the @dbl@Fishing Guild.");
     case 76 : ~doubleobjbox(raw_shark,harpoon,"Members can now try harpooning @dbl@Sharks.", 200); //imgur.com/SvV4b4p
-    case 79 : ~doubleobjbox(raw_sea_turtle,bucket_empty,"Members can now catch @dbl@Sea Turtles on the Trawler.|", 200); //imgur.com/T0raUc4
-    case 81 : ~doubleobjbox(raw_manta_ray,bucket_empty,"Members can now catch @dbl@Manta Rays on the Trawler.|", 200); //imgur.com/DVv0WDM
+    case 79 : ~doubleobjbox(raw_seaturtle,bucket_empty,"Members can now catch @dbl@Sea Turtles on the Trawler.|", 200); //imgur.com/T0raUc4
+    case 81 : ~doubleobjbox(raw_mantaray,bucket_empty,"Members can now catch @dbl@Manta Rays on the Trawler.|", 200); //imgur.com/DVv0WDM
 }

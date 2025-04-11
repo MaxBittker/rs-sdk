@@ -25,7 +25,7 @@ switch_int(%ball_progress) {
     case ^ball_complete :
         ~chatnpc("<p,happy>Thank you for getting my ball back!");
     case default :
-        if(inv_total(inv, boy_ball) > 0) {
+        if(inv_total(inv, ball) > 0) {
             ~chatplayer("<p,neutral>Hi, I have got your ball back. It was MUCH harder than I thought it would be.");
             ~mesbox("You give the ball back.");
             ~chatnpc("<p,happy>Thank you so much!");

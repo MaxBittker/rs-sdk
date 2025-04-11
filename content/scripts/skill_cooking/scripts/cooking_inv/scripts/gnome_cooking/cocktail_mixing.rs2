@@ -36,11 +36,11 @@ mes("<$message>.");
 
 [opheldu,cocktail_shaker] 
 switch_obj(last_useitem) {
-    case cocktail_glass : @pour_cocktail_shaker;
+    case cocktail_glass_empty : @pour_cocktail_shaker;
     case default : @add_cocktail_ingredient(last_useitem);
 }
 
-[opheldu,cocktail_glass]
+[opheldu,cocktail_glass_empty]
 switch_obj(last_useitem) {
     case cocktail_shaker : @pour_cocktail_shaker;
     case default : ~displaymessage(^dm_default);
@@ -49,7 +49,7 @@ switch_obj(last_useitem) {
 [opheldu,dwellberry]
 switch_obj(last_useitem) {
     case cocktail_shaker : @add_cocktail_ingredient(last_item);
-    case half_baked_gnomebowl : @add_bowl_ingredient(last_item);
+    case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_batta : @add_cocktail_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
 }
@@ -66,10 +66,10 @@ switch_int(oc_param(last_useitem, gnome_cooking_type)) {
     case ^gnome_bowl, ^gnome_batta, ^gnome_crunchies : @finish_gnome_food(last_useitem, last_item);
 }
 switch_obj(last_useitem) {
-    case toad_legs : @opheldu_make_gnome_food(equa_toad_legs, "You add the equa leaves to the toad legs.");
-    case spicy_toad_legs : @opheldu_make_gnome_food(seasoned_toad_legs, "You add the equa leaves to the spicy toad legs.");
+    case toads_legs : @opheldu_make_gnome_food(equa_toads_legs, "You add the equa leaves to the toad legs.");
+    case spicy_toads_legs : @opheldu_make_gnome_food(seasoned_toads_legs, "You add the equa leaves to the spicy toad legs.");
     case cocktail_shaker : @add_cocktail_ingredient(last_item);
-    case half_baked_gnomebowl : @add_bowl_ingredient(last_item);
+    case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_batta : @add_cocktail_ingredient(last_item);
     case half_baked_crunchies : @add_crunchies_ingredient(last_item);
     case raw_chompy : @quest_chompybird_add_ingredients_to_chompy_message;
@@ -77,16 +77,16 @@ switch_obj(last_useitem) {
 }
 
 [label,pour_cocktail_shaker]
-def_int $null_count = calc(~get_cocktail_ingredient_count(null) + ~get_cocktail_ingredient_count(dwarf_remains));
+def_int $null_count = calc(~get_cocktail_ingredient_count(null) + ~get_cocktail_ingredient_count(mcannonremains));
 // if very few ingredients then give odd cocktail
 if ($null_count = 7) {
     mes("There's nothing to pour from the cocktail shaker.");
     return;
 }
-inv_del(inv, cocktail_glass, 1);
+inv_del(inv, cocktail_glass_empty, 1);
 if ($null_count > 4) {
     ~clear_cocktail_ingredients;
-    inv_add(inv, odd_cocktail1, 1);
+    inv_add(inv, spoilt_cocktail, 1);
     ~mesbox("You shake the cocktail shaker and pour it into the cocktail glass.");
     return;
 }
@@ -135,7 +135,7 @@ if ($vodka_count = 1 & $gin_count = 1 & $dwellberry_count = 1 & $null_count = 4)
 }
 // short green guy
 if ($vodka_count = 1 & $lime_count = 3 & $null_count = 3) {
-    inv_add(inv, unfinished_short_green_guy1, 1);
+    inv_add(inv, unfinished_sgg1, 1);
     ~mesbox("You shake the cocktail shaker and pour it into the cocktail glass.");
     return;
 }
@@ -146,7 +146,7 @@ if ($vodka_count = 2 & $gin_count = 1 & $pineapple_count = 1 & $orange_count = 1
     return;
 }
 // else just give odd cocktail
-inv_add(inv, odd_cocktail1, 1);
+inv_add(inv, spoilt_cocktail, 1);
 ~mesbox("You shake the cocktail shaker and pour it into the cocktail glass.");
 
 [label,add_cocktail_ingredient](obj $item)
@@ -181,13 +181,13 @@ mes("<$message> into your cocktail shaker...");
 
 
 [proc,get_cocktail_ingredient_step]()(int)
-if (%gnome_drink_ingredient1 = null | %gnome_drink_ingredient1 = dwarf_remains) return(0);
-if (%gnome_drink_ingredient2 = null | %gnome_drink_ingredient2 = dwarf_remains) return(1);
-if (%gnome_drink_ingredient3 = null | %gnome_drink_ingredient3 = dwarf_remains) return(2);
-if (%gnome_drink_ingredient4 = null | %gnome_drink_ingredient4 = dwarf_remains) return(3);
-if (%gnome_drink_ingredient5 = null | %gnome_drink_ingredient5 = dwarf_remains) return(4);
-if (%gnome_drink_ingredient6 = null | %gnome_drink_ingredient6 = dwarf_remains) return(5);
-if (%gnome_drink_ingredient7 = null | %gnome_drink_ingredient7 = dwarf_remains) return(6);
+if (%gnome_drink_ingredient1 = null | %gnome_drink_ingredient1 = mcannonremains) return(0);
+if (%gnome_drink_ingredient2 = null | %gnome_drink_ingredient2 = mcannonremains) return(1);
+if (%gnome_drink_ingredient3 = null | %gnome_drink_ingredient3 = mcannonremains) return(2);
+if (%gnome_drink_ingredient4 = null | %gnome_drink_ingredient4 = mcannonremains) return(3);
+if (%gnome_drink_ingredient5 = null | %gnome_drink_ingredient5 = mcannonremains) return(4);
+if (%gnome_drink_ingredient6 = null | %gnome_drink_ingredient6 = mcannonremains) return(5);
+if (%gnome_drink_ingredient7 = null | %gnome_drink_ingredient7 = mcannonremains) return(6);
 return(7);
 
 [proc,get_cocktail_ingredient_name](obj $ingredient)(string, int)

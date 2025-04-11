@@ -9,23 +9,23 @@ switch_int(~p_choice2("Yes please!", 1, "Maybe some other time?", 2)) {
         ~chatplayer("<p,neutral>Yes please!");
         ~mesbox("Yanni looks through your items...");
         def_int $item_count = 0;
-        if(inv_total(inv, bone_key) > 0) {
+        if(inv_total(inv, zqbonekey) > 0) {
             ~chatnpc("<p,neutral>I'll give you 100 Gold for the Bone Key.");
             $item_count = add($item_count,1);
         }
-        if(inv_total(inv, stoneplaque) > 0) {
+        if(inv_total(inv, zqplaque) > 0) {
             ~chatnpc("<p,neutral>I'll give you 100 Gold for the Stone Plaque.");
             $item_count = add($item_count,1);
         }
-        if(inv_total(inv, tattered_scroll) > 0) {
+        if(inv_total(inv, zqberviriusscroll) > 0) {
             ~chatnpc("<p,neutral>I'll give you 100 Gold for the tattered scroll.");
             $item_count = add($item_count,1);
         }
-        if(inv_total(inv, crumpled_scroll) > 0) {
+        if(inv_total(inv, zqrashiliyiascroll) > 0) {
             ~chatnpc("<p,neutral>I'll give you 100 Gold for the crumpled scroll.");
             $item_count = add($item_count,1);
         }
-        if(inv_total(inv, bervirius_notes) > 0) {
+        if(inv_total(inv, zqberviriusscroll2) > 0) {
             ~chatnpc("<p,neutral>I'll give you 100 Gold for the crumpled scroll."); // intentional
             $item_count = add($item_count,1);
         }
@@ -33,7 +33,7 @@ switch_int(~p_choice2("Yes please!", 1, "Maybe some other time?", 2)) {
             ~chatnpc("<p,neutral>I'll give you 500 Gold for your locating crystal.");
             $item_count = add($item_count,1);
         }
-        if(inv_total(inv, zqbeadsofthedead) > 0) {
+        if(inv_total(inv, zqdeadbeads) > 0) {
             ~chatnpc("<p,neutral>I'll give you 1000 Gold for your 'Beads of the Dead'.");
             $item_count = add($item_count,1);
         }
@@ -51,35 +51,35 @@ switch_int(~p_choice2("Yes please!", 1, "Maybe some other time?", 2)) {
 
 [opnpcu,yanni_salika]
 switch_obj(last_useitem) {
-    case bone_key :
+    case zqbonekey :
         ~chatnpc("<p,neutral>That's a great bone key. here's 100 Gold for it.");
         mes("You sell the bone key for 100 gold.");
-        inv_del(inv, bone_key, ^max_32bit_int);
-        inv_del(bank, bone_key, ^max_32bit_int);
+        inv_del(inv, zqbonekey, ^max_32bit_int);
+        inv_del(bank, zqbonekey, ^max_32bit_int);
         inv_add(inv, coins, 100);
-    case stoneplaque :
+    case zqplaque :
         ~chatnpc("<p,neutral>That's a great stone-plaque. here's 100 Gold for it.");
         mes("You sell the stone-plaque for 100 gold.");
-        inv_del(inv, stoneplaque, ^max_32bit_int);
-        inv_del(bank, stoneplaque, ^max_32bit_int);
+        inv_del(inv, zqplaque, ^max_32bit_int);
+        inv_del(bank, zqplaque, ^max_32bit_int);
         inv_add(inv, coins, 100);
-    case tattered_scroll :
+    case zqberviriusscroll :
         ~chatnpc("<p,neutral>That's a great tattered scroll. here's 100 Gold for it.");
         mes("You sell the tattered scroll for 100 gold.");
-        inv_del(inv, tattered_scroll, ^max_32bit_int);
-        inv_del(bank, tattered_scroll, ^max_32bit_int);
+        inv_del(inv, zqberviriusscroll, ^max_32bit_int);
+        inv_del(bank, zqberviriusscroll, ^max_32bit_int);
         inv_add(inv, coins, 100);
-    case crumpled_scroll :
+    case zqrashiliyiascroll :
         ~chatnpc("<p,neutral>That's a great crumpled scroll. here's 100 Gold for it.");
         mes("You sell the crumpled scroll for 100 gold.");
-        inv_del(inv, crumpled_scroll, ^max_32bit_int);
-        inv_del(bank, crumpled_scroll, ^max_32bit_int);
+        inv_del(inv, zqrashiliyiascroll, ^max_32bit_int);
+        inv_del(bank, zqrashiliyiascroll, ^max_32bit_int);
         inv_add(inv, coins, 100);
-    case bervirius_notes :
+    case zqberviriusscroll2 :
         ~chatnpc("<p,neutral>That's a great copy of Bervirius notes. here's 100 Gold for it.");
         mes("You sell the Bervirius notes for 100 gold.");
-        inv_del(inv, bervirius_notes, ^max_32bit_int);
-        inv_del(bank, bervirius_notes, ^max_32bit_int);
+        inv_del(inv, zqberviriusscroll2, ^max_32bit_int);
+        inv_del(bank, zqberviriusscroll2, ^max_32bit_int);
         inv_add(inv, coins, 100);
     case zqcrystal :
         ~chatnpc("<p,neutral>That's a great Locating Crystal. Here's 500 Gold for it.");
@@ -87,11 +87,11 @@ switch_obj(last_useitem) {
         inv_del(inv, zqcrystal, ^max_32bit_int);
         inv_del(bank, zqcrystal, ^max_32bit_int);
         inv_add(inv, coins, 500);
-    case zqbeadsofthedead :
+    case zqdeadbeads :
         ~chatnpc("<p,neutral>Impressive necklace there, here's 1000 Gold for it.");
         mes("You sell the 'Beads of the Dead' for 1000 gold.");
-        inv_del(inv, zqbeadsofthedead, ^max_32bit_int);
-        inv_del(bank, zqbeadsofthedead, ^max_32bit_int);
+        inv_del(inv, zqdeadbeads, ^max_32bit_int);
+        inv_del(bank, zqdeadbeads, ^max_32bit_int);
         inv_add(inv, coins, 1000);
     case default :
         ~chatnpc("<p,neutral>I'm sorry Bwana but I just don't have a use for that!");

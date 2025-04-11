@@ -34,8 +34,8 @@ if(coordx(coord) <= coordx(loc_coord)) {
     return;
 }
 ~chatnpc_specific("Morris", morris, "<p,neutral>Competition pass please.");
-if(inv_total(inv, fishing_pass) > 0) {
-    ~objbox(fishing_pass, "You show Morris your pass.", 250, 0, 0);
+if(inv_total(inv, fishing_competition_pass) > 0) {
+    ~objbox(fishing_competition_pass, "You show Morris your pass.", 250, 0, 0);
     ~chatnpc_specific("Morris", morris, "<p,happy>Move on through.");
     if_close;
     p_teleport(loc_coord);
@@ -108,5 +108,5 @@ if(npc_find(coord, sinister_stranger, 8, 0) = true) {
 [queue,fishingcompo_quest_complete]
 %fishingcompo_progress = ^fishingcompo_complete;
 session_log(^log_adventure, "Quest complete: Fishing Contest");
-~send_quest_complete(questlist:fishingcompo, fishing_trophy, 180, ^fishingcompo_questpoints, "You have completed the\\nFishing Competition Quest!");
+~send_quest_complete(questlist:fishingcompo, hemenster_fishing_trophy, 180, ^fishingcompo_questpoints, "You have completed the\\nFishing Competition Quest!");
 stat_advance(fishing, 24370);

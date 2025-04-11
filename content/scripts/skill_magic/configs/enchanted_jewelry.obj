@@ -17,7 +17,7 @@ wearpos=ring
 weight=6g
 category=category_656
 
-[ring_of_duel_8]
+[ring_of_dueling_8]
 name=Ring of dueling(8)
 desc=An enchanted ring.
 cost=1275
@@ -36,10 +36,10 @@ wearpos=ring
 weight=6g
 iop4=Rub
 category=category_136
-param=next_obj_stage,ring_of_duel_7
+param=next_obj_stage,ring_of_dueling_7
 param=charges,8
 
-[ring_of_duel_7]
+[ring_of_dueling_7]
 name=Ring of dueling(7)
 desc=An enchanted ring.
 cost=1275
@@ -58,10 +58,10 @@ wearpos=ring
 weight=6g
 iop4=Rub
 category=category_136
-param=next_obj_stage,ring_of_duel_6
+param=next_obj_stage,ring_of_dueling_6
 param=charges,7
 
-[ring_of_duel_6]
+[ring_of_dueling_6]
 name=Ring of dueling(6)
 desc=An enchanted ring.
 cost=1275
@@ -80,10 +80,10 @@ wearpos=ring
 weight=6g
 iop4=Rub
 category=category_136
-param=next_obj_stage,ring_of_duel_5
+param=next_obj_stage,ring_of_dueling_5
 param=charges,6
 
-[ring_of_duel_5]
+[ring_of_dueling_5]
 name=Ring of dueling(5)
 desc=An enchanted ring.
 cost=1275
@@ -102,10 +102,10 @@ wearpos=ring
 weight=6g
 iop4=Rub
 category=category_136
-param=next_obj_stage,ring_of_duel_4
+param=next_obj_stage,ring_of_dueling_4
 param=charges,5
 
-[ring_of_duel_4]
+[ring_of_dueling_4]
 name=Ring of dueling(4)
 desc=An enchanted ring.
 cost=1275
@@ -124,10 +124,10 @@ wearpos=ring
 weight=6g
 iop4=Rub
 category=category_136
-param=next_obj_stage,ring_of_duel_3
+param=next_obj_stage,ring_of_dueling_3
 param=charges,4
 
-[ring_of_duel_3]
+[ring_of_dueling_3]
 name=Ring of dueling(3)
 desc=An enchanted ring.
 cost=1275
@@ -146,10 +146,10 @@ wearpos=ring
 weight=6g
 iop4=Rub
 category=category_136
-param=next_obj_stage,ring_of_duel_2
+param=next_obj_stage,ring_of_dueling_2
 param=charges,3
 
-[ring_of_duel_2]
+[ring_of_dueling_2]
 name=Ring of dueling(2)
 desc=An enchanted ring.
 cost=1275
@@ -168,10 +168,10 @@ wearpos=ring
 weight=6g
 iop4=Rub
 category=category_136
-param=next_obj_stage,ring_of_duel_1
+param=next_obj_stage,ring_of_dueling_1
 param=charges,2
 
-[ring_of_duel_1]
+[ring_of_dueling_1]
 name=Ring of dueling(1)
 desc=An enchanted ring.
 cost=1275

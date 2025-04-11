@@ -1,4 +1,4 @@
-[boy_ball]
+[ball]
 name=Ball
 desc=A childs' ball.
 cost=1
@@ -10,7 +10,7 @@ weight=150g
 members=yes
 tradeable=no
 
-[ball_diary]
+[witches_diary]
 name=Diary
 desc=A daily journal.
 iop1=Read
@@ -25,7 +25,7 @@ weight=18oz
 respawnrate=30
 tradeable=no
 
-[ball_doorkey]
+[witches_doorkey]
 name=Door key
 desc=A key to the Witches' house front door.
 members=yes
@@ -55,7 +55,7 @@ weight=20g
 members=yes
 tradeable=no
 
-[ball_shedkey]
+[witches_shedkey]
 name=Key
 desc=A key to the Witches' shed.
 members=yes

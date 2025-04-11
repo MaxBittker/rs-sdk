@@ -4,7 +4,7 @@ mes("You open the chest.");
 
 [oploc1,loc_76]
 // doesnt check bank in RS3, assuming this will probably work the same way
-def_int $armour_count = calc(inv_total(inv, khazard_armour) + inv_total(worn, khazard_armour));
+def_int $armour_count = calc(inv_total(inv, khazard_platemail) + inv_total(worn, khazard_platemail));
 def_int $helmet_count = calc(inv_total(inv, khazard_helmet) + inv_total(worn, khazard_helmet)); 
 if(%arena_progress = 0 | ($armour_count > 0 & $helmet_count > 0)) {
     mes("You search the chest, but find nothing.");
@@ -17,14 +17,14 @@ if($armour_count > 0 & $helmet_count = 0) {
     return;
 }
 if($helmet_count > 0 & $armour_count = 0) {
-    inv_add(inv, khazard_armour, 1);
+    inv_add(inv, khazard_platemail, 1);
     ~mesbox("You search the chest, and find the|armour of a Khazard guard.");
     return;
 }
 if(%arena_progress = ^arena_started) {
     %arena_progress = ^arena_obtained_armour;
 }
-inv_add(inv, khazard_armour, 1);
+inv_add(inv, khazard_platemail, 1);
 inv_add(inv, khazard_helmet, 1);
 // https://web.archive.org/web/20050305053139im_/http://runevillage.com/images/rsfight2.gif
 ~mesbox("You search the chest, and find the|helmet and armour of a Khazard guard.");
@@ -45,7 +45,7 @@ switch_int(%arena_progress) {
         ~chatnpc("<p,shifty>So you're back for more are you? General Khazard will be pleased.");
         @arena_enter;
     case default :
-        if(%arena_progress < ^arena_obtained_armour | (inv_total(worn, khazard_helmet) = 0 & inv_total(worn, khazard_armour) = 0)) {
+        if(%arena_progress < ^arena_obtained_armour | (inv_total(worn, khazard_helmet) = 0 & inv_total(worn, khazard_platemail) = 0)) {
             ~chatnpc("<p,angry>Yeah, it's to prevent people like you bothering us. Get out of here.");
             return;
         }
@@ -54,7 +54,7 @@ switch_int(%arena_progress) {
 ~open_and_close_door(loc_1532, false, false);
 
 [proc,wearing_khazard_armour]()(boolean)
-if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_armour) > 0) {
+if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_platemail) > 0) {
     return (true);
 }
 return (false);
@@ -68,7 +68,7 @@ mes("The cell gate is securely locked.");
 
 [oplocu,loc_79]
 // use keys
-if(last_useitem = khazard_cell_keys) {
+if(last_useitem = khazard_cellkeys) {
     ~chatplayer("<p,shifty>The gate is locked, but Jeremy's not in there anyway."); // chisel
     return;
 }
@@ -76,7 +76,7 @@ if(last_useitem = khazard_cell_keys) {
 
 [oplocu,loc_80]
 // use keys
-if(last_useitem = khazard_cell_keys) {
+if(last_useitem = khazard_cellkeys) {
     if(%arena_progress = ^arena_given_khali_brew) {
         if (npc_find(coord, jeremy_servil, 4, 0) = true & npc_getmode ! null) {
             @free_jeremy_servil;

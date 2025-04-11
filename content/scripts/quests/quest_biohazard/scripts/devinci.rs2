@@ -19,11 +19,11 @@ if(%biohazard_progress = ^biohazard_spoken_chemist) {
 mes("<nc_name(Artist1)> does not feel sufficiently moved to talk.");
 
 [label,devinci_ethenea]
-if(inv_total(inv, Ethenea) < 1) {
+if(inv_total(inv, ethenea) < 1) {
     ~mesbox("You can't give him what you don't have.");
     return;
 }
-inv_del(inv, Ethenea, 1);
+inv_del(inv, ethenea, 1);
 %bioerrand = setbit(%bioerrand, ^devinci_given);
 %bioerrand = setbit(%bioerrand, ^devinci_correct);
 mes("You give him the vial of ethenea.");
@@ -65,7 +65,7 @@ if(testbit(%bioerrand, ^devinci_correct) = true) {
     ~chatplayer("<p,happy>Well, as they say, it's always sunny in RuneScape.");
     ~chatnpc("<p,happy>Ok, here it is.");
     mes("He gives you the vial of ethenea.");
-    inv_add(inv, Ethenea, 1);
+    inv_add(inv, ethenea, 1);
     %bioerrand = clearbit(%bioerrand, ^devinci_given);
     %bioerrand = clearbit(%bioerrand, ^devinci_correct);
     ~chatplayer("<p,happy>Thanks, you've been a big help.");

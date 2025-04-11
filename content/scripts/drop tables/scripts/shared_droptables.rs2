@@ -10,7 +10,7 @@ def_int $random = 0;
 $random = random(128);
 
 if ($random < 32) {
-    return (unidentified_guam_leaf, 1);
+    return (unidentified_guam, 1);
 } else if ($random < 56) {
     return (unidentified_marrentill, 1);
 } else if ($random < 74) {
@@ -18,9 +18,9 @@ if ($random < 32) {
 } else if ($random < 88) {
     return (unidentified_harralander, 1);
 } else if ($random < 99) {
-    return (unidentified_ranarr_weed, 1);
+    return (unidentified_ranarr, 1);
 } else if ($random < 107) {
-    return (unidentified_irit_leaf, 1);
+    return (unidentified_irit, 1);
 } else if ($random < 113) {
     return (unidentified_avantoe, 1);
 } else if ($random < 118) {
@@ -57,11 +57,11 @@ if ($random < 32) {
     }
 } else if ($random < 60) {
     if (map_members = true) {
-        return (half_key1, 1);
+        return (keyhalf1, 1);
     }
 } else if ($random < 61) {
     if (map_members = true) {
-        return (half_key2, 1);
+        return (keyhalf2, 1);
     }
 } else if ($random < 62) {
     if (map_members = true) {
@@ -107,9 +107,9 @@ if ($random < 3) {
 } else if ($random < 44) {
     return (coins, 3000);
 } else if ($random < 64) {
-    return (half_key1, 1);
+    return (keyhalf1, 1);
 } else if ($random < 84) {
-    return (half_key2, 1);
+    return (keyhalf2, 1);
 } else if ($random < 89) {
     return (runite_bar, 1);
 } else if ($random < 91) {
@@ -129,20 +129,20 @@ def_int $random = random(128);
 if ($random < 8) {
     return (rune_spear, 1);
 } else if ($random < 12) {
-    return (shield_left_half, 1);
+    return (dragonshield_a, 1);
 } else if ($random < 15) {
     return (dragon_spear, 1);
 }
 
 [proc,randomjunk]()(namedobj, int) // guess
 switch_int (random(8)) {
-    case 0 : return(broken_arrow, 1);
-    case 1 : return(broken_glass, 1);
-    case 2 : return(broken_staff, 1);
-    case 3 : return(buttons, 1);
-    case 4 : return(damaged_armour, 1);
+    case 0 : return(digsitearrow, 1);
+    case 1 : return(digsiteglass, 1);
+    case 2 : return(digsitestaff, 1);
+    case 3 : return(digsitebuttons, 1);
+    case 4 : return(digsitearmour1, 1);
     case 5 : return(old_boot, 1);
     case 6 : return(pot_empty, 1);
-    case 7 : return(rusty_sword, 1);
+    case 7 : return(digsitesword, 1);
     case default : return(pot_empty, 1);
 }

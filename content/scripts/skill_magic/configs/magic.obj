@@ -19,7 +19,7 @@ weight=2lb
 param=magicattack,3
 param=magicdefence,3
 
-[wizards_hat_blue]
+[bluewizhat]
 cost=2
 name=Wizards hat
 desc=A silly pointed hat.
@@ -39,7 +39,7 @@ weight=1lb
 param=magicattack,2
 param=magicdefence,2
 
-[wizards_robe_black]
+[black_robe]
 cost=13
 name=Black robe
 desc=I can do magic better in this.
@@ -60,7 +60,7 @@ weight=2lb
 param=magicattack,3
 param=magicdefence,3
 
-[wizards_hat_black]
+[blackwizhat]
 cost=2
 name=Wizards hat
 desc=A silly pointed hat.

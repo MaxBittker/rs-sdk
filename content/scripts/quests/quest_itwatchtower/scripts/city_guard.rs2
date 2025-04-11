@@ -15,13 +15,13 @@ if(%itwatchtower_progress >= ^itwatchtower_solved_riddle) {
             }
         case 2 :
             ~chatplayer("<p,sad>I have lost the map you gave me.");
-            if(inv_total(inv, skavid_map) > 0) { // no bank check (RS3)
+            if(inv_total(inv, skavidmap) > 0) { // no bank check (RS3)
                 ~chatnpc("<p,angry>Are you blind? What is that you are carrying?");
                 ~chatplayer("<p,shifty>Oh, that map...");
                 return;
             }
             ~chatnpc("<p,bored>What's the point?|Take this copy and bother me no more!");
-            inv_add(inv, skavid_map, 1);
+            inv_add(inv, skavidmap, 1);
     }
     return;
 }
@@ -48,7 +48,7 @@ switch_int(~p_choice2("I am an ogre killer come to destroy you!", 1, "I seek pas
 if(last_useitem = deathrune) {
     if(%itwatchtower_progress <= ^itwatchtower_given_riddle) {
         inv_del(inv, deathrune, 1);
-        inv_add(inv, skavid_map, 1);
+        inv_add(inv, skavidmap, 1);
         %itwatchtower_progress = ^itwatchtower_solved_riddle;
         ~chatplayer("<p,happy>I worked it out!");
         ~chatnpc("<p,happy>Well, well. The imp has done it!|Thanks for the rune;|This is what you be needing...");

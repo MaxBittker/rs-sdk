@@ -7,11 +7,11 @@ switch_int(%itwatchtower_progress) {
         switch_int(~p_choice2("I lost the scroll you gave me.", 1, "That's okay.", 2)) {
             case 1 :
                 ~chatplayer("<p,sad>I lost the scroll you gave me.");
-                if(inv_total(inv, spell_scroll) > 0) { // no bank check in rs3
+                if(inv_total(inv, watchtowerspell) > 0) { // no bank check in rs3
                     ~chatnpc("<p,happy>Ho, ho, ho! A comedian to the finish.|There it is, in your backpack!");
                     return;
                 }
-                inv_add(inv, spell_scroll, 1);
+                inv_add(inv, watchtowerspell, 1);
                 ~chatnpc("<p,happy>Never mind, have another...");
             case 2 : 
                 ~chatplayer("<p,happy>That's okay.");
@@ -127,13 +127,13 @@ switch_int(%itwatchtower_progress) {
         switch_int(~p_choice2("I have lost the relic you gave me.", 1, "I will find my way in, no problem.", 2)) {
             case 1 :
                 ~chatplayer("<p,sad>I have lost the relic you gave me.");
-                if(inv_total(inv, ogre_relic) > 0) { // did bank and freesapce checks exist originally? classic doesn't have them
+                if(inv_total(inv, ogrerelic) > 0) { // did bank and freesapce checks exist originally? classic doesn't have them
                     ~chatnpc("<p,angry>Have you gone mad? I can see you have it with you!");
                     return;
                 }
                 ~chatnpc("<p,neutral>What? Lost the relic? How careless!|It's a good job I copied its design, then!|You can take this copy instead - it's just as good.");
-                inv_add(inv, ogre_relic, 1);
-                ~objbox(ogre_relic, "The wizard gives you another statue.", 250, 0, ^objbox_height);
+                inv_add(inv, ogrerelic, 1);
+                ~objbox(ogrerelic, "The wizard gives you another statue.", 250, 0, ^objbox_height);
             case 2 : 
                 ~chatplayer("<p,happy>I will find my way in, no problem.");
                 ~chatnpc("<p,happy>Yes, I'm sure you will... Good luck!");
@@ -156,19 +156,19 @@ switch_int(%itwatchtower_progress) {
         if(inv_total(inv, fingernails) > 0) {
             @watchwiz_give_fingernails;
         }
-        if(inv_total(inv, old_robe) > 0) {
+        if(inv_total(inv, watchtowerrobe) > 0) {
             ~chatplayer("<p,happy>I have this robe...");
             @watchwiz_not_evidence;
         }
-        if(inv_total(inv, old_robe) > 0) {
+        if(inv_total(inv, watchtowerrobe) > 0) {
             ~chatplayer("<p,happy>I found this dagger...");
             @watchwiz_not_evidence;
         }
-        if(inv_total(inv, old_robe) > 0) {
+        if(inv_total(inv, watchtowerrobe) > 0) {
             ~chatplayer("<p,happy>I have this armour...");
             @watchwiz_not_evidence;
         }
-        if(inv_total(inv, old_robe) > 0) {
+        if(inv_total(inv, watchtowerrobe) > 0) {
             ~chatplayer("<p,happy>I have an eye patch...");
             @watchwiz_not_evidence;
         }
@@ -194,10 +194,10 @@ switch_int(%itwatchtower_progress) {
 }
 
 [opnpcu,watchtower_wizard]
-if(last_useitem = ogre_relic) {
+if(last_useitem = ogrerelic) {
     ~chatplayer("<p,confused>What is this?");
     ~chatnpc("<p,confused>It is the ogre statue I finished for you.");
-} else if(last_useitem = watchtower_crystal1) {
+} else if(last_useitem = powering_crystal1) {
     if(%itwatchtower_progress >= ^itwatchtower_found_all_crystals) {
         ~chatnpc("<p,confused>More crystals?|I don't need any more now..."); // RSC and RS3
         return;
@@ -209,7 +209,7 @@ if(last_useitem = ogre_relic) {
         @watchwiz_all_crystals;
     }
     ~chatnpc("<p,neutral>Keep searching for the others.|If you've dropped any,|then you will need to go back to where you got it from.");
-} else if(last_useitem = watchtower_crystal2) {
+} else if(last_useitem = powering_crystal2) {
     if(%itwatchtower_progress >= ^itwatchtower_found_all_crystals) {
         ~chatnpc("<p,confused>More crystals?|I don't need any more now..."); // RSC
         return;
@@ -221,7 +221,7 @@ if(last_useitem = ogre_relic) {
         @watchwiz_all_crystals;
     }
     ~chatnpc("<p,neutral>Keep searching for the others.|If you've dropped any,|then you will need to go back to where you got it from.");
-} else if(last_useitem = watchtower_crystal3) {
+} else if(last_useitem = powering_crystal3) {
     if(%itwatchtower_progress >= ^itwatchtower_found_all_crystals) {
         ~chatnpc("<p,confused>More crystals?|I don't need any more now..."); // RSC
         return;
@@ -233,7 +233,7 @@ if(last_useitem = ogre_relic) {
         @watchwiz_all_crystals;
     }
     ~chatnpc("<p,neutral>Keep searching for the others.|If you've dropped any,|then you will need to go back to where you got it from.");
-} else if(last_useitem = watchtower_crystal4) {
+} else if(last_useitem = powering_crystal4) {
     if(%itwatchtower_progress >= ^itwatchtower_found_all_crystals) {
         ~chatnpc("<p,confused>More crystals?|I don't need any more now..."); // RSC
         return;
@@ -244,27 +244,27 @@ if(last_useitem = ogre_relic) {
         @watchwiz_all_crystals;
     }
     ~chatnpc("<p,neutral>Keep searching for the others.|If you've dropped any,|then you will need to go back to where you got it from.");
-} else if(last_useitem = relic_part_1) {
+} else if(last_useitem = relicpart1) {
     ~chatplayer("<p,neutral>I had this given to me...");
     if(testbit(%itwatchtower_bits, ^itwatchtower_relic1) = true) {
         ~chatnpc("<p,confused>I already have that part..."); // rs3, rsc matches
         return;
     }
     ~chatnpc("<p,neutral>It's part of an ogre relic.");
-    inv_del(inv, relic_part_1, 1);
+    inv_del(inv, relicpart1, 1);
     %itwatchtower_bits = setbit(%itwatchtower_bits, ^itwatchtower_relic1);
     @check_relic_parts;
-} else if(last_useitem = relic_part_2) {
+} else if(last_useitem = relicpart2) {
     ~chatplayer("<p,neutral>I got given this by an ogre...");
     if(testbit(%itwatchtower_bits, ^itwatchtower_relic2) = true) {
         ~chatnpc("<p,confused>I already have that part...");
         return;
     }
     ~chatnpc("<p,neutral>Good good, a part of an ogre relic.");
-    inv_del(inv, relic_part_2, 1);
+    inv_del(inv, relicpart2, 1);
     %itwatchtower_bits = setbit(%itwatchtower_bits, ^itwatchtower_relic2);
     @check_relic_parts;
-} else if(last_useitem = relic_part_3) {
+} else if(last_useitem = relicpart3) {
     ~chatplayer("<p,neutral>An ogre gave me this...");
     if(testbit(%itwatchtower_bits, ^itwatchtower_relic3) = true) {
         ~chatnpc("<p,confused>I already have that part...");
@@ -272,7 +272,7 @@ if(last_useitem = ogre_relic) {
     }
     // https://web.archive.org/web/20051025143129im_/http://www.runeweb.net/fireball/Watchtower%20Images/Watchtower8.PNG
     ~chatnpc("<p,neutral>Ah, it's part of an old ogre statue.");
-    inv_del(inv, relic_part_3, 1);
+    inv_del(inv, relicpart3, 1);
     %itwatchtower_bits = setbit(%itwatchtower_bits, ^itwatchtower_relic3);
     @check_relic_parts;
 } else if(last_useitem = fingernails) {
@@ -281,15 +281,15 @@ if(last_useitem = ogre_relic) {
         return;
     }
     @watchwiz_give_fingernails;
-} else if(last_useitem = old_robe | last_useitem = unusual_armour | last_useitem = tattered_eye_patch | last_useitem = damaged_dagger) {
+} else if(last_useitem = watchtowerrobe | last_useitem = watchtowerarmour | last_useitem = watch_eye_patch | last_useitem = watchtowerdagger) {
     if(%itwatchtower_progress ! ^itwatchtower_started) {
         mes("The wizard has no more need for evidence.");
         return;
     }
     @watchwiz_not_evidence;
-} else if(last_useitem = skavid_map) {
+} else if(last_useitem = skavidmap) {
     ~chatnpc("<p,happy>Well, well - a map!|Indeed, this shows the paths into the skavid caves,|so you can go in there.");
-} else if(last_useitem = vial_water_jangerberries | last_useitem = mixture_guam_jangerberries) {
+} else if(last_useitem = jangervial | last_useitem = guamjangervial) {
     ~chatnpc("<p,confused>No, no. The potion is not complete yet.");
 } else if(last_useitem = ogre_potion) {
     if(%itwatchtower_progress >= ^itwatchtower_complete) {
@@ -311,12 +311,12 @@ if(getbit_range(%itwatchtower_bits, ^itwatchtower_relic1, ^itwatchtower_relic3) 
     ~chatnpc("<p,neutral>There may be more parts to find...|I'll keep this for later.");
     return;
 }
-inv_add(inv, ogre_relic, 1);
+inv_add(inv, ogrerelic, 1);
 %itwatchtower_progress = ^itwatchtower_made_relic;
 ~chatnpc("<p,happy>Excellent! That seems to be all the pieces.|Now I can assemble it...");
 ~chatnpc("<p,neutral>Hmm, yes it is as I thought...|A statue symbolising an ogre warrior of old.");
 ~chatnpc("<p,happy>Well, if you ever wanted to make friends with an ogre, then this is the item to have!");
-~objbox(ogre_relic, "The wizard gives you a complete statue.", 250, 0, ^objbox_height);
+~objbox(ogrerelic, "The wizard gives you a complete statue.", 250, 0, ^objbox_height);
 
 [label,watchwiz_not_evidence]
 ~chatnpc("<p,confused>Let me see...");

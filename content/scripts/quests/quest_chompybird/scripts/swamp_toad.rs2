@@ -1,14 +1,14 @@
 [proc,reduce_ogre_bellows](obj $used_bellow)
 {
-    if ($used_bellow = ogre_bellows_3) {
-        inv_del(inv, ogre_bellows_3, 1);
-        inv_add(inv, ogre_bellows_2, 1);
-    } else if ($used_bellow = ogre_bellows_2) {
-        inv_del(inv, ogre_bellows_2, 1);
-        inv_add(inv, ogre_bellows_1, 1);
-    } else if ($used_bellow = ogre_bellows_1) {
-        inv_del(inv, ogre_bellows_1, 1);
-        inv_add(inv, ogre_bellows_0, 1);
+    if ($used_bellow = filled_ogre_bellow3) {
+        inv_del(inv, filled_ogre_bellow3, 1);
+        inv_add(inv, filled_ogre_bellow2, 1);
+    } else if ($used_bellow = filled_ogre_bellow2) {
+        inv_del(inv, filled_ogre_bellow2, 1);
+        inv_add(inv, filled_ogre_bellow1, 1);
+    } else if ($used_bellow = filled_ogre_bellow1) {
+        inv_del(inv, filled_ogre_bellow1, 1);
+        inv_add(inv, empty_ogre_bellows, 1);
     }
 }
 
@@ -24,7 +24,7 @@
 
 [opnpcu,swamp_toad]
 switch_obj(last_useitem) {
-    case ogre_bellows_0 :
+    case empty_ogre_bellows :
 
         ~come_here_toady();
 
@@ -40,7 +40,7 @@ switch_obj(last_useitem) {
                 mes("Perhaps you need something thicker than air.");
             }
         }        
-    case ogre_bellows_3, ogre_bellows_2, ogre_bellows_1 :
+    case filled_ogre_bellow3, filled_ogre_bellow2, filled_ogre_bellow1 :
         if (inv_freespace(inv) < 1) {
             mes("You don't have space to carry that.");
             return;

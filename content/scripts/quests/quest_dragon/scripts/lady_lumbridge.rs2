@@ -50,7 +50,7 @@ if (%dragon_planks < 3) {
 
 [oplocu,lady_lumbridge_hole]
 switch_obj (last_useitem) {
-    case plank : @add_plank_to_ship_hole; 
+    case woodplank : @add_plank_to_ship_hole; 
     case default : ~mesbox("That won't help get the ship seaworthy.");
 }
 
@@ -60,7 +60,7 @@ if (%dragon_progress < ^quest_dragon_bought_ship) {
     return;
 }
 // just incase
-if (inv_total(inv, plank) < 1) {
+if (inv_total(inv, woodplank) < 1) {
     ~mesbox("You'll need to use wooden planks on this hole to patch it up.");
     return;
 }
@@ -74,7 +74,7 @@ if (inv_total(inv, hammer) < 1) {
     ~mesbox("You need a hammer to force the nails in with.");
     return;
 }
-inv_del(inv, plank, 1);
+inv_del(inv, woodplank, 1);
 inv_del(inv, nails, 4);
 %dragon_planks = min(calc(%dragon_planks + 1), 3);
 if (%dragon_planks < 3) {

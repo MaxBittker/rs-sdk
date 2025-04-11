@@ -11,10 +11,10 @@ switch_int(%grandtree_progress) {
         ~chatnpc("<p,happy>Better than ever, thanks to you!");
     case ^grandtree_searching_daconia :
         ~chatnpc("<p,quiz>Traveller, have you managed to find the Daconia?");
-        if(inv_total(inv, daconia_rock) > 0) {
+        if(inv_total(inv, grandtree_daconiarock) > 0) {
             ~chatplayer("<p,quiz>Is this it?");
             ~chatnpc("<p,happy>Yes! Excellent, well done!");
-            ~objbox(daconia_rock, "You give the King the Daconia rock.", 250, 0, divide(^objbox_height, 2));
+            ~objbox(grandtree_daconiarock, "You give the King the Daconia rock.", 250, 0, divide(^objbox_height, 2));
             ~chatnpc("<p,happy>It's incredible, the tree's health is improving already! I don't know what to say, we owe you so much!");
             ~chatnpc("<p,sad>To think Glough had me fooled all along!");
             ~chatplayer("<p,happy>All that matters now is that humans and gnomes can live together in peace!");
@@ -74,43 +74,43 @@ switch_int(%grandtree_progress) {
         ~chatnpc("<p,angry>That's enough Traveller! I've no time for make believe. The tree's still dying, I must get to the truth of this!");
     case ^grandtree_given_twigs :
         ~chatnpc("<p,sad>Please Traveller, take my advice and leave!");
-        if(~obj_gettotal(twigs_t) = 0 | ~obj_gettotal(twigs_u) = 0 | ~obj_gettotal(twigs_z) = 0 | ~obj_gettotal(twigs_o) = 0) {
+        if(~obj_gettotal(grandtree_twigt) = 0 | ~obj_gettotal(grandtree_twigu) = 0 | ~obj_gettotal(grandtree_twigz) = 0 | ~obj_gettotal(grandtree_twigo) = 0) {
             ~chatplayer("<p,neutral>I've lost those twigs you gave me.");
             ~chatnpc("<p,neutral>Here take these, I don't see how it will help though.");
-            ~objbox(twigs_t, "The King has given you some twigs lashed together.", 250, 0, 0);
-            inv_del(inv, twigs_t, ^max_32bit_int);
-            inv_del(inv, twigs_u, ^max_32bit_int);
-            inv_del(inv, twigs_z, ^max_32bit_int);
-            inv_del(inv, twigs_o, ^max_32bit_int);
-            inv_del(bank, twigs_t, ^max_32bit_int);
-            inv_del(bank, twigs_u, ^max_32bit_int);
-            inv_del(bank, twigs_z, ^max_32bit_int);
-            inv_del(bank, twigs_o, ^max_32bit_int);
+            ~objbox(grandtree_twigt, "The King has given you some twigs lashed together.", 250, 0, 0);
+            inv_del(inv, grandtree_twigt, ^max_32bit_int);
+            inv_del(inv, grandtree_twigu, ^max_32bit_int);
+            inv_del(inv, grandtree_twigz, ^max_32bit_int);
+            inv_del(inv, grandtree_twigo, ^max_32bit_int);
+            inv_del(bank, grandtree_twigt, ^max_32bit_int);
+            inv_del(bank, grandtree_twigu, ^max_32bit_int);
+            inv_del(bank, grandtree_twigz, ^max_32bit_int);
+            inv_del(bank, grandtree_twigo, ^max_32bit_int);
             @narnode_add_twigs;
         }
-        if(~obj_gettotal(translation_book) = 0) { // this one checks bank
+        if(~obj_gettotal(grandtree_translationbook) = 0) { // this one checks bank
             ~chatplayer("<p,neutral>I've lost the translation book.");
             ~chatnpc("<p,neutral>Don't worry, I have more.");
-            ~objbox(translation_book, "The king gives you another translation book.", 250, 0, divide(^objbox_height, 2));
-            inv_add(inv, translation_book, 1);
+            ~objbox(grandtree_translationbook, "The king gives you another translation book.", 250, 0, divide(^objbox_height, 2));
+            inv_add(inv, grandtree_translationbook, 1);
         }
     case ^grandtree_found_invasion_plans :
         ~chatplayer("<p,neutral>Hi, your highness, did you think about what I said?");
         ~chatnpc("<p,neutral>Look, if you're right about Glough I would have him arrested but there's no reason for me to think he's lying.");
-        if(inv_total(inv, invasion_plans) > 0) {
+        if(inv_total(inv, grandtree_invasionplans) > 0) {
             ~chatplayer("<p,neutral>Look, I found this at Glough's home!");
-            ~objbox(invasion_plans, "You give the King the invasion plans.", 250, 0, 0);
+            ~objbox(grandtree_invasionplans, "You give the King the invasion plans.", 250, 0, 0);
             ~chatnpc("<p,shock>If these are to be believed then this is terrible!");
             ~chatnpc("<p,neutral>But it's not proof, any one could have made these. Traveller, I understand your concern, I had guards search Glough's house but they found nothing suspicious, just these odd twigs.");
             if(inv_freespace(inv) < 4) {
                 ~chatnpc("<p,neutral>Hmm. Looks like you can't carry anymore. Put 4 things down and come back to me.");
                 return;
             }
-            ~objbox(twigs_t, "The King has given you some twigs lashed together.", 250, 0, 0);
+            ~objbox(grandtree_twigt, "The King has given you some twigs lashed together.", 250, 0, 0);
             ~chatnpc("<p,neutral>On the other hand, if Glough's right about the humans we will need an army of gnomes to protect ourselves. So I've decided to allow Glough to raise a mighty gnome army.");
             ~chatnpc("<p,angry>The Grand Tree's still slowly dying, if it is human sabotage we must respond!");
             %grandtree_progress = ^grandtree_given_twigs;
-            inv_del(inv, invasion_plans, 1);
+            inv_del(inv, grandtree_invasionplans, 1);
             @narnode_add_twigs;
         }
     case ^grandtree_clue_charlie :
@@ -290,30 +290,30 @@ switch_int(~p_choice2("I'm sorry, I don't want to get involved.", 1, "I'd be hap
             ~chatnpc("<p,neutral>Hmm. Looks like you can't carry anymore. Put a couple of things down and come back to me.");
             return;
         }
-        ~objbox(bark_sample, "The king has given you a sample of bark.", 250, 0, 0);
+        ~objbox(grandtree_barksample, "The king has given you a sample of bark.", 250, 0, 0);
         ~chatnpc("<p,neutral>The mage only talks in the old tongue, you'll need this.");
-        ~objbox(translation_book, "The king has given you a translation book.", 250, 0, divide(^objbox_height, 2));
+        ~objbox(grandtree_translationbook, "The king has given you a translation book.", 250, 0, divide(^objbox_height, 2));
         ~chatplayer("<p,quiz>What is it?");
         ~chatnpc("<p,neutral>It's a translation book, you'll need it to translate what Hazelmere says. Do that carefully! His words are our only hope! You'll find his dwellings high upon a towering hill, on an island east of Yanille.");
         %grandtree_progress = ^grandtree_started;
         ~send_quest_progress(questlist:grandtree, %grandtree_progress, ^grandtree_complete);
-        inv_add(inv, bark_sample, 1);
-        inv_add(inv, translation_book, 1);
+        inv_add(inv, grandtree_barksample, 1);
+        inv_add(inv, grandtree_translationbook, 1);
         @king_narnode_back_up;
 }
 
 [proc,check_narnode_items]
-if(inv_total(inv, bark_sample) = 0) {
+if(inv_total(inv, grandtree_barksample) = 0) {
     ~chatplayer("<p,neutral>I've lost the bark sample.");
     ~chatnpc("<p,neutral>Here's another sample, hang on to it this time!");
-    ~objbox(bark_sample, "The king gives you another bark sample.", 250, 0, 0);
-    inv_add(inv, bark_sample, 1);
+    ~objbox(grandtree_barksample, "The king gives you another bark sample.", 250, 0, 0);
+    inv_add(inv, grandtree_barksample, 1);
 }
-if(inv_total(inv, translation_book) = 0) {
+if(inv_total(inv, grandtree_translationbook) = 0) {
     ~chatplayer("<p,neutral>I've lost the translation book.");
     ~chatnpc("<p,neutral>Don't worry, I have more.");
-    ~objbox(translation_book, "The king gives you another translation book.", 250, 0, divide(^objbox_height, 2));
-    inv_add(inv, translation_book, 1);
+    ~objbox(grandtree_translationbook, "The king gives you another translation book.", 250, 0, divide(^objbox_height, 2));
+    inv_add(inv, grandtree_translationbook, 1);
 }
 
 [label,narnode_correct_b2]
@@ -424,118 +424,118 @@ switch_int(~p_choice4("All with be fine on the third night.", 1, "You must wait 
 [label,narnode_add_twigs]
 switch_int(random(23)) { 
     case 0 :
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_z, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigz, 1);
     case 1 :
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_u, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigu, 1);
     case 2 :
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_u, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigu, 1);
     case 3 :
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_o, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigo, 1);
     case 4 :
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_z, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigz, 1);
     case 5 :
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_u, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigu, 1);
     case 6 :
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_z, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigz, 1);
     case 7 :
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_u, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigu, 1);
     case 8 :
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_t, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigt, 1);
     case 9 :
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_z, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigz, 1);
     case 10 :
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_t, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigt, 1);
     case 11 :
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_u, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigu, 1);
     case 12 :
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_o, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigo, 1);
     case 13 :
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_u, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigu, 1);
     case 14 :
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_t, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigt, 1);
     case 15 :
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_o, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigo, 1);
     case 16 :
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_t, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigt, 1);
     case 17 :
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_z, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigz, 1);
     case 18 :
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_o, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigo, 1);
     case 19 :
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_z, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigz, 1);
     case 20 :
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_t, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigt, 1);
     case 21 :
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_t, 1);
-        inv_add(inv, twigs_o, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigt, 1);
+        inv_add(inv, grandtree_twigo, 1);
     case 22 :
-        inv_add(inv, twigs_u, 1);
-        inv_add(inv, twigs_z, 1);
-        inv_add(inv, twigs_o, 1);
-        inv_add(inv, twigs_t, 1);
+        inv_add(inv, grandtree_twigu, 1);
+        inv_add(inv, grandtree_twigz, 1);
+        inv_add(inv, grandtree_twigo, 1);
+        inv_add(inv, grandtree_twigt, 1);
 }

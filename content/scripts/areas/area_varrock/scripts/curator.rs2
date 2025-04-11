@@ -1,9 +1,9 @@
 [opnpc1,curator]
 ~chatnpc("<p,neutral>Welcome to the museum of Varrock.");
-if (inv_total(inv, unstamped_letter) > 0) @curator_stamp_letter;
-if (inv_total(inv, level_1_certificate) > 0) @curator_level_1;
-if (inv_total(inv, level_2_certificate) > 0) @curator_level_2;
-if (inv_total(inv, level_3_certificate) > 0) @curator_level_3;
+if (inv_total(inv, digplainletter) > 0) @curator_stamp_letter;
+if (inv_total(inv, level1certificate) > 0) @curator_level_1;
+if (inv_total(inv, level2certificate) > 0) @curator_level_2;
+if (inv_total(inv, level3certificate) > 0) @curator_level_3;
 if(%phoenixgang_progress = ^phoenixgang_joined | %blackarmgang_progress = ^blackarmgang_joined) {
     if(inv_total(inv, arravshield1) > 0 & inv_total(inv, arravshield2) > 0) { // mostly 1-1 with RSC
         ~chatplayer("<p,quiz>I have retrieved the shield of Arrav|and I would like to claim my reward.");
@@ -17,7 +17,7 @@ if(%phoenixgang_progress = ^phoenixgang_joined | %blackarmgang_progress = ^black
         ~mesbox("You hand over the shield parts.");
         inv_del(inv, arravshield1, 1);
         inv_del(inv, arravshield2, 1);
-        inv_add(inv, arravcert_scroll, 2);
+        inv_add(inv, arravcertificate, 2);
         ~mesbox("The curator writes out two certificates.");
         ~chatnpc("<p,happy>Take these to the king|and he'll pay you both handsomely.|Please tell your friend to speak to me|after giving him his certificate.");
         return;
@@ -41,11 +41,11 @@ if($option = 1) {
 
 [opnpcu,curator]
 switch_obj(last_useitem) {
-    case unstamped_letter : @curator_stamp_letter;
-    case stamped_letter : ~chatnpc("<p,confused>No, I don't want it back, thank you.");
-    case level_1_certificate : @curator_level_1;
-    case level_2_certificate : @curator_level_2;
-    case level_3_certificate : @curator_level_3;
+    case digplainletter : @curator_stamp_letter;
+    case recommendedletter : ~chatnpc("<p,confused>No, I don't want it back, thank you.");
+    case level1certificate : @curator_level_1;
+    case level2certificate : @curator_level_2;
+    case level3certificate : @curator_level_3;
     case default : ~displaymessage(^dm_default);
 }
 
@@ -64,24 +64,24 @@ switch_obj(last_useitem) {
 // player <sad>: I seem to have lost the letter of recommendation that you stamped for me.
 // curator: Yes, I saw you drop it as you walked off last time. Here it is.
 // player: Thanks!
-inv_del(inv, unstamped_letter, 1);
-inv_add(inv, stamped_letter, 1);
+inv_del(inv, digplainletter, 1);
+inv_add(inv, recommendedletter, 1);
 ~chatnpc("<p,happy>There you go, good luck student...|Be sure to come back and show me your certificates.|I would like to see how you get on.");
  ~chatplayer("<p,happy>Okay, I will. Thanks, see you later.");
 
 
 [label,curator_level_1]
-inv_del(inv, level_1_certificate, 1);
+inv_del(inv, level1certificate, 1);
 ~chatplayer("<p,happy>Look what I have been awarded.");
 ~chatnpc("<p,happy>Well that's great, well done.|I'll take that for safekeeping;|come and tell me when you are the next level.");
 
 [label,curator_level_2]
-inv_del(inv, level_2_certificate, 1);
+inv_del(inv, level2certificate, 1);
 ~chatplayer("<p,happy>Look, I am level 2 now...");
 ~chatnpc("<p,happy>Excellent work!|I'll take that for safe keeping,|remember to come and see me when you have graduated.");
 
 [label,curator_level_3]
-inv_del(inv, level_3_certificate, 1);
+inv_del(inv, level3certificate, 1);
 ~chatplayer("<p,happy>Look at this certificate, curator...");
 ~chatnpc("<p,happy>Well, well - a level 3 graduate!|I'll keep your certificate safe for you.|I feel I must reward you for your work...");
 ~chatnpc("<p,neutral>What would you prefer: something to eat or drink?");

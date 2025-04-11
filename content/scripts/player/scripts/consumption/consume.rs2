@@ -4,7 +4,7 @@
 [opheld1,_category_58] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_59] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_86] @player_consume_item(consume_effect_stat, 2, 3);
-[opheld1,rotten_apples] ~displaymessage(^dm_default);
+[opheld1,rottenapples] ~displaymessage(^dm_default);
 [opheld1,_category_120] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_131] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,pineapple]
@@ -13,7 +13,7 @@ mes("You cant eat it whole; maybe you should cut it up.");
 
 // Kebabs
 [opheld1,kebab] @player_consume_item(consume_effect_kebab, 2, 3);
-[opheld1,dodgy_ugthanki_kebab] @player_consume_item(consume_effect_stat, 2, 3);
+[opheld1,ugthanki_kebab_bad] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,ugthanki_kebab] @player_consume_item(consume_effect_stat_say, 2, 3);
 
 // stews
@@ -39,7 +39,7 @@ switch_obj(last_item) {
 }
 [opheld1,_gnome_unf_odd_cocktail]
 switch_obj(last_item) {
-    case odd_cocktail1, odd_cocktail2, odd_cocktail3, odd_cocktail4 :
+    case spoilt_cocktail, spoilt_cocktail_fruity, spoilt_cocktail_creamy, spoilt_cocktail_slice :
         inv_delslot(inv, last_slot);
         inv_add(inv, oc_param(last_item, next_obj_stage), 1);
         mes("You empty the cocktail.");
@@ -87,7 +87,7 @@ switch_obj(last_item) {
         @player_consume_item(consume_effect_super_antipoison, null, null);
     case default : @player_consume_item(consume_effect_stat, null, null);
 }
-[opheld1,strange_fruit]@player_consume_item(consume_effect_strange_fruit, 2, 3);
+[opheld1,macro_triffidfruit]@player_consume_item(consume_effect_strange_fruit, 2, 3);
 // ************************* TRIGGERS **************************
 
 // all normal foods use %eat_delay

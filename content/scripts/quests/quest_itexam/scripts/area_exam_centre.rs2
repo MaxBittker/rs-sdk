@@ -6,9 +6,9 @@ p_delay(0);
 loc_change(exam_centre_cupboard_rock_pick_open, 300);
 
 [oploc1,exam_centre_cupboard_rock_pick_open]
-if (inv_total(inv, rock_pick) = 0) {
-    inv_add(inv, rock_pick, 1);
-    ~objbox(rock_pick, "You find a rock pick.", 250, 0, divide(^objbox_height, 2));
+if (inv_total(inv, rockpick) = 0) {
+    inv_add(inv, rockpick, 1);
+    ~objbox(rockpick, "You find a rock pick.", 250, 0, divide(^objbox_height, 2));
 } else {
     mes("You find nothing of interest.");
 }
@@ -28,10 +28,10 @@ if (inv_total(inv, specimen_jar) = 0) {
 }
 
 [oploc1,exam_centre_bookcase_chemicals]
-~objbox(book_on_chemicals, "You find a book on chemicals.", 250, 0, divide(^objbox_height, 2));
+~objbox(digsitebook, "You find a book on chemicals.", 250, 0, divide(^objbox_height, 2));
 
-if (inv_total(inv, book_on_chemicals) = 0) {
-    inv_add(inv, book_on_chemicals, 1);
+if (inv_total(inv, digsitebook) = 0) {
+    inv_add(inv, digsitebook, 1);
 }
 
 [label,exam_centre_bookcase]
@@ -39,9 +39,9 @@ mes("You search through the bookcase...");
 p_delay(0);
 ~mesbox("The label on this shelf reads 'Earth Sciences'; however, the helpful books have been taken. It looks like the other students got to them first.");
 
-[opheld2,book_on_chemicals]
+[opheld2,digsitebook]
 %book_page = 0;
-%open_book = book_on_chemicals;
+%open_book = digsitebook;
 @book_flip_page(0, 0, 2, book_on_chemicals);
 
 // Not an exact copy of OSRS line breaks because their book modal seems to be able to handle more characters per line

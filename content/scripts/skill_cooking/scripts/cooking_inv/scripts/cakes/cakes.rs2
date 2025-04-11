@@ -1,6 +1,6 @@
 [opheldu,cake_tin]
 switch_obj (last_useitem) {
-    case pot_of_flour, egg, bucket_milk : @make_uncooked_cake;
+    case pot_flour, egg, bucket_milk : @make_uncooked_cake;
     case default : ~displaymessage(^dm_default);
 }
 [opheldu,egg]
@@ -31,7 +31,7 @@ switch_int(oc_param(last_useitem, gnome_cooking_type)) {
 switch_obj (last_useitem) {
     case cake : @make_chocolate_cake(last_slot);
     case pestle_and_mortar : ~attempt_grind_ingredient(last_useslot, last_slot);
-    case half_baked_gnomebowl : @add_bowl_ingredient(last_item);
+    case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_crunchies : @add_crunchies_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
 }
@@ -68,20 +68,20 @@ if (last_useitem = cake_tin) {
 }
 switch_obj ($ignored_ingredient) {
     case egg :
-        if (~check_cake_ingredients(pot_of_flour, "flour", bucket_milk, "milk") = false) {
+        if (~check_cake_ingredients(pot_flour, "flour", bucket_milk, "milk") = false) {
             return;
         }
-    case pot_of_flour :
+    case pot_flour :
         if (~check_cake_ingredients(egg, "egg", bucket_milk, "milk") = false) {
             return;
         }
     case bucket_milk :
-        if (~check_cake_ingredients(egg, "egg", pot_of_flour, "flour") = false) {
+        if (~check_cake_ingredients(egg, "egg", pot_flour, "flour") = false) {
             return;
         }
 }
 // delete 4 items
-inv_del(inv, pot_of_flour, 1);
+inv_del(inv, pot_flour, 1);
 inv_del(inv, egg, 1);
 inv_del(inv, bucket_milk, 1);
 inv_del(inv, cake_tin, 1);

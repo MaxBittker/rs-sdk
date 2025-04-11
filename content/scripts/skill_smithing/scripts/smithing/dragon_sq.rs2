@@ -1,13 +1,13 @@
-[opheldu,shield_left_half]
-if (last_useitem = shield_right_half) {
+[opheldu,dragonshield_a]
+if (last_useitem = dragonshield_b) {
     // supposed to be both shield halves in the obj box
-    ~objbox(shield_left_half, "You'll need to repair the shield at an anvil, with a hammer.", 250, 0, divide(^objbox_height, 2));
+    ~objbox(dragonshield_a, "You'll need to repair the shield at an anvil, with a hammer.", 250, 0, divide(^objbox_height, 2));
     return;
 }
-[opheldu,shield_right_half]
-if (last_useitem = shield_left_half) {
+[opheldu,dragonshield_b]
+if (last_useitem = dragonshield_a) {
     // supposed to be both shield halves in the obj box
-    ~objbox(shield_left_half, "You'll need to repair the shield at an anvil, with a hammer.", 250, 0, divide(^objbox_height, 2));
+    ~objbox(dragonshield_a, "You'll need to repair the shield at an anvil, with a hammer.", 250, 0, divide(^objbox_height, 2));
     return;
 }
 
@@ -18,7 +18,7 @@ if (map_members = false) {
     return;
 }
 // check if player has both halfs
-if (inv_total(inv, shield_left_half) < 1 | inv_total(inv, shield_right_half) < 1) {
+if (inv_total(inv, dragonshield_a) < 1 | inv_total(inv, dragonshield_b) < 1) {
     ~mesbox("You need to find the other half of this shield in order to repair it.");
     return;
 }
@@ -44,8 +44,8 @@ p_delay(6);
 // https://storage.googleapis.com/tannerdino/images/dragonsquare.png // archive date 2005-03-22
 //~mesbox("Even for an experienced armourer it is not an easy task, but eventually it is ready. You have restored the dragon square shield to its former glory.");
 // delete shield halfs
-inv_del(inv, shield_left_half, 1);
-inv_del(inv, shield_right_half, 1);
+inv_del(inv, dragonshield_a, 1);
+inv_del(inv, dragonshield_b, 1);
 // add dragon sq shield
 inv_add(inv, dragon_sq_shield, 1);
 // osrs has 75 xp gain

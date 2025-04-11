@@ -47,10 +47,10 @@ switch_int($option) {
     ~chatnpc("<p,neutral>Yeah, I'll give you time to settle in. Better get a good nights sleep, I expect you to report for duty at oh five hundred hours tomorrow on the dot!");
   case 4 :
     ~chatplayer("<p,quiz>Anything I can do now?");
-    if (~obj_gettotal(miscellaneous_key) < 1) {
+    if (~obj_gettotal(misc_key) < 1) {
       ~chatnpc("<p,neutral>Hmm. Well, you could find out what this key opens for me. Apparently it's for something in this building, but for the life of me I can't find what.");
       ~mesbox("Grip hands you a key.");
-      inv_add(inv, miscellaneous_key, 1);
+      inv_add(inv, misc_key, 1);
     } else {
       ~chatnpc("<p,neutral>Can't think of anything right now.");
     }

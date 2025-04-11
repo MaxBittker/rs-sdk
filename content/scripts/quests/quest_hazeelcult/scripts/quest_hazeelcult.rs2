@@ -127,7 +127,7 @@ if(%hazeelcult_progress = ^hazeelcult_given_armour_or_scroll & %hazeelcult_side 
 mes("This chest is locked shut.");
 
 [oplocu,loc_2856]
-if(last_useitem = hazeelcult_key) {
+if(last_useitem = carnilleanchestkey) {
     mes("You unlock the chest.");
     ~open_chest(loc_2857);
     return;
@@ -135,12 +135,12 @@ if(last_useitem = hazeelcult_key) {
 ~displaymessage(^dm_default);
 
 [oploc1,loc_2857]
-if(inv_total(inv, scroll_of_hazeel) > 0) {
+if(inv_total(inv, hazeel_scroll) > 0) {
     mes("The chest is empty.");
     return;
 }
 ~mesbox("Inside the chest you find the Scroll of Hazeel."); 
-inv_add(inv, scroll_of_hazeel, 1);
+inv_add(inv, hazeel_scroll, 1);
 if(%hazeelcult_progress = ^hazeelcult_finished_side_task & %hazeelcult_side = ^hazeelcult_evilside) {
     %hazeelcult_progress = ^hazeelcult_given_armour_or_scroll;
 }
@@ -148,12 +148,12 @@ if(%hazeelcult_progress = ^hazeelcult_finished_side_task & %hazeelcult_side = ^h
 [oploc2,loc_2857] ~close_chest(loc_2856);
 
 [oploc1,loc_2858]
-if(inv_total(inv, hazeelcult_key) > 0) {
+if(inv_total(inv, carnilleanchestkey) > 0) {
     mes("You search the crate, but find nothing of interest.");
     return;
 }
 ~mesbox("You search the crate. Under various food package you find an old rusty key.");
-inv_add(inv, hazeelcult_key, 1);
+inv_add(inv, carnilleanchestkey, 1);
 
 // todo: confirm this interface, earliest image we have is of the early 2005 quest interface
 [queue,hazeelcult_fake_complete]
@@ -168,7 +168,7 @@ if_openmain(questscroll);
 
 [queue,hazeelcult_quest_complete]
 %hazeelcult_progress = ^hazeelcult_complete;
-inv_del(inv, scroll_of_hazeel, 1);
+inv_del(inv, hazeel_scroll, 1);
 stat_advance(thieving, 15000);
 inv_add(inv, coins, 2000);
 session_log(^log_adventure, "Quest complete: Hazeel Cult");

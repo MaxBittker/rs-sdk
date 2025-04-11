@@ -34,6 +34,7 @@ cost=120
 weight=250g
 category=gnome_premade_and_toadlegs_kingworm
 
+// rename: premade_cheese+tom_batta
 [premade_cheese_tom_batta]
 name=Cheese+tom batta
 desc=This smells really good.
@@ -87,7 +88,7 @@ cost=120
 weight=250g
 category=gnome_premade_and_toadlegs_kingworm
 
-[odd_batta]
+[spoilt_batta]
 name=Odd batta
 desc=This batta doesn't look very appetising.
 cost=2
@@ -154,7 +155,7 @@ model=model_2447_obj
 weight=250g
 tradeable=no
 
-[unfinished_worm_batta1]
+[unfinished_worm_batta]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -208,6 +209,7 @@ iop1=Eat
 weight=250g
 members=yes
 
+// rename: unfinished_cheese+tom_batta
 [unfinished_cheese_tom_batta1]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
@@ -225,6 +227,7 @@ weight=250g
 members=yes
 param=gnome_cooking_type,3
 
+// rename: cheese+tom_batta
 [cheese_tom_batta]
 category=gnome_batta
 cost=2
@@ -242,7 +245,7 @@ iop1=Eat
 weight=250g
 members=yes
 
-[unfinished_fruit_batta1]
+[fruitless_batta]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -261,7 +264,7 @@ weight=250g
 members=yes
 param=gnome_cooking_type,3
 
-[unfinished_fruit_batta2]
+[fruit_batta_lime]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -280,7 +283,7 @@ weight=250g
 members=yes
 param=gnome_cooking_type,3
 
-[unfinished_fruit_batta3]
+[fruit_batta_orange]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -299,7 +302,7 @@ weight=250g
 members=yes
 param=gnome_cooking_type,3
 
-[unfinished_fruit_batta4]
+[fruit_batta_pineapple]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -318,7 +321,7 @@ weight=250g
 members=yes
 param=gnome_cooking_type,3
 
-[unfinished_fruit_batta5]
+[fruit_batta_limeorange]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -337,7 +340,7 @@ weight=250g
 members=yes
 param=gnome_cooking_type,3
 
-[unfinished_fruit_batta6]
+[fruit_batta_limepineapple]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -356,7 +359,7 @@ weight=250g
 iop1=Eat
 param=gnome_cooking_type,3
 
-[unfinished_fruit_batta7]
+[fruit_batta_orangepineapple]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -375,7 +378,7 @@ weight=250g
 members=yes
 param=gnome_cooking_type,3
 
-[unfinished_fruit_batta8]
+[unfinished_fruit_batta]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -409,7 +412,7 @@ iop1=Eat
 weight=250g
 members=yes
 
-[unfinished_vegetable_batta1]
+[unfinished_vegetable_batta]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta

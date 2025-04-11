@@ -1,10 +1,10 @@
 [opnpc1,ana]
 if(%desertrescue_progress = ^desertrescue_saved_ana & inzone(0_51_48_36_37, 0_51_48_50_50, coord) = true) {
     ~chatnpc("<p,happy>Great! Thanks for getting me out of that mine! And that barrel wasn't too bad anyway! Pop by again sometime, I'm sure we'll have a barrel of laughs!");
-    if(inv_total(inv, desertrescue_ironkey) = 0) {
+    if(inv_total(inv, thgoodminekey) = 0) {
         ~chatnpc("<p,happy>Oh! I nearly forgot! Here's a key I found in the tunnels. It might be of some use to you, not sure what it opens. Sorry, but I have to go now.");
-        inv_add(inv, desertrescue_ironkey, 1);
-        ~objbox(desertrescue_ironkey, "Ana gives you a wrought iron key...", 250, 0, 0);
+        inv_add(inv, thgoodminekey, 1);
+        ~objbox(thgoodminekey, "Ana gives you a wrought iron key...", 250, 0, 0);
     }
     if_close;
     mes("Ana spots Irena and waves...");
@@ -17,7 +17,7 @@ if(%desertrescue_progress = ^desertrescue_saved_ana & inzone(0_51_48_36_37, 0_51
     @irena_ana_found;
 }
 if(inzone(0_51_147_30_50, 0_51_147_50_63, coord) = false) return;
-if(%desertrescue_progress >= ^desertrescue_saved_ana | inv_total(inv, anainabarrel) > 0) {
+if(%desertrescue_progress >= ^desertrescue_saved_ana | inv_total(inv, thanainabarrel) > 0) {
     mes("This slave does not appear interested in talking to you.");
     return;
 }
@@ -54,13 +54,13 @@ switch_int(~p_choice2("No, I'm new here!", 1, "What's your name.", 2)) {
 }
 
 [opnpcu,ana]
-if(last_useitem = desertrescue_barrel) {
+if(last_useitem = thminebarrel_empty) {
     if(%desertrescue_progress >= ^desertrescue_saved_ana) {
         mes("You have already completed this quest.");
         ~chatnpc("<p,neutral>I think you might have me confused with someone else."); // rsc
         return;
     }
-    if(inv_total(inv, anainabarrel) > 0) {
+    if(inv_total(inv, thanainabarrel) > 0) {
         mes("You already have Ana in a barrel, you can't get two in there!");
         return;
     }
@@ -78,8 +78,8 @@ if(last_useitem = desertrescue_barrel) {
         ~chatnpc("<p,angry>Hey, what do you think you're doing? Leave me alone and let me get on with my work. Else we'll both be in trouble. Oh no, NOT AGAIN!");
     }
     if_close;
-    inv_del(inv, desertrescue_barrel, 1);
-    inv_add(inv, anainabarrel, 1);
+    inv_del(inv, thminebarrel_empty, 1);
+    inv_add(inv, thanainabarrel, 1);
     npc_del;
     say("Shush... It's for your own good!");
     p_delay(1);
@@ -89,10 +89,10 @@ if(last_useitem = desertrescue_barrel) {
 }
 ~chatnpc("<p,happy>Thanks, but I don't need that... really!");
 
-[opheld1,anainabarrel]
+[opheld1,thanainabarrel]
 ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,angry>@dbl@-- Ana looks pretty angry, she starts shouting at you. --|Get me out of here!|Do you hear me!|Get me OUT OF HERE I say!");
 
-[opheld5,anainabarrel]
+[opheld5,thanainabarrel]
 if(~inzone_coord_pair_table(mining_camp_zones, coord) = false) { 
     if(~inzone_coord_pair_table(desert_zones, coord) = true) {
         ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,confused>You can't drop me here!|I'll die in the desert on my own.|Take me to the Shantay pass near Al Kharid.");
@@ -106,8 +106,8 @@ if(inzone(0_51_47_20_23, 0_51_47_23_29, coord) = true) { // if in jail do nothin
     return;
 }
 if_close;
-inv_del(inv, anainabarrel, 1);
-inv_add(inv, desertrescue_barrel, 1);
+inv_del(inv, thanainabarrel, 1);
+inv_add(inv, thminebarrel_empty, 1);
 npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk), ana, 8);
 npc_say("How dare you put me in that barrel you barbarian!");
 mes("Ana's outburst attracts the guards, they come running over.");
@@ -148,10 +148,10 @@ if(.npc_find(coord, mercenary_2, 6, 2) = true | .npc_find(coord, mercenary_1, 6,
     .npc_say("I heard that! So you used a key did you?!");
     mes("Guard: I heard that! So you used a key did you?!");
     p_delay(1);
-    if(inv_total(inv, desertrescue_metalkey) > 0) {
+    if(inv_total(inv, metal_key) > 0) {
         .npc_say("Right, we'll have that key off you!");
         mes("Guard: Right, we'll have that key off you!");
-        inv_del(inv, desertrescue_metalkey, 1);
+        inv_del(inv, metal_key, 1);
     }
     p_delay(1);
     ~.npc_retaliate(0);

@@ -32,35 +32,35 @@ if (inv_total(inv, ring_mould) > 0) {
 
     // if they have one or more of corresponding gem, show corresponding ring
     if ($sapphire_total > 0) {
-        inv_setslot(crafting_make_rings, 1, obj_1649, 1);
+        inv_setslot(crafting_make_rings, 1, invis_ring1, 1);
         if_setobject(crafting_jewelry:rings1, sapphire_ring, 110);
     } else {
         inv_delslot(crafting_make_rings, 1);
         if_setobject(crafting_jewelry:rings1, black_ring, 110);
     }
     if ($emerald_total > 0) {
-        inv_setslot(crafting_make_rings, 2, obj_1650, 1);
+        inv_setslot(crafting_make_rings, 2, invis_ring2, 1);
         if_setobject(crafting_jewelry:rings2, emerald_ring, 110);
     } else {
         inv_delslot(crafting_make_rings, 2);
         if_setobject(crafting_jewelry:rings2, black_ring, 110);
     }
     if ($ruby_total > 0) {
-        inv_setslot(crafting_make_rings, 3, obj_1651, 1);
+        inv_setslot(crafting_make_rings, 3, invis_ring3, 1);
         if_setobject(crafting_jewelry:rings3, ruby_ring, 110);
     } else {
         inv_delslot(crafting_make_rings, 3);
         if_setobject(crafting_jewelry:rings3, black_ring, 110);
     }
     if ($diamond_total > 0) {
-        inv_setslot(crafting_make_rings, 4, obj_1652, 1);
+        inv_setslot(crafting_make_rings, 4, invis_ring4, 1);
         if_setobject(crafting_jewelry:rings4, diamond_ring, 110);
     } else {
         inv_delslot(crafting_make_rings, 4);
         if_setobject(crafting_jewelry:rings4, black_ring, 110);
     }
     if ($dragonstone_total > 0) {
-        inv_setslot(crafting_make_rings, 5, obj_1653, 1);
+        inv_setslot(crafting_make_rings, 5, invis_ring5, 1);
         if_setobject(crafting_jewelry:rings5, dragonstone_ring, 110);
     } else {
         inv_delslot(crafting_make_rings, 5);
@@ -80,35 +80,35 @@ if (inv_total(inv, necklace_mould) > 0) {
 
     // if they have one or more of corresponding gem, show corresponding necklace
     if ($sapphire_total > 0) {
-        inv_setslot(crafting_make_necklaces, 1, obj_1668, 1);
+        inv_setslot(crafting_make_necklaces, 1, invis_necklace1, 1);
         if_setobject(crafting_jewelry:necklaces1, sapphire_necklace, 100);
     } else {
         inv_delslot(crafting_make_necklaces, 1);
         if_setobject(crafting_jewelry:necklaces1, black_necklace, 100);
     }
     if ($emerald_total > 0) {
-        inv_setslot(crafting_make_necklaces, 2, obj_1669, 1);
+        inv_setslot(crafting_make_necklaces, 2, invis_necklace2, 1);
         if_setobject(crafting_jewelry:necklaces2, emerald_necklace, 100);
     } else {
         inv_delslot(crafting_make_necklaces, 2);
         if_setobject(crafting_jewelry:necklaces2, black_necklace, 100);
     }
     if ($ruby_total > 0) {
-        inv_setslot(crafting_make_necklaces, 3, obj_1670, 1);
+        inv_setslot(crafting_make_necklaces, 3, invis_necklace3, 1);
         if_setobject(crafting_jewelry:necklaces3, ruby_necklace, 100);
     } else {
         inv_delslot(crafting_make_necklaces, 3);
         if_setobject(crafting_jewelry:necklaces3, black_necklace, 100);
     }
     if ($diamond_total > 0) {
-        inv_setslot(crafting_make_necklaces, 4, obj_1671, 1);
+        inv_setslot(crafting_make_necklaces, 4, invis_necklace4, 1);
         if_setobject(crafting_jewelry:necklaces4, diamond_necklace, 100);
     } else {
         inv_delslot(crafting_make_necklaces, 4);
         if_setobject(crafting_jewelry:necklaces4, black_necklace, 100);
     }
     if ($dragonstone_total > 0) {
-        inv_setslot(crafting_make_necklaces, 5, obj_1672, 1);
+        inv_setslot(crafting_make_necklaces, 5, invis_necklace5, 1);
         if_setobject(crafting_jewelry:necklaces5, dragonstone_necklace, 100);
     } else {
         inv_delslot(crafting_make_necklaces, 5);
@@ -129,35 +129,35 @@ if (inv_total(inv, amulet_mould) > 0) {
     // if they have one or more of corresponding gem, show corresponding amulet
     if ($sapphire_total > 0) {
         //sets slot to the invisable amulet
-        inv_setslot(crafting_make_amulets, 1, obj_1687, 1);
+        inv_setslot(crafting_make_amulets, 1, invis_amulet1, 1);
         if_setobject(crafting_jewelry:amulets1, unstrung_sapphire_amulet, 75);
     } else {
         inv_delslot(crafting_make_amulets, 1);
         if_setobject(crafting_jewelry:amulets1, black_amulet, 75);
     }
     if ($emerald_total > 0) {
-        inv_setslot(crafting_make_amulets, 2, obj_1688, 1);
+        inv_setslot(crafting_make_amulets, 2, invis_amulet2, 1);
         if_setobject(crafting_jewelry:amulets2, unstrung_emerald_amulet, 75);
     } else {
         inv_delslot(crafting_make_amulets, 2);
         if_setobject(crafting_jewelry:amulets2, black_amulet, 75);
     }
     if ($ruby_total > 0) {
-        inv_setslot(crafting_make_amulets, 3, obj_1689, 1);
+        inv_setslot(crafting_make_amulets, 3, invis_amulet3, 1);
         if_setobject(crafting_jewelry:amulets3, unstrung_ruby_amulet, 75);
     } else {
         inv_delslot(crafting_make_amulets, 3);
         if_setobject(crafting_jewelry:amulets3, black_amulet, 75);
     }
     if ($diamond_total > 0) {
-        inv_setslot(crafting_make_amulets, 4, obj_1690, 1);
+        inv_setslot(crafting_make_amulets, 4, invis_amulet4, 1);
         if_setobject(crafting_jewelry:amulets4, unstrung_diamond_amulet, 75);
     } else {
         inv_delslot(crafting_make_amulets, 4);
         if_setobject(crafting_jewelry:amulets4, black_amulet, 75);
     }
     if ($dragonstone_total > 0) {
-        inv_setslot(crafting_make_amulets, 5, obj_1691, 1);
+        inv_setslot(crafting_make_amulets, 5, invis_amulet5, 1);
         if_setobject(crafting_jewelry:amulets5, unstrung_dragonstone_amulet, 75);
     } else {
         inv_delslot(crafting_make_amulets, 5);
@@ -181,7 +181,7 @@ if_openmain(crafting_jewelry);
 [label,craft_gold](inv $crafting_inv, int $last, int $count)
 def_obj $jewelry_obj = inv_getobj($crafting_inv, $last);
 // check if mems objs are selected
-if ($jewelry_obj = obj_1691 | $jewelry_obj = obj_1672 | $jewelry_obj = obj_1653) {
+if ($jewelry_obj = invis_amulet5 | $jewelry_obj = invis_necklace5 | $jewelry_obj = invis_ring5) {
     if (map_members = false) {
         mes(^mes_members_feature);
         return;
@@ -232,10 +232,10 @@ if (inv_total(inv, perfect_gold_bar) >= 1) {
     // gold bars and selected make x).
     $bar = perfect_gold_bar;
     if ($product = ruby_necklace) {
-        $product = perfect_necklace;
+        $product = perfect_ruby_necklace;
     }
     else if ($product = ruby_ring) {
-        $product = perfect_ring;
+        $product = perfect_ruby_ring;
     }
 }
 inv_del(inv, $bar, 1);
@@ -276,19 +276,19 @@ p_delay(2);
 // if both moulds are present, prompt user with dialogue
 def_namedobj $product = null;
 def_int $choice;
-if (inv_total(inv, unholy_mould) > 0 & inv_total(inv, holy_mould) > 0 & map_members = true) {
+if (inv_total(inv, unholy_symbol_mould) > 0 & inv_total(inv, holy_symbol_mould) > 0 & map_members = true) {
    $choice = ~p_choice2_header("Holy Symbol of Saradomin", 1, "Unholy Symbol of Zamorak", 2, "What would you like to make?");
-} else if (inv_total(inv, holy_mould) > 0) {
+} else if (inv_total(inv, holy_symbol_mould) > 0) {
     $choice = 1;
-} else if (inv_total(inv, unholy_mould) > 0 & map_members = true) {
+} else if (inv_total(inv, unholy_symbol_mould) > 0 & map_members = true) {
     $choice = 2;
 } else {
     ~mesbox("You require a mould to make that.");
     return;
 }
 switch_int ($choice) {
-    case 1 : $product = unstrung_symbol;
-    case 2 : $product = unstrung_emblem;
+    case 1 : $product = nostringstar;
+    case 2 : $product = nostringsnake;
 }
 
 def_struct $struct = oc_param($product, crafting_jewelry_struct);

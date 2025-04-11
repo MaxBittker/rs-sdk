@@ -20,7 +20,7 @@ if(npc_find(coord, kardia, 8, 0) = true) {
 [oploc2,loc_3270]
 mes("You knock on the door...");
 p_delay(2);
-if(inv_total(inv, upass_witches_cat) > 0 & testbit(%upass_map_mechanisms, ^upass_dropped_cat) = false) {
+if(inv_total(inv, cavewitchcat) > 0 & testbit(%upass_map_mechanisms, ^upass_dropped_cat) = false) {
     @upass_drop_witches_cat;
 }
 mes("There is no reply.");
@@ -30,7 +30,7 @@ if(testbit(%upass_map_mechanisms, ^upass_dropped_cat) = true) {
 }
 
 [oplocu,loc_3270]
-if(last_useitem = upass_witches_cat) {
+if(last_useitem = cavewitchcat) {
     if(testbit(%upass_map_mechanisms, ^upass_dropped_cat) = true) {
         ~mesbox("The witch is busy playing with her other cat...");
         return;
@@ -49,7 +49,7 @@ if(%upass_progress < ^upass_spoken_nilhoof) {
     mes("...if you don't need to.");
     return;
 }
-if(inv_total(inv, upass_witches_cat) > 0) {
+if(inv_total(inv, cavewitchcat) > 0) {
     mes("It's not very nice to squeeze a cat into a satchel.");
     mes("... Two is just plain cruel!");
     return;
@@ -60,11 +60,11 @@ if(inv_freespace(inv) = 0) {
 }
 sound_synth(pick2, 0, 0);
 npc_del;
-inv_add(inv, upass_witches_cat, 1);
+inv_add(inv, cavewitchcat, 1);
 p_delay(0);
 anim(human_pickuptable, 0);
 
-[opheld5,upass_witches_cat]
+[opheld5,cavewitchcat]
 inv_delslot(inv, last_slot);
 anim(human_pickupfloor, 0);
 mes("The cat runs off and hides.");
@@ -74,7 +74,7 @@ p_delay(2);
 mes("... You place the cat by the door.");
 anim(human_pickupfloor, 0);
 p_delay(2);
-inv_del(inv, upass_witches_cat, 1);
+inv_del(inv, cavewitchcat, 1);
 mes("You knock the door and hide around the corner.");
 p_walk(1_33_71_45_24);
 p_delay(5);
@@ -99,9 +99,9 @@ p_delay(2); // 3t
 if(%upass_progress >= ^upass_found_doll) {
     // rs3, not sure if this existed originally...
     ~mesbox("... but the doll's gone.");
-    if(inv_total(inv, doll_of_iban) > 0) {
+    if(inv_total(inv, ibandoll) > 0) {
         ~chatplayer("<p,neutral>This doll's giving me the creeps.|I don't want another one!");
-    } else if(inv_total(bank, doll_of_iban) > 0) {
+    } else if(inv_total(bank, ibandoll) > 0) {
         ~chatplayer("<p,angry>Oh great, I've left the doll of Iban in my bank. It's going to take me ages to fetch it back.");
     } else {
         ~chatplayer("<p,angry>Oh great, I've lost the doll of Iban.");
@@ -110,10 +110,10 @@ if(%upass_progress >= ^upass_found_doll) {
 } else if(%upass_progress = ^upass_spoken_nilhoof) {
     ~mesbox("Inside you find a book, a wooden doll and two potions.");
     %upass_progress = ^upass_found_doll;
-    inv_add(inv, doll_of_iban, 1);
-    inv_add(inv, history_of_iban, 1);
+    inv_add(inv, ibandoll, 1);
+    inv_add(inv, old_journal, 1);
     inv_add(inv, 3dose2attack, 1);
-    inv_add(inv, 3dose1restore, 1);
+    inv_add(inv, 4dosestatrestore, 1);
 }
 
 [opnpc1,kardia]

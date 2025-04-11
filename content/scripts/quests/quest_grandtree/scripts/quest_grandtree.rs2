@@ -10,9 +10,9 @@ if(%grandtree_progress = ^grandtree_complete) {
 }
 mes("The trapdoor won't open!");
 
-[opheld1,hazelmeres_scroll] @scroll_hazelmere;
-[opheld1,lumber_order] @scroll_lumber_order;
-[opheld1,invasion_plans] @scroll_invasion_plans;
+[opheld1,grandtree_scroll] @scroll_hazelmere;
+[opheld1,grandtree_order] @scroll_lumber_order;
+[opheld1,grandtree_invasionplans] @scroll_invasion_plans;
 
 [proc,grandtree_spawn_charlie]
 if(%grandtree_progress >= ^grandtree_found_prisoner & %grandtree_progress <= ^grandtree_found_invasion_plans
@@ -33,15 +33,15 @@ p_arrivedelay;
 ~agility_climb_up(0, movecoord(loc_coord, -1, -1, -1));
 
 [oplocu,_grandtree_pillar]
-if (oc_tradeable(last_useitem) = true | last_useitem = twigs_t | last_useitem = twigs_u | last_useitem = twigs_z | last_useitem = twigs_o) {
+if (oc_tradeable(last_useitem) = true | last_useitem = grandtree_twigt | last_useitem = grandtree_twigu | last_useitem = grandtree_twigz | last_useitem = grandtree_twigo) {
     anim(human_pickuptable, 0);
     sound_synth(put_down, 0, 0);
     inv_dropslot(inv, loc_coord, last_useslot, 500); // 500t osrs
     if(%grandtree_progress = ^grandtree_given_twigs & 
-        obj_find(2_38_54_53_11, twigs_t) = true & 
-        obj_find(2_38_54_54_11, twigs_u) = true & 
-        obj_find(2_38_54_55_11, twigs_z) = true & 
-        obj_find(2_38_54_56_11, twigs_o) = true) {
+        obj_find(2_38_54_53_11, grandtree_twigt) = true & 
+        obj_find(2_38_54_54_11, grandtree_twigu) = true & 
+        obj_find(2_38_54_55_11, grandtree_twigz) = true & 
+        obj_find(2_38_54_56_11, grandtree_twigo) = true) {
         %grandtree_progress = ^grandtree_unlocked_trapdoor;
         sound_synth(machinery, 0, 0); 
         ~mesbox("You hear the grinding of an ancient pulley system.");
@@ -69,21 +69,21 @@ if(%grandtree_progress >= ^grandtree_unlocked_trapdoor) {
 ~mesbox("The chest is locked.");
 
 [oplocu,loc_2436]
-if(last_useitem = gloughs_key) {
+if(last_useitem = grandtree_gloughskey) {
     p_arrivedelay;
     anim(human_openchest, 0);
     sound_synth(chest_open, 0, 0);
     p_delay(0);
     // Temp note: dur updated
     loc_change(loc_3368, 5);
-    if((%grandtree_progress = ^grandtree_found_invasion_plans | %grandtree_progress = ^grandtree_clue_charlie) & ~obj_gettotal(invasion_plans) = 0) {
-        ~objbox(invasion_plans, "You have found a scroll!", 250, 0, 0);
+    if((%grandtree_progress = ^grandtree_found_invasion_plans | %grandtree_progress = ^grandtree_clue_charlie) & ~obj_gettotal(grandtree_invasionplans) = 0) {
+        ~objbox(grandtree_invasionplans, "You have found a scroll!", 250, 0, 0);
         if(inv_freespace(inv) = 0) { 
             // https://youtu.be/ZNgxsI_jH_E?si=wuOkSTdEAuYDoeTc&t=697
             ~mesbox("You don't have enough space to hold the scroll.");
             return;
         }
-        inv_add(inv, invasion_plans, 1);
+        inv_add(inv, grandtree_invasionplans, 1);
         if(%grandtree_progress = ^grandtree_clue_charlie) %grandtree_progress = ^grandtree_found_invasion_plans;
         return;
     }
@@ -94,14 +94,14 @@ if(last_useitem = gloughs_key) {
 [oploc1,loc_2434] @open_cupboard(false);
 
 [oploc2,loc_2435]
-if((%grandtree_progress = ^grandtree_spoken_prisoner | %grandtree_progress = ^grandtree_found_journal) & ~obj_gettotal(gloughs_journal) = 0) {
+if((%grandtree_progress = ^grandtree_spoken_prisoner | %grandtree_progress = ^grandtree_found_journal) & ~obj_gettotal(grandtree_journal) = 0) {
     // https://youtu.be/LFvLBRCxFwk?si=7pHYoJgRRdwxc3nu&t=598
-    ~objbox(gloughs_journal, "You've found Glough's Journal!", 250, 0, divide(^objbox_height, 2));
+    ~objbox(grandtree_journal, "You've found Glough's Journal!", 250, 0, divide(^objbox_height, 2));
     if(inv_freespace(inv) = 0) {
         ~mesbox("You don't have enough space to hold the journal.");
         return;
     }
-    inv_add(inv, gloughs_journal, 1);
+    inv_add(inv, grandtree_journal, 1);
     if(%grandtree_progress = ^grandtree_spoken_prisoner) %grandtree_progress = ^grandtree_found_journal;
 }
 mes("You search the cupboard but you find nothing.");
@@ -163,13 +163,13 @@ loc_anim(seq_453);
 p_arrivedelay;
 anim(human_pickupfloor, 0);
 p_delay(0);
-if(%grandtree_progress = ^grandtree_searching_daconia & enum(coord, int, daconia_coords, loc_coord) = %daconia_rock_root & ~obj_gettotal(daconia_rock) = 0) {
-    ~objbox(daconia_rock, "You've found a Daconia Rock!", 250, 0, divide(^objbox_height, 2));
+if(%grandtree_progress = ^grandtree_searching_daconia & enum(coord, int, daconia_coords, loc_coord) = %daconia_rock_root & ~obj_gettotal(grandtree_daconiarock) = 0) {
+    ~objbox(grandtree_daconiarock, "You've found a Daconia Rock!", 250, 0, divide(^objbox_height, 2));
     if(inv_freespace(inv) = 0) {
         ~mesbox("You don't have enough space to hold the rock.");
         return;
     }
-    inv_add(inv, daconia_rock, 1);
+    inv_add(inv, grandtree_daconiarock, 1);
     return;
 }
 def_int $rand = random(1000);
@@ -185,11 +185,11 @@ if($rand < 2) {
 }
 
 [queue,grandtree_quest_complete]
-inv_del(inv, daconia_rock, ^max_32bit_int);
-inv_del(bank, daconia_rock, ^max_32bit_int);
+inv_del(inv, grandtree_daconiarock, ^max_32bit_int);
+inv_del(bank, grandtree_daconiarock, ^max_32bit_int);
 %grandtree_progress = ^grandtree_complete;
 stat_advance(agility, 79000);
 stat_advance(attack, 184000);
 stat_advance(magic, 21500);
 session_log(^log_adventure, "Quest complete: The Grand Tree");
-~send_quest_complete(questlist:grandtree, daconia_rock, 250, ^grandtree_questpoints, "You have completed the\\nGrand Tree Quest!");
+~send_quest_complete(questlist:grandtree, grandtree_daconiarock, 250, ^grandtree_questpoints, "You have completed the\\nGrand Tree Quest!");

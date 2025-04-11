@@ -2,7 +2,7 @@
 switch_obj (last_useitem) {
     case pie_shell : @make_uncooked_pie(last_slot);
     case bowl_water : @make_incomplete_stew(last_slot);
-    case incomplete_stew_potato : @make_uncooked_stew(last_slot, last_useslot);
+    case stew1 : @make_uncooked_stew(last_slot, last_useslot);
     case bowl_empty : @no_water_stew_message;
     case default : @use_topping_on_pizza;
 }
@@ -11,7 +11,7 @@ switch_obj (last_useitem) {
 switch_obj (last_useitem) {
     case pie_shell : @make_uncooked_pie(last_slot);
     case bowl_water : @make_incomplete_stew(last_slot);
-    case incomplete_stew_potato : @make_uncooked_stew(last_slot, last_useslot);
+    case stew1 : @make_uncooked_stew(last_slot, last_useslot);
     case bowl_empty : @no_water_stew_message;
     case default : @use_topping_on_pizza;
 }

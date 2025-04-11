@@ -1,5 +1,5 @@
 //guess
-[shield_left_half]
+[dragonshield_a]
 cost=110000
 name=Shield left half
 desc=The left half of a dragon square shield.
@@ -12,7 +12,7 @@ model=model_2359_obj
 weight=6lb
 members=yes
 
-[shield_right_half]
+[dragonshield_b]
 cost=500000
 name=Shield right half
 desc=The right half of a dragon square shield.

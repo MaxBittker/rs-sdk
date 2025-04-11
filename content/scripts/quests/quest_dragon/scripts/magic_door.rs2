@@ -7,10 +7,10 @@ if (%dragon_oracle < ^quest_dragon_has_spoken_to_oracle) {
 }
 def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
 if ($entering = false & %dragon_oracle < ^quest_dragon_gone_through_oracle_door) {
-    if (inv_total(inv, wizards_mind_bomb) > 0 & inv_total(inv, unfired_bowl) > 0 & inv_total(inv, lobster_pot) > 0 & inv_total(inv, silk) > 0) {
+    if (inv_total(inv, wizards_mind_bomb) > 0 & inv_total(inv, bowl_unfired) > 0 & inv_total(inv, lobster_pot) > 0 & inv_total(inv, silk) > 0) {
         // osrs
         inv_del(inv, wizards_mind_bomb, 1);
-        inv_del(inv, unfired_bowl, 1);
+        inv_del(inv, bowl_unfired, 1);
         inv_del(inv, lobster_pot, 1);
         inv_del(inv, silk, 1);
         %dragon_oracle = ^quest_dragon_gone_through_oracle_door;
@@ -47,14 +47,14 @@ p_delay(0);
 loc_change(dragon_slayer_magic_chest_closed, 300);
 
 [oploc1,dragon_slayer_magic_chest_opened]
-if (~quest_dragon_getting_map_parts = false | ~obj_gettotal(crandor_map_part3) > 0 | ~obj_gettotal(crandor_map) > 0) {
+if (~quest_dragon_getting_map_parts = false | ~obj_gettotal(mappart3) > 0 | ~obj_gettotal(dragonmap) > 0) {
     mes("You find nothing in the chest.");
 } else {
     // objbox looks soooo bad for our version, no way they used it
     // edit: confirmed it uses mesbox! https://youtu.be/tmPf68hogzw?t=471
     // ~objbox(crandor_map_part3, "You find a map piece in the chest.", 250, 0, divide(^objbox_height, 2));
     ~mesbox("You find a map piece in the chest.");
-    inv_add(inv, crandor_map_part3, 1);
+    inv_add(inv, mappart3, 1);
 }
 // auto closes, yes. https://youtu.be/tmPf68hogzw?t=471
 // Temp note: dur does not need updated

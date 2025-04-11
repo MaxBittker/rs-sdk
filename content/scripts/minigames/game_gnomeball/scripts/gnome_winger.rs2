@@ -7,7 +7,7 @@ mes("The gnome is not interested in chatting."); // osrs
 [apnpct,gnomeball:com_7] @player_gnomeball_pass;
 
 [label,player_gnomeball_pass]
-if (inv_getobj(worn, ^wearpos_rhand) ! gnomeball) {
+if (inv_getobj(worn, ^wearpos_rhand) ! ball_gnomeball_game) {
     mes("You need a ball in your hand to throw."); // osrs
     return;
 }
@@ -32,7 +32,7 @@ def_int $duration = ~npc_projectile(coord, npc_uid, spotanim_55, 40, 36, 41, 15,
 def_int $delay = sub(divide($duration, 30), 1);
 sound_synth(catch, 0, 28);
 inv_delslot(worn, ^wearpos_rhand);
-~update_all(gnomeball);
+~update_all(ball_gnomeball_game);
 npc_facesquare(coord);
 %npc_attacking_uid = uid;
 %npc_lastcombat = map_clock;
@@ -50,8 +50,8 @@ if ($last > 1) {
 npc_settimer(add($throw, 1));
 
 [queue,player_catch_gnomeball]
-inv_setslot(worn, ^wearpos_rhand, gnomeball, 1);
-~update_all(gnomeball);
+inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
+~update_all(ball_gnomeball_game);
 
 [ai_timer,gnome_winger2]
 if (finduid(%npc_attacking_uid) = false | ~inzone_coord_pair_table(gnomeball_zones, coord) = false) {
@@ -64,7 +64,7 @@ if (finduid(%npc_attacking_uid) = false | ~inzone_coord_pair_table(gnomeball_zon
 }
 if (finduid(%npc_attacking_uid) = true) {
     // yes it checks inv too, i checked with smuggling extra gnomeball in osrs with telegrab
-    if (~inzone_coord_pair_table(gnomeball_zones, coord) = true & inv_getobj(worn, ^wearpos_rhand) = null & inv_total(inv, gnomeball) < 1) {
+    if (~inzone_coord_pair_table(gnomeball_zones, coord) = true & inv_getobj(worn, ^wearpos_rhand) = null & inv_total(inv, ball_gnomeball_game) < 1) {
         ~npc_gnomeball_pass;
         return;
     }
@@ -89,7 +89,7 @@ if (p_finduid(%npc_attacking_uid) = true) {
     p_delay(0);
     npc_changetype_keepall(gnome_winger1, ^max_32bit_int);
     p_delay(0);
-    inv_setslot(worn, ^wearpos_rhand, gnomeball, 1);
-    ~update_all(gnomeball);
+    inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
+    ~update_all(ball_gnomeball_game);
     %npc_attacking_uid = null;
 }

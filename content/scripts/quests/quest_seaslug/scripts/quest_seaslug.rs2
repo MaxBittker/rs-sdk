@@ -1,5 +1,5 @@
 [opnpc1,sea_slug] @pickup_seaslug;
-[opobj3,sea_slug] @pickup_seaslug;
+[opobj3,seasluginv] @pickup_seaslug;
 
 [label,pickup_seaslug]
 mes("You pick up the sea slug.");
@@ -9,7 +9,7 @@ say("Ouch!");
 ~damage_self(3);
 
 [opheldu,swamp_tar]
-if(last_useitem = pot_of_flour) {
+if(last_useitem = pot_flour) {
     @make_swamp_paste;
 }
 ~displaymessage(^dm_default);
@@ -19,12 +19,12 @@ mes("You mix the flour with the swamp tar.");
 mes("It mixes into a paste.");
 // no invspace check, add empty pot before paste 
 inv_del(inv, swamp_tar, 1);
-inv_del(inv, pot_of_flour, 1);
+inv_del(inv, pot_flour, 1);
 inv_add(inv, pot_empty, 1);
-inv_add(inv, raw_swamp_paste, 1);
+inv_add(inv, rawswamppaste, 1);
 
 [opheldu,damp_sticks]
-if(last_useitem = seaslug_broken_glass) {
+if(last_useitem = broken_glass) {
     @dry_damp_sticks;
 }
 ~displaymessage(^dm_default);
@@ -47,11 +47,11 @@ if(stat_random(stat(firemaking), 210, 250) = false) {
     return;
 }
 mes("You rub together the dry sticks and the sticks catch alight.");
-if(inv_total(inv, unlit_torch) > 0) {
+if(inv_total(inv, torch_unlit) > 0) {
     mes("You place the smoulding twigs to your torch.");
     mes("Your torch lights.");
-    inv_del(inv, unlit_torch, 1);
-    inv_add(inv, lit_torch, 1);
+    inv_del(inv, torch_unlit, 1);
+    inv_add(inv, torch_lit, 1);
 } else {
     mes("The sticks smoke momentarily then die out");
 }
@@ -62,7 +62,7 @@ if(%seaslug_progress = ^seaslug_spoken_kent) {
 [oploc1,loc_2517]
 p_arrivedelay;
 if(%seaslug_progress >= ^seaslug_spoken_kent & %seaslug_progress < ^seaslug_complete) {
-    if(inv_total(inv, lit_torch) = 0) {
+    if(inv_total(inv, torch_lit) = 0) {
         mes("You attempt to climb up the ladder.");
         p_delay(2); // not sure if there's a delay here before the rework (since theres no anim)...
         mes("The fishermen approach you...");
@@ -136,7 +136,7 @@ if ($random < 32) {
 }
 if_settext(questscroll:com_3, "You have completed the\\nSea Slug Quest!");
 if_settext(questscroll:com_9, tostring(1));
-if_setobject(questscroll:com_4, sea_slug, 250);
+if_setobject(questscroll:com_4, seasluginv, 250);
 if_openmain(questscroll);
 if_setcolour(questlist:seaslug, ^green_rgb);
 if_settab(questlist, ^tab_quest_journal);

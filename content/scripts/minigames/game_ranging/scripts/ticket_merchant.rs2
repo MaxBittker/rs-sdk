@@ -4,7 +4,7 @@
 // todo: find out what the dialogue was
 if_openmain(tickets_shop);
 
-[if_button,tickets_shop:com_88] @tickets_shop_buy(Barb_bolttips, 30, "140", 140);
+[if_button,tickets_shop:com_88] @tickets_shop_buy(barbed_bolttips, 30, "140", 140);
 [if_button,tickets_shop:com_89] @tickets_shop_buy(studded_body, 1, "150", 150);
 [if_button,tickets_shop:com_90] @tickets_shop_buy(rune_arrow, 50, "2,000", 2000);
 [if_button,tickets_shop:com_92] @tickets_shop_buy(coif, 1, "100", 100);

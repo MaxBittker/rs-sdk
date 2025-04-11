@@ -1,7 +1,7 @@
 // Source: https://youtu.be/xuvQ0E1xcNY?t=142
-[opheld1,ball_diary]
+[opheld1,witches_diary]
 %book_page = 0;
-%open_book = ball_diary;
+%open_book = witches_diary;
 if(%ball_progress = ^ball_unlocked_mousedoor) {
     // weird one but if you read the diary after unlocking the mouse door it changes varp ONLY in that case
     // if you get caught now you won't be reset to the start of the quest!

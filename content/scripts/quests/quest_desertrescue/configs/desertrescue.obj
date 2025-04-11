@@ -1,4 +1,4 @@
-[desertrescue_metalkey]
+[metal_key]
 name=Metal key
 desc=A metal key, it's very crudely constructed.
 cost=1
@@ -15,7 +15,7 @@ recol1d=21071
 members=yes
 tradeable=no
 
-[desertrescue_cell_door_key]
+[thcelldoorkey]
 name=Cell door key
 desc=A metalic key, usually used by prison guards.
 cost=1
@@ -31,7 +31,7 @@ recol1d=15819
 members=yes
 tradeable=no
 
-[desertrescue_barrel]
+[thminebarrel_empty]
 name=Barrel
 desc=An empty mining barrel.
 weight=22lb
@@ -44,7 +44,7 @@ cost=1
 members=yes
 tradeable=no
 
-[anainabarrel]
+[thanainabarrel]
 name=Ana in a barrel
 desc=A mining barrel with Ana in it.
 cost=1
@@ -60,7 +60,7 @@ weight=32kg
 tradeable=no
 param=destroy_death,^true
 
-[desertrescue_ironkey]
+[thgoodminekey]
 name=Wrought iron key
 desc=This key unlocks a very sturdy gate of some sort.
 cost=1
@@ -136,7 +136,7 @@ manwear=model_185_obj_wear,0
 womanwear=model_361_obj_wear,0
 tradeable=no
 
-[obj_1847]
+[thkebabinstructs]
 name=Scrumpled paper
 desc=A piece of paper with barely legible writing - looks like a recipe!
 cost=10
@@ -153,7 +153,7 @@ iop1=Read
 weight=10g
 tradeable=no
 
-[shantay_disclaimer]
+[thshantaydisc]
 name=Shantay disclaimer
 desc=Very important information.
 cost=1
@@ -170,7 +170,7 @@ iop1=Read
 weight=10g
 tradeable=no
 
-[prototype_dart]
+[thprotodart]
 name=Prototype dart
 desc=An experimental type of weapon.
 cost=70
@@ -189,7 +189,7 @@ recol1d=8354
 2dxan=396
 tradeable=no
 
-[technical_plans]
+[thcaptplans]
 name=Technical plans
 desc=Plans of a technical nature.
 cost=1
@@ -204,7 +204,7 @@ iop1=Read
 weight=15g
 tradeable=no
 
-[tenti_pineapple]
+[tentipineapple]
 name=Tenti pineapple
 desc=The most delicious of pineapples.
 cost=1
@@ -219,7 +219,7 @@ members=yes
 2dxan=228
 tradeable=no
 
-[bedobin_key]
+[thbedobinkey]
 name=Bedobin key
 desc=A key to the chest in Captain Siad's room.
 cost=1
@@ -235,7 +235,7 @@ members=yes
 2dxan=328
 tradeable=no
 
-[prototype_dart_tip]
+[thprotodarttip]
 name=Prototype dart tip
 desc=A protoype dart tip - it looks deadly.
 cost=1

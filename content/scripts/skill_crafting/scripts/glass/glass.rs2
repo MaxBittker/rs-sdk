@@ -2,11 +2,11 @@
 if (last_useitem = bucket_empty) @sand_fill;
 ~displaymessage(^dm_default);
 
-[opheldu,glassblowing_pipe]
+[opheldu,glassblowingpipe]
 if (last_useitem = molten_glass) @craft_glass_interface;
 
 [opheldu,molten_glass]
-if (last_useitem = glassblowing_pipe) @craft_glass_interface;
+if (last_useitem = glassblowingpipe) @craft_glass_interface;
 if (last_useitem = lens_mould) @craft_telescope_disc;
 
 [label,sand_fill]

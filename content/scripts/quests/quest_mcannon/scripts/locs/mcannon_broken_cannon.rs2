@@ -54,7 +54,7 @@ if (testbit(%mcannon_railings, $bit) = true) {
     return;
 }
 
-if (inv_total(inv, tool_kit) < 1) {
+if (inv_total(inv, mcannontoolkit) < 1) {
     // Made up message.
     mes("You need a tool kit to repair the cannon.");
     return;

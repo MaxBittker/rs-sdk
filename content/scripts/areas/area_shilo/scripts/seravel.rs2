@@ -12,7 +12,7 @@ if(inv_total(inv, coins) < 25) {
     return;
 }
 inv_del(inv, coins, 25);
-inv_add(inv, ship_ticket, 1);
+inv_add(inv, shiloshipticket, 1);
 ~chatnpc("<p,neutral>Great, nice doing business with you.");
 
 [label,seravel_no]

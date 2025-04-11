@@ -19,26 +19,26 @@ switch_int(%seaslug_progress) {
         ~chatnpc("<p,neutral>I figured as much.");
         ~chatplayer("<p,neutral>I need to get Kennith off this platform,|but I can't get past the fishermen.");
         ~chatnpc("<p,neutral>The sea slugs are scared of heat,|I figured that out when I tried to cook them.");
-        if(inv_total(inv, unlit_torch) = 0) {
+        if(inv_total(inv, torch_unlit) = 0) {
             ~chatnpc("<p,neutral>Here.");
-            ~objbox(unlit_torch, "Bailey gives you a torch.", 250, 0, divide(^objbox_height, 2));
-            inv_add(inv, unlit_torch, 1);
+            ~objbox(torch_unlit, "Bailey gives you a torch.", 250, 0, divide(^objbox_height, 2));
+            inv_add(inv, torch_unlit, 1);
             ~chatnpc("<p,neutral>I doubt the fishermen will come near you if you can get this torch lit.");
             ~chatnpc("<p,confused>The only problem is all the wood and flint are damp...|I can't light a thing!");
             return;
         }
         ~chatplayer("<p,confused>I'd better find a way to light this torch, and soon.");
     case ^seaslug_lit_torch, ^seaslug_kennith_need_escape, ^seaslug_panel_opened :
-        if(inv_total(inv, lit_torch) > 0) {
+        if(inv_total(inv, torch_lit) > 0) {
             ~chatplayer("<p,happy>I've managed to light the torch.");
             ~chatnpc("<p,neutral>Well done traveller,|you'd better get Kennith out of here soon.");
             ~chatnpc("<p,neutral>The fishermen are becoming stranger by the minute,|and they keep pulling up those blasted sea slugs.");
-        } else if(inv_total(inv, unlit_torch) > 0) {
+        } else if(inv_total(inv, torch_unlit) > 0) {
             ~chatplayer("<p,confused>I'd better find a way to light this torch, and soon.");
         } else {
             ~chatplayer("<p,sad>I've managed to lose my torch.");
             ~chatnpc("<p,neutral>That was silly, fortunately I have another.|Here, take it.");
-            inv_add(inv, unlit_torch, 1);
+            inv_add(inv, torch_unlit, 1);
         }
     case ^seaslug_saved_kennith :
         ~chatplayer("<p,happy>Hello Bailey.");

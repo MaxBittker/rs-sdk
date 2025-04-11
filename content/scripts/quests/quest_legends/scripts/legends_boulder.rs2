@@ -43,20 +43,20 @@ if(%legends_progress < ^legends_defeated_nezikchened_water) {
     mes("Some magical force keeps you away from the water."); // OSRS
     return;
 }
-if (last_useitem = blessed_gold_bowl) {
-    inv_del(inv, blessed_gold_bowl, 1);
-    inv_add(inv, blessed_golden_bowl_pure_water, 1);
+if (last_useitem = goldbowlbless_empty) {
+    inv_del(inv, goldbowlbless_empty, 1);
+    inv_add(inv, goldbowlbless_pure, 1);
     %legends_bits = setbit_range_toint(%legends_bits, 0, ^legends_golden_bowl_uses_start, ^legends_golden_bowl_uses_end);
     if(%legends_progress = ^legends_defeated_nezikchened_water) %legends_progress = ^legends_sacred_water_collected;
-    ~objbox(blessed_golden_bowl_pure_water, "You get some sacred water in the golden blessed bowl.", 250, 0, divide(^objbox_height, 2));
-} else if (last_useitem = enchanted_vial) {
-    inv_del(inv, enchanted_vial, 1);
+    ~objbox(goldbowlbless_pure, "You get some sacred water in the golden blessed bowl.", 250, 0, divide(^objbox_height, 2));
+} else if (last_useitem = vial_enchanted) {
+    inv_del(inv, vial_enchanted, 1);
     inv_add(inv, holy_water, 1);
     ~objbox(holy_water, "You get some sacred water into the enchanted vial.", 250, 0, divide(^objbox_height, 2));
-} else if (last_useitem = gold_bowl) {
-    inv_del(inv, gold_bowl, 1);
-    inv_add(inv, golden_bowl_pure_water, 1);
-    ~objbox(golden_bowl_pure_water, "You get some sacred water into the enchanted golden bowl.", 250, 0, divide(^objbox_height, 2));
+} else if (last_useitem = goldbowl_empty) {
+    inv_del(inv, goldbowl_empty, 1);
+    inv_add(inv, goldbowl_pure, 1);
+    ~objbox(goldbowl_pure, "You get some sacred water into the enchanted golden bowl.", 250, 0, divide(^objbox_height, 2));
 } else if (last_useitem = bowl_empty) {
     inv_del(inv, bowl_empty, 1);
     inv_add(inv, bowl_water, 1);
@@ -67,8 +67,8 @@ if (last_useitem = blessed_gold_bowl) {
     ~objbox(bucket_water, "You get some water in your bucket. The water doesn't bubble and sparkle as much as it did in the pool.", 250, 0, divide(^objbox_height, 2));
 } else if (last_useitem = jug_empty) {
     inv_del(inv, jug_empty, 1);
-    inv_add(inv, jug_of_water, 1);
-    ~objbox(jug_of_water, "You get some water in your jug. The water doesn't bubble and sparkle as much as it did in the pool.", 250, 0, divide(^objbox_height, 2));
+    inv_add(inv, jug_water, 1);
+    ~objbox(jug_water, "You get some water in your jug. The water doesn't bubble and sparkle as much as it did in the pool.", 250, 0, divide(^objbox_height, 2));
 } else if (last_useitem = vial_empty) {
     inv_del(inv, vial_empty, 1);
     inv_add(inv, vial_water, 1);

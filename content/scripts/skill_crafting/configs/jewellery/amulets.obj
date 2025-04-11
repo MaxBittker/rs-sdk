@@ -100,37 +100,37 @@ recol2d=4228
 2dxan=304
 dummyitem=inv_only
 
-[obj_1687]
+[invis_amulet1]
 name=Sapphire amulet
 model=model_loc_2733_0
 param=crafting_jewelry_struct,unstrung_sapphire_amulet
 dummyitem=inv_only
 
-[obj_1688]
+[invis_amulet2]
 name=Emerald amulet
 model=model_loc_2733_0
 param=crafting_jewelry_struct,unstrung_emerald_amulet
 dummyitem=inv_only
 
-[obj_1689]
+[invis_amulet3]
 name=Ruby amulet
 model=model_loc_2733_0
 param=crafting_jewelry_struct,unstrung_ruby_amulet
 dummyitem=inv_only
 
-[obj_1690]
+[invis_amulet4]
 name=Diamond amulet
 model=model_loc_2733_0
 param=crafting_jewelry_struct,unstrung_diamond_amulet
 dummyitem=inv_only
 
-[obj_1691]
+[invis_amulet5]
 name=Dragonstoneamulet
 model=model_loc_2733_0
 param=crafting_jewelry_struct,unstrung_dragonstone_amulet
 dummyitem=inv_only
 
-[gold_amulet]
+[strung_gold_amulet]
 cost=350
 name=Gold amulet
 desc=I wonder if I can get this enchanted.
@@ -152,7 +152,7 @@ manwear=model_290_obj_wear,0
 womanwear=model_454_obj_wear,0
 weight=7g
 
-[sapphire_amulet]
+[strung_sapphire_amulet]
 cost=900
 name=Sapphire amulet
 desc=I wonder if I can get this enchanted.
@@ -175,7 +175,7 @@ womanwear=model_454_obj_wear,0
 weight=7g
 category=category_621
 
-[emerald_amulet]
+[strung_emerald_amulet]
 cost=1275
 name=Emerald amulet
 desc=I wonder if I can get this enchanted.
@@ -197,7 +197,7 @@ manwear=model_290_obj_wear,0
 womanwear=model_454_obj_wear,0
 weight=7g
 
-[ruby_amulet]
+[strung_ruby_amulet]
 cost=2025
 name=Ruby amulet
 desc=I wonder if I can get this enchanted.
@@ -219,7 +219,7 @@ manwear=model_290_obj_wear,0
 womanwear=model_454_obj_wear,0
 weight=7g
 
-[diamond_amulet]
+[strung_diamond_amulet]
 cost=3525
 name=Diamond amulet
 desc=I wonder if I can get this enchanted.
@@ -239,7 +239,7 @@ manwear=model_290_obj_wear,0
 womanwear=model_454_obj_wear,0
 weight=7g
 
-[dragonstone_amulet]
+[strung_dragonstone_amulet]
 cost=17625
 name=Dragonstoneamulet
 desc=I wonder if I can get this enchanted.

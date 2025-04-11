@@ -6,7 +6,7 @@ switch_int(%murder_progress) {
         ~chatplayer("<p,neutral>I'm investigating the murder at the Sinclair house.");
         ~chatnpc("<p,neutral>There was a murder at the Sinclair House??? That's terrible! And I was only there the other day too! They bought the last of my Patented Multi Purpose Poison!");
         def_int $choice;
-        if(inv_total(inv, pungent_pot) > 0) {
+        if(inv_total(inv, murderpot2) > 0) {
             $choice = ~p_choice4("Patented Multi Purpose Poison?", 1, "Who did you sell Poison to at the house?", 2, "Can I buy some Poison?", 3, "I have this pot I found at the murder scene...", 4);
         } else {
             $choice = ~p_choice3("Patented Multi Purpose Poison?", 1, "Who did you sell Poison to at the house?", 2, "Can I buy some Poison?", 3);

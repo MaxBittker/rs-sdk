@@ -32,11 +32,11 @@ if(%itwatchtower_progress = ^itwatchtower_not_started) {
 if(%itwatchtower_progress = ^itwatchtower_not_started) {
     ~chatplayer("<p,confused>I am not sure why I am searching this bush.");
 } if(%itwatchtower_progress = ^itwatchtower_started) {
-    if(inv_total(inv, damaged_dagger) > 0) {
+    if(inv_total(inv, watchtowerdagger) > 0) {
         ~chatplayer("<p,quiz>I have already searched this place.");
         return;
     }
-    inv_add(inv, damaged_dagger, 1);
+    inv_add(inv, watchtowerdagger, 1);
     ~chatplayer("<p,happy>Aha a dagger!|I wonder if this is evidence...");
 } else {
     ~chatplayer("<p,happy>Hmmm, nothing here.");
@@ -46,11 +46,11 @@ if(%itwatchtower_progress = ^itwatchtower_not_started) {
 if(%itwatchtower_progress = ^itwatchtower_not_started) {
     ~chatplayer("<p,confused>I am not sure why I am searching this bush.");
 } if(%itwatchtower_progress = ^itwatchtower_started) {
-    if(inv_total(inv, tattered_eye_patch) > 0) {
+    if(inv_total(inv, watch_eye_patch) > 0) {
         ~chatplayer("<p,quiz>I have already searched this place.");
         return;
     }
-    inv_add(inv, tattered_eye_patch, 1);
+    inv_add(inv, watch_eye_patch, 1);
     ~chatplayer("<p,happy>I've found an eye patch; I had better show this to the Watchtower Wizard.");
 } else {
     ~chatplayer("<p,happy>Hmmm, nothing here.");
@@ -60,11 +60,11 @@ if(%itwatchtower_progress = ^itwatchtower_not_started) {
 if(%itwatchtower_progress = ^itwatchtower_not_started) {
     ~chatplayer("<p,confused>I am not sure why I am searching this bush.");
 } if(%itwatchtower_progress = ^itwatchtower_started) {
-    if(inv_total(inv, old_robe) > 0) {
+    if(inv_total(inv, watchtowerrobe) > 0) {
         ~chatplayer("<p,quiz>I have already searched this place.");
         return;
     }
-    inv_add(inv, old_robe, 1);
+    inv_add(inv, watchtowerrobe, 1);
     ~chatplayer("<p,happy>Aha! A robe.|This could be a clue...");
 } else {
     ~chatplayer("<p,happy>Hmmm, nothing here.");
@@ -74,11 +74,11 @@ if(%itwatchtower_progress = ^itwatchtower_not_started) {
 if(%itwatchtower_progress = ^itwatchtower_not_started) {
     ~chatplayer("<p,confused>I am not sure why I am searching this bush.");
 } else if(%itwatchtower_progress = ^itwatchtower_started) {
-    if(inv_total(inv, unusual_armour) > 0) { // no bank check for any of them
+    if(inv_total(inv, watchtowerarmour) > 0) { // no bank check for any of them
         ~chatplayer("<p,quiz>I have already searched this place.");
         return;
     }
-    inv_add(inv, unusual_armour, 1);
+    inv_add(inv, watchtowerarmour, 1);
     ~chatplayer("<p,happy>Here's some armour; it could be evidence...");
 } else {
     ~chatplayer("<p,happy>Hmmm, nothing here.");
@@ -98,7 +98,7 @@ if(%itwatchtower_progress = ^itwatchtower_not_started) {
 // 1 = good to enter cave
 // 2 = either no lightsource OR no tinderbox and player chose to come back later
 [proc,check_map_lightsource_tinderbox]()(int)
-if(inv_total(inv, skavid_map) > 0) {
+if(inv_total(inv, skavidmap) > 0) {
     if(inv_totalcat(inv, light_source_lit) < 1) {
         return(2);
     }
@@ -221,12 +221,12 @@ if(last_useitem = toban_key) {
 // Temp note: dur does not need updated ?? @indio
 loc_change(loc_3273, 20);
 sound_synth(chest_open, 0, 0);
-if(inv_total(inv, tobans_gold) > 0) {
+if(inv_total(inv, stolen_gold) > 0) {
     mes("You have already got the stolen gold.");
     return;
 }
-inv_add(inv, tobans_gold, 1);
-~objbox(tobans_gold, "You find a stash of gold inside.", 250, 0, divide(^objbox_height, 2));
+inv_add(inv, stolen_gold, 1);
+~objbox(stolen_gold, "You find a stash of gold inside.", 250, 0, divide(^objbox_height, 2));
 
 [oploc1,loc_2811]
 mes("You enter the cave.");
@@ -237,18 +237,18 @@ p_teleport(0_40_47_16_21);
 mes("You climb down the ladder.");
 p_teleport(0_39_46_4_44);
 
-[opheldu,relic_part_1]
-if(last_useitem = relic_part_2 | last_useitem = relic_part_3) {
+[opheldu,relicpart1]
+if(last_useitem = relicpart2 | last_useitem = relicpart3) {
     @player_make_ogre_statue;
 }
 
-[opheldu,relic_part_2]
-if(last_useitem = relic_part_1 | last_useitem = relic_part_3) {
+[opheldu,relicpart2]
+if(last_useitem = relicpart1 | last_useitem = relicpart3) {
     @player_make_ogre_statue;
 }
 
-[opheldu,relic_part_3]
-if(last_useitem = relic_part_1 | last_useitem = relic_part_2) {
+[opheldu,relicpart3]
+if(last_useitem = relicpart1 | last_useitem = relicpart2) {
     @player_make_ogre_statue;
 }
 
@@ -327,9 +327,9 @@ p_delay(0);
 mes("You climb over the low wall.");
 ~agility_exactmove(human_walk_fence_north, 30, 2, coord, $end, 30, 90, $dir, true);
 
-[opheld2,rock_cake]
+[opheld2,rockcake]
 mes("You feel strangely heavier...");
-inv_del(inv, rock_cake, 1);
+inv_del(inv, rockcake, 1);
 // on OSRS if you have 5 HP or less it will do hp / 2 instead to prevent death
 queue(damage_player, 0, 4);
 ~chatplayer("<p,shock>Ow! I nearly broke a tooth!");
@@ -358,10 +358,10 @@ switch_int(random(8)) {
         inv_add(inv, emerald, 1);
         ~chatplayer("<p,happy>Wow, look at the size of this emerald!");
     case 1 :
-        inv_add(inv, burnt_salmon_trout_carp_cod_pike, 1);
+        inv_add(inv, burntfish2, 1);
         ~chatplayer("<p,sad>Burnt fish - why did I bother?");
     case 2 :
-        inv_add(inv, rotten_apples, 1);
+        inv_add(inv, rottenapples, 1);
         ~chatplayer("<p,neutral>Oh dear, I bet these apples taste disgusting.");
     case 3 :
         inv_add(inv, bones, 1);
@@ -467,11 +467,11 @@ if(getbit_range(%itwatchtower_bits, ^itwatchtower_shaman_kills_lower, ^itwatchto
     ~chatplayer("<p,confused>I can't touch it...|Perhaps it is linked with the shamans in some strange way?");
     return;
 }
-if(inv_total(inv, watchtower_crystal4) > 0) {
+if(inv_total(inv, powering_crystal4) > 0) {
     ~chatplayer("<p,confused>I already have this crystal.|There is no benefit to getting another.");
     return;
 }
-if(inv_total(bank, watchtower_crystal4) > 0) {
+if(inv_total(bank, powering_crystal4) > 0) {
     ~chatplayer("<p,confused>I already have this crystal in the bank."); // RS3
     return;
 }
@@ -489,21 +489,21 @@ anim(oc_param($pickaxe, mining_animation), 0); // no sound?
 mes("You swing your pick at the rock...");
 p_delay(3);
 mes("A crack appears in the rock and you prise a crystal out.");
-inv_add(inv, watchtower_crystal4, 1);
+inv_add(inv, powering_crystal4, 1);
 
 [opheld1,shaman_robe]
 mes("You search the robe.");
 p_delay(2);
-if(inv_total(inv, watchtower_crystal3) > 0 | %itwatchtower_progress >= ^itwatchtower_complete | getbit_range(%itwatchtower_bits, ^itwatchtower_shaman_kills_lower, ^itwatchtower_shaman_kills_upper) < 6) {
+if(inv_total(inv, powering_crystal3) > 0 | %itwatchtower_progress >= ^itwatchtower_complete | getbit_range(%itwatchtower_bits, ^itwatchtower_shaman_kills_lower, ^itwatchtower_shaman_kills_upper) < 6) {
     mes("You find nothing.");
     return;
 } 
-if(inv_total(bank, watchtower_crystal3) > 0) {
+if(inv_total(bank, powering_crystal3) > 0) {
     say("I already have this in my bank."); // RS3, rsc has this check as well
     return;
 }
 mes("You find a crystal wrapped in the folds of the material.");
-inv_add(inv, watchtower_crystal3, 1);
+inv_add(inv, powering_crystal3, 1);
 
 [oploc1,loc_2794]
 mes("You pull the lever...");
@@ -516,14 +516,14 @@ if(~watchtower_has_all_crystals = true & %itwatchtower_progress = ^itwatchtower_
     %itwatchtower_progress = ^itwatchtower_complete;
     p_teleport(2_45_73_48_43);
     // https://youtu.be/0hkyRGQImlg?si=huZf7suXxmjXPtxN&t=1198
-    inv_del(inv, watchtower_crystal1, 1);
-    inv_del(inv, watchtower_crystal2, 1);
-    inv_del(inv, watchtower_crystal3, 1);
-    inv_del(inv, watchtower_crystal4, 1);
+    inv_del(inv, powering_crystal1, 1);
+    inv_del(inv, powering_crystal2, 1);
+    inv_del(inv, powering_crystal3, 1);
+    inv_del(inv, powering_crystal4, 1);
     p_delay(3);
     stat_advance(magic, 153000);
     inv_add(inv, coins, 5000);
-    inv_add(inv, spell_scroll, 1);
+    inv_add(inv, watchtowerspell, 1);
     queue(itwatchtower_quest_complete, 0);
     %questpoints = add(%questpoints, ^itwatchtower_questpoints);
     if(npc_find(coord, watchtower_wizard, 6, 0) = true) {
@@ -537,15 +537,15 @@ if(~watchtower_has_all_crystals = true & %itwatchtower_progress = ^itwatchtower_
 mes("It had no effect.");
 
 [proc,watchtower_has_all_crystals]()(boolean)
-if(inv_total(inv, watchtower_crystal1) > 0 & inv_total(inv, watchtower_crystal2) > 0 & inv_total(inv, watchtower_crystal3) > 0 & inv_total(inv, watchtower_crystal4) > 0) {
+if(inv_total(inv, powering_crystal1) > 0 & inv_total(inv, powering_crystal2) > 0 & inv_total(inv, powering_crystal3) > 0 & inv_total(inv, powering_crystal4) > 0) {
     return (true);
 }
 return (false);
 
-[opheld1,spell_scroll]
+[opheld1,watchtowerspell]
 if(%itwatchtower_progress = ^itwatchtower_complete) %itwatchtower_progress = ^itwatchtower_complete_read_scroll;
 ~mesbox("You memorise what is written on the scroll.");
-inv_del(inv, spell_scroll, 1);
+inv_del(inv, watchtowerspell, 1);
 ~mesbox("You can now cast the Watchtower Teleport spell...|...providing you have the required runes and magic level.");
 mes("The scroll crumbles to dust.");
 
@@ -565,7 +565,7 @@ if ($random < 32) {
 if_settext(questscroll:com_3, "You have finished the Watchtower Quest.");
 if_settext(questscroll:com_9, tostring(4));
 // https://web.archive.org/web/20041229124758im_/http://img7.imageshack.us/img7/9247/complete.jpg
-if_setobject(questscroll:com_4, ogre_relic, 260);
+if_setobject(questscroll:com_4, ogrerelic, 260);
 if_openmain(questscroll);
 if_setcolour(questlist:itwatchtower, ^green_rgb);
 if_settab(questlist, ^tab_quest_journal);

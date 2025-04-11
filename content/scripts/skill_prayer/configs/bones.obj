@@ -11,7 +11,7 @@ weight=500g
 category=bones
 param=bone_exp,45
 
-[burnt_bones]
+[bones_burnt]
 name=Burnt bones
 desc=Bones are for burying!
 model=model_2674_obj

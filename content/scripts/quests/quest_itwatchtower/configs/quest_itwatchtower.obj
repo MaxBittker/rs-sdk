@@ -5,7 +5,7 @@ womanwear=model_538_obj_wear,6
 weight=25g
 dummyitem=graphic_only
 
-[ogre_relic]
+[ogrerelic]
 name=Ogre relic
 desc=An old statue of an ogre warrior.
 members=yes
@@ -16,7 +16,7 @@ model=model_2698_obj
 weight=3kg
 tradeable=no
 
-[relic_part_1]
+[relicpart1]
 name=Relic part 1
 desc=Part of an ogre relic.
 model=model_2585_obj
@@ -29,7 +29,7 @@ weight=1kg
 category=category_1399
 tradeable=no
 
-[relic_part_2]
+[relicpart2]
 name=Relic part 2
 desc=Part of an ogre relic.
 model=model_2587_obj
@@ -40,7 +40,7 @@ weight=1kg
 category=category_1399
 tradeable=no
 
-[relic_part_3]
+[relicpart3]
 name=Relic part 3
 desc=Part of an ogre relic.
 model=model_2588_obj
@@ -51,7 +51,7 @@ weight=1kg
 category=category_1399
 tradeable=no
 
-[skavid_map]
+[skavidmap]
 name=Skavid map
 desc=It's a map.
 model=model_2383_obj
@@ -64,7 +64,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[ogre_tooth]
+[ogretooth]
 name=Ogre tooth
 desc=Very tooth like.
 model=model_2522_obj
@@ -89,7 +89,7 @@ weight=10g
 members=yes
 tradeable=no
 
-[rock_cake]
+[rockcake]
 name=Rock cake
 model=model_2817_obj
 2dyof=-4
@@ -102,7 +102,7 @@ iop2=Eat
 category=category_734
 tradeable=no
 
-[watchtower_crystal1]
+[powering_crystal1]
 name=Crystal
 model=model_2335_obj
 recol1s=22292
@@ -117,7 +117,7 @@ weight=2lb
 members=yes
 tradeable=no
 
-[watchtower_crystal2]
+[powering_crystal2]
 name=Crystal
 model=model_2335_obj
 recol1s=22292
@@ -132,7 +132,7 @@ weight=2lb
 members=yes
 tradeable=no
 
-[watchtower_crystal3]
+[powering_crystal3]
 name=Crystal
 model=model_2335_obj
 recol1s=22292
@@ -147,7 +147,7 @@ weight=2lb
 members=yes
 tradeable=no
 
-[watchtower_crystal4]
+[powering_crystal4]
 name=Crystal
 model=model_2335_obj
 recol1s=2978
@@ -174,7 +174,7 @@ weight=2g
 members=yes
 tradeable=no
 
-[old_robe]
+[watchtowerrobe]
 name=Old robe
 desc=I can't wear this old thing.
 model=model_2786_obj
@@ -185,7 +185,7 @@ weight=4lb
 members=yes
 tradeable=no
 
-[unusual_armour]
+[watchtowerarmour]
 name=Unusual armour
 desc=Looks kind of useless...
 model=model_2574_obj
@@ -196,7 +196,7 @@ weight=8lb
 members=yes
 tradeable=no
 
-[damaged_dagger]
+[watchtowerdagger]
 name=Damaged dagger
 desc=Pointy.
 model=model_2672_obj
@@ -208,7 +208,7 @@ weight=1lb
 members=yes
 tradeable=no
 
-[tattered_eye_patch]
+[watch_eye_patch]
 name=Tattered eye patch
 desc=Useless as an eyepatch.
 model=model_2417_obj
@@ -219,7 +219,7 @@ weight=6g
 members=yes
 tradeable=no
 
-[vial_water_jangerberries]
+[jangervial]
 model=model_2789_obj
 recol1s=15855
 recol1d=6722
@@ -233,7 +233,7 @@ desc=An infusion of water and jangerberries.
 members=yes
 tradeable=no
 
-[mixture_guam_jangerberries]
+[guamjangervial]
 model=model_2789_obj
 recol1s=15855
 recol1d=352
@@ -247,7 +247,7 @@ weight=25g
 members=yes
 tradeable=no
 
-[tobans_gold]
+[stolen_gold]
 name=Gold
 desc=It's a stolen bar of gold.
 cost=300
@@ -293,7 +293,7 @@ weight=25g
 members=yes
 tradeable=no
 
-[spell_scroll]
+[watchtowerspell]
 name=Spell scroll
 desc=A spell is written on this parchment.
 cost=5

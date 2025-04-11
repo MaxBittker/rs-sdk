@@ -11,10 +11,10 @@ switch_int (%prince_progress) {
 if(%prince_keystatus = ^prince_keymade) {
     ~chatnpc("<p,neutral>My father sent this key for you.|Be careful not to lose it.");
     ~mesbox("Leela gives you a copy of the key to the prince's door.");
-    inv_add(inv, bronze_key, 1);
+    inv_add(inv, princeskey, 1);
     %prince_keystatus = ^prince_keyclaimed;
 }
-if(%prince_keystatus = ^prince_keyclaimed & inv_total(inv, bronze_key) = 0 & inv_total(bank, bronze_key) = 0) {
+if(%prince_keystatus = ^prince_keyclaimed & inv_total(inv, princeskey) = 0 & inv_total(bank, princeskey) = 0) {
     ~chatplayer("<p,sad>I'm afraid I lost that key you gave me.");
     ~chatnpc("<p,angry>Foolish <text_gender("man", "woman")>! A new key will cost 15 coins.");
     if(inv_total(inv, coins) < 15) {
@@ -24,7 +24,7 @@ if(%prince_keystatus = ^prince_keyclaimed & inv_total(inv, bronze_key) = 0 & inv
     }
     ~chatplayer("<p,neutral>Here, I have 15 coins.");
     ~mesbox("Leela gives you another key.");
-    inv_add(inv, bronze_key, 1);
+    inv_add(inv, princeskey, 1);
     inv_del(inv, coins, 15);
     return;
 }
@@ -32,7 +32,7 @@ if(%prince_progress = ^prince_guard_drunk) {
     ~chatnpc("<p,neutral>Great! The guard is now harmless. Now you just need to use the rope on Keli to remove her. Then you can go in and give everything to the prince.");
 } else if(%prince_progress = ^prince_tied_keli) {
     ~chatnpc("<p,neutral>You should carry on, get in and rescue the prince. Keli is sharp, she won't stay tied up long."); // from chisel
-} else if(%prince_progress = ^prince_spoken_osman & inv_total(inv, bronze_key) >= 1 & inv_total(inv, wig_blonde) >= 1 & inv_total(inv, pink_skirt) >= 1 & inv_total(inv, paste) >= 1) {
+} else if(%prince_progress = ^prince_spoken_osman & inv_total(inv, princeskey) >= 1 & inv_total(inv, blondwig) >= 1 & inv_total(inv, pink_skirt) >= 1 & inv_total(inv, skinpaste) >= 1) {
     %prince_progress = ^prince_prep_finished;
     ~chatnpc("<p,shifty>Good, you have all the basic equipment. Next to deal with the guard on the door. He is talkative, try to find a weakness in him.");
 } else if(%prince_progress = ^prince_prep_finished) { // mesanims guessed cause no video + not on osrs, dialogue from chisel
@@ -63,7 +63,7 @@ if(%prince_progress = ^prince_guard_drunk) {
 [label,leela_disguise]
 ~chatplayer("<p,quiz>I must make a disguise. What do you suggest?");
 ~chatnpc("<p,bored>Only the lady Keli, can wander about outside the jail. The guards will shoot to kill if they see the prince out so we need a disguise good enough to fool them at a distance.");
-if(inv_total(inv, wig_blonde) >= 1) {
+if(inv_total(inv, blondwig) >= 1) {
     ~chatnpc("<p,neutral>The wig you have got, well done.");
 } else {
     ~chatnpc("<p,neutral>You need a wig, maybe made from wool. If you find someone who can work with wool ask them about it. There's a witch nearby may be able to help you dye it.");
@@ -75,13 +75,13 @@ if(inv_total(inv, pink_skirt) >= 1) {
     ~chatnpc("<p,neutral>You will need to get a pink skirt, same as Keli's.");
 }
 
-if(inv_total(inv, paste) >= 1) {
+if(inv_total(inv, skinpaste) >= 1) {
     ~chatnpc("<p,neutral>You have the skin paint, well done.|I thought you would struggle to make that.");
 } else {
     ~chatnpc("<p,neutral>We still need something to colour the Prince's skin lighter. There's a witch close to here. She knows about many things. She may know some way to make the skin lighter.");
 }
 
-if(inv_total(inv, wig_blonde) >= 1 & inv_total(inv, pink_skirt) >= 1 & inv_total(inv, paste) >= 1) {
+if(inv_total(inv, blondwig) >= 1 & inv_total(inv, pink_skirt) >= 1 & inv_total(inv, skinpaste) >= 1) {
     ~chatnpc("<p,neutral>You do have everything for the disguise.");
 }
 

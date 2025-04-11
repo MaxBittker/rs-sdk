@@ -1,6 +1,6 @@
 
 
-[ogre_bellows_0]
+[empty_ogre_bellows]
 name=Ogre bellows
 desc=A large pair of ogre bellows.
 members=yes
@@ -13,7 +13,7 @@ weight=18oz
 tradeable=no
 category=ogre_bellows
 
-[ogre_bellows_3]
+[filled_ogre_bellow3]
 name=Ogre bellows (3)
 desc=A large pair of ogre bellows, it has three loads of swamp gas in it.
 members=yes
@@ -28,7 +28,7 @@ weight=18oz
 tradeable=no
 category=ogre_bellows
 
-[ogre_bellows_2]
+[filled_ogre_bellow2]
 name=Ogre bellows (2)
 desc=A large pair of ogre bellows, it has two loads of swamp gas in it.
 members=yes
@@ -43,7 +43,7 @@ weight=18oz
 tradeable=no
 category=ogre_bellows
 
-[ogre_bellows_1]
+[filled_ogre_bellow1]
 name=Ogre bellows (1)
 desc=A large pair of ogre bellows, it has one load of swamp gas in it.
 members=yes
@@ -117,7 +117,7 @@ recol1d=6273
 2dxan=88
 weight=10kg
 
-[seasoned_chompy]
+[cooked_s_chompy]
 name=Seasoned chompy
 desc=It has been deliciously seasoned to taste wonderful for ogres.
 members=yes

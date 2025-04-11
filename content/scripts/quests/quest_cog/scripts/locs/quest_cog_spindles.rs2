@@ -1,10 +1,10 @@
 [oplocu,black_clock_spindle]
-if(last_useitem = black_cog) {
+if(last_useitem = blackcog) {
     mes("The cog fits perfectly.");
     if (~get_cog_progress < ^quest_cog_complete) {
         ~cog_update_main_quest_step(calc(~get_cog_progress + 1));
     }
-    inv_del(inv, black_cog, 1);
+    inv_del(inv, blackcog, 1);
 } else if(oc_category(last_useitem) = cog) {
     mes("The cog doesn't seem to fit.");
 } else {
@@ -12,12 +12,12 @@ if(last_useitem = black_cog) {
 }
 
 [oplocu,red_clock_spindle]
-if(last_useitem = red_cog) {
+if(last_useitem = redcog) {
     mes("The cog fits perfectly.");
     if (~get_cog_progress < ^quest_cog_complete) {
         ~cog_update_main_quest_step(calc(~get_cog_progress + 1));
     }
-    inv_del(inv, red_cog, 1);
+    inv_del(inv, redcog, 1);
 } else if(oc_category(last_useitem) = cog) {
     mes("The cog doesn't seem to fit.");
 } else {
@@ -25,12 +25,12 @@ if(last_useitem = red_cog) {
 }
 
 [oplocu,white_clock_spindle]
-if(last_useitem = white_cog) {
+if(last_useitem = whitecog) {
     mes("The cog fits perfectly.");
     if (~get_cog_progress < ^quest_cog_complete) {
         ~cog_update_main_quest_step(calc(~get_cog_progress + 1));
     }
-    inv_del(inv, white_cog, 1);
+    inv_del(inv, whitecog, 1);
 } else if(oc_category(last_useitem) = cog) {
     mes("The cog doesn't seem to fit.");
 } else {
@@ -38,12 +38,12 @@ if(last_useitem = white_cog) {
 }
 
 [oplocu,blue_clock_spindle]
-if(last_useitem = blue_cog) {
+if(last_useitem = bluecog) {
     mes("The cog fits perfectly.");
     if (~get_cog_progress < ^quest_cog_complete) {
         ~cog_update_main_quest_step(calc(~get_cog_progress + 1));
     }
-    inv_del(inv, blue_cog, 1);
+    inv_del(inv, bluecog, 1);
 } else if(oc_category(last_useitem) = cog) {
     mes("The cog doesn't seem to fit.");
 } else {

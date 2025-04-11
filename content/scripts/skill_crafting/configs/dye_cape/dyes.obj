@@ -1,4 +1,4 @@
-[red_dye]
+[reddye]
 name=Red dye
 desc=A little bottle of red dye.
 cost=5
@@ -13,7 +13,7 @@ weight=20g
 category=category_82
 param=crafting_capes_struct,red_dye
 
-[yellow_dye]
+[yellowdye]
 name=Yellow dye
 desc=A little bottle of yellow dye.
 cost=5
@@ -28,7 +28,7 @@ weight=20g
 category=category_82
 param=crafting_capes_struct,yellow_dye
 
-[blue_dye]
+[bluedye]
 name=Blue dye
 desc=A little bottle of blue dye.
 cost=5
@@ -43,7 +43,7 @@ weight=20g
 category=category_82
 param=crafting_capes_struct,blue_dye
 
-[orange_dye]
+[orangedye]
 name=Orange dye
 desc=A little bottle of orange dye.
 cost=5
@@ -58,7 +58,7 @@ weight=20g
 category=category_82
 param=crafting_capes_struct,orange_dye
 
-[green_dye]
+[greendye]
 name=Green dye
 desc=A little bottle of green dye.
 cost=5
@@ -73,7 +73,7 @@ weight=20g
 category=category_82
 param=crafting_capes_struct,green_dye
 
-[purple_dye]
+[purpledye]
 name=Purple dye
 desc=A little bottle of purple dye.
 cost=5

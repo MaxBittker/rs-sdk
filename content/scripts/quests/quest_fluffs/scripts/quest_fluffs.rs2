@@ -221,8 +221,8 @@ if (last_useitem = bucket_milk) {
         case 4 : %fluffs_crate = 0_51_54_34_58;
         case 5 : %fluffs_crate = 0_51_54_47_55;
     }
-} else if (%fluffs_progress = ^fluffs_gave_sardine & last_useitem = fluffs_kitten) {
-    inv_del(inv, fluffs_kitten, 1);
+} else if (%fluffs_progress = ^fluffs_gave_sardine & last_useitem = gertrudekittens) {
+    inv_del(inv, gertrudekittens, 1);
     anim(human_pickupfloor, 0);
     npc_setmode(none);
     .npc_add(coord, lost_kitten, ^max_32bit_int);
@@ -241,7 +241,7 @@ if (last_useitem = bucket_milk) {
     .npc_del;
     ~mesbox("Fluffs has run off home with her offspring.");
 } else if (last_useitem = raw_sardine | last_useitem = sardine | 
-    last_useitem = raw_shrimps | last_useitem = shrimps | 
+    last_useitem = raw_shrimp | last_useitem = shrimp | 
     last_useitem = raw_anchovies | last_useitem = anchovies | 
     last_useitem = raw_trout | last_useitem = trout | 
     last_useitem = raw_salmon | last_useitem = salmon) { // Only seems to be these 5
@@ -264,9 +264,9 @@ if (random(5) = 0) {
 [opnpc1,kitten_crate]
 mes("You search the crate.");
 p_delay(4);
-if (npc_coord = %fluffs_crate & %fluffs_progress = ^fluffs_gave_sardine & inv_total(inv, fluffs_kitten) = 0 & inv_total(bank, fluffs_kitten) = 0) {
+if (npc_coord = %fluffs_crate & %fluffs_progress = ^fluffs_gave_sardine & inv_total(inv, gertrudekittens) = 0 & inv_total(bank, gertrudekittens) = 0) {
     ~mesbox("You find a kitten!"); //imgur.com/np0oFUT
-    inv_add(inv, fluffs_kitten, 1); // no inv_space check
+    inv_add(inv, gertrudekittens, 1); // no inv_space check
     return;
 }
 mes("You find nothing.");
@@ -289,7 +289,7 @@ mes("You find nothing.");
 p_delay(4);
 mes("You can hear kittens mewing close by...");
 
-[opheld5,fluffs_kitten]
+[opheld5,gertrudekittens]
 inv_delslot(inv, last_slot);
 npc_add(coord, lost_kitten, 10);
 npc_setmode(none);

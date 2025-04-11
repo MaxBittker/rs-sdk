@@ -68,7 +68,7 @@ switch_int ($rand) {
         ~chatnpc("<p,neutral>Hello traveller. Are you eating properly? You look tired.");
         ~chatplayer("<p,neutral>I think so.");
         ~chatnpc("<p,neutral>Here get this worm down you. It'll do you the world of|good.");
-        ~objbox(obj_943, "The gnome gives you a worm.", 250, 0, divide(^objbox_height, 2));
+        ~objbox(worm, "The gnome gives you a worm.", 250, 0, divide(^objbox_height, 2));
         inv_add(inv, king_worm, 1);
         ~chatplayer("<p,neutral>Thanks!");
     case 2 :
@@ -244,7 +244,7 @@ switch_int ($rand) {
     case 7 :
         ~chatnpc("<p,happy>Hello, would you like a worm?");
         ~chatplayer("<p,confused>Erm... OK.");
-        ~objbox(obj_943, "The gnome gives you a worm.", 250, 0, divide(^objbox_height, 2));
+        ~objbox(worm, "The gnome gives you a worm.", 250, 0, divide(^objbox_height, 2));
         inv_add(inv, king_worm, 1);
         ~chatplayer("<p,happy>Thanks.");
         ~chatnpc("<p,neutral>In the gnome village those who are needy receive what they need, and those who are able give what they can.");

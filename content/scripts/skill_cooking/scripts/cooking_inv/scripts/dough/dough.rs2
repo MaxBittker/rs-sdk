@@ -1,4 +1,4 @@
-[opheldu,pot_of_flour]
+[opheldu,pot_flour]
 if(oc_category(last_useitem) = murder_proofobj) {
     @flour_proofobj(last_useitem);
 }
@@ -40,7 +40,7 @@ if (map_members = false & oc_members($choice) = true) {
     return;
 }
 
-inv_del(inv, pot_of_flour, 1);
+inv_del(inv, pot_flour, 1);
 inv_del(inv, $water_source, 1);
 
 inv_add(inv, pot_empty, 1);

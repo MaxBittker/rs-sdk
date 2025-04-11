@@ -1,14 +1,14 @@
 [opheldu,clay]
 switch_obj (last_useitem)
 {
-    case bowl_water, bucket_water, jug_of_water : @make_softclay(last_useitem);
+    case bowl_water, bucket_water, jug_water : @make_softclay(last_useitem);
     case default : ~displaymessage(^dm_default);
 };
 
 [oplocu,potters_wheel]
 switch_obj (last_useitem)
 {
-    case soft_clay : @craft_pottery_interface;
+    case softclay : @craft_pottery_interface;
     case clay : ~objbox(clay, "This clay is too hard to craft|You'll need to soften it with some water.", 250, 0, divide(^objbox_height, 2));
     case default : ~displaymessage(^dm_default);
 };
@@ -16,7 +16,7 @@ switch_obj (last_useitem)
 [oplocu,pottery_oven]
 switch_obj (last_useitem)
 {
-    case unfired_bowl, unfired_piedish, unfired_pot : @fire_pottery(last_useslot);
+    case bowl_unfired, piedish_unfired, pot_unfired : @fire_pottery(last_useslot);
     case default : ~displaymessage(^dm_default);
 };
 
@@ -32,16 +32,16 @@ inv_del(inv, oc_param($empty_source, next_obj_stage), 1);
 //add empty water source BEFORE soft clay
 inv_add(inv, $empty_source, 1);
 //add soft clay
-inv_add(inv, soft_clay, 1);
+inv_add(inv, softclay, 1);
 p_delay(1); // 2 ticks
 mes("You now have some soft workable clay.");
 
 [label,craft_pottery_interface] 
 def_namedobj $choice = ~multiobj3(
     "What would you like to make?", 
-    unfired_pot, 0, 2, 185, "Pot", 0, 0, 
-    unfired_piedish, 0, -4, 190, "Pie Dish", 0, 0, 
-    unfired_bowl, 0, 0, 200, "Bowl", 0, 0
+    pot_unfired, 0, 2, 185, "Pot", 0, 0, 
+    piedish_unfired, 0, -4, 190, "Pie Dish", 0, 0, 
+    bowl_unfired, 0, 0, 200, "Bowl", 0, 0
 );
 if ($choice = null) {
     ~displaymessage(^dm_default);
@@ -66,7 +66,7 @@ if (stat(crafting) < $level)
 sound_synth(pottery, 0, 0);
 anim(human_cooking, 0);
 p_delay(2);
-inv_del(inv, soft_clay, 1);
+inv_del(inv, softclay, 1);
 inv_add(inv, $item, 1);
 stat_advance(crafting, struct_param($struct, processexp));
 mes("You make the clay into a <substring($name, 8, string_length($name))>.");

@@ -17,11 +17,11 @@ if(%desertrescue_progress >= ^desertrescue_given_pineapple) {
 } else {
     ~chatnpc("<p,angry>Sorry, but you can't use the tent without permission. Orders of Al Shabim.");
     if(%desertrescue_progress = ^desertrescue_shown_plans_shabim) {
-        if(inv_total(inv, technical_plans) = 0) {
+        if(inv_total(inv, thcaptplans) = 0) {
             ~chatnpc("<p,neutral>Sorry, no one is allowed to enter.");
             ~chatplayer("<p,neutral>But Al Shabim said I could enter!");
             ~chatnpc("<p,neutral>I can only let someone in who has plans for the secret weapon.");
-            if(inv_total(bank, technical_plans) > 0)  ~chatplayer("<p,neutral>Oh drat, I've gone and left those in my bank. I'll have to go and get them.");
+            if(inv_total(bank, thcaptplans) > 0)  ~chatplayer("<p,neutral>Oh drat, I've gone and left those in my bank. I'll have to go and get them.");
             return;
         }
         ~chatnpc("<p,neutral>Okay, you can go in, Al Shabim has told me about you.");
@@ -56,7 +56,7 @@ if(testbit(%desertrescue_map_mechanisms, ^desertrescue_gained_tent_access) = tru
     if(%desertrescue_progress >= ^desertrescue_given_pineapple) {
         ~chatnpc("<p,happy>Sorry, but you can't use the tent without permission.|But thanks for all your help with the Bedabin people.");
     } else if(%desertrescue_progress = ^desertrescue_shown_plans_shabim) {
-        if(inv_total(inv, technical_plans) > 0) {
+        if(inv_total(inv, thcaptplans) > 0) {
             ~chatplayer("<p,neutral>Al Shabim said I could enter, here are the plans!");
             ~chatnpc("<p,happy>Okay go ahead.");
             if_close;
@@ -69,7 +69,7 @@ if(testbit(%desertrescue_map_mechanisms, ^desertrescue_gained_tent_access) = tru
             ~chatnpc("<p,neutral>Sorry, no one is allowed to enter.");
             ~chatplayer("<p,neutral>But Al Shabim said I could enter!");
             ~chatnpc("<p,neutral>I can only let someone in who has plans for the secret weapon.");
-            if(inv_total(bank, technical_plans) > 0)  ~chatplayer("<p,neutral>Oh drat, I've gone and left those in my bank. I'll have to go and get them.");
+            if(inv_total(bank, thcaptplans) > 0)  ~chatplayer("<p,neutral>Oh drat, I've gone and left those in my bank. I'll have to go and get them.");
         }
     } else {
         ~chatnpc("<p,confused>Sorry, this is a private tent, no one is allowed in. Orders of Al Shabim...");
@@ -77,10 +77,10 @@ if(testbit(%desertrescue_map_mechanisms, ^desertrescue_gained_tent_access) = tru
 }
 
 [opnpcu,bedabin_nomad_guard]
-if(last_useitem = technical_plans) {
+if(last_useitem = thcaptplans) {
     switch_int(%desertrescue_progress) {
         case default :
-            inv_del(inv, technical_plans, 1);
+            inv_del(inv, thcaptplans, 1);
             ~chatnpc("<p,neutral>Sorry, but you can't use the tent without permission.|But thanks for all your help with the Bedabin people.|And we'll take those plans off your hands as well!");
         case ^desertrescue_shown_plans_shabim, ^desertrescue_made_dart_tip, ^desertrescue_finished_dart : 
             ~chatnpc("<p,neutral>Okay, you can go in, Al Shabim has told me about you.");

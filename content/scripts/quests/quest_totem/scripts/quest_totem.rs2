@@ -7,9 +7,9 @@ mes("This door is securely locked.");
 
 [oploc2,loc_2707]
 if(%totem_progress >= ^totem_started) {
-    if(inv_total(inv, address_label) = 0) {
+    if(inv_total(inv, tribal_totem_label) = 0) {
         ~mesbox("There is a label on this crate. It says; To Lord Handelmort, Handelmort Mansion, Ardougne.You carefully peel it off and take it.");
-        inv_add(inv, address_label, 1);
+        inv_add(inv, tribal_totem_label, 1);
     } else {
         ~mesbox("You can see the gluey outline from where you peeled the address label off.");
     }
@@ -18,13 +18,13 @@ mes("This crate is securely fastened shut.");
 
 [oplocu,loc_2708]
 switch_obj(last_useitem) {
-    case address_label :
+    case tribal_totem_label :
         if(%totem_progress >= ^totem_crate_marked) {
             mes("You have already replaced the delivery address label.");
             return;
         }
         ~mesbox("You carefully place the delivery label over the existing label, covering it completely.");
-        inv_del(inv, address_label, 1);
+        inv_del(inv, tribal_totem_label, 1);
         %totem_progress = ^totem_crate_marked;
         ~chatplayer("<p,happy>Now I just need someone to deliver it for me.");
         return;
@@ -136,9 +136,9 @@ if(stat(thieving) < 21) {
 mes("You open the chest.");
 
 [oploc1,loc_2710]
-if(inv_total(inv, totem) = 0 & inv_total(bank, totem) = 0) {
+if(inv_total(inv, tribal_totem) = 0 & inv_total(bank, tribal_totem) = 0) {
     ~mesbox("Inside the chest you find the tribal totem.");
-    inv_add(inv, totem, 1);
+    inv_add(inv, tribal_totem, 1);
 } else {
     mes("The chest is empty.");
 }
@@ -159,6 +159,6 @@ if(%totem_progress >= ^totem_crate_marked) {
 [queue,totem_quest_complete]
 %totem_progress = ^totem_complete;
 session_log(^log_adventure, "Quest complete: Tribal Totem");
-~send_quest_complete(questlist:totem, totem, 250, ^totem_questpoints, "You have completed the\\nTribal Totem Quest!");
+~send_quest_complete(questlist:totem, tribal_totem, 250, ^totem_questpoints, "You have completed the\\nTribal Totem Quest!");
 stat_advance(thieving, 17750);
 inv_add(inv, swordfish, 5);

@@ -49,13 +49,13 @@ if (%magearena < ^mage_arena_staff_given) {
 ~openshop_activenpc;
 
 [proc,god_staff_checker]()(namedobj)
-if (~obj_gettotal(saradomincape) > 0) {
-    return(saradominstaff);
+if (~obj_gettotal(saradomin_cape) > 0) {
+    return(saradomin_staff);
 }
-if (~obj_gettotal(zamorakcape) > 0) {
-    return(zamorakstaff);
+if (~obj_gettotal(zamorak_cape) > 0) {
+    return(zamorak_staff);
 }
-if (~obj_gettotal(guthixcape) > 0) {
-    return(guthixstaff);
+if (~obj_gettotal(guthix_cape) > 0) {
+    return(guthix_staff);
 }
 return(null);

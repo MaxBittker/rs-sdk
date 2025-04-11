@@ -1,4 +1,4 @@
-[saradomincape]
+[saradomin_cape]
 cost=100
 name=Cape of saradomin
 desc=A cape from the almighty god Saradomin.
@@ -32,7 +32,7 @@ param=destroy_death,^true
 param=lose_cape_message,Saradomin reclaims the cape as it touches the ground.
 tradeable=no
 
-[guthixcape]
+[guthix_cape]
 cost=100
 name=Cape of guthix
 desc=A cape from the almighty god Guthix.
@@ -66,7 +66,7 @@ param=destroy_death,^true
 param=lose_cape_message,Guthix reclaims the cape as it touches the ground.
 tradeable=no
 
-[zamorakcape]
+[zamorak_cape]
 cost=100
 name=Cape of zamorak
 desc=A cape from the almighty god Zamorak.
@@ -100,7 +100,7 @@ param=destroy_death,^true
 param=lose_cape_message,Zamorak reclaims the cape as it touches the ground.
 tradeable=no
 
-[saradominstaff]
+[saradomin_staff]
 name=Staff of saradomin
 desc=It's a stick of the gods.
 cost=80000
@@ -131,7 +131,7 @@ param=defend_anim,human_blunt_defend1
 param=crush_sound,staff_hit
 tradeable=no
 
-[guthixstaff]
+[guthix_staff]
 name=Staff of guthix
 desc=It's a stick of the gods.
 cost=80000
@@ -162,7 +162,7 @@ param=defend_anim,human_blunt_defend1
 param=crush_sound,staff_hit
 tradeable=no
 
-[zamorakstaff]
+[zamorak_staff]
 name=Staff of zamorak
 desc=It's a stick of the gods.
 cost=80000

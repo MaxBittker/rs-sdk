@@ -1,6 +1,6 @@
 // guessed name
 
-[unidentified_guam_leaf]
+[unidentified_guam]
 category=category_773
 iop1=Identify
 members=yes
@@ -57,7 +57,7 @@ model=model_2364_obj
 weight=7g
 // guessed name
 
-[unidentified_ranarr_weed]
+[unidentified_ranarr]
 iop1=Identify
 members=yes
 name=Herb
@@ -70,7 +70,7 @@ model=model_2364_obj
 weight=7g
 // guessed name
 
-[unidentified_irit_leaf]
+[unidentified_irit]
 iop1=Identify
 members=yes
 name=Herb

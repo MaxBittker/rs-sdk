@@ -28,7 +28,7 @@
 
 [label,goblin_diplomacy_blue_armour]
 ~chatplayer("<p,quiz>I have some orange armour.");
-inv_del(inv, goblin_mail_orange, 1);
+inv_del(inv, goblin_armour_orange, 1);
 %gobdip_progress = 3;
 ~mesbox("You give some goblin armour to the goblins.");
 ~chatnpc_specific("General Wartface", general_wartface, "<p,goblinchat>No. I don't like that much.");
@@ -37,7 +37,7 @@ inv_del(inv, goblin_mail_orange, 1);
 
 [label,goblin_diplomacy_brown_armour]
 ~chatplayer("<p,quiz>I have some blue armour.");
-inv_del(inv, goblin_mail_blue, 1);
+inv_del(inv, goblin_armour_darkblue, 1);
 %gobdip_progress = 4;
 ~mesbox("You give some goblin armour to the goblins.");
 ~chatnpc_specific("General Wartface", general_wartface, "<p,goblinchat>Doesn't seem quite right.");
@@ -48,7 +48,7 @@ inv_del(inv, goblin_mail_blue, 1);
 
 [label,goblin_diplomacy_finish]
 ~chatplayer("<p,quiz>Ok I've got brown armour.");
-inv_del(inv, goblin_mail, 1);
+inv_del(inv, goblin_armour, 1);
 %gobdip_progress = 5;
 ~mesbox("You give some goblin armour to the goblins.");
 ~chatnpc_specific("General Wartface", general_wartface, "<p,goblinchat>This is rather nice.");
@@ -88,7 +88,7 @@ switch_int ($option) {
 
 [label,goblin_diplomacy_greet_player_reply_stage_2]
 ~chatnpc("<p,goblinchat>Oh it you.");
-if (inv_total(inv, goblin_mail_orange) = 0) {
+if (inv_total(inv, goblin_armour_orange) = 0) {
     ~chatnpc("<p,goblinchat>Have you got some orange goblin armour yet?");
     ~chatplayer("<p,bored>Err no.");
     ~chatnpc("<p,goblinchat>Come back when you have some.");
@@ -97,7 +97,7 @@ if (inv_total(inv, goblin_mail_orange) = 0) {
 @goblin_diplomacy_blue_armour;
 
 [label,goblin_diplomacy_greet_player_reply_stage_3]
-if (inv_total(inv, goblin_mail_blue) = 0) {
+if (inv_total(inv, goblin_armour_darkblue) = 0) {
     ~chatnpc("<p,goblinchat>Have you got some blue goblin armour yet?");
     ~chatplayer("<p,bored>Err, no.");
     ~chatnpc("<p,goblinchat>Come back when you have some.");
@@ -106,7 +106,7 @@ if (inv_total(inv, goblin_mail_blue) = 0) {
 @goblin_diplomacy_brown_armour;
 
 [label,goblin_diplomacy_greet_player_reply_stage_4]
-if (inv_total(inv, goblin_mail) = 0) {
+if (inv_total(inv, goblin_armour) = 0) {
     ~chatnpc("<p,goblinchat>Have you got some brown goblin armour yet?");
     ~chatplayer("<p,bored>Err, no.");
     ~chatnpc("<p,goblinchat>Come back when you have some.");

@@ -1,4 +1,4 @@
-[spice]
+[spicespot]
 name=Spice
 desc=This could liven up an otherwise bland stew.
 cost=230
@@ -77,7 +77,7 @@ model=model_2622_obj
 weight=500g
 
 //guess
-[toad_legs]
+[toads_legs]
 iop1=Eat
 name=Toad's legs
 desc=They're a gnome delicacy apparently.
@@ -93,7 +93,7 @@ weight=150g
 category=gnome_premade_and_toadlegs_kingworm
 param=plural_name,toad's legs
 
-[equa_toad_legs]
+[equa_toads_legs]
 iop1=Eat
 name=Equa toad's legs
 desc=They're a gnome delicacy apparently.
@@ -108,7 +108,7 @@ model=model_2668_obj
 weight=150g
 category=gnome_premade_and_toadlegs_kingworm
 
-[spicy_toad_legs]
+[spicy_toads_legs]
 iop1=Eat
 name=Spicy toad's legs
 desc=They're a gnome delicacy apparently.
@@ -123,7 +123,7 @@ model=model_2668_obj
 weight=150g
 category=gnome_premade_and_toadlegs_kingworm
 
-[seasoned_toad_legs]
+[seasoned_toads_legs]
 iop1=Eat
 name=Seasoned legs
 desc=They're a gnome delicacy apparently.
@@ -213,7 +213,7 @@ weight=150g
 param=gnome_cooking_struct,gnomebowl_mould
 tradeable=no
 
-[gianne_cook_book]
+[giannes_cook_book]
 name=Gianne's cook book
 desc=Aluft Gianne's favorite dishes.
 cost=2

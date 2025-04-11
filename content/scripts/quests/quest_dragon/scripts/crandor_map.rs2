@@ -1,30 +1,30 @@
 // map parts
 // slightly different message than osrs, was prob mesbox before, and they changed to objbox which couldve messed with line breaks https://youtu.be/pyhwp2-wMus?t=1008
-[opheld1,crandor_map_part2]
+[opheld1,mappart2]
 ~mesbox("This is a piece of map that you got from the Wormbrain,|the goblin thief. You will need to join it to the other two|map pieces before you can see the route to Crandor.");
 
-[opheld1,crandor_map_part1]
+[opheld1,mappart1]
 ~mesbox("This is a piece of map that you found in Melzar's|Maze. You will need to join it to the other two map|pieces before you can see the route to Crandor.");
 
-[opheld1,crandor_map_part3]
+[opheld1,mappart3]
 ~mesbox("This is a piece of map that you found in the chest|in the Dwarven Mine. You will need to join it to the|other two map pieces before you can see the route to|Crandor.");
 
-[opheldu,crandor_map_part1]
-if (last_useitem = crandor_map_part2 | last_useitem = crandor_map_part3) {
+[opheldu,mappart1]
+if (last_useitem = mappart2 | last_useitem = mappart3) {
     @combine_crandor_map_parts;
 } else {
     ~displaymessage(^dm_default);
 }
 
-[opheldu,crandor_map_part2]
-if (last_useitem = crandor_map_part1 | last_useitem = crandor_map_part3) {
+[opheldu,mappart2]
+if (last_useitem = mappart1 | last_useitem = mappart3) {
     @combine_crandor_map_parts;
 } else {
     ~displaymessage(^dm_default);
 }
 
-[opheldu,crandor_map_part3]
-if (last_useitem = crandor_map_part1 | last_useitem = crandor_map_part2) {
+[opheldu,mappart3]
+if (last_useitem = mappart1 | last_useitem = mappart2) {
     @combine_crandor_map_parts;
 } else {
     ~displaymessage(^dm_default);
@@ -33,18 +33,18 @@ if (last_useitem = crandor_map_part1 | last_useitem = crandor_map_part2) {
 
 [label,combine_crandor_map_parts]
 // cant use inv_totalcat since you can get more than one of each part.
-if (inv_total(inv, crandor_map_part1) > 0 & inv_total(inv, crandor_map_part2) > 0 & inv_total(inv, crandor_map_part3) > 0) {
+if (inv_total(inv, mappart1) > 0 & inv_total(inv, mappart2) > 0 & inv_total(inv, mappart3) > 0) {
     // deletes all map parts in inv, thats how it works in osrs
-    inv_del(inv, crandor_map_part1, inv_total(inv, crandor_map_part1));
-    inv_del(inv, crandor_map_part2, inv_total(inv, crandor_map_part2));
-    inv_del(inv, crandor_map_part3, inv_total(inv, crandor_map_part3));
-    inv_add(inv, crandor_map, 1);
+    inv_del(inv, mappart1, inv_total(inv, mappart1));
+    inv_del(inv, mappart2, inv_total(inv, mappart2));
+    inv_del(inv, mappart3, inv_total(inv, mappart3));
+    inv_add(inv, dragonmap, 1);
     ~mesbox("You join the three pieces together and assemble a map|that shows the route through the reefs to Crandor.");
 } else {
     mes("You still need one more piece of map.");
 }
 
-[opheld1,crandor_map]
+[opheld1,dragonmap]
 // complete guess. Cant find any sources that say what the message is.
 ~mesbox("This is a map that shows the route through the reefs|to Crandor. You will need a ship to follow this route.");
 

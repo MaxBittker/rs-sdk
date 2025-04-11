@@ -36,7 +36,7 @@ mes("<$message>.");
 
 [opheldu,half_baked_batta]
 switch_obj(last_useitem) {
-    case cheese, tomato, onion, cabbage, dwellberry, seasoned_toad_legs, spicy_worm, equa_leaves : @add_batta_ingredient(last_useitem);
+    case cheese, tomato, onion, cabbage, dwellberry, seasoned_toads_legs, spicy_worm, equa_leaves : @add_batta_ingredient(last_useitem);
     case default : ~displaymessage(^dm_default);
 }
 
@@ -47,7 +47,7 @@ switch_obj(last_useitem) {
     case default : ~displaymessage(^dm_default);
 }
 
-[opheldu,seasoned_toad_legs]
+[opheldu,seasoned_toads_legs]
 switch_obj(last_useitem) {
     case half_baked_batta : @add_batta_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
@@ -60,16 +60,16 @@ switch_obj(last_useitem) {
 }
 
 [proc,get_gnome_batta_product]()(namedobj)
-def_int $null_count = calc(~get_batta_ingredient_count(null) + ~get_batta_ingredient_count(dwarf_remains));
+def_int $null_count = calc(~get_batta_ingredient_count(null) + ~get_batta_ingredient_count(mcannonremains));
 def_int $spicy_worm_count = ~get_batta_ingredient_count(spicy_worm);
 def_int $cheese_count = ~get_batta_ingredient_count(cheese);
 // worm batta
 if ($spicy_worm_count = 1 & $cheese_count = 1 & $null_count = 4) {
     ~clear_batta_ingredients;
-    return(unfinished_worm_batta1);
+    return(unfinished_worm_batta);
 }
 // toad legs batta
-def_int $seasoned_toad_legs_count = ~get_batta_ingredient_count(seasoned_toad_legs);
+def_int $seasoned_toad_legs_count = ~get_batta_ingredient_count(seasoned_toads_legs);
 if ($seasoned_toad_legs_count = 1 & $cheese_count = 1 & $null_count = 4) {
     ~clear_batta_ingredients;
     return(toad_batta);
@@ -84,7 +84,7 @@ if ($cheese_count = 1 & $tomato_count = 1 & $null_count = 4) {
 def_int $equa_leaves_count = ~get_batta_ingredient_count(equa_leaves);
 if ($equa_leaves_count = 4 & $null_count = 2) {
     ~clear_batta_ingredients;
-    return(unfinished_fruit_batta1);
+    return(fruitless_batta);
 }
 // vegetable batta
 def_int $onion_count = ~get_batta_ingredient_count(onion);
@@ -92,10 +92,10 @@ def_int $cabbage_count = ~get_batta_ingredient_count(cabbage);
 def_int $dwellberry_count = ~get_batta_ingredient_count(dwellberry);
 if ($tomato_count = 2 & $onion_count = 1 & $cabbage_count = 1 & $dwellberry_count = 1 & $cheese_count = 1) {
     ~clear_batta_ingredients;
-    return(unfinished_vegetable_batta1);
+    return(unfinished_vegetable_batta);
 }
 ~clear_batta_ingredients;
-return(odd_batta);
+return(spoilt_batta);
 
 
 [label,add_batta_ingredient](obj $item)
@@ -126,12 +126,12 @@ if (string_length(oc_param($item, batta_message)) < 1) {
 
 
 [proc,get_batta_ingredient_step]()(int)
-if (%gnome_batta_ingredient1 = null | %gnome_batta_ingredient1 = dwarf_remains) return(0);
-if (%gnome_batta_ingredient2 = null | %gnome_batta_ingredient2 = dwarf_remains) return(1);
-if (%gnome_batta_ingredient3 = null | %gnome_batta_ingredient3 = dwarf_remains) return(2);
-if (%gnome_batta_ingredient4 = null | %gnome_batta_ingredient4 = dwarf_remains) return(3);
-if (%gnome_batta_ingredient5 = null | %gnome_batta_ingredient5 = dwarf_remains) return(4);
-if (%gnome_batta_ingredient6 = null | %gnome_batta_ingredient6 = dwarf_remains) return(5);
+if (%gnome_batta_ingredient1 = null | %gnome_batta_ingredient1 = mcannonremains) return(0);
+if (%gnome_batta_ingredient2 = null | %gnome_batta_ingredient2 = mcannonremains) return(1);
+if (%gnome_batta_ingredient3 = null | %gnome_batta_ingredient3 = mcannonremains) return(2);
+if (%gnome_batta_ingredient4 = null | %gnome_batta_ingredient4 = mcannonremains) return(3);
+if (%gnome_batta_ingredient5 = null | %gnome_batta_ingredient5 = mcannonremains) return(4);
+if (%gnome_batta_ingredient6 = null | %gnome_batta_ingredient6 = mcannonremains) return(5);
 return(6);
 
 [proc,get_batta_ingredient_name](obj $ingredient)(string, int)

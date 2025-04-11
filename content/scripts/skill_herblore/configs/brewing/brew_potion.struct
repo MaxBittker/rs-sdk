@@ -2,110 +2,110 @@
 param=brew_potion_ingredient,guam_leaf
 param=brew_potion_solvent,vial_water
 param=brew_potion_message,You put the Guam Leaf into the vial of water.
-param=brew_potion_mixture,unf_guam_potion
+param=brew_potion_mixture,guamvial
 
 [unf_marrentill_potion]
 param=brew_potion_ingredient,marentill
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,5
 param=brew_potion_message,You put the Marrentill into the vial of water.
-param=brew_potion_mixture,unf_marrentill_potion
+param=brew_potion_mixture,marrentillvial
 
 [unf_tarromin_potion]
 param=brew_potion_ingredient,tarromin
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,12
 param=brew_potion_message,You put the Tarromin into the vial of water.
-param=brew_potion_mixture,unf_tarromin_potion
+param=brew_potion_mixture,tarrominvial
 
 [unf_harralander_potion]
 param=brew_potion_ingredient,harralander
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,22
 param=brew_potion_message,You put the Harralander into the vial of water.
-param=brew_potion_mixture,unf_harralander_potion
+param=brew_potion_mixture,harralandervial
 
 [unf_ranarr_potion]
 param=brew_potion_ingredient,ranarr_weed
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,30
 param=brew_potion_message,You put the Ranarr Weed into the vial of water.
-param=brew_potion_mixture,unf_ranarr_potion
+param=brew_potion_mixture,ranarrvial
 
 [unf_irit_potion]
 param=brew_potion_ingredient,irit_leaf
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,45
 param=brew_potion_message,You put the Irit Leaf into the vial of water.
-param=brew_potion_mixture,unf_irit_potion
+param=brew_potion_mixture,iritvial
 
 [unf_avantoe_potion]
 param=brew_potion_ingredient,avantoe
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,50
 param=brew_potion_message,You put the Avantoe into the vial of water.
-param=brew_potion_mixture,unf_avantoe_potion
+param=brew_potion_mixture,avantoevial
 
 [unf_kwuarm_potion]
 param=brew_potion_ingredient,kwuarm
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,55
 param=brew_potion_message,You put the Kwuarm into the vial of water.
-param=brew_potion_mixture,unf_kwuarm_potion
+param=brew_potion_mixture,kwuarmvial
 
 [unf_cadantine_potion]
 param=brew_potion_ingredient,cadantine
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,66
 param=brew_potion_message,You put the Cadantine into the vial of water.
-param=brew_potion_mixture,unf_cadantine_potion
+param=brew_potion_mixture,cadantinevial
 
 [unf_lantadyme_potion]
 param=brew_potion_ingredient,lantadyme
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,69
 param=brew_potion_message,You put the Lantadyme into the vial of water.
-param=brew_potion_mixture,unf_lantadyme_potion
+param=brew_potion_mixture,lantadymevial
 
 [unf_dwarf_weed_potion]
 param=brew_potion_ingredient,dwarf_weed
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,72
 param=brew_potion_message,You put the Dwarf Weed into the vial of water.
-param=brew_potion_mixture,unf_dwarf_weed_potion
+param=brew_potion_mixture,dwarfweedvial
 
 [unf_torstol_potion]
 param=brew_potion_ingredient,torstol
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,78
 param=brew_potion_message,You put the Torstol into the vial of water.
-param=brew_potion_mixture,unf_torstol_potion
+param=brew_potion_mixture,torstolvial
 
 [3dose1attack]
 param=brew_potion_ingredient,eye_of_newt
-param=brew_potion_solvent,unf_guam_potion
+param=brew_potion_solvent,guamvial
 param=brew_potion_exp,250
 param=brew_potion_message,You mix the eye of newt into your potion.
 param=brew_potion_mixture,3dose1attack
 
 [3dose2attack]
 param=brew_potion_ingredient,eye_of_newt
-param=brew_potion_solvent,unf_irit_potion
+param=brew_potion_solvent,iritvial
 param=brew_potion_exp,1000
 param=brew_potion_message,You mix the eye of newt into your potion.
 param=brew_potion_mixture,3dose2attack
 
 [3dose1restore]
 param=brew_potion_ingredient,red_spiders_eggs
-param=brew_potion_solvent,unf_harralander_potion
+param=brew_potion_solvent,harralandervial
 param=brew_potion_level,22
 param=brew_potion_exp,625
 param=brew_potion_message,You mix the red spiders' eggs into your potion.
-param=brew_potion_mixture,3dose1restore
+param=brew_potion_mixture,4dosestatrestore
 
 [3dose1strength]
 param=brew_potion_ingredient,limpwurt_root
-param=brew_potion_solvent,unf_tarromin_potion
+param=brew_potion_solvent,tarrominvial
 param=brew_potion_level,12
 param=brew_potion_exp,500
 param=brew_potion_message,You mix the limpwurt root into your potion.
@@ -113,7 +113,7 @@ param=brew_potion_mixture,3dose1strength
 
 [3dose2strength]
 param=brew_potion_ingredient,limpwurt_root
-param=brew_potion_solvent,unf_kwuarm_potion
+param=brew_potion_solvent,kwuarmvial
 param=brew_potion_level,55
 param=brew_potion_exp,1250
 param=brew_potion_message,You mix the limpwurt root into your potion.
@@ -121,7 +121,7 @@ param=brew_potion_mixture,3dose2strength
 
 [3doseprayerrestore]
 param=brew_potion_ingredient,snape_grass
-param=brew_potion_solvent,unf_ranarr_potion
+param=brew_potion_solvent,ranarrvial
 param=brew_potion_level,38
 param=brew_potion_exp,875
 param=brew_potion_message,You mix the snape grass into your potion.
@@ -129,7 +129,7 @@ param=brew_potion_mixture,3doseprayerrestore
 
 [3dosefisherspotion]
 param=brew_potion_ingredient,snape_grass
-param=brew_potion_solvent,unf_avantoe_potion
+param=brew_potion_solvent,avantoevial
 param=brew_potion_level,50
 param=brew_potion_exp,1125
 param=brew_potion_message,You mix the snape grass into your potion.
@@ -137,7 +137,7 @@ param=brew_potion_mixture,3dosefisherspotion
 
 [3doseantipoison]
 param=brew_potion_ingredient,unicorn_horn_dust
-param=brew_potion_solvent,unf_marrentill_potion
+param=brew_potion_solvent,marrentillvial
 param=brew_potion_level,5
 param=brew_potion_exp,375
 param=brew_potion_message,You mix the unicorn horn dust into your potion.
@@ -145,7 +145,7 @@ param=brew_potion_mixture,3doseantipoison
 
 [3dose2antipoison]
 param=brew_potion_ingredient,unicorn_horn_dust
-param=brew_potion_solvent,unf_irit_potion
+param=brew_potion_solvent,iritvial
 param=brew_potion_level,48
 param=brew_potion_exp,1063
 param=brew_potion_message,You mix the unicorn horn dust into your potion.
@@ -153,7 +153,7 @@ param=brew_potion_mixture,3dose2antipoison
 
 [3dose1defense]
 param=brew_potion_ingredient,white_berries
-param=brew_potion_solvent,unf_ranarr_potion
+param=brew_potion_solvent,ranarrvial
 param=brew_potion_level,30
 param=brew_potion_exp,750
 param=brew_potion_message,You mix the white berries into your potion.
@@ -161,7 +161,7 @@ param=brew_potion_mixture,3dose1defense
 
 [3dose2defense]
 param=brew_potion_ingredient,white_berries
-param=brew_potion_solvent,unf_cadantine_potion
+param=brew_potion_solvent,cadantinevial
 param=brew_potion_level,66
 param=brew_potion_exp,1500
 param=brew_potion_message,You mix the white berries into your potion.
@@ -169,7 +169,7 @@ param=brew_potion_mixture,3dose2defense
 
 [weapon_poison]
 param=brew_potion_ingredient,dragon_scale_dust
-param=brew_potion_solvent,unf_kwuarm_potion
+param=brew_potion_solvent,kwuarmvial
 param=brew_potion_level,60
 param=brew_potion_exp,1275
 param=brew_potion_message,You mix the dragon scale dust into your potion.
@@ -177,7 +177,7 @@ param=brew_potion_mixture,weapon_poison
 
 [3dose1antidragon]
 param=brew_potion_ingredient,dragon_scale_dust
-param=brew_potion_solvent,unf_lantadyme_potion
+param=brew_potion_solvent,lantadymevial
 param=brew_potion_level,69
 param=brew_potion_exp,1575
 param=brew_potion_message,You mix the dragon scale dust into your potion.
@@ -185,7 +185,7 @@ param=brew_potion_mixture,3dose1antidragon
 
 [3doserangerspotion]
 param=brew_potion_ingredient,wine_of_zamorak
-param=brew_potion_solvent,unf_dwarf_weed_potion
+param=brew_potion_solvent,dwarfweedvial
 param=brew_potion_level,72
 param=brew_potion_exp,1625
 param=brew_potion_message,You mix the wine of zamorak into your potion.
@@ -193,7 +193,7 @@ param=brew_potion_mixture,3doserangerspotion
 
 [3dosepotionofzamorak]
 param=brew_potion_ingredient,jangerberries
-param=brew_potion_solvent,unf_torstol_potion
+param=brew_potion_solvent,torstolvial
 param=brew_potion_level,78
 param=brew_potion_exp,1750
 param=brew_potion_message,You mix the jangerberries into your potion.
@@ -201,7 +201,7 @@ param=brew_potion_mixture,3dosepotionofzamorak
 
 [blamish_oil]
 param=brew_potion_ingredient,blamish_snail_slime
-param=brew_potion_solvent,unf_harralander_potion
+param=brew_potion_solvent,harralandervial
 param=brew_potion_level,25
 param=brew_potion_exp,800
 param=brew_potion_message,You mix the slime into your potion.
@@ -212,11 +212,11 @@ param=brew_potion_ingredient,snake_weed
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,0
 param=brew_potion_message,You mix the snake weed into the vial of water.
-param=brew_potion_mixture,snakeweed_mixture
+param=brew_potion_mixture,snakeweed_sol
 
 [ardrigal_mixture]
 param=brew_potion_ingredient,ardrigal
 param=brew_potion_solvent,vial_water
 param=brew_potion_level,0
 param=brew_potion_message,You mix the Ardrigal into the water.
-param=brew_potion_mixture,ardrigal_mixture
+param=brew_potion_mixture,ardrigal_sol

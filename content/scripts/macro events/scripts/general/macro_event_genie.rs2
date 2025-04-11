@@ -71,7 +71,7 @@ if (%npc_int = ^genie_happy) {
 }
 %npc_int = ^genie_happy;
 %macro_event = ^no_macro_event;
-inv_add(inv, lamp, 1);
+inv_add(inv, macro_genilamp, 1);
 // delays are taken from this video: https://youtu.be/EN4c2hV65Qk?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
 npc_queue(6, 0, 2);
 npc_settimer(0);

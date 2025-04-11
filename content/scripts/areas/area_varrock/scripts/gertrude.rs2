@@ -59,7 +59,7 @@ switch_int (%fluffs_progress) {
         p_delay(3);
         queue(fluffs_complete, 0);
     case ^fluffs_complete :
-        if (getbit_range(%cat_growth, 20, 26) = 100 & inv_total(inv, cat_training_medal) = 0) {
+        if (getbit_range(%cat_growth, 20, 26) = 100 & inv_total(inv, felinemedal) = 0) {
             ~chatplayer("<p,happy>Hello again Gertrude!");
             ~chatnpc("<p,neutral>Well, hello adventurer! How are you?");
             ~chatplayer("<p,happy>My cat has caught 100 rats!");
@@ -69,8 +69,8 @@ switch_int (%fluffs_progress) {
                 return;
             }
             ~chatnpc("<p,neutral>Here, I have a little present for you...");
-            inv_add(inv, cat_training_medal, 1);
-            ~objbox(cat_training_medal, "Gertrude gives you a small medal.", 250, 0, divide(^objbox_height, 2));
+            inv_add(inv, felinemedal, 1);
+            ~objbox(felinemedal, "Gertrude gives you a small medal.", 250, 0, divide(^objbox_height, 2));
             ~chatplayer("<p,neutral>Hey thanks Gertrude.");
             return;
         } //this is guessed off RSC. assuming her post-quest dialogue was changed later on.

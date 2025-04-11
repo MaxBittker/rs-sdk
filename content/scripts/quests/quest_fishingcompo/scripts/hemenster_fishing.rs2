@@ -39,7 +39,7 @@ if (npc_type = fishing_spot_fishcon_prizefish) { // Using red vine worm + north 
         inv_add(inv, raw_sardine, 1);
         mes("You catch a sardine.");
    } else {
-        inv_add(inv, raw_shrimps, 1);
+        inv_add(inv, raw_shrimp, 1);
         mes("You catch some shrimps.");
    }
 }

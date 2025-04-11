@@ -1,4 +1,4 @@
-[imp_red_bead]
+[red_bead]
 cost=4
 name=Red bead
 desc=A small round red bead.
@@ -10,7 +10,7 @@ recol1d=30753
 2dxan=68
 weight=3g
 
-[imp_yellow_bead]
+[yellow_bead]
 cost=4
 name=Yellow bead
 desc=A small round yellow bead.
@@ -22,7 +22,7 @@ recol1d=31649
 2dxan=68
 weight=3g
 
-[imp_black_bead]
+[black_bead]
 cost=4
 name=Black bead
 desc=A small round black bead.
@@ -34,7 +34,7 @@ recol1d=0
 2dxan=68
 weight=3g
 
-[imp_white_bead]
+[white_bead]
 cost=4
 name=White bead
 desc=A small round white bead.

@@ -7,7 +7,7 @@ npc_setmode(null);
 npc_delay(0);
 if_close;
 if (p_finduid(uid) = true) {
-    if (stat_random(stat(agility), 30, 200) = false & inv_getobj(worn, ^wearpos_rhand) = gnomeball) { // 50% guess for now
+    if (stat_random(stat(agility), 30, 200) = false & inv_getobj(worn, ^wearpos_rhand) = ball_gnomeball_game) { // 50% guess for now
         ~npc_gnomeball_tackle_success;
     } else {
         ~npc_gnomeball_tackle_fail;
@@ -28,7 +28,7 @@ anim(seq_779, 0);
 npc_changetype_keepall(npc_param(gnome_hasball), ^max_32bit_int); // perm? 
 npc_anim(midget_seq_210, 0);
 inv_delslot(worn, ^wearpos_rhand);
-~update_all(gnomeball);
+~update_all(ball_gnomeball_game);
 npc_setmode(null);
 %npc_attacking_uid = uid;
 %npc_lastcombat = ^max_32bit_int;
@@ -49,7 +49,7 @@ switch_npc (npc_type) {
 mes("You can only tackle gnome ballers."); // complete guess
 
 [label,player_gnomeball_tackle](int $low, int $high)
-if (inv_getobj(worn, ^wearpos_rhand) = gnomeball) {
+if (inv_getobj(worn, ^wearpos_rhand) = ball_gnomeball_game) {
     mes("You may not tackle when you have a ball.");
     return;
 }
@@ -83,7 +83,7 @@ npc_delay(0);
 anim(seq_778, 33);
 npc_anim(midget_seq_203, 30);
 p_delay(0);
-~update_all(gnomeball);
+~update_all(ball_gnomeball_game);
 npc_changetype_keepall(npc_param(gnome_tackled), 9);
 npc_delay(9);
 npc_setmode(null);
@@ -96,7 +96,7 @@ npc_delay(0);
 [opnpc1,gnome_baller10] @player_gnomeball_tackle_carrier;
 
 [label,player_gnomeball_tackle_carrier]
-if (inv_getobj(worn, ^wearpos_rhand) = gnomeball) {
+if (inv_getobj(worn, ^wearpos_rhand) = ball_gnomeball_game) {
     mes("You may not tackle when you have a ball.");
     return;
 }
@@ -112,7 +112,7 @@ npc_facesquare(coord);
 facesquare(npc_coord);
 p_delay(0);
 if (stat_random(stat(agility), 30, 220) = true) { // 50% guess for now
-    inv_setslot(worn, ^wearpos_rhand, gnomeball, 1);
+    inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
     npc_changetype_keepall(npc_param(gnome_original), ^max_32bit_int);
     ~player_gnomeball_tackle_success;
     %npc_attacking_uid = null;

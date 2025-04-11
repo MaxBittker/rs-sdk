@@ -1,7 +1,7 @@
 [opnpc1,hadley]
 ~chatplayer("<p,neutral>Hello there.");
 // https://youtu.be/5YeeYCNzDH8?si=hloyr9VphBCV4WTe&t=153, https://youtu.be/VxPuLLiUHNk?si=nfmb-EdajnHIlGp9&t=217
-if(inv_total(inv, book_on_baxtorian) > 0) {
+if(inv_total(inv, baxtorian_book_waterfall_quest) > 0) {
     ~chatnpc("<p,neutral>I hope you're enjoying your stay,|there should be lots of useful infomation in that book you've got.|Places to go, people to see.");
     @multi4("Can you tell me what happened to the elf king?", waterfall_hadley_elf_king, "Where else is worth visiting around here?", waterfall_hadley_worth_visiting, "Is there treasure under the waterfall?", waterfall_hadley_treasure, "Thanks then, goodbye.", waterfall_hadley_bye);
 }

@@ -11,6 +11,6 @@ if (p_finduid(uid) = true) {
 
 [debugproc,givetrawler]
 inv_clear(inv);
-inv_add(inv, swamp_paste, 1000000);
-inv_add(inv, bailing_bucket_empty, 10);
+inv_add(inv, swamppaste, 1000000);
+inv_add(inv, bucket_bailing, 10);
 inv_add(inv, rope, 5);

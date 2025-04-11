@@ -1,7 +1,7 @@
 [opnpc1,gerrant]
-if(map_members = true & inv_total(inv, trail_clue_hard_riddle_exp004) > 0) {
+if(map_members = true & inv_total(inv, trail_clue_hard_riddle004) > 0) {
     ~chatnpc("<p,neutral>You've done it!");
-    ~progress_clue_hard(trail_clue_hard_riddle_exp004, "Gerrant has given you another clue scroll!");
+    ~progress_clue_hard(trail_clue_hard_riddle004, "Gerrant has given you another clue scroll!");
     return;
 }
 ~chatnpc("<p,happy>Welcome! You can buy fishing equipment at my store.|We'll also buy anything you catch off you.");

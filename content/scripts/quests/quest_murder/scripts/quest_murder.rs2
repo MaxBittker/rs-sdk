@@ -107,72 +107,72 @@ if(%murder_progress ! ^murder_started) {
     mes("I need the guards' permission to do that.");
     return;
 }
-if(~obj_gettotal(murder_necklace) > 0) {
+if(~obj_gettotal(murdernecklace) > 0) {
     mes("I already have Anna's Necklace.");
     return;
 }
 ~mesbox("There's something shiny hidden at the bottom.|You take Anna's Silver Necklace.");
-inv_add(inv, murder_necklace, 1);
+inv_add(inv, murdernecklace, 1);
 
 [oploc2,loc_2657]
 if(%murder_progress ! ^murder_started) {
     mes("I need the guards' permission to do that.");
     return;
 }
-if(~obj_gettotal(murder_cup) > 0) {
+if(~obj_gettotal(murdercup) > 0) {
     mes("I already have Bob's cup.");
     return;
 }
 ~mesbox("There's something shiny hidden at the bottom.|You take Bob's silver cup.");
-inv_add(inv, murder_cup, 1);
+inv_add(inv, murdercup, 1);
 
 [oploc2,loc_2658]
 if(%murder_progress ! ^murder_started) {
     mes("I need the guards' permission to do that.");
     return;
 }
-if(~obj_gettotal(murder_bottle) > 0) {
+if(~obj_gettotal(murderbottle) > 0) {
     mes("I already have Carol's bottle.");
     return;
 }
 ~mesbox("There's something shiny hidden at the bottom.|You take Carol's silver bottle.");
-inv_add(inv, murder_bottle, 1);
+inv_add(inv, murderbottle, 1);
 
 [oploc2,loc_2659]
 if(%murder_progress ! ^murder_started) {
     mes("I need the guards' permission to do that.");
     return;
 }
-if(~obj_gettotal(murder_book) > 0) {
+if(~obj_gettotal(murderbook) > 0) {
     mes("I already have David's book.");
     return;
 }
 ~mesbox("There's something shiny hidden at the bottom.|You take David's silver book.");
-inv_add(inv, murder_book, 1);
+inv_add(inv, murderbook, 1);
 
 [oploc2,loc_2660]
 if(%murder_progress ! ^murder_started) {
     mes("I need the guards' permission to do that.");
     return;
 }
-if(~obj_gettotal(murder_needle) > 0) {
+if(~obj_gettotal(murderneedle) > 0) {
     mes("I already have Elizabeth's needle.");
     return;
 }
 ~mesbox("There's something shiny hidden at the bottom.|You take Elizabeth's silver needle.");
-inv_add(inv, murder_needle, 1);
+inv_add(inv, murderneedle, 1);
 
 [oploc2,loc_2661]
 if(%murder_progress ! ^murder_started) {
     mes("I need the guards' permission to do that.");
     return;
 }
-if(~obj_gettotal(murder_pot) > 0) {
+if(~obj_gettotal(murderpot) > 0) {
     mes("I already have Frank's pot.");
     return;
 }
 ~mesbox("There's something shiny hidden at the bottom.|You take Frank's silver pot.");
-inv_add(inv, murder_pot, 1);
+inv_add(inv, murderpot, 1);
 
 [label,murder_flour_barrel]
 if(%murder_progress ! ^murder_started) {
@@ -185,14 +185,14 @@ if(inv_total(inv, pot_empty) = 0) {
     return;
 }
 inv_del(inv, pot_empty, 1);
-inv_add(inv, pot_of_flour, 1);
+inv_add(inv, pot_flour, 1);
 mes("You take some flour from the barrel.");
 mes("There's still plenty of flour left.");
 
 [oploc2,loc_2662] @murder_flour_barrel;
 
 [oplocu,loc_2662]
-if(last_useitem = pungent_pot) {
+if(last_useitem = murderpot2) {
     ~mesbox("You probably shouldn't use evidence from a crime|scene to keep flour in...");
     return;
 }
@@ -211,7 +211,7 @@ def_int $choice = ~p_choice2("Yes, it might be useful.", 1, "No, I don't see any
 if($choice = 2) {
     return;
 }
-inv_add(inv, flypaper, 1);
+inv_add(inv, murderpaper, 1);
 ~mesbox("You take a piece of fly paper.|There is still plenty of fly paper left.");
 
 [oploc1,loc_2664] @murder_inspect_gate;
@@ -249,59 +249,59 @@ inv_add(inv, ~get_murder_thread, 1);
 
 [proc,get_murder_thread]()(namedobj)
 switch_int(%murder_murderer_id) {
-    case ^murderer_anna, ^murderer_david : return (murder_green_thread);
-    case ^murderer_bob, ^murderer_carol : return (murder_red_thread);
-    case ^murderer_elizabeth, ^murderer_frank : return (murder_blue_thread);
-    case default : return (murder_green_thread); // fallback but this should never happen
+    case ^murderer_anna, ^murderer_david : return (murderthreadg);
+    case ^murderer_bob, ^murderer_carol : return (murderthreadr);
+    case ^murderer_elizabeth, ^murderer_frank : return (murderthreadb);
+    case default : return (murderthreadg); // fallback but this should never happen
 }
 
-[opobj3,criminals_dagger]
+[opobj3,murderweapon]
 // no map_members check
 if(%murder_progress = ^murder_complete) {
     ~mesbox("I cannot take the flimsy dagger.|The Guards will need it as evidence.");
     return;
 }
-if(inv_total(inv, criminals_dagger) > 0) {
+if(inv_total(inv, murderweapon) > 0) {
     mes("I already have the murder weapon.");
     return;
 }
-if(inv_total(bank, criminals_dagger) > 0) {
+if(inv_total(bank, murderweapon) > 0) {
     mes("I already have the murder weapon in my bank.");
     return;
 }
-inv_add(inv, criminals_dagger, 1);
+inv_add(inv, murderweapon, 1);
 ~mesbox("This knife doesn't seem sturdy enough to have killed Lord Sinclair.");
 
-[opobj3,pungent_pot]
+[opobj3,murderpot2]
 // no map_members check
 if(%murder_progress = ^murder_complete) {
     ~mesbox("I cannot take the poisoned pot.|The Guards will need it for evidence.");
     return;
 }
-if(inv_total(inv, pungent_pot) > 0) {
+if(inv_total(inv, murderpot2) > 0) {
     mes("I already have the poisoned pot.");
     return;
 }
-if(inv_total(bank, pungent_pot) > 0) {
+if(inv_total(bank, murderpot2) > 0) {
     mes("I already have the poisoned pot in my bank.");
     return;
 }
-inv_add(inv, pungent_pot, 1);
+inv_add(inv, murderpot2, 1);
 ~mesbox("It seems like Lord Sinclair was drinking from this before he died.");
 
 [opheldu,_murder_proofobj]
-if(last_item = pot_of_flour) {
+if(last_item = pot_flour) {
     @flour_proofobj(last_useitem);
 }
 ~displaymessage(^dm_default);
 
 [opheldu,_murder_flourobj]
-if(last_item = flypaper) {
+if(last_item = murderpaper) {
     @create_flourprints(last_useitem);
 }
 ~displaymessage(^dm_default);
 
-[opheldu,unknown_print]
+[opheldu,murderfingerprint1]
 if(oc_category(last_useitem) = murder_printobj) {
     @check_murderer_print(last_useitem);
 }
@@ -310,7 +310,7 @@ if(oc_category(last_useitem) = murder_printobj) {
 [label,flour_proofobj](obj $proof_obj)
 inv_del(inv, $proof_obj, 1);
 inv_add(inv, oc_param($proof_obj, product), 1);
-inv_del(inv, pot_of_flour, 1);
+inv_del(inv, pot_flour, 1);
 inv_add(inv, pot_empty, 1);
 mes(oc_param($proof_obj, game_message));
 mes(oc_param($proof_obj, game_message2));
@@ -318,7 +318,7 @@ mes(oc_param($proof_obj, game_message2));
 [label,create_flourprints](obj $flour_obj)
 inv_del(inv, $flour_obj, 1);
 inv_add(inv, oc_param($flour_obj, next_obj_stage), 1);
-inv_del(inv, flypaper, 1);
+inv_del(inv, murderpaper, 1);
 inv_add(inv, oc_param($flour_obj, product), 1);
 mes(oc_param($flour_obj, game_message));
 mes(oc_param($flour_obj, game_message2));
@@ -329,20 +329,20 @@ def_string $murderer_name = substring($print_name, 0, calc(string_indexof_char($
 if(oc_param($checked_print, murder_id_value) = %murder_murderer_id) {
     mes("The finger prints are an exact match to <$murderer_name>'s.");
     %murder_evidence = setbit(%murder_evidence, ^murder_found_fingerprints);
-    inv_del(inv, unknown_print, 1);
-    inv_add(inv, killers_print, 1);
+    inv_del(inv, murderfingerprint1, 1);
+    inv_add(inv, murderfingerprint, 1);
     return;
 }
 ~mesbox("They don't seem to be the same.|I guess that clears <$murderer_name> of the crime.|You destroy the useless fingerprint.");
 inv_del(inv, $checked_print, 1);
 
-[opobj3,murder_blue_thread]
+[opobj3,murderthreadb]
 ~mesbox("Some blue thread. Not enough to be worth taking.");
 
-[opobj3,murder_red_thread]
+[opobj3,murderthreadr]
 ~mesbox("Some red thread. Not enough to be worth taking.");
 
-[opobj3,murder_green_thread]
+[opobj3,murderthreadg]
 ~mesbox("Some green thread. Not enough to be worth taking.");
 
 [proc,murder_get_murderer_name]()(string)
@@ -358,173 +358,173 @@ switch_int(%murder_murderer_id) {
 [proc,murder_clear_evidence]
 // removes each of the related quest items from the player inv and bank, not sure if theres a better way of doing this in
 // runescript...
-if(inv_total(inv, murder_necklace) > 0) {
-    inv_del(inv, murder_necklace, inv_total(inv, murder_necklace));
+if(inv_total(inv, murdernecklace) > 0) {
+    inv_del(inv, murdernecklace, inv_total(inv, murdernecklace));
 }
-if(inv_total(bank, murder_necklace) > 0) {
-    inv_del(bank, murder_necklace, inv_total(bank, murder_necklace));
+if(inv_total(bank, murdernecklace) > 0) {
+    inv_del(bank, murdernecklace, inv_total(bank, murdernecklace));
 }
-if(inv_total(worn, murder_necklace) > 0) {
-    inv_del(worn, murder_necklace, inv_total(worn, murder_necklace));
+if(inv_total(worn, murdernecklace) > 0) {
+    inv_del(worn, murdernecklace, inv_total(worn, murdernecklace));
 }
-if(inv_total(inv, murder_flournecklace) > 0) {
-    inv_del(inv, murder_flournecklace, inv_total(inv, murder_flournecklace));
+if(inv_total(inv, murdernecklacedust) > 0) {
+    inv_del(inv, murdernecklacedust, inv_total(inv, murdernecklacedust));
 }
-if(inv_total(bank, murder_flournecklace) > 0) {
-    inv_del(bank, murder_flournecklace, inv_total(bank, murder_flournecklace));
+if(inv_total(bank, murdernecklacedust) > 0) {
+    inv_del(bank, murdernecklacedust, inv_total(bank, murdernecklacedust));
 }
-if(inv_total(worn, murder_flournecklace) > 0) {
-    inv_del(worn, murder_flournecklace, inv_total(worn, murder_flournecklace));
+if(inv_total(worn, murdernecklacedust) > 0) {
+    inv_del(worn, murdernecklacedust, inv_total(worn, murdernecklacedust));
 }
-if(inv_total(inv, murder_cup) > 0) {
-    inv_del(inv, murder_cup, inv_total(inv, murder_cup));
+if(inv_total(inv, murdercup) > 0) {
+    inv_del(inv, murdercup, inv_total(inv, murdercup));
 }
-if(inv_total(bank, murder_cup) > 0) {
-    inv_del(bank, murder_cup, inv_total(bank, murder_cup));
+if(inv_total(bank, murdercup) > 0) {
+    inv_del(bank, murdercup, inv_total(bank, murdercup));
 }
-if(inv_total(inv, murder_flourcup) > 0) {
-    inv_del(inv, murder_flourcup, inv_total(inv, murder_flourcup));
+if(inv_total(inv, murdercupdust) > 0) {
+    inv_del(inv, murdercupdust, inv_total(inv, murdercupdust));
 }
-if(inv_total(bank, murder_flourcup) > 0) {
-    inv_del(bank, murder_flourcup, inv_total(bank, murder_flourcup));
+if(inv_total(bank, murdercupdust) > 0) {
+    inv_del(bank, murdercupdust, inv_total(bank, murdercupdust));
 }
-if(inv_total(inv, murder_bottle) > 0) {
-    inv_del(inv, murder_bottle, inv_total(inv, murder_bottle));
+if(inv_total(inv, murderbottle) > 0) {
+    inv_del(inv, murderbottle, inv_total(inv, murderbottle));
 }
-if(inv_total(bank, murder_bottle) > 0) {
-    inv_del(bank, murder_bottle, inv_total(bank, murder_bottle));
+if(inv_total(bank, murderbottle) > 0) {
+    inv_del(bank, murderbottle, inv_total(bank, murderbottle));
 }
-if(inv_total(inv, murder_flourbottle) > 0) {
-    inv_del(inv, murder_flourbottle, inv_total(inv, murder_flourbottle));
+if(inv_total(inv, murderbottledust) > 0) {
+    inv_del(inv, murderbottledust, inv_total(inv, murderbottledust));
 }
-if(inv_total(bank, murder_flourbottle) > 0) {
-    inv_del(bank, murder_flourbottle, inv_total(bank, murder_flourbottle));
+if(inv_total(bank, murderbottledust) > 0) {
+    inv_del(bank, murderbottledust, inv_total(bank, murderbottledust));
 }
-if(inv_total(inv, murder_book) > 0) {
-    inv_del(inv, murder_book, inv_total(inv, murder_book));
+if(inv_total(inv, murderbook) > 0) {
+    inv_del(inv, murderbook, inv_total(inv, murderbook));
 }
-if(inv_total(bank, murder_book) > 0) {
-    inv_del(bank, murder_book, inv_total(bank, murder_book));
+if(inv_total(bank, murderbook) > 0) {
+    inv_del(bank, murderbook, inv_total(bank, murderbook));
 }
-if(inv_total(inv, murder_flourbook) > 0) {
-    inv_del(inv, murder_flourbook, inv_total(inv, murder_flourbook));
+if(inv_total(inv, murderbookdust) > 0) {
+    inv_del(inv, murderbookdust, inv_total(inv, murderbookdust));
 }
-if(inv_total(bank, murder_flourbook) > 0) {
-    inv_del(bank, murder_flourbook, inv_total(bank, murder_flourbook));
+if(inv_total(bank, murderbookdust) > 0) {
+    inv_del(bank, murderbookdust, inv_total(bank, murderbookdust));
 }
-if(inv_total(inv, murder_needle) > 0) {
-    inv_del(inv, murder_needle, inv_total(inv, murder_needle));
+if(inv_total(inv, murderneedle) > 0) {
+    inv_del(inv, murderneedle, inv_total(inv, murderneedle));
 }
-if(inv_total(bank, murder_needle) > 0) {
-    inv_del(bank, murder_needle, inv_total(bank, murder_needle));
+if(inv_total(bank, murderneedle) > 0) {
+    inv_del(bank, murderneedle, inv_total(bank, murderneedle));
 }
-if(inv_total(inv, murder_flourneedle) > 0) {
-    inv_del(inv, murder_flourneedle, inv_total(inv, murder_flourneedle));
+if(inv_total(inv, murderneedledust) > 0) {
+    inv_del(inv, murderneedledust, inv_total(inv, murderneedledust));
 }
-if(inv_total(bank, murder_flourneedle) > 0) {
-    inv_del(bank, murder_flourneedle, inv_total(bank, murder_flourneedle));
+if(inv_total(bank, murderneedledust) > 0) {
+    inv_del(bank, murderneedledust, inv_total(bank, murderneedledust));
 }
-if(inv_total(inv, murder_pot) > 0) {
-    inv_del(inv, murder_pot, inv_total(inv, murder_pot));
+if(inv_total(inv, murderpot) > 0) {
+    inv_del(inv, murderpot, inv_total(inv, murderpot));
 }
-if(inv_total(bank, murder_pot) > 0) {
-    inv_del(bank, murder_pot, inv_total(bank, murder_pot));
+if(inv_total(bank, murderpot) > 0) {
+    inv_del(bank, murderpot, inv_total(bank, murderpot));
 }
-if(inv_total(inv, murder_flourpot) > 0) {
-    inv_del(inv, murder_flourpot, inv_total(inv, murder_flourpot));
+if(inv_total(inv, murderpotdust) > 0) {
+    inv_del(inv, murderpotdust, inv_total(inv, murderpotdust));
 }
-if(inv_total(bank, murder_flourpot) > 0) {
-    inv_del(bank, murder_flourpot, inv_total(bank, murder_flourpot));
+if(inv_total(bank, murderpotdust) > 0) {
+    inv_del(bank, murderpotdust, inv_total(bank, murderpotdust));
 }
-if(inv_total(inv, murder_red_thread) > 0) {
-    inv_del(inv, murder_red_thread, inv_total(inv, murder_red_thread));
+if(inv_total(inv, murderthreadr) > 0) {
+    inv_del(inv, murderthreadr, inv_total(inv, murderthreadr));
 }
-if(inv_total(bank, murder_red_thread) > 0) {
-    inv_del(bank, murder_red_thread, inv_total(bank, murder_red_thread));
+if(inv_total(bank, murderthreadr) > 0) {
+    inv_del(bank, murderthreadr, inv_total(bank, murderthreadr));
 }
-if(inv_total(inv, murder_green_thread) > 0) {
-    inv_del(inv, murder_green_thread, inv_total(inv, murder_green_thread));
+if(inv_total(inv, murderthreadg) > 0) {
+    inv_del(inv, murderthreadg, inv_total(inv, murderthreadg));
 }
-if(inv_total(bank, murder_green_thread) > 0) {
-    inv_del(bank, murder_green_thread, inv_total(bank, murder_green_thread));
+if(inv_total(bank, murderthreadg) > 0) {
+    inv_del(bank, murderthreadg, inv_total(bank, murderthreadg));
 }
-if(inv_total(inv, murder_blue_thread) > 0) {
-    inv_del(inv, murder_blue_thread, inv_total(inv, murder_blue_thread));
+if(inv_total(inv, murderthreadb) > 0) {
+    inv_del(inv, murderthreadb, inv_total(inv, murderthreadb));
 }
-if(inv_total(bank, murder_blue_thread) > 0) {
-    inv_del(bank, murder_blue_thread, inv_total(bank, murder_blue_thread));
+if(inv_total(bank, murderthreadb) > 0) {
+    inv_del(bank, murderthreadb, inv_total(bank, murderthreadb));
 }
-if(inv_total(inv, flypaper) > 0) {
-    inv_del(inv, flypaper, inv_total(inv, flypaper));
+if(inv_total(inv, murderpaper) > 0) {
+    inv_del(inv, murderpaper, inv_total(inv, murderpaper));
 }
-if(inv_total(bank, flypaper) > 0) {
-    inv_del(bank, flypaper, inv_total(bank, flypaper));
+if(inv_total(bank, murderpaper) > 0) {
+    inv_del(bank, murderpaper, inv_total(bank, murderpaper));
 }
-if(inv_total(inv, pungent_pot) > 0) {
-    inv_del(inv, pungent_pot, inv_total(inv, pungent_pot));
+if(inv_total(inv, murderpot2) > 0) {
+    inv_del(inv, murderpot2, inv_total(inv, murderpot2));
 }
-if(inv_total(bank, pungent_pot) > 0) {
-    inv_del(bank, pungent_pot, inv_total(bank, pungent_pot));
+if(inv_total(bank, murderpot2) > 0) {
+    inv_del(bank, murderpot2, inv_total(bank, murderpot2));
 }
-if(inv_total(inv, criminals_dagger) > 0) {
-    inv_del(inv, criminals_dagger, inv_total(inv, criminals_dagger));
+if(inv_total(inv, murderweapon) > 0) {
+    inv_del(inv, murderweapon, inv_total(inv, murderweapon));
 }
-if(inv_total(bank, criminals_dagger) > 0) {
-    inv_del(bank, criminals_dagger, inv_total(bank, criminals_dagger));
+if(inv_total(bank, murderweapon) > 0) {
+    inv_del(bank, murderweapon, inv_total(bank, murderweapon));
 }
-if(inv_total(inv, murder_flourdagger) > 0) {
-    inv_del(inv, murder_flourdagger, inv_total(inv, murder_flourdagger));
+if(inv_total(inv, murderweapondust) > 0) {
+    inv_del(inv, murderweapondust, inv_total(inv, murderweapondust));
 }
-if(inv_total(bank, murder_flourdagger) > 0) {
-    inv_del(bank, murder_flourdagger, inv_total(bank, murder_flourdagger));
+if(inv_total(bank, murderweapondust) > 0) {
+    inv_del(bank, murderweapondust, inv_total(bank, murderweapondust));
 }
-if(inv_total(inv, killers_print) > 0) {
-    inv_del(inv, killers_print, inv_total(inv, killers_print));
+if(inv_total(inv, murderfingerprint) > 0) {
+    inv_del(inv, murderfingerprint, inv_total(inv, murderfingerprint));
 }
-if(inv_total(bank, killers_print) > 0) {
-    inv_del(bank, killers_print, inv_total(bank, killers_print));
+if(inv_total(bank, murderfingerprint) > 0) {
+    inv_del(bank, murderfingerprint, inv_total(bank, murderfingerprint));
 }
-if(inv_total(inv, annas_print) > 0) {
-    inv_del(inv, annas_print, inv_total(inv, annas_print));
+if(inv_total(inv, murderfingerprinta) > 0) {
+    inv_del(inv, murderfingerprinta, inv_total(inv, murderfingerprinta));
 }
-if(inv_total(bank, annas_print) > 0) {
-    inv_del(bank, annas_print, inv_total(bank, annas_print));
+if(inv_total(bank, murderfingerprinta) > 0) {
+    inv_del(bank, murderfingerprinta, inv_total(bank, murderfingerprinta));
 }
-if(inv_total(inv, bobs_print) > 0) {
-    inv_del(inv, bobs_print, inv_total(inv, bobs_print));
+if(inv_total(inv, murderfingerprintb) > 0) {
+    inv_del(inv, murderfingerprintb, inv_total(inv, murderfingerprintb));
 }
-if(inv_total(bank, bobs_print) > 0) {
-    inv_del(bank, bobs_print, inv_total(bank, bobs_print));
+if(inv_total(bank, murderfingerprintb) > 0) {
+    inv_del(bank, murderfingerprintb, inv_total(bank, murderfingerprintb));
 }
-if(inv_total(inv, carols_print) > 0) {
-    inv_del(inv, carols_print, inv_total(inv, carols_print));
+if(inv_total(inv, murderfingerprintc) > 0) {
+    inv_del(inv, murderfingerprintc, inv_total(inv, murderfingerprintc));
 }
-if(inv_total(bank, carols_print) > 0) {
-    inv_del(bank, carols_print, inv_total(bank, carols_print));
+if(inv_total(bank, murderfingerprintc) > 0) {
+    inv_del(bank, murderfingerprintc, inv_total(bank, murderfingerprintc));
 }
-if(inv_total(inv, davids_print) > 0) {
-    inv_del(inv, davids_print, inv_total(inv, davids_print));
+if(inv_total(inv, murderfingerprintd) > 0) {
+    inv_del(inv, murderfingerprintd, inv_total(inv, murderfingerprintd));
 }
-if(inv_total(bank, davids_print) > 0) {
-    inv_del(bank, davids_print, inv_total(bank, davids_print));
+if(inv_total(bank, murderfingerprintd) > 0) {
+    inv_del(bank, murderfingerprintd, inv_total(bank, murderfingerprintd));
 }
-if(inv_total(inv, elizabeths_print) > 0) {
-    inv_del(inv, elizabeths_print, inv_total(inv, elizabeths_print));
+if(inv_total(inv, murderfingerprinte) > 0) {
+    inv_del(inv, murderfingerprinte, inv_total(inv, murderfingerprinte));
 }
-if(inv_total(bank, elizabeths_print) > 0) {
-    inv_del(bank, elizabeths_print, inv_total(bank, elizabeths_print));
+if(inv_total(bank, murderfingerprinte) > 0) {
+    inv_del(bank, murderfingerprinte, inv_total(bank, murderfingerprinte));
 }
-if(inv_total(inv, franks_print) > 0) {
-    inv_del(inv, franks_print, inv_total(inv, franks_print));
+if(inv_total(inv, murderfingerprintf) > 0) {
+    inv_del(inv, murderfingerprintf, inv_total(inv, murderfingerprintf));
 }
-if(inv_total(bank, franks_print) > 0) {
-    inv_del(bank, franks_print, inv_total(bank, franks_print));
+if(inv_total(bank, murderfingerprintf) > 0) {
+    inv_del(bank, murderfingerprintf, inv_total(bank, murderfingerprintf));
 }
-if(inv_total(inv, unknown_print) > 0) {
-    inv_del(inv, unknown_print, inv_total(inv, unknown_print));
+if(inv_total(inv, murderfingerprint1) > 0) {
+    inv_del(inv, murderfingerprint1, inv_total(inv, murderfingerprint1));
 }
-if(inv_total(bank, unknown_print) > 0) {
-    inv_del(bank, unknown_print, inv_total(bank, unknown_print));
+if(inv_total(bank, murderfingerprint1) > 0) {
+    inv_del(bank, murderfingerprint1, inv_total(bank, murderfingerprint1));
 }
 
 [queue,murder_quest_complete]

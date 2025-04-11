@@ -28,12 +28,12 @@ switch_int(~p_choice2("What do you need assistance with?", 1, "I'm a little busy
 
 [label,thormac_how_catch]
 ~chatplayer("<p,quiz>So how would I go about catching them then?");
-if(inv_total(inv, scorpion_cage_empty) > 0) {
+if(inv_total(inv, scorpioncageempty) > 0) {
     ~chatnpc("<p,neutral>Well you have the scorpion cage I gave you,|you can catch them using that.");
 } else {
     ~chatnpc("<p,neutral>Well I have a scorpion cage here|which you can use to catch them in.");
     if_close;
-    inv_add(inv, scorpion_cage_empty, 1);
+    inv_add(inv, scorpioncageempty, 1);
     mes("Thormac gives you a cage.");
     p_delay(4); // RSC has this as 3 ticks, based off this it's prob 5 here: https://youtu.be/wpCnoBA5d1w?si=p4viTMMFsviVo5Gx&t=46
 }
@@ -53,8 +53,8 @@ if(inv_total(inv, scorpion_cage_empty) > 0) {
 ~chatplayer("<p,happy>Ok, I will do it then.");
 // Not sure about this but can't find any videos of the whats in it for me -> ok path (changed from OSRS last year)
 // in which you wouldnt the cage before starting the quest, wiki from 2021 says the cage is added to your inv here
-if(inv_total(inv, scorpion_cage_empty) = 0) {
-    inv_add(inv, scorpion_cage_empty, 1); 
+if(inv_total(inv, scorpioncageempty) = 0) {
+    inv_add(inv, scorpioncageempty, 1); 
     mes("Thormac gives you a cage.");
 }
 %scorpcatcher_progress = ^scorpcatcher_started;
@@ -62,13 +62,13 @@ if(inv_total(inv, scorpion_cage_empty) = 0) {
 
 [label,thormac_how_goes]
 ~chatnpc("<p,quiz>How goes your quest?");
-if(inv_total(inv,scorpion_cage_all) > 0) {
+if(inv_total(inv,scorpioncagefull) > 0) {
     ~chatplayer("<p,happy>I have retrieved all your scorpions.");
     ~chatnpc("<p,happy>Aha, my little scorpions home at last!");
     queue(scorpcatcher_quest_complete, 0);
     return;
 }
-if(inv_total(bank, scorpion_cage_all) > 0) {
+if(inv_total(bank, scorpioncagefull) > 0) {
     ~chatplayer("<p,sad>I've not brought all the scorpions with me.");
     ~chatnpc("<p,neutral>Well go and fetch them then.");
     return;
@@ -87,7 +87,7 @@ if(inv_freespace(inv) = 0) {
     ~chatnpc("<p,neutral>Then you had better free some space and come back!");
     return;
 }
-inv_add(inv, scorpion_cage_empty, 1);
+inv_add(inv, scorpioncageempty, 1);
 ~chatnpc("<p,laugh>You're almost as bad at losing things as me.");
 
 [label,thormac_not_yet]

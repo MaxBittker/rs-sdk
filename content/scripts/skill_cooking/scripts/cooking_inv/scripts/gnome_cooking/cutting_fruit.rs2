@@ -1,9 +1,9 @@
 [opheldu,knife]
 switch_obj(last_useitem) {
-    case lemon, orange, lime, pineapple, tenti_pineapple : @slice_or_dice_interface(last_useitem);
-    case achey_logs : @make_ogre_shafts;
-    case dramenbranch : @cut_dramenstaff;
-    case tenti_pineapple : mes("This pineapple is too small to cut up into rings. But it's very, very juicy!");
+    case lemon, orange, lime, pineapple, tentipineapple : @slice_or_dice_interface(last_useitem);
+    case achey_tree_logs : @make_ogre_shafts;
+    case dramen_branch : @cut_dramenstaff;
+    case tentipineapple : mes("This pineapple is too small to cut up into rings. But it's very, very juicy!");
     case default :
         if (oc_category(last_useitem) = category_22) {
             @fletch_log(last_useitem);

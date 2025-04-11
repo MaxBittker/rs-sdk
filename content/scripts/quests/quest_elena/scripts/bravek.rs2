@@ -24,7 +24,7 @@ switch_obj(last_useitem) {
 ~chatnpc("<p,happy>Thanks again for the hangover cure.");
 switch_int(%elena_progress) {
     case ^quest_elena_spoke_cured_bravek :
-        if (inv_total(inv, elena_warrant) > 0) {
+        if (inv_total(inv, warrant) > 0) {
             ~chatplayer("<p,happy>Not a problem, happy to help out.");
             ~chatnpc("<p,happy>I'm just having a little drop of whisky, then I'll feel really good.");
         } else {
@@ -49,8 +49,8 @@ switch_int(%elena_progress) {
 ~chatplayer("<p,quiz>Do you know what is in the cure?");
 ~chatnpc("<p,confused>Hmmm let me think... Ouch! Thinking isn't clever. Ah here, she did scribble it down for me.");
 ~quest_elena_set_progress(^quest_elena_spoke_to_bravek);
-inv_add(inv, elena_scruffy_note, 1);
-~objbox(elena_scruffy_note, "<nc_name(bravek)> hands you a tatty piece of paper.", 250, 0, divide(^objbox_height, 2));
+inv_add(inv, scruffy_note, 1);
+~objbox(scruffy_note, "<nc_name(bravek)> hands you a tatty piece of paper.", 250, 0, divide(^objbox_height, 2));
 
 [label,bravek_give_hangover_cure]
 if (%elena_progress ! ^quest_elena_spoke_to_bravek) {
@@ -91,8 +91,8 @@ if (inv_total(inv, hangover_cure) > 0) {
 ~chatplayer("<p,angry>They say I'm not properly equipped to go in the house, though I do have a very effective gas mask.");
 ~chatnpc("<p,confused>Hmmm, well I guess they're not taking the issue of a kidnapping seriously enough. They do go a bit far sometimes.");
 ~chatnpc("<p,neutral>I've heard of <nc_name(elena)>, she has helped us a lot... Okay, I'll give you this warrant to enter the house.");
-inv_add(inv, elena_warrant, 1);
-~objbox(elena_warrant, "<nc_name(bravek)> hands you a <lowercase(oc_name(elena_warrant))>.", 250, 0, 0);
+inv_add(inv, warrant, 1);
+~objbox(warrant, "<nc_name(bravek)> hands you a <lowercase(oc_name(warrant))>.", 250, 0, 0);
 
 [label,bravek_dont_you_want_to_take_an_interest]
 ~chatplayer("<p,quiz>Don't you want to take an interest in it at all?");

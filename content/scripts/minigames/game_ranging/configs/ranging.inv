@@ -17,7 +17,7 @@ stock7=bronze_thrownaxe,900,20
 stock8=iron_thrownaxe,800,20
 stock9=steel_thrownaxe,700,40
 stock10=mithril_thrownaxe,600,60
-stock11=adamant_thrownaxe,500,80
+stock11=adamnt_thrownaxe,500,80
 stock12=rune_thrownaxe,400,100
 
 [ranging_guild_armourshop]

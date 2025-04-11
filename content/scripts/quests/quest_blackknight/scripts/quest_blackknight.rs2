@@ -107,7 +107,7 @@ mes("You push against the wall. You find a secret passage.");
 switch_obj (last_useitem)
 {
     case cabbage : @black_knights_fortress_correct_cabbage;
-    case cabbage_draynor : @black_knights_fortress_incorrect_cabbage;
+    case magic_cabbage : @black_knights_fortress_incorrect_cabbage;
     case default : ~displaymessage(^dm_default);
 };
 

@@ -3,8 +3,8 @@ if (~player_in_combat_check = false) {
     return;
 }
 // no area check or anything (same w/opnpc2)
-if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(chunk_of_crystal) = 0 & ~obj_gettotal(heart_crystal) = 0 
-        & ~obj_gettotal(glowing_heart_crystal) = 0 & testbit(%legends_bits, ^legends_smelting_chunk) = false) {
+if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(heartcrystal_sectiona) = 0 & ~obj_gettotal(heartcrystal) = 0 
+        & ~obj_gettotal(heartcrystal_glow) = 0 & testbit(%legends_bits, ^legends_smelting_chunk) = false) {
     npc_say("Are you ready to have your mettle tested?");
 } else {
     npc_say("You have defeated me in battle, and still you search for the source?");
@@ -14,8 +14,8 @@ npc_setmode(opplayer2);
 [opnpc2,san_tojalon]
 if(add(%lastcombat, 8) < map_clock & %aggressive_npc ! npc_uid) {
     %aggressive_npc = npc_uid;
-    if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(chunk_of_crystal) = 0 & ~obj_gettotal(heart_crystal) = 0 
-        & ~obj_gettotal(glowing_heart_crystal) = 0 & testbit(%legends_bits, ^legends_smelting_chunk) = false) {
+    if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(heartcrystal_sectiona) = 0 & ~obj_gettotal(heartcrystal) = 0 
+        & ~obj_gettotal(heartcrystal_glow) = 0 & testbit(%legends_bits, ^legends_smelting_chunk) = false) {
         npc_say("Are you ready to have your mettle tested?");
     } else {
         npc_say("You have defeated me in battle, and still you search for the source?");
@@ -24,14 +24,14 @@ if(add(%lastcombat, 8) < map_clock & %aggressive_npc ! npc_uid) {
 @player_combat_start;
 
 [ai_opplayer2,san_tojalon]
-if(inzone(0_43_45_0_0, 0_46_45_63_63, coord) = false & (%npc_aggressive_player ! uid & (~obj_gettotal(chunk_of_crystal) > 0 | ~obj_gettotal(heart_crystal) > 0 | ~obj_gettotal(glowing_heart_crystal) > 0 |
+if(inzone(0_43_45_0_0, 0_46_45_63_63, coord) = false & (%npc_aggressive_player ! uid & (~obj_gettotal(heartcrystal_sectiona) > 0 | ~obj_gettotal(heartcrystal) > 0 | ~obj_gettotal(heartcrystal_glow) > 0 |
         %legends_progress >= ^legends_heart_in_recess | testbit(%legends_bits, ^legends_smelting_chunk) = true))) {
     npc_setmode(null);
     return;
 }
 if(add(%lastcombat, 8) < map_clock & %aggressive_npc ! npc_uid) {
-    if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(chunk_of_crystal) = 0 & ~obj_gettotal(heart_crystal) = 0 
-        & ~obj_gettotal(glowing_heart_crystal) = 0 & testbit(%legends_bits, ^legends_smelting_chunk) = false) {
+    if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(heartcrystal_sectiona) = 0 & ~obj_gettotal(heartcrystal) = 0 
+        & ~obj_gettotal(heartcrystal_glow) = 0 & testbit(%legends_bits, ^legends_smelting_chunk) = false) {
         mes("San Tojalon: Prepare yourself...");
         mes("San Tojalon will test your mettle.");
         npc_say("Prepare yourself...");
@@ -65,12 +65,12 @@ if(finduid(%npc_aggressive_player) = true) {
         }
         // doesn't queue, the npc will sit at 0 hp if no prot access
         npc_del;
-        if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(chunk_of_crystal) = 0 & ~obj_gettotal(heart_crystal) = 0 
-        & ~obj_gettotal(glowing_heart_crystal) = 0 & testbit(%legends_bits, ^legends_smelting_chunk) = false) {
-            inv_add(inv, chunk_of_crystal, 1); // no space check
+        if(%legends_progress < ^legends_heart_in_recess & ~obj_gettotal(heartcrystal_sectiona) = 0 & ~obj_gettotal(heartcrystal) = 0 
+        & ~obj_gettotal(heartcrystal_glow) = 0 & testbit(%legends_bits, ^legends_smelting_chunk) = false) {
+            inv_add(inv, heartcrystal_sectiona, 1); // no space check
             mes("San Tojalon: You have proved yourself of the honour.");
             ~chatnpc("<p,neutral>You have proved yourself of the honour.");
-            ~objbox(chunk_of_crystal, "A chunk of crystal forms mid-air and falls to the floor. You place the crystal chunk into your Inventory.", 250, 0, ^objbox_height);
+            ~objbox(heartcrystal_sectiona, "A chunk of crystal forms mid-air and falls to the floor. You place the crystal chunk into your Inventory.", 250, 0, ^objbox_height);
         } else {
             ~chatnpc("<p,neutral>You have fought the good fight this day.");
         }

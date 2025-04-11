@@ -7,7 +7,7 @@ restock=yes
 stackall=yes
 allstock=no
 stock1=chefshat,0,100
-stock2=wizards_hat_blue,3,100
+stock2=bluewizhat,3,100
 stock3=yellow_cape,1,100
 stock4=grey_wolf_fur,3,100
 stock5=bear_fur,3,100
@@ -15,14 +15,14 @@ stock6=needle,3,100
 stock7=thread,100,5
 stock8=leather_gloves,10,100
 stock9=leather_boots,10,100
-stock10=priest_gown_bottom,3,100
-stock11=priest_gown_top,3,100
+stock10=priest_robe,3,100
+stock11=priest_gown,3,100
 stock12=brown_apron,1,100
 stock13=pink_skirt,5,100
 stock14=black_skirt,3,100
 stock15=blue_skirt,2,100
 stock16=red_cape,4,100
-stock17=eyepatch,3,2000
+stock17=eye_patch,3,2000
 
 [staffshop]
 // https://classic.runescape.wiki/w/Zaff%27s_staff_shop (differences no battlestaves.)
@@ -73,8 +73,8 @@ stock7=black_skirt,3,100
 stock8=blue_skirt,2,100
 stock9=red_cape,4,100
 stock10=silk,5,500
-stock11=priest_gown_bottom,3,100
-stock12=priest_gown_top,3,100
+stock11=priest_robe,3,100
+stock12=priest_gown,3,100
 
 [runeshop]
 // https://storage.googleapis.com/tannerdino/images/varrock12.png

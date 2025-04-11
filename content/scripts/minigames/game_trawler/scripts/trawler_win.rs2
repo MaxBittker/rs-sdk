@@ -112,10 +112,10 @@ if (stat_random($level, 150, 200) = false) { // junk https://web.archive.org/web
     return;
 }
 if ($level >= 81 & stat_random($level, 3, 40) = true) {
-    inv_add(trawler_rewardinv, raw_manta_ray, 1);
+    inv_add(trawler_rewardinv, raw_mantaray, 1);
     stat_advance(fishing, 1150);
 } else if ($level >= 80 & stat_random($level, 3, 40) = true) {
-    inv_add(trawler_rewardinv, raw_sea_turtle, 1);
+    inv_add(trawler_rewardinv, raw_seaturtle, 1);
     stat_advance(fishing, 1050);
 } else if ($level >= 76 & stat_random($level, 3, 40) = true) {
     inv_add(trawler_rewardinv, raw_shark, 1);
@@ -132,7 +132,7 @@ if ($level >= 81 & stat_random($level, 3, 40) = true) {
 } else if ($level >= 16 & stat_random($level, 10, 80) = true) {
     def_int $random = random(3);
     if ($random = 0) {
-        inv_add(trawler_rewardinv, oyster, 1);
+        inv_add(trawler_rewardinv, oystershell, 1);
         stat_advance(fishing, 100);
     } else if ($random = 1) {
         inv_add(trawler_rewardinv, seaweed, 1);
@@ -148,7 +148,7 @@ if ($level >= 81 & stat_random($level, 3, 40) = true) {
     inv_add(trawler_rewardinv, raw_sardine, 1);
     stat_advance(fishing, 200);
 } else if (stat_random($level, 48, 200) = true) {
-    inv_add(trawler_rewardinv, raw_shrimps, 1);
+    inv_add(trawler_rewardinv, raw_shrimp, 1);
     stat_advance(fishing, 100);
 } else {
     inv_add(trawler_rewardinv, ~randomjunk);

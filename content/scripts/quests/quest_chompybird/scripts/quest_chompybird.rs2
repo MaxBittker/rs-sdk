@@ -17,13 +17,13 @@ p_teleport(0_41_46_6_53);
 
 [label,use_bellows_on_swamp_bubbles]
 switch_obj(last_useitem) {
-    case ogre_bellows_0 :
-        ~ogre_bellows_suck(ogre_bellows_0);
-    case ogre_bellows_1 :
-        ~ogre_bellows_suck(ogre_bellows_1);
-    case ogre_bellows_2 :
-        ~ogre_bellows_suck(ogre_bellows_2);
-    case ogre_bellows_3 : 
+    case empty_ogre_bellows :
+        ~ogre_bellows_suck(empty_ogre_bellows);
+    case filled_ogre_bellow1 :
+        ~ogre_bellows_suck(filled_ogre_bellow1);
+    case filled_ogre_bellow2 :
+        ~ogre_bellows_suck(filled_ogre_bellow2);
+    case filled_ogre_bellow3 : 
         mes("These bellows are already full of swamp gas!");
     case default :
         mes("Nothing interesting happens.");
@@ -36,7 +36,7 @@ p_delay(1);
 
 mes("You collect some gas from the swamp.");
 inv_del(inv, $bellows, 1);
-inv_add(inv, ogre_bellows_3, 1);
+inv_add(inv, filled_ogre_bellow3, 1);
 
 
 [queue,quest_chompybird_complete]

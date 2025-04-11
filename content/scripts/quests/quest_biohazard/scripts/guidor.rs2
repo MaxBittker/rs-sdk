@@ -35,7 +35,7 @@ switch_int(%biohazard_progress) {
 ~chatnpc("<p,quiz>Elena eh?");
 ~chatplayer("<p,neutral>Yes, she wants you to analyse it. You might be the only one who can help.");
 ~chatnpc("<p,happy>Right then, sounds like we'd better get to work!");
-if(inv_total(inv, plague_sample) = 0) {
+if(inv_total(inv, plaguesample) = 0) {
     ~chatnpc("<p,neutral>Seems like you don't actually HAVE the plague sample.|It's a long way to come empty-handed...|and quite a long way back to.");
     return;
 }
@@ -43,7 +43,7 @@ if(inv_total(inv, plague_sample) = 0) {
 ~chatnpc("<p,neutral>Now I'll be needing some liquid honey, some sulphuric broline, and then...");
 ~chatplayer("<p,happy>... some ethenea?");
 ~chatnpc("<p,happy>Indeed!");
-if(inv_total(inv, sulphuric_broline) = 0 | inv_total(inv, liquid_honey) = 0 | inv_total(inv, Ethenea) = 0) {
+if(inv_total(inv, sulphuric_broline) = 0 | inv_total(inv, liquid_honey) = 0 | inv_total(inv, ethenea) = 0) {
     ~chatnpc("<p,neutral>Look, I need all three reagents to test the plague sample. Come back when you've got them.");
     return;
 }
@@ -53,8 +53,8 @@ if(inv_total(inv, touch_paper) = 0) {
 }
 inv_del(inv, sulphuric_broline, 1);
 inv_del(inv, liquid_honey, 1);
-inv_del(inv, Ethenea, 1);
-inv_del(inv, plague_sample, 1);
+inv_del(inv, ethenea, 1);
+inv_del(inv, plaguesample, 1);
 inv_del(inv, touch_paper, 1);
 %biohazard_progress = ^biohazard_found_secret;
 ~chatnpc("<p,neutral>Now I'll just apply these to the sample and... I don't get it... the touch paper has remained the same.");

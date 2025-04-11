@@ -1,6 +1,6 @@
 [opnpc1,tanner]
 // Treasure Trail
-if(map_members = true & inv_total(inv, trail_clue_easy_simple_exp008) = 1) {
+if(map_members = true & inv_total(inv, trail_clue_easy_simple008) = 1) {
     @trail_tanner;
 }
 ~chatnpc("<p,happy>Greetings friend. I am a manufacturer of leather.");
@@ -34,7 +34,7 @@ switch_int (~p_choice2_header("Can I buy some leather then?", 1, "Leather is rat
 [opnpcu,tanner]
 switch_obj(last_useitem) {
     case cow_hide, dragonhide_green, dragonhide_blue, dragonhide_red, dragonhide_black : @tan_leather_choices;
-    case leather, hardleather, dragon_leather, dragon_leather_blue, dragon_leather_red, dragon_leather_black : ~chatnpc("<p,confused>Err... I have no use for that, I make the stuff!");
+    case leather, hard_leather, dragon_leather, dragon_leather_blue, dragon_leather_red, dragon_leather_black : ~chatnpc("<p,confused>Err... I have no use for that, I make the stuff!");
     case default : ~chatnpc("<p,confused>Er... Thanks, but no thanks!");
 }
 
@@ -83,7 +83,7 @@ if ($coins < ^tanner_hard_leather_cost) {
     return;
 }
 def_int $hides_to_be_tanned = min(divide($coins, ^tanner_hard_leather_cost), $total_hides);
-~tan_leather(cow_hide, hardleather, ^tanner_hard_leather_cost);
+~tan_leather(cow_hide, hard_leather, ^tanner_hard_leather_cost);
 if ($hides_to_be_tanned = 1) {
     mes("The tanner tans your cowhide."); // osrs
 } else {
@@ -149,4 +149,4 @@ if ($total_hides > 0) {
 [label,trail_tanner]
 // https://www.youtube.com/watch?v=M8lX77a6Mt8, https://www.youtube.com/watch?v=CFDUdiUYzJY
 ~chatnpc("<p,happy>Here you go!");
-~progress_clue_easy(trail_clue_easy_simple_exp008, "The tanner has given you another clue!");
+~progress_clue_easy(trail_clue_easy_simple008, "The tanner has given you another clue!");

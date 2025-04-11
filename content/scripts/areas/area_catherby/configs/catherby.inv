@@ -11,8 +11,8 @@ stock2=fishing_rod,5,100
 stock3=harpoon,2,400
 stock4=lobster_pot,2,400
 stock5=fishing_bait,1200,1
-stock6=net_big,5,100
-stock7=raw_shrimps,0,300
+stock6=big_net,5,100
+stock7=raw_shrimp,0,300
 stock8=raw_sardine,0,600
 stock9=raw_herring,0,900
 stock10=raw_mackerel,0,1000
@@ -62,7 +62,7 @@ size=40
 restock=yes
 stackall=yes
 allstock=no
-stock1=candle,10,100
+stock1=unlit_candle,10,100
 
 [arheinstore]
 // https://oldschool.runescape.wiki/w/Arhein_Store

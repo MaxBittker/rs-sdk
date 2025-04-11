@@ -11,8 +11,8 @@ if (inv_total(inv, scythe) >= 1 | inv_total(bank, scythe) >= 1 | inv_total(worn,
 }
 
 // RSC message: https://classic.runescape.wiki/w/Bunny_ears#/media/File:Collecting_Bunny_Ears_(only_have_one_head).jpg
-[opobj3,bunny_ears]
-if (inv_total(inv, bunny_ears) >= 1 | inv_total(bank, bunny_ears) >= 1 | inv_total(worn, bunny_ears) >= 1) {
+[opobj3,bunnyears]
+if (inv_total(inv, bunnyears) >= 1 | inv_total(bank, bunnyears) >= 1 | inv_total(worn, bunnyears) >= 1) {
     mes("You don't need another set of bunny ears.");
     mes("You only have one head.");
     return;

@@ -4,7 +4,7 @@ if(map_members = true) {
         // two different clue scrolls share this location
         // - https://oldschool.runescape.wiki/w/Clue_scroll_(easy)_-_Search_the_drawers_found_upstairs_in_East_Ardougne%27s_houses
         // - https://oldschool.runescape.wiki/w/Clue_scroll_(medium)_-_In_a_town_where_the_guards_are_armed_with_maces
-        if(inv_total(inv, trail_clue_easy_riddle_exp008) = 1) {
+        if(inv_total(inv, trail_clue_easy_vague003) = 1) {
             @riddle_loc_easy_exp008;
         } else {
             @riddle_loc_medium_exp002;
@@ -23,11 +23,11 @@ p_delay(0);
 loc_change(loc_param(drawer_other), 300);
 
 [oplocu,_drawer]
-if(loc_coord = 1_40_51_14_62 & last_useitem = trail_clue_medium_key_exp002) {
+if(loc_coord = 1_40_51_14_62 & last_useitem = trail_clue_medium_riddle002_key) {
     @riddle_loc_medium_exp002;
-} else if(loc_coord = 1_40_51_51_60 & last_useitem = trail_clue_medium_key_exp003) {
+} else if(loc_coord = 1_40_51_51_60 & last_useitem = trail_clue_medium_riddle003_key) {
     @riddle_loc_medium_exp003;
-} else if(loc_coord = 0_42_54_21_22 & last_useitem = trail_clue_medium_key_exp004) {
+} else if(loc_coord = 0_42_54_21_22 & last_useitem = trail_clue_medium_riddle004_key) {
     @riddle_loc_medium_exp004;
 }
 ~displaymessage(^dm_default);
@@ -35,26 +35,26 @@ if(loc_coord = 1_40_51_14_62 & last_useitem = trail_clue_medium_key_exp002) {
 [oploc2,_empty_drawer]
 // Treasure Trail
 if(map_members = true) {
-    if(loc_coord = 1_50_53_50_28 & inv_total(inv, trail_clue_easy_simple_exp011) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp011);
+    if(loc_coord = 1_50_53_50_28 & inv_total(inv, trail_clue_easy_simple011) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple011);
         return;
-    } else if(loc_coord = 0_49_53_20_14 & inv_total(inv, trail_clue_easy_simple_exp013) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp013);
+    } else if(loc_coord = 0_49_53_20_14 & inv_total(inv, trail_clue_easy_simple013) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple013);
         return;
-    } else if(loc_coord = 1_46_52_27_58 & inv_total(inv, trail_clue_easy_simple_exp015) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp015);
+    } else if(loc_coord = 1_46_52_27_58 & inv_total(inv, trail_clue_easy_simple015) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple015);
         return;
-    } else if(loc_coord = 0_46_51_25_46 & inv_total(inv, trail_clue_easy_simple_exp018) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp018);
+    } else if(loc_coord = 0_46_51_25_46 & inv_total(inv, trail_clue_easy_simple018) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple018);
         return;
-    } else if(loc_coord = 0_44_53_9_50 & inv_total(inv, trail_clue_easy_simple_exp024) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp024);
+    } else if(loc_coord = 0_44_53_9_50 & inv_total(inv, trail_clue_easy_simple024) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple024);
         return;
-    } else if(loc_coord = 1_50_53_6_27 & inv_total(inv, trail_clue_easy_riddle_exp006) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp006);
+    } else if(loc_coord = 1_50_53_6_27 & inv_total(inv, trail_clue_easy_vague001) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_vague001);
         return;
-    } else if(loc_coord = 1_50_50_13_16 & inv_total(inv, trail_clue_hard_riddle_exp006) = 1) {
-        ~trail_clue_hard_loc_interact(trail_clue_hard_riddle_exp006);
+    } else if(loc_coord = 1_50_50_13_16 & inv_total(inv, trail_clue_hard_riddle006) = 1) {
+        ~trail_clue_hard_loc_interact(trail_clue_hard_riddle006);
         return;
     }
 }

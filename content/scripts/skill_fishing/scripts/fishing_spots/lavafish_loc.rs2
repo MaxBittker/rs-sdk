@@ -27,7 +27,7 @@ if (distance(loc_coord, coord) > 1) {
 switch_obj (last_useitem) {
     case oily_fishing_rod : @attempt_fish_lava_eel_loc;
     case net : @burnup_fishing_equipment(net, "net");
-    case net_big : @burnup_fishing_equipment(net_big, "net");
+    case big_net : @burnup_fishing_equipment(big_net, "net");
     case harpoon : @burnup_fishing_equipment(harpoon, "harpoon");
     case fishing_rod : @burnup_fishing_equipment(fishing_rod, "rod");
     case fly_fishing_rod : @burnup_fishing_equipment(fly_fishing_rod, "rod");

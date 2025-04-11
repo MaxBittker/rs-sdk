@@ -1,4 +1,4 @@
-[opheld1,lamp]
+[opheld1,macro_genilamp]
 %xplamp = ^xplamp_none;
 if_openmain(xplamp);
 
@@ -104,7 +104,7 @@ if (map_members = false & ~stat_members($stat) = ^true) {
 }
 
 if_close;
-inv_del(inv, lamp, 1);
+inv_del(inv, macro_genilamp, 1);
 %xplamp = ^xplamp_none;
 
 def_int $base_level = stat_base($stat);

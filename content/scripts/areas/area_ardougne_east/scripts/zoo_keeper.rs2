@@ -1,6 +1,6 @@
 [opnpc1,zoo_keeper]
 // https://www.youtube.com/watch?v=1slVPlGyv48, https://web.archive.org/web/20040813233712/http://runehq.com/viewguidedb.php?id=00350 (answer: 32)
-if(inv_total(inv, trail_clue_medium_anagram_exp003) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram003) > 0) {
     @trail_zoo_keeper;
 }
 
@@ -21,12 +21,12 @@ switch_int(~p_choice2("Do you have any quests for me?", 1, "Where did you get th
 }
 
 [label,trail_zoo_keeper]
-if(inv_total(inv, trail_clue_medium_challenge_exp003) > 0) {
+if(inv_total(inv, trail_clue_medium_anagram003_challenge) > 0) {
     @trail_challengenpc_prompt("<p,neutral>Please tell me how many animals there are.", "<p,happy>Thanks!", "<p,angry>Sorry, but that doesn't sound right!", 
-    "The zoo keeper has given you another clue scroll!", trail_clue_medium_anagram_exp003, trail_clue_medium_challenge_exp003);
+    "The zoo keeper has given you another clue scroll!", trail_clue_medium_anagram003, trail_clue_medium_anagram003_challenge);
 }
 ~chatnpc("<p,neutral>Before I help you, can you do something for me?");
 ~chatplayer("<p,neutral>Sure.");
 ~chatnpc("<p,neutral>I need to know how many animals we have now.");
-inv_add(inv, trail_clue_medium_challenge_exp003, 1);
-~objbox(trail_clue_medium_challenge_exp003, "The zoo keeper has given you a challenge scroll!", 250, 0, 0);
+inv_add(inv, trail_clue_medium_anagram003_challenge, 1);
+~objbox(trail_clue_medium_anagram003_challenge, "The zoo keeper has given you a challenge scroll!", 250, 0, 0);

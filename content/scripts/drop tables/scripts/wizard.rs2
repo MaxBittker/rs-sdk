@@ -13,7 +13,7 @@ if ($random < 8) {
 } else if ($random < 15) {
     obj_add(npc_coord, wizards_robe, 1, ^lootdrop_duration);
 } else if ($random < 18) {
-    obj_add(npc_coord, wizards_hat_blue, 1, ^lootdrop_duration);
+    obj_add(npc_coord, bluewizhat, 1, ^lootdrop_duration);
 } else if ($random < 26) {
     obj_add(npc_coord, chaosrune, 2, ^lootdrop_duration);
 } else if ($random < 34) {

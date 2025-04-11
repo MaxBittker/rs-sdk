@@ -6,7 +6,7 @@ switch_int(stat_base(herblore)) {
     case 11 : ~objbox(tarromin,"You can now identify @dbl@Tarromin@bla@.", 250, 0, 0);
     case 12 : ~objbox(3dose1strength,"You can now make @dbl@Strength Potions@bla@.", 250, 0, ^objbox_height);
     case 20 : ~objbox(harralander,"You can now identify @dbl@Harralander@bla@.", 250, 0, 0);
-    case 22 : ~objbox(3dose1restore,"You can now make @dbl@Stat Restore Potions@bla@.", 250, 0, ^objbox_height);
+    case 22 : ~objbox(3dosestatrestore,"You can now make @dbl@Stat Restore Potions@bla@.", 250, 0, ^objbox_height);
     case 25 : ~objbox(ranarr_weed,"You can now identify @dbl@Ranarr Weed@bla@.", 250, 0, 0);
     case 30 : ~objbox(3dose1defense,"You can now make @dbl@Defence Potions@bla@.", 250, 0, ^objbox_height);
     case 38 : ~objbox(3doseprayerrestore,"You can now make @dbl@Prayer Restore Potions@bla@.", 250, 0, ^objbox_height);

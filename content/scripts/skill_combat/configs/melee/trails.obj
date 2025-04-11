@@ -1,4 +1,4 @@
-[trail_ranger_boots]
+[boots_ranger]
 name=Ranger boots
 desc=Lightweight boots ideal for rangers.
 category=category_17
@@ -24,7 +24,7 @@ param=slashdefence,3
 param=crushdefence,4
 param=magicdefence,2
 
-[wizards_boots]
+[boots_wizard]
 name=Wizard's boots
 desc=Slightly magical boots.
 cost=200
@@ -45,7 +45,7 @@ iop2=Wear
 param=magicattack,4
 param=magicdefence,4
 
-[trail_robin_hood_hat]
+[robinhoodhat]
 name=Robin hood hat
 desc=Endorsed by Robin Hood.
 category=armour_helmet
@@ -72,7 +72,7 @@ param=crushdefence,8
 param=magicdefence,4
 param=rangedefence,4
 
-[trail_highwayman_mask]
+[highwaymanmask]
 name=Highwayman mask
 desc=Your money or your life!
 cost=40
@@ -90,7 +90,7 @@ womanwear=model_416_obj_wear,0
 manhead=model_76_obj_wear
 womanhead=model_134_obj_wear
 
-[trail_berret_blue]
+[berret_blue]
 name=Berret
 desc=Pouvez-vous parler francais?
 cost=80
@@ -111,7 +111,7 @@ womanwear=model_373_obj_wear,0
 manhead=model_40_obj_wear
 womanhead=model_98_obj_wear
 
-[trail_berret_black]
+[berret_black]
 name=Berret
 desc=Pouvez-vous parler francais?
 cost=80
@@ -132,7 +132,7 @@ womanwear=model_373_obj_wear,0
 manhead=model_40_obj_wear
 womanhead=model_98_obj_wear
 
-[trail_berret_white]
+[berret_white]
 name=Berret
 desc=Pouvez-vous parler francais?
 cost=80
@@ -153,7 +153,7 @@ womanwear=model_373_obj_wear,0
 manhead=model_40_obj_wear
 womanhead=model_98_obj_wear
 
-[trail_cavalier_tan]
+[cavalier_brown]
 name=Cavalier
 desc=All for one and one for all!
 cost=200
@@ -172,7 +172,7 @@ womanwear=model_362_obj_wear,0
 manhead=model_28_obj_wear
 womanhead=model_86_obj_wear
 
-[trail_cavalier_brown]
+[cavalier_dark]
 name=Cavalier
 desc=All for one and one for all!
 cost=200
@@ -193,7 +193,7 @@ womanwear=model_362_obj_wear,0
 manhead=model_28_obj_wear
 womanhead=model_86_obj_wear
 
-[trail_cavalier_black]
+[cavalier_black]
 name=Cavalier
 desc=All for one and one for all!
 cost=200
@@ -214,7 +214,7 @@ womanwear=model_362_obj_wear,0
 manhead=model_28_obj_wear
 womanhead=model_86_obj_wear
 
-[trail_headband_red]
+[headband_red]
 name=Headband
 desc=A minimilist's hat.
 cost=40
@@ -236,7 +236,7 @@ womanwear=model_376_obj_wear,0
 manhead=model_43_obj_wear
 womanhead=model_101_obj_wear
 
-[trail_headband_black]
+[headband_black]
 name=Headband
 desc=A minimilist's hat.
 cost=40
@@ -258,7 +258,7 @@ womanwear=model_376_obj_wear,0
 manhead=model_43_obj_wear
 womanhead=model_101_obj_wear
 
-[trail_headband_brown]
+[headband_brown]
 name=Headband
 desc=A minimilist's hat.
 cost=40
@@ -280,7 +280,7 @@ womanwear=model_376_obj_wear,0
 manhead=model_43_obj_wear
 womanhead=model_101_obj_wear
 
-[trail_pirates_hat]
+[piratehat]
 name=Pirate's hat
 desc=Shiver me timbers!
 cost=180

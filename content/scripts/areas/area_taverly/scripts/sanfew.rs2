@@ -30,14 +30,14 @@ if($option = 1) {
 [label,druid_sanfew_give_ingredients]
 ~chatnpc("<p,quiz>Did you bring me the required ingredients for the potion?");
 
-if(inv_total(inv, druid_enchanted_beef) > 0 & inv_total(inv, druid_enchanted_rat) > 0 & inv_total(inv, druid_enchanted_bear) > 0& inv_total(inv, druid_enchanted_chicken) > 0) {
+if(inv_total(inv, enchanted_beef) > 0 & inv_total(inv, enchanted_rat_meat) > 0 & inv_total(inv, enchanted_bear_meat) > 0& inv_total(inv, enchanted_chicken) > 0) {
     ~chatplayer("<p,happy>Yes, I have all four now!");
     ~chatnpc("<p,happy>Well hand 'em over then <text_gender("lad", "lass")>!");
     ~chatnpc("<p,happy>Thank you so much adventurer! These meats will allow our potion to honour Guthix to be completed, and bring one step closer to reclaiming our stone circle!");
-    inv_del(inv, druid_enchanted_beef, 1);
-    inv_del(inv, druid_enchanted_rat, 1);
-    inv_del(inv, druid_enchanted_bear, 1);
-    inv_del(inv, druid_enchanted_chicken, 1);
+    inv_del(inv, enchanted_beef, 1);
+    inv_del(inv, enchanted_rat_meat, 1);
+    inv_del(inv, enchanted_bear_meat, 1);
+    inv_del(inv, enchanted_chicken, 1);
     %druid_progress = ^druid_given_ingredients;
     ~chatnpc("<p,neutral>Now go and talk to Kaqemeex and he will introduce you to the wonderful world of herblore and potion making!");
     return;

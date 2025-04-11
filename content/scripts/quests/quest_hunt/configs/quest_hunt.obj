@@ -10,7 +10,7 @@ name=Karamjan rum
 desc=A very strong spirit brewed in Karamja.
 tradeable=no
 
-[hunt_chest_key]
+[chest_key]
 model=model_2372_obj
 2dxof=-3
 2dyof=5
@@ -23,7 +23,7 @@ name=Chest key
 desc=A key to One eyed Hector's chest.
 tradeable=no
 
-[pirate_message]
+[piratemessage]
 model=model_2600_obj
 2dxof=1
 2dyof=7

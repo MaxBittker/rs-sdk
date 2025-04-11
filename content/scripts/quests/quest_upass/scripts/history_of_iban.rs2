@@ -1,4 +1,4 @@
-[opheld1,history_of_iban]
+[opheld1,old_journal]
 // We will use the elements for the "books" here so we dont have to use up an extra var
 mes("The journal is old and covered in dust...");
 p_delay(2);
@@ -12,7 +12,7 @@ if_sethide(book:com_3, true);
 
 [label,history_of_iban]
 %book_page = 0;
-%open_book = history_of_iban;
+%open_book = old_journal;
 @book_flip_page(0, 0, 2, ibanhistory);
 
 [proc,ibanhistory]
@@ -42,7 +42,7 @@ if_sethide(book:com_3, true);
 
 [label,history_of_iban_shadow]
 %book_page = 0;
-%open_book = ibans_shadow;
+%open_book = ibansshadow;
 @book_flip_page(0, 0, 1, ibanshadow);
 
 [proc,ibanshadow]
@@ -53,7 +53,7 @@ switch_int (%book_page) {
 
 [label,history_of_iban_conscience]
 %book_page = 0;
-%open_book = ibans_dove;
+%open_book = ibansdove;
 @book_flip_page(0, 0, 2, ibanconscience);
 
 [proc,ibanconscience]

@@ -46,15 +46,15 @@ if (p_finduid(uid) = true) {
     inv_add(bank, rune_kiteshield, 10000);
     inv_add(bank, black_cape, 10000);
     inv_add(bank, amulet_of_strength, 10000);
-    inv_add(bank, dragonhide_vamb, 10000);
+    inv_add(bank, dragon_vambraces, 10000);
     inv_add(bank, leather_boots, 10000);
 
     // give quest items
     inv_add(bank, wizards_mind_bomb, 10000);
-    inv_add(bank, unfired_bowl, 10000);
+    inv_add(bank, bowl_unfired, 10000);
     inv_add(bank, lobster_pot, 10000);
     inv_add(bank, silk, 10000);
-    inv_add(bank, plank, 10000);
+    inv_add(bank, woodplank, 10000);
     inv_add(bank, nails, 10000);
     inv_add(bank, hammer, 10000);
 } else {

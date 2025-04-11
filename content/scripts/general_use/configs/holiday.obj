@@ -1,4 +1,4 @@
-[war_ship]
+[grandtree_warship]
 name=War ship
 desc=A model of a Karamja warship.
 cost=2
@@ -12,7 +12,7 @@ model=model_3065_obj
 2dxan=60
 tradeable=no
 
-[bunny_ears]
+[bunnyears]
 name=Bunny ears
 desc=A rabbit-like adornment.
 model=model_2553_obj
@@ -157,7 +157,7 @@ womanhead=model_127_obj_wear
 iop2=Wear
 weight=4oz
 
-[green_halloween_mask]
+[halloweenmask_green]
 name=Halloween mask
 desc=Aaaarrrghhh ... i'm a monster.
 cost=15
@@ -177,7 +177,7 @@ womanhead=model_3187_obj_wear
 2dxan=516
 iop2=Wear
 
-[blue_halloween_mask]
+[halloweenmask_blue]
 name=Halloween mask
 desc=Aaaarrrghhh ... i'm a monster.
 cost=15
@@ -197,7 +197,7 @@ womanhead=model_3187_obj_wear
 2dxan=516
 iop2=Wear
 
-[red_halloween_mask]
+[halloweenmask_red]
 name=Halloween mask
 desc=Aaaarrrghhh ... i'm a monster.
 cost=15

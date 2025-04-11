@@ -4,7 +4,7 @@ if(%zombiequeen_progress < ^zombiequeen_complete) {
     return;
 }
 ~chatnpc("<p,happy>Hello there shipmate! I sail to Khazard Port and to Port Sarim. Where are you bound?");
-if(inv_total(inv, ship_ticket) = 0) {
+if(inv_total(inv, shiloshipticket) = 0) {
     def_int $price = ~random_range(26, 45);
     ~chatnpc("<p,happy>I see you don't have a ticket for the ship, my colleague normally only sells them in Shilo village. But I could sell you one for a small additional charge. Shall we say <tostring($price)> gold pieces"); // no period
     switch_int(~p_choice2_header("Yes, I'll buy a ticket for the ship.", 1, "No thanks, not just at the moment.", 2, "Buy a ticket for <tostring($price)> gold pieces.")) {
@@ -16,7 +16,7 @@ if(inv_total(inv, ship_ticket) = 0) {
             }
             ~chatnpc("<p,happy>It's a good deal and no mistake. Here you go me old shipmate, here's your ticket.");
             inv_del(inv, coins, $price);
-            inv_add(inv, ship_ticket, 1);
+            inv_add(inv, shiloshipticket, 1);
             ~chatnpc("<p,happy>Ok, now you have your ticket, do you want to sail anywhere?");
             @multi3_header("Khazard Port please.", shanks_khazard, "Port Sarim please.", shanks_sarim, "Nowhere just at the moment thanks.", shanks_nowhere, "Captain Shanks asks, 'Do you want to sail anywhere?'");
         case 2 :
@@ -30,14 +30,14 @@ if(inv_total(inv, ship_ticket) = 0) {
 [label,shanks_khazard]
 ~chatplayer("<p,happy>Khazard Port please.");
 ~chatnpc("<p,happy>Very well then me old shipmate, I'll just take your ticket and then we'll set sail.");
-inv_del(inv, ship_ticket, 1);
+inv_del(inv, shiloshipticket, 1);
 // puts you on top of a barrel, not 100% sure if thats correct but very possible
 ~set_sail_cairn("You arrive safely in the quiet fishing port of Khazard.", 0_41_49_56_14, ^sail_cairn_to_port_khazard, 9);
 
 [label,shanks_sarim]
 ~chatplayer("<p,happy>Port Sarim please.");
 ~chatnpc("<p,happy>Very well then me old shipmate, I'll just take your ticket and then we'll set sail.");
-inv_del(inv, ship_ticket, 1);
+inv_del(inv, shiloshipticket, 1);
 ~set_sail_cairn("The ship arrives in busy Port Sarim.", 0_47_50_39_35, ^sail_cairn_to_port_sarim, 15);
 
 [label,shanks_nowhere]

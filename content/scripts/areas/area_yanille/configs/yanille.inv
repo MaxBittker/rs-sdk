@@ -17,5 +17,5 @@ stock6=tinderbox,4,200
 stock7=jug_empty,1,100
 stock8=pot_empty,8,100
 stock9=chocolate_bar,2,100
-stock10=pot_of_flour,8,100
+stock10=pot_flour,8,100
 // stock11=cup_empty,20,50 (Possible added with Ghost ahoy quest 15 February 2005)

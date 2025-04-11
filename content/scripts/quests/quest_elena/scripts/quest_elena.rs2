@@ -4,11 +4,11 @@
 
 [queue,quest_elena_complete]
 inv_del(inv, elena_picture, ^max_32bit_int);
-inv_del(inv, elena_key, ^max_32bit_int);
-inv_del(inv, elena_warrant, ^max_32bit_int);
-inv_del(inv, elena_scruffy_note, ^max_32bit_int);
-inv_del(inv, elena_book, ^max_32bit_int);
-inv_add(inv, elena_teleport_scroll, 1);
+inv_del(inv, elenakey, ^max_32bit_int);
+inv_del(inv, warrant, ^max_32bit_int);
+inv_del(inv, scruffy_note, ^max_32bit_int);
+inv_del(inv, turnip_book, ^max_32bit_int);
+inv_add(inv, ardougnescroll, 1);
 stat_advance(mining, 24250);
 ~quest_elena_set_progress(^elena_complete);
 session_log(^log_adventure, "Quest complete: Plague City");

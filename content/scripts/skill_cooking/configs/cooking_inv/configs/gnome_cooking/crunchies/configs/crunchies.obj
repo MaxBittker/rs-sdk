@@ -13,7 +13,7 @@ cost=85
 weight=250g
 category=gnome_premade_and_toadlegs_kingworm
 
-[premade_choc_chip_crunchies]
+[premade_chocchip_crunchies]
 name=Chocchip crunchies
 desc=Yum... smells good.
 model=model_2753_obj
@@ -56,7 +56,7 @@ cost=85
 weight=250g
 category=gnome_premade_and_toadlegs_kingworm
 
-[odd_crunchies]
+[spoilt_crunchies]
 iop1=Eat
 name=Odd crunchies
 desc=These crunchies don't look very appetising.
@@ -115,7 +115,7 @@ model=model_2723_obj
 weight=400g
 tradeable=no
 
-[unfinished_worm_crunchies1]
+[unfinished_worm_crunchies]
 name=Unfinished crunchy
 desc=These crunchies are just missing those little finishing touches.
 category=gnome_unf_odd_crunchies
@@ -145,7 +145,7 @@ iop1=Eat
 weight=250g
 members=yes
 
-[unfinished_choc_chip_crunchies1]
+[unfinished_chocchip_crunchies]
 name=Unfinished crunchy
 desc=These crunchies are just missing those little finishing touches.
 category=gnome_unf_odd_crunchies
@@ -158,7 +158,7 @@ weight=300g
 members=yes
 param=gnome_cooking_type,2
 
-[choc_chip_crunchies]
+[chocchip_crunchies]
 category=gnome_crunchies
 cost=2
 name=Chocchip crunchies
@@ -172,7 +172,7 @@ iop1=Eat
 weight=250g
 members=yes
 
-[unfinished_spicy_crunchies1]
+[unfinished_spicy_crunchies]
 name=Unfinished crunchy
 desc=These crunchies are just missing those little finishing touches.
 category=gnome_unf_odd_crunchies
@@ -202,7 +202,7 @@ iop1=Eat
 weight=250g
 members=yes
 
-[unfinished_toad_crunchies1]
+[unfinished_toad_crunchies]
 name=Unfinished crunchy
 desc=These crunchies are just missing those little finishing touches.
 category=gnome_unf_odd_crunchies

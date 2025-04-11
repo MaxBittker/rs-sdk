@@ -32,7 +32,7 @@ switch_int (%seaslug_progress) {
 [label,holgart_paste]
 ~chatplayer("<p,happy>Hello Holgart.");
 ~chatnpc("<p,quiz>Hello m'hearty. Did you manage to make some swamp paste?");
-if(inv_total(inv, swamp_paste) < 1) {
+if(inv_total(inv, swamppaste) < 1) {
     ~chatplayer("<p,sad>I'm afraid not.");
     ~chatnpc("<p,neutral>It's simply swamp tar mixed with flour heated over a fire. Unfortunately the only supply of swamp tar is in the swamps below Lumbridge.");
     ~chatnpc("<p,neutral>I can't fix my row boat without it.");
@@ -41,7 +41,7 @@ if(inv_total(inv, swamp_paste) < 1) {
 }
 ~chatplayer("<p,happy>Yes, I have some here.");
 mes("You give Holgart the swamp paste.");
-inv_del(inv, swamp_paste, 1);
+inv_del(inv, swamppaste, 1);
 %seaslug_progress = ^seaslug_boat_repaired;
 ~chatnpc("<p,neutral>Superb, this looks great.");
 ~mesbox("Holgart smears the paste over the under side of his boat.");
@@ -91,10 +91,10 @@ switch_int(~p_choice2("I'll come back later.", 1, "Okay, let's do it.", 2)) {
 [proc,board_ardougne_to_fishing_platform]
 if_close;
 mes("You board the small row boat.");
-if(inv_total(inv, lit_torch) > 0) {
-    def_int $count = inv_total(inv, lit_torch);
-    inv_del(inv, lit_torch, $count);
-    inv_add(inv, unlit_torch, $count);
+if(inv_total(inv, torch_lit) > 0) {
+    def_int $count = inv_total(inv, torch_lit);
+    inv_del(inv, torch_lit, $count);
+    inv_add(inv, torch_unlit, $count);
     if($count > 1) {
         mes("Your torches go out on the crossing.");
     } else {

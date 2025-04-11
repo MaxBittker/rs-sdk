@@ -50,13 +50,13 @@ else {
 
 [label,crest_man_jewelry]
 ~chatnpc("<p,quiz>So how are you doing getting me my perfect gold jewelry?");
-if (inv_total(inv, perfect_ring) >= 1 & inv_total(inv, perfect_necklace) >= 1) {
+if (inv_total(inv, perfect_ruby_ring) >= 1 & inv_total(inv, perfect_ruby_necklace) >= 1) {
     ~chatplayer("<p,neutral>I have the ring and necklace right here.");
     ~mesbox("You hand Avan the perfect gold ring and necklace.");
     %crest_progress = ^crest_avan_piece;
-    inv_del(inv, perfect_ring, 1);
-    inv_del(inv, perfect_necklace, 1);
-    inv_add(inv, crest_part_2, 1);
+    inv_del(inv, perfect_ruby_ring, 1);
+    inv_del(inv, perfect_ruby_necklace, 1);
+    inv_add(inv, caleb_crest, 1);
     ~chatnpc("<p,happy>These... these are exquisite! EXACTLY what I was searching for all of this time! Please, take my crest fragment!");
     ~chatnpc("<p,neutral>Now, I suppose you will be wanting to find my brother Johnathon who is in possession of the final piece of the family's crest?");
     ~chatplayer("<p,neutral>That's correct.");
@@ -83,7 +83,7 @@ if (inv_total(inv, family_crest) >= 1) {
     ~chatplayer("<p,neutral>I have assembled all of the pieces!");
     ~chatnpc("<p,neutral>Very well done adventurer! Now please return it to my father!");
 }
-else if (inv_total(inv, crest_part_2) = 0 & inv_total(bank, crest_part_2) = 0) {
+else if (inv_total(inv, caleb_crest) = 0 & inv_total(bank, caleb_crest) = 0) {
     @multi2("I am still working on it.", crest_man_working, "I have lost the fragment you gave me.", crest_man_lost);
 }
 else {
@@ -98,7 +98,7 @@ else {
 ~chatplayer("<p,neutral>I have lost the fragment that you gave me...");
 ~chatnpc("<p,confused>I have a confession myself adventurer... I did not fully trust you with the actual part of my family's crest before, and gave you a worthless replica before...");
 ~chatnpc("<p,neutral>In hindsight, it seems I was right. I will give you the real piece now, but PLEASE try not to lose it; it is a priceless family heirloom.");
-inv_add(inv, crest_part_2, 1);
+inv_add(inv, caleb_crest, 1);
 
 [label,crest_man_gauntlets]
 ~chatnpc("<p,happy>I have received word from my father of your assistance to our family in this matter. You have my thanks for restoring our honour.");

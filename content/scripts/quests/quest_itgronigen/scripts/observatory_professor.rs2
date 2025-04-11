@@ -34,13 +34,13 @@ inv_del(inv, molten_glass, 1);
 [label,professor_planks]
 ~chatnpc("<p,happy>It's my helping hand, back again!");
 ~chatnpc("<p,quiz>Do you have the planks yet?");
-if(inv_total(inv, plank) < 3) {
+if(inv_total(inv, woodplank) < 3) {
     ~chatplayer("<p,happy>Sorry, not yet. Three planks was it?");
     ~chatnpc("<p,happy>It was indeed.");
     return;
 }
 ~chatplayer("<p,happy>Yes, I've got them. Here they are.");
-inv_del(inv, plank, 3);
+inv_del(inv, woodplank, 3);
 %itgronigen_progress = ^itgronigen_given_planks;
 ~chatnpc("<p,happy>Well done, I can start the tripod construction now.");
 ~chatnpc("<p,happy>Now, the bronze for the tube.");
@@ -108,13 +108,13 @@ if(inv_total(inv, lens_mould) > 0) {
 [opnpcu,observatory_professor]
 // wiki mentions seperate dialogue for cert items but this doesn't seem to be the case when testing ingame?
 def_obj $used_item = last_useitem;
-if(last_useitem = plank | last_useitem = molten_glass | last_useitem = bronze_bar | last_useitem = lens_mould | last_useitem = lens) {
+if(last_useitem = woodplank | last_useitem = molten_glass | last_useitem = bronze_bar | last_useitem = lens_mould | last_useitem = lens) {
     if(oc_cert($used_item) = $used_item & oc_uncert($used_item) ! $used_item) {
         ~chatplayer("<p,happy>What do you think of this!");
         ~chatnpc("<p,neutral>I'd rather you show me the actual item, as opposed to the note form.");
         return;
     }
-    if(last_useitem = plank & %itgronigen_progress = ^itgronigen_started) {
+    if(last_useitem = woodplank & %itgronigen_progress = ^itgronigen_started) {
         @professor_planks;
     } else if(last_useitem = bronze_bar & %itgronigen_progress = ^itgronigen_given_planks) {
         @professor_bronze;

@@ -16,7 +16,7 @@ loc_add(loc_coord, muddy_chest_opened, loc_angle, loc_shape, 2);
 inv_del(inv, muddy_key, 1);
 inv_add(inv, mithril_bar, 1);
 inv_add(inv, lawrune, 2);
-inv_add(inv, anchovy_pizza, 1);
+inv_add(inv, anchovie_pizza, 1);
 inv_add(inv, mithril_dagger, 1);
 inv_add(inv, coins, 50);
 inv_add(inv, deathrune, 2);

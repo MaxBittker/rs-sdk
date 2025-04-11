@@ -24,6 +24,6 @@ mes("*slooop*");
 p_delay(1);
 mes("He pulls a sea slug from under your top.");
 p_delay(1);
-obj_add(coord, sea_slug, 1, ^lootdrop_duration);
+obj_add(coord, seasluginv, 1, ^lootdrop_duration);
 ~chatnpc("<p,neutral>A few more minutes and that thing would have full control of your body.");
 ~chatplayer("<p,shock>Yuck! Thanks Kent.");

@@ -1,8 +1,8 @@
 [opnpc1,lowe]
-if(map_members = true & inv_total(inv, trail_clue_medium_anagram_exp004) > 0) {
+if(map_members = true & inv_total(inv, trail_clue_medium_anagram004) > 0) {
     // https://www.youtube.com/watch?v=T1B7KXB06Vk
     ~chatnpc("<p,happy>Here you go!");
-    ~progress_clue_medium(trail_clue_medium_anagram_exp004, "Lowe has given you another clue scroll!");
+    ~progress_clue_medium(trail_clue_medium_anagram004, "Lowe has given you another clue scroll!");
     return;
 }
 ~chatnpc("<p,neutral>Welcome to Lowe's Archery Emporium.|Do you want to see my wares?");

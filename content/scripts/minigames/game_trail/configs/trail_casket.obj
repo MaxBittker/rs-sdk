@@ -1,4 +1,4 @@
-[trail_casket_hard_sextant_exp004]
+[trail_clue_hard_sextant004_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -13,7 +13,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp005]
+[trail_clue_hard_sextant005_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj
@@ -28,7 +28,7 @@ members=yes
 category=trail_casket_hard
 tradeable=no
 
-[trail_casket_hard_sextant_exp006]
+[trail_clue_hard_sextant006_casket]
 name=Casket
 desc=I hope there's treasure in it.
 model=model_2450_obj

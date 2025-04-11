@@ -29,14 +29,14 @@ mes("The old monk has had too much to drink.");
 [label,cedric_need_water]
 ~chatplayer("<p,quiz>Are you okay?");
 ~chatnpc("<p,drunk>Hic up! Oh my head! I need a jug of water.");
-if(inv_total(inv, jug_of_water) >= 1) {
+if(inv_total(inv, jug_water) >= 1) {
     ~chatplayer("<p,neutral>Cedric! Here, drink! I have some water.");
     ~chatnpc("<p,drunk>Good stuff, my head's spinning!");
     sound_synth(liquid, 0, 0);
     npc_say("Gulp...gulp!");
-    ~objbox(jug_of_water, "You hand the monk a jug of water.", 250, 0, ^objbox_height);
+    ~objbox(jug_water, "You hand the monk a jug of water.", 250, 0, ^objbox_height);
     ~chatnpc("<p,neutral>Aah! That's better!");
-    inv_del(inv, jug_of_water, 1);
+    inv_del(inv, jug_water, 1);
     %drunkmonk_progress = ^drunkmonk_given_water;
     @cedric_fix_cart;
 }

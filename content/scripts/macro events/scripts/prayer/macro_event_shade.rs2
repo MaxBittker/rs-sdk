@@ -38,7 +38,7 @@ def_int $random = random(128);
 if ($random < 64) {
     return;
 } if ($random < 96) {
-    obj_add(npc_coord, shade_robe_top, 1, ^lootdrop_duration);
+    obj_add(npc_coord, blackrobetop, 1, ^lootdrop_duration);
 } else {
-    obj_add(npc_coord, shade_robe_bottom, 1, ^lootdrop_duration);
+    obj_add(npc_coord, blackrobebottom, 1, ^lootdrop_duration);
 }

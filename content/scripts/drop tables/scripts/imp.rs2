@@ -9,22 +9,22 @@ obj_add(npc_coord, npc_param(death_drop), 1, 200);
 def_int $dropint = random(128);
 if ($dropint < 5) {
     // 5 slots
-    obj_add(npc_coord, imp_black_bead, 1, 200);
+    obj_add(npc_coord, black_bead, 1, 200);
 } else if ($dropint < 10) {
     // 5 slots
-    obj_add(npc_coord, imp_red_bead, 1, 200);
+    obj_add(npc_coord, red_bead, 1, 200);
 } else if ($dropint < 15) {
     // 5 slots
-    obj_add(npc_coord, imp_white_bead, 1, 200);
+    obj_add(npc_coord, white_bead, 1, 200);
 } else if ($dropint < 20) {
     // 5 slots
-    obj_add(npc_coord, imp_yellow_bead, 1, 200);
+    obj_add(npc_coord, yellow_bead, 1, 200);
 } else if ($dropint < 28) {
     // 8 slots
     obj_add(npc_coord, bolt, 1, 200);
 } else if ($dropint < 36) {
     // 8 slots
-    obj_add(npc_coord, wizards_hat_blue, 1, 200);
+    obj_add(npc_coord, bluewizhat, 1, 200);
 } else if ($dropint < 41) {
     // 5 slots
     obj_add(npc_coord, egg, 1, 200);
@@ -69,13 +69,13 @@ if ($dropint < 5) {
     obj_add(npc_coord, jug_empty, 1, 200);
 } else if ($dropint < 87) {
     // 2 slots
-    obj_add(npc_coord, jug_of_water, 1, 200);
+    obj_add(npc_coord, jug_water, 1, 200);
 } else if ($dropint < 89) {
     // 2 slots
     obj_add(npc_coord, pot_empty, 1, 200);
 } else if ($dropint < 91) {
     // 2 slots
-    obj_add(npc_coord, pot_of_flour, 1, 200);
+    obj_add(npc_coord, pot_flour, 1, 200);
 } else if ($dropint < 99) {
     // 8 slots
     obj_add(npc_coord, ball_of_wool, 1, 200);
@@ -90,7 +90,7 @@ if ($dropint < 5) {
     obj_add(npc_coord, clay, 1, 200);
 } else if ($dropint < 120) {
     // 4 slots
-    obj_add(npc_coord, cadaver_berries, 1, 200);
+    obj_add(npc_coord, cadavaberries, 1, 200);
 } else if ($dropint < 123) {
     // 3 slots
     obj_add(npc_coord, grain, 1, 200);
@@ -102,5 +102,5 @@ if ($dropint < 5) {
     obj_add(npc_coord, flier, 1, 200);
 } else if ($dropint < 128) {
     // 1 slot
-    obj_add(npc_coord, potion, 1, 200);
+    obj_add(npc_coord, acne_potion, 1, 200);
 }

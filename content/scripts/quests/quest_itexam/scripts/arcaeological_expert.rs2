@@ -14,7 +14,7 @@ if ($progress = ^itexam_complete) {
     ~chatnpc("<p,happy>Can I help you at all?");
 }
 
-if (~itexam_testbit(^itexam_bit_shown_ancient_symbol) = true & inv_total(inv, invitation_letter) = 0) {
+if (~itexam_testbit(^itexam_bit_shown_ancient_symbol) = true & inv_total(inv, digexpertscroll) = 0) {
     // It is intentional that, even after using the invitation letter, you can get another from terry (confirmed on OSRS)
     @multi5("I have something I need checking out.", archaeological_expert_checkout, "No thanks.", archaeological_expert_no_thanks, "Can you tell me anything about the digsite?", archaeological_expert_digsite_info, "I lost the letter you gave me.", archaeological_expert_lost_letter, "Can you tell me more about the tools an archaeologist uses?", archaeological_expert_tool_help);
 } else {
@@ -51,12 +51,12 @@ if ($choice = 1) {
 [label,archaeological_expert_lost_letter]
 ~chatplayer("<p,sad>I lost the letter you gave me.");
 
-if (inv_total(inv, invitation_letter) > 0) {
+if (inv_total(inv, digexpertscroll) > 0) {
     ~chatnpc("<p,angry>No you haven't! You have one in your pack!");
-} else if (inv_total(bank, invitation_letter) > 0) {
+} else if (inv_total(bank, digexpertscroll) > 0) {
     ~chatnpc("<p,angry>No you haven't! You have one in your bank!");
 } else {
-    inv_add(inv, invitation_letter, 1);
+    inv_add(inv, digexpertscroll, 1);
     ~chatnpc("<p,neutral>I can't believe it! I go to all the effort of writing you a letter of recommendation and you lose it! Here, I'll write another... Don't lose it again!");
 }
 
@@ -65,7 +65,7 @@ if (inv_total(inv, invitation_letter) > 0) {
 def_obj $item = last_useitem;
 
 // Not all the mesanims in here are correct
-if ($item = talisman_of_zaros) {
+if ($item = digtalisman) {
     if (~itexam_testbit(^itexam_bit_shown_ancient_symbol) = true) {
         ~mesbox("The expert has already seen the talisman.");
         return;
@@ -82,10 +82,10 @@ if ($item = talisman_of_zaros) {
     ~chatnpc("<p,happy>You obviously have a keen eye. Take this letter and give it to one of the workmen, and they will allow you to use them.");
     // varbit 2550 osrs 0 to 1
     ~itexam_setbit(^itexam_bit_shown_ancient_symbol);
-    inv_del(inv, talisman_of_zaros, ^max_32bit_int);
-    inv_add(inv, invitation_letter, 1);
+    inv_del(inv, digtalisman, ^max_32bit_int);
+    inv_add(inv, digexpertscroll, 1);
     mes("The expert hands you a letter.");
-} else if ($item = stone_tablet) {
+} else if ($item = zarosstonetablet) {
     if(%itexam_progress = ^itexam_complete) {
         ~chatnpc("<p,confused>I don't need another tablet!|One is enough, thank you.");
         return;
@@ -98,7 +98,7 @@ if ($item = talisman_of_zaros) {
     ~chatnpc("<p,happy>It seems the followers of Saradomin|have tried to cover up the evidence of the Zaros altar.|This whole city must have been built over it!");
     ~chatnpc("<p,happy>Thanks for your help;|your sharp eyes have spotted what many have missed.|Here, take this gold as your reward.");
     ~objbox(gold_bar, "The expert gives you 2 gold bars as payment.", 250, 0, divide(^objbox_height, 2));
-    inv_del(inv, stone_tablet, 1);
+    inv_del(inv, zarosstonetablet, 1);
     queue(itexam_complete, 0);
 } else if ($item = unidentified_liquid) {
     ~chatplayer("<p,happy>Do you know what this is?");
@@ -107,23 +107,23 @@ if ($item = talisman_of_zaros) {
     ~chatnpc("<p,shock>This is a VERY dangerous liquid called nitroglycerin. Be careful how you handle it. Don't drop it or it will explode!");
     inv_del(inv, unidentified_liquid, 1);
     inv_add(inv, nitroglycerin, 1);
-} else if ($item = chemical_powder) {
+} else if ($item = unidentified_powder) {
     ~chatplayer("<p,confused>Do you know what this powder is?");
     ~chatnpc("<p,neutral>Really, you do find the most unusual items. I know what this is, it's a strong chemical called ammonium nitrate. Why you want this I'll never know...");
-    inv_del(inv, chemical_powder, 1);
+    inv_del(inv, unidentified_powder, 1);
     inv_add(inv, ammonium_nitrate, 1);
 } else if ($item = nitroglycerin) {
     ~chatplayer("<p,neutral>Can you tell me any more about this?");
     ~chatnpc("<p,neutral>Nitroglycerin! This is a dangerous substance. This is normally mixed with other chemicals to produce a potent compound.");
     ~chatnpc("<p,neutral>Be sure not to drop it! That stuff is highly volatile...");
-} else if ($item = mixed_chemicals1) {
+} else if ($item = precharcoalmixture) {
     ~chatplayer("<p,happy>Hey, look at this.");
     ~chatnpc("<p,neutral>Hmm, that looks dangerous. Handle it carefully and don't drop it!");
-} else if ($item = mixed_chemicals2) {
+} else if ($item = postcharcoalmixture) {
     ~chatplayer("<p,happy>See what I have done with the compound now.");
     ~chatnpc("<p,bored>Seriously, I think you have a death wish! What on earth are you going to do with that stuff?");
     ~chatplayer("<p,happy>I'll find a use for it!");
-} else if ($item = chemical_compound) {
+} else if ($item = digcompound) {
     ~chatplayer("<p,neutral>What do you think about this?");
     ~chatnpc("<p,confused>What have you concocted now? Just be careful when playing with chemicals!");
 } else if ($item = nuggets) {
@@ -137,50 +137,50 @@ if ($item = talisman_of_zaros) {
         ~chatplayer("<p,happy>Excellent!");
     }
 
-} else if ($item = panning_tray_empty) {
+} else if ($item = tray_empty) {
     ~chatnpc("<p,confused>I have no need for panning trays!");
-} else if ($item = panning_tray_mud) {
+} else if ($item = tray_mud) {
     ~chatnpc("<p,confused>Have you searched this tray yet?");
     ~chatplayer("<p,confused>Not that I remember...");
     ~chatnpc("<p,neutral>It may contain something; I don't want to get my hands dirty.");
     mes("The expert hands the tray back to you.");
-} else if ($item = invitation_letter) {
+} else if ($item = digexpertscroll) {
     ~chatnpc("<p,confused>There's no point in giving me this back!");
-} else if ($item = rusty_sword) {
+} else if ($item = digsitesword) {
     ~chatplayer("<p,happy>I found an old sword.");
     ~chatnpc("<p,neutral>Oh, it's very rusty isn't it? I'm not sure this sword belongs here, it looks very out of place.");
-} else if ($item = broken_staff) {
+} else if ($item = digsitestaff) {
     ~chatplayer("<p,happy>Have a look at this staff.");
     ~chatnpc("<p,neutral>Look at this... Interesting... This appears to belong to a cleric of some kind; certainly not a follower of Saradomin, however.");
     ~chatnpc("<p,neutral>I wonder if there was another civilization here before the Saradominists?");
-} else if ($item = broken_armour) {
+} else if ($item = digsitearmour2) {
     ~chatplayer("<p,happy>I found some armour.");
     ~chatnpc("<p,neutral>It looks like the wearer of this fought a mighty battle.");
-} else if ($item = damaged_armour) {
+} else if ($item = digsitearmour1) {
     ~chatplayer("<p,happy>I found some old armour.");
     ~chatnpc("<p,neutral>How unusual. This armour doesn't seem to match with the other finds. Keep looking.");
 } else if ($item = needle) {
     ~chatplayer("<p,happy>I found a needle.");
     ~chatnpc("<p,neutral>Hmm, yes; I wondered why this race were so well dressed! It looks like they had mastery of needlework.");
-} else if ($item = broken_glass) {
+} else if ($item = digsiteglass) {
     ~chatplayer("<p,happy>Have a look at this glass.");
     ~chatnpc("<p,neutral>Hey you should be careful of that. It might cut your fingers, throw it away!");
-} else if ($item = broken_arrow) {
+} else if ($item = digsitearrow) {
     ~chatplayer("<p,happy>Have a look at this arrow.");
     ~chatnpc("<p,neutral>No doubt this arrow was shot by a strong warrior – it's split in half! It is not a valuable object though.");
 } else if ($item = bones) {
     ~chatplayer("<p,happy>Have a look at these bones.");
     ~chatnpc("<p,neutral>Ah, yes – a fine bone example... no noticeable fractures... and in good condition. These are common cow bones, however; they have no archaeological value.");
-} else if ($item = buttons) {
+} else if ($item = digsitebuttons) {
     ~chatplayer("<p,happy>I found these buttons.");
     ~chatnpc("<p,neutral>Let's have a look. Ah, I think these are from the nobility, perhaps a royal servant?");
-} else if ($item = cracked_rock_sample) {
+} else if ($item = cracked_sample) {
     ~chatplayer("<p,happy>I found this rock...");
     ~chatnpc("<p,neutral>What a shame it's cracked; this looks like it would have been a good sample.");
 } else if ($item = old_tooth) {
     ~chatplayer("<p,happy>Hey look at this.");
     ~chatnpc("<p,neutral>Oh, an old tooth. It looks like it has come from a mighty being. Pity there are no tooth fairies around here!");
-} else if ($item = belt_buckle) {
+} else if ($item = digsitebuckle) {
     ~chatplayer("<p,happy>Have a look at this unusual item...");
     ~chatnpc("<p,neutral>Let me see. This is a belt buckle. Not so unusual - I should imagine it came from a guard.");
 } else {
@@ -198,5 +198,5 @@ if ($item = talisman_of_zaros) {
 ~chatnpc("<p,happy>Ahh... that you must earn by passing your exams! The examiner holds those.");
 ~chatplayer("<p,neutral>Ahh, ok thanks.");
 
-[opheld2,invitation_letter]
+[opheld2,digexpertscroll]
 ~chatplayer("<p,neutral>It says, 'I give permission for the bearer... to use the mine shafts on site. - signed Terrance Balando, Archaeological Expert, City of Varrock.'");

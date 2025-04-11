@@ -1,10 +1,10 @@
-[opheld1,old_journal]
+[opheld1,upass_journal]
 mes("The journal is old and worn.");
 p_delay(2); // 3t
 mes("It reads...");
 p_delay(2); // 3t
 %book_page = 0;
-%open_book = old_journal;
+%open_book = upass_journal;
 @open_old_journal;
 
 [label,open_old_journal]

@@ -60,7 +60,7 @@ if (inv_total(inv, pot_empty) < 1) {
     mes("You need an empty pot to hold the flour in.");
 } else {
     inv_del(inv, pot_empty, 1);
-    inv_add(inv, pot_of_flour, 1);
+    inv_add(inv, pot_flour, 1);
 
     if (%mill_flour > 1) {
         %mill_flour = sub(%mill_flour, 1);

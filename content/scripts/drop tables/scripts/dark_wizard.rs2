@@ -9,11 +9,11 @@ obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 def_int $random = random(128);
 
 if ($random < 4) {
-    obj_add(npc_coord, wizards_hat_black, 1, ^lootdrop_duration);
+    obj_add(npc_coord, blackwizhat, 1, ^lootdrop_duration);
 } else if ($random < 8) {
     obj_add(npc_coord, plainstaff, 1, ^lootdrop_duration);
 } else if ($random < 11) {
-    obj_add(npc_coord, wizards_robe_black, 1, ^lootdrop_duration);
+    obj_add(npc_coord, black_robe, 1, ^lootdrop_duration);
 } else if ($random < 15) {
     obj_add(npc_coord, earthrune, 36, ^lootdrop_duration);
 } else if ($random < 18) {
@@ -48,7 +48,7 @@ if ($random < 4) {
     if (map_members = true) {
         obj_add(npc_coord, bloodrune, 2, ^lootdrop_duration);
     } else {
-        obj_add(npc_coord, wizards_hat_black, 1, ^lootdrop_duration);
+        obj_add(npc_coord, blackwizhat, 1, ^lootdrop_duration);
     }
 } else if ($random < 61) {
     obj_add(npc_coord, cosmicrune, 2, ^lootdrop_duration);
@@ -83,9 +83,9 @@ def_int $random = random(128);
 if ($random < 8) {
     obj_add(npc_coord, plainstaff, 1, ^lootdrop_duration);
 } else if ($random < 12) {
-    obj_add(npc_coord, wizards_hat_black, 1, ^lootdrop_duration);
+    obj_add(npc_coord, blackwizhat, 1, ^lootdrop_duration);
 } else if ($random < 15) {
-    obj_add(npc_coord, wizards_robe_black, 1, ^lootdrop_duration);
+    obj_add(npc_coord, black_robe, 1, ^lootdrop_duration);
 } else if ($random < 19) {
     obj_add(npc_coord, earthrune, 36, ^lootdrop_duration);
 } else if ($random < 22) {
@@ -120,7 +120,7 @@ if ($random < 8) {
     if (map_members = true) {
         obj_add(npc_coord, bloodrune, 2, ^lootdrop_duration);
     } else {
-        obj_add(npc_coord, wizards_hat_black, 1, ^lootdrop_duration);
+        obj_add(npc_coord, blackwizhat, 1, ^lootdrop_duration);
     }
 } else if ($random < 65) {
     obj_add(npc_coord, cosmicrune, 2, ^lootdrop_duration);

@@ -22,10 +22,10 @@ if (inv_total(inv, elena_picture) > 0) {
     // https://storage.googleapis.com/tannerdino/images/8_rehison.png
     ~chatnpc("<p,neutral>I think she is staying over with the Rehnison family.|They live in the small timbered building|at the far north side of town.");
     ~chatnpc("<p,neutral>I've not seen her around here in a while mind you.");
-    if (~obj_gettotal(elena_book) = 0) {
+    if (~obj_gettotal(turnip_book) = 0) {
         ~chatnpc("<p,neutral>I don't suppose you could run me a little errand while you're over there? I borrowed this book from them, can you return it?");
-        inv_add(inv, elena_book, 1);
-        ~objbox(elena_book, "<nc_name(jethick)> gives you a book.", 250, 0, divide(^objbox_height, 2));
+        inv_add(inv, turnip_book, 1);
+        ~objbox(turnip_book, "<nc_name(jethick)> gives you a book.", 250, 0, divide(^objbox_height, 2));
     }
 } else {
     ~chatplayer("<p,confused>Um... brown hair, in her twenties...");

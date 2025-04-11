@@ -1,35 +1,35 @@
 [oploc1,_empty_crate]
 // Treasure Trail
 if(map_members = true) {
-    if(loc_coord = 1_50_50_28_16 & inv_total(inv, trail_clue_easy_simple_exp002) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp002);
+    if(loc_coord = 1_50_50_28_16 & inv_total(inv, trail_clue_easy_simple002) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple002);
         return;
-    } else if(loc_coord = 0_51_50_25_2 & inv_total(inv, trail_clue_easy_simple_exp006) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp006);
+    } else if(loc_coord = 0_51_50_25_2 & inv_total(inv, trail_clue_easy_simple006) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple006);
         return;
-    } else if(loc_coord = 0_50_53_28_41 & inv_total(inv, trail_clue_easy_simple_exp012) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp012);
+    } else if(loc_coord = 0_50_53_28_41 & inv_total(inv, trail_clue_easy_simple012) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple012);
         return;
-    } else if(loc_coord = 0_47_50_4_22 & inv_total(inv, trail_clue_easy_simple_exp019) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp019);
+    } else if(loc_coord = 0_47_50_4_22 & inv_total(inv, trail_clue_easy_simple019) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple019);
         return;
-    } else if(loc_coord = 0_41_52_21_10 & inv_total(inv, trail_clue_easy_riddle_exp002) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp002);
+    } else if(loc_coord = 0_41_52_21_10 & inv_total(inv, trail_clue_easy_simple028) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple028);
         return;
-    } else if(loc_coord = 0_40_51_55_27 & inv_total(inv, trail_clue_easy_riddle_exp004) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp004);
+    } else if(loc_coord = 0_40_51_55_27 & inv_total(inv, trail_clue_easy_simple030) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple030);
         return;
-    } else if(loc_coord = 0_50_53_26_60 & inv_total(inv, trail_clue_easy_riddle_exp007) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp007);
+    } else if(loc_coord = 0_50_53_26_60 & inv_total(inv, trail_clue_easy_vague002) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_vague002);
         return;
-    } else if(loc_coord = 1_40_51_52_40 & inv_total(inv, trail_clue_easy_riddle_exp009) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp009);
+    } else if(loc_coord = 1_40_51_52_40 & inv_total(inv, trail_clue_easy_vague004) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_vague004);
         return;
-    } else if(loc_coord = 0_47_52_21_27 & inv_total(inv, trail_clue_easy_riddle_exp010) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp010);
+    } else if(loc_coord = 0_47_52_21_27 & inv_total(inv, trail_clue_easy_vague005) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_vague005);
         return;
-    } else if(loc_coord = 0_50_150_19_17 & inv_total(inv, trail_clue_hard_riddle_exp001) = 1) {
-        ~trail_clue_hard_loc_interact(trail_clue_hard_riddle_exp001);
+    } else if(loc_coord = 0_50_150_19_17 & inv_total(inv, trail_clue_hard_riddle001) = 1) {
+        ~trail_clue_hard_loc_interact(trail_clue_hard_riddle001);
         return;
     }
 } 
@@ -44,11 +44,11 @@ mes("You search the crate but find nothing.");
 [oploc1,_empty_crates]
 // Treasure Trail
 if (map_members = true) {
-    if (loc_coord = 0_40_52_57_19 & inv_total(inv, trail_clue_easy_riddle_exp005) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp005);
+    if (loc_coord = 0_40_52_57_19 & inv_total(inv, trail_clue_easy_simple031) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple031);
         return;
-    } else if(map_members = true & loc_coord = 2_49_51_30_45 & inv_total(inv, trail_clue_hard_riddle_exp008) = 1) {
-        ~trail_clue_hard_loc_interact(trail_clue_hard_riddle_exp008);
+    } else if(map_members = true & loc_coord = 2_49_51_30_45 & inv_total(inv, trail_clue_hard_riddle008) = 1) {
+        ~trail_clue_hard_loc_interact(trail_clue_hard_riddle008);
         return;
     }
 }
@@ -63,20 +63,20 @@ mes("You search the crates but find nothing of value.");
 [oploc1,_empty_boxes]
 // Treasure Trail
 if(map_members = true) {
-    if(loc_coord = 0_50_50_48_46 & inv_total(inv, trail_clue_easy_simple_exp003) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp003);
+    if(loc_coord = 0_50_50_48_46 & inv_total(inv, trail_clue_easy_simple003) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple003);
         return;
-    } else if(loc_coord = 0_50_52_3_56 & inv_total(inv, trail_clue_easy_simple_exp009) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp009);
+    } else if(loc_coord = 0_50_52_3_56 & inv_total(inv, trail_clue_easy_simple009) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple009);
         return;
-    } else if(loc_coord = 0_48_53_1_38 & inv_total(inv, trail_clue_easy_simple_exp014) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp014);
+    } else if(loc_coord = 0_48_53_1_38 & inv_total(inv, trail_clue_easy_simple014) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple014);
         return;
-    } else if(loc_coord = 0_46_52_11_62 & inv_total(inv, trail_clue_easy_simple_exp016) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple_exp016);
+    } else if(loc_coord = 0_46_52_11_62 & inv_total(inv, trail_clue_easy_simple016) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple016);
         return;
-    } else if(loc_coord = 0_41_51_30_35 & inv_total(inv, trail_clue_easy_riddle_exp003) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_riddle_exp003);
+    } else if(loc_coord = 0_41_51_30_35 & inv_total(inv, trail_clue_easy_simple029) = 1) {
+        ~trail_clue_easy_loc_interact(trail_clue_easy_simple029);
         return;
     }
 }

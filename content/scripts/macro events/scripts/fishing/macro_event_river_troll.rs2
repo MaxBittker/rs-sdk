@@ -63,7 +63,7 @@ if (map_members = true) {
         // https://web.archive.org/web/20060814111255/http://www.zybez.net/misc.php?id=11
         // https://web.archive.org/web/20040817204238/http://www.runescapecommunity.com:80/index.php?showtopic=104849
         // says 5 instead of 1
-        obj_add(npc_coord, oyster, 5, ^lootdrop_duration);
+        obj_add(npc_coord, oystershell, 5, ^lootdrop_duration);
     } else if ($random < 125) { // 5/128
         obj_add(npc_coord, casket, 1, ^lootdrop_duration);
     } else { // 3/128

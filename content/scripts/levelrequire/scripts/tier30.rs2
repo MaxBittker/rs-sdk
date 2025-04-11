@@ -7,7 +7,7 @@
 [opheld2,adamant_sword] @levelrequire_attack(30, last_slot);
 [opheld2,adamant_scimitar] @levelrequire_attack(30, last_slot);
 [opheld2,adamant_longsword] @levelrequire_attack(30, last_slot);
-[opheld2,adamant_warhammer] @levelrequire_attack(30, last_slot);
+[opheld2,adamnt_warhammer] @levelrequire_attack(30, last_slot);
 [opheld2,adamant_battleaxe] @levelrequire_attack(30, last_slot);
 [opheld2,adamant_spear] @levelrequire_attack(30, last_slot);
 [opheld2,adamant_spear_p] @levelrequire_attack(30, last_slot);
@@ -17,7 +17,7 @@
 [opheld2,adamant_dart_p] @levelrequire_ranged(30, last_slot);
 [opheld2,adamant_knife] @levelrequire_ranged(30, last_slot);
 [opheld2,adamant_knife_p] @levelrequire_ranged(30, last_slot);
-[opheld2,adamant_thrownaxe] @levelrequire_ranged(30, last_slot);
+[opheld2,adamnt_thrownaxe] @levelrequire_ranged(30, last_slot);
 
 [opheld2,adamant_med_helm] @levelrequire_defence(30, last_slot);
 [opheld2,adamant_full_helm] @levelrequire_defence(30, last_slot);

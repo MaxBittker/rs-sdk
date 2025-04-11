@@ -1,4 +1,4 @@
-[dwarf_remains]
+[mcannonremains]
 name=Dwarf remains
 desc=The body of a Dwarf savaged by Goblins.
 model=model_2595_obj
@@ -11,7 +11,7 @@ weight=16kg
 members=yes
 tradeable=no
 
-[tool_kit]
+[mcannontoolkit]
 name=Tool kit
 desc=These could be handy.
 model=model_2679_obj
@@ -64,7 +64,7 @@ weight=10lb
 members=yes
 tradeable=no
 
-[instruction_manual]
+[mcannonbook]
 name=Instruction manual
 desc=An old note book.
 model=model_2794_obj
@@ -77,7 +77,7 @@ weight=18oz
 members=yes
 tradeable=no
 
-[cannon_base]
+[twpart1]
 name=Cannon base
 desc=The cannon is built on this.
 model=model_2461_obj
@@ -92,7 +92,7 @@ weight=10kg
 category=cannon_parts
 members=yes
 
-[cannon_stand]
+[twpart2]
 name=Cannon stand
 desc=The mounting for the muticannon.
 model=model_2642_obj
@@ -105,7 +105,7 @@ weight=2lb
 category=cannon_parts
 members=yes
 
-[cannon_barrels]
+[twpart3]
 name=Cannon barrels
 desc=The barrels of the multicannon.
 model=model_2361_obj
@@ -117,7 +117,7 @@ weight=15kg
 category=cannon_parts
 members=yes
 
-[cannon_furnace]
+[twpart4]
 name=Cannon furnace
 desc=Used to make the cannon's ammo.
 model=model_2769_obj
@@ -131,7 +131,7 @@ weight=5kg
 category=cannon_parts
 members=yes
 
-[mcannon_railing]
+[mcannonrailing1_obj]
 name=Railing
 desc=A metal railing replacement.
 model=model_loc_14_1

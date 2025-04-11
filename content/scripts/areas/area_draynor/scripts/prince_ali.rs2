@@ -8,13 +8,13 @@ if(%prince_progress = ^prince_tied_keli) {
 ~chatplayer("<p,happy>Prince, I come to rescue you.");
 ~chatnpc("<p,neutral>That is very very kind of you, how do I get out?");
 ~chatplayer("<p,happy>With a disguise. I have removed the Lady Keli.|She is tied up, but will not stay tied up for long.");
-if(inv_total(inv, bronze_key) >= 1 & inv_total(inv, wig_blonde) >= 1 & inv_total(inv, pink_skirt) >= 1 & inv_total(inv, paste) >= 1) {
+if(inv_total(inv, princeskey) >= 1 & inv_total(inv, blondwig) >= 1 & inv_total(inv, pink_skirt) >= 1 & inv_total(inv, skinpaste) >= 1) {
     ~chatplayer("<p,neutral>Take this disguise, and this key.");
     ~mesbox("You hand over the disguise and key over to Prince Ali.");
-    inv_del(inv, bronze_key, 1);
-    inv_del(inv, wig_blonde, 1);
+    inv_del(inv, princeskey, 1);
+    inv_del(inv, blondwig, 1);
     inv_del(inv, pink_skirt, 1);
-    inv_del(inv, paste, 1);
+    inv_del(inv, skinpaste, 1);
     %prince_progress = ^prince_saved;
     npc_changetype_keepall(prince_ali_disguised, 100);
     ~chatnpc_specific("Prince Ali", lady_keli, "<p,happy>Thank you my friend, I must leave you now.|My father will pay you well for this.");
@@ -25,7 +25,7 @@ if(inv_total(inv, bronze_key) >= 1 & inv_total(inv, wig_blonde) >= 1 & inv_total
 
 
 [opnpcu,prince_ali]
-if(%prince_progress = ^prince_tied_keli & (last_useitem = pink_skirt | last_useitem = wig_blonde | last_useitem = paste)) {
+if(%prince_progress = ^prince_tied_keli & (last_useitem = pink_skirt | last_useitem = blondwig | last_useitem = skinpaste)) {
     @prince_rescue;
 }
 ~displaymessage(^dm_default);

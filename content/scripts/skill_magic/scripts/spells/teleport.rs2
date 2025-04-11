@@ -51,7 +51,7 @@ if (p_finduid(uid) = true) {
 [proc,player_teleport_normal](coord $coord)
 if_close;
 p_stopaction;
-if(inv_total(inv, anainabarrel) > 0) {
+if(inv_total(inv, thanainabarrel) > 0) {
     ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,silent>@dbl@-- You can't teleport while holding the barrel, it's just @dbl@too difficult to concentrate. --");
     return;
 }
@@ -73,8 +73,8 @@ if ($rum > 0) {
     inv_del(inv, karamja_rum, $rum);
     mes("Your Karamjan rum gets broken and spilled.");
 }
-if(inv_total(inv, plague_sample) > 0) {
-    inv_del(inv, plague_sample, ^max_32bit_int);
+if(inv_total(inv, plaguesample) > 0) {
+    inv_del(inv, plaguesample, ^max_32bit_int);
     mes("The plague sample is too delicate...it disintegrates in the crossing.");
     return;
 }

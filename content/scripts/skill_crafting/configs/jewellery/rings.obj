@@ -122,31 +122,31 @@ recol2d=4228
 2dxan=268
 dummyitem=inv_only
 
-[obj_1649]
+[invis_ring1]
 name=Sapphire ring
 model=model_loc_2733_0
 param=crafting_jewelry_struct,sapphire_ring
 dummyitem=inv_only
 
-[obj_1650]
+[invis_ring2]
 name=Emerald ring
 model=model_loc_2733_0
 param=crafting_jewelry_struct,emerald_ring
 dummyitem=inv_only
 
-[obj_1651]
+[invis_ring3]
 name=Ruby ring
 model=model_loc_2733_0
 param=crafting_jewelry_struct,ruby_ring
 dummyitem=inv_only
 
-[obj_1652]
+[invis_ring4]
 name=Diamond ring
 model=model_loc_2733_0
 param=crafting_jewelry_struct,diamond_ring
 dummyitem=inv_only
 
-[obj_1653]
+[invis_ring5]
 name=Dragonstone ring
 model=model_loc_2733_0
 param=crafting_jewelry_struct,dragonstone_ring

@@ -3,6 +3,6 @@ inputtype=int
 outputtype=obj
 val=0,king_worm
 val=1,chocolate_bar
-val=2,toad_legs
+val=2,toads_legs
 val=3,gnome_spice
 val=4,equa_leaves

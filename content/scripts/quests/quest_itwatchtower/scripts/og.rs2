@@ -9,11 +9,11 @@ if(%itwatchtower_progress >= ^itwatchtower_made_relic | %itwatchtower_progress <
             ~chatnpc("<p,bored>No, I have no more tasks for you, now go away.");
         case 2 : 
             ~chatplayer("<p,sad>I have lost the relic part you gave me.");
-            if(inv_total(inv, relic_part_1) > 0) {
+            if(inv_total(inv, relicpart1) > 0) {
                 ~chatnpc("<p,angry>Are you blind? I can see you got it even from here!");
                 return;
             }
-            inv_add(inv, relic_part_1, 1);
+            inv_add(inv, relicpart1, 1);
             ~chatnpc("<p,angry>Grrr, why do I bother?|It's a good job I got another part.");
     }
 } else if(testbit(%itwatchtower_bits, ^itwatchtower_spoken_og) = true) {
@@ -43,14 +43,14 @@ if(%itwatchtower_progress >= ^itwatchtower_made_relic | %itwatchtower_progress <
 
 [label,og_spoken]
 ~chatnpc("<p,neutral>Where my gold from dat dirty Toban?");
-if(inv_total(inv, tobans_gold) > 0) {
+if(inv_total(inv, stolen_gold) > 0) {
     ~chatplayer("<p,happy>I have your gold.");
-    inv_del(inv, tobans_gold, 1);
-    inv_add(inv, relic_part_1, 1);
+    inv_del(inv, stolen_gold, 1);
+    inv_add(inv, relicpart1, 1);
     %itwatchtower_bits = setbit(%itwatchtower_bits, ^itwatchtower_helped_og);
     // https://web.archive.org/web/20041201004103if_/http://img35.imageshack.us:80/img35/9167/relicpartone.jpg
     ~chatnpc("<p,happy>Well well, the little rat has got it!|Take this to show little rat is a friend to the ogres.|Hahahahaha!");
-    ~objbox(relic_part_1, "The ogre gives you part of a horrible statue.", 250, 0, divide(^objbox_height, 2));
+    ~objbox(relicpart1, "The ogre gives you part of a horrible statue.", 250, 0, divide(^objbox_height, 2));
     return;
 }
 switch_int(~p_choice3("I have your gold.", 1, "I haven't got it yet.", 2, "I have lost the key!", 3)) {
@@ -73,7 +73,7 @@ switch_int(~p_choice3("I have your gold.", 1, "I haven't got it yet.", 2, "I hav
 }
 
 [opnpcu,og]
-if(last_useitem = tobans_gold & testbit(%itwatchtower_bits, ^itwatchtower_spoken_og) = true & testbit(%itwatchtower_bits, ^itwatchtower_helped_og) = false) {
+if(last_useitem = stolen_gold & testbit(%itwatchtower_bits, ^itwatchtower_spoken_og) = true & testbit(%itwatchtower_bits, ^itwatchtower_helped_og) = false) {
     @og_spoken;
 }
 ~displaymessage(^dm_default);

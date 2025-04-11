@@ -1,12 +1,12 @@
-[opplayeru,gnomeball] @pvp_gnomeball_pass;
-[applayeru,gnomeball] @pvp_gnomeball_pass;
+[opplayeru,ball_gnomeball_game] @pvp_gnomeball_pass;
+[applayeru,ball_gnomeball_game] @pvp_gnomeball_pass;
 [opplayert,gnomeball:com_7] @pvp_gnomeball_pass;
 [applayert,gnomeball:com_7] @pvp_gnomeball_pass;
 
 [label,pvp_gnomeball_pass]
 def_boolean $player1_ingame = ~inzone_coord_pair_table(gnomeball_zones, coord);
 def_boolean $player2_ingame = ~.inzone_coord_pair_table(gnomeball_zones, .coord);
-if (inv_total(worn, gnomeball) < 1 & $player1_ingame = true) {
+if (inv_total(worn, ball_gnomeball_game) < 1 & $player1_ingame = true) {
     mes("You need a ball in your hand to throw.");
     return;
 }
@@ -35,9 +35,9 @@ if ($player1_ingame = true & $player2_ingame = true) {
         return;
     }
     inv_delslot(worn, ^wearpos_rhand);
-    ~update_all(gnomeball);
+    ~update_all(ball_gnomeball_game);
 } else {
-    inv_del(inv, gnomeball, 1);
+    inv_del(inv, ball_gnomeball_game, 1);
     // mes("You throw the ball."); // didnt exist in 2005
 }
 mes("You throw the ball in play."); // was always this mes https://youtu.be/0lgauPFMzQ8?t=69
@@ -50,8 +50,8 @@ sound_synth(throw, 0, 0);
 //.p_delay(0); todo: engine change for protected player 2 pointer
 .facesquare(coord);
 .anim(seq_782, 0);
-.inv_setslot(worn, ^wearpos_rhand, gnomeball, 1);
-~.update_all(gnomeball);
+.inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
+~.update_all(ball_gnomeball_game);
 sound_synth(catch, 0, 0);
 .sound_synth(catch, 0, 0);
 .p_delay(1);

@@ -6,7 +6,7 @@ size=40
 restock=yes
 stackall=yes
 allstock=no
-stock1=spice,1,100
+stock1=spicespot,1,100
 
 [ardougnegemstall]
 // https://classic.runescape.wiki/w/Gems_Stall
@@ -66,7 +66,7 @@ size=40
 restock=yes
 stackall=yes
 allstock=no
-stock1=unstrung_symbol,2,100
+stock1=nostringstar,2,100
 stock2=silver_ore,1,2000
 stock3=silver_bar,1,1000
 

@@ -1,5 +1,5 @@
 [opnpc1,traiborn]
-if (%demon_progress = ^demon_got_traiborn_key & inv_total(inv, demon_traiborn_key) < 1 & inv_total(bank, demon_traiborn_key) < 1){
+if (%demon_progress = ^demon_got_traiborn_key & inv_total(inv, silverlight_key_1) < 1 & inv_total(bank, silverlight_key_1) < 1){
     @demon_slayer_traiborn_lost_key;
 } else if (%demon_progress < ^demon_find_bones | %demon_progress >= ^demon_got_traiborn_key) {
     @traiborn_dialogue;
@@ -206,7 +206,7 @@ if (%demon_progress = ^demon_got_traiborn_key) {
 if_close();
 p_delay(2);
 mes("Traiborn hands you a key");
-inv_add(inv, demon_traiborn_key, 1);
+inv_add(inv, silverlight_key_1, 1);
 p_delay(2);
 ~chatplayer("<p,happy>Thank you very much.");
 ~chatnpc("<p,happy>Not a problem for a friend of Sir What's-his-face.");

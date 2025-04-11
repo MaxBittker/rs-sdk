@@ -72,10 +72,10 @@ if(finduid(%npc_aggressive_player) = true) {
 }
 
 [queue,defeat_biohazard_mourner]
-if(inv_total(inv, biohazard_key) = 0) {
+if(inv_total(inv, mournerkeytw) = 0) {
     mes("You search the mourner...");
     mes("and find a key.");
-    inv_add(inv, biohazard_key, 1);
+    inv_add(inv, mournerkeytw, 1);
 }
 
 [label,mourner_stand_back_citizen]

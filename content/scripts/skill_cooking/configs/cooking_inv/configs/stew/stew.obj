@@ -1,5 +1,5 @@
 //guess
-[incomplete_stew_potato]
+[stew1]
 name=Incomplete stew
 desc=I need to add some meat too.
 cost=4
@@ -12,7 +12,7 @@ recol1d=14800
 weight=1kg
 
 //guess
-[incomplete_stew_meat]
+[stew2]
 name=Incomplete stew
 desc=I need to add some potato too.
 cost=4

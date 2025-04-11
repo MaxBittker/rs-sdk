@@ -49,7 +49,7 @@ while ($i < 50) {
 }
 return(null);
 
-[opheld1,cannon_base]
+[opheld1,twpart1]
 if (%mcannon_progress < ^mcannon_complete) {
     mes("You can't set up this cannon.");
     mes("You need to complete the Dwarf Cannon quest."); // osrs
@@ -116,7 +116,7 @@ def_coord $origin = movecoord($center, -1, 0, -1); // south-west tile
 %mcannon_stage = ^cannon_stage_base;
 
 anim(human_pickupfloor, 0);
-inv_del(inv, cannon_base, 1);
+inv_del(inv, twpart1, 1);
 loc_add($origin, cannon_base, 0, centrepiece_straight, ^cannon_decay_length);
 mes("You place the cannon base on the ground."); // https://youtu.be/TeQXQDaawO0?t=227
 
@@ -135,7 +135,7 @@ if (inv_freespace(inv) < 1) {
 mes("You pick up the cannon,");
 mes("It's really heavy.");
 sound_synth(pick, 0, 0);
-inv_add(inv, cannon_base, 1);
+inv_add(inv, twpart1, 1);
 loc_del(1);
 
 [oplocu,cannon_base]
@@ -143,9 +143,9 @@ if (~cannon_belongs_to_player = false) {
     mes("That isn't your cannon!");
     return;
 }
-if (last_useitem = cannon_stand) {
+if (last_useitem = twpart2) {
     anim(human_pickupfloor, 0);
-    inv_del(inv, cannon_stand, 1);
+    inv_del(inv, twpart2, 1);
     loc_change(cannon_stand, ^cannon_decay_length);
     mes("You add the stand.");
     %mcannon_stage = ^cannon_stage_stand;
@@ -155,7 +155,7 @@ if (last_useitem = cannon_stand) {
 // i think this is because they just check for category 'cannon_parts'...
 // However! 2004 didnt have categories, so either they never checked for other cannon parts
 // or they did. If they did, they probably didnt check for the same obj?
-if (oc_category(last_useitem) = cannon_parts & last_useitem ! cannon_base) { 
+if (oc_category(last_useitem) = cannon_parts & last_useitem ! twpart1) { 
     mes("This cannon needs its stand."); // osrs
     return;
 }
@@ -177,8 +177,8 @@ if (inv_freespace(inv) < 2) {
 mes("You pick up the cannon,");
 mes("It's really heavy.");
 sound_synth(pick, 0, 0);
-inv_add(inv, cannon_base, 1);
-inv_add(inv, cannon_stand, 1);
+inv_add(inv, twpart1, 1);
+inv_add(inv, twpart2, 1);
 loc_del(1);
 
 [oplocu,cannon_stand]
@@ -186,15 +186,15 @@ if (~cannon_belongs_to_player = false) {
     mes("That isn't your cannon!");
     return;
 }
-if (last_useitem = cannon_barrels) {
+if (last_useitem = twpart3) {
     anim(human_pickupfloor, 0);
-    inv_del(inv, cannon_barrels, 1);
+    inv_del(inv, twpart3, 1);
     loc_change(cannon_barrels, ^cannon_decay_length);
     mes("You add the barrels.");
     %mcannon_stage = ^cannon_stage_barrels;
     return;
 }
-if (oc_category(last_useitem) = cannon_parts & last_useitem ! cannon_stand) { 
+if (oc_category(last_useitem) = cannon_parts & last_useitem ! twpart2) { 
     mes("This cannon needs its barrels."); // osrs
     return;
 }
@@ -216,9 +216,9 @@ if (inv_freespace(inv) < 3) {
 mes("You pick up the cannon,");
 mes("It's really heavy.");
 sound_synth(pick, 0, 0);
-inv_add(inv, cannon_base, 1);
-inv_add(inv, cannon_stand, 1);
-inv_add(inv, cannon_barrels, 1);
+inv_add(inv, twpart1, 1);
+inv_add(inv, twpart2, 1);
+inv_add(inv, twpart3, 1);
 loc_del(1);
 
 [oplocu,cannon_barrels]
@@ -226,15 +226,15 @@ if (~cannon_belongs_to_player = false) {
     mes("That isn't your cannon!");
     return;
 }
-if (last_useitem = cannon_furnace) {
+if (last_useitem = twpart4) {
     anim(human_pickupfloor, 0);
-    inv_del(inv, cannon_furnace, 1);
+    inv_del(inv, twpart4, 1);
     mes("You add the furnace.");
     loc_change(cannon, ^cannon_decay_length);
     %mcannon_stage = ^cannon_stage_full;
     @cannon_ready_start;
 }
-if (oc_category(last_useitem) = cannon_parts & last_useitem ! cannon_barrels) { 
+if (oc_category(last_useitem) = cannon_parts & last_useitem ! twpart3) { 
     mes("This cannon needs its furnace."); // osrs
     return;
 }
@@ -257,10 +257,10 @@ mes("It's really heavy.");
 sound_synth(pick, 0, 0);
 %mcannon_coord = null;
 %mcannon_stage = ^cannon_stage_none;
-inv_add(inv, cannon_base, 1);
-inv_add(inv, cannon_stand, 1);
-inv_add(inv, cannon_barrels, 1);
-inv_add(inv, cannon_furnace, 1);
+inv_add(inv, twpart1, 1);
+inv_add(inv, twpart2, 1);
+inv_add(inv, twpart3, 1);
+inv_add(inv, twpart4, 1);
 
 if (%mcannon_ammo > 0) {
     inv_add(inv, mcannonball, min(30, %mcannon_ammo));

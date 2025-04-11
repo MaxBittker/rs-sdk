@@ -1,4 +1,4 @@
-[cadaver_berries]
+[cadavaberries]
 name=Cadaver berries
 desc=Poisonous berries.
 model=model_2358_obj
@@ -11,7 +11,7 @@ recol1d=30967
 2dxan=404
 weight=7g
 
-[juliet_message]
+[julietmessage]
 name=Message
 desc=A message from Juliet to Romeo.
 cost=5
@@ -24,7 +24,7 @@ model=model_2600_obj
 weight=20g
 tradeable=no
 
-[cadaver]
+[cadava]
 name=Cadaver
 desc=I'm meant to give this to Juliet.
 model=model_2789_obj

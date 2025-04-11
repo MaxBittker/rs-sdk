@@ -23,7 +23,7 @@ if(map_members = true & %ikov_progress >= ^ikov_completed_armadyl) { // RS3 wiki
     mes("You have completed the Temple of Ikov quest.");
     return (false);
 }
-if(map_members = true & %ikov_progress = ^ikov_helping_armadyl & inv_total(worn, armadyl_pendant) > 0) {
+if(map_members = true & %ikov_progress = ^ikov_helping_armadyl & inv_total(worn, ikov_pendantofarmardyl) > 0) {
     return (true);
 }
 ~chatnpc("<p,neutral>You don't want to attack me. I am your friend.");
@@ -34,7 +34,7 @@ p_delay(1);
 ~mesbox("You decide not to attack Lucien. He is your friend.");
 return (false);
 
-[opobj3,staff_of_armadyl]
+[opobj3,ikov_staffofarmardyl]
 if(%ikov_progress >= ^ikov_completed_armadyl) {
     mes("You have completed the quest of the Temple of Ikov.");
     return;
@@ -43,7 +43,7 @@ if(%ikov_progress = ^ikov_helping_armadyl) {
     mes("You decide not to steal the staff as you have agreed to help the Guardians.");
     return;  
 }
-if(~obj_gettotal(staff_of_armadyl) > 0) {
+if(~obj_gettotal(ikov_staffofarmardyl) > 0) {
     mes("I already have the staff.");
     return;
 }
@@ -69,7 +69,7 @@ if (npc_finduid($npc) = true) {
 
 [queue,ikov_lucien_quest_complete]
 %ikov_progress = ^ikov_completed_lucien;
-inv_del(inv, staff_of_armadyl, 1);
+inv_del(inv, ikov_staffofarmardyl, 1);
 stat_advance(ranged, 105000);
 stat_advance(fletching, 80000);
 session_log(^log_adventure, "Quest complete: Temple of Ikov (Lucien)");

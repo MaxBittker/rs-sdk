@@ -1,6 +1,6 @@
-[opheld1,translation_book]
+[opheld1,grandtree_translationbook]
 %book_page = 0;
-%open_book = translation_book;
+%open_book = grandtree_translationbook;
 @open_translation_book;
 
 [label,open_translation_book]

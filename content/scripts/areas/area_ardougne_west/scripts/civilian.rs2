@@ -31,7 +31,7 @@
 if (~civilian_player_has_cat = true) {
     @multi2("I have a cat that I could sell.", civilian_i_have_a_cat_i_could_sell, "Nope, they're not easy to get hold of.", civilian_ok_then_youve_got_a_deal);
 }
-if(inv_total(inv, upass_witches_cat) > 0) {
+if(inv_total(inv, cavewitchcat) > 0) {
     ~chatplayer("<p,happy>I have a cat...look!");
     ~chatnpc("<p,confused>Hmmm...doesn't look like it's seen daylight in years. That's not going to catch any mice!");
     return;

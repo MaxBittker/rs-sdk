@@ -58,8 +58,8 @@ switch_int ($random) {
 def_int $random = random(13);
 
 switch_int ($random){
-    case 0 : inv_add(trail_rewardinv, wizards_boots, 1);
-    case 1 : inv_add(trail_rewardinv, trail_ranger_boots, 1);
+    case 0 : inv_add(trail_rewardinv, boots_wizard, 1);
+    case 1 : inv_add(trail_rewardinv, boots_ranger, 1);
     case 2 : inv_add(trail_rewardinv, adamant_full_helm_trim, 1);
     case 3 : inv_add(trail_rewardinv, adamant_platebody_trim, 1);
     case 4 : inv_add(trail_rewardinv, adamant_platelegs_trim, 1);
@@ -68,7 +68,7 @@ switch_int ($random){
     case 7 : inv_add(trail_rewardinv, adamant_platelegs_gold, 1);
     case 8 : inv_add(trail_rewardinv, adamant_full_helm_gold, 1);
     case 9 : inv_add(trail_rewardinv, adamant_kiteshield_gold, 1);
-    case 10 : inv_add(trail_rewardinv, trail_headband_red, 1);
-    case 11 : inv_add(trail_rewardinv, trail_headband_black, 1);
-    case 12 : inv_add(trail_rewardinv, trail_headband_brown, 1);
+    case 10 : inv_add(trail_rewardinv, headband_red, 1);
+    case 11 : inv_add(trail_rewardinv, headband_black, 1);
+    case 12 : inv_add(trail_rewardinv, headband_brown, 1);
 }

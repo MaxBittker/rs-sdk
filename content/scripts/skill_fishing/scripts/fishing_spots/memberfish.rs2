@@ -76,7 +76,7 @@ if (stat(fishing) < 16) {
     return;
 }
 // check if they have fishing equipment
-if (~check_fish_equipment(net_big) = false) {
+if (~check_fish_equipment(big_net) = false) {
     return;
 }
 // check if inv is full
@@ -99,7 +99,7 @@ if (%action_delay = calc(map_clock + 3)) {
     ~fish_roll_big_net;
 }
 if (afk_event = ^true & npc_param(is_whirlpool) = ^false) {
-    @macro_event_fishing(net_big);
+    @macro_event_fishing(big_net);
 }
 
 
@@ -112,7 +112,7 @@ if (stat(fishing) < 16) {
     return;
 }
 // check if they have fishing equipment
-if (~check_fish_equipment(net_big) = false) {
+if (~check_fish_equipment(big_net) = false) {
     return;
 }
 // check if inv is full again
@@ -131,7 +131,7 @@ p_opnpc(4);
 
 [proc,fish_roll_big_net]
 if (npc_param(is_whirlpool) = ^true) {
-    ~macro_whirlpool_attempt_take_equipment(net_big);
+    ~macro_whirlpool_attempt_take_equipment(big_net);
     return;
 }
 def_int $level = stat(fishing);
@@ -167,7 +167,7 @@ if (stat_random($level, 10, 10) = true) {
 }
 // oyster
 if (stat_random($level, 3, 7) = true) {
-    inv_add(inv, oyster, 1);
+    inv_add(inv, oystershell, 1);
     mes("You catch an oyster shell.");
     stat_advance(fishing, 100);
 }
@@ -197,17 +197,17 @@ if (stat_random($level, 3, 40) = true) {
 }
 
 // oysters and casket ops
-[opheld1,oyster]
+[opheld1,oystershell]
 mes("You open the oyster shell."); // osrs
-inv_del(inv, oyster, 1);
+inv_del(inv, oystershell, 1);
 // rates taken from osrs wiki
 // https://oldschool.runescape.wiki/w/Oyster
 def_int $random = random(32);
 
 if ($random < 25) {
-    inv_add(inv, oyster_pearl, 1);
+    inv_add(inv, smalloysterpearls, 1);
 } else {
-    inv_add(inv, empty_oyster, 1);
+    inv_add(inv, oysterempty, 1);
 }
 
 // i used this video. Osrs video from july 29 2020
@@ -238,10 +238,10 @@ if ($random < 60) { // 10/128 coins for each
     inv_add(inv, uncut_diamond, 1);
     ~objbox(uncut_diamond, "You open the casket. Inside you find an uncut|diamond.", 250, 0, divide(^objbox_height, 2));
 } else if ($random < 127) { // 1/128 tooth half key
-    inv_add(inv, half_key1, 1);
-    ~objbox(half_key1, "You open the casket. Inside you find half a key.", 250, 0, 0);
+    inv_add(inv, keyhalf1, 1);
+    ~objbox(keyhalf1, "You open the casket. Inside you find half a key.", 250, 0, 0);
 } else if ($random < 128) { // 1/128 loop half of key
-    inv_add(inv, half_key2, 1);
-    ~objbox(half_key2, "You open the casket. Inside you find half a key.", 250, 0, 0);
+    inv_add(inv, keyhalf2, 1);
+    ~objbox(keyhalf2, "You open the casket. Inside you find half a key.", 250, 0, 0);
 }
 sound_synth(found_gem, 0, 0); // https://youtu.be/fWox14AFvEM 

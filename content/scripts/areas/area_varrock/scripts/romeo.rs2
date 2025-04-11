@@ -54,7 +54,7 @@ switch_int(~p_choice3("Yes, I have seen her.", 1, "No, but that's girls for you.
 [label,romeo_messagefrom]
 ~chatplayer("<p,happy>Romeo, I have a message from Juliet.");
 ~mesbox("You pass Juliet's message to Romeo.");
-inv_del(inv, juliet_message, 1);
+inv_del(inv, julietmessage, 1);
 %romeojuliet_progress = ^romeojuliet_passed_message;
 ~chatnpc("<p,sad>Tragic news. Her father is opposing our marriage.");
 ~chatnpc("<p,sad>If her father sees me, he will kill me.");
@@ -77,7 +77,7 @@ if($option = 1) {
 }
 
 [label,romeo_potion]
-if(inv_total(inv, cadaver) > 0) {
+if(inv_total(inv, cadava) > 0) {
     ~chatnpc("<p,neutral>Ah, you have the potion.");
     ~chatnpc("<p,neutral>I was told what to do by the good Father.");
     ~chatnpc("<p,neutral>Better get it to Juliet. She knows what is happening.");

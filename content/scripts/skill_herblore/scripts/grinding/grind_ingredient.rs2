@@ -5,7 +5,7 @@
 ~attempt_grind_ingredient(last_useslot, last_slot);
 
 [opheldu,bat_bones]
-if(last_useitem = vial_water | last_useitem = mixture_guam_jangerberries) { // this only works 1 way (for water vial)!
+if(last_useitem = vial_water | last_useitem = guamjangervial) { // this only works 1 way (for water vial)!
     mes("The bat bones are too bulky to fit into the vial.");
     return;
 }

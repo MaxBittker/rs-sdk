@@ -10,20 +10,20 @@ if(%legends_progress >= ^legends_defeated_nezikchened_water) {
     mes("You have no further business with the spirit.");
     return;
 }
-if(last_useitem = dark_dagger) {
+if(last_useitem = deathdagger) {
     ~mesbox("You hand the dark dagger to the spirit.");
     ~chatnpc("<p,neutral>Should I take from this that you do not wish to help me gain vengeance on Viyeldi?");
     switch_int(~p_choice2("Yes, take the dagger back.", 1, "No, I'll complete the task.", 2)) {
         case 1 :
             ~chatplayer("<p,neutral>Yes, take the dagger back.");
-            inv_del(inv, dark_dagger, 1);
+            inv_del(inv, deathdagger, 1);
             ~mesbox("You feel a chill touch as the spirit removes the dagger from your hand.");
             ~chatnpc("<p,neutral>Very well, if that is your decision... However, you will not get access to the water...");
         case 2 :
             ~chatplayer("<p,neutral>No, I'll complete the task.");
             ~chatnpc("<p,neutral>Very well, return to me when it is done.");
     }
-} else if(last_useitem = glowing_dagger) {
+} else if(last_useitem = deathdaggerdone) {
     @echned_glowing_dagger;
 }
 
@@ -32,14 +32,14 @@ if(last_useitem = dark_dagger) {
 if(testbit(%legends_bits, ^legends_given_dagger) = true) {
     @summon_nezi_dagger;
 }
-if(inv_total(inv, holy_force) > 0) {
+if(inv_total(inv, holyforce) > 0) {
     ~chatnpc("<p,neutral>Something seems different about you... Your sense of purpose seems not bent to my will... Give me the dagger that you used to slay Viyeldi or taste my wrath!");
     @multi4("I don't have the dagger.", echned_nodagger, "I haven't slayed Viyeldi yet.", echned_havnt, "I have something else in mind!", echned_inmind, "I have to be going...", echned_havetogo);
-} else if(inv_total(inv, dark_dagger) > 0 | inv_total(worn, dark_dagger) > 0) {
+} else if(inv_total(inv, deathdagger) > 0 | inv_total(worn, deathdagger) > 0) {
     ~mesbox("The shapeless entity of Echned Zekin appears in front of you.");
     ~chatnpc("<p,angry>Why do you return when your task is still incomplete?");
     @multi3("Who am I supposed to kill again?", echned_whokill, "Er I've had second thoughts.", echned_second, "I have to be going...", echned_havetogo);
-} else if(inv_total(inv, glowing_dagger) > 0 | inv_total(worn, glowing_dagger) > 0) {
+} else if(inv_total(inv, deathdaggerdone) > 0 | inv_total(worn, deathdaggerdone) > 0) {
     @echned_glowing_dagger;
 }
 if(%legends_progress = ^legends_heart_in_recess) %legends_progress = ^legends_pushed_boulder;
@@ -52,8 +52,8 @@ if(%legends_progress = ^legends_heart_in_recess) %legends_progress = ^legends_pu
 ~chatnpc("<p,neutral>Aha, I see you have completed your task. I'll take that dagger from you now.");
 ~mesbox("The formless shape of Echned Zekin takes the dagger from you. As a ghostly hand envelopes the dagger, something seems to move from the black weapon into the floating figure of the spirit.");
 ~chatnpc("<p,neutral>Aahhhhhhhhh! As I take the spirit of one departed, I will now reveal myself and spell out your doom.");
-inv_del(inv, glowing_dagger, 1);
-inv_del(worn, glowing_dagger, 1);
+inv_del(inv, deathdaggerdone, 1);
+inv_del(worn, deathdaggerdone, 1);
 %legends_bits = setbit(%legends_bits, ^legends_given_dagger);
 @summon_nezi_dagger;
 
@@ -128,15 +128,15 @@ npc_del;
 [label,echned_mustwater]
 ~chatplayer("<p,neutral>I'll do what I must to get the water.");
 ~mesbox("The shapeless spirit seems to crackle with energy.");
-if(~obj_gettotal(dark_dagger) > 0) {
+if(~obj_gettotal(deathdagger) > 0) {
     ~chatnpc("<p,neutral>Use the dagger I have provided for you to complete this task and then bring it to me when Viyeldi is dead.");
 } else {
     ~chatnpc("<p,neutral>You would release me from my torment and the source would be available to you. However, you must realise that this will be no easy task.");
     ~chatnpc("<p,neutral>I will furnish you with a weapon which will help you to achieve your aims... Here, take this...");
-    ~objbox(dark_dagger, "The spirit waves an arm and in front of you appears a dark black dagger made of pure obsidian.", 250, 0, 0);
+    ~objbox(deathdagger, "The spirit waves an arm and in front of you appears a dark black dagger made of pure obsidian.", 250, 0, 0);
     ~chatnpc("<p,neutral>To complete your task you must use this weapon on Viyeldi.");
     mes("You take the dagger and place it in your backpack.");
-    inv_add(inv, dark_dagger, 1);
+    inv_add(inv, deathdagger, 1);
     if(%legends_progress < ^legends_received_dagger) %legends_progress = ^legends_received_dagger;
 }
 @multi2("Ok, I'll do it.", echned_ok, "I've changed my mind, I can't do it.", echned_changedmind);

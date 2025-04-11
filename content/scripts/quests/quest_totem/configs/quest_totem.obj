@@ -1,4 +1,4 @@
-[totem]
+[tribal_totem]
 name=Totem
 desc=The Rantuki tribes' totem.
 cost=10
@@ -12,7 +12,7 @@ members=yes
 weight=3kg
 tradeable=no
 
-[address_label]
+[tribal_totem_label]
 name=Address label
 desc=It says 'To Lord Handelmort, Handelmort Mansion'.
 cost=10
@@ -26,7 +26,7 @@ members=yes
 weight=10g
 tradeable=no
 
-[guide_book]
+[ardougne_book]
 name=Guide book
 desc='A Tourists Guide To Ardougne'.
 iop1=Read

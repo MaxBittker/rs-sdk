@@ -35,7 +35,7 @@ if (p_finduid(uid) = true) {
           inv_add(inv, black_platelegs, 1);
           inv_add(inv, black_full_helm, 1);
       }
-      inv_add(inv, unf_harralander_potion, 1);
+      inv_add(inv, harralandervial, 1);
       inv_add(inv, fishing_rod, 1);
       inv_add(inv, ice_gloves, 1);
       inv_add(inv, fishing_bait, 1);
@@ -85,7 +85,7 @@ if (p_finduid(uid) = true) {
           inv_add(inv, black_platelegs, 1);
           inv_add(inv, black_full_helm, 1);
         case 2 :
-          inv_add(inv, unf_harralander_potion, 1);
+          inv_add(inv, harralandervial, 1);
           inv_add(inv, fishing_rod, 1);
           inv_add(inv, fishing_bait, 1);
           inv_add(inv, tinderbox, 1);

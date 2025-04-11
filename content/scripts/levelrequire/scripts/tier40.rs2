@@ -51,13 +51,13 @@
 [opheld2,rune_kiteshield_guthix] @levelrequire_defence(40, last_slot);
 
 // Ranged
-[opheld2,trail_robin_hood_hat] @levelrequire_ranged(40, last_slot);
-[opheld2,trail_ranger_boots] @levelrequire_ranged(40, last_slot);
+[opheld2,robinhoodhat] @levelrequire_ranged(40, last_slot);
+[opheld2,boots_ranger] @levelrequire_ranged(40, last_slot);
 [opheld2,yew_longbow] @levelrequire_ranged(40, last_slot);
 [opheld2,yew_shortbow] @levelrequire_ranged(40, last_slot);
 [opheld2,dragonhide_body] @levelrequire_dragon_slayer_quest_ranged_and_defence(40, 40, last_slot);
 [opheld2,dragonhide_chaps] @levelrequire_ranged(40, last_slot);
-[opheld2,dragonhide_vamb] @levelrequire_ranged(40, last_slot);
+[opheld2,dragon_vambraces] @levelrequire_ranged(40, last_slot);
 
 // Magic
 [opheld2,mystic_fire_staff] @levelrequire_magic_and_attack(40, 40, last_slot);

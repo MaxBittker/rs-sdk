@@ -36,7 +36,7 @@ recol3d=20971
 2dxan=192
 weight=450g
 category=category_129
-param=next_obj_stage,half_redberry_pie
+param=next_obj_stage,half_a_redberry_pie
 
 [meat_pie]
 name=Meat pie
@@ -56,9 +56,9 @@ recol3d=20971
 2dxan=192
 weight=450g
 category=category_129
-param=next_obj_stage,half_meat_pie
+param=next_obj_stage,half_a_meat_pie
 
-[half_meat_pie]
+[half_a_meat_pie]
 name=Half a meat pie
 desc=Half of it is suitable for vegetarians.
 iop1=Eat
@@ -84,7 +84,7 @@ weight=225g
 category=category_129
 param=next_obj_stage,piedish
 
-[half_redberry_pie]
+[half_a_redberry_pie]
 name=Half a redberry pie
 desc=So tasty I kept some for later.
 iop1=Eat
