@@ -75,7 +75,7 @@ if(npc_find(coord, khazard_commander, 5, 0) = true) {
 }
 
 [oploc1,loc_2182]
-if(%tree_progress > ^tree_retrieved_orb | inv_total(inv, orb_of_protection) > 0 | inv_total(bank, orb_of_protection) > 0) {
+if(%tree_progress < ^tree_ballista_fired | %tree_progress > ^tree_retrieved_orb | inv_total(inv, orb_of_protection) > 0 | inv_total(bank, orb_of_protection) > 0) {
     mes("You search the chest, but find nothing.");
     return;
 }
