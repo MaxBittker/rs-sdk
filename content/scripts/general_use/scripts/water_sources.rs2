@@ -63,21 +63,28 @@ switch_obj (last_useitem) {
     case default : ~displaymessage(^dm_default);
 }
 
+[oplocu,_well]
+switch_obj (last_useitem) {
+    case bucket_empty : @fill_bucket_well;
+    case default : ~displaymessage(^dm_default);
+}
+
 [label,fill_container_water](obj $container)
 def_string $source_name = lowercase(loc_name);
 def_string $container_name = lowercase(oc_name($container));
-if(compare($source_name, "well") = 0 & ($container = goldbowl_empty | $container = goldbowlbless_empty)) {
-    mes("If I drop my bowl down there I don't think I'm likely to get it back.");
-    return;
-}
-if(compare($source_name, "well") = 0 & $container = bucket_empty) {
-    ~displaymessage(^dm_default);
-    return;
-}
 inv_del(inv, $container, 1);
 inv_add(inv, oc_param($container, next_obj_stage), 1);
 anim(human_pickuptable, 0);
 sound_synth(tap_fill, 0, 0);
 mes("You fill the <$container_name> from the <$source_name>.");
+// strongqueued in osrs but that was likely changed in Sept 2005 
+p_delay(0);
+
+[label,fill_bucket_well]
+inv_del(inv, bucket_empty, 1);
+inv_add(inv, bucket_water, 1);
+anim(human_pickuptable, 0);
+sound_synth(well_fill, 0, 0);
+mes("You fill the bucket from the well.");
 // strongqueued in osrs but that was likely changed in Sept 2005 
 p_delay(0);

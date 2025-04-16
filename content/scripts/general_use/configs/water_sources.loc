@@ -21,7 +21,7 @@ name=Well
 desc=No this is not a mirage!
 model=model_loc_878
 blockrange=no
-category=watersource
+category=well
 
 [loc_879]
 name=Fountain
@@ -54,4 +54,4 @@ model=model_loc_884
 width=2
 length=2
 blockrange=no
-category=watersource
+category=well
