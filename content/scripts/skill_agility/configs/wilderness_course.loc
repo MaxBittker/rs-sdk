@@ -5,7 +5,8 @@ model=model_loc_52
 op1=Open
 active=yes
 blockrange=no
-category=wilderness_course_main_gate
+category=double_door_open_and_close_left
+param=next_loc_stage,loc_1562
 
 [loc_2308]
 name=Gate
@@ -15,7 +16,8 @@ op1=Open
 mirror=yes
 active=yes
 blockrange=no
-category=wilderness_course_main_gate
+category=double_door_open_and_close_right
+param=next_loc_stage,loc_1563
 
 [loc_2309]
 name=Door

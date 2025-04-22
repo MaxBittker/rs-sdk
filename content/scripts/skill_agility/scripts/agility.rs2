@@ -113,6 +113,11 @@ if (gender() = 0) {
 }
 mes($message);
 p_delay(0);
+if (stat(hitpoints) = 0){
+    ~player_die;
+    // no early return, ring of life still processes on death. https://youtu.be/LSpyUVXa4LE?t=202
+}
+~ring_of_life_check;
 
 // Forces the player to walk to a certain coord. Basically p_teleport but doesnt telejump from a distance.
 // doesnt respect clipping

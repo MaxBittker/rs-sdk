@@ -263,7 +263,6 @@ if(stat_random(stat(agility), 90, 300) = false) {
     p_exactmove(coord, movecoord(coord, -1, 0, 0), 18, 30, ^exact_south);
     p_delay(0);
     ~damage_self(5); // always 5
-    sound_synth(human_hit2, 0, 20);
     p_delay(0);
     return;
 }
@@ -300,7 +299,6 @@ if(stat_random(stat(agility), 90, 300) = false) {
     p_teleport(movecoord(coord, 0, 0, $dz));
     p_delay(2);
     ~damage_self(5); // always 5
-    sound_synth(human_hit2, 0, 20);
     return;
 }
 mes("...and make it.");

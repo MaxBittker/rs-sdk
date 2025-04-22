@@ -3,35 +3,47 @@ if(stat(agility) < 52) {
     ~mesbox("You need an Agility level of 52 to attempt balancing on the ridge.");
     return;
 }
-~open_entrance_gate;
 mes("You go through the gate and try to edge over the ridge...");
-// walk to start
-p_teleport(0_46_61_54_13);
+~open_and_close_door(loc_1541, false, false);
 p_delay(0);
-~agility_force_move(0, human_walk_logbalance, movecoord(coord, 0, 0, 6));
+~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
+~forcemove(movecoord(coord, 0, 0, 6));
 // todo: actual rate
 if(stat_random(stat(agility), 180, 245) = false) {
     @fail_ridge;
 }
-~agility_force_move(150, human_walk_logbalance, movecoord(coord, 0, 0, 6));
-~open_course_gates;
-p_teleport(movecoord(coord, 0, 0, 2));
+~forcemove(movecoord(coord, 0, 0, 7));
+~update_bas;
+stat_advance(agility, 150);
 mes("You skillfully balance across the ridge...");
+if(loc_find(movecoord(coord, 0, 0, 1), loc_2307) = true) ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), ^left, door_open);
+else p_teleport(movecoord(coord, 0, 0, 2));
 
-[oploc1,_wilderness_course_main_gate]
+[oploc1,loc_2307] @open_course_gates(^left);
+[oploc1,loc_2308] @open_course_gates(^right);
+
+[label,open_course_gates](int $side)
 mes("You go through the gate and try to edge over the ridge...");
-~open_course_gates;
-p_teleport(0_46_61_54_25);
+~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), $side, door_open);
 p_delay(0);
-~agility_force_move(0, human_walk_logbalance, movecoord(coord, 0, 0, -6));
+~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
+~forcemove(0_46_61_54_26);
+~forcemove(movecoord(coord, 0, 0, -6));
 // todo: actual rate
 if(stat_random(stat(agility), 180, 245) = false) {
     @fail_ridge;
 }
-~agility_force_move(150, human_walk_logbalance, movecoord(coord, 0, 0, -6));
-~open_entrance_gate;
-p_teleport(movecoord(coord, 0, 0, -1));
+~forcemove(movecoord(coord, 0, 0, -6));
+~update_bas;
 mes("You skillfully balance across the ridge...");
+p_delay(0);
+stat_advance(agility, 150);
+if(loc_find(movecoord(coord, 0, 0, -1), loc_2309) = true) {
+    loc_change(inviswall, 3);
+    loc_add(movecoord(loc_coord, 0, 0, -1), loc_1541, 0, loc_shape, 3);
+}
+sound_synth(door_open, 0, 0);
+p_teleport(movecoord(coord, 0, 0, -2));
 
 [oploc1,wilderness_obstacle_pipe] 
 if(coordz(coord) >= 3939) {
@@ -108,7 +120,7 @@ mes("...You safely cross to the other side.");
 
 [oploc1,wilderness_log_balance]
 p_teleport(movecoord(loc_coord, 1, 0, 0));
-p_delay(0);
+p_arrivedelay;
 mes("You walk carefully across the slippery log...");
 ~agility_force_move(0, human_walk_logbalance, movecoord(coord, -4, 0, 0));
 if(stat_random(stat(agility), 170, 250) = false) {
@@ -129,41 +141,11 @@ mes("You skillfully edge across the gap.");
 ~update_wilderness_varp(5);
 
 [label,fail_ridge]
+~update_bas;
 anim(human_walk_logbalance_stumble, 0);
 p_delay(1);
 p_telejump(movecoord(coord, 2, 0, 0));
 mes("You lose your footing and fall into the wolf pit.");
-
-// todo: These double gate doors are broken
-[proc,open_course_gates]
-loc_findallzone(coord);
-while(loc_findnext = true) {
-     if(loc_category = wilderness_course_main_gate) {
-            def_coord $central_coord = loc_coord;
-            def_int $orig_angle = loc_angle;
-            // Temp note: dur updated
-            loc_del(4);
-            if(loc_type = loc_2308) {
-                // Temp note: dur updated
-                loc_add(movecoord($central_coord, 0, 0, -1), loc_1563, 0, loc_shape, 4);
-                loc_add(movecoord($central_coord, 1, 0, -1), loc_1562, 2, loc_shape, 4); 
-            }
-            // Temp note: dur updated
-            loc_add($central_coord, inviswall, $orig_angle, loc_shape, 4);
-     }
-}
-sound_synth(door_open, 0, 0);
-
-[proc,open_entrance_gate]
-loc_findallzone(coord);
-while(loc_findnext = true) {
-    if(loc_type = loc_2309) {
-        // Temp note: dur updated
-        loc_change(inviswall, 3);
-        loc_add(movecoord(loc_coord, 0, 0, -1), loc_1541, 0, loc_shape, 3);
-        sound_synth(door_open, 0, 0);
-    }
-}
 
 [proc,update_wilderness_varp](int $completed)
 if(calc(%wilderness_course_progress + 1) >= $completed) {

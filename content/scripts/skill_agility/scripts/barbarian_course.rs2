@@ -31,27 +31,31 @@ stat_advance(agility, 200);
 
 [oploc1,barbarian_log_balance]
 p_teleport(movecoord(loc_coord, 1, 0, 0));
-p_delay(0);
+p_arrivedelay;
 mes("You walk carefully across the slippery log...");
-~agility_force_move(0, human_walk_logbalance, movecoord(coord, -6, 0, 0));
+~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
+~forcemove(movecoord(coord, -6, 0, 0));
 if(stat_random(stat(agility), 185, 260) = false) {
     mes("...You lose your footing and fall into the water.");
     anim(human_walk_logbalance_stumble, 0);
     facesquare(movecoord(coord, 0, 0, -2));
     p_delay(0);
-    mes("Something in the water bites you.");
+    mes("Something in the water bites you!");
     sound_synth(watersplash, 0, 0);
-    p_exactmove(movecoord(coord, -1, 0, 0), movecoord(coord, 0, 0, -1), 0, 5, ^exact_north);
+    p_exactmove(movecoord(coord, -1, 0, 0), movecoord(coord, 0, 0, -1), 0, 5, ^exact_south);
     spotanim_map(watersplash, movecoord(coord, 0, 0, -1), 0, 3);
+    ~set_readywalkturn_bas(human_swim_ready, human_swim_ready, human_swim);
     p_delay(0);
-    bas_walk_f(human_swim);
     p_teleport(movecoord(coord, 0, 0, -2));
     p_delay(0);
-    ~agility_force_move(0, human_swim, movecoord(coord, 0, 0, -1));
+    ~forcemove(movecoord(coord, 0, 0, -1));
+    ~update_bas;
     ~damage_self(calc(((stat(hitpoints) * 9) / 100) + 1));
     return;
 }
-~agility_force_move(125, human_walk_logbalance, movecoord(coord, -4, 0, 0));
+~forcemove(movecoord(coord, -4, 0, 0));
+~update_bas;
+stat_advance(agility, 125);
 mes("...You make it safely to the other side.");
 ~update_barbarian_varp(2);
 
@@ -67,21 +71,22 @@ mes("You climb the netting...");
 p_delay(0);
 mes("You put your foot on the ledge and try to edge across...");
 anim(human_into_sidestepl, 0);
-~agility_force_move(0, human_walk_sidestepl, movecoord(coord, -2, 0, 0));
+~set_readywalkturn_bas(human_ready_sidestepl, human_ready_sidestepl, human_walk_sidestepl);
+~forcemove(movecoord(coord, -2, 0, 0));
 if(stat_random(stat(agility), 210, 260) = false) {
     anim(human_walk_logbalance_stumble, 0);
-    facesquare(movecoord(coord, 0, 0, -2));
     mes("You slip and fall onto the spikes below.");
     p_delay(0);
-    p_exactmove(coord, movecoord(coord, 0, 0, -1), 0, 12, ^exact_north);
+    p_exactmove(coord, movecoord(coord, 0, 0, -1), 0, 12, ^exact_south);
     p_delay(0);
+    ~update_bas;
     p_telejump(movecoord(coord, 0, -1, -1));
     ~damage_self(calc(((stat(hitpoints) * 15) / 100) + 1));
-    sound_synth(human_hit2, 0, 20);
     p_delay(0);
     return;
 }
-~agility_force_move(0, human_walk_sidestepl, movecoord(coord, -2, 0, 0));
+~forcemove(movecoord(coord, -2, 0, 0));
+~update_bas;
 p_teleport(movecoord(coord, 0, 0, -1));
 mes("You skillfully edge across the gap.");
 p_delay(0);
