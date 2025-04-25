@@ -2,7 +2,7 @@ import { CoordGrid } from '#/engine/CoordGrid.js';
 import Player from '#/engine/entity/Player.js';
 import World from '#/engine/World.js';
 import ZoneMap from '#/engine/zone/ZoneMap.js';
-import RebuildNormal from '#/network/server/model/RebuildNormal.js';
+import RebuildNormal from '#/network/server/model/game/RebuildNormal.js';
 
 export default class BuildArea {
     // constructor

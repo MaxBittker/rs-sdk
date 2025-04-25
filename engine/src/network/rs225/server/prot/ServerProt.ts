@@ -91,6 +91,3 @@ export default class ServerProt {
         readonly length: number
     ) {}
 }
-
-// for type safety in CameraInfo
-export type CameraProt = typeof ServerProt.CAM_MOVETO | typeof ServerProt.CAM_LOOKAT;

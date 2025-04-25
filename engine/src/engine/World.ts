@@ -64,11 +64,11 @@ import { WorldStat } from '#/engine/WorldStat.js';
 import Zone from '#/engine/zone/Zone.js';
 import Isaac from '#/io/Isaac.js';
 import Packet from '#/io/Packet.js';
-import { ReportAbuseReason } from '#/network/client/model/ReportAbuse.js';
-import MessagePrivate from '#/network/server/model/MessagePrivate.js';
-import UpdateFriendList from '#/network/server/model/UpdateFriendList.js';
-import UpdateIgnoreList from '#/network/server/model/UpdateIgnoreList.js';
-import UpdateRebootTimer from '#/network/server/model/UpdateRebootTimer.js';
+import { ReportAbuseReason } from '#/network/client/model/game/ReportAbuse.js';
+import MessagePrivate from '#/network/server/model/game/MessagePrivate.js';
+import UpdateFriendList from '#/network/server/model/game/UpdateFriendList.js';
+import UpdateIgnoreList from '#/network/server/model/game/UpdateIgnoreList.js';
+import UpdateRebootTimer from '#/network/server/model/game/UpdateRebootTimer.js';
 import ClientSocket from '#/server/ClientSocket.js';
 import { FriendsServerOpcodes } from '#/server/friend/FriendServer.js';
 import { FriendThreadMessage } from '#/server/friend/FriendThread.js';
@@ -2171,7 +2171,14 @@ class World {
 
             // todo: login encoders/decoders
             client.opcode = World.loginBuf.g1();
-            client.waiting = client.opcode === 16 || client.opcode === 18 ? -1 : 0;
+
+            if (client.opcode === 14) {
+                client.waiting = 1;
+            } else if (client.opcode === 16 || client.opcode === 18) {
+                client.waiting = -1;
+            } else {
+                client.waiting = 0;
+            }
         }
 
         if (client.waiting === -1) {
@@ -2193,7 +2200,17 @@ class World {
         World.loginBuf.pos = 0;
         client.read(World.loginBuf.data, 0, client.waiting);
 
-        if (client.opcode === 16 || client.opcode === 18) {
+        if (client.opcode === 14) {
+            client.send(Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]));
+
+            const _loginServer = World.loginBuf.g1();
+            client.send(Uint8Array.from([0]));
+
+            const seed = new Packet(new Uint8Array(8));
+            seed.p4(Math.floor(Math.random() * 0x00ffffff));
+            seed.p4(Math.floor(Math.random() * 0xffffffff));
+            client.send(seed.data);
+        } else if (client.opcode === 16 || client.opcode === 18) {
             const rev = World.loginBuf.g1();
             if (rev !== 225) {
                 client.send(Uint8Array.from([6]));
