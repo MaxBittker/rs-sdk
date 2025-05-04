@@ -1,4 +1,4 @@
-[opnpc1,dwarf_black_guard]
+[opnpc1,mcannonguard]
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,angry>Don't distract me while I'm on duty!|This mine has to be protected!");
 ~chatplayer("<p,quiz>What's going to attack a mine?");

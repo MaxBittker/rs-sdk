@@ -1,4 +1,4 @@
-[ai_queue3,moss_giant]
+[ai_queue3,mossgiant]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

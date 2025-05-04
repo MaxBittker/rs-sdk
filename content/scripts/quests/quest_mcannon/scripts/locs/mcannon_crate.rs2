@@ -1,7 +1,7 @@
 // Crate containing Lolk
 [oploc1,loc_1]
 if (%mcannon_progress = ^mcannon_tasked_with_finding_gilobs_son) {
-    if (npc_find(coord, dwarf_youngster, 14, 0) = true) {
+    if (npc_find(coord, dwarfchildtw1, 14, 0) = true) {
         mes("You search the crate but find nothing.");        
     } else {
         mes("You search the crate...");
@@ -10,11 +10,11 @@ if (%mcannon_progress = ^mcannon_tasked_with_finding_gilobs_son) {
         p_delay(0);
         mes("You untie the child.");
         p_delay(0);
-        npc_add(0_40_153_11_59, dwarf_youngster, 120);
+        npc_add(0_40_153_11_59, dwarfchildtw1, 120);
         npc_say("Hooray!");
         npc_setmode(playerface);
 
-        if (npc_find(coord, dwarf_youngster, 14, 0) = true) {
+        if (npc_find(coord, dwarfchildtw1, 14, 0) = true) {
             @dwarf_youngster_dialogue;
         }
     }

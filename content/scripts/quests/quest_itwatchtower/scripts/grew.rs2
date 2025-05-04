@@ -61,7 +61,7 @@ if(%itwatchtower_progress >= ^itwatchtower_complete) {
                 ~chatplayer("<p,angry>You will have to kill me first.");
                 npc_huntall(coord, 5, 0); // seems to be 5 tiles in OSRS
                 while(npc_huntnext = true) {
-                    if(npc_type = ogre_armed) ~npc_retaliate(0);
+                    if(npc_type = ogre2) ~npc_retaliate(0);
                 }
                 ~chatnpc("<p,angry>That's not tricky - guards!");
         }

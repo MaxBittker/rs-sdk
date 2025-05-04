@@ -11,12 +11,12 @@ while (.npc_huntnext = true) {
 }
 
 [debugproc,npc_find]
-if (npc_find(coord, goblin_unarmed1, 5, 0) = true) {
+if (npc_find(coord, goblin, 5, 0) = true) {
     npc_say("Hello");
 }
 
 [debugproc,npc_find2]
-if (.npc_find(coord, goblin_unarmed1, 5, 0) = true) {
+if (.npc_find(coord, goblin, 5, 0) = true) {
     .npc_say("Hello");
 }
 

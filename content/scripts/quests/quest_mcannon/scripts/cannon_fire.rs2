@@ -111,7 +111,7 @@ if (~player_npc_hit_roll(%damagetype) = true) {
 ~npc_retaliate(divide($duration, 30));
 npc_queue(2, $damage, divide($duration, 30)); // ai_queue2 takes uncapped damage (avoids npcs from tick healing)
 
-if (npc_type = king_black_dragon) {
+if (npc_type = king_dragon) {
     @kbd_destroy_cannon;
 }
 // https://web.archive.org/web/20040821134749/http://www.runescapecommunity.com/index.php?showtopic=159464&amp

@@ -1,4 +1,4 @@
-[opnpc1,brimstail]
+[opnpc1,gnome_brimstail]
 ~chatnpc("<p,neutral>Hello adventurer, what can I do for you?");
 if(%runemysteries_progress = ^runemysteries_complete) {
     def_int $option = ~p_choice2("Can you teleport me to the Rune Essence?", 1, "Nothing for now, thanks!", 2);

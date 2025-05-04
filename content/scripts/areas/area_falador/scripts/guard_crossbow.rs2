@@ -1,3 +1,3 @@
-[ai_queue1,guard_crossbow] ~npc_default_retaliate_ap;
-[ai_opplayer2,guard_crossbow] npc_setmode(applayer2);
-[ai_applayer2,guard_crossbow] ~npc_rangeattack;
+[ai_queue1,guard2] ~npc_default_retaliate_ap;
+[ai_opplayer2,guard2] npc_setmode(applayer2);
+[ai_applayer2,guard2] ~npc_rangeattack;

@@ -1,3 +1,3 @@
-[ai_queue1,archer] ~npc_default_retaliate_ap;
-[ai_opplayer2,archer] npc_setmode(applayer2);
-[ai_applayer2,archer] ~npc_rangeattack;
+[ai_queue1,ardougne_archer] ~npc_default_retaliate_ap;
+[ai_opplayer2,ardougne_archer] npc_setmode(applayer2);
+[ai_applayer2,ardougne_archer] ~npc_rangeattack;

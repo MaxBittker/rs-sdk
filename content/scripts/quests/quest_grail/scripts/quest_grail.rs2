@@ -3,10 +3,10 @@
 if(%grail_progress > ^grail_not_started) {
     def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
     if($entering = true) {
-        if(npc_find(coord, merlin_workshop, 6, 0) = true) {
+        if(npc_find(coord, merlin2, 6, 0) = true) {
             npc_del;
         }
-        npc_add(1_43_54_15_44, merlin_workshop, 500);
+        npc_add(1_43_54_15_44, merlin2, 500);
     }
     ~open_and_close_door(loc_1535, $entering, false);
     return;

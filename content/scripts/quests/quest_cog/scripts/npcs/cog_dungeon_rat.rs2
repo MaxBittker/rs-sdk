@@ -1,15 +1,15 @@
-[ai_queue10,cog_dungeon_rat]
+[ai_queue10,clocktower_rat]
 npc_setmode(none);
 npc_walk(0_40_150_26_54);
 npc_queue(11, 0, 4);
 
-[ai_queue11,cog_dungeon_rat]
+[ai_queue11,clocktower_rat]
 npc_walk(0_40_150_19_56);
 def_int $rand = ~random_range(6, 7);
 npc_queue(12, 0, $rand);
 
-[ai_queue12,cog_dungeon_rat]
-def_seq $death_anim = nc_param(cog_dungeon_rat, death_anim);
+[ai_queue12,clocktower_rat]
+def_seq $death_anim = nc_param(clocktower_rat, death_anim);
 npc_anim($death_anim, 0);
 npc_delay(1);
 npc_del;

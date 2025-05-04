@@ -1,4 +1,4 @@
-[ai_queue3,chaos_dwarf]
+[ai_queue3,dwarf_chaos]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

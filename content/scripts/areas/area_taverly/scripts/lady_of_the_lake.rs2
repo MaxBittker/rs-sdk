@@ -1,4 +1,4 @@
-[opnpc1,lady_of_the_lake]
+[opnpc1,ladyofthelake]
 ~chatnpc("<p,neutral>Good day to you <text_gender("sir", "madam")>.");
 def_int $option;
 if(%arthur_progress >= ^arthur_spoken_morgan_lefaye & ~obj_gettotal(excalibur) = 0) {

@@ -2,7 +2,7 @@
 // https://youtu.be/597gMc5j14E?si=oXUOSwc7dvzmwOMl&t=237 this video shows sheep baa!'ing after ~objbox is called, so its defintely not baaing from the opnpcu script.
 // Also here: https://www.youtube.com/watch?v=597gMc5j14E&t=323s, the sheep baa!'s after finishing its retreat (defaultMode is called)
 
-[opnpcu,sheep_fluffy]
+[opnpcu,sheepunsheered]
 if(last_useitem ! shears) {
     ~displaymessage(^dm_default);
     return;
@@ -17,12 +17,12 @@ npc_setmode(playerfaceclose);
 p_delay(0);
 npc_setmode(null);
 p_delay(0);
-npc_changetype_keepall(sheep_sheared, 100);
+npc_changetype_keepall(sheepsheered, 100);
 inv_add(inv, wool, 1);
 mes("You get some wool.");
 ~objbox(wool, "You get some wool.", 250, 0, divide(^objbox_height, 2));
 
-[opnpcu,sheep_sheared]
+[opnpcu,sheepsheered]
 if(last_useitem = shears) {
     mes("This sheep has already been shorn.");
     return;

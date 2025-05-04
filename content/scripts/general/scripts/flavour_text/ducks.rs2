@@ -12,7 +12,7 @@ npc_queue(5, 0, 0);
 // - avg was 74.69
 [ai_timer,_duckling]
 npc_settimer(add(50, random(50)));
-if (.npc_find(npc_coord, duck, 10, 1) = true) {
+if (.npc_find(npc_coord, duck_female, 10, 1) = true) {
     .npc_say("Quack?");
     ~sound_area(quack, 0, npc_coord, 5); // osrs
     npc_queue(6, 0, 2);
@@ -42,7 +42,7 @@ npc_say("Quack!");
 while (.npc_findnext = true) {
     .npc_queue(5, 0, 2);
 }
-if (.npc_find(npc_coord, drake, 1, 1) = true) {
+if (.npc_find(npc_coord, duck, 1, 1) = true) {
     .npc_queue(5, 0, 2);
 }
 gosub(npc_death);

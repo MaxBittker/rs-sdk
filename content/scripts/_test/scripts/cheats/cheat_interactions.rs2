@@ -69,7 +69,7 @@ if (p_finduid(uid) = true) {
 [proc,reset_itest]
 npc_findallany(0_37_55_32_30, 10, ^vis_off);
 while (npc_findnext = true) {
-    if (npc_type = cow_1 | npc_type = goblin_unarmed1) {
+    if (npc_type = cow | npc_type = goblin) {
         npc_del;
     }
 }
@@ -82,7 +82,7 @@ inv_clear(worn);
 
 [proc,ap_to_op_switching]
 mes("Test 1: AP to OP Switching");
-npc_add(movecoord(coord, 0, 0, 5), cow_1, 10);
+npc_add(movecoord(coord, 0, 0, 5), cow, 10);
 %npc_lastcombat = add(map_clock, 10);
 npc_setmode(none);
 queue(reset_itest, 10);
@@ -91,7 +91,7 @@ p_opnpc(2);
 
 [proc,blocking_an_npc_and_then_unblocking]
 mes("Test 2: Blocking an Npc and then unblocking");
-npc_add(movecoord(coord, -5, 0, -1), goblin_unarmed1, 10);
+npc_add(movecoord(coord, -5, 0, -1), goblin, 10);
 npc_setmode(none);
 npc_walk(movecoord(npc_coord, 10, 0, 0));
 p_delay(2);
@@ -117,7 +117,7 @@ queue(reset_itest, 15);
 
 [proc,clicking_an_npc_then_clicking_away_before_reaching]
 mes("Test 6 (manual): Clicking an Npc then clicking away before reaching");
-npc_add(movecoord(coord, 0, 0, 5), goblin_unarmed1, 10);
+npc_add(movecoord(coord, 0, 0, 5), goblin, 10);
 npc_setmode(none);
 
 [proc,clicking_an_obj_then_clicking_away_before_reaching]
@@ -166,7 +166,7 @@ inv_delslot(worn, ^wearpos_lhand);
 
 inv_add(inv, bronze_axe, 1);
 
-npc_add(0_50_50_40_24, man_brown, 20);
+npc_add(0_50_50_40_24, man3, 20);
 npc_setmode(opplayer2);
 queue(reset_itest, 20);
 
@@ -177,7 +177,7 @@ queue(reset_itest, 10);
 
 [proc,magic_fire_bolt_while_underneath_the_npc]
 mes("Test 16 (manual): Magic Fire Bolt while underneath the Npc");
-npc_add(movecoord(coord, 0, 0, 1), goblin_unarmed1, 10);
+npc_add(movecoord(coord, 0, 0, 1), goblin, 10);
 npc_setmode(none);
 
 inv_clear(inv);
@@ -192,7 +192,7 @@ p_teleport(movecoord(coord, 0, 0, 1));
 
 [proc,not_blocking_npcs_when_logged_in_without_moving]
 mes("Test 17 (manual): Not blocking Npcs when logged in without moving");
-npc_add(movecoord(coord, -5, 0, 0), goblin_unarmed1, 10);
+npc_add(movecoord(coord, -5, 0, 0), goblin, 10);
 npc_setmode(none);
 npc_walk(movecoord(npc_coord, 10, 0, 0));
 
@@ -231,13 +231,13 @@ if_settabactive(^tab_wornitems);
 
 ~update_all(null);
 
-npc_add(0_50_50_40_24, man_brown, 20);
+npc_add(0_50_50_40_24, man3, 20);
 npc_setmode(opplayer2);
 queue(reset_itest, 20);
 
 [proc,walking_and_equipping_an_obj_continues_walking_while_targetting]
 mes("Test 21 (manual): Walking and equipping an Obj continues walking while targetting");
-npc_add(movecoord(coord, 0, 0, 7), goblin_unarmed1, 20);
+npc_add(movecoord(coord, 0, 0, 7), goblin, 20);
 npc_setmode(none);
 
 inv_clear(inv);
@@ -262,7 +262,7 @@ if_settabactive(^tab_wornitems);
 
 ~update_all(null);
 
-npc_add(movecoord(coord, 0, 0, 7), goblin_unarmed1, 20);
+npc_add(movecoord(coord, 0, 0, 7), goblin, 20);
 npc_setmode(none);
 queue(reset_itest, 20);
 
@@ -293,7 +293,7 @@ p_opobj(1);
 
 [proc,pathing_to_an_npc_as_it_is_deleted_before_reaching]
 mes("Test 27: Pathing to an Npc as it is deleted before reaching");
-npc_add(movecoord(coord, 0, 0, 10), goblin_unarmed1, 5);
+npc_add(movecoord(coord, 0, 0, 10), goblin, 5);
 
 queue(reset_itest, 10);
 
@@ -304,7 +304,7 @@ p_opnpc(2);
 
 [proc,pathing_to_an_npc_as_it_does_changetype_command]
 mes("Test 28: Pathing to an Npc as it does changetype command");
-npc_add(movecoord(coord, 0, 0, 10), goblin_unarmed1, 10);
+npc_add(movecoord(coord, 0, 0, 10), goblin, 10);
 npc_setmode(none);
 
 queue(reset_itest, 10);
@@ -314,12 +314,12 @@ inv_clear(worn);
 p_opnpc(2);
 
 world_delay(4);
-npc_changetype_keepall(cow_1, 400);
+npc_changetype_keepall(cow, 400);
 
 
 [proc,repathing_to_an_npc_on_your_last_waypoint]
 mes("Test 29: Repathing to an Npc on your last waypoint");
-npc_add(movecoord(coord, 12, 0, 3), goblin_unarmed1, 20);
+npc_add(movecoord(coord, 12, 0, 3), goblin, 20);
 npc_setmode(none);
 
 queue(reset_itest, 20);
@@ -340,7 +340,7 @@ if (loc_find(0_50_50_38_10, loc_1533) = true) {
     loc_del(500);
     loc_add($new_loc_coord, loc_param(next_loc_stage), modulo(add(loc_angle, 1), 4), loc_shape, 500);
 }
-npc_add(movecoord(coord, 3, 0, 0), goblin_unarmed1, 20);
+npc_add(movecoord(coord, 3, 0, 0), goblin, 20);
 npc_setmode(none);
 
 queue(reset_itest, 20);
@@ -367,7 +367,7 @@ if (loc_find(0_50_50_38_10, loc_1533) = true) {
 
 [proc,npc_set_mode_to_opplayer]
 mes("Test 31: Npc_setmode to opplayer");
-npc_add(movecoord(coord, -5, 0, -1), goblin_unarmed1, 10);
+npc_add(movecoord(coord, -5, 0, -1), goblin, 10);
 npc_setmode(opplayer2);
 
 queue(reset_itest, 10);
@@ -380,7 +380,7 @@ if (p_finduid(uid) = true) {
 
 [proc,npc_set_mode_to_applayer]
 mes("Test 32: Npc_setmode to applayer");
-npc_add(movecoord(coord, -5, 0, -1), dark_wizard_water, 15);
+npc_add(movecoord(coord, -5, 0, -1), young_dark_wizard, 15);
 ~npc_retaliate(0);
 queue(reset_itest, 15);
 

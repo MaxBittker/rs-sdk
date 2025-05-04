@@ -1,4 +1,5 @@
-[ai_queue3,bandit]
+[ai_queue3,brawling_bandit]
+
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

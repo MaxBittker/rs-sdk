@@ -18,7 +18,7 @@ model1=model_2858_npc
 head1=model_12_npc_head
 param=death_anim,fairy_death
 
-[door_man]
+[doorman]
 vislevel=hide
 name=Door man
 desc=What a boring job he has.

@@ -1,10 +1,10 @@
 // https://youtu.be/597gMc5j14E?si=oXUOSwc7dvzmwOMl&t=237
 // Seems to be 20-40 ticks
 
-[ai_timer,sheep_sheared]
+[ai_timer,sheepsheered]
 npc_settimer(add(20, random(20)));
 npc_say("Baa!");
 
-[ai_timer,sheep_fluffy]
+[ai_timer,sheepunsheered]
 npc_settimer(add(20, random(20)));
 npc_say("Baa!");

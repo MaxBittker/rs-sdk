@@ -87,7 +87,7 @@ model10=model_323_obj_wear
 head1=model_65_npc_head
 head2=model_35_npc_head
 
-[peasent_unhappy]
+[unhappy_peasant]
 vislevel=hide
 name=Peasant
 desc=He looks unhappy...
@@ -115,7 +115,7 @@ head1=model_63_idk_head
 head2=model_79_idk_head
 wanderrange=2
 
-[peasent_happy]
+[happy_peasant]
 vislevel=hide
 name=Peasant
 desc=He looks happy...
@@ -143,7 +143,7 @@ head1=model_63_idk_head
 head2=model_79_idk_head
 wanderrange=2
 
-[crone]
+[grail_crone]
 vislevel=hide
 name=Crone
 desc=A crone.
@@ -169,7 +169,7 @@ model6=model_361_obj_wear
 head1=model_103_idk_head
 param=death_sound,female_death
 
-[galahad]
+[brother_galahad]
 vislevel=hide
 name=Galahad
 desc=A former Knight of the Round Table.
@@ -233,7 +233,7 @@ head2=model_37_npc_head
 head3=model_68_obj_wear
 head4=model_83_idk_head
 
-[the_fisher_king]
+[fisher_king]
 vislevel=hide
 name=The Fisher King
 desc=He doesn't look very well...

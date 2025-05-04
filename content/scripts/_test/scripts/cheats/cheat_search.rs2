@@ -49,11 +49,11 @@ if (p_finduid(uid) = true) {
 if (p_finduid(uid) = true) {
     p_telejump(0_37_55_35_35);
     p_delay(0);
-    npc_add(0_37_55_33_33, goblin_unarmed1,30);
-    npc_add(0_37_55_34_33, goblin_unarmed1,30);
-    npc_add(0_37_55_35_33, goblin_unarmed1,30);
-    npc_add(0_37_55_36_33, goblin_unarmed1,30);
-    npc_add(0_37_55_37_33, goblin_unarmed1,30);
+    npc_add(0_37_55_33_33, goblin,30);
+    npc_add(0_37_55_34_33, goblin,30);
+    npc_add(0_37_55_35_33, goblin,30);
+    npc_add(0_37_55_36_33, goblin,30);
+    npc_add(0_37_55_37_33, goblin,30);
     p_delay(1);
 
     if(npc_hunt(0_37_55_35_35, 10, 0) = true){

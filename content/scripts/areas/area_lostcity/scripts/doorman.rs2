@@ -1,5 +1,5 @@
 // guessing, you can't talk to him directly in rsc
-[opnpc1,door_man] mes("The Door man does not appear interested in talking.");
+[opnpc1,doorman] mes("The Door man does not appear interested in talking.");
 
 [label,door_man_chat]
 ~chatnpc("<p,neutral>You cannot pass through this door without paying the trading tax.");
@@ -39,7 +39,7 @@ if(loc_coord = 0_50_149_38_22) {
         ~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);
         return;
     }
-    if (npc_find(0_50_149_33_20, door_man, 2, 0) = true) {
+    if (npc_find(0_50_149_33_20, doorman, 2, 0) = true) {
         @door_man_chat;
     }
 }

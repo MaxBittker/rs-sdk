@@ -75,7 +75,7 @@ stat_advance(agility, 75);
 ~update_gnome_varp(7);
 
 [proc,gnome_trainer_say](string $line)
-if(npc_find(coord, gnome_trainer, 6, 0) = true) {
+if(npc_find(coord, gnometrainer, 6, 0) = true) {
     npc_say($line);
 }
 

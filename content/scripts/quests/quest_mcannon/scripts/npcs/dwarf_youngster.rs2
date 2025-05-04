@@ -1,4 +1,4 @@
-[opnpc1,dwarf_youngster]
+[opnpc1,dwarfchildtw1]
 @dwarf_youngster_dialogue;
 
 [label,dwarf_youngster_dialogue]
@@ -20,9 +20,9 @@ npc_facesquare(0_40_153_7_56);
 npc_queue(10, 0, 0);
 p_delay(3);
 
-[ai_queue10,dwarf_youngster]
+[ai_queue10,dwarfchildtw1]
 npc_walk(0_40_153_7_56);
 npc_queue(11, 0, 4);
 
-[ai_queue11,dwarf_youngster]
+[ai_queue11,dwarfchildtw1]
 npc_del;

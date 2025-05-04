@@ -1,4 +1,4 @@
-[ai_opplayer2,monk_of_zamorak_22]
+[ai_opplayer2,chaosmonk1]
 if (%npc_action_delay > map_clock) return;
 def_int $whichattack = random(4); // approximation by joe testing on osrs https://i.imgur.com/qXBNa40.png
 if ($whichattack = 0) {
@@ -8,7 +8,7 @@ if ($whichattack = 0) {
 }
 
 
-[ai_opplayer2,monk_of_zamorak_17]
+[ai_opplayer2,chaosmonk2]
 if (%npc_action_delay > map_clock) return;
 def_int $whichattack = random(4);
 if ($whichattack = 0) {
@@ -18,7 +18,7 @@ if ($whichattack = 0) {
 }
 
 
-[ai_opplayer2,monk_of_zamorak_45]
+[ai_opplayer2,chaosmonk3]
 if (%npc_action_delay > map_clock) return;
 def_int $whichattack = random(4);
 if ($whichattack = 0) {

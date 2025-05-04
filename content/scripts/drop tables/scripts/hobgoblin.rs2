@@ -1,4 +1,4 @@
-[ai_queue3,hobgoblin] // LVL 28 Hobgoblins
+[ai_queue3,hobgoblin_unarmed] // LVL 28 Hobgoblins
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

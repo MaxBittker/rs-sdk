@@ -1,7 +1,7 @@
 [oploc1,loc_1805]
 if (%questpoints < 32) {
     mes("The door won't open - you need at least 32 Quest Points.");
-    ~chatnpc_specific("Guild master", guild_master, "<p,angry>You have not proved yourself worthy to enter here yet.");
+    ~chatnpc_specific("Guild master", guildmaster, "<p,angry>You have not proved yourself worthy to enter here yet.");
     return;
 }
 // the sound in osrs is 1t early (if entering), so i cant use the proc
@@ -38,5 +38,5 @@ loc_add($loc_coord, inviswall, $angle, $shape, 3);
 loc_add(movecoord($loc_coord, $x, 0, $z), $replacement, modulo(add($angle, 1), 4), $shape, 3);
 
 if ($entering = true) {
-    ~chatnpc_specific("Guild master", guild_master, "<p,happy>Greetings bold adventurer. Welcome to the guild of Champions.");
+    ~chatnpc_specific("Guild master", guildmaster, "<p,happy>Greetings bold adventurer. Welcome to the guild of Champions.");
 }

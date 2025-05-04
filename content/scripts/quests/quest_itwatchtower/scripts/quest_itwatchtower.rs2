@@ -344,7 +344,7 @@ p_delay(0);
 loc_change(cavewitchchestopen, 300);
 mes("Ahh! There is a spider inside.");
 mes("Someone's idea of a joke...");
-npc_add(coord, poison_spider, 1000);
+npc_add(coord, poisonspider, 1000);
 ~npc_retaliate(0);
 
 [oploc1,loc_2827]
@@ -368,7 +368,7 @@ switch_int(random(8)) {
         inv_add(inv, bones, 1);
         ~chatplayer("<p,bored>Oh great, some bones!");
     case 4 :
-        npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk), chaos_dwarf, 1000);
+        npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk), dwarf_chaos, 1000);
         ~npc_retaliate(0);
         ~chatplayer("<p,quiz>How on earth did this dwarf get in here?");
     case 5 :
@@ -380,7 +380,7 @@ switch_int(random(8)) {
         ~npc_retaliate(0);
         ~chatplayer("<p,shock>Hey! A scorpion is in here!");     
     case 7 :
-        npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk), poison_spider, 1000);
+        npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk), poisonspider, 1000);
         ~npc_retaliate(0);
         ~chatplayer("<p,shock>Oh no, not one of these spider things!");     
 }

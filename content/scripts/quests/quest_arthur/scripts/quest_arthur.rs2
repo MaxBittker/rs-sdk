@@ -157,7 +157,7 @@ if(inzone(movecoord(^camelot_magic_symbol, -1, 0, -1), movecoord(^camelot_magic_
         ~forcewalk(movecoord(^camelot_magic_symbol, -2, 0, 0));
         // 3t delay
         sound_synth(smokepuff, 0, 0);
-        npc_add(^camelot_magic_symbol, thrantax_the_mighty, 100);
+        npc_add(^camelot_magic_symbol, thrantax, 100);
         spotanim_map(smokepuff, npc_coord, 124, 0);
         ~mesbox("Suddenly a mighty spirit appears!");
         ~chatplayer("<p,shock>Now what were those magic words again?");
@@ -210,12 +210,12 @@ sound_synth(put_down, 0, 0);
 [oploc1,jewellersdoor]
 if(testbit(%excalibur_components_progress, ^excalibur_rewarded) = false) {
     if(testbit(%excalibur_components_progress, ^excalibur_spoken_beggar) = true) {
-        if(npc_find(coord, beggar, 1, 0) = false) {
-            npc_add(movecoord(loc_coord, 0, 0, 1), beggar, 100);
+        if(npc_find(coord, lake_beggar, 1, 0) = false) {
+            npc_add(movecoord(loc_coord, 0, 0, 1), lake_beggar, 100);
         }
     } else if(testbit(%excalibur_components_progress, ^excalibur_started) = true) {
-        if(npc_find(coord, beggar, 1, 0) = false) {
-            npc_add(movecoord(loc_coord, 0, 0, 1), beggar, 100);
+        if(npc_find(coord, lake_beggar, 1, 0) = false) {
+            npc_add(movecoord(loc_coord, 0, 0, 1), lake_beggar, 100);
         }
         @beggar_dialogue;
     } 
@@ -228,8 +228,8 @@ anim(human_reachforladder, 0);
 p_delay(0);
 p_telejump(movecoord(loc_coord, 0, 1, 1));
 if(testbit(%excalibur_components_progress, ^excalibur_rewarded) = false & testbit(%excalibur_components_progress, ^excalibur_started) = true & map_members = true) {
-    if(npc_find(coord, lady_of_the_lake, 4, 0) = false) {
-        npc_add(movecoord(coord, -1, 0, 3), lady_of_the_lake, 100);
+    if(npc_find(coord, ladyofthelake, 4, 0) = false) {
+        npc_add(movecoord(coord, -1, 0, 3), ladyofthelake, 100);
     }
     ~chatplayer("<p,neutral>Hello. I am here for Excalibur. Can I have it yet?");
     ~chatnpc("<p,neutral>I don't think you are worthy enough.");
@@ -255,7 +255,7 @@ switch_obj(last_useitem) {
         mes("You attempt to smash the crystal...");
         mes("... and it shatters under the force of Excalibur!");
         loc_del(50);
-        npc_add(loc_coord, merlin_arthur, 50);
+        npc_add(loc_coord, merlin, 50);
         // excalibur stuff is also cleared if you restarted it
         %excalibur_components_progress = 0;
         %arthur_progress = ^arthur_freed_merlin;

@@ -70,7 +70,7 @@ defence=5
 param=damagetype,^slash_style
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4917
 
-[entrana_firebird]
+[fire_bird]
 name=Entrana Fire Bird
 desc=Probably not a chicken.
 walkanim=firebird_walk

@@ -4,10 +4,10 @@ if(coordz(coord) > coordz(loc_coord)) {
     sound_synth(locked, 0, 0);
     return;
 }
-~chatnpc_specific("Forester", forester_mcgrubor, "<p,angry>Hey! You can't come through here!|This is private land!");
+~chatnpc_specific("Forester", mcgruborforester, "<p,angry>Hey! You can't come through here!|This is private land!");
 ~mesbox("You will need to find another way in.");
 
-[opnpc1,forester_mcgrubor] mes("He doesn't seem interested in talking to you.");
+[opnpc1,mcgruborforester] mes("He doesn't seem interested in talking to you.");
 
 [oploc1,mcgruborlooserailing]
 p_delay(0);

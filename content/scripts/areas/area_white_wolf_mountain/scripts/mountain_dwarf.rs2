@@ -1,4 +1,4 @@
-[opnpc1,mountain_dwarf]
+[opnpc1,tunnel_dwarf]
 switch_int (%fishingcompo_progress) {
     case ^fishingcompo_not_started : @mountain_dwarf_start;
     case ^fishingcompo_complete : ~chatnpc("<p,happy>Welcome, oh great Fishing Champion!|Feel free to pop by any time.");

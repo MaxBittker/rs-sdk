@@ -1,4 +1,4 @@
-[opnpcu,cow_1]
+[opnpcu,cow]
 switch_obj(last_useitem) {
     case bucket_empty : @milk_cow;
     case default : mes("The cow doesn't want that."); // osrs

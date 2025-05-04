@@ -1,6 +1,6 @@
-[ai_queue1,king_black_dragon] ~npc_default_retaliate_ap;
+[ai_queue1,king_dragon] ~npc_default_retaliate_ap;
 
-[ai_queue3,king_black_dragon]
+[ai_queue3,king_dragon]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;
@@ -72,7 +72,7 @@ if ($random < 10) { // osrs
 }
 
 
-[ai_applayer2,king_black_dragon]
+[ai_applayer2,king_dragon]
 if (%npc_action_delay > map_clock) {
     return;
 }
@@ -93,7 +93,7 @@ npc_sethuntmode(aggressive_melee);
 npc_setmode(opplayer2);
 
 
-[ai_opplayer2,king_black_dragon]
+[ai_opplayer2,king_dragon]
 //mes("<tostring(map_clock)>: Op");
 if (%npc_action_delay > map_clock) {
     return;
@@ -106,7 +106,7 @@ if (~npc_check_notcombat_self = false) {
     return;
 }
 ~kbd_random_attack;
-npc_sethuntmode(king_black_dragon);
+npc_sethuntmode(king_dragon);
 
 
 [proc,kbd_random_attack]

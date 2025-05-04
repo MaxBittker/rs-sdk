@@ -1,21 +1,21 @@
 // Gnome stronghold entrance gate
 [oploc1,loc_190]
 if(%grandtree_progress = ^grandtree_released_prison & coordz(coord) > coordz(loc_coord)) { // only when leaving
-    ~chatnpc_specific(nc_name(gnome_guard_halberd), gnome_guard_halberd, "<p,angry>Halt, human!");
+    ~chatnpc_specific(nc_name(gnomekingsguard), gnomekingsguard, "<p,angry>Halt, human!");
     ~chatplayer("<p,shock>What?, why?"); // intentional
-    ~chatnpc_specific(nc_name(gnome_guard_halberd), gnome_guard_halberd, "<p,angry>By order of the head tree guardian!|You can not leave!");
+    ~chatnpc_specific(nc_name(gnomekingsguard), gnomekingsguard, "<p,angry>By order of the head tree guardian!|You can not leave!");
     ~chatplayer("<p,shock>That's crazy! Why?!");
-    ~chatnpc_specific(nc_name(gnome_guard_halberd), gnome_guard_halberd, "<p,angry>Humans are planning to attack our stronghold.|You could be a spy!");
+    ~chatnpc_specific(nc_name(gnomekingsguard), gnomekingsguard, "<p,angry>Humans are planning to attack our stronghold.|You could be a spy!");
     ~chatplayer("<p,angry>That's ridiculous!");
-    ~chatnpc_specific(nc_name(gnome_guard_halberd), gnome_guard_halberd, "<p,neutral>Maybe, but that's the orders, I'm sorry.");
+    ~chatnpc_specific(nc_name(gnomekingsguard), gnomekingsguard, "<p,neutral>Maybe, but that's the orders, I'm sorry.");
     return;
 }
 if(%grandtree_progress = ^grandtree_obtained_lumber_order & coordz(coord) < coordz(loc_coord)) { // todo: is this before or after helping femi?
-    ~chatnpc_specific(nc_name(gnome_guard_halberd), gnome_guard_halberd, "<p,neutral>I'm afraid that we have orders not to let you in.");
+    ~chatnpc_specific(nc_name(gnomekingsguard), gnomekingsguard, "<p,neutral>I'm afraid that we have orders not to let you in.");
     ~chatplayer("<p,angry>Orders from who?");
-    ~chatnpc_specific(nc_name(gnome_guard_halberd), gnome_guard_halberd, "<p,neutral>The head tree guardian, he say's you're a spy!");
+    ~chatnpc_specific(nc_name(gnomekingsguard), gnomekingsguard, "<p,neutral>The head tree guardian, he say's you're a spy!");
     ~chatplayer("<p,angry>Glough!");
-    ~chatnpc_specific(nc_name(gnome_guard_halberd), gnome_guard_halberd, "<p,neutral>I'm sorry but you'll have to leave.");
+    ~chatnpc_specific(nc_name(gnomekingsguard), gnomekingsguard, "<p,neutral>I'm sorry but you'll have to leave.");
     return;
 }
 if(%femi_help = 0 & coordz(coord) < coordz(loc_coord) & npc_find(coord, femi, 6, 0) = true) {

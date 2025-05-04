@@ -1,4 +1,4 @@
-[ai_opplayer2,skeleton_mage]
+[ai_opplayer2,skeletonmage]
 if (%npc_action_delay > map_clock) return;
 def_int $whichattack = random(4); // estimate, 100 attacks
 if ($whichattack = 0 & stat(defence) >= stat_base(defence) & stat(attack) >= stat_base(attack) & stat(strength) >= stat_base(strength)) {

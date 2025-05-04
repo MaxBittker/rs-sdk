@@ -205,7 +205,7 @@ param=undead,^true
 huntmode=cowardly
 huntrange=1
 // https://web.archive.org/web/20051105211000/http://www.tip.it/runescape/index.php?rs2monster_id=151
-// stats taken zombie_entrana // Vislvl match 1:1
+// stats taken zombie_entranan // Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3980 (24lv)
 
 [melzar_maze_lesser_demon]

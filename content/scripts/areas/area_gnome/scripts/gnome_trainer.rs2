@@ -1,4 +1,4 @@
-[opnpc1,gnome_trainer]
+[opnpc1,gnometrainer]
 def_int $rand_value = random(4);
 if($rand_value = 0) {
     ~chatplayer("<p,neutral>Hello how are you?");

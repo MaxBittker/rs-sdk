@@ -103,7 +103,7 @@ npc_say("Guards guards!");
 
 npc_huntall(npc_coord, 5, 0);
 while (npc_huntnext = true) {
-    if ((npc_type = guard_ardougne | npc_type = knight_of_ardougne_1 | npc_type = knight_of_ardougne_2 | npc_type = paladin | npc_type = hero)
+    if ((npc_type = ardougne_guard | npc_type = knight_of_ardougne | npc_type = knight_of_ardougne2 | npc_type = paladin | npc_type = hero)
         & npc_getmode ! opplayer2 & lineofsight(npc_coord, coord) = true) {
         ~npc_retaliate(0);
     }

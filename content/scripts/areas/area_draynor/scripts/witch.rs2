@@ -1,9 +1,9 @@
 // https://i.imgur.com/ZSyCzkS.png
 // https://archive.org/details/PCPowerplay-101-2004-07/page/n13/mode/2up?q=runescape
 
-[ai_queue1,witch_draynor] ~npc_default_retaliate_ap;
-[ai_opplayer2,witch_draynor] npc_setmode(applayer2);
-[ai_applayer2,witch_draynor]
+[ai_queue1,witch1] ~npc_default_retaliate_ap;
+[ai_opplayer2,witch1] npc_setmode(applayer2);
+[ai_applayer2,witch1]
 if (%npc_action_delay > map_clock) {
     npc_setmode(applayer2);
     return;

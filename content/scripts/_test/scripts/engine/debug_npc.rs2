@@ -1,6 +1,6 @@
 [debugproc,npc](npc $npc)
 if ($npc = null) {
-    @debugusage("::npc (name)", "::npc man_blue", "::npc king_black_dragon");
+    @debugusage("::npc (name)", "::npc man2", "::npc king_dragon");
     return;
 }
 
@@ -8,7 +8,7 @@ npc_add(coord, $npc, 500);
 
 [debugproc,npc_hasop](npc $npc, int $op)
 if ($npc = null) {
-    @debugusage("::npc_hasop (name) (op)", "::npc_hasop man_blue 1", "::npc_hasop king_black_dragon 2");
+    @debugusage("::npc_hasop (name) (op)", "::npc_hasop man2 1", "::npc_hasop king_dragon 2");
     return;
 }
 

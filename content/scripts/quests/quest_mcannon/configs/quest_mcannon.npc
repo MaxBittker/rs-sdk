@@ -1,4 +1,4 @@
-[dwarf_black_guard]
+[mcannonguard]
 walkanim=dwarf_walk
 readyanim=dwarf_ready
 name=Dwarf
@@ -41,7 +41,7 @@ param=death_sound,gnome_death
 // osrs side this npc use somereason gnome sound datas (notice but npc is graphical updated)
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5185
 
-[dwarf_youngster]
+[dwarfchildtw1]
 vislevel=hide
 resizev=70
 resizeh=70
@@ -62,7 +62,7 @@ param=death_anim,dwarf_death
 hitpoints=6
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5190
 
-[dwarf_commander]
+[lawgof2]
 vislevel=hide
 walkanim=dwarf_walk
 readyanim=dwarf_ready

@@ -62,5 +62,5 @@ world_delay(1); // delay spawn by 2 ticks
 spotanim_map(teleport_casting, $zombie_coord, 92, 0);
 world_delay(1);
 // new active npc
-npc_add($zombie_coord, summoned_zombie, 200);
+npc_add($zombie_coord, summonedzombie, 200);
 npc_setmode(opplayer2);

@@ -110,7 +110,7 @@ model9=model_562_obj_wear
 model10=model_324_idk
 head1=model_62_npc_head
 
-[big_dave]
+[bigdave]
 vislevel=hide
 name=Big Dave
 desc=I can see how he got his name.

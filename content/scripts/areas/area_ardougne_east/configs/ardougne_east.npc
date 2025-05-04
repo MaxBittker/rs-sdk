@@ -1,4 +1,4 @@
-[archer]
+[ardougne_archer]
 name=Archer
 desc=Good with arrows.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -77,7 +77,7 @@ ranged=0
 param=damagetype,^stab_style
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3302
 
-[chuck]
+[chuck_woodman]
 name=Chuck
 desc=He's a lumberjack, and he's ok.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -103,7 +103,7 @@ param=crushdefence,7
 // param=rangedefence,
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3303
 
-[barman]
+[ardounge_barman]
 vislevel=hide
 name=Barman
 desc=Doesn't water down the beer too much.
@@ -124,7 +124,7 @@ model6=model_254_idk
 model7=model_185_obj_wear
 model8=model_321_npc
 
-[priest_east]
+[orbon_priest]
 vislevel=hide
 name=Priest
 desc=A holy man.
@@ -146,7 +146,7 @@ model7=model_185_obj_wear
 model8=model_325_npc
 moverestrict=indoors
 
-[guard_ardougne]
+[ardougne_guard]
 name=Guard
 desc=Keeps the peace... kind of.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r

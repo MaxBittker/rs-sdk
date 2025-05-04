@@ -1,5 +1,5 @@
 [ai_queue3,black_knight] @black_knight_drops;
-[ai_queue3,black_knight_aggre] @black_knight_drops;
+[ai_queue3,aggressive_black_knight] @black_knight_drops;
 
 
 [label,black_knight_drops]

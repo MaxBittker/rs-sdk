@@ -20,7 +20,7 @@ head1=model_59_idk_head
 wanderrange=0
 moverestrict=nomove
 
-[high_priest]
+[high_priest_of_entrana]
 vislevel=hide
 name=High Priest
 desc=High Priest of Entrana.
@@ -72,7 +72,7 @@ model7=model_260_npc
 head1=model_59_idk_head
 head2=model_83_idk_head
 
-[monk_entrana]
+[entrana_monk]
 name=Monk
 desc=A holy man.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r

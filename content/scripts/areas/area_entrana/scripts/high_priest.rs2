@@ -1,11 +1,11 @@
-[opnpc1,high_priest]
+[opnpc1,high_priest_of_entrana]
 ~chatnpc("<p,happy>Many greetings. Welcome to our fair island.");
 if(%grail_progress < ^grail_finding_percival & %grail_progress >= ^grail_spoken_merlin) {
     ~chatplayer("<p,neutral>Hello, I am in search of the Holy Grail.");
     ~chatnpc("<p,happy>The object of which you speak did once pass through holy Entrana. I know not where it is now however.");
     ~chatnpc("<p,neutral>Nor do I really care.");
-    if(npc_find(coord, crone, 9, 0) = false) {
-        npc_add(0_44_52_35_14, crone, 500);
+    if(npc_find(coord, grail_crone, 9, 0) = false) {
+        npc_add(0_44_52_35_14, grail_crone, 500);
     } else {
         ~chatnpc("<p,neutral>Wait!");
     }
@@ -23,5 +23,5 @@ if (%hero_progress = ^hero_started) { // only checks starting stage (OSRS)
 }
 ~chatnpc("<p,happy>Enjoy your stay here.|May it be spiritually uplifting!");
 
-[opnpcu,high_priest]
+[opnpcu,high_priest_of_entrana]
 ~chatnpc("<p,confused>No thank you, I am not accepting donations for the church at this time.");

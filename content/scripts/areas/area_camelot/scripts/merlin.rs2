@@ -1,9 +1,9 @@
-[opnpc1,merlin_arthur]
+[opnpc1,merlin]
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,confused>Excuse me for rushing off like this,|but I must get back to my workroom.");
 npc_del;
 
-[opnpc1,merlin_workshop]
+[opnpc1,merlin2]
 switch_int (%grail_progress) {
     case ^grail_complete :
         ~chatnpc("<p,happy>Congratulations, brave knight, on aiding Camelot in so many ways! If we ever require help again, I will make sure to call upon you!");

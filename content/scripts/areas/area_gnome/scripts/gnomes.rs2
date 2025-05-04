@@ -1,28 +1,26 @@
-[opnpc1,gnome_green] @talk_to_gnome;
-[opnpc1,gnome_brown] @talk_to_gnome;
-[opnpc1,gnome_black] @talk_to_gnome;
-[opnpc1,gnome_woman_white] @talk_to_gnome_woman;
-[opnpc1,gnome_woman_black] @talk_to_gnome_woman;
+[opnpc1,gnome] @talk_to_gnome;
+[opnpc1,browclothedgnome] @talk_to_gnome;
+[opnpc1,darkskinned_gnome] @talk_to_gnome;
+[opnpc1,gnomefemale] @talk_to_gnome_woman;
+[opnpc1,gnomefemale_dskinned] @talk_to_gnome_woman;
 
-[ai_queue1,gnome_green] ~npc_default_retaliate_ap;
-[ai_opplayer2,gnome_green] npc_setmode(applayer2);
-[ai_applayer2,gnome_green] ~npc_rangeattack;
+[ai_queue1,gnome] ~npc_default_retaliate_ap;
+[ai_queue1,browclothedgnome] ~npc_default_retaliate_ap;
+[ai_queue1,darkskinned_gnome] ~npc_default_retaliate_ap;
+[ai_queue1,gnomefemale] ~npc_default_retaliate_ap;
+[ai_queue1,gnomefemale_dskinned] ~npc_default_retaliate_ap;
 
-[ai_queue1,gnome_brown] ~npc_default_retaliate_ap;
-[ai_opplayer2,gnome_brown] npc_setmode(applayer2);
-[ai_applayer2,gnome_brown] ~npc_rangeattack;
+[ai_opplayer2,gnome] npc_setmode(applayer2);
+[ai_opplayer2,browclothedgnome] npc_setmode(applayer2);
+[ai_opplayer2,darkskinned_gnome] npc_setmode(applayer2);
+[ai_opplayer2,gnomefemale] npc_setmode(applayer2);
+[ai_opplayer2,gnomefemale_dskinned] npc_setmode(applayer2);
 
-[ai_queue1,gnome_black] ~npc_default_retaliate_ap;
-[ai_opplayer2,gnome_black] npc_setmode(applayer2);
-[ai_applayer2,gnome_black] ~npc_rangeattack;
-
-[ai_queue1,gnome_woman_white] ~npc_default_retaliate_ap;
-[ai_opplayer2,gnome_woman_white] npc_setmode(applayer2);
-[ai_applayer2,gnome_woman_white] ~npc_rangeattack;
-
-[ai_queue1,gnome_woman_black] ~npc_default_retaliate_ap;
-[ai_opplayer2,gnome_woman_black] npc_setmode(applayer2);
-[ai_applayer2,gnome_woman_black] ~npc_rangeattack;
+[ai_applayer2,gnome] ~npc_rangeattack;
+[ai_applayer2,browclothedgnome] ~npc_rangeattack;
+[ai_applayer2,darkskinned_gnome] ~npc_rangeattack;
+[ai_applayer2,gnomefemale] ~npc_rangeattack;
+[ai_applayer2,gnomefemale_dskinned] ~npc_rangeattack;
 
 [label,talk_to_gnome]
 def_int $rand = random(5);
@@ -90,7 +88,7 @@ switch_int ($rand) {
 }
 
 
-[opnpc1,gnome_child_yellow]
+[opnpc1,gnomechildgreen]
 def_int $rand = ~random_range(1, 12);
 ~chatplayer("<p,neutral>Hello.");
 switch_int ($rand) {
@@ -151,7 +149,7 @@ switch_int ($rand) {
         ~chatnpc("<p,neutral>Nice weather we're having today.");
         ~chatnpc("<p,neutral>But then it doesn't tend to rain much around here.");
 }
-[opnpc1,gnome_child_green]
+[opnpc1,gnomechild]
 def_int $rand = ~random_range(1, 13);
 ~chatplayer("<p,neutral>Hi there.");
 switch_int ($rand) {
@@ -208,7 +206,7 @@ switch_int ($rand) {
         ~chatnpc("<p,laugh>Hee hee!");
 }
 
-[opnpc1,gnome_child_blue]
+[opnpc1,gnomechildblue]
 def_int $rand = ~random_range(1, 13);
 ~chatplayer("<p,neutral>Hi.");
 switch_int ($rand) {

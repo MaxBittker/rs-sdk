@@ -1,4 +1,4 @@
-[opnpc1,galahad]
+[opnpc1,brother_galahad]
 if(%grail_progress = ^grail_complete) {
     ~chatnpc("<p,neutral>Would you like a cup of tea? I'll just put the kettle on.");
     ~mesbox("Brother Galahad hangs a kettle over the fire.");

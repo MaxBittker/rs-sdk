@@ -50,7 +50,7 @@ switch_int(%grandtree_progress) {
         ~chatnpc("<p,angry>Guard!");
         if_close;
         p_delay(6); // 7t
-        if(.npc_find(coord, gnome_guard_halberd, 8, 0) = true) { // not sure about the dist
+        if(.npc_find(coord, gnomekingsguard, 8, 0) = true) { // not sure about the dist
             ~.chatnpc("<p,neutral>Sire!");
             ~chatnpc("<p,neutral>Go and check out that passage!");
             if_close;

@@ -28,9 +28,9 @@ if(~trail_clue_medium_complete = true) {
 // https://www.neoseeker.com/runescape/faqs/125252-treasure-trail.html, https://web.archive.org/web/20040813233712/http://runehq.com/viewguidedb.php?id=00350
 if(npc_type = black_heather & inv_total(inv, trail_clue_medium_riddle001) > 0 & ~obj_gettotal(trail_clue_medium_riddle001_key) = 0) {
     obj_add(npc_coord, trail_clue_medium_riddle001_key, 1, ^lootdrop_duration);
-} else if(npc_type = guard_dog & inv_total(inv, trail_clue_medium_riddle002) > 0 & ~obj_gettotal(trail_clue_medium_riddle002_key) = 0) {
+} else if(npc_type = guarddog & inv_total(inv, trail_clue_medium_riddle002) > 0 & ~obj_gettotal(trail_clue_medium_riddle002_key) = 0) {
     obj_add(npc_coord, trail_clue_medium_riddle002_key, 1, ^lootdrop_duration);
-} else if(npc_type = guard_ardougne & inv_total(inv, trail_clue_medium_riddle003) > 0 & ~obj_gettotal(trail_clue_medium_riddle003_key) = 0) {
+} else if(npc_type = ardougne_guard & inv_total(inv, trail_clue_medium_riddle003) > 0 & ~obj_gettotal(trail_clue_medium_riddle003_key) = 0) {
     obj_add(npc_coord, trail_clue_medium_riddle003_key, 1, ^lootdrop_duration);
 } else if(npc_category = chicken & inv_total(inv, trail_clue_medium_riddle004) > 0 & ~obj_gettotal(trail_clue_medium_riddle004_key) = 0) {
     obj_add(npc_coord, trail_clue_medium_riddle004_key, 1, ^lootdrop_duration);

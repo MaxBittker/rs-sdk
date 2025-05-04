@@ -1,10 +1,10 @@
 [pickpocket_man]
 table=pickpocket
 data=npc,man
-data=npc,man_blue
-data=npc,man_brown
-data=npc,man_black
-data=npc,man_cavalier
+data=npc,man2
+data=npc,man3
+data=npc,al_kharid_man
+data=npc,ardougnian_male1
 data=level,1
 data=experience,80
 data=stun_ticks,13
@@ -15,10 +15,10 @@ data=pocket,man's pocket
 
 [pickpocket_woman]
 table=pickpocket
-data=npc,woman_purple
-data=npc,woman_brown
-data=npc,woman_red
-data=npc,woman_east_ardougne
+data=npc,woman
+data=npc,woman2
+data=npc,woman3
+data=npc,ardougnian_female1
 data=level,1
 data=experience,80
 data=stun_ticks,13
@@ -41,7 +41,7 @@ data=pocket,farmer's pocket
 [pickpocket_warrior]
 table=pickpocket
 data=npc,warrior_woman
-data=npc,alkharid_warrior
+data=npc,al_kharid_warrior
 data=level,25
 data=experience,260
 data=stun_ticks,13
@@ -67,9 +67,9 @@ data=pocket,rogue's pocket
 
 [pickpocket_guard]
 table=pickpocket
-data=npc,guard_sword
-data=npc,guard_crossbow
-data=npc,guard_ardougne
+data=npc,guard1
+data=npc,guard2
+data=npc,ardougne_guard
 data=level,40
 data=experience,468
 data=stun_ticks,13
@@ -80,8 +80,8 @@ data=pocket,guard's pocket
 
 [pickpocket_knight_of_ardougne]
 table=pickpocket
-data=npc,knight_of_ardougne_1
-data=npc,knight_of_ardougne_2
+data=npc,knight_of_ardougne
+data=npc,knight_of_ardougne2
 data=level,55
 data=experience,843
 data=stun_ticks,13
@@ -92,7 +92,7 @@ data=pocket,knight's pocket
 
 [pickpocket_watchman]
 table=pickpocket
-data=npc,watchman
+data=npc,yanille_watchman
 data=level,65
 data=experience,1375
 data=stun_ticks,13
@@ -116,14 +116,14 @@ data=pocket,paladin's pocket
 
 [pickpocket_gnome]
 table=pickpocket
-data=npc,gnome_green
-data=npc,gnome_brown
-data=npc,gnome_black
-data=npc,gnome_child_yellow
-data=npc,gnome_child_blue
-data=npc,gnome_child_green
-data=npc,gnome_woman_white
-data=npc,gnome_woman_black
+data=npc,gnome
+data=npc,browclothedgnome
+data=npc,darkskinned_gnome
+data=npc,gnomechildgreen
+data=npc,gnomechildblue
+data=npc,gnomechild
+data=npc,gnomefemale
+data=npc,gnomefemale_dskinned
 data=level,75
 data=experience,1983
 data=stun_ticks,13

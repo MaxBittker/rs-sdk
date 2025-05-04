@@ -1,4 +1,4 @@
-[ai_queue3,fire_giant]
+[ai_queue3,firegiant]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

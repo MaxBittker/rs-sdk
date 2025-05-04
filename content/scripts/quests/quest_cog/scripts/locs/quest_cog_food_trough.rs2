@@ -9,7 +9,7 @@ if(last_useitem = rat_poison) {
 
     npc_findallany(loc_coord, 10, ^vis_off);
     while (npc_findnext = true) {
-        if (npc_type = cog_dungeon_rat) {
+        if (npc_type = clocktower_rat) {
             npc_queue(10, 0, 0);
         }
     }

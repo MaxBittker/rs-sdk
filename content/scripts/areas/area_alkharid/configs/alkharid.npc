@@ -369,7 +369,7 @@ param=shop_delta,20
 param=shop_title,Dommiks Crafting Store.
 moverestrict=indoors
 
-[man_black]
+[al_kharid_man]
 name=Man
 desc=One of the citizens of Al-Kharid.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -425,7 +425,7 @@ head1=model_53_idk_head
 head2=model_82_idk_head
 wanderrange=2
 
-[alkharid_warrior]
+[al_kharid_warrior]
 name=Al-Kharid warrior
 desc=Part of Al-Kharid's elite fighting force.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r

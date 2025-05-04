@@ -12,7 +12,7 @@ if(%fishingcompo_progress = ^fishingcompo_complete) {
         p_telejump(0_44_154_60_22);
     }
     return;
-} else if(npc_find(coord, mountain_dwarf, 5, 0) = true) {
+} else if(npc_find(coord, tunnel_dwarf, 5, 0) = true) {
     switch_int (%fishingcompo_progress) {
         case ^fishingcompo_not_started : @mountain_dwarf_stairs;
         case default : @mountain_dwarf_won;

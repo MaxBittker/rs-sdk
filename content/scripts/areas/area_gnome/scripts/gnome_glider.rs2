@@ -54,7 +54,7 @@ if($start_pos = ^ta_quir_priw & $dest = ^sindarpos) {
 }
 return (-1);
 
-[opnpc1,gnome_pilot]
+[opnpc1,gnomepilot]
 if(inzone(0_45_47_35_42, 0_45_47_45_53, npc_coord) = true) {
     @gnome_pilot_crash_karamja;
 }

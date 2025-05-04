@@ -1,4 +1,4 @@
-[ai_opplayer2,monk_entrana]
+[ai_opplayer2,entrana_monk]
 if (%npc_action_delay > map_clock) return;
 def_int $heal = random(4); // thanks to joe the toe!
 if ($heal = 0) {
@@ -7,7 +7,7 @@ if ($heal = 0) {
     ~npc_default_attack;
 }
 
-[opnpc1,monk_entrana]
+[opnpc1,entrana_monk]
 ~chatnpc("<p,neutral>Greetings traveller.");
 if (%hero_progress = ^hero_started) { // only seems to be on this stage
     ~chatplayer("<p,quiz>Hello, I am in search of an Entranan Firebird. Can you help me?");

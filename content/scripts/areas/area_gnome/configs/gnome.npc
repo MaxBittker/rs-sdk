@@ -1,4 +1,4 @@
-[gnome_green]
+[gnome]
 name=Gnome
 desc=Like a mini man!
 walkanim=midget_walk
@@ -35,7 +35,7 @@ param=proj_height,48
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6094
 
-[gnome_brown]
+[browclothedgnome]
 name=Gnome
 desc=Like a mini man!
 walkanim=midget_walk
@@ -74,7 +74,7 @@ param=proj_height,48
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6095
 
-[gnome_black]
+[darkskinned_gnome]
 name=Gnome
 desc=Like a mini man!
 walkanim=midget_walk
@@ -143,7 +143,7 @@ param=death_sound,terrorbird_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2064
 
-[terrorbird_gnome]
+[terrorbird_mounted]
 name=Mounted terrorbird gnome
 desc=These gnomes know how to get around!
 size=2
@@ -174,7 +174,7 @@ param=death_sound,terrorbird_death
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2067
 
-[terrorbird_gnome_armed]
+[terrorbird_mountedspear]
 name=Mounted terrorbird gnome
 desc=These gnomes know how to get around!
 size=2
@@ -206,7 +206,7 @@ param=death_sound,terrorbird_death
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2068
 
-[gnome_trainer]
+[gnometrainer]
 name=Gnome trainer
 desc=He can advise on training.
 vislevel=hide
@@ -308,7 +308,7 @@ param=shop_delta,10
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_child_yellow]
+[gnomechildgreen]
 name=Gnome child
 desc=Small, even by gnome standards.
 resizeh=100
@@ -344,7 +344,7 @@ param=death_sound,gnome_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6077
 
-[gnome_child_blue]
+[gnomechildblue]
 name=Gnome child
 desc=Small, even by gnome standards.
 resizeh=100
@@ -380,7 +380,7 @@ param=death_sound,gnome_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6078
 
-[gnome_child_green]
+[gnomechild]
 name=Gnome child
 desc=Small, even by gnome standards.
 resizeh=100
@@ -414,7 +414,7 @@ param=death_sound,gnome_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6079
 
-[gnome_guard_halberd]
+[gnomekingsguard]
 name=Gnome guard
 desc=A tree gnome guard.
 walkanim=midget_walk
@@ -445,7 +445,7 @@ param=death_sound,gnome_death
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6081
 
-[gnome_guard_sword]
+[gnomekingsguard2]
 name=Gnome guard
 desc=A tree gnome guard.
 walkanim=midget_walk
@@ -479,7 +479,7 @@ param=death_sound,gnome_death
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6082
 
-[npc_165]
+[gnomeshopkeeper]
 name=Gnome shop keeper
 desc=Sells gnomish things.
 vislevel=hide
@@ -494,7 +494,7 @@ head1=model_17_npc_head
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_banker]
+[gnomebanker]
 name=Gnome banker
 desc=Banks gnomish things.
 vislevel=hide
@@ -513,7 +513,7 @@ category=bank_teller
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[npc_167]
+[gnomeballer]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -526,7 +526,7 @@ head1=model_21_npc_head
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_woman_white]
+[gnomefemale]
 name=Gnome woman
 desc=A female gnome.
 walkanim=midget_walk
@@ -566,7 +566,7 @@ param=proj_height,48
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6086
 
-[gnome_woman_black]
+[gnomefemale_dskinned]
 name=Gnome woman
 desc=A female gnome.
 walkanim=midget_walk
@@ -612,7 +612,7 @@ param=proj_height,48
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6087
 
-[gnome_pilot]
+[gnomepilot]
 name=Gnome pilot
 desc=He can fly the glider.
 vislevel=hide
@@ -628,7 +628,7 @@ members=yes
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[brimstail]
+[gnome_brimstail]
 name=Brimstail
 desc=Small but powerful.
 walkanim=midget_walk

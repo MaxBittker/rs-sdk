@@ -4,10 +4,10 @@
 // - osrs wiki found 4/5 ids: 42, 49, 64, 26. im guessing the 5th is melzar's
 // - The id's dont match up but what are the odds that our only
 // zombies add up to 5?
-[ai_timer,zombie1] @zombie_brains;
+[ai_timer,zombie_unarmed] @zombie_brains;
 [ai_timer,zombie2] @zombie_brains;
-[ai_timer,zombie3] @zombie_brains;
-[ai_timer,zombie_entrana] @zombie_brains;
+[ai_timer,zombie_armed] @zombie_brains;
+[ai_timer,zombie_entranan] @zombie_brains;
 [ai_timer,melzar_maze_zombie] @zombie_brains;
 
 [label,zombie_brains]

@@ -1,6 +1,6 @@
 // these don't share regular man/woman drop table (just bones)
-[opnpc1,man_cavalier] @citizen_dialogue_eastardy;
-[opnpc1,woman_east_ardougne] @citizen_dialogue_eastardy;
+[opnpc1,ardougnian_male1] @citizen_dialogue_eastardy;
+[opnpc1,ardougnian_female1] @citizen_dialogue_eastardy;
 
 [label,citizen_dialogue_eastardy]
 ~chatplayer("<p,happy>Hello, how's it going?");

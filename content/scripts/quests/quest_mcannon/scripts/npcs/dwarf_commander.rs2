@@ -1,4 +1,4 @@
-[opnpc1,dwarf_commander]
+[opnpc1,lawgof2]
 switch_int(%mcannon_progress) {
     case ^mcannon_not_started : @dwarf_commander_start_quest;
     case ^mcannon_tasked_with_fixing_railings : @dwarf_commander_how_goes_fixing_those_fences;

@@ -1,4 +1,4 @@
-[king_black_dragon]
+[king_dragon]
 size=5
 walkanim=dragon_walk
 readyanim=dragon_ready
@@ -46,7 +46,7 @@ param=attack_sound,dragon_attack
 param=defend_sound,dragon_hit
 param=death_sound,dragon_death
 param=death_drop,dragon_bones
-huntmode=king_black_dragon
+huntmode=king_dragon
 // Stats match osrs version but our version Vislvl is different.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_239
 // this variation have old stats npc_6502

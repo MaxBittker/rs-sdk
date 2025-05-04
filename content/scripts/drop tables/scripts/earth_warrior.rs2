@@ -1,4 +1,4 @@
-[ai_queue3,earth_warrior]
+[ai_queue3,earthwarrior]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

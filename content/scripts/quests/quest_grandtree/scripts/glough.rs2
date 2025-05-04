@@ -29,8 +29,8 @@ switch_int(%grandtree_progress) {
         ~chatnpc("<p,angry>Guards! Guards!");
         if_close;
         // 50t osrs, this (probably?) uses an attackable guard before late 2005 (lol)
-        if(npc_find(coord, gnome_guard_halberd, 7, 0) = false) {
-            npc_add(1_38_54_44_6, gnome_guard_halberd, 50);
+        if(npc_find(coord, gnomekingsguard, 7, 0) = false) {
+            npc_add(1_38_54_44_6, gnomekingsguard, 50);
         }
         npc_setmode(none);
         def_coord $dest = map_findsquare(coord, 0, 1, ^map_findsquare_lineofwalk);

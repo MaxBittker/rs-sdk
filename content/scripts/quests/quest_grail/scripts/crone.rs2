@@ -1,4 +1,4 @@
-[opnpc1,crone]
+[opnpc1,grail_crone]
 ~chatnpc("<p,happy>Hello deary.");
 ~chatplayer("<p,confused>Um... hello.");
 

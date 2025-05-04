@@ -63,7 +63,7 @@ param=shop_delta,20
 param=shop_title,Scavvo's Rune Store.
 moverestrict=indoors
 
-[guild_master]
+[guildmaster]
 vislevel=hide
 name=Guild master
 desc=Master of the guild.

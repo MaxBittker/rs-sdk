@@ -248,7 +248,7 @@ model10=model_318_npc
 head1=model_57_obj_wear
 head2=model_80_idk_head
 
-[merlin_arthur]
+[merlin]
 vislevel=hide
 name=Merlin
 desc=A powerful Wizard of the Knights of the Round Table.
@@ -316,7 +316,7 @@ head1=model_53_idk_head
 head2=model_84_idk_head
 head3=model_43_obj_wear
 
-[merlin_workshop]
+[merlin2]
 vislevel=hide
 name=Merlin
 desc=A powerful Wizard of the Knights of the Round Table.

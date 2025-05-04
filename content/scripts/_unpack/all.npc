@@ -31,7 +31,7 @@ category=citizen
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3106
 
-[man_blue]
+[man2]
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op2=Attack
@@ -64,7 +64,7 @@ category=citizen
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3107
 
-[man_brown]
+[man3]
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op2=Attack
@@ -99,7 +99,7 @@ category=citizen
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3108
 
-[woman_purple]
+[woman]
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op2=Attack
@@ -135,7 +135,7 @@ category=citizen
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3111
 
-[woman_brown]
+[woman2]
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op2=Attack
@@ -177,7 +177,7 @@ category=citizen
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3112
 
-[woman_red]
+[woman3]
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op2=Attack
@@ -294,7 +294,7 @@ param=retreat,8
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3252
 
-[guard_sword]
+[guard1]
 name=Guard
 desc=He tries to keep order around here.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -342,7 +342,7 @@ category=guard
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3254
 
-[guard_crossbow]
+[guard2]
 name=Guard
 desc=He tries to keep order around here.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -747,7 +747,7 @@ param=attack_sound,baxe_slash
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3296
 
-[knight_of_ardougne_1]
+[knight_of_ardougne]
 name=Knight of Ardougne
 desc=A member of Ardougne's militia.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -794,7 +794,7 @@ param=attack_sound,stabsword_slash
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3297
 
-[man_cavalier]
+[ardougnian_male1]
 name=Man
 desc=One of RuneScape's many citizens.
 op2=Attack
@@ -831,7 +831,7 @@ param=damagetype,^crush_style
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3298
 
-[woman_east_ardougne]
+[ardougnian_female1]
 name=Woman
 desc=One of RuneScape's many citizens.
 op2=Attack
@@ -868,7 +868,7 @@ param=death_sound,female_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3299
 
-[knight_of_ardougne_2]
+[knight_of_ardougne2]
 name=Knight of Ardougne
 desc=To protect and serve the populace of Ardougne.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -914,7 +914,7 @@ param=attack_sound,stabsword_slash
 // param=defend_sound,blade5
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3300
 
-[watchman]
+[yanille_watchman]
 name=Watchman
 desc=Watches stuff. But who watches him?
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -949,7 +949,7 @@ param=damagetype,^crush_style
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5420
 
-[soldier]
+[yanille_soldier]
 name=Soldier
 desc=A soldier of the town of Yanille.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -990,7 +990,7 @@ param=attack_sound,hacksword_slash
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5421
 
-[shipyard_worker1]
+[shipyardworker1]
 name=Shipyard worker
 desc=Builds ships for a living.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -1025,7 +1025,7 @@ category=shipyard_worker
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5457
 
-[shipyard_worker2]
+[shipyardworker2]
 name=Shipyard worker
 desc=Builds ships for a living.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -1065,7 +1065,7 @@ category=shipyard_worker
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5729
 
-[shark_Shipyard]
+[shark]
 name=Shark
 desc=Let's not go skinny dipping eh?
 walkanim=shark_walk
@@ -1100,9 +1100,9 @@ param=death_sound,chicken_death
 param=retreat,1
 category=chicken
 // osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1174
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1173
 
-[sheep_sheared]
+[sheepsheered]
 vislevel=hide
 name=Sheep
 desc=Freshly sheared.
@@ -1112,7 +1112,7 @@ model1=model_2928_npc
 timer=1
 param=death_anim,sheep_death
 
-[sheep_fluffy]
+[sheepunsheered]
 vislevel=hide
 name=Sheep
 desc=White and fluffy.
@@ -1122,7 +1122,7 @@ model1=model_2929_npc
 timer=1
 param=death_anim,sheep_death
 
-[drake]
+[duck]
 name=Duck
 desc=Quackers.
 walkanim=duck_swim
@@ -1156,7 +1156,7 @@ category=duck
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1838
 
-[duck]
+[duck_female]
 name=Duck
 desc=She quackers.
 walkanim=duck_swim
@@ -1331,7 +1331,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_104
 
-[baby_dragon]
+[babydragon]
 size=2
 walkanim=bdrag_walk
 readyanim=bdrag_ready
@@ -1366,7 +1366,7 @@ huntrange=2
 // https://oldschool.runescape.wiki/w/Baby_dragon_(unused)
 // all data taken Baby blue dragon.
 
-[baby_blue_dragon]
+[babybluedragon]
 size=2
 walkanim=bdrag_walk
 readyanim=bdrag_ready
@@ -1510,7 +1510,7 @@ huntmode=cowardly
 huntrange=4
 // Stats match osrs version but our version Vislvl is different.
 
-[dryad]
+[dryhad]
 name=Dryad
 desc=A wood nymph.
 walkanim=dryhad_walk
@@ -1559,7 +1559,7 @@ huntrange=1
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3016
 
-[giant_spider1]
+[giantspider1]
 walkanim=giantspider_walk
 readyanim=giantspider_ready
 name=Giant spider
@@ -1593,7 +1593,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3017
 
-[giant_spider2]
+[giantspider2]
 walkanim=giantspider_walk
 readyanim=giantspider_ready
 name=Giant spider
@@ -1888,7 +1888,7 @@ huntrange=1
 // stats taken from Mountain Troll // Sounds is possible same as river troll that mean no sounds.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_936
 
-[zombie1]
+[zombie_unarmed]
 name=Zombie
 desc=Dead man walking.
 walkanim=zombie_walk
@@ -1944,7 +1944,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_42
 
-[zombie3]
+[zombie_armed]
 name=Zombie
 desc=The walking dead.
 walkanim=zombie_walk
@@ -1981,7 +1981,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_49
 
-[zombie_entrana]
+[zombie_entranan]
 name=Zombie
 desc=The walking dead.
 walkanim=zombie_walk
@@ -2017,7 +2017,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_64
 
-[summoned_zombie]
+[summonedzombie]
 name=Summoned Zombie
 desc=The living dead.
 walkanim=zombie_walk
@@ -2042,7 +2042,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_69
 
-[giant_bat]
+[bat]
 name=Giant bat
 desc=Annoying flappy thing.
 size=2
@@ -2077,7 +2077,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2834
 
-[death_wing]
+[deathwing]
 name=Death wing
 desc=A shadowy, barely visible flying entity from some evil place.
 size=2
@@ -2109,13 +2109,13 @@ param=death_anim,bat_death
 param=attack_sound,bat_attack
 param=defend_sound,bat_hit
 param=death_sound,bat_death
-huntmode=aggressive_melee
+huntmode=cowardly
 huntrange=2
 // osrs stats and Vislvl match 1:1
 // osrs huntmode cowardly 2024
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_509
 
-[cow_1]
+[cow]
 size=2
 walkanim=cow_walk
 readyanim=cow_ready
@@ -2276,7 +2276,7 @@ param=death_drop,null
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2836
 // TODO try get more infos param stats, wander and max ranges.
 
-[giant_rat1]
+[giantrat]
 size=2
 walkanim=giantrat_walk
 readyanim=giantrat_ready
@@ -2302,7 +2302,7 @@ param=death_sound,rat_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2856
 
-[giant_rat2]
+[giantrat1]
 size=2
 walkanim=giantrat_walk
 readyanim=giantrat_ready
@@ -2387,7 +2387,7 @@ category=unicorn
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2837
 
-[skeleton1]
+[skeleton_unagressive]
 name=Skeleton
 desc=Could do with gaining a few pounds.
 walkanim=skeleton_walk
@@ -2419,7 +2419,7 @@ huntrange=1
 // https://www.youtube.com/watch?v=fqNKyRfgElw (late 2004 this skeleton is level 21.)
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_74
 
-[skeleton2]
+[skeleton_unarmed]
 name=Skeleton
 desc=Could do with gaining a few pounds.
 walkanim=skeleton_walk
@@ -2451,7 +2451,7 @@ huntrange=1
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_70
 
-[skeleton3]
+[skeleton_armed]
 name=Skeleton
 desc=Could do with gaining a few pounds.
 walkanim=skeleton_walk
@@ -2488,7 +2488,7 @@ huntrange=1
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_77
 
-[skeleton4]
+[giantskeleton]
 name=Skeleton
 desc=Could do with gaining a few pounds.
 walkanim=skeleton_walk
@@ -2527,7 +2527,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_82
 
-[skeleton_mage]
+[skeletonmage]
 name=Skeleton Mage
 desc=An undead worker of dark magic.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -2560,7 +2560,7 @@ param=undead,^true
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_84
 
-[wolf_64]
+[wolf]
 name=Wolf
 desc=Not mans' best friend.
 size=2
@@ -2589,7 +2589,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_106
 
-[white_wolf_25]
+[whitewolf_sentry]
 size=2
 walkanim=dog_walk
 readyanim=dog_ready
@@ -2622,7 +2622,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_107
 
-[white_wolf_38]
+[whitewolf]
 size=2
 walkanim=dog_walk
 readyanim=dog_ready
@@ -2664,7 +2664,7 @@ vislevel=hide
 model1=model_2935_npc
 param=death_anim,dog_death
 
-[guard_dog]
+[guarddog]
 name=Guard dog
 desc=Beware of the dog!
 walkanim=dog_walk
@@ -2691,7 +2691,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_114
 
-[goblin_unarmed1]
+[goblin]
 name=Goblin
 desc=An ugly green creature.
 walkanim=goblin_walk
@@ -2754,7 +2754,7 @@ param=death_sound,goblin_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3045
 
-[goblin_unarmed2]
+[goblin_helmet]
 name=Goblin
 desc=These goblins have grown strong.
 walkanim=goblin_walk
@@ -2826,7 +2826,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_85
 
-[ghost_draynor_manor]
+[house_ghost]
 name=Ghost
 desc=Eeek! A ghost!
 hasalpha=yes
@@ -2858,9 +2858,9 @@ param=death_sound,ghost_death
 param=death_drop,null
 param=undead,^true
 // osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_506
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_473
 
-[bear_brown]
+[brownbear]
 size=2
 walkanim=bear_walk
 readyanim=bear_ready
@@ -2889,7 +2889,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2838
 
-[bear_black]
+[darkbear]
 size=2
 walkanim=bear_walk
 readyanim=bear_ready
@@ -2987,7 +2987,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3025
 
-[pit_scorpion]
+[smallscorpion]
 name=Pit Scorpion
 desc=Tiny, annoying, stinging thing.
 walkanim=smallscorpion_walk
@@ -3017,7 +3017,7 @@ huntrange=1
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3026
 
-[fire_giant]
+[firegiant]
 size=2
 walkanim=giant_walk
 readyanim=giant_ready
@@ -3054,9 +3054,9 @@ param=death_drop,big_bones
 huntmode=cowardly
 huntrange=2
 // Stats match osrs version but our version Vislvl is different.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2075
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2078
 
-[ice_giant]
+[icegiant]
 size=2
 walkanim=giant_walk
 readyanim=giant_ready
@@ -3091,7 +3091,7 @@ huntrange=2
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2085
 
-[moss_giant]
+[mossgiant]
 size=2
 walkanim=giant_walk
 readyanim=giant_ready
@@ -3230,7 +3230,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2098
 
-[dwarf_1]
+[dwarf_normal]
 walkanim=dwarf_walk
 readyanim=dwarf_ready
 name=Dwarf
@@ -3265,7 +3265,7 @@ param=attack_sound,baxe_crush
 // TODO SOUNDS
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_290
 
-[chaos_dwarf]
+[dwarf_chaos]
 walkanim=dwarf_walk
 readyanim=dwarf_ready
 name=Chaos dwarf
@@ -3311,7 +3311,7 @@ huntrange=1
 // TODO SOUNDS
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_291
 
-[dwarf_2]
+[dwarf_mountain]
 walkanim=dwarf_walk
 readyanim=dwarf_ready
 name=Dwarf
@@ -3345,7 +3345,7 @@ param=attack_sound,baxe_crush
 // TODO SOUNDS
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_292
 
-[dwarf_3]
+[dwarf_mountain2]
 walkanim=dwarf_walk
 readyanim=dwarf_ready
 name=Dwarf
@@ -3376,7 +3376,7 @@ param=death_anim,dwarf_death
 param=attack_sound,baxe_crush
 // params stats is competely guess. the npc data no longer exists in the cache.. mostly taken other dwarves.
 
-[hobgoblin]
+[hobgoblin_unarmed]
 walkanim=hobgoblin_walk
 readyanim=hobgoblin_ready
 name=Hobgoblin
@@ -3434,7 +3434,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3050
 
-[earth_warrior]
+[earthwarrior]
 hasalpha=yes
 walkanim=human_transwalk_f
 readyanim=human_transready
@@ -3488,7 +3488,7 @@ huntrange=5
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2840
 
-[ice_warrior]
+[icewarrior]
 hasalpha=yes
 walkanim=human_transwalk_f
 readyanim=human_transready
@@ -3577,7 +3577,7 @@ param=death_drop,null
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2843
 
-[magic_axe]
+[magicaxe]
 walkanim=magicaxe_walk
 readyanim=magicaxe_ready
 name=Magic axe
@@ -3652,10 +3652,10 @@ param=damagetype,^crush_style
 param=attack_anim,yeti_attack
 param=defend_anim,yeti_block
 param=death_anim,yeti_death
-// param=attack_sound,
-// param=defend_sound,
-// param=death_sound,
-// TODO SOUNDS possible, should be the same sounds as the Giants npc..
+param=attack_sound,giant_attack
+param=defend_sound,giant_hit
+param=death_sound,giant_death
+// Sounds are guesses they were taken from a giant.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2847
 
 [penguin]
@@ -3740,7 +3740,7 @@ category=unicorn
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2849
 
-[poison_spider]
+[poisonspider]
 walkanim=giantspider_walk
 readyanim=giantspider_ready
 name=Poison spider
@@ -3834,7 +3834,7 @@ huntmode=cowardly
 huntrange=1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_508
 
-[big_wolf]
+[wolfpack_leader_whiter]
 size=2
 walkanim=dog_walk
 readyanim=dog_ready
@@ -3869,7 +3869,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_109
 
-[wolf_pack]
+[pack_wolf_whiter]
 size=2
 walkanim=dog_walk
 readyanim=dog_ready
@@ -3902,7 +3902,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_110
 
-[king_scorpion]
+[kingscorpion]
 size=2
 walkanim=scorpion_walk
 readyanim=scorpion_ready
@@ -3937,7 +3937,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3027
 
-[ice_warrior_royal_guard]
+[icewarrior_queen]
 hasalpha=yes
 walkanim=human_transwalk_f
 readyanim=human_transready
@@ -3989,7 +3989,7 @@ category=ice_warrior
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2851
 
-[npc_146]
+[seabird1]
 name=Gull
 desc=A sea bird.
 size=2
@@ -4017,7 +4017,7 @@ param=death_sound,bird_hit
 param=death_sound,bird_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_281
 
-[npc_147]
+[seabird2]
 name=Cormorant
 desc=A sea bird.
 size=2
@@ -4043,7 +4043,7 @@ param=death_sound,bird_hit
 param=death_sound,bird_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_282
 
-[npc_148]
+[seabird3]
 name=Albatross
 desc=A sea bird.
 size=2
@@ -4069,7 +4069,7 @@ param=death_sound,bird_hit
 param=death_sound,bird_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_283
 
-[npc_149]
+[gull1]
 name=Gull
 desc=A sea bird.
 size=2
@@ -4099,7 +4099,7 @@ param=death_sound,bird_hit
 param=death_sound,bird_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_284
 
-[npc_150]
+[gull2]
 name=Gull
 desc=A sea bird.
 size=2
@@ -4125,7 +4125,7 @@ param=death_sound,bird_hit
 param=death_sound,bird_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_285
 
-[fly_trap]
+[flytrap]
 vislevel=hide
 name=Fly trap
 desc=No flies on me.
@@ -4176,9 +4176,9 @@ huntmode=aggressive_melee
 huntrange=1
 // https://vxtwitter.com/JagexAsh/status/1775970463061049645?t=dBzjxnZ88IdFRi86mMgqjw&s=19
 // "They have level 20 Attack & Strength" - ash
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4416
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4418
 
-[butterfly_white]
+[butterfly]
 name=Butterfly
 desc=These look much better in the wild.
 walkanim=butterfly_hover
@@ -4188,7 +4188,7 @@ vislevel=hide
 model1=model_3022_npc
 wanderrange=10
 
-[butterfly_cyan]
+[butterfly2]
 name=Butterfly
 desc=I love butterflies.
 walkanim=butterfly_hover
@@ -4198,7 +4198,7 @@ vislevel=hide
 model1=model_3023_npc
 wanderrange=10
 
-[butterfly_blue]
+[butterfly_bluemorpo]
 name=Butterfly
 desc=It's a Blue Morpho Butterfly.
 walkanim=butterfly_hover
@@ -4214,7 +4214,7 @@ recol3d=6274
 model1=model_3023_npc
 wanderrange=10
 
-[butterfly_yellow]
+[butterfly_tigerswallowtail]
 name=Butterfly
 desc=It's a Tiger Swallowtail Butterfly.
 walkanim=butterfly_hover
@@ -4230,7 +4230,7 @@ recol3d=6342
 model1=model_3023_npc
 wanderrange=10
 
-[butterfly_orange]
+[butterfly_viceroy]
 name=Butterfly
 desc=It's a Viceroy Butterfly.
 walkanim=butterfly_hover
@@ -4246,7 +4246,7 @@ recol3d=6273
 model1=model_3023_npc
 wanderrange=10
 
-[dark_wizard_earth]
+[bearded_dark_wizard]
 name=Dark wizard
 desc=A practicer of dark arts.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4313,7 +4313,7 @@ param=damagetype,^crush_style
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_511
 
-[dark_wizard_water]
+[young_dark_wizard]
 name=Dark wizard
 desc=He works evil magic.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4385,7 +4385,7 @@ huntrange=5
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_513
 
-[witch_draynor]
+[witch1]
 name=Witch
 desc=The hat's a dead give away.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4409,11 +4409,9 @@ model4=model_353_idk
 model5=model_428_idk
 model6=model_361_obj_wear
 model7=model_377_obj_wear
-// wanderrange, maxrange, attackrange, and respawnrate are taken from dark_wizard_earth
-wanderrange=3
-maxrange=5
+// attackrange, and respawnrate are taken from dark_wizard_earth
 attackrange=5
-huntrange=5
+//respawnrate is guesses
 respawnrate=100
 hitpoints=10
 attack=25
@@ -4427,7 +4425,7 @@ param=defend_sound,female_hit
 param=death_sound,female_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_514
 
-[witch_alkharid]
+[witch2]
 name=Witch
 desc=The hat's a dead give away.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4449,7 +4447,8 @@ model4=model_353_idk
 model5=model_428_idk
 model6=model_361_obj_wear
 model7=model_377_obj_wear
-// TODO respawnrate
+//respawnrate is guesses
+respawnrate=100
 hitpoints=10
 attack=25
 strength=25
@@ -4510,7 +4509,7 @@ param=defend_sound,steel
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_516
 
-[black_knight_aggre]
+[aggressive_black_knight]
 name=Black Knight
 desc=A dark-hearted knight.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4644,7 +4643,7 @@ huntmode=ranged
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_520
 
-[pirate_brown]
+[pirate1]
 name=Pirate
 desc=Yar! Shiver me timbers!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4683,7 +4682,7 @@ category=pirate
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_521
 
-[pirate_black]
+[pirate2]
 name=Pirate
 desc=Avast ye scurvy land lubbers!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4728,7 +4727,7 @@ category=pirate
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_522
 
-[pirate_red]
+[pirate_aggressive]
 name=Pirate
 desc=This ones had too much to drink!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4774,7 +4773,7 @@ huntrange=1
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_523
 
-[pirate_woman]
+[lady_pirate]
 name=Pirate
 desc=A fine example of piracys' equal opportunities program.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -4894,7 +4893,7 @@ param=attack_sound,hacksword_stab
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_526
 
-[monk_of_zamorak_22]
+[chaosmonk1]
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 name=Monk of Zamorak
@@ -4929,7 +4928,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_527
 
-[monk_of_zamorak_17]
+[chaosmonk2]
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 name=Monk of Zamorak
@@ -4964,7 +4963,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_528
 
-[monk_of_zamorak_45]
+[chaosmonk3]
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 name=Monk of Zamorak
@@ -5167,7 +5166,7 @@ param=defend_sound,swordclash2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_299
 
-[forester_mcgrubor]
+[mcgruborforester]
 vislevel=hide
 name=Forester
 desc=He likes to cut down trees.
@@ -5197,7 +5196,7 @@ head1=model_55_idk_head
 head2=model_79_idk_head
 head3=model_39_npc_head
 
-[thrantax_the_mighty]
+[thrantax]
 name=Thrantax The Mighty
 desc=A scary looking spirit.
 walkanim=ghost_walk

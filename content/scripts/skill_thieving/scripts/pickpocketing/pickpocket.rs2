@@ -1,37 +1,37 @@
 [opnpc3,man] // Man
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,man_blue] // Man
+[opnpc3,man2] // Man
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,man_brown] // Man
+[opnpc3,man3] // Man
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,woman_purple] // Woman
+[opnpc3,woman] // Woman
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,woman_brown] // Woman
+[opnpc3,woman2] // Woman
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,woman_red] // Woman
+[opnpc3,woman3] // Woman
 @attempt_pick_pocket(npc_type);
 
 [opnpc3,farmer] // Farmer
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,guard_sword] // Guard
+[opnpc3,guard1] // Guard
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,guard_crossbow] // Guard
+[opnpc3,guard2] // Guard
 @attempt_pick_pocket(npc_type);
 
 [opnpc3,warrior_woman] // Warrior woman
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,man_black] // Man (Al-Kharid)
+[opnpc3,al_kharid_man] // Man (Al-Kharid)
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,alkharid_warrior] // Al-Kharid warrior
+[opnpc3,al_kharid_warrior] // Al-Kharid warrior
 @attempt_pick_pocket(npc_type);
 
 [opnpc3,paladin] // Paladin
@@ -40,46 +40,46 @@
 [opnpc3,hero] // Hero
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,knight_of_ardougne_1] // Knight of Ardougne
+[opnpc3,knight_of_ardougne] // Knight of Ardougne
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,man_cavalier] // Man
+[opnpc3,ardougnian_male1] // Man
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,woman_east_ardougne] // Woman
+[opnpc3,ardougnian_female1] // Woman
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,knight_of_ardougne_2] // Knight of Ardougne
+[opnpc3,knight_of_ardougne2] // Knight of Ardougne
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,guard_ardougne] // Guard
+[opnpc3,ardougne_guard] // Guard
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,watchman] // Watchman
+[opnpc3,yanille_watchman] // Watchman
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,gnome_green] // Gnome
+[opnpc3,gnome] // Gnome
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,gnome_brown] // Gnome
+[opnpc3,browclothedgnome] // Gnome
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,gnome_black] // Gnome
+[opnpc3,darkskinned_gnome] // Gnome
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,gnome_child_yellow] // Gnome child
+[opnpc3,gnomechildgreen] // Gnome child
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,gnome_child_blue] // Gnome child
+[opnpc3,gnomechildblue] // Gnome child
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,gnome_child_green] // Gnome child
+[opnpc3,gnomechild] // Gnome child
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,gnome_woman_white] // Gnome woman
+[opnpc3,gnomefemale] // Gnome woman
 @attempt_pick_pocket(npc_type);
 
-[opnpc3,gnome_woman_black] // Gnome woman
+[opnpc3,gnomefemale_dskinned] // Gnome woman
 @attempt_pick_pocket(npc_type);
 
 [opnpc3,rogue] // Rogue

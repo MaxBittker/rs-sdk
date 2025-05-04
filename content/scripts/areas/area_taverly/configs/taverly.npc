@@ -112,7 +112,7 @@ param=shop_delta,30
 param=shop_title,Jatix's Herblore Shop.
 moverestrict=indoors
 
-[lady_of_the_lake]
+[ladyofthelake]
 vislevel=hide
 name=The Lady of the Lake
 desc=A powerful sorceress who guards Excalibur.

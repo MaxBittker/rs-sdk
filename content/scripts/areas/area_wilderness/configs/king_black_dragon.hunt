@@ -1,4 +1,4 @@
-[king_black_dragon]
+[king_dragon]
 type=player
 check_vis=lineofsight
 check_nottoostrong=off

@@ -1,7 +1,7 @@
 // in osrs, ducklings always hunt 11 ticks after respawn
 [duck_hunt]
 type=npc
-check_npc=duck
+check_npc=duck_female
 check_vis=lineofsight
 find_keephunting=off
 rate=11

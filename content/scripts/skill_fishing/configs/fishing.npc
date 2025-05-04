@@ -1,5 +1,5 @@
 //--- Fishing Contest
-[fishing_spot_fishcon_sinister]
+[0_41_53_compofishspot]
 vislevel=hide
 name=Fishing spot
 desc=I can fish here.
@@ -13,7 +13,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 
-[fishing_spot_fishcon_prizefish]
+[0_41_53_sinisterfishspot]
 vislevel=hide
 name=Fishing spot
 desc=I can fish here.
@@ -27,7 +27,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 
-[fishing_spot_fishcon_dave]
+[0_41_53_bigdavefishspot]
 vislevel=hide
 name=Fishing spot
 desc=I can fish here.
@@ -41,7 +41,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 
-[fishing_spot_fishcon_joshua]
+[0_41_53_joshuafishspot]
 vislevel=hide
 name=Fishing spot
 desc=I can fish here.

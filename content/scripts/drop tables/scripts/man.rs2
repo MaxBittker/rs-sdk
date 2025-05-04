@@ -1,6 +1,6 @@
 // https://oldschool.runescape.wiki/w/Man#Drops
 [ai_queue3,_citizen] @man_drop_table;
-[ai_queue3,alkharid_warrior] @man_drop_table;
+[ai_queue3,al_kharid_warrior] @man_drop_table;
 [ai_queue3,thief] @man_drop_table;
 [ai_queue3,thief_ardougne] @man_drop_table;
 

@@ -2,7 +2,7 @@
 // These videos however are always insta react. 1t mustve been an osrs change later.
 // https://youtu.be/D8VG03tRR1w?t=60
 // https://youtu.be/cjmEFliibGI
-[ai_queue1,alkharid_warrior]
+[ai_queue1,al_kharid_warrior]
 if (finduid(%npc_aggressive_player) = false) {
     return;
 }
@@ -13,7 +13,7 @@ if (npc_getmode = opplayer2) {
 ~npc_default_retaliate;
 npc_huntall(npc_coord, 5, 0);
 while (npc_huntnext = true) {
-    if (npc_type = alkharid_warrior & npc_getmode ! opplayer2) {
+    if (npc_type = al_kharid_warrior & npc_getmode ! opplayer2) {
         npc_say("Brother, I will help thee with this infidel!");
         %npc_aggressive_player = uid;
         npc_setmode(opplayer2);

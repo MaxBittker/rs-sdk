@@ -1,7 +1,7 @@
 //https://oldschool.runescape.wiki/w/Goblin#drops
-[ai_queue3,goblin_unarmed1] @goblin_drop_table; //lvl 2
+[ai_queue3,goblin] @goblin_drop_table; //lvl 2
 [ai_queue3,goblin_armed] @goblin_drop_table; //lvl 5
-[ai_queue3,goblin_unarmed2] @goblin_drop_table; //lvl 13
+[ai_queue3,goblin_helmet] @goblin_drop_table; //lvl 13
 [ai_queue3,goblin_guard] @goblin_drop_table; // guard in observatory dungeon
 
 [label,goblin_drop_table]

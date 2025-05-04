@@ -1,4 +1,4 @@
-[ai_queue3,entrana_firebird]
+[ai_queue3,fire_bird]
 gosub(npc_death);
 if (npc_findhero = false) {
     return;

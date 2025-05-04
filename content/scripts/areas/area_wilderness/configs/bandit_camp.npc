@@ -197,7 +197,7 @@ category=bandit_camp_leader
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_303
 
-[bandit]
+[brawling_bandit]
 name=Bandit
 desc=A wilderness outlaw.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
