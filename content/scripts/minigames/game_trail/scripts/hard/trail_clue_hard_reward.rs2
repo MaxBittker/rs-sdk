@@ -4,10 +4,10 @@ def_int $roll = 0;
 def_int $rare = 0;
 
 while ($roll < $rolls) {
-    // Rare drop chance was 1/13 in OSRS in 2019. @https://twitter.com/JagexTide/status/1131933683714330624
+    // Rare drop chance was 1/21 in 2006. @https://twitter.com/JagexTide/status/1131933683714330624
     // the chances have been scaled down over time to accomodate for more uniques being in the list, there are 25 uniques in May 2004
-    // 133 by 2019, which is 5.32x more, 13 * 5.32 ~= 69
-    if(random(69) = 0) {
+    // 67 by 2006, (67/25) * 21 ~= 57
+    if(random(57) = 0) {
         $rare = calc($rare + 1);
         gosub(trail_clue_hard_rare);
     } else {

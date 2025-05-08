@@ -13,8 +13,8 @@ while ($roll < $rolls) {
     // which now has 108 rewards, effectively 1404, which is as close as I could make it."
     //
     // Assuming the rarity of any given object from the rare drop tables, have stayed consistent throughout
-    // the years, this lands our chance to land on the rare drop table at 1/117.
-    if(random(117) = 0) {
+    // the years, this lands our chance to land on the rare drop table at 1/97.
+    if(random(97) = 0) {
         $rare = calc($rare + 1);
         gosub(trail_clue_easy_rare);
     } else {
