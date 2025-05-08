@@ -115,13 +115,3 @@ p_telejump(movecoord(coord, 0, 0, -3));
 // different than osrs https://web.archive.org/web/20060428031722/http://www.runecrypt.com:80/index.php?pid=202
 ~mesbox("The Desert is a VERY Dangerous place. Do not enter if|you are scared of dying. Beware of high temperatures,|sand storms, robbers, and slavers.");
 ~mesbox("Despite this warning lots of people seem to pass through the gate.");
-
-// todo: Find a screenshot of this
-[opheld1,thshantaydisc]
-~mesbox("The Desert is a VERY Dangerous place. Do not enter if|you are scared of dying. Beware of high temperatures,|sand storms, robbers, and slavers."); // complete guess
-
-//guess, matches osrs dialogue
-[opheld1,thkebabinstructs]
-~objbox(thkebabinstructs, "*** Delicious Ugthanki Kebab *** Ingredients: Cooked Ugthanki meat, Flour, Water, Onion, Tomato. The Ugthanki meat should be nicely grilled.", 200, 0, 0);
-~objbox(thkebabinstructs, "Next take the flour and water and make some Pitta Bread. You'll need a range to do this.Take an onion and chop it into a bowl. Take a tomato and chop it into the onion mixture.", 200, 0, 0);
-~objbox(thkebabinstructs, "Chop the meat into the Onion and Tomato mixture. Finally fill the pitta bread with the Ugthanki, Onion and Tomato mixture to make your delicious Ugthanki Kebab.", 200, 0, 0);

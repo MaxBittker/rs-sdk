@@ -1,0 +1,4 @@
+// https://youtu.be/l0KsSdtW06U?t=212
+[opheld1,thshantaydisc]
+~objbox(thshantaydisc, "@red@*** Shantay Disclaimer ***|The Desert is a VERY Dangerous place.|Do not enter if you're afraid of dying.|Beware of high temperatures, sand storms, and slavers.", 200, 0, 0);
+~objbox(thshantaydisc, "No responsibility is taken by Shantay if anything bad happens to you under any circumstances.", 200, 0, 0);

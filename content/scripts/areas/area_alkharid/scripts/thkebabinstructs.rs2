@@ -1,0 +1,5 @@
+//guess, matches osrs dialogue
+[opheld1,thkebabinstructs]
+~objbox(thkebabinstructs, "*** Delicious Ugthanki Kebab ***|Ingredients: Cooked Ugthanki meat, Flour, Water, Onion, Tomato. The Ugthanki meat should be nicely grilled.", 200, 0, 0);
+~objbox(thkebabinstructs, "Next take the flour and water and make some Pitta Bread. You'll need a range to do this.Take an onion and chop it into a bowl. Take a tomato and chop it into the onion mixture.", 200, 0, 0);
+~objbox(thkebabinstructs, "Chop the meat into the Onion and Tomato mixture. Finally fill the pitta bread with the Ugthanki, Onion and Tomato mixture to make your delicious Ugthanki Kebab.", 200, 0, 0);
