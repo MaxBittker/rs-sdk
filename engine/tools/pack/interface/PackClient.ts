@@ -12,7 +12,7 @@ export function packClientInterface() {
     const jag = new Jagfile();
     const data = packInterface(false);
 
-    if (!Packet.checkcrc(data.data, 0, data.pos, -2146838800)) {
+    if (Environment.BUILD_VERIFY && !Packet.checkcrc(data.data, 0, data.pos, -2146838800)) {
         console.error('.if CRC check failed! Custom data detected.');
         process.exit(1);
     }
