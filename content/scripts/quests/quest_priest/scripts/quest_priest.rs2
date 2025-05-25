@@ -29,8 +29,8 @@ loc_change(loc_2145, 300);
 if(%priest_progress = ^priest_complete) { // Don't send ghost if the quest is complete
     return;
 }
-if (npc_find(loc_coord, restless_ghost, 4, 0) = false) {
-    npc_add(0_50_49_49_58, restless_ghost, 100);
+if (npc_find(loc_coord, ghostx, 4, 0) = false) {
+    npc_add(0_50_49_49_58, ghostx, 100);
 }
 
 [oploc2,loc_2146]
@@ -54,7 +54,7 @@ if (last_useitem = ghost_skull & %priest_progress = ^priest_obtained_skull) {
 if (last_useitem = ghost_skull & %priest_progress = ^priest_obtained_skull) {
     ~mesbox("You put the skull in the coffin.");
     inv_del(inv, ghost_skull, 1);
-    if(npc_find(coord, restless_ghost, 4, 0) = true) {
+    if(npc_find(coord, ghostx, 4, 0) = true) {
         npc_del;
     }
     queue(priest_quest_complete, 0);
@@ -73,7 +73,7 @@ if(inv_total(inv, ghost_skull) > 0 | inv_total(bank, ghost_skull) > 0) {
 if (%priest_progress = ^priest_spoken_ghost | %priest_progress = ^priest_obtained_skull) {
     def_coord $skeleton_spawnpoint = 0_48_149_48_29;
     %priest_progress = ^priest_obtained_skull;
-    npc_add($skeleton_spawnpoint, priest_skeleton, 500);
+    npc_add($skeleton_spawnpoint, skull_skeleton, 500);
     ~npc_retaliate(0);
     mes("Out of nowhere a skeleton appears!");
     @pickup_obj;

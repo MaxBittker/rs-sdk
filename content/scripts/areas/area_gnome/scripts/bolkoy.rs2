@@ -1,4 +1,4 @@
-[opnpc1,bolkoy]
+[opnpc1,treevillage_shopkeeper1]
 switch_int(%tree_progress) {
     case ^tree_retrieved_orb :
         ~chatplayer("<p,neutral>Hello.");
@@ -6,7 +6,7 @@ switch_int(%tree_progress) {
             ~chatnpc("<p,shock>Amazing, you recovered the orb.");
             ~chatnpc("<p,happy>Well I am impressed.|Would you like to buy something?");
         } else {
-            ~chatnpc("<p,neutral>I'm Bolkoy the village shopkeeper.|Would you like to buy something?");     
+            ~chatnpc("<p,neutral>I'm treevillage_shopkeeper1 the village shopkeeper.|Would you like to buy something?");     
         }   
     case ^tree_returned_first_orb :
         ~chatplayer("<p,neutral>Hi.");
@@ -23,7 +23,7 @@ switch_int(%tree_progress) {
     case default :
         ~chatplayer("<p,neutral>Hello there.");
         ~chatnpc("<p,neutral>Hello stranger, new to these parts?");
-        ~chatnpc("<p,happy>I'm Bolkoy by the way.|I'm the village shopkeeper.|Would you like to buy something?");
+        ~chatnpc("<p,happy>I'm treevillage_shopkeeper1 by the way.|I'm the village shopkeeper.|Would you like to buy something?");
 }
 switch_int(~p_choice2("What have you got?", 1, "No thank you.", 2)) {
     case 1 :

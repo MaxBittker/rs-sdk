@@ -1,9 +1,9 @@
-[opnpc1,npc_347] @mourner_stand_back_citizen; // mourner brown outfit level 15
-[opnpc1,npc_348] @mourner_stand_back_citizen; // mourner brown outfit level 19
+[opnpc1,mourner2] @mourner_stand_back_citizen; // mourner brown outfit level 15
+[opnpc1,mourner3] @mourner_stand_back_citizen; // mourner brown outfit level 19
 [opnpc1,mourner_blacksuit_1] @mourner_talk_to_player; // mourner black outfit
 [opnpc1,head_mourner] @head_mourner_talk_to_player;
 
-[opnpc1,mourner_hq_guard_1] 
+[opnpc1,mournerstew3] 
 if(%biohazard_progress < ^biohazard_complete) {
     if(inv_total(worn, doctors_gown) = 0) {
         ~chatnpc("<p,angry>How did you get in here?|This is a restricted area!");
@@ -15,7 +15,7 @@ if(%biohazard_progress < ^biohazard_complete) {
     ~chatplayer("<p,neutral>Be more careful with your ingredients next time.");
 }
 
-[opnpc1,mourner_hq_guard_2] 
+[opnpc1,mournerstew1] 
 if(%biohazard_progress = ^biohazard_poisoned_stew) {
     ~chatplayer("<p,neutral>Hello there.");
     ~chatnpc("<p,sad>Oh dear oh dear.|I feel terrible, I think it was the stew.");
@@ -33,7 +33,7 @@ mes("The mourner doesn't feel like talking.");
 [opnpc1,mourner_blacksuit_3] // plague house mourners
 @mourner_talk_to_player;
 
-[opnpc1,mourner_boss_biohazard] // mourner hq upstairs
+[opnpc1,mournerstew2] // mourner hq upstairs
 if(%biohazard_progress = ^biohazard_poisoned_stew & inv_total(worn, doctors_gown) > 0) {
     ~chatplayer("<p,neutral>Hello there.");
     ~chatnpc("<p,sad>You're here at last! I don't know what I've eaten but I feel like I'm on death's door."); 
@@ -65,7 +65,7 @@ mes("The mourner is sick.");
 p_delay(3);
 mes("He doesn't feel like talking.");
 
-[ai_queue3,mourner_boss_biohazard]
+[ai_queue3,mournerstew2]
 gosub(npc_death);
 if(finduid(%npc_aggressive_player) = true) {
     queue(defeat_biohazard_mourner, 0); // reg queue, doesn't if_close (OSRS)
@@ -85,7 +85,7 @@ if(inv_total(inv, mournerkeytw) = 0) {
 if (~inzone_coord_pair_table(ardougne_west, coord) = true) {
     ~chatnpc("<p,confused>Hmmm, how did you get over here? You're not one of this rabble. Ah well, you'll have to stay. Can't risk you going back now.");
     if(%elena_progress < ^quest_elena_freed_elena) {
-        @multi3("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena)>.", mourner_im_looking_for_a_woman);
+        @multi3("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena2)>.", mourner_im_looking_for_a_woman);
     } else {
         @multi2("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though);
     }
@@ -104,7 +104,7 @@ if (~inzone_coord_pair_table(ardougne_west, coord) = true) {
 ~chatnpc("<p,neutral>Can't risk you being a carrier. That protective clothing you have isn't regulation issue. It won't meet safety standards.");
 
 [label,mourner_im_looking_for_a_woman]
-~chatplayer("<p,neutral>I'm looking for a woman named <nc_name(elena)>.");
+~chatplayer("<p,neutral>I'm looking for a woman named <nc_name(elena2)>.");
 ~chatnpc("<p,neutral>Ah yes, I've heard of her. A healer I believe. She must be mad coming over here voluntarily.");
 ~chatnpc("<p,neutral>I hear rumours she has probably caught the plague now. Very tragic, a stupid waste of life.");
 
@@ -112,9 +112,9 @@ if (~inzone_coord_pair_table(ardougne_west, coord) = true) {
 ~chatnpc("<p,neutral>How did you get into West Ardougne? Ah well you'll have to stay, can't risk you spreading the plague outside.");
 switch_int(%elena_progress) {
     case ^quest_elena_spoke_to_plague_house, ^quest_elena_spoke_to_clerk, ^quest_elena_spoke_to_bravek, ^quest_elena_spoke_cured_bravek :
-        @multi4("I need clearance to enter a plague house.", head_mourner_i_need_clearance, "So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena)>.", mourner_im_looking_for_a_woman);
+        @multi4("I need clearance to enter a plague house.", head_mourner_i_need_clearance, "So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena2)>.", mourner_im_looking_for_a_woman);
     case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : @multi2("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though);
-    case default : @multi3("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena)>.", mourner_im_looking_for_a_woman);
+    case default : @multi3("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena2)>.", mourner_im_looking_for_a_woman);
 }
 
 [label,head_mourner_i_need_clearance]

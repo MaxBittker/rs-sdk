@@ -1,16 +1,16 @@
-[ai_queue10,nazastarool_zombie]
+[ai_queue10,zq_mainzombie1]
 npc_say("I am Nazastarool! Prepare to die!");
 if(p_finduid(%npc_aggressive_player) = true) ~npc_retaliate(0);
 
-[ai_queue10,nazastarool_skeleton]
+[ai_queue10,zq_mainzombie2]
 npc_say("Your death will be swift.");
 if(p_finduid(%npc_aggressive_player) = true) ~npc_retaliate(0);
 
-[ai_queue10,nazastarool_ghost]
+[ai_queue10,zq_mainzombie3]
 npc_say("Soon you will serve Rashiliyia.");
 if(p_finduid(%npc_aggressive_player) = true) ~npc_retaliate(0);
 
-[ai_queue3,nazastarool_zombie]
+[ai_queue3,zq_mainzombie1]
 gosub(npc_death);
 // don't need to deal damage, you just need to be the last player to attack
 // (that's why we're not checking heropoints here): https://www.youtube.com/watch?v=D_jR2BZy5_g
@@ -19,14 +19,14 @@ if (finduid(%npc_aggressive_player) = true) {
     queue(defeat_nazastarool1, 0);
 }
 
-[ai_queue3,nazastarool_skeleton]
+[ai_queue3,zq_mainzombie2]
 gosub(npc_death);
 if (finduid(%npc_aggressive_player) = true) {
     if_close;
     queue(defeat_nazastarool2, 0);
 }
 
-[ai_queue3,nazastarool_ghost]
+[ai_queue3,zq_mainzombie3]
 gosub(npc_death);
 if (finduid(%npc_aggressive_player) = true) {
     if_close;

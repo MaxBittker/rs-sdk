@@ -1,4 +1,4 @@
-[opnpc1,almera]
+[opnpc1,almera_waterfall_quest]
 switch_int(%waterfall_progress) {
     case ^waterfall_not_started :
         ~chatplayer("<p,neutral>Hello.");

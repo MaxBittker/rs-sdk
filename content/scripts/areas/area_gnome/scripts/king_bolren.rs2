@@ -134,13 +134,13 @@ switch_int(%tree_progress) {
 }
 
 [proc,gnome_chant](coord $coord1, coord $coord2, string $message)
-if (npc_findexact($coord1, local_gnome) = true) {
+if (npc_findexact($coord1, chantergnome) = true) {
     npc_facesquare(movecoord(coord, 2, 0, 0));
     npc_say($message);
     npc_anim(midget_chanting, 0);
 }
 
-if (npc_findexact($coord2, local_gnome) = true) {
+if (npc_findexact($coord2, chantergnome) = true) {
     npc_facesquare(movecoord(coord, 2, 0, 0));
     npc_say($message);
     npc_anim(midget_chanting, 0);

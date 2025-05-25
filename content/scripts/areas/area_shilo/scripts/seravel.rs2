@@ -1,11 +1,11 @@
-[opnpc1,seravel]
+[opnpc1,shiloshiptickets]
 ~chatplayer("<p,neutral>Hello"); // typo from OSRS
 ~chatnpc("<p,neutral>Hello Bwana. Are you interested in buying a ticket for the 'Lady of the Waves'?");
 // https://web.archive.org/web/20050204071450im_/http://www.runehq.com//images/cityguides/shilo8.jpg
 ~chatnpc("<p,neutral>It's a ship that can take you to either Port Sarim or Khazard Port. The ship lies west of Shilo Village and south of Cairn Island. The tickets cost 25 Gold|Pieces. Would you like to purchase a ticket Bwana?");
-@multi2("Yes, that sounds great!", seravel_yes, "No thanks.", seravel_no);
+@multi2("Yes, that sounds great!", shiloshiptickets_yes, "No thanks.", shiloshiptickets_no);
 
-[label,seravel_yes]
+[label,shiloshiptickets_yes]
 ~chatplayer("<p,neutral>Yes, that sounds great!");
 if(inv_total(inv, coins) < 25) {
     ~chatnpc("<p,neutral>Sorry Bwana, you don't have enough money. Come back when you have 25 coins.");
@@ -15,6 +15,6 @@ inv_del(inv, coins, 25);
 inv_add(inv, shiloshipticket, 1);
 ~chatnpc("<p,neutral>Great, nice doing business with you.");
 
-[label,seravel_no]
+[label,shiloshiptickets_no]
 ~chatplayer("<p,neutral>No thanks.");
 ~chatnpc("<p,neutral>Fair enough Bwana, let me know if you change your mind.");

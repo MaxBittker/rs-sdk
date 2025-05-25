@@ -57,17 +57,17 @@ mes("...But they will not open.");
 switch_int(%biohazard_progress) {
     case ^biohazard_poisoned_stew, ^biohazard_found_distillator :
         if(inv_total(worn, doctors_gown) > 0) {
-            ~chatnpc_specific(nc_name(npc_357), npc_357, "<p,neutral>In you go doc.");
+            ~chatnpc_specific(nc_name(mourner_armed), mourner_armed, "<p,neutral>In you go doc.");
             if_close;
             ~open_and_close_door2(loc_2037, ~check_axis(coord, loc_coord, loc_angle), door_open);
             return;
         }
-        ~chatnpc_specific(nc_name(npc_357), npc_357, "<p,neutral>Stay away from there.");
+        ~chatnpc_specific(nc_name(mourner_armed), mourner_armed, "<p,neutral>Stay away from there.");
         ~chatplayer("<p,quiz>Why?");
         // https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard10.PNG
-        ~chatnpc_specific(nc_name(npc_357), npc_357, "<p,neutral>Several mourners are ill with food poisoning,|we're waiting for a doctor.");
+        ~chatnpc_specific(nc_name(mourner_armed), mourner_armed, "<p,neutral>Several mourners are ill with food poisoning,|we're waiting for a doctor.");
     case ^biohazard_climbed_ladder, ^biohazard_given_distillator, ^biohazard_spoken_chemist, ^biohazard_found_secret, ^biohazard_reported_elena, ^biohazard_complete : ~mesbox("The door is locked. You can hear the mourners eating... You need to distract them from their stew.");
-    case default : ~chatnpc_specific(nc_name(npc_357), npc_357, "<p,angry>Who are you? Go away!");
+    case default : ~chatnpc_specific(nc_name(mourner_armed), mourner_armed, "<p,angry>Who are you? Go away!");
 }
 
 [label,bravek_go_away_im_busy]

@@ -1,4 +1,4 @@
-[lucien_edge]
+[ikov_lucien2]
 name=Lucien
 desc=He walks with a slight limp.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -48,7 +48,7 @@ param=attack_sound,hacksword_stab
 // https://oldschool.runescape.wiki/w/Lucien#Attackable_(disguised)
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_13607
 
-[lucien_ardougne]
+[ikov_lucien1]
 name=Lucien
 desc=He walks with a slight limp.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -75,7 +75,7 @@ model5=model_179_obj_wear
 model6=model_265_obj_wear
 head1=model_56_obj_wear
 
-[guardian_of_armadyl_male]
+[ikov_guardianmale]
 name=Guardian of Armadyl
 desc=A guard who has devoted their life to Armadyl.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -130,7 +130,7 @@ category=guardian_of_armadyl
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3445
 
-[guardian_of_armadyl_female]
+[ikov_guardianfemale]
 name=Guardian of Armadyl
 desc=A guard who has devoted their life to Armadyl.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -184,7 +184,7 @@ category=guardian_of_armadyl
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3446
 
-[winelda]
+[ikov_winelda]
 name=Winelda
 desc=A witch.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -216,7 +216,7 @@ head1=model_115_idk_head
 head2=model_102_obj_wear
 param=death_sound,female_death
 
-[fire_warrior_of_lesarkus]
+[ikov_firewarrior]
 name=Fire Warrior of Lesarkus
 desc=Intimidating!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r

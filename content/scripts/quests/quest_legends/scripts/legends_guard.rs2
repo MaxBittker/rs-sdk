@@ -1,6 +1,6 @@
 [opnpc1,_legends_guard] @talk_legends_guard;
-[ai_timer,legends_guard_west] @legends_guard_patrol;
-[ai_timer,legends_guard_east] @legends_guard_patrol;
+[ai_timer,legends_guild_guard1] @legends_guard_patrol;
+[ai_timer,legends_guild_guard2] @legends_guard_patrol;
 
 [label,legends_guard_patrol]
 switch_int(random(2)) {

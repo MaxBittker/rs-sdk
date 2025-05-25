@@ -9,7 +9,7 @@ if(npc_find(coord, wizard_frumscone, 12, 0) = true) {
 [label,open_mageguild_door](int $side)
 def_boolean $entering = ~check_axis_locactive(coord);
 if($entering = true & stat(magic) < 66) {
-    if(npc_find(coord, wizard_distentor, 14, 0) = true) {
+    if(npc_find(coord, guild_wizard, 14, 0) = true) {
         ~chatnpc("<p,neutral>You need a magic level of 66.|The magical energy in here is unsafe for those below that level.");
     }
     return;

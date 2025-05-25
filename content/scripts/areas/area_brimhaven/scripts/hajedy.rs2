@@ -2,11 +2,11 @@
 
 [oploc2,loc_2230]
 ~mesbox("This looks like a sturdy travelling cart.|A nearby man walks over to you."); // rsc
-if(npc_find(coord, hajedy, 7, 0) = true) {
-    @hajedy_dialogue;
+if(npc_find(coord, brimhavencartdriver, 7, 0) = true) {
+    @brimhavencartdriver_dialogue;
 }
 
-[opnpc1,hajedy]
+[opnpc1,brimhavencartdriver]
 if(inv_total(inv, trail_clue_medium_anagram005) > 0) {
     // https://youtube.com/watch?v=1jHmIS9FGSY
     ~chatnpc("<p,neutral>Well done.");
@@ -20,9 +20,9 @@ if(%zombiequeen_progress < ^zombiequeen_complete) {
 }
 ~chatplayer("<p,neutral>Hello!");
 ~chatnpc("<p,neutral>Hello Bwana!");
-@hajedy_dialogue;
+@brimhavencartdriver_dialogue;
 
-[label,hajedy_dialogue]
+[label,brimhavencartdriver_dialogue]
 if(%zombiequeen_progress < ^zombiequeen_complete) {
     ~chatnpc("<p,sad>We used to run cart trips down to Shilo Village in south Karamja. Since the troubles we had we've had to stop them though, too many people got killed.");
     return;

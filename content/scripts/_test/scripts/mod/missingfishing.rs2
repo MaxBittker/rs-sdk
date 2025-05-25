@@ -3,7 +3,7 @@ def_int $count = 0;
 npc_findallany(movecoord($square, 32, 0, 32), 32, ^vis_off);
 while (npc_findnext = true) {
     // big fish shouldn't count for all spots in a square, but we don't want to overpopulate. we can just run this again later
-    if (npc_type = $type | npc_category = nc_category($type) | npc_type = macro_event_big_fish) {
+    if (npc_type = $type | npc_category = nc_category($type) | npc_type = macro_bigfish) {
         // exact npc | npc category (whirlpool random) | big fish random
         $count = add($count, 1);
     }

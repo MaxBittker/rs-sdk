@@ -1,6 +1,6 @@
 [oploc1,_outpost_gate]
 if(%barcrawl_progress ! ^barcrawl_complete) {
-    if(npc_find(coord, barbarian_outpost_guard, 5, 0) = true) {
+    if(npc_find(coord, barbguard1, 5, 0) = true) {
         @outpost_guard_talk;
     }
 }

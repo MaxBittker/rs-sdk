@@ -1,4 +1,4 @@
-[banker_man]
+[banker1]
 vislevel=hide
 name=Banker
 desc=He can look after my money.
@@ -27,7 +27,7 @@ maxrange=2
 moverestrict=nomove
 category=bank_teller
 
-[banker_woman]
+[banker2]
 vislevel=hide
 name=Banker
 desc=Good with money.
@@ -55,7 +55,7 @@ moverestrict=nomove
 category=bank_teller
 param=death_sound,female_death
 
-[banker_blackman]
+[kharidbanker1]
 vislevel=hide
 name=Banker
 desc=A financial expert.
@@ -86,7 +86,7 @@ maxrange=2
 moverestrict=nomove
 category=bank_teller
 
-[banker_blackwoman]
+[kharidbanker2]
 vislevel=hide
 name=Banker
 desc=Looks after your money.
@@ -116,7 +116,7 @@ moverestrict=nomove
 category=bank_teller
 param=death_sound,female_death
 
-[banker_fairy]
+[fairy_banker]
 vislevel=hide
 name=Banker
 desc=Manages money momentarily.
@@ -130,7 +130,7 @@ maxrange=2
 moverestrict=nomove
 param=death_anim,fairy_death
 
-[banker_shilo]
+[shilobanker]
 vislevel=hide
 name=Banker
 desc=He can look after my money.

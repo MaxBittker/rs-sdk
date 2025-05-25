@@ -82,7 +82,7 @@ switch_int (random(5)) {
 }
 npc_settimer(~random_range(9, 21)); // osrs
 
-[ai_timer,game_trawler_shark1]
+[ai_timer,fin1]
 %npc_int = modulo(add(%npc_int, 1), 8);
 switch_int(%npc_int) {
     case 0 : npc_tele(movecoord(npc_coord, 0, 0, 2));
@@ -97,7 +97,7 @@ switch_int(%npc_int) {
 }
 
 
-[ai_timer,game_trawler_shark2]
+[ai_timer,fin2]
 %npc_int = modulo(add(%npc_int, 1), 8);
 switch_int(%npc_int) {
     case 0 : npc_tele(movecoord(npc_coord, 2, 0, 2));

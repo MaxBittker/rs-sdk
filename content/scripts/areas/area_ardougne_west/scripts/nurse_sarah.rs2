@@ -1,4 +1,4 @@
-[opnpc1,nurse_sarah]
+[opnpc1,bionurse]
 if(%biohazard_progress = ^biohazard_poisoned_stew) {
     ~chatplayer("<p,happy>Hello nurse.");
     ~chatnpc("<p,happy>Oh hello there.");

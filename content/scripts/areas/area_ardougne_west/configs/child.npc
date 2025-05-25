@@ -1,4 +1,4 @@
-[child_white]
+[w_ardoungechild1]
 vislevel=hide
 name=Child
 desc=One of RuneScapes' many citizens.
@@ -15,7 +15,7 @@ model3=model_2918_npc
 head1=model_139_npc_head
 param=death_anim,midget_death
 
-[child_brown]
+[dskin_w_ardoungechild1]
 vislevel=hide
 name=Child
 desc=One of RuneScapes' many citizens.

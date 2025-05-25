@@ -1,4 +1,4 @@
-[npc_347]
+[mourner2]
 name=Mourner
 desc=A mourner, or plague healer.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -40,7 +40,7 @@ param=slashdefence,6
 param=crushdefence,9
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_9013
 
-[npc_348]
+[mourner3]
 name=Mourner
 desc=A mourner, or plague healer.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -73,7 +73,7 @@ param=stabdefence,3
 param=slashdefence,2
 param=crushdefence,4
 
-[npc_357]
+[mourner_armed]
 name=Mourner
 desc=A mourner, or plague healer.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -111,7 +111,7 @@ param=stabdefence,5
 param=slashdefence,5
 param=crushdefence,7
 
-[mourner_hq_guard_1]
+[mournerstew3]
 name=Mourner
 desc=A mourner, or plague healer.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -146,7 +146,7 @@ param=stabdefence,2
 param=slashdefence,1
 param=crushdefence,3
 
-[mourner_boss_biohazard]
+[mournerstew2]
 name=Mourner
 desc=A mourner, or plague healer.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -183,7 +183,7 @@ param=crushdefence,4
 param=damagetype,^crush_style
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_9230 (Biohazard boss)
 
-[mourner_hq_guard_2]
+[mournerstew1]
 name=Mourner
 desc=A mourner, or plague healer.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -218,7 +218,7 @@ param=stabdefence,3
 param=slashdefence,2
 param=crushdefence,4
 
-[mourner_watchtower]
+[mournerwatchtower]
 vislevel=hide
 name=Mourner
 desc=A mourner, or plague healer.

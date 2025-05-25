@@ -1,4 +1,4 @@
-[opnpc1,yanni_salika]
+[opnpc1,shiloantiques]
 ~chatplayer("<p,neutral>Hello there!");
 // https://web.archive.org/web/20050204071450im_/http://www.runehq.com//images/cityguides/shilo9.jpg
 ~chatnpc("<p,neutral>Greetings Bwana!|My name is Yanni and I buy and sell antiques|and other interesting items.|If you have any interesting items that you might");
@@ -49,7 +49,7 @@ switch_int(~p_choice2("Yes please!", 1, "Maybe some other time?", 2)) {
         ~chatnpc("<p,neutral>Sure thing.|Have a nice day Bwana.");
 }
 
-[opnpcu,yanni_salika]
+[opnpcu,shiloantiques]
 switch_obj(last_useitem) {
     case zqbonekey :
         ~chatnpc("<p,neutral>That's a great bone key. here's 100 Gold for it.");

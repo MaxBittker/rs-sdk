@@ -1,4 +1,4 @@
-[west_ardougne_man_1]
+[dskin_w_ardoungecitizen1]
 name=Man
 desc=One of RuneScapes' many citizens.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -31,7 +31,7 @@ param=damagetype,^crush_style
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1118
 
-[west_ardougne_man_2]
+[w_ardougnecitizen6]
 vislevel=hide
 name=Man
 desc=One of RuneScapes' many citizens.

@@ -183,12 +183,12 @@ p_arrivedelay; // https://youtu.be/cePHhIOqsqg?si=-8QJd7t7ZIBz4K7y&t=667
 cam_moveto(0_41_154_17_12, 1000, 100, 232);
 cam_lookat(0_41_154_22_14, 50, 100, 232);
 cam_lookat(0_41_154_22_10, 50, 3, 10);
-if(npc_find(coord, fire_warrior_of_lesarkus, 5, 0) = false) { // will spawn another if 6 or more away
+if(npc_find(coord, ikov_firewarrior, 5, 0) = false) { // will spawn another if 6 or more away
     spotanim_map(smokepuff, 0_41_154_22_10, 0, 0);
     sound_synth(smokepuff, 0, 0);
     p_delay(0);
     sound_synth(fire_teleport, 0, 0);
-    npc_add(0_41_154_22_10, fire_warrior_of_lesarkus, 500);
+    npc_add(0_41_154_22_10, ikov_firewarrior, 500);
     npc_setmode(none);
     npc_walk(npc_coord);
     npc_anim(human_smokepuff_tele_appear, 0);

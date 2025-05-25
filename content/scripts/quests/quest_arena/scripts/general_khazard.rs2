@@ -1,4 +1,4 @@
-[opnpc1,general_khazard]
+[opnpc1,general_khazard_arena]
 switch_int(%arena_progress) {
     case ^arena_defeated_genkhazard, ^arena_complete_defeated_genkhazard :
         ~chatplayer("<p,shock>I thought I was rid of you!");
@@ -17,7 +17,7 @@ switch_int(%arena_progress) {
     case ^arena_defeated_ogre :
         ~chatplayer("<p,neutral>I have come to demand the release of Sir Servil and his son.");
         ~chatnpc("<p,skull>Why would I give them up, those two men are my property now.");
-        @general_khazard_belong_nobody;
+        @general_khazard_arena_belong_nobody;
     case default :
         if(~wearing_khazard_armour = true) {
             ~chatplayer("<p,quiz>General Khazard?");
@@ -32,14 +32,14 @@ switch_int(%arena_progress) {
         ~chatnpc("<p,skull>Get out! Whoever let you in shall be severely punished for this.");
 }
 
-[label,khazard_welldone]
-if(npc_find(coord, general_khazard, 23, 0) = false) {
+[label,general_khazard_arena_welldone]
+if(npc_find(coord, general_khazard_arena, 23, 0) = false) {
     return;
 }
 ~chatnpc("<p,skull>Haha, well done, well done that was rather entertaining. I am the great General Khazard, and the two men you just 'saved' are my property.");
-@general_khazard_belong_nobody;
+@general_khazard_arena_belong_nobody;
 
-[label,general_khazard_belong_nobody]
+[label,general_khazard_arena_belong_nobody]
 ~chatplayer("<p,angry>They belong to nobody.");
 ~chatnpc("<p,skull>Well, I suppose we could find some arrangement for their freedom... hmmm?");
 ~chatplayer("<p,quiz>What do you mean?");
@@ -53,7 +53,7 @@ p_teleport(0_40_49_45_5);
 cam_reset;
 cam_moveto(0_40_49_47_3, 600, 0, 100);
 cam_lookat(0_40_49_42_5, 0, 0, 100);
-npc_add(0_40_49_47_5, khazard_guard_cutscene, 30); // 30t in old videos
+npc_add(0_40_49_47_5, arena_guard5, 30); // 30t in old videos
 npc_setmode(none);
 npc_walk(0_40_49_41_5);
 ~forcemove(0_40_49_40_5);
@@ -78,7 +78,7 @@ p_delay(1);
 cam_reset;
 ~chatnpc("<p,shifty>The General seems to have taken a liking to you. He'd normally kill imposters like you without a second thought.");
 
-[label,general_khazard_summon_bouncer]
+[label,general_khazard_arena_summon_bouncer]
 ~chatnpc("<p,skull>Not bad, not bad at all. I think you need a tougher challenge. Time for my puppy. Guards! Guards! Bring on Bouncer!");
 ~mesbox("From above you hear a voice..... 'Ladies and gentlemen! Today's second round of battle is between the outsider and Bouncer.'");
 @arena_release_bouncer;
@@ -88,28 +88,28 @@ cam_reset;
 ~chatplayer("<p,angry>You agreed to let the Servils go if I stayed to fight.");
 ~chatnpc("<p,skull>Indeed. I obviously underestimated you, although you still pale in comparison to the might of General Khazard.");
 ~chatnpc("<p,skull>You shall see that I am not cowardly enough to make false promises. They may go.");
-@general_khazard_attack;
+@general_khazard_arena_attack;
 
-[label,general_khazard_agreement]
-if (npc_find(movecoord(coord, 8, 0, 0), general_khazard, 15, 0) = false | ~npc_retal_ready = false) {
-    npc_add(0_40_49_46_18, general_khazard, 500); // ticks guessed
+[label,general_khazard_arena_agreement]
+if (npc_find(movecoord(coord, 8, 0, 0), general_khazard_arena, 15, 0) = false | ~npc_retal_ready = false) {
+    npc_add(0_40_49_46_18, general_khazard_arena, 500); // ticks guessed
 }
 ~chatnpc("<p,skull>The agreement was that the Servils may leave if you won a few fights, and indeed they are now free to do so.");
-@general_khazard_attack;
+@general_khazard_arena_attack;
 
-[label,general_khazard_attack]
+[label,general_khazard_arena_attack]
 ~chatnpc("<p,skull>You however have caused me much trouble today. You must remain here so that I may at least have the pleasure of killing you myself.");
 %arena_progress = ^arena_freed_servils;
 ~npc_retaliate(0);
 
-[ai_queue3,general_khazard]
+[ai_queue3,general_khazard_arena]
 gosub(npc_death);
 if(npc_findhero = ^true) {
     if_close;
-    queue(queue_defeat_general_khazard, 0);
+    queue(queue_defeat_general_khazard_arena, 0);
 }
 
-[queue,queue_defeat_general_khazard]
+[queue,queue_defeat_general_khazard_arena]
 if (inzone(^arena_lower_coord, ^arena_upper_coord, coord) = true & %arena_progress = ^arena_freed_servils) {
     %arena_progress = ^arena_defeated_genkhazard;
 }

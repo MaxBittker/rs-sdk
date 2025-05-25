@@ -1,4 +1,4 @@
-[ai_timer,murphy_nonflood] // 5 tick timer
+[ai_timer,murphy_normal] // 5 tick timer
 if (%npc_int2 = ^trawler_control_flooded) {
     return;
 }
@@ -31,7 +31,7 @@ if (random(16) = 0) {
 ~trawler_catch_fish($player_count);
 npc_settimer(5); // this is important
 
-[ai_timer,murphy_flood]
+[ai_timer,murphy_halfsunk]
 if (%npc_int2 = ^trawler_control_nonflooded) {
     return;
 }

@@ -1,4 +1,4 @@
-[opnpc1,goblin_armed_green]
+[opnpc1,goblin_greenarmour]
 ~chatnpc("<p,goblinchat>Green armour best.");
 switch_int(~p_choice2("Err ok.", 1, "Why is green best?", 2)) {
     case 1 :

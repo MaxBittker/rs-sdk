@@ -3,7 +3,7 @@
 // for sandwich lady, seems like a little over 50 seconds: https://youtu.be/KkyVz0tSOQA?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
 // mysterious old man only teleports out 20 ticks after he gets mad. https://youtu.be/_PPxvNjIgq4?t=49
 
-[macro_event_triffid_friendly]
+[macro_triffidseed]
 vislevel=hide
 name=Strange plant
 desc=A very strange plant.
@@ -20,7 +20,7 @@ defence=99
 // this video he does 209 damage, so 9 min of regen from the monster https://youtu.be/8GERe1S_4lM
 hitpoints=200
 
-[macro_event_triffid_hostile]
+[macro_triffidseed_angry]
 vislevel=hide
 name=Strange plant
 desc=A very strange plant.
@@ -51,7 +51,7 @@ defence=99
 // this video he does 209 damage, so 9 min of regen from the monster https://youtu.be/8GERe1S_4lM
 hitpoints=200
 
-[macro_event_genie]
+[macro_geni]
 vislevel=hide
 name=Genie
 desc=Maybe he'll grant me a wish...
@@ -86,7 +86,7 @@ head3=model_84_idk_head
 timer=20
 param=follow_player_on_logout,^true
 
-[macro_event_mysterious_old_man_general]
+[macro_mysterious_old_man]
 vislevel=hide
 name=Mysterious Old Man
 desc=A very strange old man...
@@ -120,7 +120,7 @@ head2=model_82_idk_head
 timer=20
 param=follow_player_on_logout,^true
 
-[macro_event_swarm]
+[macro_swarm]
 vislevel=hide
 name=Swarm
 desc=A swarm of vicious insects!
@@ -184,7 +184,7 @@ param=attack_sound,terrorbird_attack
 param=defend_sound,terrorbird_hit
 param=death_sound,terrorbird_death
 
-[macro_event_rock_golem1]
+[macro_rockgolem1]
 name=Rock Golem
 desc=Rock with attitude.
 size=2
@@ -218,7 +218,7 @@ param=defend_sound,golem_hit
 param=death_sound,golem_death
 param=death_drop,null
 
-[macro_event_rock_golem2]
+[macro_rockgolem2]
 name=Rock Golem
 desc=Rock with attitude.
 size=2
@@ -251,7 +251,7 @@ param=defend_sound,golem_hit
 param=death_sound,golem_death
 param=death_drop,null
 
-[macro_event_rock_golem3]
+[macro_rockgolem3]
 name=Rock Golem
 desc=Rock with attitude.
 size=2
@@ -284,7 +284,7 @@ param=defend_sound,golem_hit
 param=death_sound,golem_death
 param=death_drop,null
 
-[macro_event_rock_golem4]
+[macro_rockgolem4]
 name=Rock Golem
 desc=Rock with attitude.
 size=2
@@ -317,7 +317,7 @@ param=defend_sound,golem_hit
 param=death_sound,golem_death
 param=death_drop,null
 
-[macro_event_rock_golem5]
+[macro_rockgolem5]
 name=Rock Golem
 desc=Rock with attitude.
 size=2
@@ -350,7 +350,7 @@ param=defend_sound,golem_hit
 param=death_sound,golem_death
 param=death_drop,null
 
-[macro_event_rock_golem6]
+[macro_rockgolem6]
 name=Rock Golem
 desc=Rock with attitude.
 size=2
@@ -383,7 +383,7 @@ param=defend_sound,golem_hit
 param=death_sound,golem_death
 param=death_drop,null
 
-[macro_event_zombie1]
+[macro_zombie1]
 minimap=no
 name=Zombie
 desc=The walking dead!
@@ -413,7 +413,7 @@ param=combat_xp_multiplier,25
 param=death_drop,big_bones
 timer=20
 
-[macro_event_zombie2]
+[macro_zombie2]
 minimap=no
 name=Zombie
 desc=The walking dead!
@@ -442,7 +442,7 @@ param=combat_xp_multiplier,25
 param=death_drop,big_bones
 timer=20
 
-[macro_event_zombie3]
+[macro_zombie3]
 minimap=no
 name=Zombie
 desc=The walking dead!
@@ -471,7 +471,7 @@ param=combat_xp_multiplier,25
 param=death_drop,big_bones
 timer=20
 
-[macro_event_zombie4]
+[macro_zombie4]
 minimap=no
 name=Zombie
 desc=The walking dead!
@@ -500,7 +500,7 @@ param=combat_xp_multiplier,25
 param=death_drop,big_bones
 timer=20
 
-[macro_event_zombie5]
+[macro_zombie5]
 minimap=no
 name=Zombie
 desc=The walking dead!
@@ -529,7 +529,7 @@ param=combat_xp_multiplier,25
 param=death_drop,big_bones
 timer=20
 
-[macro_event_zombie6]
+[macro_zombie6]
 minimap=no
 name=Zombie
 desc=The walking dead!
@@ -558,7 +558,7 @@ param=combat_xp_multiplier,25
 param=death_drop,big_bones
 timer=20
 
-[macro_event_shade1]
+[macro_shade1]
 minimap=no
 name=Shade
 desc=The angry dead!
@@ -603,7 +603,7 @@ param=death_drop,null
 param=undead,^true
 param=combat_xp_multiplier,25
 
-[macro_event_shade2]
+[macro_shade2]
 minimap=no
 name=Shade
 desc=The angry dead!
@@ -646,7 +646,7 @@ param=death_drop,null
 param=undead,^true
 param=combat_xp_multiplier,25
 
-[macro_event_shade3]
+[macro_shade3]
 minimap=no
 name=Shade
 desc=The angry dead!
@@ -689,7 +689,7 @@ param=death_drop,null
 param=undead,^true
 param=combat_xp_multiplier,25
 
-[macro_event_shade4]
+[macro_shade4]
 minimap=no
 name=Shade
 desc=The angry dead!
@@ -732,7 +732,7 @@ param=death_drop,null
 param=undead,^true
 param=combat_xp_multiplier,25
 
-[macro_event_shade5]
+[macro_shade5]
 minimap=no
 name=Shade
 desc=The angry dead!
@@ -775,7 +775,7 @@ param=death_drop,null
 param=undead,^true
 param=combat_xp_multiplier,25
 
-[macro_event_shade6]
+[macro_shade6]
 minimap=no
 name=Shade
 desc=The angry dead!
@@ -818,7 +818,7 @@ param=death_drop,null
 param=undead,^true
 param=combat_xp_multiplier,25
 
-[macro_event_watchman1]
+[macro_watchman1]
 name=Watchman
 desc=The strong arm of the law.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -856,7 +856,7 @@ param=combat_xp_multiplier,25
 // defend_sound blade3_mail
 // https://storage.googleapis.com/tannerdino/images/watchman.PNG here we can see defend animation.
 
-[macro_event_watchman2]
+[macro_watchman2]
 name=Watchman
 desc=The strong arm of the law.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -891,7 +891,7 @@ param=damagetype,^crush_style
 param=combat_xp_multiplier,25
 // defend_sound blade3_mail
 
-[macro_event_watchman3]
+[macro_watchman3]
 name=Watchman
 desc=The strong arm of the law.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -926,7 +926,7 @@ param=damagetype,^crush_style
 param=combat_xp_multiplier,25
 // defend_sound blade3_mail
 
-[macro_event_watchman4]
+[macro_watchman4]
 name=Watchman
 desc=The strong arm of the law.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -961,7 +961,7 @@ param=damagetype,^crush_style
 param=combat_xp_multiplier,25
 // defend_sound blade3_mail
 
-[macro_event_watchman5]
+[macro_watchman5]
 name=Watchman
 desc=The strong arm of the law.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -996,7 +996,7 @@ param=damagetype,^crush_style
 param=combat_xp_multiplier,25
 // defend_sound blade3_mail
 
-[macro_event_watchman6]
+[macro_watchman6]
 name=Watchman
 desc=The strong arm of the law.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -1055,7 +1055,7 @@ param=defend_sound,imp_hit
 param=death_sound,imp_death
 // TODO
 
-[macro_event_dryad1]
+[macro_dryhad1]
 name=Tree spirit
 desc=A very angry nymph.
 readyanim=dryhad_ready
@@ -1091,7 +1091,7 @@ param=defend_sound,null
 param=death_sound,null
 param=combat_xp_multiplier,25
 
-[macro_event_dryad2]
+[macro_dryhad2]
 name=Tree spirit
 desc=A very angry nymph.
 readyanim=dryhad_ready
@@ -1126,7 +1126,7 @@ param=defend_sound,null
 param=death_sound,null
 param=combat_xp_multiplier,25
 
-[macro_event_dryad3]
+[macro_dryhad3]
 name=Tree spirit
 desc=A very angry nymph.
 readyanim=dryhad_ready
@@ -1161,7 +1161,7 @@ param=defend_sound,null
 param=death_sound,null
 param=combat_xp_multiplier,25
 
-[macro_event_dryad4]
+[macro_dryhad4]
 name=Tree spirit
 desc=A very angry nymph.
 readyanim=dryhad_ready
@@ -1196,7 +1196,7 @@ param=defend_sound,null
 param=death_sound,null
 param=combat_xp_multiplier,25
 
-[macro_event_dryad5]
+[macro_dryhad5]
 name=Tree spirit
 desc=A very angry nymph.
 readyanim=dryhad_ready
@@ -1231,7 +1231,7 @@ param=defend_sound,null
 param=death_sound,null
 param=combat_xp_multiplier,25
 
-[macro_event_dryad6]
+[macro_dryhad6]
 name=Tree spirit
 desc=A very angry nymph.
 readyanim=dryhad_ready
@@ -1266,7 +1266,7 @@ param=defend_sound,null
 param=death_sound,null
 param=combat_xp_multiplier,25
 
-[macro_event_ent_tree1]
+[macro_ent_tree1]
 vislevel=hide
 name=Tree
 desc=One of the most common trees in RuneScape.
@@ -1285,7 +1285,7 @@ moverestrict=nomove
 category=macro_event_ent
 param=ent_tree_loc,loc_1276
 
-[macro_event_ent_tree2]
+[macro_ent_tree2]
 vislevel=hide
 name=Tree
 desc=This would make good firewood.
@@ -1304,7 +1304,7 @@ moverestrict=nomove
 category=macro_event_ent
 param=ent_tree_loc,loc_1276
 
-[macro_event_ent_dead_tree1]
+[macro_ent_dead_tree1]
 vislevel=hide
 name=Dead tree
 desc=It's only useful for firewood now.
@@ -1323,7 +1323,7 @@ moverestrict=nomove
 category=macro_event_ent
 param=ent_tree_loc,loc_1276
 
-[macro_event_ent_dead_tree2]
+[macro_ent_dead_tree2]
 vislevel=hide
 name=Dead tree
 desc=It's only useful for firewood now.
@@ -1341,7 +1341,7 @@ moverestrict=nomove
 category=macro_event_ent
 param=ent_tree_loc,loc_1276
 
-[macro_event_ent_oak]
+[macro_ent_oak]
 vislevel=hide
 name=Oak
 desc=A beautiful old oak.
@@ -1360,7 +1360,7 @@ moverestrict=nomove
 category=macro_event_ent
 param=ent_tree_loc,oak_tree
 
-[macro_event_ent_willow]
+[macro_ent_willow]
 vislevel=hide
 name=Willow
 desc=These trees are found near water.
@@ -1379,7 +1379,7 @@ moverestrict=nomove
 category=macro_event_ent
 param=ent_tree_loc,willow_tree
 
-[macro_event_ent_yew]
+[macro_ent_yew]
 vislevel=hide
 name=Yew
 desc=A splendid tree.
@@ -1398,7 +1398,7 @@ moverestrict=nomove
 category=macro_event_ent
 param=ent_tree_loc,yew_tree
 
-[macro_event_ent_maple]
+[macro_ent_maple]
 vislevel=hide
 name=Maple tree
 desc=I bet this makes good syrup!
@@ -1416,7 +1416,7 @@ moverestrict=nomove
 category=macro_event_ent
 param=ent_tree_loc,maple_tree
 
-[macro_event_ent_magic]
+[macro_ent_magic]
 vislevel=hide
 name=Magic tree
 desc=The tree shimmers with a magical force.
@@ -1465,7 +1465,7 @@ param=attack_sound,thrown
 // stats are completely guessed
 // TODO sounds
 
-[macro_event_big_fish]
+[macro_bigfish]
 name=Big fish
 desc=A big fish with a bigger mouth.
 vislevel=hide
@@ -1478,7 +1478,7 @@ defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
-[macro_event_river_troll1]
+[macro_rivertroll1]
 name=River troll
 desc=
 desc=Likes fish... hates people.
@@ -1511,7 +1511,7 @@ param=death_sound,null
 param=combat_xp_multiplier,25
 category=macro_event_river_troll
 
-[macro_event_river_troll2]
+[macro_rivertroll2]
 name=River troll
 desc=
 desc=Likes fish... hates people.
@@ -1543,7 +1543,7 @@ param=death_sound,null
 param=combat_xp_multiplier,25
 category=macro_event_river_troll
 
-[macro_event_river_troll3]
+[macro_rivertroll3]
 name=River troll
 desc=
 desc=Likes fish... hates people.
@@ -1575,7 +1575,7 @@ param=death_sound,null
 param=combat_xp_multiplier,25
 category=macro_event_river_troll
 
-[macro_event_river_troll4]
+[macro_rivertroll4]
 name=River troll
 desc=
 desc=Likes fish... hates people.
@@ -1607,7 +1607,7 @@ param=death_sound,null
 param=combat_xp_multiplier,25
 category=macro_event_river_troll
 
-[macro_event_river_troll5]
+[macro_rivertroll5]
 name=River troll
 desc=
 desc=Likes fish... hates people.
@@ -1639,7 +1639,7 @@ param=death_sound,null
 param=combat_xp_multiplier,25
 category=macro_event_river_troll
 
-[macro_event_river_troll6]
+[macro_rivertroll6]
 name=River troll
 desc=
 desc=Likes fish... hates people.
@@ -1671,7 +1671,7 @@ param=death_sound,null
 param=combat_xp_multiplier,25
 category=macro_event_river_troll
 
-[freshfish_whirlpool]
+[macro_whirlpool_freshfish]
 vislevel=hide
 name=Fishing spot
 desc=I can see fish swimming in the water.
@@ -1690,7 +1690,7 @@ moverestrict=nomove
 category=freshfish
 param=is_whirlpool,^true
 
-[saltfish_whirlpool]
+[macro_whirlpool_saltfish]
 vislevel=hide
 name=Fishing spot
 desc=I can see fish swimming in the water.
@@ -1709,7 +1709,7 @@ moverestrict=nomove
 category=saltfish
 param=is_whirlpool,^true
 
-[rarefish_whirlpool]
+[macro_whirlpool_rarefish]
 vislevel=hide
 name=Fishing spot
 desc=I can see fish swimming in the water.
@@ -1728,7 +1728,7 @@ moverestrict=nomove
 category=rarefish
 param=is_whirlpool,^true
 
-[memberfish_whirlpool]
+[macro_whirlpool_memberfish]
 vislevel=hide
 name=Fishing spot
 desc=I can see fish swimming in the water.

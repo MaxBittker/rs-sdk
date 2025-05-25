@@ -83,7 +83,7 @@ head1=model_55_idk_head
 head2=model_37_npc_head
 head3=model_83_idk_head
 
-[red_sheep]
+[herder_plaguesheep_1]
 vislevel=hide
 name=Diseased sheep
 desc=Even from here you can see this sheep's not well.
@@ -99,10 +99,10 @@ wanderrange=3
 param=death_anim,sheep_death
 timer=25
 category=diseased_sheep
-// param=death_drop,red_sheep_bones
+// param=death_drop,sheepbonesa
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3986
 
-[green_sheep]
+[herder_plaguesheep_2]
 vislevel=hide
 name=Diseased sheep
 desc=Even from here you can see this sheep's not well.
@@ -118,10 +118,10 @@ wanderrange=3
 param=death_anim,sheep_death
 timer=25
 category=diseased_sheep
-// param=death_drop,green_sheep_bones
+// param=death_drop,sheepbonesb
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3987
 
-[blue_sheep]
+[herder_plaguesheep_3]
 vislevel=hide
 name=Diseased sheep
 desc=Even from here you can see this sheep's not well.
@@ -137,10 +137,10 @@ wanderrange=3
 param=death_anim,sheep_death
 timer=25
 category=diseased_sheep
-// param=death_drop,blue_sheep_bones
+// param=death_drop,sheepbonesc
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3988
 
-[yellow_sheep]
+[herder_plaguesheep_4]
 vislevel=hide
 name=Diseased sheep
 desc=Even from here you can see this sheep's not well.
@@ -156,5 +156,5 @@ wanderrange=3
 param=death_anim,sheep_death
 timer=25
 category=diseased_sheep
-// param=death_drop,yellow_sheep_bones
+// param=death_drop,sheepbonesc
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3989

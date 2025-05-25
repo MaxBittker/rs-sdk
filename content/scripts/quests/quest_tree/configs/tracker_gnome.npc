@@ -1,4 +1,4 @@
-[tracker_gnome_1]
+[tracker1]
 vislevel=hide
 name=Gnome
 desc=Looks like a gnome to me.
@@ -16,7 +16,7 @@ head1=model_21_npc_head
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[tracker_gnome_2]
+[tracker2]
 vislevel=hide
 name=Gnome
 desc=Looks like a gnome to me.
@@ -34,7 +34,7 @@ head1=model_21_npc_head
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[tracker_gnome_3]
+[tracker3]
 vislevel=hide
 name=Gnome
 desc=Looks like a gnome to me.

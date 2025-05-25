@@ -1,4 +1,4 @@
-[opnpc1,elena]
+[opnpc1,elena2]
 switch_int(%biohazard_progress) { // ^biohazard_used_birdfeed intentionally has no dialogue!
     case ^biohazard_complete :
         ~chatplayer("<p,happy>Hello Elena.");
@@ -110,7 +110,7 @@ switch_int(%biohazard_progress) { // ^biohazard_used_birdfeed intentionally has 
         ~chatplayer("<p,sad>No, I'm afraid not.");
         ~chatnpc("<p,neutral>Speak to Jerico, he will help you to cross the wall.|He lives next to the chapel.");
     case ^biohazard_not_started :
-        ~chatplayer("<p,happy>Good day to you <nc_name(elena)>.");
+        ~chatplayer("<p,happy>Good day to you <nc_name(elena2)>.");
         ~chatnpc("<p,happy>You too, thanks for freeing me.");
         ~chatnpc("<p,sad>It's just a shame the mourners confiscated my equipment.");
         ~chatplayer("<p,quiz>What did they take?");

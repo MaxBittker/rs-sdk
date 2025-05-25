@@ -1,4 +1,4 @@
-[opnpc1,winelda]
+[opnpc1,ikov_winelda]
 switch_int (%ikov_progress) {
     case ^ikov_spoken_winelda :
         if(inv_total(inv, limpwurt_root) >= 20) {
@@ -7,7 +7,7 @@ switch_int (%ikov_progress) {
             ~chatnpc("<p,happy>Now we shows them ours magic! Hold on tight!");
             %ikov_progress = ^ikov_paid_winelda;
             inv_del(inv, limpwurt_root, 20);
-            @winelda_teleport;
+            @ikov_winelda_teleport;
             return;
         }
         ~chatnpc("<p,neutral>Have you got roots for poor Winelda?");
@@ -28,18 +28,18 @@ switch_int (%ikov_progress) {
             case 2 :
                 ~chatplayer("<p,neutral>Yes we do!");
                 ~chatnpc("<p,sad>Mocking us are we? Clever one aren't we?");
-                @winelda_explain;
+                @ikov_winelda_explain;
             case 3 :
                 ~chatplayer("<p,neutral>Yes I do!");
-                @winelda_explain;
+                @ikov_winelda_explain;
         }
     case default :
         ~chatplayer("<p,neutral>Hi again. Could you do the honours again please?");
         ~chatnpc("<p,happy>Certainly! We helps those that helps poor Winelda!");
-        @winelda_teleport;
+        @ikov_winelda_teleport;
 }
 
-[label,winelda_teleport]
+[label,ikov_winelda_teleport]
 if_close;
 spotanim_npc(teleport_casting, 92, 0);
 cam_moveto(0_41_154_35_24, 1500, 100, 232);
@@ -59,7 +59,7 @@ p_delay(2);
 //cam_moveto(0_41_154_35_24, 1500, 100, 0);
 cam_reset;
 
-[label,winelda_explain]
+[label,ikov_winelda_explain]
 ~chatnpc("<p,happy>I'm knowing some magic trickesses!|I could get over easy as that!");
 ~chatnpc("<p,sad>Don't tell them! They always come! They pester poor Winelda!");
 ~chatplayer("<p,angry>If you're such a great witch, get me over!");

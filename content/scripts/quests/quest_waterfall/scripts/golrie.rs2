@@ -1,4 +1,4 @@
-[opnpc1,golrie]
+[opnpc1,golrie_waterfall_quest]
 // diff dialogue, comparing with video to get mesanims (seems like the whole dialogue is neutral, almost matches with OSRS: https://www.youtube.com/watch?v=D80JSlBEC6I&t=282s)
 ~chatplayer("<p,neutral>Hello, is your name Golrie?");
 ~chatnpc("<p,neutral>That's me. I've been stuck in here for weeks, those goblins are trying to steal my family's heirlooms. My Grandad gave me all sorts of old junk.");

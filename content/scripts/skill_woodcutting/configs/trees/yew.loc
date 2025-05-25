@@ -9,4 +9,4 @@ op3=hidden
 mapscene=3
 category=tree
 param=next_loc_stage,loc_1357
-param=ent,macro_event_ent_yew
+param=ent,macro_ent_yew

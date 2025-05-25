@@ -6,7 +6,7 @@ npc_anim(triffid_grow, 0);
 %npc_macro_event_target = uid;
 sound_synth(triffid_appear, 0, 0);
 
-[opnpc1,macro_event_triffid_friendly]
+[opnpc1,macro_triffidseed]
 if (%npc_macro_event_target ! uid) {
     mes("It's not here for you."); // osrs
     return;
@@ -27,12 +27,12 @@ npc_del;
 
 // this timer runs twice, first is for plant growing, second is for becoming hostile
 // 90 ticks https://youtu.be/94bDnUMTMXQ?t=374
-[ai_timer,macro_event_triffid_friendly]
+[ai_timer,macro_triffidseed]
 if (%npc_int = ^triffid_ready_to_attack) { // turn hostile
     npc_anim(triffid_angry_grow, 60);
     npc_delay(4);
 
-    npc_changetype_keepall(macro_event_triffid_hostile, ^max_32bit_int);
+    npc_changetype_keepall(macro_triffidseed_angry, ^max_32bit_int);
     npc_delay(1);
     npc_settimer(20);
     if (finduid(%npc_macro_event_target) = true) {
@@ -48,7 +48,7 @@ if (%npc_int = ^triffid_ready_to_attack) { // turn hostile
 // deletes if its not in opplayer2 mode
 // https://youtu.be/94bDnUMTMXQ?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT&t=466
 // https://youtu.be/t7iOUMQv6Ws?t=148
-[ai_timer,macro_event_triffid_hostile]
+[ai_timer,macro_triffidseed_angry]
 if (~macro_event_lost_hostile = true) {
     npc_anim(triffid_angry_death, 0);
     npc_delay(1);

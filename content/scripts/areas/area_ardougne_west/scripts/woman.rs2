@@ -1,17 +1,17 @@
-[opnpc1,west_ardougne_woman_1] @man_woman_help_me_out_of_this_hell_hole; // woman brown
-[opnpc1,west_ardougne_woman_2] @woman_bah_those_mourners; // woman white
-[opnpc1,west_ardougne_woman_3] @man_woman_go_away_outsider; // woman tan? llmao idk
-[opnpc1,west_ardougne_woman_4] @woman_life_is_tough; // 100th woman
-[opnpc1,west_ardougne_woman_5] @man_woman_curse_king_tyras; // woman level 12
-[opnpc1,west_ardougne_woman_6] @man_woman_go_away_outsider; // woman white 2
-[opnpc1,west_ardougne_woman_7] @woman_bah_those_mourners; // woman needs slim fast
+[opnpc1,dskin_w_ardoungecitizen2] @man_woman_help_me_out_of_this_hell_hole; // woman brown
+[opnpc1,w_ardoungecitizenlady1] @woman_bah_those_mourners; // woman white
+[opnpc1,dskin_w_ardoungecitizenlady1] @man_woman_go_away_outsider; // woman tan? llmao idk
+[opnpc1,dskin_w_ardoungecitizenlady3] @woman_life_is_tough; // 100th woman
+[opnpc1,dskin_w_ardoungecitizenlady4] @man_woman_curse_king_tyras; // woman level 12
+[opnpc1,w_ardoungecitizenlady2] @man_woman_go_away_outsider; // woman white 2
+[opnpc1,w_ardoungecitizenlady4] @woman_bah_those_mourners; // woman needs slim fast
 
 [label,woman_life_is_tough]
 ~chatplayer("<p,happy>Hello, how's it going?");
 ~chatnpc("<p,sad>Life is tough.");
 switch_int(%elena_progress) {
     case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : @multi2("Yes, living in a plague city must be hard.", woman_living_in_a_plague_city_must_be_hard, "I'm sorry to hear that.", woman_im_sorry_to_hear_that);
-    case default : @multi3("Yes, living in a plague city must be hard.", woman_living_in_a_plague_city_must_be_hard, "I'm sorry to hear that.", woman_im_sorry_to_hear_that, "I'm looking for a lady called <nc_name(elena)>.", woman_im_looking_for_a_lady);
+    case default : @multi3("Yes, living in a plague city must be hard.", woman_living_in_a_plague_city_must_be_hard, "I'm sorry to hear that.", woman_im_sorry_to_hear_that, "I'm looking for a lady called <nc_name(elena2)>.", woman_im_looking_for_a_lady);
 }
 
 [label,woman_living_in_a_plague_city_must_be_hard]
@@ -24,7 +24,7 @@ switch_int(%elena_progress) {
 ~chatnpc("<p,sad>Well, ain't much either you or me can do about it.");
 
 [label,woman_im_looking_for_a_lady]
-~chatplayer("<p,neutral>I'm looking for a lady called <nc_name(elena)>.");
+~chatplayer("<p,neutral>I'm looking for a lady called <nc_name(elena2)>.");
 ~chatnpc("<p,neutral>I've not heard of her. Old <nc_name(jethick)> knows a lot of people, maybe he'll know where you can find her.");
 
 [label,man_woman_help_me_out_of_this_hell_hole]
@@ -42,11 +42,11 @@ switch_int(%elena_progress) {
 switch_int(%elena_progress) {
     case ^quest_elena_freed_elena : // nothing
     case ^elena_complete, ^elena_complete_read_scroll : // nothing
-    case default : @multi2("Have you seen a lady called <nc_name(elena)> around here?", woman_have_you_seen_a_lady_around_here, "You should stand up to them more.", woman_you_should_stand_up_to_them_more);
+    case default : @multi2("Have you seen a lady called <nc_name(elena2)> around here?", woman_have_you_seen_a_lady_around_here, "You should stand up to them more.", woman_you_should_stand_up_to_them_more);
 }
 
 [label,woman_have_you_seen_a_lady_around_here]
-~chatplayer("<p,quiz>Have you seen a lady called <nc_name(elena)> around here?");
+~chatplayer("<p,quiz>Have you seen a lady called <nc_name(elena2)> around here?");
 ~chatnpc("<p,happy>Yes, I've seen her. Very helpful person.");
 ~chatnpc("<p,sad>Not for the last few days though... I thought maybe she'd gone home.");
 

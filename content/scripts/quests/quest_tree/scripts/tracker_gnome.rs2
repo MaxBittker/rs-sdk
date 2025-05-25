@@ -1,4 +1,4 @@
-[opnpc1,tracker_gnome_1]
+[opnpc1,tracker1]
 switch_int(%tree_progress) {
     case ^tree_not_started, ^tree_started, ^tree_given_logs_montai :
         ~chatplayer("<p,neutral>Hello.");
@@ -26,7 +26,7 @@ switch_int(%tree_progress) {
         ~chatnpc("<p,bored>When will this battle end?|I feel like I've been fighting forever.");
 }
 
-[apnpc1,tracker_gnome_2]
+[apnpc1,tracker2]
 if (npc_range(coord) > 2) {
     p_aprange(2);
     return;
@@ -61,7 +61,7 @@ switch_int(%tree_progress) {
         ~chatnpc("<p,bored>When will this battle end?|I feel like I've been locked up my whole life.");
 }
 
-[opnpc1,tracker_gnome_3]
+[opnpc1,tracker3]
 switch_int(%tree_progress) {
     case ^tree_not_started, ^tree_started :
         ~chatplayer("<p,neutral>Hello.");

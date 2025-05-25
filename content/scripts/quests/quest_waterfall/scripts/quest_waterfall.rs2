@@ -151,7 +151,7 @@ switch_int (%waterfall_progress) {
         p_delay(2);
         if (%waterfall_progress = ^waterfall_started) {
             // Forced Hudon Dialogue
-            if (npc_find(movecoord(coord, -1, 0, 0), hudon, 5, 0) = true) {
+            if (npc_find(movecoord(coord, -1, 0, 0), hudon_waterfall_quest, 5, 0) = true) {
                 ~chatplayer("<p,neutral>Hello son, are you okay? You need help?");
                 ~chatnpc("<p,neutral>It looks like you need the help.");
                 ~chatplayer("<p,neutral>Your mum sent me to find you.");
@@ -326,7 +326,7 @@ if($is_outside = false) {
         return;
     }
     if(%waterfall_progress <= ^waterfall_opened_book_on_baxtorian & inv_total(inv, golrie_key_waterfall_quest) = 0) {
-        if (npc_find(movecoord(coord, 0, 0, 2), golrie, 5, 0) = true) {
+        if (npc_find(movecoord(coord, 0, 0, 2), golrie_waterfall_quest, 5, 0) = true) {
             @waterfall_golrie_door_dialogue;
         }
     }

@@ -35,7 +35,7 @@ switch_int(%arena_progress) {
     case ^arena_defeated_bouncer : // guessed mesanims
         ~chatplayer("<p,quiz>What does Khazard want with us now?");
         ~chatnpc("<p,neutral>I don't know, but he won't be happy that you've killed his so called pet.");
-        @general_khazard_agreement;
+        @general_khazard_arena_agreement;
     case ^arena_sent_jail, ^arena_defeated_scorpion :
         // https://youtu.be/etS0gMlcxx8?si=xx4Hvgt28HsL6JCi&t=344
         ~chatplayer("<p,angry>Don't worry, I'll get us out of here.");
@@ -46,7 +46,7 @@ switch_int(%arena_progress) {
         // todo: check mesanim
         ~chatplayer("<p,neutral>Come on Jeremy, we have to get out of here.");
         ~chatnpc("<p,happy>Thank you for saving my father.");
-        @khazard_welldone;
+        @general_khazard_arena_welldone;
     case ^arena_entered_ogre_fight :
         ~chatplayer("<p,quiz>Jeremy, where's your father?");
         ~chatnpc("<p,shock>Quick, help him! That beast will kill him. He's too old to fight.");
@@ -95,7 +95,7 @@ npc_del;
 [label,ogre_attack_justin]
 if_close;
 def_coord $ogre_to = 0_40_49_46_29;
-if (npc_find($ogre_to, khazard_ogre, 14, 0) = true) {
+if (npc_find($ogre_to, arena_ogre, 14, 0) = true) {
     if(npc_getmode = none) { // npc in cutscene already, do nothing
         return;
     } else if(inzone(0_40_49_47_29, 0_40_49_49_30, npc_coord) = false) {
@@ -104,10 +104,10 @@ if (npc_find($ogre_to, khazard_ogre, 14, 0) = true) {
             ~npc_retaliate(0);
             return;
         }
-        npc_add(movecoord($ogre_to, 1, 0, 0), khazard_ogre, 500);
+        npc_add(movecoord($ogre_to, 1, 0, 0), arena_ogre, 500);
     }
 } else {
-    npc_add(movecoord($ogre_to, 1, 0, 0), khazard_ogre, 500);
+    npc_add(movecoord($ogre_to, 1, 0, 0), arena_ogre, 500);
 }
 def_int $delay = distance(npc_coord, movecoord($ogre_to, 2, 0, 0));
 if (.npc_find(movecoord(coord, 0, 0, 8), justin_servil, 14, 0) = true) {

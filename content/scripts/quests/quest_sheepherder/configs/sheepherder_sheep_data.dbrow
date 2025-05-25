@@ -1,27 +1,27 @@
-[red_sheep]
+[herder_plaguesheep_1]
 table=sheep_table
-data=sheep_type,red_sheep
+data=sheep_type,herder_plaguesheep_1
 data=sheep_in_pen_coord,0_40_52_36_34
 data=sheep_start_bit,1
 data=sheep_bones,sheepbonesa
 
-[green_sheep]
+[herder_plaguesheep_2]
 table=sheep_table
-data=sheep_type,green_sheep
+data=sheep_type,herder_plaguesheep_2
 data=sheep_in_pen_coord,0_40_52_37_35
 data=sheep_start_bit,4
 data=sheep_bones,sheepbonesb
 
-[blue_sheep]
+[herder_plaguesheep_3]
 table=sheep_table
-data=sheep_type,blue_sheep
+data=sheep_type,herder_plaguesheep_3
 data=sheep_in_pen_coord,0_40_52_37_32
 data=sheep_start_bit,7
 data=sheep_bones,sheepbonesc
 
-[yellow_sheep]
+[herder_plaguesheep_4]
 table=sheep_table
-data=sheep_type,yellow_sheep
+data=sheep_type,herder_plaguesheep_4
 data=sheep_in_pen_coord,0_40_52_36_31
 data=sheep_start_bit,10
 data=sheep_bones,sheepbonesd

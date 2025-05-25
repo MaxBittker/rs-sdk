@@ -1,4 +1,4 @@
-[khazard_trooper_mace]
+[khazard_troop]
 name=Khazard trooper
 desc=It's one of General Khazard's warriors.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -39,7 +39,7 @@ param=defend_sound,blade2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4969
 
-[khazard_trooper_spear]
+[khazard_troop_spearmen]
 name=Khazard trooper
 desc=It's one of General Khazard's warriors.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r

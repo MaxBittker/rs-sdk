@@ -1,9 +1,9 @@
 // doesn't exist on either game anymore, mesanims guessed
-[opnpc1,yohnus]
+[opnpc1,shilofurnaceowner]
 ~chatplayer("<p,neutral>Hello.");
-@yohnus_blacksmiths;
+@shilofurnaceowner_blacksmiths;
 
-[label,yohnus_blacksmiths]
+[label,shilofurnaceowner_blacksmiths]
 // https://web.archive.org/web/20050204071450im_/http://www.runehq.com//images/cityguides/shilo7.jpg
 ~chatnpc("<p,neutral>Sorry but the blacksmiths is closed.|But I can let you use the furnace at the cost|of 20 gold pieces.");
 switch_int(~p_choice2("Use Furnace - 20 Gold", 1, "No thanks!", 2)) {
@@ -39,6 +39,6 @@ switch_int(~p_choice2("Use Furnace - 20 Gold", 1, "No thanks!", 2)) {
 def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
 if($entering = false) {
     ~open_and_close_door2(loc_1532, ~check_axis(coord, loc_coord, loc_angle), door_open);
-} else if(npc_find(coord, yohnus, 5, 0) = true) {
-    @yohnus_blacksmiths;
+} else if(npc_find(coord, shilofurnaceowner, 5, 0) = true) {
+    @shilofurnaceowner_blacksmiths;
 }

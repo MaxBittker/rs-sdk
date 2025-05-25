@@ -78,7 +78,7 @@ gosub(npc_death);
 if (npc_findhero = ^false) {
     return;
 }
-if (npc_type = macro_event_rock_golem6 | npc_type = macro_event_rock_golem5) {
+if (npc_type = macro_rockgolem6 | npc_type = macro_rockgolem5) {
     @macro_event_rock_golem_highlvl_drops;
 } else {
     @macro_event_rock_golem_lowlvl_drops;

@@ -1,3 +1,3 @@
-[opnpc1,ghost_grave_of_scorpius]
+[opnpc1,zamorakghost]
 ~chatnpc("<p,angry>We are waiting for you to join us.");
 ~npc_retaliate(0);

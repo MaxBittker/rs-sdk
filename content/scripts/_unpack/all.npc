@@ -5202,7 +5202,7 @@ param=undead,^true
 // TODO monster examine spell
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3518
 
-[thief_ardougne]
+[thief_blanket]
 name=Thief
 desc=A dastardly blanket thief.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -5243,7 +5243,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4247
 
-[head_thief]
+[headthief_blanket]
 name=Head Thief
 desc=The head of the treacherous blanket stealing gang.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -5303,13 +5303,13 @@ head1=model_4_npc_head
 moverestrict=indoors
 param=death_anim,dwarf_death
 
-[npc_301]
+[floatingtwig_broken1]
 vislevel=hide
 name=Twig
 desc=Reminds me of playing pooh sticks.
 model1=model_loc_1247_0
 
-[npc_331]
+[freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
@@ -5326,7 +5326,7 @@ defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
-[npc_332]
+[saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
@@ -5343,7 +5343,7 @@ defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
-[npc_333]
+[rarefish]
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
@@ -5360,7 +5360,7 @@ defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
-[npc_334]
+[memberfish]
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
@@ -5427,7 +5427,7 @@ param=defend_sound,blade3
 // seqs and sounds param is guess
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1144
 
-[dwarf_mining_guild]
+[mguild_dwarf1]
 vislevel=hide
 walkanim=dwarf_walk
 readyanim=dwarf_ready
@@ -5483,7 +5483,7 @@ head1=model_44_obj_wear
 head2=model_52_idk_head
 head3=model_82_idk_head
 
-[cow_2]
+[cow2]
 size=2
 walkanim=cow_walk
 readyanim=cow_ready
@@ -5520,7 +5520,7 @@ category=cow
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2791
 
-[jungle_forester_male]
+[jungleforester_m]
 vislevel=hide
 name=Jungle Forester
 desc=He deals in exotic types of wood.
@@ -5551,7 +5551,7 @@ wanderrange=3
 param=damagetype,^slash_style
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3954
 
-[jungle_forester_female]
+[jungleforester_f]
 vislevel=hide
 name=Jungle Forester
 desc=She deals in exotic types of wood.

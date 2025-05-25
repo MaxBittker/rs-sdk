@@ -13,7 +13,7 @@ p_delay(3);
 npc_findallany(coord, 5, 0);
 while (npc_findnext = true) {
     switch_npc(npc_type) {
-        case jungle_forester_male, jungle_forester_female : 
+        case jungleforester_m, jungleforester_f : 
             mes("Nothing much seems to happen, though.");
             ~chatnpc("<p,happy>You might like to use that when you get into the Kharazi jungle, it might attract more natives...");
             return;

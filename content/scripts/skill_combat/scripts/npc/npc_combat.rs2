@@ -113,7 +113,7 @@ if (~player_autocast_enabled = false & ~inzone_coord_pair_table(mage_arena, coor
     return(false);
 }
 
-if(npc_type = general_khazard & %arena_progress < ^arena_freed_servils) {
+if(npc_type = general_khazard_arena & %arena_progress < ^arena_freed_servils) {
     mes("I don't have time. I'm here to rescue Sir Servil and Jeremy.");
     return (false);
 }
@@ -122,7 +122,7 @@ if (npc_type = grip) {
     return(~grip_attack);
 }
 
-if(npc_type = lucien_edge) {
+if(npc_type = ikov_lucien2) {
     return (~lucien_attack);
 } 
 
@@ -140,7 +140,7 @@ if(npc_type = mercenary_captain) {
     return (~mercenary_capt_attack(false));
 } 
 
-if(npc_type = fire_warrior_of_lesarkus & (inv_total(worn, ice_arrow) = 0 | %damagetype ! ^ranged_style)) {
+if(npc_type = ikov_firewarrior & (inv_total(worn, ice_arrow) = 0 | %damagetype ! ^ranged_style)) {
     ~chatnpc("<p,angry>Your puny weapons do nothing against me human! Come back when you can give me a real fight!");
     return (false);
 }
@@ -184,11 +184,11 @@ if (npc_category = battle_mage & %magearena < ^mage_arena_complete) {
     mes("You are not ready to fight the battle mages.");
     return(false);
 }
-if(npc_type = general_khazard & %arena_progress < ^arena_freed_servils) {
+if(npc_type = general_khazard_arena & %arena_progress < ^arena_freed_servils) {
     mes("I don't have time. I'm here to rescue Sir Servil and Jeremy.");
     return (false);
 }
-if(npc_type = lucien_edge) {
+if(npc_type = ikov_lucien2) {
     return (~lucien_attack);
 }
 if(npc_type = gorad & (~obj_gettotal(ogretooth) > 0 | getbit_range(%itwatchtower_bits, ^itwatchtower_spoken_grew, ^itwatchtower_helped_grew) ! 1)) {
@@ -202,7 +202,7 @@ if(npc_type = gorad & (~obj_gettotal(ogretooth) > 0 | getbit_range(%itwatchtower
 if(npc_type = mercenary_captain) {
     return (~mercenary_capt_attack(true));
 } 
-if(npc_type = fire_warrior_of_lesarkus) { // can't attack with magic
+if(npc_type = ikov_firewarrior) { // can't attack with magic
     ~chatnpc("<p,angry>Your puny weapons do nothing against me human! Come back when you can give me a real fight!");
     return (false);
 }

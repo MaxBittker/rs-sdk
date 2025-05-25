@@ -1,4 +1,4 @@
-[hadley]
+[hadley_waterfall_quest]
 name=Hadley
 desc=Could do with losing a bit of weight.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -21,7 +21,7 @@ model9=model_245_npc
 head1=model_53_idk_head
 head2=model_82_idk_head
 
-[gerald]
+[gerald_waterfall_quest]
 name=Gerald
 desc=Looks suspiciously like a fisherman.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -43,7 +43,7 @@ head1=model_63_idk_head
 head2=model_82_idk_head
 wanderrange=2
 
-[almera]
+[almera_waterfall_quest]
 name=Almera
 desc=Nice hair.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -68,7 +68,7 @@ head1=model_113_idk_head
 moverestrict=indoors
 param=death_sound,female_death
 
-[hudon]
+[hudon_waterfall_quest]
 name=Hudon
 desc=Looks young.
 walkanim=midget_walk
@@ -84,7 +84,7 @@ head1=model_139_npc_head
 wanderrange=1
 param=death_anim,midget_death
 
-[golrie]
+[golrie_waterfall_quest]
 name=Golrie
 desc=It's a tree gnome
 walkanim=midget_walk

@@ -86,7 +86,7 @@ param=death_sound,goblin_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5369
 
-[observatory_professor_tower]
+[observatory_professor2]
 vislevel=hide
 name=Observatory professor
 desc=A learned man in the ways of the stars.

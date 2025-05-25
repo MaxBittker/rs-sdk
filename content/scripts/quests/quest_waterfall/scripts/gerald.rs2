@@ -1,4 +1,4 @@
-[opnpc1,gerald]
+[opnpc1,gerald_waterfall_quest]
 switch_int(%waterfall_progress) {
     case ^waterfall_not_started :
         ~chatplayer("<p,neutral>Hello there.");

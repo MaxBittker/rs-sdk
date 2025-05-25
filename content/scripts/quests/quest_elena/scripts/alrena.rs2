@@ -47,7 +47,7 @@ switch_int(%elena_progress) {
         ~chatnpc("<p,sad>Make sure you wear your mask while you are over there! I can't think of a worse way to die.");
     case ^quest_elena_tied_rope, ^quest_elena_opened_pipe, ^quest_elena_returned_book, ^quest_elena_spoke_to_milli, ^quest_elena_spoke_to_plague_house, ^quest_elena_spoke_to_clerk, ^quest_elena_spoke_to_bravek, ^quest_elena_spoke_cured_bravek :
         ~chatplayer("<p,neutral>Hello <nc_name(alrena)>.");
-        ~chatnpc("<p,confused>Hello, any word on <nc_name(elena)>?");
+        ~chatnpc("<p,confused>Hello, any word on <nc_name(elena2)>?");
         ~chatplayer("<p,sad>Not yet I'm afraid.");
-    case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : ~chatnpc("<p,happy>Thank you for rescuing my daughter! <nc_name(elena)> has told me of your bravery entering a house that could have been plague infected. I can't thank you enough!");
+    case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : ~chatnpc("<p,happy>Thank you for rescuing my daughter! <nc_name(elena2)> has told me of your bravery entering a house that could have been plague infected. I can't thank you enough!");
 }

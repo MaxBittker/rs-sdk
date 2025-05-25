@@ -1,4 +1,4 @@
-[proc,macro_event_swarm_spawn]
+[proc,macro_swarm_spawn]
 // spotanim_map(spotanim_86, npc_coord, 124, 0);
 sound_synth(swarm_appear, 0, 0);
 %npc_macro_event_target = uid;
@@ -6,7 +6,7 @@ sound_synth(swarm_appear, 0, 0);
 npc_setmode(opplayer2);
 %macro_event = ^no_macro_event;
 
-[ai_timer,macro_event_swarm]
+[ai_timer,macro_swarm]
 if (~macro_event_lost_hostile = true) {
     npc_del;
     return;

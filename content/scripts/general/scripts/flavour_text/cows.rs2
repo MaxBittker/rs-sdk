@@ -1,7 +1,7 @@
 [ai_timer,cow]
 @cow_moo;
 
-[ai_timer,cow_2]
+[ai_timer,cow2]
 @cow_moo;
 
 [ai_timer,cow_3]

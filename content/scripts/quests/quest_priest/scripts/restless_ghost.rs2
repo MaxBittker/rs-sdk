@@ -1,4 +1,4 @@
-[opnpc1,restless_ghost]
+[opnpc1,ghostx]
 if(%priest_progress = ^priest_complete) {
     mes("The ghost doesn't appear interested in talking."); 
     return;
@@ -61,7 +61,7 @@ switch_int (%priest_progress) {
         ~chatnpc("<p,neutral>Hurrah! Now I can stop being a ghost! You just need to put it in my coffin there, And I will be free!");
 }
 
-[opnpcu,restless_ghost]
+[opnpcu,ghostx]
 if(last_useitem = ghost_skull) {
     ~mesbox("I can't give it to him. It goes right through him.");
     return;

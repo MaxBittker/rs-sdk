@@ -1,4 +1,4 @@
-[opnpc1,obli]
+[opnpc1,shilogeneralstore]
 ~chatnpc("<p,neutral>Welcome to Obli's General Store Bwana!|Would you like to see my items?");
 def_int $option = ~p_choice2("Yes please!", 1, "No, but thanks for the offer.", 2);
 

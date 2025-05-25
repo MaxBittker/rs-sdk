@@ -1,4 +1,4 @@
-[ernest_human]
+[ernest]
 vislevel=hide
 name=Ernest
 desc=A former chicken.
@@ -20,7 +20,7 @@ model7=model_181_idk
 model8=model_320_idk
 head1=model_53_idk_head
 
-[ernest_chicken]
+[ernest_the_chicken]
 vislevel=hide
 name=Chicken
 desc=Yep, definitely a chicken.

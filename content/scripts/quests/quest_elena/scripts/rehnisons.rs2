@@ -14,17 +14,17 @@ p_telejump(0_39_52_31_3);
 [label,rehnisons_i_hear_a_woman_is_staying_here]
 switch_int(%elena_progress) {
     case ^quest_elena_returned_book, ^quest_elena_spoken_martha_ted :
-        ~chatplayer("<p,happy>Hi, I hear a woman called <nc_name(elena)> is staying here.");
+        ~chatplayer("<p,happy>Hi, I hear a woman called <nc_name(elena2)> is staying here.");
         // https://youtu.be/UkF8Aqrck4Y?si=ssVMtqlJQPUXl-Xv&t=356
         ~chatnpc("<p,sad>Yes she was staying here,|but slightly over a week ago|she was getting ready to go back.");
         if(%elena_progress = ^quest_elena_returned_book) ~quest_elena_set_progress(^quest_elena_spoken_martha_ted);
         ~chatnpc("<p,sad>However she never managed to leave.|My daughter Milli was playing near the west wall|when she saw some shadowy figures jump out and grab her. Milli is upstairs if you wish to speak to her.");
     case ^quest_elena_spoke_to_milli, ^quest_elena_spoke_to_plague_house, ^quest_elena_spoke_to_clerk, ^quest_elena_spoke_to_bravek, ^quest_elena_spoke_cured_bravek :
-        ~chatnpc("<p,quiz>Any luck with finding <nc_name(elena)> yet?");
+        ~chatnpc("<p,quiz>Any luck with finding <nc_name(elena2)> yet?");
         ~chatplayer("<p,sad>Not yet...");
         ~chatnpc("<p,sad>I wish you luck, she did a lot for us.");
     case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll :
-        ~chatnpc("<p,quiz>Any luck finding <nc_name(elena)> yet?");
+        ~chatnpc("<p,quiz>Any luck finding <nc_name(elena2)> yet?");
         ~chatplayer("<p,happy>Yes, she is safe at home now.");
         ~chatnpc("<p,happy>That's good to hear, she helped us a lot.");
 }
@@ -36,18 +36,18 @@ switch_int(%elena_progress) {
         ~chatplayer("<p,happy>Hello.");
         mes("Milli ignores you."); 
     case ^quest_elena_spoken_martha_ted :
-        ~chatplayer("<p,neutral>Hello.|Your parents say you saw what happened to <nc_name(elena)>...");
-        ~chatnpc("<p,sad>*sniff*|Yes I was near the south east corner|when I saw <nc_name(elena)> walking by.");
+        ~chatplayer("<p,neutral>Hello.|Your parents say you saw what happened to <nc_name(elena2)>...");
+        ~chatnpc("<p,sad>*sniff*|Yes I was near the south east corner|when I saw <nc_name(elena2)> walking by.");
         ~chatnpc("<p,sad>I was about to run to greet her|when some men jumped out.|Shoved a sack over her head|and dragged her into a building.");
         ~quest_elena_set_progress(^quest_elena_spoke_to_milli);
         ~chatplayer("<p,quiz>Which building?");
         ~chatnpc("<p,sad>It was the mossy windowless building|in that south east corner of West Ardougne.");
     case ^quest_elena_spoke_to_milli, ^quest_elena_spoke_to_plague_house, ^quest_elena_spoke_to_clerk, ^quest_elena_spoke_to_bravek, ^quest_elena_spoke_cured_bravek :
-        ~chatnpc("<p,quiz>Have you found <nc_name(elena)> yet?");
+        ~chatnpc("<p,quiz>Have you found <nc_name(elena2)> yet?");
         ~chatplayer("<p,sad>No... I am still looking.");
         ~chatnpc("<p,sad>I hope you find her...|She was nice.");
     case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll :
-        ~chatnpc("<p,quiz>Have you found <nc_name(elena)> yet?");
+        ~chatnpc("<p,quiz>Have you found <nc_name(elena2)> yet?");
         ~chatplayer("<p,happy>Yes, she's safe at home now.");
         ~chatnpc("<p,neutral>I hope she comes and visits sometime.");
         ~chatplayer("<p,neutral>Maybe.");

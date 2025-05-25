@@ -29,7 +29,7 @@ switch_int(%elena_progress) {
             ~chatnpc("<p,happy>I'm just having a little drop of whisky, then I'll feel really good.");
         } else {
             ~chatnpc("<p,quiz>Ah now what was it you wanted me to do for you?");
-            ~chatplayer("<p,shock>I need to rescue <nc_name(elena)>. She's now a kidnap victim! She's being held in a plague house, I need permission to enter.");
+            ~chatplayer("<p,shock>I need to rescue <nc_name(elena2)>. She's now a kidnap victim! She's being held in a plague house, I need permission to enter.");
             @bravek_well_the_mourners_deal_with_that_sort_of_thing;
         }
     case default :
@@ -66,7 +66,7 @@ if (inv_total(inv, hangover_cure) > 0) {
     ~quest_elena_set_progress(^quest_elena_spoke_cured_bravek);
     ~objbox(hangover_cure, "You give <nc_name(bravek)> the <lowercase(oc_name(hangover_cure))>. <nc_name(bravek)> gulps down the foul-looking liquid.", 250, 0, divide(^objbox_height, 2));
     ~chatnpc("<p,happy>Ooh that's much better!|Thanks, that's the clearest my head has felt in a month. Ah now, what was it you wanted me to do for you?");
-    ~chatplayer("<p,shock>I need to rescue a kidnap victim called <nc_name(elena)>. She's being held in a plague house, I need permission to enter.");
+    ~chatplayer("<p,shock>I need to rescue a kidnap victim called <nc_name(elena2)>. She's being held in a plague house, I need permission to enter.");
     @bravek_well_the_mourners_deal_with_that_sort_of_thing;
 }
 
@@ -90,7 +90,7 @@ if (inv_total(inv, hangover_cure) > 0) {
 ~chatplayer("<p,angry>They won't listen to me!");
 ~chatplayer("<p,angry>They say I'm not properly equipped to go in the house, though I do have a very effective gas mask.");
 ~chatnpc("<p,confused>Hmmm, well I guess they're not taking the issue of a kidnapping seriously enough. They do go a bit far sometimes.");
-~chatnpc("<p,neutral>I've heard of <nc_name(elena)>, she has helped us a lot... Okay, I'll give you this warrant to enter the house.");
+~chatnpc("<p,neutral>I've heard of <nc_name(elena2)>, she has helped us a lot... Okay, I'll give you this warrant to enter the house.");
 inv_add(inv, warrant, 1);
 ~objbox(warrant, "<nc_name(bravek)> hands you a <lowercase(oc_name(warrant))>.", 250, 0, 0);
 

@@ -1,4 +1,4 @@
-[opnpc1,barbarian_outpost_guard]
+[opnpc1,barbguard1]
 @outpost_guard_talk;
 
 [label,outpost_guard_talk]

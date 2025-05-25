@@ -25,7 +25,7 @@ defaultmode=patrol
 patrol1=0_45_46_0_5,1
 patrol2=0_45_46_0_10,1
 
-[zadimus_spirit]
+[zadimus_ghost]
 vislevel=hide
 name=Zadimus' spirit.
 desc=The animated spirit of a soul not at rest.
@@ -42,7 +42,7 @@ param=undead,^true
 param=death_anim,ghost_death
 param=death_sound,ghost_death
 
-[undead1_skeleton]
+[zqskeleton_unarmed]
 name=Undead One
 desc=It rattles when it walks.
 walkanim=skeleton_walk
@@ -75,7 +75,7 @@ category=undead_one
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5342
 
-[undead1_skeleton_armed]
+[zqskeleton_armed]
 name=Undead One
 desc=A minion of Rashiliyia.
 walkanim=skeleton_walk
@@ -116,7 +116,7 @@ category=undead_one
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5344
 
-[undead1_zombie]
+[zqzombie_unarmed]
 name=Undead One
 desc=The animated dead, one of Rashiliyias' minions.
 walkanim=zombie_walk
@@ -156,7 +156,7 @@ category=undead_one
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5346
 
-[undead1_zombie_armed]
+[zqzombie_armed]
 name=Undead One
 desc=The animated dead, one of Rashiliyias' minions.
 walkanim=zombie_walk
@@ -201,7 +201,7 @@ category=undead_one
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5349
 
-[Rashiliyia]
+[zqzombiequeen]
 vislevel=hide
 name=Rashiliyia
 desc=The animated spirit of Rashiliyia the Zombie Queen.
@@ -231,7 +231,7 @@ param=death_anim,ghost_death
 param=death_sound,ghost_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5352
 
-[nazastarool_zombie]
+[zq_mainzombie1]
 name=Nazastarool
 desc=A giant zombie of huge strength and devastating power.
 walkanim=zombie_walk
@@ -269,7 +269,7 @@ param=death_drop,null
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5353
 
-[nazastarool_skeleton]
+[zq_mainzombie2]
 name=Nazastarool
 desc=A giant skeleton of huge strength and devastating power.
 walkanim=skeleton_walk
@@ -308,7 +308,7 @@ param=death_drop,null
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5354
 
-[nazastarool_ghost]
+[zq_mainzombie3]
 name=Nazastarool
 desc=A giant ghost of huge strength and devastating power.
 hasalpha=yes

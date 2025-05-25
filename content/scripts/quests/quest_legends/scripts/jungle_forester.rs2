@@ -1,8 +1,8 @@
-[opnpc1,jungle_forester_male] @jungle_forester_start;
-[opnpc1,jungle_forester_female] @jungle_forester_start;
+[opnpc1,jungleforester_m] @jungle_forester_start;
+[opnpc1,jungleforester_f] @jungle_forester_start;
 
-[opnpcu,jungle_forester_male] @jungle_forester_show_item;
-[opnpcu,jungle_forester_female] @jungle_forester_show_item;
+[opnpcu,jungleforester_m] @jungle_forester_show_item;
+[opnpcu,jungleforester_f] @jungle_forester_show_item;
 
 [label,jungle_forester_show_item]
 if (last_useitem = thkaramjamapcomp) {
@@ -27,7 +27,7 @@ else {
 ~chatplayer("<p,neutral>Yes, go ahead make a copy!");
 ~chatnpc("<p,neutral>Many thanks friend.");
 def_string $gender = "He";
-if (npc_type = jungle_forester_female) {
+if (npc_type = jungleforester_f) {
     $gender = "She";
 }
 ~mesbox("The Jungle Forester takes out some parchment and some charcoal. <$gender> studiously renders another copy of your map.");

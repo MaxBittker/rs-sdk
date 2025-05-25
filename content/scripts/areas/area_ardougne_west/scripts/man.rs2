@@ -1,9 +1,9 @@
-[opnpc1,west_ardougne_man_1] @man_woman_curse_king_tyras; // man level 4
+[opnpc1,dskin_w_ardoungecitizen1] @man_woman_curse_king_tyras; // man level 4
 [opnpc1,west_ardougne_man_5] @man_woman_help_me_out_of_this_hell_hole; // fat man non attackable
 [opnpc1,west_ardougne_man_6] @man_woman_go_away_outsider; // skinny man non attackable
 
 // TODO: Try to find out if Jagex ever coded any dialogue for these npc.
-// west_ardougne_man_2 // unused.
+// w_ardougnecitizen6 // unused.
 // west_ardougne_man_3 // unused This NPC has been updated in connection with the Plague City quest rework.
 // west_ardougne_man_4 // unused.
 
@@ -12,7 +12,7 @@
 ~chatnpc("<p,sad>We don't have good days here anymore. Curse King Tyras.");
 switch_int(%elena_progress) {
     case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : @multi2("Oh okay, bad day then.", man_woman_bad_day_then, "Why, what has he done?", man_woman_what_has_he_done);
-    case default : @multi3("Oh okay, bad day then.", man_woman_bad_day_then, "Why, what has he done?", man_woman_what_has_he_done, "I'm looking for a woman called <nc_name(elena)>.", man_woman_im_looking_for_a_woman);
+    case default : @multi3("Oh okay, bad day then.", man_woman_bad_day_then, "Why, what has he done?", man_woman_what_has_he_done, "I'm looking for a woman called <nc_name(elena2)>.", man_woman_im_looking_for_a_woman);
 }
 
 [label,man_woman_bad_day_then]
@@ -23,5 +23,5 @@ switch_int(%elena_progress) {
 ~chatnpc("<p,angry>His army curses our city with this plague then wanders off again, leaving us to clear up the pieces.");
 
 [label,man_woman_im_looking_for_a_woman]
-~chatplayer("<p,neutral>I'm looking for a woman called <nc_name(elena)>.");
+~chatplayer("<p,neutral>I'm looking for a woman called <nc_name(elena2)>.");
 ~chatnpc("<p,neutral>Not heard of her.");

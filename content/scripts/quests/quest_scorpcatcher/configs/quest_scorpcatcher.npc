@@ -1,4 +1,4 @@
-[kharid_scorpion_first]
+[questscorpiona]
 vislevel=hide
 name=Kharid Scorpion
 desc=Looks vicious!
@@ -10,7 +10,7 @@ respawnrate=100
 param=death_anim,scorpion_death
 param=death_sound,insect_death
 
-[kharid_scorpion_second]
+[questscorpionb]
 vislevel=hide
 name=Kharid Scorpion
 desc=Looks vicious!
@@ -22,7 +22,7 @@ respawnrate=100
 param=death_anim,scorpion_death
 param=death_sound,insect_death
 
-[kharid_scorpion_third]
+[questscorpionc]
 vislevel=hide
 name=Kharid Scorpion
 desc=Looks vicious!

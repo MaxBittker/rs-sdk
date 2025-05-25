@@ -1,4 +1,4 @@
-[opnpc1,local]
+[opnpc1,arena_local]
 switch_int(%arena_progress) {
     case ^arena_defeated_bouncer, ^arena_defeated_genkhazard, ^arena_complete, ^arena_complete_defeated_genkhazard :
         ~chatplayer("<p,neutral>Hello.");

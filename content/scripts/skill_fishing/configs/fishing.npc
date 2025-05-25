@@ -74,7 +74,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_gnome_stronghold_enum
 //--- (Lure/Bait) Gnome Stronghold
 
@@ -96,7 +96,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_baxtorian_falls_enum
 //--- (Lure/Bait) Baxtorian Falls
 
@@ -118,7 +118,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_ardougne_river_enum
 //--- (Lure/Bait) Ardougne River
 
@@ -140,7 +140,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=rarefish
-param=whirlpool,rarefish_whirlpool
+param=whirlpool,macro_whirlpool_rarefish
 param=fishing_movement_enum,fishing_movement_fishing_guild_enum
 //--- (Cage/Harpoon) Fishing guild
 
@@ -162,7 +162,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=memberfish
-param=whirlpool,memberfish_whirlpool
+param=whirlpool,macro_whirlpool_memberfish
 param=fishing_movement_enum,fishing_movement_fishing_guild_enum
 //--- (Net/Harpoon) Fishing guild
 
@@ -184,7 +184,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_fisher_realm_enum
 //--- (Lure/Bait) Fisher kingdom
 
@@ -206,7 +206,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_seers_village_enum
 //--- (Lure/Bait) Seer's village
 
@@ -228,7 +228,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=saltfish
-param=whirlpool,saltfish_whirlpool
+param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_fishing_platform_enum
 //--- (Net/Bait) Fishing platform
 
@@ -250,7 +250,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_shilo_village_enum
 //--- (Lure/Bait) Shilo village
 
@@ -272,7 +272,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_entrana1_enum
 //--- (Lure/Bait) Entrana
 
@@ -294,7 +294,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=saltfish
-param=whirlpool,saltfish_whirlpool
+param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_entrana2_enum
 //--- (Net/Bait) Entrana
 
@@ -316,7 +316,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=saltfish
-param=whirlpool,saltfish_whirlpool
+param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_catherby_enum
 //--- (Net/Bait) Catherby
 
@@ -338,7 +338,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=rarefish
-param=whirlpool,rarefish_whirlpool
+param=whirlpool,macro_whirlpool_rarefish
 param=fishing_movement_enum,fishing_movement_catherby_enum
 //--- (Cage/Harpoon) Catherby
 
@@ -360,7 +360,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=memberfish
-param=whirlpool,memberfish_whirlpool
+param=whirlpool,macro_whirlpool_memberfish
 param=fishing_movement_enum,fishing_movement_catherby_enum
 //--- (Net/Harpoon) Catherby
 
@@ -382,7 +382,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=saltfish
-param=whirlpool,saltfish_whirlpool
+param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_musa_point_enum
 //--- (Net/Bait) Musa point
 
@@ -404,7 +404,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=rarefish
-param=whirlpool,rarefish_whirlpool
+param=whirlpool,macro_whirlpool_rarefish
 param=fishing_movement_enum,fishing_movement_musa_point_enum
 //--- (Cage/Harpoon) Musa point
 
@@ -426,7 +426,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=saltfish
-param=whirlpool,saltfish_whirlpool
+param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_rimmington_enum
 //--- (Net/Bait) Rimmington
 
@@ -448,7 +448,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=saltfish
-param=whirlpool,saltfish_whirlpool
+param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_wilderness_camp_enum
 //--- (Net/Bait) Bandit Camp Wilderness
 
@@ -470,7 +470,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=saltfish
-param=whirlpool,saltfish_whirlpool
+param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_draynor_village_enum
 //--- (Net/Bait) Draynor village
 
@@ -492,7 +492,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_barbarian_village_enum
 //--- (Lure/Bait) Barbarian village
 
@@ -514,7 +514,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_lumbridge_river_enum
 //--- (Lure/Bait) Lumbridge
 
@@ -536,7 +536,7 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=saltfish
-param=whirlpool,saltfish_whirlpool
+param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_al_kharid_enum
 //--- (Net/Bait) Al-Kharid
 
@@ -576,6 +576,6 @@ defaultmode=none
 moverestrict=nomove
 timer=1
 category=freshfish
-param=whirlpool,freshfish_whirlpool
+param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_observatory_enum
 //--- (Lure/Bait) Observatory

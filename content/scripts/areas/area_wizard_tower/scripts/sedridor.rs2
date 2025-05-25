@@ -1,12 +1,12 @@
-[opnpc1,sedridor]
+[opnpc1,head_wizard]
 ~chatnpc("<p,neutral>Welcome adventurer, to the world renowned|Wizards' Tower. How may I help you?");
 // we don't support teleporting until the quest is complete
 if(%runemysteries_progress = ^runemysteries_not_started) {
-    @multi2("Nothing thanks, I'm just looking around.", @sedridor_nothing, "What are you doing down here?", @sedridor_2);
+    @multi2("Nothing thanks, I'm just looking around.", @head_wizard_nothing, "What are you doing down here?", @head_wizard_2);
 } else if(%runemysteries_progress = ^runemysteries_started) {
     @rune_mysteries;
 } else if(%runemysteries_progress = ^runemysteries_given_talisman) {
-    @sedridor_incredible;
+    @head_wizard_incredible;
 } else if(%runemysteries_progress = ^runemysteries_received_package) {
     if(~obj_gettotal(research_package) = 0) {
         ~chatplayer("<p,sad>...I lost the package you gave me.");
@@ -28,12 +28,12 @@ if(%runemysteries_progress = ^runemysteries_not_started) {
     ~chatplayer("<p,confused>No... he told me to go back after he'd had a quick look at the research you sent him.");
     ~chatnpc("<p,confused>I think perhaps you should go and speak to him again then, adventurer.");
 } else if(%runemysteries_progress = ^runemysteries_received_notes) {
-    @sedridor_notes;
+    @head_wizard_notes;
 } else if(%runemysteries_progress = ^runemysteries_complete) {
     
     def_int $option = ~p_choice2("Nothing thanks, I'm just looking around.", 1, "Can you teleport me to the Rune Essence?", 2);
     if ($option = 1) {
-        @sedridor_nothing;
+        @head_wizard_nothing;
     }
     if ($option = 2) {
         ~chatplayer("<p,quiz>Can you teleport me to the Rune Essence?");
@@ -41,17 +41,17 @@ if(%runemysteries_progress = ^runemysteries_not_started) {
     }
 }
 
-[opnpcu,sedridor]
+[opnpcu,head_wizard]
 // no air talisman interaction i'm assuming since osrs dialogue is streamlined here (it starts from beginning in osrs)
-if(last_useitem = research_notes & %runemysteries_progress = ^runemysteries_received_notes) @sedridor_notes;
+if(last_useitem = research_notes & %runemysteries_progress = ^runemysteries_received_notes) @head_wizard_notes;
 ~displaymessage(^dm_default);
 
 [label,rune_mysteries]
 def_int $option = ~p_choice3("Nothing thanks, I'm just looking around.", 1, "What are you doing down here?", 2, "I'm looking for the head wizard.", 3);
 if ($option = 1) {
-    @sedridor_nothing;
+    @head_wizard_nothing;
 } else if ($option = 2) {
-    @sedridor_2;
+    @head_wizard_2;
 } else if ($option = 3) {
     ~chatplayer("<p,quiz>I'm looking for the head wizard.");
     ~chatnpc("<p,quiz>Oh you are, are you?|And just why would you be doing that?");
@@ -71,7 +71,7 @@ if ($option = 1) {
     }
 }
 
-[label,sedridor_2]
+[label,head_wizard_2]
 ~chatnpc("<p,neutral>That is indeed a good question. Here in the cellar of the Wizards' Tower you find the remains of the old Wizards' Tower, destroyed by fire");
 ~chatnpc("<p,neutral>many years past by the treachery of the Zamorakians. Many mysteries were lost, which we try to find once more. By building this Tower on the remains of the old,");
 ~chatnpc("<p,neutral>we sought to show the world of our dedication to learning the mysteries of Magic. I am here searching through these fragments for knowledge from the artefacts from our past");
@@ -103,9 +103,9 @@ if (inv_total(inv, air_talisman) = 0) {
 inv_del(inv, air_talisman, 1);
 %runemysteries_progress = ^runemysteries_given_talisman;
 ~mesbox("You hand the Talisman to the wizard.");
-@sedridor_incredible;
+@head_wizard_incredible;
 
-[label,sedridor_incredible]
+[label,head_wizard_incredible]
 ~chatnpc("<p,shock>Wow! This is... incredible!");
 ~chatnpc("<p,shock>Th-this talisman you brought me...! It is the last piece|of the puzzle, I think! Finally! The legacy of our|ancestors... it will return to us once more!");
 ~chatnpc("<p,neutral>I need time to study this, <displayname()>. Can you please do me this task while I study this talisman you have brought me? In the mighty town of Varrock, which");
@@ -130,11 +130,11 @@ if ($option = 1) {
     ~chatnpc("<p,neutral>As you wish adventurer. I will continue to study this talisman you have brought me. Return here if you find yourself with some spare time to help me.");
 }
 
-[label,sedridor_nothing]
+[label,head_wizard_nothing]
 ~chatplayer("<p,neutral>Nothing thanks, I'm just looking around.");
 ~chatnpc("<p,confused>Well, take care adventurer. You stand on the ruins of the destroyed Wizards' Tower. Strange and powerful magicks lurk here.");
 
-[label,sedridor_notes]
+[label,head_wizard_notes]
 ~chatnpc("<p,neutral>Ah, <displayname()>. How goes your quest? Have you delivered the research notes to my friend Aubury yet?");
 ~chatplayer("<p,neutral>Yes, I have. He gave me some research notes to pass on to you.");
 ~chatnpc("<p,neutral>May I have his notes then?");

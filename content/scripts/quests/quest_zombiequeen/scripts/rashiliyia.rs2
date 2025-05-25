@@ -1,4 +1,4 @@
-[ai_queue10,Rashiliyia]
+[ai_queue10,zqzombiequeen]
 npc_delay(1);
 npc_say("Which non-kin dares enter my tomb?");
 npc_delay(2);
@@ -50,7 +50,7 @@ if(p_finduid($uid) = true & inzone(0_45_148_0_0, 0_45_148_63_63, coord) = true) 
     }
 }
 
-[opnpc1,Rashiliyia]
+[opnpc1,zqzombiequeen]
 if(inzone(0_43_146_9_16, 0_43_146_19_28, npc_coord) = true) {
     mes("Rashiliyia disappears as soon as you open your mouth.");
     spotanim_map(shilomist, npc_coord, 5, 0);

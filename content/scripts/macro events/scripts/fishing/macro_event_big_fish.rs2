@@ -1,9 +1,9 @@
 // requires active npc
-[proc,macro_event_big_fish_spawn](namedobj $fishing_equipment)
+[proc,macro_event_bigfish_spawn](namedobj $fishing_equipment)
 %macro_event = ^no_macro_event;
 // todo: figure out sounds
 sound_synth(watersplash, 0, 0); // complete guess
-npc_changetype(macro_event_big_fish, 5);
+npc_changetype(macro_bigfish, 5);
 p_delay(0);
 npc_anim(fish_seq_3, 0);
 anim(human_unarmedblock, 0);

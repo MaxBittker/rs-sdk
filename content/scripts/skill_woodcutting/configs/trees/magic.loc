@@ -10,4 +10,4 @@ op3=hidden
 mapscene=0
 category=tree
 param=next_loc_stage,loc_1342
-param=ent,macro_event_ent_magic
+param=ent,macro_ent_magic

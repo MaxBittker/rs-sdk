@@ -1,4 +1,4 @@
-[opnpc1,fire_warrior_of_lesarkus]
+[opnpc1,ikov_firewarrior]
 ~chatnpc("<p,angry>Who dares to enter the Temple of Ikov!");
 switch_int (~p_choice2("A mighty hero!", 1, "A humble pilgrim.", 2)) {
     case 1 :
@@ -11,15 +11,15 @@ switch_int (~p_choice2("A mighty hero!", 1, "A humble pilgrim.", 2)) {
         ~chatnpc("<p,angry>Temple is closed!");
 }
 
-[ai_applayer2,fire_warrior_of_lesarkus]
+[ai_applayer2,ikov_firewarrior]
 ~npc_cast_spell_with_forced_max_hit(^fire_blast, 4, 8);
 
-[ai_opplayer2,fire_warrior_of_lesarkus]
+[ai_opplayer2,ikov_firewarrior]
 ~npc_cast_spell_with_forced_max_hit(^fire_blast, 4, 8);
 
-[ai_queue1,fire_warrior_of_lesarkus] gosub(npc_default_retaliate_ap);
+[ai_queue1,ikov_firewarrior] gosub(npc_default_retaliate_ap);
 
-[ai_queue3,fire_warrior_of_lesarkus]
+[ai_queue3,ikov_firewarrior]
 gosub(npc_death);
 if(npc_findhero = ^true) {
     if_close;

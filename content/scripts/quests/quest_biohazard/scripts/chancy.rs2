@@ -1,4 +1,4 @@
-[opnpc1,chancy1]
+[opnpc1,gambler1]
 if(map_members = ^false) { // todo: rs3, and OSRS wiki mentions this dialogue in old versions as well could be wrong since he isn't visibly playing w/cards before Sept 200^chancy_given, try to confirm for before that
     ~chatplayer("<p,happy>Hello! Playing solitaire?");
     ~chatnpc("<p,angry>Hush - I'm trying to perfect the art of dealing off the bottom of the deck. Whatever you want, come back later on a members' world and I'll speak to you then.");
@@ -53,7 +53,7 @@ mes("You give him the vial of sulphuric broline.");
 ~chatplayer("<p,neutral>Right. I'll see you later in the Dancing Donkey Inn.");
 ~chatnpc("<p,happy>Be lucky!");
 
-[opnpc1,chancy2]
+[opnpc1,gambler2]
 if(map_members = ^false) {
     ~chatplayer("<p,happy>Good morning.");
     ~chatnpc("<p,angry>Leave me alone - I'm trying to find my gambling buddies! Whenever you want, come back on a members' world and I'll speak to you then.");

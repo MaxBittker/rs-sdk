@@ -1,10 +1,10 @@
-[apnpc1,hudon]
-@hudon_dialogue;
+[apnpc1,hudon_waterfall_quest]
+@hudon_waterfall_quest_dialogue;
 
-[opnpc1,hudon]
-@hudon_dialogue;
+[opnpc1,hudon_waterfall_quest]
+@hudon_waterfall_quest_dialogue;
 
-[label,hudon_dialogue]
+[label,hudon_waterfall_quest_dialogue]
 switch_int (%waterfall_progress) {
     case ^waterfall_not_started :
         ~chatplayer("<p,neutral>Hello there.");

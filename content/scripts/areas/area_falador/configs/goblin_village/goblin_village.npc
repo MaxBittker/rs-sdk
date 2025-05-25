@@ -40,7 +40,7 @@ wanderrange=3
 param=death_anim,goblin_death
 param=death_sound,goblin_death
 
-[goblin_armed_green]
+[goblin_greenarmour]
 name=Goblin
 desc=An ugly green creature.
 walkanim=goblin_walk
@@ -77,7 +77,7 @@ param=death_sound,goblin_death
 // osrs ver damage type is crush.
 // osrs stats and Vislvl match 1:1
 
-[goblin_armed_red]
+[goblin_redarmour]
 name=Goblin
 desc=An ugly green creature.
 walkanim=goblin_walk

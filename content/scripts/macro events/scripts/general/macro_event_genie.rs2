@@ -1,4 +1,4 @@
-[proc,macro_event_genie_spawn]
+[proc,macro_geni_spawn]
 spotanim_map(smokepuff, npc_coord, 124, 0);
 sound_synth(genie_appear, 0, 0);
 npc_say("Greetings <text_gender("master", "mistress")> <displayname>!");
@@ -6,7 +6,7 @@ npc_say("Greetings <text_gender("master", "mistress")> <displayname>!");
 // this matches this video: https://www.youtube.com/watch?v=el-h9hbSH80&t=293s
 npc_setmode(playerfollow);
 
-[ai_timer,macro_event_genie]
+[ai_timer,macro_geni]
 if (~macro_event_lost = true) {
     // only confirmed for mysterious old man
     npc_queue(5, 0, 0);
@@ -42,7 +42,7 @@ if (finduid(%npc_macro_event_target) = true) {
     %npc_int = add(%npc_int, 1);
 }
 
-[ai_queue5,macro_event_genie]
+[ai_queue5,macro_geni]
 // only confirmed for mysterious old man
 npc_delay(2);
 npc_anim(emote_cry, 20);
@@ -50,12 +50,12 @@ npc_say("I lose more friends that way.");
 npc_delay(2);
 ~macro_event_disappear;
 
-[ai_queue6,macro_event_genie]
+[ai_queue6,macro_geni]
 npc_anim(emote_wave, 20);
 npc_delay(2);
 ~macro_event_disappear;
 
-[opnpc1,macro_event_genie]
+[opnpc1,macro_geni]
 if (uid ! %npc_macro_event_target) {
     // https://youtu.be/qNQYgiNMBes?t=134
     if (.finduid(%npc_macro_event_target) = true) {

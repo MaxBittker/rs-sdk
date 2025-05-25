@@ -13,7 +13,7 @@ switch_int(%elena_progress) {
 [label,jethick_im_looking_for_a_woman]
 ~chatplayer("<p,happy>I'm looking for a woman from East Ardougne.");
 ~chatnpc("<p,confused>East Ardougnian women are easier to find in East Ardougne. Not many would come to West Ardougne to find one. Any particular woman you have in mind?");
-~chatplayer("<p,happy>Yes, a lady called <nc_name(elena)>.");
+~chatplayer("<p,happy>Yes, a lady called <nc_name(elena2)>.");
 ~chatnpc("<p,confused>What does she look like?");
 if (inv_total(inv, elena_picture) > 0) {
     ~objbox(elena_picture, "You show the picture to <nc_name(jethick)>.", 250, 0, 0);

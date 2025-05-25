@@ -1,4 +1,4 @@
-[kaleb_paramaya]
+[shiloinnowner]
 vislevel=hide
 name=Kaleb Paramaya
 desc=This is Kaleb Paramaya - a warm and friendly inn owner.
@@ -24,7 +24,7 @@ head1=model_55_idk_head
 head2=model_84_idk_head
 wanderrange=3
 
-[yohnus]
+[shilofurnaceowner]
 vislevel=hide
 name=Yohnus
 desc=This is Yohnus - he runs the local blacksmiths.
@@ -54,7 +54,7 @@ head1=model_52_idk_head
 head2=model_83_idk_head
 wanderrange=1
 
-[obli]
+[shilogeneralstore]
 vislevel=hide
 name=Obli
 desc=An intelligent looking shop owner.
@@ -83,7 +83,7 @@ param=shop_delta,20
 param=shop_title,Obli's General Store.
 category=shop_keeper
 
-[fernahei]
+[shilofishowner]
 vislevel=hide
 name=Fernahei
 desc=This is Fernahei - he owns the local fishing tackle shop.
@@ -114,7 +114,7 @@ param=shop_delta,20
 param=shop_title,Fernahei's Fishing Hut.
 category=shop_keeper
 
-[vigroy]
+[shilocartdriver]
 vislevel=hide
 name=Vigroy
 desc=A cart driver, it looks like he's quite experienced.
@@ -142,7 +142,7 @@ head1=model_63_idk_head
 head2=model_79_idk_head
 wanderrange=3
 
-[seravel]
+[shiloshiptickets]
 vislevel=hide
 name=Seravel
 desc=This is Seravel - he sells tickets for the 'Lady of the Waves'.
@@ -171,7 +171,7 @@ head2=model_85_idk_head
 wanderrange=0
 moverestrict=nomove
 
-[yanni_salika]
+[shiloantiques]
 vislevel=hide
 name=Yanni Salika
 desc=Yanni Salika - He buys and sells antiques.

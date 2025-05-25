@@ -58,8 +58,8 @@ if ($dropint < 1) {
 }
 
 
-[ai_queue3,goblin_armed_green] @goblin_village_drop_table; // Green
-[ai_queue3,goblin_armed_red] @goblin_village_drop_table; // Red
+[ai_queue3,goblin_greenarmour] @goblin_village_drop_table; // Green
+[ai_queue3,goblin_redarmour] @goblin_village_drop_table; // Red
 
 [label,goblin_village_drop_table]
 gosub(npc_death);

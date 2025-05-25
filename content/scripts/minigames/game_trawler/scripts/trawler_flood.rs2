@@ -1,5 +1,5 @@
 [proc,trawler_flood]
-if (.npc_find(^trawler_flood_center_under, murphy_flood, 8, 0) = false) {
+if (.npc_find(^trawler_flood_center_under, murphy_halfsunk, 8, 0) = false) {
     return;
 }
 .%npc_int2 = ^trawler_control_flooded;
@@ -21,7 +21,7 @@ while (huntnext = true) {
 }
 
 [proc,trawler_unflood]
-if (.npc_find(^trawler_start_center_under, murphy_nonflood, 8, 0) = false) {
+if (.npc_find(^trawler_start_center_under, murphy_normal, 8, 0) = false) {
     return;
 }
 .%npc_int2 = ^trawler_control_nonflooded;
@@ -88,7 +88,7 @@ if (loc_type = game_trawler_leak) {
         loc_change(game_trawler_repaired_leak, 1000);
         if (~inzone_coord_pair_table(trawler_flood_zones, loc_coord) = true) {
             if (random(5) = 0) {
-                if (npc_find(^trawler_flood_center_under, murphy_flood, 8, 0) = true) {
+                if (npc_find(^trawler_flood_center_under, murphy_halfsunk, 8, 0) = true) {
                     npc_queue(7, 0, 0);
                 }
             }
@@ -98,7 +98,7 @@ if (loc_type = game_trawler_leak) {
             }
         } else {
             if (random(5) = 0) {
-                if (npc_find(^trawler_start_center_under, murphy_nonflood, 8, 0) = true) {
+                if (npc_find(^trawler_start_center_under, murphy_normal, 8, 0) = true) {
                     npc_queue(7, 0, 0);
                 }
             }

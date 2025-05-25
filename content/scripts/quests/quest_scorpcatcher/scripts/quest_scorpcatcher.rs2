@@ -11,7 +11,7 @@ npc_del;
 inv_add(inv, $next_cage, 1);
 mes("You catch a scorpion!");
 
-[opnpcu,kharid_scorpion_first]
+[opnpcu,questscorpiona]
 switch_obj (last_useitem) {
     case scorpioncagea, scorpioncageab, scorpioncageab, scorpioncagefull : @scorpion_caught;
     case scorpioncageempty : @catch_scorp(scorpioncagea);
@@ -20,7 +20,7 @@ switch_obj (last_useitem) {
     case scorpioncagebc : @catch_scorp(scorpioncagefull);
 }
 
-[opnpcu,kharid_scorpion_second]
+[opnpcu,questscorpionb]
 switch_obj (last_useitem) {
     case scorpioncageb, scorpioncageab, scorpioncagebc, scorpioncagefull : @scorpion_caught;
     case scorpioncageempty : @catch_scorp(scorpioncageb);
@@ -29,7 +29,7 @@ switch_obj (last_useitem) {
     case scorpioncageac : @catch_scorp(scorpioncagefull);
 }
 
-[opnpcu,kharid_scorpion_third]
+[opnpcu,questscorpionc]
 switch_obj (last_useitem) {
     case scorpioncagec, scorpioncageac, scorpioncagebc, scorpioncagefull : @scorpion_caught;
     case scorpioncageempty : @catch_scorp(scorpioncagec);
@@ -38,9 +38,9 @@ switch_obj (last_useitem) {
     case scorpioncageab : @catch_scorp(scorpioncagefull);
 }
 
-[opnpc1,kharid_scorpion_first] @scorpion_sting;
-[opnpc1,kharid_scorpion_second] @scorpion_sting;
-[opnpc1,kharid_scorpion_third] @scorpion_sting;
+[opnpc1,questscorpiona] @scorpion_sting;
+[opnpc1,questscorpionb] @scorpion_sting;
+[opnpc1,questscorpionc] @scorpion_sting;
 
 // Taverley wall
 [oploc1,loc_2117]

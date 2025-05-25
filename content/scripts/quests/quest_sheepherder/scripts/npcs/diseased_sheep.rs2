@@ -8,16 +8,16 @@
 // bit 2 - set when the sheep is fed the poison
 // bit 3 - set when the sheep has its bones burned
 
-[opnpc1,red_sheep]
+[opnpc1,herder_plaguesheep_1]
 @prod_sheep(npc_type);
 
-[opnpc1,green_sheep]
+[opnpc1,herder_plaguesheep_2]
 @prod_sheep(npc_type);
 
-[opnpc1,blue_sheep]
+[opnpc1,herder_plaguesheep_3]
 @prod_sheep(npc_type);
 
-[opnpc1,yellow_sheep]
+[opnpc1,herder_plaguesheep_4]
 @prod_sheep(npc_type);
 
 [label,prod_sheep](npc $npc)
@@ -112,25 +112,25 @@ npc_settimer(calc(10 + random(20)));
 npc_say("Baa");
 npc_setmode(null);
 
-[opnpcu,green_sheep]
+[opnpcu,herder_plaguesheep_2]
 switch_obj(last_useitem) {
     case cattleprod : @cattle_prod_use_message;
     case poisoned_feed : @poison_sheep(npc_type);
 }
 
-[opnpcu,red_sheep]
+[opnpcu,herder_plaguesheep_1]
 switch_obj(last_useitem) {
     case cattleprod : @cattle_prod_use_message;
     case poisoned_feed : @poison_sheep(npc_type);
 }
 
-[opnpcu,blue_sheep]
+[opnpcu,herder_plaguesheep_3]
 switch_obj(last_useitem) {
     case cattleprod : @cattle_prod_use_message;
     case poisoned_feed : @poison_sheep(npc_type);
 }
 
-[opnpcu,yellow_sheep]
+[opnpcu,herder_plaguesheep_4]
 switch_obj(last_useitem) {
     case cattleprod : @cattle_prod_use_message;
     case poisoned_feed : @poison_sheep(npc_type);

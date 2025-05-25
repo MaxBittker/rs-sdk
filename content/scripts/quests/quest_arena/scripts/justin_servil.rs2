@@ -17,7 +17,7 @@ switch_int(%arena_progress) {
     case ^arena_defeated_bouncer : // guessed mesanims
         ~chatplayer("<p,quiz>What does Khazard want with us now?");
         ~chatnpc("<p,sad>I don't know, but I can't imagine he'll be happy with you now.");
-        @general_khazard_agreement;
+        @general_khazard_arena_agreement;
     case ^arena_freed_servils : // guessed mesanims
         ~chatplayer("<p,neutral>You can run, Khazard's interest is in me now.");
         ~chatnpc("<p,neutral>My thanks, we'll be ok now. I suggest you run too, General Khazard is mighty and his anger fearsome.");
@@ -28,4 +28,4 @@ switch_int(%arena_progress) {
 
 [label,justin_servil_saved]
 ~chatnpc("<p,happy>You saved my life and my son's, I am eternally in your debt brave traveller.");
-@khazard_welldone;
+@general_khazard_arena_welldone;

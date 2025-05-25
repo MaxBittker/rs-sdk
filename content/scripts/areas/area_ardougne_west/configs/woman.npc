@@ -1,4 +1,4 @@
-[west_ardougne_woman_1]
+[dskin_w_ardoungecitizen2]
 name=Woman
 desc=One of RuneScapes' many citizens.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -31,7 +31,7 @@ param=death_sound,female_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1119
 
-[west_ardougne_woman_2]
+[w_ardoungecitizenlady1]
 name=Woman
 desc=One of RuneScapes' many citizens.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -62,7 +62,7 @@ param=death_sound,female_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1130
 
-[west_ardougne_woman_3]
+[dskin_w_ardoungecitizenlady1]
 name=Woman
 desc=One of RuneScapes' many citizens.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -95,7 +95,7 @@ param=death_sound,female_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1131
 
-[west_ardougne_woman_4]
+[dskin_w_ardoungecitizenlady3]
 name=Woman
 desc=One of RuneScapes' many citizens.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -128,7 +128,7 @@ param=death_sound,female_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1139
 
-[west_ardougne_woman_5]
+[dskin_w_ardoungecitizenlady4]
 name=Woman
 desc=One of RuneScapes' many citizens.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -160,7 +160,7 @@ param=death_sound,female_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1140
 
-[west_ardougne_woman_6]
+[w_ardoungecitizenlady2]
 name=Woman
 desc=One of RuneScapes' many citizens.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -188,7 +188,7 @@ param=death_sound,female_death
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1141
 
-[west_ardougne_woman_7]
+[w_ardoungecitizenlady4]
 name=Woman
 desc=One of RuneScapes' many citizens.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r

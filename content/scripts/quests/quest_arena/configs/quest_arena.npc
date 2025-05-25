@@ -1,4 +1,4 @@
-[khazard_guard_cells]
+[arena_guard1]
 name=Khazard Guard
 desc=It's one of General Khazard's guards.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -41,7 +41,7 @@ param=attack_sound,baxe_slash
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1208
 
-[khazard_guard_drunk]
+[arena_guard2]
 name=Khazard Guard
 desc=It's one of General Khazard's guards.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -85,7 +85,7 @@ param=attack_sound,baxe_slash
 // The NPC in question has been replaced by another NPC that no longer has an attack option or stats. npc_1209
 // stats and params is guess.
 
-[khazard_guard_chest]
+[arena_guard3]
 name=Khazard Guard
 desc=It's one of General Khazard's guards.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -128,7 +128,7 @@ param=attack_sound,baxe_slash
 // The NPC in question has been replaced by another NPC that no longer has an attack option or stats. npc_1210
 // stats and params is guess.
 
-[khazard_guard_standard]
+[arena_guard4]
 name=Khazard Guard
 desc=It's one of General Khazard's guards.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -171,7 +171,7 @@ param=attack_sound,baxe_slash
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1211
 
-[khazard_guard_cutscene]
+[arena_guard5]
 name=Khazard Guard
 desc=It's one of General Khazard's guards.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -210,7 +210,7 @@ param=attack_sound,baxe_slash
 // osrs defend_sound blade3_mail
 // https://chisel.weirdgloop.org/moid/npc_id.html#1212 npc_1212
 
-[general_khazard]
+[general_khazard_arena]
 name=General Khazard
 desc=He looks really nasty. Smells bad too.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -274,7 +274,7 @@ model8=model_326_idk
 head1=model_63_idk_head
 head2=model_79_idk_head
 
-[kelvin]
+[fightslave_kelvin]
 vislevel=hide
 name=Kelvin
 desc=A fightslave. He looks mistreated and weak.
@@ -297,7 +297,7 @@ model7=model_181_idk
 head1=model_52_idk_head
 wanderrange=1
 
-[joe_fightslave]
+[fightslave_joe]
 vislevel=hide
 name=Joe
 desc=A fightslave. He looks mistreated and weak.
@@ -451,7 +451,7 @@ wanderrange=7
 hitpoints=20
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_12035
 
-[local]
+[arena_local]
 vislevel=hide
 name=Local
 desc=A scruffy looking chap.
@@ -473,7 +473,7 @@ model8=model_185_obj_wear
 head1=model_63_idk_head
 head2=model_68_obj_wear
 
-[bouncer]
+[arena_bouncer]
 size=2
 walkanim=hell_walk
 readyanim=hell_ready
@@ -502,7 +502,7 @@ huntrange=2
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1224
 
-[khazard_ogre]
+[arena_ogre]
 name=Khazard Ogre
 desc=Khazard's strongest ogre warrior.
 size=2
@@ -537,7 +537,7 @@ huntrange=2
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1225
 
-[khazard_scorpion]
+[arena_scorpion]
 name=Khazard Scorpion
 desc=A large angry scorpion.
 size=2

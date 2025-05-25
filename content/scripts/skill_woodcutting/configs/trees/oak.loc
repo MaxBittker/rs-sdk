@@ -9,4 +9,4 @@ op3=hidden
 mapscene=1
 category=tree
 param=next_loc_stage,oak_tree_stump
-param=ent,macro_event_ent_oak
+param=ent,macro_ent_oak

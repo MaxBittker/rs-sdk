@@ -47,7 +47,7 @@ param=defend_sound,swordclash2
 // attackbonus is guess taken gunthor the brave
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1028
 
-[barbarian_outpost_guard]
+[barbguard1]
 vislevel=hide
 name=Barbarian guard
 desc=Not very civilised looking.

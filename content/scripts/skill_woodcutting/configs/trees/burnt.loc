@@ -7,4 +7,4 @@ op1=Chop down
 op3=hidden
 category=tree
 param=next_loc_stage,loc_1359
-param=ent,macro_event_ent_dead_tree2
+param=ent,macro_ent_dead_tree2

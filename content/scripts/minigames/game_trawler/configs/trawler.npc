@@ -32,7 +32,7 @@ head2=model_81_idk_head
 head3=model_37_npc_head
 wanderrange=2
 
-[murphy_nonflood]
+[murphy_normal]
 vislevel=hide
 name=Murphy
 desc=Salty old sea dog.
@@ -70,7 +70,7 @@ patrol1=^trawler_start_patrol1
 patrol2=^trawler_start_patrol2
 timer=5
 
-[murphy_flood]
+[murphy_halfsunk]
 vislevel=hide
 name=Murphy
 desc=Salty old sea dog.
@@ -143,7 +143,7 @@ head3=model_37_npc_head
 wanderrange=1
 timer=1
 
-[game_trawler_shark1]
+[fin1]
 name=Shark
 desc=Let's not go skinny dipping eh?
 vislevel=hide
@@ -153,7 +153,7 @@ model1=model_2848_npc
 moverestrict=nomove
 timer=30
 
-[game_trawler_shark2]
+[fin2]
 name=Shark
 desc=Let's not go skinny dipping eh?
 vislevel=hide

@@ -1,12 +1,12 @@
 [proc,trawler_reset]
-if (npc_find(^trawler_flood_center_under, murphy_flood, 5, 0) = true) {
+if (npc_find(^trawler_flood_center_under, murphy_halfsunk, 5, 0) = true) {
     %npc_int = 0;
     %npc_int2 = 0;
     %npc_trawler_flood_status = 0;
     %npc_trawler_fish_caught = 0;
     npc_settimer(0);
 }
-if (npc_find(^trawler_start_center_under, murphy_nonflood, 5, 0) = true) {
+if (npc_find(^trawler_start_center_under, murphy_normal, 5, 0) = true) {
     %npc_int = 0;
     %npc_int2 = 0;
     %npc_trawler_flood_status = 0;

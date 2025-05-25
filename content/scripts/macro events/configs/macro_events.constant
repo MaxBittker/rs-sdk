@@ -1,11 +1,11 @@
-^macro_event_swarm = 1
-^macro_event_genie = 2
+^macro_swarm = 1
+^macro_geni = 2
 ^macro_event_drunken_dwarf = 3
-^macro_event_mysterious_old_man_general = 4
+^macro_mysterious_old_man = 4
 
-^macro_event_triffid_friendly = 5
+^macro_triffidseed = 5
 
-^macro_event_big_fish = 6
+^macro_bigfish = 6
 
 ^no_macro_event = 0
 
@@ -16,7 +16,7 @@
 ^macro_event_del = -4
 ^macro_event_attack = -5
 ^macro_event_appear = -6
-^macro_event_big_fish_move = -7
+^macro_event_bigfish_move = -7
 
 ^triffid_growing = 0
 ^triffid_ready_to_attack = 1

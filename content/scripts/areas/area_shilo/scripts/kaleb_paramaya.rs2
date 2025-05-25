@@ -1,6 +1,6 @@
 [oploc1,loc_2268]
 if(inv_total(inv, paramayaticket) = 0) {
-    ~chatnpc_specific(nc_name(kaleb_paramaya), kaleb_paramaya, "You can buy a ticket to the dormitory from me. And have a lovely night's rest.");
+    ~chatnpc_specific(nc_name(shiloinnowner), shiloinnowner, "You can buy a ticket to the dormitory from me. And have a lovely night's rest.");
     return;
 }
 ~mesbox("The barman takes your ticket and allows you up to the dormitory.");
@@ -13,7 +13,7 @@ p_delay(0);
 mes("You climb down the ladder.");
 ~climb_ladder(1_44_46_45_51, false);
 
-[opnpc1,kaleb_paramaya]
+[opnpc1,shiloinnowner]
 ~chatplayer("<p,neutral>Hello.");
 ~chatnpc("<p,neutral>Hello Bwana, What can I do for you today?");
 switch_int(~p_choice5("Can you tell me a bit about this this place?", 1, "Buy some wine: 1 Gold.", 2, "Buy some Beer: 2 Gold.", 3, "Buy a nights rest: 35 Gold", 4, "Buy a pack of 5 Dorm tickets: 175 Gold", 5)) {

@@ -1,4 +1,4 @@
-[restless_ghost]
+[ghostx]
 vislevel=hide
 name=Restless ghost
 desc=Eek! A ghost!
@@ -31,7 +31,7 @@ head2=model_78_npc_head
 moverestrict=indoors
 param=death_sound,ghost_death
 
-[priest_skeleton]
+[skull_skeleton]
 name=Skeleton
 desc=It rattles when it walks.
 walkanim=skeleton_walk

@@ -1,4 +1,4 @@
-[proc,macro_event_mysterious_old_man_general_spawn]
+[proc,macro_mysterious_old_man_spawn]
 spotanim_map(smokepuff, npc_coord, 124, 0);
 sound_synth(smokepuff, 0, 0);
 npc_anim(emote_bow, 20);
@@ -13,7 +13,7 @@ npc_setmode(playerfollow);
 
 // warnings https://youtu.be/Ai89wqupYqA
 // https://youtu.be/HpmsgVshwxg?t=267
-[ai_timer,macro_event_mysterious_old_man_general]
+[ai_timer,macro_mysterious_old_man]
 if (~macro_event_lost = true) {
     // only confirmed for mysterious old man https://youtu.be/HwGAzcmvF9k?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
     npc_queue(5, 0, 0);
@@ -44,18 +44,18 @@ if (finduid(%npc_macro_event_target) = true) {
     %npc_int = add(%npc_int, 1);
 }
 
-[ai_queue5,macro_event_mysterious_old_man_general] // despawn
+[ai_queue5,macro_mysterious_old_man] // despawn
 npc_anim(emote_cry, 20);
 npc_say("I lose more friends that way.");
 npc_delay(2);
 ~macro_event_disappear;
 
-[ai_queue6,macro_event_mysterious_old_man_general] // say goodbye to player
+[ai_queue6,macro_mysterious_old_man] // say goodbye to player
 npc_anim(emote_wave, 20);
 npc_delay(2);
 ~macro_event_disappear;
 
-[opnpc1,macro_event_mysterious_old_man_general]
+[opnpc1,macro_mysterious_old_man]
 if (uid ! %npc_macro_event_target) {
     // https://youtu.be/U_TRFGTfIY0?t=276
     // no comma and 'ignorning' is authentic
@@ -72,14 +72,14 @@ if (%npc_int = ^mysterious_old_man_happy) {
 }
 %npc_int = ^mysterious_old_man_happy;
 %macro_event = ^no_macro_event;
-inv_add(inv, ~macro_event_mysterious_old_man_general_reward);
+inv_add(inv, ~macro_mysterious_old_man_reward);
 // dialogue taken from osrs. Neutral is a guess.
 npc_queue(6, 0, 2); // say goodbye to player
 npc_settimer(0);
 ~chatnpc("<p,neutral>Ah, so you are there. I hoped you would talk to me, I get so lonely. Here, have a present! I must be going now though."); // https://youtu.be/HpmsgVshwxg?t=305 uses chatnpc
 // delays are taken from this video: https://youtu.be/JeQUY1m1wRo?list=PLn23LiLYLb1bQ7Hwp77KoNBjKvpZQTfJT&t=137
 
-[proc,macro_event_mysterious_old_man_general_reward]()(namedobj, int)
+[proc,macro_mysterious_old_man_reward]()(namedobj, int)
 // drops taken from osrs, confirmed through https://web.archive.org/web/20040817204238/http://www.runescapecommunity.com:80/index.php?showtopic=104849
 
 // gives casket instead of main rewards - sudden

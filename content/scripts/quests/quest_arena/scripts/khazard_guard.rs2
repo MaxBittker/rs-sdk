@@ -1,4 +1,4 @@
-[opnpc1,khazard_guard_standard]
+[opnpc1,arena_guard4]
 switch_int(%arena_progress) {
     case ^arena_freed_servils, ^arena_complete, ^arena_complete_defeated_genkhazard :
         ~chatplayer("<p,neutral>Hello.");
@@ -14,7 +14,7 @@ switch_int(%arena_progress) {
         ~chatnpc("<p,angry>I don't know you stranger. Get off our land.");
 }
 
-[opnpc1,khazard_guard_chest] 
+[opnpc1,arena_guard3] 
 switch_int(%arena_progress) {
     case ^arena_freed_servils, ^arena_complete, ^arena_complete_defeated_genkhazard :
         ~chatplayer("<p,happy>Hi.");
@@ -36,7 +36,7 @@ switch_int(%arena_progress) {
         ~chatnpc("<p,angry>I don't know who you are. Get out of my house stranger.");
 }
 
-[opnpc1,khazard_guard_cells]
+[opnpc1,arena_guard1]
 switch_int(%arena_progress) {
     case ^arena_freed_servils, ^arena_complete, ^arena_complete_defeated_genkhazard :
         ~chatplayer("<p,happy>Hi.");
@@ -66,7 +66,7 @@ switch_int(%arena_progress) {
 }
 
 // theres no opnpcu here (rs3 and osrs has one): https://youtu.be/nptASzjG_Xk?si=wfdwpDNiM98YMi5t&t=165
-[opnpc1,khazard_guard_drunk]
+[opnpc1,arena_guard2]
 switch_int(%arena_progress) {
     case ^arena_given_khali_brew, ^arena_entered_ogre_fight, ^arena_defeated_ogre, ^arena_sent_jail, ^arena_defeated_scorpion,
         ^arena_defeated_bouncer, ^arena_freed_servils, ^arena_defeated_genkhazard :
@@ -88,7 +88,7 @@ switch_int(%arena_progress) {
             ~chatplayer("<p,neutral>Hello again.");
             ~chatnpc("<p,bored>Bored, bored, bored. You'd think the slaves would be more entertaining. Selfish the lot of them.");
             if(inv_total(inv, khali_brew) > 0) {
-                @khazard_guard_drunk_interested;
+                @arena_guard2_interested;
             }
             // https://web.archive.org/web/20050305053139im_/http://runevillage.com/images/rsfight5.gif
             ~chatnpc("<p,bored>I used to enjoy this job, but now|all I want is a decent drink.");
@@ -107,7 +107,7 @@ switch_int(%arena_progress) {
         @khazard_guard_restricted; // not 100% sure on this
 }
 
-[label,khazard_guard_drunk_interested]
+[label,arena_guard2_interested]
 ~chatplayer("<p,quiz>Do you still fancy a drink?");
 ~chatnpc("<p,neutral>I really shouldn't... oh... ok then just the one.");
 ~mesbox("You hand a bottle of Khali brew to the guard. He takes a mouthful of the drink.");

@@ -76,9 +76,9 @@ if(inv_total(inv, pressure_gauge) > 0 & inv_total(inv, oil_can) > 0 & inv_total(
     inv_del(inv, rubber_tube, 1);
     %haunted_progress = ^haunted_complete;
     queue(haunted_quest_complete, 0); // reward is queued as soon as changetype completes in OSRS
-    ~chatnpc_specific("Ernest", ernest_human, "<p,happy>Thank you <text_gender("sir", "m'lady")>.|It was dreadfully irritating being a chicken.|How can I ever thank you?");
+    ~chatnpc_specific("Ernest", ernest, "<p,happy>Thank you <text_gender("sir", "m'lady")>.|It was dreadfully irritating being a chicken.|How can I ever thank you?");
     ~chatplayer("<p,shifty>Well a cash reward is always nice...");
-    ~chatnpc_specific("Ernest", ernest_human, "<p,neutral>Of course, of course.");
+    ~chatnpc_specific("Ernest", ernest, "<p,neutral>Of course, of course.");
     ~mesbox("Ernest hands you 300 coins.");
 } else if(inv_total(inv, pressure_gauge) > 0 | inv_total(inv, oil_can) > 0 | inv_total(inv, rubber_tube) > 0) {
     def_string $player_items = "";

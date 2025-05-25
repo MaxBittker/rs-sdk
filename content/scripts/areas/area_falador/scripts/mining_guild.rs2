@@ -1,6 +1,6 @@
 [oploc1,loc_2113]
 if (stat(mining) < 60) {
-    ~chatnpc_specific("Dwarf", dwarf_mining_guild, "<p,neutral>Sorry, but you're not experienced enough to go in there.");
+    ~chatnpc_specific("Dwarf", mguild_dwarf1, "<p,neutral>Sorry, but you're not experienced enough to go in there.");
     ~mesbox("You need a Mining level of 60 to access the Mining Guild.");
     return;
 }
@@ -9,7 +9,7 @@ p_arrivedelay;
 
 [oploc1,loc_2112]
 if (stat(mining) < 60) {
-    ~chatnpc_specific("Dwarf", dwarf_mining_guild, "<p,neutral>Sorry, but you're not experienced enough to go in there.");
+    ~chatnpc_specific("Dwarf", mguild_dwarf1, "<p,neutral>Sorry, but you're not experienced enough to go in there.");
     ~mesbox("You need a Mining level of 60 to access the Mining Guild.");
     return;
 }

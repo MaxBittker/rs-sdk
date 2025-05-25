@@ -13,12 +13,12 @@ switch_int ($option) {
 }
 
 // Mace Guard
-[opnpc1,combat_training_camp_guard_1]
+[opnpc1,lathastrainer1]
 ~chatplayer("<p,happy>Hello there.");
 ~chatnpc("<p,angry>What do you want - leave us be!");
 
 // crossbow guard by ogre cage
-[opnpc1,combat_training_camp_guard_2]
+[opnpc1,lathastrainer2]
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,neutral>Well hello brave warrior.|These ogres have been terrorising the area,|they've eaten four of our children this week alone.");
 ~chatplayer("<p,angry>Brutes!");
@@ -26,7 +26,7 @@ switch_int ($option) {
 ~chatplayer("<p,neutral>Indeed.");
 
 // regular crossbow guard
-[opnpc1,combat_training_camp_guard_3]
+[opnpc1,lathastrainer3]
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,neutral>Hello soldier.");
 ~chatplayer("<p,confused>I'm more of an adventurer really.");
@@ -37,7 +37,7 @@ switch_int ($option) {
 
 [label,open_combat_training_gate](int $side)
 if(%biohazard_progress < ^biohazard_complete) {
-    ~chatnpc_specific(nc_name(combat_training_camp_guard_1), combat_training_camp_guard_1, "<p,neutral>This is a restricted area.|You can only enter under the authority of King Lathas.");
+    ~chatnpc_specific(nc_name(lathastrainer1), lathastrainer1, "<p,neutral>This is a restricted area.|You can only enter under the authority of King Lathas.");
     return;
 }
 ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), $side, grate_open);
@@ -59,7 +59,7 @@ sound_synth(%com_attacksound, 0, 0);
 mes("You hit the dummy.");
 p_delay(3);
 
-[opnpc2,combat_training_camp_ogre]
+[opnpc2,lathastrainingogre]
 if (~player_in_combat_check = false) {
     return;
 }

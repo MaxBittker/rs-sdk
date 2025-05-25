@@ -37,11 +37,11 @@ npc_add($event_coord, $event_npc, 1000);
 %macro_event_uid = npc_uid;
 session_log(^log_moderator, "Random event spawned: <nc_debugname(npc_type)>");
 switch_int ($event) {
-    case ^macro_event_swarm : ~macro_event_swarm_spawn;
-    case ^macro_event_triffid_friendly : ~macro_event_triffid_spawn;
+    case ^macro_swarm : ~macro_swarm_spawn;
+    case ^macro_triffidseed : ~macro_event_triffid_spawn;
     case ^macro_event_drunken_dwarf : ~macro_event_drunken_dwarf_spawn;
-    case ^macro_event_genie : ~macro_event_genie_spawn;
-    case ^macro_event_mysterious_old_man_general : ~macro_event_mysterious_old_man_general_spawn;
+    case ^macro_geni : ~macro_geni_spawn;
+    case ^macro_mysterious_old_man : ~macro_mysterious_old_man_spawn;
 }
 
 [proc,macro_event_area](coord $coord)(boolean)

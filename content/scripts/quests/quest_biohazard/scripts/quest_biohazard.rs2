@@ -22,7 +22,7 @@ if(npc_find(coord, guidors_wife, 5, 0) = true) {
 }
 
 [oploc1,loc_2067]
-if(npc_find(coord, mourner_watchtower, 5, 0) = true) {
+if(npc_find(coord, mournerwatchtower, 5, 0) = true) {
     // https://youtu.be/_ZNalEQB70o?si=0Dlqc2ZXalgpWD7H&t=270
     ~chatnpc("<p,neutral>Keep away civilian.");
     ~chatplayer("<p,neutral>What's it to you?");

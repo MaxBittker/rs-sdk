@@ -142,7 +142,7 @@ if (p_finduid(uid) = true) {
                 case 44 :
                     def_int $choice4 = ~p_choice2_header("Armadyl.", 0, "Lucien.", 1, "Choose a side for Temple of Ikov:");
                     if ($choice4 = 0) {
-                        if (npc_find(0_40_51_13_57, lucien_ardougne, 7, 0) = true) {
+                        if (npc_find(0_40_51_13_57, ikov_lucien1, 7, 0) = true) {
                             queue(ikov_armadyl_quest_complete, 0, npc_uid);
                         }
                     } else if ($choice4 = 1) {
@@ -340,7 +340,7 @@ queue(sheepherder_complete, 0);
 queue(zombiequeen_quest_complete, 0);
 if ($ikov_choice = 0) {
     // Armadyl side
-    if (npc_find(0_40_51_13_57, lucien_ardougne, 7, 0) = true) {
+    if (npc_find(0_40_51_13_57, ikov_lucien1, 7, 0) = true) {
         queue(ikov_armadyl_quest_complete, 0, npc_uid);
     }
 } else {

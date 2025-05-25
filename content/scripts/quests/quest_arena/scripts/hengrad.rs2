@@ -17,7 +17,7 @@ if(%arena_progress = ^arena_sent_jail) {
     ~chatnpc("<p,shifty>Wait.. sshh, the guard is coming. Looks like you'll be going into the arena. Good luck friend.");
     if_close;
     // https://youtu.be/NHsQfeSPUb0?si=c_S0jTnjDBF0xilE&t=189
-    npc_add(0_40_49_26_4, khazard_guard_cutscene, 100);
+    npc_add(0_40_49_26_4, arena_guard5, 100);
     npc_setmode(none);
     npc_walk(npc_coord);
     p_delay(0);

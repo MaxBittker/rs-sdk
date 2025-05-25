@@ -1,17 +1,17 @@
-[ai_queue3,khazard_ogre]
+[ai_queue3,arena_ogre]
 gosub(npc_death);
 if(npc_findhero = ^true) {
     if_close;
     if(p_finduid(uid) = true) { // get protected access, if not then queue
-        @defeat_khazard_ogre;
+        @defeat_arena_ogre;
     }
-    queue(queue_defeat_khazard_ogre, 0); //strongqueue probably
+    queue(queue_defeat_arena_ogre, 0); //strongqueue probably
 }
 
-[queue,queue_defeat_khazard_ogre]
-if (inzone(^arena_lower_coord, ^arena_upper_coord, coord) = true) @defeat_khazard_ogre;
+[queue,queue_defeat_arena_ogre]
+if (inzone(^arena_lower_coord, ^arena_upper_coord, coord) = true) @defeat_arena_ogre;
 
-[label,defeat_khazard_ogre]
+[label,defeat_arena_ogre]
 if(%arena_progress = ^arena_entered_ogre_fight) {
     %arena_progress = ^arena_defeated_ogre;
     if (npc_find(movecoord(coord, 8, 0, 0), justin_servil, 15, 0) = false) {

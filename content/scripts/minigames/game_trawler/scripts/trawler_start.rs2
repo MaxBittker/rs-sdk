@@ -20,10 +20,10 @@ while (huntnext = true) {
 
 ~trawler_reset;
 
-if (npc_find(^trawler_start_center_under, murphy_nonflood, 5, 0) = true) {
+if (npc_find(^trawler_start_center_under, murphy_normal, 5, 0) = true) {
     npc_queue(5, 0, 33); // 21 ticks from ship journey... After journey is over, trawler starts after 17 ticks (10s)
 }
-if (npc_find(^trawler_flood_center_under, murphy_flood, 5, 0) = true) {
+if (npc_find(^trawler_flood_center_under, murphy_halfsunk, 5, 0) = true) {
     npc_queue(5, 0, 33); // 21 ticks from ship journey... After journey is over, trawler starts after 17 ticks (10s)
 }
 
@@ -46,8 +46,8 @@ if_openmain(trawler_help);
 cam_shake(4, 0, 20, 4);
 cam_shake(1, 0, 20, 5);
 
-[ai_queue5,murphy_nonflood]
+[ai_queue5,murphy_normal]
 npc_settimer(5);
 
-[ai_queue5,murphy_flood]
+[ai_queue5,murphy_halfsunk]
 npc_settimer(5);

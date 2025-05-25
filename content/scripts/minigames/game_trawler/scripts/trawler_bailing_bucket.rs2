@@ -17,7 +17,7 @@ mes("You fill your bucket with water.");
 p_delay(0);
 inv_del(inv, bucket_bailing, 1);
 inv_add(inv, bucket_bailingfull, 1);
-if (npc_find(^trawler_flood_center_under, murphy_flood, 5, 0) = true) {
+if (npc_find(^trawler_flood_center_under, murphy_halfsunk, 5, 0) = true) {
     %npc_trawler_flood_status = sub(%npc_trawler_flood_status, 1);
 }
 

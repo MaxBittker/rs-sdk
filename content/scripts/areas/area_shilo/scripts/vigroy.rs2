@@ -2,17 +2,17 @@
 
 [oploc2,loc_2265]
 ~mesbox("This looks like a sturdy travelling cart.|A nearby man walks over to you."); // rsc
-if(npc_find(coord, vigroy, 7, 0) = true) {
-    @vigroy_dialogue;
+if(npc_find(coord, shilocartdriver, 7, 0) = true) {
+    @shilocartdriver_dialogue;
 }
 
-[opnpc1,vigroy]
+[opnpc1,shilocartdriver]
 // changed a lot in both games so assuming this is probably nearly identical to hajedy's dialogue
 ~chatplayer("<p,neutral>Hello!");
 ~chatnpc("<p,neutral>Hello Bwana!");
-@vigroy_dialogue;
+@shilocartdriver_dialogue;
 
-[label,vigroy_dialogue]
+[label,shilocartdriver_dialogue]
 def_int $amount = ~calc_shilocart_cost();
 // https://web.archive.org/web/20050204071450im_/http://www.runehq.com//images/cityguides/shilo8.jpg
 ~chatnpc("<p,neutral>I am offering a cart ride to Brimhaven|if you're interested!|It will cost <tostring($amount)> gold coins. Is that Ok?");

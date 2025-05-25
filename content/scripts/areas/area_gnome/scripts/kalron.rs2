@@ -1,4 +1,4 @@
-[opnpc1,kalron]
+[opnpc1,lostgnome]
 switch_int(%tree_progress) {
     case ^tree_not_started :
         ~chatplayer("<p,neutral>Hello.");

@@ -39,7 +39,7 @@ head3=model_40_obj_wear
 wanderrange=3
 moverestrict=indoors
 
-[chancy1]
+[gambler1]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
@@ -63,7 +63,7 @@ model8=model_320_idk
 head1=model_46_idk_head
 wanderrange=3
 
-[chancy2]
+[gambler2]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
@@ -88,7 +88,7 @@ head1=model_46_idk_head
 wanderrange=3
 moverestrict=indoors
 
-[hops1]
+[drunk1]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
@@ -114,7 +114,7 @@ head1=model_55_idk_head
 head2=model_80_idk_head
 wanderrange=3
 
-[hops2]
+[drunk2]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
@@ -252,7 +252,7 @@ head2=model_79_idk_head
 head3=model_78_npc_head
 moverestrict=indoors
 
-[biohazard_varrockgate_guard]
+[bioguard1]
 vislevel=hide
 name=Guard
 desc=He tries to keep order around here.

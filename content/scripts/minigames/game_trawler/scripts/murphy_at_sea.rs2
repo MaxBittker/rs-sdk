@@ -1,5 +1,5 @@
-[opnpc1,murphy_nonflood] @murphy_at_sea;
-[opnpc1,murphy_flood] @murphy_at_sea; 
+[opnpc1,murphy_normal] @murphy_at_sea;
+[opnpc1,murphy_halfsunk] @murphy_at_sea; 
 
 [label,murphy_at_sea]
 ~chatnpc("<p,neutral>Whoooahh sailor!");
@@ -38,11 +38,11 @@ if (~inzone_coord_pair_table(trawler_nonflood_zones, coord) = true) {
 }
 
 
-[ai_queue6,murphy_nonflood] @murphy_cry;
-[ai_queue6,murphy_flood] @murphy_cry;
+[ai_queue6,murphy_normal] @murphy_cry;
+[ai_queue6,murphy_halfsunk] @murphy_cry;
 
-[ai_queue7,murphy_nonflood] @murphy_cheer;
-[ai_queue7,murphy_flood] @murphy_cheer;
+[ai_queue7,murphy_normal] @murphy_cheer;
+[ai_queue7,murphy_halfsunk] @murphy_cheer;
 
 [label,murphy_cry]
 npc_setmode(none);

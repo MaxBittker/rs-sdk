@@ -1,4 +1,4 @@
-[opnpc1,wizard_distentor]
+[opnpc1,guild_wizard]
 ~chatnpc("<p,neutral>Welcome to the Magicians' Guild!");
 ~chatplayer("<p,neutral>Hello there.");
 ~chatnpc("<p,quiz>What can I do for you?");

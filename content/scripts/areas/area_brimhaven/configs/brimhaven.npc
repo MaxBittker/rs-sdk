@@ -121,7 +121,7 @@ param=shop_buy_multiplier,900
 param=shop_delta,20
 param=shop_title,Davon's Amulet Store
 
-[hajedy]
+[brimhavencartdriver]
 vislevel=hide
 name=Hajedy
 desc=A cart driver, it looks like he's quite experienced.

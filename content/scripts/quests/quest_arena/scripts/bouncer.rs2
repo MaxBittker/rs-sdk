@@ -1,22 +1,22 @@
-[ai_queue3,bouncer]
+[ai_queue3,arena_bouncer]
 gosub(npc_death);
 if(npc_findhero = ^true) {
     if_close;
     if(p_finduid(uid) = true) { // get protected access, if not then queue
-        @defeat_bouncer;
+        @defeat_arena_bouncer;
     }
-    queue(queue_defeat_bouncer, 0); //strongqueue probably
+    queue(queue_defeat_arena_bouncer, 0); //strongqueue probably
 }
 
-[queue,queue_defeat_bouncer]
-if (inzone(^arena_lower_coord, ^arena_upper_coord, coord) = true) @defeat_bouncer;
+[queue,queue_defeat_arena_bouncer]
+if (inzone(^arena_lower_coord, ^arena_upper_coord, coord) = true) @defeat_arena_bouncer;
 
-[label,defeat_bouncer]
+[label,defeat_arena_bouncer]
 if(%arena_progress = ^arena_defeated_scorpion) {
     %arena_progress = ^arena_defeated_bouncer;
     // https://youtu.be/mz82tzr4fJw?si=zkEYpF66XpLEbUjK&t=321, npc_add's another if the general is already in combat
-    if (npc_find(movecoord(coord, 8, 0, 0), general_khazard, 15, 0) = false | ~npc_retal_ready = false) {
-        npc_add(0_40_49_46_18, general_khazard, 500); // ticks guessed
+    if (npc_find(movecoord(coord, 8, 0, 0), general_khazard_arena, 15, 0) = false | ~npc_retal_ready = false) {
+        npc_add(0_40_49_46_18, general_khazard_arena, 500); // ticks guessed
     }
     @general_khazard_bouncer_killed;
 }

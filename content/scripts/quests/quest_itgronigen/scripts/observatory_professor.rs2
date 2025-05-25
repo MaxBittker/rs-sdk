@@ -268,7 +268,7 @@ switch_int(~get_chart_progress) {
 inv_add(inv, trail_chart, 1);
 ~objbox(trail_chart, "The professor has given you a navigation chart.", 250, 0, divide(^objbox_height, 2));
 
-[opnpc1,observatory_professor_tower]
+[opnpc1,observatory_professor2]
 // mostly 1-1 with RSC (with fixes) because this dialogue doesn't exist post-rework
 switch_int(%itgronigen_progress) {
     case ^itgronigen_complete, ^itgronigen_claimed_wine :

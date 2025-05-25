@@ -154,7 +154,7 @@ p_delay(2); // delays for 3t before doing anything, might be a rework thing
 switch_int(%itgronigen_progress) {
     case ^itgronigen_complete, ^itgronigen_claimed_wine : @observatory_telescope;
     case ^itgronigen_sent_telescope :
-        if (npc_find(coord, observatory_professor_tower, 7, 0) = true) {
+        if (npc_find(coord, observatory_professor2, 7, 0) = true) {
             ~chatnpc("<p,happy>Well done, well done!!|Let's see what the stars have in store for us today.");
             @observatory_telescope;
         }
@@ -203,7 +203,7 @@ if($constellation > 6) { // because model 3056 isn't a constellation for some re
 if_setmodel(telescope:com_92, calc(3049 + $constellation));
 
 [queue,constellation_dialogue](int $constellation_numb)
-if (npc_find(coord, observatory_professor_tower, 7, 0) = false) {
+if (npc_find(coord, observatory_professor2, 7, 0) = false) {
     return;
 }
 switch_int(~p_choice2("I can see a constellation.", 1, "What am I looking at?", 2)) {

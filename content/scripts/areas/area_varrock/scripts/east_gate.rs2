@@ -1,4 +1,4 @@
-[opnpc1,biohazard_varrockgate_guard]
+[opnpc1,bioguard1]
 ~chatnpc("<p,neutral>Please don't disturb me, I've got to keep any eye out for suspicious individuals.");
 
 [oploc1,_varrock_gate]
@@ -11,7 +11,7 @@ if(~check_axis(coord, loc_coord, loc_angle) = false) {
         mes(^mes_members_gate);
         return;
     }
-    if(%biohazard_progress >= ^biohazard_given_distillator & %biohazard_progress < ^biohazard_found_secret & npc_find(coord, biohazard_varrockgate_guard, 2, 0) = true) { // shouldn't ever fail...
+    if(%biohazard_progress >= ^biohazard_given_distillator & %biohazard_progress < ^biohazard_found_secret & npc_find(coord, bioguard1, 2, 0) = true) { // shouldn't ever fail...
         ~chatnpc("<p,neutral>Halt. I need to conduct a search on you. There have been reports of someone bringing a virus into Varrock.");
         if_close;
         mes("The guard searches you.");

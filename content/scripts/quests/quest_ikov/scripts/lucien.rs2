@@ -1,4 +1,4 @@
-[opnpc1,lucien_ardougne]
+[opnpc1,ikov_lucien1]
 switch_int (%ikov_progress) {
     case ^ikov_completed_armadyl :
         ~chatplayer("<p,angry>I thought I killed you?!");
@@ -20,7 +20,7 @@ switch_int (%ikov_progress) {
         @lucien_mission;
 }
 
-[opnpc1,lucien_edge]
+[opnpc1,ikov_lucien2]
 if(map_members = ^false) { // RS3
     ~chatnpc("<p,angry>Leave me alone, I have much to ponder on!");
     return;
@@ -105,7 +105,7 @@ if(%ikov_progress <= ^ikov_helping_armadyl) { // guessing...
 ~chatplayer("<p,neutral>Yep, lots of heros about these days.");
 ~chatnpc("<p,neutral>Well if you see any be sure to point them in my direction.");
 
-[ai_queue3,lucien_edge]
+[ai_queue3,ikov_lucien2]
 if(npc_findhero = ^true & %ikov_progress = ^ikov_helping_armadyl) {
     if_close;
     npc_setmode(none);

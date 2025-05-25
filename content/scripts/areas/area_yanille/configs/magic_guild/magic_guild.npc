@@ -66,7 +66,7 @@ param=shop_delta,10
 param=shop_title,Magic Guild Store
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3247
 
-[wizard_distentor]
+[guild_wizard]
 vislevel=hide
 name=Wizard Distentor
 desc=Head of the Magic Guild.

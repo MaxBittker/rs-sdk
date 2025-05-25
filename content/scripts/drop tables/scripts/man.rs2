@@ -2,7 +2,7 @@
 [ai_queue3,_citizen] @man_drop_table;
 [ai_queue3,al_kharid_warrior] @man_drop_table;
 [ai_queue3,thief] @man_drop_table;
-[ai_queue3,thief_ardougne] @man_drop_table;
+[ai_queue3,thief_blanket] @man_drop_table;
 
 [label,man_drop_table]
 gosub(npc_death);
