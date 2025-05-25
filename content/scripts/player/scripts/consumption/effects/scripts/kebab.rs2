@@ -3,81 +3,38 @@ mes("You eat the kebab.");
 sound_synth(eat, 0, 0);
 anim(human_eat, 0);
 inv_delslot(inv, last_slot);
-def_int $hitpoints = stat(hitpoints);
 // wiki data from 17229 kebabs
-def_int $random = random(128);
-if ($random < 80) { // 80/128 chance
-    // heal 7% + 3
-    stat_heal(hitpoints, 3, 7);
-    if ($hitpoints < stat(hitpoints)) {
-        mes("It heals some health.");
-    }
-    return;
-}
-if ($random < 112) { // 32/128 chance
-    mes("That was a good kebab. You feel a lot better.");
-    // heal 14% + 6
-    stat_heal(hitpoints, 6, 14);
-    return;
-}
-if ($random < 116) { // 4/128 chance
-    // increases melee stats by 2, regardless of level
+// todo: figure out the order these go in. This is important because theres hp checks in some of these
+def_int $random = random(32);
+if ($random < 1) { // 1/32
     mes("Wow, that was an amazing kebab! You feel really invigorated.");
     stat_boost(attack, 2, 0);
     stat_boost(strength, 2, 0);
     stat_boost(defence, 2, 0);
-    // heal 24% + 7
     stat_heal(hitpoints, 7, 24);
-    return;
-}
-if ($random < 120) { // 4/128 chance
+} else if ($random < 9) { // 8/32
+    mes("That was a good kebab. You feel a lot better.");
+    stat_heal(hitpoints, 6, 14);
+} else if ($random < 29) { // 20/32
+    if (stat(hitpoints) < stat_base(hitpoints)) {
+        mes("It heals some health.");
+        stat_heal(hitpoints, 3, 7);
+    }
+} else if ($random < 30) { // 1/32
     mes("That tasted very dodgy. You feel very ill.");
-    // reduces melees by 3, and reduces a random stat 4
-    stat_sub(attack, 3, 0);
-    stat_sub(strength, 3, 0);
-    stat_sub(defence, 3, 0);
-    def_stat $random_stat = ~random_stat;
-    // has a weird check for stats close to 1. Minimum it can reduce to is 2
-    // it always reduces by 4 unless stats are low, if stat is low it reduces it to level 2
-    // never reduces to level 1 or lower. Doesnt show 2nd message if stat is 1 or 2
-    def_int $debuff = 4;
-    if (stat($random_stat) < 5) {
-        $debuff = calc(stat($random_stat) - 2);
+    stat_drain(attack, 3, 0);
+    stat_drain(strength, 3, 0);
+    stat_drain(defence, 3, 0);
+    if (stat(hitpoints) > 2) {
+        ~damage_self(min(sub(stat(hitpoints), 2), 4));
     }
-    if (stat($random_stat) > 2){
-        if ($random_stat = hitpoints) {
-            ~damage_self($debuff);
-        } else {
-            stat_sub($random_stat, $debuff, 0);
-        }
-        mes("Eating the kebab has done damage to some of your stats.");
-    }
-    return;
+} else if ($random < 31 & stat(hitpoints) > 4) { // 1/32
+    // in osrs you cant get this if the stat it picks is below 5
+    mes("That tasted a bit dodgy. You feel a bit ill.");
+    ~damage_self(3);
+} else { // 1/32
+    mes("The kebab didn't seem to do a lot.");
 }
-if ($random < 124) { // 4/128 chance
-    mes("That kebab didn't seem to do a lot.");
-    return;
-}
-
-mes("That tasted a bit dodgy. You feel a bit ill.");
-// reduces random stat by 3
-def_stat $random_stat = ~random_stat;
-def_int $debuff;
-if (stat($random_stat) > 4) {
-    $debuff = 3;
-    mes("Eating the kebab has damaged your <enum(stat, string, stat_names, $random_stat)> stat.");
-} else if (stat($random_stat) > 2){
-    $debuff = calc(stat($random_stat) - 2);
-    mes("Eating the kebab has damaged your <enum(stat, string, stat_names, $random_stat)> stat.");
-}
-// not sure if this can damage the player.
-// they removed the damage feature in like 2006/2007
-if ($random_stat = hitpoints) {
-    ~damage_self($debuff);
-} else {
-    stat_sub($random_stat, $debuff, 0);
-}
-
 
 [debugproc,godbab]
 mes("Wow, that was an amazing kebab! You feel really invigorated.");

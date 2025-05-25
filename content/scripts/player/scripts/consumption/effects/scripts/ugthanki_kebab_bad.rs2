@@ -1,0 +1,10 @@
+[label,consume_effect_ugthanki_kebab_bad]
+mes("You eat the ugthanki kebab.");
+sound_synth(eat, 0, 0);
+anim(human_eat, 0);
+inv_delslot(inv, last_slot);
+// 1/32 chance to do nothing
+if (random(32) > 1 & stat(hitpoints) < stat_base(hitpoints)) {
+    mes("It heals some health.");
+    stat_heal(hitpoints, 9, 0);
+}

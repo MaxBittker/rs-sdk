@@ -5,43 +5,56 @@ inv_setslot(inv, last_slot, cocktail_glass_empty, 1);
 mes("You drink the strange green liquid.");
 def_int $hitpoints = stat(hitpoints);
 def_int $random = random(128);
-if ($random < 40 & $hitpoints >= stat_base(hitpoints)) { // 40/128 chance, doesnt activate if health is full
-    mes("It heals some health");
+if ($random < 40 & $hitpoints < stat_base(hitpoints)) { // 40/128 chance, doesnt activate if health is full
+    mes("It heals some health.");
     stat_heal(hitpoints, 6, 0);
 } else if ($random < 72) { // 32/128 chance
     mes("You feel a little strange.");
     // Attack, Strength, Defence go down by 1, Crafting goes up by 1
-    stat_sub(attack, 1, 0);
-    stat_sub(strength, 1, 0);
-    stat_sub(defence, 1, 0);
+    stat_drain(attack, 1, 0);
+    stat_drain(strength, 1, 0);
+    stat_drain(defence, 1, 0);
     stat_boost(crafting, 1, 0);
 } else if ($random < 80) { // 8/128 chance
     mes("That tasted a bit dodgy.  You feel a bit ill."); // extra space, not a typo
-    if ($hitpoints < 5 & $hitpoints > 2) {
-        ~damage_self(sub($hitpoints, 2));
-    } else {
+    if ($hitpoints > 4) {
         ~damage_self(4);
+    } else if ($hitpoints > 2) {
+        ~damage_self(sub($hitpoints, 2));
     }
 } else if ($random < 84) { // 4/128 chance
     mes("That tasted very dodgy. You feel very ill.");
-    def_int $damage;
-    // deal up to 49 damage
-    if ($hitpoints > 10) {
-        $damage = divide(sub($hitpoints, 1), 10);
-        $damage = min(sub(multiply($damage, 10), 1), 49);
-        $damage = min(sub($hitpoints, 2), $damage);
-    }  else if ($hitpoints < 10) {
-        $damage = 4;
-    } else {
-        $damage = 6;
+    // 1-2 hp: nothing
+    // 3 hp: 1 damage
+    // 4 hp: 2 damage
+    // 5 hp: 3 damage
+    // 6-9 hp: 4 damage
+    // 10 hp: 6 damage
+    // 11-20 hp: 9 damage
+    // 21-30 hp: 19 damage
+    // 31-40 hp: 29 damage
+    // 41-50 hp: 39 damage
+    // 51-99 hp: 49 damage
+    if ($hitpoints > 50) {
+        ~damage_self(49);
+    } else if ($hitpoints > 40) {
+        ~damage_self(39);
+    } else if ($hitpoints > 30) {
+        ~damage_self(29);
+    } else if ($hitpoints > 20) {
+        ~damage_self(19);
+    } else if ($hitpoints > 10) {
+        ~damage_self(9);
+    } else if ($hitpoints > 9) {
+        ~damage_self(6);
+    } else if ($hitpoints > 5) {
+        ~damage_self(4);
+    } else if ($hitpoints > 2) {
+        ~damage_self(sub(stat(hitpoints), 2));
     }
-    if ($damage = 0) {
-        return;
-    }
-    ~damage_self($damage);
-    stat_sub(attack, min(calc(1 + scale(5, 100, stat(attack))), 3), 0);
-    stat_sub(strength, min(calc(1 + scale(5, 100, stat(strength))), 3), 0);
-    stat_sub(defence, min(calc(1 + scale(5, 100, stat(defence))), 3), 0);
+    stat_drain(attack, 1, 3);
+    stat_drain(strength, 1, 3);
+    stat_drain(defence, 1, 3);
 } else if ($random < 120) {
     mes("You feel a lot better."); // 36/128 chance
     // heal by 14% + 6

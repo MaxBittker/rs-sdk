@@ -13,7 +13,7 @@ mes("You cant eat it whole; maybe you should cut it up.");
 
 // Kebabs
 [opheld1,kebab] @player_consume_item(consume_effect_kebab, 2, 3);
-[opheld1,ugthanki_kebab_bad] @player_consume_item(consume_effect_stat, 2, 3);
+[opheld1,ugthanki_kebab_bad] @player_consume_item(consume_effect_ugthanki_kebab_bad, 2, 3);
 [opheld1,ugthanki_kebab] @player_consume_item(consume_effect_stat_say, 2, 3);
 
 // stews
