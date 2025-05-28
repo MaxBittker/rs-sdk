@@ -88,7 +88,7 @@ $effective_magic_defence = add($effective_magic_defence, 8); // no idea if there
 %com_magicattack = ~combat_stat($effective_magic, $magicattack);
 %com_magicdef = ~combat_stat($effective_magic_defence, $magicdefence);
 %com_rangeattack = ~combat_stat($effective_ranged, $rangeattack);
-%com_rangedef = ~combat_stat($effective_ranged, $rangedefence);
+%com_rangedef = ~combat_stat($effective_defence, $rangedefence);
 
 def_int $melee_strength = ~combat_stat($effective_strength, $strengthbonus);
 def_int $ranged_strength = ~combat_stat($effective_ranged, $rangebonus);
@@ -192,7 +192,7 @@ $effective_magic_defence = add($effective_magic_defence, 8); // no idea if there
 .%com_magicattack = ~combat_stat($effective_magic, $magicattack);
 .%com_magicdef = ~combat_stat($effective_magic_defence, $magicdefence);
 .%com_rangeattack = ~combat_stat($effective_ranged, $rangeattack);
-.%com_rangedef = ~combat_stat($effective_ranged, $rangedefence);
+.%com_rangedef = ~combat_stat($effective_defence, $rangedefence);
 
 def_int $melee_strength = ~combat_stat($effective_strength, $strengthbonus);
 def_int $ranged_strength = ~combat_stat($effective_ranged, $rangebonus);
