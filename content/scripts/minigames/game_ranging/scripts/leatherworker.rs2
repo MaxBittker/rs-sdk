@@ -1,4 +1,4 @@
-[opnpc1,leatherworker]
+[opnpc1,ranging_guild_leatherworker]
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,happy>Can I help you?");
 def_int $total = calc(inv_total(inv, cow_hide) + inv_total(inv, dragonhide_green) + inv_total(inv, dragonhide_blue) + inv_total(inv, dragonhide_red) + inv_total(inv, dragonhide_black));

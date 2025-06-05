@@ -650,7 +650,7 @@ head1=model_18_npc_head
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[hudo]
+[gnome_hudo]
 name=Hudo
 desc=It's another jolly tree gnome.
 readyanim=midget_ready
@@ -680,7 +680,7 @@ param=shop_delta,10
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[rometti]
+[gnome_rometti]
 name=Rometti
 desc=It's a well dressed tree gnome.
 readyanim=midget_ready
@@ -711,7 +711,7 @@ param=shop_delta,10
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gulluck]
+[gnome_gulluck]
 name=Gulluck
 desc=He sells weapons.
 readyanim=midget_ready
@@ -736,7 +736,7 @@ param=shop_buy_multiplier,250
 param=shop_sell_multiplier,1000
 param=shop_delta,10
 
-[heckel_funch]
+[gnome_heckelfunch]
 name=Heckel Funch
 desc=It's another jolly tree gnome.
 readyanim=midget_ready

@@ -1,4 +1,4 @@
-[opnpc1,warrior_zanaris]
+[opnpc1,warrioradventurerpg]
 if(map_members = ^false) { // from RS3
     ~chatplayer("<p,happy>Greetings! You look like a warrior.");
     ~chatnpc("<p,neutral>Greetings to you to and yes indeed, the warrior's path is the one I travel. Sorry I can't stay to chat, I'm on a mission with my companions and we must break camp to continue our quest.");

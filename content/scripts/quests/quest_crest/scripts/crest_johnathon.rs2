@@ -1,17 +1,17 @@
-[opnpc1,crest_johnathon]
+[opnpc1,johnathon_fitzharmon]
 if (%crest_progress < ^crest_avan_piece) {
     ~chatnpc("<p,sad>I am so very tired... Leave me be... to rest...");
 }
 else {
     switch_int(%crest_progress) {
-        case ^crest_avan_piece : @crest_johnathon_intro;
-        case ^crest_spoken_johnathon : @crest_johnathon_spider;
-        case ^crest_cured_johnathon : @crest_johnathon_postcure;
-        case ^crest_complete : @crest_johnathon_gauntlets;
+        case ^crest_avan_piece : @johnathon_fitzharmon_intro;
+        case ^crest_spoken_johnathon : @johnathon_fitzharmon_spider;
+        case ^crest_cured_johnathon : @johnathon_fitzharmon_postcure;
+        case ^crest_complete : @johnathon_fitzharmon_gauntlets;
     }
 }
 
-[opnpcu,crest_johnathon]
+[opnpcu,johnathon_fitzharmon]
 // https://runescape.wiki/w/Update:This_Week_In_RuneScape_-_07/09/20#Patch_Notes
 // https://oldschool.runescape.wiki/w/Family_Crest?oldid=3908008, should be only standard antipoison originally
 if (last_useitem = 1doseantipoison | last_useitem = 2doseantipoison | last_useitem = 3doseantipoison | last_useitem = 4doseantipoison) {
@@ -20,7 +20,7 @@ if (last_useitem = 1doseantipoison | last_useitem = 2doseantipoison | last_useit
     } else if (%crest_progress = ^crest_spoken_johnathon) {   
         inv_del(inv, last_useitem, 1);
         %crest_progress = ^crest_cured_johnathon;
-        @crest_johnathon_cured;
+        @johnathon_fitzharmon_cured;
     } else {
         ~chatplayer("<p,confused>Why would I do that?");
     }
@@ -28,7 +28,7 @@ if (last_useitem = 1doseantipoison | last_useitem = 2doseantipoison | last_useit
 }
 ~displaymessage(^dm_default);
 
-[label,crest_johnathon_intro]
+[label,johnathon_fitzharmon_intro]
 ~chatplayer("<p,neutral>Greetings. Would you happen to be Johnathon Fitzharmon?");
 ~chatnpc("<p,sad>That... I am...");
 ~chatplayer("<p,neutral>I am here to retrieve your fragment of the Fitzharmon family crest.");
@@ -36,21 +36,21 @@ if (last_useitem = 1doseantipoison | last_useitem = 2doseantipoison | last_useit
 ~chatnpc("<p,neutral>The.. poison.. it is all.. too much... My head... will not... stop spinning...");
 ~mesbox("Sweat is pouring down Johnathons' face.");
 
-[label,crest_johnathon_spider]
+[label,johnathon_fitzharmon_spider]
 ~chatnpc("<p,neutral>What... what did that spider... DO to me? I... I feel so weak... I can hardly... think at all...");
 
-[label,crest_johnathon_cured]
+[label,johnathon_fitzharmon_cured]
 ~chatnpc("<p,happy>Ooooh... thank you... Wow! That's completely cured me!");
 ~chatnpc("<p,quiz>How can I reward you?");
 ~chatplayer("<p,neutral>I've come here for your piece of the Fitzharmon family crest.");
 ~chatnpc("<p,sad>You have? Unfortunately I don't have it any more... in my attempts to slay the fiendish Chronozon, the blood demon, I lost a lot of equipment in");
 ~chatnpc("<p,sad>our last battle when he bested me and forced me away from his den. He probably still has it now.");
 @multi3(
-    "So is this Chronozon hard to defeat?", crest_johnathon_hard,
-    "Where can I find Chronozon?", crest_johnathon_where,
-    "So how did you end up getting poisoned?", crest_johnathon_how);
+    "So is this Chronozon hard to defeat?", johnathon_fitzharmon_hard,
+    "Where can I find Chronozon?", johnathon_fitzharmon_where,
+    "So how did you end up getting poisoned?", johnathon_fitzharmon_how);
 
-[label,crest_johnathon_postcure]
+[label,johnathon_fitzharmon_postcure]
 if (inv_total(inv, johnathon_crest) >= 1) {
     ~chatplayer("<p,happy>I have your piece of the crest!");
     ~chatnpc("<p,neutral>Well done! Now return it to my father!");
@@ -58,45 +58,45 @@ if (inv_total(inv, johnathon_crest) >= 1) {
 else {
     ~chatplayer("<p,neutral>I'm trying to kill this demon Chronozon that you mentioned...");
     @multi3(
-        "So is this Chronozon hard to defeat?", crest_johnathon_hard,
-        "Where can I find Chronozon?", crest_johnathon_where,
-        "Wish me luck.", crest_johnathon_gl);
+        "So is this Chronozon hard to defeat?", johnathon_fitzharmon_hard,
+        "Where can I find Chronozon?", johnathon_fitzharmon_where,
+        "Wish me luck.", johnathon_fitzharmon_gl);
 }
 
-[label,crest_johnathon_hard]
+[label,johnathon_fitzharmon_hard]
 ~chatplayer("<p,quiz>So is this Chronozon hard to defeat?");
 ~chatnpc("<p,neutral>Well... you will have to be a skilled Mage to defeat him, and my powers are not good enough yet. You will need to hit him once with each of the four elemental spells of death");
 ~chatnpc("<p,neutral>before he will be defeated.");
 @multi3(
-    "Where can I find Chronozon?", crest_johnathon_where,
-    "So how did you end up getting poisoned?", crest_johnathon_how,
-    "I will be on my way now.", crest_johnathon_leave);
+    "Where can I find Chronozon?", johnathon_fitzharmon_where,
+    "So how did you end up getting poisoned?", johnathon_fitzharmon_how,
+    "I will be on my way now.", johnathon_fitzharmon_leave);
 
-[label,crest_johnathon_where]
+[label,johnathon_fitzharmon_where]
 ~chatplayer("<p,quiz>Where can I find Chronozon?");
 ~chatnpc("<p,angry>The fiend has made his lair in the Wilderness below the Obelisk of Air.");
 @multi3(
-    "So is this Chronozon hard to defeat?", crest_johnathon_hard,
-    "So how did you end up getting poisoned?", crest_johnathon_how,
-    "I will be on my way now.", crest_johnathon_leave);
+    "So is this Chronozon hard to defeat?", johnathon_fitzharmon_hard,
+    "So how did you end up getting poisoned?", johnathon_fitzharmon_how,
+    "I will be on my way now.", johnathon_fitzharmon_leave);
 
-[label,crest_johnathon_how]
+[label,johnathon_fitzharmon_how]
 ~chatplayer("<p,quiz>So how did you end up getting poisoned?");
 ~chatnpc("<p,sad>Those accursed poison spiders that surround the entrance to Chronozon's lair... I must have taken a nip from one of them as I attempted to make my escape.");
 @multi3(
-    "So is this Chronozon hard to defeat?", crest_johnathon_hard,
-    "Where can I find Chronozon?", crest_johnathon_where,
-    "I will be on my way now.", crest_johnathon_leave);
+    "So is this Chronozon hard to defeat?", johnathon_fitzharmon_hard,
+    "Where can I find Chronozon?", johnathon_fitzharmon_where,
+    "I will be on my way now.", johnathon_fitzharmon_leave);
 
-[label,crest_johnathon_leave]
+[label,johnathon_fitzharmon_leave]
 ~chatplayer("<p,neutral>I will be on my way now.");
 ~chatnpc("<p,neutral>My thanks for the assistance adventurer.");
 
-[label,crest_johnathon_gl]
+[label,johnathon_fitzharmon_gl]
 ~chatplayer("<p,neutral>Wish me luck.");
 ~chatnpc("<p,neutral>Good luck. You'll need it.");
 
-[label,crest_johnathon_gauntlets]
+[label,johnathon_fitzharmon_gauntlets]
 ~chatnpc("<p,neutral>Hello again. My family now considers you a hero.");
 if(getbit_range(%crest_spells_levers_gauntlets, ^crest_cooking_gauntlets_chosen, ^crest_chaos_gauntlets_chosen) > 0) {
     return;

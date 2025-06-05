@@ -1,4 +1,4 @@
-[opnpc1,bartender_jollyboar] // Jolly Boar Inn
+[opnpc1,jollyboar_bartender] // Jolly Boar Inn
 ~chatnpc("<p,happy>Can I help you?");
 def_int $option;
 if(testbit(%barcrawl_progress, ^jollyboar_index) = ^false & inv_total(inv, barcrawl_card) > 0) {
@@ -31,7 +31,7 @@ switch_int ($option) {
     case default : ~displaymessage(^dm_default);
 }
 
-[opnpcu,bartender_jollyboar]
+[opnpcu,jollyboar_bartender]
 if(testbit(%barcrawl_progress, ^jollyboar_index) = ^false & last_useitem = barcrawl_card) {
     @jollyboar_barcrawl;
 }
@@ -62,10 +62,10 @@ p_delay(2);
 ~chatplayer("<p,confused>Thanksh very mush...");
 
 
-[opnpc1,bartender_varrock]
+[opnpc1,bluemoon_bartender]
 //Treasure Trails
 if(map_members = ^true & inv_total(inv, trail_clue_easy_simple010) = 1) {
-    @trail_bartender_varrock;
+    @trail_bluemoon_bartender;
 }
 ~chatnpc("<p,quiz>What can I do yer for?");
 def_int $option;
@@ -107,7 +107,7 @@ if($option = 1) {
     @bluemoon_barcrawl;
 }
 
-[opnpcu,bartender_varrock]
+[opnpcu,bluemoon_bartender]
 if(testbit(%barcrawl_progress, ^bluemoon_index) = ^false & last_useitem = barcrawl_card) {
     @bluemoon_barcrawl;
 }
@@ -138,20 +138,20 @@ p_delay(2);
 ~damage_self(calc((stat(hitpoints) * 3) / 100));
 say("Blearrgh!");
 
-[label,trail_bartender_varrock]
+[label,trail_bluemoon_bartender]
 ~chatnpc("<p,happy>Nicely solved!");
 ~progress_clue_easy(trail_clue_easy_simple010, "The bartender hands you another scroll!");
 
-[opnpc1,bartender_dancingdonkey] // Dancing Donkey Inn
+[opnpc1,donkey_bartender] // Dancing Donkey Inn
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,happy> Good day to you, brave adventurer. Can I get you a refreshing beer?");
 @multi3(
-    "Yes please!", bartender_dancingdonkey_yes,
-    "No thanks.", bartender_dancingdonkey_no,
-    "How much?", bartender_dancingdonkey_howmuch
+    "Yes please!", donkey_bartender_yes,
+    "No thanks.", donkey_bartender_no,
+    "How much?", donkey_bartender_howmuch
 );
 
-[label,bartender_dancingdonkey_yes]  
+[label,donkey_bartender_yes]  
 ~chatplayer("<p,happy>Yes please!");
 ~chatnpc("<p,happy>Ok then, that's two gold coins please.");
 if (inv_total(inv, coins) < 2) {
@@ -164,15 +164,15 @@ if (inv_total(inv, coins) < 2) {
     mes("You buy a pint of beer.");
 }
 
-[label,bartender_dancingdonkey_no]        
+[label,donkey_bartender_no]        
 ~chatplayer("<p,neutral>No thanks.");
 ~chatnpc("<p,confused>Let me know if you change your mind.");
 
 
-[label,bartender_dancingdonkey_howmuch]        
+[label,donkey_bartender_howmuch]        
 ~chatplayer("<p,quiz>How much?");
 ~chatnpc("<p,happy>Two gold pieces a pint. So, what do you say?");
 @multi2(
-    "Yes please!", bartender_dancingdonkey_yes,
-    "No thanks.", bartender_dancingdonkey_no
+    "Yes please!", donkey_bartender_yes,
+    "No thanks.", donkey_bartender_no
 );

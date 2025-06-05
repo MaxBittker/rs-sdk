@@ -18,11 +18,11 @@ if ($axe = null) {
     return;
 }
 def_coord $shamus_spawnpoint = 0_49_50_3_11;
-if (npc_find($shamus_spawnpoint, shamus, 15, 0) = true) {
-    ~chatnpc_specific("Shamus", shamus, "<p,angry>Hey! Yer big elephant! Don't go choppin' down me house, now!");
+if (npc_find($shamus_spawnpoint, zanarisleprechaun, 15, 0) = true) {
+    ~chatnpc_specific("Shamus", zanarisleprechaun, "<p,angry>Hey! Yer big elephant! Don't go choppin' down me house, now!");
     return;
 }
-npc_add($shamus_spawnpoint, shamus, 100);
+npc_add($shamus_spawnpoint, zanarisleprechaun, 100);
 npc_walk(movecoord(npc_coord, 10, 0, 0));
 
 [oploc1,loc_1292]
@@ -41,8 +41,8 @@ if(stat(woodcutting) < 36) {
 }
 if(%zanaris_progress = ^zanaris_spoken_shamus) {
     def_coord $spawn = 0_44_152_44_9;
-    if(npc_find($spawn, tree_spirit_zanaris, 6, 0) = false) { // based off testing, edges will spawn another spirit
-        npc_add($spawn, tree_spirit_zanaris, 1000);
+    if(npc_find($spawn, tree_spirit, 6, 0) = false) { // based off testing, edges will spawn another spirit
+        npc_add($spawn, tree_spirit, 1000);
     }
     npc_say("You must defeat me before touching the tree!");
     if (calc(%npc_lastcombat + 8) > map_clock) { // Do nothing if the spirit is already fighting

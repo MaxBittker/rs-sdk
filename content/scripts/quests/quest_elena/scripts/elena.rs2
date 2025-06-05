@@ -1,4 +1,4 @@
-[opnpc1,elena_imprisoned]
+[opnpc1,elenap]
 switch_int(%elena_progress) {
     case ^elena_complete, ^elena_complete_read_scroll : mes("You have already rescued Elena."); // RSC
     case default :

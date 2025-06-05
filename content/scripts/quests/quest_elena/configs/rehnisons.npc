@@ -63,7 +63,7 @@ head1=model_53_idk_head
 moverestrict=indoors
 param=death_anim,midget_death
 
-[milli_rehnison]
+[milli]
 vislevel=hide
 name=Milli Rehnison
 desc=She doesn't seem very happy.

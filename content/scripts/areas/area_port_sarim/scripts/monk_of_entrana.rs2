@@ -1,4 +1,4 @@
-[opnpc1,monk_of_entrana_sarim]
+[opnpc1,shipmonk]
 if(map_members = ^false) { // RS3
     mes("You need to be on a members' world to access this content.");
     return;

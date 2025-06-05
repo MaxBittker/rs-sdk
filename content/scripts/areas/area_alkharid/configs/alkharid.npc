@@ -153,7 +153,7 @@ model7=model_292_idk
 head1=model_48_npc_head
 head2=model_81_idk_head
 
-[shop_keeper_alkharid]
+[generalshopkeeper3]
 vislevel=hide
 name=Shop keeper
 desc=A product of consumerist society.
@@ -189,7 +189,7 @@ param=shop_delta,30
 param=shop_title,Al-Kharid General Store
 moverestrict=indoors
 
-[shop_assistant_alkharid]
+[generalassistant3]
 vislevel=hide
 name=Shop assistant
 desc=Likes you more the more you spend.

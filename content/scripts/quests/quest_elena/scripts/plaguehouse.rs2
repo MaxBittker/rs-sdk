@@ -37,7 +37,7 @@ switch_int(%elena_progress) {
             ~open_and_close_door(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), false);
         } else {
             ~mesbox("The door is locked.");
-            if (npc_find(coord, elena_imprisoned, 5, 0) = true) {
+            if (npc_find(coord, elenap, 5, 0) = true) {
                 ~chatnpc("<p,shock>Hey get me out of here please!");
                 ~chatplayer("<p,sad>I would do but I don't have a key.");
                 ~chatnpc("<p,confused>I think there may be one around somewhere. I'm sure I heard them stashing it somewhere.");

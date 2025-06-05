@@ -1,21 +1,21 @@
-[opnpc1,shop_keeper_lumbridge] @generalshop_help;
-[opnpc1,shop_assistant_lumbridge] @generalshop_help;
-[opnpc1,shop_keeper_varrock_generalshop] @generalshop_help;
-[opnpc1,shop_assistant_varrock_generalshop] @generalshop_help;
-[opnpc1,shop_keeper_falador] @generalshop_help;
-[opnpc1,shop_assistant_falador] @generalshop_help;
-[opnpc1,shop_keeper_edgeville] @generalshop_help;
-[opnpc1,shop_assistant_edgeville] @generalshop_help;
-[opnpc1,shop_keeper_alkharid] @generalshop_help;
-[opnpc1,shop_assistant_alkharid] @generalshop_help;
-[opnpc1,shop_keeper_rimmington] @generalshop_help;
-[opnpc1,shop_assistant_rimmington] @generalshop_help;
-[opnpc1,shop_keeper_karamja] @generalshop_help;
-[opnpc1,shop_assistant_karamja] @generalshop_help;
-[opnpc1,shop_keeper_khazard] @generalshop_help_neutral;
-[opnpc1,dwarf_generalshop] @generalshop_help_neutral;
-[opnpc1,fairy_shop_keeper] @generalshop_help;
-[opnpc1,fairy_shop_assistant] @generalshop_help;
+[opnpc1,generalshopkeeper1] @generalshop_help; //Lumbridge
+[opnpc1,generalassistant1] @generalshop_help; //Lumbridge
+[opnpc1,generalshopkeeper2] @generalshop_help; //Varrock
+[opnpc1,generalassistant2] @generalshop_help; //Varrock
+[opnpc1,generalshopkeeper4] @generalshop_help; //Falador
+[opnpc1,generalassistant4] @generalshop_help; //Falador
+[opnpc1,generalshopkeeper5] @generalshop_help; //Edgeville
+[opnpc1,generalassistant5] @generalshop_help; //Edgeville
+[opnpc1,generalshopkeeper3] @generalshop_help; //Al-Kharid
+[opnpc1,generalassistant3] @generalshop_help; //Al-Kharid
+[opnpc1,generalshopkeeper6] @generalshop_help; //Rimmington
+[opnpc1,generalassistant6] @generalshop_help; //Rimmington
+[opnpc1,generalshopkeeper7] @generalshop_help; // Karamja
+[opnpc1,generalassistant7] @generalshop_help; // Karamja
+[opnpc1,khazard_shopkeeper] @generalshop_help_neutral; // Port Khazard
+[opnpc1,dwarven_shopkeeper] @generalshop_help_neutral; //Dwarven mine
+[opnpc1,generalshopkeeper8] @generalshop_help; //Zanaris
+[opnpc1,generalassistant8] @generalshop_help; //Zanaris
 
 // In osrs, most generic general shops (shopkeeper w/assistant) use this dialogue, directly opening the shop on the first dialogue option. 
 // This is probably an OSRS change as the khazard shop uses the same dialogue as classic (although the khazard shop has different mesanims)

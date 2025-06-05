@@ -57,10 +57,10 @@ if ($land_coord = loc_coord) {
     cam_moveto(movecoord(loc_coord, -5, 0, 2), 300, 10, 20);
     cam_lookat(movecoord(loc_coord, -7, 0, 5), 250, 10, 20);
     // todo: goal jingle
-    if (npc_find(^gnomeball_cheer_coord1, gnome_cheerleader, 0, 0) = true) {
+    if (npc_find(^gnomeball_cheer_coord1, gnomecheerleader, 0, 0) = true) {
         npc_say("GOAL");
     }
-    if (npc_find(^gnomeball_cheer_coord2, gnome_cheerleader, 0, 0) = true) {
+    if (npc_find(^gnomeball_cheer_coord2, gnomecheerleader, 0, 0) = true) {
         npc_say("GOAL");
     }  
 } else {

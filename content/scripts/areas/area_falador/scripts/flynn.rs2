@@ -1,4 +1,4 @@
-[opnpc1,falador_flynn]
+[opnpc1,flynn]
 ~chatnpc("<p,happy>Hello. Do you want to buy or sell any maces?");
 def_int $option = ~p_choice2("No thanks.", 1, "Well, I'll have a look, anyway.", 2);
 if($option = 1) {

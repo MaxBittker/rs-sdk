@@ -1,21 +1,21 @@
 // accuracy pulled from https://oldschool.runescape.wiki/w/Module:Chart_data/ranging_guild_target_region_chance
 [aploc1,loc_2513]
 if (%target1 = 0) {
-    if(npc_find(coord, competition_judge, 5, 0) = true) { // 5 tiles checked on osrs
+    if(npc_find(coord, ranging_guild_competition_judge, 5, 0) = true) { // 5 tiles checked on osrs
         ~chatnpc("<p,neutral>Sorry, you may only use the targets for the competition, not for practicing.");
         return;
     } 
     mes("Maybe you should ask before using those.");
 } else if (%target1 >= 1 & %target1 < 11) {
     if(inv_totalcat(worn, weapon_bow) = 0) {
-        if(npc_find(coord, competition_judge, 5, 0) = true) { // 5 tiles checked on osrs
+        if(npc_find(coord, ranging_guild_competition_judge, 5, 0) = true) { // 5 tiles checked on osrs
             ~chatnpc("<p,neutral>You need a bow to take part in the competition.");
             return;
         } 
         mes("A bow might help here...");
     }
     if(inv_total(worn, bronze_arrow) = 0) {
-        if(npc_find(coord, competition_judge, 5, 0) = true) { // 5 tiles checked on osrs
+        if(npc_find(coord, ranging_guild_competition_judge, 5, 0) = true) { // 5 tiles checked on osrs
             ~chatnpc("<p,neutral>I suggest you use the 10 bronze arrows I gave you.");
             return;
         } 
@@ -43,8 +43,8 @@ if (%target1 = 0) {
     if_settext(target:com_120, ~get_targetstr);
     if_openmain(target);
 } else if(%target1 = 11) {   
-    if(npc_find(coord, competition_judge, 5, 0) = true) {
-        @competition_judge_reward_pts;
+    if(npc_find(coord, ranging_guild_competition_judge, 5, 0) = true) {
+        @ranging_guild_competition_judge_reward_pts;
     } 
     mes("You've fired all your arrows, maybe you should talk to the Judge.");
 }

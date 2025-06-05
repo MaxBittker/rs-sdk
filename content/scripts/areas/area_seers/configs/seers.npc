@@ -21,7 +21,7 @@ model7=model_260_npc
 head1=model_55_idk_head
 head2=model_82_idk_head
 
-[bartender_seers]
+[foresters_bartender]
 vislevel=hide
 name=Bartender
 desc=I could get a beer from him.

@@ -1,6 +1,6 @@
-[opnpc1,gnome_winger1]
+[opnpc1,gnomeballer_green]
 mes("The gnome is not interested in chatting."); // osrs
-[opnpc1,gnome_winger2]
+[opnpc1,gnomeballer_green_withball]
 mes("The gnome is not interested in chatting."); // osrs
 
 [opnpct,gnomeball:com_7] @player_gnomeball_pass;
@@ -11,11 +11,11 @@ if (inv_getobj(worn, ^wearpos_rhand) ! ball_gnomeball_game) {
     mes("You need a ball in your hand to throw."); // osrs
     return;
 }
-if (npc_type = gnome_winger2) {
+if (npc_type = gnomeballer_green_withball) {
     mes("The gnome already has a ball."); // complete guess. Shouldnt happen anyway?
     return;
 }
-if (npc_type ! gnome_winger1) {
+if (npc_type ! gnomeballer_green) {
     mes("You can only pass the ball to the wingers."); // complete guess
     return;
 }
@@ -38,18 +38,18 @@ npc_facesquare(coord);
 %npc_lastcombat = map_clock;
 
 npc_delay(1);
-npc_changetype(gnome_winger2, 60); // 60 ticks in osrs
+npc_changetype(gnomeballer_green_withball, 60); // 60 ticks in osrs
 
 [queue,player_catch_gnomeball]
 inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
 ~update_all(ball_gnomeball_game);
 
-[ai_timer,gnome_winger2] @gnome_winger_timer;
-[ai_timer,gnome_winger1] @gnome_winger_timer;
+[ai_timer,gnomeballer_green_withball] @gnome_winger_timer;
+[ai_timer,gnomeballer_green] @gnome_winger_timer;
 
 [label,gnome_winger_timer]
 if (finduid(%npc_attacking_uid) = true) {
-    if (npc_type = gnome_winger2) {
+    if (npc_type = gnomeballer_green_withball) {
         // yes it checks inv too, i checked with smuggling extra gnomeball in osrs with telegrab
         if (~inzone_coord_pair_table(gnomeball_zones, coord) = true & inv_getobj(worn, ^wearpos_rhand) = null & inv_total(inv, ball_gnomeball_game) < 1) {
             ~npc_gnomeball_pass(npc_coord, coord);
@@ -80,7 +80,7 @@ if (p_finduid(%npc_attacking_uid) = true) {
     facesquare(npc_coord);
     p_delay(0);
     npc_facesquare(coord);
-    npc_changetype_keepall(gnome_winger1, ^max_32bit_int);
+    npc_changetype_keepall(gnomeballer_green, ^max_32bit_int);
     %npc_attacking_uid = null;
     p_delay(0);
     inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);

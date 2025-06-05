@@ -1,4 +1,4 @@
-[opnpc1,femi]
+[opnpc1,grandtree_femi]
 if(%grandtree_progress = ^grandtree_obtained_lumber_order) {
     if(coordz(npc_coord) > 3400) {
         ~chatnpc("<p,neutral>Now, to get this lot to the Grand Tree!");
@@ -35,17 +35,17 @@ if(%grandtree_progress = ^grandtree_obtained_lumber_order) {
                 ~chatnpc("<p,neutral>Alright, jump in the back of the cart. It's a food delivery, we should be fine.");
                 ~objbox(coins_250, "You give Femi 1000 coins", 250, 0, divide(^objbox_height, 2)); // no period
                 inv_del(inv, coins, 1000);
-                @femi_sneakin;
+                @grandtree_femi_sneakin;
         }
     }
     ~chatnpc("<p,neutral>Well, as you helped me I suppose I could. We'll have to be careful. If I get caught I'll be in the cage!");
     ~chatplayer("<p,neutral>OK, what should I do?");
     ~chatnpc("<p,neutral>Jump in the back of the cart.|It's a food delivery, we should be fine"); // no period, OSRS has this linebreak
-    @femi_sneakin;
+    @grandtree_femi_sneakin;
 }
 mes("The little gnome is too busy to talk.");
 
-[label,femi_sneakin]
+[label,grandtree_femi_sneakin]
 if_close;
 bas_running(null);
 p_walk(0_38_52_29_51); // respects clipping from my testing
@@ -59,14 +59,14 @@ if(loc_find(movecoord(coord, -1, 0, 1), loc_308) = false) {
     // Temp note: dur updated
     loc_add(movecoord(coord, -1, 0, 1), loc_308, 0, centrepiece_straight, 200);
 }
-if(npc_find(coord, femi, 5, 0) = false) {
-    npc_add(movecoord(coord, -1, 0, 0), femi, 200);
+if(npc_find(coord, grandtree_femi, 5, 0) = false) {
+    npc_add(movecoord(coord, -1, 0, 0), grandtree_femi, 200);
 }
 ~chatnpc("<p,neutral>OK, traveller, you'd better get going.");
 ~chatplayer("<p,happy>Thanks again!");
 ~chatnpc("<p,neutral>That's OK, all the best.");
 
-[label,femi_boxes]
+[label,grandtree_femi_boxes]
 if(loc_find(0_38_52_28_52, inviswall) = true) {
     // Temp note: dur does not need updated
     loc_change(loc_361, 200);

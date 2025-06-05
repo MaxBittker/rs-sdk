@@ -69,7 +69,7 @@ head3=model_37_npc_head
 wanderrange=0
 moverestrict=nomove
 
-[melzar_maze_giant_rat]
+[dragonslayer_giant_rat]
 size=2
 walkanim=giantrat_walk
 readyanim=giantrat_ready
@@ -97,7 +97,7 @@ huntrange=1
 // stats and information taken from normal 6lv Giant rat  // Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3969 (3lv)
 
-[melzar_maze_ghost]
+[dragonslayer_ghost]
 name=Ghost
 desc=Eeek! A ghost!
 hasalpha=yes
@@ -135,7 +135,7 @@ huntrange=1
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3975
 
-[melzar_maze_skeleton]
+[dragonslayer_skeleton]
 name=Skeleton
 desc=Could do with gaining a few pounds.
 walkanim=skeleton_walk
@@ -171,7 +171,7 @@ huntrange=1
 // stats and information taken from a normal 25lv skeleton // Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3972 (22lv)
 
-[melzar_maze_zombie]
+[dragonslayer_zombie]
 name=Zombie
 desc=The walking dead.
 walkanim=zombie_walk
@@ -208,7 +208,7 @@ huntrange=1
 // stats taken zombie_entranan // Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3980 (24lv)
 
-[melzar_maze_lesser_demon]
+[dragonslayer_demon]
 size=2
 walkanim=demon_walk
 readyanim=demon_ready
@@ -239,7 +239,7 @@ huntrange=2
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3982
 
-[melzar]
+[melzar_the_mad]
 name=Melzar the mad
 desc=He looks totally insane!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r

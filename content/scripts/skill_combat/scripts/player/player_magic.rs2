@@ -203,9 +203,9 @@ if(npc_type = salarin_the_twisted) {
         case ^fire_strike : $damage = 12;
     }
 }
-else if (npc_type = crest_chronozon) {
+else if (npc_type = chronozon) {
     def_int $spell = db_getfield($spell_data, magic_spell_table:spell, 0);
-    ~crest_chronozon_spell($spell);
+    ~chronozon_spell($spell);
 }
 // if maxhit is defined then damage npc
 ~npc_retaliate(calc($duration / 30 + 1)); // delayed an extra tick in osrs

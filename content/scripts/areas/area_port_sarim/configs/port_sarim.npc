@@ -1,4 +1,4 @@
-[bartender_port_sarim]
+[rustyanchor_bartender]
 vislevel=hide
 name=Bartender
 desc=I could get a beer from him.
@@ -317,7 +317,7 @@ param=shop_delta,10
 param=shop_title,Brian's Battleaxe Bazaar.
 moverestrict=indoors
 
-[monk_of_entrana_sarim]
+[shipmonk]
 vislevel=hide
 name=Monk of Entrana
 desc=Holy looking.

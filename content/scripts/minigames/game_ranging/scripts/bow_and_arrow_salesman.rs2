@@ -1,4 +1,4 @@
-[opnpc1,bow_and_arrow_salesman]
+[opnpc1,ranging_guild_bow_salesman]
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,happy>A fair day, traveller. Would you like to see my wares?");
 switch_int(~p_choice2("Yes please.", 1, "No thanks.", 2)) {

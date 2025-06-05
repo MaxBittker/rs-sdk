@@ -1,4 +1,4 @@
-[opnpc1,drogo_dwarf]
+[opnpc1,drogo]
 ~chatnpc("<p,happy>Ello, welcome to my Mining shop, friend!");
 def_int $option = ~p_choice3("Do you want to trade?", 1, "Hello, shorty.", 2, "Why don't you ever restock ores and bars?", 3);
 if($option = 1) {

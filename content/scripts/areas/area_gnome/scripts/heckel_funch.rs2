@@ -1,4 +1,4 @@
-[opnpc1,heckel_funch]
+[opnpc1,gnome_heckelfunch]
 ~chatplayer("<p,happy>Hello there.");
 ~chatnpc("<p,happy>Good day to you my friend, a beautiful one at that. Would you like some groceries? I have all sorts. Alcohol also, if you're partial to a drink.");
 def_int $choice = ~p_choice2("No thank you.", 1, "I'll have a look.", 2);

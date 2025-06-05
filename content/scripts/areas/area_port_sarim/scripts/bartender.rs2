@@ -1,7 +1,7 @@
-[opnpc1,bartender_port_sarim]
+[opnpc1,rustyanchor_bartender]
 // Treasure Trail
 if(map_members = ^true & inv_total(inv, trail_clue_easy_simple020) = 1) {
-    @trail_bartender_port_sarim;
+    @trail_rustyanchor_bartender;
 }
 def_int $option;
 if(%gobdip_progress = 0 & (testbit(%barcrawl_progress, ^rustyanchor_index) = ^false & inv_total(inv, barcrawl_card) > 0)) { // gobdip not started, doing barcrawl
@@ -14,7 +14,7 @@ if(%gobdip_progress = 0 & (testbit(%barcrawl_progress, ^rustyanchor_index) = ^fa
     $option = ~p_choice2("Could I buy a beer please?", 1, "Have you heard any more rumours in here?", 4);
 }
 switch_int ($option) {
-    case 1 : @bartender_port_sarim_beer;
+    case 1 : @rustyanchor_bartender_beer;
     case 2 : @goblin_diplomacy_start;
     case 3 : @rustyanchor_barcrawl;
     case 4 :
@@ -22,13 +22,13 @@ switch_int ($option) {
         ~chatnpc("<p,neutral>No, it hasn't been very busy lately.");
 }
 
-[opnpcu,bartender_port_sarim]
+[opnpcu,rustyanchor_bartender]
 if(testbit(%barcrawl_progress, ^rustyanchor_index) = ^false & last_useitem = barcrawl_card) {
     @rustyanchor_barcrawl;
 }
 ~displaymessage(^dm_default);
 
-[label,bartender_port_sarim_beer]
+[label,rustyanchor_bartender_beer]
 ~chatplayer("<p,happy>Could I buy a beer please?");
 ~chatnpc("<p,happy>Sure, that will be 2 gold coins please.");
 if(inv_total(inv, coins) < 2) {
@@ -61,6 +61,6 @@ p_delay(2);
 mes("The bartender signs your card.");
 say("Hiccup!");
 
-[label,trail_bartender_port_sarim]
+[label,trail_rustyanchor_bartender]
 ~chatnpc("<p,happy>Congratulations! Here you go.");
 ~progress_clue_easy(trail_clue_easy_simple020, "The bartender has given you another scroll!");

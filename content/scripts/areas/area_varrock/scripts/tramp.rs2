@@ -1,4 +1,4 @@
-[opnpc1,tramp_orange]
+[opnpc1,tramppg]
 ~chatnpc("<p,sad>Spare some change guv?");
 switch_int(~p_choice4("Sorry, I haven't got any.", 1, "Go get a job!", 2, "Ok. Here you go.", 3, "Is there anything down this alleyway?", 4)) {
     case 1 :

@@ -1,9 +1,9 @@
 [opnpc1,recruiter]
 ~chatnpc("<p,neutral>Citizens of West Ardougne! King Tyras needs you for his Royal Army! Who will join this noble cause?");
-if (.npc_find(coord, west_ardougne_man_5, 14, 0) = true) {
+if (.npc_find(coord, w_ardougnecitizen3, 14, 0) = true) {
     ~.chatnpc("<p,angry>Plague bringer!");
 }
-if (.npc_find(coord, west_ardougne_man_6, 14, 0) = true) {
+if (.npc_find(coord, w_ardougnecitizen4, 14, 0) = true) {
     ~.chatnpc("<p,angry>King Tyras is scum!");
 }
 ~chatnpc("<p,shock>Tyras will be informed of these words of treason!");

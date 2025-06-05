@@ -1,7 +1,7 @@
 [opnpc1,mourner2] @mourner_stand_back_citizen; // mourner brown outfit level 15
 [opnpc1,mourner3] @mourner_stand_back_citizen; // mourner brown outfit level 19
-[opnpc1,mourner_blacksuit_1] @mourner_talk_to_player; // mourner black outfit
-[opnpc1,head_mourner] @head_mourner_talk_to_player;
+[opnpc1,mourner1] @mourner_talk_to_player; // mourner black outfit
+[opnpc1,headmourner] @headmourner_talk_to_player;
 
 [opnpc1,mournerstew3] 
 if(%biohazard_progress < ^biohazard_complete) {
@@ -30,7 +30,7 @@ if(%biohazard_progress = ^biohazard_poisoned_stew) {
 } 
 mes("The mourner doesn't feel like talking.");
 
-[opnpc1,mourner_blacksuit_3] // plague house mourners
+[opnpc1,mournertwb] // plague house mourners
 @mourner_talk_to_player;
 
 [opnpc1,mournerstew2] // mourner hq upstairs
@@ -108,32 +108,32 @@ if (~inzone_coord_pair_table(ardougne_west, coord) = true) {
 ~chatnpc("<p,neutral>Ah yes, I've heard of her. A healer I believe. She must be mad coming over here voluntarily.");
 ~chatnpc("<p,neutral>I hear rumours she has probably caught the plague now. Very tragic, a stupid waste of life.");
 
-[label,head_mourner_talk_to_player]
+[label,headmourner_talk_to_player]
 ~chatnpc("<p,neutral>How did you get into West Ardougne? Ah well you'll have to stay, can't risk you spreading the plague outside.");
 switch_int(%elena_progress) {
     case ^quest_elena_spoke_to_plague_house, ^quest_elena_spoke_to_clerk, ^quest_elena_spoke_to_bravek, ^quest_elena_spoke_cured_bravek :
-        @multi4("I need clearance to enter a plague house.", head_mourner_i_need_clearance, "So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena2)>.", mourner_im_looking_for_a_woman);
+        @multi4("I need clearance to enter a plague house.", headmourner_i_need_clearance, "So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena2)>.", mourner_im_looking_for_a_woman);
     case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : @multi2("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though);
     case default : @multi3("So what's a mourner?", mourner_so_whats_a_mourner, "I haven't got the plague though...", mourner_i_havent_got_the_plague_though, "I'm looking for a woman named <nc_name(elena2)>.", mourner_im_looking_for_a_woman);
 }
 
-[label,head_mourner_i_need_clearance]
+[label,headmourner_i_need_clearance]
 ~chatplayer("<p,neutral>I need clearance to enter a plague house. It's in the south east corner of West Ardougne.");
 ~chatnpc("<p,shock>You must be nuts, absolutely not!");
-@multi3("There's a kidnap victim inside!", head_mourner_theres_a_kidnap_victim_inside, "I've got a gas mask though...", head_mourner_ive_got_a_gas_mask_though, "Yes, I'm utterly crazy.", head_mourner_yes_im_utterly_crazy);
+@multi3("There's a kidnap victim inside!", headmourner_theres_a_kidnap_victim_inside, "I've got a gas mask though...", headmourner_ive_got_a_gas_mask_though, "Yes, I'm utterly crazy.", headmourner_yes_im_utterly_crazy);
 
-[label,head_mourner_theres_a_kidnap_victim_inside]
+[label,headmourner_theres_a_kidnap_victim_inside]
 ~chatplayer("<p,angry>There's a kidnap victim inside!");
 ~chatnpc("<p,neutral>Well they're as good as dead then, no point in trying to save them.");
 
-[label,head_mourner_ive_got_a_gas_mask_though]
+[label,headmourner_ive_got_a_gas_mask_though]
 ~chatplayer("<p,confused>I've got a gas mask though...");
 ~chatnpc("<p,neutral>It's not regulation. Anyway you're not properly trained to deal with the plague.");
 ~chatplayer("<p,confused>How do I get trained?");
 ~chatnpc("<p,neutral>It requires a strict 18 months of training.");
 ~chatplayer("<p,angry>I don't have that sort of time.");
 
-[label,head_mourner_yes_im_utterly_crazy]
+[label,headmourner_yes_im_utterly_crazy]
 ~chatplayer("<p,confused>Yes, I'm utterly crazy.");
 ~chatnpc("<p,angry>You're wasting my time, I have a lot of work to do!");
 

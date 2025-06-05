@@ -160,7 +160,7 @@ if(last_useitem = doogle_leaves) {
 }
 ~displaymessage(^dm_default);
 
-[opnpc1,fluffs]
+[opnpc1,gertrudescat]
 if(%fluffs_progress >= ^fluffs_rescued) {
     ~chatplayer("<p,neutral>Oh, it looks like Fluffs has returned.|I'd better leave her alone."); //OSRS
     return;
@@ -176,7 +176,7 @@ switch_int(%fluffs_progress) {
         ~mesbox("In the distance you can hear kittens mewing..."); //imgur.com/EPtymln
 }
 
-[opnpc3,fluffs]
+[opnpc3,gertrudescat]
 ~fluffs_attack;
 ~mesbox("Perhaps the cat wants something?");
 
@@ -192,7 +192,7 @@ p_delay(0);
 say("Ouch!");
 p_delay(3);
 
-[opnpcu,fluffs]
+[opnpcu,gertrudescat]
 if(%fluffs_progress >= ^fluffs_rescued) {
     ~chatplayer("<p,neutral>Oh, it looks like Fluffs has returned.|I'd better leave her alone."); //OSRS
     return;
@@ -231,7 +231,7 @@ if (last_useitem = bucket_milk) {
     anim(human_pickupfloor, 0);
     npc_setmode(none);
     npc_walk(npc_coord);
-    .npc_add(coord, lost_kitten, ^max_32bit_int);
+    .npc_add(coord, lostkitten, ^max_32bit_int);
     .npc_setmode(none);
     .npc_walk(.npc_coord);
     p_delay(1);
@@ -298,7 +298,7 @@ mes("You can hear kittens mewing close by...");
 
 [opheld5,gertrudekittens]
 inv_delslot(inv, last_slot);
-npc_add(coord, lost_kitten, 10);
+npc_add(coord, lostkitten, 10);
 npc_setmode(none);
 npc_walk(npc_coord);
 p_delay(0);

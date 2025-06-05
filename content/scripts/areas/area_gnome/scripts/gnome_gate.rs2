@@ -18,8 +18,8 @@ if(%grandtree_progress = ^grandtree_obtained_lumber_order & coordz(coord) < coor
     ~chatnpc_specific(nc_name(gnomekingsguard), gnomekingsguard, "<p,neutral>I'm sorry but you'll have to leave.");
     return;
 }
-if(%femi_help = 0 & coordz(coord) < coordz(loc_coord) & npc_find(coord, femi, 6, 0) = true) {
-    @femi_boxes;
+if(%femi_help = 0 & coordz(coord) < coordz(loc_coord) & npc_find(coord, grandtree_femi, 6, 0) = true) {
+    @grandtree_femi_boxes;
 }
 // walk to start
 def_coord $loc_coord = loc_coord;

@@ -77,7 +77,7 @@ param=attack_sound,staff_stab
 // Also Hitpoints match RSC version.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3276
 
-[shop_keeper_falador]
+[generalshopkeeper4]
 vislevel=hide
 name=Shop keeper
 desc=A product of consumerist society.
@@ -113,7 +113,7 @@ param=shop_delta,30
 param=shop_title,Falador General Store
 moverestrict=indoors
 
-[shop_assistant_falador]
+[generalassistant4]
 vislevel=hide
 name=Shop assistant
 desc=Likes you more the more you spend.
@@ -186,7 +186,7 @@ param=shop_title,Cassies' Shield Shop.
 moverestrict=indoors
 param=death_sound,female_death
 
-[falador_flynn]
+[flynn]
 vislevel=hide
 name=Flynn
 desc=The mace salesman.
@@ -378,7 +378,7 @@ head2=model_79_idk_head
 head3=model_68_obj_wear
 wanderrange=8
 
-[falador_squire]
+[squire]
 vislevel=hide
 name=Squire
 desc=Indentured servant of a Knight.
@@ -445,7 +445,7 @@ head1=model_53_idk_head
 head2=model_81_idk_head
 head3=model_43_obj_wear
 
-[barmaid]
+[risingsun_barmaid]
 vislevel=hide
 name=Barmaid
 desc=I could get a beer from her.

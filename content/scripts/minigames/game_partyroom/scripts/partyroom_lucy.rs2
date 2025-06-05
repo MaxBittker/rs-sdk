@@ -1,4 +1,4 @@
-[apnpc1,partyroom_lucy] // opnpc only after july 07
+[apnpc1,partyroom_barmaid2] // opnpc only after july 07
 if (npc_range(coord) > 2) {
     p_aprange(2);
     return;

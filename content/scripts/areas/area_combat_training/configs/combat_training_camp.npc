@@ -97,7 +97,7 @@ huntrange=2
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1153
 
-[shop_keeper_combat_training_camp]
+[lathas_shopkeeper]
 vislevel=hide
 name=Shop keeper
 desc=Could stand to lose a few pounds.

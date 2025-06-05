@@ -1,4 +1,4 @@
-[crest_man]
+[avan]
 vislevel=hide
 name=Man
 desc=A well dressed nobleman.
@@ -26,7 +26,7 @@ model8=model_181_idk
 model9=model_323_obj_wear
 head1=model_53_idk_head
 
-[crest_chronozon]
+[chronozon]
 size=3
 walkanim=demon_walk
 readyanim=demon_ready

@@ -1,11 +1,11 @@
 [opnpc1,dskin_w_ardoungecitizen1] @man_woman_curse_king_tyras; // man level 4
-[opnpc1,west_ardougne_man_5] @man_woman_help_me_out_of_this_hell_hole; // fat man non attackable
-[opnpc1,west_ardougne_man_6] @man_woman_go_away_outsider; // skinny man non attackable
+[opnpc1,w_ardougnecitizen3] @man_woman_help_me_out_of_this_hell_hole; // fat man non attackable
+[opnpc1,w_ardougnecitizen4] @man_woman_go_away_outsider; // skinny man non attackable
 
 // TODO: Try to find out if Jagex ever coded any dialogue for these npc.
 // w_ardougnecitizen6 // unused.
-// west_ardougne_man_3 // unused This NPC has been updated in connection with the Plague City quest rework.
-// west_ardougne_man_4 // unused.
+// w_ardougnecitizen1 // unused This NPC has been updated in connection with the Plague City quest rework.
+// w_ardougnecitizen2 // unused.
 
 [label,man_woman_curse_king_tyras]
 ~chatplayer("<p,happy>Good day.");

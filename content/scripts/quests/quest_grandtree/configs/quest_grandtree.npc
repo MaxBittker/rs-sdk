@@ -1,4 +1,4 @@
-[hazelmere]
+[grandtree_hazelmere]
 name=Hazelmere
 desc=An ancient looking gnome.
 walkanim=midget_walk
@@ -20,7 +20,7 @@ head1=model_17_npc_head
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[king_narnode]
+[grandtree_narnode]
 name=King Narnode Shareen
 desc=An important looking gnome.
 vislevel=hide
@@ -35,7 +35,7 @@ wanderrange=2
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[glough]
+[grandtree_glough]
 name=Glough
 desc=A rough looking gnome.
 vislevel=hide
@@ -51,7 +51,7 @@ head1=model_22_npc_head
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[anita]
+[grandtree_anita]
 name=Anita
 desc=Glough's girlfriend.
 vislevel=hide
@@ -91,7 +91,7 @@ head1=model_53_idk_head
 wanderrange=0
 moverestrict=nomove
 
-[foreman]
+[grandtree_foreman]
 name=Foreman
 desc=The boss!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -133,7 +133,7 @@ param=death_sound,gnome_death
 // Stats match osrs version but our version Vislvl is different.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1429
 
-[grandtree_shipyard_worker]
+[grandtree_shipyardguard]
 name=Shipyard worker
 desc=Builds ships for a living.
 vislevel=hide
@@ -167,7 +167,7 @@ param=damagetype,^crush_style
 category=shipyardworker
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1430
 
-[femi]
+[grandtree_femi]
 name=Femi
 desc=A gnome trader.
 walkanim=midget_walk

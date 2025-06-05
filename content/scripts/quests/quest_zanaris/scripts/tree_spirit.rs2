@@ -1,4 +1,4 @@
-[ai_queue3,tree_spirit_zanaris]
+[ai_queue3,tree_spirit]
 gosub(npc_death);
 if(npc_findhero = ^true) {
     if_close;

@@ -1,23 +1,23 @@
-[opnpc1,crest_man]
+[opnpc1,avan]
 if (%crest_progress <= ^crest_caleb_where) {
     ~chatnpc("<p,angry>What? Can't you see I'm busy?");
     ~chatplayer("<p,neutral>Well, sooooorry...");
 }
 else {
     switch_int(%crest_progress) {
-        case ^crest_spoken_gem_trader : @crest_man_intro;
-        case ^crest_spoken_avan : @crest_man_gold;
-        case ^crest_spoken_boot : @crest_man_jewelry;
-        case ^crest_avan_piece : @crest_man_where;
-        case ^crest_complete : @crest_man_gauntlets;
-        case default : @crest_man_pieces;
+        case ^crest_spoken_gem_trader : @avan_intro;
+        case ^crest_spoken_avan : @avan_gold;
+        case ^crest_spoken_boot : @avan_jewelry;
+        case ^crest_avan_piece : @avan_where;
+        case ^crest_complete : @avan_gauntlets;
+        case default : @avan_pieces;
     }
 }
 
-[label,crest_man_intro]
-@multi2("Why are you hanging around in a scorpion pit?", crest_man_lurking, "I'm looking for a man named Avan Fitzharmon.", crest_man_avan);
+[label,avan_intro]
+@multi2("Why are you hanging around in a scorpion pit?", avan_lurking, "I'm looking for a man named Avan Fitzharmon.", crest_man_avan);
 
-[label,crest_man_lurking]
+[label,avan_lurking]
 ~chatplayer("<p,quiz>Why are you lurking around a scorpion pit?");
 ~chatnpc("<p,neutral>It's a good place to find gold...");
 
@@ -42,13 +42,13 @@ else {
 %crest_progress = ^crest_spoken_avan;
 ~chatplayer("<p,neutral>Well, I'll see what I can do.");
 
-[label,crest_man_gold]
+[label,avan_gold]
 ~chatnpc("<p,quiz>So how are you doing getting me my perfect gold jewelry?");
 ~chatplayer("<p,sad>I'm still after that 'perfect gold'.");
 ~chatnpc("<p,sad>I know how you feel... for such a long time I have searched and searched for the elusive perfect gold... I thought I had gotten a good lead on finding it");
 ~chatnpc("<p,sad>when I heard talk of a dwarven expert on gold named Boot some time back, but unfortunately for me, he has returned to his mountain home, which I cannot find.");
 
-[label,crest_man_jewelry]
+[label,avan_jewelry]
 ~chatnpc("<p,quiz>So how are you doing getting me my perfect gold jewelry?");
 if (inv_total(inv, perfect_ruby_ring) >= 1 & inv_total(inv, perfect_ruby_necklace) >= 1) {
     ~chatplayer("<p,neutral>I have the ring and necklace right here.");
@@ -60,47 +60,47 @@ if (inv_total(inv, perfect_ruby_ring) >= 1 & inv_total(inv, perfect_ruby_necklac
     ~chatnpc("<p,happy>These... these are exquisite! EXACTLY what I was searching for all of this time! Please, take my crest fragment!");
     ~chatnpc("<p,neutral>Now, I suppose you will be wanting to find my brother Johnathon who is in possession of the final piece of the family's crest?");
     ~chatplayer("<p,neutral>That's correct.");
-    @crest_man_johnathon;
+    @crest_avan_johnathon;
 } else {
     ~chatplayer("<p,neutral>I have spoken to Boot the dwarf about the location of 'perfect gold' but haven't managed to make you your jewelry yet.");
     ~chatnpc("<p,neutral>Well, I won't entrust you with my piece of the crest until you have brought me a necklace of perfect gold with a red precious stone, and a perfect gold ring to match.");
 }
 
-[label,crest_man_where]
+[label,avan_where]
 // Second crest piece is not reobtainable until after Johnathon's section
 ~chatplayer("<p,quiz>Where did you say I could find your brother Johnathon again?");
-@crest_man_johnathon;
+@crest_avan_johnathon;
 
-[label,crest_man_johnathon]
+[label,crest_avan_johnathon]
 ~chatnpc("<p,neutral>Well, the last I heard of my brother Johnathon, he was studying the magical arts, and trying to hunt some demon or other out in The Wilderness.");
 ~chatnpc("<p,neutral>Unsurprisingly, I do not believe he is doing a particularly good job of things, and spends most of his time recovering from his injuries in");
 ~chatnpc("<p,neutral>some tavern or other near the edge of The Wilderness. You'll probably find him still there.");
 ~chatplayer("<p,happy>Thanks Avan.");
 
-[label,crest_man_pieces]
+[label,avan_pieces]
 ~chatnpc("<p,neutral>Greetings again, adventurer. How are you doing on retrieving the crest pieces?");
 if (inv_total(inv, family_crest) >= 1) {
     ~chatplayer("<p,neutral>I have assembled all of the pieces!");
     ~chatnpc("<p,neutral>Very well done adventurer! Now please return it to my father!");
 }
 else if (inv_total(inv, caleb_crest) = 0 & inv_total(bank, caleb_crest) = 0) {
-    @multi2("I am still working on it.", crest_man_working, "I have lost the fragment you gave me.", crest_man_lost);
+    @multi2("I am still working on it.", avan_working, "I have lost the fragment you gave me.", avan_lost);
 }
 else {
-    @crest_man_working;
+    @avan_working;
 }
 
-[label,crest_man_working]
+[label,avan_working]
 ~chatplayer("<p,neutral>I am still working on it.");
 ~chatnpc("<p,neutral>I hope you succeed for my father's sake.");
 
-[label,crest_man_lost]
+[label,avan_lost]
 ~chatplayer("<p,neutral>I have lost the fragment that you gave me...");
 ~chatnpc("<p,confused>I have a confession myself adventurer... I did not fully trust you with the actual part of my family's crest before, and gave you a worthless replica before...");
 ~chatnpc("<p,neutral>In hindsight, it seems I was right. I will give you the real piece now, but PLEASE try not to lose it; it is a priceless family heirloom.");
 inv_add(inv, caleb_crest, 1);
 
-[label,crest_man_gauntlets]
+[label,avan_gauntlets]
 ~chatnpc("<p,happy>I have received word from my father of your assistance to our family in this matter. You have my thanks for restoring our honour.");
 if(getbit_range(%crest_spells_levers_gauntlets, ^crest_cooking_gauntlets_chosen, ^crest_chaos_gauntlets_chosen) > 0) {
     return;

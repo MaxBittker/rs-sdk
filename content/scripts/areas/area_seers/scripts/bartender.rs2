@@ -1,37 +1,37 @@
-[opnpc1,bartender_seers]
+[opnpc1,foresters_bartender]
 ~chatnpc("<p,happy>Good morning, what would you like?");
 if(testbit(%barcrawl_progress, ^forestersarms_index) = ^false & inv_total(inv, barcrawl_card) > 0) {
-    @multi4("What do you have?", bartender_seers_what_have, "Beer please.", bartender_seers_beer, "I'm doing Alfred Grimhand's Barcrawl.", forestersarms_barcrawl, "I don't really want anything thanks.", bartender_seers_thanks);
+    @multi4("What do you have?", foresters_bartender_what_have, "Beer please.", foresters_bartender_beer, "I'm doing Alfred Grimhand's Barcrawl.", forestersarms_barcrawl, "I don't really want anything thanks.", foresters_bartender_thanks);
 } else {
-    @multi3("What do you have?", bartender_seers_what_have, "Beer please.", bartender_seers_beer, "I don't really want anything thanks.", bartender_seers_thanks);
+    @multi3("What do you have?", foresters_bartender_what_have, "Beer please.", foresters_bartender_beer, "I don't really want anything thanks.", foresters_bartender_thanks);
 }
 
-[opnpcu,bartender_seers]
+[opnpcu,foresters_bartender]
 if(testbit(%barcrawl_progress, ^forestersarms_index) = ^false & last_useitem = barcrawl_card) {
     @forestersarms_barcrawl;
 }
 
-[label,bartender_seers_what_have]
+[label,foresters_bartender_what_have]
 ~chatplayer("<p,quiz>What do you have?");
 ~chatnpc("<p,happy>Well we have beer, or if you want some food, we have our home made stew and meat pies.");
-@multi4("Beer please.", bartender_seers_beer, "I'll try the meat pie.", bartender_seers_meat_pie, "Could I have some stew please?", bartender_seers_stew, "I don't really want anything thanks.", bartender_seers_thanks);
+@multi4("Beer please.", foresters_bartender_beer, "I'll try the meat pie.", foresters_bartender_meat_pie, "Could I have some stew please?", foresters_bartender_stew, "I don't really want anything thanks.", foresters_bartender_thanks);
 
-[label,bartender_seers_beer]
+[label,foresters_bartender_beer]
 ~chatplayer("<p,happy>Beer please.");
 ~chatnpc("<p,happy>One beer coming up. Ok, that'll be two coins.");
-@bartender_seers_transaction(beer, 2);
+@foresters_bartender_transaction(beer, 2);
 
-[label,bartender_seers_stew]
+[label,foresters_bartender_stew]
 ~chatplayer("<p,quiz>Could I have some stew please?");
 ~chatnpc("<p,happy>A bowl of stew, that'll be 20 coins please.");
-@bartender_seers_transaction(stew, 20);
+@foresters_bartender_transaction(stew, 20);
 
-[label,bartender_seers_meat_pie]
+[label,foresters_bartender_meat_pie]
 ~chatplayer("<p,happy>I'll try the meat pie.");
 ~chatnpc("<p,happy>Ok, that'll be 16 coins.");
-@bartender_seers_transaction(meat_pie, 16);
+@foresters_bartender_transaction(meat_pie, 16);
 
-[label,bartender_seers_transaction](namedobj $food_name, int $price)
+[label,foresters_bartender_transaction](namedobj $food_name, int $price)
 if(inv_freespace(inv) = 0) {
     ~chatplayer("<p,sad>Oh dear. I don't seem to have enough space to carry it.");
     return;
@@ -43,7 +43,7 @@ if(inv_freespace(inv) = 0) {
     inv_add(inv, $food_name, 1);
 }
 
-[label,bartender_seers_thanks]
+[label,foresters_bartender_thanks]
 ~chatplayer("<p,neutral>I don't really want anything thanks.");
 
 [label,forestersarms_barcrawl]

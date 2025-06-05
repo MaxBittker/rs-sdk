@@ -1,15 +1,15 @@
-[opnpc1,digsite_workman_cave]
+[opnpc1,digworkman2]
 switch_int (~itexam_progress) {
-    case ^itexam_complete : @digsite_workman_cave_quest_complete;
-    case default : @digsite_workman_cave_default;
+    case ^itexam_complete : @digworkman2_cave_quest_complete;
+    case default : @digworkman2_cave_default;
 }
 
-[label,digsite_workman_cave_default]
+[label,digworkman2_cave_default]
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,confused>Well, well...|I have a visitor.|What are you doing here?");
-@multi3("I have been invited to research here.", digsite_workman_cave_invited_to_research, "I am not sure really.", digsite_workman_cave_not_sure, "I'm here to get rich, rich, rich!", digsite_workman_cave_not_rich_rich);
+@multi3("I have been invited to research here.", digworkman2_cave_invited_to_research, "I am not sure really.", digworkman2_cave_not_sure, "I'm here to get rich, rich, rich!", digworkman2_cave_not_rich_rich);
 
-[label,digsite_workman_cave_invited_to_research]
+[label,digworkman2_cave_invited_to_research]
 ~chatplayer("<p,happy>I have been invited to research here.");
 ~chatnpc("<p,happy>Indeed, you must be someone special to be allowed down here...");
 
@@ -22,51 +22,51 @@ if ($choice = 1) {
     // https://web.archive.org/web/20060909012420/http://www.runeweb.net/index.php?page=rs2-quest-digsite, "Pickpocket a workmen to get two ropes and go down the northern wench. Beg the workmen till he gives you a key to a chest."
     ~chatplayer("<p,neutral>Do you know where to find a chest key?"); // whole chain is from RSC, so guessing mesanims from here on unfortunately
     ~chatnpc("<p,neutral>Yes, I might have one...");
-    @multi3("I don't suppose I could use it?", digsite_workman_usekey, "Can I buy it from you?", digsite_workman_buykey, "Hey that's my key!", digsite_workman_mykey);
+    @multi3("I don't suppose I could use it?", digworkman1_usekey, "Can I buy it from you?", digworkman1_buykey, "Hey that's my key!", digworkman1_mykey);
 }
 
-[label,digsite_workman_usekey]
+[label,digworkman1_usekey]
 ~chatplayer("<p,quiz>I don't suppose I could use it?");
 ~chatnpc("<p,sad>Aww, but I need it...");
-@multi3("Please?", digsite_workman_please, "Can I buy it from you?", digsite_workman_buykey, "Hey that's my key!", digsite_workman_mykey);
+@multi3("Please?", digworkman1_please, "Can I buy it from you?", digworkman1_buykey, "Hey that's my key!", digworkman1_mykey);
 
-[label,digsite_workman_please]
+[label,digworkman1_please]
 ~chatplayer("<p,happy>Please?");
 ~chatnpc("<p,confused>I am not sure about this...");
-@multi3("Aww... go on.", digsite_workman_aww, "Can I buy it from you?", digsite_workman_buykey, "Hey that's my key!", digsite_workman_mykey);
+@multi3("Aww... go on.", digworkman1_aww, "Can I buy it from you?", digworkman1_buykey, "Hey that's my key!", digworkman1_mykey);
 
-[label,digsite_workman_aww]
+[label,digworkman1_aww]
 ~chatplayer("<p,happy>Aww... go on.");
 ~chatnpc("<p,confused>Hmmm... well I don't know.");
-@multi3("Pretty please!", digsite_workman_please2, "Can I buy it from you?", digsite_workman_buykey, "Hey that's my key!", digsite_workman_mykey);
+@multi3("Pretty please!", digworkman1_please2, "Can I buy it from you?", digworkman1_buykey, "Hey that's my key!", digworkman1_mykey);
 
-[label,digsite_workman_please2]
+[label,digworkman1_please2]
 ~chatplayer("<p,happy>Pretty please!");
 ~chatnpc("<p,confused>You are trying to change my mind.");
 ~chatplayer("<p,happy>Of course!");
-@multi3("Pretty please with sugar on top!", digsite_workman_please3, "Can I buy it from you?", digsite_workman_buykey, "Hey that's my key!", digsite_workman_mykey);
+@multi3("Pretty please with sugar on top!", digworkman1_please3, "Can I buy it from you?", digworkman1_buykey, "Hey that's my key!", digworkman1_mykey);
 
-[label,digsite_workman_please3]
+[label,digworkman1_please3]
 ~chatplayer("<p,happy>Pretty please with sugar on top!");
 inv_add(inv, digchestkey, 1);
 ~chatnpc("<p,neutral>All right, all right!|Stop begging I can't stand it.|Here's the key... take care of it.");
 ~chatplayer("<p,happy>Thanks!");
 
-[label,digsite_workman_buykey]
+[label,digworkman1_buykey]
 ~chatplayer("<p,quiz>Can I buy it from you?");
 ~chatnpc("<p,neutral>Ooo no, I need it!");
 
-[label,digsite_workman_mykey]
+[label,digworkman1_mykey]
 ~chatplayer("<p,happy>Hey that's my key!");
 ~chatnpc("<p,angry>You don't think im going to fall for that do you?|Get lost!");
 
-[label,digsite_workman_cave_not_sure]
+[label,digworkman2_cave_not_sure]
 ~chatplayer("<p,confused>I am not sure really.");
 ~chatnpc("<p,happy>A miner without a clue - how funny!");
 
-[label,digsite_workman_cave_not_rich_rich]
+[label,digworkman2_cave_not_rich_rich]
 ~chatplayer("<p,happy>I'm here to get rich, rich, rich!");
 ~chatnpc("<p,happy>Oh, well, don't forget that wealth and riches aren't everything.");
 
-[label,digsite_workman_cave_quest_complete]
+[label,digworkman2_cave_quest_complete]
 ~chatnpc("<p,neutral>Well, hello again. Congratulations on your finds");

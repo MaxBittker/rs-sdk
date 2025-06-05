@@ -11,8 +11,8 @@
 ^itexam_complete = 9
 
 ^itexam_errand_student1 = 0
-^itexam_errand_student2 = 1
-^itexam_errand_student3 = 2
+^itexam_errand_student3 = 1
+^itexam_errand_student2 = 2
 
 ^itexam_bit_panning_guide_tea_given = 1
 ^itexam_bit_winch_rope_attached = 2

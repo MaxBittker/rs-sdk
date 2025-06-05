@@ -1,4 +1,4 @@
-[opnpc1,gulluck]
+[opnpc1,gnome_gulluck]
 ~chatplayer("<p,neutral>Hello.");
 ~chatnpc("<p,happy>Good day brave adventurer!|Could I interest you in my fine selection of weapons?");
 switch_int(~p_choice2("I'll take a look.", 1, "No thanks.", 2)) {

@@ -26,7 +26,7 @@ head2=model_77_npc_head
 head3=model_80_idk_head
 wanderrange=3
 
-[roachey]
+[fishguildshop]
 vislevel=hide
 name=Roachey
 desc=He runs the fishing guild shop.

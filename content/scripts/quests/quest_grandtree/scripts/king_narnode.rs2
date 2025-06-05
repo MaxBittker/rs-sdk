@@ -1,4 +1,4 @@
-[opnpc1,king_narnode]
+[opnpc1,grandtree_narnode]
 if(coordy(npc_coord) > 0 & (%grandtree_progress <= ^grandtree_found_journal | %grandtree_progress > ^grandtree_released_prison)) {
     mes("The King doesn't seem interested in talking.");
     return;
@@ -195,7 +195,7 @@ switch_int(%grandtree_progress) {
         ~chatnpc("<p,sad>I just hope he can help us in our hour of need!");
     case ^grandtree_not_started :
         if(coordz(npc_coord) > 6400) {
-            @king_narnode_foundations;
+            @grandtree_narnode_foundations;
         }
         ~chatnpc("<p,happy>Welcome Traveller. I am King Narnode.|It's nice to see an outsider.");
         ~chatplayer("<p,happy>Hi! It seems to be a busy settlement.");
@@ -228,14 +228,14 @@ switch_int(%grandtree_progress) {
                 npc_setmode(null);
                 p_telejump(movecoord(coord, -1, 0, 6399));
                 p_delay(2);
-                if(npc_find(coord, king_narnode, 7, 0) = true) {
+                if(npc_find(coord, grandtree_narnode, 7, 0) = true) {
                     $npc_dist = ~total_distance(npc_coord, movecoord(coord, 1, 0, 0));
                     npc_walk(movecoord(coord, 1, 0, 0));
                     if($npc_dist > 0) {
                         p_delay($npc_dist);
                     }
                     npc_setmode(playerface);
-                    @king_narnode_foundations;
+                    @grandtree_narnode_foundations;
                 }
             case 2 :
                 ~chatplayer("<p,neutral>I'll be off now.");
@@ -243,7 +243,7 @@ switch_int(%grandtree_progress) {
         }
 }
 
-[label,king_narnode_back_up]
+[label,grandtree_narnode_back_up]
 npc_setmode(none);
 npc_walk(npc_coord);
 ~chatnpcnoturn("<p,neutral>I'll show you the way back up.");
@@ -265,7 +265,7 @@ p_delay(0);
 npc_setmode(null);
 p_telejump(movecoord(^narnode_trapdoor_coord, 0, 0, -1));
 
-[label,king_narnode_foundations]
+[label,grandtree_narnode_foundations]
 ~chatplayer("<p,quiz>So what is this place?");
 ~chatnpc("<p,neutral>These, my friend, are the foundations of the stronghold.");
 ~chatplayer("<p,neutral>They look like roots to me.");
@@ -279,7 +279,7 @@ switch_int(~p_choice2("I'm sorry, I don't want to get involved.", 1, "I'd be hap
         ~chatplayer("<p,sad>I'm sorry, I don't want to get involved.");
         ~chatnpc("<p,sad>I understand Traveller.|Please keep this to yourself.");
         ~chatplayer("<p,neutral>Of course.");
-        @king_narnode_back_up;
+        @grandtree_narnode_back_up;
     case 2 :
         ~chatplayer("<p,happy>I'd be happy to help!");
         ~chatnpc("<p,happy>Thank Guthix for your arrival!");
@@ -301,7 +301,7 @@ switch_int(~p_choice2("I'm sorry, I don't want to get involved.", 1, "I'd be hap
         ~send_quest_progress(questlist:grandtree, %grandtree_progress, ^grandtree_complete);
         inv_add(inv, grandtree_barksample, 1);
         inv_add(inv, grandtree_translationbook, 1);
-        @king_narnode_back_up;
+        @grandtree_narnode_back_up;
 }
 
 [proc,check_narnode_items]

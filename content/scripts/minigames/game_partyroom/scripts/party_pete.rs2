@@ -1,4 +1,4 @@
-[opnpc1,party_pete]
+[opnpc1,partyroom_pete]
 // clue scroll
 if(inv_total(inv, trail_clue_medium_anagram010) > 0) {
     ~chatnpc("<p,happy>You've come to the right place!");

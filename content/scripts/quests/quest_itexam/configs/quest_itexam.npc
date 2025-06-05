@@ -1,4 +1,4 @@
-[digsite_workman]
+[digworkman1]
 vislevel=hide
 name=Digsite workman
 desc=This person is working on the site.
@@ -20,7 +20,7 @@ model7=model_181_idk
 model8=model_185_obj_wear
 head1=model_67_idk_head
 
-[digsite_workman_cave]
+[digworkman2]
 vislevel=hide
 name=Digsite workman
 desc=This person is working on the site.
@@ -64,7 +64,7 @@ model8=model_185_obj_wear
 head1=model_55_idk_head
 head2=model_81_idk_head
 
-[student2]
+[student3]
 vislevel=hide
 name=Student
 desc=A student busily digging.
@@ -89,7 +89,7 @@ model7=model_257_npc
 model8=model_276_npc
 head1=model_53_idk_head
 
-[student3]
+[student2]
 vislevel=hide
 name=Student
 desc=A student busily digging.

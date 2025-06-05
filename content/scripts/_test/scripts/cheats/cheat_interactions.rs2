@@ -1,4 +1,4 @@
-// [opnpc1,gnome_cheerleader]
+// [opnpc1,gnomecheerleader]
 // p_walk(movecoord(coord, 2, 0, 0));
 // ~chatplayer("<p,neutral>Hello");
 
@@ -403,7 +403,7 @@ if (p_finduid(uid) = true) {
 
 [proc,opnpc_to_p_walk]
 mes("Test 33: opnpc to p_walk");
-npc_add(movecoord(coord, -1, 0, -1), gnome_cheerleader, 10);
+npc_add(movecoord(coord, -1, 0, -1), gnomecheerleader, 10);
 npc_setmode(none);
 npc_walk(npc_coord);
 queue(reset_itest, 10);

@@ -128,7 +128,7 @@ if ($item = tray_empty) {
 }
 
 if ($item = spade) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,angry>Oi! Don't use that spade! What are you trying to do, destroy everything of value?");
     } else {
         ~mesbox("You can't use a spade here.");
@@ -137,7 +137,7 @@ if ($item = spade) {
 }
 
 if ($item = specimen_brush) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,laugh>Use your brush on specimens to clean them, not the dirt!");
     } else {
         mes("Use your brush on specimens to clean them, not the dirt!");
@@ -153,7 +153,7 @@ if (inzone(0_52_53_24_4, 0_52_53_29_8, loc_coord) = true | inzone(0_52_53_39_5, 
 // LEVEL 1 SITES
 if (inzone(0_52_53_32_10, 0_52_53_35_22, loc_coord) = true | inzone(0_52_53_39_11, 0_52_53_44_22, loc_coord) = true) {
     if (~itexam_progress < ^itexam_second_exam) {
-        @digsite_workman_intervene_site(1);
+        @digworkman1_intervene_site(1);
     }
     @dig_level_1_site($item);
 }
@@ -161,7 +161,7 @@ if (inzone(0_52_53_32_10, 0_52_53_35_22, loc_coord) = true | inzone(0_52_53_39_1
 // LEVEL 2 SITES
 if (inzone(0_52_53_22_23, 0_52_53_27_26, loc_coord) = true | inzone(0_52_53_22_32, 0_52_53_35_38, loc_coord) = true | inzone(0_52_53_39_31, 0_52_53_44_38, loc_coord) = true) {
     if (~itexam_progress < ^itexam_third_exam) {
-        @digsite_workman_intervene_site(2);
+        @digworkman1_intervene_site(2);
     }
     @dig_level_2_site($item);
 }
@@ -169,7 +169,7 @@ if (inzone(0_52_53_22_23, 0_52_53_27_26, loc_coord) = true | inzone(0_52_53_22_3
 // LEVEL 3 SITES
 if (inzone(0_52_53_22_12, 0_52_53_29_20, loc_coord) = true | inzone(0_52_53_42_45, 0_52_53_49_50, loc_coord) = true) {
     if (~itexam_progress < ^itexam_impress_archeological_expert) {
-        @digsite_workman_intervene_site(1);
+        @digworkman1_intervene_site(1);
     }
     @dig_level_3_site($item);
 }
@@ -183,7 +183,7 @@ mes("This site is for training purposes only.");
 
 [label,dig_training_site](obj $item)
 if ($item = rockpick) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,confused>No, no; rock picks should only be used to dig at a level 2 site.");
     } else {
         mes("Rock picks should only be used at a level 2 site.");
@@ -236,7 +236,7 @@ mes("Level 1 digs only.");
 
 [label,dig_level_1_site](obj $item)
 if ($item = rockpick) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,confused>No, no; rock picks should only be used to dig at a level 2 site.");
     } else {
         mes("Rock picks should only be used at a level 2 site.");
@@ -254,7 +254,7 @@ if (inv_freespace(inv) = 0) {
 }
 
 if (inv_getobj(worn, ^wearpos_hands) ! leather_gloves) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,angry>Hey, where are your leather gloves?");
         ~chatplayer("<p,confused>Err... I haven't got any.");
         ~chatnpcnoturn("<p,neutral>Well get some and put them on first!");
@@ -265,7 +265,7 @@ if (inv_getobj(worn, ^wearpos_hands) ! leather_gloves) {
 }
 
 if (inv_getobj(worn, ^wearpos_feet) ! leather_boots) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,angry>Oi! No boots! No leather boots: no digging!");
     } else {
         mes("You need to be wearing leather boots to dig here.");
@@ -323,7 +323,7 @@ mes("Level 2 digs only.");
 
 [label,dig_level_2_site](obj $item)
 if ($item = trowel) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,neutral>Sorry, you must use a rock pick to dig at a level 2 site.");
     } else {
         mes("You must use a rock pick to dig at a level 2 site.");
@@ -397,7 +397,7 @@ mes("Level 3 digs only.");
 
 [label,dig_level_3_site](obj $item)
 if ($item = rockpick) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,confused>No, no; rock picks should only be used to dig at a level 2 site.");
     } else {
         mes("Rock picks should only be used at a level 2 site.");
@@ -415,7 +415,7 @@ if (inv_freespace(inv) = 0) {
 }
 
 if (inv_total(inv, specimen_jar) = 0) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,angry>Ahem! I don't see your specimen jar; you must carry one to be able to dig here.");
     } else {
         mes("You need a sample jar to dig here.");
@@ -424,7 +424,7 @@ if (inv_total(inv, specimen_jar) = 0) {
 }
 
 if (inv_total(inv, specimen_brush) = 0) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
         ~chatnpcnoturn("<p,angry>Wait just a minute. I can't let you dig here unless you have a specimen brush with you. Rules are rules!");
     } else {
         mes("You can't dig here unless you have a specimen brush.");
@@ -510,8 +510,8 @@ mes("You carefully clean your find with the specimen brush.");
 
 [oploc2,specimen_tray]
 if (inv_total(inv, specimen_jar) = 0) {
-    if (npc_find(coord, digsite_workman, 10, 0) = true) {
-        @digsite_workman_specimen_tray_intervene;
+    if (npc_find(coord, digworkman1, 10, 0) = true) {
+        @digworkman1_specimen_tray_intervene;
     } else {
         // unconfirmed, it is impossible to get far enough from a workman to test this.
         mes("You need a sample jar to search this tray.");
@@ -558,7 +558,7 @@ if (inv_total(inv, specimen_jar) = 0) {
     }
 }
 
-[label,digsite_workman_specimen_tray_intervene]
+[label,digworkman1_specimen_tray_intervene]
 ~chatnpcnoturn("<p,angry>Oi! What are you doing?");
 def_int $choice = ~p_choice2("I am on an errand.", 1, "I am searching this tray.", 2);
 
@@ -580,7 +580,7 @@ if ($choice = 1) {
 
 [oploc1,digsite_winch]
 if (~itexam_progress < ^itexam_mineshaft_permit) {
-    @digsite_workman_intervene_winch;
+    @digworkman1_intervene_winch;
 }
 
 if (~itexam_testbit(^itexam_bit_winch_rope_attached) = ^false) {
@@ -634,7 +634,7 @@ if (~itexam_progress >= ^itexam_removed_blockage) {
 
 [oploc1,digsite_private_dig_winch]
 if (~itexam_progress < ^itexam_mineshaft_permit) {
-    @digsite_workman_intervene_winch;
+    @digworkman1_intervene_winch;
 }
 
 if (~itexam_testbit(^itexam_bit_private_winch_rope_attached) = ^false) {

@@ -1,4 +1,4 @@
-[opnpc1,anita]
+[opnpc1,grandtree_anita]
 // https://youtu.be/LFvLBRCxFwk?si=RAHjKaM8irUyNcTj&t=1085
 if((%grandtree_progress = ^grandtree_clue_charlie | %grandtree_progress = ^grandtree_found_invasion_plans) & ~obj_gettotal(grandtree_gloughskey) = 0) {
     ~chatplayer("<p,neutral>Hello there.");

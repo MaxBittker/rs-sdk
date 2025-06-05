@@ -1,18 +1,18 @@
-[opnpc1,barmaid]
+[opnpc1,risingsun_barmaid]
 if(testbit(%barcrawl_progress, ^risingsun_index) = ^false & inv_total(inv, barcrawl_card) > 0) {
-    @barmaid_barcrawl_dialogue;
+    @risingsun_barmaid_barcrawl_dialogue;
 }
-@barmaid_what_ales;
+@risingsun_barmaid_what_ales;
 
-[opnpcu,barmaid]
+[opnpcu,risingsun_barmaid]
 if(testbit(%barcrawl_progress, ^risingsun_index) = ^false & last_useitem = barcrawl_card) {
-    @barmaid_barcrawl_dialogue;
+    @risingsun_barmaid_barcrawl_dialogue;
 }
 
-[label,barmaid_barcrawl_dialogue]
+[label,risingsun_barmaid_barcrawl_dialogue]
 def_int $option = ~p_choice2("Hi, what ales are you serving?", 1, "I'm doing Alfred Grimhand's Barcrawl.", 2);
 if($option = 1) {
-    @barmaid_what_ales;
+    @risingsun_barmaid_what_ales;
 } else if($option = 2) {
     ~chatplayer("<p,happy>I'm doing Alfred Grimhand's Barcrawl.");
     ~chatnpc("<p,laugh>Heehee, this'll be fun!");
@@ -46,7 +46,7 @@ if($option = 1) {
     ~damage_self(calc((stat(hitpoints) * 5) / 100));
 }
 
-[label,barmaid_what_ales]
+[label,risingsun_barmaid_what_ales]
 ~chatplayer("<p,quiz>Hi, what ales are you serving?");
 ~chatnpc("<p,happy>Well, you can either have a nice Asgarnian Ale, a Wizard's Mind Bomb or a Dwarven Stout.");
 def_int $option = ~p_choice4("One Asgarnian Ale, please.", 1, "I'll try the Mind Bomb.", 2, "Can I have a Dwarven Stout?", 3, "I don't feel like any of those.", 4);

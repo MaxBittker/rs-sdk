@@ -118,7 +118,7 @@ model10=model_3330_obj_wear
 head1=model_48_npc_head
 head2=model_82_idk_head
 
-[bartender_dragoninn]
+[dragon_bartender]
 vislevel=hide
 name=Bartender
 desc=I could get a beer from him.

@@ -66,7 +66,7 @@ mes("The ladder is broken, I can't climb it."); // osrs
 // https://cdn.discordapp.com/attachments/917979227926695979/1332908385456361536/found-old-drive-with-rsdemon-and-some-screenshots-v0-s3lvaq7glqzd1.png?ex=679a42eb&is=6798f16b&hm=a9ec282375ac60ae6ff623484e38d4ad8a3c97423addf386ef5fb28da4e75f8f&
 
 // rat
-[ai_queue3,melzar_maze_giant_rat]
+[ai_queue3,dragonslayer_giant_rat]
 gosub(npc_death);
 if (npc_findhero = ^false) {
     return;
@@ -78,7 +78,7 @@ obj_add(npc_coord, redkey, 1, ^lootdrop_duration);
 
 
 // ghost
-[ai_queue3,melzar_maze_ghost]
+[ai_queue3,dragonslayer_ghost]
 gosub(npc_death);
 if (npc_findhero = ^false) {
     return;
@@ -88,7 +88,7 @@ obj_add(npc_coord, orangekey, 1, ^lootdrop_duration);
 
 
 // skeleton
-[ai_queue3,melzar_maze_skeleton]
+[ai_queue3,dragonslayer_skeleton]
 gosub(npc_death);
 if (npc_findhero = ^false) {
     return;
@@ -100,7 +100,7 @@ obj_add(npc_coord, yellowkey, 1, ^lootdrop_duration);
 
 
 // zombie
-[ai_queue3,melzar_maze_zombie]
+[ai_queue3,dragonslayer_zombie]
 gosub(npc_death);
 if (npc_findhero = ^false) {
     return;
@@ -112,7 +112,7 @@ obj_add(npc_coord, bluekey, 1, ^lootdrop_duration);
 
 
 // melzar
-[ai_queue3,melzar]
+[ai_queue3,melzar_the_mad]
 gosub(npc_death);
 if (npc_findhero = ^false) {
     return;
@@ -124,7 +124,7 @@ obj_add(npc_coord, magentakey, 1, ^lootdrop_duration);
 
 
 // lesser demon
-[ai_queue3,melzar_maze_lesser_demon]
+[ai_queue3,dragonslayer_demon]
 gosub(npc_death);
 if (npc_findhero = ^false) {
     return;

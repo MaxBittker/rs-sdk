@@ -1,4 +1,4 @@
-[opnpc1,wizard_zanaris]
+[opnpc1,wizardadventuterpg]
 if(map_members = ^false) { // RS3
     ~chatplayer("<p,happy>Hello!");
     ~chatnpc("<p,neutral>Blast! I was in the middle of my magical meditations - now you've gone and spoiled it! Why did you have to interrupt me?");

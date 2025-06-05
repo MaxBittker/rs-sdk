@@ -1,4 +1,4 @@
-[opnpc1,partyroom_megan]
+[opnpc1,partyroom_barmaid]
 ~chatnpc("<p,happy>Hi! I'm Megan. Welcome to the Party Room!");
 switch_int(~p_choice3("One beer please Megan!", 1, "Can you dance, Megan?", 2, "Do you have any news?", 3)) {
     case 1 :

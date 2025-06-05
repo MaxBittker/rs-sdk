@@ -1,4 +1,4 @@
-[drogo_dwarf]
+[drogo]
 vislevel=hide
 name=Drogo dwarf
 desc=He runs a mining store.
@@ -26,7 +26,7 @@ param=damagetype,^stab_style
 param=death_anim,dwarf_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5895
 
-[dwarf_generalshop]
+[dwarven_shopkeeper]
 vislevel=hide
 name=Dwarf
 desc=I wonder if he wants to buy my junk?
@@ -91,7 +91,7 @@ param=damagetype,^stab_style
 param=death_anim,dwarf_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_8686
 
-[crest_boot]
+[boot_the_dwarf]
 vislevel=hide
 walkanim=dwarf_walk
 readyanim=dwarf_ready

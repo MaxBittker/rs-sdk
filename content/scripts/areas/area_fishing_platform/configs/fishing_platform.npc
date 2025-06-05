@@ -41,7 +41,7 @@ head1=model_53_idk_head
 wanderrange=1
 param=death_anim,midget_death
 
-[holgart_island]
+[holgartsunkboat]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_staffready
@@ -65,7 +65,7 @@ head1=model_58_npc_head
 head2=model_82_idk_head
 wanderrange=2
 
-[holgart_platform]
+[holgartplatform]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_staffready
@@ -112,7 +112,7 @@ head1=model_53_idk_head
 head2=model_81_idk_head
 wanderrange=2
 
-[fisherman_platform1]
+[fishplatform1]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
@@ -135,7 +135,7 @@ head1=model_48_npc_head
 head2=model_82_idk_head
 category=fisherman_platform
 
-[fisherman_platform2]
+[fishplatform2]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
@@ -158,7 +158,7 @@ head1=model_48_npc_head
 head2=model_82_idk_head
 category=fisherman_platform
 
-[fisherman_platform3]
+[fishplatform3]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
@@ -181,7 +181,7 @@ head1=model_63_idk_head
 head2=model_82_idk_head
 category=fisherman_platform
 
-[fisherman_platform4]
+[fishplatform4]
 vislevel=hide
 name=Fisherman
 desc=Something fishy about him...

@@ -31,7 +31,7 @@ if(npc_findhero = ^true) {
 gosub(npc_death);
 // https://youtu.be/BLxnHE5hU7U?si=mnH0oxq2DbwyAy5y&t=116 
 // https://www.youtube.com/watch?v=mYBva3EhdvM&t=368s, https://youtu.be/iIf98JWB9JI?si=jLbFDg_ZrpzTHGB5&t=78
-if(.npc_find(npc_coord, glough, 7, 0) = true) {
+if(.npc_find(npc_coord, grandtree_glough, 7, 0) = true) {
     .npc_del;
 }
 

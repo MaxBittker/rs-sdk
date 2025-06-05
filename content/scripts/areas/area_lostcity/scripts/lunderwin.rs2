@@ -1,4 +1,4 @@
-[opnpc1,lunderwin]
+[opnpc1,fairy_lunderwin]
 ~chatnpc("<p,neutral>Buying cabbage am I, not have such thing where I from. Will pay money much handsome for wondrous object, cabbage you called.");
 ~chatnpc("<p,neutral>Say I 100 gold coins each fair price to be giving yes?");
 if(inv_total(inv, cabbage) > 0) {

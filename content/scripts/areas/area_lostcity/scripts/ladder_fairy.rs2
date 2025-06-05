@@ -1,11 +1,11 @@
-[opnpc1,ladder_fairy] @ladder_fairy_talk;
+[opnpc1,fairy_ladder_attendant] @fairy_ladder_attendant_talk;
 
 [oploc1,loc_2410]
-if (npc_findexact(0_50_149_54_54, ladder_fairy) = true) {
-    @ladder_fairy_talk;
+if (npc_findexact(0_50_149_54_54, fairy_ladder_attendant) = true) {
+    @fairy_ladder_attendant_talk;
 }
 
-[label,ladder_fairy_talk]
+[label,fairy_ladder_attendant_talk]
 ~chatnpc("<p,neutral>This ladder will take you out of Zanaris.|It leads to the place known as Al Kharid in your realm.|Once passed you can not return this way.");
 ~chatnpc("<p,neutral>Before leaving make sure that you have fully sampled the delights of our marketplace.");
 def_int $option = ~p_choice2("I think I'll stay down here a bit longer.", 1, "Yes, I'm ready to leave.", 2);

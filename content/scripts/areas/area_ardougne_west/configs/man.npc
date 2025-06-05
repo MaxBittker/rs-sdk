@@ -55,7 +55,7 @@ model7=model_275_idk
 head1=model_63_idk_head
 head2=model_82_idk_head
 
-[west_ardougne_man_3]
+[w_ardougnecitizen1]
 vislevel=hide
 name=Man
 desc=One of RuneScapes' many citizens.
@@ -76,7 +76,7 @@ model7=model_275_idk
 head1=model_67_idk_head
 head2=model_82_idk_head
 
-[west_ardougne_man_4]
+[w_ardougnecitizen2]
 vislevel=hide
 name=Man
 desc=One of RuneScapes' many citizens.
@@ -99,7 +99,7 @@ model7=model_275_idk
 head1=model_67_idk_head
 head2=model_82_idk_head
 
-[west_ardougne_man_5]
+[w_ardougnecitizen3]
 vislevel=hide
 name=Man
 desc=One of RuneScapes' many citizens.
@@ -122,7 +122,7 @@ model7=model_271_idk
 head1=model_52_idk_head
 head2=model_82_idk_head
 
-[west_ardougne_man_6]
+[w_ardougnecitizen4]
 vislevel=hide
 name=Man
 desc=One of RuneScapes' many citizens.
@@ -145,7 +145,7 @@ model7=model_275_idk
 head1=model_52_idk_head
 head2=model_82_idk_head
 
-[west_ardougne_man_7]
+[w_ardougnecitizen5]
 vislevel=hide
 name=Man
 desc=One of RuneScapes' many citizens.

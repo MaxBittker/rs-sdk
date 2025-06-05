@@ -1,4 +1,4 @@
-[opnpc1,monk_zanaris]
+[opnpc1,monkadventurerpg]
 if(map_members = ^false) { // From RS3
     ~chatplayer("<p,happy>Top of the day to you!");
     ~chatnpc("<p,neutral>Yes, Saradomin has certainly blessed us today!");

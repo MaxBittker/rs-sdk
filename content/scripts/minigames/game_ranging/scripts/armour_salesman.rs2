@@ -1,4 +1,4 @@
-[opnpc1,armour_salesman]
+[opnpc1,ranging_guild_armour_salesman]
 ~chatplayer("<p,happy>Good day to you.");
 ~chatnpc("<p,happy>And to you. Can I help you?");
 switch_int(~p_choice3("What do you do here?", 1, "I'd like to see what you sell.", 2, "I've seen enough, thanks.", 3)) {

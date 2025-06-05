@@ -1,4 +1,4 @@
-[opnpc1,hudo]
+[opnpc1,gnome_hudo]
 ~chatplayer("<p,neutral>Hello there.");
 // https://media.discordapp.net/attachments/1126857340075905135/1267505353290154044/grandtreehudo.png?ex=66af9f59&is=66ae4dd9&hm=1c868334db16df3237fdefff6ac1936eab8093ed205f7097736901146fcbdf22&=&format=webp&quality=lossless&width=509&height=101
 ~chatnpc("<p,neutral>Hello there traveller. Would you like some groceries? I have a large selection");

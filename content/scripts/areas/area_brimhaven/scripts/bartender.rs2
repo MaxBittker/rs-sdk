@@ -1,4 +1,4 @@
-[opnpc1,bartender_brimhaven]
+[opnpc1,deadmans_bartender]
 ~chatnpc("<p,laugh>Yohoho me hearty what would you like to drink?");
 def_int $option;
 if(testbit(%barcrawl_progress, ^deadman_index) = ^false & inv_total(inv, barcrawl_card) > 0) {
@@ -31,7 +31,7 @@ switch_int ($option) {
     case 4 : @deadman_barcrawl;
 }
 
-[opnpcu,bartender_brimhaven]
+[opnpcu,deadmans_bartender]
 if(testbit(%barcrawl_progress, ^deadman_index) = ^false & last_useitem = barcrawl_card) {
     @deadman_barcrawl;
 }

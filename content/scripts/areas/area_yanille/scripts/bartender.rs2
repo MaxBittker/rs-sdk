@@ -1,4 +1,4 @@
-[opnpc1,bartender_dragoninn]
+[opnpc1,dragon_bartender]
 ~chatnpc("<p,quiz>What can I get you?");
 ~chatplayer("<p,quiz>What's on the menu?");
 // also sells beer in OSRS, just these 2 in RSC, sals and RHQ mentions it's only 2 drinks as well
@@ -38,7 +38,7 @@ switch_int($option) {
     case 4 : @dragoninn_barcrawl;
 }
 
-[opnpcu,bartender_dragoninn]
+[opnpcu,dragon_bartender]
 if(testbit(%barcrawl_progress, ^dragoninn_index) = ^false & last_useitem = barcrawl_card) {
     @dragoninn_barcrawl;
 }

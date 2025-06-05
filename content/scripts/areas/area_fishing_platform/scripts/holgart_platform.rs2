@@ -1,11 +1,11 @@
-[opnpc1,holgart_platform]
+[opnpc1,holgartplatform]
 switch_int(%seaslug_progress) {
     case ^seaslug_spoken_kennith : @holgart_something_strange;
     case ^seaslug_saved_kennith : @holgart_kid_shore;
-    case default : @holgart_platform_standard;
+    case default : @holgartplatform_standard;
 }
 
-[label,holgart_platform_standard]
+[label,holgartplatform_standard]
 ~chatplayer("<p,happy>Hey, Holgart.");
 ~chatnpc("<p,shifty>Have you had enough of this place yet?|It's really starting to scare me.");
 switch_int(~p_choice2("No, I'm going to stay a while.", 1, "Okay, let's go back.", 2)) {

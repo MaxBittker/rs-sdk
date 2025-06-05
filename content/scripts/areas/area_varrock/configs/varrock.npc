@@ -30,7 +30,7 @@ param=shop_delta,10
 param=shop_title,Aubury's Rune Shop.
 moverestrict=indoors
 
-[bartender_varrock]
+[bluemoon_bartender]
 vislevel=hide
 name=Bartender
 desc=I could get a beer from him.
@@ -163,7 +163,7 @@ head1=model_63_idk_head
 head2=model_79_idk_head
 moverestrict=indoors
 
-[shop_keeper_varrock_generalshop]
+[generalshopkeeper2]
 vislevel=hide
 name=Shop keeper
 desc=Likes people spending money.
@@ -199,7 +199,7 @@ param=shop_delta,30
 param=shop_title,Varrock General Store
 moverestrict=indoors
 
-[shop_assistant_varrock_generalshop]
+[generalassistant2]
 vislevel=hide
 name=Shop assistant
 desc=Likes helping sell stuff.
@@ -292,7 +292,7 @@ param=shop_title,Thessalia Fine Clothes.
 moverestrict=indoors
 param=death_sound,female_death
 
-[horvik]
+[horvik_the_armourer]
 vislevel=hide
 name=Horvik
 desc=The man with the armour.
@@ -356,7 +356,7 @@ param=shop_delta,10
 param=shop_title,Lowe's Archery Emporium
 moverestrict=indoors
 
-[fancy_dress_shop_owner]
+[tailorp]
 vislevel=hide
 name=Fancy dress shop owner
 desc=For the interesting clothing items you just can't find elsewhere.
@@ -393,7 +393,7 @@ param=shop_delta,20
 param=shop_title,Fancy Clothes Store
 moverestrict=indoors
 
-[shop_keeper_varrock_swordshop]
+[swordshop1]
 vislevel=hide
 name=Shop keeper
 desc=Ironically, makes a living from swords.
@@ -428,7 +428,7 @@ param=shop_delta,20
 param=shop_title,Varrock Swordshop.
 moverestrict=indoors
 
-[shop_assistant_varrock_swordshop]
+[swordshop2]
 vislevel=hide
 name=Shop assistant
 desc=Helps the shop keeper sell swords.
@@ -462,7 +462,7 @@ param=shop_delta,20
 param=shop_title,Varrock Swordshop.
 moverestrict=indoors
 
-[bartender_jollyboar]
+[jollyboar_bartender]
 vislevel=hide
 name=Bartender
 desc=I could get a beer from him.
@@ -570,7 +570,7 @@ model8=model_238_npc
 head1=model_53_idk_head
 head2=model_70_npc_head
 
-[tramp_orange]
+[tramppg]
 vislevel=hide
 name=Tramp
 desc=Looks down on his luck.
@@ -819,7 +819,7 @@ model8=model_181_idk
 head1=model_59_idk_head
 moverestrict=indoors
 
-[crest_dimintheis]
+[dimintheis]
 vislevel=hide
 name=Dimintheis
 desc=A well dressed nobleman.
@@ -851,7 +851,7 @@ model10=model_324_idk
 head1=model_55_idk_head
 head2=model_79_idk_head
 
-[crest_johnathon]
+[johnathon_fitzharmon]
 vislevel=hide
 name=Johnathon
 desc=A well dressed nobleman.

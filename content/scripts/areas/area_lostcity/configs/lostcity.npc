@@ -98,7 +98,7 @@ param=shop_delta,10
 param=shop_title,irksol
 wanderrange=3
 
-[ladder_fairy]
+[fairy_ladder_attendant]
 vislevel=hide
 name=Fairy
 desc=Looks strange and mysterious.
@@ -117,7 +117,7 @@ wanderrange=0
 moverestrict=nomove
 param=death_anim,fairy_death
 
-[lunderwin]
+[fairy_lunderwin]
 vislevel=hide
 name=Lunderwin
 desc=Smells strangely of cabbage.
@@ -137,7 +137,7 @@ head1=model_14_npc_head
 wanderrange=2
 param=death_anim,fairy_death
 
-[fairy_shop_keeper]
+[generalshopkeeper8]
 vislevel=hide
 name=Fairy shop keeper
 desc=Sells stuff.
@@ -160,7 +160,7 @@ param=shop_title,Zanaris General Store
 wanderrange=2
 param=death_anim,fairy_death
 
-[fairy_shop_assistant]
+[generalassistant8]
 vislevel=hide
 name=Fairy shop assistant
 desc=Sells stuff.

@@ -1,4 +1,4 @@
-[party_pete]
+[partyroom_pete]
 name=Party Pete
 desc=He likes to paaaarty!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -24,7 +24,7 @@ head1=model_63_idk_head
 head2=model_77_npc_head
 head3=model_29_obj_wear
 
-[partyroom_dancingknight]
+[partyroom_knight]
 name=Knight
 desc=You'd need a tin opener to get him out.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -41,7 +41,7 @@ head1=model_56_obj_wear
 wanderrange=0
 moverestrict=nomove
 
-[partyroom_megan]
+[partyroom_barmaid]
 name=Megan
 desc=Pretty barmaid.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -62,7 +62,7 @@ model7=model_358_idk
 head1=model_113_idk_head
 head2=model_87_obj_wear
 
-[partyroom_lucy]
+[partyroom_barmaid2]
 name=Lucy
 desc=Pretty barmaid.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r

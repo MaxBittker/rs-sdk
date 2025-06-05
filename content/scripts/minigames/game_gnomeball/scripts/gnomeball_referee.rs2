@@ -9,7 +9,7 @@ if(inv_total(inv, trail_clue_medium_anagram008_challenge) > 0) {
 inv_add(inv, trail_clue_medium_anagram008_challenge, 1);
 ~objbox(trail_clue_medium_anagram008_challenge, "The ref has given you a challenge scroll!", 250, 0, 0);
 
-[opnpc1,gnome_ball_referee]
+[opnpc1,gnomereferee]
 if(inv_total(inv, trail_clue_medium_anagram008) > 0) {
     @trail_gnome_ball_ref;
 }

@@ -1,4 +1,4 @@
-[opnpc1,monk_of_entrana_island]
+[opnpc1,shipmonk2]
 ~chatnpc("<p,happy>Do you wish to leave holy Entrana?");
 def_int $option = ~p_choice2("Yes, I'm ready to go.", 1, "Not just yet.", 2);
 if($option = 1){

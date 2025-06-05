@@ -56,8 +56,11 @@ model5=model_428_idk
 model6=model_361_obj_wear
 model7=model_509_obj_wear
 head1=model_115_idk_head
-wanderrange=1
+wanderrange=3
 param=death_sound,female_death
+//There are 2 male slave npc on the osrs side that have
+//a different id than the others, they have wander 3
+//these 2 are the original id versions from before the rework.
 
 [male_slave]
 vislevel=hide
@@ -80,7 +83,10 @@ model7=model_185_obj_wear
 model8=model_509_obj_wear
 head1=model_55_idk_head
 head2=model_82_idk_head
-wanderrange=1
+wanderrange=3
+//There are 2 male slave npc on the osrs side that have
+//a different id than the others, they have wander 3
+//these 2 are the original id versions from before the rework.
 
 [escaping_slave]
 vislevel=hide

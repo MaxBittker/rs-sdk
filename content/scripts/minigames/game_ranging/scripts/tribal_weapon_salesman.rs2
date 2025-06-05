@@ -1,4 +1,4 @@
-[opnpc1,tribal_weapon_salesman]
+[opnpc1,ranging_guild_tribal_salesman]
 ~chatplayer("<p,happy>Hello there.");
 ~chatnpc("<p,happy>Greetings, traveller. Are you interested in any throwing weapons?");
 switch_int(~p_choice2("Yes I am.", 1, "Not really.", 2)) {

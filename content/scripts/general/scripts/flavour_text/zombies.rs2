@@ -8,7 +8,7 @@
 [ai_timer,zombie2] @zombie_brains;
 [ai_timer,zombie_armed] @zombie_brains;
 [ai_timer,zombie_entranan] @zombie_brains;
-[ai_timer,melzar_maze_zombie] @zombie_brains;
+[ai_timer,dragonslayer_zombie] @zombie_brains;
 
 [label,zombie_brains]
 if (finduid(%npc_attacking_uid) = true) {

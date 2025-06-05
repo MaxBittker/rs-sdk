@@ -1,13 +1,13 @@
-[opnpc1,competition_judge]
+[opnpc1,ranging_guild_competition_judge]
 if(%target1 = 11) {
-    @competition_judge_reward_pts;
+    @ranging_guild_competition_judge_reward_pts;
 } else if(%target1 >= 1 & %target1 < 11) {
     ~chatnpc("<p,happy>Hello again, do you need reminding of the rules?");
     if(inv_total(inv, bronze_arrow) = 0 & inv_total(worn, bronze_arrow) = 0) {
         // https://www.youtube.com/watch?v=U7A6tezhTzQ
         ~chatplayer("<p,neutral>Well, I actually don't have any more arrows. Could I get some?");
         ~chatnpc("<p,neutral>Ok, but it'll cost you 100 coins.");
-        @multi2("Sure, i'll take some.", competition_judge_buyarrow, "No thanks.", competition_judge_no);
+        @multi2("Sure, i'll take some.", ranging_guild_competition_judge_buyarrow, "No thanks.", ranging_guild_competition_judge_no);
     }
     switch_int(~p_choice3("Yes please.", 1, "No thanks, I've got it.", 2, "How am I doing so far?", 3)) {
         case 1 :
@@ -40,10 +40,10 @@ if(%target1 = 11) {
     }
 } else {
     ~chatnpc("<p,happy>Hello there, would you like to take part in the archery competition? It only costs 200 coins to enter.");
-    @multi3("Sure, I'll give it a go.", competition_judge_sure, "What are the rules?", competition_judge_rules, "No thanks.", competition_judge_no);
+    @multi3("Sure, I'll give it a go.", ranging_guild_competition_judge_sure, "What are the rules?", ranging_guild_competition_judge_rules, "No thanks.", ranging_guild_competition_judge_no);
 }
 
-[label,competition_judge_buyarrow]
+[label,ranging_guild_competition_judge_buyarrow]
 ~chatplayer("<p,happy>Sure, i'll take some.");
 if(inv_total(inv, coins) < 100) {
     ~chatplayer("<p,sad>Oops, I don't have enough coins on me...");
@@ -54,7 +54,7 @@ inv_del(inv, coins, 100);
 inv_add(inv, bronze_arrow, 10);
 mes("You pay the judge and he gives you 10 bronze arrows.");
 
-[label,competition_judge_sure]
+[label,ranging_guild_competition_judge_sure]
 ~chatplayer("<p,happy>Sure, I'll give it a go.");
 ~chatnpc("<p,happy>Great! That will be 200 coins then please.");
 if(inv_total(inv, coins) < 200) {
@@ -67,16 +67,16 @@ inv_del(inv, coins, 200);
 inv_add(inv, bronze_arrow, 10);
 %target1 = 1;
 
-[label,competition_judge_rules]
+[label,ranging_guild_competition_judge_rules]
 ~chatplayer("<p,quiz>What are the rules?");
 ~chatnpc("<p,happy>The rules are very simple:");
 ~chatnpc("<p,neutral>You're given 10 shots at the targets, for each hit you will receive points. At the end you'll be awarded 1 ticket for every 10 points.");
 ~chatnpc("<p,neutral>The tickets can be exchanged for goods from our stores. Do you want to give it a go? Only 200 coins.");
-@multi2("Sure, I'll give it a go.", competition_judge_sure, "No thanks.", competition_judge_no);
+@multi2("Sure, I'll give it a go.", ranging_guild_competition_judge_sure, "No thanks.", ranging_guild_competition_judge_no);
 
-[label,competition_judge_no] ~chatplayer("<p,neutral>No thanks.");
+[label,ranging_guild_competition_judge_no] ~chatplayer("<p,neutral>No thanks.");
 
-[label,competition_judge_reward_pts]
+[label,ranging_guild_competition_judge_reward_pts]
 %target2 = calc(%target2 / 10);
 def_int $token_count = %target2; // this is what osrs does
 %target2 = 0;

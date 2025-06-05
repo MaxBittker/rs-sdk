@@ -1,10 +1,10 @@
 // auto retaliate
-[ai_queue1,melzar] ~npc_default_retaliate_ap;
+[ai_queue1,melzar_the_mad] ~npc_default_retaliate_ap;
 
 
 // his ap attacks dont have the curse spell. It is replaced with the zap spell
-[ai_applayer2,melzar]
-~melzar_say_random_message;
+[ai_applayer2,melzar_the_mad]
+~melzar_the_mad_say_random_message;
 if (%npc_action_delay > map_clock) {
     return;
 }
@@ -35,8 +35,8 @@ if ($random_attack < 8 & stat(strength) >= stat_base(strength)) { // dont cast i
 }
 
 
-[ai_opplayer2,melzar]
-~melzar_say_random_message;
+[ai_opplayer2,melzar_the_mad]
+~melzar_the_mad_say_random_message;
 if (%npc_action_delay > map_clock) {
     return;
 }
@@ -94,7 +94,7 @@ if ($damage > 0) {
 %npc_action_delay = add(map_clock, $attackspeed);
 ~npc_set_attack_vars;
 
-[proc,melzar_say_random_message]
+[proc,melzar_the_mad_say_random_message]
 def_int $random_say = random(20);
 // seems like 1/5 chance?
 switch_int ($random_say) {

@@ -1,4 +1,4 @@
-[opnpc1,holgart_island]
+[opnpc1,holgartsunkboat]
 if(%seaslug_progress ! ^seaslug_sailed_kent) {
     ~chatplayer("<p,neutral>We'd better get back to the platform|so we can see what's going on.");
     ~chatnpc("<p,shifty>You're right. It all sounds pretty creepy.");

@@ -1,10 +1,10 @@
-[opnpc1,foreman]
+[opnpc1,grandtree_foreman]
 if((%grandtree_progress ! ^grandtree_released_prison & %grandtree_progress ! ^grandtree_obtained_lumber_order) | ~obj_gettotal(grandtree_order) > 0) {
     ~mesbox("The foreman is too busy to talk.");
     return;
 }
 if(inzone(0_46_47_0_0, 0_46_47_32_63, npc_coord) = true) {
-    @foreman_whyhere;
+    @grandtree_foreman_whyhere;
 }
 ~chatplayer("<p,neutral>Hello, are you in charge?");
 ~chatnpc("<p,quiz>That's right, and you are...?");
@@ -23,8 +23,8 @@ bas_running(null);
 p_walk(0_46_47_45_40);
 p_delay(2);
 p_teleport(0_46_47_11_25);
-if(npc_find(coord, foreman, 10, 0) = false) {
-    npc_add(movecoord(coord, -1, 0, -1), foreman, 200); // 200t osrs
+if(npc_find(coord, grandtree_foreman, 10, 0) = false) {
+    npc_add(movecoord(coord, -1, 0, -1), grandtree_foreman, 200); // 200t osrs
     npc_setmode(none);
 }
 npc_walk(0_46_47_10_16);
@@ -32,66 +32,66 @@ p_delay(1);
 ~forcewalk(0_46_47_10_17);
 ~update_bas;
 p_delay(0);
-@foreman_whyhere;
+@grandtree_foreman_whyhere;
 
-[label,foreman_whyhere]
+[label,grandtree_foreman_whyhere]
 ~chatnpc("<p,neutral>Tell me again why you're here.");
 ~chatplayer("<p,confused>Er...Glough sent me?");
 ~chatnpc("<p,quiz>By the way how is Glough? Still with his wife?");
 switch_int(~p_choice3("Yes, they're getting on great.", 1, "Always arguing as usual!", 2, "Sadly his wife is no longer with us!", 3)) {
     case 1 :
         ~chatplayer("<p,happy>Yes, they're getting on great.");
-        @foreman_wrongans1;
+        @grandtree_foreman_wrongans1;
     case 2 :
         ~chatplayer("<p,happy>Always arguing as usual!");
-        @foreman_wrongans1;
+        @grandtree_foreman_wrongans1;
     case 3 :
         ~chatplayer("<p,sad>Sadly his wife is no longer with us!");
-        @foreman_rightans1;
+        @grandtree_foreman_rightans1;
 }
 
-[label,foreman_wrongans1]
+[label,grandtree_foreman_wrongans1]
 ~chatnpc("<p,quiz>Really? That's odd, considering she died last year.");
-@foreman_attack;
+@grandtree_foreman_attack;
 
-[label,foreman_rightans1]
+[label,grandtree_foreman_rightans1]
 ~chatnpc("<p,happy>Right answer. I have to watch for imposters.");
 ~chatnpc("<p,quiz>What's Glough's favourite dish?");
 switch_int(~p_choice3("He loves tangled toads legs.", 1, "He loves worm holes.", 2, "He loves choc bombs.", 3)) {
     case 1 :
         ~chatplayer("<p,neutral>He loves tangled toads legs.");
-        @foreman_wrongans2;
+        @grandtree_foreman_wrongans2;
     case 2 :
         ~chatplayer("<p,neutral>He loves worm holes.");
-        @foreman_rightans2;
+        @grandtree_foreman_rightans2;
     case 3 :
         ~chatplayer("<p,neutral>He loves choc bombs.");
-        @foreman_wrongans2;
+        @grandtree_foreman_wrongans2;
 }
 
-[label,foreman_wrongans2]
+[label,grandtree_foreman_wrongans2]
 ~chatnpc("<p,neutral>Our survey said.... Bzzzzzz! Wrong answer!");
-@foreman_attack;
+@grandtree_foreman_attack;
 
-[label,foreman_rightans2]
+[label,grandtree_foreman_rightans2]
 ~chatnpc("<p,neutral>OK. Just one more. What's the name of his new girlfriend?");
 switch_int(~p_choice3("Anita.", 1, "Alia.", 2, "Elena.", 3)) {
     case 1 :
         ~chatplayer("<p,neutral>Anita.");
-        @foreman_rightans3;
+        @grandtree_foreman_rightans3;
     case 2 :
         ~chatplayer("<p,neutral>Alia.");
-        @foreman_wrongans3;
+        @grandtree_foreman_wrongans3;
     case 3 :
         ~chatplayer("<p,neutral>Elena.");
-        @foreman_wrongans3;
+        @grandtree_foreman_wrongans3;
 }
 
-[label,foreman_wrongans3]
+[label,grandtree_foreman_wrongans3]
 ~chatnpc("<p,angry>You almost had me fooled!");
-@foreman_attack;
+@grandtree_foreman_attack;
 
-[label,foreman_rightans3]
+[label,grandtree_foreman_rightans3]
 ~chatnpc("<p,neutral>Well, well, you do know Glough. Sorry for the interrogation but I'm sure you understand.");
 ~chatplayer("<p,neutral>Of course, security is paramount.");
 ~chatnpc("<p,neutral>As you can see things are going well.");
@@ -112,22 +112,22 @@ inv_add(inv, grandtree_order, 1);
 ~objbox(grandtree_order, "The foreman has given you the lumber order.", 250, 0, 0);
 ~chatplayer("<p,neutral>OK. I'll head off and give this order to Glough.");
 
-[label,foreman_attack]
+[label,grandtree_foreman_attack]
 if_close;
 npc_say("Die imposter!");
 npc_setmode(opplayer2);
 
-[ai_queue3,foreman]
+[ai_queue3,grandtree_foreman]
 gosub(npc_death);
 if(npc_findhero = ^true) {
     // queued, no if_close
     if((%grandtree_progress = ^grandtree_released_prison | %grandtree_progress = ^grandtree_obtained_lumber_order) & ~obj_gettotal(grandtree_order) = 0) {
-        queue(queue_defeat_foreman, 0, npc_uid);
+        queue(queue_defeat_grandtree_foreman, 0, npc_uid);
     }
     obj_add(npc_coord, bones, 1, ^lootdrop_duration); // this isn't queued, the lumber order is
 }
 
-[queue,queue_defeat_foreman](npc_uid $npc)
+[queue,queue_defeat_grandtree_foreman](npc_uid $npc)
 if(npc_finduid($npc) = true) {
     if(%grandtree_progress = ^grandtree_released_prison) %grandtree_progress = ^grandtree_obtained_lumber_order;
     mes("The foreman drops a piece of paper as he dies.");

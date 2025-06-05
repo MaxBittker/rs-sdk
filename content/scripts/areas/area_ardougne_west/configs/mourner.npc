@@ -243,7 +243,7 @@ model5=model_185_obj_wear
 model6=model_323_obj_wear
 head1=model_51_obj_wear
 
-[head_mourner]
+[headmourner]
 vislevel=hide
 name=Head mourner
 desc=In charge of people with silly outfits.
@@ -269,7 +269,7 @@ model6=model_323_obj_wear
 model7=model_536_npc
 head1=model_51_obj_wear
 
-[mourner_blacksuit_1]
+[mourner1]
 vislevel=hide
 name=Mourner
 desc=A mourner, or plague healer.
@@ -294,7 +294,7 @@ model5=model_323_obj_wear
 model6=model_499_npc
 head1=model_51_obj_wear
 
-[mourner_blacksuit_3]
+[mournertwb]
 vislevel=hide
 name=Mourner
 desc=A mourner, or plague healer.

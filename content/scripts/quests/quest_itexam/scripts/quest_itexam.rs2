@@ -9,8 +9,8 @@
 // (see https://chisel.weirdgloop.org/varbs/display?varplayer=135)
 [proc,itexam_reset_student_errands]
 ~itexam_set_errand_progress(^itexam_errand_student1, 0);
-~itexam_set_errand_progress(^itexam_errand_student2, 0);
 ~itexam_set_errand_progress(^itexam_errand_student3, 0);
+~itexam_set_errand_progress(^itexam_errand_student2, 0);
 
 [proc,itexam_progress]()(int)
 return (getbit_range(%itexam_progress, 0, 3));

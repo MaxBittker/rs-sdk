@@ -13,7 +13,7 @@ if_close;
 if ($choice = 2) {
     return;
 }
-if (npc_find(coord, party_pete, 16, 0) = true) {
+if (npc_find(coord, partyroom_pete, 16, 0) = true) {
     ~pull_partylever(5000);
     @partyroom_drop_balloons(0);
 }
@@ -35,26 +35,26 @@ if_close;
 if ($choice = 2) {
     return;
 }
-if(npc_find(coord, partyroom_dancingknight, 7, 0) = true) {
+if(npc_find(coord, partyroom_knight, 7, 0) = true) {
     ~mesbox("The party room knights are already here!");
     return;
 }
 ~pull_partylever(2000);
 def_int $knights_spawned = 0;
 while($knights_spawned < 6) {
-    npc_add(movecoord(^partyroom_starting_knight_coord, $knights_spawned, 0, 0), partyroom_dancingknight, 100);
+    npc_add(movecoord(^partyroom_starting_knight_coord, $knights_spawned, 0, 0), partyroom_knight, 100);
     $knights_spawned = calc($knights_spawned + 1);
 }
-if(npc_findexact(movecoord(^partyroom_starting_knight_coord, 2, 0, 0), partyroom_dancingknight) = false) {
+if(npc_findexact(movecoord(^partyroom_starting_knight_coord, 2, 0, 0), partyroom_knight) = false) {
     return;
 }
 // 5t delay on first, 4t delay afterwards
 npc_queue(10, 1, 6);
 
-[opnpc1,partyroom_dancingknight]
+[opnpc1,partyroom_knight]
 ~mesbox("He is too busy dancing to talk!");
 
-[ai_queue10,partyroom_dancingknight]
+[ai_queue10,partyroom_knight]
 def_int $delay = 5;
 switch_int (last_int) {
     case 1 : npc_say("We're Knights of the Party Room");
@@ -69,7 +69,7 @@ switch_int (last_int) {
         npc_say("Like a party animal in the groove");
     case 9 :
         npc_queue(10, 10, 3); // 2t
-        if (npc_find(npc_coord, party_pete, 16, 0) = true) {
+        if (npc_find(npc_coord, partyroom_pete, 16, 0) = true) {
             npc_say("The party room is a silly place!");
         }
         return;
@@ -78,7 +78,7 @@ if (last_int < 9) {
     npc_queue(10, calc(last_int + 1), $delay);
     return;
 }
-npc_findall(movecoord(^partyroom_starting_knight_coord, 2, 0, 0), partyroom_dancingknight, 3, 0);
+npc_findall(movecoord(^partyroom_starting_knight_coord, 2, 0, 0), partyroom_knight, 3, 0);
 while (npc_findnext = true) {
     npc_del;
 }

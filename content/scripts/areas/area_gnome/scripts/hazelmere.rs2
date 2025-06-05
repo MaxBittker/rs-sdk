@@ -1,4 +1,4 @@
-[opnpc1,hazelmere]
+[opnpc1,grandtree_hazelmere]
 if(inv_total(inv, trail_clue_medium_anagram001) > 0) {
     @trail_hazelmere;
 }

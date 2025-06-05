@@ -1,4 +1,4 @@
-[opnpc1,rometti]
+[opnpc1,gnome_rometti]
 ~chatplayer("<p,neutral>Hello.");
 ~chatnpc("<p,neutral>Hello traveller. Have a look at my latest range of|gnome fashion. Rometti is the ultimate label in gnome|high society.");
 ~chatplayer("<p,bored>Really.");

@@ -704,7 +704,7 @@ param=shop_delta,20
 param=shop_title,Aemad's Adventuring Supplies.
 moverestrict=indoors
 
-[bartender_flyinghorse]
+[flyinghorse_bartender]
 vislevel=hide
 name=Bartender
 desc=I could get a beer from him.
@@ -776,7 +776,7 @@ head1=model_114_idk_head
 wanderrange=2
 param=death_sound,female_death
 
-[holgart_ardougne]
+[holgartland]
 vislevel=hide
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_staffready

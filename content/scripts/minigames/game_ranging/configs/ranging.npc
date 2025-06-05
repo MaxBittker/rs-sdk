@@ -71,7 +71,7 @@ strength=20
 defence=40
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6057
 
-[leatherworker]
+[ranging_guild_leatherworker]
 vislevel=hide
 name=Leatherworker
 desc=An expert leatherworker.
@@ -100,7 +100,7 @@ head1=model_120_idk_head
 head2=model_90_obj_wear
 wanderrange=2
 
-[weapon_poison_salesman]
+[ranging_guild_poison_salesman]
 vislevel=hide
 name=Weapon poison salesman
 desc=Supplier of deadly liquids.
@@ -121,7 +121,7 @@ model7=model_262_obj_wear
 head1=model_58_npc_head
 head2=model_79_idk_head
 
-[armour_salesman]
+[ranging_guild_armour_salesman]
 vislevel=hide
 name=Armour salesman
 desc=Supplier of Rangers armour.
@@ -155,7 +155,7 @@ param=shop_buy_multiplier,500
 param=shop_delta,10
 param=shop_title,Aaron's Archery Appendages.
 
-[bow_and_arrow_salesman]
+[ranging_guild_bow_salesman]
 vislevel=hide
 name=Bow and Arrow salesman
 desc=Supplier of Archery equipment.
@@ -183,7 +183,7 @@ param=shop_buy_multiplier,500
 param=shop_delta,10
 param=shop_title,Dargaud's Bow and Arrows.
 
-[tower_advisor_north]
+[ranging_advisor1]
 vislevel=hide
 name=Tower Advisor
 desc=Tower keeper and competition judge.
@@ -205,7 +205,7 @@ wanderrange=0
 moverestrict=nomove
 category=tower_advisor
 
-[tower_advisor_east]
+[ranging_advisor2]
 vislevel=hide
 name=Tower Advisor
 desc=Tower keeper and competition judge.
@@ -227,7 +227,7 @@ wanderrange=0
 moverestrict=nomove
 category=tower_advisor
 
-[tower_advisor_south]
+[ranging_advisor3]
 vislevel=hide
 name=Tower Advisor
 desc=Tower keeper and competition judge.
@@ -249,7 +249,7 @@ wanderrange=0
 moverestrict=nomove
 category=tower_advisor
 
-[tower_advisor_west]
+[ranging_advisor4]
 vislevel=hide
 name=Tower Advisor
 desc=Tower keeper and competition judge.
@@ -271,7 +271,7 @@ wanderrange=0
 moverestrict=nomove
 category=tower_advisor
 
-[tower_archer_north]
+[guild_towerarcher1]
 name=Tower Archer
 desc=Defender of the north tower.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -315,7 +315,7 @@ huntmode=aggressive_ranged
 huntrange=11
 // Stats match osrs version but our version Vislvl is different.
 
-[tower_archer_east]
+[guild_towerarcher2]
 name=Tower Archer
 desc=Defender of the east tower.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -357,7 +357,7 @@ huntmode=aggressive_ranged
 huntrange=11
 // Stats match osrs version but our version Vislvl is different.
 
-[tower_archer_south]
+[guild_towerarcher3]
 name=Tower Archer
 desc=Defender of the south tower.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -399,7 +399,7 @@ huntmode=aggressive_ranged
 huntrange=11
 // Stats match osrs version but our version Vislvl is different.
 
-[tower_archer_west]
+[guild_towerarcher4]
 name=Tower Archer
 desc=Defender of the west tower.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -441,7 +441,7 @@ huntmode=aggressive_ranged
 huntrange=11
 // Stats match osrs version but our version Vislvl is different.
 
-[tribal_weapon_salesman]
+[ranging_guild_tribal_salesman]
 vislevel=hide
 name=Tribal Weapon Salesman
 desc=Supplier of authentic throwing weapons.
@@ -471,7 +471,7 @@ param=shop_buy_multiplier,500
 param=shop_delta,10
 param=shop_title,Authentic Throwing Weapons.
 
-[competition_judge]
+[ranging_guild_competition_judge]
 vislevel=hide
 name=Competition Judge
 desc=Overseer of the Archery competition.
@@ -493,7 +493,7 @@ head2=model_85_idk_head
 head3=model_32_obj_wear
 wanderrange=1
 
-[ticket_merchant]
+[ranging_guild_ticket_exchange]
 vislevel=hide
 name=Ticket Merchant
 desc=Exchanges your tickets for equipment.

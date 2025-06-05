@@ -22,7 +22,7 @@ if (stat(fishing) < 68) {
 
 // todo - facial animations.
 // todo - linebreaks.
-[opnpc1,roachey]
+[opnpc1,fishguildshop]
 ~chatnpc("<p,neutral>Would you like to buy some fishing equipment,|or sell some fish?"); //imgur.com/CkMVc4S
 
 def_int $option = ~p_choice2("Yes please.", 0, "No thank you.", 1);

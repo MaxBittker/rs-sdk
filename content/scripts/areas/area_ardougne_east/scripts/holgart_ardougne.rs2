@@ -1,4 +1,4 @@
-[opnpc1,holgart_ardougne]
+[opnpc1,holgartland]
 switch_int (%seaslug_progress) {
     case ^seaslug_not_started : @holgart_prequest;
     case ^seaslug_started : @holgart_wantboat;

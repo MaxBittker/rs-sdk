@@ -1,34 +1,34 @@
-[opnpc1,student2]
+[opnpc1,student3]
 // https://youtu.be/TrSlu4__Rt4?t=470
 def_int $itexam_progress = ~itexam_progress;
 switch_int ($itexam_progress) {
-    case ^itexam_first_exam : @itexam_student2_errand;
-    case ^itexam_second_exam : @itexam_student2_second_exam_tips;
-    case ^itexam_third_exam : @itexam_student2_third_exam_tips;
-    case default : @student2_pre_quest;
+    case ^itexam_first_exam : @itexam_student3_errand;
+    case ^itexam_second_exam : @itexam_student3_second_exam_tips;
+    case ^itexam_third_exam : @itexam_student3_third_exam_tips;
+    case default : @student3_pre_quest;
 }
 
-[opnpcu,student2]
+[opnpcu,student3]
 def_obj $item = last_useitem;
 
 if ($item = cracked_sample) {
     ~chatplayer("<p,quiz>Is this yours?");
     ~chatnpc("<p,quiz>This broken rock? I hope not!");
 } else if ($item = rock_sample2) {
-    @itexam_student2_deliver_sample;
+    @itexam_student3_deliver_sample;
 } else {
     ~displaymessage(^dm_default);
 }
 
-[label,student2_pre_quest]
+[label,student3_pre_quest]
 ~chatplayer("<p,happy>Hello there.");
 ~chatnpc("<p,happy>Hello there; as you can see I am a student.");
 ~chatplayer("<p,quiz>What are you doing here?");
 ~chatnpc("<p,happy>Oh, I'm studying for the Earth Sciences exam.");
 ~chatplayer("<p,confused>Interesting... Perhaps I should study it as well.");
 
-[label,itexam_student2_errand]
-def_int $errand_state = ~itexam_errand_progress(^itexam_errand_student2);
+[label,itexam_student3_errand]
+def_int $errand_state = ~itexam_errand_progress(^itexam_errand_student3);
 
 ~chatplayer("<p,happy>Hello there.");
 if ($errand_state = 0) {
@@ -41,10 +41,10 @@ if ($errand_state = 0) {
     ~chatplayer("<p,neutral>Any ideas where it may be?");
     ~chatnpc("<p,confused>All I remember is that I was working near the tents when I lost it.");
     ~chatplayer("<p,happy>Okay, I'll see what I can do.");
-    ~itexam_set_errand_progress(^itexam_errand_student2, 1);
+    ~itexam_set_errand_progress(^itexam_errand_student3, 1);
 } else if ($errand_state = 1) {
     if (inv_total(inv, rock_sample2) > 0) {
-        @itexam_student2_deliver_sample;
+        @itexam_student3_deliver_sample;
     } else {
         ~chatplayer("<p,neutral>How's the study going?");
         ~chatnpc("<p,neutral>I'm getting there. Have you found my rock sample yet?");
@@ -60,30 +60,30 @@ if ($errand_state = 0) {
     ~chatplayer("<p,happy>Thanks for the information.");
 }
 
-[label,itexam_student2_deliver_sample]
+[label,itexam_student3_deliver_sample]
 ~chatplayer("<p,happy>Look what I found!");
 inv_del(inv, rock_sample2, ^max_32bit_int);
-~itexam_set_errand_progress(^itexam_errand_student2, 2);
+~itexam_set_errand_progress(^itexam_errand_student3, 2);
 ~chatnpc("<p,happy>Excellent! I'm so happy. Let me now help you with your exams...");
 ~chatnpc("<p,neutral>The eligible people to use the digsite are:|All that have passed the appropriate earth sciences exams.");
 ~chatplayer("<p,happy>Thanks for the information.");
 
-[label,itexam_student2_second_exam_tips]
+[label,itexam_student3_second_exam_tips]
 ~chatplayer("<p,happy>Hello there.");
 ~chatnpc("<p,happy>How's it going?");
 ~chatplayer("<p,neutral>There are more exam questions I'm stuck on.");
 ~chatnpc("<p,happy>Hey, I'll tell you what I've learned. That may help.");
-~itexam_set_errand_progress(^itexam_errand_student2, 2);
+~itexam_set_errand_progress(^itexam_errand_student3, 2);
 // https://web.archive.org/web/20060909012420im_/http://www.runeweb.net/fireball/Digsite%20Images/digsite9.png
 ~chatnpc("<p,neutral>Correct sample transportation:|Samples taken in rough form,|kept only in sealed containers.");
 ~chatplayer("<p,happy>Thanks for the information.");
 
-[label,itexam_student2_third_exam_tips]
+[label,itexam_student3_third_exam_tips]
 ~chatplayer("<p,happy>Hello there.");
 ~chatnpc("<p,happy>How's it going?");
 ~chatplayer("<p,neutral>There are more exam questions I'm stuck on.");
 ~chatnpc("<p,happy>Hey, I'll tell you what I've learned. That may help.");
-~itexam_set_errand_progress(^itexam_errand_student2, 2);
+~itexam_set_errand_progress(^itexam_errand_student3, 2);
 // https://web.archive.org/web/20060909012420im_/http://www.runeweb.net/fireball/Digsite%20Images/digsite13.png
 ~chatnpc("<p,neutral>The proper technique for handling bones is:|Handle bones carefully|and keep away from other samples.");
 ~chatplayer("<p,happy>Thanks for the information.");

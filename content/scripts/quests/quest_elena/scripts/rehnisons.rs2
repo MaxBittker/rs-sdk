@@ -9,7 +9,7 @@ p_telejump(0_39_52_31_3);
 [opnpc1,billy_rehnison] mes("Billy isn't interested in talking.");
 [opnpc1,ted_rehnison] @rehnisons_i_hear_a_woman_is_staying_here;
 [opnpc1,martha_rehnison] @rehnisons_i_hear_a_woman_is_staying_here;
-[opnpc1,milli_rehnison] @rehnisons_ask_milli_what_happened;
+[opnpc1,milli] @rehnisons_ask_milli_what_happened;
 
 [label,rehnisons_i_hear_a_woman_is_staying_here]
 switch_int(%elena_progress) {

@@ -19,7 +19,7 @@ anim(human_dig, 0);
 
 // itexam - digsite area, workmen get angry if you dig around the whole mapsquare
 if (inzone(0_52_53_0_0, 0_52_53_63_63, coord) = true) {
-    @digsite_workman_intervene;
+    @digworkman1_intervene;
 }
 
 // Treasure Trails

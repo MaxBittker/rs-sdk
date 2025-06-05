@@ -1,4 +1,4 @@
-[duke_horacio]
+[duke_of_lumbridge]
 vislevel=hide
 name=Duke Horacio
 desc=Duke Horacio of Lumbridge.
@@ -184,7 +184,7 @@ model7=model_181_idk
 head1=model_55_idk_head
 // https://imgur.com/1euDriv fred the farmer is not indoors
 
-[shop_keeper_lumbridge]
+[generalshopkeeper1]
 vislevel=hide
 name=Shop keeper
 desc=Buys wholesale, sells retail.
@@ -219,7 +219,7 @@ param=shop_delta,30
 param=shop_title,Lumbridge General Store
 moverestrict=indoors
 
-[shop_assistant_lumbridge]
+[generalassistant1]
 vislevel=hide
 name=Shop assistant
 desc=Helps people part with their money.
@@ -254,7 +254,7 @@ param=shop_delta,30
 param=shop_title,Lumbridge General Store
 moverestrict=indoors
 
-[archer_zanaris]
+[archeradventurerpg]
 vislevel=hide
 name=Archer
 desc=She looks quite experienced.
@@ -281,7 +281,7 @@ head1=model_113_idk_head
 head2=model_131_npc_head
 param=death_sound,female_death
 
-[warrior_zanaris]
+[warrioradventurerpg]
 vislevel=hide
 name=Warrior
 desc=He looks big and dumb.
@@ -304,7 +304,7 @@ model7=model_185_obj_wear
 model8=model_550_obj_wear
 head1=model_53_idk_head
 
-[monk_zanaris]
+[monkadventurerpg]
 vislevel=hide
 name=Monk
 desc=He looks holy.
@@ -326,7 +326,7 @@ model6=model_176_idk
 model7=model_260_npc
 head1=model_53_idk_head
 
-[wizard_zanaris]
+[wizardadventuterpg]
 vislevel=hide
 name=Wizard
 desc=He looks kind of puny...

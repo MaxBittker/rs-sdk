@@ -1,32 +1,32 @@
-[opnpc1,crest_caleb]
+[opnpc1,caleb_fitzharmon]
 switch_int(%crest_progress) {
-    case ^crest_not_started : @crest_caleb_prequest;
-    case ^crest_spoken_dimintheis : @crest_caleb_start;
-    case ^crest_spoken_caleb : @crest_caleb_fish;
-    case ^crest_caleb_piece : @crest_caleb_salad;
-    case ^crest_caleb_where : @crest_caleb_avan;
-    case ^crest_complete : @crest_caleb_gauntlets;
-    case default : @crest_caleb_pieces;
+    case ^crest_not_started : @caleb_fitzharmon_prequest;
+    case ^crest_spoken_dimintheis : @caleb_fitzharmon_start;
+    case ^crest_spoken_caleb : @caleb_fitzharmon_fish;
+    case ^crest_caleb_piece : @caleb_fitzharmon_salad;
+    case ^crest_caleb_where : @caleb_fitzharmon_avan;
+    case ^crest_complete : @caleb_fitzharmon_gauntlets;
+    case default : @caleb_fitzharmon_pieces;
 }
 
-[label,crest_caleb_prequest]
+[label,caleb_fitzharmon_prequest]
 ~chatnpc("<p,quiz>Who are you? What are you after?");
-@multi2("Nothing, I will be on my way.", crest_caleb_nothing, "I see you are a chef, will you cook me anything?", crest_caleb_chef);
+@multi2("Nothing, I will be on my way.", caleb_fitzharmon_nothing, "I see you are a chef, will you cook me anything?", caleb_fitzharmon_chef);
 
-[label,crest_caleb_start]
+[label,caleb_fitzharmon_start]
 ~chatnpc("<p,quiz>Who are you? What are you after?");
-@multi3("Are you Caleb Fitzharmon?", crest_caleb_areyou, 
-        "Nothing, I will be on my way.", crest_caleb_nothing, 
-        "I see you are a chef, will you cook me anything?", crest_caleb_chef);
+@multi3("Are you Caleb Fitzharmon?", caleb_fitzharmon_areyou, 
+        "Nothing, I will be on my way.", caleb_fitzharmon_nothing, 
+        "I see you are a chef, will you cook me anything?", caleb_fitzharmon_chef);
 
-[label,crest_caleb_areyou]
+[label,caleb_fitzharmon_areyou]
 ~chatplayer("<p,quiz>Are you Caleb Fitzharmon?");
 ~chatnpc("<p,confused>Why... yes I am, but I don't believe I know you... how did you know my name?");
 ~chatplayer("<p,neutral>I have been sent by your father. He wishes the Fitzharmon Crest be restored.");
 ~chatnpc("<p,confused>Ah... well... hmmm... yes... I do have a piece of it anyway...");
-@multi2("Uh... what happened to the rest of it?", crest_caleb_rest, "So can I have your bit?", crest_caleb_bit);
+@multi2("Uh... what happened to the rest of it?", caleb_fitzharmon_rest, "So can I have your bit?", caleb_fitzharmon_bit);
 
-[label,crest_caleb_rest]
+[label,caleb_fitzharmon_rest]
 ~chatplayer("<p,quiz>Uh... what happened to the rest of it?");
 ~chatnpc("<p,sad>Well... my brothers and I had a slight disagreement about it... we all wanted to be heir to my fathers' lands, and we each ended up with a piece of the crest.");
 ~chatnpc("<p,sad>None of us wanted to give up our rights to our brothers, so we didn't want to give up our pieces of the crest, but none of us wanted to face our father by");
@@ -41,7 +41,7 @@ if (%crest_progress = ^crest_caleb_piece) {
     ~chatnpc("<p,neutral>Avan always did have expensive tastes however. You may find he is not prepared to hand over his crest piece to you as easily as I have.");
 }
 
-[label,crest_caleb_bit]
+[label,caleb_fitzharmon_bit]
 ~chatplayer("<p,quiz>So can I have your bit?");
 ~chatnpc("<p,neutral>Well, I am the oldest son, so by the rules of chivalry, I am most entitled to be rightful bearer of the crest.");
 ~chatplayer("<p,confused>It's not really much use without the other fragments is it though?");
@@ -61,7 +61,7 @@ else {
     ~chatnpc("<p,angry>It's a valuable family heirloom. I think the least you can do is prove you're worthy of it before I hand it over.");
 }
 
-[label,crest_caleb_fish]
+[label,caleb_fitzharmon_fish]
 ~chatnpc("<p,quiz>How is the fish collecting going?");
 if (inv_total(inv, swordfish) >= 1 & 
     inv_total(inv, bass) >= 1 & 
@@ -77,63 +77,63 @@ if (inv_total(inv, swordfish) >= 1 &
         inv_del(inv, salmon, 1);
         inv_del(inv, shrimp, 1);
         inv_add(inv, avan_crest, 1);
-        @multi2("Uh... what happened to the rest of it?", crest_caleb_rest, "Thank you very much!", crest_caleb_thanks);
+        @multi2("Uh... what happened to the rest of it?", caleb_fitzharmon_rest, "Thank you very much!", caleb_fitzharmon_thanks);
     }
 else {
     ~chatplayer("<p,sad>I didn't manage to get them all yet...");
     ~chatnpc("<p,neutral>Remember, I want the following cooked fish: Swordfish, Bass, Tuna, Salmon, and Shrimp.");
 }
 
-[label,crest_caleb_thanks]
+[label,caleb_fitzharmon_thanks]
 ~chatplayer("<p,happy>Thank you very much.");
 ~chatnpc("<p,happy>You're welcome.");
 
-[label,crest_caleb_salad]
+[label,caleb_fitzharmon_salad]
 ~chatnpc("<p,neutral>Hello again. I'm just putting the finishing touches to my masterful salad.");
-@multi2("Uh... what happened to the rest of it?", crest_caleb_rest, "Good luck with that then.", crest_caleb_luck);
+@multi2("Uh... what happened to the rest of it?", caleb_fitzharmon_rest, "Good luck with that then.", caleb_fitzharmon_luck);
 
-[label,crest_caleb_luck]
+[label,caleb_fitzharmon_luck]
 ~chatplayer("<p,neutral>Good luck with that then.");
 ~chatnpc("<p,neutral>Luck? LUCK? With my cooking skill, I don't really need LUCK.");
 
-[label,crest_caleb_avan]
+[label,caleb_fitzharmon_avan]
 ~chatplayer("<p,quiz>Where did you say I could find Avan again?");
 ~chatnpc("<p,neutral>Last I heard he was on some stupid treasure hunt out in the desert somewhere. Your best bet is asking around there.");
-@crest_caleb_pieces;
+@caleb_fitzharmon_pieces;
 
-[label,crest_caleb_pieces]
+[label,caleb_fitzharmon_pieces]
 ~chatnpc("<p,quiz>How are you doing getting the crest pieces?");
 if (inv_total(inv, family_crest) >= 1) {
     ~chatplayer("<p,neutral>I've got it right here!");
     ~chatnpc("<p,neutral>Excellent work! Please take it to my father immediately.");
 }
 else if (inv_total(inv, avan_crest) = 0 & inv_total(bank, avan_crest) = 0) {
-    @multi2("I am still working on it.", crest_caleb_working, "I have lost the piece you gave me.", crest_caleb_lost);
+    @multi2("I am still working on it.", caleb_fitzharmon_working, "I have lost the piece you gave me.", caleb_fitzharmon_lost);
 }
 else {
-    @crest_caleb_working;
+    @caleb_fitzharmon_working;
 }
 
-[label,crest_caleb_working]
+[label,caleb_fitzharmon_working]
 ~chatplayer("<p,neutral>I am still working on it.");
 ~chatnpc("<p,quiz>Then why are you wasting your time here?");
 
-[label,crest_caleb_lost]
+[label,caleb_fitzharmon_lost]
 ~chatplayer("<p,neutral>I have lost the fragment you gave me...");
 ~chatnpc("<p,confused>I have some good news for you then. One of my customers found this on their travels and recognised it as mine and returned it to me here.");
 ~mesbox("Caleb hands over his crest piece again.");
 inv_add(inv, avan_crest, 1);
 ~chatnpc("<p,neutral>I suggest you be less careless in the future. The crest is extremely valuable, and utterly irreplaceable.");
 
-[label,crest_caleb_nothing]
+[label,caleb_fitzharmon_nothing]
 ~chatplayer("<p,neutral>Nothing, I will be on my way.");
 
-[label,crest_caleb_chef]
+[label,caleb_fitzharmon_chef]
 ~chatplayer("<p,quiz>I see you are a chef... Could you cook me something?");
 // "reknown" is verbatim
 ~chatnpc("<p,neutral>I would, but I am very busy. I am trying to increase my reknown as one of the worlds' leading chefs by preparing a special and unique fish salad.");
 
-[label,crest_caleb_gauntlets]
+[label,caleb_fitzharmon_gauntlets]
 // Ability to change gauntlets for 25k was added 30/08/05, so this decision is permanent
 // https://oldschool.runescape.wiki/w/Update:Garden_Of_Tranquillity
 ~chatnpc("<p,happy>I hear you brought the completed crest to my father. I must say, that was awfully impressive work.");

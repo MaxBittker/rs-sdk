@@ -1,4 +1,4 @@
-[ai_queue3,crest_chronozon]
+[ai_queue3,chronozon]
 if (finduid(%npc_aggressive_player) = true) {
     if (getbit_range(%crest_spells_levers_gauntlets, ^crest_wind_blast_used, ^crest_fire_blast_used) = ^crest_all_spells_cast) {
         if (%crest_progress = ^crest_cured_johnathon) { // before npc death, no heropoints check
@@ -10,7 +10,7 @@ if (finduid(%npc_aggressive_player) = true) {
         }
     }
     else {
-        @crest_chronozon_regenerate;
+        @chronozon_regenerate;
     }
 }
 else {
@@ -18,25 +18,25 @@ else {
 }
 
 
-[proc,crest_chronozon_spell](int $spell) 
+[proc,chronozon_spell](int $spell) 
 switch_int ($spell) {
     case ^wind_blast : 
-        ~crest_chronozon_weaken(^crest_wind_blast_used);
+        ~chronozon_weaken(^crest_wind_blast_used);
     case ^water_blast :
-        ~crest_chronozon_weaken(^crest_water_blast_used);
+        ~chronozon_weaken(^crest_water_blast_used);
     case ^earth_blast :
-        ~crest_chronozon_weaken(^crest_earth_blast_used);
+        ~chronozon_weaken(^crest_earth_blast_used);
     case ^fire_blast :
-        ~crest_chronozon_weaken(^crest_fire_blast_used);
+        ~chronozon_weaken(^crest_fire_blast_used);
 }
 
-[proc,crest_chronozon_weaken](int $used)
+[proc,chronozon_weaken](int $used)
 %crest_spells_levers_gauntlets = setbit(%crest_spells_levers_gauntlets, $used);
 // Message is shown multiple times for repeated casts of the same spell
 // https://youtu.be/AKFPNpw2ROQ?t=76
 mes("Chronozon weakens...");
 
-[label,crest_chronozon_regenerate]
+[label,chronozon_regenerate]
 npc_statheal(hitpoints, 0, 100);
 npc_setmode(opplayer2);
 mes("Chronozon regenerates...");

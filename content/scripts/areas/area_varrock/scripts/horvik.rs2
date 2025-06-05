@@ -1,4 +1,4 @@
-[opnpc1,horvik]
+[opnpc1,horvik_the_armourer]
 ~chatnpc("<p,happy>Hello, do you need any help?");
 def_int $option = ~p_choice2("No thanks. I'm just looking around.", 1, "Do you want to trade?", 2);
 if($option = 1) {

@@ -66,7 +66,7 @@ if(coord ! ^grandtree_jail_coord) {
     return;
 }
 if_close;
-npc_add(movecoord(^grandtree_jail_coord, 3, 0, 0), king_narnode, 200);
+npc_add(movecoord(^grandtree_jail_coord, 3, 0, 0), grandtree_narnode, 200);
 p_delay(0); 
 npc_walk(movecoord(coord, 1, 0, 0));
 p_delay(2); // 3t

@@ -1,4 +1,4 @@
-[shop_keeper_edgeville]
+[generalshopkeeper5]
 vislevel=hide
 name=Shop keeper
 desc=If he doesn't have it, he can't sell it!
@@ -32,7 +32,7 @@ param=shop_delta,30
 param=shop_title,Edgeville General Store
 moverestrict=indoors
 
-[shop_assistant_edgeville]
+[generalassistant5]
 vislevel=hide
 name=Shop assistant
 desc=Is here on work experience.

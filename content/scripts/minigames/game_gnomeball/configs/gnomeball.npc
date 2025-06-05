@@ -1,4 +1,4 @@
-[gnome_baller1]
+[gnomeballer_red]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -16,13 +16,13 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_hasball,gnome_baller2
-param=gnome_tackled,gnome_baller3
-param=gnome_fallen,gnome_baller4
+param=gnome_hasball,gnomeballer_red_withball
+param=gnome_tackled,gnomeballer_red_tackled
+param=gnome_fallen,gnomeballer_red_tackled2
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller2]
+[gnomeballer_red_withball]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -37,13 +37,13 @@ model3=model_2921_npc
 head1=model_21_npc_head
 wanderrange=4
 maxrange=4
-param=gnome_original,gnome_baller1
-param=gnome_tackled,gnome_baller3
-param=gnome_fallen,gnome_baller4
+param=gnome_original,gnomeballer_red
+param=gnome_tackled,gnomeballer_red_tackled
+param=gnome_fallen,gnomeballer_red_tackled2
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller3]
+[gnomeballer_red_tackled]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -60,11 +60,11 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_original,gnome_baller1
+param=gnome_original,gnomeballer_red
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller4]
+[gnomeballer_red_tackled2]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -81,11 +81,11 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_original,gnome_baller1
+param=gnome_original,gnomeballer_red
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller5]
+[gnomeballer_orange]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -103,13 +103,13 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_hasball,gnome_baller6
-param=gnome_tackled,gnome_baller7
-param=gnome_fallen,gnome_baller8
+param=gnome_hasball,gnomeballer_orange_withball
+param=gnome_tackled,gnomeballer_orange_tackled
+param=gnome_fallen,gnomeballer_orange_tackled2
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller6]
+[gnomeballer_orange_withball]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -124,13 +124,13 @@ model3=model_2921_npc
 head1=model_21_npc_head
 wanderrange=4
 maxrange=4
-param=gnome_original,gnome_baller5
-param=gnome_tackled,gnome_baller7
-param=gnome_fallen,gnome_baller8
+param=gnome_original,gnomeballer_orange
+param=gnome_tackled,gnomeballer_orange_tackled
+param=gnome_fallen,gnomeballer_orange_tackled2
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller7]
+[gnomeballer_orange_tackled]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -147,11 +147,11 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_original,gnome_baller5
+param=gnome_original,gnomeballer_orange
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller8]
+[gnomeballer_orange_tackled2]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -168,11 +168,11 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_original,gnome_baller5
+param=gnome_original,gnomeballer_orange
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller9]
+[gnomeballer_yellow]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -190,13 +190,13 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_hasball,gnome_baller10
-param=gnome_tackled,gnome_baller11
-param=gnome_fallen,gnome_baller12
+param=gnome_hasball,gnomeballer_yellow_withball
+param=gnome_tackled,gnomeballer_yellow_tackled
+param=gnome_fallen,gnomeballer_yellow_tackled2
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller10]
+[gnomeballer_yellow_withball]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -211,13 +211,13 @@ model3=model_2921_npc
 head1=model_21_npc_head
 wanderrange=4
 maxrange=4
-param=gnome_original,gnome_baller9
-param=gnome_tackled,gnome_baller11
-param=gnome_fallen,gnome_baller12
+param=gnome_original,gnomeballer_yellow
+param=gnome_tackled,gnomeballer_yellow_tackled
+param=gnome_fallen,gnomeballer_yellow_tackled2
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller11]
+[gnomeballer_yellow_tackled]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -234,11 +234,11 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_original,gnome_baller9
+param=gnome_original,gnomeballer_yellow
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_baller12]
+[gnomeballer_yellow_tackled2]
 name=Gnome baller
 desc=A professional gnome baller.
 vislevel=hide
@@ -255,11 +255,11 @@ maxrange=4
 attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
-param=gnome_original,gnome_baller9
+param=gnome_original,gnomeballer_yellow
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_winger1]
+[gnomeballer_green]
 name=Gnome winger
 desc=A professional gnome baller.
 vislevel=hide
@@ -277,7 +277,7 @@ timer=1
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_winger2]
+[gnomeballer_green_withball]
 name=Gnome winger
 desc=A professional gnome baller.
 vislevel=hide
@@ -295,7 +295,7 @@ timer=1
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_ball_referee]
+[gnomereferee]
 name=Gnome ball referee
 desc=Keeps the game fair.
 vislevel=hide
@@ -318,7 +318,7 @@ wanderrange=1
 param=death_anim,midget_death
 param=death_sound,gnome_death
 
-[gnome_cheerleader]
+[gnomecheerleader]
 name=Cheerleader
 desc=Cheerleading is a real sport!
 vislevel=hide

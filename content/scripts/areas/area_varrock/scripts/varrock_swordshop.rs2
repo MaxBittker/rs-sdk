@@ -1,5 +1,5 @@
-[opnpc1,shop_keeper_varrock_swordshop] @varrock_swordshop_talk;
-[opnpc1,shop_assistant_varrock_swordshop] @varrock_swordshop_talk;
+[opnpc1,swordshop1] @varrock_swordshop_talk;
+[opnpc1,swordshop2] @varrock_swordshop_talk;
 
 [label,varrock_swordshop_talk]
 ~chatnpc("<p,happy>Hello, bold adventurer!|Can I interest you in some swords?");

@@ -1,11 +1,11 @@
-[opnpc1,digsite_workman]
+[opnpc1,digworkman1]
 
 switch_int (~itexam_progress) {
-    case default : @digsite_workman_default;
-    case ^itexam_complete : @digsite_workman_quest_complete;
+    case default : @digworkman1_default;
+    case ^itexam_complete : @digworkman1_quest_complete;
 }
 
-[label,digsite_workman_default]
+[label,digworkman1_default]
 ~chatnpc("<p,happy>Why hello there! What can I do you for?");
 def_int $choice = ~p_choice3("What do you do here?", 1, "I'm not sure...", 2, "Can I dig around here?", 3);
 
@@ -36,16 +36,16 @@ if ($choice = 1) {
 }
 
 // Each workman variant has a different dialogue, in our version of the quest we do not have variants so i just picked one from osrs since i cannot find what the original did
-[label,digsite_workman_quest_complete]
+[label,digworkman1_quest_complete]
 ~chatplayer("<p,happy>Hello!");
 ~chatnpc("<p,neutral>Oh wow! You're the archaeologist who found that altar in the mines aren't you!");
 ~chatplayer("<p,neutral>Um, yes.");
 ~chatnpc("<p,happy>So glad to meet you! Well done!");
 
-[opnpc3,digsite_workman] @pickpocket_digsite_workman;
-[opnpc3,digsite_workman_cave] @pickpocket_digsite_workman;
+[opnpc3,digworkman1] @pickpocket_digworkman1;
+[opnpc3,digworkman2] @pickpocket_digworkman1;
 
-[label,pickpocket_digsite_workman]
+[label,pickpocket_digworkman1]
 if(%stunned > map_clock) {
     return;
 }
@@ -116,7 +116,7 @@ if(stat_random(thieving, 100, 240) = false) {
     }
 }
 
-[opnpcu,digsite_workman]
+[opnpcu,digworkman1]
 if (last_useitem = digexpertscroll) {
     inv_del(inv, digexpertscroll, 1);
     if(%itexam_progress = ^itexam_impress_archeological_expert) ~itexam_set_progress(^itexam_mineshaft_permit);
@@ -127,15 +127,15 @@ if (last_useitem = digexpertscroll) {
 }
 
 
-[label,digsite_workman_intervene]
-if (npc_find(coord, digsite_workman, 10, 0) = true) {
+[label,digworkman1_intervene]
+if (npc_find(coord, digworkman1, 10, 0) = true) {
     ~chatnpcnoturn("<p,angry>Oi! What do you think you're doing? There's fragile specimens around here!");
 } else {
     mes("There needs to be a workman present when you dig.");
 }
 
-[label,digsite_workman_intervene_winch]
-if (npc_find(coord, digsite_workman, 10, 0) = true) {
+[label,digworkman1_intervene_winch]
+if (npc_find(coord, digworkman1, 10, 0) = true) {
     ~chatnpcnoturn("<p,neutral>Sorry, this area is private. The only way you'll get to use these is by impressing the archaeological expert up at the centre.");
     ~chatnpcnoturn("<p,bored>Find something worthwhile and he might let you use the winches. Until then, get lost!");
 } else {
@@ -144,8 +144,8 @@ if (npc_find(coord, digsite_workman, 10, 0) = true) {
     mes("Private area - invitation only.");
 }
 
-[label,digsite_workman_intervene_site](int $exam_level)
-if (npc_find(coord, digsite_workman, 10, 0) = true) {
+[label,digworkman1_intervene_site](int $exam_level)
+if (npc_find(coord, digworkman1, 10, 0) = true) {
     ~chatnpcnoturn("<p,confused>Sorry, you haven't passed the level <tostring($exam_level)>  Earth Sciences exam; I can't let you dig here.");
 } else {
     mes("You haven't passed the level <tostring($exam_level)> Earth Sciences exam; You can't dig here.");

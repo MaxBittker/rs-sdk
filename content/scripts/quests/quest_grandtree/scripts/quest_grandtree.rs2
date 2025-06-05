@@ -59,7 +59,7 @@ if(%grandtree_progress >= ^grandtree_unlocked_trapdoor) {
     p_delay(1);
     p_teleport(0_38_154_59_8);
     if(%grandtree_progress = ^grandtree_unlocked_trapdoor) {
-        @glough_cutscene;
+        @grandtree_glough_cutscene;
     }
     return;
 }
@@ -111,7 +111,7 @@ mes("You search the cupboard but you find nothing.");
 
 [oploc1,_shipyard_gate]
 if(%grandtree_progress >= ^grandtree_released_prison) {
-    if(coordx(coord) < coordx(loc_coord) & npc_find(coord, grandtree_shipyard_worker, 5, 0) = true) {
+    if(coordx(coord) < coordx(loc_coord) & npc_find(coord, grandtree_shipyardguard, 5, 0) = true) {
         @shipyardworker_gate;
     } else {
         @open_shipyard_gate;

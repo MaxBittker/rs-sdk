@@ -1,4 +1,4 @@
-[opnpc1,archer_zanaris]
+[opnpc1,archeradventurerpg]
 if(map_members = ^false) { // From RS3
     ~chatplayer("<p,quiz>Hey there, are you camping?");
     ~chatnpc("<p,neutral>Not just camping; we're adventurers out on a mission,|sorry I can't share the details with you!");

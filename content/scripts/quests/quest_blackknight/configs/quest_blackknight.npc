@@ -1,4 +1,4 @@
-[fortress_guard]
+[fortressguard]
 name=Fortress Guard
 desc=A generic evil henchman.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
@@ -41,7 +41,7 @@ param=attack_sound,staff_stab
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4772
 
-[black_knight_knight]
+[grillknight]
 vislevel=hide
 name=Black Knight
 desc=One of the Black Knights.
@@ -67,7 +67,7 @@ model6=model_185_obj_wear
 model7=model_518_obj_wear
 head1=model_56_obj_wear
 
-[black_knight_witch]
+[fortwitch]
 vislevel=hide
 name=Witch
 desc=The Black Knights' resident witch.

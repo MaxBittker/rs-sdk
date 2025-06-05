@@ -1,4 +1,4 @@
-[opnpc1,falador_squire]
+[opnpc1,squire]
 // Treasure Trail
 if(inv_total(inv, trail_clue_easy_simple017) = 1) {
     @trail_squire;

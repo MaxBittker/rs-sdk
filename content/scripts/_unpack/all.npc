@@ -5694,7 +5694,7 @@ param=retreat,4
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5007
 
-[bartender_dancingdonkey]
+[donkey_bartender]
 vislevel=hide
 name=Bartender
 desc=I could get a beer from him.

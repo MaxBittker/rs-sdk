@@ -14,8 +14,8 @@ mes("You can't open this door.");
 [oploc1,blackknight_front_door]
 def_boolean $is_outside = ~check_axis(coord, loc_coord, loc_angle);
 if ($is_outside = true & ((inv_getobj(worn, ^wearpos_hat) ! bronze_med_helm) | (inv_getobj(worn, ^wearpos_torso) ! iron_chainbody))) {
-    if (npc_find(0_47_54_8_56, fortress_guard, 5, 1) = true) {
-        @blackknight_entrance_fortress_guard;
+    if (npc_find(0_47_54_8_56, fortressguard, 5, 1) = true) {
+        @blackknight_entrance_fortressguard;
     }
 } else {
     ~open_and_close_door(loc_param(next_loc_stage), $is_outside, false);
@@ -30,7 +30,7 @@ if ($is_outside = false) {
 }
 ~open_and_close_door(loc_param(next_loc_stage), $is_outside, false);
 
-[label,blackknight_entrance_fortress_guard]
+[label,blackknight_entrance_fortressguard]
 ~chatnpc("<p,angry>Hey, you can't come in here!|This is a high security military installation.");
 def_int $option = ~p_choice3("Yes, but I work here!", 1, "Oh sorry.", 2, "So who does it belong to?", 3);
 if ($option = 1) {
@@ -58,14 +58,14 @@ def_boolean $is_inside = ~check_axis(coord, loc_coord, loc_angle);
 def_coord $blackknight_near_banquet_hall = 0_47_54_11_59;
 def_coord $blackknight_outside = 0_47_54_8_57;
 if ($is_inside = false) {
-    if (npc_find(coord, fortress_guard, 10, 1) = true) {
-        @blackknight_banquet_hall_fortress_guard;
+    if (npc_find(coord, fortressguard, 10, 1) = true) {
+        @blackknight_banquet_hall_fortressguard;
     }
 } else {
     ~open_and_close_door(loc_param(next_loc_stage), $is_inside, false);
 }
 
-[label,blackknight_banquet_hall_fortress_guard]
+[label,blackknight_banquet_hall_fortressguard]
 ~chatnpc("<p,neutral>I wouldn't go in there if I woz you.|Those Black Knights are in an important meeting;|They said they'd kill anyone who went in there!");
 def_int $option = ~p_choice2("Ok I won't.", 1, "I don't care. I'm going in anyway.", 2);
 if ($option = 1) {
@@ -131,14 +131,14 @@ if (%blackknight_progress = 2) {
 // Listening at grate
 [oploc1,blackknight_grate]
 if (%blackknight_progress = 1) {
-    ~chatnpc_specific("Black Knight", black_knight_knight, "<p,quiz>So, how's the secret weapon coming along?");
-    ~chatnpc_specific("Witch", black_knight_witch, "<p,happy>The invincibility potion is almost ready...");
-    ~chatnpc_specific("Witch", black_knight_witch, "<p,happy>It's taken me five years but it's almost ready.");
-    ~chatnpc_specific("Witch", black_knight_witch, "<p,neutral>Greldo the Goblin here|is just going to fetch the last ingredient for me.");
-    ~chatnpc_specific("Witch", black_knight_witch, "<p,neutral>It's a specially grown cabbage.|Grown by my cousin Helda who lives in Draynor Manor.");
-    ~chatnpc_specific("Witch", black_knight_witch, "<p,neutral>The soil there is slightly magical.|And it gives the cabbages slight magic properties.");
-    ~chatnpc_specific("Witch", black_knight_witch, "<p,shock>Not to mention the trees!");
-    ~chatnpc_specific("Witch", black_knight_witch, "<p,neutral>Now remember Greldo only a Draynor Manor| cabbage will do! Don't get lazy| and bring any old cabbage, THAT| would ENTIRELY wreck the potion!"); // https://web.archive.org/web/*/http://zybez.com/img/qimg/blackknight/6_grill.jpg
+    ~chatnpc_specific("Black Knight", grillknight, "<p,quiz>So, how's the secret weapon coming along?");
+    ~chatnpc_specific("Witch", fortwitch, "<p,happy>The invincibility potion is almost ready...");
+    ~chatnpc_specific("Witch", fortwitch, "<p,happy>It's taken me five years but it's almost ready.");
+    ~chatnpc_specific("Witch", fortwitch, "<p,neutral>Greldo the Goblin here|is just going to fetch the last ingredient for me.");
+    ~chatnpc_specific("Witch", fortwitch, "<p,neutral>It's a specially grown cabbage.|Grown by my cousin Helda who lives in Draynor Manor.");
+    ~chatnpc_specific("Witch", fortwitch, "<p,neutral>The soil there is slightly magical.|And it gives the cabbages slight magic properties.");
+    ~chatnpc_specific("Witch", fortwitch, "<p,shock>Not to mention the trees!");
+    ~chatnpc_specific("Witch", fortwitch, "<p,neutral>Now remember Greldo only a Draynor Manor| cabbage will do! Don't get lazy| and bring any old cabbage, THAT| would ENTIRELY wreck the potion!"); // https://web.archive.org/web/*/http://zybez.com/img/qimg/blackknight/6_grill.jpg
     ~chatnpc_specific("Greldo", greldo, "<p,goblinchat>Yes mithreth."); // neutral in osrs
     ~update_blackknight_progress;
 } else {

@@ -11,7 +11,7 @@ moverestrict=nomove
 blockwalk=all
 timer=25
 
-[fluffs]
+[gertrudescat]
 vislevel=hide
 name=Gertrudes cat
 desc=A friendly feline?
@@ -27,7 +27,7 @@ members=yes
 param=attack_anim,cat_attack
 param=death_anim,cat_death
 
-[lost_kitten]
+[lostkitten]
 vislevel=hide
 name=Kitten
 desc=It looks lost.

@@ -1,10 +1,10 @@
-[opnpc1,shamus]
+[opnpc1,zanarisleprechaun]
 ~chatnpc("<p,angry>Ay yer big elephant! Yer've caught me, to be sure! What would an elephant like yer be wanting wid ol' Shamus then?");
 switch_int(%zanaris_progress) {
     case ^zanaris_not_started :
         ~chatplayer("<p,confused>I'm not sure.");
         ~chatnpc("<p,neutral>Well you'll have to be catchin' me again when yer are, elephant!");
-        @remove_shamus;
+        @remove_zanarisleprechaun;
         return;
     case ^zanaris_started :
         ~chatplayer("<p,neutral>I want to find Zanaris.");
@@ -16,10 +16,10 @@ switch_int(%zanaris_progress) {
             ~chatplayer("<p,confused>..How does it fit in a shed then?");
             ~chatnpc("<p,angry>Ah yer stupid elephant! The city isn't IN the shed! The doorway to the shed is being a portal to Zanaris, so it is.");
             ~chatplayer("<p,confused>So I just walk into the shed and end up in Zanaris then?");
-            @shamus_dramenwood_staff;
+            @zanarisleprechaun_dramenwood_staff;
         } else if($option = 2) {
             ~chatplayer("<p,angry>I've been in that shed. I didn't see a city.");
-            @shamus_dramenwood_staff;
+            @zanarisleprechaun_dramenwood_staff;
         }
         return;
     case default :
@@ -27,25 +27,25 @@ switch_int(%zanaris_progress) {
         if($option = 1) {
             ~chatplayer("<p,confused>I'm not sure.");
             ~chatnpc("<p,angry>Ha! Look at yer! Look at the stupid elephant who tries to go catching a leprechaun when he don't even be knowing what he wants!");
-            @remove_shamus;
+            @remove_zanarisleprechaun;
         } else if($option = 2) {
             ~chatplayer("<p,quiz>How do I get to Zanaris again?");
             ~chatnpc("<p,angry>Yer stupid elephant! I'll tell yer again! Yer need to be entering the shed in the middle of the swamp while holding a dramenwood staff! Yer can make the Dramen staff");
             ~chatnpc("<p,angry>from a dramen tree branch, and there's a Dramen tree on Entrana! Now leave me alone yer great elephant!");
-            @remove_shamus;
+            @remove_zanarisleprechaun;
         }
         return;
 }
 
-[label,shamus_dramenwood_staff]
+[label,zanarisleprechaun_dramenwood_staff]
 ~chatnpc("<p,neutral>Oh, was I fergetting to say?|Yer need to be carrying a Dramenwood|staff to be getting there! Otherwise|Yer'll just be ending up in the shed.");
 ~chatplayer("<p,quiz>So where would I get a staff?");
 ~chatnpc("<p,neutral>Dramenwood staffs are crafted from branches of the Dramen tree, so they are. I hear there's a Dramen tree over on the island of Entrana in a cave");
 ~chatnpc("<p,neutral>or some such. There would probably be a good place for an elephant like yer to be starting looking I reckon.");
 ~chatnpc("<p,neutral>The monks are running a ship from Port Sarim to Entrana, I hear too. Now leave me alone yer elephant!");
 %zanaris_progress = ^zanaris_spoken_shamus;
-@remove_shamus;
+@remove_zanarisleprechaun;
 
-[label,remove_shamus]
+[label,remove_zanarisleprechaun]
 ~mesbox("The leprechaun magically disappears.");
 npc_del;

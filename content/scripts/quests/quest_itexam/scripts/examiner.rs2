@@ -182,7 +182,7 @@ if (~itexam_errand_progress(^itexam_errand_student1) = 2) {
 ~chatnpc("<p,neutral>Okay, next question...");
 ~chatnpc("<p,neutral>Earth Sciences level 1, question 2 - Eligibility. Can you tell me which people are allowed to use the digsite?");
 
-if (~itexam_errand_progress(^itexam_errand_student2) = 2) {
+if (~itexam_errand_progress(^itexam_errand_student3) = 2) {
     $q2choice = ~p_choice3("Professors, students and workmen only.", 1, "Local residents, contractors and small pink fish.", 2, "All that have passed the appropriate Earth Sciences exam.", 3);
 
     if ($q2choice = 1) {
@@ -207,7 +207,7 @@ if (~itexam_errand_progress(^itexam_errand_student2) = 2) {
 ~chatnpc("<p,neutral>Okay, next question...");
 ~chatnpc("<p,neutral>Earth Sciences level 1, question 3 - Health and safety. Can you tell me the proper safety points when working on a digsite?");
 
-if (~itexam_errand_progress(^itexam_errand_student3) = 2) {
+if (~itexam_errand_progress(^itexam_errand_student2) = 2) {
     $q3choice = ~p_choice3("Rubber chickens to be worn on the head at all times.", 1, "Gloves and boots to be worn at all times; proper tools must be used.", 2, "Protective clothing to be worn; tools kept away from site.", 3);
 
     if ($q3choice = 1) {
@@ -237,11 +237,11 @@ if (~itexam_errand_progress(^itexam_errand_student1) = 2 & $q1choice = 1) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 
-if (~itexam_errand_progress(^itexam_errand_student2) = 2 & $q2choice = 3) {
+if (~itexam_errand_progress(^itexam_errand_student3) = 2 & $q2choice = 3) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 
-if (~itexam_errand_progress(^itexam_errand_student3) = 2 & $q3choice = 2) {
+if (~itexam_errand_progress(^itexam_errand_student2) = 2 & $q3choice = 2) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 
@@ -304,7 +304,7 @@ if (~itexam_errand_progress(^itexam_errand_student1) = 2) {
 ~chatnpc("<p,neutral>Okay, next question...");
 ~chatnpc("<p,neutral>Earth Sciences level 2, question 2 - Handling of finds. What is the proper way to handle finds?");
 
-if (~itexam_errand_progress(^itexam_errand_student2) = 2) {
+if (~itexam_errand_progress(^itexam_errand_student3) = 2) {
     $q2choice = ~p_choice3("Finds must be carefully handled, and gloves worn.", 1, "Finds to be given to the site workmen.", 2, "Drop them on the floor and jump on them.", 3);
     
     if ($q2choice = 1) {
@@ -329,7 +329,7 @@ if (~itexam_errand_progress(^itexam_errand_student2) = 2) {
 ~chatnpc("<p,neutral>Okay, next question...");
 ~chatnpc("<p,neutral>Earth Sciences level 2, question 3 - Rock pick usage. Can you tell me the proper use for a rock pick?");
 
-if (~itexam_errand_progress(^itexam_errand_student3) = 2) {
+if (~itexam_errand_progress(^itexam_errand_student2) = 2) {
     $q3choice = ~p_choice3("Rock pick must be used flat and with a strong force.", 1, "Always handle with care; strike cleanly on its cleaving point.", 2, "Rock picks are to be used to milk cows on a rainy morning.", 3);
     
     if ($q3choice = 1) {
@@ -359,11 +359,11 @@ if (~itexam_errand_progress(^itexam_errand_student1) = 2 & $q1choice = 3) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 
-if (~itexam_errand_progress(^itexam_errand_student2) = 2 & $q2choice = 1) {
+if (~itexam_errand_progress(^itexam_errand_student3) = 2 & $q2choice = 1) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 
-if (~itexam_errand_progress(^itexam_errand_student3) = 2 & $q3choice = 2) {
+if (~itexam_errand_progress(^itexam_errand_student2) = 2 & $q3choice = 2) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 
@@ -400,7 +400,7 @@ def_int $q3choice;
 ~chatnpc("<p,neutral>Attention, this is the final part of the Earth Sciences exam: Earth Sciences level 3 - Advanced.");
 ~chatnpc("<p,neutral>Question 1 - Sample preparation. Can you tell me how we prepare samples?");
 
-if (~itexam_errand_progress(^itexam_errand_student3) = 2) {
+if (~itexam_errand_progress(^itexam_errand_student2) = 2) {
     $q1choice = ~p_choice3("Samples cleaned, and carried only in specimen jars.", 1, "Sample types catalogued and carried by hand only.", 2, "Samples to be spread thickly with mashed banana.", 3);
 
     if ($q1choice = 1) {
@@ -450,7 +450,7 @@ if (~itexam_errand_progress(^itexam_errand_student1) = 2) {
 ~chatnpc("<p,neutral>Okay, next question...");
 ~chatnpc("<p,neutral>Earth Sciences level 3, question 3 - Advanced techniques. Can you describe the technique for handling bones?");
 
-if (~itexam_errand_progress(^itexam_errand_student2) = 2) {
+if (~itexam_errand_progress(^itexam_errand_student3) = 2) {
     $q3choice = ~p_choice3("Feed to hungry dogs.", 1, "Bones to be ground and tested for mineral content.", 2, "Handle bones very carefully and keep them away from other samples.", 3);
 
     if ($q3choice = 1) {
@@ -481,11 +481,11 @@ if (~itexam_errand_progress(^itexam_errand_student1) = 2 & $q1choice = 1) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 
-if (~itexam_errand_progress(^itexam_errand_student2) = 2 & $q2choice = 1) {
+if (~itexam_errand_progress(^itexam_errand_student3) = 2 & $q2choice = 1) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 
-if (~itexam_errand_progress(^itexam_errand_student3) = 2 & $q3choice = 3) {
+if (~itexam_errand_progress(^itexam_errand_student2) = 2 & $q3choice = 3) {
     $correct_answer_count = calc($correct_answer_count + 1);
 }
 

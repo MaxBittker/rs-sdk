@@ -12,7 +12,7 @@
 // ticks where the cheerleader didnt do an anim: 276
 // ticks where the cheerleader did do an anim: 325
 
-[ai_timer,gnome_cheerleader]
+[ai_timer,gnomecheerleader]
 if (random(2) = 0) {
     switch_int (random(8)) {
         case 0 : npc_anim(midget_cl1, 0);

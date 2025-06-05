@@ -144,7 +144,7 @@ param=shop_delta,10
 param=shop_title,Harrys Fishing Shop.
 moverestrict=indoors
 
-[crest_caleb]
+[caleb_fitzharmon]
 vislevel=hide
 name=Caleb
 desc=A well dressed nobleman.

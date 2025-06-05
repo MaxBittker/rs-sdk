@@ -1,5 +1,5 @@
 // Shop Keeper
-[opnpc1,shop_keeper_combat_training_camp]
+[opnpc1,lathas_shopkeeper]
 ~chatplayer("<p,happy>Hello.");
 ~chatnpc("<p,neutral>So, are you looking to buy weapons?|King Lathas keeps us very well stocked.");
 def_int $option = ~p_choice2("What do you have?", 0, "No thanks.", 1);

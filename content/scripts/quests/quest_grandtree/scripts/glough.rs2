@@ -1,4 +1,4 @@
-[opnpc1,glough]
+[opnpc1,grandtree_glough]
 switch_int(%grandtree_progress) {
     // https://youtu.be/LFvLBRCxFwk?si=IKRtVRjysWWM9U4u&t=482, fixed at some point?
     case ^grandtree_spoken_glough, ^grandtree_unlocked_trapdoor, ^grandtree_defeated_black_demon, ^grandtree_searching_daconia, ^grandtree_complete :
@@ -79,17 +79,17 @@ switch_int(%grandtree_progress) {
         ~mesbox("He doesn't seem very nice!");
 }
 
-[label,glough_cutscene]
+[label,grandtree_glough_cutscene]
 mes("You can hear footsteps approaching.");
 def_coord $start = 0_38_154_42_8;
-npc_add(movecoord(coord, 3, 0, 0), glough, 500); // not sure since osrs changed it, but based off this it's less than the black demons timer 
+npc_add(movecoord(coord, 3, 0, 0), grandtree_glough, 500); // not sure since osrs changed it, but based off this it's less than the black demons timer 
 npc_tele($start);
 npc_setmode(none);
 npc_walk(movecoord(coord, -1, 0, 0));
 p_delay(distance($start, coord)); // walking dist + 1 tick
-@glough_headache;
+@grandtree_glough_headache;
 
-[label,glough_headache]
+[label,grandtree_glough_headache]
 ~chatnpc("<p,angry>You really are becoming a headache! Well, at least now you can die knowing you were right, it will save me having to hunt you down like all the other human filth of RuneScape!");
 ~chatplayer("<p,angry>You're crazy Glough!");
 ~chatnpc("<p,angry>Bah! Well, soon you'll see, the gnomes are ready to fight, in three weeks this tree will be dead wood, in ten weeks it will be 30 battleships! Finally we will rid the world of the disease called humanity!");
