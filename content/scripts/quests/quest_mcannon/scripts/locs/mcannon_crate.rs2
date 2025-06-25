@@ -1,5 +1,5 @@
 // Crate containing Lolk
-[oploc1,loc_1]
+[oploc1,mcannoncrateboy]
 if (%mcannon_progress = ^mcannon_tasked_with_finding_gilobs_son) {
     if (npc_find(coord, dwarfchildtw1, 14, 0) = true) {
         mes("You search the crate but find nothing.");        

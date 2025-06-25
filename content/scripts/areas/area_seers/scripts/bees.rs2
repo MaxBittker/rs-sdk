@@ -1,11 +1,11 @@
-[oploc1,beehive]
+[oploc1,merlin_beehive]
 if(inv_total(inv, bucket_empty) = 0) {
     ~mesbox("You'd need a suitable container to carry the wax in.");
     return;
 }
 @take_beehive;
 
-[oplocu,beehive]
+[oplocu,merlin_beehive]
 switch_obj(last_useitem) {
     case insect_repellent : @pour_repellent_bees;
     case bucket_empty : @take_beehive;

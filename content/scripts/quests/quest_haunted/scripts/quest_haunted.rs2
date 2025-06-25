@@ -28,10 +28,10 @@ while(loc_findnext = true) {
 }
 sound_synth(door_open, 0, 0);
 
-[oploc1,loc_152]
+[oploc1,hauntedcompostheap]
 ~mesbox("I'm not looking through that with my hands!");
 
-[oplocu,loc_152]
+[oplocu,hauntedcompostheap]
 if(last_useitem ! spade) {
     ~displaymessage(^dm_default);
     return;
@@ -63,7 +63,7 @@ mes("You go through the door.");
 sound_synth(locked, 0, 0);
 ~open_and_close_door2(loc_1532, ~check_axis(coord, loc_coord, loc_angle), door_open);
 
-[oploc1,loc_153]
+[oploc1,hauntedfountain]
 anim(human_pickpocket, 0);
 sound_synth(fish_swim, 0, 0);
 p_delay(0);
@@ -96,7 +96,7 @@ inv_del(inv, poison, 1);
 inv_add(inv, poisoned_fish_food, 1);
 mes("You poison the fish food.");
 
-[oplocu,loc_153]
+[oplocu,hauntedfountain]
 if(last_useitem ! poisoned_fish_food) { 
     ~displaymessage(^dm_default);
     return;
@@ -117,14 +117,14 @@ if(coordx(coord) < coordx(loc_coord)) {
 mes("You've found a secret door!");
 @manor_bookcase_door(loc_param(end_coord));
 
-[oploc1,loc_160]
+[oploc1,hauntedleverup]
 p_delay(0);
 facesquare(movecoord(coord, 1, 0, 0));
 mes("The lever opens the secret door!");
 anim(human_leverdown, 0);
 sound_synth(lever, 0, 0);
 // Temp note: dur updated
-loc_change(loc_161, 4);
+loc_change(hauntedleverdown, 4);
 p_teleport(movecoord(coord, 0, 0, 1));
 p_delay(1);
 @manor_bookcase_door(movecoord(coord, 2, 0, 0));
@@ -138,14 +138,14 @@ p_delay(0);
 // than the bookcases, this is a small workaround
 loc_findallzone(movecoord(coord, 0, 0, -1));
 while (loc_findnext = true) {
-    if(loc_type = loc_155) {
+    if(loc_type = hauntedbookcasel) {
         // Temp note: dur updated
         loc_change(inviswall, 3);
-        loc_add(movecoord(loc_coord, 0, 0, -1), loc_157, loc_angle, loc_shape, 3);
-    } else if(loc_type = loc_156) {
+        loc_add(movecoord(loc_coord, 0, 0, -1), hauntedbookcaseopen, loc_angle, loc_shape, 3);
+    } else if(loc_type = hauntedbookcaser) {
         // Temp note: dur updated
         loc_change(inviswall, 3);
-        loc_add(movecoord(loc_coord, 0, 0, 1), loc_157, loc_angle, loc_shape, 3);
+        loc_add(movecoord(loc_coord, 0, 0, 1), hauntedbookcaseopen, loc_angle, loc_shape, 3);
         sound_synth(coffin_open, 0, 0);
     }
 }
@@ -184,14 +184,14 @@ mes("The lever is <$dir>.");
 
 [oploc1,_haunted_door]
 if((loc_type = 1to2 & (testbit(%haunted_lever, 0) = ^false & testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 4) = ^true & testbit(%haunted_lever, 5) = ^true))
-    | (loc_type = loc_138 & (testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 5) = ^true))
-    | (loc_type = loc_139 & (testbit(%haunted_lever, 0) = ^true & testbit(%haunted_lever, 1) = ^true & testbit(%haunted_lever, 3) = ^true))
-    | (loc_type = loc_140 & testbit(%haunted_lever, 3) = ^true)
-    | (loc_type = loc_141 & (testbit(%haunted_lever, 4) = ^false & testbit(%haunted_lever, 5) = ^true))
-    | (loc_type = loc_142 & (testbit(%haunted_lever, 0) = ^false & testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 2) = ^true & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 4) = ^false & testbit(%haunted_lever, 5) = ^true))
-    | (loc_type = loc_143 & (testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 5) = ^false))
-    | (loc_type = loc_144 & (testbit(%haunted_lever, 0) = ^true & testbit(%haunted_lever, 1) = ^true & testbit(%haunted_lever, 2) = ^false & testbit(%haunted_lever, 3) = ^false & testbit(%haunted_lever, 4) = ^false & testbit(%haunted_lever, 5) = ^false))
-    | (loc_type = loc_145 & ((testbit(%haunted_lever, 2) = ^false & testbit(%haunted_lever, 3) = ^true) | (testbit(%haunted_lever, 0) = ^false & testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 2) = ^true & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 4) = ^false & testbit(%haunted_lever, 5) = ^true)))) {
+    | (loc_type = 2to3 & (testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 5) = ^true))
+    | (loc_type = 4to5 & (testbit(%haunted_lever, 0) = ^true & testbit(%haunted_lever, 1) = ^true & testbit(%haunted_lever, 3) = ^true))
+    | (loc_type = 5to6 & testbit(%haunted_lever, 3) = ^true)
+    | (loc_type = 8to9 & (testbit(%haunted_lever, 4) = ^false & testbit(%haunted_lever, 5) = ^true))
+    | (loc_type = 2to5 & (testbit(%haunted_lever, 0) = ^false & testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 2) = ^true & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 4) = ^false & testbit(%haunted_lever, 5) = ^true))
+    | (loc_type = 3to6 & (testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 5) = ^false))
+    | (loc_type = 4to7 & (testbit(%haunted_lever, 0) = ^true & testbit(%haunted_lever, 1) = ^true & testbit(%haunted_lever, 2) = ^false & testbit(%haunted_lever, 3) = ^false & testbit(%haunted_lever, 4) = ^false & testbit(%haunted_lever, 5) = ^false))
+    | (loc_type = 5to8 & ((testbit(%haunted_lever, 2) = ^false & testbit(%haunted_lever, 3) = ^true) | (testbit(%haunted_lever, 0) = ^false & testbit(%haunted_lever, 1) = ^false & testbit(%haunted_lever, 2) = ^true & testbit(%haunted_lever, 3) = ^true & testbit(%haunted_lever, 4) = ^false & testbit(%haunted_lever, 5) = ^true)))) {
     ~open_and_close_door2(loc_1535, ~check_axis(coord, loc_coord, loc_angle), door_open);
     return;
 }

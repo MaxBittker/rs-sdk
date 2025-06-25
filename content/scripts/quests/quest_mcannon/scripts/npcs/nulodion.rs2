@@ -91,7 +91,7 @@ inv_add(inv, ammo_mould, 1);
 [label,lost_my_cannon]
 ~chatplayer("<p,sad>I've lost my cannon...");
 ~chatnpc("<p,neutral>That's unfortunate... but don't worry, I can sort you out.");
-if (%mcannon_coord = null | loc_find(%mcannon_coord, cannon) = true) {
+if (%mcannon_coord = null | loc_find(%mcannon_coord, dwarf_multicannon1) = true) {
     ~chatnpc("<p,sad>Oh dear, I'm only allowed to replace cannons|that were stolen in action.|I'm sorry but you'll have to buy a new set.");
     return;
 }

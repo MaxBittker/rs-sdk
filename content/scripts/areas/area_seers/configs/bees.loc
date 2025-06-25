@@ -1,5 +1,4 @@
-// rename: merlin_beehive
-[beehive]
+[merlin_beehive]
 name=Beehive
 desc=Where bees live.
 model=model_beehive

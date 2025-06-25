@@ -3,7 +3,7 @@ if (%mcannon_coord = null) {
     cleartimer(cannon_decay);
     return;
 }
-if (loc_find(%mcannon_coord, cannon) = false) {
+if (loc_find(%mcannon_coord, dwarf_multicannon1) = false) {
     mes("Your cannon has decayed."); // https://runescape.wiki/w/Update:Patch_Notes_(6_May_2009)
     cleartimer(cannon_decay);
 }
@@ -230,7 +230,7 @@ if (last_useitem = twpart4) {
     anim(human_pickupfloor, 0);
     inv_del(inv, twpart4, 1);
     mes("You add the furnace.");
-    loc_change(cannon, ^cannon_decay_length);
+    loc_change(dwarf_multicannon1, ^cannon_decay_length);
     %mcannon_stage = ^cannon_stage_full;
     @cannon_ready_start;
 }
@@ -242,7 +242,7 @@ if (oc_category(last_useitem) = cannon_parts & last_useitem ! twpart3) {
 // --------------
 
 // ------- cannon -------
-[oploc2,cannon]
+[oploc2,dwarf_multicannon1]
 if (~cannon_belongs_to_player = false) {
     mes("This is not your cannon."); // osrs
     return;
@@ -268,7 +268,7 @@ if (%mcannon_ammo > 0) {
 %mcannon_ammo = 0;
 loc_del(1);
 
-[oploc1,cannon]
+[oploc1,dwarf_multicannon1]
 if (~cannon_belongs_to_player = false) {
     mes("That isn't your cannon!"); // https://youtu.be/aJDlEmyPpk8?t=140
     return;
@@ -286,7 +286,7 @@ if (%mcannon_ammo < 1) {
 }
 settimer(cannon_rotate, 1, 0);
 
-[oplocu,cannon]
+[oplocu,dwarf_multicannon1]
 if (last_useitem = mcannonball) {
     if (~cannon_belongs_to_player = false) {
         mes("This is not your cannon."); // osrs

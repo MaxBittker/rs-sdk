@@ -6,7 +6,7 @@ length=3
 width=3
 op1=Inspect
 
-[cannon]
+[dwarf_multicannon1]
 name=Dwarf MultiCannon
 desc=A powerful ranging device that fires metal balls.
 model=model_loc_5

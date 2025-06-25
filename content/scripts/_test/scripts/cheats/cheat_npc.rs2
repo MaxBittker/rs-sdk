@@ -66,7 +66,7 @@ obj_addall(npc_coord, garlic, 1, 100);
 [debugproc,npc_los1]
 if (p_finduid(uid) = true) {
     p_telejump(0_37_55_32_9);
-    loc_add(0_37_55_32_10, loc_1, 0, centrepiece_straight, 100);
+    loc_add(0_37_55_32_10, mcannoncrateboy, 0, centrepiece_straight, 100);
     npc_add(0_37_55_33_10, kologre, 100);
     npc_setmode(applayer2);
 }

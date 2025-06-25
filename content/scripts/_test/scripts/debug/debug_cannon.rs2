@@ -23,7 +23,7 @@ if (p_finduid(uid) = true) {
 if (p_finduid(uid) = false) {
     return;
 }
-if (%mcannon_coord = null | loc_find(%mcannon_coord, cannon) = true) {
+if (%mcannon_coord = null | loc_find(%mcannon_coord, dwarf_multicannon1) = true) {
     ~chatnpc_specific("Nulodion", nulodion, "<p,sad>Oh dear, I'm only allowed to replace cannons|that were stolen in action.|I'm sorry but you'll have to buy a new set.");
     return;
 }

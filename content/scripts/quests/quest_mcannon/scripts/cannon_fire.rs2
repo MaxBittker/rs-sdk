@@ -4,7 +4,7 @@
 // but at https://youtu.be/WWyNTsMXjTE?t=219 the cannon does
 
 // i think this is because picking up the cannon doesnt reset the timer.
-if (%mcannon_coord = null | loc_find(%mcannon_coord, cannon) = false) {
+if (%mcannon_coord = null | loc_find(%mcannon_coord, dwarf_multicannon1) = false) {
     return;
 }
 def_coord $center = movecoord(loc_coord, 1, 0, 1);
@@ -134,7 +134,7 @@ if (random(4) = 0 & %mcannon_coord ! null) { // guess
     npc_anim(dragon_firebreath_middle_attack, 0);
     sound_synth(dragonbreath, 0, 30);
 
-    if (loc_find(%mcannon_coord, cannon) = true) {
+    if (loc_find(%mcannon_coord, dwarf_multicannon1) = true) {
         mes("Your cannon has been destroyed!");
         loc_del(1);
         cleartimer(cannon_rotate);

@@ -4,7 +4,7 @@ desc=I wonder what's inside.
 model=model_loc_0
 op1=Search
 
-[loc_1]
+[mcannoncrateboy]
 name=Crate
 desc=I wonder what's inside.
 model=model_loc_0
@@ -361,7 +361,7 @@ length=2
 op1=Chop down
 param=next_loc_stage,loc_1348
 
-[loc_157]
+[hauntedbookcaseopen]
 name=Bookcase
 desc=Lots of books.
 model=model_loc_155
@@ -370,7 +370,7 @@ retex1d=mossybricks
 recol2s=6342
 recol2d=5248
 
-[loc_158]
+[hauntedwalll]
 name=Wall
 desc=This wall looks odd...
 model=model_loc_155
@@ -380,7 +380,7 @@ retex1d=mossybricks
 recol2s=6342
 recol2d=5316
 
-[loc_159]
+[hauntedwallr]
 name=Wall
 desc=This wall looks odd...
 model=model_loc_155
@@ -390,28 +390,28 @@ retex1d=mossybricks
 recol2s=6342
 recol2d=5316
 
-[loc_160]
+[hauntedleverup]
 name=Lever
 desc=I wonder what this does...
 model=model_loc_34
 active=yes
 op1=Pull
 
-[loc_161]
+[hauntedleverdown]
 model=model_loc_33
 
-[loc_162]
+[madmachine1]
 name=Strange machine
 desc=It's a strange machine.
 model=model_loc_162
 
-[loc_163]
+[madmachine2]
 name=Strange machine
 desc=It's a strange machine.
 model=model_loc_163
 length=2
 
-[loc_164]
+[madmachine3]
 name=Strange machine
 desc=It's a strange machine.
 model=model_loc_164
