@@ -6,6 +6,7 @@ walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op1=Talk-to
 op3=Trade
+op4=Teleport
 recol1s=14801
 recol1d=24075
 recol2s=14724

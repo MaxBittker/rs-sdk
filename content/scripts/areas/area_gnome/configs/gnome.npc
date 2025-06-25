@@ -635,6 +635,7 @@ walkanim=midget_walk
 readyanim=midget_ready
 vislevel=hide
 op1=Talk-to
+op3=Teleport
 recol1s=416
 recol1d=17969
 recol2s=15360

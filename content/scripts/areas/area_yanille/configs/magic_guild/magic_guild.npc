@@ -73,6 +73,7 @@ desc=Head of the Magic Guild.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_staffready
 op1=Talk-to
+op3=Teleport
 recol1s=2340
 recol1d=2559
 recol2s=14724

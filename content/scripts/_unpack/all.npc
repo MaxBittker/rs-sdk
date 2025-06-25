@@ -5226,7 +5226,7 @@ recol4d=10240
 model1=model_2961_npc
 model2=model_2964_npc
 model3=model_2965_npc
-head1=model_10_npc_head
+head1=model_3454_npc_head
 // TODO respawnrate
 wanderrange=0
 maxrange=2
