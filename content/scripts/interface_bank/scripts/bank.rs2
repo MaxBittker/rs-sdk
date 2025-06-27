@@ -99,8 +99,8 @@ if (~bank_find_obj_unbankable($obj) = true) {
     return(true);
 }
 
-if (map_members = ^false) {
-    // check for f2p bank limits.
+if (playermember = ^false) {
+    // check for f2p bank limits, use the player's membership status rather than world type
     if ((inv_total(bank, oc_uncert($obj)) = 0) & (sub(inv_size(bank), inv_freespace(bank)) >= ^bank_free_slots)) {
         // https://youtu.be/yv-H5-IoRLs?t=9 (2006)
         // https://web.archive.org/web/20041126073829/http://img39.imageshack.us/img39/3412/firemaking.jpg (2004)

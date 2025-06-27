@@ -13,3 +13,6 @@ midi_jingle(^sailing_journey_jingle, ^sailing_journey_jingle_millis);
 if (p_finduid(uid) = true) {
     ~objbox($obj, "You've found <~add_article(oc_name($obj))>!", 250, ^objbox_width, 0);
 }
+
+[debugproc,members]
+mes("Your membership status is: <tostring(playermember)>");
