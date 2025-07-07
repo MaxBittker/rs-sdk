@@ -25,7 +25,7 @@ export default class Square extends Linkable {
     wall: Wall | null = null;
     decor: Decor | null = null;
     groundDecor: GroundDecor | null = null;
-    objStack: GroundObject | null = null;
+    groundObject: GroundObject | null = null;
     linkedSquare: Square | null = null;
     primaryCount: number = 0;
     combinedPrimaryExtendDirections: number = 0;

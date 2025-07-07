@@ -368,13 +368,14 @@ export default class World3D {
         }
     }
 
-    addGroundDecoration(model: ModelSource | null, tileLevel: number, tileX: number, tileZ: number, y: number, typecode: number, info: number): void {
+    addGroundDecoration(model: ModelSource | null, tileLevel: number, tileX: number, tileZ: number, y: number, typecode: number, typecode2: number): void {
         if (!this.levelTiles[tileLevel][tileX][tileZ]) {
             this.levelTiles[tileLevel][tileX][tileZ] = new Square(tileLevel, tileX, tileZ);
         }
+
         const tile: Square | null = this.levelTiles[tileLevel][tileX][tileZ];
         if (tile) {
-            tile.groundDecor = new GroundDecor(y, tileX * 128 + 64, tileZ * 128 + 64, model, typecode, info);
+            tile.groundDecor = new GroundDecor(y, tileX * 128 + 64, tileZ * 128 + 64, model, typecode, typecode2);
         }
     }
 
@@ -387,50 +388,55 @@ export default class World3D {
         tile.groundDecor = null;
     }
 
-    addObjStack(stx: number, stz: number, y: number, level: number, typecode: number, topObj: Model | null, middleObj: Model | null, bottomObj: Model | null): void {
-        // let stackOffset: number = 0;
-        // const tile: Square | null = this.levelTiles[level][stx][stz];
-        // if (tile) {
-        //     for (let l: number = 0; l < tile.locCount; l++) {
-        //         const loc: Sprite | null = tile.locs[l];
-        //         if (!loc || !loc.model) {
-        //             continue;
-        //         }
-        //         const height: number = loc.model.objRaise;
-        //         if (height > stackOffset) {
-        //             stackOffset = height;
-        //         }
-        //     }
-        // } else {
-        //     this.levelTiles[level][stx][stz] = new Square(level, stx, stz);
-        // }
-        // const tile2: Square | null = this.levelTiles[level][stx][stz];
-        // if (tile2) {
-        //     tile2.objStack = new GroundObject(y, stx * 128 + 64, stz * 128 + 64, topObj, middleObj, bottomObj, typecode, stackOffset);
-        // }
+    addGroundObject(stx: number, stz: number, y: number, level: number, typecode: number, topObj: Model | null, middleObj: Model | null, bottomObj: Model | null): void {
+        let stackOffset: number = 0;
+
+        const tile: Square | null = this.levelTiles[level][stx][stz];
+        if (tile) {
+            for (let l: number = 0; l < tile.primaryCount; l++) {
+                const loc: Sprite | null = tile.locs[l];
+                if (!loc || !loc.model || !(loc.model instanceof Model)) {
+                    continue;
+                }
+
+                const height: number = loc.model.objRaise;
+                if (height > stackOffset) {
+                    stackOffset = height;
+                }
+            }
+        } else {
+            this.levelTiles[level][stx][stz] = new Square(level, stx, stz);
+        }
+
+        const tile2: Square | null = this.levelTiles[level][stx][stz];
+        if (tile2) {
+            tile2.groundObject = new GroundObject(y, stx * 128 + 64, stz * 128 + 64, topObj, middleObj, bottomObj, typecode, stackOffset);
+        }
     }
 
-    removeObjStack(level: number, x: number, z: number): void {
+    removeGroundObject(level: number, x: number, z: number): void {
         const tile: Square | null = this.levelTiles[level][x][z];
         if (!tile) {
             return;
         }
 
-        tile.objStack = null;
+        tile.groundObject = null;
     }
 
-    addWall(level: number, tileX: number, tileZ: number, y: number, typeA: number, typeB: number, modelA: ModelSource | null, modelB: ModelSource | null, typecode: number, info: number): void {
-        if (!modelA && !modelB) {
+    addWall(level: number, tileX: number, tileZ: number, y: number, angle1: number, angle2: number, model1: ModelSource | null, model2: ModelSource | null, typecode1: number, typecode2: number): void {
+        if (!model1 && !model2) {
             return;
         }
+
         for (let l: number = level; l >= 0; l--) {
             if (!this.levelTiles[l][tileX][tileZ]) {
                 this.levelTiles[l][tileX][tileZ] = new Square(l, tileX, tileZ);
             }
         }
+
         const tile: Square | null = this.levelTiles[level][tileX][tileZ];
         if (tile) {
-            tile.wall = new Wall(y, tileX * 128 + 64, tileZ * 128 + 64, typeA, typeB, modelA, modelB, typecode, info);
+            tile.wall = new Wall(y, tileX * 128 + 64, tileZ * 128 + 64, angle1, angle2, model1, model2, typecode1, typecode2);
         }
     }
 
@@ -696,7 +702,7 @@ export default class World3D {
         if (!tile) {
             return -1;
         } else if (tile.wall && tile.wall.typecode === typecode) {
-            return tile.wall.info & 0xff;
+            return tile.wall.typecode2 & 0xff;
         } else if (tile.decor && tile.decor.typecode === typecode) {
             return tile.decor.info & 0xff;
         } else if (tile.groundDecor && tile.groundDecor.typecode === typecode) {
@@ -1596,18 +1602,18 @@ export default class World3D {
                         groundDecor.model?.draw(loopCycle, 0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, groundDecor.x - World3D.eyeX, groundDecor.y - World3D.eyeY, groundDecor.z - World3D.eyeZ, groundDecor.typecode);
                     }
 
-                    const objs: GroundObject | null = tile.objStack;
+                    const objs: GroundObject | null = tile.groundObject;
                     if (objs && objs.offset === 0) {
                         if (objs.bottomObj) {
-                            objs.bottomObj.draw(0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY, objs.z - World3D.eyeZ, objs.typecode);
+                            objs.bottomObj.draw(loopCycle, 0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY, objs.z - World3D.eyeZ, objs.typecode);
                         }
 
                         if (objs.middleObj) {
-                            objs.middleObj.draw(0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY, objs.z - World3D.eyeZ, objs.typecode);
+                            objs.middleObj.draw(loopCycle, 0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY, objs.z - World3D.eyeZ, objs.typecode);
                         }
 
                         if (objs.topObj) {
-                            objs.topObj.draw(0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY, objs.z - World3D.eyeZ, objs.typecode);
+                            objs.topObj.draw(loopCycle, 0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY, objs.z - World3D.eyeZ, objs.typecode);
                         }
                     }
                 }
@@ -1827,18 +1833,18 @@ export default class World3D {
             tile.drawBack = false;
             World3D.tilesRemaining--;
 
-            const objs: GroundObject | null = tile.objStack;
+            const objs: GroundObject | null = tile.groundObject;
             if (objs && objs.offset !== 0) {
                 if (objs.bottomObj) {
-                    objs.bottomObj.draw(0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY - objs.offset, objs.z - World3D.eyeZ, objs.typecode);
+                    objs.bottomObj.draw(loopCycle, 0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY - objs.offset, objs.z - World3D.eyeZ, objs.typecode);
                 }
 
                 if (objs.middleObj) {
-                    objs.middleObj.draw(0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY - objs.offset, objs.z - World3D.eyeZ, objs.typecode);
+                    objs.middleObj.draw(loopCycle, 0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY - objs.offset, objs.z - World3D.eyeZ, objs.typecode);
                 }
 
                 if (objs.topObj) {
-                    objs.topObj.draw(0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY - objs.offset, objs.z - World3D.eyeZ, objs.typecode);
+                    objs.topObj.draw(loopCycle, 0, World3D.sinEyePitch, World3D.cosEyePitch, World3D.sinEyeYaw, World3D.cosEyeYaw, objs.x - World3D.eyeX, objs.y - World3D.eyeY - objs.offset, objs.z - World3D.eyeZ, objs.typecode);
                 }
             }
 

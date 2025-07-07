@@ -80,8 +80,8 @@ export default class ClientProj extends ModelSource {
             return;
         }
         this.seqCycle += delta;
-        while (this.seqCycle > this.spotanim.seq.delay[this.seqFrame]) {
-            this.seqCycle -= this.spotanim.seq.delay[this.seqFrame] + 1;
+        while (this.seqCycle > this.spotanim.seq.getFrameDuration(this.seqFrame)) {
+            this.seqCycle -= this.spotanim.seq.getFrameDuration(this.seqFrame) + 1;
             this.seqFrame++;
             if (this.seqFrame >= this.spotanim.seq.frameCount) {
                 this.seqFrame = 0;

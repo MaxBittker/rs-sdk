@@ -8,7 +8,7 @@ export default class ClientLocAnim extends ModelSource {
     readonly index: number;
     readonly shape: number;
     readonly angle: number;
-    heightmapSW: number;
+    readonly heightmapSW: number;
     readonly heightmapSE: number;
     readonly heightmapNE: number;
     readonly heightmapNW: number;
@@ -33,12 +33,14 @@ export default class ClientLocAnim extends ModelSource {
 
         if (randomFrame && this.seq.replayoff !== -1 && this.seq.delay) {
             this.seqFrame = (Math.random() * this.seq.frameCount) | 0;
-            this.seqCycle = (Math.random() * this.seq.delay[this.seqFrame]) | 0;
+            this.seqCycle -= (Math.random() * this.seq.getFrameDuration(this.seqFrame)) | 0;
         }
     }
 
     getModel(loopCycle: number): Model | null {
-		if (this.seq != null) {
+        this.seqCycle = loopCycle;
+
+        if (this.seq != null) {
 			let delta = loopCycle - this.seqCycle;
 			if (delta > 100 && this.seq.replayoff > 0) {
 				delta = 100;

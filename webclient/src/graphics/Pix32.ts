@@ -422,6 +422,7 @@ export default class Pix32 extends DoublyLinkable {
 
                 let srcX: number = leftX + cosZoom * dstOff;
                 let srcY: number = leftY - sinZoom * dstOff;
+
                 for (let j: number = -lineWidth[i]; j < 0; j++) {
                     Pix2D.pixels[dstX++] = this.pixels[(srcX >> 16) + (srcY >> 16) * this.width2d];
                     srcX += cosZoom;

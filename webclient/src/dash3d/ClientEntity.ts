@@ -154,7 +154,7 @@ export default abstract class ClientEntity extends ModelSource {
         this.preanimRouteLength = 0;
     }
 
-    pushDamage(loopCycle: number, type: number, value: number) {
+    hit(loopCycle: number, type: number, value: number) {
         for (let i = 0; i < 4; i++) {
             if (this.damageCycles[i] <= loopCycle) {
                 this.damageValues[i] = value;

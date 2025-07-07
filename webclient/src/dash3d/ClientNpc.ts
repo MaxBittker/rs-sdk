@@ -40,7 +40,9 @@ export default class ClientNpc extends ClientEntity {
                 const temp: Model = Model.modelShareColored(spotModel, true, !spot.animHasAlpha, false);
                 temp.translate(-this.spotanimHeight, 0, 0);
                 temp.createLabelReferences();
-                temp.applyTransform(spot.seq!.frames![this.spotanimFrame]);
+                if (spot.seq && spot.seq.frames) {
+                    temp.applyTransform(spot.seq.frames[this.spotanimFrame]);
+                }
 
                 temp.labelFaces = null;
                 temp.labelVertices = null;
@@ -64,21 +66,32 @@ export default class ClientNpc extends ClientEntity {
     }
 
     private getAnimatedModel(): Model | null {
+        if (!this.type) {
+            return null;
+        }
+
         if (this.primarySeqId < 0 || this.primarySeqDelay != 0) {
-            let transform = -1;
-            if (this.secondarySeqId >= 0) {
-                transform = SeqType.types[this.secondarySeqId].frames![this.secondarySeqFrame];
-            }
-
-            return this.type!.getModel(transform, -1, null);
-        } else {
-            let primaryTransform = SeqType.types[this.primarySeqId].frames![this.primarySeqFrame];
+            const secondarySeq = SeqType.types[this.secondarySeqId];
             let secondaryTransform = -1;
-            if (this.secondarySeqId >= 0 && this.secondarySeqId != this.readyanim) {
-                secondaryTransform = SeqType.types[this.secondarySeqId].frames![this.secondarySeqFrame];
+            if (this.secondarySeqId >= 0 && secondarySeq.frames) {
+                secondaryTransform = secondarySeq.frames[this.secondarySeqFrame];
             }
 
-            return this.type!.getModel(primaryTransform, secondaryTransform, SeqType.types[this.primarySeqId].walkmerge);
+            return this.type.getModel(secondaryTransform, -1, null);
+        } else {
+            const primarySeq = SeqType.types[this.primarySeqId];
+            let primaryTransform = -1;
+            if (primarySeq.frames) {
+                primaryTransform = primarySeq.frames[this.primarySeqFrame];
+            }
+
+            const secondarySeq = SeqType.types[this.secondarySeqId];
+            let secondaryTransform = -1;
+            if (this.secondarySeqId >= 0 && this.secondarySeqId != this.readyanim && secondarySeq.frames) {
+                secondaryTransform = secondarySeq.frames[this.secondarySeqFrame];
+            }
+
+            return this.type.getModel(primaryTransform, secondaryTransform, primarySeq.walkmerge);
         }
     }
 

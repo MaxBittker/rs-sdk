@@ -60,11 +60,11 @@ export default class IdkType extends ConfigType {
             return true;
         }
 
-        let ready = false;
+        let ready = true;
 
         for (let i = 0; i < this.models.length; i++) {
             if (!Model.isReady(this.models[i])) {
-                ready = true;
+                ready = false;
             }
         }
 
@@ -96,11 +96,11 @@ export default class IdkType extends ConfigType {
     }
 
     headModelIsReady(): boolean {
-        let downloaded = false;
+        let downloaded = true;
 
         for (let i = 0; i < this.heads.length; i++) {
             if (this.heads[i] != -1 && !Model.isReady(this.heads[i])) {
-                downloaded = true;
+                downloaded = false;
             }
         }
 

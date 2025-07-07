@@ -181,7 +181,6 @@ export class Client extends GameShell {
     private areaBackright1: PixMap | null = null;
     private areaBackright2: PixMap | null = null;
     private areaBacktop1: PixMap | null = null;
-    private areaBacktop2: PixMap | null = null;
     private areaBackvmid1: PixMap | null = null;
     private areaBackvmid2: PixMap | null = null;
     private areaBackvmid3: PixMap | null = null;
@@ -207,7 +206,8 @@ export class Client extends GameShell {
     private imageMapfunction: (Pix32 | null)[] = new TypedArray1d(50, null);
     private imageHitmarks: (Pix32 | null)[] = new TypedArray1d(20, null);
     private imageHeadicons: (Pix32 | null)[] = new TypedArray1d(20, null);
-    private imageMapflag: Pix32 | null = null;
+    private imageMapmarker0: Pix32 | null = null;
+    private imageMapmarker1: Pix32 | null = null;
     private imageCrosses: (Pix32 | null)[] = new TypedArray1d(8, null);
     private imageMapdot0: Pix32 | null = null;
     private imageMapdot1: Pix32 | null = null;
@@ -365,8 +365,8 @@ export class Client extends GameShell {
     private cameraYaw: number = 0;
     private cameraPitchClamp: number = 0;
     private minimapOffsetCycle: number = 0;
-    private minimapAnticheatAngle: number = 0;
-    private minimapZoom: number = 0;
+    private macroMinimapAngle: number = 0;
+    private macroMinimapZoom: number = 0;
     private minimapZoomModifier: number = 1;
     private minimapAngleModifier: number = 2;
     private minimapLevel: number = -1;
@@ -388,7 +388,6 @@ export class Client extends GameShell {
     private textureBuffer: Int8Array = new Int8Array(16384);
     private levelCollisionMap: (CollisionMap | null)[] = new TypedArray1d(CollisionConstants.LEVELS, null);
     private currentLevel: number = 0;
-    private cameraMovedWrite: number = 0;
     private orbitCameraPitch: number = 128;
     private orbitCameraYaw: number = 0;
     private orbitCameraYawVelocity: number = 0;
@@ -761,21 +760,19 @@ export class Client extends GameShell {
                     const type: SeqType = SeqType.types[seqId];
                     child.seqCycle += delta;
 
-                    if (type.delay) {
-                        while (child.seqCycle > type.delay[child.seqFrame]) {
-                            child.seqCycle -= type.delay[child.seqFrame] + 1;
-                            child.seqFrame++;
+                    while (child.seqCycle > type.getFrameDuration(child.seqFrame)) {
+                        child.seqCycle -= type.getFrameDuration(child.seqFrame) + 1;
+                        child.seqFrame++;
 
-                            if (child.seqFrame >= type.frameCount) {
-                                child.seqFrame -= type.replayoff;
+                        if (child.seqFrame >= type.frameCount) {
+                            child.seqFrame -= type.replayoff;
 
-                                if (child.seqFrame < 0 || child.seqFrame >= type.frameCount) {
-                                    child.seqFrame = 0;
-                                }
+                            if (child.seqFrame < 0 || child.seqFrame >= type.frameCount) {
+                                child.seqFrame = 0;
                             }
-
-                            updated = true;
                         }
+
+                        updated = true;
                     }
                 }
             }
@@ -1065,11 +1062,11 @@ export class Client extends GameShell {
 
                 let model: Model | null = null;
                 if (seqId === -1) {
-                    model = child.getModel(-1, -1, active);
+                    model = child.getModel(-1, -1, active, this.localPlayer);
                 } else {
                     const seq: SeqType = SeqType.types[seqId];
                     if (seq.frames && seq.iframes) {
-                        model = child.getModel(seq.frames[child.seqFrame], seq.iframes[child.seqFrame], active);
+                        model = child.getModel(seq.frames[child.seqFrame], seq.iframes[child.seqFrame], active, this.localPlayer);
                     }
                 }
 
@@ -1375,10 +1372,12 @@ export class Client extends GameShell {
                     const com: Component = Component.types[script[pc++]];
                     const obj: number = script[pc++] + 1;
 
-                    for (let i: number = 0; i < com.invSlotObjId!.length; i++) {
-                        if (com.invSlotObjId![i] === obj) {
-                            register += 999999999;
-                            break;
+                    if (com.invSlotObjId) {
+                        for (let i: number = 0; i < com.invSlotObjId.length; i++) {
+                            if (com.invSlotObjId[i] === obj) {
+                                register += 999999999;
+                                break;
+                            }
                         }
                     }
                 } else if (opcode === 11) {
@@ -1660,8 +1659,8 @@ export class Client extends GameShell {
                 /* empty */
             }
 
-            // this.imageMapmarker0 = Pix24.fromArchive(media, 'mapmarker', 0);
-            // this.imageMapmarker1 = Pix24.fromArchive(media, 'mapmarker', 1);
+            this.imageMapmarker0 = Pix32.fromArchive(media, 'mapmarker', 0);
+            this.imageMapmarker1 = Pix32.fromArchive(media, 'mapmarker', 1);
 
             for (let i: number = 0; i < 8; i++) {
                 this.imageCrosses[i] = Pix32.fromArchive(media, 'cross', i);
@@ -1814,8 +1813,8 @@ export class Client extends GameShell {
                     }
                 }
 
-                this.minimapMaskLineOffsets[y - 9] = left - 21;
-                this.minimapMaskLineLengths[y - 9] = right - left;
+                this.minimapMaskLineOffsets[y - 5] = left - 25;
+                this.minimapMaskLineLengths[y - 5] = right - left;
             }
 
             Pix3D.init3D(479, 96);
@@ -2478,8 +2477,8 @@ export class Client extends GameShell {
                 this.cameraAnticheatOffsetX = ((Math.random() * 100.0) | 0) - 50;
                 this.cameraAnticheatOffsetZ = ((Math.random() * 110.0) | 0) - 55;
                 this.cameraAnticheatAngle = ((Math.random() * 80.0) | 0) - 40;
-                this.minimapAnticheatAngle = ((Math.random() * 120.0) | 0) - 60;
-                this.minimapZoom = ((Math.random() * 30.0) | 0) - 20;
+                this.macroMinimapAngle = ((Math.random() * 120.0) | 0) - 60;
+                this.macroMinimapZoom = ((Math.random() * 30.0) | 0) - 20;
                 this.orbitCameraYaw = (((Math.random() * 20.0) | 0) - 10) & 0x7ff;
 
                 this.minimapLevel = -1;
@@ -2884,24 +2883,24 @@ export class Client extends GameShell {
                 this.minimapOffsetCycle = 0;
                 const rand: number = (Math.random() * 8.0) | 0;
                 if ((rand & 0x1) === 1) {
-                    this.minimapAnticheatAngle += this.minimapAngleModifier;
+                    this.macroMinimapAngle += this.minimapAngleModifier;
                 }
                 if ((rand & 0x2) === 2) {
-                    this.minimapZoom += this.minimapZoomModifier;
+                    this.macroMinimapZoom += this.minimapZoomModifier;
                 }
             }
 
-            if (this.minimapAnticheatAngle < -60) {
+            if (this.macroMinimapAngle < -60) {
                 this.minimapAngleModifier = 2;
             }
-            if (this.minimapAnticheatAngle > 60) {
+            if (this.macroMinimapAngle > 60) {
                 this.minimapAngleModifier = -2;
             }
 
-            if (this.minimapZoom < -20) {
+            if (this.macroMinimapZoom < -20) {
                 this.minimapZoomModifier = 1;
             }
-            if (this.minimapZoom > 10) {
+            if (this.macroMinimapZoom > 10) {
                 this.minimapZoomModifier = -1;
             }
 
@@ -4115,17 +4114,19 @@ export class Client extends GameShell {
     }
 
     private drawMinimap(): void {
-        this.areaMapback?.bind();
         if (!this.localPlayer) {
             return;
         }
 
-        const angle: number = (this.orbitCameraYaw + this.minimapAnticheatAngle) & 0x7ff;
+        this.areaMapback?.bind();
+
+        const angle: number = (this.orbitCameraYaw + this.macroMinimapAngle) & 0x7ff;
         let anchorX: number = ((this.localPlayer.x / 32) | 0) + 48;
         let anchorY: number = 464 - ((this.localPlayer.z / 32) | 0);
 
-        this.imageMinimap?.drawRotatedMasked(21, 9, 146, 151, this.minimapMaskLineOffsets, this.minimapMaskLineLengths, anchorX, anchorY, angle, this.minimapZoom + 256);
+        this.imageMinimap?.drawRotatedMasked(25, 5, 146, 151, this.minimapMaskLineOffsets, this.minimapMaskLineLengths, anchorX, anchorY, angle, this.macroMinimapZoom + 256);
         this.imageCompass?.drawRotatedMasked(0, 0, 33, 33, this.compassMaskLineOffsets, this.compassMaskLineLengths, 25, 25, this.orbitCameraYaw, 256);
+
         for (let i: number = 0; i < this.activeMapFunctionCount; i++) {
             anchorX = this.activeMapFunctionX[i] * 4 + 2 - ((this.localPlayer.x / 32) | 0);
             anchorY = this.activeMapFunctionZ[i] * 4 + 2 - ((this.localPlayer.z / 32) | 0);
@@ -4176,12 +4177,14 @@ export class Client extends GameShell {
         }
 
         if (this.flagSceneTileX !== 0) {
-            anchorX = this.flagSceneTileX * 4 + 2 - ((this.localPlayer.x / 32) | 0);
-            anchorY = this.flagSceneTileZ * 4 + 2 - ((this.localPlayer.z / 32) | 0);
-            this.drawOnMinimap(anchorY, this.imageMapflag, anchorX);
+            anchorX = ((this.flagSceneTileX * 4) + 2) - ((this.localPlayer.x / 32) | 0);
+            anchorY = ((this.flagSceneTileZ * 4) + 2) - ((this.localPlayer.z / 32) | 0);
+            this.drawOnMinimap(anchorY, this.imageMapmarker0, anchorX);
         }
+
         // the white square local player position in the center of the minimap.
-        Pix2D.fillRect2d(93, 82, 3, 3, Colors.WHITE);
+        Pix2D.fillRect2d(97, 78, 3, 3, Colors.WHITE);
+
         this.areaViewport?.bind();
     }
 
@@ -4190,7 +4193,7 @@ export class Client extends GameShell {
             return;
         }
 
-        const angle: number = (this.orbitCameraYaw + this.minimapAnticheatAngle) & 0x7ff;
+        const angle: number = (this.orbitCameraYaw + this.macroMinimapAngle) & 0x7ff;
         const distance: number = dx * dx + dy * dy;
         if (distance > 6400) {
             return;
@@ -4199,16 +4202,16 @@ export class Client extends GameShell {
         let sinAngle: number = Pix3D.sin[angle];
         let cosAngle: number = Pix3D.cos[angle];
 
-        sinAngle = ((sinAngle * 256) / (this.minimapZoom + 256)) | 0;
-        cosAngle = ((cosAngle * 256) / (this.minimapZoom + 256)) | 0;
+        sinAngle = ((sinAngle * 256) / (this.macroMinimapZoom + 256)) | 0;
+        cosAngle = ((cosAngle * 256) / (this.macroMinimapZoom + 256)) | 0;
 
         const x: number = (dy * sinAngle + dx * cosAngle) >> 16;
         const y: number = (dy * cosAngle - dx * sinAngle) >> 16;
 
         if (distance > 2500 && this.imageMapback) {
-            image.drawMasked(x + 94 - ((image.cropW / 2) | 0), 83 - y - ((image.cropH / 2) | 0), this.imageMapback);
+            image.drawMasked(x + 94 - ((image.cropW / 2) | 0) + 4, 83 - y - ((image.cropH / 2) | 0) - 4, this.imageMapback);
         } else {
-            image.draw(x + 94 - ((image.cropW / 2) | 0), 83 - y - ((image.cropH / 2) | 0));
+            image.draw(x + 94 - ((image.cropW / 2) | 0) + 4, 83 - y - ((image.cropH / 2) | 0) - 4);
         }
     }
 
@@ -4280,6 +4283,7 @@ export class Client extends GameShell {
                     const maxX: number = CollisionConstants.SIZE;
                     const maxZ: number = CollisionConstants.SIZE;
                     const collisionmap: CollisionMap | null = this.levelCollisionMap[this.currentLevel];
+
                     if (collisionmap) {
                         const flags: Int32Array = collisionmap.flags;
 
@@ -4644,12 +4648,12 @@ export class Client extends GameShell {
                 x -= 73;
                 y -= 75;
 
-                const yaw: number = (this.orbitCameraYaw + this.minimapAnticheatAngle) & 0x7ff;
+                const yaw: number = (this.orbitCameraYaw + this.macroMinimapAngle) & 0x7ff;
                 let sinYaw: number = Pix3D.sin[yaw];
                 let cosYaw: number = Pix3D.cos[yaw];
 
-                sinYaw = (sinYaw * (this.minimapZoom + 256)) >> 8;
-                cosYaw = (cosYaw * (this.minimapZoom + 256)) >> 8;
+                sinYaw = (sinYaw * (this.macroMinimapZoom + 256)) >> 8;
+                cosYaw = (cosYaw * (this.macroMinimapZoom + 256)) >> 8;
 
                 const relX: number = (y * sinYaw + x * cosYaw) >> 11;
                 const relY: number = (y * cosYaw - x * sinYaw) >> 11;
@@ -4663,8 +4667,8 @@ export class Client extends GameShell {
                     this.out.p1(y);
                     this.out.p2(this.orbitCameraYaw);
                     this.out.p1(57);
-                    this.out.p1(this.minimapAnticheatAngle);
-                    this.out.p1(this.minimapZoom);
+                    this.out.p1(this.macroMinimapAngle);
+                    this.out.p1(this.macroMinimapZoom);
                     this.out.p1(89);
                     this.out.p2(this.localPlayer.x);
                     this.out.p2(this.localPlayer.z);
@@ -6059,7 +6063,7 @@ export class Client extends GameShell {
     private sortObjStacks(x: number, z: number): void {
         const objStacks: LinkList | null = this.objStacks[this.currentLevel][x][z];
         if (!objStacks) {
-            this.scene?.removeObjStack(this.currentLevel, x, z);
+            this.scene?.removeGroundObject(this.currentLevel, x, z);
             return;
         }
 
@@ -6114,7 +6118,7 @@ export class Client extends GameShell {
 
         const typecode: number = (x + (z << 7) + 0x60000000) | 0;
         const type: ObjType = ObjType.get(topObj.index);
-        this.scene?.addObjStack(x, z, this.getHeightmapY(this.currentLevel, x * 128 + 64, z * 128 + 64), this.currentLevel, typecode, type.getInvModel(topObj.count), middleObj, bottomObj);
+        this.scene?.addGroundObject(x, z, this.getHeightmapY(this.currentLevel, x * 128 + 64, z * 128 + 64), this.currentLevel, typecode, type.getInvModel(topObj.count), middleObj, bottomObj);
     }
 
     private addLoc(level: number, x: number, z: number, id: number, angle: number, shape: number, layer: number): void {
@@ -6441,12 +6445,12 @@ export class Client extends GameShell {
                             this.sceneMapLocFile[mapCount] = -1;
                             mapCount++;
                         } else if (this.onDemand) {
-                            let landFile = this.sceneMapLandFile[mapCount] = this.onDemand.getMapFile(z, x, 0);
+                            let landFile = this.sceneMapLandFile[mapCount] = this.onDemand.getMapFile(x, z, 0);
                             if (landFile != -1) {
                                 this.onDemand.request(3, landFile);
                             }
 
-                            let locFile = this.sceneMapLocFile[mapCount] = this.onDemand.getMapFile(z, x, 1);
+                            let locFile = this.sceneMapLocFile[mapCount] = this.onDemand.getMapFile(x, z, 1);
                             if (locFile != -1) {
                                 this.onDemand.request(3, locFile);
                             }
@@ -6544,8 +6548,10 @@ export class Client extends GameShell {
             if (this.ptype === ServerProt.IF_SETPLAYERHEAD) {
                 const comId = this.in.g2();
 
-                Component.types[comId].modelType = 3;
-                Component.types[comId].model = (this.localPlayer!.appearance[8] << 6) + (this.localPlayer!.appearance[0] << 12) + (this.localPlayer!.colour[0] << 24) + (this.localPlayer!.colour[4] << 18) + this.localPlayer!.appearance[11];
+                if (this.localPlayer) {
+                    Component.types[comId].modelType = 3;
+                    Component.types[comId].model = (this.localPlayer.appearance[8] << 6) + (this.localPlayer.appearance[0] << 12) + (this.localPlayer.colour[0] << 24) + (this.localPlayer.colour[4] << 18) + this.localPlayer.appearance[11];
+                }
 
                 this.ptype = -1;
                 return true;
@@ -7352,11 +7358,11 @@ export class Client extends GameShell {
 
             if (this.sceneMapIndex) {
                 for (let index: number = 0; index < maps; index++) {
-                    const mapsquareX: number = this.sceneMapIndex[index] >> 8;
-                    const mapsquareZ: number = this.sceneMapIndex[index] & 0xff;
+                    const mapX: number = this.sceneMapIndex[index] >> 8;
+                    const mapZ: number = this.sceneMapIndex[index] & 0xff;
 
                     // underground pass check
-                    if (mapsquareX === 33 && mapsquareZ >= 71 && mapsquareZ <= 73) {
+                    if (mapX === 33 && mapZ >= 71 && mapZ <= 73) {
                         World.lowMemory = false;
                         break;
                     }
@@ -9013,7 +9019,7 @@ export class Client extends GameShell {
         if ((mask & PlayerUpdate.DAMAGE) !== 0) {
             const damage = buf.g1();
             const damageType = buf.g1();
-            player.pushDamage(this.loopCycle, damageType, damage);
+            player.hit(this.loopCycle, damageType, damage);
             player.combatCycle = this.loopCycle + 400;
             player.health = buf.g1();
             player.totalHealth = buf.g1();
@@ -9094,7 +9100,7 @@ export class Client extends GameShell {
         if ((mask & PlayerUpdate.DAMAGE2) !== 0) {
             const damage = buf.g1();
             const damageType = buf.g1();
-            player.pushDamage(this.loopCycle, damageType, damage);
+            player.hit(this.loopCycle, damageType, damage);
             player.combatCycle = this.loopCycle + 400;
             player.health = buf.g1();
             player.totalHealth = buf.g1();
@@ -9261,7 +9267,7 @@ export class Client extends GameShell {
             if ((mask & NpcUpdate.DAMAGE2) !== 0) {
                 const damage = buf.g1();
                 const damageType = buf.g1();
-                npc.pushDamage(this.loopCycle, damageType, damage);
+                npc.hit(this.loopCycle, damageType, damage);
                 npc.combatCycle = this.loopCycle + 400;
                 npc.health = buf.g1();
                 npc.totalHealth = buf.g1();
@@ -9308,7 +9314,7 @@ export class Client extends GameShell {
             if ((mask & NpcUpdate.DAMAGE) !== 0) {
                 const damage = buf.g1();
                 const damageType = buf.g1();
-                npc.pushDamage(this.loopCycle, damageType, damage);
+                npc.hit(this.loopCycle, damageType, damage);
                 npc.combatCycle = this.loopCycle + 400;
                 npc.health = buf.g1();
                 npc.totalHealth = buf.g1();
@@ -9483,9 +9489,9 @@ export class Client extends GameShell {
     private pushNpcs(alwaysontop: boolean): void {
         for (let i: number = 0; i < this.npcCount; i++) {
             const npc: ClientNpc | null = this.npcs[this.npcIds[i]];
-            const typecode: number = ((this.npcIds[i] << 14) + 0x1fff_ffff + 1) | 0;
+            const typecode: number = ((this.npcIds[i] << 14) + 0x20000000) | 0;
 
-            if (!npc || !npc.isVisible() || npc.type?.alwaysontop === alwaysontop) {
+            if (!npc || !npc.isVisible() || npc.type?.alwaysontop !== alwaysontop) {
                 continue;
             }
 
@@ -9719,11 +9725,14 @@ export class Client extends GameShell {
         let seq: SeqType | null;
         if (e.secondarySeqId !== -1) {
             seq = SeqType.types[e.secondarySeqId];
+
             e.secondarySeqCycle++;
-            if (seq.delay && e.secondarySeqFrame < seq.frameCount && e.secondarySeqCycle > seq.delay[e.secondarySeqFrame]) {
+
+            if (seq.delay && e.secondarySeqFrame < seq.frameCount && e.secondarySeqCycle > seq.getFrameDuration(e.secondarySeqFrame)) {
                 e.secondarySeqCycle = 0;
                 e.secondarySeqFrame++;
             }
+
             if (e.secondarySeqFrame >= seq.frameCount) {
                 e.secondarySeqCycle = 0;
                 e.secondarySeqFrame = 0;
@@ -9737,8 +9746,8 @@ export class Client extends GameShell {
 
             seq = SpotAnimType.types[e.spotanimId].seq;
             e.spotanimCycle++;
-            while (seq && seq.delay && e.spotanimFrame < seq.frameCount && e.spotanimCycle > seq.delay[e.spotanimFrame]) {
-                e.spotanimCycle -= seq.delay[e.spotanimFrame];
+            while (seq && seq.delay && e.spotanimFrame < seq.frameCount && e.spotanimCycle > seq.getFrameDuration(e.spotanimFrame)) {
+                e.spotanimCycle -= seq.getFrameDuration(e.spotanimFrame);
                 e.spotanimFrame++;
             }
 
@@ -9756,11 +9765,12 @@ export class Client extends GameShell {
                 return;
             }
         }
+
         if (e.primarySeqId !== -1 && e.primarySeqDelay === 0) {
             seq = SeqType.types[e.primarySeqId];
             e.primarySeqCycle++;
-            while (seq.delay && e.primarySeqFrame < seq.frameCount && e.primarySeqCycle > seq.delay[e.primarySeqFrame]) {
-                e.primarySeqCycle -= seq.delay[e.primarySeqFrame];
+            while (seq.delay && e.primarySeqFrame < seq.frameCount && e.primarySeqCycle > seq.getFrameDuration(e.primarySeqFrame)) {
+                e.primarySeqCycle -= seq.getFrameDuration(e.primarySeqFrame);
                 e.primarySeqFrame++;
             }
 

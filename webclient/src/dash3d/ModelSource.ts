@@ -10,7 +10,7 @@ export default class ModelSource extends DoublyLinkable {
         const model = this.getModel(loopCycle);
         if (model) {
             this.minY = model.minY;
-            model.draw(yaw, sinEyePitch, cosEyePitch, sinEyeYaw, cosEyeYaw, relativeX, relativeY, relativeZ, typecode);
+            model.draw(0, yaw, sinEyePitch, cosEyePitch, sinEyeYaw, cosEyeYaw, relativeX, relativeY, relativeZ, typecode);
         }
     }
 

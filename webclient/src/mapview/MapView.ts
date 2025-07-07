@@ -275,7 +275,9 @@ export class MapView extends GameShell {
         Pix2D.drawRect(0, 0, this.imageOverviewWidth, this.imageOverviewHeight, 0);
         Pix2D.drawRect(1, 1, this.imageOverviewWidth - 2, this.imageOverviewHeight - 2, this.colorInactiveBorderTL);
 
-        this.drawArea!.bind();
+        if (this.drawArea) {
+            this.drawArea.bind();
+        }
     }
 
     async draw(): Promise<void> {

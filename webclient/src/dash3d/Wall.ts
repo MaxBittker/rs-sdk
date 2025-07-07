@@ -9,9 +9,9 @@ export default class Wall {
     model1: ModelSource | null;
     model2: ModelSource | null;
     readonly typecode: number;
-    readonly info: number; // byte
+    readonly typecode2: number;
 
-    constructor(y: number, x: number, z: number, angle1: number, angle2: number, model1: ModelSource | null, model2: ModelSource | null, typecode: number, info: number) {
+    constructor(y: number, x: number, z: number, angle1: number, angle2: number, model1: ModelSource | null, model2: ModelSource | null, typecode: number, typecode2: number) {
         this.y = y;
         this.x = x;
         this.z = z;
@@ -20,6 +20,6 @@ export default class Wall {
         this.model1 = model1;
         this.model2 = model2;
         this.typecode = typecode;
-        this.info = info;
+        this.typecode2 = typecode2;
     }
 }

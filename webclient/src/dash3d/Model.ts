@@ -1913,7 +1913,7 @@ export default class Model extends ModelSource {
     }
 
     // todo: better name, Java relies on overloads
-    draw(yaw: number, sinEyePitch: number, cosEyePitch: number, sinEyeYaw: number, cosEyeYaw: number, relativeX: number, relativeY: number, relativeZ: number, typecode: number): void {
+    draw(_loopCycle: number, yaw: number, sinEyePitch: number, cosEyePitch: number, sinEyeYaw: number, cosEyeYaw: number, relativeX: number, relativeY: number, relativeZ: number, typecode: number): void {
         const zPrime: number = (relativeZ * cosEyeYaw - relativeX * sinEyeYaw) >> 16;
         const midZ: number = (relativeY * sinEyePitch + zPrime * cosEyePitch) >> 16;
         const radiusCosEyePitch: number = (this.radius * cosEyePitch) >> 16;

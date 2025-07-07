@@ -11,8 +11,8 @@ import Pix32 from '#/graphics/Pix32.js';
 
 import { TypedArray1d } from '#/util/Arrays.js';
 import NpcType from '#/config/NpcType.ts';
-import { Client } from '#/client/Client.ts';
 import ObjType from '#/config/ObjType.ts';
+import type ClientPlayer from '#/dash3d/ClientPlayer.ts';
 
 export const enum ComponentType {
     TYPE_LAYER = 0,
@@ -334,12 +334,12 @@ export default class Component {
         this.imageCache = null;
     }
 
-    getModel(primaryFrame: number, secondaryFrame: number, active: boolean): Model | null {
+    getModel(primaryFrame: number, secondaryFrame: number, active: boolean, localPlayer: ClientPlayer | null): Model | null {
         let model: Model | null = null;
         if (active) {
-            model = this.loadModel(this.activeModelType, this.activeModel);
+            model = this.loadModel(this.activeModelType, this.activeModel, localPlayer);
         } else {
-            model = this.loadModel(this.modelType, this.model);
+            model = this.loadModel(this.modelType, this.model, localPlayer);
         }
 
         if (!model) {
@@ -367,7 +367,7 @@ export default class Component {
         return tmp;
     }
 
-    loadModel(type: number, id: number): Model | null {
+    loadModel(type: number, id: number, localPlayer: ClientPlayer | null): Model | null {
         let model = Component.modelCache.get(BigInt((type << 16) + id)) as Model | null;
         if (model) {
             return model;
@@ -378,7 +378,9 @@ export default class Component {
         } else if (type === 2) {
             model = NpcType.get(id).getHeadModel();
         } else if (type === 3) {
-            model = Client.localPlayer.getHeadModel();
+            if (localPlayer) {
+                model = localPlayer.getHeadModel();
+            }
         } else if (type === 4) {
             model = ObjType.get(id).getInvModel(50);
         } else if (type === 5) {

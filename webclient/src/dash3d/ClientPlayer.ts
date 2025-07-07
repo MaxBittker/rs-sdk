@@ -424,7 +424,7 @@ export default class ClientPlayer extends ClientEntity {
 
         let model: Model | null = ClientPlayer.modelCache?.get(hash) as Model | null;
         if (!model) {
-            let hasModel = false;
+            let needsModel = false;
 
             for (let part = 0; part < 12; part++) {
                 let value = this.appearance[part];
@@ -438,15 +438,15 @@ export default class ClientPlayer extends ClientEntity {
                 }
 
                 if (value >= 0x100 && value < 0x200 && !IdkType.types[value - 0x100].modelIsReady()) {
-                    hasModel = true;
+                    needsModel = true;
                 }
 
                 if (value >= 0x200 && !ObjType.get(value - 0x200).wornModelIsReady(this.gender)) {
-                    hasModel = true;
+                    needsModel = true;
                 }
             }
 
-            if (hasModel) {
+            if (needsModel) {
                 if (this.modelCacheKey !== -1n && ClientPlayer.modelCache) {
                     model = ClientPlayer.modelCache.get(this.hash) as Model | null;
                 }
@@ -529,13 +529,35 @@ export default class ClientPlayer extends ClientEntity {
             return null;
         }
 
+		let needsModel = false;
+
+		for (let i = 0; i < 12; i++) {
+			const part = this.appearance[i];
+
+			if (part >= 0x100 && part < 0x200 && !IdkType.types[part - 0x100].headModelIsReady()) {
+                console.log('head model not ready');
+				needsModel = true;
+			}
+
+			if (part >= 0x200 && !ObjType.get(part - 0x200).headModelIsReady(this.gender)) {
+				needsModel = true;
+			}
+		}
+
+		if (needsModel) {
+			return null;
+		}
+
         const models: (Model | null)[] = new TypedArray1d(12, null);
         let modelCount: number = 0;
         for (let part: number = 0; part < 12; part++) {
             const value: number = this.appearance[part];
 
             if (value >= 256 && value < 512) {
-                models[modelCount++] = IdkType.types[value - 256].getHeadModel();
+                const idkModel = IdkType.types[value - 256].getHeadModel();
+                if (idkModel) {
+                    models[modelCount++] = idkModel;
+                }
             }
 
             if (value >= 512) {
@@ -551,7 +573,9 @@ export default class ClientPlayer extends ClientEntity {
             if (this.colour[part] === 0) {
                 continue;
             }
+
             tmp.recolour(ClientPlayer.DESIGN_IDK_COLORS[part][0], ClientPlayer.DESIGN_IDK_COLORS[part][this.colour[part]]);
+
             if (part === 1) {
                 tmp.recolour(ClientPlayer.TORSO_RECOLORS[0], ClientPlayer.TORSO_RECOLORS[this.colour[part]]);
             }

@@ -86,13 +86,13 @@ export default class World {
 
         const loc: LocType = LocType.get(locId);
 
-        let typecode: number = (x + (z << 7) + (locId << 14) + 0x40000000) | 0;
+        let typecode1: number = (x + (z << 7) + (locId << 14) + 0x40000000) | 0;
         if (!loc.active) {
-            typecode += -0x80000000; // int.min
+            typecode1 += -0x80000000; // int.min
         }
-        typecode |= 0;
+        typecode1 |= 0;
 
-        const info: number = ((((angle << 6) + shape) | 0) << 24) >> 24;
+        const typecode2: number = ((((angle << 6) + shape) | 0) << 24) >> 24;
 
         if (shape === LocShape.GROUND_DECOR.id) {
             let model: ModelSource | null;
@@ -102,7 +102,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addGroundDecoration(model, level, x, z, y, typecode, info);
+            scene?.addGroundDecoration(model, level, x, z, y, typecode1, typecode2);
 
             if (loc.blockwalk && loc.active && collision) {
                 collision.addFloor(x, z);
@@ -131,7 +131,7 @@ export default class World {
                     height = loc.length;
                 }
 
-                scene?.addLoc(level, x, z, y, model, typecode, info, width, height, yaw);
+                scene?.addLoc(level, x, z, y, model, typecode1, typecode2, width, height, yaw);
             }
 
             if (loc.blockwalk && collision) {
@@ -145,7 +145,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addLoc(level, x, z, y, model, typecode, info, 1, 1, 0);
+            scene?.addLoc(level, x, z, y, model, typecode1, typecode2, 1, 1, 0);
 
             if (loc.blockwalk && collision) {
                 collision.addLoc(x, z, loc.width, loc.length, angle, loc.blockrange);
@@ -158,7 +158,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 0, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addWall(level, x, z, y, World.ROTATION_WALL_TYPE[angle], 0, model, null, typecode, info);
+            scene?.addWall(level, x, z, y, World.ROTATION_WALL_TYPE[angle], 0, model, null, typecode1, typecode2);
 
             if (loc.blockwalk && collision) {
                 collision.addWall(x, z, shape, angle, loc.blockrange);
@@ -171,7 +171,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 1, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addWall(level, x, z, y, World.ROTATION_WALL_CORNER_TYPE[angle], 0, model, null, typecode, info);
+            scene?.addWall(level, x, z, y, World.ROTATION_WALL_CORNER_TYPE[angle], 0, model, null, typecode1, typecode2);
 
             if (loc.blockwalk && collision) {
                 collision.addWall(x, z, shape, angle, loc.blockrange);
@@ -183,10 +183,10 @@ export default class World {
             let model2: ModelSource | null;
             if (loc.anim === -1) {
                 model1 = loc.getModel(2, angle + 4, heightSW, heightSE, heightNE, heightNW, -1);
-                model2 = loc.getModel(2, angle, heightSW, heightSE, heightNE, heightNW, -1);
+                model2 = loc.getModel(2, offset, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model1 = new ClientLocAnim(loopCycle, locId, 2, angle + 4, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
-                model2 = new ClientLocAnim(loopCycle, locId, 2, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model2 = new ClientLocAnim(loopCycle, locId, 2, offset, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             scene?.addWall(
@@ -198,8 +198,8 @@ export default class World {
                 World.ROTATION_WALL_TYPE[offset],
                 model1,
                 model2,
-                typecode,
-                info
+                typecode1,
+                typecode2
             );
 
             if (loc.blockwalk && collision) {
@@ -213,7 +213,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 3, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addWall(level, x, z, y, World.ROTATION_WALL_CORNER_TYPE[angle], 0, model, null, typecode, info);
+            scene?.addWall(level, x, z, y, World.ROTATION_WALL_CORNER_TYPE[angle], 0, model, null, typecode1, typecode2);
 
             if (loc.blockwalk && collision) {
                 collision.addWall(x, z, shape, angle, loc.blockrange);
@@ -226,7 +226,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addLoc(level, x, z, y, model, typecode, info, 1, 1, 0);
+            scene?.addLoc(level, x, z, y, model, typecode1, typecode2, 1, 1, 0);
 
             if (loc.blockwalk && collision) {
                 collision.addLoc(x, z, loc.width, loc.length, angle, loc.blockrange);
@@ -239,7 +239,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode, model, info, angle * 512, World.ROTATION_WALL_TYPE[angle]);
+            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode1, model, typecode2, angle * 512, World.ROTATION_WALL_TYPE[angle]);
         } else if (shape === LocShape.WALLDECOR_STRAIGHT_OFFSET.id) {
             let offset: number = 16;
             if (scene) {
@@ -263,9 +263,9 @@ export default class World {
                 y,
                 World.WALL_DECORATION_ROTATION_FORWARD_X[angle] * offset,
                 World.WALL_DECORATION_ROTATION_FORWARD_Z[angle] * offset,
-                typecode,
+                typecode1,
                 model,
-                info,
+                typecode2,
                 angle * 512,
                 World.ROTATION_WALL_TYPE[angle]
             );
@@ -277,7 +277,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode, model, info, angle, 256);
+            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode1, model, typecode2, angle, 256);
         } else if (shape === LocShape.WALLDECOR_DIAGONAL_NOOFFSET.id) {
             let model: ModelSource | null;
             if (loc.anim === -1) {
@@ -286,7 +286,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode, model, info, angle, 512);
+            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode1, model, typecode2, angle, 512);
         } else if (shape === LocShape.WALLDECOR_DIAGONAL_BOTH.id) {
             let model: ModelSource | null;
             if (loc.anim === -1) {
@@ -295,7 +295,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode, model, info, angle, 768);
+            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode1, model, typecode2, angle, 768);
         }
     }
 
@@ -1004,19 +1004,19 @@ export default class World {
 
         const heightSW: number = this.heightmap[level][x][z];
         const heightSE: number = this.heightmap[level][x + 1][z];
-        const heightNW: number = this.heightmap[level][x + 1][z + 1];
-        const heightNE: number = this.heightmap[level][x][z + 1];
-        const y: number = (heightSW + heightSE + heightNW + heightNE) >> 2;
+        const heightNE: number = this.heightmap[level][x + 1][z + 1];
+        const heightNW: number = this.heightmap[level][x][z + 1];
+        const y: number = (heightSW + heightSE + heightNE + heightNW) >> 2;
 
         const loc: LocType = LocType.get(locId);
 
-        let typecode: number = (x + (z << 7) + (locId << 14) + 0x40000000) | 0;
+        let typecode1: number = (x + (z << 7) + (locId << 14) + 0x40000000) | 0;
         if (!loc.active) {
-            typecode += -0x80000000; // int.min
+            typecode1 += -0x80000000; // int.min
         }
-        typecode |= 0;
+        typecode1 |= 0;
 
-        const info: number = ((((angle << 6) + shape) | 0) << 24) >> 24;
+        const typecode2: number = ((((angle << 6) + shape) | 0) << 24) >> 24;
 
         if (shape === LocShape.GROUND_DECOR.id) {
             if (!World.lowMemory || loc.active || loc.forcedecor) {
@@ -1027,7 +1027,7 @@ export default class World {
                     model = new ClientLocAnim(loopCycle, locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
-                scene?.addGroundDecoration(model, level, x, z, y, typecode, info);
+                scene?.addGroundDecoration(model, level, x, z, y, typecode1, typecode2);
 
                 if (loc.blockwalk && loc.active && collision) {
                     collision.addFloor(x, z);
@@ -1057,7 +1057,7 @@ export default class World {
                     height = loc.length;
                 }
 
-                if (scene?.addLoc(level, x, z, y, model, typecode, info, width, height, yaw) && loc.shadow) {
+                if (scene?.addLoc(level, x, z, y, model, typecode1, typecode2, width, height, yaw) && loc.shadow) {
                     let model2: Model | null;
                     if (model instanceof Model) {
                         model2 = model;
@@ -1093,7 +1093,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addLoc(level, x, z, y, model, typecode, info, 1, 1, 0);
+            scene?.addLoc(level, x, z, y, model, typecode1, typecode2, 1, 1, 0);
 
             if (shape >= LocShape.ROOF_STRAIGHT.id && shape <= LocShape.ROOF_FLAT.id && shape !== LocShape.ROOF_DIAGONAL_WITH_ROOFEDGE.id && level > 0) {
                 this.occlusion[level][x][z] |= 0x924;
@@ -1110,7 +1110,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 0, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addWall(level, x, z, y, World.ROTATION_WALL_TYPE[angle], 0, model, null, typecode, info);
+            scene?.addWall(level, x, z, y, World.ROTATION_WALL_TYPE[angle], 0, model, null, typecode1, typecode2);
 
             if (angle === LocAngle.WEST) {
                 if (loc.shadow) {
@@ -1165,7 +1165,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 1, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addWall(level, x, z, y, World.ROTATION_WALL_CORNER_TYPE[angle], 0, model, null, typecode, info);
+            scene?.addWall(level, x, z, y, World.ROTATION_WALL_CORNER_TYPE[angle], 0, model, null, typecode1, typecode2);
 
             if (loc.shadow) {
                 if (angle === LocAngle.WEST) {
@@ -1189,10 +1189,10 @@ export default class World {
             let model2: ModelSource | null;
             if (loc.anim === -1) {
                 model1 = loc.getModel(2, angle + 4, heightSW, heightSE, heightNE, heightNW, -1);
-                model2 = loc.getModel(2, angle, heightSW, heightSE, heightNE, heightNW, -1);
+                model2 = loc.getModel(2, offset, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model1 = new ClientLocAnim(loopCycle, locId, 2, angle + 4, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
-                model2 = new ClientLocAnim(loopCycle, locId, 2, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model2 = new ClientLocAnim(loopCycle, locId, 2, offset, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             scene?.addWall(
@@ -1204,8 +1204,8 @@ export default class World {
                 World.ROTATION_WALL_TYPE[offset],
                 model1,
                 model2,
-                typecode,
-                info
+                typecode1,
+                typecode2
             );
 
             if (loc.occlude) {
@@ -1239,7 +1239,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 3, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addWall(level, x, z, y, World.ROTATION_WALL_CORNER_TYPE[angle], 0, model, null, typecode, info);
+            scene?.addWall(level, x, z, y, World.ROTATION_WALL_CORNER_TYPE[angle], 0, model, null, typecode1, typecode2);
 
             if (loc.shadow) {
                 if (angle === LocAngle.WEST) {
@@ -1264,7 +1264,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.addLoc(level, x, z, y, model, typecode, info, 1, 1, 0);
+            scene?.addLoc(level, x, z, y, model, typecode1, typecode2, 1, 1, 0);
 
             if (loc.blockwalk && collision) {
                 collision.addLoc(x, z, loc.width, loc.length, angle, loc.blockrange);
@@ -1277,7 +1277,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode, model, info, angle * 512, World.ROTATION_WALL_TYPE[angle]);
+            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode1, model, typecode2, angle * 512, World.ROTATION_WALL_TYPE[angle]);
         } else if (shape === LocShape.WALLDECOR_STRAIGHT_OFFSET.id) {
             let wallwidth: number = 16;
             if (scene) {
@@ -1301,9 +1301,9 @@ export default class World {
                 y,
                 World.WALL_DECORATION_ROTATION_FORWARD_X[angle] * wallwidth,
                 World.WALL_DECORATION_ROTATION_FORWARD_Z[angle] * wallwidth,
-                typecode,
+                typecode1,
                 model,
-                info,
+                typecode2,
                 angle * 512,
                 World.ROTATION_WALL_TYPE[angle]
             );
@@ -1315,7 +1315,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode, model, info, angle, 256);
+            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode1, model, typecode2, angle, 256);
         } else if (shape === LocShape.WALLDECOR_DIAGONAL_NOOFFSET.id) {
             let model: ModelSource | null;
             if (loc.anim === -1) {
@@ -1324,7 +1324,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode, model, info, angle, 512);
+            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode1, model, typecode2, angle, 512);
         } else if (shape === LocShape.WALLDECOR_DIAGONAL_BOTH.id) {
             let model: ModelSource | null;
             if (loc.anim === -1) {
@@ -1333,7 +1333,7 @@ export default class World {
                 model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
-            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode, model, info, angle, 768);
+            scene?.setWallDecoration(level, x, z, y, 0, 0, typecode1, model, typecode2, angle, 768);
         }
     }
 
