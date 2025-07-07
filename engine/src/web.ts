@@ -5,7 +5,6 @@ import ejs from 'ejs';
 import { register } from 'prom-client';
 
 import { CrcBuffer } from '#/cache/CrcTable.js';
-// import OnDemand from '#/engine/OnDemand.js';
 import World from '#/engine/World.js';
 // import { getPublicPerDeploymentToken } from '#/io/PemUtil.js';
 import { LoggerEventType } from '#/server/logger/LoggerEventType.js';
@@ -89,6 +88,15 @@ export async function startWeb() {
                         'Content-Type': 'text/html'
                     }
                 });
+            } else if (url.pathname.startsWith('/1/') || url.pathname.startsWith('/2/') || url.pathname.startsWith('/3/') || url.pathname.startsWith('/4/')) {
+                const archive = parseInt(url.pathname.slice(1, 2));
+                const file = parseInt(url.pathname.slice(3));
+
+                return new Response(OnDemand.cache.read(archive, file), {
+                    headers: {
+                        'Content-Type': 'application/octet-stream'
+                    }
+                });
             } else if (fs.existsSync(`public${url.pathname}`)) {
                 return new Response(await Bun.file(`public${url.pathname}`).bytes(), {
                     headers: {
@@ -147,8 +155,12 @@ export async function startWeb() {
 
                     if (client.state === 0) {
                         World.onClientData(client);
-                    } else {
-                        OnDemand.onClientData(client);
+                    } else if (client.state === 2) {
+                        if (Environment.NODE_WS_ONDEMAND) {
+                            OnDemand.onClientData(client);
+                        } else {
+                            client.terminate();
+                        }
                     }
                 } catch (_) {
                     ws.terminate();
