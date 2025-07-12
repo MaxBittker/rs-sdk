@@ -48,7 +48,6 @@ if ($damage > 0 & $poison_severity > 0 & random(4) = 0) { // 1/4 chance to poiso
 }
 
 def_int $delay = ~pvp_ranged_use_weapon($rhand, $ammo);
-~ranged_dropammo_pvp($ammo, calc($delay / 30));
 anim(%com_attackanim, 0);
 sound_synth(%com_attacksound, 0, 0);
 .sound_synth(%com_attacksound, 0, 0);
@@ -62,17 +61,21 @@ sound_synth(%com_attacksound, 0, 0);
 
 
 [proc,pvp_ranged_use_weapon](obj $rhand, obj $ammo)(int)
-spotanim_pl(oc_param($ammo, proj_launch), 96, 0);
+if ($ammo = ogre_arrow) spotanim_pl(oc_param($ammo, proj_launch), 50, 0);
+else spotanim_pl(oc_param($ammo, proj_launch), 96, 0);
 def_int $delay = 30;
 switch_category(oc_category($rhand)) {
     case weapon_bow, weapon_crossbow :
         $delay = ~player_projectile(coord, .coord, .uid, oc_param($ammo, proj_travel), 40, 36, 41, 15, 5, 11, 5);
+        ~ranged_dropammo_pvp($ammo, calc($delay / 30));
     case weapon_thrown, weapon_javelin :
-        if (inv_total(worn, $ammo) = 1) {
+        $delay = ~player_projectile(coord, .coord, .uid, oc_param($ammo, proj_travel), 40, 36, 32, 15, 0, 11, 5);
+        ~ranged_dropammo_pvp($ammo, calc($delay / 30));
+        if (inv_total(worn, $ammo) = 0) {
             mes("That was your last one!");
+            p_stopaction;
             ~update_all($rhand);
         }
-        $delay = ~player_projectile(coord, .coord, .uid, oc_param($ammo, proj_travel), 40, 36, 32, 15, 0, 11, 5);
 }
 return($delay);
 

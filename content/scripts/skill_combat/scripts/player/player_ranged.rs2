@@ -72,7 +72,6 @@ npc_anim(npc_param(defend_anim), sub($delay, 30)); // delay npc this tick
 if (npc_param(defend_sound) ! null) {
     sound_synth(npc_param(defend_sound), 0, sub($delay, 30)); // delay 1 client tick for the hit queue
 }
-~ranged_dropammo_npc($ammo, sub(divide($delay, 30), 2));
 
 [proc,player_ranged_check_ammo](obj $rhand)(obj)
 def_category $weapon_cat = oc_category($rhand);
@@ -103,25 +102,23 @@ if (oc_param($ammo, levelrequire) > oc_param($rhand, levelrequire)) { //todo con
 return($ammo);
 
 [proc,player_ranged_use_weapon](obj $rhand, obj $ammo)(int)
-switch_category(oc_category($rhand)) {
-    case weapon_bow, weapon_crossbow : return(~ranged_shoot_npc($ammo));
-    case weapon_thrown, weapon_javelin : return(~ranged_throw_npc($ammo));
-    case default : return(30); // idk some random default delay just in case shouldnt happen tho
-}
-
-[proc,ranged_shoot_npc](obj $ammo)(int)
-if($ammo = ogre_arrow) spotanim_pl(oc_param($ammo, proj_launch), 50, 0);
+if ($ammo = ogre_arrow) spotanim_pl(oc_param($ammo, proj_launch), 50, 0);
 else spotanim_pl(oc_param($ammo, proj_launch), 96, 0);
-return(~npc_projectile(coord, npc_uid, oc_param($ammo, proj_travel), 40, 36, 41, 15, 5, 11, 5));
-
-[proc,ranged_throw_npc](obj $ammo)(int)
-spotanim_pl(oc_param($ammo, proj_launch), 96, 0);
-if (inv_total(worn, $ammo) = 1) {
-    mes("That was your last one!");
-    p_stopaction;
-    ~update_all(inv_getobj(worn, ^wearpos_rhand));
+def_int $delay = 30;
+switch_category(oc_category($rhand)) {
+    case weapon_bow, weapon_crossbow : 
+        $delay = ~npc_projectile(coord, npc_uid, oc_param($ammo, proj_travel), 40, 36, 41, 15, 5, 11, 5);
+        ~ranged_dropammo_npc($ammo, sub(divide($delay, 30), 1));
+    case weapon_thrown, weapon_javelin : 
+        $delay = ~npc_projectile(coord, npc_uid, oc_param($ammo, proj_travel), 40, 36, 32, 15, 0, 11, 5);
+        ~ranged_dropammo_npc($ammo, sub(divide($delay, 30), 1));
+        if (inv_total(worn, $ammo) = 0) {
+            mes("That was your last one!");
+            p_stopaction;
+            ~update_all($ammo);
+        }
 }
-return(~npc_projectile(coord, npc_uid, oc_param($ammo, proj_travel), 40, 36, 32, 15, 0, 11, 5));
+return($delay);
 
 [proc,ranged_dropammo_npc](obj $ammo, int $delay)
 if (random(^dropammo_chance) ! 0 | $ammo = holy_water) {
