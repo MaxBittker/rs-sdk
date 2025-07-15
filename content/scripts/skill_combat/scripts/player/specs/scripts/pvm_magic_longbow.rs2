@@ -13,7 +13,7 @@ anim(%com_attackanim, 0);
 spotanim_pl(sp_attack_glow_arrow_launch, 96, 0);
 sound_synth(powershot, 0, 0);
 def_int $duration = ~npc_projectile(coord, npc_uid, sp_attack_glow_arrow_travel, 40, 36, 41, 15, 5, 11, 5);
-~ranged_dropammo_npc($ammo, sub(divide($duration, 30), 1));
+~ranged_dropammo_npc($ammo, divide($duration, 30));
 
 def_int $combat_stat = ~combat_stat(add(stat(ranged), 10), oc_param($ammo, rangebonus)); // + 10 ranged levels
 def_int $maxhit = ~combat_maxhit($combat_stat);

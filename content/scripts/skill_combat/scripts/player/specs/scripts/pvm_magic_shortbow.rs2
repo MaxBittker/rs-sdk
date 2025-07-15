@@ -20,13 +20,13 @@ anim(snapshot, 0);
 spotanim_pl(sp_attack_snapshot_spotanim, 96, 0);
 sound_synth(snapshot, 0, 0);
 def_int $duration = ~npc_projectile(coord, npc_uid, sp_attack_glow_arrow_travel, 40, 36, 20, 15, 3, 11, 3);
-~npc_projectile(coord, npc_uid, sp_attack_glow_arrow_travel, 40, 36, 50, 15, 3, 11, 3);
+def_int $duration2 = ~npc_projectile(coord, npc_uid, sp_attack_glow_arrow_travel, 40, 36, 50, 15, 3, 11, 3);
 
-~ranged_dropammo_npc($ammo, sub(divide($duration, 30), 1));
 ~ranged_dropammo_npc($ammo, divide($duration, 30));
+~ranged_dropammo_npc($ammo, divide($duration2, 30));
 
 ~pvm_magic_shortbow_spec_hit($ammo, $duration);
-~pvm_magic_shortbow_spec_hit($ammo, sub($duration, 30));
+~pvm_magic_shortbow_spec_hit($ammo, $duration2);
 
 [proc,pvm_magic_shortbow_spec_hit](obj $ammo, int $delay)
 if (stat(hitpoints) = 0) { // inferred from dragon dagger

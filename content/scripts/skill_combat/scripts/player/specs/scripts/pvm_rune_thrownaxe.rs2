@@ -12,14 +12,14 @@ def_coord $origin = npc_coord;
 def_npc_uid $target1 = npc_uid;
 def_int $duration = ~pvm_rune_thrownaxe_hit(coord, $target1, 32);
 if ($duration = null) { // this shouldnt ever be reached
-    ~ranged_dropammo_npc($rhand, add(divide($duration, 30), 1));
+    ~ranged_dropammo_npc($rhand, divide($duration, 30));
     return;
 }
 def_npc_uid $target2 = ~pvm_rune_thrownaxe_hunt($origin, $target1, null, null, null);
 $duration = ~pvm_rune_thrownaxe_hit(npc_coord, $target2, $duration);
 if ($duration = null) { // spec is over
     if (npc_finduid($target1) = true) {
-        ~ranged_dropammo_npc($rhand, add(divide($duration, 30), 1));
+        ~ranged_dropammo_npc($rhand, divide($duration, 30));
     }
     return;
 }
@@ -27,7 +27,7 @@ def_npc_uid $target3 = ~pvm_rune_thrownaxe_hunt($origin, $target1, $target2, nul
 $duration = ~pvm_rune_thrownaxe_hit(npc_coord, $target3, $duration);
 if ($duration = null) { // spec is over
     if (npc_finduid($target2) = true) {
-        ~ranged_dropammo_npc($rhand, add(divide($duration, 30), 1));
+        ~ranged_dropammo_npc($rhand, divide($duration, 30));
     }
     return;
 }
@@ -35,7 +35,7 @@ def_npc_uid $target4 = ~pvm_rune_thrownaxe_hunt($origin, $target1, $target2, $ta
 $duration = ~pvm_rune_thrownaxe_hit(npc_coord, $target4, $duration);
 if ($duration = null) { // spec is over
     if (npc_finduid($target3) = true) {
-        ~ranged_dropammo_npc($rhand, add(divide($duration, 30), 1));
+        ~ranged_dropammo_npc($rhand, divide($duration, 30));
     }
     return;
 }
@@ -43,11 +43,11 @@ def_npc_uid $target5 = ~pvm_rune_thrownaxe_hunt($origin, $target1, $target2, $ta
 $duration = ~pvm_rune_thrownaxe_hit(npc_coord, $target5, $duration);
 if ($duration = null) { // spec is over
     if (npc_finduid($target4) = true) {
-        ~ranged_dropammo_npc($rhand, add(divide($duration, 30), 1));
+        ~ranged_dropammo_npc($rhand, divide($duration, 30));
     }
     return;
 }
-~ranged_dropammo_npc($rhand, add(divide($duration, 30), 1));
+~ranged_dropammo_npc($rhand, divide($duration, 30));
 
 [proc,pvm_rune_thrownaxe_hunt](coord $origin, npc_uid $target1, npc_uid $target2, npc_uid $target3, npc_uid $target4)(npc_uid)
 npc_huntall($origin, 3, ^vis_lineofsight);

@@ -53,11 +53,11 @@ queue(combat_damage_player, calc($duration / 30), $damage);
 if (npc_param(poison_severity) > 0 & $damage > 0) {
     queue(poison_player, 0, npc_param(poison_severity));
 }
+queue(playerhit_n_retaliate, calc($duration / 30), npc_uid); // this should be a queue* command
+~npc_set_attack_vars;
 if(npc_param(npc_ammo) ! null) {
     ~npc_drop_ammo(npc_param(npc_ammo), $duration);
 }
-queue(playerhit_n_retaliate, calc($duration / 30), npc_uid); // this should be a queue* command
-~npc_set_attack_vars;
 
 // For npcs that will drop their ammo as they fire, might just be ranged guild specific?
 // rates: https://x.com/JagexAsh/status/1802647479772414116

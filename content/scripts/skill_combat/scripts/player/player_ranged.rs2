@@ -108,10 +108,10 @@ def_int $delay = 30;
 switch_category(oc_category($rhand)) {
     case weapon_bow, weapon_crossbow : 
         $delay = ~npc_projectile(coord, npc_uid, oc_param($ammo, proj_travel), 40, 36, 41, 15, 5, 11, 5);
-        ~ranged_dropammo_npc($ammo, sub(divide($delay, 30), 1));
+        ~ranged_dropammo_npc($ammo, divide($delay, 30));
     case weapon_thrown, weapon_javelin : 
         $delay = ~npc_projectile(coord, npc_uid, oc_param($ammo, proj_travel), 40, 36, 32, 15, 0, 11, 5);
-        ~ranged_dropammo_npc($ammo, sub(divide($delay, 30), 1));
+        ~ranged_dropammo_npc($ammo, divide($delay, 30));
         if (inv_total(worn, $ammo) = 0) {
             mes("That was your last one!");
             p_stopaction;
