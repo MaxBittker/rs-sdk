@@ -96,10 +96,10 @@ if (db_getfield($spell_data, magic_spell_table:freeze_time, 0) > 0) {
         mes("Your target is currently immune to that spell.");
         return(false);
     }
-}
-if (getwalktrigger() = duel_arena_no_move) {
-    mes("You can not use a hold spell in a no movement duel."); // https://www.youtube.com/watch?v=u2KZbLyCpgI&t=345s
-    return(false);
+    if (getwalktrigger() = duel_arena_no_move) {
+        mes("You can not use a hold spell in a no movement duel."); // https://www.youtube.com/watch?v=u2KZbLyCpgI&t=345s
+        return(false);
+    }
 }
 return(true);
 
