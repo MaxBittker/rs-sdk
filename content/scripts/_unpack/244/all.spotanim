@@ -74,9 +74,9 @@ anim=stunned_shove
 ambient=40
 contrast=40
 
-[spotanim_255]
+[druidicspirit_druidsshield]
 model=spot_spotanim_255
-anim=seq_1102
+anim=druidicspirit_druidsshield_spotanim
 hasalpha=yes
 
 [sp_attack_snapshot_spotanim]
@@ -99,9 +99,9 @@ contrast=60
 recol1s=15855
 recol1d=6476
 
-[spotanim_259]
+[druidicspirit_priest_bless]
 model=spot_spotanim_255
-anim=seq_1102
+anim=druidicspirit_druidsshield_spotanim
 hasalpha=yes
 recol1s=31649
 recol1d=32767

@@ -1,11 +1,11 @@
-[loc_3432]
+[pipeastsidetrapdoor]
 name=Trapdoor
 desc=I wonder what's under it?
 model=model_loc_100
 active=yes
 op1=Open
 
-[loc_3433]
+[pipeastsidetrapdoor_open]
 name=Trapdoor
 desc=I can see a holy barrier at the bottom.
 model=model_loc_1570
@@ -13,13 +13,13 @@ active=yes
 op1=Climb-down
 op2=Close
 
-[loc_3434]
+[lantern_post]
 model=loc_3434
-anim=seq_1073
+anim=hanginglantern
 hasalpha=yes
 active=no
 
-[loc_3435]
+[ornatewall]
 model=loc_3435
 retex1s=wood2
 retex1d=darkwood
@@ -30,7 +30,7 @@ occlude=yes
 ambient=100
 active=no
 
-[loc_3436]
+[ornatewall_withshutter]
 model=loc_3436
 retex1s=wood2
 retex1d=darkwood
@@ -40,7 +40,7 @@ sharelight=yes
 occlude=yes
 active=no
 
-[loc_3437]
+[ornatewall_withshutter_swampy]
 model=loc_3436
 retex1s=wall
 retex1d=mossybricks
@@ -54,7 +54,7 @@ sharelight=yes
 occlude=yes
 active=no
 
-[loc_3438]
+[ornatewall_swampy]
 model=loc_3435
 retex1s=wall
 retex1d=mossybricks
@@ -69,7 +69,7 @@ occlude=yes
 ambient=100
 active=no
 
-[loc_3439]
+[wall_stand]
 model=loc_3439
 retex1s=wood2
 retex1d=darkwood
@@ -78,7 +78,7 @@ recol2d=5250
 sharelight=yes
 active=no
 
-[loc_3440]
+[building_steps_up]
 name=Stairs
 desc=They let you walk up them!
 model=loc_3440
@@ -86,13 +86,13 @@ retex1s=wood2
 retex1d=darkwood
 op1=Use
 
-[loc_3441]
+[building_steps_down]
 name=Stairs
 desc=They let you walk down them!
 model=loc_3441
 op1=Use
 
-[loc_3442]
+[underground_wall_side]
 model=loc_3442
 retex1s=wood2
 retex1d=darkwood
@@ -102,7 +102,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3443]
+[pip_underground_wall_side_withportal]
 name=Holy barrier
 desc=A holy barrier blocking evil forces.
 model=loc_3443
@@ -114,41 +114,41 @@ sharelight=yes
 hillskew=yes
 op1=Pass-through
 
-[loc_3444]
+[pip_underground_door1]
 name=Gate
 desc=A sturdy metal gate.
 model=model_loc_37
 op1=Open
 
-[loc_3445]
+[pip_underground_door2]
 name=Gate
 desc=A sturdy metal gate.
 model=model_loc_37
 op1=Open
 
-[loc_3446]
+[inacpip_underground_door]
 model=model_loc_37
 active=no
 
-[loc_3447]
+[underground_wall_toplvl2]
 model=loc_3447
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3448]
+[underground_wall_toplvl1]
 model=loc_3448
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3449]
+[underground_wall_top2]
 model=loc_3449
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3450]
+[underground_wall_outsidecorner]
 model=loc_3450
 retex1s=wood2
 retex1d=darkwood
@@ -158,7 +158,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3451]
+[underground_wall_insidecorner]
 model=loc_3451
 retex1s=wood2
 retex1d=darkwood
@@ -168,7 +168,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3452]
+[ornateroof]
 model=loc_3452
 retex1s=wood2
 retex1d=darkwood
@@ -178,7 +178,7 @@ sharelight=yes
 active=no
 resizey=200
 
-[loc_3453]
+[ornateroof_special]
 model=loc_3453
 retex1s=wood2
 retex1d=darkwood
@@ -188,7 +188,7 @@ sharelight=yes
 active=no
 resizey=200
 
-[loc_3454]
+[ornateroofedge]
 model=loc_3454
 retex1s=wood2
 retex1d=darkwood
@@ -198,110 +198,111 @@ sharelight=yes
 active=no
 resizey=200
 
-[loc_3455]
+[ornatewall_ornaterailing]
 model=loc_3455
 sharelight=yes
 active=no
 
-[loc_3456]
+[stonewall]
 model=loc_3456
 sharelight=yes
 occlude=yes
 active=no
 
-[loc_3457]
+[ornaterailing]
 model=loc_3457
 sharelight=yes
 hillskew=yes
 active=no
 
-[loc_3458]
+[ornaterailing_terminator_l]
 model=loc_3458
 sharelight=yes
 hillskew=yes
 active=no
 
-[loc_3459]
+[ornaterailing_terminator_r]
 model=loc_3458
 sharelight=yes
 hillskew=yes
 mirror=yes
 active=no
 
-[loc_3460]
+[prisonwall]
 model=loc_3460
 sharelight=yes
 active=no
 
-[loc_3461]
+[prisonwalllend]
 model=loc_3461
 sharelight=yes
 active=no
 
-[loc_3462]
+[prisonwallrend]
 model=loc_3461
 sharelight=yes
 mirror=yes
 active=no
 
-[loc_3463]
+[pip_prisondoor]
 name=Cell door
 desc=A hastily constructed yet sturdy prison door.
 model=model_loc_37
 op1=Open
 op2=Talk-through
 
-[loc_3464]
+[inactive_pipprisondoor]
 model=model_loc_37
 active=no
 
-[loc_3465]
+[prisonwall_spare]
 model=loc_3465
 active=no
 
-[loc_3466]
+[hangingmeat1]
 model=loc_3466
 ambient=10
 
-[loc_3467]
+[hangingmeat2]
 model=loc_3467
 ambient=10
 
-[loc_3468]
+[temple_window]
 model=loc_3468
 ambient=100
 active=no
 
-[loc_3469]
+// [sic] "borded"
+[temple_window_bordedup]
 model=loc_3469
 ambient=50
 active=no
 
-[loc_3470]
+[window_shutter]
 model=loc_3470
 ambient=100
 active=no
 
-[loc_3471]
+[straw]
 model=loc_3471
 active=no
 
-[loc_3472]
+[straw2]
 model=loc_3472
 active=no
 
-[loc_3473]
+[candle_wall]
 model=loc_3473
 ambient=50
 active=no
 
-[loc_3474]
+[hanginglantern]
 model=loc_3474
-anim=seq_1073
+anim=hanginglantern
 hasalpha=yes
 active=no
 
-[loc_3475]
+[wall_support]
 model=loc_3475
 retex1s=wood2
 retex1d=darkwood
@@ -310,7 +311,7 @@ recol2d=5250
 ambient=50
 active=no
 
-[loc_3476]
+[wall_support_largetop]
 model=loc_3476
 retex1s=wood2
 retex1d=darkwood
@@ -318,7 +319,7 @@ recol2s=8353
 recol2d=5250
 active=no
 
-[loc_3477]
+[wall_support_largebot]
 model=loc_3477
 retex1s=wood2
 retex1d=darkwood
@@ -326,18 +327,18 @@ recol2s=8353
 recol2d=5250
 active=no
 
-[loc_3478]
+[candle_stand]
 model=loc_3478
 active=no
 
-[loc_3479]
+[priestperil_statue]
 name=Statue
 desc=A statue honouring Saradomin.
 model=loc_3479
 width=4
 length=4
 
-[loc_3480]
+[priestperil_coffin_noanim]
 name=Coffin
 desc=An ornately decorated coffin. Something seems to be alive inside.
 model=loc_3480
@@ -351,43 +352,44 @@ model=loc_3481
 length=2
 op1=Open
 
-[loc_3482]
+[priestperil_tomb_top]
 model=loc_3482
 sharelight=yes
 active=no
 
-[loc_3483]
+[priestperil_tomb_cornerl]
 model=loc_3483
 length=2
 sharelight=yes
 active=no
 
-[loc_3484]
+[priestperil_tomb_cornerr]
 model=loc_3483
 length=2
 mirror=yes
 sharelight=yes
 active=no
 
-[loc_3485]
+[priestperil_well]
 name=Well
 desc=An ornately carved well that draws water from the river Salve.
 model=loc_3485
 
-[loc_3486]
+// [sic] "coloumn"
+[priestperil_well_coloumn]
 model=loc_3486
 active=no
 
-[loc_3487]
+[priestperil_table]
 model=loc_3487
 active=no
 width=2
 
-[loc_3488]
+[priestperil_chair]
 model=loc_3488
 active=no
 
-[loc_3489]
+[priestperiltempledoorl]
 name=Large door
 desc=Sturdy looking door.
 model=loc_3489
@@ -398,7 +400,7 @@ recol2d=5250
 op1=Open
 op2=Knock-at
 
-[loc_3490]
+[priestperiltempledoorr]
 name=Large door
 desc=Sturdy looking door.
 model=loc_3489
@@ -410,7 +412,7 @@ mirror=yes
 op1=Open
 op2=Knock-at
 
-[loc_3491]
+[inactivetempledoorl]
 model=loc_3489
 retex1s=wood2
 retex1d=darkwood
@@ -418,7 +420,7 @@ recol2s=8353
 recol2d=5250
 active=no
 
-[loc_3492]
+[inactivetempledoorr]
 model=loc_3489
 retex1s=wood2
 retex1d=darkwood
@@ -427,55 +429,55 @@ recol2d=5250
 mirror=yes
 active=no
 
-[loc_3493]
+[priestperil_grave_base1]
 name=Monument
 desc=A monument to a fallen priest.
 model=loc_3493
-anim=seq_1072
+anim=priestperil_gravemonument
 hasalpha=yes
 length=2
 active=yes
 op1=Study
 op2=Take-from
 
-[loc_3494]
+[priestperil_grave_base2]
 name=Monument
 desc=A monument to a fallen priest.
 model=loc_3493
-anim=seq_1072
+anim=priestperil_gravemonument
 hasalpha=yes
 length=2
 active=yes
 op1=Study
 op2=Take-from
 
-[loc_3495]
+[priestperil_grave_base3]
 name=Monument
 desc=A monument to a fallen priest.
 model=loc_3493
-anim=seq_1072
+anim=priestperil_gravemonument
 hasalpha=yes
 length=2
 active=yes
 op1=Study
 op2=Take-from
 
-[loc_3496]
+[priestperil_grave_base4]
 name=Monument
 desc=A monument to a fallen priest.
 model=loc_3493
-anim=seq_1072
+anim=priestperil_gravemonument
 hasalpha=yes
 length=2
 active=yes
 op1=Study
 op2=Take-from
 
-[loc_3497]
+[priestperil_grave_base5]
 name=Monument
 desc=A monument to a fallen priest.
 model=loc_3497
-anim=seq_1072
+anim=priestperil_gravemonument
 hasalpha=yes
 width=2
 length=2
@@ -483,11 +485,11 @@ active=yes
 op1=Study
 op2=Take-from
 
-[loc_3498]
+[priestperil_grave_base6]
 name=Monument
 desc=A monument to a fallen priest.
 model=loc_3497
-anim=seq_1072
+anim=priestperil_gravemonument
 hasalpha=yes
 width=2
 length=2
@@ -495,11 +497,11 @@ active=yes
 op1=Study
 op2=Take-from
 
-[loc_3499]
+[priestperil_grave_base7]
 name=Monument
 desc=A monument to a fallen priest.
 model=loc_3497
-anim=seq_1072
+anim=priestperil_gravemonument
 hasalpha=yes
 width=2
 length=2
@@ -507,7 +509,7 @@ active=yes
 op1=Study
 op2=Take-from
 
-[loc_3500]
+[smallchurchorgan]
 name=Church organ
 desc=With skill I can play this.
 model=model_loc_416
@@ -517,37 +519,37 @@ resizez=64
 resizey=76
 op1=Play
 
-[loc_3501]
+[swamp_plant1]
 model=loc_3501
 active=no
 hillskew=yes
 mapscene=26
 
-[loc_3502]
+[swamp_plant2]
 model=loc_3502
 active=no
 hillskew=yes
 mapscene=26
 
-[loc_3503]
+[swamp_plant3]
 model=loc_3503
 active=no
 hillskew=yes
 mapscene=26
 
-[loc_3504]
+[swamp_plant4]
 model=loc_3504
 active=no
 hillskew=yes
 blockwalk=no
 
-[loc_3505]
+[swamp_plant5]
 model=loc_3505
 active=no
 hillskew=yes
 mapscene=26
 
-[loc_3506]
+[mortmyre_metalgateclosed_l]
 name=Gate
 desc=A wrought iron gate.
 model=model_loc_52
@@ -555,7 +557,7 @@ op1=Open
 active=yes
 blockrange=no
 
-[loc_3507]
+[mortmyre_metalgateclosed_r]
 name=Gate
 desc=A wrought iron gate.
 model=model_loc_52
@@ -564,7 +566,7 @@ mirror=yes
 active=yes
 blockrange=no
 
-[loc_3508]
+[log_druidicspirit]
 name=Rotting log
 desc=Not sure if i should sit on that.
 model=loc_3508
@@ -575,7 +577,7 @@ recol2d=3233
 blockwalk=no
 hillskew=yes
 
-[loc_3509]
+[log_druidicspirit2]
 name=Fungi on log
 desc=Not sure if i should sit on that.
 model=loc_3509
@@ -585,55 +587,55 @@ recol2s=11490
 recol2d=3233
 op2=Pick
 blockwalk=no
-anim=seq_1096
+anim=mushroom_growing
 hillskew=yes
 
-[loc_3510]
+[branch_druidicspirit]
 name=Rotting branch
 desc=Not sure if that's any use.
 model=loc_3510
 blockwalk=no
 
-[loc_3511]
+[branch_druidicspirit2]
 name=Budding branch
 desc=Not sure if that's any use.
 model=loc_3511
 op2=Take-cutting
 blockwalk=no
-anim=seq_1098
+anim=leaves_growing
 
-[loc_3512]
+[peartree_druidicspirit]
 name=A small bush
 desc=It'll probably die soon.
 model=loc_3512
 blockwalk=no
 
-[loc_3513]
+[peartree_druidicspirit2]
 name=A golden pear bush
 desc=It'll probably die soon.
 model=loc_3513
 op2=Pick
 blockwalk=no
-anim=seq_1097
+anim=pears_growing
 
-[loc_3514]
+[peartree_druidicspirit_trunk]
 name=Rotting tree
 desc=Not sure if i should stand under that..
 model=loc_3514
 
-[loc_3515]
+[peartree_druidicspirit_crown]
 model=loc_3515
 active=no
 length=3
 width=3
 
-[loc_3516]
+[grotto_door_druidicspirit]
 name=Grotto
 desc=A dark dank entrance to below..
 model=loc_3516
 op1=Enter
 
-[loc_3517]
+[grotto_druidicspirit]
 name=Grotto tree
 desc=A large tree thriving where trees normally die.
 model=loc_3517
@@ -643,21 +645,21 @@ sharelight=yes
 op1=Look-at
 op2=Search
 
-[loc_3518]
+[grotto_roof1_druidicspirit]
 model=loc_3518
 active=no
 length=3
 width=3
 sharelight=yes
 
-[loc_3519]
+[grotto_roof2_druidicspirit]
 model=loc_3519
 active=no
 length=3
 width=3
 sharelight=yes
 
-[loc_3520]
+[druidic_spirit_grotto]
 name=Grotto
 desc=Special grotto area.
 model=loc_3520
@@ -665,7 +667,7 @@ width=2
 length=3
 op1=Search
 
-[loc_3521]
+[druidic_spirit_grotto_naturealtar]
 name=Altar of nature
 desc=A grotto transformed into an altar of nature.
 model=loc_3521
@@ -675,7 +677,7 @@ op1=Look
 mapscene=8
 op1=Pray-at
 
-[loc_3522]
+[druidjump_loc]
 name=Bridge
 desc=It's a bridge.
 model=model_loc_796
@@ -687,19 +689,19 @@ active=yes
 blockwalk=no
 op1=Jump
 
-[loc_3523]
+[druid_bench]
 name=Bench
 desc=An old bench, probably made from wood in this swamp.
 model=loc_3523
 blockrange=no
 
-[loc_3524]
+[oldfencing]
 model=loc_3524
 sharelight=yes
 hillskew=yes
 active=no
 
-[loc_3525]
+[underground_rootwall_door]
 name=Grotto
 model=loc_3525
 sharelight=yes
@@ -707,7 +709,7 @@ active=yes
 hillskew=yes
 op1=Exit
 
-[loc_3526]
+[underground_rootwall_door_green]
 name=Grotto
 model=loc_3525
 recol1s=10500
@@ -719,7 +721,7 @@ active=yes
 hillskew=yes
 op1=Exit
 
-[loc_3527]
+[stonedisc_ds_nature]
 name=Stone
 desc=A roughly hewn stone with some sort of symbol on it.
 model=model_loc_756
@@ -730,7 +732,7 @@ blockwalk=no
 active=yes
 op5=Search
 
-[loc_3528]
+[stonedisc_ds_faith]
 name=Stone
 desc=A roughly hewn stone with some sort of symbol on it.
 model=model_loc_756
@@ -741,7 +743,7 @@ blockwalk=no
 active=yes
 op5=Search
 
-[loc_3529]
+[stonedisc_ds_spirit]
 name=Stone
 desc=A roughly hewn stone with some sort of symbol on it.
 model=model_loc_756
@@ -752,55 +754,55 @@ blockwalk=no
 active=yes
 op5=Search
 
-[loc_3530]
+[underground_rootwall_side]
 model=loc_3530
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3531]
+[underground_rootwall_side2]
 model=loc_3531
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3532]
+[underground_rootwall_side3]
 model=loc_3532
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3533]
+[underground_rootwall_side4]
 model=loc_3533
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3534]
+[underground_rootwall_diag]
 model=loc_3534
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3535]
+[underground_rootwall_corner]
 model=loc_3535
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3536]
+[underground_rootwall_toplvl1]
 model=loc_3536
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3537]
+[underground_rootwall_top2lvl1]
 model=loc_3537
 sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3538]
+[underground_rootwall_side_green]
 model=loc_3530
 recol1s=10500
 recol1d=12740
@@ -810,7 +812,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3539]
+[underground_rootwall_side2_green]
 model=loc_3531
 recol1s=10500
 recol1d=12740
@@ -820,7 +822,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3540]
+[underground_rootwall_side3_green]
 model=loc_3532
 recol1s=10500
 recol1d=12740
@@ -830,7 +832,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3541]
+[underground_rootwall_side4_green]
 model=loc_3533
 recol1s=10500
 recol1d=12740
@@ -840,7 +842,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3542]
+[underground_rootwall_diag_green]
 model=loc_3534
 recol1s=10500
 recol1d=12740
@@ -850,7 +852,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3543]
+[underground_rootwall_corner_green]
 model=loc_3535
 recol1s=10500
 recol1d=12740
@@ -860,7 +862,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3544]
+[underground_rootwall_toplvl1_green]
 model=loc_3536
 recol1s=10500
 recol1d=12740
@@ -870,7 +872,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3545]
+[underground_rootwall_top2lvl1_green]
 model=loc_3537
 recol1s=10500
 recol1d=12740
@@ -880,7 +882,7 @@ sharelight=yes
 active=no
 hillskew=yes
 
-[loc_3546]
+[druidicspirit_well]
 name=Old well
 desc=There is a rope leading to the bottom of this well.
 model=model_loc_403
@@ -891,17 +893,17 @@ recol2d=11458
 active=yes
 op1=Climb-down
 
-[loc_3547]
+[regicide_grass1]
 model=loc_3547
 hillskew=yes
 active=no
 
-[loc_3548]
+[regicide_grass2]
 model=loc_3548
 hillskew=yes
 active=no
 
-[loc_3549]
+[regicide_grass3]
 model=loc_3549
 hillskew=yes
 active=no

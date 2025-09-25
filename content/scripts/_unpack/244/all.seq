@@ -626,7 +626,7 @@ frame6=anim_7846
 frame7=anim_7847
 frame8=anim_7849
 
-[seq_1071]
+[willowthewisp]
 loops=11
 frame1=anim_7987
 frame2=anim_7989
@@ -641,14 +641,14 @@ frame10=anim_7992
 frame11=anim_7994
 delay11=50
 
-[seq_1072]
+[priestperil_gravemonument]
 loops=4
 frame1=anim_7933
 frame2=anim_7934
 frame3=anim_7935
 frame4=anim_7936
 
-[seq_1073]
+[hanginglantern]
 loops=4
 frame1=anim_7921
 frame2=anim_7919
@@ -687,7 +687,7 @@ frame4=anim_7839
 frame5=anim_7840
 frame6=anim_7841
 
-[seq_1076]
+[priestperil_coffin_neutralised]
 maxloops=8
 frame1=anim_7929
 frame2=anim_7931

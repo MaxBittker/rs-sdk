@@ -1,4 +1,4 @@
-[seq_1077]
+[throw_bucketofwater]
 replaceheldright=bucket_water
 frame1=anim_4907
 frame2=anim_4911
@@ -12,14 +12,14 @@ frame9=anim_4913
 frame10=anim_4902
 frame11=anim_4906
 
-[seq_1078]
+[human_transform]
 frame1=anim_4916
 frame2=anim_4919
 frame3=anim_4896
 frame4=anim_4900
 frame5=anim_4904
 
-[seq_1079]
+[werewolf_walk]
 frame1=anim_7971
 frame2=anim_7979
 frame3=anim_7985
@@ -29,7 +29,7 @@ frame6=anim_7954
 frame7=anim_7962
 frame8=anim_7972
 
-[seq_1080]
+[werewolf_attack]
 frame1=anim_7944
 frame2=anim_7950
 frame3=anim_7957
@@ -39,7 +39,7 @@ frame6=anim_7982
 frame7=anim_7939
 frame8=anim_7946
 
-[seq_1081]
+[werewolf_block]
 frame1=anim_7981
 frame2=anim_7938
 frame3=anim_7945
@@ -50,7 +50,7 @@ frame7=anim_7945
 frame8=anim_7938
 frame9=anim_7981
 
-[seq_1082]
+[werewolf_death]
 frame1=anim_7955
 frame2=anim_7963
 frame3=anim_7973
@@ -61,7 +61,7 @@ frame7=anim_7949
 frame8=anim_7956
 frame9=anim_7964
 
-[seq_1083]
+[werewolf_ready]
 frame1=anim_7959
 frame2=anim_7968
 frame3=anim_7977
@@ -91,7 +91,7 @@ frame11=anim_4615
 frame12=anim_4675
 frame13=anim_4748
 
-[seq_1085]
+[ghast_walk]
 frame1=anim_8023
 frame2=anim_8043
 frame3=anim_8065
@@ -105,13 +105,13 @@ frame10=anim_8022
 frame11=anim_8042
 frame12=anim_8063
 
-[seq_1086]
+[ghast_ready]
 frame1=anim_8049
 frame2=anim_8068
 frame3=anim_8081
 frame4=anim_8068
 
-[seq_1087]
+[ghast_attack]
 priority=6
 frame1=anim_8098
 frame2=anim_8111
@@ -121,7 +121,7 @@ frame5=anim_8055
 frame6=anim_8073
 frame7=anim_8086
 
-[seq_1088]
+[ghast_block]
 frame1=anim_8090
 frame2=anim_8104
 frame3=anim_8116
@@ -132,7 +132,7 @@ frame7=anim_8116
 frame8=anim_8104
 frame9=anim_8090
 
-[seq_1089]
+[ghast_death]
 frame1=anim_8037
 frame2=anim_8059
 frame3=anim_8076
@@ -156,7 +156,7 @@ frame20=anim_8089
 frame21=anim_8103
 delay21=2000
 
-[seq_1090]
+[ghast_spotdeath]
 frame1=anim_8029
 frame2=anim_8051
 frame3=anim_8070
@@ -180,7 +180,7 @@ frame20=anim_8038
 frame21=anim_8060
 delay21=2000
 
-[seq_1091]
+[inv_ghast_walk]
 frame1=anim_8024
 frame2=anim_8044
 frame3=anim_8066
@@ -194,13 +194,13 @@ frame10=anim_8035
 frame11=anim_8057
 frame12=anim_8074
 
-[seq_1092]
+[inv_ghast_ready]
 frame1=anim_8064
 frame2=anim_8077
 frame3=anim_8091
 frame4=anim_8077
 
-[seq_1093]
+[inv_ghast_attack]
 priority=6
 frame1=anim_8106
 frame2=anim_8011
@@ -210,7 +210,7 @@ frame5=anim_8067
 frame6=anim_8080
 frame7=anim_8094
 
-[seq_1094]
+[inv_ghast_block]
 frame1=anim_8099
 frame2=anim_8112
 frame3=anim_8017
@@ -221,7 +221,7 @@ frame7=anim_8017
 frame8=anim_8112
 frame9=anim_8099
 
-[seq_1095]
+[inv_ghast_death]
 frame1=anim_8050
 frame2=anim_8069
 frame3=anim_8082
@@ -234,7 +234,7 @@ frame9=anim_8071
 frame10=anim_8028
 frame11=anim_8048
 
-[seq_1096]
+[mushroom_growing]
 frame1=anim_8157
 frame2=anim_8159
 frame3=anim_8152
@@ -246,7 +246,7 @@ frame8=anim_8158
 frame9=anim_8160
 delay9=500
 
-[seq_1097]
+[pears_growing]
 frame1=anim_8166
 frame2=anim_8169
 frame3=anim_8171
@@ -261,7 +261,7 @@ frame11=anim_8165
 frame12=anim_8168
 delay12=500
 
-[seq_1098]
+[leaves_growing]
 frame1=anim_8150
 frame2=anim_8141
 frame3=anim_8143
@@ -275,7 +275,7 @@ frame10=anim_8144
 frame11=anim_8146
 delay11=500
 
-[seq_1099]
+[druidicspirit_bloom_spotanim]
 frame1=anim_8125
 frame2=anim_8117
 frame3=anim_8119
@@ -287,7 +287,7 @@ frame8=anim_8126
 frame9=anim_8118
 frame10=anim_8122
 
-[seq_1100]
+[druidicspirit_human_bloom]
 priority=6
 replaceheldright=silver_sickle_blessed
 frame1=anim_7997
@@ -303,14 +303,14 @@ frame10=anim_8006
 frame11=anim_8008
 frame12=anim_7999
 
-[seq_1101]
+[druidicspirit_bloom_player_spotanim]
 frame1=anim_8129
 frame2=anim_8130
 frame3=anim_8131
 frame4=anim_8127
 frame5=anim_8128
 
-[seq_1102]
+[druidicspirit_druidsshield_spotanim]
 frame1=anim_8138
 frame2=anim_8140
 frame3=anim_8133

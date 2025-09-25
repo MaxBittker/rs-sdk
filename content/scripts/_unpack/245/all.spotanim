@@ -1,35 +1,35 @@
-[spotanim_260]
+[mushroom_growing]
 model=spot_spotanim_260
-anim=seq_1096
+anim=mushroom_growing
 hasalpha=yes
 
-[spotanim_261]
+[pears_growing]
 model=spot_spotanim_261
-anim=seq_1097
+anim=pears_growing
 hasalpha=yes
 
-[spotanim_262]
+[leaves_growing]
 model=spot_spotanim_262
-anim=seq_1098
+anim=leaves_growing
 hasalpha=yes
 
-[spotanim_263]
+[druidicspirit_bloom_spotanim]
 model=spot_spotanim_263
-anim=seq_1099
+anim=druidicspirit_bloom_spotanim
 hasalpha=yes
 ambient=30
 contrast=30
 
-[spotanim_264]
+[druidicspirit_bloom_player_spotanim]
 model=spot_spotanim_264
-anim=seq_1101
+anim=druidicspirit_bloom_player_spotanim
 hasalpha=yes
 ambient=30
 contrast=30
 
-[spotanim_265]
+[ghast_spotdeath]
 model=spot_spotanim_265
-anim=seq_1090
+anim=ghast_spotdeath
 hasalpha=yes
 recol1s=15784
 recol1d=30655
@@ -44,7 +44,7 @@ recol5d=30655
 recol6s=30651
 recol6d=30651
 
-[spotanim_266]
+[druidicspirit_effect]
 model=model_3116_spotanim
 anim=wave_impact
 hasalpha=yes
@@ -55,7 +55,7 @@ recol2d=640
 recol3s=30753
 recol3d=992
 
-[spotanim_267]
+[mortmyre_swampstench]
 model=model_3076_spotanim
 anim=smokepuff
 hasalpha=yes
@@ -64,7 +64,7 @@ resizev=168
 recol1s=15855
 recol1d=14273
 
-[spotanim_268]
+[druid_shooting_star]
 model=model_3087_spotanim
 anim=blast_travel
 hasalpha=yes
@@ -75,7 +75,7 @@ recol2d=992
 recol3s=31297
 recol3d=14273
 
-[spotanim_269]
+[druidpouch_impact]
 model=model_3082_spotanim
 anim=strike_impact
 hasalpha=yes
