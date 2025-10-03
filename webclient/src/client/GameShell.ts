@@ -121,7 +121,9 @@ export default abstract class GameShell {
         canvas.onkeydown = this.onkeydown.bind(this);
         canvas.onkeyup = this.onkeyup.bind(this);
 
+        canvas.onmousedown = this.onmousedown.bind(this);
         canvas.onpointerdown = this.onpointerdown.bind(this);
+        canvas.onmouseup = this.onmouseup.bind(this);
         canvas.onpointerup = this.onpointerup.bind(this);
         canvas.onpointerenter = this.onpointerenter.bind(this);
         canvas.onpointerleave = this.onpointerleave.bind(this);
@@ -341,6 +343,35 @@ export default abstract class GameShell {
 
     // ----
 
+    private onmousedown(e: MouseEvent) {
+        if (e.clientX < 0 || e.clientY < 0) {
+            return;
+        }
+
+        const { x, y } = this.getMousePos(e);
+
+        this.idleCycles = performance.now();
+        this.nextMouseClickX = x;
+        this.nextMouseClickY = y;
+        this.nextMouseClickTime = performance.now();
+
+        // custom: down event comes before and potentially without move event
+        this.mouseX = x;
+        this.mouseY = y;
+
+        if (e.button === 2) {
+            this.nextMouseClickButton = 2;
+            this.mouseButton = 2;
+        } else {
+            this.nextMouseClickButton = 1;
+            this.mouseButton = 1;
+        }
+
+        if (InputTracking.enabled) {
+            InputTracking.mousePressed(x, y, e.button, 'mouse');
+        }
+    }
+
     private onpointerdown(e: PointerEvent) {
         if (e.clientX < 0 || e.clientY < 0) {
             return;
@@ -353,28 +384,7 @@ export default abstract class GameShell {
             return;
         }
 
-        if (e.pointerType === 'mouse') {
-            this.idleCycles = performance.now();
-            this.nextMouseClickX = x;
-            this.nextMouseClickY = y;
-            this.nextMouseClickTime = performance.now();
-
-            // custom: down event comes before and potentially without move event
-            this.mouseX = x;
-            this.mouseY = y;
-
-            if (e.button === 2) {
-                this.nextMouseClickButton = 2;
-                this.mouseButton = 2;
-            } else {
-                this.nextMouseClickButton = 1;
-                this.mouseButton = 1;
-            }
-
-            if (InputTracking.enabled) {
-                InputTracking.mousePressed(x, y, e.button, e.pointerType);
-            }
-        } else {
+        if (e.pointerType !== 'mouse') {
             // custom: touchscreen support
             // we don't acknowledge the first press as a click, instead we interpret the user's gesture on release
 
@@ -396,6 +406,26 @@ export default abstract class GameShell {
         }
     }
 
+    private onmouseup(e: MouseEvent) {
+        const { x, y } = this.getMousePos(e);
+
+        this.idleCycles = performance.now();
+        this.mouseButton = 0;
+
+        if (InputTracking.enabled) {
+            InputTracking.mouseReleased(e.button, 'mouse');
+        }
+
+        // custom: up event comes before and potentially without move event
+        this.mouseX = x;
+        this.mouseY = y;
+
+        // custom: moving off-canvas may have a stuck mouse event
+        this.nextMouseClickX = -1;
+        this.nextMouseClickY = -1;
+        this.nextMouseClickButton = 0;
+    }
+
     private onpointerup(e: PointerEvent) {
         const { x, y } = this.getMousePos(e);
 
@@ -404,23 +434,7 @@ export default abstract class GameShell {
             return;
         }
 
-        if (e.pointerType === 'mouse') {
-            this.idleCycles = performance.now();
-            this.mouseButton = 0;
-
-            if (InputTracking.enabled) {
-                InputTracking.mouseReleased(e.button, e.pointerType);
-            }
-
-            // custom: up event comes before and potentially without move event
-            this.mouseX = x;
-            this.mouseY = y;
-
-            // custom: moving off-canvas may have a stuck mouse event
-            this.nextMouseClickX = -1;
-            this.nextMouseClickY = -1;
-            this.nextMouseClickButton = 0;
-        } else {
+        if (e.pointerType !== 'mouse') {
             // custom: touchscreen support
             // we don't acknowledge the first press as a click, instead we interpret the user's gesture on release
 
