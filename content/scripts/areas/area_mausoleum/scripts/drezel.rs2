@@ -68,7 +68,8 @@ if (inv_total(inv, blankrune) > 0) {
     @drezel_blankrune_cert;
 } else { 
     ~chatplayer("<p,quiz>How many more essences do I need to bring you?");
-    ~chatnpc("<p,neutral>I need <~drezel_essence_remaining>.");
+    // https://youtu.be/Nhgp_fe9Ld4?si=-d7p5WkQX0-Emy55&t=758
+    ~chatnpc("<p,neutral>I need <~drezel_essence_remaining>");
 }
 
 [label,drezel_blankrune_cert]

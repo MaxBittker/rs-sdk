@@ -8,5 +8,6 @@
 if (%priestperil >= $required_progress) {
     ~open_and_close_metal_gate(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), false);
 } else {
-    mes("The gate is securely locked.");
+    // https://youtu.be/Nhgp_fe9Ld4?si=l5jyVLYZlqZ8iSqS&t=565
+    mes("This door is locked shut.");
 }
