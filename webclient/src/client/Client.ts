@@ -862,6 +862,81 @@ export class Client extends GameShell {
     }
 
     /**
+     * Cast a spell on an NPC (sends OPNPCT)
+     * Used for magic combat spells like Wind Strike
+     *
+     * npcIndex: the index of the NPC to target
+     * spellComponent: the interface component ID of the spell (e.g., 1152 for Wind Strike)
+     */
+    spellOnNpc(npcIndex: number, spellComponent: number): boolean {
+        if (!this.ingame || !this.out || !this.localPlayer || npcIndex < 0) {
+            return false;
+        }
+
+        const npc = this.npcs[npcIndex];
+        if (!npc) {
+            return false;
+        }
+
+        // Try to move towards the NPC
+        this.tryMove(
+            this.localPlayer.routeTileX[0],
+            this.localPlayer.routeTileZ[0],
+            npc.routeTileX[0],
+            npc.routeTileZ[0],
+            2,      // type 2 = MOVE_OPCLICK
+            1, 1,   // NPC size
+            0, 0,   // angle, shape
+            0,      // forceapproach
+            false   // tryNearest
+        );
+
+        // Send OPNPCT packet
+        this.writePacketOpcode(ClientProt.OPNPCT);
+        this.out.p2(npcIndex);
+        this.out.p2(spellComponent);
+
+        return true;
+    }
+
+    /**
+     * Cast a spell on an inventory item (sends OPHELDT)
+     * Used for spells like Low/High Alchemy, Enchant, Superheat
+     *
+     * slot: the inventory slot (0-27)
+     * spellComponent: the interface component ID of the spell (e.g., 1162 for Low Alchemy)
+     * interfaceId: the inventory interface ID (default 3214)
+     */
+    spellOnItem(slot: number, spellComponent: number, interfaceId: number = 3214): boolean {
+        if (!this.ingame || !this.out || slot < 0 || slot > 27) {
+            return false;
+        }
+
+        // Get the inventory component
+        const component = Component.types[interfaceId];
+        if (!component || !component.invSlotObjId) {
+            return false;
+        }
+
+        // Get item in slot
+        const rawItemId = component.invSlotObjId[slot];
+        if (!rawItemId || rawItemId === 0) {
+            return false;
+        }
+        const itemObj = ObjType.get(rawItemId - 1);
+        const itemId = itemObj.id;
+
+        // Send OPHELDT packet: obj, slot, component, spellComponent
+        this.writePacketOpcode(ClientProt.OPHELDT);
+        this.out.p2(itemId);
+        this.out.p2(slot);
+        this.out.p2(interfaceId);
+        this.out.p2(spellComponent);
+
+        return true;
+    }
+
+    /**
      * Pick up a ground item at the specified world coordinates
      * Use the groundItems from BotState to get item locations
      */
@@ -1143,6 +1218,184 @@ export class Client extends GameShell {
         this.out.p2(3902);
 
         return true;
+    }
+
+    /**
+     * Check if bank interface is open
+     */
+    isBankOpen(): boolean {
+        // Bank uses viewportInterfaceId = 5292 (bank_main)
+        // or we can check if bank_side:inv (2006) is visible
+        const BANK_MAIN_ID = 5292;
+        const BANK_SIDE_INV_ID = 2006;
+
+        // Check if the bank main interface is open
+        if (this.viewportInterfaceId === BANK_MAIN_ID) {
+            return true;
+        }
+
+        // Also check if bank_side:inv component has items (indicates bank is open)
+        const component = Component.types[BANK_SIDE_INV_ID];
+        if (component && component.invSlotObjId) {
+            // If this component has items, bank is likely open
+            for (let i = 0; i < component.invSlotObjId.length; i++) {
+                if (component.invSlotObjId[i] > 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Deposit item from inventory into bank
+     * slot: the slot number in player's inventory (0-based)
+     * amount: 1, 5, 10, or -1 for all
+     * Bank side panel interface ID: 2006 (bank_side:inv)
+     */
+    bankDeposit(slot: number, amount: number = 1): boolean {
+        if (!this.ingame || !this.out) {
+            console.log('[Client] bankDeposit failed - not in game');
+            return false;
+        }
+
+        const BANK_SIDE_INV_ID = 2006;
+        const component = Component.types[BANK_SIDE_INV_ID];
+        if (!component || !component.invSlotObjId) {
+            console.log('[Client] bankDeposit failed - bank_side:inv component not found');
+            return false;
+        }
+
+        const rawItemId = component.invSlotObjId[slot];
+        if (!rawItemId || rawItemId <= 0) {
+            console.log(`[Client] bankDeposit failed - no item at slot ${slot}`);
+            return false;
+        }
+
+        // Must use ObjType.get().id like the original menu code does
+        const obj = ObjType.get(rawItemId - 1);
+        const itemId = obj.id;
+
+        // Map amount to option index:
+        // inv_button1 -> deposit 1
+        // inv_button2 -> deposit 5
+        // inv_button3 -> deposit 10
+        // inv_button4 -> deposit all
+        let optionIndex = 1; // Default to deposit 1
+        if (amount === 5) optionIndex = 2;
+        else if (amount === 10) optionIndex = 3;
+        else if (amount === -1 || amount >= 2147483647) optionIndex = 4; // All
+
+        const opcodes = [
+            ClientProt.INV_BUTTON1,
+            ClientProt.INV_BUTTON2,
+            ClientProt.INV_BUTTON3,
+            ClientProt.INV_BUTTON4,
+            ClientProt.INV_BUTTON5
+        ];
+
+        this.writePacketOpcode(opcodes[optionIndex - 1]);
+        this.out.p2(itemId);
+        this.out.p2(slot);
+        this.out.p2(BANK_SIDE_INV_ID);
+
+        console.log(`[Client] bankDeposit: slot=${slot}, itemId=${itemId}, amount=${amount}, optionIndex=${optionIndex}`);
+        return true;
+    }
+
+    /**
+     * Withdraw item from bank into inventory
+     * slot: the slot number in bank (0-based)
+     * amount: 1, 5, 10, or -1 for all
+     * Bank main interface ID: 5382 (bank_main:inv)
+     */
+    bankWithdraw(slot: number, amount: number = 1): boolean {
+        if (!this.ingame || !this.out) {
+            console.log('[Client] bankWithdraw failed - not in game');
+            return false;
+        }
+
+        const BANK_MAIN_INV_ID = 5382;
+        const component = Component.types[BANK_MAIN_INV_ID];
+        if (!component || !component.invSlotObjId) {
+            console.log('[Client] bankWithdraw failed - bank_main:inv component not found');
+            return false;
+        }
+
+        const rawItemId = component.invSlotObjId[slot];
+        if (!rawItemId || rawItemId <= 0) {
+            console.log(`[Client] bankWithdraw failed - no item at slot ${slot}`);
+            return false;
+        }
+
+        // Must use ObjType.get().id like the original menu code does
+        const obj = ObjType.get(rawItemId - 1);
+        const itemId = obj.id;
+
+        // Map amount to option index:
+        // inv_button1 -> withdraw 1
+        // inv_button2 -> withdraw 5
+        // inv_button3 -> withdraw 10
+        // inv_button4 -> withdraw all
+        let optionIndex = 1; // Default to withdraw 1
+        if (amount === 5) optionIndex = 2;
+        else if (amount === 10) optionIndex = 3;
+        else if (amount === -1 || amount >= 2147483647) optionIndex = 4; // All
+
+        const opcodes = [
+            ClientProt.INV_BUTTON1,
+            ClientProt.INV_BUTTON2,
+            ClientProt.INV_BUTTON3,
+            ClientProt.INV_BUTTON4,
+            ClientProt.INV_BUTTON5
+        ];
+
+        this.writePacketOpcode(opcodes[optionIndex - 1]);
+        this.out.p2(itemId);
+        this.out.p2(slot);
+        this.out.p2(BANK_MAIN_INV_ID);
+
+        console.log(`[Client] bankWithdraw: slot=${slot}, itemId=${itemId}, amount=${amount}, optionIndex=${optionIndex}`);
+        return true;
+    }
+
+    /**
+     * Get items in bank (from bank_main:inv component)
+     */
+    getBankItems(): Array<{ slot: number; id: number; name: string; count: number }> {
+        const BANK_MAIN_INV_ID = 5382;
+        const component = Component.types[BANK_MAIN_INV_ID];
+        const items: Array<{ slot: number; id: number; name: string; count: number }> = [];
+
+        if (!component || !component.invSlotObjId || !component.invSlotObjCount) {
+            return items;
+        }
+
+        for (let slot = 0; slot < component.invSlotObjId.length; slot++) {
+            const rawId = component.invSlotObjId[slot];
+            if (rawId && rawId > 0) {
+                const obj = ObjType.get(rawId - 1);
+                items.push({
+                    slot,
+                    id: obj.id,
+                    name: obj.name || `Unknown(${obj.id})`,
+                    count: component.invSlotObjCount[slot] || 1
+                });
+            }
+        }
+
+        return items;
+    }
+
+    /**
+     * Find item slot in bank by name pattern
+     */
+    findBankItemSlot(pattern: string | RegExp): number {
+        const regex = typeof pattern === 'string' ? new RegExp(pattern, 'i') : pattern;
+        const items = this.getBankItems();
+        const item = items.find(i => regex.test(i.name));
+        return item ? item.slot : -1;
     }
 
     /**

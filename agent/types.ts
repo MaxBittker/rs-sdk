@@ -175,7 +175,11 @@ export type BotAction =
     | { type: 'setCombatStyle'; style: number; reason: string }
     | { type: 'useItemOnItem'; sourceSlot: number; targetSlot: number; reason: string }
     | { type: 'useItemOnLoc'; itemSlot: number; x: number; z: number; locId: number; reason: string }
-    | { type: 'say'; message: string; reason: string };
+    | { type: 'say'; message: string; reason: string }
+    | { type: 'spellOnNpc'; npcIndex: number; spellComponent: number; reason: string }
+    | { type: 'spellOnItem'; slot: number; spellComponent: number; reason: string }
+    | { type: 'bankDeposit'; slot: number; amount: number; reason: string }
+    | { type: 'bankWithdraw'; slot: number; amount: number; reason: string };
 
 export interface ActionResult {
     success: boolean;

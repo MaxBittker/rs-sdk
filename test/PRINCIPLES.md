@@ -40,6 +40,18 @@ Benefits:
 - Check success criteria frequently and exit early when met
 - Don't over-test - once the goal is achieved, stop
 
+## Avoid False Positives
+- **Test the actual mechanic, not just setup steps**
+  - BAD: Banking test passes because interface opened
+  - GOOD: Banking test passes because item was deposited AND withdrawn
+- **Success must verify observable state change**
+  - XP increased (skills)
+  - Item appeared/disappeared from inventory
+  - Position changed (movement)
+  - NPC/object state changed
+- **Don't pass on "tried to do X"** - pass on "X actually happened"
+- If SDK support is missing for the core action, the test should FAIL or be marked as TODO, not pass on partial completion
+
 ## Logging
 - Log useful information for debugging (start state, key actions, final state)
 - Don't spam logs in loops - log every Nth iteration or on state changes

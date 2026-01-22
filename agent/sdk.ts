@@ -397,6 +397,24 @@ export class BotSDK {
         });
     }
 
+    async sendSpellOnNpc(npcIndex: number, spellComponent: number): Promise<ActionResult> {
+        return this.sendAction({
+            type: 'spellOnNpc',
+            npcIndex,
+            spellComponent,
+            reason: 'SDK'
+        });
+    }
+
+    async sendSpellOnItem(slot: number, spellComponent: number): Promise<ActionResult> {
+        return this.sendAction({
+            type: 'spellOnItem',
+            slot,
+            spellComponent,
+            reason: 'SDK'
+        });
+    }
+
     async sendSay(message: string): Promise<ActionResult> {
         return this.sendAction({
             type: 'say',
@@ -409,6 +427,24 @@ export class BotSDK {
         return this.sendAction({
             type: 'wait',
             ticks,
+            reason: 'SDK'
+        });
+    }
+
+    async sendBankDeposit(slot: number, amount: number = 1): Promise<ActionResult> {
+        return this.sendAction({
+            type: 'bankDeposit',
+            slot,
+            amount,
+            reason: 'SDK'
+        });
+    }
+
+    async sendBankWithdraw(slot: number, amount: number = 1): Promise<ActionResult> {
+        return this.sendAction({
+            type: 'bankWithdraw',
+            slot,
+            amount,
             reason: 'SDK'
         });
     }

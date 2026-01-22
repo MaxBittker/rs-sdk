@@ -60,13 +60,65 @@ export const Items = {
     MIND_RUNE: 558,
     WATER_RUNE: 555,
     EARTH_RUNE: 557,
+    FIRE_RUNE: 554,
     BODY_RUNE: 559,
+    NATURE_RUNE: 561,
+    LAW_RUNE: 563,
+
+    // Crafting materials
+    WOOL: 1737,
+    BALL_OF_WOOL: 1759,
+    FLAX: 1779,
+    BOW_STRING: 1777,
+    LEATHER: 1741,
+    SOFT_CLAY: 1761,
+    NEEDLE: 1733,
+    THREAD: 1734,
 
     // Other
     COINS: 995,
     BUCKET: 1925,
     POT: 1931,
     BREAD: 2309,
+    BONES: 526,
+    BIG_BONES: 532,
+};
+
+// Spell component IDs (from content/pack/interface.pack)
+export const Spells = {
+    // Combat spells
+    WIND_STRIKE: 1152,
+    CONFUSE: 1153,
+    WATER_STRIKE: 1154,
+    ENCHANT_LVL1: 1155,  // Sapphire
+    EARTH_STRIKE: 1156,
+    WEAKEN: 1157,
+    FIRE_STRIKE: 1158,
+    WIND_BOLT: 1160,
+    CURSE: 1161,
+    LOW_ALCHEMY: 1162,
+    WATER_BOLT: 1163,
+    VARROCK_TELEPORT: 1164,
+    ENCHANT_LVL2: 1165,  // Emerald
+    EARTH_BOLT: 1166,
+    LUMBRIDGE_TELEPORT: 1167,
+    FIRE_BOLT: 1169,
+    FALADOR_TELEPORT: 1170,
+    WIND_BLAST: 1172,
+    SUPERHEAT: 1173,
+    CAMELOT_TELEPORT: 1174,
+    WATER_BLAST: 1175,
+    ENCHANT_LVL3: 1176,  // Ruby
+    EARTH_BLAST: 1177,
+    HIGH_ALCHEMY: 1178,
+    ENCHANT_LVL4: 1180,  // Diamond
+    FIRE_BLAST: 1181,
+    WIND_WAVE: 1183,
+    WATER_WAVE: 1185,
+    ENCHANT_LVL5: 1187,  // Dragonstone
+    EARTH_WAVE: 1188,
+    FIRE_WAVE: 1189,
+    BIND: 1572,
 };
 
 // Skill indices
@@ -95,9 +147,11 @@ export const Skills = {
 // Known locations
 export const Locations = {
     LUMBRIDGE_CASTLE: { x: 3222, z: 3218 },
+    LUMBRIDGE_SPINNING_WHEEL: { x: 3209, z: 3213, level: 2 },  // 2nd floor of castle
     LUMBRIDGE_SHOP: { x: 3212, z: 3246 },
     DRAYNOR_FISHING: { x: 3086, z: 3230 },
     VARROCK_SE_MINE: { x: 3285, z: 3365 },
+    VARROCK_TEA_STALL: { x: 3269, z: 3410 },  // SE Varrock, near tea stall
     ALKHARID_MINE: { x: 3300, z: 3310 },
     ALKHARID_FURNACE: { x: 3274, z: 3186 },
     VARROCK_WEST_BANK: { x: 3185, z: 3436 },
@@ -226,14 +280,22 @@ export function createSaveData(config: SaveConfig): Uint8Array {
     writer.p4(1000);
 
     // Skills (21 total)
+    // Build a case-insensitive skill name lookup
+    const skillLevels: Record<string, number> = {};
+    if (config.skills) {
+        for (const [name, level] of Object.entries(config.skills)) {
+            skillLevels[name.toUpperCase()] = level;
+        }
+    }
+
     for (let i = 0; i < 21; i++) {
         let level = 1;
         let xp = 0;
 
-        // Find skill by index
+        // Find skill by index (case-insensitive lookup)
         for (const [skillName, skillIndex] of Object.entries(Skills)) {
-            if (skillIndex === i && config.skills?.[skillName]) {
-                level = config.skills[skillName];
+            if (skillIndex === i && skillLevels[skillName]) {
+                level = skillLevels[skillName];
                 xp = getExpByLevel(level);
                 break;
             }
@@ -456,6 +518,12 @@ export const TestPresets = {
             { id: Items.WOODEN_SHIELD, count: 1 },
             { id: Items.BREAD, count: 10 },
         ],
+    } as SaveConfig,
+
+    // Thief at Varrock tea stall (level 5 required)
+    THIEF_AT_VARROCK: {
+        position: Locations.VARROCK_TEA_STALL,
+        skills: { Thieving: 5 },
     } as SaveConfig,
 
     // Standard tutorial-complete bot (matches what bots get after tutorial)

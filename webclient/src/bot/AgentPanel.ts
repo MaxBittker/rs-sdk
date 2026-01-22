@@ -64,7 +64,9 @@ type BotAction =
     | { type: 'setCombatStyle'; style: number; reason: string }
     | { type: 'useItemOnItem'; sourceSlot: number; targetSlot: number; reason: string }
     | { type: 'useItemOnLoc'; itemSlot: number; x: number; z: number; locId: number; reason: string }
-    | { type: 'say'; message: string; reason: string };
+    | { type: 'say'; message: string; reason: string }
+    | { type: 'spellOnNpc'; npcIndex: number; spellComponent: number; reason: string }
+    | { type: 'spellOnItem'; slot: number; spellComponent: number; reason: string };
 
 // Messages from sync service
 interface SyncMessage {
@@ -645,6 +647,30 @@ export class AgentPanel {
                         return { success: true, message: `Said: "${action.message}"` };
                     }
                     return { success: false, message: `Failed to send chat message` };
+
+                case 'spellOnNpc':
+                    if (this.client.spellOnNpc(action.npcIndex, action.spellComponent)) {
+                        return { success: true, message: `Casting spell ${action.spellComponent} on NPC ${action.npcIndex}` };
+                    }
+                    return { success: false, message: `Failed to cast spell on NPC` };
+
+                case 'spellOnItem':
+                    if (this.client.spellOnItem(action.slot, action.spellComponent)) {
+                        return { success: true, message: `Casting spell ${action.spellComponent} on item in slot ${action.slot}` };
+                    }
+                    return { success: false, message: `Failed to cast spell on item` };
+
+                case 'bankDeposit':
+                    if (this.client.bankDeposit(action.slot, action.amount)) {
+                        return { success: true, message: `Depositing item at slot ${action.slot} x${action.amount}` };
+                    }
+                    return { success: false, message: 'Failed to deposit item (bank may not be open or slot empty)' };
+
+                case 'bankWithdraw':
+                    if (this.client.bankWithdraw(action.slot, action.amount)) {
+                        return { success: true, message: `Withdrawing item at slot ${action.slot} x${action.amount}` };
+                    }
+                    return { success: false, message: 'Failed to withdraw item (bank may not be open or slot empty)' };
 
                 default:
                     return { success: false, message: `Unknown action type: ${(action as any).type}` };

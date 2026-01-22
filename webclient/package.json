@@ -8,7 +8,8 @@
     },
     "scripts": {
         "build": "bun run bundle.ts",
-        "build:dev": "bun run bundle.ts dev"
+        "build:dev": "bun run bundle.ts dev",
+        "watch": "bun --watch run bundle.ts dev"
     },
     "devDependencies": {
         "@types/bun": "latest",
