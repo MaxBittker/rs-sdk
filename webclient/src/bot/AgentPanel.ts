@@ -32,6 +32,13 @@ function updateUrlWithGoal(goal: string): void {
     window.history.replaceState({}, '', url.toString());
 }
 
+// Check if running via test (detected via 'tst' query param)
+function isRunningViaTest(): boolean {
+    if (typeof window === 'undefined') return false;
+    const params = new URLSearchParams(window.location.search);
+    return params.has('tst');
+}
+
 const BOT_USERNAME = getBotUsername();
 
 const CONTROLLER_URL = typeof window !== 'undefined'
@@ -67,7 +74,8 @@ type BotAction =
     | { type: 'useItemOnLoc'; itemSlot: number; x: number; z: number; locId: number; reason: string }
     | { type: 'say'; message: string; reason: string }
     | { type: 'spellOnNpc'; npcIndex: number; spellComponent: number; reason: string }
-    | { type: 'spellOnItem'; slot: number; spellComponent: number; reason: string };
+    | { type: 'spellOnItem'; slot: number; spellComponent: number; reason: string }
+    | { type: 'setTab'; tabIndex: number; reason: string };
 
 // Messages from sync service
 interface SyncMessage {
@@ -151,8 +159,10 @@ export class AgentPanel {
         // Always connect to sync service so actions can be executed
         // even when the panel is not visible
         this.connectSync();
-        // Show panel by default
-        this.show();
+        // Show panel by default, unless running via test
+        if (!isRunningViaTest()) {
+            this.show();
+        }
     }
 
     setClient(client: Client): void {
@@ -528,10 +538,23 @@ export class AgentPanel {
                     return { success: false, message: 'Failed to click interface option (no viewport interface open or invalid option)' };
 
                 case 'clickInterfaceComponent':
-                    if (this.client.clickInterfaceIop(action.componentId, action.optionIndex ?? 1)) {
-                        return { success: true, message: `Clicked interface component ${action.componentId} option ${action.optionIndex ?? 1}` };
+                    // Use simple IF_BUTTON for option 1 (e.g., casting spells), INV_BUTTON for inventory-style ops
+                    if ((action.optionIndex ?? 1) === 1) {
+                        if (this.client.clickComponent(action.componentId)) {
+                            return { success: true, message: `Clicked interface component ${action.componentId}` };
+                        }
+                    } else {
+                        if (this.client.clickInterfaceIop(action.componentId, action.optionIndex ?? 1)) {
+                            return { success: true, message: `Clicked interface component ${action.componentId} option ${action.optionIndex ?? 1}` };
+                        }
                     }
                     return { success: false, message: 'Failed to click interface component' };
+
+                case 'setTab':
+                    if (this.client.setTab(action.tabIndex)) {
+                        return { success: true, message: `Switched to tab ${action.tabIndex}` };
+                    }
+                    return { success: false, message: 'Failed to switch tab' };
 
                 case 'acceptCharacterDesign':
                     if (this.client.acceptCharacterDesign()) {

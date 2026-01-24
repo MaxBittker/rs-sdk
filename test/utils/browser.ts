@@ -10,6 +10,13 @@ import { BotActions } from '../../agent/sdk-porcelain';
 
 const BOT_URL = process.env.BOT_URL || 'http://localhost:8888/bot';
 
+// HEADLESS env var: 'true' or '1' for headless, anything else for visible browser
+// Default: false (show browser) for easier debugging
+const DEFAULT_HEADLESS = process.env.HEADLESS === 'true' || process.env.HEADLESS === '1';
+
+// Hold browser open for inspection when not headless
+const CLEANUP_DELAY_MS = 2000;
+
 export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 // Shared browser instance for multi-bot scenarios
@@ -100,7 +107,7 @@ export async function launchBotBrowser(
     options: { headless?: boolean; useSharedBrowser?: boolean } = {}
 ): Promise<BrowserSession> {
     const name = botName || 'bot' + Math.random().toString(36).substring(2, 5);
-    const headless = options.headless ?? true;
+    const headless = options.headless ?? DEFAULT_HEADLESS;
     const useShared = options.useSharedBrowser ?? false;
 
     let browser: Browser;
@@ -120,7 +127,8 @@ export async function launchBotBrowser(
     page.setDefaultTimeout(60000);  // 60s timeout for all operations
 
     // Navigate to bot URL with all params - page handles auto-login, fps, etc.
-    await page.goto(`${BOT_URL}?bot=${name}&password=test&fps=5`, { waitUntil: 'networkidle2', timeout: 60000 });
+    // tst=1 indicates running via test (hides agent panel by default)
+    await page.goto(`${BOT_URL}?bot=${name}&password=test&fps=5&tst=1`, { waitUntil: 'networkidle2', timeout: 60000 });
 
     // Wait for in-game (page auto-logs in via URL params)
     let attempts = 0;
@@ -140,6 +148,11 @@ export async function launchBotBrowser(
         page,
         botName: name,
         cleanup: async () => {
+            // Hold browser open for inspection when not headless
+            if (!headless) {
+                console.log(`[Browser] Holding open for ${CLEANUP_DELAY_MS / 1000}s...`);
+                await sleep(CLEANUP_DELAY_MS);
+            }
             console.log(`[Browser] Closing page for '${name}'`);
             await page.close();
             if (useShared) {
