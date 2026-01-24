@@ -87,7 +87,6 @@
         #bot-controls {
             margin-top: 10px;
             padding: 10px;
-            border: 1px solid #04A800;
             display: inline-block;
             background: rgba(0, 0, 0, 0.8);
         }
@@ -224,7 +223,6 @@
                 }
 
                 await client.autoLogin(username, params.password);
-                document.getElementById('bot-status').textContent = 'Logged in as ' + username;
 
                 // Wait for ingame state
                 while (!client.ingame) {
@@ -322,14 +320,21 @@
         <!-- Bot Controls -->
         <div id="bot-controls">
             <div>
-                <input type="text" id="bot-username" placeholder="username" value="" onblur="syncUsernameToUrl();" onchange="syncUsernameToUrl();">
-                <button onclick="randomUsername();" title="Generate random name" style="background:#333;color:#04A800;padding:4px 8px;">🎲</button>
-                <input type="password" id="bot-password" placeholder="password" value="test">
-                <button onclick="quickLogin();" style="background:#04A800;">Login</button>
-                <button onclick="skipTutorial();">Skip Tutorial</button>
+                <span id="login-controls">
+                    <input type="text" id="bot-username" placeholder="username" value="" onblur="syncUsernameToUrl();" onchange="syncUsernameToUrl();">
+                    <button onclick="randomUsername();" title="Generate random name" style="background:#333;color:#04A800;padding:4px 8px;">🎲</button>
+                    <input type="password" id="bot-password" placeholder="password" value="test">
+                    <button onclick="quickLogin();" style="background:#04A800;">Login</button>
+                </span>
+                <span id="tutorial-controls" style="display: none;">
+                    <button onclick="skipTutorial();">Skip Tutorial</button>
+                </span>
             </div>
             <div class="bot-status" id="bot-status">Ready</div>
         </div>
+
+        <!-- SDK Panel container (AgentPanel mounts here) -->
+        <div id="sdk-panel-container"></div>
     </center>
 
     <script>
@@ -395,7 +400,7 @@
             if (clientInstance && clientInstance.autoLogin) {
                 try {
                     await clientInstance.autoLogin(username, password);
-                    document.getElementById('bot-status').textContent = 'Logged in as ' + username;
+                    document.getElementById('bot-status').textContent = '';
                 } catch (e) {
                     document.getElementById('bot-status').textContent = 'Login error: ' + e.message;
                 }
@@ -472,12 +477,7 @@
                 const guideIndex = clientInstance.findNpcByName('RuneScape Guide');
                 if (guideIndex >= 0) {
                     clientInstance.talkToNpc(guideIndex);
-                    document.getElementById('bot-status').textContent = 'Talking to RuneScape Guide (index: ' + guideIndex + ')';
-                } else {
-                    document.getElementById('bot-status').textContent = 'RuneScape Guide not found nearby';
                 }
-            } else {
-                document.getElementById('bot-status').textContent = 'Client not ready';
             }
         };
 
@@ -601,6 +601,35 @@
                 document.getElementById('bot-status').textContent = 'Screenshot error: ' + e.message;
             }
         };
+
+        // Update button visibility based on game state
+        function updateButtonVisibility() {
+            const loginControls = document.getElementById('login-controls');
+            const tutorialControls = document.getElementById('tutorial-controls');
+            const botControls = document.getElementById('bot-controls');
+
+            const isLoggedIn = clientInstance?.ingame;
+            const isInTutorial = isLoggedIn && clientInstance.findNpcByName?.('RuneScape Guide') >= 0;
+
+            // Hide login when logged in
+            if (loginControls) {
+                loginControls.style.display = isLoggedIn ? 'none' : 'inline';
+            }
+
+            // Show skip tutorial only when in tutorial
+            if (tutorialControls) {
+                tutorialControls.style.display = isInTutorial ? 'inline' : 'none';
+            }
+
+            // Hide the entire bot-controls box when nothing to show
+            if (botControls) {
+                const showControls = !isLoggedIn || isInTutorial;
+                botControls.style.display = showControls ? 'inline-block' : 'none';
+            }
+        }
+
+        // Check visibility every second
+        setInterval(updateButtonVisibility, 1000);
 
         loadSettings();
     </script>

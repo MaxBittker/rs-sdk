@@ -1216,20 +1216,14 @@ export class BotOverlay {
         this.container = document.createElement('div');
         this.container.id = 'bot-sdk-overlay';
         this.container.style.cssText = `
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            width: 320px;
-            max-height: auto;
+            width: 100%;
+            max-width: 320px;
             background: rgba(0, 0, 0, 0.85);
-            border: 2px solid #04A800;
-            border-radius: 8px;
             font-family: 'Consolas', 'Monaco', monospace;
             font-size: 11px;
             color: #04A800;
-            z-index: 10000;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            margin-top: 10px;
         `;
 
         // Create header with controls
@@ -1240,16 +1234,12 @@ export class BotOverlay {
             align-items: center;
             padding: 6px 10px;
             background: rgba(4, 168, 0, 0.2);
-            border-bottom: 1px solid #04A800;
-            cursor: move;
         `;
         header.innerHTML = `
             <span style="font-weight: bold;">BOT SDK</span>
             <div>
                 <button id="bot-agent" style="background: none; border: 1px solid #FFD700; color: #FFD700; cursor: pointer; padding: 2px 8px; margin-right: 4px; font-size: 10px; font-weight: bold;">AGENT</button>
-                <button id="bot-packets" style="background: none; border: 1px solid #04A800; color: #04A800; cursor: pointer; padding: 2px 8px; margin-right: 4px; font-size: 10px;">PKT</button>
-                <button id="bot-minimize" style="background: none; border: 1px solid #04A800; color: #04A800; cursor: pointer; padding: 2px 8px; margin-right: 4px;">_</button>
-                <button id="bot-close" style="background: none; border: 1px solid #04A800; color: #04A800; cursor: pointer; padding: 2px 8px;">X</button>
+                <button id="bot-packets" style="background: none; border: 1px solid #04A800; color: #04A800; cursor: pointer; padding: 2px 8px; font-size: 10px;">PKT</button>
             </div>
         `;
 
@@ -1260,7 +1250,6 @@ export class BotOverlay {
             margin: 0;
             padding: 10px;
             overflow-y: auto;
-            max-height: 540px;
             white-space: pre-wrap;
             word-wrap: break-word;
             display: none;
@@ -1268,7 +1257,14 @@ export class BotOverlay {
 
         this.container.appendChild(header);
         this.container.appendChild(this.content);
-        document.body.appendChild(this.container);
+
+        // Mount to sdk-panel-container if it exists, otherwise fall back to body
+        const sdkContainer = document.getElementById('sdk-panel-container');
+        if (sdkContainer) {
+            sdkContainer.appendChild(this.container);
+        } else {
+            document.body.appendChild(this.container);
+        }
 
         // Create packet log panel (separate draggable panel)
         this.packetLogContainer = document.createElement('div');
@@ -1331,8 +1327,6 @@ export class BotOverlay {
         document.body.appendChild(this.packetLogContainer);
 
         // Setup event handlers
-        const minimizeBtn = document.getElementById('bot-minimize');
-        const closeBtn = document.getElementById('bot-close');
         const packetsBtn = document.getElementById('bot-packets');
         const agentBtn = document.getElementById('bot-agent');
         const pktToggle = document.getElementById('pkt-toggle');
@@ -1340,8 +1334,6 @@ export class BotOverlay {
         const pktCopy = document.getElementById('pkt-copy');
         const pktClose = document.getElementById('pkt-close');
 
-        minimizeBtn?.addEventListener('click', () => this.toggleMinimize());
-        closeBtn?.addEventListener('click', () => this.toggle());
         packetsBtn?.addEventListener('click', () => this.togglePacketLog());
         agentBtn?.addEventListener('click', () => this.toggleAgentMode());
         pktToggle?.addEventListener('click', () => this.togglePacketLogging());
@@ -1349,8 +1341,7 @@ export class BotOverlay {
         pktCopy?.addEventListener('click', () => this.copyPacketLog());
         pktClose?.addEventListener('click', () => this.togglePacketLog());
 
-        // Make both panels draggable
-        this.makeDraggable(header);
+        // Make packet log panel draggable (main panel is now inline)
         this.makeDraggable(packetHeader, this.packetLogContainer);
 
         // Set global reference
