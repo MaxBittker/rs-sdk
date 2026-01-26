@@ -689,7 +689,7 @@ export class BotActions {
             return { success: true, message: `Already at (${x}, ${z})` };
         }
 
-        const MAX_PATH_QUERIES = 20;
+        const MAX_PATH_QUERIES = 80;
         let stuckCount = 0;
 
         for (let query = 0; query < MAX_PATH_QUERIES; query++) {
@@ -710,14 +710,33 @@ export class BotActions {
             // Ask pathfinder for path to destination
             let pathResult = await this.sdk.sendFindPath(x, z, 500);
 
-            // If destination is too far (pathfinder has ~100 tile search radius),
-            // calculate a closer intermediate target in the direction of the goal
-            if ((!pathResult.waypoints || pathResult.waypoints.length === 0) && distToGoal > 60) {
-                const INTERMEDIATE_DIST = 60;
-                const ratio = INTERMEDIATE_DIST / distToGoal;
-                const intermediateX = Math.round(currentX + (x - currentX) * ratio);
-                const intermediateZ = Math.round(currentZ + (z - currentZ) * ratio);
-                pathResult = await this.sdk.sendFindPath(intermediateX, intermediateZ, 500);
+            // If destination is too far, try progressively closer intermediate targets
+            // Also try perpendicular offsets in case straight line hits obstacles
+            if ((!pathResult.waypoints || pathResult.waypoints.length === 0) && distToGoal > 40) {
+                const INTERMEDIATE_DISTANCES = [60, 40, 25];
+                const PERPENDICULAR_OFFSETS = [0, 15, -15, 30, -30];
+
+                // Direction vector to goal (normalized)
+                const dirX = (x - currentX) / distToGoal;
+                const dirZ = (z - currentZ) / distToGoal;
+                // Perpendicular vector (rotate 90 degrees)
+                const perpX = -dirZ;
+                const perpZ = dirX;
+
+                intermediateSearch:
+                for (const dist of INTERMEDIATE_DISTANCES) {
+                    if (dist >= distToGoal) continue; // Don't overshoot
+
+                    for (const offset of PERPENDICULAR_OFFSETS) {
+                        const intermediateX = Math.round(currentX + dirX * dist + perpX * offset);
+                        const intermediateZ = Math.round(currentZ + dirZ * dist + perpZ * offset);
+
+                        pathResult = await this.sdk.sendFindPath(intermediateX, intermediateZ, 500);
+                        if (pathResult.waypoints && pathResult.waypoints.length > 0) {
+                            break intermediateSearch; // Found valid path
+                        }
+                    }
+                }
             }
 
             if (!pathResult.success || !pathResult.waypoints || pathResult.waypoints.length === 0) {
@@ -785,7 +804,7 @@ export class BotActions {
             const progressMade = distToGoal - newDistToGoal;
             if (progressMade < 5) {
                 stuckCount++;
-                if (stuckCount >= 2) {
+                if (stuckCount >= 3) {
                     return { success: false, message: `Stuck at (${afterX}, ${afterZ}) - cannot reach (${x}, ${z})` };
                 }
             } else {
