@@ -641,6 +641,7 @@ export function runArc(config: ArcConfig, arcFn: ArcFn): void {
         let consoleCapture: ConsoleCapture | null = null;
         let progressTracker: ProgressTracker | null = null;
         let stateInterval: ReturnType<typeof setInterval> | null = null;
+        let stateMdInterval: ReturnType<typeof setInterval> | null = null;
         let timeLimitTimeout: ReturnType<typeof setTimeout> | null = null;
         let stallDetected = false;
         let timeLimitReached = false;
@@ -706,6 +707,16 @@ export function runArc(config: ArcConfig, arcFn: ArcFn): void {
                     recorder.logState(compactState(state));
                 }
             }, stateSnapshotInterval);
+
+            // Write state.md every 30s for crash resilience
+            stateMdInterval = setInterval(() => {
+                try {
+                    const state = sdk.getState();
+                    if (state) {
+                        writeStateMd(characterDir, state, config.characterName);
+                    }
+                } catch { /* ignore */ }
+            }, 30_000);
 
             timeLimitTimeout = setTimeout(() => {
                 timeLimitReached = true;
@@ -805,6 +816,7 @@ export function runArc(config: ArcConfig, arcFn: ArcFn): void {
 
         } finally {
             if (stateInterval) clearInterval(stateInterval);
+            if (stateMdInterval) clearInterval(stateMdInterval);
             if (timeLimitTimeout) clearTimeout(timeLimitTimeout);
             progressTracker?.stop();
             consoleCapture?.restore();

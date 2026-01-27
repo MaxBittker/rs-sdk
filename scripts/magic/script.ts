@@ -151,6 +151,18 @@ async function magicTrainingLoop(ctx: ScriptContext): Promise<void> {
     await ctx.bot.walkTo(CHICKEN_COOP.x, CHICKEN_COOP.z);
     ctx.progress();
 
+    // Open the gate to get inside the coop
+    ctx.log('Opening gate...');
+    const gateResult = await ctx.bot.openDoor(/gate/i);
+    if (gateResult.success) {
+        ctx.log(`Gate opened: ${gateResult.message}`);
+        // Walk inside the coop
+        await ctx.bot.walkTo(CHICKEN_COOP.x - 3, CHICKEN_COOP.z);
+        ctx.progress();
+    } else {
+        ctx.log(`Gate: ${gateResult.message}`);
+    }
+
     let lastXp = stats.startXp;
     let noTargetCount = 0;
 
@@ -222,19 +234,50 @@ async function magicTrainingLoop(ctx: ScriptContext): Promise<void> {
             continue;
         }
 
+        // Walk closer if target is far (magic range is ~10 but need clear LOS)
+        if (target.distance > 5) {
+            ctx.log(`Walking toward ${target.name} at (${target.x}, ${target.z}), dist: ${target.distance}`);
+            // Walk to within ~3 tiles of the target
+            await ctx.bot.walkTo(target.x, target.z);
+            ctx.progress();
+            await new Promise(r => setTimeout(r, 500));
+            continue;
+        }
+
         // Cast spell on target
         if (stats.casts % 5 === 0 || stats.casts === 0) {
             const currentRunes = getRuneCounts(ctx);
-            ctx.log(`Casting ${spell.name} on ${target.name} (cast #${stats.casts + 1}, runes: air=${currentRunes.air}, mind=${currentRunes.mind})`);
+            ctx.log(`Casting ${spell.name} on ${target.name} (cast #${stats.casts + 1}, dist=${target.distance}, runes: air=${currentRunes.air}, mind=${currentRunes.mind})`);
         }
 
+        const startTick = ctx.state()?.tick ?? 0;
         await ctx.sdk.sendSpellOnNpc(target.index, spell.spell);
         stats.casts++;
         stats.lastCastTime = now;
         ctx.progress();
 
-        // Wait for spell animation
-        await new Promise(r => setTimeout(r, 2500));
+        // Wait for spell animation and check for failure
+        await new Promise(r => setTimeout(r, 1500));
+
+        // Check for "can't reach" message - likely gate is closed
+        const afterState = ctx.state();
+        if (afterState) {
+            for (const msg of afterState.gameMessages) {
+                if (msg.tick > startTick && msg.text.toLowerCase().includes("can't reach")) {
+                    ctx.log(`Can't reach target - trying to open gate`);
+                    const gateResult = await ctx.bot.openDoor(/gate/i);
+                    ctx.log(`Gate: ${gateResult.message}`);
+                    if (gateResult.success) {
+                        // Walk inside after opening
+                        await ctx.bot.walkTo(CHICKEN_COOP.x - 3, CHICKEN_COOP.z);
+                    }
+                    ctx.progress();
+                    break;
+                }
+            }
+        }
+
+        await new Promise(r => setTimeout(r, 1000));
     }
 
     // Final report

@@ -130,3 +130,54 @@ Smithing requires:
 - `sendUseItemOnLoc` works for ore + furnace
 - `waitForCondition` with game messages works for prospecting
 
+---
+
+### Run 006 - 2026-01-27 18:36
+
+**Outcome**: Partial success - mined 5 pairs, walked to furnace, then disconnected
+**Duration**: ~2.5 minutes
+**Version**: v4 (simplified)
+
+**What Happened:**
+- Iteration 1: Walk from Lumbridge failed (obstacle at 3240, 3262)
+- Iteration 2: Walk from Al-Kharid worked directly (139 tiles)
+- Successfully mined 5 copper, 7 tin (5 pairs) ✓
+- Started walking to Al-Kharid furnace
+- Disconnected mid-walk at (3275, 3295)
+
+**Key Insights:**
+- Pathfinding works FROM Al-Kharid but has issues FROM Lumbridge
+- The SE Varrock mine copper/tin area IS correct (~3282-3286, 3365-3368)
+- Mining successfully detects copper vs tin after prospecting
+- Need to go to Al-Kharid FIRST, then walk to mine (smoother path)
+
+---
+
+## Current Status
+
+**Script Functionality:** WORKING (with caveats)
+
+The script successfully:
+1. ✅ Equips pickaxe
+2. ✅ Gets coins by selling shortbow
+3. ✅ Enters Al-Kharid (pays toll)
+4. ✅ Walks to SE Varrock mine (from Al-Kharid)
+5. ✅ Mines copper and tin ore (using prospecting to filter iron)
+6. ✅ Walks to Al-Kharid furnace
+7. ✅ Smelts bronze bars (demonstrated in Run 001)
+8. ⏳ Repeats until level 10 (blocked by server disconnects)
+
+**Remaining Issues:**
+- Server instability causes frequent disconnects
+- Walking from Lumbridge to mine is blocked by obstacles
+- Server XP rates are boosted (310 XP per bar vs 6.25 standard)
+
+**Recommended Flow:**
+1. Sell shortbow → get coins
+2. Go to Al-Kharid first (pay toll)
+3. Walk to SE Varrock mine from Al-Kharid (more reliable path)
+4. Mine copper/tin
+5. Walk to furnace (in Al-Kharid)
+6. Smelt bars
+7. Repeat
+

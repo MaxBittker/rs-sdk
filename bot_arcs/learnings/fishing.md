@@ -62,11 +62,13 @@ while (true) {
 
 ## Safe Fishing Locations
 
-| Location | Coordinates | Notes |
-|----------|-------------|-------|
-| Draynor Village | (3087, 3230) | Level 1 friendly, but dark wizards nearby to the north |
-| Lumbridge Swamp | (3239, 3147) | Safe, close to Lumbridge |
-| Barbarian Village | (3104, 3432) | Fly fishing (level 20+) |
+| Location | Coordinates | Spot Type | Notes |
+|----------|-------------|-----------|-------|
+| **Draynor Village** | **(3087, 3230)** | **Net/Bait** | **USE THIS for level 1.** Shrimp/anchovies. Dark wizards north - stay south if you are low combat level! |
+| Lumbridge Swamp | (3239, 3147) | Lure/Bait | **WARNING: Fly fishing only (level 20+), NO small net spots!** |
+| Barbarian Village | (3104, 3432) | Lure/Bait | Fly fishing (level 20+) |
+
+**COMMON MISTAKE**: Lumbridge area (3238, 3251) has NO level-1 fishing spots. Use Draynor!
 
 ## Handling Drift
 

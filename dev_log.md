@@ -46,7 +46,7 @@ Example prompt:
 > now, I would like you to use subagents to analyze the most recent 12 runs in the runs folder, that represent long test-run trajectories of the system. They all were working towards the same goal, on 3 different accounts (the runs dont all represent clean starts). Gather knowledge on what these runs achieved during their time, what failure modes that experienced (spending multiple cycles on the same task before completing or giving up) and categorize and collate all that into an analysis of failure patterns/ inefficiencies as well as a report on what was accomplished.
 
 Stage 7:
-After a bunch of sdk fixes over the course of day or two, I started to feel diminishing returns from this approach, because there was a blurring of real sdk bugs with system prompt issues, as well as the fact that runs were succeeding for longer and longer periods of time, making the analysis slower. I zig-zagged back to determinstic scripts, and wrote scripts/METHODOLOGY.md, "A scientific approach to developing and iterating on automation scripts." This idea behind this was very similar to my unit tests, where I would Ralph a script with a fixed goal or even a reward function, like "Gain as high of a combat level in 5 minutes as you can", "Travel from Lumbridge to Varrok as quickly as possible" or "make as much gp selling fletched logs as you can in 5 minutes"
+After a bunch of sdk fixes over the course of day or two, I started to feel diminishing returns from this approach, because there was a blurring of real sdk bugs with system prompt issues, as well as the fact that runs were succeeding for longer and longer periods of time, making the analysis slower. I zig-zagged back to determinstic scripts, and wrote scripts/CLAUDE.md, "A scientific approach to developing and iterating on automation scripts." This idea behind this was very similar to my unit tests, where I would Ralph a script with a fixed goal or even a reward function, like "Gain as high of a combat level in 5 minutes as you can", "Travel from Lumbridge to Varrok as quickly as possible" or "make as much gp selling fletched logs as you can in 5 minutes"
 
 instead of an agent fully in the decision making loop, I would have it write a determinstic script, run it, evaluate it, and then improve it iteratively while writing notes into a lab log. This pattern was great because I could have several running at once, and they left a great paper trail that could be mined for insights when it had run a long course of attempted improvement. 
 I would ask the bot after an hour of attemping to improve the 5 minute script - what insights it had gain gained into the strategy of the problem, into the sdk you are using, and into the meta process of improving these scripts. Each run would yield interesting insights here, and I would manualy curate which ones seemed relevent and 
@@ -60,7 +60,7 @@ Example goal definition :
 
 >this bots goals will be combat, cooked meat for healing, cash from selling drops, and purchased armor and sword
 >  upgrades from varrok. Our goal is to procede from bronze->iron->steel and beyond. Your success metric is atk+str+def+hp level + money to buy armor + value of worn items. Work according to
-> @bot_arcs/METHODOLOGY.md , god speed!!
+> @bot_arcs/CLAUDE.md , god speed!!
 
 
 (these were really fun to write)

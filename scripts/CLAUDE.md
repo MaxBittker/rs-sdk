@@ -2,6 +2,8 @@
 
 A scientific approach to developing and iterating on automation scripts.
 
+**Scope**: Fresh accounts, single-play session scripts. 
+
 ## Core Principles
 
 1. **Fail Fast** - Detect stagnation early. If no progress for 30s, abort and log why.
@@ -12,7 +14,9 @@ A scientific approach to developing and iterating on automation scripts.
 
 4. **Insights Over Data** - Log meaningful events (actions taken, outcomes) not noise. The goal is to extract learnings like "this approach worked" or "this caused failure."
 
-5. **Robustness at depth** - Scripts improve via the lab log cycle: run → observe → hypothesize → fix → repeat. We want to stay simple but scale towards success at longer goal time horizons.
+5. **Confidence-Based Timeouts** - Start with short runs (1-3 mins) to validate new approaches, then extend as confidence builds if need more time
+
+6. **Robustness at depth** - Scripts improve via the lab log cycle: run → observe → hypothesize → fix → repeat. We want to stay simple but scale towards success at longer goal time horizons.
 
 ## The Iteration Cycle
 
@@ -44,7 +48,7 @@ This is a closed-loop process. Writing code without running it is incomplete wor
 
 ```
 scripts/
-├── METHODOLOGY.md              # This file
+├── CLAUDE.md                   # This file
 ├── script_best_practices.md    # Common patterns & pitfalls
 ├── script-runner.ts            # Shared runner infrastructure
 └── <script-name>/              # Each script is self-contained
@@ -100,11 +104,25 @@ runScript({
 
 | Event Type | Contents |
 |------------|----------|
-| `action` | BotActions calls with args, result, duration |
+| `action` | BotActions calls with args, result, duration, **state delta** |
 | `console` | Script's log/warn/error output |
 | `state` | Periodic state snapshots (every 10s) |
 | `screenshot` | Visual state (every 30s) |
-| `error` | Failures with context |
+| `error` | Failures with full stack trace and game state context |
+
+**State deltas** show what changed after each action:
+```
+[delta] LEVEL UP: Fishing 4 -> 5 | XP: Fishing +40xp | +INV: Raw shrimps x3
+[delta] HP: 10 -> 7 (-3) | KILLED: Goblin
+[delta] EQUIPPED: Bronze sword | -INV: Coins x50
+```
+
+**Console deduplication** collapses repeated messages:
+```
+Waiting for fishing spot...
+  [x4]
+Found spot, fishing...
+```
 
 ### Configuration
 
@@ -118,6 +136,18 @@ interface ScriptConfig {
   screenshotInterval?: number; // Screenshot frequency (default: 30s)
 }
 ```
+
+### Choosing Timeouts
+
+Choose timeout based on confidence in the approach:
+
+| Duration | Use Case |
+|----------|----------|
+| **1-2m** | New scripts, untested approaches, debugging |
+| **5m** | Validated approach, building confidence |
+| **10m+** | Proven strategy, final optimization runs |
+
+**Pattern**: Start short, extend as you prove it works. A failed 10-minute run wastes more time than five 2-minute diagnostic runs.
 
 ## Lab Log Format
 
@@ -158,6 +188,24 @@ Add `await bot.pickupItem(/bones|coins/)` after combat ends
 - Add eating when HP low
 ```
 
+## Handling Surprise
+
+**Surprise is normal.** Scripts fail. Actions don't work. Something unexpected happens. When this occurs:
+
+1. **Don't panic** - Read the error output carefully. The runner now shows full stack traces and game state.
+2. **Drop to a short timeout** - Switch to a 1-minute diagnostic run to understand what's happening.
+3. **Check the state delta** - Did the action actually change anything? The `[delta]` output tells you.
+4. **Review game messages** - Often the game tells you why something failed ("You can't reach that", "Inventory full", etc.)
+
+### Common Surprises
+
+| Surprise | What to check | Response |
+|----------|---------------|----------|
+| **Action does nothing** | Is dialog open? Is there an obstacle? | Check `state.dialog.isOpen`, try `bot.dismissBlockingUI()` |
+| **Can't find NPC/object** | Are we in the right place? Did it despawn? | Log position, check `nearbyNpcs`/`nearbyLocs` |
+| **Script stalls** | Is player animating? Stuck in dialog? | Check `player.animId`, `dialog.isOpen` |
+| **Unexpected error** | Read the full stack trace | The state context shows position, HP, inventory |
+
 ## Best Practices
 
 See **[script_best_practices.md](./script_best_practices.md)** for detailed patterns and common pitfalls (dialog handling, fishing spots, state quirks, etc.).
@@ -173,10 +221,11 @@ See **[script_best_practices.md](./script_best_practices.md)** for detailed patt
 
 3. **Call `ctx.progress()`** after meaningful actions to reset stall timer
 4. **Use `ctx.log()`** for key decisions - it goes to events.jsonl for later analysis
-5. **Review events.jsonl** to understand what happened
-6. **Document insights** in lab_log.md - patterns that work, issues that fail
-7. **One change at a time** - easier to attribute improvements/regressions
-8. **Commit working versions** before major changes
+5. **Watch the `[delta]` output** - It tells you what actually changed after each action
+6. **Review events.jsonl** to understand what happened
+7. **Document insights** in lab_log.md - patterns that work, issues that fail
+8. **One change at a time** - easier to attribute improvements/regressions
+9. **Commit working versions** before major changes
 
 ## Learnings Section
 

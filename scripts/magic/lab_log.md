@@ -92,3 +92,46 @@ Had to kill stuck browser between runs - shared browser mode can get stuck somet
 - None encountered - the magic combat API works correctly
 - `sendSpellOnNpc(npcIndex, spellComponent)` is intuitive
 - Spell constants should be documented somewhere (currently in save-generator.ts)
+
+---
+
+## Run 003 - Range Fix
+
+**Outcome**: ISSUE IDENTIFIED
+**Issue**: "I can't reach that" errors when chickens wandered away
+
+### Root Cause
+The script was using `sendSpellOnNpc()` directly without checking if the player was close enough. When chickens moved, the player would follow but try to cast while moving, or from too far away.
+
+### Fix Applied
+1. Added distance check before casting - if `target.distance > 5`, walk toward target first
+2. Added game message checking for "can't reach" failures
+3. Use `target.x` and `target.z` to walk directly to the NPC position
+
+```typescript
+// Walk closer if target is far
+if (target.distance > 5) {
+    ctx.log(`Walking toward ${target.name} at (${target.x}, ${target.z})`);
+    await ctx.bot.walkTo(target.x, target.z);
+    continue;
+}
+```
+
+---
+
+## Run 004 - Verification After Fix
+
+**Outcome**: SUCCESS
+**Duration**: 35.5s
+**Final Level**: 11 (from 1)
+
+### What Worked
+- All 4 casts were at dist=4 (within range)
+- 100% hit rate (no splashes this run - luck or higher accuracy at close range?)
+- Level 11 achieved with only 4 runes used
+- No "can't reach" errors
+
+### Key Learning
+- Magic range is ~10 tiles but line-of-sight matters
+- Walking to within 5 tiles before casting ensures reliable hits
+- Checking `target.distance` before casting prevents wasted attempts

@@ -21,6 +21,230 @@ import { BotActions } from '../agent/bot-actions';
 import type { BotWorldState } from '../agent/types';
 
 // ============================================================================
+// State Delta Types & Computation
+// ============================================================================
+
+interface StateDelta {
+    skillLevelUps: Array<{ skill: string; oldLevel: number; newLevel: number }>;
+    skillXpGains: Array<{ skill: string; xpGained: number }>;
+    itemsGained: Array<{ name: string; count: number }>;
+    itemsLost: Array<{ name: string; count: number }>;
+    equipmentChanged: Array<{ slot: string; from?: string; to?: string }>;
+    hpChanged?: { from: number; to: number };
+    positionChanged?: { distance: number; to: { x: number; z: number } };
+    dialogOpened: boolean;
+    dialogClosed: boolean;
+    shopOpened: boolean;
+    shopClosed: boolean;
+    newMessages: string[];
+    npcKills: string[];
+}
+
+function computeStateDelta(prev: BotWorldState, curr: BotWorldState): StateDelta {
+    const delta: StateDelta = {
+        skillLevelUps: [],
+        skillXpGains: [],
+        itemsGained: [],
+        itemsLost: [],
+        equipmentChanged: [],
+        dialogOpened: false,
+        dialogClosed: false,
+        shopOpened: false,
+        shopClosed: false,
+        newMessages: [],
+        npcKills: []
+    };
+
+    // Skill level-ups and XP gains
+    for (const currSkill of curr.skills) {
+        const prevSkill = prev.skills.find(s => s.name === currSkill.name);
+        if (prevSkill) {
+            if (currSkill.baseLevel > prevSkill.baseLevel) {
+                delta.skillLevelUps.push({
+                    skill: currSkill.name,
+                    oldLevel: prevSkill.baseLevel,
+                    newLevel: currSkill.baseLevel
+                });
+            }
+            const xpGained = currSkill.experience - prevSkill.experience;
+            if (xpGained >= 10) {
+                delta.skillXpGains.push({ skill: currSkill.name, xpGained });
+            }
+        }
+    }
+
+    // Inventory changes - aggregate by item name
+    const prevInvCounts = new Map<string, number>();
+    const currInvCounts = new Map<string, number>();
+    for (const item of prev.inventory) {
+        prevInvCounts.set(item.name, (prevInvCounts.get(item.name) || 0) + item.count);
+    }
+    for (const item of curr.inventory) {
+        currInvCounts.set(item.name, (currInvCounts.get(item.name) || 0) + item.count);
+    }
+
+    // Items gained
+    currInvCounts.forEach((currCount, name) => {
+        const prevCount = prevInvCounts.get(name) || 0;
+        if (currCount > prevCount) {
+            delta.itemsGained.push({ name, count: currCount - prevCount });
+        }
+    });
+    // Items lost
+    prevInvCounts.forEach((prevCount, name) => {
+        const currCount = currInvCounts.get(name) || 0;
+        if (prevCount > currCount) {
+            delta.itemsLost.push({ name, count: prevCount - currCount });
+        }
+    });
+
+    // Equipment changes - compare by slot
+    const equipSlots = ['Head', 'Cape', 'Neck', 'Weapon', 'Body', 'Shield', 'Legs', 'Hands', 'Feet', 'Ring', 'Ammo'];
+    for (let i = 0; i < equipSlots.length; i++) {
+        const slotName = equipSlots[i];
+        if (!slotName) continue;
+        const prevItem = prev.equipment[i];
+        const currItem = curr.equipment[i];
+        const prevName = prevItem?.name || null;
+        const currName = currItem?.name || null;
+        if (prevName !== currName) {
+            delta.equipmentChanged.push({
+                slot: slotName,
+                from: prevName || undefined,
+                to: currName || undefined
+            });
+        }
+    }
+
+    // HP changes
+    const prevHp = prev.skills.find(s => s.name === 'Hitpoints');
+    const currHp = curr.skills.find(s => s.name === 'Hitpoints');
+    if (prevHp && currHp && prevHp.level !== currHp.level) {
+        delta.hpChanged = { from: prevHp.level, to: currHp.level };
+    }
+
+    // Position changes (threshold: > 2 tiles)
+    if (prev.player && curr.player) {
+        const dx = curr.player.worldX - prev.player.worldX;
+        const dz = curr.player.worldZ - prev.player.worldZ;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+        if (dist > 2) {
+            delta.positionChanged = {
+                distance: Math.round(dist),
+                to: { x: curr.player.worldX, z: curr.player.worldZ }
+            };
+        }
+    }
+
+    // UI state changes
+    if (!prev.dialog.isOpen && curr.dialog.isOpen) delta.dialogOpened = true;
+    if (prev.dialog.isOpen && !curr.dialog.isOpen) delta.dialogClosed = true;
+    if (!prev.shop.isOpen && curr.shop.isOpen) delta.shopOpened = true;
+    if (prev.shop.isOpen && !curr.shop.isOpen) delta.shopClosed = true;
+
+    // New game messages (filter by tick, skip noise)
+    const prevMaxTick = Math.max(0, ...prev.gameMessages.map(m => m.tick));
+    const noisePatterns = [/^Welcome to RuneScape/i, /^You can access/i];
+    delta.newMessages = curr.gameMessages
+        .filter(m => m.tick > prevMaxTick)
+        .filter(m => !noisePatterns.some(p => p.test(m.text)))
+        .slice(0, 3)
+        .map(m => m.text);
+
+    // Track NPCs that were killed
+    const currNpcIndices = new Set(curr.nearbyNpcs.map(n => n.index));
+    const recentDamageTargets = new Set<number>();
+    for (const event of curr.combatEvents) {
+        if (event.type === 'damage_dealt' && event.targetType === 'npc') {
+            recentDamageTargets.add(event.targetIndex);
+        }
+    }
+
+    for (const prevNpc of prev.nearbyNpcs) {
+        if (prevNpc.distance <= 10 && !currNpcIndices.has(prevNpc.index)) {
+            const wasInCombatWithZeroHp = prevNpc.inCombat && prevNpc.hp === 0 && prevNpc.healthPercent !== null;
+            const hadLowHealth = prevNpc.healthPercent !== null && prevNpc.healthPercent <= 5;
+            const weDealtDamage = recentDamageTargets.has(prevNpc.index);
+
+            if (wasInCombatWithZeroHp || (hadLowHealth && weDealtDamage)) {
+                delta.npcKills.push(prevNpc.name);
+            }
+        }
+    }
+
+    return delta;
+}
+
+function formatDelta(delta: StateDelta): string | null {
+    const lines: string[] = [];
+
+    // Level-ups (most important)
+    if (delta.skillLevelUps.length > 0) {
+        const ups = delta.skillLevelUps.map(s => `${s.skill} ${s.oldLevel} -> ${s.newLevel}`).join(', ');
+        lines.push(`LEVEL UP: ${ups}`);
+    }
+
+    // HP changes
+    if (delta.hpChanged) {
+        const diff = delta.hpChanged.to - delta.hpChanged.from;
+        const sign = diff > 0 ? '+' : '';
+        lines.push(`HP: ${delta.hpChanged.from} -> ${delta.hpChanged.to} (${sign}${diff})`);
+    }
+
+    // Equipment changes
+    for (const eq of delta.equipmentChanged) {
+        if (eq.to && eq.from) {
+            lines.push(`EQUIPPED: ${eq.to} (was ${eq.from})`);
+        } else if (eq.to) {
+            lines.push(`EQUIPPED: ${eq.to}`);
+        } else if (eq.from) {
+            lines.push(`UNEQUIPPED: ${eq.from}`);
+        }
+    }
+
+    // Inventory changes
+    if (delta.itemsGained.length > 0) {
+        const gained = delta.itemsGained.map(i => i.count > 1 ? `${i.name} x${i.count}` : i.name).join(', ');
+        lines.push(`+INV: ${gained}`);
+    }
+    if (delta.itemsLost.length > 0) {
+        const lost = delta.itemsLost.map(i => i.count > 1 ? `${i.name} x${i.count}` : i.name).join(', ');
+        lines.push(`-INV: ${lost}`);
+    }
+
+    // XP gains (summarize)
+    if (delta.skillXpGains.length > 0) {
+        const xp = delta.skillXpGains.map(s => `${s.skill} +${s.xpGained}xp`).join(', ');
+        lines.push(`XP: ${xp}`);
+    }
+
+    // Position
+    if (delta.positionChanged) {
+        lines.push(`MOVED: ${delta.positionChanged.distance} tiles to (${delta.positionChanged.to.x}, ${delta.positionChanged.to.z})`);
+    }
+
+    // UI changes
+    if (delta.dialogOpened) lines.push('Dialog opened');
+    if (delta.dialogClosed) lines.push('Dialog closed');
+    if (delta.shopOpened) lines.push('Shop opened');
+    if (delta.shopClosed) lines.push('Shop closed');
+
+    // Messages
+    if (delta.newMessages.length > 0) {
+        const msgs = delta.newMessages.map(m => `"${m}"`).join('; ');
+        lines.push(`MSG: ${msgs}`);
+    }
+
+    // NPC kills
+    if (delta.npcKills.length > 0) {
+        lines.push(`KILLED: ${delta.npcKills.join(', ')}`);
+    }
+
+    if (lines.length === 0) return null;
+    return lines.join(' | ');
+}
+
+// ============================================================================
 // Types
 // ============================================================================
 
@@ -105,10 +329,11 @@ export class DisconnectError extends Error {
 // ============================================================================
 
 /**
- * Creates a proxy around BotActions that logs all method calls
+ * Creates a proxy around BotActions that logs all method calls with state deltas
  */
 function createInstrumentedBot(
     bot: BotActions,
+    sdk: BotSDK,
     recorder: RunRecorder,
     onProgress: () => void
 ): BotActions {
@@ -120,17 +345,33 @@ function createInstrumentedBot(
             if (typeof value === 'function' && prop !== 'constructor') {
                 return async (...args: unknown[]) => {
                     const startTime = Date.now();
+                    const stateBefore = sdk.getState();
+
                     try {
                         const result = await value.apply(target, args);
                         const durationMs = Date.now() - startTime;
+                        const stateAfter = sdk.getState();
 
-                        // Log the action
+                        // Compute state delta
+                        let deltaStr: string | undefined;
+                        if (stateBefore && stateAfter) {
+                            const delta = computeStateDelta(stateBefore, stateAfter);
+                            deltaStr = formatDelta(delta) || undefined;
+                        }
+
+                        // Log the action with delta
                         recorder.logAction(
                             String(prop),
                             formatArgs(args),
                             result,
-                            durationMs
+                            durationMs,
+                            deltaStr
                         );
+
+                        // Log delta to console if present
+                        if (deltaStr) {
+                            console.log(`  [delta] ${deltaStr}`);
+                        }
 
                         // Mark progress on successful action
                         onProgress();
@@ -138,12 +379,27 @@ function createInstrumentedBot(
                         return result;
                     } catch (err) {
                         const durationMs = Date.now() - startTime;
+                        const stateAfter = sdk.getState();
+
+                        // Still compute delta on error (partial progress may have occurred)
+                        let deltaStr: string | undefined;
+                        if (stateBefore && stateAfter) {
+                            const delta = computeStateDelta(stateBefore, stateAfter);
+                            deltaStr = formatDelta(delta) || undefined;
+                        }
+
                         recorder.logAction(
                             String(prop),
                             formatArgs(args),
                             { error: err instanceof Error ? err.message : String(err) },
-                            durationMs
+                            durationMs,
+                            deltaStr
                         );
+
+                        if (deltaStr) {
+                            console.log(`  [delta] ${deltaStr}`);
+                        }
+
                         throw err;
                     }
                 };
@@ -190,35 +446,68 @@ function formatArgs(args: unknown[]): unknown[] {
 }
 
 // ============================================================================
-// Console Capture
+// Console Capture (with deduplication)
 // ============================================================================
 
 interface ConsoleCapture {
     restore: () => void;
+    flush: () => void;
 }
 
+/**
+ * Debounced console capture - suppresses successive identical messages
+ * and shows them as "message [x4]" instead of repeating
+ */
 function captureConsole(recorder: RunRecorder): ConsoleCapture {
     const originalLog = console.log;
     const originalWarn = console.warn;
     const originalError = console.error;
 
-    console.log = (...args: unknown[]) => {
-        originalLog.apply(console, args);
-        recorder.logConsole(args.map(String).join(' '), 'log');
+    // Debounce state
+    let lastMessage = '';
+    let lastLevel: 'log' | 'warn' | 'error' = 'log';
+    let repeatCount = 0;
+
+    const flushRepeated = () => {
+        if (repeatCount > 1) {
+            originalLog.apply(console, [`  [x${repeatCount}]`]);
+            recorder.logConsole(`${lastMessage} [x${repeatCount}]`, lastLevel);
+        }
+        repeatCount = 0;
+        lastMessage = '';
     };
 
-    console.warn = (...args: unknown[]) => {
-        originalWarn.apply(console, args);
-        recorder.logConsole(args.map(String).join(' '), 'warn');
+    const handleMessage = (level: 'log' | 'warn' | 'error', args: unknown[]) => {
+        const message = args.map(String).join(' ');
+
+        if (message === lastMessage && level === lastLevel) {
+            // Same message repeated - just increment counter
+            repeatCount++;
+            return;
+        }
+
+        // Different message - flush any pending repeats first
+        flushRepeated();
+
+        // Output this new message
+        const originalFn = level === 'log' ? originalLog : level === 'warn' ? originalWarn : originalError;
+        originalFn.apply(console, args);
+        recorder.logConsole(message, level);
+
+        // Track for deduplication
+        lastMessage = message;
+        lastLevel = level;
+        repeatCount = 1;
     };
 
-    console.error = (...args: unknown[]) => {
-        originalError.apply(console, args);
-        recorder.logConsole(args.map(String).join(' '), 'error');
-    };
+    console.log = (...args: unknown[]) => handleMessage('log', args);
+    console.warn = (...args: unknown[]) => handleMessage('warn', args);
+    console.error = (...args: unknown[]) => handleMessage('error', args);
 
     return {
+        flush: flushRepeated,
         restore: () => {
+            flushRepeated();
             console.log = originalLog;
             console.warn = originalWarn;
             console.error = originalError;
@@ -471,7 +760,7 @@ export function runScript(config: ScriptConfig, scriptFn: ScriptFn): void {
             }
 
             // Create instrumented bot
-            const instrumentedBot = createInstrumentedBot(bot, recorder, () => {
+            const instrumentedBot = createInstrumentedBot(bot, sdk, recorder, () => {
                 progressTracker?.markProgress();
             });
 
@@ -535,6 +824,7 @@ export function runScript(config: ScriptConfig, scriptFn: ScriptFn): void {
 
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : String(err);
+            const errorStack = err instanceof Error ? err.stack : undefined;
 
             if (err instanceof DisconnectError) {
                 console.error(`\nDISCONNECT: ${errorMessage}`);
@@ -550,11 +840,31 @@ export function runScript(config: ScriptConfig, scriptFn: ScriptFn): void {
                 recorder?.setOutcome('stall', errorMessage);
                 return 'stall';
             } else if (err instanceof TimeoutError) {
-                console.error(`\nTIMEOUT: ${errorMessage}`);
+                console.log(`\nTIMEOUT (expected): ${errorMessage}`);
                 recorder?.setOutcome('timeout', errorMessage);
                 return 'timeout';
             } else {
-                console.error(`\nERROR: ${errorMessage}`);
+                // Surface the FULL error to stdout so agents can debug
+                console.error(`\n========== SCRIPT ERROR ==========`);
+                console.error(`Message: ${errorMessage}`);
+                if (errorStack) {
+                    console.error(`\nStack trace:`);
+                    console.error(errorStack);
+                }
+                // Log current state context
+                try {
+                    const state = session?.sdk?.getState();
+                    if (state?.player) {
+                        console.error(`\nState at error:`);
+                        console.error(`  Position: (${state.player.worldX}, ${state.player.worldZ})`);
+                        console.error(`  HP: ${state.skills.find(s => s.name === 'Hitpoints')?.level ?? '?'}`);
+                        console.error(`  Inventory: ${state.inventory.length} items`);
+                        if (state.dialog.isOpen) {
+                            console.error(`  Dialog open: ${state.dialog.options.length} options`);
+                        }
+                    }
+                } catch { /* ignore state read errors */ }
+                console.error(`==================================\n`);
                 recorder?.logEvent({
                     timestamp: Date.now(),
                     type: 'error',

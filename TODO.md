@@ -10,3 +10,19 @@ The current implementation clicks blindly every 600ms without feedback on what's
 - Logging/debug mode that shows dialog flow
 
 Current behavior works but is a black box - hard to debug when dialogs don't complete as expected.
+
+
+
+Test with sonnet.
+
+
+
+nice readme with callout towards LostCity 
+
+
+
+spec for remote usage.
+
+
+
+save file Download/upload flow! (no guarantees for save file durabilitiy  

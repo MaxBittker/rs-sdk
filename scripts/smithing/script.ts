@@ -98,23 +98,36 @@ async function getCoinsFromShop(ctx: ScriptContext): Promise<boolean> {
     return coins >= 10;
 }
 
-// Walk to SE Varrock mine using waypoints
+// Walk to SE Varrock mine
+// The pathfinder should handle routing automatically
 async function walkToMine(ctx: ScriptContext): Promise<void> {
     ctx.log('Walking to SE Varrock mine...');
 
-    for (let i = 0; i < WAYPOINTS_TO_MINE.length; i++) {
-        const wp = WAYPOINTS_TO_MINE[i]!;
-        ctx.log(`Waypoint ${i+1}/${WAYPOINTS_TO_MINE.length}: (${wp.x}, ${wp.z})`);
+    const currentPos = ctx.state()?.player;
+    ctx.log(`From (${currentPos?.worldX}, ${currentPos?.worldZ}) to (${SE_VARROCK_MINE_COPPERTIN.x}, ${SE_VARROCK_MINE_COPPERTIN.z})`);
 
-        await ctx.bot.walkTo(wp.x, wp.z);
-        ctx.progress();
+    // Try direct walk to mine
+    let result = await ctx.bot.walkTo(SE_VARROCK_MINE_COPPERTIN.x, SE_VARROCK_MINE_COPPERTIN.z);
 
-        // Dismiss any dialogs
-        const state = ctx.state();
-        if (state?.dialog.isOpen) {
-            await ctx.sdk.sendClickDialog(0);
-            await new Promise(r => setTimeout(r, 300));
+    if (!result.success) {
+        ctx.log(`Direct walk failed: ${result.message}`);
+
+        // Try via an intermediate point (around Varrock east)
+        ctx.log('Trying via Varrock east gate area...');
+        const intermediate = { x: 3275, z: 3340 };
+        result = await ctx.bot.walkTo(intermediate.x, intermediate.z);
+        if (result.success) {
+            result = await ctx.bot.walkTo(SE_VARROCK_MINE_COPPERTIN.x, SE_VARROCK_MINE_COPPERTIN.z);
         }
+    }
+
+    ctx.progress();
+
+    // Dismiss any dialogs
+    const state = ctx.state();
+    if (state?.dialog.isOpen) {
+        await ctx.sdk.sendClickDialog(0);
+        await new Promise(r => setTimeout(r, 300));
     }
 
     const pos = ctx.state()?.player;
