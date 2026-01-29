@@ -4,96 +4,22 @@ You're here to play the mmo game through the progressive development of botting 
 
 ## First Time Setup
 
-**Step 1: Create an account**
+**Create a new bot using the setup script:**
 
-Ask the user for a bot name (max 12 chars, alphanumeric). If they skip, generate a random alphanumeric 9 character string.
-
-
-**Step 2: Create a bot folder (or cd into an existing one)**
+Ask the user for a bot name (max 12 chars, alphanumeric). If they skip, use the command without a username to auto-generate a random 9-character name.
 
 ```bash
-mkdir -p bots/{username}
+# With custom username
+bun scripts/create-bot.ts {username}
+
+# Auto-generate random username
+bun scripts/create-bot.ts
 ```
 
-Create three files:
-
-**bots/{username}/bot.env**
-```bash
-BOT_USERNAME={username}
-PASSWORD={random 12-char alphanumeric}
-SERVER=rs-sdk-demo.fly.dev
-```
-
-**bots/{username}/lab_log.md**
-```markdown
-# {username} Lab Log
-
-## Session 1 
-
-### Goals
--
-
-### Observations
--
-
-### Next Steps
-
-### Possible SDK Bugs or Improvements:
--
-```
-
-**bots/{username}/script.ts**
-```typescript
-#!/usr/bin/env bun
-import { BotSDK, BotActions } from '../../sdk/actions';
-
-// Load config from environment (set by bot.env)
-const BOT_USERNAME = process.env.BOT_USERNAME!;
-const PASSWORD = process.env.PASSWORD!;
-const SERVER = process.env.SERVER || 'rs-sdk-demo.fly.dev';
-
-const GATEWAY_URL = SERVER === 'localhost'
-    ? `ws://${SERVER}:7780`
-    : `wss://${SERVER}/gateway`;
-
-async function main() {
-    const sdk = new BotSDK({
-        botUsername: BOT_USERNAME,
-        password: PASSWORD,
-        gatewayUrl: GATEWAY_URL,
-        autoLaunchBrowser: true,
-    });
-
-    sdk.onConnectionStateChange((state) => {
-        console.log(`Connection: ${state}`);
-    });
-
-    await sdk.connect();
-    await sdk.waitForCondition(s => s.inGame, 60000);
-
-    const bot = new BotActions(sdk);
-    const state = sdk.getState()!;
-    console.log(`In-game as ${state.player?.name} at (${state.player?.worldX}, ${state.player?.worldZ})`);
-
-    // === YOUR SCRIPT LOGIC BELOW ===
-
-    // Example: chop a tree
-    const tree = sdk.findNearbyLoc(/^tree$/i);
-    if (tree) {
-        console.log(`Found tree at (${tree.x}, ${tree.z})`);
-        const result = await bot.chopTree(tree);
-        console.log(result.message);
-    }
-
-    // === END SCRIPT LOGIC ===
-
-    // Keep running for 60 seconds (adjust as needed)
-    await new Promise(r => setTimeout(r, 60_000));
-    await sdk.disconnect();
-}
-
-main().catch(console.error);
-```
+This automatically creates:
+- `bots/{username}/bot.env` - Credentials with auto-generated password
+- `bots/{username}/lab_log.md` - Session notes template
+- `bots/{username}/script.ts` - Ready-to-run starter script
 
 ## Session Workflow
 
@@ -110,6 +36,8 @@ cd bots/{username} && bun --env-file=bot.env ../../sdk/cli.ts
 This shows: position, inventory, skills, nearby NPCs/objects, and more.
 
 **Exception**: Skip this if you just created the character and know it's at spawn.
+
+**Tutorial Check**: If the character is in the tutorial area, call `await sdk.sendSkipTutorial()` before running any other scripts. The tutorial blocks normal gameplay.
 
 ### 2. Write Your Script
 
@@ -153,52 +81,6 @@ await new Promise(r => setTimeout(r, 5 * 60_000));  // 5 minutes
 ```
 
 ## SDK Quick Reference
-
-### Checking State
-
-```typescript
-const state = sdk.getState();           // Full world state
-const skill = sdk.getSkill('Woodcutting');
-const item = sdk.findInventoryItem(/logs/i);
-const npc = sdk.findNearbyNpc(/chicken/i);
-const loc = sdk.findNearbyLoc(/tree/i);
-const loot = sdk.findGroundItem(/bones/i);
-```
-
-### High-Level Actions (BotActions)
-
-These wait for the effect to complete:
-
-```typescript
-await bot.walkTo(x, z);           // Pathfinding + arrival
-await bot.chopTree();             // Waits for logs in inventory
-await bot.attackNpc(/chicken/i);  // Engage in combat
-await bot.pickupItem(/bones/i);   // Walk + pickup
-await bot.openShop(/keeper/i);    // Find NPC, trade
-await bot.equipItem(/sword/i);    // Equip from inventory
-await bot.eatFood(/shrimp/i);     // Eat food
-```
-
-### Low-Level Actions (BotSDK)
-
-These resolve when the server acknowledges, not when complete:
-
-```typescript
-await sdk.sendWalk(x, z, running);
-await sdk.sendInteractNpc(npcIndex, optionIndex);
-await sdk.sendInteractLoc(x, z, locId, optionIndex);
-await sdk.sendPickup(x, z, itemId);
-```
-
-### Waiting for Conditions
-
-```typescript
-await sdk.waitForCondition(s => s.inventory.length > 5, 10000);
-await sdk.waitForCondition(s => !s.dialog.isOpen, 5000);
-await bot.waitForSkillLevel('Woodcutting', 10, 60000);
-```
-
-## Common Patterns
 
 ### Dismiss Level-Up Dialogs
 
