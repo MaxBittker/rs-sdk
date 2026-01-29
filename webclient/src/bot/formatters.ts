@@ -57,7 +57,8 @@ export function formatBotState(state: BotState): string {
             const npc = state.nearbyNpcs[i];
             const lvlStr = npc.combatLevel > 0 ? ` (Lvl ${npc.combatLevel})` : '';
             const hpStr = npc.maxHp > 0 ? ` HP: ${npc.hp}/${npc.maxHp}` : '';
-            const opStr = npc.options.length > 0 ? ` [${npc.options.join(', ')}]` : '';
+            const opts = npc.optionsWithIndex.map(o => o.text);
+            const opStr = opts.length > 0 ? ` [${opts.join(', ')}]` : '';
             lines.push(`${npc.name}${lvlStr}${hpStr} - ${npc.distance} tiles${opStr}`);
         }
         if (state.nearbyNpcs.length > 5) {
@@ -81,35 +82,14 @@ export function formatBotState(state: BotState): string {
     }
     lines.push('');
 
-    // Nearby Locations (interactable objects)
+    // Nearby Locations (interactable objects) - now on-demand via SDK scan methods
     lines.push('--- NEARBY OBJECTS ---');
-    if (state.nearbyLocs.length === 0) {
-        lines.push('None');
-    } else {
-        for (let i = 0; i < Math.min(8, state.nearbyLocs.length); i++) {
-            const loc = state.nearbyLocs[i];
-            const opStr = loc.options.length > 0 ? ` [${loc.options.join(', ')}]` : '';
-            lines.push(`${loc.name} at (${loc.x}, ${loc.z}) - ${loc.distance} tiles${opStr}`);
-        }
-        if (state.nearbyLocs.length > 8) {
-            lines.push(`... and ${state.nearbyLocs.length - 8} more`);
-        }
-    }
+    lines.push('(Use sdk.scanNearbyLocs() for on-demand scan)');
     lines.push('');
 
-    // Ground items
+    // Ground items - now on-demand via SDK scan methods
     lines.push('--- GROUND ITEMS ---');
-    if (state.groundItems.length === 0) {
-        lines.push('None');
-    } else {
-        for (let i = 0; i < Math.min(5, state.groundItems.length); i++) {
-            const item = state.groundItems[i];
-            lines.push(`${item.name} x${item.count} - ${item.distance} tiles`);
-        }
-        if (state.groundItems.length > 5) {
-            lines.push(`... and ${state.groundItems.length - 5} more`);
-        }
-    }
+    lines.push('(Use sdk.scanGroundItems() for on-demand scan)');
     lines.push('');
 
     // Recent game messages
@@ -265,20 +245,14 @@ export function formatWorldStateForAgent(state: BotWorldState, goal: string): st
         for (const npc of state.nearbyNpcs.slice(0, 8)) {
             const lvl = npc.combatLevel > 0 ? ` (Lvl ${npc.combatLevel})` : '';
             const hp = npc.maxHp > 0 ? ` HP: ${npc.hp}/${npc.maxHp}` : '';
-            const opts = npc.options.length > 0 ? ` [${npc.options.join(', ')}]` : '';
+            const optTexts = npc.optionsWithIndex.map(o => o.text);
+            const opts = optTexts.length > 0 ? ` [${optTexts.join(', ')}]` : '';
             lines.push(`- ${npc.name}${lvl}${hp} - ${npc.distance} tiles away, index: ${npc.index}${opts}`);
         }
     }
 
-    // Nearby Objects (trees, rocks, doors, etc.)
-    if (state.nearbyLocs && state.nearbyLocs.length > 0) {
-        lines.push('');
-        lines.push('### Nearby Objects');
-        for (const loc of state.nearbyLocs.slice(0, 10)) {
-            const opts = loc.options.length > 0 ? ` [${loc.options.join(', ')}]` : '';
-            lines.push(`- ${loc.name} at (${loc.x}, ${loc.z}) - ${loc.distance} tiles, id: ${loc.id}${opts}`);
-        }
-    }
+    // Nearby Objects note - scanning is now on-demand
+    // (Removed auto-display since nearbyLocs is empty until scanned)
 
     // Inventory summary
     if (state.inventory.length > 0) {
@@ -293,14 +267,8 @@ export function formatWorldStateForAgent(state: BotWorldState, goal: string): st
         }
     }
 
-    // Ground items
-    if (state.groundItems.length > 0) {
-        lines.push('');
-        lines.push('### Ground Items Nearby');
-        for (const item of state.groundItems.slice(0, 5)) {
-            lines.push(`- ${item.name} x${item.count} at (${item.x}, ${item.z}), ${item.distance} tiles`);
-        }
-    }
+    // Ground items note - scanning is now on-demand
+    // (Removed auto-display since groundItems is empty until scanned)
 
     // Recent game messages
     if (state.gameMessages && state.gameMessages.length > 0) {

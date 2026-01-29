@@ -111,7 +111,7 @@ export class GatewayConnection {
         });
     }
 
-    sendActionResult(actionId: string, result: { success: boolean; message: string }): void {
+    sendActionResult(actionId: string, result: { success: boolean; message: string; data?: any }): void {
         this.send({
             type: 'actionResult',
             actionId,

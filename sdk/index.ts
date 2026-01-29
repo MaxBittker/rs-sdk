@@ -360,6 +360,66 @@ export class BotSDK {
         return this.state?.dialog || null;
     }
 
+    // ============ On-Demand Scanning ============
+    // These methods scan the environment on-demand rather than relying on pushed state
+    // Use these for expensive scans of nearby locations and ground items
+
+    /**
+     * Scan for nearby locations (trees, rocks, doors, etc.) on-demand.
+     * This is more efficient than constantly pushing this data in state updates.
+     * @param radius - Scan radius in tiles (default 15)
+     * @returns Array of nearby locations sorted by distance
+     */
+    async scanNearbyLocs(radius?: number): Promise<NearbyLoc[]> {
+        const result = await this.sendAction({ type: 'scanNearbyLocs', radius, reason: 'SDK' });
+        if (result.success && result.data) {
+            return result.data as NearbyLoc[];
+        }
+        return [];
+    }
+
+    /**
+     * Scan for ground items on-demand.
+     * This is more efficient than constantly pushing this data in state updates.
+     * @param radius - Scan radius in tiles (default 15)
+     * @returns Array of ground items sorted by distance
+     */
+    async scanGroundItems(radius?: number): Promise<GroundItem[]> {
+        const result = await this.sendAction({ type: 'scanGroundItems', radius, reason: 'SDK' });
+        if (result.success && result.data) {
+            return result.data as GroundItem[];
+        }
+        return [];
+    }
+
+    /**
+     * Find a nearby location by name pattern (on-demand scan).
+     * @param pattern - String or RegExp to match location name
+     * @param radius - Scan radius in tiles (default 15)
+     * @returns First matching location or null
+     */
+    async scanFindNearbyLoc(pattern: string | RegExp, radius?: number): Promise<NearbyLoc | null> {
+        const locs = await this.scanNearbyLocs(radius);
+        const regex = typeof pattern === 'string'
+            ? new RegExp(pattern, 'i')
+            : pattern;
+        return locs.find(l => regex.test(l.name)) || null;
+    }
+
+    /**
+     * Find a ground item by name pattern (on-demand scan).
+     * @param pattern - String or RegExp to match item name
+     * @param radius - Scan radius in tiles (default 15)
+     * @returns First matching item or null
+     */
+    async scanFindGroundItem(pattern: string | RegExp, radius?: number): Promise<GroundItem | null> {
+        const items = await this.scanGroundItems(radius);
+        const regex = typeof pattern === 'string'
+            ? new RegExp(pattern, 'i')
+            : pattern;
+        return items.find(i => regex.test(i.name)) || null;
+    }
+
     // ============ State Subscriptions ============
 
     onStateUpdate(listener: (state: BotWorldState) => void): () => void {

@@ -39,8 +39,9 @@ import {
     type DialogState,
     type InterfaceState
 } from './types.js';
+import type { ScanProvider } from './ActionExecutor.js';
 
-export class BotStateCollector {
+export class BotStateCollector implements ScanProvider {
     private client: Client;
     // Combat event tracking
     private combatEvents: CombatEvent[] = [];
@@ -69,8 +70,8 @@ export class BotStateCollector {
             combatStyle: this.collectCombatStyle(),
             nearbyNpcs: this.collectNearbyNpcs(),
             nearbyPlayers: this.collectNearbyPlayers(),
-            nearbyLocs: this.collectNearbyLocs(),
-            groundItems: this.collectGroundItems(),
+            nearbyLocs: [],  // On-demand via scanNearbyLocs()
+            groundItems: [],  // On-demand via scanGroundItems()
             gameMessages: this.collectGameMessages(),
             menuActions: this.collectMenuActions(),
             shop: this.collectShopState(),
@@ -398,7 +399,6 @@ export class BotStateCollector {
 
                 if (objId > 0) {
                     let name = 'Unknown';
-                    const options: string[] = [];
                     const optionsWithIndex: InventoryItemOption[] = [];
 
                     try {
@@ -410,7 +410,6 @@ export class BotStateCollector {
                             for (let opIdx = 0; opIdx < obj.iop.length; opIdx++) {
                                 const op = obj.iop[opIdx];
                                 if (op) {
-                                    options.push(op);
                                     optionsWithIndex.push({ text: op, opIndex: opIdx + 1 }); // opIndex is 1-based
                                 }
                             }
@@ -422,7 +421,6 @@ export class BotStateCollector {
                         id: objId - 1,
                         name,
                         count,
-                        options,
                         optionsWithIndex
                     });
                 }
@@ -454,13 +452,11 @@ export class BotStateCollector {
             const dz = (npc.z || 0) - (player.z || 0);
             const distance = Math.max(Math.abs(dx), Math.abs(dz)) >> 7;
 
-            const options: string[] = [];
             const optionsWithIndex: NpcOption[] = [];
             if (npcType.op) {
                 for (let opIdx = 0; opIdx < npcType.op.length; opIdx++) {
                     const op = npcType.op[opIdx];
                     if (op) {
-                        options.push(op);
                         optionsWithIndex.push({ text: op, opIndex: opIdx + 1 }); // opIndex is 1-based
                     }
                 }
@@ -492,7 +488,6 @@ export class BotStateCollector {
                 combatCycle,
                 animId: npc.primarySeqId ?? -1,
                 spotanimId: npc.spotanimId ?? -1,
-                options,
                 optionsWithIndex
             });
         }
@@ -538,7 +533,8 @@ export class BotStateCollector {
         return players;
     }
 
-    private collectNearbyLocs(): NearbyLoc[] {
+    // On-demand scanning for nearby locations (implements ScanProvider)
+    scanNearbyLocs(radius?: number): NearbyLoc[] {
         const c = this.client as any;
         const locs: NearbyLoc[] = [];
         const player = c.localPlayer;
@@ -555,8 +551,8 @@ export class BotStateCollector {
         // Track seen locations to avoid duplicates (key = `${id}_${x}_${z}`)
         const seen = new Set<string>();
 
-        // Scan nearby tiles
-        const scanRadius = 15;
+        // Scan nearby tiles (default 15 tile radius)
+        const scanRadius = radius ?? 15;
         for (let dx = -scanRadius; dx <= scanRadius; dx++) {
             for (let dz = -scanRadius; dz <= scanRadius; dz++) {
                 const tileX = playerTileX + dx;
@@ -577,13 +573,11 @@ export class BotStateCollector {
                             const locType = LocType.get(locId);
                             // Include locations that have a name (skip unnamed scenery)
                             if (locType.name) {
-                                const options: string[] = [];
                                 const optionsWithIndex: LocOption[] = [];
                                 if (locType.op) {
                                     for (let i = 0; i < locType.op.length; i++) {
                                         const op = locType.op[i];
                                         if (op) {
-                                            options.push(op);
                                             optionsWithIndex.push({ text: op, opIndex: i + 1 }); // opIndex is 1-based
                                         }
                                     }
@@ -594,7 +588,6 @@ export class BotStateCollector {
                                     x: baseX + tileX,
                                     z: baseZ + tileZ,
                                     distance,
-                                    options,
                                     optionsWithIndex
                                 });
                             }
@@ -612,13 +605,11 @@ export class BotStateCollector {
                         try {
                             const locType = LocType.get(wallId);
                             if (locType.name) {
-                                const options: string[] = [];
                                 const optionsWithIndex: LocOption[] = [];
                                 if (locType.op) {
                                     for (let i = 0; i < locType.op.length; i++) {
                                         const op = locType.op[i];
                                         if (op) {
-                                            options.push(op);
                                             optionsWithIndex.push({ text: op, opIndex: i + 1 });
                                         }
                                     }
@@ -629,7 +620,6 @@ export class BotStateCollector {
                                     x: baseX + tileX,
                                     z: baseZ + tileZ,
                                     distance,
-                                    options,
                                     optionsWithIndex
                                 });
                             }
@@ -647,13 +637,11 @@ export class BotStateCollector {
                         try {
                             const locType = LocType.get(decorId);
                             if (locType.name) {
-                                const options: string[] = [];
                                 const optionsWithIndex: LocOption[] = [];
                                 if (locType.op) {
                                     for (let i = 0; i < locType.op.length; i++) {
                                         const op = locType.op[i];
                                         if (op) {
-                                            options.push(op);
                                             optionsWithIndex.push({ text: op, opIndex: i + 1 });
                                         }
                                     }
@@ -664,7 +652,6 @@ export class BotStateCollector {
                                     x: baseX + tileX,
                                     z: baseZ + tileZ,
                                     distance,
-                                    options,
                                     optionsWithIndex
                                 });
                             }
@@ -682,13 +669,11 @@ export class BotStateCollector {
                         try {
                             const locType = LocType.get(groundDecorId);
                             if (locType.name) {
-                                const options: string[] = [];
                                 const optionsWithIndex: LocOption[] = [];
                                 if (locType.op) {
                                     for (let i = 0; i < locType.op.length; i++) {
                                         const op = locType.op[i];
                                         if (op) {
-                                            options.push(op);
                                             optionsWithIndex.push({ text: op, opIndex: i + 1 });
                                         }
                                     }
@@ -699,7 +684,6 @@ export class BotStateCollector {
                                     x: baseX + tileX,
                                     z: baseZ + tileZ,
                                     distance,
-                                    options,
                                     optionsWithIndex
                                 });
                             }
@@ -714,7 +698,8 @@ export class BotStateCollector {
         return locs;
     }
 
-    private collectGroundItems(): GroundItem[] {
+    // On-demand scanning for ground items (implements ScanProvider)
+    scanGroundItems(radius?: number): GroundItem[] {
         const c = this.client as any;
         const items: GroundItem[] = [];
         const player = c.localPlayer;
@@ -730,8 +715,8 @@ export class BotStateCollector {
         const baseX = c.sceneBaseTileX || 0;
         const baseZ = c.sceneBaseTileZ || 0;
 
-        // Scan nearby tiles (within reasonable range)
-        const scanRadius = 15;
+        // Scan nearby tiles (default 15 tile radius)
+        const scanRadius = radius ?? 15;
         for (let dx = -scanRadius; dx <= scanRadius; dx++) {
             for (let dz = -scanRadius; dz <= scanRadius; dz++) {
                 const tileX = playerTileX + dx;

@@ -176,7 +176,7 @@ export class BotActions {
     // ============ Porcelain: Smart Actions ============
 
     async openDoor(target?: NearbyLoc | string | RegExp): Promise<OpenDoorResult> {
-        const door = this.resolveLocation(target, /door|gate/i);
+        const door = await this.resolveLocation(target, /door|gate/i);
         if (!door) {
             return { success: false, message: 'No door found nearby', reason: 'door_not_found' };
         }
@@ -187,7 +187,8 @@ export class BotActions {
             if (closeOpt) {
                 return { success: true, message: `${door.name} is already open`, reason: 'already_open', door };
             }
-            return { success: false, message: `${door.name} has no Open option (options: ${door.options.join(', ')})`, reason: 'no_open_option', door };
+            const optTexts = door.optionsWithIndex.map(o => o.text);
+            return { success: false, message: `${door.name} has no Open option (options: ${optTexts.join(', ')})`, reason: 'no_open_option', door };
         }
 
         if (door.distance > 2) {
@@ -196,7 +197,9 @@ export class BotActions {
                 return { success: false, message: `Could not walk to ${door.name}: ${walkResult.message}`, reason: 'walk_failed', door };
             }
 
-            const doorsNow = this.sdk.getNearbyLocs().filter(l =>
+            // Re-scan after walking
+            const locsNow = await this.sdk.scanNearbyLocs();
+            const doorsNow = locsNow.filter(l =>
                 l.x === door.x && l.z === door.z && /door|gate/i.test(l.name)
             );
             const refreshedDoor = doorsNow[0];
@@ -278,7 +281,7 @@ export class BotActions {
     async chopTree(target?: NearbyLoc | string | RegExp): Promise<ChopTreeResult> {
         await this.dismissBlockingUI();
 
-        const tree = this.resolveLocation(target, /^tree$/i);
+        const tree = await this.resolveLocation(target, /^tree$/i);
         if (!tree) {
             return { success: false, message: 'No tree found' };
         }
@@ -368,7 +371,7 @@ export class BotActions {
     }
 
     async pickupItem(target: GroundItem | string | RegExp): Promise<PickupResult> {
-        const item = this.resolveGroundItem(target);
+        const item = await this.resolveGroundItem(target);
         if (!item) {
             return { success: false, message: 'Item not found on ground', reason: 'item_not_found' };
         }
@@ -801,7 +804,7 @@ export class BotActions {
         await this.dismissBlockingUI();
 
         const banker = this.sdk.findNearbyNpc(/banker/i);
-        const bankBooth = this.sdk.findNearbyLoc(/bank booth|bank chest/i);
+        const bankBooth = await this.sdk.scanFindNearbyLoc(/bank booth|bank chest/i);
 
         let interactSuccess = false;
 
@@ -1691,7 +1694,7 @@ export class BotActions {
         }
 
         // Find anvil
-        const anvil = this.sdk.findNearbyLoc(/anvil/i);
+        const anvil = await this.sdk.scanFindNearbyLoc(/anvil/i);
         if (!anvil) {
             return { success: false, message: 'No anvil nearby', reason: 'no_anvil' };
         }
@@ -1816,17 +1819,21 @@ export class BotActions {
 
     // ============ Resolution Helpers ============
 
-    private resolveLocation(
+    /**
+     * Resolve a location target by scanning if needed.
+     * Now async because location scanning is on-demand.
+     */
+    private async resolveLocation(
         target: NearbyLoc | string | RegExp | undefined,
         defaultPattern: RegExp
-    ): NearbyLoc | null {
+    ): Promise<NearbyLoc | null> {
         if (!target) {
-            return this.sdk.findNearbyLoc(defaultPattern);
+            return this.sdk.scanFindNearbyLoc(defaultPattern);
         }
         if (typeof target === 'object' && 'x' in target) {
             return target;
         }
-        return this.sdk.findNearbyLoc(target);
+        return this.sdk.scanFindNearbyLoc(target);
     }
 
     private resolveInventoryItem(
@@ -1842,11 +1849,15 @@ export class BotActions {
         return this.sdk.findInventoryItem(target);
     }
 
-    private resolveGroundItem(target: GroundItem | string | RegExp): GroundItem | null {
+    /**
+     * Resolve a ground item target by scanning if needed.
+     * Now async because ground item scanning is on-demand.
+     */
+    private async resolveGroundItem(target: GroundItem | string | RegExp): Promise<GroundItem | null> {
         if (typeof target === 'object' && 'x' in target) {
             return target;
         }
-        return this.sdk.findGroundItem(target);
+        return this.sdk.scanFindGroundItem(target);
     }
 
     private resolveNpc(target: NearbyNpc | string | RegExp): NearbyNpc | null {

@@ -41,6 +41,9 @@ export class BotOverlay implements GatewayMessageHandler {
             onPacketLogToggle: () => {}
         });
 
+        // Wire scan provider so ActionExecutor can trigger on-demand scans
+        this.executor.setScanProvider(this.collector);
+
         // Connect to gateway
         this.gateway.connect();
 
@@ -205,7 +208,7 @@ export class BotOverlay implements GatewayMessageHandler {
         this.gateway.sendState(state, formattedState);
     }
 
-    private sendActionResult(result: { success: boolean; message: string }): void {
+    private sendActionResult(result: { success: boolean; message: string; data?: any }): void {
         if (this.currentActionId) {
             this.gateway.sendActionResult(this.currentActionId, result);
             this.ui.logAction(result.success ? 'success' : 'failed', result.message);

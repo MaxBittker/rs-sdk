@@ -37,8 +37,7 @@ export interface InventoryItem {
     id: number;
     name: string;
     count: number;
-    options: string[];                        // Display-only list of option texts
-    optionsWithIndex: InventoryItemOption[];  // Options with their actual op index
+    optionsWithIndex: InventoryItemOption[];  // Options with op index (use .map(o => o.text) for display)
 }
 
 export interface NpcOption {
@@ -69,8 +68,7 @@ export interface NearbyNpc {
     animId: number;
     /** Current spot animation ID (-1 = none) */
     spotanimId: number;
-    options: string[];           // Display-only list of option texts
-    optionsWithIndex: NpcOption[];  // Options with their actual op index
+    optionsWithIndex: NpcOption[];  // Options with op index (use .map(o => o.text) for display)
 }
 
 export interface NearbyPlayer {
@@ -102,8 +100,7 @@ export interface NearbyLoc {
     x: number;
     z: number;
     distance: number;
-    options: string[];           // Display-only list of option texts
-    optionsWithIndex: LocOption[];  // Options with their actual op index
+    optionsWithIndex: LocOption[];  // Options with op index (use .map(o => o.text) for display)
 }
 
 export interface MenuAction {
@@ -295,4 +292,7 @@ export type BotAction =
     | { type: 'setTab'; tabIndex: number; reason: string }
     | { type: 'say'; message: string; reason: string }
     | { type: 'bankDeposit'; slot: number; amount: number; reason: string }
-    | { type: 'bankWithdraw'; slot: number; amount: number; reason: string };
+    | { type: 'bankWithdraw'; slot: number; amount: number; reason: string }
+    // On-demand scanning (returns data in action result)
+    | { type: 'scanNearbyLocs'; radius?: number; reason: string }
+    | { type: 'scanGroundItems'; radius?: number; reason: string };

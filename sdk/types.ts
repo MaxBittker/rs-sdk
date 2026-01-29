@@ -49,7 +49,6 @@ export interface InventoryItem {
     id: number;
     name: string;
     count: number;
-    options: string[];
     optionsWithIndex: InventoryItemOption[];
 }
 
@@ -73,7 +72,6 @@ export interface NearbyNpc {
     combatCycle: number;
     animId: number;
     spotanimId: number;
-    options: string[];
     optionsWithIndex: NpcOption[];
 }
 
@@ -106,7 +104,6 @@ export interface NearbyLoc {
     x: number;
     z: number;
     distance: number;
-    options: string[];
     optionsWithIndex: LocOption[];
 }
 
@@ -249,11 +246,16 @@ export type BotAction =
     | { type: 'spellOnItem'; slot: number; spellComponent: number; reason: string }
     | { type: 'setTab'; tabIndex: number; reason: string }
     | { type: 'bankDeposit'; slot: number; amount: number; reason: string }
-    | { type: 'bankWithdraw'; slot: number; amount: number; reason: string };
+    | { type: 'bankWithdraw'; slot: number; amount: number; reason: string }
+    // On-demand scanning (returns data in action result)
+    | { type: 'scanNearbyLocs'; radius?: number; reason: string }
+    | { type: 'scanGroundItems'; radius?: number; reason: string };
 
 export interface ActionResult {
     success: boolean;
     message: string;
+    /** Optional data payload (used by scan actions to return results) */
+    data?: any;
 }
 
 // ============ SDK Config ============

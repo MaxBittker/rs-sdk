@@ -2,20 +2,32 @@
 // Maps BotAction types to actual game client operations
 
 import type { Client } from '#/client/Client.js';
-import type { BotAction } from './types.js';
+import type { BotAction, NearbyLoc, GroundItem } from './types.js';
 
 export interface ActionResult {
     success: boolean;
     message: string;
+    data?: any;  // Optional data payload for scan results
 }
 
 export type ActionResultOrPromise = ActionResult | Promise<ActionResult>;
 
+// Interface for on-demand scanning (provided by StateCollector)
+export interface ScanProvider {
+    scanNearbyLocs(radius?: number): NearbyLoc[];
+    scanGroundItems(radius?: number): GroundItem[];
+}
+
 export class ActionExecutor {
     private client: Client;
+    private scanProvider: ScanProvider | null = null;
 
     constructor(client: Client) {
         this.client = client;
+    }
+
+    setScanProvider(provider: ScanProvider): void {
+        this.scanProvider = provider;
     }
 
     execute(action: BotAction): ActionResultOrPromise {
@@ -213,6 +225,26 @@ export class ActionExecutor {
                         `Said: ${action.message}`,
                         'Failed to send message'
                     );
+
+                case 'scanNearbyLocs':
+                    if (!this.scanProvider) {
+                        return { success: false, message: 'No scan provider available' };
+                    }
+                    return {
+                        success: true,
+                        message: `Scanned nearby locations`,
+                        data: this.scanProvider.scanNearbyLocs(action.radius)
+                    };
+
+                case 'scanGroundItems':
+                    if (!this.scanProvider) {
+                        return { success: false, message: 'No scan provider available' };
+                    }
+                    return {
+                        success: true,
+                        message: `Scanned ground items`,
+                        data: this.scanProvider.scanGroundItems(action.radius)
+                    };
 
                 default:
                     return { success: false, message: `Unknown action type: ${(action as any).type}` };
