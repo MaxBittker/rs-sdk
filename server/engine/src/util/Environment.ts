@@ -10,7 +10,7 @@ export default {
     STANDALONE_BUNDLE: tryParseBoolean(process.env.STANDALONE_BUNDLE, false),
 
     /// web server
-    WEB_PORT: tryParseInt(process.env.WEB_PORT, process.platform === 'win32' || process.platform === 'darwin' ? 80 : 8888),
+    WEB_PORT: tryParseInt(process.env.WEB_PORT, 8888),
     WEB_ALLOWED_ORIGIN: tryParseString(process.env.WEB_ALLOWED_ORIGIN, ''),
     // WEB_SOCKET_TOKEN_RPOTECTION tightens security somewhat by embedding a token in the
     // rs2.cgi html which is sent on each login. if token is absent or wrong,
@@ -33,13 +33,13 @@ export default {
     // automatically upgrade accounts to members on successful login to a members world
     NODE_AUTO_SUBSCRIBE_MEMBERS: tryParseBoolean(process.env.NODE_AUTO_SUBSCRIBE_MEMBERS, true),
     // addxp multiplier
-    NODE_XPRATE: tryParseInt(process.env.NODE_XPRATE, 1),
+    NODE_XPRATE: tryParseInt(process.env.NODE_XPRATE, 25),
     // infinite run energy
     NODE_INFINITE_RUN: tryParseBoolean(process.env.NODE_INFINITE_RUN, true),
     // production mode!
     NODE_PRODUCTION: tryParseBoolean(process.env.NODE_PRODUCTION, false),
     // random events (anti-macro events)
-    NODE_RANDOM_EVENTS: tryParseBoolean(process.env.NODE_RANDOM_EVENTS, true),
+    NODE_RANDOM_EVENTS: tryParseBoolean(process.env.NODE_RANDOM_EVENTS, false),
     NODE_SUBMIT_INPUT: tryParseBoolean(process.env.NODE_SUBMIT_INPUT, false),
     // Maximum approximate number of storage bytes allowed per single input tracking session.
     // It does not seem remotely possible to get near this amount under normal inputs.
