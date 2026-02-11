@@ -327,6 +327,70 @@ export class ActionHelpers {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(z2 - z1, 2));
     }
 
+    // ============ Specific Door Opening ============
+
+    /**
+     * Open a specific door at exact coordinates.
+     * Used by proactive door-opening when the pathfinder identifies doors along the route.
+     * @returns true if the door was opened (or was already open)
+     */
+    async openDoorAt(doorX: number, doorZ: number): Promise<boolean> {
+        const locs = this.sdk.getNearbyLocs();
+        const door = locs.find(l => l.x === doorX && l.z === doorZ);
+        if (!door) return false;
+
+        const openOpt = door.optionsWithIndex.find(o => /^open$/i.test(o.text));
+        if (!openOpt) return true; // Already open (has Close option instead)
+
+        // Walk to an adjacent tile using raw sendWalk to avoid recursion
+        const playerState = this.sdk.getState()?.player;
+        if (playerState) {
+            const px = playerState.worldX;
+            const pz = playerState.worldZ;
+            const dx = Math.abs(px - doorX);
+            const dz = Math.abs(pz - doorZ);
+            const isAdjacent = (dx <= 1 && dz <= 1) && (dx + dz > 0);
+
+            if (!isAdjacent) {
+                const candidates = [
+                    { x: doorX, z: doorZ - 1 },
+                    { x: doorX, z: doorZ + 1 },
+                    { x: doorX - 1, z: doorZ },
+                    { x: doorX + 1, z: doorZ },
+                ].sort((a, b) => {
+                    const da = Math.abs(a.x - px) + Math.abs(a.z - pz);
+                    const db = Math.abs(b.x - px) + Math.abs(b.z - pz);
+                    return da - db;
+                });
+
+                const target = candidates[0]!;
+                await this.sdk.sendWalk(target.x, target.z, true);
+                await this.waitForMovementComplete(target.x, target.z, 1);
+            }
+        }
+
+        const startTick = this.sdk.getState()?.tick || 0;
+        await this.sdk.sendInteractLoc(doorX, doorZ, door.id, openOpt.opIndex);
+
+        try {
+            await this.sdk.waitForCondition(state => {
+                const doorNow = state.nearbyLocs.find(l =>
+                    l.x === doorX && l.z === doorZ && l.id === door.id
+                );
+                if (!doorNow) return true; // Door gone = opened
+                return !doorNow.optionsWithIndex.some(o => /^open$/i.test(o.text));
+            }, 8000);
+
+            // Verify door actually opened
+            const doorAfter = this.sdk.getState()?.nearbyLocs.find(l =>
+                l.x === doorX && l.z === doorZ && l.id === door.id
+            );
+            return !doorAfter || !doorAfter.optionsWithIndex.some(o => /^open$/i.test(o.text));
+        } catch {
+            return false;
+        }
+    }
+
     // ============ Resolution Helpers ============
 
     resolveLocation(

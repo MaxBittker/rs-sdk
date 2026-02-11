@@ -769,6 +769,11 @@ export class BotSDK {
         return this.sendAction({ type: 'interactNpc', npcIndex, optionIndex: option, reason: 'SDK' });
     }
 
+    /** Interact with a player by index and option. Option 4 = Trade. */
+    async sendInteractPlayer(playerIndex: number, option: number = 4): Promise<ActionResult> {
+        return this.sendAction({ type: 'interactPlayer', playerIndex, optionIndex: option, reason: 'SDK' });
+    }
+
     /** Talk to an NPC by index. */
     async sendTalkToNpc(npcIndex: number): Promise<ActionResult> {
         return this.sendAction({ type: 'talkToNpc', npcIndex, reason: 'SDK' });
@@ -1006,7 +1011,14 @@ export class BotSDK {
         }
 
         const destZoneAllocated = pathfinding.isZoneAllocated(level, destX, destZ);
-        const waypoints = pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
+
+        // Use multi-segment routing for long distances that exceed the
+        // 512x512 pathfinder grid; short distances use findLongPath directly.
+        const dx = Math.abs(destX - srcX);
+        const dz = Math.abs(destZ - srcZ);
+        const waypoints = (dx > 200 || dz > 200)
+            ? pathfinding.findMultiSegmentPath(level, srcX, srcZ, destX, destZ, maxWaypoints)
+            : pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
 
         // If no waypoints and destination zone isn't allocated, that's expected -
         // we just can't path there yet (might need to open a door first)
