@@ -113,7 +113,9 @@ const faladorWallTiles = [
 ];
 
 let wallsBlocked = 0;
-for (const [x, z] of faladorWallTiles) {
+for (const tile of faladorWallTiles) {
+    const x = tile[0]!;
+    const z = tile[1]!;
     // Check if any wall flag is set on this tile
     const hasWall = isFlagged(x, z, 0,
         CollisionFlag.WALL_NORTH | CollisionFlag.WALL_EAST |
@@ -130,7 +132,7 @@ if (wallsBlocked > 0) {
 }
 
 // Check Lumbridge castle door tiles are walkable (walls removed by door mask)
-const lumbridgeDoorTile = [3217, 3218]; // known door position
+const lumbridgeDoorTile = [3217, 3218] as const; // known door position
 const doorWalkable = isTileWalkable(0, lumbridgeDoorTile[0], lumbridgeDoorTile[1]);
 if (doorWalkable) {
     console.log(`  PASS: Lumbridge castle door tile is walkable (door mask working)`);
@@ -326,6 +328,25 @@ testMultiSegment('Wizards Tower to Tree Gnome Stronghold',
 // Lumbridge to Yanille (southwest, must avoid ocean)
 testMultiSegment('Lumbridge to Yanille',
     3222, 3218, 2605, 3090, { maxDist: 25 });
+
+console.log('\n--- Danger Avoidance Tests ---');
+
+// Test that the Druid Circle is impassable
+const druidCenter = { x: 2875, z: 3415 };
+const isDruidWalkable = isTileWalkable(0, druidCenter.x, druidCenter.z);
+if (!isDruidWalkable) {
+    console.log(`  PASS: Taverley Druid Circle center (${druidCenter.x}, ${druidCenter.z}) is correctly blocked`);
+    passed++;
+} else {
+    console.log(`  FAIL: Taverley Druid Circle center (${druidCenter.x}, ${druidCenter.z}) should be blocked but is walkable`);
+    failed++;
+}
+
+// Test that a path *near* the druids swerves around it
+test('Route around Druid Circle',
+    2885, 3415, 2865, 3415, {
+    forbiddenZone: { minX: 2870, maxX: 2880, minZ: 3410, maxZ: 3420 }
+});
 
 console.log(`\n========== RESULTS ==========`);
 console.log(`Passed: ${passed}/${passed + failed}`);

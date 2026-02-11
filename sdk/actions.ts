@@ -192,7 +192,7 @@ export class BotActions {
 
             if (state.dialog.isOpen) {
                 await this.sdk.sendClickDialog(0);
-                await this.sdk.waitForStateChange(2000).catch(() => {});
+                await this.sdk.waitForStateChange(2000).catch(() => { });
                 continue;
             }
 
@@ -532,7 +532,7 @@ export class BotActions {
 
                 if (state.dialog.isOpen && (state.tick - lastDialogClickTick) >= 3) {
                     lastDialogClickTick = state.tick;
-                    this.sdk.sendClickDialog(0).catch(() => {});
+                    this.sdk.sendClickDialog(0).catch(() => { });
                 }
 
                 const failureMessages = ["can't light a fire", "you need to move", "can't do that here"];
@@ -1220,7 +1220,7 @@ export class BotActions {
 
         if (!interactSuccess && bankBoothNow) {
             const bankOpt = bankBoothNow.optionsWithIndex.find(o => /^bank$/i.test(o.text)) ||
-                           bankBoothNow.optionsWithIndex.find(o => /use/i.test(o.text));
+                bankBoothNow.optionsWithIndex.find(o => /use/i.test(o.text));
             if (bankOpt) {
                 await this.sdk.sendInteractLoc(bankBoothNow.x, bankBoothNow.z, bankBoothNow.id, bankOpt.opIndex);
                 interactSuccess = true;
@@ -1349,10 +1349,10 @@ export class BotActions {
         try {
             await this.sdk.waitForCondition(s => {
                 return s.inventory.length > invCountBefore ||
-                       s.inventory.some(i => {
-                           const before = state.inventory.find(bi => bi.slot === i.slot);
-                           return before && i.count > before.count;
-                       });
+                    s.inventory.some(i => {
+                        const before = state.inventory.find(bi => bi.slot === i.slot);
+                        return before && i.count > before.count;
+                    });
             }, 5000);
 
             const finalInv = this.sdk.getInventory();
@@ -2202,7 +2202,7 @@ export class BotActions {
                 s => s.interface?.isOpen && s.interface.interfaceId === 994,
                 5000
             );
-            
+
         } catch {
             return { success: false, message: 'Smithing interface did not open', reason: 'interface_not_opened' };
         }
