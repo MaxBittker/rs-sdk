@@ -210,6 +210,8 @@ interface PlayerCombatState {
 interface PlayerState {
   name: string;
   combatLevel: number;
+  hp: number; // Current hitpoints level (boosted/drained)
+  maxHp: number; // Base hitpoints level (max HP)
   x: number;
   z: number;
   worldX: number;

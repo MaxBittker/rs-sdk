@@ -348,9 +348,15 @@ export class BotStateCollector implements ScanProvider {
             }
         }
 
+        // Hitpoints is skill index 3
+        const skillLevel = c.skillLevel || [];
+        const skillBaseLevel = c.skillBaseLevel || [];
+
         return {
             name: player.name || 'Unknown',
             combatLevel: player.combatLevel || 0,
+            hp: skillLevel[3] || 0,
+            maxHp: skillBaseLevel[3] || 0,
             x: player.x || 0,
             z: player.z || 0,
             worldX: (c.sceneBaseTileX || 0) + ((player.x || 0) >> 7),

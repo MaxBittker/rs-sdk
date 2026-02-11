@@ -182,6 +182,10 @@ export interface PlayerCombatState {
 export interface PlayerState {
     name: string;
     combatLevel: number;
+    /** Current hitpoints level (boosted/drained) */
+    hp: number;
+    /** Base hitpoints level (max HP) */
+    maxHp: number;
     x: number;
     z: number;
     worldX: number;
