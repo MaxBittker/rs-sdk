@@ -25,6 +25,11 @@
             margin: 0px 0px;
             overflow: auto;
             background-color: black;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         #game {
@@ -157,6 +162,10 @@
         }
 
         function loadSettings() {
+            // Apply canvas size (default to auto)
+            let size = localStorage.getItem('canvasSize') || 'auto';
+            setSize(size);
+
             // Load username from URL ?bot= param, or generate random if none
             const urlParams = new URLSearchParams(window.location.search);
             const botUsername = urlParams.get('bot');
@@ -329,7 +338,7 @@
                 <option value="1" id="1">1x Size</option>
                 <option value="2" id="2">2x Size</option>
                 <option value="3" id="3">3x Size</option>
-                <option value="auto" id="auto">Auto Sizing</option>
+                <option value="auto" id="auto" selected>Auto Sizing</option>
                 </optgroup>
             </select> |
             <a class="green" href="#" id="fullscreen" onclick="toggleFullscreen();">Go Fullscreen</a> |
