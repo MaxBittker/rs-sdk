@@ -758,18 +758,8 @@ export class BotActions {
                 await this.sdk.waitForTicks(1);
                 path = await this.sdk.sendFindPath(x, z, 500);
                 if (!path.success || !path.waypoints?.length) {
-                    // If destination is far, try an intermediate point within pathfinder range
-                    const dist = this.helpers.distance(pos.x, pos.z, x, z);
-                    if (dist > 200) {
-                        const ratio = 200 / dist;
-                        const midX = Math.round(pos.x + (x - pos.x) * ratio);
-                        const midZ = Math.round(pos.z + (z - pos.z) * ratio);
-                        path = await this.sdk.sendFindPath(midX, midZ, 500);
-                    }
-                    if (!path.success || !path.waypoints?.length) {
-                        console.error(`[walkTo] PATHFINDING FAILED: ${path.error ?? 'no waypoints'} - from (${pos.x}, ${pos.z}) to (${x}, ${z})`);
-                        return { success: false, message: `No path to (${x}, ${z}) from (${pos.x}, ${pos.z}): ${path.error ?? 'no waypoints'}` };
-                    }
+                    console.error(`[walkTo] PATHFINDING FAILED: ${path.error ?? 'no waypoints'} - from (${pos.x}, ${pos.z}) to (${x}, ${z})`);
+                    return { success: false, message: `No path to (${x}, ${z}) from (${pos.x}, ${pos.z}): ${path.error ?? 'no waypoints'}` };
                 }
             }
 
@@ -827,20 +817,9 @@ export class BotActions {
             // Check progress since path query started
             const distMoved = this.helpers.distance(startPos.x, startPos.z, pos.x, pos.z);
 
-            // Good progress - continue walking directly without re-querying (prevents oscillation)
             if (distMoved >= 5) {
                 poorProgressCount = 0;
-                for (let j = 0; j < 10; j++) {
-                    const result = await this.helpers.walkStepToward(x, z, tolerance, pos);
-                    if (result.status === 'arrived') return { success: true, message: 'Arrived' };
-                    if (result.status === 'stuck') break;
-                    pos = result.pos;
-                }
-                continue;
-            }
-
-            // Poor progress - might be stuck
-            if (++poorProgressCount >= 3) {
+            } else if (++poorProgressCount >= 3) {
                 if (!await tryOpenDoor()) {
                     return { success: false, message: `Stuck at (${pos.x}, ${pos.z})` };
                 }

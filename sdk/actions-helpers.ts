@@ -91,37 +91,10 @@ export class ActionHelpers {
             return true; // Already open (has Close option instead)
         }
 
-        // If we're not adjacent to the door, walk to an adjacent tile first.
-        // sendInteractLoc relies on server-side pathfinding which enforces closed
-        // door collision — it can't route through the very door we're trying to open.
-        // Raw sendWalk to an adjacent tile avoids this since we stay on our side.
-        const playerState = this.sdk.getState()?.player;
-        if (playerState) {
-            const px = playerState.worldX;
-            const pz = playerState.worldZ;
-            const dx = Math.abs(px - door.x);
-            const dz = Math.abs(pz - door.z);
-            const isAdjacent = (dx <= 1 && dz <= 1) && (dx + dz > 0);
-
-            if (!isAdjacent) {
-                // Walk toward the door — pick the adjacent tile closest to us
-                const candidates = [
-                    { x: door.x, z: door.z - 1 },
-                    { x: door.x, z: door.z + 1 },
-                    { x: door.x - 1, z: door.z },
-                    { x: door.x + 1, z: door.z },
-                ].sort((a, b) => {
-                    const da = Math.abs(a.x - px) + Math.abs(a.z - pz);
-                    const db = Math.abs(b.x - px) + Math.abs(b.z - pz);
-                    return da - db;
-                });
-
-                // Try the closest adjacent tile
-                const target = candidates[0]!;
-                await this.sdk.sendWalk(target.x, target.z, true);
-                await this.waitForMovementComplete(target.x, target.z, 1);
-            }
-        }
+        // Walk to an adjacent tile first — sendInteractLoc uses server-side
+        // pathfinding which enforces closed door collision, so it can't route
+        // through the very door we're trying to open.
+        await this.walkAdjacentTo(door.x, door.z);
 
         const startTick = this.sdk.getState()?.tick || 0;
         await this.sdk.sendInteractLoc(door.x, door.z, door.id, openOpt.opIndex);
@@ -188,6 +161,44 @@ export class ActionHelpers {
             }
         }
         return false;
+    }
+
+    // ============ Walk Adjacent ============
+
+    /**
+     * Walk to a tile adjacent to the given coordinates using raw sendWalk.
+     * Picks the closest cardinal-adjacent tile to the player.
+     * Used before interacting with doors/gates to avoid server-side pathfinding
+     * through the very door we're trying to open.
+     * @returns true if already adjacent or successfully walked adjacent
+     */
+    private async walkAdjacentTo(targetX: number, targetZ: number): Promise<boolean> {
+        const playerState = this.sdk.getState()?.player;
+        if (!playerState) return false;
+
+        const px = playerState.worldX;
+        const pz = playerState.worldZ;
+        const dx = Math.abs(px - targetX);
+        const dz = Math.abs(pz - targetZ);
+        const isAdjacent = (dx <= 1 && dz <= 1) && (dx + dz > 0);
+
+        if (isAdjacent) return true;
+
+        const candidates = [
+            { x: targetX, z: targetZ - 1 },
+            { x: targetX, z: targetZ + 1 },
+            { x: targetX - 1, z: targetZ },
+            { x: targetX + 1, z: targetZ },
+        ].sort((a, b) => {
+            const da = Math.abs(a.x - px) + Math.abs(a.z - pz);
+            const db = Math.abs(b.x - px) + Math.abs(b.z - pz);
+            return da - db;
+        });
+
+        const target = candidates[0]!;
+        await this.sdk.sendWalk(target.x, target.z, true);
+        await this.waitForMovementComplete(target.x, target.z, 1);
+        return true;
     }
 
     // ============ Movement Helpers ============
@@ -343,31 +354,7 @@ export class ActionHelpers {
         if (!openOpt) return true; // Already open (has Close option instead)
 
         // Walk to an adjacent tile using raw sendWalk to avoid recursion
-        const playerState = this.sdk.getState()?.player;
-        if (playerState) {
-            const px = playerState.worldX;
-            const pz = playerState.worldZ;
-            const dx = Math.abs(px - doorX);
-            const dz = Math.abs(pz - doorZ);
-            const isAdjacent = (dx <= 1 && dz <= 1) && (dx + dz > 0);
-
-            if (!isAdjacent) {
-                const candidates = [
-                    { x: doorX, z: doorZ - 1 },
-                    { x: doorX, z: doorZ + 1 },
-                    { x: doorX - 1, z: doorZ },
-                    { x: doorX + 1, z: doorZ },
-                ].sort((a, b) => {
-                    const da = Math.abs(a.x - px) + Math.abs(a.z - pz);
-                    const db = Math.abs(b.x - px) + Math.abs(b.z - pz);
-                    return da - db;
-                });
-
-                const target = candidates[0]!;
-                await this.sdk.sendWalk(target.x, target.z, true);
-                await this.waitForMovementComplete(target.x, target.z, 1);
-            }
-        }
+        await this.walkAdjacentTo(doorX, doorZ);
 
         const startTick = this.sdk.getState()?.tick || 0;
         await this.sdk.sendInteractLoc(doorX, doorZ, door.id, openOpt.opIndex);

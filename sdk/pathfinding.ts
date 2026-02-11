@@ -108,26 +108,6 @@ export function isZoneAllocated(level: number, x: number, z: number): boolean {
     return rsmod.isZoneAllocated(x, z, level);
 }
 
-// Find path between two points
-export function findPath(
-    level: number,
-    srcX: number,
-    srcZ: number,
-    destX: number,
-    destZ: number
-): Array<{ x: number; z: number; level: number }> {
-    if (!initialized) {
-        initPathfinding();
-    }
-
-    const waypointsRaw = rsmod.findPath(
-        level, srcX, srcZ, destX, destZ,
-        1, 1, 1, 0, -1, true, 0, 25, CollisionType.NORMAL
-    );
-
-    return unpackWaypoints(waypointsRaw);
-}
-
 // Find long-distance path (2048x2048 search grid, ±1024 tile reach)
 export function findLongPath(
     level: number,
