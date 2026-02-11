@@ -25,6 +25,11 @@
             margin: 0px 0px;
             overflow: auto;
             background-color: black;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         #game {
@@ -213,8 +218,8 @@
                     keyboardChoiceElement.value = 'hybrid';
                 }
             } else {
-                let size = localStorage.getItem('canvasSize');
-                if (size) { setSize(size); }
+                let size = localStorage.getItem('canvasSize') || 'auto';
+                setSize(size);
 
                 let controls = localStorage.getItem('hideControls');
                 if (controls === 'true') { hideControls(); }
@@ -284,7 +289,7 @@
                 <option value="1" id="1">1x Size</option>
                 <option value="2" id="2">2x Size</option>
                 <option value="3" id="3">3x Size</option>
-                <option value="auto" id="auto">Auto Sizing</option>
+                <option value="auto" id="auto" selected>Auto Sizing</option>
                 </optgroup>
             </select> |
             <select id="filtering" name="filtering" onchange="setFilter('dropdown');">

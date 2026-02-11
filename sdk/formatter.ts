@@ -1,7 +1,7 @@
 // formatter.ts - State formatting for CLI and agent consumption
 // Adapted from webclient/src/bot/formatters.ts for SDK use
 
-import type { BotWorldState, SkillState } from './types';
+import type { BotWorldState, PrayerName } from './types';
 import { PRAYER_NAMES } from './types';
 
 /**
@@ -183,7 +183,7 @@ export function formatWorldState(state: BotWorldState, stateAgeMs?: number): str
     if (state.prayers) {
         const activePrayers = state.prayers.activePrayers
             .map((active, i) => active ? PRAYER_NAMES[i] : null)
-            .filter((name): name is string => name !== null);
+            .filter((name): name is PrayerName => name !== null);
         if (activePrayers.length > 0) {
             lines.push('');
             lines.push('## Active Prayers');

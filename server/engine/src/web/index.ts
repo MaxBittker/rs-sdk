@@ -4,7 +4,6 @@ import World from '#/engine/World.js';
 import { handleClientPage, handleCacheEndpoints } from './pages/client.js';
 import { handleHiscoresPage, handleHiscoresPlayerPage, handleHiscoresOutfitPage } from './pages/hiscores.js';
 import { handleViewerAssets } from './hiscoresServer.js';
-import { handleScriptRunsListPage, handleScriptRunsForScriptPage, handleScriptRunViewerPage, handleScriptRunFilesPage } from './pages/scriptRuns.js';
 import { handleScreenshotsListPage, handleScreenshotFilePage } from './pages/screenshots.js';
 import { handleScreenshotUpload, handleExportCollisionApi } from './pages/api.js';
 import { handleDisclaimerPage, handleMapviewPage, handlePublicFiles } from './pages/static.js';
@@ -172,19 +171,6 @@ export async function startWeb() {
 
             const screenshotFileResponse = handleScreenshotFilePage(url);
             if (screenshotFileResponse) return screenshotFileResponse;
-
-            // Script runs
-            const scriptRunsListResponse = handleScriptRunsListPage(url);
-            if (scriptRunsListResponse) return scriptRunsListResponse;
-
-            const scriptRunsForScriptResponse = handleScriptRunsForScriptPage(url);
-            if (scriptRunsForScriptResponse) return scriptRunsForScriptResponse;
-
-            const scriptRunViewerResponse = handleScriptRunViewerPage(url);
-            if (scriptRunViewerResponse) return scriptRunViewerResponse;
-
-            const scriptRunFilesResponse = handleScriptRunFilesPage(url);
-            if (scriptRunFilesResponse) return scriptRunFilesResponse;
 
             // Public static files
             const publicFilesResponse = handlePublicFiles(url);

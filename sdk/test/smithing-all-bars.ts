@@ -116,7 +116,7 @@ runTest({
         const withdrew = await withdrawBars(sdk, barType.pattern, BARS_PER_TYPE);
         if (!withdrew) {
             console.log(`  ERROR: Could not withdraw ${barType.name} bars`);
-            await sdk.sendAction({ type: 'closeModal', reason: 'SDK' });
+            await sdk.sendCloseModal();
             await sdk.waitForTicks(2);
             allPassed = false;
             for (const product of PRODUCTS) {
@@ -126,7 +126,7 @@ runTest({
         }
 
         // Close bank
-        await sdk.sendAction({ type: 'closeModal', reason: 'SDK' });
+        await sdk.sendCloseModal();
         await sdk.waitForTicks(3);
 
         // Walk back to anvil

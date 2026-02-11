@@ -62,23 +62,32 @@ export function handleMapviewPage(url: URL): Response | null {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>World Map</title>
     <style>
-        body {
+        * { box-sizing: border-box; }
+        html, body {
             margin: 0;
+            padding: 0;
             background: black;
             overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            touch-action: none;
+            -webkit-overflow-scrolling: none;
+            overscroll-behavior: none;
         }
         canvas {
             display: block;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
         }
     </style>
 </head>
 <body>
-    <canvas id="canvas" width="765" height="503"></canvas>
+    <canvas id="canvas"></canvas>
     <script type="module">
         import { MapView } from '/client/mapview.js';
         const canvas = document.getElementById('canvas');

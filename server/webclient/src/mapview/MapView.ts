@@ -7,6 +7,7 @@ import Database from '#/io/Database.js';
 import Jagfile from '#/io/Jagfile.js';
 import Packet from '#/io/Packet.js';
 import { TypedArray1d, TypedArray2d } from '#/util/Arrays.js';
+import { canvas } from '#/graphics/Canvas.js';
 import { downloadUrl, sleep } from '#/util/JsUtil.js';
 
 export class MapView extends GameShell {
@@ -19,33 +20,33 @@ export class MapView extends GameShell {
     playerPositions: {x: number, z: number, level: number, name: string}[] = [];
     playerTrails: Map<string, {x: number, z: number, time: number}[]> = new Map();
     lastPlayerFetch: number = 0;
-    readonly playerPollInterval: number = 1500;
-    readonly maxTrailLength: number = 60;
-    readonly maxTrailAge: number = 60000;
+    readonly playerPollInterval: number = 750;
+    readonly maxTrailLength: number = 2000;
+    readonly maxTrailAge: number = 1800000;
 
-    // overworld
+    readonly teleportThreshold: number = 30;
+    teleportMarkers: {x: number, z: number, time: number}[] = [];
+    readonly teleportMarkerAge: number = 8000;
+    wheelDelta: number = 0;
+
+    // touch state
+    touchIds: number[] = [];
+    touchStartX: number = 0;
+    touchStartY: number = 0;
+    touchStartOffsetX: number = 0;
+    touchStartOffsetZ: number = 0;
+    pinchStartDist: number = 0;
+    pinchStartZoom: number = 0;
+    pinchMidX: number = 0;
+    pinchMidY: number = 0;
+
+    // unified: overworld (mz 44-62) + misc (mz 70-76) + underground (remapped mz 78-95)
     readonly startX: number = 3200;
     readonly startZ: number = 3200;
-    readonly sizeX: number = 20 << 6;
-    readonly sizeZ: number = 19 << 6;
-    readonly originX: number = 36 << 6;
+    readonly sizeX: number = 28 << 6;
+    readonly sizeZ: number = 52 << 6;
+    readonly originX: number = 28 << 6;
     readonly originZ: number = 44 << 6;
-
-    // underground
-    // readonly startX: number = 3200;
-    // readonly startZ: number = 9600;
-    // readonly sizeX: number = 20 << 6;
-    // readonly sizeZ: number = 21 << 6;
-    // readonly originX: number = 35 << 6;
-    // readonly originZ: number = 143 << 6;
-
-	// misc. areas (around Z 75)
-    // readonly startX: number = 2496;
-    // readonly startZ: number = 4736;
-    // readonly sizeX: number = 21 << 6;
-    // readonly sizeZ: number = 15 << 6;
-    // readonly originX: number = 28 << 6;
-    // readonly originZ: number = 65 << 6;
 
     db: Database | null = null;
 
@@ -90,7 +91,7 @@ export class MapView extends GameShell {
     lastOffsetX: number = -1;
     lastOffsetZ: number = -1;
 
-    shouldClearEmptyTiles: boolean = false;
+    shouldClearEmptyTiles: boolean = true;
     keyX: number = 5;
     keyY: number = 13;
     keyWidth: number = 140;
@@ -187,7 +188,7 @@ export class MapView extends GameShell {
     ];
 
     constructor() {
-        super();
+        super(true);
 
         this.run();
     }
@@ -282,6 +283,84 @@ export class MapView extends GameShell {
         this.drawMap(0, 0, this.sizeX, this.sizeZ, 0, 0, this.imageOverviewWidth, this.imageOverviewHeight);
         Pix2D.drawRect(0, 0, this.imageOverviewWidth, this.imageOverviewHeight, 0);
         Pix2D.drawRect(1, 1, this.imageOverviewWidth - 2, this.imageOverviewHeight - 2, this.colorInactiveBorderTL);
+
+        canvas.addEventListener('wheel', (e: WheelEvent) => {
+            e.preventDefault();
+            const delta: number = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY;
+            this.wheelDelta += delta;
+        }, { passive: false });
+
+        // Touch events for mobile panning and pinch-to-zoom
+        canvas.style.touchAction = 'none';
+        canvas.addEventListener('touchstart', (e: TouchEvent) => {
+            e.preventDefault();
+            if (e.touches.length === 1) {
+                this.touchIds = [e.touches[0].identifier];
+                this.touchStartX = e.touches[0].clientX;
+                this.touchStartY = e.touches[0].clientY;
+                this.touchStartOffsetX = this.offsetX;
+                this.touchStartOffsetZ = this.offsetZ;
+            } else if (e.touches.length === 2) {
+                this.touchIds = [e.touches[0].identifier, e.touches[1].identifier];
+                const dx: number = e.touches[1].clientX - e.touches[0].clientX;
+                const dy: number = e.touches[1].clientY - e.touches[0].clientY;
+                this.pinchStartDist = Math.sqrt(dx * dx + dy * dy);
+                this.pinchStartZoom = this.targetZoom;
+                this.pinchMidX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                this.pinchMidY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                this.touchStartOffsetX = this.offsetX;
+                this.touchStartOffsetZ = this.offsetZ;
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', (e: TouchEvent) => {
+            e.preventDefault();
+            if (e.touches.length === 1 && this.touchIds.length === 1) {
+                const dx: number = e.touches[0].clientX - this.touchStartX;
+                const dy: number = e.touches[0].clientY - this.touchStartY;
+                this.offsetX = (this.touchStartOffsetX - (dx * 2) / this.zoom) | 0;
+                this.offsetZ = (this.touchStartOffsetZ - (dy * 2) / this.zoom) | 0;
+                this.redraw = true;
+            } else if (e.touches.length >= 2 && this.touchIds.length === 2) {
+                const dx: number = e.touches[1].clientX - e.touches[0].clientX;
+                const dy: number = e.touches[1].clientY - e.touches[0].clientY;
+                const dist: number = Math.sqrt(dx * dx + dy * dy);
+                if (this.pinchStartDist > 0) {
+                    this.targetZoom = Math.max(1.5, Math.min(16, this.pinchStartZoom * (dist / this.pinchStartDist)));
+                }
+                // Pan with midpoint movement
+                const midX: number = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                const midY: number = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                const panDx: number = midX - this.pinchMidX;
+                const panDy: number = midY - this.pinchMidY;
+                this.offsetX = (this.touchStartOffsetX - (panDx * 2) / this.zoom) | 0;
+                this.offsetZ = (this.touchStartOffsetZ - (panDy * 2) / this.zoom) | 0;
+                this.redraw = true;
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', (e: TouchEvent) => {
+            e.preventDefault();
+            if (e.touches.length === 0) {
+                this.touchIds = [];
+            } else if (e.touches.length === 1) {
+                // Went from pinch to single finger — reset single-finger pan origin
+                this.touchIds = [e.touches[0].identifier];
+                this.touchStartX = e.touches[0].clientX;
+                this.touchStartY = e.touches[0].clientY;
+                this.touchStartOffsetX = this.offsetX;
+                this.touchStartOffsetZ = this.offsetZ;
+            }
+        }, { passive: false });
+
+        // Resize on orientation change / window resize
+        window.addEventListener('resize', () => {
+            this.resize(window.innerWidth, window.innerHeight);
+            this.overviewX = this.width - this.imageOverviewWidth - 5;
+            this.overviewY = this.height - this.imageOverviewHeight - 20;
+            this.keyHeight = this.height - this.keyY - 20;
+            this.redraw = true;
+        });
 
         if (this.drawArea) {
             this.drawArea.bind();
@@ -469,6 +548,19 @@ export class MapView extends GameShell {
                 this.redraw = true;
             }
         } while (key > 0);
+
+        if (this.wheelDelta !== 0) {
+            const zoomFactor: number = Math.pow(1.001, -this.wheelDelta);
+            this.targetZoom = Math.max(1.5, Math.min(16, this.targetZoom * zoomFactor));
+            this.wheelDelta = 0;
+            this.redraw = true;
+        }
+
+        // Clean up expired teleport markers
+        const markerNow: number = performance.now();
+        while (this.teleportMarkers.length > 0 && markerNow - this.teleportMarkers[0].time > this.teleportMarkerAge) {
+            this.teleportMarkers.shift();
+        }
 
         if (this.mouseClickButton == 1) {
             this.nextMouseClickX = this.mouseClickX;
@@ -720,7 +812,9 @@ export class MapView extends GameShell {
     readUnderlayData(data: Packet): void {
         while (data.available > 0) {
             const mx: number = data.g1() * 64 - this.originX;
-            const mz: number = data.g1() * 64 - this.originZ;
+            let rawMz: number = data.g1();
+            if (rawMz >= 144) rawMz -= 66;
+            const mz: number = rawMz * 64 - this.originZ;
 
             if (mx > 0 && mz > 0 && mx + 64 < this.sizeX && mz + 64 < this.sizeZ) {
                 for (let x: number = 0; x < 64; x++) {
@@ -739,7 +833,9 @@ export class MapView extends GameShell {
     readOverlayData(data: Packet): void {
         while (data.available > 0) {
             const mx: number = data.g1() * 64 - this.originX;
-            const mz: number = data.g1() * 64 - this.originZ;
+            let rawMz: number = data.g1();
+            if (rawMz >= 144) rawMz -= 66;
+            const mz: number = rawMz * 64 - this.originZ;
 
             if (mx > 0 && mz > 0 && mx + 64 < this.sizeX && mz + 64 < this.sizeZ) {
                 for (let x: number = 0; x < 64; x++) {
@@ -769,7 +865,9 @@ export class MapView extends GameShell {
     readLocData(data: Packet): void {
         while (data.available > 0) {
             const mx: number = data.g1() * 64 - this.originX;
-            const mz: number = data.g1() * 64 - this.originZ;
+            let rawMz: number = data.g1();
+            if (rawMz >= 144) rawMz -= 66;
+            const mz: number = rawMz * 64 - this.originZ;
 
             if (mx > 0 && mz > 0 && mx + 64 < this.sizeX && mz + 64 < this.sizeZ) {
                 for (let x: number = 0; x < 64; x++) {
@@ -815,7 +913,9 @@ export class MapView extends GameShell {
     readObjData(data: Packet): void {
         while (data.available > 0) {
             const mx: number = data.g1() * 64 - this.originX;
-            const mz: number = data.g1() * 64 - this.originZ;
+            let rawMz: number = data.g1();
+            if (rawMz >= 144) rawMz -= 66;
+            const mz: number = rawMz * 64 - this.originZ;
 
             if (mx > 0 && mz > 0 && mx + 64 < this.sizeX && mz + 64 < this.sizeZ) {
                 for (let x: number = 0; x < 64; x++) {
@@ -834,7 +934,9 @@ export class MapView extends GameShell {
     readNpcData(data: Packet): void {
         while (data.available > 0) {
             const mx: number = data.g1() * 64 - this.originX;
-            const mz: number = data.g1() * 64 - this.originZ;
+            let rawMz: number = data.g1();
+            if (rawMz >= 144) rawMz -= 66;
+            const mz: number = rawMz * 64 - this.originZ;
 
             if (mx > 0 && mz > 0 && mx + 64 < this.sizeX && mz + 64 < this.sizeZ) {
                 for (let x: number = 0; x < 64; x++) {
@@ -1204,6 +1306,20 @@ export class MapView extends GameShell {
                         label = label.substring(newline + 1);
                     }
                 }
+            }
+
+            // Region labels for unified map
+            const regionLabels: {label: string, x: number, z: number}[] = [
+                { label: 'Underground', x: 41 * 64 + 32, z: 86 * 64 + 32 },
+                { label: 'Misc', x: 41 * 64 + 32, z: 73 * 64 + 32 }
+            ];
+            for (const rl of regionLabels) {
+                const rx: number = rl.x - this.originX;
+                const ry: number = this.originZ + this.sizeZ - rl.z;
+                const rdx: number = (widthOffset + ((width - widthOffset) * (rx - left)) / (right - left)) | 0;
+                const rdy: number = (heightOffset + ((height - heightOffset) * (ry - top)) / (bottom - top)) | 0;
+                this.b12?.drawStringCenter(rdx + 1, rdy + 1, rl.label, 0);
+                this.b12?.drawStringCenter(rdx, rdy, rl.label, 0xffaa00);
             }
         }
 
@@ -1653,6 +1769,26 @@ export class MapView extends GameShell {
 
             const last = trail.length > 0 ? trail[trail.length - 1] : null;
             if (!last || last.x !== p.x || last.z !== p.z) {
+                // Detect teleport — add X markers
+                if (last) {
+                    const dx: number = Math.abs(p.x - last.x);
+                    const dz: number = Math.abs(p.z - last.z);
+                    if (dx > this.teleportThreshold || dz > this.teleportThreshold) {
+                        const lastZ: number = this.remapZ(last.z);
+                        const lastHx: number = last.x - this.originX;
+                        const lastHz: number = this.originZ + this.sizeZ - lastZ;
+                        if (lastHx >= 0 && lastHx < this.sizeX && lastHz >= 0 && lastHz < this.sizeZ) {
+                            this.teleportMarkers.push({ x: lastHx, z: lastHz, time: now });
+                        }
+                        const curZ: number = this.remapZ(p.z);
+                        const curHx: number = p.x - this.originX;
+                        const curHz: number = this.originZ + this.sizeZ - curZ;
+                        if (curHx >= 0 && curHx < this.sizeX && curHz >= 0 && curHz < this.sizeZ) {
+                            this.teleportMarkers.push({ x: curHx, z: curHz, time: now });
+                        }
+                    }
+                }
+
                 trail.push({ x: p.x, z: p.z, time: now });
             }
 
@@ -1672,46 +1808,111 @@ export class MapView extends GameShell {
         }
     }
 
+    remapZ(z: number): number {
+        const mz: number = (z >> 6);
+        if (mz >= 144) return z - (66 << 6);
+        return z;
+    }
+
+    drawLineAlpha(x1: number, y1: number, x2: number, y2: number, rgb: number, alpha: number): void {
+        const pixels: Int32Array = Pix2D.pixels;
+        const w: number = Pix2D.width2d;
+        const srcR: number = (rgb >> 16) & 0xff;
+        const srcG: number = (rgb >> 8) & 0xff;
+        const srcB: number = rgb & 0xff;
+        const invAlpha: number = 256 - alpha;
+
+        const dx: number = Math.abs(x2 - x1);
+        const dy: number = Math.abs(y2 - y1);
+        const sx: number = x1 < x2 ? 1 : -1;
+        const sy: number = y1 < y2 ? 1 : -1;
+        let err: number = dx - dy;
+
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            if (x1 >= Pix2D.left && x1 < Pix2D.right && y1 >= Pix2D.top && y1 < Pix2D.bottom) {
+                const off: number = x1 + y1 * w;
+                const dst: number = pixels[off];
+                const dstR: number = (dst >> 16) & 0xff;
+                const dstG: number = (dst >> 8) & 0xff;
+                const dstB: number = dst & 0xff;
+                pixels[off] = (((srcR * alpha + dstR * invAlpha) >> 8) << 16) |
+                              (((srcG * alpha + dstG * invAlpha) >> 8) << 8) |
+                              ((srcB * alpha + dstB * invAlpha) >> 8);
+            }
+
+            if (x1 === x2 && y1 === y2) break;
+            const e2: number = 2 * err;
+            if (e2 > -dy) { err -= dy; x1 += sx; }
+            if (e2 < dx) { err += dx; y1 += sy; }
+        }
+    }
+
     drawPlayers(left: number, top: number, right: number, bottom: number, widthOffset: number, heightOffset: number, width: number, height: number): void {
         const now: number = performance.now();
 
+        // Draw teleport X markers
+        for (const marker of this.teleportMarkers) {
+            const age: number = now - marker.time;
+            const fade: number = Math.max(0, 1 - age / this.teleportMarkerAge);
+
+            const screenX: number = (widthOffset + ((width - widthOffset) * (marker.x - left)) / (right - left)) | 0;
+            const screenY: number = (heightOffset + ((height - heightOffset) * (marker.z - top)) / (bottom - top)) | 0;
+
+            if (screenX < 4 || screenX >= width - 4 || screenY < 4 || screenY >= height - 4) continue;
+
+            const r: number = (fade * 255) | 0;
+            const color: number = (r << 16);
+            const size: number = 4;
+            Pix2D.drawLine(screenX - size, screenY - size, screenX + size, screenY + size, color);
+            Pix2D.drawLine(screenX + size, screenY - size, screenX - size, screenY + size, color);
+        }
+
         for (const p of this.playerPositions) {
-            if (p.level !== 0) continue;
-
+            const pz: number = this.remapZ(p.z);
             const mapX: number = p.x - this.originX;
-            const mapY: number = this.originZ + this.sizeZ - p.z;
+            const mapY: number = this.originZ + this.sizeZ - pz;
 
-            const screenX: number = (widthOffset + ((width - widthOffset) * (mapX - left)) / (right - left)) | 0;
-            const screenY: number = (heightOffset + ((height - heightOffset) * (mapY - top)) / (bottom - top)) | 0;
+            if (mapX < 0 || mapX >= this.sizeX || mapY < 0 || mapY >= this.sizeZ) continue;
 
-            if (screenX < 0 || screenX >= width || screenY < 0 || screenY >= height) continue;
-
-            // Draw trail
+            // Draw trail — recent segments bright, old segments at low alpha (stacks on overlap)
+            // Drawn independently of player dot visibility so trails render even when player is off-screen
             const trail = this.playerTrails.get(p.name);
             if (trail && trail.length > 1) {
                 for (let i: number = 1; i < trail.length; i++) {
                     const prev = trail[i - 1];
                     const curr = trail[i];
 
-                    const age: number = now - prev.time;
-                    const fade: number = Math.max(0, 1 - age / this.maxTrailAge);
+                    // Skip teleport gaps
+                    const tdx: number = Math.abs(curr.x - prev.x);
+                    const tdz: number = Math.abs(curr.z - prev.z);
+                    if (tdx > this.teleportThreshold || tdz > this.teleportThreshold) continue;
 
-                    const g: number = (fade * 255) | 0;
-                    const color: number = (g << 8);
+                    const age: number = now - curr.time;
+                    // Recent (<15s): fade from full to floor; older: hold at floor alpha
+                    const recentFade: number = Math.max(0, 1 - age / 15000);
+                    const alpha: number = (80 + recentFade * 176) | 0;
 
+                    const prevZ: number = this.remapZ(prev.z);
+                    const currZ: number = this.remapZ(curr.z);
                     const prevMapX: number = prev.x - this.originX;
-                    const prevMapY: number = this.originZ + this.sizeZ - prev.z;
+                    const prevMapY: number = this.originZ + this.sizeZ - prevZ;
                     const currMapX: number = curr.x - this.originX;
-                    const currMapY: number = this.originZ + this.sizeZ - curr.z;
+                    const currMapY: number = this.originZ + this.sizeZ - currZ;
 
                     const sx1: number = (widthOffset + ((width - widthOffset) * (prevMapX - left)) / (right - left)) | 0;
                     const sy1: number = (heightOffset + ((height - heightOffset) * (prevMapY - top)) / (bottom - top)) | 0;
                     const sx2: number = (widthOffset + ((width - widthOffset) * (currMapX - left)) / (right - left)) | 0;
                     const sy2: number = (heightOffset + ((height - heightOffset) * (currMapY - top)) / (bottom - top)) | 0;
 
-                    Pix2D.drawLine(sx1, sy1, sx2, sy2, color);
+                    this.drawLineAlpha(sx1, sy1, sx2, sy2, 0x00ff00, alpha);
                 }
             }
+
+            const screenX: number = (widthOffset + ((width - widthOffset) * (mapX - left)) / (right - left)) | 0;
+            const screenY: number = (heightOffset + ((height - heightOffset) * (mapY - top)) / (bottom - top)) | 0;
+
+            if (screenX < 0 || screenX >= width || screenY < 0 || screenY >= height) continue;
 
             // Draw player dot
             Pix2D.fillCircle(screenX, screenY, 3, 0xffff00, 256);

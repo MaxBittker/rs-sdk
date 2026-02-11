@@ -182,6 +182,10 @@ export interface PlayerCombatState {
 export interface PlayerState {
     name: string;
     combatLevel: number;
+    /** Current hitpoints level (boosted/drained) */
+    hp: number;
+    /** Base hitpoints level (max HP) */
+    maxHp: number;
     x: number;
     z: number;
     worldX: number;
@@ -308,7 +312,6 @@ export type BotAction =
     | { type: 'wait'; reason: string; ticks?: number }
     | { type: 'talkToNpc'; npcIndex: number; reason: string }
     | { type: 'interactNpc'; npcIndex: number; optionIndex: number; reason: string }
-    | { type: 'interactPlayer'; playerIndex: number; optionIndex: number; reason: string }
     | { type: 'clickDialogOption'; optionIndex: number; reason: string }
     // clickComponent: IF_BUTTON packet - for simple buttons, spellcasting, etc.
     | { type: 'clickComponent'; componentId: number; reason: string }

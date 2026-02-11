@@ -1,15 +1,11 @@
 // Local pathfinding using bundled collision data
 import * as rsmod from '../server/vendor/rsmod-pathfinder';
 import { CollisionType, CollisionFlag } from '../server/vendor/rsmod-pathfinder';
-import collisionData from './collision-data.json';
+import { readFileSync } from 'fs';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 let initialized = false;
-
-interface CollisionData {
-    tiles: Array<[number, number, number, number]>;
-    zones: Array<[number, number, number]>;
-    doors?: Array<[number, number, number, number, number, number]>; // [level, x, z, shape, angle, blockrange]
-}
 
 export interface DoorInfo {
     level: number;
@@ -27,88 +23,146 @@ const doorIndex = new Map<string, DoorInfo>();
 // are likely open ocean/void and should not be treated as walkable land.
 const populatedZones = new Set<string>();
 
-// One-way doors that should NOT be masked or included in the door index.
+// One-way doors that should NOT be unmasked in the door index.
 // These doors can only be opened from one side; routing through them traps the bot.
 const ONE_WAY_DOORS = new Set<string>([
     '0,3108,3353', // Draynor Manor front door (west tile) — only opens from outside
     '0,3109,3353', // Draynor Manor front door (east tile) — only opens from outside
 ]);
 
-// ── Draynor Manor directional door handling ──
-// The front door at (3108-3109, 3353) can only be opened from one side.
-// If the bot is inside the manor it must exit via the east wing escape doors.
-const DRAYNOR_MANOR = {
-    // Interior bounding box (level 0) — covers the main building and courtyard.
-    // Everything within the manor walls past the front door is trapped.
-    minX: 3097, maxX: 3119,
-    minZ: 3354, maxZ: 3374,
-    // Front door position (two tiles wide)
-    frontDoor: [{ x: 3108, z: 3353 }, { x: 3109, z: 3353 }],
-    // East wing escape route: walk here to get out
-    escapeExit: { x: 3125, z: 3370 },
-};
-
 function doorKey(level: number, x: number, z: number): string {
     return `${level},${x},${z}`;
 }
 
-/** Check if a position is inside Draynor Manor's ground floor interior. */
-export function isInsideDraynorManor(x: number, z: number, level: number = 0): boolean {
-    if (level !== 0) return false;
-    return x >= DRAYNOR_MANOR.minX && x <= DRAYNOR_MANOR.maxX &&
-           z >= DRAYNOR_MANOR.minZ && z <= DRAYNOR_MANOR.maxZ;
-}
-
-/** Get the Draynor Manor escape exit coordinates (outside the manor, east courtyard). */
-export function getDraynorManorEscape(): { x: number; z: number } {
-    return { ...DRAYNOR_MANOR.escapeExit };
+function unpackCoord(packed: number): { level: number; x: number; z: number } {
+    return {
+        z: packed & 0x3FFF,
+        x: (packed >> 14) & 0x3FFF,
+        level: (packed >> 28) & 0x3,
+    };
 }
 
 export function initPathfinding(): void {
     if (initialized) return;
 
-    const data = collisionData as CollisionData;
     const start = Date.now();
 
+    // Load binary collision data
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const binPath = resolve(__dirname, 'collision-data.bin');
+    const buf = readFileSync(binPath);
+    const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+
+    // Validate header
+    if (view.getUint8(0) !== 0x43 || view.getUint8(1) !== 0x4F ||
+        view.getUint8(2) !== 0x4C || view.getUint8(3) !== 0x4C) {
+        throw new Error('Invalid collision binary: bad magic bytes');
+    }
+    const version = view.getUint32(4, true);
+    if (version !== 1 && version !== 2) {
+        throw new Error(`Unsupported collision binary version: ${version}`);
+    }
+
+    const tileCount = view.getUint32(8, true);
+    const zoneCount = view.getUint32(12, true);
+    const doorCount = view.getUint32(16, true);
+    const closeDoorCount = version >= 2 ? view.getUint32(20, true) : 0;
+    const loadMs = Date.now() - start;
+
+    const headerSize = version >= 2 ? 24 : 20;
+    const tilesEnd = headerSize + tileCount * 8;
+    const zonesEnd = tilesEnd + zoneCount * 4;
+
     // Allocate all zones first (includes walkable areas with no collision tiles)
-    for (const [level, zoneX, zoneZ] of data.zones) {
-        rsmod.allocateIfAbsent(zoneX, zoneZ, level);
+    let offset = tilesEnd; // zones section starts after tiles
+    for (let i = 0; i < zoneCount; i++) {
+        const packed = view.getUint32(offset, true);
+        const { level, x, z } = unpackCoord(packed);
+        rsmod.allocateIfAbsent(x, z, level);
+        offset += 4;
+    }
+
+    // Allocate mainland zones so the 2048x2048 BFS grid can traverse
+    // open land between cities. Unallocated zones return NULL (blocked),
+    // so without this the pathfinder can't cross gaps in the collision data.
+    let mainlandZones = 0;
+    for (let x = 2304; x <= 3392; x += 8) {
+        for (let z = 2944; z <= 3584; z += 8) {
+            if (!rsmod.isZoneAllocated(x, z, 0)) {
+                rsmod.allocateIfAbsent(x, z, 0);
+                mainlandZones++;
+            }
+        }
     }
 
     // Set collision flags for tiles that have them (includes wall flags)
-    for (const [level, x, z, flags] of data.tiles) {
+    offset = headerSize; // tiles section starts after header
+    for (let i = 0; i < tileCount; i++) {
+        const packed = view.getUint32(offset, true);
+        const flags = view.getInt32(offset + 4, true); // SIGNED — bit 31 used
+        const { level, x, z } = unpackCoord(packed);
         rsmod.__set(x, z, level, flags);
-        // Track which zones have at least one collision tile (likely land, not ocean)
         populatedZones.add(`${level},${x & ~7},${z & ~7}`);
+        offset += 8;
     }
 
     // Remove wall collision at door/gate positions so the pathfinder
     // routes through doorways while still respecting permanent walls.
-    // Uses rsmod.changeWall(add=false) — the same method the server uses
-    // when doors are opened at runtime.
-    let doorCount = 0;
+    let doorsMasked = 0;
     let skippedOneWay = 0;
-    if (data.doors) {
-        for (const [level, x, z, shape, angle, blockrange] of data.doors) {
-            const key = doorKey(level, x, z);
+    offset = zonesEnd; // doors section starts after zones
+    for (let i = 0; i < doorCount; i++) {
+        const packed = view.getUint32(offset, true);
+        const shape = view.getUint8(offset + 4);
+        const angle = view.getUint8(offset + 5);
+        const blockrange = view.getUint8(offset + 6);
+        const { level, x, z } = unpackCoord(packed);
+        offset += 7;
 
-            // Skip one-way doors — keep their wall collision so the pathfinder
-            // won't route through them (entering traps the bot).
-            if (ONE_WAY_DOORS.has(key)) {
-                skippedOneWay++;
-                continue;
-            }
+        const key = doorKey(level, x, z);
 
-            rsmod.changeWall(x, z, level, angle, shape, !!blockrange, false, false);
-            doorIndex.set(key, {
-                level, x, z, shape, angle, blockrange: !!blockrange
-            });
-            doorCount++;
+        // Skip one-way doors — keep their wall collision so the pathfinder
+        // won't route through them (entering traps the bot).
+        if (ONE_WAY_DOORS.has(key)) {
+            skippedOneWay++;
+            continue;
         }
+
+        rsmod.changeWall(x, z, level, angle, shape, !!blockrange, false, false);
+        doorIndex.set(key, {
+            level, x, z, shape, angle, blockrange: !!blockrange
+        });
+        doorsMasked++;
+    }
+
+    // Add wall collision for default-open doors (closeDoors).
+    // These doors have no wall collision in the static map data because they
+    // spawn open. We add walls so the pathfinder treats them as closed,
+    // preventing routes through doorways that may be closed at runtime.
+    const doorsEnd = zonesEnd + doorCount * 7;
+    offset = doorsEnd;
+    let closeDoorsAdded = 0;
+    for (let i = 0; i < closeDoorCount; i++) {
+        const packed = view.getUint32(offset, true);
+        const shape = view.getUint8(offset + 4);
+        const angle = view.getUint8(offset + 5);
+        const blockrange = view.getUint8(offset + 6);
+        const { level, x, z } = unpackCoord(packed);
+        offset += 7;
+
+        // Add wall collision (add=true) — the opposite of what we do for "Open" doors
+        rsmod.changeWall(x, z, level, angle, shape, !!blockrange, false, true);
+        // Also add to doorIndex so findDoorsAlongPath detects them
+        const key = doorKey(level, x, z);
+        doorIndex.set(key, {
+            level, x, z, shape, angle, blockrange: !!blockrange
+        });
+        closeDoorsAdded++;
     }
 
     initialized = true;
-    console.log(`Pathfinding initialized in ${Date.now() - start}ms (${data.zones.length} zones, ${data.tiles.length} tiles, ${doorCount} doors masked, ${skippedOneWay} one-way doors blocked)`);
+    console.log(`Pathfinding initialized in ${Date.now() - start}ms (load: ${loadMs}ms) (${zoneCount} zones + ${mainlandZones} mainland fill, ${tileCount} tiles, ${doorsMasked} doors masked, ${skippedOneWay} one-way doors blocked, ${closeDoorsAdded} close-doors walled)`);
 }
 
 // Check if a zone has collision data
@@ -119,27 +173,7 @@ export function isZoneAllocated(level: number, x: number, z: number): boolean {
     return rsmod.isZoneAllocated(x, z, level);
 }
 
-// Find path between two points
-export function findPath(
-    level: number,
-    srcX: number,
-    srcZ: number,
-    destX: number,
-    destZ: number
-): Array<{ x: number; z: number; level: number }> {
-    if (!initialized) {
-        initPathfinding();
-    }
-
-    const waypointsRaw = rsmod.findPath(
-        level, srcX, srcZ, destX, destZ,
-        1, 1, 1, 0, -1, true, 0, 25, CollisionType.NORMAL
-    );
-
-    return unpackWaypoints(waypointsRaw);
-}
-
-// Find long-distance path (512x512 search grid)
+// Find long-distance path (2048x2048 search grid, ±1024 tile reach)
 export function findLongPath(
     level: number,
     srcX: number,
@@ -161,7 +195,7 @@ export function findLongPath(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  MULTI-SEGMENT ROUTING — breaks long distances into pathfinder-sized chunks
+//  UTILITIES
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /** Check if a tile is walkable (no blocking flags). */
@@ -185,134 +219,6 @@ export function isZoneLikelyLand(level: number, x: number, z: number): boolean {
     return populatedZones.has(`${level},${x & ~7},${z & ~7}`);
 }
 
-/** Maximum single-segment distance (conservative; 512/2=256 grid half, minus routing headroom). */
-const MAX_SINGLE_SEGMENT = 200;
-
-/**
- * Find the nearest walkable tile to (x, z) by spiraling outward.
- * Returns null if no walkable tile found within maxRadius.
- */
-function snapToWalkable(
-    level: number, x: number, z: number, maxRadius: number = 30
-): { x: number; z: number } | null {
-    if (!initialized) initPathfinding();
-    if (isTileWalkable(level, x, z) && isZoneAllocated(level, x, z) && isZoneLikelyLand(level, x, z)) {
-        return { x, z };
-    }
-    for (let r = 1; r <= maxRadius; r++) {
-        for (let dx = -r; dx <= r; dx++) {
-            for (let dz = -r; dz <= r; dz++) {
-                if (Math.abs(dx) !== r && Math.abs(dz) !== r) continue; // perimeter only
-                const tx = x + dx;
-                const tz = z + dz;
-                if (isTileWalkable(level, tx, tz) && isZoneAllocated(level, tx, tz) && isZoneLikelyLand(level, tx, tz)) {
-                    return { x: tx, z: tz };
-                }
-            }
-        }
-    }
-    return null;
-}
-
-/**
- * Find a path between two points that may be farther apart than the 512x512
- * pathfinder grid allows.  Recursively bisects the route into segments that
- * each fit within findLongPath's range, then concatenates the results.
- *
- * When a direct split fails (e.g. coastline blocks the midpoint), offset
- * candidates perpendicular to the travel axis are tried so the route can
- * swing around geographic obstacles.
- */
-export function findMultiSegmentPath(
-    level: number,
-    srcX: number, srcZ: number,
-    destX: number, destZ: number,
-    maxWaypoints: number = 500,
-    _depth: number = 0
-): Array<{ x: number; z: number; level: number }> {
-    if (!initialized) initPathfinding();
-
-    const dx = Math.abs(destX - srcX);
-    const dz = Math.abs(destZ - srcZ);
-
-    // Base case: within single pathfinder range
-    if (dx <= MAX_SINGLE_SEGMENT && dz <= MAX_SINGLE_SEGMENT) {
-        return findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
-    }
-
-    // Guard against excessive recursion
-    if (_depth > 6) {
-        return findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
-    }
-
-    // Build candidate split points: midpoint + 1/3 + 2/3 along the line,
-    // plus perpendicular offsets at each to route around coastline/mountains.
-    const midX = Math.round((srcX + destX) / 2);
-    const midZ = Math.round((srcZ + destZ) / 2);
-    const thirdX = Math.round(srcX + (destX - srcX) / 3);
-    const thirdZ = Math.round(srcZ + (destZ - srcZ) / 3);
-    const twoThirdX = Math.round(srcX + 2 * (destX - srcX) / 3);
-    const twoThirdZ = Math.round(srcZ + 2 * (destZ - srcZ) / 3);
-
-    // Perpendicular offset: rotate the travel vector 90 degrees
-    const travelDx = destX - srcX;
-    const travelDz = destZ - srcZ;
-    const travelLen = Math.sqrt(travelDx * travelDx + travelDz * travelDz);
-    // Perpendicular unit vector (rotated 90 degrees)
-    const perpX = -travelDz / travelLen;
-    const perpZ = travelDx / travelLen;
-
-    const splitPoints: Array<{ x: number; z: number }> = [
-        // Direct line candidates
-        { x: midX, z: midZ },
-        { x: thirdX, z: thirdZ },
-        { x: twoThirdX, z: twoThirdZ },
-    ];
-
-    // Perpendicular offsets at increasing distances to swing around obstacles
-    const perpOffsets = [80, 160, Math.round(travelLen * 0.4), Math.round(travelLen * 0.6)];
-    for (const offset of perpOffsets) {
-        splitPoints.push(
-            { x: Math.round(midX + perpX * offset), z: Math.round(midZ + perpZ * offset) },
-            { x: Math.round(midX - perpX * offset), z: Math.round(midZ - perpZ * offset) },
-        );
-    }
-
-    let bestPartial: Array<{ x: number; z: number; level: number }> = [];
-
-    for (const raw of splitPoints) {
-        const snapped = snapToWalkable(level, raw.x, raw.z);
-        if (!snapped) continue;
-
-        const firstHalf = findMultiSegmentPath(level, srcX, srcZ, snapped.x, snapped.z, maxWaypoints, _depth + 1);
-        if (firstHalf.length === 0) continue;
-
-        // Verify the first half actually reached the split point (within tolerance).
-        const lastWp = firstHalf[firstHalf.length - 1]!;
-        const reachDist = Math.abs(lastWp.x - snapped.x) + Math.abs(lastWp.z - snapped.z);
-        if (reachDist > 15) {
-            if (firstHalf.length > bestPartial.length) {
-                bestPartial = firstHalf;
-            }
-            continue;
-        }
-
-        const secondHalf = findMultiSegmentPath(level, lastWp.x, lastWp.z, destX, destZ, maxWaypoints, _depth + 1);
-        if (secondHalf.length === 0) {
-            if (firstHalf.length > bestPartial.length) {
-                bestPartial = firstHalf;
-            }
-            continue;
-        }
-
-        // Concatenate, removing duplicate at junction
-        return firstHalf.concat(secondHalf.slice(1));
-    }
-
-    // Return best partial result, or direct long path as fallback
-    if (bestPartial.length > 0) return bestPartial;
-    return findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  DOOR PATH ANALYSIS — identify doors a computed path crosses through
@@ -352,6 +258,21 @@ export function findDoorsAlongPath(
 /** Look up a door at an exact position. */
 export function getDoorAt(level: number, x: number, z: number): DoorInfo | undefined {
     return doorIndex.get(doorKey(level, x, z));
+}
+
+/**
+ * Re-add wall collision for a door that couldn't be opened (e.g. locked).
+ * This causes the pathfinder to route around it on subsequent queries.
+ * Also removes the door from the index so findDoorsAlongPath won't return it.
+ */
+export function blockDoor(level: number, x: number, z: number): boolean {
+    if (!initialized) initPathfinding();
+    const key = doorKey(level, x, z);
+    const door = doorIndex.get(key);
+    if (!door) return false;
+    rsmod.changeWall(x, z, level, door.angle, door.shape, door.blockrange, false, true);
+    doorIndex.delete(key);
+    return true;
 }
 
 // Unpack waypoints from rsmod format

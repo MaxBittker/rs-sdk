@@ -35,59 +35,52 @@ const isMining = state.player?.animId === 625;
 const isIdle = state.player?.animId === -1;
 ```
 
-## Rock IDs Are Per-Mine (NOT Universal)
+## Rock IDs → Ore Types (SE Varrock Mine)
 
-**Critical**: The same rock ID maps to different ores at different mines!
-Example: ID 2092 = **iron** at SE Varrock but **clay** at SW Varrock.
+Rocks are ALL named "Rocks" — you **must** prospect to tell them apart:
 
-Always use per-mine rock ID tables. Use `Prospect` option on unknown rocks.
+| Rock ID | Ore |
+|---------|-----|
+| 2090 | **Copper** |
+| 2091 | **Copper** |
+| 2092 | **Iron** |
+| 2093 | **Tin** |
+| 2094 | **Tin** |
+| 2095 | **Iron** |
 
-### Surveyed Rock IDs
+**IMPORTANT:** Previous learnings had 2092=tin and 2093=iron — this was WRONG.
+Always prospect or test-mine to verify on your server instance.
 
-| Mine | Rock ID | Ore |
-|------|---------|-----|
-| **SE Varrock** | 2090 | Copper |
-| | 2091 | Copper |
-| | 2092 | Iron |
-| | 2093 | Iron |
-| | 2094 | Tin |
-| | 2095 | Tin |
-| **SW Varrock** | 452 | Clay |
-| | 2092 | Clay |
-| | 2093 | Clay |
-| | 2095 | Iron |
-| | 2101 | Tin |
-| | 2108 | Silver |
-| | 2109 | Tin |
-| **Barbarian Village** | 2094 | Iron |
-| | 2096 | Tin |
-| **Coal Trucks** (Members) | 2096 | Coal |
-| | 2097 | Coal |
-| **Ardougne South** (Members) | 450 | Coal |
-| | 452 | Coal |
-| | 2092 | Iron |
-| | 2093 | Iron |
-| | 2097 | Coal |
-
-### Unsurveyed Mines
-
-These mines have not been prospected yet — the script mines any rock there:
-- Rimmington (pathfinder gets stuck south of Falador)
-- Al Kharid (requires 10gp toll gate)
-- Dwarven Mine (underground)
-- Mining Guild (underground, 60+ Mining)
-- Yanille (members)
-
-## How to Mine Specific Ore
-
+**How to mine specific ore:**
 ```typescript
-// Mine copper specifically at SE Varrock
-const COPPER_IDS = [2090, 2091]; // SE Varrock copper rock IDs
+// Mine copper specifically (IDs 2090 or 2091)
 const copperRock = state.nearbyLocs
-    .filter(loc => COPPER_IDS.includes(loc.id))
+    .filter(loc => loc.id === 2090 || loc.id === 2091)
+    .filter(loc => loc.optionsWithIndex.some(o => /^mine$/i.test(o.text)))
+    .sort((a, b) => a.distance - b.distance)[0];
+
+// Mine tin specifically (IDs 2093 or 2094)
+const tinRock = state.nearbyLocs
+    .filter(loc => loc.id === 2093 || loc.id === 2094)
     .filter(loc => loc.optionsWithIndex.some(o => /^mine$/i.test(o.text)))
     .sort((a, b) => a.distance - b.distance)[0];
 ```
+
+Use `Prospect` option on a rock to discover its ore type if unsure.
+
+## Rock IDs → Ore Types (Al Kharid Mine)
+
+| Rock ID | Ore |
+|---------|-----|
+| 2092 | **Iron** |
+| 2093 | **Tin** |
+| 2096 | **Coal** |
+| 2098 | **Gold** |
+| 2100 | **Silver** |
+| 2103 | **Mithril** |
+| 450, 2097, 2099, 2101, 2102 | Unknown (depleted during testing) |
+
+**Note:** Al Kharid mine is full of Lvl 14 scorpions. Combat 27+ with defensive style is enough to survive while mining. The scorpion fights actually train Defence passively.
 
 ## Reliable Locations
 
@@ -103,6 +96,7 @@ const copperRock = state.nearbyLocs
 | Ardougne South | (2602, 3235) | Fe, Coal | Ardougne East (2615, 3332) | 100 |
 | Coal Trucks | (2581, 3483) | Coal | Seers Village (2725, 3493) | 150 |
 | Yanille | (2624, 3139) | Cu, Sn, Coal | Yanille (2613, 3094) | 50 |
+| Lumbridge Swamp | - | Interactions fail silently, avoid | - | - |
 
 ## Navigation Gotchas
 

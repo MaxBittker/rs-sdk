@@ -4,7 +4,7 @@
 
 import { BotSDK } from './index';
 import { ActionHelpers } from './actions-helpers';
-import { isInsideDraynorManor, getDraynorManorEscape, findDoorsAlongPath } from './pathfinding';
+import { findDoorsAlongPath, blockDoor, } from './pathfinding';
 import type {
     ActionResult,
     SkillState,
@@ -39,7 +39,10 @@ import type {
     InteractNpcResult,
     PickpocketResult,
     PrayerResult,
-    PrayerName
+    PrayerName,
+    CraftJewelryResult,
+    EnchantResult,
+    StringAmuletResult,
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES, PRAYER_LEVELS } from './types';
 
@@ -728,39 +731,6 @@ export class BotActions {
         const state = this.sdk.getState();
         if (!state?.player) return { success: false, message: 'No player state' };
 
-        let pos = { x: state.player.worldX, z: state.player.worldZ };
-        const distTo = (p: { x: number; z: number }) => this.helpers.distance(p.x, p.z, x, z);
-
-        if (distTo(pos) <= tolerance) {
-            return { success: true, message: 'Already at destination' };
-        }
-
-        // Draynor Manor trap: the front door only opens from outside.
-        // If we're inside the manor and the destination is outside, escape
-        // via the east wing doors first, then continue to the real destination.
-        if (isInsideDraynorManor(pos.x, pos.z, state.player.level) &&
-            !isInsideDraynorManor(x, z)) {
-            const escape = getDraynorManorEscape();
-            console.log(`[walkTo] Inside Draynor Manor — escaping via east wing to (${escape.x}, ${escape.z})`);
-            const escapeResult = await this._walkToInternal(escape.x, escape.z, 3);
-            if (!escapeResult.success) {
-                return { success: false, message: `Trapped in Draynor Manor: ${escapeResult.message}` };
-            }
-            const afterEscape = this.sdk.getState()?.player;
-            if (afterEscape) pos = { x: afterEscape.worldX, z: afterEscape.worldZ };
-            if (distTo(pos) <= tolerance) {
-                return { success: true, message: 'Arrived' };
-            }
-        }
-
-        return this._walkToInternal(x, z, tolerance);
-    }
-
-    /** Core walk loop — used by walkTo and Draynor Manor escape. */
-    private async _walkToInternal(x: number, z: number, tolerance: number = 3): Promise<ActionResult> {
-        const state = this.sdk.getState();
-        if (!state?.player) return { success: false, message: 'No player state' };
-
         const distTo = (pos: { x: number; z: number }) => this.helpers.distance(pos.x, pos.z, x, z);
         let pos = { x: state.player.worldX, z: state.player.worldZ };
 
@@ -772,6 +742,7 @@ export class BotActions {
         const MAX_DOOR_RETRIES = 3;
         let doorRetryCount = 0;
         let poorProgressCount = 0;
+        const blockedDoors = new Set<string>(); // Doors we failed to open (locked etc.)
 
         // Try to open a blocking door. Returns true if door was opened.
         const tryOpenDoor = async (): Promise<boolean> => {
@@ -780,6 +751,21 @@ export class BotActions {
                 doorRetryCount++;
                 await this.sdk.waitForTicks(1);
                 return true;
+            }
+            // Door open failed — block the nearest openable door in pathfinding
+            // so subsequent path queries route around it
+            const nearest = this.sdk.getNearbyLocs()
+                .filter(l => l.optionsWithIndex.some(o => /^open$/i.test(o.text)))
+                .filter(l => l.distance <= 15)
+                .sort((a, b) => a.distance - b.distance)[0];
+            if (nearest) {
+                const level = this.sdk.getState()?.player?.level ?? 0;
+                const key = `${nearest.x},${nearest.z}`;
+                if (!blockedDoors.has(key)) {
+                    blockedDoors.add(key);
+                    blockDoor(level, nearest.x, nearest.z);
+                    console.log(`[walkTo] Blocked impassable door at (${nearest.x}, ${nearest.z}) — re-routing`);
+                }
             }
             return false;
         };
@@ -791,18 +777,8 @@ export class BotActions {
                 await this.sdk.waitForTicks(1);
                 path = await this.sdk.sendFindPath(x, z, 500);
                 if (!path.success || !path.waypoints?.length) {
-                    // If destination is far, try an intermediate point within pathfinder range
-                    const dist = this.helpers.distance(pos.x, pos.z, x, z);
-                    if (dist > 200) {
-                        const ratio = 200 / dist;
-                        const midX = Math.round(pos.x + (x - pos.x) * ratio);
-                        const midZ = Math.round(pos.z + (z - pos.z) * ratio);
-                        path = await this.sdk.sendFindPath(midX, midZ, 500);
-                    }
-                    if (!path.success || !path.waypoints?.length) {
-                        console.error(`[walkTo] PATHFINDING FAILED: ${path.error ?? 'no waypoints'} - from (${pos.x}, ${pos.z}) to (${x}, ${z})`);
-                        return { success: false, message: `No path to (${x}, ${z}) from (${pos.x}, ${pos.z}): ${path.error ?? 'no waypoints'}` };
-                    }
+                    console.error(`[walkTo] PATHFINDING FAILED: ${path.error ?? 'no waypoints'} - from (${pos.x}, ${pos.z}) to (${x}, ${z})`);
+                    return { success: false, message: `No path to (${x}, ${z}) from (${pos.x}, ${pos.z}): ${path.error ?? 'no waypoints'}` };
                 }
             }
 
@@ -829,12 +805,21 @@ export class BotActions {
                         if (dist <= 15) {
                             // Find which required door is closest to this waypoint
                             for (const door of requiredDoors) {
+                                const doorKey = `${door.x},${door.z}`;
+                                if (blockedDoors.has(doorKey)) break; // Already known locked
                                 const doorDist = Math.abs(door.x - wp.x) + Math.abs(door.z - wp.z);
                                 if (doorDist <= 1) {
                                     const opened = await this.helpers.openDoorAt(door.x, door.z);
                                     if (opened) {
-                                        requiredDoorKeys.delete(`${door.x},${door.z}`);
+                                        requiredDoorKeys.delete(doorKey);
                                         await this.sdk.waitForTicks(1);
+                                    } else {
+                                        // Door failed to open (locked, etc.) — block in pathfinder
+                                        blockedDoors.add(doorKey);
+                                        blockDoor(door.level, door.x, door.z);
+                                        requiredDoorKeys.delete(doorKey);
+                                        console.log(`[walkTo] Blocked impassable door at (${door.x}, ${door.z}) — re-routing`);
+                                        break; // Re-query path on next iteration
                                     }
                                     break;
                                 }
@@ -860,20 +845,9 @@ export class BotActions {
             // Check progress since path query started
             const distMoved = this.helpers.distance(startPos.x, startPos.z, pos.x, pos.z);
 
-            // Good progress - continue walking directly without re-querying (prevents oscillation)
             if (distMoved >= 5) {
                 poorProgressCount = 0;
-                for (let j = 0; j < 10; j++) {
-                    const result = await this.helpers.walkStepToward(x, z, tolerance, pos);
-                    if (result.status === 'arrived') return { success: true, message: 'Arrived' };
-                    if (result.status === 'stuck') break;
-                    pos = result.pos;
-                }
-                continue;
-            }
-
-            // Poor progress - might be stuck
-            if (++poorProgressCount >= 3) {
+            } else if (++poorProgressCount >= 3) {
                 if (!await tryOpenDoor()) {
                     return { success: false, message: `Stuck at (${pos.x}, ${pos.z})` };
                 }
@@ -2670,6 +2644,406 @@ export class BotActions {
         }
 
         return { success: true, message: `Deactivated ${activePrayers.length} prayer(s)` };
+    }
+
+    // ============ Jewelry Crafting & Enchanting ============
+
+    /** Enchantment spell component IDs, indexed by level (1-5). */
+    private static readonly ENCHANT_SPELLS: Record<number, number> = {
+        1: 1155,  // Sapphire  — Level 7 Magic
+        2: 1165,  // Emerald   — Level 27 Magic
+        3: 1176,  // Ruby      — Level 49 Magic
+        4: 1180,  // Diamond   — Level 57 Magic
+        5: 1187,  // Dragonstone — Level 68 Magic
+    };
+
+    /**
+     * Jewelry crafting interface (4161) component mapping.
+     *
+     * Layout: 3 columns (ring, necklace, amulet), each with 5 gem slots:
+     *   slot 0 = plain gold, 1 = sapphire, 2 = emerald, 3 = ruby, 4 = diamond
+     */
+    private static readonly JEWELRY_COMPONENTS: Record<string, number> = {
+        'ring': 4233,
+        'necklace': 4239,
+        'amulet': 4245,
+    };
+
+    private static readonly JEWELRY_GEM_SLOTS: Record<string, number> = {
+        'gold': 0,
+        'plain': 0,
+        'sapphire': 1,
+        'emerald': 2,
+        'ruby': 3,
+        'diamond': 4,
+    };
+
+    /**
+     * Craft jewelry at a furnace using a gold/silver bar and optional gem.
+     *
+     * Requires: bar + mould in inventory (ring mould, necklace mould, or amulet mould).
+     * Optionally a gem for gem-set jewelry.
+     *
+     * @param options.barPattern - Regex to find the bar (default: /gold bar/i)
+     * @param options.product - Product type: 'ring', 'necklace', or 'amulet' (default: auto-detect from mould)
+     * @param options.gem - Gem type: 'sapphire', 'emerald', 'ruby', 'diamond', or 'gold'/'plain' for no gem (default: auto-detect from inventory)
+     * @param options.timeout - Max wait time in ms (default: 10000)
+     *
+     * @example
+     * ```ts
+     * // Craft a gold ring (need gold bar + ring mould)
+     * const result = await bot.craftJewelry({ product: 'ring' });
+     *
+     * // Craft a ruby amulet (need gold bar + ruby + amulet mould)
+     * const result = await bot.craftJewelry({ product: 'amulet', gem: 'ruby' });
+     *
+     * // Auto-detect: picks product from mould, gem from inventory
+     * const result = await bot.craftJewelry();
+     * ```
+     */
+    async craftJewelry(options: {
+        barPattern?: RegExp;
+        product?: string;
+        gem?: string;
+        timeout?: number;
+    } = {}): Promise<CraftJewelryResult> {
+        const { barPattern = /gold bar/i, timeout = 10000 } = options;
+
+        await this.dismissBlockingUI();
+
+        // Check for bar
+        const bar = this.sdk.findInventoryItem(barPattern);
+        if (!bar) {
+            return { success: false, message: 'No bar in inventory', reason: 'no_bar' };
+        }
+
+        // Check for a mould
+        const mould = this.sdk.findInventoryItem(/mould/i);
+        if (!mould) {
+            return { success: false, message: 'No mould in inventory (need ring mould, necklace mould, or amulet mould)', reason: 'no_mould' };
+        }
+
+        // Determine product type from option or mould name
+        let product = options.product?.toLowerCase();
+        if (!product) {
+            const mouldName = mould.name.toLowerCase();
+            if (mouldName.includes('ring')) product = 'ring';
+            else if (mouldName.includes('necklace')) product = 'necklace';
+            else if (mouldName.includes('amulet')) product = 'amulet';
+            else product = 'ring';  // fallback
+        }
+
+        const componentId = BotActions.JEWELRY_COMPONENTS[product];
+        if (!componentId) {
+            return { success: false, message: `Unknown jewelry product: ${product}. Use 'ring', 'necklace', or 'amulet'.`, reason: 'no_mould' };
+        }
+
+        // Determine gem slot from option or inventory
+        let gem = options.gem?.toLowerCase();
+        if (!gem) {
+            // Auto-detect from inventory
+            const gemItem = this.sdk.findInventoryItem(/^(sapphire|emerald|ruby|diamond|dragonstone)$/i);
+            gem = gemItem ? gemItem.name.toLowerCase() : 'gold';
+        }
+
+        const gemSlot = BotActions.JEWELRY_GEM_SLOTS[gem] ?? 0;
+
+        // Find furnace
+        const furnace = this.sdk.findNearbyLoc(/furnace/i);
+        if (!furnace) {
+            return { success: false, message: 'No furnace nearby', reason: 'no_furnace' };
+        }
+
+        const craftingBefore = this.sdk.getSkill('Crafting')?.experience || 0;
+        const startTick = this.sdk.getState()?.tick || 0;
+
+        // Walk to furnace if needed
+        if (furnace.distance > 2) {
+            const walkResult = await this.walkTo(furnace.x, furnace.z, 2);
+            if (!walkResult.success) {
+                return { success: false, message: `Cannot reach furnace: ${walkResult.message}`, reason: 'no_furnace' };
+            }
+        }
+
+        // Use bar on furnace to open jewelry interface (4161)
+        const useResult = await this.sdk.sendUseItemOnLoc(bar.slot, furnace.x, furnace.z, furnace.id);
+        if (!useResult.success) {
+            return { success: false, message: useResult.message, reason: 'no_furnace' };
+        }
+
+        // Wait for jewelry crafting interface to open
+        try {
+            await this.sdk.waitForCondition(
+                s => s.interface?.isOpen && s.interface.interfaceId === 4161,
+                5000
+            );
+        } catch {
+            return { success: false, message: 'Jewelry crafting interface did not open', reason: 'interface_not_opened' };
+        }
+
+        // Click the product component with the correct gem slot
+        const clickResult = await this.sdk.sendClickComponentWithOption(componentId, 1, gemSlot);
+        if (!clickResult.success) {
+            return { success: false, message: 'Failed to click jewelry option', reason: 'interface_not_opened' };
+        }
+
+        // Wait for XP gain or timeout
+        const startTime = Date.now();
+        while (Date.now() - startTime < timeout) {
+            const state = this.sdk.getState();
+            if (!state) {
+                await this.sdk.waitForTicks(1);
+                continue;
+            }
+
+            // Check for XP gain
+            const currentXp = state.skills.find(s => s.name === 'Crafting')?.experience || 0;
+            if (currentXp > craftingBefore) {
+                await this.dismissBlockingUI();
+                const crafted = this.sdk.findInventoryItem(/ring|necklace|amulet|bracelet/i);
+                return {
+                    success: true,
+                    message: 'Crafted jewelry successfully',
+                    xpGained: currentXp - craftingBefore,
+                    product: crafted || undefined
+                };
+            }
+
+            // Check for failure messages
+            for (const msg of state.gameMessages) {
+                if (msg.tick > startTick) {
+                    const text = msg.text.toLowerCase();
+                    if (text.includes("need a crafting level") || text.includes("level to")) {
+                        return { success: false, message: 'Crafting level too low', reason: 'level_too_low' };
+                    }
+                    if (text.includes("don't have")) {
+                        return { success: false, message: msg.text, reason: 'no_gem' };
+                    }
+                }
+            }
+
+            await this.sdk.waitForTicks(1);
+        }
+
+        // Final XP check
+        const finalXp = this.sdk.getSkill('Crafting')?.experience || 0;
+        if (finalXp > craftingBefore) {
+            await this.dismissBlockingUI();
+            const crafted = this.sdk.findInventoryItem(/ring|necklace|amulet|bracelet/i);
+            return {
+                success: true,
+                message: 'Crafted jewelry successfully',
+                xpGained: finalXp - craftingBefore,
+                product: crafted || undefined
+            };
+        }
+
+        return { success: false, message: 'Jewelry crafting timed out', reason: 'timeout' };
+    }
+
+    /**
+     * Cast an enchantment spell on a jewelry item.
+     *
+     * @param target - Item to enchant (InventoryItem, name string, or regex)
+     * @param level - Enchantment level 1-5 (1=Sapphire, 2=Emerald, 3=Ruby, 4=Diamond, 5=Dragonstone)
+     * @param options.timeout - Max wait time in ms (default: 5000)
+     *
+     * @example
+     * ```ts
+     * // Enchant a sapphire ring into a ring of recoil
+     * const result = await bot.enchantItem(/sapphire ring/i, 1);
+     *
+     * // Enchant an emerald amulet
+     * const result = await bot.enchantItem('emerald amulet', 2);
+     * ```
+     */
+    async enchantItem(
+        target: InventoryItem | string | RegExp,
+        level: 1 | 2 | 3 | 4 | 5,
+        options: { timeout?: number } = {}
+    ): Promise<EnchantResult> {
+        const { timeout = 5000 } = options;
+
+        await this.dismissBlockingUI();
+
+        // Resolve item
+        let item: InventoryItem | null;
+        if (typeof target === 'string' || target instanceof RegExp) {
+            const pattern = typeof target === 'string' ? new RegExp(target, 'i') : target;
+            item = this.sdk.findInventoryItem(pattern);
+        } else {
+            item = target;
+        }
+
+        if (!item) {
+            return { success: false, message: `Item not found: ${target}`, reason: 'item_not_found' };
+        }
+
+        const spellComponent = BotActions.ENCHANT_SPELLS[level];
+        if (!spellComponent) {
+            return { success: false, message: `Invalid enchant level: ${level}`, reason: 'item_not_found' };
+        }
+
+        const magicBefore = this.sdk.getSkill('Magic')?.experience || 0;
+        const startTick = this.sdk.getState()?.tick || 0;
+
+        // Cast the enchant spell on the item
+        const castResult = await this.sdk.sendSpellOnItem(item.slot, spellComponent);
+        if (!castResult.success) {
+            return { success: false, message: castResult.message, reason: 'no_runes' };
+        }
+
+        // Wait for XP gain or failure
+        const startTime = Date.now();
+        while (Date.now() - startTime < timeout) {
+            const state = this.sdk.getState();
+            if (!state) {
+                await this.sdk.waitForTicks(1);
+                continue;
+            }
+
+            // Check for Magic XP gain
+            const currentXp = state.skills.find(s => s.name === 'Magic')?.experience || 0;
+            if (currentXp > magicBefore) {
+                // Find the enchanted item (it replaces the original in the same slot)
+                const enchanted = state.inventory.find(i => i.slot === item!.slot);
+                return {
+                    success: true,
+                    message: 'Enchanted item successfully',
+                    xpGained: currentXp - magicBefore,
+                    product: enchanted || undefined
+                };
+            }
+
+            // Check for failure messages
+            for (const msg of state.gameMessages) {
+                if (msg.tick > startTick) {
+                    const text = msg.text.toLowerCase();
+                    if (text.includes("do not have enough") || text.includes("don't have enough") || text.includes("need runes")) {
+                        return { success: false, message: 'Not enough runes', reason: 'no_runes' };
+                    }
+                    if (text.includes("need a magic level") || text.includes("level to cast")) {
+                        return { success: false, message: 'Magic level too low', reason: 'level_too_low' };
+                    }
+                }
+            }
+
+            await this.sdk.waitForTicks(1);
+        }
+
+        // Final XP check
+        const finalXp = this.sdk.getSkill('Magic')?.experience || 0;
+        if (finalXp > magicBefore) {
+            const enchanted = this.sdk.getState()?.inventory.find(i => i.slot === item!.slot);
+            return {
+                success: true,
+                message: 'Enchanted item successfully',
+                xpGained: finalXp - magicBefore,
+                product: enchanted || undefined
+            };
+        }
+
+        return { success: false, message: 'Enchantment timed out', reason: 'timeout' };
+    }
+
+    /**
+     * String an amulet using a ball of wool.
+     *
+     * @param target - Unstrung amulet (InventoryItem, name string, or regex). Default: /amulet/i
+     * @param options.timeout - Max wait time in ms (default: 5000)
+     *
+     * @example
+     * ```ts
+     * // String a gold amulet
+     * const result = await bot.stringAmulet(/gold amulet/i);
+     *
+     * // String any unstrung amulet
+     * const result = await bot.stringAmulet();
+     * ```
+     */
+    async stringAmulet(
+        target: InventoryItem | string | RegExp = /amulet/i,
+        options: { timeout?: number } = {}
+    ): Promise<StringAmuletResult> {
+        const { timeout = 5000 } = options;
+
+        await this.dismissBlockingUI();
+
+        // Resolve amulet
+        let amulet: InventoryItem | null;
+        if (typeof target === 'string' || target instanceof RegExp) {
+            const pattern = typeof target === 'string' ? new RegExp(target, 'i') : target;
+            amulet = this.sdk.findInventoryItem(pattern);
+        } else {
+            amulet = target;
+        }
+
+        if (!amulet) {
+            return { success: false, message: `Amulet not found: ${target}`, reason: 'no_amulet' };
+        }
+
+        // Find ball of wool / string
+        const string = this.sdk.findInventoryItem(/ball of wool/i);
+        if (!string) {
+            return { success: false, message: 'No ball of wool in inventory', reason: 'no_string' };
+        }
+
+        const craftingBefore = this.sdk.getSkill('Crafting')?.experience || 0;
+        const startTick = this.sdk.getState()?.tick || 0;
+
+        // Use string on amulet
+        const useResult = await this.sdk.sendUseItemOnItem(string.slot, amulet.slot);
+        if (!useResult.success) {
+            return { success: false, message: useResult.message, reason: 'no_amulet' };
+        }
+
+        // Wait for XP gain or failure
+        const startTime = Date.now();
+        while (Date.now() - startTime < timeout) {
+            const state = this.sdk.getState();
+            if (!state) {
+                await this.sdk.waitForTicks(1);
+                continue;
+            }
+
+            // Check for Crafting XP gain
+            const currentXp = state.skills.find(s => s.name === 'Crafting')?.experience || 0;
+            if (currentXp > craftingBefore) {
+                const strung = this.sdk.findInventoryItem(/amulet/i);
+                return {
+                    success: true,
+                    message: 'Strung amulet successfully',
+                    xpGained: currentXp - craftingBefore,
+                    product: strung || undefined
+                };
+            }
+
+            // Check for failure messages
+            for (const msg of state.gameMessages) {
+                if (msg.tick > startTick) {
+                    const text = msg.text.toLowerCase();
+                    if (text.includes("need a crafting level") || text.includes("level to")) {
+                        return { success: false, message: 'Crafting level too low', reason: 'level_too_low' };
+                    }
+                }
+            }
+
+            await this.sdk.waitForTicks(1);
+        }
+
+        // Final XP check
+        const finalXp = this.sdk.getSkill('Crafting')?.experience || 0;
+        if (finalXp > craftingBefore) {
+            const strung = this.sdk.findInventoryItem(/amulet/i);
+            return {
+                success: true,
+                message: 'Strung amulet successfully',
+                xpGained: finalXp - craftingBefore,
+                product: strung || undefined
+            };
+        }
+
+        return { success: false, message: 'Stringing amulet timed out', reason: 'timeout' };
     }
 }
 

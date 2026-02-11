@@ -35,26 +35,10 @@ export class OverlayUI {
         style.id = 'bot-sdk-scrollbar-styles';
         style.textContent = `
             .dark-scrollbar {
-                scrollbar-width: thin;
-                scrollbar-color: #04A800 rgba(0, 0, 0, 0.3);
+                scrollbar-width: none;
             }
             .dark-scrollbar::-webkit-scrollbar {
-                width: 8px;
-                height: 8px;
-            }
-            .dark-scrollbar::-webkit-scrollbar-track {
-                background: rgba(0, 0, 0, 0.3);
-                border-radius: 4px;
-            }
-            .dark-scrollbar::-webkit-scrollbar-thumb {
-                background: #04A800;
-                border-radius: 4px;
-            }
-            .dark-scrollbar::-webkit-scrollbar-thumb:hover {
-                background: #05C900;
-            }
-            .dark-scrollbar::-webkit-scrollbar-corner {
-                background: rgba(0, 0, 0, 0.3);
+                display: none;
             }
         `;
         document.head.appendChild(style);

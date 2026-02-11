@@ -182,8 +182,7 @@ export const Locations = {
     VARROCK_WEST_BANK: { x: 3185, z: 3436 },
     FALADOR_MINE: { x: 3045, z: 9780, level: 0 },  // Dwarven mine
     EDGEVILLE_DUNGEON: { x: 3132, z: 9912, level: 0 },  // Edgeville dungeon entrance area
-    ZANARIS: { x: 3220, z: 9592, level: 0 },  // Lost City (Zanaris) teleport spawn point
-    ZANARIS: { x: 3220, z: 9592, level: 0 },  // Lost City / Zanaris portal entrance
+    ZANARIS: { x: 3220, z: 9592, level: 0 },  // Lost City (Zanaris)
     GNOME_STRONGHOLD_AGILITY: { x: 2474, z: 3436 },  // Gnome Agility Course start
 };
 
@@ -407,7 +406,7 @@ export function createSaveData(config: SaveConfig): Uint8Array {
     const bankItems: Array<{ id: number; count: number } | null> = new Array(BANK_SIZE).fill(null);
     if (config.bank) {
         for (let i = 0; i < config.bank.length && i < BANK_SIZE; i++) {
-            bankItems[i] = config.bank[i];
+            bankItems[i] = config.bank[i] ?? null;
         }
     }
 

@@ -379,7 +379,7 @@ export function findPath(level: number, srcX: number, srcZ: number, destX: numbe
     return rsmod.findPath(level, srcX, srcZ, destX, destZ, 1, 1, 1, 0, -1, true, 0, 25, CollisionType.NORMAL);
 }
 
-// Long-distance pathfinding with 512x512 search grid (for bot/agent navigation)
+// Long-distance pathfinding with 2048x2048 search grid (for bot/agent navigation)
 export function findLongPath(level: number, srcX: number, srcZ: number, destX: number, destZ: number, maxWaypoints: number = 500): Uint32Array {
     return rsmod.findLongPath(level, srcX, srcZ, destX, destZ, 1, 1, 1, 0, -1, true, 0, maxWaypoints, CollisionType.NORMAL);
 }

@@ -16,6 +16,10 @@ export interface PlayerCombatState {
 export interface PlayerState {
     name: string;
     combatLevel: number;
+    /** Current hitpoints level (boosted/drained) */
+    hp: number;
+    /** Base hitpoints level (max HP) */
+    maxHp: number;
     x: number;
     z: number;
     worldX: number;
@@ -553,4 +557,28 @@ export interface PickpocketResult {
     message: string;
     xpGained?: number;
     reason?: 'npc_not_found' | 'no_pickpocket_option' | 'cant_reach' | 'stunned' | 'timeout';
+}
+
+export interface CraftJewelryResult {
+    success: boolean;
+    message: string;
+    xpGained?: number;
+    product?: InventoryItem;
+    reason?: 'no_bar' | 'no_mould' | 'no_furnace' | 'no_gem' | 'interface_not_opened' | 'level_too_low' | 'timeout';
+}
+
+export interface EnchantResult {
+    success: boolean;
+    message: string;
+    xpGained?: number;
+    product?: InventoryItem;
+    reason?: 'item_not_found' | 'no_runes' | 'level_too_low' | 'timeout';
+}
+
+export interface StringAmuletResult {
+    success: boolean;
+    message: string;
+    xpGained?: number;
+    product?: InventoryItem;
+    reason?: 'no_amulet' | 'no_string' | 'level_too_low' | 'timeout';
 }

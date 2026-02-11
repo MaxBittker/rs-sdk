@@ -1,7 +1,7 @@
 // Bot connection manager
 // Supports multiple simultaneous bot connections
 
-import { BotSDK } from '../../sdk/index';
+import { BotSDK, deriveGatewayUrl } from '../../sdk/index';
 import { BotActions } from '../../sdk/actions';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
@@ -56,8 +56,7 @@ class BotManager {
       pwd = env.PASSWORD;
 
       if (env.SERVER) {
-        // Remote servers need /gateway path
-        gateway = `wss://${env.SERVER}/gateway`;
+        gateway = deriveGatewayUrl(env.SERVER);
       }
 
       // Check if chat should be shown (default: false for safety)

@@ -34,6 +34,7 @@ COPY content /opt/server/content
 COPY webclient /opt/server/webclient
 COPY engine /opt/server/engine
 COPY gateway /opt/server/gateway
+COPY sdk /opt/sdk
 
 # Patch and build engine
 WORKDIR /opt/server/engine

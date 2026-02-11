@@ -543,7 +543,7 @@ module.exports.__wbindgen_init_externref_table = function() {
     ;
 };
 
-const path = require('path').join(__dirname, 'rsmod-pathfinder_bg.wasm');
+const path = require('path').join(__dirname, 'rsmod_bg.wasm');
 const bytes = require('fs').readFileSync(path);
 
 const wasmModule = new WebAssembly.Module(bytes);

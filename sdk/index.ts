@@ -23,6 +23,23 @@ import type {
 import { PRAYER_INDICES, PRAYER_NAMES } from './types';
 import * as pathfinding from './pathfinding';
 
+/**
+ * Derive the gateway WebSocket URL from a SERVER env value.
+ * - undefined/empty → ws://localhost:7780 (local default)
+ * - Full URL (ws:// or wss://) → used as-is
+ * - "localhost" or "localhost:PORT" → ws://localhost:PORT (plain WS)
+ * - anything else → wss://HOST/gateway (TLS, remote gateway path)
+ */
+export function deriveGatewayUrl(server?: string): string {
+    if (!server) return 'ws://localhost:7780';
+    if (server.startsWith('ws://') || server.startsWith('wss://')) return server;
+    const isLocal = server === 'localhost' || server.startsWith('localhost:');
+    if (isLocal) {
+        return `ws://${server.includes(':') ? server : server + ':7780'}`;
+    }
+    return `wss://${server}/gateway`;
+}
+
 interface SyncToSDKMessage {
     type: 'sdk_connected' | 'sdk_state' | 'sdk_action_result' | 'sdk_error' | 'sdk_screenshot_response';
     success?: boolean;
@@ -769,11 +786,6 @@ export class BotSDK {
         return this.sendAction({ type: 'interactNpc', npcIndex, optionIndex: option, reason: 'SDK' });
     }
 
-    /** Interact with a player by index and option. Option 4 = Trade. */
-    async sendInteractPlayer(playerIndex: number, option: number = 4): Promise<ActionResult> {
-        return this.sendAction({ type: 'interactPlayer', playerIndex, optionIndex: option, reason: 'SDK' });
-    }
-
     /** Talk to an NPC by index. */
     async sendTalkToNpc(npcIndex: number): Promise<ActionResult> {
         return this.sendAction({ type: 'talkToNpc', npcIndex, reason: 'SDK' });
@@ -906,7 +918,7 @@ export class BotSDK {
         if (!prayerState) return false;
         const index = typeof prayer === 'number' ? prayer : PRAYER_INDICES[prayer];
         if (index === undefined || index < 0 || index >= prayerState.activePrayers.length) return false;
-        return prayerState.activePrayers[index];
+        return !!prayerState.activePrayers[index];
     }
 
     /** Get list of all currently active prayer names. */
@@ -1012,13 +1024,8 @@ export class BotSDK {
 
         const destZoneAllocated = pathfinding.isZoneAllocated(level, destX, destZ);
 
-        // Use multi-segment routing for long distances that exceed the
-        // 512x512 pathfinder grid; short distances use findLongPath directly.
-        const dx = Math.abs(destX - srcX);
-        const dz = Math.abs(destZ - srcZ);
-        const waypoints = (dx > 200 || dz > 200)
-            ? pathfinding.findMultiSegmentPath(level, srcX, srcZ, destX, destZ, maxWaypoints)
-            : pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
+        // 2048x2048 BFS grid handles any in-game distance in a single call.
+        const waypoints = pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
 
         // If no waypoints and destination zone isn't allocated, that's expected -
         // we just can't path there yet (might need to open a door first)
