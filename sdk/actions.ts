@@ -4,7 +4,7 @@
 
 import { BotSDK } from './index';
 import { ActionHelpers } from './actions-helpers';
-import { isInsideDraynorManor, getDraynorManorEscape, findDoorsAlongPath } from './pathfinding';
+import { findDoorsAlongPath } from './pathfinding';
 import type {
     ActionResult,
     SkillState,
@@ -725,39 +725,6 @@ export class BotActions {
 
     /** Walk to coordinates using pathfinding, auto-opening doors. */
     async walkTo(x: number, z: number, tolerance: number = 3): Promise<ActionResult> {
-        const state = this.sdk.getState();
-        if (!state?.player) return { success: false, message: 'No player state' };
-
-        let pos = { x: state.player.worldX, z: state.player.worldZ };
-        const distTo = (p: { x: number; z: number }) => this.helpers.distance(p.x, p.z, x, z);
-
-        if (distTo(pos) <= tolerance) {
-            return { success: true, message: 'Already at destination' };
-        }
-
-        // Draynor Manor trap: the front door only opens from outside.
-        // If we're inside the manor and the destination is outside, escape
-        // via the east wing doors first, then continue to the real destination.
-        if (isInsideDraynorManor(pos.x, pos.z, state.player.level) &&
-            !isInsideDraynorManor(x, z)) {
-            const escape = getDraynorManorEscape();
-            console.log(`[walkTo] Inside Draynor Manor — escaping via east wing to (${escape.x}, ${escape.z})`);
-            const escapeResult = await this._walkToInternal(escape.x, escape.z, 3);
-            if (!escapeResult.success) {
-                return { success: false, message: `Trapped in Draynor Manor: ${escapeResult.message}` };
-            }
-            const afterEscape = this.sdk.getState()?.player;
-            if (afterEscape) pos = { x: afterEscape.worldX, z: afterEscape.worldZ };
-            if (distTo(pos) <= tolerance) {
-                return { success: true, message: 'Arrived' };
-            }
-        }
-
-        return this._walkToInternal(x, z, tolerance);
-    }
-
-    /** Core walk loop — used by walkTo and Draynor Manor escape. */
-    private async _walkToInternal(x: number, z: number, tolerance: number = 3): Promise<ActionResult> {
         const state = this.sdk.getState();
         if (!state?.player) return { success: false, message: 'No player state' };
 

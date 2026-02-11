@@ -27,41 +27,15 @@ const doorIndex = new Map<string, DoorInfo>();
 // are likely open ocean/void and should not be treated as walkable land.
 const populatedZones = new Set<string>();
 
-// One-way doors that should NOT be masked or included in the door index.
+// One-way doors that should NOT be unmasked in the door index.
 // These doors can only be opened from one side; routing through them traps the bot.
 const ONE_WAY_DOORS = new Set<string>([
     '0,3108,3353', // Draynor Manor front door (west tile) — only opens from outside
     '0,3109,3353', // Draynor Manor front door (east tile) — only opens from outside
 ]);
 
-// ── Draynor Manor directional door handling ──
-// The front door at (3108-3109, 3353) can only be opened from one side.
-// If the bot is inside the manor it must exit via the east wing escape doors.
-const DRAYNOR_MANOR = {
-    // Interior bounding box (level 0) — covers the main building and courtyard.
-    // Everything within the manor walls past the front door is trapped.
-    minX: 3097, maxX: 3119,
-    minZ: 3354, maxZ: 3374,
-    // Front door position (two tiles wide)
-    frontDoor: [{ x: 3108, z: 3353 }, { x: 3109, z: 3353 }],
-    // East wing escape route: walk here to get out
-    escapeExit: { x: 3125, z: 3370 },
-};
-
 function doorKey(level: number, x: number, z: number): string {
     return `${level},${x},${z}`;
-}
-
-/** Check if a position is inside Draynor Manor's ground floor interior. */
-export function isInsideDraynorManor(x: number, z: number, level: number = 0): boolean {
-    if (level !== 0) return false;
-    return x >= DRAYNOR_MANOR.minX && x <= DRAYNOR_MANOR.maxX &&
-           z >= DRAYNOR_MANOR.minZ && z <= DRAYNOR_MANOR.maxZ;
-}
-
-/** Get the Draynor Manor escape exit coordinates (outside the manor, east courtyard). */
-export function getDraynorManorEscape(): { x: number; z: number } {
-    return { ...DRAYNOR_MANOR.escapeExit };
 }
 
 export function initPathfinding(): void {
@@ -73,6 +47,21 @@ export function initPathfinding(): void {
     // Allocate all zones first (includes walkable areas with no collision tiles)
     for (const [level, zoneX, zoneZ] of data.zones) {
         rsmod.allocateIfAbsent(zoneX, zoneZ, level);
+    }
+
+    // Allocate mainland zones so the 2048x2048 BFS grid can traverse
+    // open land between cities. Unallocated zones return NULL (blocked),
+    // so without this the pathfinder can't cross gaps in the collision data.
+    // Newly-allocated zones default to OPEN (walkable), which is correct
+    // for grassland/roads. Zones already allocated above keep their flags.
+    let mainlandZones = 0;
+    for (let x = 2304; x <= 3392; x += 8) {
+        for (let z = 2944; z <= 3584; z += 8) {
+            if (!rsmod.isZoneAllocated(x, z, 0)) {
+                rsmod.allocateIfAbsent(x, z, 0);
+                mainlandZones++;
+            }
+        }
     }
 
     // Set collision flags for tiles that have them (includes wall flags)
@@ -108,7 +97,7 @@ export function initPathfinding(): void {
     }
 
     initialized = true;
-    console.log(`Pathfinding initialized in ${Date.now() - start}ms (${data.zones.length} zones, ${data.tiles.length} tiles, ${doorCount} doors masked, ${skippedOneWay} one-way doors blocked)`);
+    console.log(`Pathfinding initialized in ${Date.now() - start}ms (${data.zones.length} zones + ${mainlandZones} mainland fill, ${data.tiles.length} tiles, ${doorCount} doors masked, ${skippedOneWay} one-way doors blocked)`);
 }
 
 // Check if a zone has collision data
@@ -139,7 +128,7 @@ export function findPath(
     return unpackWaypoints(waypointsRaw);
 }
 
-// Find long-distance path (512x512 search grid)
+// Find long-distance path (2048x2048 search grid, ±1024 tile reach)
 export function findLongPath(
     level: number,
     srcX: number,
@@ -185,132 +174,17 @@ export function isZoneLikelyLand(level: number, x: number, z: number): boolean {
     return populatedZones.has(`${level},${x & ~7},${z & ~7}`);
 }
 
-/** Maximum single-segment distance (conservative; 512/2=256 grid half, minus routing headroom). */
-const MAX_SINGLE_SEGMENT = 200;
-
 /**
- * Find the nearest walkable tile to (x, z) by spiraling outward.
- * Returns null if no walkable tile found within maxRadius.
- */
-function snapToWalkable(
-    level: number, x: number, z: number, maxRadius: number = 30
-): { x: number; z: number } | null {
-    if (!initialized) initPathfinding();
-    if (isTileWalkable(level, x, z) && isZoneAllocated(level, x, z) && isZoneLikelyLand(level, x, z)) {
-        return { x, z };
-    }
-    for (let r = 1; r <= maxRadius; r++) {
-        for (let dx = -r; dx <= r; dx++) {
-            for (let dz = -r; dz <= r; dz++) {
-                if (Math.abs(dx) !== r && Math.abs(dz) !== r) continue; // perimeter only
-                const tx = x + dx;
-                const tz = z + dz;
-                if (isTileWalkable(level, tx, tz) && isZoneAllocated(level, tx, tz) && isZoneLikelyLand(level, tx, tz)) {
-                    return { x: tx, z: tz };
-                }
-            }
-        }
-    }
-    return null;
-}
-
-/**
- * Find a path between two points that may be farther apart than the 512x512
- * pathfinder grid allows.  Recursively bisects the route into segments that
- * each fit within findLongPath's range, then concatenates the results.
- *
- * When a direct split fails (e.g. coastline blocks the midpoint), offset
- * candidates perpendicular to the travel axis are tried so the route can
- * swing around geographic obstacles.
+ * Find a path between two distant points.
+ * With the 2048x2048 pathfinder grid (±1024 tile reach), this is now
+ * just a direct call to findLongPath for any in-game distance.
  */
 export function findMultiSegmentPath(
     level: number,
     srcX: number, srcZ: number,
     destX: number, destZ: number,
     maxWaypoints: number = 500,
-    _depth: number = 0
 ): Array<{ x: number; z: number; level: number }> {
-    if (!initialized) initPathfinding();
-
-    const dx = Math.abs(destX - srcX);
-    const dz = Math.abs(destZ - srcZ);
-
-    // Base case: within single pathfinder range
-    if (dx <= MAX_SINGLE_SEGMENT && dz <= MAX_SINGLE_SEGMENT) {
-        return findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
-    }
-
-    // Guard against excessive recursion
-    if (_depth > 6) {
-        return findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
-    }
-
-    // Build candidate split points: midpoint + 1/3 + 2/3 along the line,
-    // plus perpendicular offsets at each to route around coastline/mountains.
-    const midX = Math.round((srcX + destX) / 2);
-    const midZ = Math.round((srcZ + destZ) / 2);
-    const thirdX = Math.round(srcX + (destX - srcX) / 3);
-    const thirdZ = Math.round(srcZ + (destZ - srcZ) / 3);
-    const twoThirdX = Math.round(srcX + 2 * (destX - srcX) / 3);
-    const twoThirdZ = Math.round(srcZ + 2 * (destZ - srcZ) / 3);
-
-    // Perpendicular offset: rotate the travel vector 90 degrees
-    const travelDx = destX - srcX;
-    const travelDz = destZ - srcZ;
-    const travelLen = Math.sqrt(travelDx * travelDx + travelDz * travelDz);
-    // Perpendicular unit vector (rotated 90 degrees)
-    const perpX = -travelDz / travelLen;
-    const perpZ = travelDx / travelLen;
-
-    const splitPoints: Array<{ x: number; z: number }> = [
-        // Direct line candidates
-        { x: midX, z: midZ },
-        { x: thirdX, z: thirdZ },
-        { x: twoThirdX, z: twoThirdZ },
-    ];
-
-    // Perpendicular offsets at increasing distances to swing around obstacles
-    const perpOffsets = [80, 160, Math.round(travelLen * 0.4), Math.round(travelLen * 0.6)];
-    for (const offset of perpOffsets) {
-        splitPoints.push(
-            { x: Math.round(midX + perpX * offset), z: Math.round(midZ + perpZ * offset) },
-            { x: Math.round(midX - perpX * offset), z: Math.round(midZ - perpZ * offset) },
-        );
-    }
-
-    let bestPartial: Array<{ x: number; z: number; level: number }> = [];
-
-    for (const raw of splitPoints) {
-        const snapped = snapToWalkable(level, raw.x, raw.z);
-        if (!snapped) continue;
-
-        const firstHalf = findMultiSegmentPath(level, srcX, srcZ, snapped.x, snapped.z, maxWaypoints, _depth + 1);
-        if (firstHalf.length === 0) continue;
-
-        // Verify the first half actually reached the split point (within tolerance).
-        const lastWp = firstHalf[firstHalf.length - 1]!;
-        const reachDist = Math.abs(lastWp.x - snapped.x) + Math.abs(lastWp.z - snapped.z);
-        if (reachDist > 15) {
-            if (firstHalf.length > bestPartial.length) {
-                bestPartial = firstHalf;
-            }
-            continue;
-        }
-
-        const secondHalf = findMultiSegmentPath(level, lastWp.x, lastWp.z, destX, destZ, maxWaypoints, _depth + 1);
-        if (secondHalf.length === 0) {
-            if (firstHalf.length > bestPartial.length) {
-                bestPartial = firstHalf;
-            }
-            continue;
-        }
-
-        // Concatenate, removing duplicate at junction
-        return firstHalf.concat(secondHalf.slice(1));
-    }
-
-    // Return best partial result, or direct long path as fallback
-    if (bestPartial.length > 0) return bestPartial;
     return findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
 }
 
