@@ -142,6 +142,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `sendWalk(x, z, running)` | Send walk command to coordinates. |
 | `sendInteractLoc(x, z, locId, option)` | Interact with a location (tree, rock, door, etc). |
 | `sendInteractNpc(npcIndex, option)` | Interact with an NPC by index and option. |
+| `sendInteractPlayer(playerIndex, option)` | Interact with a player by index and option. |
 | `sendTalkToNpc(npcIndex)` | Talk to an NPC by index. |
 | `sendPickup(x, z, itemId)` | Pick up a ground item. |
 | `sendUseItem(slot, option)` | Use an inventory item (eat, equip, etc). |

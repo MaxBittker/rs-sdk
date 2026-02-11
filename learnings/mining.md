@@ -61,6 +61,13 @@ Always use per-mine rock ID tables. Use `Prospect` option on unknown rocks.
 | | 2109 | Tin |
 | **Barbarian Village** | 2094 | Iron |
 | | 2096 | Tin |
+| **Al Kharid** | 2092 | Iron |
+| | 2093 | Tin |
+| | 2096 | Coal |
+| | 2098 | Gold |
+| | 2100 | Silver |
+| | 2103 | Mithril |
+| | 450, 2097, 2099, 2101, 2102 | Unknown (depleted during testing) |
 | **Coal Trucks** (Members) | 2096 | Coal |
 | | 2097 | Coal |
 | **Ardougne South** (Members) | 450 | Coal |
@@ -69,11 +76,12 @@ Always use per-mine rock ID tables. Use `Prospect` option on unknown rocks.
 | | 2093 | Iron |
 | | 2097 | Coal |
 
+**Note:** Al Kharid mine is full of Lvl 14 scorpions. Combat 27+ with defensive style is enough to survive while mining. The scorpion fights actually train Defence passively.
+
 ### Unsurveyed Mines
 
 These mines have not been prospected yet — the script mines any rock there:
 - Rimmington (pathfinder gets stuck south of Falador)
-- Al Kharid (requires 10gp toll gate)
 - Dwarven Mine (underground)
 - Mining Guild (underground, 60+ Mining)
 - Yanille (members)
@@ -103,7 +111,6 @@ const copperRock = state.nearbyLocs
 | Ardougne South | (2602, 3235) | Fe, Coal | Ardougne East (2615, 3332) | 100 |
 | Coal Trucks | (2581, 3483) | Coal | Seers Village (2725, 3493) | 150 |
 | Yanille | (2624, 3139) | Cu, Sn, Coal | Yanille (2613, 3094) | 50 |
-
 ## Navigation Gotchas
 
 - **Al Kharid toll gate** requires 10gp coins in inventory
