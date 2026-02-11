@@ -81,6 +81,12 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
 |--------|-------------|
 | `fletchLogs(product?)` | Fletch logs into bows or arrow shafts using a knife. |
 | `smithAtAnvil(product, options)` | Smith a bar into an item at an anvil. |
+| `craftJewelry(options: {
+        barPattern?: RegExp;
+        product?: string;
+        gem?: string;
+        timeout?: number;
+    } = {})` | _No description_ |
 
 ### Condition Waiting
 
@@ -101,6 +107,8 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
 | `pickpocketNpc(target)` | Pickpocket an NPC. |
 | `activatePrayer(prayer)` | Activate a prayer by name or index. |
 | `deactivatePrayer(prayer)` | Deactivate a prayer by name or index. |
+| `enchantItem(target, level, options)` | _No description_ |
+| `stringAmulet(target, options)` | String an amulet using a ball of wool. |
 
 ---
 
@@ -529,5 +537,41 @@ interface PickpocketResult {
   message: string;
   xpGained?: number;
   reason?: 'npc_not_found' | 'no_pickpocket_option' | 'cant_reach' | 'stunned' | 'timeout';
+}
+```
+
+### CraftJewelryResult
+
+```typescript
+interface CraftJewelryResult {
+  success: boolean;
+  message: string;
+  xpGained?: number;
+  product?: InventoryItem;
+  reason?: 'no_bar' | 'no_mould' | 'no_furnace' | 'no_gem' | 'interface_not_opened' | 'level_too_low' | 'timeout';
+}
+```
+
+### EnchantResult
+
+```typescript
+interface EnchantResult {
+  success: boolean;
+  message: string;
+  xpGained?: number;
+  product?: InventoryItem;
+  reason?: 'item_not_found' | 'no_runes' | 'level_too_low' | 'timeout';
+}
+```
+
+### StringAmuletResult
+
+```typescript
+interface StringAmuletResult {
+  success: boolean;
+  message: string;
+  xpGained?: number;
+  product?: InventoryItem;
+  reason?: 'no_amulet' | 'no_string' | 'level_too_low' | 'timeout';
 }
 ```
