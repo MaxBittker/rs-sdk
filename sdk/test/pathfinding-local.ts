@@ -2,7 +2,7 @@
 // Local pathfinding validation - no server or bot required
 // Tests that the collision data + door masking produces correct paths
 
-import { findLongPath, findMultiSegmentPath, findDoorsAlongPath, initPathfinding, isTileWalkable, isFlagged, isZoneLikelyLand, isZoneAllocated } from '../pathfinding';
+import { findLongPath, findDoorsAlongPath, initPathfinding, isTileWalkable, isFlagged, isZoneLikelyLand, isZoneAllocated } from '../pathfinding';
 import { CollisionFlag } from '../../server/vendor/rsmod-pathfinder';
 
 console.log('Initializing pathfinding...');
@@ -13,7 +13,6 @@ let failed = 0;
 
 interface TimingEntry {
     label: string;
-    method: 'findLongPath' | 'findMultiSegmentPath';
     ms: number;
     straightLineDist: number;
     waypoints: number;
@@ -43,7 +42,7 @@ function test(
     const ms = performance.now() - t0;
 
     if (!expectPath) {
-        timings.push({ label, method: 'findLongPath', ms, straightLineDist, waypoints: path.length, reached: path.length === 0 });
+        timings.push({ label, ms, straightLineDist, waypoints: path.length, reached: path.length === 0 });
         if (path.length === 0) {
             console.log(`  PASS: ${label} (no path as expected) [${ms.toFixed(1)}ms]`);
             passed++;
@@ -55,7 +54,7 @@ function test(
     }
 
     if (path.length === 0) {
-        timings.push({ label, method: 'findLongPath', ms, straightLineDist, waypoints: 0, reached: false });
+        timings.push({ label, ms, straightLineDist, waypoints: 0, reached: false });
         console.log(`  FAIL: ${label} (no path found) [${ms.toFixed(1)}ms]`);
         failed++;
         return;
@@ -65,7 +64,7 @@ function test(
     const dist = Math.sqrt(Math.pow(last.x - destX, 2) + Math.pow(last.z - destZ, 2));
     const reached = dist <= maxDist;
 
-    timings.push({ label, method: 'findLongPath', ms, straightLineDist, waypoints: path.length, reached });
+    timings.push({ label, ms, straightLineDist, waypoints: path.length, reached });
 
     if (expectReach && !reached) {
         console.log(`  FAIL: ${label} (path ends at (${last.x}, ${last.z}), ${dist.toFixed(0)} tiles away from dest) [${ms.toFixed(1)}ms]`);
@@ -134,7 +133,7 @@ const faladorWallTiles = [
 let wallsBlocked = 0;
 for (const [x, z] of faladorWallTiles) {
     // Check if any wall flag is set on this tile
-    const hasWall = isFlagged(x, z, 0,
+    const hasWall = isFlagged(x!, z!, 0,
         CollisionFlag.WALL_NORTH | CollisionFlag.WALL_EAST |
         CollisionFlag.WALL_SOUTH | CollisionFlag.WALL_WEST);
     if (hasWall) wallsBlocked++;
@@ -150,7 +149,7 @@ if (wallsBlocked > 0) {
 
 // Check Lumbridge castle door tiles are walkable (walls removed by door mask)
 const lumbridgeDoorTile = [3217, 3218]; // known door position
-const doorWalkable = isTileWalkable(0, lumbridgeDoorTile[0], lumbridgeDoorTile[1]);
+const doorWalkable = isTileWalkable(0, lumbridgeDoorTile[0]!, lumbridgeDoorTile[1]!);
 if (doorWalkable) {
     console.log(`  PASS: Lumbridge castle door tile is walkable (door mask working)`);
     passed++;
@@ -161,60 +160,20 @@ if (doorWalkable) {
     passed++; // still a pass - the path test above validates routing works
 }
 
-console.log('\n--- Multi-Segment Long Distance Tests ---');
+console.log('\n--- Long Distance Tests ---');
 
-// These destinations are >256 tiles from source, requiring multi-segment routing
+// These destinations are far from source, testing the 2048x2048 BFS grid
 
-function testMultiSegment(
-    label: string,
-    srcX: number, srcZ: number,
-    destX: number, destZ: number,
-    opts: { maxDist?: number } = {}
-) {
-    const maxDist = opts.maxDist ?? 15;
-    const straightLineDist = Math.sqrt((destX - srcX) ** 2 + (destZ - srcZ) ** 2);
-
-    const t0 = performance.now();
-    const path = findMultiSegmentPath(0, srcX, srcZ, destX, destZ);
-    const ms = performance.now() - t0;
-
-    if (path.length === 0) {
-        timings.push({ label, method: 'findMultiSegmentPath', ms, straightLineDist, waypoints: 0, reached: false });
-        console.log(`  FAIL: ${label} (no path found) [${ms.toFixed(1)}ms]`);
-        failed++;
-        return;
-    }
-
-    const last = path[path.length - 1]!;
-    const dist = Math.sqrt(Math.pow(last.x - destX, 2) + Math.pow(last.z - destZ, 2));
-    const reached = dist <= maxDist;
-
-    timings.push({ label, method: 'findMultiSegmentPath', ms, straightLineDist, waypoints: path.length, reached });
-
-    if (!reached) {
-        console.log(`  FAIL: ${label} (path ends at (${last.x}, ${last.z}), ${dist.toFixed(0)} tiles away) [${ms.toFixed(1)}ms]`);
-        failed++;
-        return;
-    }
-
-    console.log(`  PASS: ${label} (${path.length} waypoints, ends at (${last.x}, ${last.z}), dist: ${dist.toFixed(0)}) [${ms.toFixed(1)}ms]`);
-    passed++;
-}
-
-// Melzar's Maze to Yanille (~340 tiles)
-testMultiSegment("Melzar's Maze to Yanille",
+test("Melzar's Maze to Yanille",
     2923, 3206, 2605, 3090, { maxDist: 20 });
 
-// Lumbridge to Ardougne (~560 tiles)
-testMultiSegment('Lumbridge to Ardougne',
+test('Lumbridge to Ardougne',
     3222, 3218, 2662, 3305, { maxDist: 20 });
 
-// Varrock to Falador (~250 tiles, borderline single-segment)
-testMultiSegment('Varrock to Falador',
+test('Varrock to Falador',
     3210, 3428, 2964, 3378, { maxDist: 15 });
 
-// Lumbridge to Draynor (short distance, should still work via multi-segment)
-testMultiSegment('Lumbridge to Draynor (short, via multi-segment)',
+test('Lumbridge to Draynor',
     3222, 3218, 3092, 3243, { maxDist: 10 });
 
 console.log('\n--- Door Detection Along Path Tests ---');
@@ -298,11 +257,8 @@ console.log('\n--- Spawn to Varrock Center Tests ---');
 // Varrock center (fountain/square) is around (3213, 3428).
 // This route must navigate through Varrock's SE gate area.
 
-test('Spawn (3244,3395) to Varrock center via findLongPath',
+test('Spawn (3244,3395) to Varrock center',
     3244, 3395, 3213, 3428, { maxDist: 5 });
-
-testMultiSegment('Spawn (3244,3395) to Varrock center via multi-segment',
-    3244, 3395, 3213, 3428, { maxDist: 10 });
 
 // Verify doors are detected on this route (Varrock gates)
 const spawnToVarrockPath = findLongPath(0, 3244, 3395, 3213, 3428);
@@ -313,14 +269,14 @@ if (spawnToVarrockPath.length > 0) {
     console.log(`  INFO: Spawn→Varrock path: no path found (covered by test above)`);
 }
 
-console.log('\n--- Cross-Continent Multi-Segment Tests ---');
+console.log('\n--- Cross-Continent Tests ---');
 
 // Wizards Tower to Tree Gnome Stronghold — the original failing route (~700 tiles)
-testMultiSegment('Wizards Tower to Tree Gnome Stronghold',
+test('Wizards Tower to Tree Gnome Stronghold',
     3109, 3162, 2450, 3420, { maxDist: 35 });
 
 // Lumbridge to Yanille (southwest, must avoid ocean)
-testMultiSegment('Lumbridge to Yanille',
+test('Lumbridge to Yanille',
     3222, 3218, 2605, 3090, { maxDist: 25 });
 
 // ── Performance Summary ──────────────────────────────────────────────────────
@@ -328,22 +284,20 @@ testMultiSegment('Lumbridge to Yanille',
 console.log('\n========== PERFORMANCE ==========');
 
 // Table header
-const col = { label: 45, method: 22, ms: 10, dist: 10, wps: 6, rate: 12 };
+const col = { label: 45, ms: 10, dist: 10, wps: 6, rate: 12 };
 console.log(
     'Route'.padEnd(col.label) +
-    'Method'.padEnd(col.method) +
     'Time'.padStart(col.ms) +
     'Dist'.padStart(col.dist) +
     'Wps'.padStart(col.wps) +
     'Tiles/ms'.padStart(col.rate)
 );
-console.log('-'.repeat(col.label + col.method + col.ms + col.dist + col.wps + col.rate));
+console.log('-'.repeat(col.label + col.ms + col.dist + col.wps + col.rate));
 
 for (const t of timings) {
     const rate = t.ms > 0 ? (t.straightLineDist / t.ms).toFixed(1) : '-';
     console.log(
         t.label.slice(0, col.label - 1).padEnd(col.label) +
-        t.method.padEnd(col.method) +
         `${t.ms.toFixed(1)}ms`.padStart(col.ms) +
         `${t.straightLineDist.toFixed(0)}`.padStart(col.dist) +
         `${t.waypoints}`.padStart(col.wps) +
@@ -352,22 +306,12 @@ for (const t of timings) {
 }
 
 // Aggregates
-const longPathTimings = timings.filter(t => t.method === 'findLongPath');
-const multiSegTimings = timings.filter(t => t.method === 'findMultiSegmentPath');
 const allMs = timings.map(t => t.ms);
 const totalMs = allMs.reduce((a, b) => a + b, 0);
 
-console.log('-'.repeat(col.label + col.method + col.ms + col.dist + col.wps + col.rate));
+console.log('-'.repeat(col.label + col.ms + col.dist + col.wps + col.rate));
 console.log(`Total pathfinding time: ${totalMs.toFixed(1)}ms across ${timings.length} calls`);
-
-if (longPathTimings.length > 0) {
-    const lms = longPathTimings.map(t => t.ms);
-    console.log(`  findLongPath:         avg ${(lms.reduce((a, b) => a + b, 0) / lms.length).toFixed(1)}ms, max ${Math.max(...lms).toFixed(1)}ms (${longPathTimings.length} calls)`);
-}
-if (multiSegTimings.length > 0) {
-    const mms = multiSegTimings.map(t => t.ms);
-    console.log(`  findMultiSegmentPath: avg ${(mms.reduce((a, b) => a + b, 0) / mms.length).toFixed(1)}ms, max ${Math.max(...mms).toFixed(1)}ms (${multiSegTimings.length} calls)`);
-}
+console.log(`  avg ${(totalMs / timings.length).toFixed(1)}ms, max ${Math.max(...allMs).toFixed(1)}ms`);
 
 // Flag anything that seems slow (>100ms for a single call)
 const slow = timings.filter(t => t.ms > 100);

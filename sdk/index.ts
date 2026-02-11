@@ -918,7 +918,7 @@ export class BotSDK {
         if (!prayerState) return false;
         const index = typeof prayer === 'number' ? prayer : PRAYER_INDICES[prayer];
         if (index === undefined || index < 0 || index >= prayerState.activePrayers.length) return false;
-        return prayerState.activePrayers[index];
+        return !!prayerState.activePrayers[index];
     }
 
     /** Get list of all currently active prayer names. */
@@ -1024,13 +1024,8 @@ export class BotSDK {
 
         const destZoneAllocated = pathfinding.isZoneAllocated(level, destX, destZ);
 
-        // Use multi-segment routing for long distances that exceed the
-        // 512x512 pathfinder grid; short distances use findLongPath directly.
-        const dx = Math.abs(destX - srcX);
-        const dz = Math.abs(destZ - srcZ);
-        const waypoints = (dx > 200 || dz > 200)
-            ? pathfinding.findMultiSegmentPath(level, srcX, srcZ, destX, destZ, maxWaypoints)
-            : pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
+        // 2048x2048 BFS grid handles any in-game distance in a single call.
+        const waypoints = pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
 
         // If no waypoints and destination zone isn't allocated, that's expected -
         // we just can't path there yet (might need to open a door first)

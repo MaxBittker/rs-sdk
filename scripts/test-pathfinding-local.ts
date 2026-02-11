@@ -2,8 +2,18 @@
 // Local pathfinding validation - no server or bot required
 // Tests that the collision data + door masking produces correct paths
 
-import { findLongPath, findMultiSegmentPath, findDoorsAlongPath, initPathfinding, isTileWalkable, isFlagged, isInsideDraynorManor, getDraynorManorEscape, isZoneLikelyLand, isZoneAllocated } from '../sdk/pathfinding';
+import { findLongPath, findDoorsAlongPath, initPathfinding, isTileWalkable, isFlagged, isZoneLikelyLand, isZoneAllocated } from '../sdk/pathfinding';
 import { CollisionFlag } from '../server/vendor/rsmod-pathfinder';
+
+// Draynor Manor helpers (local to this test)
+const DRAYNOR_MANOR = { minX: 3097, maxX: 3119, minZ: 3353, maxZ: 3373 };
+function isInsideDraynorManor(x: number, z: number): boolean {
+    return x >= DRAYNOR_MANOR.minX && x <= DRAYNOR_MANOR.maxX &&
+           z >= DRAYNOR_MANOR.minZ && z <= DRAYNOR_MANOR.maxZ;
+}
+function getDraynorManorEscape(): { x: number; z: number } {
+    return { x: 3125, z: 3370 };
+}
 
 console.log('Initializing pathfinding...');
 initPathfinding();
@@ -115,7 +125,7 @@ const faladorWallTiles = [
 let wallsBlocked = 0;
 for (const [x, z] of faladorWallTiles) {
     // Check if any wall flag is set on this tile
-    const hasWall = isFlagged(x, z, 0,
+    const hasWall = isFlagged(x!, z!, 0,
         CollisionFlag.WALL_NORTH | CollisionFlag.WALL_EAST |
         CollisionFlag.WALL_SOUTH | CollisionFlag.WALL_WEST);
     if (hasWall) wallsBlocked++;
@@ -131,7 +141,7 @@ if (wallsBlocked > 0) {
 
 // Check Lumbridge castle door tiles are walkable (walls removed by door mask)
 const lumbridgeDoorTile = [3217, 3218]; // known door position
-const doorWalkable = isTileWalkable(0, lumbridgeDoorTile[0], lumbridgeDoorTile[1]);
+const doorWalkable = isTileWalkable(0, lumbridgeDoorTile[0]!, lumbridgeDoorTile[1]!);
 if (doorWalkable) {
     console.log(`  PASS: Lumbridge castle door tile is walkable (door mask working)`);
     passed++;
@@ -142,52 +152,24 @@ if (doorWalkable) {
     passed++; // still a pass - the path test above validates routing works
 }
 
-console.log('\n--- Multi-Segment Long Distance Tests ---');
+console.log('\n--- Long Distance Tests ---');
 
-// These destinations are >256 tiles from source, requiring multi-segment routing
-
-function testMultiSegment(
-    label: string,
-    srcX: number, srcZ: number,
-    destX: number, destZ: number,
-    opts: { maxDist?: number } = {}
-) {
-    const maxDist = opts.maxDist ?? 15;
-    const path = findMultiSegmentPath(0, srcX, srcZ, destX, destZ);
-
-    if (path.length === 0) {
-        console.log(`  FAIL: ${label} (no path found)`);
-        failed++;
-        return;
-    }
-
-    const last = path[path.length - 1]!;
-    const dist = Math.sqrt(Math.pow(last.x - destX, 2) + Math.pow(last.z - destZ, 2));
-
-    if (dist > maxDist) {
-        console.log(`  FAIL: ${label} (path ends at (${last.x}, ${last.z}), ${dist.toFixed(0)} tiles away)`);
-        failed++;
-        return;
-    }
-
-    console.log(`  PASS: ${label} (${path.length} waypoints, ends at (${last.x}, ${last.z}), dist: ${dist.toFixed(0)})`);
-    passed++;
-}
+// These destinations are far from source, testing the 2048x2048 BFS grid
 
 // Melzar's Maze to Yanille (~340 tiles)
-testMultiSegment("Melzar's Maze to Yanille",
+test("Melzar's Maze to Yanille",
     2923, 3206, 2605, 3090, { maxDist: 20 });
 
 // Lumbridge to Ardougne (~560 tiles)
-testMultiSegment('Lumbridge to Ardougne',
+test('Lumbridge to Ardougne',
     3222, 3218, 2662, 3305, { maxDist: 20 });
 
-// Varrock to Falador (~250 tiles, borderline single-segment)
-testMultiSegment('Varrock to Falador',
+// Varrock to Falador (~250 tiles)
+test('Varrock to Falador',
     3210, 3428, 2964, 3378, { maxDist: 15 });
 
-// Lumbridge to Draynor (short distance, should still work via multi-segment)
-testMultiSegment('Lumbridge to Draynor (short, via multi-segment)',
+// Lumbridge to Draynor
+test('Lumbridge to Draynor',
     3222, 3218, 3092, 3243, { maxDist: 10 });
 
 console.log('\n--- Door Detection Along Path Tests ---');
@@ -262,8 +244,8 @@ if (manorEscapePath.length > 0) {
     failed++;
 }
 
-// Test multi-segment path from escape exit to Lumbridge
-testMultiSegment('Escape exit to Lumbridge (via multi-segment)',
+// Test path from escape exit to Lumbridge
+test('Escape exit to Lumbridge',
     3125, 3370, 3222, 3218, { maxDist: 15 });
 
 console.log('\n--- Water / Ocean Avoidance Tests ---');
@@ -317,14 +299,14 @@ for (const { label, x, z } of landTestTiles) {
     }
 }
 
-console.log('\n--- Cross-Continent Multi-Segment Tests ---');
+console.log('\n--- Cross-Continent Tests ---');
 
 // Wizards Tower to Tree Gnome Stronghold — the original failing route (~700 tiles)
-testMultiSegment('Wizards Tower to Tree Gnome Stronghold',
+test('Wizards Tower to Tree Gnome Stronghold',
     3109, 3162, 2450, 3420, { maxDist: 35 });
 
 // Lumbridge to Yanille (southwest, must avoid ocean)
-testMultiSegment('Lumbridge to Yanille',
+test('Lumbridge to Yanille',
     3222, 3218, 2605, 3090, { maxDist: 25 });
 
 console.log(`\n========== RESULTS ==========`);

@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * Navigation Test - City to City Routes
- * Tests long-distance walkTo with the 512x512 pathfinder
+ * Tests long-distance walkTo with the 2048x2048 pathfinder
  */
 
 import { runTest } from './utils/test-runner';

@@ -150,7 +150,7 @@ export function findLongPath(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  MULTI-SEGMENT ROUTING — breaks long distances into pathfinder-sized chunks
+//  UTILITIES
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /** Check if a tile is walkable (no blocking flags). */
@@ -174,19 +174,6 @@ export function isZoneLikelyLand(level: number, x: number, z: number): boolean {
     return populatedZones.has(`${level},${x & ~7},${z & ~7}`);
 }
 
-/**
- * Find a path between two distant points.
- * With the 2048x2048 pathfinder grid (±1024 tile reach), this is now
- * just a direct call to findLongPath for any in-game distance.
- */
-export function findMultiSegmentPath(
-    level: number,
-    srcX: number, srcZ: number,
-    destX: number, destZ: number,
-    maxWaypoints: number = 500,
-): Array<{ x: number; z: number; level: number }> {
-    return findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  DOOR PATH ANALYSIS — identify doors a computed path crosses through
