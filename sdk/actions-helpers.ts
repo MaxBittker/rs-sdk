@@ -102,12 +102,12 @@ export class ActionHelpers {
         // Wait for door to open (with longer timeout to allow for walking)
         try {
             await this.sdk.waitForCondition(state => {
-                // Check for "can't reach" messages - means we truly can't get there
+                // Check for failure messages - locked doors, can't reach, etc.
                 for (const msg of state.gameMessages) {
                     if (msg.tick > startTick) {
                         const text = msg.text.toLowerCase();
-                        if (text.includes("can't reach") || text.includes("cannot reach")) {
-                            return true; // Exit early on can't reach
+                        if (text.includes("can't reach") || text.includes("cannot reach") || text.includes("locked")) {
+                            return true; // Exit early — door can't be opened
                         }
                     }
                 }
@@ -361,6 +361,15 @@ export class ActionHelpers {
 
         try {
             await this.sdk.waitForCondition(state => {
+                // Check for failure messages (locked, can't reach, etc.)
+                for (const msg of state.gameMessages) {
+                    if (msg.tick > startTick) {
+                        const text = msg.text.toLowerCase();
+                        if (text.includes("locked") || text.includes("can't reach") || text.includes("cannot reach")) {
+                            return true; // Exit early — door can't be opened
+                        }
+                    }
+                }
                 const doorNow = state.nearbyLocs.find(l =>
                     l.x === doorX && l.z === doorZ && l.id === door.id
                 );

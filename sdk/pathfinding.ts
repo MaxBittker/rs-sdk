@@ -195,6 +195,21 @@ export function getDoorAt(level: number, x: number, z: number): DoorInfo | undef
     return doorIndex.get(doorKey(level, x, z));
 }
 
+/**
+ * Re-add wall collision for a door that couldn't be opened (e.g. locked).
+ * This causes the pathfinder to route around it on subsequent queries.
+ * Also removes the door from the index so findDoorsAlongPath won't return it.
+ */
+export function blockDoor(level: number, x: number, z: number): boolean {
+    if (!initialized) initPathfinding();
+    const key = doorKey(level, x, z);
+    const door = doorIndex.get(key);
+    if (!door) return false;
+    rsmod.changeWall(x, z, level, door.angle, door.shape, door.blockrange, false, true);
+    doorIndex.delete(key);
+    return true;
+}
+
 // Unpack waypoints from rsmod format
 function unpackWaypoints(waypointsRaw: Uint32Array): Array<{ x: number; z: number; level: number }> {
     const waypoints: Array<{ x: number; z: number; level: number }> = [];

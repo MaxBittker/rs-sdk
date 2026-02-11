@@ -214,11 +214,12 @@ export async function runScript(
         timeout,
         connection,
         autoConnect = true,
-        disconnectAfter = false,
         printState = true,
         onDisconnect = 'error',
         reconnectTimeout = 60000
     } = options;
+    // Default disconnectAfter to true for CLI (managed connections), false for MCP (external connections)
+    const disconnectAfter = options.disconnectAfter ?? !connection;
 
     const startTime = Date.now();
     const logs: LogEntry[] = [];
