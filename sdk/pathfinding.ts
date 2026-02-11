@@ -1,15 +1,11 @@
 // Local pathfinding using bundled collision data
 import * as rsmod from '../server/vendor/rsmod-pathfinder';
 import { CollisionType, CollisionFlag } from '../server/vendor/rsmod-pathfinder';
-import collisionData from './collision-data.json';
+import { readFileSync } from 'fs';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 let initialized = false;
-
-interface CollisionData {
-    tiles: Array<[number, number, number, number]>;
-    zones: Array<[number, number, number]>;
-    doors?: Array<[number, number, number, number, number, number]>; // [level, x, z, shape, angle, blockrange]
-}
 
 export interface DoorInfo {
     level: number;
@@ -38,22 +34,58 @@ function doorKey(level: number, x: number, z: number): string {
     return `${level},${x},${z}`;
 }
 
+function unpackCoord(packed: number): { level: number; x: number; z: number } {
+    return {
+        z: packed & 0x3FFF,
+        x: (packed >> 14) & 0x3FFF,
+        level: (packed >> 28) & 0x3,
+    };
+}
+
 export function initPathfinding(): void {
     if (initialized) return;
 
-    const data = collisionData as CollisionData;
     const start = Date.now();
 
+    // Load binary collision data
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const binPath = resolve(__dirname, 'collision-data.bin');
+    const buf = readFileSync(binPath);
+    const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+
+    // Validate header
+    if (view.getUint8(0) !== 0x43 || view.getUint8(1) !== 0x4F ||
+        view.getUint8(2) !== 0x4C || view.getUint8(3) !== 0x4C) {
+        throw new Error('Invalid collision binary: bad magic bytes');
+    }
+    const version = view.getUint32(4, true);
+    if (version !== 1 && version !== 2) {
+        throw new Error(`Unsupported collision binary version: ${version}`);
+    }
+
+    const tileCount = view.getUint32(8, true);
+    const zoneCount = view.getUint32(12, true);
+    const doorCount = view.getUint32(16, true);
+    const closeDoorCount = version >= 2 ? view.getUint32(20, true) : 0;
+    const loadMs = Date.now() - start;
+
+    const headerSize = version >= 2 ? 24 : 20;
+    const tilesEnd = headerSize + tileCount * 8;
+    const zonesEnd = tilesEnd + zoneCount * 4;
+
     // Allocate all zones first (includes walkable areas with no collision tiles)
-    for (const [level, zoneX, zoneZ] of data.zones) {
-        rsmod.allocateIfAbsent(zoneX, zoneZ, level);
+    let offset = tilesEnd; // zones section starts after tiles
+    for (let i = 0; i < zoneCount; i++) {
+        const packed = view.getUint32(offset, true);
+        const { level, x, z } = unpackCoord(packed);
+        rsmod.allocateIfAbsent(x, z, level);
+        offset += 4;
     }
 
     // Allocate mainland zones so the 2048x2048 BFS grid can traverse
     // open land between cities. Unallocated zones return NULL (blocked),
     // so without this the pathfinder can't cross gaps in the collision data.
-    // Newly-allocated zones default to OPEN (walkable), which is correct
-    // for grassland/roads. Zones already allocated above keep their flags.
     let mainlandZones = 0;
     for (let x = 2304; x <= 3392; x += 8) {
         for (let z = 2944; z <= 3584; z += 8) {
@@ -65,39 +97,72 @@ export function initPathfinding(): void {
     }
 
     // Set collision flags for tiles that have them (includes wall flags)
-    for (const [level, x, z, flags] of data.tiles) {
+    offset = headerSize; // tiles section starts after header
+    for (let i = 0; i < tileCount; i++) {
+        const packed = view.getUint32(offset, true);
+        const flags = view.getInt32(offset + 4, true); // SIGNED — bit 31 used
+        const { level, x, z } = unpackCoord(packed);
         rsmod.__set(x, z, level, flags);
-        // Track which zones have at least one collision tile (likely land, not ocean)
         populatedZones.add(`${level},${x & ~7},${z & ~7}`);
+        offset += 8;
     }
 
     // Remove wall collision at door/gate positions so the pathfinder
     // routes through doorways while still respecting permanent walls.
-    // Uses rsmod.changeWall(add=false) — the same method the server uses
-    // when doors are opened at runtime.
-    let doorCount = 0;
+    let doorsMasked = 0;
     let skippedOneWay = 0;
-    if (data.doors) {
-        for (const [level, x, z, shape, angle, blockrange] of data.doors) {
-            const key = doorKey(level, x, z);
+    offset = zonesEnd; // doors section starts after zones
+    for (let i = 0; i < doorCount; i++) {
+        const packed = view.getUint32(offset, true);
+        const shape = view.getUint8(offset + 4);
+        const angle = view.getUint8(offset + 5);
+        const blockrange = view.getUint8(offset + 6);
+        const { level, x, z } = unpackCoord(packed);
+        offset += 7;
 
-            // Skip one-way doors — keep their wall collision so the pathfinder
-            // won't route through them (entering traps the bot).
-            if (ONE_WAY_DOORS.has(key)) {
-                skippedOneWay++;
-                continue;
-            }
+        const key = doorKey(level, x, z);
 
-            rsmod.changeWall(x, z, level, angle, shape, !!blockrange, false, false);
-            doorIndex.set(key, {
-                level, x, z, shape, angle, blockrange: !!blockrange
-            });
-            doorCount++;
+        // Skip one-way doors — keep their wall collision so the pathfinder
+        // won't route through them (entering traps the bot).
+        if (ONE_WAY_DOORS.has(key)) {
+            skippedOneWay++;
+            continue;
         }
+
+        rsmod.changeWall(x, z, level, angle, shape, !!blockrange, false, false);
+        doorIndex.set(key, {
+            level, x, z, shape, angle, blockrange: !!blockrange
+        });
+        doorsMasked++;
+    }
+
+    // Add wall collision for default-open doors (closeDoors).
+    // These doors have no wall collision in the static map data because they
+    // spawn open. We add walls so the pathfinder treats them as closed,
+    // preventing routes through doorways that may be closed at runtime.
+    const doorsEnd = zonesEnd + doorCount * 7;
+    offset = doorsEnd;
+    let closeDoorsAdded = 0;
+    for (let i = 0; i < closeDoorCount; i++) {
+        const packed = view.getUint32(offset, true);
+        const shape = view.getUint8(offset + 4);
+        const angle = view.getUint8(offset + 5);
+        const blockrange = view.getUint8(offset + 6);
+        const { level, x, z } = unpackCoord(packed);
+        offset += 7;
+
+        // Add wall collision (add=true) — the opposite of what we do for "Open" doors
+        rsmod.changeWall(x, z, level, angle, shape, !!blockrange, false, true);
+        // Also add to doorIndex so findDoorsAlongPath detects them
+        const key = doorKey(level, x, z);
+        doorIndex.set(key, {
+            level, x, z, shape, angle, blockrange: !!blockrange
+        });
+        closeDoorsAdded++;
     }
 
     initialized = true;
-    console.log(`Pathfinding initialized in ${Date.now() - start}ms (${data.zones.length} zones + ${mainlandZones} mainland fill, ${data.tiles.length} tiles, ${doorCount} doors masked, ${skippedOneWay} one-way doors blocked)`);
+    console.log(`Pathfinding initialized in ${Date.now() - start}ms (load: ${loadMs}ms) (${zoneCount} zones + ${mainlandZones} mainland fill, ${tileCount} tiles, ${doorsMasked} doors masked, ${skippedOneWay} one-way doors blocked, ${closeDoorsAdded} close-doors walled)`);
 }
 
 // Check if a zone has collision data
