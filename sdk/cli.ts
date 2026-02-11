@@ -11,7 +11,7 @@
 //   bun sdk/cli.ts mybot
 //   bun sdk/cli.ts mybot secret --server localhost
 
-import { BotSDK } from './index';
+import { BotSDK, deriveGatewayUrl } from './index';
 import { formatWorldState } from './formatter';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
@@ -108,7 +108,6 @@ async function main() {
     // Default server if not set
     if (!server) server = 'rs-sdk-demo.fly.dev';
 
-    // Derive if local
     const isLocal = server === 'localhost' || server.startsWith('localhost:');
 
     if (!username) {
@@ -123,10 +122,7 @@ async function main() {
         process.exit(1);
     }
 
-    // Derive gateway URL
-    const gatewayUrl = isLocal
-        ? `ws://${server.includes(':') ? server : server + ':7780'}`
-        : `wss://${server}/gateway`;
+    const gatewayUrl = deriveGatewayUrl(server);
 
     // Create SDK - never auto-launch browser in CLI mode
     const sdk = new BotSDK({

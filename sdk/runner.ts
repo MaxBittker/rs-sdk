@@ -1,7 +1,7 @@
 // Script Runner - Zero boilerplate script execution
 // Auto-finds bot.env sibling to script, or from command line arg, or --env-file
 
-import { BotSDK } from './index';
+import { BotSDK, deriveGatewayUrl } from './index';
 import { BotActions } from './actions';
 import { formatWorldState } from './formatter';
 import type { BotWorldState } from './types';
@@ -151,10 +151,7 @@ async function getOrCreateConnection(): Promise<BotConnection> {
         return existing;
     }
 
-    let gatewayUrl = 'ws://localhost:7780';
-    if (server) {
-        gatewayUrl = `wss://${server}/gateway`;
-    }
+    const gatewayUrl = deriveGatewayUrl(server);
 
     console.error(`[Runner] Connecting to bot "${username}"...`);
 

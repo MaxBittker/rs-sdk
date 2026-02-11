@@ -23,6 +23,23 @@ import type {
 import { PRAYER_INDICES, PRAYER_NAMES } from './types';
 import * as pathfinding from './pathfinding';
 
+/**
+ * Derive the gateway WebSocket URL from a SERVER env value.
+ * - undefined/empty → ws://localhost:7780 (local default)
+ * - Full URL (ws:// or wss://) → used as-is
+ * - "localhost" or "localhost:PORT" → ws://localhost:PORT (plain WS)
+ * - anything else → wss://HOST/gateway (TLS, remote gateway path)
+ */
+export function deriveGatewayUrl(server?: string): string {
+    if (!server) return 'ws://localhost:7780';
+    if (server.startsWith('ws://') || server.startsWith('wss://')) return server;
+    const isLocal = server === 'localhost' || server.startsWith('localhost:');
+    if (isLocal) {
+        return `ws://${server.includes(':') ? server : server + ':7780'}`;
+    }
+    return `wss://${server}/gateway`;
+}
+
 interface SyncToSDKMessage {
     type: 'sdk_connected' | 'sdk_state' | 'sdk_action_result' | 'sdk_error' | 'sdk_screenshot_response';
     success?: boolean;
