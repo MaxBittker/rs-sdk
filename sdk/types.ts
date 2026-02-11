@@ -202,6 +202,17 @@ export interface CombatStyleState {
     styles: CombatStyleOption[];
 }
 
+/** Skill names that can be trained via combat styles. Case-insensitive when used as arguments. */
+export type TrainableSkill = 'Attack' | 'Strength' | 'Defence' | 'Shared' | 'Ranged';
+
+export interface SetCombatStyleResult {
+    success: boolean;
+    message: string;
+    /** The style that was set (if successful) */
+    style?: CombatStyleOption;
+    reason?: 'no_combat_state' | 'no_matching_style' | 'already_set' | 'timeout';
+}
+
 export interface CombatEvent {
     tick: number;
     type: 'damage_taken' | 'damage_dealt' | 'kill';

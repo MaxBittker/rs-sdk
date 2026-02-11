@@ -38,7 +38,9 @@ import type {
     InteractNpcResult,
     PickpocketResult,
     PrayerResult,
-    PrayerName
+    PrayerName,
+    SetCombatStyleResult,
+    TrainableSkill
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES, PRAYER_LEVELS } from './types';
 
@@ -2476,6 +2478,60 @@ export class BotActions {
             return { success: false, message: `Pickpocket failed on ${npc.name}`, reason: 'timeout' };
         } catch {
             return { success: false, message: `Timed out pickpocketing ${npc.name}`, reason: 'timeout' };
+        }
+    }
+
+    // ============ Porcelain: Combat Style ============
+
+    /**
+     * Set combat style by trained skill name.
+     * Resolves the correct style index for the currently equipped weapon,
+     * so you don't need to know weapon-specific index mappings.
+     * If multiple styles train the same skill, the first match is used.
+     *
+     * @example
+     * ```ts
+     * await bot.setCombatStyle('Strength');  // Train strength regardless of weapon
+     * await bot.setCombatStyle('Defence');   // Works for any weapon type
+     * ```
+     */
+    async setCombatStyle(skill: TrainableSkill): Promise<SetCombatStyleResult> {
+        const combatState = this.sdk.getCombatStyle();
+        if (!combatState) {
+            return { success: false, message: 'No combat style state available', reason: 'no_combat_state' };
+        }
+
+        const match = combatState.styles.find(s =>
+            s.trainedSkill.toLowerCase() === skill.toLowerCase()
+        );
+        if (!match) {
+            const available = combatState.styles.map(s => `${s.name}(${s.trainedSkill})`).join(', ');
+            return {
+                success: false,
+                message: `No style training '${skill}' for ${combatState.weaponName}. Available: ${available}`,
+                reason: 'no_matching_style'
+            };
+        }
+
+        // Already set
+        if (combatState.currentStyle === match.index) {
+            return { success: true, message: `Already using ${match.name} (${match.trainedSkill})`, style: match, reason: 'already_set' };
+        }
+
+        const result = await this.sdk.sendSetCombatStyle(match.index);
+        if (!result.success) {
+            return { success: false, message: result.message };
+        }
+
+        // Wait for style change to take effect
+        try {
+            await this.sdk.waitForCondition(state => {
+                return state.combatStyle?.currentStyle === match.index;
+            }, 5000);
+            return { success: true, message: `Set combat style to ${match.name} (trains ${match.trainedSkill})`, style: match };
+        } catch {
+            // Style command was sent even if we couldn't confirm the state change
+            return { success: true, message: `Sent combat style change to ${match.name} (trains ${match.trainedSkill})`, style: match };
         }
     }
 

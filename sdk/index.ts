@@ -18,7 +18,9 @@ import type {
     SDKConnectionMode,
     BotStatus,
     PrayerState,
-    PrayerName
+    PrayerName,
+    CombatStyleState,
+    TrainableSkill
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES } from './types';
 import * as pathfinding from './pathfinding';
@@ -874,9 +876,43 @@ export class BotSDK {
         return this.sendAction({ type: 'closeModal', reason: 'SDK' });
     }
 
-    /** Set combat style (0-3). */
-    async sendSetCombatStyle(style: number): Promise<ActionResult> {
-        return this.sendAction({ type: 'setCombatStyle', style, reason: 'SDK' });
+    /**
+     * Set combat style by index (0-3) or by trained skill name.
+     *
+     * Using a skill name (e.g. 'Attack', 'Strength', 'Defence') automatically
+     * resolves to the correct index for the currently equipped weapon.
+     * If multiple styles train the same skill, the first match is used.
+     *
+     * @example
+     * ```ts
+     * await sdk.sendSetCombatStyle('Strength');  // Train strength with current weapon
+     * await sdk.sendSetCombatStyle(0);           // Raw index (weapon-dependent)
+     * ```
+     */
+    async sendSetCombatStyle(style: number | TrainableSkill): Promise<ActionResult> {
+        let index: number;
+        if (typeof style === 'number') {
+            index = style;
+        } else {
+            const combatState = this.state?.combatStyle;
+            if (!combatState) {
+                return { success: false, message: 'No combat style state available - ensure the combat tab is visible' };
+            }
+            const match = combatState.styles.find(s =>
+                s.trainedSkill.toLowerCase() === style.toLowerCase()
+            );
+            if (!match) {
+                const available = combatState.styles.map(s => `${s.name}(${s.trainedSkill})`).join(', ');
+                return { success: false, message: `No style training '${style}' for ${combatState.weaponName}. Available: ${available}` };
+            }
+            index = match.index;
+        }
+        return this.sendAction({ type: 'setCombatStyle', style: index, reason: 'SDK' });
+    }
+
+    /** Get current combat style state (weapon, available styles, current style). */
+    getCombatStyle(): CombatStyleState | null {
+        return this.state?.combatStyle || null;
     }
 
     // ============ Prayer ============

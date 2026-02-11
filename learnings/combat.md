@@ -16,27 +16,54 @@ const attackOpt = npc.optionsWithIndex.find(o => /attack/i.test(o.text));
 await ctx.sdk.sendInteractNpc(npc.index, attackOpt.opIndex);
 ```
 
-## Combat Style Cycling
+## Combat Style Selection
 
-Rotate styles for balanced training:
+Use skill names instead of opaque indices. The SDK resolves the correct
+index automatically based on the equipped weapon:
 
 ```typescript
-// Combat style indices
-const STYLES = {
-    ATTACK: 0,    // Train Attack
-    STRENGTH: 1,  // Train Strength
-    STRENGTH2: 2, // Also Strength (some weapons)
-    DEFENCE: 3,   // Train Defence
-};
+// Porcelain (recommended) - waits for effect, returns typed result
+await ctx.bot.setCombatStyle('Strength');   // Works with any weapon
+await ctx.bot.setCombatStyle('Defence');    // No need to know weapon-specific indices
+await ctx.bot.setCombatStyle('Attack');
 
-// Cycle every 30 seconds or on level-up
-let lastStyleChange = Date.now();
+// Plumbing - resolves skill name to index, returns on acknowledgement
+await ctx.sdk.sendSetCombatStyle('Strength');
+await ctx.sdk.sendSetCombatStyle('Ranged');  // Works when bow equipped
+
+// Raw index still works for backwards compatibility
+await ctx.sdk.sendSetCombatStyle(0);
+```
+
+Inspect available styles for the current weapon:
+
+```typescript
+const styles = ctx.sdk.getCombatStyle();
+// { weaponName: 'Bronze sword', currentStyle: 0,
+//   styles: [{index:0, name:'Chop', type:'Accurate', trainedSkill:'Attack'}, ...] }
+```
+
+Invalid skill names return clear errors:
+
+```typescript
+const result = await ctx.bot.setCombatStyle('Ranged'); // with sword equipped
+// { success: false, reason: 'no_matching_style',
+//   message: "No style training 'Ranged' for Bronze sword. Available: Chop(Attack), ..." }
+```
+
+## Combat Style Cycling
+
+Rotate styles for balanced training using skill names:
+
+```typescript
+const SKILLS = ['Attack', 'Strength', 'Defence'] as const;
+let currentIndex = 0;
 const CYCLE_INTERVAL = 30_000;
+let lastStyleChange = Date.now();
 
 if (Date.now() - lastStyleChange > CYCLE_INTERVAL) {
-    currentStyle = (currentStyle + 1) % 4;
-    if (currentStyle === 2) currentStyle = 3; // Skip duplicate strength
-    await ctx.sdk.sendSetCombatStyle(currentStyle);
+    currentIndex = (currentIndex + 1) % SKILLS.length;
+    await ctx.bot.setCombatStyle(SKILLS[currentIndex]);
     lastStyleChange = Date.now();
 }
 ```
@@ -182,21 +209,21 @@ if (Math.abs(player.worldX - lastX) > 500) {
 For balanced progression, automatically train whichever stat is lowest:
 
 ```typescript
-function getLowestCombatStat(state): { stat: string, style: number } {
+function getLowestCombatSkill(state): TrainableSkill {
     const skills = state.skills;
     const atk = skills.find(s => s.name === 'Attack')?.baseLevel ?? 1;
     const str = skills.find(s => s.name === 'Strength')?.baseLevel ?? 1;
     const def = skills.find(s => s.name === 'Defence')?.baseLevel ?? 1;
 
-    if (def <= atk && def <= str) return { stat: 'Defence', style: 3 };
-    if (str <= atk) return { stat: 'Strength', style: 1 };
-    return { stat: 'Attack', style: 0 };
+    if (def <= atk && def <= str) return 'Defence';
+    if (str <= atk) return 'Strength';
+    return 'Attack';
 }
 
-// Set combat style based on lowest stat
-const { stat, style } = getLowestCombatStat(ctx.sdk.getState());
-await ctx.sdk.sendSetCombatStyle(style);
-console.log(`Training ${stat} (lowest)`);
+// Set combat style based on lowest stat - no index guessing needed
+const skill = getLowestCombatSkill(ctx.sdk.getState());
+await ctx.bot.setCombatStyle(skill);
+console.log(`Training ${skill} (lowest)`);
 ```
 
 This pattern enabled balanced 60+ in all melee stats.
