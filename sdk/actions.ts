@@ -4,6 +4,7 @@
 
 import { BotSDK } from './index';
 import { ActionHelpers } from './actions-helpers';
+import { isInsideDraynorManor, getDraynorManorEscape, findDoorsAlongPath } from './pathfinding';
 import type {
     ActionResult,
     SkillState,
@@ -727,6 +728,39 @@ export class BotActions {
         const state = this.sdk.getState();
         if (!state?.player) return { success: false, message: 'No player state' };
 
+        let pos = { x: state.player.worldX, z: state.player.worldZ };
+        const distTo = (p: { x: number; z: number }) => this.helpers.distance(p.x, p.z, x, z);
+
+        if (distTo(pos) <= tolerance) {
+            return { success: true, message: 'Already at destination' };
+        }
+
+        // Draynor Manor trap: the front door only opens from outside.
+        // If we're inside the manor and the destination is outside, escape
+        // via the east wing doors first, then continue to the real destination.
+        if (isInsideDraynorManor(pos.x, pos.z, state.player.level) &&
+            !isInsideDraynorManor(x, z)) {
+            const escape = getDraynorManorEscape();
+            console.log(`[walkTo] Inside Draynor Manor — escaping via east wing to (${escape.x}, ${escape.z})`);
+            const escapeResult = await this._walkToInternal(escape.x, escape.z, 3);
+            if (!escapeResult.success) {
+                return { success: false, message: `Trapped in Draynor Manor: ${escapeResult.message}` };
+            }
+            const afterEscape = this.sdk.getState()?.player;
+            if (afterEscape) pos = { x: afterEscape.worldX, z: afterEscape.worldZ };
+            if (distTo(pos) <= tolerance) {
+                return { success: true, message: 'Arrived' };
+            }
+        }
+
+        return this._walkToInternal(x, z, tolerance);
+    }
+
+    /** Core walk loop — used by walkTo and Draynor Manor escape. */
+    private async _walkToInternal(x: number, z: number, tolerance: number = 3): Promise<ActionResult> {
+        const state = this.sdk.getState();
+        if (!state?.player) return { success: false, message: 'No player state' };
+
         const distTo = (pos: { x: number; z: number }) => this.helpers.distance(pos.x, pos.z, x, z);
         let pos = { x: state.player.worldX, z: state.player.worldZ };
 
@@ -757,16 +791,58 @@ export class BotActions {
                 await this.sdk.waitForTicks(1);
                 path = await this.sdk.sendFindPath(x, z, 500);
                 if (!path.success || !path.waypoints?.length) {
-                    console.error(`[walkTo] PATHFINDING FAILED: ${path.error ?? 'no waypoints'} - from (${pos.x}, ${pos.z}) to (${x}, ${z})`);
-                    return { success: false, message: `No path to (${x}, ${z}) from (${pos.x}, ${pos.z}): ${path.error ?? 'no waypoints'}` };
+                    // If destination is far, try an intermediate point within pathfinder range
+                    const dist = this.helpers.distance(pos.x, pos.z, x, z);
+                    if (dist > 200) {
+                        const ratio = 200 / dist;
+                        const midX = Math.round(pos.x + (x - pos.x) * ratio);
+                        const midZ = Math.round(pos.z + (z - pos.z) * ratio);
+                        path = await this.sdk.sendFindPath(midX, midZ, 500);
+                    }
+                    if (!path.success || !path.waypoints?.length) {
+                        console.error(`[walkTo] PATHFINDING FAILED: ${path.error ?? 'no waypoints'} - from (${pos.x}, ${pos.z}) to (${x}, ${z})`);
+                        return { success: false, message: `No path to (${x}, ${z}) from (${pos.x}, ${pos.z}): ${path.error ?? 'no waypoints'}` };
+                    }
                 }
             }
+
+            // Identify doors the path crosses through so we can open them proactively
+            const requiredDoors = findDoorsAlongPath(path.waypoints);
+            const requiredDoorKeys = new Set(requiredDoors.map(d => `${d.x},${d.z}`));
 
             // Walk waypoints
             const startPos = { ...pos };
             let consecutiveStuck = 0;
 
             for (const wp of path.waypoints) {
+                // Proactively open doors the path requires — only when we're close enough to see them
+                if (requiredDoorKeys.size > 0) {
+                    const wpDoorKey = `${wp.x},${wp.z}`;
+                    const isNearDoor = requiredDoorKeys.has(wpDoorKey) ||
+                        requiredDoorKeys.has(`${wp.x + 1},${wp.z}`) ||
+                        requiredDoorKeys.has(`${wp.x - 1},${wp.z}`) ||
+                        requiredDoorKeys.has(`${wp.x},${wp.z + 1}`) ||
+                        requiredDoorKeys.has(`${wp.x},${wp.z - 1}`);
+
+                    if (isNearDoor) {
+                        const dist = this.helpers.distance(pos.x, pos.z, wp.x, wp.z);
+                        if (dist <= 15) {
+                            // Find which required door is closest to this waypoint
+                            for (const door of requiredDoors) {
+                                const doorDist = Math.abs(door.x - wp.x) + Math.abs(door.z - wp.z);
+                                if (doorDist <= 1) {
+                                    const opened = await this.helpers.openDoorAt(door.x, door.z);
+                                    if (opened) {
+                                        requiredDoorKeys.delete(`${door.x},${door.z}`);
+                                        await this.sdk.waitForTicks(1);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 const result = await this.helpers.walkStepToward(wp.x, wp.z, 2, pos);
                 if (distTo(result.pos) <= tolerance) return { success: true, message: 'Arrived' };
 

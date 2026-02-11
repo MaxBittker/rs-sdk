@@ -943,6 +943,34 @@ export class Client extends GameShell {
     }
 
     /**
+     * Interact with a player using a specific option (1-4)
+     * Option 4 is usually "Trade with"
+     * Use getNearbyPlayers() to see available players
+     */
+    interactPlayer(playerIndex: number, optionIndex: number): boolean {
+        if (!this.ingame || !this.out || playerIndex < 0 || optionIndex < 1 || optionIndex > 4) {
+            return false;
+        }
+
+        const player = this.players[playerIndex];
+        if (!player) {
+            return false;
+        }
+
+        // Send the appropriate OPPLAYER packet based on option index
+        const opcodes = [
+            ClientProt.OPPLAYER1,
+            ClientProt.OPPLAYER2,
+            ClientProt.OPPLAYER3,
+            ClientProt.OPPLAYER4
+        ];
+        this.writePacketOpcode(opcodes[optionIndex - 1]);
+        this.out.p2(playerIndex);
+
+        return true;
+    }
+
+    /**
      * Cast a spell on an NPC (sends OPNPCT)
      * Used for magic combat spells like Wind Strike
      *

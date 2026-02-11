@@ -61,6 +61,13 @@ export class ActionExecutor {
                         'Failed to interact with NPC'
                     );
 
+                case 'interactPlayer':
+                    return this.wrapBool(
+                        this.client.interactPlayer(action.playerIndex, action.optionIndex),
+                        `Interacting with player #${action.playerIndex}`,
+                        'Failed to interact with player'
+                    );
+
                 case 'interactLoc':
                     return this.wrapBool(
                         this.client.interactLoc(action.x, action.z, action.locId, action.optionIndex),
@@ -298,6 +305,7 @@ export function formatAction(action: BotAction): string {
     switch (action.type) {
         case 'walkTo': return `Walk to (${action.x}, ${action.z})`;
         case 'interactNpc': return `Interact NPC #${action.npcIndex} opt ${action.optionIndex}`;
+        case 'interactPlayer': return `Interact player #${action.playerIndex} opt ${action.optionIndex}`;
         case 'talkToNpc': return `Talk to NPC #${action.npcIndex}`;
         case 'interactLoc': return `Interact loc ${action.locId} at (${action.x}, ${action.z})`;
         case 'useInventoryItem': return `Use inv slot ${action.slot} opt ${action.optionIndex}`;
