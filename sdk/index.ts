@@ -21,6 +21,7 @@ import type {
     PrayerName
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES } from './types';
+import { resolveSpell, type SpellName } from './spells';
 import * as pathfinding from './pathfinding';
 
 interface SyncToSDKMessage {
@@ -913,13 +914,21 @@ export class BotSDK {
             .filter((name): name is PrayerName => name !== null);
     }
 
-    /** Cast spell on NPC using spell component ID. */
-    async sendSpellOnNpc(npcIndex: number, spellComponent: number): Promise<ActionResult> {
+    /** Cast spell on NPC. Accepts a spell name (e.g. 'WIND_STRIKE') or numeric component ID. */
+    async sendSpellOnNpc(npcIndex: number, spell: SpellName | number): Promise<ActionResult> {
+        const spellComponent = resolveSpell(spell);
+        if (spellComponent === undefined) {
+            return { success: false, message: `Unknown spell: ${spell}` };
+        }
         return this.sendAction({ type: 'spellOnNpc', npcIndex, spellComponent, reason: 'SDK' });
     }
 
-    /** Cast spell on inventory item. */
-    async sendSpellOnItem(slot: number, spellComponent: number): Promise<ActionResult> {
+    /** Cast spell on inventory item. Accepts a spell name (e.g. 'LOW_ALCHEMY') or numeric component ID. */
+    async sendSpellOnItem(slot: number, spell: SpellName | number): Promise<ActionResult> {
+        const spellComponent = resolveSpell(spell);
+        if (spellComponent === undefined) {
+            return { success: false, message: `Unknown spell: ${spell}` };
+        }
         return this.sendAction({ type: 'spellOnItem', slot, spellComponent, reason: 'SDK' });
     }
 

@@ -41,6 +41,7 @@ import type {
     PrayerName
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES, PRAYER_LEVELS } from './types';
+import { resolveSpell, type SpellName } from './spells';
 
 export class BotActions {
     private helpers: ActionHelpers;
@@ -1477,8 +1478,13 @@ export class BotActions {
         }
     }
 
-    /** Cast a combat spell on an NPC. */
-    async castSpellOnNpc(target: NearbyNpc | string | RegExp, spellComponent: number, timeout: number = 3000): Promise<CastSpellResult> {
+    /** Cast a combat spell on an NPC. Accepts a spell name (e.g. 'WIND_STRIKE') or numeric component ID. */
+    async castSpellOnNpc(target: NearbyNpc | string | RegExp, spell: SpellName | number, timeout: number = 3000): Promise<CastSpellResult> {
+        const spellComponent = resolveSpell(spell);
+        if (spellComponent === undefined) {
+            return { success: false, message: `Unknown spell: ${spell}` };
+        }
+
         const npc = this.helpers.resolveNpc(target);
         if (!npc) {
             return { success: false, message: `NPC not found: ${target}`, reason: 'npc_not_found' };
@@ -2600,3 +2606,4 @@ export class BotActions {
 // Re-export for convenience
 export { BotSDK } from './index';
 export * from './types';
+export { Spells, type SpellName } from './spells';

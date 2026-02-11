@@ -29,7 +29,7 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
 | `findEquippedItem(pattern)` | Find an equipped item by name pattern. |
 | `eatFood(target)` | Eat food to restore hitpoints. |
 | `attackNpc(target, timeout)` | Attack an NPC, walking to it if needed. |
-| `castSpellOnNpc(target, spellComponent, timeout)` | Cast a combat spell on an NPC. |
+| `castSpellOnNpc(target, spell, timeout)` | Cast a combat spell on an NPC. `spell` accepts a `SpellName` (e.g. `'WIND_STRIKE'`) or numeric component ID. |
 | `craftLeather(product?)` | Craft leather into armour using needle and thread. |
 
 ### Woodcutting & Firemaking
@@ -158,8 +158,8 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `sendShopSell(slot, amount)` | Sell to shop by slot and amount. |
 | `sendSetCombatStyle(style)` | Set combat style (0-3). |
 | `sendTogglePrayer(prayer)` | Toggle a prayer on or off by name or index (0-14). |
-| `sendSpellOnNpc(npcIndex, spellComponent)` | Cast spell on NPC using spell component ID. |
-| `sendSpellOnItem(slot, spellComponent)` | Cast spell on inventory item. |
+| `sendSpellOnNpc(npcIndex, spell)` | Cast spell on NPC. Accepts `SpellName` or numeric component ID. |
+| `sendSpellOnItem(slot, spell)` | Cast spell on inventory item. Accepts `SpellName` or numeric component ID. |
 | `sendSetTab(tabIndex)` | Switch to a UI tab by index. |
 | `sendSay(message)` | Send a chat message. |
 | `sendWait(ticks)` | Wait for specified number of game ticks. |
@@ -189,6 +189,59 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | Method | Description |
 |--------|-------------|
 | `isPrayerActive(prayer)` | Check if a specific prayer is currently active. |
+
+---
+
+## Constants
+
+### Spells
+
+Spell constants for use with `castSpellOnNpc`, `sendSpellOnNpc`, and `sendSpellOnItem`.
+
+```typescript
+import { Spells } from './actions';
+
+// Use by name
+await bot.castSpellOnNpc(target, 'WIND_STRIKE');
+
+// Or use the Spells constant
+await bot.castSpellOnNpc(target, Spells.WIND_STRIKE);
+```
+
+| Name | ID | Notes |
+|------|----|-------|
+| `WIND_STRIKE` | 1152 | Level 1 combat spell |
+| `CONFUSE` | 1153 | |
+| `WATER_STRIKE` | 1154 | Level 5 combat spell |
+| `ENCHANT_LVL1` | 1155 | Sapphire |
+| `EARTH_STRIKE` | 1156 | Level 9 combat spell |
+| `WEAKEN` | 1157 | |
+| `FIRE_STRIKE` | 1158 | Level 13 combat spell |
+| `WIND_BOLT` | 1160 | |
+| `CURSE` | 1161 | |
+| `LOW_ALCHEMY` | 1162 | |
+| `WATER_BOLT` | 1163 | |
+| `VARROCK_TELEPORT` | 1164 | |
+| `ENCHANT_LVL2` | 1165 | Emerald |
+| `EARTH_BOLT` | 1166 | |
+| `LUMBRIDGE_TELEPORT` | 1167 | |
+| `FIRE_BOLT` | 1169 | |
+| `FALADOR_TELEPORT` | 1170 | |
+| `WIND_BLAST` | 1172 | |
+| `SUPERHEAT` | 1173 | |
+| `CAMELOT_TELEPORT` | 1174 | |
+| `WATER_BLAST` | 1175 | |
+| `ENCHANT_LVL3` | 1176 | Ruby |
+| `EARTH_BLAST` | 1177 | |
+| `HIGH_ALCHEMY` | 1178 | |
+| `ENCHANT_LVL4` | 1180 | Diamond |
+| `FIRE_BLAST` | 1181 | |
+| `WIND_WAVE` | 1183 | |
+| `WATER_WAVE` | 1185 | |
+| `ENCHANT_LVL5` | 1187 | Dragonstone |
+| `EARTH_WAVE` | 1188 | |
+| `FIRE_WAVE` | 1189 | |
+| `BIND` | 1572 | |
 
 ---
 

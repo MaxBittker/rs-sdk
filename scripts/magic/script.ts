@@ -20,13 +20,7 @@ import { runScript, type ScriptContext } from '../../sdk/runner';
 import { generateSave, TestPresets } from '../../sdk/test/utils/save-generator';
 import { launchBotWithSDK } from '../../sdk/test/utils/browser';
 import type { NearbyNpc } from '../../sdk/types';
-
-// Spell component IDs
-const Spells = {
-    WIND_STRIKE: 1152,
-    WATER_STRIKE: 1154,
-    EARTH_STRIKE: 1156,
-};
+import { Spells } from '../../sdk/spells';
 
 // Locations
 const CHICKEN_COOP = { x: 3235, z: 3295 };  // Near Lumbridge
