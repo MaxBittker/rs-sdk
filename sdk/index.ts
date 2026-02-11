@@ -1006,7 +1006,14 @@ export class BotSDK {
         }
 
         const destZoneAllocated = pathfinding.isZoneAllocated(level, destX, destZ);
-        const waypoints = pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
+
+        // Use multi-segment routing for long distances that exceed the
+        // 512x512 pathfinder grid; short distances use findLongPath directly.
+        const dx = Math.abs(destX - srcX);
+        const dz = Math.abs(destZ - srcZ);
+        const waypoints = (dx > 200 || dz > 200)
+            ? pathfinding.findMultiSegmentPath(level, srcX, srcZ, destX, destZ, maxWaypoints)
+            : pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
 
         // If no waypoints and destination zone isn't allocated, that's expected -
         // we just can't path there yet (might need to open a door first)
