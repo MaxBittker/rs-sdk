@@ -107,10 +107,12 @@ export function handleExportCollisionApi(url: URL): Response | null {
 
         console.log(`Exported ${tiles.length} tiles with collision, ${zones.length} zones allocated`);
 
-        // Scan loc map files for doors/gates (wall-shaped locs with "Open" option).
-        // The SDK uses this list to remove wall collision at door positions,
-        // so the pathfinder routes through doorways but respects permanent walls.
+        // Scan loc map files for wall-layer locs with blockwalk=true.
+        // Records ALL such locs for diagnostics, plus categorizes doors separately.
         const doors: Array<[number, number, number, number, number, number]> = [];
+        const closeDoors: Array<[number, number, number, number, number, number]> = [];
+        // All wall-layer locs with blockwalk: [level, x, z, shape, angle, blockrange, locId, locName]
+        const wallLocs: Array<[number, number, number, number, number, number, number, string]> = [];
         const MAPSQUARE_SIZE = 64;
         const LINK_BELOW = 0x2;
 
@@ -171,25 +173,33 @@ export function handleExportCollisionApi(url: URL): Response | null {
                     const angle = info & 0x3;
                     const locLayer = rsmod.locShapeLayer(shape);
 
-                    // Only interested in wall-shaped locs that are doors/gates
+                    // Only interested in wall-shaped locs
                     if (locLayer !== LocLayer.WALL) continue;
 
                     const type = LocType.get(locId);
                     if (!type || !type.blockwalk) continue;
 
-                    // Check if this loc has an "Open" interaction option
-                    const hasOpen = type.op?.some((o: string | null) => o && /^open$/i.test(o));
-                    if (!hasOpen) continue;
+                    // Record ALL wall locs for diagnostics
+                    const locName = (type as any).debugname || type.name || `loc_${locId}`;
+                    wallLocs.push([actualLevel, absoluteX, absoluteZ, shape, angle, type.blockrange ? 1 : 0, locId, locName]);
 
-                    doors.push([actualLevel, absoluteX, absoluteZ, shape, angle, type.blockrange ? 1 : 0]);
+                    // Categorize doors separately for SDK wall masking
+                    const hasOpen = type.op?.some((o: string | null) => o && /^open$/i.test(o));
+                    const hasClose = type.op?.some((o: string | null) => o && /^close$/i.test(o));
+
+                    if (hasOpen) {
+                        doors.push([actualLevel, absoluteX, absoluteZ, shape, angle, type.blockrange ? 1 : 0]);
+                    } else if (hasClose) {
+                        closeDoors.push([actualLevel, absoluteX, absoluteZ, shape, angle, type.blockrange ? 1 : 0]);
+                    }
                 }
                 locIdOffset = locPacket.gsmarts();
             }
         }
 
-        console.log(`Found ${doors.length} openable doors/gates`);
+        console.log(`Found ${wallLocs.length} wall locs total, ${doors.length} openable doors/gates, ${closeDoors.length} default-open (closeable) doors/gates`);
 
-        return new Response(JSON.stringify({ tiles, zones, doors }), {
+        return new Response(JSON.stringify({ tiles, zones, doors, closeDoors, wallLocs }), {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (e: any) {
