@@ -14,6 +14,12 @@ bun scripts/create-bot.ts {username}
 
 # Auto-generate random username
 bun scripts/create-bot.ts
+
+# Use local server (sets SERVER=localhost in bot.env)
+bun scripts/create-bot.ts {username} --local
+
+# Use a custom server
+bun scripts/create-bot.ts {username} --server=myserver.example.com
 ```
 
 This automatically creates:
@@ -291,8 +297,6 @@ if (!result.success) {
 ## Project Structure
 
 ```
-server/                        # game server infrastructure
-├── engine/                    # Game server core
 
 bots/
 └── {username}/

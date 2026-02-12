@@ -20,7 +20,7 @@ async function replaceInFile(filePath: string, replacements: Record<string, stri
     await writeFile(filePath, content);
 }
 
-async function createBot(username?: string) {
+async function createBot(username?: string, serverOverride?: string) {
     // Generate username if not provided
     const botUsername = username || generateRandomString(9);
 
@@ -70,6 +70,13 @@ async function createBot(username?: string) {
         console.log(`Created ${file}`);
     }
 
+    // Override server if --local or --server= was passed
+    if (serverOverride) {
+        const envPath = join(botDir, 'bot.env');
+        await replaceInFile(envPath, { 'rs-sdk-demo.fly.dev': serverOverride });
+        console.log(`Server set to: ${serverOverride}`);
+    }
+
     console.log(`\n✓ Bot "${botUsername}" created successfully!`);
     console.log(`\nCredentials saved in bots/${botUsername}/bot.env`);
     console.log(`\nTo get started:`);
@@ -78,6 +85,17 @@ async function createBot(username?: string) {
 
 // Parse command line arguments
 const args = process.argv.slice(2);
-const username = args[0];
+const positional: string[] = [];
+let serverOverride: string | undefined;
 
-createBot(username).catch(console.error);
+for (const arg of args) {
+    if (arg === '--local') {
+        serverOverride = 'localhost';
+    } else if (arg.startsWith('--server=')) {
+        serverOverride = arg.slice('--server='.length);
+    } else {
+        positional.push(arg);
+    }
+}
+
+createBot(positional[0], serverOverride).catch(console.error);

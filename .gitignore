@@ -16,3 +16,6 @@ result
 # Bot folders (except template)
 bots/*/
 !bots/_template/
+
+# SDK is copied into Docker via Dockerfile; don't duplicate it under server/
+server/sdk/
