@@ -2,7 +2,7 @@
 // Local pathfinding validation - no server or bot required
 // Tests that the collision data + door masking produces correct paths
 
-import { findLongPath, findDoorsAlongPath, initPathfinding, isTileWalkable, isFlagged, isZoneLikelyLand, isZoneAllocated } from '../sdk/pathfinding';
+import { findLongPath, findDoorsAlongPath, findLocGatesAlongPath, getLocGateAt, initPathfinding, isTileWalkable, isFlagged, isZoneLikelyLand, isZoneAllocated } from '../sdk/pathfinding';
 import { CollisionFlag } from '../server/vendor/rsmod-pathfinder';
 
 // Draynor Manor helpers (local to this test)
@@ -308,6 +308,66 @@ test('Wizards Tower to Tree Gnome Stronghold',
 // Lumbridge to Yanille (southwest, must avoid ocean)
 test('Lumbridge to Yanille',
     3222, 3218, 2605, 3090, { maxDist: 25 });
+
+// Lumbridge to Tree Gnome Stronghold — must route through gnome gate area
+test('Lumbridge to Tree Gnome Stronghold',
+    3222, 3218, 2450, 3420, { maxDist: 15 });
+
+console.log('\n--- Loc Gate Tests ---');
+
+// Test 1: Gnome Stronghold gate (5x2 multi-tile gate)
+// The path from south of the gate to inside the stronghold must cross the gate
+{
+    const gnomePath = findLongPath(0, 2460, 3378, 2460, 3395);
+    const gnomeGates = findLocGatesAlongPath(gnomePath);
+    if (gnomeGates.length > 0 && gnomeGates.some(g => g.x === 2459 && g.z === 3383)) {
+        console.log(`  PASS: Gnome Stronghold gate detected on path (${gnomeGates[0]!.width}x${gnomeGates[0]!.length} at (${gnomeGates[0]!.x}, ${gnomeGates[0]!.z}))`);
+        passed++;
+    } else {
+        console.log(`  FAIL: Gnome Stronghold gate not detected (found ${gnomeGates.length} gates)`);
+        failed++;
+    }
+}
+
+// Verify gnome gate LOC collision is unmasked (tiles walkable through gate)
+{
+    const locBlocked = isFlagged(2460, 3383, 0, CollisionFlag.LOC);
+    if (!locBlocked) {
+        console.log(`  PASS: Gnome gate tile (2460, 3383) LOC collision unmasked`);
+        passed++;
+    } else {
+        console.log(`  FAIL: Gnome gate tile (2460, 3383) still has LOC collision`);
+        failed++;
+    }
+}
+
+// Test 2: East Ardougne gate (1x1 gate)
+// Path crossing the gate at (2669, 3316)
+{
+    const ardPath = findLongPath(0, 2668, 3318, 2668, 3328);
+    const ardGates = findLocGatesAlongPath(ardPath);
+    if (ardGates.length > 0 && ardGates.some(g => g.x === 2669 && g.z === 3316)) {
+        console.log(`  PASS: East Ardougne gate detected on path (${ardGates[0]!.width}x${ardGates[0]!.length} at (${ardGates[0]!.x}, ${ardGates[0]!.z}))`);
+        passed++;
+    } else {
+        console.log(`  FAIL: East Ardougne gate not detected (found ${ardGates.length} gates)`);
+        failed++;
+    }
+}
+
+// Test 3: Yanille south gate (1x1 gate)
+// Path crossing the gate at (2611, 3084)
+{
+    const yanPath = findLongPath(0, 2611, 3079, 2611, 3089);
+    const yanGates = findLocGatesAlongPath(yanPath);
+    if (yanGates.length > 0 && yanGates.some(g => g.x === 2611 && g.z === 3084)) {
+        console.log(`  PASS: Yanille south gate detected on path (${yanGates[0]!.width}x${yanGates[0]!.length} at (${yanGates[0]!.x}, ${yanGates[0]!.z}))`);
+        passed++;
+    } else {
+        console.log(`  FAIL: Yanille south gate not detected (found ${yanGates.length} gates)`);
+        failed++;
+    }
+}
 
 console.log(`\n========== RESULTS ==========`);
 console.log(`Passed: ${passed}/${passed + failed}`);

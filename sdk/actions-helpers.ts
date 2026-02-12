@@ -2,6 +2,8 @@
 // Private helper methods extracted from BotActions for reusability
 
 import { BotSDK } from './index';
+import { findLongPath } from './pathfinding';
+import type { LocGateInfo } from './pathfinding';
 import type {
     NearbyLoc,
     NearbyNpc,
@@ -67,21 +69,43 @@ export class ActionHelpers {
     /**
      * Try to find and open a nearby blocking door/gate/fence.
      * Walks to the door using raw sendWalk (not walkTo) to avoid recursion.
+     *
+     * If preferredCoords are provided, tries to open a door at those exact
+     * coordinates first (from pathfinding analysis), falling back to the
+     * nearest openable loc only if none of the preferred doors are found.
+     *
      * @param maxDistance - Maximum distance to search for openable objects (default 15 tiles)
+     * @param preferredCoords - Optional list of door coordinates to try first (from path analysis)
      * @returns true if something was successfully opened
      */
-    async tryOpenBlockingDoor(maxDistance: number = 15): Promise<boolean> {
+    async tryOpenBlockingDoor(
+        maxDistance: number = 15,
+        preferredCoords?: Array<{ x: number; z: number }>
+    ): Promise<boolean> {
         // Look for any loc with an "Open" option - covers doors, gates, fences, pens, etc.
         const openables = this.sdk.getNearbyLocs()
             .filter(l => l.optionsWithIndex.some(o => /^open$/i.test(o.text)))
-            .filter(l => l.distance <= maxDistance)
-            .sort((a, b) => a.distance - b.distance);
+            .filter(l => l.distance <= maxDistance);
 
         if (openables.length === 0) {
             return false;
         }
 
-        const door = openables[0]!;
+        // If we have preferred coordinates from path analysis, try those first.
+        // This avoids opening irrelevant nearby doors (chicken pens, etc.)
+        let door = undefined as typeof openables[0] | undefined;
+        if (preferredCoords && preferredCoords.length > 0) {
+            for (const pref of preferredCoords) {
+                door = openables.find(l => l.x === pref.x && l.z === pref.z);
+                if (door) break;
+            }
+        }
+
+        // Fallback: nearest openable door
+        if (!door) {
+            door = openables.sort((a, b) => a.distance - b.distance)[0]!;
+        }
+
         const doorX = door.x;
         const doorZ = door.z;
         const doorId = door.id;
@@ -102,35 +126,27 @@ export class ActionHelpers {
         // Wait for door to open (with longer timeout to allow for walking)
         try {
             await this.sdk.waitForCondition(state => {
-                // Check for failure messages - locked doors, can't reach, etc.
-                for (const msg of state.gameMessages) {
-                    if (msg.tick > startTick) {
-                        const text = msg.text.toLowerCase();
-                        if (text.includes("can't reach") || text.includes("cannot reach") || text.includes("locked")) {
-                            return true; // Exit early — door can't be opened
-                        }
-                    }
-                }
-
+                // Check door state FIRST — if it's gone or changed, that's definitive
                 const doorNow = state.nearbyLocs.find(l =>
                     l.x === doorX && l.z === doorZ && l.id === doorId
                 );
                 if (!doorNow) return true; // Door gone = opened
-                return !doorNow.optionsWithIndex.some(o => /^open$/i.test(o.text)); // No "Open" option = opened
-            }, 8000); // Longer timeout to allow walking + opening
+                if (!doorNow.optionsWithIndex.some(o => /^open$/i.test(o.text))) return true; // No "Open" = opened
 
-            // Check if we got a "can't reach" message
-            const finalState = this.sdk.getState();
-            for (const msg of finalState?.gameMessages ?? []) {
-                if (msg.tick > startTick) {
-                    const text = msg.text.toLowerCase();
-                    if (text.includes("can't reach") || text.includes("cannot reach")) {
-                        return false;
+                // Only check failure messages if door hasn't changed yet
+                for (const msg of state.gameMessages) {
+                    if (msg.tick > startTick) {
+                        const text = msg.text.toLowerCase();
+                        if (text.includes("locked")) {
+                            return true; // Locked is definitive — exit early
+                        }
                     }
                 }
-            }
+                return false;
+            }, 8000);
 
-            // Verify door actually opened
+            // Verify: check door state as the primary success signal
+            const finalState = this.sdk.getState();
             const doorAfter = finalState?.nearbyLocs.find(l =>
                 l.x === doorX && l.z === doorZ && l.id === doorId
             );
@@ -167,9 +183,14 @@ export class ActionHelpers {
 
     /**
      * Walk to a tile adjacent to the given coordinates using raw sendWalk.
-     * Picks the closest cardinal-adjacent tile to the player.
-     * Used before interacting with doors/gates to avoid server-side pathfinding
-     * through the very door we're trying to open.
+     * Uses the local pathfinder to pick a tile that is actually reachable
+     * from the player's current position — not just the closest by distance.
+     *
+     * This is critical for doors: a door's wall blocks one side, so the
+     * closest adjacent tile might be on the unreachable side of the wall.
+     * The pathfinder respects walls (except unmasked doors) so it correctly
+     * identifies which side the player can reach.
+     *
      * @returns true if already adjacent or successfully walked adjacent
      */
     private async walkAdjacentTo(targetX: number, targetZ: number): Promise<boolean> {
@@ -178,12 +199,14 @@ export class ActionHelpers {
 
         const px = playerState.worldX;
         const pz = playerState.worldZ;
+        const level = playerState.level ?? 0;
         const dx = Math.abs(px - targetX);
         const dz = Math.abs(pz - targetZ);
         const isAdjacent = (dx <= 1 && dz <= 1) && (dx + dz > 0);
 
         if (isAdjacent) return true;
 
+        // Sort candidates by Manhattan distance (prefer closer tiles)
         const candidates = [
             { x: targetX, z: targetZ - 1 },
             { x: targetX, z: targetZ + 1 },
@@ -195,7 +218,22 @@ export class ActionHelpers {
             return da - db;
         });
 
-        const target = candidates[0]!;
+        // Use the local pathfinder to find the first candidate that's actually
+        // reachable. Without this check, we might pick a tile on the wrong side
+        // of a door wall (e.g. inside Lumbridge castle when approaching from outside).
+        let target = candidates[0]!;
+        for (const candidate of candidates) {
+            const path = findLongPath(level, px, pz, candidate.x, candidate.z, 50);
+            if (path.length > 0) {
+                // Verify the path actually reaches the candidate (not just a partial path)
+                const last = path[path.length - 1]!;
+                if (Math.abs(last.x - candidate.x) <= 1 && Math.abs(last.z - candidate.z) <= 1) {
+                    target = candidate;
+                    break;
+                }
+            }
+        }
+
         await this.sdk.sendWalk(target.x, target.z, true);
         await this.waitForMovementComplete(target.x, target.z, 1);
         return true;
@@ -343,47 +381,210 @@ export class ActionHelpers {
     /**
      * Open a specific door at exact coordinates.
      * Used by proactive door-opening when the pathfinder identifies doors along the route.
+     *
+     * Walks adjacent to the door FIRST (to ensure it's within rendering range),
+     * then looks it up in nearbyLocs. Also checks neighboring tiles since double
+     * doors (e.g. Lumbridge castle) may anchor at an adjacent tile.
+     *
      * @returns true if the door was opened (or was already open)
      */
     async openDoorAt(doorX: number, doorZ: number): Promise<boolean> {
-        const locs = this.sdk.getNearbyLocs();
-        const door = locs.find(l => l.x === doorX && l.z === doorZ);
-        if (!door) return false;
-
-        const openOpt = door.optionsWithIndex.find(o => /^open$/i.test(o.text));
-        if (!openOpt) return true; // Already open (has Close option instead)
-
-        // Walk to an adjacent tile using raw sendWalk to avoid recursion
+        // Walk to an adjacent tile FIRST — this ensures the door is within
+        // rendering range so it appears in nearbyLocs. Without this, doors
+        // at 12-15 tiles distance may not be rendered yet, causing a false
+        // "not found" that permanently blocks the door in the pathfinder.
         await this.walkAdjacentTo(doorX, doorZ);
 
+        // Wait a tick for state to update with newly-rendered locs
+        await this.sdk.waitForTicks(1);
+
+        // Search for the door at the exact tile and neighboring tiles.
+        // Double doors (e.g. Lumbridge castle large doors) span two tiles
+        // but may only have a single loc object anchored at one of them.
+        const searchTiles = [
+            { x: doorX, z: doorZ },
+            { x: doorX, z: doorZ + 1 },
+            { x: doorX, z: doorZ - 1 },
+            { x: doorX + 1, z: doorZ },
+            { x: doorX - 1, z: doorZ },
+        ];
+
+        const locs = this.sdk.getNearbyLocs();
+        let door = null as typeof locs[0] | null;
+        for (const tile of searchTiles) {
+            const found = locs.find(l =>
+                l.x === tile.x && l.z === tile.z &&
+                l.optionsWithIndex.some(o => /^open$/i.test(o.text))
+            );
+            if (found) {
+                door = found;
+                break;
+            }
+        }
+
+        if (!door) {
+            // Check if the door is already open (has "Close" option or gone entirely)
+            const closeable = locs.find(l =>
+                searchTiles.some(t => l.x === t.x && l.z === t.z) &&
+                l.optionsWithIndex.some(o => /^close$/i.test(o.text))
+            );
+            if (closeable) {
+                return true; // Already open
+            }
+            return false;
+        }
+
+        const openOpt = door.optionsWithIndex.find(o => /^open$/i.test(o.text))!;
+        const actualDoorX = door.x;
+        const actualDoorZ = door.z;
+
+        // If the door we found is on a different tile than where we walked adjacent to,
+        // walk adjacent to the actual door tile
+        if (actualDoorX !== doorX || actualDoorZ !== doorZ) {
+            await this.walkAdjacentTo(actualDoorX, actualDoorZ);
+        }
+
         const startTick = this.sdk.getState()?.tick || 0;
-        await this.sdk.sendInteractLoc(doorX, doorZ, door.id, openOpt.opIndex);
+        await this.sdk.sendInteractLoc(actualDoorX, actualDoorZ, door.id, openOpt.opIndex);
 
         try {
             await this.sdk.waitForCondition(state => {
-                // Check for failure messages (locked, can't reach, etc.)
+                // Check door state FIRST — if it's gone or changed, that's definitive
+                const doorNow = state.nearbyLocs.find(l =>
+                    l.x === actualDoorX && l.z === actualDoorZ && l.id === door!.id
+                );
+                if (!doorNow) return true; // Door gone = opened
+                if (!doorNow.optionsWithIndex.some(o => /^open$/i.test(o.text))) return true; // No "Open" = opened
+
+                // Only check failure messages if door hasn't changed yet
                 for (const msg of state.gameMessages) {
                     if (msg.tick > startTick) {
                         const text = msg.text.toLowerCase();
-                        if (text.includes("locked") || text.includes("can't reach") || text.includes("cannot reach")) {
-                            return true; // Exit early — door can't be opened
+                        if (text.includes("locked")) {
+                            return true; // Locked is definitive — exit early
                         }
                     }
                 }
-                const doorNow = state.nearbyLocs.find(l =>
-                    l.x === doorX && l.z === doorZ && l.id === door.id
-                );
-                if (!doorNow) return true; // Door gone = opened
-                return !doorNow.optionsWithIndex.some(o => /^open$/i.test(o.text));
+                return false;
             }, 8000);
 
-            // Verify door actually opened
-            const doorAfter = this.sdk.getState()?.nearbyLocs.find(l =>
-                l.x === doorX && l.z === doorZ && l.id === door.id
+            // Verify: check door state as the primary success signal
+            const finalState = this.sdk.getState();
+            const doorAfter = finalState?.nearbyLocs.find(l =>
+                l.x === actualDoorX && l.z === actualDoorZ && l.id === door!.id
             );
-            return !doorAfter || !doorAfter.optionsWithIndex.some(o => /^open$/i.test(o.text));
+            const opened = !doorAfter || !doorAfter.optionsWithIndex.some(o => /^open$/i.test(o.text));
+            if (opened) {
+                // Door opened successfully
+            }
+
+            // If door didn't open, check for "locked" message specifically
+            if (!opened) {
+                for (const msg of finalState?.gameMessages ?? []) {
+                    if (msg.tick > startTick) {
+                        const text = msg.text.toLowerCase();
+                        if (text.includes("locked")) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return opened;
         } catch {
             return false;
+        }
+    }
+
+    /**
+     * Open a multi-tile loc gate (centrepiece locs like Tree Gnome Stronghold gates).
+     * These occupy a width×length area and use LOC collision, not wall collision.
+     */
+    async openLocGateAt(gate: LocGateInfo): Promise<{ opened: boolean; newPos?: { x: number; z: number } }> {
+        // Compute occupied tiles based on rotation
+        const rw = (gate.angle === 1 || gate.angle === 3) ? gate.length : gate.width;
+        const rl = (gate.angle === 1 || gate.angle === 3) ? gate.width : gate.length;
+
+        // Walk to the nearest edge of the gate
+        await this.walkAdjacentTo(gate.x + Math.floor(rw / 2), gate.z + Math.floor(rl / 2));
+        await this.sdk.waitForTicks(1);
+
+        // Search nearbyLocs for an openable loc at any of the gate's tiles
+        const locs = this.sdk.getNearbyLocs();
+        let gateLoc = null as typeof locs[0] | null;
+
+        for (let dx = 0; dx < rw && !gateLoc; dx++) {
+            for (let dz = 0; dz < rl && !gateLoc; dz++) {
+                const found = locs.find(l =>
+                    l.x === gate.x + dx && l.z === gate.z + dz &&
+                    l.optionsWithIndex.some(o => /^open$/i.test(o.text))
+                );
+                if (found) gateLoc = found;
+            }
+        }
+
+        // Also check the anchor tile directly
+        if (!gateLoc) {
+            gateLoc = locs.find(l =>
+                l.x === gate.x && l.z === gate.z &&
+                l.optionsWithIndex.some(o => /^open$/i.test(o.text))
+            ) ?? null;
+        }
+
+        if (!gateLoc) {
+            // Check if already open (loc gone or has Close option)
+            for (let dx = 0; dx < rw; dx++) {
+                for (let dz = 0; dz < rl; dz++) {
+                    const closeable = locs.find(l =>
+                        l.x === gate.x + dx && l.z === gate.z + dz &&
+                        l.optionsWithIndex.some(o => /^close$/i.test(o.text))
+                    );
+                    if (closeable) return { opened: true }; // Already open
+                }
+            }
+            return { opened: false };
+        }
+
+        const openOpt = gateLoc.optionsWithIndex.find(o => /^open$/i.test(o.text))!;
+
+        // Walk adjacent to the actual loc if needed
+        await this.walkAdjacentTo(gateLoc.x, gateLoc.z);
+
+        const startTick = this.sdk.getState()?.tick || 0;
+        await this.sdk.sendInteractLoc(gateLoc.x, gateLoc.z, gateLoc.id, openOpt.opIndex);
+
+        try {
+            await this.sdk.waitForCondition(state => {
+                // Check if the gate loc is gone or changed
+                const gateNow = state.nearbyLocs.find(l =>
+                    l.x === gateLoc!.x && l.z === gateLoc!.z && l.id === gateLoc!.id
+                );
+                if (!gateNow) return true; // Gate removed = opened
+                if (!gateNow.optionsWithIndex.some(o => /^open$/i.test(o.text))) return true;
+
+                for (const msg of state.gameMessages) {
+                    if (msg.tick > startTick) {
+                        const text = msg.text.toLowerCase();
+                        if (text.includes("locked") || text.includes("can't")) return true;
+                    }
+                }
+                return false;
+            }, 8000);
+
+            const finalState = this.sdk.getState();
+            const gateAfter = finalState?.nearbyLocs.find(l =>
+                l.x === gateLoc!.x && l.z === gateLoc!.z && l.id === gateLoc!.id
+            );
+            const opened = !gateAfter || !gateAfter.optionsWithIndex.some(o => /^open$/i.test(o.text));
+            if (opened) {
+                // Server force-moves player through loc gates — wait for it to complete
+                await this.sdk.waitForTicks(3);
+                const p = this.sdk.getState()?.player;
+                return { opened: true, newPos: p ? { x: p.worldX, z: p.worldZ } : undefined };
+            }
+            return { opened: false };
+        } catch {
+            return { opened: false };
         }
     }
 

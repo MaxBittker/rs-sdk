@@ -4,7 +4,8 @@
 
 import { BotSDK } from './index';
 import { ActionHelpers } from './actions-helpers';
-import { findDoorsAlongPath, blockDoor, } from './pathfinding';
+import { findDoorsAlongPath, findLocGatesAlongPath, blockDoor, blockLocGate, getDoorAt, getLocGateAt } from './pathfinding';
+import type { LocGateInfo } from './pathfinding';
 import type {
     ActionResult,
     SkillState,
@@ -726,13 +727,14 @@ export class BotActions {
         }
     }
 
-    /** Walk to coordinates using pathfinding, auto-opening doors. */
+    /** Walk to coordinates using pathfinding, auto-opening doors proactively. */
     async walkTo(x: number, z: number, tolerance: number = 3): Promise<ActionResult> {
         const state = this.sdk.getState();
         if (!state?.player) return { success: false, message: 'No player state' };
 
         const distTo = (pos: { x: number; z: number }) => this.helpers.distance(pos.x, pos.z, x, z);
         let pos = { x: state.player.worldX, z: state.player.worldZ };
+        const level = state.player.level ?? 0;
 
         if (distTo(pos) <= tolerance) {
             return { success: true, message: 'Already at destination' };
@@ -743,32 +745,7 @@ export class BotActions {
         let doorRetryCount = 0;
         let poorProgressCount = 0;
         const blockedDoors = new Set<string>(); // Doors we failed to open (locked etc.)
-
-        // Try to open a blocking door. Returns true if door was opened.
-        const tryOpenDoor = async (): Promise<boolean> => {
-            if (doorRetryCount >= MAX_DOOR_RETRIES) return false;
-            if (await this.helpers.tryOpenBlockingDoor()) {
-                doorRetryCount++;
-                await this.sdk.waitForTicks(1);
-                return true;
-            }
-            // Door open failed — block the nearest openable door in pathfinding
-            // so subsequent path queries route around it
-            const nearest = this.sdk.getNearbyLocs()
-                .filter(l => l.optionsWithIndex.some(o => /^open$/i.test(o.text)))
-                .filter(l => l.distance <= 15)
-                .sort((a, b) => a.distance - b.distance)[0];
-            if (nearest) {
-                const level = this.sdk.getState()?.player?.level ?? 0;
-                const key = `${nearest.x},${nearest.z}`;
-                if (!blockedDoors.has(key)) {
-                    blockedDoors.add(key);
-                    blockDoor(level, nearest.x, nearest.z);
-                    console.log(`[walkTo] Blocked impassable door at (${nearest.x}, ${nearest.z}) — re-routing`);
-                }
-            }
-            return false;
-        };
+        const passedGates = new Set<string>(); // Loc gates we've already been force-moved through
 
         for (let i = 0; i < MAX_ITERATIONS; i++) {
             // Try pathfinding (with one retry)
@@ -777,21 +754,33 @@ export class BotActions {
                 await this.sdk.waitForTicks(1);
                 path = await this.sdk.sendFindPath(x, z, 500);
                 if (!path.success || !path.waypoints?.length) {
-                    console.error(`[walkTo] PATHFINDING FAILED: ${path.error ?? 'no waypoints'} - from (${pos.x}, ${pos.z}) to (${x}, ${z})`);
-                    return { success: false, message: `No path to (${x}, ${z}) from (${pos.x}, ${pos.z}): ${path.error ?? 'no waypoints'}` };
+                    // If destination is far, try an intermediate point within pathfinder range
+                    const dist = this.helpers.distance(pos.x, pos.z, x, z);
+                    if (dist > 200) {
+                        const ratio = 200 / dist;
+                        const midX = Math.round(pos.x + (x - pos.x) * ratio);
+                        const midZ = Math.round(pos.z + (z - pos.z) * ratio);
+                        path = await this.sdk.sendFindPath(midX, midZ, 500);
+                    }
+                    if (!path.success || !path.waypoints?.length) {
+                        console.error(`[walkTo] PATHFINDING FAILED: ${path.error ?? 'no waypoints'} - from (${pos.x}, ${pos.z}) to (${x}, ${z})`);
+                        return { success: false, message: `No path to (${x}, ${z}) from (${pos.x}, ${pos.z}): ${path.error ?? 'no waypoints'}` };
+                    }
                 }
             }
 
-            // Identify doors the path crosses through so we can open them proactively
+            // Identify doors and loc gates the path crosses through
             const requiredDoors = findDoorsAlongPath(path.waypoints);
             const requiredDoorKeys = new Set(requiredDoors.map(d => `${d.x},${d.z}`));
+            const requiredLocGates = findLocGatesAlongPath(path.waypoints);
+            const requiredGateKeys = new Set(requiredLocGates.map(g => `${g.x},${g.z}`));
 
             // Walk waypoints
             const startPos = { ...pos };
             let consecutiveStuck = 0;
 
             for (const wp of path.waypoints) {
-                // Proactively open doors the path requires — only when we're close enough to see them
+                // Proactively open doors the path requires — only when we're close enough
                 if (requiredDoorKeys.size > 0) {
                     const wpDoorKey = `${wp.x},${wp.z}`;
                     const isNearDoor = requiredDoorKeys.has(wpDoorKey) ||
@@ -828,12 +817,95 @@ export class BotActions {
                     }
                 }
 
+                // Proactively open loc gates (multi-tile centrepiece locs)
+                let gateOpened = false;
+                if (requiredGateKeys.size > 0) {
+                    for (const gate of requiredLocGates) {
+                        const gateKey = `${gate.x},${gate.z}`;
+                        if (blockedDoors.has(gateKey) || passedGates.has(gateKey) || !requiredGateKeys.has(gateKey)) continue;
+                        const dist = this.helpers.distance(pos.x, pos.z, gate.x, gate.z);
+                        if (dist <= 15) {
+                            const result = await this.helpers.openLocGateAt(gate);
+                            if (result.opened) {
+                                requiredGateKeys.delete(gateKey);
+                                passedGates.add(gateKey);
+                                console.log(`[walkTo] Opened loc gate at (${gate.x}, ${gate.z})`);
+                                // Server force-moved player through — update position
+                                if (result.newPos) pos = result.newPos;
+                                gateOpened = true;
+                            } else {
+                                blockedDoors.add(gateKey);
+                                blockLocGate(gate.level, gate.x, gate.z);
+                                requiredGateKeys.delete(gateKey);
+                                console.log(`[walkTo] Blocked impassable loc gate at (${gate.x}, ${gate.z}) — re-routing`);
+                            }
+                            break;
+                        }
+                    }
+                }
+                // After a loc gate force-move, re-path from new position
+                if (gateOpened) break;
+
                 const result = await this.helpers.walkStepToward(wp.x, wp.z, 2, pos);
                 if (distTo(result.pos) <= tolerance) return { success: true, message: 'Arrived' };
 
                 if (result.status === 'stuck') {
-                    if (++consecutiveStuck >= 3) {
-                        await tryOpenDoor();
+                    consecutiveStuck++;
+
+                    // Smart door detection: on first stuck, check if we're adjacent to a known door
+                    const curState = this.sdk.getState();
+                    const curPos = curState?.player
+                        ? { x: curState.player.worldX, z: curState.player.worldZ }
+                        : pos;
+
+                    for (const [dx, dz] of [[0, 1], [0, -1], [1, 0], [-1, 0]] as const) {
+                        const doorInfo = getDoorAt(level, curPos.x + dx, curPos.z + dz);
+                        if (!doorInfo) continue;
+
+                        const doorLoc = curState?.nearbyLocs.find(
+                            l => l.x === doorInfo.x && l.z === doorInfo.z &&
+                                 l.optionsWithIndex.some(o => /^open$/i.test(o.text))
+                        );
+                        if (!doorLoc) continue;
+
+                        console.log(`[walkTo] Smart door detect: adjacent door at (${doorInfo.x}, ${doorInfo.z})`);
+                        const opened = await this.helpers.openDoorAt(doorInfo.x, doorInfo.z);
+                        if (opened) {
+                            console.log(`[walkTo] Opened re-closed door at (${doorInfo.x}, ${doorInfo.z})`);
+                            await this.sdk.waitForTicks(1);
+                            const p = this.sdk.getState()?.player;
+                            if (p) pos = { x: p.worldX, z: p.worldZ };
+                            consecutiveStuck = 0;
+                        }
+                        break;
+                    }
+
+                    // Also check for adjacent loc gates when stuck
+                    if (consecutiveStuck > 0) {
+                        const gateInfo = getLocGateAt(level, curPos.x, curPos.z) ??
+                            getLocGateAt(level, curPos.x + 1, curPos.z) ??
+                            getLocGateAt(level, curPos.x - 1, curPos.z) ??
+                            getLocGateAt(level, curPos.x, curPos.z + 1) ??
+                            getLocGateAt(level, curPos.x, curPos.z - 1);
+                        const gateKey = gateInfo ? `${gateInfo.x},${gateInfo.z}` : '';
+                        if (gateInfo && !blockedDoors.has(gateKey) && !passedGates.has(gateKey)) {
+                            console.log(`[walkTo] Smart gate detect: near loc gate at (${gateInfo.x}, ${gateInfo.z})`);
+                            const result = await this.helpers.openLocGateAt(gateInfo);
+                            if (result.opened) {
+                                passedGates.add(gateKey);
+                                console.log(`[walkTo] Opened loc gate at (${gateInfo.x}, ${gateInfo.z})`);
+                                if (result.newPos) pos = result.newPos;
+                                consecutiveStuck = 0;
+                                break; // Re-path from new position after force-move
+                            }
+                        }
+                    }
+
+                    if (consecutiveStuck >= 3) {
+                        if (doorRetryCount < MAX_DOOR_RETRIES && await this.helpers.tryOpenBlockingDoor()) {
+                            doorRetryCount++;
+                            await this.sdk.waitForTicks(1);
+                        }
                         break; // Re-query path
                     }
                 } else {
@@ -848,10 +920,12 @@ export class BotActions {
             if (distMoved >= 5) {
                 poorProgressCount = 0;
             } else if (++poorProgressCount >= 3) {
-                if (!await tryOpenDoor()) {
+                if (doorRetryCount < MAX_DOOR_RETRIES && await this.helpers.tryOpenBlockingDoor()) {
+                    doorRetryCount++;
+                    poorProgressCount = 0;
+                } else {
                     return { success: false, message: `Stuck at (${pos.x}, ${pos.z})` };
                 }
-                poorProgressCount = 0;
             }
         }
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // Exports collision data from a running server
-// Outputs: JSON, gzipped JSON, binary v2, and PNG overlay
+// Outputs: JSON, gzipped JSON, binary v5, and PNG overlay
 // Usage: bun engine/tools/export-collision.ts [server-url]
 // Default: http://localhost:8888
 
@@ -19,7 +19,7 @@ if (!response.ok) {
 }
 
 const data = await response.json();
-console.log(`Received ${data.tiles.length} tiles, ${data.zones.length} zones, ${data.doors?.length ?? 0} doors, ${data.closeDoors?.length ?? 0} close-doors, ${data.wallLocs?.length ?? 0} wall-locs`);
+console.log(`Received ${data.tiles.length} tiles, ${data.zones.length} zones, ${data.doors?.length ?? 0} doors, ${data.closeDoors?.length ?? 0} close-doors, ${data.locGates?.length ?? 0} loc-gates, ${data.closeLocGates?.length ?? 0} close-loc-gates, ${data.searchables?.length ?? 0} searchables, ${data.closeSearchables?.length ?? 0} close-searchables, ${data.wallLocs?.length ?? 0} wall-locs`);
 
 // Write JSON
 fs.writeFileSync(outputPath, JSON.stringify(data));
@@ -31,19 +31,27 @@ const compressed = Bun.gzipSync(Buffer.from(JSON.stringify(data)));
 fs.writeFileSync(`${outputPath}.gz`, compressed);
 console.log(`Compressed: ${(compressed.length / 1024 / 1024).toFixed(2)} MB`);
 
-// Write binary version (v2 — includes closeDoors)
+// Write binary version (v5 — adds closeSearchables)
 const binPath = 'sdk/collision-data.bin';
 const tileCount = data.tiles.length;
 const zoneCount = data.zones.length;
 const doorCount = data.doors?.length ?? 0;
 const closeDoorCount = data.closeDoors?.length ?? 0;
+const locGateCount = data.locGates?.length ?? 0;
+const closeLocGateCount = data.closeLocGates?.length ?? 0;
+const searchableCount = data.searchables?.length ?? 0;
+const closeSearchableCount = data.closeSearchables?.length ?? 0;
 
-const headerSize = 24; // v2: added closeDoorCount (4 bytes)
+const headerSize = 40; // v5: added closeSearchableCount (4 bytes)
 const tilesSize = tileCount * 8;
 const zonesSize = zoneCount * 4;
 const doorsSize = doorCount * 7;
 const closeDoorsSize = closeDoorCount * 7;
-const totalSize = headerSize + tilesSize + zonesSize + doorsSize + closeDoorsSize;
+const locGatesSize = locGateCount * 8;
+const closeLocGatesSize = closeLocGateCount * 8;
+const searchablesSize = searchableCount * 8;
+const closeSearchablesSize = closeSearchableCount * 8;
+const totalSize = headerSize + tilesSize + zonesSize + doorsSize + closeDoorsSize + locGatesSize + closeLocGatesSize + searchablesSize + closeSearchablesSize;
 
 const buffer = new ArrayBuffer(totalSize);
 const view = new DataView(buffer);
@@ -52,16 +60,20 @@ function packCoord(level: number, x: number, z: number): number {
     return (z & 0x3FFF) | ((x & 0x3FFF) << 14) | ((level & 0x3) << 28);
 }
 
-// Header (v2)
+// Header (v5)
 view.setUint8(0, 0x43);  // 'C'
 view.setUint8(1, 0x4F);  // 'O'
 view.setUint8(2, 0x4C);  // 'L'
 view.setUint8(3, 0x4C);  // 'L'
-view.setUint32(4, 2, true);  // version 2
+view.setUint32(4, 5, true);  // version 5
 view.setUint32(8, tileCount, true);
 view.setUint32(12, zoneCount, true);
 view.setUint32(16, doorCount, true);
 view.setUint32(20, closeDoorCount, true);
+view.setUint32(24, locGateCount, true);
+view.setUint32(28, closeLocGateCount, true);
+view.setUint32(32, searchableCount, true);
+view.setUint32(36, closeSearchableCount, true);
 
 // Tiles
 let offset = headerSize;
@@ -95,6 +107,46 @@ for (const [level, x, z, shape, angle, blockrange] of data.closeDoors ?? []) {
     offset += 7;
 }
 
+// Loc gates (multi-tile openable locs — LOC collision will be removed)
+for (const [level, x, z, width, length, angle, blockrange] of data.locGates ?? []) {
+    view.setUint32(offset, packCoord(level, x, z), true);
+    view.setUint8(offset + 4, width);
+    view.setUint8(offset + 5, length);
+    view.setUint8(offset + 6, angle);
+    view.setUint8(offset + 7, blockrange);
+    offset += 8;
+}
+
+// Close loc gates (default-open multi-tile locs — LOC collision will be added)
+for (const [level, x, z, width, length, angle, blockrange] of data.closeLocGates ?? []) {
+    view.setUint32(offset, packCoord(level, x, z), true);
+    view.setUint8(offset + 4, width);
+    view.setUint8(offset + 5, length);
+    view.setUint8(offset + 6, angle);
+    view.setUint8(offset + 7, blockrange);
+    offset += 8;
+}
+
+// Searchables (cupboards, chests, drawers etc. — collision stays, used for overlay only)
+for (const [level, x, z, width, length, angle, blockrange] of data.searchables ?? []) {
+    view.setUint32(offset, packCoord(level, x, z), true);
+    view.setUint8(offset + 4, width);
+    view.setUint8(offset + 5, length);
+    view.setUint8(offset + 6, angle);
+    view.setUint8(offset + 7, blockrange);
+    offset += 8;
+}
+
+// Close searchables (default-open searchable objects — collision stays, used for overlay only)
+for (const [level, x, z, width, length, angle, blockrange] of data.closeSearchables ?? []) {
+    view.setUint32(offset, packCoord(level, x, z), true);
+    view.setUint8(offset + 4, width);
+    view.setUint8(offset + 5, length);
+    view.setUint8(offset + 6, angle);
+    view.setUint8(offset + 7, blockrange);
+    offset += 8;
+}
+
 fs.writeFileSync(binPath, Buffer.from(buffer));
 const binStats = fs.statSync(binPath);
 console.log(`Binary: ${binPath} (${(binStats.size / 1024 / 1024).toFixed(2)} MB) — ${((1 - binStats.size / stats.size) * 100).toFixed(1)}% smaller than JSON`);
@@ -120,9 +172,9 @@ const CF = {
     WALL_SOUTH_WEST: 64,
 };
 
-const SCALE = 4;
-const SECTION_GAP = 24; // gap between map sections (includes label)
-const KEY_WIDTH = 500; // key panel on right side of overworld
+const SCALE = 11;
+const SECTION_GAP = 66; // gap between map sections (includes label)
+const KEY_WIDTH = 3400; // key panel on right side of overworld
 
 // Define map sections to render
 interface MapSection {
@@ -202,6 +254,9 @@ function drawText(text: string, startX: number, y: number, r: number, g: number,
 let totalTilesRendered = 0;
 let totalDoorsRendered = 0;
 let totalCloseDoorsRendered = 0;
+let totalLocGatesRendered = 0;
+let totalCloseLocGatesRendered = 0;
+let totalSearchablesRendered = 0;
 
 for (let si = 0; si < sections.length; si++) {
     const sec = sections[si];
@@ -209,8 +264,9 @@ for (let si = 0; si < sections.length; si++) {
     const secTileH = sec.maxZ - sec.minZ;
     const secPixH = secTileH * SCALE;
     const yOff = sectionOffsets[si];
-    // Center this section horizontally if narrower than widest
-    const xOff = Math.floor((WIDTH - secTileW * SCALE) / 2);
+    // Overworld (section 0) is left-aligned so the key panel fits to its right.
+    // Other sections are centered across the full image width.
+    const xOff = si === 0 ? 0 : Math.floor((WIDTH - secTileW * SCALE) / 2);
 
     // Draw section label
     drawText(sec.label, xOff + 4, yOff + 4, 200, 200, 220);
@@ -310,10 +366,65 @@ for (let si = 0; si < sections.length; si++) {
         fillTile(x, z, 0, 220, 220, 255);
     }
 
+    // Loc gates (multi-tile openable locs)
+    let secLocGates = 0;
+    for (const [level, x, z, width, length, angle] of data.locGates ?? [] as [number, number, number, number, number, number][]) {
+        if (level !== 0) continue;
+        // Compute rotated dimensions
+        const rw = (angle === 1 || angle === 3) ? length : width;
+        const rl = (angle === 1 || angle === 3) ? width : length;
+        for (let dx = 0; dx < rw; dx++) {
+            for (let dz = 0; dz < rl; dz++) {
+                const tx = x + dx;
+                const tz = z + dz;
+                if (tx < sec.minX || tx >= sec.maxX || tz < sec.minZ || tz >= sec.maxZ) continue;
+                fillTile(tx, tz, 255, 50, 200, 255);
+                secLocGates++;
+            }
+        }
+    }
+
+    // Close loc gates (default-open special gates)
+    let secCloseLocGates = 0;
+    for (const [level, x, z, width, length, angle] of data.closeLocGates ?? [] as [number, number, number, number, number, number][]) {
+        if (level !== 0) continue;
+        const rw = (angle === 1 || angle === 3) ? length : width;
+        const rl = (angle === 1 || angle === 3) ? width : length;
+        for (let dx = 0; dx < rw; dx++) {
+            for (let dz = 0; dz < rl; dz++) {
+                const tx = x + dx;
+                const tz = z + dz;
+                if (tx < sec.minX || tx >= sec.maxX || tz < sec.minZ || tz >= sec.maxZ) continue;
+                fillTile(tx, tz, 200, 50, 255, 255);
+                secCloseLocGates++;
+            }
+        }
+    }
+
+    // Searchables (cupboards, chests, drawers etc.)
+    let secSearchables = 0;
+    for (const [level, x, z, width, length, angle] of data.searchables ?? [] as [number, number, number, number, number, number][]) {
+        if (level !== 0) continue;
+        const rw = (angle === 1 || angle === 3) ? length : width;
+        const rl = (angle === 1 || angle === 3) ? width : length;
+        for (let dx = 0; dx < rw; dx++) {
+            for (let dz = 0; dz < rl; dz++) {
+                const tx = x + dx;
+                const tz = z + dz;
+                if (tx < sec.minX || tx >= sec.maxX || tz < sec.minZ || tz >= sec.maxZ) continue;
+                fillTile(tx, tz, 180, 130, 50, 255);
+                secSearchables++;
+            }
+        }
+    }
+
     totalTilesRendered += secTiles;
     totalDoorsRendered += secDoors;
     totalCloseDoorsRendered += secCloseDoors;
-    console.log(`  ${sec.label}: ${secTiles} tiles, ${secDoors} doors, ${secCloseDoors} close-doors (${secTileW}x${secTileH} tiles)`);
+    totalLocGatesRendered += secLocGates;
+    totalCloseLocGatesRendered += secCloseLocGates;
+    totalSearchablesRendered += secSearchables;
+    console.log(`  ${sec.label}: ${secTiles} tiles, ${secDoors} doors, ${secCloseDoors} close-doors, ${secLocGates} loc-gate tiles, ${secCloseLocGates} close-loc-gate tiles, ${secSearchables} searchable tiles (${secTileW}x${secTileH} tiles)`);
 }
 
 // ============================================================
@@ -321,9 +432,9 @@ for (let si = 0; si < sections.length; si++) {
 // ============================================================
 const KEY_X = overworldPixW + 20; // 20px padding from map edge
 const KEY_TOP = 30;
-const FONT_SCALE = 3; // 3x scale = 15x21 per glyph
-const SWATCH_SIZE = 28;
-const KEY_ROW_H = 44;
+const FONT_SCALE = 8; // 8x scale = 40x56 per glyph
+const SWATCH_SIZE = 77;
+const KEY_ROW_H = 121;
 
 function drawTextScaled(text: string, sx: number, sy: number, r: number, g: number, b: number, scale: number) {
     let cx = sx;
@@ -374,7 +485,7 @@ for (let y = 0; y < (sections[0].maxZ - sections[0].minZ) * SCALE + 16; y++) {
 drawTextScaled('LEGEND', KEY_X, KEY_TOP, 220, 220, 240, FONT_SCALE);
 
 // Key items with big swatches
-const keyItems: { label: string; draw: (x: number, y: number, s: number) => void }[] = [
+const keyItems: { label: string; desc?: string; draw: (x: number, y: number, s: number) => void }[] = [
     { label: 'LOC/FLOOR', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 50, 50, 55) },
     { label: 'ROOF', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 80, 30, 100) },
     { label: 'WALL N', draw: (x, y, s) => drawKeyBlock(x, y, s, s / 3 | 0, 255, 70, 70) },
@@ -385,15 +496,21 @@ const keyItems: { label: string; draw: (x: number, y: number, s: number) => void
     { label: 'WALL NE', draw: (x, y, s) => drawKeyLine(x + s - 1, y, x, y + s - 1, 50, 255, 120) },
     { label: 'WALL SE', draw: (x, y, s) => drawKeyLine(x + s - 1, y + s - 1, x, y, 120, 50, 255) },
     { label: 'WALL SW', draw: (x, y, s) => drawKeyLine(x, y + s - 1, x + s - 1, y, 255, 180, 50) },
-    { label: 'DOOR', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 255, 165, 0) },
-    { label: 'CLOSE DOOR', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 0, 220, 220) },
+    { label: 'DOOR', desc: 'CLOSED BY DEFAULT. BOT CAN OPEN', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 255, 165, 0) },
+    { label: 'CLOSE DOOR', desc: 'OPEN BY DEFAULT. BOT CAN CLOSE', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 0, 220, 220) },
+    { label: 'LOC GATE', desc: 'SPECIAL GATE. BOT CAN OPEN', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 255, 50, 200) },
+    { label: 'CLOSE LOC GATE', desc: 'SPECIAL GATE. OPEN BY DEFAULT', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 200, 50, 255) },
+    { label: 'SEARCHABLE OBJECT', desc: 'CHESTS. CUPBOARDS. CRATES. ETC', draw: (x, y, s) => drawKeyBlock(x, y, s, s, 180, 130, 50) },
 ];
 
-const keyStartY = KEY_TOP + 30;
+const keyStartY = KEY_TOP + FONT_SCALE * 7 + 20; // below title text + padding
 for (let i = 0; i < keyItems.length; i++) {
     const itemY = keyStartY + i * KEY_ROW_H;
     keyItems[i].draw(KEY_X, itemY, SWATCH_SIZE);
-    drawTextScaled(keyItems[i].label, KEY_X + SWATCH_SIZE + 12, itemY + 3, 200, 200, 210, 2);
+    drawTextScaled(keyItems[i].label, KEY_X + SWATCH_SIZE + 16, itemY + 3, 200, 200, 210, 3);
+    if (keyItems[i].desc) {
+        drawTextScaled(keyItems[i].desc!, KEY_X + SWATCH_SIZE + 16, itemY + 30, 140, 140, 150, 2);
+    }
 }
 
 // Stats at bottom of key
@@ -401,8 +518,11 @@ const statsY = keyStartY + keyItems.length * KEY_ROW_H + 20;
 drawTextScaled(`${tileCount} TILES`, KEY_X, statsY, 140, 140, 160, 2);
 drawTextScaled(`${doorCount} DOORS`, KEY_X, statsY + 30, 140, 140, 160, 2);
 drawTextScaled(`${closeDoorCount} CLOSE DOORS`, KEY_X, statsY + 60, 140, 140, 160, 2);
+drawTextScaled(`${locGateCount} LOC GATES`, KEY_X, statsY + 90, 140, 140, 160, 2);
+drawTextScaled(`${closeLocGateCount} CLOSE LOC GATES`, KEY_X, statsY + 120, 140, 140, 160, 2);
+drawTextScaled(`${searchableCount} SEARCHABLE OBJECTS`, KEY_X, statsY + 150, 140, 140, 160, 2);
 
-console.log(`  Total: ${totalTilesRendered} tiles, ${totalDoorsRendered} doors, ${totalCloseDoorsRendered} close-doors`);
+console.log(`  Total: ${totalTilesRendered} tiles, ${totalDoorsRendered} doors, ${totalCloseDoorsRendered} close-doors, ${totalLocGatesRendered} loc-gate tiles, ${totalCloseLocGatesRendered} close-loc-gate tiles, ${totalSearchablesRendered} searchable tiles`);
 
 // Write PNG
 function writePNG(path: string, w: number, h: number, rgb: Uint8Array) {
