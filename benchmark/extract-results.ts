@@ -21,7 +21,7 @@ import { join, basename } from 'path';
 const RESULTS_DIR = join(import.meta.dir, 'results');
 const JOBS_DIR = join(import.meta.dir, '..', 'jobs');
 
-const KNOWN_MODELS = ['opus', 'sonnet', 'haiku', 'codex', 'gemini', 'glm'];
+const KNOWN_MODELS = ['opus', 'sonnet', 'haiku', 'codex', 'codex53', 'gemini', 'gemini-flash', 'glm', 'kimi'];
 
 interface Sample {
   timestamp: string;

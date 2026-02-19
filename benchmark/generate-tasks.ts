@@ -87,6 +87,18 @@ const skillTrackerB64 = Buffer.from(
   readFileSync(join(SHARED_DIR, 'skill_tracker.ts'), 'utf-8')
 ).toString('base64');
 
+const gpLoopInstructionB64 = Buffer.from(
+  readFileSync(join(SHARED_DIR, 'gp_loop_instruction.md'), 'utf-8')
+).toString('base64');
+
+const generateGpSavesB64 = Buffer.from(
+  readFileSync(join(SHARED_DIR, 'generate_gp_saves.ts'), 'utf-8')
+).toString('base64');
+
+const checkGpB64 = Buffer.from(
+  readFileSync(join(SHARED_DIR, 'check_gp.ts'), 'utf-8')
+).toString('base64');
+
 // Inject GEMINI.md so Gemini CLI gets project instructions (like CLAUDE.md for Claude Code)
 const geminiMdB64 = Buffer.from(
   readFileSync(join(BENCHMARK_DIR, '..', 'GEMINI.md'), 'utf-8')
@@ -130,6 +142,45 @@ RUN echo 'SERVER=localhost' >> /app/bots/agent/bot.env
 # Wrapper: start services, launch tracker in background (fully detached), then run MCP server
 # Write tracker data to /app/ (persists between agent and verifier phases on Daytona)
 RUN printf '#!/bin/bash\\n/start-services.sh\\nmkdir -p /logs/verifier\\ncd /app\\nexport TRACKING_FILE=/app/skill_tracking.json\\nnohup bun run benchmark/shared/skill_tracker.ts > /app/skill_tracker.log 2>&1 &\\nexec bun run mcp/server.ts\\n' > /start-with-tracker.sh && chmod +x /start-with-tracker.sh
+`;
+
+// ── GP task instruction and Dockerfile ──────────────────────────
+
+const GP_INSTRUCTION = `Run 5 loops sequentially. For each loop, spawn a fresh sub-agent with the following prompt:
+
+"Read these files to understand your task, then do it:
+- \\\`/app/gp_loop_instruction.md\\\` — your instructions
+- \\\`/app/CLAUDE.md\\\` — SDK and bot API reference
+- \\\`/app/learnings.md\\\` — what previous agents learned (empty on loop 1)
+
+Do not finish until you have updated \\\`/app/learnings.md\\\` with what you learned."
+
+Each sub-agent must start with fresh context — no memory of previous loops. Wait for each to complete before starting the next. If one fails, continue to the next loop.
+`;
+
+const GP_DOCKERFILE = () => `FROM ${DOCKER_IMAGE}
+
+# Create 25 bot directories (5 bots × 5 loops) with unique credentials
+# Bot names: l{loop}a{bot} — e.g. l1a1, l1a2, ..., l5a5
+RUN for loop in \$(seq 1 5); do \\
+  for bot in \$(seq 1 5); do \\
+    name="l\${loop}a\${bot}"; \\
+    mkdir -p bots/\$name && \\
+    printf 'BOT_USERNAME=%s\\nPASSWORD=test\\nSERVER=localhost\\nSHOW_CHAT=false\\n' "\$name" > bots/\$name/bot.env; \\
+  done; \\
+done
+
+# Inject loop instruction, save generator, and verifier (base64-encoded)
+RUN mkdir -p /app/benchmark/shared && \\
+    echo '${gpLoopInstructionB64}' | base64 -d > /app/gp_loop_instruction.md && \\
+    echo '${generateGpSavesB64}' | base64 -d > /app/benchmark/shared/generate_gp_saves.ts && \\
+    echo '${checkGpB64}' | base64 -d > /app/benchmark/shared/check_gp.ts
+
+# Create empty learnings file for loop 1
+RUN touch /app/learnings.md
+
+# Generate 25 save files with level 50 all skills (5 bots × 5 loops)
+RUN cd /app && bun run benchmark/shared/generate_gp_saves.ts
 `;
 
 const VARIANTS: VariantTask[] = [
@@ -262,6 +313,22 @@ cd /app && bun run /tests/check_total_level.ts
     extraSharedFiles: ['skill_tracker.ts'],
     environmentDockerfile: TOTAL_LEVEL_DOCKERFILE(),
   },
+  // ── GP earning task ────────────────────────────────────────────
+  {
+    slug: 'gp-10k-ticks',
+    taskDescription: GP_INSTRUCTION,
+    agentTimeout: 18000, // 5 hours
+    verifier: 'check_gp.ts',
+    testSh: `#!/bin/bash
+set -e
+mkdir -p /logs/verifier
+/ensure-services.sh
+cd /app && bun run /tests/check_gp.ts
+`,
+    tags: ['game', 'runescape', 'automation', 'mcp', 'benchmark', 'gp'],
+    extraSharedFiles: ['generate_gp_saves.ts'],
+    environmentDockerfile: GP_DOCKERFILE(),
+  },
 ];
 
 // ── Template generators ──────────────────────────────────────────
@@ -298,10 +365,9 @@ args = ["-c", "/start-services.sh && cd /app && bun run mcp/server.ts"]
 function generateVariantTaskToml(v: VariantTask): string {
   const tagsStr = v.tags.map(t => `"${t}"`).join(', ');
 
-  // For total-level tasks, launch the skill tracker as a background process
-  // with stdout/stderr redirected to a log file (to avoid corrupting MCP stdio)
-  const hasTracker = v.extraSharedFiles?.includes('skill_tracker.ts');
-  const mcpCommand = hasTracker
+  // For tasks with background trackers, use the appropriate startup script
+  const hasSkillTracker = v.extraSharedFiles?.includes('skill_tracker.ts');
+  const mcpCommand = hasSkillTracker
     ? '/start-with-tracker.sh'
     : '/start-services.sh && cd /app && bun run mcp/server.ts';
 
