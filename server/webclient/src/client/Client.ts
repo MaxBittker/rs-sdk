@@ -1636,6 +1636,144 @@ export class Client extends GameShell {
     }
 
     /**
+     * Check if trade window is currently open
+     */
+    isTradeOpen(): boolean {
+        return this.mainModalId === 3323 && this.sideModalId === 3321;
+    }
+
+    /**
+     * Check if trade confirmation screen is open
+     */
+    isTradeConfirmOpen(): boolean {
+        return this.mainModalId === 3443;
+    }
+
+    /**
+     * Get the trade partner's name from the trade interface
+     */
+    getTradePartnerName(): string {
+        try {
+            const com = IfType.list[3417];
+            if (com && com.text) {
+                // Strip "Trading With: " prefix
+                return com.text.replace(/^Trading With:\s*/i, '');
+            }
+        } catch { /* ignore */ }
+        return '';
+    }
+
+    /**
+     * Get the trade status text (e.g. "Other player has accepted", "Waiting for other player...")
+     */
+    getTradeStatusText(): string {
+        try {
+            const componentId = this.isTradeConfirmOpen() ? 3535 : 3431;
+            const com = IfType.list[componentId];
+            if (com && com.text) {
+                return com.text;
+            }
+        } catch { /* ignore */ }
+        return '';
+    }
+
+    /**
+     * Offer an item from the trade side inventory (your inventory during trade)
+     * slot: slot in tradeside:inv (3322)
+     * amount: 1, 5, 10, -1 (all), or custom (triggers count dialog)
+     */
+    tradeOffer(slot: number, amount: number = 1): boolean {
+        if (!this.ingame || !this.out || !this.isTradeOpen()) {
+            return false;
+        }
+
+        const TRADE_SIDE_INV_ID = 3322;
+        const component = IfType.list[TRADE_SIDE_INV_ID];
+        if (!component || !component.linkObjType) {
+            return false;
+        }
+
+        const rawItemId = component.linkObjType[slot];
+        if (!rawItemId || rawItemId <= 0) {
+            return false;
+        }
+
+        const obj = ObjType.list(rawItemId - 1);
+        const itemId = obj.id;
+
+        // Map amount to option index: 1->1, 5->2, 10->3, all->4, X->5
+        let optionIndex = 1;
+        if (amount === 5) optionIndex = 2;
+        else if (amount === 10) optionIndex = 3;
+        else if (amount === -1 || amount >= 2147483647) optionIndex = 4;
+        else if (amount !== 1) optionIndex = 5;
+
+        const opcodes = [
+            ClientProt.INV_BUTTON1,
+            ClientProt.INV_BUTTON2,
+            ClientProt.INV_BUTTON3,
+            ClientProt.INV_BUTTON4,
+            ClientProt.INV_BUTTON5
+        ];
+
+        this.writePacketOpcode(opcodes[optionIndex - 1]);
+        this.out.p2(itemId);
+        this.out.p2(slot);
+        this.out.p2(TRADE_SIDE_INV_ID);
+
+        console.log(`[Client] tradeOffer: slot=${slot}, itemId=${itemId}, amount=${amount}, optionIndex=${optionIndex}`);
+        return true;
+    }
+
+    /**
+     * Remove an item from your trade offer
+     * slot: slot in trademain:inv (3415)
+     * amount: 1, 5, 10, -1 (all), or custom (triggers count dialog)
+     */
+    tradeRemove(slot: number, amount: number = 1): boolean {
+        if (!this.ingame || !this.out || !this.isTradeOpen()) {
+            return false;
+        }
+
+        const TRADE_MY_OFFER_ID = 3415;
+        const component = IfType.list[TRADE_MY_OFFER_ID];
+        if (!component || !component.linkObjType) {
+            return false;
+        }
+
+        const rawItemId = component.linkObjType[slot];
+        if (!rawItemId || rawItemId <= 0) {
+            return false;
+        }
+
+        const obj = ObjType.list(rawItemId - 1);
+        const itemId = obj.id;
+
+        // Map amount to option index: 1->1, 5->2, 10->3, all->4, X->5
+        let optionIndex = 1;
+        if (amount === 5) optionIndex = 2;
+        else if (amount === 10) optionIndex = 3;
+        else if (amount === -1 || amount >= 2147483647) optionIndex = 4;
+        else if (amount !== 1) optionIndex = 5;
+
+        const opcodes = [
+            ClientProt.INV_BUTTON1,
+            ClientProt.INV_BUTTON2,
+            ClientProt.INV_BUTTON3,
+            ClientProt.INV_BUTTON4,
+            ClientProt.INV_BUTTON5
+        ];
+
+        this.writePacketOpcode(opcodes[optionIndex - 1]);
+        this.out.p2(itemId);
+        this.out.p2(slot);
+        this.out.p2(TRADE_MY_OFFER_ID);
+
+        console.log(`[Client] tradeRemove: slot=${slot}, itemId=${itemId}, amount=${amount}, optionIndex=${optionIndex}`);
+        return true;
+    }
+
+    /**
      * Set combat style (0-3)
      */
     setCombatStyle(style: number): boolean {

@@ -17,7 +17,7 @@
  * - getConnectionState() - Get connection state ('connected', 'connecting', 'disconnected', 'reconnecting')
  *
  * == State Access (Synchronous) ==
- * - getState(): BotWorldState - Full state snapshot. Shape: { tick, inGame, player: PlayerState | null, skills: SkillState[], inventory: InventoryItem[], equipment: InventoryItem[], nearbyNpcs: NearbyNpc[], nearbyPlayers: NearbyPlayer[], nearbyLocs: NearbyLoc[], groundItems: GroundItem[], gameMessages: GameMessage[], dialog: DialogState, shop: ShopState, bank: BankState, combatEvents: CombatEvent[] }
+ * - getState(): BotWorldState - Full state snapshot. Shape: { tick, inGame, player: PlayerState | null, skills: SkillState[], inventory: InventoryItem[], equipment: InventoryItem[], nearbyNpcs: NearbyNpc[], nearbyPlayers: NearbyPlayer[], nearbyLocs: NearbyLoc[], groundItems: GroundItem[], gameMessages: GameMessage[], dialog: DialogState, shop: ShopState, bank: BankState, trade: TradeState, combatEvents: CombatEvent[] }
  * - getStateAge(): number - Milliseconds since last state update
  *
  * == State Queries (all return directly, NOT wrapped in objects) ==
@@ -29,9 +29,22 @@
  * - findNearbyLoc(pattern): NearbyLoc | undefined - Find location by name/regex
  * - getGroundItems(): GroundItem[] - Returns array directly. Each: { id, name, count, x, z, distance }
  * - findGroundItem(pattern): GroundItem | undefined - Find ground item by name/regex
+ * - getNearbyPlayer(index): NearbyPlayer | null - Get player by index
+ * - findNearbyPlayer(pattern): NearbyPlayer | null - Find player by name/regex
+ * - getNearbyPlayers(): NearbyPlayer[] - All nearby players
  * - getSkill(name): SkillState | undefined - Returns { name, level, baseLevel, experience }
  * - getAllSkills(): SkillState[] - All skills
  * - getEquippedItems(): InventoryItem[] - Worn equipment as array
+ *
+ * == Trade State Queries ==
+ * - isTradeOpen(): boolean - Check if trade window is open
+ * - isTradeConfirmOpen(): boolean - Check if trade confirm screen is open
+ * - getTradePartnerName(): string - Get trade partner's name
+ * - getTradeStatusText(): string - Get trade status text
+ * - getTradeMyOffer(): TradeItem[] - Items in your trade offer
+ * - getTradeTheirOffer(): TradeItem[] - Items in partner's trade offer
+ * - getTradeMyInventory(): TradeItem[] - Your inventory items in trade side panel
+ * - findTradeItem(pattern, items): TradeItem | null - Find item in trade item list
  *
  * == Key Types ==
  * PlayerState: { name, combatLevel, x, z, worldX, worldZ, level (floor 0-3), runEnergy, animId, combat: { inCombat, targetIndex, lastDamageTick } }
@@ -53,6 +66,11 @@
  * - sendBankWithdraw(bankSlot, amount) - Withdraw item from bank
  * - sendShopBuy(shopSlot, amount) - Buy from shop
  * - sendShopSell(invSlot, amount) - Sell to shop
+ * - sendTradeOffer(slot, amount) - Offer item in trade (1/5/10/-1 for all/custom)
+ * - sendTradeRemove(slot, amount) - Remove item from trade offer
+ * - sendClickComponent(3420) - Accept trade (first screen)
+ * - sendClickComponent(3546) - Confirm trade (second screen)
+ * - sendCloseModal() - Decline/close trade
  * - sendCastSpell(spellName) - Cast spell
  * - sendCastSpellOnNpc(spellName, npcIndex) - Cast spell on NPC
  * - sendCastSpellOnItem(spellName, slot) - Cast spell on item
