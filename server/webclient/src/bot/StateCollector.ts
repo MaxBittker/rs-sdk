@@ -18,6 +18,19 @@ import {
     EQUIPMENT_INTERFACE_ID,
     SHOP_TEMPLATE_INV_ID,
     SHOP_TEMPLATE_SIDE_INV_ID,
+    TRADE_MAIN_ID,
+    TRADE_SIDE_ID,
+    TRADE_SIDE_INV_ID,
+    TRADE_MY_OFFER_ID,
+    TRADE_THEIR_OFFER_ID,
+    TRADE_PARTNER_NAME_ID,
+    TRADE_STATUS_ID,
+    TRADE_CONFIRM_ID,
+    TRADE_CONFIRM_THEIR_INV1_ID,
+    TRADE_CONFIRM_STATUS_ID,
+    TRADE_CONFIRM_MY_INV2_ID,
+    TRADE_CONFIRM_THEIR_INV2_ID,
+    TRADE_CONFIRM_MY_INV1_ID,
     type BotState,
     type SkillState,
     type InventoryItem,
@@ -35,6 +48,8 @@ import {
     type ShopItem,
     type BankState,
     type BankItem,
+    type TradeItem,
+    type TradeState,
     type PlayerState,
     type CombatStyleState,
     type CombatStyleOption,
@@ -108,6 +123,7 @@ export class BotStateCollector implements ScanProvider {
             menuActions: this.collectMenuActions(),
             shop: this.collectShopState(),
             bank: this.collectBankState(),
+            trade: this.collectTradeState(),
             inGame: c.ingame || false,
             combatEvents: [...this.combatEvents], // Return copy of events
             dialog: this.collectDialogState(),
@@ -1050,6 +1066,97 @@ export class BotStateCollector implements ScanProvider {
         }
 
         return bankState;
+    }
+
+    private collectTradeState(): TradeState {
+        const c = this.client as any;
+        const defaultState: TradeState = {
+            isOpen: false,
+            isConfirmOpen: false,
+            partnerName: '',
+            statusText: '',
+            myOffer: [],
+            theirOffer: [],
+            myInventory: []
+        };
+
+        try {
+            const isTradeOpen = typeof c.isTradeOpen === 'function' ? c.isTradeOpen() : false;
+            const isConfirmOpen = typeof c.isTradeConfirmOpen === 'function' ? c.isTradeConfirmOpen() : false;
+
+            if (!isTradeOpen && !isConfirmOpen) {
+                return defaultState;
+            }
+
+            defaultState.isOpen = isTradeOpen;
+            defaultState.isConfirmOpen = isConfirmOpen;
+
+            // Get partner name
+            if (typeof c.getTradePartnerName === 'function') {
+                defaultState.partnerName = c.getTradePartnerName();
+            }
+
+            // Get status text
+            if (typeof c.getTradeStatusText === 'function') {
+                defaultState.statusText = c.getTradeStatusText();
+            }
+
+            if (isTradeOpen) {
+                // Main trade window
+                defaultState.myOffer = this.collectTradeInventory(TRADE_MY_OFFER_ID);
+                defaultState.theirOffer = this.collectTradeInventory(TRADE_THEIR_OFFER_ID);
+                defaultState.myInventory = this.collectTradeInventory(TRADE_SIDE_INV_ID);
+            } else if (isConfirmOpen) {
+                // Confirmation screen - server uses different components depending on item count
+                // Try both pairs and use whichever has items
+                let myItems = this.collectTradeInventory(TRADE_CONFIRM_MY_INV1_ID);
+                if (myItems.length === 0) {
+                    myItems = this.collectTradeInventory(TRADE_CONFIRM_MY_INV2_ID);
+                }
+                defaultState.myOffer = myItems;
+
+                let theirItems = this.collectTradeInventory(TRADE_CONFIRM_THEIR_INV1_ID);
+                if (theirItems.length === 0) {
+                    theirItems = this.collectTradeInventory(TRADE_CONFIRM_THEIR_INV2_ID);
+                }
+                defaultState.theirOffer = theirItems;
+            }
+        } catch { /* ignore errors */ }
+
+        return defaultState;
+    }
+
+    private collectTradeInventory(interfaceId: number): TradeItem[] {
+        const items: TradeItem[] = [];
+
+        try {
+            const component = IfType.list[interfaceId];
+            if (!component || !component.linkObjType || !component.linkObjNumber) {
+                return items;
+            }
+
+            for (let slot = 0; slot < component.linkObjType.length; slot++) {
+                const objId = component.linkObjType[slot];
+                const count = component.linkObjNumber[slot];
+
+                if (objId > 0) {
+                    let name = 'Unknown';
+                    try {
+                        const obj = ObjType.list(objId - 1);
+                        name = obj.name || 'Unknown';
+                    } catch { /* ignore */ }
+
+                    items.push({
+                        slot,
+                        id: objId - 1,
+                        name,
+                        count
+                    });
+                }
+            }
+        } catch { /* ignore errors */ }
+
+        return items;
     }
 
     /**

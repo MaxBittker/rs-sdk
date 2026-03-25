@@ -304,6 +304,26 @@ export class ActionExecutor {
                         data: this.scanProvider.scanGroundItems(action.radius)
                     };
 
+                case 'tradeOffer': {
+                    const needsCountDialog = action.amount !== 1 && action.amount !== 5 && action.amount !== 10 && action.amount !== -1 && action.amount < 2147483647;
+                    const tradeOfferOk = this.client.tradeOffer(action.slot, action.amount);
+                    if (!tradeOfferOk) return { success: false, message: 'Failed to offer trade item' };
+                    if (needsCountDialog) {
+                        return this.waitForCountDialogAndSubmit(action.amount, `Offering ${action.amount} from slot ${action.slot}`);
+                    }
+                    return { success: true, message: `Offering from slot ${action.slot}` };
+                }
+
+                case 'tradeRemove': {
+                    const needsCountDialog = action.amount !== 1 && action.amount !== 5 && action.amount !== 10 && action.amount !== -1 && action.amount < 2147483647;
+                    const tradeRemoveOk = this.client.tradeRemove(action.slot, action.amount);
+                    if (!tradeRemoveOk) return { success: false, message: 'Failed to remove trade item' };
+                    if (needsCountDialog) {
+                        return this.waitForCountDialogAndSubmit(action.amount, `Removing ${action.amount} from slot ${action.slot}`);
+                    }
+                    return { success: true, message: `Removing from slot ${action.slot}` };
+                }
+
                 case 'togglePrayer': {
                     if (!this.scanProvider) {
                         return { success: false, message: 'No scan provider available' };
@@ -400,6 +420,8 @@ export function formatAction(action: BotAction): string {
         case 'randomizeCharacterDesign': return 'Randomize character design';
         case 'say': return `Say: ${action.message}`;
         case 'togglePrayer': return `Toggle prayer ${action.prayerIndex}`;
+        case 'tradeOffer': return `Trade offer slot ${action.slot} x${action.amount}`;
+        case 'tradeRemove': return `Trade remove slot ${action.slot} x${action.amount}`;
         default: return action.type;
     }
 }

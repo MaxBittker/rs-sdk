@@ -75,6 +75,17 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
 | `depositItem(target, amount)` | Deposit an item into the bank. |
 | `withdrawItem(target, amount)` | Withdraw an item from the bank by slot number. |
 
+### Trading
+
+| Method | Description |
+|--------|-------------|
+| `requestTrade(target, timeout)` | Request a trade with a nearby player. Walks to them if needed. |
+| `offerItem(target, amount)` | Offer an item from your inventory in the trade window. |
+| `removeOffer(target, amount)` | Remove an item from your trade offer. |
+| `acceptTrade(timeout)` | Accept the trade (first screen). |
+| `confirmTrade(timeout)` | Confirm the trade (second/confirmation screen). |
+| `declineTrade()` | Decline the current trade by closing the modal. |
+
 ### Crafting & Smithing
 
 | Method | Description |
@@ -133,6 +144,17 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `getNearbyLoc(x, z, id)` | Get location (object) by coordinates and ID. |
 | `findNearbyLoc(pattern)` | Find location by name pattern. |
 | `findGroundItem(pattern)` | Find ground item by name pattern. |
+| `getNearbyPlayer(index)` | Get a nearby player by index. |
+| `findNearbyPlayer(pattern)` | Find a nearby player by name pattern. |
+| `getNearbyPlayers()` | Get all nearby players. |
+| `isTradeOpen()` | Check if trade window is currently open. |
+| `isTradeConfirmOpen()` | Check if trade confirmation screen is open. |
+| `getTradePartnerName()` | Get the trade partner's name. |
+| `getTradeStatusText()` | Get the current trade status text. |
+| `getTradeMyOffer()` | Get items in your trade offer. |
+| `getTradeTheirOffer()` | Get items in the other player's trade offer. |
+| `getTradeMyInventory()` | Get your inventory items shown in the trade side panel. |
+| `findTradeItem(pattern, items)` | Find a trade item by name pattern in a trade item list. |
 
 ### On-Demand Scanning
 
@@ -174,6 +196,8 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `sendWait(ticks)` | Wait for specified number of game ticks. |
 | `sendBankDeposit(slot, amount)` | Deposit item to bank by slot. |
 | `sendBankWithdraw(slot, amount)` | Withdraw item from bank by slot. |
+| `sendTradeOffer(slot, amount)` | Offer item in trade window (1/5/10/-1 for all/custom). |
+| `sendTradeRemove(slot, amount)` | Remove item from trade offer. |
 | `sendScreenshot(timeout)` | Request a screenshot from the bot client. |
 | `sendFindPath(destX, destZ, maxWaypoints)` | Find path to destination (async alias for findPath). |
 
