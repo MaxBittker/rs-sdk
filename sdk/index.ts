@@ -604,6 +604,51 @@ export class BotSDK {
         return this.state?.bank.isOpen || false;
     }
 
+    // ============ Trade State Access ============
+
+    /** Check if trade window is currently open. */
+    isTradeOpen(): boolean {
+        return this.state?.trade?.isOpen || false;
+    }
+
+    /** Check if trade confirmation screen is open. */
+    isTradeConfirmOpen(): boolean {
+        return this.state?.trade?.isConfirmOpen || false;
+    }
+
+    /** Get the trade partner's name. */
+    getTradePartnerName(): string {
+        return this.state?.trade?.partnerName || '';
+    }
+
+    /** Get the current trade status text. */
+    getTradeStatusText(): string {
+        return this.state?.trade?.statusText || '';
+    }
+
+    /** Get items in your trade offer. */
+    getTradeMyOffer(): import('./types').TradeItem[] {
+        return this.state?.trade?.myOffer || [];
+    }
+
+    /** Get items in the other player's trade offer. */
+    getTradeTheirOffer(): import('./types').TradeItem[] {
+        return this.state?.trade?.theirOffer || [];
+    }
+
+    /** Get your inventory items shown in the trade side panel. */
+    getTradeMyInventory(): import('./types').TradeItem[] {
+        return this.state?.trade?.myInventory || [];
+    }
+
+    /** Find a trade item by name pattern in a trade item list. */
+    findTradeItem(pattern: string | RegExp, items: import('./types').TradeItem[]): import('./types').TradeItem | null {
+        const regex = typeof pattern === 'string'
+            ? new RegExp(pattern, 'i')
+            : pattern;
+        return items.find(i => regex.test(i.name)) || null;
+    }
+
     /** Get NPC by index. */
     getNearbyNpc(index: number): NearbyNpc | null {
         if (!this.state) return null;
@@ -622,6 +667,26 @@ export class BotSDK {
     /** Get all nearby NPCs. */
     getNearbyNpcs(): NearbyNpc[] {
         return this.state?.nearbyNpcs || [];
+    }
+
+    /** Get a nearby player by index. */
+    getNearbyPlayer(index: number): import('./types').NearbyPlayer | null {
+        if (!this.state) return null;
+        return this.state.nearbyPlayers.find(p => p.index === index) || null;
+    }
+
+    /** Find a nearby player by name pattern. */
+    findNearbyPlayer(pattern: string | RegExp): import('./types').NearbyPlayer | null {
+        if (!this.state) return null;
+        const regex = typeof pattern === 'string'
+            ? new RegExp(pattern, 'i')
+            : pattern;
+        return this.state.nearbyPlayers.find(p => regex.test(p.name)) || null;
+    }
+
+    /** Get all nearby players. */
+    getNearbyPlayers(): import('./types').NearbyPlayer[] {
+        return this.state?.nearbyPlayers || [];
     }
 
     /** Get location (object) by coordinates and ID. */
@@ -964,6 +1029,18 @@ export class BotSDK {
     /** Withdraw item from bank by slot. */
     async sendBankWithdraw(slot: number, amount: number = 1): Promise<ActionResult> {
         return this.sendAction({ type: 'bankWithdraw', slot, amount, reason: 'SDK' });
+    }
+
+    // ============ Trade Actions ============
+
+    /** Offer an item from your inventory in the trade window. Amount: 1/5/10/-1(all)/custom. */
+    async sendTradeOffer(slot: number, amount: number = 1): Promise<ActionResult> {
+        return this.sendAction({ type: 'tradeOffer', slot, amount, reason: 'SDK' });
+    }
+
+    /** Remove an item from your trade offer. Amount: 1/5/10/-1(all)/custom. */
+    async sendTradeRemove(slot: number, amount: number = 1): Promise<ActionResult> {
+        return this.sendAction({ type: 'tradeRemove', slot, amount, reason: 'SDK' });
     }
 
     // ============ Screenshot ============

@@ -193,6 +193,35 @@ export interface BankState {
     items: BankItem[];
 }
 
+export interface TradeItem {
+    slot: number;
+    id: number;
+    name: string;
+    count: number;
+}
+
+export interface TradeState {
+    isOpen: boolean;
+    isConfirmOpen: boolean;
+    partnerName: string;
+    statusText: string;
+    myOffer: TradeItem[];
+    theirOffer: TradeItem[];
+    myInventory: TradeItem[];
+}
+
+export interface TradeResult {
+    success: boolean;
+    message: string;
+    reason?: 'player_not_found' | 'cant_reach' | 'trade_not_opened' | 'declined' | 'timeout';
+}
+
+export interface TradeOfferResult {
+    success: boolean;
+    message: string;
+    reason?: 'trade_not_open' | 'item_not_found' | 'timeout';
+}
+
 export interface CombatStyleOption {
     index: number;
     name: string;
@@ -282,6 +311,7 @@ export interface BotWorldState {
     interface: InterfaceState;
     shop: ShopState;
     bank: BankState;
+    trade: TradeState;
     modalOpen: boolean;
     modalInterface: number;
     combatStyle?: CombatStyleState;
@@ -332,7 +362,9 @@ export type BotAction =
     | { type: 'bankWithdraw'; slot: number; amount: number; reason: string }
     | { type: 'scanNearbyLocs'; radius?: number; reason: string }
     | { type: 'scanGroundItems'; radius?: number; reason: string }
-    | { type: 'togglePrayer'; prayerIndex: number; reason: string };
+    | { type: 'togglePrayer'; prayerIndex: number; reason: string }
+    | { type: 'tradeOffer'; slot: number; amount: number; reason: string }
+    | { type: 'tradeRemove'; slot: number; amount: number; reason: string };
 
 export interface ActionResult {
     success: boolean;

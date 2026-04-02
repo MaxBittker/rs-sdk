@@ -5,9 +5,11 @@ import { BotSDK } from './index';
 import type {
     NearbyLoc,
     NearbyNpc,
+    NearbyPlayer,
     InventoryItem,
     GroundItem,
     ShopItem,
+    TradeItem,
 } from './types';
 
 export class ActionHelpers {
@@ -443,6 +445,24 @@ export class ActionHelpers {
     ): ShopItem | null {
         if (typeof target === 'object' && 'id' in target && 'name' in target) {
             return items.find(i => i.id === target.id) ?? null;
+        }
+        const regex = typeof target === 'string' ? new RegExp(target, 'i') : target;
+        return items.find(i => regex.test(i.name)) ?? null;
+    }
+
+    resolvePlayer(target: NearbyPlayer | string | RegExp): NearbyPlayer | null {
+        if (typeof target === 'object' && 'index' in target) {
+            return target;
+        }
+        return this.sdk.findNearbyPlayer(target);
+    }
+
+    resolveTradeItem(
+        target: TradeItem | string | RegExp,
+        items: TradeItem[]
+    ): TradeItem | null {
+        if (typeof target === 'object' && 'slot' in target && 'id' in target) {
+            return target;
         }
         const regex = typeof target === 'string' ? new RegExp(target, 'i') : target;
         return items.find(i => regex.test(i.name)) ?? null;

@@ -24,6 +24,23 @@ export const BANK_MAIN_ID = 5292; // Main bank interface (mainModalId)
 export const BANK_MAIN_INV_ID = 5382; // Bank inventory component (bank_main:inv)
 export const BANK_SIDE_INV_ID = 2006; // Side panel inventory for depositing
 
+// Trade interface IDs
+export const TRADE_MAIN_ID = 3323; // Main trade window (mainModalId)
+export const TRADE_SIDE_ID = 3321; // Side panel (player inv during trade)
+export const TRADE_SIDE_INV_ID = 3322; // Inventory component in side panel (offer items from here)
+export const TRADE_MY_OFFER_ID = 3415; // Your offer items (remove items from here)
+export const TRADE_THEIR_OFFER_ID = 3416; // Other player's offer items
+export const TRADE_PARTNER_NAME_ID = 3417; // "Trading With: Name" text
+export const TRADE_ACCEPT_ID = 3420; // Accept button
+export const TRADE_STATUS_ID = 3431; // Status text
+export const TRADE_CONFIRM_ID = 3443; // Confirmation screen (mainModalId)
+export const TRADE_CONFIRM_THEIR_INV1_ID = 3532; // Their items (<14)
+export const TRADE_CONFIRM_STATUS_ID = 3535; // Confirm status text
+export const TRADE_CONFIRM_MY_INV2_ID = 3538; // Your items (>=14)
+export const TRADE_CONFIRM_THEIR_INV2_ID = 3539; // Their items (>=14)
+export const TRADE_CONFIRM_MY_INV1_ID = 3542; // Your items (<14)
+export const TRADE_CONFIRM_ACCEPT_ID = 3546; // Confirm accept button
+
 // Interfaces for state data
 export interface SkillState {
     name: string;
@@ -169,6 +186,23 @@ export interface BankState {
     items: BankItem[];
 }
 
+export interface TradeItem {
+    slot: number;
+    id: number;
+    name: string;
+    count: number;
+}
+
+export interface TradeState {
+    isOpen: boolean;
+    isConfirmOpen: boolean;
+    partnerName: string;
+    statusText: string;
+    myOffer: TradeItem[];
+    theirOffer: TradeItem[];
+    myInventory: TradeItem[];
+}
+
 /** Combat state tracking for player */
 export interface PlayerCombatState {
     /** Currently engaged in combat (has a target) */
@@ -271,6 +305,7 @@ export interface BotState {
     menuActions: MenuAction[];
     shop: ShopState;
     bank: BankState;
+    trade: TradeState;
     inGame: boolean;
     /** Recent combat events (damage, kills) - bounded to last ~50 ticks */
     combatEvents: CombatEvent[];
@@ -346,4 +381,7 @@ export type BotAction =
     | { type: 'scanNearbyLocs'; radius?: number; reason: string }
     | { type: 'scanGroundItems'; radius?: number; reason: string }
     // Prayer toggle
-    | { type: 'togglePrayer'; prayerIndex: number; reason: string };
+    | { type: 'togglePrayer'; prayerIndex: number; reason: string }
+    // Trade actions
+    | { type: 'tradeOffer'; slot: number; amount: number; reason: string }
+    | { type: 'tradeRemove'; slot: number; amount: number; reason: string };

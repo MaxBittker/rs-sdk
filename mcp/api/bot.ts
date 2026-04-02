@@ -56,6 +56,14 @@
  * - depositAll() - Deposit entire inventory
  * - withdrawItem(item, amount?) - Withdraw item from bank
  *
+ * == Trading ==
+ * - requestTrade(target, timeout?) - Request trade with nearby player (walks if needed)
+ * - offerItem(target, amount?) - Offer item from inventory in trade window
+ * - removeOffer(target, amount?) - Remove item from your trade offer
+ * - acceptTrade(timeout?) - Accept trade (first screen, clicks accept button)
+ * - confirmTrade(timeout?) - Confirm trade (second screen, finalizes trade)
+ * - declineTrade() - Decline/close trade window
+ *
  * == Crafting ==
  * - smithAtAnvil(product, options?) - Smith bars at anvil
  * - fletchLogs(product?) - Fletch logs into bows/arrows

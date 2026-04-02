@@ -12,8 +12,12 @@ import type {
     BankItem,
     NearbyNpc,
     NearbyLoc,
+    NearbyPlayer,
     GroundItem,
     ShopItem,
+    TradeItem,
+    TradeResult,
+    TradeOfferResult,
     ChopTreeResult,
     BurnLogsResult,
     PickupResult,
@@ -3195,6 +3199,215 @@ export class BotActions {
         }
 
         return { success: false, message: 'Stringing amulet timed out', reason: 'timeout' };
+    }
+
+    // ============ Porcelain: Trading ============
+
+    /**
+     * Request a trade with a nearby player.
+     * Walks to them if needed and sends the trade request (OPPLAYER4).
+     * Waits for the trade window to open.
+     */
+    async requestTrade(target: NearbyPlayer | string | RegExp, timeout: number = 15000): Promise<TradeResult> {
+        await this.dismissBlockingUI();
+
+        const player = this.helpers.resolvePlayer(target);
+        if (!player) {
+            return { success: false, message: `Player not found: ${target}`, reason: 'player_not_found' };
+        }
+
+        // Walk closer if needed
+        if (player.distance > 2) {
+            const walkResult = await this.walkTo(player.x, player.z, 2);
+            if (!walkResult.success) {
+                return { success: false, message: `Cannot reach ${player.name}: ${walkResult.message}`, reason: 'cant_reach' };
+            }
+        }
+
+        // Re-find player after walking (they may have moved)
+        const playerNow = this.helpers.resolvePlayer(target);
+        if (!playerNow) {
+            return { success: false, message: `Player ${player.name} no longer nearby`, reason: 'player_not_found' };
+        }
+
+        // Send trade request (option 4 = Trade)
+        const result = await this.sdk.sendInteractPlayer(playerNow.index, 4);
+        if (!result.success) {
+            return { success: false, message: result.message, reason: 'cant_reach' };
+        }
+
+        // Wait for trade window to open
+        try {
+            await this.sdk.waitForCondition(state => {
+                return state.trade?.isOpen === true;
+            }, timeout);
+
+            return { success: true, message: `Trade opened with ${playerNow.name}` };
+        } catch {
+            return { success: false, message: `Trade with ${playerNow.name} did not open (they may not have accepted)`, reason: 'trade_not_opened' };
+        }
+    }
+
+    /**
+     * Offer an item from your inventory in the trade window.
+     * Trade window must already be open.
+     */
+    async offerItem(target: TradeItem | InventoryItem | string | RegExp, amount: number = 1): Promise<TradeOfferResult> {
+        if (!this.sdk.isTradeOpen()) {
+            return { success: false, message: 'Trade window is not open', reason: 'trade_not_open' };
+        }
+
+        const myInventory = this.sdk.getTradeMyInventory();
+        const item = this.helpers.resolveTradeItem(target as any, myInventory);
+        if (!item) {
+            return { success: false, message: `Item not found in trade inventory: ${target}`, reason: 'item_not_found' };
+        }
+
+        const offerBefore = this.sdk.getTradeMyOffer().length;
+
+        await this.sdk.sendTradeOffer(item.slot, amount);
+
+        try {
+            await this.sdk.waitForCondition(state => {
+                // Check if offer changed (new item appeared or count changed)
+                const offerNow = state.trade?.myOffer || [];
+                if (offerNow.length > offerBefore) return true;
+                // Check if the item appeared or count increased in offer
+                const offered = offerNow.find(i => i.id === item.id);
+                return offered !== undefined && offered.count > 0;
+            }, 5000);
+
+            return { success: true, message: `Offered ${item.name} x${amount}` };
+        } catch {
+            return { success: false, message: `Timeout offering ${item.name}`, reason: 'timeout' };
+        }
+    }
+
+    /**
+     * Remove an item from your trade offer.
+     * Trade window must already be open.
+     */
+    async removeOffer(target: TradeItem | string | RegExp, amount: number = 1): Promise<TradeOfferResult> {
+        if (!this.sdk.isTradeOpen()) {
+            return { success: false, message: 'Trade window is not open', reason: 'trade_not_open' };
+        }
+
+        const myOffer = this.sdk.getTradeMyOffer();
+        const item = this.helpers.resolveTradeItem(target, myOffer);
+        if (!item) {
+            return { success: false, message: `Item not found in trade offer: ${target}`, reason: 'item_not_found' };
+        }
+
+        const offerCountBefore = myOffer.filter(i => i.id === item.id).reduce((sum, i) => sum + i.count, 0);
+
+        await this.sdk.sendTradeRemove(item.slot, amount);
+
+        try {
+            await this.sdk.waitForCondition(state => {
+                const offerNow = state.trade?.myOffer || [];
+                const countNow = offerNow.filter(i => i.id === item.id).reduce((sum, i) => sum + i.count, 0);
+                return countNow < offerCountBefore;
+            }, 5000);
+
+            return { success: true, message: `Removed ${item.name} x${amount} from offer` };
+        } catch {
+            return { success: false, message: `Timeout removing ${item.name} from offer`, reason: 'timeout' };
+        }
+    }
+
+    /**
+     * Accept the trade (first screen).
+     * Clicks the accept button and waits for confirm screen or trade close.
+     */
+    async acceptTrade(timeout: number = 10000): Promise<TradeResult> {
+        if (!this.sdk.isTradeOpen()) {
+            return { success: false, message: 'Trade window is not open', reason: 'trade_not_opened' };
+        }
+
+        // Click accept button (component 3420)
+        await this.sdk.sendClickComponent(3420);
+
+        try {
+            await this.sdk.waitForCondition(state => {
+                // Either moved to confirm screen or trade was declined/closed
+                if (state.trade?.isConfirmOpen) return true;
+                if (!state.trade?.isOpen && !state.trade?.isConfirmOpen) return true;
+                return false;
+            }, timeout);
+
+            const state = this.sdk.getState();
+            if (state?.trade?.isConfirmOpen) {
+                return { success: true, message: 'Trade accepted - confirmation screen open' };
+            }
+            if (!state?.trade?.isOpen) {
+                return { success: false, message: 'Trade was declined or closed', reason: 'declined' };
+            }
+
+            return { success: false, message: 'Timeout waiting for trade acceptance', reason: 'timeout' };
+        } catch {
+            return { success: false, message: 'Timeout waiting for trade acceptance', reason: 'timeout' };
+        }
+    }
+
+    /**
+     * Confirm the trade (second/confirmation screen).
+     * Clicks the confirm accept button and waits for trade to close.
+     */
+    async confirmTrade(timeout: number = 10000): Promise<TradeResult> {
+        if (!this.sdk.isTradeConfirmOpen()) {
+            return { success: false, message: 'Trade confirmation screen is not open', reason: 'trade_not_opened' };
+        }
+
+        const msgBaseline = this.helpers.getMessageTick();
+
+        // Click confirm accept button (component 3546)
+        await this.sdk.sendClickComponent(3546);
+
+        try {
+            await this.sdk.waitForCondition(state => {
+                // Trade should close when both players confirm
+                if (!state.trade?.isOpen && !state.trade?.isConfirmOpen) return true;
+                return false;
+            }, timeout);
+
+            // Check for success message
+            const state = this.sdk.getState();
+            if (state) {
+                for (const msg of state.gameMessages) {
+                    if (msg.tick > msgBaseline) {
+                        if (msg.text.toLowerCase().includes('accepted trade')) {
+                            return { success: true, message: 'Trade completed successfully' };
+                        }
+                    }
+                }
+            }
+
+            // Trade closed but no explicit success message - still likely succeeded
+            return { success: true, message: 'Trade completed' };
+        } catch {
+            return { success: false, message: 'Timeout waiting for trade confirmation', reason: 'timeout' };
+        }
+    }
+
+    /**
+     * Decline the current trade by closing the modal.
+     */
+    async declineTrade(): Promise<TradeResult> {
+        if (!this.sdk.isTradeOpen() && !this.sdk.isTradeConfirmOpen()) {
+            return { success: true, message: 'No trade to decline' };
+        }
+
+        await this.sdk.sendCloseModal();
+
+        try {
+            await this.sdk.waitForCondition(state => {
+                return !state.trade?.isOpen && !state.trade?.isConfirmOpen;
+            }, 5000);
+
+            return { success: true, message: 'Trade declined' };
+        } catch {
+            return { success: false, message: 'Timeout waiting for trade to close', reason: 'timeout' };
+        }
     }
 }
 
