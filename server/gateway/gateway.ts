@@ -430,7 +430,12 @@ const SyncModule = {
                 return;
             }
 
-            const botSession = botSessions.get(message.username || sdkSession.targetUsername);
+            // Always use the authenticated session target — ignore message.username to prevent IDOR
+            if (message.username && message.username !== sdkSession.targetUsername) {
+                console.log(`[Gateway] IDOR blocked: SDK ${sdkSession.sdkClientId} authenticated for "${sdkSession.targetUsername}" tried to target "${message.username}"`);
+            }
+
+            const botSession = botSessions.get(sdkSession.targetUsername);
             if (!botSession || !botSession.ws) {
                 this.sendToSDK(sdkSession, {
                     type: 'sdk_error',
@@ -457,7 +462,12 @@ const SyncModule = {
             const sdkSession = sdkSessions.get(wsInfo.id);
             if (!sdkSession) return;
 
-            const botSession = botSessions.get(message.username || sdkSession.targetUsername);
+            // Always use the authenticated session target — ignore message.username to prevent IDOR
+            if (message.username && message.username !== sdkSession.targetUsername) {
+                console.log(`[Gateway] IDOR blocked: SDK ${sdkSession.sdkClientId} authenticated for "${sdkSession.targetUsername}" tried to screenshot "${message.username}"`);
+            }
+
+            const botSession = botSessions.get(sdkSession.targetUsername);
             if (!botSession || !botSession.ws) {
                 this.sendToSDK(sdkSession, {
                     type: 'sdk_error',
