@@ -71,7 +71,7 @@ export async function handleHiscoresPlayerPage(url: URL): Promise<Response | nul
     }
 
     const username = decodeURIComponent(match[1]);
-    const profile = url.searchParams.get('profile') || 'main';
+    const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
 
     // Find the account
     const accountQuery = db
@@ -282,7 +282,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
     }
 
     const category = tryParseInt(url.searchParams.get('category'), -1);
-    const profile = url.searchParams.get('profile') || 'main';
+    const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
     const playerSearch = url.searchParams.get('player')?.toLowerCase().trim() || '';
     const rankSearch = tryParseInt(url.searchParams.get('rank'), -1);
 
@@ -615,7 +615,7 @@ export async function handleHiscoresOutfitPage(url: URL): Promise<Response | nul
     const match = url.pathname.match(/^\/hi(?:gh)?scores\/outfit\/?$/);
     if (!match) return null;
 
-    const profile = url.searchParams.get('profile') || 'main';
+    const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
 
     let query = db
         .selectFrom('hiscore_outfit')
@@ -824,7 +824,7 @@ export async function handleHiscoresBankPage(url: URL): Promise<Response | null>
     const match = url.pathname.match(/^\/hi(?:gh)?scores\/bank\/?$/);
     if (!match) return null;
 
-    const profile = url.searchParams.get('profile') || 'main';
+    const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
 
     let query = db
         .selectFrom('hiscore_bank')
