@@ -1764,7 +1764,12 @@ export class BotActions {
             } else {
                 const regex = typeof choice === 'string' ? new RegExp(choice, 'i') : choice;
                 const match = dialog?.options.find(o => regex.test(o.text));
-                optionIndex = match?.index ?? 0;
+                if (!match) {
+                    const available = dialog?.options.map(o => `"${o.text}"`).join(', ') || 'none';
+                    console.warn(`[navigateDialog] No option matching ${regex} — available: ${available}`);
+                    continue;
+                }
+                optionIndex = match.index;
             }
 
             await this.sdk.sendClickDialog(optionIndex);

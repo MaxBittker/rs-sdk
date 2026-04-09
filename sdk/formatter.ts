@@ -130,7 +130,8 @@ export function formatWorldState(state: BotWorldState, stateAgeMs?: number): str
     for (const skill of state.skills || []) {
         if (/^Stat\d+$/i.test(skill.name)) continue;
         const boosted = skill.level !== skill.baseLevel ? `${skill.level}/` : '';
-        lines.push(`${skill.name}: ${boosted}${skill.baseLevel} (${skill.experience.toLocaleString()} xp)`);
+        const displayName = skill.name === 'Hitpoints' ? 'HP' : skill.name;
+        lines.push(`${displayName}: ${boosted}${skill.baseLevel} (${skill.experience.toLocaleString()} xp)`);
     }
 
     // Inventory
