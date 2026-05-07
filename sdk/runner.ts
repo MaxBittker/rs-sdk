@@ -126,7 +126,8 @@ async function getOrCreateConnection(): Promise<BotConnection> {
     const username = process.env.BOT_USERNAME;
     const password = process.env.PASSWORD;
     const server = process.env.SERVER;
-    const showChat = process.env.SHOW_CHAT?.toLowerCase() === 'true';
+    // Default: true. Opt out with SHOW_CHAT=false in bot.env.
+    const showChat = process.env.SHOW_CHAT?.toLowerCase() !== 'false';
 
     if (!username) {
         throw new Error('BOT_USERNAME not set. Run with: bun --env-file=bots/{name}/bot.env script.ts\nOr: bun script.ts {botname}');

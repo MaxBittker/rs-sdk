@@ -258,6 +258,9 @@ export class ActionExecutor {
                     return { success: true, message: `Withdrawing from slot ${action.slot}` };
                 }
 
+                case 'submitCountDialog':
+                    return this.waitForCountDialogAndSubmit(action.value, `Submitted ${action.value} to count dialog`);
+
                 case 'acceptCharacterDesign':
                     // TODO: Should be parameterized as (gender, kits[7], colours[5])
                     // Currently uses hidden client state

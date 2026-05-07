@@ -39,5 +39,5 @@ protocol = "tcp"
   port = 43594
 
 [[vm]]
-memory = "16gb"
-size = "performance-4x"
+memory = "4gb"
+size = "performance-2x"

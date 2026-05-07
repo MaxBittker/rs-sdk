@@ -330,6 +330,7 @@ export type BotAction =
     | { type: 'setTab'; tabIndex: number; reason: string }
     | { type: 'bankDeposit'; slot: number; amount: number; reason: string }
     | { type: 'bankWithdraw'; slot: number; amount: number; reason: string }
+    | { type: 'submitCountDialog'; value: number; reason: string }
     | { type: 'scanNearbyLocs'; radius?: number; reason: string }
     | { type: 'scanGroundItems'; radius?: number; reason: string }
     | { type: 'togglePrayer'; prayerIndex: number; reason: string };
@@ -339,6 +340,8 @@ export interface ActionResult {
     message: string;
     /** Optional data payload (used by scan actions to return results) */
     data?: any;
+    /** Machine-readable failure category (e.g. 'cant_reach', 'no_match', 'timeout') */
+    reason?: string;
 }
 
 // ============ SDK Config ============

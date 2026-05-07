@@ -50,6 +50,7 @@ export default class ServerGameProt {
     static readonly UPDATE_IGNORELIST = new ServerGameProt(63, -2); // NXT naming
     static readonly CHAT_FILTER_SETTINGS = new ServerGameProt(24, 3); // NXT naming
     static readonly MESSAGE_PRIVATE = new ServerGameProt(60, -1); // NXT naming
+    static readonly MESSAGE_PUBLIC = new ServerGameProt(81, -1); // server-side broadcast of public chat (out-of-visual-range)
     static readonly UPDATE_FRIENDLIST = new ServerGameProt(111, 9); // NXT naming
 
     // misc

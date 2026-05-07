@@ -269,12 +269,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
             parts.push(JSON.stringify(result, null, 2));
           }
 
-          // Append formatted world state
+          // Append formatted world state. The connection's tick cursor
+          // advances each call so repeat execute_code invocations only show
+          // NEW chat / system messages — old ones the bot already saw don't
+          // get re-emitted. Cursor lives on BotConnection (MCP-only concern)
+          // so the SDK surface stays minimal for script authors.
           const state = connection.sdk.getState();
           if (state) {
+            const sinceTick = connection.lastShownMessageTick;
+            if (state.gameMessages) {
+              for (const m of state.gameMessages) {
+                if (m.tick > connection.lastShownMessageTick) {
+                  connection.lastShownMessageTick = m.tick;
+                }
+              }
+            }
             parts.push('');
             parts.push('── World State ──');
-            parts.push(formatWorldState(state, connection.sdk.getStateAge()));
+            parts.push(formatWorldState(state, connection.sdk.getStateAge(), { sinceTick }));
           }
 
           // Add reminder for long code

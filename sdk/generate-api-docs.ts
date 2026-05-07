@@ -29,8 +29,7 @@ interface TypeDoc {
  */
 function extractJSDoc(source: string, methodStart: number): string {
     // Look backwards from method start for JSDoc - but only if it's immediately before
-    // Limit to 500 chars to handle longer JSDoc blocks
-    const before = source.slice(Math.max(0, methodStart - 500), methodStart);
+    const before = source.slice(Math.max(0, methodStart - 2000), methodStart);
 
     // Find ALL JSDoc comments in the window and take the LAST one
     // This handles cases where multiple methods are close together

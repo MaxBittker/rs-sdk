@@ -13,6 +13,12 @@ export interface BotConnection {
   username: string;
   connected: boolean;
   unsubscribeConnectionState?: () => void;
+  /**
+   * High-water tick for gameMessages already shown to the agent. Used by
+   * the MCP server's formatter so repeated execute_code calls only render
+   * NEW chat / system messages. Internal — not part of the SDK surface.
+   */
+  lastShownMessageTick: number;
 }
 
 class BotManager {
@@ -39,7 +45,7 @@ class BotManager {
     let username = name;
     let pwd = password;
     let gateway = gatewayUrl || this.defaultGatewayUrl;
-    let showChat = false;
+    let showChat = true;
 
     // Load credentials from bot.env if no password provided
     if (!password) {
@@ -62,9 +68,10 @@ class BotManager {
         gateway = deriveGatewayUrl(env.SERVER);
       }
 
-      // Check if chat should be shown (default: false for safety)
-      if (env.SHOW_CHAT?.toLowerCase() === 'true') {
-        showChat = true;
+      // Allow opting out of player chat via SHOW_CHAT=false in bot.env.
+      // Default: true, so multi-bot scripts can see each other's speech.
+      if (env.SHOW_CHAT?.toLowerCase() === 'false') {
+        showChat = false;
       }
     }
 
@@ -84,7 +91,7 @@ class BotManager {
       connectionMode: 'control',
       autoReconnect: true,       // Enable auto-reconnect for connection stability
       autoLaunchBrowser: 'auto', // Auto-launch browser if session is stale
-      showChat,                  // Show other players' chat (default: false for safety)
+      showChat,                  // Show other players' chat (default: true; opt out with SHOW_CHAT=false)
     });
 
     const bot = new BotActions(sdk);
@@ -98,7 +105,8 @@ class BotManager {
       sdk,
       bot,
       username,
-      connected: true
+      connected: true,
+      lastShownMessageTick: -1
     };
 
     // Track connection state changes

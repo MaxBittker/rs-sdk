@@ -822,9 +822,62 @@ export class BotSDK {
         return this.sendAction({ type: 'useItemOnNpc', itemSlot, npcIndex, reason: 'SDK' });
     }
 
-    /** Click a dialog option by index. */
+    /**
+     * Click a dialog option by its server-assigned index.
+     *
+     * IMPORTANT: `option` is the **server-assigned index** stored on each
+     * `DialogOption.index` field — NOT the array position in `dialog.options`.
+     * Server-assigned indices are 1-based: `dialog.options[0].index === 1`.
+     *
+     * Pass `0` only as the implicit "continue" click for dialogs with no
+     * selectable options (the common pattern: pass through narration pages).
+     *
+     * To click an option by its visible text, prefer `clickDialogByText()`,
+     * which avoids the index-vs-position footgun entirely.
+     *
+     * @example
+     * ```ts
+     * const opt = sdk.getDialog()?.options.find(o => /yes/i.test(o.text));
+     * await sdk.sendClickDialog(opt?.index ?? 0);  // ← .index, NOT array position
+     * ```
+     */
     async sendClickDialog(option: number = 0): Promise<ActionResult> {
         return this.sendAction({ type: 'clickDialogOption', optionIndex: option, reason: 'SDK' });
+    }
+
+    /**
+     * Click a dialog option whose visible text matches `pattern`.
+     *
+     * Convenience wrapper that resolves the server-assigned index for you,
+     * sidestepping the 1-based vs 0-based array-position confusion of
+     * `sendClickDialog()`. Matches against `DialogOption.text` (case-insensitive
+     * by default for string patterns).
+     *
+     * @returns ActionResult with `success: false` and `reason: 'no_dialog'` if
+     *          no dialog is open, or `reason: 'no_match'` if no option matches.
+     *
+     * @example
+     * ```ts
+     * await sdk.clickDialogByText(/yes/i);             // pay the toll
+     * await sdk.clickDialogByText('Is there anything down this alleyway?');
+     * ```
+     */
+    async clickDialogByText(pattern: string | RegExp): Promise<ActionResult> {
+        const dialog = this.state?.dialog;
+        if (!dialog?.isOpen) {
+            return { success: false, message: 'No dialog open', reason: 'no_dialog' };
+        }
+        const regex = typeof pattern === 'string' ? new RegExp(pattern, 'i') : pattern;
+        const match = dialog.options.find(o => regex.test(o.text));
+        if (!match) {
+            const available = dialog.options.map(o => `"${o.text}"`).join(', ') || '(none)';
+            return {
+                success: false,
+                message: `No dialog option matched ${pattern}. Available: ${available}`,
+                reason: 'no_match'
+            };
+        }
+        return this.sendClickDialog(match.index);
     }
 
     /** Click a component using IF_BUTTON packet - for simple buttons, spellcasting, etc. */
@@ -885,6 +938,11 @@ export class BotSDK {
     /** Close any modal interface. */
     async sendCloseModal(): Promise<ActionResult> {
         return this.sendAction({ type: 'closeModal', reason: 'SDK' });
+    }
+
+    /** Submit a numeric value to an open p_countdialog (Enter Amount) prompt. */
+    async sendCountDialog(value: number): Promise<ActionResult> {
+        return this.sendAction({ type: 'submitCountDialog', value, reason: 'SDK' });
     }
 
     /** Set combat style (0-3). */
@@ -1220,27 +1278,13 @@ export class BotSDK {
         }
 
         if (message.type === 'sdk_state' && message.state) {
-            // Filter out player chat messages unless showChat is enabled
-            // Type 2 = public chat, Type 3 = private message received
+            // Filter out player chat messages unless showChat is enabled.
+            // Type 2 = public chat (in-range OR global broadcast — both arrive
+            // with a structured sender), Type 3 = private message received.
             if (this.config.showChat === false && message.state.gameMessages) {
                 message.state.gameMessages = message.state.gameMessages.filter(
                     msg => msg.type !== 2 && msg.type !== 3
                 );
-            }
-
-            // Parse sender from global chat messages (type 0, format "Name: text")
-            if (message.state.gameMessages) {
-                for (const msg of message.state.gameMessages) {
-                    if (msg.type === 0 && !msg.sender && msg.text.includes(': ')) {
-                        const colonIdx = msg.text.indexOf(': ');
-                        const possibleName = msg.text.substring(0, colonIdx);
-                        // Player names are 1-12 chars, alphanumeric/spaces only
-                        if (possibleName.length <= 12 && /^[a-zA-Z0-9 ]+$/.test(possibleName)) {
-                            msg.sender = possibleName;
-                            msg.text = msg.text.substring(colonIdx + 2);
-                        }
-                    }
-                }
             }
 
             // Wrap skills array with a Proxy so both state.skills[0] and state.skills.Woodcutting work

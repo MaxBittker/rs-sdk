@@ -86,7 +86,7 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
         product?: string;
         gem?: string;
         timeout?: number;
-    } = {})` | _No description_ |
+    } = {})` | Craft jewelry at a furnace using a gold/silver bar and optional gem. |
 
 ### Condition Waiting
 
@@ -107,7 +107,7 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
 | `pickpocketNpc(target)` | Pickpocket an NPC. |
 | `activatePrayer(prayer)` | Activate a prayer by name or index. |
 | `deactivatePrayer(prayer)` | Deactivate a prayer by name or index. |
-| `enchantItem(target, level, options)` | _No description_ |
+| `enchantItem(target, level, options)` | Cast an enchantment spell on a jewelry item. |
 | `stringAmulet(target, options)` | String an amulet using a ball of wool. |
 
 ---
@@ -159,7 +159,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `sendUseItemOnItem(sourceSlot, targetSlot)` | Use one inventory item on another. |
 | `sendUseItemOnLoc(itemSlot, x, z, locId)` | Use an inventory item on a location. |
 | `sendUseItemOnNpc(itemSlot, npcIndex)` | Use an inventory item on an NPC. |
-| `sendClickDialog(option)` | Click a dialog option by index. |
+| `sendClickDialog(option)` | Click a dialog option by its server-assigned index. |
 | `sendClickComponent(componentId)` | Click a component using IF_BUTTON packet - for simple buttons, spellcasting, etc. |
 | `sendClickComponentWithOption(componentId, optionIndex, slot)` | Click a component using INV_BUTTON packet - for components with inventory operations (smithing, c... |
 | `sendClickInterfaceOption(optionIndex)` | Click an interface option by index. |
@@ -169,6 +169,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `sendTogglePrayer(prayer)` | Toggle a prayer on or off by name or index (0-14). |
 | `sendSpellOnNpc(npcIndex, spellComponent)` | Cast spell on NPC using spell component ID. |
 | `sendSpellOnItem(slot, spellComponent)` | Cast spell on inventory item. |
+| `sendSpellOnGroundItem(x, z, itemId, spellComponent)` | Cast spell on ground item (e. |
 | `sendSetTab(tabIndex)` | Switch to a UI tab by index. |
 | `sendSay(message)` | Send a chat message. |
 | `sendWait(ticks)` | Wait for specified number of game ticks. |
@@ -197,6 +198,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 
 | Method | Description |
 |--------|-------------|
+| `clickDialogByText(pattern)` | Click a dialog option whose visible text matches `pattern`. |
 | `isPrayerActive(prayer)` | Check if a specific prayer is currently active. |
 
 ---

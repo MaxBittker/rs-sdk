@@ -18,9 +18,16 @@ function formatAge(ms: number): string {
 }
 
 /**
- * Format world state as readable plaintext/markdown
+ * Format world state as readable plaintext/markdown.
+ * `options.sinceTick`: only render gameMessages with tick > sinceTick.
+ * The MCP server passes this to suppress chat the bot has already been shown
+ * across repeated execute_code calls. Omit for full-state snapshots.
  */
-export function formatWorldState(state: BotWorldState, stateAgeMs?: number): string {
+export function formatWorldState(
+    state: BotWorldState,
+    stateAgeMs?: number,
+    options?: { sinceTick?: number }
+): string {
     const lines: string[] = [];
 
     lines.push('# World State');
@@ -247,16 +254,43 @@ export function formatWorldState(state: BotWorldState, stateAgeMs?: number): str
         }
     }
 
-    // Recent messages
+    // Split chat from system messages so player speech is impossible to miss.
+    // Type 2 = public chat, Type 3 = received private message. Other types are
+    // server-generated text (welcomes, "you can't reach", level-up notices...).
     if (state.gameMessages && state.gameMessages.length > 0) {
-        lines.push('');
-        lines.push('## Recent Messages');
-        for (const msg of state.gameMessages.slice(-5)) {
-            const cleanText = msg.text.replace(/@\w+@/g, '');
-            if (msg.sender) {
-                lines.push(`- ${msg.sender}: ${cleanText}`);
-            } else {
-                lines.push(`- ${cleanText}`);
+        const ownName = state.player?.name?.toLowerCase() ?? '';
+        const stripCodes = (s: string) => s.replace(/@\w+@/g, '');
+        const sinceTick = options?.sinceTick ?? -1;
+        const fresh = state.gameMessages.filter(m => m.tick > sinceTick);
+
+        const playerChat = fresh.filter(m =>
+            (m.type === 2 || m.type === 3) &&
+            m.sender &&
+            m.sender.toLowerCase() !== ownName  // suppress own-speech echo
+        );
+        const systemMessages = fresh.filter(m =>
+            m.type !== 2 && m.type !== 3
+        );
+
+        if (playerChat.length > 0) {
+            lines.push('');
+            lines.push('## Player Chat');
+            for (const msg of playerChat.slice(-5)) {
+                const tag = msg.type === 3 ? ' [PM]' : '';
+                lines.push(`- ${msg.sender}${tag}: ${stripCodes(msg.text)}`);
+            }
+        }
+
+        if (systemMessages.length > 0) {
+            lines.push('');
+            lines.push('## Recent Messages');
+            for (const msg of systemMessages.slice(-5)) {
+                const cleanText = stripCodes(msg.text);
+                if (msg.sender) {
+                    lines.push(`- ${msg.sender}: ${cleanText}`);
+                } else {
+                    lines.push(`- ${cleanText}`);
+                }
             }
         }
     }

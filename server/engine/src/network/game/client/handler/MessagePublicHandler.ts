@@ -6,6 +6,7 @@ import World from '#/engine/World.js';
 import Packet from '#/io/Packet.js';
 import ClientGameMessageHandler from '#/network/game/client/ClientGameMessageHandler.js';
 import MessagePublic from '#/network/game/client/model/MessagePublic.js';
+import OutgoingMessagePublic from '#/network/game/server/model/MessagePublic.js';
 import WordPack from '#/wordenc/WordPack.js';
 
 export default class MessagePublicHandler extends ClientGameMessageHandler<MessagePublic> {
@@ -52,7 +53,7 @@ export default class MessagePublicHandler extends ClientGameMessageHandler<Messa
             if (player.level === other.level && dx <= 14 && dz <= 14) {
                 continue;
             }
-            other.messageGame(`${player.displayName}: ${filtered}`);
+            other.write(new OutgoingMessagePublic(player.username37, filtered));
         }
 
         player.socialProtect = true;
