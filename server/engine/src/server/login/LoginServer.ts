@@ -668,7 +668,10 @@ export default class LoginServer {
                             .executeTakeFirst();
                     } else if (type === 'sdk_auth') {
                         // SDK/Gateway authentication - validates username/password for remote bot control
-                        const { replyTo, username, password } = msg;
+                        const { replyTo, password } = msg;
+                        // Normalize like player_login so case differences (e.g. "Bitty" vs "bitty")
+                        // resolve to the same account row.
+                        const username = toSafeName(msg.username);
 
                         let account = await db.selectFrom('account')
                             .where('username', '=', username)
