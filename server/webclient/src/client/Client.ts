@@ -2093,8 +2093,22 @@ export class Client extends GameShell {
      * Interact with a location/object in the world (doors, trees, etc.)
      */
     interactLoc(worldX: number, worldZ: number, locId: number, optionIndex: number): boolean {
-        if (!this.ingame || !this.out || optionIndex < 1 || optionIndex > 5) {
+        if (!this.ingame || !this.out || !this.localPlayer || optionIndex < 1 || optionIndex > 5) {
             return false;
+        }
+
+        // Walk to the loc first so the server receives a movement path. In 274's
+        // client-routefinder mode (Environment.node.clientRoutefinder) the server does
+        // NOT pathfind to interaction targets itself — it expects the client to send the
+        // route. Sending OPLOC alone never moves the player, so the server replies
+        // "I can't reach that!" whenever we aren't already adjacent. Mirrors useItemOnLoc.
+        const destSceneX = worldX - this.mapBuildBaseX;
+        const destSceneZ = worldZ - this.mapBuildBaseZ;
+        if (destSceneX >= 0 && destSceneX <= 103 && destSceneZ >= 0 && destSceneZ <= 103) {
+            const loc = LocType.list(locId);
+            if (loc) {
+                this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], destSceneX, destSceneZ, false, loc.width, loc.length, 0, 0, 0, 2);
+            }
         }
 
         const opcodes = [
