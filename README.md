@@ -41,7 +41,7 @@ bun bots/create-bot.ts {username}
 bun bots/{username}/script.ts 
 ```
 
-Chat is off by default to prevent scamming and prompt injection attacks, but you can opt in  with `SHOW_CHAT=true` in the bot.env file
+Chat is shown by default. Note that seeing other players' chat exposes the bot to scamming and prompt-injection attempts; opt out with `SHOW_CHAT=false` in the bot.env file (or `bun bots/create-bot.ts <name> --no-chat`).
 
 Warning: The demo server is offered as a convenience, and we do not guarantee uptime or data persistence. Hold your accounts lightly, and consider hosting your own server instance. Please do not manually play on the demo server. 
 
@@ -101,7 +101,7 @@ The `SERVER` variable in `bot.env` controls where the bot connects. To use your 
 BOT_USERNAME=mybot
 PASSWORD=test
 SERVER=
-SHOW_CHAT=false
+SHOW_CHAT=true
 ```
 
 When `SERVER` is empty, all connection paths (scripts, CLI) default to `ws://localhost:7780`.

@@ -99,7 +99,7 @@ export class BotSDK {
             reconnectMaxRetries: config.reconnectMaxRetries ?? Infinity,
             reconnectBaseDelay: config.reconnectBaseDelay ?? 1000,
             reconnectMaxDelay: config.reconnectMaxDelay ?? 30000,
-            showChat: config.showChat ?? false
+            showChat: config.showChat ?? true
         };
         this.sdkClientId = `sdk-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     }

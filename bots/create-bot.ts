@@ -20,7 +20,7 @@ async function replaceInFile(filePath: string, replacements: Record<string, stri
     await writeFile(filePath, content);
 }
 
-async function createBot(username?: string, serverOverride?: string, showChat?: boolean) {
+async function createBot(username?: string, serverOverride?: string, hideChat?: boolean) {
     // Generate username if not provided
     const botUsername = username || generateRandomString(9);
 
@@ -78,10 +78,12 @@ async function createBot(username?: string, serverOverride?: string, showChat?: 
         console.log(`Server set to: ${serverOverride}`);
     }
 
-    // Enable public chat if --show-chat was passed
-    if (showChat) {
-        await replaceInFile(envPath, { 'SHOW_CHAT=false': 'SHOW_CHAT=true' });
-        console.log(`Public chat: enabled`);
+    // Public chat is shown by default; disable it with --no-chat / --hide-chat
+    if (hideChat) {
+        await replaceInFile(envPath, { 'SHOW_CHAT=true': 'SHOW_CHAT=false' });
+        console.log(`Public chat: disabled`);
+    } else {
+        console.log(`Public chat: enabled (default)`);
     }
 
     console.log(`\n✓ Bot "${botUsername}" created successfully!`);
@@ -94,18 +96,20 @@ async function createBot(username?: string, serverOverride?: string, showChat?: 
 const args = process.argv.slice(2);
 const positional: string[] = [];
 let serverOverride: string | undefined;
-let showChat = false;
+let hideChat = false;
 
 for (const arg of args) {
     if (arg === '--local') {
         serverOverride = 'localhost';
     } else if (arg.startsWith('--server=')) {
         serverOverride = arg.slice('--server='.length);
+    } else if (arg === '--no-chat' || arg === '--hide-chat') {
+        hideChat = true;
     } else if (arg === '--show-chat') {
-        showChat = true;
+        // Public chat is now on by default; accepted as a no-op for back-compat.
     } else {
         positional.push(arg);
     }
 }
 
-createBot(positional[0], serverOverride, showChat).catch(console.error);
+createBot(positional[0], serverOverride, hideChat).catch(console.error);
