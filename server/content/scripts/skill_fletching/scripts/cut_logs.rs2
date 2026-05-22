@@ -3,7 +3,16 @@
 switch_obj(last_useitem) {
     case knife : @fletch_log(last_item);
     case tinderbox : @light_logs_inv(last_slot);
-    case default : ~displaymessage(^dm_default);
+    case default : 
+        if (oc_category(last_item) = category_111 & last_useitem ! achey_tree_logs) {
+            if(%morttonquest < ^mortton_created_sacred_oil) {
+                mes("This sacred oil doesn't seem fresh. You should make your own.");
+                return;
+            }
+            @create_sacred_logs(last_useitem, last_useslot, last_item, last_slot);
+        } else {
+            ~displaymessage(^dm_default);
+        }
 }
 
 [label,fletch_log](obj $log)
@@ -23,22 +32,25 @@ def_namedobj $obj2;
 def_namedobj $obj3;
 $obj2, $obj3 = db_getfield($data, fletch_bow_table:objchoices, 0);
 def_namedobj $product;
+def_int $process_count;
 // guess based off 2004
 if ($shaft_count < 1) {
-    $product = ~multiobj2("What would you like to make?", 
-        $obj2, 0, -15, 175, "<~string_removeright(oc_name($log), 5)> Short Bow.", 0, 0,
-        $obj3, 0, -15, 175, "<~string_removeright(oc_name($log), 5)> Long Bow.", 0, 0
+    $product, $process_count = ~skill_multi2(
+        $obj2, 0, -15, 175, "\\n\\n\\n\\n<~string_removeright(oc_name($log), 5)> Short Bow",
+        $obj3, 0, -15, 175, "\\n\\n\\n\\n<~string_removeright(oc_name($log), 5)> Long Bow"
     );
 } else {
-    // 2004
-    $product = ~multiobj3_close("What would you like to make?", 
-        $obj1, 175, "Arrow Shafts.",
-        $obj2, 175, "Short Bow.",
-        $obj3, 175, "Long Bow."
+    // https://storage.googleapis.com/tannerdino/images/fletch4ty.png
+    $product, $process_count = ~skill_multi3($obj1, 5, -15, 175, "\\n\\n\\n\\n15 Arrow Shafts",
+        $obj2, 9, -11, 175, "\\n\\n\\n\\nShort Bow",
+        $obj3, 0, -15, 175, "\\n\\n\\n\\nLong Bow"
     );
 }
 if ($product = null) {
     ~displaymessage(^dm_default);
+    return;
+}
+if($process_count = 0) {
     return;
 }
 def_int $level = 1;
@@ -63,8 +75,30 @@ if (stat(fletching) < $level) {
     ~doubleobjbox($log, $product, "You need a Fletching level of at least <tostring($level)> to make <~add_article(lowercase(oc_name($product)))>.", 200);
     return;
 }
-// make one bow at a time
+@process_fletch_logs($log, $process_count, $message, $fletching_experience, $product, $count);
+
+[label,process_fletch_logs](obj $log, int $process_count, string $message, int $fletching_experience, namedobj $product, int $count)
+anim(human_fletching, 0);
+sound_synth(fletch, 0, 0);
+if (%action_delay < map_clock) {
+    %action_delay = add(map_clock, 2);
+}
+weakqueue*(fletch_logs, sub(%action_delay, map_clock))($log, $process_count, $message, $fletching_experience, $product, $count);
+
+[queue,fletch_logs](obj $log, int $process_count, string $message, int $fletching_experience, namedobj $product, int $count)
+// https://youtu.be/NtfS7A135ks?si=0EGff3GmPqSxItkg&t=67
+if(inv_total(inv, $log) = 0) {
+    mes("You have run out of <lowercase(oc_name($log))>.");
+    anim(null, 20);
+    return;
+}
 inv_del(inv, $log, 1);
 mes($message);
 stat_advance(fletching, $fletching_experience);
 inv_add(inv, $product, $count);
+if(sub($process_count, 1) < 1) {
+    anim(null, 20);
+    return;
+}
+%action_delay = add(map_clock, 2);
+@process_fletch_logs($log, sub($process_count, 1), $message, $fletching_experience, $product, $count);

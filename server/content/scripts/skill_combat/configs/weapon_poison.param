@@ -5,3 +5,15 @@ default=null
 [weapon_poisoned_message]
 type=string
 default=^string_empty
+
+[tbwt_weapon_poisoned]
+type=namedobj
+default=null
+
+[tbwt_weapon_poisoned_message]
+type=string
+default=^string_empty
+
+[tbwt_weapon_poison_clear]
+type=string
+default=^string_empty

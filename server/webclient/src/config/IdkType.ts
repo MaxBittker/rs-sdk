@@ -1,6 +1,6 @@
 import Model from '#/dash3d/Model.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 import { TypedArray1d } from '#/util/Arrays.js';
@@ -16,7 +16,7 @@ export default class IdkType {
     head: Int32Array = new Int32Array(5).fill(-1);
     disable: boolean = false;
 
-    static init(config: Jagfile): void {
+    static init(config: JagFile): void {
         const dat: Packet = new Packet(config.read('idk.dat'));
 
         this.numDefinitions = dat.g2();

@@ -273,34 +273,36 @@ p_delay(2);
 
 
 [label,craft_silver]
-// if multiple moulds are present, prompt user with dialogue
-def_namedobj $product = null;
-def_int $choice;
-if (inv_total(inv, unholy_symbol_mould) > 0 & inv_total(inv, holy_symbol_mould) > 0 & inv_total(inv, sickle_mould) > 0 & map_members = ^true) {
-   $choice = ~p_choice3_header("Holy Symbol of Saradomin", 1, "Unholy Symbol of Zamorak", 2, "Silver sickle", 3, "What would you like to make?");
-} else if (inv_total(inv, unholy_symbol_mould) > 0 & inv_total(inv, holy_symbol_mould) > 0 & map_members = ^true) {
-   $choice = ~p_choice2_header("Holy Symbol of Saradomin", 1, "Unholy Symbol of Zamorak", 2, "What would you like to make?");
-} else if (inv_total(inv, holy_symbol_mould) > 0 & inv_total(inv, sickle_mould) > 0 & map_members = ^true) {
-    $choice = ~p_choice2_header("Holy Symbol of Saradomin", 1, "Silver sickle", 3, "What would you like to make?");
-} else if (inv_total(inv, unholy_symbol_mould) > 0 & inv_total(inv, sickle_mould) > 0 & map_members = ^true) {
-    $choice = ~p_choice2_header("Unholy Symbol of Zamorak", 2, "Silver sickle", 3, "What would you like to make?");
-} else if (inv_total(inv, holy_symbol_mould) > 0) {
-    $choice = 1;
-} else if (inv_total(inv, unholy_symbol_mould) > 0 & map_members = ^true) {
-    $choice = 2;
-} else if (inv_total(inv, sickle_mould) > 0 & map_members = ^true) {
-    $choice = 3;
+def_namedobj $product;
+def_int $count;
+// https://web.archive.org/web/20060111201853im_/http://www.runeweb.net/Roth/Creature_Quest/10.PNG
+// should prob always show holy/unholy and show others depending on inv moulds?
+if(inv_total(inv, sickle_mould) > 0 & map_members = ^true) {
+    $product, $count = ~skill_multi3(nostringsnake, 0, -10, 175, "\\n\\n\\n\\nSymbol of Zamorak",
+       nostringstar, 0, -10, 175, "\\n\\n\\n\\nSymbol of Saradomin",
+       silver_sickle, 0, -15, 175, "\\n\\n\\n\\n@blu@Silver sickle"
+    );
 } else {
-    ~mesbox("You require a mould to make that.");
+    $product, $count = ~skill_multi2(nostringsnake, 0, -10, 175, "\\n\\n\\n\\nSymbol of Zamorak",
+       nostringstar, 0, -10, 175, "\\n\\n\\n\\nSymbol of Saradomin"
+    );
+}
+
+if($count = 0) {
     return;
 }
-switch_int ($choice) {
-    case 1 : $product = nostringstar;
-    case 2 : $product = nostringsnake;
-    case 3 : $product = silver_sickle;
+
+if(map_members = ^false & oc_members($product) = true) {
+    mes(^mes_members_do_that);
+    return;
 }
 
 def_struct $struct = oc_param($product, crafting_jewelry_struct);
+def_namedobj $mould = struct_param($struct, mould);
+if(inv_total(inv, $mould) = 0) {
+    ~mesbox("You require a mould to make that.");
+    return;
+}
 
 def_int $level = struct_param($struct, levelrequired);
 if (stat(crafting) < $level) {
@@ -313,23 +315,29 @@ if (afk_event = ^true) {
     ~macro_event_general_spawn(~macro_event_set_random);
     return;
 }
+@process_craft_silver($struct, $product, $count);
 
+[label,process_craft_silver](struct $struct, namedobj $product, int $count)
 anim(human_furnace, 0);
 sound_synth(furnace, 0, 0);
-if_close;
-// osrs is 4 ticks on first
-// openrsc uses delay(2); 2 ticks on first, 3 ticks on remaining
-// ill just make it 3 ticks for now
-p_delay(2);
+// initial is 2t, afterwards is 3t cause processing order, not action_delay dependennt
+weakqueue*(craft_silver, 2)($struct, $product, $count);
+
+[queue,craft_silver](struct $struct, namedobj $product, int $count)
+if(inv_total(inv, silver_bar) = 0) {
+    // https://youtu.be/WJ2gW6dx_vo?si=Hl5EcZQoyaxqyr_P&t=121
+    mes("You have run out of silver bars.");
+    return;
+}
 inv_del(inv, silver_bar, 1);
 inv_add(inv, $product, 1);
 stat_advance(crafting, struct_param($struct, productexp));
 // Confirmed, no period at the end. https://i.imgur.com/sCKRVO9.png
 mes("You make <~add_article(struct_param($struct, name))>");
-
-// weakqueue(crafting_silver, 1, $productexp, $product);
-//----------------------
-
+if(sub($count, 1) < 1) {
+    return;
+}
+@process_craft_silver($struct, $product, sub($count, 1));
 
 //******************* WEAKQUEUES NOT-USED UNTIL SEPT 2004 *******************
 // //--- weakqueue to craft gold jewelry, should craft jewelry at a rate of 3 ticks.
@@ -353,16 +361,3 @@ mes("You make <~add_article(struct_param($struct, name))>");
 // // requeue itself
 // weakqueue(crafting_gold, 3, $productexp, $gem, $product, $count);
 // //----------------------
-
-
-// //---weakqueue to craft silver jewelry at a rate of 2 + 1 ticks.
-// //   only crafts one at a time.
-// [weakqueue,crafting_silver](int $productexp, namedobj $product)
-// inv_del(inv, silver_bar, 1);
-// inv_add(inv, $product, 1);
-// stat_advance(crafting, $productexp);
-
-// // plays the anim again
-// anim(human_furnace, 0);
-// //----------------------
-

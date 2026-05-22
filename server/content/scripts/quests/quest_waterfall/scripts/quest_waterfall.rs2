@@ -70,7 +70,12 @@ if ((inv_totalcat(inv, armour_hands) > 0 | inv_totalcat(worn, armour_hands) > 0)
     | (inv_total(inv, arrow_shaft) > 0) 
     | (inv_total(inv, bow_string) > 0)
     | (inv_total(inv, knife) > 0) 
-    | (inv_totalcat(inv, category_22) > 0) // logs
+    | (inv_total(inv, logs) > 0) // logs (not all in category work)
+    | (inv_total(inv, magic_logs) > 0)
+    | (inv_total(inv, yew_logs) > 0)
+    | (inv_total(inv, maple_logs) > 0)
+    | (inv_total(inv, willow_logs) > 0)
+    | (inv_total(inv, oak_logs) > 0)
     | (inv_totalcat(inv, unstrung_bow) > 0)
     | (inv_totalcat(inv, trail_clue_easy) > 0)
     | (inv_totalcat(inv, trail_clue_medium) > 0)
@@ -245,7 +250,7 @@ p_delay(1);
 mes("and let your self down on to the ledge.");
 p_teleport(0_39_54_15_7);
 
-[oploc1,waterfall_ledge_door] // basing this off RS3, seems like RS3 mechanics for this havn't changed
+[oploc1,waterfall_ledge_door] // basing this off RS3, seems like RS3 mechanics for this haven't changed
 mes("The door begins to open.");
 p_delay(2);
 if(inv_total(worn, glarials_amulet_waterfall_quest) > 0 | inv_total(inv, glarials_amulet_waterfall_quest) > 0) {

@@ -43,7 +43,7 @@ if (~inzone_coord_pair_table(trawler_game_zones, coord) = false) {
 mes("Murphy turns the boat towards shore.");
 %journey_number = 12;
 %trawler = ^trawler_finished;
-midi_jingle(^sailing_journey_jingle, ^sailing_journey_jingle_millis);
+~music_jingle("sailing journey");
 if_openmain(ship_journey);
 
 p_delay(20);

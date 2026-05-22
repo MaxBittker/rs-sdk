@@ -129,6 +129,7 @@ p_delay(1);
 // https://youtu.be/g5k3XuXxyYQ?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT&t=37
 spotanim_map(smokepuff, coord, 124, 0);
 sound_synth(smokepuff2, 0, 0);
+~tele_checks;
 //--
 ~p_telejump_safe($teleport_coord); // todo: Confirm this
 

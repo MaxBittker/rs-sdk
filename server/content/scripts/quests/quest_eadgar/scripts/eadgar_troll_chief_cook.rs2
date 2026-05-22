@@ -1,0 +1,83 @@
+/* Moved to the Eadgar's Ruse directory in 274 since this is Burntmeat's first quest-related appearance */
+[opnpc1,eadgar_troll_chief_cook]
+@eadgar_talk_to_troll_cook;
+
+[opnpcu,eadgar_troll_chief_cook]
+if (last_useitem = eadgar_fake_man) {
+    @eadgar_talk_to_troll_cook;
+} else {
+    ~displaymessage(^dm_default);
+}
+
+[label,eadgar_talk_to_troll_cook]
+if(%eadgar_quest > ^eadgar_spoken_eadgar_first & %eadgar_quest < ^eadgar_got_fake_man) {
+    // rsprox/branon
+    ~chatnpc("<p,neutral>Did you find tasty human?");
+    ~chatplayer("<p,neutral>Erm, not yet, but I'm working on it...");
+    return;
+}
+if(%eadgar_quest = ^eadgar_got_burnt_meat) {
+    // rsprox/branon
+    ~chatplayer("<p,neutral>How's the stew?");
+    @burntmeat_gave_fake_man;
+}
+if(%eadgar_quest = ^eadgar_got_fake_man & inv_total(inv, eadgar_fake_man) > 0) {
+    // rsprox/branon
+    ~chatnpc("<p,happy>Did you find tasty human? Burntmeat smell something good.");
+    ~chatplayer("<p,happy>Yes! Look!");
+    ~chatnpc_specific("Fake man", eadgar_parrotts, "<p,neutral>Heeeeeeelp!"); // no npc or chathead for this in 274
+    ~chatnpc("<p,happy>Ah, dat look like nice tasty human.");
+    ~chatnpc_specific("Fake man", eadgar_parrotts, "<p,neutral>Aaaargh! Somebody save me!");
+    ~chatnpc("<p,happy>Yep, sound like human too. Burntmeat put it in stew.|Good work, human. Burnmeat give precious reward."); // linebreaks from runeweb 2004
+    %eadgar_quest = ^eadgar_got_burnt_meat;
+    inv_del(inv, eadgar_fake_man, 1);
+    inv_add(inv, burnt_meat, 1);
+    ~chatplayer("<p,neutral>This is burnt meat.");
+    // my run missed mesanims for these two, todo verify at some point
+    ~chatnpc("<p,neutral>It first thing I ever try to cook! Very precious to Burntmeat.");
+    ~chatplayer("<p,neutral>Thank you... and how's the stew?");
+    @burntmeat_gave_fake_man;
+} else {
+    ~chatplayer("<p,neutral>Er, hi.");
+    ~chatnpc("<p,happy>Hmm? What human do in troll kitchen? Burntmeat tired of cooking goats. Human look tasty.");
+    ~chatplayer("<p,scared>Oh, you don't want to eat me! I'm a tough, hardened adventurer, not tender or tasty at all!");
+    ~chatnpc("<p,neutral>Hmm. Burntmeat think you probably right. What human doing here?");
+}
+// in OSRS it's possible to skip eadgar initially and talk to burntmeat first
+if(%eadgar_quest = ^eadgar_started | %eadgar_quest = ^eadgar_spoken_eadgar_first) {
+    // rsprox/branon
+    ~chatplayer("<p,neutral>I'm on a quest to find some goutweed.");
+    ~chatnpc("<p,laugh>Bwahahaha! Burntmeat not give his greatest cooking secret away so easily!");
+    ~chatnpc("<p,happy>But Burntmeat also has quest for human!");
+    ~chatplayer("<p,quiz>Really? What is it?");
+    ~chatnpc("<p,happy>Bring back a tasty human for Burntmeat's stew. If you find tasty human, Burntmeat will give you good reward.");
+    if (%eadgar_quest = ^eadgar_started) { // if the player has skipped talking to eadgar initially and is talking to burntmeat first
+        %eadgar_quest = ^eadgar_spoken_burntmeat_first;
+    } else { // if the player is talking to burntmeat after talking to eadgar
+        %eadgar_quest = ^eadgar_spoken_burntmeat_second;
+    }
+    ~chatplayer("<p,scared>Right. I'll just...go fetch that for you then. Bye!");
+} else {
+    ~chatplayer("<p,neutral>Nothing. I was just leaving.");
+}
+
+[label,burntmeat_gave_fake_man]
+// rsprox/branon
+~chatnpc("<p,happy>Slurp, mmm... Human stew cheer Burntmeat up!");
+switch_int(~p_choice2("So, where can I get some goutweed?", 1, "I'll be going now.", 2)) {
+    case 1 : @burntmeat_where_goutweed;
+    case 2 : @burntmeat_ill_be_going;
+}
+
+[label,burntmeat_where_goutweed]
+// rsprox/branon
+~chatplayer("<p,neutral>So, where can I get some goutweed?");
+~chatnpc("<p,happy>Hah! Trolls pick it all until none left, many years ago. Only remaining stock in storeroom.");
+~chatnpc("<p,happy>It well guarded, and Burntmeat hide key in fake bottom of kitchen drawer. Nobody find it there.");
+~chatplayer("<p,happy>That's some well-guarded secret alright. I'll just be off on my way now.");
+
+[label,burntmeat_ill_be_going]
+// rsprox/branon
+~chatplayer("<p,neutral>I'll be going now.");
+~chatnpc("<p,neutral>Bye, bye.");
+

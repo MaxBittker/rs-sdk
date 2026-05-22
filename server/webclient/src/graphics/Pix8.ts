@@ -1,6 +1,6 @@
 import Pix2D from '#/graphics/Pix2D.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 export default class Pix8 extends Pix2D {
@@ -23,7 +23,7 @@ export default class Pix8 extends Pix2D {
         this.bpal = palette;
     }
 
-    static depack(jag: Jagfile, name: string, sprite: number = 0): Pix8 {
+    static depack(jag: JagFile, name: string, sprite: number = 0): Pix8 {
         const dat: Packet = new Packet(jag.read(name + '.dat'));
         const index: Packet = new Packet(jag.read('index.dat'));
 

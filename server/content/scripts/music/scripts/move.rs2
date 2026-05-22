@@ -1,12 +1,41 @@
 [mapzone,0_29_75] @music_playbyregion(coord);
 [mapzone,0_30_75] @music_playbyregion(coord);
+[mapzone,0_31_73] @music_playbyregion(coord);
 [mapzone,0_31_75] @music_playbyregion(coord);
+[mapzone,0_33_48] @music_playbyregion(coord);
+[mapzone,0_33_49] @music_playbyregion(coord);
+[mapzone,0_33_50] @music_playbyregion(coord);
+[mapzone,0_33_51] @music_playbyregion(coord);
 [mapzone,0_33_71] @music_playbyregion(coord);
 [mapzone,0_33_72] @music_playbyregion(coord);
 [mapzone,0_33_73] @music_playbyregion(coord);
 [mapzone,0_33_75] @music_playbyregion(coord);
+[mapzone,0_34_48] @music_playbyregion(coord);
+[mapzone,0_34_49] @music_playbyregion(coord);
+[mapzone,0_34_50] @music_playbyregion(coord);
+[mapzone,0_34_51] @music_playbyregion(coord);
 [mapzone,0_34_75] @music_playbyregion(coord);
+[mapzone,0_35_48] @music_playbyregion(coord);
+[mapzone,0_35_49]
+~regicide_spawn_timer_idris;
+@music_playbyregion(coord);
+
+[mapzone,0_35_50]
+~regicide_spawn_timer_idris;
+@music_playbyregion(coord);
+
+[mapzone,0_35_51] @music_playbyregion(coord);
+[mapzone,0_35_52] @music_playbyregion(coord);
 [mapzone,0_35_74] @music_playbyregion(coord);
+[mapzone,0_35_75] @music_playbyregion(coord);
+[mapzone,0_36_48] @music_playbyregion(coord);
+[mapzone,0_36_49] @music_playbyregion(coord);
+
+[mapzone,0_36_50]
+~regicide_spawn_timer_idris;
+@music_playbyregion(coord);
+
+[mapzone,0_36_51] @music_playbyregion(coord);
 [mapzone,0_36_52] @music_playbyregion(coord);
 [mapzone,0_36_53] @music_playbyregion(coord);
 [mapzone,0_36_54] @music_playbyregion(coord);
@@ -28,6 +57,7 @@
 settimer(upass_trap, 1);
 @music_playbyregion(coord);
 
+[mapzone,0_38_47] @music_playbyregion(coord);
 [mapzone,0_38_49] @music_playbyregion(coord);
 [mapzone,0_38_50] @music_playbyregion(coord);
 [mapzone,0_38_51] @music_playbyregion(coord);
@@ -52,11 +82,14 @@ settimer(upass_trap, 1);
 [mapzone,0_39_53] @music_playbyregion(coord);
 [mapzone,0_39_54] @music_playbyregion(coord);
 [mapzone,0_39_55] @music_playbyregion(coord);
+[mapzone,0_39_56] @music_playbyregion(coord);
+[mapzone,0_39_72] @music_playbyregion(coord);
 [mapzone,0_39_75] @music_playbyregion(coord);
 [mapzone,0_39_147] @music_playbyregion(coord);
 [mapzone,0_39_150] @music_playbyregion(coord);
 [mapzone,0_39_153] @music_playbyregion(coord);
 [mapzone,0_39_155] @music_playbyregion(coord);
+[mapzone,0_39_156] @music_playbyregion(coord);
 [mapzone,0_40_46] @music_playbyregion(coord);
 [mapzone,0_40_47] @music_playbyregion(coord);
 [mapzone,0_40_48] @music_playbyregion(coord);
@@ -66,6 +99,8 @@ settimer(upass_trap, 1);
 [mapzone,0_40_52] @music_playbyregion(coord);
 [mapzone,0_40_53] @music_playbyregion(coord);
 [mapzone,0_40_54] @music_playbyregion(coord);
+[mapzone,0_40_56] @music_playbyregion(coord);
+[mapzone,0_40_57] @music_playbyregion(coord);
 [mapzone,0_40_75] @music_playbyregion(coord);
 [mapzone,0_40_147] @music_playbyregion(coord);
 [mapzone,0_40_148] @music_playbyregion(coord);
@@ -82,6 +117,9 @@ settimer(upass_trap, 1);
 [mapzone,0_41_53] @music_playbyregion(coord);
 [mapzone,0_41_54] @music_playbyregion(coord);
 [mapzone,0_41_55] @music_playbyregion(coord);
+[mapzone,0_41_56] @music_playbyregion(coord);
+[mapzone,0_41_57] @music_playbyregion(coord);
+[mapzone,0_41_58] @music_playbyregion(coord);
 [mapzone,0_41_73] @music_playbyregion(coord);
 [mapzone,0_41_75] @music_playbyregion(coord);
 [mapzone,0_41_146] @music_playbyregion(coord);
@@ -92,6 +130,8 @@ settimer(move_ikovtrigger, 1);
 @music_playbyregion(coord);
 
 [mapzone,0_41_154] @music_playbyregion(coord);
+[mapzone,0_41_156] @music_playbyregion(coord);
+[mapzone,0_41_157] @music_playbyregion(coord);
 [mapzone,0_42_49] @music_playbyregion(coord);
 [mapzone,0_42_50] @music_playbyregion(coord);
 [mapzone,0_42_51] @music_playbyregion(coord);
@@ -99,6 +139,9 @@ settimer(move_ikovtrigger, 1);
 [mapzone,0_42_53] @music_playbyregion(coord);
 [mapzone,0_42_54] @music_playbyregion(coord);
 [mapzone,0_42_55] @music_playbyregion(coord);
+[mapzone,0_42_56] @music_playbyregion(coord);
+[mapzone,0_42_57] @music_playbyregion(coord);
+[mapzone,0_42_58] @music_playbyregion(coord);
 [mapzone,0_42_75] @music_playbyregion(coord);
 [mapzone,0_42_151] @music_playbyregion(coord);
 [mapzone,0_42_152] @music_playbyregion(coord);
@@ -115,6 +158,7 @@ settimer(move_ikovtrigger, 1);
 [mapzone,0_43_53] @music_playbyregion(coord);
 [mapzone,0_43_54] @music_playbyregion(coord);
 [mapzone,0_43_55] @music_playbyregion(coord);
+[mapzone,0_43_56] @music_playbyregion(coord);
 [mapzone,0_43_73] @music_playbyregion(coord);
 [mapzone,0_43_75] @music_playbyregion(coord);
 [mapzone,0_43_145] @music_playbyregion(coord);
@@ -372,6 +416,7 @@ settimer(move_ikovtrigger, 1);
 
 [mapzone,0_48_148] @music_playbyregion(coord);
 [mapzone,0_48_149] @music_playbyregion(coord);
+[mapzone,0_48_152] @music_playbyregion(coord);
 [mapzone,0_48_153] @music_playbyregion(coord);
 [mapzone,0_48_154] @music_playbyregion(coord);
 
@@ -672,6 +717,9 @@ settimer(mercenary_check, 25);
 
 [mapzone,0_52_152] @music_playbyregion(coord);
 [mapzone,0_52_153] @music_playbyregion(coord);
+[mapzone,0_53_49] @music_playbyregion(coord);
+[mapzone,0_53_50] @music_playbyregion(coord);
+[mapzone,0_53_51] @music_playbyregion(coord);
 
 [mapzone,0_53_52]
 ~start_swampdecay_timer;
@@ -684,6 +732,8 @@ settimer(mercenary_check, 25);
 [mapzone,0_53_54] @music_playbyregion(coord);
 [mapzone,0_53_152] @music_playbyregion(coord);
 [mapzone,0_53_154] @music_playbyregion(coord);
+[mapzone,0_54_51] @music_playbyregion(coord);
+[mapzone,0_54_151] @music_playbyregion(coord);
 
 [mapzone,0_54_52]
 ~start_swampdecay_timer;
@@ -695,3 +745,5 @@ settimer(mercenary_check, 25);
 
 [mapzone,0_54_54] @music_playbyregion(coord);
 [mapzone,0_54_148] @music_playbyregion(coord);
+[mapzone,0_55_54] @music_playbyregion(coord);
+[mapzone,0_56_54] @music_playbyregion(coord);

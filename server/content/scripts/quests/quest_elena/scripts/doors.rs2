@@ -1,10 +1,14 @@
 [oploc1,rehnisondoorshut] @rehnissons_enter_house;
-[oploc1,loc_2534] @west_ardougne_plague_house_doors;
-[oploc1,loc_2535] mes("This door is locked."); // todo probs not right but yolo in 225 seems only 1 door is the correct one.
+
+// Should be the west door per old RuneHQ and Zybez
+// https://web.archive.org/web/20040423204649/http://www.runehq.com/viewquest.php?id=00155
+// https://web.archive.org/web/20060220020506/http://www.zybez.net/quests.php?id=38 (See Picture)
+[oploc1,loc_2534] mes("This door is locked."); // todo probs not right but yolo in 225 seems only 1 door is the correct one.
+[oploc1,loc_2535] @west_ardougne_plague_house_doors;
 
 [label,west_ardougne_plague_house_doors]
 if (~check_axis(coord, loc_coord, loc_angle) = false) {
-    ~open_plague_door;
+    ~open_and_close_door_fast(loc_2536, false, door_open);
     return;
 }
 switch_int(%elenaquest) {
@@ -12,50 +16,53 @@ switch_int(%elenaquest) {
         ~mesbox("The door won't open.|You notice a black cross on the door.");
         if (npc_find(coord, mournertwb, 14, 0) = true) {
             ~chatnpcrange("<p,neutral>I'd stand away from there. That black cross means that house has been touched by the plague.");
-            @multi3("But I think a kidnap victim is in here.", plague_house_but_i_think_a_kidnap_victim_is_in_here, "I fear not a mere plague.", plague_house_i_fear_not_a_mere_plague, "Thanks for the warning.", plague_house_thanks_for_the_warning);
+            @multi3("But I think a kidnap victim is in here.", plague_house_but_i_think_a_kidnap_victim_is_in_here,
+                    "I fear not a mere plague.", plague_house_i_fear_not_a_mere_plague,
+                    "Thanks for the warning.", plague_house_thanks_for_the_warning);
         }
     case ^quest_elena_spoke_cured_bravek :
+        // Based on 2013 & 2023 OSRS because some dialogue was missing about "sneaking into the building" on Apr 2004 RuneHQ
+        // https://web.archive.org/web/20040423204649/http://www.runehq.com/viewquest.php?id=00155
+        // https://youtu.be/CCoUF_hIbU0?t=202
+        // https://youtu.be/lw1AzW2OoT0?t=882
         if (inv_total(inv, warrant) > 0 & npc_find(coord, mournertwb, 14, 0) = true) {
+            // Uncomment below for Post-rework Feb 06 mini-cutscene (Matches videos above)
+            // .npc_findall(npc_coord, mournertwb, 14, 0);
+            // if (.npc_findnext = false) return;
+            // def_int $tries = 0;// precautionary
+            // while (.npc_uid = npc_uid & $tries < 30) {
+            //     .npc_findnext;
+            //     $tries = add($tries, 1);
+            // }
             ~chatnpcrange("<p,neutral>I'd stand away from there. That black cross means that house has been touched by the plague.");
             ~chatplayer("<p,neutral>I have a warrant from <nc_name(bravek)> to enter here.");
-            if_close;
-            ~open_plague_door;
+            // ~chatnpcrange("<p,neutral>This is highly irregular. Please wait...");
+            ~chatnpcrange("<p,neutral>This is highly irregular. Please wait while I speak to the Head Mourner.");
+            // npc_setmode(none);
+            // .npc_setmode(none);
+            // if_close;
+            // p_delay(1);
+            // npc_facesquare(.npc_coord);
+            // .npc_facesquare(npc_coord);
+            // npc_say("Hey... I've got someone here with a warrant from Bravek, what should we do?");
+            // p_delay(2);
+            // .npc_say("Well you can't let them in...");
+            ~open_and_close_door_fast(loc_2536, true, door_open);
+            ~mesbox("You wait until the mourner's back is turned and sneak into the building.");
+            npc_setmode(null);
+            // .npc_setmode(null);
         } else if (npc_find(coord, mournertwb, 14, 0) = true) {
             ~mesbox("The door won't open.|You notice a black cross on the door.");
             ~chatnpcrange("<p,neutral>I'd stand away from there. That black cross means that house has been touched by the plague.");
         }
-    case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll : ~open_plague_door;
+    case ^quest_elena_freed_elena, ^elena_complete, ^elena_complete_read_scroll :
+        ~open_and_close_door_fast(loc_2536, true, door_open);
     case default :
         ~mesbox("The door won't open.|You notice a black cross on the door.");
         if (npc_find(coord, mournertwb, 14, 0) = true) {
             ~chatnpcrange("<p,neutral>I'd stand away from there. That black cross means that house has been touched by the plague.");
         }
 }
-
-[proc,open_plague_door]
-def_int $x;
-def_int $z;
-def_int $angle = loc_angle;
-def_locshape $shape = loc_shape;
-def_coord $loc_coord = loc_coord;
-$x, $z = ~door_open($angle, loc_shape);
-def_coord $dest = $loc_coord;
-sound_synth(door_open, 0, 0);
-if (~check_axis(coord, loc_coord, loc_angle) = true) {
-    if (coord ! $loc_coord) {
-        p_teleport($loc_coord);
-        p_delay(1);
-    }
-    $dest = movecoord(loc_coord, $x, 0, $z);
-}
-p_teleport($dest);
-// Temp note: dur updated
-if(.loc_find(loc_coord, boardedupdoor) = true) {
-    .loc_del(3);
-    .loc_add(movecoord($loc_coord, $x, 0, $z), boardedupdoor, modulo(add($angle, 1), 4), .loc_shape, 3);
-}
-loc_change(inviswall, 3);
-loc_add(movecoord($loc_coord, $x, 0, $z), loc_2536, modulo(add($angle, 1), 4), $shape, 3);
 
 [label,plague_house_but_i_think_a_kidnap_victim_is_in_here]
 ~chatplayer("<p,neutral>But I think a kidnap victim is in here.");

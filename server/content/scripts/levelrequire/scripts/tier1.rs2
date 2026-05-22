@@ -13,6 +13,8 @@
 [opheld2,bronze_spear_p] @levelrequire_attack(1, last_slot);
 [opheld2,bronze_2h_sword] @levelrequire_attack(1, last_slot);
 [opheld2,bronze_claws] @levelrequire_attack(1, last_slot);
+[opheld2,tbwt_bronze_spear_kp] @levelrequire_attack(1, last_slot);
+[opheld2,bronze_halberd] @levelrequire_attack_and_strength(1, 1, last_slot);
 
 [opheld2,bronze_med_helm] @levelrequire_defence(1, last_slot);
 [opheld2,bronze_full_helm] @levelrequire_defence(1, last_slot);
@@ -37,6 +39,8 @@
 [opheld2,iron_spear_p] @levelrequire_attack(1, last_slot);
 [opheld2,iron_2h_sword] @levelrequire_attack(1, last_slot);
 [opheld2,iron_claws] @levelrequire_attack(1, last_slot);
+[opheld2,tbwt_iron_spear_kp] @levelrequire_attack(1, last_slot);
+[opheld2,iron_halberd] @levelrequire_attack_and_strength(1, 1, last_slot);
 
 [opheld2,iron_med_helm] @levelrequire_defence(1, last_slot);
 [opheld2,iron_full_helm] @levelrequire_defence(1, last_slot);

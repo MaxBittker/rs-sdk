@@ -7,7 +7,7 @@ forceapproach=north
 
 [oraclechestopen]
 name=Chest
-desc=It's closed.
+desc=It's open.
 model=model_loc_76
 op1=Search
 op2=Close

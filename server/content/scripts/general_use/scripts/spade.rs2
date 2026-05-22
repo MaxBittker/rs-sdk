@@ -39,23 +39,24 @@ if(map_members = ^true & ~trail_hasclue_inv = true) {
         if(distance(coord, $trail_coord) <= 1) {
             if(oc_param($clue, trail_guardian) ! null) {
                 def_npc $guard = oc_param($clue, trail_guardian);
-                if($guard = trail_hard & testbit(%trail_status, 4) = ^false) {
+                if(($guard = trail_hard | $guard = trail_hard2) & testbit(%trail_status, 4) = ^false) {
                     npc_huntall(coord, 10, 0); // zamorak/saradomin wizards range
                     while (npc_findnext = true) {
-                        if(npc_type = trail_hard & %npc_aggressive_player = uid) {
+                        if(npc_type = $guard & %npc_aggressive_player = uid) {
                             return;
                         }
                     }
                     // los not low: https://www.youtube.com/watch?v=AoozFVuxWx8&t=88s, https://youtu.be/K8IepVULXYM?si=-phA8d-3sJ1ohS9H&t=26
                     // https://youtu.be/uAv5a6y-3OQ?si=QxAUtMVq6KCZebat&t=36 notice smokepuff on adj tile to where he appears, confirms it should be map_findsquare
-                    npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofsight), trail_hard, 500);
+                    npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofsight), $guard, 500);
                     spotanim_map(smokepuff_large, npc_coord, 124, 0);
-                    npc_say("Die, human!");
+                    if(npc_type = trail_hard) npc_say("Die, human!");
+                    else if(npc_type = trail_hard2) npc_say("For Saradomin!");
                     %aggressive_npc = npc_uid;
                     // this prevents other players from attacking w/manual cast, this might've been a later change
                     %npc_lastcombat = sub(^max_32bit_int, 8);
                     %npc_aggressive_player = uid;
-                    npc_setmode(applayer2);
+                    npc_setmode(opplayer2);
                     return;
                 }
             }

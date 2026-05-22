@@ -3,7 +3,7 @@ import Environment from '#/util/Environment.js';
 
 export default class LoggerClient extends InternalClient {
     constructor() {
-        super(Environment.LOGGER_HOST, Environment.LOGGER_PORT);
+        super(Environment.logger.host, Environment.logger.port);
     }
 
     public async sessionLog(logs: string[]) {
@@ -16,8 +16,8 @@ export default class LoggerClient extends InternalClient {
         this.ws.send(
             JSON.stringify({
                 type: 'session_log',
-                world: Environment.NODE_ID,
-                profile: Environment.NODE_PROFILE,
+                world: Environment.node.id,
+                profile: Environment.node.profile,
                 logs
             })
         );
@@ -33,8 +33,8 @@ export default class LoggerClient extends InternalClient {
         this.ws.send(
             JSON.stringify({
                 type: 'wealth_event',
-                world: Environment.NODE_ID,
-                profile: Environment.NODE_PROFILE,
+                world: Environment.node.id,
+                profile: Environment.node.profile,
                 events
             })
         );
@@ -50,8 +50,8 @@ export default class LoggerClient extends InternalClient {
         this.ws.send(
             JSON.stringify({
                 type: 'report',
-                world: Environment.NODE_ID,
-                profile: Environment.NODE_PROFILE,
+                world: Environment.node.id,
+                profile: Environment.node.profile,
                 session_uuid,
                 timestamp: Date.now(),
                 coord,

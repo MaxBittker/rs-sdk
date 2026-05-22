@@ -52,7 +52,8 @@ head2=model_79_idk_head
 hitpoints=7
 param=damagetype,^crush_style
 category=shop_keeper
-param=owned_shop,fishrestaurant
+// param=owned_shop,fishrestaurant
+param=owned_shop,karamja_fishrestaurant
 param=shop_sell_multiplier,1300
 param=shop_buy_multiplier,750
 param=shop_delta,30
@@ -82,6 +83,7 @@ model7=model_159_npc
 model8=model_185_obj_wear
 head1=model_45_idk_head
 head2=model_85_idk_head
+head3=model_68_obj_wear
 
 [davon]
 vislevel=hide
@@ -119,7 +121,7 @@ param=owned_shop,amuletshop
 param=shop_sell_multiplier,1200
 param=shop_buy_multiplier,900
 param=shop_delta,20
-param=shop_title,Davon's Amulet Store
+param=shop_title,Davon's Amulet Store.
 
 [brimhavencartdriver]
 vislevel=hide

@@ -24,6 +24,7 @@ mes("You need to reach the maze centre, then you'll be returned to where you wer
 [proc,end_macro_maze]
 if_openoverlay(null);
 cleartimer(macro_maze);
+~music_jingle("maze centre");
 anim(emote_cheer, 20);
 p_delay(5);
 ~macro_return_teleport;
@@ -77,23 +78,6 @@ if_close;
 
 [oploc1,loc_3636] // Open chest search option
 ~mesbox("Awww, it's empty!");
-
-[debugproc,maze]
-if (p_finduid(uid) = false) {
-    return;
-}
-def_coord $coord = enum(int, coord, macro_maze_teleports, random(enum_getoutputcount(macro_maze_teleports)));
-%xplamp = 100;
-%macro_event_target_coord = coord;
-p_telejump($coord);
-~chatnpc_specific("Mysterious Old Man", macro_mysterious_old_man, "<p,neutral>You need to reach the maze centre,|then you'll be returned to where you were."); // Split line as per https://imgur.com/riCliBA
-mes("You need to reach the maze centre, then you'll be returned to where you were.");
-
-[debugproc,mazeend]
-if (p_finduid(uid) = false) {
-    return;
-}
-p_telejump(0_45_71_30_32);
 
 [proc,macro_maze_open_chest](loc $other_chest)
 p_arrivedelay;

@@ -1,0 +1,25 @@
+[opnpc1,tbwt_tinsay_final]
+switch_int(%tbwt_tinsay) {
+    case ^tbwt_tinsay_complete :
+        @tbwt_tinsay_claim_reward;
+    case ^tbwt_tinsay_claimed_final_reward :
+        @tbwt_tinsay_final;
+}
+
+[label,tbwt_tinsay_claim_reward]
+~chatnpc("<p,happy>Braaar! Your meals are truly excellent, Bwana...");
+~chatplayer("<p,neutral>I'm glad to hear it.");
+~chatnpc("<p,shifty>... but there are some areas which could use some ... improvement.");
+~chatplayer("<p,neutral>Such as?");
+~chatnpc("<p,neutral>Let me show you.");
+%tbwt_tinsay = ^tbwt_tinsay_claimed_final_reward;
+stat_advance(cooking, 50000);
+~objbox(tbwt_burnt_jogre_bones_marinated_in_karambwanji, "Tinsay trains you in cooking technique.", 250, 0, 0);
+~chatplayer("<p,neutral>Thanks.");
+~chatnpc("<p,shifty>Oh, and before you go: I finally got around to repairing that statue. You might want to take a look. ... Jogre bones!");
+~chatplayer("<p,neutral>Ok...");
+
+[label,tbwt_tinsay_final]
+~chatplayer("<p,neutral>Hello, Tinsay.");
+~chatnpc("<p,neutral>Why hello there! What are you doing back here?");
+~chatplayer("<p,neutral>Just passing through.");

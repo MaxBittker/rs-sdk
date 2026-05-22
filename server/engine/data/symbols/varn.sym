@@ -1,0 +1,16 @@
+0	npc_start_coord	coord
+1	quest_chompybird_baiter	player_uid
+2	rantz_attacking_chompy	npc_uid
+3	npc_action_delay	int
+4	npc_attacking_uid	player_uid
+5	npc_aggressive_player	player_uid
+6	npc_lastcombat	int
+7	npc_stunned	int
+8	npc_lastattack	int
+9	npc_poison	int
+10	npc_trawler_flood_status	int
+11	npc_trawler_fish_caught	int
+12	npc_int	int
+13	npc_int2	int
+14	npc_macro_event_target	player_uid
+15	npc_combat_xp_multiplier	int

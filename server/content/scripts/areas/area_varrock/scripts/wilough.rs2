@@ -12,14 +12,13 @@ if(~obj_gettotal(trail_clue_hard_riddle016_puzzlebox) > 0) {
         ~chatnpc("<p,angry>That's not much use - go and fetch it!");
         return;
     }
-    if(~trail_puzzle_complete = true) {
+    if(~trail_puzzle_complete(trail_clue_hard_riddle017_puzzlebox) = true) {
         ~chatnpc("<p,neutral>Thanks <text_gender("mister!", "miss")>!");
         inv_del(inv, trail_clue_hard_riddle016_puzzlebox, 1);
         ~progress_clue_hard(trail_clue_hard_riddle016, "Wilough has given you another clue scroll!");
         return;
     } 
-    ~chatnpc("<p,neutral>That not right!"); // todo: check mesanim
+    ~chatnpc("<p,neutral>Sorry but you haven't solved the puzzle yet."); // todo: check mesanim
     return;
 }
-~chatnpc("<p,happy>My brother reckons I can't solve this puzzle. I can't have him laughing at me! Do me a favour and solve it for me.");
-~give_trail_puzzle(trail_clue_hard_riddle016_puzzlebox, "Wilough has given you a puzzle box!");
+~give_trail_puzzle(trail_clue_hard_riddle016_puzzlebox, "<p,happy>My brother reckons I can't solve this puzzle. I can't have him laughing at me! Do me a favour and solve it for me.", "Wilough has given you a puzzle box!");

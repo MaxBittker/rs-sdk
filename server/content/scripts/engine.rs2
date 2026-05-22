@@ -49,7 +49,7 @@
 // info: Get the anim for a given $page
 [command,split_getanim](int $page)(seq)
 // info: Get a param on a struct
-[command,struct_param]/*(struct $struct, param $param)(dynamic)*/
+[command,struct_param](struct $struct, param $param)(any)
 // info: Get the x axis of a coord
 [command,coordx](coord $coord)(int)
 // info: Get the y axis (level) of a coord
@@ -78,6 +78,7 @@
 [command,map_findsquare](coord $coord, int $minradius, int $maxradius, int $type)(coord)
 // info: Returns true if the map tile at $coord is in a multi-way combat area
 [command,map_multiway](coord $coord)(boolean)
+[command,midi_length](midi $track)(int)
 
 // Player ops (2000-2499)
 // info: Get access to $player if they are in the world
@@ -278,6 +279,8 @@
 [command,tut_flash](int $tab)
 // info: Set a component's model animation
 [command,if_setanim](component $component, seq $anim)
+// info: Set a component's model animation for the secondary player
+[command,.if_setanim](component $component, seq $anim)
 // info: Set a side tab to a specific interface
 [command,if_settab](interface $interface, int $tab)
 // info: Set a side tab to a specific interface for the secondary player
@@ -305,39 +308,47 @@
 // info: Set a component's model to a npc's chat head
 [command,if_setnpchead](component $component, npc $npc)
 // info: Reposition a component
-[command,if_setposition](component $component, int $x, int $y);
+[command,if_setposition](component $component, int $x, int $y)
+// info: Reposition a component for the secondary player
+[command,.if_setposition](component $component, int $x, int $y)
 // info: Set the scrollbar position on a component
-[command,if_setscrollpos](component $component, int $y);
+[command,if_setscrollpos](component $component, int $y)
 // info: Give xp in a stat
 [command,stat_advance](stat $stat, int $exp)
 // info: Hurt a player
 [command,damage](player_uid $uid, int $type, int $amount)
 // info: Hurt the secondary player
 [command,.damage](player_uid $uid, int $type, int $amount)
-// info: internal- set which buttons can re-trigger the suspended script
-[command,if_setresumebuttons](component $component1, component $component2, component $component3, component $component4, component $component5)
+// info: internal- set which buttons can re-trigger a script suspended with p_pausebutton
+[command,if_addresumebutton](component $button)
 // info: Choose a text string based on the player's gender
 [command,text_gender](string $male_text, string $female_text)(string)
 // info: Choose a text string based on the secondary player's gender
 [command,.text_gender](string $male_text, string $female_text)(string)
 // info: Play a song
-[command,midi_song](string $song)
+[command,midi_song](midi $song)
 // info: Play a jingle (advancing levels, completing quests, ...)
-[command,midi_jingle](string $jingle, int $length)
+[command,midi_jingle](midi $jingle)
+// info: Play a jingle for the secondary player (advancing levels, completing quests, ...)
+[command,.midi_jingle](midi $jingle)
+// info: Change the active_player type of minimap displayed
+[command,minimap_toggle](int $type)
+// info: Change the secondary active_player type of minimap displayed
+[command,.minimap_toggle](int $type)
 // info: Show the hint arrow at $coord
 [command,hint_coord](int $offset, coord $coord, int $height)
 // info: Start a softtimer on the active_player
-[command,softtimer]/*(softtimer $timer, int $interval, ...)*/
+[command,softtimer](softtimer $timer, int $interval)
 // info: Start a softtimer on the secondary active_player
-[command,.softtimer]/*(softtimer $timer, int $interval, ...)*/
+[command,.softtimer](softtimer $timer, int $interval)
 // info: Clear a softtimer from the active_player
 [command,clearsofttimer](softtimer $timer)
 // info: Clear a softtimer from the secondary active_player
 [command,.clearsofttimer](softtimer $timer)
 // info: Start a timer on the active_player
-[command,settimer]/*(timer $timer, int $interval, ...)*/
+[command,settimer](timer $timer, int $interval)
 // info: Start a timer on the secondary active_player
-[command,.settimer]/*(timer $timer, int $interval, ...)*/
+[command,.settimer](timer $timer, int $interval)
 // info: Clear a timer from the active_player
 [command,cleartimer](timer $timer)
 // info: Clear a timer from the secondary active_player
@@ -383,7 +394,7 @@
 // info: Get the number of queued scripts that are specifically $queue for the secondary player
 [command,.getqueue](queue $queue)(int)
 // info: Requires protected access - merge the player's visual model with a loc so render priorities are correct
-[command,p_locmerge](int $startCycle, int $endCycle, coord $southEast, coord $northWest);
+[command,p_locmerge](int $startCycle, int $endCycle, coord $southEast, coord $northWest)
 // info: Show the welcome screen
 [command,last_login_info]
 // info: Requires protected access - teleport the player to $coord, short distances (1-2 tiles) will visually walk/run
@@ -466,6 +477,10 @@
 [command,lowmem]()(boolean)
 // info: Set the player's identity kit
 [command,setidkit](idkit $kit, int $color)
+// info: Set the player's skill level for games room
+[command,set_skill_level](int $level)
+// info: Set the player's skill level for games room
+[command,.set_skill_level](int $level)
 // info: Set the active_player to the hero that's done the most damage to the current active_player
 [command,findhero]()(boolean)
 // info: Set the secondary active_player to the hero that's done the most damage to the current secondary active_player
@@ -474,8 +489,8 @@
 [command,both_heropoints](int $damage)
 // info: Set the player's gender
 [command,setgender](int $gender)
-// info: Set the player's skin
-[command,setskincolour](int $skin_colour)
+// info: Set the player's identity kit color based on slot
+[command,setidkcolour](int $slot, int $colour)
 // info: Requires protected access - allow or deny animations to be played
 [command,p_animprotect](int $toggle)
 // info: Requires protected access - allow or deny animations to be played on the secondary pointer
@@ -553,7 +568,7 @@
 // info: Return true if the player that has dealt the most damage to this npc is in the world
 [command,npc_findhero]()(int)
 // info: Get a param on the current npc
-[command,npc_param]/*(param $param)(dynamic)*/
+[command,npc_param](param $param)(any)
 // info: Queue a script on a npc
 [command,npc_queue](int $ai_queue, int $arg, int $delay)
 // info: Queue a script on a secondary npc
@@ -654,6 +669,8 @@
 [command,loc_angle]()(int)
 // info: Play an animation on the loc
 [command,loc_anim](seq $anim)
+// info: Play an animation on the secondary loc
+[command,.loc_anim](seq $anim)
 // info: Get the current loc's category
 [command,loc_category]()(category)
 // info: Get the secondary loc's category
@@ -681,7 +698,7 @@
 // info: Use the next result from loc_findallzone
 [command,.loc_findnext]()(boolean)
 // info: Get a param on the current loc
-[command,loc_param]/*(param $param)(dynamic)*/
+[command,loc_param](param $param)(any)
 // info: Get the current loc's type
 [command,loc_type]()(loc)
 // info: Get the secondary loc's type
@@ -701,7 +718,7 @@
 // info: Spawn an object at $coord for all players
 [command,obj_addall](coord $coord, namedobj $obj, int $count, int $duration)
 // info: Get a param on the current object
-[command,obj_param]/*(param $param)(dynamic)*/
+[command,obj_param](param $param)(any)
 // info: Get the current object's display anme
 [command,obj_name]()(string)
 // info: Despawn the current object
@@ -727,7 +744,7 @@
 // info: Get the name from a npc config
 [command,nc_name](npc $npc)(string)
 // info: Get a param from a npc config
-[command,nc_param]/*(npc $npc, param $param)(dynamic)*/
+[command,nc_param](npc $npc, param $param)(any)
 // info: Get the category from a npc config
 [command,nc_category](npc $npc)(category)
 // info: Get the description text from a npc config
@@ -743,7 +760,7 @@
 // info: Get the name from a loc config
 [command,lc_name](loc $loc)(string)
 // info: Get a param from a loc config
-[command,lc_param]/*(loc $loc, param $param)(dynamic)*/
+[command,lc_param](loc $loc, param $param)(any)
 // info: Get the category from a loc config
 [command,lc_category](loc $loc)(category)
 // info: Get the description text from a loc config
@@ -759,7 +776,7 @@
 // info: Get the obj config's name
 [command,oc_name](obj $obj)(string)
 // info: Get a param from an obj config
-[command,oc_param]/*(obj $obj, param $param)(dynamic)*/
+[command,oc_param](obj $obj, param $param)(any)
 // info: Get the category from an obj config
 [command,oc_category](obj $obj)(category)
 // info: Get the description text from an obj config
@@ -904,11 +921,10 @@
 [command,inv_dropall](inv $inv, coord $coord, int $duration)
 // info: Drop all items from a secondary inventory
 [command,.inv_dropall](inv $inv, coord $coord, int $duration)
-// todo: compiler update
-// [command,inv_totalparam]/*(inv $inv, param $param)(int)*/
-// [command,.inv_totalparam]/*(inv $inv, param $param)(int)*/
-// [command,inv_totalparam_stack]/*(inv $inv, param $param)(int)*/
-// [command,.inv_totalparam_stack]/*(inv $inv, param $param)(int)*/
+[command,inv_totalparam](inv $inv, intparam $param)(int)
+[command,.inv_totalparam](inv $inv, intparam $param)(int)
+[command,inv_totalparam_stack](inv $inv, intparam $param)(int)
+[command,.inv_totalparam_stack](inv $inv, intparam $param)(int)
 [command,inv_debugname](inv $inv)(string)
 
 // Enum ops (4400-4499)
@@ -936,7 +952,7 @@
 // info: Get the index of a char in a string
 [command,string_indexof_char](string $text, char $char)(int)
 // info: Get the index of a string in a string
-[command,string_indexof_string](string $text1, string $text2)(int)
+[command,string_indexof_string](string $find, string $text)(int)
 
 // Number ops (4600-4699)
 // info: Add two numbers together
@@ -996,17 +1012,17 @@
 [command,abs](int $num)(int)
 
 // DB ops (7500-7599)
-[command,db_find_with_count]
+[command,db_find_with_count](dbrow $row, type $key)(int)
 [command,db_findnext]()(dbrow)
-[command,db_getfield]
-[command,db_getfieldcount](dbrow $dbrow0, dbcolumn $dbcolumn1)(int)
-[command,db_listall_with_count](dbtable $dbtable0)(int)
-[command,db_getrowtable](dbrow $dbrow0)(dbtable)
+[command,db_getfield](dbrow $row, dbcolumn $column, int $list)(any)
+[command,db_getfieldcount](dbrow $row, dbcolumn $column)(int)
+[command,db_listall_with_count](dbtable $table)(int)
+[command,db_getrowtable](dbrow $row)(dbtable)
 [command,db_findbyindex](int $index)(dbrow)
-[command,db_find_refine_with_count]
-[command,db_find]
-[command,db_find_refine]
-[command,db_listall](dbtable $dbtable0)()
+[command,db_find_refine_with_count](dbrow $row, type $key)(int)
+[command,db_find](dbcolumn $row, type $key)
+[command,db_find_refine](dbcolumn $row, type $key)
+[command,db_listall](dbtable $table)
 
 // Debug ops (10000-11000)
 // info: Raise a script error on the server

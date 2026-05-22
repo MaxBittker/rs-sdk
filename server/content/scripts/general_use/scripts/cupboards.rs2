@@ -31,7 +31,7 @@ switch_coord (loc_coord) {
                 }
             }
             ~mesbox("There is just a load of junk in here.");
-    case 1_48_51_24_4 : @cupboard_take_garlic; // draynor morgans house level 1
+    case 1_48_51_24_4 : mes("You search the cupboard."); @cupboard_take_garlic; // draynor morgans house level 1
     case 0_40_52_14_6 : @elena_search_cupboard; // alrenas house for plague city
     case 0_52_52_26_4 : @exam_centre_cupboard_jar; // exam centre specimen jar cupboard
     case 0_42_53_10_12, 0_40_49_29_46, 0_41_53_36_34 : mes("You search the cupboard but find nothing."); // sorcerers tower, fight arena, ranging guild
@@ -69,7 +69,7 @@ switch_loc (loc_type) {
 [label,cupboard_take_garlic]
 if (inv_itemspace(inv, garlic, 1, inv_size(inv)) = true) {
     if (inv_total(inv, garlic) = 0) {
-        mes("The cupboard contains garlic. You take a clove.");
+        mes("You find a clove of garlic that you take."); // https://web.archive.org/web/20050313104458/http://server6.uploadit.org/files/Nishkid64-cupboard.JPG
     } else {
         mes("You take a clove of garlic.");
     }

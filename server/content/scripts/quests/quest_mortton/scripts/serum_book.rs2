@@ -1,0 +1,30 @@
+//https://youtu.be/GsIyOr53q4E?si=oeXtbm83cbbUTfvV&t=76
+//https://youtu.be/WIzjtcXkv7M?si=kA5VTimaRCtZX1eZ&t=115
+[opheld1,serum_book]
+~objbox(serum_book, "@dbl@ ~ Diary of Herbi Flax ~|@bla@You prepare to read the book.", 200, 0, 0);
+%book_page = 0;
+%open_book = serum_book;
+@book_flip_page(0, 0, 12, serum_book);
+
+[proc,serum_book]
+switch_int (%book_page) {
+    // Extra space between know and what is authentic and the multiple mispellings of fyreneght, successfull, nonsense...
+    case 0 : ~book("Diary of Herbi Flax", "@dbl@~ Page 11 ~|@bla@Some local townsfolk are worried about the mists coming from the North East. Ordered more fire logs from Razmire's shop, must find a more reliable source of fyreneght. That money grabbing Razmire didn't know  what I was talking about, had to explain they were ashes! Herbs like harralander, marrentil and tarromin in short supply. I'm hoping the latter will make solution 194 the best yet.||The remains of a primitive temple to the north have piqued my curiosity.");
+    case 1 : ~book("Diary of Herbi Flax", "@dbl@~ Page 12 ~|@bla@Not much happening today, though the stench from the east increases.||The people of Mort'ton seem very depressed. Noticed several townsfolk just staring blankly into the air.||I'll keep further notes to aid my study of the effects from the Sanguinesti region.||Saradomin protect us.||Temple is most likely early pagan and devoted to elemental power.");
+    case 2 : ~book("Diary of Herbi Flax", "@dbl@~ Page 13 ~|@bla@The townsfolk are quite short in temper and fight readily amongst themselves at the slightest provocation. I've been out with my assistant Liornish Stemplehair, she's an able assistant, but preoccupied with her family life. How will she become a respected scholar in her own right? Temple was almost surely made of limestone bricks and shows signs of heat damage in the centre.||Samples from Mort Myre appear inconclusive at this stage, more testing needed.");
+    case 3 : ~book("Diary of Herbi Flax", "@dbl@~ Page 14 ~|@bla@Horror of horrors! The local tradesman Razmire has started charging higher prices for everyday consumables. How will we live? He blames the lack of trade from the temple but I believe he just wishes to fleece us all before leaving the town.||Some further experimentation has been|inconclusive.||First test vials with Guam not succesful. Senithiline process with water and tarromin proving succesful.");
+    case 4 : ~book("Diary of Herbi Flax", "@dbl@~ Page 15 ~|@bla@Temple to the North, is known to the locals as 'Flamtaer' holds an interesting story.||Local superstition talks about pagan rites and a sacred flame which could, 'hold for permanence'.||Was said to be involved in marriage ceremonies due to 'mystical aura'.||Also have reports of supernatural activity with shadowy creatures being|seen!||Such utter nonesense!");
+    case 5 : ~book("Diary of Herbi Flax", "@dbl@~ Page 16 ~|@bla@The mists from Mort Myre are getting worse and the stagnation of the swamp is having an effect on the towns people.||Victims of the effect become vacant and unintelligible, though some words do seem familiar. Only a handful of people have succumbed, but more fall into this state on a daily basis. No known cure at this stage. Heard some further superstitious nonsense regarding a 'sacred-flame' where Flamtaer stood.");
+    case 6 : ~book("Diary of Herbi Flax", "@dbl@~ Page 17 ~|@bla@A small breakthrough!||A patient only slightly afflicted had a short recovery with solution 194, but this lasted only a few minutes. Although a small step, this gives me a hope that a cure can be|found.||This new solution might last longer with fyreneght, but I must pack and leave soon before the affliction gets to me.");
+    case 7 : ~book("Diary of Herbi Flax", "@dbl@~ Page 18 ~|@bla@It's too late!|| I already show the signs of the aflliction.||I'm saddened that my work will not reach the scientific community of|Varrock.||I'd have liked to have shown my work before my peers.||Ulsquire makes me laugh, he believes the pagan flame may still have power. Even with this strange affliction, I feel a quiet reservation that...");
+    case 8 : ~book("Diary of Herbi Flax", "@dbl@~ Page 19 ~|@bla@Must write this quickly as it's hard to concentrate. Solution 198 was a change to 194 with added|Snake-weed.||This had little effect though, solution 194 was still the strongest so far.|||Need to increase this effectiveness with further refinement of senithiline process and perhaps addition of other compounds.");
+    case 9 : ~book("Diary of Herbi Flax", "@dbl@~ Page 20 ~|@bla@Possible last entry... solution 194 revised to 207 which gives longer term but still not permanent relief from the|affliction.||Senithelene works best with added fyrneght but lasts short time... agitation and warmth should seal|this..|||This cursed afflication has some evil to it, a darkness I cannot fathom.||Laughing at Ulsquire before but his suggestions may have merit.");
+    case 10 : ~book("Diary of Herbi Flax", "@dbl@~ Page 21 ~|@bla@|||Ffssies urgsl sikflv|dfdsf....|||||urgll splats fysi rsil|@dbl@~ Page 22 ~|@bla@|||||raditz ufus spokes me too|||wets lands in deis tinker");
+    case 11 : ~book("Diary of Herbi Flax", "@dbl@~ Page 23 ~|@bla@||||||||||@dbl@~ Page 24 ~");
+    //You have to flip to the last page to start the quest back then
+    case 12 : if (%morttonquest = ^mortton_not_started) {
+                  %morttonquest = ^mortton_read_diary;
+                  ~send_quest_progress(questlist:mortton, %morttonquest, ^mortton_quest_complete);
+              }
+              ~book("Diary of Herbi Flax", "@dbl@~ Page 25 ~|@bla@Index of Solution|content value (ScV)||Water @blu@ScV@bla@(@dre@100@bla@)|Tarromin @blu@ScV@bla@(@dre@94@bla@)|Fyrneght @blu@ScV@bla@(@dre@13@bla@)||Water+Tarromin|@blu@ScV@bla@(@dre@194@bla@)||Fyrneght+Water @blu@ScV@bla@(@dre@113@bla@)");
+}

@@ -22,6 +22,10 @@ data=tree,evergreen_snowy_large
 data=tree,evergreen_vsnowy_large
 data=tree,loc_1316
 data=tree,loc_1315
+data=tree,regicide_tree_large
+data=tree,regicide_tree_large2
+data=tree,regicide_tree_large3
+data=tree,regicide_tree_small
 data=levelrequired,0
 data=productexp,250
 data=product,logs
@@ -93,7 +97,7 @@ data=successchance,rune_axe,112,350
 
 [willow_tree_table]
 table=woodcutting_trees
-data=tree,willow_tree
+data=tree,willowtree
 data=levelrequired,30
 data=productexp,675
 data=product,willow_logs
@@ -108,7 +112,7 @@ data=successchance,rune_axe,56,175
 
 [maple_tree_table]
 table=woodcutting_trees
-data=tree,maple_tree
+data=tree,mapletree
 data=levelrequired,45
 data=productexp,1000
 data=product,maple_logs
@@ -123,7 +127,7 @@ data=successchance,rune_axe,28,87
 
 [yew_tree_table]
 table=woodcutting_trees
-data=tree,yew_tree
+data=tree,yewtree
 data=levelrequired,60
 data=productexp,1750
 data=product,yew_logs
@@ -138,7 +142,7 @@ data=successchance,rune_axe,14,44
 
 [magic_tree_table]
 table=woodcutting_trees
-data=tree,magic_tree
+data=tree,magictree
 data=levelrequired,75
 data=productexp,2500
 data=product,magic_logs
@@ -150,3 +154,19 @@ data=successchance,black_axe,5,13
 data=successchance,mithril_axe,5,15
 data=successchance,adamant_axe,6,18
 data=successchance,rune_axe,7,21
+
+[hollow_tree_table]
+table=woodcutting_trees
+data=tree,loc_2289
+data=tree,loc_4060
+data=levelrequired,45
+data=productexp,825
+data=product,hollow_bark
+data=respawnrate,86
+data=successchance,bronze_axe,18,26
+data=successchance,iron_axe,28,40
+data=successchance,steel_axe,36,54
+data=successchance,black_axe,42,57
+data=successchance,mithril_axe,46,68
+data=successchance,adamant_axe,59,81
+data=successchance,rune_axe,64,94

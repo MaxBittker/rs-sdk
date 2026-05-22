@@ -1,6 +1,9 @@
 import fs from 'fs';
-import * as rsmod from '@2004scape/rsmod-pathfinder';
-import { CollisionFlag, LocLayer } from '@2004scape/rsmod-pathfinder';
+// 274 replaced the @2004scape/rsmod-pathfinder WASM with an in-engine TypeScript
+// routefinder. Read collision from that module so the export reflects the actual
+// collision state the engine populates at startup (the WASM is no longer fed).
+import * as rsmod from '#/engine/routefinder/index.js';
+import { CollisionFlag, LocLayer } from '#/engine/routefinder/index.js';
 import LocType from '#/cache/config/LocType.js';
 import Packet from '#/io/Packet.js';
 

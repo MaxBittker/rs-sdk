@@ -1,0 +1,31 @@
+[loc_2289]
+name=Hollow tree
+desc=It's hollow...
+model=model_4146
+recol1s=8352
+recol1d=7428
+recol2s=7330
+recol2d=5283
+mapscene=0
+ambient=25
+op1=Chop down
+op3=hidden
+category=tree
+param=next_loc_stage,hollow_tree_stump
+
+[loc_4060]
+name=Hollow tree
+desc=It's hollow...
+model=loc_4060
+recol1s=8352
+recol1d=7428
+recol2s=7330
+recol2d=5283
+width=2
+length=2
+mapscene=0
+ambient=25
+op1=Chop down
+op3=hidden
+category=tree
+param=next_loc_stage,hollow_tree_stump_big

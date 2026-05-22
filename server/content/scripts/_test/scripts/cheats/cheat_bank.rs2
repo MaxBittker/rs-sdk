@@ -411,15 +411,15 @@ if (p_finduid(uid) = true) {
     inv_add(bank, bread, 100);
     inv_add(bank, premade_worm_batta, 100);
     inv_add(bank, premade_toad_batta, 100);
-    inv_add(bank, premade_cheese_tom_batta, 100);
+    inv_add(bank, premade_cheese+tom_batta, 100);
     inv_add(bank, premade_fruit_batta, 100);
     inv_add(bank, premade_vegetable_batta, 100);
     inv_add(bank, spoilt_batta, 100);
     inv_add(bank, unfinished_worm_batta, 100);
     inv_add(bank, worm_batta, 100);
     inv_add(bank, toad_batta, 100);
-    inv_add(bank, unfinished_cheese_tom_batta, 100);
-    inv_add(bank, cheese_tom_batta, 100);
+    inv_add(bank, unfinished_cheese+tom_batta, 100);
+    inv_add(bank, cheese+tom_batta, 100);
     inv_add(bank, fruitless_batta, 100);
     inv_add(bank, fruit_batta_lime, 100);
     inv_add(bank, fruit_batta_orange, 100);

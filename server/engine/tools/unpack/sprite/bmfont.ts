@@ -28,7 +28,7 @@ async function convert(input: string, output: string) {
     const sheet = new Jimp({
         width: columns * cellSize,
         height: rows * cellSize,
-        color: 0xFF00FFFF
+        color: 0xff00ffff
     });
 
     let minYOffset = Infinity;
@@ -69,12 +69,12 @@ async function convert(input: string, output: string) {
         // const a = data[i * 4 + 3];
 
         if (r === 0 && g === 0 && b === 0) {
-            data[i * 4 + 0] = 0xFF;
+            data[i * 4 + 0] = 0xff;
             data[i * 4 + 1] = 0;
-            data[i * 4 + 2] = 0xFF;
+            data[i * 4 + 2] = 0xff;
         }
 
-        data[i * 4 + 3] = 0xFF;
+        data[i * 4 + 3] = 0xff;
     }
 
     const lines = [`${cellSize}x${cellSize}`];
@@ -96,10 +96,13 @@ async function convert(input: string, output: string) {
 
             const data = sheet.bitmap.data;
             sheet.scan(cellX, cellY, cellSize, cellSize, function (x, y, idx) {
-                const r = data[idx + 0], g = data[idx + 1], b = data[idx + 2];
-                if (r === 0xFF && g === 0 && b === 0xFF) return;
+                const r = data[idx + 0],
+                    g = data[idx + 1],
+                    b = data[idx + 2];
+                if (r === 0xff && g === 0 && b === 0xff) return;
 
-                const rx = x - cellX, ry = y - cellY;
+                const rx = x - cellX,
+                    ry = y - cellY;
                 if (rx < minX) minX = rx;
                 if (ry < minY) minY = ry;
                 if (rx > maxX) maxX = rx;
@@ -118,8 +121,8 @@ async function convert(input: string, output: string) {
         }
     }
 
-    await sheet.write(`${Environment.BUILD_SRC_DIR}/fonts/${output}.png`);
-    fs.writeFileSync(`${Environment.BUILD_SRC_DIR}/fonts/meta/${output}.opt`, lines.join('\n'));
+    await sheet.write(`${Environment.build.srcDir}/fonts/${output}.png`);
+    fs.writeFileSync(`${Environment.build.srcDir}/fonts/meta/${output}.opt`, lines.join('\n'));
 }
 
 await convert('sansserif11', 'f11');

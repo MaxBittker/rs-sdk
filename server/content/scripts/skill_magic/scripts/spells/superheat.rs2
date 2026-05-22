@@ -4,12 +4,15 @@
 if_settabactive(^tab_magic); // osrs sets tab back no matter what
 // look for spell in db
 def_dbrow $spell_data = ~get_spell_data($spell);
-if (~check_spell_requirements($spell_data)= false) {
+if (~check_spell_requirements($spell_data) = false) {
     return;
 }
 if($ore1 = elemental_workshop_ore) {
     mes("Even this spell is not hot enough to heat this item.");
     return;
+}
+if($ore1 = tbwt_jogre_bones) {
+    @tbwt_jogre_bones_superheat;
 }
 def_namedobj $bar = oc_param($ore1, smeltsto);
 // if player doesnt even superheat an ore

@@ -21,7 +21,7 @@ KeyCodes.set('Enter', { code: 10, ch: 10 });
 KeyCodes.set('Escape', { code: 27, ch: 27 });
 KeyCodes.set(' ', { code: 32, ch: 32 });
 
-KeyCodes.set('Delete', { code: 127, ch: 127 });
+KeyCodes.set('Delete', { code: 127, ch: 8 });
 
 KeyCodes.set('Home', { code: 36, ch: 1000 });
 KeyCodes.set('End', { code: 35, ch: 1001 });

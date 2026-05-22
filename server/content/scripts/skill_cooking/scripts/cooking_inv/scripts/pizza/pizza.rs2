@@ -4,7 +4,7 @@ switch_obj (last_useitem) {
     case cheese : mes("I should add the tomato first.");
     case pineapple_ring, anchovies, cooked_meat, cooked_chicken : mes("I need to add the tomato and cheese first.");
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,tomato]
 switch_obj (last_useitem) {
@@ -16,7 +16,7 @@ switch_obj (last_useitem) {
     case half_baked_batta : @add_batta_ingredient(last_item);
     case raw_chompy : @quest_chompybird_add_ingredients_to_chompy_message;
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,cheese]
 switch_obj  (last_useitem) {
@@ -25,20 +25,20 @@ switch_obj  (last_useitem) {
     case half_baked_bowl : @add_bowl_ingredient(last_item);
     case half_baked_batta : @add_batta_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,incomplete_pizza]
 switch_obj (last_useitem) {
     case tomato : mes("I think it's already got enough tomato on.");
     case cheese : @make_uncooked_pizza;
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,uncooked_pizza]
 switch_obj (last_useitem) {
     case pineapple_ring, anchovies, cooked_meat, cooked_chicken : @uncooked_pizza_message(last_useslot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,pineapple_ring]
 @use_topping_on_pizza;
@@ -51,8 +51,9 @@ switch_int(oc_param(last_useitem, gnome_cooking_type)) {
 switch_obj (last_useitem) {
     case plain_pizza : @make_pizza_with_topping(last_slot);
     case uncooked_pizza : @uncooked_pizza_message(last_slot);
+    case vodka : @make_alco_chunks;
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,anchovies]
 @use_topping_on_pizza;
@@ -61,7 +62,7 @@ switch_obj (last_useitem) {
 switch_obj (last_useitem) {
     case pineapple_ring, pineapple_chunks, anchovies, cooked_meat, cooked_chicken : @make_pizza_with_topping(last_useslot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 
 //--- procs for handling opheldu stuff ---
@@ -70,7 +71,7 @@ switch_obj (last_useitem) {
     case plain_pizza : @make_pizza_with_topping(last_slot);
     case uncooked_pizza : @uncooked_pizza_message(last_slot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 
 [label,uncooked_pizza_message](int $last)

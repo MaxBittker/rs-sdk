@@ -15,7 +15,7 @@ y=30
 width=350
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Line1
 
 [com_2]
@@ -26,7 +26,7 @@ buttontype=pause
 width=350
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Click here to continue
 colour=0xFFFF00
 overcolour=0x00C000

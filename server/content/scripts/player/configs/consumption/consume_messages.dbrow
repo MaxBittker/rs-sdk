@@ -140,8 +140,8 @@ data=message_delay,2
 
 [premade_cheese_tom_batta_consume_messages]
 table=consume_messages_table
-data=consumable,premade_cheese_tom_batta
-data=consumable,cheese_tom_batta
+data=consumable,premade_cheese+tom_batta
+data=consumable,cheese+tom_batta
 data=consume_message1,You eat the cheese and tomato batta.
 data=consume_message2,It tastes quite good.
 data=restore_message2,It tastes quite good and makes you feel a bit better.
@@ -160,28 +160,28 @@ data=message_delay,2
 [vodka_consume_messages]
 table=consume_messages_table
 data=consumable,vodka
-data=consume_message1,You drink the vodka. You feel slighlty reinvigorated...
+data=consume_message1,You drink the vodka. You feel slightly reinvigorated...
 data=consume_message2,...and slightly dizzy too.
 data=restore_message2,0
 
 [whisky_consume_messages]
 table=consume_messages_table
 data=consumable,whisky
-data=consume_message1,You drink the whisky. You feel slighlty reinvigorated...
+data=consume_message1,You drink the whisky. You feel slightly reinvigorated...
 data=consume_message2,...and slightly dizzy too.
 data=restore_message2,0
 
 [gin_consume_messages]
 table=consume_messages_table
 data=consumable,gin
-data=consume_message1,You drink the gin. You feel slighlty reinvigorated...
+data=consume_message1,You drink the gin. You feel slightly reinvigorated...
 data=consume_message2,...and slightly dizzy too.
 data=restore_message2,0
 
 [brandy_consume_messages]
 table=consume_messages_table
 data=consumable,brandy
-data=consume_message1,You drink the brandy. You feel slighlty reinvigorated...
+data=consume_message1,You drink the brandy. You feel slightly reinvigorated...
 data=consume_message2,...and slightly dizzy too.
 data=restore_message2,0
 
@@ -198,7 +198,7 @@ data=consumable,chocolate_saturday
 data=consumable,sgg
 data=consumable,drunk_dragon
 data=consume_message1,"You drink the cocktail. It tastes great,"
-data=consume_message2,although you feel slighlty dizzy.
+data=consume_message2,although you feel slightly dizzy.
 data=restore_message2,0
 
 [cocktail2_consume_messages]
@@ -680,7 +680,7 @@ data=consumable,fruit_batta_limepineapple
 data=consumable,fruit_batta_orangepineapple
 data=consumable,unfinished_fruit_batta
 data=consumable,unfinished_worm_batta
-data=consumable,unfinished_cheese_tom_batta
+data=consumable,unfinished_cheese+tom_batta
 data=consumable,unfinished_vegetable_batta
 data=consume_message1,You eat the batta.
 data=consume_message2,It doesn't taste right...
@@ -771,3 +771,22 @@ data=consumable,2dose1magic
 data=consumable,1dose1magic
 data=consume_message1,You drink some of your magic potion.
 data=message_delay,1
+
+[karambwan_consume_messages]
+table=consume_messages_table
+data=consume_message1,You eat the Karambwan.
+data=consumable,tbwt_cooked_karambwan
+data=message_delay,2
+
+[karambwanji_consume_messages]
+table=consume_messages_table
+data=consume_message1,You eat the Karambwanji.
+data=consumable,tbwt_cooked_karambwanji
+data=message_delay,2
+
+[viking_beer_consume_messages]
+table=consume_messages_table
+data=consumable,viking_tankard_full
+data=consume_message1,You quaff the beer. You feel reinvigorated...
+data=consume_message2,...but very dizzy too.
+data=restore_message2,0

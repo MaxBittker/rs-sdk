@@ -3,23 +3,43 @@ switch_obj (last_useitem)
 {
     case bowl_water, bucket_water, jug_water : @make_softclay(last_useitem);
     case default : ~displaymessage(^dm_default);
-};
+}
 
-[oplocu,potters_wheel]
+[oplocu,_potters_wheel]
+if(loc_type = viking_potterywheel) {
+    if(%viking < ^viking_complete) {
+        mes("Only Fremenniks may use this pottery wheel.");
+        return;
+    }
+}
 switch_obj (last_useitem)
 {
     case softclay : @craft_pottery_interface;
     case clay : ~objbox(clay, "This clay is too hard to craft|You'll need to soften it with some water.", 250, 0, divide(^objbox_height, 2));
     case default : ~displaymessage(^dm_default);
-};
+}
 
-[oplocu,pottery_oven]
+[oplocu,_pottery_oven]
+if(loc_type = viking_potteryoven) {
+    if(%viking < ^viking_complete) {
+        mes("Only Fremenniks may use this pottery oven.");
+        return;
+    }
+}
 switch_obj (last_useitem)
 {
     case bowl_unfired, piedish_unfired, pot_unfired : @fire_pottery(last_useslot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
+[oploc1,_pottery_oven]
+if(loc_type = viking_potteryoven) {
+    if(%viking < ^viking_complete) {
+        mes("Only Fremenniks may use this pottery oven.");
+        return;
+    }
+}
+@fire_pottery_interface;
 
 [label,make_softclay](obj $water_source)
 // https://youtu.be/48JsDRNXWAc?list=PLn23LiLYLb1bQ7Hwp77KoNBjKvpZQTfJT&t=240
@@ -37,41 +57,104 @@ p_delay(1); // 2 ticks
 mes("You now have some soft workable clay.");
 
 [label,craft_pottery_interface] 
-def_namedobj $choice = ~multiobj3(
-    "What would you like to make?", 
-    pot_unfired, 0, 2, 185, "Pot", 0, 0, 
-    piedish_unfired, 0, -4, 190, "Pie Dish", 0, 0, 
-    bowl_unfired, 0, 0, 200, "Bowl", 0, 0
+def_namedobj $item;
+def_int $count;
+$item, $count = ~skill_multi3(
+    pot_unfired, 0, 2, 185, "\\n\\n\\n\\nPot",
+    piedish_unfired, 0, -4, 190, "\\n\\n\\n\\nPie Dish",
+    bowl_unfired, 0, 0, 200, "\\n\\n\\n\\nBowl"
 );
-if ($choice = null) {
+if ($item = null) {
     ~displaymessage(^dm_default);
     return;
 }
-@craft_pottery($choice);
-
-// osrs is a weak queue that sets and checks %action_delay.
-// if %action_delay is under a certain point then it gives a roll
-// Before sep 2004, it was likely just a p_delay()
-[label,craft_pottery](namedobj $item)
-if_close;
 def_struct $struct = oc_param($item, crafting_pottery_struct);
 def_string $name = lowercase(oc_name($item));
-// Check level
 def_int $level = struct_param($struct, levelrequire);
-if (stat(crafting) < $level)
-{
+if (stat(crafting) < $level) {
     ~objbox($item, "You need a Crafting level of <tostring($level)> to make a <$name>.", 250, 0, divide(^objbox_height, 2));
     return;
 }
+@process_craft_pottery($item, $struct, $name, $level, $count);
+
+[label,process_craft_pottery](namedobj $item, struct $struct, string $name, int $level, int $count)
 sound_synth(pottery, 0, 0);
 anim(human_potterywheel, 0);
-p_delay(2);
+if (%action_delay < map_clock) {
+    %action_delay = add(map_clock, 2);
+}
+weakqueue*(craft_pottery, sub(%action_delay, map_clock))($item, $struct, $name, $level, $count);
+
+[queue,craft_pottery](namedobj $item, struct $struct, string $name, int $level, int $count)
+if(inv_total(inv, softclay) = 0) {
+    mes("You have run out of soft clay.");
+    return;
+}
 inv_del(inv, softclay, 1);
 inv_add(inv, $item, 1);
 stat_advance(crafting, struct_param($struct, processexp));
 mes("You make the clay into a <substring($name, 8, string_length($name))>.");
+if(sub($count, 1) < 1) {
+    return;
+}
+%action_delay = add(map_clock, 2);
+@process_craft_pottery($item, $struct, $name, $level, sub($count, 1));
+
+[label,fire_pottery_interface]
+def_namedobj $item;
+def_int $count;
+// https://youtu.be/WGbO-Xwk8b8?si=ISoIMVCPIAg37Hp4&t=197 uses unfired objs
+$item, $count = ~skill_multi3(
+    pot_unfired, 0, 2, 185, "\\n\\n\\n\\nPot",
+    piedish_unfired, 0, -4, 190, "\\n\\n\\n\\nPie Dish",
+    bowl_unfired, 0, 0, 200, "\\n\\n\\n\\nBowl"
+);
+if ($item = null) {
+    ~displaymessage(^dm_default);
+    return;
+}
+def_struct $struct = oc_param($item, crafting_pottery_struct);
+if(inv_total(inv, $item) = 0) {
+    ~mesbox("You don't have any <struct_param($struct, pottery_name)> which need firing."); // osrs
+    return;
+}
+weakqueue*(process_fire_pottery, sub(%action_delay, map_clock))($item, $struct, sub($count, 1));
+
+[queue,process_fire_pottery](namedobj $item, struct $struct, int $count)
+def_string $name_plural = struct_param($struct, pottery_name);
+if(inv_total(inv, $item) = 0) {
+    // https://youtu.be/WGbO-Xwk8b8?si=chEyb5NrwHGID5X5&t=261
+    mes("You don't have any more <$name_plural> which need firing.");
+    return;
+}
+sound_synth(furnace, 0, 0);
+anim(potteryoven_quick, 0);
+%action_delay = add(map_clock, 5);
+// https://youtu.be/WGbO-Xwk8b8?si=XbTK8PmCThppp33m&t=226, seems like it defaults to using "item"
+// osrs still does this today for cups but not pot lids
+mes("You put <~add_article(~singularise($name_plural))> in the oven.");
+weakqueue*(fire_pottery, sub(%action_delay, map_clock))($item, $struct, $count);
+
+[queue,fire_pottery](namedobj $item, struct $struct, int $count)
+def_string $name = ~singularise(struct_param($struct, pottery_name));
+def_namedobj $product = struct_param($struct, product);
+inv_del(inv, $item, 1);
+if (stat_random(crafting, 180, 800) = true) {
+    inv_add(inv, $product, 1);
+    stat_advance(crafting, struct_param($struct, productexp));
+    mes("You remove the <$name> from the oven.");
+} else {
+    mes("The <$name> cracks in the oven.");
+}
+if(sub($count, 1) < 1) {
+    return;
+}
+%action_delay = add(map_clock, 1); // sets action_delay here as well
+weakqueue*(process_fire_pottery, 0)($item, $struct, sub($count, 1));
 
 // No level req for some reason (does have a success chance though)
+// firing through oplocu continues to work this way, even on OSRS release
+// https://youtu.be/WGbO-Xwk8b8?si=WZmf_PFFznYtgq1O&t=191, this vid shows it very evidently
 [label,fire_pottery](int $last)
 def_obj $last_obj = inv_getobj(inv, $last);
 def_struct $struct = oc_param($last_obj, crafting_pottery_struct);
@@ -96,47 +179,3 @@ if (stat_random(crafting, 180, 800) = true) {
 } else {
     mes("The <oc_name($product)> cracks in the oven.");
 }
-
-
-//-------------------------------
-
-// // No level req for some reason (does have a success chance though)
-// [label,fire_pottery](int $last)
-// def_namedobj $last_obj = inv_getobj(inv, $last);
-// def_struct $struct = oc_param($last, crafting_pottery_struct);
-// // skill clock used to prevent spamming.
-// if (%action_delay < map_clock) {
-//     %action_delay = calc(map_clock + 5);
-//     // "You put a x in the oven."
-//     mes("You put the <oc_name(struct_param($struct, product))> in the oven.");
-//     sound_synth(furnace, 0, 0);
-//     anim(human_furnace, 0); //plays once here and once in weak queue
-//     weakqueue(firing_pottery, 1, $struct);
-// } else {
-//     weakqueue(start_firing_pottery, calc(%action_delay - map_clock - 1), $struct);
-// }
-// //-------------------------------
-
-// [weakqueue,start_firing_pottery](struct $struct)
-// mes(tostring(map_clock));
-// %action_delay = calc(map_clock + 5);
-// mes("You put the <oc_name(struct_param($struct, product))> in the oven.");
-// sound_synth(furnace, 0, 0);
-// anim(human_furnace, 0); //plays once here and once in weak queue
-// weakqueue(firing_pottery, 1, $struct); //idk why its delay of 5 but it works
-
-// [weakqueue,firing_pottery](struct $struct)
-// mes("The <oc_name(struct_param($struct, product))> hardens in the oven.");
-// weakqueue(finish_firing_pottery, 3, $struct);
-
-// [weakqueue,finish_firing_pottery](struct $struct)
-// def_namedobj $product = struct_param($struct, product);
-// //anim(human_furnace, 0);
-// //todo success chances
-
-// // delete unfired item
-// inv_del(inv, struct_param($struct, namedobj), 1);
-// // add fired item
-// inv_add(inv, $product, 1);
-// mes("You remove the <oc_name($product)> from the oven.");
-// stat_advance(crafting, struct_param($struct, productexp));

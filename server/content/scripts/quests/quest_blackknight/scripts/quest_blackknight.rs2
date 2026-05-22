@@ -94,7 +94,7 @@ switch_obj (last_useitem)
     case cabbage : @black_knights_fortress_correct_cabbage;
     case magic_cabbage : @black_knights_fortress_incorrect_cabbage;
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [label,black_knights_fortress_correct_cabbage]
 if (%spy = 2) {

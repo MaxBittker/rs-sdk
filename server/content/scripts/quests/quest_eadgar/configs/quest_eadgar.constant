@@ -1,0 +1,21 @@
+// varp values from osrs
+^eadgar_started = 10
+^eadgar_spoken_eadgar_first = 15
+^eadgar_spoken_burntmeat_first = 20
+^eadgar_spoken_burntmeat_second = 25
+^eadgar_needs_parrot = 30
+// value of 40 appears unused
+^eadgar_explained_plan = 50
+^eadgar_hid_parrot = 60
+^eadgar_needs_items = 70
+^eadgar_needs_potion = 80
+^eadgar_needs_parrot_back = 85
+^eadgar_got_parrot_back = 86
+^eadgar_got_fake_man = 87
+^eadgar_got_burnt_meat = 90
+^eadgar_unlocked_storeroom = 100
+^eadgar_complete = 110
+
+// varbits
+^eadgar_pete_dialog_1 = 0
+^eadgar_pete_dialog_2 = 11

@@ -3,6 +3,29 @@ if(map_members = ^false) { // rs3
     ~chatnpc("<p,neutral>It's very nice that you've come all the way down here, but I really don't have time to talk at the moment. Maybe if you come back later on a members' world I'll be able to help.");
     return;
 }
+if(%regicide_quest > ^regicide_spoken_iorwerth2 & %regicide_quest < ^regicide_spoken_arianwyn) {
+    ~chatplayer("<p,happy>Hello, thanks for the use of the still.");
+    ~chatplayer("<p,neutral>Glad to help, anytime.");
+} else if(%regicide_quest = ^regicide_spoken_iorwerth2) {
+    ~chatplayer("<p,happy>Good day. I was hoping you could help me with a formula I found in a book.");
+    if(inv_total(inv, regicide_alchemy) > 0) {
+        ~chatnpc("<p,neutral>A formula, you say? Let me see that!");
+        ~objbox(regicide_alchemy, "The chemist takes the book and starts leafing through the pages.", 250, 0, 0);
+        ~chatnpc("<p,neutral>Yes... yessss... Well, I guess you'll be wanting to use the old still.");
+        ~chatplayer("<p,happy>Huh?");
+        %regicide_bits = setbit(%regicide_bits, ^regicide_chemist_chat);
+        ~chatnpc("<p,neutral>Well, you're going to need Naphtha, quicklime and brimstone.");
+        @multi4("What is and how do I make naphtha?", chemist_naphtha, "What's quicklime?", chemist_quicklime, "What's brimstone?", chemist_brimstone, "This all looks too tricky, I'll leave it.", chemist_tricky);
+    } else if(inv_total(bank, regicide_alchemy) > 0) {
+        ~chatnpc("<p,neutral>A formula, you say? Show me the book.");
+        ~chatplayer("<p,happy>It's in my bank.");
+        ~chatnpc("<p,confused>Oh. Bring it here and I'll take a look.");
+    } else {
+        ~chatnpc("<p,neutral>A formula, you say? Show me the book.");
+        ~chatplayer("<p,sad>Oh dear, I don't seem to have it anymore.|I hope Iorwerth has another copy."); // rs3 <br>
+    }
+    return;
+}
 switch_int(%biohazard) {
     case ^biohazard_spoken_chemist, ^biohazard_found_secret :
         ~chatplayer("<p,happy>Hello again.");
@@ -59,3 +82,26 @@ mes("He takes the plague sample from you.");
 %biohazard = ^biohazard_spoken_chemist;
 inv_add(inv, touch_paper, 1);
 mes("He gives you the touch paper.");
+
+[label,chemist_naphtha]
+~chatplayer("<p,neutral>What is and how do I make naphtha?");
+~chatnpc("<p,neutral>Well, to make naphtha you're going to need to distil tar of some kind. You can use my still outside, but it's not been used in a long time.");
+~chatplayer("<p,neutral>How do I use it?");
+~chatnpc("<p,neutral>It's quite simple really. You have to get the still heat up very high to make this fuel. But if it gets too hot it will burn out and you will have to start over.");
+~chatnpc("<p,neutral>You must also watch the pressure, if it gets too high you will also have to start over. There are valves to control pressure and tar flow. These will also affect the heat of the still.");
+~chatplayer("<p,neutral>Is that all?");
+~chatnpc("<p,neutral>You'll also need plenty of coal to keep the still hot.");
+@multi4("What is and how do I make naphtha?", chemist_naphtha, "What's quicklime?", chemist_quicklime, "What's brimstone?", chemist_brimstone, "This all looks too tricky, I'll leave it.", chemist_tricky);
+
+[label,chemist_quicklime]
+~chatplayer("<p,neutral>What's quicklime?");
+~chatnpc("<p,neutral>Quicklime is usually made by the thermal decomposition of limestone. When it gets really hot it glows like the sun. It's also extremely caustic.");
+@multi4("What is and how do I make naphtha?", chemist_naphtha, "What's quicklime?", chemist_quicklime, "What's brimstone?", chemist_brimstone, "This all looks too tricky, I'll leave it.", chemist_tricky);
+
+[label,chemist_brimstone]
+~chatplayer("<p,neutral>What's brimstone?");
+~chatnpc("<p,neutral>I've never seen it in the quantities this formula talks of but it's a yellow powdery formation. Much more than that I don't know.");
+@multi4("What is and how do I make naphtha?", chemist_naphtha, "What's quicklime?", chemist_quicklime, "What's brimstone?", chemist_brimstone, "This all looks too tricky, I'll leave it.", chemist_tricky);
+
+[label,chemist_tricky]
+~chatplayer("<p,neutral>This all looks too tricky, I'll leave it.");

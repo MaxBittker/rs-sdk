@@ -7,3 +7,5 @@ column=tool,namedobj,string
 column=mirror,boolean
 column=gate,boolean
 column=lock_inversed,boolean
+column=door_successchance,int,int
+column=trap_successchance,int,int

@@ -1,42 +1,61 @@
 import FileStream from '#/io/FileStream.js';
 import Packet from '#/io/Packet.js';
 import ClientSocket from '#/server/ClientSocket.js';
+import { createRuntimeWorker } from '#/util/RuntimeWorker.js';
+
+import type { Worker } from 'worker_threads';
 
 type OnDemandRequest = {
-    client: ClientSocket;
+    type: 'request';
+    clientId: string;
     archive: number;
     file: number;
-}
+    priority: number;
+};
+
+type OnDemandClientClosed = {
+    type: 'client_closed';
+    clientId: string;
+};
+
+type OnDemandReloadCache = {
+    type: 'reload_cache';
+};
+
+type OnDemandWorkerMessage =
+    | {
+          type: 'chunk';
+          clientId: string;
+          data: Uint8Array;
+      }
+    | {
+          type: 'close_client';
+          clientId: string;
+      };
+
+type OnDemandWorkerRequest = OnDemandRequest | OnDemandClientClosed | OnDemandReloadCache;
+
+type WorkerWithTransfers = Worker & {
+    postMessage(value: OnDemandWorkerRequest): void;
+};
 
 class OnDemand {
     cache = new FileStream('data/pack');
 
-    urgentRequests: OnDemandRequest[] = []; // needed ASAP
-    extraRequests: OnDemandRequest[] = []; // not logged in preloading extras
-    ingameRequests: OnDemandRequest[] = []; // logged in preloading extras
+    private worker: WorkerWithTransfers | null = null;
+    private clients: Map<string, ClientSocket> = new Map();
+    private restarting: NodeJS.Timeout | null = null;
 
     cycle() {
-        // todo: limit requests per client per cycle
+        this.startWorker();
+    }
 
-        for (let i = 0; i < this.urgentRequests.length; i++) {
-            const req = this.urgentRequests[i];
-            this.send(req.client, req.archive, req.file);
-            this.urgentRequests.splice(i--, 1);
-        }
-
-        for (let i = 0; i < this.extraRequests.length; i++) {
-            const req = this.extraRequests[i];
-            this.send(req.client, req.archive, req.file);
-            this.extraRequests.splice(i--, 1);
-        }
-
-        for (let i = 0; i < this.ingameRequests.length; i++) {
-            const req = this.ingameRequests[i];
-            this.send(req.client, req.archive, req.file);
-            this.ingameRequests.splice(i--, 1);
-        }
-
-        setTimeout(this.cycle.bind(this), 50);
+    reloadCache() {
+        this.cache.close();
+        this.cache = new FileStream('data/pack');
+        this.worker?.postMessage({
+            type: 'reload_cache'
+        });
     }
 
     onClientData(client: ClientSocket) {
@@ -62,61 +81,77 @@ class OnDemand {
                 return;
             }
 
-            if (priority === 2) {
-                this.urgentRequests.push({
-                    client,
-                    archive,
-                    file
-                });
-            } else if (priority === 1) {
-                this.extraRequests.push({
-                    client,
-                    archive,
-                    file
-                });
-            } else {
-                this.ingameRequests.push({
-                    client,
-                    archive,
-                    file
-                });
-            }
+            this.queue(client, archive, file, priority);
         }
     }
 
-    private send(client: ClientSocket, archive: number, file: number) {
-        const req = this.cache.read(archive + 1, file);
-
-        if (req) {
-            let pos = 0;
-            let part = 0;
-
-            while (pos < req.length) {
-                let remaining = req.length - pos;
-                if (remaining > 500) {
-                    remaining = 500;
-                }
-
-                const temp = new Packet(new Uint8Array(6 + remaining));
-                temp.p1(archive);
-                temp.p2(file);
-                temp.p2(req.length);
-                temp.p1(part);
-                temp.pdata(req, pos, remaining);
-
-                pos += remaining;
-                part++;
-                client.send(temp.data);
-            }
-        } else {
-            // rejected if size=0
-            const temp = new Packet(new Uint8Array(6));
-            temp.p1(archive);
-            temp.p2(file);
-            temp.p2(0);
-            temp.p1(0);
-            client.send(temp.data);
+    private queue(client: ClientSocket, archive: number, file: number, priority: number) {
+        const worker = this.startWorker();
+        if (!worker) {
+            return;
         }
+
+        this.clients.set(client.uuid, client);
+        worker.postMessage({
+            type: 'request',
+            clientId: client.uuid,
+            archive,
+            file,
+            priority
+        });
+    }
+
+    private startWorker(): WorkerWithTransfers | null {
+        if (this.worker) {
+            return this.worker;
+        }
+
+        const worker = createRuntimeWorker(new URL('./OnDemandThread.ts', import.meta.url)) as WorkerWithTransfers;
+        this.worker = worker;
+
+        worker.on('message', (msg: OnDemandWorkerMessage) => this.onWorkerMessage(msg));
+        worker.on('error', err => {
+            console.error('OnDemand worker error:', err);
+        });
+        worker.on('exit', code => {
+            this.worker = null;
+
+            if (code === 0 || this.restarting) {
+                return;
+            }
+
+            console.error(`OnDemand worker exited with code ${code}; restarting shortly.`);
+            this.restarting = setTimeout(() => {
+                this.restarting = null;
+                this.startWorker();
+            }, 1000);
+        });
+
+        return worker;
+    }
+
+    private onWorkerMessage(msg: OnDemandWorkerMessage) {
+        const client = this.clients.get(msg.clientId);
+        if (!client || client.state !== 2) {
+            this.clients.delete(msg.clientId);
+            this.worker?.postMessage({
+                type: 'client_closed',
+                clientId: msg.clientId
+            });
+            return;
+        }
+
+        if (msg.type === 'close_client') {
+            client.close();
+            this.clients.delete(msg.clientId);
+            this.worker?.postMessage({
+                type: 'client_closed',
+                clientId: msg.clientId
+            });
+            return;
+        }
+
+        client.send(msg.data);
     }
 }
 

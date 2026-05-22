@@ -1,6 +1,6 @@
 // trigger for logs on ground
 [opobj4,_category_22]
-    @light_logs_ground;
+@light_logs_ground;
 
 [opobju,_category_22]
 if (last_useitem = tinderbox) {
@@ -15,6 +15,12 @@ if (last_useitem = newbielogs) {
     @tut_light_logs_inv(last_useslot);
 } else if(oc_param(last_useitem, unlit_arrow) = ^true) { // might not work on every fire?
     @light_firearrow(last_useitem);
+} else if(last_useitem = tbwt_jogre_bones) {
+    @light_jogre_bones_inv(last_useslot);
+} else if(last_useitem = hollow_bark) {
+    ~displaymessage(^dm_default);
+} else if(last_useitem = viking_firecracker) {
+    @viking_light_firecracker;
 } else switch_category(oc_category(last_useitem)) {
     case category_22 : @light_logs_inv(last_useslot);
     case light_source_unlit : @ignite_light_source(last_useitem);
@@ -23,6 +29,11 @@ if (last_useitem = newbielogs) {
 
 [label,light_logs_ground]
 def_obj $log = obj_type;
+// logs not used in fm
+if($log = hollow_bark) {
+    ~displaymessage(^dm_default);
+    return;
+}
 // check level first
 def_int $level = oc_param($log, levelrequire);
 if (stat(firemaking) < $level) {

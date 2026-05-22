@@ -55,8 +55,6 @@ export default class OpHeldTHandler extends ClientGameMessageHandler<OpHeldT> {
         player.lastSlot = slot;
 
         player.clearPendingAction();
-        player.faceEntity = -1;
-        player.masks |= player.entitymask;
 
         player.addSessionLog(LoggerEventType.MODERATOR, `Cast ${spellCom.comName} on ${ObjType.get(obj).debugname}`);
 
@@ -64,7 +62,7 @@ export default class OpHeldTHandler extends ClientGameMessageHandler<OpHeldT> {
         if (script) {
             player.executeScript(ScriptRunner.init(script, player), true);
         } else {
-            if (Environment.NODE_DEBUG) {
+            if (Environment.node.debug) {
                 player.messageGame(`No trigger for [opheldt,${spellCom.comName}]`);
             }
 

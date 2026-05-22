@@ -1,0 +1,29 @@
+[opheld4,_necklace_of_minigames]
+// https://youtu.be/sB2oqPgruaM?si=7EKqWR-U07U1ncoR&t=272
+mes("You rub the necklace...");
+def_obj $item = last_item;
+def_int $slot = last_slot;
+p_delay(1);
+def_int $choice = ~p_choice2_header("Burthorpe Games Rooms.", 1, "Nowhere.", 2, "Where would you like to teleport to?");
+if($choice = 2) {
+    mes("You remain where you were.");
+    return;
+}
+if (~wilderness_level(coord) > 20) {
+    // yes it actually says this in osrs
+    mes("A mysterious force blocks your teleport spell!");
+    mes("You can't use this teleport after level 20 wilderness.");
+    return;
+}
+if (~pre_tele_checks(coord) = false) {
+    return;
+}
+~player_teleport_normal(map_findsquare(0_34_77_31_12, 0, 2, ^map_findsquare_lineofwalk));
+def_namedobj $new_necklace = oc_param($item, next_obj_stage);
+if ($new_necklace = null) {
+    inv_delslot(inv, $slot);
+    mes("Your Games Necklace crumbles to dust.");
+} else {
+    inv_setslot(inv, $slot, $new_necklace, 1);
+    mes("Your Games Necklace has <~pluralise(oc_param($new_necklace, charges), "use")> left.");
+}

@@ -6,6 +6,7 @@ width=3
 length=3
 sharelight=yes
 forceapproach=east
+op2=Smelt
 category=smithing_furnace
 
 [furnace_side]

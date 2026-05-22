@@ -1,5 +1,6 @@
 [flax]
 param=processmessage,You spin the flax into a Bow String.
+param=productmessage,You make the flax into a bow string.
 param=product,bow_string
 param=levelrequire,10
 param=productexp,150
@@ -7,6 +8,7 @@ param=ingredient,flax
 
 [wool]
 param=processmessage,You spin the wool into a nice ball of wool.
+param=productmessage,You spin the wool into a nice ball of wool.
 param=product,ball_of_wool
 param=productexp,25
 param=ingredient,wool

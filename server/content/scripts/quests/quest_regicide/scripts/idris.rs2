@@ -1,0 +1,75 @@
+[proc,clear_idris_timer]
+if(inzone(0_34_49_0_0, 0_36_50_63_63, coord) = false) {
+    cleartimer(spawn_idris);
+}
+
+[proc,regicide_spawn_timer_idris]
+if(%regicide_quest = ^regicide_spoken_lathas) {
+    settimer(spawn_idris, ~random_range(20, 30));
+}
+
+[timer,spawn_idris]
+if(%regicide_quest >= ^regicide_spoken_scouts | inzone(0_34_49_0_0, 0_36_50_63_63, coord) = false) {
+    cleartimer(spawn_idris);
+    return;
+}
+cleartimer(spawn_idris);
+npc_add(map_findsquare(coord, 1, 3, ^map_findsquare_lineofwalk), regicide_good_elf1, 200);
+def_coord $spawn = map_findsquare(coord, 1, 1, ^vis_lineofwalk);
+npc_walk($spawn);
+p_delay(distance(npc_coord, $spawn));
+queue*(spawn_evil_elves, 0)(npc_uid);
+~chatnpc("<p,shifty>Halt human! What are you doing here?");
+~chatnpc("<p,shifty>Shhhh.... What was that!?! What the......");
+
+[queue,spawn_evil_elves](npc_uid $uid)
+def_coord $idris_coord;
+def_npc_uid $idris_uid;
+// https://youtu.be/z8104ELBguI?si=tkT4pIHnRGtBfKiu&t=173 not sure tbh, guessing this might be how it works?
+def_int $dist = 100;
+def_coord $dest_escape = movecoord(coord, random(6), 0, random(6));
+if(npc_finduid($uid) = true) {
+    if(distance(coord, npc_coord) > 1) {
+        p_delay($dist);
+        return;
+    }
+    $idris_coord = npc_coord;
+    $idris_uid = npc_uid;
+    npc_queue(2, 28, 1);
+    npc_queue(2, 23, 1);
+    npc_add(map_findsquare(coord, 3, 5, ^map_findsquare_lineofwalk), regicide_evil_elf1, 200);
+    .npc_add(map_findsquare(coord, 3, 5, ^map_findsquare_lineofwalk), regicide_evil_elf2, 200);
+    npc_setmode(none);
+    .npc_setmode(none);
+    npc_facesquare($idris_coord);
+    .npc_facesquare($idris_coord);
+    npc_anim(human_bow, 0);
+    .npc_anim(human_bow, 0);
+    // not glowing arrows in this version: https://youtu.be/1QO8LtDwwMg?si=sdX81mx5VDSdjL1f&t=1248
+    spotanim_npc(iron_arrow_launch, 96, 0);
+    spotanim_npc(iron_arrow_launch, 96, 0);
+    ~npc_projectile(npc_coord, $idris_uid, iron_arrow_travel, 40, 36, 32, 15, 0, 11, 5);
+    ~npc_projectile(.npc_coord, $idris_uid, iron_arrow_travel, 40, 36, 32, 15, 0, 11, 5);
+    p_delay(0);
+    npc_walk(map_findsquare(coord, 1, 1, ^vis_lineofwalk));
+    .npc_walk(map_findsquare(coord, 1, 1, ^vis_lineofwalk));
+    $dist = distance(npc_coord, coord);
+    p_delay($dist);
+    ~.chatnpc("<p,shifty>Are you the human by the name of <displayname()>?");
+    ~chatplayer("<p,neutral>Yes thats me.");
+    // https://web.archive.org/web/20061231211932im_/http://www.runeweb.net/fireball/Regicide%20Images/Regicide6.PNG
+    ~chatnpc("<p,neutral>Good... We have been expecting you.|King Lathas sent word of your coming.");
+    %regicide_quest = ^regicide_spoken_scouts;
+    ~chatnpc("<p,neutral>You should speak with Lord Iorwerth. He will help you track down that brigand Tyras. You'll find his camp in the north west of the forest.");
+    if_close;
+    npc_setmode(null);
+    .npc_setmode(null);
+    npc_walk(movecoord(npc_coord, ~random_range(3, 7), 0, ~random_range(3, 7)));
+    p_delay(distance(npc_coord, $dest_escape));
+    npc_del;
+    .npc_del;
+}
+
+[mapzoneexit,0_35_49] ~clear_idris_timer;
+[mapzoneexit,0_35_50] ~clear_idris_timer;
+[mapzoneexit,0_36_50] ~clear_idris_timer;

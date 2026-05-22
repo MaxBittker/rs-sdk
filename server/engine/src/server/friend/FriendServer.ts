@@ -31,7 +31,7 @@ export const enum FriendsClientOpcodes {
     RELAY_RELOAD,
     RELAY_CLEARLOGINS,
     RELAY_CLEARLOGOUTS,
-    RELAY_QUEUESCRIPT,
+    RELAY_QUEUESCRIPT
 }
 
 /**
@@ -50,7 +50,7 @@ export const enum FriendsServerOpcodes {
     RELAY_RELOAD,
     RELAY_CLEARLOGINS,
     RELAY_CLEARLOGOUTS,
-    RELAY_QUEUESCRIPT,
+    RELAY_QUEUESCRIPT
 }
 
 // TODO make this configurable (or at least source it from somewhere common)
@@ -61,8 +61,8 @@ const WORLD_PLAYER_LIMIT = 2000;
  */
 export class FriendServer {
     private server: WebSocketServer;
-    
-    private profile: string = Environment.NODE_PROFILE;
+
+    private profile: string = Environment.node.profile;
     private repository: FriendServerRepository = new FriendServerRepository(this.profile);
 
     /**
@@ -71,8 +71,8 @@ export class FriendServer {
     private socketByWorld: Record<number, WebSocket> = {};
 
     constructor() {
-        this.server = new WebSocketServer({ port: Environment.FRIEND_PORT, host: '0.0.0.0' }, () => {
-            printInfo(`Friend server listening on port ${Environment.FRIEND_PORT}`);
+        this.server = new WebSocketServer({ port: Environment.friend.port, host: '0.0.0.0' }, () => {
+            printInfo(`Friend server listening on port ${Environment.friend.port}`);
         });
 
         this.server.on('connection', (socket: WebSocket) => {
@@ -502,10 +502,10 @@ export class FriendClient extends InternalClient {
     profile: string;
 
     constructor(nodeId: number) {
-        super(Environment.FRIEND_HOST, Environment.FRIEND_PORT);
+        super(Environment.friend.host, Environment.friend.port);
 
         this.nodeId = nodeId;
-        this.profile = Environment.NODE_PROFILE;
+        this.profile = Environment.node.profile;
     }
 
     public async worldConnect() {

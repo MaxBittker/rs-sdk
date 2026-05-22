@@ -17,11 +17,11 @@ if (map_live = false) {
     }
 }
 
-~chatnpc("<p,neutral>Greetings! I see you are a new arrival to this land. My|job is to welcome all the new visitors. So welcome!");
-~chatnpc("<p,neutral>You have already learnt the first thing needed to|succeed in this world... Talking to other people!");
-~chatnpc("<p,neutral>You will find many inhabitants of this world have useful|things to say to you. By clicking on them with your|mouse you can talk to them.");
-~chatnpc("<p,neutral>I would also suggest reading through some of the|supporting information on the website. There you can|find maps, a bestiary, and much more.");
-~chatnpc("<p,neutral>To continue the tutorial go through that door over there, and speak to your first instructor!");
+~chatnpc("<p,neutral>Greetings! I see you are a new arrival to this land.|My job is to welcome all new visitors. So welcome!");
+~chatnpc("<p,neutral>You have already learnt the first thing|needed to succeed in this world...|Talking to other people!");
+~chatnpc("<p,neutral>You will find many inhabitants of this world|have useful things to say to you. By clicking|on them with your mouse you can talk to them.");
+~chatnpc("<p,neutral>I would also suggest reading through some of|the supporting information on the website.|There you can find maps, a bestiary, and much more.");
+~chatnpc("<p,neutral>To continue the tutorial go through that door|over there, and speak to your first instructor!");
 %tutorial = ^newbie_basics_instructor_interact_with_scenery;
 ~set_tutorial_progress;
 // The below commented out code will be relevant in October 2006, but was absent in September 2006.

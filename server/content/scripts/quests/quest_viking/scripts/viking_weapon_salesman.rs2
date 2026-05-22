@@ -1,0 +1,66 @@
+[opnpc1,viking_weapons_salesman]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello!");
+    ~chatnpc("<p,neutral>Sorry. I can't sell weapons to outerlanders. Wouldn't be right. Against our beliefs.");
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_weapons_salesman_merchant;
+    }
+    ~chatplayer("<p,quiz>Are you a member of the council of elders?");
+    ~chatnpc("<p,neutral>No. Weapons are my speciality. Not politics.");
+    ~chatplayer("<p,neutral>Okay, thanks.");
+} else if(%viking = ^viking_complete) {
+    ~chatnpc("<p,neutral>Hello again <~get_viking_name>. Come to see what's for sale?");
+    ~openshop_activenpc;
+}
+
+[label,viking_weapons_salesman_merchant]
+if(inv_total(inv, viking_unique_fish) > 0) {
+    ~chatplayer("<p,neutral>Hi there. I got your fish, so can I have that bowstring for Sigli now?");
+    inv_del(inv, viking_unique_fish, 1);
+    inv_add(inv, viking_bowstring, 1);
+    ~chatnpc("<p,happy>Ohh... That's a nice fish. Very pleased. Here. Take the bowstring. You fulfilled agreement. only fair I do same. Good work outerlander.");
+    ~chatplayer("<p,happy>Thanks!");
+    return;
+}
+if(inv_total(inv, viking_bowstring) > 0) {
+    ~chatplayer("<p,quiz>So about this bowstring... was it hard to make or something?");
+    ~chatnpc("<p,neutral>Not hard. Just a trick to it. Takes skill to learn, but when learnt, easy. Sigli will be happy. Finest bowstring on continent. Will suit his needs perfectly.");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_manni :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the longhall barkeep's legendary cocktail, do you?");
+        ~chatnpc("<p,neutral>I never saw anything like that in my store before.");
+    case ^sigmund_spoke_skul :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,shock>What? There's another one?");
+        ~chatplayer("<p,shifty>Er... no, it's the one for you that I'm looking for...");
+        ~chatnpc("<p,neutral>Ah. I see. I already told you. Some guy down by the docks was bragging. Best ask there, I reckon.");
+    case ^sigmund_spoke_sigli :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Aye, I have a few in stock. What would an outerlander be wanting with equipment like that?");
+        ~chatplayer("<p,neutral>It's for Sigli. It needs to be weighted precisely to suit his hunting bow.");
+        ~chatnpc("<p,neutral>For Sigli eh? Well, I made his bow in the first place, so I'll be able to select the right string for you... just one small problem.");
+        ~chatplayer("<p,quiz>What's that?");
+        ~chatnpc("<p,neutral>This string you'll be wanting... Very rare. Take a lot of time to recreate. Not sure you have the cash for it.");
+        ~chatplayer("<p,neutral>Then maybe you'll accept something else...?");
+        ~chatnpc("<p,neutral>Heh. Good thinking outerlander. Well, it's true, there is more to life than just making money. Making weapons is good money, but it's not why I do it.");
+        ~chatnpc("<p,neutral>I'll tell you what. I heard a rumour that one of the fishermen down by the docks caught some weird looking fish as they were fishing the other day.");
+        ~set_viking_sigmund_progress(^sigmund_spoke_skul);
+        ~chatnpc("<p,neutral>From what I hear this fish is unique. Nobody's ever seen its like before. This intrigues me. I'd like to have it for myself. Make a good trophy.");
+        ~chatnpc("<p,neutral>You get me that fish, I give you the bowstring. What do you say? We got a deal?");
+        ~chatplayer("<p,neutral>Sounds good to me.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>I never saw anything like that in my store before.");
+}
+
+[opnpc3,viking_weapons_salesman]
+if(%viking < ^viking_complete) {
+    mes("Only Fremenniks may purchase weapons and armour here.");
+    return;
+}
+~openshop_activenpc;

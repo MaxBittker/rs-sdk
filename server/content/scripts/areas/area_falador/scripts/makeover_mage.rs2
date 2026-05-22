@@ -58,7 +58,7 @@ if(%if1 ! $cur_gender) {
     setgender(calc(%if1 - 1));
 }
 if(%if2 > 0) {
-    setskincolour(calc(%if2 - 1));
+    setidkcolour(^idk_colour_skin, calc(%if2 - 1));
 }
 
 buildappearance(worn);

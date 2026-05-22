@@ -7,19 +7,11 @@ import World from '#/engine/World.js';
 import TcpServer from '#/server/tcp/TcpServer.js';
 import Environment from '#/util/Environment.js';
 import { printError, printInfo } from '#/util/Logger.js';
-import { updateCompiler } from '#/util/RuneScriptCompiler.js';
 import { startManagementWeb, startWeb } from '#/web.js';
 import OnDemand from '#/engine/OnDemand.js';
+import { createRuntimeWorker } from '#/util/RuntimeWorker.js';
 
-if (Environment.BUILD_STARTUP_UPDATE) {
-    await updateCompiler();
-}
-
-if (
-    OnDemand.cache.count(0) !== 9 ||
-    OnDemand.cache.count(2) === 0 ||
-    !fs.existsSync('data/pack/server/script.dat')
-) {
+if (OnDemand.cache.count(0) !== 9 || OnDemand.cache.count(2) === 0 || !fs.existsSync('data/pack/server/script.dat')) {
     printInfo('Packing cache, please wait until you see the world is ready.');
 
     try {
@@ -35,10 +27,10 @@ if (
     }
 }
 
-if (Environment.EASY_STARTUP) {
-    new Worker('./src/login.ts');
-    new Worker('./src/friend.ts');
-    new Worker('./src/logger.ts');
+if (Environment.easyStartup) {
+    createRuntimeWorker(new URL('./login.ts', import.meta.url));
+    createRuntimeWorker(new URL('./friend.ts', import.meta.url));
+    createRuntimeWorker(new URL('./logger.ts', import.meta.url));
 }
 
 await World.start();
@@ -49,7 +41,7 @@ tcpServer.start();
 await startWeb();
 await startManagementWeb();
 
-register.setDefaultLabels({ nodeId: Environment.NODE_ID });
+register.setDefaultLabels({ nodeId: Environment.node.id });
 collectDefaultMetrics({ register });
 
 // bun does not give us a signal to gracefully shut down in our dev mode...

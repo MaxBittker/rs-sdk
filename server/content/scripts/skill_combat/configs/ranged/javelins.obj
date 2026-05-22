@@ -230,6 +230,8 @@ param=rangeattack_sound,javelin
 param=proj_launch,bronze_javelin_launch
 param=proj_travel,bronze_javelin_travel
 param=poison_severity,20
+param=next_obj_stage,bronze_javelin
+param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the javelin
 
 [iron_javelin_p]
 name=Iron javelin(p)
@@ -261,6 +263,8 @@ param=rangeattack_sound,javelin
 param=proj_launch,iron_javelin_launch
 param=proj_travel,iron_javelin_travel
 param=poison_severity,20
+param=next_obj_stage,iron_javelin
+param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the javelin
 
 [steel_javelin_p]
 name=Steel javelin(p)
@@ -290,6 +294,8 @@ param=rangeattack_sound,javelin
 param=proj_launch,steel_javelin_launch
 param=proj_travel,steel_javelin_travel
 param=poison_severity,20
+param=next_obj_stage,steel_javelin
+param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the javelin
 
 [mithril_javelin_p]
 name=Mithril javelin(p)
@@ -321,6 +327,8 @@ param=rangeattack_sound,javelin
 param=proj_launch,mithril_javelin_launch
 param=proj_travel,mithril_javelin_travel
 param=poison_severity,20
+param=next_obj_stage,mithril_javelin
+param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the javelin
 
 [adamant_javelin_p]
 name=Adamant javelin(p)
@@ -352,6 +360,8 @@ param=rangeattack_sound,javelin
 param=proj_launch,mithril_javelin_launch
 param=proj_travel,mithril_javelin_travel
 param=poison_severity,20
+param=next_obj_stage,adamant_javelin
+param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the javelin
 
 [rune_javelin_p]
 name=Rune javelin(p)
@@ -383,3 +393,5 @@ param=rangeattack_sound,javelin
 param=proj_launch,rune_javelin_launch
 param=proj_travel,rune_javelin_travel
 param=poison_severity,20
+param=next_obj_stage,rune_javelin
+param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the javelin

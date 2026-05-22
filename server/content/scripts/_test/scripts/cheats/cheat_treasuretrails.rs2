@@ -199,6 +199,6 @@ if(p_finduid(uid) = false){
     return;
 }
 inv_clear(trail_puzzleinv);
-~init_trail_puzzle;
+~init_trail_puzzle(trail_clue_hard_riddle014_puzzlebox);
 inv_transmit(trail_puzzleinv, trail_puzzle:com_3);
 if_openmain(trail_puzzle);

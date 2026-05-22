@@ -32,6 +32,36 @@ export default class FileStream {
         }
     }
 
+    private normalizeWriteData(data: Uint8Array | Packet, version: number): Uint8Array {
+        if (data instanceof Packet) {
+            data = data.data;
+        }
+
+        if (version === 0) {
+            return data;
+        }
+
+        const temp = new Uint8Array(data.length + 2);
+        temp.set(data, 0);
+        temp[temp.length - 2] = version >> 8;
+        temp[temp.length - 1] = version;
+        return temp;
+    }
+
+    private static equalsData(a: Uint8Array, b: Uint8Array): boolean {
+        if (a.length !== b.length) {
+            return false;
+        }
+
+        for (let i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     count(index: number): number {
         if (index < 0 || index > this.idx.length || !this.idx[index]) {
             return 0;
@@ -120,24 +150,20 @@ export default class FileStream {
     }
 
     write(archive: number, file: number, data: Uint8Array, version: number = 0): boolean {
-        if (data instanceof Packet) {
-            data = data.data;
-        }
-
         if (!this.dat) {
             return false;
         }
 
-        if (archive < 0 || archive > this.idx.length || !this.idx[archive]) {
+        if (archive < 0 || archive > this.idx.length || !this.idx[archive] || file < 0) {
             return false;
         }
 
-        if (version !== 0) {
-            const temp = new Uint8Array(data.length + 2);
-            temp.set(data, 0);
-            temp[temp.length - 2] = version >> 8;
-            temp[temp.length - 1] = version;
-            data = temp;
+        data = this.normalizeWriteData(data, version);
+
+        const existing = this.read(archive, file);
+        if (existing && FileStream.equalsData(existing, data)) {
+            this.packed[archive][file] = data;
+            return true;
         }
 
         const idx: RandomAccessFile = this.idx[archive];
@@ -186,6 +212,23 @@ export default class FileStream {
         }
 
         return true;
+    }
+
+    clearArchive(archive: number): void {
+        if (archive < 0 || archive >= this.idx.length || !this.idx[archive]) {
+            return;
+        }
+
+        this.idx[archive].truncate(0);
+        this.packed[archive] = [];
+    }
+
+    close(): void {
+        this.dat.close();
+
+        for (const idx of this.idx) {
+            idx.close();
+        }
     }
 
     has(archive: number, file: number): boolean {

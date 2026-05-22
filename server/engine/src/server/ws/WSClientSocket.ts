@@ -1,14 +1,19 @@
 import ClientSocket from '#/server/ClientSocket.js';
-import { WebSocketData } from '#/web.js';
+
+type RuntimeWebSocket = {
+    send(data: Uint8Array): void;
+    close(): void;
+    terminate(): void;
+};
 
 export default class WSClientSocket extends ClientSocket {
-    socket: Bun.ServerWebSocket<WebSocketData> | null = null;
+    socket: RuntimeWebSocket | null = null;
 
     constructor() {
         super();
     }
 
-    init(socket: Bun.ServerWebSocket<WebSocketData>, remoteAddress: string) {
+    init(socket: RuntimeWebSocket, remoteAddress: string) {
         this.socket = socket;
         this.remoteAddress = remoteAddress;
     }

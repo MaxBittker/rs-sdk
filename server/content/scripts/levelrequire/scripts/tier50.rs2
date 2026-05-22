@@ -1,5 +1,6 @@
 // Melee
 [opheld2,granite_shield] @levelrequire_defence_and_strength(50, last_slot);
+
 // Ranged
 [opheld2,magic_longbow] @levelrequire_ranged(50, last_slot);
 [opheld2,magic_shortbow] @levelrequire_ranged(50, last_slot);

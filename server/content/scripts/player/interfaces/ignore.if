@@ -17,7 +17,7 @@ y=8
 clientcode=401
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -29,7 +29,7 @@ y=23
 clientcode=402
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -41,7 +41,7 @@ y=38
 clientcode=403
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -53,7 +53,7 @@ y=53
 clientcode=404
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -65,7 +65,7 @@ y=68
 clientcode=405
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -77,7 +77,7 @@ y=83
 clientcode=406
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -89,7 +89,7 @@ y=98
 clientcode=407
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -101,7 +101,7 @@ y=113
 clientcode=408
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -113,7 +113,7 @@ y=128
 clientcode=409
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -125,7 +125,7 @@ y=143
 clientcode=410
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -137,7 +137,7 @@ y=158
 clientcode=411
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -149,7 +149,7 @@ y=173
 clientcode=412
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -161,7 +161,7 @@ y=188
 clientcode=413
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -173,7 +173,7 @@ y=203
 clientcode=414
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -185,7 +185,7 @@ y=218
 clientcode=415
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -197,7 +197,7 @@ y=233
 clientcode=416
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -209,7 +209,7 @@ y=248
 clientcode=417
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -221,7 +221,7 @@ y=263
 clientcode=418
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -233,7 +233,7 @@ y=278
 clientcode=419
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -245,7 +245,7 @@ y=293
 clientcode=420
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -257,7 +257,7 @@ y=308
 clientcode=421
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -269,7 +269,7 @@ y=323
 clientcode=422
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -281,7 +281,7 @@ y=338
 clientcode=423
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -293,7 +293,7 @@ y=353
 clientcode=424
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -305,7 +305,7 @@ y=368
 clientcode=425
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -317,7 +317,7 @@ y=383
 clientcode=426
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -329,7 +329,7 @@ y=398
 clientcode=427
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -341,7 +341,7 @@ y=413
 clientcode=428
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -353,7 +353,7 @@ y=428
 clientcode=429
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -365,7 +365,7 @@ y=443
 clientcode=430
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -377,7 +377,7 @@ y=458
 clientcode=431
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -389,7 +389,7 @@ y=473
 clientcode=432
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -401,7 +401,7 @@ y=488
 clientcode=433
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -413,7 +413,7 @@ y=503
 clientcode=434
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -425,7 +425,7 @@ y=518
 clientcode=435
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -437,7 +437,7 @@ y=533
 clientcode=436
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -449,7 +449,7 @@ y=548
 clientcode=437
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -461,7 +461,7 @@ y=563
 clientcode=438
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -473,7 +473,7 @@ y=578
 clientcode=439
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -485,7 +485,7 @@ y=593
 clientcode=440
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -497,7 +497,7 @@ y=608
 clientcode=441
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -509,7 +509,7 @@ y=623
 clientcode=442
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -521,7 +521,7 @@ y=638
 clientcode=443
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -533,7 +533,7 @@ y=653
 clientcode=444
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -545,7 +545,7 @@ y=668
 clientcode=445
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -557,7 +557,7 @@ y=683
 clientcode=446
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -569,7 +569,7 @@ y=698
 clientcode=447
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -581,7 +581,7 @@ y=713
 clientcode=448
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -593,7 +593,7 @@ y=728
 clientcode=449
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -605,7 +605,7 @@ y=743
 clientcode=450
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -617,7 +617,7 @@ y=758
 clientcode=451
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -629,7 +629,7 @@ y=773
 clientcode=452
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -641,7 +641,7 @@ y=788
 clientcode=453
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -653,7 +653,7 @@ y=803
 clientcode=454
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -665,7 +665,7 @@ y=818
 clientcode=455
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -677,7 +677,7 @@ y=833
 clientcode=456
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -689,7 +689,7 @@ y=848
 clientcode=457
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -701,7 +701,7 @@ y=863
 clientcode=458
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -713,7 +713,7 @@ y=878
 clientcode=459
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -725,7 +725,7 @@ y=893
 clientcode=460
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -737,7 +737,7 @@ y=908
 clientcode=461
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -749,7 +749,7 @@ y=923
 clientcode=462
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -761,7 +761,7 @@ y=938
 clientcode=463
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -773,7 +773,7 @@ y=953
 clientcode=464
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -785,7 +785,7 @@ y=968
 clientcode=465
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -797,7 +797,7 @@ y=983
 clientcode=466
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -809,7 +809,7 @@ y=998
 clientcode=467
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -821,7 +821,7 @@ y=1013
 clientcode=468
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -833,7 +833,7 @@ y=1028
 clientcode=469
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -845,7 +845,7 @@ y=1043
 clientcode=470
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -857,7 +857,7 @@ y=1058
 clientcode=471
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -869,7 +869,7 @@ y=1073
 clientcode=472
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -881,7 +881,7 @@ y=1088
 clientcode=473
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -893,7 +893,7 @@ y=1103
 clientcode=474
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -905,7 +905,7 @@ y=1118
 clientcode=475
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -917,7 +917,7 @@ y=1133
 clientcode=476
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -929,7 +929,7 @@ y=1148
 clientcode=477
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -941,7 +941,7 @@ y=1163
 clientcode=478
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -953,7 +953,7 @@ y=1178
 clientcode=479
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -965,7 +965,7 @@ y=1193
 clientcode=480
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -977,7 +977,7 @@ y=1208
 clientcode=481
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -989,7 +989,7 @@ y=1223
 clientcode=482
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1001,7 +1001,7 @@ y=1238
 clientcode=483
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1013,7 +1013,7 @@ y=1253
 clientcode=484
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1025,7 +1025,7 @@ y=1268
 clientcode=485
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1037,7 +1037,7 @@ y=1283
 clientcode=486
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1049,7 +1049,7 @@ y=1298
 clientcode=487
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1061,7 +1061,7 @@ y=1313
 clientcode=488
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1073,7 +1073,7 @@ y=1328
 clientcode=489
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1085,7 +1085,7 @@ y=1343
 clientcode=490
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1097,7 +1097,7 @@ y=1358
 clientcode=491
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1109,7 +1109,7 @@ y=1373
 clientcode=492
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1121,7 +1121,7 @@ y=1388
 clientcode=493
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1133,7 +1133,7 @@ y=1403
 clientcode=494
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1145,7 +1145,7 @@ y=1418
 clientcode=495
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1157,7 +1157,7 @@ y=1433
 clientcode=496
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1169,7 +1169,7 @@ y=1448
 clientcode=497
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1181,7 +1181,7 @@ y=1463
 clientcode=498
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1193,7 +1193,7 @@ y=1478
 clientcode=499
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1205,7 +1205,7 @@ y=1493
 clientcode=500
 width=153
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 colour=0xFFFFFF
 
@@ -1215,7 +1215,7 @@ x=51
 y=4
 width=68
 height=14
-font=b12
+font=b12_full
 shadowed=yes
 text=Ignore list
 colour=0xFFFF00
@@ -1248,7 +1248,7 @@ x=23
 y=234
 width=56
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 text=Add Name
 colour=0xFFFF00
@@ -1260,7 +1260,7 @@ x=105
 y=234
 width=51
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 text=Del Name
 colour=0xFFFF00

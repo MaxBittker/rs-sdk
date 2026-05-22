@@ -9,8 +9,4 @@ export default class MidiSongEncoder extends ServerGameMessageEncoder<MidiSong> 
     encode(buf: Packet, message: MidiSong): void {
         buf.p2(message.id);
     }
-
-    test(_message: MidiSong): number {
-        return 2;
-    }
 }

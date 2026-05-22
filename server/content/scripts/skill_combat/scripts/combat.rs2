@@ -34,6 +34,7 @@ switch_category(oc_category($weapon)) {
     case weapon_javelin : return(weapon_thrown_table);
     case weapon_staff : return(weapon_staff_table);
     case weapon_claws : return(weapon_claws_table);
+    case weapon_polearm : return(weapon_polearm_table);
     case default : return(weapon_unarmed_table);
 }
 
@@ -114,8 +115,7 @@ if(npc_type = black_knight_titan) {
     }
     stat_advance(hitpoints, scale(133, 100, $base));
     return;
-}
-if (%tutorial < ^tutorial_complete) {
+} else if (npc_type = newbiegiantrat) { // on sailing release you could attack sailing npcs on tutorial island for xp... So its probably an npc type check
     switch_int($damagestyle) {
         case ^style_melee_accurate :
             ~tutorial_give_xp(attack, scale($multiplier, 1000, scale(400, 100, $base)));

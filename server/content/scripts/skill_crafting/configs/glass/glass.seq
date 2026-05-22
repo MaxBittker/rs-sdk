@@ -1,6 +1,8 @@
 [human_glassblowing]
 replaceheldright=glassblowingpipe
 replaceheldleft=hide
+walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
+duplicatebehavior=reset_loop
 frame1=anim_608
 frame2=anim_903
 frame3=anim_1185
@@ -22,6 +24,7 @@ frame18=anim_1470
 frame19=anim_1185
 frame20=anim_903
 frame21=anim_608
+delay21=10
 
 [human_fillbucket_sandpit]
 replaceheldright=bucket_empty

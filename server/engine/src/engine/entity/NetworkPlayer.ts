@@ -1,6 +1,4 @@
-import 'dotenv/config';
-
-import * as rsbuf from '@2004scape/rsbuf';
+import * as rsbuf from '#/network/rsbuf/index.js';
 
 import InvType from '#/cache/config/InvType.js';
 import { CoordGrid } from '#/engine/CoordGrid.js';
@@ -25,6 +23,7 @@ import NpcInfo from '#/network/game/server/model/NpcInfo.js';
 import PlayerInfo from '#/network/game/server/model/PlayerInfo.js';
 import SetMultiway from '#/network/game/server/model/SetMultiway.js';
 import UpdateInvFull from '#/network/game/server/model/UpdateInvFull.js';
+import UpdateInvPartial from '#/network/game/server/model/UpdateInvPartial.js';
 import UpdateRunEnergy from '#/network/game/server/model/UpdateRunEnergy.js';
 import UpdateRunWeight from '#/network/game/server/model/UpdateRunWeight.js';
 import UpdateStat from '#/network/game/server/model/UpdateStat.js';
@@ -67,12 +66,7 @@ export class NetworkPlayer extends Player {
         this.restrictedLimit = 0;
 
         const bytesStart = this.client.in.pos;
-        while (
-            this.userLimit < ClientGameProtCategory.USER_EVENT.limit &&
-            this.clientLimit < ClientGameProtCategory.CLIENT_EVENT.limit &&
-            this.restrictedLimit < ClientGameProtCategory.RESTRICTED_EVENT.limit &&
-            this.read()
-        ) {
+        while (this.userLimit < ClientGameProtCategory.USER_EVENT.limit && this.clientLimit < ClientGameProtCategory.CLIENT_EVENT.limit && this.restrictedLimit < ClientGameProtCategory.RESTRICTED_EVENT.limit && this.read()) {
             // empty
         }
         const bytesRead = bytesStart - this.client.in.pos;
@@ -205,10 +199,6 @@ export class NetworkPlayer extends Player {
 
         const prot = encoder.prot;
         const buf = client.out;
-        // const test = (1 + (prot.length === -1 ? 1 : prot.length === -2 ? 2 : 0)) + encoder.test(message);
-        // if (buf.pos + test >= buf.length) {
-        //     client.flush();
-        // }
 
         buf.pos = 0;
 
@@ -340,7 +330,6 @@ export class NetworkPlayer extends Player {
         }
     }
 
-    // todo: partial updates
     updateInvs() {
         let runWeightChanged = false;
         let firstSeen = false;
@@ -351,6 +340,8 @@ export class NetworkPlayer extends Player {
                 continue;
             }
 
+            const needsFullUpdate = listener.firstSeen;
+
             if (listener.source === -1) {
                 // world inventory
                 const inv = World.getInventory(listener.type);
@@ -358,9 +349,11 @@ export class NetworkPlayer extends Player {
                     continue;
                 }
 
-                if (inv.update || listener.firstSeen) {
+                if (needsFullUpdate) {
                     this.write(new UpdateInvFull(listener.com, inv));
                     listener.firstSeen = false;
+                } else if (inv.update) {
+                    this.write(new UpdateInvPartial(listener.com, inv, ...inv.getDirtySlots()));
                 }
             } else {
                 // player inventory
@@ -374,13 +367,15 @@ export class NetworkPlayer extends Player {
                     continue;
                 }
 
-                if (inv.update || listener.firstSeen) {
+                if (needsFullUpdate) {
                     this.write(new UpdateInvFull(listener.com, inv));
-                    if (listener.firstSeen) {
-                        firstSeen = true;
-                    }
+                    firstSeen = true; // ensure weight is sent between logins
                     listener.firstSeen = false;
+                } else if (inv.update) {
+                    this.write(new UpdateInvPartial(listener.com, inv, ...inv.getDirtySlots()));
+                }
 
+                if (inv.update || needsFullUpdate) {
                     const invType = InvType.get(listener.type);
                     if (invType.runweight) {
                         runWeightChanged = true;

@@ -5,7 +5,7 @@ y=28
 buttontype=close
 width=68
 height=11
-font=p11
+font=p11_full
 shadowed=yes
 text=Close Window
 colour=0xC00000
@@ -28,7 +28,7 @@ y=82
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_3]
@@ -38,7 +38,7 @@ y=98
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_4]
@@ -48,7 +48,7 @@ y=114
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_5]
@@ -58,7 +58,7 @@ y=131
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_6]
@@ -68,7 +68,7 @@ y=148
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_7]
@@ -78,7 +78,7 @@ y=165
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_8]
@@ -88,7 +88,7 @@ y=182
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_9]
@@ -98,7 +98,7 @@ y=199
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_10]
@@ -108,7 +108,7 @@ y=216
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_11]
@@ -118,7 +118,7 @@ y=233
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_12]
@@ -128,7 +128,7 @@ y=250
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00
 
 [com_13]
@@ -138,5 +138,5 @@ y=267
 width=354
 height=14
 center=yes
-font=p12
+font=p12_full
 colour=0xFFFF00

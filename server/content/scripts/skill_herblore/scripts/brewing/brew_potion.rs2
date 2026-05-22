@@ -34,7 +34,11 @@ if(last_useitem = ground_bat_bones) {
 ~attempt_brew_potion(last_useslot, last_slot);
 
 [opheldu,ranarrvial]
-~attempt_brew_potion(last_useslot, last_slot);
+switch_obj(last_useitem) {
+    case eadgar_troll_thistle : mes("I need to dry it over a fire first."); // different mes than opheldu the other way around
+    case eadgar_dried_troll_thistle : @eadgar_dried_troll_thistle_mes;
+    case default : ~attempt_brew_potion(last_useslot, last_slot);        
+}
 
 [opheldu,iritvial]
 ~attempt_brew_potion(last_useslot, last_slot);
@@ -84,6 +88,12 @@ if(last_useitem = ground_bat_bones) {
 [opheldu,wine_of_zamorak]
 ~attempt_brew_potion(last_useslot, last_slot);
 
+[opheldu,ashes]
+~attempt_brew_potion(last_useslot, last_slot);
+
+[opheldu,ashesvial]
+~attempt_brew_potion(last_useslot, last_slot);
+
 [proc,attempt_brew_potion](int $use_slot, int $last_slot)(boolean)
 // Find the struct of the potion being made (if valid item combo)
 def_struct $struct = ~get_brew_struct(inv_getobj(inv, $last_slot), inv_getobj(inv, $use_slot));
@@ -97,6 +107,11 @@ if (map_members = ^false) {
     return(false);
 }
 
+if(($struct = ashesvial | $struct = mort_serum3_tarrominvial | $struct = mort_serum3_ashesvial) & %morttonquest < ^mortton_read_diary) {
+    mes("You're not sure what effect this might have.");
+    return(false);
+}
+
 if($struct = ardrigal_mixture & %legendsquest < ^legends_talk_gujuo_pool) {
     mes("You're not really sure what you would make out of this.");
     return(false);
@@ -107,6 +122,9 @@ def_int $herb_level = struct_param($struct, brew_potion_level);
 if ($current_level < $herb_level) {
     if($struct = blamish_oil) {
         ~mesbox("You need level 25 Herblore to make this potion.");
+        return(false);
+    } else if($struct = eadgar_ground_troll_thistle_potion) {
+        ~mesbox("You need level 31 Herblore to make this potion.");
         return(false);
     }
     // https://youtu.be/VthR9A85TQU?t=159

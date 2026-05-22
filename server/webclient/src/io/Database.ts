@@ -32,11 +32,11 @@ export default class Database {
         return await new Promise<Uint8Array | undefined>((resolve): void => {
             const transaction: IDBTransaction = this.db.transaction('cache', 'readonly');
             const store: IDBObjectStore = transaction.objectStore('cache');
-            const request: IDBRequest<Uint8Array> = store.get(`${archive}.${file}`);
+            const request: IDBRequest<Uint8Array | Int8Array | ArrayBuffer> = store.get(`${archive}.${file}`);
 
             request.onsuccess = (): void => {
                 if (request.result) {
-                    resolve(new Uint8Array(request.result));
+                    resolve(Database.asUint8Array(request.result));
                 } else {
                     // IDB will call onsuccess with "undefined" if key does not exist
                     resolve(undefined);
@@ -53,11 +53,11 @@ export default class Database {
         return await new Promise<Uint8Array | undefined>((resolve): void => {
             const transaction: IDBTransaction = this.db.transaction('cache', 'readonly');
             const store: IDBObjectStore = transaction.objectStore('cache');
-            const request: IDBRequest<Uint8Array> = store.get(name);
+            const request: IDBRequest<Uint8Array | Int8Array | ArrayBuffer> = store.get(name);
 
             request.onsuccess = (): void => {
                 if (request.result) {
-                    resolve(new Uint8Array(request.result));
+                    resolve(Database.asUint8Array(request.result));
                 } else {
                     // IDB will call onsuccess with "undefined" if key does not exist
                     resolve(undefined);
@@ -115,4 +115,12 @@ export default class Database {
     private onclose = (_event: Event): void => {};
 
     private onerror = (_event: Event): void => {};
+
+    private static asUint8Array(src: Uint8Array | Int8Array | ArrayBuffer): Uint8Array {
+        if (src instanceof Uint8Array) {
+            return src;
+        }
+
+        return src instanceof Int8Array ? new Uint8Array(src.buffer, src.byteOffset, src.byteLength) : new Uint8Array(src);
+    }
 }

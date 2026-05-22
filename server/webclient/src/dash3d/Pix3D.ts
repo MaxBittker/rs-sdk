@@ -1,7 +1,7 @@
 import Pix2D from '#/graphics/Pix2D.js';
 import Pix8 from '#/graphics/Pix8.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import { Int32Array2d, TypedArray1d } from '#/util/Arrays.js';
 
 export default class Pix3D extends Pix2D {
@@ -15,12 +15,12 @@ export default class Pix3D extends Pix2D {
     static colourTable: Int32Array = new Int32Array(65536);
 
     static textures: (Pix8 | null)[] = new TypedArray1d(50, null);
-    private static textureTranslucent: boolean[] = new TypedArray1d(50, false);
-    private static averageTextureRgb: Int32Array = new Int32Array(50);
+    private static texTrans: boolean[] = new TypedArray1d(50, false);
+    private static texAverage: Int32Array = new Int32Array(50);
     static activeTexels: (Int32Array | null)[] = new TypedArray1d(50, null);
-    static textureCycle: Int32Array = new Int32Array(50);
+    static texCycle: Int32Array = new Int32Array(50);
     static texPal: (Int32Array | null)[] = new TypedArray1d(50, null);
-    static textureCount: number = 0;
+    static numTextures: number = 0;
     static originX: number = 0;
     static originY: number = 0;
     static texelPool: (Int32Array | null)[] | null = null;
@@ -88,8 +88,8 @@ export default class Pix3D extends Pix2D {
         this.activeTexels.fill(null);
     }
 
-    static unpackTextures(textures: Jagfile): void {
-        this.textureCount = 0;
+    static unpackTextures(textures: JagFile): void {
+        this.numTextures = 0;
 
         for (let i: number = 0; i < 50; i++) {
             try {
@@ -101,16 +101,16 @@ export default class Pix3D extends Pix2D {
                     this.textures[i]?.trim();
                 }
 
-                this.textureCount++;
+                this.numTextures++;
             } catch (_e) {
                 // empty
             }
         }
     }
 
-    static getAverageTextureRgb(id: number): number {
-        if (this.averageTextureRgb[id] !== 0) {
-            return this.averageTextureRgb[id];
+    static getTextureAverage(id: number): number {
+        if (this.texAverage[id] !== 0) {
+            return this.texAverage[id];
         }
 
         const palette: Int32Array | null = this.texPal[id];
@@ -133,7 +133,7 @@ export default class Pix3D extends Pix2D {
         if (rgb === 0) {
             rgb = 1;
         }
-        this.averageTextureRgb[id] = rgb;
+        this.texAverage[id] = rgb;
         return rgb;
     }
 
@@ -145,7 +145,7 @@ export default class Pix3D extends Pix2D {
     }
 
     private static getTexels(id: number): Int32Array | null {
-        this.textureCycle[id] = this.cycle++;
+        this.texCycle[id] = this.cycle++;
         if (this.activeTexels[id]) {
             return this.activeTexels[id];
         }
@@ -157,9 +157,9 @@ export default class Pix3D extends Pix2D {
         } else {
             let cycle: number = 0;
             let selected: number = -1;
-            for (let t: number = 0; t < this.textureCount; t++) {
-                if (this.activeTexels[t] && (this.textureCycle[t] < cycle || selected === -1)) {
-                    cycle = this.textureCycle[t];
+            for (let t: number = 0; t < this.numTextures; t++) {
+                if (this.activeTexels[t] && (this.texCycle[t] < cycle || selected === -1)) {
+                    cycle = this.texCycle[t];
                     selected = t;
                 }
             }
@@ -176,11 +176,11 @@ export default class Pix3D extends Pix2D {
         }
 
         if (this.lowMem) {
-            this.textureTranslucent[id] = false;
+            this.texTrans[id] = false;
             for (let i: number = 0; i < 4096; i++) {
                 const rgb: number = (texels[i] = palette[texture.data[i]] & 0xf8f8ff);
                 if (rgb === 0) {
-                    this.textureTranslucent[id] = true;
+                    this.texTrans[id] = true;
                 }
                 texels[i + 4096] = (rgb - (rgb >>> 3)) & 0xf8f8ff;
                 texels[i + 8192] = (rgb - (rgb >>> 2)) & 0xf8f8ff;
@@ -199,12 +199,12 @@ export default class Pix3D extends Pix2D {
                 }
             }
 
-            this.textureTranslucent[id] = false;
+            this.texTrans[id] = false;
             for (let i: number = 0; i < 16384; i++) {
                 texels[i] &= 0xf8f8ff;
                 const rgb: number = texels[i];
                 if (rgb === 0) {
-                    this.textureTranslucent[id] = true;
+                    this.texTrans[id] = true;
                 }
                 texels[i + 16384] = (rgb - (rgb >>> 3)) & 0xf8f8ff;
                 texels[i + 32768] = (rgb - (rgb >>> 2)) & 0xf8f8ff;
@@ -1627,7 +1627,7 @@ export default class Pix3D extends Pix2D {
         texture: number
     ): void {
         const texels: Int32Array | null = this.getTexels(texture);
-        this.opaque = !this.textureTranslucent[texture];
+        this.opaque = !this.texTrans[texture];
 
         const verticalX: number = originX - txB;
         const verticalY: number = originY - tyB;

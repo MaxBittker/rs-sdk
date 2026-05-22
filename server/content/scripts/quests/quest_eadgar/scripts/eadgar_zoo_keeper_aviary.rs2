@@ -1,0 +1,102 @@
+// mesanims rsprox/branon
+[opnpc1,eadgar_zoo_keeper_aviary]
+~chatnpc("<p,happy>Good day, good day. Come to admire the new parrot aviary have we?");
+switch_int(~p_choice3("It's very nice.", 1, "When did you add it?", 2, "What do you feed them?", 3)) {
+    case 1 : @parroty_pete_nice;
+    case 2 : @parroty_pete_when_add;
+    case 3 : @parroty_pete_what_feed;    
+}
+
+[label,parroty_pete_nice]
+// osrs from Ashie, mesanim rsprox/branon
+~chatplayer("<p,happy>It's very nice.");
+~chatnpc("<p,happy>Isn't it just?");
+
+[label,parroty_pete_when_add]
+// mesanims from osrs/Ashie
+~chatplayer("<p,quiz>When did you add it?");
+~chatnpc("<p,sad>Just recently. It would have been sooner, but some wretch thought it would be amusing to replace their drinking water with vodka. The vet had to nurse them back to health for weeks!");
+%eadgar_bits = setbit(%eadgar_bits, ^eadgar_pete_dialog_1);
+
+[label,parroty_pete_what_feed]
+// mesanims from osrs/Ashie
+~chatplayer("<p,quiz>What do you feed them?");
+~chatnpc("<p,happy>Well, fruit and grain mostly. I try to give them a balanced diet, but their favourite treat is pineapple chunks.");
+%eadgar_bits = setbit(%eadgar_bits, ^eadgar_pete_dialog_2);
+
+[opheldu,vodka]
+switch_obj(last_useitem) {
+    case pineapple_chunks : @make_alco_chunks;
+    case default : ~displaymessage(^dm_default);
+}
+
+// in OSRS you can set these bits and make alco-chunks even if the quest is not started yet
+[label,make_alco_chunks]
+if(%eadgar_quest = ^eadgar_complete) {
+    mes("You don't need to make any more.");
+    return;
+}
+if (testbit(%eadgar_bits, ^eadgar_pete_dialog_1) = ^true & testbit(%eadgar_bits, ^eadgar_pete_dialog_2) = ^true) {
+    // in OSRS you cannot make more alco-chunks if the parrot is held in inventory or bank
+    if(inv_total(inv, eadgar_drunk_parrot) > 0 | inv_total(bank, eadgar_drunk_parrot) > 0) {
+        mes("You don't need to make any more.");
+    } else {
+        inv_del(inv, pineapple_chunks, 1);
+        inv_del(inv, vodka, 1);
+        inv_add(inv, eadgar_alco_chunks, 1);
+    }
+} else {
+    mes("Why would you want to do that?"); // todo double check this against my video
+}
+
+[oplocu,eadgar_aviary_wall_hatch]
+// mesanims rsprox/branon
+switch_obj(last_useitem) {
+    case eadgar_alco_chunks : @eadgar_catch_parrot;
+    case pineapple_chunks : @eadgar_aviary_pineapple_chunks;
+    case vodka : @eadgar_aviary_vodka;
+    case default : ~displaymessage(^dm_default);
+}
+
+// in OSRS you can catch the parrot even if the quest is not started yet
+// but cannot catch duplicate parrots if you already own one
+[label,eadgar_catch_parrot]
+if(inv_total(inv, eadgar_drunk_parrot) > 0 | inv_total(bank, eadgar_drunk_parrot) > 0) {
+    mes("You've already caught one.");
+    return;
+}
+if(%eadgar_quest >= ^eadgar_explained_plan) { // on or after this stage, the parrot must be reobtained from eadgar if lost
+// this includes post-quest: although eadgar won't actually give you a parrot after quest completion, the aviary hatch interaction remains the same
+    ~chatplayer("<p,confused>The parrott flew off, I wonder where it went? Silly thing prefered Eadgar to me!");
+    mes("The parrott flew off, you need to find it again.");
+    return; // todo check if alco-chunks are deleted here
+}
+inv_del(inv, eadgar_alco_chunks, 1);
+queue(eadgar_get_parrot, 0, 0); // appears to be queued here judging by indio's clip
+~mesbox("You manage to attract a parrot and catch it.");
+~chatplayer("<p,happy>Hah! Got you now!");
+~chatnpc_specific("Parrot", eadgar_parrotts, "<p,neutral>Sqwaawk...*hic*"); // this chathead doesn't seem to exist in 274 but will be lunar_captains_parrot in 2006, something else in 2005...? https://web.archive.org/web/20060114030943im_/http://www.runeweb.net/fireball/Eadgars%20Ruse%20Images/Eadgar12.PNG
+if(.npc_find(coord, eadgar_zoo_keeper_aviary, 14, 0) = true) {
+    ~.chatnpc("<p,angry>Hey! What are you doing with that parrot?");
+    ~chatplayer("<p,shifty>Nothing.");
+    ~.chatnpc("<p,scared>It looks drunk! You should NEVER feed alcohol to a parrot!");
+    ~chatplayer("<p,happy>Well, good thing I found it! I'll just take it to the vet for you, shall I?"); // not sure which mesanim this is
+    ~.chatnpc("<p,happy>Oh, thank you! We're ever so busy here at the Zoo.");
+}
+
+[queue,eadgar_get_parrot]
+inv_add(inv, eadgar_drunk_parrot, 1);
+
+[label,eadgar_aviary_pineapple_chunks]
+// osrs, from Ashie, pineapple chunks are deleted
+inv_del(inv, pineapple_chunks, 1);
+~mesbox("You manage to attract a parrot, but it flies away when you try to catch it.");
+~chatplayer("<p,neutral>I need some way to slow it down...");
+
+[label,eadgar_aviary_vodka]
+// osrs, from Ashie, vodka is not deleted
+~chatplayer("<p,neutral>They won't drink it straight from the bottle...");
+
+[opheld5,eadgar_drunk_parrot]
+inv_del(inv, eadgar_drunk_parrot, 1);
+mes("You release the parrot, and it flies away."); // osrs wiki

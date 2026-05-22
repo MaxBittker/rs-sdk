@@ -1,4 +1,7 @@
-[if_button,book:com_1]
+[if_button,book:close]
+if_close();
+
+[if_button,book:com_84]
 switch_obj (%open_book) {
     case baxtorian_book_waterfall_quest : @book_flip_page(^book_direction_backward, 0, 4, book_on_baxtorian_page);
     case witches_diary : @book_flip_page(^book_direction_backward, 0, 3, witches_diary);
@@ -15,10 +18,15 @@ switch_obj (%open_book) {
     case digsitebook : @book_flip_page(^book_direction_backward, 0, 1, book_on_chemicals);
     case book_of_binding : @book_flip_page(^book_direction_backward, 0, 4, book_of_binding_page);
     case elemental_workshop_shield_book : @book_flip_page(^book_direction_backward, 0, 1, elemental_shield_book);
+    case serum_book : @book_flip_page(^book_direction_backward, 0, 12, serum_book);
+    case regicide_alchemy : @book_flip_page(^book_direction_backward, 0, 3, regicide_alchemy);
+    case horror_diary1 : @book_flip_page(^book_direction_backward, 0, 13, horror_diary1);
+    case horror_diary2 : @book_flip_page(^book_direction_backward, 0, 13, horror_diary2);
+    case horror_diary3 : @book_flip_page(^book_direction_backward, 0, 10, horror_diary3);
 }
 p_delay(0);
 
-[if_button,book:com_3]
+[if_button,book:com_86]
 switch_obj (%open_book) {
     case baxtorian_book_waterfall_quest : @book_flip_page(^book_direction_forward, 0, 4, book_on_baxtorian_page);
     case witches_diary : @book_flip_page(^book_direction_forward, 0, 3, witches_diary);
@@ -35,11 +43,16 @@ switch_obj (%open_book) {
     case digsitebook : @book_flip_page(^book_direction_forward, 0, 1, book_on_chemicals);
     case book_of_binding : @book_flip_page(^book_direction_forward, 0, 4, book_of_binding_page);
     case elemental_workshop_shield_book : @book_flip_page(^book_direction_forward, 0, 1, elemental_shield_book);
+    case serum_book : @book_flip_page(^book_direction_forward, 0, 12, serum_book);
+    case regicide_alchemy : @book_flip_page(^book_direction_forward, 0, 3, regicide_alchemy);
+    case horror_diary1 : @book_flip_page(^book_direction_forward, 0, 13, horror_diary1);
+    case horror_diary2 : @book_flip_page(^book_direction_forward, 0, 13, horror_diary2);
+    case horror_diary3 : @book_flip_page(^book_direction_forward, 0, 10, horror_diary3);
 }
 p_delay(0);
 
 [proc,book](string $title, string $string)
-split_init($string, 175, 22, q8);
+split_init($string, 175, 22, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -48,28 +61,28 @@ while ($page < $pagetotal) {
 }
 
 [proc,book_page](string $title, int $page)
-if_settext(book:com_5, split_get($page, 0));
-if_settext(book:com_6, split_get($page, 1));
-if_settext(book:com_7, split_get($page, 2));
-if_settext(book:com_8, split_get($page, 3));
-if_settext(book:com_9, split_get($page, 4));
-if_settext(book:com_10, split_get($page, 5));
-if_settext(book:com_11, split_get($page, 6));
-if_settext(book:com_12, split_get($page, 7));
-if_settext(book:com_13, split_get($page, 8));
-if_settext(book:com_14, split_get($page, 9));
-if_settext(book:com_15, split_get($page, 10));
-if_settext(book:com_16, split_get($page, 11));
-if_settext(book:com_17, split_get($page, 12));
-if_settext(book:com_18, split_get($page, 13));
-if_settext(book:com_19, split_get($page, 14));
-if_settext(book:com_20, split_get($page, 15));
-if_settext(book:com_21, split_get($page, 16));
-if_settext(book:com_22, split_get($page, 17));
-if_settext(book:com_23, split_get($page, 18));
-if_settext(book:com_24, split_get($page, 19));
-if_settext(book:com_25, split_get($page, 20));
-if_settext(book:com_26, split_get($page, 21));
+if_settext(book:com_88, split_get($page, 0));
+if_settext(book:com_89, split_get($page, 1));
+if_settext(book:com_90, split_get($page, 2));
+if_settext(book:com_91, split_get($page, 3));
+if_settext(book:com_92, split_get($page, 4));
+if_settext(book:com_93, split_get($page, 5));
+if_settext(book:com_94, split_get($page, 6));
+if_settext(book:com_95, split_get($page, 7));
+if_settext(book:com_96, split_get($page, 8));
+if_settext(book:com_97, split_get($page, 9));
+if_settext(book:com_98, split_get($page, 10));
+if_settext(book:com_99, split_get($page, 11));
+if_settext(book:com_100, split_get($page, 12));
+if_settext(book:com_101, split_get($page, 13));
+if_settext(book:com_102, split_get($page, 14));
+if_settext(book:com_103, split_get($page, 15));
+if_settext(book:com_104, split_get($page, 16));
+if_settext(book:com_105, split_get($page, 17));
+if_settext(book:com_106, split_get($page, 18));
+if_settext(book:com_107, split_get($page, 19));
+if_settext(book:com_108, split_get($page, 20));
+if_settext(book:com_109, split_get($page, 21));
 if_settext(book:book_title, $title);
 if_openmain(book);
 
@@ -82,15 +95,15 @@ if (%book_page > $max_page) {
 }
 
 if (%book_page = $min_page) {
-    if_sethide(book:com_2, true);
+    if_sethide(book:com_85, true);
 } else {
-    if_sethide(book:com_2, false);
+    if_sethide(book:com_85, false);
 }
 
 if (%book_page = $max_page) {
-    if_sethide(book:com_4, true);
+    if_sethide(book:com_87, true);
 } else {
-    if_sethide(book:com_4, false);
+    if_sethide(book:com_87, false);
 }
 
 gosub($proc);

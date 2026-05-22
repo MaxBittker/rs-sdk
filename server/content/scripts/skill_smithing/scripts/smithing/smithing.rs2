@@ -36,16 +36,36 @@
 @attempt_smithing(last_item, 10);
 
 
-[oplocu,anvil]
-if (%tutorial < ^tutorial_complete) {
+[oplocu,_anvil]
+if (~in_tutorial_island(coord) = true) {
     // This happens with any item, not just bars.
     if (%tutorial < ^newbie_mining_instructor_before_smelt_bronze_bar) {
-        ~mesbox("This is an anvil used for smithing.|You'll lean how to use it soon.");
+        ~mesbox("This is an anvil used for smithing.|You'll learn how to use it soon.");
         return;
     }
 
     if (%tutorial < ^newbie_mining_instructor_smith_a_dagger) {
         ~mesbox("You need a hammer to work the metal with.|Talk to the mining instructor to get one");
+        return;
+    }
+}
+
+if(loc_type = doric_anvil) {
+    if (%doricquest = 0) {
+        mes("You must complete Doric's Quest to use this anvil.");
+        if(npc_find(coord, doric, 5, 0) = true) @doric_not_started_anvil;
+        return;
+    }
+    if (%doricquest = 10) {
+        mes("You must complete Doric's Quest to use this anvil.");
+        if(npc_find(coord, doric, 5, 0) = true) @doric_materials;
+        return;
+    }
+}
+
+if(loc_type = viking_anvil) {
+    if(%viking < ^viking_complete) {
+        mes("Only Fremenniks may use this anvil.");
         return;
     }
 }
@@ -126,7 +146,7 @@ if(%death_equiproom < ^death_complete) {
 switch_obj ($last_item)
 {
     case bronze_bar :
-        if (%tutorial < ^tutorial_complete) {
+        if (~in_tutorial_island(coord) = true) {
             %modified_smith = 1;
         } else {
             %modified_smith = calc($player_level + 1);
@@ -238,7 +258,7 @@ anim(human_smithing, 0);
 sound_synth(anvil_4, 0, 0);
 // delay player during whole smithing sesh
 // https://oldschool.runescape.wiki/w/Update:Dev_Blog:_Third_Old_School_RuneScape_Content_Poll
-if (%tutorial < ^tutorial_complete) {
+if (~in_tutorial_island(coord) = true) {
     ~tut_smithing_anvil($count);
 } else {
     ~smithing_anvil($data, $count);

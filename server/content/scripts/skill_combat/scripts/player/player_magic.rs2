@@ -18,7 +18,7 @@ p_opnpct(db_getfield($spell_data, magic_spell_table:spellcom, 0));
 
 // osrs's opnpct triggers are unused
 [apnpct,magic:wind_strike]
-if (%tutorial < ^tutorial_complete) {
+if (~in_tutorial_island(coord) = true) {
    ~pvm_tutorial_spell(^wind_strike);
 } else {
    ~pvm_default_spell(^wind_strike);
@@ -162,7 +162,12 @@ return(true);
 // so maybe jagex did it this way?
 
 // spell anim
-anim(db_getfield($spell_data, magic_spell_table:anim, 0), 0);
+def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
+if($weapon ! null & oc_category($weapon) = weapon_staff & db_getfieldcount($spell_data, magic_spell_table:staffanim) > 0) {
+    anim(db_getfield($spell_data, magic_spell_table:staffanim, 0), 0);
+} else {
+    anim(db_getfield($spell_data, magic_spell_table:anim, 0), 0);
+}
 // player spell visual effect
 if (db_getfieldcount($spell_data, magic_spell_table:spotanim_origin) > 0) {
     spotanim_pl(db_getfield($spell_data, magic_spell_table:spotanim_origin, 0), 92, 0);
@@ -192,9 +197,9 @@ if (%damagestyle = ^style_melee_defensive) { // check varp directly
 // play spell success sound
 sound_synth(db_getfield($spell_data, magic_spell_table:sound_success, 0), 0, 0);
 // roll 0-maxhit
-def_int $damage = randominc(min($maxhit, npc_param(max_dealt)));
+def_int $spell = db_getfield($spell_data, magic_spell_table:spell, 0);
+def_int $damage = randominc(~npc_max_dealt($maxhit, $spell));
 if(npc_type = salarin_the_twisted) {
-    def_int $spell = db_getfield($spell_data, magic_spell_table:spell, 0);
     // strike spells are the only way to damage salarin the twisted, the damage is fixed 9-12
     switch_int ($spell) {
         case ^wind_strike : $damage = 9;
@@ -204,7 +209,6 @@ if(npc_type = salarin_the_twisted) {
     }
 }
 else if (npc_type = chronozon) {
-    def_int $spell = db_getfield($spell_data, magic_spell_table:spell, 0);
     ~chronozon_spell($spell);
 }
 // if maxhit is defined then damage npc

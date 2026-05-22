@@ -1,0 +1,69 @@
+^tbwt_not_started = 0
+^tbwt_spoke_to_timfraku = 1
+^tbwt_timfraku_asked_for_help = 2
+^tbwt_started = 3
+^tbwt_completed_all_brothers = 4
+^tbwt_received_gold_reward = 5
+^tbwt_complete = 6
+
+^tbwt_timfraku_title_start = 0
+^tbwt_timfraku_title_end = 1
+^tbwt_tiadeche_received_karambwan = 2
+^tbwt_tamayu_agility_count_start = 3
+^tbwt_tamayu_agility_count_end = 5
+^tbwt_tamayu_received_acceptable_spear = 6
+^tbwt_tamayu_received_poisoned_spear = 7
+^tbwt_tamayu_received_kp_spear = 8
+
+^tbwt_timfraku_rovingadventurer = 0
+^tbwt_timfraku_travellingexplorer = 1
+^tbwt_timfraku_wanderingwayfarer = 2
+^tbwt_timfraku_nobody = 3
+
+^tbwt_tiadeche_unknown = 0
+^tbwt_tiadeche_intro = 1
+^tbwt_tiadeche_return_when_caught_karambwan = 2
+^tbwt_tiadeche_caught_karambwan = 3
+^tbwt_tiadeche_request_manual = 4
+^tbwt_tiadeche_player_received_manual = 5
+^tbwt_tiadeche_complete = 6
+^tbwt_tiadeche_claimed_final_reward = 7
+
+^tbwt_tamayu_unknown = 0
+^tbwt_tamayu_intro = 1
+^tbwt_tamayu_slay_shaikahan = 2
+^tbwt_tamayu_watched_cutscene = 3
+^tbwt_tamayu_complete = 4
+^tbwt_tamayu_claimed_final_reward = 5
+
+^tbwt_tinsay_unknown = 0
+^tbwt_tinsay_intro = 1
+^tbwt_tinsay_fetch_bananarum = 2
+^tbwt_tinsay_given_bananarum = 3
+^tbwt_tinsay_fetch_seaweedsandwich = 4
+^tbwt_tinsay_given_seaweedsandwich = 5
+^tbwt_tinsay_fetch_marinatedbones = 6
+^tbwt_tinsay_complete = 7
+^tbwt_tinsay_claimed_final_reward = 8
+
+^tbwt_lubufu_unknown = 0
+^tbwt_lubufu_intro = 1
+^tbwt_lubufu_initialops = 2
+^tbwt_lubufu_asked_what_do = 3
+^tbwt_lubufu_offered_to_help = 4
+^tbwt_lubufu_fetch_karambwanji = 5
+^tbwt_lubufu_given_karambwanji = 25
+^tbwt_lubufu_asked_questions = 28
+^tbwt_lubufu_offered_apprentice = 29
+^tbwt_lubufu_became_apprentice = 30
+^tbwt_lubufu_complete = 31
+
+^tbwt_tamayu_spawn = 0_44_47_28_34
+
+^tbwt_player_cutscene_spawn = 0_39_71_24_24
+^tbwt_tamayu_hunter_cutscene_spawn = 0_39_71_27_23
+^tbwt_shaikahan_cutscene_spawn = 0_39_71_28_23
+
+^tbwt_player_cutscene_final_spawn = 0_39_71_41_24
+^tbwt_tamayu_hunter_cutscene_final_spawn = 0_39_71_45_21
+^tbwt_shaikahan_cutscene_final_spawn = 0_39_71_44_22

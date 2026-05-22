@@ -117,7 +117,7 @@ tradeable=no
 
 [slave_boots]
 name=Slave boots
-desc=Comfortable desert shoes.
+desc=A set of filthy, smelly, flea infested desert slave boots.
 cost=1
 model=model_2837_obj
 recol1s=7298

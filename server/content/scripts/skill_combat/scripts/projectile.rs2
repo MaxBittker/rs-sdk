@@ -16,6 +16,12 @@ def_int $duration = calc($delay + $flight);
 projanim_npc(npc_coord, $uid, $spotanim, $startheight, $endheight, $delay, $duration, $angle, $offset);
 return($duration);
 
+[proc,.npc_to_npc_projectile](npc_uid $uid, spotanim $spotanim, int $startheight, int $endheight, int $delay, int $angle, int $length, int $offset, int $step)(int)
+def_int $flight = calc($length + (npc_range(.npc_coord) * $step));
+def_int $duration = calc($delay + $flight);
+projanim_npc(.npc_coord, $uid, $spotanim, $startheight, $endheight, $delay, $duration, $angle, $offset);
+return($duration);
+
 [proc,player_projectile](coord $coord, coord $coord2, player_uid $uid, spotanim $spotanim, int $startheight, int $endheight, int $delay, int $angle, int $length, int $offset, int $step)(int)
 def_int $flight = calc($length + (distance($coord, $coord2) * $step));
 def_int $duration = calc($delay + $flight);

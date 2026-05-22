@@ -1,21 +1,42 @@
-[if_button,leather_crafting:com_88] @craft_leather(leather_armour);
-[if_button,leather_crafting:com_89] @craft_leather(leather_gloves);
-[if_button,leather_crafting:com_90] @craft_leather(leather_boots);
-[if_button,leather_crafting:com_91] @craft_leather(leather_vambraces);
-[if_button,leather_crafting:com_97] @craft_leather(leather_chaps);
-[if_button,leather_crafting:com_99] @craft_leather(coif);
-[if_button,leather_crafting:com_100] @craft_leather(leather_cowl);
-[if_button,leather_crafting:com_110] if_close;
+[if_button,leather_crafting:com_113] @craft_leather(leather_armour, 1);
+[if_button,leather_crafting:com_112] @craft_leather(leather_armour, 5);
+[if_button,leather_crafting:com_111] @craft_leather(leather_armour, 10);
+
+[if_button,leather_crafting:com_116] @craft_leather(leather_gloves, 1);
+[if_button,leather_crafting:com_115] @craft_leather(leather_gloves, 5);
+[if_button,leather_crafting:com_114] @craft_leather(leather_gloves, 10);
+
+[if_button,leather_crafting:com_119] @craft_leather(leather_boots, 1);
+[if_button,leather_crafting:com_118] @craft_leather(leather_boots, 5);
+[if_button,leather_crafting:com_117] @craft_leather(leather_boots, 10);
+
+[if_button,leather_crafting:com_122] @craft_leather(leather_vambraces, 1);
+[if_button,leather_crafting:com_121] @craft_leather(leather_vambraces, 5);
+[if_button,leather_crafting:com_120] @craft_leather(leather_vambraces, 10);
+
+[if_button,leather_crafting:com_125] @craft_leather(leather_chaps, 1);
+[if_button,leather_crafting:com_124] @craft_leather(leather_chaps, 1);
+[if_button,leather_crafting:com_123] @craft_leather(leather_chaps, 1);
+
+[if_button,leather_crafting:com_128] @craft_leather(coif, 1);
+[if_button,leather_crafting:com_127] @craft_leather(coif, 5);
+[if_button,leather_crafting:com_126] @craft_leather(coif, 10);
+
+[if_button,leather_crafting:com_131] @craft_leather(leather_cowl, 1);
+[if_button,leather_crafting:com_130] @craft_leather(leather_cowl, 5);
+[if_button,leather_crafting:com_129] @craft_leather(leather_cowl, 10);
+
+[if_button,leather_crafting:com_89] if_close;
 
 [opheldu,needle]
 switch_obj (last_useitem)
 {
     case thread : ~chatplayer("<p,happy>Perhaps I should use a needle with a piece of leather instead.");
     case leather : @craft_leather_interface;
-    case hard_leather : @craft_leather(hardleather_body);
+    case hard_leather : @craft_leather(hardleather_body, 1);
     case dragon_leather, dragon_leather_blue, dragon_leather_red, dragon_leather_black : @craft_dhide_interface(last_useslot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,leather]
 if (last_useitem = needle) {
@@ -24,7 +45,7 @@ if (last_useitem = needle) {
 ~displaymessage(^dm_default);
 
 [opheldu,hard_leather]
-if (last_useitem = needle) @craft_leather(hardleather_body);
+if (last_useitem = needle) @craft_leather(hardleather_body, 1);
 ~displaymessage(^dm_default);
 
 [opheldu,dragon_leather]
@@ -51,8 +72,7 @@ if (last_useitem = needle) {
 ~displaymessage(^dm_default);
 
 //--- all leather
-[label,craft_leather](namedobj $product)
-//p_stopaction;
+[label,craft_leather](namedobj $product, int $count)
 if_close;
 db_find(craft_leather_table:product, $product);
 def_dbrow $product_data = db_findnext;
@@ -75,6 +95,16 @@ if (stat(crafting) < $level) {
 def_namedobj $leather;
 def_int $leather_count;
 $leather, $leather_count = db_getfield($product_data, craft_leather_table:leather, 0);
+def_string $color = oc_param($leather, color);
+if ($leather_count > 1 & inv_total(inv, $leather) < $leather_count) {
+    def_string $a_dragonhide_x = db_getfield($product_data, craft_leather_table:name, 0);
+    def_string $end = substring($a_dragonhide_x, string_indexof_string("Dragonhide", $a_dragonhide_x), string_length($a_dragonhide_x));
+    // assumption based on queue message
+    mes("You need <tostring($leather_count)> pieces of <lowercase($color)> Dragon Leather to make <substring($a_dragonhide_x, 0, string_indexof_string("Dragonhide", $a_dragonhide_x))>");
+    mes("<$end>.");
+    anim(null, 20);
+    return;
+}
 if (inv_total(inv, $leather) < $leather_count) {
     mes("You don't have enough leather to make <db_getfield($product_data, craft_leather_table:name, 0)>.");
     return;
@@ -83,25 +113,79 @@ if (inv_total(inv, thread) < 1) {
     ~objbox(thread, "You need some thread to make anything out of leather.", 250, 0, divide(^objbox_height, 2));
     return;
 }
+if($product = hardleather_body) {
+    anim(human_leather_crafting, 0);
+    inv_del(inv, $leather, $leather_count);
+    inv_add(inv, $product, 1);
+    stat_advance(crafting, db_getfield($product_data, craft_leather_table:productexp, 0));
+    mes("You make <db_getfield($product_data, craft_leather_table:name, 0)>.");
+    // delete thread after 5 uses are met
+    %thread_used = calc(%thread_used + 1);
+    if (%thread_used > 4) {
+        inv_del(inv, thread, 1);
+        %thread_used = 0;
+        if(inv_total(inv, thread) = 0) {
+            mes("You use up your last reel of thread"); // https://i.imgur.com/cpc8CJ0.png (2006)
+            return;
+        }
+        mes("You use up one of your reels of thread");
+    }
+    return;
+}
+@process_leather_crafting($product_data, $product, $count, $leather, $leather_count, $level);
+
+[label,process_leather_crafting](dbrow $product_data, namedobj $product, int $count, namedobj $leather, int $leather_count, int $level)
+anim(human_leather_crafting, 0);
+if (%action_delay < map_clock) {
+    %action_delay = add(map_clock, 2);
+}
+weakqueue*(craft_leather_queue, sub(%action_delay, map_clock))($product_data, $product, $count, $leather, $leather_count, $level);
+
+[queue,craft_leather_queue](dbrow $product_data, namedobj $product, int $count, namedobj $leather, int $leather_count, int $level)
+def_string $a_dragonhide_x;
+def_string $end;
+def_string $color = oc_param($leather, color);
+if(inv_total(inv, $leather) = 0) {
+    if(string_length($color) > 0) mes("You have run out of <$color> <oc_name($leather)>.");
+    else mes("You have run out of <oc_name($leather)>.");
+    anim(null, 20);
+    return;
+}
+if (inv_total(inv, $leather) < $leather_count) {
+    $a_dragonhide_x = db_getfield($product_data, craft_leather_table:name, 0);
+    $end = substring($a_dragonhide_x, string_indexof_string("Dragonhide", $a_dragonhide_x), string_length($a_dragonhide_x));
+    mes("You don't have enough <lowercase($color)> Dragon Leather to make <substring($a_dragonhide_x, 0, string_indexof_string("Dragonhide", $a_dragonhide_x))>");
+    mes("<$end>.");
+    anim(null, 20);
+    return;
+}
 inv_del(inv, $leather, $leather_count);
 inv_add(inv, $product, 1);
 stat_advance(crafting, db_getfield($product_data, craft_leather_table:productexp, 0));
 mes("You make <db_getfield($product_data, craft_leather_table:name, 0)>.");
-
-// delete thread after 5 uses are met
 %thread_used = calc(%thread_used + 1);
 if (%thread_used > 4) {
     inv_del(inv, thread, 1);
-    mes("You use up one of your reels of Thread.");
     %thread_used = 0;
+    if(inv_total(inv, thread) = 0) {
+        mes("You use up your last reel of thread"); // https://i.imgur.com/cpc8CJ0.png (2006)
+        return;
+    }
+    mes("You use up one of your reels of thread");  
 }
+$count = sub($count, 1);
+if($count < 1) {
+    anim(null, 20);
+    return;
+}
+%action_delay = calc(map_clock + 2);
+@process_leather_crafting($product_data, $product, $count, $leather, $leather_count, $level);
 
 [label,craft_leather_interface]
 if (inv_total(inv, thread) < 1) {
     ~objbox(thread, "You need some thread to make anything out of leather.", 250, 0, divide(^objbox_height, 2));
     return;
 }
-if_setobject(leather_crafting:com_100, leather_cowl, 180);
 if_openmain(leather_crafting);
 
 //--- dragonhide interface
@@ -125,37 +209,20 @@ def_namedobj $interface_item1;
 def_namedobj $interface_item2;
 def_namedobj $interface_item3;
 $interface_item1, $interface_item2, $interface_item3 = db_getfield($leather_data, dhide_interface_table:interface_items, 0);
+def_namedobj $product;
+def_int $process_count;
 // open interface
 def_string $color = db_getfield($leather_data, dhide_interface_table:color, 0);
 // :) https://i.imgur.com/pYZyKE8.png
-// def_namedobj $choice = ~multiobj3(
-//     "What would you like to make?", 
-//     $interface_item1, 1, -19, 155, "<$color> body", -7, 0, 
-//     $interface_item2, 1, -23, 180, "<$color> vambraces", 1, -6, 
-//     $interface_item3, 2, -22, 180, "<$color> chaps", 3, -3
-// );
-def_namedobj $choice = ~multiobj3_close(
-    "What would you like to make?", 
-    $interface_item1, 175, "Dragonhide Body.",
-    $interface_item2, 175, "Dragonhide Vambraces.",
-    $interface_item3, 175, "Dragonhide Chaps."
+$product, $process_count = ~skill_multi3($interface_item1, 1, -19, 155, "\\n\\n\\n\\n<$color> body",
+        $interface_item2, 1, -23, 180, "\\n\\n\\n\\n<$color> vambraces",
+        $interface_item3, 2, -22, 180, "\\n\\n\\n\\n<$color> chaps"
 );
-if ($choice = null) {
+if ($product = null) {
     ~displaymessage(^dm_default);
     return;
 }
-
-db_find(craft_leather_table:product, $choice);
-def_dbrow $product_data = db_findnext;
-// check if enough leather 
-def_int $leather_count;
-$leather, $leather_count = db_getfield($product_data, craft_leather_table:leather, 0);
-// crazy weird game messages https://youtu.be/1vY_uGOq6qM
-if (inv_total(inv, $leather) < $leather_count) {
-    def_string $a_dragonhide_x = db_getfield($product_data, craft_leather_table:name, 0);
-    def_string $end = substring($a_dragonhide_x, string_indexof_string("Dragonhide", $a_dragonhide_x), string_length($a_dragonhide_x));
-    mes("You don't have enough <lowercase($color)> Dragon Leather to make <substring($a_dragonhide_x, 0, string_indexof_string("Dragonhide", $a_dragonhide_x))>");
-    mes("<$end>.");
+if($process_count <= 0) {
     return;
 }
-@craft_leather($choice);
+@craft_leather($product, $process_count);

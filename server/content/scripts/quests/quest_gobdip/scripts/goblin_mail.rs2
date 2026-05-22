@@ -1,7 +1,7 @@
 [opheldu,goblin_armour]
 switch_obj (last_useitem) {
     case orangedye : ~dye_goblin_mail_armour(orangedye, goblin_armour_orange, "orange");
-    case bluedye : ~dye_goblin_mail_armour(bluedye, goblin_armour_darkblue, "blue");
+    case bluedye : ~dye_goblin_mail_armour(bluedye, goblin_armour_darkblue, "dark blue");
     case default : ~displaymessage(^dm_default);
 }
 

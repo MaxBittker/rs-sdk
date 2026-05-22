@@ -3,6 +3,7 @@
 [ai_timer,_memberfish] @move_fishing_spot;
 [ai_timer,_saltfish] @move_fishing_spot;
 [ai_timer,0_45_152_lavafish] @move_fishing_spot; // lava eel
+[ai_timer,_slimeyfish] @move_fishing_spot;
 
 [label,move_fishing_spot]
 def_coord $rand_coord = ~fishing_spot_random_coord(npc_type);
@@ -30,7 +31,11 @@ return(npc_coord);
 [proc,check_fishing_spot_empty](coord $rand_coord)(boolean)
 npc_findallany($rand_coord, 0, 0);
 while (.npc_findnext = true) {
-    if (.npc_coord = $rand_coord & (nc_category(.npc_type) = saltfish | nc_category(.npc_type) = freshfish | nc_category(.npc_type) = saltfish | nc_category(.npc_type) = rarefish | nc_category(.npc_type) = memberfish | .npc_type = 0_45_152_lavafish)) {
+    if (.npc_coord = $rand_coord &
+        (nc_category(.npc_type) = saltfish | nc_category(.npc_type) = freshfish |
+         nc_category(.npc_type) = saltfish | nc_category(.npc_type) = rarefish |
+         nc_category(.npc_type) = memberfish | .npc_type = 0_45_152_lavafish |
+         nc_category(.npc_type) = slimeyfish)) {
         return (false);
     }
 }

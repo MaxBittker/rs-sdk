@@ -20,7 +20,7 @@ data=consumable,fruit_batta_limepineapple
 data=consumable,fruit_batta_orangepineapple
 data=consumable,unfinished_fruit_batta
 data=consumable,unfinished_worm_batta
-data=consumable,unfinished_cheese_tom_batta
+data=consumable,unfinished_cheese+tom_batta
 data=consumable,unfinished_vegetable_batta
 data=consumable,unfinished_worm_crunchies
 data=consumable,unfinished_chocchip_crunchies
@@ -40,6 +40,7 @@ data=consume_sound,eat
 [heal_2]
 table=consume_table
 data=consumable,banana
+data=consumable,tbwt_sliced_banana
 data=consumable,spinach_roll
 data=consumable,lemon
 data=consumable,lemon_chunks
@@ -74,6 +75,7 @@ data=consumable,redberry_pie
 data=consumable,half_a_redberry_pie
 data=consumable,shrimp
 data=consumable,anchovies
+data=consumable,tbwt_cooked_karambwanji
 data=stat_heal,hitpoints,3,0
 data=consume_sound,eat
 
@@ -99,6 +101,7 @@ data=consumable,half_an_apple_pie
 data=consumable,half_plain_pizza
 data=consumable,plain_pizza
 data=consumable,herring
+data=consumable,cooked_rabbit
 data=stat_heal,hitpoints,5,0
 data=consume_sound,eat
 
@@ -157,11 +160,11 @@ data=consume_sound,eat
 table=consume_table
 data=consumable,premade_worm_batta
 data=consumable,premade_toad_batta
-data=consumable,premade_cheese_tom_batta
+data=consumable,premade_cheese+tom_batta
 data=consumable,premade_fruit_batta
 data=consumable,worm_batta
 data=consumable,toad_batta
-data=consumable,cheese_tom_batta
+data=consumable,cheese+tom_batta
 data=consumable,fruit_batta
 data=stat_heal,hitpoints,11,0
 data=consume_sound,eat
@@ -199,6 +202,12 @@ data=consumable,premade_tangled_toads_legs
 data=consumable,chocolate_bomb
 data=consumable,tangled_toads_legs
 data=stat_heal,hitpoints,15,0
+data=consume_sound,eat
+
+[heal_18]
+table=consume_table
+data=consumable,tbwt_cooked_karambwan
+data=stat_heal,hitpoints,18,0
 data=consume_sound,eat
 
 [heal_19]

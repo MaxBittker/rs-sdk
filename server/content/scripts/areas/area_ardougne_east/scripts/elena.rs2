@@ -1,4 +1,10 @@
 [opnpc1,elena2]
+if(%regicide_quest > ^regicide_reported_iorwerth) {
+    ~chatplayer("<p,happy>Hello.");
+    ~chatnpc("<p,happy>Hello <displayname()>. It's been a long time. What can I do for you?");
+    ~chatplayer("<p,happy>Just passing by.");
+    return;
+}
 switch_int(%biohazard) { // ^biohazard_used_birdfeed intentionally has no dialogue!
     case ^biohazard_complete :
         ~chatplayer("<p,happy>Hello Elena.");

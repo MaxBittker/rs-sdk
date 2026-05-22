@@ -1,0 +1,167 @@
+[eadgar_goutweed_herb]
+name=Goutweed
+recol1s=288
+recol1d=8485
+recol2s=448
+recol2d=14760
+model=obj_3261
+desc=A pale, tough looking herb.
+members=yes
+cost=1
+2dxof=-2
+2dzoom=730
+2dyan=2028
+2dxan=540
+weight=7g
+tradeable=no
+
+[eadgar_troll_thistle]
+name=Troll thistle
+model=obj_3262
+desc=It's tough and spiky.
+members=yes
+cost=1
+2dxof=5
+2dyof=20
+2dzoom=700
+2dyan=1004
+2dxan=128
+ambient=30
+contrast=30
+weight=1g
+tradeable=no
+category=cooking_generic
+
+[eadgar_dried_troll_thistle]
+name=Dried thistle
+recol1s=6400
+recol1d=12614
+recol2s=9571
+recol2d=12614
+recol3s=3264
+recol3d=12614
+model=obj_3262
+desc=It'll be easier to grind now.
+members=yes
+cost=1
+2dxof=5
+2dyof=20
+2dzoom=700
+2dyan=1004
+2dxan=128
+ambient=30
+contrast=30
+weight=1g
+tradeable=no
+param=grindable_ingredient_refined,eadgar_ground_troll_thistle
+param=grindable_ingredient_message,You grind the Troll Thistle.
+
+[eadgar_ground_troll_thistle]
+name=Ground thistle
+recol1s=21140
+recol1d=10566
+model=model_2742_obj
+desc=It's ready for mixing.
+members=yes
+cost=1
+2dxof=-6
+2dzoom=1210
+2dyan=1892
+2dxan=264
+weight=1oz
+tradeable=no
+param=brew_potion_struct,eadgar_ground_troll_thistle_potion
+
+[eadgar_ground_troll_thistle_potion]
+name=Troll potion
+recol1s=15855
+recol1d=10598
+desc=It's part of Eadgar's plan.
+members=yes
+cost=1
+model=model_2789_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+weight=2oz
+tradeable=no
+
+[eadgar_drunk_parrot]
+name=Drunk parrot
+desc=It's rather drunk.
+members=yes
+cost=1
+model=obj_3266
+2dyof=-1
+2dzoom=500
+2dyan=316
+2dxan=32
+ambient=50
+contrast=50
+weight=1g
+tradeable=no
+
+[eadgar_dirty_druid_robe]
+name=Dirty robe
+model=obj_3267
+desc=It's dirty and smelly.
+members=yes
+cost=1
+2dxof=5
+2dyof=8
+2dzoom=2010
+2dyan=116
+2dxan=408
+weight=1g
+tradeable=no
+
+[eadgar_fake_man]
+name=Fake man
+model=obj_3268
+desc=It's good enough to fool a troll.
+members=yes
+cost=1
+2dxof=-57
+2dyof=-24
+2dzoom=2970
+2dyan=56
+2dzan=1900
+2dxan=128
+weight=1g
+tradeable=no
+
+[eadgar_troll_storeroom_key]
+name=Storeroom key
+recol1s=14798
+recol1d=17865
+recol2s=12684
+recol2d=14694
+model=obj_3135
+desc=The key to the Troll storeroom.
+members=yes
+cost=1
+2dxof=-9
+2dyof=-2
+2dzoom=860
+2dyan=20
+2dxan=460
+weight=55g
+tradeable=no
+
+[eadgar_alco_chunks]
+name=Alco-chunks
+recol1s=31201
+recol1d=31477
+model=model_2573_obj
+desc=Pineapple chunks dipped in strong liquor.
+members=yes
+cost=1
+2dxof=1
+2dyof=96
+2dzoom=870
+2dyan=2004
+2dzan=36
+2dxan=244
+weight=80g
+tradeable=no

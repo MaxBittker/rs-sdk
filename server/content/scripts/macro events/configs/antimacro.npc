@@ -160,16 +160,6 @@ param=combat_xp_multiplier,25
 param=max_dealt,0
 // TODO
 
-// datatodo: rename
-[savage_bird]
-name=Bat
-model1=model_3782
-desc=Annoying flappy thing.
-walkanim=bat_walk
-readyanim=bat_ready
-op2=Attack
-vislevel=27
-
 [macro_golemguardian_1]
 name=Rock Golem
 desc=Rock with attitude.
@@ -1364,7 +1354,7 @@ defaultmode=none
 wanderrange=0
 moverestrict=nomove
 category=macro_event_ent
-param=ent_tree_loc,willow_tree
+param=ent_tree_loc,willowtree
 
 [macro_ent_yew]
 vislevel=hide
@@ -1384,7 +1374,7 @@ defaultmode=none
 wanderrange=0
 moverestrict=nomove
 category=macro_event_ent
-param=ent_tree_loc,yew_tree
+param=ent_tree_loc,yewtree
 
 [macro_ent_maple]
 vislevel=hide
@@ -1404,7 +1394,7 @@ defaultmode=none
 wanderrange=0
 moverestrict=nomove
 category=macro_event_ent
-param=ent_tree_loc,maple_tree
+param=ent_tree_loc,mapletree
 
 [macro_ent_magic]
 vislevel=hide
@@ -1424,7 +1414,7 @@ defaultmode=none
 wanderrange=0
 moverestrict=nomove
 category=macro_event_ent
-param=ent_tree_loc,magic_tree
+param=ent_tree_loc,magictree
 
 [macro_dwarf]
 vislevel=hide

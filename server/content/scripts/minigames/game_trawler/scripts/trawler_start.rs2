@@ -36,7 +36,7 @@ p_teleport(map_findsquare(^trawler_start_center_under, 0, 4, ^map_findsquare_lin
 %journey_number = 11;
 %trawler = ^trawler_sailed;
 if_openmain(ship_journey);
-midi_jingle(^sailing_journey_jingle, ^sailing_journey_jingle_millis);
+~music_jingle("sailing journey");
 
 p_delay(20);
 if_close;

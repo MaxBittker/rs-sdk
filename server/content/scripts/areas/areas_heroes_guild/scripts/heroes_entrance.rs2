@@ -6,10 +6,10 @@
     ~open_and_close_double_door2(~check_axis_locactive(coord), $side, door_open);
     return;
   }
-  if (npc_find(coord, achietties, 10, 0) = true) {
+  if (npc_find(coord, achietties, 5, 0) = true) {
     facesquare(npc_coord);
     @speak_achietties;
     return;
   }
-  mes("The door is locked."); // backup 
+  mes("You need to speak to Achietties to get through this door."); // backup 
 }

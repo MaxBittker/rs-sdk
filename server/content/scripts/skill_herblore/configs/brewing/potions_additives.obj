@@ -116,7 +116,7 @@ param=brew_potion_struct_secondary,3dose1antidragon
 
 [wine_of_zamorak]
 name=Wine of zamorak
-desc=I wonder if stealing Zamorak's wine was a good idea.
+desc=An evil wine for an evil god.
 model=model_2390_obj
 recol1s=32767
 recol1d=25765
@@ -133,7 +133,7 @@ param=brew_potion_struct,3doserangerspotion
 [jangerberries]
 name=Jangerberries
 desc=They don't look very ripe.
-iop1=eat
+iop1=Eat
 model=model_2358_obj
 recol1s=30753
 recol1d=15937

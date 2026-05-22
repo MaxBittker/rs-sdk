@@ -1,0 +1,49 @@
+[opheld1,regicide_alchemy]
+%book_page = 0;
+%open_book = regicide_alchemy;
+@open_regicide_alchemy;
+
+[label,open_regicide_alchemy]
+@book_flip_page(0, 0, 3, regicide_alchemy);
+
+[proc,regicide_alchemy]
+switch_int (%book_page) {
+    case 0 : ~book("Big Book o' Bangs", "In this book I will try to cover all the explosive reactions I witnessed on my travels. Let us start with one of the more simple reactions, one I'm sure you have seen|yourself.| When mining, certain gasses are released. Once these gasses are mixed with the air it only takes a small spark to ignite them. Unfortunately the result is uncontrollable.| In the far east I found a recipe for a mix they called fire oil. This fire oil has an explosive capability but also it sticks to anything it touches and burns.");
+    case 1 : ~book_regicide("Big Book o' Bangs", regicide_alchemy_symbol1, regicide_alchemy_symbol2, "Ingredients.|Quick Lime.|This is a highly caustic compound and is created by the endothermic reaction of limestone.|Brimstone.|Known as yellow crystals. Odorless, insoluble and brittle as a solid. But as gas quite toxic, preventing respiration.");
+    case 2 : ~book_regicide("Big Book o' Bangs", regicide_alchemy_symbol3, regicide_alchemy_symbol4, "Naphtha|A colourless, flammable solvent. One of the more volatile fractions of the fractional distillation of the coal tar.|Preparation.|Great care must be taken when mixing this. The brimstone, naphtha and quicklime may be mixed at any time, but only");
+    case 3 : ~book("Big Book o' Bangs", "light it at the last second. The tricky thing is a naked delivery method. A naked flame is required to ignite the concoction, the problem being that the resulting explosion will cover the area in hot sticky fire.| The last bang in my list comes from a secret recipe digging compound based on nitroglycerin. I have seen the results but could not discover the ingredients. I'm told that the secret of this dig compound can be found out by becoming an archaeologist.");
+}
+
+[if_button,inter_167:com_1]
+@book_flip_page(^book_direction_backward, 0, 3, regicide_alchemy);
+
+[if_button,inter_167:com_3]
+@book_flip_page(^book_direction_forward, 0, 3, regicide_alchemy);
+
+[proc,book_regicide](string $title, namedobj $symb1, namedobj $symb2, string $string)
+split_init($string, 175, 22, q8_full);
+def_int $page = 0;
+def_int $pagetotal = split_pagecount;
+while ($page < $pagetotal) {
+    ~book_regicide_page($title, $symb1, $symb2, $page);
+    $page = calc($page + 1);
+}
+
+[proc,book_regicide_page](string $title, namedobj $symb1, namedobj $symb2, int $page)
+if_setobject(inter_167:com_6, $symb1, 200);
+if_setobject(inter_167:com_7, $symb2, 200);
+
+if_settext(inter_167:com_5, split_get($page, 0));
+if_settext(inter_167:com_8, split_get($page, 1));
+if_settext(inter_167:com_9, split_get($page, 2));
+if_settext(inter_167:com_10, split_get($page, 3));
+if_settext(inter_167:com_11, split_get($page, 4));
+if_settext(inter_167:com_12, split_get($page, 5));
+if_settext(inter_167:com_13, split_get($page, 6));
+if_settext(inter_167:com_14, split_get($page, 7));
+if_settext(inter_167:com_15, split_get($page, 8));
+if_settext(inter_167:com_16, split_get($page, 9));
+if_settext(inter_167:com_17, split_get($page, 10));
+if_settext(inter_167:com_18, split_get($page, 11));
+if_settext(inter_167:com_57, $title);
+if_openmain(inter_167);

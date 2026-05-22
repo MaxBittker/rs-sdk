@@ -1,12 +1,9 @@
 [oploc1,_chest_closed]
 // Treasure Trail
 if(map_members = ^true) {
-    if(loc_coord = 1_50_50_9_18 & inv_total(inv, trail_clue_easy_simple001) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple001);
-    } else if(loc_coord = 1_51_49_37_33 & inv_total(inv, trail_clue_easy_simple004) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple004);
-    } else if(loc_coord = 2_42_54_60_39 & inv_total(inv, trail_clue_easy_simple027) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple027);
+    def_obj $clue = ~trail_getclue_inv;
+    if($clue ! null & oc_param($clue, trail_loc) = ^true & oc_param($clue, trail_coord) = loc_coord) {
+        @trail_clue_loc_interact($clue);
     } else if(loc_coord = 0_50_54_56_31) {
         @riddle_loc_medium_exp001;
     } else if(loc_coord = 1_40_48_33_36) {
@@ -18,6 +15,17 @@ if(map_members = ^true) {
 }
 ~open_chest(loc_param(chest_other));
 
+[oplocu,_chest_closed]
+// Treasure Trail
+if(map_members = ^true) {
+    if(loc_coord = 0_50_54_56_31) {
+        @riddle_loc_medium_exp001;
+    } else if(loc_coord = 1_40_48_33_36) {
+        @riddle_loc_medium_exp005;
+    }
+}
+~displaymessage(^dm_default);
+
 [oploc3,_chest_open] 
 if(~is_quest_chest = true) { 
     ~displaymessage(^dm_default);
@@ -28,15 +36,9 @@ if(~is_quest_chest = true) {
 [oploc2,_chest_open]
 // Treasure Trail
 if(map_members = ^true) {
-    if(loc_coord = 1_50_50_9_18 & inv_total(inv, trail_clue_easy_simple001) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple001);
-        return;
-    } else if(loc_coord = 1_51_49_37_33 & inv_total(inv, trail_clue_easy_simple004) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple004);
-        return;
-    } else if(loc_coord = 2_42_54_60_39 & inv_total(inv, trail_clue_easy_simple027) = 1) {
-        ~trail_clue_easy_loc_interact(trail_clue_easy_simple027);
-        return;
+    def_obj $clue = ~trail_getclue_inv;
+    if($clue ! null & oc_param($clue, trail_loc) = ^true & oc_param($clue, trail_coord) = loc_coord) {
+        @trail_clue_loc_interact($clue);
     }
 }
 if(~is_quest_chest = true) { 

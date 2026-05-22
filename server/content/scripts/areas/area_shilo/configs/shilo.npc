@@ -111,8 +111,9 @@ param=owned_shop,shilofishingshop
 param=shop_sell_multiplier,1000
 param=shop_buy_multiplier,700
 param=shop_delta,20
-param=shop_title,Fernahei's Fishing Hut.
+param=shop_title,Fernahai's Fishing Hut.
 category=shop_keeper
+// https://web.archive.org/web/20051215235633/http://runevillage.com/images/rsshilovillagetown5.gif (Fernahai's Fishing Hut.)
 
 [shilocartdriver]
 vislevel=hide

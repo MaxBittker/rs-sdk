@@ -12,7 +12,9 @@ recol1d=16956
 2dxan=84
 weight=20g
 cost=2
+iop4=Empty
 param=next_obj_stage,vial_empty
+category=potion
 // jagex name
 
 [vial_empty]

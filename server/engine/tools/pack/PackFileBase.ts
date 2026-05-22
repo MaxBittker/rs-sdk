@@ -2,6 +2,7 @@ import fs from 'fs';
 import { parentPort } from 'worker_threads';
 
 import Environment from '#/util/Environment.js';
+import { writeFileIfChanged } from '#tools/pack/FsCache.js';
 import { loadFile } from '#tools/pack/Parse.js';
 import { printError, printFatalError } from '#/util/Logger.js';
 
@@ -9,6 +10,8 @@ import { printError, printFatalError } from '#/util/Logger.js';
 type PackFileValidator = (packfile: PackFile, ...args: any[]) => void;
 
 export class PackFile {
+    static suspendAutoReload: boolean = false;
+
     type: string;
     validator: PackFileValidator | null = null;
     validatorArgs: any[] = [];
@@ -26,7 +29,9 @@ export class PackFile {
         this.type = type;
         this.validator = validator;
         this.validatorArgs = validatorArgs;
-        this.reload();
+        if (!PackFile.suspendAutoReload) {
+            this.reload();
+        }
     }
 
     reload() {
@@ -34,7 +39,7 @@ export class PackFile {
             if (this.validator !== null) {
                 this.validator(this, ...this.validatorArgs);
             } else {
-                this.load(`${Environment.BUILD_SRC_DIR}/pack/${this.type}.pack`);
+                this.load(`${Environment.build.srcDir}/pack/${this.type}.pack`);
             }
         } catch (err) {
             if (err instanceof Error) {
@@ -113,12 +118,8 @@ export class PackFile {
     }
 
     save() {
-        if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/pack`)) {
-            fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/pack`, { recursive: true });
-        }
-
-        fs.writeFileSync(
-            `${Environment.BUILD_SRC_DIR}/pack/${this.type}.pack`,
+        writeFileIfChanged(
+            `${Environment.build.srcDir}/pack/${this.type}.pack`,
             Array.from(this.pack.entries())
                 .sort((a, b) => a[0] - b[0])
                 .map(([id, name]) => `${id}=${name}`)

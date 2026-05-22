@@ -55,7 +55,10 @@ p_arrivedelay;
 ~agility_climb_up(75, movecoord(coord, 0, 0, 2));
 ~update_gnome_varp(6);
 
-[oploc1,gnome_obstacle_pipe]
+[oploc1,loc_154] @enter_gnome_obstacle_pipe;
+[oploc1,gnome_obstacle_pipe] @enter_gnome_obstacle_pipe;
+
+[label,enter_gnome_obstacle_pipe]
 if(coordz(coord) > coordz(loc_coord)) {
     mes("You can't enter the pipe from this side.");
     return;
@@ -66,14 +69,14 @@ if(%gnome_obstacle_pipe_used >= map_clock) {
     mes("The pipe is being used"); 
     return;
 }
-%gnome_obstacle_pipe_used = calc(map_clock + 5);
-~agility_exactmove(human_doublepipesqueeze, 30, 4, movecoord(loc_coord, 0, 0, -1), movecoord(loc_coord, 0, 0, 2), 30, 126, ^exact_north, true);
+%gnome_obstacle_pipe_used = calc(map_clock + 12);
+~agility_exactmove(human_doublepipesqueeze, 30, 3, movecoord(loc_coord, 0, 0, -1), movecoord(loc_coord, 0, 0, 2), 30, 126, ^exact_north, true);
 sound_synth(squeeze_in, 0, 0);
-~agility_exactmove(human_doublepipesqueeze, 30, 4, movecoord(loc_coord, 0, 0, 2), movecoord(loc_coord, -3, 0, 2), 30, 158, ^exact_west, false);
-p_teleport(movecoord(loc_coord, -3, 0, 3));
+p_delay(2);
+p_teleport(movecoord(coord, 0, 0, 1));
 p_delay(0);
 ~change_merged_loc(movecoord(coord, 0, 0, 1));
-~agility_exactmove(human_doublepipesqueeze, 30, 4, coord, movecoord(coord, 0, 0, 3), 30, 126, ^exact_north, true);
+~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, 0, 0, 3), 30, 126, ^exact_north, true);
 sound_synth(squeeze_in, 0, 0);
 stat_advance(agility, 75);
 ~update_gnome_varp(7);

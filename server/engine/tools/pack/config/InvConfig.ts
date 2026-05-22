@@ -1,6 +1,6 @@
 import InvType from '#/cache/config/InvType.js';
 import { InvPack, ObjPack } from '#tools/pack/PackFile.js';
-import { ConfigValue, ConfigLine, PackedData, isConfigBoolean, getConfigBoolean } from '#tools/pack/config/PackShared.js';
+import { ConfigValue, ConfigLine, PackedData, isConfigBoolean, getConfigBoolean, packStepError } from '#tools/pack/config/PackShared.js';
 
 export function parseInvConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
@@ -103,6 +103,15 @@ export function packInvConfigs(configs: Map<string, ConfigLine[]>): { client: Pa
             // collect these to write at the end
             const stock = [];
 
+            let size = 0;
+            for (let j = 0; j < config.length; j++) {
+                const { key, value } = config[j];
+
+                if (key === 'size') {
+                    size = value as number;
+                }
+            }
+
             for (let j = 0; j < config.length; j++) {
                 const { key, value } = config[j];
 
@@ -113,7 +122,16 @@ export function packInvConfigs(configs: Map<string, ConfigLine[]>): { client: Pa
                     server.p1(2);
                     server.p2(value as number);
                 } else if (key.startsWith('stock')) {
-                    stock.push(value);
+                    const index = parseInt(key.substring(5)) - 1;
+                    if (typeof stock[index] !== 'undefined') {
+                        throw packStepError(debugname, `Duplicate stock${index + 1} lines, one will overwrite the other.`);
+                    }
+
+                    if (index >= size) {
+                        throw packStepError(debugname, `stock${index + 1} is larger than size=${size}`);
+                    }
+
+                    stock[index] = value;
                 } else if (key === 'stackall') {
                     if (value === true) {
                         server.p1(3);
@@ -146,6 +164,13 @@ export function packInvConfigs(configs: Map<string, ConfigLine[]>): { client: Pa
                 server.p1(stock.length);
 
                 for (let i = 0; i < stock.length; i++) {
+                    if (stock[i] === undefined) {
+                        server.p2(-1);
+                        server.p2(0);
+                        server.p4(0);
+                        continue;
+                    }
+
                     const [id, count, rate] = stock[i] as number[];
                     server.p2(id);
                     server.p2(count);

@@ -10,7 +10,7 @@ if (oc_param(last_useitem, is_water_source) = ^true) {
 
 [oplocu,newbierange]
 if (last_useitem = bread_dough) {
-    anim(human_potterywheel, 0);
+    anim(human_cooking, 0);
     sound_synth(fry, 0, 0);
     p_delay(2);
     if (%tutorial = ^newbie_cook_instructor_mixed_dough) {
@@ -32,13 +32,13 @@ if (last_useitem = bread_dough) {
         }
     }
 } else if (last_useitem = newbieraw_shrimp) {
-    anim(human_potterywheel, 0);
+    anim(human_cooking, 0);
     sound_synth(fry, 0, 0);
     p_delay(2);
     inv_del(inv, newbieraw_shrimp, 1);
     @tut_random_shrimp_chance;
 } else if (last_useitem = raw_rat_meat) {
-      anim(human_potterywheel, 0);
+      anim(human_cooking, 0);
       sound_synth(fry, 0, 0);
       p_delay(2);
       inv_del(inv, raw_rat_meat, 1);

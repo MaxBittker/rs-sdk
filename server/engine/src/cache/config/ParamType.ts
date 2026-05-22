@@ -117,6 +117,8 @@ export default class ParamType extends ConfigType {
                 return 'stat';
             case ScriptVarType.INTERFACE:
                 return 'interface';
+            case ScriptVarType.MIDI:
+                return 'midi';
             default:
                 return 'unknown';
         }

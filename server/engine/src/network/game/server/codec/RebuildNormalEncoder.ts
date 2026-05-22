@@ -10,8 +10,4 @@ export default class RebuildNormalEncoder extends ServerGameMessageEncoder<Rebui
         buf.p2(message.zoneX);
         buf.p2(message.zoneZ);
     }
-
-    test(_message: RebuildNormal): number {
-        return 4;
-    }
 }

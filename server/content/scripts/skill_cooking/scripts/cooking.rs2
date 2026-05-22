@@ -1,8 +1,14 @@
 [oplocu,_cooking_oven] @attempt_cook_item(last_useitem);
 [oplocu,_cooking_fire]
+if(loc_type = viking_house_fire | loc_type = viking_longhall_fire) {
+    if(%viking < ^viking_complete) {
+        mes("Only members of the Fremennik may use this fire.");
+        return;
+    }
+}
 if(oc_param(last_useitem, unlit_arrow) = ^true) { // might not work on every fire?
     @light_firearrow(last_useitem);
-} else if (%tutorial < ^tutorial_complete) {
+} else if (~in_tutorial_island(coord) = true) {
     @tut_attempt_cook_item(last_useitem);
 } else {
     @attempt_cook_item(last_useitem);
@@ -11,8 +17,38 @@ if(oc_param(last_useitem, unlit_arrow) = ^true) { // might not work on every fir
 [label,attempt_cook_item](obj $uncooked_item)
 //not sure if this is used
 p_arrivedelay();
+// special cases
+if($uncooked_item = tbwt_jogre_bones_marinated_in_karambwanji | $uncooked_item = tbwt_burnt_jogre_bones_marinated_in_karambwanji) {
+    ~mesbox("The jogre bones are already marinated!|They don't need any more cooking.");
+    return;
+}
+if($uncooked_item = tbwt_jogre_bones_in_cooked_karambwanji_paste | $uncooked_item = tbwt_burnt_jogre_bones_in_cooked_karambwanji_paste) {
+    @explode_cooked_jogre_bones($uncooked_item);
+}
+if($uncooked_item = tbwt_cooked_karambwan | $uncooked_item = tbwt_poorly_cooked_karambwan) {
+    ~mesbox("You cannot cook that again; it's already cooked.");
+    return;
+}
 // get item data from db
 db_find(cooking_generic:uncooked, $uncooked_item);
+// karambwan cooking
+def_namedobj $product;
+if($uncooked_item = tbwt_raw_karambwan) {
+    if (map_members = ^false) {
+        mes("You can only make that on a members' server.");
+        return;
+    }
+    if(%tbwt_tinsay = ^tbwt_tinsay_claimed_final_reward) {
+        $product = ~multiobj2("How would you like to cook your karambwan?", 
+            tbwt_poorly_cooked_karambwan, 0, -15, 175, "\\n\\n\\n\\nPoorly", 5, -1,
+            tbwt_cooked_karambwan, 0, -15, 175, "\\n\\n\\n\\nThoroughly", 4, -1
+        );
+        if_close;
+    } else {
+        $product = tbwt_poorly_cooked_karambwan;
+    }
+    db_find(cooking_generic:cooked, $product);
+}
 def_dbrow $data = db_findnext;
 if ($data = null) {
     ~mesbox("You can't cook that.");
@@ -37,8 +73,12 @@ if (oc_members($cooked_item) = true | oc_members($uncooked_item) = true) {
 }
 // check if player has high enough level
 def_int $levelrequired = db_getfield($data,cooking_generic:levelrequired,0);
+def_string $levelrequired_message = db_getfield($data,cooking_generic:levelrequired_message,0);
+if (string_length($levelrequired_message) < 1 & compare($levelrequired_message, "0") ! 0) {
+    $levelrequired_message = "You need a Cooking level of <tostring($levelrequired)> to cook <lowercase(oc_name($cooked_item))>.";
+}
 if (stat(cooking) < $levelrequired) {
-    ~mesbox("You need a Cooking level of <tostring($levelrequired)> to cook <lowercase(oc_name($cooked_item))>.");
+    ~mesbox($levelrequired_message);
     return;
 }
 // macro event
@@ -80,7 +120,7 @@ if ($cooking_source = cooking_oven) {
         $low = $low_range;
         $high = $high_range;
     }
-    $anim = human_potterywheel;
+    $anim = human_cooking;
     if (string_length($cookmessage) < 1 & compare($cookmessage, "0") ! 0) {
         $cookmessage = "You put the <lowercase(oc_name($cooked_item))> on the stove.";
     }
@@ -116,7 +156,9 @@ def_int $experience = db_getfield($data,cooking_generic:experience,0);
 
 // i put this in a label so its easier to transition to weak queues later on
 [label,cook_item](boolean $passes_roll, seq $anim, string $cookmessage, string $succesmessage, string $burnmessage, obj $uncooked_item, namedobj $cooked_item, namedobj $burnt_item, namedobj $additional_item, int $experience)
-mes($cookmessage);
+if($uncooked_item ! eadgar_troll_thistle) { // no cookmessage for this
+    mes($cookmessage);
+}
 anim($anim, 0);
 sound_synth(fry, 0, 0);
 switch_obj($uncooked_item) {

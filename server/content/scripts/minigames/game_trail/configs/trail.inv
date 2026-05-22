@@ -1,0 +1,8 @@
+[trail_puzzleinv]
+scope=temp
+size=25
+dummyinv=yes
+
+[trail_puzzlehintinv]
+size=42
+dummyinv=yes

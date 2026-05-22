@@ -1,0 +1,142 @@
+[opnpc1,viking_lalli_troll]
+def_int $op;
+~chatplayer("<p,neutral>Hello there.");
+if(%viking = ^viking_complete) {
+    // https://youtu.be/gqQWm6b1qxg?si=FxXzA42RFPdHSeE1&t=99
+    ~chatnpc("<p,neutral>Ha! Stupid human! You no get any golden apples! Even though me much like stone soup!");
+    ~chatplayer("<p,quiz>Can I please have some more golden wool?");
+    ~chatnpc("<p,neutral>Me will sell you some golden wool, but me not sell you any golden apples!");
+    ~chatplayer("<p,quiz>How much for the golden wool?");
+    ~chatnpc("<p,neutral>Me want 1000 coins! You pay or go!");
+    $op = ~p_choice2("Pay", 1, "Don't pay", 2);
+    if($op = 2) {
+        ~chatnpc("<p,neutral>You no pay, then you go!|You no get any golden apples!");
+        return;
+    }
+    if(inv_total(inv, coins) < 1000) {
+        ~chatplayer("<p,sad>I don't have that much cash on me...");
+        ~chatnpc("<p,neutral>Well stupid bad trade human don't get no wool then! Or any golden apples!");
+        return;
+    }
+    ~chatplayer("<p,neutral>Is that all? Here you go!");
+    inv_del(inv, coins, 1000);
+    inv_add(inv, viking_golden_fleece, 1);
+    ~chatnpc("<p,neutral>Ha! Stupid human think he buy golden apples, but actually get stupid wool! Hahaha!");
+    return;
+}
+switch_int(~get_viking_olaf_progress) {
+    case ^olaf_made_stew :
+        ~chatnpc("<p,neutral>Your soup very tasty, human! But me still not want trade golden apples for your stone. Me think pet rock get jealous.");
+        ~chatplayer("<p,angry>I. DON'T. WANT. ANY. GOLDEN. APPLES. ALL. I. WANT. IS. A. GOLDEN. FLEECE.");
+        ~chatnpc("<p,sad>Gee, sorry human, all you have do is ask, me not need you to shout. You act like you think Lalli am stupid or something...");
+        if(inv_freespace(inv) = 0) {
+            ~chatnpc("<p,sad>Me would give you golden fleece if me think you have enough room in your invetinary.");
+            return;
+        }
+        if(~obj_gettotal(viking_golden_fleece) > 0) {
+            mes("You already have the golden fleece.");
+            return;
+        }
+        inv_add(inv, viking_golden_fleece, 1);
+        ~chatnpc("<p,neutral>Here you go. Hah! Me trick you human! All you got is worthless golden fleece! Me got very rare soup-making stone!");
+        ~chatplayer("<p,laugh>Glad you're happy Lalli!");
+    case ^olaf_spoken_lalli2 :
+        ~chatnpc("<p,angry>Bah! Puny humans always try steal Lallis' golden apples! You go away now!");
+        ~chatnpc("<p,angry>Unless you got tasty food for Lalli. Then I might trade you for it.");
+        ~chatplayer("<p,neutral>Actually I don't...");
+        ~chatnpc("<p,neutral>Hah! Me knew it! You human just try trick Lalli into giving away golden apple! Me not as stupid as you look!");
+    case ^olaf_started, ^olaf_spoken_lalli, ^olaf_spoken_askelapen :
+        ~chatnpc("<p,angry>Bah! Puny humans always try steal Lallis' golden apples! You go away now!"); 
+        if(inv_total(inv, vt_useless_rock) > 0) {
+            ~chatplayer("<p,neutral>Wait! I have something that might interest you... a pet rock!");
+            ~chatnpc("<p,neutral>Hah! You think me stupid or something human? Me already got one! Me don't want lotta baby rocks either, so me don't want another one around the place!");
+            ~chatplayer("<p,sad>Please... all I want is some of your golden wool...");
+            ~chatnpc("<p,neutral>Stupid human think he can trick me into giving away some golden apples! Hah! Golden apples is all me got to eat, you not get them, no way!");
+            ~set_viking_olaf_progress(^olaf_spoken_lalli2);
+            ~chatplayer("<p,neutral>Hmm... So you're hungry? I think I will have the perfect thing for you to eat... I just need to get myself an onion, a potato and a cabbage...");
+            ~mesbox("You have a cunning plan to trick this troll. You need your pet rock, a cabbage, a potato and an onion.");
+            return;
+        }
+        ~chatplayer("<p,neutral>Actually, I'm not after your golden apples. I was wondering if I could have some golden wool; I need it to string a lyre.");
+        ~chatnpc("<p,angry>Ha! You not fool me human! Me am smart! Other trolls so jealous of how brainy I are, they kick me out of camp and make me live down here in cave! But me have last funny!");
+        ~chatnpc("<p,neutral>Me find golden apples on tree and me build wall to stop anyone who not Lalli eating lovely golden apples! Did me not tell you I are smart?");
+        ~chatplayer("<p,neutral>Yes, yes, you are incredibly clever. Now please can I have some golden wool?");
+        ~chatnpc("<p,neutral>Hum, me think you not really think I are clever. Me think you is trying trick Lalli. Me not like you as much as other human. He give me present. I give him wool.");
+        $op = ~p_choice3("Other human?", 1, "No, honest, you're REALLY clever.", 2, "Can I give you a present?", 3);
+        if($op = 1) {
+            ~chatplayer("<p,quiz>Other human? You mean someone else has been there and you gave them wool?");
+            ~set_viking_olaf_progress(^olaf_spoken_lalli);
+            ~chatnpc("<p,neutral>Human call itself Askeladden! It not trick Lalli, Lalli do good deal with human! Stupid human get some dumb wool, but did not get golden apples!");
+            ~chatplayer("<p,neutral>I see... okay, well, bye!");
+        } else if($op = 2) {
+            ~chatplayer("<p,neutral>No, honest, you're REALLY clever. Why, I could not contemplate a mere chicanery with an advanced intellect such as you currently present.");
+            ~chatnpc("<p,quiz>Grrr! Why you insult me stupid human? Me know it are because you jealous of Lalli's huge brain and you try steal apples!");
+        } else if($op = 3) {
+            ~chatplayer("<p,neutral>Can I give you a present? Or maybe exchange you something for some wool?");
+            ~chatnpc("<p,neutral>Ha! You stupid human! You think you trick Lalli? Me know you want my golden apples Well! You not get them! HAHAHA!");
+            ~chatplayer("<p,confused>Erm... okay then.");
+        }
+    case ^olaf_not_started, ^olaf_complete : 
+        ~chatnpc("<p,angry>Bah! Puny humans always try steal Lallis' golden apples! You go away now!");
+        ~chatplayer("<p,quiz>Uh.... okay...");
+}
+
+[label,viking_troll_check_stew]
+if(testbit(%viking_bits, ^viking_cabbage_stew) = ^true & testbit(%viking_bits, ^viking_onion_stew) = ^true & testbit(%viking_bits, ^viking_potato_stew) = ^true & testbit(%viking_bits, ^viking_rock_stew) = ^true) {
+    if(~get_viking_olaf_progress < ^olaf_made_stew) ~set_viking_olaf_progress(^olaf_made_stew);
+}
+if(npc_find(coord, viking_lalli_troll, 5, 0) = true) {
+    ~chatnpc("<p,quiz>It am ready now?");
+    if(~get_viking_olaf_progress = ^olaf_made_stew) {
+        ~chatplayer("<p,neutral>Indeed it is. Try it and see.");
+        ~chatnpc("<p,neutral>Hmm... YUM! That are delicious! Me never know human know to make soup out of stone? It some special stone?");
+        ~chatplayer("<p,neutral>Indeed it is. But I'm willing to trade it.");
+        ~chatnpc("<p,neutral>Let me think about that, me like to think.");
+        return;
+    }
+    ~chatplayer("<p,neutral>Not just yet...");
+}
+
+[oploc1,viking_trollcave_entrance]
+if(npc_find(coord, viking_lalli_troll, 7, 0) = true) {
+    ~chatnpc("<p,angry>Hey human! You not go in my house! It where me keep all my stuff!");
+}
+
+[oplocu,viking_troll_cauldron]
+if(%viking = ^viking_complete) {
+    if(npc_find(coord, viking_lalli_troll, 7, 0) = true) {
+        ~chatnpc("<p,angry>Hey human! You not go back on deal! Me know you stupid at trades but that stone mine now! All soup mine!");
+    }
+    return;
+}
+if(%viking > ^viking_not_started) {
+    if(last_useitem = vt_useless_rock) {
+        mes("You put your pet rock into the cauldron.");
+        inv_del(inv, vt_useless_rock, 1);
+        %viking_bits = setbit(%viking_bits, ^viking_rock_stew);
+        @viking_troll_check_stew;
+    }
+    if(last_useitem = cabbage) {
+        mes("You put a cabbage into the cauldron.");
+        inv_del(inv, cabbage, 1);
+        %viking_bits = setbit(%viking_bits, ^viking_cabbage_stew);
+        @viking_troll_check_stew;
+    }
+    if(last_useitem = potato) {
+        mes("You put a potato into the cauldron.");
+        inv_del(inv, potato, 1);
+        %viking_bits = setbit(%viking_bits, ^viking_potato_stew);
+        @viking_troll_check_stew;
+    }
+    if(last_useitem = onion) {
+        mes("You put an onion into the cauldron.");
+        inv_del(inv, onion, 1);
+        %viking_bits = setbit(%viking_bits, ^viking_onion_stew);
+        @viking_troll_check_stew;
+    }
+    ~displaymessage(^dm_default);
+    return;
+}
+if(npc_find(coord, viking_lalli_troll, 7, 0) = true) {
+    ~chatnpc("<p,angry>Hey human! You not put things in Lalli's food unless Lalli ask you to! It am very impolite, even for human!");
+}

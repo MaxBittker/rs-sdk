@@ -31,7 +31,7 @@ switch_obj(last_useitem) {
     //     mes("This is not the mightiest tree in the forest.");
     //     return;
     case default : ~displaymessage(^dm_default);
-};
+}
 
 
 

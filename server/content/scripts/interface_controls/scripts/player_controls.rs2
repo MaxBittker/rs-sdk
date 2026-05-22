@@ -103,5 +103,5 @@ anim($anim, 20);
 
 [label,lockemote_mime_event]
 if (p_finduid(uid) = true) {
-    ~mesbox("This emote can be unlocked during the mime random event.");
+    ~mesbox("You can't use that emote yet."); // https://www.youtube.com/watch?v=Ke-iZF6aZ98&t=185s july 06 (https://www.youtube.com/watch?v=s083tB35i-8&t=80s changed late 06)
 }

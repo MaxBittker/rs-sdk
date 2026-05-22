@@ -109,3 +109,4 @@ if($weapon = excalibur) {
 [if_button,combat_pickaxe:specbar] @toggle_sa;
 [if_button,combat_unarmed:specbar] @toggle_sa;
 [if_button,combat_claw:specbar] @toggle_sa;
+[if_button,combat_polearm:specbar] @toggle_sa;

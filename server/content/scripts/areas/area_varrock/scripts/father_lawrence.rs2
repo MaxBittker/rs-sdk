@@ -4,11 +4,11 @@ switch_int (%rjquest) {
     case ^romeojuliet_passed_message : @father_lawrence_help;
     case ^romeojuliet_spoken_father :
         ~chatnpc("<p,quiz>Ah, have you found the Apothecary yet?");
-        ~chatnpc("<p,neutral>Remember, Cadaver potion, for Father Lawrence.");
+        ~chatnpc("<p,neutral>Remember, Cadava potion, for Father Lawrence.");
     case ^romeojuliet_spoken_apothecary :
         ~chatnpc("<p,quiz>Did you find the Apothecary?");
         if(inv_total(inv, cadava) > 0) {
-            ~chatplayer("<p,happy>I've got the Cadaver potion.");
+            ~chatplayer("<p,happy>I've got the Cadava potion.");
             ~chatnpc("<p,happy>Good! Good work! Ok, take it to Juliet, she's expecting you.");
             ~chatnpc("<p,happy>I'll talk to Romeo and make sure he knows what to do.");
         } else if(inv_total(inv, cadavaberries) > 0) {
@@ -58,5 +58,5 @@ switch_int(~p_choice3("I am always looking for a quest.", 1, "No, I prefer just 
 ~chatnpc("<p,happy>I know just the thing. A potion to make her appear dead."); // https://web.archive.org/web/*/http://runeweb.net/images/site/guides/rs2/quests/romeojuliet/4.jpg
 ~chatnpc("<p,happy>Then Romeo can collect her from the crypt.");
 ~chatnpc("<p,happy>Go to the Apothecary, tell him I sent you."); // https://web.archive.org/web/*/http://runeweb.net/images/site/guides/rs2/quests/romeojuliet/5.jpg
-~chatnpc("<p,happy>You will need a Cadaver potion.");
+~chatnpc("<p,happy>You will need a Cadava potion.");
 %rjquest = ^romeojuliet_spoken_father;

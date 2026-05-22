@@ -1,0 +1,7 @@
+[boardgames_boardinv]
+size=64
+protect=no
+scope=temp
+
+[boardgames_sideinv]
+size=28

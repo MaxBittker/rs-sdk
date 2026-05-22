@@ -5,6 +5,21 @@
 [opheld1,trail_clue_medium_map002]
 ~full_trail_readclue_map(trail_map04);
 
+[opheld1,trail_clue_medium_map003]
+~full_trail_readclue_map(inter_86);
+
+[opheld1,trail_clue_medium_map004]
+~full_trail_readclue_map(inter_177);
+
+[opheld1,trail_clue_medium_map005]
+~full_trail_readclue_map(inter_182);
+
+[opheld1,trail_clue_medium_map006]
+~full_trail_readclue_map(inter_183);
+
+[opheld1,trail_clue_medium_map007]
+~full_trail_readclue_map(inter_184);
+
 [opheld1,_trail_clue_medium]
 ~full_trail_readclue(oc_param(last_item, trail_desc));
 
@@ -36,6 +51,10 @@ if(npc_type = black_heather & inv_total(inv, trail_clue_medium_riddle001) > 0 & 
     obj_add(npc_coord, trail_clue_medium_riddle004_key, 1, ^lootdrop_duration);
 } else if(compare(npc_name, "Man") = 0 & inv_total(inv, trail_clue_medium_riddle005) > 0 & ~obj_gettotal(trail_clue_medium_riddle005_key) = 0) {
     obj_add(npc_coord, trail_clue_medium_riddle005_key, 1, ^lootdrop_duration);
+} else if(npc_category = pirate & inv_total(inv, trail_clue_medium_riddle007) > 0 & ~obj_gettotal(trail_clue_medium_riddle007_key) = 0) {
+    obj_add(npc_coord, trail_clue_medium_riddle007_key, 1, ^lootdrop_duration);
+} else if(npc_type = death_man_indoors2 & inv_total(inv, trail_clue_medium_riddle008) > 0 & ~obj_gettotal(trail_clue_medium_riddle008_key) = 0) {
+    obj_add(npc_coord, trail_clue_medium_riddle008_key, 1, ^lootdrop_duration);
 }
 
 [label,riddle_loc_medium_exp001]
@@ -46,7 +65,6 @@ if(inv_total(inv, trail_clue_medium_riddle001) > 0) {
         anim(human_openchest, 0);
         sound_synth(chest_open, 0, 0);
         p_delay(0);
-        // Temp note: dur updated
         loc_change(chestopen_inactive, 5);
         p_delay(0);
         inv_del(inv, trail_clue_medium_riddle001_key, 1);
@@ -65,7 +83,6 @@ if(inv_total(inv, trail_clue_medium_riddle002) > 0) {
         anim(human_openchest, 0);
         sound_synth(cupboard_open, 0, 0);
         p_delay(0);
-        // Temp note: dur updated
         loc_change(drawers1open_inactive, 5);
         p_delay(0);
         inv_del(inv, trail_clue_medium_riddle002_key, 1);
@@ -84,7 +101,6 @@ if(inv_total(inv, trail_clue_medium_riddle003) > 0) {
         anim(human_openchest, 0);
         sound_synth(cupboard_open, 0, 0);
         p_delay(0);
-        // Temp note: dur updated
         loc_change(drawers1open_inactive, 5);
         p_delay(0);
         inv_del(inv, trail_clue_medium_riddle003_key, 1);
@@ -103,7 +119,6 @@ if(inv_total(inv, trail_clue_medium_riddle004) > 0) {
         anim(human_openchest, 0);
         sound_synth(cupboard_open, 0, 0);
         p_delay(0);
-        // Temp note: dur updated
         loc_change(drawers2open_inactive, 5);
         p_delay(0);
         inv_del(inv, trail_clue_medium_riddle004_key, 1);
@@ -122,7 +137,6 @@ if(inv_total(inv, trail_clue_medium_riddle005) > 0) {
         anim(human_openchest, 0);
         sound_synth(chest_open, 0, 0);
         p_delay(0);
-        // Temp note: dur updated
         loc_change(chestopen_inactive, 5);
         p_delay(0);
         inv_del(inv, trail_clue_medium_riddle005_key, 1);
@@ -133,6 +147,44 @@ if(inv_total(inv, trail_clue_medium_riddle005) > 0) {
     ~mesbox("The chest is locked!  An inscription on the chest reads: Stand by your man.");
 }
 mes("The chest is locked.");
+
+[label,riddle_loc_medium_exp007]
+if(inv_total(inv, trail_clue_medium_riddle007) > 0) {
+    // https://www.youtube.com/watch?v=cxAvPqh4WjM
+    if(inv_total(inv, trail_clue_medium_riddle007_key) > 0) {
+        p_arrivedelay;
+        anim(human_openchest, 0);
+        sound_synth(cupboard_open, 0, 0);
+        p_delay(0);
+        loc_change(drawers1open_inactive, 5);
+        p_delay(0);
+        inv_del(inv, trail_clue_medium_riddle007_key, 1);
+        ~progress_clue_medium(trail_clue_medium_riddle007, "You've found another clue scroll!");
+        return;
+    }
+    // intentional doublespace
+    ~mesbox("The drawers are locked!  A note left on the drawers reads: Shiver me timbers!");
+}
+mes("The drawers are locked.");
+
+[label,riddle_loc_medium_exp008]
+if(inv_total(inv, trail_clue_medium_riddle008) > 0) {
+    // https://www.youtube.com/watch?v=AkTAzRzgU1w
+    if(inv_total(inv, trail_clue_medium_riddle008_key) > 0) {
+        p_arrivedelay;
+        anim(human_openchest, 0);
+        sound_synth(cupboard_open, 0, 0);
+        p_delay(0);
+        loc_change(drawers1open_inactive, 5);
+        p_delay(0);
+        inv_del(inv, trail_clue_medium_riddle008_key, 1);
+        ~progress_clue_medium(trail_clue_medium_riddle008, "You've found another clue scroll!");
+        return;
+    }
+    // intentional doublespace
+    ~mesbox("The drawers are locked!  A note on the top of the drawers reads: Wait till I get my hands on Penda, he's nicked the key again!");
+}
+mes("The drawers are locked.");
 
 [label,trail_challengenpc_prompt](string $prompt_chat, string $correct_chat, string $wrong_chat, string $progress_mes, namedobj $clue, namedobj $challenge)
 ~chatnpc($prompt_chat);
@@ -158,7 +210,7 @@ return(false);
 [opheld1,_trail_casket_medium] 
 ~progress_clue_medium(last_item, "You've found another clue scroll!");
 
-[proc,trail_clue_medium_loc_interact](namedobj $clue)
+[label,trail_clue_medium_loc_interact](obj $clue)
 ~progress_clue_medium($clue, "You've found another clue scroll!");
 
 [proc,trail_clue_medium_getrandom]()(namedobj)

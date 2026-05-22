@@ -1,6 +1,9 @@
 [if_button,questlist:hetty]
 def_string $text;
 
+// https://www.youtube.com/watch?v=IaqW5ibbfto
+// https://www.youtube.com/watch?v=8djJf4x1UK4
+// https://www.youtube.com/watch?v=pzAHsFZuV8I
 // https://www.youtube.com/watch?v=CAPfy7F-sPk 
 // https://www.youtube.com/watch?v=mNr8oBizSVM
 // https://www.youtube.com/watch?v=8oy3aAc0JvQ
@@ -8,9 +11,9 @@ def_string $text;
 // https://www.youtube.com/watch?v=UaErjaM-ZvA
 // & Manpaint's OSRS sources used
 if(%hetty = ^hetty_not_started) {
-    $text = "@dbl@I can start this quest by talking to @dre@Hetty@dbl@ in her house in @dre@Rimmington@dbl@.";
+    $text = "@dbl@I can start this quest by speaking to @dre@Hetty@dbl@ in her house in |@dre@Rimmington@dbl@, West of @dre@Port Sarim";
 } else if(%hetty = ^hetty_started) {
-    $text = "@str@I spoke to Hetty in her house in Rimmington. Hetty told me|@str@she could increase my magic power if I can bring her|@str@certain ingredients for a potion.||";
+    $text = "@str@I spoke to Hetty in her house at Rimmington. Hetty told me|@str@she could increase my magic power if I can bring her|@str@certain ingredients for a potion.||";
     $text = append($text, "@dbl@Hetty needs me to bring her the following:|");
 
     if(inv_total(inv, onion) > 0) {

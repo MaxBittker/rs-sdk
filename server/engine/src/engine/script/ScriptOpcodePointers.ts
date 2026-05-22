@@ -103,6 +103,8 @@ const ScriptOpcodePointers: {
     [ScriptOpcode.FINDUID]: {
         set: ['active_player'],
         set2: ['active_player2'],
+        corrupt: ['p_active_player'],
+        corrupt2: ['p_active_player2'],
         conditional: true
     },
     [ScriptOpcode.GENDER]: {
@@ -211,7 +213,7 @@ const ScriptOpcodePointers: {
     [ScriptOpcode.IF_SETPOSITION]: {
         require: ['active_player']
     },
-    [ScriptOpcode.IF_SETRESUMEBUTTONS]: {
+    [ScriptOpcode.IF_ADDRESUMEBUTTON]: {
         require: ['active_player']
     },
     [ScriptOpcode.IF_SETTAB]: {
@@ -272,6 +274,10 @@ const ScriptOpcodePointers: {
     },
     [ScriptOpcode.MIDI_SONG]: {
         require: ['active_player']
+    },
+    [ScriptOpcode.MINIMAP_TOGGLE]: {
+        require: ['active_player'],
+        require2: ['active_player2']
     },
     [ScriptOpcode.NAME]: {
         require: ['active_player'],
@@ -500,7 +506,7 @@ const ScriptOpcodePointers: {
     [ScriptOpcode.SETGENDER]: {
         require: ['p_active_player']
     },
-    [ScriptOpcode.SETSKINCOLOUR]: {
+    [ScriptOpcode.SETIDKCOLOUR]: {
         require: ['p_active_player']
     },
     [ScriptOpcode.P_ANIMPROTECT]: {
@@ -524,6 +530,10 @@ const ScriptOpcodePointers: {
     },
     [ScriptOpcode.SET_PLAYER_OP]: {
         require: ['active_player']
+    },
+    [ScriptOpcode.SET_SKILL_LEVEL]: {
+        require: ['active_player'],
+        require2: ['active_player2']
     },
     [ScriptOpcode.STRONGQUEUE]: {
         require: ['active_player'],
@@ -719,6 +729,10 @@ const ScriptOpcodePointers: {
         require2: ['active_npc2']
     },
     [ScriptOpcode.NPC_INRANGE]: {
+        require: ['active_npc'],
+        require2: ['active_npc2']
+    },
+    [ScriptOpcode.NPC_DESTINATION]: {
         require: ['active_npc'],
         require2: ['active_npc2']
     },
@@ -985,7 +999,7 @@ const ScriptOpcodePointers: {
     },
     [ScriptOpcode.DB_LISTALL_WITH_COUNT]: {
         set: ['find_db']
-    },
+    }
 };
 
 export default ScriptOpcodePointers;

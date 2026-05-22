@@ -6,17 +6,17 @@ switch_obj (last_useitem) {
     case raw_chompy : @quest_chompybird_add_ingredients_to_chompy_message;
     case half_baked_bowl : @add_bowl_ingredient(last_item);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,uncooked_stew]
 switch_obj (last_useitem) {
     case spicespot : @make_curry;
-};
+}
 
 [opheldu,spicespot]
 switch_obj (last_useitem) {
     case uncooked_stew : @make_curry;
-};
+}
 
 [opheld1,burnt_stew]
 inv_del(inv, burnt_stew, 1);

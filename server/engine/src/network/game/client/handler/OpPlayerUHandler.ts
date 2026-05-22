@@ -1,4 +1,4 @@
-import * as rsbuf from '@2004scape/rsbuf';
+import * as rsbuf from '#/network/rsbuf/index.js';
 
 import Component from '#/cache/config/Component.js';
 import ObjType from '#/cache/config/ObjType.js';
@@ -65,7 +65,7 @@ export default class OpPlayerUHandler extends ClientGameMessageHandler<OpPlayerU
 
         player.clearPendingAction();
 
-        if (ObjType.get(useObj).members && !Environment.NODE_MEMBERS) {
+        if (ObjType.get(useObj).members && !Environment.node.members) {
             player.messageGame("To use this item please login to a members' server.");
             player.write(new UnsetMapFlag());
             return false;

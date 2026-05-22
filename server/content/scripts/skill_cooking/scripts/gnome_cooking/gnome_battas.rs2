@@ -74,7 +74,7 @@ if ($seasoned_toad_legs_count = 1 & $cheese_count = 1 & $total = 2) {
 }
 // cheese & tomato batta
 if ($cheese_count = 1 & $tomato_count = 1 & $total = 2) {
-    return(unfinished_cheese_tom_batta);
+    return(unfinished_cheese+tom_batta);
 }
 // fruit batta
 if ($equa_leaves_count = 4 & $total = 4) {

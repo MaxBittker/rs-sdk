@@ -9,6 +9,8 @@ model=model_2559_obj
 2dyan=1260
 2dxan=444
 weight=1lb
+manwear=model_4045,0
+womanwear=model_4045,0
 
 [fur]
 name=Fur
@@ -608,7 +610,6 @@ desc=A highly magical staff.
 cost=42500
 iop2=Wield
 wearpos=righthand
-wearpos2=lefthand
 category=weapon_staff
 manwear=model_514_obj_wear,0
 womanwear=model_514_obj_wear,6

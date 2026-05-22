@@ -1,0 +1,251 @@
+[opnpc1,viking_sigli]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatnpc("<p,neutral>I do not speak to outerlanders. If you have anything of import to say, go and speak to the Chieftain.");
+} else if(%viking < ^viking_complete){
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_sigli_merchant;
+    }    
+    switch_int(~get_viking_sigli_progress) {
+        case ^sigli_complete :
+            ~chatplayer("<p,quiz>So can I rely on your vote with the council of elders in my favour?");
+            ~chatnpc("<p,happy>Absolutely outerlander! Anyone brave enough to hunt and defeat the Draugen will be a great addition to our clan!");
+        case ^sigli_defeated_draugen :
+            if(inv_total(inv, viking_draugen_talisman) > 0) {
+                ~chatnpc("<p,neutral>I saw the entire hunt. Let me take that talisman from you; I would be honoured to speak out for you to our council of elders after such a hunt, outerlander.");
+                ~chatplayer("<p,happy>Thanks!");
+                ~set_viking_sigli_progress(^sigli_complete);
+                %viking = add(%viking, 1);
+                inv_del(inv, viking_draugen_talisman, ^max_32bit_int);
+                inv_del(bank, viking_draugen_talisman, ^max_32bit_int);
+                inv_del(inv, viking_draugen_talisman_uncharged, ^max_32bit_int);
+                inv_del(bank, viking_draugen_talisman_uncharged, ^max_32bit_int);
+                return;
+            }
+            if(inv_total(bank, viking_draugen_talisman) > 0) {
+                ~chatplayer("<p,happy>I have defeated the Draugen!");
+                ~chatnpc("<p,neutral>And where is your proof of the hunt, outerlander? Without proof of the hunt it as though it never happened.");
+                ~chatplayer("<p,neutral>I have the talisman in my bank!");
+                ~chatnpc("<p,neutral>Then bring it to me. I require the proof of the hunt.");
+                return;
+            }
+            ~chatplayer("<p,sad>I defeated the draugen, but I have lost the talisman to prove I did.");
+            ~chatnpc("<p,neutral>An amateurish mistake, outerlander. Any hunt without the proof of it is naught but empty boasting. Take this and try once more.");
+            if(inv_freespace(inv) = 0) {
+                ~mesbox("Your inventory is too full to accept another Talisman.");
+                return;
+            }
+            ~set_viking_sigli_progress(^sigli_started);
+            inv_add(inv, viking_draugen_talisman_uncharged, 1);     
+        case ^sigli_started :
+            ~chatnpc("<p,quiz>Hello again outerlander. Have you managed to hunt down the terrible Draugen yet?");
+            if(~obj_gettotal(viking_draugen_talisman_uncharged) = 0) {
+                ~chatplayer("<p,sad>Not yet... I lost the talisman you gave me.");
+                ~chatnpc("<p,neutral>The typical careless regard for valuable objects I would expect from an outerlander such as yourself. Do not lose THIS one.");
+                if(inv_freespace(inv) = 0) {
+                    ~mesbox("Your inventory is too full to accept another Talisman.");
+                    return;
+                }
+                inv_add(inv, viking_draugen_talisman_uncharged, 1);
+                return;
+            }
+            ~chatplayer("<p,sad>Not yet...");
+            ~chatnpc("<p,neutral>Hmmm. Laziness is not a trait that I admire. I suggest you go and do so if you wish me to vouchsafe for you to our council of elders.");
+        case ^sigli_not_started :
+            ~chatnpc("<p,quiz>What do you want outerlander?");
+            ~chatplayer("<p,quiz>Are you a member of the council?");
+            ~chatnpc("<p,neutral>The Fremennik council of elders? I am pleased to say that I am. My value as a huntsman is recognised by my position there.");
+            ~chatplayer("<p,quiz>I was wondering if I could persuade you to vouch for me as a member of your clan?");
+            ~chatnpc("<p,neutral>You? ... well... I am not totally against the idea outerlander. If you can demonstrate some hunting skills then perhaps I may offer my vote.");
+            ~chatplayer("<p,quiz>How can I prove my hunting skills to you? I can go kill, like, a hundred chickens for you right now!");
+            ~chatnpc("<p,shock>Chickens? You think that would impress me?");
+            ~chatplayer("<p,quiz>Cows then? I can kill cows until, er, the cows come home.");
+            ~chatnpc("<p,neutral>No. The prey I have in mind for you to prove your worth to me is something far more dangerous. Far more difficult. Far more deadly.");
+            ~chatplayer("<p,quiz>Not... Giant Rats?!?!");
+            ~chatnpc("<p,neutral>I suspect you are mocking me outerlander. You will need to prove your skill as a hunter to me by tracking and defeating... The Draugen.");
+            $op = ~p_choice2("What's a Draugen?", 1, "Forget it.", 2);
+            if($op = 2) {
+                ~chatplayer("<p,angry>Forget it! This all sounds like way too much work for a stupid vote at a meeting! I'll find someone else instead.");
+                return;
+            }
+            ~chatplayer("<p,quiz>What's a Draugen? Some kind of cheap barbarian rip-off of a dragon?");
+            ~chatnpc("<p,neutral>Hmmm. No, the words are slightly similar I suppose, but they are very different creatures.");
+            ~chatnpc("<p,neutral>The Draugen is an evil ghost from Fremennik mythology, that devours the souls of those brave warriors who meet their ends at sea.");
+            ~chatnpc("<p,neutral>It stalks the coastlines, invisible to all. It brings us bad fortunes, and curses our journeys across the seas. It is also unkillable by normal means.");
+            $op = ~p_choice2("Yes", 1, "No", 2);
+            if($op = 2) {
+                ~chatplayer("<p,angry>Forget it! This all sounds like way too much work for a stupid vote at a meeting! I'll find someone else instead.");
+                return;
+            }
+            ~chatplayer("<p,neutral>Well, I need every vote I can get in the council of elders, but this certainly sounds impossible to do...");
+            ~chatnpc("<p,neutral>Not at all outerlander. The Draugen is indeed impossible to kill, but that is not the same as being impossible to fight against.");
+            ~chatnpc("<p,neutral>Every time he takes a Fremennik life, he gains in power, so to keep it from becoming too powerful we hunters hunt it and steal its life force.");
+            if(inv_freespace(inv) = 0) {
+                ~chatnpc("<p,neutral>To defeat the Draugen you will need a special item; I have one to give you but it seems as though your inventory is too full to accept it.");
+                return;
+            }
+            ~set_viking_sigli_progress(^sigli_started);
+            inv_add(inv, viking_draugen_talisman_uncharged, 1);
+            ~chatnpc("<p,neutral>We do this with a special talisman. Here, take it; it will let you track the Draugen while it's invisible, and when you defeat it will absorb its essence.");
+            ~chatnpc("<p,neutral>I want you to track the Draugen, defeat it, and store its essence in that talisman for me. If you can do this important task for my clan, I will vote for you.");
+            ~chatnpc("<p,neutral>Take care of the talisman, and see me when you have completed this task.");
+    }
+} else if(%viking = ^viking_complete) {
+    ~chatplayer("<p,happy>Hello again Sigli.");
+    ~chatnpc("<p,quiz>Hello again to you <~get_viking_name>. How goes the hunt?");
+    ~chatplayer("<p,confused>The hunt? I've already done your task! That's why I'm a Fremennik now!");
+    ~chatnpc("<p,neutral>You think so do you? The Draugen is always out there, just as I and my hunters are always on its trail to keep it at bay.");
+    ~chatnpc("<p,sad>The hunt will never end until I do.");
+}
+
+[label,viking_sigli_merchant]
+if(inv_total(inv, viking_bowstring) > 0) {
+    ~chatnpc("<p,neutral>Greetings outerlander.");
+    ~chatplayer("<p,neutral>Here. I have your bowstring. Give me your map to the hunting grounds.");
+    inv_del(inv, viking_bowstring, 1);
+    inv_add(inv, viking_map_to_hunting_grounds, 1);
+    ~chatnpc("<p,neutral>Well met, outerlander. I see some hunting potential within you. Here, take my map, I was getting too dependent on it for my skill anyway.");
+    return;
+}
+if(inv_total(inv, viking_map_to_hunting_grounds) > 0) {
+    ~chatplayer("<p,quiz>So you really don't mind giving this away to me?");
+    ~chatnpc("<p,neutral>No outerlander... it is hard to explain. That map makes my role as huntsman too easy. I fear my skills are becoming dulled. Now I must track my prey once more.");
+    ~chatnpc("<p,neutral>To begin again from scratch... I feel this may keep me sharp.");
+    return;
+}
+~chatnpc("<p,neutral>Greetings outerlander.");
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_thora :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the longhall barkeep's legendary cocktail, do you?");
+        ~chatnpc("<p,neutral>Did you even ASK Askeladden?");
+    case ^sigmund_spoke_manni :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the longhall barkeep's legendary cocktail, do you?");
+        ~chatnpc("<p,neutral>Did you even ASK the barkeep?");
+    case ^sigmund_spoke_swensen :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Did you even ASK the Seer?");
+    case ^sigmund_spoke_sigli :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,quiz>If I knew I would not have asked you to go and get me one, now would I?");
+    case ^sigmund_spoke_chief :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Well, of course I do. I wouldn't be much of a huntsman if I didn't know where to find my prey now, would I outerlander?");
+        ~chatplayer("<p,neutral>No, I guess not. So can I have it?");
+        ~chatnpc("<p,neutral>Directions to my hunting grounds could mean the end of my livelihood. The only way I would be prepared to give them up would be...");
+        ~chatplayer("<p,quiz>What? Power? Money? Women? Wine?");
+        ~set_viking_sigmund_progress(^sigmund_spoke_sigli);
+        ~chatnpc("<p,neutral>...a new string for my hunting bow. Not just any bowstring; I need a custom bowstring, balanced for my bow precisely to keep my hunt competitive.");
+        ~chatnpc("<p,neutral>Only in this way would I allow the knowledge of my hunting grounds to be passed on to strangers.");
+        ~chatplayer("<p,quiz>So where would I get that?");
+        ~chatnpc("<p,neutral>I have no idea. But then again, I'm happy with my old bowstring and being the only person who knows where my hunting ground is.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>No idea at all outerlander.");
+}
+
+[opnpc2,viking_draugen]
+if (%npc_aggressive_player ! uid) {
+    mes("That is someone else's prey...");
+    return;
+}
+@player_combat_start_nomulti; // will ignore multi, tested on osrs
+
+[apnpc2,viking_draugen] 
+if (%npc_aggressive_player ! uid) {
+    mes("That is someone else's prey...");
+    return;
+}
+@player_combat_start_ap_nomulti;
+
+[ai_queue3,viking_draugen]
+if(finduid(%npc_aggressive_player) = true) {
+    if_close;
+    if(p_finduid(uid) = true) { // fails if no prot access
+        mes("You absorb the Draugen's essence into your talisman.");
+        // TODO: test to make sure this actually has this check, need to use uncharged talismans again after trial to spawn draugen
+        // it will despawn every time you use
+        if(~get_viking_sigli_progress = ^sigli_started) ~set_viking_sigli_progress(^sigli_defeated_draugen);
+        inv_del(inv, viking_draugen_talisman_uncharged, ^max_32bit_int);
+        inv_del(bank, viking_draugen_talisman_uncharged, ^max_32bit_int);
+        inv_add(inv, viking_draugen_talisman, 1);
+        spotanim_map(smokepuff, npc_coord, 0, 0);
+        npc_del;
+        sound_synth(ghost_death, 0, 0);
+    }
+}
+
+[opheld1,viking_draugen_talisman_uncharged]
+if(%draugen_butterfly_uid = null) {
+    ~spawn_draugen_butterfly;
+}
+if (npc_finduid(%draugen_butterfly_uid) = true & gettimer(draugen_timer) > 0) {
+    ~draugen_locate;
+} else {
+    mes("The Draugen has moved elsewhere...");
+    ~spawn_draugen_butterfly;
+    ~draugen_locate;
+}
+
+[timer,draugen_timer]
+cleartimer(draugen_timer);
+
+[opheld1,viking_draugen_talisman]
+mes("You have already captured the Draugen.");
+
+[proc,draugen_locate]
+def_int $delta_x = calc(coordx(npc_coord) - coordx(coord));
+def_int $delta_z = calc(coordz(npc_coord) - coordz(coord));
+if(~get_viking_sigli_progress > ^sigli_started) {
+    inv_del(inv, viking_draugen_talisman_uncharged, ^max_32bit_int);
+    inv_del(bank, viking_draugen_talisman_uncharged, ^max_32bit_int);
+    mes("You have already captured the Draugen."); // yes you will still find the draugen here lol
+}
+npc_huntall(coord, 15, 0); // 15 tiles osrs
+while (npc_findnext = true) {
+    if(%npc_aggressive_player = uid & npc_type = viking_draugen) {
+        mes("The Draugen is here! Beware!");
+        return;
+    }
+}
+if(distance(coord, npc_coord) < 4) {
+    mes("The Draugen is here! Beware!");
+    npc_add(map_findsquare(coord, 1, 2, ^map_findsquare_lineofwalk), viking_draugen, 1000);
+    %aggressive_npc = npc_uid;
+    // this prevents other players from attacking w/manual cast, this might've been a later change
+    %npc_lastcombat = sub(^max_32bit_int, 8);
+    %npc_aggressive_player = uid;
+    ~npc_retaliate(0);
+    return;
+}
+if ($delta_x < 0 & $delta_z > 0) {
+    mes("The talisman guides you north-west.");
+} else if ($delta_x < 0 & $delta_z < 0) {
+    mes("The talisman guides you south-west.");
+} else if ($delta_x > 0 & $delta_z > 0) {
+    mes("The talisman guides you north-east.");
+} else if ($delta_x > 0 & $delta_z < 0) {
+    mes("The talisman guides you south-east.");
+} else if ($delta_x > 0) {
+    mes("The talisman guides you east.");
+} else if ($delta_x < 0) {
+    mes("The talisman guides you west.");
+} else if ($delta_z < 0) {
+    mes("The talisman guides you south.");
+} else if ($delta_z > 0) {
+    mes("The talisman guides you north.");
+}
+
+[proc,spawn_draugen_butterfly]
+// TODO: kind of a guess, need more data, seems like there is a west bias, it usually shows around the west side of the mapsquares
+def_coord $coord = 0_42_58_24_0; // by rock crabs
+switch_int(random(4)) {
+    case 0 : $coord = 0_42_55_0_52; // forest north of seers 
+    case 1 : $coord = 0_42_56_32_32; // SE Relleka forest
+    case 2 : $coord = 0_41_56_32_32; // SW Relleka forest
+    case 3 : $coord = 0_42_57_32_32; // W Relleka forest
+}
+npc_add(map_findsquare($coord, 0, 20, ^map_findsquare_none), viking_draugen_safe, 1000); // lasts 1000t in osrs, same as draugen
+settimer(draugen_timer, ~random_range(1, 1000)); // not 100% on this, but timer doesn't seem to be consistent at least (recheck this, I think it might be longqueue)
+%draugen_butterfly_uid = npc_uid;
+%npc_attacking_uid = uid;

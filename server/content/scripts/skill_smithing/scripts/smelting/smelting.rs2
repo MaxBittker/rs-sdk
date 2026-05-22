@@ -1,4 +1,10 @@
 [oplocu,_smithing_furnace]
+if(loc_type = viking_furnace | loc_type = viking_furnace2) {
+    if(%viking < ^viking_complete) {
+        mes("Only Fremenniks may use this furnace.");
+        return;
+    }
+}
 switch_obj (last_useitem)
 {
     case gold_bar, perfect_gold_bar : @craft_gold_interface;
@@ -9,17 +15,86 @@ switch_obj (last_useitem)
         if(loc_type = furnace_upass) @destroy_orboflight(last_useitem);
         ~displaymessage(^dm_default);
     case elemental_workshop_ore : mes("This furnace is not hot enough to smelt elemental ore.");
+    case tbwt_jogre_bones : @tbwt_smelt_jogre_bones;
+    case tbwt_burnt_jogre_bones : mes("These Jogre bones are already burnt!");
+    case limestone : @regicide_heat_quicklime;
     case default :
         if (oc_category(last_useitem) = category_91) {
-            @smelt_ore(last_useitem);
+            @smelt_ore_single(last_useitem);
         }
         ~displaymessage(^dm_default);
-};
+}
 
-//--- this is the code that uses p_delays instead of weakqueues
-[label,smelt_ore](obj $last)
-p_arrivedelay();
-// find the bar that the ore smelts to
+[oploc2,_smithing_furnace]
+if(loc_type = viking_furnace | loc_type = viking_furnace2) {
+    if(%viking < ^viking_complete) {
+        mes("Only Fremenniks may use this furnace.");
+        return;
+    }
+}
+@smelting_interface;
+
+[label,smelting_interface]
+// https://youtu.be/IKcLMkk50VU?si=9nCY28zLperwnJgM&t=62, interface was always brought up originally
+// osrs will auto make a single bar if you have ores for only 1 in inventory
+if_setobject(smelting:com_4, bronze_bar, 150);
+if_setobject(smelting:com_5, iron_bar, 150);
+if_setobject(smelting:com_6, silver_bar, 150);
+if_setobject(smelting:com_7, steel_bar, 150);
+if_setobject(smelting:com_8, gold_bar, 150);
+if_setobject(smelting:com_9, mithril_bar, 150);
+if_setobject(smelting:com_10, adamantite_bar, 150);
+if_setobject(smelting:com_11, runite_bar, 150);
+if_openchat(smelting);
+
+[if_button,smelting:com_15] @smelt_ore(bronze_bar, 1);
+[if_button,smelting:com_14] @smelt_ore(bronze_bar, 5);
+[if_button,smelting:com_13] @smelt_ore(bronze_bar, 10);
+[if_button,smelting:com_12] @smelt_ore_makex(bronze_bar);
+
+[if_button,smelting:com_19] @smelt_ore(iron_bar, 1);
+[if_button,smelting:com_18] @smelt_ore(iron_bar, 5);
+[if_button,smelting:com_17] @smelt_ore(iron_bar, 10);
+[if_button,smelting:com_16] @smelt_ore_makex(iron_bar);
+
+[if_button,smelting:com_23] @smelt_ore(silver_bar, 1);
+[if_button,smelting:com_22] @smelt_ore(silver_bar, 5);
+[if_button,smelting:com_21] @smelt_ore(silver_bar, 10);
+[if_button,smelting:com_20] @smelt_ore_makex(silver_bar);
+
+[if_button,smelting:com_27] @smelt_ore(steel_bar, 1);
+[if_button,smelting:com_26] @smelt_ore(steel_bar, 5);
+[if_button,smelting:com_25] @smelt_ore(steel_bar, 10);
+[if_button,smelting:com_24] @smelt_ore_makex(steel_bar);
+
+[if_button,smelting:com_31] @smelt_ore(gold_bar, 1);
+[if_button,smelting:com_30] @smelt_ore(gold_bar, 5);
+[if_button,smelting:com_29] @smelt_ore(gold_bar, 10);
+[if_button,smelting:com_28] @smelt_ore_makex(gold_bar);
+
+[if_button,smelting:com_35] @smelt_ore(mithril_bar, 1);
+[if_button,smelting:com_34] @smelt_ore(mithril_bar, 5);
+[if_button,smelting:com_33] @smelt_ore(mithril_bar, 10);
+[if_button,smelting:com_32] @smelt_ore_makex(mithril_bar);
+
+[if_button,smelting:com_39] @smelt_ore(adamantite_bar, 1);
+[if_button,smelting:com_38] @smelt_ore(adamantite_bar, 5);
+[if_button,smelting:com_37] @smelt_ore(adamantite_bar, 10);
+[if_button,smelting:com_36] @smelt_ore_makex(adamantite_bar);
+
+[if_button,smelting:com_43] @smelt_ore(runite_bar, 1);
+[if_button,smelting:com_42] @smelt_ore(runite_bar, 5);
+[if_button,smelting:com_41] @smelt_ore(runite_bar, 10);
+[if_button,smelting:com_40] @smelt_ore_makex(runite_bar);
+
+[label,smelt_ore_makex](obj $bar)
+p_countdialog;
+def_int $entered_value = last_int;
+if($entered_value <= 0) return;
+// https://youtu.be/C21cqhLHj98?si=Wa8Jf9T-fl7Xez_Q&t=68
+@smelt_ore($bar, $entered_value);
+
+[label,smelt_ore_single](obj $last)
 def_namedobj $bar = oc_param($last, smeltsto);
 // using coal on furnace assumes steel bar. If using iron on furnace and player has 2 or more coal, then assume steel bar
 if (($last = iron_ore & inv_total(inv, coal) >= 2 & stat(smithing) >= 30) | $last = coal) {
@@ -30,149 +105,121 @@ if ($bar = null) {
     ~displaymessage(^dm_default);
     return;
 }
-def_struct $struct = oc_param($bar, smelting_struct); 
+// osrs sets action delay here, which delays the starting weakqueue by 1t, old videos
+// show this was instant originally : https://youtu.be/ser9EDJAhX8?si=t6vfx_yel5PmYvGN&t=379
+// smelting here is also 3t instead of 4t
+p_arrivedelay;
+if(~validate_first_smelt($bar) = true) @smelt_ore_weakqueue($bar, 1, 2);
+
+[proc,validate_first_smelt](obj $last)(boolean)
+def_struct $struct = oc_param($last, smelting_struct); 
 // If smithing level isnt high enough, dislpay level fail message
 if (stat(smithing) < struct_param($struct, levelrequired)) {
     ~mesbox(struct_param($struct, levelfailure));
-    return;
+    return (false);
 }
 def_int $primary_total = inv_total(inv, struct_param($struct, ingredient));
 def_int $secondary_total = inv_total(inv, struct_param($struct, ingredient_secondary));
 // If not enough ores
 if ($primary_total < struct_param($struct, bar_count)) {
     ~mesbox(struct_param($struct, processfailure));
-    return;
+    return (false);
 }
 if ($secondary_total < struct_param($struct, ingredient_secondary_count)) {
     ~mesbox(struct_param($struct, processfailure));
-    return;
+    return (false);
 }
-// macro event
+return (true);
+
+[label,smelt_ore](obj $last, int $count)
+if_close;
+// https://youtu.be/mMQ1PmgpWtQ?si=2HE4hDPxhS7NlE1U&t=465
+// make x perfect gold works, if you have both ores it will prio regular gold
+if($last = gold_bar & inv_total(inv, gold_ore) = 0 & inv_total(inv, perfect_gold_ore) > 0) {
+    $last = perfect_gold_bar;
+}
+if(~validate_first_smelt($last) = true) @smelt_ore_weakqueue($last, $count, 4);
+
+[label,smelt_ore_weakqueue](obj $bar, int $count, int $delay)
+// https://youtu.be/mMQ1PmgpWtQ?si=2HE4hDPxhS7NlE1U&t=465
+// make x perfect gold works, if you have both ores it will prio regular gold and process both
+if($bar = gold_bar & inv_total(inv, gold_ore) = 0 & inv_total(inv, perfect_gold_ore) > 0) {
+    $bar = perfect_gold_bar;
+}
+def_struct $struct = oc_param($bar, smelting_struct);
 if (afk_event = ^true) {
     ~macro_event_general_spawn(~macro_event_set_random);
     return;
 }
-anim(human_furnace, 0);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 3);
+    anim(human_furnace, 0);
+    sound_synth(furnace, 0, 0);
+    mes(struct_param($struct, processmessage));
+    weakqueue*(smelting_ore, $delay)($struct, $count);
+} else {
+    weakqueue*(start_smelt_ore, calc(%action_delay - map_clock - 1))($struct, $count);
+}
+
+[queue,start_smelt_ore](struct $struct, int $count)
+def_obj $primary_ore = struct_param($struct, ingredient);
+def_obj $secondary_ore = struct_param($struct, ingredient_secondary);
+def_int $primary_total = inv_total(inv, $primary_ore);
+def_int $secondary_total = inv_total(inv, $secondary_ore);
+// If not enough ores
+// https://youtu.be/Tb1oa7hMyhs?si=2IieUTMhp4kZ0A_K&t=141, https://youtu.be/m7lC4cTLHVA?si=Gt9Be615NpR7aCL8&t=32
+// https://youtu.be/4w2ppvPOJLQ?si=9rxW51dbPAdgST-y&t=8, https://youtu.be/Amv8nLOWrWw?si=Tej0TQRCMGkDXk_j&t=389
+// https://youtu.be/7wg_AeqK_2s?si=2XtMUAr9llPKR3CG&t=1330
+if ($primary_total < struct_param($struct, bar_count)) {
+    mes(struct_param($struct, queueore_primary));
+    return;
+}
+if ($secondary_total < struct_param($struct, ingredient_secondary_count)) {
+    mes(struct_param($struct, queueore_secondary));
+    return;
+}
+%action_delay = calc(map_clock + 3);
+anim(human_furnace, 0); // plays here for somereason
 sound_synth(furnace, 0, 0);
-
-// display process message
 mes(struct_param($struct, processmessage));
+weakqueue*(smelting_ore, 3)($struct, $count);
 
-p_delay(3);
-
+[queue,smelting_ore](struct $struct, int $count)
 // delete main ore
 inv_del(inv, struct_param($struct, ingredient), struct_param($struct, bar_count));
 // delete secondary ore
 if (struct_param($struct, ingredient_secondary) ! null) {
     inv_del(inv, struct_param($struct, ingredient_secondary), struct_param($struct, ingredient_secondary_count));
 }
-
-if ($bar = iron_bar) {
+def_namedobj $product = struct_param($struct, product);
+if ($product = iron_bar) {
     // if player is wearing ring of forging
     if (inv_total(worn, ring_of_forging) > 0 & map_members = ^true) {
         ~lose_charge_ring_of_forging;
     } else if (randominc(1) = 1) { // else assume 50% chance of success
         mes("The ore is too impure and you fail to refine it.");
+        if(sub($count,1) > 0) {
+            %action_delay = add(map_clock, 1);
+            @smelt_ore_weakqueue($product, sub($count,1), 4);
+        }
         return;
     }
 }
-
-// If player is wearing gold smith gauntlets, 2.5x xp. The multiplier was 1.5x in RSC,
+// if player is wearing gold smith gauntlets, 2.5x xp. The multiplier was 1.5x in RSC,
 // earliest mention of 2.5x (56.2) xp is in aug 2004: https://web.archive.org/web/20040820223401/http://runevillage.net/ThePub/viewtopic.php?p=1257194&amp
 // No mentioned updates to Family Crest or the gauntlets in that period. 
 // Was likely changed when ported to rs2.
 def_int $xp = struct_param($struct, productexp);
-if ($bar = gold_bar & inv_total(worn, gauntlets_of_goldsmithing) > 0) {
+if ($product = gold_bar & inv_total(worn, gauntlets_of_goldsmithing) > 0) {
     $xp = scale(5, 2, $xp); // 2.5x
 }
-
-stat_advance(smithing, $xp);
-
-// add bar
-inv_add(inv, $bar, 1);
-// display product message
+// display ingame message
 mes(struct_param($struct, productmessage));
-//----------------------------
-
-//************* WEAKQUEUES DIDNT EXIST UNTIL SEPT 2004 *************
-// //--- This label is jumped to when ore -> furnace
-// [label,smelt_ore](obj $last)
-// p_arrivedelay();
-// // find the bar that the ore smelts to
-// def_namedobj $bar = oc_param($last, smeltsto);
-// // mes(oc_name($last));
-// // mes(oc_name($bar));
-// // for some reason jagex has blankrune and clay in the ores category
-// if ($bar = null) {
-//     ~displaymessage(^dm_default);
-//     return;
-// }
-// def_struct $struct = oc_param($bar, smelting_struct); 
-// // If smithing level isnt high enough, dislpay level fail message
-// if (stat(smithing) < struct_param($struct, levelrequired)) {
-//     ~mesbox(struct_param($struct, levelfailure));
-//     return;
-// }
-// def_int $primary_total = inv_total(inv, struct_param($struct, ingredient));
-// def_int $secondary_total = inv_total(inv, struct_param($struct, ingredient_secondary));
-// // If not enough ores
-// if ($primary_total < struct_param($struct, bar_count)) {
-//     ~mesbox(struct_param($struct, processfailure));
-//     return;
-// }
-// if ($secondary_total < struct_param($struct, ingredient_secondary_count)) {
-//     ~mesbox(struct_param($struct, processfailure));
-//     return;
-// }
-// if (%action_delay < map_clock) {
-//     %action_delay = calc(map_clock + 3);
-//     anim(human_furnace, 0); // plays here for somereason
-//     sound_synth(furnace, 0, 2);
-//     mes(struct_param($struct, processmessage));
-//     weakqueue(smelting_ore, 2, $struct);
-// } else {
-//     weakqueue(start_smelting_ore, calc(%action_delay - map_clock - 1), $struct);
-// }
-// //----------------------------
-
-// //----------------------------
-// [weakqueue,start_smelting_ore](struct $struct)
-// %action_delay = calc(map_clock + 3);
-// anim(human_furnace, 0); // plays here for somereason
-// sound_synth(furnace, 0, 2);
-// mes(struct_param($struct, processmessage));
-// weakqueue(smelting_ore, 4, $struct);
-// //----------------------------
-
-// //--- Weakqueue for smelting one ore
-// [weakqueue,smelting_ore](struct $struct)
-// anim(human_furnace, 0);
-// // delete main ore
-// inv_del(inv, struct_param($struct, ingredient), struct_param($struct, bar_count));
-// // delete secondary ore
-// inv_del(inv, struct_param($struct, ingredient_secondary), struct_param($struct, ingredient_secondary_count));
-// def_namedobj $product = struct_param($struct, product);
-// def_int $xp = struct_param($struct, productexp);
-// if ($product = iron_bar) {
-//     // if player is wearing ring of forging
-//     if (inv_total(worn, ring_of_forging) > 0) {
-//         ~lose_charge_ring_of_forging;
-//     } else if (randominc(1) = 1) { // else assume 50% chance of success
-//         mes("The ore is too impure and you fail to refine it.");
-//         return;
-//     }
-// }
-// // if player is wearing gold smith gauntlets, 1.5x
-// // osrs wiki says 56.2 xp, but the earliest confirmation of that is dec 2005. anything before that is unclear
-// // classic has it at 1.5x, no idea why it was changed to 2.5x after late 2005.
-// if ($product = gold_bar & inv_total(worn, gauntlets_of_goldsmithing) > 0) {
-//     $xp = scale(3, 2, $xp); // 1.5x
-// }
-// // display ingame message
-// mes(struct_param($struct, productmessage));
-// // add product
-// inv_add(inv, $product, 1);
-// // add exp
-// stat_advance(smithing, $xp);
-// //----------------------------
-//************* WEAKQUEUES DIDNT EXIST UNTIL SEPT 2004 *************
+// add product
+inv_add(inv, $product, 1);
+// add exp
+stat_advance(smithing, $xp);
+if(sub($count,1) > 0) {
+    %action_delay = add(map_clock, 1);
+    @smelt_ore_weakqueue($product, sub($count,1), 4);
+}

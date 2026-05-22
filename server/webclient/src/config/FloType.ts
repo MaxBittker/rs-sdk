@@ -1,11 +1,11 @@
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 export default class FloType {
     static numDefinitions: number = 0;
     static list: FloType[] = [];
 
-    rgb: number = 0;
+    colour: number = 0;
     texture: number = -1;
     overlay: boolean = false;
     occlude: boolean = true;
@@ -19,7 +19,7 @@ export default class FloType {
     underlayHue: number = 0;
     overlayHsl: number = 0;
 
-    static init(config: Jagfile): void {
+    static init(config: JagFile): void {
         const dat: Packet = new Packet(config.read('flo.dat'));
 
         this.numDefinitions = dat.g2();
@@ -42,8 +42,8 @@ export default class FloType {
             }
 
             if (code === 1) {
-                this.rgb = dat.g3();
-                this.getHsl(this.rgb);
+                this.colour = dat.g3();
+                this.getHsl(this.colour);
             } else if (code === 2) {
                 this.texture = dat.g1();
             } else if (code === 3) {

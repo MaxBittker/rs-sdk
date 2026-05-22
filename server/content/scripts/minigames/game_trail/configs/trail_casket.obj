@@ -1,6 +1,7 @@
 [trail_clue_hard_sextant004_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -16,6 +17,7 @@ tradeable=no
 [trail_clue_hard_sextant005_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -31,6 +33,7 @@ tradeable=no
 [trail_clue_hard_sextant006_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6

@@ -100,19 +100,19 @@ export default class AnimFrame {
                     if ((flags & 0x1) === 0) {
                         tempTx[current] = defaultValue;
                     } else {
-                        tempTx[current] = tran2.gsmart();
+                        tempTx[current] = tran2.gsmarts();
                     }
 
                     if ((flags & 0x2) === 0) {
                         tempTy[current] = defaultValue;
                     } else {
-                        tempTy[current] = tran2.gsmart();
+                        tempTy[current] = tran2.gsmarts();
                     }
 
                     if ((flags & 0x4) === 0) {
                         tempTz[current] = defaultValue;
                     } else {
-                        tempTz[current] = tran2.gsmart();
+                        tempTz[current] = tran2.gsmarts();
                     }
 
                     lastGroup = j;
@@ -143,7 +143,7 @@ export default class AnimFrame {
         return AnimFrame.list[id];
     }
 
-    static shareAlpha(frame: number) {
+    static animateTransparencies(frame: number) {
         return frame === -1;
     }
 }

@@ -11,9 +11,13 @@ param=ingredient,copper_ore
 param=bar_count,1
 param=ingredient_secondary,tin_ore
 param=ingredient_secondary_count,1
+param=queueore_primary,You have run out of ore to smelt into bronze.
+param=queueore_secondary,You have run out of ore to smelt into bronze.
 
 [smelting_iron_bar]
 param=levelfailure,You need a Smithing level of 15 to smelt an iron bar.
+// https://youtu.be/yPoPflxnUUY?si=hqyZRndBgQM1TWXS&t=245
+param=processfailure,You don't have any iron ore to smelt.
 param=processmessage,You smelt the iron in the furnace.
 param=productmessage,You retrieve a bar of iron.
 param=product,iron_bar
@@ -21,6 +25,7 @@ param=levelrequired,15
 param=productexp,125
 param=ingredient,iron_ore
 param=bar_count,1
+param=queueore_primary,You have run out of iron ore to smelt.
 
 [smelting_steel_bar]
 param=levelfailure,You need a Smithing level of 30 to smelt a steel bar.
@@ -34,9 +39,12 @@ param=ingredient,iron_ore
 param=bar_count,1
 param=ingredient_secondary,coal
 param=ingredient_secondary_count,2
+param=queueore_primary,You have run out of iron ore with which to make steel.
+param=queueore_secondary,You don't have enough coal to make any more steel.
 
 [smelting_silver_bar]
 param=levelfailure,You need a Smithing level of 20 to smelt a silver bar.
+param=processfailure,You don't have any silver ore to smelt.
 param=processmessage,You place a lump of silver in the furnace.
 param=productmessage,You retrieve a bar of silver from the furnace.
 param=product,silver_bar
@@ -44,9 +52,11 @@ param=levelrequired,20
 param=productexp,137
 param=ingredient,silver_ore
 param=bar_count,1
+param=queueore_primary,You have run out of silver ore to smelt.
 
 [smelting_gold_bar]
 param=levelfailure,You need a Smithing level of 40 to smelt a gold bar.
+param=processfailure,You don't have any gold ore to smelt.
 param=processmessage,You place a lump of gold in the furnace.
 param=productmessage,You retrieve a bar of gold from the furnace.
 param=product,gold_bar
@@ -54,6 +64,7 @@ param=levelrequired,40
 param=productexp,225
 param=ingredient,gold_ore
 param=bar_count,1
+param=queueore_primary,You have run out of gold ore to smelt.
 
 [smelting_mithril_bar]
 param=levelfailure,You need a Smithing level of 50 to smelt a mithril bar.
@@ -68,6 +79,8 @@ param=ingredient,mithril_ore
 param=bar_count,1
 param=ingredient_secondary,coal
 param=ingredient_secondary_count,4
+param=queueore_primary,You have run out of mithril ore to smelt.
+param=queueore_secondary,You don't have enough coal to make any more mithril.
 
 [smelting_adamantite_bar]
 param=levelfailure,You need a Smithing level of 70 to smelt an adamantite bar.
@@ -82,6 +95,8 @@ param=ingredient,adamantite_ore
 param=bar_count,1
 param=ingredient_secondary,coal
 param=ingredient_secondary_count,6
+param=queueore_primary,You have run out of adamantite ore to smelt.
+param=queueore_secondary,You don't have enough coal to make any more adamantite.
 
 [smelting_runite_bar]
 param=levelfailure,You need a Smithing level of 85 to smelt a runite bar.
@@ -96,9 +111,12 @@ param=ingredient,runite_ore
 param=bar_count,1
 param=ingredient_secondary,coal
 param=ingredient_secondary_count,8
+param=queueore_primary,You have run out of runite ore to smelt.
+param=queueore_secondary,You don't have enough coal to make any more runite.
 
 [smelting_perfect_gold_bar]
 param=levelfailure,You need a Smithing level of 40 to smelt a gold bar.
+param=processfailure,You don't have any gold ore to smelt.
 param=processmessage,You place a lump of gold in the furnace.
 param=productmessage,You retrieve a bar of gold from the furnace.
 param=product,perfect_gold_bar
@@ -106,3 +124,4 @@ param=levelrequired,40
 param=productexp,225
 param=ingredient,perfect_gold_ore
 param=bar_count,1
+param=queueore_primary,You have run out of gold ore to smelt.

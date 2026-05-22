@@ -1,0 +1,61 @@
+[opnpc1,regicide_old_camp_tracker]
+switch_int(%regicide_quest) {
+    case ^regicide_reported_iorwerth, ^regicide_spoken_arianwyn, ^regicide_complete :
+        ~chatplayer("<p,happy>Hello, still looking for tracks?");
+        ~chatnpc("<p,neutral>The tracks of my brethren are harder to follow than you could imagine.");
+        ~chatplayer("<p,happy>I guess so.");
+    case ^regicide_killed_tyras :
+        ~chatplayer("<p,happy>Hello.");
+        ~chatnpc("<p,neutral>I take it that the huge explosion I just heard was you?");
+        ~chatplayer("<p,happy>Yes I've finally dealt with Tyras, he should cause you no more problems.");
+        ~chatnpc("<p,neutral>This is good news indeed, Lord Iorwerth will be very happy to be told this.");
+    case ^regicide_spoken_iorwerth2 :
+        ~chatplayer("<p,happy>Hello.");
+        ~chatnpc("<p,neutral>How goes it?");
+        ~chatplayer("<p,happy>Well thanks.");
+    case ^regicide_entered_camp :
+        ~chatplayer("<p,happy>Hello.");
+        ~chatnpc("<p,neutral>How goes the hunt for that bandit camp?");
+        ~chatplayer("<p,neutral>I found it a short distance west of here.");
+        ~chatnpc("<p,neutral>I'm sure Lord Iorwerth will be pleased to hear that.");
+    case ^regicide_spoken_tracker2, ^regicide_defeated_guard :
+        ~chatplayer("<p,happy>Hello.");
+        ~chatnpc("<p,neutral>How goes the hunt for that bandit camp?");
+        ~chatplayer("<p,neutral>Getting there.");
+    case ^regicide_found_footprints :
+        ~chatplayer("<p,sad>I've found tracks leading off to the west. But they trail off into the trees. Beyond that I am unable to follow.");
+        ~chatnpc("<p,happy>These woods are a tangle of animal tracks and hidden paths. There's bound to be a way past. Look for things like flattened grass, broken twigs, disturbed leaf litter and such like.");
+        ~chatnpc("<p,happy>I'm sure now you know what you're looking for you will have no trouble following the tracks.");
+        ~chatplayer("<p,neutral>Thanks... I'll see what I can find.");
+        %regicide_quest = ^regicide_spoken_tracker2;
+    case ^regicide_shown_pendant :
+        ~chatnpc("<p,neutral>What is it I can help you with?");
+        @regicide_tracker_findtyras;
+    case ^regicide_spoken_iorwerth, ^regicide_spoken_tracker :
+        ~chatplayer("<p,happy>Hello.");
+        ~chatnpc("<p,neutral>Human! you must be one of Tyras's men....");
+        ~chatplayer("<p,neutral>No I'm <displayname()>. Lord Iorwerth said you may be able to help me.");
+        ~chatnpc("<p,neutral>And you have something to prove this?");
+        if(inv_total(inv, regicide_crystal_pendant) > 0 | inv_total(worn, regicide_crystal_pendant) > 0) {
+            ~objbox(regicide_crystal_pendant, "You show the tracker the crystal pendant", 180, 0, divide(^objbox_height, -2)); // no period
+            %regicide_quest = ^regicide_shown_pendant;
+            // https://web.archive.org/web/20061231211932im_/http://www.runeweb.net/fireball/Regicide%20Images/Regicide11.PNG
+            ~chatnpc("<p,neutral>That's Lord Iorwerth's pendant.|He must have a lot of faith in you.|Now what is it I can help you with?");
+            @regicide_tracker_findtyras;
+        }
+        ~chatplayer("<p,sad>Well... err... No.");
+        if(%regicide_quest < ^regicide_spoken_tracker) %regicide_quest = ^regicide_spoken_tracker;
+        ~chatnpc("<p,neutral>As I was saying.... I have no time for brigands or outlaws.");
+    case default :
+        ~chatplayer("<p,happy>Hello.");
+        ~chatnpc("<p,neutral>Human! you must be one of Tyras's men. I have no time for brigands or outlaws.");
+}
+
+[label,regicide_tracker_findtyras]
+~chatplayer("<p,neutral>I need to find Tyras and kill him. Do you know where his camp is?");
+~chatnpc("<p,neutral>Well this was his old camp. After the battle a few days ago they moved and now we're having trouble tracking him down.");
+~chatplayer("<p,neutral>Can I help at all?");
+~chatnpc("<p,neutral>As it goes I'm not actually tracking them at the moment. This here is the best trace we've had on our renegade brethren.");
+~chatplayer("<p,neutral>What is?");
+~chatnpc("<p,neutral>Ahh I guess you can't see with those human eyes.");
+~chatnpc("<p,neutral>I tell you what. I'll continue to search here on the east side. You check out the west end of the camp. Come and tell me if you find anything.");

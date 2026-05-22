@@ -7,6 +7,8 @@ if (p_finduid(uid) = true) {
     %musicmulti_5 = 0;
     %musicmulti_6 = 0;
     %musicmulti_7 = 0;
+    %musicmulti_8 = 0;
+    %musicmulti_9 = 0;
 } else {
     @please_finish;
 }
@@ -20,6 +22,8 @@ if (p_finduid(uid) = true) {
     %musicmulti_5 = 0xFFFFFFFF;
     %musicmulti_6 = 0xFFFFFFFF;
     %musicmulti_7 = 0xFFFFFFFF;
+    %musicmulti_8 = 0xFFFFFFFF;
+    %musicmulti_9 = 0xFFFFFFFF;
 } else {
     @please_finish;
 }

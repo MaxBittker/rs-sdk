@@ -62,7 +62,7 @@ switch_int(%chompybird) {
             $chompy_flavour = "cabbage";
         }
 
-        ~chatnpc("<p,neutal>Dad say's you's making da chompy for us! Slurp! Me's|has to have <$chompy_flavour> wiv mine! Chompy is our|favourite yummms!");
+        ~chatnpc("<p,neutral>Dad say's you's making da chompy for us! Slurp! Me's|has to have <$chompy_flavour> wiv mine! Chompy is our|favourite yummms!");
 
     case ^chompybird_complete :
         ~chatnpc("<p,neutral>Thanks for da chompy, it was deloverly!");

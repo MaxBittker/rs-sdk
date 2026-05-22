@@ -9,3 +9,7 @@
 ^trail_chart_spoken_murphy = 2
 ^trail_chart_spoken_kojo = 3
 ^trail_chart_complete = 4
+
+^trail_puzzleb = 1
+^trail_puzzlec = 2
+^trail_puzzled = 3

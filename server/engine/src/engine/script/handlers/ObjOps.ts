@@ -33,7 +33,7 @@ const ObjOps: CommandHandlers = {
             throw new Error(`attempted to add dummy item: ${objType.debugname}`);
         }
 
-        if (objType.members && !Environment.NODE_MEMBERS) {
+        if (objType.members && !Environment.node.members) {
             return;
         }
 
@@ -71,7 +71,7 @@ const ObjOps: CommandHandlers = {
             throw new Error(`attempted to add dummy item: ${objType.debugname}`);
         }
 
-        if (objType.members && !Environment.NODE_MEMBERS) {
+        if (objType.members && !Environment.node.members) {
             return;
         }
 
@@ -148,11 +148,11 @@ const ObjOps: CommandHandlers = {
 
         const value = obj.count * objType.cost;
         state.activePlayer.addWealthEvent({
-            event_type: WealthEventType.PICKUP, 
-            account_items: [{ id: objType.id, name: objType.debugname, count: obj.count }], 
+            event_type: WealthEventType.PICKUP,
+            account_items: [{ id: objType.id, name: objType.debugname, count: obj.count }],
             account_value: value
         });
-        
+
         if (obj.lifecycle === EntityLifeCycle.RESPAWN) {
             World.removeObj(obj, objType.respawnrate);
         } else if (obj.lifecycle === EntityLifeCycle.DESPAWN) {

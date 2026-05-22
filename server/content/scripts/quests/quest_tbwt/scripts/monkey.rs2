@@ -1,0 +1,69 @@
+[opnpc2,monkey]
+if (~player_in_combat_check = false) {
+    return;
+}
+def_int $attackrange = ~player_attackrange(inv_getobj(worn, ^wearpos_rhand));
+if (%tbwt_main >= ^tbwt_started & %tbwt_main < ^tbwt_complete) {
+    if ($attackrange > 1) {
+        @player_combat_start;
+    }
+    @monkey_dodge;
+} else {
+    @player_combat_start;
+}
+
+[label,monkey_dodge]
+if (~player_in_combat_check = false) {
+    return;
+}
+mes("The monkey deftly avoids your melee attack! You aren't going to score a hit in");
+mes("hand-to-hand combat.");
+anim(%com_attackanim, 0);
+sound_synth(%com_attacksound, 0, 0);
+npc_setmode(playerescape);
+world_delay(2);
+npc_setmode(null);
+~sound_area(monkey_death, 2, npc_coord, 8);
+switch_int(random(10)) {
+    case 0 :
+        npc_say("Ook! Ook! Oook!");
+    case 1 :
+        npc_say("Can't hit! Can't hit!");
+    case 2 : 
+        npc_say("Ook! Ah Ah Ah! Ook!");
+    case 3 : 
+        npc_say("Ook! Ook! Ah Ah AH!");
+    case 4 : 
+        npc_say("I won't say!");
+    case 5 : 
+        npc_say("Joooogre bones! Ook!");
+    case 6 : 
+        npc_say("Ook! Ah Ah Ah!");
+    case 7 : 
+        npc_say("Ah Ah Ah! Ook! Ook!");
+    case 8 : 
+        npc_say("Ah Ah Ah! Ook!");
+    case 9 :
+        npc_say("Ook! Ook! Oook!");
+}
+
+[ai_queue1,monkey]
+if(finduid(%npc_aggressive_player) = true) {
+    if (%tbwt_main >= ^tbwt_started & %tbwt_main < ^tbwt_complete) {
+        return;
+    }
+}
+gosub(npc_default_retaliate);
+
+[ai_queue3,monkey]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+// Drop monkey corpse only if TBWT is started, otherwise bones
+if (%tbwt_main >= ^tbwt_started & %tbwt_main < ^tbwt_complete & map_members = ^true) {
+    obj_add(npc_coord, tbwt_monkey_corpse, 1, ^lootdrop_duration);
+} else {
+    obj_add(npc_coord, mm_normal_monkey_bones, 1, ^lootdrop_duration);
+}

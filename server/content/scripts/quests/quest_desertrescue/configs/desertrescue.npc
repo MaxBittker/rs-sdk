@@ -90,7 +90,7 @@ wanderrange=3
 
 [escaped_slave]
 vislevel=hide
-name=Escaping slave.
+name=Escaping slave
 desc=He's making a break for it!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready

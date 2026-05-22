@@ -1,0 +1,41 @@
+^mortton_used_serum_on_ulsquire = 0
+^mortton_cured_ulsquire = 1
+^mortton_used_serum_on_razmire = 2
+^mortton_cured_razmire = 3
+^shadeattack = 4
+^mortton_used_perm_serum_on_ulsquire = 5
+^mortton_used_perm_serum_on_razmire = 6
+^mortton_made_perm_serum = 7
+^mortton_checked_table = 8
+//pyre_loc = 9-13
+//temple_resources = 14-27
+//shades_dampe_intro is the name of varbit in osrs.. they accidentally re-used the bit for this quest
+//truly a Jagex moment
+^mortton_shades_dampe_intro = 28
+^mortton_unlocked_shade_lair = 29
+^mortton_gave_dairy_to_apothecary = 30
+^mortton_temple_fullpool_warning = 31
+
+^mortton_not_started = 0
+^mortton_read_diary = 5
+^mortton_made_serum = 10
+^mortton_kill_shades = 15
+^mortton_killed_1_shade = 20
+^mortton_killed_2_shades = 25
+^mortton_killed_3_shades = 30
+^mortton_killed_4_shades = 35
+^mortton_killed_5_shades = 40
+^mortton_shades_to_razmire = 45
+^mortton_shades_to_ulsquire = 47
+^mortton_ulsquire_temple = 50
+^mortton_rebuild_temple = 55
+^mortton_can_light_altar = 60
+^mortton_created_sacred_oil = 65
+^mortton_created_pyre_logs = 70
+^mortton_logs_on_pyre = 75
+^mortton_lit_pyre = 80
+^mortton_quest_complete = 85
+
+^mortton_temple_shadow_transform_center_coord = 0_54_51_46_54
+^mortton_razmire_coord = 0_54_51_33_32
+^mortton_temple_altar_coord = 0_54_51_50_52

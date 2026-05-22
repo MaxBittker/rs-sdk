@@ -63,7 +63,7 @@ if(%wilderness_obstacle_pipe_used >= map_clock) {
     mes("The pipe is being used"); // todo: confirm, using the same as gnome course
     return;
 }
-%wilderness_obstacle_pipe_used = calc(map_clock + 4); 
+%wilderness_obstacle_pipe_used = calc(map_clock + 11);
 p_delay(0);
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, movecoord(loc_coord, 0, 0, -1), movecoord(loc_coord, 0, 0, 2), 30, 126, ^exact_north, true);
 sound_synth(squeeze_in, 0, 0);

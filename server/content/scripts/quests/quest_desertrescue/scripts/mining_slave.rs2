@@ -108,7 +108,7 @@ switch_int(~p_choice2("It's funny you should say that...", 1, "That sounds awful
 [label,mining_slave_male_picklock]
 ~mesbox("You use some nearby bits of wood and wire to try and pick the lock.");
 def_int $attempts = getbit_range(%desertrescue_map_mechanisms, ^desertrescue_lock_attempts1, ^desertrescue_lock_attempts2); // OSRS has this mechanic stored as varb in varp 907, might be rework exclusive?
-if(stat_random(thieving, 111, 250) = false) {
+if(stat_random(thieving, 20, 250) = false) { // RS3 rate
     %desertrescue_map_mechanisms = setbit_range_toint(%desertrescue_map_mechanisms, add($attempts, 1), ^desertrescue_lock_attempts1, ^desertrescue_lock_attempts2);
     mes("You fail!");
     // you can get caught by guards first time in osrs, in rsc (at least openrsc) its always on 2nd attempt

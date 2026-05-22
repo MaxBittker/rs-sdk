@@ -6,8 +6,8 @@ def_int $rare = 0;
 while ($roll < $rolls) {
     // Rare drop chance was 1/21 in Dec 2006. https://www.reddit.com/r/2007scape/comments/3mxll7/clue_reward_mechanics_and_odds_of_rewards/, 
     // 44 items in 2006, there are 12 in May 04
-    // so the chance is 1/77 ((44/12) * 21)
-    if(random(77) = 0) {
+    // so the chance is 1/66 ((44/14) * 21)
+    if(random(66) = 0) {
         $rare = calc($rare + 1);
         gosub(trail_clue_medium_rare);
     } else {
@@ -24,7 +24,7 @@ if ($rare > 0) {
 ~trail_complete;
 
 [proc,trail_clue_medium_normal]
-def_int $random = random(26);
+def_int $random = random(27);
 
 switch_int ($random) {
     case 0 : inv_add(trail_rewardinv, coins, calc(200 + random(801)));
@@ -53,10 +53,11 @@ switch_int ($random) {
     case 23 : inv_add(trail_rewardinv, fire_battlestaff, 1);
     case 24 : inv_add(trail_rewardinv, yew_longbow, 1); // these 2 are both slightly rarer than the other stuff on the table, maybe added later?
     case 25 : inv_add(trail_rewardinv, amulet_of_power, 1);
+    case 26 : inv_add(trail_rewardinv, ~trail_reward_godpage);
 }
 
 [proc,trail_clue_medium_rare]
-def_int $random = random(12);
+def_int $random = random(14);
 
 switch_int ($random) {
     case 0 : inv_add(trail_rewardinv, boots_ranger, 1);
@@ -71,4 +72,6 @@ switch_int ($random) {
     case 9 : inv_add(trail_rewardinv, headband_red, 1);
     case 10 : inv_add(trail_rewardinv, headband_black, 1);
     case 11 : inv_add(trail_rewardinv, headband_brown, 1);
+    case 12 : inv_add(trail_rewardinv, adamant_plateskirt_trim, 1);
+    case 13 : inv_add(trail_rewardinv, adamant_plateskirt_gold, 1);
 }

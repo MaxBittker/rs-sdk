@@ -1,0 +1,244 @@
+/*
+* Prefacing this with the fact that some guess work has been made on spacing, as it can't all fit with
+* the gap between lines as seen in 2007 videos/images, and OSRS, as our Quest Journal doesn't have enough lines!
+*/
+
+[if_button,questlist:tbwt]
+def_string $text;
+
+if (%tbwt_main < ^tbwt_started) {
+    if (%junglepotion = ^junglepotion_complete_after_spoken) {
+        $text = append($text, "@dbl@In @dre@Jungle Potion@dbl@, @dre@Trufitus@dbl@ found @dre@Tai Bwo Wannai Village@dbl@ was|");
+        $text = append($text, "@dbl@safe to inhabit. To start this quest I must deliver the news|");
+        $text = append($text, "@dbl@to @dre@Timfraku@dbl@, Chief of the village.||");
+        $text = append($text, "@dbl@To complete this quest I need:|");
+        $text = append($text, "@dbl@Level 30 Cooking|");
+        $text = append($text, "@dbl@Level 15 Agility|");
+        $text = append($text, "@dbl@Level 5 Fishing|");
+        $text = append($text, "@dbl@High level Agility and Herblore is a distinct advantage.|");
+        $text = append($text, "@dbl@I also need to be able to defeat @dre@level 48 Jogres@dbl@|");
+    } else {
+        $text = append($text, "@dbl@I can start this quest by speaking to @dre@Timfraku@dbl@, the Chief of|");
+        $text = append($text, "@dre@Tai Bwo Wannai Village@dbl@, after completing @dre@Jungle Potion@dbl@.");
+    }
+    ~quest_journal("Tai Bwo Wannai Trio", $text);
+    return;
+}
+
+if (%tbwt_main = ^tbwt_received_gold_reward | %tbwt_main = ^tbwt_complete) {
+    $text = append($text, "@str@Trufitus communed with the gods to determine Tai Bwo|");
+    $text = append($text, "@str@Wannai Village is safe. I delivered the news to Timfraku,|");
+    $text = append($text, "@str@who requested that I seek out his sons and return them to|");
+    $text = append($text, "@str@the village.||");
+    $text = append($text, "@str@I had to help a depressed fisherman, betray another,|");
+    $text = append($text, "@str@assist in destroying an insurmountable beast and do|");
+    $text = append($text, "@str@unspeakable things to Jogre bones.||");
+    $text = append($text, "@str@Mention was also made of a strange accident involving|");
+    $text = append($text, "@str@these people, but they seem somewhat reluctant to|");
+    $text = append($text, "@str@discuss it.||");
+    $text = append($text, "@str@As a reward Timfraku gave me a stack of gold coins.||");
+    
+    // Tamayu
+    if (%tbwt_tamayu > ^tbwt_tamayu_complete) {
+        $text = append($text, "@str@Tamayu has given me a Karambwan poisoned rune spear|");
+        $text = append($text, "@str@and has trained me in combat technique.||");
+    }
+
+    // Tinsay
+    if (%tbwt_tinsay > ^tbwt_tinsay_complete) {
+        $text = append($text, "@str@Tinsay has trained me in cooking technique. He also said|");
+        $text = append($text, "@str@he'd done something to the tribal statue, though he didn't|");
+        $text = append($text, "@str@say what.||"); // https://x.com/JagexAsh/status/544605469290274816
+    }
+
+    // Tiadeche
+    if (%tbwt_tiadeche > ^tbwt_tiadeche_complete) {
+        $text = append($text, "@str@Tiadeche has shown me how to properly cook Karambwan,|");
+        $text = append($text, "@str@is willing to sell them at a low price and has trained me in|");
+        $text = append($text, "@str@fishing technique.||"); // https://x.com/JagexAsh/status/544605469290274816
+    }
+
+    $text = append($text, "@red@QUEST COMPLETE!");
+    ~quest_journal("Tai Bwo Wannai Trio", $text);
+    return;
+}
+
+if (%tbwt_main > ^tbwt_timfraku_asked_for_help & %tbwt_main < ^tbwt_complete) {
+
+    if (%tbwt_tamayu > ^tbwt_tamayu_unknown & %tbwt_tinsay > ^tbwt_tinsay_unknown & %tbwt_tiadeche > ^tbwt_tiadeche_unknown) {
+        $text = append($text, "@str@I have found the three sons of Timfraku:|");
+    } else {
+        $text = append($text, "@dbl@I need to find the three sons of @dre@Timfraku@dbl@:|");
+    }
+    if (%tbwt_tamayu < ^tbwt_tamayu_intro) {
+        $text = append($text, "@dre@Tamayu|");
+    } else {
+        $text = append($text, "@str@Tamayu|");
+    }
+    if (%tbwt_tinsay < ^tbwt_tinsay_intro) {
+        $text = append($text, "@dre@Tinsay|");
+    } else {
+        $text = append($text, "@str@Tinsay|");
+    }
+    if (%tbwt_tiadeche < ^tbwt_tiadeche_intro) {
+        $text = append($text, "@dre@Tiadeche|");
+    } else {
+        $text = append($text, "@str@Tiadeche|");
+    }
+    if (%tbwt_main = ^tbwt_completed_all_brothers) {
+        $text = append($text, "@str@I have convinced them to return to the village.||");
+        $text = append($text, "@dbl@I must speak with @dre@Timfraku@dbl@.||");
+    } else {
+        $text = append($text, "@dbl@I need to convince them to return to the village.||");
+    }
+
+
+    // Tiadeche Journal
+    if (%tbwt_tiadeche > ^tbwt_tiadeche_unknown) {
+
+        if (%tbwt_tiadeche = ^tbwt_tiadeche_complete) {
+            $text = append($text, "@str@Tiadeche:|");
+        } else {
+            $text = append($text, "@dre@Tiadeche:|");
+        }
+
+        // === Progress stages ===
+        if (%tbwt_tiadeche = ^tbwt_tiadeche_intro) {
+            $text = append($text, "Nothing of interest.||");
+        }
+
+        if (%tbwt_tiadeche = ^tbwt_tiadeche_caught_karambwan) {
+            $text = append($text, "@str@He has successfully caught a Karambwan.||");
+        }
+        
+        if (%tbwt_tiadeche = ^tbwt_tiadeche_return_when_caught_karambwan) {
+            $text = append($text, "@dbl@He will only return to the village once he has caught a|@dre@Karambwan@dbl@.||");
+        }
+
+        if (%tbwt_tiadeche > ^tbwt_tiadeche_request_manual) {
+            $text = append($text, "@str@He has successfully caught a Karambwan.|");
+            $text = append($text, "@str@I have taken a Karambwan vessel to Tinsay and have|@str@retrieved crafting instructions for Tiadeche.||");
+        } else if (%tbwt_tiadeche = ^tbwt_tiadeche_request_manual) {
+            $text = append($text, "@str@He has successfully caught a Karambwan.|");
+            $text = append($text, "@dbl@I must take a @dre@Karambwan vessel@dbl@ to @dre@Tinsay@dbl@ and retrieve|@dre@crafting instructions@dbl@ for @dre@Tiadeche@dbl@.||");
+        }
+    }
+
+
+    // Tinsay Journal
+    if (%tbwt_tinsay > ^tbwt_tinsay_unknown) {
+
+        if (%tbwt_tinsay = ^tbwt_tinsay_complete) {
+            $text = append($text, "@str@Tinsay:|");
+        } else {
+            $text = append($text, "@dre@Tinsay:|");
+        }
+
+        // === Progress stages ===
+        switch_int(%tbwt_tinsay) {
+            case ^tbwt_tinsay_intro :
+                $text = append($text, "Nothing of interest.||");
+            case ^tbwt_tinsay_fetch_bananarum :
+                $text = append($text, "@dbl@He requires @dre@banana in Karamja rum@dbl@ to repair the tribal|@dbl@statue||");
+            case ^tbwt_tinsay_given_bananarum :
+                $text = append($text, "@str@I have given him sliced banana in Karamja rum.||");
+            case ^tbwt_tinsay_fetch_seaweedsandwich :
+                $text = append($text, "@str@I have given him sliced banana in Karamja rum.|");
+                $text = append($text, "@dbl@He requires a @dre@seaweed in monkey skin sandwich to repair|@dre@the tribal statue with.||");
+            case ^tbwt_tinsay_given_seaweedsandwich :
+                $text = append($text, "@str@I have given him sliced banana in Karamja rum.|");
+                $text = append($text, "@str@I have given him a seaweed in monkey skin sandwich.||");
+            case ^tbwt_tinsay_fetch_marinatedbones :
+                $text = append($text, "@str@I have given him sliced banana in Karamja rum.|");
+                $text = append($text, "@str@I have given him a seaweed in monkey skin sandwich.|");
+                $text = append($text, "@dbl@He requires @dre@burnt Jogre bones marinated in Karambwanji|@dbl@to ... repair the tribal statue with?||");
+            case ^tbwt_tinsay_complete :
+                $text = append($text, "@str@I have given him sliced banana in Karamja rum.|");
+                $text = append($text, "@str@I have given him a seaweed in monkey skin sandwich.|");
+                $text = append($text, "@str@I have given him a burnt Jogre bones marinated in|@str@Karambwanji paste.||"); // Intentionally 'a burnt Jogre bones'
+        }
+    }
+
+
+    // Tamayu Journal
+    if (%tbwt_tamayu > ^tbwt_tamayu_unknown) {
+        
+        if (%tbwt_tamayu = ^tbwt_tamayu_complete) {
+            $text = append($text, "@str@Tamayu:|");
+        } else {
+            $text = append($text, "@dre@Tamayu:|");
+        }
+
+        // === Progress stages ===
+        if (%tbwt_tamayu = ^tbwt_tamayu_intro) {
+            $text = append($text, "Nothing of interest.||");
+        }
+        
+        if (%tbwt_tamayu = ^tbwt_tamayu_watched_cutscene) {
+            $text = append($text, "@dbl@He will only return to the village once he has slain|@dre@Shaikahan@dbl@.|");
+            $text = append($text, "@dbl@He appears to be having difficulty in the hunt.||");
+            if (~get_tbwt_tamayu_agility_count >= 4) {
+                $text = append($text, "@str@I have increased his agility to match the Shaikahan's.|");
+            }
+            if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true & testbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear) = ^true) {
+                $text = append($text, "@str@I have give him a stronger and Karambwan poisoned spear.||");
+            }
+        } else if (%tbwt_tamayu = ^tbwt_tamayu_slay_shaikahan) {
+            $text = append($text, "@dbl@He will only return to the village once he has slain|@dre@Shaikahan@dbl@.||");
+        }
+
+        if (%tbwt_tamayu = ^tbwt_tamayu_complete) {
+            $text = append($text, "@str@He will only return to the village once he has slain|@str@Shaikahan@dbl@.|");
+            $text = append($text, "@str@He appears to be having difficulty in the hunt.||");
+            $text = append($text, "@str@I have increased his agility to match the Shaikahan's.|");
+            $text = append($text, "@str@I have give him a stronger and Karambwan poisoned spear.||");
+            $text = append($text, "@str@Tamayu has slain the Shaikahan!||");
+        }
+    }
+
+
+    // Lubufu Journal
+    if (%tbwt_lubufu > ^tbwt_lubufu_intro) {
+
+        if (%tbwt_lubufu = ^tbwt_lubufu_complete) {
+            $text = append($text, "@str@Lubufu:|");
+        } else {
+            $text = append($text, "@dre@Lubufu:|");
+        }
+
+        // Base description (always shown once we’ve met him)
+        $text = append($text, "@str@Lubufu is a crochety old fisherman just south of|@str@Brimhaven.|");
+        $text = append($text, "@str@He appears to have a local monopoly over the sale of|@str@Karambwan.||");
+
+        // === Progress stages ===
+        if (%tbwt_lubufu > ^tbwt_lubufu_offered_to_help) {
+            $text = append($text, "@str@Lubufu has difficulty collecting bait, due to his age. I have|@str@offered to help collect bait. Lubufu has accepted.|");
+            $text = append($text, "@str@Apparently the bait is Karambwanji, which shoal in a Holy|@str@Lake south of Tai Bwo Wannai.||");
+        } else if (%tbwt_lubufu = ^tbwt_lubufu_offered_to_help) {
+            $text = append($text, "@dbl@Lubufu has difficulty collecting bait, due to his age. I have|@dbl@offered to help collect bait.||");
+        }
+
+        if (%tbwt_lubufu >= ^tbwt_lubufu_fetch_karambwanji & %tbwt_lubufu < ^tbwt_lubufu_given_karambwanji) {
+            $text = append($text, "@dbl@I need to give Lubufu 20 Karambwanji.||");
+        }
+
+        if (%tbwt_lubufu >= ^tbwt_lubufu_given_karambwanji) {
+            $text = append($text, "@str@I have given Lubufu 20 Karambwanji.||");
+        }
+
+        if (%tbwt_lubufu > ^tbwt_lubufu_offered_apprentice) {
+            $text = append($text, "@str@Lubufu has offered to train me as his apprentice.|");
+            $text = append($text, "@str@I have accepted Lubufu's offer.||");
+        } else if (%tbwt_lubufu = ^tbwt_lubufu_offered_apprentice) {
+            $text = append($text, "@dbl@Lubufu has offered to train me as his apprentice.||");
+        }
+
+        if (%tbwt_lubufu > ^tbwt_lubufu_offered_apprentice & %tbwt_tiadeche > ^tbwt_tiadeche_return_when_caught_karambwan) {
+            $text = append($text, "@str@I have betrayed the secret of the Karambwan to Tiadeche!");
+        }
+
+    }
+
+    ~quest_journal("Tai Bwo Wannai Trio", $text);
+    return;
+}

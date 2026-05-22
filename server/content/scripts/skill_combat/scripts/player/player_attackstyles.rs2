@@ -71,6 +71,10 @@
 [if_button,combat_claw:claw2] ~set_attackstyle(2);
 [if_button,combat_claw:claw3] ~set_attackstyle(3);
 
+[if_button,combat_polearm:polearm0] ~set_attackstyle(0);
+[if_button,combat_polearm:polearm1] ~set_attackstyle(1);
+[if_button,combat_polearm:polearm2] ~set_attackstyle(2);
+
 [if_button,combat_staff_2:auto_toggle]
 if_close;
 if (%attackstyle_magic = 0) {
@@ -107,7 +111,7 @@ if ($previous = null | $obj = null | oc_category($previous) ! oc_category($obj))
     ~player_autocast_reset;
 }
 if (~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
-    if_settab(gnomeball, 0);
+    // if_settab(gnomeball, 0);
     return;
 }
 if ($obj = null | (map_members = ^false & oc_members($obj) = true)) {
@@ -126,6 +130,7 @@ switch_category (oc_category($obj)) {
     case weapon_spiked : ~weapon_category_tab_attack(combat_spiked:preview, combat_spiked:name, combat_spiked, $obj, combat_spiked:specbar_layer);
     case weapon_stab : ~weapon_category_tab_attack(combat_stabsword:preview, combat_stabsword:name, combat_stabsword, $obj, combat_stabsword:specbar_layer);
     case weapon_claws : ~weapon_category_tab_attack(combat_claw:preview, combat_claw:name, combat_claw, $obj, combat_claw:specbar_layer);
+    case weapon_polearm : ~weapon_category_tab_attack(combat_polearm:preview, combat_polearm:name, combat_polearm, $obj, combat_polearm:specbar_layer);
     // ranged
     case weapon_bow : ~weapon_category_tab_attack(combat_bow:preview, combat_bow:name, combat_bow, $obj, combat_bow:specbar_layer);
     case weapon_crossbow : ~weapon_category_tab_attack(combat_crossbow:preview, combat_crossbow:name, combat_crossbow, $obj, combat_crossbow:specbar_layer);
@@ -175,7 +180,7 @@ if ($previous = null | $obj = null | oc_category($previous) ! oc_category($obj))
     ~.player_autocast_reset;
 }
 if (~.inzone_coord_pair_table(gnomeball_zones, .coord) = true) {
-    .if_settab(gnomeball, 0);
+    // .if_settab(gnomeball, 0);
     return;
 }
 if ($obj = null | (map_members = ^false & oc_members($obj) = true)) {
@@ -194,6 +199,7 @@ switch_category (oc_category($obj)) {
     case weapon_spiked : ~.weapon_category_tab_attack(combat_spiked:preview, combat_spiked:name, combat_spiked, $obj, combat_spiked:specbar_layer);
     case weapon_stab : ~.weapon_category_tab_attack(combat_stabsword:preview, combat_stabsword:name, combat_stabsword, $obj, combat_stabsword:specbar_layer);
     case weapon_claws : ~.weapon_category_tab_attack(combat_claw:preview, combat_claw:name, combat_claw, $obj, combat_claw:specbar_layer);
+    case weapon_polearm : ~.weapon_category_tab_attack(combat_polearm:preview, combat_polearm:name, combat_polearm, $obj, combat_polearm:specbar_layer);
     // ranged
     case weapon_bow : ~.weapon_category_tab_attack(combat_bow:preview, combat_bow:name, combat_bow, $obj, combat_bow:specbar_layer);
     case weapon_crossbow : ~.weapon_category_tab_attack(combat_crossbow:preview, combat_crossbow:name, combat_crossbow, $obj, combat_crossbow:specbar_layer);

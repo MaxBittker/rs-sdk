@@ -1,0 +1,201 @@
+[oploc1,regicide_fractionalizing_still]
+mes("You need to fill the still before using it.");
+
+[oplocu,regicide_fractionalizing_still]
+if(last_useitem = regicide_barrel_tar) {
+    @regicide_process_tar_still;
+}
+mes("You don't want to damage the still.");
+
+[if_close,regicide_still]
+clearsofttimer(still_progress);
+if(%regicide_still_total >= 26) {
+    // this order is right :)
+    inv_add(inv, regicide_barrel_naphtha, 1);
+    inv_del(inv, regicide_barrel_empty, 1);
+    %regicide_still_total = 0;
+}
+
+[if_button,regicide_still:com_89] if_close;
+
+[if_button,regicide_still:com_129]
+if(testbit(%regicide_still_settings, 27) = ^true) {
+    %regicide_still_settings = clearbit(%regicide_still_settings, 27);
+    %regicide_still_settings = setbit(%regicide_still_settings, 26);
+} else if(testbit(%regicide_still_settings, 28) = ^true) {
+    %regicide_still_settings = clearbit(%regicide_still_settings, 28);
+    %regicide_still_settings = setbit(%regicide_still_settings, 27);
+}
+sound_synth(valveturn, 0, 0);
+
+[if_button,regicide_still:com_130]
+if(testbit(%regicide_still_settings, 26) = ^true) {
+    %regicide_still_settings = clearbit(%regicide_still_settings, 26);
+    %regicide_still_settings = setbit(%regicide_still_settings, 27);
+    sound_synth(low_pressure, 0, 0);
+} else if(testbit(%regicide_still_settings, 27) = ^true) {
+    %regicide_still_settings = clearbit(%regicide_still_settings, 27);
+    %regicide_still_settings = setbit(%regicide_still_settings, 28);
+    sound_synth(mid_pressure, 0, 0);
+}
+sound_synth(valveturn, 0, 0);
+
+[if_button,regicide_still:com_131]
+if(testbit(%regicide_still_settings, 30) = ^true) {
+    %regicide_still_settings = clearbit(%regicide_still_settings, 30);
+    %regicide_still_settings = setbit(%regicide_still_settings, 29);
+} else if(testbit(%regicide_still_settings, 31) = ^true) {
+    %regicide_still_settings = clearbit(%regicide_still_settings, 31);
+    %regicide_still_settings = setbit(%regicide_still_settings, 30);
+}
+sound_synth(valveturn, 0, 0);
+
+[if_button,regicide_still:com_132]
+if(testbit(%regicide_still_settings, 29) = ^true) {
+    %regicide_still_settings = clearbit(%regicide_still_settings, 29);
+    %regicide_still_settings = setbit(%regicide_still_settings, 30);
+} else if(testbit(%regicide_still_settings, 30) = ^true) {
+    %regicide_still_settings = clearbit(%regicide_still_settings, 30);
+    %regicide_still_settings = setbit(%regicide_still_settings, 31);
+}
+sound_synth(valveturn, 0, 0);
+
+[if_button,regicide_still:com_120]
+if(inv_total(inv, coal) = 0) {
+    return;
+}
+inv_del(inv, coal, 1);
+// the change of heat when inserting coal is reliant on pressure
+%temp = add(%temp, 60);
+sound_synth(coalfill, 0, 0);
+
+[proc,regicide_change_pressure_valve](int $base, int $max, int $value)
+def_int $current = -1;
+def_int $found = 0; 
+def_int $i = $base;
+
+while ($i <= $max) {
+    if (testbit(%regicide_still_settings, $i) = ^true & $found = 0) {
+        $current = $i;
+        $found = 1;
+    }
+    $i = add($i, 1);
+}
+
+if ($current = -1) $current = 0;
+def_int $bit = add($current, $value);
+
+if ($bit < $base) $bit = $base; 
+if ($bit > $max) {
+    ~reset_regicide_still;
+    sound_synth(pressure_toohigh, 0, 0);
+    return; 
+}
+
+$i = $base;
+while ($i <= $max) {
+    if (testbit(%regicide_still_settings, $i) = ^true) {
+        %regicide_still_settings = clearbit(%regicide_still_settings, $i);
+    }
+    $i = add($i, 1);
+}
+
+%regicide_still_settings = setbit(%regicide_still_settings, $bit);
+
+[proc,reset_regicide_still]
+%temp = 0;
+%regicide_still_total = 0;
+%regicide_still_settings = 0;
+// pressure needle
+%regicide_still_settings = setbit(%regicide_still_settings, 0);
+// heat needle
+%regicide_still_settings = setbit(%regicide_still_settings, 13);
+// pressure valve
+%regicide_still_settings = setbit(%regicide_still_settings, 26);
+// tar regulator
+%regicide_still_settings = setbit(%regicide_still_settings, 29);
+
+[softtimer,still_progress]
+if(%regicide_still_total >= 26) {
+    clearsofttimer(still_progress);
+    %temp = 0;
+    %regicide_still_settings = 0;
+    %regicide_still_settings = setbit(%regicide_still_settings, 0);
+    %regicide_still_settings = setbit(%regicide_still_settings, 13);
+    %regicide_still_settings = setbit(%regicide_still_settings, 26);
+    %regicide_still_settings = setbit(%regicide_still_settings, 29);
+    return;
+}
+// PRESSURE VALVE
+def_int $pressure_change = 0;
+if(testbit(%regicide_still_settings, 27) = ^true) {
+    $pressure_change = add($pressure_change, -2);
+} else if(testbit(%regicide_still_settings, 28) = ^true) {
+    $pressure_change = add($pressure_change, -4);
+}
+
+if(testbit(%regicide_still_settings, 30) = ^true) {
+    $pressure_change = add($pressure_change, 1);
+} else if(testbit(%regicide_still_settings, 31) = ^true) {
+    $pressure_change = add($pressure_change, 2);
+}
+
+if(testbit(%regicide_still_settings, 26) = ^true) {
+    sound_synth(low_pressure, 0, 0);
+} else if(testbit(%regicide_still_settings, 27) = ^true) {
+    sound_synth(mid_pressure, 0, 0);
+} else if(testbit(%regicide_still_settings, 28) = ^true) {
+    sound_synth(high_pressure, 0, 0);
+}
+
+
+~regicide_change_pressure_valve(0, 12, $pressure_change);
+~update_regicide_heat_value;
+
+// if heat is in green zone and tar regulator is fully flowing, we can increase the still total
+if(testbit(%regicide_still_settings, 31) = ^true & (testbit(%regicide_still_settings, 19) = ^true | testbit(%regicide_still_settings, 20) = ^true | testbit(%regicide_still_settings, 21) = ^true | testbit(%regicide_still_settings, 22) = ^true | testbit(%regicide_still_settings, 23) = ^true | testbit(%regicide_still_settings, 24) = ^true)) {
+    ~regicide_increase_still_total;
+}
+
+[proc,update_regicide_heat_value]
+if(%temp = 0) {
+    ~regicide_change_pressure_valve(13, 25, -1);
+}
+if(%temp > 80) {
+    ~regicide_change_pressure_valve(13, 25, 2);
+} if(%temp = 80) {
+    ~regicide_change_pressure_valve(13, 25, -1);
+} else if (%temp > 50) {
+    ~regicide_change_pressure_valve(13, 25, 1);
+}
+
+def_int $r = getbit_range(%regicide_still_settings, 13, 25);
+def_int $idx = 0;
+
+while ($r > 1) {
+    $r = divide($r, 2);
+    $idx = add($idx, 1);
+}
+
+if(%temp > 0) %temp = max(0, sub(%temp,add(5, multiply(6, $idx))));
+
+[proc,regicide_increase_still_total]
+%regicide_still_total = add(%regicide_still_total, 2);
+
+[label,regicide_process_tar_still]
+mes("You add the coal tar to the still.");
+inv_del(inv, regicide_barrel_tar, 1);
+inv_add(inv, regicide_barrel_empty, 1);
+if_openmain(regicide_still);
+softtimer(still_progress, 2);
+// still total doesnt reset
+%temp = 0;
+%regicide_still_settings = 0;
+// pressure needle
+%regicide_still_settings = setbit(%regicide_still_settings, 0);
+// heat needle
+%regicide_still_settings = setbit(%regicide_still_settings, 13);
+// pressure valve
+%regicide_still_settings = setbit(%regicide_still_settings, 26);
+// tar regulator
+%regicide_still_settings = setbit(%regicide_still_settings, 29);

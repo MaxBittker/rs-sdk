@@ -7,8 +7,8 @@ weight=2lb
 dummyitem=graphic_only
 
 [swamprocks1]
-name=Rocks
-desc=Some rocks.
+name=Rock
+desc=A chunk of rock.
 model=model_2394_obj
 weight=1g
 members=yes
@@ -169,6 +169,7 @@ recol1d=4228
 weight=1200g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [ibandoll]
 name=Doll of iban

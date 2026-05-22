@@ -114,7 +114,7 @@ def_int $duration = ~npc_projectile(movecoord(%ownedmcannon, 1, 0, 1), npc_uid, 
 ~sound_within_distance(mcannon_fire, 0, %ownedmcannon, 10);
 def_int $damage = 0;
 if (~player_npc_hit_roll(%damagetype) = true) {
-    $damage = randominc(min(30, npc_param(max_dealt)));
+    $damage = randominc(min(30, ~npc_max_dealt(30, 0)));
     def_int $damage_capped = min($damage, npc_stat(hitpoints));
     stat_advance(ranged, multiply(scale(%npc_combat_xp_multiplier, 1000, scale(200, 100, $damage_capped)), 10));
     npc_heropoints($damage_capped);
@@ -123,24 +123,28 @@ if (~player_npc_hit_roll(%damagetype) = true) {
 ~npc_retaliate(divide($duration, 30));
 npc_queue(2, $damage, divide($duration, 30)); // ai_queue2 takes uncapped damage (avoids npcs from tick healing)
 
-if (npc_type = king_dragon) {
-    ~kbd_destroy_cannon;
-}
+// KBD:
 // https://web.archive.org/web/20040821134749/http://www.runescapecommunity.com/index.php?showtopic=159464&amp
 // "I would add in that if you take it to the King Black Dragon it explodes and cannot be used."
 // https://youtu.be/-wgfwyeRSmA?t=117
-[proc,kbd_destroy_cannon]
-if (random(4) = 0 & %ownedmcannon ! null) { // guess
-// (coord $coord, coord $coord2, spotanim $spotanim, int $startheight, int $endheight, int $delay, int $angle, int $length, int $offset, int $step)(int)
-    def_int $duration = ~coord_projectile(npc_coord, %ownedmcannon, firebreath_travel, 92, 31, 51, 16, -5, 64, 10);
-    spotanim_map(fireblast_impact, %ownedmcannon, 124, $duration);
-    npc_anim(dragon_firebreath_middle_attack, 0);
-    sound_synth(dragonbreath, 0, 30);
 
-    if (loc_find(%ownedmcannon, dwarf_multicannon1) = true) {
-        mes("Your cannon has been destroyed!");
-        loc_del(1);
-        cleartimer(cannon_rotate);
+// KQ:
+// https://web.archive.org/web/20061026033854/http://www.global-rs.com/database/monsters/viewmonster.php?id=4
+// "Do not attempt to kill it with a cannon, it will be destroyed!"
+// https://www.youtube.com/watch?v=pwmUi-69JjA
+
+if (npc_type = king_dragon | npc_type = kalphite_queen | npc_type = kalphite_flyingqueen) {
+    // guessing 1/4 chance
+    if (random(4) = 0) {
+        ~destroy_cannon;
     }
-    
+}
+
+[proc,destroy_cannon]
+if (%ownedmcannon ! null & loc_find(%ownedmcannon, dwarf_multicannon1) = true) {
+    spotanim_map(smokepuff_huge, movecoord(%ownedmcannon, 1, 0, 1), 200, 0);
+
+    mes("Your cannon has been destroyed!");
+    loc_del(1);
+    cleartimer(cannon_rotate);
 }

@@ -1,4 +1,10 @@
 [opnpc1,gnome_brimstail]
+if(inv_total(inv, trail_clue_medium_anagram014) > 0) {
+    // https://youtu.be/yOwYUB_bCAE?si=-cIVhPtRRTxmurRu&t=338
+    ~chatnpc("<p,happy>Well done!");
+    ~progress_clue_medium(trail_clue_medium_anagram014, "Brimstail has given you another clue scroll!");
+    return;
+}
 ~chatnpc("<p,neutral>Hello adventurer, what can I do for you?");
 if(%runemysteries = ^runemysteries_complete) {
     def_int $option = ~p_choice2("Can you teleport me to the Rune Essence?", 1, "Nothing for now, thanks!", 2);

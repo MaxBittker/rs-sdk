@@ -2,18 +2,18 @@
 ~chatnpc("<p,neutral>Greetings. Welcome to my castle.");
 
 if ((%dragon_shield = ^quest_dragon_knows_about_shield | %dragonquest >= ^dragon_complete) & inv_total(inv, antidragonbreathshield) < 1 & inv_total(worn, antidragonbreathshield) < 1) {
-    @multi3("I seek a shield that will protect me from the dragon's breath.", duke_of_lumbridge_shield, "Have you any quests for me?", ~duke_handle_rune_mysteries, "Where can I find money?", duke_of_lumbridge_money);
+    @multi3("I seek a shield that will protect me from the dragon's breath.", duke_of_lumbridge_shield, "Have you any quests for me?", duke_handle_rune_mysteries, "Where can I find money?", duke_of_lumbridge_money);
 } else {
-    @multi2("Have you any quests for me?", ~duke_handle_rune_mysteries, "Where can I find money?", duke_of_lumbridge_money);
+    @multi2("Have you any quests for me?", duke_handle_rune_mysteries, "Where can I find money?", duke_of_lumbridge_money);
 
 }
 
 @duke_of_lumbridge_money;
 
-[proc,duke_handle_rune_mysteries]()(label)
-if (%runemysteries = ^runemysteries_not_started) return(duke_rune_mysteries_start);
-else if (%runemysteries = ^runemysteries_complete) return(duke_rune_mysteries_complete);
-else return (duke_rune_mysteries_in_progress);
+[label,duke_handle_rune_mysteries]
+if (%runemysteries = ^runemysteries_not_started) @duke_rune_mysteries_start;
+else if (%runemysteries = ^runemysteries_complete) @duke_rune_mysteries_complete;
+else @duke_rune_mysteries_in_progress;
 
 [label,duke_of_lumbridge_money]
 ~chatplayer("<p,quiz>Where can I find money?");

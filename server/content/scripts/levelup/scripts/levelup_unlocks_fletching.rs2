@@ -5,7 +5,9 @@ switch_int(stat_base(fletching)) {
     case 10 : ~objbox(longbow,"You can now make @dbl@Longbows.", 250, 0, 0);
     case 15 : ~objbox(iron_arrow_5,"You can now make @dbl@Iron Arrows.", 250, 0, 0);
     case 20 : ~objbox(oak_shortbow,"You can now make @dbl@Oak Shortbows.", 250, 0, 0);
-    case 25 : ~objbox(oak_longbow,"You can now make @dbl@Oak Longbows.", 250, 0, 0);
+    case 25 : 
+        ~objbox(oak_longbow,"You can now make @dbl@Oak Longbows.", 250, 0, 0);
+        ~mesbox("@dbl@~ This is one of the requirements of the @dre@FREMENNIK TRIALS@dbl@. @dbl@~");
     case 30 : ~objbox(steel_arrow_5,"You can now make @dbl@Steel Arrows.", 250, 0, 0);
     case 35 : ~objbox(willow_shortbow,"You can now make @dbl@Willow Shortbows.", 250, 0, 0);
     case 40 : ~objbox(willow_longbow,"You can now make @dbl@Willow Longbows.", 250, 0, 0);

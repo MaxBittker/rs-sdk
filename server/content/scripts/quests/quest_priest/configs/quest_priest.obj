@@ -30,3 +30,4 @@ model=model_2388_obj
 weight=80g
 param=no_alchemy,1
 tradeable=no
+param=destroy_drop,^true

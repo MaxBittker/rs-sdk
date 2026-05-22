@@ -18,6 +18,7 @@ op2=Open
 
 [merlinworkshop]
 name=Door
+desc=The door is shut.
 model=model_loc_3
 active=yes
 op1=Open

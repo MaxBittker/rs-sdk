@@ -159,7 +159,7 @@ inv_add(inv, carnilleanchestkey, 1);
 [queue,hazeelcult_fake_complete]
 inv_add(inv, coins, 5);
 %hazeelcultquest = ^hazeelcult_given_armour_or_scroll;
-midi_jingle(^death_jingle, ^death_jingle_millis);
+~music_jingle(death);
 if_settext(questscroll:com_3, "You have... kind of...\\ncompleted the Hazeel Cult Quest!");
 if_settext(questscroll:com_9, "5");
 if_settext(questscroll:com_10, "coins.");

@@ -1,0 +1,322 @@
+[regicide_quest_kings_summons]
+name=King's message
+desc=A summons from King Lathas.
+model=model_2675_obj
+2dxof=1
+2dyof=7
+2dzoom=1040
+2dyan=120
+2dxan=380
+cost=1
+iop1=Read
+weight=2oz
+tradeable=no
+
+[regicide_iorwerth_message]
+name=Iorwerths message
+desc=A letter for King Lathas from Lord Iorwerth.
+model=model_2675_obj
+2dxof=1
+2dyof=7
+2dzoom=1040
+2dyan=120
+2dxan=380
+members=yes
+cost=1
+iop1=Read
+weight=2oz
+tradeable=no
+
+[regicide_crystal_pendant]
+name=Crystal pendant
+desc=Lord Iorwerth's crystal pendant.
+model=model_2515_obj
+2dxof=1
+2dyof=16
+2dzoom=620
+2dyan=68
+2dxan=424
+members=yes
+cost=10
+iop2=Wear
+manwear=model_283_obj_wear,0
+womanwear=model_447_obj_wear,0
+wearpos=front
+weight=5g
+tradeable=no
+
+[regicide_sulphar]
+name=Sulphur
+desc=A piece of Sulphur formation.
+model=obj_3209
+2dxof=5
+2dyof=-24
+2dzoom=1340
+2dyan=1960
+2dxan=196
+weight=10g
+tradeable=no
+members=yes
+param=grindable_ingredient_refined,regicide_sulphar_dust
+// https://youtu.be/1QO8LtDwwMg?si=lB0GpSFgMOnLVtPP&t=2126
+param=grindable_ingredient_message,You grind the sulphur to dust
+
+[limestone]
+name=Limestone
+recol1s=11488
+recol1d=14797
+cost=10
+desc=Some limestone.
+model=obj_3211
+2dxof=-7
+2dyof=-41
+2dyan=164
+2dxan=220
+members=yes
+weight=5lb
+
+[regicide_quicklime]
+name=Quicklime
+recol1s=11488
+recol1d=32735
+cost=4
+desc=Some quicklime.
+model=model_2748_obj
+2dxof=1
+2dyof=15
+2dzoom=1400
+2dyan=1576
+2dxan=368
+members=yes
+weight=5lb
+tradeable=no
+
+[regicide_quicklime_dust]
+name=Pot of quicklime
+recol1s=21140
+recol1d=32735
+cost=5
+desc=A pot of ground quicklime.
+model=model_2406_obj
+2dxof=1
+2dyof=15
+2dzoom=1400
+2dyan=1576
+2dxan=368
+members=yes
+weight=1lb
+tradeable=no
+
+[regicide_sulphar_dust]
+name=Ground sulphur
+recol1s=21140
+recol1d=31649
+desc=A pile of ground Sulphur.
+cost=5
+model=model_2742_obj
+2dxof=-6
+2dzoom=1210
+2dyan=1892
+2dxan=264
+members=yes
+weight=2oz
+tradeable=no
+
+[regicide_barrel_empty]
+name=Barrel
+desc=An empty barrel.
+model=obj_3216
+2dxof=-3
+2dyof=-3
+2dzoom=1660
+2dyan=1976
+2dxan=152
+members=yes
+weight=10kg
+tradeable=no
+
+[regicide_barrel_lid]
+name=Barrel bomb
+desc=A barrel full of fire oil.
+model=obj_3218
+2dxof=-3
+2dyof=-3
+2dzoom=1660
+2dyan=1976
+2dxan=152
+members=yes
+weight=32kg
+tradeable=no
+
+[regicide_barrel_lid_fused]
+name=Barrel bomb
+desc=A fused barrel full of fire oil.
+model=obj_3218
+2dxof=-3
+2dyof=-3
+2dzoom=1660
+2dyan=1976
+2dxan=152
+members=yes
+weight=32kg
+tradeable=no
+
+[regicide_barrel_tar]
+name=Barrel of coal-tar
+desc=A barrel full of coal-tar.
+model=obj_3220
+2dxof=-3
+2dyof=-3
+2dzoom=1660
+2dyan=1976
+2dxan=152
+members=yes
+weight=32kg
+tradeable=no
+
+[regicide_barrel_naphtha]
+name=Barrel of naphtha
+desc=A barrel full of naphtha.
+model=obj_3221
+2dxof=-3
+2dyof=-3
+2dzoom=1660
+2dyan=1976
+2dxan=152
+members=yes
+weight=32kg
+tradeable=no
+
+[regicide_barrel_naphtha_sulphar_mix]
+name=Naphtha mix
+recol1s=15855
+recol1d=31649
+desc=A barrel full of naphtha and sulphur.
+model=obj_3221
+2dxof=-3
+2dyof=-3
+2dzoom=1660
+2dyan=1976
+2dxan=152
+members=yes
+weight=32kg
+tradeable=no
+
+[regicide_barrel_naphtha_quicklime_mix]
+name=Naphtha mix
+recol1s=15855
+recol1d=32767
+desc=A barrel full of naphtha and quicklime.
+model=obj_3221
+2dxof=-3
+2dyof=-3
+2dzoom=1660
+2dyan=1976
+2dxan=152
+members=yes
+weight=32kg
+tradeable=no
+
+[regicide_cloth]
+name=Cloth
+recol1s=27412
+recol1d=25372
+desc=A bolt of cloth.
+cost=10
+model=model_2725_obj
+2dyof=-15
+2dzoom=1360
+2dxan=368
+members=yes
+weight=12oz
+tradeable=no
+
+[raw_rabbit]
+name=Raw rabbit
+desc=I need to cook this first.
+model=model_2760_obj
+2dxof=1
+2dyof=3
+2dzoom=560
+2dyan=176
+2dxan=308
+cost=1
+members=yes
+weight=6oz
+category=cooking_generic
+
+[cooked_rabbit]
+name=Cooked rabbit
+recol1s=24609
+recol1d=16609
+recol2s=32767
+recol2d=20774
+desc=Mmm this looks tasty.
+iop1=Eat
+cost=4
+model=model_2760_obj
+2dxof=1
+2dyof=3
+2dzoom=560
+2dyan=176
+2dxan=308
+members=yes
+weight=5oz
+category=category_5
+
+[regicide_alchemy]
+name=Big book of bangs
+recol1s=12504
+recol1d=8384
+recol2s=29594
+recol2d=23126
+desc=A book by Mel Achy.
+cost=1
+model=model_2543_obj
+2dzoom=840
+2dyan=152
+2dxan=256
+members=yes
+iop1=Read
+weight=8oz
+tradeable=no
+
+[regicide_alchemy_symbol1]
+name=Symbol1
+model=obj_3231
+2dxof=-2
+2dyof=7
+2dzoom=1890
+2dxan=496
+weight=1g
+tradeable=no
+
+[regicide_alchemy_symbol2]
+name=Symbol2
+model=obj_3233
+2dxof=-2
+2dyof=7
+2dzoom=1890
+2dxan=496
+weight=1g
+tradeable=no
+
+[regicide_alchemy_symbol3]
+name=Symbol3
+model=obj_3235
+2dxof=-2
+2dyof=7
+2dzoom=1890
+2dxan=496
+weight=1g
+tradeable=no
+
+[regicide_alchemy_symbol4]
+name=Symbol4
+model=obj_3237
+2dxof=-2
+2dyof=7
+2dzoom=1890
+2dxan=496
+weight=1g
+tradeable=no

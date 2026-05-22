@@ -3,7 +3,14 @@
 [opnpc1,duel_crowdmale3] @duel_arena_spectator_dialogue;
 [opnpc1,duel_crowdfemale1] @duel_arena_spectator_dialogue;
 [opnpc1,duel_crowdfemale2] @duel_arena_spectator_dialogue;
-[opnpc1,duel_crowdfemale3] @duel_arena_spectator_dialogue;
+[opnpc1,duel_crowdfemale3]
+if(inv_total(inv, trail_clue_easy_vague029) > 0) {
+    // https://www.youtube.com/watch?v=5A0bQw4WyLA
+    ~chatnpc("<p,happy>Congratulations, you have come to the right place!");
+    ~progress_clue_easy(trail_clue_easy_vague029, "You've found another clue!");
+    return;
+}
+@duel_arena_spectator_dialogue;
 
 [label,duel_arena_spectator_dialogue]
 ~chatplayer("<p,neutral>Hi!");
@@ -26,7 +33,7 @@ switch_int ($random) {
     case 3 :
         ~chatnpc("<p,neutral>Hmph.");
     case 4 :
-        ~chatnpc("<p,happy>My favourite fighter is duel_mubariz!");
+        ~chatnpc("<p,happy>My favourite fighter is <nc_name(duel_mubariz)>!");
         ~chatplayer("<p,neutral>The guy at the information kiosk?");
         ~chatnpc("<p,happy>Yeah! He rocks!");
         ~chatplayer("<p,neutral>Takes all sorts, I guess.");

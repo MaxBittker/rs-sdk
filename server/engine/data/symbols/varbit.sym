@@ -1,0 +1,6 @@
+0	troll_freed_eadgar	int	true
+1	troll_opened_back_exit	int	true
+2	troll_entered_stronghold	int	true
+3	troll_accepted_challenge	int	true
+4	troll_told	int	true
+5	troll_to_the_death	int	true

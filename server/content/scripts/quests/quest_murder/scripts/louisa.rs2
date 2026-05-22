@@ -1,4 +1,9 @@
 [opnpc1,louisa_the_cook]
+// https://youtu.be/TDr1E4g18tc?si=8uYm-D_Ph_5HlIh8&t=32
+if(inv_total(inv, trail_clue_easy_vague028) > 0) {
+    ~progress_clue_easy(trail_clue_easy_vague028, "You've found another clue scroll!");
+    return;
+}
 switch_int(%murderquest) { 
     case ^murder_not_started :
         ~chatnpc("<p,neutral>I'm far too upset to talk to random people right now.");

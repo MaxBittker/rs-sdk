@@ -49,6 +49,7 @@ tradeable=no
 [trail_clue_easy_map001_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -65,6 +66,7 @@ tradeable=no
 [obj_2715]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -80,6 +82,7 @@ tradeable=no
 [trail_clue_easy_map002_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -96,6 +99,7 @@ tradeable=no
 [obj_2718]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -111,6 +115,7 @@ tradeable=no
 [trail_clue_easy_map003_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -127,6 +132,7 @@ tradeable=no
 [obj_2721]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -142,6 +148,7 @@ tradeable=no
 [trail_clue_hard_sextant001_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -157,6 +164,7 @@ tradeable=no
 [trail_clue_hard_sextant002_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -172,6 +180,7 @@ tradeable=no
 [trail_clue_hard_sextant003_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -187,6 +196,7 @@ tradeable=no
 [trail_clue_hard_sextant007_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -202,6 +212,7 @@ tradeable=no
 [trail_clue_hard_sextant008_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -217,6 +228,7 @@ tradeable=no
 [trail_clue_hard_sextant009_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -232,6 +244,7 @@ tradeable=no
 [trail_clue_hard_sextant010_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -247,6 +260,7 @@ tradeable=no
 [trail_clue_hard_sextant011_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -262,6 +276,7 @@ tradeable=no
 [trail_clue_hard_sextant012_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -277,6 +292,7 @@ tradeable=no
 [trail_clue_hard_sextant013_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -604,6 +620,7 @@ param=puzzle_piece_id,23
 [trail_clue_hard_riddle002_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -619,6 +636,7 @@ tradeable=no
 [trail_clue_hard_riddle003_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -634,6 +652,7 @@ tradeable=no
 [trail_clue_hard_riddle004_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -649,6 +668,7 @@ tradeable=no
 [trail_clue_hard_riddle005_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -664,6 +684,7 @@ tradeable=no
 [trail_clue_hard_riddle007_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -679,6 +700,7 @@ tradeable=no
 [trail_clue_hard_riddle009_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -694,6 +716,7 @@ tradeable=no
 [trail_clue_hard_riddle010_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -709,6 +732,7 @@ tradeable=no
 [trail_clue_hard_riddle011_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -733,6 +757,7 @@ model=model_3372_obj
 2dxan=420
 iop1=Open
 category=trail_puzzle
+param=trail_puzzle,^trail_puzzleb
 tradeable=no
 
 [trail_clue_hard_riddle016_puzzlebox]
@@ -747,6 +772,7 @@ model=model_3372_obj
 2dxan=420
 iop1=Open
 category=trail_puzzle
+param=trail_puzzle,^trail_puzzleb
 tradeable=no
 
 [trail_clue_hard_riddle017_puzzlebox]
@@ -761,11 +787,13 @@ model=model_3372_obj
 2dxan=420
 iop1=Open
 category=trail_puzzle
+param=trail_puzzle,^trail_puzzleb
 tradeable=no
 
 [trail_clue_medium_sextant001_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -781,6 +809,7 @@ tradeable=no
 [trail_clue_medium_map001_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -796,6 +825,7 @@ tradeable=no
 [trail_clue_medium_map002_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -811,6 +841,7 @@ tradeable=no
 [trail_clue_medium_sextant002_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -826,6 +857,7 @@ tradeable=no
 [trail_clue_medium_sextant003_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -841,6 +873,7 @@ tradeable=no
 [trail_clue_medium_sextant004_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -856,6 +889,7 @@ tradeable=no
 [trail_clue_medium_sextant005_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -871,6 +905,7 @@ tradeable=no
 [trail_clue_medium_sextant006_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -886,6 +921,7 @@ tradeable=no
 [trail_clue_medium_sextant007_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -901,6 +937,7 @@ tradeable=no
 [trail_clue_medium_sextant008_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -916,6 +953,7 @@ tradeable=no
 [trail_clue_medium_sextant009_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -931,6 +969,7 @@ tradeable=no
 [trail_clue_medium_sextant010_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -946,6 +985,7 @@ tradeable=no
 [trail_clue_medium_sextant011_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -961,6 +1001,7 @@ tradeable=no
 [trail_clue_medium_sextant012_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -976,6 +1017,7 @@ tradeable=no
 [trail_clue_medium_sextant013_casket]
 name=Casket
 desc=I hope there's treasure in it.
+weight=5kg
 model=model_2450_obj
 2dxof=3
 2dyof=-6
@@ -1052,3 +1094,579 @@ model=model_2372_obj
 2dyan=20
 2dxan=328
 tradeable=no
+
+[trail_slidingpuzzlec01]
+name=Sliding piece
+model=obj_3619
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,0
+
+[trail_slidingpuzzlec02]
+name=Sliding piece
+model=obj_3620
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,1
+
+[trail_slidingpuzzlec03]
+name=Sliding piece
+model=obj_3621
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,2
+
+[trail_slidingpuzzlec04]
+name=Sliding piece
+model=obj_3622
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,3
+
+[trail_slidingpuzzlec05]
+name=Sliding piece
+model=obj_3623
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,4
+
+[trail_slidingpuzzlec06]
+name=Sliding piece
+model=obj_3624
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,5
+
+[trail_slidingpuzzlec07]
+name=Sliding piece
+model=obj_3625
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,6
+
+[trail_slidingpuzzlec08]
+name=Sliding piece
+model=obj_3626
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,7
+
+[trail_slidingpuzzlec09]
+name=Sliding piece
+model=obj_3627
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,8
+
+[trail_slidingpuzzlec10]
+name=Sliding piece
+model=obj_3628
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,9
+
+[trail_slidingpuzzlec11]
+name=Sliding piece
+model=obj_3629
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,10
+
+[trail_slidingpuzzlec12]
+name=Sliding piece
+model=obj_3630
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,11
+
+[trail_slidingpuzzlec13]
+name=Sliding piece
+model=obj_3631
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,12
+
+[trail_slidingpuzzlec14]
+name=Sliding piece
+model=obj_3632
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,13
+
+[trail_slidingpuzzlec15]
+name=Sliding piece
+model=obj_3633
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,14
+
+[trail_slidingpuzzlec16]
+name=Sliding piece
+model=obj_3634
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,15
+
+[trail_slidingpuzzlec17]
+name=Sliding piece
+model=obj_3635
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,16
+
+[trail_slidingpuzzlec18]
+name=Sliding piece
+model=obj_3636
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,17
+
+[trail_slidingpuzzlec19]
+name=Sliding piece
+model=obj_3637
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,18
+
+[trail_slidingpuzzlec20]
+name=Sliding piece
+model=obj_3638
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,19
+
+[trail_slidingpuzzlec21]
+name=Sliding piece
+model=obj_3639
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,20
+
+[trail_slidingpuzzlec22]
+name=Sliding piece
+model=obj_3640
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,21
+
+[trail_slidingpuzzlec23]
+name=Sliding piece
+model=obj_3641
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,22
+
+[trail_slidingpuzzlec24]
+name=Sliding piece
+model=obj_3642
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,23
+
+[trail_slidingpuzzled01]
+name=Sliding piece
+model=obj_3643
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,0
+
+[trail_slidingpuzzled02]
+name=Sliding piece
+model=obj_3644
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,1
+
+[trail_slidingpuzzled03]
+name=Sliding piece
+model=obj_3645
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,2
+
+[trail_slidingpuzzled04]
+name=Sliding piece
+model=obj_3646
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,3
+
+[trail_slidingpuzzled05]
+name=Sliding piece
+model=obj_3647
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,4
+
+[trail_slidingpuzzled06]
+name=Sliding piece
+model=obj_3648
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,5
+
+[trail_slidingpuzzled07]
+name=Sliding piece
+model=obj_3649
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,6
+
+[trail_slidingpuzzled08]
+name=Sliding piece
+model=obj_3650
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,7
+
+[trail_slidingpuzzled09]
+name=Sliding piece
+model=obj_3651
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,8
+
+[trail_slidingpuzzled10]
+name=Sliding piece
+model=obj_3652
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,9
+
+[trail_slidingpuzzled11]
+name=Sliding piece
+model=obj_3653
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,10
+
+[trail_slidingpuzzled12]
+name=Sliding piece
+model=obj_3654
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,11
+
+[trail_slidingpuzzled13]
+name=Sliding piece
+model=obj_3655
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,12
+
+[trail_slidingpuzzled14]
+name=Sliding piece
+model=obj_3656
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,13
+
+[trail_slidingpuzzled15]
+name=Sliding piece
+model=obj_3657
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,14
+
+[trail_slidingpuzzled16]
+name=Sliding piece
+model=obj_3658
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,15
+
+[trail_slidingpuzzled17]
+name=Sliding piece
+model=obj_3659
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,16
+
+[trail_slidingpuzzled18]
+name=Sliding piece
+model=obj_3660
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,17
+
+[trail_slidingpuzzled19]
+name=Sliding piece
+model=obj_3661
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,18
+
+[trail_slidingpuzzled20]
+name=Sliding piece
+model=obj_3662
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,19
+
+[trail_slidingpuzzled21]
+name=Sliding piece
+model=obj_3663
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,20
+
+[trail_slidingpuzzled22]
+name=Sliding piece
+model=obj_3664
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,21
+
+[trail_slidingpuzzled23]
+name=Sliding piece
+model=obj_3665
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,22
+
+[trail_slidingpuzzled24]
+name=Sliding piece
+model=obj_3666
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+members=yes
+category=trail_puzzle_piece
+param=puzzle_piece_id,23

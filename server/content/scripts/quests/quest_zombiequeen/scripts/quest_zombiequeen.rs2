@@ -530,7 +530,7 @@ if(coordx(coord) > coordx(loc_coord)) {
     }
     p_delay(0);
     ~agility_force_move(0, human_climbing, movecoord(coord, -2, 0, 0));
-    if(stat_random(agility, 125, 250) = false) {
+    if(stat_random(agility, 170, 253) = false) {
         sound_synth(stumble_loop, 10, 0);
         ~agility_exactmove(human_climbing_fall, 0, 1, coord, movecoord(coord, 2, 0, 0), 0, 50, ^exact_west, false);
         anim(null, 0);
@@ -543,7 +543,7 @@ if(coordx(coord) > coordx(loc_coord)) {
     ~agility_force_move(0, human_climbing, movecoord(coord, -2, 0, 0));
 } else if (coordx(coord) < coordx(loc_coord)) {
     ~agility_exactmove(human_climbing_down, 15, 0, coord, movecoord(coord, 4, 0, 0), 0, 120, ^exact_west, false);
-    if(stat_random(agility, 125, 250) = false) {
+    if(stat_random(agility, 170, 253) = false) {
         anim(human_climbing_fall, 0);
         sound_synth(stumble_loop, 10, 0);
         p_delay(1);
@@ -563,7 +563,7 @@ if(coordx(coord) > coordx(loc_coord)) {
 
 [timer,cairn_island_bridge]
 if(inzone(0_43_46_24_35, 0_43_46_29_35, coord) = true) {
-    if(stat_random(agility, 125, 250) = false) {
+    if(stat_random(agility, 75, 250) = false) {
         // fall
         mes("You fall!");
         p_stopaction;
@@ -622,7 +622,7 @@ if(testbit(%zq_map_mechanisms, ^zq_read_tattered_scroll) = ^true) {
             }
             ~mesbox("You contort your body and prepare to squirm worm like into the hole.");
             anim(human_pickupfloor, 5);
-            if(stat_random(agility, 125, 250) = false) {
+            if(stat_random(agility, 170, 253) = false) {
                 ~set_walkbas(human_drowning);
                 ~forcemove(loc_coord);
                 mes("You manage to get yourself stuck.");
@@ -847,7 +847,7 @@ if(~obj_gettotal(zqberviriusscroll) > 0) {
 def_int $choice = ~p_choice2("Yes, I'm quite sure.", 1, "No, I think I'll keep it.", 2);
 if ($choice = 1) {
     ~mesbox("You start to slowly move the rocks to one side.");
-    if(stat_random(agility, 125, 250) = false) {
+    if(stat_random(agility, 75, 250) = false) {
         queue(damage_player, 0, calc(((stat_base(hitpoints) * 10) / 100) + 1)); // assuming regular queue, strongqueue in OSRS
         ~mesbox("You accidentally knock some rocks and the ceiling starts to cave in.|Some rocks fall on you."); // this wont show up cause of damage in OSRS
         return;
@@ -991,7 +991,7 @@ switch_int(~p_choice2_header("Yes, I'll follow the path.", 1, "No, I'll look for
         }
         ~forcemove(movecoord(coord, 2, 0, 0));
         p_delay(0);
-        if(stat_random(agility, 125, 250) = false) {
+        if(stat_random(agility, 75, 250) = false) {
             mes("You fall!");
             ~set_walkbas(human_drowning);
             sound_synth(pool_plop, 0, 0);
@@ -1315,7 +1315,7 @@ p_arrivedelay;
 mes("You attempt to climb the granite rock.");
 ~set_readywalkturn_bas(human_climbing_ready, human_climbing, human_climbing);
 ~forcemove(movecoord(loc_coord, 1, 0, 0));
-if(stat_random(agility, 125, 250) = false) {
+if(stat_random(agility, 70, 250) = false) {
     mes("You fall!");
     ~update_bas;
     say("Arrggghhhhhh!");
@@ -1453,7 +1453,7 @@ return (getbit_range(%zq_map_mechanisms, 7, 8));
 [oploc1,zq_rashrocks]
 ~rash_summon;
 def_boolean $failed = false;
-if(stat_random(agility, 125, 250) = false) {
+if(stat_random(agility, 150, 252) = false) {
     $failed = true;
 }
 if(coordz(coord) > 9512) {

@@ -10,7 +10,7 @@ import { ConfigIdx } from './Common.js';
 import { listFilesExt } from '#tools/pack/Parse.js';
 
 function renameModel(id: number, name: string) {
-    const existingFiles = listFilesExt(`${Environment.BUILD_SRC_DIR}/models`, '.ob2');
+    const existingFiles = listFilesExt(`${Environment.build.srcDir}/models`, '.ob2');
 
     let model = ModelPack.getById(id);
     if (model.startsWith('model_')) {
@@ -26,7 +26,7 @@ function renameModel(id: number, name: string) {
 
         const filePath = existingFiles.find(x => x.endsWith(`/${model}.ob2`));
         if (filePath) {
-            fs.renameSync(filePath, `${Environment.BUILD_SRC_DIR}/models/obj/${name}.ob2`);
+            fs.renameSync(filePath, `${Environment.build.srcDir}/models/obj/${name}.ob2`);
         } else {
             console.error('Model not found on filesystem', 'obj', model);
         }
@@ -154,11 +154,11 @@ export function unpackObjConfig(config: ConfigIdx, id: number, compare?: ConfigI
                 def.push(`womanwear2=${model}`);
             }
         } else if (code >= 30 && code < 35) {
-            const index = (code - 30) + 1;
+            const index = code - 30 + 1;
             const op = dat.gjstr();
             def.push(`op${index}=${op}`);
         } else if (code >= 35 && code < 40) {
-            const index = (code - 35) + 1;
+            const index = code - 35 + 1;
             const op = dat.gjstr();
             def.push(`iop${index}=${op}`);
         } else if (code === 40) {
@@ -254,7 +254,7 @@ export function unpackObjConfig(config: ConfigIdx, id: number, compare?: ConfigI
             const obj = ObjPack.getById(objId) || 'obj_' + objId;
             def.push(`certtemplate=${obj}`);
         } else if (code >= 100 && code < 110) {
-            const index = (code - 100) + 1;
+            const index = code - 100 + 1;
             const objId = dat.g2();
             const count = dat.g2();
 

@@ -63,6 +63,10 @@ const revInfo: Record<string, RevInfo> = {
     },
     '254': {
         description: 'September 7, 2004',
+        webclient: true
+    },
+    '274': {
+        description: 'November 2, 2004',
         wip: true
     }
 };

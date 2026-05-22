@@ -1,0 +1,167 @@
+[boardgames_draughts_firerune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2399_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_waterrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2652_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_earthrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2737_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_airrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2405_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_mindrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2481_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_bodyrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2340_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_naturerune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2734_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_chaosrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2707_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_lawrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2382_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_cosmicrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2735_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_bloodrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2665_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no
+
+[boardgames_draughts_soulrune_king]
+name=Board game piece
+recol1s=15855
+recol1d=28903
+desc=A piece used in board games.
+model=model_2434_obj
+2dyof=1
+2dzoom=740
+2dxan=516
+members=yes
+category=draughts_king
+weight=2g
+tradeable=no

@@ -37,7 +37,7 @@ if ($exiting = false) {
         inv_del(inv, ball_gnomeball_game, inv_total(inv, ball_gnomeball_game));
         %gnomeball_owedball = ^true;
     }
-    if_settab(gnomeball, 0);
+    set_player_op("Pass", 1, ^true);
 } else {
     ~open_and_close_door(loc_param(next_loc_stage), $exiting, false);
     if (%gnomeball_owedball = ^true) {
@@ -71,6 +71,7 @@ if (inv_getobj(worn, ^wearpos_rhand) = ball_gnomeball_game) {
     inv_delslot(worn, ^wearpos_rhand);
 }
 ~initalltabs;
+set_player_op(null, 1, ^false);
 %gnomeball_owedball = ^false;
 %score_gnomeball_game = 0;
 npc_findallany(^gnomeball_centre_coord, 14, ^vis_off);

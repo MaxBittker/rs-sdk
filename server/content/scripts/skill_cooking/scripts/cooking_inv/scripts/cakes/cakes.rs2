@@ -124,7 +124,7 @@ inv_del(inv, cake, 1);
 inv_add(inv, chocolate_cake, 1);
 // doesnt give xp https://web.archive.org/web/20040905213850/http://www.runehq.com/CookingSkillGuide.php
 // https://classic.runescape.wiki/w/Chocolate_Cake
-//stat_advance(cooking, 300);
+stat_advance(cooking, 300);
 // display message
 mes("You make a chocolate cake.");
 

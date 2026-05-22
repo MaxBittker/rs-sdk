@@ -501,6 +501,7 @@ vislevel=hide
 walkanim=midget_walk
 readyanim=midget_ready
 op1=Talk-to
+op3=Bank
 recol1s=416
 recol1d=2114
 model1=model_2909_npc

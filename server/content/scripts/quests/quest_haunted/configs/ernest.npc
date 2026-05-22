@@ -22,7 +22,7 @@ head1=model_53_idk_head
 
 [ernest_the_chicken]
 vislevel=hide
-name=Chicken
+name=Ernest
 desc=Yep, definitely a chicken.
 walkanim=chicken_walk
 readyanim=chicken_ready

@@ -137,6 +137,25 @@ def_loc $replacement = db_getfield($data, locked_door:replacement, 0);
 def_boolean $gate = db_getfield($data, locked_door:gate, 0);
 def_boolean $mirror = db_getfield($data, locked_door:mirror, 0);
 if ($locked = true) {
+
+    mes("You attempt to pick the lock.");
+
+    def_int $current_level = stat(thieving);
+    def_int $thieving_level = db_getfield($data, locked_door:level, 0);
+
+    if(db_getfieldcount($data, locked_door:trap_successchance) > 0) {
+        if (stat_random(thieving, db_getfield($data, locked_door:trap_successchance, 0)) = false) {
+            mes("You have activated a trap on the lock.");
+            queue(damage_player, 0, divide(stat(hitpoints), 10));
+            return;
+        }
+    }
+
+    if ($current_level < $thieving_level) {
+        ~mesbox("You need level <tostring($thieving_level)> Thieving to pick this lock.");
+        return;
+    }
+
     if (db_getfieldcount($data, locked_door:tool) > 0) {
         def_namedobj $tool;
         def_string $name;
@@ -147,21 +166,11 @@ if ($locked = true) {
         }
     }
 
-    mes("You attempt to pick the lock.");
-
-    def_int $current_level = stat(thieving);
-    def_int $thieving_level = db_getfield($data, locked_door:level, 0);
-
-    if ($current_level < $thieving_level) {
-        ~mesbox("You need level <tostring($thieving_level)> Thieving to pick this lock.");
-        return;
-    }
-
-    def_int $roll = random(100);
-    if ($roll < 50) { // Some arbitrary rng.
+    if (stat_random(thieving, db_getfield($data, locked_door:door_successchance, 0)) = false) {
         mes("You fail to pick the lock.");
         return;
     }
+
     mes("You manage to pick the lock.");
 
     def_int $experience = db_getfield($data, locked_door:experience, 0);

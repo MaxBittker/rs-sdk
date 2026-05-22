@@ -49,6 +49,7 @@ if_close; // close the player interface when taking a hit.
 if ($check_protect_prayer = true & ~check_protect_prayer(^ranged_style) = true) { 
     $damage = 0;
 }
+anim(%com_defendanim, $duration);
 queue(combat_damage_player, calc($duration / 30), $damage);
 queue*(playerhit_n_retaliate, calc($duration / 30))(npc_uid);
 ~npc_set_attack_vars;

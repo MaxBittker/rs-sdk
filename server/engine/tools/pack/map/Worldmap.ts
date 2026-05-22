@@ -11,15 +11,20 @@ import Packet from '#/io/Packet.js';
 import Environment from '#/util/Environment.js';
 import { printWarning } from '#/util/Logger.js';
 import { convertImage } from '#tools/pack/PixPack.js';
+import { openArtifactStore } from '#tools/pack/ArtifactCache.js';
+import { MapPack } from '#tools/pack/PackFile.js';
 
 export async function packWorldmap() {
-    if (!fs.existsSync('data/pack/server/maps')) {
-        return;
+    const zipPath = 'data/pack/.cache/maps-server.zip';
+    if (!fs.existsSync(zipPath)) {
+        throw new Error(`${zipPath} is missing; pack maps before building the worldmap`);
     }
 
     FloType.load('data/pack');
     LocType.load('data/pack');
     NpcType.load('data/pack');
+
+    const serverStore = openArtifactStore('maps-server');
 
     // ---
 
@@ -29,7 +34,7 @@ export async function packWorldmap() {
 
     const underlay = Packet.alloc(20_000_000);
     const overlay = Packet.alloc(20_000_000);
-    const loc = Packet.alloc(5);
+    const loc = Packet.alloc(20_000_000);
     const obj = Packet.alloc(5);
     const npc = Packet.alloc(5);
     const multi = Packet.alloc(5);
@@ -86,18 +91,22 @@ export async function packWorldmap() {
     }
 
     // easiest solution for the time being
-    const multiway = fs.readFileSync(`${Environment.BUILD_SRC_DIR}/maps/multiway.csv`, 'ascii').replace(/\r/g, '').split('\n');
+    const multiway = fs.readFileSync(`${Environment.build.srcDir}/maps/multiway.csv`, 'ascii').split(/\r?\n/);
     const multimap = processCsv(multiway, 'multiway');
 
-    const free2play = fs.readFileSync(`${Environment.BUILD_SRC_DIR}/maps/free2play.csv`, 'ascii').replace(/\r/g, '').split('\n');
+    const free2play = fs.readFileSync(`${Environment.build.srcDir}/maps/free2play.csv`, 'ascii').split(/\r?\n/);
     const freemap = processCsv(free2play, 'free');
 
-    const ignoreraw = fs.readFileSync(`${Environment.BUILD_SRC_DIR}/maps/ignore.csv`, 'ascii').replace(/\r/g, '').split('\n');
+    const ignoreraw = fs.readFileSync(`${Environment.build.srcDir}/maps/ignore.csv`, 'ascii').split(/\r?\n/);
     const ignoremap = processCsv(ignoreraw, 'ignore');
 
-    const maps: string[] = fs.readdirSync('data/pack/server/maps').filter((x: string): boolean => x[0] === 'm');
-    for (let index: number = 0; index < maps.length; index++) {
-        const [mx, mz] = maps[index]
+    for (let mapId = 0; mapId < MapPack.max; mapId++) {
+        const mapName = MapPack.getById(mapId);
+        if (!mapName.startsWith('m') || !serverStore.has(mapName)) {
+            continue;
+        }
+
+        const [mx, mz] = mapName
             .substring(1)
             .split('_')
             .map((x: string) => parseInt(x));
@@ -147,7 +156,11 @@ export async function packWorldmap() {
             }
         }
 
-        const landBuf = Packet.load(`data/pack/server/maps/m${mx}_${mz}`);
+        const landData = serverStore.read(mapName);
+        if (!landData) {
+            continue;
+        }
+        const landBuf = new Packet(landData);
         for (let level: number = 0; level < 4; level++) {
             for (let x: number = 0; x < 64; x++) {
                 for (let z: number = 0; z < 64; z++) {
@@ -222,7 +235,11 @@ export async function packWorldmap() {
             }
         }
 
-        const locBuf = Packet.load(`data/pack/server/maps/l${mx}_${mz}`);
+        const locData = serverStore.read(`l${mx}_${mz}`);
+        if (!locData) {
+            continue;
+        }
+        const locBuf = new Packet(locData);
         let locId: number = -1;
         let locIdOffset: number = locBuf.gsmarts();
         while (locIdOffset !== 0) {
@@ -360,7 +377,8 @@ export async function packWorldmap() {
             }
         }
 
-        const objBuf = Packet.load(`data/pack/server/maps/o${mx}_${mz}`);
+        const objData = serverStore.read(`o${mx}_${mz}`) ?? new Uint8Array();
+        const objBuf = new Packet(objData);
         if (objBuf.data.length > 0) {
             while (objBuf.available > 0) {
                 const pos = objBuf.g2();
@@ -401,7 +419,8 @@ export async function packWorldmap() {
             }
         }
 
-        const npcBuf = Packet.load(`data/pack/server/maps/n${mx}_${mz}`);
+        const npcData = serverStore.read(`n${mx}_${mz}`) ?? new Uint8Array();
+        const npcBuf = new Packet(npcData);
         if (npcBuf.data.length > 0) {
             while (npcBuf.available > 0) {
                 const pos = npcBuf.g2();
@@ -499,107 +518,109 @@ export async function packWorldmap() {
     floorcol.p2(FloType.configs.length);
 
     const refColors = [
-        [0x00000038, 0x009c8f8e], // debugname=cliff overlay=true occlude=true rgb=0xaaaaaa
-        [0x00000016, 0x004a4242], // debugname=cliff2 overlay=true occlude=true rgb=0x444444
-        [0x00000022, 0x004a4242], // debugname=cliff3 overlay=true occlude=true rgb=0x666666
-        [0x0000002d, 0x00817574], // debugname=cliff4 overlay=true occlude=true rgb=0x888888
-        [0x00000000, 0x003b1d0c], // debugname=woodenfloor overlay=true occlude=true rgb=0x000000 texture=planks
-        [0x00000000, 0x0050648d], // debugname=water overlay=true occlude=true rgb=0x000000 texture=water
-        [0x00000000, 0x00206349], // debugname=gungywater overlay=true occlude=true rgb=0x000000 texture=gungywater
-        [0x0000001e, 0x004a4342], // debugname=greyroof overlay=true occlude=true rgb=0x5b5b5b
-        [0x01500053, 0x00c2c2ba], // debugname=desertroof overlay=true occlude=true rgb=0xfffff5
-        [0x0000001a, 0x00413b3a], // debugname=road overlay=true occlude=true rgb=0x505050
-        [0x0000000b, 0x00191616], // debugname=darkstone overlay=true occlude=true rgb=0x222222
-        [0x00000000, 0x00403935], // debugname=pebblefloor overlay=true occlude=true rgb=0x000000 texture=pebblefloor
-        [0x0000a822, 0x00783633], // debugname=redfloor overlay=true occlude=true rgb=0x993333
-        [0x0090ec0c, 0x00513a12], // debugname=mudfloor overlay=true occlude=true rgb=0x3d2b0b
-        [0x0090ec0c, 0x00120d03], // debugname=mudfloor_bump overlay=true occlude=true rgb=0x3d2b0b
-        [0x00715411, 0x006f4805], // debugname=mudfloor2 overlay=true occlude=true rgb=0x663300
-        [0x00715411, 0x003c1d01], // debugname=mudfloor2_bump overlay=true occlude=true rgb=0x663300
-        [0x03815422, 0x00061789], // debugname=bluefloor overlay=true occlude=true rgb=0x0000cc
-        [0x00000000, 0x00e36116], // debugname=lava overlay=true occlude=true rgb=0x000000 texture=lava
-        [0x00000000, 0x004e4e50], // debugname=marble overlay=true occlude=true rgb=0x000000 texture=marble
-        [0x00915419, 0x00583a03], // debugname=sandfloor overlay=true occlude=true rgb=0x996600
-        [0x00a09419, 0x004d4320], // debugname=l_brownfloor1 overlay=true occlude=true rgb=0x6d5b2b
-        [0x00a09419, 0x00574730], // debugname=l_brownfloor1_bump overlay=true occlude=true rgb=0x6d5b2b
-        [0x00000000, 0x0039332d], // debugname=cliff_textured overlay=true occlude=true rgb=0x000000 texture=rockwall
-        [0x00b09435, 0x009b9243], // debugname=sand_cliff overlay=true occlude=true rgb=0xcbba76
-        [0x00c06821, 0x005b5441], // debugname=sand_rock overlay=true occlude=true rgb=0x827944
-        [0x00000000, 0x00282211], // debugname=oldbrick overlay=true occlude=true rgb=0x000000 texture=mossybricks
-        [0x00000000, 0x00333333], // debugname=brick overlay=true occlude=true rgb=0x000000 texture=wall
-        [0x01611c14, 0x003b5e0b], // debugname=grass overlay=true occlude=true rgb=0x35720a
-        [0x0150004f, 0x00c8c0c0], // debugname=ice_overlay overlay=true occlude=true rgb=0xeeeeee
-        [0x00a11012, 0x00734c05], // debugname=upass_floor overlay=true occlude=true rgb=0x654d0b
-        [0x00000000, 0x0037312a], // debugname=stone_texture overlay=true occlude=true rgb=0x000000 texture=mossy
-        [0x0150004a, 0x00aaafb4], // debugname=ice_overlay_blue overlay=true occlude=true rgb=0xc9ddf7
-        [0x0000001a, 0x00474040], // debugname=road_bridge overlay=true occlude=true rgb=0x505050
-        [0x00000000, 0x003b1d0c], // debugname=woodenfloor_bridge overlay=true occlude=true rgb=0x000000 texture=planks
-        [0x0080f013, 0x0062420d], // debugname=mud5_overlay overlay=true occlude=true rgb=0x664411
-        [0x00000000, 0x00060505], // debugname=black overlay=true occlude=true rgb=0x000000
-        [0x03106027, 0x003e516e], // debugname=lightblue overlay=true occlude=true rgb=0x557799
-        [0x00000000, 0x0079a0d7], // debugname=water_fountain overlay=true occlude=true rgb=0x000000 texture=fountain
-        [0x03808427, 0x004e4a82], // debugname=bluefloor2 overlay=true occlude=true rgb=0x4749a3
-        [0x03107420, 0x00364c61], // debugname=waterfallblue overlay=true occlude=true rgb=0x3f6181
+        [0x00000038, 0x00847776], // debugname=cliff overlay=true occlude=true rgb=0xaaaaaa
+        [0x00000016, 0x00504746], // debugname=cliff2 overlay=true occlude=true rgb=0x444444
+        [0x00000022, 0x00564d4d], // debugname=cliff3 overlay=true occlude=true rgb=0x666666
+        [0x0000002d, 0x00766a69], // debugname=cliff4 overlay=true occlude=true rgb=0x888888
+        [0x00000000, 0x003a1c0c], // debugname=woodenfloor overlay=true occlude=true rgb=0x000000 texture=planks
+        [0x00000000, 0x004f648d], // debugname=water overlay=true occlude=true rgb=0x000000 texture=water
+        [0x00000000, 0x001f6248], // debugname=gungywater overlay=true occlude=true rgb=0x000000 texture=gungywater
+        [0x0000001e, 0x00504746], // debugname=greyroof overlay=true occlude=true rgb=0x5b5b5b
+        [0x01500053, 0x00bbb9b2], // debugname=desertroof overlay=true occlude=true rgb=0xfffff5
+        [0x0000001a, 0x00463f3f], // debugname=road overlay=true occlude=true rgb=0x505050
+        [0x0000000b, 0x00100f0f], // debugname=darkstone overlay=true occlude=true rgb=0x222222
+        [0x00000000, 0x003f3934], // debugname=pebblefloor overlay=true occlude=true rgb=0x000000 texture=pebblefloor
+        [0x0000a822, 0x0095342f], // debugname=redfloor overlay=true occlude=true rgb=0x993333
+        [0x0090ec0c, 0x00503911], // debugname=mudfloor overlay=true occlude=true rgb=0x3d2b0b
+        [0x0090ec0c, 0x003b250c], // debugname=mudfloor_bump overlay=true occlude=true rgb=0x3d2b0b
+        [0x00715411, 0x00674204], // debugname=mudfloor2 overlay=true occlude=true rgb=0x663300
+        [0x00715411, 0x004f3a03], // debugname=mudfloor2_bump overlay=true occlude=true rgb=0x663300
+        [0x03815422, 0x0012068c], // debugname=bluefloor overlay=true occlude=true rgb=0x0000cc
+        [0x00000000, 0x00e15f15], // debugname=lava overlay=true occlude=true rgb=0x000000 texture=lava
+        [0x00000000, 0x004d4d4f], // debugname=marble overlay=true occlude=true rgb=0x000000 texture=marble
+        [0x00915419, 0x00887006], // debugname=sandfloor overlay=true occlude=true rgb=0x996600
+        [0x00a09419, 0x00544a24], // debugname=l_brownfloor1 overlay=true occlude=true rgb=0x6d5b2b
+        [0x00a09419, 0x00605528], // debugname=l_brownfloor1_bump overlay=true occlude=true rgb=0x6d5b2b
+        [0x00000000, 0x0038322d], // debugname=cliff_textured overlay=true occlude=true rgb=0x000000 texture=rockwall
+        [0x00b09435, 0x00c09757], // debugname=sand_cliff overlay=true occlude=true rgb=0xcbba76
+        [0x00c06821, 0x00786d42], // debugname=sand_rock overlay=true occlude=true rgb=0x827944
+        [0x00000000, 0x00282011], // debugname=oldbrick overlay=true occlude=true rgb=0x000000 texture=mossybricks
+        [0x00000000, 0x00595650], // debugname=brick overlay=true occlude=true rgb=0x000000 texture=wall
+        [0x01611c14, 0x0036760f], // debugname=grass overlay=true occlude=true rgb=0x35720a
+        [0x0150004f, 0x00aea5a4], // debugname=ice_overlay overlay=true occlude=true rgb=0xeeeeee
+        [0x00a11012, 0x003b3507], // debugname=upass_floor overlay=true occlude=true rgb=0x654d0b
+        [0x00000000, 0x00363029], // debugname=stone_texture overlay=true occlude=true rgb=0x000000 texture=mossy
+        [0x0150004a, 0x00b6babe], // debugname=ice_overlay_blue overlay=true occlude=true rgb=0xc9ddf7
+        [0x0000001a, 0x003e3836], // debugname=road_bridge overlay=true occlude=true rgb=0x505050
+        [0x00000000, 0x003a1c0c], // debugname=woodenfloor_bridge overlay=true occlude=true rgb=0x000000 texture=planks
+        [0x0080f013, 0x005b4d14], // debugname=mud5_overlay overlay=true occlude=true rgb=0x664411
+        [0x00000000, 0x00060404], // debugname=black overlay=true occlude=true rgb=0x000000
+        [0x03106027, 0x0058697c], // debugname=lightblue overlay=true occlude=true rgb=0x557799
+        [0x00000000, 0x00799ed7], // debugname=water_fountain overlay=true occlude=true rgb=0x000000 texture=fountain
+        [0x03808427, 0x00404995], // debugname=bluefloor2 overlay=true occlude=true rgb=0x4749a3
+        [0x03107420, 0x00324a5b], // debugname=waterfallblue overlay=true occlude=true rgb=0x3f6181
         [0xff21542a, 0x00503000], // debugname=invisible overlay=true occlude=false rgb=0xff00ff
         [0xff21542a, 0x00503000], // debugname=invisible_occ overlay=true occlude=true rgb=0xff00ff
-        [0x0000001a, 0x00474040], // debugname=road_no_occlude overlay=true occlude=false rgb=0x505050
-        [0x00000000, 0x003b1d0c], // debugname=woodenfloor_no_occlude overlay=true occlude=false rgb=0x000000 texture=planks
-        [0x00000000, 0x00282211], // debugname=oldbrick_no_occlude overlay=true occlude=false rgb=0x000000 texture=mossybricks
-        [0x00000000, 0x00333333], // debugname=brick_no_occlude overlay=true occlude=false rgb=0x000000 texture=wall
-        [0x01611c14, 0x0036570a], // debugname=grassland overlay=false occlude=true rgb=0x35720a
-        [0x01011413, 0x00393c07], // debugname=muddygrass overlay=false occlude=true rgb=0x58680b
-        [0x00c11c15, 0x00403f07], // debugname=vmuddygrass overlay=false occlude=true rgb=0x78680b
-        [0x0141181f, 0x00556c0e], // debugname=lightgrass overlay=false occlude=true rgb=0x6cac10
-        [0x0110ac21, 0x0065832a], // debugname=sandygrass overlay=false occlude=true rgb=0x819531
-        [0x00d10c0f, 0x00282805], // debugname=swamp overlay=false occlude=true rgb=0x55520a
-        [0x0250e011, 0x0012513d], // debugname=swamp2 overlay=false occlude=true rgb=0x125841
-        [0x00000027, 0x00605656], // debugname=lightrock overlay=false occlude=true rgb=0x767676
-        [0x00000019, 0x004c4444], // debugname=darkrock overlay=false occlude=true rgb=0x4d4d4d
-        [0x0000000f, 0x00171414], // debugname=verydarkrock overlay=false occlude=true rgb=0x2e2e2e
-        [0x0150004f, 0x00c2bbba], // debugname=ice overlay=false occlude=false rgb=0xeeeeee
-        [0x01500049, 0x00b6b9bf], // debugname=blueice overlay=false occlude=true rgb=0xd1d6e7
-        [0x01500049, 0x0098a599], // debugname=greenice overlay=false occlude=true rgb=0xd1e7d6
-        [0x00c0742b, 0x00797343], // debugname=desert1 overlay=false occlude=true rgb=0xada055
-        [0x00b0a436, 0x009b9243], // debugname=desert2 overlay=false occlude=true rgb=0xd0c074
-        [0x0090ec0c, 0x001b1303], // debugname=mud1 overlay=false occlude=true rgb=0x3d2b0b
-        [0x0090b415, 0x006b5d22], // debugname=mud2 overlay=false occlude=true rgb=0x644e1e
-        [0x00a11012, 0x0039280b], // debugname=mud3 overlay=false occlude=true rgb=0x654d0b
-        [0x00715411, 0x005c2403], // debugname=mud4 overlay=false occlude=true rgb=0x663300
-        [0x0080f013, 0x00665716], // debugname=mud5 overlay=false occlude=false rgb=0x664411
-        [0x00b09435, 0x00b48d4e], // debugname=sand overlay=false occlude=true rgb=0xcbba76
-        [0x0090b415, 0x0052471a], // debugname=mud2_skew overlay=false occlude=false rgb=0x644e1e
-        [0x00a11012, 0x006c4a0e], // debugname=mud3_skew overlay=false occlude=false rgb=0x654d0b
-        [0x00715411, 0x003c2701], // debugname=mud4_skew overlay=false occlude=false rgb=0x663300
-        [0x00000001, 0x00060505], // debugname=black_rock overlay=false occlude=false rgb=0x030303
-        [0x03106027, 0x00435e79], // debugname=dullblue overlay=false occlude=true rgb=0x557799
-        [0xffd06027, 0x008d524f], // debugname=purple_pink overlay=false occlude=true rgb=0x995566
-        [0x03106027, 0x0043779b], // debugname=lightblue_underlay overlay=false occlude=true rgb=0x557799
-        [0x00b0a82d, 0x00a9974a], // debugname=desert_shadow overlay=true occlude=true rgb=0xc4ac4e
-        [0x0080782f, 0x00886b4d], // debugname=duel_arena overlay=true occlude=true rgb=0xb79767
-        [0x0080283c, 0x00b47a4e], // debugname=duelarena overlay=false occlude=true rgb=0xd9bb93
-        [0x00b06826, 0x0071673f], // debugname=hive overlay=true occlude=true rgb=0x97874f
-        [0x0080a41c, 0x00654c20], // debugname=agility overlay=true occlude=true rgb=0x7d5b2b
-        [0x00909012, 0x003c3013], // debugname=brownmud overlay=true occlude=true rgb=0x504020
-        [0x0090301a, 0x00594f3f], // debugname=mountain_overlay overlay=true occlude=true rgb=0x5c5444
-        [0x00903014, 0x00383632], // debugname=mountain_dark_overlay overlay=true occlude=true rgb=0x464034
-        [0x00000000, 0x007d6a3c], // debugname=elfbrick overlay=true occlude=true rgb=0x000000 texture=elfbrick
-        [0x01203c0f, 0x00171912], // debugname=elf_wastelands overlay=true occlude=true rgb=0x303525
-        [0x00015407, 0x00440601], // debugname=dark_red overlay=true occlude=true rgb=0x2d0000
-        [0x0390601d, 0x00514c6a], // debugname=grey_blue overlay=true occlude=true rgb=0x423f73
-        [0x00a04417, 0x00433f30], // debugname=viking_town_overlay overlay=true occlude=true rgb=0x544d37
-        [0x0090b814, 0x00625416], // debugname=viking_mud_overlay overlay=true occlude=true rgb=0x5e461c
-        [0x00903c0d, 0x002a2726], // debugname=viking_cave_overlay overlay=true occlude=true rgb=0x2e2920
-        [0x00909012, 0x00342616], // debugname=legendssword_cave overlay=true occlude=true rgb=0x504020
-        [0x0090301a, 0x005b5952], // debugname=mountain overlay=false occlude=true rgb=0x5c5444
-        [0x01906416, 0x003b512e], // debugname=darkgrass overlay=false occlude=true rgb=0x38562f
-        [0x00903014, 0x00473e33], // debugname=mountain_dark overlay=false occlude=true rgb=0x464034
-        [0x03108c23, 0x00476980], // debugname=grey_blue_underlay overlay=false occlude=true rgb=0x3e6995
-        [0x00a0c40f, 0x004c4618], // debugname=autumnal overlay=false occlude=true rgb=0x4b3e14
-        [0x00a04419, 0x004f4639], // debugname=viking_town overlay=false occlude=true rgb=0x5c543c
-        [0x00a0440d, 0x00392f1f], // debugname=viking_town_dark overlay=false occlude=true rgb=0x2f2b1f
-        [0x01c0a018, 0x001e5f1f], // debugname=jungle_green overlay=false occlude=true rgb=0x276d27
-        [0x0150dc13, 0x001d390b], // debugname=jungle_dark_green overlay=false occlude=true rgb=0x396215
-        [0x00a0c011, 0x0039300b], // debugname=mm_town_overlay overlay=true occlude=true rgb=0x544217
+        [0x0000001a, 0x0046403f], // debugname=road_no_occlude overlay=true occlude=false rgb=0x505050
+        [0x00000000, 0x003a1c0c], // debugname=woodenfloor_no_occlude overlay=true occlude=false rgb=0x000000 texture=planks
+        [0x00000000, 0x00282011], // debugname=oldbrick_no_occlude overlay=true occlude=false rgb=0x000000 texture=mossybricks
+        [0x00000000, 0x00595650], // debugname=brick_no_occlude overlay=true occlude=false rgb=0x000000 texture=wall
+        [0x01611c14, 0x00154301], // debugname=grassland overlay=false occlude=true rgb=0x35720a
+        [0x01011413, 0x002c3306], // debugname=muddygrass overlay=false occlude=true rgb=0x58680b
+        [0x00c11c15, 0x0064630c], // debugname=vmuddygrass overlay=false occlude=true rgb=0x78680b
+        [0x0141181f, 0x00569006], // debugname=lightgrass overlay=false occlude=true rgb=0x6cac10
+        [0x0110ac21, 0x00747a26], // debugname=sandygrass overlay=false occlude=true rgb=0x819531
+        [0x00d10c0f, 0x003f3407], // debugname=swamp overlay=false occlude=true rgb=0x55520a
+        [0x0250e011, 0x0014412b], // debugname=swamp2 overlay=false occlude=true rgb=0x125841
+        [0x00000027, 0x00544b4a], // debugname=lightrock overlay=false occlude=true rgb=0x767676
+        [0x00000019, 0x00423b3b], // debugname=darkrock overlay=false occlude=true rgb=0x4d4d4d
+        [0x0000000f, 0x001b1717], // debugname=verydarkrock overlay=false occlude=true rgb=0x2e2e2e
+        [0x0150004f, 0x00aea4a4], // debugname=ice overlay=false occlude=false rgb=0xeeeeee
+        [0x01500049, 0x009699a2], // debugname=blueice overlay=false occlude=true rgb=0xd1d6e7
+        [0x01500049, 0x0097a498], // debugname=greenice overlay=false occlude=true rgb=0xd1e7d6
+        [0x00c0742b, 0x00847349], // debugname=desert1 overlay=false occlude=true rgb=0xada055
+        [0x00b0a436, 0x00cdbe41], // debugname=desert2 overlay=false occlude=true rgb=0xd0c074
+        [0x0090ec0c, 0x004a3817], // debugname=mud1 overlay=false occlude=true rgb=0x3d2b0b
+        [0x0090b415, 0x003c351a], // debugname=mud2 overlay=false occlude=true rgb=0x644e1e
+        [0x00a11012, 0x0045310f], // debugname=mud3 overlay=false occlude=true rgb=0x654d0b
+        [0x00715411, 0x005b3303], // debugname=mud4 overlay=false occlude=true rgb=0x663300
+        [0x0080f013, 0x00382906], // debugname=mud5 overlay=false occlude=false rgb=0x664411
+        [0x00b09435, 0x00a39845], // debugname=sand overlay=false occlude=true rgb=0xcbba76
+        [0x0090b415, 0x005b431c], // debugname=mud2_skew overlay=false occlude=false rgb=0x644e1e
+        [0x00a11012, 0x004a3003], // debugname=mud3_skew overlay=false occlude=false rgb=0x654d0b
+        [0x00715411, 0x004f2d03], // debugname=mud4_skew overlay=false occlude=false rgb=0x663300
+        [0x00000001, 0x00060404], // debugname=black_rock overlay=false occlude=false rgb=0x030303
+        [0x03106027, 0x004b6387], // debugname=dullblue overlay=false occlude=true rgb=0x557799
+        [0xffd06027, 0x00745453], // debugname=purple_pink overlay=false occlude=true rgb=0x995566
+        [0x03106027, 0x00416075], // debugname=lightblue_underlay overlay=false occlude=true rgb=0x557799
+        [0x00b0a82d, 0x00a47a33], // debugname=desert_shadow overlay=true occlude=true rgb=0xc4ac4e
+        [0x0080782f, 0x00816648], // debugname=duel_arena overlay=true occlude=true rgb=0xb79767
+        [0x0080283c, 0x00bfa054], // debugname=duelarena overlay=false occlude=true rgb=0xd9bb93
+        [0x00b06826, 0x00817a38], // debugname=hive overlay=true occlude=true rgb=0x97874f
+        [0x0080a41c, 0x00775032], // debugname=agility overlay=true occlude=true rgb=0x7d5b2b
+        [0x00909012, 0x00483c28], // debugname=brownmud overlay=true occlude=true rgb=0x504020
+        [0x0090301a, 0x003a3529], // debugname=mountain_overlay overlay=true occlude=true rgb=0x5c5444
+        [0x00903014, 0x0028261c], // debugname=mountain_dark_overlay overlay=true occlude=true rgb=0x464034
+        [0x00000000, 0x007c693b], // debugname=elfbrick overlay=true occlude=true rgb=0x000000 texture=elfbrick
+        [0x01203c0f, 0x002c321c], // debugname=elf_wastelands overlay=true occlude=true rgb=0x303525
+        [0x00015407, 0x000a0100], // debugname=dark_red overlay=true occlude=true rgb=0x2d0000
+        [0x0390601d, 0x00322d50], // debugname=grey_blue overlay=true occlude=true rgb=0x423f73
+        [0x00a04417, 0x00605435], // debugname=viking_town_overlay overlay=true occlude=true rgb=0x544d37
+        [0x0090b814, 0x00362811], // debugname=viking_mud_overlay overlay=true occlude=true rgb=0x5e461c
+        [0x00903c0d, 0x000f0e0b], // debugname=viking_cave_overlay overlay=true occlude=true rgb=0x2e2920
+        [0x00909012, 0x002f271a], // debugname=legendssword_cave overlay=true occlude=true rgb=0x504020
+        [0x0090301a, 0x00494133], // debugname=mountain overlay=false occlude=true rgb=0x5c5444
+        [0x01906416, 0x00344e2b], // debugname=darkgrass overlay=false occlude=true rgb=0x38562f
+        [0x00903014, 0x002b251e], // debugname=mountain_dark overlay=false occlude=true rgb=0x464034
+        [0x03108c23, 0x00295163], // debugname=grey_blue_underlay overlay=false occlude=true rgb=0x3e6995
+        [0x00a0c40f, 0x004e4818], // debugname=autumnal overlay=false occlude=true rgb=0x4b3e14
+        [0x00a04419, 0x00443e30], // debugname=viking_town overlay=false occlude=true rgb=0x5c543c
+        [0x00a0440d, 0x001d1b15], // debugname=viking_town_dark overlay=false occlude=true rgb=0x2f2b1f
+        [0x01c0a018, 0x00224f22], // debugname=jungle_green overlay=false occlude=true rgb=0x276d27
+        [0x0150dc13, 0x00466b17], // debugname=jungle_dark_green overlay=false occlude=true rgb=0x396215
+        [0x00a0c011, 0x0055431b], // debugname=mm_town_overlay overlay=true occlude=true rgb=0x544217
+        [0x01203c0f, 0x00303224], // debugname=slayer_tower overlay=true occlude=true rgb=0x303525
+        [0x02605c07, 0x00030704] // debugname=morytania_dark_green overlay=false occlude=true rgb=0x111e1a
     ];
 
     for (let i = 0; i < FloType.configs.length; i++) {
@@ -611,26 +632,25 @@ export async function packWorldmap() {
 
     const index = Packet.alloc(2);
 
-    const mapscene = await convertImage(index, `${Environment.BUILD_SRC_DIR}/sprites`, 'mapscene');
-    const mapfunction = await convertImage(index, `${Environment.BUILD_SRC_DIR}/sprites`, 'mapfunction');
-    const b12 = await convertImage(index, `${Environment.BUILD_SRC_DIR}/fonts`, 'b12');
-    const mapdots = await convertImage(index, `${Environment.BUILD_SRC_DIR}/sprites`, 'mapdots');
-    const f11 = Packet.load(`${Environment.BUILD_SRC_DIR}/fonts/f11.fm`, true);
-    const f12 = Packet.load(`${Environment.BUILD_SRC_DIR}/fonts/f12.fm`, true);
-    const f14 = Packet.load(`${Environment.BUILD_SRC_DIR}/fonts/f14.fm`, true);
-    const f17 = Packet.load(`${Environment.BUILD_SRC_DIR}/fonts/f17.fm`, true);
-    const f19 = Packet.load(`${Environment.BUILD_SRC_DIR}/fonts/f19.fm`, true);
-    const f22 = Packet.load(`${Environment.BUILD_SRC_DIR}/fonts/f22.fm`, true);
-    const f26 = Packet.load(`${Environment.BUILD_SRC_DIR}/fonts/f26.fm`, true);
-    const f30 = Packet.load(`${Environment.BUILD_SRC_DIR}/fonts/f30.fm`, true);
+    const mapscene = await convertImage(index, `${Environment.build.srcDir}/sprites`, 'mapscene');
+    const mapfunction = await convertImage(index, `${Environment.build.srcDir}/sprites`, 'mapfunction');
+    const b12 = await convertImage(index, `${Environment.build.srcDir}/fonts`, 'b12_full');
+    const mapdots = await convertImage(index, `${Environment.build.srcDir}/sprites`, 'mapdots');
+    const f11 = Packet.load(`${Environment.build.srcDir}/fonts/f11.fm`, true);
+    const f12 = Packet.load(`${Environment.build.srcDir}/fonts/f12.fm`, true);
+    const f14 = Packet.load(`${Environment.build.srcDir}/fonts/f14.fm`, true);
+    const f17 = Packet.load(`${Environment.build.srcDir}/fonts/f17.fm`, true);
+    const f19 = Packet.load(`${Environment.build.srcDir}/fonts/f19.fm`, true);
+    const f22 = Packet.load(`${Environment.build.srcDir}/fonts/f22.fm`, true);
+    const f26 = Packet.load(`${Environment.build.srcDir}/fonts/f26.fm`, true);
+    const f30 = Packet.load(`${Environment.build.srcDir}/fonts/f30.fm`, true);
 
     // ----
 
     const labels = Packet.alloc(1);
     const labelsSrc = fs
-        .readFileSync(`${Environment.BUILD_SRC_DIR}/maps/labels.txt`, 'ascii')
-        .replace(/\r/g, '')
-        .split('\n')
+        .readFileSync(`${Environment.build.srcDir}/maps/labels.txt`, 'ascii')
+        .split(/\r?\n/)
         .filter((x: string) => x.startsWith('='))
         .map((x: string) => x.substring(1).split(','));
 
@@ -655,7 +675,7 @@ export async function packWorldmap() {
     jag.write('floorcol.dat', floorcol);
     jag.write('mapscene.dat', mapscene);
     jag.write('mapfunction.dat', mapfunction);
-    jag.write('b12.dat', b12);
+    jag.write('b12_full.dat', b12);
     jag.write('f11.dat', f11);
     jag.write('f12.dat', f12);
     jag.write('f14.dat', f14);
@@ -669,5 +689,3 @@ export async function packWorldmap() {
     jag.write('labels.dat', labels);
     jag.save('data/pack/mapview/worldmap.jag');
 }
-
-await packWorldmap();

@@ -1,0 +1,7 @@
+[ai_queue3,_rabbit]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+obj_add(npc_coord, raw_rabbit, 1, ^lootdrop_duration);

@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-
 import { ConfigType } from '#/cache/config/ConfigType.js';
 import { HuntCheckNotTooStrong } from '#/engine/entity/hunt/HuntCheckNotTooStrong.js';
 import { HuntModeType } from '#/engine/entity/hunt/HuntModeType.js';
@@ -70,6 +69,8 @@ export default class HuntType extends ConfigType {
                 return value === checkValue;
             case '!':
                 return value !== checkValue;
+            case '&':
+                return (value & checkValue) === 0;
         }
         return false;
     }

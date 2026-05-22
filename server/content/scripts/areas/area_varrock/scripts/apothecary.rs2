@@ -2,7 +2,7 @@
 if(%rjquest = ^romeojuliet_spoken_father) {
     @apothecary_lawrence_sent;
 } else if(%rjquest = ^romeojuliet_spoken_apothecary) {
-    @apothecary_make_cadaver;
+    @apothecary_make_cadava;
 } else {
     // referncing https://www.youtube.com/watch?v=-tUhc9naLbo for start and str potion option
     @apothecary_standard;
@@ -54,7 +54,7 @@ switch_int(~p_choice3("Can you make a strength potion?", 1, "Do you know any pot
         }
 }
 
-[label,apothecary_make_cadaver]
+[label,apothecary_make_cadava]
 if(inv_total(inv, cadava) > 0) {
     @apothecary_standard;
 }
@@ -64,19 +64,18 @@ if(inv_total(inv, cadavaberries) > 0) {
     ~chatnpc("<p,happy>Here is what you need.");
     inv_del(inv, cadavaberries, 1);
     inv_add(inv, cadava, 1);
-    ~mesbox("The Apothecary gives you a Cadaver potion.");
+    ~mesbox("The Apothecary gives you a Cadava potion.");
 } else {
     ~chatnpc("<p,neutral>Keep searching for the berries.|They are needed for the potion.");
 }
 
 [label,apothecary_lawrence_sent]
 ~chatplayer("<p,neutral>Apothecary. Father Lawrence sent me.");
-~chatplayer("<p,neutral>I need a Cadaver potion to help Romeo and Juliet.");
-~chatnpc("<p,neutral>Cadaver potion. It's pretty nasty. And hard to make.");
+~chatplayer("<p,neutral>I need a Cadava potion to help Romeo and Juliet.");
+~chatnpc("<p,neutral>Cadava potion. It's pretty nasty. And hard to make.");
 ~chatnpc("<p,neutral>Wing of rat, tail of frog.|Ear of snake and horn of dog.");
 // https://web.archive.org/web/*/http://runeweb.net/images/site/guides/rs2/quests/romeojuliet/6.jpg
-// old screenshot says cadava berries but the item is spelt cadaver in this version?
-~chatnpc("<p,neutral>I have all of that, but I need some Cadaver berries.");
+~chatnpc("<p,neutral>I have all of that, but I need some Cadava berries.");
 ~chatnpc("<p,neutral>You will have to find them while I get the rest ready.");
 ~chatnpc("<p,neutral>Bring them here when you have them.|But be careful. They are nasty.");
 %rjquest = ^romeojuliet_spoken_apothecary;

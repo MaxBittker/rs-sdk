@@ -3,12 +3,16 @@ mes("Welcome to RuneScape.");
 cam_reset;
 
 %musicplay = 1; // set to auto on login
+%currentsong = null;
+
 if (%option_brightness = 0) {
     // sane defaults for game controls
     %option_brightness = 2;
     %option_music = 2;
     %option_sounds = 2;
 }
+
+minimap_toggle(0); // always reset on login (osrs)
 
 if(~wilderness_level(coord) > 0) {
     set_player_op("Attack", 2, ^false);
@@ -65,6 +69,10 @@ queue(macro_event_login, 0, 0);
 ~thieving_stall_timers_login;
 ~stat_boost_login; // f2p boost reset
 ~sa_login; // start timer if low sa energy
+~start_king_messenger_timer; // set timer for spawning kings messenger to start regicide if upass completed
+if(inzone(0_41_157_0_0, 3_41_157_63_63, coord) = true) { // thorvalds house login (viking quest)
+    p_teleport(0_41_57_42_46);
+}
 
 if(inzone(movecoord(^grandtree_jail_coord, 0, 0, -2), movecoord(^grandtree_jail_coord, 3, 0, 2), coord) = true) {
     ~grandtree_spawn_charlie;

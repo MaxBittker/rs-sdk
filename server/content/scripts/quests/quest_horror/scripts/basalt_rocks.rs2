@@ -1,0 +1,59 @@
+[oploc1,horror_jumping_spot1] @jump_basalt(0_39_56_26_11, 0_39_56_26_13, 0_39_56_26_14, ^exact_north);
+[oploc1,horror_jumping_spot2] @jump_basalt(0_39_56_26_13, 0_39_56_26_11, 0_39_56_26_10, ^exact_south);
+[oploc1,horror_jumping_spot3] @jump_basalt(0_39_56_26_16, 0_39_56_26_18, 0_39_56_26_19, ^exact_north);
+[oploc1,horror_jumping_spot4] @jump_basalt(0_39_56_26_18, 0_39_56_26_16, 0_39_56_26_15, ^exact_south);
+[oploc1,horror_jumping_spot5] @jump_basalt(0_39_56_22_27, 0_39_56_20_27, 0_39_56_19_27, ^exact_west);
+[oploc1,horror_jumping_spot6] @jump_basalt(0_39_56_20_27, 0_39_56_22_27, 0_39_56_22_26, ^exact_east);
+[oploc1,horror_jumping_spot7] @jump_basalt(0_39_56_18_29, 0_39_56_18_31, 0_39_56_18_32, ^exact_north);
+[oploc1,horror_jumping_spot8] @jump_basalt(0_39_56_18_31, 0_39_56_18_29, 0_39_56_18_28, ^exact_south);
+[oploc1,horror_jumping_spot9] @jump_basalt(0_39_56_18_33, 0_39_56_18_35, 0_39_56_18_36, ^exact_north);
+[oploc1,horror_jumping_spot10] @jump_basalt(0_39_56_18_35, 0_39_56_18_33, 0_39_56_18_32, ^exact_south);
+
+// no ap? exists by osrs release: https://forum.tip.it/topic/52835-please-help-me-fast-how-do-you-get-to-the-lighthouse/
+// moves you an extra tile after the exactmove: https://youtu.be/irHjGFDfzEs?si=QUItiffdLxRmhfVd&t=85, osrs doesnt do this (anymore)
+[label,jump_basalt](coord $start, coord $dest, coord $final_dest, int $dir)
+if(coord ! $start) {
+    p_delay(0);
+    p_teleport($start);
+    p_delay(1);
+}
+if($start = 0_39_56_26_16) {
+    if(stat_random(agility, 5, 255) = false) {
+        mes("You slip on the slimy causeway.");
+        ~agility_exactmove(human_wobbleandfall_l, 10, 0, 0_39_56_26_16, 0_39_56_25_16, 33, 53, ^exact_north, false);
+        sound_synth(jump_no_land, 0, 0);
+        ~set_readywalk_bas(human_swim_ready, human_swim);
+        spotanim_map(watersplash, coord, 0, 3);
+        sound_synth(pool_plop, 0, 0);
+        p_delay(0);
+        ~forcemove(movecoord(coord, 0, 0, -5));
+        mes("The tide sweeps you back to shore.");
+        ~update_bas;
+        ~damage_self(~random_range(1, 10));
+        stat_advance(agility, 5);
+        return;
+    }
+}
+if($start = 0_39_56_18_31) {
+    if(stat_random(agility, 5, 255) = false) {
+        mes("You slip on the slimy causeway.");
+        ~agility_exactmove(human_wobbleandfall_l, 10, 0, 0_39_56_18_31, 0_39_56_19_31, 33, 53, ^exact_south, false);
+        sound_synth(jump_no_land, 0, 0);
+        ~set_readywalk_bas(human_swim_ready, human_swim);
+        spotanim_map(watersplash, coord, 0, 3);
+        sound_synth(pool_plop, 0, 0);
+        p_delay(0);
+        ~forcemove(movecoord(coord, 0, 0, 4));
+        mes("The tide sweeps you back to shore.");
+        ~update_bas;
+        ~damage_self(~random_range(1, 10));
+        stat_advance(agility, 5);
+        return;
+    }
+}
+~agility_exactmove(human_steppingstonejump, 19, 1, $start, $dest, 47, 59, $dir, false);
+sound_synth(jump_no_land, 0, 0);
+~forcemove($final_dest);
+if(loc_type = horror_jumping_spot7 | loc_type = horror_jumping_spot8 | loc_type = horror_jumping_spot3 | loc_type = horror_jumping_spot4) {
+    stat_advance(agility, 20);
+}

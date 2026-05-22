@@ -15,28 +15,30 @@ tut_flash(^tab_game_options);
 // Removing "Feel free to" before try it in this room
 [proc,tutorial_step_interact_with_scenery]
 hint_coord(^hint_west, 0_48_48_26_35, 128);
-~tutorialstep("Interacting with scenery", "You can interact with many items of scenery by simply clicking|on them. Right clicking will also give more options. Try it with the things in this room, then click on the door indicated with the yellow arrow to go through to the next instructor.");
+// todo: line breaks are forcing an additional page (something is wrong with our proc, split, or string width)
+// ~tutorialstep("Interacting with scenery", "You can interact with many items of scenery by simply clicking|on them. Right clicking will also give more options. Feel free to|try it with the things in this room, then click on the door|indicated with the yellow arrow to go through to the next instructor.");
+~tutorialstep("Interacting with scenery", "You can interact with many items of scenery by simply clicking on them. Right clicking will also give more options. Feel free to try it with the things in this room, then click on the door indicated with the yellow arrow to go through to the next instructor.");
 
 [proc,tutorial_step_moving_around]
-~tutorialstep("Moving around", "Follow the path to find the next instructor. Clicking on the|ground will walk you to that point. Talk to the survival expert by|the pond to continue the tutorial. Remember you can rotate|the view by pressing the arrow keys.");
+~tutorialstep("Moving around", "Follow the path to find the next instructor.|Clicking on the ground will walk you to that point.|Talk to the survival expert by the pond to continue the tutorial.|Remember you can rotate the view by pressing the arrow keys.");
 ~set_hint_icon_newbie_survival_instructor;
 
 [proc,tutorial_step_view_inventory]
 hint_stop();
-~tutorialstep("Viewing the items that you were given.", "Click on the flashing backpack icon to the right side of the main window to view your inventory. Your inventory is a list of everything you have in your backpack.");
+~tutorialstep("Viewing the items that you were given.", "Click on the flashing backpack icon to the|right side of the main window to view your inventory.|Your inventory is a list of everything you have in your backpack.");
 inv_transmit(inv, inventory:inv);
 if_settab(inventory, ^tab_inventory);
 tut_flash(^tab_inventory);
 
 [proc,tutorial_step_cut_tree]
 hint_coord(^hint_west, 0_48_48_28_23, 175);
-~tutorialstep("Cut down a tree", "You can click on the backpack icon at any time to view|the items you currently have in your inventory. You will see that you now have an axe in your inventory. Use this to get some logs by clicking on the indicated tree.");
+~tutorialstep("Cut down a tree", "You can click on the backpack icon at any time|to view the items that you currently have in your inventory.|You will see that you now have an axe in your inventory.|Use this to get some logs by clicking on the indicated tree.");
 
 [proc,tutorial_please_wait_woodcutting]
-~tutorialstep("Please wait...", "|Your character is now attempting to cut down the tree. Sit back|for a moment whilst <text_gender("he", "she")> does all the hard work.");
+~tutorialstep("Please wait...", "|Your character is now attempting to cut down the tree.|Sit back for a moment whilst <text_gender("he", "she")> does all the hard work.");
 
 [proc,tutorial_step_build_fire]
-~tutorialstep("Building a fire", "Well done - you managed to cut some logs from the tree! Next, use the tinderbox in your inventory to light the logs.|a) First click on the tinderbox to use it.|b) Then click on the logs in your inventory to light them.");
+~tutorialstep("Building a fire", "Well done - you managed to cut some logs from the tree!|Next use the tinderbox in your inventory to light the logs.|a) First click on the tinderbox to 'use it'.|b) Then click on the logs in your inventory to light them.");
 
 [proc,tutorial_please_wait_firemaking]
 ~tutorialstep("Please wait...", "|Your character is now attempting to light the fire.|This should only take a few seconds.");
@@ -44,27 +46,27 @@ hint_coord(^hint_west, 0_48_48_28_23, 175);
 [proc,tutorial_step_you_gained_experience]
 if_settab(stats, ^tab_skills);
 tut_flash(^tab_skills);
-~tutorialstep("", "You gained some experience.|Click on the flashing bar graph icon near the inventory button|to see your skill abilities.");
+~tutorialstep("You gained some experience...", "Click on the flashing bar graph icon|near the inventory button|to see your skill abilities.");
 
 [proc,tutorial_step_view_stats]
-~tutorialstep("These are your stats.", "Here you will see how good your skills are. As you move your|mouse over any of the icons in this panel, you can see the exact amount of experience you have and how much is needed to get to the next level. Speak to Bryanna to continue.");
+~tutorialstep("These are your stats.", "Here you will see how good your skills are. Moving your|mouse over the icons will show you the exact amount of|experience for that skill in the bottom panel.|Speak to the instructor to continue.");
 ~set_hint_icon_newbie_survival_instructor;
 
 [proc,tutorial_step_catch_shrimp]
-~tutorialstep("Catch some Shrimp.", "Click on the fishing spot, indicated by the flashing arrow.|Remember you can check your inventory by clicking the|backpack icon.");
+~tutorialstep("Catch some Shrimp.", "Click on the fishing spot, indicated by the flashing arrow.|Remember you can check your inventory by clicking|the backpack icon.");
 
 [proc,tutorial_please_wait_fishing]
-~tutorialstep("Please wait...", "This should only take a few seconds.|As you gain fishing experience you'll find that there are many|types of fish and many ways to catch them.");
+~tutorialstep("Please wait...", "This should only take a few seconds.|As you gain fishing experience you'll find that|there are many types of fish and|many ways to catch them.");
 
 [proc,tutorial_step_cook_shrimp]
-~tutorialstep("Cooking your shrimp.", "Now you have caught some shrimp let's cook it. First light a|fire: Chop down a tree and then use the tinderbox on the logs.|If you've lost your axe or tinderbox Brynna will give you|another.");
+~tutorialstep("Cooking your shrimp.", "Now right click on the shrimp and select the use option.|Next left click on the fire you just lit.|If while doing this you look in the top left of the screen,|you will see the instruction that you're giving your character.");
 
 [proc,tutorial_step_burn_shrimp]
-~tutorialstep("Burning your shrimp.", "You have just burnt your first shrimp. This is normal. As you|get more experience in cooking you will burn stuff less. Let's|try cooking, without burning it this time. First catch some|shrimp, then use them on a fire.");
+~tutorialstep("Burning your shrimp.", "You have just burnt your first shrimp. This is normal.|As you get more experience in cooking you will burn stuff less.|Let's try cooking without burning it this time.|First catch some shrimp, then use them on a fire.");
 
 [proc,tutorial_step_survival_recap]
 hint_coord(^hint_east, 0_48_48_17_20, 100);
-~tutorialstep("Well done, you've just cooked your first RuneScape meal.", "If you'd like a recap on anything you've learned so far speak|to Brynna. You can now move onto the next instructor. Follow the path and click on the gate shown. Remember you can move|the camera with the arrow keys.");
+~tutorialstep("Well done, you've just cooked your first RuneScape meal.", "If you'd like a recap on anything you've learned so far speak|to Brynna. You can now move on to the next instructor.|Click to the gate shown and follow the path.|Remember you can move the camera with the arrow keys.");
 
 [proc,tutorial_step_go_to_chef]
 hint_coord(^hint_east, 0_48_48_6_12, 150);

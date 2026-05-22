@@ -28,7 +28,7 @@ param=stabdefence,1
 param=slashdefence,1
 param=crushdefence,2
 param=magicdefence,10
-param=destroy_death,^true
+param=destroy_drop,^true
 param=lose_cape_message,Saradomin reclaims the cape as it touches the ground.
 tradeable=no
 
@@ -62,7 +62,7 @@ param=stabdefence,1
 param=slashdefence,1
 param=crushdefence,2
 param=magicdefence,10
-param=destroy_death,^true
+param=destroy_drop,^true
 param=lose_cape_message,Guthix reclaims the cape as it touches the ground.
 tradeable=no
 
@@ -77,8 +77,6 @@ recol2s=8386
 recol2d=0
 recol3s=31649
 recol3d=15360
-recol4s=8320
-recol4d=15360
 2dxof=3
 2dyof=6
 2dzoom=2140
@@ -96,7 +94,7 @@ param=stabdefence,1
 param=slashdefence,1
 param=crushdefence,2
 param=magicdefence,10
-param=destroy_death,^true
+param=destroy_drop,^true
 param=lose_cape_message,Zamorak reclaims the cape as it touches the ground.
 tradeable=no
 

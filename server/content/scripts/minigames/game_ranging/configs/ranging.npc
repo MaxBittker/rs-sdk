@@ -489,7 +489,8 @@ param=owned_shop,ranging_guild_tribalshop
 param=shop_sell_multiplier,1300
 param=shop_buy_multiplier,500
 param=shop_delta,10
-param=shop_title,Authentic Throwing Weapons.
+param=shop_title,Authentic throwing weapons.
+// https://web.archive.org/web/20060521172929/http://runehq.com/images/otherguides/Throwing_weapons.jpg (Authentic throwing weapons.)
 
 [ranging_guild_competition_judge]
 vislevel=hide

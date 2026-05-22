@@ -1,0 +1,40 @@
+[opnpc1,tbwt_tamayu_final]
+switch_int(%tbwt_tamayu) {
+    case ^tbwt_tamayu_complete :
+        @tbwt_tamayu_claim_reward;
+    case ^tbwt_tamayu_claimed_final_reward :
+        @tbwt_tamayu_final;
+}
+
+[opnpc3,tbwt_tamayu_final]
+if (%tbwt_tamayu = ^tbwt_tamayu_complete) p_opnpc(1);
+else ~openshop_activenpc;
+
+[label,tbwt_tamayu_claim_reward]
+~chatnpc("<p,neutral>Welcome back to Tai Bwo Wannai, stranger.");
+~chatplayer("<p,neutral>I no longer feel a stranger here.");
+~chatnpc("<p,neutral>And neither do we, thanks to you. My father has requested I give you something of value.");
+~chatnpc("<p,neutral>I have not much of worth to give, apart from my fighting technique.");
+~mesbox("Tamayu trains you in fighting technique.");
+~chatplayer("<p,neutral>Thanks.");
+~chatnpc("<p,neutral>This is the one thing I can give. My family have honoured me with this spear. But the honour is truly yours.");
+%tbwt_tamayu = ^tbwt_tamayu_claimed_final_reward;
+stat_advance(attack, 25000);
+stat_advance(strength, 25000);
+inv_add(inv, tbwt_rune_spear_kp, 1);
+~objbox(tbwt_rune_spear_kp, "Tamayu hands you some kind of spear.", 250, 0, 0);
+~chatnpc("<p,neutral>Take care, Bwana.");
+
+[label,tbwt_tamayu_final]
+~chatplayer("<p,neutral>Hello, Tamayu, first son of Timfraku.");
+~chatnpc("<p,quiz>Stranger, why you have returned?");
+~chatplayer("<p,neutral>I'm just passing through.");
+~chatnpc("<p,quiz>Using your new found poison I have been creating spears. Would you like to buy some?");
+def_int $choice = ~p_choice2("Yes.", 1, "No.", 2);
+if ($choice = 1) { // Yes.
+    ~chatplayer("<p,neutral>Yes.");
+    ~openshop_activenpc;
+} else if ($choice = 2) { // No.
+    ~chatplayer("<p,neutral>No.");
+    ~chatnpc("<p,neutral>As you wish, stranger.");
+}

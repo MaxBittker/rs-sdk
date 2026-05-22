@@ -11,6 +11,7 @@ model1=model_loc_42_8
 defaultmode=none
 moverestrict=nomove
 timer=1
+category=category_453
 
 [0_41_53_sinisterfishspot]
 vislevel=hide
@@ -24,6 +25,7 @@ model1=model_loc_42_8
 defaultmode=none
 moverestrict=nomove
 timer=1
+category=category_453
 
 [0_41_53_bigdavefishspot]
 vislevel=hide
@@ -37,6 +39,7 @@ model1=model_loc_42_8
 defaultmode=none
 moverestrict=nomove
 timer=1
+category=category_453
 
 [0_41_53_joshuafishspot]
 vislevel=hide
@@ -50,6 +53,7 @@ model1=model_loc_42_8
 defaultmode=none
 moverestrict=nomove
 timer=1
+category=category_453
 //--- Fishing contest
 
 //--- (Lure/Bait) Gnome Stronghold
@@ -551,3 +555,256 @@ category=freshfish
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_observatory_enum
 //--- (Lure/Bait) Observatory
+
+// --- (Net) Karambwanji/Karambwan
+[0_43_47_karambwanji]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=There are brightly coloured fish swimming in the water.
+minimap=no
+op1=Net
+op4=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+category=category_632
+
+[general_karambwanji]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=There are brightly coloured fish swimming in the water.
+minimap=no
+op1=Net
+op4=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+category=category_632
+
+[0_45_48_karambwan]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=Something dark green is lurking in these waters.
+minimap=no
+op1=Fish
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+category=category_633
+
+[general_karambwan]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=Something dark green is lurking in these waters.
+minimap=no
+op1=Fish
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+category=category_633
+
+[lubufu_karambwan]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=Something dark green is lurking in these waters.
+minimap=no
+op1=Fish
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+category=category_633
+// --- (Net) Karambwanji/Karambwan
+
+// Isafdar
+[0_34_50_freshfish]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see fish swimming in the water.
+minimap=no
+op1=Lure
+op3=Bait
+op4=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=freshfish
+param=whirlpool,macro_whirlpool_freshfish
+param=fishing_movement_enum,fishing_movement_0_34_50_enum
+
+[0_35_50_freshfish]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see fish swimming in the water.
+minimap=no
+op1=Lure
+op3=Bait
+op4=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=freshfish
+param=whirlpool,macro_whirlpool_freshfish
+param=fishing_movement_enum,fishing_movement_0_35_50_enum
+
+[0_33_51_memberfish]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see fish swimming in the water.
+minimap=no
+op1=Net
+op3=Harpoon
+op4=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=memberfish
+param=whirlpool,macro_whirlpool_memberfish
+param=fishing_movement_enum,fishing_movement_0_33_51_enum
+
+// Rellekka
+[0_41_57_saltfish]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see fish swimming in the water.
+minimap=no
+op1=Net
+op3=Bait
+op4=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=saltfish
+param=whirlpool,macro_whirlpool_saltfish
+param=fishing_movement_enum,fishing_movement_0_41_57_saltfish_enum
+
+[0_41_57_rarefish]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see fish swimming in the water.
+minimap=no
+op1=Cage
+op3=Harpoon
+op4=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=rarefish
+param=whirlpool,macro_whirlpool_rarefish
+param=fishing_movement_enum,fishing_movement_0_41_57_rarefish_enum
+
+[0_41_57_memberfish]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see fish swimming in the water.
+minimap=no
+op1=Net
+op3=Harpoon
+op4=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=memberfish
+param=whirlpool,macro_whirlpool_memberfish
+param=fishing_movement_enum,fishing_movement_0_41_57_memberfish_enum
+
+// --- (Bait) Morytania swamp east
+[0_54_53_slimey_eel]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see 'things' swimming in the water.
+minimap=no
+op1=Bait
+op3=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=slimeyfish
+param=fishing_movement_enum,fishing_movement_slimey_eel_east_enum
+
+// --- (Bait) Morytania swamp west
+[0_53_53_slimey_eel]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see 'things' swimming in the water.
+minimap=no
+op1=Bait
+op3=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=slimeyfish
+param=fishing_movement_enum,fishing_movement_slimey_eel_west_enum
+
+// --- (Bait) Morytania swamp south
+[0_53_51_slimey_eel]
+name=Fishing spot
+model1=model_loc_42_8
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+desc=I can see 'things' swimming in the water.
+minimap=no
+op1=Bait
+op3=hidden
+op5=hidden
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+timer=1
+category=slimeyfish
+param=fishing_movement_enum,fishing_movement_slimey_eel_south_enum

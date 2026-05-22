@@ -1,4 +1,4 @@
-import * as rsbuf from '@2004scape/rsbuf';
+import * as rsbuf from '#/network/rsbuf/index.js';
 
 import { Interaction } from '#/engine/entity/Interaction.js';
 import { NetworkPlayer } from '#/engine/entity/NetworkPlayer.js';

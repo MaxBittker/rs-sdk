@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>World Setup</title>
+    <style>
+        :root {
+            --root-bg: #1b1d19;
+            --color-base-100: #131512;
+            --color-base-200: #1b1d19;
+            --color-base-300: #232621;
+            --color-base-content: oklch(96% 0.003 264.542);
+            --color-primary: #2d322a;
+            --color-primary-content: #e6e3d5;
+            --color-secondary: #3c4a3b;
+            --color-accent: #c9a86a;
+            --color-accent-content: #1b1b1b;
+            --color-success: #6a8f6e;
+            --color-warning: #c0a357;
+            --color-error: #a15a4a;
+            --color-siam-300: #a3aa9e;
+            --color-siam-400: #7f8879;
+            --color-siam-600: #4f564b;
+            --color-siam-700: #41473e;
+            --color-siam-900: #2f332e;
+            --color-siam-950: #191b18;
+            --color-harvest-gold-200: #ede0bb;
+            --color-harvest-gold-500: #cb9544;
+            --color-harvest-gold-600: #bd8039;
+
+            --bg: var(--root-bg);
+            --surface: var(--color-base-100);
+            --surface-2: var(--color-primary);
+            --surface-3: var(--color-secondary);
+            --text: var(--color-primary-content);
+            --muted: var(--color-siam-300);
+            --accent: var(--color-accent);
+            --ok: var(--color-success);
+            --warn: var(--color-warning);
+            --err: var(--color-error);
+            --border: var(--color-siam-700);
+            --disabled-bg: var(--color-siam-950);
+            --disabled-border: var(--color-base-300);
+            --disabled-text: var(--color-siam-400);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background: var(--bg);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+        .layout {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 24px 16px 64px;
+        }
+
+        h1 {
+            margin: 0 0 4px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: var(--muted);
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        button {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text);
+            padding: 10px 14px;
+            cursor: pointer;
+        }
+
+        button.primary {
+            background: var(--color-success);
+            color: var(--color-accent-content);
+            border-color: var(--color-success);
+            font-weight: 700;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .status {
+            min-height: 22px;
+            margin: 0 0 16px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .status.ok {
+            color: var(--ok);
+        }
+
+        .status.warn {
+            color: var(--warn);
+        }
+
+        .status.err {
+            color: var(--err);
+        }
+
+        .path {
+            margin-bottom: 16px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .restart-note {
+            display: none;
+            margin-bottom: 16px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: rgba(192, 163, 87, 0.14);
+            border: 1px solid rgba(192, 163, 87, 0.45);
+            color: var(--color-harvest-gold-200);
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            background: rgba(27, 29, 25, 0.9);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .section-title {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .section-help {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .database-controls {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .database-controls label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .database-controls select {
+            width: 260px;
+            max-width: 100%;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 8px 10px;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .preset-card {
+            text-align: left;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .preset-card:hover {
+            border-color: var(--color-siam-600);
+        }
+
+        .preset-card.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px rgba(201, 168, 106, 0.35) inset;
+            background: var(--surface-3);
+        }
+
+        .preset-name {
+            display: block;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .preset-desc {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.35;
+        }
+
+        .preset-note {
+            margin: 10px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        details summary {
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .advanced-note {
+            margin: 10px 0 12px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        form {
+            display: grid;
+            gap: 14px;
+        }
+
+        fieldset {
+            margin: 0;
+            border: 1px solid var(--border);
+            background: rgba(27, 29, 25, 0.9);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        legend {
+            padding: 0 6px;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .row {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .row:last-child {
+            margin-bottom: 0;
+        }
+
+        .label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 9px 10px;
+        }
+
+        input[type="text"]:disabled,
+        input[type="number"]:disabled {
+            background: var(--disabled-bg);
+            border-color: var(--disabled-border);
+            color: var(--disabled-text);
+            cursor: not-allowed;
+        }
+
+        .row.is-disabled .label {
+            color: var(--disabled-text);
+        }
+
+        .boolean {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface-2);
+        }
+
+        .boolean input {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 720px) {
+            .layout {
+                padding: 16px 10px 40px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .preset-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="layout">
+        <h1>World Setup</h1>
+        <p class="subtitle">Choose a preset, then fine-tune any key in advanced settings.</p>
+
+        <div class="toolbar">
+            <button id="reload" type="button">Reload</button>
+            <button id="save" type="button" class="primary">Save</button>
+        </div>
+
+        <div id="status" class="status">Loading configuration...</div>
+        <div id="path" class="path"></div>
+        <div id="restart-note" class="restart-note">Configuration saved. Restart the server for changes to take effect.</div>
+
+        <section class="section">
+            <h2 class="section-title">Presets</h2>
+            <p class="section-help">Apply a baseline configuration. Preset changes are local until you click Save.</p>
+
+            <div class="preset-grid" id="preset-grid">
+                <button type="button" class="preset-card" data-preset="local-dev">
+                    <span class="preset-name">Local development</span>
+                    <span class="preset-desc">Default development config with no support servers.</span>
+                </button>
+
+                <button type="button" class="preset-card" data-preset="full-stack-dev">
+                    <span class="preset-name">Full-stack development</span>
+                    <span class="preset-desc">Development mode with login, friend, and logger enabled.</span>
+                </button>
+
+                <button type="button" class="preset-card" data-preset="single-world">
+                    <span class="preset-name">Single-world setup</span>
+                    <span class="preset-desc">Production world settings backed by SQLite and local support services.</span>
+                </button>
+
+                <button type="button" class="preset-card" data-preset="multi-world">
+                    <span class="preset-name">Multi-world setup</span>
+                    <span class="preset-desc">Production world settings with MySQL and connected support services.</span>
+                </button>
+            </div>
+
+            <p class="preset-note">Preset actions do not auto-save. Review advanced settings and click Save when ready.</p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Database</h2>
+            <p class="section-help">Configure database backend and connection settings.</p>
+
+            <div class="database-controls">
+                <label for="db-backend">Backend</label>
+                <select id="db-backend">
+                    <option value="sqlite">SQLite</option>
+                    <option value="mysql">MySQL</option>
+                </select>
+            </div>
+
+            <form id="db-form"></form>
+        </section>
+
+        <details class="section">
+            <summary>Advanced settings</summary>
+            <p class="advanced-note">All world.json fields are available below.</p>
+            <form id="config-form"></form>
+        </details>
+    </main>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const pathEl = document.getElementById('path');
+        const restartEl = document.getElementById('restart-note');
+        const dbFormEl = document.getElementById('db-form');
+        const formEl = document.getElementById('config-form');
+        const saveBtn = document.getElementById('save');
+        const reloadBtn = document.getElementById('reload');
+        const dbBackendEl = document.getElementById('db-backend');
+        const presetButtons = document.querySelectorAll('button[data-preset]');
+        const mysqlOnlyDbPaths = new Set(['db.host', 'db.port', 'db.user', 'db.pass', 'db.name']);
+
+        let currentConfig = null;
+        let defaultsConfig = null;
+
+        function setStatus(message, kind) {
+            statusEl.textContent = message;
+            statusEl.className = 'status' + (kind ? ` ${kind}` : '');
+        }
+
+        function isObject(value) {
+            return value !== null && typeof value === 'object' && !Array.isArray(value);
+        }
+
+        function setAtPath(target, path, value) {
+            const last = path[path.length - 1];
+            let current = target;
+            for (let i = 0; i < path.length - 1; i++) {
+                current = current[path[i]];
+            }
+            current[last] = value;
+        }
+
+        function formatLabel(path, trimPrefix) {
+            if (trimPrefix && path[0] === trimPrefix) {
+                return path.slice(1).join('.');
+            }
+
+            return path.join('.');
+        }
+
+        function renderNode(value, path, container, options = {}) {
+            const entries = Object.entries(value);
+            for (const [key, child] of entries) {
+                const nextPath = [...path, key];
+                const nextPathKey = nextPath.join('.');
+
+                if (options.skipKeysAtRoot && path.length === 0 && options.skipKeysAtRoot.includes(key)) {
+                    continue;
+                }
+
+                if (options.skipPaths && options.skipPaths.includes(nextPathKey)) {
+                    continue;
+                }
+
+                if (isObject(child)) {
+                    const fieldset = document.createElement('fieldset');
+                    const legend = document.createElement('legend');
+                    legend.textContent = formatLabel(nextPath, options.trimPrefix) || key;
+                    fieldset.appendChild(legend);
+                    renderNode(child, nextPath, fieldset, options);
+                    container.appendChild(fieldset);
+                    continue;
+                }
+
+                const row = document.createElement('div');
+                row.className = 'row';
+
+                const label = document.createElement('label');
+                label.className = 'label';
+                label.textContent = formatLabel(nextPath, options.trimPrefix);
+
+                const pathKey = nextPathKey;
+
+                if (typeof child === 'boolean') {
+                    const holder = document.createElement('label');
+                    holder.className = 'boolean';
+
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.checked = child;
+                    input.dataset.path = pathKey;
+                    input.dataset.kind = 'boolean';
+
+                    const text = document.createElement('span');
+                    text.textContent = formatLabel(nextPath, options.trimPrefix);
+
+                    holder.appendChild(input);
+                    holder.appendChild(text);
+                    row.appendChild(holder);
+                } else {
+                    const input = document.createElement('input');
+                    input.dataset.path = pathKey;
+
+                    if (typeof child === 'number') {
+                        input.type = 'number';
+                        input.step = '1';
+                        input.value = String(child);
+                        input.dataset.kind = 'number';
+                    } else {
+                        input.type = 'text';
+                        input.value = String(child);
+                        input.dataset.kind = 'string';
+                    }
+
+                    row.appendChild(label);
+                    row.appendChild(input);
+                }
+
+                container.appendChild(row);
+            }
+        }
+
+        function renderConfig(config) {
+            dbFormEl.innerHTML = '';
+            formEl.innerHTML = '';
+            dbBackendEl.value = config.db.backend;
+            renderNode(config.db, ['db'], dbFormEl, { trimPrefix: 'db', skipPaths: ['db.backend', 'db.logger'] });
+            renderNode(config, [], formEl, { skipKeysAtRoot: ['db'] });
+            updateDatabaseFieldState();
+        }
+
+        function updateDatabaseFieldState() {
+            const mysqlSelected = dbBackendEl.value === 'mysql';
+            const inputs = dbFormEl.querySelectorAll('input[data-path]');
+
+            for (const input of inputs) {
+                const isMysqlOnly = mysqlOnlyDbPaths.has(input.dataset.path);
+                if (!isMysqlOnly) {
+                    continue;
+                }
+
+                input.disabled = !mysqlSelected;
+                const row = input.closest('.row');
+                if (row) {
+                    row.classList.toggle('is-disabled', !mysqlSelected);
+                }
+            }
+        }
+
+        function readConfigFromForm() {
+            const next = structuredClone(currentConfig);
+            const inputs = document.querySelectorAll('input[data-path]');
+
+            for (const input of inputs) {
+                const path = input.dataset.path.split('.');
+                const kind = input.dataset.kind;
+                let value;
+
+                if (kind === 'boolean') {
+                    value = input.checked;
+                } else if (kind === 'number') {
+                    const parsed = Number(input.value);
+                    value = Number.isFinite(parsed) ? parsed : 0;
+                } else {
+                    value = input.value;
+                }
+
+                setAtPath(next, path, value);
+            }
+
+            next.db.backend = dbBackendEl.value;
+
+            return next;
+        }
+
+        function setLocalSupportServers(config) {
+            config.login.enabled = true;
+            config.login.host = 'localhost';
+            config.login.port = 43500;
+
+            config.friend.enabled = true;
+            config.friend.host = 'localhost';
+            config.friend.port = 45099;
+
+            config.logger.enabled = true;
+            config.logger.host = 'localhost';
+            config.logger.port = 43501;
+        }
+
+        function setMysqlDefaults(config) {
+            config.db.backend = 'mysql';
+            config.db.host = 'localhost';
+            config.db.port = 3306;
+            config.db.name = 'lostcity';
+            config.db.user = 'lostcity';
+            config.db.pass = '';
+        }
+
+        function clearPresetSelection() {
+            for (const button of presetButtons) {
+                button.classList.remove('active');
+            }
+        }
+
+        function markPresetSelection(preset) {
+            clearPresetSelection();
+            const button = document.querySelector(`button[data-preset="${preset}"]`);
+            if (button) {
+                button.classList.add('active');
+            }
+        }
+
+        function applyPreset(preset) {
+            if (!defaultsConfig) {
+                return;
+            }
+
+            const next = structuredClone(defaultsConfig);
+            let label = 'Preset';
+
+            if (preset === 'local-dev') {
+                label = 'Local development';
+            } else if (preset === 'full-stack-dev') {
+                label = 'Full-stack development';
+                next.website.registration = false;
+                next.node.production = false;
+                next.node.debug = true;
+                setLocalSupportServers(next);
+                next.easyStartup = true;
+
+                if (dbBackendEl.value === 'mysql') {
+                    setMysqlDefaults(next);
+                } else {
+                    next.db.backend = 'sqlite';
+                }
+            } else if (preset === 'single-world') {
+                label = 'Single-world setup';
+                next.node.production = true;
+                next.node.debug = false;
+                next.node.id = 10;
+                next.node.xpRate = 1;
+                next.node.members = true;
+                next.db.backend = 'sqlite';
+                next.website.registration = false;
+                setLocalSupportServers(next);
+                next.easyStartup = true;
+            } else if (preset === 'multi-world') {
+                label = 'Multi-world setup';
+                next.node.production = true;
+                next.node.debug = false;
+                next.node.id = 10;
+                next.node.xpRate = 1;
+                next.node.members = true;
+                setMysqlDefaults(next);
+                setLocalSupportServers(next);
+                next.website.registration = false;
+                next.easyStartup = false;
+            } else {
+                return;
+            }
+
+            currentConfig = next;
+            renderConfig(currentConfig);
+            markPresetSelection(preset);
+            restartEl.style.display = 'none';
+            setStatus(`${label} preset applied. Click Save to persist these changes.`, 'warn');
+        }
+
+        async function loadConfig() {
+            restartEl.style.display = 'none';
+            setStatus('Loading configuration...');
+
+            try {
+                const response = await fetch('/setup/config');
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to load configuration');
+                }
+
+                currentConfig = data.config;
+                defaultsConfig = data.defaults || structuredClone(data.config);
+                renderConfig(currentConfig);
+                clearPresetSelection();
+                pathEl.textContent = `File: ${data.path}`;
+                setStatus('Configuration loaded.', 'ok');
+            } catch (error) {
+                setStatus(error instanceof Error ? error.message : 'Failed to load configuration', 'err');
+            }
+        }
+
+        async function saveConfig() {
+            if (!currentConfig) {
+                return;
+            }
+
+            setStatus('Saving configuration...');
+            restartEl.style.display = 'none';
+
+            try {
+                const payload = readConfigFromForm();
+                const response = await fetch('/setup/config', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to save configuration');
+                }
+
+                currentConfig = data.config;
+                renderConfig(currentConfig);
+                restartEl.style.display = data.restartRequired ? 'block' : 'none';
+                setStatus('Configuration saved.', 'ok');
+            } catch (error) {
+                setStatus(error instanceof Error ? error.message : 'Failed to save configuration', 'err');
+            }
+        }
+
+        for (const button of presetButtons) {
+            button.addEventListener('click', () => {
+                applyPreset(button.dataset.preset);
+            });
+        }
+
+        dbBackendEl.addEventListener('change', () => {
+            if (!currentConfig) {
+                return;
+            }
+
+            currentConfig.db.backend = dbBackendEl.value;
+            updateDatabaseFieldState();
+            setStatus('Database backend updated. Click Save to persist changes.', 'warn');
+        });
+
+        saveBtn.addEventListener('click', saveConfig);
+        reloadBtn.addEventListener('click', loadConfig);
+
+        loadConfig();
+    </script>
+</body>
+</html>

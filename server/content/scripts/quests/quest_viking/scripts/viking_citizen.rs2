@@ -1,0 +1,217 @@
+[opnpc1,viking_man]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if (%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>Hello. Are you a council member?");
+    ~chatnpc("<p,neutral>Could be. Who wants to know?");
+    ~chatplayer("<p,confused>Er... I do.");
+    ~chatnpc("<p,neutral>Well, yes I am. Why do you want to find a council member?");
+    ~chatplayer("<p,happy>I would like to become a Fremennik!");
+    ~chatnpc("<p,neutral>Ah, I see. And you require a majority vote at the council of elders before you will be accepted into the clan, correct?");
+    ~chatplayer("<p,happy>That's right! So can I have your vote?");
+    ~chatnpc("<p,neutral>I don't like outerlanders. The only way you will get my vote allowing you into the clan is...");
+    ~chatplayer("<p,quiz>Yes?");
+    ~chatnpc("<p,neutral>If you can pay me... One hundred thousand, million, billion, nine hundred thousand, and forty seven hundred and ninety three gold coins.");
+    ~chatplayer("<p,shock>WHAT?!?!?! I don't have 100,000,000,000,000,000,900,470,093 coins!!!! NOBODY has that many coins!!!");
+    ~chatnpc("<p,neutral>I guess you don't get my vote then, do you, outerlander?");
+}
+
+[opnpc1,viking_man2]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if (%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>Hello, are you a member of the council?");
+    ~chatnpc("<p,neutral>I am afraid not outerlander. Goodbye.");
+}
+
+[opnpc1,viking_man3]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if(%viking = ^viking_complete) {
+    ~chatplayer("<p,neutral>Hello.");
+    ~chatnpc("<p,happy><~get_viking_name>... It has been too long since last we met!");
+}
+
+[opnpc1,viking_man4]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if (%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>Hello, are you a member of the council?");
+    ~chatnpc("<p,neutral>I am afraid not outerlander. Goodbye.");
+}
+
+[opnpc1,viking_man5]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if(%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>I'm looking for a council member...");
+    ~chatnpc("<p,neutral>Well, I am one. Why are you looking for council members, then? Trying to become a Fremennik, outerlander?");
+    ~chatplayer("<p,neutral>As a matter of fact, I am!");
+    ~chatnpc("<p,neutral>Hmph. You outerlanders are so arrogant. I suppose you think you can butter me up into voting for you by doing some silly little trial or something?");
+    ~chatplayer("<p,confused>Uh... yeah, something like that...");
+    ~chatnpc("<p,neutral>Well I have a trial for you then. I'll vote for you if you can bring me all of the following items;");
+    ~chatnpc("<p,neutral>The Mage Gower's skull, a sleeping bag, Saradomin's wig, Zamorak's teddy bear, Guthix's climbing boots, cheese from the moon, a dodo egg and a left-handed chisel.");
+    ~chatplayer("<p,shock>What? But... that's impossible!");
+    ~chatnpc("<p,neutral>Not so arrogant now, are you outerlander? Let me clarify: you will NEVER get my vote at the council. I hate all outerlanders, ESPECIALLY you.");
+}
+
+[opnpc1,viking_woman]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if (%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>Hello, are you a member of the council?");
+    ~chatnpc("<p,neutral>I am afraid not outerlander. Goodbye.");
+}
+
+[opnpc1,viking_woman2]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if (%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>Hello, are you a member of the council?");
+    ~chatnpc("<p,neutral>I am afraid not outerlander. Goodbye.");
+}
+
+[opnpc1,viking_woman3]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if (%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>Hello, are you a member of the council?");
+    ~chatnpc("<p,neutral>I am afraid not outerlander. Goodbye.");
+}
+
+[opnpc1,viking_woman4]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if (%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>Do you know any council members?");
+    ~chatnpc("<p,neutral>I know that I am one.");
+    ~chatplayer("<p,happy>Great! Can you vote for me at the council of elders for me to become a Fremennik?");
+    ~chatnpc("<p,neutral>Sure. On one condition.");
+    ~chatplayer("<p,sad>(sigh) What condition?");
+    ~chatnpc("<p,laugh>Actually there is no condition! I don't want to vote for you! You seem too gullible to be a Fremennik!");
+    ~chatplayer("<p,angry>It's kind of mean to trick me like that...");
+    ~chatnpc("<p,laugh>What do I care? I am a Fremennik and you are just some stupid outerlander! You stupid outerlander!");
+}
+
+[opnpc1,viking_woman_indoors]
+if(%viking = ^viking_not_started | %viking = ^viking_complete) {
+    @viking_citizen_default;
+} else if(%viking < ^viking_complete) {
+    ~chatplayer("<p,happy>Hello. I'm looking for a member of the council of elders who will support my application to become an honorary Fremennik.");
+    ~chatnpc("<p,neutral>I'm a council member.");
+    ~chatplayer("<p,quiz>So can I somehow persuade you to vote for me at the council of elders?");
+    ~chatnpc("<p,neutral>No. Frankly, I don't like you.");
+    ~chatplayer("<p,angry>But you don't even know me!");
+    ~chatnpc("<p,neutral>You also smell bad. And have stupid hair. And bad breath. And you walk a bit funny.");
+    ~chatplayer("<p,angry>I didn't come all the way up here just to be insulted!");
+    ~chatnpc("<p,neutral>No, I'm quite sure you could have found plenty of people to insult you wherever your home is.");
+    ~chatplayer("<p,angry>You know what? Forget you, you stupid barbarian! I don't need your stupid vote!");
+    ~chatnpc("<p,neutral>Tch, typical outerlander rudeness. I'm glad I didn't vote for you now.");
+}
+
+[label,viking_citizen_default]
+if(%viking = ^viking_not_started) {
+    ~chatnpc("<p,neutral>I cannot speak to you outerlander! Talk to Brundt, the Chieftain!");
+    return;
+}
+~chatplayer("<p,neutral>Hello.");
+switch_int(random(8)) {
+    case 0 :
+        ~chatnpc("<p,happy>Welcome back <text_gender("brother", "sister")> <~get_viking_name>. It is always a pleasure to see you here!");
+    case 1 :
+        ~chatnpc("<p,happy><~get_viking_name>... It has been too long since last we met!");
+    case 2 :
+        ~chatnpc("<p,happy>Always good to see you <text_gender("brother", "sister")> <~get_viking_name>.");
+    case 3 :
+        ~chatnpc("<p,happy>Hello to you, too!");
+    case 4 :
+        ~chatnpc("<p,happy>How are you <~get_viking_name>? I hope all fares well with you this day!");
+        ~chatplayer("<p,happy>I'm fine, thanks, how are you?");
+        ~chatnpc("<p,happy>All is well with me also!");
+    case 5 :
+        ~chatnpc("<p,happy>Hello. Did you want something <~get_viking_name>?");
+        ~chatplayer("<p,neutral>No, not really.");
+        ~chatnpc("<p,happy>Well... okay then!");
+    case 6 :
+        ~chatnpc("<p,happy>My apologies <text_gender("brother", "sister")> <~get_viking_name>! I have not time to tarry here with you!");
+        ~chatplayer("<p,neutral>That's okay, I didn't really want anything.");
+    case 7 :
+        ~chatnpc("<p,happy>Hello again <text_gender("brother", "sister")> <~get_viking_name>. What need you of me this day? You can always rely on my assistance!");
+        ~chatplayer("<p,happy>Nothing thanks. I just fancied a chat.");
+        ~chatnpc("<p,happy>My door is always open should you ever need my help <~get_viking_name>.");
+}
+
+[proc,viking_citizen_fail_say]
+switch_int(random(4)) {
+    case 0 : npc_say("You shame us, <~get_viking_name>!");
+    case 1 : npc_say("How can you steal from me, <~get_viking_name>?");
+    case 2 : npc_say("You have betrayed your heritage, <~get_viking_name>!");
+    case 3 : npc_say("Why would you try to steal from me, <~get_viking_name>?");
+}
+
+[ai_queue3,_viking_citizen]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+~trail_easycluedrop(128, npc_coord);
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+
+def_int $random = random(512);
+
+if ($random < 100) {
+    obj_add(npc_coord, bronze_warhammer, 1, ^lootdrop_duration);
+} else if ($random < 170) {
+    obj_add(npc_coord, iron_warhammer, 1, ^lootdrop_duration);
+} else if ($random < 171) {
+    if(%viking = ^viking_complete) obj_add(npc_coord, viking_sword, 1, ^lootdrop_duration);
+} else if ($random < 172) {
+    if(%viking = ^viking_complete) obj_add(npc_coord, viking_shield, 1, ^lootdrop_duration);
+} else if ($random < 173) {
+    if(%viking = ^viking_complete) obj_add(npc_coord, viking_helmet, 1, ^lootdrop_duration);
+} else if ($random < 183) {
+    obj_add(npc_coord, ~randomherb, ^lootdrop_duration);
+} else if ($random < 193) {
+    obj_add(npc_coord, copper_ore, 5, ^lootdrop_duration);
+} else if ($random < 203) {
+    obj_add(npc_coord, tin_ore, 5, ^lootdrop_duration);
+} else if ($random < 213) {
+    obj_add(npc_coord, iron_ore, 5, ^lootdrop_duration);
+} else if ($random < 223) {
+    obj_add(npc_coord, coal, 1, ^lootdrop_duration);
+} else if ($random < 233) {
+    obj_add(npc_coord, steel_bar, 1, ^lootdrop_duration);
+} else if ($random < 253) {
+    obj_add(npc_coord, coins, 6, ^lootdrop_duration);
+} else if ($random < 268) {
+    obj_add(npc_coord, coins, 15, ^lootdrop_duration);
+} else if ($random < 278) {
+    obj_add(npc_coord, coins, 16, ^lootdrop_duration);
+} else if ($random < 298) {
+    obj_add(npc_coord, coins, 20, ^lootdrop_duration);
+} else if ($random < 303) {
+    obj_add(npc_coord, coins, 38, ^lootdrop_duration);
+} else if ($random < 353) {
+    obj_add(npc_coord, tinderbox, 1, ^lootdrop_duration);
+} else if ($random < 403) {
+    obj_add(npc_coord, vial_empty, 1, ^lootdrop_duration);
+} else if ($random < 453) {
+    obj_add(npc_coord, vial_water, 1, ^lootdrop_duration);
+} else if ($random < 483) {
+    obj_add(npc_coord, viking_strung_lyre, 1, ^lootdrop_duration);
+} else if ($random < 500) {
+    obj_add(npc_coord, bucket_empty, 1, ^lootdrop_duration);
+} else if ($random < 504) {
+    obj_add(npc_coord, eye_of_newt, 1, ^lootdrop_duration);
+} else if ($random < 506) {
+    obj_add(npc_coord, beer, 1, ^lootdrop_duration);
+} else if ($random < 508) {
+    obj_add(npc_coord, snape_grass, 1, ^lootdrop_duration);
+} else if ($random < 510) {
+    obj_add(npc_coord, jangerberries, 1, ^lootdrop_duration);
+} else if ($random < 511) {
+    if(%heroquest = ^hero_complete) obj_add(npc_coord, blamish_oil, 1, ^lootdrop_duration);
+} else if ($random < 512) {
+    obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
+}

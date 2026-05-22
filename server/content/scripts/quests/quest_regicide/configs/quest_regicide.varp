@@ -1,0 +1,13 @@
+[regicide_quest]
+scope=perm
+
+[regicide_bits]
+scope=perm
+
+[regicide_still_total]
+protect=no
+transmit=yes
+
+[regicide_still_settings]
+protect=no
+transmit=yes

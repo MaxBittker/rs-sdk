@@ -11,12 +11,22 @@ export default class UpdateInvFullEncoder extends ServerGameMessageEncoder<Updat
         const { component, inv } = message;
 
         const comType = Component.get(component);
+        // prevent a client crash by capping to inv size || interface size
         const size = Math.min(inv.capacity, comType.width * comType.height);
 
-        // todo: size should be the index of the last non-empty slot
-        buf.p2(component);
-        buf.p1(size);
+        // only send up to the last slot in use (anything beyond is cleared by the client)
+        let max = 0;
         for (let slot = 0; slot < size; slot++) {
+            const obj = inv.get(slot);
+
+            if (obj) {
+                max = slot + 1;
+            }
+        }
+
+        buf.p2(component);
+        buf.p1(max);
+        for (let slot = 0; slot < max; slot++) {
             const obj = inv.get(slot);
 
             if (obj) {
@@ -33,30 +43,5 @@ export default class UpdateInvFullEncoder extends ServerGameMessageEncoder<Updat
                 buf.p1(0);
             }
         }
-    }
-
-    test(message: UpdateInvFull): number {
-        const { component, inv } = message;
-
-        const comType = Component.get(component);
-        const size = Math.min(inv.capacity, comType.width * comType.height);
-
-        let length: number = 0;
-        length += 3;
-        for (let slot = 0; slot < size; slot++) {
-            const obj = inv.get(slot);
-            if (obj) {
-                length += 2;
-
-                if (obj.count >= 255) {
-                    length += 5;
-                } else {
-                    length += 1;
-                }
-            } else {
-                length += 3;
-            }
-        }
-        return length;
     }
 }

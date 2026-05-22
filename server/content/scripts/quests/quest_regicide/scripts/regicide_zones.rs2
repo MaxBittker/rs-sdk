@@ -1,0 +1,80 @@
+// woodsprings
+[zone,0_35_50_48_8] settimer(regicide_woodspring, 1);
+[zone,0_35_50_48_16] settimer(regicide_woodspring, 1);
+[zone,0_35_50_56_8] settimer(regicide_woodspring, 1);
+[zone,0_35_50_8_24] settimer(regicide_woodspring, 1);
+[zone,0_35_50_16_24] settimer(regicide_woodspring, 1);
+[zone,0_34_50_0_8] settimer(regicide_woodspring, 1);
+[zone,0_34_49_56_40] settimer(regicide_woodspring, 1);
+[zone,0_34_49_16_32] settimer(regicide_woodspring, 1);
+[zone,0_34_49_24_32] settimer(regicide_woodspring, 1);
+[zone,0_35_49_32_24] settimer(regicide_woodspring, 1);
+
+[zoneexit,0_35_50_48_8] cleartimer(regicide_woodspring);
+[zoneexit,0_35_50_48_16] cleartimer(regicide_woodspring);
+[zoneexit,0_35_50_56_8] cleartimer(regicide_woodspring);
+[zoneexit,0_35_50_8_24] cleartimer(regicide_woodspring);
+[zoneexit,0_35_50_16_24] cleartimer(regicide_woodspring);
+[zoneexit,0_35_50_0_8] cleartimer(regicide_woodspring);
+[zoneexit,0_34_49_56_40] cleartimer(regicide_woodspring);
+[zoneexit,0_34_49_16_32] cleartimer(regicide_woodspring);
+[zoneexit,0_34_49_24_32] cleartimer(regicide_woodspring);
+[zoneexit,0_35_49_32_24] cleartimer(regicide_woodspring);
+
+// tripwires, 40_48 doesnt have a trigger on the adj zone, so if you come in from the east side
+// it will be delayed by 1t
+[zone,0_34_49_32_16] settimer(regicide_tripwire, 1);
+[zone,0_34_49_40_16] settimer(regicide_tripwire, 1);
+[zone,0_35_49_8_32] settimer(regicide_tripwire, 1);
+[zone,0_35_49_40_48] settimer(regicide_tripwire, 1);
+[zone,0_35_50_48_40] settimer(regicide_tripwire, 1);
+
+[zoneexit,0_34_49_32_16] cleartimer(regicide_tripwire);
+[zoneexit,0_34_49_40_16] cleartimer(regicide_tripwire);
+[zoneexit,0_35_49_8_32] cleartimer(regicide_tripwire);
+[zoneexit,0_35_49_40_48] cleartimer(regicide_tripwire);
+[zoneexit,0_35_50_48_40] cleartimer(regicide_tripwire);
+
+// leaves
+[zone,0_34_50_32_0] settimer(regicide_pitfall, 1);
+[zone,0_35_49_32_32] settimer(regicide_pitfall, 1);
+[zone,0_35_49_32_0] settimer(regicide_pitfall, 1);
+[zone,0_35_50_24_0] settimer(regicide_pitfall, 1);
+[zone,0_35_50_32_56] settimer(regicide_pitfall, 1);
+
+[zoneexit,0_34_50_32_0] cleartimer(regicide_pitfall);
+[zoneexit,0_35_49_32_32] cleartimer(regicide_pitfall);
+[zoneexit,0_35_50_32_0] cleartimer(regicide_pitfall);
+[zoneexit,0_35_50_24_0] cleartimer(regicide_pitfall);
+[zoneexit,0_35_50_32_56] cleartimer(regicide_pitfall);
+
+[timer,regicide_woodspring]
+if(coord = 0_35_50_55_14 | coord = 0_35_50_55_15) {
+    if(loc_find(0_35_50_55_14, regicide_trap_woodspring) = true) @regicide_fail_trap_woodspring;
+} else if(coord = 0_35_50_17_27 | coord = 0_35_50_18_27) {
+    if(loc_find(0_35_50_17_27, regicide_trap_woodspring) = true) @regicide_fail_trap_woodspring;
+} else if(coord = 0_34_50_5_10 | coord = 0_34_50_5_11) {
+    if(loc_find(0_34_50_5_9, regicide_trap_woodspring) = true) @regicide_fail_trap_woodspring;
+} else if(coord = 0_34_49_60_45 | coord = 0_34_49_61_45) {
+    if(loc_find(0_34_49_59_45, regicide_trap_woodspring) = true) @regicide_fail_trap_woodspring;
+} else if(coord = 0_34_49_24_33 | coord = 0_34_49_25_33) {
+    if(loc_find(0_34_49_24_33, regicide_trap_woodspring) = true) @regicide_fail_trap_woodspring;
+} else if(coord = 0_35_49_35_27 | coord = 0_35_49_36_27) {
+    if(loc_find(0_35_49_35_27, regicide_trap_woodspring) = true) @regicide_fail_trap_woodspring;
+}
+
+[timer,regicide_tripwire]
+if(loc_find(coord, regicide_trap_tripwire) = true | loc_find(movecoord(coord, 0, 0, -1), regicide_trap_tripwire) = true| loc_find(movecoord(coord, -1, 0, 0), regicide_trap_tripwire) = true) {
+    @regicide_walk_tripwire;
+}
+
+[timer,regicide_pitfall]
+if(loc_find(coord, regicide_pitfall_side) = true | loc_find(coord, regicide_pitfall_corner) = true | loc_find(coord, regicide_pitfall_mid) = true) {
+    p_stopaction;
+    p_delay(0);
+    mes("It's a trap!");
+    anim(human_walk_logbalance_stumble, 0);
+    // sound
+    p_delay(0);
+    @regicide_pitfall_falldown;
+}

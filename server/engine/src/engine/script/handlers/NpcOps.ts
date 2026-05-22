@@ -18,7 +18,22 @@ import { ScriptOpcode } from '#/engine/script/ScriptOpcode.js';
 import ScriptPointer, { ActiveNpc, ActivePlayer, checkedHandler } from '#/engine/script/ScriptPointer.js';
 import { CommandHandlers } from '#/engine/script/ScriptRunner.js';
 import ScriptState from '#/engine/script/ScriptState.js';
-import { CategoryTypeValid, check, CoordValid, DurationValid, HitTypeValid, HuntTypeValid, HuntVisValid, NpcModeValid, NpcStatValid, NpcTypeValid, NumberNotNull, ParamTypeValid, QueueValid, SpotAnimTypeValid } from '#/engine/script/ScriptValidators.js';
+import {
+    CategoryTypeValid,
+    check,
+    CoordValid,
+    DurationValid,
+    HitTypeValid,
+    HuntTypeValid,
+    HuntVisValid,
+    NpcModeValid,
+    NpcStatValid,
+    NpcTypeValid,
+    NumberNotNull,
+    ParamTypeValid,
+    QueueValid,
+    SpotAnimTypeValid
+} from '#/engine/script/ScriptValidators.js';
 import ServerTriggerType from '#/engine/script/ServerTriggerType.js';
 import World from '#/engine/World.js';
 
@@ -46,7 +61,7 @@ const NpcOps: CommandHandlers = {
         const npcType: NpcType = check(id, NpcTypeValid);
         check(duration, DurationValid);
 
-        const npc = new Npc(position.level, position.x, position.z, npcType.size, npcType.size, EntityLifeCycle.DESPAWN, World.getNextNid(), npcType.id, npcType.moverestrict, npcType.blockwalk);
+        const npc = new Npc(position.level, position.x, position.z, npcType.size, npcType.size, EntityLifeCycle.DESPAWN, World.getNextNid(), npcType.id, npcType.blockwalk);
         World.addNpc(npc, duration);
         state.activeNpc = npc;
         state.pointerAdd(ActiveNpc[state.intOperand]);
@@ -365,6 +380,7 @@ const NpcOps: CommandHandlers = {
         state.pointerAdd(ActiveNpc[state.intOperand]);
         state.pushInt(1);
     },
+
     [ScriptOpcode.NPC_FINDCAT]: state => {
         const [coord, npcCategory, distance, checkVis] = state.popInts(4);
 
@@ -554,6 +570,14 @@ const NpcOps: CommandHandlers = {
     }),
     [ScriptOpcode.NPC_INRANGE]: checkedHandler(ActiveNpc, state => {
         state.pushInt(state.activeNpc.targetWithinMaxRange() ? 1 : 0);
+    }),
+
+    [ScriptOpcode.NPC_DESTINATION]: checkedHandler(ActiveNpc, state => {
+        if (!state.activeNpc.hasWaypoints()) {
+            state.pushInt(state.activeNpc.coord);
+            return;
+        }
+        state.pushInt(state.activeNpc.waypoints[0]);
     })
 };
 

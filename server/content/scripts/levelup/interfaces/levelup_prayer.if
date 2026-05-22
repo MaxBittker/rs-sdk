@@ -5,7 +5,7 @@ y=15
 width=390
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Line1
 
 [line2]
@@ -15,7 +15,7 @@ y=44
 width=390
 height=18
 center=yes
-font=q8
+font=q8_full
 text=Line2
 
 [continue]
@@ -26,7 +26,7 @@ buttontype=pause
 width=350
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Click here to continue
 colour=0xFFFF00
 overcolour=0x00C000

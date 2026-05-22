@@ -10,8 +10,4 @@ export default class MidiJingleEncoder extends ServerGameMessageEncoder<MidiJing
         buf.p2(message.id);
         buf.p2(message.delay);
     }
-
-    test(_message: MidiJingle): number {
-        return 4;
-    }
 }

@@ -1,5 +1,5 @@
 // looks like they just used the normal tree stump!!?
-[magic_tree]
+[magictree]
 name=Magic tree
 desc=The tree shimmers with a magical force.
 model=model_loc_1306

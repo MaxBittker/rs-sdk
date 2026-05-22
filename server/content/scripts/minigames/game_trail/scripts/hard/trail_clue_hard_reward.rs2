@@ -6,8 +6,8 @@ def_int $rare = 0;
 while ($roll < $rolls) {
     // Rare drop chance was 1/21 in 2006. @https://twitter.com/JagexTide/status/1131933683714330624
     // the chances have been scaled down over time to accomodate for more uniques being in the list, there are 25 uniques in May 2004
-    // 67 by 2006, (67/25) * 21 ~= 57
-    if(random(57) = 0) {
+    // 67 by 2006, (67/31) * 21 ~= 45
+    if(random(45) = 0) {
         $rare = calc($rare + 1);
         gosub(trail_clue_hard_rare);
     } else {
@@ -23,7 +23,7 @@ if ($rare > 0) {
 ~trail_complete;
 
 [proc,trail_clue_hard_normal]
-def_int $random = random(20);
+def_int $random = random(21);
 
 switch_int ($random) {
     case 0 : inv_add(trail_rewardinv, coins, calc(1000 + random(4001)));
@@ -46,10 +46,11 @@ switch_int ($random) {
     case 17 : inv_add(trail_rewardinv, black_dragonhide_chaps, 1);
     case 18 : inv_add(trail_rewardinv, magic_shortbow, 1);
     case 19 : inv_add(trail_rewardinv, magic_longbow, 1);
+    case 20 : inv_add(trail_rewardinv, ~trail_reward_godpage);
 }
 
 [proc,trail_clue_hard_rare]
-def_int $random = random(25);
+def_int $random = random(31);
 
 switch_int ($random) {
     case 0 : inv_add(trail_rewardinv, robinhoodhat, 1);
@@ -77,4 +78,36 @@ switch_int ($random) {
     case 22 : inv_add(trail_rewardinv, rune_platebody_saradomin, 1);
     case 23 : inv_add(trail_rewardinv, rune_platelegs_saradomin, 1);
     case 24 : inv_add(trail_rewardinv, rune_kiteshield_saradomin, 1);
+    case 25 : ~trail_clue_hard_ultrarare;
+    case 26 : inv_add(trail_rewardinv, rune_plateskirt_guthix, 1);
+    case 27 : inv_add(trail_rewardinv, rune_plateskirt_saradomin, 1);
+    case 28 : inv_add(trail_rewardinv, rune_plateskirt_zamorak, 1);
+    case 29 : inv_add(trail_rewardinv, rune_plateskirt_trim, 1);
+    case 30 : inv_add(trail_rewardinv, rune_plateskirt_gold, 1);
+}
+
+[proc,trail_clue_hard_ultrarare]()
+def_int $rand = random(2);
+if($rand = 0) { // junk table
+    $rand = random(4);
+
+    switch_int ($rand) {
+        case 0 : inv_add(trail_rewardinv, cert_4dose2energy, 15);
+        case 1 : inv_add(trail_rewardinv, cert_4dose2restore, 15);
+        case 2 : inv_add(trail_rewardinv, cert_4dose1antidragon, 15);
+        case 3 : 
+            inv_add(trail_rewardinv, cert_4dose2attack, 5);
+            inv_add(trail_rewardinv, cert_4dose2strength, 5);
+            inv_add(trail_rewardinv, cert_4dose2defense, 5);
+    }
+} else if($rand = 1) { // gilded table
+    $rand = random(5);
+
+    switch_int ($rand) {
+        case 0 : inv_add(trail_rewardinv, rune_platebody_goldplate, 1);
+        case 1 : inv_add(trail_rewardinv, rune_platelegs_goldplate, 1);
+        case 2 : inv_add(trail_rewardinv, rune_full_helm_goldplate, 1);
+        case 3 : inv_add(trail_rewardinv, rune_plateskirt_goldplate, 1);
+        case 4 : inv_add(trail_rewardinv, rune_kiteshield_goldplate, 1);
+    }
 }

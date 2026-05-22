@@ -2,7 +2,7 @@
 switch_obj (last_useitem) {
     case jug_water : @make_wine;
     case default : ~displaymessage(^dm_default);
-};
+}
 //todo: Finish wines, jug of bad wine, proper queue clearing
 [label,make_wine]
 if (stat(cooking) < 35) {

@@ -1,17 +1,7 @@
 import fs from 'fs';
 
 import Environment from '#/util/Environment.js';
-import { listDir, listFiles } from '#tools/pack/FsCache.js';
-
-export function readTextNormalize(path: string): string {
-    if (!fs.existsSync(path)) {
-        return '';
-    }
-
-    return fs.readFileSync(path, 'utf8').replace(/\r/g, '');
-}
-
-// -----
+import { listDir, listFiles, readTextFile } from '#tools/pack/FsCache.js';
 
 // simple! just reads the file as-is
 export function loadFile(path: string): string[] {
@@ -19,12 +9,12 @@ export function loadFile(path: string): string[] {
         return [];
     }
 
-    return readTextNormalize(path).split('\n');
+    return readTextFile(path).split(/\r?\n/);
 }
 
 // fully-featured! strips out comments
 export function loadFileFull(path: string) {
-    const text = readTextNormalize(path).split('\n');
+    const text = loadFile(path);
     const lines = [];
 
     let multiCommentStart = 0;
@@ -152,7 +142,7 @@ export function loadDirExtFull(path: string, ext: string, callback: LoadDirCallb
 export function readConfigs(ext: string) {
     const configs = new Map<string, string[]>();
 
-    loadDirExtFull(`${Environment.BUILD_SRC_DIR}/scripts`, ext, (lines: string[], file: string) => {
+    loadDirExtFull(`${Environment.build.srcDir}/scripts`, ext, (lines: string[], file: string) => {
         let current: string = '';
         let config: string[] = [];
 

@@ -6,8 +6,61 @@ import Packet from '#/io/Packet.js';
 import { AnimPack, AnimSetPack, MapPack, MidiPack, ModelPack } from '#tools/pack/PackFile.js';
 import Environment from '#/util/Environment.js';
 import { fileExists } from '#tools/pack/FsCache.js';
+import { shouldBuild, shouldBuildFile, shouldBuildFileAny } from '#tools/pack/PackFile.js';
+
+export function shouldRebuildVersionListPack() {
+    return (
+        shouldBuildFile(`${Environment.build.srcDir}/pack/model.pack`, 'data/pack/client/versionlist') ||
+        shouldBuildFile(`${Environment.build.srcDir}/pack/anim.pack`, 'data/pack/client/versionlist') ||
+        shouldBuildFile(`${Environment.build.srcDir}/pack/animset.pack`, 'data/pack/client/versionlist') ||
+        shouldBuildFile(`${Environment.build.srcDir}/pack/map.pack`, 'data/pack/client/versionlist') ||
+        shouldBuildFile(`${Environment.build.srcDir}/pack/midi.pack`, 'data/pack/client/versionlist') ||
+        shouldBuildFileAny(`${Environment.build.srcDir}/models`, 'data/pack/client/versionlist') ||
+        shouldBuildFileAny(`${Environment.build.srcDir}/maps`, 'data/pack/client/versionlist') ||
+        shouldBuildFileAny(`${Environment.build.srcDir}/jingles`, 'data/pack/client/versionlist') ||
+        shouldBuildFileAny(`${Environment.build.srcDir}/songs`, 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.idk', 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.npc', 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.obj', 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.loc', 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.spotanim', 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.if', 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.varp', 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.varbit', 'data/pack/client/versionlist') ||
+        shouldBuild(`${Environment.build.srcDir}/scripts`, '.seq', 'data/pack/client/versionlist') ||
+        shouldBuildFileAny('tools/pack/versionlist', 'data/pack/client/versionlist') ||
+        shouldBuildFileAny('tools/pack/map', 'data/pack/client/versionlist') ||
+        shouldBuildFileAny('tools/pack/interface', 'data/pack/client/versionlist') ||
+        shouldBuildFileAny('tools/pack/config', 'data/pack/client/versionlist') ||
+        shouldBuildFile('data/raw/wordenc', 'data/pack/client/versionlist')
+    );
+}
+
+export function loadCachedModelFlags(modelFlags: number[]) {
+    if (!fs.existsSync('data/pack/client/versionlist')) {
+        return false;
+    }
+
+    const versionlist = Jagfile.load('data/pack/client/versionlist');
+    const modelIndex = versionlist.read('model_index');
+    if (!modelIndex) {
+        return false;
+    }
+
+    for (let id = 0; id < ModelPack.max; id++) {
+        modelFlags[id] = modelIndex.pos < modelIndex.length ? modelIndex.g1() : 0;
+    }
+
+    return true;
+}
 
 export function packClientVersionList(cache: FileStream, modelFlags: number[]) {
+    const rebuild = shouldRebuildVersionListPack();
+
+    if (!rebuild && cache.has(0, 5)) {
+        return false;
+    }
+
     const versionlist = Jagfile.new(true);
 
     const modelVersion = Packet.alloc(3);
@@ -70,7 +123,7 @@ export function packClientVersionList(cache: FileStream, modelFlags: number[]) {
             midiVersion.p2(1);
             midiCrc.p4(Packet.getcrc(data, 0, data.length - 2));
             // used for prefetching jingles
-            midiIndex.pbool(fileExists(`${Environment.BUILD_SRC_DIR}/jingles/${MidiPack.getById(id)}.mid`));
+            midiIndex.pbool(fileExists(`${Environment.build.srcDir}/jingles/${MidiPack.getById(id)}.mid`));
         } else {
             midiVersion.p2(0);
             midiCrc.p4(0);
@@ -95,7 +148,7 @@ export function packClientVersionList(cache: FileStream, modelFlags: number[]) {
         }
     }
 
-    const free2play = fs.readFileSync(`${Environment.BUILD_SRC_DIR}/maps/free2play.csv`, 'ascii').replace(/\r/g, '').split('\n');
+    const free2play = fs.readFileSync(`${Environment.build.srcDir}/maps/free2play.csv`, 'ascii').split(/\r?\n/);
     const prefetch = new Set();
     for (let index: number = 0; index < free2play.length; index++) {
         const line: string = free2play[index];
@@ -130,4 +183,5 @@ export function packClientVersionList(cache: FileStream, modelFlags: number[]) {
     versionlist.save('data/pack/client/versionlist');
 
     cache.write(0, 5, fs.readFileSync('data/pack/client/versionlist'));
+    return true;
 }

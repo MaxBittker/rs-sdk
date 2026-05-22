@@ -1,3 +1,12 @@
+[loc_154]
+name=Obstacle pipe
+desc=A pipe I can squeeze through.
+model=model_loc_2287
+retex1s=wall
+retex1d=planks
+op1=Squeeze-through
+width=2
+
 [gnome_log_balance]
 name=Log balance
 desc=A slippery log I can walk across.
@@ -49,12 +58,3 @@ desc=This must be climbed over.
 model=model_loc_2284
 width=2
 op1=Climb-over
-
-[gnome_obstacle_pipe]
-name=Obstacle pipe
-desc=A pipe I can squeeze through.
-model=model_loc_2287
-op1=Squeeze-through
-width=2
-retex1s=wall
-retex1d=planks

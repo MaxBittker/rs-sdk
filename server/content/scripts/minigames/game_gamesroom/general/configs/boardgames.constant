@@ -1,0 +1,32 @@
+^draughts_tile_size = 32
+^runelink_tile_size = 35
+
+^draughts_room_tele_coord = 0_34_77_20_12
+^runelink_room_tele_coord = 0_34_77_43_12
+
+^draughts_room_start_coord = 0_34_77_16_8
+^draughts_room_end_coord = 0_34_77_23_15
+
+^runelinks_room_start_coord = 0_34_77_40_8
+^runelinks_room_end_coord = 0_34_77_47_15
+
+^boardgames_win = 1
+^boardgames_loss = 2
+^boardgames_draw = 3
+
+^draughts_timeout = 1
+^draughts_normal_end = 2
+^draughts_draw_agreed = 4
+
+^runelink_connect_win = 1
+^runelink_fullboard_draw = 2
+^runelink_draw_agreed = 3
+
+^boardgames_victory_jingle = boardgames victory
+^boardgames_victory_jingle_millis = 6656
+
+^boardgames_draw_jingle = boardgames draw
+^boardgames_draw_jingle_millis = 6449
+
+^boardgames_defeat_jingle = boardgames defeat
+^boardgames_defeat_jingle_millis = 7976

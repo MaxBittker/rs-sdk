@@ -133,7 +133,8 @@ export default class Jagfile {
 
         if (this.compressWhole) {
             this.fileQueue.push({
-                hash, name,
+                hash,
+                name,
 
                 write: true,
                 data: src.data.subarray(0, src.pos),
@@ -144,7 +145,8 @@ export default class Jagfile {
             const data = BZip2.compress(src.data.subarray(0, src.pos), false, true);
 
             this.fileQueue.push({
-                hash, name,
+                hash,
+                name,
 
                 write: true,
                 data,
@@ -158,7 +160,8 @@ export default class Jagfile {
         const hash: number = genHash(name);
 
         this.fileQueue.push({
-            hash, name,
+            hash,
+            name,
 
             delete: true
         });
@@ -169,10 +172,12 @@ export default class Jagfile {
         const newHash: number = genHash(newName);
 
         this.fileQueue.push({
-            hash: oldHash, name: oldName,
+            hash: oldHash,
+            name: oldName,
 
             rename: true,
-            newHash, newName
+            newHash,
+            newName
         });
     }
 
@@ -235,7 +240,10 @@ export default class Jagfile {
 
         // write files
         for (let i: number = 0; i < this.fileCount; i++) {
-            const data: Uint8Array = this.fileWrite[i];
+            const data: Uint8Array | undefined = this.fileWrite[i] ?? (this.data ? this.data.subarray(this.filePos[i], this.filePos[i] + this.filePackedSize[i]) : undefined);
+            if (!data) {
+                throw new Error(`Jagfile entry ${this.fileName[i] ?? this.fileHash[i]} is missing data`);
+            }
             buf.pdata(data, 0, data.length);
         }
 

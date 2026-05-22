@@ -1,8 +1,68 @@
+[applayer1,_]
+if (~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
+    @pvp_gnomeball_pass;
+    return;
+}
+p_aprange(0);
+
 [opplayer1,_]
+if (~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
+    @pvp_gnomeball_pass;
+    return;
+}
 if (.busy = true) {
     mes("Other player is busy at the moment."); // https://youtu.be/YkJQDvB14-U?t=26
     return;
 }
+
+if (map_members = ^false) { // theres an area f2p worlds have access to that lets you duel other players
+    mes(^mes_members_do_that); // guess
+    return;
+}
+
+if (~in_games_room(coord) = true & ~in_games_room(.coord) = true) {
+    // guessing it uses some varp as duel arena challenges
+
+    if (.%duel2accept ! uid) {
+        %duel2accept = .uid;
+        if (inzone(^draughts_room_start_coord, ^draughts_room_end_coord, coord) = true) {
+            %boardgames_game = 0;
+            %boardgames_closinginterface = 1;
+            %boardgames_timepermove = 1;
+            %boardgames_rankedgame = 1;
+            %boardgames_piece = 1;
+            if_openmain(boardgames_draughts_options);
+            %boardgames_closinginterface = 0;
+        } else if (inzone(^runelinks_room_start_coord, ^runelinks_room_end_coord, coord) = true) {
+            %boardgames_game = 1;
+            %boardgames_closinginterface = 1;
+            %boardgames_timepermove = 1;
+            %boardgames_rankedgame = 1;
+            %boardgames_piece = 1;
+            if_openmain(boardgames_runelink_options);
+            %boardgames_closinginterface = 0;
+        } else {
+            if_settext(boardgames_challenge:draughts_rank, "<tostring(%boardgames_draughts_rank)> vs <tostring(.%boardgames_draughts_rank)>");
+            if_settext(boardgames_challenge:runelink_rank, "<tostring(%boardgames_runelink_rank)> vs <tostring(.%boardgames_runelink_rank)>");
+            // if_settext(boardgames_challenge:runesquares_rank, "<tostring(%boardgames_runesquares_rank)> vs <tostring(.%boardgames_runesquares_rank)>");
+            // if_settext(boardgames_challenge:runeversi_rank, "<tostring(%boardgames_runeversi_rank)> vs <tostring(.%boardgames_runeversi_rank)>");
+            if_openmain(boardgames_challenge);
+        }
+    } else {
+        %duel2accept = .uid;
+        %boardgames_game = .%boardgames_game;
+        %boardgames_rankedgame = .%boardgames_rankedgame;
+        %boardgames_timepermove = .%boardgames_timepermove;
+        if (.%boardgames_piece = 1) {
+            %boardgames_piece = 2;
+        } else {
+            %boardgames_piece = 1;
+        }
+        ~open_boardgames_options;
+    }
+    return;
+}
+
 // prevent people from dueling in a duel or if you arent in the duel area
 if (~in_duel_arena(coord) = true | ~inzone_coord_pair_table(duel_arena_zones, coord) = false) {
     mes("You can't do that here."); // https://youtu.be/nUwvlFkcsqA?t=17
@@ -11,10 +71,6 @@ if (~in_duel_arena(coord) = true | ~inzone_coord_pair_table(duel_arena_zones, co
 // if the other player isnt in the duel area
 if (~inzone_coord_pair_table(duel_arena_zones, .coord) = false) {
     mes("That player is not in the duel challenge area."); // https://youtu.be/YlnPnlfgMQ4?t=51
-    return;
-}
-if (map_members = ^false) { // theres an area f2p worlds have access to that lets you duel other players
-    mes(^mes_members_do_that); // guess
     return;
 }
 

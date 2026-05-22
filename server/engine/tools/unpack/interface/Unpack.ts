@@ -9,7 +9,7 @@ import { listFilesExt } from '#tools/pack/Parse.js';
 import { InterfacePack, ModelPack, ObjPack, SeqPack, VarbitPack, VarpPack } from '#tools/pack/PackFile.js';
 
 function renameModel(id: number) {
-    const existingFiles = listFilesExt(`${Environment.BUILD_SRC_DIR}/models`, '.ob2');
+    const existingFiles = listFilesExt(`${Environment.build.srcDir}/models`, '.ob2');
 
     let model = ModelPack.getById(id);
     if (model.startsWith('model_')) {
@@ -22,7 +22,7 @@ function renameModel(id: number) {
 
         const filePath = existingFiles.find(x => x.endsWith(`/${model}.ob2`));
         if (filePath) {
-            fs.renameSync(filePath, `${Environment.BUILD_SRC_DIR}/models/com/${name}.ob2`);
+            fs.renameSync(filePath, `${Environment.build.srcDir}/models/com/${name}.ob2`);
         } else {
             console.error('Model not found on filesystem', 'com', model);
         }
@@ -42,8 +42,8 @@ const enum ComponentType {
     TYPE_TEXT = 4,
     TYPE_GRAPHIC = 5,
     TYPE_MODEL = 6,
-    TYPE_INV_TEXT = 7,
-};
+    TYPE_INV_TEXT = 7
+}
 
 const enum ButtonType {
     BUTTON_OK = 1,
@@ -51,8 +51,8 @@ const enum ButtonType {
     BUTTON_CLOSE = 3,
     BUTTON_TOGGLE = 4,
     BUTTON_SELECT = 5,
-    BUTTON_CONTINUE = 6,
-};
+    BUTTON_CONTINUE = 6
+}
 
 const STATS = [
     'attack',
@@ -102,7 +102,7 @@ class IfType {
 
             IfType.order.push(id);
 
-            const com = IfType.instances[id] = new IfType();
+            const com = (IfType.instances[id] = new IfType());
             com.id = id;
             com.rootLayer = layer;
             com.comType = dat.g1();
@@ -290,7 +290,7 @@ class IfType {
     }
 
     static exportOrder() {
-        fs.writeFileSync(`${Environment.BUILD_SRC_DIR}/pack/interface.order`, IfType.order.join('\n') + '\n');
+        fs.writeFileSync(`${Environment.build.srcDir}/pack/interface.order`, IfType.order.join('\n') + '\n');
     }
 
     static exportSrc() {
@@ -337,11 +337,11 @@ class IfType {
         InterfacePack.save();
 
         // export source files
-        if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/scripts/interfaces`)) {
-            fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/scripts/interfaces`);
+        if (!fs.existsSync(`${Environment.build.srcDir}/scripts/interfaces`)) {
+            fs.mkdirSync(`${Environment.build.srcDir}/scripts/interfaces`);
         }
-        
-        const existingFiles = listFilesExt(`${Environment.BUILD_SRC_DIR}/scripts`, '.if');
+
+        const existingFiles = listFilesExt(`${Environment.build.srcDir}/scripts`, '.if');
 
         for (let id = 0; id < IfType.count; id++) {
             const com = IfType.instances[id];
@@ -353,7 +353,7 @@ class IfType {
             const src = com.export();
 
             const existingFile = existingFiles.find(x => x.endsWith(`/${name}.if`));
-            const destFile = existingFile ?? `${Environment.BUILD_SRC_DIR}/scripts/interfaces/${name}.if`;
+            const destFile = existingFile ?? `${Environment.build.srcDir}/scripts/interfaces/${name}.if`;
             fs.writeFileSync(destFile, src.join('\n') + '\n');
         }
     }
@@ -652,16 +652,16 @@ class IfType {
 
             switch (this.font) {
                 case 0:
-                    temp.push('font=p11');
+                    temp.push('font=p11_full');
                     break;
                 case 1:
-                    temp.push('font=p12');
+                    temp.push('font=p12_full');
                     break;
                 case 2:
-                    temp.push('font=b12');
+                    temp.push('font=b12_full');
                     break;
                 case 3:
-                    temp.push('font=q8');
+                    temp.push('font=q8_full');
                     break;
             }
 
@@ -747,16 +747,16 @@ class IfType {
 
             switch (this.font) {
                 case 0:
-                    temp.push('font=p11');
+                    temp.push('font=p11_full');
                     break;
                 case 1:
-                    temp.push('font=p12');
+                    temp.push('font=p12_full');
                     break;
                 case 2:
-                    temp.push('font=b12');
+                    temp.push('font=b12_full');
                     break;
                 case 3:
-                    temp.push('font=q8');
+                    temp.push('font=q8_full');
                     break;
             }
 
@@ -905,8 +905,8 @@ if (!interfaceData) {
     process.exit(1);
 }
 
-if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/models/com`)) {
-    fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/models/com`, { recursive: true });
+if (!fs.existsSync(`${Environment.build.srcDir}/models/com`)) {
+    fs.mkdirSync(`${Environment.build.srcDir}/models/com`, { recursive: true });
 }
 
 IfType.unpack(new Jagfile(new Packet(interfaceData)));

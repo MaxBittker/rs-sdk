@@ -1,6 +1,6 @@
 import LruCache from '#/datastruct/LruCache.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 import { Colour } from '#/graphics/Colour.js';
@@ -41,10 +41,10 @@ export default class ObjType {
     iop: (string | null)[] | null = null;
     manwear: number = -1;
     manwear2: number = -1;
-    manwearOffsetY: number = 0;
+    manwearOffset: number = 0;
     womanwear: number = -1;
     womanwear2: number = -1;
-    womanwearOffsetY: number = 0;
+    womanwearOffset: number = 0;
     manwear3: number = -1;
     womanwear3: number = -1;
     manhead: number = -1;
@@ -61,7 +61,7 @@ export default class ObjType {
     ambient: number = 0;
     contrast: number = 0;
 
-    static init(config: Jagfile, members: boolean): void {
+    static init(config: JagFile, members: boolean): void {
         this.memServer = members;
 
         this.dat = new Packet(config.read('obj.dat'));
@@ -135,10 +135,10 @@ export default class ObjType {
         this.iop = null;
         this.manwear = -1;
         this.manwear2 = -1;
-        this.manwearOffsetY = 0;
+        this.manwearOffset = 0;
         this.womanwear = -1;
         this.womanwear2 = -1;
-        this.womanwearOffsetY = 0;
+        this.womanwearOffset = 0;
         this.manwear3 = -1;
         this.womanwear3 = -1;
         this.manhead = -1;
@@ -195,12 +195,12 @@ export default class ObjType {
                 this.members = true;
             } else if (code === 23) {
                 this.manwear = dat.g2();
-                this.manwearOffsetY = dat.g1b();
+                this.manwearOffset = dat.g1b();
             } else if (code === 24) {
                 this.manwear2 = dat.g2();
             } else if (code === 25) {
                 this.womanwear = dat.g2();
-                this.womanwearOffsetY = dat.g1b();
+                this.womanwearOffset = dat.g1b();
             } else if (code === 26) {
                 this.womanwear2 = dat.g2();
             } else if (code >= 30 && code < 35) {
@@ -588,10 +588,10 @@ export default class ObjType {
             }
         }
 
-        if (gender === 0 && this.manwearOffsetY !== 0) {
-            model.translate(this.manwearOffsetY, 0, 0);
-        } else if (gender === 1 && this.womanwearOffsetY !== 0) {
-            model.translate(this.womanwearOffsetY, 0, 0);
+        if (gender === 0 && this.manwearOffset !== 0) {
+            model.translate(this.manwearOffset, 0, 0);
+        } else if (gender === 1 && this.womanwearOffset !== 0) {
+            model.translate(this.womanwearOffset, 0, 0);
         }
 
         if (this.recol_s && this.recol_d) {

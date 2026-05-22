@@ -77,7 +77,7 @@ if(%grail >= ^grail_spoken_crone & inv_total(inv, holy_table_napkin) = 0) {
 
 [label,brother_galahad_why_grail]
 ~chatplayer("<p,neutral>Why didn't you bring the Grail with you?");
-~chatnpc("<p,neutral>...I'm not sure.|Because... it seemed to be... NEEDED in the Grail castle?|Half a moment, your cup of tea is ready.");
+~chatnpc("<p,neutral>...I'm not sure. Because... it seemed to be... NEEDED in the Grail castle? Half a moment, your cup of tea is ready.");
 @brother_galahad_give_tea;
 
 [label,brother_galahad_get_going]

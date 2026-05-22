@@ -2,8 +2,3 @@
 size=40
 stackall=yes
 protect=no
-
-[trail_puzzleinv]
-scope=temp
-size=25
-dummyinv=yes

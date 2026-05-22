@@ -1,0 +1,225 @@
+[opnpc1,viking_brundt]
+def_int $op;
+def_int $votes = max(0, sub(%viking, 1));
+switch_int(%viking) {
+    case ^viking_complete :
+        ~chatnpc("<p,neutral>Hello again <text_gender("brother", "sister")> <~get_viking_name>! I hope your travels have brought you wealth and joy! What compels you to visit me on this day?");
+        @multi4("I just came to say hello", brundt_hello, "Do you have any quests?", brundt_quests, "Nice hat!", brundt_hat, "Can I hear the history of your people?", brundt_history);
+    case default :
+        ~chatnpc("<p,neutral>Greetings again outerlander! How goes your attempts to gain votes with the council of elders?");
+        if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+            $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+            if($op = 1) @viking_brundt_merchant;
+        }
+        if($votes = 0) {
+            ~chatplayer("<p,sad>I don't have any votes yet.");
+            ~chatnpc("<p,neutral>Go and speak to the twelve members of the council of elders who live in this village. I am sure at least a few will be prepared to vote for you.");
+        } else if($votes = 1) {
+            ~chatplayer("<p,neutral>I only have 1 vote so far.");
+            ~chatnpc("<p,neutral>Hmmm... well that is certainly a good start I would say. Keep up the good work!");
+            ~chatnpc("<p,neutral>Remember: You need to get at least seven council votes to be accepted as a member of the Fremennik.");
+        } else if($votes < 7) {
+            ~chatplayer("<p,neutral>I only have <tostring($votes)> votes so far.");
+            ~chatnpc("<p,neutral>Hmmm... you are doing very well so far, outerlander. Keep up the good work!");
+            ~chatnpc("<p,neutral>Remember: You need to get at least seven council votes to be accepted as a member of the Fremennik.");
+        } else {
+            ~chatplayer("<p,happy>I have seven members of the council prepared to vote in my favour now!");
+            ~chatnpc("<p,happy>I know outerlander, for I have been closely monitoring your progress so far!");
+            queue(viking_quest_complete, 0, 0);
+            ~chatnpc("<p,happy>Then let us put the formality aside, and let me personally welcome you into the Fremennik! May you bring us honour!");
+            return;
+        }
+        ~chatnpc("<p,neutral>If you need any help with your trials, I suggest you speak to Askeladden. He is currently doing his own trials of manhood to become a true Fremennik.");
+    case ^viking_not_started :
+        ~chatnpc("<p,neutral>Greetings outerlander!");
+        @multi4("What is this place?", brundt_place, "Why will no-one talk to me?", brundt_noone, "Do you have any quests?", brundt_quests, "Nice hat!", brundt_hat);
+}
+
+[label,viking_brundt_merchant]
+if(inv_total(inv, viking_map_to_hunting_grounds) > 0) {
+    ~chatplayer("<p,happy>I got Sigli's hunting map for you.");
+    inv_del(inv, viking_map_to_hunting_grounds, 1);
+    inv_add(inv, viking_promissary_note, 1);
+    ~chatnpc("<p,neutral>Excellent work outerlander! And so quickly, too! Here, you may take my financial report promising reduced sales taxes on all goods.");
+    return;
+}
+if(inv_total(inv, viking_promissary_note) > 0) {
+    ~chatplayer("<p,neutral>So cutting sales tax isn't going to ruin your economy here or anything?");
+    ~chatnpc("<p,neutral>Not at all outerlander; now that we have Sigli's map we can increase the amount of hunts we run, and make up any shortfall that way.");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_thorvald :
+        // a few npcs use your for some reason, bad copy paste from thorvald probably...
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the token to allow your seat at the champions table?");
+        ~chatnpc("<p,neutral>Not really my affair, outerlander.");
+    case ^sigmund_spoke_chief :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Ah, outerlander... if you wish to become a Fremennik you should try and pay more attention to what people tell you...");
+        ~chatnpc("<p,neutral>Sigli the hunter is the only one who knows of such hunting grounds. Go and request his knowledge.");
+    case ^sigmund_spoke_yrsa :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>A reduction on sales taxes? Why, I am the only one in the Fremennik who may authorise such a thing. What does an outerlander want with that?");
+        ~chatplayer("<p,neutral>Actually, it's not for me. I need to get it as part of my trials.");
+        ~chatnpc("<p,neutral>Hmmm. Interesting. Your trials seem to be very different to those I took as a young lad. Well, I am not adverse in principle to giving a slight tax break to our shops.");
+        ~chatnpc("<p,neutral>There will of course be a shortfall in the tribe's income, that will need to be made up for elsewhere, however.");
+        ~chatnpc("<p,neutral>How about this. For many years Sigli has been the only one in the tribe who knows the locations of the best hunting grounds where game is easiest to catch.");
+        ~set_viking_sigmund_progress(^sigmund_spoke_chief);
+        ~chatnpc("<p,neutral>If you can persuade him to let the entire tribe know these hunting grounds, then we can increase productivity within the tribe, and any shortfall caused");
+        ~chatnpc("<p,neutral>by lowering sales taxes will be covered. I think this is a more than fair arrangement to make, don't you?");
+        ~chatplayer("<p,neutral>Yeah, that sounds very fair.");
+        ~chatnpc("<p,neutral>Speak to Sigli then, and you may have my promise to reduce our sales taxes. And best of luck with the rest of your trials.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Not really my affair, outerlander.");
+}
+
+
+[label,brundt_place]
+~chatplayer("<p,quiz>What is this place?");
+~chatnpc("<p,happy>This place? Why, this is Rellekka! Homeland of all Fremennik! I do not recognise your face outerlander; Where do you come from?");
+~chatplayer("<p,neutral>That's not important...");
+~chatnpc("<p,quiz>Hmmm... I will not press the issue then outerlander. How may my tribe and I help you?");
+@multi5("Do you have any quests?", brundt_quests, "Why will no-one talk to me?", brundt_noone, "Why do you call me outerlander?", brundt_why, "I seek an army to destroy Asgarnia!", brundt_army, "Who are the Fremennik?", brundt_who);
+
+[label,brundt_noone]
+~chatplayer("<p,quiz>Why will no-one talk to me?");
+~chatnpc("<p,neutral>Do not take it personally, outerlander! We are a simple people, and it is our experience that keeping ourselves to ourselves is best. This is why speaking to outerlanders is forbidden.");
+~chatnpc("<p,neutral>We do not wish to enter war with the outerlanders and their strange magics, so we limit all unauthorised communication.");
+~chatplayer("<p,quiz>Then how come you're talking to me?");
+~chatnpc("<p,neutral>Ah, this is because I am the chieftain. I am the one who authorises contact. You will not find many of my tribe so forthcoming with you, as I.");
+~chatplayer("<p,quiz>Is there a way for you to authorise your tribe to talk to me then?");
+~chatnpc("<p,neutral>Well, there is one way... but I doubt it is of any interest to you.");
+@brundt_very_interested;
+
+[label,brundt_why]
+~chatplayer("<p,quiz>Why do you call me outerlander?");
+~chatnpc("<p,neutral>Do not take it as an insult, outerlander. For us, this town is the center of all. Anyone not born here, or that we do not know and trust is an outerlander.");
+~chatplayer("<p,neutral>So it basically means stranger?");
+~chatnpc("<p,neutral>Aye, but that is an outerlander word. We do not judge someones ways by their name. It simply means one from the outerlands, or one not from Rellekka.");
+~chatnpc("<p,neutral>I know our customs are foreign to you; perhaps you would like me to explain something else?");
+@multi4("Do you have any quests?", brundt_quests, "Why will no-one talk to me?", brundt_noone,  "I seek an army to destroy Asgarnia!", brundt_army, "Who are the Fremennik?", brundt_who);
+
+[label,brundt_who]
+~chatplayer("<p,quiz>Who are the Fremennik?");
+~chatnpc("<p,neutral>It is the name we call ourselves. Outerlanders tend to call us 'Barbarian', but they do not understand our ways...");
+@multi4("Do you have any quests?", brundt_quests, "Why will no-one talk to me?", brundt_noone, "Why do you call me outerlander?", brundt_why, "Who are the Fremennik?", brundt_who);
+
+[label,brundt_army]
+~chatplayer("<p,angry>I seek an army to destroy Asgarnia!");
+~chatnpc("<p,neutral>We will have no part in the squabbles of outerlander tribes. Their magics are strange and deadly to us, as we learnt long ago.");
+~chatnpc("<p,neutral>If this is all that you came here for, then you have had a wasted journey. If you are looking for something else, then speak now for my patience dwindles.");
+@multi4("Do you have any quests?", brundt_quests, "Why will no-one talk to me?", brundt_noone, "Why do you call me outerlander?", brundt_why, "Who are the Fremennik?", brundt_who);
+
+[label,brundt_quests]
+~chatplayer("<p,quiz>Do you have any quests?");
+if(%viking = ^viking_complete) {
+    ~chatnpc("<p,neutral>Not at the moment <~get_viking_name>. Rest assured, should your services to the Fremennik be required, I will call upon you.");
+    return;
+}
+~chatnpc("<p,neutral>Quests, you say outerlander? Well, I would not call it a quest as such, but if you are brave of heart and strong of body, perhaps...");
+~chatnpc("<p,neutral>No, you would not be interested. Forget I said anything, outerlander.");
+def_int $op = ~p_choice2("Yes, I am interested.", 1, "No, I'm not interested.", 2);
+if($op = 2) {
+    ~chatplayer("<p,neutral>You're right. I really couldn't care less.");
+    ~chatnpc("<p,sad>It is as I thought outerlander. Your kind care nothing for the Fremennik, and we feel the same about you. This is the way of the world.");
+    return;
+}
+@brundt_very_interested;
+
+[label,brundt_very_interested]
+~chatplayer("<p,neutral>Actually, I would be very interested to hear what you have to offer.");
+~chatnpc("<p,neutral>You would? These are unusual sentiments to hear from an outerlander! My suggestion was going to be that if you crave adventure and battle,");
+~chatnpc("<p,neutral>and your heart sings for glory, then perhaps you would be interested in joining our clan, and becoming a Fremennik yourself?");
+~chatplayer("<p,quiz>What would that involve exactly?");
+~chatnpc("<p,neutral>Well, there are two ways to become a member of our clan and call yourself a Fremennik: be born a Fremennik, or be voted in by our council of elders.");
+~chatplayer("<p,quiz>Well, I think I've missed the first way, but how can I get the council of elders to vote to let me join your clan?");
+~chatnpc("<p,neutral>Well, that I cannot answer myself. You will need to speak to each of them and see what they require of you as proof of your dedication.");
+~chatnpc("<p,neutral>There are twelve council members around this village; you will need to gain a majority vote of at least seven councillors in your favour.");
+~chatnpc("<p,neutral>So what say you? Give me the word, and I will tell all of my tribe of your intentions, be they yea or nay.");
+switch_int(~p_choice2("I want to become a Fremennik!", 1, "I don't want to become a Fremennik.", 2)) {
+    case 1 :
+        %viking = ^viking_started;
+        ~send_quest_progress(questlist:viking, %viking, ^viking_complete);
+        ~chatplayer("<p,happy>I think I would enjoy the challenge of becoming an honorary Fremennik. Where and how do I start?");
+        ~chatnpc("<p,neutral>As I say outerlander, you must find and speak to the twelve members of the council of elders, and see what tasks they might set you.");
+        ~chatnpc("<p,neutral>If you can gain the support of seven of the twelve, then you will be accepted as one of us without question.");
+    case 2 :
+        ~chatplayer("<p,angry>No way do I want to become like YOU! Forget you, and forget your whole stupid town! You're a bunch of stupid primitives, from what I've seen!");
+        ~chatnpc("<p,sad>I am sorry to say that I expected such a response from an outerlander. I thought perhaps you might have been different to all the others...");
+}
+
+[label,brundt_hat]
+~chatplayer("<p,happy>Nice hat!");
+if(%viking = ^viking_complete) {
+    ~chatnpc("<p,neutral>Aye, that it is <text_gender("brother", "sister")> <~get_viking_name>. Should you desire one of your own, you should go to Skulgrimen's shop and see what they have available!");
+    return;
+}
+~chatnpc("<p,angry>Do not mock me outerlander; this helm has saved my life more times than I care to recall right now.");
+
+[label,brundt_hello]
+~chatplayer("<p,happy>I just came to say hello.");
+~chatnpc("<p,neutral>Well met, <text_gender("brother", "sister")> <~get_viking_name>. It is always good to see your face in glorious Rellekka once more!");
+
+[label,brundt_history]
+~chatplayer("<p,quiz>Can I hear the history of your people?");
+~chatnpc("<p,happy>Why, of course <~get_viking_name>! Do not say 'your people' like that, for you are now a Fremennik yourself! What did you want to hear of?");
+@multi4("Tell me of the finding of Koschei", brundt_koschei, "Tell me of the lands to the North", brundt_north, "Tell me of the outerlanders", brundt_outerlander, "Don't tell me anything", brundt_nothing);
+
+[label,brundt_koschei]
+~chatplayer("<p,neutral>I'm interested in finding out about that mysterious warrior I fought as part of Thorvalds' combat trial. His name is Koschei I believe.");
+~chatnpc("<p,neutral>Ah... the deathless one... We do not even know if Koschei is his name, when we found him he had no memory, he was simply repeating that single word.");
+~chatnpc("<p,neutral>Whatever happened to him must have rattled his soul so hard that his memory ran away from him, and he has not yet found it's hiding place.");
+~chatplayer("<p,quiz>So how exactly did you find him?");
+~chatnpc("<p,neutral>Well, it was a raiding party like any other. We had just struck one of the smaller northern islands to harvest supplies by combat, as our laws allow,");
+~chatnpc("<p,neutral>hen we saw a figure in the icey waters. As we were at least a 3 week sail from any port, and saw no other ships nearby, he must have been there some time.");
+~chatnpc("<p,neutral>We could not leave someone to the cold death of the ocean, even an outerlander, so we fished him aboard. He muttered continually, but his words made no sense.");
+~chatnpc("<p,neutral>He had no clothes or possessions with him, and seemed to have been burnt somehow before he had landed in the water.");
+~chatnpc("<p,neutral>I cannot help but wonder what burnt him, for as you may have seen, he is incredibly powerful and resistant to damage by any means I know of!");
+~chatnpc("<p,neutral>Anyway, we decided to bring him back to Rellekka, for he did not seem of good health or sound mind, and simply repeated the word Koschei over and over");
+~chatnpc("<p,neutral>Yrsa tended to him for many weeks, until one day it was as though a new soul had entered his burnt and broken body.");
+~chatnpc("<p,neutral>He suddenly left her house one day, fully healed, and able to speak to us as though nothing had happened to him.");
+~chatnpc("<p,neutral>He still had no recollection of how he had come to be in the icey ocean, or of who he was, or where he had come from, but this did not matter to us or him.");
+~chatnpc("<p,neutral>He took his trials of adulthood, as you did, and has been a boon to our clan ever since. Someday I fear he may regain his memory, and leave us for his past...");
+~chatnpc("<p,neutral>But I will always respect any decision he decides to make should that day ever come upon us. Until then, he is more than welcome to stay here.");
+~chatnpc("<p,neutral>So, <~get_viking_name>. Was there anything more you wished to hear?");
+@multi3("Tell me of the lands to the North", brundt_north, "Tell me of the outerlanders", brundt_outerlander, "Don't tell me anything", brundt_nothing);
+
+[label,brundt_north]
+// miscellania and lunar isle (vaguely) mentioned here, might be added later, but i think it makes sense to have existed on launch
+~chatplayer("<p,quiz>I would like to hear of the lands across the ocean to the North.");
+~chatnpc("<p,neutral>Well, I think the best thing for you would be to go to the docks and ask to join one of our longboats on a journey.");
+~chatnpc("<p,neutral>My affairs are concentrated mostly on Rellekka, so my knowledge is not great, but I will happily share what I do know with you <~get_viking_name>.");
+~chatnpc("<p,neutral>North of this town the atmosphere becomes bitterly cold. There are a number of small inhabited islands that we have sea routes with.");
+~chatnpc("<p,neutral>The largest of these is possibly Miscellania, although I hear that there has been some recent incident with their monarch, but I don't know the details.");
+~chatnpc("<p,neutral>There is also of course the island of the moon clan, who change with the tides. They are our bitterest enemies, and we are currently at war with them.");
+~chatnpc("<p,neutral>They are an evil people, equally cursed and blessed by the magic in their blood. Beyond those islands, there is the large frozen wasteland we call Acheron.");
+~chatnpc("<p,neutral>It is an inhospitable land, and you will need an agile and sturdy body just to keep alive in it's perils.");
+~chatnpc("<p,neutral>As I say, my knowledge outside of this town is rather limited, and I know no more than this. Was there anything else you wished to hear tell of?");
+@multi3("Tell me of the finding of Koschei", brundt_koschei, "Tell me of the outerlanders", brundt_outerlander, "Don't tell me anything", brundt_nothing);
+
+[label,brundt_outerlander]
+~chatplayer("<p,quiz>I would like to hear a little of the history between the Fremenniks and the outerlanders.");
+~chatnpc("<p,neutral>Ah, now that is something I know a great deal about. Believe it or not, all outerlanders were once orginally Fremenniks.");
+~chatnpc("<p,neutral>When first man came to these lands all were Fremenniks, and followed our ways. We lived a happy life, and never settled in one place for long.");
+~chatnpc("<p,neutral>We travelled by boat along the coastlines, never taking more from the land than could be regrown by the same time in the following year.");
+~chatnpc("<p,neutral>However, many moons past, some of our tribesmen were weary of constantly travelling the lands, and decided to build themselves permanent homes.");
+~chatnpc("<p,neutral>Unfortunately, the other races that had also migrated here did not like this. They waged war against us at every opportunity.");
+~chatnpc("<p,neutral>We were driven mostly to the coastlines, where we could escape by boat when attacked. Remember, at this time we had no real way to defend against constant attack.");
+~chatnpc("<p,neutral>Then one day one of our Seers, whose name has been lost in the telling of this tale, discovered a cave full of strange rocks.");
+~chatnpc("<p,neutral>This rock would never be consumed, no matter how much we took, and sparkled at its peak, and broke off in small and regular sized chunks when mined.");
+~chatnpc("<p,neutral>Stranger than this, we found that these rocks would become filled with power when taken to certain places across this land!");
+~chatnpc("<p,neutral>There was a terrible argument in our tribe! Some said that we should take as many of these rocks as we could, and use them in defending against our enemies attacks!");
+~chatnpc("<p,neutral>Others said that we had found a place that belonged only to the gods, and that should we steal what was not ours we would find only torment and misery.");
+~chatnpc("<p,neutral>We voted on this, and decided that it was in the best interests of the tribe to leave these strange rocks where they lay, for the gods can be spiteful and cruel,");
+~chatnpc("<p,neutral>especially to those who do not treat them with the respect they desire. Some of our number refused to accept this ruling by our council however.");
+~chatnpc("<p,neutral>They began to mine these rocks, and set up transport systems to the various places of power that enchanted them.");
+~chatnpc("<p,neutral>They even created temples at each of these places! This was going too far! We had no choice, but to expel them from our tribe forever!");
+~chatnpc("<p,neutral>We turned our backs upon them, and let them know they would never be welcome back to our tribes until they had released themselves from the rocks.");
+~chatnpc("<p,neutral>This is the tale of how the outerlanders came about; through stealing from the gods, and from betraying our ideals. This is why we show them no trust.");
+~chatnpc("<p,quiz>Was there something else you wished to hear?");
+@multi3("Tell me of the finding of Koschei", brundt_koschei, "Tell me of the lands to the North", brundt_north, "Don't tell me anything", brundt_nothing);
+
+[label,brundt_nothing]
+~chatplayer("<p,neutral>Actually, history isn't really my thing.");
+~chatnpc("<p,neutral>Well let me know should you wish to hear our lore and histories. We value them highly.");

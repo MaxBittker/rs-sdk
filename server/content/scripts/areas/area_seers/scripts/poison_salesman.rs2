@@ -1,4 +1,9 @@
 [opnpc1,poison_salesman]
+def_int $op;
+if(%viking > ^viking_not_started & %viking < ^viking_complete) {
+    $op = ~p_choice2("Talk about the Murder Mystery Quest", 1, "Talk about the Fremennik Trials", 2);
+    if($op = 2) @poison_salesman_vikingquest;
+}
 switch_int(%murderquest) {
     case ^murder_not_started :
         ~chatnpc("<p,sad>I'm afraid I'm all sold out of poison at the moment. People know a bargain when they see it!");
@@ -46,4 +51,67 @@ switch_int(%murderquest) {
                 ~chatnpc("<p,confused>Yes... I suppose that could have happened...");
         }
     case ^murder_complete : ~chatnpc("<p,neutral>I hear you're pretty smart to have solved the Sinclair Murder!");
+}
+
+
+[label,poison_salesman_vikingquest]
+if(testbit(%viking_bits, ^viking_spoken_poisonsalesman) = ^true) {
+    ~chatplayer("<p,quiz>I understand you have some low alcohol beer for sale...?");
+    ~chatnpc("<p,neutral>That I do, and sales are rocketing upwards as word of mouth spreads of it's clean taste and cool flavour! So... you want to buy some?");
+    @poison_salesman_beerkeg;
+}
+~chatplayer("<p,neutral>Hello.");
+~chatnpc("<p,neutral>Howdy! You seem like someone with discerning taste! Howsabout you try my brand new range of alcohol?");
+~chatplayer("<p,quiz>Didn't you used to sell poison?");
+~chatnpc("<p,neutral>That I did, indeed! Peter Potter's Patented Multipurpose poison! A miracle of modern apothecarys! My exclusive concoction has been tested on...");
+~chatplayer("<p,quiz>Uh, yeah, I've already heard the sales pitch.");
+~chatnpc("<p,sad>Sorry stranger, old habits die hard I guess.");
+~chatplayer("<p,quiz>So you don't sell poison any more?");
+~chatnpc("<p,neutral>Well, I would, but I ran out of stock. Business wasn't helped with that stuff that happened up at the Sinclair Mansion much either, I'll be honest.");
+~chatnpc("<p,neutral>So, being the man of enterprise that I am I decided to branch out a little bit!");
+~chatplayer("<p,quiz>Into alcohol?");
+~chatnpc("<p,neutral>Absolutely! The basic premise between alcohol and poison is pretty much the same, after all! The difference is that my alcohol has a unique property others do not!");
+~chatplayer("<p,quiz>And what is that?");
+~mesbox("The salesman takes a deep breath.");
+~chatnpc("<p,happy>Ever been too drunk to find your own home? Ever wished that you could party away all night long, and still wake up fresh as a daisy the next morning?");
+~chatnpc("<p,neutral>Thanks to the miracles of modern magic we have come up with just the solution you need! Peter Potter's Patented Party Potions!");
+~chatnpc("<p,neutral>It looks just like beer! It tastes just like beer! It smells just like beer! But... it's not beer!");
+~chatnpc("<p,neutral>Our mages have mused for many moments to bring you this miracle of modern magic! It has all the great tastes you'd expect, but contains absolutely no alcohol!");
+~chatnpc("<p,neutral>That's right! You can drink Peter Potters Patented Party Potion as much as you want, and suffer absolutely no ill effects whatsoever!");
+~chatnpc("<p,neutral>The clean fresh taste you know you can trust, from the people who brought you; Peter Potters Patented multipurpose poison, Peter Potters peculiar paint packs");
+~chatnpc("<p,neutral>and Peter Potters paralysing panic pins. Available now from all good stockists! Ask your local bartender now, and experience the taste revolution of the century!");
+~mesbox("He seems to have finished for the time being.");
+~chatplayer("<p,quiz>So... when you say 'all good stockists'...");
+~chatnpc("<p,happy>Yes?");
+~chatplayer("<p,quiz>How many inns actually sell this stuff?");
+~chatnpc("<p,neutral>Well... nobody has actually bought any yet. Everyone I try and sell it to always asks me what exactly the point of beer that has absolutely no effect on you is.");
+~chatplayer("<p,quiz>So what is the point?");
+~chatnpc("<p,confused>Well... Um... Er... Hmmm. You, er, don't get drunk.");
+~chatplayer("<p,neutral>I see...");
+~chatnpc("<p,sad>Aw man... You don't want any now do you? I've really tried to push this product, but I just don't think the world is ready for beer that doesn't get you drunk.");
+~chatnpc("<p,neutral>I'm a man ahead of my time I tell you! It's not that my products are bad, it's that they're too good for the market!");
+%viking_bits = setbit(%viking_bits, ^viking_spoken_poisonsalesman);
+if(~get_viking_reveller_progress > ^reveller_not_started) {
+    ~chatplayer("<p,neutral>Actually, I would like some. How much do you want for it?");
+    ~chatnpc("<p,shock>Y-you would??? Um, okay! I knew I still had the old salesmans skills going on!");
+    ~chatnpc("<p,neutral>I'll sell you a keg of it for only 250 gold pieces! So what do you say?");
+    @poison_salesman_beerkeg;
+}
+
+[label,poison_salesman_beerkeg]
+switch_int(~p_choice2("Yes", 1, "No", 2)) {
+    case 1 :
+        ~chatplayer("<p,happy>Yes please!");
+        if(inv_total(inv, coins) < 250) {
+            ~chatnpc("<p,neutral>Sorry pal, we do not offer credit for any purchases made of Peter Potter's patented party potion! Come back when you have the cash!");
+            return;
+        }
+        if(inv_freespace(inv) = 0) {
+            ~chatnpc("<p,neutral>Sorry pal, doesn't look like you have room on you to carry it.");
+            return;
+        }
+        inv_del(inv, coins, 250);
+        inv_add(inv, viking_low_alcahol_beerkeg, 1);
+    case 2 :
+        ~chatplayer("<p,neutral>No, not really.");
 }

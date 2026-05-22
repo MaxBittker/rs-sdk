@@ -30,26 +30,26 @@ export default class CollisionMap {
             for (let z: number = 0; z < this.sizeZ; z++) {
                 const index: number = CollisionMap.index(x, z);
                 if (x === 0 || z === 0 || x === this.sizeX - 1 || z === this.sizeZ - 1) {
-                    this.flags[index] = CollisionFlag.BOUNDS;
+                    this.flags[index] = CollisionFlag._BOUNDS;
                 } else {
-                    this.flags[index] = CollisionFlag.OPEN;
+                    this.flags[index] = CollisionFlag._OPEN;
                 }
             }
         }
     }
 
     blockGround(tileX: number, tileZ: number): void {
-        this.flags[CollisionMap.index(tileX - this.startX, tileZ - this.startZ)] |= CollisionFlag.FLOOR;
+        this.flags[CollisionMap.index(tileX - this.startX, tileZ - this.startZ)] |= CollisionFlag.WR_GRND;
     }
 
     unblockGround(tileX: number, tileZ: number): void {
-        this.flags[CollisionMap.index(tileX - this.startX, tileZ - this.startZ)] &= ~CollisionFlag.FLOOR;
+        this.flags[CollisionMap.index(tileX - this.startX, tileZ - this.startZ)] &= ~CollisionFlag.WR_GRND;
     }
 
     addLoc(tileX: number, tileZ: number, sizeX: number, sizeZ: number, angle: LocAngle, blockrange: boolean): void {
-        let flags: number = CollisionFlag.LOC;
+        let flags: number = CollisionFlag.WALK_SCENERY;
         if (blockrange) {
-            flags |= CollisionFlag.LOC_PROJ_BLOCKER;
+            flags |= CollisionFlag.VIS_SCENERY;
         }
 
         const x: number = tileX - this.startX;
@@ -76,9 +76,9 @@ export default class CollisionMap {
     }
 
     delLoc(tileX: number, tileZ: number, sizeX: number, sizeZ: number, angle: LocAngle, blockrange: boolean): void {
-        let flags: number = CollisionFlag.LOC;
+        let flags: number = CollisionFlag.WALK_SCENERY;
         if (blockrange) {
-            flags |= CollisionFlag.LOC_PROJ_BLOCKER;
+            flags |= CollisionFlag.VIS_SCENERY;
         }
 
         const x: number = tileX - this.startX;
@@ -107,14 +107,14 @@ export default class CollisionMap {
         const x: number = tileX - this.startX;
         const z: number = tileZ - this.startZ;
 
-        const west: number = blockrange ? CollisionFlag.WALL_WEST_PROJ_BLOCKER : CollisionFlag.WALL_WEST;
-        const east: number = blockrange ? CollisionFlag.WALL_EAST_PROJ_BLOCKER : CollisionFlag.WALL_EAST;
-        const north: number = blockrange ? CollisionFlag.WALL_NORTH_PROJ_BLOCKER : CollisionFlag.WALL_NORTH;
-        const south: number = blockrange ? CollisionFlag.WALL_SOUTH_PROJ_BLOCKER : CollisionFlag.WALL_SOUTH;
-        const northWest: number = blockrange ? CollisionFlag.WALL_NORTH_WEST_PROJ_BLOCKER : CollisionFlag.WALL_NORTH_WEST;
-        const southEast: number = blockrange ? CollisionFlag.WALL_SOUTH_EAST_PROJ_BLOCKER : CollisionFlag.WALL_SOUTH_EAST;
-        const northEast: number = blockrange ? CollisionFlag.WALL_NORTH_EAST_PROJ_BLOCKER : CollisionFlag.WALL_NORTH_EAST;
-        const southWest: number = blockrange ? CollisionFlag.WALL_SOUTH_WEST_PROJ_BLOCKER : CollisionFlag.WALL_SOUTH_WEST;
+        const west: number = blockrange ? CollisionFlag.V_W : CollisionFlag.W_W;
+        const east: number = blockrange ? CollisionFlag.V_E : CollisionFlag.W_E;
+        const north: number = blockrange ? CollisionFlag.V_N : CollisionFlag.W_N;
+        const south: number = blockrange ? CollisionFlag.V_S : CollisionFlag.W_S;
+        const northWest: number = blockrange ? CollisionFlag.V_NW : CollisionFlag.W_NW;
+        const southEast: number = blockrange ? CollisionFlag.V_SE : CollisionFlag.W_SE;
+        const northEast: number = blockrange ? CollisionFlag.V_NE : CollisionFlag.W_NE;
+        const southWest: number = blockrange ? CollisionFlag.V_SW : CollisionFlag.W_SW;
 
         if (shape === LocShape.WALL_STRAIGHT) {
             if (angle === LocAngle.WEST) {
@@ -172,14 +172,14 @@ export default class CollisionMap {
         const x: number = tileX - this.startX;
         const z: number = tileZ - this.startZ;
 
-        const west: number = blockrange ? CollisionFlag.WALL_WEST_PROJ_BLOCKER : CollisionFlag.WALL_WEST;
-        const east: number = blockrange ? CollisionFlag.WALL_EAST_PROJ_BLOCKER : CollisionFlag.WALL_EAST;
-        const north: number = blockrange ? CollisionFlag.WALL_NORTH_PROJ_BLOCKER : CollisionFlag.WALL_NORTH;
-        const south: number = blockrange ? CollisionFlag.WALL_SOUTH_PROJ_BLOCKER : CollisionFlag.WALL_SOUTH;
-        const northWest: number = blockrange ? CollisionFlag.WALL_NORTH_WEST_PROJ_BLOCKER : CollisionFlag.WALL_NORTH_WEST;
-        const southEast: number = blockrange ? CollisionFlag.WALL_SOUTH_EAST_PROJ_BLOCKER : CollisionFlag.WALL_SOUTH_EAST;
-        const northEast: number = blockrange ? CollisionFlag.WALL_NORTH_EAST_PROJ_BLOCKER : CollisionFlag.WALL_NORTH_EAST;
-        const southWest: number = blockrange ? CollisionFlag.WALL_SOUTH_WEST_PROJ_BLOCKER : CollisionFlag.WALL_SOUTH_WEST;
+        const west: number = blockrange ? CollisionFlag.V_W : CollisionFlag.W_W;
+        const east: number = blockrange ? CollisionFlag.V_E : CollisionFlag.W_E;
+        const north: number = blockrange ? CollisionFlag.V_N : CollisionFlag.W_N;
+        const south: number = blockrange ? CollisionFlag.V_S : CollisionFlag.W_S;
+        const northWest: number = blockrange ? CollisionFlag.V_NW : CollisionFlag.W_NW;
+        const southEast: number = blockrange ? CollisionFlag.V_SE : CollisionFlag.W_SE;
+        const northEast: number = blockrange ? CollisionFlag.V_NE : CollisionFlag.W_NE;
+        const southWest: number = blockrange ? CollisionFlag.V_SW : CollisionFlag.W_SW;
 
         if (shape === LocShape.WALL_STRAIGHT) {
             if (angle === LocAngle.WEST) {
@@ -248,33 +248,33 @@ export default class CollisionMap {
             if (angle === LocAngle.WEST) {
                 if (sx === dx - 1 && sz === dz) {
                     return true;
-                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.BLOCK_NORTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.PL_WALK_S) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.BLOCK_SOUTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.PL_WALK_N) === CollisionFlag._OPEN) {
                     return true;
                 }
             } else if (angle === LocAngle.NORTH) {
                 if (sx === dx && sz === dz + 1) {
                     return true;
-                } else if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.BLOCK_WEST) === CollisionFlag.OPEN) {
+                } else if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.PL_WALK_E) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.BLOCK_EAST) === CollisionFlag.OPEN) {
+                } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.PL_WALK_W) === CollisionFlag._OPEN) {
                     return true;
                 }
             } else if (angle === LocAngle.EAST) {
                 if (sx === dx + 1 && sz === dz) {
                     return true;
-                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.BLOCK_NORTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.PL_WALK_S) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.BLOCK_SOUTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.PL_WALK_N) === CollisionFlag._OPEN) {
                     return true;
                 }
             } else if (angle === LocAngle.SOUTH) {
                 if (sx === dx && sz === dz - 1) {
                     return true;
-                } else if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.BLOCK_WEST) === CollisionFlag.OPEN) {
+                } else if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.PL_WALK_E) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.BLOCK_EAST) === CollisionFlag.OPEN) {
+                } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.PL_WALK_W) === CollisionFlag._OPEN) {
                     return true;
                 }
             }
@@ -284,25 +284,25 @@ export default class CollisionMap {
                     return true;
                 } else if (sx === dx && sz === dz + 1) {
                     return true;
-                } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.BLOCK_EAST) === CollisionFlag.OPEN) {
+                } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.PL_WALK_W) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.BLOCK_SOUTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.PL_WALK_N) === CollisionFlag._OPEN) {
                     return true;
                 }
             } else if (angle === LocAngle.NORTH) {
-                if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.BLOCK_WEST) === CollisionFlag.OPEN) {
+                if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.PL_WALK_E) === CollisionFlag._OPEN) {
                     return true;
                 } else if (sx === dx && sz === dz + 1) {
                     return true;
                 } else if (sx === dx + 1 && sz === dz) {
                     return true;
-                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.BLOCK_SOUTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.PL_WALK_N) === CollisionFlag._OPEN) {
                     return true;
                 }
             } else if (angle === LocAngle.EAST) {
-                if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.BLOCK_WEST) === CollisionFlag.OPEN) {
+                if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.PL_WALK_E) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.BLOCK_NORTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.PL_WALK_S) === CollisionFlag._OPEN) {
                     return true;
                 } else if (sx === dx + 1 && sz === dz) {
                     return true;
@@ -312,22 +312,22 @@ export default class CollisionMap {
             } else if (angle === LocAngle.SOUTH) {
                 if (sx === dx - 1 && sz === dz) {
                     return true;
-                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.BLOCK_NORTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.PL_WALK_S) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.BLOCK_EAST) === CollisionFlag.OPEN) {
+                } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.PL_WALK_W) === CollisionFlag._OPEN) {
                     return true;
                 } else if (sx === dx && sz === dz - 1) {
                     return true;
                 }
             }
         } else if (shape === LocShape.WALL_DIAGONAL) {
-            if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.WALL_SOUTH) === CollisionFlag.OPEN) {
+            if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.W_S) === CollisionFlag._OPEN) {
                 return true;
-            } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.WALL_NORTH) === CollisionFlag.OPEN) {
+            } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.W_N) === CollisionFlag._OPEN) {
                 return true;
-            } else if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.WALL_EAST) === CollisionFlag.OPEN) {
+            } else if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.W_E) === CollisionFlag._OPEN) {
                 return true;
-            } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.WALL_WEST) === CollisionFlag.OPEN) {
+            } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.W_W) === CollisionFlag._OPEN) {
                 return true;
             }
         }
@@ -351,38 +351,38 @@ export default class CollisionMap {
             }
 
             if (angle === LocAngle.WEST) {
-                if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.WALL_WEST) === CollisionFlag.OPEN) {
+                if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.W_W) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.WALL_NORTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.W_N) === CollisionFlag._OPEN) {
                     return true;
                 }
             } else if (angle === LocAngle.NORTH) {
-                if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.WALL_EAST) === CollisionFlag.OPEN) {
+                if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.W_E) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.WALL_NORTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.W_N) === CollisionFlag._OPEN) {
                     return true;
                 }
             } else if (angle === LocAngle.EAST) {
-                if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.WALL_EAST) === CollisionFlag.OPEN) {
+                if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.W_E) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.WALL_SOUTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.W_S) === CollisionFlag._OPEN) {
                     return true;
                 }
             } else if (angle === LocAngle.SOUTH) {
-                if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.WALL_WEST) === CollisionFlag.OPEN) {
+                if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.W_W) === CollisionFlag._OPEN) {
                     return true;
-                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.WALL_SOUTH) === CollisionFlag.OPEN) {
+                } else if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.W_S) === CollisionFlag._OPEN) {
                     return true;
                 }
             }
         } else if (shape === LocShape.WALLDECOR_DIAGONAL_BOTH) {
-            if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.WALL_SOUTH) === CollisionFlag.OPEN) {
+            if (sx === dx && sz === dz + 1 && (this.flags[index] & CollisionFlag.W_S) === CollisionFlag._OPEN) {
                 return true;
-            } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.WALL_NORTH) === CollisionFlag.OPEN) {
+            } else if (sx === dx && sz === dz - 1 && (this.flags[index] & CollisionFlag.W_N) === CollisionFlag._OPEN) {
                 return true;
-            } else if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.WALL_EAST) === CollisionFlag.OPEN) {
+            } else if (sx === dx - 1 && sz === dz && (this.flags[index] & CollisionFlag.W_E) === CollisionFlag._OPEN) {
                 return true;
-            } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.WALL_WEST) === CollisionFlag.OPEN) {
+            } else if (sx === dx + 1 && sz === dz && (this.flags[index] & CollisionFlag.W_W) === CollisionFlag._OPEN) {
                 return true;
             }
         }
@@ -396,13 +396,13 @@ export default class CollisionMap {
 
         if (srcX >= dstX && srcX <= maxX && srcZ >= dstZ && srcZ <= maxZ) {
             return true;
-        } else if (srcX === dstX - 1 && srcZ >= dstZ && srcZ <= maxZ && (this.flags[index] & CollisionFlag.WALL_EAST) === CollisionFlag.OPEN && (forceapproach & DirectionFlag.WEST) === CollisionFlag.OPEN) {
+        } else if (srcX === dstX - 1 && srcZ >= dstZ && srcZ <= maxZ && (this.flags[index] & CollisionFlag.W_E) === CollisionFlag._OPEN && (forceapproach & DirectionFlag.WEST) === CollisionFlag._OPEN) {
             return true;
-        } else if (srcX === maxX + 1 && srcZ >= dstZ && srcZ <= maxZ && (this.flags[index] & CollisionFlag.WALL_WEST) === CollisionFlag.OPEN && (forceapproach & DirectionFlag.EAST) === CollisionFlag.OPEN) {
+        } else if (srcX === maxX + 1 && srcZ >= dstZ && srcZ <= maxZ && (this.flags[index] & CollisionFlag.W_W) === CollisionFlag._OPEN && (forceapproach & DirectionFlag.EAST) === CollisionFlag._OPEN) {
             return true;
-        } else if (srcZ === dstZ - 1 && srcX >= dstX && srcX <= maxX && (this.flags[index] & CollisionFlag.WALL_NORTH) === CollisionFlag.OPEN && (forceapproach & DirectionFlag.SOUTH) === CollisionFlag.OPEN) {
+        } else if (srcZ === dstZ - 1 && srcX >= dstX && srcX <= maxX && (this.flags[index] & CollisionFlag.W_N) === CollisionFlag._OPEN && (forceapproach & DirectionFlag.SOUTH) === CollisionFlag._OPEN) {
             return true;
-        } else if (srcZ === maxZ + 1 && srcX >= dstX && srcX <= maxX && (this.flags[index] & CollisionFlag.WALL_SOUTH) === CollisionFlag.OPEN && (forceapproach & DirectionFlag.NORTH) === CollisionFlag.OPEN) {
+        } else if (srcZ === maxZ + 1 && srcX >= dstX && srcX <= maxX && (this.flags[index] & CollisionFlag.W_S) === CollisionFlag._OPEN && (forceapproach & DirectionFlag.NORTH) === CollisionFlag._OPEN) {
             return true;
         }
         return false;
@@ -413,6 +413,6 @@ export default class CollisionMap {
     }
 
     private remCMap(x: number, z: number, flags: number): void {
-        this.flags[CollisionMap.index(x, z)] &= CollisionFlag.BOUNDS - flags;
+        this.flags[CollisionMap.index(x, z)] &= CollisionFlag._BOUNDS - flags;
     }
 }

@@ -6,8 +6,4 @@ export default abstract class ServerGameMessageEncoder<T extends ServerGameMessa
     abstract prot: ServerGameProt;
 
     abstract encode(buf: Packet, message: T): void;
-
-    test(_: T): number {
-        return this.prot.length;
-    }
 }

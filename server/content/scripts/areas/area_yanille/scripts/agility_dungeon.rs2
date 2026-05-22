@@ -18,7 +18,7 @@ if(%yanille_obstacle_pipe_used >= map_clock) {
     mes("The pipe is being used"); // todo: confirm, using the same as gnome course
     return;
 }
-%yanille_obstacle_pipe_used = calc(map_clock + 4);
+%yanille_obstacle_pipe_used = calc(map_clock + 9);
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, calc(3 * $mod), 0, 0), 30, 126, $dir, true);
 sound_synth(squeeze_in, 0, 0);
 p_delay(0);

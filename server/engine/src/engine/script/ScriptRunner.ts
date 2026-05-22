@@ -130,7 +130,7 @@ export default class ScriptRunner {
             state.execution = ScriptState.RUNNING;
 
             let start = 0;
-            if (Environment.NODE_DEBUG_PROFILE) {
+            if (Environment.node.debugProfile) {
                 start = performance.now() * 1000;
             }
 
@@ -156,7 +156,7 @@ export default class ScriptRunner {
                 handler(state);
             }
 
-            if (Environment.NODE_DEBUG_PROFILE) {
+            if (Environment.node.debugProfile) {
                 const time: number = (performance.now() * 1000 - start) | 0;
                 if (time > 1000) {
                     const message: string = `Warning [cpu time]: Script: ${state.script.name}, time: ${time}us, opcount: ${state.opcount}`;
@@ -200,7 +200,7 @@ export default class ScriptRunner {
                     state.self.wrappedMessageGame(`    ${++trace}: ${frame.script.name} - ${frame.script.fileName}:${frame.script.lineNumber(frame.pc)}`);
                 }
 
-                if (Environment.NODE_PRODUCTION) {
+                if (Environment.node.production) {
                     console.warn(`[LOGOUT DEBUG] ScriptRunner: Script error caused logout for ${state.self.username} - script: ${state.script.name}`);
                     state.self.logout();
                     state.self.loggingOut = true;
@@ -208,7 +208,7 @@ export default class ScriptRunner {
             } else if (state.self instanceof Npc) {
                 printError(`NPC script error - nid:${state.self.nid} type:${state.self.type}`);
 
-                if (Environment.NODE_PRODUCTION) {
+                if (Environment.node.production) {
                     World.removeNpc(state.self, 0);
                 }
             }

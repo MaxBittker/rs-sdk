@@ -10,7 +10,6 @@ model1=model_2878_npc
 model2=model_3442_npc
 head1=model_141_npc_head
 wanderrange=2
-timer=1
 param=damagetype,^crush_style
 param=death_anim,ogre_death
 param=death_sound,giant_death
@@ -67,6 +66,7 @@ desc=A green skinned croaker, loves the swamp.
 readyanim=chompy_toad_ready
 walkanim=chompy_toad_walk
 model1=model_3447_obj
+timer=30
 
 [bloated_toad]
 vislevel=hide

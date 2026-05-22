@@ -95,23 +95,35 @@ const DebugOps: CommandHandlers = {
     },
 
     [ScriptOpcode.DB_GETFIELD]: state => {
-        const [row, tableColumnPacked, listIndex] = state.popInts(3);
+        const [row, packed, listIndex] = state.popInts(3);
 
-        const table = (tableColumnPacked >> 12) & 0xffff;
-        const column = (tableColumnPacked >> 4) & 0x7f;
+        const fieldTable = (packed >> 12) & 0xffff;
+        const fieldColumn = (packed >> 4) & 0x7f;
+        const tupleIndex = (packed & 0xF) - 1;
 
         const rowType: DbRowType = check(row, DbRowTypeValid);
-        const tableType: DbTableType = check(table, DbTableTypeValid);
+        const tableType: DbTableType = check(fieldTable, DbTableTypeValid);
 
-        let values: (string | number)[];
-        if (rowType.tableId !== table) {
-            values = tableType.getDefault(column);
-        } else {
-            values = rowType.getValue(column, listIndex);
+        const valueTypes = tableType.types[fieldColumn];
+        let off = 0;
+        let len = valueTypes.length;
+        if (tupleIndex >= 0) {
+            if (tupleIndex >= len) {
+                throw new Error(`Tuple index out-of-bounds. Requested: ${tupleIndex}, Max: ${len}`);
+            }
+
+            off = tupleIndex;
+            len = tupleIndex + 1;
         }
 
-        const valueTypes = tableType.types[column];
-        for (let i = 0; i < values.length; i++) {
+        let values: (string | number)[];
+        if (rowType.tableId !== fieldTable) {
+            values = tableType.getDefault(fieldColumn);
+        } else {
+            values = rowType.getValue(fieldColumn, listIndex);
+        }
+
+        for (let i = off; i < len; i++) {
             if (valueTypes[i] === ScriptVarType.STRING) {
                 state.pushString(values[i] as string);
             } else {

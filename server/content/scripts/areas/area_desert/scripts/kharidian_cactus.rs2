@@ -35,7 +35,7 @@ if ($item = knife) {
 sound_synth(hacksword_slash, 0, 15);
 sound_synth(liquid, 0, 0);
 
-if (stat_random(woodcutting, 30, 252) = true) {
+if (stat_random(woodcutting, 30, 253) = true) {
     if (inv_total(inv, water_skin0) > 0 | inv_total(inv, water_skin1) > 0 | inv_total(inv, water_skin2) > 0 | inv_total(inv, water_skin3) > 0) {
         mes("You top up your skin with water from the cactus.");
 

@@ -2,7 +2,7 @@ import Pix2D from '#/graphics/Pix2D.js';
 import { decodeJpeg } from '#/graphics/Jpeg.js';
 import Pix8 from '#/graphics/Pix8.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 export default class Pix32 extends Pix2D {
@@ -23,8 +23,8 @@ export default class Pix32 extends Pix2D {
         this.xof = this.yof = 0;
     }
 
-    static async fromJpeg(archive: Jagfile, name: string): Promise<Pix32> {
-        const dat: Uint8Array | null = archive.read(name + '.dat');
+    static async fromJpeg(archive: JagFile, name: string): Promise<Pix32> {
+        const dat: Uint8Array | null = archive.read(name);
         if (!dat) {
             throw new Error();
         }
@@ -40,7 +40,7 @@ export default class Pix32 extends Pix2D {
         return image;
     }
 
-    static depack(jag: Jagfile, name: string, sprite: number = 0): Pix32 {
+    static depack(jag: JagFile, name: string, sprite: number = 0): Pix32 {
         const dat: Packet = new Packet(jag.read(name + '.dat'));
         const index: Packet = new Packet(jag.read('index.dat'));
 

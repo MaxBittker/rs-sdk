@@ -1,0 +1,22 @@
+// koftik regicide dialogue
+[opnpc1,caveguide6]
+~chatplayer("<p,happy>Hello Koftik.");
+~chatnpc("<p,happy>Hello <displayname()>. How's things?");
+if(testbit(%regicide_bits, ^regicide_koftik_food) = ^false) {
+    ~chatplayer("<p,neutral>I got pretty hurt getting here. These traps don't get any easier.");
+    ~chatnpc("<p,neutral>Nope, they don't. Here eat this, it should help.");
+    inv_add(inv, bread, 2);
+    inv_add(inv, stew, 1);
+    %regicide_bits = setbit(%regicide_bits, ^regicide_koftik_food);
+    ~chatplayer("<p,happy>Thanks Koftik.");
+    ~chatnpc("<p,happy>No problem.");
+} else {
+    ~chatplayer("<p,happy>These traps don't get any easier. But I'm alright, thanks.");
+    ~chatnpc("<p,happy>Good to hear.");
+}
+if(testbit(%regicide_bits, ^regicide_down_well) = ^true) {
+    return;
+}
+~chatnpc("<p,neutral>The magi have made all the reparations to the well of voyage... step into it when ready. You will be the first to use it this age.");
+~chatplayer("<p,happy>Thank you Koftik, see you again soon.");
+~chatnpc("<p,happy>I hope so.");

@@ -1,0 +1,259 @@
+[serum_book]
+name=Diary
+recol1s=13472
+recol1d=6272
+recol2s=29594
+recol2d=13634
+recol3s=20033
+recol3d=6272
+recol4s=15855
+recol4d=6272
+desc=A diary belonging to Herbi Flax.
+model=model_2543_obj
+iop1=Read
+2dxof=1
+2dyof=-21
+2dzoom=830
+2dyan=116
+2dxan=244
+members=yes
+tradeable=no
+
+[ashesvial]
+name=Unfinished potion
+recol1s=15855
+recol1d=26416
+desc=I need another ingredient to finish this potion.
+cost=11
+model=model_2789_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+
+[mort_serum4]
+name=Serum 207 (4)
+recol1s=15855
+recol1d=400
+desc=4 doses serum 207 as described in Herbi Flax's diary.
+cost=14
+model=model_2789_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+category=category_108
+param=next_obj_stage,mort_serum3
+param=next_obj_stage_temple,mort_serum_perm4
+param=dose_count,4
+param=decant_potion_enum,potion_mortserum
+
+[mort_serum3]
+name=Serum 207 (3)
+recol1s=15855
+recol1d=400
+desc=3 doses serum 207 as described in Herbi Flax's diary.
+cost=13
+model=model_2697_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+category=category_108
+param=next_obj_stage,mort_serum2
+param=next_obj_stage_temple,mort_serum_perm3
+param=dose_count,3
+param=decant_potion_enum,potion_mortserum
+
+[mort_serum2]
+name=Serum 207 (2)
+recol1s=15855
+recol1d=400
+desc=2 doses serum 207 as described in Herbi Flax's diary.
+cost=13
+model=model_2384_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+category=category_108
+param=next_obj_stage,mort_serum1
+param=next_obj_stage_temple,mort_serum_perm2
+param=dose_count,2
+param=decant_potion_enum,potion_mortserum
+
+[mort_serum1]
+name=Serum 207 (1)
+recol1s=15855
+recol1d=400
+desc=1 dose serum 207 as described in Herbi Flax's diary.
+cost=11
+model=model_2621_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+category=category_108
+param=next_obj_stage,vial_empty
+param=next_obj_stage_temple,mort_serum_perm1
+param=dose_count,1
+param=decant_potion_enum,potion_mortserum
+
+[mort_serum_perm4]
+name=Serum 207(p) (4)
+recol1s=15855
+recol1d=479
+desc=4 doses permanent serum 207 as described in Herbi Flax's diary.
+cost=14
+model=model_2789_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+param=next_obj_stage,mort_serum_perm3
+param=dose_count,4
+param=decant_potion_enum,potion_mortserumperm
+category=category_109
+tradeable=false
+
+[mort_serum_perm3]
+name=Serum 207(p) (3)
+recol1s=15855
+recol1d=479
+desc=3 doses permanent serum 207 as described in Herbi Flax's diary.
+cost=13
+model=model_2697_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+param=next_obj_stage,mort_serum_perm2
+param=dose_count,3
+param=decant_potion_enum,potion_mortserumperm
+category=category_109
+tradeable=false
+
+[mort_serum_perm2]
+name=Serum 207(p) (2)
+recol1s=15855
+recol1d=479
+desc=2 doses permanent serum 207 as described in Herbi Flax's diary.
+cost=13
+model=model_2384_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+param=next_obj_stage,mort_serum_perm1
+param=dose_count,2
+param=decant_potion_enum,potion_mortserumperm
+category=category_109
+tradeable=false
+
+[mort_serum_perm1]
+name=Serum 207(p) (1)
+recol1s=15855
+recol1d=479
+desc=1 dose permanent serum 207 as described in Herbi Flax's diary.
+cost=11
+model=model_2621_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+param=next_obj_stage,vial_empty
+param=dose_count,1
+param=decant_potion_enum,potion_mortserumperm
+category=category_109
+tradeable=false
+
+[limestonebrick]
+name=Limestone brick
+recol1s=5285
+recol1d=14797
+desc=A well carved lime stone brick.
+cost=20
+model=model_2510_obj
+2dxof=8
+2dyof=19
+2dzoom=1580
+2dyan=136
+2dxan=200
+members=yes
+
+[oliveoil4]
+name=Olive oil(4)
+recol1s=15855
+recol1d=22465
+desc=4 doses of olive oil
+cost=22
+model=model_2789_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+category=category_110
+param=next_obj_stage,sacred_oil4
+param=dose_count,4
+param=decant_potion_enum,potion_oliveoil
+
+[oliveoil3]
+name=Olive oil(3)
+recol1s=15855
+recol1d=22465
+desc=3 doses of olive oil
+cost=20
+model=model_2697_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+category=category_110
+param=next_obj_stage,sacred_oil3
+param=dose_count,3
+param=decant_potion_enum,potion_oliveoil
+
+[oliveoil2]
+name=Olive oil(2)
+recol1s=15855
+recol1d=22465
+desc=2 doses of olive oil
+cost=17
+model=model_2384_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+category=category_110
+param=next_obj_stage,sacred_oil2
+param=dose_count,2
+param=decant_potion_enum,potion_oliveoil
+
+[oliveoil1]
+name=Olive oil(1)
+recol1s=15855
+recol1d=22465
+desc=1 dose of olive oil
+cost=14
+model=model_2621_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+category=category_110
+param=next_obj_stage,sacred_oil1
+param=dose_count,1
+param=decant_potion_enum,potion_oliveoil

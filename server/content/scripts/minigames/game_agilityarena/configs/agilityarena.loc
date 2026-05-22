@@ -1,4 +1,4 @@
-[loc_3550]
+[inviswall_serverside]
 model=model_loc_83
 breakroutefinding=yes
 active=no
@@ -377,7 +377,7 @@ blockrange=no
 forcedecor=yes
 active=yes
 
-[loc_3586]
+[agility_wall]
 model=model_loc_3
 retex1s=wall
 retex1d=elfbrick
@@ -387,7 +387,7 @@ sharelight=yes
 occlude=yes
 active=no
 
-[loc_3587]
+[agility_arch]
 model=loc_3587
 retex1s=wall
 retex1d=elfbrick
@@ -396,7 +396,7 @@ recol2d=30513
 sharelight=yes
 active=no
 
-[loc_3588]
+[agility_arch_left]
 model=loc_3587
 retex1s=wall
 retex1d=elfbrick
@@ -406,7 +406,7 @@ sharelight=yes
 active=no
 mirror=yes
 
-[loc_3589]
+[agility_glow]
 model=loc_3589
 hillskew=yes
 sharelight=yes
@@ -414,7 +414,7 @@ ambient=50
 contrast=50
 active=no
 
-[loc_3590]
+[agility_glow_dug]
 model=loc_3590
 recol1s=15855
 recol1d=16808
@@ -424,7 +424,7 @@ ambient=50
 contrast=50
 active=no
 
-[loc_3591]
+[agility_glow_dug2]
 model=loc_3590
 recol1s=15855
 recol1d=16808
@@ -435,7 +435,7 @@ contrast=50
 active=no
 mirror=yes
 
-[loc_3592]
+[agility_glow_dug3]
 model=loc_3592
 recol1s=15855
 recol1d=16808
@@ -445,7 +445,7 @@ ambient=50
 contrast=50
 active=no
 
-[loc_3593]
+[agility_glow_dug4]
 model=loc_3592
 recol1s=15855
 recol1d=16808
@@ -456,7 +456,7 @@ contrast=50
 active=no
 mirror=yes
 
-[loc_3594]
+[agility_glow_corner]
 model=loc_3594
 hillskew=yes
 sharelight=yes
@@ -464,14 +464,14 @@ ambient=50
 contrast=50
 active=no
 
-[loc_3595]
+[agility_crumblywall1]
 model=model_loc_1613
 retex1s=mossybricks
 retex1d=elfbrick
 sharelight=yes
 active=no
 
-[loc_3596]
+[agility_crumblywall1r]
 model=model_loc_1613
 retex1s=mossybricks
 retex1d=elfbrick
@@ -480,7 +480,7 @@ mirror=yes
 hillskew=yes
 active=no
 
-[loc_3597]
+[agility_crumblywall2]
 model=model_loc_1614
 retex1s=mossybricks
 retex1d=elfbrick
@@ -488,55 +488,55 @@ sharelight=yes
 active=no
 blockrange=no
 
-[loc_3598]
+[agility_bridge]
 model=loc_3598
 sharelight=yes
 active=no
 forcedecor=yes
 
-[loc_3599]
+[agility_bridge2]
 model=loc_3599
 sharelight=yes
 active=no
 
-[loc_3600]
+[agility_bridge5]
 model=loc_3600
 sharelight=yes
 active=no
 
-[loc_3601]
+[agility_bridge5_reverse]
 model=loc_3600
 sharelight=yes
 mirror=yes
 active=no
 
-[loc_3602]
+[agility_bridge5_rope]
 model=loc_3602
 sharelight=yes
 active=no
 
-[loc_3603]
+[agility_bridge5_rope_reverse]
 model=loc_3602
 sharelight=yes
 mirror=yes
 active=no
 
-[loc_3604]
+[agility_bridge2_rope]
 model=loc_3604
 sharelight=yes
 active=no
 
-[loc_3605]
+[agility_bridge2_rope_reverse]
 model=loc_3604
 sharelight=yes
 mirror=yes
 active=no
 
-[loc_3606]
+[agility_spikes1]
 model=loc_3606
 active=no
 
-[loc_3607]
+[agility_pillar]
 model=loc_3607
 recol1s=16774
 recol1d=16808
@@ -553,7 +553,7 @@ blockrange=no
 forcedecor=yes
 op1=Tag
 
-[loc_3609]
+[lavabubbles_large]
 model=model_loc_731
 anim=lavabubbles
 shadow=no
@@ -580,11 +580,11 @@ recol1s=16774
 recol1d=16808
 active=no
 
-[loc_3612]
+[agility_ropedepth]
 model=loc_3612
 active=no
 
-[loc_3613]
+[dugupsoil1_agility]
 model=model_loc_184
 recol1s=13505
 recol1d=16808
@@ -595,7 +595,7 @@ recol3d=16808
 hillskew=yes
 active=no
 
-[loc_3614]
+[dugupsoil2_agility]
 model=model_loc_185
 recol1s=13505
 recol1d=16808
@@ -606,7 +606,7 @@ recol3d=16808
 hillskew=yes
 active=no
 
-[loc_3615]
+[dugupsoil3_agility]
 model=model_loc_186
 recol1s=13505
 recol1d=16808
@@ -617,7 +617,7 @@ recol3d=16808
 hillskew=yes
 active=no
 
-[loc_3616]
+[dugupsoil4_agility]
 model=model_loc_317
 recol1s=13505
 recol1d=16808
@@ -647,7 +647,7 @@ mapscene=7
 active=yes
 forceapproach=south
 
-[loc_3619]
+[agility_trapdoor_nonactive]
 model=model_loc_100
 recol1s=8320
 recol1d=16808

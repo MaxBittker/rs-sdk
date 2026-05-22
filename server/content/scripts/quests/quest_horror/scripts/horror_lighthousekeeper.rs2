@@ -1,0 +1,274 @@
+[opnpc1,horror_lighthousekeeeper_injured]
+switch_int(%horrorquest) {
+    case ^horror_defeated_dagjr :
+        ~chatplayer("<p,happy>Okay, now that the creature's dead we can get you out of here.");
+        queue(spawn_dagmother, 0, 0);
+        ~chatnpcnoturn("<p,scared>No... you do not understand...");
+        ~chatnpcnoturn("<p,scared>That was not the creature that attacked me...");
+        ~chatnpcnoturn("<p,scared>That was one of its babies...");
+    case ^horror_repaired_lighthouse :
+        ~chatnpcnoturn("<p,scared>*cough*|Please... please help me...|I think my leg is broken, and those creatures will be|back any minute now!");
+        ~chatplayer("<p,confused>I guess you're Jossik then...|What creatures are you talking about?");
+        ~chatnpcnoturn("<p,scared>I... I do not know.|I have never seen their like before!");
+        ~chatnpcnoturn("<p,scared>I was searching for information about my uncle Silas,|who vanished mysteriously from this lighthouse many|months ago. I found the secret of that strange wall, and|discovered that I could use it as a door, but when I");
+        ~chatnpcnoturn("<p,scared>came down here I was attacked by...");
+        ~chatnpcnoturn("<p,scared>Well, I do not know what they are, but they are very strong! They hurt me badly enough to trap me here, and I have been fearing for my life ever since!");
+        ~chatplayer("<p,neutral>Don't worry, I'm here now.|Larrissa was worried about you and asked for my help.");
+        ~chatplayer("<p,neutral>I'll go back upstairs and let her know that I've found you and that you're still alive, and then we can work out some way of getting you out of here, okay?");
+        queue(dagannoth_jr_attack, 0, 0);
+        ~chatnpcnoturn("<p,scared>NO! No, you can't leave me now!|Look! They're coming again! Do something!");
+}
+
+[opnpc1,horror_lighthousekeeeper_well]
+if(%horror_claimed_holybook = ^true | %horror_claimed_unholybook = ^true | %horror_claimed_guthixbook = ^true) {
+    ~chatnpc("<p,happy>Hello again, adventurer.|What brings you this way?");
+    switch_int(~p_choice2("Can I see your wares?", 1, "Have you found any more prayerbooks?", 2)) {
+        case 1 :
+            ~chatplayer("<p,quiz>Can I see your wares?");
+            ~chatnpc("<p,happy>Sure thing|I think you'll find my prices are remarkable!");
+            ~openshop_activenpc;
+        case 2 : @horror_morebooks;
+    }
+    return;
+}
+~chatplayer("<p,happy>I see you managed to escape from those monsters intact!");
+~chatnpc("<p,happy>It seems I was not as injured as I thought I was after all! I must thank you again for all of your help! Now, about that casket you found on that monster's corpse...");
+if(inv_total(bank, horror_casket) > 0) { // TODO: recheck these mesanims
+    ~chatplayer("<p,happy>I have it stored safely.");
+    ~chatnpc("<p,happy>Well, bring it here and let's take a look at it!");
+    return;
+}
+if(~obj_gettotal(horror_casket) = 0) {
+    ~chatplayer("<p,confused>I never had any casket from that monster...?");
+    if(inv_freespace(inv) = 0) {
+        ~chatnpc("<p,happy>Why, of course you did!|You dropped it and I picked it up!|Now, free up some inventory space so we can see what's inside it.");
+        return;
+    }
+    ~chatnpc("<p,happy>Why, of course you did!|You dropped it and I picked it up!|I have it right here!");
+    ~chatnpc("<p,happy>Now let's have a look at it...|There is some writing on it, but it is very faint...|Can you make it out?");
+    @multi3_header("Saradomin", horror_sara1, "Zamorak", horror_zam1, "Guthix", horror_guthix1, "What does the casket say?");
+}
+if(inv_total(inv, horror_casket) > 0) {
+    ~chatplayer("<p,neutral>I have it here. You said you might be able to tell me something about it...");
+    ~chatnpc("<p,neutral>I can indeed! Here, let me have a closer look...");
+    ~chatnpc("<p,neutral>Yes! There is something written on it!");
+    ~chatnpc("<p,neutral>It is very faint however...|Can you read it?");
+    @multi3_header("Saradomin", horror_sara1, "Zamorak", horror_zam1, "Guthix", horror_guthix1, "What does the casket say?");
+}
+
+[label,horror_morebooks]
+~chatplayer("<p,quiz>Have you found any more prayerbooks?");
+def_int $reclaim_count = 0;
+def_int $reclaim_z = 0;
+def_int $reclaim_s = 0;
+def_int $reclaim_g = 0;
+// this way we repro an authentic bug: https://www.youtube.com/watch?v=zAY3BP52rpc
+if(%horror_claimed_guthixbook = ^true) {
+    if(%reclaim_guthixbook = ^false & ~obj_gettotal(guthixbook_complete) = 0 & ~obj_gettotal(unfinished_guthixbook) = 0) {
+        %reclaim_guthixbook = ^true;
+        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 22, 23), 1), 22, 23);
+    }
+}
+if(%horror_claimed_unholybook = ^true) {
+    if(%reclaim_unholybook = ^false & ~obj_gettotal(zamorakbook_complete) = 0 & ~obj_gettotal(unfinished_zamorakbook) = 0) {
+        %reclaim_unholybook = ^true;
+        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 22, 23), 1), 22, 23);
+    }
+}
+if(%horror_claimed_holybook = ^true) {
+    if(%reclaim_holybook = ^false & ~obj_gettotal(saradominbook_complete) = 0 & ~obj_gettotal(unfinished_saradominbook) = 0) {
+        %reclaim_holybook = ^true;
+        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 22, 23), 1), 22, 23);
+    }
+}
+def_int $reclaim_total = getbit_range(%godbook_multi, 22, 23);
+if($reclaim_total > 0) {
+    if(inv_freespace(inv) < $reclaim_total) {
+        if($reclaim_total > 1) {
+            ~chatnpc("<p,happy>As a matter of fact I did!|I found these books, and I recognized them as yours!|Come back and see me when you have some inventory space to take them off of me. I'll look after them for you until then.");
+        } else {
+            // https://www.youtube.com/watch?v=LWk11E95Sq4
+            if(%reclaim_unholybook = ^true) ~chatnpc("<p,happy>As a matter of fact I did!|I found a book of Zamorak, and I recognized it as yours! Come back and see me when you have some inventory space to take it off of me. I'll look after it for you until then.");
+            else if(%reclaim_holybook = ^true) ~chatnpc("<p,happy>As a matter of fact I did!|I found a book of Saradomin, and I recognized it as yours! Come back and see me when you have some inventory space to take it off of me. I'll look after it for you until then.");
+            else if(%reclaim_guthixbook = ^true) ~chatnpc("<p,happy>As a matter of fact I did!|I found a book of Guthix, and I recognized it as yours! Come back and see me when you have some inventory space to take it off of me. I'll look after it for you until then.");
+        }
+    } else {
+        if(%reclaim_holybook = ^true) {
+            if(%horror_holypage1 = ^true & %horror_holypage2 = ^true & %horror_holypage3 = ^true & %horror_holypage4 = ^true) inv_add(inv, saradominbook_complete, 1);
+            else inv_add(inv, unfinished_saradominbook, 1);
+        }
+        if(%reclaim_unholybook = ^true) {
+            if(%horror_unholypage1 = ^true & %horror_unholypage2 = ^true & %horror_unholypage3 = ^true & %horror_unholypage4 = ^true) inv_add(inv, zamorakbook_complete, 1);
+            else inv_add(inv, unfinished_zamorakbook, 1);
+        }
+        if(%reclaim_guthixbook = ^true) {
+            if(%horror_balancepage1 = ^true & %horror_balancepage2 = ^true & %horror_balancepage3 = ^true & %horror_balancepage4 = ^true) inv_add(inv, guthixbook_complete, 1);
+            else inv_add(inv, unfinished_guthixbook, 1);
+        }
+        $reclaim_s = %reclaim_holybook;
+        $reclaim_z = %reclaim_unholybook;
+        $reclaim_g = %reclaim_guthixbook;
+        %godbook_multi = setbit_range_toint(%godbook_multi, 0, 22, 23);
+        %reclaim_holybook = ^false;
+        %reclaim_unholybook = ^false;
+        %reclaim_guthixbook = ^false;
+        if($reclaim_total > 1) {
+            ~chatnpc("<p,happy>As a matter of fact I did!|These books washed up on the beach not so long ago, I recognized them as yours immediately! Here you go!");
+        } else if ($reclaim_total = 1) {
+            // https://www.youtube.com/watch?v=LWk11E95Sq4
+            if($reclaim_s = ^true) ~chatnpc("<p,happy>As a matter of fact I did!|This book of Saradomin washed up on the beach not so long ago, I recognized it as yours immediately! Here you go!");
+            else if($reclaim_z = ^true) ~chatnpc("<p,happy>As a matter of fact I did!|This book of Zamorak washed up on the beach not so long ago, I recognized it as yours immediately! Here you go!");
+            else if($reclaim_g = ^true) ~chatnpc("<p,happy>As a matter of fact I did!|This book of Guthix washed up on the beach not so long ago, I recognized it as yours immediately! Here you go!");
+        }
+    }
+    return;
+}
+def_int $books_to_buy = 0;
+if(%horror_claimed_guthixbook = ^false) $books_to_buy = add($books_to_buy, 1);
+if(%horror_claimed_unholybook = ^false) $books_to_buy = add($books_to_buy, 1);
+if(%horror_claimed_holybook = ^false) $books_to_buy = add($books_to_buy, 1);
+
+if($books_to_buy = 0) {
+    ~chatnpc("<p,happy>Nope, sorry adventurer, I guess you've found them all! I'll let you know if any new ones show up though!");
+    return;
+}
+
+if($books_to_buy = 1) {
+    ~chatnpc("<p,happy>Funnily enough I have! I found this book in a casket just the other day! I'll sell it to you for 5000 coins; What do you say?");
+} else {
+    ~chatnpc("<p,happy>Funnily enough I have! I found these two books in caskets just the other day! I'll sell one to you for 5000 coins; What do you say?");
+}
+
+def_int $choice;
+if(%horror_claimed_guthixbook = ^false & %horror_claimed_holybook = ^false) {
+    $choice = ~p_choice3("Buy a book of Saradomin", 1, "Buy a book of Guthix", 3, "Don't buy anything", 4);
+} else if(%horror_claimed_guthixbook = ^false & %horror_claimed_unholybook = ^false) {
+    $choice = ~p_choice3("Buy a book of Zamorak", 2, "Buy a book of Guthix", 3, "Don't buy anything", 4);
+} else if(%horror_claimed_holybook = ^false & %horror_claimed_unholybook = ^false) {
+    $choice = ~p_choice3("Buy a book of Saradomin", 1, "Buy a book of Zamorak", 2, "Don't buy anything", 4);
+} else if(%horror_claimed_holybook = ^false & %horror_claimed_unholybook = ^true & %horror_claimed_guthixbook = ^true) {
+    $choice = ~p_choice2("Buy a book of Saradomin", 1, "Don't buy anything", 4);
+} else if(%horror_claimed_holybook = ^true & %horror_claimed_unholybook = ^false & %horror_claimed_guthixbook = ^true) {
+    $choice = ~p_choice2("Buy a book of Zamorak", 2, "Don't buy anything", 4);
+} else if(%horror_claimed_holybook = ^true & %horror_claimed_unholybook = ^true & %horror_claimed_guthixbook = ^false) {
+    $choice = ~p_choice2("Buy a book of Guthix", 3, "Don't buy anything", 4);
+}
+
+if($choice = 4) {
+    ~chatplayer("<p,neutral>No thanks.");
+    ~chatnpc("<p,happy>Okay! Suit yourself.");
+    return;
+}
+
+if(inv_total(inv, coins) < 5000) {
+    ~chatnpc("<p,angry>Hey! No cash, no sale!");
+    return;
+}
+
+if(inv_freespace(inv) = 0) { // exact gold doesnt work here
+    // RS3
+    ~chatnpc("<p,neutral>You're gonna need to free up some space there, I think.");
+    return;
+}
+
+inv_del(inv, coins, 5000);
+if($choice = 1) {
+    %horror_claimed_holybook = ^true;
+    inv_add(inv, unfinished_saradominbook, 1);
+} else if($choice = 2) {
+    %horror_claimed_unholybook = ^true;
+    inv_add(inv, unfinished_zamorakbook, 1);
+} else if($choice = 3) {
+    %horror_claimed_guthixbook = ^true;
+    inv_add(inv, unfinished_guthixbook, 1);
+}
+~chatnpc("<p,happy>Here you go!");
+
+
+[label,horror_sara1]
+~chatplayer("<p,confused>I think it says...|Saradomin...");
+~chatnpc("<p,quiz>Are you sure?|I mean, are you REALLY sure?|Maybe you'd better look again...");
+@multi3_header("Saradomin", horror_sara2, "Zamorak", horror_zam1, "Guthix", horror_guthix1, "What does the casket say?");
+
+[label,horror_zam1]
+~chatplayer("<p,confused>I think it says...|Zamorak...");
+~chatnpc("<p,quiz>Are you sure?|I mean, are you REALLY sure?|Maybe you'd better look again...");
+@multi3_header("Saradomin", horror_sara1, "Zamorak", horror_zam2, "Guthix", horror_guthix1, "What does the casket say?");
+
+[label,horror_guthix1]
+~chatplayer("<p,confused>I think it says...|Guthix...");
+~chatnpc("<p,quiz>Are you sure?|I mean, are you REALLY sure?|Maybe you'd better look again...");
+@multi3_header("Saradomin", horror_sara1, "Zamorak", horror_zam1, "Guthix", horror_guthix2, "What does the casket say?");
+
+[label,horror_sara2]
+~chatplayer("<p,neutral>Nope, it definitely says Saradomin.");
+~chatnpc("<p,neutral>I think you're right!|Hand it here, and let's see what's inside!");
+%horror_claimed_holybook = ^true;
+inv_del(inv, horror_casket, 1);
+inv_add(inv, unfinished_saradominbook, 1);
+~chatnpc("<p,neutral>Wow! It's a Holy Book of Saradomin!|I thought these things had all vanished!|Well, it's all yours, I hope you appreciate it.");
+
+[label,horror_zam2]
+~chatplayer("<p,neutral>Nope, it definitely says Zamorak.");
+~chatnpc("<p,neutral>I think you're right!|Hand it here, and let's see what's inside!");
+%horror_claimed_unholybook = ^true;
+inv_del(inv, horror_casket, 1);
+inv_add(inv, unfinished_zamorakbook, 1);
+~chatnpc("<p,neutral>Wow! It's an Unholy Book of Zamorak!|I thought these things had all vanished!|Well, it's all yours, I hope you appreciate it.");
+
+[label,horror_guthix2]
+~chatplayer("<p,neutral>Nope, it definitely says Guthix.");
+~chatnpc("<p,neutral>I think you're right!|Hand it here, and let's see what's inside!");
+%horror_claimed_guthixbook = ^true;
+inv_del(inv, horror_casket, 1);
+inv_add(inv, unfinished_guthixbook, 1);
+~chatnpc("<p,neutral>Wow! It's Guthix's Book of Balance!|I thought these things had all vanished!|Well, it's all yours, I hope you appreciate it.");
+
+[ai_timer,horror_lighthousekeeeper_injured]
+npc_facesquare(movecoord(npc_coord, 0, 0, 8));
+
+[queue,dagannoth_jr_attack]
+npc_huntall(0_39_72_24_36, 25, 0);
+while (npc_findnext = true) {
+    if(%npc_aggressive_player = uid) {
+        npc_setmode(opplayer2);
+        return;
+    }
+}
+p_delay(0);
+def_coord $start;
+// kinda arbitary but seems to spawn based off these 2 areas, maybe (probably) need more data
+if(random(3) < 0) {
+    $start = movecoord(0_39_72_11_27, random(3), 0, random(4));
+} else {
+    $start = movecoord(0_39_72_10_32, random(3), 0, random(8));
+}
+npc_add($start, horror_dagannoth_jr1, 1000);
+sound_synth(sound_753, 0, 0);
+%npc_aggressive_player = uid;
+%aggressive_npc = npc_uid;
+hint_stop;
+hint_npc;
+if(inzone(0_39_72_0_0, 0_39_72_63_63, coord) = true) cam_lookat($start, 10, 50, 10);
+p_delay(1);
+npc_changetype(horror_dagannoth_jr2, 1000);
+npc_walk(movecoord($start, 1, 0, 0));
+if(inzone(0_39_72_0_0, 0_39_72_63_63, coord) = true) cam_lookat(movecoord($start, 1, 0, 0), 10, 50, 10);
+p_delay(1);
+npc_changetype(horror_dagannoth_jr3, 1000);
+npc_walk(movecoord($start, 2, 0, 0));
+if(inzone(0_39_72_0_0, 0_39_72_63_63, coord) = true) cam_lookat(movecoord($start, 2, 0, 0), 10, 50, 10);
+p_delay(1);
+npc_changetype(horror_dagannoth_jr4, 1000);
+npc_walk(movecoord($start, 3, 0, 0));
+if(inzone(0_39_72_0_0, 0_39_72_63_63, coord) = true) cam_lookat(movecoord($start, 3, 0, 0), 10, 50, 10);
+p_delay(1);
+if(inzone(0_39_72_0_0, 0_39_72_63_63, coord) = true) { 
+    npc_tele(map_findsquare(coord, 2, 5, ^map_findsquare_lineofwalk));
+    cam_lookat(movecoord($start, 4, 0, 0), 10, 50, 10);
+}
+p_delay(0);
+if(inzone(0_39_72_0_0, 0_39_72_63_63, coord) = true) {
+    npc_setmode(opplayer2);
+    cam_reset;
+}

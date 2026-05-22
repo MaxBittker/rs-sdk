@@ -1,7 +1,9 @@
 import ScriptVarType from '#/cache/config/ScriptVarType.js';
 import VarPlayerType from '#/cache/config/VarPlayerType.js';
 import { VarpPack } from '#tools/pack/PackFile.js';
-import { PackedData, ConfigValue, ConfigLine, isConfigBoolean, getConfigBoolean } from '#tools/pack/config/PackShared.js';
+import { PackedData, ConfigValue, ConfigLine, isConfigBoolean, getConfigBoolean, packStepError } from '#tools/pack/config/PackShared.js';
+
+const persistable = ['int', 'coord', 'boolean', 'obj', 'namedobj'];
 
 export function parseVarpConfig(key: string, value: string): ConfigValue | null | undefined {
     const stringKeys: string[] = [];
@@ -74,15 +76,22 @@ export function packVarpConfigs(configs: Map<string, ConfigLine[]>): { client: P
         const config = configs.get(debugname);
 
         if (config) {
+            let scope = VarPlayerType.SCOPE_TEMP;
+            let type = ScriptVarType.INT;
+
             for (let j = 0; j < config.length; j++) {
                 const { key, value } = config[j];
 
                 if (key === 'scope') {
+                    scope = value as number;
+
                     server.p1(1);
-                    server.p1(value as number);
+                    server.p1(scope);
                 } else if (key === 'type') {
+                    type = value as number;
+
                     server.p1(2);
-                    server.p1(value as number);
+                    server.p1(type);
                 } else if (key === 'protect') {
                     if (value === false) {
                         server.p1(4);
@@ -95,6 +104,11 @@ export function packVarpConfigs(configs: Map<string, ConfigLine[]>): { client: P
                         server.p1(6);
                     }
                 }
+            }
+
+            const typeName = ScriptVarType.getType(type);
+            if (scope == VarPlayerType.SCOPE_PERM && !persistable.includes(typeName)) {
+                throw packStepError(debugname, `scope=perm varps cannot be type=${typeName}`);
             }
         }
 

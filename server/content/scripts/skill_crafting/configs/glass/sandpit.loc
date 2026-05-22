@@ -4,3 +4,16 @@ desc=A tray of sand.
 model=model_loc_2375
 width=2
 length=2
+category=sand_pit
+
+[viking_sandpit]
+name=Sand pit
+desc=A tray of sand.
+model=model_loc_2375
+recol1s=9344
+recol1d=9445
+recol2s=30447
+recol2d=26219
+width=2
+length=2
+category=sand_pit

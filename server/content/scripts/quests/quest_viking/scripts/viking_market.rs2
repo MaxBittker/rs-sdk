@@ -1,0 +1,59 @@
+[opnpc1,viking_fur_monger]
+if(%viking < ^viking_complete) {
+    ~chatnpc("<p,neutral>I don't sell to outerlanders.");
+    return;
+}
+if (getqueue(stolen_from_stall_vikingfur) > 0) {
+    npc_say("You think me stupid <~get_viking_name>?");
+    p_delay(1);
+    npc_say("Guards! Guards!");
+    npc_huntall(npc_coord, 5, 0);
+    while (npc_findnext = true) {
+        if (npc_type = viking_guard & npc_getmode ! opplayer2 & lineofsight(npc_coord, coord) = true) {
+            ~npc_retaliate(0);
+        }
+    }
+    return;
+}
+~chatnpc("<p,neutral>Welcome back <~get_viking_name>! Have you seen the furs I have today?");
+~openshop_activenpc;
+
+[opnpc1,viking_fish_monger]
+if(%viking < ^viking_complete) {
+    ~chatnpc("<p,neutral>I don't sell to outerlanders.");
+    return;
+}
+if (getqueue(stolen_from_stall_vikingfish) > 0) {
+    npc_say("It is <~get_viking_name> the thief!");
+    p_delay(1);
+    npc_say("Guards! Guards!");
+    npc_huntall(npc_coord, 5, 0);
+    while (npc_findnext = true) {
+        if (npc_type = viking_guard & npc_getmode ! opplayer2 & lineofsight(npc_coord, coord) = true) {
+            ~npc_retaliate(0);
+        }
+    }
+    return;
+}
+~chatnpc("<p,neutral>Hello there <~get_viking_name>. Looking for fresh fish?");
+~openshop_activenpc;
+
+[opnpc3,viking_fur_monger]
+if(%viking < ^viking_complete) {
+    mes("Only Fremenniks may purchase furs here.");
+    return;
+}
+if (getqueue(stolen_from_stall_vikingfur) > 0) {
+    @stall_owner_alert_guards;
+}
+~openshop_activenpc;
+
+[opnpc3,viking_fish_monger]
+if(%viking < ^viking_complete) {
+    mes("Only Fremenniks may purchase fish here.");
+    return;
+}
+if (getqueue(stolen_from_stall_vikingfish) > 0) {
+    @stall_owner_alert_guards;
+}
+~openshop_activenpc;

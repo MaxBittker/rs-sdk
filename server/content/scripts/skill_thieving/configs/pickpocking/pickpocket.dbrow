@@ -153,3 +153,23 @@ data=loot,fire_orb,1,1,2
 data=loot,diamond,1,1,1
 data=loot,gold_ore,1,1,1
 data=pocket,hero's pocket
+
+[pickpocket_viking]
+table=pickpocket
+data=npc,viking_man
+data=npc,viking_man2
+data=npc,viking_man3
+data=npc,viking_man4
+data=npc,viking_man5
+data=npc,viking_woman
+data=npc,viking_woman2
+data=npc,viking_woman3
+data=npc,viking_woman4
+data=npc,viking_woman_indoors
+data=level,45
+data=experience,650
+data=stun_ticks,8
+data=stun_damage,2
+data=success_chance,40,240
+data=loot,coins,40,40,128
+data=pocket,Fremennik's pocket

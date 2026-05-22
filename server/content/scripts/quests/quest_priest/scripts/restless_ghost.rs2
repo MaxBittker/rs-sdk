@@ -70,7 +70,7 @@ if(last_useitem = ghostskull) {
 
 [label,priest_ghost_no_amulet]
 ~chatnpc("<p,neutral>Wooo wooo wooooo!");
-def_int $option = ~p_choice3("Sorry. I don't speak ghost.", 1, "Ooh... THAT'S interesting.", 2, "Any hints where I can find some treasure?", 3);
+def_int $option = ~p_choice3("Sorry, I don't speak ghost.", 1, "Ooh... THAT'S interesting.", 2, "Any hints where I can find some treasure?", 3);
 switch_int ($option) {
     case 1 : @priest_ghost_dontunderstand;
     case 2 :

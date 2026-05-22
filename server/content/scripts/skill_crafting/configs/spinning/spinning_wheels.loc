@@ -3,9 +3,27 @@ name=Spinning wheel
 desc=Used for spinning thread.
 model=model_loc_2644
 forceapproach=south
+op2=Spin
+category=spinning_wheel
 
 [flax_ground]
 name=Flax
 desc=A plant cultivated for fibres.
 model=model_loc_2646
 op2=Pick
+
+[viking_spinningwheel]
+name=Spinning wheel
+desc=Used for spinning thread.
+model=model_loc_2644
+recol1s=16673
+recol1d=19878
+recol2s=32767
+recol2d=32630
+recol3s=10570
+recol3d=10502
+recol4s=15617
+recol4d=16741
+op2=Spin
+forceapproach=south
+category=spinning_wheel

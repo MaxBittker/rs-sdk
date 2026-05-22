@@ -1,134 +1,302 @@
 import fs from 'fs';
-import path from 'path';
-
-import NpcType from '#/cache/config/NpcType.js';
 
 import { compressGz } from '#/io/GZip.js';
 import Packet from '#/io/Packet.js';
 
 import Environment from '#/util/Environment.js';
-import { printFatalError } from '#/util/Logger.js';
+import { printWarning } from '#/util/Logger.js';
 
-import { MapPack, shouldBuildFile } from '#tools/pack/PackFile.js';
-import { listFilesExt } from '#tools/pack/Parse.js';
+import { getArtifactManifestPath, getArtifactSourceStamp, loadArtifactManifest, openArtifactStore, saveArtifactManifest } from '#tools/pack/ArtifactCache.js';
+import { MapPack, shouldBuild, shouldBuildFile } from '#tools/pack/PackFile.js';
+import { didFileSetChange } from '#tools/pack/FsCache.js';
 
-function readMap(map) {
-    let land = [];
-    let loc = [];
-    let npc = [];
-    let obj = [];
+let npcTypePromise = null;
+let worldmapPromise = null;
+
+async function getNpcType() {
+    if (!npcTypePromise) {
+        npcTypePromise = import('#/cache/config/NpcType.js').then(module => module.default);
+    }
+
+    return npcTypePromise;
+}
+
+async function getPackWorldmap() {
+    if (!worldmapPromise) {
+        worldmapPromise = import('#tools/pack/map/Worldmap.js').then(module => module.packWorldmap);
+    }
+
+    return worldmapPromise;
+}
+
+function packKey(level, x, z) {
+    return (level << 12) | (x << 6) | z;
+}
+
+function readMap(lines) {
+    const land = new Map();
+    const loc = new Map();
+    const npc = new Map();
+    const obj = new Map();
 
     let section = null;
-    for (let i = 0; i < map.length; i++) {
-        let line = map[i];
 
-        if (line.startsWith('====')) {
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (line.charCodeAt(0) === 61) {
+            // '='
             section = line.slice(4, -4).slice(1, 4);
             continue;
         }
 
+        const colon = line.indexOf(':');
+        const sp1 = line.indexOf(' ');
+        const sp2 = line.indexOf(' ', sp1 + 1);
+
+        const level = line.charCodeAt(0) - 48;
+        const x = parseInt(line.slice(sp1 + 1, sp2));
+        const z = parseInt(line.slice(sp2 + 1, colon));
+        const key = packKey(level, x, z);
+        const data = line.slice(colon + 2);
+
         if (section === 'MAP') {
-            let parts = line.split(':');
-            let [level, x, z] = parts[0].split(' ');
-            let data = parts[1].slice(1).split(' ');
+            let h = 0,
+                overlayId = -1,
+                overlayShape = -1,
+                overlayRot = -1,
+                flags = -1,
+                underlay = -1;
+            let start = 0;
+            while (start < data.length) {
+                const end = data.indexOf(' ', start);
+                const token = end === -1 ? data.slice(start) : data.slice(start, end);
+                const type = token.charCodeAt(0);
+                const info = token.slice(1);
 
-            if (!land[level]) {
-                land[level] = [];
+                if (type === 104) {
+                    // 'h'
+                    h = parseInt(info);
+                } else if (type === 111) {
+                    // 'o'
+                    const sc1 = info.indexOf(';');
+                    const sc2 = sc1 === -1 ? -1 : info.indexOf(';', sc1 + 1);
+                    overlayId = sc1 === -1 ? parseInt(info) : parseInt(info.slice(0, sc1));
+                    overlayShape = sc1 === -1 ? -1 : parseInt(info.slice(sc1 + 1, sc2 === -1 ? undefined : sc2));
+                    overlayRot = sc2 === -1 ? -1 : parseInt(info.slice(sc2 + 1));
+                } else if (type === 102) {
+                    // 'f'
+                    flags = parseInt(info);
+                } else if (type === 117) {
+                    // 'u'
+                    underlay = parseInt(info);
+                }
+
+                if (end === -1) {
+                    break;
+                }
+
+                start = end + 1;
             }
-
-            if (!land[level][x]) {
-                land[level][x] = [];
-            }
-
-            land[level][x][z] = data;
+            land.set(key, { h, overlayId, overlayShape, overlayRot, flags, underlay });
         } else if (section === 'LOC') {
-            let parts = line.split(':');
-            let [level, x, z] = parts[0].split(' ');
-            let data = parts[1].slice(1).split(' ');
-
-            if (!loc[level]) {
-                loc[level] = [];
+            const parts = data.split(' ');
+            const id = parseInt(parts[0]);
+            const shape = parts.length > 1 ? parseInt(parts[1]) : 10;
+            const angle = parts.length > 2 ? parseInt(parts[2]) : 0;
+            const entry = loc.get(key);
+            if (entry) {
+                entry.push({ id, shape, angle });
+            } else {
+                loc.set(key, [{ id, shape, angle }]);
             }
-
-            if (!loc[level][x]) {
-                loc[level][x] = [];
-            }
-
-            if (!loc[level][x][z]) {
-                loc[level][x][z] = [];
-            }
-
-            loc[level][x][z].push(data);
         } else if (section === 'NPC') {
-            let parts = line.split(':');
-            let [level, localX, localZ] = parts[0].split(' ');
-            let id = parts[1].slice(1);
-
-            if (!npc[level]) {
-                npc[level] = [];
+            const id = parseInt(data);
+            const entry = npc.get(key);
+            if (entry) {
+                entry.push(id);
+            } else {
+                npc.set(key, [id]);
             }
-
-            if (!npc[level][localX]) {
-                npc[level][localX] = [];
-            }
-
-            if (!npc[level][localX][localZ]) {
-                npc[level][localX][localZ] = [];
-            }
-
-            npc[level][localX][localZ].push(id);
         } else if (section === 'OBJ') {
-            let parts = line.split(':');
-            let [level, x, z] = parts[0].split(' ');
-            let [id, count] = parts[1].slice(1).split(' ');
-
-            if (!obj[level]) {
-                obj[level] = [];
+            const sp = data.indexOf(' ');
+            const id = parseInt(data.slice(0, sp));
+            const count = parseInt(data.slice(sp + 1));
+            const entry = obj.get(key);
+            if (entry) {
+                entry.push({ id, count });
+            } else {
+                obj.set(key, [{ id, count }]);
             }
-
-            if (!obj[level][x]) {
-                obj[level][x] = [];
-            }
-
-            if (!obj[level][x][z]) {
-                obj[level][x][z] = [];
-            }
-
-            obj[level][x][z].push([id, count]);
         }
     }
 
     return { land, loc, npc, obj };
 }
 
-export function packMaps(cache, modelFlags) {
-    if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/maps`)) {
+function readMapSection(lines, ...sections) {
+    const sectionSet = new Set(sections);
+    const npc = new Map();
+    let section = null;
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (line.charCodeAt(0) === 61) {
+            section = line.slice(4, -4).slice(1, 4);
+            continue;
+        }
+        if (!sectionSet.has(section)) {
+            continue;
+        }
+
+        // only NPC parsing needed at this time for model flags
+        const colon = line.indexOf(':');
+        const sp1 = line.indexOf(' ');
+        const sp2 = line.indexOf(' ', sp1 + 1);
+
+        const level = line.charCodeAt(0) - 48;
+        const x = parseInt(line.slice(sp1 + 1, sp2));
+        const z = parseInt(line.slice(sp2 + 1, colon));
+        const key = (level << 12) | (x << 6) | z;
+        const data = line.slice(colon + 2);
+
+        const id = parseInt(data);
+        const entry = npc.get(key);
+        if (entry) {
+            entry.push(id);
+        } else {
+            npc.set(key, [id]);
+        }
+    }
+
+    return { npc };
+}
+
+function updateModelFlags(npcMap, modelFlags, NpcType) {
+    for (const [_key, ids] of npcMap) {
+        for (const id of ids) {
+            const type = NpcType.get(id);
+            if (type.models) {
+                for (const model of type.models) {
+                    modelFlags[model] |= 0x4;
+                }
+            }
+            if (type.heads) {
+                for (const model of type.heads) {
+                    modelFlags[model] |= 0x4;
+                }
+            }
+        }
+    }
+}
+
+export async function collectMapModelFlags(modelFlags) {
+    if (!fs.existsSync(`${Environment.build.srcDir}/maps`)) {
         return;
     }
 
-    const maps = listFilesExt(`${Environment.BUILD_SRC_DIR}/maps`, '.jm2');
+    const NpcType = await getNpcType();
+    NpcType.load('data/pack');
 
-    if (!fs.existsSync('data/pack/client/maps')) {
-        fs.mkdirSync('data/pack/client/maps', { recursive: true });
+    for (let id = 0; id < MapPack.max; id++) {
+        const name = MapPack.getById(id);
+        if (!name.startsWith('m')) {
+            continue;
+        }
+
+        const mapXZ = name.slice(1);
+        const file = `${Environment.build.srcDir}/maps/m${mapXZ}.jm2`;
+        if (!fs.existsSync(file)) {
+            continue;
+        }
+
+        const data = fs
+            .readFileSync(file, 'utf8')
+            .replace(/\r/g, '')
+            .split('\n')
+            .filter(x => x.length);
+        const map = readMapSection(data, 'NPC');
+        updateModelFlags(map.npc, modelFlags, NpcType);
+    }
+}
+
+export async function packMaps(cache, modelFlags) {
+    if (!fs.existsSync(`${Environment.build.srcDir}/maps`)) {
+        return false;
     }
 
-    if (!fs.existsSync('data/pack/server/maps')) {
-        fs.mkdirSync('data/pack/server/maps', { recursive: true });
+    const maps = [];
+    for (let id = 0; id < MapPack.max; id++) {
+        const name = MapPack.getById(id);
+        if (!name.startsWith('m')) {
+            continue;
+        }
+
+        maps.push(name);
     }
 
-    for (const file of maps) {
-        const basename = path.basename(file, path.extname(file));
-        const [mapX, mapZ] = basename.slice(1).split('_');
+    const rebuildMapArchive = shouldBuildFile(`${Environment.build.srcDir}/pack/map.pack`, 'data/pack/main_file_cache.idx4');
+    const needsMapHydration = rebuildMapArchive || cache.count(4) === 0;
+    const artifactName = 'maps';
+    const clientStore = openArtifactStore('maps-client', rebuildMapArchive);
+    const serverStore = openArtifactStore('maps-server', rebuildMapArchive);
+    const artifactManifest = loadArtifactManifest(artifactName, rebuildMapArchive);
+    let artifactManifestDirty = false;
+    const toolChanged = didFileSetChange('data/pack/.stamps/map-tools.txt', [Environment.runtime.isBun ? __filename : import.meta.filename]);
+    const needsAnyMapPackWork = rebuildMapArchive || shouldBuild(`${Environment.build.srcDir}/maps`, '.jm2', getArtifactManifestPath(artifactName)) || toolChanged;
 
-        const mapFile = `data/pack/client/maps/m${mapX}_${mapZ}`;
-        const locFile = `data/pack/client/maps/l${mapX}_${mapZ}`;
-        const serverMapFile = `data/pack/server/maps/m${mapX}_${mapZ}`;
-        const serverLocFile = `data/pack/server/maps/l${mapX}_${mapZ}`;
-        const serverNpcFile = `data/pack/server/maps/n${mapX}_${mapZ}`;
-        const serverObjFile = `data/pack/server/maps/o${mapX}_${mapZ}`;
+    if (rebuildMapArchive) {
+        cache.clearArchive(4);
+    }
 
-        const packerUpdated = shouldBuildFile(Environment.IS_BUN ? __filename : import.meta.filename, mapFile);
+    if (!needsAnyMapPackWork && !needsMapHydration) {
+        return false;
+    }
 
+    let rebuildWorldmap = !fs.existsSync('data/pack/mapview/worldmap.jag');
+    let rebuiltAnyMap = false;
+    let NpcType = null;
+    for (const name of maps) {
+        const mapXZ = name.slice(1);
+        const file = `${Environment.build.srcDir}/maps/m${mapXZ}.jm2`;
+
+        if (!fs.existsSync(file)) {
+            printWarning(`missing map m${mapXZ}`);
+            continue;
+        }
+
+        const mapId = MapPack.getByName(`m${mapXZ}`);
+        const locMapId = MapPack.getByName(`l${mapXZ}`);
+        const mapKey = `m${mapXZ}`;
+        const locKey = `l${mapXZ}`;
+        const npcKey = `n${mapXZ}`;
+        const objKey = `o${mapXZ}`;
+        const sourceStamp = getArtifactSourceStamp(file);
+        let needsRebuild =
+            needsAnyMapPackWork &&
+            (toolChanged || artifactManifest[mapXZ] !== sourceStamp || !clientStore.has(mapKey) || !clientStore.has(locKey) || !serverStore.has(mapKey) || !serverStore.has(locKey) || !serverStore.has(npcKey) || !serverStore.has(objKey));
+        if (!needsRebuild) {
+            if (needsMapHydration) {
+                const packedMap = clientStore.read(mapKey);
+                const packedLoc = clientStore.read(locKey);
+                if (!packedMap || !packedLoc) {
+                    needsRebuild = true;
+                } else {
+                    if (!cache.has(4, mapId)) {
+                        cache.write(4, mapId, packedMap, 1);
+                    }
+                    if (!cache.has(4, locMapId)) {
+                        cache.write(4, locMapId, packedLoc, 1);
+                    }
+                }
+            }
+        }
+
+        if (!needsRebuild) {
+            continue;
+        }
+
+        rebuiltAnyMap = true;
+        rebuildWorldmap = true;
         const data = fs
             .readFileSync(file, 'utf8')
             .replace(/\r/g, '')
@@ -137,338 +305,185 @@ export function packMaps(cache, modelFlags) {
         const map = readMap(data);
 
         // encode land data
-        if (packerUpdated || shouldBuildFile(file, mapFile) || shouldBuildFile(file, serverMapFile)) {
-            let levelHeightmap = [];
-            let levelTileOverlayIds = [];
-            let levelTileOverlayShape = [];
-            let levelTileOverlayRotation = [];
-            let levelTileFlags = [];
-            let levelTileUnderlayIds = [];
+        {
+            const TILES = 64 * 64;
+            const STRIDE = 4 * TILES;
 
-            for (let level = 0; level < 4; level++) {
-                if (!levelTileFlags[level]) {
-                    levelHeightmap[level] = [];
-                    levelTileOverlayIds[level] = [];
-                    levelTileOverlayShape[level] = [];
-                    levelTileOverlayRotation[level] = [];
-                    levelTileFlags[level] = [];
-                    levelTileUnderlayIds[level] = [];
-                }
+            const levelHeightmap = new Int16Array(STRIDE);
+            const levelTileOverlayIds = new Int16Array(STRIDE).fill(-1);
+            const levelTileOverlayShape = new Int16Array(STRIDE).fill(-1);
+            const levelTileOverlayRotation = new Int16Array(STRIDE).fill(-1);
+            const levelTileFlags = new Int16Array(STRIDE).fill(-1);
+            const levelTileUnderlayIds = new Int16Array(STRIDE).fill(-1);
 
-                for (let x = 0; x < 64; x++) {
-                    if (!levelTileFlags[level][x]) {
-                        levelHeightmap[level][x] = [];
-                        levelTileOverlayIds[level][x] = [];
-                        levelTileOverlayShape[level][x] = [];
-                        levelTileOverlayRotation[level][x] = [];
-                        levelTileFlags[level][x] = [];
-                        levelTileUnderlayIds[level][x] = [];
-                    }
-
-                    for (let z = 0; z < 64; z++) {
-                        levelHeightmap[level][x][z] = 0;
-                        levelTileOverlayIds[level][x][z] = -1;
-                        levelTileOverlayShape[level][x][z] = -1;
-                        levelTileOverlayRotation[level][x][z] = -1;
-                        levelTileFlags[level][x][z] = -1;
-                        levelTileUnderlayIds[level][x][z] = -1;
-                    }
-                }
+            for (const [key, tile] of map.land) {
+                const idx = key;
+                levelHeightmap[idx] = tile.h;
+                levelTileOverlayIds[idx] = tile.overlayId;
+                levelTileOverlayShape[idx] = tile.overlayShape;
+                levelTileOverlayRotation[idx] = tile.overlayRot;
+                levelTileFlags[idx] = tile.flags;
+                levelTileUnderlayIds[idx] = tile.underlay;
             }
 
-            // parse land data
-            for (let level = 0; level < 4; level++) {
-                if (!map.land[level]) {
+            let out = Packet.alloc(3);
+            for (let i = 0; i < STRIDE; i++) {
+                const height = levelHeightmap[i];
+                const overlay = levelTileOverlayIds[i];
+                const shape = levelTileOverlayShape[i];
+                const rotation = levelTileOverlayRotation[i];
+                const flags = levelTileFlags[i];
+                const underlay = levelTileUnderlayIds[i];
+
+                if (height === 0 && overlay === -1 && flags === -1 && underlay === -1) {
+                    // default values
+                    out.p1(0);
                     continue;
                 }
 
-                for (let x = 0; x < 64; x++) {
-                    if (!map.land[level][x]) {
-                        continue;
+                if (overlay !== -1) {
+                    let opcode = 2;
+                    if (shape !== -1) {
+                        opcode += shape << 2;
                     }
-
-                    for (let z = 0; z < 64; z++) {
-                        let tile = map.land[level][x][z];
-                        if (!tile) {
-                            continue;
-                        }
-
-                        for (let i = 0; i < tile.length; i++) {
-                            let type = tile[i][0];
-                            let info = tile[i].slice(1);
-
-                            if (type === 'h') {
-                                levelHeightmap[level][x][z] = Number(info);
-                            } else if (type === 'o') {
-                                let [id, shape, rotation] = info.split(';');
-
-                                levelTileOverlayIds[level][x][z] = Number(id);
-
-                                if (typeof shape !== 'undefined') {
-                                    levelTileOverlayShape[level][x][z] = Number(shape);
-                                }
-
-                                if (typeof rotation !== 'undefined') {
-                                    levelTileOverlayRotation[level][x][z] = Number(rotation);
-                                }
-                            } else if (type === 'f') {
-                                levelTileFlags[level][x][z] = Number(info);
-                            } else if (type === 'u') {
-                                levelTileUnderlayIds[level][x][z] = Number(info);
-                            }
-                        }
+                    if (rotation !== -1) {
+                        opcode += rotation;
                     }
+                    out.p1(opcode);
+                    out.p1(overlay);
                 }
-            }
 
-            // encode into client format
-            let out = Packet.alloc(3);
-            for (let level = 0; level < 4; level++) {
-                for (let x = 0; x < 64; x++) {
-                    for (let z = 0; z < 64; z++) {
-                        let height = levelHeightmap[level][x][z];
-                        let overlay = levelTileOverlayIds[level][x][z];
-                        let shape = levelTileOverlayShape[level][x][z];
-                        let rotation = levelTileOverlayRotation[level][x][z];
-                        let flags = levelTileFlags[level][x][z];
-                        let underlay = levelTileUnderlayIds[level][x][z];
+                if (flags !== -1) {
+                    out.p1(flags + 49);
+                }
 
-                        if (height == 0 && overlay == -1 && flags == -1 && underlay == -1) {
-                            // default values
-                            out.p1(0);
-                            continue;
-                        }
+                if (underlay !== -1) {
+                    out.p1(underlay + 81);
+                }
 
-                        if (overlay != -1) {
-                            let opcode = 2;
-                            if (shape != -1) {
-                                opcode += shape << 2;
-                            }
-                            if (rotation != -1) {
-                                opcode += rotation;
-                            }
-                            out.p1(opcode);
-                            out.p1(overlay);
-                        }
-
-                        if (flags != -1) {
-                            out.p1(flags + 49);
-                        }
-
-                        if (underlay != -1) {
-                            out.p1(underlay + 81);
-                        }
-
-                        if (height != 0) {
-                            // specific height
-                            out.p1(1);
-                            out.p1(height);
-                        } else {
-                            // perlin noise
-                            out.p1(0);
-                        }
-                    }
+                if (height !== 0) {
+                    // specific height
+                    out.p1(1);
+                    out.p1(height);
+                } else {
+                    // perlin noise
+                    out.p1(0);
                 }
             }
 
             const data = out.data.subarray(0, out.pos);
-            fs.writeFileSync(mapFile, compressGz(data));
-            fs.writeFileSync(serverMapFile, data);
+            const packed = compressGz(data);
+            clientStore.write(mapKey, packed);
+            serverStore.write(mapKey, data);
             out.release();
+
+            cache.write(4, mapId, packed, 1);
         }
 
         // encode loc data
-        if (packerUpdated || shouldBuildFile(file, locFile) || shouldBuildFile(file, serverLocFile)) {
-            let locs = {};
-
-            for (let level = 0; level < 4; level++) {
-                if (!map.loc[level]) {
-                    continue;
-                }
-
-                for (let x = 0; x < 64; x++) {
-                    if (!map.loc[level][x]) {
-                        continue;
-                    }
-
-                    for (let z = 0; z < 64; z++) {
-                        if (!map.loc[level][x][z]) {
-                            continue;
-                        }
-
-                        let tile = map.loc[level][x][z];
-                        for (let i = 0; i < tile.length; i++) {
-                            let [id, shape, angle] = tile[i];
-
-                            if (!locs[id]) {
-                                locs[id] = [];
-                            }
-
-                            if (typeof shape === 'undefined') {
-                                shape = 10;
-                            }
-
-                            if (typeof angle === 'undefined') {
-                                angle = 0;
-                            }
-
-                            locs[id].push({
-                                level,
-                                x,
-                                z,
-                                shape: Number(shape),
-                                angle: Number(angle)
-                            });
-                        }
-                    }
+        {
+            const allLocs = [];
+            for (const [key, entries] of map.loc) {
+                for (const { id, shape, angle } of entries) {
+                    allLocs.push((id << 14) | key, shape, angle);
                 }
             }
+            const locList = [];
+            for (const [key, entries] of map.loc) {
+                const level = (key >> 12) & 0x3;
+                const x = (key >> 6) & 0x3f;
+                const z = key & 0x3f;
+                for (const { id, shape, angle } of entries) {
+                    locList.push({ id, level, x, z, shape, angle });
+                }
+            }
+            locList.sort((a, b) => (a.id !== b.id ? a.id - b.id : ((a.level << 12) | (a.x << 6) | a.z) - ((b.level << 12) | (b.x << 6) | b.z)));
 
-            let locIds = Object.keys(locs)
-                .map(id => parseInt(id))
-                .sort((a, b) => a - b);
             let out = Packet.alloc(3);
             let lastLocId = -1;
-            for (let i = 0; i < locIds.length; i++) {
-                let locId = locIds[i];
-                let locData = locs[locId];
+            let lastLocData = 0;
+            let i = 0;
+            while (i < locList.length) {
+                const id = locList[i].id;
+                out.psmart(id - lastLocId);
+                lastLocId = id;
+                lastLocData = 0;
 
-                out.psmart(locId - lastLocId);
-                lastLocId = locId;
-
-                let lastLocData = 0;
-                for (let j = 0; j < locData.length; j++) {
-                    let loc = locData[j];
-
-                    let currentLocData = (loc.level << 12) | (loc.x << 6) | loc.z;
+                while (i < locList.length && locList[i].id === id) {
+                    const { level, x, z, shape, angle } = locList[i++];
+                    const currentLocData = (level << 12) | (x << 6) | z;
                     out.psmart(currentLocData - lastLocData + 1);
                     lastLocData = currentLocData;
-
-                    let locInfo = (loc.shape << 2) | loc.angle;
-                    out.p1(locInfo);
+                    out.p1((shape << 2) | angle);
                 }
-
                 out.psmart(0); // end of this loc
             }
-
             out.psmart(0); // end of map
+
             const data = out.data.subarray(0, out.pos);
-            fs.writeFileSync(locFile, compressGz(data));
-            fs.writeFileSync(serverLocFile, data);
+            const packed = compressGz(data);
+            clientStore.write(locKey, packed);
+            serverStore.write(locKey, data);
             out.release();
+
+            cache.write(4, locMapId, packed, 1);
         }
 
-        if (packerUpdated || shouldBuildFile(file, serverNpcFile)) {
+        // encode npc data
+        {
             let out = Packet.alloc(1);
 
-            for (let level = 0; level < 4; level++) {
-                if (!map.npc[level]) {
-                    continue;
-                }
-
-                for (let x = 0; x < 64; x++) {
-                    if (!map.npc[level][x]) {
-                        continue;
-                    }
-
-                    for (let z = 0; z < 64; z++) {
-                        if (!map.npc[level][x][z]) {
-                            continue;
-                        }
-
-                        // we need to store 12 bits for x and z (0-64 each), and 2 bits for level (0-3), so we can fit all that in 14 bits
-                        let pos = (level << 12) | (x << 6) | z;
-                        out.p2(pos);
-
-                        let npcs = map.npc[level][x][z];
-                        out.p1(npcs.length);
-                        for (let i = 0; i < npcs.length; i++) {
-                            out.p2(npcs[i]);
-                        }
-                    }
+            for (const [key, ids] of map.npc) {
+                out.p2(key);
+                out.p1(ids.length);
+                for (const id of ids) {
+                    out.p2(id);
                 }
             }
 
-            out.save(serverNpcFile);
+            serverStore.write(npcKey, out.data.subarray(0, out.pos));
             out.release();
         }
 
-        if (packerUpdated || shouldBuildFile(file, serverObjFile)) {
+        // encode obj data
+        {
             let out = Packet.alloc(1);
 
-            for (let level = 0; level < 4; level++) {
-                if (!map.obj[level]) {
-                    continue;
-                }
-
-                for (let x = 0; x < 64; x++) {
-                    if (!map.obj[level][x]) {
-                        continue;
-                    }
-
-                    for (let z = 0; z < 64; z++) {
-                        if (!map.obj[level][x][z]) {
-                            continue;
-                        }
-
-                        // we need to store 12 bits for x and z (0-64 each), and 2 bits for level (0-3), so we can fit all that in 14 bits
-                        let pos = ((level & 0x3) << 12) | ((x & 0x3f) << 6) | (z & 0x3f);
-                        out.p2(pos);
-
-                        let objs = map.obj[level][x][z];
-                        out.p1(objs.length);
-                        for (let i = 0; i < objs.length; i++) {
-                            out.p2(parseInt(objs[i][0]));
-                            out.p1(parseInt(objs[i][1])); // do we need spawns to have more than 255 in a stack?
-                        }
-                    }
+            for (const [key, objs] of map.obj) {
+                out.p2(key);
+                out.p1(objs.length);
+                for (const { id, count } of objs) {
+                    out.p2(id);
+                    out.p1(count);
                 }
             }
 
-            out.save(serverObjFile);
+            serverStore.write(objKey, out.data.subarray(0, out.pos));
             out.release();
         }
 
-        cache.write(4, MapPack.getByName(`m${mapX}_${mapZ}`), fs.readFileSync(mapFile), 1);
-        cache.write(4, MapPack.getByName(`l${mapX}_${mapZ}`), fs.readFileSync(locFile), 1);
+        artifactManifest[mapXZ] = sourceStamp;
+        artifactManifestDirty = true;
 
-        // update model flags
-        NpcType.load('data/pack');
-
-        for (let level = 0; level < 4; level++) {
-            if (!map.npc[level]) {
-                continue;
-            }
-
-            for (let x = 0; x < 64; x++) {
-                if (!map.npc[level][x]) {
-                    continue;
-                }
-
-                for (let z = 0; z < 64; z++) {
-                    if (!map.npc[level][x][z]) {
-                        continue;
-                    }
-
-                    let npcs = map.npc[level][x][z];
-                    for (let i = 0; i < npcs.length; i++) {
-                        const type = NpcType.get(npcs[i]);
-                        if (!type) {
-                            printFatalError(`m${mapX}_${mapZ}: NPC type does not exist: ${npcs[i]}`);
-                        }
-                        if (type.models) {
-                            for (const model of type.models) {
-                                modelFlags[model] |= 0x4;
-                            }
-                        }
-                        if (type.heads) {
-                            for (const model of type.heads) {
-                                modelFlags[model] |= 0x4;
-                            }
-                        }
-                    }
-                }
-            }
+        if (!NpcType) {
+            NpcType = await getNpcType();
+            NpcType.load('data/pack');
         }
+
+        updateModelFlags(map.npc, modelFlags, NpcType);
     }
+
+    if (artifactManifestDirty) {
+        saveArtifactManifest(artifactName, artifactManifest);
+    }
+
+    clientStore.save();
+    serverStore.save();
+
+    if (rebuildWorldmap) {
+        const packWorldmap = await getPackWorldmap();
+        await packWorldmap();
+    }
+
+    return rebuiltAnyMap;
 }

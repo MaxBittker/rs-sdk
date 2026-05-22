@@ -1,14 +1,3 @@
-[debugproc,iku]
-if (p_finduid(uid) = false) { return; }
-%ikov = calc(%ikov + 10);
-~send_quest_progress(questlist:ikov, %ikov, ^ikov_completed_armadyl);
-mes("Ikov stage increased to <tostring(%ikov)>");
-[debugproc,ikd]
-if (p_finduid(uid) = false) { return; }
-%ikov = calc(%ikov - 10);
-~send_quest_progress(questlist:ikov, %ikov, ^ikov_completed_armadyl);
-mes("Ikov stage decreased to <tostring(%ikov)>");
-
 [if_button,questlist:ikov]
 //TODO: Figure out proper line breaks (Engine change to split_init/get?)
 //sources:

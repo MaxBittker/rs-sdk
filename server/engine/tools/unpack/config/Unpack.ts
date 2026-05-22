@@ -81,7 +81,7 @@ function unpackConfigNames(type: string, config: Jagfile) {
     pack.save();
 }
 
-function reorderUnpacked(config: string[], settings: { moveName: boolean, moveDesc: boolean, moveRecol: boolean, moveModel: boolean }) {
+function reorderUnpacked(config: string[], settings: { moveName: boolean; moveDesc: boolean; moveRecol: boolean; moveModel: boolean }) {
     const debugname: string[] = [];
     const others: string[] = [];
 
@@ -136,11 +136,11 @@ function unpackConfig(revision: string, type: string, unpack: UnpackConfigImpl, 
 
     // return;
 
-    if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/scripts/_unpack/${revision}`)) {
-        fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/scripts/_unpack/${revision}`, { recursive: true });
+    if (!fs.existsSync(`${Environment.build.srcDir}/scripts/_unpack/${revision}`)) {
+        fs.mkdirSync(`${Environment.build.srcDir}/scripts/_unpack/${revision}`, { recursive: true });
     }
 
-    const out = `${Environment.BUILD_SRC_DIR}/scripts/_unpack/${revision}/all.${type}`;
+    const out = `${Environment.build.srcDir}/scripts/_unpack/${revision}/all.${type}`;
     fs.writeFileSync(out, '');
 
     const settings = { moveName: false, moveDesc: false, moveRecol: false, moveModel: false };
@@ -224,7 +224,7 @@ function unpackModelNames(type: string, unpack: UnpackModelImpl, config: Jagfile
         }
     }
 
-    const existingFiles = listFilesExt(`${Environment.BUILD_SRC_DIR}/models`, '.ob2');
+    const existingFiles = listFilesExt(`${Environment.build.srcDir}/models`, '.ob2');
 
     let start = 0;
     if (compareIdx) {
@@ -265,7 +265,7 @@ function unpackModelNames(type: string, unpack: UnpackModelImpl, config: Jagfile
 
             const filePath = existingFiles.find(x => x.endsWith(`/${modelName}.ob2`));
             if (filePath) {
-                fs.renameSync(filePath, `${Environment.BUILD_SRC_DIR}/models/loc/${name}.ob2`);
+                fs.renameSync(filePath, `${Environment.build.srcDir}/models/loc/${name}.ob2`);
             }
 
             ModelPack.register(model, name);
@@ -299,7 +299,7 @@ function unpackConfigs(revision: string) {
         modelRenameOffset = cache2.count(1);
     }
 
-    printInfo(`Unpacking rev ${revision} into ${Environment.BUILD_SRC_DIR}/scripts`);
+    printInfo(`Unpacking rev ${revision} into ${Environment.build.srcDir}/scripts`);
 
     for (let id = 0; id < ModelPack.max; id++) {
         const data = cache.read(1, id, true);
@@ -316,24 +316,24 @@ function unpackConfigs(revision: string) {
     unpackConfigNames('varp', config);
     unpackConfigNames('varbit', config);
 
-    if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/models/obj`)) {
-        fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/models/obj`, { recursive: true });
+    if (!fs.existsSync(`${Environment.build.srcDir}/models/obj`)) {
+        fs.mkdirSync(`${Environment.build.srcDir}/models/obj`, { recursive: true });
     }
 
-    if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/models/spot`)) {
-        fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/models/spot`, { recursive: true });
+    if (!fs.existsSync(`${Environment.build.srcDir}/models/spot`)) {
+        fs.mkdirSync(`${Environment.build.srcDir}/models/spot`, { recursive: true });
     }
 
-    if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/models/idk`)) {
-        fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/models/idk`, { recursive: true });
+    if (!fs.existsSync(`${Environment.build.srcDir}/models/idk`)) {
+        fs.mkdirSync(`${Environment.build.srcDir}/models/idk`, { recursive: true });
     }
 
-    if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/models/loc`)) {
-        fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/models/loc`, { recursive: true });
+    if (!fs.existsSync(`${Environment.build.srcDir}/models/loc`)) {
+        fs.mkdirSync(`${Environment.build.srcDir}/models/loc`, { recursive: true });
     }
 
-    if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/models/npc`)) {
-        fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/models/npc`, { recursive: true });
+    if (!fs.existsSync(`${Environment.build.srcDir}/models/npc`)) {
+        fs.mkdirSync(`${Environment.build.srcDir}/models/npc`, { recursive: true });
     }
 
     unpackModelNames('loc', unpackLocModels, config, config2, modelRenameOffset);
@@ -353,4 +353,4 @@ function unpackConfigs(revision: string) {
     printInfo('Done! Manual post processing may be required.');
 }
 
-unpackConfigs('254');
+unpackConfigs('274');

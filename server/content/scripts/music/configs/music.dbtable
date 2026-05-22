@@ -2,3 +2,4 @@
 column=name,string,INDEXED,REQUIRED
 column=playbutton,component,INDEXED,REQUIRED
 column=unlock,int,int
+column=track,midi,REQUIRED

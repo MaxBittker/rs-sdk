@@ -683,3 +683,66 @@ switch_int($bit) {
 if (p_finduid(uid) = false) { return; }
 %legends_bits = setbit(%legends_bits, $bit);
 mes("setbit <tostring($bit)> for legends quest");
+
+[debugproc,settbwt](int $var, int $var2)
+if (p_finduid(uid) = false) return;
+switch_int($var) {
+    case 0 : %tbwt_main = $var2;
+    case 1 : %tbwt_tiadeche = $var2;
+    case 2 : %tbwt_tinsay = $var2;
+    case 3 : %tbwt_tamayu = $var2;
+    case 4 : %tbwt_lubufu = $var2;
+    case default : mes("Incorrect var chosen. Choose 0-4.");
+}
+~send_quest_progress(questlist:tbwt, %tbwt_main, ^tbwt_complete);
+
+[debugproc,settbwtbits](int $var, int $var2) // Set bits on %tbwt_bits
+if (p_finduid(uid) = false) return;
+if ($var = 1) { // Set Timfraku title
+    %tbwt_bits = setbit_range_toint(%tbwt_bits, $var2, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end);
+    mes("Set TBWT Timfraku Title(1) to: <tostring($var2)>.");
+} else if ($var = 2) { // Set Tamayu Agility Count
+    %tbwt_bits = setbit_range_toint(%tbwt_bits, $var2, ^tbwt_tamayu_agility_count_start, ^tbwt_tamayu_agility_count_end);
+    mes("Set TBWT Tamayu Agility Count(8) to: <tostring($var2)>.");
+}
+mes("Raw %tbwt_bits: <tostring(%tbwt_bits)>");
+
+[debugproc,resettbwt] // Resets TBWT progress completely
+if (p_finduid(uid) = false) return;
+%tbwt_main = 0;
+%tbwt_tiadeche = 0;
+%tbwt_tinsay = 0;
+%tbwt_tamayu = 0;
+%tbwt_lubufu = 0;
+%tbwt_bits = 0;
+~send_quest_progress(questlist:tbwt, %tbwt_main, ^tbwt_complete);
+mes("Tai Bwo Wannai Trio reset.");
+
+[debugproc,tbwtstatus] // Prints status of all TBWT varps
+if (p_finduid(uid) = false) return;
+mes("TBWT Main (0): <tostring(%tbwt_main)>");
+mes("TBWT Tiadeche (1): <tostring(%tbwt_tiadeche)>");
+mes("TBWT Tinsay(2): <tostring(%tbwt_tinsay)>");
+mes("TBWT Tamayu(3): <tostring(%tbwt_tamayu)>");
+mes("TBWT Lubufu(4): <tostring(%tbwt_lubufu)>");
+mes("TBWT Timfraku Title: <tostring(~get_tbwt_timfraku_title())>");
+mes("TBWT Tamayu Agility Count: <tostring(~get_tbwt_tamayu_agility_count())>");
+mes("Received Karambwan from Tiadeche: <tostring(testbit(%tbwt_bits, ^tbwt_tiadeche_received_karambwan))>");
+mes("Raw %tbwt_bits varp: <tostring(%tbwt_bits)>");
+
+[debugproc,tbwtcs2] // Plays the final cutscene from Tai Bwo Wannai Trio
+if (p_finduid(uid) = false) return;
+@tbwt_tamayu_final_cutscene;
+
+[debugproc,setmortton](int $var)
+if (p_finduid(uid) = false) return;
+%morttonquest = $var;
+~send_quest_progress(questlist:mortton, %morttonquest, ^mortton_quest_complete);
+mes("Shades of Mort'ton set to: <tostring($var)>");
+
+[debugproc,resetmortton] // Resets Shades of Mortton progress completely
+if (p_finduid(uid) = false) return;
+%morttonquest = 0;
+%morttonmulti = 0;
+~send_quest_progress(questlist:mortton, %morttonquest, ^mortton_quest_complete);
+mes("Shades of Mortton reset.");

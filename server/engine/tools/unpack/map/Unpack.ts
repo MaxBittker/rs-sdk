@@ -16,8 +16,8 @@ if (!data) {
 
 const versionlist = new Jagfile(new Packet(data!));
 
-if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/maps`)) {
-    fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/maps`, { recursive: true });
+if (!fs.existsSync(`${Environment.build.srcDir}/maps`)) {
+    fs.mkdirSync(`${Environment.build.srcDir}/maps`, { recursive: true });
 }
 
 function readLand(data: Packet) {
@@ -155,8 +155,8 @@ for (let i = 0; i < mapIndex.length / 7; i++) {
     const locFile = mapIndex.g2();
     const _members = mapIndex.gbool();
 
-    const mapX = (region >> 8) & 0xFF;
-    const mapZ = region & 0xFF;
+    const mapX = (region >> 8) & 0xff;
+    const mapZ = region & 0xff;
 
     MapPack.register(landFile, `m${mapX}_${mapZ}`);
     MapPack.register(locFile, `l${mapX}_${mapZ}`);
@@ -172,8 +172,8 @@ for (let i = 0; i < mapIndex.length / 7; i++) {
 
     // todo: preserve npc and obj sections
     const saved = [];
-    if (fs.existsSync(`${Environment.BUILD_SRC_DIR}/maps/m${mapX}_${mapZ}.jm2`)) {
-        const existing = fs.readFileSync(`${Environment.BUILD_SRC_DIR}/maps/m${mapX}_${mapZ}.jm2`, 'utf8').replace(/\r/g, '').split('\n');
+    if (fs.existsSync(`${Environment.build.srcDir}/maps/m${mapX}_${mapZ}.jm2`)) {
+        const existing = fs.readFileSync(`${Environment.build.srcDir}/maps/m${mapX}_${mapZ}.jm2`, 'utf8').split(/\r?\n/);
 
         let hasNpcObj = false;
         for (let i = 0; i < existing.length; i++) {
@@ -226,7 +226,7 @@ for (let i = 0; i < mapIndex.length / 7; i++) {
             }
         }
 
-        fs.writeFileSync(`${Environment.BUILD_SRC_DIR}/maps/m${mapX}_${mapZ}.jm2`, '==== MAP ====\n' + section);
+        fs.writeFileSync(`${Environment.build.srcDir}/maps/m${mapX}_${mapZ}.jm2`, '==== MAP ====\n' + section);
     }
 
     if (locData) {
@@ -252,11 +252,11 @@ for (let i = 0; i < mapIndex.length / 7; i++) {
             }
         }
 
-        fs.appendFileSync(`${Environment.BUILD_SRC_DIR}/maps/m${mapX}_${mapZ}.jm2`, '\n==== LOC ====\n' + section);
+        fs.appendFileSync(`${Environment.build.srcDir}/maps/m${mapX}_${mapZ}.jm2`, '\n==== LOC ====\n' + section);
     }
 
     if (saved.length) {
-        fs.appendFileSync(`${Environment.BUILD_SRC_DIR}/maps/m${mapX}_${mapZ}.jm2`, '\n' + saved.join('\n'));
+        fs.appendFileSync(`${Environment.build.srcDir}/maps/m${mapX}_${mapZ}.jm2`, '\n' + saved.join('\n'));
     }
 }
 console.timeEnd('maps');

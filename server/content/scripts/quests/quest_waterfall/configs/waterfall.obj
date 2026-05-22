@@ -27,7 +27,7 @@ members=yes
 tradeable=no
 
 [glarials_pebble_waterfall_quest]
-name=Glarials pebble
+name=Glarial's pebble
 desc=A small pebble with elven inscription.
 model=model_2701_obj
 2dzoom=640
@@ -38,7 +38,7 @@ members=yes
 tradeable=no
 
 [glarials_amulet_waterfall_quest]
-name=Glarials amulet
+name=Glarial's amulet
 desc=A bright green gem set in a necklace.
 model=model_2515_obj
 recol1s=31649
@@ -57,8 +57,8 @@ members=yes
 tradeable=no
 
 [glarials_urn_full_waterfall_quest]
-name=Glarials urn
-desc=An urn containing glarials ashes
+name=Glarial's urn
+desc=An urn containing Glarial's ashes
 model=model_2704_obj
 2dyof=-3
 2dzoom=1070
@@ -69,8 +69,8 @@ members=yes
 tradeable=no
 
 [glarials_urn_empty_waterfall_quest]
-name=Glarials urn
-desc=An empty urn made for glarials ashes
+name=Glarial's urn
+desc=An empty urn made for Glarial's ashes
 model=model_2704_obj
 2dyof=-3
 2dzoom=1070

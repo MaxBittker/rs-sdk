@@ -472,3 +472,24 @@ return;
 ~update_questlist;
 mes("All quests have been reset.");
 return;
+
+//regicide
+[debugproc,spkm]
+settimer(spawn_kings_messenger, 10);
+
+//temple of ikov
+[debugproc,iku]
+if (p_finduid(uid) = false) { return; }
+%ikov = calc(%ikov + 10);
+~send_quest_progress(questlist:ikov, %ikov, ^ikov_completed_armadyl);
+mes("Ikov stage increased to <tostring(%ikov)>");
+
+[debugproc,ikd]
+if (p_finduid(uid) = false) { return; }
+%ikov = calc(%ikov - 10);
+~send_quest_progress(questlist:ikov, %ikov, ^ikov_completed_armadyl);
+mes("Ikov stage decreased to <tostring(%ikov)>");
+
+//elemental workshop
+[debugproc,tew]
+queue(elemental_workshop_quest_complete, 0, 0);

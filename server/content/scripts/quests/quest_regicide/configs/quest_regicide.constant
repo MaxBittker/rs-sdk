@@ -1,0 +1,22 @@
+^regicide_not_started = 0
+^regicide_received_message = 1
+^regicide_spoken_lathas = 2
+^regicide_spoken_scouts = 3
+^regicide_spoken_iorwerth = 4
+^regicide_spoken_tracker = 5
+^regicide_shown_pendant = 6
+^regicide_found_footprints = 7
+^regicide_spoken_tracker2 = 8
+^regicide_defeated_guard = 9
+^regicide_entered_camp = 10
+^regicide_spoken_iorwerth2 = 11
+^regicide_killed_tyras = 12
+^regicide_reported_iorwerth = 13
+^regicide_spoken_arianwyn = 14
+^regicide_complete = 15
+
+^regicide_koftik_food = 0
+^regicide_down_well = 1
+^regicide_seen_guard = 2
+^regicide_given_rabbit = 3
+^regicide_chemist_chat = 5

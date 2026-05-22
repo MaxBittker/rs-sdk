@@ -65,7 +65,7 @@ if($count = 1) $text = "a vial";
 ~objbox(vial_enchanted, "You enchant <$text>!", 250, 0, ^objbox_height);
 
 [proc,book_activus](string $title, string $string)
-split_init($string, 175, 22, q8);
+split_init($string, 175, 22, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {

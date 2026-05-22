@@ -114,7 +114,7 @@ if(loc_find(coord, agilityarena_floorspikes) = true) {
     // https://youtu.be/eHMW2KRp9_Q?si=H8uk_KvSW2zFNcIQ&t=119 1t delay before activating, which osrs doesnt seem to have
     p_stopaction;
     p_delay(0);
-    if(stat_random(agility, 150, 250) = false | stat(agility) < 20) {
+    if(stat_random(agility, 60, 250) = false | stat(agility) < 20) {
         if(stat(agility) < 20) mes("You need an agility level of at least 20 to get past this trap!");
         mes("You were hit by some floor spikes!");
         sound_synth(floor_spikes, 0, 0);
@@ -151,7 +151,7 @@ if(loc_find(coord, agilityarena_pressurepad) = true) {
     // https://youtu.be/eHMW2KRp9_Q?si=4o0WDWs9VMAxXitO&t=137 1t delay before activating, which osrs doesnt seem to have (same as floor spikes bascially)
     p_stopaction;
     p_delay(0);
-    if(stat_random(agility, 135, 235) = false | stat(agility) < 20) {
+    if(stat_random(agility, 40, 230) = false | stat(agility) < 20) {
         if(stat(agility) < 20) mes("You need an agility level of at least 20 to get past this trap!");
         mes("You were hit by some falling rocks!");
         sound_synth(roof_collapse, 0, 0);
@@ -202,7 +202,7 @@ if((inzone(3_43_149_25_43, 3_43_149_27_43, coord) = true | inzone(3_43_149_31_37
     & loc_find(~get_sawblades_coord, agilityarena_sawblades) = true) {
     p_stopaction;
     p_delay(0);
-    if(stat_random(agility, 91, 191) = false | stat(agility) < 40) {
+    if(stat_random(agility, 30, 210) = false | stat(agility) < 40) {
         if(stat(agility) < 40) mes("You need an agility level of at least 40 to get past this trap!");
         if(~total_distance(coord, loc_coord) > 1) {
             // these could just be coord checks, theres only 3 of them and they all have different angles
@@ -262,7 +262,7 @@ if(coord = 3_43_149_42_38 | coord = 3_43_149_42_37 | coord = 3_43_149_37_21 | co
     p_stopaction;
     p_delay(0);
     $pillar_coord, $cam2, $cam3, $dart_target, $dest, $fail, $dir = ~get_poisondart_vals(coord);
-    if(stat_random(agility, 80, 180) = false | stat(agility) < 40) {
+    if(stat_random(agility, 20, 190) = false | stat(agility) < 40) {
         if(stat(agility) < 40) mes("You need an agility level of at least 40 to get past this trap!");
         sound_synth(dart_fire_hit, 0, 0);
         ~coord_projectile($pillar_coord, coord, bullettime_dart, 0, 10, 0, 2, 25, 40, 0);

@@ -4,7 +4,7 @@ if (%ownedmcannon = null) {
     return;
 }
 if (loc_find(%ownedmcannon, dwarf_multicannon1) = false) {
-    mes("Your cannon has decayed."); // https://runescape.wiki/w/Update:Patch_Notes_(6_May_2009)
+    mes("Your cannon has decayed!"); // https://i.imgur.com/Sw6twUP.png (2006) https://runescape.wiki/w/Update:Patch_Notes_(6_May_2009)
     cleartimer(cannon_decay);
 }
 
@@ -81,6 +81,10 @@ if (inzone(^arena_lower_coord, ^arena_upper_coord, coord) = true) { // fight are
 }
 if (map_locaddunsafe(movecoord(coord, -1, 0, -1)) = true) {
     mes("There isn't enough space to set up here."); // osrs just checks sw coord for loc's
+    return;
+}
+if (inzone(0_39_72_0_0, 0_39_72_63_63, coord) = true) {
+    mes("The air is too dank for you to set up a cannon here."); // under lighthouse
     return;
 }
 def_coord $center = coord;

@@ -34,6 +34,7 @@ switch_int(stat_base(magic)) {
     case 58 : ~objbox(battlestaff, "Members can now @dbl@Teleport to the Watchtower@bla@!", 250, 0, 0);
     case 59 : ~objbox(battlestaff, "You can now cast @dbl@Fire Blast@bla@!", 250, 0, 0);
     case 60 : ~objbox(battlestaff, "Members can now @dbl@Charge Earth Orbs@bla@!", 250, 0, 0);
+    case 61 : ~objbox(battlestaff, "Members can now @dbl@Teleport to Trollheim@bla@!", 250, 0, 0);
     case 62 : ~objbox(battlestaff, "Members can now cast @dbl@Wind Wave@bla@!", 250, 0, 0);
     case 63 : ~objbox(battlestaff, "Members can now @dbl@Charge Fire Orbs@bla@!", 250, 0, 0);
     case 65 : ~objbox(battlestaff, "Members can now cast @dbl@Water Wave@bla@!", 250, 0, 0);

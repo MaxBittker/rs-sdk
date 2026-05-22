@@ -2,7 +2,9 @@
 mes("The man seems to be in a weak state of mind.");
 p_delay(2);
 ~chatplayer("<p,neutral>Hello.");
-~chatnpc("<p,sad>Eating me... they keep eating me! Eating me from the inside! Please stop them! I can feel them wriggling around inside me right now... please stop them!");
+// ~chatnpc("<p,sad>Eating me... they keep eating me! Eating me from the inside! Please stop them! I can feel them wriggling around inside me right now... please stop them!");
+~chatnpc("<p,sad>Eating me...they keep eating me! Eating me from the inside. Please stop them!  ... I can feel them wriggling around inside me right now. ... please stop them.");
+// https://media.discordapp.net/attachments/1336205476374777878/1422462309422469211/slave.png?ex=69a5cf82&is=69a47e02&hm=847e042d26dea360c0b75af483dcbe0c740c1d0f220ec20de36e7f1d2d8b35b4&=&format=webp&quality=lossless
 
 [opnpc1,cave_slave2]
 mes("The man seems to be in a weak state of mind.");

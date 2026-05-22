@@ -1,4 +1,4 @@
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 export default class VarBitType {
@@ -10,7 +10,7 @@ export default class VarBitType {
     endbit: number = 0;
     debugname: string = '';
 
-    static init(config: Jagfile): void {
+    static init(config: JagFile): void {
         const dat: Packet = new Packet(config.read('varbit.dat'));
 
         this.numDefinitions = dat.g2();

@@ -32,7 +32,6 @@ import LinkList from '#/datastruct/LinkList.js';
 import ServerGameProtRepository from '#/network/game/server/ServerGameProtRepository.js';
 import DoublyLinkList from '#/datastruct/DoublyLinkList.js';
 
-
 export default class Zone {
     private static readonly SIZE: number = 8 * 8;
     private static readonly LOCS: number = this.SIZE << 2;
@@ -307,7 +306,7 @@ export default class Zone {
         obj.lastChange = -1;
 
         // If the obj is not tradeable, or it's members in an f2p world, or it's already revealed, then skip
-        if (!objType.tradeable || (objType.members && !Environment.NODE_MEMBERS) || obj.reveal === -1) {
+        if (!objType.tradeable || (objType.members && !Environment.node.members) || obj.reveal === -1) {
             obj.reveal = -1;
             return;
         }

@@ -146,8 +146,7 @@ export async function convertImage(index: Packet, srcPath: string, safeName: str
     if (hasMeta) {
         const metadata = fs
             .readFileSync(`${srcPath}/meta/${safeName}.opt`, 'ascii')
-            .replace(/\r/g, '')
-            .split('\n')
+            .split(/\r?\n/)
             .filter(x => x.length);
 
         if (metadata[0].indexOf('x') === -1) {

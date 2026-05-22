@@ -1,127 +1,46 @@
-import 'dotenv/config';
-import { tryParseBoolean, tryParseInt, tryParseString } from '#/util/TryParse.js';
-import { WalkTriggerSetting } from '#/engine/entity/WalkTriggerSetting.js';
+import { tryParseBoolean, tryParseInt } from '#/util/TryParse.js';
+import { loadWorldConfig } from '#/util/WorldConfig.js';
+
+const config = loadWorldConfig();
 
 export default {
-    IS_BUN: typeof process.versions.bun !== 'undefined', // not user-configurable
+    runtime: {
+        isBun: typeof process.versions.bun !== 'undefined',
+        maxNpcs: 16383
+    },
+    ...config,
 
-    EASY_STARTUP: tryParseBoolean(process.env.EASY_STARTUP, false),
-    WEBSITE_REGISTRATION: tryParseBoolean(process.env.WEBSITE_REGISTRATION, false),
+    // ---------------------------------------------------------------------------
+    // rs-sdk back-compat + custom config.
+    // 274 moved server config into the nested WorldConfig object (Environment.web.port,
+    // Environment.node.xpRate, ...). The rs-sdk bot framework (src/web/, hiscores,
+    // login security) was written against the older flat Environment.* names, so we
+    // expose flat aliases that map onto the nested config, plus a handful of
+    // rs-sdk-only keys read straight from the environment.
+    // ---------------------------------------------------------------------------
 
-    /// web server
-    WEB_PORT: tryParseInt(process.env.WEB_PORT, 8888),
-    WEB_ALLOWED_ORIGIN: tryParseString(process.env.WEB_ALLOWED_ORIGIN, ''),
-    // WEB_SOCKET_TOKEN_RPOTECTION tightens security somewhat by embedding a token in the
-    // rs2.cgi html which is sent on each login. if token is absent or wrong,
-    // the login is rejected. this is mainly for preventing external WebSockets
-    // that have not accessed the server's game page.
-    // NOTE: if you set protection on, and there were clients with page loaded without this option on,
-    // they wont be able to connect until they F5, as the cookie won't have been sent.
-    WEB_SOCKET_TOKEN_PROTECTION: tryParseBoolean(process.env.WEB_SOCKET_TOKEN_PROTECTECTION, false),
+    // flat aliases -> 274 nested config
+    WEB_PORT: config.web.port,
+    WEB_MANAGEMENT_PORT: config.web.managementPort,
+    WEBSITE_REGISTRATION: config.website.registration,
+    NODE_ID: config.node.id,
+    NODE_PORT: config.node.port,
+    NODE_MEMBERS: config.node.members,
+    NODE_PRODUCTION: config.node.production,
+    NODE_DEBUG: config.node.debug,
+    NODE_HOP_TIME: config.node.hopTime,
 
-    // management server
-    WEB_MANAGEMENT_PORT: tryParseInt(process.env.WEB_MANAGEMENT_PORT, 8898),
-
-    /// game server
-    ENGINE_REVISION: tryParseInt(process.env.ENGINE_REVISION, 254),
-    // world id - offset by 9, so 1 = 10, 2 = 11, etc
-    NODE_ID: tryParseInt(process.env.NODE_ID, 10),
-    NODE_PORT: tryParseInt(process.env.NODE_PORT, 43594),
-    // members content
-    NODE_MEMBERS: tryParseBoolean(process.env.NODE_MEMBERS, true),
-    // automatically upgrade accounts to members on successful login to a members world
-    NODE_AUTO_SUBSCRIBE_MEMBERS: tryParseBoolean(process.env.NODE_AUTO_SUBSCRIBE_MEMBERS, true),
-    // addxp multiplier
-    NODE_XPRATE: tryParseInt(process.env.NODE_XPRATE, 25),
-    // infinite run energy
-    NODE_INFINITE_RUN: tryParseBoolean(process.env.NODE_INFINITE_RUN, true),
-    // production mode!
-    NODE_PRODUCTION: tryParseBoolean(process.env.NODE_PRODUCTION, false),
-    // random events (anti-macro events)
-    NODE_RANDOM_EVENTS: tryParseBoolean(process.env.NODE_RANDOM_EVENTS, false),
-    NODE_SUBMIT_INPUT: tryParseBoolean(process.env.NODE_SUBMIT_INPUT, false),
-    // Maximum approximate number of storage bytes allowed per single input tracking session.
-    // It does not seem remotely possible to get near this amount under normal inputs.
-    NODE_LIMIT_BYTES_PER_TRACKING_SESSION: tryParseInt(process.env.NODE_MAX_BYTES_PER_TRACKING_SESSION, 50_000),
-    NODE_MINIMUM_WEALTH_VALUE_EVENT: tryParseInt(process.env.NODE_MINIMUM_WEALTH_VALUE_EVENT, 10),
-    // extra debug info e.g. missing triggers
-    NODE_DEBUG: tryParseBoolean(process.env.NODE_DEBUG, true),
-    // measuring script execution
-    NODE_DEBUG_PROFILE: tryParseBoolean(process.env.NODE_DEBUG_PROFILE, false),
-    // doing headless bot testing!
+    // rs-sdk-only keys (not part of upstream WorldConfig)
+    WEB_SOCKET_TOKEN_PROTECTION: tryParseBoolean(process.env.WEB_SOCKET_TOKEN_PROTECTION, false),
     NODE_DEBUG_SOCKET: tryParseBoolean(process.env.NODE_DEBUG_SOCKET, false),
-    // no server routefinding until 2009
-    NODE_CLIENT_ROUTEFINDER: tryParseBoolean(process.env.NODE_CLIENT_ROUTEFINDER, true),
-    // yellow-x walktriggers in osrs went from: in packet handler -> in player setup -> player movement
-    // 0 = processed in packet handler. 1 = processed in player setup (client input). 2 = processed in player movement
-    NODE_WALKTRIGGER_SETTING: tryParseInt(process.env.NODE_WALKTRIGGER_SETTING, WalkTriggerSetting.PLAYERPACKET),
-    // separate save folder
-    NODE_PROFILE: tryParseString(process.env.NODE_PROFILE, 'main'),
-    // server tick rate in ms (default 400, original was 600)
+    // rs-sdk: default ON for 274. The 274 web client fetches on-demand assets over the
+    // game WebSocket; with this off the engine terminates that socket and the client
+    // stalls at ~60% ("Connecting to update server"). Required for the bot client to load.
+    NODE_WS_ONDEMAND: tryParseBoolean(process.env.NODE_WS_ONDEMAND, true),
+    NODE_INFINITE_RUN: tryParseBoolean(process.env.NODE_INFINITE_RUN, true),
+    NODE_RANDOM_EVENTS: tryParseBoolean(process.env.NODE_RANDOM_EVENTS, false),
     NODE_TICKRATE: tryParseInt(process.env.NODE_TICKRATE, 400),
-    // entities cap
-    NODE_MAX_PLAYERS: tryParseInt(process.env.NODE_MAX_PLAYERS, 2047),
-    NODE_MAX_CONNECTED: tryParseInt(process.env.NODE_MAX_CONNECTED, 1000),
-    NODE_MAX_LOGINS_PER_IP: tryParseInt(process.env.NODE_MAX_LOGINS_PER_IP, 100),
-    NODE_MAX_NPCS: tryParseInt(process.env.NODE_MAX_NPCS, 16383),
-    NODE_DEBUGPROC_CHAR: tryParseString(process.env.NODE_DEBUGPROC_CHAR, '~'),
-    NODE_WS_ONDEMAND: tryParseBoolean(process.env.NODE_WS_ONDEMAND, false),
-    NODE_HOP_TIME: tryParseInt(process.env.NODE_MAX_NPCS, 45000), // 45s
-    // limit login attempts
-    NODE_RATELIMIT_ADDRESS_LOGIN: tryParseInt(process.env.NODE_RATELIMIT_ADDRESS_LOGIN, 30), // ip (60s)
-    NODE_RATELIMIT_DEVICE_LOGIN: tryParseInt(process.env.NODE_RATELIMIT_DEVICE_LOGIN, 5), // uid+ip (15s)
-
-    /// hiscores
     HISCORES_WEB_PORT: tryParseInt(process.env.HISCORES_WEB_PORT, 8889),
     HISCORES_HIDDEN_NAMES: (process.env.HISCORES_HIDDEN_NAMES || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean),
-
-    /// username filter
-    BANNED_USERNAME_WORDS: (process.env.BANNED_USERNAME_WORDS || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean),
-
-    /// login server
-    LOGIN_SERVER: tryParseBoolean(process.env.LOGIN_SERVER, false),
-    LOGIN_HOST: tryParseString(process.env.LOGIN_HOST, 'localhost'),
-    LOGIN_PORT: tryParseInt(process.env.LOGIN_PORT, 43500),
-
-    /// friends server
-    FRIEND_SERVER: tryParseBoolean(process.env.FRIEND_SERVER, false),
-    FRIEND_HOST: tryParseString(process.env.FRIEND_HOST, 'localhost'),
-    FRIEND_PORT: tryParseInt(process.env.FRIEND_PORT, 45099),
-
-    /// logger server
-    LOGGER_SERVER: tryParseBoolean(process.env.LOGGER_SERVER, false),
-    LOGGER_HOST: tryParseString(process.env.LOGGER_HOST, 'localhost'),
-    LOGGER_PORT: tryParseInt(process.env.LOGGER_PORT, 43501),
-
-    /// database
-    DB_BACKEND: tryParseString(process.env.DB_BACKEND, 'sqlite'),
-    DB_HOST: tryParseString(process.env.DB_HOST, 'localhost'),
-    DB_PORT: tryParseInt(process.env.DB_PORT, 3306),
-    DB_USER: tryParseString(process.env.DB_USER, 'root'),
-    DB_PASS: tryParseString(process.env.DB_PASS, 'password'),
-    DB_NAME: tryParseString(process.env.DB_NAME, 'lostcity'),
-    DB_LOGGER_HOST: tryParseString(process.env.DB_LOGGER_HOST, ''),
-    DB_LOGGER_PORT: tryParseInt(process.env.DB_LOGGER_PORT, 0),
-    DB_LOGGER_USER: tryParseString(process.env.DB_LOGGER_USER, ''),
-    DB_LOGGER_PASS: tryParseString(process.env.DB_LOGGER_PASS, ''),
-    DB_LOGGER_NAME: tryParseString(process.env.DB_LOGGER_NAME, ''),
-
-    /// kysely
-    KYSELY_VERBOSE: tryParseBoolean(process.env.KYSELY_VERBOSE, false),
-
-    /// development
-    // some users may not be able to change their system PATH for this project
-    BUILD_JAVA_PATH: tryParseString(process.env.BUILD_JAVA_PATH, 'java'),
-    // auto-build on startup
-    BUILD_STARTUP: tryParseBoolean(process.env.BUILD_STARTUP, false),
-    // auto-update compiler on startup
-    BUILD_STARTUP_UPDATE: tryParseBoolean(process.env.BUILD_STARTUP_UPDATE, true),
-    // used to check if we're producing the original cache without edits
-    BUILD_VERIFY: tryParseBoolean(process.env.BUILD_VERIFY, true),
-    // used to keep some semblance of sanity in our folder structure
-    BUILD_VERIFY_FOLDER: tryParseBoolean(process.env.BUILD_VERIFY_FOLDER, true),
-    // used for unpacking/custom development
-    BUILD_VERIFY_PACK: tryParseBoolean(process.env.BUILD_VERIFY_PACK, true),
-    // used for unpacking/custom development
-    BUILD_SRC_DIR: tryParseString(process.env.BUILD_SRC_DIR, '../content')
+    BANNED_USERNAME_WORDS: (process.env.BANNED_USERNAME_WORDS || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
 };

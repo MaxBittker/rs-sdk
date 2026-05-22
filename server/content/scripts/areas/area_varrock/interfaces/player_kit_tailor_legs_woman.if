@@ -709,7 +709,7 @@ y=29
 buttontype=close
 width=68
 height=11
-font=p11
+font=p11_full
 shadowed=yes
 text=Close Window
 colour=0xFF0000
@@ -722,7 +722,7 @@ y=30
 width=194
 height=14
 center=yes
-font=b12
+font=b12_full
 shadowed=yes
 text=Thessalias' Makeovers (Legs)
 colour=0xFFFF00
@@ -810,7 +810,7 @@ height=25
 script1op1=pushvar,if3
 script1=eq,7
 fill=yes
-colour=0xBEB89C
+colour=0xADA481
 option=White
 
 [com_97]
@@ -950,7 +950,7 @@ y=289
 buttontype=normal
 width=127
 height=14
-font=b12
+font=b12_full
 shadowed=yes
 text=CONFIRM (500 gold)
 colour=0x00FF00
@@ -1122,14 +1122,14 @@ x=220
 y=225
 width=73
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 text=Select colour
 colour=0xFFFF00
 
 [com_125]
 type=model
-x=50
+x=90
 y=180
 width=32
 height=32
@@ -1138,7 +1138,7 @@ zoom=600
 
 [com_126]
 type=model
-x=100
+x=142
 y=180
 width=32
 height=32
@@ -1147,7 +1147,7 @@ zoom=600
 
 [com_127]
 type=model
-x=150
+x=195
 y=180
 width=32
 height=32
@@ -1156,7 +1156,7 @@ zoom=600
 
 [com_128]
 type=model
-x=200
+x=248
 y=180
 width=32
 height=32
@@ -1165,7 +1165,7 @@ zoom=600
 
 [com_129]
 type=model
-x=250
+x=300
 y=180
 width=32
 height=32
@@ -1174,15 +1174,6 @@ zoom=600
 
 [com_130]
 type=model
-x=300
-y=180
-width=32
-height=32
-model=model_438_idk
-zoom=600
-
-[com_131]
-type=model
 x=350
 y=180
 width=32
@@ -1190,7 +1181,7 @@ height=32
 model=model_437_idk
 zoom=600
 
-[com_132]
+[com_131]
 type=model
 x=400
 y=180
@@ -1199,9 +1190,9 @@ height=32
 model=model_429_idk
 zoom=600
 
-[com_133]
+[com_132]
 type=graphic
-x=50
+x=90
 y=90
 buttontype=select
 width=30
@@ -1210,9 +1201,9 @@ script1op1=pushvar,if1
 script1=eq,1
 option=Plain
 
-[com_134]
+[com_133]
 type=graphic
-x=100
+x=142
 y=90
 buttontype=select
 width=30
@@ -1221,9 +1212,9 @@ script1op1=pushvar,if1
 script1=eq,2
 option=Shorts
 
-[com_135]
+[com_134]
 type=graphic
-x=150
+x=195
 y=90
 buttontype=select
 width=30
@@ -1232,9 +1223,9 @@ script1op1=pushvar,if1
 script1=eq,3
 option=Flares
 
-[com_136]
+[com_135]
 type=graphic
-x=200
+x=248
 y=90
 buttontype=select
 width=30
@@ -1243,9 +1234,9 @@ script1op1=pushvar,if1
 script1=eq,4
 option=Turn-ups
 
-[com_137]
+[com_136]
 type=graphic
-x=250
+x=300
 y=90
 buttontype=select
 width=30
@@ -1254,18 +1245,7 @@ script1op1=pushvar,if1
 script1=eq,5
 option=Turn-ups
 
-[com_138]
-type=graphic
-x=300
-y=90
-buttontype=select
-width=30
-height=100
-script1op1=pushvar,if1
-script1=eq,6
-option=Turn-ups
-
-[com_139]
+[com_137]
 type=graphic
 x=350
 y=90
@@ -1276,7 +1256,7 @@ script1op1=pushvar,if1
 script1=eq,7
 option=Turn-ups
 
-[com_140]
+[com_138]
 type=graphic
 x=400
 y=90
@@ -1287,9 +1267,9 @@ script1op1=pushvar,if1
 script1=eq,8
 option=Turn-ups
 
-[com_141]
+[com_139]
 type=graphic
-x=50
+x=90
 y=100
 width=25
 height=25
@@ -1297,9 +1277,9 @@ script1op1=pushvar,if1
 script1=eq,1
 activegraphic=headicons,1
 
-[com_142]
+[com_140]
 type=graphic
-x=100
+x=142
 y=100
 width=25
 height=25
@@ -1307,9 +1287,9 @@ script1op1=pushvar,if1
 script1=eq,2
 activegraphic=headicons,1
 
-[com_143]
+[com_141]
 type=graphic
-x=150
+x=195
 y=100
 width=25
 height=25
@@ -1317,9 +1297,9 @@ script1op1=pushvar,if1
 script1=eq,3
 activegraphic=headicons,1
 
-[com_144]
+[com_142]
 type=graphic
-x=250
+x=300
 y=100
 width=25
 height=25
@@ -1327,9 +1307,9 @@ script1op1=pushvar,if1
 script1=eq,5
 activegraphic=headicons,1
 
-[com_145]
+[com_143]
 type=graphic
-x=200
+x=248
 y=100
 width=25
 height=25
@@ -1337,17 +1317,7 @@ script1op1=pushvar,if1
 script1=eq,4
 activegraphic=headicons,1
 
-[com_146]
-type=graphic
-x=300
-y=100
-width=25
-height=25
-script1op1=pushvar,if1
-script1=eq,6
-activegraphic=headicons,1
-
-[com_147]
+[com_144]
 type=graphic
 x=350
 y=100
@@ -1357,7 +1327,7 @@ script1op1=pushvar,if1
 script1=eq,7
 activegraphic=headicons,1
 
-[com_148]
+[com_145]
 type=graphic
 x=400
 y=100
@@ -1367,13 +1337,13 @@ script1op1=pushvar,if1
 script1=eq,8
 activegraphic=headicons,1
 
-[com_149]
+[com_146]
 type=text
 x=211
 y=62
 width=87
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 text=Select leg style
 colour=0xFFFF00

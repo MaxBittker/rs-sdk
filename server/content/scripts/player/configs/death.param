@@ -1,3 +1,7 @@
 [destroy_death]
 type=int
 default=0
+
+[destroy_drop]
+type=int
+default=0

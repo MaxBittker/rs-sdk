@@ -3,7 +3,7 @@ import Pix32 from '#/graphics/Pix32.js';
 import Pix2D from '#/graphics/Pix2D.js';
 import Pix8 from '#/graphics/Pix8.js';
 import PixFont from '#/graphics/PixFont.js';
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 import { TypedArray1d, TypedArray2d } from '#/util/Arrays.js';
 import { downloadUrl, sleep } from '#/util/JsUtil.js';
@@ -216,12 +216,12 @@ export class MapView extends GameShell {
         this.keyHeight = this.sHei - this.keyY - 20;
         this.overviewX = this.sWid - this.overviewWidth - 5;
         this.overviewY = this.sHei - this.overviewHeight - 20;
-        this.redrawScreen = true;
+        this.fullredraw = true;
         canvas.style.cursor = 'grab';
 
-        const worldmap: Jagfile = await this.loadWorldmap();
+        const worldmap: JagFile = await this.loadWorldmap();
 
-        await this.messageBox('Please wait... Rendering Map', 100);
+        await this.drawProgress('Please wait... Rendering Map', 100);
 
         // const size: Packet = new Packet(worldmap.read('size.dat'));
         // this.mapOriginX = size.g2();
@@ -308,7 +308,7 @@ export class MapView extends GameShell {
         } catch (_e) {
         }
 
-        this.b12 = PixFont.depack(worldmap, 'b12');
+        this.b12 = PixFont.depack(worldmap, 'b12_full', false);
 
         // custom:
         try {
@@ -433,7 +433,7 @@ export class MapView extends GameShell {
         }
     }
 
-    override async maindraw(): Promise<void> {
+    override async mainredraw(): Promise<void> {
         if (this.redraw) {
             this.redraw = false;
             this.redrawTimer = 0;
@@ -813,9 +813,9 @@ export class MapView extends GameShell {
 
     // ----
 
-    worldmap: Jagfile | null = null;
+    worldmap: JagFile | null = null;
 
-    async loadWorldmap(): Promise<Jagfile> {
+    async loadWorldmap(): Promise<JagFile> {
         if (this.worldmap) {
             return this.worldmap;
         }
@@ -825,14 +825,14 @@ export class MapView extends GameShell {
 
         let retry: number = 5;
         while (!data) {
-            await this.messageBox('Requesting map', 0);
+            await this.drawProgress('Requesting map', 0);
 
             try {
                 data = await downloadUrl('/worldmap.jag');
             } catch (_e) {
                 data = undefined;
                 for (let i: number = retry; i > 0; i--) {
-                    await this.messageBox(`Error loading - Will retry in ${i} secs.`, 0);
+                    await this.drawProgress(`Error loading - Will retry in ${i} secs.`, 0);
                     await sleep(1000);
                 }
 
@@ -843,7 +843,7 @@ export class MapView extends GameShell {
             }
         }
 
-        this.worldmap = new Jagfile(data);
+        this.worldmap = new JagFile(data);
         return this.worldmap;
     }
 

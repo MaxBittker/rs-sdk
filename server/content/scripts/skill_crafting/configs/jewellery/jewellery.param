@@ -13,3 +13,7 @@ default=null
 [crafting_jewelry_struct]
 type=struct
 default=null
+
+[mould]
+type=namedobj
+default=null

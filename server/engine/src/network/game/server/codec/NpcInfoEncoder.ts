@@ -9,8 +9,4 @@ export default class NpcInfoEncoder extends ServerGameMessageEncoder<NpcInfo> {
     encode(buf: Packet, message: NpcInfo): void {
         buf.pdata(message.bytes, 0, message.bytes.length);
     }
-
-    test(message: NpcInfo): number {
-        return message.bytes.length;
-    }
 }

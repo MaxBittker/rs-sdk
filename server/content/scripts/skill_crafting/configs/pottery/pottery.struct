@@ -6,15 +6,18 @@ param=product,pot_empty
 param=levelrequire,1
 param=processexp,63
 param=productexp,63
+param=pottery_name,pots
 
 [unfired_piedish]
 param=product,piedish
 param=levelrequire,7
 param=processexp,150
 param=productexp,100
+param=pottery_name,pie dishes
 
 [unfired_bowl]
 param=product,bowl_empty
 param=levelrequire,8
 param=processexp,180
 param=productexp,150
+param=pottery_name,bowls

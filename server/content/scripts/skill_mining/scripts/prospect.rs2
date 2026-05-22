@@ -1,6 +1,6 @@
 [oploc2,_mining_rock_normal] @prospect_rock(finish_prospect_normal);
 [oploc2,_mining_rock_fast] @prospect_rock(finish_prospect_normal);
-[oploc2,loc_2491] @prospect_rock(finish_prospect_essence);
+[oploc2,blankrunestone] @prospect_rock(finish_prospect_essence);
 [oploc2,gemrock] @prospect_rock(finish_prospect_normal);
 [oploc2,_mining_rock_macro_gas] @prospect_rock(finish_prospect_normal); // todo: confirm prospect message for gas rocks
 

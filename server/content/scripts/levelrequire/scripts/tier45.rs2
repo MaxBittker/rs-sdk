@@ -1,0 +1,4 @@
+[opheld2,viking_helmet_crush] @levelrequire_viking_quest_helm(45, last_slot);
+[opheld2,viking_helmet_slash] @levelrequire_viking_quest_helm(45, last_slot);
+[opheld2,viking_helmet_magic] @levelrequire_viking_quest_helm(45, last_slot);
+[opheld2,viking_helmet_range] @levelrequire_viking_quest_helm(45, last_slot);

@@ -1,4 +1,4 @@
-[oplocu,sand_pit]
+[oplocu,_sand_pit]
 if (last_useitem = bucket_empty) @sand_fill;
 ~displaymessage(^dm_default);
 
@@ -58,34 +58,55 @@ if (map_members = ^false) {
     mes(^mes_members_feature);
     return;
 }
-def_namedobj $item = ~multiobj3 ("What would you like to make?", 
-    beer_glass, 0, 5, 200, "Beer Glass", 0, 0,
-    vial_empty, 2, 10, 180, "Vial", 0, 0,
-    stafforb, 2, -10, 200, "Orb", 0, 0
+def_namedobj $item;
+def_int $process_count;
+$item, $process_count = ~skill_multi3(
+    beer_glass, 0, 5, 200, "\\n\\n\\n\\nBeer Glass",
+    vial_empty, 2, 10, 180, "\\n\\n\\n\\nVial",
+    stafforb, 2, -10, 200, "\\n\\n\\n\\nOrb"
 );
 if ($item = null) {
     ~displaymessage(^dm_default);
     return;
 }
-@crafting_glass($item);
-
-
-[label,crafting_glass](namedobj $glass_item)
-def_struct $struct = oc_param($glass_item, crafting_glass_struct);
-// check if high enough level
-def_int $level = struct_param($struct, levelrequire);
+if($process_count = 0) {
+    return;
+}
+def_struct $struct = oc_param($item, crafting_glass_struct);
 def_string $name = struct_param($struct, productmessage);
+def_int $level = struct_param($struct, levelrequire);
+def_int $exp = struct_param($struct, productexp);
 if (stat(crafting) < $level) {
     mes("You need level <tostring($level)> Crafting to make <$name>.");
+    return;
+}
+@process_glassblowing($item, $name, $level, $exp, $process_count);
+
+[label,process_glassblowing](namedobj $glass_item, string $name, int $level, int $exp, int $process_count)
+anim(human_glassblowing, 0);
+if (%action_delay < map_clock) {
+    %action_delay = add(map_clock, 2);
+}
+weakqueue*(crafting_glass, sub(%action_delay, map_clock))($glass_item, $name, $level, $exp, $process_count);
+
+[queue,crafting_glass](namedobj $item, string $name, int $level, int $exp, int $process_count)
+if(inv_total(inv, molten_glass) = 0) {
+    // https://youtu.be/ECEHs-_yPR8?si=HPUk34cIPey4qBQU&t=97
+    mes("You have run out of molten glass.");
+    anim(null, 20);
     return;
 }
 // delete molten glass
 inv_del(inv, molten_glass, 1);
 // add item
-inv_add(inv, $glass_item, 1);
-// play anim
-anim(human_glassblowing,0);
+inv_add(inv, $item, 1);
 // display game message
 mes("You make <$name>.");
 // give xp
-stat_advance(crafting, struct_param($struct, productexp));
+stat_advance(crafting, $exp);
+if(sub($process_count, 1) < 1) {
+    anim(null, 20);
+    return;
+}
+%action_delay = add(map_clock, 2);
+@process_glassblowing($item, $name, $level, $exp, sub($process_count, 1));

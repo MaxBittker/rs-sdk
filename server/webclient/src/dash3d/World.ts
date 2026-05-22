@@ -80,6 +80,8 @@ const TEXTURE_AVERAGE = Uint16Array.of(
     41, 41, 41
 );
 
+const OCCLUDER_LEVELS = 4;
+
 export default class World {
     static lowMem: boolean = true;
 
@@ -112,49 +114,46 @@ export default class World {
     static groundX: number = -1;
     static groundZ: number = -1;
 
-    private static visibilityMatrix: boolean[][][][] = new TypedArray4d(8, 32, 51, 51, false);
-    private static visibilityMap: boolean[][] | null = null;
+    private static visBacking: boolean[][][][] = new TypedArray4d(8, 32, 51, 51, false);
+    private static visBackingDirty: boolean[][] | null = null;
 
-    static activeOccluderCount: number = 0;
+    static numActiveOccluders: number = 0;
     private static activeOccluders: (Occlude | null)[] = new TypedArray1d(500, null);
 
-    static levelOccluderCount: Int32Array = new Int32Array(BuildArea.LEVELS);
-    private static levelOccluders: (Occlude | null)[][] = new TypedArray2d(BuildArea.LEVELS, 500, null);
+    static numOccluders: Int32Array = new Int32Array(OCCLUDER_LEVELS);
+    private static occluders: (Occlude | null)[][] = new TypedArray2d(OCCLUDER_LEVELS, 500, null);
 
     private static spriteBuffer: (Sprite | null)[] = new TypedArray1d(100, null);
 
-    private static viewportLeft: number = 0;
-    private static viewportTop: number = 0;
-    private static viewportRight: number = 0;
-    private static viewportBottom: number = 0;
-    private static viewportCentreX: number = 0;
-    private static viewportCentreY: number = 0;
+    private static xClip: number = 0;
+    private static yClip: number = 0;
+    private static xClip2: number = 0;
+    private static yClip2: number = 0;
+    private static xOrig: number = 0;
+    private static yOrig: number = 0;
 
+    private minLevel: number = 0;
     private readonly maxTileLevel: number;
     private readonly maxTileX: number;
     private readonly maxTileZ: number;
     private readonly groundh: Int32Array[][];
-    private readonly levelTiles: (Square | null)[][][];
-    private readonly dynamicSprites: (Sprite | null)[];
+    private readonly squares: (Square | null)[][][];
     private readonly occlusionCycle: Int32Array[][];
-    private readonly shareTickA: Int32Array;
-    private readonly shareTickB: Int32Array;
 
     private dynamicCount: number = 0;
-    private minLevel: number = 0;
+    private readonly dynamicSprites: (Sprite | null)[] = new TypedArray1d(5000, null);
+
     private shareTic: number = 0;
+    private readonly shareMap: Int32Array = new Int32Array(10000);
+    private readonly shareMap2: Int32Array = new Int32Array(10000);
 
     constructor(levelHeightmaps: Int32Array[][], maxTileZ: number, maxLevel: number, maxTileX: number) {
         this.maxTileLevel = maxLevel;
         this.maxTileX = maxTileX;
         this.maxTileZ = maxTileZ;
-        this.levelTiles = new TypedArray3d(maxLevel, maxTileX, maxTileZ, null);
+        this.squares = new TypedArray3d(maxLevel, maxTileX, maxTileZ, null);
         this.occlusionCycle = new Int32Array3d(maxLevel, maxTileX + 1, maxTileZ + 1);
         this.groundh = levelHeightmaps;
-
-        this.dynamicSprites = new TypedArray1d(5000, null);
-        this.shareTickA = new Int32Array(10000);
-        this.shareTickB = new Int32Array(10000);
 
         this.resetMap();
     }
@@ -163,17 +162,17 @@ export default class World {
         for (let level: number = 0; level < this.maxTileLevel; level++) {
             for (let x: number = 0; x < this.maxTileX; x++) {
                 for (let z: number = 0; z < this.maxTileZ; z++) {
-                    this.levelTiles[level][x][z] = null;
+                    this.squares[level][x][z] = null;
                 }
             }
         }
 
-        for (let l: number = 0; l < BuildArea.LEVELS; l++) {
-            for (let o: number = 0; o < World.levelOccluderCount[l]; o++) {
-                World.levelOccluders[l][o] = null;
+        for (let l: number = 0; l < OCCLUDER_LEVELS; l++) {
+            for (let o: number = 0; o < World.numOccluders[l]; o++) {
+                World.occluders[l][o] = null;
             }
 
-            World.levelOccluderCount[l] = 0;
+            World.numOccluders[l] = 0;
         }
 
         for (let i: number = 0; i < this.dynamicCount; i++) {
@@ -190,41 +189,48 @@ export default class World {
 
         for (let stx: number = 0; stx < this.maxTileX; stx++) {
             for (let stz: number = 0; stz < this.maxTileZ; stz++) {
-                this.levelTiles[level][stx][stz] = new Square(level, stx, stz);
+                this.squares[level][stx][stz] = new Square(level, stx, stz);
             }
         }
     }
 
     pushDown(stx: number, stz: number): void {
-        const below: Square | null = this.levelTiles[0][stx][stz];
+        const below: Square | null = this.squares[0][stx][stz];
 
         for (let level: number = 0; level < 3; level++) {
-            this.levelTiles[level][stx][stz] = this.levelTiles[level + 1][stx][stz];
+            this.squares[level][stx][stz] = this.squares[level + 1][stx][stz];
 
-            const tile: Square | null = this.levelTiles[level][stx][stz];
+            const tile: Square | null = this.squares[level][stx][stz];
             if (tile) {
                 tile.level--;
+
+                for (let i = 0; i < tile.spriteCount; i++) {
+                    const sprite = tile.sprites[i];
+                    if (sprite && ((sprite.typecode >> 29) & 0x3) == 2 && sprite.minTileX == stx && sprite.minTileZ == stz) {
+                        sprite.level--;
+                    }
+                }
             }
         }
 
-        if (!this.levelTiles[0][stx][stz]) {
-            this.levelTiles[0][stx][stz] = new Square(0, stx, stz);
+        if (!this.squares[0][stx][stz]) {
+            this.squares[0][stx][stz] = new Square(0, stx, stz);
         }
 
-        const tile: Square | null = this.levelTiles[0][stx][stz];
+        const tile: Square | null = this.squares[0][stx][stz];
         if (tile) {
             tile.linkedSquare = below;
         }
 
-        this.levelTiles[3][stx][stz] = null;
+        this.squares[3][stx][stz] = null;
     }
 
     static setOcclude(level: number, type: number, minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number): void {
-        World.levelOccluders[level][World.levelOccluderCount[level]++] = new Occlude((minX / 128) | 0, (maxX / 128) | 0, (minZ / 128) | 0, (maxZ / 128) | 0, type, minX, maxX, minZ, maxZ, minY, maxY);
+        World.occluders[level][World.numOccluders[level]++] = new Occlude((minX / 128) | 0, (maxX / 128) | 0, (minZ / 128) | 0, (maxZ / 128) | 0, type, minX, maxX, minZ, maxZ, minY, maxY);
     }
 
     setLayer(level: number, stx: number, stz: number, drawLevel: number): void {
-        const tile: Square | null = this.levelTiles[level][stx][stz];
+        const tile: Square | null = this.squares[level][stx][stz];
         if (!tile) {
             return;
         }
@@ -243,12 +249,12 @@ export default class World {
     ): void {
         if (shape === TerrainOverlayShape.PLAIN) {
             for (let l: number = level; l >= 0; l--) {
-                if (!this.levelTiles[l][x][z]) {
-                    this.levelTiles[l][x][z] = new Square(l, x, z);
+                if (!this.squares[l][x][z]) {
+                    this.squares[l][x][z] = new Square(l, x, z);
                 }
             }
 
-            const tile: Square | null = this.levelTiles[level][x][z];
+            const tile: Square | null = this.squares[level][x][z];
             if (tile) {
                 tile.quickGround = new QuickGround(
                     colourSW, colourSE, colourNE, colourNW,
@@ -259,12 +265,12 @@ export default class World {
             }
         } else if (shape === TerrainOverlayShape.DIAGONAL) {
             for (let l: number = level; l >= 0; l--) {
-                if (!this.levelTiles[l][x][z]) {
-                    this.levelTiles[l][x][z] = new Square(l, x, z);
+                if (!this.squares[l][x][z]) {
+                    this.squares[l][x][z] = new Square(l, x, z);
                 }
             }
 
-            const tile: Square | null = this.levelTiles[level][x][z];
+            const tile: Square | null = this.squares[level][x][z];
             if (tile) {
                 tile.quickGround = new QuickGround(
                     colour2SW, colour2SE, colour2NE, colour2NW,
@@ -275,12 +281,12 @@ export default class World {
             }
         } else {
             for (let l: number = level; l >= 0; l--) {
-                if (!this.levelTiles[l][x][z]) {
-                    this.levelTiles[l][x][z] = new Square(l, x, z);
+                if (!this.squares[l][x][z]) {
+                    this.squares[l][x][z] = new Square(l, x, z);
                 }
             }
 
-            const tile: Square | null = this.levelTiles[level][x][z];
+            const tile: Square | null = this.squares[level][x][z];
             if (tile) {
                 tile.ground = new Ground(
                     x, z,
@@ -296,18 +302,22 @@ export default class World {
     }
 
     setGroundDecor(model: ModelSource | null, tileLevel: number, tileX: number, tileZ: number, y: number, typecode: number, typecode2: number): void {
-        if (!this.levelTiles[tileLevel][tileX][tileZ]) {
-            this.levelTiles[tileLevel][tileX][tileZ] = new Square(tileLevel, tileX, tileZ);
+        if (model === null) {
+            return;
         }
 
-        const tile: Square | null = this.levelTiles[tileLevel][tileX][tileZ];
+        if (!this.squares[tileLevel][tileX][tileZ]) {
+            this.squares[tileLevel][tileX][tileZ] = new Square(tileLevel, tileX, tileZ);
+        }
+
+        const tile: Square | null = this.squares[tileLevel][tileX][tileZ];
         if (tile) {
             tile.groundDecor = new GroundDecor(y, tileX * 128 + 64, tileZ * 128 + 64, model, typecode, typecode2);
         }
     }
 
     delGroundDecor(level: number, x: number, z: number): void {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return;
         }
@@ -318,7 +328,7 @@ export default class World {
     setObj(stx: number, stz: number, y: number, level: number, typecode: number, topObj: ModelSource | null, middleObj: ModelSource | null, bottomObj: ModelSource | null): void {
         let stackOffset: number = 0;
 
-        const tile: Square | null = this.levelTiles[level][stx][stz];
+        const tile: Square | null = this.squares[level][stx][stz];
         if (tile) {
             for (let l: number = 0; l < tile.spriteCount; l++) {
                 const sprite: Sprite | null = tile.sprites[l];
@@ -332,17 +342,17 @@ export default class World {
                 }
             }
         } else {
-            this.levelTiles[level][stx][stz] = new Square(level, stx, stz);
+            this.squares[level][stx][stz] = new Square(level, stx, stz);
         }
 
-        const tile2: Square | null = this.levelTiles[level][stx][stz];
+        const tile2: Square | null = this.squares[level][stx][stz];
         if (tile2) {
             tile2.groundObject = new GroundObject(y, stx * 128 + 64, stz * 128 + 64, topObj, middleObj, bottomObj, typecode, stackOffset);
         }
     }
 
     delObj(level: number, x: number, z: number): void {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return;
         }
@@ -356,19 +366,19 @@ export default class World {
         }
 
         for (let l: number = level; l >= 0; l--) {
-            if (!this.levelTiles[l][tileX][tileZ]) {
-                this.levelTiles[l][tileX][tileZ] = new Square(l, tileX, tileZ);
+            if (!this.squares[l][tileX][tileZ]) {
+                this.squares[l][tileX][tileZ] = new Square(l, tileX, tileZ);
             }
         }
 
-        const tile: Square | null = this.levelTiles[level][tileX][tileZ];
+        const tile: Square | null = this.squares[level][tileX][tileZ];
         if (tile) {
             tile.wall = new Wall(y, tileX * 128 + 64, tileZ * 128 + 64, angle1, angle2, model1, model2, typecode1, typecode2);
         }
     }
 
     delWall(level: number, x: number, z: number): void {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return;
         }
@@ -382,19 +392,19 @@ export default class World {
         }
 
         for (let l: number = level; l >= 0; l--) {
-            if (!this.levelTiles[l][tileX][tileZ]) {
-                this.levelTiles[l][tileX][tileZ] = new Square(l, tileX, tileZ);
+            if (!this.squares[l][tileX][tileZ]) {
+                this.squares[l][tileX][tileZ] = new Square(l, tileX, tileZ);
             }
         }
 
-        const tile: Square | null = this.levelTiles[level][tileX][tileZ];
+        const tile: Square | null = this.squares[level][tileX][tileZ];
         if (tile) {
             tile.decor = new Decor(y, tileX * 128 + offsetX + 64, tileZ * 128 + offsetZ + 64, type, angle, model, typecode, info);
         }
     }
 
     delDecor(level: number, x: number, z: number): void {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return;
         }
@@ -402,8 +412,8 @@ export default class World {
         tile.decor = null;
     }
 
-    setDecorOffset(level: number, x: number, z: number, offset: number): void {
-        const tile: Square | null = this.levelTiles[level][x][z];
+    moveDecor(level: number, x: number, z: number, offset: number): void {
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return;
         }
@@ -417,79 +427,6 @@ export default class World {
         const sz: number = z * 128 + 64;
         decor.x = sx + ((((decor.x - sx) * offset) / 16) | 0);
         decor.z = sz + ((((decor.z - sz) * offset) / 16) | 0);
-    }
-
-    setDecorModel(level: number, x: number, z: number, model: Model | null): void {
-        if (!model) {
-            return;
-        }
-
-        const tile: Square | null = this.levelTiles[level][x][z];
-        if (!tile) {
-            return;
-        }
-
-        const decor: Decor | null = tile.decor;
-        if (!decor) {
-            return;
-        }
-
-        decor.model = model;
-    }
-
-    setGroundDecorModel(level: number, x: number, z: number, model: Model | null): void {
-        if (!model) {
-            return;
-        }
-
-        const tile: Square | null = this.levelTiles[level][x][z];
-        if (!tile) {
-            return;
-        }
-
-        const decor: GroundDecor | null = tile.groundDecor;
-        if (!decor) {
-            return;
-        }
-
-        decor.model = model;
-    }
-
-    setWallModel(level: number, x: number, z: number, model: Model | null): void {
-        if (!model) {
-            return;
-        }
-
-        const tile: Square | null = this.levelTiles[level][x][z];
-        if (!tile) {
-            return;
-        }
-
-        const wall: Wall | null = tile.wall;
-        if (!wall) {
-            return;
-        }
-
-        wall.model1 = model;
-    }
-
-    setWallModels(x: number, z: number, level: number, modelA: Model | null, modelB: Model | null): void {
-        if (!modelA) {
-            return;
-        }
-
-        const tile: Square | null = this.levelTiles[level][x][z];
-        if (!tile) {
-            return;
-        }
-
-        const wall: Wall | null = tile.wall;
-        if (!wall) {
-            return;
-        }
-
-        wall.model1 = modelA;
-        wall.model2 = modelB;
     }
 
     addScenery(level: number, tileX: number, tileZ: number, y: number, model: ModelSource | null, typecode: number, info: number, width: number, length: number, yaw: number): boolean {
@@ -540,7 +477,7 @@ export default class World {
     }
 
     delLoc(level: number, x: number, z: number): void {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return;
         }
@@ -567,49 +504,18 @@ export default class World {
         this.dynamicCount = 0;
     }
 
-    wallType(level: number, x: number, z: number): number {
-        const tile: Square | null = this.levelTiles[level][x][z];
-        return !tile || !tile.wall ? 0 : tile.wall.typecode;
-    }
-
-    decorType(level: number, z: number, x: number): number {
-        const tile: Square | null = this.levelTiles[level][x][z];
-        return !tile || !tile.decor ? 0 : tile.decor.typecode;
-    }
-
-    sceneType(level: number, x: number, z: number): number {
-        const tile: Square | null = this.levelTiles[level][x][z];
-        if (!tile) {
-            return 0;
-        }
-
-        for (let l: number = 0; l < tile.spriteCount; l++) {
-            const sprite: Sprite | null = tile.sprites[l];
-            if (sprite && ((sprite.typecode >> 29) & 0x3) === 2 && sprite.minTileX === x && sprite.minTileZ === z) {
-                return sprite.typecode;
-            }
-        }
-
-        return 0;
-    }
-
-    gdType(level: number, x: number, z: number): number {
-        const tile: Square | null = this.levelTiles[level][x][z];
-        return !tile || !tile.groundDecor ? 0 : tile.groundDecor.typecode;
-    }
-
     getWall(level: number, x: number, z: number): Wall | null {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         return !tile || !tile.wall ? null : tile.wall;
     }
 
     getDecor(level: number, z: number, x: number): Decor | null {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         return !tile || !tile.decor ? null : tile.decor;
     }
 
     getScene(level: number, x: number, z: number): Sprite | null {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return null;
         }
@@ -625,12 +531,43 @@ export default class World {
     }
 
     getGd(level: number, x: number, z: number): GroundDecor | null {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         return !tile || !tile.groundDecor ? null : tile.groundDecor;
     }
 
+    wallType(level: number, x: number, z: number): number {
+        const tile: Square | null = this.squares[level][x][z];
+        return !tile || !tile.wall ? 0 : tile.wall.typecode;
+    }
+
+    decorType(level: number, z: number, x: number): number {
+        const tile: Square | null = this.squares[level][x][z];
+        return !tile || !tile.decor ? 0 : tile.decor.typecode;
+    }
+
+    sceneType(level: number, x: number, z: number): number {
+        const tile: Square | null = this.squares[level][x][z];
+        if (!tile) {
+            return 0;
+        }
+
+        for (let l: number = 0; l < tile.spriteCount; l++) {
+            const sprite: Sprite | null = tile.sprites[l];
+            if (sprite && ((sprite.typecode >> 29) & 0x3) === 2 && sprite.minTileX === x && sprite.minTileZ === z) {
+                return sprite.typecode;
+            }
+        }
+
+        return 0;
+    }
+
+    gdType(level: number, x: number, z: number): number {
+        const tile: Square | null = this.squares[level][x][z];
+        return !tile || !tile.groundDecor ? 0 : tile.groundDecor.typecode;
+    }
+
     typeCode2(level: number, x: number, z: number, typecode: number): number {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return -1;
         } else if (tile.wall && tile.wall.typecode === typecode) {
@@ -657,15 +594,15 @@ export default class World {
         for (let level: number = 0; level < this.maxTileLevel; level++) {
             for (let tileX: number = 0; tileX < this.maxTileX; tileX++) {
                 for (let tileZ: number = 0; tileZ < this.maxTileZ; tileZ++) {
-                    const tile: Square | null = this.levelTiles[level][tileX][tileZ];
+                    const tile: Square | null = this.squares[level][tileX][tileZ];
                     if (!tile) {
                         continue;
                     }
 
                     const wall: Wall | null = tile.wall;
-                    if (wall && wall.model1 && wall.model1.vertexNormal) {
+                    if (wall && wall.model1 && wall.model1.pointNormal) {
                         this.shareLightLoc(level, tileX, tileZ, 1, 1, wall.model1 as Model);
-                        if (wall.model2 && wall.model2.vertexNormal) {
+                        if (wall.model2 && wall.model2.pointNormal) {
                             this.shareLightLoc(level, tileX, tileZ, 1, 1, wall.model2 as Model);
                             this.modelShareLight(wall.model1 as Model, wall.model2 as Model, 0, 0, 0, false);
                             (wall.model2 as Model).light(ambient, attenuation, lightSrcX, lightSrcY, lightSrcZ);
@@ -675,14 +612,14 @@ export default class World {
 
                     for (let i: number = 0; i < tile.spriteCount; i++) {
                         const sprite: Sprite | null = tile.sprites[i];
-                        if (sprite && sprite.model && sprite.model.vertexNormal) {
+                        if (sprite && sprite.model && sprite.model.pointNormal) {
                             this.shareLightLoc(level, tileX, tileZ, sprite.maxTileX + 1 - sprite.minTileX, sprite.maxTileZ - sprite.minTileZ + 1, sprite.model as Model);
                             (sprite.model as Model).light(ambient, attenuation, lightSrcX, lightSrcY, lightSrcZ);
                         }
                     }
 
                     const decor: GroundDecor | null = tile.groundDecor;
-                    if (decor && decor.model && decor.model.vertexNormal) {
+                    if (decor && decor.model && decor.model.pointNormal) {
                         this.shareLightGd(level, tileX, tileZ, decor.model as Model);
                         (decor.model as Model).light(ambient, attenuation, lightSrcX, lightSrcY, lightSrcZ);
                     }
@@ -693,29 +630,29 @@ export default class World {
 
     shareLightGd(level: number, tileX: number, tileZ: number, model: Model): void {
         if (tileX < this.maxTileX) {
-            const tile: Square | null = this.levelTiles[level][tileX + 1][tileZ];
-            if (tile && tile.groundDecor && tile.groundDecor.model && tile.groundDecor.model.vertexNormal) {
+            const tile: Square | null = this.squares[level][tileX + 1][tileZ];
+            if (tile && tile.groundDecor && tile.groundDecor.model && tile.groundDecor.model.pointNormal) {
                 this.modelShareLight(model, tile.groundDecor.model as Model, 128, 0, 0, true);
             }
         }
 
         if (tileZ < this.maxTileX) {
-            const tile: Square | null = this.levelTiles[level][tileX][tileZ + 1];
-            if (tile && tile.groundDecor && tile.groundDecor.model && tile.groundDecor.model.vertexNormal) {
+            const tile: Square | null = this.squares[level][tileX][tileZ + 1];
+            if (tile && tile.groundDecor && tile.groundDecor.model && tile.groundDecor.model.pointNormal) {
                 this.modelShareLight(model, tile.groundDecor.model as Model, 0, 0, 128, true);
             }
         }
 
         if (tileX < this.maxTileX && tileZ < this.maxTileZ) {
-            const tile: Square | null = this.levelTiles[level][tileX + 1][tileZ + 1];
-            if (tile && tile.groundDecor && tile.groundDecor.model && tile.groundDecor.model.vertexNormal) {
+            const tile: Square | null = this.squares[level][tileX + 1][tileZ + 1];
+            if (tile && tile.groundDecor && tile.groundDecor.model && tile.groundDecor.model.pointNormal) {
                 this.modelShareLight(model, tile.groundDecor.model as Model, 128, 0, 128, true);
             }
         }
 
         if (tileX < this.maxTileX && tileZ > 0) {
-            const tile: Square | null = this.levelTiles[level][tileX + 1][tileZ - 1];
-            if (tile && tile.groundDecor && tile.groundDecor.model && tile.groundDecor.model.vertexNormal) {
+            const tile: Square | null = this.squares[level][tileX + 1][tileZ - 1];
+            if (tile && tile.groundDecor && tile.groundDecor.model && tile.groundDecor.model.pointNormal) {
                 this.modelShareLight(model, tile.groundDecor.model as Model, 128, 0, -128, true);
             }
         }
@@ -744,7 +681,7 @@ export default class World {
                         continue;
                     }
 
-                    const tile: Square | null = this.levelTiles[l][x][z];
+                    const tile: Square | null = this.squares[l][x][z];
                     if (!tile) {
                         continue;
                     }
@@ -756,23 +693,23 @@ export default class World {
                         (((this.groundh[level][tileX][tileZ] + this.groundh[level][tileX + 1][tileZ] + this.groundh[level][tileX][tileZ + 1] + this.groundh[level][tileX + 1][tileZ + 1]) / 4) | 0);
 
                     const wall: Wall | null = tile.wall;
-                    if (wall && wall.model1 && wall.model1.vertexNormal) {
+                    if (wall && wall.model1 && wall.model1.pointNormal) {
                         this.modelShareLight(model, wall.model1 as Model, offsetX, offsetY, offsetZ, allowFaceRemoval);
                     }
 
-                    if (wall && wall.model2 && wall.model2.vertexNormal) {
+                    if (wall && wall.model2 && wall.model2.pointNormal) {
                         this.modelShareLight(model, wall.model2 as Model, offsetX, offsetY, offsetZ, allowFaceRemoval);
                     }
 
                     for (let i: number = 0; i < tile.spriteCount; i++) {
                         const sprite: Sprite | null = tile.sprites[i];
-                        if (!sprite || !sprite.model || !sprite.model.vertexNormal) {
+                        if (!sprite || !sprite.model || !sprite.model.pointNormal) {
                             continue;
                         }
 
-                        const tileSizeX: number = sprite.maxTileX + 1 - sprite.minTileX;
-                        const tileSizeZ: number = sprite.maxTileZ + 1 - sprite.minTileZ;
-                        this.modelShareLight(model, sprite.model as Model, (sprite.minTileX - tileX) * 128 + (tileSizeX - tileSizeX) * 64, offsetY, (sprite.minTileZ - tileZ) * 128 + (tileSizeZ - tileSizeZ) * 64, allowFaceRemoval);
+                        const sizeX: number = sprite.maxTileX + 1 - sprite.minTileX;
+                        const sizeZ: number = sprite.maxTileZ + 1 - sprite.minTileZ;
+                        this.modelShareLight(model, sprite.model as Model, (sprite.minTileX - tileX) * 128 + (sizeX - tileSizeX) * 64, offsetY, (sprite.minTileZ - tileZ) * 128 + (sizeZ - tileSizeZ) * 64, allowFaceRemoval);
                     }
                 }
             }
@@ -786,35 +723,35 @@ export default class World {
         this.shareTic++;
 
         let merged: number = 0;
-        const vertexX: Int32Array = modelB.vertexX!;
-        const vertexCountB: number = modelB.vertexCount;
+        const vertexX: Int32Array = modelB.pointX!;
+        const vertexCountB: number = modelB.numPoints;
 
-        if (modelA.vertexNormal && modelA.vertexNormalOriginal) {
-            for (let vertexA: number = 0; vertexA < modelA.vertexCount; vertexA++) {
-                const normalA: PointNormal | null = modelA.vertexNormal[vertexA];
-                const originalNormalA: PointNormal | null = modelA.vertexNormalOriginal[vertexA];
+        if (modelA.pointNormal && modelA.sharedPointNormal) {
+            for (let vertexA: number = 0; vertexA < modelA.numPoints; vertexA++) {
+                const normalA: PointNormal | null = modelA.pointNormal[vertexA];
+                const originalNormalA: PointNormal | null = modelA.sharedPointNormal[vertexA];
 
                 if (originalNormalA && originalNormalA.w !== 0) {
-                    const y: number = modelA.vertexY![vertexA] - offsetY;
+                    const y: number = modelA.pointY![vertexA] - offsetY;
                     if (y > modelB.maxY) {
                         continue;
                     }
 
-                    const x: number = modelA.vertexX![vertexA] - offsetX;
+                    const x: number = modelA.pointX![vertexA] - offsetX;
                     if (x < modelB.minX || x > modelB.maxX) {
                         continue;
                     }
 
-                    const z: number = modelA.vertexZ![vertexA] - offsetZ;
+                    const z: number = modelA.pointZ![vertexA] - offsetZ;
                     if (z < modelB.minZ || z > modelB.maxZ) {
                         continue;
                     }
 
-                    if (modelB.vertexNormal && modelB.vertexNormalOriginal) {
+                    if (modelB.pointNormal && modelB.sharedPointNormal) {
                         for (let vertexB: number = 0; vertexB < vertexCountB; vertexB++) {
-                            const normalB: PointNormal | null = modelB.vertexNormal[vertexB];
-                            const originalNormalB: PointNormal | null = modelB.vertexNormalOriginal[vertexB];
-                            if (x !== vertexX[vertexB] || z !== modelB.vertexZ![vertexB] || y !== modelB.vertexY![vertexB] || (originalNormalB && originalNormalB.w === 0)) {
+                            const normalB: PointNormal | null = modelB.pointNormal[vertexB];
+                            const originalNormalB: PointNormal | null = modelB.sharedPointNormal[vertexB];
+                            if (x !== vertexX[vertexB] || z !== modelB.pointZ![vertexB] || y !== modelB.pointY![vertexB] || (originalNormalB && originalNormalB.w === 0)) {
                                 continue;
                             }
 
@@ -830,8 +767,8 @@ export default class World {
                                 merged++;
                             }
 
-                            this.shareTickA[vertexA] = this.shareTic;
-                            this.shareTickB[vertexB] = this.shareTic;
+                            this.shareMap[vertexA] = this.shareTic;
+                            this.shareMap2[vertexB] = this.shareTic;
                         }
                     }
                 }
@@ -843,16 +780,16 @@ export default class World {
         }
 
         if (modelA.faceRenderType) {
-            for (let i: number = 0; i < modelA.faceCount; i++) {
-                if (this.shareTickA[modelA.faceVertexA![i]] === this.shareTic && this.shareTickA[modelA.faceVertexB![i]] === this.shareTic && this.shareTickA[modelA.faceVertexC![i]] === this.shareTic) {
+            for (let i: number = 0; i < modelA.numFaces; i++) {
+                if (this.shareMap[modelA.faceVertexA![i]] === this.shareTic && this.shareMap[modelA.faceVertexB![i]] === this.shareTic && this.shareMap[modelA.faceVertexC![i]] === this.shareTic) {
                     modelA.faceRenderType[i] = -1;
                 }
             }
         }
 
         if (modelB.faceRenderType) {
-            for (let i: number = 0; i < modelB.faceCount; i++) {
-                if (this.shareTickB[modelB.faceVertexA![i]] === this.shareTic && this.shareTickB[modelB.faceVertexB![i]] === this.shareTic && this.shareTickB[modelB.faceVertexC![i]] === this.shareTic) {
+            for (let i: number = 0; i < modelB.numFaces; i++) {
+                if (this.shareMap2[modelB.faceVertexA![i]] === this.shareTic && this.shareMap2[modelB.faceVertexB![i]] === this.shareTic && this.shareMap2[modelB.faceVertexC![i]] === this.shareTic) {
                     modelB.faceRenderType[i] = -1;
                 }
             }
@@ -860,7 +797,7 @@ export default class World {
     }
 
     render2DGround(level: number, x: number, z: number, dst: Int32Array, offset: number, step: number): void {
-        const tile: Square | null = this.levelTiles[level][x][z];
+        const tile: Square | null = this.squares[level][x][z];
         if (!tile) {
             return;
         }
@@ -919,15 +856,15 @@ export default class World {
         }
     }
 
-    static init(pitchDistance: Int32Array, frustumStart: number, frustumEnd: number, viewportWidth: number, viewportHeight: number): void {
-        this.viewportLeft = 0;
-        this.viewportTop = 0;
-        this.viewportRight = viewportWidth;
-        this.viewportBottom = viewportHeight;
-        this.viewportCentreX = (viewportWidth / 2) | 0;
-        this.viewportCentreY = (viewportHeight / 2) | 0;
+    static resetVisCalc(pitchDistance: Int32Array, frustumStart: number, frustumEnd: number, viewportWidth: number, viewportHeight: number): void {
+        this.xClip = 0;
+        this.yClip = 0;
+        this.xClip2 = viewportWidth;
+        this.yClip2 = viewportHeight;
+        this.xOrig = (viewportWidth / 2) | 0;
+        this.yOrig = (viewportHeight / 2) | 0;
 
-        const matrix: boolean[][][][] = new TypedArray4d(9, 32, 53, 53, false);
+        const visBacking: boolean[][][][] = new TypedArray4d(9, 32, 53, 53, false);
         for (let pitch: number = 128; pitch <= 384; pitch += 32) {
             for (let yaw: number = 0; yaw < 2048; yaw += 64) {
                 this.cameraSinX = Pix3D.sinTable[pitch];
@@ -950,7 +887,7 @@ export default class World {
                             }
                         }
 
-                        matrix[pitchLevel][yawLevel][dx + 25 + 1][dz + 25 + 1] = visible;
+                        visBacking[pitchLevel][yawLevel][dx + 25 + 1][dz + 25 + 1] = visible;
                     }
                 }
             }
@@ -961,30 +898,32 @@ export default class World {
                 for (let x: number = -25; x < 25; x++) {
                     for (let z: number = -25; z < 25; z++) {
                         let visible: boolean = false;
+
                         check_areas: for (let dx: number = -1; dx <= 1; dx++) {
                             for (let dz: number = -1; dz <= 1; dz++) {
-                                if (matrix[pitchLevel][yawLevel][x + dx + 25 + 1][z + dz + 25 + 1]) {
+                                if (visBacking[pitchLevel][yawLevel][x + dx + 25 + 1][z + dz + 25 + 1]) {
                                     visible = true;
                                     break check_areas;
                                 }
 
-                                if (matrix[pitchLevel][(yawLevel + 1) % 31][x + dx + 25 + 1][z + dz + 25 + 1]) {
+                                if (visBacking[pitchLevel][(yawLevel + 1) % 31][x + dx + 25 + 1][z + dz + 25 + 1]) {
                                     visible = true;
                                     break check_areas;
                                 }
 
-                                if (matrix[pitchLevel + 1][yawLevel][x + dx + 25 + 1][z + dz + 25 + 1]) {
+                                if (visBacking[pitchLevel + 1][yawLevel][x + dx + 25 + 1][z + dz + 25 + 1]) {
                                     visible = true;
                                     break check_areas;
                                 }
 
-                                if (matrix[pitchLevel + 1][(yawLevel + 1) % 31][x + dx + 25 + 1][z + dz + 25 + 1]) {
+                                if (visBacking[pitchLevel + 1][(yawLevel + 1) % 31][x + dx + 25 + 1][z + dz + 25 + 1]) {
                                     visible = true;
                                     break check_areas;
                                 }
                             }
                         }
-                        this.visibilityMatrix[pitchLevel][yawLevel][x + 25][z + 25] = visible;
+
+                        this.visBacking[pitchLevel][yawLevel][x + 25][z + 25] = visible;
                     }
                 }
             }
@@ -1001,9 +940,9 @@ export default class World {
             return false;
         }
 
-        const viewportX: number = this.viewportCentreX + (((px << 9) / pz) | 0);
-        const viewportY: number = this.viewportCentreY + (((py << 9) / pz) | 0);
-        return viewportX >= this.viewportLeft && viewportX <= this.viewportRight && viewportY >= this.viewportTop && viewportY <= this.viewportBottom;
+        const viewportX: number = this.xOrig + (((px << 9) / pz) | 0);
+        const viewportY: number = this.yOrig + (((py << 9) / pz) | 0);
+        return viewportX >= this.xClip && viewportX <= this.xClip2 && viewportY >= this.yClip && viewportY <= this.yClip2;
     }
 
     updateMousePicking(mouseX: number, mouseY: number): void {
@@ -1033,7 +972,7 @@ export default class World {
         World.cameraSinY = Pix3D.sinTable[eyeYaw];
         World.cameraCosY = Pix3D.cosTable[eyeYaw];
 
-        World.visibilityMap = World.visibilityMatrix[((eyePitch - 128) / 32) | 0][(eyeYaw / 64) | 0];
+        World.visBackingDirty = World.visBacking[((eyePitch - 128) / 32) | 0][(eyeYaw / 64) | 0];
         World.cx = eyeX;
         World.cy = eyeY;
         World.cz = eyeZ;
@@ -1065,7 +1004,7 @@ export default class World {
         World.fillLeft = 0;
 
         for (let level: number = this.minLevel; level < this.maxTileLevel; level++) {
-            const tiles: (Square | null)[][] = this.levelTiles[level];
+            const tiles: (Square | null)[][] = this.squares[level];
             for (let x: number = World.minX; x < World.maxX; x++) {
                 for (let z: number = World.minZ; z < World.maxZ; z++) {
                     const tile: Square | null = tiles[x][z];
@@ -1073,7 +1012,7 @@ export default class World {
                         continue;
                     }
 
-                    if (tile.drawLevel <= maxLevel && (World.visibilityMap[x + 25 - World.gx][z + 25 - World.gz] || this.groundh[level][x][z] - eyeY >= 2000)) {
+                    if (tile.drawLevel <= maxLevel && (World.visBackingDirty[x + 25 - World.gx][z + 25 - World.gz] || this.groundh[level][x][z] - eyeY >= 2000)) {
                         tile.drawFront = true;
                         tile.drawBack = true;
                         tile.drawSprites = tile.spriteCount > 0;
@@ -1088,7 +1027,7 @@ export default class World {
         }
 
         for (let level: number = this.minLevel; level < this.maxTileLevel; level++) {
-            const tiles: (Square | null)[][] = this.levelTiles[level];
+            const tiles: (Square | null)[][] = this.squares[level];
             for (let dx: number = -25; dx <= 0; dx++) {
                 const rightTileX: number = World.gx + dx;
                 const leftTileX: number = World.gx - dx;
@@ -1143,7 +1082,7 @@ export default class World {
         }
 
         for (let level: number = this.minLevel; level < this.maxTileLevel; level++) {
-            const tiles: (Square | null)[][] = this.levelTiles[level];
+            const tiles: (Square | null)[][] = this.squares[level];
             for (let dx: number = -25; dx <= 0; dx++) {
                 const rightTileX: number = World.gx + dx;
                 const leftTileX: number = World.gx - dx;
@@ -1223,7 +1162,7 @@ export default class World {
                     return false;
                 }
 
-                const tile: Square | null = this.levelTiles[level][tx][tz];
+                const tile: Square | null = this.squares[level][tx][tz];
                 if (tile && tile.spriteCount >= 5) {
                     return false;
                 }
@@ -1248,12 +1187,12 @@ export default class World {
                 }
 
                 for (let l: number = level; l >= 0; l--) {
-                    if (!this.levelTiles[l][tx][tz]) {
-                        this.levelTiles[l][tx][tz] = new Square(l, tx, tz);
+                    if (!this.squares[l][tx][tz]) {
+                        this.squares[l][tx][tz] = new Square(l, tx, tz);
                     }
                 }
 
-                const tile: Square | null = this.levelTiles[level][tx][tz];
+                const tile: Square | null = this.squares[level][tx][tz];
                 if (tile) {
                     tile.sprites[tile.spriteCount] = sprite;
                     tile.spriteSpan[tile.spriteCount] = spans;
@@ -1273,7 +1212,7 @@ export default class World {
     private delSprite(sprite: Sprite): void {
         for (let tx: number = sprite.minTileX; tx <= sprite.maxTileX; tx++) {
             for (let tz: number = sprite.minTileZ; tz <= sprite.maxTileZ; tz++) {
-                const tile: Square | null = this.levelTiles[sprite.level][tx][tz];
+                const tile: Square | null = this.squares[sprite.level][tx][tz];
                 if (!tile) {
                     continue;
                 }
@@ -1300,10 +1239,10 @@ export default class World {
     }
 
     private calcOcclude(): void {
-        const count: number = World.levelOccluderCount[World.maxLevel];
-        const occluders: (Occlude | null)[] = World.levelOccluders[World.maxLevel];
+        const count: number = World.numOccluders[World.maxLevel];
+        const occluders: (Occlude | null)[] = World.occluders[World.maxLevel];
 
-        World.activeOccluderCount = 0;
+        World.numActiveOccluders = 0;
 
         for (let i: number = 0; i < count; i++) {
             const occluder: Occlude | null = occluders[i];
@@ -1331,7 +1270,7 @@ export default class World {
 
                     let ok: boolean = false;
                     while (deltaMinTileZ <= deltaMaxTileZ) {
-                        if (World.visibilityMap && World.visibilityMap[deltaMaxY][deltaMinTileZ++]) {
+                        if (World.visBackingDirty && World.visBackingDirty[deltaMaxY][deltaMinTileZ++]) {
                             ok = true;
                             break;
                         }
@@ -1354,7 +1293,7 @@ export default class World {
                         occluder.maxDeltaZ = (((occluder.maxZ - World.cz) << 8) / deltaMaxTileX) | 0;
                         occluder.minDeltaY = (((occluder.minY - World.cy) << 8) / deltaMaxTileX) | 0;
                         occluder.maxDeltaY = (((occluder.maxY - World.cy) << 8) / deltaMaxTileX) | 0;
-                        World.activeOccluders[World.activeOccluderCount++] = occluder;
+                        World.activeOccluders[World.numActiveOccluders++] = occluder;
                     }
                 }
             } else if (occluder.type === 2) {
@@ -1373,7 +1312,7 @@ export default class World {
 
                     let ok: boolean = false;
                     while (deltaMinTileZ <= deltaMaxTileZ) {
-                        if (World.visibilityMap && World.visibilityMap[deltaMinTileZ++][deltaMaxY]) {
+                        if (World.visBackingDirty && World.visBackingDirty[deltaMinTileZ++][deltaMaxY]) {
                             ok = true;
                             break;
                         }
@@ -1396,7 +1335,7 @@ export default class World {
                         occluder.maxDeltaX = (((occluder.maxX - World.cx) << 8) / deltaMaxTileX) | 0;
                         occluder.minDeltaY = (((occluder.minY - World.cy) << 8) / deltaMaxTileX) | 0;
                         occluder.maxDeltaY = (((occluder.maxY - World.cy) << 8) / deltaMaxTileX) | 0;
-                        World.activeOccluders[World.activeOccluderCount++] = occluder;
+                        World.activeOccluders[World.numActiveOccluders++] = occluder;
                     }
                 }
             } else if (occluder.type === 4) {
@@ -1427,7 +1366,7 @@ export default class World {
                         let ok: boolean = false;
                         find_visible_tile: for (let x: number = deltaMinTileX; x <= deltaMaxTileX; x++) {
                             for (let z: number = deltaMinTileZ; z <= deltaMaxTileZ; z++) {
-                                if (World.visibilityMap && World.visibilityMap[x][z]) {
+                                if (World.visBackingDirty && World.visBackingDirty[x][z]) {
                                     ok = true;
                                     break find_visible_tile;
                                 }
@@ -1440,7 +1379,7 @@ export default class World {
                             occluder.maxDeltaX = (((occluder.maxX - World.cx) << 8) / deltaMaxY) | 0;
                             occluder.minDeltaZ = (((occluder.minZ - World.cz) << 8) / deltaMaxY) | 0;
                             occluder.maxDeltaZ = (((occluder.maxZ - World.cz) << 8) / deltaMaxY) | 0;
-                            World.activeOccluders[World.activeOccluderCount++] = occluder;
+                            World.activeOccluders[World.numActiveOccluders++] = occluder;
                         }
                     }
                 }
@@ -1466,12 +1405,12 @@ export default class World {
             const tileZ: number = tile.z;
             const level: number = tile.level;
             const originalLevel: number = tile.originalLevel;
-            const tiles: (Square | null)[][] = this.levelTiles[level];
+            const tiles: (Square | null)[][] = this.squares[level];
 
             if (tile.drawFront) {
                 if (checkAdjacent) {
                     if (level > 0) {
-                        const above: Square | null = this.levelTiles[level - 1][tileX][tileZ];
+                        const above: Square | null = this.squares[level - 1][tileX][tileZ];
 
                         if (above && above.drawBack) {
                             continue;
@@ -1946,7 +1885,7 @@ export default class World {
             }
 
             if (level < this.maxTileLevel - 1) {
-                const above: Square | null = this.levelTiles[level + 1][tileX][tileZ];
+                const above: Square | null = this.squares[level + 1][tileX][tileZ];
                 if (above && above.drawBack) {
                     World.fillQueue.push(above);
                 }
@@ -2386,7 +2325,7 @@ export default class World {
             return this.occluded(sceneX, y1, sceneZ);
         }
 
-        console.warn('Warning unsupported wall type!');
+        console.warn('Warning unsupported wall type');
         return true;
     }
 
@@ -2450,7 +2389,7 @@ export default class World {
     }
 
     private occluded(x: number, y: number, z: number): boolean {
-        for (let i: number = 0; i < World.activeOccluderCount; i++) {
+        for (let i: number = 0; i < World.numActiveOccluders; i++) {
             const occluder: Occlude | null = World.activeOccluders[i];
             if (!occluder) {
                 continue;

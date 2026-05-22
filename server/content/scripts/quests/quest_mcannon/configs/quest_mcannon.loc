@@ -133,7 +133,7 @@ op1=Inspect
 
 [mcannoncave]
 name=Cave Entrance
-desc=The entrance to the Dwarf's cave.
+desc=The entrance to the Goblin's cave.
 model=model_loc_2
 width=4
 length=2

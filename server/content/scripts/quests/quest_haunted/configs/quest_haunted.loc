@@ -4,7 +4,7 @@ desc=A large double door.
 model=model_loc_71
 op1=Open
 category=double_door_open_and_close_left
-param=next_loc_stage,opencastledoubledoorl
+param=next_loc_stage,loc_1522
 
 [haunteddoorr]
 name=Large door
@@ -13,7 +13,7 @@ model=model_loc_71
 op1=Open
 mirror=yes
 category=double_door_open_and_close_right
-param=next_loc_stage,doubledoorhingel
+param=next_loc_stage,loc_1523
 
 [hauntedcompostheap]
 name=Compost heap

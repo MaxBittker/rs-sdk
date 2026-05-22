@@ -1,4 +1,4 @@
-[loc_3620]
+[ornatewall_brick_swampy]
 model=loc_3620
 retex1s=wall
 retex1d=mossybricks
@@ -13,7 +13,7 @@ occlude=yes
 ambient=100
 active=no
 
-[loc_3621]
+[ornateroof_thatched]
 model=loc_3452
 retex1s=wall
 retex1d=mossybricks
@@ -27,7 +27,7 @@ sharelight=yes
 active=no
 resizey=200
 
-[loc_3622]
+[ornateroofedge_thatched]
 model=loc_3454
 retex1s=wood2
 retex1d=darkwood
@@ -126,7 +126,7 @@ recol1d=15855
 name=Strange shrine
 desc=A shrine of the Gods!
 model=loc_3634
-anim=seq_1127
+anim=godstatue_spin
 length=3
 width=3
 op1=Touch
@@ -143,10 +143,10 @@ desc=It looks empty.
 model=model_loc_76
 op1=Search
 
-[loc_3637]
+[godsorb]
 name=godsorb
 model=loc_3637
-anim=seq_1138
+anim=godsorb
 
 [loc_3638]
 model=model_loc_1904

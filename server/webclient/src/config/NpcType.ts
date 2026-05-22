@@ -3,7 +3,7 @@ import LruCache from '#/datastruct/LruCache.js';
 import AnimFrame from '#/dash3d/AnimFrame.js';
 import Model from '#/dash3d/Model.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 import { TypedArray1d } from '#/util/Arrays.js';
@@ -41,7 +41,7 @@ export default class NpcType {
     headicon: number = -1;
     turnspeed: number = 32;
 
-    static init(config: Jagfile): void {
+    static init(config: JagFile): void {
         this.dat = new Packet(config.read('npc.dat'));
         const idx: Packet = new Packet(config.read('npc.idx'));
 
@@ -207,7 +207,7 @@ export default class NpcType {
         }
 
         const tmp = Model.tempModel;
-        tmp.set(model, AnimFrame.shareAlpha(primaryTransformId) && AnimFrame.shareAlpha(secondaryTransformId));
+        tmp.set(model, AnimFrame.animateTransparencies(primaryTransformId) && AnimFrame.animateTransparencies(secondaryTransformId));
 
         if (primaryTransformId !== -1 && secondaryTransformId !== -1) {
             tmp.maskAnimate(primaryTransformId, secondaryTransformId, seqMask);

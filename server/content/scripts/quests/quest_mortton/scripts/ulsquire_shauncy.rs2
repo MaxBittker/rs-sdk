@@ -1,0 +1,221 @@
+[opnpcu,ulsquire_shauncy]
+@ulsquire_use_item;
+
+[opnpcu,ulsquire_shauncy_afflicted]
+@ulsquire_use_item;
+
+[label,ulsquire_use_item]
+if(oc_category(last_useitem) = category_108) {
+    inv_setslot(inv, last_useslot, oc_param(last_useitem, next_obj_stage), 1);
+    if(%morttonquest < ^mortton_made_serum) {
+        npc_changetype(ulsquire_shauncy,1);
+        ~chatnpc("<p,confused>The serum it works...but it's not too fresh, make some|yourself and then it might work for longer.");
+        @afflicted_talk;
+    }
+    npc_changetype(ulsquire_shauncy,200);
+    longqueue(ulsquire_reset, 200, 0, ^accelerate);
+    %morttonmulti = setbit(%morttonmulti, ^mortton_cured_ulsquire);
+    if (testbit(%morttonmulti, ^mortton_used_perm_serum_on_ulsquire) = ^true) {
+        ~chatnpc("<p,happy>You've already used the permanent serum on me, you|don't need to use that any more.");
+    }
+    @ulsquire_talk;
+} else if(oc_category(last_useitem) = category_109) {
+    npc_changetype(ulsquire_shauncy,200);
+    if (testbit(%morttonmulti, ^mortton_used_perm_serum_on_ulsquire) = ^true) {
+        ~chatnpc("<p,happy>You've already used the permanent serum on me, you|don't need to use that any more.");
+        return;
+    } else {
+        def_int $last_useslot = last_useslot;
+        def_obj $last_useitem = last_useitem;
+        ~chatnpc("<p,happy>Well done - I feel this serum is really working on me.|I think you've cracked it, my friend! I'd like to give|you something for your trouble!");
+        %morttonmulti = setbit(%morttonmulti, ^mortton_used_perm_serum_on_ulsquire);
+        inv_setslot(inv, $last_useslot, oc_param($last_useitem, next_obj_stage), 1);
+        //Guess https://oldschool.runescape.wiki/w/Transcript:Ulsquire_Shauncy#Using_Serum_208_on_him
+        def_int $count = ~random_range(180,220);
+        inv_add(inv, coins, $count);
+        ~objbox(coins,"Ulsquire gives you <tostring($count)> gold coins.", 250, 0, 0);
+    }
+    @ulsquire_talk;
+} else {
+    ~displaymessage(^dm_default);
+}
+
+[queue,ulsquire_reset]
+%morttonmulti = clearbit(%morttonmulti, ^mortton_cured_ulsquire);
+
+[opnpc1,ulsquire_shauncy]
+if (testbit(%morttonmulti, ^mortton_cured_ulsquire) = ^false & testbit(%morttonmulti, ^mortton_used_perm_serum_on_ulsquire) = ^false) {
+    npc_changetype(ulsquire_shauncy_afflicted,200);
+    @afflicted_talk;
+}
+@ulsquire_talk;
+
+[opnpc1,ulsquire_shauncy_afflicted]
+if (testbit(%morttonmulti, ^mortton_cured_ulsquire) = ^true | testbit(%morttonmulti, ^mortton_used_perm_serum_on_ulsquire) = ^true) {
+    npc_changetype(ulsquire_shauncy,200);
+    @ulsquire_talk;
+}
+@afflicted_talk;
+
+[label,ulsquire_talk]
+if (testbit(%morttonmulti, ^mortton_used_serum_on_ulsquire) = ^false) {
+    %morttonmulti = setbit(%morttonmulti, ^mortton_used_serum_on_ulsquire);
+    ~chatnpc("<p,happy>Ah, excellent, you've made your own serum and it|seems to work well! Many thanks for using the Serum|on me! But beware, I may start to change back soon!");
+} else {
+    ~chatnpc("<p,happy>Ah, hello again, what can I do for you now?");
+}
+if(%morttonquest < ^mortton_kill_shades) {
+    @ulsquire_questions;
+} else if(%morttonquest >= ^mortton_kill_shades & %morttonquest < ^mortton_shades_to_razmire) {
+    ~chatplayer("<p,neutral>How's it going? I talked to Razmire and he's asked me|to slay five shades.");
+    ~chatnpc("<p,neutral>I can't say that I'm surprised, Razmire hates them, but|it would be interesting to see the remains of one and|investigate it somehow. I might find something useful!");
+    @multi5("Who are you?", ulsquire_who, "What is this place?", ulsquire_place, "What's going on around here?", ulsquire_going_on, "What are all these shadow creatures?", ulsquire_creatures, "Ok, thanks", ulsquire_thanks);
+} else if(%morttonquest = ^mortton_shades_to_razmire) {
+    ~chatplayer("<p,neutral>Razmire said to come and talk to you.");
+    ~chatnpc("<p,sad>Oh yes, well, that's very nice.");
+    if(inv_total(inv, shade_bones1) < 1) {
+        ~chatplayer("<p,neutral>I just slayed five shades for Razmire. He said that you|might be interested in seeing the shade remains.|Unfortunately I don't have any with me at the|moment...");
+        ~chatnpc("<p,sad>That is a shame, I would have liked to have seen the|remains. Razmire was right. I'm keen to study them|and perhaps see if I can work out a way to put their|spirits to rest.");
+        return;
+    } else {
+        ~chatplayer("<p,neutral>I just slayed 5 shades for Razmire, he said you might|be interested in seeing some shade remains?");
+        ~chatnpc("<p,neutral>Oh yes, that would be interesting!");
+        inv_del(inv, shade_bones1, 1);
+        %morttonquest = ^mortton_shades_to_ulsquire;
+        ~objbox(shade_bones1, "You show the shade remains to the priest. He wanders|off to study the bones.", 250, 0, 0);
+        return;
+    }
+} else if(%morttonquest = ^mortton_shades_to_ulsquire | %morttonquest = ^mortton_ulsquire_temple) {
+    @ulsquire_questions_post_shades;
+} else if(%morttonquest = ^mortton_rebuild_temple | %morttonquest = ^mortton_can_light_altar) {
+    ~chatplayer("<p,neutral>Hello there, I've started repairing the temple.");
+    ~chatnpc("<p,happy>That's great, carry on the good work. I'm sure that the|temple is the key to unlocking a better life for all of us|in Mort'ton.");
+    @ulsquire_questions_post_rebuild;
+} else if(%morttonquest = ^mortton_created_sacred_oil) {
+    ~chatplayer("<p,neutral>Hello there, I used the olive oil on the flame and it gave|me sacred oil! What should I do now?");
+    ~chatnpc("<p,happy>From what I've learned, the ancients used to use the|sacred oil on logs in order to make pyre logs for|cremation. You could try that!");
+    return;
+} else if (%morttonquest = ^mortton_created_pyre_logs) {
+    ~chatplayer("<p,neutral>Hello there, I used the sacred oil on the logs and I|made pyre logs! What should I do now?");
+    ~chatnpc("<p,happy>Now you need to place the sacred logs on the pyre,|then add the remains of a shade, then set fire to the|pyre. This should release the Shade from it's eternal|damnation and help it pass on to the other side.");
+    return;
+} else if (%morttonquest = ^mortton_logs_on_pyre) {
+    ~chatplayer("<p,neutral>I've placed the logs on the pyre. What do I do now?");
+    ~chatnpc("<p,happy>You need to place the remains of the shade on top of|the logs and then set alight to it.");
+    return;
+} else if (%morttonquest = ^mortton_lit_pyre) {
+    ~chatplayer("<p,neutral>I've put the Shade's spirit to rest!");
+    //Why so sad friend :( authentic
+    ~chatnpc("<p,sad>Great! Well done my friend!");
+    queue(mortton_quest_complete, 0, 0);
+}
+
+[label,ulsquire_thanks]
+~chatplayer("<p,neutral>Ok, thanks");
+
+[label,ulsquire_questions]
+@multi5("Who are you?", ulsquire_who, "What is this place?", ulsquire_place, "What's going on around here?", ulsquire_going_on, "What are all these shadow creatures?", ulsquire_creatures, "Is there anything else worth talking to around here?", ulsquire_talk_to);
+
+[label,ulsquire_questions_post_shades]
+@multi5("What did you find out about the remains?", ulsquire_remains, "What can you tell me about that temple?", ulsquire_temple, "Do you know how I could make this serum permanent?", ulsquire_serum, "What should I do now?", ulsquire_do_now, "Ok thanks", ulsquire_thanks);
+
+[label,ulsquire_questions_post_rebuild]
+@multi4("What should I do when the temple is built?",ulsquire_temple_built,"The Shades keep knocking the temple down!",ulsquire_shades_knockdown,"I keep running out of building materials!",ulsquire_materials,"Ok, thanks.",ulsquire_thanks);
+
+[label,ulsquire_temple_built]
+~chatplayer("<p,neutral>What should I do when the temple is built?");
+~chatnpc("<p,neutral>I've researched this much, it seems that the temple was|dedicated to the worship of elemental flame or fire. The|sacred flame was said to be very holy and was used|somehow to sanctify oil for use in cremations.");
+if (testbit(%morttonmulti, ^mortton_shades_dampe_intro) = ^false & inv_freespace(inv) ! 0) {
+    ~chatnpc("<p,neutral>The pagans believed that sacred oil sanctified the|cremation ceremony and thus helped the deceased pass|onto the next life, and it helped the logs to burn! In|case there's any truth in the story, have this!");
+    %morttonmulti = setbit(%morttonmulti, ^mortton_shades_dampe_intro);
+    inv_add(inv, oliveoil3, 1);
+    ~objbox(oliveoil3, "Ulsquire gives you some olive oil.", 200, 0, ^objbox_height);
+    ~chatplayer("<p,neutral>Thanks!");
+    @ulsquire_questions_post_rebuild;
+} else {
+    ~chatnpc("<p,neutral>The pagans believed that sacred oil sanctified the|cremation ceremony and thus helped the deceased pass|onto the next life, and it helped the logs to burn! You|can buy olive oil from Razmire, it's quite cheap.");
+    @ulsquire_questions_post_rebuild;
+}
+
+[label,ulsquire_shades_knockdown]
+~chatplayer("<p,neutral>The Shades keep knocking the temple down!");
+~chatnpc("<p,neutral>I'm not surprised. The temple represents holiness. They|may feel that it has power over them in some way. My|advice is to carry on and finish the temple if you can,|and see what happens. You may need help though!");
+~chatplayer("<p,neutral>How do you mean?");
+~chatnpc("<p,neutral>You may need help building the temple or defending|yourself against the Shades. I'm sure if you ask around|nicely you would be able to get some help.");
+@multi4("Tell me more about the Shades.",ulsquire_shades_more,"What should I do when the temple is built?",ulsquire_temple_built,"I keep running out of building materials!",ulsquire_materials,"Ok, thanks.",ulsquire_thanks);
+
+[label,ulsquire_materials]
+~chatplayer("<p,neutral>I keep running out of building materials!");
+~chatnpc("<p,neutral>I'd go and see Razmire, perhaps he has some items in|stock?");
+@ulsquire_questions_post_rebuild;
+
+[label,ulsquire_shades_more]
+~chatplayer("<p,neutral>Tell me more about the Shades.");
+~chatnpc("<p,neutral>All undead hate mortal spirituality. It's a symbol of|mortal hope in the face of death and the unknown. The|temple represents the finality of true death where all|ties to the mortal world are lost.");
+~chatnpc("<p,neutral>The Shades wish to forever possess the value of their|tomb treasures and jealously guard them in death as|they did in life. They are afraid of true death and so|try to destroy anything which reminds them of it.");
+@ulsquire_questions_post_rebuild;
+
+[label,ulsquire_remains]
+~chatplayer("<p,neutral>What did you find out about the remains."); // Intentional period here - https://youtu.be/dBPVyY4ZZQg?si=D10NkjurjSaZWG-Q&t=252 (OSRS) & https://youtu.be/hHHAp2FE0HI?si=Uw6TNrypvsAdsP_c&t=451 (RS3)
+~chatnpc("<p,neutral>The shade remains are made of a strange substance|which I've not come across before. I believe we should|put these tormented spirits to rest.");
+~chatplayer("<p,neutral>How do we do that? You can't even bury the remains!");
+~chatnpc("<p,neutral>Quite right...I was thinking that a holy cremation would|do the trick, but the funeral pyres need specially|prepared 'pyre logs' - normal logs that have been|treated with 'sacred oil' to give it a nice holy touch.");
+~chatplayer("<p,neutral>How would I make some sacred oil?");
+~chatnpc("<p,neutral>You won't! It's a pagan secret lost a long time ago.|Normally I would try to bless some commonly found|vegetable oil, but I'm so weak from this illness that I|know I just won't be able to do it.");
+~chatnpc("<p,happy>Huh! I used to joke with Herbi Flax that if 'Flaemtaer|temple' was still standing, we could practice some|ancient pagan rituals and incite the sacred flame! Huh,|I'm not surprised that he never took me seriously!");
+@ulsquire_questions_post_shades;
+
+[label,ulsquire_temple]
+~chatplayer("<p,neutral>What can you tell me about that temple?");
+~chatnpc("<p,neutral>Hmm, interesting question. It is an ancient pagan|temple referred to as Flaemtaer. I've studied it quite a|lot, one day I hope to be able to rebuild it, who knows|what ancient power it could unleash?");
+~chatplayer("<p,neutral>How can you rebuild a totally destroyed temple?");
+if (%morttonquest < ^mortton_ulsquire_temple) {
+    %morttonquest = ^mortton_ulsquire_temple;
+}
+//Replaced timber beams dialogue with wooden planks since they weren't in the game yet.
+~chatnpc("<p,neutral>I couldn't do it alone, I'd need a few expert artisans to|help with the construction. I'd also need a good supply|of limestone bricks, swamp paste and wooden planks.|Thankfully Razmire stocks all these items. (Sigh)");
+@ulsquire_questions_post_shades;
+
+[label,ulsquire_serum]
+~chatplayer("<p,neutral>Do you know how I could make this serum permanent?");
+~chatnpc("<p,neutral>The serum is a product of science. Herbi was a clever|man to have made it, but he didn't integrate anything|from the spiritual world into his work - and for all of his|hard science there is still something missing.");
+~chatplayer("<p,neutral>So, you don't know then!");
+~chatnpc("<p,neutral>I'm a man of faith...that's all I know. Sometimes I feel|that we should experiment with the sacred and the holy,|not just the crude matter we find around us everyday.");
+@ulsquire_questions_post_shades;
+
+[label,ulsquire_do_now]
+~chatplayer("<p,neutral>What should I do now?");
+~chatnpc("<p,neutral>That's up to you my friend! I once heard someone say|that making your own decisions is the only real freedom|you have. Exercise your freedom my friend, while you|still can.");
+@ulsquire_questions_post_shades;
+
+[label,ulsquire_who]
+~chatplayer("<p,neutral>Who are you?");
+~chatnpc("<p,sad>My name is Ulsquire Shauncy, I'm the local teacher|and priest around here. You've really come at a time|when Mort'ton is in a terrible state.");
+~chatnpc("<p,sad>The emanations from the rest of Morytania affect the|people here terribly turning them into mindless|creatures. And, as if that wasn't enough, we get picked|off by the evil Shades that exist in this area.");
+~chatplayer("<p,neutral>Wow, you guys seem to be really at the bottom of the|food chain around here.");
+@ulsquire_questions;
+
+[label,ulsquire_place]
+~chatplayer("<p,neutral>What is this place?");
+~chatnpc("<p,sad>This sad and afflicted little town is called 'Mort'ton'. In|it's heyday it was a busy and bustling market town with|a speciality for interring the dead.");
+~chatnpc("<p,sad>The vile emanations from the Sanguinesti area started|to spread and the town hasn't been the same since. The|serum you made was the one that Herbi Flax was|working on. Unfortunately the serum isn't permanent.");
+~chatplayer("<p,neutral>Do you know how I could make the serum permanent?");
+~chatnpc("<p,neutral>I remember Herbi Flax talking about the serum. He|said it worked on what he called the 'biological' effects of|the affliction but that some other secondary effect was|at work which he didn't quite understand.");
+//verus is authentic typo
+~chatnpc("<p,neutral>He was interested in 'Flaemtaer', the ruined temple to|the North. I found this odd. A man of science studying|a structure dedicated to faith and the struggle of good|verus evil, another concept he didn't understand.");
+@ulsquire_questions;
+
+[label,ulsquire_going_on]
+~chatplayer("<p,neutral>What's going on around here?");
+~chatnpc("<p,sad>The people are affected by the emanations from the|rest of Morytania and the dead from the tombs have|manifested into shadow creatures.");
+@ulsquire_questions;
+
+[label,ulsquire_creatures]
+~chatplayer("<p,neutral>What are all these shadowy creatures?");
+~chatnpc("<p,sad>They are the disturbed spirits of those interred in the|earth beneath Mort'ton. Their eternal spirits have been|poisoned by the close vicinity to the evil nature of the|inhabitants of the Sanguinesti area.");
+@ulsquire_questions;
+
+[label,ulsquire_talk_to]
+~chatplayer("<p,neutral>Is there anyone else worth talking to around here?");
+~chatnpc("<p,sad>Well, there's my good friend Razmire Keelgan. He's a|prominent shop owner in Mort'ton, at least he was|before he was affected by the area.");
+~chatnpc("<p,sad>I know he tried to gather the militia together to fight|the shades. He might know something about the temple.|Razmire lives in the building to the west just over there,|go and talk to him.");

@@ -10,20 +10,27 @@
   "scripts": {
     "build": "bun run tools/pack/Build.ts",
     "clean": "bun run tools/pack/Clean.ts",
-    "db:migrate": "prisma migrate deploy --schema prisma/multiworld/schema.prisma",
-    "db:reset": "prisma migrate reset --force --schema prisma/multiworld/schema.prisma",
-    "db:schema": "prisma migrate dev --schema prisma/multiworld/schema.prisma",
+    "db:migrate": "bun run tools/server/prisma-multi.ts migrate deploy",
+    "db:reset": "bun run tools/server/prisma-multi.ts migrate reset --force",
+    "db:schema": "bun run tools/server/prisma-multi.ts migrate dev",
     "dev": "bun run --watch src/app.ts",
     "friend": "bun run src/friend.ts",
     "hiscores": "bun run src/hiscores.ts",
     "lint": "eslint --no-warn-ignored src tools",
-    "lint:staged": "eslint --no-warn-ignored",
     "logger": "bun run src/logger.ts",
     "login": "bun run src/login.ts",
-    "precommit": "prettier . --write && eslint src --fix",
+    "node:build": "tsx tools/pack/Build.ts",
+    "node:clean": "tsx tools/pack/Clean.ts",
+    "node:dev": "tsx watch src/app.ts",
+    "node:friend": "tsx src/friend.ts",
+    "node:logger": "tsx src/logger.ts",
+    "node:login": "tsx src/login.ts",
+    "node:quickstart": "tsx src/app.ts",
+    "node:setup": "npm i && tsx src/setup.ts",
+    "node:start": "npm i && tsx src/app.ts",
     "prepare": "husky",
     "quickstart": "bun run src/app.ts",
-    "setup": "bun run tools/server/setup.ts",
+    "setup": "bun i && bun run src/setup.ts",
     "sqlite:migrate": "prisma migrate deploy --schema prisma/singleworld/schema.prisma",
     "sqlite:reset": "prisma migrate reset --force --schema prisma/singleworld/schema.prisma",
     "sqlite:schema": "prisma migrate dev --schema prisma/singleworld/schema.prisma",
@@ -31,19 +38,18 @@
   },
   "lint-staged": {
     "*.{js,ts}": [
-      "bun run lint:staged"
+      "prettier --write",
+      "eslint --no-warn-ignored"
     ]
   },
   "dependencies": {
-    "@2004scape/rsbuf": "254.1.0",
+    "@2004scape/rsbuf": "274.1.0",
     "@2004scape/rsmod-pathfinder": "github:MaxBittker/rsmod-pathfinder#71a5588",
-    "@inquirer/prompts": "^8.0.1",
     "@isaacs/ttlcache": "^2.1.3",
     "@jimp/js-png": "^1.6.0",
     "@jimp/plugin-quantize": "^1.6.0",
-    "axios": "^1.13.2",
+    "@lostcityrs/runescript": "^0.9.6",
     "bcrypt": "^6.0.0",
-    "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "fflate": "^0.8.2",
     "jimp": "^1.6.0",
@@ -54,9 +60,14 @@
     "prom-client": "^15.1.3",
     "ws": "^8.18.3"
   },
+  "optionalDependencies": {
+    "better-sqlite3": "^11.8.1",
+    "tsx": "^4.20.6"
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/bcrypt": "^6.0.0",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/bun": "latest",
     "@types/ejs": "^3.1.5",
     "@types/node": "^24.10.1",

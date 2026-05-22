@@ -1,0 +1,73 @@
+[if_button,questlist:horror]
+def_string $text;
+if (%horrorquest = ^horror_not_started) {
+    $text = append($text, "@dbl@I can start this quest by speaking to @dre@Larrissa@dbl@ at the|");
+    $text = append($text, "@dre@Lighthouse@dbl@ to the @dre@North@dbl@ of the @dre@Barbarian Outpost@dbl@.|");
+    $text = append($text, "@dbl@To complete this quest I need:|");
+    $text = append($text, "@dre@Level 35 agility|");
+    $text = append($text, "@dre@Level 13 or higher magic will be an advantage|");
+    $text = append($text, "@dre@I must also be able to defeat strong level 100 enemies|");
+    ~quest_journal("Horror from the Deep", $text);
+    return;
+}
+
+if(%horrorquest = ^horror_complete) {
+    $text = append($text, "@str@I travelled to an isolated lighthouse north of the @str@Barbarian|");
+    $text = append($text, "@str@outpost, to find a Fremennik girl called @str@Larrissa locked|");
+    $text = append($text, "@str@outside, and worried about her boyfriend @str@Jossik.|");
+    $text = append($text, "@str@I recovered a spare key from Larrissa's cousin Gunnjorn|@str@and ");
+    $text = append($text, "@str@repaired the bridge to Rellekka with some planks.|");
+    $text = append($text, "@str@After I entered the lighthouse, and repaired the lighting|");
+    $text = append($text, "@str@@str@mechanism, I discovered a strange wall that blocked the|");
+    $text = append($text, "@str@@str@entrance to an underground cavern, where Jossik was.|");
+    $text = append($text, "@str@After I killed some strange sea monsters, I managed to @str@get|");
+    $text = append($text, "@str@Jossik out of the cavern and back to the lighthouse.|");
+    $text = append($text, "@str@I found a strange casket on the dead body of the sea|");
+    $text = append($text, "@str@@str@monster, which Jossik said he could tell me about.|||");
+    $text = append($text, "@red@QUEST COMPLETE!");
+    ~quest_journal("Horror from the Deep", $text);
+    return;
+}
+
+if(%horrorquest > ^horror_started) {
+    $text = append($text, "@str@I repaired the bridge leading to Rellekka and got a key @str@from Gunnjorn so I could enter the lighthouse.|");
+} else if(%horrorquest = ^horror_started) {
+    $text = append($text, "@dbl@Larrissa is very worried about her boyfriend Jossik.|");
+    if(%horrorbridgeleft = ^true & %horrorbridgeright = ^true) {
+        $text = append($text, "@str@I need to repair the bridge leading to Rellekka.|");
+    } else {
+        $text = append($text, "@dbl@I need to @dre@repair the bridge@dbl@ leading to Rellekka.|");
+    }
+    if(%horroragilitykey = ^true) {
+        $text = append($text, "@dbl@I also need to use the key I got from Gunnjorn to enter @dbl@the lighthouse.|");
+    } else {
+        $text = append($text, "@dbl@I also need to get the @dre@lighthouse key@dbl@ from her cousin|@dre@Gunnjorn@dbl@.|");
+    }
+}
+
+if(%horrorquest > ^horror_fixing_lighthouse) {
+    $text = append($text, "@str@I managed to repair the lighthouse light with some molten @str@glass, some swamp tar and a tinderbox.|");
+} else if(%horrorquest = ^horror_entered_lighthouse | %horrorquest = ^horror_fixing_lighthouse) {
+    if(%horrorglass =  ^true) {
+        $text = append($text, "@str@I have fixed the lighthouse lens.|");
+    }
+    if(%horrortar = ^true) {
+        $text = append($text, "@str@I have re-tarred the lighthouse torch.|");
+    }
+    if(%horrorlight = ^true) {
+        $text = append($text, "@str@I have relit the lighthouse torch.|");
+    } else {
+        $text = append($text, "@dbl@Now I need to find some way of @dre@fixing@dbl@ the @dre@lighthouse @dre@lamp@dbl@.|");
+    }
+}
+
+if(%horrorquest > ^horror_repaired_lighthouse) {
+    $text = append($text, "@str@I found Jossik in an underground cavern, behind a strange|@str@wall where he had been attacked by some sea @str@creatures.");
+} else if(%horrorquest = ^horror_repaired_lighthouse) {
+    $text = append($text, "@dbl@I must @dre@search this place@dbl@ and find out what has happened to @dbl@Larrissa's boyfriend @dre@Jossik@dbl@!");
+}
+
+if(%horrorquest = ^horror_defeated_dagjr) {
+    $text = append($text, "|@dbl@I must defeat these sea monsters to save him!");
+}
+~quest_journal("Horror from the Deep", $text);

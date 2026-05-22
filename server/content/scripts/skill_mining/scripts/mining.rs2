@@ -7,8 +7,8 @@
 [oploc3,_mining_rock_fast] @mining_continue(get_ore_fast);
 
 // Essence mine
-[oploc1,loc_2491] @mining_firstswing(get_ore_essence);
-[oploc3,loc_2491] @mining_continue(get_ore_essence);
+[oploc1,blankrunestone] @mining_firstswing(get_ore_essence);
+[oploc3,blankrunestone] @mining_continue(get_ore_essence);
 
 // gem rocks
 [oploc1,gemrock] @mining_firstswing(get_ore_gem_rock);
@@ -18,7 +18,8 @@
 def_int $is_empty = loc_param(mining_rock_empty);
 if ($is_empty = ^true) {
     anim(null, 0);
-    mes("There is no ore currently available in this rock.");
+    if(loc_type = loc_4030) mes("There are no minerals currently available in this rock.");
+    else mes("There is no ore currently available in this rock.");
     sound_synth(prospect, 0, 0);
     return;
 }
@@ -36,7 +37,7 @@ if (inv_freespace(inv) < 1) {
 def_int $levelreq = db_getfield($data, mining_table:rock_level, 0);
 if (stat(mining) < $levelreq) {
     anim(null, 0);
-    ~mesbox("You need a mining level of <tostring($levelreq)> to mine this rock.");
+    ~mesbox("You need a Mining level of <tostring($levelreq)> to mine this rock."); // https://www.youtube.com/watch?v=0U6sd3J_Ngo&t=64s
     return;
 }
 // Macro events
@@ -79,7 +80,7 @@ if (inv_freespace(inv) < 1) {
 def_int $levelreq = db_getfield($data, mining_table:rock_level, 0);
 if (stat(mining) < $levelreq) {
     anim(null, 0);
-    ~mesbox("You need a mining level of <tostring($levelreq)> to mine this rock.");
+    ~mesbox("You need a Mining level of <tostring($levelreq)> to mine this rock."); // https://www.youtube.com/watch?v=0U6sd3J_Ngo&t=64s
     return;
 }
 def_obj $pickaxe = ~pickaxe_checker;

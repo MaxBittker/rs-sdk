@@ -16,7 +16,7 @@ if ((%dragonquest = ^quest_dragon_ned_given_map | %dragonquest = ^quest_dragon_s
 
     if_settext(ship_journey:com_0, "You sail to Crandor Isle.");
     if_openmain(ship_journey);
-    midi_jingle(^sailing_journey_jingle, ^sailing_journey_jingle_millis);
+    ~music_jingle("sailing journey");
 
     p_telejump(^crandor_tele_coord);
     %dragonquest = ^quest_dragon_sailed_to_crandor;

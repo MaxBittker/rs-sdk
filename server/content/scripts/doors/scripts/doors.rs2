@@ -8,7 +8,7 @@ if (coord = $new_loc_coord & loc_shape = wall_diagonal) {
     // todo: this is supposed to be p_walk i think. p_walk is broke rn
     p_teleport(movecoord(coord, ~door_open_move_player_out_of_way(loc_angle)));
     p_delay(1);
-};
+}
 sound_synth(loc_param(open_sound), 0, 0);
 // Temp note: dur does not need updated
 loc_del(500);
@@ -31,3 +31,25 @@ sound_synth(loc_param(close_sound), 0, 0);
 loc_del(500);
 loc_add($new_loc_coord, $new_loc, modulo(add(loc_angle, 3), 4), loc_shape, 500);
 // mes("Loc coord: <~coord_tostring(loc_coord)>");
+
+[oploc1,_reverse_door_closed]
+def_coord $new_loc_coord = ~movecoord_loc_return(0, 0);
+def_loc $new_loc = loc_param(next_loc_stage);
+if (coord = $new_loc_coord & loc_shape = wall_diagonal) {
+    p_teleport(movecoord(coord, ~door_open_move_player_out_of_way(loc_angle)));
+    p_delay(1);
+}
+sound_synth(loc_param(open_sound), 0, 0);
+loc_del(500);
+loc_add($new_loc_coord, $new_loc, modulo(add(loc_angle, 3), 4), loc_shape, 500);
+
+[oploc1,_reverse_door_opened]
+def_coord $new_loc_coord = ~movecoord_loc_return(0, 0);
+def_loc $new_loc = loc_param(next_loc_stage);
+if (coord = $new_loc_coord & loc_shape = wall_diagonal) {
+    p_teleport(movecoord(coord, ~door_close_move_player_out_of_way(loc_angle)));
+    p_delay(1);
+}
+sound_synth(loc_param(close_sound), 0, 0);
+loc_del(500);
+loc_add($new_loc_coord, $new_loc, modulo(add(loc_angle, 1), 4), loc_shape, 500);

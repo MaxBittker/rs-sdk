@@ -192,7 +192,6 @@ recol1d=31528
 iop1=Empty
 weight=1kg
 tradeable=no
-category=gold_bowl
 param=next_obj_stage,goldbowl_empty
 
 [goldbowl_pure]
@@ -209,7 +208,6 @@ recol1d=31528
 iop1=Empty
 weight=1kg
 tradeable=no
-category=gold_bowl
 param=next_obj_stage,goldbowl_empty
 
 [goldbowlbless_water]
@@ -226,7 +224,6 @@ recol1d=31528
 iop1=Empty
 weight=1kg
 tradeable=no
-category=gold_bowl
 param=next_obj_stage,goldbowlbless_empty
 
 [goldbowlbless_pure]
@@ -243,7 +240,6 @@ recol1d=31528
 iop1=Empty
 weight=1kg
 tradeable=no
-category=gold_bowl
 param=next_obj_stage,goldbowlbless_empty
 
 [reed_hollow]
@@ -531,12 +527,11 @@ manwear=model_524_obj_wear,0
 womanwear=model_524_obj_wear,6
 category=weapon_stab
 weight=1lb
-param=stabattack,10
-param=slashattack,5
+param=stabattack,5
+param=slashattack,3
 param=crushattack,-4
 param=magicattack,1
 param=magicdefence,1
-param=strengthbonus,7
 param=stabattack_anim,human_sword_stab
 param=slashattack_anim,human_sword_slash
 param=defend_anim,human_sword_def

@@ -5,7 +5,7 @@ y=5
 width=480
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Title
 colour=0x0000FF
 
@@ -16,7 +16,7 @@ y=26
 width=480
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Line1
 
 [line2]
@@ -26,7 +26,7 @@ y=42
 width=480
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Line2
 
 [line3]
@@ -36,7 +36,7 @@ y=58
 width=480
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Line3
 
 [line4]
@@ -46,5 +46,5 @@ y=74
 width=480
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Line4

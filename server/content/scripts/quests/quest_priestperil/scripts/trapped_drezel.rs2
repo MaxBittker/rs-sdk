@@ -46,7 +46,7 @@ if(last_useitem = pipkey_iron) {
         }
         %priestperil = ^priestperil_unlocked_drezel;
         inv_del(inv, pipkey_iron, 1);
-        ~chatnpc("<p,happy >Oh! Thank you! You have found the key!");
+        ~chatnpc("<p,happy>Oh! Thank you! You have found the key!");
         mes("You unlock the cell door.");
         return;
     }

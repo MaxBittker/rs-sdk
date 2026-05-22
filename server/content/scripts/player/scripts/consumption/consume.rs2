@@ -4,6 +4,7 @@
 [opheld1,_category_58] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_59] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_86] @player_consume_item(consume_effect_stat, 2, 3);
+[opheld1,tbwt_sliced_banana] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,rottenapples] ~displaymessage(^dm_default);
 [opheld1,_category_120] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_131] @player_consume_item(consume_effect_stat, 2, 3);
@@ -15,6 +16,9 @@ mes("You cant eat it whole; maybe you should cut it up.");
 [opheld1,kebab] @player_consume_item(consume_effect_kebab, 2, 3);
 [opheld1,ugthanki_kebab_bad] @player_consume_item(consume_effect_ugthanki_kebab_bad, 2, 3);
 [opheld1,ugthanki_kebab] @player_consume_item(consume_effect_stat_say, 2, 3);
+
+// Slimey eels
+[opheld1,mort_slimey_eel_cooked] @player_consume_item(consume_effect_mort_slimey_eel_cooked, 2, 3);
 
 // stews
 [opheld1,curry] @player_consume_item(consume_effect_stat2, 2, 3);
@@ -29,6 +33,11 @@ mes("You cant eat it whole; maybe you should cut it up.");
 [opheld1,_gnome_bowl] @player_consume_item(consume_effect_stat, null, null);
 [opheld1,_gnome_unf_odd_bowl] @player_consume_item(consume_effect_stat, null, null);
 [opheld1,_gnome_premade_and_toadlegs_kingworm] @player_consume_item(consume_effect_stat, null, null);
+
+// karambwans
+[opheld1,tbwt_cooked_karambwan] @player_consume_item(consume_effect_stat, null, null);
+[opheld1,tbwt_cooked_karambwanji] @player_consume_item(consume_effect_stat, null, null);
+[opheld1,tbwt_poorly_cooked_karambwan] @player_consume_item(consume_effect_poisonbwan, null, null);
 
 // cocktails
 // these work like normal food in osrs
@@ -75,7 +84,7 @@ if (oc_param(last_item, next_obj_stage) = null) {
 [opheld1,jangerberries]@player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,poison_chalice]@player_consume_item(consume_effect_poison_chalice, null, null);
 [opheld1,cup_of_tea]@player_consume_item(consume_effect_stat_say, 2, 3);
-[opheld1,_category_69]
+[opheld1,_potion]
 switch_obj(last_item) {
     // anti dragon
     case 1dose1antidragon, 2dose1antidragon, 3dose1antidragon, 4dose1antidragon :
@@ -88,6 +97,8 @@ switch_obj(last_item) {
     case default : @player_consume_item(consume_effect_stat, null, null);
 }
 [opheld1,macro_triffidfruit]@player_consume_item(consume_effect_strange_fruit, 2, 3);
+
+[opheld1,keg_of_beer] @player_consume_item(consume_effect_keg_of_beer, null, null);
 // ************************* TRIGGERS **************************
 
 // all normal foods use %eat_delay

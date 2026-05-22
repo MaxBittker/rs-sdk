@@ -3,21 +3,29 @@ if (%npc_aggressive_player ! uid) {
     mes("It's not after you...");
     return;
 }
-@player_combat_start;
+@player_combat_start_nomulti;
 
 [apnpc2,trail_hard] 
 if (%npc_aggressive_player ! uid) {
     mes("It's not after you...");
     return;
 }
-@player_combat_start_ap;
+@player_combat_start_ap_nomulti;
+
+[ai_queue1,trail_hard]
+if(finduid(%npc_aggressive_player) = true & (npc_getmode ! opplayer2 | lineofwalk(npc_coord, coord) = false)) {
+    npc_setmode(applayer2);
+}
+if(npc_getmode = applayer2) ~npc_default_retaliate_ap;
+else ~npc_default_retaliate;
 
 [ai_applayer2,trail_hard]
-npc_setmode(opplayer2);
+// once he's in ap he never switches back
 ~npc_cast_spell(^flames_of_zamorak, 4);
 
 [ai_opplayer2,trail_hard]
 ~npc_cast_spell(^flames_of_zamorak, 4);
+npc_setmode(opplayer2);
 
 [ai_timer,trail_hard]
 if(finduid(%npc_aggressive_player) = false) {

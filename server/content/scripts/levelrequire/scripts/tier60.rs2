@@ -6,6 +6,8 @@
 [opheld2,dragon_battleaxe] @levelrequire_heroes_quest_attack(60, last_slot);
 [opheld2,dragon_spear] @levelrequire_attack_caps(60, last_slot);
 [opheld2,dragon_spear_p] @levelrequire_attack_caps(60, last_slot);
+[opheld2,tbwt_dragon_spear_kp] @levelrequire_attack(60, last_slot);
+[opheld2,dragon_halberd] @levelrequire_regicide_quest_attack_strength(60, 30, last_slot);
 
 [opheld2,dragon_med_helm] @levelrequire_defence_caps(60, last_slot);
 [opheld2,dragon_sq_shield] @levelrequire_legends_quest_defence(60, last_slot);

@@ -19,8 +19,4 @@ export default class MessagePrivateEncoder extends ServerGameMessageEncoder<Mess
         buf.p1(staffLvl);
         WordPack.pack(buf, WordEnc.filter(message.msg));
     }
-
-    test(message: MessagePrivate): number {
-        return 8 + 4 + 1 + 1 + message.msg.length;
-    }
 }

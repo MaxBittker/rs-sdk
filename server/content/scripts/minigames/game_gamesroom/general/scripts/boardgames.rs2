@@ -1,0 +1,419 @@
+// https://www.youtube.com/watch?v=2J9QHQbIj5I Oldest video I found of gameplay (Nov 2006)
+//        https://www.youtube.com/watch?v=js7TproAYSY Skill level bug
+//        Sitting at table & spectate game logic (Noteworthy glitch https://www.youtube.com/watch?v=GxdihzOz03s)
+//        Upstairs high ranked areas
+//        Misc. Doors / ladders / stairs / npcs (bartender)
+[proc,set_boardgames_timepermove](int $time)
+if (.finduid(%duel2accept) = false) {
+    mes("That player is no longer available.");
+    if_close;
+    return;
+}
+if(.%duel2accept = uid) {
+    mes("You can not change the time per move when accepting a challenge.");
+} else {
+    %boardgames_timepermove = $time;
+}
+
+[proc,set_boardgames_piece](int $piece)
+if (.finduid(%duel2accept) = false) {
+    mes("That player is no longer available.");
+    if_close;
+    return;    
+}
+if(.%duel2accept = uid & .%boardgames_piece = $piece) {
+    mes("Your opponent is using this piece, please choose another.");
+} else {
+    %boardgames_piece = $piece;
+}
+
+[proc,toggle_boardgames_ranked]
+if (.finduid(%duel2accept) = false) {
+    mes("That player is no longer available.");
+    if_close;
+    return;    
+}
+if(.%duel2accept = uid) {
+    mes("You can not change the ranked option when accepting a challenge.");
+} else {
+    if (%boardgames_rankedgame = ^false) {
+        %boardgames_rankedgame = ^true;
+    } else {
+        %boardgames_rankedgame = ^false;
+    }
+}
+
+[proc,reset_boardgames_varp]
+%boardgames_varbit = 0;
+%boardgames_varbit2 = 0;
+
+[proc,boardgames_hide_tabs]
+if_settab(null, 0);
+if_settab(null, 1);
+if_settab(null, 2);
+if_settab(null, 3);
+if_settab(null, 4);
+if_settab(null, 5);
+if_settab(null, 6);
+if_settab(null, 11);
+if_settab(null, 12);
+
+[proc,.boardgames_hide_tabs]
+if (.p_finduid(.uid) = true) {
+    .if_settab(null, 0);
+    .if_settab(null, 1);
+    .if_settab(null, 2);
+    .if_settab(null, 3);
+    .if_settab(null, 4);
+    .if_settab(null, 5);
+    .if_settab(null, 6);
+    .if_settab(null, 11);
+    .if_settab(null, 12);
+}
+
+[mapzone,0_34_77]
+//set varps on first time entering
+if(%boardgames_draughts_rank < 1) {
+    %boardgames_draughts_rank = 1000;
+}
+if(%boardgames_runelink_rank < 1) {
+    %boardgames_runelink_rank = 1000;
+}
+set_player_op("Challenge", 1, ^false);
+@music_playbyregion(coord);
+
+[mapzoneexit,0_34_77]
+~reset_boardgames_varp;
+set_player_op(null, 1, ^false);
+
+[proc,in_games_room](coord $coord)(boolean)
+if (~inzone_coord_pair_table(games_room_zones, $coord) = true) {
+    return(true);
+}
+return(false);
+
+[if_button,boardgames_challenge:draughts_radio]
+%boardgames_game = 0;
+%if1 = 0;
+
+[if_button,boardgames_challenge:draughts_text]
+%boardgames_game = 0;
+%if1 = 0;
+
+[if_button,boardgames_challenge:runelink_radio]
+%boardgames_game = 1;
+%if1 = 1;
+
+[if_button,boardgames_challenge:runelink_text]
+%boardgames_game = 1;
+%if1 = 1;
+
+// [if_button,boardgames_challenge:runesquares_radio]
+// %boardgames_game = 2;
+// %if1 = 2;
+
+// [if_button,boardgames_challenge:runesquares_text]
+// %boardgames_game = 2;
+// %if1 = 2;
+
+// [if_button,boardgames_challenge:runeversi_radio]
+// %boardgames_game = 3;
+// %if1 = 3;
+
+// [if_button,boardgames_challenge:runeversi_text]
+// %boardgames_game = 3;
+// %if1 = 3;
+
+[if_button,boardgames_challenge:select]
+%boardgames_closinginterface = 1;
+%boardgames_timepermove = 1;
+%boardgames_rankedgame = 1;
+%boardgames_piece = 1;
+~open_boardgames_options;
+%boardgames_closinginterface = 0;
+
+[proc,get_sandtimer_seq]()(seq)
+switch_int (%boardgames_timepermove) {
+    case 0 : return (sandtimer_15secs);
+    case 1 : return (sandtimer_30secs);
+    case 2 : return (sandtimer_60secs);
+    case 3 : return (sandtimer_120secs);
+}
+
+[proc,get_sandtimer_interval]()(int)
+switch_int (%boardgames_timepermove) {
+    case 0 : return (25);
+    case 1 : return (50);
+    case 2 : return (100);
+    case 3 : return (200);
+}
+
+[proc,get_boardgames_timepermove]()(string)
+switch_int (%boardgames_timepermove) {
+    case 0 : return ("15 seconds");
+    case 1 : return ("30 seconds");
+    case 2 : return ("1 minute");
+    case 3 : return ("2 minutes");
+}
+
+[proc,get_boardgames_game]()(string)
+switch_int (%boardgames_game) {
+    case 0 : return ("Draughts");
+    case 1 : return ("Runelink");
+    // case 2 : return ("Runesquares");
+    // case 3 : return ("Runeversi");
+}
+
+[proc,get_boardgames_rune_obj](int $choice)(obj)
+switch_int ($choice) {
+    case 1 : return (firerune);
+    case 2 : return (waterrune);
+    case 3 : return (earthrune);
+    case 4 : return (airrune);
+    case 5 : return (mindrune);
+    case 6 : return (bodyrune);
+    case 7 : return (naturerune);
+    case 8 : return (chaosrune);
+    case 9 : return (lawrune);
+    case 10 : return (cosmicrune);
+    case 11 : return (bloodrune);
+    case 12 : return (soulrune);
+}
+
+//OSRS uses the runelink objs for other games (draughts). Should be same here.
+[proc,get_boardgames_player_rune](int $choice)(namedobj)
+switch_int ($choice) {
+    case 1 : return (boardgames_runelink_firerune);
+    case 2 : return (boardgames_runelink_waterrune);
+    case 3 : return (boardgames_runelink_earthrune);
+    case 4 : return (boardgames_runelink_airrune);
+    case 5 : return (boardgames_runelink_mindrune);
+    case 6 : return (boardgames_runelink_bodyrune);
+    case 7 : return (boardgames_runelink_naturerune);
+    case 8 : return (boardgames_runelink_chaosrune);
+    case 9 : return (boardgames_runelink_lawrune);
+    case 10 : return (boardgames_runelink_cosmicrune);
+    case 11 : return (boardgames_runelink_bloodrune);
+    case 12 : return (boardgames_runelink_soulrune);
+}
+
+[proc,get_boardgames_rank]()(string)
+switch_int (%boardgames_game) {
+    case 0 : return (tostring(%boardgames_draughts_rank));
+    case 1 : return (tostring(%boardgames_runelink_rank));
+    // case 2 : return (tostring(%boardgames_runesquares_rank));
+    // case 3 : return (tostring(%boardgames_runeversi_rank));
+}
+
+[proc,open_boardgames_options]
+switch_int (%boardgames_game) {
+    case 0 : if_openmain(boardgames_draughts_options);
+    case 1 : if_openmain(boardgames_runelink_options);
+    // case 2 : if_openmain(boardgames_runesquares_options);
+    // case 3 : if_openmain(boardgames_runeversi_options);
+}
+
+[proc,send_boardgames_challenge_request]
+//chalreq is not in client yet - 274
+// def_string $time = ~get_boardgames_timepermove();
+// def_string $game = ~get_boardgames_game();
+// def_string $rank = ~get_boardgames_rank();
+// if(%boardgames_rankedgame = 1) {
+//     .mes("<displayname>:(<$rank>) wants a ranked game of <$game>, <$time> per move.:chalreq:");
+// } else {
+//     .mes("<displayname>:wants an unranked game of <$game>, <$time> per move.:chalreq:");
+// }
+.mes("<displayname>:duelreq:");
+
+
+[proc,calculate_rank_change](int $loser, int $winner)(int)
+def_int $rank_change = add(50, divide(sub($loser, $winner), 16));
+
+if($rank_change > 100) {
+    $rank_change = 100;
+} else if ($rank_change < 1) {
+    $rank_change = 1;
+}
+
+return ($rank_change);
+
+[if_close,boardgames_challenge]
+if (%boardgames_closinginterface = 0) {
+    %duel2accept = null;
+    ~reset_boardgames_varp;
+}
+
+[softtimer,boardgames_sitting_anim]
+if (%boardgames_myturn = 0) {
+    return;
+} else {
+    //50% chance of either one
+    if (random(2) = 0) {
+        anim(human_sittingdown_think, 0);
+    } else {
+        anim(human_sittingdown_scratch, 0);
+    }
+    //Every 5-9 ticks from osrs
+    softtimer(boardgames_sitting_anim, ~random_range(5,9));
+}
+
+[proc,boardgames_table_setup]
+def_int $current_table = ~find_next_boardgames_table;
+
+if($current_table = -1) {
+    //There's probably a mes for this? Guess
+    mes("All tables are currently full!");
+    return;
+}
+
+def_int $quadrant = divide($current_table, 16);
+def_int $local_table = modulo($current_table, 16);
+
+if(loc_find(~get_boardgames_table_coord($current_table), boardgames_table) = false) {
+    return;
+}
+
+if (.p_finduid(%duel2accept) = false) {
+    mes("That player is no longer available.");
+    return;
+}
+
+%boardgames_tablenum = $current_table;
+.%boardgames_tablenum = $current_table;
+
+if(loc_shape = centrepiece_straight) {
+    if(loc_angle = ^loc_south) {
+    p_teleport(movecoord(loc_coord, -1, 0, 0));
+    .p_teleport(movecoord(loc_coord, 1, 0, 0));
+    } else if(loc_angle = ^loc_north) {
+    p_teleport(movecoord(loc_coord, 1, 0, 0));
+    .p_teleport(movecoord(loc_coord, -1, 0, 0));
+    } else if(loc_angle = ^loc_east) {
+    p_teleport(movecoord(loc_coord, 0, 0, -1));
+    .p_teleport(movecoord(loc_coord, 0, 0, 1));
+    } else {
+    p_teleport(movecoord(loc_coord, 0, 0, 1));
+    .p_teleport(movecoord(loc_coord, 0, 0, -1));
+    }
+} else {
+    if(loc_angle = ^loc_east) {
+        p_teleport(movecoord(loc_coord, -1, 0, -1));
+        .p_teleport(movecoord(loc_coord, 1, 0, 1));
+    } else if(loc_angle = ^loc_south) {
+        p_teleport(movecoord(loc_coord, -1, 0, 1));
+        .p_teleport(movecoord(loc_coord, 1, 0, -1));
+    } else if(loc_angle = ^loc_north) {
+        p_teleport(movecoord(loc_coord, 1, 0, -1));
+        .p_teleport(movecoord(loc_coord, -1, 0, 1));
+    } else {
+        p_teleport(movecoord(loc_coord, 1, 0, 1));
+        .p_teleport(movecoord(loc_coord, -1, 0, -1));
+    }
+}
+
+facesquare(.coord);
+.facesquare(coord);
+
+loc_change(~get_boardgames_table, ^max_32bit_int);
+
+if(loc_find(coord, boardgames_barstool_white) = true) {
+    loc_change(boardgames_barstool_invis, ^max_32bit_int);
+}
+
+if(loc_find(.coord, boardgames_barstool_white) = true) {
+    loc_change(boardgames_barstool_invis, ^max_32bit_int);
+}
+
+anim(human_sittingdown_ready, 0);
+.anim(human_sittingdown_ready, 0);
+
+//Todo: Figure out the exact seating order
+//Figure out how the tables upstairs work.. if you challenge from inside the experienced zone?
+//Challenging upstairs in the general area just teleports you back to table 0 downstairs.
+[proc,get_boardgames_table_coord](int $tablenum)(coord)
+def_int $x = 0;
+def_int $z = 0;
+def_int $quadrant = divide($tablenum, 12);
+def_int $local_table = modulo($tablenum, 12);
+def_int $row = 0;
+def_int $col = 0;
+
+if ($local_table < 4) {
+    $row = 0;
+    $col = $local_table;
+} else if ($local_table < 7) {
+    $row = sub($local_table, 3);
+    $col = 3;
+} else if ($local_table < 10) {
+    $row = 3;
+    $col = modulo($local_table, 9);
+} else {
+    $row = modulo($local_table, 12);
+    $col = 0;
+}
+
+if($row = 0) {
+$z = 20;
+} else if($row = 1) {
+$z = 23;
+} else if($row = 2) {
+$z = 25;
+} else {
+$z = 28;
+}
+
+if($col = 0) {
+$x = 20;
+} else if($col = 1) {
+$x = 23;
+} else if($col = 2) {
+$x = 25;
+} else {
+$x = 28;
+}
+
+if($quadrant = 1) {
+    $x = add($x, 15);
+} else if($quadrant = 2) {
+    $x = add($x, 15);
+    $z = add($z, 15);
+} else if($quadrant = 3) {
+    $z = add($z, 15);
+}
+
+return (movecoord(0_34_77_0_0, $x, 0, $z));
+
+[proc,find_next_boardgames_table]()(int)
+def_int $i = 0;
+while ($i < 48) {
+    def_coord $check_coord = ~get_boardgames_table_coord($i);
+    if (loc_find($check_coord, boardgames_table) = true) {
+            return ($i);
+    }
+    $i = add($i, 1);
+}
+return (-1);
+
+[proc,get_boardgames_table]()(loc)
+switch_int (%boardgames_game) {
+    case 0 : return (boardgames_table_draughts);
+    case 1 : return (boardgames_table_runelink);
+    // case 2 : return (boardgames_table_runesquares);
+    // case 3 : return (boardgames_table_runeversi);
+}
+
+[softtimer,boardgames_close_spectate]
+if_close;
+
+[oploc1,elfdoor_locked]
+mes("This door is locked.");
+
+[oploc1,posh_doubledoor_locked_r]
+mes("This door is locked.");
+
+[oploc1,posh_doubledoor_locked_l]
+mes("This door is locked.");
+
+//From rs3, no longer has op in osrs
+[oploc1,boardgames_noticeboard]
+~mesbox("No running with scissors!");

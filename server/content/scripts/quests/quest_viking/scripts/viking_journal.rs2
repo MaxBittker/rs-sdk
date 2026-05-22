@@ -1,0 +1,165 @@
+[if_button,questlist:viking]
+def_string $text;
+if (%viking = ^viking_not_started) {
+    // https://youtu.be/YUIvEgcvl5c?si=bGb8qyGR_XEP_kQ3&t=64
+    $text = append($text, "@dbl@I can start this quest by speaking to @dre@Chieftain Brundt@dbl@ in|");
+    $text = append($text, "@dbl@The @dre@Fremennik Longhall@dbl@, which is in the town of @dre@Rellekka@dbl@ to|");
+    $text = append($text, "@dbl@the north of @dre@Sinclair Mansion@dbl@.|");
+    $text = append($text, "@dbl@To complete the quest I need:|");
+    $text = append($text, "@dre@Level 40 Woodcutting|");
+    $text = append($text, "@dre@Level 40 Crafting|");
+    $text = append($text, "@dre@Level 25 Fletching|");
+    $text = append($text, "@dbl@I must also be able to defeat a @dre@level 69 enemy@dbl@ and must|@dbl@not be afraid of @dre@combat without any weapons or armour");
+    ~quest_journal("The Fremennik Trials", $text);
+    return;
+}
+
+if(%viking = ^viking_complete) {
+    $text = append($text, "@str@I made my way to the far north of Kandarin and found the|");
+    $text = append($text, "@str@Barbarian hometown of Rellekka. The tribe that live there|");
+    $text = append($text, "@str@call themselves the Fremennik, and offered me the chance|");
+    $text = append($text, "@str@to join them if I could pass their trials.|");
+    $text = append($text, "@str@I managed to persuade seven of the twelve council of|");
+    $text = append($text, "@str@elders to vote for me at their next meeting, and became|");
+    $text = append($text, "@str@an honorary member of the Fremennik.||");
+    $text = append($text, "@red@QUEST COMPLETE!|");
+    $text = append($text, "@dbl@They also gave me a new name:|");
+    $text = append($text, "@dre@<~get_viking_name>");
+    ~quest_journal("The Fremennik Trials", $text);
+    return;
+}
+
+def_int $votes = max(0, sub(%viking, 1));
+
+if(%viking < ^viking_complete) {
+    $text = append($text, "@str@I spoke to Brundt the Fremennik chieftan, and he told me|@str@that I could join their tribe if I could pass some trials|@str@and get seven of the twelve council members votes.|");
+    if($votes = 7) {
+        $text = append($text, "@dbl@I have @dre@seven votes@dbl@! I should go speak to @dre@Brundt@dbl@ again|");
+    } else if($votes = 6) {
+        $text = append($text, "@dbl@I have @dre@six@dbl@ votes so far|");
+    } else if($votes = 5) {
+        $text = append($text, "@dbl@I have @dre@five@dbl@ votes so far|");
+    } else if($votes = 4) {
+        $text = append($text, "@dbl@I have @dre@four@dbl@ votes so far|");
+    } else if($votes = 3) {
+        $text = append($text, "@dbl@I have @dre@three@dbl@ votes so far|");
+    } else if($votes = 2) {
+        $text = append($text, "@dbl@I have @dre@two@dbl@ votes so far|");
+    } else if($votes = 1) {
+        $text = append($text, "@dbl@I have @dre@one@dbl@ vote so far|");
+    } else if($votes = 0) {
+        $text = append($text, "@dbl@I don't have any votes yet|");
+        $text = append($text, "@dbl@I should try and find some of the @dre@council members|");
+    }
+    
+    // SWENSEN TRIAL
+    if(~get_viking_swensen_progress = ^swensen_complete) {
+        $text = append($text, "@str@I now have the Navigator's vote at the council.|");
+    } else if(~get_viking_swensen_progress = ^swensen_started) {
+        $text = append($text, "@dbl@The @dre@Navigator@dbl@ will vote for me if I can pass his trial|");
+        $text = append($text, "@dbl@I need to get from one end of his @dre@maze@dbl@ to the other|");
+    } else if(~get_viking_swensen_progress = ^swensen_not_started) {
+        $text = append($text, "|||");
+    }
+
+    // SIGMUND TRIAL
+    // very weird bit... have some weird code here to fit all cases, i think the actual version must be
+    // manually setting lines
+    if(~get_viking_sigmund_progress < ^sigmund_complete & ~get_viking_sigmund_progress > ^sigmund_not_started) {
+        $text = append($text, "@dbl@The @dre@Merchant@dbl@ will vote for me if I can pass his trial.|");
+        $text = append($text, "@dbl@Someone in this town has a @dre@rare flower@dbl@ that he wants.|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_not_started) {
+        $text = append($text, "|");
+    }
+
+    if(~get_viking_sigmund_progress = ^sigmund_spoke_olaf) {
+        $text = append($text, "@dbl@The @dre@bard@dbl@ is looking for some @dre@new boots@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_yrsa) {
+        $text = append($text, "@dbl@The @dre@shopkeeper@dbl@ is looking for a @dre@tax reduction@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_chief) {
+        $text = append($text, "|@dbl@The @dre@chieftan@dbl@ wants a @dre@map of new hunting grounds@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_sigli) {
+        $text = append($text, "|@dbl@The @dre@hunter@dbl@ is looking for a @dre@custom bowstring@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_skul) {
+        $text = append($text, "|@dbl@The @dre@armourer@dbl@ is looking for a @dre@rare inedible fish@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_fisherman) {
+        $text = append($text, "|@dbl@The @dre@fisherman@dbl@ is looking for a @dre@map of fishing spots@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_swensen) {
+        $text = append($text, "|@dbl@The @dre@navigator@dbl@ is looking for a @dre@weather forecast@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_seer) {
+        $text = append($text, "|@dbl@The @dre@seer@dbl@ is looking for a @dre@warrior to be his bodyguard@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_thorvald) {
+        $text = append($text, "|@dbl@The @dre@warrior@dbl@ is looking for a @dre@champions token@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_manni) {
+        $text = append($text, "|@dbl@The @dre@reveller@dbl@ is looking for a @dre@legendary cocktail@dbl@...|");
+    } else if(~get_viking_sigmund_progress = ^sigmund_spoke_thora) {
+        $text = append($text, "|@dbl@All @dre@Askeladden@dbl@ wants is @dre@some money@dbl@!|");
+    }
+    
+    if(~get_viking_sigmund_progress < ^sigmund_spoke_chief | ~get_viking_sigmund_progress > ^sigmund_spoke_thora) {
+        if(~obj_gettotal(viking_song) > 0 | ~obj_gettotal(viking_new_boots) > 0 | ~obj_gettotal(viking_map_to_hunting_grounds) > 0 | ~obj_gettotal(viking_bowstring) > 0 |
+            ~obj_gettotal(viking_unique_fish) > 0 | ~obj_gettotal(viking_another_map) > 0 | ~obj_gettotal(viking_weather_forecast) > 0 | ~obj_gettotal(viking_champion_token) > 0 | ~obj_gettotal(viking_legendary_cocktail) > 0 |
+            ~obj_gettotal(viking_promissary_note) > 0 | ~obj_gettotal(viking_promissary_note2) > 0 | ~obj_gettotal(viking_promissary_note3) > 0) {
+                $text = append($text, "|@dbl@I should use my @dre@trade goods@dbl@ to try and get the @dre@flower|");
+            }
+    }
+    if(~get_viking_sigmund_progress = ^sigmund_complete) {
+        $text = append($text, "@str@I now have the Merchant's vote at the council.|");
+    }
+
+    // SIGLI TRIAL
+    if(~get_viking_sigli_progress = ^sigli_complete) {
+        $text = append($text, "@str@I now have the Hunter's vote at the council.|");
+    } else if(~get_viking_sigli_progress > ^sigli_not_started) {
+        $text = append($text, "@dbl@The @dre@Hunter@dbl@ will vote for me if I can pass his trial.|");
+        $text = append($text, "@dbl@I need to @dre@track and defeat@dbl@ a creature called the @dre@Draugen|");
+    } else if(~get_viking_sigli_progress = ^sigli_not_started) {
+        $text = append($text, "|");
+    }
+
+    // PEER THE SEER
+    if(~get_viking_peer_progress = ^peer_complete) {
+        $text = append($text, "@str@I now have the Seer's vote at the council|"); // no period
+    } else if(~get_viking_peer_progress > ^peer_not_started) {
+        $text = append($text, "@dbl@The @dre@Seer@dbl@ will vote for me if I can pass his trial|");
+        $text = append($text, "@dbl@I need to get from @dre@one side@dbl@ of his house to @dre@the other|");
+    } else if(~get_viking_peer_progress = ^peer_not_started) {
+        $text = append($text, "|");
+    }
+
+    // WARRIOR TRIAL
+    if(~get_viking_thorvald_progress = ^thorvald_complete) {
+        $text = append($text, "@str@I now have the Warrior's vote at the council|"); // no period
+    } else if(~get_viking_thorvald_progress = ^thorvald_started) {
+        $text = append($text, "@dbl@The @dre@Warrior@dbl@ will vote for me if I can pass his trial|");
+        $text = append($text, "@dbl@I need to fight @dre@Koschei@dbl@ to the @dre@death@dbl@ in @dre@unarmed combat|");
+    } else if(~get_viking_thorvald_progress = ^thorvald_not_started) {
+        $text = append($text, "|");
+    }
+
+    // MANNI TRIAL
+    if(~get_viking_reveller_progress = ^reveller_complete) {
+        $text = append($text, "@str@I now have the Reveller's vote at the council|"); // no period
+    } else if(~get_viking_reveller_progress = ^reveller_started) {
+        $text = append($text, "@dbl@The @dre@Reveller@dbl@ will vote for me if I can pass his trial|");
+        $text = append($text, "@dbl@I need to defeat him in a @dre@drinking contest@dbl@ somehow!|");
+    } else if(~get_viking_reveller_progress = ^reveller_not_started) {
+        $text = append($text, "|");
+    }
+
+    // OLAF TRIAL
+    if(~get_viking_olaf_progress = ^olaf_complete) {
+        $text = append($text, "@str@I now have the Bard's vote at the council.|");
+    } else if(~get_viking_olaf_progress > ^olaf_not_started) {
+        // the instruction order is weird in osrs as well
+        $text = append($text, "@dbl@The @dre@Bard@dbl@ will vote for me if I can pass his trial|");
+        $text = append($text, "@dbl@I must make myself @dre@a lyre@dbl@ and play it in the @dre@longhall|");
+        $text = append($text, "@dbl@First I need to get some @dre@wood@dbl@ from a @dbl@special musical tree|");
+        $text = append($text, "@dbl@Next I need to get some @dre@Golden Wool@dbl@ from a local troll|");
+        $text = append($text, "@dbl@Finally I need to get the @dre@Lake Spirit@dbl@ to @dre@enchant my lyre|");
+        $text = append($text, "@dbl@Now I have musical wood, I should @dre@craft@dbl@ it into a @dre@lyre|");
+    } else if(~get_viking_olaf_progress = ^olaf_not_started) {
+        $text = append($text, "|");
+    }
+}
+~quest_journal("The Fremennik Trials", $text);

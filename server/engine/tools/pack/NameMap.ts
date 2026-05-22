@@ -1,15 +1,13 @@
 import fs from 'fs';
-import { listDir } from '#tools/pack/FsCache.js';
+import { listDir, readTextFile } from '#tools/pack/FsCache.js';
 
 export function loadOrder(path: string) {
     if (!fs.existsSync(path)) {
         return [];
     }
 
-    return fs
-        .readFileSync(path, 'ascii')
-        .replace(/\r/g, '')
-        .split('\n')
+    return readTextFile(path, 'ascii')
+        .split(/\r?\n/)
         .filter(x => x)
         .map(x => parseInt(x));
 }
@@ -21,10 +19,8 @@ export function loadPack(path: string) {
         return [] as string[];
     }
 
-    return fs
-        .readFileSync(path, 'ascii')
-        .replace(/\r/g, '')
-        .split('\n')
+    return readTextFile(path, 'ascii')
+        .split(/\r?\n/)
         .filter(x => x)
         .reduce((acc, x) => {
             const [id, name] = x.split('=');
@@ -39,10 +35,8 @@ export function loadDir(path: string, extension: string, callback: (src: string[
     for (const file of files) {
         if (file.endsWith(extension)) {
             callback(
-                fs
-                    .readFileSync(file, 'ascii')
-                    .replace(/\r/g, '')
-                    .split('\n')
+                readTextFile(file, 'ascii')
+                    .split(/\r?\n/)
                     .filter(x => x),
                 file.substring(file.lastIndexOf('/') + 1),
                 file.substring(0, file.lastIndexOf('/'))
@@ -56,7 +50,7 @@ export function loadDirExact(path: string, extension: string, callback: (src: st
 
     for (const file of files) {
         if (file.endsWith(extension)) {
-            callback(fs.readFileSync(file, 'ascii').replace(/\r/g, '').split('\n'), file.substring(file.lastIndexOf('/') + 1), file.substring(0, file.lastIndexOf('/')));
+            callback(readTextFile(file, 'ascii').split(/\r?\n/), file.substring(file.lastIndexOf('/') + 1), file.substring(0, file.lastIndexOf('/')));
         }
     }
 }

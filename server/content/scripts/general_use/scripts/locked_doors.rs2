@@ -1,5 +1,5 @@
 [oploc1,loc_1591]
 p_arrivedelay;
-mes("You try to open the door...");
+mes("You try and open the door..."); // https://i.imgur.com/5SsIm4g.png
 p_delay(1);
 mes("The door is locked tight, I can't open it.");

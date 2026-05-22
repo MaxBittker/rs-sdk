@@ -1,4 +1,10 @@
 [opnpc1,fycie]
+if(inv_total(inv, trail_clue_medium_anagram020) > 0) {
+    // https://youtu.be/BSDC98Q_6Lo?si=CaE2Yc1H8xfdUP5x&t=23
+    ~chatnpc("<p,happy>Human done good!");
+    ~progress_clue_medium(trail_clue_medium_anagram020, "Fycie has given you another clue scroll!");
+    return;
+}
 switch_int(%chompybird) {
     case ^chompybird_not_started :
         ~chatnpc("<p,neutral>You's better talk to Dad, We not talk to wierdly|'umans.");
@@ -54,7 +60,7 @@ switch_int(%chompybird) {
             $chompy_flavour = "doogle leaves";
         }
 
-        ~chatnpc("<p,neutal>Dad say's you's roastling da chompy for us! Slurp!|Me's wants <$chompy_flavour> wiv mine! Yummy, can't wait|to eats it.");
+        ~chatnpc("<p,neutral>Dad say's you's roastling da chompy for us! Slurp!|Me's wants <$chompy_flavour> wiv mine! Yummy, can't wait|to eats it.");
 
     case ^chompybird_complete :
         ~chatnpc("<p,neutral>Thanks for da chompy, it was deloverly!");

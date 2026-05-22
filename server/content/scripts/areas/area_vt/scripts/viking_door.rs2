@@ -1,0 +1,7 @@
+[oploc1,viking_fur_door]
+loc_change(viking_fur_door_open, 500);
+sound_synth(curtain_open, 0, 0);
+
+[oploc1,viking_fur_door_open]
+loc_change(viking_fur_door, 500);
+sound_synth(curtain_open, 0, 0);

@@ -1,0 +1,37 @@
+[opnpc1,tbwt_tiadeche_final]
+switch_int(%tbwt_tiadeche) {
+    case ^tbwt_tiadeche_complete :
+        @tbwt_tiadeche_claim_reward;
+    case ^tbwt_tiadeche_claimed_final_reward :
+        @tbwt_tiadeche_final;
+}
+
+[opnpc3,tbwt_tiadeche_final]
+if (%tbwt_tiadeche = ^tbwt_tiadeche_complete) p_opnpc(1);
+else ~openshop_activenpc;
+
+[label,tbwt_tiadeche_claim_reward]
+~chatnpc("<p,neutral>Hello, Bwana! We three have finally returned to the village!");
+~chatplayer("<p,neutral>So I see.");
+~chatnpc("<p,neutral>I wish to reward you in return for helping me.");
+~chatnpc("<p,neutral>I have been attempting to cook the Karambwan. As we all know, they are poisonous if not cooked properly.");
+~chatplayer("<p,neutral>Yes. It's how I, or rather Tamayu, killed the Shaikahan.");
+~chatnpc("<p,neutral>Indeed. I have determined precisely how long to cook them for so that they are edible.");
+%tbwt_tiadeche = ^tbwt_tiadeche_claimed_final_reward;
+stat_advance(fishing, 50000);
+~objbox(tbwt_raw_karambwan, "Tiadeche trains you in fishing technique.", 250, 0, 0); // https://x.com/JagexAsh/status/544605469290274816 & https://youtu.be/eOeuXivjuuM?si=b7_1pjpDzNamPexi&t=534
+~mesbox("You gain knowledge of how to properly cook Karambwan.");
+~chatnpc("<p,neutral>Thanks to you, Lubufu's Karambwan monopoly is over. If you ever need some, then come to me and not the store in Brimhaven.");
+~chatplayer("<p,neutral>Thanks.");
+
+[label,tbwt_tiadeche_final]
+~chatplayer("<p,neutral>Hello, Tiadeche.");
+~chatnpc("<p,neutral>Hello, Bwana! Would you like to buy some Karambwan?");
+def_int $choice = ~p_choice2("Yes.", 1, "No.", 2);
+if ($choice = 1) { // Yes.
+    ~chatplayer("<p,neutral>Yes.");
+    ~openshop_activenpc;
+} else if ($choice = 2) { // No.
+    ~chatplayer("<p,neutral>No.");
+    ~chatnpc("<p,neutral>Very well. Let me know if you change your mind.");
+}

@@ -61,7 +61,7 @@ param=owned_shop,duel_rottenfruitshop
 param=shop_sell_multiplier,1000
 param=shop_buy_multiplier,550
 param=shop_delta,10
-param=shop_title,Shop of Distate
+param=shop_title,Shop of Distaste
 
 [duel_nurse1]
 name=A'abla

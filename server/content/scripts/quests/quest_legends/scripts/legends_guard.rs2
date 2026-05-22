@@ -80,7 +80,12 @@ else {
 [label,legends_guard_open_gate]
 if_close;
 if(%temp > 0) { // if you had started the dialogue by clicking on the gate, it will open as a standard gate
-    ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), sub(%temp, 1), grate_open);
+    // https://youtu.be/3Dty7jbf4yI?si=smAYfLxIMWudyLTK&t=172, uses opposite side...?
+    if(loc_find(movecoord(coord, 1, 0, 0), legendsguildgater) = true) {
+        ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), ^right, grate_open);
+    } else if(loc_find(movecoord(coord, -1, 0, 0), legendsguildgatel) = true) {
+        ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), ^left, grate_open);
+    }
     return;
 }
 if (loc_find(^legends_guild_gate_west_coord, legendsguildgatel) = true) {

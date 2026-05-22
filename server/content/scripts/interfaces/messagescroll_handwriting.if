@@ -1,5 +1,3 @@
-// todo: related to death plateau
-
 [com_0]
 type=model
 x=239
@@ -17,7 +15,7 @@ y=89
 width=340
 height=16
 center=yes
-font=q8
+font=q8_full
 colour=0x362407
 
 [com_2]
@@ -27,7 +25,7 @@ y=113
 width=340
 height=16
 center=yes
-font=q8
+font=q8_full
 colour=0x362407
 
 [com_3]
@@ -37,7 +35,7 @@ y=137
 width=340
 height=16
 center=yes
-font=q8
+font=q8_full
 colour=0x362407
 
 [com_4]
@@ -47,7 +45,7 @@ y=160
 width=340
 height=16
 center=yes
-font=q8
+font=q8_full
 colour=0x362407
 
 [com_5]
@@ -57,7 +55,7 @@ y=182
 width=340
 height=16
 center=yes
-font=q8
+font=q8_full
 colour=0x362407
 
 [com_6]
@@ -67,7 +65,7 @@ y=204
 width=340
 height=16
 center=yes
-font=q8
+font=q8_full
 colour=0x362407
 
 [com_7]
@@ -77,7 +75,7 @@ y=226
 width=340
 height=16
 center=yes
-font=q8
+font=q8_full
 colour=0x362407
 
 [com_8]
@@ -87,7 +85,7 @@ y=249
 width=340
 height=16
 center=yes
-font=q8
+font=q8_full
 colour=0x362407
 
 [com_9]
@@ -97,7 +95,7 @@ y=50
 buttontype=close
 width=68
 height=11
-font=p11
+font=p11_full
 text=Close Window
 colour=0x7E6544
 overcolour=0xFFFFFF

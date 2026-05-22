@@ -9,6 +9,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_coord,0_49_52_41_32
 param=trail_casket,trail_clue_easy_map001_casket
@@ -25,6 +26,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_coord,0_51_52_26_46
 param=trail_casket,trail_clue_easy_map002_casket
@@ -41,6 +43,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_coord,0_47_53_35_6
 param=trail_casket,trail_clue_easy_map003_casket
@@ -57,8 +60,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the chest in the|Duke of Lumbridge's bedroom.
+param=trail_coord,1_50_50_9_18
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple002]
@@ -72,8 +78,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the crate in the left-|hand tower of Lumbridge Castle.
+param=trail_coord,1_50_50_28_16
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple003]
@@ -87,8 +96,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the boxes in the goblin|house near Lumbridge.
+param=trail_coord,0_50_50_48_46
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple004]
@@ -102,8 +114,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the chests upstairs in|Al Kharid Palace.
+param=trail_coord,1_51_49_37_33
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple005]
@@ -117,6 +132,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Speak to Hans to|solve the clue.
 tradeable=no
@@ -132,8 +148,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the crates in the|most north-western house in Al Kharid.
+param=trail_coord,0_51_50_25_2
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple007]
@@ -147,6 +166,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Talk to Zeke in Al Kharid.
 tradeable=no
@@ -162,6 +182,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Speak to the tanner|in Al Kharid.
 tradeable=no
@@ -177,8 +198,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the boxes in|the house near the|south entrance to Varrock.
+param=trail_coord,0_50_52_3_56
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple010]
@@ -192,6 +216,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Speak to the bartender of the|Blue Moon Inn in Varrock.
 tradeable=no
@@ -207,8 +232,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the drawers, upstairs|in the bank to|the East of Varrock.
+param=trail_coord,1_50_53_50_28
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple012]
@@ -222,8 +250,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the crates|in Horvik's armoury.
+param=trail_coord,0_50_53_28_41
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple013]
@@ -237,8 +268,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the drawers in|one of Gertrude's bedrooms.
+param=trail_coord,0_49_53_20_14
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple014]
@@ -252,8 +286,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the boxes in the|Barbarian Village helmet shop.
+param=trail_coord,0_48_53_1_38
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple015]
@@ -267,8 +304,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the drawers upstairs|in Falador's shield shop.
+param=trail_coord,1_46_52_27_58
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple016]
@@ -282,8 +322,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the boxes of|Falador's general store.
+param=trail_coord,0_46_52_11_62
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple017]
@@ -297,6 +340,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Talk to the Squire in the|White Knights' castle in Falador.
 tradeable=no
@@ -312,8 +356,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the drawers in|Falador's chain mail shop.
+param=trail_coord,0_46_51_25_46
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple019]
@@ -327,8 +374,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the crates in the|Port Sarim Fishing shop.
+param=trail_coord,0_47_50_4_22
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple020]
@@ -342,6 +392,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Talk to the bartender of the|Rusty Anchor in Port Sarim.
 tradeable=no
@@ -357,6 +408,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Speak to Ned in|Draynor Village.
 tradeable=no
@@ -372,6 +424,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Speak to Doric, who|lives north of Falador.
 tradeable=no
@@ -387,6 +440,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Speak to Gaius in Taverley.
 tradeable=no
@@ -402,8 +456,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the drawers in|Catherby's Archery shop.
+param=trail_coord,0_44_53_9_50
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple025]
@@ -417,6 +474,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Speak to Arhein in Catherby.
 tradeable=no
@@ -432,6 +490,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Speak to Sir Kay|in Camelot Castle.
 tradeable=no
@@ -447,8 +506,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the chest in the left-|hand tower of Camelot Castle.
+param=trail_coord,2_42_54_60_39
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple028]
@@ -462,8 +524,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the crates in the|guard house of the northern|gate of East Ardougne.
+param=trail_coord,0_41_52_21_10
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple029]
@@ -477,8 +542,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the boxes just|outside the Armour shop|in East Ardougne.
+param=trail_coord,0_41_51_30_35
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple030]
@@ -492,8 +560,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the crates in East|Ardougne's general store.
+param=trail_coord,0_40_51_55_27
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_simple031]
@@ -507,8 +578,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the crates in the shed|just north of East Ardougne.
+param=trail_coord,0_40_52_57_19
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_vague001]
@@ -522,8 +596,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the drawers|above Varrock's shops.
+param=trail_coord,1_50_53_6_27
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_vague002]
@@ -537,8 +614,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the crates near|a cart in Varrock.
+param=trail_coord,0_50_53_26_60
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_vague003]
@@ -552,6 +632,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Search the drawers found upstairs|in East Ardougne's houses.
 tradeable=no
@@ -567,8 +648,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,A crate found in the|tower of a church is|your next location.
+param=trail_coord,1_40_51_52_40
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_easy_vague005]
@@ -582,6 +666,535 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_easy
 param=trail_desc,Look in the ground floor|crates of houses in Falador.
+param=trail_coord,0_47_52_21_27
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague006]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the drawers of|houses in Burthorpe.
+param=trail_coord,0_45_55_49_50
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague007]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the crates in a house|in Yanille that has a piano.
+param=trail_coord,0_40_48_38_33
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague008]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the drawers in|the ground floor of a|shop in Yanille.
+param=trail_coord,0_40_48_10_13
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague009]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the chests in|the Dwarven Mine.
+param=trail_coord,0_46_153_56_6
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague010]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search through some drawers|in the upstairs of a|house in Rimmington.
+param=trail_coord,1_46_50_26_14
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague011]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search chests found in the|upstairs of shops in Port Sarim.
+param=trail_coord,1_47_50_8_5
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague012]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,One of the sailors|in Port Sarim is your|next destination.
+tradeable=no
+
+[trail_clue_easy_vague013]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search through chests found|in the upstairs of houses |in eastern Falador.
+param=trail_coord,1_47_52_33_36
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague014]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the drawers downstairs|of houses in the eastern|part of Falador.
+param=trail_coord,0_47_52_31_14
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague015]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the boxes in|a shop in Taverley.
+param=trail_coord,0_45_53_6_57
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague016]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search through some drawers|found in Taverley's houses.
+param=trail_coord,0_45_53_14_26
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague017]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the boxes in one|of the tents in Al Kharid.
+param=trail_coord,0_51_50_44_6
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague018]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the boxes in one|of the tents in Al Kharid.
+param=trail_coord,0_51_50_44_6
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague019]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the crates|in Draynor Manor.
+param=trail_coord,2_48_52_34_41
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague020]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the crates|in Draynor Manor.
+param=trail_coord,2_48_52_34_41
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague021]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the drawers on|the first floor of a|building overlooking|Ardougne's Market.
+param=trail_coord,1_41_51_33_58
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague022]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search for a crate in a|building in Hemenster.
+param=trail_coord,0_41_53_12_61
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague023]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the drawers|in the upstairs of a|house in Catherby.
+param=trail_coord,1_43_53_57_59
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague024]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search upstairs in the|houses of Seers' Village|for some drawers.
+param=trail_coord,1_42_54_28_16
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague025]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search for a crate on|the ground floor of a|house in Seers' Village.
+param=trail_coord,0_42_54_11_14
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague026]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Dig near some giant mushrooms,|behind the Grand Tree.
+param=trail_coord,0_38_54_26_48
+param=trail_casket,trail_clue_easy_vague026_casket
+tradeable=no
+
+[trail_clue_easy_vague026_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_easy
+tradeable=no
+
+[trail_clue_easy_vague027]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search the drawers in a|house in Draynor Village.
+param=trail_coord,0_48_51_25_13
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_vague028]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Speak to the staff|of Sinclair mansion.
+tradeable=no
+
+[trail_clue_easy_vague029]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Someone watching the fights|in the Duel Arena is your|next destination.
+tradeable=no
+
+[trail_clue_easy_vague030]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_desc,Search for a crate|in Varrock Castle.
+param=trail_coord,0_50_54_24_36
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_easy_map004]
+name=Clue scroll
+desc=Part of the world map, but where?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_coord,0_40_54_52_26
+param=trail_casket,trail_clue_easy_map004_casket
+tradeable=no
+
+[trail_clue_easy_map004_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_easy
+tradeable=no
+
+[trail_clue_easy_map005]
+name=Clue scroll
+desc=Part of the world map, but where?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_easy
+param=trail_coord,0_48_49_37_17
+param=trail_casket,trail_clue_easy_map005_casket
+tradeable=no
+
+[trail_clue_easy_map005_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_easy
 tradeable=no

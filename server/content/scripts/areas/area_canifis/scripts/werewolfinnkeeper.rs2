@@ -1,4 +1,10 @@
 [opnpc1,werewolfinnkeeper]
+if(inv_total(inv, trail_clue_medium_anagram017) > 0) {
+    // https://www.youtube.com/watch?v=rVAET-vkSXg
+    ~chatnpc("<p,neutral>Here you go!");
+    ~progress_clue_medium(trail_clue_medium_anagram017, "Roavar has given you another clue scroll!");
+    return;
+}
 ~chatplayer("<p,happy>Hello there!");
 ~chatnpc("<p,happy>Greetings traveller. Welcome to 'The Hair Of The Dog' Tavern. What can I do you for?");
 @multi4("Can I buy a beer?", roavar_beer, "Can I hear some gossip?", roavar_gossip, "Can I hear a story?", roavar_story, "Nothing thanks.", roavar_nothing);

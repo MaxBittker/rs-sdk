@@ -97,6 +97,7 @@
 ^junglepotion_questpoints = 1
 ^legends_questpoints = 4
 ^mcannon_questpoints = 1
+^mortton_questpoints = 3
 ^murder_questpoints = 3
 ^priest_questpoints = 1
 ^priestperil_questpoints = 1
@@ -116,3 +117,8 @@
 ^zanaris_questpoints = 3
 ^zombiequeen_questpoints = 2
 ^troll_questpoints = 1
+^tbwt_questpoints = 2
+^regicide_questpoints = 3
+^viking_questpoints = 3
+^horror_questpoints = 2
+^eadgar_questpoints = 1

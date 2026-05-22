@@ -8,5 +8,8 @@
 ^mes_members_prayer = "You need to be on a members' server to use this Prayer."
 ^mes_members_gate = "You need to be on a members server to use this gate."
 
+// No source for this message.
+^mes_members_crafting = "You need to be on a members' server to craft that."
+
 // this exists in osrs mesbox, not sure if it actually exists though. for trying to enter chaos altar on f2p worlds
 ^mes_members_do_that = "You must be on a members' world to do that."

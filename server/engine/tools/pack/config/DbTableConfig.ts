@@ -109,7 +109,12 @@ export function packDbTableConfigs(configs: Map<string, ConfigLine[]>) {
                         if (part.toUpperCase() === part) {
                             properties.push(part);
                         } else {
-                            types.push(ScriptVarType.getTypeChar(part));
+                            const typeChar = ScriptVarType.getTypeChar(part);
+                            if (typeChar === null) {
+                                throw packStepError(debugname, `Invalid column type "${part}"`);
+                            }
+
+                            types.push(typeChar);
                         }
                     }
 
@@ -130,11 +135,11 @@ export function packDbTableConfigs(configs: Map<string, ConfigLine[]>) {
                     const values = parts;
 
                     if (columnIndex === -1) {
-                        throw packStepError(debugname, 'unknown default column');
+                        throw packStepError(debugname, `Could not assign default to column "${column}" - column does not exist`);
                     }
 
                     if (columns[columnIndex].properties.find(p => p === 'REQUIRED')) {
-                        throw packStepError(debugname, `${column} cannot have a default value because it is marked REQUIRED`);
+                        throw packStepError(debugname, `Could not assign default to column "${column}" - no default value is allowed because the column is marked REQUIRED`);
                     }
 
                     defaults[columnIndex] = values;
@@ -165,6 +170,9 @@ export function packDbTableConfigs(configs: Map<string, ConfigLine[]>) {
                         for (let j = 0; j < column.types.length; j++) {
                             const type = column.types[j];
                             const value = lookupParamValue(type as number, defaults[i][j]);
+                            if (value === null) {
+                                throw packStepError(debugname, `Data invalid in column, double-check the reference exists: default=${column.name},${defaults[i].join(',')}`);
+                            }
 
                             if (type === ScriptVarType.STRING) {
                                 server.pjstr(value as string);

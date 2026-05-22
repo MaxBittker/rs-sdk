@@ -55,3 +55,23 @@ width=2
 length=2
 blockrange=no
 category=well
+
+[mortton_sink]
+name=Sink
+desc=Ideal for washing things in.
+model=model_loc_873
+retex1s=elfwood
+retex1d=wood2
+recol2s=26425
+recol2d=12615
+recol3s=23254
+recol3d=11525
+retex4s=water
+retex4d=door
+recol5s=30753
+recol5d=15627
+recol6s=31
+recol6d=8526
+length=2
+blockrange=no
+category=watersource

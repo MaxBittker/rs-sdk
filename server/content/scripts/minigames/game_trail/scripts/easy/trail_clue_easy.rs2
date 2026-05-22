@@ -7,6 +7,12 @@
 [opheld1,trail_clue_easy_map003]
 ~full_trail_readclue_map(trail_map06);
 
+[opheld1,trail_clue_easy_map004]
+~full_trail_readclue_map(inter_176);
+
+[opheld1,trail_clue_easy_map005]
+~full_trail_readclue_map(inter_178);
+
 [opheld1,_trail_clue_easy]
 ~full_trail_readclue(oc_param(last_item, trail_desc));
 
@@ -33,7 +39,7 @@ return(false);
 [proc,trail_clue_easy_getrandom]()(namedobj)
 return(enum(int, namedobj, trail_easy_enum, random(enum_getoutputcount(trail_easy_enum))));
 
-[proc,trail_clue_easy_loc_interact](namedobj $clue)
+[label,trail_clue_easy_loc_interact](obj $clue)
 ~progress_clue_easy($clue, "You've found another clue scroll!");
 
 [label,riddle_loc_easy_exp008]
@@ -45,4 +51,4 @@ p_delay(0);
 // Temp note: dur updated
 loc_change(drawers1open_inactive, 5);
 p_delay(0);
-~trail_clue_easy_loc_interact(trail_clue_easy_vague003);
+@trail_clue_easy_loc_interact(trail_clue_easy_vague003);

@@ -1,6 +1,18 @@
 [opheld1,trail_clue_hard_map001]
 ~full_trail_readclue_map(trail_map05);
 
+[opheld1,trail_clue_hard_map002]
+~full_trail_readclue_map(inter_175);
+
+[opheld1,trail_clue_hard_map003]
+~full_trail_readclue_map(inter_179);
+
+[opheld1,trail_clue_hard_map004]
+~full_trail_readclue_map(inter_180);
+
+[opheld1,trail_clue_hard_map005]
+~full_trail_readclue_map(inter_181);
+
 [opheld1,trail_clue_hard_riddle011]
 ~full_trail_readclue(oc_param(last_item,trail_desc));
 
@@ -18,9 +30,10 @@ return(false);
 [proc,trail_clue_hard_getrandom]()(namedobj)
 return(enum(int, namedobj, trail_hard_enum, random(enum_getoutputcount(trail_hard_enum))));
 
-[proc,give_trail_puzzle](namedobj $puzzle, string $text)
+[proc,give_trail_puzzle](namedobj $puzzle, string $npc_text, string $text)
 inv_clear(trail_puzzleinv);
 inv_add(inv, $puzzle, 1);
+~chatnpc($npc_text);
 ~objbox($puzzle, $text, 250, 0, 0);
 
 [proc,progress_clue_hard](obj $current_clue, string $text)
@@ -34,12 +47,5 @@ if(~trail_clue_hard_complete = true) {
     ~objbox($new_clue, $text, 250, 0, 0);
 }
 
-[proc,trail_clue_hard_loc_interact](namedobj $clue)
-~trail_clue_progress;
-inv_del(inv, $clue, 1);
-if(~trail_clue_hard_complete = true) {
-    ~trail_clue_hard_reward;
-} else {
-    inv_add(inv, ~trail_clue_hard_getrandom, 1);
-    ~objbox(trail_clue_hard_map001, "You've found another clue scroll!", 250, 0, 0);
-}
+[label,trail_clue_hard_loc_interact](obj $clue)
+~progress_clue_hard($clue, "You've found another clue scroll!");

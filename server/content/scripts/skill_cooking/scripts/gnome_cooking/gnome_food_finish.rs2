@@ -50,7 +50,7 @@ switch_obj ($food) {
     case unfinished_veg_ball : @gnome_topping_add($food, $ingredient, equa_leaves, veg_ball, spoilt_gnomebowl);
 
     case unfinished_worm_batta : @gnome_topping_add($food, $ingredient, equa_leaves, worm_batta, spoilt_batta);
-    case unfinished_cheese_tom_batta : @gnome_topping_add($food, $ingredient, equa_leaves, cheese_tom_batta, spoilt_batta);
+    case unfinished_cheese+tom_batta : @gnome_topping_add($food, $ingredient, equa_leaves, cheese+tom_batta, spoilt_batta);
     case unfinished_vegetable_batta : @gnome_topping_add($food, $ingredient, equa_leaves, vegetable_batta, spoilt_batta);
 
     case fruitless_batta :

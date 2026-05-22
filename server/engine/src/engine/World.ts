@@ -3,8 +3,8 @@ import fs from 'fs';
 import { Worker } from 'worker_threads';
 
 // deps
-import * as rsbuf from '@2004scape/rsbuf';
-import { PlayerInfoProt } from '@2004scape/rsbuf';
+import * as rsbuf from '#/network/rsbuf/index.js';
+import { PlayerInfoProt } from '#/network/rsbuf/index.js';
 import kleur from 'kleur';
 import forge from 'node-forge';
 import { TTLCache } from '@isaacs/ttlcache';
@@ -93,14 +93,14 @@ import Environment from '#/util/Environment.js';
 import { fromBase37, toBase37, toSafeName } from '#/util/JString.js';
 import LinkList from '#/datastruct/LinkList.js';
 import { printDebug, printError, printInfo } from '#/util/Logger.js';
-import { WalkTriggerSetting } from '#/engine/entity/WalkTriggerSetting.js';
-
 import OnDemand from './OnDemand.js';
+import { createRuntimeWorker } from '#/util/RuntimeWorker.js';
 import { ObjDelayedRequest } from './entity/ObjDelayedRequest.js';
 import DbTableIndex from '#/cache/config/DbTableIndex.js';
 import VarBitType from '#/cache/config/VarBitType.js';
 import FriendlistLoaded from '#/network/game/server/model/FriendlistLoaded.js';
 import HashTable from '#/datastruct/HashTable.js';
+import Midi from '#/cache/midi/Midi.js';
 
 const priv = forge.pki.privateKeyFromPem(fs.readFileSync('data/config/private.pem', 'ascii'));
 
@@ -110,13 +110,13 @@ type LogoutRequest = {
 };
 
 class World {
-    private loginThread = new Worker('./src/server/login/LoginThread.ts');
-    private friendThread = new Worker('./src/server/friend/FriendThread.ts');
-    private loggerThread = new Worker('./src/server/logger/LoggerThread.ts');
+    private loginThread = createRuntimeWorker(new URL('../server/login/LoginThread.ts', import.meta.url));
+    private friendThread = createRuntimeWorker(new URL('../server/friend/FriendThread.ts', import.meta.url));
+    private loggerThread = createRuntimeWorker(new URL('../server/logger/LoggerThread.ts', import.meta.url));
     private devThread: Worker | null = null;
 
-    private static readonly PLAYERS: number = Environment.NODE_MAX_PLAYERS;
-    private static readonly NPCS: number = Environment.NODE_MAX_NPCS;
+    private static readonly PLAYERS: number = 2047;
+    private static readonly NPCS: number = Environment.runtime.maxNpcs;
 
     private static readonly TICKRATE: number = Environment.NODE_TICKRATE;
 
@@ -133,7 +133,7 @@ class World {
     private static readonly TIMEOUT_NO_RESPONSE: number = Environment.NODE_DEBUG_SOCKET ? 60000 : 1000; // 10m without any response (relaxed for bot background tabs)
 
     // the game/zones map
-    readonly gameMap: GameMap = new GameMap(Environment.NODE_MEMBERS);
+    readonly gameMap: GameMap = new GameMap(Environment.node.members);
 
     // shared inventories (shops)
     readonly invs: Set<Inventory> = new Set();
@@ -205,6 +205,8 @@ class World {
     }
 
     reload(clearInvs: boolean = true): void {
+        OnDemand.reloadCache();
+
         VarPlayerType.load('data/pack');
         VarBitType.load('data/pack');
         ParamType.load('data/pack');
@@ -271,7 +273,7 @@ class World {
         Component.load('data/pack');
 
         const count = ScriptProvider.load('data/pack');
-        if (Environment.NODE_DEBUG) {
+        if (Environment.node.debug) {
             if (count === -1) {
                 this.broadcastMes('There was an issue while reloading scripts.');
             } else {
@@ -294,6 +296,7 @@ class World {
 
         FontType.load('data/pack');
         WordEnc.load('data/pack');
+        Midi.load();
 
         this.reload();
 
@@ -311,18 +314,18 @@ class World {
             });
         }, 2000);
 
-        if (!Environment.NODE_PRODUCTION) {
+        if (!Environment.node.production && Environment.build.liveReload) {
             this.createDevThread();
 
-            if (Environment.BUILD_STARTUP) {
+            if (Environment.build.startup) {
                 this.rebuild();
             }
         }
 
-        if (Environment.WEB_PORT === 80) {
+        if (Environment.web.port === 80) {
             printInfo(kleur.green().bold('World ready') + kleur.white().bold(': Visit http://localhost/rs2.cgi'));
         } else {
-            printInfo(kleur.green().bold('World ready') + kleur.white().bold(': Visit http://localhost:' + Environment.WEB_PORT + '/rs2.cgi'));
+            printInfo(kleur.green().bold('World ready') + kleur.white().bold(': Visit http://localhost:' + Environment.web.port + '/rs2.cgi'));
         }
 
         if (startCycle) {
@@ -472,7 +475,7 @@ class World {
             this.lastCycleStats[WorldStat.BANDWIDTH_OUT] = this.cycleStats[WorldStat.BANDWIDTH_OUT];
 
             // push stats to prometheus
-            if (Environment.NODE_PRODUCTION) {
+            if (Environment.node.production) {
                 trackPlayerCount.set(this.getTotalPlayers());
                 trackNpcCount.set(this.getTotalNpcs());
 
@@ -490,7 +493,7 @@ class World {
                 trackCycleBandwidthOutBytes.inc(this.cycleStats[WorldStat.BANDWIDTH_OUT]);
             }
 
-            if (Environment.NODE_DEBUG_PROFILE) {
+            if (Environment.node.debugProfile) {
                 printInfo(`tick ${this.currentTick}: ${this.cycleStats[WorldStat.CYCLE]}/${this.tickRate} ms, ${Math.trunc(process.memoryUsage().heapTotal / 1024 / 1024)} MB heap`);
                 printDebug(`${this.getTotalPlayers()}/${World.PLAYERS} players | ${this.getTotalNpcs()}/${World.NPCS} npcs | ${this.gameMap.getTotalZones()} zones | ${this.gameMap.getTotalLocs()} locs | ${this.gameMap.getTotalObjs()} objs`);
                 printDebug(
@@ -525,7 +528,6 @@ class World {
     }
 
     // - world queue
-    // - npc spawn scripts
     // - npc hunt
     private processWorld(): void {
         const start: number = Date.now();
@@ -572,17 +574,19 @@ class World {
                 console.error(err);
             }
         }
-        // - npc ai_spawn scripts
-        // - npc hunt players if not busy
-        for (const npc of this.npcs) {
-            // Check if npc is alive
-            if (npc.isActive) {
-                // Hunts will process even if the npc is delayed during this portion
-                if (npc.huntMode !== -1 && rsbuf.getNpcObservers(npc.nid) > 0) {
-                    const hunt = HuntType.get(npc.huntMode);
 
-                    if (hunt && hunt.type === HuntModeType.PLAYER) {
-                        npc.huntAll(hunt);
+        // - npc hunt players if not busy
+        if (this.getTotalPlayers() > 0) {
+            for (const npc of this.npcs) {
+                // Check if npc is alive
+                if (npc.isActive) {
+                    // Hunts will process even if the npc is delayed during this portion
+                    if (npc.huntMode !== -1 && rsbuf.getNpcObservers(npc.nid) > 0) {
+                        const hunt = HuntType.get(npc.huntMode);
+
+                        if (hunt && hunt.type === HuntModeType.PLAYER) {
+                            npc.huntAll(hunt);
+                        }
                     }
                 }
             }
@@ -612,35 +616,16 @@ class World {
                 player.processInputTracking();
 
                 if (isClientConnected(player) && player.decodeIn()) {
-                    const followingPlayer = player.targetOp === ServerTriggerType.APPLAYER3 || player.targetOp === ServerTriggerType.OPPLAYER3;
                     if (player.userPath.length > 0 || player.opcalled) {
                         if (player.delayed) {
                             player.unsetMapFlag();
                             continue;
                         }
 
-                        if ((!player.target || player.target instanceof Loc || player.target instanceof Obj) && player.faceEntity !== -1) {
-                            player.faceEntity = -1;
-                            player.masks |= player.entitymask;
-                        }
-
                         if (!player.busy() && player.opcalled) {
                             player.moveClickRequest = false;
                         } else {
                             player.moveClickRequest = true;
-                        }
-
-                        if (!followingPlayer && player.opcalled && (player.userPath.length === 0 || !Environment.NODE_CLIENT_ROUTEFINDER)) {
-                            player.pathToTarget();
-                            continue;
-                        }
-
-                        if (Environment.NODE_WALKTRIGGER_SETTING !== WalkTriggerSetting.PLAYERPACKET) {
-                            player.pathToMoveClick(player.userPath, !Environment.NODE_CLIENT_ROUTEFINDER);
-
-                            if (Environment.NODE_WALKTRIGGER_SETTING === WalkTriggerSetting.PLAYERSETUP && !player.opcalled && player.hasWaypoints()) {
-                                player.processWalktrigger();
-                            }
                         }
                     }
                 }
@@ -723,6 +708,8 @@ class World {
                 }
                 // - engine queue
                 player.processEngineQueue();
+                // Update target facing
+                player.setFaceEntity();
                 // - interactions
                 // - movement
                 player.processInteraction();
@@ -850,7 +837,7 @@ class World {
                     });
 
                     if (isClientConnected(other)) {
-                        player.addSessionLog(LoggerEventType.MODERATOR, 'Logged to world ' + Environment.NODE_ID + ' replacing session', other.client.uuid);
+                        player.addSessionLog(LoggerEventType.MODERATOR, 'Logged to world ' + Environment.node.id + ' replacing session', other.client.uuid);
                         other.client.close();
                     }
 
@@ -947,11 +934,13 @@ class World {
 
                 player.client.state = 1;
 
-                player.client.send(Uint8Array.from([
-                    2,
-                    Math.min(player.staffModLevel, 2),
-                    1 // mouse tracking can only be enabled on login
-                ]));
+                player.client.send(
+                    Uint8Array.from([
+                        2,
+                        Math.min(player.staffModLevel, 2),
+                        1 // mouse tracking can only be enabled on login
+                    ])
+                );
 
                 const remote = player.client.remoteAddress;
                 if (remote.indexOf('.') !== -1) {
@@ -1029,6 +1018,10 @@ class World {
     // - convert npc movements
     // - compute npc info
     private processInfo(): void {
+        if (this.getTotalPlayers() === 0) {
+            return;
+        }
+
         // TODO: benchmark this?
         for (const player of this.playerLoop.all()) {
             player.reorient();
@@ -1092,6 +1085,7 @@ class World {
                 npc.nid,
                 npc.type,
                 npc.tele,
+                npc.jump,
                 npc.runDir,
                 npc.walkDir,
                 npc.isActive,
@@ -1186,7 +1180,7 @@ class World {
                     continue;
                 }
 
-                inv.update = false;
+                inv.resetTracking();
             }
         }
 
@@ -1197,7 +1191,7 @@ class World {
 
         // - reset invs (world)
         for (const inv of this.invs) {
-            inv.update = false;
+            inv.resetTracking();
 
             // Increase or Decrease shop stock
             const invType = InvType.get(inv.type);
@@ -1213,13 +1207,13 @@ class World {
                 }
                 // Item stock is under min
                 if (item.count < invType.stockcount[index] && tick % invType.stockrate[index] === 0) {
-                    inv.add(item.id, 1, index, true, false, false);
+                    inv.add(item.id, 1, index);
                     inv.update = true;
                     continue;
                 }
                 // Item stock is over min
                 if (item.count > invType.stockcount[index] && tick % invType.stockrate[index] === 0) {
-                    inv.remove(item.id, 1, index, true);
+                    inv.remove(item.id, 1, index);
                     inv.update = true;
                     continue;
                 }
@@ -1227,7 +1221,7 @@ class World {
                 // Item stock is not listed, such as general stores
                 // Tested on low and high player count worlds, ever 1 minute stock decreases.
                 if (invType.allstock && !invType.stockcount[index] && tick % World.INV_STOCKRATE === 0) {
-                    inv.remove(item.id, 1, index, true);
+                    inv.remove(item.id, 1, index);
                     inv.update = true;
                 }
             }
@@ -1715,7 +1709,7 @@ class World {
             type: 'private_message',
             username: player.username,
             staffLvl: player.staffModLevel,
-            pmId: (Environment.NODE_ID << 24) + ((Math.random() * 0xff) << 16) + this.pmCount++,
+            pmId: (Environment.node.id << 24) + ((Math.random() * 0xff) << 16) + this.pmCount++,
             target: targetUsername37,
             message: message,
             coord: player.coord
@@ -1823,7 +1817,7 @@ class World {
     }
 
     private createDevThread() {
-        this.devThread = new Worker('./src/cache/DevThread.ts');
+        this.devThread = createRuntimeWorker(new URL('../cache/DevThread.ts', import.meta.url));
 
         this.devThread.on('message', msg => {
             try {
@@ -1833,7 +1827,7 @@ class World {
                     if (msg.error) {
                         console.error(msg.error);
 
-                        this.broadcastMes(msg.error.replaceAll(`${Environment.BUILD_SRC_DIR}/scripts/`, ''));
+                        this.broadcastMes(msg.error.replaceAll(`${Environment.build.srcDir}/scripts/`, ''));
                         this.broadcastMes('Check the console for more information.');
                     }
                 } else if (msg.type === 'dev_progress') {
@@ -1883,7 +1877,7 @@ class World {
     broadcastMes(message: string): void {
         for (const player of this.playerLoop.all()) {
             if (message.includes('\n')) {
-                message.split('\n').forEach(wrap => player!.wrappedMessageGame(wrap));
+                message.split('\n').forEach(wrap => player.wrappedMessageGame(wrap));
             } else {
                 player.wrappedMessageGame(message);
             }
@@ -1952,10 +1946,7 @@ class World {
             } else if (reply === 10) {
                 // hop timer
                 const { remaining } = msg;
-                client.send(Uint8Array.from([
-                    21,
-                    Math.min(255, remaining! / 1000)
-                ]));
+                client.send(Uint8Array.from([21, Math.min(255, remaining! / 1000)]));
                 client.close();
                 return;
             }
@@ -1994,7 +1985,7 @@ class World {
                     return;
                 }
 
-                if (!Environment.NODE_MEMBERS && !this.gameMap.isFreeToPlay(player.x, player.z)) {
+                if (!Environment.node.members && !this.gameMap.isFreeToPlay(player.x, player.z)) {
                     // in a p2p zone when logging into f2p
                     if (player.members) {
                         client.send(Uint8Array.from([17]));
@@ -2199,12 +2190,12 @@ class World {
         if (client.opcode === 14) {
             client.send(Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]));
 
-            if (Environment.NODE_PRODUCTION && Environment.NODE_RATELIMIT_ADDRESS_LOGIN > 0) {
+            if (Environment.node.production && Environment.node.rateLimitAddressLogin > 0) {
                 const last = this.loginAddressAttempts.get(client.remoteAddress);
                 const attempts = last ? last + 1 : 1;
                 this.loginAddressAttempts.set(client.remoteAddress, attempts);
 
-                if (attempts >= Environment.NODE_RATELIMIT_ADDRESS_LOGIN) {
+                if (attempts >= Environment.node.rateLimitAddressLogin) {
                     // login attempts exceeded
                     client.send(Uint8Array.from([16]));
                     client.close();
@@ -2220,8 +2211,11 @@ class World {
             seed.p4(Math.floor(Math.random() * 0xffffffff));
             client.send(seed.data);
         } else if (client.opcode === 16 || client.opcode === 18) {
-            const rev = World.loginBuf.g1();
-            if (rev !== Environment.ENGINE_REVISION) {
+            let rev = World.loginBuf.g1();
+            if (rev === 0xff) {
+                rev = World.loginBuf.g2();
+            }
+            if (rev !== Environment.engine.revision) {
                 client.send(Uint8Array.from([6]));
                 client.close();
                 return;
@@ -2264,12 +2258,12 @@ class World {
             const username = World.loginBuf.gjstr();
             const password = World.loginBuf.gjstr();
 
-            if (Environment.NODE_PRODUCTION && Environment.NODE_RATELIMIT_DEVICE_LOGIN > 0) {
+            if (Environment.node.production && Environment.node.rateLimitDeviceLogin > 0) {
                 const last = this.loginDeviceAttempts.get(`${uid}@${client.remoteAddress}`);
                 const attempts = last ? last + 1 : 1;
                 this.loginDeviceAttempts.set(`${uid}@${client.remoteAddress}`, attempts);
 
-                if (attempts >= Environment.NODE_RATELIMIT_DEVICE_LOGIN) {
+                if (attempts >= Environment.node.rateLimitDeviceLogin) {
                     // login attempts exceeded
                     client.send(Uint8Array.from([16]));
                     client.close();
@@ -2289,7 +2283,7 @@ class World {
                 return;
             }
 
-            if (this.getTotalPlayers() > Environment.NODE_MAX_CONNECTED) {
+            if (this.getTotalPlayers() > Environment.node.maxConnected) {
                 client.send(Uint8Array.from([7]));
                 client.close();
                 return;
@@ -2338,7 +2332,7 @@ class World {
     }
 
     addWealthEvent(event: WealthEvent) {
-        if (filteredEventTypes.includes(event.event_type) && Math.abs(event.account_value) < Environment.NODE_MINIMUM_WEALTH_VALUE_EVENT) {
+        if (filteredEventTypes.includes(event.event_type) && Math.abs(event.account_value) < Environment.node.minimumWealthValueEvent) {
             return;
         }
 

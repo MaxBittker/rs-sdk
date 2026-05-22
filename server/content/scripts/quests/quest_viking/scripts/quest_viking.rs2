@@ -1,0 +1,154 @@
+[oploc1,viking_fencegate_l] @open_viking_fencegate(^left);
+[oploc1,viking_fencegate_r] @open_viking_fencegate(^right);
+
+[label,open_viking_fencegate](int $side)
+if(%viking < ^viking_complete) {
+    mes("Only Fremenniks may pass this gate.");
+    return;
+}
+def_coord $loc_coord = loc_coord;
+loc_add(0_41_57_57_49, inviswall, 1, loc_shape, 3);
+loc_add(0_41_57_57_50, inacviking_fencegate_l, 0, loc_shape, 3);
+loc_add(0_41_57_58_49, inviswall, 1, loc_shape, 3);
+loc_add(0_41_57_57_51, inacviking_fencegate_r, 0, loc_shape, 3);
+sound_synth(door_open, 0, 0); // gate_open
+if(coordx(coord) < coordx($loc_coord)) {
+    p_teleport($loc_coord);
+    p_delay(0);
+}
+if(coordz(coord) > coordz($loc_coord)) {
+    p_teleport($loc_coord);
+} else {
+    p_teleport(movecoord($loc_coord, 0, 0, 1));
+}
+
+[oploc1,viking_chest_closed]
+~open_chest(viking_chest_open);
+
+[oploc1,viking_chest_open]
+~close_chest(viking_chest_closed);
+
+[oploc2,viking_chest_open]
+mes("You search the chest...");
+p_delay(3);
+def_int $rand = random(128);
+// 151 atttempts on osrs, 18 on outcome 1, 133 for outcome 2, 1 for outcome 3
+if($rand < 16) {
+    mes("You don't find anything interesting.");
+} else if($rand < 127) {
+    mes("You find nothing inside.");
+} else {
+    mes("You think you find something nice...");
+    mes("But it turns out to be nothing.");
+}
+
+[proc,get_viking_swensen_progress]()(int)
+return (getbit_range(%viking_bits, ^viking_swensen_start, ^viking_swensen_end));
+
+[proc,set_viking_swensen_progress](int $prog)
+%viking_bits = setbit_range_toint(%viking_bits, $prog, ^viking_swensen_start, ^viking_swensen_end);
+
+[proc,get_viking_reveller_progress]()(int)
+return (getbit_range(%viking_bits, ^viking_reveller_start, ^viking_reveller_end));
+
+[proc,set_viking_reveller_progress](int $prog)
+%viking_bits = setbit_range_toint(%viking_bits, $prog, ^viking_reveller_start, ^viking_reveller_end);
+
+[proc,get_viking_sigli_progress]()(int)
+return (getbit_range(%viking_bits, ^viking_sigli_start, ^viking_sigli_end));
+
+[proc,set_viking_sigli_progress](int $prog)
+%viking_bits = setbit_range_toint(%viking_bits, $prog, ^viking_sigli_start, ^viking_sigli_end);
+
+[proc,get_viking_thorvald_progress]()(int)
+return (getbit_range(%viking_bits, ^viking_thorvald_start, ^viking_thorvald_end));
+
+[proc,set_viking_thorvald_progress](int $prog)
+%viking_bits = setbit_range_toint(%viking_bits, $prog, ^viking_thorvald_start, ^viking_thorvald_end);
+
+[proc,get_viking_peer_progress]()(int)
+return (getbit_range(%viking_bits, ^viking_peer_start, ^viking_peer_end));
+
+[proc,set_viking_peer_progress](int $prog)
+%viking_bits = setbit_range_toint(%viking_bits, $prog, ^viking_peer_start, ^viking_peer_end);
+
+[proc,get_viking_olaf_progress]()(int)
+return (getbit_range(%viking_bits, ^viking_olaf_start, ^viking_olaf_end));
+
+[proc,set_viking_olaf_progress](int $prog)
+%viking_bits = setbit_range_toint(%viking_bits, $prog, ^viking_olaf_start, ^viking_olaf_end);
+
+[proc,get_viking_sigmund_progress]()(int)
+return (getbit_range(%viking_bits, ^viking_sigmund_start, ^viking_sigmund_end));
+
+[proc,set_viking_sigmund_progress](int $prog)
+%viking_bits = setbit_range_toint(%viking_bits, $prog, ^viking_sigmund_start, ^viking_sigmund_end);
+
+[proc,generate_viking_name]
+%godbook_multi = setbit_range_toint(%godbook_multi, random(16), ^viking_name_lower1, ^viking_name_upper1);
+%godbook_multi = setbit_range_toint(%godbook_multi, random(16), ^viking_name_lower2, ^viking_name_upper2);
+
+[proc,get_viking_name]()(string)
+def_string $s1 = "Rak";
+def_string $s2 = "lak";
+
+switch_int(getbit_range(%godbook_multi, ^viking_name_lower1, ^viking_name_upper1)) {
+    case 1 : $s1 = "Bal";
+    case 2 : $s1 = "Bar";
+    case 3 : $s1 = "Dal";
+    case 4 : $s1 = "Dar";
+    case 5 : $s1 = "Den";
+    case 6 : $s1 = "Dok";
+    case 7 : $s1 = "Jar";
+    case 8 : $s1 = "Jik";
+    case 9 : $s1 = "Lar";
+    case 10 : $s1 = "Ral";
+    case 11 : $s1 = "Ril";
+    case 12 : $s1 = "Sig";
+    case 13 : $s1 = "Tal";
+    case 14 : $s1 = "Thor";
+    case 15 : $s1 = "Ton";
+}
+
+switch_int(getbit_range(%godbook_multi, ^viking_name_lower2, ^viking_name_upper2)) {
+    case 1 : $s2 = "dar";
+    case 2 : $s2 = "dor";
+    case 3 : $s2 = "dur";
+    case 4 : $s2 = "kal";
+    case 5 : $s2 = "kar";
+    case 6 : $s2 = "kir";
+    case 7 : $s2 = "kur";
+    case 8 : $s2 = "lah";
+    case 9 : $s2 = "lim";
+    case 10 : $s2 = "lor";
+    case 11 : $s2 = "rak";
+    case 12 : $s2 = "tin";
+    case 13 : $s2 = "ton";
+    case 14 : $s2 = "tor";
+    case 15 : $s2 = "vald";
+}
+
+
+return (append($s1, $s2));
+
+[queue,viking_quest_complete]
+stat_advance(attack, 28124);
+stat_advance(defence, 28124);
+stat_advance(strength, 28124);
+stat_advance(hitpoints, 28124);
+stat_advance(woodcutting, 28124);
+stat_advance(fletching, 28124);
+stat_advance(fishing, 28124);
+stat_advance(crafting, 28124);
+stat_advance(agility, 28124);
+stat_advance(thieving, 28124);
+%viking = ^viking_complete;
+session_log(^log_adventure, "Quest complete: The Fremennik Trials");
+queue(fremennik_name, 0, 0);
+~send_quest_complete(questlist:viking, viking_helmet, 150, ^viking_questpoints, "You have completed the\\nTrials of the Fremmenik Quest!");
+
+[queue,fremennik_name]
+~generate_viking_name;
+if(npc_find(coord, viking_brundt, 10, 0) = true) {
+    ~chatnpc("<p,neutral>From this day onward, you are outerlander no more! In honour of your acceptance into the Fremennik You gain a new name to be known as; You will now be called <~get_viking_name>.");
+}

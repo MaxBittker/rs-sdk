@@ -1,0 +1,267 @@
+// PROC
+
+[proc,get_tbwt_timfraku_title]()(int)
+return (getbit_range(%tbwt_bits, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end));
+
+[proc,set_tbwt_timfraku_title](int $title)
+%tbwt_bits = setbit_range_toint(%tbwt_bits, $title, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end);
+
+[proc,get_tbwt_tamayu_agility_count]()(int)
+return (getbit_range(%tbwt_bits, ^tbwt_tamayu_agility_count_start, ^tbwt_tamayu_agility_count_end));
+
+[proc,set_tbwt_tamayu_agility_count](int $prog)
+%tbwt_bits = setbit_range_toint(%tbwt_bits, $prog, ^tbwt_tamayu_agility_count_start, ^tbwt_tamayu_agility_count_end);
+
+[proc,tbwt_get_timfraku_title]()(string)
+def_string $title = "adventurer";
+switch_int(getbit_range(%tbwt_bits, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end)) {
+    case 0 : $title = "adventurer";
+    case 1 : $title = "explorer";
+    case 2 : $title = "wayfarer";
+    case 3 : $title = "nobody";
+}
+return ($title);
+
+[proc,tbwt_get_completed_timfraku_title]()(string)
+def_string $title = "Roving adventurer";
+switch_int(getbit_range(%tbwt_bits, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end)) {
+    case 0 : $title = "Roving adventurer";
+    case 1 : $title = "Travelling explorer";
+    case 2 : $title = "Wandering wayfarer";
+    case 3 : $title = "Nobody";
+}
+return ($title);
+
+[proc,tbwt_get_brother_completion]()(boolean)
+if (%tbwt_tinsay = ^tbwt_tinsay_complete & %tbwt_tamayu = ^tbwt_tamayu_complete & %tbwt_tiadeche = ^tbwt_tiadeche_complete & %tbwt_lubufu = ^tbwt_lubufu_complete) {
+    return (true);
+} else {
+    return (false);
+}
+
+[proc,tbwt_load_karambwan_vessel](int $use_slot, int $last_slot)
+def_obj $used_on = inv_getobj(inv, $last_slot);
+def_obj $used_with = inv_getobj(inv, $use_slot);
+if ($used_on = tbwt_raw_karambwanji) {
+    inv_delslot(inv, $last_slot);
+} else {
+    inv_delslot(inv, $use_slot);
+}
+if ($used_on = tbwt_karambwan_vessel) {
+        inv_delslot(inv, $last_slot);
+    } else {
+        inv_delslot(inv, $use_slot);
+    }
+inv_add(inv, tbwt_karambwan_vessel_loaded_with_karambwanji, 1);
+mes("You load the Karambwan vessel with the raw Karambwanji.");
+
+[proc,tbwt_attach_karambwan_to_spear]
+if (oc_category(last_useitem) = weapon_spear & oc_param(last_useitem, poison_severity) = 0) {
+    ~chatplayer("<p,neutral>This blasted Karambwan just falls off the spear! My life is becoming such a grind...");         
+} else {
+    ~displaymessage(^dm_default);
+}
+
+
+// OPLOC1
+
+[oploc1,tbwt_bamboo_door]
+if (%tbwt_main < ^tbwt_complete) {
+    mes("You do not have permission to enter here"); // Intentionally no period - https://imgur.com/a/1LTxz27
+    return;
+}
+// These doors currently use 'door_open' synth sound, but switch to 'bamboodoor_open' by Feb 2005 with this update - https://oldschool.runescape.wiki/w/Update:Wilderness_Capes,_and_Changes
+~open_and_close_door(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), false);
+
+[oploc1,tbwt_tribal_statue]
+if (%tbwt_tinsay < ^tbwt_tinsay_claimed_final_reward) {
+    mes("You do not have permission to pray here.");
+} else {
+    @pray_at_altar(stat_base(prayer));
+}
+
+
+// OPNPCU
+
+[opnpcu,lubufu_karambwan]
+if (%tbwt_main >= ^tbwt_complete) {
+    if (npc_find(coord, tbwt_lubufu, 20, 0) = true) {
+        ~chatnpc("<p,angry>You deceived me you confoundering dolt! Because of you, my entire business is ruined! Don't you dare touch my fishing spot!");
+    }
+    return;
+}
+if (%tbwt_lubufu >= ^tbwt_lubufu_complete) {
+    if (last_useitem = tbwt_karambwan_vessel) {
+        if (npc_find(coord, tbwt_lubufu, 20, 0) = true) {
+            ~chatnpc("<p,neutral>You'll first have to bait that pot with Karambwanji.");
+        }
+    } else if (last_useitem = tbwt_karambwan_vessel_loaded_with_karambwanji) {
+        p_opnpc(1);
+    } else {
+        ~displaymessage(^dm_default);
+    }
+    return;
+}
+if (npc_find(coord, tbwt_lubufu, 20, 0) = true) {
+    ~chatnpc("<p,angry>Keep off my fishing spot, whippersnapper!");
+}
+
+
+// OPNPC1
+
+[opnpc1,lubufu_karambwan]
+if (%tbwt_lubufu < ^tbwt_lubufu_complete & %tbwt_main < ^tbwt_complete) {
+    if (npc_find(coord, tbwt_lubufu, 20, 0) = true) {
+        ~chatnpc("<p,angry>Keep off my fishing spot, whippersnapper!");
+    }
+} else {
+    if (%tbwt_main >= ^tbwt_complete) {
+        if (npc_find(coord, tbwt_lubufu, 20, 0) = true) {
+            ~chatnpc("<p,angry>You deceived me you confoundering dolt! Because of you, my entire business is ruined! Don't you dare touch my fishing spot!");
+        }
+    } else {
+        @attempt_fish_karambwan;
+    }
+}
+
+
+// OPHELD1
+
+[opheld1,tbwt_seaweed_in_monkey_skin_sandwich]
+mes("You really, really do not want to eat that.");
+
+
+// OPHELDU
+
+[opheldu,karamja_rum]
+switch_obj(last_useitem) {
+    case banana :
+        anim(rum_stuffing, 0);
+        inv_del(inv, banana, 1);
+        inv_del(inv, karamja_rum, 1);
+        inv_add(inv, tbwt_banana_in_karamja_rum, 1);
+        mes("You stuff the banana into the neck of the bottle. You begin to wonder why.");
+    case tbwt_sliced_banana :
+        inv_del(inv, tbwt_sliced_banana, 1);
+        inv_del(inv, karamja_rum, 1);
+        inv_add(inv, tbwt_sliced_banana_in_karamja_rum, 1);
+        mes("You add the banana slices to the Karamjan rum.");
+    case silk :
+        inv_del(inv, silk, 1);
+        inv_add(inv, tbwt_cleaning_cloth, 1);
+        mes("You pour some of the Karamjan rum over the silk.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,tbwt_monkey_corpse]
+def_obj $item = last_useitem;
+if ((oc_category($item) = weapon_polearm) | (oc_category($item) = weapon_spear) | (oc_category($item) = weapon_slash) | (oc_category($item) = weapon_stab) | ($item = knife)) {
+    mes("You don't know how to skin a monkey ... yet.");
+    return;
+} else if ($item = seaweed) {
+    inv_del(inv, tbwt_monkey_corpse, 1);
+    inv_del(inv, seaweed, 1);
+    inv_add(inv, tbwt_seaweed_in_monkey_corpse, 1);
+    mes("You stuff the seaweed into the monkey corpse, creating a stuffed monkey.");
+    return;
+}
+
+[opheldu,tbwt_monkey_skin]
+switch_obj(last_useitem) {
+    case seaweed :
+        inv_del(inv, tbwt_monkey_skin, 1);
+        inv_del(inv, seaweed, 1);
+        inv_add(inv, tbwt_seaweed_in_monkey_skin_sandwich, 1);
+        mes("You sandwich the seaweed into the monkey skin.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,banana]
+def_obj $item = last_useitem;
+if ((oc_category($item) = weapon_polearm) | (oc_category($item) = weapon_spear) | (oc_category($item) = weapon_slash) | (oc_category($item) = weapon_stab) | ($item = knife)) {
+    anim(banana_slicing, 0);
+    mes("You deftly chop the bananas into slices.");
+    inv_del(inv, banana, 1);
+    inv_add(inv, tbwt_sliced_banana, 1);
+}
+
+[opheldu,tbwt_raw_karambwanji_paste]
+switch_obj(last_useitem) {
+    case tbwt_jogre_bones :
+        inv_del(inv, tbwt_jogre_bones, 1);
+        inv_del(inv, tbwt_raw_karambwanji_paste, 1);
+        inv_add(inv, tbwt_jogre_bones_in_raw_karambwanji_paste, 1);
+        mes("You smother the raw Karambwanji paste over the Jogre bones.");
+    case tbwt_burnt_jogre_bones :
+        inv_del(inv, tbwt_burnt_jogre_bones, 1);
+        inv_del(inv, tbwt_raw_karambwanji_paste, 1);
+        inv_add(inv, tbwt_burnt_jogre_bones_in_raw_karambwanji_paste, 1);
+        mes("You smother the raw Karambwanji paste over the burnt Jogre bones.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,tbwt_cooked_karambwanji_paste]
+switch_obj(last_useitem) {
+    case tbwt_jogre_bones :
+        inv_del(inv, tbwt_jogre_bones, 1);
+        inv_del(inv, tbwt_cooked_karambwanji_paste, 1);
+        inv_add(inv, tbwt_jogre_bones_in_cooked_karambwanji_paste, 1);
+        mes("You smother the cooked Karambwanji paste over the Jogre bones.");
+    case tbwt_burnt_jogre_bones :
+        inv_del(inv, tbwt_burnt_jogre_bones, 1);
+        inv_del(inv, tbwt_cooked_karambwanji_paste, 1);
+        inv_add(inv, tbwt_burnt_jogre_bones_in_cooked_karambwanji_paste, 1);
+        mes("You smother the cooked Karambwanji paste over the burnt Jogre bones.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,tbwt_raw_karambwan]
+switch_obj(last_useitem) {
+    case pestle_and_mortar : ~attempt_grind_ingredient(last_useslot, last_slot);
+    case default : ~tbwt_attach_karambwan_to_spear;
+}
+
+[opheldu,tbwt_poorly_cooked_karambwan]
+switch_obj(last_useitem) {
+    case pestle_and_mortar : ~attempt_grind_ingredient(last_useslot, last_slot);
+    case default : ~tbwt_attach_karambwan_to_spear;
+}
+
+[opheldu,tbwt_cooked_karambwan]
+switch_obj(last_useitem) {
+    case pestle_and_mortar : ~attempt_grind_ingredient(last_useslot, last_slot);
+    case default : ~tbwt_attach_karambwan_to_spear;
+}
+
+[opheldu,tbwt_raw_karambwanji]
+switch_obj(last_useitem) {
+    case pestle_and_mortar : ~attempt_grind_ingredient(last_useslot, last_slot);
+    case tbwt_karambwan_vessel : ~tbwt_load_karambwan_vessel(last_useslot, last_slot);
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,tbwt_cooked_karambwanji]
+switch_obj(last_useitem) {
+    case pestle_and_mortar : ~attempt_grind_ingredient(last_useslot, last_slot);
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,tbwt_karambwan_vessel]
+switch_obj(last_useitem) {
+    case tbwt_raw_karambwanji : ~tbwt_load_karambwan_vessel(last_useslot, last_slot);
+    case default : ~displaymessage(^dm_default);
+}
+
+
+// QUEUE
+
+[queue,twbt_quest_complete]
+session_log(^log_adventure, "Quest complete: Tai Bwo Wannai Trio");
+%tbwt_main = ^tbwt_complete;
+~send_quest_complete(questlist:tbwt, tbwt_raw_karambwan, 250, ^tbwt_questpoints, "You have completed the\\n'Tai Bwo Wannai Trio' Quest!"); // https://web.archive.org/web/20051228165555/http://runescape.salmoneus.net/quests/TaiBwoTrio/taibwocomplt.png
+queue(tbwt_timfraku_talk_to_sons, 0, 0);
+
+/*
+ToDo:
+Cooking a raw karambwan: "You cook the karambwan. It looks very dodgy." - Update cooking message to this when we have Cooking Make-X
+*/

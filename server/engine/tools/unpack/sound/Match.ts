@@ -22,7 +22,7 @@ for (let id = 0; id < newSynth.max; id++) {
         } else if (newCrcs.has(crc)) {
             // newCrcs.delete(crc);
             newDuplicates.add(crc);
-            const names = newDuplicateNames.get(crc) ?? [ newCrcs.get(crc)! ];
+            const names = newDuplicateNames.get(crc) ?? [newCrcs.get(crc)!];
             names.push(name);
             newDuplicateNames.set(crc, names);
             // console.error(`synth: duplicate exists ${name}=${newCrcs.get(crc)}`);
@@ -45,7 +45,7 @@ const oldDuplicateNames = new Map<number, string[]>();
 
 for (let id = 0; id < oldSynth.max; id++) {
     const name = oldSynth.getById(id);
-    const file = `${Environment.BUILD_SRC_DIR}/synth/${name}.synth`;
+    const file = `${Environment.build.srcDir}/synth/${name}.synth`;
 
     if (fs.existsSync(file)) {
         const data = fs.readFileSync(file);
@@ -56,7 +56,7 @@ for (let id = 0; id < oldSynth.max; id++) {
         } else if (oldCrcs.has(crc)) {
             // oldCrcs.delete(crc);
             oldDuplicates.add(crc);
-            const names = oldDuplicateNames.get(crc) ?? [ oldCrcs.get(crc)! ];
+            const names = oldDuplicateNames.get(crc) ?? [oldCrcs.get(crc)!];
             names.push(name);
             oldDuplicateNames.set(crc, names);
             // console.error(`synth: duplicate exists ${name}=${oldCrcs.get(crc)}`);
@@ -81,10 +81,10 @@ for (const [crc, oldName] of oldCrcs) {
         if (oldName !== newName) {
             console.log(`${oldName}=${newName}`);
 
-            if (fs.existsSync(`${Environment.BUILD_SRC_DIR}/synth/${newName}.synth`)) {
+            if (fs.existsSync(`${Environment.build.srcDir}/synth/${newName}.synth`)) {
                 // console.error(`synth: filesystem conflict ${oldName} ${newName}`);
             } else {
-                fs.renameSync(`${Environment.BUILD_SRC_DIR}/synth/${oldName}.synth`, `${Environment.BUILD_SRC_DIR}/synth/${newName}.synth`);
+                fs.renameSync(`${Environment.build.srcDir}/synth/${oldName}.synth`, `${Environment.build.srcDir}/synth/${newName}.synth`);
                 oldSynth.register(id, newName);
             }
         }

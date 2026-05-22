@@ -62,7 +62,7 @@ if (uid ! %npc_macro_event_target) {
     return;
 }
 if (%npc_int = ^genie_happy) {
-    ~chatnpc("<p,neutral>Have a nice day, <text_gender("master", "mistress")>.");
+    ~chatnpc("<p,neutral>I hope you're happy with your wish. I must be leaving|now though.");
     return;
 }
 %npc_int = ^genie_happy;

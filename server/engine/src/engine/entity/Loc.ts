@@ -1,4 +1,4 @@
-import { locShapeLayer } from '@2004scape/rsmod-pathfinder';
+import { locShapeLayer } from '#/engine/routefinder/index.js';
 
 import { EntityLifeCycle } from '#/engine/entity/EntityLifeCycle.js';
 import NonPathingEntity from '#/engine/entity/NonPathingEntity.js';

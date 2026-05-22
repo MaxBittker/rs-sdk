@@ -1,5 +1,5 @@
 [cadavaberries]
-name=Cadaver berries
+name=Cadava berries
 desc=Poisonous berries.
 model=model_2358_obj
 recol1s=30753
@@ -25,7 +25,7 @@ weight=20g
 tradeable=no
 
 [cadava]
-name=Cadaver
+name=Cadava potion
 desc=I'm meant to give this to Juliet.
 model=model_2789_obj
 recol1s=15855

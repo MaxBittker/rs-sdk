@@ -1,28 +1,25 @@
-[proc,trail_geteasyclue]()(boolean)
+[proc,trail_geteasyclue]()(namedobj)
 if(~trail_hasclue_all = false) {
     def_namedobj $trail_clue_easy = enum(int, namedobj, trail_easy_enum, random(enum_getoutputcount(trail_easy_enum)));
-    inv_add(inv, $trail_clue_easy, 1);
-    return(true);
+    return($trail_clue_easy);
 } else {
-    return(false);
+    return(null);
 }
 
-[proc,trail_getmediumclue]()(boolean)
+[proc,trail_getmediumclue]()(namedobj)
 if(~trail_hasclue_all = false) {
     def_namedobj $trail_clue_medium = enum(int, namedobj, trail_medium_enum, random(enum_getoutputcount(trail_medium_enum)));
-    inv_add(inv, $trail_clue_medium, 1);
-    return(true);
+    return($trail_clue_medium);
 } else {
-    return(false);
+    return(null);
 }
 
-[proc,trail_gethardclue]()(boolean)
+[proc,trail_gethardclue]()(namedobj)
 if(~trail_hasclue_all = false) {
     def_namedobj $trail_clue_hard = enum(int, namedobj, trail_hard_enum, random(enum_getoutputcount(trail_hard_enum)));
-    inv_add(inv, $trail_clue_hard, 1);
-    return(true);
+    return($trail_clue_hard);
 } else {
-    return(false);
+    return(null);
 }
 
 [proc,trail_easycluedrop](int $rarity, coord $coord)
@@ -96,3 +93,21 @@ if(~trail_hasclue_all = true) {
     return;
 }
 @pickup_obj;
+
+[proc,trail_reward_godpage]()(namedobj, int)
+def_int $random = random(12);
+
+switch_int ($random) {
+    case 0 : return (holy_book_s_page1, 1);
+    case 1 : return (holy_book_s_page2, 1);
+    case 2 : return (holy_book_s_page3, 1);
+    case 3 : return (holy_book_s_page4, 1);
+    case 4 : return (holy_book_z_page1, 1);
+    case 5 : return (holy_book_z_page2, 1);
+    case 6 : return (holy_book_z_page3, 1);
+    case 7 : return (holy_book_z_page4, 1);
+    case 8 : return (holy_book_g_page1, 1);
+    case 9 : return (holy_book_g_page2, 1);
+    case 10 : return (holy_book_g_page3, 1);
+    case 11 : return (holy_book_g_page4, 1);
+}

@@ -3,127 +3,100 @@ import Linkable2 from '#/datastruct/Linkable2.js';
 import { Colour } from '#/graphics/Colour.js';
 import Pix2D from '#/graphics/Pix2D.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 import JavaRandom from '#/util/JavaRandom.js';
 
 export default class PixFont extends Linkable2 {
-    static readonly CHARSET: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!"£$%^&*()-_=+[{]};:\'@#~,<.>/?\\| ';
-    static readonly CHARCODESET: number[] = [];
+    charMask: Int8Array[] = new Array(256);
+    charMaskWidth: Int32Array = new Int32Array(256);
+    charMaskHeight: Int32Array = new Int32Array(256);
+    charOffsetX: Int32Array = new Int32Array(256);
+    charOffsetY: Int32Array = new Int32Array(256);
+    charAdvance: Int32Array = new Int32Array(256);
 
-    private readonly charMask: Int8Array[] = [];
-    readonly charMaskWidth: Int32Array = new Int32Array(94);
-    readonly charMaskHeight: Int32Array = new Int32Array(94);
-    readonly charOffsetX: Int32Array = new Int32Array(94);
-    readonly charOffsetY: Int32Array = new Int32Array(94);
-    readonly charAdvance: Int32Array = new Int32Array(95);
-    readonly drawWidth: Int32Array = new Int32Array(256);
-    private readonly rand: JavaRandom = new JavaRandom(Date.now());
+    rand: JavaRandom = new JavaRandom(Date.now());
     strikeout: boolean = false;
-    height2d: number = 0;
+    height: number = 0;
 
-    static {
-        const isCapacitor: boolean = navigator.userAgent.includes('Capacitor');
-
-        for (let i: number = 0; i < 256; i++) {
-            let c: number = PixFont.CHARSET.indexOf(String.fromCharCode(i));
-
-            // This fixes text mangling in Capacitor native builds (Android/IOS)
-            if (isCapacitor) {
-                if (c >= 63) {
-                    // "
-                    c--;
-                }
-            }
-
-            if (c === -1) {
-                c = 74; // space
-            }
-
-            PixFont.CHARCODESET[i] = c;
-        }
-    }
-
-    static depack(archive: Jagfile, name: string): PixFont {
+    static depack(archive: JagFile, name: string, quill: boolean): PixFont {
         const dat: Packet = new Packet(archive.read(name + '.dat'));
         const idx: Packet = new Packet(archive.read('index.dat'));
+        idx.pos = dat.g2() + 4;
 
-        idx.pos = dat.g2() + 4; // skip cropW and cropH
-
-        const off: number = idx.g1();
-        if (off > 0) {
-            // skip palette
-            idx.pos += (off - 1) * 3;
+        const palCount: number = idx.g1();
+        if (palCount > 0) {
+            idx.pos += (palCount - 1) * 3;
         }
 
         const font: PixFont = new PixFont();
+        for (let c: number = 0; c < 256; c++) {
+            font.charOffsetX[c] = idx.g1();
+            font.charOffsetY[c] = idx.g1();
+            const wi: number = (font.charMaskWidth[c] = idx.g2());
+            const hi: number = (font.charMaskHeight[c] = idx.g2());
+            const pixelOrder: number = idx.g1();
 
-        for (let i: number = 0; i < 94; i++) {
-            font.charOffsetX[i] = idx.g1();
-            font.charOffsetY[i] = idx.g1();
+            const len: number = wi * hi;
+            font.charMask[c] = new Int8Array(len);
 
-            const w: number = (font.charMaskWidth[i] = idx.g2());
-            const h: number = (font.charMaskHeight[i] = idx.g2());
-
-            const type: number = idx.g1();
-            const len: number = w * h;
-
-            font.charMask[i] = new Int8Array(len);
-
-            if (type === 0) {
-                for (let j: number = 0; j < w * h; j++) {
-                    font.charMask[i][j] = dat.g1b();
+            if (pixelOrder === 0) {
+                for (let j: number = 0; j < wi * hi; j++) {
+                    font.charMask[c][j] = dat.g1b();
                 }
-            } else if (type === 1) {
-                for (let x: number = 0; x < w; x++) {
-                    for (let y: number = 0; y < h; y++) {
-                        font.charMask[i][x + y * w] = dat.g1b();
+            } else if (pixelOrder === 1) {
+                for (let x: number = 0; x < wi; x++) {
+                    for (let y: number = 0; y < hi; y++) {
+                        font.charMask[c][x + y * wi] = dat.g1b();
                     }
                 }
             }
 
-            if (h > font.height2d) {
-                font.height2d = h;
+            if (hi > font.height && c < 128) {
+                font.height = hi;
             }
 
-            font.charOffsetX[i] = 1;
-            font.charAdvance[i] = w + 2;
+            font.charOffsetX[c] = 1;
+            font.charAdvance[c] = wi + 2;
 
             {
                 let space: number = 0;
-                for (let y: number = (h / 7) | 0; y < h; y++) {
-                    space += font.charMask[i][y * w];
+                for (let y: number = (hi / 7) | 0; y < hi; y++) {
+                    space += font.charMask[c][y * wi];
                 }
 
-                if (space <= ((h / 7) | 0)) {
-                    font.charAdvance[i]--;
-                    font.charOffsetX[i] = 0;
+                if (space <= ((hi / 7) | 0)) {
+                    font.charAdvance[c]--;
+                    font.charOffsetX[c] = 0;
                 }
             }
 
             {
                 let space: number = 0;
-                for (let y: number = (h / 7) | 0; y < h; y++) {
-                    space += font.charMask[i][w + y * w - 1];
+                for (let y: number = (hi / 7) | 0; y < hi; y++) {
+                    space += font.charMask[c][wi + y * wi - 1];
                 }
 
-                if (space <= ((h / 7) | 0)) {
-                    font.charAdvance[i]--;
+                if (space <= ((hi / 7) | 0)) {
+                    font.charAdvance[c]--;
                 }
             }
         }
 
-        font.charAdvance[94] = font.charAdvance[8];
-        for (let i: number = 0; i < 256; i++) {
-            font.drawWidth[i] = font.charAdvance[PixFont.CHARCODESET[i]];
+        if (quill) {
+            // ' '  = 'I'
+            font.charAdvance[32] = font.charAdvance[73];
+        } else {
+            // ' ' = 'i'
+            font.charAdvance[32] = font.charAdvance[105];
         }
 
         return font;
     }
 
     centreString(str: string | null, x: number, y: number, rgb: number): void {
-        if (!str) {
+        if (str === null) {
             return;
         }
 
@@ -141,17 +114,17 @@ export default class PixFont extends Linkable2 {
     }
 
     stringWid(str: string | null): number {
-        if (!str) {
+        if (str === null) {
             return 0;
         }
 
         const length: number = str.length;
         let w: number = 0;
-        for (let i: number = 0; i < length; i++) {
-            if (str.charAt(i) === '@' && i + 4 < length && str.charAt(i + 4) === '@') {
-                i += 4;
+        for (let c: number = 0; c < length; c++) {
+            if (str.charAt(c) === '@' && c + 4 < length && str.charAt(c + 4) === '@') {
+                c += 4;
             } else {
-                w += this.drawWidth[str.charCodeAt(i)];
+                w += this.charAdvance[str.charCodeAt(c)];
             }
         }
 
@@ -159,19 +132,19 @@ export default class PixFont extends Linkable2 {
     }
 
     drawString(str: string | null, x: number, y: number, rgb: number): void {
-        if (!str) {
+        if (str === null) {
             return;
         }
 
         x |= 0;
         y |= 0;
 
-        y -= this.height2d;
+        y -= this.height;
 
         for (let i: number = 0; i < str.length; i++) {
-            const c: number = PixFont.CHARCODESET[str.charCodeAt(i)];
+            const c: number = str.charCodeAt(i);
 
-            if (c !== 94) {
+            if (c !== 32) {
                 this.plotLetter(this.charMask[c], x + this.charOffsetX[c], y + this.charOffsetY[c], this.charMaskWidth[c], this.charMaskHeight[c], rgb);
             }
 
@@ -179,8 +152,8 @@ export default class PixFont extends Linkable2 {
         }
     }
 
-    centerStringWave(str: string | null, x: number, y: number, rgb: number, phase: number): void {
-        if (!str) {
+    centreStringWave(str: string | null, x: number, y: number, rgb: number, phase: number): void {
+        if (str === null) {
             return;
         }
 
@@ -188,12 +161,12 @@ export default class PixFont extends Linkable2 {
         y |= 0;
 
         x -= (this.stringWid(str) / 2) | 0;
-        const offY: number = y - this.height2d;
+        const offY: number = y - this.height;
 
         for (let i: number = 0; i < str.length; i++) {
-            const c: number = PixFont.CHARCODESET[str.charCodeAt(i)];
+            const c: number = str.charCodeAt(i);
 
-            if (c != 94) {
+            if (c != 32) {
                 this.plotLetter(this.charMask[c], x + this.charOffsetX[c], offY + this.charOffsetY[c] + ((Math.sin(i / 2.0 + phase / 5.0) * 5.0) | 0), this.charMaskWidth[c], this.charMaskHeight[c], rgb);
             }
 
@@ -209,7 +182,7 @@ export default class PixFont extends Linkable2 {
         const startX = x;
 
         const length: number = str.length;
-        y -= this.height2d;
+        y -= this.height;
         for (let i: number = 0; i < length; i++) {
             if (str.charAt(i) === '@' && i + 4 < length && str.charAt(i + 4) === '@') {
                 const tag = this.updateState(str.substring(i + 1, i + 4));
@@ -218,9 +191,9 @@ export default class PixFont extends Linkable2 {
                 }
                 i += 4;
             } else {
-                const c: number = PixFont.CHARCODESET[str.charCodeAt(i)];
+                const c: number = str.charCodeAt(i);
 
-                if (c !== 94) {
+                if (c !== 32) {
                     if (shadowed) {
                         this.plotLetter(this.charMask[c], x + this.charOffsetX[c] + 1, y + this.charOffsetY[c] + 1, this.charMaskWidth[c], this.charMaskHeight[c], Colour.BLACK);
                     }
@@ -232,7 +205,7 @@ export default class PixFont extends Linkable2 {
         }
 
         if (this.strikeout) {
-            Pix2D.hline(startX, y + ((this.height2d * 0.7) | 0), x - startX, Colour.DARKRED);
+            Pix2D.hline(startX, y + ((this.height * 0.7) | 0), x - startX, Colour.DARKRED);
         }
     }
 
@@ -243,7 +216,7 @@ export default class PixFont extends Linkable2 {
         this.rand.setSeed(seed);
 
         const rand: number = (this.rand.nextInt() & 0x1f) + 192;
-        const offY: number = y - this.height2d;
+        const offY: number = y - this.height;
         for (let i: number = 0; i < str.length; i++) {
             if (str.charAt(i) === '@' && i + 4 < str.length && str.charAt(i + 4) === '@') {
                 const tag = this.updateState(str.substring(i + 1, i + 4));
@@ -252,8 +225,8 @@ export default class PixFont extends Linkable2 {
                 }
                 i += 4;
             } else {
-                const c: number = PixFont.CHARCODESET[str.charCodeAt(i)];
-                if (c !== 94) {
+                const c: number = str.charCodeAt(i);
+                if (c !== 32) {
                     if (shadowed) {
                         this.plotLetterTrans(this.charMask[c], x + this.charOffsetX[c] + 1, offY + this.charOffsetY[c] + 1, this.charMaskWidth[c], this.charMaskHeight[c], Colour.BLACK, 192);
                     }

@@ -1,0 +1,15 @@
+[opnpc1,regicide_general_hining]
+~chatplayer("<p,happy>Hello.");
+if(%regicide_quest > ^regicide_spoken_iorwerth2) {
+    ~chatnpc("<p,scared>This is not a good place to be, go and prepare for the coming darkness.");
+    ~chatplayer("<p,confused>What do you mean?");
+    ~chatnpc("<p,scared>There is no great hero left to fight back the forces that face us now... Go, leave, prepare for the darkness. While you still have time!");
+    return;
+}
+// https://web.archive.org/web/20061231211932im_/http://www.runeweb.net/fireball/Regicide%20Images/Regicide16.PNG
+~chatnpc("<p,neutral>Yes, is there anything I can help with?|I'm General of what's left of this army|and I'm rather busy.");
+~chatplayer("<p,quiz>If you're a General can you help me meet the king?");
+~chatnpc("<p,neutral>The king will see no one. He can trust no one!");
+~chatplayer("<p,sad>Is there no way I can see him?");
+~chatnpc("<p,neutral>In the coming battle he will stand between us and the end. Then you will see him.");
+~chatplayer("<p,shifty>Not quite what I had in mind.");

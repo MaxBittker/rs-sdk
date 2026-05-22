@@ -1,0 +1,501 @@
+[opobj3,zamorakbook_complete]
+// https://www.youtube.com/watch?v=v0g55VLG088&t=60s
+if(~obj_gettotal(zamorakbook_complete) > 0) {
+    mes("You do not need more than one unholy book.");
+    return;
+}
+@pickup_obj;
+
+[opobj3,saradominbook_complete]
+if(~obj_gettotal(saradominbook_complete) > 0) {
+    mes("You do not need more than one holy book.");
+    return;
+}
+@pickup_obj;
+
+[opobj3,guthixbook_complete]
+if(~obj_gettotal(guthixbook_complete) > 0) {
+    mes("You do not need more than one book of balance.");
+    return;
+}
+@pickup_obj;
+
+[opobj3,unfinished_zamorakbook]
+if(~obj_gettotal(unfinished_zamorakbook) > 0) {
+    mes("You do not need more than one incomplete book.");
+    return;
+}
+@pickup_obj;
+
+[opobj3,unfinished_saradominbook]
+if(~obj_gettotal(unfinished_saradominbook) > 0) {
+    mes("You do not need more than one incomplete book.");
+    return;
+}
+@pickup_obj;
+
+[opobj3,unfinished_guthixbook]
+if(~obj_gettotal(unfinished_guthixbook) > 0) {
+    mes("You do not need more than one incomplete book.");
+    return;
+}
+@pickup_obj;
+
+[opheldu,unfinished_zamorakbook]
+switch_obj(last_useitem) {
+    case holy_book_z_page1 :
+        if(%horror_unholypage1 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_unholypage1 = ^true;
+        inv_del(inv, holy_book_z_page1, 1);
+        mes("You add the page to the book...");
+        ~check_unholybook_complete;
+        return;
+    case holy_book_z_page2 :
+        if(%horror_unholypage2 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_unholypage2 = ^true;
+        inv_del(inv, holy_book_z_page2, 1);
+        mes("You add the page to the book...");
+        ~check_unholybook_complete;
+        return;
+    case holy_book_z_page3 :
+        if(%horror_unholypage3 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_unholypage3 = ^true;
+        inv_del(inv, holy_book_z_page3, 1);
+        mes("You add the page to the book...");
+        ~check_unholybook_complete;
+        return;
+    case holy_book_z_page4 :
+        if(%horror_unholypage4 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_unholypage4 = ^true;
+        inv_del(inv, holy_book_z_page4, 1);
+        mes("You add the page to the book...");
+        ~check_unholybook_complete;
+        return;
+}
+if(oc_category(last_useitem) = category_759) {
+    mes("This page does not appear to come from this book.");
+    return;
+}
+if(last_useitem = stringsnake) {
+    mes("You cannot bless symbols with an incomplete book.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,unfinished_saradominbook]
+switch_obj(last_useitem) {
+    case holy_book_s_page1 :
+        if(%horror_holypage1 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_holypage1 = ^true;
+        inv_del(inv, holy_book_s_page1, 1);
+        mes("You add the page to the book...");
+        ~check_holybook_complete;
+        return;
+    case holy_book_s_page2 :
+        if(%horror_holypage2 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_holypage2 = ^true;
+        inv_del(inv, holy_book_s_page2, 1);
+        mes("You add the page to the book...");
+        ~check_holybook_complete;
+        return;
+    case holy_book_s_page3 :
+        if(%horror_holypage3 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_holypage3 = ^true;
+        inv_del(inv, holy_book_s_page3, 1);
+        mes("You add the page to the book...");
+        ~check_holybook_complete;
+        return;
+    case holy_book_s_page4 :
+        if(%horror_holypage4 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_holypage4 = ^true;
+        inv_del(inv, holy_book_s_page4, 1);
+        mes("You add the page to the book...");
+        ~check_holybook_complete;
+        return;
+}
+if(oc_category(last_useitem) = category_759) {
+    mes("This page does not appear to come from this book.");
+    return;
+}
+if(last_useitem = stringstar) {
+    mes("You cannot bless symbols with an incomplete book.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,unfinished_guthixbook]
+switch_obj(last_useitem) {
+    case holy_book_g_page1 :
+        if(%horror_balancepage1 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_balancepage1 = ^true;
+        inv_del(inv, holy_book_g_page1, 1);
+        mes("You add the page to the book...");
+        ~check_balancebook_complete;
+        return;
+    case holy_book_g_page2 :
+        if(%horror_balancepage2 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_balancepage2 = ^true;
+        inv_del(inv, holy_book_g_page2, 1);
+        mes("You add the page to the book...");
+        ~check_balancebook_complete;
+        return;
+    case holy_book_g_page3 :
+        if(%horror_balancepage3 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_balancepage3 = ^true;
+        inv_del(inv, holy_book_g_page3, 1);
+        mes("You add the page to the book...");
+        ~check_balancebook_complete;
+        return;
+    case holy_book_g_page4 :
+        if(%horror_balancepage4 = ^true) {
+            mes("You have already added this page to the book.");
+            return;
+        }
+        %horror_balancepage4 = ^true;
+        inv_del(inv, holy_book_g_page4, 1);
+        mes("You add the page to the book...");
+        ~check_balancebook_complete;
+        return;
+}
+if(oc_category(last_useitem) = category_759) {
+    mes("This page does not appear to come from this book.");
+    return;
+}
+if(last_useitem = stringsnake | last_useitem = stringstar) {
+    mes("You cannot bless symbols with an incomplete book.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,zamorakbook_complete]
+switch_obj(last_useitem) {
+    case stringstar : mes("You cannot bless that symbol with this book.");
+    case stringsnake : @bless_stringsnake(zamorakbook_complete);
+}
+
+[opheldu,saradominbook_complete]
+// NIH after the mes is the case on OSRS, and not the other way around
+switch_obj(last_useitem) {
+    case stringstar : @bless_stringstar(saradominbook_complete);
+    case stringsnake : mes("You cannot bless that symbol with this book.");
+}
+~displaymessage(^dm_default);
+
+[opheldu,guthixbook_complete]
+switch_obj(last_useitem) {
+    case stringstar : @bless_stringstar(guthixbook_complete);
+    case stringsnake : @bless_stringsnake(guthixbook_complete);
+}
+~displaymessage(^dm_default);
+
+[opheldu,stringsnake]
+if(last_useitem = saradominbook_complete) {
+    mes("You cannot bless that symbol with this book.");
+    return;
+}
+if(last_useitem = zamorakbook_complete | last_useitem = guthixbook_complete) {
+    @bless_stringsnake(last_useitem);
+}
+if(last_useitem = unfinished_zamorakbook | last_useitem = unfinished_guthixbook) {
+    mes("You cannot bless symbols with an incomplete book.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,stringstar]
+if(last_useitem = zamorakbook_complete) {
+    mes("You cannot bless that symbol with this book.");
+    return;
+}
+if(last_useitem = saradominbook_complete | last_useitem = guthixbook_complete) {
+    @bless_stringsnake(last_useitem);
+}
+if(last_useitem = unfinished_saradominbook | last_useitem = unfinished_guthixbook) {
+    mes("You cannot bless symbols with an incomplete book.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[label,bless_stringsnake](obj $book)
+if(stat_base(prayer) < 50) {
+    mes("You need a Prayer level of 50 to bless the symbol.");
+    return;
+}
+if(stat(prayer) = 0) {
+    mes("You have run out of prayer points.");
+    return;
+}
+p_stopaction;
+if($book = guthixbook_complete) anim(horror_preach_guthix, 0);
+else anim(horror_preach_zamorak, 0);
+p_delay(2);
+inv_del(inv, stringsnake, 1);
+inv_add(inv, blessedsnake, 1);
+if($book = guthixbook_complete) stat_drain(prayer, 2, 10);
+else stat_drain(prayer, 1, 5);
+mes("You bless the unholy symbol.");
+
+[label,bless_stringstar](obj $book)
+if(stat_base(prayer) < 50) {
+    mes("You need a Prayer level of 50 to bless the symbol.");
+    return;
+}
+if(stat(prayer) = 0) {
+    mes("You have run out of prayer points.");
+    return;
+}
+p_stopaction;
+if($book = guthixbook_complete) anim(horror_preach_guthix, 0);
+else anim(horror_preach_saradomin, 0);
+p_delay(2);
+inv_del(inv, stringstar, 1);
+inv_add(inv, blessedstar, 1);
+// wiki is wrong, seems to be 5% + 1 or 10% + 2
+if($book = guthixbook_complete) stat_drain(prayer, 2, 10);
+else stat_drain(prayer, 1, 5);
+mes("You bless the holy symbol.");
+
+[proc,check_unholybook_complete]
+if(%horror_unholypage1 = ^true & %horror_unholypage2 = ^true & %horror_unholypage3 = ^true & %horror_unholypage4 = ^true) {
+    inv_del(inv, unfinished_zamorakbook, 1);
+    inv_add(inv, zamorakbook_complete, 1);
+    mes("The book is now complete!");
+    mes("You can now use it to bless unholy symbols!");
+}
+
+[proc,check_holybook_complete]
+if(%horror_holypage1 = ^true & %horror_holypage2 = ^true & %horror_holypage3 = ^true & %horror_holypage4 = ^true) {
+    inv_del(inv, unfinished_saradominbook, 1);
+    inv_add(inv, saradominbook_complete, 1);
+    mes("The book is now complete!");
+    mes("You can now use it to bless holy symbols!");
+}
+
+[proc,check_balancebook_complete]
+if(%horror_balancepage1 = ^true & %horror_balancepage2 = ^true & %horror_balancepage3 = ^true & %horror_balancepage4 = ^true) {
+    inv_del(inv, unfinished_guthixbook, 1);
+    inv_add(inv, guthixbook_complete, 1);
+    mes("The book is now complete!");
+    mes("You can now use it to bless unblessed holy symbols!");
+}
+
+[opheld3,saradominbook_complete]
+if(%sa_energy < 250) {
+    mes("You don't have enough Special Energy to preach.");
+    return;
+}
+def_int $op = ~p_choice4_header("Partnerships", 1, "Last Rites", 2, "Blessings", 3, "Preach", 4, "Select a relevant passage");
+if_close;
+p_stopaction;
+def_int $rand;
+switch_int($op) {
+    case 1 :
+        anim(horror_preach_saradomin, 0);
+        p_delay(0);
+        say("In the name of Saradomin,");
+        p_delay(1);
+        say("Protector of us all,");
+        p_delay(2);
+        say("I now join you in the eyes of Saradomin.");
+    case 2 :
+        anim(horror_preach_saradomin, 0);
+        p_delay(0);
+        say("Thy cause was false, thy skills did lack;");
+        p_delay(1);
+        say("See you in Lumbridge when you get back.");
+    case 3 :
+        anim(horror_preach_saradomin, 0);
+        p_delay(0);
+        say("Go in peace in the name of Saradomin;");
+        p_delay(1);
+        say("May his glory shine upon you like the sun.");
+    case 4 :
+        anim(horror_preach_saradomin, 0);
+        p_delay(0);
+        $rand = random(5);
+        if($rand = 0) {
+            say("Protect your self, protect your friends.");
+            p_delay(1);
+            say("Mine is the glory that never ends.");
+        } else if ($rand = 1) {
+            say("The darkness in life may be avoided,");
+            p_delay(1);
+            say(" by the light of wisdom shining.");
+        } else if ($rand = 2) {
+            say("Show love to your friends, and mercy to your enemies,");
+            p_delay(1);
+            say("and know that the wisdom of Saradomin will follow.");
+        } else if ($rand = 3) {
+            say("A fight begun, when the cause is just,");
+            p_delay(1);
+            say("will prevail over all others.");
+        } else {
+            say("The currency of goodness is honour;");
+            p_delay(1);
+            say("It retains its value through scarcity.");
+        }
+        p_delay(2);
+        say("This is Saradomin's wisdom.");
+}
+%sa_energy = sub(%sa_energy, 250);
+
+[opheld3,zamorakbook_complete]
+if(%sa_energy < 250) {
+    mes("You don't have enough Special Energy to preach.");
+    return;
+}
+def_int $op = ~p_choice4_header("Wedding Ceremony", 1, "Last Rites", 2, "Blessings", 3, "Preach", 4, "Select a relevant passage");
+if_close;
+p_stopaction;
+def_int $rand;
+switch_int($op) {
+    case 1 :
+        anim(horror_preach_zamorak, 0);
+        p_delay(0);
+        say("Two great warriors, joined by hand,");
+        p_delay(1);
+        say("to spread destruction across the land.");
+        p_delay(2);
+        say("In Zamorak's name, now two are one.");
+    case 2 :
+        anim(horror_preach_zamorak, 0);
+        p_delay(0);
+        say("The weak deserve to die,");
+        p_delay(1);
+        say("So that the strong may flourish.");
+        p_delay(2);
+        say("This is the creed of Zamorak.");
+    case 3 :
+        anim(horror_preach_zamorak, 0);
+        p_delay(0);
+        say("May your bloodthirst be never sated,");
+        p_delay(1);
+        say("and may all your battles be glorious.");
+        p_delay(1);
+        say("Zamorak bring you strength.");
+    case 4 :
+        anim(horror_preach_zamorak, 0);
+        p_delay(0);
+        $rand = random(5);
+        if($rand = 0) {
+            say("There is no opinion that cannot be proven true,");
+            p_delay(1);
+            say("by crushing those who choose to disagree with it.");
+        } else if ($rand = 1) {
+            say("Strike fast, strike hard, strike true:");
+            p_delay(1);
+            say("The strength of Zamorak will be with you.");
+        } else if ($rand = 2) {
+            say("Battle is my calling,");
+            p_delay(1);
+            say("and death shall be my rest.");
+        } else if ($rand = 3) {
+            say("Those who fight, then run away,");
+            p_delay(1);
+            say("shame Zamorak with their cowardice.");
+        } else {
+            say("Battles are not lost and won;");
+            p_delay(1);
+            say("They simply remove the weak from the equation.");
+        }
+        p_delay(2);
+        say("Zamorak give me strength!");
+}
+%sa_energy = sub(%sa_energy, 250);
+
+[opheld3,guthixbook_complete]
+if(%sa_energy < 250) {
+    mes("You don't have enough Special Energy to preach.");
+    return;
+}
+def_int $op = ~p_choice4_header("Wedding Ceremony", 1, "Last Rites", 2, "Blessings", 3, "Preach", 4, "Select a relevant passage");
+if_close;
+p_stopaction;
+def_int $rand;
+switch_int($op) {
+    case 1 :
+        anim(horror_preach_guthix, 0);
+        p_delay(0);
+        say("Light and dark, day and night,");
+        p_delay(1);
+        say("Balance arises from contrast.");
+        p_delay(2);
+        say("I unify thee in the name of Guthix.");
+    case 2 :
+        anim(horror_preach_guthix, 0);
+        p_delay(0);
+        say("Thy death was not in vain,");
+        p_delay(1);
+        say("for it brought some balance to the world.");
+        p_delay(2);
+        say("May Guthix bring you rest.");
+    case 3 :
+        anim(horror_preach_guthix, 0);
+        p_delay(0);
+        say("May you walk the path, and never fall,");
+        p_delay(1);
+        say("for Guthix walks beside thee on thy journey.");
+        p_delay(2);
+        say("May Guthix bring you peace.");
+    case 4 :
+        anim(horror_preach_guthix, 0);
+        p_delay(0);
+        $rand = random(5);
+        if($rand = 0) {
+            say("All things must end, as all begin;");
+            p_delay(1);
+            say("Only Guthix knows the role thou must play.");
+        } else if ($rand = 1) {
+            say("In life, in death, in joy, in sorrow:");
+            p_delay(1);
+            say("May thine experience show thee balance.");
+        } else if ($rand = 2) {
+            say("Thou must do as thou must, no matter what.");
+            p_delay(1);
+            say("Thine actions bring balance to this world.");
+        } else if ($rand = 3) {
+            say("The river flows, the sun ignites,");
+            p_delay(1);
+            say("May you stand with Guthix in thy fights.");
+        } else {
+            say("A journey of a single step,");
+            p_delay(1);
+            say("May take thee over a thousand miles.");
+        }
+        p_delay(2);
+        say("May Guthix bring you balance.");
+}
+%sa_energy = sub(%sa_energy, 250);

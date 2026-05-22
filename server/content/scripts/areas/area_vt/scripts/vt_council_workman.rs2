@@ -1,0 +1,42 @@
+[opnpc1,vt_council_workmen]
+~chatplayer("<p,neutral>Hello.");
+~chatnpc("<p,neutral>How do. You planning on crossing this here bridge and heading up to Rellekka then?");
+switch_int(~p_choice2("Yes", 1, "No", 2)) {
+    case 1 :
+        ~chatplayer("<p,neutral>Yes, actually I was.");
+        ~chatnpc("<p,neutral>Aye, 'tis a good thing we fixed this 'ere bridge, I reckon. You best be careful up there. Them Fremenniks are odd 'uns.");
+        ~chatplayer("<p,quiz>So you fixed this bridge yourself?");
+        ~chatnpc("<p,neutral>Aye, that I did. 'Twas real thirsty work too. If only some kind stranger would buy us a bit of beer to sup, eh?");
+        ~chatnpc("<p,neutral>What with that inn at seers so close by and all, eh?");
+    case 2 :
+        ~chatplayer("<p,neutral>I wasn't planning on it, no.");
+        ~chatnpc("<p,neutral>Aye, that's what I told t'gaffer. Nobody wants to go up and hang out with a buncha dumb barbarians when there's a perfectly good inn to sup in, in t'seers village.");
+        ~chatnpc("<p,neutral>Ain't much better in life than having a nice cold beer to sup on a hot day like this, eh? Better'n fixing bridges, eh?");
+}
+~mesbox("The workman winks at you.");
+~chatnpc("<p,neutral>Just make sure yer don't get me none of that non alcoholic rubbish from that poison salesman guy at the tavern!");
+
+
+[opnpcu,vt_council_workmen]
+// drinks released after 2004 don't seem to work, so not a category check
+if(last_useitem = beer | last_useitem = viking_tankard_full) {
+    inv_del(inv, last_useitem, 1);
+    inv_add(inv, viking_firecracker, 1);
+    ~chatnpc("<p,neutral>Ta very much, like. That'll hit the spot nicely. Here, you can have this. I picked it up as a souvenir on me last hols.");
+    ~chatplayer("<p,quiz>What is it?");
+    ~chatnpc("<p,neutral>I dunno rightly, but if you use a tinderbox on it, it don't half make a loud noise!");
+    return;
+}
+if(last_useitem = wizards_mind_bomb | last_useitem = asgarnian_ale | last_useitem = dwarven_stout | last_useitem = dragon_bitter | last_useitem = grog | last_useitem = moonlight_mead) {
+    ~chatnpc("<p,neutral>No ta, not my brand of beer.");
+    return;
+}
+if(last_useitem = jug_bad_wine | last_useitem = jug_wine | last_useitem = half_full_wine_jug) {
+    ~chatnpc("<p,neutral>No ta, not a big wine fan, me.");
+    return;
+}
+if(last_useitem = vodka | last_useitem = whisky | last_useitem = gin | last_useitem = brandy) { // TODO: check karamjan rum
+    ~chatnpc("<p,neutral>No ta, not a big wine fan, me.");
+    return;
+}
+~displaymessage(^dm_default);

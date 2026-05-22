@@ -24,6 +24,7 @@ export default class ScriptVarType {
     static readonly NPC_STAT = 254; // þ
     static readonly IDKIT = 75; // K
     static readonly DBROW = 208; // Ð
+    static readonly MIDI = 77; // M
 
     static getType(type: number) {
         switch (type) {
@@ -77,6 +78,8 @@ export default class ScriptVarType {
                 return 'idkit';
             case ScriptVarType.DBROW:
                 return 'dbrow';
+            case ScriptVarType.MIDI:
+                return 'midi';
             default:
                 return 'unknown';
         }
@@ -161,6 +164,9 @@ export default class ScriptVarType {
                 break;
             case 'dbrow':
                 char = 'Ð';
+                break;
+            case 'midi':
+                char = 'M';
                 break;
             default:
                 return null;

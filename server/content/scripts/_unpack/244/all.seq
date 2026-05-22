@@ -383,7 +383,6 @@ frame11=anim_7861
 
 [rampage]
 priority=6
-stretches=true
 frame1=anim_4688
 frame2=anim_4760
 frame3=anim_4266
@@ -398,7 +397,6 @@ frame11=anim_4682
 
 [sanctuary]
 priority=6
-stretches=true
 frame1=anim_4573
 frame2=anim_4594
 frame3=anim_4618
@@ -413,7 +411,8 @@ frame11=anim_4263
 
 [cleave]
 priority=6
-stretches=true
+stretches=yes
+walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_4673
 frame2=anim_4746
 frame3=anim_4253
@@ -439,7 +438,8 @@ frame10=anim_7913
 
 [shatter]
 priority=6
-stretches=true
+stretches=yes
+walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_4589
 frame2=anim_4614
 frame3=anim_4674
@@ -483,7 +483,8 @@ frame19=anim_7904
 
 [puncture]
 priority=6
-stretches=true
+stretches=yes
+walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_4670
 frame2=anim_4743
 frame3=anim_4765
@@ -525,7 +526,8 @@ frame18=anim_7880
 
 [shove]
 priority=6
-stretches=true
+stretches=yes
+walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_4656
 frame2=anim_4681
 frame3=anim_4754
@@ -583,7 +585,9 @@ frame32=anim_6253
 
 // guessed name, osrs is d_claws_punch
 [claws_punch]
-stretches=true
+stretches=yes
+priority=6
+walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_4921
 frame2=anim_4923
 frame3=anim_4925
@@ -598,6 +602,7 @@ frame9=anim_4924
 priority=6
 stretches=yes
 replaceheldright=hide
+walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_4267
 frame2=anim_4566
 frame3=anim_4585
@@ -658,7 +663,8 @@ frame4=anim_7919
 
 [snapshot]
 priority=6
-stretches=true
+stretches=yes
+walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_4260
 frame2=anim_4560
 frame3=anim_4580

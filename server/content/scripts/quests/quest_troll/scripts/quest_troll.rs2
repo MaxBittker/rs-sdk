@@ -27,7 +27,7 @@ if(coordx(coord) > coordx(loc_coord)) {
 }
 p_delay(0);
 ~agility_exactmove(human_climbing_down, 15, 0, coord, movecoord(coord, $dx, 0, 0), 0, 90, $dir, false);
-if(stat_random(agility, 125, 250) = false) {
+if(stat_random(agility, 170, 253) = false) {
     sound_synth(stumble_loop, 10, 0);
     anim(human_climbing_fall, 0);
     p_delay(1);
@@ -56,7 +56,7 @@ if(coordx(coord) < coordx(loc_coord)) {
 p_delay(0);
 ~set_forcemove_bas(human_climbing);
 ~forcemove(movecoord(coord, multiply(2, $dx), 0, 0));
-if(stat_random(agility, 125, 250) = false) {
+if(stat_random(agility, 170, 253) = false) {
     sound_synth(stumble_loop, 10, 0);
     ~agility_exactmove(human_climbing_fall, 0, 1, coord, movecoord(coord, multiply(-2, $dx), 0, 0), 0, 50, $dir, false);
     anim(null, 0);
@@ -141,23 +141,23 @@ if(stat(agility) < 15) {
     mes("You need an Agility level of at least 15 to attempt this.");
     return;
 }
-def_int $dx = -2;
-def_int $dir = ^exact_east;
+def_boolean $success = stat_random(agility, 170, 253);
 p_delay(0);
-~agility_exactmove(human_climbing_down, 15, 0, coord, movecoord(coord, $dx, 0, 0), 0, 50, $dir, false);
-if(stat_random(agility, 125, 250) = false) {
+if($success = true) stat_advance(agility, 10);
+if(loc_angle > ^loc_north) ~agility_exactmove(human_climbing_down, 15, 0, coord, movecoord(coord, 0, 0, -2), 0, 50, ^exact_north, false);
+else ~agility_exactmove(human_climbing_down, 15, 0, coord, movecoord(coord, -2, 0, 0), 0, 50, ^exact_east, false);
+if($success = false) {
     sound_synth(stumble_loop, 10, 0);
     anim(human_climbing_fall, 0);
-    p_delay(1);
+    p_delay(0);
     anim(null, 0);
     mes("You fall and hurt yourself.");
     say("Ouch");
-    stat_advance(agility, 10);
+    stat_advance(agility, 4);
     ~damage_self(calc(((stat(hitpoints) * 5) / 100) + 1));
     return;
 }
 p_delay(0);
-stat_advance(agility, 10);
 anim(null, 0);
 
 [label,troll_mountain_shortcut]
@@ -165,26 +165,32 @@ if(stat(agility) < 15) {
     mes("You need an Agility level of at least 15 to attempt this.");
     return;
 }
-if(coordx(coord) > coordx(loc_coord)) {
+if((loc_angle < ^loc_east & coordx(coord) > coordx(loc_coord)) | (loc_angle > ^loc_north & coordz(coord) > coordz(loc_coord))) {
     @troll_mountain_rockstop;
 }
 def_int $dx = 1;
+def_int $dz = 0;
 def_int $dir = ^exact_east;
+if(loc_angle > ^loc_north) {
+    $dx = 0;
+    $dz = 1;
+    $dir = ^exact_north;
+}
 p_delay(0);
 ~set_forcemove_bas(human_climbing);
-~forcemove(movecoord(coord, $dx, 0, 0));
-if(stat_random(agility, 125, 250) = false) {
+~forcemove(movecoord(coord, $dx, 0, $dz));
+if(stat_random(agility, 170, 253) = false) {
     sound_synth(stumble_loop, 10, 0);
-    ~agility_exactmove(human_climbing_fall, 0, 1, coord, movecoord(coord, multiply(-1, $dx), 0, 0), 0, 25, $dir, false);
+    ~agility_exactmove(human_climbing_fall, 0, 1, coord, movecoord(coord, multiply(-1, $dx), 0, multiply(-1, $dz)), 0, 25, $dir, false);
     anim(null, 0);
     ~update_bas;
     mes("You fall and hurt yourself.");
     say("Ouch");
-    stat_advance(agility, 10);
+    stat_advance(agility, 4);
     ~damage_self(calc(((stat(hitpoints) * 5) / 100) + 1));
     return;
 }
-~forcemove(movecoord(coord, $dx, 0, 0));
+~forcemove(movecoord(coord, $dx, 0, $dz));
 ~update_bas;
 stat_advance(agility, 10);
 
@@ -194,7 +200,6 @@ if(%troll_entered_stronghold = ^false) %troll_entered_stronghold = ^true;
 
 [oploc1,troll_stronghold_top_exit_mid]
 p_teleport(0_44_57_24_42);
-
 
 [oploc1,troll_stronghold_stairstop]
 p_arrivedelay;
@@ -213,29 +218,6 @@ switch_int(loc_angle) {
     case ^loc_east : p_teleport(movecoord(loc_coord, 0, 1, -1));
     case default : mes("Unhandled troll stairs, loc_angle <tostring(loc_angle)>");
 }
-
-[oploc1,eadgar_kitchen_drawers]
-p_arrivedelay;
-anim(human_openchest, 0);
-sound_synth(cupboard_open, 0, 0);
-p_delay(0);
-loc_change(eadgar_kitchen_drawers_open, 300);
-
-[oploc1,eadgar_kitchen_drawers_open]
-p_arrivedelay;
-anim(human_closechest, 0);
-sound_synth(cupboard_close, 0, 0);
-p_delay(0);
-loc_change(eadgar_kitchen_drawers, 300);
-
-[oploc2,eadgar_kitchen_drawers_open]
-p_arrivedelay;
-mes("You search the drawers...");
-p_delay(0);
-mes("You don't find anything.");
-
-[oploc1,eadgar_storeroomdoor]
-mes("You need to find the right key to open this door.");
 
 [oploc1,troll_stronghold_prison_door_closed]
 if(inv_total(inv, troll_key_prison) = 0 & %troll_quest < ^troll_entered_prison) {

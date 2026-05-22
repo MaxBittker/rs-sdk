@@ -1,6 +1,9 @@
 [opnpc1,fairy_banker] @talk_to_banker;
 [opnpc1,shilobanker] @talk_to_banker;
 
+[opnpc3,fairy_banker] @openbank;
+[opnpc3,shilobanker] @openbank;
+
 [apnpc1,_bank_teller]
 if (npc_range(coord) > 2) {
     p_aprange(2);

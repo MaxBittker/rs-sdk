@@ -1,0 +1,539 @@
+[opnpc1,viking_olaf]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello there. So you're a bard?");
+    ~chatnpc("<p,neutral>I am afraid I cannot speak to outerlanders. Besides, I am busy composing an epic.");
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_olaf_merchant;
+    }
+    switch_int(~get_viking_olaf_progress) {
+        case ^olaf_complete :
+            ~chatplayer("<p,quiz>So can I rely on your vote with the council of elders in my favour?");
+            ~chatnpc("<p,happy>You have a truly poetic soul! Anyone who can compose such a beautiful epic, and then perform it so flawlessly can only bring good to our clan!");
+            ~chatplayer("<p,quiz>Erm... so that's a yes, then?");
+            ~chatnpc("<p,happy>Absolutely! We must collaborate together on a duet sometime, don't you think?");
+        case default :
+            if(testbit(%viking_bits, ^viking_learned_olaf) = ^true) {
+                ~chatplayer("<p,neutral>What do I have to do to earn your vote at the council of elders again?");
+                ~chatnpc("<p,neutral>Ah, it but a small thing outerlander. Simply make yourself an instrument, get the blessing of Fossegrimen, and then sing your own ballad at the longhall.");
+                ~chatnpc("<p,neutral>Is that clear enough, outerlander? Would you like me to repeat anything?");
+                @multi4("Remind me about crafting a lyre", olaf_remindlyre, "Remind me about Fossegrimen", olaf_remindfoss, "Remind me about playing on stage", olaf_remindstage, "I don't need a reminder", olaf_noremind);
+            }
+            ~chatplayer("<p,quiz>So how would I go about writing this epic?");
+            ~chatnpc("<p,neutral>Well, first of all you are going to need an instrument. Like all true bards you are going to have to make this yourself.");
+            ~chatplayer("<p,quiz>How do I make an instrument?");
+            ~chatnpc("<p,neutral>Well, it is a long and drawn-out process. Just east of this village there is an unusually musical tree that can be used to make very high quality instruments.");
+            ~chatnpc("<p,neutral>Cut a piece from it, and then carve it into a special shape that will allow you to string it. Using a knife as you would craft any other wooden object would be best for this.");
+            ~chatplayer("<p,quiz>Then what do I need to do?");
+            ~chatnpc("<p,neutral>Next you will need to string your lyre. There is a troll to the South-east who has some golden wool. I would not recommend using anything else to string your lyre with.");
+            ~chatplayer("<p,quiz>Anything else?");
+            ~chatnpc("<p,neutral>Well, when you have crafted your lyre you will need the blessing of the Fossegrimen to tune your lyre to perfection before you even consider a public performance.");
+            ~chatplayer("<p,quiz>Who or what is Fossegrimen?");
+            ~chatnpc("<p,neutral>Fossegrimen is a lake spirit that lives just a little way South-west of this village. Make her an offering of fish, and you will then be ready for your performance.");
+            ~chatnpc("<p,neutral>Make sure you give her a suitable offering however. If the offering is found to be unworthy, then you may find yourself unable to play your lyre with any skill at all!");
+            ~chatplayer("<p,quiz>So what would be a worthy offering?");
+            ~chatnpc("<p,neutral>A raw shark, manta ray, or sea turtle should be sufficient as an offering.");
+            ~chatplayer("<p,quiz>Okay, what else do I need to do?");
+            ~chatnpc("<p,neutral>When you have crafted your lyre and been blessed by Fossegrimen, then you will finally be ready to make your performance to the revellers at the longhall.");
+            ~chatnpc("<p,neutral>Head past the bouncers and onto the stage, and then begin to play. If all goes well, you should find the music spring to your mind and sing your own epic on the spot.");
+            ~chatnpc("<p,neutral>I will observe both you and the audience, and if you show enough talent, I will happily vote in your favour at the council of elders.");
+            %viking_bits = setbit(%viking_bits, ^viking_learned_olaf);
+            ~chatnpc("<p,neutral>Is that clear enough, outerlander? Would you like me to repeat anything?");
+            @multi4("Remind me about crafting a lyre", olaf_remindlyre, "Remind me about Fossegrimen", olaf_remindfoss, "Remind me about playing on stage", olaf_remindstage, "I don't need a reminder", olaf_noremind);
+        case ^olaf_not_started :
+            ~chatnpc("<p,quiz>Hello? Yes? You want something, outerlander?");
+            ~chatplayer("<p,quiz>Are you a member of the council?");
+            ~chatnpc("<p,happy>Why, indeed I am, outerlander! My talents as an exemplary musician made it difficult for them not to accept me! Why do you wish to know this?");
+            ~chatplayer("<p,neutral>Well, I ask because I am currently doing the Fremennik trials so as to join your clan. I need seven of the twelve council of elders to vote for me.");
+            ~chatnpc("<p,neutral>Ahhh... and you wish to earn my vote? I will gladly accept you as a Fremennik should you be able to prove yourself to have a little musical ability!");
+            ~chatplayer("<p,neutral>So how would I do that?");
+            ~chatnpc("<p,neutral>Why, by playing in our longhall! All you need to do is impress the revellers there with a few verses of an epic of your own creation!");
+            ~chatnpc("<p,quiz>So what say you outerlander? Are you up for the challenge?");
+            $op = ~p_choice2("Yes", 1, "No", 2);
+            if($op = 2) {
+                ~chatplayer("<p,angry>Forget it! This all sounds like way too much work for a stupid vote at a meeting! I'll find someone else instead.");
+                return;
+            }
+            ~set_viking_olaf_progress(^olaf_started);
+            ~chatplayer("<p,happy>Sure! This certainly sounds pretty easy to accomplish - I'll have your vote in no time!");
+            ~chatnpc("<p,happy>That is great news outerlander! We always need more music lovers here!");
+    }
+}
+
+[label,viking_olaf_merchant]
+if(inv_total(inv, viking_new_boots) > 0) {
+    ~chatplayer("<p,neutral>Hello Olaf. Do you have a beautiful love song written for me?");
+    ~chatnpc("<p,neutral>That depends outerlander... Do you have some new boots for me? My feet get so tired roaming the land...");
+    ~chatplayer("<p,neutral>As a matter of fact - I do!");
+    inv_del(inv, viking_new_boots, 1);
+    inv_add(inv, viking_song, 1);
+    ~chatnpc("<p,neutral>Oh! Superb! Those are great! They're just what I was looking for! Here, take this song with my compliments! It is one of my finest works yet!");
+    return;
+}
+if(inv_total(inv, viking_song) > 0) {
+    ~chatplayer("<p,confused>So you think this song is pretty good then?");
+    ~chatnpc("<p,neutral>Ahhh.... outerlander... it is the most beautiful romantic ballad I have ever been inspired to write...");
+    ~chatnpc("<p,neutral>Only a woman with a heart of icy stone could fail to be moved by its beauty!");
+    ~chatplayer("<p,happy>Thanks! That sounds perfect!");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_thorvald :
+        // a few npcs use your for some reason, bad copy paste from thorvald probably...
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the token to allow your seat at the champions table?");
+        ~chatnpc("<p,neutral>I'm sorry, no I don't.");
+    case ^sigmund_spoke_olaf :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>I'm sorry outerlander... If I did, I would not trouble you to go and find them for me, would I?");
+    case ^sigmund_spoke_sailor :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Well, as official Fremennik bard, it falls within my remit to compose all music for the tribe. I am fully versed in all the various types of romantic music.");
+        ~chatplayer("<p,neutral>Great! Can you write me one then?");
+        ~chatnpc("<p,neutral>Well... normally I would be thrilled at the chance to show my skill as a poet in composing a seductively romantic ballad...");
+        ~chatplayer("<p,sad>let me guess; here comes the 'but'.");
+        ~chatnpc("<p,neutral>...but unfortunately I cannot concentrate fully upon my work recently.");
+        ~chatplayer("<p,quiz>Why is that then?");
+        ~chatnpc("<p,neutral>It is these old worn out shoes of mine... As a bard I am expected to wander the lands, singing of the glorious battles of our warriors.");
+        ~set_viking_sigmund_progress(^sigmund_spoke_olaf);
+        ~chatnpc("<p,neutral>If you can find me a pair of sturdy boots to replace these old worn out ones of mine, I will be happy to spend the time on composing you a romantic ballad.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>I'm sorry, no I don't.");
+}
+
+
+[label,olaf_remindlyre]
+~chatplayer("<p,quiz>Can you remind me about making a lyre again, please Olaf?");
+~chatnpc("<p,neutral>There are three parts to making the lyre; First you need to cut some special wood from the special musical tree which can be found just east of Rellekka.");
+~chatnpc("<p,neutral>When you have the wood, you will need to use a knife to craft it into a Lyre. When you have an unstrung lyre, you will need to string it before you can play it.");
+~chatnpc("<p,neutral>I would not use anything other than the golden string of Lalli, a troll who lives in a cave just to the South-east.");
+~chatnpc("<p,neutral>Is that clear enough, outerlander? Would you like me to repeat anything?");
+@multi3("Remind me about Fossegrimen", olaf_remindfoss, "Remind me about playing on stage", olaf_remindstage, "I don't need a reminder", olaf_noremind);
+
+[label,olaf_remindfoss]
+~chatplayer("<p,quiz>Can you remind me about getting a blessing from Fossegrimen again?");
+~chatnpc("<p,neutral>Certainly outerlander! Fossegrimen is a lake spirit who lives in the lake just to the South-west of here. She will bless you so that you may play your lyre,");
+~chatnpc("<p,neutral>if you give her a worthy offering. She will only accept raw fish, so place a raw fish on her pedestal, and she will bless you. The better the offering, the longer");
+~chatnpc("<p,neutral>the amount of time you will be blessed for. You will not be able to perform on stage without the blessing of the Fossegrimen.");
+~chatnpc("<p,neutral>Is that clear enough, outerlander? Would you like me to repeat anything?");
+@multi3("Remind me about crafting a lyre", olaf_remindlyre, "Remind me about playing on stage", olaf_remindstage, "I don't need a reminder", olaf_noremind);
+
+[label,olaf_remindstage]
+~chatplayer("<p,quiz>Can you remind me about how to perform at the longhall again please?");
+~chatnpc("<p,neutral>He will not let you pass unless he believes you are ready to perform on stage. Simply go past him and onto the stage and use your lyre, and you will");
+~chatnpc("<p,neutral>begin to play to entertain the revellers. If all has gone well, you will feel the music come to your mind, unbidden, as you sing an epic of your exploits.");
+~chatnpc("<p,neutral>I will watch your performance from backstage, and also study how much the crowd likes you, and if I believe you have enough talent, then I will vote for you at the council.");
+~chatnpc("<p,neutral>Is that clear enough, outerlander? Would you like me to repeat anything?");
+@multi3("Remind me about crafting a lyre", olaf_remindlyre, "Remind me about Fossegrimen", olaf_remindfoss, "I don't need a reminder", olaf_noremind);
+
+[label,olaf_noremind]
+~chatplayer("<p,neutral>No thanks, I think that's all pretty straight forward. I'll go and make my lyre now.");
+
+[oploc1,viking_musical_tree]
+if(stat(woodcutting) < 40) {
+    ~mesbox("You are not a high enough Woodcutting level to chop a branch from this tree. You need a Woodcutting level of 40."); // osrs
+    return;
+}
+def_namedobj $axe = ~woodcutting_axe_checker(false);
+if($axe = null) {
+    mes("You need an axe to chop down this tree."); // TODO: was this added in 2005 with axe req?
+    mes("You do not have an axe that you have the Woodcutting level to use.");
+    return;
+}
+if(inv_freespace(inv) = 0) {
+    ~mesbox("You do not have enough free space in your inventory to chop this tree.");
+    return;
+}
+mes("You swing your axe at the tree.");
+anim(oc_param($axe, woodcutting_anim), 0);
+p_delay(2);
+mes("You cut a branch from the strangely musical tree.");
+anim(null, 0);
+inv_add(inv, viking_musical_tree_branch, 1);
+stat_advance(woodcutting, 10);
+
+[opheldu,viking_musical_tree_branch]
+if(last_useitem = knife) @craft_unstrung_lyre;
+~displaymessage(^dm_default);
+
+[label,craft_unstrung_lyre]
+if(stat(crafting) < 40) {
+    ~mesbox("You need to have a Crafting level of 40 to make a lyre."); // osrs
+    return;
+}
+mes("You craft an unstrung lyre out of the branch.");
+anim(human_fletching, 0);
+p_delay(0);
+inv_del(inv, viking_musical_tree_branch, 1);
+inv_add(inv, viking_unstrung_lyre, 1);
+stat_advance(crafting, 10);
+
+[oplocu,viking_lake_shrine_altar]
+if(inv_total(inv, viking_strung_lyre) = 0) {
+    mes("You need a strung lyre before you can make an offering to Fossegrimen.");
+    return;
+}
+if(%viking = ^viking_complete) {
+    if(last_useitem = raw_shrimp | last_useitem = raw_anchovies | last_useitem = raw_sardine | last_useitem = raw_salmon | last_useitem = raw_trout | last_useitem = raw_giant_carp
+        | last_useitem = raw_cod | last_useitem = raw_herring | last_useitem = raw_pike | last_useitem = raw_mackerel | last_useitem = raw_tuna | last_useitem = raw_bass
+        | last_useitem = raw_swordfish | last_useitem = raw_lobster | last_useitem = tbwt_raw_karambwan | last_useitem = tbwt_raw_karambwanji) { // no new fish (e.g. monkfish dont work), giant carp does work
+            mes("Fossegrimen requires a greater offering to enchant your lyre.");
+            return;
+    }
+    if(last_useitem = raw_shark | last_useitem = raw_seaturtle | last_useitem = raw_mantaray) {
+        if(npc_findexact(0_41_56_2_12, viking_lake_spirit) = false) npc_add(0_41_56_2_12, viking_lake_spirit, 80);
+        npc_facesquare(coord);
+        mes("Your lyre is now enchanted. You can use it to teleport to Rellekka.");
+        mes("When the enchantment wears off you will need to re-enchant it.");
+        inv_del(inv, viking_strung_lyre, 1);
+        inv_setslot(inv, last_useslot, magic_strung_lyre, 1);
+        ~chatnpc("<p,happy>I offer you this enchantment for your worthy offering.");
+        return;
+    }
+}
+if(~get_viking_olaf_progress < ^olaf_complete & ~get_viking_olaf_progress > ^olaf_not_started) {
+    if(last_useitem = raw_shrimp | last_useitem = raw_anchovies | last_useitem = raw_sardine | last_useitem = raw_salmon | last_useitem = raw_trout | last_useitem = raw_giant_carp
+        | last_useitem = raw_cod | last_useitem = raw_herring | last_useitem = raw_pike | last_useitem = raw_mackerel | last_useitem = raw_tuna | last_useitem = raw_bass
+        | last_useitem = raw_swordfish | last_useitem = raw_lobster | last_useitem = tbwt_raw_karambwan | last_useitem = tbwt_raw_karambwanji) { // no new fish (e.g. monkfish dont work), giant carp does work
+            mes("Fossegrimen requires a greater offering to enchant your lyre.");
+            return;
+    }
+    if(last_useitem = raw_shark | last_useitem = raw_seaturtle | last_useitem = raw_mantaray) {
+        if(npc_findexact(0_41_56_2_12, viking_lake_spirit) = false) npc_add(0_41_56_2_12, viking_lake_spirit, 80);
+        npc_facesquare(coord);
+        mes("Fossegrimen has enchanted your lyre so that you may play it.");
+        inv_del(inv, viking_strung_lyre, 1);
+        inv_setslot(inv, last_useslot, viking_enchanted_strung_lyre, 1);
+        ~chatnpc("<p,neutral>Many thanks for the offering outerlander. Please accept as a gift the ability to play your lyre...");
+        return;
+    }
+}
+~displaymessage(^dm_default);
+
+[opheldu,viking_unstrung_lyre]
+if(last_useitem = viking_golden_wool) {
+    if(stat(fletching) < 25) {
+        ~mesbox("You need to have a Fletching level of 25 to string the lyre.");
+        return;
+    }
+    mes("You attach the golden strings to the lyre.");
+    inv_del(inv, viking_golden_wool, 1);
+    inv_del(inv, viking_unstrung_lyre, 1);
+    inv_add(inv, viking_strung_lyre, 1);
+    stat_advance(fletching, 10);
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheld1,viking_strung_lyre]
+~chatplayer("<p,sad>I really wouldn't know where to begin playing anything on this...");
+
+[opheld1,magic_strung_lyre]
+def_int $slot = last_slot;
+if (~wilderness_level(coord) > 20) {
+    mes("A mysterious force blocks your teleport spell!");
+    mes("You can't use this teleport after level 20 wilderness.");
+    return;
+}
+if (~pre_tele_checks(coord) = false) {
+    return;
+}
+p_stopaction;
+anim(viking_lyre_play_once, 0);
+~music_jingle("perfectly tuned");
+p_delay(2);
+~player_teleport_normal(map_findsquare(0_41_56_38_60, 0, 2, ^map_findsquare_lineofwalk));
+mes("Your lyre teleports you to Rellekka.");
+inv_setslot(inv, $slot, viking_strung_lyre, 1);
+
+[opheld1,viking_enchanted_strung_lyre]
+if(inzone(0_41_57_31_34, 0_41_57_38_37, coord) = true) {
+    if(~get_viking_olaf_progress = ^olaf_complete | %viking = ^viking_complete) {
+        mes("You have already completed the Bard's Trial.");
+        return;
+    }
+    if(~get_viking_olaf_progress > ^olaf_not_started) {
+        p_stopaction;
+        mes("You withdraw your lyre.");
+        @play_lyre_longhall;
+    }
+}
+p_stopaction;
+mes("You withdraw your lyre.");
+anim(viking_lyre_ready, 0);
+weakqueue(viking_play1, 1, 0);
+
+[queue,viking_play1]
+anim(viking_lyre_playing_loop, 0);
+say("Doh Ray Me So.");
+~music_jingle("ballad opening");
+weakqueue(viking_play2, 3, 0);
+
+[queue,viking_play2]
+anim(viking_lyre_playing_loop, 0);
+say("Fah La Ti Doh.");
+~music_jingle("ballad refrain");
+weakqueue(viking_play3, 3, 0);
+
+[queue,viking_play3]
+anim(viking_lyre_playing_loop, 0);
+say("La La La La.");
+~music_jingle("ballad refrain");
+weakqueue(viking_play4, 3, 0);
+
+[queue,viking_play4]
+anim(viking_lyre_playing_loop, 0);
+say("De-Doo-De-Doo.");
+~music_jingle("ballad refrain");
+weakqueue(viking_play5, 2, 0);
+
+[queue,viking_play5]
+anim(viking_lyre_play_once, 0);
+~music_jingle("perfectly tuned");
+weakqueue(viking_play6, 2, 0);
+
+[queue,viking_play6]
+mes("Your lyre is perfectly tuned.");
+
+[label,play_lyre_longhall]
+def_string $line1 = "<displayname()> is my name,";
+def_string $line2 = "I haven't much to say.";
+def_string $line3 = "But since I have to sing this song,";
+def_string $line4 = "I'll just go ahead and play.";
+// not sure how ordering of 99's works
+
+if(stat_base(cooking) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Cooking's ninety-nine!";
+} else if(stat_base(woodcutting) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Woodcutting's ninety-nine!";
+} else if(stat_base(fletching) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Fletching's ninety-nine!";
+} else if(stat_base(fishing) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Fishing's ninety-nine!";
+} else if(stat_base(firemaking) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Firemaking's ninety-nine!";
+} else if(stat_base(crafting) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Crafting's ninety-nine!";
+} else if(stat_base(smithing) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Smithing's ninety-nine!";
+} else if(stat_base(mining) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Mining's ninety-nine!";
+} else if(stat_base(herblore) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Herblore's ninety-nine!";
+} else if(stat_base(agility) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Agility's ninety-nine!";
+} else if(stat_base(thieving) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Thieving's ninety-nine!";
+} else if(stat_base(runecraft) = 99) {
+    $line1 = "When people speak of training";
+    $line2 = "Some people think they're fine.";
+    $line3 = "But they just all seem jealous that";
+    $line4 = "My Runecraft's ninety-nine!"; // runecraft or runecrafting..?
+} else if(%legendsquest = ^legends_complete) {
+    $line1 = "I cannot even start to list";
+    $line2 = "The amount of foes I've killed.";
+    $line3 = "I will simply tell you this:";
+    $line4 = "I've joined the Legends' Guild!";
+} else if(%heroquest = ^hero_complete) {
+    $line1 = "When it comes to fighting";
+    $line2 = "I hit my share of zeroes";
+    $line3 = "But I'm well respected at";
+    $line4 = "The Guild reserved for Heroes.";
+} else if(%dragonquest >= ^dragon_complete) {
+    $line1 = "The thought of lots of questing";
+    $line2 = "Leaves some people unfulfilled,";
+    $line3 = "But I have done my simple best, in";
+    $line4 = "Entering the Champions' Guild.";
+}
+facesquare(0_41_57_34_22);
+p_delay(1);
+~music_jingle("ballad opening");
+anim(viking_lyre_playing_loop, 0);
+say($line1);
+~viking_audience_react;
+p_delay(3);
+~music_jingle("ballad refrain");
+anim(viking_lyre_playing_loop, 0);
+say($line2);
+~viking_audience_react;
+p_delay(3);
+~music_jingle("ballad refrain");
+anim(viking_lyre_playing_loop, 0);
+say($line3);
+~viking_audience_react;
+p_delay(3);
+~music_jingle("ballad refrain");
+anim(viking_lyre_playing_loop, 0);
+say($line4);
+~viking_audience_react;
+p_delay(3);
+~music_jingle("perfectly tuned");
+mes("Your lyre is perfectly tuned.");
+mes("Congratulations! You have completed the Bard's Trial!");
+mes("As you finished playing you felt Fossegrimen's power leave you...");
+~viking_audience_react;
+anim(viking_lyre_putaway, 0);
+queue(complete_olaf_trial, 0, 0);
+if(npc_find(movecoord(coord, 12, 0, 0), viking_olaf, 10, 0) = true) {
+    ~chatnpc("<p,neutral>Wow! That was awesome! You are one of the greatest bards I have ever had the pleasure of watching performing!");
+    ~chatnpc("<p,neutral>You have certainly earned my vote! I hope we can duet together soon!");
+}
+
+[proc,viking_audience_react]
+npc_findallany(coord, 10, ^vis_off);
+while(npc_findnext = true) {
+    if(npc_type = viking_heckler | npc_type = viking_heckler_2 | npc_type = viking_heckler_3 | npc_type = viking_heckler_4) {
+        if(random(20) = 0) npc_queue(11, 0, random(4));
+    }
+}
+
+[proc,viking_random_audience_line]
+switch_int(random(24)) {
+    case 0 : npc_say("YOU ARE A TERRIBLE BARD!");
+    case 1 : npc_say("Don't give up your day job outerlander!");
+    case 2 : npc_say("I thought somebody was murdering a cat!");
+    case 3 : npc_say("You know, I actually quite liked that verse...");
+    case 4 : npc_say("That's kind of catchy. Irritating. But catchy.");
+    case 5 : npc_say("Hey, I've done that quest too!");
+    case 6 : npc_say("I have produced better sounds in the outhouse!");
+    case 7 : npc_say("Your song makes no sense outerlander!");
+    case 8 : npc_say("What kind of bard are you anyway?");
+    case 9 : npc_say("I have met cows more musical than you!");
+    case 10 : npc_say("When do you get to the good parts?");
+    case 11 : npc_say("Truly, this is the worst sound I have ever heard!");
+    case 12 : npc_say("looting and drinking part?");
+    case 13 : npc_say("Please tell me that was the last verse...");
+    case 14 : npc_say("Please... Kill me now...");
+    case 15 : npc_say("You call THAT singing?");
+    case 16 : npc_say("Never before have mine ears been so offended!");
+    case 17 : npc_say("Worst. Bard. EVER.");
+    case 18 : npc_say("Please, ye gods! Make it stop!");
+    case 19 : npc_say("If you stopped singing");
+    case 20 : npc_say("The screams of my dying comrades sound better!");
+    case 21 : npc_say("My grandmother could do better, and she is dead!");
+    case 22 : npc_say("I do such feats before breakfast!");
+    case 23 : npc_say("Is your singing some kind of outerlander weapon?");
+}
+
+[queue,complete_olaf_trial]
+mes("You feel the musical ability from the Fossegrimen leave you...");
+%viking = add(%viking, 1);
+%viking_bits = clearbit(%viking_bits, ^viking_cabbage_stew);
+%viking_bits = clearbit(%viking_bits, ^viking_potato_stew);
+%viking_bits = clearbit(%viking_bits, ^viking_onion_stew);
+%viking_bits = clearbit(%viking_bits, ^viking_rock_stew);
+~set_viking_olaf_progress(^olaf_complete);
+def_int $totalinv = inv_total(inv, viking_enchanted_strung_lyre);
+def_int $totalbank = inv_total(inv, viking_enchanted_strung_lyre);
+if($totalinv > 0) {
+    inv_del(inv, viking_enchanted_strung_lyre, $totalinv);
+    inv_add(inv, viking_strung_lyre, $totalinv);
+}
+if($totalbank > 0) {
+    inv_del(bank, viking_enchanted_strung_lyre, $totalbank);
+    inv_add(bank, viking_strung_lyre, $totalbank);
+}
+
+[opnpc1,viking_longhall_bouncer] @viking_bouncer_dialogue;
+
+[queue,longhall_enter_dialogue]
+if(npc_findexact(0_41_57_43_36, viking_longhall_bouncer) = true) {
+    ~chatnpc("<p,neutral>Yeah, you're good to go through. Olaf tells me you're some kind of outerlander bard here on tour. I doubt you're worse than Olaf is.");
+}
+
+[oploc1,viking_bard_backstage_door]
+def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
+if($entering = false) {
+    ~open_and_close_door2(viking_door_inactive, $entering, door_open);
+    return;
+}
+
+if(~get_viking_olaf_progress < ^olaf_complete & ~get_viking_olaf_progress > ^olaf_not_started & inv_total(inv, viking_enchanted_strung_lyre) > 0) {
+    longqueue(longhall_enter_dialogue, 0, 0, ^discard); // it queues this, no idea why
+    ~open_and_close_door2(viking_door_inactive, $entering, door_open);
+    return;
+}
+if(npc_findexact(0_41_57_43_36, viking_longhall_bouncer) = true) {
+    if(~get_viking_olaf_progress = ^olaf_complete | %viking = ^viking_complete) {
+        ~chatnpc("<p,angry>You can't go through there. Talent only, backstage.");
+        ~chatplayer("<p,angry>But I'm a Bard!");
+        ~chatnpc("<p,neutral>No you're not. I saw your performance. I was paid well to keep you from ever setting foot on stage here again.");
+    } else if(%viking > ^viking_not_started) {
+        ~chatnpc("<p,neutral>Get lost, outerlander. Performers only past this point.");
+        ~chatplayer("<p,happy>But I am a performer!");
+        ~chatnpc("<p,quiz>Oh, really? So where's your instrument?");
+        ~chatplayer("<p,shifty>Um... I'm an acapella bard?");
+        ~chatnpc("<p,quiz>Oh, really? You won't mind singing me a quick song then.");
+        switch_int(~p_choice4_header("Tie Me Chompy Bird Down", 1, "Murphy Row The Boat Ashore", 2, "My Old Man's A Miner", 3, "Elvarg The Magic Dragon", 4, "Select the song to sing")) {
+            case 1 :
+                ~chatplayer("<p,neutral>Tie me chompy bird down, Rantz Tie me chompy bird down! Me stickers don't get no quicker, So tie me chompy bird down!");
+            case 2 :
+                ~chatplayer("<p,neutral>Murphy row the boat ashore... We are siiiiinking...");
+            case 3 :
+                ~chatplayer("<p,neutral>My old man's a miner, Spends all day mining ore, He wears a dragon ammy, And lives in Falador - Oi!");
+            case 4 :
+                ~chatplayer("<p,neutral>Elvarg the magic dragon... Lives by the sea... He spends all his days eating folk, And dies occasionally...");
+        }
+        ~chatnpc("<p,neutral>That was a pile of tosh. Get lost, outerlander. You're a bard like I'm a goblin. Do I look stupid to you?");
+        ~chatplayer("<p,neutral>Well, actually...");
+        ~chatnpc("<p,neutral>I said, get lost.");
+    } else if(%viking = ^viking_not_started) @viking_bouncer_dialogue;
+}
+
+[label,viking_bouncer_dialogue]
+if(%viking = ^viking_complete) {
+    ~chatnpc("<p,angry>You can't go through there. Talent only, backstage.");
+    ~chatplayer("<p,angry>But I'm a Bard!");
+    ~chatnpc("<p,neutral>No you're not. I saw your performance. I was paid well to keep you from ever setting foot on stage here again.");
+    return;
+}
+if(inv_total(inv, viking_enchanted_strung_lyre) > 0) {
+    ~chatnpc("<p,neutral>You have an instrument now, huh?|Go on through the door.");
+    return;
+}
+~chatnpc("<p,angry>Hey, outerlander. You can't go through there. Talent only, backstage.");
+
+[opnpc1,viking_heckler] ~chatnpcnoturn("<p,angry>Shhh! I'm waiting for the show!");
+[opnpc1,viking_heckler_2] ~chatnpcnoturn("<p,angry>Shhh! I'm waiting for the show!");
+[opnpc1,viking_heckler_3] ~chatnpcnoturn("<p,angry>Shhh! I'm waiting for the show!");
+[opnpc1,viking_heckler_4] ~chatnpcnoturn("<p,angry>Shhh! I'm waiting for the show!");
+
+[ai_queue11,viking_heckler] ~viking_random_audience_line;
+[ai_queue11,viking_heckler_2] ~viking_random_audience_line;
+[ai_queue11,viking_heckler_3] ~viking_random_audience_line;
+[ai_queue11,viking_heckler_4] ~viking_random_audience_line;

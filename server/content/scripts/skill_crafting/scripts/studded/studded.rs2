@@ -14,7 +14,7 @@ switch_obj (last_useitem)
         }
         @craft_studded(studded_body);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,leather_chaps]
 if (last_useitem = studs) {

@@ -1,4 +1,10 @@
 [opnpc1,kangai_mau]
+if(inv_total(inv, trail_clue_medium_anagram019) > 0) {
+    // https://www.youtube.com/watch?v=VoMyXl_rV3c
+    ~chatnpc("<p,neutral>Congrats. Here!");
+    ~progress_clue_medium(trail_clue_medium_anagram019, "Kangai Mau has given you another clue scroll!");
+    return;
+}
 switch_int (%totemquest) {
     case ^totem_not_started : @kangai_mau_prequest;
     case ^totem_started, ^totem_crate_marked, ^totem_crate_delivered, ^totem_teleported : @kangai_mau_totem_back;

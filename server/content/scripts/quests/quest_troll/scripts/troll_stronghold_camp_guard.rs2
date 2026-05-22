@@ -55,7 +55,7 @@ if(npc_stat(hitpoints) = 0) {
     mes("Too late, they're dead.");
     return;
 }
-if(stat_random(thieving, 100, 240) = false) {
+if(stat_random(thieving, 60, 300) = false) {
     npc_say("What do you think you're doing?");
     mes("You fail to pick the guard's pocket.");
     npc_changetype_keepall($next_type, 500);

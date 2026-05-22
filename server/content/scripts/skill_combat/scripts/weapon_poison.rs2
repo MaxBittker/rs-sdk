@@ -4,39 +4,54 @@ if (oc_param(last_useitem, weapon_poisoned) ! null) {
 }
 ~displaymessage(^dm_default);
 
+[opheldu,tbwt_cleaning_cloth]
+@clean_weapon_poison(last_useslot);
+
+[opheldu,tbwt_poisonous_karambwan_paste]
+if (oc_param(last_useitem, tbwt_weapon_poisoned) ! null) {
+    @make_tbwt_poisoned_weapon(last_useslot, last_slot);
+}
+~displaymessage(^dm_default);
+
 [opheldu,_weapon_stab]
 switch_obj(last_useitem) {
     case weapon_poison : @make_weapon_poisoned(last_slot, last_useslot);
+    case tbwt_cleaning_cloth : @clean_weapon_poison(last_slot);
     case default : ~displaymessage(^dm_default);
 }
 
 [opheldu,_weapon_spear]
 switch_obj(last_useitem) {
     case weapon_poison : @make_weapon_poisoned(last_slot, last_useslot);
+    case tbwt_cleaning_cloth : @clean_weapon_poison(last_slot);
     case default : ~displaymessage(^dm_default);
 }
 
 [opheldu,_weapon_javelin]
 switch_obj(last_useitem) {
     case weapon_poison : @make_weapon_poisoned(last_slot, last_useslot);
+    case tbwt_cleaning_cloth : @clean_weapon_poison(last_slot);
     case default : ~displaymessage(^dm_default);
 }
 
 [opheldu,_weapon_thrown]
 switch_obj(last_useitem) {
     case weapon_poison : @make_weapon_poisoned(last_slot, last_useslot);
+    case tbwt_cleaning_cloth : @clean_weapon_poison(last_slot);
     case default : ~displaymessage(^dm_default);
 }
 
 [opheldu,_bolts]
 switch_obj(last_useitem) {
     case weapon_poison : @make_weapon_poisoned(last_slot, last_useslot);
+    case tbwt_cleaning_cloth : @clean_weapon_poison(last_slot);
     case default : ~displaymessage(^dm_default);
 }
 
 [opheldu,_arrows]
 switch_obj(last_useitem) {
     case weapon_poison : @make_weapon_poisoned(last_slot, last_useslot);
+    case tbwt_cleaning_cloth : @clean_weapon_poison(last_slot);
     case default : ~displaymessage(^dm_default);
 }
 
@@ -77,3 +92,43 @@ mes(oc_param($weapon, weapon_poisoned_message));
 // - You poison some darts.
 // - You poison the javelins.
 // - You poison some knives.
+
+[label,clean_weapon_poison](int $weapon_slot)
+def_obj $weapon = inv_getobj(inv, $weapon_slot);
+def_int $count = inv_total(inv, $weapon);
+
+def_string $clean_str;
+if(oc_param($weapon, poison_severity) > 0) {
+    if(oc_param($weapon, next_obj_stage) ! null) {
+        $clean_str = oc_param($weapon, tbwt_weapon_poison_clear);
+        if (oc_stackable($weapon) = true) {
+            mes("<$clean_str>.");
+            if(inv_total(inv, $weapon) > 0) {
+                inv_del(inv, $weapon, $count);
+                inv_add(inv, oc_param($weapon, next_obj_stage), $count);
+            } else {
+                inv_setslot(inv, last_useslot, oc_param($weapon, next_obj_stage), $count);
+            }
+        } else {
+            mes("<$clean_str>.");
+            inv_setslot(inv, last_useslot, oc_param($weapon, next_obj_stage), 1);
+        }
+        return;
+    }
+
+}
+~displaymessage(^dm_default);
+
+[label,make_tbwt_poisoned_weapon](int $weapon_slot, int $poison_slot)
+def_obj $weapon = inv_getobj(inv, $weapon_slot);
+if (oc_param($weapon, tbwt_weapon_poisoned) = null) {
+    ~displaymessage(^dm_default);
+    return;
+}
+if (oc_category($weapon) = weapon_spear) {
+    inv_del(inv, inv_getobj(inv, $poison_slot), 1);
+    inv_del(inv, $weapon, 1);
+    inv_add(inv, oc_param($weapon, tbwt_weapon_poisoned), 1);
+}
+
+mes(oc_param($weapon, tbwt_weapon_poisoned_message));

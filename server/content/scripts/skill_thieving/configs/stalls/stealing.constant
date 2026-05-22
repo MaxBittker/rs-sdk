@@ -6,6 +6,8 @@
 ^spice_stall_timer = 600
 //todo: double check this trade timer for gem stall
 ^gem_stall_timer = 1000
+^vikingfur_stall_timer = 1000
+^vikingfish_stall_timer = 1500
 
 ^baker_stall_index = 1
 ^tea_stall_index = 2
@@ -15,3 +17,5 @@
 ^spice_stall_index = 6
 //todo: double check this trade timer for gem stall
 ^gem_stall_index = 7
+^vikingfur_stall_index = 8
+^vikingfish_stall_index = 9

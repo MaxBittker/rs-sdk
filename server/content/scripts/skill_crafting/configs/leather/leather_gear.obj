@@ -301,7 +301,6 @@ param=crushdefence,8
 param=magicdefence,4
 param=rangedefence,4
 
-
 [blue_dragon_vambraces]
 cost=3000
 name=Dragon vambraces

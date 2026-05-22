@@ -187,6 +187,19 @@ if (npc_type = wormbrain & (~quest_dragon_getting_map_parts = false | inv_total(
     mes("The goblin is already in prison. You have no reason to attack him.");
     return (false);
 }
+
+if(npc_type = horror_dagannoth_jr4 | npc_category = dagannoth_mother) {
+    if (%npc_aggressive_player ! uid) {
+        mes("It's not after you...");
+        return (false);
+    }
+    if(npc_category = dagannoth_mother) {
+        if (~check_protect_prayer(^ranged_style) = false) {
+            npc_setmode(applayer2);
+        }
+    }
+}
+
 if(npc_category = troll_spectator) {
     return (~troll_spectator_can_attack);
 }
@@ -358,3 +371,42 @@ if (map_multiway(npc_coord) = false) {
     }
 }
 return(true);
+
+[proc,npc_max_dealt](int $maxhit, int $spell)(int)
+if(npc_type = horror_dagganoth_air) {
+    if($spell = ^wind_strike | $spell = ^wind_bolt | $spell = ^wind_blast | $spell = ^wind_wave) {
+        return ($maxhit);
+    }
+    return (0);
+}
+if(npc_type = horror_dagganoth_water) {
+    if($spell = ^water_strike | $spell = ^water_bolt | $spell = ^water_blast | $spell = ^water_wave) {
+        return ($maxhit);
+    }
+    return (0);
+}
+if(npc_type = horror_dagganoth_earth) {
+    if($spell = ^earth_strike | $spell = ^earth_bolt | $spell = ^earth_blast | $spell = ^earth_wave) {
+        return ($maxhit);
+    }
+    return (0);
+}
+if(npc_type = horror_dagganoth_fire) {
+    if($spell = ^fire_strike | $spell = ^fire_bolt | $spell = ^fire_blast | $spell = ^fire_wave) {
+        return ($maxhit);
+    }
+    return (0);
+}
+if(npc_type = horror_dagganoth_melee) {
+    if ($spell = 0 & (%damagestyle = ^style_melee_accurate | %damagestyle = ^style_melee_aggressive | %damagestyle = ^style_melee_defensive | %damagestyle = ^style_melee_controlled)) {
+        return ($maxhit);
+    }
+    return (0);
+}
+if(npc_type = horror_dagganoth_ranged) {
+    if ($spell = 0 & %damagetype = ^ranged_style) {
+        return ($maxhit);
+    }
+    return (0);
+}
+return (min($maxhit, npc_param(max_dealt)));

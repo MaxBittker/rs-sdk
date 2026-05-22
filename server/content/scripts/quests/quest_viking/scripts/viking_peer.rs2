@@ -1,0 +1,1062 @@
+[opnpc1,viking_peer]
+def_int $op;
+def_string $s;
+if(%viking = ^viking_not_started) {
+    ~chatnpc("<p,neutral>I have no interest in talking to you just now outerlander.");
+    return;
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_thorvald_progress > ^thorvald_not_started & ~get_viking_thorvald_progress < ^thorvald_complete 
+        & ~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice3("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 3, "Ask about depositing your equipment", 2);
+    } else if(~get_viking_thorvald_progress > ^thorvald_not_started & ~get_viking_thorvald_progress < ^thorvald_complete) {
+        $op = ~p_choice2("Ask about becoming a Fremennik", 3, "Ask about depositing your equipment", 2);
+    } else if (~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 3);
+    }
+    if($op = 2) @peer_equipment_deposit;
+    if($op = 1) @peer_merchant_trial;
+    switch_int(~get_viking_peer_progress) {
+        case ^peer_complete :
+            ~chatplayer("<p,quiz>So you will vote for me at the council?");
+            ~chatnpc("<p,neutral>Absolutely, outerlander. Your wisdom in passing my test marks you as worthy in my eyes.");
+        case ^peer_started, ^peer_completed_riddle : @peer_house_check;
+        case ^peer_not_started :
+            ~chatnpc("<p,neutral>Hello outerlander. What do you want?");
+            ~chatplayer("<p,quiz>Hello. I'm looking for members of the council of elders to vote for me to become a Fremennik.");
+            ~chatnpc("<p,neutral>Are you now? Well that is interesting. Usually outerlanders do not concern themselves with our ways like that.");
+            ~chatnpc("<p,neutral>I am one of the members of the council of elders, and should you be able to prove to me that you have something to offer my clan");
+            ~chatnpc("<p,neutral>I will vote in your favour at the next meeting.");
+            ~chatplayer("<p,quiz>How can I prove that to you?");
+            ~chatnpc("<p,neutral>Well, I have but a simple test. This building behind me is my house. Inside I have constructed a puzzle.");
+            ~chatnpc("<p,neutral>As a Seer to the clan, I value intelligence very highly, so you may think of it as an intelligence test of sorts.");
+            ~chatplayer("<p,quiz>An intelligence test? I thought barbarians were stupid!");
+            ~chatnpc("<p,neutral>That is the opinion that outerlanders usually hold of my people, it is true. But that is because people often confuse knowledge with wisdom.");
+            ~chatnpc("<p,neutral>My puzzle tests not what you know, but what you can work out. All members of our clan have been tested when they took their trials.");
+            ~chatplayer("<p,quiz>So what exactly does this puzzle consist of, then?");
+            ~chatnpc("<p,neutral>Well, firstly you must enter my house with no items, weapons or armour. Then it is a simple matter of entering through one door and leaving by the other.");
+            ~chatplayer("<p,neutral>I can't take anything in there with me?");
+            ~chatnpc("<p,neutral>That is correct outerlander. Everything you need to complete the puzzle you will find inside the building. Nothing more.");
+            ~chatnpc("<p,neutral>So what say you outerlander? You think you have the wit to earn yourself my vote?");
+            $op = ~p_choice2("Yes", 1, "No", 2);
+            if($op = 2) {
+                ~chatplayer("<p,neutral>No, thinking about stuff isn't really my 'thing'. I'd rather go kill something. I'll find someone else to vote for me.");
+                ~chatnpc("<p,neutral>As you wish, outerlander.");
+                return;
+            }
+            ~set_viking_peer_progress(^peer_started);
+            %viking_bits = setbit_range_toint(%viking_bits, random(6), ^viking_seerdoor_start, ^viking_seerdoor_end);
+            ~chatplayer("<p,neutral>Yes, I accept your challenge. I have one small question, however...");
+            ~chatnpc("<p,quiz>Yes, outerlander?");
+            ~chatplayer("<p,quiz>Well... you say I can bring nothing with me when I enter your house...");
+            ~chatnpc("<p,quiz>Yes, outerlander?");
+            ~chatplayer("<p,quiz>Well.....");
+            ~chatnpc("<p,quiz>Yes, outerlander?");
+            ~chatplayer("<p,sad>Where is the nearest bank?");
+            ~chatnpc("<p,neutral>Ah, I see your problem outerlander. The nearest bank to here is the place known to outerlanders as the Seers Village. It is some way South.");
+            ~chatnpc("<p,neutral>I do however have an alternative, should you wish to take it.");
+            ~chatplayer("<p,quiz>And what is that?");
+            ~chatnpc("<p,neutral>I can store all the weapons, armour and items that you have upon you directly into your bank account.");
+            ~chatnpc("<p,neutral>This will tax what little magic I possess however, so you will have to manually travel to the bank to withdraw them again.");
+            ~chatnpc("<p,quiz>What say you outerlander? you wish me to do this for you?");
+            @peer_prompt_bank;
+    }
+} else if(%viking = ^viking_complete) {
+    ~chatplayer("<p,happy>Hello Peer.");
+    ~chatnpc("<p,quiz>Greetings to you <text_gender("brother", "sister")> <~get_viking_name>! What brings you to see me again?");
+    $op = ~p_choice2("Can you tell my future?", 1, "Nothing really.", 2);
+    if($op = 2) {
+        ~chatplayer("<p,neutral>Nothing really, I just stopped by to say hello.");
+        ~chatnpc("<p,neutral>Well, hello to you too!");
+        return;
+    }
+    ~chatplayer("<p,quiz>I was wondering if you could give me a reading on my future...?");
+    ~chatnpc("<p,neutral>Ah, you would like a prediction? I do not see that that would be so difficult... wait a moment...");
+    if_close;
+    p_delay(3);
+    $op = random(6);
+    if($op = 0) {
+        $op = random(10);
+        if($op = 0) $s = "fire giant";
+        else if($op = 1) $s = "ghost";
+        else if($op = 2) $s = "goblin";
+        else if($op = 3) $s = "green dragon";
+        else if($op = 4) $s = "hobgoblin";
+        else if($op = 5) $s = "lesser demon";
+        else if($op = 6) $s = "moss giant";
+        else if($op = 7) $s = "ogre";
+        else if($op = 8) $s = "skeleton";
+        else if($op = 9) $s = "zombie";
+        ~chatnpc("<p,neutral>Here is your prediction: The enemy called <$s> is your lucky totem this day.");
+    } else if($op = 1) {
+        $op = random(10);
+        if($op = 0) $s = "battleaxe";
+        else if($op = 1) $s = "crossbow";
+        else if($op = 2) $s = "dagger";
+        else if($op = 3) $s = "javelin";
+        else if($op = 4) $s = "long sword";
+        else if($op = 5) $s = "mace";
+        else if($op = 6) $s = "scimitar";
+        else if($op = 7) $s = "short sword";
+        else if($op = 8) $s = "spear";
+        else if($op = 9) $s = "warhammer";
+        ~chatnpc("<p,neutral>Here is your prediction: The stars tell me that you should use a <$s> in combat today.");
+    } else if($op = 2) {
+        $op = random(9);
+        if($op = 0) $s = "Al Kharid";
+        else if($op = 1) $s = "Ardougne";
+        else if($op = 2) $s = "Burthorpe";
+        else if($op = 3) $s = "Canifis";
+        else if($op = 4) $s = "Falador";
+        else if($op = 5) $s = "Karamja";
+        else if($op = 6) $s = "Varrock";
+        else if($op = 7) $s = "The Wilderness";
+        else if($op = 8) $s = "Yanille";
+        ~chatnpc("<p,neutral>Here is your prediction: The place called <$s> will be worth your time to visit.");
+    } else if($op = 3) {
+        $op = random(10);
+        if($op = 0) $s = "Agility";
+        else if($op = 1) $s = "Cooking";
+        else if($op = 2) $s = "Crafting";
+        else if($op = 3) $s = "Fishing";
+        else if($op = 4) $s = "Fletching";
+        else if($op = 5) $s = "Herblore";
+        else if($op = 6) $s = "Mining";
+        else if($op = 7) $s = "Runecrafting";
+        else if($op = 8) $s = "Smithing";
+        else if($op = 9) $s = "Thieving";
+        ~chatnpc("<p,neutral>Here is your prediction: You would be wise to train the skill <$s> today.");
+    } else if($op = 4) {
+        $op = random(10);
+        if($op = 0) $s = "black";
+        else if($op = 1) $s = "blue";
+        else if($op = 2) $s = "brown";
+        else if($op = 3) $s = "cyan";
+        else if($op = 4) $s = "green";
+        else if($op = 5) $s = "pink";
+        else if($op = 6) $s = "purple";
+        else if($op = 7) $s = "red";
+        else if($op = 8) $s = "white";
+        else if($op = 9) $s = "yellow";
+        ~chatnpc("<p,neutral>Here is your prediction: The colour <$s> will bring you luck this day.");
+    } else if($op = 5) {
+        $op = random(10);
+        if($op = 0) $s = "one";
+        else if($op = 1) $s = "two";
+        else if($op = 2) $s = "three";
+        else if($op = 3) $s = "four";
+        else if($op = 4) $s = "five";
+        else if($op = 5) $s = "six";
+        else if($op = 6) $s = "seven";
+        else if($op = 7) $s = "eight";
+        else if($op = 8) $s = "nine";
+        else if($op = 9) $s = "ten";
+        ~chatnpc("<p,neutral>Here is your prediction: You will find luck today with the number <$s>.");
+    }
+}
+
+[label,peer_house_check]
+~chatplayer("<p,quiz>So I can bring nothing with me when I enter your house?");
+~chatnpc("<p,neutral>That is correct outerlander, but as I say, I can use my small skill in magic to send your items directly into your bank account from here.");
+~chatnpc("<p,neutral>You will need to manually go to the bank to withdraw them again however. Would you like me to perform this small spell upon you, outerlander?");
+@peer_prompt_bank;
+
+[label,peer_prompt_bank]
+def_int $op = ~p_choice2("Yes", 1, "No", 2);
+if($op = 2) {
+    ~chatplayer("<p,angry>No thanks. Nobody touches my stuff but me!");
+    ~chatnpc("<p,neutral>As you wish, outerlander.");
+    ~chatnpc("<p,neutral>You may attempt my little task when you have deposited your equipment in the bank.");
+    return;
+}
+~chatplayer("<p,happy>Yes, thank you!");
+@peer_deposit;
+
+[label,peer_equipment_deposit]
+~chatplayer("<p,neutral>Hello there! Thorvald tells me you can deposit my equipment directly into my bank account for me...?");
+~chatnpc("<p,neutral>That is correct outerlander, but you will need to go and retrieve your equipment from your bank account yourself, manually.");
+~chatnpc("<p,neutral>Alas, my spell is not very accurate, so it will deposit everything you have upon you into your bank, not just your armour and weapons.");
+def_int $op = ~p_choice2("Bank your equipment", 1, "Don't bank your equipment", 2);
+if($op = 2) {
+    ~chatplayer("<p,neutral>No thanks, I'll just go to the bank and sort my inventory out myself.");
+    return;
+}
+@peer_deposit;
+
+[label,peer_deposit]
+def_int $space_needed = 0;
+$space_needed = add($space_needed, ~moveallinv_itemspace2(inv, bank));
+$space_needed = add($space_needed, ~moveallinv_itemspace2(worn, bank));
+if(inv_freespace(bank) < $space_needed | inv_totalparam(inv, unbankable) > 0 | inv_totalparam(worn, unbankable) > 0) {
+    ~chatnpc("<p,neutral>I am sorry outerlander, the spell is not working.");
+    return;
+}
+
+~moveallinv(inv, bank);
+def_int $size = inv_size(worn);
+def_int $i = 0;
+def_obj $obj;
+while ($i < $size) {
+    $obj = inv_getobj(worn, $i);
+    if ($obj ! null) {
+        inv_moveitem(worn, bank, $obj, inv_total(worn, $obj));
+        ~update_all($obj); // based off rsprox logs it does update_all (and plays unequip sounds) for ea item
+    }
+    $i = add($i, 1);
+}
+~chatnpc("<p,neutral>The task is done. I wish you luck with your test, outerlander.");
+
+
+[label,peer_merchant_trial]
+if(inv_total(inv, viking_promissary_note3) > 0) {
+    ~chatplayer("<p,quiz>Can I have a weather forecast now please?");
+    ~chatnpc("<p,neutral>I have already told you outerlander; You may have a reading from me when I have a signed contract from a warrior guaranteeing my protection.");
+    ~chatplayer("<p,happy>Yeah, I know; I have one right here from Thorvald.");
+    inv_del(inv, viking_promissary_note3, 1);
+    inv_add(inv, viking_weather_forecast, 1);
+    ~chatnpc("<p,shock>You have not only persuaded one of the Fremennik to act as a servant to me, but you have enlisted the aid of mighty Thorvald himself???");
+    ~chatnpc("<p,happy>You may take this forecast with my blessing outerlander. You have offered me the greatest security I can imagine.");
+    return;
+}
+if(inv_total(inv, viking_weather_forecast) > 0) {
+    ~chatplayer("<p,quiz>So, about this forecast...");
+    ~chatnpc("<p,neutral>Yes, outerlander?");
+    ~chatplayer("<p,neutral>I still don't know why you didn't just let me have one anyway in the first place. Surely it means nothing to you?");
+    ~chatnpc("<p,neutral>That is not true, outerlander. Although I see glimpses of the future all of the time, using my powers brings the attention of the gods to me.");
+    ~chatnpc("<p,neutral>Some of the gods are spiteful and cruel, and I fear if I use my powers too much then I will meet with unpredictable accidents. This is why I needed protection.");
+    ~chatplayer("<p,confused>Okay... I... think I understand...");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_manni :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the longhall barkeep's legendary cocktail, do you?");
+        ~chatnpc("<p,neutral>I'm afraid not, outerlander.");
+    case ^sigmund_spoke_thorvald :
+        // a few npcs use your for some reason, bad copy paste from thorvald probably...
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the token to allow your seat at the champions table?");
+        ~chatnpc("<p,neutral>I'm afraid not, outerlander.");
+    case ^sigmund_spoke_seer :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>If I did, then I would simply have asked them myself now, wouldn't I, outerlander?");
+    case ^sigmund_spoke_swensen :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,confused>Er.... Yes, because I AM the Fremennik Seer.");
+        ~chatplayer("<p,quiz>Can I have a weather forecast then please?");
+        ~chatnpc("<p,neutral>You require a divination of the weather? This is a simple matter for me, but I will require something in return from you for this small service.");
+        ~chatplayer("<p,sad>I knew you were going to say that...");
+        ~set_viking_sigmund_progress(^sigmund_spoke_seer); // recheck this...
+        ~chatnpc("<p,neutral>Do not fret, outerlander; it is a fairly simple matter. I require a bodyguard for protection. Find someone willing to offer me this service.");
+        ~chatplayer("<p,quiz>That's all?");
+        ~chatnpc("<p,neutral>That is all.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>I'm afraid not, outerlander.");
+}
+
+[oploc1,viking_seers_door1]
+def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
+if($entering = false) {
+    ~mesbox("If you leave by this door you will fail this trial.|Press continue to go through the door anyway.");
+    ~clear_peer_trial_items;
+    ~open_and_close_door2(viking_door_inactive, $entering, door_open);
+    return;
+}
+if(%viking = ^viking_complete) {
+    ~chatplayer("<p,neutral>I don't really fancy going through that annoying puzzle room again now that I am a member of the Fremennik.");
+} else if(~get_viking_peer_progress = ^peer_complete) {
+    ~chatplayer("<p,neutral>I don't really fancy going through that annoying puzzle room again now that I have the Seer's vote.");
+} else if(~get_viking_peer_progress > ^peer_started) {
+    if(inv_freespace(inv) ! inv_size(inv) | inv_freespace(worn) ! inv_size(worn)) {
+        if(npc_find(coord, viking_peer, 7, 0) = true) @peer_house_check;
+        return;
+    }
+    ~open_and_close_door2(viking_door_inactive, $entering, door_open);
+} else if(~get_viking_peer_progress = ^peer_started) {
+    ~mesbox("There is a combination lock on this door. Above the lock you can see that there is a metal plaque with a riddle on it.");
+    switch_int(~p_choice3_header("Read the riddle", 1, "Solve the riddle", 2, "Forget it", 3, "What would you like to do?")) {
+        case 1 : @viking_seer_read_riddle;
+        case 2 : @viking_seer_enter_riddle;
+        case 3 :
+            mes("You leave the riddle for later.");
+    }
+} else if(~get_viking_peer_progress = ^peer_not_started) {
+    if(npc_find(coord, viking_peer, 7, 0) = true) {
+        ~chatnpc("<p,angry>Hey! Outerlander! That is my house! Who do you think you are to just barge into my home without asking?");
+        ~chatplayer("<p,neutral>Um... My name is <displayname()>.");
+        ~chatnpc("<p,angry>It was a rhetorical question, outerlander. Now get lost. I do not appreciate intruders in my home.");
+    }
+    return;
+}
+
+[label,viking_seer_read_riddle]
+switch_int(getbit_range(%viking_bits, ^viking_seerdoor_start, ^viking_seerdoor_end)) {
+    case 0 :
+        ~mesbox("My first is in mage, but not in wizard.|My second in goblin, and also in lizard.|My third in night, but not in the day.|My last is in fields, but not in the hay.");
+        // https://web.archive.org/web/20070103233159im_/http://www.runeweb.net/rathofdoom/quests/fremenniktrials/10.png
+        ~mesbox("My whole is the most powerful|tool you will possess.||What am I?");
+    case 1 :
+        ~mesbox("My first is in tar, but not in a swamp.|My second in fire, but not in a camp.|My third is in eagle, but never in air.|My last is in hate, but also in care.");
+        ~mesbox("My whole wears more rings the older I get.|What am I?");
+    case 2 :
+        ~mesbox("My first is in the well, but not at sea.|My second in 'I', but not in 'me'.|My third in flies, but insects not found.|My last is in earth, but not in the ground.");
+        ~mesbox("My whole when stolen from you causes you death.|What am I?");
+    case 3 :
+        ~mesbox("My first is in fish, but not in the sea.|My second in birds, but not in a tree.|My third is in doors, but not in a hall.|My last is everything, but nothing at all.");
+        ~mesbox("My whole cannot die as long as it has food.|What am I?");
+    case 4 :
+        ~mesbox("My first is in water, and also in tea.|My second is in fish, but not in the sea.|My third is in mountains, but not underground.|My last is in strike, but not like in pound.");
+        ~mesbox("My whole crushes mountains, drains rivers, and destroys civilisations.|All that live fear my passing.|What am I?");
+    case 5 :
+        ~mesbox("My first is in wizard, but not in a mage.|My second in jail, but not in a cage.|My third is in anger, but not in a rage.|My last in a drawing, but not on a page.");
+        ~mesbox("My whole helps to make bread, let birds fly and boats sail.|What am I?");
+}
+@viking_seer_enter_riddle;
+
+// functionally (nearly) the same as the tribal door
+[if_button,combolockdoor:com_57]
+if_close;
+def_int $solved = ^false;
+def_int $riddle_id = getbit_range(%viking_bits, ^viking_seerdoor_start, ^viking_seerdoor_end);
+if(~get_viking_peer_progress < ^peer_completed_riddle) {
+    if($riddle_id = 0) {
+        if(~get_viking_door_lock(1) = 12 & ~get_viking_door_lock(2) = 8 & ~get_viking_door_lock(3) = 13 & ~get_viking_door_lock(4) = 13) { // MIND
+            $solved = ^true;
+        }
+    } else if($riddle_id = 1) {
+        if(~get_viking_door_lock(1) = 19 & ~get_viking_door_lock(2) = 17 & ~get_viking_door_lock(3) = 4 & ~get_viking_door_lock(4) = 4) { // TREE
+            $solved = ^true;
+        }
+    } else if($riddle_id = 2) {
+        if(~get_viking_door_lock(1) = 11 & ~get_viking_door_lock(2) = 8 & ~get_viking_door_lock(3) = 5 & ~get_viking_door_lock(4) = 4) { // LIFE
+            $solved = ^true;
+        }
+    } else if($riddle_id = 3) {
+        if(~get_viking_door_lock(1) = 5 & ~get_viking_door_lock(2) = 8 & ~get_viking_door_lock(3) = 17 & ~get_viking_door_lock(4) = 4) { // FIRE
+            $solved = ^true;
+        }
+    } else if($riddle_id = 4) {
+        if(~get_viking_door_lock(1) = 19 & ~get_viking_door_lock(2) = 8 & ~get_viking_door_lock(3) = 12 & ~get_viking_door_lock(4) = 4) { // TIME
+            $solved = ^true;
+        }
+    }else if($riddle_id = 5) {
+        if(~get_viking_door_lock(1) = 22 & ~get_viking_door_lock(2) = 8 & ~get_viking_door_lock(3) = 13 & ~get_viking_door_lock(4) = 3) { // WIND
+            $solved = ^true;
+        }
+    }
+    if($solved = ^true) {
+        ~set_viking_peer_progress(^peer_completed_riddle);
+        mes("You have solved the riddle!");
+    } else mes("You have failed to solve the riddle.");
+    return;
+} 
+
+[if_button,combolockdoor:com_47] @viking_door_combo(1, -1);
+[if_button,combolockdoor:com_49] @viking_door_combo(2, -1);
+[if_button,combolockdoor:com_51] @viking_door_combo(3, -1);
+[if_button,combolockdoor:com_53] @viking_door_combo(4, -1);
+
+[if_button,combolockdoor:com_48] @viking_door_combo(1, 1);
+[if_button,combolockdoor:com_50] @viking_door_combo(2, 1);
+[if_button,combolockdoor:com_52] @viking_door_combo(3, 1);
+[if_button,combolockdoor:com_54] @viking_door_combo(4, 1);
+
+[label,viking_seer_enter_riddle]
+%temp = 0;
+if_openmain(combolockdoor);
+if_settext(combolockdoor:com_43, "A");
+if_settext(combolockdoor:com_44, "A");
+if_settext(combolockdoor:com_45, "A");
+if_settext(combolockdoor:com_46, "A");
+
+[proc,get_viking_door_lock](int $lock_index)(int)
+return (getbit_range(%temp, calc(5 * $lock_index - 4), calc(5 * $lock_index)));
+
+[label,viking_door_combo](int $lock_index, int $change)
+def_int $current_stage = ~get_viking_door_lock($lock_index);
+def_int $stage = ~calc_tribaldoor_value($current_stage, $change);
+%temp = setbit_range_toint(%temp, $stage, calc(5 * $lock_index - 4), calc(5 * $lock_index));
+switch_int($lock_index) {
+    case 1 : if_settext(combolockdoor:com_43, enum(int, string, alphabet, $stage));
+    case 2 : if_settext(combolockdoor:com_44, enum(int, string, alphabet, $stage));
+    case 3 : if_settext(combolockdoor:com_45, enum(int, string, alphabet, $stage));
+    case 4 : if_settext(combolockdoor:com_46, enum(int, string, alphabet, $stage));
+}
+
+[oploc1,viking_seer_up_ladder]
+p_arrivedelay;
+~climb_ladder(movecoord(coord, 0, 2, 0), true);
+
+[oploc1,viking_seer_down_ladder]
+p_arrivedelay;
+~climb_ladder(movecoord(coord, 0, 2, 0), true);
+
+[oploc1,viking_seer_trapdoor_open]
+p_delay(0);
+p_teleport(movecoord(coord, 0, -2, 0));
+
+[oploc1,viking_seer_bookcase]
+mes("You search the bookcase...");
+p_delay(3);
+if(inv_total(inv, viking_red_herring) > 0 | testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true) {
+    mes("You find nothing of interest.");
+    return;
+}
+inv_add(inv, viking_red_herring, 1);
+mes("Hidden behind some old books, you find a red herring.");
+
+[oploc1,viking_seercrate]
+mes("You search the boxes...");
+p_delay(3);
+if(inv_total(inv, viking_pointless_pick) > 0) {
+    mes("You find nothing of interest.");
+    return;
+}
+inv_add(inv, viking_pointless_pick, 1);
+mes("You find a small pick hidden inside.");
+
+[oploc1,viking_seercrate_2]
+mes("You search the boxes...");
+p_delay(3);
+if(inv_total(inv, viking_pointless_shiptoy) > 0) {
+    mes("You find nothing of interest.");
+    return;
+}
+inv_add(inv, viking_pointless_shiptoy, 1);
+mes("You find a toy ship hidden inside.");
+
+[oploc1,viking_seerboxes_1]
+mes("You search the boxes...");
+p_delay(3);
+if(inv_total(inv, viking_pointless_magnet) > 0) {
+    mes("You find nothing of interest.");
+    return;
+}
+inv_add(inv, viking_pointless_magnet, 1);
+mes("You find a magnet hidden inside.");
+
+[oploc1,viking_seerboxes_3]
+mes("You search the boxes...");
+p_delay(3);
+if(inv_total(inv, viking_pointless_thread) > 0) {
+    mes("You find nothing of interest.");
+    return;
+}
+inv_add(inv, viking_pointless_thread, 1);
+mes("You find some thread hidden inside.");
+
+[oploc1,viking_seer_chest_closed]
+~open_chest(viking_seer_chest_open);
+
+[oploc1,viking_seer_chest_open]
+~close_chest(viking_seer_chest_closed);
+
+[oploc2,viking_seer_chest_open]
+mes("You search the chest...");
+p_delay(3);
+if(inv_total(inv, viking_jug_empty) > 0) {
+    mes("You find nothing of interest.");
+    return;
+}
+inv_add(inv, viking_jug_empty, 1);
+mes("You find a jug with a number three painted on it.");
+
+[oploc1,viking_unimountedhead]
+if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true) {
+    ~mesbox("There is a hole in this unicorn head where a left eye should be.");
+    return;
+}
+~mesbox("You notice there is something unusual about the left eye of this unicorn head...");
+if(inv_total(inv, viking_red_wooden_coin) > 0) {
+    mes("It's unusual because you've already taken it!");
+    return;
+}
+inv_add(inv, viking_red_wooden_coin, 1);
+~mesbox("It is not an eye at all, but some kind of red coloured disk. You take it from the head.");
+
+[oploc1,viking_bullmountedhead]
+if(testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true) {
+    ~mesbox("There is a hole in this bull head where a right eye should be.");
+    return;
+}
+~mesbox("You notice there is something unusual about the right eye of this bulls' head...");
+if(inv_total(inv, viking_uncoloured_wooden_coin) > 0) {
+    mes("It's unusual because you've already taken it!");
+    return;
+}
+inv_add(inv, viking_uncoloured_wooden_coin, 1);
+~mesbox("It is not an eye at all, but some kind of disk made of wood. You take it from the head.");
+
+[oplocu,viking_seers_tap]
+switch_obj(last_useitem) {
+    case viking_jug_empty, viking_jug_1, viking_jug_2 :
+        inv_setslot(inv, last_useslot, viking_jug_3, 1);
+        mes("You fill the bucket from the tap.");
+    case viking_bucket_empty, viking_bucket_1, viking_bucket_2, viking_bucket_3, viking_bucket_4 :
+        inv_setslot(inv, last_useslot, viking_bucket_5, 1);
+        mes("You fill the jug from the tap.");
+    case viking_airtight_vase : // this one uses inv del + add
+        mes("You fill the strange looking vase with water.");
+        inv_del(inv, viking_airtight_vase, 1);
+        inv_add(inv, viking_airtight_vase_water, 1);
+    case viking_bucket_5 : mes("Your bucket is already full of water.");
+    case viking_jug_3 : mes("Your jug is already full of water.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[oplocu,viking_seers_drain]
+def_int $last_slot = last_useslot;
+switch_obj(last_useitem) {
+    case viking_jug_1, viking_jug_2, viking_jug_3 :
+        anim(throw_bucketofwater, 0);
+        sound_synth(holy_water_pour, 0, 0);
+        inv_setslot(inv, $last_slot, viking_jug_empty, 1);
+        mes("You empty the jug down the drain.");
+    case viking_bucket_1, viking_bucket_2, viking_bucket_3, viking_bucket_4, viking_bucket_5 :
+        anim(throw_bucketofwater, 0);
+        sound_synth(holy_water_pour, 0, 0);
+        inv_setslot(inv, $last_slot, viking_bucket_empty, 1);
+        mes("You empty the bucket down the drain.");
+    case viking_airtight_vase_water :
+        mes("You empty the strange looking vase of water.");
+        inv_del(inv, viking_airtight_vase_water, 1);
+        inv_add(inv, viking_airtight_vase, 1);
+    case viking_bucket_empty : mes("Your bucket is already empty.");
+    case viking_jug_empty : mes("Your jug is already empty.");
+    case viking_airtight_vase : mes("The vase is already empty.");
+    case viking_pointless_magnet : mes("You use the magnet on the drain. It doesn't do anything.");
+    case viking_pointless_shiptoy : mes("It won't fit through the grating.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_bucket_empty]
+switch_obj(last_useitem) {
+    case viking_jug_empty : mes("The jug is empty.");
+    case viking_jug_1 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_1, 1);
+        mes("You empty the jug into the bucket.");
+    case viking_jug_2 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_2, 1);
+        mes("You empty the jug into the bucket.");
+    case viking_jug_3 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_3, 1);
+        mes("You empty the jug into the bucket.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_bucket_1]
+switch_obj(last_useitem) {
+    case viking_jug_empty : mes("The jug is empty.");
+    case viking_jug_1 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_2, 1);
+        mes("You empty the jug into the bucket.");
+    case viking_jug_2 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_3, 1);
+        mes("You empty the jug into the bucket.");
+    case viking_jug_3 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_4, 1);
+        mes("You empty the jug into the bucket.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_bucket_2]
+switch_obj(last_useitem) {
+    case viking_jug_empty : mes("The jug is empty.");
+    case viking_jug_1 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_3, 1);
+        mes("You empty the jug into the bucket.");
+    case viking_jug_2 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_4, 1);
+        mes("You empty the jug into the bucket.");
+    case viking_jug_3 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_5, 1);
+        mes("You fill the bucket to the brim.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_bucket_3]
+switch_obj(last_useitem) {
+    case viking_jug_empty : mes("The jug is empty.");
+    case viking_jug_1 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_4, 1);
+        mes("You empty the jug into the bucket.");
+    case viking_jug_2 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_5, 1);
+        mes("You fill the bucket to the brim.");
+    case viking_jug_3 :
+        inv_setslot(inv, last_useslot, viking_jug_1, 1);
+        inv_setslot(inv, last_slot, viking_bucket_5, 1);
+        mes("You fill the bucket to the brim.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_bucket_4]
+switch_obj(last_useitem) {
+    case viking_jug_empty : mes("The jug is empty.");
+    case viking_jug_1 :
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+        inv_setslot(inv, last_slot, viking_bucket_5, 1);
+        mes("You fill the bucket to the brim.");
+    case viking_jug_2 :
+        inv_setslot(inv, last_useslot, viking_jug_1, 1);
+        inv_setslot(inv, last_slot, viking_bucket_5, 1);
+        mes("You fill the bucket to the brim.");
+    case viking_jug_3 :
+        inv_setslot(inv, last_useslot, viking_jug_2, 1);
+        inv_setslot(inv, last_slot, viking_bucket_5, 1);
+        mes("You fill the bucket to the brim.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_bucket_5]
+switch_obj(last_useitem) {
+    case viking_jug_empty : mes("The jug is empty.");
+    case viking_jug_1, viking_jug_2, viking_jug_3 : mes("You cannot put any more water into the bucket.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_jug_empty]
+switch_obj(last_useitem) {
+    case viking_bucket_empty : mes("The bucket is empty.");
+    case viking_bucket_1 :
+        inv_setslot(inv, last_useslot, viking_bucket_empty, 1);
+        inv_setslot(inv, last_slot, viking_jug_1, 1);
+        mes("You empty the bucket into the jug.");
+    case viking_bucket_2 :
+        inv_setslot(inv, last_useslot, viking_bucket_empty, 1);
+        inv_setslot(inv, last_slot, viking_jug_2, 1);
+        mes("You empty the bucket into the jug.");
+    case viking_bucket_3 :
+        inv_setslot(inv, last_useslot, viking_bucket_empty, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_4 :
+        inv_setslot(inv, last_useslot, viking_bucket_1, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_5 :
+        inv_setslot(inv, last_useslot, viking_bucket_2, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_jug_1]
+switch_obj(last_useitem) {
+    case viking_bucket_empty : mes("The bucket is empty.");
+    case viking_bucket_1 :
+        inv_setslot(inv, last_useslot, viking_bucket_empty, 1);
+        inv_setslot(inv, last_slot, viking_jug_2, 1);
+        mes("You empty the bucket into the jug.");
+    case viking_bucket_2 :
+        inv_setslot(inv, last_useslot, viking_bucket_empty, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_3 :
+        inv_setslot(inv, last_useslot, viking_bucket_1, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_4 :
+        inv_setslot(inv, last_useslot, viking_bucket_2, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_5 :
+        inv_setslot(inv, last_useslot, viking_bucket_3, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_airtight_vase :
+        mes("There isn't enough water in the jug to fill the vase."); 
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_jug_2]
+switch_obj(last_useitem) {
+    case viking_bucket_empty : mes("The bucket is empty.");
+    case viking_bucket_1 :
+        inv_setslot(inv, last_useslot, viking_bucket_empty, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_2 :
+        inv_setslot(inv, last_useslot, viking_bucket_1, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_3 :
+        inv_setslot(inv, last_useslot, viking_bucket_2, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_4 :
+        inv_setslot(inv, last_useslot, viking_bucket_3, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_bucket_5 :
+        inv_setslot(inv, last_useslot, viking_bucket_4, 1);
+        inv_setslot(inv, last_slot, viking_jug_3, 1);
+        mes("You fill the jug to the brim.");
+    case viking_airtight_vase :
+        mes("There isn't enough water in the jug to fill the vase."); 
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheldu,viking_jug_3]
+switch_obj(last_useitem) {
+    case viking_bucket_empty : mes("The bucket is empty.");
+    case viking_bucket_1, viking_bucket_2, viking_bucket_3, viking_bucket_4, viking_bucket_5 : mes("You cannot put any more water into the jug.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[oplocu,viking_small_table_frozen]
+switch_obj(last_useitem) {
+    case viking_pointless_magnet : mes("You use the magnet on the table. It gets slightly colder.");
+    case viking_bucket_empty : mes("Your empty bucket gets very cold on the icy table.");
+    case viking_jug_empty : mes("Your empty jug gets very cold on the icy table.");
+    case viking_bucket_1, viking_bucket_2, viking_bucket_3, viking_bucket_4, viking_bucket_5 :
+        mes("The icy table immediately freezes the water in your bucket.");
+        inv_setslot(inv, last_useslot, viking_bucket_frozen, 1);
+    case viking_jug_1, viking_jug_2, viking_jug_3 :
+        mes("The icy table immediately freezes the water in your jug.");
+        inv_setslot(inv, last_useslot, viking_jug_frozen, 1);
+    case viking_airtight_vase_water :
+        mes("The icy table immediately freezes the water in your vase.");
+        inv_setslot(inv, last_useslot, viking_airtight_vase_frozen, 1);
+    case viking_airtight_vase_with_lid_water :
+        mes("The water expands as it freezes, and shatters the vase.");
+        mes("You are left with a key encased in ice.");
+        inv_del(inv, viking_airtight_vase_with_lid_water, 1);
+        inv_add(inv, viking_key_in_ice, 1);
+    case viking_bucket_frozen, viking_jug_frozen, viking_airtight_vase_frozen, viking_airtight_vase_with_lid_frozen :
+        mes("It's not gonna get any colder!");
+    case default : ~displaymessage(^dm_default);
+}
+
+[oploc1,viking_cupboardhigh]
+p_arrivedelay;
+anim(human_openhighcupboard, 0);
+sound_synth(cupboard_open, 0, 0);
+p_delay(0);
+loc_change(viking_cupboardopen_high, 300);
+
+[oploc1,viking_cupboardopen_high]
+p_arrivedelay;
+anim(human_closehighcupboard, 0);
+sound_synth(cupboard_close, 0, 0);
+p_delay(0);
+loc_change(viking_cupboardhigh, 300);
+
+[oploc2,viking_cupboardopen_high]
+mes("You search the cupboard...");
+p_delay(3);
+if(inv_total(inv, viking_bucket_empty) > 0) {
+    mes("You find nothing of interest.");
+    return;
+}
+inv_add(inv, viking_bucket_empty, 1);
+mes("You find a bucket with a number five painted on it.");
+
+[oploc1,viking_seer_chest_closed_scales]
+if(testbit(%viking_bits, ^viking_seerdoor_unlocked_chest) = ^true) {
+    if(inv_total(inv, viking_airtight_vase) > 0) {
+        mes("There is nothing left inside the chest.");
+        return;
+    }
+    mes("You take a strange looking vase out of the chest.");
+    inv_add(inv, viking_airtight_vase, 1);
+    return;
+}
+~mesbox("This chest is securely locked shut. There is some kind of balance attached to the lock, and a number four is painted just above it.");
+
+[oplocu,viking_seer_chest_closed_scales]
+switch_obj(last_useitem) {
+    case viking_jug_empty, viking_jug_1, viking_jug_2, viking_jug_3 :
+        anim(human_openchest, 0);
+        mes("You place the jug on the scale.");
+        mes("It is too light to balance it properly.");
+    case viking_bucket_empty, viking_bucket_1, viking_bucket_2, viking_bucket_3 :
+        anim(human_openchest, 0);
+        mes("You place the jug on the scale.");
+        mes("It is too light to balance it properly.");
+    case viking_bucket_4 :
+        mes("You place the bucket on the scale.");
+        mes("It is a perfect counterweight and balances precisely.");
+        mes("You take a strange looking vase out of the chest.");
+        anim(human_openchest, 0);
+        inv_add(inv, viking_airtight_vase, 1);
+        %viking_bits = setbit(%viking_bits, ^viking_seerdoor_unlocked_chest);
+    case viking_bucket_5 :
+        anim(human_openchest, 0);
+        mes("You place the bucket on the scale.");
+        mes("It is too heavy to balance it properly.");
+    case viking_pointless_pick :
+        mes("You might be able to break the chest open using this pick...");
+        mes("...if you stood here tapping at it for twenty years or so.");
+    case viking_pointless_magnet :
+        mes("You use the magnet on the chest. The scales wobble a bit.");
+    case default : ~displaymessage(^dm_default);
+}
+
+[oplocu,viking_seer_range]
+switch_obj(last_useitem) {
+    case viking_pointless_shiptoy :
+        mes("You put the toy ship on the range. It burns.");
+        inv_setslot(inv, last_useslot, ashes, 1);
+    case viking_pointless_thread :
+        mes("You put the thread on the range. It burns.");
+        inv_setslot(inv, last_useslot, ashes, 1);
+    case viking_pointless_magnet :
+        mes("You use the magnet on the range. It gets slightly warmer.");
+    case viking_bucket_frozen :
+        mes("You place the frozen bucket on the range. The ice turns to steam.");
+        inv_setslot(inv, last_useslot, viking_bucket_empty, 1);
+    case viking_jug_frozen :
+        mes("You place the frozen jug on the range. The ice turns to steam.");
+        inv_setslot(inv, last_useslot, viking_jug_empty, 1);
+    case viking_airtight_vase_frozen :
+        mes("You place the frozen vase on the range. The ice turns to steam.");
+        inv_setslot(inv, last_useslot, viking_airtight_vase, 1);
+    case viking_red_herring :
+        inv_del(inv, viking_red_herring, 1);
+        inv_add(inv, herring, 1);
+        inv_add(inv, viking_red_splat, 1);
+        ~mesbox("As you cook the herring on the stove, the colouring on it peels off separately as a red sticky goop...");
+    case viking_key_in_ice :
+        mes("The heat of the range melts the ice around the key.");
+        inv_setslot(inv, last_useslot, viking_key, 1);
+    case default : ~displaymessage(^dm_default);
+}
+
+[opheld1,viking_airtight_vase]
+~mesbox("You shake the strangely shaped Vase. From the sound of it there is something metallic inside, but the neck of the vase is too narrow for it to come out.");
+
+[opheld1,viking_airtight_vase_water]
+~mesbox("You shake the strangely shaped Vase. The water inside it sloshes around a little. Some spills out of the neck of the vase.");
+
+[opheld1,viking_airtight_vase_frozen]
+~mesbox("You shake the strangely shaped Vase. Whatever is at the bottom of it is packed with ice and does not rattle.");
+
+[opheld1,viking_airtight_vase_with_lid]
+mes("You unscrew the lid of the vase.");
+inv_del(inv, viking_airtight_vase_with_lid, 1);
+inv_add(inv, viking_airtight_vase, 1);
+inv_add(inv, viking_vase_lid, 1);
+
+[opheld1,viking_airtight_vase_with_lid_water]
+mes("You unscrew the lid of the vase.");
+inv_del(inv, viking_airtight_vase_with_lid_water, 1);
+inv_add(inv, viking_airtight_vase_water, 1);
+inv_add(inv, viking_vase_lid, 1);
+
+// unobtainable?
+[opheld1,viking_airtight_vase_with_lid_frozen]
+mes("You unscrew the lid of the vase.");
+inv_del(inv, viking_airtight_vase_with_lid_frozen, 1);
+inv_add(inv, viking_airtight_vase_frozen, 1);
+inv_add(inv, viking_vase_lid, 1);
+
+[opheldu,viking_airtight_vase]
+switch_obj(last_useitem) {
+    case viking_pointless_magnet :
+        mes("You use the magnet on the vase. The metallic object inside moves.");
+        mes("The neck of the vase is too thin for the object to come out of the vase.");
+    case viking_pointless_pick :
+        mes("This pick wouldn't be strong enough to break the vase open.");
+    case viking_pointless_shiptoy :
+        mes("It won't fit in there!");
+    case viking_bucket_3, viking_bucket_4, viking_bucket_5 :
+        inv_del(inv, last_useitem, 1);
+        inv_add(inv, viking_bucket_empty, 1);
+        inv_del(inv, viking_airtight_vase, 1);
+        inv_add(inv, viking_airtight_vase_water, 1);
+        mes("You fill the vase with water.");
+    case viking_jug_3 :
+        inv_del(inv, last_useitem, 1);
+        inv_add(inv, viking_bucket_empty, 1);
+        inv_del(inv, viking_airtight_vase, 1);
+        inv_add(inv, viking_airtight_vase_water, 1);
+        mes("You fill the vase with water.");
+    case viking_jug_1, viking_jug_2, viking_bucket_1, viking_bucket_2 :
+        mes("There isn't enough water in the jug to fill the vase."); // yes, this says jug for buckets
+    case viking_vase_lid :
+        mes("You screw the lid on tightly.");
+        inv_del(inv, viking_airtight_vase, 1);
+        inv_del(inv, viking_vase_lid, 1);
+        inv_add(inv, viking_airtight_vase_with_lid, 1);
+}
+
+[opheldu,viking_airtight_vase_water]
+switch_obj(last_useitem) {
+    case viking_pointless_magnet :
+        mes("You use the magnet on the vase. The metallic object inside moves.");
+        mes("The neck of the vase is too thin for the object to come out of the vase.");
+    case viking_pointless_pick :
+        mes("This pick wouldn't be strong enough to break the vase open.");
+    case viking_pointless_shiptoy :
+        mes("It won't fit in there!");
+    case viking_vase_lid :
+        mes("You screw the lid on tightly.");
+        inv_del(inv, viking_airtight_vase_water, 1);
+        inv_del(inv, viking_vase_lid, 1);
+        inv_add(inv, viking_airtight_vase_with_lid_water, 1);
+}
+
+[opheldu,viking_airtight_vase_frozen]
+switch_obj(last_useitem) {
+    case viking_pointless_magnet :
+        mes("You use the magnet on the vase. The metallic object inside moves.");
+        mes("The neck of the vase is too thin for the object to come out of the vase.");
+    case viking_pointless_pick :
+        mes("This pick wouldn't be strong enough to break the vase open.");
+    case viking_pointless_shiptoy :
+        mes("It won't fit in there!");
+    case viking_vase_lid :
+        mes("The ice prevents you screwing on the lid.");
+}
+
+[opheldu,viking_uncoloured_wooden_coin]
+if(last_useitem = viking_red_splat) {
+    inv_del(inv, viking_red_splat, 1);
+    inv_del(inv, viking_uncoloured_wooden_coin, 1);
+    inv_add(inv, viking_red_wooden_coin, 1);
+    mes("You coat the wooden coin with the sticky red goop.");
+    return;
+}
+
+[opheldu,viking_vase_lid]
+switch_obj(last_useitem) {
+    case viking_pointless_magnet :
+        mes("You use the magnet on the vase lid. It doesn't seem to be magnetic.");
+    case viking_airtight_vase :
+        mes("You screw the lid on tightly.");
+        inv_del(inv, viking_airtight_vase, 1);
+        inv_del(inv, viking_vase_lid, 1);
+        inv_add(inv, viking_airtight_vase_with_lid, 1);
+    case viking_airtight_vase_water :
+        mes("You screw the lid on tightly.");
+        inv_del(inv, viking_airtight_vase_water, 1);
+        inv_del(inv, viking_vase_lid, 1);
+        inv_add(inv, viking_airtight_vase_with_lid_water, 1);
+    case viking_airtight_vase_frozen :
+        mes("The ice prevents you screwing on the lid.");
+
+}
+
+[oploc1,viking_seers_mural]
+if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true & testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true) {
+    if(inv_total(inv, viking_vase_lid) = 0) {
+        if(inv_freespace(inv) = 0) {
+            mes("There's a vase lid here, but you don't have room to take it.");
+            return;
+        }
+        mes("You take the vase lid back out of the mural.");
+        inv_add(inv, viking_vase_lid, 1);
+    }
+}
+mes("You study the mural... it appears to be missing something...");
+
+if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true & testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true & inv_total(inv, viking_vase_lid) > 0) {
+    if_setobject(inter_185:com_1, viking_dummy_lid, 10);
+}
+
+if_setobject(inter_185:com_9, viking_dummy_coin, 116);
+if_setobject(inter_185:com_10, viking_dummy_coin, 116);
+if_setobject(inter_185:com_11, viking_dummy_coin, 116);
+if_setobject(inter_185:com_12, viking_dummy_coin, 116);
+if_setobject(inter_185:com_13, viking_dummy_coin, 116);
+if_setobject(inter_185:com_14, viking_dummy_coin, 116);
+if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true) if_setobject(inter_185:com_15, viking_dummy_coin, 116);
+else if_setobject(inter_185:com_15, viking_dummy_coin2, 116);
+
+if(testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true) if_setobject(inter_185:com_16, viking_dummy_coin, 116);
+else if_setobject(inter_185:com_16, viking_dummy_coin2, 116);
+
+if_openmain(inter_185);
+
+[oplocu,viking_seers_mural]
+// this mural is kind of reworked in late 2006 to prevent skipping with drop trick
+// using dupe coin -> You've already put the [old] red disk into the empty hole on the mural. and inv_del
+def_obj $last_useitem = last_useitem;
+p_arrivedelay;
+if($last_useitem = viking_red_wooden_coin) {
+    mes("You put the red disk into the empty hole on the mural.");
+    mes("It is a perfect fit!");
+    inv_del(inv, viking_red_wooden_coin, 1);
+    if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^false) %viking_bits = setbit(%viking_bits, ^viking_seerdoor_reddisk_1);
+    else if(testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^false) %viking_bits = setbit(%viking_bits, ^viking_seerdoor_reddisk_2);
+    if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true & testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true) {
+        mes("The center of the mural falls out!");
+        inv_add(inv, viking_vase_lid, 1);
+    }
+    return;
+}
+~displaymessage(^dm_default);
+
+[oploc1,viking_seer_trapdoor_closed]
+mes("The trapdoor opens...");
+sound_synth(door_open, 0, 0);
+loc_change(viking_seer_trapdoor_open, 500);
+
+[oploc2,viking_seer_trapdoor_open]
+mes("The trapdoor closes...");
+sound_synth(door_open, 0, 0);
+loc_change(viking_seer_trapdoor_closed, 500);
+
+[oploc1,viking_seers_door2]
+if(inv_total(inv, viking_key) > 0 & ~check_axis(coord, loc_coord, loc_angle) = false) {
+    @unlock_viking_seers_door2;
+}
+mes("This door is locked tightly shut.");
+
+[oplocu,viking_seers_door2]
+if(last_useitem = viking_key & ~check_axis(coord, loc_coord, loc_angle) = false) {
+    @unlock_viking_seers_door2;
+}
+
+[label,unlock_viking_seers_door2]
+~clear_peer_trial_items;
+mes("You unlock the door with your key.");
+~open_and_close_door2(viking_door_inactive, false, door_open);
+p_delay(0);
+if(~get_viking_peer_progress < ^peer_complete) {
+    // no trial complete message : https://youtu.be/NkAJ8-1A0cY?si=gMDfKRKlanOginJF&t=1839
+    %viking = add(%viking, 1);
+    ~set_viking_peer_progress(^peer_complete);
+    if(npc_find(coord, viking_peer, 7, 0) = true) ~chatnpc("<p,shock>Incredible! To have solved my puzzle so quickly! I have no choice but to vote in your favour!");
+}
+
+[proc,clear_peer_trial_items]
+inv_del(inv, viking_pointless_magnet, ^max_32bit_int);
+inv_del(inv, viking_pointless_thread, ^max_32bit_int);
+inv_del(inv, viking_pointless_pick, ^max_32bit_int);
+inv_del(inv, viking_pointless_shiptoy, ^max_32bit_int);
+inv_del(inv, viking_bucket_5, ^max_32bit_int);
+inv_del(inv, viking_bucket_4, ^max_32bit_int);
+inv_del(inv, viking_bucket_3, ^max_32bit_int);
+inv_del(inv, viking_bucket_2, ^max_32bit_int);
+inv_del(inv, viking_bucket_1, ^max_32bit_int);
+inv_del(inv, viking_bucket_empty, ^max_32bit_int);
+inv_del(inv, viking_bucket_frozen, ^max_32bit_int);
+inv_del(inv, viking_jug_3, ^max_32bit_int);
+inv_del(inv, viking_jug_2, ^max_32bit_int);
+inv_del(inv, viking_jug_1, ^max_32bit_int);
+inv_del(inv, viking_jug_empty, ^max_32bit_int);
+inv_del(inv, viking_jug_frozen, ^max_32bit_int);
+inv_del(inv, viking_airtight_vase, ^max_32bit_int);
+inv_del(inv, viking_airtight_vase_water, ^max_32bit_int);
+inv_del(inv, viking_airtight_vase_frozen, ^max_32bit_int);
+inv_del(inv, viking_vase_lid, ^max_32bit_int);
+inv_del(inv, viking_airtight_vase_with_lid, ^max_32bit_int);
+inv_del(inv, viking_airtight_vase_with_lid_frozen, ^max_32bit_int);
+inv_del(inv, viking_airtight_vase_with_lid_water, ^max_32bit_int);
+inv_del(inv, viking_key_in_ice, ^max_32bit_int);
+inv_del(inv, viking_red_herring, ^max_32bit_int);
+inv_del(inv, viking_red_wooden_coin, ^max_32bit_int);
+inv_del(inv, viking_uncoloured_wooden_coin, ^max_32bit_int);
+inv_del(inv, viking_key, ^max_32bit_int);
+inv_del(inv, viking_red_splat, ^max_32bit_int);

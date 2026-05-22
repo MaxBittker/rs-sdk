@@ -1,0 +1,59 @@
+//Todo: Dialogue is all from osrs with runesquares and runeversi mentions removed
+
+[apnpc1,boardgames_barmaid]
+if (npc_range(coord) > 3) {
+    p_aprange(3);
+    return;
+}
+~chatnpc("<p,happy>Welcome to the Burthorpe Games Rooms!");
+@boardgames_questions;
+
+[apnpc3,boardgames_barmaid]
+if (npc_range(coord) > 3) {
+    p_aprange(3);
+    return;
+}
+~openshop_activenpc;
+
+[label,boardgames_questions]
+@multi4("How do I play board games?", boardgames_howto, "What games can I play?", boardgames_which, "Can I buy a drink please?", boardgames_drink, "Thanks!", boardgames_thanks);
+
+[label,boardgames_which]
+~chatplayer("<p,quiz>What games can I play?");
+~chatnpc("<p,neutral>Currently we offer Draughts and Runelink.");
+@multi2("Draughts?", boardgames_draughts, "Runelink?", boardgames_runelink);
+
+[label,boardgames_drink]
+~chatplayer("<p,quiz>Can I buy a drink please?");
+~chatnpc("<p,neutral>I'm afraid I don't sell drinks.");
+
+[label,boardgames_thanks]
+~chatplayer("<p,happy>Thanks!");
+
+[label,boardgames_draughts]
+~chatplayer("<p,confused>Draughts?");
+~chatnpc("<p,happy>Draughts uses standard rules, apart from: a draw is|declared if no piece has been taken or promoted for|forty moves.");
+@boardgames_questions;
+
+[label,boardgames_runelink]
+~chatplayer("<p,confused>Runelink?");
+~chatnpc("<p,happy>Yup, you have to get four runes in a row.");
+@boardgames_questions;
+
+// [label,boardgames_runesquares]
+// ~chatplayer("<p,confused>Runesquares?");
+// ~chatnpc("<p,happy>Yes, you take it in turns to add a line with the goal of|making squares. Everytime you make a square you|take another turn.");
+// @boardgames_questions;
+
+// [label,boardgames_runeversi]
+// ~chatplayer("<p,confused>Runeversi?");
+// ~chatnpc("<p,happy>Yep, the aim is to have more of your runes on the|board than your opponent. You can take your|opponents pieces by trapping them between your own.");
+// @boardgames_questions;
+
+[label,boardgames_howto]
+~chatplayer("<p,quiz>How do I play board games?");
+~chatnpc("<p,neutral>You can challenge someone to a game anywhere in the|Games Zone by using the right click option.");
+~chatnpc("<p,neutral>Choose the type of game and then choose the options|you want such as time per move.");
+~chatnpc("<p,neutral>If your opponent accepts the challenge you will be|taken to one of the tables around where you will play|your game of choice.");
+~chatnpc("<p,neutral>Once you have finished your game you will come back|here where you can challenge again! We also have|tables in a few pubs around the world!");
+@boardgames_questions;

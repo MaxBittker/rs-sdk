@@ -81,8 +81,8 @@ export default class ClientProj extends ModelSource {
         if (this.spotanim.seq) {
             this.animCycle += delta;
 
-            while (this.animCycle > this.spotanim.seq.getDuration(this.animFrame)) {
-                this.animCycle -= this.spotanim.seq.getDuration(this.animFrame) + 1;
+            while (this.animCycle > this.spotanim.seq.getDelay(this.animFrame)) {
+                this.animCycle -= this.spotanim.seq.getDelay(this.animFrame) + 1;
                 this.animFrame++;
                 if (this.animFrame >= this.spotanim.seq.numFrames) {
                     this.animFrame = 0;
@@ -102,7 +102,7 @@ export default class ClientProj extends ModelSource {
             frame = this.spotanim.seq.frames[this.animFrame];
         }
 
-        const model: Model = Model.copyForAnim(spotModel, true, AnimFrame.shareAlpha(frame), false);
+        const model: Model = Model.copyForAnim(spotModel, true, AnimFrame.animateTransparencies(frame), false);
 
         if (frame !== -1) {
             model.prepareAnim();

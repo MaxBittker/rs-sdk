@@ -12,7 +12,7 @@ if (.finduid(%duel2accept) = true & ~.in_duel_arena(.coord) = true) {
     @player_death_duel;
 }
 ~player_death;
-midi_jingle(^death_jingle_2, ^death_jingle_2_millis);
+~music_jingle(death2);
 // https://storage.googleapis.com/tannerdino/images/6543.jpg
 // https://youtu.be/gWmwSYxzUfo
 mes("Oh dear you are dead!");
@@ -53,6 +53,8 @@ def_boolean $protecting_item = false;
 if (%prayer8 = ^true) { $protecting_item = true; }
 inv_clear(deathkeep);
 
+def_obj $currentitem;
+
 if($skulled = false) {
     ~move_priciest_item_on_hero_to_death;
     ~move_priciest_item_on_hero_to_death;
@@ -66,8 +68,12 @@ def_int $i = 0;
 def_int $size = inv_size(inv);
 while ($i < $size) {
     if (inv_getnum(inv, $i) > 0) {
-        if (oc_category(inv_getobj(inv, $i)) = armour_godcape) {
-            mes(oc_param(inv_getobj(inv, $i), lose_cape_message));
+        $currentitem = inv_getobj(inv, $i);
+        if (oc_category($currentitem) = armour_godcape) {
+            mes(oc_param($currentitem, lose_cape_message));
+        }
+        if (oc_param($currentitem, destroy_drop) = ^true | oc_param($currentitem, destroy_death) = ^true) {
+            inv_delslot(inv, $i);
         }
     }
     $i = calc($i + 1);
@@ -77,8 +83,12 @@ $i = 0;
 $size = inv_size(worn);
 while ($i < $size) {
     if (inv_getnum(worn, $i) > 0) {
-        if (oc_category(inv_getobj(worn, $i)) = armour_godcape) {
-            mes(oc_param(inv_getobj(worn, $i), lose_cape_message));
+        $currentitem = inv_getobj(worn, $i);
+        if (oc_category($currentitem) = armour_godcape) {
+            mes(oc_param($currentitem, lose_cape_message));
+        }
+        if (oc_param($currentitem, destroy_drop) = ^true | oc_param($currentitem, destroy_death) = ^true) {
+            inv_delslot(worn, $i);
         }
     }
     $i = calc($i + 1);
@@ -111,12 +121,16 @@ if($protecting_item = true) {
 
 def_int $i = 0;
 def_int $size = inv_size(inv);
+def_obj $currentitem;
 while ($i < $size) {
     if (inv_getnum(inv, $i) > 0) {
-        if (oc_category(inv_getobj(inv, $i)) = armour_godcape) {
-            mes(oc_param(inv_getobj(inv, $i), lose_cape_message));
+        $currentitem = inv_getobj(inv, $i);
+        if (oc_param($currentitem, destroy_drop) = ^true | oc_param($currentitem, destroy_death) = ^true) {
+            if (oc_category(inv_getobj(inv, $i)) = armour_godcape) {
+                mes(oc_param(inv_getobj(inv, $i), lose_cape_message));
+            }
             inv_delslot(inv, $i);
-        } else {
+        }  else {
             both_dropslot(inv, coord, $i, ^lootdrop_duration);
         }
     }
@@ -127,10 +141,13 @@ $i = 0;
 $size = inv_size(worn);
 while ($i < $size) {
     if (inv_getnum(worn, $i) > 0) {
-        if (oc_category(inv_getobj(worn, $i)) = armour_godcape) {
-            mes(oc_param(inv_getobj(worn, $i), lose_cape_message));
+        $currentitem = inv_getobj(worn, $i);
+        if (oc_param($currentitem, destroy_drop) = ^true | oc_param($currentitem, destroy_death) = ^true) {
+            if (oc_category(inv_getobj(worn, $i)) = armour_godcape) {
+                mes(oc_param(inv_getobj(worn, $i), lose_cape_message));
+            }
             inv_delslot(worn, $i);
-        } else {
+        }  else {
             both_dropslot(worn, coord, $i, ^lootdrop_duration);
         }
     }

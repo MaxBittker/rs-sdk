@@ -47,7 +47,7 @@ inv_del(inv, shiloshipticket, 1);
 [proc,set_sail_cairn](string $arrival_mes, coord $destination, int $map_route, int $delay)
 %journey_number = $map_route;
 if_openmain(ship_journey);
-midi_jingle(^sailing_journey_jingle, ^sailing_journey_jingle_millis);
+~music_jingle("sailing journey");
 
 
 if_settab(null, 0);

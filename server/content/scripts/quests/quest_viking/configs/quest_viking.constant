@@ -1,0 +1,83 @@
+^viking_not_started = 0
+^viking_started = 1
+^viking_complete = 10
+
+^viking_firecracker_placed = 0
+^viking_spoken_poisonsalesman = 1
+^viking_keg_lowalc = 2
+^viking_seerdoor_start = 3
+^viking_seerdoor_end = 5
+^viking_seerdoor_reddisk_1 = 6
+^viking_seerdoor_reddisk_2 = 7
+^viking_seerdoor_unlocked_chest = 8
+^viking_learned_olaf = 9
+^viking_swensen_start = 10
+^viking_swensen_end = 11
+^viking_reveller_start = 12
+^viking_reveller_end = 13
+^viking_sigli_start = 14
+^viking_sigli_end = 15
+^viking_thorvald_start = 16
+^viking_thorvald_end = 17
+^viking_peer_start = 18
+^viking_peer_end = 19
+^viking_olaf_start = 20
+^viking_olaf_end = 22
+^viking_sigmund_start = 23
+^viking_sigmund_end = 26
+^viking_cabbage_stew = 27
+^viking_onion_stew = 28
+^viking_rock_stew = 29
+^viking_potato_stew = 30
+
+^swensen_not_started = 0
+^swensen_started = 1
+^swensen_complete = 2
+
+^reveller_not_started = 0
+^reveller_started = 1
+^reveller_complete = 2
+
+^sigli_not_started = 0
+^sigli_started = 1
+^sigli_defeated_draugen = 2
+^sigli_complete = 3
+
+^thorvald_not_started = 0
+^thorvald_started = 1
+^thorvald_complete = 2
+
+^peer_not_started = 0
+^peer_started = 1
+^peer_completed_riddle = 2
+^peer_complete = 3
+
+^olaf_not_started = 0
+^olaf_started = 1
+^olaf_spoken_lalli = 2
+^olaf_spoken_askelapen = 3
+^olaf_spoken_lalli2 = 4
+^olaf_made_stew = 5
+^olaf_complete = 7
+
+^sigmund_not_started = 0
+^sigmund_started = 1
+^sigmund_spoke_sailor = 2
+^sigmund_spoke_olaf = 3
+^sigmund_spoke_yrsa = 4
+^sigmund_spoke_chief = 5
+^sigmund_spoke_sigli = 6
+^sigmund_spoke_skul = 7
+^sigmund_spoke_fisherman = 8
+^sigmund_spoke_swensen = 9
+^sigmund_spoke_seer = 10
+^sigmund_spoke_thorvald = 11
+^sigmund_spoke_manni = 12
+^sigmund_spoke_thora = 13
+^sigmund_spoke_askelapen = 14
+^sigmund_complete = 15
+
+^viking_name_lower1 = 22
+^viking_name_upper1 = 25
+^viking_name_lower2 = 26
+^viking_name_upper2 = 29

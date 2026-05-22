@@ -1,0 +1,414 @@
+[opnpc1,tbwt_tamayu]
+if (%tbwt_main < ^tbwt_started) {
+    switch_int(random(3)) {
+        case 0 :
+            ~chatnpc("<p,angry>Die! Die!!");
+        case 1 :
+            ~chatnpc("<p,angry>Move, lest I slay not the beast but you!");
+        case 2 : 
+            ~chatnpc("<p,angry>Get out of my way! Argh! I'm hunting!");
+    }
+} else {
+    switch_int(%tbwt_tamayu) {
+        case ^tbwt_tamayu_unknown :
+            %tbwt_tamayu = ^tbwt_tamayu_intro;
+            ~chatplayer("<p,angry>Tamayu, first son of Timfraku!"); // Angry mesanim is intentional
+            ~chatnpc("<p,neutral>I am.");
+            @tbwt_tamayu_bringgoodnews;
+        case ^tbwt_tamayu_intro :
+            @tbwt_tamayu_bringgoodnews;
+        case ^tbwt_tamayu_slay_shaikahan, ^tbwt_tamayu_watched_cutscene :
+            @tbwt_tamayu_shaikahanops;
+        case ^tbwt_tamayu_complete, ^tbwt_tamayu_claimed_final_reward :
+            @tbwt_tamayu_slayed_shaikahan;
+    }
+}
+
+[opnpcu,tbwt_tamayu]
+if(%tbwt_main < ^tbwt_started) {
+    ~displaymessage(^dm_default);
+    return;
+}
+if ((last_useitem = tbwt_monkey_corpse) | (last_useitem = tbwt_seaweed_in_monkey_corpse)) {
+    def_obj $corpse = last_useitem;
+    if (%tbwt_tamayu < ^tbwt_tamayu_complete) {
+        ~chatnpc("<p,angry>I'm not going to skin that! In the jungle, we help only those who help us.");
+    } else {
+        ~chatnpc("<p,angry>Let me guess - you want me to skin that monkey. Very well: I shall, since you have assisted me.");
+        inv_del(inv, $corpse, 1);
+        if ($corpse = tbwt_monkey_corpse) {
+            ~objbox($corpse, "You hand over the monkey corpse to Tamayu.", 250, 0, ^objbox_height);
+        } else {
+            ~objbox($corpse, "You hand over the stuffed monkey corpse to Tamayu.", 250, 0, ^objbox_height);
+        }
+        npc_anim(human_cooking, 0);
+        if_close;
+        p_delay(3);
+        if ($corpse = tbwt_monkey_corpse) {
+            inv_add(inv, tbwt_monkey_skin, 1);
+            inv_add(inv, mm_normal_monkey_bones, 1);
+            ~objbox(tbwt_monkey_skin, "Tamayu hands you some monkey skin and bones.", 250, 0, 0);
+        } else {
+            inv_add(inv, tbwt_monkey_skin, 1);
+            inv_add(inv, seaweed, 1);
+            inv_add(inv, bones, 1); // Only gives regular bones from a stuffed monkey corpse, in OSRS
+            ~objbox(tbwt_monkey_skin, "Tamayu hands you some monkey skin, seaweed and bones.", 250, 0, 0);
+        }
+    }
+} else if (last_useitem = 1dose1agility | last_useitem = 2dose1agility | last_useitem = 3dose1agility | last_useitem = 4dose1agility) {
+    if (%tbwt_tamayu ! ^tbwt_tamayu_watched_cutscene) {
+        ~chatnpc("<p,neutral>I have no interest in your potions right now. Only slaying the Shaikahan.");
+        return;
+    } else {
+        if (~get_tbwt_tamayu_agility_count >= 4) {
+            ~chatnpc("<p,neutral>Bwana, I feel more than agile enough to slay the Shaikahan.");
+        } else {
+            def_obj $potion = last_useitem;;
+            def_int $doses = 0;
+            if ($potion = 1dose1agility) $doses = 1;
+            else if ($potion = 2dose1agility) $doses = 2;
+            else if ($potion = 3dose1agility) $doses = 3;
+            else if ($potion = 4dose1agility) $doses = 4;
+
+            def_int $current = ~get_tbwt_tamayu_agility_count;
+            def_int $needed  = sub(4, $current);
+            if ($doses > $needed) $doses = $needed;
+
+            if ($current < 1) {
+                ~chatplayer("<p,neutral>I've noticed you commenting on the Shaikahan's agility. Try drinking this potion.");
+            } else {
+                ~chatplayer("<p,neutral>Tamayu, I have brought you more agility potion.");
+            }
+            ~set_tbwt_tamayu_agility_count(add($doses, $current));
+            inv_del(inv, $potion, 1);
+            ~objbox($potion, "You hand over the agility potion to Tamayu.", 250, 0, ^objbox_height);
+            ~chatnpc("<p,neutral>Thank you Bwana. Now I must prepare for my next hunt.");
+            if_close;
+            npc_anim(human_eat, 0);
+            p_delay(3);
+            if (~get_tbwt_tamayu_agility_count < 4) {
+                ~chatnpc("<p,neutral>I feel much more agile, but I am not sure whether I can match the Shaikahan...");
+            } else {
+                ~chatnpc("<p,neutral>I feel agile enough to finally match the Shaikahan!");
+            }
+        }
+    }
+} else if (oc_category(last_useitem) = weapon_spear) {
+    if (%tbwt_tamayu ! ^tbwt_tamayu_watched_cutscene) {
+        ~chatnpc("<p,neutral>I have no interest in your weapons right now. Only slaying the Shaikahan.");
+        return;
+    } else {
+        def_obj $spear = last_useitem;
+
+        %tbwt_bits = clearbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear);
+        %tbwt_bits = clearbit(%tbwt_bits, ^tbwt_tamayu_received_poisoned_spear);
+        %tbwt_bits = clearbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear);
+
+        // Interestingly, in OSRS as of Apr 2026, Bronze Spear (p+) & (p++) sets '^tbwt_tiadeche_tamayu_received_acceptable_spear' too
+        // We don't have (p+, or p++) variants yet in 274 though, so no action taken.
+        // Leaf-bladed spear & Guthan's Warspear are also considered 'acceptable_spears' (due to the oc_category of weapon_spear)
+        if ($spear = bronze_spear) {
+            // Bronze spear does nothing
+        } else if ($spear = bronze_spear_p) {
+            %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_poisoned_spear);
+        } else if ($spear = tbwt_bronze_spear_kp) {
+            %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear);
+        } else {
+            %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear);
+
+            if (oc_param($spear, poison_severity) > 0) {
+                %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_poisoned_spear);
+            }
+
+            if (oc_param($spear, tbwt_karambwan_poison) = ^true) {
+                %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear);
+            }
+        }
+
+        inv_del(inv, $spear, 1);
+        ~chatplayer("<p,neutral>Tamayu, try using this weapon.");
+        ~objbox($spear, "You hand the spear to Tamayu.", 250, 0, 0);
+        ~chatnpc("<p,neutral>Thank you Bwana. Now I must prepare for my next hunt.");
+    }
+} else {
+    if (%tbwt_tamayu = ^tbwt_tamayu_complete) {
+        ~chatnpc("<p,neutral>I have no need for that now.");
+        return;
+    }
+}
+
+[label,tbwt_tamayu_bringgoodnews]
+%tbwt_tamayu = ^tbwt_tamayu_intro;
+~chatplayer("<p,neutral>Tamayu, I bring good news. Trufitus has communed with the gods -  your village is once again safe."); // Double space after hyphen is intentional
+~chatplayer("<p,neutral>Your father requests that you return to the village.");
+~chatnpc("<p,angry>Then know this, stranger.");
+%tbwt_tamayu = ^tbwt_tamayu_slay_shaikahan;
+~chatnpc("<p,angry>I vow upon the blood of my fallen kin that I shall not set foot in that godforsaken village till I have slain the Shaikahan.");
+~chatplayer("<p,neutral>You could slay it after we return to the village.");
+~chatnpc("<p,angry>No! Your pitiful whining tires me. Now let me prepare.");
+
+[label,tbwt_tamayu_shaikahanops]
+if (%tbwt_tamayu < ^tbwt_tamayu_watched_cutscene) {
+    @multi4("Tell me more of the Shaikahan.", tbwt_tamayu_tellmemore,
+        "How long have you been hunting the Shaikahan?", tbwt_tamayu_howlonghunting,
+        "When will you succeed?", tbwt_tamayu_whensucceed,
+        "I could slay the Shaikahan for you.", tbwt_tamayu_slayforyou
+        );
+} else {
+    @multi4("Tell me more of the Shaikahan.", tbwt_tamayu_tellmemore,
+        "How long have you been hunting the Shaikahan?", tbwt_tamayu_howlonghunting,
+        "Take me on your next hunt for the Shaikahan", tbwt_tamayu_nexthunt,
+        "I could slay the Shaikahan for you.", tbwt_tamayu_slayforyou
+        );
+}
+
+[label,tbwt_tamayu_tellmemore]
+~chatplayer("<p,neutral>Tell me more of the Shaikahan.");
+switch_int(random(2)) {
+    case 0 :
+        ~chatnpc("<p,angry>A source of indescribable evil. A beast more foul than your dreams could imagine. It hunts the jungle for anything foolish enough to cross its path.");
+    case 1 :
+        ~chatnpc("<p,angry>It stands a full man's length in height. Its fore claws are sharp enough to rip through metal. In its eyes glow the embers of death.");
+}
+
+[label,tbwt_tamayu_howlonghunting]
+~chatplayer("<p,neutral>How long have you been hunting the Shaikahan?");
+~chatnpc("<p,angry>Since before I was born, stranger. It is my destiny.");
+
+[label,tbwt_tamayu_whensucceed]
+~chatplayer("<p,quiz>When will you succeed?");
+~chatnpc("<p,angry>When the gods bless me with success. You may join me on my next hunt, but you may not take part.");
+def_int $choice = ~p_choice2_header("Yes", 1, "No", 2, "Follow Tamayu on the next hunt?");
+if ($choice = 1) { // Yes
+    ~chatplayer("<p,neutral>Lead the way.");
+    if_close;
+    %tbwt_tamayu = ^tbwt_tamayu_watched_cutscene;
+    @tbwt_tamayu_cutscene;
+} else if ($choice = 2) { // No
+    ~chatplayer("<p,neutral>Perhaps later, Tamayu, first son of Timfraku.");
+}
+
+[label,tbwt_tamayu_nexthunt]
+~chatplayer("<p,neutral>Take me on your next hunt for the Shaikahan.");
+~chatnpc("<p,neutral>Very well, but you must not interfere.");
+if_close;
+%tbwt_tamayu = ^tbwt_tamayu_watched_cutscene;
+@tbwt_tamayu_cutscene;
+
+[label,tbwt_tamayu_slayforyou]
+~chatplayer("<p,neutral>I could slay the Shaikahan for you.");
+~chatnpc("<p,angry>You offer to kill the beast for me? Stop this nonsense, lest I kill you first. It is I who must avenge the death of my kin.");
+
+[label,tbwt_tamayu_cutscene]
+def_boolean $killing_hunt = false;
+def_int $delay = 3;
+if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true & testbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear) = ^true & ~get_tbwt_tamayu_agility_count >= 4) {
+    $killing_hunt = true;
+}
+%tbwt_tamayu = ^tbwt_tamayu_watched_cutscene;
+p_teleport(^tbwt_player_cutscene_spawn);
+
+if (npc_find(^tbwt_tamayu_hunter_cutscene_spawn, tbwt_tamayu_hunter, 5, 0) = true &
+    .npc_find(^tbwt_shaikahan_cutscene_spawn, tbwt_beast_cutscene, 5, 0) = true) {
+    npc_facesquare(.npc_coord);
+    .npc_facesquare(npc_coord);
+    facesquare(^tbwt_tamayu_hunter_cutscene_spawn);
+
+    if ($killing_hunt = true) { // Setup to sync first camera moveto & lookat on first attack, if doing a killing hunt
+        $delay = 2;
+        def_int $since_last = sub(map_clock, %npc_lastcombat);
+        def_int $delay_ticks = 0;
+
+        if ($since_last <= 1) {
+            $delay_ticks = 2;
+        } else if ($since_last = 2) {
+            $delay_ticks = 1;
+        }
+
+        if ($delay_ticks > 0) {
+            p_delay(sub($delay_ticks, 1));
+        }
+    } else {
+        p_delay(0); // 1 tick after entering if not a killing hunt
+    }
+    cam_lookat(0_39_71_27_23, 160, 232, 232);
+    cam_moveto(0_39_71_22_27, 350, 232, 232);
+
+    p_delay($delay);
+    if (%npc_int = 0 & $killing_hunt = true) @tbwt_tamayu_final_cutscene;
+    cam_moveto(0_39_71_28_31, 350, 232, 232);
+    
+    p_delay($delay);
+    if (%npc_int = 0 & $killing_hunt = true) @tbwt_tamayu_final_cutscene;
+    cam_moveto(0_39_71_29_19, 350, 232, 232);
+
+    p_delay($delay);
+    if (%npc_int = 0 & $killing_hunt = true) @tbwt_tamayu_final_cutscene;
+    cam_moveto(0_39_71_33_23, 350, 232, 232);
+
+    p_delay($delay);
+    if (%npc_int = 0 & $killing_hunt = true) @tbwt_tamayu_final_cutscene;
+    cam_moveto(0_39_71_34_27, 350, 232, 232);
+
+    p_delay($delay);
+    if (%npc_int = 0 & $killing_hunt = true) @tbwt_tamayu_final_cutscene;
+    cam_moveto(0_39_71_32_20, 350, 232, 232);
+
+    p_delay($delay);
+    cam_reset;
+
+    if (npc_find(^tbwt_tamayu_spawn, tbwt_tamayu, 5, 0) = true) {
+        p_teleport(map_findsquare(npc_coord, 2, 4, ^map_findsquare_lineofwalk));
+        facesquare(npc_coord);
+        @tbwt_tamayu_assess_agility;
+    } else { // Safety to make sure player returns if Tamayu not found
+        p_teleport(map_findsquare(^tbwt_tamayu_spawn, 2, 4, ^map_findsquare_lineofwalk));
+        facesquare(npc_coord);
+        @tbwt_tamayu_assess_agility;
+    }
+}
+
+[label,tbwt_tamayu_final_cutscene]
+p_teleport(^tbwt_player_cutscene_final_spawn);
+
+// In OSRS, previous cutscene cam packets are sent when starting final cutscene too, resulting in a little camera shake
+cam_lookat(0_39_71_27_23, 160, 232, 232);
+cam_moveto(0_39_71_33_23, 350, 232, 232);
+cam_lookat(0_39_71_45_21, 320, 232, 232);
+cam_moveto(0_39_71_56_22, 700, 232, 232);
+
+if (npc_find(^tbwt_tamayu_hunter_cutscene_final_spawn, tbwt_tamayu_final_hunter, 5, 0) = true & 
+    .npc_find(^tbwt_shaikahan_cutscene_final_spawn, tbwt_beast_cutscene, 5, 0) = true) {
+
+    .npc_facesquare(movecoord(.npc_coord, 0, 0, -8));
+
+     if(%npc_int > map_clock) {
+        p_delay(5);
+        ~music_jingle("tamayu_slays_the_shaikahan");
+        p_delay(6);
+        %tbwt_tamayu = ^tbwt_tamayu_complete;
+        p_teleport(0_44_47_32_31);
+        return;
+    }
+    %npc_int = add(map_clock, 13);
+
+    npc_facesquare(movecoord(npc_coord, 0, 0, 1));
+    facesquare(^tbwt_tamayu_hunter_cutscene_final_spawn);
+
+    npc_anim(human_spear_spike, 0);
+    .npc_anim(lion_block, 0);
+    ~sound_area(beast_hit, 0, coord, 0);
+    ~sound_area(staff_stab, 0, coord, 0);
+    npc_say("The end approaches, Shaikahan!");
+    p_delay(2);
+
+    npc_anim(human_spear_spike, 0);
+    .npc_anim(lion_block, 0);
+    ~sound_area(beast_hit, 0, coord, 0);
+    ~sound_area(staff_stab, 0, coord, 0);
+    p_delay(2);
+
+    ~music_jingle("tamayu_slays_the_shaikahan");
+    npc_anim(human_spear_spike, 0);
+    .npc_anim(lion_block, 0);
+    ~sound_area(beast_hit, 0, coord, 0);
+    ~sound_area(staff_stab, 0, coord, 0);
+    npc_say("Gods! Witness this triumph!");
+    p_delay(2);
+
+    npc_anim(human_spear_spike, 0);
+    .npc_anim(lion_death_hold_last_frame, 0);
+    ~sound_area(beast_death, 0, coord, 0);
+    ~sound_area(staff_stab, 0, coord, 0);
+    p_delay(2);
+
+    p_delay(0);
+}
+cam_reset;
+%tbwt_tamayu = ^tbwt_tamayu_complete;
+p_teleport(0_44_47_32_31);
+
+[ai_timer,tbwt_tamayu_hunter]
+%npc_int = sub(%npc_int, 1);
+if (.npc_find(^tbwt_shaikahan_cutscene_spawn, tbwt_beast_cutscene, 10, 0) = true) {
+    npc_facesquare(.npc_coord);
+    .npc_facesquare(npc_coord);
+    ~tbwt_roll_attack_or_defend;
+}
+if (%npc_int < 0) {
+    %npc_int = 4;
+}
+
+[proc,tbwt_roll_attack_or_defend]
+switch_int(random(2)) {
+    case 0 : 
+        npc_anim(human_spear_block, 0);
+        .npc_anim(lion_attack, 0);
+        huntall(npc_coord, 3, 0);
+        while (huntnext = true) {
+            sound_synth(beast_attack, 0, 0);
+            switch_int(random(3)){
+                case 0 : sound_synth(human_hit2, 0, 0);
+                case 1 : sound_synth(human_hit4, 0, 0);
+                case 2 : sound_synth(human_hit_7, 0, 0);
+            }
+        }
+    case 1 : 
+        npc_anim(human_spear_spike, 0);
+        .npc_anim(lion_block, 0);
+        huntall(npc_coord, 3, 0);
+        while (huntnext = true) {
+            sound_synth(beast_hit, 0, 0);
+            sound_synth(staff_stab, 0, 0);
+        }
+}
+%npc_lastcombat = map_clock;
+
+[label,tbwt_tamayu_assess_agility]
+if (~get_tbwt_tamayu_agility_count < 1) {
+    ~chatnpc("<p,neutral>I simply cannot match the Shaikahan's agility!");
+} else if (~get_tbwt_tamayu_agility_count > 0 & ~get_tbwt_tamayu_agility_count < 4) {
+    ~chatnpc("<p,neutral>I am beginning to match Shaikahan's agility!");
+} else if (~get_tbwt_tamayu_agility_count >= 4) {
+    ~chatnpc("<p,neutral>I have matched the Shaikahan in agility! He can no longer avoid my strikes!");
+}
+@tbwt_tamayu_assess_damage;
+
+[label,tbwt_tamayu_assess_damage]
+if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
+    ~chatnpc("<p,angry>I can do enough damage...");
+} else {
+    ~chatnpc("<p,angry>I cannot do enough damage with this spear...");
+}
+@tbwt_tamayu_assess_health;
+
+[label,tbwt_tamayu_assess_health]
+if (testbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear) = ^true) {
+    if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
+        ~chatnpc("<p,angry>... and it does seem extremely sick!");
+    } else {
+        ~chatnpc("<p,angry>... but it does seem extremely sick!");
+    }
+} else if (testbit(%tbwt_bits, ^tbwt_tamayu_received_poisoned_spear) = ^true) {
+    if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
+        ~chatnpc("<p,angry>... and  it does seem quite sick! Perhaps another poison would be more effective?");
+    } else {
+        ~chatnpc("<p,angry>... but  it does seem quite sick! Perhaps another poison would be more effective?");
+    }
+} else {
+    if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
+        ~chatnpc("<p,angry>... but  it seems to be healing too quickly!");
+    } else {
+        ~chatnpc("<p,angry>... and  it seems to be healing too quickly!");
+    }
+}
+
+[label,tbwt_tamayu_slayed_shaikahan]
+~chatnpc("<p,neutral>I did it! I, Tamayu, first son of Timfraku, did slay the Shaikahan!");
+~chatnpc("<p,neutral>The deaths of my kin have been avenged. You are my witness.");
+~chatplayer("<p,quiz>Worry not - I am your witness. Shall we return to the village now?");
+~chatnpc("<p,neutral>Yes. Go on ahead without me. I have further matters to attend to here.");
+~chatnpc("<p,neutral>I will meet you in the village once you have helped my brothers and spoken to my father.");
+if (%tbwt_main = ^tbwt_started & ~tbwt_get_brother_completion = true) {
+    %tbwt_main = ^tbwt_completed_all_brothers;
+}

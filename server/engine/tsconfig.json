@@ -6,11 +6,10 @@
     "lib": ["ESNext", "WebWorker"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "baseUrl": ".",
     "paths": {
-      "#3rdparty/*": ["src/3rdparty/*"],
-      "#/*": ["src/*"],
-      "#tools/*": ["tools/*"]
+      "#3rdparty/*": ["./src/3rdparty/*"],
+      "#/*": ["./src/*"],
+      "#tools/*": ["./tools/*"]
     },
     "types": ["node", "bun-types"],
     "typeRoots": ["node_modules", "node_modules/@types"],

@@ -1,0 +1,37 @@
+[proc,start_king_messenger_timer]
+if(%upass = ^upass_complete & %regicide_quest = 0) {
+    settimer(spawn_kings_messenger, ~random_range(400, 1200));
+}
+
+[timer,spawn_kings_messenger]
+if(%regicide_quest >= ^regicide_received_message) {
+    cleartimer(spawn_kings_messenger);
+    return;
+}
+npc_add(map_findsquare(coord, 1, 3, ^map_findsquare_lineofwalk), regicide_kings_messenger, 300);
+%npc_aggressive_player = uid;
+npc_setmode(opplayer2);
+
+[ai_opplayer2,regicide_kings_messenger]
+if (p_finduid(uid) = false) {
+    return;
+}
+@kings_messenger_dialogue;
+
+[label,kings_messenger_dialogue]
+cleartimer(spawn_kings_messenger);
+npc_setmode(playerfaceclose);
+inv_add(inv, regicide_quest_kings_summons, 1);
+%regicide_quest = ^regicide_received_message;
+~send_quest_progress(questlist:regicide, %regicide_quest, ^regicide_complete);
+// https://web.archive.org/web/20061231211932im_/http://www.runeweb.net/fireball/Regicide%20Images/Regicide1.PNG
+~chatnpc("<p,neutral>I take it you are <displayname()>?|King Lathas sent this message for you.|He's not a man you'd want to keep waiting.");
+npc_setmode(null);
+~objbox(regicide_quest_kings_summons, "The messenger gives you a scroll.", 250, 0, 0);
+
+
+[opnpc1,regicide_kings_messenger]
+if(uid = %npc_aggressive_player & %upass = ^upass_complete & %regicide_quest = 0) {
+    @kings_messenger_dialogue;
+}
+~chatnpc("<p,neutral>I have no business with you.");

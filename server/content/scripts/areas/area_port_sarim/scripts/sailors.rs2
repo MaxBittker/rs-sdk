@@ -1,4 +1,12 @@
 [opnpc1,_sailor]
+if(map_members = ^true & npc_type = captain_tobias) {
+    if(inv_total(inv, trail_clue_easy_vague012) > 0) {
+        // https://youtu.be/o3Hvw7cqXv8?si=LqxAoPuaPZNpijxq&t=129
+        ~chatnpc("<p,happy>Well done, matey! Here you go!");
+        ~progress_clue_easy(trail_clue_easy_vague012, "Captain Tobias has given you another clue scroll!");
+        return;
+    }
+}
 @karamja_sailor_dialogue("Karamja", 1_46_49_12_7, ^sail_port_sarim_to_karamja);
 
 [label,karamja_sailor_dialogue](string $dest, coord $coord, int $ship_dest)

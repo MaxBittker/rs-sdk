@@ -1,0 +1,87 @@
+[opnpc1,viking_longhall_barkeep]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,neutral>Hello yourself, outerlander. A little out of the way up here, aren't you?");
+    ~chatnpc("<p,neutral>I would love to stop and chat with you, but unfortunately we have a custom that no Fremennik may speak with the outerlanders without the permission of our chieftain.");
+    ~chatnpc("<p,neutral>Don't take it personally. The Chieftain is stood just over there, his name is Brundt. I suggest you go and introduce yourself.");
+    ~chatnpc("<p,neutral>You wouldn't want to go making any enemies because you weren't aware of our customs now, would you?");
+    ~chatplayer("<p,neutral>No, I guess not. Thanks anyway.");
+} else if (%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_barkeep_merchant;
+    }
+    ~chatplayer("<p,neutral>Hi. Are you a member of the council?");
+    ~chatnpc("<p,neutral>I am afraid not outerlander.");
+    ~chatplayer("<p,neutral>Oh, okay then.");
+} else if(%viking = ^viking_complete) {
+    ~chatnpc("<p,neutral>Hello again <~get_viking_name>. I suppose you want a drink? Or are you going to try another scam with that terrible Askeladden again?");
+    ~chatplayer("<p,confused>Scam? Oh...|You mean his promise not to come in here anymore?");
+    ~chatnpc("<p,angry>Yes. Yes I do. I should never have trusted him not to come in here, even with that written promise.");
+    ~chatnpc("<p,angry>Anyway, do you want a drink or not?");
+    $op = ~p_choice2("Yes please", 1, "No thanks", 2);
+    if($op = 2) {
+        ~chatplayer("<p,neutral>No thanks.");
+        ~chatnpc("<p,neutral>Okay then.");
+    }
+    ~openshop_activenpc;
+}
+
+[label,viking_barkeep_merchant]
+// this one checks the other item first, the rest are the other way around
+if(inv_total(inv, viking_legendary_cocktail) > 0) {
+    ~chatplayer("<p,happy>Thanks for making me this cocktail. Why don't you make them anymore normally?");
+    ~chatnpc("<p,sad>Ah... when I gave up my travels across the world many years back, to return to my expected role as longhall barkeep, as my mother, and her mother, were before me,");
+    ~chatnpc("<p,sad>I gave up a lot of the freedom I had found in the outside world. I know it is our custom to shun outerlanders and their ways, but I didn't find them as bad as the stories say.");
+    ~chatnpc("<p,sad>Sometimes I feel as though we Fremennik live in a prison that we have constructed for ourselves, and that WE are the outerlanders, out here on the edge of the world...");
+    ~chatnpc("<p,neutral>When you have finished, perhaps you will come back here, and we can share a drink over tales of the outside world?");
+    ~chatplayer("<p,happy>Thanks, I'd like that.");
+    return;
+}
+if(inv_total(inv, viking_promissary_note2) > 0) {
+    ~chatplayer("<p,happy>Hi! Can I please have one of your legendary cocktails now?");
+    ~chatnpc("<p,shock>What?!?! I can't believe you... Let me look at that... Askeladden would NEVER... Gosh. It looks legitimate.");
+    inv_del(inv, viking_promissary_note2, 1);
+    inv_add(inv, viking_legendary_cocktail, 1);
+    ~chatnpc("<p,happy>Here you go, on the house! You have made my life SO much easier! Knowing that little monster won't be bugging me in here all the time anymore!");
+    ~chatnpc("<p,neutral>That little weasel will have to abide by this written promise that Askeladden can never ever enter the Longhall again! He can't get round this one!");
+    ~chatplayer("<p,shifty>Uh... yeah... yeah, you probably won't see someone called Askeladden coming in here...");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_thora :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Well, as I say, you should talk to him about that. Knowing the little runt as I do though He'll probably do it for the cash.");
+    case ^sigmund_spoke_manni :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,shock>How did you hear about that?!?!?");
+        ~chatnpc("<p,neutral>I didn't think anybody knew about that... Well, it is true that in my younger years as a barkeep, I wandered the lands trying various alcoholic delicacies.");
+        ~chatnpc("<p,neutral>Did you ever realise just how many different types of alcohol there are here in RuneScape? Lots!");
+        ~chatnpc("<p,neutral>Well, anyway, I used a fusion of various drinks from all around the world to create the greatest cocktail ever made!");
+        ~chatnpc("<p,neutral>Of course, when my wanderlust was gone, and I returned back to Rellekka to serve as barkeep here, I gave all that up.");
+        ~chatplayer("<p,quiz>But you still remember how to make it, right?");
+        ~chatnpc("<p,neutral>Of course.");
+        ~chatplayer("<p,quiz>And you have all the ingredients here? I don't need to go chasing round the world for obscure ingredients to make it?");
+        ~chatnpc("<p,neutral>No, I have them all here. Why?");
+        ~chatplayer("<p,quiz>Can you make me your legendary cocktail then?");
+        ~chatnpc("<p,neutral>I would rather not; it is a reminder of a life I left behind when I came back.");
+        ~chatplayer("<p,quiz>Any way I could change your mind?");
+        ~chatnpc("<p,neutral>You need this to become a Fremennik, right? Well, you seem okay for an outerlander, it would be a shame to see you fail. You know Askeladden?");
+        ~chatplayer("<p,quiz>That kid outside? Sure.");
+        ~set_viking_sigmund_progress(^sigmund_spoke_thora);
+        ~chatnpc("<p,neutral>He is nothing but a pest. He keeps sneaking in and stealing beer. I shudder to think what he will be like when he has passed his trial of manhood,");
+        ~chatnpc("<p,neutral>and is allowed in here legitimately. If you can get him to sign a contract promising that he will NEVER EVER EVER darken my doorway here again, you get the drink.");
+        ~chatplayer("<p,neutral>Any idea how I can get him to do that?");
+        ~chatnpc("<p,neutral>Knowing that little horror, he'll probably be willing to in exchange for some cash. You should go ask him yourself though.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>I wouldn't know about that, outerlander.");
+}
+
+[opnpc3,viking_longhall_barkeep]
+if(%viking < ^viking_complete) {
+    mes("Only Fremenniks may buy drinks here.");
+    return;
+}
+~openshop_activenpc;

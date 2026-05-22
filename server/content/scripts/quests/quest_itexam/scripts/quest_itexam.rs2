@@ -15,7 +15,7 @@
 [proc,itexam_progress]()(int)
 return (getbit_range(%itexamlevel, 0, 3));
 
-[proc,itexam_set_progress](int $progress);
+[proc,itexam_set_progress](int $progress)
 if ($progress < %itexamlevel) {
     return;
 }

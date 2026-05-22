@@ -1,4 +1,27 @@
 [opnpc1,gnome_heckelfunch]
+if(inv_total(inv, trail_clue_hard_riddle025) > 0) {
+    // https://www.youtube.com/watch?v=1OBGZIgwBKA
+    if(~obj_gettotal(trail_clue_hard_riddle025_puzzlebox) > 0) {
+        if(inv_total(inv, trail_clue_hard_riddle025_puzzlebox) = 0) {
+            ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
+            ~chatnpc("<p,angry>So go fetch it, human!");
+            return;
+        }
+        if(~trail_puzzle_complete(trail_clue_hard_riddle025_puzzlebox) = true) {
+            ~chatnpc("<p,happy>Well done, human!");
+            inv_del(inv, trail_clue_hard_riddle025_puzzlebox, 1);
+            ~progress_clue_hard(trail_clue_hard_riddle025, "Heckel Funch has given you another clue scroll!");
+            return;
+        }
+        // TODO: check mesanim
+        ~chatnpc("<p,neutral>No, that's wrong I'm afraid.");
+        return;
+    }
+    ~give_trail_puzzle(trail_clue_hard_riddle025_puzzlebox, "<p,neutral>Please do puzzle for me human!", "Heckel Funch has given you a puzzle box!");
+    return;
+}
+
+
 ~chatplayer("<p,happy>Hello there.");
 ~chatnpc("<p,happy>Good day to you my friend, a beautiful one at that. Would you like some groceries? I have all sorts. Alcohol also, if you're partial to a drink.");
 def_int $choice = ~p_choice2("No thank you.", 1, "I'll have a look.", 2);

@@ -117,6 +117,10 @@ export function packDbRowConfigs(configs: Map<string, ConfigLine[]>): { client: 
                     const column = parts.shift();
                     const values = parts;
 
+                    if (typeof column === 'undefined' || table.columnNames.indexOf(column) === -1) {
+                        throw packStepError(debugname, `Data invalid in row, double-check the column exists: data=${value}`);
+                    }
+
                     data.push({ column, values });
                 }
             }

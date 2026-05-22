@@ -1,7 +1,7 @@
 import { bunzip2 } from '#/io/BZip2.js';
 import Packet from '#/io/Packet.js';
 
-export default class Jagfile {
+export default class JagFile {
     static genHash(name: string): number {
         let hash: number = 0;
         name = name.toUpperCase();
@@ -21,7 +21,7 @@ export default class Jagfile {
     fileUnpacked: Uint8Array[] = [];
 
     constructor(src: Uint8Array) {
-        let data: Packet = new Packet(new Uint8Array(src));
+        let data: Packet = new Packet(src);
         const unpackedSize: number = data.g3();
         const packedSize: number = data.g3();
 
@@ -30,7 +30,7 @@ export default class Jagfile {
             this.unpacked = false;
         } else {
             this.data = bunzip2(src.subarray(6));
-            data = new Packet(new Uint8Array(this.data));
+            data = new Packet(this.data);
             this.unpacked = true;
         }
 
@@ -51,7 +51,7 @@ export default class Jagfile {
     }
 
     read(name: string): Uint8Array | null {
-        const hash: number = Jagfile.genHash(name);
+        const hash: number = JagFile.genHash(name);
         const index: number = this.fileHash.indexOf(hash);
         if (index === -1) {
             return null;
@@ -70,7 +70,7 @@ export default class Jagfile {
 
         const offset: number = this.fileOffset[index];
         const length: number = this.filePackedSize[index];
-        const src: Uint8Array = new Uint8Array(this.data.subarray(offset, offset + length));
+        const src: Uint8Array = this.data.subarray(offset, offset + length);
         if (this.unpacked) {
             this.fileUnpacked[index] = src;
             return src;

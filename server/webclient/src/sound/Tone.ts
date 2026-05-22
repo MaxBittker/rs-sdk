@@ -1,10 +1,34 @@
 import Packet from '#/io/Packet.js';
 
 import Envelope from '#/sound/Envelope.js';
-
-import JavaRandom from '#/util/JavaRandom.js';
+import Filter from '#/sound/Filter.js';
+import { mulShift16 } from '#/util/JsUtil.js';
 
 export default class Tone {
+    static buf: Int32Array = new Int32Array(22050 * 10);
+    static noise: Int32Array = new Int32Array(32768);
+    static sine: Int32Array = new Int32Array(32768);
+
+    static fPos: Int32Array = new Int32Array(5);
+    static fDel: Int32Array = new Int32Array(5);
+    static fAmp: Int32Array = new Int32Array(5);
+    static fMulti: Int32Array = new Int32Array(5);
+    static fOffset: Int32Array = new Int32Array(5);
+
+    static {
+        for (let i = 0; i < 32768; i++) {
+            if (Math.random() > 0.5) {
+                this.noise[i] = 1;
+            } else {
+                this.noise[i] = -1;
+            }
+        }
+
+        for (let i = 0; i < 32768; i++) {
+            this.sine[i] = (Math.sin(i / 5215.1903) * 16384.0) | 0;
+        }
+    }
+
     frequencyBase: Envelope = new Envelope();
     amplitudeBase: Envelope = new Envelope();
 
@@ -27,26 +51,8 @@ export default class Tone {
     length: number = 500;
     start: number = 0;
 
-    static buf: Int32Array = new Int32Array(22050 * 10);
-    static noise: Int32Array = new Int32Array(32768);
-    static sine: Int32Array = new Int32Array(32768);
-
-    static fPos: Int32Array = new Int32Array(5);
-    static fDel: Int32Array = new Int32Array(5);
-    static fAmp: Int32Array = new Int32Array(5);
-    static fMulti: Int32Array = new Int32Array(5);
-    static fOffset: Int32Array = new Int32Array(5);
-
-    static {
-        const rand = new JavaRandom(0);
-        for (let i = 0; i < 32768; i++) {
-            this.noise[i] = (rand.nextInt() & 0x2) - 1;
-        }
-
-        for (let i = 0; i < 32768; i++) {
-            this.sine[i] = (Math.sin(i / 5215.1903) * 16384.0) | 0;
-        }
-    }
+    filter: Filter | null = null;
+    filterRange: Envelope | null = null;
 
     generate(sampleCount: number, length: number): Int32Array {
         for (let sample = 0; sample < sampleCount; sample++) {
@@ -164,6 +170,87 @@ export default class Tone {
             }
         }
 
+        if (this.filter && this.filterRange && (this.filter.pairs[0] > 0 || this.filter.pairs[1] > 0)) {
+            this.filterRange.genInit();
+
+            let range: number = this.filterRange.genNext(sampleCount + 1);
+            let coeff0: number = this.filter.calculateCoeffs(0, range / 65536.0);
+            let coeff1: number = this.filter.calculateCoeffs(1, range / 65536.0);
+
+            if (sampleCount >= coeff0 + coeff1) {
+                let sample = 0;
+                let limit = coeff1;
+
+                if (coeff1 > sampleCount - coeff0) {
+                    limit = sampleCount - coeff0;
+                }
+
+                while (sample < limit) {
+                    let value = mulShift16(Tone.buf[sample + coeff0], Filter.reduceCoeffInt);
+
+                    for (let i = 0; i < coeff0; i++) {
+                        value += mulShift16(Tone.buf[sample + coeff0 - i - 1], Filter.coeffInt[0][i]);
+                    }
+
+                    for (let i = 0; i < sample; i++) {
+                        value -= mulShift16(Tone.buf[sample - i - 1], Filter.coeffInt[1][i]);
+                    }
+
+                    Tone.buf[sample] = value;
+                    range = this.filterRange.genNext(sampleCount + 1);
+                    sample++;
+                }
+
+                const step = 128;
+                let next = step;
+
+                while (true) {
+                    if (next > sampleCount - coeff0) {
+                        next = sampleCount - coeff0;
+                    }
+
+                    while (sample < next) {
+                        let value = mulShift16(Tone.buf[sample + coeff0], Filter.reduceCoeffInt);
+
+                        for (let i = 0; i < coeff0; i++) {
+                            value += mulShift16(Tone.buf[sample + coeff0 - i - 1], Filter.coeffInt[0][i]);
+                        }
+
+                        for (let i = 0; i < coeff1; i++) {
+                            value -= mulShift16(Tone.buf[sample - i - 1], Filter.coeffInt[1][i]);
+                        }
+
+                        Tone.buf[sample] = value;
+                        range = this.filterRange.genNext(sampleCount + 1);
+                        sample++;
+                    }
+
+                    if (sample >= sampleCount - coeff0) {
+                        while (sample < sampleCount) {
+                            let value = 0;
+
+                            for (let i = sample + coeff0 - sampleCount; i < coeff0; i++) {
+                                value += mulShift16(Tone.buf[sample + coeff0 - i - 1], Filter.coeffInt[0][i]);
+                            }
+
+                            for (let i = 0; i < coeff1; i++) {
+                                value -= mulShift16(Tone.buf[sample - i - 1], Filter.coeffInt[1][i]);
+                            }
+
+                            Tone.buf[sample] = value;
+                            this.filterRange.genNext(sampleCount + 1);
+                            sample++;
+                        }
+                        break;
+                    }
+
+                    coeff0 = this.filter.calculateCoeffs(0, range / 65536.0);
+                    coeff1 = this.filter.calculateCoeffs(1, range / 65536.0);
+                    next += step;
+                }
+            }
+        }
+
         for (let sample = 0; sample < sampleCount; sample++) {
             if (Tone.buf[sample] < -32768) {
                 Tone.buf[sample] = -32768;
@@ -191,57 +278,61 @@ export default class Tone {
         }
     }
 
-    load(dat: Packet): void {
+    load(buf: Packet): void {
         this.frequencyBase = new Envelope();
-        this.frequencyBase.load(dat);
+        this.frequencyBase.load(buf);
 
         this.amplitudeBase = new Envelope();
-        this.amplitudeBase.load(dat);
+        this.amplitudeBase.load(buf);
 
-        if (dat.g1() !== 0) {
-            dat.pos--;
+        if (buf.g1() !== 0) {
+            buf.pos--;
 
             this.frequencyModRate = new Envelope();
-            this.frequencyModRate.load(dat);
+            this.frequencyModRate.load(buf);
 
             this.frequencyModRange = new Envelope();
-            this.frequencyModRange.load(dat);
+            this.frequencyModRange.load(buf);
         }
 
-        if (dat.g1() !== 0) {
-            dat.pos--;
+        if (buf.g1() !== 0) {
+            buf.pos--;
 
             this.amplitudeModRate = new Envelope();
-            this.amplitudeModRate.load(dat);
+            this.amplitudeModRate.load(buf);
 
             this.amplitudeModRange = new Envelope();
-            this.amplitudeModRange.load(dat);
+            this.amplitudeModRange.load(buf);
         }
 
-        if (dat.g1() !== 0) {
-            dat.pos--;
+        if (buf.g1() !== 0) {
+            buf.pos--;
 
             this.release = new Envelope();
-            this.release.load(dat);
+            this.release.load(buf);
 
             this.attack = new Envelope();
-            this.attack.load(dat);
+            this.attack.load(buf);
         }
 
         for (let harmonic = 0; harmonic < 10; harmonic++) {
-            const volume = dat.gsmarts();
+            const volume = buf.gsmart();
             if (volume === 0) {
                 break;
             }
 
             this.harmonicVolume[harmonic] = volume;
-            this.harmonicSemitone[harmonic] = dat.gsmart();
-            this.harmonicDelay[harmonic] = dat.gsmarts();
+            this.harmonicSemitone[harmonic] = buf.gsmarts();
+            this.harmonicDelay[harmonic] = buf.gsmart();
         }
 
-        this.reverbDelay = dat.gsmarts();
-        this.reverbVolume = dat.gsmarts();
-        this.length = dat.g2();
-        this.start = dat.g2();
+        this.reverbDelay = buf.gsmart();
+        this.reverbVolume = buf.gsmart();
+        this.length = buf.g2();
+        this.start = buf.g2();
+
+        this.filter = new Filter();
+        this.filterRange = new Envelope();
+        this.filter.unpack(buf, this.filterRange);
     }
 }

@@ -1,0 +1,147 @@
+[opnpc1,viking_askelapen]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,neutral>Hey there, buddy. You're an outerlander, huh? I'm not really supposed to talk to you.");
+    ~chatplayer("<p,quiz>Why not?");
+    ~chatnpc("<p,neutral>I dunno buddy. Some stupid tradition or other. We're always told not to talk to outerlanders unless the Chieftain has allowed it.");
+    ~chatplayer("<p,neutral>The Chieftain? Who is that?");
+    ~chatnpc("<p,neutral>His names Brundt, buddy. He's a real boring guy. You can find him in the longhall there.");
+    ~chatplayer("<p,quiz>Can you take me to see him?");
+    ~chatnpc("<p,neutral>Sorry buddy, I'm not allowed into the Longhall. Don't worry, he's easy to spot. He's the one in the fancy helmet. Oh, and he only has one eye.");
+    ~chatplayer("<p,shock>He's a cyclops?");
+    ~chatnpc("<p,laugh>Nah, nah, nah... He just wears an eyepatch! Well, see ya around buddy!");
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_askelapen_merchant;
+    }
+    switch_int(~get_viking_olaf_progress) {
+        case default :
+            if(~obj_gettotal(vt_useless_rock) = 0) {
+                if(inv_freespace(inv) = 0) {
+                    ~mesbox("Your inventory is too full to accept another 'pet rock'.");
+                    return;
+                }
+                ~chatplayer("<p,sad>Can I have another rock? I lost mine...");
+                inv_add(inv, vt_useless_rock, 1);
+                ~chatnpc("<p,neutral>Sure thing buddy! I'd say take better care of this one, but it's just a rock! I have hundreds of them! Go wild!");
+                return;
+            }
+            ~chatplayer("<p,quiz>So this is the exact same type of rock you managed to sell to Lalli as a pet?");
+            ~chatnpc("<p,happy>Yup, sure is buddy! That Lalli is stupid, even by troll standards!");
+        case ^olaf_spoken_lalli :
+            ~chatplayer("<p,neutral>Hello there. I understand you managed to get some golden wool from Lalli?");
+            ~chatnpc("<p,laugh>HAHAHA! Yeah, that Lalli... what a maroon!");
+            ~chatplayer("<p,quiz>So how did you manage to get the wool?");
+            ~chatnpc("<p,neutral>Well, as you know, I am doing the same trials that you are as part of my test of manhood, and that troll is the only one who can get that wool.");
+            ~chatnpc("<p,neutral>You might have noticed he's kind of... messed in the head buddy! He's real paranoid about people stealing his golden apples, isn't he?");
+            ~chatplayer("<p,neutral>Indeed he is. So how did you manage to get some golden wool from him?");
+            ~chatnpc("<p,neutral>It was easy buddy! I persuaded him he needed a pet to help him guard his apples. A pet that would never sleep! A pet that would never need food, or exercise!");
+            ~chatnpc("<p,neutral>A pet that would never need him to clean up its... well, you know, buddy. A pet that would always be loyal to him! A faithful companion for life!");
+            ~chatplayer("<p,quiz>What pet is this then?");
+            ~chatnpc("<p,laugh>A pet ROCK!");
+            ~chatnpc("<p,happy>Man, can you believe that stupid troll traded me some of his golden wool for a worthless ROCK?");
+            ~chatnpc("<p,happy>Buddy, I hafta say; if brains were explosives, that troll wouldn't have enough to blow his nose!");
+            ~chatplayer("<p,quiz>Do you have any spare rocks then?");
+            if(inv_freespace(inv) = 0) {
+                ~chatnpc("<p,neutral>Sure thing buddy, but it doesn't look like you got the room to take one from me!");
+                return;
+            }
+            inv_add(inv, vt_useless_rock, 1);
+            ~set_viking_olaf_progress(^olaf_spoken_askelapen);
+            ~chatnpc("<p,neutral>Sure thing buddy, although I have to say, I doubt even that troll is stupid enough to fall for the SAME trick TWICE in a row! You can try anyway though!");
+        case ^olaf_not_started, ^olaf_started, ^olaf_complete :
+            ~chatplayer("<p,quiz>Hi. Are you a member of the council of elders?");
+            ~chatnpc("<p,laugh>Me? On the council? Ha ha ha ha! Sorry buddy, I'm not a 'real' Fremennik yet! Let me guess, you're trying to get some council members to vote for you?");
+            ~chatplayer("<p,neutral>That's right, to become a Fremennik.");
+            ~chatnpc("<p,neutral>You and me both buddy! We're both doing the same trials! This is my trial of manhood! How you finding it so far? Pretty easy, huh buddy?");
+            ~chatplayer("<p,neutral>It's okay I guess...");
+            ~chatnpc("<p,neutral>Yeah, that's the spirit buddy! It's all real easy, I wouldn't worry yourself about it, you'll be quaffing beers in the longhall as a Fremennik in no time!");
+    }
+} else if(%viking = ^viking_complete) {
+    ~chatplayer("<p,neutral>Hello again Askeladden.");
+    ~chatnpc("<p,neutral>Hey buddy! That ain't my name no more! My new Fremennik name is Larravak! What's yours?");
+    ~chatplayer("<p,happy>My Fremennik name is <~get_viking_name>.");
+    ~chatnpc("<p,neutral>Ha! Ain't as good as my name buddy! So what can I do ya for?");
+    if(~obj_gettotal(vt_useless_rock) = 0) $op = ~p_choice2("Ask about things to do", 1, "Ask for a new pet rock", 2);
+    else $op = 1;
+    if($op = 1) {
+        ~chatplayer("<p,quiz>So, Askeladd- sorry, Larravak; What is there to do around here now that we are both Fremenniks?");
+        ~chatnpc("<p,neutral>I guess you could do a bit of shopping. We got fresh fish at the docks, and some armour and weapons at Skulgrimen's place.");
+        ~chatplayer("<p,neutral>Okay, thanks.");
+        return;
+    }
+    ~chatplayer("<p,sad>Can I have another pet rock? I lost mine...");
+    if(inv_freespace(inv) = 0) {
+        ~chatnpc("<p,laugh>Sure thing, but you'd better free up some space first.");
+        return;
+    }
+    inv_add(inv, vt_useless_rock, 1);
+    ~chatnpc("<p,neutral>Sure thing buddy! I'd say take better care of this one, but it's just a rock! I have hundreds of them! Go wild!");
+}
+
+[label,viking_askelapen_merchant]
+def_int $op;
+// askeladen is the only one with an onwards check outside of the item the npc gives
+if(inv_total(inv, viking_promissary_note2) > 0 | inv_total(inv, viking_legendary_cocktail) > 0 | inv_total(inv, viking_champion_token) > 0 | inv_total(inv, viking_promissary_note3) > 0
+    | inv_total(inv, viking_weather_forecast) > 0 | inv_total(inv, viking_another_map) > 0 | inv_total(inv, viking_unique_fish) > 0 | inv_total(inv, viking_bowstring) > 0 | inv_total(inv, viking_map_to_hunting_grounds) > 0
+    | inv_total(inv, viking_promissary_note) > 0 | inv_total(inv, viking_new_boots) > 0 | inv_total(inv, viking_song) > 0 | inv_total(inv, viking_rare_flower) > 0) {
+    ~chatplayer("<p,quiz>I thought you really liked the long hall?");
+    ~chatnpc("<p,happy>I do!");
+    ~chatplayer("<p,quiz>Then why did you sign this guarantee that you will never enter it again?");
+    ~chatnpc("<p,laugh>Aha! It is because I am cunning! That guarantee says that Askeladden will never enter the longhall again! But when I have completed my Fremennik trials,");
+    ~chatnpc("<p,happy>and passed my trial of manhood, I will be given a new name, as is our custom, and will therefore not be Askeladden anymore! That guarantee isn't worth the paper it's written on!!");
+    ~chatnpc("<p,happy>You didn't think I would give up going to the longhall for only 5000 did you?");
+    ~chatplayer("<p,neutral>Knowing you, I guess I didn't.");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_thora :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,shock>What? I can't believe she asked you to get a written promise from me to stay out!");
+        ~chatplayer("<p,neutral>Yup, she really did.");
+        ~chatnpc("<p,neutral>Awwwwwww.... but the longhall is just SO MUCH FUN! I'd live there if I could! I suppose you really need that promise to help become a Fremennik, huh?");
+        ~chatplayer("<p,sad>Yeah, I really do...");
+        ~chatnpc("<p,neutral>Well I'll tell you what buddy; As it's you, I'll give you that written promise. All I ask in return for it is a measly 5000 gold. What do you say?");
+        $op = ~p_choice2("Yes", 1, "No", 2);
+        if($op = 2) {
+            ~chatplayer("<p,sad>I don't think so... That's really quite a lot of money...");
+            ~chatnpc("<p,neutral>Hey, suit yourself buddy. You change your mind, the bank of Askeladden is open for deposits 24 hours a day! Eh-heh-heh-heh-heh.");
+            return;
+        }
+        ~chatplayer("<p,quiz>That's all you want in return? Sure thing. Here you go.");
+        if(inv_total(inv, coins) < 5000) {
+            ~chatplayer("<p,sad>...how embarrassing. I appear to be short...");
+            ~chatnpc("<p,quiz>Trying to scam me, huh buddy? Well it won't work! You come back with the cash, or don't come back at all!");
+            return;
+        }
+        if(inv_freespace(inv) = 0) {
+            ~mesbox("Your inventory is too full to accept the written promise.");
+            return;
+        }
+        inv_del(inv, coins, 5000);
+        inv_add(inv, viking_promissary_note2, 1);
+        ~chatnpc("<p,neutral>Done, and done. Let me know if you got any more cash burning a hole in your pocket I can relieve you of, buddy.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Nope, sorry buddy!");
+}
+
+[opheld1,vt_useless_rock]
+p_stopaction;
+mes("You try and feed the rock.");
+p_delay(1);
+mes("Your rock doesn't seem hungry.");
+
+[opheld2,vt_useless_rock]
+p_stopaction;
+mes("You stroke your pet rock.");
+anim(viking_pet_rock_stroke, 0);
+p_delay(4);
+mes("Your rock seems much happier.");
+
+[opheld3,vt_useless_rock]
+p_stopaction;
+~chatplayer("<p,happy>Who's a good rock then? Yes you are... You're such a good rock... ooga booga googa.");
+mes("Your rock seems a little happier.");

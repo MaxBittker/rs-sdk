@@ -1,12 +1,12 @@
 [opheldu,palm_leaf]
 switch_obj (last_useitem) {
     case raw_oomlie : @make_oomlie_wrap;
-};
+}
 
 [opheldu,raw_oomlie]
 switch_obj (last_useitem) {
     case palm_leaf : @make_oomlie_wrap;
-};
+}
 
 [label,make_oomlie_wrap]
 if (map_members = ^false) {

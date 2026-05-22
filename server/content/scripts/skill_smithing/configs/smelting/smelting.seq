@@ -1,6 +1,8 @@
 [human_furnace]
 replaceheldleft=hide
 replaceheldright=hide
+duplicatebehavior=reset_loop
+postanim_move=abortanim
 frame1=anim_1295
 frame2=anim_1576
 frame3=anim_1871

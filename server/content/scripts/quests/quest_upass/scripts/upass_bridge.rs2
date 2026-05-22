@@ -65,7 +65,7 @@ mes("You fire your arrow at the rope supporting the bridge...");
 anim(human_bow, 0);
 ~coord_projectile(coord, loc_coord, oc_param($worn_ammo, proj_travel), 40, 36, 41, 15, 5, 11, 5);
 p_delay(0);
-if(stat_random(ranged, 90, 300) = false) {
+if(stat_random(ranged, 160, 300) = false) {
     mes("The arrow just misses the rope.");
     return;
 }

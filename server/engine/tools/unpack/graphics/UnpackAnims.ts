@@ -13,8 +13,8 @@ export const FramePack = new PackFile('anim');
 
 const cache = new FileStream('data/unpack');
 
-const existingBases = listFilesExt(`${Environment.BUILD_SRC_DIR}/models`, '.base');
-const existingFrames = listFilesExt(`${Environment.BUILD_SRC_DIR}/models`, '.frame');
+const existingBases = listFilesExt(`${Environment.build.srcDir}/models`, '.base');
+const existingFrames = listFilesExt(`${Environment.build.srcDir}/models`, '.frame');
 
 const baseCount = cache.count(2);
 for (let baseId = 0; baseId < baseCount; baseId++) {
@@ -23,10 +23,10 @@ for (let baseId = 0; baseId < baseCount; baseId++) {
         printWarning(`Missing anim set ${baseId}`);
         continue;
     }
- 
+
     const setName = `anim_${baseId}`;
     AnimSetPack.register(baseId, setName);
-    fs.writeFileSync(`${Environment.BUILD_SRC_DIR}/models/${setName}.anim`, set);
+    fs.writeFileSync(`${Environment.build.srcDir}/models/${setName}.anim`, set);
 
     const offsets = new Packet(set);
     offsets.pos = set.length - 8;

@@ -1,0 +1,333 @@
+[oploc1,_category_226]
+p_arrivedelay;
+if(%morttonquest < ^mortton_ulsquire_temple) {
+    ~mesbox("You're not sure how you would go about fixing this.");
+    return;
+}
+
+//TODO: Someone says level 1 crafting req but doesnt match current game or quest reqs.
+//https://youtu.be/fAbo7Irk0io?si=PhS3nGjXH0Q1J--N&t=432
+//Mesbox from osrs
+if (stat(crafting) < 20) {
+    ~mesbox("You need a crafting skill level of at least 20 to repair the temple.");
+    return;
+}
+
+if (inv_total(inv, hammer) < 1 & inv_total(inv, flamtaer_hammer) < 1) {
+    ~objbox(hammer, "You need a hammer to repair this temple.", 200, 0, 0);
+    return;
+}
+
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 3);
+} else if (%action_delay = map_clock) {
+    @try_build_temple;
+}
+
+if (%temple_resources > 100 | (inv_total(inv,woodplank) > 0 & inv_total(inv,swamppaste) > 4 & inv_total(inv,limestonebrick) > 0)) {
+    if_openoverlay(flamtaer_status);
+    anim(human_pickuptable, 0);
+    p_oploc(3);
+} else {
+    @mortton_temple_not_enough_resources;
+}
+
+[oploc3,_category_226]
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 3);
+} else if (%action_delay = map_clock) {
+    @try_build_temple;
+}
+anim(human_pickuptable, 0);
+p_oploc(3);
+
+[label,try_build_temple]
+
+%action_delay = calc(map_clock + 3);
+
+def_int $crafting_bonus = 0;
+if(inv_total(inv,flamtaer_hammer) > 0) {
+    //Todo: Use invis boost in stat_randoms
+    $crafting_bonus = 40; //https://x.com/JagexAsh/status/1297181159726735360
+}
+
+//Todo: Actual (best guess) roll. Seemed like a 40% chance of succeeding at 20 crafting 80% at 120+?
+if (stat_random(crafting, 85, 175) = false) {
+    anim(human_pickuptable, 0);
+    p_oploc(3);
+}
+
+if ((inv_total(inv,woodplank) > 0 & inv_total(inv,swamppaste) > 4 & inv_total(inv,limestonebrick) > 0) & %temple_resources_p < 100) {
+    ~add_temple_resources;
+}
+
+if (%temple_resources < 100) {
+    @mortton_temple_not_enough_resources;
+}
+
+if(%temple_resources_p > 99 & testbit(%morttonmulti, ^mortton_temple_fullpool_warning) = ^false) {
+    mes("Your temple repair resource pool is full.");
+    %morttonmulti = setbit(%morttonmulti, ^mortton_temple_fullpool_warning);
+    longqueue(clear_fullpool_warning, 200, 0, ^accelerate);
+} else if (%temple_resources_p < 100 & testbit(%morttonmulti, ^mortton_temple_fullpool_warning) = ^true) {
+    %morttonmulti = clearbit(%morttonmulti, ^mortton_temple_fullpool_warning);
+}
+
+if(%morttonquest = ^mortton_ulsquire_temple) {
+    %morttonquest = ^mortton_rebuild_temple;
+}
+
+if(%temple_repaired_p = 100) {
+    if (%morttonquest = ^mortton_rebuild_temple) {
+        mes("You are now allowed to light the holy fire altar.");
+        %morttonquest = ^mortton_can_light_altar;
+    }
+    if (loc_find(^mortton_temple_altar_coord, templefire_altar_nofire_broken) = true) {
+        loc_change(templefire_altar_nofire, 99);
+        huntall(^mortton_temple_altar_coord, 3, 0);
+        while(huntnext = true) {
+            mes("The holy fire appears sanctified, it can now be lit!");
+        }
+    }
+}
+
+def_int $resource_amount = ~random_range(7,9); //minimum
+//todo: update roll odds
+//Not sure if it has different rolls for different levels and if it falls into lower band 
+//or if your level just decides how many resources
+//Find exact level breakpoint? Never received 60+ with 97 crafting
+if (add(stat_base(crafting),$crafting_bonus) > 98) {
+    if (stat_random(crafting, 5, 65) = true) {
+        //70 is max resources spent
+        //todo: Find (guess) minimum for this band?
+        $resource_amount = ~random_range(60,70);
+    }
+}
+//todo: update roll odds
+//Find exact level breakpoint? Seems to be 50
+if ($resource_amount < 10 & add(stat_base(crafting),$crafting_bonus) > 49) {
+    if (stat_random(crafting, 5, 65) = true) {
+        //todo: Find (guess) minimum + maximum for this band?
+        $resource_amount = ~random_range(35,59);
+    }
+}
+//todo: update roll odds
+if ($resource_amount < 10 & stat_random(crafting, 5, 65) = true) {
+    //todo: Find (guess) minimum + maximum for this band?
+    $resource_amount = ~random_range(10,35);
+}
+
+if(gettimer(sanctity_drain) = ^false) {
+    settimer(sanctity_drain, 100);
+}
+
+%temple_resources = sub(%temple_resources, $resource_amount);
+//todo: this is a complete guess, try to approximate
+if(%current_temple_build < 17000) {
+    %current_temple_build = add(%current_temple_build, (multiply($resource_amount,5)));
+}
+%current_temple_aggro = min(10, max(5, add(%current_temple_aggro, 1)));
+
+if(%temple_sanctity_p < 100) {
+    %temple_sanctity = add(%temple_sanctity,$resource_amount);
+}
+
+//1 exp per 2 resources spent
+stat_advance(crafting, divide(multiply($resource_amount,10),2));
+
+def_int $current_wall_state = loc_param(temple_wall_level);
+//todo: Find better breakpoints
+if(loc_param(next_loc_stage) ! null) {
+    switch_int($current_wall_state) {
+        case 0 : if(%current_temple_build > 300) loc_change(loc_param(next_loc_stage), 9000);
+        case 1 : if(%current_temple_build > 700) loc_change(loc_param(next_loc_stage), 9000);
+        case 2 : if(%current_temple_build > 1100) loc_change(loc_param(next_loc_stage), 9000);
+        case 3 : if(%current_temple_build > 1500) loc_change(loc_param(next_loc_stage), 9000);
+        case 4 : if(%current_temple_build > 1900) loc_change(loc_param(next_loc_stage), 9000);
+        case 5 : if(%current_temple_build > 2300) loc_change(loc_param(next_loc_stage), 9000);
+        case 6 : if(%current_temple_build > 2700) loc_change(loc_param(next_loc_stage), 9000);
+        case 7 : if(%current_temple_build > 3100) loc_change(loc_param(next_loc_stage), 9000);
+        case 8 : if(%current_temple_build > 3500) loc_change(loc_param(next_loc_stage), 9000);
+        case 9 : if(%current_temple_build > 3900) loc_change(loc_param(next_loc_stage), 9000);
+    }
+}
+
+anim(human_pickuptable, 0);
+p_oploc(3);
+
+[queue,clear_fullpool_warning]
+%morttonmulti = clearbit(%morttonmulti, ^mortton_temple_fullpool_warning);
+
+[timer,sanctity_drain]
+if(%temple_sanctity > 0) {
+    %temple_sanctity = max(sub(%temple_sanctity, 30), 0);
+    %temple_sanctity_p = divide(%temple_sanctity, 30);
+}
+
+[oploc1,templefire_altar_nofire]
+if (inv_total(inv, tinderbox) < 1) {
+    mes("You need a tinderbox to light the fire altar.");
+    return;
+}
+
+if (%morttonquest < ^mortton_can_light_altar) {
+    ~mesbox("You need to have repaired or reinforced the walls of the temple|before you can light the sacred flame.");
+    return;
+}
+
+if(%temple_sanctity_p < 10) {
+    ~mesbox("You haven't sanctified enough of the temple to allow you to light the|fire. Repair or reinforce the wall to increase your sanctity. You|need at least 10% Sanctity to attempt to light the fire.");
+    return;
+}
+
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 3);
+    mes("You attempt to light the fire altar.");
+} else if (%action_delay = map_clock) {
+    @try_light_altar;
+}
+anim(human_pickuptable, 0);
+p_oploc(3);
+
+[oplocu,templefire_altar_nofire]
+if(last_useitem = tinderbox) {
+    if (%morttonquest < ^mortton_can_light_altar) {
+        ~mesbox("You need to have repaired or reinforced the walls of the temple|before you can light the sacred flame.");
+        return;
+    }
+
+    if(%temple_sanctity_p < 10) {
+        ~mesbox("You haven't sanctified enough of the temple to allow you to light the|fire. Repair or reinforce the wall to increase your sanctity. You|need at least 10% Sanctity to attempt to light the fire.");
+        return;
+    }
+
+    if (%action_delay < map_clock) {
+        %action_delay = calc(map_clock + 3);
+        mes("You attempt to light the fire altar.");
+    } else if (%action_delay = map_clock) {
+        @try_light_altar;
+    }
+    anim(human_pickuptable, 0);
+    p_oploc(3);
+} else {
+    ~displaymessage(^dm_default);
+}
+
+[oploc3,templefire_altar_nofire]
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 3);
+    anim(human_pickuptable, 0);
+} else if (%action_delay = map_clock) {
+    @try_light_altar;
+}
+p_oploc(3);
+
+[label,try_light_altar]
+// Guess
+if(stat_random(firemaking, 100, 250) = false) {
+    mes("You don't manage to light the fire this time.");
+    p_oploc(3);
+} else {
+    mes("You light the temple fire.");
+    loc_change(templefire_altar, 99);
+    stat_advance(firemaking, 1600);
+}
+
+[queue,update_flamtaer_overlay]
+%temple_resources_p = divide(%temple_resources, 150);
+%temple_sanctity_p = divide(%temple_sanctity, 30);
+
+def_int $num_of_walls_fully_repaired = 0;
+
+loc_findallzone(^mortton_temple_altar_coord);
+while (loc_findnext = true) {
+    if(loc_type = templewallcorner_10 | loc_type = templewall_10) {
+        $num_of_walls_fully_repaired = add($num_of_walls_fully_repaired,1);
+    }
+}
+if($num_of_walls_fully_repaired > 0) {
+    %temple_repaired_p = add(30,multiply(sub($num_of_walls_fully_repaired,1),5));
+} else {
+    %temple_repaired_p = min(25,divide(%current_temple_build, 150));
+}
+
+[label,mortton_temple_not_enough_resources]
+//TODO: Find source, guess from osrs but no timber beams or flamtaer bag in mes
+~mesbox("~ Repairing the temple ~|@dbl@To repair the temple you need to increase your material resource|@dbl@pool by bringing limestone bricks, wooden planks and swamp paste|@dbl@in your inventory.");
+def_string $planks = "Wooden planks";
+if (inv_total(inv,woodplank) > 0) {
+    $planks = append("@str@", $planks);
+}
+
+def_string $bricks = "Limestone bricks";
+if (inv_total(inv,limestonebrick) > 0) {
+    $bricks = append("@str@", $bricks);
+} 
+
+def_string $paste = "Swamp paste";
+if (inv_total(inv,swamppaste) > 4) {
+    $paste = append("@str@", $paste);
+} 
+
+~mesbox("~ Resources needed ~|<$planks>|<$bricks>|<$paste>");
+
+[proc,add_temple_resources]
+inv_del(inv, swamppaste, 5);
+inv_del(inv, limestonebrick, 1);
+inv_del(inv, woodplank, 1);
+%temple_resources = add(%temple_resources, 800);
+
+[oplocu,templefire_altar]
+if (oc_category(last_useitem) = category_110) {
+    if (%morttonquest < ^mortton_can_light_altar) {
+        ~mesbox("You need to have repaired or reinforced the walls of the temple|before you can use the sacred flame.");
+        return;
+    }
+
+    if(%temple_sanctity_p < 10) {
+        ~mesbox("You need to increase your sanctity to at least 10% before you can|use the sacred flame. Using the sacred flame reduces your sanctity.");
+        return;
+    }
+    def_obj $obj = last_useitem;
+    def_int $slot = last_useslot;
+    def_int $doses = oc_param($obj, dose_count);
+    def_int $sanc_drain = divide(multiply(multiply(9, $doses), 30), 1000);
+    %temple_sanctity = sub(%temple_sanctity, $sanc_drain);
+
+    inv_setslot(inv, $slot, oc_param($obj, next_obj_stage), 1);
+    sound_synth(oil_pour, 0, 0);
+    anim(human_pickuptable, 0);
+    mes("You carefully sanctify the oil in the sacred flame.");
+    if (%morttonquest = ^mortton_can_light_altar) {
+        %morttonquest = ^mortton_created_sacred_oil;
+    }
+    return;
+} else if (oc_category(last_useitem) = category_108) {
+    if (%morttonquest < ^mortton_can_light_altar) {
+        ~mesbox("You need to have repaired or reinforced the walls of the temple|before you can use the sacred flame.");
+        return;
+    }
+
+    if(%temple_sanctity_p < 20) {
+        //Was fixed to be 20% later
+        ~mesbox("You need to increase your sanctity to %20 before you can use the|sacred flame for this purpose.  Using the sacred flame reduces your|sanctity.");
+        return;
+    }
+    def_obj $obj = last_useitem;
+    def_int $slot = last_useslot;
+    def_int $doses = oc_param($obj, dose_count);
+
+    %temple_sanctity = sub(%temple_sanctity, 600);
+
+    inv_setslot(inv, $slot, oc_param($obj, next_obj_stage_temple), 1);
+    sound_synth(oil_pour, 0, 0);
+    anim(human_pickuptable, 0);
+    mes("You carefully sanctify the oil in the sacred flame.");
+    //Todo: Guess since it is called serum 208 now
+    if(testbit(%morttonmulti, ^mortton_made_perm_serum) = ^false) {
+        %morttonmulti = setbit(%morttonmulti, ^mortton_made_perm_serum);
+        ~objbox(oc_param($obj, next_obj_stage_temple), "You sanctify serum 207 in the sacred flame and|rename it to serum 207(p).", 250, 0, 0);
+    }
+    return;
+}
+~displaymessage(^dm_default);

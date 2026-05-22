@@ -1,0 +1,303 @@
+[opheldu,_category_111]
+if(oc_category(last_item) = category_111) {
+    @decant_potion(last_item, last_useitem);
+}
+if (oc_category(last_item) = category_22 & last_item ! achey_tree_logs) {
+    if(%morttonquest < ^mortton_created_sacred_oil) {
+        mes("This sacred oil doesn't seem fresh. You should make your own.");
+        return;
+    }
+    @create_sacred_logs(last_item, last_slot, last_useitem, last_useslot);
+} else {
+    ~displaymessage(^dm_default);
+}
+
+[label,create_sacred_logs](obj $logs, int $logs_slot, obj $oil, int $oil_slot)
+def_int $doses = oc_param($oil, dose_count);
+def_struct $struct = oc_param($logs, funeral_pyre_struct);
+def_int $level_req = struct_param($struct, pyre_level);
+def_int $doses_req = struct_param($struct, pyre_required_doses);
+def_namedobj $product = struct_param($struct, pyre_log_output);
+
+if($doses < $doses_req) {
+    mes("<oc_name($logs)>: This needs <tostring($doses_req)> doses of sacred oil.");
+    return;
+}
+
+//https://youtu.be/-DIv3WwUHW0?si=F6NT4ANrVN1-a3Iq&t=96
+mes("You use the <oc_name($oil)> on the <oc_name($logs)> and get <oc_name($product)>.");
+
+if(%morttonquest = ^mortton_created_sacred_oil) {
+    %morttonquest = ^mortton_created_pyre_logs;
+}
+
+if($doses = $doses_req) {
+    inv_setslot(inv, $oil_slot, vial_empty, 1);
+} else if(sub($doses,$doses_req) = 2) {
+    inv_setslot(inv, $oil_slot, sacred_oil2, 1);
+} else {
+    inv_setslot(inv, $oil_slot, sacred_oil1, 1);
+}
+inv_setslot(inv, $logs_slot, $product, 1);
+stat_advance(firemaking, struct_param($struct, pyre_create_experience));
+
+[oplocu,temple_pyre]
+if(last_useitem = hollow_bark) {
+    mes("You can't make a pyre with that kind of log.");
+    return;
+}
+if(oc_category(last_useitem) = category_22) {
+    ~objbox(last_useitem, "These logs won't burn hot enough to cremate the dead.|You need to make pyre logs.", 200, 0, 0);
+    return;
+}
+if(oc_category(last_useitem) = category_2050) {
+    if(%morttonquest < ^mortton_created_pyre_logs) {
+        mes("You can't do that until you have made your own funeral pyre logs.");
+        return;
+    }
+    @add_logs_to_funeral_pyre(last_useitem);
+}
+~displaymessage(^dm_default);
+
+[label,add_logs_to_funeral_pyre](obj $logs)
+def_struct $struct = oc_param($logs, funeral_pyre_struct);
+def_int $req = struct_param($struct, pyre_level);
+
+if(stat(firemaking) < $req) {
+    mes("You need a Firemaking level of <tostring($req)> to make a pyre from these logs.");
+    return;
+}
+
+if(%pyre_loc ! 0) {
+    mes("You have already started a funeral.");
+    return;
+}
+
+%pyre_loc = ~get_pyre_loc_id(loc_coord);
+anim(human_pickuptable, 0);
+sound_synth(log_down, 0, 0);
+inv_del(inv, $logs, 1);
+mes("You put some logs on the pyre.");
+if(%morttonquest < ^mortton_logs_on_pyre) {
+    %morttonquest = ^mortton_logs_on_pyre;
+}
+longqueue(clear_pyre_loc, 49, 0, ^accelerate);
+loc_change(struct_param($struct, pyre_logs_loc), 49); //49t osrs
+
+[oplocu,_category_2051]
+if(oc_category(last_useitem) = category_2049) {
+    @add_remains_to_funeral_pyre(last_useitem);
+}
+~displaymessage(^dm_default);
+
+[label,add_remains_to_funeral_pyre](obj $remains)
+if(%pyre_loc = 0) {
+    mes("You need to put wood on the pyre before adding the remains.");
+    return;
+}
+
+def_int $current_pyre = ~get_pyre_loc_id(loc_coord);
+if ($current_pyre ! %pyre_loc) {
+    mes("This funeral pyre is not yours.");
+    return;
+}
+
+%mortton_current_shade = $remains;
+longqueue(clear_pyre_loc, 49, 0, ^accelerate);
+loc_change(loc_param(next_loc_stage), 49); //49t osrs
+anim(human_pickuptable, 0);
+sound_synth(pick, 0, 0);
+inv_del(inv, $remains, 1);
+mes("You place the shade's remains on the logs.");
+
+[oplocu,_category_2052]
+if(%pyre_loc = 0) {
+    mes("You should add some pyre logs and some suitable remains before you light the pyre.");
+    return;
+}
+
+def_int $current_pyre = ~get_pyre_loc_id(loc_coord);
+if ($current_pyre ! %pyre_loc) {
+    mes("This funeral pyre is not yours.");
+    return;
+}
+
+if(last_useitem = tinderbox) {
+    @light_funeral_pyre;
+} else {
+    ~displaymessage(^dm_default);
+}
+
+[oploc1,_category_2052]
+def_int $current_pyre = ~get_pyre_loc_id(loc_coord);
+if ($current_pyre ! %pyre_loc) {
+    mes("This funeral pyre is not yours.");
+    return;
+}
+
+if(inv_total(inv, tinderbox) > 0) {
+    @light_funeral_pyre;
+} else {
+    mes("You'll need a tinderbox to light a funeral pyre.");
+}
+
+[label,light_funeral_pyre]
+if(%morttonquest < ^mortton_lit_pyre) {
+    %morttonquest = ^mortton_lit_pyre;
+}
+
+//3t wait osrs
+if (%action_delay < map_clock) {
+    mes("You attempt to light the funeral pyre.");
+    anim(human_createfire, 0);
+    %action_delay = calc(map_clock + 3);
+}
+p_oploc(4);
+
+[oploc4,_category_2052]
+if (%action_delay > map_clock) {
+    p_oploc(4);
+    return;
+}
+def_struct $funeral_pyre_struct = loc_param(funeral_pyre_struct);
+if (stat_random(firemaking, struct_param($funeral_pyre_struct, pyre_low), struct_param($funeral_pyre_struct, pyre_high)) = false) {
+    //todo: Fail mes? 
+    anim(human_createfire, 0);
+    %action_delay = calc(map_clock + 3);
+    p_oploc(4);
+    return;
+}
+anim(null, 0);
+if(~validate_shade_and_log_type(loc_type, %mortton_current_shade) = false) {
+    //Complete guess
+    //RS3 : 21_February_2012: Trying to burn high-level shade remains with low-level logs now gives an appropriate feedback message.
+    //OSRS: 31 July 2024: Players will be warned if trying to burn pyre logs without the appropriate shade remains.
+    mes("You failed to light the funeral pyre.");
+    loc_change(temple_pyre, 1);
+    %pyre_loc = 0;
+    clearqueue(clear_pyre_loc);
+    return;
+}
+spotanim_map(temple_pyre_fire, ~get_pyre_coord(loc_coord, loc_angle), 0, 30);
+sound_synth(fire_lit, 0, 0);
+stat_advance(firemaking, struct_param($funeral_pyre_struct, pyre_fm_experience));
+stat_advance(prayer,add(oc_param(%mortton_current_shade, pyre_shade_exp),struct_param($funeral_pyre_struct, pyre_shade_exp_bonus)));
+%pyre_loc = 0;
+clearqueue(clear_pyre_loc);
+world_delay(0);
+def_coord $pillar_coord = ~get_pyre_pillar_coord(loc_coord, loc_angle);
+npc_add(~get_pyre_coord(loc_coord, loc_angle), shade_heaven, 9);
+npc_facesquare($pillar_coord);
+queue*(funeral_pyre_reward, 2)(loc_coord, loc_angle);  //2t min but can queue.
+
+[queue,funeral_pyre_reward](coord $coord, int $rotation)
+def_coord $pillar_coord = ~get_pyre_pillar_coord($coord, $rotation);
+spotanim_map(smokepuff_large, $pillar_coord, 96, 0);
+sound_synth(smokepuff, 0, 0);
+~give_shade_rewards(%mortton_current_shade, $pillar_coord);
+%mortton_current_shade = null;
+loc_findallzone($coord);
+if(loc_findnext = true) {
+    loc_change(temple_pyre, 1);
+}
+if(npc_find(~get_pyre_coord($coord, $rotation), shade_heaven, 0, 0) = true) {
+    npc_del;
+}
+
+[proc,get_pyre_coord](coord $coord, int $rotation)(coord)
+if($rotation = ^loc_north) {
+    return (movecoord($coord, 1, 0, 0));
+} else if($rotation = ^loc_south) {
+    return (movecoord($coord, 1, 0, 0));
+} else if($rotation = ^loc_east) {
+    return (movecoord($coord, 0, 0, 1));
+} else if($rotation = ^loc_west) {
+    return (movecoord($coord, 0, 0, 1));
+}
+
+[proc,get_pyre_pillar_coord](coord $coord, int $rotation)(coord)
+if($rotation = ^loc_north) {
+    return (movecoord($coord, 3, 0, 0));
+} else if($rotation = ^loc_south) {
+    return (movecoord($coord, -1, 0, 0));
+} else if($rotation = ^loc_east) {
+    return (movecoord($coord, 0, 0, -1));
+} else if($rotation = ^loc_west) {
+    return (movecoord($coord, 0, 0, 3));
+}
+
+
+[proc,get_pyre_loc_id](coord $coord)(int)
+return (enum(coord, int, pyre_loc_coords, $coord));
+
+[proc,validate_shade_and_log_type](loc $loc, obj $shade)(boolean)
+def_int $loc_level = enum(loc, int, pyre_log_level, $loc);
+def_int $shade_level = enum(obj, int, pyre_shade_level, $shade);
+if($loc_level >= $shade_level) {
+    return (true);
+} else {
+    return (false);
+}
+
+[proc,give_shade_rewards](obj $shade, coord $coord)
+def_namedobj $reward = coins;
+def_int $count = 1;
+def_int $roll = random(1000);
+def_struct $struct = oc_param($shade, shades_struct);
+def_int $high_key_chance = struct_param($struct, shades_high_key_chance);
+def_int $low_key_chance = struct_param($struct, shades_low_key_chance);
+def_int $coins_low = struct_param($struct, shades_low_coin);
+def_int $coins_high = struct_param($struct, shades_high_coin);
+
+    switch_obj($shade) {
+        case shade_bones1 : // Loar
+            if($high_key_chance ! 0 & $roll < $high_key_chance) {
+                def_int $random = ~random_range(1, enum_getoutputcount(loar_shade_keys_high));
+                $reward = enum(int, namedobj, loar_shade_keys_high, $random);
+            } else {
+                $count = ~random_range($coins_low, $coins_high);
+            }
+        case shade_bones2 : // Phrin
+            if($high_key_chance ! 0 & $roll < $high_key_chance) {
+                def_int $random = ~random_range(1, enum_getoutputcount(phrin_shade_keys_high));
+                $reward = enum(int, namedobj, phrin_shade_keys_high, $random);
+            } else if($low_key_chance ! 0 & $roll < add($low_key_chance, $high_key_chance)) {
+                def_int $random = ~random_range(1, enum_getoutputcount(phrin_shade_keys_low));
+                $reward = enum(int, namedobj, phrin_shade_keys_low, $random);
+            } else {
+                $count = ~random_range($coins_low, $coins_high);
+            }
+        case shade_bones3 : // Riyl
+            if($high_key_chance ! 0 & $roll < $high_key_chance) {
+                def_int $random = ~random_range(1, enum_getoutputcount(riyl_shade_keys_high));
+                $reward = enum(int, namedobj, riyl_shade_keys_high, $random);
+            } else if($low_key_chance ! 0 & $roll < add($low_key_chance, $high_key_chance)) {
+                def_int $random = ~random_range(1, enum_getoutputcount(riyl_shade_keys_low));
+                $reward = enum(int, namedobj, riyl_shade_keys_low, $random);
+            } else {
+                $count = ~random_range($coins_low, $coins_high);
+            }
+        case shade_bones4 : // Asyn
+            if($high_key_chance ! 0 & $roll < $high_key_chance) {
+                def_int $random = ~random_range(1, enum_getoutputcount(asyn_shade_keys_high));
+                $reward = enum(int, namedobj, asyn_shade_keys_high, $random);
+            } else if($low_key_chance ! 0 & $roll < add($low_key_chance, $high_key_chance)) {
+                def_int $random = ~random_range(1, enum_getoutputcount(asyn_shade_keys_low));
+                $reward = enum(int, namedobj, asyn_shade_keys_low, $random);
+            } else {
+                $count = ~random_range($coins_low, $coins_high);
+            }
+        case shade_bones5 : // Fiyr
+            if($low_key_chance ! 0 & $roll < add($low_key_chance, $high_key_chance)) {
+                def_int $random = ~random_range(1, enum_getoutputcount(fiyr_shade_keys_low));
+                $reward = enum(int, namedobj, fiyr_shade_keys_low, $random);
+            } else {
+                $count = ~random_range($coins_low, $coins_high);
+            }
+    }
+//Updated in 2024
+//Keys and coins awarded from cremated shades now despawn after 5 minutes, up from 30 seconds. Other players cannot take them during this time.
+obj_add($coord, $reward, $count, 50);
+
+[queue,clear_pyre_loc]
+%pyre_loc = 0;

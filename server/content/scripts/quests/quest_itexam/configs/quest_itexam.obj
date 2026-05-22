@@ -446,6 +446,7 @@ recol1d=31201
 weight=25g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [nitroglycerin]
 name=Nitroglycerin
@@ -460,6 +461,7 @@ recol1d=31201
 weight=25g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [ground_charcoal]
 name=Ground charcoal
@@ -488,6 +490,7 @@ recol1d=20929
 weight=30g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [postcharcoalmixture]
 name=Mixed chemicals
@@ -502,6 +505,7 @@ recol1d=16577
 weight=35g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [digcompound]
 name=Chemical compound
@@ -516,6 +520,7 @@ recol1d=3171
 weight=35g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [arcenia_root]
 name=Arcenia root

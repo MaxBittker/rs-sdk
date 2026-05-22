@@ -25,3 +25,7 @@ param=baitmessage,feathers
 [fish_equipment_harpoon]
 param=fish_equipment_failmessage,You need a harpoon to catch these fish.
 param=fish_wrong_spot_message,There aren't any fish suitable for Harpooning here.
+
+[fish_equipment_karambwan_vessel]
+param=fish_equipment_failmessage,You need a Karambwan vessel to fish here.
+param=fish_wrong_spot_message,There is nothing suitable for catching with a Karambwan vessel here.

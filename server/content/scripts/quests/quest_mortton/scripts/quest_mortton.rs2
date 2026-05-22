@@ -1,0 +1,99 @@
+[oploc1,shades_experimentshelf]
+if (inv_freespace(inv) < 1 & ~obj_gettotal(serum_book) = 0) {
+    ~objbox(serum_book, "There's a book on the shelf but you don't have room to|take it.", 200, 0, 0);
+    return;
+} else if(~obj_gettotal(serum_book) = 0) {
+    inv_add(inv, serum_book, 1);
+    ~objbox(serum_book, "You find an interesting looking book on the shelf.", 200, 0, 0);
+    return;
+}
+
+mes("You find nothing useful here.");
+
+[oploc5,shades_experimenttable]
+if (inv_freespace(inv) < 3 & testbit(%morttonmulti, ^mortton_checked_table) = ^false) {
+    ~objbox(unidentified_tarromin, "You see three herbs inside, but you don't have enough|inventory space to take them.", 200, 0, divide(^objbox_height, 2));
+    return;
+} else if (testbit(%morttonmulti, ^mortton_checked_table) = ^false) {
+    %morttonmulti = setbit(%morttonmulti, ^mortton_checked_table);
+    inv_add(inv, unidentified_tarromin, 1);
+    inv_add(inv, unidentified_rogues_purse, 1);
+    inv_add(inv, unidentified_tarromin, 1);
+    ~doubleobjbox(unidentified_tarromin,unidentified_rogues_purse,"You find a selection of herbs.", 150);
+    return;
+}
+
+mes("You search the table but find nothing.");
+
+[opnpcu,apothecary]
+if(last_useitem = serum_book) {
+    ~objbox(serum_book, "You show the Serum book to the Apothecary.", 200, 0, 0);
+    if(%morttonquest < ^mortton_made_serum) {
+        ~chatnpc("<p,neutral>Hmm, this is an interesting tome... Herbi Flax, yes, I'm familiar with his work... I wondered where he'd gotten to.");
+        ~chatplayer("<p,neutral>Do you know what the book means? It just looks like random thoughts to me.");
+        ~chatnpc("<p,neutral>Hmm, it looks like he's made some sort of serum to counteract the effects of an existing disease. Hmm, it looks like he uses the academic name for ashes, Fyrneght.");
+        ~chatnpc("<p,neutral>The writing is a little involved, but it looks like the serum is just a simple combination of tarromin and ashes, in a vial of water of course.");
+        ~chatplayer("<p,neutral>Oh, ok, thanks!");
+        ~chatnpc("<p,neutral>When you've finished with that diary, I'd be happy to take it off your hands and give you some training in herblore in return.");
+        return;
+    } else if(testbit(%morttonmulti, ^mortton_gave_dairy_to_apothecary) = ^false) {
+        ~chatnpc("<p,neutral>Do you want to trade the diary yet? I'd like to pass|the information on to the scientific community in|Varrock.");
+        //hold if it is authentic typo
+        @multi2("Yes, I'll trade it for Herblore training.", apothecary_give_diary, "No thanks, I want to keep hold if it a bit longer.", apothecary_keep_diary);
+    } else {
+        ~chatnpc("<p,neutral>Hmm, this is an interesting tome... But you've already|sold me one, thanks!");
+        return;
+    }    
+}
+~displaymessage(^dm_default);
+
+[label,apothecary_give_diary]
+~chatplayer("<p,neutral>Yes, I'll trade it for Herblore training.");
+~chatnpc("<p,neutral>Great...");
+inv_del(inv, serum_book, 1);
+%morttonmulti = setbit(%morttonmulti, ^mortton_gave_dairy_to_apothecary);
+stat_advance(herblore, 3350);
+~objbox(serum_book, "The apothecary trains you in Herblore.", 250, 0, 0);
+~chatnpc("<p,neutral>Ok, that's all I can teach you. Many thanks for the|diary.");
+
+[label,apothecary_keep_diary]
+~chatplayer("<p,neutral>No thanks, I want to keep hold if it a bit longer.");
+~chatnpc("<p,neutral>Oh, that's a shame... Come back if you change your|mind.");
+
+[queue,mortton_quest_complete]
+%morttonquest = ^mortton_quest_complete;
+stat_advance(crafting,20000);
+stat_advance(herblore,20000);
+session_log(^log_adventure, "Quest complete: Shades of Mort'ton");
+//https://i.imgur.com/wgfP5rK.png
+~send_quest_complete(questlist:mortton, shadekey_silver_purple, 250, ^mortton_questpoints, "'Shades of Mort'ton' Quest Complete!");
+
+[label,craft_limestonebrick]
+if (map_members = ^false) {
+    mes(^mes_members_feature); // guess
+    return;
+}
+if (stat(crafting) < 12) {
+    ~mesbox("You need a Crafting level of 12 to carve limestone bricks.");
+    return;
+}
+anim(human_limestonecutting, 0);
+//100% chance at level 40, 33% chance at level 12 https://oldschool.runescape.wiki/w/Limestone
+if(stat_random(crafting, 20, 610) = false) {
+    mes("You're too heavy handed and smash the limestone into bits.");
+    inv_del(inv, limestone, 1);
+    inv_add(inv, rock, 1);
+    stat_advance(crafting, 15);
+} else {
+    mes("You use the chisel on the limestone and carve it into a building block.");
+    inv_del(inv, limestone, 1);
+    inv_add(inv, limestonebrick, 1);
+    stat_advance(crafting, 60);
+}
+
+// https://cdn.discordapp.com/attachments/1126857544523063367/1475494643281039410/image.png?ex=699f0278&is=699db0f8&hm=1c2207dd23a71e062a8f8134efc6fd4241fd875f002cb40901a43606d99e9d69&
+[oploc1,mortton_signpost]
+~mesbox("You inspect the signpost more closely. You see nothing wrong with it| initially, but after some time you notice teeth marks in the wood..it|looks like  several people have tried eating the post.");
+
+[mapzoneexit,0_54_51]
+if_openoverlay(null);

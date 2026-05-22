@@ -111,7 +111,7 @@ if ($message_data ! null) {
 }
 
 // if potion then display doses left instead of consume_message2
-if ($consumable ! null & oc_category($consumable) = category_69) {
+if ($consumable ! null & oc_category($consumable) = potion) {
     $consumable = oc_param($consumable, next_obj_stage);
     if (compare($consume_message1, "0") ! 0) {
         if (string_length($consume_message1) > 0) {

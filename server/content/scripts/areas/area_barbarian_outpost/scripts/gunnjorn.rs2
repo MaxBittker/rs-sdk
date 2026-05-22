@@ -1,3 +1,30 @@
 [opnpc1,gunnjorn]
 ~chatnpc("<p,happy>Haha welcome to my obstacle course.|Have fun, but remember this isn't a child's playground.|People have died here.");
+if(%horrorquest > ^horror_not_started & %horrorlighthouseentrance = ^false) {
+    if(%horroragilitykey = ^true & ~obj_gettotal(horror_key) = 0) {
+        ~chatplayer("<p,sad>Hello again, Gunnjorn. I'm afraid I've lost that key you gave me.");
+        if(inv_freespace(inv) = 0) {
+            ~chatnpc("<p,neutral>Well, I would give you another, but apparently you don't have any room.");
+            return;
+        }
+        inv_add(inv, horror_key, 1);
+        ~chatnpc("<p,neutral>No problem. Here you go.");
+        return;
+    }
+    if(%horroragilitykey = ^false) { 
+        ~chatplayer("<p,quiz>Hi, are you called Gunnjorn?");
+        ~chatnpc("<p,neutral>Why, indeed I am. I own this agility course, it can be very dangerous!");
+        ~chatplayer("<p,neutral>Yeah, that's great. Anyway, I understand you have a cousin named Larrissa who gave you a key...?");
+        ~chatnpc("<p,neutral>Yes, she did! How do you know of this? She said she probably wouldn't need it, but gave it to me for safe keeping just in case.");
+        ~chatplayer("<p,neutral>Well, something has happened at the lighthouse, and she has been locked out. I need you to give me her key.");
+        if(inv_freespace(inv) = 0) {
+            ~chatnpc("<p,neutral>Well, I would give you the key, but apparently you don't have any room.");
+            return;
+        }
+        %horroragilitykey = ^true;
+        inv_add(inv, horror_key, 1);
+        ~chatnpc("<p,neutral>Sure. Here you go.");
+        return;
+    }
+}
 ~chatnpc("<p,happy>The best way to train,|is to go round the course in a clockwise direction.");

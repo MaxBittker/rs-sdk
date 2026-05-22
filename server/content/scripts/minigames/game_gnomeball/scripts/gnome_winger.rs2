@@ -1,12 +1,12 @@
-[opnpc1,gnomeballer_green]
-mes("The gnome is not interested in chatting."); // osrs
+[apnpc1,gnomeballer_green] @player_gnomeball_pass;
 [opnpc1,gnomeballer_green_withball]
 mes("The gnome is not interested in chatting."); // osrs
 
-[opnpct,gnomeball:com_7] @player_gnomeball_pass;
-[apnpct,gnomeball:com_7] @player_gnomeball_pass;
-
 [label,player_gnomeball_pass]
+if (~inzone_coord_pair_table(gnomeball_zones, coord) = false) {
+    mes("You cannot pass to a player from off the pitch."); // osrs
+    return;
+}
 if (inv_getobj(worn, ^wearpos_rhand) ! ball_gnomeball_game) {
     mes("You need a ball in your hand to throw."); // osrs
     return;

@@ -24,7 +24,7 @@ y=0
 width=135
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Cocktail Index
 colour=0x000080
 
@@ -37,7 +37,7 @@ buttontype=normal
 width=135
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Blurberry Special
 
 [chocolate_saturday]
@@ -49,7 +49,7 @@ buttontype=normal
 width=135
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Chocolate Saturday
 
 [drunk_dragon]
@@ -61,7 +61,7 @@ buttontype=normal
 width=135
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Drunk Dragon
 
 [fruit_blast]
@@ -73,7 +73,7 @@ buttontype=normal
 width=135
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Fruit Blast
 
 [pineapple_punch]
@@ -85,7 +85,7 @@ buttontype=normal
 width=135
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Pineapple Punch
 
 [sgg]
@@ -97,7 +97,7 @@ buttontype=normal
 width=135
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Short Green Guy
 
 [wizard_blizzard]
@@ -109,7 +109,7 @@ buttontype=normal
 width=135
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Wizard Blizzard
 
 [rightarrow_layer]
@@ -144,7 +144,7 @@ y=0
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Gnome Bowls
 colour=0x000080
 
@@ -157,7 +157,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Chocolate Bomb
 
 [tangled_toads_legs]
@@ -169,7 +169,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Tangled Toad's Legs
 
 [worm_hole]
@@ -181,7 +181,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Worm Hole
 
 [veg_ball]
@@ -193,7 +193,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Veg Ball
 
 [gnome_crunchies]
@@ -204,7 +204,7 @@ y=112
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Gnome Crunchies
 colour=0x000080
 
@@ -217,7 +217,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Worm Crunchies
 
 [chocchip_crunchies]
@@ -229,7 +229,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Choc Chip Crunchies
 
 [premade_spicy_crunchies]
@@ -241,7 +241,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Spicy Crunchies
 
 [premade_toad_crunchies]
@@ -253,7 +253,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Toad Crunchies
 
 [gnome_battas]
@@ -264,7 +264,7 @@ y=0
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Gnome Battas
 colour=0x000080
 
@@ -277,7 +277,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Worm Batta
 
 [toads_legs_batta]
@@ -289,7 +289,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Toad's Legs Batta
 
 [cheese_tomato_batta]
@@ -301,7 +301,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Cheese & Tomato Batta
 
 [premade_fruit_batta]
@@ -313,7 +313,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Fruit Batta
 
 [premade_vegetable_batta]
@@ -325,7 +325,7 @@ buttontype=normal
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Vegetable Batta
 
 [com_29]
@@ -666,7 +666,7 @@ y=30
 width=360
 height=14
 center=yes
-font=b12
+font=b12_full
 shadowed=yes
 text=The Blurberry Cocktail Guide
 colour=0xFFFF00
@@ -678,7 +678,7 @@ y=28
 buttontype=close
 width=68
 height=11
-font=p11
+font=p11_full
 shadowed=yes
 text=Close Window
 colour=0xC00000

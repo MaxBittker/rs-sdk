@@ -4,6 +4,7 @@ switch_int(stat_base(woodcutting)) {
     // axe requirements were not a thing originally, added mid-2005 maybe?
     case 15 : ~objbox(oak_logs,"You can now cut down @dbl@Oak Trees.", 180, 0, divide(^objbox_height, 3));
     case 30 : ~objbox(willow_logs,"You can now cut down @dbl@Willow Trees.", 180, 0, divide(^objbox_height, 3));
+    case 40 : ~mesbox("@dbl@~ This is one of the requirements of the @dre@FREMENNIK TRIALS@dbl@. @dbl@~");
     case 45 : ~objbox(maple_logs,"You can now cut down @dbl@Maple Trees.", 180, 0, divide(^objbox_height, 3));
     case 60 : ~objbox(yew_logs,"You can now cut down @dbl@Yew Trees.", 180, 0, divide(^objbox_height, 3));
     case 75 : ~objbox(magic_logs,"Members can now cut down @dbl@Magic Trees.", 180, 0, divide(^objbox_height, 3));

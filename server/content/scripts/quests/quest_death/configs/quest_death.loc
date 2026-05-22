@@ -251,6 +251,7 @@ recol1d=8456
 hillskew=yes
 sharelight=yes
 forcedecor=yes
+ambient=15
 
 [death_boxes_1]
 name=Boxes
@@ -259,6 +260,7 @@ model=model_loc_359
 retex1s=wood2
 retex1d=elfwood
 blockrange=no
+op1=Search
 
 [death_boxes_2]
 name=Boxes
@@ -267,6 +269,7 @@ model=model_2139
 retex1s=wood2
 retex1d=elfwood
 blockrange=no
+op1=Search
 
 [death_boxes_3]
 name=Boxes
@@ -275,6 +278,7 @@ model=model_2140
 retex1s=wood2
 retex1d=elfwood
 blockrange=no
+op1=Search
 
 [death_stonehut]
 model=loc_3688

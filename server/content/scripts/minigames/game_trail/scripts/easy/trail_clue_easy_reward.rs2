@@ -13,8 +13,8 @@ while ($roll < $rolls) {
     // which now has 108 rewards, effectively 1404, which is as close as I could make it."
     //
     // Assuming the rarity of any given object from the rare drop tables, have stayed consistent throughout
-    // the years, this lands our chance to land on the rare drop table at 1/97.
-    if(random(97) = 0) {
+    // the years, this lands our chance to land on the rare drop table at 1/84.
+    if(random(84) = 0) {
         $rare = calc($rare + 1);
         gosub(trail_clue_easy_rare);
     } else {
@@ -30,7 +30,7 @@ if ($rare > 0) {
 ~trail_complete;
 
 [proc,trail_clue_easy_normal]
-def_int $random = random(27);
+def_int $random = random(28);
 
 switch_int ($random) {
     case 0 : inv_add(trail_rewardinv, coins, calc(50 + random(151)));
@@ -60,10 +60,11 @@ switch_int ($random) {
     case 24 : inv_add(trail_rewardinv, coif, 1);
     case 25 : inv_add(trail_rewardinv, amulet_of_magic, 1);
     case 26 : inv_add(trail_rewardinv, willow_longbow, 1);
+    case 27 : inv_add(trail_rewardinv, ~trail_reward_godpage);
 }
 
 [proc,trail_clue_easy_rare]
-def_int $random = random(13);
+def_int $random = random(15);
 
 switch_int ($random) {
     case 0 : inv_add(trail_rewardinv, black_platebody_trim, 1);
@@ -79,4 +80,6 @@ switch_int ($random) {
     case 10 : inv_add(trail_rewardinv, berret_black, 1);
     case 11 : inv_add(trail_rewardinv, berret_white, 1);
     case 12 : inv_add(trail_rewardinv, boots_wizard, 1);
+    case 13 : inv_add(trail_rewardinv, black_plateskirt_trim, 1);
+    case 14 : inv_add(trail_rewardinv, black_plateskirt_gold, 1);
 }

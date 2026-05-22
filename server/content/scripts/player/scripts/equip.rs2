@@ -34,14 +34,12 @@ if (p_finduid(uid) = true) {
         return;
     }
     // todo: this needs a better home...
-    if (%tutorial < ^tutorial_complete) {
-     if (%tutorial = ^newbie_combat_instructor_unequipping_items) {
-            def_obj $shield = inv_getobj(worn, ^wearpos_lhand);
+    if (~in_tutorial_island(coord) = true & %tutorial = ^newbie_combat_instructor_unequipping_items) {
+        def_obj $shield = inv_getobj(worn, ^wearpos_lhand);
 
-            if ($previous = bronze_sword & $shield = wooden_shield) {
-                %tutorial = ^newbie_combat_instructor_open_combat_interface;
-                ~set_tutorial_progress;
-            }
+        if ($previous = bronze_sword & $shield = wooden_shield) {
+            %tutorial = ^newbie_combat_instructor_open_combat_interface;
+            ~set_tutorial_progress;
         }
     }
 

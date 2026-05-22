@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         repository: LostCityRS/Engine-TS
-        ref: '254'
+        ref: '274'
         path: engine
 
     - uses: oven-sh/setup-bun@v2

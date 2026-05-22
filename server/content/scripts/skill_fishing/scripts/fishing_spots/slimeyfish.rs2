@@ -1,0 +1,69 @@
+[opnpc1,_slimeyfish] @attempt_fish_slimey_eel;
+[opnpc3,_slimeyfish] @fish_slimey_eel;
+
+[opnpcu,_slimeyfish] 
+switch_obj(last_useitem) {
+    // todo: extra tick of delay or no
+    case fishing_rod : p_opnpc(1);
+    case default : @fishing_wrong_spot_message(last_useitem);
+}
+
+// todo: need to check timings and mes
+[label,attempt_fish_slimey_eel]
+if (stat(fishing) < 28) {
+    anim(null, 0);
+    ~mesbox("You need at least 28 Fishing to catch these fish.");
+    return;
+}
+if (~check_fish_equipment(fishing_rod) = false) {
+    return;
+}
+if (inv_freespace(inv) < 1 & inv_total(inv, fishing_bait) > 1) {
+    anim(null, 0);
+    ~mesbox("You can't carry any more fish.");
+    return;
+}
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 5);
+    p_opnpc(1);
+    return;
+} 
+if (%action_delay = calc(map_clock + 4)) {
+    mes("You cast out your line...");
+    anim(human_fishing_casting, 0);
+    p_opnpc(1);
+    return;
+} else if (%action_delay = calc(map_clock + 3)) {
+    //https://youtu.be/-kjkCmMh52k?si=OAbcsUvZ_BUcCJOW&t=99
+    mes("You attempt to catch a fish.");
+    sound_synth(fishing_cast, 0, 0);
+    p_opnpc(3);
+} else if (%action_delay = map_clock) {
+    anim(human_fish_onspot, 0);
+    ~fish_roll(mort_slimey_eel, null, fishing_rod, fishing_bait);
+}
+
+[label,fish_slimey_eel]
+// check level
+if (stat(fishing) < 28) {
+    anim(null, 0);
+    ~mesbox("You need at least 28 Fishing to catch these fish.");
+    return;
+}
+// check if they still have fishing equipment & bait
+if (~check_fish_equipment(fishing_rod) = false) {
+    return;
+}
+// check if inv is full
+if (inv_freespace(inv) < 1 & inv_total(inv, fishing_bait) > 1) {
+    anim(null, 0);
+    ~mesbox("You can't carry any more fish.");
+    return;
+}
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 4);
+} else if (%action_delay = map_clock) {
+    anim(human_fish_onspot, 0);
+    ~fish_roll(mort_slimey_eel, null, fishing_rod, fishing_bait);
+}
+p_opnpc(3);

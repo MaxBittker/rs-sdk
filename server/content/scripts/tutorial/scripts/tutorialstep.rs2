@@ -36,7 +36,7 @@ tut_open($interface);
 // https://youtu.be/Quwc_TfPW8Q?t=33
 [proc,tutorialstep](string $title, string $string)
 if_settext(tutorial_text:title, $title);
-split_init($string, 450, 4, q8);
+split_init($string, 450, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {

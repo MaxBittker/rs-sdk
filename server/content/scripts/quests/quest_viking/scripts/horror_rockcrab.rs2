@@ -1,0 +1,46 @@
+[ai_applayer2,horror_rockcrab_inactive]
+npc_changetype(horror_rockcrab, 1000);
+npc_setmode(opplayer2);
+
+[ai_applayer2,horror_rockcrab_small_inactive]
+npc_changetype(horror_rockcrab_small, 1000);
+npc_setmode(opplayer2);
+
+[ai_queue1,horror_rockcrab_inactive] ~npc_default_retaliate_ap;
+[ai_queue1,horror_rockcrab_small_inactive] ~npc_default_retaliate_ap;
+
+[ai_queue3,horror_rockcrab] @rockcrab_drops;
+[ai_queue3,horror_rockcrab_small] @rockcrab_drops;
+
+[label,rockcrab_drops]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+~trail_easycluedrop(128, npc_coord);
+def_int $random = random(128);
+
+if ($random < 6) obj_add(npc_coord, bronze_pickaxe, 1, ^lootdrop_duration);
+else if ($random < 11) obj_add(npc_coord, iron_pickaxe, 1, ^lootdrop_duration);
+else if ($random < 15) obj_add(npc_coord, seaweed, 1, ^lootdrop_duration);
+else if ($random < 19) obj_add(npc_coord, seaweed, 2, ^lootdrop_duration);
+else if ($random < 21) obj_add(npc_coord, seaweed, 5, ^lootdrop_duration);
+else if ($random < 23) obj_add(npc_coord, seaweed, 2, ^lootdrop_duration);
+else if ($random < 35) obj_add(npc_coord, oystershell, 2, ^lootdrop_duration);
+else if ($random < 44) obj_add(npc_coord, oystershell, 1, ^lootdrop_duration);
+else if ($random < 47) obj_add(npc_coord, oysterempty, 1, ^lootdrop_duration);
+else if ($random < 48) obj_add(npc_coord, oysterempty, 3, ^lootdrop_duration);
+else if ($random < 49) obj_add(npc_coord, smalloysterpearls, 1, ^lootdrop_duration);
+else if ($random < 78) obj_add(npc_coord, coins, 4, ^lootdrop_duration);
+else if ($random < 86) obj_add(npc_coord, coins, 36, ^lootdrop_duration);
+else if ($random < 92) obj_add(npc_coord, coins, 8, ^lootdrop_duration);
+else if ($random < 94) obj_add(npc_coord, fishing_bait, 10, ^lootdrop_duration);
+else if ($random < 96) obj_add(npc_coord, opal_bolttips, 5, ^lootdrop_duration);
+else if ($random < 97) obj_add(npc_coord, spinach_roll, 1, ^lootdrop_duration);
+else if ($random < 98) obj_add(npc_coord, casket, 1, ^lootdrop_duration);
+else if ($random < 99) obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
+else if ($random < 103) obj_add(npc_coord, tin_ore, 3, ^lootdrop_duration);
+else if ($random < 105) obj_add(npc_coord, iron_ore, 1, ^lootdrop_duration);
+else if ($random < 107) obj_add(npc_coord, coal, 2, ^lootdrop_duration);
+else if ($random < 109) obj_add(npc_coord, copper_ore, 3, ^lootdrop_duration);

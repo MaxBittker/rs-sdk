@@ -117,3 +117,13 @@ p_telejump(0_52_51_42_4);
 if_close;
 if (p_finduid(uid) = false) { @please_finish; return; }
 p_telejump(0_41_49_52_34);
+
+[debugproc,gamesroom]
+if_close;
+if (p_finduid(uid) = false) { @please_finish; return; }
+p_telejump(0_34_77_32_32);
+
+[debugproc,mortton]
+if_close;
+if (p_finduid(uid) = false) { @please_finish; return; }
+p_teleport(^mortton_temple_altar_coord);

@@ -154,13 +154,13 @@ function nameToStat(name: string) {
 
 function nameToFont(name: string) {
     switch (name) {
-        case 'p11':
+        case 'p11_full':
             return 0;
-        case 'p12':
+        case 'p12_full':
             return 1;
-        case 'b12':
+        case 'b12_full':
             return 2;
-        case 'q8':
+        case 'q8_full':
             return 3;
     }
 
@@ -176,7 +176,7 @@ type Component = {
 export function packInterface(modelFlags: number[]) {
     const component: Record<number, Component> = {};
 
-    const interfaceOrder = loadOrder(`${Environment.BUILD_SRC_DIR}/pack/interface.order`);
+    const interfaceOrder = loadOrder(`${Environment.build.srcDir}/pack/interface.order`);
     for (let i = 0; i < interfaceOrder.length; i++) {
         const id = interfaceOrder[i];
 
@@ -187,7 +187,7 @@ export function packInterface(modelFlags: number[]) {
         };
     }
 
-    loadDir(`${Environment.BUILD_SRC_DIR}/scripts`, '.if', (src, file) => {
+    loadDir(`${Environment.build.srcDir}/scripts`, '.if', (src, file) => {
         const ifName = file.replace('.if', '');
         const ifId = InterfacePack.getByName(ifName);
 
@@ -207,7 +207,7 @@ export function packInterface(modelFlags: number[]) {
                 comName = line.substring(1, line.length - 1);
                 comId = InterfacePack.getByName(`${ifName}:${comName}`);
                 if (comId === -1 || typeof component[comId] === 'undefined') {
-                    throw new Error(`Missing component ID ${ifName}:${comName} in ${Environment.BUILD_SRC_DIR}/pack/interface.order`);
+                    throw new Error(`Missing component ID ${ifName}:${comName} in ${Environment.build.srcDir}/pack/interface.order`);
                 }
 
                 component[comId].root = ifName;
@@ -220,7 +220,7 @@ export function packInterface(modelFlags: number[]) {
 
             if (key === 'layer') {
                 const layerId = InterfacePack.getByName(`${ifName}:${value}`);
-                if (!layerId) {
+                if (layerId === -1) {
                     throw new Error(`ERROR: Layer ${ifName}:${value} does not exist`);
                 }
 

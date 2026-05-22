@@ -1,9 +1,10 @@
 [cooking_generic]
-column=cooked,namedobj
+column=cooked,namedobj,INDEXED,REQUIRED
 column=uncooked,obj,INDEXED,REQUIRED
 column=burnt,namedobj
 column=additional,namedobj
 column=levelrequired,int
+column=levelrequired_message,string
 column=experience,int
 column=successchance,int,int
 column=successchance_range,int,int

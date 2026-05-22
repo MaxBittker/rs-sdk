@@ -1,7 +1,7 @@
 import v8 from 'node:v8';
 
-import { Visibility } from '@2004scape/rsbuf';
-import { LocAngle, LocShape } from '@2004scape/rsmod-pathfinder';
+import { Visibility } from '#/network/rsbuf/index.js';
+import { LocAngle, LocShape } from '#/engine/routefinder/index.js';
 
 import Component from '#/cache/config/Component.js';
 import IdkType from '#/cache/config/IdkType.js';
@@ -54,10 +54,10 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
             player.addSessionLog(LoggerEventType.MODERATOR, 'Ran cheat', cheat);
         }
 
-        if (!Environment.NODE_PRODUCTION && player.staffModLevel >= 4) {
+        if (!Environment.node.production && player.staffModLevel >= 4) {
             // developer commands
 
-            if (cmd[0] === Environment.NODE_DEBUGPROC_CHAR) {
+            if (cmd[0] === Environment.node.debugProcChar) {
                 // debugprocs are NOT allowed on live ;)
                 const script = ScriptProvider.getByName(`[debugproc,${cmd.slice(1)}]`);
                 if (!script) {
@@ -140,7 +140,6 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                             }
                         }
                     } catch (_) {
-                         
                         // invalid arguments
                         return false;
                     }
@@ -244,7 +243,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                     player.setVar(varp.id, value);
                     player.messageGame('set ' + varp.debugname + ': to ' + value);
                 }
-            } else if (cmd === 'setvarother' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'setvarother' && Environment.node.production) {
                 // custom
                 if (args.length < 3) {
                     // ::setvarother <username> <name> <value>
@@ -318,7 +317,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                     const value = player.getVar(varp.id);
                     player.messageGame('get ' + varp.debugname + ': ' + value);
                 }
-            } else if (cmd === 'getvarother' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'getvarother' && Environment.node.production) {
                 // custom
                 if (args.length < 2) {
                     // ::getvarother <username> <variable>
@@ -352,8 +351,8 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                 }
 
                 const count = Math.max(1, Math.min(tryParseInt(args[1], 1), 0x7fffffff));
-                player.invAdd(InvType.INV, obj, count, false);
-            } else if (cmd === 'giveother' && Environment.NODE_PRODUCTION) {
+                player.invAdd(InvType.INV, obj, count);
+            } else if (cmd === 'giveother' && Environment.node.production) {
                 // custom
                 if (args.length < 2) {
                     // ::giveother <username> <item> (amount)
@@ -372,7 +371,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                 }
 
                 const count = Math.max(1, Math.min(tryParseInt(args[2], 1), 0x7fffffff));
-                other.invAdd(InvType.INV, obj, count, false);
+                other.invAdd(InvType.INV, obj, count);
             } else if (cmd === 'givecrap') {
                 // authentic (we don't know the exact specifics of this...)
 
@@ -382,12 +381,12 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                     while (random === -1) {
                         random = Math.trunc(Math.random() * ObjType.count);
                         const obj = ObjType.get(random);
-                        if ((!Environment.NODE_MEMBERS && obj.members) || obj.dummyitem !== 0 || obj.certtemplate !== -1) {
+                        if ((!Environment.node.members && obj.members) || obj.dummyitem !== 0 || obj.certtemplate !== -1) {
                             random = -1;
                         }
                     }
 
-                    player.invAdd(InvType.INV, random, 1, false);
+                    player.invAdd(InvType.INV, random, 1);
                 }
             } else if (cmd === 'givemany') {
                 // authentic
@@ -402,20 +401,20 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                     return false;
                 }
 
-                player.invAdd(InvType.INV, obj, 1000, false);
-            } else if (cmd === 'broadcast' && Environment.NODE_PRODUCTION) {
+                player.invAdd(InvType.INV, obj, 1000);
+            } else if (cmd === 'broadcast' && Environment.node.production) {
                 // custom
                 if (args.length < 0) {
                     return false;
                 }
 
                 World.broadcastMes(cheat.substring(cmd.length + 1));
-            } else if (cmd === 'reboot' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'reboot' && Environment.node.production) {
                 // semi-authentic - we actually just shut down for maintenance
 
                 // Reboots the game world, applying packed changes
                 World.rebootTimer(0);
-            } else if (cmd === 'slowreboot' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'slowreboot' && Environment.node.production) {
                 // semi-authentic - we actually just shut down for maintenance
                 if (args.length < 1) {
                     // ::slowreboot <seconds>
@@ -423,11 +422,11 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                     return false;
                 }
 
-                World.rebootTimer(Math.ceil(tryParseInt(args[0], 30) * 1000 / 600));
+                World.rebootTimer(Math.ceil((tryParseInt(args[0], 30) * 1000) / 600));
             } else if (cmd === 'serverdrop') {
                 // testing reconnection behavior
                 player.terminate();
-            } else if (cmd === 'teleother' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'teleother' && Environment.node.production) {
                 // custom
                 if (args.length < 1) {
                     // ::teleother <username>
@@ -513,7 +512,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                 if (!type) {
                     return false;
                 }
-                World.addNpc(new Npc(player.level, player.x, player.z, type.size, type.size, EntityLifeCycle.DESPAWN, World.getNextNid(), type.id, type.moverestrict, type.blockwalk), 500);
+                World.addNpc(new Npc(player.level, player.x, player.z, type.size, type.size, EntityLifeCycle.DESPAWN, World.getNextNid(), type.id, type.blockwalk), 500);
             } else if (cmd === 'openmain') {
                 if (args.length < 1) {
                     return false;
@@ -590,7 +589,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                 }
 
                 player.teleJump((mx << 6) + lx, (mz << 6) + lz, level);
-            } else if (cmd === 'teleto' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'teleto' && Environment.node.production) {
                 // custom
                 if (args.length < 1) {
                     return false;
@@ -614,7 +613,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                 player.unsetMapFlag();
 
                 player.teleJump(other.x, other.z, other.level);
-            } else if (cmd === 'setvis' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'setvis' && Environment.node.production) {
                 // authentic
                 if (args.length < 1) {
                     // ::setvis <level>
@@ -634,7 +633,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
                     default:
                         return false;
                 }
-            } else if (cmd === 'ban' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'ban' && Environment.node.production) {
                 // custom
                 if (args.length < 2) {
                     // ::ban <username> <minutes>
@@ -647,7 +646,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
 
                 World.notifyPlayerBan(player.username, username, Date.now() + minutes * 60 * 1000);
                 player.messageGame(`Player '${args[0]}' has been banned for ${minutes} minutes.`);
-            } else if (cmd === 'mute' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'mute' && Environment.node.production) {
                 // custom
                 if (args.length < 2) {
                     // ::mute <username> <minutes>
@@ -660,7 +659,7 @@ export default class ClientCheatHandler extends ClientGameMessageHandler<ClientC
 
                 World.notifyPlayerMute(player.username, username, Date.now() + minutes * 60 * 1000);
                 player.messageGame(`Player '${args[0]}' has been muted for ${minutes} minutes.`);
-            } else if (cmd === 'kick' && Environment.NODE_PRODUCTION) {
+            } else if (cmd === 'kick' && Environment.node.production) {
                 // custom
                 if (args.length < 1) {
                     // ::kick <username>

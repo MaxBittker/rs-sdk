@@ -20,6 +20,7 @@ column=amulet_reqmessage,obj,string
 column=stat_change,stat,int,int,LIST
 column=freeze_time,int
 column=anim,seq
+column=staffanim,seq
 column=spotanim_proj,spotanim,int,int,int,int,int,int,int
 column=spotanim_origin,spotanim
 column=spotanim_target,spotanim,int

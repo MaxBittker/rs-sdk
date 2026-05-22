@@ -1,5 +1,5 @@
 import Pix2D from '#/graphics/Pix2D.js';
-import type Jagfile from '#/io/Jagfile.js';
+import type JagFile from '#/io/JagFile.js';
 import { TypedArray1d } from '#/util/Arrays.js';
 
 export default class WorldMapFont extends Pix2D {
@@ -26,7 +26,7 @@ export default class WorldMapFont extends Pix2D {
     private ctx!: CanvasRenderingContext2D;
 
     // dumped from another system that guarantees no antialiasing was used
-    static load(jag: Jagfile, name: string) {
+    static load(jag: JagFile, name: string) {
         const font = new WorldMapFont();
         const fm = jag.read(`${name}.dat`);
         if (!fm) {

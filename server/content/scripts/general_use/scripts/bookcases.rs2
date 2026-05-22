@@ -5,6 +5,11 @@ p_arrivedelay;
 //mes(~coord_tostring(loc_coord));
 switch_coord (loc_coord) {
     case 0_52_52_38_4, 0_52_52_36_4, 0_52_52_36_6, 0_52_52_38_7, 0_52_52_36_7, 0_52_52_39_8 : @exam_centre_bookcase; // exam centre bookcases
+    case 1_42_53_14_17 :
+        if (inv_total(inv, trail_clue_hard_riddle022) > 0) {
+            @trail_clue_hard_loc_interact(trail_clue_hard_riddle022);
+        }
+        @search_bookcase;
     case default : @search_bookcase;
 }
 

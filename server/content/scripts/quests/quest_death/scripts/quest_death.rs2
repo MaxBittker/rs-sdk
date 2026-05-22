@@ -199,7 +199,7 @@ if($val >= 10000) {
 }
 
 [proc,death_clear_dicegame]()(int)
-clearbit_range(%death_bits, ^death_haroldroll_lower, ^death_goldclaimed);
+%death_bits = clearbit_range(%death_bits, ^death_haroldroll_lower, ^death_goldclaimed);
 
 [proc,death_get_map]()(int)
 return (getbit_range(%death_map, ^death_map_lower, ^death_map_upper));

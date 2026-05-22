@@ -25,3 +25,11 @@ default=0
 [trail_challenge_answer]
 type=int
 default=0
+
+[trail_loc]
+type=int
+default=0
+
+[trail_puzzle]
+type=int
+default=0

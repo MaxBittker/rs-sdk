@@ -10,6 +10,7 @@
 [opheld2,black_battleaxe] @levelrequire_attack(10, last_slot);
 [opheld2,black_2h_sword] @levelrequire_attack(10, last_slot);
 [opheld2,black_claws] @levelrequire_attack(10, last_slot);
+[opheld2,black_halberd] @levelrequire_attack_and_strength(10, 5, last_slot);
 
 [opheld2,black_med_helm] @levelrequire_defence(10, last_slot);
 [opheld2,black_full_helm] @levelrequire_defence(10, last_slot);
@@ -28,6 +29,8 @@
 [opheld2,black_platelegs_gold] @levelrequire_defence(10, last_slot);
 [opheld2,black_full_helm_gold] @levelrequire_defence(10, last_slot);
 [opheld2,black_kiteshield_gold] @levelrequire_defence(10, last_slot);
+[opheld2,black_plateskirt_gold] @levelrequire_defence(10, last_slot);
+[opheld2,black_plateskirt_trim] @levelrequire_defence(10, last_slot);
 
 [opheld2,black_knife] @levelrequire_ranged(10, last_slot);
 [opheld2,black_knife_p] @levelrequire_ranged(10, last_slot);

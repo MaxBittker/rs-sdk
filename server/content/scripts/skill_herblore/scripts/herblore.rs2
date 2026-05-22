@@ -12,6 +12,11 @@ inv_del(inv, $ingredient, 1);
 inv_del(inv, $solvent, 1);
 // There is always a guaranteed slot available.
 inv_add(inv, $mixture, 1);
+
+if($mixture = mort_serum3 & %morttonquest = ^mortton_read_diary) {
+    %morttonquest = ^mortton_made_serum;
+}
+
 // https://youtu.be/S6P-hUzgqPw?t=1
 mes($message);
 anim(human_herbing_vial, 0);
@@ -20,8 +25,12 @@ stat_advance(herblore, $experience);
 
 /** Grind a herblore ingredient. */
 [proc,grind_ingredient](obj $grindable, namedobj $refined, string $message, int $slot)
-inv_setslot(inv, $slot, $refined, 1);
-// https://youtu.be/QUWaqEBTrCE?t=107
+// https://web.archive.org/web/20171220071316/https://www.youtube.com/watch?v=QUWaqEBTrCE
+// player starts grinding unicorn horns at 1:40
+// and the first item in the inventory is ground even when the player uses the pestle and mortar on items further down (also does the opheldu in reverse, same result)
+// our previous setslot behavior was inauthentic so changed to inv_add/del in 274
+inv_del(inv, $grindable, 1);
+inv_add(inv, $refined, 1);
 mes($message);
 anim(human_herbing_grind, 0);
 sound_synth(grind, 0, 0);

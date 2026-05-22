@@ -1,0 +1,465 @@
+[boardgames_fireplace_small]
+name=Fireplace
+desc=A nice and cosy fire.
+model=loc_4618
+retex1s=mossybricks
+retex1d=wall
+anim=fire
+length=2
+width=2
+active=yes
+resizex=95
+resizey=95
+resizez=95
+
+[lantern_glows]
+model=model_4616
+anim=lantern_glow
+ambient=30
+contrast=10
+
+[board_game_stairs_top]
+name=Stairs
+desc=They go down.
+model=loc_4620
+recol1s=15855
+recol1d=10572
+width=2
+length=2
+op1=Climb-down
+forceapproach=north
+sharelight=yes
+mapscene=7
+
+[board_game_stairs_top2]
+name=Stairs
+desc=They go down.
+model=loc_4620
+recol1s=15855
+recol1d=10572
+width=2
+length=2
+op1=Climb-down
+forceapproach=north
+sharelight=yes
+mapscene=7
+
+[board_game_stairs_base]
+name=Stairs
+desc=They go up.
+model=loc_4622
+recol1s=15855
+recol1d=10572
+width=2
+length=3
+op1=Climb-up
+forceapproach=south
+sharelight=yes
+mapscene=7
+
+[board_game_stairs_base2]
+name=Stairs
+desc=They go up.
+model=loc_4622
+recol1s=15855
+recol1d=10572
+width=2
+length=3
+op1=Climb-up
+forceapproach=south
+sharelight=yes
+mapscene=7
+
+[board_game_stairs_grey_all]
+name=Stairs
+desc=They go down.
+model=loc_4624
+recol1s=15855
+recol1d=10572
+width=2
+length=3
+op1=Climb-down
+sharelight=yes
+mapscene=7
+
+[board_game_stairs_grey_top]
+name=Stairs
+desc=They go down.
+model=loc_4625
+recol1s=15855
+recol1d=10572
+width=2
+length=2
+op1=Climb-down
+forceapproach=north
+sharelight=yes
+mapscene=7
+
+[board_game_stairs_grey_base]
+name=Stairs
+desc=They go up.
+model=loc_4626
+recol1s=15855
+recol1d=10572
+width=2
+length=3
+op1=Climb-up
+forceapproach=south
+sharelight=yes
+mapscene=7
+
+[board_game_stairs_grey_base2]
+name=Stairs
+desc=They go up.
+model=loc_4626
+recol1s=15855
+recol1d=10572
+width=2
+length=3
+op1=Climb-up
+forceapproach=south
+sharelight=yes
+mapscene=7
+
+[board_game_poshwall_fencing]
+model=model_loc_982
+recol1s=15855
+recol1d=10572
+blockrange=no
+sharelight=yes
+
+[posh_doubledoor_reverse_l]
+name=Large door
+desc=A large double door.
+model=loc_4629
+op1=Open
+raiseobject=no
+category=reverse_door_left_closed
+param=next_loc_stage,posh_doubledoor_reverse_l_open
+
+[posh_doubledoor_reverse_l_open]
+name=Large door
+desc=A large double door.
+model=loc_4629
+op1=Close
+raiseobject=no
+mirror=yes
+category=reverse_door_left_opened
+param=next_loc_stage,posh_doubledoor_reverse_l
+
+[posh_doubledoor_locked_l]
+name=Large door
+desc=A large double door.
+model=loc_4629
+op1=Open
+raiseobject=no
+
+[posh_doubledoor_locked_r]
+name=Large door
+desc=A large double door.
+model=loc_4632
+op1=Open
+raiseobject=no
+
+[posh_doubledoor_reverse_r]
+name=Large door
+desc=A large double door.
+model=loc_4632
+op1=Open
+raiseobject=no
+category=reverse_door_right_closed
+param=next_loc_stage,posh_doubledoor_reverse_r_open
+
+[posh_doubledoor_reverse_r_open]
+name=Large door
+desc=A large double door.
+model=loc_4632
+op1=Close
+raiseobject=no
+mirror=yes
+category=reverse_door_right_opened
+param=next_loc_stage,posh_doubledoor_reverse_r
+
+[old_paintedbrickwall_2]
+model=model_loc_1905
+retex1s=wall
+retex1d=mossybricks
+sharelight=yes
+occlude=yes
+active=no
+
+[boardgames_draughts_door_experienced]
+name=Door
+desc=An elf-fashioned door.
+model=model_loc_3
+retex1s=wall
+retex1d=elfdoor
+recol2s=6342
+recol2d=11458
+active=yes
+op1=Open
+raiseobject=no
+param=next_loc_stage,elfdooropen_reverse
+
+[boardgames_runelink_door_experienced]
+name=Door
+desc=An elf-fashioned door.
+model=model_loc_3
+retex1s=wall
+retex1d=elfdoor
+recol2s=6342
+recol2d=11458
+active=yes
+op1=Open
+raiseobject=no
+param=next_loc_stage,elfdooropen_reverse
+
+[elfdoor_reverse]
+name=Door
+desc=An elf-fashioned door.
+model=model_loc_3
+retex1s=wall
+retex1d=elfdoor
+recol2s=6342
+recol2d=11458
+active=yes
+op1=Open
+raiseobject=no
+category=reverse_door_closed
+param=next_loc_stage,elfdooropen_reverse
+
+[elfdooropen_reverse]
+name=Door
+desc=An elf-fashioned door.
+model=model_loc_3
+retex1s=wall
+retex1d=elfdoor
+recol2s=6342
+recol2d=11458
+active=yes
+op1=Close
+raiseobject=no
+mirror=yes
+category=reverse_door_opened
+param=next_loc_stage,elfdoor_reverse
+
+[elfdoor_locked]
+name=Door
+desc=An elf-fashioned door.
+model=model_loc_3
+retex1s=wall
+retex1d=elfdoor
+recol2s=6342
+recol2d=11458
+active=yes
+op1=Open
+raiseobject=no
+
+[barrel_stacked]
+name=barrel_stacked
+model=loc_4641
+
+[boardgames_noticeboard]
+name=Noticeboard
+desc=Has some board games news on it.
+model=model_loc_961
+ambient=50
+active=yes
+op1=Read
+
+[boardgames_runelink_ladderup_experienced]
+name=Ladder up
+desc=The ladder to the Runelink challenge room for experienced players.
+model=model_loc_11
+forceapproach=north
+active=yes
+op1=Climb-up
+
+[boardgames_runelink_ladderdown_experienced]
+name=Ladder
+desc=The ladder back to the Runelink challenge room.
+model=model_loc_10
+forceapproach=north
+active=yes
+op1=Climb-Down
+
+[boardgames_draughts_ladderup_experienced]
+name=Ladder up
+desc=The ladder to the Draughts challenge room for experienced players.
+model=model_loc_11
+forceapproach=north
+active=yes
+op1=Climb-up
+
+[boardgames_draughts_ladderdown_experienced]
+name=Ladder
+desc=The ladder back to the Draughts challenge room.
+model=model_loc_10
+forceapproach=north
+active=yes
+op1=Climb-Down
+
+[boardgames_ladderup]
+name=Ladder up
+desc=The ladder back up to the Toad and Chicken.
+model=model_loc_11
+forceapproach=north
+active=yes
+op1=Climb-up
+
+[boardgames_ladderdown]
+name=Ladder
+desc=Leads down to the Burthorpe Games Rooms.
+model=model_loc_1759
+active=yes
+op1=Climb-Down
+forceapproach=east
+active=yes
+
+[boardgames_wall]
+model=loc_4649
+sharelight=yes
+active=no
+
+[boardgames_fireplace]
+name=Fireplace
+desc=A nice and cosy fire.
+model=loc_4618
+anim=fire
+length=3
+width=3
+active=yes
+
+[boardgames_table]
+name=Table
+desc=A table for board games.
+model=loc_4651
+active=yes
+blockrange=no
+
+[boardgames_table_draughts]
+name=Table
+desc=A game of draughts is being played on this table.
+model=loc_4652
+active=yes
+blockrange=no
+op1=View-game
+
+[boardgames_table_runelink]
+name=Table
+desc=A game of Runelink is being played on this table.
+model=loc_4653
+active=yes
+blockrange=no
+op1=View-game
+
+[boardgames_archtop]
+model=loc_4654
+length=4
+width=4
+active=no
+
+[boardgames_barriers]
+model=model_loc_512
+recol1s=10570
+recol1d=11491
+recol2s=16417
+recol2d=10304
+blockrange=no
+blockrange=no
+active=no
+
+[boardgames_barstool_white]
+name=Stool
+desc=A comfy stool.
+model=model_loc_1100
+recol1s=17441
+recol1d=21147
+recol2s=9312
+recol2d=4192
+blockrange=no
+
+[boardgames_barstool_invis]
+model=model_loc_83
+blockrange=no
+
+[boardgames_draughts_plaque]
+name=Plaque
+desc=Draughts challenge room.
+model=model_loc_909
+recol1s=6240
+recol1d=31649
+active=yes
+
+[boardgames_runelink_plaque]
+name=Plaque
+desc=Runelink challenge room.
+model=model_loc_909
+recol1s=6240
+recol1d=31649
+active=yes
+
+[boardgames_draughts_plaque_experienced]
+name=Plaque
+desc=Draughts challenge room for experienced players.
+model=model_loc_909
+recol1s=6240
+recol1d=31649
+active=yes
+
+[boardgames_runelink_plaque_experienced]
+name=Plaque
+desc=Runelink challenge room for experienced players.
+model=model_loc_909
+recol1s=6240
+recol1d=31649
+active=yes
+
+[ruginsidecorner_blue]
+model=loc_4662
+recol1s=15360
+recol1d=9484
+recol2s=28321
+recol2d=4198
+recol3s=0
+recol3d=5255
+sharelight=yes
+
+[ruginsidecorner_darkknight]
+model=loc_4662
+recol1s=15360
+recol1d=5252
+recol2s=28321
+recol2d=14402
+sharelight=yes
+
+[ruginsidecorner]
+model=loc_4662
+sharelight=yes
+
+[ruginsidecornerdiag_blue]
+model=loc_4665
+recol1s=15360
+recol1d=9484
+recol2s=28321
+recol2d=4198
+recol3s=0
+recol3d=5255
+sharelight=yes
+
+[ruginsidecornerdiag_darkknight]
+model=loc_4665
+recol1s=15360
+recol1d=5252
+recol2s=28321
+recol2d=14402
+sharelight=yes
+
+[ruginsidecornerdiag]
+model=loc_4665
+sharelight=yes
+
+[runeflash]
+name=runeflash
+model=loc_4668
+anim=runeflash

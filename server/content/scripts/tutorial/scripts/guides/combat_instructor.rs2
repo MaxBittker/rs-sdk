@@ -101,7 +101,7 @@ if (%tutorial = ^newbie_combat_instructor_after_rat_kill_melee) {
 [label,newbie_combat_instructor_melee_combat_recap]
 ~chatplayer("<p,quiz>Tell me about melee combat again.");
 ~chatnpc("<p,neutral>Ah, my specialty. Close combat fighting, which is also known as melee fighting, covers all combat done at close range to your opponent.");
-~chatnpc("<p,neutral>Melee fighting depends entirely upon your three basic combat stats: Attack, Defence and Strength.");;
+~chatnpc("<p,neutral>Melee fighting depends entirely upon your three basic combat stats: Attack, Defence and Strength.");
 ~chatnpc("<p,neutral>Also, of course, it depends on the quality of your armour and weaponry. A high-levelled fighter with good armour and weapons will be deadly up close.");
 ~chatnpc("<p,neutral>If this is the path you wish to take, remember your success depends on getting as close to your enemy as quickly as possible.");
 ~chatnpc("<p,neutral>Personally, I consider the fine art of melee combat to be the only combat method worth using.");

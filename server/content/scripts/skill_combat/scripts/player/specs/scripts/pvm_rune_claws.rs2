@@ -7,7 +7,7 @@ if (~player_npc_hit_roll(%damagetype) = true) {
     if (npc_type = count_draynor & inv_total(inv, garlic) > 0) {
         $maxhit = add($maxhit, 1);
     }
-    $damage = randominc(min($maxhit, npc_param(max_dealt)));
+    $damage = randominc(~npc_max_dealt($maxhit, 0));
     $damage_capped = min($damage, npc_stat(hitpoints));
     ~give_combat_experience(%damagestyle, $damage_capped, %npc_combat_xp_multiplier);
     npc_heropoints($damage_capped);

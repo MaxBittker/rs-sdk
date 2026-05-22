@@ -36,7 +36,7 @@ if(%elena_pipe_used >= map_clock) {
     mes("The pipe is being used"); 
     return;
 }
-%elena_pipe_used = calc(map_clock + 5);
+%elena_pipe_used = calc(map_clock + 6);
 sound_synth(squeeze_in, 0, 0);
 mes("You climb through the sewer pipe.");
 ~agility_exactmove(human_doublepipesqueeze, 30, 5, coord, movecoord(coord, 0, 0, -3), 30, 126, ^exact_south, true);

@@ -1,4 +1,10 @@
 [opnpc1,death_saba]
+if(inv_total(inv, trail_clue_medium_anagram015) > 0) {
+    // https://youtu.be/yOwYUB_bCAE?si=-cIVhPtRRTxmurRu&t=338
+    ~chatnpc("<p,angry>Here! Now leave me alone!");
+    ~progress_clue_medium(trail_clue_medium_anagram015, "Saba has given you another clue scroll!");
+    return;
+}
 switch_int(%death_equiproom) {
     case ^death_complete :
         ~chatplayer("<p,neutral>Hello.");

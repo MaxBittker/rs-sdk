@@ -66,4 +66,6 @@ stock4=bucket_empty,2,100
 stock5=jug_empty,2,100
 stock6=tinderbox,2,100
 stock7=chisel,2,100
-stock8=hammer,2,100
+stock8=hammer,5,100
+stock9=empty_dye_bottle,10,100
+// stock10=knife,2,100      //Try to find out when the knife was added to the store.

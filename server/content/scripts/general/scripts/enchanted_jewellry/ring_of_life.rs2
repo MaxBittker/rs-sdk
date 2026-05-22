@@ -1,11 +1,9 @@
 [proc,ring_of_life_check]
 if (p_finduid(uid) = true) {
-    if (inv_getobj(worn, ^wearpos_ring) ! ring_of_life | map_members = ^false | ~wilderness_level(coord) > 30 | ~pre_tele_checks(coord) = false) {
+    if (inv_getobj(worn, ^wearpos_ring) ! ring_of_life | map_members = ^false | ~wilderness_level(coord) > 30 | stat(hitpoints) > scale(10, 100, stat_base(hitpoints)) | ~pre_tele_checks(coord) = false) {
         return;
     }
-    if (stat(hitpoints) <= scale(10, 100, stat_base(hitpoints))) {
-        mes("Your Ring of Life saves you and is destroyed in the process.");
-        inv_delslot(worn, ^wearpos_ring);
-        ~player_teleport_normal(map_findsquare(0_50_50_21_18, 0, 2, ^map_findsquare_lineofwalk));
-    }
+    mes("Your Ring of Life saves you and is destroyed in the process.");
+    inv_delslot(worn, ^wearpos_ring);
+    ~player_teleport_normal(map_findsquare(0_50_50_21_18, 0, 2, ^map_findsquare_lineofwalk));
 }

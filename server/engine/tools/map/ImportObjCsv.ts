@@ -23,8 +23,7 @@ if (args.length !== 1) {
 
 const objList = fs
     .readFileSync(args[0], 'ascii')
-    .replace(/\r/g, '')
-    .split('\n')
+    .split(/\r?\n/)
     .slice(1)
     .filter(line => line.length > 0);
 objList.forEach((line, index) => {
@@ -62,7 +61,7 @@ objList.forEach((line, index) => {
     });
 });
 
-loadDir(`${Environment.BUILD_SRC_DIR}/maps`, (lines: string[], file: string) => {
+loadDir(`${Environment.build.srcDir}/maps`, (lines: string[], file: string) => {
     if (!file.endsWith('.jm2')) {
         return;
     }
@@ -88,7 +87,7 @@ loadDir(`${Environment.BUILD_SRC_DIR}/maps`, (lines: string[], file: string) => 
         lines.push('');
     }
 
-    fs.writeFileSync(`${Environment.BUILD_SRC_DIR}/maps/` + file, lines.join('\n'));
+    fs.writeFileSync(`${Environment.build.srcDir}/maps/` + file, lines.join('\n'));
 });
 
 if (allObjs.length > 0) {

@@ -9,6 +9,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 tradeable=no
 
@@ -23,6 +24,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,22 degrees 35 minutes North|19 degrees 18 minutes East
 param=trail_sextant,yes
@@ -42,6 +44,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,25 degrees 03 minutes North|17 degrees 05 minutes East
 param=trail_sextant,yes
@@ -61,6 +64,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,24 degrees 56 minutes North|22 degrees 28 minutes East
 param=trail_sextant,yes
@@ -80,6 +84,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,25 degrees 03 minutes North|23 degrees 24 minutes East
 param=trail_sextant,yes
@@ -99,6 +104,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,22 degrees 45 minutes North|26 degrees 33 minutes East
 param=trail_sextant,yes
@@ -118,6 +124,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,20 degrees 05 minutes North|21 degrees 52 minutes East
 param=trail_sextant,yes
@@ -137,6 +144,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,20 degrees 33 minutes North|15 degrees 48 minutes East
 param=trail_sextant,yes
@@ -156,6 +164,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,21 degrees 24 minutes North|17 degrees 54 minutes East
 param=trail_sextant,yes
@@ -175,6 +184,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,24 degrees 58 minutes North|18 degrees 43 minutes East
 param=trail_sextant,yes
@@ -194,6 +204,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,19 degrees 43 minutes North|25 degrees 07 minutes East
 param=trail_sextant,yes
@@ -213,6 +224,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,16 degrees 07 minutes North|22 degrees 45 minutes East
 param=trail_sextant,yes
@@ -232,6 +244,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,16 degrees 43 minutes North|19 degrees 13 minutes East
 param=trail_sextant,yes
@@ -251,6 +264,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,19 degrees 00 minutes North|27 degrees 13 minutes East
 param=trail_sextant,yes
@@ -270,8 +284,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,You will need to under-cook|to solve this one.
+param=trail_coord,0_50_150_19_17
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_hard_riddle002]
@@ -285,8 +302,9 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
-param=trail_desc,Come to the evil ledge,|Yew know yew want to.|Try not to get stung.
+param=trail_desc,Come to the @or2@evil ledge|@bla@Yew know you want to|And try not to get stung.
 param=trail_casket,trail_clue_hard_riddle002_casket
 param=trail_coord,0_48_54_17_12
 tradeable=no
@@ -302,6 +320,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,I am a token of the strongest love.|My middle is empty, I have no|beginning or end. My eye is red yet|I can fit like a glove. Go to the|place where money they lend, And|dig by the gate to be my friend.
 param=trail_casket,trail_clue_hard_riddle003_casket
@@ -320,6 +339,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,If a man carried my burden,|he would break his back.|I am not rich,|but leave silver in my track.|Speak to the keeper of my trail.
 param=trail_casket,trail_clue_hard_riddle004_casket
@@ -336,6 +356,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,Aggie I see.|Lonely and southern I feel.|I am neither inside nor outside|the house, yet no house would|be complete without me.|Your treasure waits beneath me!
 param=trail_casket,trail_clue_hard_riddle005_casket
@@ -353,8 +374,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,|My home is grey, and made of stone;|A castle with a search for a meal.|Hidden in some drawers I am,|across from a wooden wheel.
+param=trail_coord,1_50_50_13_16
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_hard_riddle007]
@@ -368,8 +392,9 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
-param=trail_desc,The beasts to my east|snap claws and tails,|The rest to my west|can slide and eat fish.|The force to my north|will jump and they'll wail,|Come dig by my fire|and make a wish.
+param=trail_desc,The beasts to my east snap claws and|tail. The rest to my west can slide and|eat fish. The northern will jump and|wail. Dig by my fire and make a wish.
 param=trail_casket,trail_clue_hard_riddle007_casket
 param=trail_coord,0_40_51_39_3
 tradeable=no
@@ -385,8 +410,11 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,Four blades I have|yet I draw no blood.|But I mash and turn|my victims to powder.|Search in my head,|search in my rafters,|where my blades are louder.
+param=trail_coord,2_49_51_30_45
+param=trail_loc,^true
 tradeable=no
 
 [trail_clue_hard_riddle009]
@@ -400,6 +428,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,I lie lonely and forgotten|in mid wilderness,|where the dead rise from their beds.|Feel free to quarrel and wind me up,|and dig while you shoot their heads.
 param=trail_casket,trail_clue_hard_riddle009_casket
@@ -417,6 +446,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,46 is my number.|My body is burnt orange colour|and crawls with those with eight.|3 mouths I have, yet I cannot eat.|My blinking blue eye|hides my grave.
 param=trail_casket,trail_clue_hard_riddle010_casket
@@ -434,6 +464,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,My giant guardians below|the market streets would|be fans of rock and roll,|if only they could grab hold of it.|Dig near my green bubbles!
 param=trail_coord,0_49_154_25_49
@@ -451,6 +482,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,Snah? I feel all confused,|like one of those cakes...
 tradeable=no
@@ -466,6 +498,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 // https://youtu.be/LWfcA_C2bJY?si=YqJBRZYBy1JFXOO_&t=124
 param=trail_desc,@or2@'A bag belt only?'|He asked his balding brothers.
@@ -482,6 +515,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,The keeper of Melzars...|Spare? Skeleton? Anar?
 tradeable=no
@@ -497,6 +531,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,Surprising? I bet he is...
 tradeable=no
@@ -512,6 +547,7 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,My name is like a tree,|yet it is spelt with a 'g'.|Come see the fur|which is right near me.
 tradeable=no
@@ -527,6 +563,1077 @@ model=model_3374_obj
 2dyan=672
 2dxan=360
 iop1=Read
+weight=20g
 category=trail_clue_hard
 param=trail_desc,Generally speaking,|his nose was very bent.
+tradeable=no
+
+[trail_clue_hard_map002]
+name=Clue scroll
+desc=Part of the world map, but where?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_coord,0_40_48_56_5
+param=trail_casket,trail_clue_medium_map002_casket
+tradeable=no
+
+[trail_clue_hard_map002_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_map003]
+name=Clue scroll
+desc=Part of the world map, but where?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_coord,0_38_51_56_44
+param=trail_casket,trail_clue_medium_map003_casket
+tradeable=no
+
+[trail_clue_hard_map003_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_map004]
+name=Clue scroll
+desc=Part of the world map, but where?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_coord,0_38_49_25_46
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_hard_map005]
+name=Clue scroll
+desc=Part of the world map, but where?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_coord,0_47_56_18_44
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_hard_sextant014]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,16 degrees 03 minutes North|14 degrees 07 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant014_casket
+param=trail_coord,0_45_57_12_27
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant014_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant015]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,16 degrees 31 minutes North|12 degrees 54 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant015_casket
+param=trail_coord,0_44_57_37_42
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant015_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant016]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,05 degrees 50 minutes South|10 degrees 05 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant016_casket
+param=trail_coord,0_43_46_11_30
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant016_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant017]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,08 degrees 26 minutes South|10 degrees 28 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant016_casket
+param=trail_coord,0_43_45_23_11
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant017_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant018]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,07 degrees 43 minutes South|12 degrees 26 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant018_casket
+param=trail_coord,0_44_45_22_34
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant018_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant019]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,08 degrees 05 minutes South|15 degrees 56 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant019_casket
+param=trail_coord,0_46_45_6_22
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant019_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant020]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,04 degrees 16 minutes South|16 degrees 16 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant020_casket
+param=trail_coord,0_46_47_17_16
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant020_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant021]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,06 degrees 11 minutes South|15 degrees 07 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant021_casket
+param=trail_coord,0_45_46_44_19
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant021_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant022]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,05 degrees 37 minutes North|31 degrees 15 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant022_casket
+param=trail_coord,0_53_52_48_13
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant022_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant023]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,08 degrees 03 minutes North|31 degrees 16 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant023_casket
+param=trail_coord,0_53_53_49_27
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant023_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant024]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,04 degrees 03 minutes South|03 degrees 11 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant024_casket
+param=trail_coord,0_39_47_46_23
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant024_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant025]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,04 degrees 05 minutes South|04 degrees 24 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant025_casket
+param=trail_coord,0_40_47_21_22
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant025_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+// UNOBTAINABLE
+[trail_clue_hard_sextant026]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+tradeable=no
+
+[trail_clue_hard_sextant026_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+tradeable=no
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant027]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,03 degrees 45 minutes South|22 degrees 45 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant027_casket
+param=trail_coord,0_49_47_32_33
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant027_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant028]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,02 degrees 39 minutes North|29 degrees 58 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant028_casket
+param=trail_coord,0_53_50_7_46
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant028_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant029]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,18 degrees 50 minutes North|20 degrees 26 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant029_casket
+param=trail_coord,0_48_58_22_52
+param=trail_guardian,trail_hard
+tradeable=no
+
+[trail_clue_hard_sextant029_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant030]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,24 degrees 24 minutes North|26 degrees 24 minutes East
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant030_casket
+param=trail_coord,0_51_61_21_38
+param=trail_guardian,trail_hard
+tradeable=no
+
+[trail_clue_hard_sextant030_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant031]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,00 degrees 00 minutes North|07 degrees 13 minutes West
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant031_casket
+param=trail_coord,0_34_49_33_25
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant031_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_sextant032]
+name=Clue scroll
+desc=Perhaps someone at the observatory can teach me to navigate?
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,01 degrees 24 minutes North|08 degrees 05 minutes West
+param=trail_sextant,yes
+param=trail_casket,trail_clue_hard_sextant032_casket
+param=trail_coord,0_34_50_5_6
+param=trail_guardian,trail_hard2
+tradeable=no
+
+[trail_clue_hard_sextant032_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
+tradeable=no
+
+[trail_clue_hard_riddle018]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,There is no 'worthier' lord.
+tradeable=no
+
+[trail_clue_hard_riddle018_puzzlebox]
+name=Puzzle box
+desc=I need to solve this!
+cost=100
+members=yes
+model=obj_3565
+2dyof=4
+2dzoom=900
+2dyan=80
+2dxan=420
+iop1=Open
+category=trail_puzzle
+param=trail_puzzle,^trail_puzzlec
+tradeable=no
+
+[trail_clue_hard_riddle019]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,Often sought out by scholars of|histories past, find me where|words of wisdom speak volumes.
+tradeable=no
+
+[trail_clue_hard_riddle019_puzzlebox]
+name=Puzzle box
+desc=I need to solve this!
+cost=100
+members=yes
+model=obj_3565
+2dyof=4
+2dzoom=900
+2dyan=80
+2dxan=420
+iop1=Open
+category=trail_puzzle
+param=trail_puzzle,^trail_puzzlec
+tradeable=no
+
+[trail_clue_hard_riddle020]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,Identify the back of this|over-acting brother.||(He's a long way from home.)
+tradeable=no
+
+[trail_clue_hard_riddle020_puzzlebox]
+name=Puzzle box
+desc=I need to solve this!
+cost=100
+members=yes
+model=obj_3569
+2dyof=4
+2dzoom=900
+2dyan=80
+2dxan=420
+iop1=Open
+category=trail_puzzle
+param=trail_puzzle,^trail_puzzled
+tradeable=no
+
+[trail_clue_hard_riddle021]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,This aviator is at the|peak of his profession.
+tradeable=no
+
+[trail_clue_hard_riddle021_puzzlebox]
+name=Puzzle box
+desc=I need to solve this!
+cost=100
+members=yes
+model=obj_3569
+2dyof=4
+2dzoom=900
+2dyan=80
+2dxan=420
+iop1=Open
+category=trail_puzzle
+param=trail_puzzle,^trail_puzzled
+tradeable=no
+
+[trail_clue_hard_riddle022]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,Read 'How to breed scorpions.'|By O.W.Thathurt.
+tradeable=no
+
+[trail_clue_hard_riddle023]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,A great view - watch|the rapidly drying|hides get splashed.|Check the box you are sitting on.
+param=trail_coord,1_39_54_27_37
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_hard_riddle024]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,Must be full of railings.
+param=trail_coord,0_40_54_16_8
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_hard_riddle025]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,Citric cellar.
+tradeable=no
+
+[trail_clue_hard_riddle025_puzzlebox]
+name=Puzzle box
+desc=I need to solve this!
+cost=100
+members=yes
+model=obj_3569
+2dyof=4
+2dzoom=900
+2dyan=80
+2dxan=420
+iop1=Open
+category=trail_puzzle
+param=trail_puzzle,^trail_puzzled
+tradeable=no
+
+[trail_clue_hard_riddle026]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,Small shoe.'|Often found with|rod on mushroom.
+tradeable=no
+
+[trail_clue_hard_riddle026_puzzlebox]
+name=Puzzle box
+desc=I need to solve this!
+cost=100
+members=yes
+model=obj_3565
+2dyof=4
+2dzoom=900
+2dyan=80
+2dxan=420
+iop1=Open
+category=trail_puzzle
+param=trail_puzzle,^trail_puzzlec
+tradeable=no
+
+[trail_clue_hard_riddle027]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,When no weapons are at hand,|then is the time to reflect.|In Saradomin's name,|redemption draws closer...
+param=trail_coord,0_44_52_2_23
+param=trail_loc,^true
+tradeable=no
+
+[trail_clue_hard_riddle028]
+name=Clue scroll
+desc=A clue!
+cost=1
+members=yes
+model=model_3374_obj
+2dxof=1
+2dzoom=1010
+2dyan=672
+2dxan=360
+iop1=Read
+weight=20g
+category=trail_clue_hard
+param=trail_desc,Mine was the strangest birth|under the sun. I left the|crimson sack, yet life had not|begun. Entered the world, and|yet was seen by none.
+param=trail_casket,trail_clue_hard_riddle028_casket
+param=trail_coord,0_44_149_16_50
+tradeable=no
+
+[trail_clue_hard_riddle028_casket]
+name=Casket
+desc=I hope there's treasure in it.
+weight=5kg
+model=model_2450_obj
+2dxof=3
+2dyof=-6
+2dzoom=1410
+2dyan=1592
+2dxan=164
+cost=50
+iop1=Open
+members=yes
+category=trail_casket_hard
 tradeable=no

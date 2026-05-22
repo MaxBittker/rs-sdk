@@ -52,7 +52,7 @@ blockrange=no
 recol1s=12480
 recol1d=12580
 category=gate_main_closed
-param=next_loc_stage,loc_3199
+param=next_loc_stage,loc_4139
 
 [loc_3198]
 name=Gate
@@ -65,20 +65,29 @@ blockrange=no
 recol1s=12480
 recol1d=12580
 category=gate_outer_closed
-param=next_loc_stage,loc_3200
+param=next_loc_stage,loc_4140
 
-
-[loc_3199]
+[loc_4139]
+name=Gate
+desc=Entrance to the Duel Arena.
 model=model_loc_47
-active=no
-blockrange=no
 recol1s=12480
 recol1d=12580
+active=yes
+op1=Close
+blockrange=no
+category=gate_main_open
+param=next_loc_stage,loc_3197
 
-[loc_3200]
+[loc_4140]
+name=Gate
+desc=Entrance to the Duel Arena.
 model=model_loc_47
+recol1s=12480
+recol1d=12580
+active=yes
+op1=Close
 mirror=yes
-active=no
 blockrange=no
-recol1s=12480
-recol1d=12580
+category=gate_outer_open
+param=next_loc_stage,loc_3198

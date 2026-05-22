@@ -14,6 +14,8 @@
 [opheld2,mithril_2h_sword] @levelrequire_attack(20, last_slot);
 [opheld2,mithril_claws] @levelrequire_attack(20, last_slot);
 [opheld2,excalibur] @levelrequire_attack(20, last_slot);
+[opheld2,tbwt_mithril_spear_kp] @levelrequire_attack(20, last_slot);
+[opheld2,mithril_halberd] @levelrequire_attack_and_strength(20, 10, last_slot);
 
 [opheld2,mithril_med_helm] @levelrequire_defence(20, last_slot);
 [opheld2,mithril_full_helm] @levelrequire_defence(20, last_slot);

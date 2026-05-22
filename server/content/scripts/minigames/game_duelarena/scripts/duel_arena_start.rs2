@@ -54,7 +54,7 @@ if (.finduid(%duel2accept) = true) {
     hint_pl;
 
     settimer(duel_arena_time_limit, 6000); // 60 minute time limit https://runescape.wiki/w/Update:Assist_System
-    midi_jingle(^duel_start_jingle, ^duel_start_jingle_millis);
+    ~music_jingle("duel start");
     ~duel_arena_countdown;
 }
 

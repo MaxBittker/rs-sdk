@@ -1,5 +1,5 @@
 [opnpc1,grandtree_narnode]
-if(coordy(npc_coord) > 0 & (%grandtree <= ^grandtree_found_journal | %grandtree > ^grandtree_released_prison)) {
+if(coordy(npc_coord) > 0 & (%grandtree < ^grandtree_found_journal | %grandtree > ^grandtree_released_prison)) {
     mes("The King doesn't seem interested in talking.");
     return;
 }

@@ -1,0 +1,959 @@
+[skill_guide_combat]
+table=skill_guide_ops
+data=lookup,attack
+data=op,Attack,skill_guide_combat_attack
+data=op,Defence,skill_guide_combat_defence
+
+[skill_guide_combat_attack]
+table=skill_guides
+data=name,Combat - Attack
+data=advancement,Able to wield:
+data=inv,skill_guide_combat_weapons
+data=unlock,1,Bronze.
+data=unlock,1,Iron.
+data=unlock,5,Steel.
+data=unlock,10,Black.
+data=unlock,20,Mithril.
+// [sic] "Adamantite" despite "Rune" below
+data=unlock,30,Adamantite.
+data=unlock,40,Rune.
+data=unlock,60,Members: Dragon.
+
+[skill_guide_combat_defence]
+table=skill_guides
+data=name,Combat - Defence
+data=advancement,Able to wear:
+data=inv,skill_guide_combat_armours
+data=unlock,1,Bronze.
+data=unlock,1,Iron.
+data=unlock,5,Steel.
+data=unlock,10,Black.
+data=unlock,20,Mithril.
+// [sic] "Adamantite" despite "Rune" below
+data=unlock,30,Adamantite.
+data=unlock,40,Rune.
+data=unlock,60,Members: Dragon.
+
+// strength: I think this came later and only attack/defence was available at first
+// skill_guide_strength_weapons_and_armour: inv 421
+// skill_guide_strength_shortcuts: inv 422
+
+// hitpoints: same thing?
+
+// ----
+
+[skill_guide_ranged]
+table=skill_guide_ops
+data=lookup,ranged
+data=op,Bows,skill_guide_ranged_bows
+data=op,Thrown,skill_guide_ranged_thrown
+data=op,Armour,skill_guide_ranged_armour
+// skill_guide_ranged_shortcuts: inv 420
+// skill_guide_ranged_crossbows: inv 425
+
+[skill_guide_ranged_bows]
+table=skill_guides
+data=name,Ranging - Bows
+data=advancement,Able to wield:
+data=inv,skill_guide_ranged_bows
+// [sic] "crossbow bolts" is lowercase
+// [sic] exact number of spaces
+data=unlock,1,Crossbow.\n          Ammo: crossbow bolts.
+// [sic] exact number of spaces
+data=unlock,1,Standard bows.\n          Ammo: Arrows up to iron.
+// [sic] exact number of spaces
+data=unlock,5,Oak bows.\n          Ammo: Arrows up to steel.
+// [sic] exact number of spaces
+data=unlock,20,Members: Willow bows.\n          Ammo: Arrows up to mithril.
+// [sic] exact number of spaces
+data=unlock,30,Members: Maple bows.\n          Ammo: Arrows up to adamant.
+// [sic] exact number of spaces
+data=unlock,40,Members: Yew bows.\n          Ammo: Arrows up to rune.
+// [sic] exact number of spaces
+data=unlock,50,Members: Magic bows.\n          Ammo: Arrows up to rune.
+
+// note: derived from 2007 clientscript
+// todo: members only
+[skill_guide_ranged_thrown]
+table=skill_guides
+data=name,Ranging - Thrown
+// todo: complete guess:
+data=advancement,Able to throw:
+data=inv,skill_guide_ranged_thrown
+data=unlock,1,Members: Bronze items.
+data=unlock,1,Members: Iron items.
+data=unlock,5,Members: Steel items.
+data=unlock,10,Members: Black items.
+data=unlock,20,Members: Mithril items.
+// [sic] "Adamantite" despite "Rune" below
+data=unlock,30,Members: Adamantite items.
+data=unlock,40,Members: Rune items.
+
+[skill_guide_ranged_armour]
+table=skill_guides
+data=name,Ranging - Armour
+data=advancement,Able to wear:
+data=inv,skill_guide_ranged_armour
+data=unlock,1,Plain leather items.
+data=unlock,1,Hard leather body (with defence 10).
+data=unlock,20,Studded leather body (with defence 20).
+data=unlock,20,Studded leather chaps.
+data=unlock,20,Coif.
+data=unlock,40,Members: Rangers boots.
+data=unlock,40,Members: Robin hood hat.
+data=unlock,40,Green dragonhide vambraces.
+data=unlock,40,Green dragonhide chaps.
+// [sic] exact number of spaces
+data=unlock,40,Green dragonhide body\n     (with defence 40).
+// note: derived from 2007 clientscript and uses differences from above
+data=unlock,50,Members: Blue dragonhide vambraces.
+data=unlock,50,Members: Blue dragonhide chaps.
+data=unlock,50,Members: Blue dragonhide body\n     (with defence 40).
+data=unlock,60,Members: Red dragonhide vambraces.
+data=unlock,60,Members: Red dragonhide chaps.
+data=unlock,60,Members: Red dragonhide body\n     (with defence 40).
+data=unlock,70,Members: Black dragonhide vambraces.
+data=unlock,70,Members: Black dragonhide chaps.
+data=unlock,70,Members: Black dragonhide body\n     (with defence 40).
+
+// ----
+
+[skill_guide_magic]
+table=skill_guide_ops
+data=lookup,magic
+data=op,Spells,skill_guide_magic_spells
+data=op,Armour,skill_guide_magic_armour
+// skill_guide_magic_bolts: inv 424
+
+// note: derived from 2007 clientscript
+[skill_guide_magic_spells]
+table=skill_guides
+data=name,Magic - Spells
+data=unlock,-1,"To view the available spells, select the\nspellbook icon on the side interface.\nYou can see what each spell does by\nmoving your mouse over its icon."
+
+// note: derived from 2007 clientscript
+// todo: members only
+[skill_guide_magic_armour]
+table=skill_guides
+data=name,Magic - Armour
+data=inv,skill_guide_magic_armour
+data=unlock,20,Wizard boots.
+data=unlock,40,Splitbark helm\n     (with defence 40).
+data=unlock,40,Splitbark body\n     (with defence 40).
+data=unlock,40,Splitbark legs\n     with defence 40).
+data=unlock,40,Splitbark gauntlets\n     (with defence 40).
+data=unlock,40,Splitbark boots\n     (with defence 40).
+
+// ----
+
+[skill_guide_prayer]
+table=skill_guide_ops
+data=lookup,prayer
+data=op,Prayer,skill_guide_prayer_prayer
+
+// note: derived from 2007 clientscript
+[skill_guide_prayer_prayer]
+table=skill_guides
+data=name,Prayer
+// skill_guide_prayer: inv 275 (does this mean no prayer guide, or could they be text-only with no inv?)
+data=unlock,-1,"To view the available prayers, select\nthe Prayer icon on the side interface.\nYou can see what each Prayer does by\nmoving your mouse over its icon."
+
+// ----
+
+[skill_guide_agility]
+table=skill_guide_ops
+data=lookup,agility
+data=op,Agility,skill_guide_agility_agility
+// skill_guide_agility_courses: inv 321
+// skill_guide_agility_areas: inv 322
+// skill_guide_agility_shortcuts: inv 323
+
+// note: Using Courses for now. What was this originally? It has an inv...
+[skill_guide_agility_agility]
+table=skill_guides
+data=name,Agility
+data=advancement,Access to:
+data=inv,skill_guide_agility
+data=unlock,1,Gnome Stronghold agility course.
+data=unlock,1,Gnomeball game.
+data=unlock,1,Low level agility arena obstacles.
+data=unlock,20,Medium level agility arena obstacles.
+data=unlock,35,Barbarian Outpost agility course.
+data=unlock,40,High level agility arena obstacles.
+data=unlock,52,Wilderness course.
+
+// ----
+
+[skill_guide_herblore]
+table=skill_guide_ops
+data=lookup,herblore
+data=op,Herbs,skill_guide_herblore_herbs
+data=op,Potions,skill_guide_herblore_potions
+
+[skill_guide_herblore_herbs]
+table=skill_guides
+data=name,Herblore - Herbs
+data=advancement,Able to identify:
+data=inv,skill_guide_herblore_herbs
+data=unlock,-1,You must complete the Druidic Ritual\nquest before you can use Herblore.
+data=unlock,3,Guam leaf.
+data=unlock,3,Rogue's purse.
+data=unlock,3,Snake weed.
+data=unlock,5,Marrentill.
+data=unlock,11,Tarromin.
+data=unlock,20,Harralander.
+data=unlock,25,Ranarr weed.
+data=unlock,30,Toadflax.
+data=unlock,40,Irit leaf.
+data=unlock,48,Avantoe.
+data=unlock,54,Kwuarm.
+data=unlock,59,Snapdragon.
+data=unlock,65,Cadantine.
+data=unlock,67,Lantadyme.
+data=unlock,70,Dwarf weed.
+data=unlock,75,Torstol.
+
+// note: derived from 2007 clientscript + Jan 07 source for uppercase secondaries & tab order http://rune-scape.net/_fr/0/6845832.png
+[skill_guide_herblore_potions]
+table=skill_guides
+data=name,Herblore - Potions
+data=inv,skill_guide_herblore_potions
+data=unlock,-1,You must complete the Druidic Ritual\nquest before you can use Herblore.
+data=unlock,3,Attack potion\nGuam leaf & Eye of newt.
+data=unlock,5,Anti-poison potion\nMarrentill & Ground unicorn horn.
+data=unlock,12,Strength potion\nTarromin & Limpwurt root.
+data=unlock,22,Stat restore potion\nHarralander & Red spiders' eggs.
+data=unlock,26,Energy potion\nHarralander & Chocolate dust.
+data=unlock,30,Defence potion\nRanarr weed & White berries.
+data=unlock,34,Agility potion\nToadflax & Toad legs.
+data=unlock,38,Prayer restore potion\nRanarr weed & Snape grass.
+// [sic] "Super Attack"
+data=unlock,45,Super Attack potion\nIrit leaf & Eye of newt.
+data=unlock,48,Super anti-poison potion\nIrit leaf & Ground unicorn horn.
+data=unlock,50,Fishing potion\nAvantoe & Snape grass.
+data=unlock,52,Super energy potion\nAvantoe & Mort Myre fungi.
+// [sic] "Super Strength"
+data=unlock,55,Super Strength potion\nKwuarm & Limpwurt root.
+data=unlock,60,Weapon poison\nKwuarm & Ground blue dragon scale.
+data=unlock,63,Super restore potion\nSnapdragon & Red spiders' eggs.
+// [sic] "Super Defence"
+data=unlock,66,Super Defence potion\nCadantine & White berries.
+data=unlock,69,Anti-firebreath potion\nLantadyme & Ground blue dragon scale.
+data=unlock,72,Ranging potion\nDwarf weed & Wine of Zamorak.
+data=unlock,76,Magic potion\nLantadyme & Potato cactus.
+data=unlock,78,Zamorak brew\nTorstol & Jangerberries.
+
+// ----
+
+[skill_guide_thieving]
+table=skill_guide_ops
+data=lookup,thieving
+data=op,Stalls,skill_guide_thieving_stalls
+data=op,Pickpocket,skill_guide_thieving_pickpocket
+// skill_guide_thieving_chests: inv 274
+// skill_guide_thieving_other: inv 415
+
+// note: derived from 2007 clientscript
+[skill_guide_thieving_stalls]
+table=skill_guides
+data=name,Thieving - Stalls
+data=inv,skill_guide_thieving_stalls
+data=unlock,5,Cake stall.
+data=unlock,5,Tea stall.
+data=unlock,20,Silk stall.
+data=unlock,35,Fur stall.
+data=unlock,42,Fish stall.
+data=unlock,50,Silver stall.
+data=unlock,65,Spices stall.
+data=unlock,75,Gems stall.
+
+// note: derived from 2007 clientscript
+[skill_guide_thieving_pickpocket]
+table=skill_guides
+data=name,Thieving - Pickpocket
+data=inv,skill_guide_thieving_pickpocket
+data=unlock,1,Citizen.
+data=unlock,10,Farmer.
+data=unlock,25,Warrior.
+data=unlock,32,Rogue.
+data=unlock,40,Guard.
+data=unlock,45,Fremennik.
+data=unlock,55,Knight.
+data=unlock,65,Watchman.
+data=unlock,70,Paladin.
+data=unlock,75,Gnome.
+data=unlock,80,Hero.
+
+// ----
+
+[skill_guide_crafting]
+table=skill_guide_ops
+data=lookup,crafting
+data=op,Armour,skill_guide_crafting_armour
+data=op,Spinning,skill_guide_crafting_spinning
+data=op,Pottery,skill_guide_crafting_pottery
+data=op,Glass,skill_guide_crafting_glass
+data=op,Jewellery,skill_guide_crafting_jewellery
+data=op,Staffs,skill_guide_crafting_staffs
+// skill_guide_crafting_weaving: inv 286
+
+// note: derived from 2007 clientscript
+[skill_guide_crafting_spinning]
+table=skill_guides
+data=name,Crafting - Spinning
+data=inv,skill_guide_crafting_spinning
+data=unlock,1,Wool.
+data=unlock,10,Members: Flax into bow strings.
+
+// note: derived from 2007 clientscript
+[skill_guide_crafting_pottery]
+table=skill_guides
+data=name,Crafting - Pottery
+data=inv,skill_guide_crafting_pottery
+data=unlock,1,Pot.
+data=unlock,7,Pie dish.
+data=unlock,8,Bowl.
+
+// note: derived from 2007 clientscript
+[skill_guide_crafting_glass]
+table=skill_guides
+data=name,Crafting - Glass
+data=inv,skill_guide_crafting_glass
+data=unlock,1,Members: Beer glass.
+data=unlock,33,Members: Vial.
+data=unlock,46,Members: Glass orb.
+
+// note: derived from 2007 clientscript
+[skill_guide_crafting_jewellery]
+table=skill_guides
+data=name,Crafting - Jewellery
+data=inv,skill_guide_crafting_jewellery
+data=unlock,1,Members: Cut opal.
+data=unlock,5,Gold ring.
+data=unlock,6,Gold necklace.
+data=unlock,8,Gold amulet.
+data=unlock,13,Members: Cut jade.
+data=unlock,16,Holy symbol.
+data=unlock,16,Members: Cut red topaz.
+data=unlock,17,Members: Unholy symbol.
+data=unlock,20,Cut sapphire.
+data=unlock,20,Sapphire ring.
+data=unlock,22,Sapphire necklace.
+data=unlock,24,Sapphire amulet.
+data=unlock,27,Cut emerald.
+data=unlock,27,Emerald ring.
+data=unlock,29,Emerald necklace.
+data=unlock,31,Emerald amulet.
+data=unlock,34,Cut ruby.
+data=unlock,34,Ruby ring.
+data=unlock,40,Ruby necklace.
+data=unlock,43,Cut diamond.
+data=unlock,43,Diamond ring.
+data=unlock,50,Ruby amulet.
+data=unlock,55,Members: Cut dragonstone.
+data=unlock,55,Members: Dragonstone ring.
+data=unlock,56,Diamond necklace.
+data=unlock,70,Diamond amulet.
+data=unlock,72,Members: Dragonstone necklace.
+data=unlock,80,Members: Dragonstone amulet.
+
+// note: derived from 2007 clientscript
+[skill_guide_crafting_staffs]
+table=skill_guides
+data=name,Crafting - Staffs
+data=inv,skill_guide_crafting_staffs
+data=unlock,54,Members: Water battlestaff.
+data=unlock,58,Members: Earth battlestaff.
+data=unlock,62,Members: Fire battlestaff.
+data=unlock,66,Members: Air battlestaff.
+
+// note: derived from 2007 clientscript
+[skill_guide_crafting_armour]
+table=skill_guides
+data=name,Crafting - Armour
+data=inv,skill_guide_crafting_armour
+data=unlock,1,Leather gloves.
+data=unlock,7,Leather boots.
+data=unlock,9,Leather cowl.
+data=unlock,11,Leather vambraces.
+data=unlock,14,Leather body.
+data=unlock,15,Members: Snail helmet.
+data=unlock,18,Leather chaps.
+data=unlock,28,Hard leather body.
+data=unlock,38,Members: Coif.
+data=unlock,41,Members: Studded body.
+data=unlock,44,Members: Studded chaps.
+data=unlock,57,Members: Green dragonhide vambraces.
+data=unlock,60,Members: Green dragonhide chaps.
+data=unlock,63,Members: Green dragonhide body.
+data=unlock,66,Members: Blue dragonhide vambraces.
+data=unlock,68,Members: Blue dragonhide chaps.
+data=unlock,71,Members: Blue dragonhide body.
+data=unlock,73,Members: Red dragonhide vambraces.
+data=unlock,75,Members: Red dragonhide chaps.
+data=unlock,77,Members: Red dragonhide body.
+data=unlock,79,Members: Black dragonhide vambraces.
+data=unlock,82,Members: Black dragonhide chaps.
+data=unlock,84,Members: Black dragonhide body.
+
+// ----
+
+[skill_guide_runecrafting]
+table=skill_guide_ops
+data=lookup,runecraft
+data=op,Runes,skill_guide_runecrafting_runecrafting
+
+// note: derived from 2007 clientscript
+// todo: are multiple runes documented here?
+[skill_guide_runecrafting_runecrafting]
+table=skill_guides
+data=name,Runecrafting
+data=inv,skill_guide_runecrafting
+data=unlock,1,Air runes.
+data=unlock,2,Mind runes.
+data=unlock,5,Water runes.
+data=unlock,9,Earth runes.
+data=unlock,14,Fire runes.
+data=unlock,20,Body runes.
+data=unlock,27,Members: Cosmic runes.
+data=unlock,35,Members: Chaos runes.
+data=unlock,44,Members: Nature runes.
+data=unlock,54,Members: Law runes.
+
+// ----
+
+[skill_guide_mining]
+table=skill_guide_ops
+data=lookup,mining
+data=op,Ores,skill_guide_mining_ores
+data=op,Pickaxes,skill_guide_mining_pickaxes
+
+[skill_guide_mining_ores]
+table=skill_guides
+data=name,Mining - Ore
+data=advancement,Able to mine:
+data=inv,skill_guide_mining_ores
+data=unlock,1,Rune essence (after completing Rune Mysteries).
+data=unlock,1,Clay.
+data=unlock,1,Copper ore.
+data=unlock,1,Tin ore.
+data=unlock,15,Iron ore.
+data=unlock,20,Silver ore.
+data=unlock,30,Coal.
+// [sic] no "ore"
+data=unlock,40,Gold.
+data=unlock,55,Mithril ore.
+data=unlock,70,Adamantite ore.
+data=unlock,85,Runite ore.
+
+[skill_guide_mining_pickaxes]
+table=skill_guides
+data=name,Mining - Pickaxes
+data=advancement,Able to mine with:
+data=inv,skill_guide_mining_pickaxes
+data=unlock,1,Bronze pickaxe.
+data=unlock,1,Iron pickaxe.
+data=unlock,6,Steel pickaxe.
+data=unlock,21,Mithril pickaxe.
+data=unlock,31,Adamant pickaxe.
+data=unlock,41,Rune pickaxe.
+
+// ----
+
+[skill_guide_smithing]
+table=skill_guide_ops
+data=lookup,smithing
+data=op,Smelting,skill_guide_smithing_smelting
+data=op,Bronze,skill_guide_smithing_bronze
+data=op,Iron,skill_guide_smithing_iron
+data=op,Steel,skill_guide_smithing_steel
+data=op,Mithril,skill_guide_smithing_mithril
+data=op,Adamant,skill_guide_smithing_adamant
+data=op,Rune,skill_guide_smithing_rune
+// skill_guide_smithing_blurite: inv 426
+
+[skill_guide_smithing_smelting]
+table=skill_guides
+data=name,Smithing - Smelting
+data=advancement,Able to smelt:
+data=inv,skill_guide_smithing_smelting
+data=unlock,1,Bronze
+data=unlock,15,Iron
+// [sic] only Silver and Gold have periods
+data=unlock,20,Silver.
+data=unlock,30,Steel
+data=unlock,40,Gold.
+data=unlock,50,Mithril
+// [sic] "Adamant" despite "Runite" below
+data=unlock,70,Adamant
+data=unlock,85,Runite
+
+[skill_guide_smithing_bronze]
+table=skill_guides
+data=name,Smithing - Bronze
+data=advancement,Able to make:
+data=inv,skill_guide_smithing_bronze
+// [sic] exact number of spaces
+data=unlock,1,Bronze daggers.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,1,Bronze axes.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,2,Bronze maces.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,3,Bronze medium helms.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,4,Bronze shortswords.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,4,Members: Bronze dart tips.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,4,Members: Bronze wire.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,5,Bronze scimitars.\n          2 Bars
+// [sic] exact number of spaces
+data=unlock,5,Members: Bronze arrow heads.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,6,Bronze longswords.\n          2 Bars
+// [sic] exact number of spaces
+data=unlock,7,Bronze full helms.\n          2 Bars
+// [sic] exact number of spaces
+data=unlock,7,Members: Bronze throwing knives.\n          1 Bar
+// [sic] exact number of spaces
+data=unlock,8,Bronze square shields.\n          2 Bars
+// [sic] exact number of spaces
+data=unlock,9,Bronze warhammers.\n          3 Bars
+// [sic] exact number of spaces
+data=unlock,10,Bronze battleaxes.\n          3 Bars
+// [sic] exact number of spaces
+data=unlock,11,Bronze chainmail bodies.\n          3 Bars
+// [sic] exact number of spaces
+data=unlock,12,Bronze kite shields.\n          3 Bars
+// [sic] exact number of spaces
+data=unlock,13,Members: Bronze claws.\n          2 Bars
+// [sic] exact number of spaces
+data=unlock,14,Bronze two handed swords.\n          3 Bar
+// [sic] exact number of spaces
+data=unlock,16,Bronze plate legs.\n          3 Bars
+// [sic] exact number of spaces
+data=unlock,16,Bronze plate skirts.\n          3 Bars
+// [sic] exact number of spaces
+data=unlock,18,Bronze plate bodies.\n          5 Bars
+
+// note: derived from 2007 clientscript
+[skill_guide_smithing_iron]
+table=skill_guides
+data=name,Smithing - Iron
+data=advancement,Able to make:
+data=inv,skill_guide_smithing_iron
+data=unlock,15,Iron daggers.\n          1 Bar
+data=unlock,16,Iron axes.\n          1 Bar
+data=unlock,17,Iron maces.\n          1 Bar
+data=unlock,18,Iron medium helms.\n          1 Bar
+data=unlock,19,Iron shortswords.\n          1 Bar
+data=unlock,19,Members: Iron dart tips.\n          1 Bar
+data=unlock,20,Iron scimitars.\n          2 Bars
+data=unlock,20,Members: Iron arrow heads.\n          1 Bar
+data=unlock,21,Iron longswords.\n          2 Bars
+data=unlock,22,Iron full helms.\n          2 Bars
+data=unlock,22,Members: Iron throwing knives.\n          1 Bar
+data=unlock,23,Iron square shields.\n          2 Bars
+data=unlock,24,Iron warhammers.\n          3 Bars
+data=unlock,25,Iron battleaxes.\n          3 Bars
+data=unlock,26,Iron chainmail bodies.\n          3 Bars
+data=unlock,27,Iron kite shields.\n          3 Bars
+data=unlock,28,Members: Iron claws.\n          2 Bars
+data=unlock,29,Iron two handed swords.\n          3 Bar
+data=unlock,31,Iron plate legs.\n          3 Bars
+data=unlock,31,Iron plate skirts.\n          3 Bars
+data=unlock,33,Iron plate bodies.\n          5 Bars
+
+// note: derived from 2007 clientscript
+[skill_guide_smithing_steel]
+table=skill_guides
+data=name,Smithing - Steel
+data=advancement,Able to make:
+data=inv,skill_guide_smithing_steel
+data=unlock,30,Steel daggers.\n          1 Bar
+data=unlock,31,Steel axes.\n          1 Bar
+data=unlock,32,Steel maces.\n          1 Bar
+data=unlock,33,Steel medium helms.\n          1 Bar
+data=unlock,34,Steel shortswords.\n          1 Bar
+data=unlock,34,Members: Steel dart tips.\n          1 Bar
+data=unlock,35,Steel scimitars.\n          2 Bars
+data=unlock,35,Members: Steel arrow heads.\n          1 Bar
+data=unlock,35,Members: Cannonballs.\n          1 Bar
+data=unlock,36,Steel longswords.\n          2 Bars
+data=unlock,37,Steel full helms.\n          2 Bars
+data=unlock,37,Members: Steel throwing knives.\n          1 Bar
+data=unlock,38,Steel square shields.\n          2 Bars
+data=unlock,39,Steel warhammers.\n          3 Bars
+data=unlock,40,Steel battleaxes.\n          3 Bars
+data=unlock,41,Steel chainmail bodies.\n          3 Bars
+data=unlock,42,Steel kite shields.\n          3 Bars
+data=unlock,43,Members: Steel claws.\n          2 Bars
+data=unlock,44,Steel two handed swords.\n          3 Bar
+data=unlock,46,Steel plate legs.\n          3 Bars
+data=unlock,46,Steel plate skirts.\n          3 Bars
+data=unlock,48,Steel plate bodies.\n          5 Bars
+
+// note: derived from 2007 clientscript
+[skill_guide_smithing_mithril]
+table=skill_guides
+data=name,Smithing - Mithril
+data=advancement,Able to make:
+data=inv,skill_guide_smithing_mithril
+data=unlock,50,Mithril daggers.\n          1 Bar
+data=unlock,51,Mithril axes.\n          1 Bar
+data=unlock,52,Mithril maces.\n          1 Bar
+data=unlock,53,Mithril medium helms.\n          1 Bar
+data=unlock,54,Mithril shortswords.\n          1 Bar
+data=unlock,54,Members: Mithril dart tips.\n          1 Bar
+data=unlock,55,Mithril scimitars.\n          2 Bars
+data=unlock,55,Members: Mithril arrow heads.\n          1 Bar
+data=unlock,56,Mithril longswords.\n          2 Bars
+data=unlock,57,Mithril full helms.\n          2 Bars
+data=unlock,57,Members: Mithril throwing knives.\n          1 Bar
+data=unlock,58,Mithril square shields.\n          2 Bars
+data=unlock,59,Mithril warhammers.\n          3 Bars
+data=unlock,60,Mithril battleaxes.\n          3 Bars
+data=unlock,61,Mithril chainmail bodies.\n          3 Bars
+data=unlock,62,Mithril kite shields.\n          3 Bars
+data=unlock,63,Members: Mithril claws.\n          2 Bars
+data=unlock,64,Mithril two handed swords.\n          3 Bar
+data=unlock,66,Mithril plate legs.\n          3 Bars
+data=unlock,66,Mithril plate skirts.\n          3 Bars
+data=unlock,68,Mithril plate bodies.\n          5 Bars
+
+// note: derived from 2007 clientscript
+[skill_guide_smithing_adamant]
+table=skill_guides
+data=name,Smithing - Adamant
+data=advancement,Able to make:
+data=inv,skill_guide_smithing_adamant
+data=unlock,70,Adamant daggers.\n          1 Bar
+data=unlock,71,Adamant axes.\n          1 Bar
+data=unlock,72,Adamant maces.\n          1 Bar
+data=unlock,73,Adamant medium helms.\n          1 Bar
+data=unlock,74,Adamant shortswords.\n          1 Bar
+data=unlock,74,Members: Adamant dart tips.\n          1 Bar
+data=unlock,75,Adamant scimitars.\n          2 Bars
+data=unlock,75,Members: Adamant arrow heads.\n          1 Bar
+data=unlock,76,Adamant longswords.\n          2 Bars
+data=unlock,77,Adamant full helms.\n          2 Bars
+data=unlock,77,Members: Adamant throwing knives.\n          1 Bar
+data=unlock,78,Adamant square shields.\n          2 Bars
+data=unlock,79,Adamant warhammers.\n          3 Bars
+data=unlock,80,Adamant battleaxes.\n          3 Bars
+data=unlock,81,Adamant chainmail bodies.\n          3 Bars
+data=unlock,82,Adamant kite shields.\n          3 Bars
+data=unlock,83,Members: Adamant claws.\n          2 Bars
+data=unlock,84,Adamant two handed swords.\n          3 Bar
+data=unlock,86,Adamant plate legs.\n          3 Bars
+data=unlock,86,Adamant plate skirts.\n          3 Bars
+data=unlock,88,Adamant plate bodies.\n          5 Bars
+
+// note: derived from 2007 clientscript
+[skill_guide_smithing_rune]
+table=skill_guides
+data=name,Smithing - Rune
+data=advancement,Able to make:
+data=inv,skill_guide_smithing_rune
+data=unlock,85,Rune daggers.\n          1 Bar
+data=unlock,86,Rune axes.\n          1 Bar
+data=unlock,87,Rune maces.\n          1 Bar
+data=unlock,88,Rune medium helms.\n          1 Bar
+data=unlock,89,Rune shortswords.\n          1 Bar
+data=unlock,89,Members: Rune dart tips.\n          1 Bar
+data=unlock,90,Rune scimitars.\n          2 Bars
+data=unlock,90,Members: Rune arrow heads.\n          1 Bar
+data=unlock,91,Rune longswords.\n          2 Bars
+data=unlock,92,Rune full helms.\n          2 Bars
+data=unlock,92,Members: Rune throwing knives.\n          1 Bar
+data=unlock,93,Rune square shields.\n          2 Bars
+data=unlock,94,Rune warhammers.\n          3 Bars
+data=unlock,95,Rune battleaxes.\n          3 Bars
+data=unlock,96,Rune chainmail bodies.\n          3 Bars
+data=unlock,97,Rune kite shields.\n          3 Bars
+data=unlock,98,Members: Rune claws.\n          2 Bars
+data=unlock,99,Rune two handed swords.\n          3 Bar
+data=unlock,99,Rune plate legs.\n          3 Bars
+data=unlock,99,Rune plate skirts.\n          3 Bars
+data=unlock,99,Rune plate bodies.\n          5 Bars
+
+// ----
+
+[skill_guide_fishing]
+table=skill_guide_ops
+data=lookup,fishing
+data=op,Fishing,skill_guide_fishing_catches
+
+[skill_guide_fishing_catches]
+table=skill_guides
+data=name,Fishing
+data=advancement,Can catch:
+data=inv,skill_guide_fishing
+data=unlock,1,Shrimp - Net fishing.
+data=unlock,5,Sardine - Sea bait fishing.
+data=unlock,5,Members: Karambwanji - Net fishing.
+data=unlock,10,Herring - Sea bait fishing.
+data=unlock,15,Anchovies - Net fishing.
+data=unlock,16,Members: Mackerel - Big net fishing.
+data=unlock,16,Members: Oyster - Big net fishing.
+data=unlock,16,Members: Caskets - Big net fishing.
+// [sic] "fly" is lowercase
+data=unlock,20,Trout - fly fishing.
+data=unlock,23,Members: Cod - Big net fishing.
+data=unlock,25,Pike - River bait fishing.
+data=unlock,28,Members: Slimey Eel - River bait fishing.
+data=unlock,30,Salmon - Fly fishing.
+data=unlock,35,Tuna - Harpoon fishing.
+data=unlock,40,Lobster - Lobster fishing.
+data=unlock,46,Members: Bass - Big net fishing.
+data=unlock,50,Swordfish - Harpoon fishing.
+data=unlock,65,Members: Karambwan - Vessel fishing.
+data=unlock,76,Members: Shark - Harpoon fishing.
+// todo: 78 or 79?
+data=unlock,78,Members: Sea turtle - Trawler minigame.
+data=unlock,80,Members: Manta ray - Trawler minigame.
+
+// ----
+
+[skill_guide_cooking]
+table=skill_guide_ops
+data=lookup,cooking
+data=op,Meats,skill_guide_cooking_meat
+data=op,Bread,skill_guide_cooking_bread
+data=op,Pies,skill_guide_cooking_pies
+data=op,Stews,skill_guide_cooking_stews
+data=op,Pizzas,skill_guide_cooking_pizzas
+data=op,Cakes,skill_guide_cooking_cakes
+data=op,Wine,skill_guide_cooking_wine
+// skill_guide_cooking_hotdrinks: inv 234
+// skill_guide_cooking_brewing: inv 284
+// skill_guide_cooking_vegetables: inv 285
+// skill_guide_cooking_dairy: inv 335
+// skill_guide_cooking_gnome: inv 437
+
+[skill_guide_cooking_meat]
+table=skill_guides
+data=name,Cooking - Meat and fish
+data=advancement,Able to cook:
+data=inv,skill_guide_cooking_meat
+data=unlock,1,Meat.
+data=unlock,1,Shrimp.
+data=unlock,1,Chicken.
+data=unlock,1,Anchovies.
+data=unlock,1,Sardine.
+data=unlock,5,Herring.
+data=unlock,10,Members: Mackerel.
+data=unlock,12,Members: Thin snail.
+data=unlock,15,Trout.
+data=unlock,17,Members: Lean snail.
+data=unlock,18,Members: Cod.
+data=unlock,20,Pike.
+data=unlock,22,Members: Fat snail.
+data=unlock,25,Salmon.
+// [sic] title case
+data=unlock,28,Members: Cooked Slimey Eel.
+data=unlock,30,Tuna.
+data=unlock,30,Members: Chompy.
+data=unlock,40,Lobster.
+data=unlock,43,Members: Bass.
+data=unlock,45,Swordfish.
+data=unlock,80,Members: Shark.
+data=unlock,82,Members: Sea turtle.
+data=unlock,91,Members: Manta ray.
+
+[skill_guide_cooking_bread]
+table=skill_guides
+data=name,Cooking - Bread
+data=advancement,Able to cook:
+data=inv,skill_guide_cooking_bread
+data=unlock,1,Bread.
+data=unlock,-1,To make bread:
+// [sic] exact number of spaces
+data=unlock,-1,"1. Pick some grain, and take it to the windmill to\n     make flour."
+data=unlock,-1,2. Use a pot to collect the flour you have made.
+// [sic] exact number of spaces
+data=unlock,-1,3. Fill a bucket or jug with water from a sink\n     or fountain.
+// [sic] exact number of spaces
+data=unlock,-1,4. Mix the flour and water to make some bread\n     dough.
+data=unlock,-1,5. Cook the dough by using it with a stove.
+
+[skill_guide_cooking_pies]
+table=skill_guides
+data=name,Cooking - Pies
+data=advancement,Able to cook:
+data=inv,skill_guide_cooking_pies
+data=unlock,10,Redberry pie.
+data=unlock,20,Meat pie.
+data=unlock,30,Apple pie.
+data=unlock,-1,To make a pie:
+data=unlock,-1,1. Mix flour and water to make pastry dough.
+data=unlock,-1,2. Place the dough in an empty pie dish.
+// [sic] exact number of spaces
+data=unlock,-1,"3. Use your choice of filling with the empty\n     pie (redberry, apple or meat)."
+data=unlock,-1,4. Cook the pie by using it with a stove.
+
+[skill_guide_cooking_stews]
+table=skill_guides
+data=name,Cooking - Stews
+data=advancement,Able to cook:
+data=inv,skill_guide_cooking_stews
+data=unlock,25,Stew.
+data=unlock,60,Members: Curry.
+data=unlock,-1,To make stew:
+// [sic] exact number of spaces
+data=unlock,-1,1. Obtain a bowl and fill it with water from\n     a sink or fountain.
+data=unlock,-1,2. Pick a potato and place it in the bowl.
+data=unlock,-1,3. Cook some meat and place it in the bowl.
+data=unlock,-1,4. Cook the stew by using it with a stove or\n     fire.
+// [sic] empty line
+data=unlock,-1,
+// [sic] two spaces in front of "Before"
+data=unlock,-1,Curry: make uncooked stew as above.  Before\n     cooking add some spices.
+
+[skill_guide_cooking_pizzas]
+table=skill_guides
+data=name,Cooking - Pizzas
+data=advancement,Able to cook:
+data=inv,skill_guide_cooking_pizzas
+data=unlock,35,Plain pizza.
+data=unlock,45,Meat pizza.
+data=unlock,55,Anchovy pizza.
+data=unlock,65,Members: Pineapple pizza.
+data=unlock,-1,To make a pizza:
+data=unlock,-1,1. Mix flour and water to make a pizza base.
+data=unlock,-1,2. Buy a tomato and add it to the pizza.
+data=unlock,-1,3. Buy some cheese and add it to the pizza.
+data=unlock,-1,4. Cook the pizza by using it with a stove.
+data=unlock,-1,5. Add your choice of topping to the pizza.
+
+[skill_guide_cooking_cakes]
+table=skill_guides
+data=name,Cooking - Cakes
+data=advancement,Able to cook:
+data=inv,skill_guide_cooking_cakes
+data=unlock,40,Cake.
+data=unlock,50,Chocolate cake.
+// [sic] no "To make" text
+// [sic] exact number of spaces
+data=unlock,-1,"1. Mix flour, eggs, and milk together in a\n     cake tin."
+data=unlock,-1,2. Cook the cake by using it with a stove.
+// [sic] exact number of spaces
+data=unlock,-1,3. Optional: Buy some chocolate and add it\n     to the cake to make a chocolate cake.
+
+[skill_guide_cooking_wine]
+table=skill_guides
+data=name,Cooking - Wine
+data=advancement,Able to make:
+data=inv,skill_guide_cooking_wine
+data=unlock,35,Wine.
+data=unlock,-1,To make wine:
+data=unlock,-1,1. Fill a jug with water.
+data=unlock,-1,2. Use grapes with the jug of water.
+data=unlock,-1,3. Wait until the wine ferments.
+// [sic] no spaces after newline
+data=unlock,-1,Wine will ferment when left in\nyour inventory or the bank.
+
+// ----
+
+[skill_guide_firemaking]
+table=skill_guide_ops
+data=lookup,firemaking
+data=op,Firemaking,skill_guide_firemaking_firemaking
+
+// note: derived from 2007 clientscript
+[skill_guide_firemaking_firemaking]
+table=skill_guides
+data=name,Firemaking
+data=advancement,Able to burn:
+data=inv,skill_guide_firemaking
+data=unlock,1,Normal logs.
+data=unlock,15,Oak logs.
+data=unlock,30,Willow logs.
+data=unlock,45,Maple logs.
+data=unlock,60,Yew logs.
+data=unlock,75,Members: Magic logs.
+
+// ----
+
+[skill_guide_woodcutting]
+table=skill_guide_ops
+data=lookup,woodcutting
+data=op,Trees,skill_guide_woodcutting_trees
+// skill_guide_woodcutting_axes: inv 336
+// skill_guide_woodcutting_canoes: inv 353
+
+[skill_guide_woodcutting_trees]
+table=skill_guides
+data=name,Woodcutting
+data=advancement,Able to cut down:
+data=inv,skill_guide_woodcutting
+data=unlock,1,Normal trees.
+data=unlock,15,Oak trees.
+data=unlock,30,Willow trees.
+data=unlock,45,Maple trees.
+data=unlock,60,Yew trees.
+data=unlock,75,Members: Magic trees.
+
+// ----
+
+[skill_guide_fletching]
+table=skill_guide_ops
+data=lookup,fletching
+data=op,Arrows,skill_guide_fletching_arrows
+data=op,Bows,skill_guide_fletching_bows
+data=op,Bolts,skill_guide_fletching_bolts
+data=op,Darts,skill_guide_fletching_darts
+// skill_guide_fletching_cbows: inv 423
+
+// note: derived from 2007 clientscript
+[skill_guide_fletching_bows]
+table=skill_guides
+data=name,Fletching - Bows
+data=inv,skill_guide_fletching_bows
+data=unlock,5,Shortbows.
+data=unlock,10,Longbows.
+data=unlock,20,Oak shortbows.
+data=unlock,25,Oak longbows.
+data=unlock,35,Willow shortbows.
+data=unlock,40,Willow longbows.
+data=unlock,50,Maple shortbows.
+data=unlock,55,Maple longbows.
+data=unlock,65,Yew shortbows.
+data=unlock,70,Yew longbows.
+data=unlock,80,Magic shortbows.
+data=unlock,85,Magic longbows.
+
+[skill_guide_fletching_arrows]
+table=skill_guides
+data=name,Fletching - Arrows
+data=advancement,Able to fletch:
+data=inv,skill_guide_fletching_arrows
+data=unlock,1,Bronze arrows.
+data=unlock,15,Iron arrows.
+data=unlock,30,Steel arrows.
+data=unlock,45,Mithril arrows.
+data=unlock,60,Adamant arrows.
+data=unlock,75,Rune arrows.
+
+// note: derived from 2007 clientscript
+[skill_guide_fletching_darts]
+table=skill_guides
+data=name,Fletching - Darts
+data=inv,skill_guide_fletching_darts
+data=unlock,10,Bronze darts.
+data=unlock,22,Iron darts.
+data=unlock,37,Steel darts.
+data=unlock,52,Mithril darts.
+data=unlock,67,Adamant darts.
+data=unlock,81,Rune darts.
+
+// note: derived from 2007 clientscript
+[skill_guide_fletching_bolts]
+table=skill_guides
+data=name,Fletching - Bolts
+data=inv,skill_guide_fletching_bolts
+data=unlock,11,Opal-tipped bolts.
+data=unlock,41,Pearl-tipped bolts.
+data=unlock,51,Barbed-tipped bolts.

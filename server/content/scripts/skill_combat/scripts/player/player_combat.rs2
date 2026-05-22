@@ -24,12 +24,37 @@ if (~player_autocast_enabled = true) {
 }
 @player_melee_attack;
 
+// same thing as above but no incombat check, used for some boss fights
+[label,player_combat_start_ap_nomulti]
+def_int $attackrange = ~player_attackrange(inv_getobj(worn, ^wearpos_rhand));
+if (($attackrange <= 1) | npc_range(coord) > $attackrange) {
+    p_aprange($attackrange);
+    return;
+}
+@player_combat_start_nomulti;
+
+[label,player_combat_start_nomulti]
+if (~sa_enabled = true) {
+    @player_special_attack;
+}
+if (%damagetype = ^ranged_style) {
+    @player_ranged_attack;
+}
+if (~player_autocast_enabled = true) {
+    @player_magic_attack;
+}
+@player_melee_attack;
 
 [proc,player_npc_hit_roll](int $damagetype)(boolean)
 def_int $attack_roll = ~player_attack_roll_specific($damagetype);
 def_int $defence_roll = ~npc_defence_roll_specific($damagetype);
-//mes("Clock: <tostring(map_clock)>, Player A: <tostring($attack_roll)>, NPC D: <tostring($defence_roll)>, Player Max: <tostring(%com_maxhit)>");
-//mes("Attack roll: <tostring($attack_roll)>, Defence roll: <tostring($defence_roll)>");
+def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
+if(npc_type = tbwt_beast) {
+    // hit will always fail on accuracy roll, this isn't a damage cap
+    if($weapon = null | oc_param($weapon, tbwt_karambwan_poison) = ^false | $damagetype = ^magic_style) {
+        return (false);
+    }
+}
 if (randominc($attack_roll) > randominc($defence_roll)) {
     return(true);
 }
@@ -37,7 +62,6 @@ return(false);
 
 // returns the correct combat calculated attack damage for weapon
 [proc,player_attack_roll_specific](int $damagetype)(int)
-def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
 switch_int ($damagetype) {
     case ^stab_style : return(%com_stabattack);
     case ^slash_style : return(%com_slashattack);

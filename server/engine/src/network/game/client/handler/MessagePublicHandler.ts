@@ -1,4 +1,4 @@
-import { PlayerInfoProt } from '@2004scape/rsbuf';
+import { PlayerInfoProt } from '#/network/rsbuf/index.js';
 
 import WordEnc from '#/cache/wordenc/WordEnc.js';
 import Player from '#/engine/entity/Player.js';

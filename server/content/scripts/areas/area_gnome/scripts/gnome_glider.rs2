@@ -17,10 +17,9 @@ if($start_pos ! ^ta_quir_priw & $dest ! ^ta_quir_priw) {
     mes("You can't go there at the moment.");
     return;
 }
-%pilot_journey = ~calc_glidervar($start_pos, $dest);
-p_delay(0); // 1t before teleport, 3t before if_close
+%pilot_journey = ~calc_glidervar($start_pos, $dest); 
+p_delay(3); // https://youtu.be/CrIK9wa_6j0?si=OWDWF_C0766jsjvH&t=12
 p_teleport(map_findsquare($dest, 0, 1, ^map_findsquare_lineofwalk));
-p_delay(2);
 %pilot_journey = -1;
 if_close;
 
@@ -55,6 +54,29 @@ if($start_pos = ^ta_quir_priw & $dest = ^sindarpos) {
 return (-1);
 
 [opnpc1,gnomepilot]
+if(inzone(movecoord(^sindarpos, -8, 0, -8), movecoord(^sindarpos, 8, 0, 8), npc_coord) = true) {
+    if(inv_total(inv, trail_clue_hard_riddle021) > 0) {
+        if(~obj_gettotal(trail_clue_hard_riddle021_puzzlebox) > 0) {
+            if(inv_total(inv, trail_clue_hard_riddle021_puzzlebox) = 0) {
+                ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
+                ~chatnpc("<p,angry>That's not much use. Go and fetch it.");
+                return;
+            }
+            if(~trail_puzzle_complete(trail_clue_hard_riddle021_puzzlebox) = true) {
+                ~chatnpc("<p,happy>Well done!");
+                inv_del(inv, trail_clue_hard_riddle021_puzzlebox, 1);
+                ~progress_clue_hard(trail_clue_hard_riddle021, "The pilot has given you another clue scroll!");
+                return;
+            }
+            // TODO: check mesanim
+            ~chatnpc("<p,neutral>Please finish the puzzle for me!");
+            return;
+        }
+        ~give_trail_puzzle(trail_clue_hard_riddle021_puzzlebox, "<p,neutral>You must complete this!", "The pilot has given you a puzzle box!");
+        return;
+    }
+}
+
 if(inzone(0_45_47_35_42, 0_45_47_45_53, npc_coord) = true) {
     @gnome_pilot_crash_karamja;
 }
@@ -91,7 +113,7 @@ if(%grandtree = ^grandtree_released_prison & inzone(3_38_54_31_43, 3_38_54_35_47
     }
     return;
 }
-if(%grandtree = ^grandtree_complete) {
+if(%grandtree = ^grandtree_complete & map_members = ^true) {
     @multi3("Can you take me on the glider?", gnome_pilot_glider, "Why are gliders better than other transport?", gnome_pilot_transport, "Sorry, I don't want anything now.", gnome_pilot_sorry);
 }
 ~chatnpc("<p,neutral>Welcome to Gnome Air!");

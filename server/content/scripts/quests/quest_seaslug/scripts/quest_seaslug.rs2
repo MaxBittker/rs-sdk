@@ -42,7 +42,7 @@ if(stat(firemaking) < 30) {
     mes("You need a Firemaking level of 30 or above.");
     return;
 }
-if(stat_random(firemaking, 210, 250) = false) {
+if(stat_random(firemaking, 64, 512) = false) {
     mes("You rub together the dry sticks and the sticks smoke momentarily then die out.");
     return;
 }

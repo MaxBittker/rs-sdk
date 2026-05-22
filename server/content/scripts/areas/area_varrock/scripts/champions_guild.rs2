@@ -38,5 +38,6 @@ loc_add($loc_coord, inviswall, $angle, $shape, 3);
 loc_add(movecoord($loc_coord, $x, 0, $z), $replacement, modulo(add($angle, 1), 4), $shape, 3);
 
 if ($entering = true) {
-    ~chatnpc_specific("Guild master", guildmaster, "<p,happy>Greetings bold adventurer. Welcome to the guild of Champions.");
+    ~chatnpc_specific("Guild master", guildmaster, "<p,happy>Greetings bold adventurer.|Welcome to the guild of Champions.");
 }
+// https://web.archive.org/web/20250127235043im_/http://runers2.fc2web.com/2005y04m02d_174500812.jpg

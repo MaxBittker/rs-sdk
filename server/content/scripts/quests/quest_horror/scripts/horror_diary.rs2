@@ -1,0 +1,77 @@
+// https://www.youtube.com/watch?v=bQOR6J8kRus
+[opheld1,horror_diary1]
+%book_page = 0;
+%open_book = horror_diary1;
+@open_horror_diary1;
+
+[label,open_horror_diary1]
+@book_flip_page(0, 0, 13, horror_diary1);
+
+[proc,horror_diary1]
+switch_int (%book_page) {
+    case 0 : ~book("Journal", "Bennath the 3rd||The mystery of what has happened to my uncle has still not been revealed, but I must dwell on it no|longer.||It is slightly unfair that due to his absence the council have forced me to take up his job here at the lighthouse, but what can I say to argue against them?||They have allowed me to make a small income by selling items without the usual sales tax, but who is ever going to come all the way out to this forsaken");
+    case 1 : ~book("Journal", "spot?||Worse, I fear for my life, being between two barbarian camps!I have not had any particular problems with the locals so far but who knows what can set off a barbarian???|||Bennath the 15th||My fears seem to have been unfounded, the local barbarians, who I have learnt prefer the term 'Fremennik', seem to be decent and hard working people after all.||They certainly do not");
+    case 2 : ~book("Journal", "live up to the terrible things that I have heard about them before now!||I still do not have any clues as to what has happened to my uncle...||Some of the local folks have tried to suggest that he was eaten by a sea monster that they claim lives near here, but I hold no weight to their foolish|superstitions!||He was always slightly eccentric, and I fear that he was simply overcome by the terrible loneliness from living out in this desolate lighthouse, and");
+    case 3 : ~book("Journal", "one night simply gave himself up to the sea...||||||||||Bennath the 32nd||It has now been almost a month since first I was sent to this forsaken and desolate spot.||I still have no clue what happened to my uncle, and frankly, I have almost stopped really");
+    case 4 : ~book("Journal", "caring.||All I can think of is somehow getting away from this terrible place... it has been over two weeks now since I last saw another human face... I do not know how much longer I can stand the loneliness! I do not know if it is my mind playing tricks on me, but recently I have begun to hear something whispered on the wind... it seems to call my name as I fall asleep at night.||There have also been many strange noises from below the lighthouse,");
+    case 5 : ~book("Journal", "and from behind the strange metal doorway that my uncle had installed in the basement.||Perhaps this is how my uncle felt before he... No, I still do not know what has happened to him. I am filled with resolve to discover what exactly did happen - if nothing else, it will keep my mind from the voices that call to me nightly.");
+    case 6 : ~book("Journal", "Raktuber 13th||It has been some time last I filled out this journal, for my spirits have been lifted greatly in recent times, and it is all down to a single person I encountered while working here!||Her name is Larrissa and she is a local Fremennik girl, who comes here to buy goods not for sale in her home town of Rellekka sometimes.||To be honest, I would have tried to strike up a friendship with anyone who came by, for it is a");
+    case 7 : ~book("Journal", "terribly lonely job working at this light- house, but even if I worked in Varrock I could not have chosen a more pleasant companion! We really struck a chord together, and I think we may become more than friends eventually, but I worry what her family will think of me - from what I hear the people of Rellekka do not take kindly to strangers! I have also made some progress in my search for the truth of what happened to my uncle Silas all those months ago! I found a secret compartment with a diary");
+    case 8 : ~book("Journal", "hidden within it. I have placed the diary in the bookshelf for later examination. It is definitely his hand writing, and I hope that it may shed some light onto his eventual fate.||I cannot help but think that had he never come to this isolated place, that whatever befell him might have never happened...");
+    case 9 : ~book("Journal", "Pentember 24th||Has it been so long since last I wrote in this thing? These last months have seemed like a glorious|dream...||Larrissa and I have been slowly falling in love, and the torment that this lighthouse was to me when first I arrived here, is now the place where I have finally found true|happiness!||All is not as perfect as I would like to believe it to be however.||I have still had no luck in");
+    case 10 : ~book("Journal", "understanding what happened to my uncle Silas, and his diary is so bizarre I cannot believe that the man who wrote it is the same man who used to take me on fishing trips to Karamja when I was a young lad.||The writer seems to have been driven horribly insane by living here, or by some event that he witnessed one day, and his diary is full of strange and cryptic passages...||I feel sure that there is some message here, but I just cannot find what it says!");
+    case 11 : ~book("Journal", "My nights alone are getting worse too. During the day when I am with Larrissa, I am always filled with joy, but when she goes home to her family at night, and I am left here alone my mind begins to play tricks upon me.|||Often I think I can hear ...things... moving in the crawlspaces of the|lighthouse.||Whenever the wind is to the North I can also sometimes hear a dread- ful chittering noise. Is it voices? Or some creature of the night? I know not,");
+    case 12 : ~book("Journal", "but the sound disturbs|me...||One night I even thought I heard my uncle's voice calling to me to join him, but the voice was distorted, and gurgled as though he were trying to talk through water.||I dismissed this as a bad dream, yet it did disturb me deeply.||I haven't told Larrissa of my concerns, for I would not wish her to worry about me, but I have decided to give her a spare key to this lighthouse, for I cannot");
+    case 13 : ~book("Journal", "shake this feeling that should I remain here much longer something terrible is going to happen to me...||Strange! I thought I heard a noise from downstairs just now! But with the front door locked, there is no way for anyone to enter the|lighthouse!||I must investigate...");
+}
+
+// https://www.youtube.com/watch?v=pWmbI2eqmOI
+[opheld1,horror_diary2]
+%book_page = 0;
+%open_book = horror_diary2;
+@open_horror_diary2;
+
+[label,open_horror_diary2]
+@book_flip_page(0, 0, 13, horror_diary2);
+
+[proc,horror_diary2]
+switch_int (%book_page) {
+    case 0 : ~book("Diary", "I do not know why it is me that has been chosen by them... but I will not fail them!||Soft whispers, beckoning me at night... I know what you are!||||||I saw one today.||||Magnificence. Is this then, what we all aspire to someday become? Are these beings even natural, or are they beyond what");
+    case 1 : ~book("Diary", "we think of as nature?|||The beautiful chittering|||Dagannoth! I know thee! I call thee! For I too am of the ocean, I too know this land as home!||Home? Perhaps. Where did you come from? Where do you plan to|go?||You cannot leave. You MUST not leave. I will ensure it.");
+    case 2 : ~book("Diary", "I find myself thinking often of the time when we can all be together as one in the deep sea.||Problems arose. Can you not see what I want? Can you not see how we should proceed?||||||I have no solution.");
+    case 3 : ~book("Diary", "I sleep during the days now, my nights are only for you and your kind.||I am thinking of a door.|||We cannot let everyone know of my plans!|||I was buying food in the nearby town today, the idiot barbarians look at me as though I have lost my wits.|||||Ha! Like they know what wits even are!");
+    case 4 : ~book("Diary", "|Do they even understand? Of course not they are just barbarians! Soon.||||Things fall into place so|quickly...|||A door. Yes. Definitely a door. But how to keep my secrets secure?||Disturbing message from the council today, they feel that I am not fulfilling my contract to keep this lighthouse operative correctly.");
+    case 5 : ~book("Diary", "||Do they think I care?|||Do I even care|anymore?|||Things proceed apace. I will begin work on the door as soon as I can.||||||What can they do to me?|||Your songs of the night call to me, always.");
+    case 6 : ~book("Diary", "||Always the chittering.||Did I name you, Dagannoth? Or did you tell me your name in my dreams of you? If I named you, did I also create you just by naming you? Am I then also somehow a part of you, or are you a part of|me?||Things seem so strange|nowadays...||The door is the key. But what should then be the key to the door?");
+    case 7 : ~book("Diary", "|I do not think I am well anymore, it is good to have company.||Stupid council! Always interfering! You do not know the dagannoth, you have no sway here!||I am the sea.||I see that I am.||The door. Dagannoth. Will I wake one day and find that my life so far has been naught but a dream, and that under my skin, under my bones, I too am dagannoth?");
+    case 8 : ~book("Diary", "|Such dreams I have in the days while I sleep.|||||||||The chittering is now always ringing in my ears... what are you saying to me???||The key IS the door! The red of flame, the blue of water. The white of air and the brown of earth.");
+    case 9 : ~book("Diary", "||Is this all? Can this be?||||No, dagannoth, it isn't.|||||The colours are of deep significance, deep seas, deep thoughts, thoughts of creation, am I a creation, dagannoth? Are you? Then who by?");
+    case 10 : ~book("Diary", "|||||And what for?||||||The door is the key. The key to the door is key. Red and yellow and blue and brown and white and green, put them together and what have you got? The runes. Fire, air, water, earth. The other keys. Weapons.||I take two other parts of");
+    case 11 : ~book("Diary", "the mixture; the sword of the warrior and the arrow of the huntsman. Can this then keep you bound to this place,|dagannoth?||We shall see.||We shall see the sea.||Days are a stream of people, buying, selling can you not leave me be?||I think I understand.||I come to thee tonight, dagannoth. I know not how this ends, but will now found out. Farewell land, the sea is now my");
+    case 12 : ~book("Diary", "home, my place, my life.|||||||||||I have not much time left in this place.||||I return to you in the sea at night.||||Dagannoth. Me. Can you");
+    case 13 : ~book("Diary", "become me?||Or...||Can I somehow... Become you?");
+}
+
+// https://youtu.be/2QnQKbvHFdM?si=-uK6J25_K4lxwYk8&t=883
+[opheld1,horror_diary3]
+%book_page = 0;
+%open_book = horror_diary3;
+@open_horror_diary3;
+
+[label,open_horror_diary3]
+@book_flip_page(0, 0, 10, horror_diary3);
+
+[proc,horror_diary3]
+switch_int (%book_page) {
+    case 0 : ~book("Manual", "Lightomatic Deluxe 500 Maintenance, Upkeep and Users' Manual: Second|Edition||||||||Thank you for purchasing the Lightomatic Deluxe lighthouse lighting equipment. The following is important user information, and should be read before you put your lightomatic into full use.");
+    case 1 : ~book("Manual", "Section 1: Specifications|||||||||||The Lightomatic Deluxe has a maximum viewing range of over 3 nautical miles, in optimal conditions. In foggy or wet weather, visible distance is reduced to approximately 1 nautical mile.");
+    case 2 : ~book("Manual", "Section 2: Upkeep|||||||||||The Lightomatic Deluxe uses an advanced system of a torch and lenses to amplify the ambient visible light levels produced by your torch. We recommend all lighthouse keepers ensure that they keep their lens clean and dust free to ensure optimal lighting conditions.");
+    case 3 : ~book("Manual", "Section 3:|Troubleshooting|||||||||||We have included the following Frequently Asked Questions (FAQs) for users who may have problems with the installation or upkeep of their Lightomatic Deluxe.");
+    case 4 : ~book("Manual", "1) My lightomatic does not fit its DPM (Deployment Point Mechanism) is there anything I can do to make it fit?| We suggest that users manually inspect their DPMs before purchasing a Lightomatic Deluxe, as you will require a specialist constructor to enlarge your DPM, or may even need to upgrade your lighthouse to a newer version.");
+    case 5 : ~book("Manual", "2) There does not seem to be any light coming from my Lightomatic Deluxe, help!|If users are not getting light coming from their Lightomatic Deluxe, there are a number of factors that could cause this. Firstly, check that your LSM (Light Source Module) has been correctly activated.|If it is on fire, then it is at optimal functioning capacity. If it is not on fire, you will need to use a tinderbox to light it.|If using a tinderbox on your LSM has no effect, your NRLSF (Non Renewing Light Source");
+    case 6 : ~book("Manual", "Fuel) may be at fault. Although we only recommend the use of official Lightomatic NRLSFs (purchased separately) a make do solution can be achieved by using swamp tar on the LSM, which should be capable of restarting the flames when activated with a tinderbox.|NOTE: Use of swamp tar voids your warranty.");
+    case 7 : ~book("Manual", "3) My LSM works fine, but the visible light at sea is very weak!|If ambient light is at optimal conditions, but is below expected viewable range, there could be a fault with your LALS (Light Amplifying Lens System). If this is the case, please do the|following:|a) Ensure that the dark wrapping that the LALS is shipped in has been removed from your LALS. Failure to remove this wrapping can adversely affect your LALS performance.|b) If your LALS should develop a crack, this may");
+    case 8 : ~book("Manual", "affect performance. We recommend purchasing the official Lightomatic LALS Maintenance Pack, or using molten glass upon the LALS may provide a stop gap solution.|NOTE: The use of unauthorized molten glass on your LALS will invalidate your warranty. Should you have any further problems with the operation of your Lightomatic Deluxe, then please contact our service center through our advertisements in the Varrock Herald.|If your Lightomatic Deluxe is still under");
+    case 9 : ~book("Manual", "warranty, we will then send an ADE (Authorised Dwarven Engineer) to repair any damage for a nominal fee.|NOTE: By reading our advertisement in the Varrock Herald, you will invalidate your warranty.||Thank you for purchasing the Lightomatic Deluxe.");
+    case 10 : ~book("Manual", "||||Lightomatic - the brand you can sometimes trust.");
+}

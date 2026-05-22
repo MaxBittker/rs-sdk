@@ -1,0 +1,434 @@
+[opnpc1,viking_thorvald]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatnpc("<p,angry>Leave me be, outerlander. I have nothing to say to the likes of you.");
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_thorvald_merchant;
+    }
+    switch_int(~get_viking_thorvald_progress) {
+        case ^thorvald_complete :
+            ~chatplayer("<p,quiz>So can I count on your vote at the council of elders now Thorvald?");
+            ~chatnpc("<p,neutral>Absolutely! I watched the entire battle, and was extremely impressed with your bravery in combat!");
+        case ^thorvald_started : 
+            $op = ~p_choice3("What do I have to do again?", 1, "Who is my opponent?", 2, "Can't I do something else?", 3);
+            if($op = 1) {
+                ~chatplayer("<p,quiz>So what do I have to do to earn your vote at the council again?");
+                ~chatnpc("<p,neutral>I will not offer my vote to anybody whose bravery in combat I do not trust completely. You must go down that ladder and fight your foe to the death.");
+            } else if($op = 2) {
+                ~chatplayer("<p,quiz>So, who is my opponent?");
+                ~chatnpc("<p,neutral>Ah, a wise question before entering combat. His name is Koschei the deathless. He is something of a mystery, even to us.");
+                ~chatnpc("<p,neutral>On one of our regular raiding parties, our longship discovered a man in the frozen waters far north-east of here. We took him aboard our ship, thinking he must be dead.");
+                ~chatnpc("<p,neutral>To our amazement he was perfectly healthy, even though he must have been in those deadly icey waters for many weeks.");
+                ~chatnpc("<p,neutral>He has no memory of who he is, or how he came to be there, except for his own name: Koschei. We named him 'The Deathless' because he is seemingly unkillable!");
+                ~chatnpc("<p,shock>Any combat technique used against him, he learns instantly! He also apparently can heal himself from any wound at will! When he attacks, his weapon moves like a whirlwind!");
+                ~chatnpc("<p,neutral>He can hide his combat level from his opponents at will as well! He is truly a horribly fierce opponent to face! I am only glad that he has chosen to stay here with us!");
+                ~chatnpc("<p,neutral>The daylight makes him feel weak, so we have built him his own battleground beneath this building, where he can train his fiercesome skills without being disturbed.");
+                ~chatplayer("<p,quiz>But he can't REALLY be unkillable...  ...can he?"); // double space intentional
+                ~chatnpc("<p,neutral>Some say he cannot die, for he has hidden his heart outside of his body to be kept forever safe in a duck egg.");
+                ~chatnpc("<p,neutral>Others say he has been cursed by the gods to wander this land forever, never knowing any peace in his life, but only combat.");
+                ~chatnpc("<p,neutral>Some claim that the sword he carries is the source of all his power, and if he should lose it, then exactly one minute later, he will turn back into his true form;");
+                ~chatnpc("<p,neutral>A weakened, lame, old man.");
+                ~chatplayer("<p,quiz>And what do you believe?");
+                ~chatnpc("<p,angry>I believe you shouldn't look a gift horse in the mouth. He is a fearfully powerful warrior, but more importantly; He is on OUR side, not against us.");
+                ~chatnpc("<p,neutral>He is content testing the battle skills of anyone taking their Fremennik trials of manhood, and I am content knowing that should an enemy ever invade our town,");
+                ~chatnpc("<p,neutral>while our warriors are out on a raiding party, Koschei will be able to hold off ANY invader long enough for us to make our return.");
+            } else if($op = 3) {
+                ~chatplayer("<p,sad>I don't really like fighting that much... Isn't there something else I can do to earn your vote at the council of elders?");
+                ~chatnpc("<p,neutral>Yes of course outerlander! If you bring me five raw sardines then I will vote for you instead!");
+                ~chatplayer("<p,happy>REALLY?!?!?");
+                ~chatnpc("<p,laugh>HAHAHAHAHAHA! No, of course not! You are stupid, even by outerlander standards!");
+                ~chatnpc("<p,neutral>If you want my vote, you must pass my trial. It is as simple as that.");
+            }
+        case ^thorvald_not_started :
+            ~chatplayer("<p,neutral>Hello!");
+            ~chatnpc("<p,neutral>Hello yourself, outerlander. What brings you to dare speak to a mighty Fremennik warrior such as myself?");
+            ~chatplayer("<p,quiz>Erm... are you a member of the council?");
+            ~chatnpc("<p,neutral>The Fremennik council of elders? Why, of course I am. I am recognised as one the clans mightiest warriors. What is it to you outerlander?");
+            ~chatplayer("<p,quiz>Well... I was wondering if you could vote for me to become a Fremennik.");
+            ~chatnpc("<p,laugh>An outerlander wishes to become a Fremennik!?!? Ha! That is priceless!");
+            ~chatnpc("<p,neutral>Well, let us say that I am not totally against this concept. As a warrior, I appreciate the value of brave and powerful warriors to our clan,");
+            ~chatnpc("<p,neutral>and even though you may be an outerlander, I will not hold this against you if you can prove yourself to be fierce of heart in a combat situation to me.");
+            ~chatplayer("<p,neutral>So how can I prove that? You want to fight me? Come on then, bring it on! Right here, right now, buddy!");
+            ~chatnpc("<p,laugh>Hahahahaha! You certainly show some spirit for an outerlander!");
+            ~chatnpc("<p,neutral>But spirit does not always make a good warrior. It takes both skill and spirit to be so. I have a test that I give all Fremenniks on their path to be a member of the clan.");
+            ~chatnpc("<p,neutral>My test will challenge both your combat prowess and your bravery equally. Should you pass it you will earn my vote at the council, and more importantly my respect for you as a warrior.");
+            ~chatnpc("<p,quiz>So what say you, outerlander? Are you prepared for the battle?");
+            $op = ~p_choice2("Yes", 1, "No", 2);
+            if($op = 2) {
+                ~chatplayer("<p,neutral>No thanks, I'm pretty sure that I can find someone else to vote for me.");
+                ~chatnpc("<p,neutral>Hmm, not so brave after all, outerlander? Perhaps it is for the best. I doubt you have what it takes to pass my challenge.");
+                return;
+            }
+            ~set_viking_thorvald_progress(^thorvald_started);
+            ~chatplayer("<p,neutral>Am I prepared? I'll show you what combat's all about, you big sissy barbarian type guy!");
+            ~chatnpc("<p,laugh>Hahahahaha! I'm beginning to like you already, outerlander!");
+            ~chatnpc("<p,neutral>Then allow me to present you with my challenge; This ladder here will take you to a place of combat. I have placed a special warrior down there to challenge you.");
+            ~chatnpc("<p,neutral>Battle him to the death, and you will pass my challenge. If at any point you wish to leave combat, simply climb back up the ladder, to leave that place.");
+            ~chatnpc("<p,neutral>You must defeat him three times to prove that you are worthy. The fourth time that you fight him will be to the death, so do not show cowardice.");
+            ~chatplayer("<p,quiz>Is that all? It will be easy!");
+            ~chatnpc("<p,neutral>No, there is one more important rule;");
+            ~chatnpc("<p,neutral>You may not enter the battleground with any armour or weaponry of any kind.");
+            ~chatnpc("<p,neutral>If you need to place your equipment into your bank account, I recommend that you speak to the seer, who knows a spell that will do that for you.");
+    }
+} else if(%viking = ^viking_complete) {
+    ~chatplayer("<p,neutral>Howdy Thorvald!");
+    ~chatnpc("<p,neutral>And greetings to you too. It is good to see new blood entering the Fremennik; we gain our strength by bringing new warriors into the tribe.");
+}
+ 
+[label,viking_thorvald_merchant]
+// order is correct here (matching OSRS)
+if(inv_total(inv, viking_champion_token) > 0) {
+    ~chatplayer("<p,neutral>I would like your contract to offer your services as a bodyguard.");
+    ~chatnpc("<p,neutral>Oh you would, would you outerlander? I have already told you, I will not demean myself with such a baby sitting job until I can sit in the Longhall with pride.");
+    ~chatplayer("<p,happy>It's a good thing I have the Champions' Token right here then, isn't it?");
+    ~chatnpc("<p,neutral>Ah... well this is a different matter. With that token I can claim my rightful place as a champion in the Long hall!");
+    ~chatnpc("<p,neutral>Here outerlander, I can suffer the indignity of playing babysitter if it means that I can then revel with my warrior equals in the Long Hall afterwards!");
+    inv_del(inv, viking_champion_token, 1);
+    inv_add(inv, viking_promissary_note3, 1);
+    ~chatnpc("<p,neutral>Here outerlander, take this contract; I will fulfill it to my utmost.");
+    return;
+}
+if(inv_total(inv, viking_promissary_note3) > 0) {
+    ~chatplayer("<p,confused>You didn't take much persuading to 'lower' yourself to a bodyguard.");
+    ~chatnpc("<p,neutral>You misunderstand, outerlander. Normally I will only battle for a noble cause, but have never been recognised as a true champion here.");
+    ~chatnpc("<p,neutral>With this Champion's token, I can stand alongside my warrior brethren in the Long Hall, and revel in the glories of past victories together!");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_manni :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the longhall barkeep's legendary cocktail, do you?");
+        ~chatnpc("<p,neutral>Not in the slightest.");
+    case ^sigmund_spoke_thorvald :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the token to allow your seat at the champions table?");
+        ~chatnpc("<p,neutral>You will need to persuade one of the revellers in the Long Hall to give up their token, and their place, in deference to my own worthiness somehow.");
+    case ^sigmund_spoke_seer :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Know you not who I am outerlander? There are none more brave or powerful than me amongst all the Fremennik!");
+        ~chatnpc("<p,neutral>However... The role of bodyguard is below me, as a noble warrior. You might as well ask me to babysit the children!");
+        ~chatplayer("<p,quiz>Is there no way you would do this for me?");
+        ~chatnpc("<p,neutral>There is but one way outerlander. Since I was steeled in battle, I have dreamt of earning my place at the Champions Table in the Long Hall.");
+        ~chatnpc("<p,neutral>It is a tradition amongst us that the bravest and strongest are honoured with a table of champions to drink and feast all that they can in our Long Hall.");
+        ~chatnpc("<p,neutral>Unfortunately, there are only a fixed number of places available at the table, and these places were all filled many moons ago by others.");
+        ~chatnpc("<p,neutral>Although my worthiness is undeniable, the only way I may take my place is if one of those already there die, or give up their place to me voluntarily.");
+        ~chatplayer("<p,neutral>So you want me to go kill one of them off for you? Make it look like an accident?");
+        ~chatnpc("<p,shock>WHAT? No, no, not at all! I am shocked you would suggest such a thing!");
+        ~set_viking_sigmund_progress(^sigmund_spoke_thorvald);
+        ~chatnpc("<p,neutral>If you can persuade one of the Revellers to give up their Champions' Token to you so that I might take their place, you may have my contract as a bodyguard.");
+        ~chatplayer("<p,neutral>Okay, I'll see what I can do.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Not in the slightest.");
+}
+
+[opnpcu,viking_thorvald]
+if(last_useitem = raw_sardine) {
+    if(~get_viking_thorvald_progress = ^thorvald_started) {
+        ~chatnpc("<p,quiz>I was only joking about the raw sardines outerlander.");
+        ~chatplayer("<p,sad>Oh. Really? Oh. So I have to pass your combat trial?");
+        ~chatnpc("<p,neutral>Yes.");
+    }
+}
+[oploc2,viking_warrior_ladder]
+if(%viking = ^viking_complete) {
+    ~chatplayer("<p,neutral>I'd really rather not go back down there again, now that I have been accepted as a member of the Fremennik clan.");
+    return;
+}
+if(~get_viking_thorvald_progress = ^thorvald_complete) {
+    ~chatplayer("<p,neutral>I'd really rather not go back down there again, now that I have Thorvald's vote at the council of elders.");
+    return;
+}
+if(~get_viking_thorvald_progress = ^viking_not_started) {
+    if(npc_find(coord, viking_thorvald, 5, 0) = true) {
+        ~chatnpc("<p,neutral>Outerlander... do not test my patience. I do not take kindly to people wandering in here and acting as though they own the place.");
+    }
+    return;
+}
+// every update in osrs changed both glarials tomb and this, so i assume its a shared check
+if(~waterfall_can_enter_glarials_tomb = false) {
+    if(npc_find(coord, viking_thorvald, 5, 0) = true) {
+        ~chatnpc("<p,neutral>You may not enter the battleground with any armour or weaponry of any kind.");
+        ~chatnpc("<p,neutral>If you need to place your equipment into your bank account, I recommend that you speak to the seer, who knows a spell that will do that for you.");
+    }
+    return;
+}
+p_arrivedelay;
+p_teleport(2_41_157_47_50);
+anim(human_reachforladder, 0);
+facesquare(movecoord(coord, 0, 0, -1));
+// 25 samples from osrs, low = 21, high = 70
+longqueue(spawn_viking_enemy, ~random_range(20, 70), 0, ^discard);
+p_delay(2);
+mes("Explore this battleground and find your foe...");
+
+[oploc1,viking_warrior_ladder_up]
+npc_huntall(coord, 15, 0);
+while (npc_findnext = true) {
+    if(%npc_aggressive_player = uid & npc_getmode = opplayer2) {
+        npc_del;
+    }
+}
+hint_stop;
+clearqueue(spawn_viking_enemy);
+p_arrivedelay;
+~climb_ladder(0_41_57_42_46, true);
+
+[queue,spawn_viking_enemy]
+if(inzone(2_41_157_0_0, 2_41_157_63_63, coord) = false) {
+    return;
+}
+npc_add(map_findsquare(coord, 1, 2, ^map_findsquare_lineofwalk), viking_enemy1, 1000);
+~viking_enemy_randomsay;
+spotanim_map(smokepuff, npc_coord, 0, 0);
+~sound_area(smokepuff, 0, npc_coord, 10);
+hint_npc;
+// this prevents other players from attacking w/manual cast, this might've been a later change
+%npc_lastcombat = sub(^max_32bit_int, 8);
+%npc_aggressive_player = uid;
+npc_queue(1, 0, 0);
+
+[proc,viking_enemy_randomsay]
+switch_int(random(8)) {
+    case 0 : npc_say("Prepare to die, <displayname()>!");
+    case 1 : npc_say("I will crush your dead bones!");
+    case 2 : npc_say("Outerlander... you have made a mistake coming down here!");
+    case 3 : npc_say("What kind of a person calls <text_gender("him", "her")>self <displayname()>?");
+    case 4 : npc_say("You have no idea of my true power, outerlander!");
+    case 5 : npc_say("Today is the day you die, outerlander!");
+    case 6 : npc_say("<displayname()>! Meet your doom!");
+    case 7 : npc_say("Prepare to face my power, outerlander!");
+}
+
+[opnpc2,viking_enemy1]
+if (%npc_aggressive_player ! uid) {
+    mes("That is not your opponent!");
+    return;
+}
+@player_combat_start; // checks for multi on osrs
+
+[opnpc2,viking_enemy2]
+if (%npc_aggressive_player ! uid) {
+    mes("That is not your opponent!");
+    return;
+}
+@player_combat_start;
+
+[opnpc2,viking_enemy3]
+if (%npc_aggressive_player ! uid) {
+    mes("That is not your opponent!");
+    return;
+}
+@player_combat_start;
+
+[opnpc2,viking_enemy4]
+if (%npc_aggressive_player ! uid) {
+    mes("That is not your opponent!");
+    return;
+}
+@player_combat_start;
+
+[ai_queue3,viking_enemy1]
+// i'm already under attack! is authentic here after changetype
+npc_changetype(viking_enemy2, 1000);
+npc_setmode(null);
+npc_statheal(hitpoints, 0, 100);
+npc_anim(sanctuary, 0);
+if(finduid(%npc_aggressive_player) = true) {
+    queue*(defeat_viking_enemy1, 0)(npc_uid);
+    if(p_finduid(uid) = true) p_delay(0);
+}
+
+[queue,defeat_viking_enemy1](npc_uid $uid)
+if(npc_finduid($uid) = true) {
+    if(distance(coord, npc_coord) > 11) {
+        return;
+    }
+    p_stopaction;
+    queue*(viking_restart, 0)(npc_uid);
+    ~chatnpc("<p,neutral>It seems you have some idea of combat after all, outerlander! I will not hold back so much this time!");
+}
+
+[ai_queue3,viking_enemy2]
+npc_changetype(viking_enemy3, 1000);
+npc_setmode(null);
+npc_statheal(hitpoints, 0, 100);
+npc_anim(sanctuary, 0);
+if(finduid(%npc_aggressive_player) = true) {
+    queue*(defeat_viking_enemy2, 0)(npc_uid);
+    if(p_finduid(uid) = true) p_delay(0);
+}
+
+[ai_queue3,viking_enemy3]
+npc_changetype(viking_enemy4, 1000);
+npc_setmode(null);
+npc_statheal(hitpoints, 0, 100);
+npc_anim(sanctuary, 0);
+if(finduid(%npc_aggressive_player) = true) {
+    queue*(defeat_viking_enemy3, 0)(npc_uid);
+    if(p_finduid(uid) = true) p_delay(0);
+}
+
+[ai_queue3,viking_enemy4]
+npc_setmode(null);
+npc_anim(sanctuary, 0);
+if(finduid(%npc_aggressive_player) = true) {
+    queue*(defeat_viking_enemy4, 0)(npc_uid);
+    if(p_finduid(uid) = true) p_delay(0);
+}
+
+[queue,defeat_viking_enemy2](npc_uid $uid)
+if(npc_finduid($uid) = true & npc_type = viking_enemy3) {
+    if(distance(coord, npc_coord) > 11) {
+        return;
+    }
+    p_stopaction;
+    ~chatnpc("<p,neutral>Impressive start... But now we fight for real!");
+    ~viking_enemy_randomsay;
+    npc_queue(1, 0, 0);
+}
+
+[queue,defeat_viking_enemy3](npc_uid $uid)
+if(npc_finduid($uid) = true & npc_type = viking_enemy4) {
+    if(distance(coord, npc_coord) > 11) {
+        return;
+    }
+    p_stopaction;
+    queue*(viking_restart, 0)(npc_uid);
+    if(stat(prayer) > 0) {
+        stat_drain(prayer, stat(prayer), 0);
+        ~chatnpc("<p,neutral>You show some skill at combat... I will hold back no longer! This time you lose your prayer however, and fight like a warrior!");
+        return;
+    }
+    ~chatnpc("<p,neutral>You show some skill at combat... I will hold back no longer!");
+}
+
+[queue,defeat_viking_enemy4](npc_uid $uid)
+if(npc_finduid($uid) = true & npc_type = viking_enemy4) {
+    if(distance(coord, npc_coord) > 11) {
+        return;
+    }
+    p_stopaction;
+    queue*(viking_defeat, 0)(npc_uid);
+    ~chatnpc("<p,shock>Incredible... a mere outerlander... has somehow managed... to defeat ME?!?! You have passed the trial, outerlander. Speak to Thorvald. Take this blade as reward.");
+}
+
+[queue,viking_restart](npc_uid $uid)
+if(npc_finduid($uid) = true & (npc_type = viking_enemy1 | npc_type = viking_enemy2 | npc_type = viking_enemy3 | npc_type = viking_enemy4)) {
+    if(distance(coord, npc_coord) > 11) {
+        return;
+    }
+    ~viking_enemy_randomsay;
+    npc_queue(1, 0, 0);
+}
+
+[queue,viking_defeat](npc_uid $uid)
+mes("Congratulations! You have completed the warriors trial.");
+if(~get_viking_thorvald_progress < ^thorvald_complete) {
+    %viking = add(%viking, 1);
+    ~set_viking_thorvald_progress(^thorvald_complete);
+}
+inv_add(inv, viking_sword, 1);
+if(npc_finduid($uid) = true) {
+    spotanim_map(smokepuff, npc_coord, 0, 0);
+    ~sound_area(smokepuff, 0, npc_coord, 10);
+    npc_del;
+}
+
+// just regular melee script, but if the next hit will kill the player, we 
+// do the fake death instead
+[ai_opplayer2,viking_enemy4]
+if (%death = ^true) {
+    npc_setmode(null);
+    return;
+}
+if (%npc_action_delay > map_clock) return;
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) { // Doesnt change mode! Keeps trying!
+    return;
+}
+anim(%com_defendanim, 0);
+npc_anim(npc_param(attack_anim), 0);
+if (npc_param(attack_sound) ! null) {
+    sound_synth(npc_param(attack_sound), 0, 0);
+}
+def_int $damage;
+def_int $attack_roll = ~npc_melee_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
+def_int $maxhit = ~npc_melee_maxhit;
+if (randominc($attack_roll) > randominc($defence_roll)) {
+    ~playerhit_n_melee_viking(true, randominc($maxhit), npc_param(attackrate));
+    ~npc_poison_player;
+    return;
+}
+~playerhit_n_melee_viking(true, 0, npc_param(attackrate));
+
+[proc,playerhit_n_melee_viking](boolean $check_protect_prayer, int $damage, int $delay)
+if_close;
+~npc_set_attack_vars;
+%npc_action_delay = add(map_clock, $delay);
+if (npc_stat(hitpoints) = 0) {
+    return;
+}
+if ($check_protect_prayer = true & ~check_protect_prayer(^melee_style) = true) { 
+    $damage = 0;
+}
+queue*(combat_viking_damage_player, 0)($damage, npc_uid);
+queue*(playerhit_n_retaliate, 0)(npc_uid);
+
+//  this should be strong queued. Some damage is queued, some isnt
+[queue,combat_viking_damage_player](int $damage, npc_uid $uid)
+if (inv_getobj(worn, ^wearpos_ring) = ring_of_recoil & map_members = ^true & npc_finduid(%aggressive_npc) = true & npc_hasop(2) = true & %npc_attacking_uid = uid & $damage > 0 & stat(hitpoints) > 0) {
+    // https://oldschool.runescape.wiki/w/Update:Clue_Scroll_Step_Counter
+    // - "Recoil damage will now always target the entity that caused the initial damage, rather than the most recent entity to deal damage."
+    def_int $recoil_damage = add(scale(10, 100, $damage), 1);
+    $recoil_damage = min($recoil_damage, npc_stat(hitpoints));
+    npc_queue(2, $recoil_damage, 0);
+    ~ring_of_recoil_lose_charge($recoil_damage);
+}
+if(sub(stat(hitpoints), $damage) = 0) {
+    if(npc_finduid($uid) = true & inzone(2_41_157_0_0, 2_41_157_63_63, coord) = true) {
+        npc_setmode(none);
+        @viking_honour_death(npc_uid);
+    }
+}
+~damage_self($damage);
+
+[label,viking_honour_death](npc_uid $uid)
+p_stopaction;
+if(~get_viking_thorvald_progress < ^thorvald_complete) {
+    %viking = add(%viking, 1);
+    ~set_viking_thorvald_progress(^thorvald_complete);
+}
+p_delay(1);
+anim(viking_drop_to_knee, 0);
+p_delay(3);
+~combat_clearqueue;
+mes("Oh dear you are...");
+p_teleport(1_41_57_43_44);
+p_delay(4);
+if(npc_finduid($uid) = true) {
+    spotanim_map(smokepuff, npc_coord, 0, 0);
+    ~sound_area(smokepuff, 0, npc_coord, 10);
+    npc_del;
+}
+stat_heal(hitpoints, 0, 100);
+stat_heal(prayer, 0, 100);
+mes("...still alive somehow?");
+mes("Congratulations! You have completed the warrior's trial.");
+if(npc_find(movecoord(coord, 0, -1, 0), viking_thorvald, 5, 0) = true) {
+    ~chatnpc("<p,laugh>Hahaha! Well fought outerlander! Now come down from there, you have passed my trial with flying colours!");
+    ~chatplayer("<p,confused>But... I don't understand... I did not manage to beat Koschei...");
+    ~chatnpc("<p,neutral>I did not say you had to, outerlander! All I asked was that you fought to the death! And you did! The death was your own!");
+    ~chatnpc("<p,neutral>I was not interested in how strong you are! I was interested in how BRAVE you are! You fought a superior enemy to your very last breath - THAT is bravery.");
+    ~chatnpc("<p,neutral>I would be honoured to represent you to the council as worthy of being a Fremennik after watching that superb battle!");
+}
+
+[oploc3,viking_warrior_ladder]
+~climb_ladder(movecoord(coord, 0, 1, 0), true);
+
+[oploc1,viking_warrior_ladder_down]
+~climb_ladder(movecoord(coord, 0, -1, 0), true);

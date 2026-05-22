@@ -37,3 +37,11 @@ default=1
 [smithing_anvil_struct]
 type=struct
 default=null
+
+[queueore_primary]
+type=string
+default=null
+
+[queueore_secondary]
+type=string
+default=null

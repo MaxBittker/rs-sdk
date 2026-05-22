@@ -9,8 +9,4 @@ export default class MessageGameEncoder extends ServerGameMessageEncoder<Message
     encode(buf: Packet, message: MessageGame): void {
         buf.pjstr(message.msg);
     }
-
-    test(message: MessageGame): number {
-        return 1 + message.msg.length;
-    }
 }

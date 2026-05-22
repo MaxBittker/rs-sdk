@@ -1,0 +1,56 @@
+[opnpc1,viking_sailor]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hiya.");
+    ~chatnpc("<p,neutral>Don't talk to me outerlander. I need to fix this longboat. Go talk to the chieftain.");
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_sailor_merchant;
+    }
+    ~chatplayer("<p,neutral>Hi. Are you a member of the council?");
+    ~chatnpc("<p,neutral>Nope. I'm just a sailor.");
+    ~chatplayer("<p,neutral>Fair enough.");
+} else if(%viking = ^viking_complete) {
+    // total guess... changes with miscellania
+    ~chatplayer("<p,neutral>Hello. Can I get a ride on your ship?");
+    ~chatnpc("<p,happy>Hello again, <~get_viking_name>. I still need to fix this longboat.");
+} 
+
+[label,viking_sailor_merchant]
+if(inv_total(inv, viking_song) > 0) {
+    ~chatplayer("<p,neutral>You'll be glad to know I have had a love song written just for you by Olaf. So can I have that flower of yours now?");
+    inv_del(inv, viking_song, ^max_32bit_int);
+    inv_del(bank, viking_song, ^max_32bit_int);
+    inv_del(inv, viking_rare_flower, ^max_32bit_int);
+    inv_del(bank, viking_rare_flower, ^max_32bit_int);
+    inv_add(inv, viking_rare_flower, 1);
+    ~chatnpc("<p,neutral>Oh. It's by Olaf? Hmm. Well, a deal's a deal. I just hope it's better than the usual rubbish he comes up with, or my chances are worse than ever.");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_manni :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the longhall barkeep's legendary cocktail, do you?");
+        ~chatnpc("<p,neutral>Not really my affair, outerlander.");
+    case ^sigmund_spoke_thorvald :
+        // a few npcs use your for some reason, bad copy paste from thorvald probably...
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find the token to allow your seat at the champions table?");
+        ~chatnpc("<p,neutral>Not really my affair, outerlander.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Not really my affair, outerlander.");
+    case ^sigmund_spoke_sailor :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find a love ballad, do you?");
+        ~chatnpc("<p,neutral>Well, the only musician I know of in these parts would be that terrible bard Olaf... ask him.");
+    case ^sigmund_started :
+        ~chatplayer("<p,quiz>I don't suppose you have any idea where I could find a rare flower from across the sea, do you?");
+        ~chatnpc("<p,neutral>Ah! Even the outerlanders have heard of my mysterious flower! I found it in a country far far away from here!");
+        ~chatplayer("<p,quiz>Can I buy it from you?");
+        ~chatnpc("<p,neutral>I'm afraid not, outerlander. There is a woman in this village whose heart I seek to capture, and I think giving her this strange flower might be my best bet with her.");
+        ~chatplayer("<p,neutral>Maybe you could let me have the flower and do something else to impress her?");
+        ~chatnpc("<p,neutral>Hmm... that is not a totally stupid idea outerlander. I know she is a lover of music, and a romantic ballad might be just the thing with which to woo her.");
+        ~set_viking_sigmund_progress(^sigmund_spoke_sailor);
+        ~chatnpc("<p,neutral>Unfortunately I don't have a musical bone in my entire body, so someone else will have to write it for me.");
+        ~chatplayer("<p,neutral>So if I can find someone to write you a romantic ballad, you will give me your flower?");
+        ~chatnpc("<p,neutral>That sounds like a fair deal to me, outerlander.");
+}

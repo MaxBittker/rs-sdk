@@ -1,4 +1,27 @@
 [opnpc1,gnometrainer]
+if(inv_total(inv, trail_clue_hard_riddle026) > 0) {
+    // https://www.youtube.com/watch?v=PGE6w5X6_AM
+    if(~obj_gettotal(trail_clue_hard_riddle026_puzzlebox) > 0) {
+        if(inv_total(inv, trail_clue_hard_riddle026_puzzlebox) = 0) {
+            ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
+            ~chatnpc("<p,angry>Go and fetch it before I make you drop and give me 10!");
+            return;
+        }
+        if(~trail_puzzle_complete(trail_clue_hard_riddle026_puzzlebox) = true) {
+            ~chatnpc("<p,happy>Excellent work!");
+            inv_del(inv, trail_clue_hard_riddle026_puzzlebox, 1);
+            ~progress_clue_hard(trail_clue_hard_riddle026, "Heckel Funch has given you another clue scroll!");
+            return;
+        }
+        // TODO: check mesanim
+        ~chatnpc("<p,neutral>My baby sister can do puzzles better than that!");
+        return;
+    }
+    ~give_trail_puzzle(trail_clue_hard_riddle026_puzzlebox, "<p,neutral>You're not done yet! Do this for me!", "The gnome trainer has given you a puzzle box!");
+    return;
+}
+
+
 def_int $rand_value = random(4);
 if($rand_value = 0) {
     ~chatplayer("<p,neutral>Hello how are you?");

@@ -18,7 +18,6 @@ graphic=sworddecor,0
 type=model
 x=56
 y=13
-buttontype=normal
 width=64
 height=96
 zoom=400
@@ -27,7 +26,6 @@ zoom=400
 type=model
 x=207
 y=13
-buttontype=normal
 width=64
 height=96
 zoom=400
@@ -36,40 +34,42 @@ zoom=400
 type=model
 x=360
 y=13
-buttontype=normal
 width=64
 height=96
 zoom=400
 
 [com_5]
 type=text
-x=12
-y=76
+x=38
+y=16
 buttontype=normal
-width=152
-height=17
+width=100
+height=93
 center=yes
-font=q8
+font=q8_full
+overcolour=0x00C000
 
 [com_6]
 type=text
-x=164
-y=76
+x=189
+y=16
 buttontype=normal
-width=152
-height=17
+width=100
+height=93
 center=yes
-font=q8
+font=q8_full
+overcolour=0x00C000
 
 [com_7]
 type=text
-x=316
-y=76
+x=342
+y=16
 buttontype=normal
-width=152
-height=17
+width=100
+height=93
 center=yes
-font=q8
+font=q8_full
+overcolour=0x00C000
 
 [com_8]
 type=text
@@ -78,6 +78,6 @@ y=3
 width=464
 height=17
 center=yes
-font=q8
+font=q8_full
 text=Select an Option
 colour=0x800000

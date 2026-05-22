@@ -1,19 +1,21 @@
 [label,levelup_fishing]
 //Fishing level up unlock messages
 switch_int(stat_base(fishing)) {
-    case 5 : ~objbox(raw_sardine,"You can now try fishing for @dbl@Sardines.", 250, 0, 0);
+    case 5 : ~doubleobjbox(raw_sardine,tbwt_raw_karambwanji,"You can now try fishing for @dbl@sardines.|Members can now try fishing for @dbl@karambwanji.", 200);
     case 10 : ~objbox(raw_herring,"You can now try fishing for @dbl@Herring.", 250, 0, 0);
     case 15 : ~doubleobjbox(raw_anchovies,net,"You can now try to net @dbl@Anchovies.", 200);
     case 16 : ~doubleobjbox(raw_mackerel,casket,"You can now try fishing for @dbl@Mackerel@bla@,|@dbl@Oysters@bla@ and @bdl@Caskets@bla@ with a large net.", 200);
     case 20 : ~doubleobjbox(raw_trout,fly_fishing_rod,"You can now try fly fishing for @dbl@Trout.", 200);
     case 23 : ~doubleobjbox(raw_cod,net,"Members can now try fishing for @dbl@Cod with a large net.", 200);
     case 25 : ~doubleobjbox(raw_pike,fishing_rod,"You can now try fishing for @dbl@Pike.", 200);
+    case 28 : ~doubleobjbox(mort_slimey_eel,fishing_rod,"Members can now try fishing for @dbl@slimey eels.", 200);
     case 30 : ~doubleobjbox(raw_salmon,fly_fishing_rod,"You can now try fly fishing for @dbl@Salmon.", 200);
     case 35 : ~doubleobjbox(raw_tuna,harpoon,"You can now try harpooning @dbl@Tuna.", 200);
     case 40 : ~doubleobjbox(raw_lobster,lobster_pot,"You can now try to catch @dbl@Lobsters.", 200);
     case 46 : ~doubleobjbox(raw_bass,big_net,"Members can now try fishing for @dbl@Sea Bass with a large net.", 200);
     case 50 : ~doubleobjbox(raw_swordfish,harpoon,"You can now try harpooning @dbl@Swordfish.", 200);
     case 53 : ~doubleobjbox(raw_lava_eel,fishing_rod,"Members can now try catching @dbl@Lava Eels.", 200);
+    case 65 : ~doubleobjbox(tbwt_raw_karambwan,tbwt_karambwan_vessel_loaded_with_karambwanji,"Members can now try catching @dbl@karambwan.", 200);
     case 68 : ~mesbox("Members are now qualified to enter the @dbl@Fishing Guild.");
     case 76 : ~doubleobjbox(raw_shark,harpoon,"Members can now try harpooning @dbl@Sharks.", 200); //imgur.com/SvV4b4p
     case 79 : ~doubleobjbox(raw_seaturtle,bucket_empty,"Members can now catch @dbl@Sea Turtles on the Trawler.|", 200); //imgur.com/T0raUc4

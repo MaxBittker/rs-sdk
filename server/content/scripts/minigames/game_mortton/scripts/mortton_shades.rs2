@@ -1,0 +1,267 @@
+[ai_queue3,shadeshadow_level1]
+@level1_shade_death;
+
+[ai_queue3,shade_level1]
+@level1_shade_death;
+
+[label,level1_shade_death]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+longqueue(shadeattack_reset, 5, 0, ^accelerate); //5 ticks osrs
+
+if(%morttonquest >= ^mortton_kill_shades & %morttonquest < ^mortton_killed_5_shades) {
+    queue(mortton_quest_shade_kill, 0, 0);
+}
+
+if(~inzone_coord_pair_table(mortton_temple_zones, coord) = true & %morttonquest > ^mortton_shades_to_ulsquire) {
+    if_openoverlay(flamtaer_status);
+    if(%temple_sanctity_p < 100) {
+        %temple_sanctity = add(%temple_sanctity, 60);
+    }
+    if(gettimer(sanctity_drain) = ^false) {
+        settimer(sanctity_drain, 100);
+    }
+}
+
+[queue,mortton_quest_shade_kill]
+if(%morttonquest = ^mortton_kill_shades) {
+    %morttonquest = ^mortton_killed_1_shade;
+    mes("That's one Shade!");
+} else if(%morttonquest = ^mortton_killed_1_shade) {
+    %morttonquest = ^mortton_killed_2_shades;
+    mes("That's two Shades!");
+} else if(%morttonquest = ^mortton_killed_2_shades) {
+    %morttonquest = ^mortton_killed_3_shades;
+    mes("That's three Shades!");
+} else if(%morttonquest = ^mortton_killed_3_shades) {
+    %morttonquest = ^mortton_killed_4_shades;
+    mes("That's four Shades!");
+} else if(%morttonquest = ^mortton_killed_4_shades) {
+    %morttonquest = ^mortton_killed_5_shades;
+    mes("That's all five Shades!");
+}
+
+[queue,shadeattack_reset]
+%morttonmulti = clearbit(%morttonmulti, ^shadeattack);
+
+[ai_queue2,shadeshadow_level1]
+~npc_default_damage(last_int);
+npc_queue(13, 0, 0);
+
+[ai_queue13,shadeshadow_level1]
+npc_anim(null, 0);
+npc_changetype(npc_param(next_npc_type), 500);
+npc_anim(shade_rise, 0);
+npc_setmode(none);
+npc_walk(npc_coord);
+npc_delay(1);
+npc_anim(null, 0);
+if (finduid(%npc_aggressive_player) = true) {
+    npc_setmode(opplayer2);
+    %npc_attacking_uid = uid;
+    %aggressive_npc = npc_uid;
+}
+%npc_int = 10;
+npc_settimer(~random_range(5,15));
+
+[ai_queue14,shade_level1]
+%npc_int = 10;
+
+[ai_opplayer2,shadeshadow_level1] 
+//They did not do the shade rise anim when transforming from hunting in old videos
+//https://youtu.be/3d4dxPVz-7k?si=VjWR5sOid5NHU_V-&t=411
+//https://youtu.be/Cgfa0ebrSac?si=mHSBgvg_rRdqOm1J&t=70
+if (npc_stat(hitpoints) = 0) {
+    return;
+}
+
+if(%npc_aggressive_player ! uid & testbit(%morttonmulti, ^shadeattack) = ^false) {
+    //guess on distance.
+    .npc_findall(npc_coord, shadeshadow_level1, 10, ^vis_lineofsight);
+    while (.npc_findnext = true) {
+        if(.npc_getmode = wander) {
+            .npc_setmode(opplayer2);
+            .%npc_aggressive_player = uid;
+        }
+    }
+}
+
+%morttonmulti = setbit(%morttonmulti, ^shadeattack);
+clearqueue(shadeattack_reset);
+longqueue(shadeattack_reset, 100, 0, ^accelerate);
+sound_synth(shade_appear, 0, 0); //This is area sound in osrs. Should it exist in 04?
+npc_changetype(npc_param(next_npc_type), 500);
+%npc_attacking_uid = uid;
+%aggressive_npc = npc_uid;
+npc_queue(14, 0, 95);
+~shade_attack;
+
+[ai_opplayer2,shade_level1]
+~shade_attack;
+
+[ai_queue2,shade_level1]
+~npc_default_damage(last_int);
+npc_settimer(~random_range(5,15));
+
+[proc,shade_attack]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+if (~npc_check_notcombat = false) {
+    npc_changetype(shadeshadow_level1, ^max_32bit_int);
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+anim(%com_defendanim, 0);
+npc_anim(npc_param(attack_anim), 0);
+if (npc_param(attack_sound) ! null) {
+    sound_synth(npc_param(attack_sound), 0, 0);
+}
+~shade_meleeattack;
+
+[proc,shade_meleeattack]
+def_int $attack_roll = ~npc_melee_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
+def_int $maxhit = ~npc_melee_maxhit;
+
+def_int $damage = 0;
+def_boolean $hit = false;
+if (randominc($attack_roll) > randominc($defence_roll)) {
+    $damage = randominc($maxhit);
+    $hit = true;
+}
+
+~shade_playerhit($damage, npc_param(attackrate), $hit);
+
+[proc,shade_playerhit](int $damage, int $delay, boolean $hit)
+if_close;
+%npc_action_delay = add(map_clock, $delay);
+
+if (npc_stat(hitpoints) = 0) {
+    return;
+}
+
+//Special shade logic... They only set combat vars on a successful hit. 
+//Other npcs can start combat if they miss multiple times in a row
+if ($hit = true) {
+    ~npc_set_attack_vars;
+    queue*(playerhit_n_retaliate, 0)(npc_uid);
+}
+
+//OSRS moved this to inside the hit check at some point after ~2021?
+//In all old videos it always shows the hitsplat, even if the player does not actively start combat / retaliate because the attack missed.
+//https://youtu.be/Cgfa0ebrSac?si=zvUg4j1hTfAje3Bb&t=73
+queue(combat_damage_player, 0, $damage);
+
+if ($damage > 0) {
+    spotanim_pl(shade_attack, 0, 0);
+    
+    // 1/20 chance to drain strength by 1 https://x.com/JagexAsh/status/1698259314773733573
+    if (random(20) = 0) {
+        stat_sub(strength, 1, 0);
+        mes("You feel weakened.");
+    }
+}
+
+[ai_timer,shadeshadow_level1]
+if (npc_getmode = opplayer2 | %current_temple_build = 0) {
+    npc_settimer(~random_range(1,7)); // Varies. 7 ticks max osrs
+    return;
+}
+
+if (distance(npc_coord, ^mortton_temple_shadow_transform_center_coord) <= 5) {
+    npc_changetype_keepall(shade_level1, ^max_32bit_int);
+    npc_anim(shade_rise, 0);
+    npc_setmode(none);
+    npc_walk(npc_coord);
+    npc_delay(1);
+    npc_anim(null, 0);
+    npc_setmode(null);
+}
+
+[ai_timer,shade_level1]
+if (%npc_int = 10) {
+    npc_setmode(wander);
+    %npc_int = 0;
+    npc_changetype(shadeshadow_level1, ^max_32bit_int);
+    npc_settimer(~random_range(1,7));
+    return;
+}
+
+if(npc_getmode = opplayer2) {
+    npc_settimer(~random_range(1,7));
+    return;
+}
+
+if(%current_temple_aggro > 0 & %npc_int = 0) {
+    %npc_int = 3; //always 3 attacks
+    %npc_action_delay = map_clock;
+    //todo: start hunting temple walls? aploc with range of 3?
+    return;
+}
+
+npc_setmode(null);
+npc_settimer(~random_range(1,7));
+
+[ai_aploc3,_category_226]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+
+if (%npc_int > 0) {
+    ~shade_templeattack;
+    
+    %npc_int = sub(%npc_int, 1);
+    
+    if (%npc_int = 0) {
+        if (%current_temple_build = 0) {
+            npc_anim(shade_sink, 0);
+            npc_delay(1); 
+            npc_changetype(shadeshadow_level1, 500);
+        } else {
+            npc_settimer(~random_range(1, 7));
+        }
+        npc_setmode(null);
+        return;
+    }
+    %npc_action_delay = add(map_clock, ~random_range(4, 6)); //4-6t inbetween attacks
+} else {
+    npc_setmode(null);
+}
+
+[proc,shade_templeattack]
+npc_anim(shade_attack_wall, 0);
+%current_temple_build = max(0, sub(%current_temple_build, 20));
+def_int $current_temple_p = divide(%current_temple_build, 150);
+def_int $max_supported = 0;
+
+if ($current_temple_p >= 5) {
+    //todo: 5% for level 1 wall, increasing every 2% seems to line up fairly well
+    $max_supported = divide(sub($current_temple_p, 3), 2);
+    $max_supported = min($max_supported, 10);
+}
+loc_findallzone(^mortton_temple_altar_coord);
+while (loc_findnext = true) {
+    def_int $wall_level = loc_param(temple_wall_level);
+    //Destroy a single wall that is higher than the minimum supported
+    if($wall_level > $max_supported) {
+        //todo area sound for wall crumbling?
+        loc_change(loc_param(prev_loc_stage), 9000);
+        loc_findallzone(^mortton_temple_altar_coord);
+        if($wall_level = 10 & loc_findnext = true) {
+            if(loc_type = templefire_altar | loc_type = templefire_altar_nofire) {
+                //OSRS has it change to both in the same tick.. I don't know what they are cooking
+                loc_change(templefire_altar_nofire, 1);
+                loc_change(templefire_altar_nofire_broken, 1);
+            }
+        }
+        return;
+    }
+}

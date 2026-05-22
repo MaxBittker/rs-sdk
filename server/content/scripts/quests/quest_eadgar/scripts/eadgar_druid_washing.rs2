@@ -1,0 +1,42 @@
+[opnpc1,eadgar_druid_washing]
+// mesanims rsprox/branon
+~chatplayer("<p,happy>So, you're doing laundry, eh?");
+~chatnpc("<p,neutral>Yes. What is it to you?");
+~chatplayer("<p,happy>Nice day for it.");
+~chatnpc("<p,neutral>I suppose it is.");
+if(%eadgar_quest = ^eadgar_needs_items & testbit(%eadgar_bits, ^eadgar_given_clothes) = ^false) {
+    if(inv_total(inv, eadgar_dirty_druid_robe) = 0 & inv_total(bank, eadgar_dirty_druid_robe) = 0) {
+        ~chatplayer("<p,quiz>You wouldn't be able to spare any of those dirty robes by any chance? It's a matter of the utmost importance.");
+        ~chatnpc("<p,angry>What? No! These are my robes!");
+        switch_int(~p_choice3("Fine.", 1, "Sanfew won't be happy...", 2, "You'll give me those robes right now...", 3)) {
+            case 1 : @eadgar_tegid_fine;
+            case 2 : @eadgar_tegid_sanfew_wont_be_happy;
+            case 3 : @eadgar_tegid_threaten;
+        }
+    }
+}
+
+[label,eadgar_tegid_fine]
+// rsprox/branon
+~chatplayer("<p,neutral>Fine.");
+
+[label,eadgar_tegid_sanfew_wont_be_happy]
+// dialog from Soup's video
+// mesanims rsprox/branon
+queue(eadgar_tegid_give_clothes, 0, 0);
+~chatplayer("<p,neutral>I'm sure Sanfew won't be happy when I tell him it's your fault he can't perform the purification ritual.");
+~chatnpc("<p,happy>What? Oh well, if it's a matter of that much importance, I suppose you can borrow one...");
+
+[label,eadgar_tegid_threaten]
+// dialog from LP41 video
+// mesanims rsprox/branon
+queue(eadgar_tegid_give_clothes, 0, 0);
+~chatplayer("<p,angry>You'll give me those robes right now...or I'm going to cut down trees until you do.");
+~chatnpc("<p,scared>You wouldn't dare!");
+~chatplayer("<p,quiz>Of course I would. They're just trees.");
+~chatnpc("<p,scared>You monster! Take the robes and leave this place!");
+
+[queue,eadgar_tegid_give_clothes]
+inv_add(inv, eadgar_dirty_druid_robe, 1);
+
+

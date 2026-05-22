@@ -85,6 +85,18 @@
 [opnpc3,rogue] // Rogue
 @attempt_pick_pocket(npc_type);
 
+[opnpc3,viking_man] @attempt_pick_viking_pocket(npc_type);
+[opnpc3,viking_man2] @attempt_pick_viking_pocket(npc_type);
+[opnpc3,viking_man3] @attempt_pick_viking_pocket(npc_type);
+[opnpc3,viking_man4] @attempt_pick_viking_pocket(npc_type);
+[opnpc3,viking_man5] @attempt_pick_viking_pocket(npc_type);
+
+[opnpc3,viking_woman] @attempt_pick_viking_pocket(npc_type);
+[opnpc3,viking_woman2] @attempt_pick_viking_pocket(npc_type);
+[opnpc3,viking_woman3] @attempt_pick_viking_pocket(npc_type);
+[opnpc3,viking_woman4] @attempt_pick_viking_pocket(npc_type);
+[opnpc3,viking_woman_indoors] @attempt_pick_viking_pocket(npc_type);
+
 [label,attempt_pick_pocket](npc $npc)
 if (map_members = ^false) {
     mes(^mes_members_thieving);
@@ -128,3 +140,12 @@ if (%action_delay > map_clock) {
 // https://oldschool.runescape.wiki/w/Update:Halloween_2016, when check was added for preventing attacking when an npc is being pickpocketed
 
 ~pick_pocket($data);
+
+
+[label,attempt_pick_viking_pocket](npc $npc)
+if(%viking < ^viking_complete) {
+    mes("They are too suspicious of you for you to get close enough to steal from them.");
+    npc_say("You stay away from me outerlander!");
+    return;
+}
+@attempt_pick_pocket($npc);

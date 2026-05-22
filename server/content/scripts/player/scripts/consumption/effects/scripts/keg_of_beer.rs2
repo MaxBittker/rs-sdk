@@ -1,0 +1,11 @@
+[label,consume_effect_keg_of_beer]
+sound_synth(liquid, 0, 0);
+sound_synth(liquid, 0, 0);
+anim(viking_keg_drink_full, 0);
+inv_delslot(inv, last_slot);
+mes("You chug the keg. You feel reinvigorated...");
+mes("...but extremely drunk too.");
+stat_boost(strength, 2, 10);
+stat_drain(attack, 5, 50);
+cam_shake(3, 0, 20, 2);
+longqueue(cr_queue, 60, 0, ^discard);

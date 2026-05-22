@@ -10,8 +10,8 @@ import Pix from '#/cache/graphics/Pix.js';
 const cache = new FileStream('data/unpack');
 const media = new Jagfile(new Packet(cache.read(0, 4)!));
 
-fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/sprites`, { recursive: true });
+fs.mkdirSync(`${Environment.build.srcDir}/sprites`, { recursive: true });
 
 for (const name of media.fileName) {
-    Pix.unpackFull(media, path.basename(name, path.extname(name)), `${Environment.BUILD_SRC_DIR}/sprites`);
+    Pix.unpackFull(media, path.basename(name, path.extname(name)), `${Environment.build.srcDir}/sprites`);
 }

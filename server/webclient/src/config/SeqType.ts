@@ -1,6 +1,6 @@
 import AnimFrame from '#/dash3d/AnimFrame.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 export const enum PreanimMove {
@@ -30,7 +30,7 @@ export default class SeqType {
     delay: Int16Array | null = null;
     loops: number = -1;
     walkmerge: Int32Array | null = null;
-    stretches: boolean = false;
+    reachforward: boolean = false;
     priority: number = 5;
     replaceheldleft: number = -1;
     replaceheldright: number = -1;
@@ -39,7 +39,7 @@ export default class SeqType {
     postanim_move: number = -1;
     duplicatebehaviour: number = -1;
 
-    static init(config: Jagfile): void {
+    static init(config: JagFile): void {
         const dat: Packet = new Packet(config.read('seq.dat'));
 
         this.numDefinitions = dat.g2();
@@ -54,25 +54,25 @@ export default class SeqType {
         }
     }
 
-    getDuration(frame: number) {
+    getDelay(frame: number) {
         if (!this.delay || !this.frames) {
             return 0;
         }
 
-        let duration = this.delay[frame];
+        let delay = this.delay[frame];
 
-        if (duration === 0) {
+        if (delay === 0) {
             const transform = AnimFrame.get(this.frames[frame]);
             if (transform != null) {
-                duration = this.delay[frame] = transform.delay;
+                delay = this.delay[frame] = transform.delay;
             }
         }
 
-        if (duration === 0) {
-            duration = 1;
+        if (delay === 0) {
+            delay = 1;
         }
 
-        return duration;
+        return delay;
     }
 
     decode(dat: Packet): void {
@@ -110,7 +110,7 @@ export default class SeqType {
 
                 this.walkmerge[count] = 9999999;
             } else if (code === 4) {
-                this.stretches = true;
+                this.reachforward = true;
             } else if (code === 5) {
                 this.priority = dat.g1();
             } else if (code === 6) {

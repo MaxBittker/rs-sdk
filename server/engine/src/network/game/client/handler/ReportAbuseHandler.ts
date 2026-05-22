@@ -15,7 +15,7 @@ export default class ReportAbuseHandler extends ClientGameMessageHandler<ReportA
             return false;
         }
 
-        if (message.moderatorMute && player.staffModLevel > 0 && Environment.NODE_PRODUCTION) {
+        if (message.moderatorMute && player.staffModLevel > 0 && Environment.node.production) {
             // 2 day mute
             World.notifyPlayerMute(player.username, fromBase37(message.offender), Date.now() + 172800000);
         }

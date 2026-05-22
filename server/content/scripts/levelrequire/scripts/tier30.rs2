@@ -13,6 +13,15 @@
 [opheld2,adamant_spear_p] @levelrequire_attack(30, last_slot);
 [opheld2,adamant_2h_sword] @levelrequire_attack(30, last_slot);
 [opheld2,adamant_claws] @levelrequire_attack(30, last_slot);
+[opheld2,tbwt_adamant_spear_kp] @levelrequire_attack(30, last_slot);
+[opheld2,adamant_halberd] @levelrequire_attack_and_strength(30, 15, last_slot);
+[opheld2,viking_sword]
+if (%viking < ^viking_complete) {
+    mes("Only Fremenniks are worthy of wielding this blade.");
+    mes("You need to complete The Fremennik Trials first.");
+    return;
+}
+@levelrequire_attack(30, last_slot);
 
 [opheld2,adamant_med_helm] @levelrequire_defence(30, last_slot);
 [opheld2,adamant_full_helm] @levelrequire_defence(30, last_slot);
@@ -22,6 +31,20 @@
 [opheld2,adamant_plateskirt] @levelrequire_defence(30, last_slot);
 [opheld2,adamant_chainbody] @levelrequire_defence(30, last_slot);
 [opheld2,adamant_platebody] @levelrequire_defence(30, last_slot);
+[opheld2,viking_helmet]
+if (%viking < ^viking_complete) {
+    mes("Only Fremenniks are worthy of wearing this helmet."); // TODO: recheck
+    mes("You need to complete The Fremennik Trials first.");
+    return;
+}
+@levelrequire_defence(30, last_slot); // quest requirement missing
+[opheld2,viking_shield]
+if (%viking < ^viking_complete) {
+    mes("Only Fremenniks are worthy of wearing this shield.");
+    mes("You need to complete The Fremennik Trials first.");
+    return;
+}
+@levelrequire_defence(30, last_slot); // quest requirement missing
 
 [opheld2,adamant_platebody_trim] @levelrequire_defence(30, last_slot);
 [opheld2,adamant_platelegs_trim] @levelrequire_defence(30, last_slot);
@@ -31,6 +54,8 @@
 [opheld2,adamant_platelegs_gold] @levelrequire_defence(30, last_slot);
 [opheld2,adamant_full_helm_gold] @levelrequire_defence(30, last_slot);
 [opheld2,adamant_kiteshield_gold] @levelrequire_defence(30, last_slot);
+[opheld2,adamant_plateskirt_trim] @levelrequire_defence(30, last_slot);
+[opheld2,adamant_plateskirt_gold] @levelrequire_defence(30, last_slot);
 
 // Ranged
 [opheld2,maple_longbow] @levelrequire_ranged(30, last_slot);

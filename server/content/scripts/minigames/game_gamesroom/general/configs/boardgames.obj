@@ -1,0 +1,8 @@
+[wearable_stool_white]
+name=Stool
+desc=A comfy stool.
+cost=800
+model=model_2544_obj
+manwear=obj_3893_manwear,0
+womanwear=obj_3893_manwear,6
+members=yes

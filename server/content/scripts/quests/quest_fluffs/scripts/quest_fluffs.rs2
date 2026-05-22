@@ -287,8 +287,7 @@ mes("You can hear kittens mewing close by...");
 
 [oploc1,gertrudeempty_crate]
 if(loc_coord = 0_51_54_45_47 & inv_total(inv, trail_clue_hard_map001) > 0) {
-    ~trail_clue_hard_loc_interact(trail_clue_hard_map001);
-    return;
+    @trail_clue_hard_loc_interact(trail_clue_hard_map001);
 } 
 mes("You search the crate.");
 p_delay(4);

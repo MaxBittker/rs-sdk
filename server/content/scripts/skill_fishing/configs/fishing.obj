@@ -87,6 +87,19 @@ womanwear=model_503_obj_wear,6
 weight=3lb
 param=fish_equipment_struct,fish_equipment_harpoon
 
+[tbwt_karambwan_vessel_loaded_with_karambwanji]
+name=Karambwan vessel
+desc=This Karambwan Vessel is loaded with Karambwanji.
+cost=40
+members=yes
+model=obj_3159
+2dzoom=940
+2dxan=72
+manwear=obj_3157_manwear,0
+womanwear=obj_3157_manwear,6
+weight=3150g
+param=fish_equipment_struct,fish_equipment_karambwan_vessel
+
 [fishing_bait]
 name=Fishing bait
 desc=For use with a fishing rod.
@@ -189,6 +202,37 @@ recol2d=7399
 cost=1
 weight=80g
 category=category_116
+
+[tbwt_raw_karambwan]
+name=Raw karambwan
+desc=A raw green octopus.
+cost=200
+members=yes
+model=obj_3142
+2dyof=7
+2dzoom=1800
+2dyan=56
+2dxan=388
+weight=700g
+category=category_57
+param=grindable_ingredient_refined,tbwt_raw_karambwan_paste
+param=grindable_ingredient_message,You grind the raw Karambwan to form a sticky paste.
+
+[tbwt_raw_karambwanji]
+name=Raw karambwanji
+desc=Small brightly coloured tropical fish.
+cost=10
+members=yes
+model=obj_3150
+2dxof=6
+2dyof=6
+2dzoom=1000
+2dxan=464
+weight=140g
+category=category_57
+tradeable=no
+param=grindable_ingredient_refined,tbwt_raw_karambwanji_paste
+param=grindable_ingredient_message,You grind the raw Karambwanji to form a sticky paste.
 
 [sardine]
 name=Sardine
@@ -957,3 +1001,59 @@ model=model_2377_obj
 cost=1400
 weight=4g
 members=yes
+
+[mort_slimey_eel]
+name=Slimey eel
+desc=A slime covered eel - yuck!
+model=obj_3379
+2dxof=4
+2dzoom=1650
+2dyan=36
+2dxan=256
+members=yes
+weight=2kg
+param=fishing_struct,fishing_struct_mort_slimey_eel
+
+[mort_slimey_eel_cooked]
+name=Cooked slimey eel
+recol1s=5346
+recol1d=16613
+recol2s=4256
+recol2d=13507
+recol3s=18730
+recol3d=18730
+recol4s=30718
+recol4d=23847
+recol5s=30653
+recol5d=17921
+desc=A cooked slimey eel - not delicious, but pretty nutritious.
+model=obj_3379
+2dxof=4
+2dzoom=1650
+2dyan=36
+2dxan=256
+members=yes
+iop1=Eat
+weight=2kg
+category=category_5
+
+[burnt_eel]
+name=Burnt eel
+recol1s=5346
+recol1d=6304
+recol2s=4256
+recol2d=3168
+recol3s=18730
+recol3d=8384
+recol4s=30718
+recol4d=10400
+recol5s=30653
+recol5d=10400
+desc=It looks like it's seen one too many fires.
+model=obj_3379
+2dxof=4
+2dzoom=1650
+2dyan=36
+2dxan=256
+members=yes
+weight=2kg

@@ -1,0 +1,302 @@
+[opnpc1,tbwt_timfraku]
+switch_int(%tbwt_main) {
+    case ^tbwt_not_started :
+        ~chatnpc("<p,angry>I am the Chief of Tai Bwo Wannai Village! Who dares set foot in my hut?");
+        @multi4("I am a roving adventurer.", tbwt_timfraku_rovingadventurer, 
+                "I am a travelling explorer.", tbwt_timfraku_travellingexplorer, 
+                "I am a wandering wayfarer.", tbwt_timfraku_wanderingwayfarer, 
+                "Who me? Oh I'm just a nobody.", tbwt_timfraku_nobody
+                );
+    case ^tbwt_spoke_to_timfraku :
+        @tbwt_timfraku_spoke_to_timfraku;
+    case ^tbwt_timfraku_asked_for_help :
+        @tbwt_timfraku_readytohelp;
+    case ^tbwt_started :
+        ~chatnpc("<p,angry>Welcome back, <~tbwt_get_timfraku_title>.");
+        @tbwt_timfraku_startedops;
+    case ^tbwt_completed_all_brothers :
+        @tbwt_timfraku_completed_brother_tasks;
+    case ^tbwt_received_gold_reward :
+        @tbwt_timfraku_complete_quest;
+    case ^tbwt_complete :
+        @tbwt_timfraku_post_tbwt;
+}
+
+[label,tbwt_timfraku_rovingadventurer]
+~set_tbwt_timfraku_title(^tbwt_timfraku_rovingadventurer);
+~chatplayer("<p,neutral>I am a roving adventurer.");
+~chatnpc("<p,neutral>Well then adventurer, you would do better to rove elsewhere.");
+@tbwt_timfraku_unstarted_options;
+
+[label,tbwt_timfraku_travellingexplorer]
+~set_tbwt_timfraku_title(^tbwt_timfraku_travellingexplorer);
+~chatplayer("<p,neutral>I am a travelling explorer.");
+~chatnpc("<p,neutral>Well then explorer, you would do better to travel elsewhere.");
+@tbwt_timfraku_unstarted_options;
+
+[label,tbwt_timfraku_wanderingwayfarer]
+~set_tbwt_timfraku_title(^tbwt_timfraku_wanderingwayfarer);
+~chatplayer("<p,neutral>I am a wandering wayfarer.");
+~chatnpc("<p,neutral>Well then wayfarer, you would do better to wander elsewhere.");
+@tbwt_timfraku_unstarted_options;
+
+[label,tbwt_timfraku_nobody]
+~set_tbwt_timfraku_title(^tbwt_timfraku_nobody);
+~chatplayer("<p,neutral>Who me? Oh I'm just a nobody.");
+~chatnpc("<p,neutral>Well then NoBody, you would do better to go elsewhere.");
+@tbwt_timfraku_unstarted_options;
+
+[label,tbwt_timfraku_unstarted_options]
+if (%junglepotion >= ^junglepotion_complete) {
+    @multi4("Why should I leave?", tbwt_timfraku_whyshouldileave, 
+        "Right, I'm going then.", tbwt_timfraku_goingthen, 
+        "Trufitus sent me.", tbwt_timfraku_spoke_to_timfraku, 
+        "Ask about Village.", tbwt_timfraku_village
+        );
+} else {
+    @multi2("Why should I leave?", tbwt_timfraku_whyshouldileave, 
+        "Right, I'm going then.", tbwt_timfraku_goingthen
+        );
+}
+
+
+[proc,tbwt_set_spoke_to_timfraku]
+switch_int(%tbwt_main) {
+    case ^tbwt_not_started :
+        %tbwt_main = ^tbwt_spoke_to_timfraku;
+    case ^tbwt_spoke_to_timfraku :
+        if(%junglepotion >= ^junglepotion_complete) %tbwt_main = ^tbwt_timfraku_asked_for_help;
+}
+
+[label,tbwt_timfraku_whyshouldileave]
+~tbwt_set_spoke_to_timfraku;
+~chatplayer("<p,happy>Why should I leave?");
+~chatnpc("<p,neutral>This place has been cursed. Our people have angered the gods and have fled the village.");
+@multi3("Where is this place?", tbwt_timfraku_whereisthisplace, 
+        "Who are the gods?", tbwt_timfraku_whoarethegods, 
+        "Where have your people fled to?", tbwt_timfraku_wherepeoplefledto
+        );
+
+[label,tbwt_timfraku_goingthen]
+~tbwt_set_spoke_to_timfraku;
+~chatplayer("<p,neutral>Right, I'm going then.");
+
+[label,tbwt_timfraku_spoke_to_timfraku]
+if (%junglepotion < ^junglepotion_complete) {
+    ~chatnpc("<p,angry>You again! Only a fool would ignore my instructions.");
+    def_int $choice = ~p_choice3("Well there's a simple explanation for that...", 1, "Not so much ignore as disregard...", 2, "What instructions??", 3);
+    if ($choice = 1) { // Well there's a simple explanation for that...
+        ~chatplayer("<p,neutral>Well there's a simple explanation for that...");
+        ~chatnpc("<p,angry>I said: begone!");
+    } else if ($choice = 2) { // Not so much ignore as disregard...
+        ~chatplayer("<p,neutral>Not so much ignore as disregard...");
+        ~chatnpc("<p,angry>I said: begone!");
+    } else if ($choice = 3) { // What instructions??
+        ~chatplayer("<p,neutral>What instructions??");
+        ~chatnpc("<p,angry>I said: begone!");
+    }
+} else {
+    ~tbwt_set_spoke_to_timfraku;
+    ~chatplayer("<p,happy>Trufitus sent me.");
+    ~chatnpc("<p,neutral>Trufitus Shakaya? What news does he send?");
+    ~chatplayer("<p,happy>Trufitus has communed with the gods. Your village was never cursed and your people are free to return.");
+    ~chatnpc("<p,neutral>Bwana, do you speak the truth?");
+    ~chatplayer("<p,happy>Yes, I helped Trufitus gather ingredients for a commune potion.");
+    ~chatnpc("<p,neutral>Then it must be true.");
+    if_close;
+    mes("Timfraku appears to concentrate very deeply.");
+    p_delay(4);
+    ~chatnpc("<p,happy>I cannot thank you enough for what you have done so far.");
+    @multi4("Your gratitude is all I deserve.", tbwt_timfraku_gratitude, 
+            "Well, some gold would be nice.", tbwt_timfraku_gold, 
+            "So far??", tbwt_timfraku_sofar,
+            "Ask about Village.", tbwt_timfraku_village
+            );
+}
+
+[label,tbwt_timfraku_gratitude]
+~chatplayer("<p,happy>Your gratitude is all I deserve.");
+~chatnpc("<p,neutral>No, Bwana, you deserve much more.");
+@tbwt_timfraku_onelastthing;
+
+[label,tbwt_timfraku_gold]
+~chatplayer("<p,shifty>Well, some gold would be nice.");
+~chatnpc("<p,neutral>No, Bwana, you deserve much more.");
+@tbwt_timfraku_onelastthing;
+
+[label,tbwt_timfraku_sofar]
+~chatplayer("<p,neutral>So far??");
+@tbwt_timfraku_onelastthing;
+
+[label,tbwt_timfraku_onelastthing]
+~chatnpc("<p,neutral>I now ask you to do one last thing for our village.");
+~chatplayer("<p,neutral>And what is that?");
+@tbwt_timfraku_pre_quest_instructions;
+
+[label,tbwt_timfraku_pre_quest_instructions]
+~chatnpc("<p,neutral>I ask you to deliver the good news to my three sons Tamayu, Tinsay & Tiadeche, and then return them to the village.");
+@multi2_header("Yes", tbwt_timfraku_starttbwt, "No", tbwt_timfraku_declinetbwt, "Start Tai Bwo Wannai Trio?");
+
+[label,tbwt_timfraku_starttbwt]
+%tbwt_main = ^tbwt_started;
+~send_quest_progress(questlist:tbwt, %tbwt_main, ^tbwt_complete);
+~chatplayer("<p,happy>Ok, I'll do it.");
+~chatnpc("<p,neutral>Thank you very much. I shall reward you greatly if you succeed.");
+~chatplayer("<p,happy>If I succeed? How hard can it be?");
+~chatnpc("<p,neutral>We shall see, Bwana.");
+
+[label,tbwt_timfraku_declinetbwt]
+~tbwt_set_spoke_to_timfraku;
+~chatplayer("<p,neutral>No, I've had quite enough of the jungle already.");
+~chatnpc("<p,neutral>Very well. Return when you are ready.");
+
+[label,tbwt_timfraku_readytohelp]
+~chatnpc("<p,quiz>Are you ready to help me?");
+~chatplayer("<p,neutral>What do I have to do?");
+@tbwt_timfraku_pre_quest_instructions;
+
+// Assumed 2 options here due to others being Tai Bwo Wannai Cleanup related, which isn't applicable in Sept 2004 (275)
+// https://youtu.be/v3ReI2tx7eI?si=AyGbEyZcVWznJAVx&t=145
+[label,tbwt_timfraku_village]
+~tbwt_set_spoke_to_timfraku; // Does this set varp to 1 like the other options? Need to confirm on OSRS with another account
+@multi2("What do you do here?", tbwt_timfraku_whatdoyoudo, 
+        //"Is there anything interesting to do here?", tbwt_timfraku_interesting,
+        //"I've been doing some work around the village.", tbwt_timfraku_workaroundvillage,
+        "Ok, thanks.", tbwt_timfraku_end_conversation
+        );
+
+[label,tbwt_timfraku_whatdoyoudo]
+~chatplayer("<p,neutral>What do you do here?");
+~chatnpc("<p,neutral>It should be clear to anyone that I am the chief of Tai Bwo Wannai. I ensure that things run smoothly in this village.");
+
+[label,tbwt_timfraku_end_conversation]
+if (%tbwt_main < ^tbwt_complete) {
+    ~chatplayer("<p,neutral>Ok, thanks.");
+} else {
+    ~chatplayer("<p,neutral>I'm just passing through.");
+}
+
+[label,tbwt_timfraku_whereisthisplace]
+~chatplayer("<p,quiz>Where is this place?");
+~chatnpc("<p,angry>You ask too many questions. Now begone!");
+
+[label,tbwt_timfraku_whoarethegods]
+~chatplayer("<p,quiz>Who are the gods?");
+~chatnpc("<p,angry>You ask too many questions. Now begone!");
+
+[label,tbwt_timfraku_wherepeoplefledto]
+~chatplayer("<p,quiz>Where have your people fled to?");
+~chatnpc("<p,angry>You ask too many questions. Now begone!");
+
+[label,tbwt_timfraku_startedops]
+@multi5("Can you tell me more about your sons?", tbwt_timfraku_moreaboutyoursons, 
+        "Where can I find your sons?", tbwt_timfraku_wherecanIfind, 
+        "Is there something I need?", tbwt_timfraku_somethingIneed, 
+        "I'll be back later.", tbwt_timfraku_backlater, 
+        "Ask about Village.", tbwt_timfraku_village
+        );
+
+[label,tbwt_timfraku_moreaboutyoursons]
+~chatplayer("<p,neutral>Can you tell me more about your sons?");
+~chatnpc("<p,neutral>My first son is Tamayu. After him was born Tinsay. And after him was born Tiadeche.");
+@tbwt_timfraku_sonops;
+
+[label,tbwt_timfraku_sonops]
+@multi4("Can you tell me more about Tamayu?", tbwt_timfraku_telltamayu, 
+        "Can you tell me more about Tinsay?", tbwt_timfraku_telltinsay, 
+        "Can you tell me more about Tiadeche?", tbwt_timfraku_telltiadeche, 
+        "@blu@Return to previous menu", tbwt_timfraku_startedops
+        );
+
+[label,tbwt_timfraku_wherecanIfind]
+~chatplayer("<p,quiz>Where can I find your sons?");
+~chatnpc("<p,neutral>On our island of Karamja. They will not have fled far.");
+@tbwt_timfraku_startedops;
+
+[label,tbwt_timfraku_somethingIneed]
+~chatplayer("<p,quiz>Is there anything I need?");
+~chatnpc("<p,neutral>Patience, Bwana, patience.");
+~chatnpc("<p,neutral>And good conversation skills.");
+@tbwt_timfraku_startedops;
+
+[label,tbwt_timfraku_backlater]
+~chatplayer("<p,neutral>I'll be back later.");
+
+[label,tbwt_timfraku_telltamayu]
+~chatplayer("<p,quiz>Can you tell me more about Tamayu?");
+~chatnpc("<p,angry>Tamayu was a natural born hunter. He killed his first monkey at the age of three!");
+@tbwt_timfraku_sonops;
+
+[label,tbwt_timfraku_telltinsay]
+~chatplayer("<p,quiz>Can you tell me more about Tinsay?");
+~chatnpc("<p,shifty>Tinsay was brought up to be a priest. Be careful with him - he has acted strange since the accident.");
+~chatplayer("<p,quiz>What accident?");
+~chatnpc("<p,shifty>It involved Jogres. We don't talk about it.");
+@tbwt_timfraku_sonops;
+
+[label,tbwt_timfraku_telltiadeche]
+~chatplayer("<p,quiz>Can you tell me more about Tiadeche?");
+~chatnpc("<p,sad>Tiadeche always wanted to hunt fish. However, he has not had much success.");
+~chatplayer("<p,quiz>How come?");
+~chatnpc("<p,neutral>He needs to improve his technique - but he does not heed my advice.");
+@tbwt_timfraku_sonops;
+
+[label,tbwt_timfraku_completed_brother_tasks]
+~chatnpc("<p,neutral>My sons have returned to the village!");
+~chatnpc("<p,neutral><~tbwt_get_completed_timfraku_title>, please accept my eternal gratitude!");
+def_int $choice = ~p_choice5("Oh it was nothing really.", 1, "I'd rather have some gold please.", 2, "You know your sons have serious issues...", 3, "Eternal gratitude accepted.", 4, "Ask about Village.", 5);
+if ($choice = 1) { // Oh it was nothing really.
+    ~chatplayer("<p,neutral>Oh it was nothing really.");
+    ~chatnpc("<p,neutral>It was? Very well. I still would that you accept my reward.");
+    ~chatplayer("<p,neutral>Of course.");
+    @tbwt_timfraku_give_coin_reward;
+} else if ($choice = 2) { // I'd rather have some gold please.
+    ~chatplayer("<p,neutral>I'd rather have some gold please.");
+    ~chatnpc("<p,neutral>Of course. That is in your nature.");
+    @tbwt_timfraku_give_coin_reward;
+} else if ($choice = 3) { // You know your sons have serious issues...
+    ~chatplayer("<p,neutral>You know your sons have serious issues...");
+    ~chatnpc("<p,neutral>Of course. I sometimes wonder if they know they have issues. Anyway, please accept also my reward.");
+    @tbwt_timfraku_give_coin_reward;
+} else if ($choice = 4) { // Eternal gratitude accepted.
+    ~chatplayer("<p,neutral>Eternal gratitude accepted.");
+    ~chatnpc("<p,neutral>Very good. The spirits of my family will watch over you. And now, I would that you also accept a small token of my appreciation.");
+    @tbwt_timfraku_give_coin_reward;
+} else if ($choice = 5) { // Ask about Village.
+    @tbwt_timfraku_village;
+}
+
+[label,tbwt_timfraku_give_coin_reward]
+%tbwt_main = ^tbwt_received_gold_reward;
+inv_add(inv, coins, 2000);
+~objbox(coins_1000, "Timfraku hands you a big stack of gold coins.", 200, 0, ^objbox_height);
+@tbwt_timfraku_complete_quest;
+
+[label,tbwt_timfraku_complete_quest]
+queue(twbt_quest_complete, 0, 0);
+
+[queue,tbwt_timfraku_talk_to_sons]
+if(npc_find(coord, tbwt_timfraku, 10, 0) = true) {
+    @tbwt_timfraku_speak_to_sons;
+}
+
+[label,tbwt_timfraku_post_tbwt]
+if (%tbwt_tinsay ! ^tbwt_tinsay_claimed_final_reward | %tbwt_tiadeche ! ^tbwt_tiadeche_claimed_final_reward | %tbwt_tamayu ! ^tbwt_tamayu_claimed_final_reward) {
+    @tbwt_timfraku_speak_to_sons;
+} else {
+    ~chatnpc("<p,neutral>Ah, <~tbwt_get_timfraku_title>, welcome back to Tai Bwo Wannai.");
+    @multi2("What do you do here?", tbwt_timfraku_whatdoyoudo, 
+            //"Is there anything interesting to do here?", tbwt_timfraku_interesting,
+            //"I've been doing some work around the village.", tbwt_timfraku_workaroundvillage,
+            "I'm just passing through.", tbwt_timfraku_end_conversation
+            );
+}
+
+[label,tbwt_timfraku_speak_to_sons]
+~chatnpc("<p,neutral>You should go and see my sons in the village. I think they have something for you.");
+def_int $choice = ~p_choice2("What do you do here?", 1, "Ok, thanks.", 2);
+if ($choice = 1) {
+    @tbwt_timfraku_whatdoyoudo;
+} else {
+    ~chatplayer("<p,neutral>Ok, thanks.");
+}

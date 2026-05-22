@@ -234,12 +234,12 @@ model=loc_3460
 sharelight=yes
 active=no
 
-[prisonwalllend]
+[prisonwall_lend]
 model=loc_3461
 sharelight=yes
 active=no
 
-[prisonwallrend]
+[prisonwall_rend]
 model=loc_3461
 sharelight=yes
 mirror=yes

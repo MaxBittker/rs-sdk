@@ -4,6 +4,7 @@
 [if_button,magic:camelot_teleport] @magic_teleport(^camelot_teleport);
 [if_button,magic:ardougne_teleport] @magic_teleport(^ardougne_teleport);
 [if_button,magic:watchtower_teleport] @magic_teleport(^watchtower_teleport);
+[if_button,magic:trollheim_teleport] @magic_teleport(^trollheim_teleport);
 
 [label,magic_teleport](int $spell)
 if_close;
@@ -23,14 +24,18 @@ if (p_finduid(uid) = true) {
         return;
     }
     if($spell = ^watchtower_teleport & %itwatchtower < ^itwatchtower_complete) {
-        mes("You must have completed Watch Tower to use this spell.");
+        mes("You need to have completed the Watchtower Quest to use this spell."); // https://i.imgur.com/FelStNH.png (2006)
         return;
     }
+    if($spell = ^trollheim_teleport & %eadgar_quest < ^eadgar_complete) {
+        mes("You need to have completed the Eadgar's Ruse Quest to use this spell."); // https://wiki.lostcity.rs/images/7/78/Trollheim-tele-message.jpg
+        return;
+    }  
     // https://www.reddit.com/r/2007scape/comments/b4vdki/watchtower_teleport_not_working_despite/, https://runescape.salmoneus.net/forums/topic/212538-cant-do-ardougne-tele-why-is-it-so/
     if(($spell = ^ardougne_teleport & %elenaquest < ^elena_complete_read_scroll) | ($spell = ^watchtower_teleport & %itwatchtower < ^itwatchtower_complete_read_scroll)) {
-        mes("You havn't learnt how to cast this spell yet.");
+        mes("You haven't learnt how to cast this spell yet.");
         return;
-    }
+    }  
     if (~pre_tele_checks(coord) = false) {
         return;
     }
@@ -49,6 +54,7 @@ if (p_finduid(uid) = true) {
 [proc,player_teleport_normal](coord $coord)
 if_close;
 p_stopaction;
+~tele_checks;
 sound_synth(teleport_all, 0, 0);
 anim(human_castteleport, 0);
 spotanim_pl(teleport_casting, 92, 0);
@@ -59,7 +65,14 @@ p_delay(2);
 if (stat(hitpoints) = 0) {
     return;
 }
+
+//It's not a zone or mapsquare trigger, happens instantly on teleport
+if(~inzone_coord_pair_table(mortton_temple_zones, coord) = true) {
+    if_openoverlay(null);
+}
+
 p_telejump($coord);
+cam_reset;
 anim(null, 0);
 // todo: ensure this proc is used for other teleports too
 def_int $rum = inv_total(inv, karamja_rum);
@@ -70,12 +83,18 @@ if ($rum > 0) {
 if(inv_total(inv, plaguesample) > 0) {
     inv_del(inv, plaguesample, ^max_32bit_int);
     mes("The plague sample is too delicate...it disintegrates in the crossing.");
-    return;
+}
+~clear_peer_trial_items;
+
+[proc,tele_checks]()
+if(inv_total(inv, thanainabarrel) > 0) {
+    inv_del(inv, thanainabarrel, ^max_32bit_int);
+    mes("Your drop 'Ana in a barrel' before you teleport.");
 }
 
 [proc,pre_tele_checks](coord $coord)(boolean)
-if(inv_total(inv, thanainabarrel) > 0) {
-    ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,idle>@dbl@-- You can't teleport while holding the barrel, it's just @dbl@too difficult to concentrate. --");
+if (~in_tutorial_island(coord) = true) {
+    ~mesbox("You cannot teleport from Tutorial Island!"); // https://youtu.be/tt38tH6X30E?t=64
     return(false);
 }
 if (~inzone_coord_pair_table(trawler_wreck_zones, $coord) = true) {
@@ -98,5 +117,10 @@ if (~in_duel_arena($coord) = true) {
     mes("Coward! You can't teleport from a duel."); //RS3 message: https://archive.org/details/runelibris
     //Colored in #AB0908 in RS3, but was likely not colored in 2004
     return(false);
+}
+
+if(inv_total(inv, thanainabarrel) > 0) {
+    ~chatnpc_specific("Ana (in a Barrel)", anabarrel, "<p,idle>@dbl@-- You can't teleport while holding the barrel, it's just @dbl@too difficult to concentrate. --");
+    return (true);
 }
 return(true);

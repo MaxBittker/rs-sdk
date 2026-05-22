@@ -5,7 +5,6 @@
 gosub(npc_death);
 if (npc_findhero = ^true) {
     obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
-    obj_add(npc_coord, raw_rat_meat, 1, ^lootdrop_duration);
     if (%tutorial =  ^newbie_combat_instructor_during_attacking_melee
         | %tutorial =  ^newbie_combat_instructor_before_attacking_ranged) {
         queue(set_rat_kill, 0, 0);

@@ -52,8 +52,12 @@ if(%legendsquest = ^legends_heart_in_recess) %legendsquest = ^legends_pushed_bou
 ~chatnpc("<p,neutral>Aha, I see you have completed your task. I'll take that dagger from you now.");
 ~mesbox("The formless shape of Echned Zekin takes the dagger from you. As a ghostly hand envelopes the dagger, something seems to move from the black weapon into the floating figure of the spirit.");
 ~chatnpc("<p,neutral>Aahhhhhhhhh! As I take the spirit of one departed, I will now reveal myself and spell out your doom.");
-inv_del(inv, deathdaggerdone, 1);
-inv_del(worn, deathdaggerdone, 1);
+if(inv_total(inv, deathdaggerdone) > 0) {
+    inv_del(inv, deathdaggerdone, 1);
+} else if(inv_total(worn, deathdaggerdone) > 0) {
+    inv_del(worn, deathdaggerdone, 1);
+    ~update_all(deathdaggerdone);
+}
 %legends_bits = setbit(%legends_bits, ^legends_given_dagger);
 @summon_nezi_dagger;
 

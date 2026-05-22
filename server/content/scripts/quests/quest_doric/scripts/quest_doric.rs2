@@ -19,22 +19,6 @@ if (%doricquest = 0) {
     @doric_post_complete;
 }
 
-[oplocu,doric_anvil]
-
-if (%doricquest = 0) {
-    mes("You must complete Doric's Quest to use this anvil.");
-    if(npc_find(coord, doric, 5, 0) = true) @doric_not_started_anvil;
-} else if (%doricquest = 10) {
-    mes("You must complete Doric's Quest to use this anvil.");
-    if(npc_find(coord, doric, 5, 0) = true) @doric_materials;
-} else {
-    // Do regular anvil stuff
-    if (last_useitem = gold_bar & %legendsquest >= ^legends_asked_gujuo_holy_water) @make_golden_bowl;
-    else if (oc_category(last_useitem) = category_151) @smithing_anvil_interface(last_useitem);
-    else if (last_useitem = dragonshield_a | last_useitem = dragonshield_b) @make_dragon_sq;
-    else ~displaymessage(^dm_default);
-}
-
 [label,doric_not_started_anvil]
 ~chatnpc("<p,angry>Hey who said you could use that! My anvils get enough work with my own use. I make pickaxes, and it takes a lot of hard work.");
 def_int $option = ~p_choice2("Sorry, would it be OK if I used your anvils?", 1,  "I didn't want to use your anvils anyway.", 2);

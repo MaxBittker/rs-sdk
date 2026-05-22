@@ -247,6 +247,8 @@ model=inv_bannana
 2dzoom=930
 2dyan=1944
 2dxan=280
+manwear=model_3874,0
+womanwear=model_3874,6
 weight=1oz
 category=category_86
 

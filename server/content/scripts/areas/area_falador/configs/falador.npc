@@ -45,13 +45,12 @@ param=defend_sound,blade3
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1798
 
 [wyson]
+vislevel=hide
 name=Wyson the gardener
-desc=An old gardener.
+desc=The head gardener.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op1=Talk-to
-op2=Attack
-vislevel=3
 recol1s=15648
 recol1d=16705
 model1=model_230_idk
@@ -282,7 +281,8 @@ model10=model_186_obj_wear
 model11=model_320_idk
 head1=model_63_idk_head
 head2=model_70_npc_head
-head3=model_28_obj_wear
+head3=model_83_idk_head
+head4=model_28_obj_wear
 category=shop_keeper
 param=owned_shop,gemshop
 param=shop_sell_multiplier,1000

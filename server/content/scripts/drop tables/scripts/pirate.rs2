@@ -4,6 +4,8 @@ if (npc_findhero = ^false) {
     return;
 }
 
+~trail_checkmediumdrop;
+
 // Default drop from config.
 obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
 

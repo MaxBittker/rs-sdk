@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lost City Map Editor v0.01</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+
+    <style>
+        :root {
+            color-scheme: dark light;
+            --app-bg: #050505;
+            --text: #e7e7e7;
+            --muted: #8f8f8f;
+            --accent-green: #04A800;
+            --surface-0: #111111;
+            --surface-1: #1b1b1b;
+            --surface-2: #2a2a2a;
+            --surface-3: rgba(0, 0, 0, 0.8);
+            --border: #333333;
+            --border-strong: #444444;
+            --pane-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            --menu-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+            --scrollbar-track: #141414;
+            --scrollbar-thumb: #5b5b5b;
+            --scrollbar-thumb-hover: #747474;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root:not([data-theme]) {
+                --app-bg: #dfe3e8;
+                --text: #1d232b;
+                --muted: #5a6370;
+                --accent-green: #0c7c36;
+                --surface-0: #f7f9fc;
+                --surface-1: #eef2f6;
+                --surface-2: #dde4ec;
+                --surface-3: rgba(255, 255, 255, 0.82);
+                --border: #bcc7d3;
+                --border-strong: #a7b4c1;
+                --pane-shadow: 0 2px 8px rgba(27, 39, 51, 0.15);
+                --menu-shadow: 0 6px 16px rgba(27, 39, 51, 0.18);
+                --scrollbar-track: #d8dee6;
+                --scrollbar-thumb: #9aa6b2;
+                --scrollbar-thumb-hover: #83909d;
+            }
+        }
+
+        html[data-theme="dark"] {
+            --app-bg: #050505;
+            --text: #e7e7e7;
+            --muted: #8f8f8f;
+            --accent-green: #04A800;
+            --surface-0: #111111;
+            --surface-1: #1b1b1b;
+            --surface-2: #2a2a2a;
+            --surface-3: rgba(0, 0, 0, 0.8);
+            --border: #333333;
+            --border-strong: #444444;
+            --pane-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            --menu-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+            --scrollbar-track: #141414;
+            --scrollbar-thumb: #5b5b5b;
+            --scrollbar-thumb-hover: #747474;
+        }
+
+        html[data-theme="light"] {
+            --app-bg: #dfe3e8;
+            --text: #1d232b;
+            --muted: #5a6370;
+            --accent-green: #0c7c36;
+            --surface-0: #f7f9fc;
+            --surface-1: #eef2f6;
+            --surface-2: #dde4ec;
+            --surface-3: rgba(255, 255, 255, 0.82);
+            --border: #bcc7d3;
+            --border-strong: #a7b4c1;
+            --pane-shadow: 0 2px 8px rgba(27, 39, 51, 0.15);
+            --menu-shadow: 0 6px 16px rgba(27, 39, 51, 0.18);
+            --scrollbar-track: #d8dee6;
+            --scrollbar-thumb: #9aa6b2;
+            --scrollbar-thumb-hover: #83909d;
+        }
+
+        html {
+            touch-action: manipulation;
+            background: var(--app-bg);
+        }
+
+        * {
+            scrollbar-width: auto;
+            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+        }
+
+        *::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+            -webkit-appearance: none;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border: 2px solid var(--scrollbar-track);
+            border-radius: 999px;
+        }
+
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
+        }
+
+        *::-webkit-scrollbar-corner {
+            background: var(--scrollbar-track);
+        }
+
+        body,
+        td,
+        p {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        body {
+            margin: 0px 0px;
+            overflow: hidden;
+            background-color: var(--app-bg);
+        }
+
+        #topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 10px;
+            background: var(--surface-1);
+            border-bottom: 1px solid var(--border);
+            z-index: 5000;
+            font: 12px/1.2 "Source Sans 3","IBM Plex Sans","Noto Sans",sans-serif;
+        }
+
+        .topbar-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+
+
+        .topbar-trigger {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid transparent;
+            padding: 2px 6px;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .topbar-group:hover .topbar-trigger,
+        .topbar-group.open .topbar-trigger {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+        }
+
+        .topbar-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 140px;
+            padding: 4px;
+            background: var(--surface-1);
+            border: 1px solid var(--border);
+            box-shadow: var(--menu-shadow);
+            display: none;
+            z-index: 6000;
+        }
+
+        .topbar-group:hover .topbar-menu,
+        .topbar-group.open .topbar-menu {
+            display: block;
+        }
+
+        .topbar-menu button {
+            width: 100%;
+            text-align: left;
+            background: var(--surface-2);
+            color: var(--text);
+            border: 1px solid var(--border-strong);
+            padding: 4px 6px;
+            margin: 2px 0;
+            cursor: pointer;
+            font: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .topbar-menu .topbar-shortcut {
+            margin-left: auto;
+            font-size: 10px;
+            color: var(--muted);
+            text-align: right;
+        }
+
+        .topbar-menu button:active {
+            transform: translateY(1px);
+        }
+
+        .topbar-menu button:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .topbar-menu button.active {
+            font-weight: 700;
+        }
+
+        #workspace {
+            position: fixed;
+            top: 28px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            gap: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .pane {
+            position: relative;
+            background: var(--surface-3);
+            border: 1px solid var(--border);
+            box-shadow: var(--pane-shadow);
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .pane-header {
+            display: none;
+        }
+
+        .pane-body {
+            padding: 0;
+            overflow: scroll;
+            scrollbar-gutter: stable both-edges;
+            min-height: 0;
+        }
+
+        .pane-body.split {
+            display: flex;
+            gap: 0;
+            align-items: flex-start;
+        }
+
+        #map-pane,
+        #right-pane {
+            flex: 1 1 0;
+            display: flex;
+            min-width: 0;
+        }
+
+        #right-pane {
+            flex-direction: column;
+            gap: 0;
+            overflow: hidden;
+        }
+
+        #view-pane,
+        #preview-pane,
+        #search-pane {
+            flex: 1 1 0;
+            min-height: 0;
+            height: auto;
+        }
+
+        #search-pane .pane-body {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        canvas {
+            display: block;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            outline: none;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            image-rendering: pixelated;
+        }
+
+        #canvas {
+            width: 612px;
+            height: 334px;
+        }
+
+        #minimap {
+            width: 320px;
+            height: 320px;
+        }
+
+        #preview {
+            width: 300px;
+            height: 300px;
+        }
+
+        .preview-canvas-column {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .preview-rotate-controls {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            width: 148px;
+            flex: 0 0 148px;
+        }
+
+
+        .preview-rotate-button,
+        .preview-object-button,
+        .preview-object-input {
+            width: 100%;
+            box-sizing: border-box;
+            background: var(--surface-2);
+            color: var(--text);
+            border: 1px solid var(--border-strong);
+            font: 12px/1.25 "Source Sans 3","IBM Plex Sans","Noto Sans",sans-serif;
+        }
+
+        .preview-rotate-button,
+        .preview-object-button {
+            min-height: 44px;
+            padding: 6px 8px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .preview-object-stack-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .preview-object-stack-label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: var(--text);
+            font: 12px/1.25 "Source Sans 3","IBM Plex Sans","Noto Sans",sans-serif;
+        }
+
+        .preview-object-input {
+            min-height: 28px;
+            padding: 4px 6px;
+        }
+
+        #preview-info {
+            width: 340px;
+            height: 380px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 12px;
+            color: var(--text);
+            background: var(--surface-0);
+            border: 1px solid var(--border-strong);
+            padding: 6px;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        #search {
+            min-width: 240px;
+            flex: 1 1 auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+
+        .blink {
+            animation: blink 1.5s linear infinite;
+        }
+
+        select {
+            text-decoration: none;
+            background-color: var(--app-bg);
+            color: var(--accent-green);
+            border: none;
+        }
+
+        #mobilekeyboard-container {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topbar">
+        <div class="topbar-group">
+            <button class="topbar-trigger" type="button">File</button>
+            <div class="topbar-menu">
+                <button class="topbar-button" id="file-open" type="button">Open</button>
+                <button class="topbar-button" id="file-save" type="button"><span>Save</span><span class="topbar-shortcut">Ctrl+S</span></button>
+            </div>
+        </div>
+        <div class="topbar-group">
+            <button class="topbar-trigger" type="button">Edit</button>
+            <div class="topbar-menu">
+                <button class="topbar-button" id="edit-undo" type="button"><span>Undo</span><span class="topbar-shortcut">Ctrl+Z</span></button>
+                <button class="topbar-button" id="map-rotate-left" type="button"><span>Rotate Left</span><span class="topbar-shortcut">[</span></button>
+                <button class="topbar-button" id="map-rotate-right" type="button"><span>Rotate Right</span><span class="topbar-shortcut">]</span></button>
+            </div>
+        </div>
+        <div class="topbar-group">
+            <button class="topbar-trigger" type="button">Modes</button>
+            <div class="topbar-menu">
+                <button class="topbar-button" id="mode-placement" type="button"><span>Location</span><span class="topbar-shortcut">F1</span></button>
+                <!-- Re-enable these once the non-location editor modes are ready. -->
+                <button class="topbar-button" id="mode-heightmap" type="button" disabled><span>Heightmap</span><span class="topbar-shortcut">F2</span></button>
+                <button class="topbar-button" id="mode-underlay" type="button" disabled><span>Underlay</span><span class="topbar-shortcut">F3</span></button>
+                <button class="topbar-button" id="mode-overlay" type="button" disabled><span>Overlay</span><span class="topbar-shortcut">F4</span></button>
+            </div>
+        </div>
+        <div class="topbar-group">
+            <button class="topbar-trigger" type="button">Map Controls</button>
+            <div class="topbar-menu">
+                <button class="topbar-button" id="map-view" type="button">Map view</button>
+                <button class="topbar-button" id="overhead-view" type="button">Overhead view</button>
+                <button class="topbar-button" id="map-reset-camera" type="button">Reset Camera</button>
+                <button class="topbar-button" id="map-screenshot" type="button">Screenshot</button>
+                <button class="topbar-button" id="map-level-0" type="button"><span>Level 0</span><span class="topbar-shortcut">F5</span></button>
+                <button class="topbar-button" id="map-level-1" type="button"><span>Level 1</span><span class="topbar-shortcut">F6</span></button>
+                <button class="topbar-button" id="map-level-2" type="button"><span>Level 2</span><span class="topbar-shortcut">F7</span></button>
+                <button class="topbar-button" id="map-level-3" type="button"><span>Level 3</span><span class="topbar-shortcut">F8</span></button>
+            </div>
+        </div>
+        <div class="topbar-group">
+            <button class="topbar-trigger" type="button">3D Controls</button>
+            <div class="topbar-menu">
+                <button class="topbar-button" id="viewport-reset-camera" type="button">Reset Camera</button>
+                <button class="topbar-button" id="viewport-screenshot" type="button">Screenshot</button>
+            </div>
+        </div>
+        <div class="topbar-group">
+            <button class="topbar-trigger" type="button">Help</button>
+            <div class="topbar-menu">
+                <button class="topbar-button" id="help-tips" type="button">Tips and Tricks</button>
+                <button class="topbar-button" id="help-about" type="button">About</button>
+            </div>
+        </div>
+    </div>
+    <div id="workspace">
+        <div class="pane" id="map-pane">
+            <div class="pane-header">Map</div>
+            <div class="pane-body">
+                <canvas id="map" width="1200" height="1200"></canvas>
+            </div>
+        </div>
+
+        <div id="right-pane">
+            <div class="pane" id="view-pane">
+                <div class="pane-header">Game | Minimap</div>
+                <div class="pane-body split">
+                    <canvas id="canvas" width="612" height="334"></canvas>
+                    <canvas id="minimap" width="320" height="320"></canvas>
+                </div>
+            </div>
+
+            <div class="pane" id="preview-pane">
+                <div class="pane-header">Preview</div>
+                <div class="pane-body split">
+                    <textarea id="preview-info" readonly disabled></textarea>
+                    <div class="preview-canvas-column">
+                        <canvas id="preview" width="300" height="300"></canvas>
+                        <div class="preview-rotate-controls">
+                            <button class="preview-rotate-button" id="preview-rotate-left" type="button">Rotate template left ([ key)</button>
+                            <button class="preview-rotate-button" id="preview-rotate-right" type="button">Rotate template right (] key)</button>
+                            <div class="preview-object-stack-controls" id="preview-object-stack-controls">
+                                <label class="preview-object-stack-label" for="preview-object-count">Object Stack Size
+                                    <input class="preview-object-input" id="preview-object-count" type="number" min="1" max="65535" value="1">
+                                </label>
+                                <button class="preview-object-button" id="preview-object-decrease" type="button">Decrease object stack size (- key)</button>
+                                <button class="preview-object-button" id="preview-object-increase" type="button">Increase object stack size (+ key)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pane" id="search-pane">
+                <div class="pane-header">Search</div>
+                <div class="pane-body">
+                    <div id="search"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Loading...', canvas.width / 2, canvas.height / 2);
+        }
+
+        const topbarGroups = Array.from(document.querySelectorAll('.topbar-group'));
+        for (const group of topbarGroups) {
+            const trigger = group.querySelector('.topbar-trigger');
+            if (!trigger) continue;
+            trigger.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const isOpen = group.classList.contains('open');
+                for (const other of topbarGroups) {
+                    other.classList.remove('open');
+                }
+                if (!isOpen) {
+                    group.classList.add('open');
+                }
+            });
+        }
+
+        document.addEventListener('click', () => {
+            for (const group of topbarGroups) {
+                group.classList.remove('open');
+            }
+        });
+    </script>
+
+    <script type="module">
+        import { MapEditorClient } from './maped/maped.js';
+
+        (() => {
+            const params = new URLSearchParams(window.location.search);
+            const map = params.get('map') ?? '';
+            const mapLabel = map ? `Map Square ${map.replace('_', ',').replace('m', '')}` : 'New Map';
+
+            document.title = `Lost City Map Editor v0.01 - Currently editing ${mapLabel}`;
+
+            new MapEditorClient(10, false, true, map.replace(',', '_'));
+        })();
+    </script>
+</body>
+</html>

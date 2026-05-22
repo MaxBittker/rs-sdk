@@ -1,0 +1,62 @@
+[opnpc1,regicide_tyras_camp_guard] @tyras_guard_dialogue;
+[opnpc1,regicide_tyras_guard] @tyras_guard_dialogue;
+
+[label,tyras_guard_dialogue]
+~chatplayer("<p,happy>Hello.");
+if(%regicide_quest > ^regicide_spoken_iorwerth2) {
+    ~chatnpc("<p,neutral>These are dark times, I must prepare for the coming battle.");
+    return;
+}
+~chatnpc("<p,neutral>Sorry, can't stop to talk, you should go to General Hining or the king who's in his tent.");
+
+[opnpc1,regicide_tyras_camp_tent_guard]
+~chatplayer("<p,happy>Hello.");
+if(%regicide_quest > ^regicide_spoken_iorwerth2) {
+    ~chatnpc("<p,neutral>Good day. Sorry I can't stop to talk. General Hining is keeping a tight watch.");
+    return;
+}
+~chatnpc("<p,neutral>Good day, I'm busy guarding King Tyras. I have no time for idle chat.");
+
+[ai_queue1,regicide_tyras_camp_guard] ~npc_default_retaliate_ap;
+[ai_opplayer2,regicide_tyras_camp_guard] npc_setmode(applayer2);
+[ai_applayer2,regicide_tyras_camp_guard] gosub(npc_default_attack);
+
+[ai_queue1,regicide_tyras_guard] ~npc_default_retaliate_ap;
+[ai_opplayer2,regicide_tyras_guard] npc_setmode(applayer2);
+[ai_applayer2,regicide_tyras_guard] gosub(npc_default_attack);
+
+[ai_queue3,_tyras_guard]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+if((npc_type = regicide_tyras_camp_guard | npc_type = regicide_old_camp_guard) & %regicide_quest = ^regicide_spoken_tracker2) {
+    queue(defeat_tyras_guard, 0, 0);
+}
+
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+def_int $random = random(128);
+
+if ($random < 4) obj_add(npc_coord, steel_2h_sword, 1, ^lootdrop_duration);
+else if ($random < 7) obj_add(npc_coord, steel_axe, 1, ^lootdrop_duration);
+else if ($random < 10) obj_add(npc_coord, steel_battleaxe, 1, ^lootdrop_duration);
+else if ($random < 11) obj_add(npc_coord, mithril_kiteshield, 1, ^lootdrop_duration);
+else if ($random < 12) obj_add(npc_coord, adamant_platelegs, 1, ^lootdrop_duration);
+else if ($random < 13) obj_add(npc_coord, rune_full_helm, 1, ^lootdrop_duration);
+else if ($random < 21) obj_add(npc_coord, firerune, 75, ^lootdrop_duration);
+else if ($random < 26) obj_add(npc_coord, chaosrune, 15, ^lootdrop_duration);
+else if ($random < 29) obj_add(npc_coord, deathrune, 5, ^lootdrop_duration);
+else if ($random < 30) obj_add(npc_coord, firerune, 37, ^lootdrop_duration);
+else if ($random < 70) obj_add(npc_coord, coins, 132, ^lootdrop_duration);
+else if ($random < 99) obj_add(npc_coord, coins, 44, ^lootdrop_duration);
+else if ($random < 109) obj_add(npc_coord, coins, 220, ^lootdrop_duration);
+else if ($random < 116) obj_add(npc_coord, coins, 11, ^lootdrop_duration);
+else if ($random < 117) obj_add(npc_coord, coins, 460, ^lootdrop_duration);
+else if ($random < 120) obj_add(npc_coord, tuna, 1, ^lootdrop_duration);
+else if ($random < 122) obj_add(npc_coord, gold_bar, 1, ^lootdrop_duration);
+else if ($random < 123) obj_add(npc_coord, thread, 10, ^lootdrop_duration);
+else obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
+
+[queue,defeat_tyras_guard]
+%regicide_quest = ^regicide_defeated_guard;

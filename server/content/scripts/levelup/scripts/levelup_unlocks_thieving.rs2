@@ -12,7 +12,8 @@ switch_int(stat_base(thieving)) {
     case 35 : ~mesbox("You can now steal from @dbl@Fur Stalls@bla@!");
     // case 38 : ~mesbox("You can now pickpocket from @dbl@Master Farmers@bla@!");
     case 40 : ~mesbox("You can now pickpocket from @dbl@City Guards@bla@!");
-    // case 42 : ~mesbox("You can now steal from @dbl@Fish Stalls@bla@!");
+    case 42 : ~mesbox("You can now steal from @dbl@Fish Stalls@bla@!");
+    case 45 : ~mesbox("You can now pickpocket from @dbl@Fremenniks@bla@!");
     case 43 : ~mesbox("You can now steal from certain @dbl@chests@bla@ upstairs in Ardougne!");
     case 47 : ~mesbox("You can now steal from certain @dbl@chests@bla@ in Hemenster with the aid of a lockpick!");
     case 50 : ~mesbox("You can now steal from @dbl@Silver Stalls@bla@!");

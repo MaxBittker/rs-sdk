@@ -9,8 +9,7 @@ anim(human_pickuptable, 0);
 
 p_delay(0);
 
-// todo confirm chance
-if (random(3) = 0) {
+if (stat_random(strength, 30, 254) = false) {
     mes("You strain to lift the huge rock off the chest...");
     p_delay(1);
     mes("... but it's just too heavy for you.");

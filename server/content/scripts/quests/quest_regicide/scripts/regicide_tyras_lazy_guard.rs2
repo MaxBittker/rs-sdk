@@ -1,0 +1,44 @@
+[opnpc1,regicide_tyras_lazy_guard]
+if(%regicide_quest > ^regicide_spoken_iorwerth2) {
+    ~chatplayer("<p,happy>All right.");
+    if(testbit(%regicide_bits, ^regicide_given_rabbit) = ^true) {
+        ~chatnpc("<p,happy>This rabbit is lovely. Thanks a lot...");
+        return;
+    }
+    ~chatnpc("<p,quiz>They say the king died from a flying fire ball. Are you certain no one messed with the catapult while I was eating?");
+    ~chatplayer("<p,shifty>I was the only one here. I was watching the whole time.");
+    return;
+}
+if(testbit(%regicide_bits, ^regicide_given_rabbit) = ^true) {
+    ~chatplayer("<p,happy>Hows it going?");
+    ~chatnpc("<p,happy>This is delicious, after a year of field rations. Give us a minute to finish it off.");
+    return;
+}
+~chatplayer("<p,happy>Good day.");
+~chatnpc("<p,neutral>Yeah what ya want?");
+~chatplayer("<p,quiz>I was wondering what you were doing out here?");
+~chatnpc("<p,neutral>I was just wondering what I was doing here too. I'm meant to be looking after this catapult but I can't keep my mind on the job. We've been living off field rations for almost a year now.");
+~chatnpc("<p,neutral>I keep seeing rabbits in this forest. What I wouldn't give to eat one, but I'm not quick enough to kill any and I'm no good with a bow.");
+~chatplayer("<p,neutral>I can see how that would be distracting.");
+
+[opnpcu,regicide_tyras_lazy_guard]
+if(testbit(%regicide_bits, ^regicide_given_rabbit) = ^true) {
+    ~chatplayer("<p,neutral>Here, take a look at this.");
+    ~chatnpc("<p,neutral>Give us a minute to finish eating this rabbit.");
+    return;
+}
+if(last_useitem = cooked_rabbit) {
+    ~chatplayer("<p,happy>Here, I caught this for you.");
+    // https://web.archive.org/web/20061231211932im_/http://www.runeweb.net/fireball/Regicide%20Images/Regicide23.PNG
+    ~chatnpc("<p,happy>You cooked me a rabbit! Thanks a lot.|You don't mind watching things|while I take 5 to eat it, do you?");
+    inv_del(inv, cooked_rabbit, 1);
+    %regicide_bits = setbit(%regicide_bits, ^regicide_given_rabbit);
+    ~chatplayer("<p,neutral>No problem.");
+    return;
+}
+if(last_useitem = raw_rabbit) {
+    ~chatplayer("<p,happy>Here, I caught this for you.");
+    ~chatnpc("<p,happy>You got me a rabbit! Great! Only problem is I don't have any way to cook it.");
+    return;
+}
+~chatnpc("<p,neutral>I got no need for that.");

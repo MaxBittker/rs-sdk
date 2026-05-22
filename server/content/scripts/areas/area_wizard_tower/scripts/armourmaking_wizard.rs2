@@ -1,0 +1,154 @@
+[opnpc1,armourmaking_wizard]
+~chatnpc("<p,happy>Hello there, can I help you?");
+@multi4("What do you do here?", armourmaking_wizard_do, "What's that you're wearing?", armourmaking_wizard_wearing, "Can you make me some armour please?", armourmaking_wizard_make_please, "No thanks.", armourmaking_wizard_thanks);
+
+[label,armourmaking_wizard_do]
+~chatplayer("<p,quiz>What do you do here?");
+~chatnpc("<p,happy>I've been studying the practice of making split-bark|armour.");
+@multi2("Split-bark armour, what's that?", armourmaking_wizard_what, "Can you make me some?", armourmaking_wizard_make);
+
+[label,armourmaking_wizard_what]
+~chatplayer("<p,quiz>Split-bark armour, what's that?");
+~chatnpc("<p,happy>Split-bark armour is special armour for mages. It's|much more resistant to physical attacks than normal|robes.");
+~chatnpc("<p,sad>It's actually very easy for me to make, but I've been|having trouble getting hold of the pieces.");
+@multi2("Well good luck with that.", armourmaking_wizard_goodluck, "Can you make me some?", armourmaking_wizard_make);
+
+[label,armourmaking_wizard_goodluck]
+~chatplayer("<p,neutral>Well good luck with that.");
+
+[label,armourmaking_wizard_wearing]
+~chatplayer("<p,quiz>What's that you're wearing?");
+~chatnpc("<p,happy>This is split-bark armour, it's special armour for mages.|It's much more resistant to physical attacks than normal|robes.");
+~chatnpc("<p,sad>It's actually very easy for me to make, but I've been|having trouble getting hold of the pieces.");
+@multi2("Well good luck with that.", armourmaking_wizard_goodluck, "Can you make me some?", armourmaking_wizard_make);
+
+[label,armourmaking_wizard_make]
+~chatplayer("<p,quiz>Can you make me some?");
+if(map_members = ^false) {
+    ~chatnpc("<p,sad>I'm sorry, but I can't do that right now.");
+    return;
+}
+~chatnpc("<p,happy>I need bark from a hollow tree, and some fine cloth.|Unfortunately both these items can only be found in|Morytania, especially the cloth which is found in the|tombs of shades.");
+~chatnpc("<p,happy>Of course I'd happily sell you some at a discounted|price if you bring me those items.");
+@multi2("Okay, guess I'll go looking then!", armourmaking_wizard_go, "Okay, how much do I need?", armourmaking_wizard_howmuch);
+
+[label,armourmaking_wizard_go]
+~chatplayer("<p,happy>Okay, guess I'll go looking then!");
+
+[label,armourmaking_wizard_howmuch]
+~chatplayer("<p,quiz>Okay, how much do I need?");
+~chatnpc("<p,happy>I need 1 piece of each for either gloves or greaves,|2 pieces of each for a hat,|3 pieces of each for leggings,|and 4 pieces of each for a top.");
+~chatnpc("<p,happy>I'll charge you 1,000 coins for either gloves or greaves,|6,000 coins for a hat,|32,000 coins for leggings,|and 37,000 for a top.");
+@armourmaking_wizard_go;
+
+[label,armourmaking_wizard_make_please]
+~chatplayer("<p,quiz>Can you make me some armour please?");
+~chatnpc("<p,happy>Certainly, what would you like me to make?");
+if(map_members = ^false) {
+    ~chatnpc("<p,sad>I'm sorry, but I can't do that right now.");
+    return;
+}
+@armourmaking_wizard_splitbark;
+
+//Matches release osrs https://youtu.be/uUK2t-05adA?si=ZUFmYa4u66i2fMxr&t=70 but greaves instead of boots
+[label,armourmaking_wizard_splitbark]
+def_namedobj $product;
+def_int $process_count;
+$product, $process_count = ~skill_multi5_header("Splitbark Armour", 
+    splitbark_helm, 0, -5, 175, "\\n\\n\\n\\nHelm",
+    splitbark_body, 0, -5, 175, "\\n\\n\\n\\nBody",
+    splitbark_legs, 0, -5, 175, "\\n\\n\\n\\nLegs",
+    splitbark_gauntlets, 0, -5, 175, "\\n\\n\\n\\nGauntlets",
+    splitbark_greaves, 0, -5, 175, "\\n\\n\\n\\nGreaves"
+);
+if($process_count = 0) {
+    return;
+}
+
+if ($product = splitbark_helm) {
+    if (inv_total(inv, hollow_bark) < 2 | inv_total(inv, fine_cloth) < 2 | inv_total(inv, coins) < 6000) {
+        ~chatnpc("<p,sad>You need 2 pieces of bark, 2 pieces of fine cloth and|6,000 coins for a splitbark helm.");
+        return;
+    }
+    while($process_count > 0) {
+        if (inv_total(inv, hollow_bark) < 2 | inv_total(inv, fine_cloth) < 2 | inv_total(inv, coins) < 6000) {
+            ~chatnpc("<p,sad>I'm afraid I can't make you any more now. You need|2 pieces of bark, 2 pieces of fine cloth and 6,000 coins|for a splitbark helm.");
+            return;
+        }
+
+        inv_del(inv, hollow_bark, 2);
+        inv_del(inv, fine_cloth, 2);
+        inv_del(inv, coins, 6000);
+        inv_add(inv, splitbark_helm, 1);
+
+        $process_count = sub($process_count, 1);
+    }
+} else if ($product = splitbark_body) {
+    if (inv_total(inv, hollow_bark) < 4 | inv_total(inv, fine_cloth) < 4 | inv_total(inv, coins) < 37000) {
+        ~chatnpc("<p,sad>You need 4 pieces of bark, 4 pieces of fine cloth and|37,000 coins for a splitbark body.");
+        return;
+    }
+    while ($process_count > 0) {
+        if (inv_total(inv, hollow_bark) < 4 | inv_total(inv, fine_cloth) < 4 | inv_total(inv, coins) < 37000) {
+            ~chatnpc("<p,sad>I'm afraid I can't make you any more now. You need|4 pieces of bark, 4 pieces of fine cloth and 37,000 coins|for a splitbark body.");
+            return;
+        }
+        inv_del(inv, hollow_bark, 4);
+        inv_del(inv, fine_cloth, 4);
+        inv_del(inv, coins, 37000);
+        inv_add(inv, splitbark_body, 1);
+        $process_count = sub($process_count, 1);
+    }
+} else if ($product = splitbark_legs) {
+    if (inv_total(inv, hollow_bark) < 3 | inv_total(inv, fine_cloth) < 3 | inv_total(inv, coins) < 32000) {
+        ~chatnpc("<p,sad>You need 3 pieces of bark, 3 pieces of fine cloth and|32,000 coins for splitbark legs.");
+        return;
+    }
+    while ($process_count > 0) {
+        if (inv_total(inv, hollow_bark) < 3 | inv_total(inv, fine_cloth) < 3 | inv_total(inv, coins) < 32000) {
+            ~chatnpc("<p,sad>I'm afraid I can't make you any more now. You need|3 pieces of bark, 3 pieces of fine cloth and 32,000 coins|for splitbark legs.");
+            return;
+        }
+        inv_del(inv, hollow_bark, 3);
+        inv_del(inv, fine_cloth, 3);
+        inv_del(inv, coins, 32000);
+        inv_add(inv, splitbark_legs, 1);
+        $process_count = sub($process_count, 1);
+    }
+} else if ($product = splitbark_gauntlets) {
+    if (inv_total(inv, hollow_bark) < 1 | inv_total(inv, fine_cloth) < 1 | inv_total(inv, coins) < 1000) {
+        ~chatnpc("<p,sad>You need 1 piece of bark, 1 piece of fine cloth and|1,000 coins for splitbark gauntlets.");
+        return;
+    }
+    while ($process_count > 0) {
+        if (inv_total(inv, hollow_bark) < 1 | inv_total(inv, fine_cloth) < 1 | inv_total(inv, coins) < 1000) {
+            ~chatnpc("<p,sad>I'm afraid I can't make you any more now. You need|1 piece of bark, 1 piece of fine cloth and 1,000 coins|for splitbark gauntlets.");
+            return;
+        }
+        inv_del(inv, hollow_bark, 1);
+        inv_del(inv, fine_cloth, 1);
+        inv_del(inv, coins, 1000);
+        inv_add(inv, splitbark_gauntlets, 1);
+        $process_count = sub($process_count, 1);
+    }
+} else if ($product = splitbark_greaves) {
+    if (inv_total(inv, hollow_bark) < 1 | inv_total(inv, fine_cloth) < 1 | inv_total(inv, coins) < 1000) {
+        ~chatnpc("<p,sad>You need 1 piece of bark, 1 piece of fine cloth and|1,000 coins for splitbark greaves.");
+        return;
+    }
+    while ($process_count > 0) {
+        if (inv_total(inv, hollow_bark) < 1 | inv_total(inv, fine_cloth) < 1 | inv_total(inv, coins) < 1000) {
+            ~chatnpc("<p,sad>I'm afraid I can't make you any more now. You need|1 piece of bark, 1 piece of fine cloth and 1,000 coins|for splitbark greaves.");
+            return;
+        }
+        inv_del(inv, hollow_bark, 1);
+        inv_del(inv, fine_cloth, 1);
+        inv_del(inv, coins, 1000);
+        inv_add(inv, splitbark_greaves, 1);
+        $process_count = sub($process_count, 1);
+    }
+}
+~chatnpc("<p,happy>There you go, enjoy your new armour!");
+
+[label,armourmaking_wizard_thanks]
+~chatplayer("<p,neutral>No thanks.");

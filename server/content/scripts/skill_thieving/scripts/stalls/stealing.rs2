@@ -19,9 +19,21 @@
 [oploc2,silver_stall_stealing] // Silver stall
 @attempt_steal_from_stall(loc_type, loc_coord, loc_angle, loc_shape);
 
-[label,attempt_steal_from_stall](loc $loc, coord $loc_coord, int $loc_angle, locshape $loc_shape)
-p_arrivedelay;
+[oploc2,viking_fish_market]
+if(%viking < ^viking_complete) {
+    ~mesbox("The fishmonger is staring at you suspiciously. You cannot steal from his stall while he distrusts you.");
+    return;
+}
+@attempt_steal_from_stall(loc_type, loc_coord, loc_angle, loc_shape);
 
+[oploc2,viking_fur_market]
+if(%viking < ^viking_complete) {
+    ~mesbox("The fur trader is staring at you suspiciously. You cannot steal from his stall while he distrusts you.");
+    return;
+}
+@attempt_steal_from_stall(loc_type, loc_coord, loc_angle, loc_shape);
+
+[label,attempt_steal_from_stall](loc $loc, coord $loc_coord, int $loc_angle, locshape $loc_shape)
 db_find(stealing:loc, $loc);
 def_dbrow $data = db_findnext;
 if ($data = null) {
@@ -131,6 +143,13 @@ if (testbit(%thieving_stall_timer, ^spice_stall_index) = ^true) {
 if (testbit(%thieving_stall_timer, ^gem_stall_index) = ^true) {
     longqueue(stolen_from_stall_gem, ^gem_stall_timer, 0, ^discard);
 }
+if (testbit(%thieving_stall_timer, ^vikingfur_stall_index) = ^true) {
+    longqueue(stolen_from_stall_vikingfur, ^vikingfur_stall_timer, 0, ^discard);
+}
+if (testbit(%thieving_stall_timer, ^vikingfish_stall_index) = ^true) {
+    longqueue(stolen_from_stall_vikingfish, ^vikingfish_stall_timer, 0, ^discard);
+}
+
 
 // these are longqueues in osrs - they affect movement when p_delay'd
 
@@ -154,3 +173,9 @@ if (testbit(%thieving_stall_timer, ^gem_stall_index) = ^true) {
 
 [queue,stolen_from_stall_gem]
 %thieving_stall_timer = clearbit(%thieving_stall_timer, ^gem_stall_index);
+
+[queue,stolen_from_stall_vikingfur]
+%thieving_stall_timer = clearbit(%thieving_stall_timer, ^vikingfur_stall_index);
+
+[queue,stolen_from_stall_vikingfish]
+%thieving_stall_timer = clearbit(%thieving_stall_timer, ^vikingfish_stall_index);

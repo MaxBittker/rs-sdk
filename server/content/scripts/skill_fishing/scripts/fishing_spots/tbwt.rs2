@@ -1,0 +1,134 @@
+[opnpc1,_category_632] 
+@attempt_fish_karambwanji;
+
+[opnpc4,_category_632] 
+@fish_karambwanji;
+
+[opnpcu,_category_632]
+switch_obj(last_useitem) {
+    case net : p_opnpc(1);
+    case default : @fishing_wrong_spot_message(last_useitem);
+}
+
+[opnpc1,_category_633] 
+@attempt_fish_karambwan;
+
+[opnpcu,_category_633]
+switch_obj(last_useitem) {
+    // https://youtu.be/vVAfKCvmrz4?si=-wCc59CLUTYmyQj9&t=100 looks to be same tick as opu interaction here
+    // probably doesn't set op1 like normal spots
+    case tbwt_karambwan_vessel_loaded_with_karambwanji : @attempt_fish_karambwan;
+    case tbwt_karambwan_vessel : ~mesbox("You need to load your vessel with a karambwanji to fish here.");
+    case default : @fishing_wrong_spot_message(last_useitem);
+}
+
+[label,attempt_fish_karambwanji]
+if (stat(fishing) < 5) {
+    anim(null, 0);
+    ~mesbox("You need at least 5 Fishing to fish here.");
+    return;
+}
+// check if they have fishing equipment
+if (~check_fish_equipment(net) = false) {
+    return;
+}
+// check if inv is full
+if (inv_freespace(inv) < 1) {
+    anim(null, 0);
+    ~mesbox("You can't carry any more fish.");
+    return;
+}
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 4);
+    p_opnpc(1);
+    return;
+} 
+if (%action_delay = calc(map_clock + 3)) {
+    mes("You cast out your net...");
+    anim(human_smallnet, 0);
+    sound_synth(net, 0, 0);
+    p_opnpc(4);
+} else if (%action_delay = map_clock) {
+    if (stat_random(fishing, 100, 250) = true) {
+        inv_add(inv, tbwt_raw_karambwanji, 1);
+        stat_advance(fishing, 50);
+        mes("You catch a Karambwanji.");
+    } else if (stat_random(fishing, 48, 256) = true) {
+        inv_add(inv, raw_shrimp, 1);
+        stat_advance(fishing, 100);
+        mes("You catch some shrimp.");
+    }
+}
+
+if (afk_event = ^true & npc_param(is_whirlpool) = ^false) {
+    @macro_event_fishing(net);
+}
+
+[label,fish_karambwanji]
+if (stat(fishing) < 5) {
+    anim(null, 0);
+    ~mesbox("You need at least 5 Fishing to fish here.");
+    return;
+}
+// check if they have fishing equipment
+if (~check_fish_equipment(net) = false) {
+    return;
+}
+// check if inv is full again
+if (inv_freespace(inv) < 1) {
+    anim(null, 0);
+    ~mesbox("You can't carry any more fish.");
+    return;
+}
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 5);
+} else if (%action_delay = map_clock) {
+    anim(human_smallnet, 0);
+    if (stat_random(fishing, 100, 250) = true) {
+        inv_add(inv, tbwt_raw_karambwanji, 1);
+        stat_advance(fishing, 50);
+        mes("You catch a Karambwanji.");
+    } else if (stat_random(fishing, 48, 256) = true) {
+        inv_add(inv, raw_shrimp, 1);
+        stat_advance(fishing, 100);
+        mes("You catch some shrimp.");
+    }
+}
+p_opnpc(4);
+
+[label,attempt_fish_karambwan]
+if(%tbwt_lubufu < ^tbwt_lubufu_complete) {
+    ~mesbox("You don't even know how to use the vessel!");
+    return;
+}
+if (stat(fishing) < 65) {
+    mes("You need to be at least level 65 Fishing to catch Karambwan.");
+    return;
+}
+if (inv_total(inv, tbwt_karambwan_vessel) > 0 & inv_total(inv, tbwt_karambwan_vessel_loaded_with_karambwanji) = 0) {
+    ~mesbox("You need to load your vessel with a karambwanji to fish here.");
+    return;
+}
+if (~check_fish_equipment(tbwt_karambwan_vessel_loaded_with_karambwanji) = false) {
+    return;
+}
+if (inv_freespace(inv) < 1) {
+    ~mesbox("You can't carry any more Karambwan.");
+    return;
+}
+// https://youtu.be/vVAfKCvmrz4?si=t3jLmmVAP_Jp1ht-&t=105 6t here, prob no interaction loop
+anim(human_octopus_pot, 0);
+mes("You lower the Karambwan vessel.");
+sound_synth(fishing_cast, 0, 0);
+p_delay(5);
+if (stat_random(fishing, 5, 160) = true) {
+    inv_del(inv, tbwt_karambwan_vessel_loaded_with_karambwanji, 1);
+    inv_add(inv, tbwt_karambwan_vessel, 1);
+    inv_add(inv, tbwt_raw_karambwan, 1);
+    stat_advance(fishing, 1050);
+    mes("You catch a Karambwan!");
+} else {
+    mes("A Karambwan deftly snatches the Karambwanji from your vessel!");
+    inv_del(inv, tbwt_karambwan_vessel_loaded_with_karambwanji, 1);
+    inv_add(inv, tbwt_karambwan_vessel, 1);
+}

@@ -1,4 +1,10 @@
 [opnpc1,grandtree_femi]
+if(inv_total(inv, trail_clue_medium_anagram013) > 0) {
+    // https://www.youtube.com/watch?v=6C2FMez1F2E
+    ~chatnpc("<p,happy>Well done!");
+    ~progress_clue_medium(trail_clue_medium_anagram013, "Femi has given you another clue scroll!");
+    return;
+}
 if(%grandtree = ^grandtree_obtained_lumber_order) {
     if(coordz(npc_coord) > 3400) {
         ~chatnpc("<p,neutral>Now, to get this lot to the Grand Tree!");

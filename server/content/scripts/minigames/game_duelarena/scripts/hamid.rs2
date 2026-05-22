@@ -1,4 +1,25 @@
 [opnpc1,duel_monk]
+if(inv_total(inv, trail_clue_hard_riddle020) > 0) {
+    // https://www.youtube.com/watch?v=xgadOHVQajI
+    if(~obj_gettotal(trail_clue_hard_riddle020_puzzlebox) > 0) {
+        if(inv_total(inv, trail_clue_hard_riddle020_puzzlebox) = 0) {
+            ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
+            ~chatnpc("<p,angry>That's not much use. Go and fetch it.");
+            return;
+        }
+        if(~trail_puzzle_complete(trail_clue_hard_riddle020_puzzlebox) = true) {
+            ~chatnpc("<p,happy>Excellent! Good work!");
+            inv_del(inv, trail_clue_hard_riddle020_puzzlebox, 1);
+            ~progress_clue_hard(trail_clue_hard_riddle020, "Hamid has given you another clue scroll!");
+            return;
+        }
+        // TODO: check mesanim
+        ~chatnpc("<p,neutral>I'm afraid that the puzzle is wrong.");
+        return;
+    }
+    ~give_trail_puzzle(trail_clue_hard_riddle020_puzzlebox, "<p,neutral>Hello! Please complete this for me!", "Hamid has given you a puzzle box!");
+    return;
+}
 
 ~chatplayer("<p,neutral>Hi!");
 ~chatnpc("<p,neutral>Hello traveller. How can I be of assistance?");

@@ -1,21 +1,25 @@
 [if_button,questlist:sheep]
 def_string $x;
 
-if (%sheep >= ^sheep_complete) {
-    $x = append($x, "@str@I brought Farmer Fred 20 balls of wool, and he paid me for|");
-    $x = append($x, "@str@it!||");
-    $x = append($x, "@red@QUEST COMPLETE!");
-} else if (%sheep = ^sheep_not_started) {
+if (%sheep = ^sheep_not_started) {//OSRS
     $x = append($x, "@dbl@I can start this quest by speaking to @dre@Farmer Fred @dbl@at his|");
     $x = append($x, "@dre@farm @dbl@just a little way @dre@North West of Lumbridge");
-} else {
-    $x = append($x, "@str@I asked Farmer Fred, near Lumbridge, for a quest. Fred|");
-    $x = append($x, "@str@said he'd pay me for shearing his sheep for him!||");
+    ~quest_journal("Sheep Shearer", $x);
+    return;
+}
+
+$x = append($x, "@str@I asked Farmer Fred, near Lumbridge, for a quest. Fred|");
+$x = append($x, "@str@said he'd pay me for shearing his sheep for him!||");
+if (%sheep < ^sheep_complete) {
     def_int $ballsToGo = calc(20 - calc(%sheep - 1));
     if ($ballsToGo > 0) {
         $x = append($x, "@dbl@I need to collect <tostring($ballsToGo)> more @dre@balls of wool.");
     } else {//This isn't currently reachable, but just in case
         $x = append($x, "@dbl@I have collected all 20 @dre@balls of wool.|");
     }
+} else {
+    $x = append($x, "@str@I brought Farmer Fred 20 balls of wool, and he paid me for|");
+    $x = append($x, "@str@it!||");
+    $x = append($x, "@red@QUEST COMPLETE!");
 }
 ~quest_journal("Sheep Shearer", $x);

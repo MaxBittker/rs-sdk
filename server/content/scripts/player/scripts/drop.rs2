@@ -9,6 +9,15 @@ if (~inzone_coord_pair_table(trawler_wreck_zones, coord) = true) {
     mes("It would be seriously unwise for you to drop your items in the sea."); // osrs
     return;
 }
+if (~in_games_room(coord) = true & %boardgames_drop_warning = ^false) {
+    ~mesbox("Are you sure you want to put that down? If you start playing a|boardgame, you may not get back to retrieve it.");
+    def_int $option = ~p_choice2("Put it down.", 1, "Don't put it down.", 2);
+    if ($option = 2) {
+        return;
+    }
+    //If you drop something, you won't get this message again until relogging
+    %boardgames_drop_warning = ^true;
+}
 
 inv_dropslot(inv, coord, $last, calc(calc(^lootdrop_duration * 3) / 2));
 anim(null, 0); // https://youtu.be/QvDYolBZNjY?t=164, https://youtu.be/DVHCP2JhQE0?t=142

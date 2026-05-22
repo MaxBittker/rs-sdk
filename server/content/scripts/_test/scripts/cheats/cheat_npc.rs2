@@ -44,7 +44,7 @@ if (p_finduid(uid) = true) {
     p_telejump(0_37_55_32_9);
 
     // Spawn trigger should run immediately
-    npc_add(0_37_55_33_9, savage_bird, 7);
+    npc_add(0_37_55_33_9, small_bat, 7);
 }
 
 [debugproc,npc_spawn_player]
@@ -53,13 +53,13 @@ if (p_finduid(uid) = true) {
     p_delay(2);
 
     // Spawn trigger should be 1 tick delayed
-    npc_add(0_37_55_33_9, savage_bird, 7);
+    npc_add(0_37_55_33_9, small_bat, 7);
 }
 
-[ai_spawn,savage_bird]
+[ai_spawn,small_bat]
 npc_say("I'm a savage bird :p");
 
-[ai_despawn,savage_bird]
+[ai_despawn,small_bat]
 obj_addall(npc_coord, garlic, 1, 100);
 
 

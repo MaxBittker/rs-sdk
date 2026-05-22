@@ -17,38 +17,40 @@ if (~npc_check_notcombat = false) {
 if (~npc_check_notcombat_self = false) {
     return;
 }
-// def_int $random = random(2);
-// if (npc_range(coord) <= 1) {
-//     $random = random(3);
-// }
-// switch_int($random) {
-//     case 0 : ~kalphite_queen_mage_attack;
-//     case 1 : ~kalphite_queen_ranged_attack;
-//     case 2 : ~kalphite_melee_attack;
-// }
-def_int $random = 0;
+def_int $random = random(2);
 if (npc_range(coord) <= 1) {
-    $random = random(2);
+    $random = random(3);
 }
 switch_int($random) {
     case 0 : ~kalphite_queen_mage_attack;
-    case 1 : ~kalphite_melee_attack;
+    case 1 : ~kalphite_queen_ranged_attack;
+    case 2 : ~kalphite_melee_attack;
 }
 
+// #1 https://youtu.be/KTVznh5-S44?t=222
+// #2 https://youtu.be/AeMRG94A5KY?t=290
+// #3 https://youtu.be/MZsxEs05_TI?t=118 (2:01 dead, 2:04 attack, 2:05 remove corpse)
 [ai_queue3,kalphite_queen]
 npc_walk(npc_coord);
 npc_setmode(none);
-npc_arrivedelay;
-.npc_add(npc_coord, kalphite_larva, 5); // kalphite queen corpse
+
+// (see #3) wait for the npc to face south
+// this is to sync the client, when new npcs are added they always face south
+npc_facesquare(movecoord(npc_coord, 2, 0, -1));
+npc_delay(0);
+// npc_arrivedelay; // might replace this when the client can add+face on same tick
+
+.npc_add(npc_coord, kalphite_queen_form_swap, 3);
 .npc_anim(kalphite_crackopen, 0);
 ~sound_area(kalphite_crack_open, 0, movecoord(npc_coord, 2, 0, 2), 12);
+
 npc_changetype_keepall(kalphite_flyingqueen, 2000); // 20 min in osrs
-npc_statheal(hitpoints, 0, 100);
-// https://x.com/JagexAsh/status/861503532712722432 doesnt stat heal cmb stats
 npc_anim(kalphite_queen_rising, 0);
-npc_delay(1);
+// https://x.com/JagexAsh/status/861503532712722432 doesn't stat heal all stats
+npc_statheal(hitpoints, 0, 100);
 npc_sethuntmode(kalphite_queen);
-.npc_del;
+
+npc_delay(0);
 
 [proc,kalphite_queen_mage_attack]
 spotanim_npc(kalphite_glow, 0, 0);
@@ -118,29 +120,33 @@ return(coord, $duration, $total_distance);
 // osrs, i dont think this matches old videos tbh:
 // distance of 8: map_projanim_v2	id=kalphite_spine (288), starttime=30, endtime=74, angle=20, progress=255, startheight=120, endheight=124
 // distance of 6: map_projanim_v2	id=kalphite_spine (288), starttime=30, endtime=58, angle=20, progress=255, startheight=120, endheight=124
-// [proc,kalphite_queen_ranged_attack]
-// if_close;
-// npc_anim(kalphite_ranged_attack, 0);
-// %npc_action_delay = add(map_clock, npc_param(attackrate));
+[proc,kalphite_queen_ranged_attack]
+if_close;
+npc_anim(kalphite_ranged_attack, 0);
+%npc_action_delay = add(map_clock, npc_param(attackrate));
 
-// def_int $damage = 0;
-// def_int $maxhit = 31;
-// def_int $duration = 0;
-// def_int $i = 0;
-// huntall(coord, 5, 1);
-// while (huntnext = true & $i < 5) { // up to 5? https://youtu.be/ZHaxxMq3nVI?list=PLn23LiLYLb1YiomJ3wnXokdbgjE7-Lgt5&t=48
-//     $damage = 0;
-//     if (~check_protect_prayer(^ranged_style) = false) {
-//         $damage = randominc($maxhit);
-//     }
-//     ~npc_set_attack_vars;
-    
-//     $duration = ~player_projectile(movecoord(npc_coord, 2, 0, 2), coord, uid, kalphite_spine, 40, 36, 0, 15, 0, 11, 5);
-//     queue(combat_damage_player, divide($duration, 30), $damage);
-//     queue*(playerhit_n_retaliate, divide($duration, 30))(npc_uid);
-//     sound_synth(kalphite_queen_spines, 0, 0);
-//     $i = add($i, 1);
-// }
+def_int $damage = 0;
+def_int $maxhit = 31;
+def_int $duration = 0;
+def_int $i = 0;
+huntall(coord, 5, 1);
+while (huntnext = true & $i < 5) { // up to 5? https://youtu.be/ZHaxxMq3nVI?list=PLn23LiLYLb1YiomJ3wnXokdbgjE7-Lgt5&t=48
+    $damage = 0;
+    if (~check_protect_prayer(^ranged_style) = false) {
+        $damage = randominc($maxhit);
+    }
+    ~npc_set_attack_vars;
+
+    if ($damage > 0) {
+        stat_sub(prayer, 1, 0);
+    }
+
+    $duration = ~player_projectile(movecoord(npc_coord, 2, 0, 2), coord, uid, kalphite_spine, 30, 31, 0, 20, 0, 11, 5);
+    queue(combat_damage_player, divide($duration, 30), $damage);
+    queue*(playerhit_n_retaliate, divide($duration, 30))(npc_uid);
+    sound_synth(kalphite_queen_spines, 0, 0);
+    $i = add($i, 1);
+}
 
 [ai_queue1,kalphite_flyingqueen]
 if (random(^kalphite_worker_spawn_rate) = 0) {
@@ -159,22 +165,14 @@ if (~npc_check_notcombat = false) {
 if (~npc_check_notcombat_self = false) {
     return;
 }
-// def_int $random = random(2);
-// if (npc_range(coord) <= 1) {
-//     $random = random(3);
-// }
-// switch_int($random) {
-//     case 0 : ~kalphite_flyingqueen_mage_attack;
-//     case 1 : ~kalphite_flyingqueen_ranged_attack;
-//     case 2 : ~kalphite_flyingqueen_melee_attack;
-// }
-def_int $random = 0;
+def_int $random = random(2);
 if (npc_range(coord) <= 1) {
-    $random = random(2);
+    $random = random(3);
 }
 switch_int($random) {
     case 0 : ~kalphite_flyingqueen_mage_attack;
-    case 1 : ~kalphite_flyingqueen_melee_attack;
+    case 1 : ~kalphite_flyingqueen_ranged_attack;
+    case 2 : ~kalphite_flyingqueen_melee_attack;
 }
 
 [ai_opplayer2,kalphite_flyingqueen] npc_setmode(applayer2);
@@ -201,25 +199,30 @@ if_close;
 
 ~kalphite_queen_mage_huntall;
 
-// [proc,kalphite_flyingqueen_ranged_attack]
-// if_close;
-// npc_anim(kalphite_queen_ranged_attack, 0);
-// %npc_action_delay = add(map_clock, npc_param(attackrate));
+[proc,kalphite_flyingqueen_ranged_attack]
+if_close;
+npc_anim(kalphite_queen_ranged_attack, 0);
+%npc_action_delay = add(map_clock, npc_param(attackrate));
 
-// def_int $damage = 0;
-// def_int $duration = 0;
-// def_int $maxhit = 31;
-// def_int $i = 0;
-// huntall(coord, 5, 1);
-// while (huntnext = true & $i < 5) { // up to 5? https://youtu.be/ZHaxxMq3nVI?list=PLn23LiLYLb1YiomJ3wnXokdbgjE7-Lgt5&t=48
-//     $duration = ~player_projectile(movecoord(npc_coord, 2, 0, 2), coord, uid, kalphite_queen_spine, 40, 36, 0, 15, 0, 11, 5);
-//     $damage = 0;
-//     if (randominc(~npc_ranged_attack_roll) > randominc(~player_defence_roll_specific(^ranged_style))) {
-//         $damage = randominc($maxhit);
-//     }
-//     queue(combat_damage_player, divide($duration, 30), $damage);
-//     queue*(playerhit_n_retaliate, divide($duration, 30))(npc_uid);
-//     ~npc_set_attack_vars;
-//     sound_synth(kalphite_queen_spines, 0, 0);
-//     $i = add($i, 1);
-// }
+def_int $damage = 0;
+def_int $duration = 0;
+def_int $maxhit = 31;
+def_int $i = 0;
+huntall(coord, 5, 1);
+while (huntnext = true & $i < 5) { // up to 5? https://youtu.be/ZHaxxMq3nVI?list=PLn23LiLYLb1YiomJ3wnXokdbgjE7-Lgt5&t=48
+    $damage = 0;
+    if (~check_protect_prayer(^ranged_style) = false) {
+        $damage = randominc($maxhit);
+    }
+    ~npc_set_attack_vars;
+
+    if ($damage > 0) {
+        stat_sub(prayer, 1, 0);
+    }
+
+    $duration = ~player_projectile(movecoord(npc_coord, 2, 0, 2), coord, uid, kalphite_queen_spine, 30, 31, 0, 20, 0, 11, 5);
+    queue(combat_damage_player, divide($duration, 30), $damage);
+    queue*(playerhit_n_retaliate, divide($duration, 30))(npc_uid);
+    sound_synth(kalphite_queen_spines, 0, 0);
+    $i = add($i, 1);
+}

@@ -57,7 +57,7 @@ if (%shantay_jail_progress = ^put_in_shantay_jail & npc_find(coord, shantay, 12,
 
 ~open_and_close_metal_gate(poshdooropen, $is_inside, false);
 
-[oploc1,shantay_pass]
+[oploc1,shantay_pass_henge_doorway]
 if (map_members = ^false) {
     mes(^mes_members_gate); // guess
     return;
@@ -111,7 +111,7 @@ p_telejump(movecoord(coord, 0, 0, -3));
 
 
 
-[oploc2,shantay_pass]
+[oploc2,shantay_pass_henge_doorway]
 ~mesbox("You look at the huge stone gate.|Near the gate is a large billboard poster, it reads:");
 // different than osrs https://web.archive.org/web/20060428031722/http://www.runecrypt.com:80/index.php?pid=202
 ~mesbox("The Desert is a VERY Dangerous place. Do not enter if|you are scared of dying. Beware of high temperatures,|sand storms, robbers, and slavers.");

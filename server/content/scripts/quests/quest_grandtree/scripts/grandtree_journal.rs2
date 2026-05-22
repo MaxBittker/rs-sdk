@@ -1,5 +1,4 @@
 [if_button,questlist:grandtree]
-def_string $n = "The Grand Tree";
 def_string $x;
 
 if (%grandtree = ^grandtree_not_started) {//https://www.youtube.com/watch?v=wwdH9slDKCM
@@ -13,7 +12,7 @@ if (%grandtree = ^grandtree_not_started) {//https://www.youtube.com/watch?v=wwdH
         $x = append($x, "@str@Level 25 Agility.|");
     }
     $x = append($x, "@dre@High enough combat to defeat a level 172 demon.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -23,7 +22,7 @@ if (%grandtree = ^grandtree_started) {
     $x = append($x, "@dre@bark@dbl@ to the gnome @dre@Hazelmere@dbl@ who lives on an island east|");
     $x = append($x, "@dbl@of @dre@Yanille.@dbl@ I will need to @dre@translate@dbl@ what he says using the|");
     $x = append($x, "@dre@translation book@dbl@ Narnode gave me.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -34,7 +33,7 @@ if (%grandtree = ^grandtree_spoken_hazelmere) {//https://www.youtube.com/watch?v
     $x = append($x, "@dre@Hazelmere@dbl@ took the bark sample and gave me a @dre@message|");
     $x = append($x, "@dbl@that I need to @dre@translate@dbl@ using the @dre@translation book.@dbl@ I then|");
     $x = append($x, "@dbl@need to give the message to @dre@King Narnode.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -44,7 +43,7 @@ $x = append($x, "@str@that Daconia rocks are killing the Grand tree!||");
 if (%grandtree = ^grandtree_relayed_message_narnode) {//https://www.youtube.com/watch?v=wwdH9slDKCM
     $x = append($x, "@dbl@The King wants me to tell @dre@Glough@dbl@ about the Daconia rocks.|");
     $x = append($x, "@dbl@He lives in a @dre@tree house@dbl@ just in front of the @dre@Grand Tree.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -53,7 +52,7 @@ $x = append($x, "@str@about the Daconia rocks.|");
 if (%grandtree = ^grandtree_spoken_glough) {//https://www.youtube.com/watch?v=fXSoPvVJWGA
     $x = append($x, "@dbl@I told @dre@Glough@dbl@ about the Daconia rocks and he blames it on|");
     $x = append($x, "@dbl@humans. Maybe I should have a chat with @dre@King Narnode@dbl@.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -62,7 +61,7 @@ $x = append($x, "@str@humans.|");
 if (%grandtree = ^grandtree_found_prisoner) {//https://www.youtube.com/watch?v=fXSoPvVJWGA
     $x = append($x, "@dre@King Narnode@dbl@ said I can speak to @dre@Charlie@dbl@, the prisoner at|");
     $x = append($x, "@dbl@the @dre@top@dbl@ of the @dre@Grand Tree.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -70,7 +69,7 @@ $x = append($x, "@str@I found Charlie, the prisoner, and talked to him.|");
 if (%grandtree = ^grandtree_spoken_prisoner) {//https://www.youtube.com/watch?v=fXSoPvVJWGA
     $x = append($x, "@dbl@I spoke to @dre@Charlie@dbl@ and agreed to @dre@search Glough's house@dbl@,|");
     $x = append($x, "@dbl@which is just in front of the @dre@Grand Tree@dbl@.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -79,7 +78,7 @@ $x = append($x, "@str@which is just in front of the Grand Tree.|");
 if (%grandtree = ^grandtree_found_journal) {//https://www.youtube.com/watch?v=BsNZMZBgd5c
     $x = append($x, "@dbl@I found @dre@Glough's journal@dbl@ in his tree house.|");
     $x = append($x, "@dbl@I should go speak to him again.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -88,7 +87,7 @@ if (%grandtree = ^grandtree_released_prison) {//https://www.youtube.com/watch?v=
     $x = append($x, "@dre@King Narnode@dbl@ has told me to use the @dre@glider. Charlie@dbl@ told me|");
     $x = append($x, "@dbl@to go to the @dre@shipyard@dbl@ in the @dre@Karamja jungle@dbl@ and speak to|");
     $x = append($x, "@dbl@the @dre@foreman@dbl@. The password is @dre@Ka-Lu-Min");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -97,7 +96,7 @@ $x = append($x, "@str@shipyard.|");
 if (%grandtree = ^grandtree_obtained_lumber_order) {//https://www.youtube.com/watch?v=BsNZMZBgd5c
     $x = append($x, "@dbl@I have an @dre@invoice@dbl@ that the foreman had. I need to find|");
     $x = append($x, "@dbl@more proof of Glough's plans.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -106,7 +105,7 @@ $x = append($x, "@str@more proof of Glough's plans.|");
 if (%grandtree = ^grandtree_clue_charlie) {//https://www.youtube.com/watch?v=BsNZMZBgd5c
     $x = append($x, "@dre@Charlie@dbl@ has suggested I ask @dre@Anita@dbl@ for the @dre@keys|");
     $x = append($x, "@dbl@to @dre@Glough's chest.@dbl@ She lives west of the @dre@toad swamp.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -115,14 +114,14 @@ $x = append($x, "@str@chest.|");
 $x = append($x, "@str@I found invasion plans in Glough's chest!|");
 if (%grandtree = ^grandtree_found_invasion_plans) {//https://www.youtube.com/watch?v=BsNZMZBgd5c
     $x = append($x, "@dbl@I should talk to the King and see what he says...");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
 if (%grandtree = ^grandtree_given_twigs) {//https://www.youtube.com/watch?v=BsNZMZBgd5c
     $x = append($x, "@dbl@King Narnode@dbl@ isn't convinced but gave me some @dre@twigs|");
     $x = append($x, "@dbl@found at Glough's house. I wonder what they are for?");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -131,7 +130,7 @@ if (%grandtree = ^grandtree_unlocked_trapdoor) {//https://www.youtube.com/watch?
 
     $x = append($x, "@dbl@I should investigate what's behind the @dre@trap door@dbl@ in Glough's|");
     $x = append($x, "@dbl@house.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -140,7 +139,7 @@ $x = append($x, "@str@fled like the coward he really is.||");
 if (%grandtree = ^grandtree_defeated_black_demon) {//https://www.youtube.com/watch?v=BsNZMZBgd5c
     $x = append($x, "@dbl@I should talk to @dre@King Narnode@dbl@ and tell him what happened.|");
     $x = append($x, "@dbl@He should be in these caves somewhere.");
-    ~quest_journal($n, $x);
+    ~quest_journal("The Grand Tree", $x);
     return;
 }
 
@@ -154,11 +153,9 @@ if (%grandtree = ^grandtree_searching_daconia) {//https://www.youtube.com/watch?
         $x = append($x, "@dre@King Narnode@dbl@ has seen the light. I need to find a @dre@Daconia|");
         $x = append($x, "@dre@rock@dbl@ that is hidden amongst the @dre@Grand Tree's roots.");
     }
-    ~quest_journal($n, $x);
-    return;
 }
 
 $x = append($x, "@str@King Narnode has seen the light. I found the last of the|");//line break guessed
 $x = append($x, "@str@Daconia rocks and the Grand Tree is safe.||");
 $x = append($x, "@dre@QUEST COMPLETE!");
-~quest_journal($n, $x);
+~quest_journal("The Grand Tree", $x);

@@ -94,7 +94,7 @@ members=yes
 
 [twpart2]
 name=Cannon stand
-desc=The mounting for the muticannon.
+desc=The mounting for the multicannon.
 model=model_2642_obj
 2dyof=106
 2dzoom=1750
@@ -119,7 +119,7 @@ members=yes
 
 [twpart4]
 name=Cannon furnace
-desc=Used to make the cannon's ammo.
+desc=This powers the multicannon.
 model=model_2769_obj
 2dxof=2
 2dyof=-19

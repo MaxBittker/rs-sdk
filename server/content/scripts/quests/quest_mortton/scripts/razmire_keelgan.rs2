@@ -1,0 +1,296 @@
+[opnpc3,razmire_keelgan]
+if (testbit(%morttonmulti, ^mortton_cured_razmire) = ^false & testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^false) {
+    npc_changetype(razmire_keelgan_afflicted,200);
+    @afflicted_talk;
+}
+if(%morttonquest >= ^mortton_shades_to_razmire) {
+    @razmire_general_open;
+} else if(%morttonquest > ^mortton_kill_shades & %morttonquest < ^mortton_shades_to_razmire) {
+    @razmire_killed_shades;
+} else {
+    @razmire_stores_closed_general;
+}
+
+[opnpc4,razmire_keelgan]
+if (testbit(%morttonmulti, ^mortton_cured_razmire) = ^false & testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^false) {
+    npc_changetype(razmire_keelgan_afflicted,200);
+    @afflicted_talk;
+}
+if(%morttonquest >= ^mortton_shades_to_razmire) {
+    @razmire_building_open;
+} else if(%morttonquest > ^mortton_kill_shades & %morttonquest < ^mortton_shades_to_razmire) {
+    @razmire_killed_shades;
+} else {
+    @razmire_stores_closed_builders;
+}
+
+[opnpcu,razmire_keelgan]
+@razmire_use_item;
+
+[opnpcu,razmire_keelgan_afflicted]
+@razmire_use_item;
+
+[label,razmire_use_item]
+if(oc_category(last_useitem) = category_108) {
+    if(%morttonquest < ^mortton_made_serum) {
+        npc_changetype(razmire_keelgan,1);
+        inv_setslot(inv, last_useslot, oc_param(last_useitem, next_obj_stage), 1);
+        ~chatnpc("<p,confused>The serum it works...but it's not too fresh, make some|yourself and then it might work for longer.");
+        @afflicted_talk;
+    }
+    npc_changetype(razmire_keelgan,200);
+    inv_setslot(inv, last_useslot, oc_param(last_useitem, next_obj_stage), 1);
+    longqueue(razmire_reset, 200, 0, ^accelerate);
+    %morttonmulti = setbit(%morttonmulti, ^mortton_cured_razmire);
+    if (testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^true) {
+        ~chatnpc("<p,happy>You've already used the permanent serum on me, you|don't need to use that any more.");
+    }
+    @razmire_talk;
+} else if(oc_category(last_useitem) = category_109) {
+    npc_changetype(razmire_keelgan,200);
+    if (testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^false) {
+        def_int $last_useslot = last_useslot;
+        def_obj $last_useitem = last_useitem;
+        ~chatnpc("<p,happy>Well done - I feel this serum is really working on me.|I think you've cracked it, my friend! I'd like to give|you something for your trouble!");
+        %morttonmulti = setbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire);
+        inv_setslot(inv, $last_useslot, oc_param($last_useitem, next_obj_stage), 1);
+        def_int $count = ~random_range(180,220);
+        inv_add(inv, coins, $count);
+        ~objbox(coins,"Razmire gives you <tostring($count)> gold coins.", 250, 0, 0);
+    } else {
+        ~chatnpc("<p,happy>You've already used the permanent serum on me, you|don't need to use that any more.");
+    }
+    @razmire_talk;
+} else {
+    ~displaymessage(^dm_default);
+}
+
+[queue,razmire_reset]
+%morttonmulti = clearbit(%morttonmulti, ^mortton_cured_razmire);
+
+[opnpc1,razmire_keelgan]
+if (testbit(%morttonmulti, ^mortton_cured_razmire) = ^false & testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^false) {
+    npc_changetype(razmire_keelgan_afflicted,200);
+    @afflicted_talk;
+}
+@razmire_talk;
+
+[opnpc1,razmire_keelgan_afflicted]
+if (testbit(%morttonmulti, ^mortton_cured_razmire) = ^true | testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^true) {
+    npc_changetype(razmire_keelgan,200);
+    @razmire_talk;
+}
+@afflicted_talk;
+
+[label,razmire_talk]
+if (testbit(%morttonmulti, ^mortton_used_serum_on_razmire) = ^false) {
+    %morttonmulti = setbit(%morttonmulti, ^mortton_used_serum_on_razmire);
+    ~chatnpc("<p,happy>Ah, excellent, you've made your own serum and it|seems to work well! Many thanks for using the Serum|on me! But beware, I may start to change back soon!");
+} else {
+   ~chatnpc("<p,happy>Ah, it's you, how's it going?"); 
+}
+if(%morttonquest < ^mortton_kill_shades) {
+    @razmire_questions;
+} else if(%morttonquest >= ^mortton_kill_shades & %morttonquest < ^mortton_killed_5_shades) {
+    ~chatnpc("<p,happy>Hey, have you killed the five shades yet?");
+    ~chatplayer("<p,neutral>No, not yet!");
+    ~chatnpc("<p,neutral>Come back then when you have. And remember to|bring me the remains, Ulsquire seems to think we might|be able to send these poor souls to a better place.");
+    return;
+} else if(%morttonquest = ^mortton_killed_5_shades) {
+~chatnpc("<p,happy>Hey, have you killed the five shades yet?");
+~chatplayer("<p,neutral>Yes, I have actually!");
+    if(inv_total(inv, shade_bones1) < 5) {
+        ~chatnpc("<p,happy>Hmm, yes, but you don't have the five shade remains I|asked of you! Come back when you have them.");
+        return;
+    } else {
+        inv_del(inv, shade_bones1, 2);
+        %morttonquest = ^mortton_shades_to_razmire;
+        ~objbox(shade_bones1, "Razmire takes two Shade remains.", 250, 0, 0);
+        ~chatnpc("<p,happy>Great, I'll experiment on these! I think that Ulsquire|might be keen to see some shade remains, if you take|some over to him, he can possibly give you some extra|information about them.");
+        ~chatnpc("<p,happy>Now that you've slayed some of those nasty shades, I|feel motivated to help you out, I can trade with you|now if you like.");
+        @razmire_store_selection;
+    }
+} else if(%morttonquest >= ^mortton_shades_to_razmire & %morttonquest <= ^mortton_ulsquire_temple) {
+    ~chatnpc("<p,happy>Hello again...what can I do for you now?");
+    @razmire_store_selection;
+} else if(%morttonquest = ^mortton_rebuild_temple) {
+    ~chatplayer("<p,neutral>Hello there, I've started repairing the temple.");
+    ~chatnpc("<p,happy>That's great, carry on the good work.");
+    @razmire_questions_post_rebuild;
+} else if(%morttonquest >= ^mortton_can_light_altar & %morttonquest <= ^mortton_logs_on_pyre) {
+    @razmire_store_post_oil;
+} else if(%morttonquest >= ^mortton_lit_pyre) {
+    if (testbit(%morttonmulti, ^mortton_unlocked_shade_lair) = ^false) {
+        ~chatplayer("<p,neutral>Hey, I've laid a Shade to rest, can you tell me where|the Shade lair is now?");
+        %morttonmulti = setbit(%morttonmulti, ^mortton_unlocked_shade_lair);
+        ~chatnpc("<p,neutral>Yeah, great job on putting that Shade to rest. The|entrance to the Shade Lair is due North of my shop.|Good hunting in the lair my friend!");
+    }
+    @razmire_store_post_oil;
+}
+
+[label,razmire_questions_post_rebuild]
+@multi5("What should I do when the temple is built?", razmire_temple_built, "The Shades keep knocking the temple down!", razmire_temple_knocked_down, "I keep running out of building materials!", razmire_building_materials, "Can you open a store for me?", razmire_store_post_oil, "Ok, thanks.", razmire_thanks);
+
+[label,razmire_temple_built]
+~chatplayer("<p,neutral>What should I do when the temple is built?");
+~chatnpc("<p,neutral>Well, you could always have a nice picnic... oh.. but then|there's the problem with the Shades... hmmm, not nice...|not nice at all! Well, I'll be honest, I don't really know! But|I bet Ulsquire will know.");
+@razmire_questions_post_rebuild;
+
+[label,razmire_temple_knocked_down]
+~chatplayer("<p,neutral>The Shades keep knocking the temple down!");
+~chatnpc("<p,neutral>Interesting...perhaps they have something against the|temple? Perhaps it represents something bad to them?|Hmm, interesting stuff, but you'd best speak to Ulsquire|about that sort of thing... do you need any supplies?");
+@razmire_questions_post_rebuild;
+
+[label,razmire_building_materials]
+~chatplayer("<p,neutral>I keep running out of building materials!");
+~chatnpc("<p,neutral>Oh really... that's interesting... I have just the thing for|you!");
+@razmire_building_open;
+
+[label,razmire_questions]
+@multi5("Who are you?", razmire_who, "What is this place?", razmire_place, "What's going on around here?", razmire_going_on, "What are all these shadow creatures?", razmire_creatures, "Is there anything worth doing around here?", razmire_worth_doing);
+
+[label,razmire_who]
+~chatplayer("<p,neutral>Who are you?");
+~chatnpc("<p,neutral>My name is Razmire Keelgan, I run a couple of shops|in Mort'ton but don't get much custom these days.");
+~chatplayer("<p,neutral>Which stores do you run?");
+~chatnpc("<p,neutral>I run a general store with a few useful items, and I|have a building supplies store, I'm hoping that when|things get better down here, people will want to buy|items to repair their buildings.");
+@multi3("Can I see your general store please", razmire_stores_closed_general, "Can I see your build supplies store please", razmire_stores_closed_builders, "I have other questions for you.", razmire_questions);
+
+[label,razmire_place]
+~chatplayer("<p,neutral>What is this place?");
+~chatnpc("<p,neutral>This place is called Mort'ton, it used to be a quiet town|with a specialism in death. That is to say that many|burial tombs were created here in the naturally formed|caves under this very village.");
+@razmire_questions;
+
+[label,razmire_going_on]
+~chatplayer("<p,neutral>What's going on around here?");
+~chatnpc("<p,neutral>Well, the people of the village, my usual customers... are|all affected by the emanations from some place to the|North East. Ulsquire can give you the name.");
+~chatnpc("<p,neutral>Needless to say Herbi was working on a serum to help|us and you stumbled across the recipe! I for one am|grateful to you, but there's a lot left to do before|Mort'ton is returned to it's former glory.");
+@razmire_questions;
+
+[label,razmire_creatures]
+~chatplayer("<p,neutral>What are all these shadowy creatures?");
+~chatnpc("<p,angry>Those disgusting entities are the filth that have ruined|my life. They're the restless spirits of the dead who|jealously guard their burial treasure yet feed on the life|force of the living.");
+~chatnpc("<p,neutral>I've heard that they jealously guard their tomb treasure|and that it's worth plundering. I need you to kill five|shades and bring me their remains so that I can|conduct some experiments. Will you do it?");
+@multi3_header("Yes, I'll dispatch those dark and evil creatures.", razmire_yes, "Sorry, not right now, I need to do something else first.", razmire_not_now, "I have another question.", razmire_questions,"Kill five Shades?");
+
+[label,razmire_not_now]
+~chatplayer("<p,neutral>Sorry, not right now, I need to do something else first.");
+~chatnpc("<p,neutral>Ok, fair enough...");
+
+[label,razmire_yes]
+~chatplayer("<p,neutral>Yes, I'll dispatch those dark and evil creatures.");
+//Extra space is authentic https://youtu.be/GsIyOr53q4E?si=KClap8i08jpY9Bmy&t=137
+%morttonquest = ^mortton_kill_shades;
+~chatnpc("<p,happy>Great, that's what I wanted to hear. When you've done it, bring back all the remains,  I want to inspect them.");
+
+[label,razmire_worth_doing]
+~chatplayer("<p,neutral>Is there anything worth doing around here?");
+~chatnpc("<p,neutral>Life is a daily struggle with those Shades around here.|They attack when you least expect it...it's terrifying! I|tell you what, if you kill five of those Shades I'll see if I|can help you out! Is it a deal?");
+@multi3_header("Yes, I'll dispatch those dark and evil creatures.", razmire_yes, "Sorry, not right now, I need to do something else first.", razmire_not_now, "I have another question.", razmire_questions,"Kill five Shades?");
+
+[label,razmire_stores_closed_general]
+~chatnpc("<p,neutral>Well to be honest, all of my stock is packed away right|now seeing as the town is all overrun with these Shades.|I tell you what. You put an end to five Shades for me|and I'll open the store for you!");
+~chatnpc("<p,neutral>I have details on that dilapidated temple to the North.|These shades have a purpose - they jealously guard|their burial treasure! If you can do me some favours, I|could help you to locate it!");
+@multi3_header("Yes, I'll dispatch those dark and evil creatures.", razmire_yes, "Sorry, not right now, I need to do something else first.", razmire_not_now, "I have another question.", razmire_questions,"Kill five Shades?");
+
+[label,razmire_stores_closed_builders]
+~chatnpc("<p,neutral>Well to be honest, all of my stock is packed away right|now seeing as the town is all overrun with these Shades.|I tell you what. You put an end to five Shades for me|and I'll open the store for you!");
+~chatnpc("<p,neutral>I have details on that dilapidated temple to the North.|These shades have a purpose - they jealously guard|their burial treasure! If you can do me some favours, I|could help you to locate it!");
+@multi2_header("Yes, I'll dispatch those dark and evil creatures.", razmire_yes, "Sorry, not right now, I need to do something else first.", razmire_not_now, "Kill five Shades for Razmire?");
+
+[label,razmire_store_selection]
+@multi4("Can I see the general store please?", razmire_general_open, "Can I see the building store please?", razmire_building_open, "I have another question.", razmire_questions_post_shades, "Ok, thanks.", razmire_thanks);
+
+[label,razmire_store_selection_post_oil]
+@multi3("Can I see the general store please?", razmire_general_open, "Can I see the building store please?", razmire_building_open, "Ok, thanks.", razmire_thanks);
+
+[label,razmire_questions_post_shades]
+@multi5("What do you know out about the shades?", razmire_shades, "What can you tell me about that temple?", razmire_temple, "Do you know how I could make this serum permanent?", razmire_serum, "Can you open a store for me?", razmire_store, "Ok, thanks.", razmire_thanks);
+
+[label,razmire_shades]
+~chatplayer("<p,neutral>What do you know about the shades?");
+~chatnpc("<p,neutral>Ulsqire says they're the incarnation of the dead who|were interred in the tombs under Mort'ton. If you can|find a way to put these spirits to rest, I'll show you a|way into their lair!");
+~chatnpc("<p,happy>Mind you...there must be thousands of them buried|under there! Just imagine all the treasure they must|have buried under there!");
+@razmire_questions_post_shades;
+
+[label,razmire_temple]
+~chatplayer("<p,neutral>What can you tell me about the temple?");
+~chatnpc("<p,neutral>It's ancient and has been desecrated since before I was|born. I've always felt that it was quite a nice place to sit|and have a picnic, quite a nice view out of the swamps|of Mort Myre.");
+~chatnpc("<p,neutral>I told Ulsquire that if he can afford to go half's with me|on the building materials, I'd help him to try and fix it|up one day. I've always wondered what it looked like|back in pagan times.");
+@razmire_questions_post_shades;
+
+[label,razmire_serum]
+~chatplayer("<p,neutral>Do you know how I could make this serum permanent?");
+~chatnpc("<p,neutral>I'd say not my friend. That clever Flax chap was|always experimentatin', I guess he was a scholarly type.|He always dismissed Ulsquires learned speculations about|the temple, I'd say that was a bit short sighted myself.");
+~chatplayer("<p,neutral>What's that supposed to mean?");
+~chatnpc("<p,neutral>Well, you made the serum yourself so I guess you'll|experimentate with it. I'd say that the temple might be|able to change the serum in some way. Well, yes, I|guess it sounds superstitious, but what's to be lost?");
+@razmire_questions_post_shades;
+
+[label,razmire_store]
+~chatplayer("<p,neutral>Can you open a store for me?");
+~chatnpc("<p,happy>Sure, which store do you wanna see?");
+@razmire_store_selection;
+
+[label,razmire_store_post_oil]
+~chatplayer("<p,neutral>Can you open a store for me?");
+~chatnpc("<p,happy>Sure, which store do you wanna see?");
+@razmire_store_selection_post_oil;
+
+[label,razmire_general_open]
+~openshop(razmiregeneralstore, 400, 1300, 300, "Razmire General Store.");
+
+[label,razmire_building_open]
+~openshop(razmirebuildingstore, 950, 1050, 400, "Razmire Builders Merchants.");
+
+[label,razmire_thanks]
+~chatplayer("<p,neutral>Ok, thanks");
+
+[label,razmire_killed_shades]
+~chatnpc("<p,neutral>Have you killed those Shades yet?");
+~chatplayer("<p,neutral>No, sorry, not yet.");
+~chatnpc("<p,neutral>Well, come back when you have.");
+
+//osrs uses razmire as an npc controller, 
+//confirmed because if he changes types then the timer cadence changes too
+[ai_timer,razmire_keelgan]
+huntall(^mortton_temple_shadow_transform_center_coord, 30, 0);
+while (huntnext = true) {
+    if(~inzone_coord_pair_table(mortton_temple_zones, coord) = false) {
+        if_openoverlay(null);
+    } else {
+        queue(update_flamtaer_overlay, 0, 0);
+    }
+}
+
+//todo: Try to figure out how this works.. it doesnt seem to always bring all shades in
+if (%current_temple_build > 0) {
+    npc_huntall(^mortton_temple_shadow_transform_center_coord, 60, 0);
+    while (npc_findnext = true) {
+        if((npc_type = shade_level1 | npc_type = shadeshadow_level1) & npc_getmode ! opplayer2) {
+            npc_walk(^mortton_temple_shadow_transform_center_coord);
+        }
+    }
+} else if (%current_temple_aggro > 0) {
+    %current_temple_aggro = sub(%current_temple_aggro,1);
+}
+
+[ai_timer,razmire_keelgan_afflicted]
+huntall(^mortton_temple_shadow_transform_center_coord, 30, 0);
+while (huntnext = true) {
+    if(~inzone_coord_pair_table(mortton_temple_zones, coord) = false) {
+        if_openoverlay(null);
+    } else {
+        queue(update_flamtaer_overlay, 0, 0);
+    }
+}
+
+if (%current_temple_build > 0) {
+    npc_huntall(^mortton_temple_shadow_transform_center_coord, 60, 0);
+    while (npc_findnext = true) {
+        if((npc_type = shade_level1 | npc_type = shadeshadow_level1) & npc_getmode ! opplayer2 & npc_getmode ! none) {
+            npc_walk(^mortton_temple_shadow_transform_center_coord);
+        }
+    }
+} else if (%current_temple_aggro > 0) {
+    %current_temple_aggro = sub(%current_temple_aggro,1);
+}

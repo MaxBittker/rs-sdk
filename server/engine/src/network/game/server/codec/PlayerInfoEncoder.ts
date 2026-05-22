@@ -9,8 +9,4 @@ export default class PlayerInfoEncoder extends ServerGameMessageEncoder<PlayerIn
     encode(buf: Packet, message: PlayerInfo): void {
         buf.pdata(message.bytes, 0, message.bytes.length);
     }
-
-    test(message: PlayerInfo): number {
-        return message.bytes.length;
-    }
 }

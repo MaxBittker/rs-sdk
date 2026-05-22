@@ -2,7 +2,7 @@
 // p_walk(movecoord(coord, 2, 0, 0));
 // ~chatplayer("<p,neutral>Hello");
 
-// [apnpc2,savage_bird]
+// [apnpc2,small_bat]
 // if (npc_range(coord) > 5) {
 //     p_aprange(5);
 //     return;
@@ -10,10 +10,10 @@
 // p_walk(movecoord(coord, 2, 0, 0));
 // ~chatplayer("<p,neutral>Hello");
 
-// [ai_opplayer2,savage_bird]
+// [ai_opplayer2,small_bat]
 // npc_walk(movecoord(npc_coord, 2, 0, 0));
 
-// [ai_applayer2,savage_bird]
+// [ai_applayer2,small_bat]
 // npc_walk(movecoord(npc_coord, 2, 0, 0));
 
 [debugproc,itele]
@@ -412,7 +412,7 @@ p_opnpc(1);
 
 [proc,apnpc_to_p_walk]
 mes("Test 34: apnpc to p_walk");
-npc_add(movecoord(coord, -1, 0, -1), savage_bird, 10);
+npc_add(movecoord(coord, -1, 0, -1), small_bat, 10);
 npc_setmode(none);
 npc_walk(npc_coord);
 queue(reset_itest, 10, 0);
@@ -421,12 +421,12 @@ p_opnpc(2);
 
 [proc,ai_opplayer_to_npc_walk]
 mes("Test 35: ai oppplayer to npc_walk");
-npc_add(movecoord(coord, -1, 0, -1), savage_bird, 10);
+npc_add(movecoord(coord, -1, 0, -1), small_bat, 10);
 npc_setmode(opplayer2);
 queue(reset_itest, 10, 0);
 
 [proc,ai_applayer_to_npc_walk]
 mes("Test 36: ai appplayer to npc_walk");
-npc_add(movecoord(coord, -5, 0, -1), savage_bird, 10);
+npc_add(movecoord(coord, -5, 0, -1), small_bat, 10);
 npc_setmode(applayer2);
 queue(reset_itest, 10, 0);

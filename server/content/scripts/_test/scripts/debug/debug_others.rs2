@@ -7,7 +7,7 @@ if(p_finduid(uid) = false) return;
 %journey_number = $var;
 // todo: should com_0 be set to "You sail to <$place_name>."?
 if_openmain(ship_journey);
-midi_jingle(^sailing_journey_jingle, ^sailing_journey_jingle_millis);
+~music_jingle("sailing journey");
 
 [debugproc,objbox](obj $obj)
 if (p_finduid(uid) = true) {
@@ -16,3 +16,21 @@ if (p_finduid(uid) = true) {
 
 [debugproc,members]
 mes("Your membership status is: <tostring(playermember)>");
+
+//maze random
+[debugproc,maze]
+if (p_finduid(uid) = false) {
+    return;
+}
+def_coord $coord = enum(int, coord, macro_maze_teleports, random(enum_getoutputcount(macro_maze_teleports)));
+%xplamp = 100;
+%macro_event_target_coord = coord;
+p_telejump($coord);
+~chatnpc_specific("Mysterious Old Man", macro_mysterious_old_man, "<p,neutral>You need to reach the maze centre,|then you'll be returned to where you were."); // Split line as per https://imgur.com/riCliBA
+mes("You need to reach the maze centre, then you'll be returned to where you were.");
+
+[debugproc,mazeend]
+if (p_finduid(uid) = false) {
+    return;
+}
+p_telejump(0_45_71_30_32);

@@ -1,9 +1,9 @@
 import Packet from '#/io/Packet.js';
 
 export default class Envelope {
-    length: number = 2;
-    shapeDelta: Int32Array = new Int32Array(2);
-    shapePeak: Int32Array = new Int32Array(2);
+    length: number = 0;
+    shapeDelta: Int32Array = new Int32Array(0);
+    shapePeak: Int32Array = new Int32Array(0);
 
     start: number = 0;
     end: number = 0;
@@ -14,25 +14,22 @@ export default class Envelope {
     amplitude: number = 0;
     ticks: number = 0;
 
-    constructor() {
-        this.shapeDelta[0] = 0;
-        this.shapeDelta[1] = 65535;
-        this.shapePeak[0] = 0;
-        this.shapePeak[1] = 65535;
+    load(buf: Packet): void {
+        this.form = buf.g1();
+        this.start = buf.g4();
+        this.end = buf.g4();
+
+        this.loadPoints(buf);
     }
 
-    load(dat: Packet): void {
-        this.form = dat.g1();
-        this.start = dat.g4();
-        this.end = dat.g4();
-
-        this.length = dat.g1();
+    loadPoints(buf: Packet) {
+        this.length = buf.g1();
         this.shapeDelta = new Int32Array(this.length);
         this.shapePeak = new Int32Array(this.length);
 
         for (let i = 0; i < this.length; i++) {
-            this.shapeDelta[i] = dat.g2();
-            this.shapePeak[i] = dat.g2();
+            this.shapeDelta[i] = buf.g2();
+            this.shapePeak[i] = buf.g2();
         }
     }
 

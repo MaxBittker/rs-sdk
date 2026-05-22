@@ -1,0 +1,58 @@
+[ai_timer,viking_fisherman1]
+npc_anim(human_fishing_casting, 0);
+npc_facesquare(movecoord(npc_coord, 0, 0, 1));
+
+[opnpc1,viking_fisherman1]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpcnoturn("<p,neutral>Don't talk to me outerlander. Anything you have to say to me, you can say to the Chieftain. Goodbye.");
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_fisherman_merchant;
+    }
+    ~chatplayer("<p,quiz>Are you a member of the Fremennik council?");
+    ~chatnpcnoturn("<p,quiz>Indeed I am, outerlander. Why do you ask?");
+    ~chatplayer("<p,quiz>Well, I was told by Brundt that I could be voted into the tribe as an honorary Fremennik if I could find seven members of the council of elders to vote in my favour.");
+    ~chatnpcnoturn("<p,neutral>Aye, that is indeed true.");
+    ~chatplayer("<p,happy>So can I have your vote?");
+    ~chatnpcnoturn("<p,neutral>You can have my vote on the day the skies turn red, the waters turn pink, the rocks turn yellow and the sun turns black.");
+    ~chatplayer("<p,quiz>Um... do you have any estimate when that is?");
+    ~chatnpcnoturn("<p,neutral>I'm telling you that I will never vote for you, you stupid outerlander.");
+} else if(%viking = ^viking_complete) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,happy>Welcome back <text_gender("brother", "sister")> <~get_viking_name>. It has been too long since last we spoke! The fish are really biting today!");
+}
+
+[label,viking_fisherman_merchant]
+if(inv_total(inv, viking_another_map) > 0) {
+    ~chatplayer("<p,neutral>Here. I got you your map.");
+    inv_del(inv, viking_another_map, 1);
+    inv_add(inv, viking_unique_fish, 1);
+    ~chatnpcnoturn("<p,neutral>Great work outerlander! With this, I can finally catch enough fish to make an honest living from it! Here, have the stupid rare fish.");
+    return;
+}
+if(inv_total(inv, viking_unique_fish) > 0) {
+    ~chatplayer("<p,confused>I don't see what's so special about this so called rare fish.");
+    ~chatnpcnoturn("<p,neutral>Me neither, outerlander. That is why I gave it to you.");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_fisherman :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpcnoturn("<p,neutral>You should pay attention when I speak! I already told you, that rip off navigator has it, and I want it!");
+    case ^sigmund_spoke_skul :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpcnoturn("<p,neutral>Ah, so even outerlanders have heard of my amazing catch the other day!");
+        ~chatplayer("<p,neutral>You have it? Can I trade you something for it?");
+        ~set_viking_sigmund_progress(^sigmund_spoke_fisherman);
+        ~chatnpcnoturn("<p,neutral>As exotic looking as it is, it is bad eating. I will happily trade it if you can find me the secret map of the best fishing spots that the navigator has hidden away.");
+        ~chatplayer("<p,neutral>Is that all?");
+        ~chatnpcnoturn("<p,neutral>Indeed it is, outerlander. The only reason I sit out here in the cold all day long is so I don't have to pay his outrageous prices.");
+        ~chatnpcnoturn("<p,neutral>By getting me his copy of that map, I will finally be self sufficient. I might even make a profit!");
+        ~chatplayer("<p,neutral>I'll see what I can do.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpcnoturn("<p,neutral>I never saw anything like that in my store before.");
+}

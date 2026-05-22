@@ -18,6 +18,10 @@ if (npc_range(coord) > 1) {
     p_aprange(1);
     return;
 }
+/* Eadgar's Ruse dialog trees */
+if(%eadgar_quest > ^eadgar_started & %eadgar_quest ! ^eadgar_complete) {
+    @eadgar_quest_dialog;
+}
 ~chatplayer("<p,happy>Hi!");
 switch_int(random(4)) {
     case 0 : ~chatnpc("<p,happy>Welcome to Mad Eadgar's! Happiness in a bowl!");
@@ -26,36 +30,48 @@ switch_int(random(4)) {
     case 3 : ~chatnpc("<p,happy>Welcome to Mad Eadgar's! Serving all day, every day!");
 }
 ~chatnpc("<p,happy>Would you care to sample our delicious home cooking?");
+/* When first meeting Eadgar for Eadgar's Ruse, the dialog takes place here */
+if(%eadgar_quest = ^eadgar_started) {
+    @eadgar_quest_initial_tree;
+} else {
+    @eadgar_default_tree;
+}
+
+[label,eadgar_default_tree]
 switch_int(~p_choice3("Why do you live so close to the trolls?", 1, "What do you have to offer?", 2, "No thanks, Eadgar.", 3)) {
+    case 1 : @eadgar_live_so_close;
+    case 2 : @eadgar_what_do_you_have;
+    case 3 : @eadgar_nothanks;    
+}
+
+[label,eadgar_live_so_close]
+~chatplayer("<p,confused>Why do you live so close to the trolls? Isn't it dangerous?");
+~chatnpc("<p,happy>Well, I suppose I do keep getting captured by the trolls and thrown in prison...But they always release me in the end, I'm far too old and skinny for their tastes.");
+~chatnpc("<p,happy>In any case, this is my home, and I'm not leaving it. And this area has the tastiest goats!");
+
+[label,eadgar_what_do_you_have]
+~chatplayer("<p,confused>What do you have to offer?");
+~chatnpc("<p,happy>The chef's recommendation for today is mountain goat stew. I'll give some stew in exchange for logs for my fire. They're hard to come by around here.");
+switch_int(~p_choice2("I'd like some mountain goat stew, please.", 1, "No thanks, Eadgar.", 2)) {
     case 1 :
-        ~chatplayer("<p,confused>Why do you live so close to the trolls? Isn't it dangerous?");
-        ~chatnpc("<p,happy>Well, I suppose I do keep getting captured by the trolls and thrown in prison...But they always release me in the end, I'm far too old and skinny for their tastes.");
-        ~chatnpc("<p,happy>In any case, this is my home, and I'm not leaving it. And this area has the tastiest goats!");
-    case 2 :
-        ~chatplayer("<p,confused>What do you have to offer?");
-        ~chatnpc("<p,happy>The chef's recommendation for today is mountain goat stew. I'll give some stew in exchange for logs for my fire. They're hard to come by around here.");
-        switch_int(~p_choice2("I'd like some mountain goat stew, please.", 1, "No thanks, Eadgar.", 2)) {
-            case 1 :
-                ~chatplayer("<p,neutral>I'd like some mountain goat stew, please.");
-                if(inv_totalcat(inv, category_22) = 0) {
-                    ~chatnpc("<p,angry>You don't have any logs! I may be mad, but I'm not stupid!");
-                    return;
-                }
-                ~inv_delcat(inv, category_22);
-                ~chatnpc("<p,happy>Here you go! Enjoy!");
-                if_close;
-                mes("You get a bowl of mountain goat stew.");
-                anim(human_eat, 0);
-                sound_synth(eat, 0, 0);
-                p_delay(1);
-                mes("You eat the mountain goat stew.");
-                if (stat(hitpoints) < stat_base(hitpoints)) {
-                    mes("It heals some health.");
-                    stat_heal(hitpoints, 20, 0);
-                }
-            case 2 : @eadgar_nothanks;
+        ~chatplayer("<p,neutral>I'd like some mountain goat stew, please.");
+        if(inv_totalcat(inv, category_22) = 0) {
+            ~chatnpc("<p,angry>You don't have any logs! I may be mad, but I'm not stupid!");
+            return;
         }
-    case 3 : @eadgar_nothanks;
+        ~inv_delcat(inv, category_22);
+        ~chatnpc("<p,happy>Here you go! Enjoy!");
+        if_close;
+        mes("You get a bowl of mountain goat stew.");
+        anim(human_eat, 0);
+        sound_synth(eat, 0, 0);
+        p_delay(1);
+        mes("You eat the mountain goat stew.");
+        if (stat(hitpoints) < stat_base(hitpoints)) {
+            mes("It heals some health.");
+            stat_heal(hitpoints, 20, 0);
+        }
+    case 2 : @eadgar_nothanks;
 }
 
 [label,eadgar_nothanks]

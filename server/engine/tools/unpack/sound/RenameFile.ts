@@ -16,11 +16,11 @@ if (src.length === 0) {
     process.exit(1);
 }
 
-if (fs.existsSync(`${Environment.BUILD_SRC_DIR}/synth/${dst}.synth`)) {
+if (fs.existsSync(`${Environment.build.srcDir}/synth/${dst}.synth`)) {
     process.exit(1);
 }
 
-fs.renameSync(`${Environment.BUILD_SRC_DIR}/synth/${src}.synth`, `${Environment.BUILD_SRC_DIR}/synth/${dst}.synth`);
+fs.renameSync(`${Environment.build.srcDir}/synth/${src}.synth`, `${Environment.build.srcDir}/synth/${dst}.synth`);
 
 SynthPack.register(id, dst);
 SynthPack.save();

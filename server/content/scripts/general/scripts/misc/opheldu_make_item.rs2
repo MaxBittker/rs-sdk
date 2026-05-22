@@ -1,4 +1,4 @@
-[label,opheldu_make_item](namedobj $product, string $message);
+[label,opheldu_make_item](namedobj $product, string $message)
 inv_del(inv, last_item, 1);
 inv_del(inv, last_useitem, 1);
 inv_add(inv, $product, 1);

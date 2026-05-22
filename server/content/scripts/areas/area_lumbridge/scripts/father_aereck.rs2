@@ -50,7 +50,7 @@ switch_int (~p_choice3("Who's Saradomin?", 1, "Nice place you've got here.", 2, 
                 ~chatnpc("<p,happy>I believe he is currently living as a hermit. He has a little shack somewhere in the swamps south of here. I'm sure if you told him that I sent you he'd be willing to help.");
                 ~chatnpc("<p,happy>My name is Father Aereck by the way.|Pleased to meet you.");
                 ~chatplayer("<p,happy>Likewise.");
-                ~chatnpc("<p,neutral>Take care travelling through the swamps.|I have heard they can be quite dangerous.");
+                ~chatnpc("<p,neutral>Take care travelling through the swamps,|I have heard they can be quite dangerous.");
                 ~chatplayer("<p,happy>I will, thanks.");
             case ^priest_complete : ~chatnpc("<p,happy>Sorry, I only had the one quest.");
         }

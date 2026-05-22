@@ -1,4 +1,4 @@
-import { LocAngle, LocShape } from '@2004scape/rsmod-pathfinder';
+import { LocAngle, LocShape } from '#/engine/routefinder/index.js';
 
 import CategoryType from '#/cache/config/CategoryType.js';
 import { ConfigType } from '#/cache/config/ConfigType.js';
@@ -136,7 +136,6 @@ export const StructTypeValid: ScriptValidator<number, StructType> = new ScriptIn
 export const DbRowTypeValid: ScriptValidator<number, DbRowType> = new ScriptInputConfigTypeValidator(DbRowType.get, (input: number) => input >= 0 && input < DbRowType.count, 'Dbrow');
 export const DbTableTypeValid: ScriptValidator<number, DbTableType> = new ScriptInputConfigTypeValidator(DbTableType.get, (input: number) => input >= 0 && input < DbTableType.count, 'Dbtable');
 export const GenderValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(0, 1, 'Gender');
-export const SkinColourValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(0, 7, 'SkinColour');
 export const PlayerOpIndexValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(1, 8, 'PlayerOpIndex');
 export const PlayerOpStateValid: ScriptValidator<number, number> = new ScriptInputRangeValidator(0, 7, 'PlayerOpState');
 

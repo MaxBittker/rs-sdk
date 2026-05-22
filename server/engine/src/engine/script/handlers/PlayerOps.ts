@@ -31,7 +31,6 @@ import {
     SeqTypeValid,
     StringNotNull,
     GenderValid,
-    SkinColourValid,
     PlayerOpIndexValid,
     PlayerOpStateValid,
     HuntVisValid
@@ -51,6 +50,7 @@ import IfSetPosition from '#/network/game/server/model/IfSetPosition.js';
 import IfSetScrollPos from '#/network/game/server/model/IfSetScrollPos.js';
 import IfSetTabActive from '#/network/game/server/model/IfSetTabActive.js';
 import IfSetText from '#/network/game/server/model/IfSetText.js';
+import MinimapToggle from '#/network/game/server/model/MinimapToggle.js';
 import PCountDialog from '#/network/game/server/model/PCountDialog.js';
 import SetPlayerOp from '#/network/game/server/model/SetPlayerOp.js';
 import SynthSound from '#/network/game/server/model/SynthSound.js';
@@ -98,16 +98,14 @@ const PlayerOps: CommandHandlers = {
 
     // https://x.com/JagexAsh/status/1698973910048403797
     [ScriptOpcode.STRONGQUEUE]: checkedHandler(ActivePlayer, state => {
-        const args = popScriptArgs(state);
-        const delay = check(state.popInt(), NumberNotNull);
-        const scriptId = state.popInt();
+        const [scriptId, delay, arg] = state.popInts(3);
 
         const script = ScriptProvider.get(scriptId);
         if (!script) {
             throw new Error(`Unable to find queue script: ${scriptId}`);
         }
 
-        state.activePlayer.enqueueScript(script, PlayerQueueType.STRONG, delay, args);
+        state.activePlayer.enqueueScript(script, PlayerQueueType.STRONG, delay, [arg]);
     }),
 
     [ScriptOpcode.STRONGQUEUEVARARG]: checkedHandler(ActivePlayer, state => {
@@ -469,10 +467,13 @@ const PlayerOps: CommandHandlers = {
     [ScriptOpcode.SOUND_SYNTH]: checkedHandler(ActivePlayer, state => {
         const [synth, loops, delay] = state.popInts(3);
 
+        check(synth, NumberNotNull);
+
         const player = state.activePlayer;
         if (player.lowMemory) {
             return;
         }
+
         player.write(new SynthSound(synth, loops, delay));
     }),
 
@@ -696,11 +697,6 @@ const PlayerOps: CommandHandlers = {
 
         check(com, NumberNotNull);
 
-        if (seq === -1) {
-            // uh, client crashes! which means empty dialogue wasn't an option at the time
-            return;
-        }
-
         state.activePlayer.write(new IfSetAnim(com, seq));
     }),
 
@@ -787,10 +783,10 @@ const PlayerOps: CommandHandlers = {
         player.applyDamage(amount, type);
     },
 
-    [ScriptOpcode.IF_SETRESUMEBUTTONS]: checkedHandler(ActivePlayer, state => {
-        const [button1, button2, button3, button4, button5] = state.popInts(5);
+    [ScriptOpcode.IF_ADDRESUMEBUTTON]: checkedHandler(ActivePlayer, state => {
+        const comId = state.popInt();
 
-        state.activePlayer.resumeButtons = [button1, button2, button3, button4, button5];
+        state.activePlayer.resumeButtons.push(comId);
     }),
 
     [ScriptOpcode.TEXT_GENDER]: checkedHandler(ActivePlayer, state => {
@@ -803,25 +799,31 @@ const PlayerOps: CommandHandlers = {
     }),
 
     [ScriptOpcode.MIDI_SONG]: state => {
-        const name = check(state.popString(), StringNotNull);
+        const id = state.popInt();
 
         const player = state.activePlayer;
         if (player.lowMemory) {
             return;
         }
-        player.playSong(name);
+
+        player.playSong(id);
     },
 
     [ScriptOpcode.MIDI_JINGLE]: state => {
-        const delay = check(state.popInt(), NumberNotNull);
-        const name = check(state.popString(), StringNotNull);
+        const id = state.popInt();
 
         const player = state.activePlayer;
         if (player.lowMemory) {
             return;
         }
-        player.playJingle(delay, name);
+
+        player.playJingle(id);
     },
+
+    [ScriptOpcode.MINIMAP_TOGGLE]: checkedHandler(ActivePlayer, state => {
+        const type = check(state.popInt(), NumberNotNull);
+        state.activePlayer.write(new MinimapToggle(type));
+    }),
 
     [ScriptOpcode.SOFTTIMER]: checkedHandler(ActivePlayer, state => {
         const args = popScriptArgs(state);
@@ -1064,7 +1066,7 @@ const PlayerOps: CommandHandlers = {
     },
 
     [ScriptOpcode.AFK_EVENT]: state => {
-        state.pushInt((Environment.NODE_DEBUG || state.activePlayer.staffModLevel < 2) && state.activePlayer.afkEventReady ? 1 : 0);
+        state.pushInt((Environment.node.debug || state.activePlayer.staffModLevel < 2) && state.activePlayer.afkEventReady ? 1 : 0);
         state.activePlayer.afkEventReady = false;
     },
 
@@ -1127,9 +1129,17 @@ const PlayerOps: CommandHandlers = {
         state.activePlayer.gender = gender;
     },
 
-    [ScriptOpcode.SETSKINCOLOUR]: state => {
-        const skin = check(state.popInt(), SkinColourValid);
-        state.activePlayer.colors[4] = skin;
+    [ScriptOpcode.SET_SKILL_LEVEL]: checkedHandler(ActivePlayer, state => {
+        const level = check(state.popInt(), NumberNotNull);
+        state.activePlayer.skillLevel = level;
+    }),
+
+    [ScriptOpcode.SETIDKCOLOUR]: state => {
+        const [slot, color] = state.popInts(2);
+        if (slot > state.activePlayer.colors.length || slot < 0) {
+            throw new Error(`Invalid idk slot: ${slot}`);
+        }
+        state.activePlayer.colors[slot] = color;
     },
 
     // https://x.com/JagexAsh/status/1791472651623370843
@@ -1204,8 +1214,8 @@ const PlayerOps: CommandHandlers = {
         const objType = ObjType.getByName(name);
 
         state.activePlayer.addWealthEvent({
-            event_type: eventType, 
-            account_items: [{ id: objType?.id, name, count }], 
+            event_type: eventType,
+            account_items: [{ id: objType?.id, name, count }],
             account_value: value
         });
     }),
@@ -1255,7 +1265,7 @@ const PlayerOps: CommandHandlers = {
         state.activePlayer = result.value;
         state.pointerAdd(ActivePlayer[state.intOperand]);
         state.pushInt(1);
-    },
+    }
 };
 
 /**

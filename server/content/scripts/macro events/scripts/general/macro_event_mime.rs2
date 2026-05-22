@@ -15,26 +15,25 @@ p_teleport(0_31_74_24_28);
 // Enter map trigger: 
 [mapzone,0_31_74]
 %macro_event = ^macro_mime;
-// midi_song("artistry"); // Not in tracks yet so probably wasn't played here
-// if_settext(music:com_177, "Artistry");
 def_int $count = divide(modulo(map_clock, multiply(16,2)), 2);
 if ($count < 4) {
     if (loc_find(0_31_74_23_25, loc_3644) = true) {
-        loc_anim(seq_1135);
+        loc_anim(macro_spotlight_off);
     }
     if (loc_find(0_31_74_26_25, loc_3644) = true) {
-        loc_anim(seq_1136);
+        loc_anim(macro_spotlight_on);
     }
 } else {
     if (loc_find(0_31_74_23_25, loc_3644) = true) {
-        loc_anim(seq_1136);
+        loc_anim(macro_spotlight_on);
     }
     if (loc_find(0_31_74_26_25, loc_3644) = true) {
-        loc_anim(seq_1135);
+        loc_anim(macro_spotlight_off);
     }
 }
 // http://img.photobucket.com/albums/v689/enkidutorix/random%20events/lolthelamp0.gif
 mes("You need to copy the mime's performance, then you'll return to where you were.");
+@music_playbyregion(coord);
 
 // Exit map trigger: restore tabs
 [mapzoneexit,0_31_74]
@@ -46,10 +45,10 @@ def_int $count = divide(modulo(map_clock, multiply(16,2)), 2);
 if($count = 0) {
     npc_facesquare(movecoord(npc_coord, 0, 0, -1));
     if (loc_find(0_31_74_23_25, loc_3644) = true) {
-        loc_anim(seq_1135);
+        loc_anim(macro_spotlight_off);
     }
     if (loc_find(0_31_74_26_25, loc_3644) = true) {
-        loc_anim(seq_1136);
+        loc_anim(macro_spotlight_on);
     }
     huntall(0_31_74_24_28, 1, 0);
     while(huntnext = true) {
@@ -78,10 +77,10 @@ if($count = 4) {
     npc_anim(emote_bow, 0);
     npc_facesquare(movecoord(npc_coord, -1, 0, 0));
     if (loc_find(0_31_74_23_25, loc_3644) = true) {
-        loc_anim(seq_1136);
+        loc_anim(macro_spotlight_on);
     }
     if (loc_find(0_31_74_26_25, loc_3644) = true) {
-        loc_anim(seq_1135);
+        loc_anim(macro_spotlight_off);
     }
     huntall(0_31_74_24_26, 1, 0);
     while (huntnext = true) {
@@ -204,7 +203,7 @@ if (testbit(%emote_access, ^macro_mime_climb_rope) = ^false) {
 if (testbit(%emote_access, ^macro_mime_lean) = ^false) {
     if ($current = $pick) {
         %emote_access = setbit(%emote_access, ^macro_mime_lean);
-        ~mesbox("You can now use the Lean on air emote!");
+        ~mesbox("You can now use the Lean emote!"); // https://i.imgur.com/b7WvfEH.png (2005)
         return;
     }
     $current = add($current, 1);

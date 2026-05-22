@@ -39,7 +39,7 @@ switch_int(%hetty) {
 
 [label,hetty_search_quest]
 ~chatplayer("<p,neutral>I am in search of a quest.");
-~chatnpc("<p,neutral>Hmmmm... Maybe I can think of something for you.");
+~chatnpc("<p,neutral>Hmmm... Maybe I can think of something for you.");
 ~chatnpc("<p,happy>Would you like to become more proficient in the dark arts?");
 
 def_int $option = ~p_choice3("Yes help me become one with my darker side.", 1, "No I have my principles and honour.", 2, "What, you mean improve my magic?", 3);

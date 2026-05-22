@@ -1,4 +1,4 @@
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 export default class VarpType {
@@ -7,7 +7,7 @@ export default class VarpType {
 
     clientcode: number = 0;
 
-    static init(config: Jagfile): void {
+    static init(config: JagFile): void {
         const dat: Packet = new Packet(config.read('varp.dat'));
 
         this.numDefinitions = dat.g2();

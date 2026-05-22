@@ -41,16 +41,13 @@ if ($unlocks_levels ! null) {
     $has_unlocks = ~enum_containsintvalue($unlocks_levels, $level);
 }
 // play the jingle
-def_string $jingle;
-def_int $jingle_millis;
+def_midi $jingle;
 if ($has_unlocks = false) {
     $jingle = db_getfield($unlock_row, levelup:levelup_jingle, 0);
-    $jingle_millis = db_getfield($unlock_row, levelup:levelup_jingle_millis, 0);
 } else {
     $jingle = db_getfield($unlock_row, levelup:unlocks_jingle, 0);
-    $jingle_millis = db_getfield($unlock_row, levelup:unlocks_jingle_millis, 0);
 }
-midi_jingle($jingle, $jingle_millis);
+~music_jingle($jingle);
 // the level up dialogue box
 if_settext(db_getfield($unlock_row, levelup:title, 0), "@dbl@<$message>");
 if_settext(db_getfield($unlock_row, levelup:body, 0), "<db_getfield($unlock_row, levelup:level_prefix, 0)> <tostring($level)>.");

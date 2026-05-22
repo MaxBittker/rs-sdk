@@ -3,6 +3,11 @@ transmit=yes
 scope=temp
 protect=no
 
+[musicloop]
+transmit=yes
+scope=temp
+protect=no
+
 [musicmulti_1]
 transmit=yes
 scope=perm
@@ -29,6 +34,34 @@ scope=perm
 protect=no
 
 [musicmulti_6]
+transmit=yes
+scope=perm
+protect=no
+
+[currentsong]
+type=midi
+scope=temp
+protect=no
+
+[musicstart]
+scope=temp
+protect=no
+
+[musiclength]
+scope=temp
+protect=no
+
+[musicmulti_7]
+scope=perm
+transmit=yes
+protect=no
+
+[musicmulti_8]
+transmit=yes
+scope=perm
+protect=no
+
+[musicmulti_9]
 transmit=yes
 scope=perm
 protect=no

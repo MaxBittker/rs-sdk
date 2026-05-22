@@ -133,7 +133,7 @@ param=ent,macro_ent_dead_tree1
 name=Dead tree
 desc=It's only useful for firewood now.
 model=model_loc_1286
-mapscene=6
+mapscene=27
 op1=Chop down
 op3=hidden
 category=tree
@@ -145,7 +145,7 @@ param=ent,macro_ent_dead_tree2
 name=Dead tree
 desc=It's only useful for firewood now.
 model=model_loc_1286
-mapscene=6
+mapscene=27
 op1=Chop down
 op3=hidden
 recol1s=7296
@@ -300,3 +300,60 @@ op3=hidden
 category=tree
 param=next_loc_stage,deadtree6_stump
 param=ent,macro_ent_dead_tree2
+
+[regicide_tree_large]
+name=Tree
+desc=A tree.
+model=loc_3879
+width=3
+length=3
+mapscene=10
+op1=Chop down
+op3=hidden
+category=tree
+param=next_loc_stage,regicide_tree_stump
+
+[regicide_tree_large2]
+name=Tree
+desc=A tree.
+model=loc_3879
+width=3
+length=3
+resizex=128
+resizey=150
+resizez=128
+mapscene=10
+op1=Chop down
+op3=hidden
+category=tree
+param=next_loc_stage,regicide_tree_stump
+
+[regicide_tree_large3]
+name=Tree
+desc=A tree.
+model=loc_3879
+width=3
+length=3
+resizex=128
+resizey=170
+resizez=128
+mapscene=10
+op1=Chop down
+op3=hidden
+category=tree
+param=next_loc_stage,regicide_tree_stump
+
+[regicide_tree_small]
+name=Tree
+desc=A tree.
+model=loc_3879
+width=2
+length=2
+resizex=64
+resizey=84
+resizez=64
+mapscene=9
+op1=Chop down
+op3=hidden
+category=tree
+param=next_loc_stage,regicide_tree_stump_small

@@ -5,7 +5,7 @@ export class LoginClient extends InternalClient {
     private nodeId = 0;
 
     constructor(nodeId: number) {
-        super(Environment.LOGIN_HOST, Environment.LOGIN_PORT);
+        super(Environment.login.host, Environment.login.port);
 
         this.nodeId = nodeId;
     }
@@ -22,7 +22,7 @@ export class LoginClient extends InternalClient {
                 type: 'world_startup',
                 nodeId: this.nodeId,
                 nodeTime: Date.now(),
-                profile: Environment.NODE_PROFILE
+                profile: Environment.node.profile
             })
         );
     }
@@ -38,12 +38,16 @@ export class LoginClient extends InternalClient {
             type: 'player_login',
             nodeId: this.nodeId,
             nodeTime: Date.now(),
-            nodeMembers: Environment.NODE_MEMBERS,
-            profile: Environment.NODE_PROFILE,
+            nodeMembers: Environment.node.members,
+            profile: Environment.node.profile,
 
-            socket, remoteAddress, uid,
-            username, password,
-            reconnecting, hasSave
+            socket,
+            remoteAddress,
+            uid,
+            username,
+            password,
+            reconnecting,
+            hasSave
         });
 
         if (reply.error) {
@@ -75,7 +79,7 @@ export class LoginClient extends InternalClient {
             type: 'player_logout',
             nodeId: this.nodeId,
             nodeTime: Date.now(),
-            profile: Environment.NODE_PROFILE,
+            profile: Environment.node.profile,
             username,
             save: Buffer.from(save).toString('base64')
         });
@@ -100,7 +104,7 @@ export class LoginClient extends InternalClient {
                 type: 'player_autosave',
                 nodeId: this.nodeId,
                 nodeTime: Date.now(),
-                profile: Environment.NODE_PROFILE,
+                profile: Environment.node.profile,
                 username,
                 save: Buffer.from(save).toString('base64')
             })
@@ -120,7 +124,7 @@ export class LoginClient extends InternalClient {
                 type: 'player_force_logout',
                 nodeId: this.nodeId,
                 nodeTime: Date.now(),
-                profile: Environment.NODE_PROFILE,
+                profile: Environment.node.profile,
                 username
             })
         );

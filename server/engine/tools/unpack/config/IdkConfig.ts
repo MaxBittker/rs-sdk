@@ -10,7 +10,7 @@ import { ConfigIdx } from './Common.js';
 import { listFilesExt } from '#tools/pack/Parse.js';
 
 function renameModel(id: number, name: string) {
-    const existingFiles = listFilesExt(`${Environment.BUILD_SRC_DIR}/models`, '.ob2');
+    const existingFiles = listFilesExt(`${Environment.build.srcDir}/models`, '.ob2');
 
     let model = ModelPack.getById(id);
     if (model.startsWith('model_')) {
@@ -26,7 +26,7 @@ function renameModel(id: number, name: string) {
 
         const filePath = existingFiles.find(x => x.endsWith(`/${model}.ob2`));
         if (filePath) {
-            fs.renameSync(filePath, `${Environment.BUILD_SRC_DIR}/models/idk/${name}.ob2`);
+            fs.renameSync(filePath, `${Environment.build.srcDir}/models/idk/${name}.ob2`);
         } else {
             console.error('Model not found on filesystem', 'idk', model);
         }

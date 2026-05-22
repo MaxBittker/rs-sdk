@@ -1,4 +1,4 @@
-﻿name: Verify Engine Code
+name: Verify Engine Code
 
 on:
   pull_request:

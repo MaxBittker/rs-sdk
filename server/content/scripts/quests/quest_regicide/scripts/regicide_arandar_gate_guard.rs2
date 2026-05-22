@@ -1,0 +1,33 @@
+[oploc1,overpass_gate_left] @arandar_gate(^left);
+[oploc1,overpass_gate_right] @arandar_gate(^right);
+
+[label,arandar_gate](int $side)
+if(%regicide_quest > ^regicide_killed_tyras | coordz(coord) < coordz(loc_coord)) {
+    sound_synth(sound_613, 0, 0);
+    loc_del(6);
+    if($side = ^left) {
+        loc_add(0_37_52_16_5, overpass_gate_left_open, 2, centrepiece_straight, 6);
+    } else {
+        loc_add(0_37_52_19_5, overpass_gate_right_open, 2, centrepiece_straight, 6);
+    }
+    if(coordx(coord) = coordx(loc_coord)) {
+        p_delay(0);
+        if($side = ^left) p_teleport(movecoord(coord, 1, 0, 0));
+        else p_teleport(movecoord(coord, -1, 0, 0));
+        p_delay(1);
+    }
+    if(coordz(coord) <= coordz(loc_coord)) {
+        p_teleport(movecoord(coord, 0, 0, 2));
+    } else {
+        p_teleport(movecoord(coord, 0, 0, -2));
+    }
+    return;
+}
+if(npc_find(coord, regicide_arandar_gate_guard, 7, 0) = true) {
+    // TODO: is this the original dialogue (it's from RS3), great houses seems like it might've been added later
+    ~chatnpc("<p,neutral>No human may enter Tirannwn. Unless you have the proper documentation, sealed by one of the great houses.");
+    ~chatplayer("<p,sad>I don't have one.");
+    ~chatnpc("<p,neutral>Then I regret that I may not let you pass.");
+} else {
+    ~mesbox("You can't see any way to open the gates.");
+}

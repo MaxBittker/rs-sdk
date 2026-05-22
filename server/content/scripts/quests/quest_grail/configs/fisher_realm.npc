@@ -288,6 +288,7 @@ recol6s=15855
 recol6d=0
 model1=model_2864_npc
 model2=model_2872_npc
+head1=model_4091
 wanderrange=0
 maxrange=0
 moverestrict=nomove

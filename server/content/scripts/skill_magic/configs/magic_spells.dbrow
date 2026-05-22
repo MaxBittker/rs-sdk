@@ -7,7 +7,8 @@ data=runesrequired,waterrune,1,cosmicrune,1,null,null
 data=experience,175
 data=convertobj,sapphire_ring,ring_of_recoil,human_cast_enchantring,enchant_ring,enchant_sapphire_ring
 data=convertobj,strung_sapphire_amulet,amulet_of_magic,human_enchantamuletlvl1,enchant_amulet_lvl1,enchant_sapphire_amulet
-data=additional_reqmessage,This spell can only be cast on Sapphire Amulets and Rings.
+data=convertobj,sapphire_necklace,necklace_of_minigames_8,human_enchantamuletlvl1,enchant_amulet_lvl1,enchant_sapphire_amulet
+data=additional_reqmessage,"This spell can only be cast on Sapphire Amulets, Necklaces and Rings."
 data=amulet_reqmessage,unstrung_sapphire_amulet,You need to string the Sapphire Amulet before enchanting it.
 
 [magic_spell_enchant_level2]
@@ -111,6 +112,15 @@ data=levelrequired,58
 data=runesrequired,earthrune,2,lawrune,2,null,null
 data=experience,680
 data=tele_coord,2_45_73_53_41
+
+[magic_spell_teleport_trollheim]
+table=magic_spell_table
+data=spell,^trollheim_teleport
+data=members,true
+data=levelrequired,61
+data=runesrequired,firerune,2,lawrune,2,null,null
+data=experience,680
+data=tele_coord,0_45_57_10_31
 
 [magic_spell_charge_air_orb]
 table=magic_spell_table

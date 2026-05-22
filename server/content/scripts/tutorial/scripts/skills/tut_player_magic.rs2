@@ -43,7 +43,7 @@ if (npc_type = newbiechicken & %tutorial < ^tutorial_successful_wind_strike) {
 
 [proc,tut_pvm_spell_cast](dbrow $spell_data)(int)
 ~delete_spell_runes($spell_data);
-~tut_give_spell_xp($spell_data);
+~tutorial_give_xp(magic, db_getfield($spell_data, magic_spell_table:experience, 0));
 // spell anim
 anim(db_getfield($spell_data, magic_spell_table:anim, 0), 0);
 // player spell visual effect
@@ -62,6 +62,3 @@ if (~player_autocast_enabled = true & db_getfield($spell_data, magic_spell_table
     p_opnpct(db_getfield(~get_spell_data(%autocast_spell), magic_spell_table:spellcom, 0));
 }
 return($duration);
-
-[proc,tut_give_spell_xp](dbrow $spell_data)
-~tutorial_give_xp(magic, db_getfield($spell_data, magic_spell_table:experience, 0));

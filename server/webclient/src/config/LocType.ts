@@ -6,7 +6,7 @@ import { LocAngle } from '#/dash3d/LocAngle.js';
 
 import Model from '#/dash3d/Model.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 import { TypedArray1d } from '#/util/Arrays.js';
@@ -58,7 +58,7 @@ export default class LocType {
     breakroutefinding: boolean = false;
     raiseobject: number = 0;
 
-    static init(config: Jagfile): void {
+    static init(config: JagFile): void {
         this.dat = new Packet(config.read('loc.dat'));
         const idx: Packet = new Packet(config.read('loc.idx'));
 
@@ -335,15 +335,15 @@ export default class LocType {
         if (this.hillskew) {
             const groundY: number = ((heightSW + heightSE + heightNE + heightNW) / 4) | 0;
 
-            for (let i: number = 0; i < modified.vertexCount; i++) {
-                const x: number = modified.vertexX![i];
-                const z: number = modified.vertexZ![i];
+            for (let i: number = 0; i < modified.numPoints; i++) {
+                const x: number = modified.pointX![i];
+                const z: number = modified.pointZ![i];
 
                 const heightS: number = heightSW + ((((heightSE - heightSW) * (x + 64)) / 128) | 0);
                 const heightN: number = heightNW + ((((heightNE - heightNW) * (x + 64)) / 128) | 0);
                 const y: number = heightS + ((((heightN - heightS) * (z + 64)) / 128) | 0);
 
-                modified.vertexY![i] += y - groundY;
+                modified.pointY![i] += y - groundY;
             }
 
             modified.recalcBoundingCylinder();
@@ -458,7 +458,7 @@ export default class LocType {
         const scaled: boolean = this.resizex !== 128 || this.resizey !== 128 || this.resizez !== 128;
         const translated: boolean = this.offsetx !== 0 || this.offsety !== 0 || this.offsetz !== 0;
 
-        const modified: Model = Model.copyForAnim(model, !this.recol_s, AnimFrame.shareAlpha(transformId), angle === LocAngle.WEST && transformId === -1 && !scaled && !translated);
+        const modified: Model = Model.copyForAnim(model, !this.recol_s, AnimFrame.animateTransparencies(transformId), angle === LocAngle.WEST && transformId === -1 && !scaled && !translated);
         if (transformId !== -1) {
             modified.prepareAnim();
             modified.animate(transformId);

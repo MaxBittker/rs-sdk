@@ -623,7 +623,7 @@ y=29
 width=109
 height=14
 center=yes
-font=b12
+font=b12_full
 shadowed=yes
 text=Grave Monument
 colour=0xFFFF00
@@ -635,7 +635,7 @@ y=29
 buttontype=close
 width=68
 height=11
-font=p11
+font=p11_full
 shadowed=yes
 text=Close Window
 colour=0x808080
@@ -781,7 +781,7 @@ y=67
 width=127
 height=107
 center=yes
-font=q8
+font=q8_full
 text=Saradomin\n\nlights my way\n\nthrough\n\nthe darkness of life
 
 [com_96]

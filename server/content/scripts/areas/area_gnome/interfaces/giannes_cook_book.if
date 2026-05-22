@@ -14,7 +14,7 @@ x=45
 y=185
 width=200
 height=77
-font=q8
+font=q8_full
 text=line1\nline2\nline3\nline4\nline5
 
 [cook_obj]
@@ -34,7 +34,7 @@ y=80
 width=163
 height=17
 center=yes
-font=q8
+font=q8_full
 text=title1
 colour=0x800000
 
@@ -44,7 +44,7 @@ x=285
 y=80
 width=200
 height=182
-font=q8
+font=q8_full
 text=line1\nline2\nline3\nline4\nline5\nline6\nline7\nline8\nline9\nline10\nline11\nline12
 
 [leftarrow_layer]
@@ -419,7 +419,7 @@ y=30
 width=360
 height=14
 center=yes
-font=b12
+font=b12_full
 shadowed=yes
 text=Gianne's cook book
 colour=0xFFFF00
@@ -431,7 +431,7 @@ y=28
 buttontype=close
 width=68
 height=11
-font=p11
+font=p11_full
 shadowed=yes
 text=Close Window
 colour=0xC00000
@@ -444,7 +444,7 @@ y=28
 buttontype=normal
 width=28
 height=11
-font=p11
+font=p11_full
 shadowed=yes
 text=Index
 colour=0xC00000

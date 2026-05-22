@@ -12,8 +12,8 @@ switch_int(%tutorial) {
 }
 
 [label,newbie_survival_instructor_start]
-~chatnpc("<p,neutral>Hello there newcomer. My name is Brynna. My job is|to teach you a few survival tips and tricks. First off|we're going to start with the most basic survival skill of|all; making a fire.");
-~doubleobjbox(tinderbox, bronze_axe, "The Survival Guide gives you a |@blu@Tinderbox@bla@ |and a |@blu@Bronze Hatchet!", 200);
+~chatnpc("<p,neutral>Hello there newcomer. My name is Brynna. My job|is to teach you a few survival tips and tricks.|First off we're going to start with the most|basic survival skill of all; making a fire.");
+~doubleobjbox(tinderbox, bronze_axe, "The Survival Guide gives you a|@blu@Tinderbox@bla@|and a|@blu@Bronze Hatchet!", 200);
 %tutorial = ^newbie_survival_instructor_open_inventory;
 ~tutorial_step_view_inventory;
 
@@ -32,18 +32,18 @@ switch_int(%tutorial) {
 if (~tutorial_has_obj_on_person(bronze_axe) = false & inv_total(inv, tinderbox) < 1) {
     inv_add(inv, bronze_axe, 1);
     inv_add(inv, tinderbox, 1);
-    ~doubleobjbox(tinderbox, bronze_axe, "The Survival Guide gives you a |@blu@Tinderbox@bla@ |and a |@blu@Bronze Hatchet!", 200);
+    ~doubleobjbox(tinderbox, bronze_axe, "The Survival Guide gives you a|@blu@Tinderbox@bla@|and a|@blu@Bronze Hatchet!", 200);
 } else if (~tutorial_has_obj_on_person(bronze_axe) = false) {
     inv_add(inv, bronze_axe, 1);
-    ~objbox(bronze_axe, "The Survival Guide gives you a |@blu@Bronze Hatchet!", 250, 0, 0);
+    ~objbox(bronze_axe, "The Survival Guide gives you a|@blu@Bronze Hatchet!", 250, 0, 0);
 }else if (inv_total(inv, tinderbox) < 1) {
     inv_add(inv, tinderbox, 1);
-    ~objbox(tinderbox, "The Survival Guide gives you a |@blu@Tinderbox!", 250, 0, 0);
+    ~objbox(tinderbox, "The Survival Guide gives you a|@blu@Tinderbox!", 250, 0, 0);
 }
 
 if (%tutorial > ^newbie_survival_instructor_open_skill_menu & inv_total(inv, net) < 1) {
     inv_add(inv, net, 1);
-    ~objbox(net, "The Survival Guide gives you a |@blu@Net!", 250, 0, divide(^objbox_height, 2));
+    ~objbox(net, "The Survival Guide gives you a|@blu@Net!", 250, 0, divide(^objbox_height, 2));
 }
 
 // Used later for OSRS so we'll leave it.
@@ -61,14 +61,14 @@ if (inv_total(inv, net) < 1 & inv_freespace(inv) > 0) {
 }
 
 [label,newbie_survival_instructor_fishing]
-~chatnpc("<p,neutral>There's nothing like a good fire to warm the bones.|Next thing is getting food in our bellies. We'll need|something to cook. There are shrimp in the pond there.|So let's catch and cook some.");
+~chatnpc("<p,neutral>There's nothing like a good fire to warm the bones.|Next thing is getting food in our bellies.|We'll need something to cook. There are shrimp|in the pond there. So let's catch and cook some.");
 if (npc_findexact(0_48_48_29_20, 0_48_48_newbiefishing) = true) {
     hint_npc;
 }
 inv_add(inv, net, 1);
 %tutorial = ^newbie_survival_instructor_fish_shrimps;
 ~tutorial_step_catch_shrimp;
-~objbox(net, "The Survival Guide gives you a |@blu@Net!", 250, 0, divide(^objbox_height, 2));
+~objbox(net, "The Survival Guide gives you a|@blu@Net!", 250, 0, divide(^objbox_height, 2));
 ~newbie_survival_instructor_replace_items;
 
 // https://youtu.be/TSx2-jjPeIs?t=31

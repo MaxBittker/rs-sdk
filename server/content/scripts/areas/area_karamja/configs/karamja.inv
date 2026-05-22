@@ -59,3 +59,32 @@ stock22=bronze_axe,2,500
 stock23=bronze_pickaxe,2,500
 stock24=iron_axe,5,700
 stock25=bronze_bar,10,500
+
+[tbwt_tiadeche_final_inventory]
+// https://youtu.be/eOeuXivjuuM?si=-4m7Rh_hwm0LLIwM&t=553
+// https://youtu.be/tkP77q1a9fo?si=Ul68v9d2noxfAFOT&t=1629
+// https://web.archive.org/web/20130809085935/http://2007rshelp.com/cities.php?id=36
+// https://oldschool.runescape.wiki/w/Tiadeche%27s_Karambwan_Stall
+scope=shared
+size=40
+restock=yes
+stackall=yes
+allstock=no
+stock1=tbwt_raw_karambwan,10,10
+stock2=tbwt_karambwan_vessel,2,100
+
+[tbwt_tamayu_final_inventory]
+// https://web.archive.org/web/20130809085935/http://2007rshelp.com/cities.php?id=36
+// https://oldschool.runescape.wiki/w/Tamayu%27s_Spear_Stall
+scope=shared
+size=40
+restock=yes
+stackall=yes
+allstock=no
+stock1=tbwt_bronze_spear_kp,10,10
+stock2=tbwt_iron_spear_kp,10,100
+stock3=tbwt_steel_spear_kp,5,100
+stock4=tbwt_mithril_spear_kp,2,100
+stock5=tbwt_adamant_spear_kp,0,100
+stock6=tbwt_rune_spear_kp,0,100
+stock7=tbwt_cleaning_cloth,10,5

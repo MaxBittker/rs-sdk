@@ -112,3 +112,31 @@ data=loot,uncut_diamond,1,1,1,an uncut diamond
 data=loot_total,128
 data=stall,gem stall
 data=stall,a gem
+
+[stealing_viking_fur_stall]
+table=stealing
+data=loc,viking_fur_market
+data=owner,viking_fur_monger
+data=guard,viking_guard
+data=level,35
+data=experience,360
+data=respawn_ticks,32
+data=loot,grey_wolf_fur,1,1,128,a piece of fur
+data=loot_total,128
+data=stall,fur stall
+data=stall,some fur
+
+[stealing_viking_fish_stall]
+table=stealing
+data=loc,viking_fish_market
+data=owner,viking_fish_monger
+data=guard,viking_guard
+data=level,42
+data=experience,420
+data=respawn_ticks,32
+data=loot,raw_lobster,1,1,1,a lobster
+data=loot,raw_tuna,1,1,5,a tuna
+data=loot,raw_salmon,1,1,14,a salmon
+data=loot_total,20
+data=stall,fish stall
+data=stall,some fish

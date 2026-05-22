@@ -13,6 +13,10 @@ if ($var = 1) {
     return(%musicmulti_6);
 } else if ($var = 7) {
     return(%musicmulti_7);
+} else if ($var = 8) {
+    return(%musicmulti_8);
+} else if ($var = 9) {
+    return(%musicmulti_9);
 }
 return(null);
 
@@ -31,9 +35,29 @@ if ($var = 1) {
     %musicmulti_6 = setbit(%musicmulti_6, $bit);
 } else if ($var = 7) {
     %musicmulti_7 = setbit(%musicmulti_7, $bit);
+} else if ($var = 8) {
+    %musicmulti_8 = setbit(%musicmulti_8, $bit);
+} else if ($var = 9) {
+    %musicmulti_9 = setbit(%musicmulti_9, $bit);
 }
 
-[proc,music_playbybutton](component $playbutton)
+[label,music_play](midi $song)
+%currentsong = $song;
+%musicstart = map_clock;
+%musiclength = midi_length($song);
+midi_song(%currentsong);
+
+[proc,music_jingle](midi $jingle)
+// we only offset for music looping
+// the client will handle playing the last song after this jingle ends
+%musicstart = add(map_clock, midi_length($jingle));
+midi_jingle($jingle);
+
+[proc,.music_jingle](midi $jingle)
+.%musicstart = add(map_clock, midi_length($jingle));
+.midi_jingle($jingle);
+
+[label,music_playbybutton](component $playbutton)
 db_find(music:playbutton, $playbutton);
 def_dbrow $song = db_findnext;
 if ($song = null) {
@@ -53,9 +77,8 @@ if ($unlock ! null) {
 
 %musicplay = 0; // switch to manual mode
 
-def_string $name = db_getfield($song, music:name, 0);
-if_settext(music:com_177, $name);
-midi_song($name);
+if_settext(music:com_177, db_getfield($song, music:name, 0));
+@music_play(db_getfield($song, music:track, 0));
 
 [label,music_playbyregion](coord $coord)
 // first, search for the song linked to this mapsquare
@@ -81,7 +104,6 @@ if ($unlock ! null) {
 }
 
 if (%musicplay ! 0) {
-    def_string $name = db_getfield($song, music:name, 0);
-    if_settext(music:com_177, $name);
-    midi_song($name);
+    if_settext(music:com_177, db_getfield($song, music:name, 0));
+    @music_play(db_getfield($song, music:track, 0));
 }

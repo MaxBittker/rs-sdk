@@ -4,6 +4,7 @@ switch_obj(last_useitem) {
     case achey_tree_logs : @make_ogre_shafts;
     case dramen_branch : @cut_dramenstaff;
     case tentipineapple : mes("This pineapple is too small to cut up into rings. But it's very, very juicy!");
+    case viking_musical_tree_branch : @craft_unstrung_lyre;
     case default :
         if (oc_category(last_useitem) = category_22) {
             @fletch_log(last_useitem);
@@ -43,6 +44,8 @@ switch_obj(last_useitem) {
 [label,slice_or_dice_interface](obj $fruit)
 def_namedobj $sliced = null;
 def_namedobj $diced = null;
+def_int $y_sliced = -26;
+def_int $y_diced = -24;
 switch_obj($fruit) {
     case lemon :
         $sliced = lemon_slices;
@@ -50,6 +53,8 @@ switch_obj($fruit) {
     case lime :
         $sliced = lime_slices;
         $diced = lime_chunks;
+        $y_sliced = 0;
+        $y_diced = 0;
     case orange :
         $sliced = orange_slices;
         $diced = orange_chunks;
@@ -59,10 +64,11 @@ switch_obj($fruit) {
     case default : ~displaymessage(^dm_default);
 }
 // https://youtu.be/cC26OwAULXM?t=257
-// lime is lower for some reason, need to look into this
+// lime is lower for some reason
+
 def_namedobj $product = ~multiobj2("Would you like to...", 
-    $sliced, 0, -26, 175, "Slice the <lowercase(oc_name($fruit))>.", 5, -1,
-    $diced, 0, -24, 175, "Dice the <lowercase(oc_name($fruit))>.", 4, -1
+    $sliced, 0, $y_sliced, 175, "\\n\\n\\n\\nSlice the <lowercase(oc_name($fruit))>.", 5, -1,
+    $diced, 0, $y_diced, 175, "\\n\\n\\n\\nDice the <lowercase(oc_name($fruit))>.", 4, -1
 );
 if ($product = null) {
     ~displaymessage(^dm_default);

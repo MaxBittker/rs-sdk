@@ -4,7 +4,7 @@ switch_int (%princequest) {
         ~chatplayer("<p,happy>What are you waiting here for?");
         ~chatnpc("<p,neutral>That is no concern of yours, adventurer.");
     case ^prince_spoken_osman, ^prince_prep_finished, ^prince_guard_drunk, ^prince_tied_keli : @leela_help;
-    case ^prince_saved, ^prince_complete : ~chatnpc("<p,happy>Thank you, Al-Kharid will forever owe you for your help.|I think that if there is ever anything that needs to be done,|you will be someone they can rely on.");;
+    case ^prince_saved, ^prince_complete : ~chatnpc("<p,happy>Thank you, Al-Kharid will forever owe you for your help. I think that if there is ever anything that needs to be done, you will be someone they can rely on.");
 }
 
 [label,leela_help]

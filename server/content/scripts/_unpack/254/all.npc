@@ -1,3 +1,32 @@
+[small_bat]
+name=Bat
+model1=model_3782
+desc=Annoying flappy thing.
+walkanim=bat_walk
+readyanim=bat_ready
+op2=Attack
+vislevel=6
+wanderrange=20
+maxrange=32
+// respawnrate=TODO
+hitpoints=8
+attack=5
+strength=5
+defence=5
+param=stabdefence,2
+param=slashdefence,2
+param=crushdefence,5
+param=magicdefence,2
+param=damagetype,^stab_style
+param=attack_anim,bat_attack
+param=defend_anim,bat_parry
+param=death_anim,bat_death
+param=attack_sound,bat_attack
+param=defend_sound,bat_hit
+param=death_sound,bat_death
+param=death_drop,bat_bones
+// osrs stats and Vislvl match 1:1
+
 [macro_mime]
 name=Mime
 model1=model_3598
@@ -49,7 +78,7 @@ recol6s=7298
 recol6d=20083
 vislevel=hide
 desc=A member of the audience.
-readyanim=seq_1137
+readyanim=human_sitting_chair
 minimap=no
 
 [macro_theatre_guthix]
@@ -72,7 +101,7 @@ recol5s=7298
 recol5d=3168
 vislevel=hide
 desc=A member of the audience.
-readyanim=seq_1137
+readyanim=human_sitting_chair
 minimap=no
 
 [macro_theatre_zamorak]
@@ -96,5 +125,5 @@ recol6s=10570
 recol6d=10272
 vislevel=hide
 desc=A member of the audience.
-readyanim=seq_1137
+readyanim=human_sitting_chair
 minimap=no

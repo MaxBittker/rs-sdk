@@ -43,6 +43,7 @@ desc=Manufacturer of fine leathers.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op1=Talk-to
+op3=Trade
 recol1s=2340
 recol1d=8354
 recol2s=14724
@@ -291,8 +292,9 @@ param=owned_shop,legsshop
 param=shop_sell_multiplier,1000
 param=shop_buy_multiplier,650
 param=shop_delta,10
-param=shop_title,Louie's Armoured Legs Bazaar.
+param=shop_title,Louies' Armoured Legs Bazaar.
 moverestrict=indoors
+// https://web.archive.org/web/20040928005013/http://runevillage.com/images/rsal4.gif (Louies' Armoured Legs Bazaar.)
 
 [ranael]
 vislevel=hide

@@ -1,0 +1,107 @@
+[opnpc1,viking_sigmund]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello there!");
+    ~chatnpc("<p,neutral>Hello outerlander. By the laws of our tribe, I am afraid I may not speak to you without the express permission of the chieftain.");
+    ~chatplayer("<p,quiz>Where would I find him?");
+    ~chatnpc("<p,neutral>In the longhall, outerlander.");
+} else if(%viking < ^viking_complete) {
+    ~chatplayer("<p,neutral>Hello there!");
+    if(inv_total(inv, viking_rare_flower) > 0) {
+        inv_del(inv, viking_rare_flower, ^max_32bit_int);
+        inv_del(bank, viking_rare_flower, ^max_32bit_int);
+        %viking = add(%viking, 1);
+        ~set_viking_sigmund_progress(^sigmund_complete);
+        ~chatplayer("<p,neutral>Here's that flower you wanted.");
+        ~chatnpc("<p,shock>Incredible! Your merchanting skills might even match my own! I have no choice but to recommend you to the council of elders!");
+        return;
+    }
+    switch_int(~get_viking_sigmund_progress) {
+        case ^sigmund_complete :
+            ~chatnpc("<p,neutral>Hello again outerlander! I am amazed once more at your apparent skill at merchanting!");
+            ~chatplayer("<p,quiz>So I can count on your vote at the council of elders?");
+            ~chatnpc("<p,neutral>Absolutely, outerlander. Your merchanting skills will be a real boon to the Fremennik.");
+        case default :
+            ~chatnpc("<p,quiz>So... how goes it outerlander? Did you manage to obtain my flower for me yet? Or do you lack the necessary merchanting skills?");
+            if(~get_viking_sigmund_progress = ^sigmund_spoke_thora) {
+                ~chatplayer("<p,neutral>I'm working on it.");
+                if(~obj_gettotal(viking_rare_flower) = 0 & ~obj_gettotal(viking_song) = 0 & ~obj_gettotal(viking_new_boots) = 0 & ~obj_gettotal(viking_map_to_hunting_grounds) = 0 & ~obj_gettotal(viking_bowstring) = 0 &
+                    ~obj_gettotal(viking_unique_fish) = 0 & ~obj_gettotal(viking_another_map) = 0 & ~obj_gettotal(viking_weather_forecast) = 0 & ~obj_gettotal(viking_champion_token) = 0 & ~obj_gettotal(viking_legendary_cocktail) = 0 &
+                    ~obj_gettotal(viking_promissary_note) = 0 & ~obj_gettotal(viking_promissary_note2) = 0 & ~obj_gettotal(viking_promissary_note3) = 0) {
+                        ~set_viking_sigmund_progress(^sigmund_started);
+                        ~chatplayer("<p,sad>I was making some trades, but then I lost the goods...");
+                        ~chatnpc("<p,neutral>Hmmm... well try and start again at the beginning. And try to be more careful of your wares in future.");
+                }
+                return;
+            }
+            ~chatplayer("<p,neutral>I'm still working on it... Do you have any suggestion where to start looking for it?");
+            ~chatnpc("<p,neutral>I suggest you ask around the other Fremennik in the town. A good merchant will find exactly what their customer needs somewhere.");
+        case ^sigmund_not_started :
+            ~chatnpc("<p,neutral>Hello outerlander.");
+            ~chatplayer("<p,quiz>Are you a member of the council?");
+            ~chatnpc("<p,happy>That I am outerlander; it is a position that brings my family and I pride.");
+            ~chatplayer("<p,quiz>I was wondering if I can count on your vote at the council of elders?");
+            ~chatnpc("<p,neutral>You wish to become a Fremennik? I may be persuaded to swing my vote to your favour, but you will first need to do a little task for me.");
+            ~chatplayer("<p,sad>How did I know it wouldn't be that simple for your vote?");
+            ~chatnpc("<p,neutral>Calm yourself outerlander. It is but a small task really... I simply require a flower.");
+            ~chatplayer("<p,quiz>A flower? What's the catch?");
+            ~chatnpc("<p,happy>The catch? Well... it is not just any flower. Someone in this town has an extremely rare flower from a far off land that they picked up on their travels.");
+            ~chatnpc("<p,neutral>I would like you to demonstrate your merchanting skills to me, by persuading them to part with it, and then give it to me for my vote.");
+            ~chatplayer("<p,neutral>Well... I guess that doesn't sound too hard...");
+            ~chatnpc("<p,quiz>Excellent! You will obtain this rare flower for me then?");
+            $op = ~p_choice2("Yes", 1, "No", 2);
+            if($op = 2) {
+                ~chatplayer("<p,angry>You know what? No. This all sounds like a lot of hassle to me, and frankly I just can't be bothered with it right now.");
+                ~chatplayer("<p,neutral>I'll go get someone else to vote for me.");
+                ~chatnpc("<p,neutral>As you wish outerlander. If you change your mind, come and see me again; I am very interested in getting my hands on that flower.");
+                return;
+            }
+            ~set_viking_sigmund_progress(^sigmund_started);
+            ~chatplayer("<p,neutral>Okay. I don't think this will be too difficult. Any suggestions on where to start looking for this flower?");
+            ~chatnpc("<p,neutral>Ah, well outerlander, if I knew where to start looking I would simply do it myself!");
+            ~chatplayer("<p,shock>No help at ALL?");
+            ~chatnpc("<p,neutral>We are a very insular clan, so I would not expect you to have to leave this town to find whatever you need.");
+    }
+} else if(%viking = ^viking_complete) {
+    ~chatplayer("<p,neutral>Hello there!");
+    ~chatnpc("<p,quiz>Greetings again <text_gender("brother", "sister")> <~get_viking_name>! What can I do for you this day?");
+    $op = ~p_choice2("Can I see your wares?", 1, "Nothin thanks.", 2);
+    if($op = 2) {
+        ~chatplayer("<p,happy>Nothing thanks.");
+        ~chatnpc("<p,happy>Well, feel free to stop by anytime that you wish <~get_viking_name>. You are always welcome here!");
+        return;
+    }
+    ~chatplayer("<p,quiz>Can I see your wares?");
+    ~chatnpc("<p,happy>Certainly, <~get_viking_name>.");
+    ~openshop_activenpc;
+}
+
+[proc,merchant_question_text]()(string)
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_thora : return ("<p,quiz>I don't suppose you have any idea where I could find a written promise from Askeladden to stay out of the Longhall?");
+    case ^sigmund_spoke_manni : return("<p,quiz>I don't suppose you have any idea where I could find the longhall barkeeps' legendary cocktail, do you?");
+    case ^sigmund_spoke_thorvald : return ("<p,quiz>I don't suppose you have any idea where I could find a token to allow a seat at the champions table, do you?");
+    case ^sigmund_spoke_seer : return ("<p,quiz>I don't suppose you have any idea where I could find a brave and powerful warrior to act as a bodyguard?");
+    case ^sigmund_spoke_swensen : return ("<p,quiz>I don't suppose you have any idea where I could find a weather forecast from the Fremennik Seer do you?");
+    case ^sigmund_spoke_fisherman : return ("<p,quiz>I don't suppose you have any idea where I could find a map of deep sea fishing spots do you?");
+    case ^sigmund_spoke_skul : return ("<p,quiz>I don't suppose you have any idea where I could find an exotic and extremely rare fish, do you?");
+    case ^sigmund_spoke_sigli : return ("<p,quiz>I don't suppose you have any idea where I could find a finely balanced custom bowstring, do you?");
+    case ^sigmund_spoke_chief : return ("<p,quiz>I don't suppose you have any idea where I could find a map to unspoiled hunting grounds, do you?");
+    case ^sigmund_spoke_yrsa : return ("<p,quiz>I don't suppose you have any idea where I could find a guarantee of a reduction on sales taxes, do you?");
+    case ^sigmund_spoke_olaf : return ("<p,quiz>I don't suppose you have any idea where I could find some custom sturdy boots, do you?");
+    case ^sigmund_spoke_sailor : return ("<p,quiz>I don't suppose you have any idea where I could find a love ballad, do you?");
+    case ^sigmund_started : return("<p,quiz>I don't suppose you have any idea where I could find a rare flower from across the sea, do you?");
+}
+
+[opheld5,viking_rare_flower]
+inv_delslot(inv, last_slot);
+sound_synth(put_down, 0, 0);
+// osrs destroy mes
+mes("You will have to start the trading sequence again to get another!");
+
+[opnpc3,viking_sigmund]
+if(%viking < ^viking_complete) {
+    mes("Only Fremenniks may trade with this merchant.");
+    return;
+}
+~openshop_activenpc;

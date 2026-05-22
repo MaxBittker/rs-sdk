@@ -1,0 +1,353 @@
+[shadeshadow_level1]
+name=Loar Shadow
+model1=npc_1240
+recol1s=0
+recol1d=160
+desc=A shadowy sort of entity, kind of creepy looking.
+readyanim=shadeshadow_ready
+walkanim=shadeshadow_walk
+op2=Attack
+vislevel=40
+wanderrange=30
+maxrange=60
+moverestrict=blocked+normal
+respawnrate=35
+hitpoints=38
+attack=45
+strength=30
+defence=26
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones1
+param=undead,^true
+huntmode=shades
+timer=1
+param=next_npc_type,shade_level1
+// guess
+huntrange=3
+
+[shade_level1]
+name=Loar Shade
+model1=npc_1241
+recol1s=0
+recol1d=160
+recol2s=10240
+recol2d=992
+desc=The shadowy remains of a long departed soul.
+walkanim=shade_walk
+readyanim=shade_ready
+op2=Attack
+alwaysontop=yes
+vislevel=40
+wanderrange=30
+maxrange=60
+moverestrict=blocked+normal
+respawnrate=35
+hitpoints=38
+attack=45
+strength=30
+defence=26
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones1
+param=undead,^true
+timer=1
+// huntrange= TODO
+
+[shade_heaven]
+name=Shade Spirit
+model1=npc_1241
+recol1s=10240
+recol1d=992
+recol2s=0
+recol2d=32767
+recol3s=6342
+recol3d=32767
+vislevel=hide
+walkanim=shade_heaven
+readyanim=shade_heaven
+defaultmode=none
+wanderrange=0
+moverestrict=nomove
+
+[shadeshadow_level2]
+name=Phrin Shadow
+model1=npc_1240
+recol1s=0
+recol1d=3137
+desc=A shadowy sort of entity, kind of creepy looking.
+readyanim=shadeshadow_ready
+walkanim=shadeshadow_walk
+op2=Attack
+vislevel=60
+wanderrange=5
+maxrange=11
+// respawnrate= TODO
+hitpoints=56
+attack=64
+strength=47
+defence=42
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones2
+param=undead,^true
+huntmode=shades
+// guess
+huntrange=3
+// TODO immune to poison
+
+[shade_level2]
+name=Phrin Shade
+model1=npc_1241
+recol1s=0
+recol1d=3137
+recol2s=10240
+recol2d=32767
+desc=The shadowy remains of a long departed soul.
+walkanim=shade_walk
+readyanim=shade_ready
+op2=Attack
+alwaysontop=yes
+vislevel=60
+wanderrange=5
+maxrange=11
+// respawnrate= TODO
+hitpoints=56
+attack=64
+strength=47
+defence=42
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones2
+param=undead,^true
+huntmode=cowardly
+// huntrange= TODO
+// immune to poison
+
+[shadeshadow_level3]
+name=Riyl Shadow
+model1=npc_1240
+recol1s=0
+recol1d=5120
+desc=A shadowy sort of entity, kind of creepy looking.
+readyanim=shadeshadow_ready
+walkanim=shadeshadow_walk
+op2=Attack
+vislevel=80
+wanderrange=5
+maxrange=11
+// respawnrate= TODO
+hitpoints=76
+attack=88
+strength=55
+defence=60
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones3
+param=undead,^true
+huntmode=shades
+// guess
+huntrange=3
+// immune to poison
+
+[shade_level3]
+name=Riyl Shade
+model1=npc_1241
+recol1s=0
+recol1d=5120
+recol2s=10240
+recol2d=30753
+desc=The shadowy remains of a long departed soul.
+walkanim=shade_walk
+readyanim=shade_ready
+op2=Attack
+alwaysontop=yes
+vislevel=80
+wanderrange=5
+maxrange=11
+// respawnrate= TODO
+hitpoints=76
+attack=88
+strength=55
+defence=60
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones3
+param=undead,^true
+huntmode=cowardly
+// huntrange= TODO
+// immune to poison
+
+[shadeshadow_level4]
+name=Asyn Shadow
+model1=npc_1240
+recol1s=0
+recol1d=5
+desc=A shadowy sort of entity, kind of creepy looking.
+readyanim=shadeshadow_ready
+walkanim=shadeshadow_walk
+op2=Attack
+vislevel=100
+wanderrange=7
+maxrange=11
+// respawnrate= TODO
+hitpoints=90
+attack=102
+strength=84
+defence=70
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones4
+param=undead,^true
+huntmode=shades
+// guess
+huntrange=3
+// immune to poison
+
+[shade_level4]
+name=Asyn Shade
+model1=npc_1241
+recol1s=0
+recol1d=5
+recol2s=10240
+recol2d=31
+desc=The shadowy remains of a long departed soul.
+walkanim=shade_walk
+readyanim=shade_ready
+op2=Attack
+alwaysontop=yes
+vislevel=100
+wanderrange=7
+maxrange=11
+// respawnrate= TODO
+hitpoints=90
+attack=102
+strength=84
+defence=70
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones4
+param=undead,^true
+huntmode=cowardly
+// huntrange= TODO
+// immune to poison
+
+[shadeshadow_level5]
+name=Fiyr Shadow
+model1=npc_1240
+desc=A shadowy sort of entity, kind of creepy looking.
+readyanim=shadeshadow_ready
+walkanim=shadeshadow_walk
+op2=Attack
+vislevel=120
+wanderrange=7
+maxrange=11
+// respawnrate= TODO
+hitpoints=110
+attack=120
+strength=100
+defence=85
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones5
+param=undead,^true
+huntmode=shades
+// guess
+huntrange=3
+// immune to poison
+
+[shade_level5]
+name=Fiyr Shade
+model1=npc_1241
+recol1s=10240
+recol1d=32767
+desc=The shadowy remains of a long departed soul.
+walkanim=shade_walk
+readyanim=shade_ready
+op2=Attack
+alwaysontop=yes
+vislevel=120
+wanderrange=7
+maxrange=11
+// respawnrate= TODO
+hitpoints=110
+attack=120
+strength=100
+defence=85
+magic=0
+ranged=0
+param=damagetype,^crush_style
+param=attack_anim,shade_attack
+param=defend_anim,shade_block
+param=death_anim,shade_sink
+param=attack_sound,shade_attack
+param=defend_sound,shade_hit
+param=death_sound,shade_death
+param=death_drop,shade_bones5
+param=undead,^true
+huntmode=cowardly
+// huntrange= TODO
+// immune to poison

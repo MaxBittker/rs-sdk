@@ -1,0 +1,155 @@
+// Sources
+// 2014 OSRS: https://youtu.be/945tUgBj3SM?t=14
+
+[if_button,questlist:eadgar]
+def_int $quest_progress = %eadgar_quest;
+def_string $prev_text;
+def_string $new_text;
+
+if($quest_progress < ^eadgar_started) {
+    // https://youtu.be/945tUgBj3SM?t=14
+    $new_text = "@dbl@I can start this quest by speaking to @dre@Sanfew@dbl@ after|@dbl@completing the @dre@Druidic Ritual@dbl@ quest in @dre@Taverley@dbl@. To complete|@dbl@this quest I need @dre@Level 31 Herblore@dbl@. I also need to have|@dbl@rescued @dre@Mad Eadgar@dbl@ from the @dre@Troll Stronghold";
+} else {
+    // https://youtu.be/945tUgBj3SM?t=118
+    // this starts out strikethrough and all subsequent journal updates follow from here
+    $prev_text = "@str@Sanfew asked me to find him some Goutweed.";
+}
+
+if($quest_progress = ^eadgar_started) {
+    // https://youtu.be/945tUgBj3SM?t=118
+    $new_text = append($prev_text, "||@dbl@I need to find out where to get @dre@Goutweed - Mad Eadgar@dbl@ may|@dbl@be able to help.");
+}
+
+if($quest_progress = ^eadgar_spoken_eadgar_first) {
+    // https://youtu.be/945tUgBj3SM?t=251   
+    $new_text = append($prev_text, "||@dbl@I need to find out where to get @dre@Goutweed - @dbl@I should ask the|@dre@Troll Cook.");
+} 
+
+if($quest_progress >= ^eadgar_spoken_burntmeat_first) { // this same update is used regardless of when burntmeat is spoken to
+    // https://youtu.be/945tUgBj3SM?t=357
+    $prev_text = append($prev_text, "|@str@The Troll Cook will tell me how to find goutweed if I bring him|@str@a tasty human.");
+    if($quest_progress = ^eadgar_spoken_burntmeat_first | $quest_progress = ^eadgar_spoken_burntmeat_second) {
+        $new_text = append($prev_text, "||@dbl@I need to get @dre@a tasty human@dbl@ for the @dre@Troll Cook. Mad Eadgar|@dbl@may be able to help.");
+    }
+} 
+
+if($quest_progress >= ^eadgar_needs_parrot) {
+    // from my run of the quest in OSRS (RS3 is the same)
+    $prev_text = append($prev_text, "|@str@Mad Eadgar has a plan.");
+    if($quest_progress = ^eadgar_needs_parrot) {
+        $new_text = append($prev_text, "||@dbl@I need to bring Eadgar a @dre@parrot @dbl@from the @dre@Zoo");
+    }
+}
+
+if($quest_progress >= ^eadgar_explained_plan) {
+    // https://youtu.be/945tUgBj3SM?t=569
+    $prev_text = append($prev_text, "||@str@I got the parrot Eadgar wanted.");
+    if($quest_progress = ^eadgar_explained_plan) {
+        $new_text = append($prev_text, "||@dbl@I need to @dre@hide the parrot@dbl@ somewhere it can hear what Trolls|@dbl@expect humans to sound like.");
+    }
+}
+
+if ($quest_progress >= ^eadgar_hid_parrot) {
+    // Indio capped this one from OSRS (RS3 is the same)
+    $prev_text = append($prev_text, "|@str@I hid the parrot under the rack in the Troll prison.");
+    if($quest_progress = ^eadgar_hid_parrot) {
+        $new_text = append($prev_text, "||@dbl@I should go and find out the rest of Mad Eadgar's plan.");
+    }
+} 
+
+if ($quest_progress = ^eadgar_needs_items) {
+    // from my run of the quest in OSRS, capitalization differs from RS3! ("Troll Cook" in OSRS versus "troll cook" in RS3)
+    $new_text = "||@dbl@Eadgar wants to make a @dre@fake human @dbl@to give the Troll Cook.|@dbl@I still need to bring him:";
+
+    def_int $chickens_needed = calc(5 - %eadgar_chickens);
+    def_int $grain_needed = calc(10 - %eadgar_grain);
+    def_string $items_remaining = "";
+    if(testbit(%eadgar_bits, ^eadgar_given_logs) ! 1) {
+        // TODO the string for logs needs verified as far as formatting, the rest match OSRS including plural vs singular for >1 vs 1
+        $items_remaining = append($items_remaining, "|@dre@Some Logs");
+    }
+    if($chickens_needed > 0) {
+        if($chickens_needed > 1) {
+            $items_remaining = append($items_remaining, "|@dre@<tostring($chickens_needed)> raw chickens");
+        } else {
+            $items_remaining = append($items_remaining, "|@dre@<tostring($chickens_needed)> raw chicken");
+        }
+    }
+    if($grain_needed > 0) {
+        if($grain_needed > 1) {
+            $items_remaining = append($items_remaining, "|@dre@<tostring($grain_needed)> sheaves of grains");
+        } else {
+            $items_remaining = append($items_remaining, "|@dre@<tostring($grain_needed)> sheaf of grain");
+        }
+    }
+    if(testbit(%eadgar_bits, ^eadgar_given_clothes) ! 1) {
+        $items_remaining = append($items_remaining, "|@dre@Some Dirty Clothes");
+    }
+
+    $new_text = append($prev_text, $new_text);
+    $new_text = append($new_text, $items_remaining);
+} 
+
+if($quest_progress >= ^eadgar_needs_potion) {
+    // https://youtu.be/945tUgBj3SM?t=775 - no period at the end of the new text
+    $prev_text = append($prev_text, "|@str@Eadgar wants to make a fake human to give the troll cook. I|@str@gave Eadgar everything he needed.");
+    if($quest_progress = ^eadgar_needs_potion) {
+        if(inv_total(inv, eadgar_ground_troll_thistle_potion) > 0) { // bank is not checked here
+            $new_text = append($prev_text, "|@dbl@I made the Troll potion. I should go give it to @dre@Mad @dre@Eadgar");
+        } else {
+            $new_text = append($prev_text, "|@dbl@I need to make a troll truth potion by putting @dre@dried, @dre@ground|@dre@troll thistle @dbl@in a @dre@potion of ranarr weed"); 
+        }
+    }
+}
+
+if($quest_progress >= ^eadgar_needs_parrot_back) {
+    // from my run of the quest in OSRS (missing an RS3 source for this)
+    $prev_text = append($prev_text, "|@str@I made the Troll potion and gave it to Mad Eadgar.");
+    if($quest_progress = ^eadgar_needs_parrot_back) {
+        $new_text = append($prev_text, "||@dbl@I need to fetch the parrot back from the @dre@prison rack");
+    }
+}
+
+if($quest_progress >= ^eadgar_got_parrot_back) {
+    // from my run of the quest in OSRS (RS3 is the same)
+    $prev_text = append($prev_text, "|@str@I fetched the parrot back from the Troll prison rack");
+    if($quest_progress = ^eadgar_got_parrot_back) {
+        $new_text = append($prev_text, ".|@dbl@I should go tell Eadgar.");
+    }
+}
+
+if($quest_progress >= ^eadgar_got_fake_man) {
+    // https://youtu.be/945tUgBj3SM?t=896 - once again, no period at the end of the new text. 2007 linebreaks work fine here
+    // todo does this journal entry change at all if losing the fake man
+    $prev_text = append($prev_text, " and|@str@gave it to Eadgar.||@str@I got Eadgar's fake man");
+    if($quest_progress = ^eadgar_got_fake_man) {
+        $new_text = append($prev_text, ".|@dbl@I should give the fake man to the @dre@Troll cook");
+    }
+}
+
+if($quest_progress >= ^eadgar_got_burnt_meat) {
+    // from my run of the quest in OSRS, capitalization ("Troll Cook"/"troll cook") and linebreaks differ from RS3
+    // but 2007 linebreaks don't quite work for the prev_text here so I split them where they fell
+    $prev_text = append($prev_text, " and gave it to the Troll Cook.|@str@The Troll Cook told me the key to the storeroom is in a|@str@fake bottom in the kitchen drawers.");
+    if($quest_progress = ^eadgar_got_burnt_meat) {
+        $new_text = append($prev_text, "||@dbl@I should get the @dre@key to the storeroom @dbl@and unlock it.");
+    }
+}
+
+if($quest_progress >= ^eadgar_unlocked_storeroom) {
+    // from RS3, OSRS is the same
+    $prev_text = append($prev_text, "||@str@I've unlocked the storeroom!");
+    if(inv_total(inv, eadgar_goutweed_herb) = 0) { // quest journal does not check bank
+        $new_text = append($prev_text, "|@dbl@I should sneak in and get some @dre@goutweed"); // no period at the end of this line
+    } else {
+        $new_text = append($prev_text, "|@str@I snuck into the storeroom and got some goutweed.|@dbl@I should bring this to @dre@Sanfew and collect my reward.");
+    }
+}
+
+if($quest_progress = ^eadgar_complete) {
+    // from my run of the quest in OSRS (RS3 is the same aside from linebreaks)
+    $prev_text = append($prev_text, "|@str@I snuck into the storeroom and got some goutweed. I gave|@str@ it to Sanfew and he taught me the Trollheim Teleport spell.");
+    $new_text = append($prev_text, "||@dre@QUEST COMPLETE!");
+}
+
+~quest_journal("Eadgar's Ruse", $new_text);

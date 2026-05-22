@@ -1,6 +1,6 @@
 [coffin]
 name=Coffin
-desc=I see dead people.
+desc=I hope no-one's home...
 model=model_loc_398
 width=2
 length=2
@@ -9,7 +9,7 @@ blockrange=no
 
 [loc_399]
 name=Coffin
-desc=I hope no-one's home.
+desc=I see dead people.
 model=model_loc_399
 width=2
 length=2

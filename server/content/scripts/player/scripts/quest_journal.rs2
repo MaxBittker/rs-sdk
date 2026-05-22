@@ -1,6 +1,6 @@
 [proc,quest_journal](string $quest_name, string $journal_text)
 if_setscrollpos(questjournal_scroll:scroll, 0);
-split_init($journal_text, 400, 49, q8);
+split_init($journal_text, 400, 49, q8_full);
 if_settext(questjournal_scroll:ifquestname, "@dre@<$quest_name>");
 if_settext(questjournal_scroll:qj1, split_get(0, 0));
 if_settext(questjournal_scroll:qj2, split_get(0, 1));

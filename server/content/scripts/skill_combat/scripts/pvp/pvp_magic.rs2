@@ -216,7 +216,12 @@ sound_synth($sound, 0, 0);
 ~give_spell_xp($spell_data);
 
 // spell anim
-anim(db_getfield($spell_data, magic_spell_table:anim, 0), 0);
+def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
+if($weapon ! null & oc_category($weapon) = weapon_staff & db_getfieldcount($spell_data, magic_spell_table:staffanim) > 0) {
+    anim(db_getfield($spell_data, magic_spell_table:staffanim, 0), 0);
+} else {
+    anim(db_getfield($spell_data, magic_spell_table:anim, 0), 0);
+}
 // player spell visual effect
 if (db_getfieldcount($spell_data, magic_spell_table:spotanim_origin) > 0) {
     spotanim_pl(db_getfield($spell_data, magic_spell_table:spotanim_origin, 0), 92, 0);

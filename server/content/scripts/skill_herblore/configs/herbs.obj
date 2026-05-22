@@ -63,6 +63,7 @@ param=identified_herb_level,11
 param=identified_herb_exp,50
 param=identified_herb_message,This herb is a Tarromin.
 param=brew_potion_struct,unf_tarromin_potion
+param=brew_potion_struct_secondary,mort_serum3_ashesvial
 // jagex name
 
 [harralander]

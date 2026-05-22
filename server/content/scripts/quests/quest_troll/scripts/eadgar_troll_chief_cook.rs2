@@ -1,7 +1,0 @@
-// maybe this gets moved to eadgars ruse folder in 270?
-[opnpc1,eadgar_troll_chief_cook]
-~chatplayer("<p,neutral>Er, hi.");
-~chatnpc("<p,happy>Hmm? What human do in troll kitchen? Burntmeat tired of cooking goats. Human look tasty.");
-~chatplayer("<p,scared>Oh, you don't want to eat me! I'm a tough, hardened adventurer, not tender or tasty at all!");
-~chatnpc("<p,neutral>Hmm. Burntmeat think you probably right. What human doing here?");
-~chatplayer("<p,neutral>Nothing. I was just leaving.");

@@ -1,0 +1,250 @@
+[if_button,stats:attack] @skill_guide(attack, 0);
+[if_button,stats:hitpoints] @skill_guide(attack, 0);
+[if_button,stats:strength] @skill_guide(attack, 0);
+[if_button,stats:defence] @skill_guide(attack, 0);
+[if_button,stats:mining] @skill_guide(mining, 0);
+[if_button,stats:agility] @skill_guide(agility, 0);
+[if_button,stats:smithing] @skill_guide(smithing, 0);
+[if_button,stats:herblore] @skill_guide(herblore, 0);
+[if_button,stats:fishing] @skill_guide(fishing, 0);
+[if_button,stats:ranged] @skill_guide(ranged, 0);
+[if_button,stats:thieving] @skill_guide(thieving, 0);
+[if_button,stats:cooking] @skill_guide(cooking, 0);
+[if_button,stats:prayer] @skill_guide(prayer, 0);
+[if_button,stats:crafting] @skill_guide(crafting, 0);
+[if_button,stats:firemaking] @skill_guide(firemaking, 0);
+[if_button,stats:magic] @skill_guide(magic, 0);
+[if_button,stats:fletching] @skill_guide(fletching, 0);
+[if_button,stats:woodcutting] @skill_guide(woodcutting, 0);
+[if_button,stats:runecrafting] @skill_guide(runecraft, 0);
+
+[label,skill_guide](stat $lookup, int $page)
+db_find(skill_guide_ops:lookup, $lookup);
+def_dbrow $guides = db_findnext;
+if ($guides = null) {
+    if_close;
+    mes("TODO.");
+    return;
+}
+
+def_int $categories = db_getfieldcount($guides, skill_guide_ops:op);
+if ($page >= $categories) {
+    if_close;
+    mes("TODO.");
+    return;
+}
+
+def_string $op;
+def_dbrow $guide;
+$op, $guide = db_getfield($guides, skill_guide_ops:op, $page);
+
+// in case the interface was already open stop transmitting the last inv
+inv_stoptransmit(skill_guide:levelinv);
+
+// transmit the new inv
+def_inv $inv = db_getfield($guide, skill_guides:inv, 0);
+if ($inv ! null) {
+    inv_transmit($inv, skill_guide:levelinv);
+}
+
+def_int $members = ~stat_members($lookup);
+
+def_int $base = stat_base($lookup);
+def_stat $skill = db_getfield($guide, skill_guides:base, 0);
+if ($skill ! null) {
+    $base = stat_base($skill);
+}
+
+def_int $rows = db_getfieldcount($guide, skill_guides:unlock);
+def_int $i = 0;
+
+// update header
+if_settext(skill_guide:skill_name, "@dre@<db_getfield($guide, skill_guides:name, 0)>");
+if_settext(skill_guide:advancement, db_getfield($guide, skill_guides:advancement, 0));
+
+// set scroll pos first in case the interface is already open
+if_setscrollpos(skill_guide:back, 0);
+
+// do a short pass first to update the immediately visible text
+$i = ~skill_guide_update_rows($guide, $base, $members, $i, $rows, 6);
+
+// only refresh when changing skills (sends less packets)
+if ($lookup ! %skill_guide_skill | %skill_guide_pages = 0) {
+    // update header
+    if ($members = ^true) {
+        if (map_members = ^true) {
+            // blue on members world
+            if_settext(skill_guide:skill_members, "@dbl@Members only skill");
+        } else {
+            // red on free world
+            if_settext(skill_guide:skill_members, "@dre@Members only skill");
+        }
+    } else {
+        if_settext(skill_guide:skill_members, "");
+    }
+
+    // set ops on right side
+    if_sethide(skill_guide:guide1, true); // op1 vis
+    if_sethide(skill_guide:guide23, true); // op2, op3 vis
+    if_sethide(skill_guide:guide4, true); // op4 vis
+    if_sethide(skill_guide:guide5, true); // op5 vis
+    if_sethide(skill_guide:guide6, true); // op6 vis
+    if_sethide(skill_guide:guide7, true); // op7 vis
+    if_sethide(skill_guide:guide8, true); // op8 vis
+    if_sethide(skill_guide:guide9, true); // op9 vis
+    if_sethide(skill_guide:guide10, true); // op10 vis
+
+    if ($categories > 0) {
+        ~skill_guide_set_op(0, $categories, db_getfield($guides, skill_guide_ops:op:0, 0));
+    }
+
+    if ($categories > 1) {
+        ~skill_guide_set_op(1, $categories, db_getfield($guides, skill_guide_ops:op:0, 1));
+    }
+
+    if ($categories > 2) {
+        ~skill_guide_set_op(2, $categories, db_getfield($guides, skill_guide_ops:op:0, 2));
+    }
+
+    if ($categories > 3) {
+        ~skill_guide_set_op(3, $categories, db_getfield($guides, skill_guide_ops:op:0, 3));
+    }
+
+    if ($categories > 4) {
+        ~skill_guide_set_op(4, $categories, db_getfield($guides, skill_guide_ops:op:0, 4));
+    }
+
+    if ($categories > 5) {
+        ~skill_guide_set_op(5, $categories, db_getfield($guides, skill_guide_ops:op:0, 5));
+    }
+
+    if ($categories > 6) {
+        ~skill_guide_set_op(6, $categories, db_getfield($guides, skill_guide_ops:op:0, 6));
+    }
+
+    if ($categories > 7) {
+        ~skill_guide_set_op(7, $categories, db_getfield($guides, skill_guide_ops:op:0, 7));
+    }
+
+    if ($categories > 8) {
+        ~skill_guide_set_op(8, $categories, db_getfield($guides, skill_guide_ops:op:0, 8));
+    }
+
+    if ($categories > 9) {
+        ~skill_guide_set_op(9, $categories, db_getfield($guides, skill_guide_ops:op:0, 9));
+    }
+}
+
+// open the interface if it wasn't already, now that it's player-ready
+if_openmain(skill_guide);
+
+// do a second pass to clear the rest of the interface since the player can't see it right now
+$i = ~skill_guide_update_rows($guide, $base, $members, $i, $rows, 40);
+~skill_guide_clear_rows($i, 40);
+
+%skill_guide_skill = $lookup;
+%skill_guide_pages = $categories;
+
+// 1 op: hide all buttons
+// <7 ops: bottom-align buttons (by starting at op "2")
+// 7+ ops: top-align buttons (by starting at op "1")
+[proc,skill_guide_set_op](int $op, int $max, string $text)
+if ($max < 2) {
+    return;
+}
+
+if ($max < 7) {
+    $op = add($op, 1);
+}
+
+switch_int ($op) {
+    case 0 :
+        if_sethide(skill_guide:guide1, false);
+        if_settext(skill_guide:op1, $text);
+    case 1 :
+        if_sethide(skill_guide:guide23, false);
+        if_settext(skill_guide:op2, $text);
+    case 2 :
+        if_sethide(skill_guide:guide23, false);
+        if_settext(skill_guide:op3, $text);
+    case 3 :
+        if_sethide(skill_guide:guide4, false);
+        if_settext(skill_guide:op4, $text);
+    case 4 :
+        if_sethide(skill_guide:guide5, false);
+        if_settext(skill_guide:op5, $text);
+    case 5 :
+        if_sethide(skill_guide:guide6, false);
+        if_settext(skill_guide:op6, $text);
+    case 6 :
+        if_sethide(skill_guide:guide7, false);
+        if_settext(skill_guide:op7, $text);
+    case 7 :
+        if_sethide(skill_guide:guide8, false);
+        if_settext(skill_guide:op8, $text);
+    case 8 :
+        if_sethide(skill_guide:guide9, false);
+        if_settext(skill_guide:op9, $text);
+    case 9 :
+        if_sethide(skill_guide:guide10, false);
+        if_settext(skill_guide:op10, $text);
+}
+
+[proc,skill_guide_update_rows](dbrow $guide, int $base, int $members, int $off, int $len, int $limit)(int)
+def_int $i = $off;
+while ($i < $len & $i < $limit) {
+    def_int $level;
+    def_string $text;
+    $level, $text = db_getfield($guide, skill_guides:unlock, $i);
+
+    // todo: apply color to newlines
+    def_string $color;
+    if ($level > $base) {
+        $color = "@dre@";
+    } else if ($members = ^false & string_indexof_string("Members:", $text) = 0) {
+        // members unlocks show as dbl on free skills (members world/account check too?)
+        $color = "@dbl@";
+    }
+
+    def_component $comLevel = enum(int, component, skill_guide_levels, $i);
+    if ($level = -1) {
+        if_settext($comLevel, "");
+    } else {
+        if_settext($comLevel, "<$color><tostring($level)>");
+    }
+
+    def_component $comText = enum(int, component, skill_guide_rows, $i);
+    if_settext($comText, "<$color><$text>");
+
+    $i = add($i, 1);
+}
+return ($i);
+
+[proc,skill_guide_clear_rows](int $off, int $len)
+def_int $i = $off;
+while ($i < $len) {
+    def_component $comLevel = enum(int, component, skill_guide_levels, $i);
+    if_settext($comLevel, "");
+
+    def_component $comText = enum(int, component, skill_guide_rows, $i);
+    if_settext($comText, "");
+
+    $i = add($i, 1);
+}
+
+[if_button,skill_guide:op1] @change_skill_guide(0);
+[if_button,skill_guide:op2] @change_skill_guide(1);
+[if_button,skill_guide:op3] @change_skill_guide(2);
+[if_button,skill_guide:op4] @change_skill_guide(3);
+[if_button,skill_guide:op5] @change_skill_guide(4);
+[if_button,skill_guide:op6] @change_skill_guide(5);
+[if_button,skill_guide:op7] @change_skill_guide(6);
+[if_button,skill_guide:op8] @change_skill_guide(7);
+[if_button,skill_guide:op9] @change_skill_guide(8);
+[if_button,skill_guide:op10] @change_skill_guide(9);
+
+[label,change_skill_guide](int $page)
+if (%skill_guide_pages < 7) {
+    $page = sub($page, 1);
+}
+@skill_guide(%skill_guide_skill, $page);

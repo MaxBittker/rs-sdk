@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import InvType from '#/cache/config/InvType.js';
 import { NetworkPlayer } from '#/engine/entity/NetworkPlayer.js';
 import Player, { getExpByLevel, getLevelByExp } from '#/engine/entity/Player.js';
@@ -11,7 +9,7 @@ import { fromBase37, toBase37 } from '#/util/JString.js';
 
 export class PlayerLoading {
     public static readonly SAV_MAGIC: number = 0x2004;
-    public static readonly SAV_VERSION: number = 6;
+    public static readonly SAV_VERSION: number = 7;
 
     static verify(sav: Packet) {
         if (sav.g2() !== PlayerLoading.SAV_MAGIC) {
@@ -96,8 +94,15 @@ export class PlayerLoading {
         }
 
         const varpCount = sav.g2();
-        for (let i = 0; i < varpCount; i++) {
-            player.vars[i] = sav.g4s();
+        if (version >= 7) {
+            for (let i = 0; i < varpCount; i++) {
+                const id = sav.g2();
+                player.vars[id] = sav.gVarInt();
+            }
+        } else {
+            for (let i = 0; i < varpCount; i++) {
+                player.vars[i] = sav.g4s();
+            }
         }
 
         const invCount = sav.g1();

@@ -1,0 +1,37 @@
+//Chances taken from https://oldschool.runescape.wiki/w/Shades_of_Mort%27ton_(minigame)
+//Coins taken from https://runescape.wiki/w/Shades_of_Mort%27ton_(minigame)
+
+[loar_shades]
+param=shades_low_coin,400
+param=shades_high_coin,500
+param=shades_log_level,0
+param=shades_low_key_chance,0
+param=shades_high_key_chance,790
+
+[phrin_shades]
+param=shades_low_coin,600
+param=shades_high_coin,700
+param=shades_log_level,0
+param=shades_low_key_chance,125
+param=shades_high_key_chance,665
+
+[riyl_shades]
+param=shades_low_coin,700
+param=shades_high_coin,800
+param=shades_log_level,1
+param=shades_low_key_chance,125
+param=shades_high_key_chance,665
+
+[asyn_shades]
+param=shades_low_coin,800
+param=shades_high_coin,900
+param=shades_log_level,2
+param=shades_low_key_chance,282
+param=shades_high_key_chance,508
+
+[fiyr_shades]
+param=shades_low_coin,2200
+param=shades_high_coin,3200
+param=shades_log_level,3
+param=shades_low_key_chance,790
+param=shades_high_key_chance,0

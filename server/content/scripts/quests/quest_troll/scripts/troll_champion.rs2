@@ -178,7 +178,7 @@ if (($attackrange <= 1 & ~trollchamp_in_combat_check = false) | npc_range(coord)
     p_aprange($attackrange);
     return;
 }
-@player_combat_start;
+@player_combat_start_ap_nomulti;
 
 [label,trollchamp_combat_start]
 if(~trollchamp_in_combat_check = false) {
@@ -194,13 +194,4 @@ if(%troll_accepted_challenge = ^false) {
     hint_npc;
     npc_setmode(opplayer2);
 }
-if (~sa_enabled = true) {
-    @player_special_attack;
-}
-if (%damagetype = ^ranged_style) {
-    @player_ranged_attack;
-}
-if (~player_autocast_enabled = true) {
-     @player_magic_attack;
-}
-@player_melee_attack;
+@player_combat_start_nomulti;

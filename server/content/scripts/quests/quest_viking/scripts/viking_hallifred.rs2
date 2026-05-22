@@ -1,0 +1,287 @@
+[opnpc1,viking_hallifred]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello!");
+    ~chatnpc("<p,neutral>Hello outerlander. This is my home, I would be grateful if you would leave.");
+    ~chatplayer("<p,sad>Oh. Okay.");
+    ~chatnpc("<p,neutral>I am sorry outerlander, I will not offer you hospitality until my Chieftain has vouched for your honesty. This is our way.");
+    return;
+} else if(%viking < ^viking_complete) {
+    ~chatplayer("<p,neutral>Hello!");
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_hallifred_merchant;
+    }
+    switch_int(~get_viking_swensen_progress) {
+        case ^swensen_complete :
+            ~chatnpc("<p,neutral>Greetings again outerlander! I must say, I am still impressed with the way you moved through my maze!");
+            ~chatplayer("<p,quiz>Thanks. So I can rely on your vote in my favour at the council of elders?");
+            ~chatnpc("<p,happy>Absolutely! You will be an asset to the clan!");
+        case ^swensen_started :
+            ~chatplayer("<p,angry>Man, your maze is pretty tough!");
+            ~chatnpc("<p,happy>Hahahaha it is the most complex route I have ever devised! I am truly a genius at navigation! The world will remember my name!");
+            ~chatplayer("<p,quiz>Can't I do something else for your vote at the council of elders?");
+            ~chatnpc("<p,neutral>No, you cannot. It is my maze, or nothing.");
+        case ^swensen_not_started :
+            ~chatplayer("<p,happy>I am trying to become a member of the Fremennik clan! The Chieftain told me that I may be able to gain your vote at the council of elders?");
+            ~chatnpc("<p,happy>You wish to stop being an outerlander? I can understand that! I have no reason why I would prevent you becoming a Fremennik...");
+            ~chatnpc("<p,neutral>...but you must first pass a little test for me to prove you are worthy.");
+            ~chatplayer("<p,quiz>What kind of test?");
+            ~chatnpc("<p,neutral>Well, I serve our clan as a navigator. The seas can be a fearful place when you know not where you are heading.");
+            ~chatnpc("<p,neutral>Should something happen to me, all members of our tribe have some basic sense of direction so that they may always return safely home.");
+            ~chatnpc("<p,neutral>If you are able to demonstrate to me that you too have a good sense of direction then I will recommend you to the rest of the council of elders immediately.");
+            ~chatplayer("<p,quiz>Well, how would I go about showing that?");
+            ~chatnpc("<p,neutral>Ah, a simple task! Below this building I have constructed a maze; should you be able to walk from one side to the other that will be proof to me.");
+            ~chatnpc("<p,quiz>You wish to try my challenge?");
+            $op = ~p_choice2("Yes", 1, "No", 2);
+            if($op = 2) {
+                ~chatplayer("<p,neutral>No thanks. I think I can get someone else to vouch for me to the council of elders, without going through a stupid maze like some lab rat.");
+                ~chatnpc("<p,sad>Well, I am sorry you feel that way outerlander. I cannot vouch for you until you prove to me you have some skill that will benefit our clan somehow.");
+                ~chatnpc("<p,quiz>What exactly is a 'lab rat' anyway?");
+                ~chatplayer("<p,angry>Ah, forget it.");
+                return;
+            }
+            ~set_viking_swensen_progress(^swensen_started);
+            ~chatplayer("<p,neutral>A maze? Is that all? Sure, it sounds simple enough.");
+            ~chatnpc("<p,neutral>I will warn you outerlander, this maze was designed by myself, and is of the most fiendish complexity!");
+            ~chatplayer("<p,bored>Oh really? Watch and learn...");
+    }
+} else {
+    ~chatplayer("<p,happy>Hello!");
+    ~chatnpc("<p,quiz>Greetings to you <text_gender("brother", "sister")> <~get_viking_name>! How fare you today?");
+    ~chatplayer("<p,happy>I am fine thanks Swensen. How are you doing?");
+    ~chatnpc("<p,happy>I am fine too!");
+}
+
+[label,viking_hallifred_merchant]
+if(inv_total(inv, viking_weather_forecast) > 0) {
+    ~chatplayer("<p,quiz>I would like your map of fishing spots.");
+    ~chatnpc("<p,neutral>I have already told you outerlander; I will not exchange it for anything other than a divination on the weather from our seer himself!");
+    ~chatplayer("<p,happy>What, like this one I have here?");
+    ~chatnpc("<p,shock>W-what...? I don't believe it! How did you...? I suppose it doesn't matter, you have my gratitude outerlander!");
+    ~chatnpc("<p,happy>With this forecast I will be able to plan a safe course for our next raiding expedition!");
+    inv_del(inv, viking_weather_forecast, 1);
+    inv_add(inv, viking_another_map, 1);
+    ~chatnpc("<p,happy>Here, outerlander; you may take my map of local fishing patterns with my gratitude!");
+    return;
+}
+if(inv_total(inv, viking_another_map) > 0) {
+    ~chatplayer("<p,quiz>If this map of fishing spots is so valuable, why did you give it away to me so easily?");
+    ~chatnpc("<p,neutral>Hmmm? Well, firstly it will be of value to our entire clan, so I have lost nothing from giving it to you.");
+    ~chatnpc("<p,happy>The other reason is of course that I have already memorised it, so I can make myself another copy whenever I want!");
+    return;
+}
+~chatnpc("<p,neutral>Greetings outerlander.");
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_thora :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Er... from Askeladden, maybe?");
+    case ^sigmund_spoke_manni :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Uh... from the Seer perhaps?");
+    case ^sigmund_spoke_swensen :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Um... from the longhalls' barkeep?");
+    case ^sigmund_spoke_fisherman :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Hmmm? Why of course! As the navigator for the Fremennik I keep all of our maps secure right here.");
+        ~chatplayer("<p,happy>Great! Can I have it?");
+        ~chatnpc("<p,quiz>Have it? Just like that? I think not outerlander. This map shows all of the prime fishing locations nearby.");
+        ~chatnpc("<p,neutral>It is very valuable to our clan. I am afraid I can not just give it away.");
+        ~chatplayer("<p,quiz>Perhaps I can trade you something for it?");
+        ~set_viking_sigmund_progress(^sigmund_spoke_swensen);
+        ~chatnpc("<p,neutral>A trade? For a map of the best fishing spots in a hundred leagues? I will trade it for no less than a weather forecast from our Seer.");
+        ~chatnpc("<p,neutral>As a navigator, the weather is extremely important for plotting the best course. Unfortunately the Seer is always too busy to help me with a forecast.");
+        ~chatplayer("<p,quiz>Where could I get a weather forecast from then?");
+        ~chatnpc("<p,neutral>I just told you: from the Seer. You will need to persuade him to take the time to make a forecast somehow.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>I am afraid not outerlander.");
+}
+
+[oploc1,vt_mazeladdertopentrance]
+p_arrivedelay;
+if(%viking = ^viking_complete) {
+    ~chatplayer("<p,angry>No way am I doing that maze again!");
+    return;
+}
+if(%viking = ^viking_not_started) {
+    if(npc_find(coord, viking_hallifred, 5, 0) = true) {
+        ~chatnpc("<p,angry>Hey! Outerlander! Do you normally just barge into someones home and wander around as you please?");
+        ~chatplayer("<p,confused>Erm.... Well, yes actually.");
+        ~chatnpc("<p,angry>Well not here you don't.");
+    }
+    return;
+} 
+
+switch_int(~get_viking_swensen_progress) {
+    case ^swensen_complete : ~chatplayer("<p,angry>No way am I doing that maze again!");
+    case ^swensen_started : ~climb_ladder(0_41_156_7_20, true);
+    case ^swensen_not_started :
+        if(npc_find(coord, viking_hallifred, 5, 0) = true) {
+            ~chatnpc("<p,angry>Have you no manners outerlander? This is my home, you will show me the due respect!");
+            ~chatplayer("<p,confused>Erm.... sorry I guess.");
+        }
+}
+
+[oploc1,vt_mazeladderentrance]
+p_arrivedelay;
+~climb_ladder(0_41_57_20_10, true);
+p_delay(0);
+if(npc_find(coord, viking_hallifred, 5, 0) = true) {
+    ~chatnpc("<p,happy>Decided you could not solve my labyrinth after all, did you outerlander? Too tricky for you?");
+    ~chatplayer("<p,neutral>I just changed my mind. I'll do it later on.");
+}
+
+[oploc1,vt_mazeladderescapeladder]
+p_arrivedelay;
+~climb_ladder(0_41_57_23_10, true);
+p_delay(0);
+if(npc_find(coord, viking_hallifred, 5, 0) = true) {
+    ~chatnpc("<p,happy>Decided you could not solve my labyrinth after all, did you outerlander? Too tricky for you?");
+    ~chatplayer("<p,confused>Yeah, it is really confusing down there...");
+    ~chatnpc("<p,happy>Hahaha! Don't worry outerlander, you are not the first to fail its puzzle!");
+}
+
+[oploc1,vt_mazeladderexit]
+p_arrivedelay;
+~climb_ladder(0_41_57_25_13, true);
+p_delay(0);
+if(npc_find(coord, viking_hallifred, 5, 0) = true) {
+    queue(complete_swensen_trial, 0, 0);
+    ~chatnpc("<p,neutral>Outerlander! You have finished my maze! I am genuinely impressed!");
+    ~chatplayer("<p,quiz>So does that mean I can rely on your vote at the council of elders to allow me into your village?");
+    ~chatnpc("<p,happy>Of course outerlander! I am nothing if not a man of my word!");
+    ~chatnpc("<p,happy>Thanks!");
+}
+
+[queue,complete_swensen_trial]
+%viking = add(%viking, 1);
+~set_viking_swensen_progress(^swensen_complete);
+
+// looks to just port to these 20 spots randomly
+[oploc1,vt_mazeportal_wrong]
+p_arrivedelay;
+def_int $rand = random(20);
+if($rand = 0) {
+    p_telejump(0_41_156_9_53);
+    p_delay(0);
+    p_walk(0_41_156_8_53);
+} else if($rand = 1) {
+    p_telejump(0_41_156_18_52);
+    p_delay(0);
+    p_walk(0_41_156_18_53);
+} else if($rand = 2) {
+    p_telejump(0_41_156_7_34);
+    p_delay(0);
+    p_walk(0_41_156_7_33);
+} else if($rand = 3) {
+    p_telejump(0_41_156_7_28);
+    p_delay(0);
+    p_walk(0_41_156_7_29);
+} else if($rand = 4) {
+    p_telejump(0_41_156_32_31);
+    p_delay(0);
+    p_walk(0_41_156_31_31);
+} else if($rand = 5) {
+    p_telejump(0_41_156_37_20);
+    p_delay(0);
+    p_walk(0_41_156_38_20);
+} else if($rand = 6) {
+    p_telejump(0_41_156_7_18);
+    p_delay(0);
+    p_walk(0_41_156_7_19);
+} else if($rand = 7) {
+    p_telejump(0_41_156_21_55);
+    p_delay(0);
+    p_walk(0_41_156_20_55);
+} else if($rand = 8) {
+    p_telejump(0_41_156_3_53);
+    p_delay(0);
+    p_walk(0_41_156_4_53);
+} else if($rand = 9) {
+    p_telejump(0_41_156_29_34);
+    p_delay(0);
+    p_walk(0_41_156_29_33);
+} else if($rand = 10) {
+    p_telejump(0_41_156_33_42);
+    p_delay(0);
+    p_walk(0_41_156_32_42);
+} else if($rand = 11) {
+    p_telejump(0_41_156_43_20);
+    p_delay(0);
+    p_walk(0_41_156_42_20);
+} else if($rand = 12) {
+    p_telejump(0_41_156_3_53);
+    p_delay(0);
+    p_walk(0_41_156_4_53);
+} else if($rand = 13) {
+    p_telejump(0_41_156_18_45);
+    p_delay(0);
+    p_walk(0_41_156_18_44);
+} else if($rand = 14) {
+    p_telejump(0_41_156_27_42);
+    p_delay(0);
+    p_walk(0_41_156_28_42);
+} else if($rand = 15) {
+    p_telejump(0_41_156_18_39);
+    p_delay(0);
+    p_walk(0_41_156_18_40);
+} else if($rand = 16) {
+    p_telejump(0_41_156_15_21);
+    p_delay(0);
+    p_walk(0_41_156_16_21);
+} else if($rand = 17) {
+    p_telejump(0_41_156_4_31);
+    p_delay(0);
+    p_walk(0_41_156_5_31);
+} else if($rand = 18) {
+    p_telejump(0_41_156_21_21);
+    p_delay(0);
+    p_walk(0_41_156_20_21);
+} else if($rand = 19) {
+    p_telejump(0_41_156_26_31);
+    p_delay(0);
+    p_walk(0_41_156_27_31);
+}
+
+[oploc1,vt_mazeportal_1]
+p_arrivedelay;
+p_telejump(0_41_156_18_34);
+p_delay(0);
+p_walk(0_41_156_18_33);
+
+[oploc1,vt_mazeportal_2]
+p_arrivedelay;
+p_telejump(0_41_156_26_20);
+p_delay(0);
+p_walk(0_41_156_27_20);
+
+[oploc1,vt_mazeportal_3]
+p_arrivedelay;
+p_telejump(0_41_156_44_31);
+p_delay(0);
+p_walk(0_41_156_43_31);
+
+[oploc1,vt_mazeportal_4]
+p_arrivedelay;
+p_telejump(0_41_156_6_45);
+p_delay(0);
+p_walk(0_41_156_6_44);
+
+[oploc1,vt_mazeportal_5]
+p_arrivedelay;
+p_telejump(0_41_156_29_50);
+p_delay(0);
+p_walk(0_41_156_29_51);
+
+[oploc1,vt_mazeportal_6]
+p_arrivedelay;
+p_telejump(0_41_156_45_42);
+p_delay(0);
+p_walk(0_41_156_44_42);
+
+[oploc1,vt_mazeportal_7]
+p_arrivedelay;
+p_telejump(0_41_156_41_54);
+p_delay(0);

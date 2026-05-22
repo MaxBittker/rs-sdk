@@ -1,0 +1,57 @@
+// picking, drying, and grinding troll thistle is allowed at any point before/during/after the quest
+[opnpc1,eadgar_troll_thistle]
+mes("You pick the Troll Thistle.");
+sound_synth(pick, 0, 0);
+// should drop to the ground if inv is full
+inv_add(inv, eadgar_troll_thistle, 1);
+@eadgar_troll_thistle_move(npc_coord);
+
+[label,eadgar_troll_thistle_move](coord $coord)
+def_coord $newcoord;
+switch_int(random(5)) {
+    // thistle locations - from loc ID 3812 (eadgar_troll_thistle_base in m45_57.jm2)
+    case 0 : $newcoord = 0_45_57_03_22;
+    case 1 : $newcoord = 0_45_57_07_27;
+    case 2 : $newcoord = 0_45_57_11_28;
+    case 3 : $newcoord = 0_45_57_12_38;
+    case 4 : $newcoord = 0_45_57_22_26;
+}
+if($newcoord = npc_coord) {
+    @eadgar_troll_thistle_move(npc_coord); // choose another
+} else {
+    npc_tele($newcoord);
+}
+
+[opheldu,eadgar_troll_thistle]
+if(last_useitem = ranarrvial) {
+    mes("I need to dry it in a fire first."); // different mes than opheldu the other way around
+}
+
+[label,eadgar_dried_troll_thistle_mes] mes("It's too big to fit in the vial."); // this is used in two places
+
+[opheldu,eadgar_dried_troll_thistle]
+if(last_useitem = ranarrvial) {
+    @eadgar_dried_troll_thistle_mes;
+} else {
+    // Ashie tested in OSRS and it grinds the first slot
+    ~attempt_grind_ingredient(last_useslot, last_slot);
+}
+
+[opheldu,eadgar_ground_troll_thistle]
+if(%eadgar_quest = ^eadgar_needs_potion) {
+    ~attempt_brew_potion(last_useslot, last_slot);
+} else if(%eadgar_quest = ^eadgar_complete) {
+    mes("You don't need to make any more."); // todo check if this is the case immediately after handing in the potion, or if completion is required before troll potions become unmixable
+} else {
+    // osrs, from Ashie
+    ~chatplayer("<p,confused>Hmmm...perhaps I shouldn't try and mix these together. It might have unpredictable results...");
+}
+
+// fresh & dried thistle both inv_del on drop
+// ground thistle and mixed potion both drop normally (but are untradeable)
+[label,eadgar_drop_thistle]
+inv_delslot(inv, last_slot);
+mes("The Troll Thistle withers away as soon as it hits the ground.");
+
+[opheld5,eadgar_troll_thistle] @eadgar_drop_thistle;
+[opheld5,eadgar_dried_troll_thistle] @eadgar_drop_thistle;

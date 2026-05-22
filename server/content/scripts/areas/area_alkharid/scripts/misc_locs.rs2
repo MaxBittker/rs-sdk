@@ -1,8 +1,8 @@
 // Curtains
-[oploc1,inaccastledoubledoorlopen]
+[oploc1,loc_1529]
 // Temp note: dur does not need updated
-loc_change(inaccastledoubledoorr, 200);
+loc_change(loc_1528, 200);
 
-[oploc1,inaccastledoubledoorr]
+[oploc1,loc_1528]
 // Temp note: dur does not need updated
-loc_change(inaccastledoubledoorlopen, 200);
+loc_change(loc_1529, 200);

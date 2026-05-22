@@ -1,4 +1,26 @@
 [opnpc1,examiner]
+if(inv_total(inv, trail_clue_hard_riddle019) > 0) {
+    // https://www.youtube.com/watch?v=1OBGZIgwBKA
+    if(~obj_gettotal(trail_clue_hard_riddle019_puzzlebox) > 0) {
+        if(inv_total(inv, trail_clue_hard_riddle019_puzzlebox) = 0) {
+            ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
+            ~chatnpc("<p,angry>That's not much use. Go and fetch it.");
+            return;
+        }
+        if(~trail_puzzle_complete(trail_clue_hard_riddle019_puzzlebox) = true) {
+            ~chatnpc("<p,happy>Correct! Well done!");
+            inv_del(inv, trail_clue_hard_riddle019_puzzlebox, 1);
+            ~progress_clue_hard(trail_clue_hard_riddle019, "The examiner has given you another clue scroll!");
+            return;
+        }
+        // TODO: check mesanim
+        ~chatnpc("<p,neutral>I'm afraid you have not finished the puzzle.");
+        return;
+    }
+    ~give_trail_puzzle(trail_clue_hard_riddle019_puzzlebox, "<p,neutral>Hi! Please complete this.", "The examiner has given you a puzzle box!");
+    return;
+}
+
 def_int $progress = ~itexam_progress;
 
 switch_int ($progress) {

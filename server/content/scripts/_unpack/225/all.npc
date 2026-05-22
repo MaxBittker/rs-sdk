@@ -1666,7 +1666,7 @@ walkanim=giantspider_walk
 readyanim=giantspider_ready
 minimap=no
 name=Jungle spider
-desc=A venomous deadly spider.
+desc=A barely visible deadly jungle spider.
 op2=Attack
 vislevel=44
 recol1s=5284
@@ -1825,7 +1825,7 @@ name=Mummy
 desc=A tightly wrapped monster.
 walkanim=mummy_walk
 readyanim=mummy_ready
-op2=attack
+op2=Attack
 vislevel=47
 model1=model_2925_npc
 // wanderrange=
@@ -3091,7 +3091,7 @@ size=2
 walkanim=giant_walk
 readyanim=giant_ready
 name=Moss giant
-desc=His beard seems to have a life of it's own.
+desc=His beard seems to have a life of its own.
 op2=Attack
 vislevel=42
 recol1s=24075
@@ -3554,6 +3554,8 @@ recol2s=239
 recol2d=4226
 recol3s=14724
 recol3d=4226
+recol4s=24075
+recol4d=4226
 model1=model_292_idk
 model2=model_170_idk
 model3=model_260_npc
@@ -3705,6 +3707,7 @@ param=death_anim,monkey_death
 param=attack_sound,monkey_attack
 param=defend_sound,monkey_hit
 param=death_sound,monkey_death
+param=death_drop,null
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2848
 
@@ -3813,7 +3816,7 @@ huntrange=3
 walkanim=souless_walk
 readyanim=souless_ready
 name=Souless
-desc=A servent to Zamorak.
+desc=A servant to Iban.
 op2=Attack
 vislevel=18
 model1=model_2958_npc
@@ -5955,47 +5958,6 @@ param=death_sound,cow_death
 category=cow
 // osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2793
-
-[trail_hard]
-name=Zamorak Wizard
-desc=A servant of Zamorak.
-walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
-readyanim=human_ready
-op2=Attack
-vislevel=65
-recol1s=8386
-recol1d=0
-recol2s=31649
-recol2d=15360
-recol3s=2340
-recol3d=15360
-recol4s=14724
-recol4d=15360
-recol5s=6273
-recol5d=0
-model1=model_206_idk
-model2=model_181_idk
-model3=model_248_idk
-model4=model_292_idk
-model5=model_323_obj_wear
-model6=model_170_idk
-model7=model_176_idk
-model8=model_265_obj_wear
-model9=model_544_obj_wear
-// TODO respawnrates
-wanderrange=3
-maxrange=5
-attackrange=5
-hitpoints=80
-attack=24
-strength=24
-defence=24
-magic=80
-param=magicdefence,3
-param=damagetype,^crush_style
-timer=20
-// Stats match osrs version but our version Vislvl is different.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2954
 
 [dungeonspider]
 walkanim=giantspider_walk

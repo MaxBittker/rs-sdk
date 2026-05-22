@@ -11,6 +11,7 @@ members=yes
 iop1=Inspect
 weight=10g
 tradeable=no
+param=destroy_drop,^true
 
 [zqbonekey]
 name=Bone key
@@ -26,6 +27,7 @@ recol1d=32767
 members=yes
 weight=10g
 tradeable=no
+param=destroy_drop,^true
 
 [zqplaque]
 name=Stone-plaque
@@ -40,6 +42,7 @@ iop1=Read
 weight=800g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [zqberviriusscroll]
 name=Tattered scroll
@@ -56,6 +59,7 @@ iop1=Read
 weight=20g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [zqrashiliyiascroll]
 name=Crumpled scroll
@@ -72,6 +76,7 @@ iop1=Read
 weight=20g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [zqcorpse]
 name=Rashiliya corpse
@@ -85,6 +90,7 @@ model=model_2595_obj
 weight=300g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [zqzadimusbones]
 name=Zadimus corpse
@@ -99,6 +105,7 @@ iop1=Bury
 weight=500g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [zqcrystal]
 name=Locating crystal
@@ -113,6 +120,7 @@ members=yes
 iop1=Activate
 weight=2lb
 tradeable=no
+param=destroy_drop,^true
 
 [zqcrystal_blue]
 name=Locating crystal
@@ -176,6 +184,7 @@ recol1d=32767
 weight=2lb
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [zqdeadbeads]
 name=Beads of the dead
@@ -207,6 +216,7 @@ param=rangedefence,1
 param=strengthbonus,1
 param=prayerbonus,1
 tradeable=no
+param=destroy_drop,^true
 
 [fake_coins]
 cost=1
@@ -232,6 +242,7 @@ model=model_2561_obj
 weight=1g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [zqbevsword]
 name=Sword pommel
@@ -246,6 +257,7 @@ cost=1
 weight=3oz
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [zqberviriusscroll2]
 name=Bervirius notes
@@ -263,6 +275,7 @@ iop1=Read
 weight=20g
 members=yes
 tradeable=no
+param=destroy_drop,^true
 
 [mosol_wampum_belt]
 name=Wampum belt

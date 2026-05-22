@@ -1,4 +1,10 @@
 [opnpc1,duel_jaraah]
+if(inv_total(inv, trail_clue_medium_anagram018) > 0) {
+    // https://youtu.be/xhl44W6I4n8?si=nGe16gQYhvhRCM7b&t=43
+    ~chatnpc("<p,angry>Here! Now I have work to do!");
+    ~progress_clue_medium(trail_clue_medium_anagram018, "Jaraah has given you another clue scroll!");
+    return;
+}
 ~chatplayer("<p,neutral>Hi!");
 ~chatnpc("<p,neutral>What? Can't you see I'm busy?!");
 

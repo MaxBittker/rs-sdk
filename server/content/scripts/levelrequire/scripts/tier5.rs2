@@ -13,6 +13,8 @@
 [opheld2,steel_spear_p] @levelrequire_attack(5, last_slot);
 [opheld2,steel_2h_sword] @levelrequire_attack(5, last_slot);
 [opheld2,steel_claws] @levelrequire_attack(5, last_slot);
+[opheld2,tbwt_steel_spear_kp] @levelrequire_attack(5, last_slot);
+[opheld2,steel_halberd] @levelrequire_attack_and_strength(5, 1, last_slot);
 
 [opheld2,steel_med_helm] @levelrequire_defence(5, last_slot);
 [opheld2,steel_full_helm] @levelrequire_defence(5, last_slot);

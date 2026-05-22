@@ -1,0 +1,9 @@
+[label,consume_effect_poisonbwan]
+sound_synth(eat, 0, 0);
+sound_synth(throwup1, 0, 30);
+anim(human_eat, 0);
+inv_delslot(inv, last_slot);
+if(stat(hitpoints) > 5) damage(uid, ^hitmark_poison, 5);
+mes("You eat the Karambwan.");
+p_delay(2);
+mes("It tastes ... painful.");

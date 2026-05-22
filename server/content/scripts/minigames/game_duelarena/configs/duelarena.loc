@@ -58,7 +58,7 @@ recol1d=12580
 
 [loc_3192]
 name=Scoreboard
-desc=You can see the last 10 fights on here.
+desc=You can see the last 50 fights on here.
 model=model_loc_3192
 width=2
 length=3

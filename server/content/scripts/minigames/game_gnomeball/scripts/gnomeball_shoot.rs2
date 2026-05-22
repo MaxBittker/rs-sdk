@@ -1,15 +1,6 @@
-[if_button,gnomeball:com_6]
-if_close;
-if (p_finduid(uid) = true) {
-    if (loc_find(^gnomeball_goal_coord, goal_gnomeball_game) = true) {
-        @gnomeball_shoot;
-    }
-}
+[aploc1,goal_gnomeball_game] @gnomeball_shoot;
 
 [label,gnomeball_shoot]
-if (lineofsight(coord, loc_coord) = false) {
-    return;
-}
 if (~inzone_coord_pair_table(gnomeball_zones, coord) = false) {
     mes("You may only score while on the pitch.");
     return;
@@ -22,12 +13,7 @@ if (coordx(coord) >= coordx(loc_coord)) {
     mes("You must be in front of the goal.");
     return;
 }
-if (distance(loc_coord, coord) > 10) {
-    mes("The goal is too far away from here."); // complete guess
-    return;
-}
 // pos: 2404 3488
-p_stopaction; // doesnt do this in osrs but its an aploc interaction so maybe they removed this?
 // https://youtu.be/LWfcA_C2bJY?si=1xvGzgrQ53VgBsAx&t=50
 mes("You throw the ball at the goal.");
 cam_moveto(movecoord(loc_coord, 3, 0, 0), 300, 100, 100);
@@ -43,7 +29,11 @@ inv_delslot(worn, ^wearpos_rhand);
 ~update_all(ball_gnomeball_game);
 p_delay(divide($duration, 30));
 if ($land_coord = loc_coord) {
-    mes("and score!"); // aug 2004, https://youtu.be/LWfcA_C2bJY?si=1xvGzgrQ53VgBsAx&t=50
+    // aug 2004, https://youtu.be/LWfcA_C2bJY?si=1xvGzgrQ53VgBsAx&t=50
+    // june 2006, https://youtu.be/1ITDFFB7aiI?t=158
+    // - probably changed during the gnomeball rework
+    mes("... and score!");
+    
     %score_gnomeball_game = min(add(max(%score_gnomeball_game, 0), 1), 5);
     if (%score_gnomeball_game = 5) {
         mes("You win!");
@@ -64,7 +54,7 @@ if ($land_coord = loc_coord) {
         npc_say("GOAL");
     }  
 } else {
-    mes("and miss."); // guess based off score mes
+    mes("... and miss."); // https://youtu.be/1ITDFFB7aiI?t=441
 }
 p_delay(3);
 // cam_lookat(movecoord(loc_coord, -68, 0, -40), 0, 0, 0);

@@ -38,6 +38,13 @@ export default class RandomAccessFile {
         this.pos += buffer.length;
     }
 
+    truncate(length: number = 0): void {
+        fs.ftruncateSync(this.fd, length);
+        if (this.pos > length) {
+            this.pos = length;
+        }
+    }
+
     close(): void {
         fs.closeSync(this.fd);
     }

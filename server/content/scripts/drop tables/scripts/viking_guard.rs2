@@ -1,0 +1,62 @@
+[ai_queue3,viking_guard] @viking_guard_drops;
+[ai_queue3,viking_guard2] @viking_guard_drops;
+
+[label,viking_guard_drops]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+// Default drop from config.
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+
+~trail_mediumcluedrop(128, npc_coord);
+def_int $random = random(128);
+
+if ($random < 6) {
+    obj_add(npc_coord, iron_warhammer, 1, ^lootdrop_duration);
+} else if ($random < 9) {
+    obj_add(npc_coord, bronze_warhammer, 1, ^lootdrop_duration);
+} else if ($random < 10) {
+    obj_add(npc_coord, steel_warhammer, 1, ^lootdrop_duration);
+} else if ($random < 11) {
+    obj_add(npc_coord, black_warhammer, 1, ^lootdrop_duration);
+} else if ($random < 12) {
+    if(%viking = ^viking_complete) obj_add(npc_coord, viking_sword, 1, ^lootdrop_duration);
+} else if ($random < 13) {
+    if(%viking = ^viking_complete) obj_add(npc_coord, viking_shield, 1, ^lootdrop_duration);
+} else if ($random < 14) {
+    if(%viking = ^viking_complete) obj_add(npc_coord, viking_helmet, 1, ^lootdrop_duration);
+} else if ($random < 16) {
+    obj_add(npc_coord, ~randomherb, ^lootdrop_duration);
+} else if ($random < 58) {
+     obj_add(npc_coord, coins, 15, ^lootdrop_duration);
+} else if ($random < 67) {
+     obj_add(npc_coord, coins, 22, ^lootdrop_duration);
+} else if ($random < 72) {
+     obj_add(npc_coord, coins, 17, ^lootdrop_duration);
+} else if ($random < 75) {
+     obj_add(npc_coord, coins, 27, ^lootdrop_duration);
+} else if ($random < 79) {
+     obj_add(npc_coord, keg_of_beer, 1, ^lootdrop_duration);
+} else if ($random < 83) {
+     obj_add(npc_coord, cake, 1, ^lootdrop_duration);
+} else if ($random < 86) {
+     obj_add(npc_coord, iron_ore, 2, ^lootdrop_duration);
+} else if ($random < 88) {
+     obj_add(npc_coord, copper_ore, 5, ^lootdrop_duration);
+} else if ($random < 89) {
+     obj_add(npc_coord, bucket_water, 1, ^lootdrop_duration);
+} else if ($random < 90) {
+     obj_add(npc_coord, fur, 1, ^lootdrop_duration);
+} else if ($random < 91) {
+     obj_add(npc_coord, tin_ore, 1, ^lootdrop_duration);
+} else if ($random < 92) {
+     obj_add(npc_coord, raw_sardine, 1, ^lootdrop_duration);
+} else if ($random < 93) {
+     obj_add(npc_coord, beer, 1, ^lootdrop_duration);
+} else if ($random < 94) {
+     obj_add(npc_coord, ring_mould, 1, ^lootdrop_duration);
+} else if ($random < 95) {
+     obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
+}

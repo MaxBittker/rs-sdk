@@ -1,0 +1,833 @@
+[opheld1,regicide_quest_kings_summons]
+if_settext(inter_102:com_3, "Squire <displayname()>.");
+if_settext(inter_102:com_1, "You are needed to serve the Kingdom of");
+if_settext(inter_102:com_4, "Kandarin. At last our magi have reopened");
+if_settext(inter_102:com_5, "the well of voyage. We must discuss your");
+if_settext(inter_102:com_8, "next commission.");
+if_settext(inter_102:com_6, "His Majesty King Lathas");
+if_openmain(inter_102);
+
+[oploc1,regicide_voyage_temple_well1]
+anim(human_reachforladder, 0);
+mes("You climb into the well..");
+if(testbit(%regicide_bits, ^regicide_down_well) = ^false) {
+    %regicide_bits = setbit(%regicide_bits, ^regicide_down_well);
+}
+p_delay(0);
+p_teleport(0_36_150_39_22);
+
+[oploc1,regicide_voyage_temple_well2]
+anim(human_reachforladder, 0);
+mes("You climb into the well..");
+p_delay(0);
+p_teleport(1_31_73_26_40);
+
+[oploc1,regicide_voyage_temple_entrance]
+p_teleport(0_36_150_10_24);
+
+[oploc1,regicide_voyage_temple_exit]
+p_teleport(0_36_50_8_16);
+
+[oploc1,regicide_trap_woodspring]
+p_delay(0);
+if(stat_random(agility, 30, 155) = false) {
+    @regicide_fail_trap_woodspring;
+}
+switch_int(loc_angle) {
+    case ^loc_east :
+        if (coordx(coord) <= coordx(loc_coord)) {
+            ~forcemove(movecoord(loc_coord, 2, 0, 0));
+        } else {
+            p_teleport(loc_coord);
+            p_delay(0);
+            p_teleport(movecoord(coord, -1, 0, 0));
+            p_delay(0);
+        }
+    case ^loc_west :
+        if (coordx(coord) > coordx(loc_coord)) {
+            ~forcemove(movecoord(loc_coord, -1, 0, 0));
+        } else {
+            if(coordx(loc_coord) ! coordx(coord)) ~forcemove(loc_coord);
+            p_teleport(movecoord(loc_coord, 2, 0, 0));
+            p_delay(0);
+            p_teleport(movecoord(coord, 1, 0, 0));
+            p_delay(0);
+        }
+    case ^loc_north :
+        if (coordz(coord) <= coordz(loc_coord)) {
+            ~forcemove(movecoord(loc_coord, 0, 0, 3));
+        } else {
+            ~forcemove(movecoord(loc_coord, 0, 0, 2));
+            p_teleport(loc_coord);
+            p_delay(0);
+            p_teleport(movecoord(coord, 0, 0, -1));
+            p_delay(0);
+        }
+    case ^loc_south :
+        if (coordz(coord) > coordz(loc_coord)) {
+            ~forcemove(movecoord(loc_coord, 0, 0, -1));
+        } else {
+            p_teleport(movecoord(loc_coord, 0, 0, 1));
+            p_delay(0);
+            p_teleport(movecoord(coord, 0, 0, 2));
+            p_delay(0);
+        }
+}
+mes("You manage to skillfully pass the trap.");
+
+[label,regicide_fail_trap_woodspring]
+def_coord $dest;
+def_int $dir;
+p_stopaction;
+switch_int(loc_angle) {
+    case ^loc_east :
+        if (coordx(coord) <= coordx(loc_coord)) {
+            ~forcemove(loc_coord);
+        } else {
+            ~forcemove(movecoord(loc_coord, 1, 0, 0));
+        }
+        $dest = movecoord(loc_coord, -1, 0, 0);
+        $dir = ^exact_east;
+    case ^loc_west :
+        if (coordx(movecoord(coord, -1, 0, 0)) <= coordx(loc_coord)) {
+            ~forcemove(movecoord(loc_coord, 1, 0, 0));
+        } else {
+            ~forcemove(movecoord(loc_coord, 2, 0, 0));
+        }
+        $dest = movecoord(loc_coord, 3, 0, 0);
+        $dir = ^exact_west;
+    case ^loc_north :
+        if (coordz(coord) <= coordz(loc_coord)) {
+            ~forcemove(loc_coord);
+        } else {
+            ~forcemove(movecoord(loc_coord, 0, 0, 1));
+        }
+        $dest = movecoord(loc_coord, 0, 0, -1);
+        $dir = ^exact_north;
+    case ^loc_south :
+        if (coordz(coord) > coordz(loc_coord)) {
+            ~forcemove(movecoord(loc_coord, 0, 0, 2));
+        } else {
+            ~forcemove(movecoord(loc_coord, 0, 0, 1));
+        }
+        $dest = movecoord(loc_coord, 0, 0, 3);
+        $dir = ^exact_south;
+}
+loc_anim(woodspring);
+mes("You set off the trap as you pass.");
+sound_synth(springtrap, 0, 0);
+~agility_exactmove(human_stumble_back, 10, 0, coord, $dest, 10, 56, $dir, false);
+~damage_self(8);
+
+[oploc1,regicide_trap_tripwire]
+def_int $dx = 0;
+def_int $dz = 0;
+def_int $dir;
+switch_int(loc_angle) {
+    case ^loc_east, ^loc_west :
+        if(coordz(coord) > coordz(loc_coord)) {
+            $dz = -1;
+            $dir = ^exact_south;
+        } else {
+            $dz = 1;
+            $dir = ^exact_north;
+        }
+    case ^loc_north, ^loc_south :
+        if(coordx(coord) > coordx(loc_coord)) {
+            $dx = -1;
+            $dir = ^exact_west;
+        } else {
+            $dx = 1;
+            $dir = ^exact_east;
+        }
+}
+p_delay(0);
+p_teleport(movecoord(coord, $dx, 0, $dz));
+p_delay(1);
+~agility_exactmove(regicide_stepover, 0, 0, coord, movecoord(coord, $dx, 0, $dz), 0, 30, $dir, false);
+if(stat_random(agility, 30, 155) = false) {
+    mes("You snag the trip wire as you step over it.");
+    ~regicide_tripwire_trigger;
+} else {
+    mes("You successfully step over the tripwire.");
+}
+p_teleport(movecoord(coord, $dx, 0, $dz));
+p_delay(3);
+
+[label,regicide_walk_tripwire]
+p_stopaction;
+~regicide_tripwire_trigger;
+switch_int(loc_angle) {
+    case ^loc_east, ^loc_west :
+        if(coordz(coord) > coordz(loc_coord)) {
+            p_teleport(movecoord(coord, 0, 0, -2));
+        } else {
+            p_teleport(movecoord(coord, 0, 0, 2));
+        }
+    case ^loc_north, ^loc_south :
+        if(coordx(coord) > coordx(loc_coord)) {
+            p_teleport(movecoord(coord, -2, 0, 0));
+        } else {
+            p_teleport(movecoord(coord, 2, 0, 0));
+        }
+}
+p_delay(0);
+
+[proc,regicide_tripwire_trigger]
+def_coord $trap1;
+def_coord $trap2;
+def_coord $trap3;
+def_coord $trap4;
+switch_int(loc_angle) {
+    case ^loc_east, ^loc_west :
+        $trap1 = movecoord(loc_coord, -1, 0, -1);
+        $trap2 = movecoord(loc_coord, 1, 0, -1);
+        $trap3 = movecoord(loc_coord, -1, 0, 2);
+        $trap4 = movecoord(loc_coord, 1, 0, 2);
+    case ^loc_north, ^loc_south :
+        $trap1 = movecoord(loc_coord, -1, 0, 1);
+        $trap2 = movecoord(loc_coord, -1, 0, -1);
+        $trap3 = movecoord(loc_coord, 2, 0, 1);
+        $trap4 = movecoord(loc_coord, 2, 0, -1);
+}
+queue(poison_player, 0, 10);
+if(.loc_find($trap1, regicide_trap_arrowtrip) = true) {
+    loc_anim(arrowtrip);
+    ~coord_projectile(.loc_coord, coord, iron_arrow_travel, 4, 35, 0, 45, 40, 0, 0);
+}
+if(.loc_find($trap2, regicide_trap_arrowtrip) = true) {
+    loc_anim(arrowtrip);
+    ~coord_projectile(.loc_coord, coord, iron_arrow_travel, 4, 35, 0, 45, 40, 0, 0);
+}
+if(.loc_find($trap3, regicide_trap_arrowtrip) = true) {
+    loc_anim(arrowtrip);
+    ~coord_projectile(.loc_coord, coord, iron_arrow_travel, 4, 35, 0, 45, 40, 0, 0);
+}
+if(.loc_find($trap4, regicide_trap_arrowtrip) = true) {
+    loc_anim(arrowtrip);
+    ~coord_projectile(.loc_coord, coord, iron_arrow_travel, 4, 35, 0, 45, 40, 0, 0);
+}
+sound_synth(tripwire_with_arrows, 0, 0);
+queue(damage_player, 0, 5);
+queue(damage_player, 0, 5);
+
+[oploc1,regicide_pitfall_corner]
+p_delay(0);
+loc_findallzone(loc_coord);
+while (loc_findnext = true) {
+    if (distance(coord, loc_coord) = 1 & loc_type = regicide_pitfall_side){
+        @regicide_jump_pitfall;
+    }
+}
+
+[oploc1,regicide_pitfall_side] @regicide_jump_pitfall;
+
+[label,regicide_jump_pitfall]
+def_coord $start;
+def_int $dx;
+def_int $dz;
+def_int $dir;
+switch_int(loc_angle) {
+    case ^loc_north, ^loc_south :
+        if(coordz(coord) > coordz(loc_coord)) {
+            $start = movecoord(loc_coord, 0, 0, 1);
+            $dz = -1;
+            $dir = ^exact_south;
+        } else {
+            $start = movecoord(loc_coord, 0, 0, -1);
+            $dz = 1;
+            $dir = ^exact_north;
+        }
+    case ^loc_west, ^loc_east :
+        if(coordx(coord) > coordx(loc_coord)) {
+            $start = movecoord(loc_coord, 1, 0, 0);
+            $dx = -1;
+            $dir = ^exact_west;
+        } else {
+            $start = movecoord(loc_coord, -1, 0, 0);
+            $dx = 1;
+            $dir = ^exact_east;
+        }
+}
+if(coord ! $start) {
+    p_teleport($start);
+    p_delay(1);
+}
+sound_synth(jump_no_land, 0, 20);
+if(stat_random(agility, 160, 300) = false) {
+    mes("... you slip and fall.");
+    ~agility_exactmove(agilityarena_dive_player, 20, 1, coord, movecoord(loc_coord, multiply(1,$dx), 0, multiply(1,$dz)), 30, 49, $dir, false);
+    @regicide_pitfall_falldown;
+}
+~agility_exactmove(agilityarena_dive_player, 20, 1, coord, movecoord(loc_coord, multiply(3,$dx), 0, multiply(3,$dz)), 30, 49, $dir, false);
+mes("... you manage to cross safely.");
+
+[label,regicide_pitfall_falldown]
+mes("You fall onto the spikes.");
+// unlike the upass trap I'm pretty sure these were always relative to player coord
+if(inzone(0_35_49_33_37, 0_35_49_35_37, coord) = true) {
+    p_teleport(movecoord(0_36_150_32_56, random(1), 0, 0));
+} else if(inzone(0_35_49_33_38, 0_35_49_35_38, coord) = true) {
+    p_teleport(movecoord(0_36_150_32_56, random(1), 0, random(1)));
+} else if(inzone(0_35_49_33_39, 0_35_49_35_39, coord) = true) {
+    p_teleport(movecoord(0_36_150_32_56, random(1), 0, 1));
+} else if(inzone(0_35_50_26_2, 0_35_50_28_2, coord) = true) {
+    p_teleport(movecoord(0_36_150_50_56, random(1), 0, 0));
+} else if(inzone(0_35_50_26_3, 0_35_50_28_3, coord) = true) {
+    p_teleport(movecoord(0_36_150_50_56, random(1), 0, random(1)));
+} else if(inzone(0_35_50_26_4, 0_35_50_28_4, coord) = true) {
+    p_teleport(movecoord(0_36_150_50_56, random(1), 0, 1));
+} else if(inzone(0_35_50_36_61, 0_35_50_36_63, coord) = true) {
+    p_teleport(movecoord(0_36_150_50_43, 0, 0, random(1)));
+} else if(inzone(0_35_50_37_61, 0_35_50_37_63, coord) = true) {
+    p_teleport(movecoord(0_36_150_50_43, random(1), 0, random(1)));
+} else if(inzone(0_35_50_38_61, 0_35_50_38_63, coord) = true) {
+    p_teleport(movecoord(0_36_150_50_56, 1, 0, random(1)));
+} else if(inzone(0_34_50_32_2, 0_34_50_34_2, coord) = true) {
+    p_teleport(movecoord(0_36_150_9_56, random(1), 0, 0));
+} else if(inzone(0_34_50_32_3, 0_34_50_34_3, coord) = true) {
+    p_teleport(movecoord(0_36_150_9_56, random(1), 0, random(1)));
+} else if(inzone(0_34_50_32_4, 0_34_50_34_4, coord) = true) {
+    p_teleport(movecoord(0_36_150_9_56, random(1), 0, 1));
+}
+
+anim(human_death, 0);
+p_delay(1);
+anim(null, 0);
+say("Ouch!");
+~damage_self(15); // always 15
+
+[oploc1,regicide_trap_hand_holds]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(0);
+mes("You crawl out of the pit.");
+if(inzone(0_36_150_50_56, 0_36_150_51_56, coord) = true) {
+    p_teleport(0_35_50_27_1);
+} else if(inzone(0_36_150_50_57, 0_36_150_51_57, coord) = true) {
+    p_teleport(0_35_50_27_5);
+} else if(inzone(0_36_150_50_43, 0_36_150_50_44, coord) = true) {
+    p_teleport(0_35_50_35_62);
+} else if(inzone(0_36_150_51_43, 0_36_150_51_44, coord) = true) {
+    p_teleport(0_35_50_38_62);
+} else if(inzone(0_36_150_9_56, 0_36_150_10_56, coord) = true) {
+    p_teleport(0_34_50_33_1);
+} else if(inzone(0_36_150_9_57, 0_36_150_10_57, coord) = true) {
+    p_teleport(0_34_50_33_5);
+} else if(inzone(0_36_150_32_56, 0_36_150_33_56, coord) = true) {
+    p_teleport(0_35_49_34_36);
+} else if(inzone(0_36_150_32_57, 0_36_150_33_57, coord) = true) {
+    p_teleport(0_35_49_34_40);
+}
+
+[oploc1,regicide_logbalance1_start] @regicide_logbalance(2200);
+[oploc1,regicide_logbalance2_start] @regicide_logbalance(2261);
+
+// todo: recheck this one cause i'm guessing the delays shouldnt match osrs
+[oploc1,regicide_logbalance3_start]
+if(stat(agility) < 45) {
+    mes("You need to be level 45 agility to cross this log."); // rs3
+    return;
+}
+def_int $dz = -2;
+// cant use loc_angle and they have random pauses in the middle for some reason...
+if(coordz(loc_coord) < 3235) {
+    $dz = 2;
+}
+~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
+sound_synth(log_balance, 2, 0);
+~forcemove(loc_coord);
+~forcemove(movecoord(coord, 0, 0, $dz));
+sound_synth(log_balance, 2, 0);
+~forcemove(movecoord(coord, 0, 0, $dz));
+p_delay(0);
+sound_synth(log_balance, 2, 0);
+~forcemove(movecoord(coord, 0, 0, $dz));
+~update_bas;
+
+// https://www.youtube.com/watch?v=1QO8LtDwwMg&t=1462s works differently than osrs
+[label,regicide_logbalance](int $center_coord)
+if(stat(agility) < 45) {
+    mes("You need to be level 45 agility to cross this log."); // rs3
+    return;
+}
+def_int $dx = -2;
+// cant use loc_angle and they have random pauses in the middle for some reason...
+if(coordx(loc_coord) < $center_coord) {
+    $dx = 2;
+}
+~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
+sound_synth(log_balance, 2, 0);
+~forcemove(loc_coord);
+~forcemove(movecoord(coord, divide($dx, 2), 0, 0));
+sound_synth(log_balance, 2, 0);
+~forcemove(movecoord(coord, $dx, 0, 0));
+p_delay(0);
+sound_synth(log_balance, 2, 0);
+~forcemove(movecoord(coord, $dx, 0, 0));
+~update_bas;
+
+[oploc1,_regicide_cross_over]
+if(%regicide_quest < ^regicide_spoken_tracker2) {
+    mes("You can see no way to get past this.");
+    return;
+}
+if(loc_type = regicide_cross_over2_tyras_camp) {
+    if(%regicide_quest < ^regicide_defeated_guard) {
+        if(npc_find(coord, regicide_tyras_camp_guard, 7, 0) = true & add(%npc_lastcombat, 8) <= map_clock) {
+            @regicide_camp_guard_attack;
+        }
+        npc_add(coord, regicide_tyras_camp_guard, 500);
+        @regicide_camp_guard_attack;
+    }
+}
+// wiki (incl rs3) says only 1 side has a check, but testing on rs3 both sides have the check
+// and you can get stuck
+if(stat(agility) < 56) {
+    mes("You need to be level 56 agility to pass this.");
+    return;
+}
+def_coord $dest;
+def_coord $start;
+def_int $dir;
+def_seq $seq;
+def_coord $lb;
+def_coord $ub;
+def_synth $synth;
+def_int $synth_delay = 0;
+switch_loc (loc_type) {
+    case regicide_cross_over1, regicide_cross_over1_tyras_camp : 
+        $seq = human_walk_style;
+        $synth = forest_lowwall;
+        $synth_delay = 30;
+    case regicide_cross_over2, regicide_cross_over2_tyras_camp : 
+        $seq = human_doublepipesqueeze;
+        $synth = forest_doublesqueeze;
+        $synth_delay = 30;
+    case regicide_cross_over3 : 
+        $seq = regicide_tightfit;
+        $synth = forest_sidesqueeze;
+        $synth_delay = 40;
+}
+switch_int(loc_angle) {
+    case ^loc_north, ^loc_south :
+        if(coordx(coord) < coordx(loc_coord)) {
+            $start = movecoord(loc_coord, -1, 0, 1);
+            $dest = movecoord(loc_coord, 2, 0, 1);
+            $dir = ^exact_east;
+        } else {
+            $start = movecoord(loc_coord, 2, 0, 1);
+            $dest = movecoord(loc_coord, -1, 0, 1);
+            $dir = ^exact_west;
+        }
+        $lb = movecoord($start, 0, 0, -1);
+        $ub = movecoord($dest, 0, 0, 1);
+    case ^loc_east, ^loc_west :
+        if(coordz(coord) < coordz(loc_coord)) {
+            $start = movecoord(loc_coord, 1, 0, -1);
+            $dest = movecoord(loc_coord, 1, 0, 2);
+            $dir = ^exact_north;
+        } else {
+            $start = movecoord(loc_coord, 1, 0, 2);
+            $dest = movecoord(loc_coord, 1, 0, -1);
+            $dir = ^exact_south;
+        }
+        $lb = movecoord(loc_coord, 0, 0, -1);
+        $ub = movecoord(loc_coord, 2, 0, 2);
+}
+if(distance(coord, $start) > 1) {
+    return;
+}
+anim($seq, 30);
+sound_synth($synth, 0, $synth_delay);
+p_locmerge(30, 94, $lb, $ub); 
+p_exactmove($start, $dest, 30, 94, $dir);
+p_delay(3);
+if(coord = 0_34_49_55_13 & %regicide_quest = ^regicide_spoken_tracker2) {
+    ~spawn_tyras_guard;
+}
+if(loc_type = regicide_cross_over2_tyras_camp) {
+    if(%regicide_quest = ^regicide_defeated_guard) {
+        %regicide_quest = ^regicide_entered_camp;
+    }
+}
+// specfically this loc, not 100% sure on the inzone check need to confirm
+if(loc_type = regicide_cross_over3) {
+    if(testbit(%regicide_bits, ^regicide_given_rabbit) = ^true & inzone(0_34_49_0_0, 0_34_49_63_63, coord) = true) {
+        %regicide_bits = clearbit(%regicide_bits, ^regicide_given_rabbit);
+    }
+}
+
+[label,regicide_camp_guard_attack]
+~chatnpc("<p,neutral>I remember you! You're the one who's working with them wicked elves. I will make you pay for that mistake.");
+~npc_retaliate(0);
+
+[oploc1,loc_3941]
+if(%regicide_quest = ^regicide_defeated_guard) {
+    mes("I know where those tracks lead.");
+} else if(%regicide_quest = ^regicide_spoken_tracker2) {
+    mes("The tracks lead through the dense wood, you can follow them now.");
+} else if(%regicide_quest = ^regicide_shown_pendant) {
+    %regicide_quest = ^regicide_found_footprints;
+    mes("You try to follow the foot prints but they lead into impassable woodland.");
+} else if (%regicide_quest < ^regicide_shown_pendant) {
+    mes("You are unable to make anything of the markings.");
+}
+
+[oplocu,regicide_catapult]
+if(%regicide_quest >= ^regicide_killed_tyras) {
+    mes("I think I've done enough damage with that.");
+    return;
+}
+if(testbit(%regicide_bits, ^regicide_given_rabbit) = ^false) {
+    if(npc_find(coord, regicide_tyras_lazy_guard, 8, 0) = true) ~chatnpc("<p,neutral>Oi! Don't mess with that.");
+    return;
+}
+if(last_useitem = regicide_barrel_lid_fused) {
+    if(%regicide_quest ! ^regicide_spoken_iorwerth2) {
+        return;
+    }
+    if(%regicide_catapult_used = ^true) {
+        mes("The catapult is being used"); // complete guess
+        return;
+    }
+    %regicide_catapult_used = ^true;
+    p_delay(0);
+    ~forcewalk2(0_34_49_11_49);
+    facesquare(movecoord(coord, 0, 0, 1));
+    p_delay(1);
+    anim(regicide_catapultwind, 0);
+    loc_anim(winddown_catapult);
+    sound_synth(catapult_winch, 0, 0);
+    if(.loc_find(0_34_49_10_47, regicide_catapult_left) = true) {
+        .loc_anim(wind_catapult);
+    }
+    p_delay(1);
+    ~forcewalk2(0_34_49_9_52);
+    facesquare(movecoord(coord, 0, 0, -1));
+    p_delay(0);
+    anim(human_pickupfloor, 0);
+    inv_del(inv, regicide_barrel_lid_fused, 1);
+    loc_anim(unlitbarrel);
+    ~forcewalk2(0_34_49_7_49);
+    p_delay(0);
+    anim(regicide_catapault_trigger, 0);
+    if(.loc_find(0_34_49_8_47, regicide_catapult_right) = true) {
+        .loc_anim(trigger_catapult);
+    }
+    loc_anim(fire_catapult);
+    sound_synth(catapult_fire, 0, 0);
+    ~coord_projectile(0_34_49_9_49, 0_34_49_10_6, spotanim_286, 138, 75, 50, 30, 170, 0, 0);
+    %regicide_catapult_used = ^false;
+    p_delay(4);
+    anim(regicide_player_vanish, 0);
+    p_teleport(0_36_71_10_6);
+    p_delay(0);
+    spotanim_map(spotanim_287, 0_36_71_10_6, 194, 100);
+    sound_synth(barrel_incoming, 0, 35);
+    ~coord_projectile(0_36_71_10_18, 0_36_71_10_7, spotanim_286, 112, 100, 10, 30, 90, 0, 0);
+    p_delay(2);
+    anim(regicide_player_vanish, 0);
+    loc_add(0_36_71_13_6, regicide_tent_human_fire, 0, wall_straight, 10);
+    loc_add(0_36_71_8_7, regicide_tent_human_fire, 2, wall_diagonal, 10);
+    loc_add(0_36_71_8_5, regicide_tent_human_fire, 1, wall_diagonal, 10);
+    loc_add(0_36_71_12_5, regicide_tent_human_fire, 0, wall_diagonal, 10);
+    loc_add(0_36_71_12_7, regicide_tent_human_fire, 3, wall_diagonal, 10);
+
+    loc_add(0_36_71_9_4, regicide_tent_human_fire, 1, wall_straight, 10);
+    loc_add(0_36_71_10_4, regicide_tent_human_fire, 1, wall_straight, 10);
+    loc_add(0_36_71_11_4, regicide_tent_human_fire, 1, wall_straight, 10);
+
+    loc_add(0_36_71_8_4, regicide_tent_human_fire, 1, wall_diagonalcorner, 10);
+    loc_add(0_36_71_12_4, regicide_tent_human_fire, 0, wall_diagonalcorner, 10);
+    loc_add(0_36_71_13_5, regicide_tent_human_fire, 0, wall_diagonalcorner, 10);
+    loc_add(0_36_71_13_7, regicide_tent_human_fire, 3, wall_diagonalcorner, 10);
+
+    loc_add(0_36_71_9_5, flamming_tent_roof, 1, centrepiece_straight, 10);
+    loc_add(0_36_71_10_5, flamming_tent_roof, 1, centrepiece_straight, 10);
+    loc_add(0_36_71_11_5, flamming_tent_roof, 1, centrepiece_straight, 10);
+
+    loc_add(0_36_71_9_7, flamming_tent_roof, 3, centrepiece_straight, 10);
+    loc_add(0_36_71_10_7, flamming_tent_roof, 3, centrepiece_straight, 10);
+    loc_add(0_36_71_11_7, flamming_tent_roof, 3, centrepiece_straight, 10);
+
+    loc_add(0_36_71_8_6, flamming_tent_roof, 2, centrepiece_straight, 10);
+    loc_add(0_36_71_12_6, flamming_tent_roof,  0, centrepiece_straight, 10);
+    loc_add(0_36_71_9_6, regicide_tentroof_stump, 0, centrepiece_straight, 10);
+    loc_add(0_36_71_11_6, regicide_tentroof_stump, 3, centrepiece_straight, 10);
+
+    if(loc_find(0_36_71_10_6, regicide_tentroof_high_centre) = true) loc_del(10);
+    if(loc_find(0_36_71_8_4, regicide_propbarrel) = true) loc_anim(propbarrel_exploding);
+    if(loc_find(0_36_71_13_7, regicide_propbarrel) = true) loc_anim(propbarrel_exploding);
+
+    loc_add(0_36_71_10_8, regicide_tent_human_fire, 3, wall_straight, 10);
+    loc_add(0_36_71_9_8, regicide_tent_human_fire, 3, wall_straight, 10);
+    loc_add(0_36_71_11_8, regicide_tent_human_fire, 3, wall_straight, 10);
+
+    loc_add(0_36_71_8_8, regicide_tent_human_fire, 2, wall_diagonalcorner, 10);
+    loc_add(0_36_71_12_8, regicide_tent_human_fire, 3, wall_diagonalcorner, 10);
+
+    loc_add(0_36_71_7_6, regicide_tent_human_fire, 2, wall_straight, 10);
+    loc_add(0_36_71_7_5, regicide_tent_human_fire, 1, wall_diagonalcorner, 10);
+    loc_add(0_36_71_7_7, regicide_tent_human_fire, 2, wall_diagonalcorner, 10);
+    sound_synth(bigfire, 0, 0);
+    p_delay(7);
+    anim(regicide_player_vanish, 0);
+    p_teleport(0_34_49_7_49);
+    %regicide_quest = ^regicide_killed_tyras;
+    p_delay(3);
+    anim(null, 0);
+    return;
+}
+mes("I don't want to use that for ammo.");
+
+[proc,spawn_tyras_guard]
+if(testbit(%regicide_bits, ^regicide_seen_guard) = ^true) { 
+    return;
+}
+// TODO: check this spawn time
+%regicide_bits = setbit(%regicide_bits, ^regicide_seen_guard);
+npc_add(map_findsquare(0_34_49_52_10, 0, 1, ^vis_lineofwalk), regicide_old_camp_guard, 500);
+npc_say("I see you making nice with that elf, traitor!");
+~npc_retaliate(0);
+
+[oploc1,regicide_tent_door]
+if(npc_findexact(movecoord(loc_coord, -1, 0, 0), regicide_tyras_camp_tent_guard) = true) {
+    if(%regicide_quest > ^regicide_spoken_iorwerth2) {
+        ~chatnpc("<p,neutral>You cannot enter! This is now General Hining's pavilion. Since the king's death he has held us together.");
+        ~chatplayer("<p,quiz>You're not going home to Ardougne then?");
+        ~chatnpc("<p,sad>I wish I could. Just to see my wife, but if we don't stop the evil here, it will be too late!");
+        ~chatplayer("<p,quiz>Evil?");
+        ~chatnpc("<p,scared>Soon Zamorak's fury will be released upon us.");
+        return;
+    }
+    ~chatnpc("<p,neutral>You cannot pass! These are the king's quarters. No one enters without invitation.");
+    ~chatplayer("<p,neutral>How do I get an invitation?");
+    ~chatnpc("<p,neutral>If the king wants to see you he will ask for you.");
+    ~chatplayer("<p,neutral>What's the chances of that?");
+    ~chatnpc("<p,neutral>Absolutely none! Now let me get on with my job.");
+}
+
+[opheldu,regicide_sulphar]
+~attempt_grind_ingredient(last_useslot, last_slot);
+
+[oploc1,_regicide_sulphar]
+inv_add(inv, regicide_sulphar, 1);
+mes("You break off a piece of the formation.");
+
+[oploc1,regicide_tar_collection]
+mes("I need something to hold the coal tar.");
+
+[oplocu,regicide_tar_collection]
+if(last_useitem = regicide_barrel_empty) {
+    inv_del(inv, regicide_barrel_empty, 1);
+    inv_add(inv, regicide_barrel_tar, 1);
+    anim(human_pickupfloor, 0);
+    mes("You fill the barrel with tar.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[label,regicide_heat_quicklime]
+p_arrivedelay;
+if(%regicide_quest < ^regicide_spoken_iorwerth2) {
+    // typo intentional
+    ~objbox(limestone, "I see no reason put this in the furnace.", 250, 0, 0);
+    return;
+}
+// https://youtu.be/wwJXlduVaxE?si=jDQIFE4TMqyDFFvO&t=513
+mes("You put the lime stone in the furnace.");
+anim(human_furnace, 0);
+sound_synth(furnace, 0, 0);
+p_delay(3);
+inv_del(inv, limestone, 1);
+inv_add(inv, regicide_quicklime, 1);
+anim(human_furnace, 0);
+sound_synth(sizzle, 0, 0);
+if(inv_totalcat(worn, armour_hands) > 0) {
+    mes("You retrieve a block of quicklime.");
+    return;
+}
+mes("You feel the quicklime corroding your skin.");
+~damage_self(8);
+
+[oplocu,regicide_loom]
+if(last_useitem = ball_of_wool) {
+    if(stat(crafting) < 10) {
+        ~mesbox("You need level 10 Crafting to make that."); // osrs
+        return;
+    }
+    if(inv_total(inv, ball_of_wool) < 4) {
+        ~mesbox("You don't have enough of that item to weave it into anything at this loom."); // OSRS, almost certainly wrong for pre-farming/weakqueue loom
+        return;
+    }
+    p_arrivedelay;
+    anim(regicide_useloom, 0);
+    sound_synth(loom, 0, 0);
+    p_delay(2);
+    mes("You weave the balls of wool into a strip of cloth.");
+    inv_del(inv, ball_of_wool, 4);
+    inv_add(inv, regicide_cloth, 1);
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,regicide_quicklime]
+if(last_useitem = pestle_and_mortar) {
+    inv_del(inv, regicide_quicklime, 1);
+    anim(human_herbing_grind, 0);
+    sound_synth(grind, 0, 0);
+    if(inv_total(inv, pot_empty) = 0) {
+        mes("You burn yourself on the caustic dust before spilling it on the ground.");
+        mes("Maybe you need something to store it in.");
+        ~damage_self(5);
+        return;
+    }
+    mes("You grind the quicklime to dust and store it in a pot."); // osrs sends this first before the fail mes, rs3 doesn't, not sure which is right
+    inv_del(inv, pot_empty, 1);
+    inv_add(inv, regicide_quicklime_dust, 1);
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,regicide_barrel_tar]
+mes("I don't want to contaminate the coal tar."); // no item check
+
+[opheldu,regicide_barrel_naphtha]
+if(last_useitem = regicide_quicklime | last_useitem = regicide_sulphar) {
+    mes("I think I should powder this first.");
+    return;
+}
+if(last_useitem = regicide_quicklime_dust) {
+    mes("You mix the quicklime dust into the naphtha.");
+    inv_del(inv, regicide_quicklime_dust, 1);
+    inv_del(inv, regicide_barrel_naphtha, 1);
+    inv_add(inv, regicide_barrel_naphtha_quicklime_mix, 1);
+    return;
+}
+if(last_useitem = regicide_sulphar_dust) {
+    mes("You mix the sulphur dust into the naphtha.");
+    inv_del(inv, regicide_sulphar_dust, 1);
+    inv_del(inv, regicide_barrel_naphtha, 1);
+    inv_add(inv, regicide_barrel_naphtha_sulphar_mix, 1);
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,regicide_barrel_naphtha_quicklime_mix]
+if(last_useitem = regicide_quicklime | last_useitem = regicide_sulphar) {
+    mes("I think I should powder this first.");
+    return;
+}
+if(last_useitem = regicide_quicklime_dust) {
+    mes("There is quicklime mixed into the naphtha already.");
+    return;
+}
+if(last_useitem = regicide_sulphar_dust) {
+    mes("You mix the sulphur dust into the naphtha and seal the barrel.");
+    mes("Now you just need to make a fuse for it.");
+    inv_del(inv, regicide_sulphar_dust, 1);
+    inv_del(inv, regicide_barrel_naphtha_quicklime_mix, 1);
+    inv_add(inv, regicide_barrel_lid, 1);
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,regicide_barrel_naphtha_sulphar_mix]
+if(last_useitem = regicide_quicklime | last_useitem = regicide_sulphar) {
+    mes("I think I should powder this first.");
+    return;
+}
+if(last_useitem = regicide_quicklime_dust) {
+    mes("You mix the quicklime dust into the naphtha and seal the barrel.");
+    mes("Now you just need to make a fuse for it.");
+    inv_del(inv, regicide_quicklime_dust, 1);
+    inv_del(inv, regicide_barrel_naphtha_sulphar_mix, 1);
+    inv_add(inv, regicide_barrel_lid, 1);
+    return;
+}
+if(last_useitem = regicide_sulphar_dust) {
+    mes("There is sulphur mixed into the naphtha already.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[opheldu,regicide_barrel_lid]
+if(last_useitem = ball_of_wool) { // yes, this interaction only works one way
+    mes("The wool is too thin to fit well, maybe if I weave a load of it together it will work.");
+    return;
+}
+if(last_useitem = regicide_cloth) {
+    mes("You stuff cloth through a hole in the barrel to make a fuse.");
+    inv_del(inv, regicide_cloth, 1);
+    inv_del(inv, regicide_barrel_lid, 1);
+    inv_add(inv, regicide_barrel_lid_fused, 1);
+    return;
+}
+~displaymessage(^dm_default);
+
+// this is how the dialogue works on RS3 and seems to be how it used to work 
+// on osrs
+[queue,arianwyn_dialogue](int $val)
+if($val > 15) {
+    return;
+}
+p_walk(coord);
+queue(arianwyn_dialogue, 0, add($val, 1));
+if(npc_find(coord, regicide_good_elf3, 5, 0) = false) {
+    npc_add(map_findsquare(coord, 1, 3, ^vis_lineofsight), regicide_good_elf3, 300); // 3 mins rs3
+}
+if(npc_find(coord, regicide_good_elf3, 5, 0) = true) {
+    if($val = 0) ~chatnpc("<p,neutral>Are you the human by the name <displayname()>?");
+    if($val = 1) ~chatplayer("<p,neutral>Yes, that's me?!?");
+    if($val = 2) ~chatnpc("<p,happy>Thank Seren, maybe all is not yet lost.");
+    if($val = 3) ~chatplayer("<p,confused>What do you mean?");
+    if($val = 4) ~chatnpc("<p,neutral>It was you that murdered King Tyras, do not bother to deny it, I was watching.");
+    if($val = 5) ~chatnpc("<p,neutral>There is much to explain and little time. You carry a message from Lord Iorwerth do you not.");
+    if($val = 6) ~chatplayer("<p,neutral>Well you seem to know everything else so I'll not lie. Yes.");
+    if($val = 7) ~chatnpc("<p,neutral>Good, we understand each other well. Now hand it here and find the truth of who your real employer is.");
+    if($val = 8) ~objbox(regicide_iorwerth_message, "You show the message to the elf, he moves his lips silently and the seal on the message is parted.", 250, 0, 0);
+    if($val = 9) {
+        ~regicide_iowerth_message_scroll;
+        p_pausebutton;
+    }
+    if($val = 10) ~chatplayer("<p,neutral>I had no idea!");
+    if($val = 11) ~chatnpc("<p,neutral>There is still a chance to stop this. But we must be careful, or they will push their plans forward and act before we're ready.");
+    if($val = 12) ~chatnpc("<p,neutral>Give the message to King Lathas, He will not see my little spell. Act like nothing unusual happened. You're going to be our man on the inside.");
+    if($val = 13) ~chatplayer("<p,neutral>You want me to spy?!? OK what's in it for me?");
+    if($val = 14) ~chatnpc("<p,neutral>How can I put this... This isn't a struggle for land or title. It is a war for life, all life. If the gate to Zamoraks world is opened we all die.");
+    if($val = 15) {
+        %regicide_quest = ^regicide_spoken_arianwyn;
+        ~chatnpc("<p,neutral>Deliver your message, act normal. We'll be in touch.");
+    }
+}
+
+[zone,0_40_51_24_32]
+if(%regicide_quest = ^regicide_reported_iorwerth & inv_total(inv, regicide_iorwerth_message) > 0) {
+    p_stopaction;
+    queue(arianwyn_dialogue, 0, 0);
+}
+
+[opheld1,regicide_iorwerth_message]
+if(%regicide_quest > ^regicide_reported_iorwerth) {
+    ~regicide_iowerth_message_scroll;
+}
+mes("You try to open the message...");
+mes("The seal on the scroll is unbreakable.");
+
+[proc,regicide_iowerth_message_scroll]
+// https://web.archive.org/web/20061231211932im_/http://www.runeweb.net/fireball/Regicide%20Images/Regicide27.PNG
+if_settext(inter_102:com_3, "Your Majesty King Lathas");
+if_settext(inter_102:com_1, "Your man did well. The path is now open");
+if_settext(inter_102:com_4, "for the dark lord to enter this realm.");
+if_settext(inter_102:com_5, "You will yet live to see Camelot crushed");
+if_settext(inter_102:com_8, "under foot.");
+if_settext(inter_102:com_6, "Warmaster Iorwerth");
+if_openmain(inter_102);
+
+[queue,quest_regicide_complete]
+inv_add(inv, coins, 15000);
+stat_advance(agility, 137500);
+%regicide_quest = ^regicide_complete;
+session_log(^log_adventure, "Quest complete: Regicide");
+~send_quest_complete(questlist:regicide, regicide_alchemy_symbol4, 250, ^regicide_questpoints, "You have completed the\\nRegicide Quest!");

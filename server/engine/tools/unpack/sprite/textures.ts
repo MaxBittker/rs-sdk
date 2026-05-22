@@ -10,10 +10,10 @@ import { TexturePack } from '#tools/pack/PackFile.js';
 const cache = new FileStream('data/unpack');
 const textures = new Jagfile(new Packet(cache.read(0, 6)!));
 
-if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/textures`)) {
-    fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/textures`, { recursive: true });
+if (!fs.existsSync(`${Environment.build.srcDir}/textures`)) {
+    fs.mkdirSync(`${Environment.build.srcDir}/textures`, { recursive: true });
 }
 
 for (let id = 0; id < 50; id++) {
-    Pix.unpackFull(textures, id.toString(), `${Environment.BUILD_SRC_DIR}/textures`, TexturePack.getById(id) || id.toString());
+    Pix.unpackFull(textures, id.toString(), `${Environment.build.srcDir}/textures`, TexturePack.getById(id) || id.toString());
 }

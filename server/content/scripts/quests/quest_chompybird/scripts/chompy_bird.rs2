@@ -3,10 +3,13 @@
     def_coord $spawn_coord = map_findsquare($coord, 3, 10, ^map_findsquare_lineofsight);
     
     npc_add($spawn_coord, chompy_bird, 100); // no seq for flying away at end, prob just despawned?
-    %quest_chompybird_baiter = $baiter_uid;
+    %npc_attacking_uid = $baiter_uid;
     npc_anim(chompy_landing, 0);
     npc_say("Sqwirk!");
-    if(finduid(%quest_chompybird_baiter) = true) {
+    if(finduid(%npc_attacking_uid) = true) {
+        if (%chompybird >= ^chompybird_chompy_ate_toad & %chompybird < ^chompybird_rantz_gave_player_bow) {
+            npc_queue(11, 0, add(15, random(10)));
+        }
         hint_npc;
     }
 
@@ -22,7 +25,7 @@ if (%npc_aggressive_player ! null) {
 def_int $dist;
 def_coord $dest;
 if (.npc_find(npc_coord, bloated_toad, 7, ^vis_lineofwalk) = true) {
-    %rantz_attacking_chompy = .npc_uid;
+    %chompy_attacking_toad = .npc_uid;
     $dest = map_findsquare(.npc_coord, 1, 1, ^vis_lineofwalk);
     $dist = add(distance(npc_coord, $dest), 1);
     npc_walk($dest);
@@ -32,7 +35,7 @@ if (.npc_find(npc_coord, bloated_toad, 7, ^vis_lineofwalk) = true) {
 }
 
 [ai_queue5,chompy_bird]
-if (.npc_finduid(%rantz_attacking_chompy) = true & distance(npc_coord, .npc_coord) = 1 & %npc_aggressive_player = null) {
+if (.npc_finduid(%chompy_attacking_toad) = true & distance(npc_coord, .npc_coord) = 1 & %npc_aggressive_player = null) {
     %npc_int = ^true;
     npc_walk(npc_coord);
     npc_facesquare(.npc_coord);
@@ -47,7 +50,7 @@ if (.npc_finduid(%rantz_attacking_chompy) = true & distance(npc_coord, .npc_coor
     .npc_delay(1);
     .npc_del;
     npc_setmode(null);
-    if (p_finduid(%quest_chompybird_baiter) = true) {
+    if (p_finduid(%npc_attacking_uid) = true) {
         if (%chompybird = ^chompybird_dropped_toad) {
             %chompybird = ^chompybird_chompy_ate_toad;
         }
@@ -104,7 +107,7 @@ if ($rhand ! ogre_bow) {
     return;
 }
 
-if(%quest_chompybird_baiter ! uid) {
+if(%npc_attacking_uid ! uid) {
     mes("This is not your Chompy Bird to shoot.");
     return;
 }
@@ -160,7 +163,7 @@ if (%damagestyle = ^style_ranged_rapid) {
 def_int $damage = 0;
 if (~player_npc_hit_roll(%damagetype) = true) {
     def_int $maxhit = %com_maxhit;
-    $damage = randominc(min($maxhit, npc_param(max_dealt)));
+    $damage = randominc(~npc_max_dealt($maxhit, 0));
     def_int $damage_capped = min($damage, npc_stat(hitpoints));
     ~give_combat_experience(%damagestyle, $damage_capped, %npc_combat_xp_multiplier);
     npc_heropoints($damage_capped);
@@ -209,4 +212,38 @@ if(%chompybird_kills = 4000) {
     mes("You've been awarded ranged experience for your relentless pursuit of chompies!");
     // https://youtu.be/cQ_HQgUodI0?si=NMThWxkpJozNbe57&t=121
     ~objbox(chompy_bird_obj, "@blu@**** Congratulations! 4000 Chompies! ****|@dre@~ You're an Expert Dragon Archer! ~|This is the highest honour that can be bestowed on any chompy bird hunter.", 250, 0, ^objbox_height); 
+}
+
+[ai_queue11,chompy_bird]
+if (.npc_find(0_41_46_6_37, rantz, 5, 0) = true) {
+    if (finduid(%npc_attacking_uid) = true & distance(coord, .npc_coord) < 20) {
+        %rantz_attacking_chompy = .npc_uid;
+        mes("Rantz: Hey, dere's da chompy, I's gonna shoot it.");
+        .npc_say("Hey, dere's da chompy, I's gonna shoot it.");
+        .npc_facesquare(npc_coord);
+        .npc_setmode(none);
+        .npc_walk(.npc_coord);
+        npc_queue(12, 0, 2);
+        return;
+    }
+}
+
+[ai_queue12,chompy_bird]
+if (.npc_finduid(%rantz_attacking_chompy) = true) {
+    .npc_anim(ogre_longbow, 0);
+    ~sound_area(ogre_bow, 0, .npc_coord, 10);
+    .spotanim_npc(ogre_arrow_launch, 50, 0);
+    ~.npc_to_npc_projectile(npc_uid, ogre_arrow_travel, 38, 36, 41, 15, 5, 11, 5);
+    npc_queue(13, 0, 3);
+}
+
+[ai_queue13,chompy_bird]
+if (.npc_finduid(%rantz_attacking_chompy) = true) {
+    if (finduid(%npc_attacking_uid) = true & distance(coord, .npc_coord) < 20) {
+        .npc_setmode(null);
+        queue(rantz_shot_chompy, 0, 0);
+        mes("Rantz keeps missing the chompy bird...");
+        mes("Rantz: Grrr...de'ese arrows are rubbish.");
+        .npc_say("Grrr...de'ese arrows are rubbish.");
+    }
 }

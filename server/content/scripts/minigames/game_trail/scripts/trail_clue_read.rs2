@@ -3,7 +3,7 @@
 if_openmain($map);
 
 [proc,full_trail_readclue](string $string)
-split_init($string, 235, 8, q8);
+split_init($string, 235, 8, q8_full);
 def_int $pagetotal = split_pagecount;
 def_int $lines = split_linecount(0);
 

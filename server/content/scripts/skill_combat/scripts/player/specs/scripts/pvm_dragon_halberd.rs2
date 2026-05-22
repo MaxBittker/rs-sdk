@@ -1,0 +1,72 @@
+[label,pvm_dragon_halberd_sa]
+~set_sa_vars(oc_param(inv_getobj(worn, ^wearpos_rhand), sa_energy));
+def_spotanim $spot;
+def_int $dir;
+def_coord $spot_coord;
+// spotanim 
+if(coordz(coord) > coordz(npc_coord)) {
+    $spot = spotanim_282;
+    $spot_coord = movecoord(coord, 0, 0, -1);
+    $dir = ^exact_south;
+} else if(coordz(coord) < coordz(npc_coord)) {
+    $spot = spotanim_283;
+    $spot_coord = movecoord(coord, 0, 0, 1);
+    $dir = ^exact_north;
+} else if(coordx(coord) < coordx(npc_coord)) {
+    $spot = spotanim_284;
+    $spot_coord = movecoord(coord, 1, 0, 0);
+    $dir = ^exact_east;
+} else {
+    $spot = spotanim_285;
+    $spot_coord = movecoord(coord, -1, 0, 0);
+    $dir = ^exact_west;
+}
+anim(dragon_halberd_special_attack, 0);
+sound_synth(sound_706, 0, 0);
+spotanim_map($spot, $spot_coord, 92, 0);
+npc_anim(npc_param(defend_anim), 20); 
+
+~pvm_dragon_halberd_spec_hit(100);
+if(nc_size(npc_type) > 1) {
+    ~pvm_dragon_halberd_spec_hit(100); // will only hit the large npc in this case
+    return;
+}
+def_coord $npc_center = npc_coord;
+def_coord $side1;
+def_coord $side2;
+if ($dir = ^exact_north | $dir = ^exact_south) {
+    $side1 = movecoord($npc_center, 1, 0, 0); 
+    $side2 = movecoord($npc_center, -1, 0, 0);
+} else {
+    $side1 = movecoord($npc_center, 0, 0, 1);
+    $side2 = movecoord($npc_center, 0, 0, -1);
+}
+npc_huntall($npc_center, 1, ^vis_lineofsight);
+while (npc_findnext = true) {
+    if ($npc_center ! npc_coord & map_multiway(coord) = true & map_multiway(npc_coord) = true) {
+        if (npc_coord = $side1 | npc_coord = $side2) {
+            ~pvm_dragon_halberd_spec_hit(75);
+        }
+    }
+}
+
+[proc,pvm_dragon_halberd_spec_hit](int $scale)
+if (npc_stat(hitpoints) = 0) {
+    return;
+}
+def_int $damage = 0;
+def_int $maxhit = scale(110, 100, %com_maxhit);
+def_int $attackroll = scale($scale, 100, ~player_attack_roll_specific(%damagetype));
+def_int $defenceroll = ~npc_defence_roll_specific(^slash_style);
+if(npc_type = tbwt_beast) $attackroll = 0;
+if (randominc($attackroll) > randominc($defenceroll)) {
+    if (npc_type = count_draynor & inv_total(inv, garlic) > 0) {
+        $maxhit = add($maxhit, 1);
+    }
+    $damage = randominc(~npc_max_dealt($maxhit, 0));
+    def_int $damage_capped = min($damage, npc_stat(hitpoints));
+    ~give_combat_experience(%damagestyle, $damage_capped, %npc_combat_xp_multiplier);
+    npc_heropoints($damage_capped);
+}
+~npc_retaliate(0);
+npc_queue(2, $damage, 0);

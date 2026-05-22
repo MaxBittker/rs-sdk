@@ -8,6 +8,9 @@ switch_obj (last_useitem)
             return;
         }
         @string_amulet(last_useslot);
+    case regicide_barrel_lid : 
+        mes("The wool is too thin to fit well, maybe if I weave a load of it together it will work.");
+        return;
 }
 ~displaymessage(^dm_default);
 

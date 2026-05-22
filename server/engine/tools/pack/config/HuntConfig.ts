@@ -363,7 +363,7 @@ export function parseHuntConfig(key: string, value: string): ConfigValue | null 
         }
         const conditionWithVal = parts[1];
         const condition = conditionWithVal.charAt(0);
-        if (!['=', '>', '<', '!'].includes(condition)) {
+        if (!['=', '>', '<', '!', '&'].includes(condition)) {
             return null;
         }
         const varp = VarpPack.getByName(parts[0].slice(1));

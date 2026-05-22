@@ -63,6 +63,7 @@ category=category_81
 members=yes
 op1=Use
 tradeable=no
+param=destroy_drop,^true
 
 [kittenobject]
 name=Pet kitten
@@ -79,7 +80,7 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet1
 tradeable=no
-//https://chisel.weirdgloop.org/structs_rs3/index.html?type=items&id=1555
+param=destroy_drop,^true
 
 [kittenobject_light]
 name=Pet kitten
@@ -104,6 +105,7 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_light
 tradeable=no
+param=destroy_drop,^true
 
 [kittenobject_brown]
 name=Pet kitten
@@ -126,6 +128,7 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_brown
 tradeable=no
+param=destroy_drop,^true
 
 [kittenobject_black]
 name=Pet kitten
@@ -148,6 +151,7 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_black
 tradeable=no
+param=destroy_drop,^true
 
 [kittenobject_browngrey]
 name=Pet kitten
@@ -170,6 +174,7 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_browngrey
 tradeable=no
+param=destroy_drop,^true
 
 [kittenobject_bluegrey]
 name=Pet kitten
@@ -192,6 +197,7 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_bluegrey
 tradeable=no
+param=destroy_drop,^true
 
 [growncatobject]
 name=Pet cat
@@ -208,6 +214,7 @@ weight=1500g
 category=cat
 param=follower_id,growncat
 tradeable=no
+param=destroy_drop,^true
 
 [growncatobject_light]
 name=Pet cat
@@ -232,6 +239,7 @@ weight=1500g
 category=cat
 param=follower_id,growncat_light
 tradeable=no
+param=destroy_drop,^true
 
 [growncatobject_brown]
 name=Pet cat
@@ -254,6 +262,7 @@ weight=1500g
 category=cat
 param=follower_id,growncat_brown
 tradeable=no
+param=destroy_drop,^true
 
 [growncatobject_black]
 name=Pet cat
@@ -276,6 +285,7 @@ weight=1500g
 category=cat
 param=follower_id,growncat_black
 tradeable=no
+param=destroy_drop,^true
 
 [growncatobject_browngrey]
 name=Pet cat
@@ -298,6 +308,7 @@ weight=1500g
 category=cat
 param=follower_id,growncat_browngrey
 tradeable=no
+param=destroy_drop,^true
 
 [growncatobject_bluegrey]
 name=Pet cat
@@ -320,6 +331,7 @@ weight=1500g
 category=cat
 param=follower_id,growncat_bluegrey
 tradeable=no
+param=destroy_drop,^true
 
 [overgrowncatobject]
 name=Pet cat
@@ -336,6 +348,7 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat
 tradeable=no
+param=destroy_drop,^true
 
 [overgrowncatobject_light]
 name=Pet cat
@@ -360,6 +373,7 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_light
 tradeable=no
+param=destroy_drop,^true
 
 [overgrowncatobject_brown]
 name=Pet cat
@@ -382,6 +396,7 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_brown
 tradeable=no
+param=destroy_drop,^true
 
 [overgrowncatobject_black]
 name=Pet cat
@@ -404,6 +419,7 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_black
 tradeable=no
+param=destroy_drop,^true
 
 [overgrowncatobject_browngrey]
 name=Pet cat
@@ -426,6 +442,7 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_browngrey
 tradeable=no
+param=destroy_drop,^true
 
 [overgrowncatobject_bluegrey]
 name=Pet cat
@@ -448,3 +465,4 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_bluegrey
 tradeable=no
+param=destroy_drop,^true

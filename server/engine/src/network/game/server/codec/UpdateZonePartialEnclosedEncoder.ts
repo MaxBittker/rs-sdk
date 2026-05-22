@@ -12,8 +12,4 @@ export default class UpdateZonePartialEnclosedEncoder extends ServerGameMessageE
         buf.p1((message.zoneZ << 3) - CoordGrid.zoneOrigin(message.originZ));
         buf.pdata(message.data, 0, message.data.length);
     }
-
-    test(message: UpdateZonePartialEnclosed): number {
-        return 1 + 1 + message.data.length;
-    }
 }

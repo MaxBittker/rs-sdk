@@ -7,7 +7,7 @@ switch_obj (last_useitem)
     case potato, cooked_meat, cooked_chicken : @make_incomplete_stew(last_useslot);
     case water_skin3, water_skin2, water_skin1, water_skin0 : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,bucket_water]
 switch_obj (last_useitem)
@@ -18,7 +18,7 @@ switch_obj (last_useitem)
     case jug_empty, bowl_empty : @water_fill(last_useslot, last_slot);
     case water_skin3, water_skin2, water_skin1, water_skin0 : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,jug_water]
 switch_obj (last_useitem)
@@ -29,21 +29,21 @@ switch_obj (last_useitem)
     case bucket_empty, bowl_empty : @water_fill(last_useslot, last_slot);
     case water_skin3, water_skin2, water_skin1, water_skin0 : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,bucket_empty]
 switch_obj (last_useitem)
 {
     case jug_water, bowl_water : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,jug_empty]
 switch_obj (last_useitem)
 {
     case bucket_water, bowl_water : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [opheldu,bowl_empty]
 switch_obj (last_useitem)
@@ -51,7 +51,7 @@ switch_obj (last_useitem)
     case onion, tomato, cooked_ugthanki_meat : @make_bowl_mixture(last_useslot);
     case bucket_water, jug_water : @water_fill(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
-};
+}
 
 [label,water_fill](int $use_slot, int $last_slot)
 def_obj $used_on = inv_getobj(inv, $last_slot);

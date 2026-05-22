@@ -1,6 +1,6 @@
 [oploc1,churchorgan]
 if(random(2) = 0) {
-    midi_song("organ_music_1");
+    midi_song("church music 1");
 } else {
-    midi_song("organ_music_2");
+    midi_song("church music 2");
 }

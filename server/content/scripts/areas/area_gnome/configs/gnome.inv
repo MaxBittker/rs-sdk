@@ -79,7 +79,6 @@ stock19=black_2h_sword,1,700
 stock20=mithril_2h_sword,1,1000
 stock21=adamant_2h_sword,1,15000
 
-
 [gnomeshop_heck]
 // https://classic.runescape.wiki/w/Heckel_funch%27s_grocery_store
 // https://storage.googleapis.com/tannerdino/images/rsgnome16.gif (full stocks)
@@ -164,7 +163,7 @@ stock1=premade_vegetable_batta,3,100
 stock2=premade_worm_batta,3,100
 stock3=premade_toad_batta,3,100
 stock4=premade_fruit_batta,3,100
-stock5=premade_cheese_tom_batta,3,100
+stock5=premade_cheese+tom_batta,3,100
 stock6=premade_worm_hole,3,100
 stock7=premade_tangled_toads_legs,3,100
 stock8=premade_veg_ball,3,100

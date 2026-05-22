@@ -7,12 +7,12 @@ import { MidiPack } from '#tools/pack/PackFile.js';
 import Packet from '#/io/Packet.js';
 import Jagfile from '#/io/Jagfile.js';
 
-if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/songs`)) {
-    fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/songs`, { recursive: true });
+if (!fs.existsSync(`${Environment.build.srcDir}/songs`)) {
+    fs.mkdirSync(`${Environment.build.srcDir}/songs`, { recursive: true });
 }
 
-if (!fs.existsSync(`${Environment.BUILD_SRC_DIR}/jingles`)) {
-    fs.mkdirSync(`${Environment.BUILD_SRC_DIR}/jingles`, { recursive: true });
+if (!fs.existsSync(`${Environment.build.srcDir}/jingles`)) {
+    fs.mkdirSync(`${Environment.build.srcDir}/jingles`, { recursive: true });
 }
 
 const cache = new FileStream('data/unpack', false, true);
@@ -33,7 +33,7 @@ for (let i = 0; i < midiCount; i++) {
     const jingle = index.g1();
 
     if (data) {
-        fs.writeFileSync(`${Environment.BUILD_SRC_DIR}/${jingle ? 'jingles' : 'songs'}/${name}.mid`, data);
+        fs.writeFileSync(`${Environment.build.srcDir}/${jingle ? 'jingles' : 'songs'}/${name}.mid`, data);
     } else {
         printWarning(`Missing midi id=${i}`);
     }

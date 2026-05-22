@@ -2,7 +2,7 @@ import { ScriptOpcode } from '#/engine/script/ScriptOpcode.js';
 import { CommandHandlers } from '#/engine/script/ScriptRunner.js';
 import JavaRandom from '#/util/JavaRandom.js';
 import { bitcount, clearBitRange, MASK, setBitRange } from '#/util/Numbers.js';
-import Trig from 'src/util/Trig.js';
+import Trig from '#/util/Trig.js';
 
 const NumberOps: CommandHandlers = {
     [ScriptOpcode.ADD]: state => {

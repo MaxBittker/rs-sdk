@@ -278,3 +278,35 @@ param=brew_potion_exp,1725
 param=brew_potion_level,76
 param=brew_potion_message,You mix the potato cactus into your potion.
 param=brew_potion_mixture,3dose1magic
+
+[mort_serum3_tarrominvial]
+param=brew_potion_ingredient,ashes
+param=brew_potion_solvent,tarrominvial
+param=brew_potion_level,15
+param=brew_potion_exp,500
+param=brew_potion_message,You make serum 207.
+param=brew_potion_mixture,mort_serum3
+
+[mort_serum3_ashesvial]
+param=brew_potion_ingredient,tarromin
+param=brew_potion_solvent,ashesvial
+param=brew_potion_level,15
+param=brew_potion_exp,500
+param=brew_potion_message,You make serum 207.
+param=brew_potion_mixture,mort_serum3
+
+[ashesvial]
+param=brew_potion_ingredient,ashes
+param=brew_potion_solvent,vial_water
+param=brew_potion_level,15
+param=brew_potion_message,You mix the ashes into the water.
+param=brew_potion_mixture,ashesvial
+
+[eadgar_ground_troll_thistle_potion]
+param=brew_potion_ingredient,eadgar_ground_troll_thistle
+param=brew_potion_solvent,ranarrvial
+param=brew_potion_level,31
+param=brew_potion_exp,775
+param=brew_potion_message,You add the ground Troll Thistle to the potion.
+param=brew_potion_mixture,eadgar_ground_troll_thistle_potion
+

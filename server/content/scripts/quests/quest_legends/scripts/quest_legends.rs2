@@ -66,7 +66,7 @@ mes("You can't find anything else here.");
 mes("You search the flea infested rags...");
 if (inv_total(inv, scrawled_note3) = 0 & %legendsquest < ^legends_complete) {
     // mes instead of mesbox here
-    mes("You find a scrap of paper with spidery writing on it.");;
+    mes("You find a scrap of paper with spidery writing on it.");
     inv_add(inv, scrawled_note3, 1);
     return;
 }
@@ -97,7 +97,7 @@ if (~p_choice2_header("Yes please!", 1, "No thanks!", 2, "Would you like to sque
     p_delay(1);
     ~agility_exactmove(human_crawling, 0, 0, coord, 0_43_145_43_60, 6, 20, ^exact_east, false);
     // guess
-    if (stat_random(agility, 125, 250) = false) {
+    if (stat_random(agility, 60, 254) = false) {
         mes("You get stuck as you try to squeeze into the crevice.");
         p_delay(5);
         mes("It takes you a while to get back out again.");
@@ -1503,13 +1503,29 @@ else {
     stat_advance(smithing, 300);
 }
 
-[opheld5,_gold_bowl]
-def_namedobj $drop_item = oc_param(last_item, next_obj_stage);
-mes("You drop the bowl on the floor and the water spills out everywhere."); // rsc
-inv_delslot(inv, last_slot);
-anim(null, 0);
+[opheld5,goldbowl_water] @drop_goldbowl_water;
+[opheld5,goldbowl_pure] @drop_goldbowl_water;
+[opheld5,goldbowlbless_water] @drop_goldbowl_water;
+[opheld5,goldbowlbless_pure] @drop_goldbowl_water;
+
+[label,drop_goldbowl_water]
+def_obj $last_item = last_item;
+if(map_members = ^false) {
+    ~mesbox("You cannot drop this members item on a non-members world.  Would you like to destroy it?");
+    // no period
+    switch_int(~p_choice2("Yes, destroy the item", 1, "No, I'll keep the item.", 2)) {
+        case 1 :
+            inv_del(inv, $last_item, 1);
+            mes("The item is destroyed.");
+        case 2 : 
+            mes("You decide not to destroy the golden bowl.");
+    }
+    return;
+}
+def_namedobj $drop_item = oc_param($last_item, next_obj_stage);
+mes("As you put the golden bowl down, the water spills onto the floor.");
+inv_del(inv, $last_item, 1);
 obj_add(coord, $drop_item, 1, ^lootdrop_duration);
-sound_synth(put_down, 0, 0);
 
 [label,legends_cast_orb_door](dbrow $spell_data)
 def_namedobj $final_obj;
@@ -1578,7 +1594,7 @@ if_close;
 mes("You prepare to climb down the rope.");
 p_delay(2);
 if(testbit(%legends_bits, ^legends_drank_bravery_potion) = ^true) {
-    if(stat_random(agility, 120, 250) = false) {
+    if(stat_random(agility, 60, 253) = false) {
         mes("Fear stabs at your heart....");
         say("Gulp!");
         p_delay(1);
@@ -1878,7 +1894,7 @@ p_teleport(movecoord(loc_coord, 0, 0, -1));
 ~mesbox("This is an ancient looking furnace, it is partially molten and buried by years of rock debris. Inside the furnace there is a compartment with strangely shaped sections.");
 
 [oploc2,furnace_legendsquest]
-~mesbox("You search the lava furnace. You find a small compartment that you may be able to use. Strangely, it looks as if It looks designed it is designed for a specific purpose... to fuse things together at very high temperatures...");
+~mesbox("You search the lava furnace. You find a small compartment that you may be able to use. Strangely, it looks as if it is designed for a specific purpose... to fuse things together at very high temperatures...");
 @legends_furnace_pieces(true);
 
 [label,legends_furnace_pieces](boolean $searching)
@@ -1975,6 +1991,8 @@ if(last_useitem = heartcrystal) {
 [oploc1,legendsquest_force_barrier]
 if(%legendsquest >= ^legends_heart_in_recess) {
     if(coordz(coord) > coordz(loc_coord)) {
+        // https://youtu.be/3Dty7jbf4yI?si=Ly7iIMU1-KcRvmU4&t=2955
+        mes(" ");
         mes("You walk carefully through the magical barrier and");
         p_teleport(0_37_73_53_18);
         p_delay(1);

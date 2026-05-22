@@ -11,8 +11,4 @@ export default class UpdateIgnoreListEncoder extends ServerGameMessageEncoder<Up
             buf.p8(name);
         }
     }
-
-    test(message: UpdateIgnoreList): number {
-        return 8 * message.names.length;
-    }
 }

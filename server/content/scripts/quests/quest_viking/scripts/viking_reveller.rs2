@@ -1,0 +1,301 @@
+[opnpc1,viking_reveller] @viking_reveller_dialogue;
+[opnpc1,viking_reveller_2] @viking_reveller_dialogue;
+
+[label,viking_reveller_dialogue]
+def_int $rand;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,happy>Hey! scheck it out! Itsh an outerlandub! Yer shud go shpeak to the chieftain!");
+    ~chatplayer("<p,quiz>The who?");
+    ~chatnpc("<p,happy>That guy over there by that stuff! (hic) Yeh, abshoultely! He's da bosh!");
+} else if(%viking < ^viking_complete) {
+    ~chatplayer("<p,quiz>I know this is a bit of a long shot... but are you a member of the council of elders?");
+    $rand = random(4);
+    if($rand = 0) {
+        ~chatnpc("<p,happy>I'm now a member of the counshil of eblars? Thanksh a lot buddy! (hic) Letsh have a drink to celebrate!");
+        ~chatplayer("<p,confused>Uh... I'll take that as a no.");
+    } else if($rand = 1) {
+        ~chatnpc("<p,happy>(hic) Washa counshil wha?");
+        ~chatplayer("<p,neutral>I guess not.");
+    } else if($rand = 2) {
+        ~chatnpc("<p,happy>Wha? Wassha counshil? (hic) No counshil gone meshup my drink!");
+        ~chatplayer("<p,confused>Er.... okay.");
+    } else if($rand = 3) {
+        ~chatnpc("<p,happy>Counshil alwaysh meshing up my drinksh 'do thish, do that, pass this tesht something something something something'.. man I hate that counshil.");
+        ~chatplayer("<p,neutral>I guess you're not then.");
+    }
+} else if(%viking = ^viking_complete) {
+    ~chatnpc("<p,happy>Hey! Itsh you again! Whatshyerfashe!");
+    ~chatplayer("<p,quiz><displayname()>?");
+    ~chatnpc("<p,happy>Nah nah nah, not them, the other one, whatshyerfashe!");
+    ~chatplayer("<p,quiz><~get_viking_name>?");
+    ~chatnpc("<p,happy>Thatsh what I said diddle I?");
+    ~chatplayer("<p,confused>Um.... okay. I'll leave you to your drinking.");
+    ~chatnpc("<p,happy>Thanksh pal! You're alright!");
+}
+
+[opnpc1,viking_reveller_3]
+def_int $op;
+if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,happy>Hello there!");
+    ~chatnpc("<p,neutral>Do not think me rude outerlander, but our customs forbid me talking to you. All contact with outerlanders must be vetted by our chieftain, Brundt.");
+    ~chatplayer("<p,neutral>Where is this Brundt?");
+    ~chatnpc("<p,neutral>He is standing just over there. He will speak for the tribe.");
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_reveller_merchant;
+    }
+    switch_int(~get_viking_reveller_progress) {
+        case ^reveller_complete :
+            ~chatplayer("<p,quiz>So I can rely on your vote at the council?");
+            ~chatnpc("<p,happy>Absholutely! (hic) You're one mighty drinker!");
+        case ^reveller_started :
+            if(inv_total(inv, viking_beerkeg) > 0) {
+                ~chatnpc("<p,neutral>Ah, I see you have your keg of beer. Are we ready to drink against each other?");
+                $op = ~p_choice2("Yes", 1, "No", 2);
+                if($op = 2) {
+                    ~chatplayer("<p,neutral>I'm not quite ready yet...");
+                    ~chatnpc("<p,neutral>Want to line your stomach with some food or something, huh outerlander? Come back to me when you're ready to drink.");
+                    return;
+                }
+                @viking_reveller_drinkcontest;
+            }
+            ~chatplayer("<p,quiz>What do I have to do to earn your vote again?");
+            ~chatnpc("<p,neutral>Beat me in a drinking contest! Grab a keg of beer from that table near the bar, and come back here with it.");
+            ~chatplayer("<p,neutral>Oh yeah. Okay, I will do.");
+        case ^reveller_not_started :
+            ~chatplayer("<p,happy>Hello there!");
+            ~chatnpc("<p,neutral>Hello outerlander. I overheard your conversation with Brundt just now. You wish to become a member of the Fremennik?");
+            ~chatplayer("<p,happy>That's right! Why, are you on the council?");
+            ~chatnpc("<p,neutral>Do not let my drink-soused appearance fool you, I earnt my place on the council many years past. I am always glad to see new blood enter our tribe, and will happily vote for you.");
+            ~chatplayer("<p,happy>Great!");
+            ~chatnpc("<p,neutral>...Providing you can pass a little test for me. As a Fremennik, you will need to show cunning, stamina, fortitude, and an iron constitution. I know of only one way to test all of these.");
+            ~chatplayer("<p,quiz>And what's that?");
+            ~chatnpc("<p,happy>Why, a drinking contest!");
+            ~chatnpc("<p,neutral>The task is simple enough! You versus me, a stiff drink each, last man standing wins the trial. So what say you?");
+            $op = ~p_choice2("Yes", 1, "No", 2);
+            if($op = 2) {
+                ~chatplayer("<p,neutral>I don't think drinking myself into a stupor is a very good way of testing my worthiness.");
+                ~chatnpc("<p,neutral>Well, perhaps it's not, but it's my way. If you want my vote at the council, I'm afraid you're going to have to drink me under the table.");
+                ~chatplayer("<p,neutral>I'm going to find someone else to vote for me then.");
+                ~chatnpc("<p,neutral>As you wish, outerlander.");
+                return;
+            }
+            ~set_viking_reveller_progress(^reveller_started);
+            ~chatplayer("<p,neutral>A drinking contest? Easy. Set them up, and I'll knock them back.");
+            ~chatnpc("<p,neutral>When you are ready to begin, go and pick up a keg from that table over there, and come back here.");
+            ~chatnpc("<p,neutral>We start when you have your keg of beer with you, and finish when one of us can drink no more and yields.");
+    }
+} else if(%viking = ^viking_complete) {
+    ~chatplayer("<p,neutral>Howdy!");
+    ~chatnpc("<p,quiz>Hey! It's <~get_viking_name>! Let me buy you a drink!");
+    inv_add(inv, beer, 1);
+    ~chatnpc("<p,neutral>There ya go! Anyone who can drink like you earns my respect!");
+}
+
+[label,viking_reveller_merchant]
+if(inv_total(inv, viking_legendary_cocktail) > 0) {
+    ~chatplayer("<p,neutral>Hey. I got your cocktail for you.");
+    ~chatnpc("<p,neutral>...It is true! The legendary cocktail! I have waited for this day ever since I first started drinking!");
+    inv_del(inv, viking_legendary_cocktail, 1);
+    inv_add(inv, viking_champion_token, 1);
+    ~chatnpc("<p,neutral>Here outerlander, you may take my token. I will happily give up my place at the longhalls table of champions just for a taste of this exquisite beverage!");
+    ~chatplayer("<p,neutral>It's just a drink...");
+    ~chatnpc("<p,neutral>No, it is an artform. A drink such as this should be appreciated, and admired. It is like a fine painting, or a tasteful sculpture.");
+    ~chatnpc("<p,neutral>If what I hear is true, then all other drinks become like unpalatable water in comparison to this!");
+    ~chatplayer("<p,happy>I guess you're happy with the trade then!");
+    return;
+}
+if(inv_total(inv, viking_champion_token) > 0) {
+    ~chatplayer("<p,quiz>So it doesn't bother you at all that you just gave up your place here for one drink?");
+    ~chatnpc("<p,happy>Ah, but it was not just any drink... It was the finest cocktail ever created! Now that I have tasted it, I need never drink again, for my tastebuds will never be so excited!");
+    ~chatplayer("<p,quiz>So it was nice?");
+    ~chatnpc("<p,happy>It was... exquisite!");
+    ~chatplayer("<p,quiz>What did it taste of, then?");
+    ~chatnpc("<p,happy>Mostly tomato juice.");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_thora :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,confused>Uh... call it a crazy hunch, but did you even try asking Askeladden about that?");
+    case ^sigmund_spoke_manni :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,confused>Uh... yes, the longhall barkeep has it. So could you get me my drink now please?");
+    case ^sigmund_spoke_thorvald :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>As a matter of fact, I do. I have one right here. I earnt my place here at the longhall for surviving over 5000 battles and raiding parties.");
+        ~chatnpc("<p,neutral>Due to my contribution to the tribe, I am now permitted to spend my days here in the longhall listening to the epic tales of the bard, and drinking beer.");
+        ~chatplayer("<p,happy>Cool. That sounds pretty sweet! So I guess you don't want to give it away?");
+        ~chatnpc("<p,sad>I think it sounds better than it actually is outerlander. I miss my glory days of combat on the battlefield. And to tell you the truth, the beer here isn't great, and the bards' music is lousy.");
+        ~chatnpc("<p,neutral>I would happily give up my token if it were not for the one thing that keeps me here. Our barkeep is one of the best in the world, and has worked in taverns across the land.");
+        ~chatnpc("<p,neutral>When she was younger, she experimented a lot with her drinks, and invented a cocktail so alcoholic and tasty that it has become something of a legend to all who enjoy a drink.");
+        ~chatnpc("<p,neutral>Unfortunately, she decided that cocktails were not a suitable drink for Fremennik warriors, and vowed to never again make it.");
+        ~set_viking_sigmund_progress(^sigmund_spoke_manni);
+        ~chatnpc("<p,neutral>I have been here every day since she returned, hoping that someday she might change her mind and I might try this legendary cocktail for myself. Alas, it has never come to pass...");
+        ~chatnpc("<p,neutral>If you can persuade her to make me her legendary cocktail, I will be happy to never let another drop of alcohol pass my lips, and will give you my champions token.");
+        ~chatplayer("<p,quiz>That's all?");
+        ~chatnpc("<p,neutral>That's all.");
+    case ^sigmund_spoke_seer :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Thorvald is pretty handy with a sword...");
+    case ^sigmund_spoke_swensen :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Did you even ask the seer?");
+    case ^sigmund_spoke_skul :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>I'd try at the fish stalls if I were you.");
+    case ^sigmund_spoke_chief :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Did you talk to the hunter?");
+    case ^sigmund_spoke_yrsa :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>The chief would know about that.");
+    case ^sigmund_spoke_olaf :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Did you try the clothes shop?");
+    case ^sigmund_spoke_sailor :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Did you try speaking to the bard?");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>I have not the first idea about that.");
+}
+
+[label,viking_reveller_drinkcontest]
+~chatplayer("<p,happy>Yes, let's start this drinking contest!");
+~chatnpc("<p,neutral>As you wish outerlander; I will drink first, then you will drink.");
+if_close;
+npc_anim(viking_tankard_drink, 0);
+p_delay(1);
+mes("The Fremennik drinks his tankard first. He staggers a little bit.");
+p_delay(4);
+if(testbit(%viking_bits, ^viking_keg_lowalc) = ^true) {
+    mes("You drink from your keg. You don't feel at all drunk.");
+    anim(viking_keg_drink_full, 0);
+    p_delay(1);
+    inv_del(inv, viking_beerkeg, 1);
+    p_delay(2);
+    queue(reveller_trial_complete, 0, 0);
+    ~chatplayer("<p,happy>Aaaah, lovely stuff. So you want to get the next round in, or shall I? You don't look so good there!");
+    ~chatnpc("<p,shock>Wassha? Guh? You drank that whole keg! But it dinna affect you at all! I conshede! You can probably outdrink me!");
+    return;
+}
+mes("You drink from your keg. You feel extremely drunk...");
+anim(viking_keg_drink_full, 0);
+sound_synth(liquid, 0, 0);
+p_delay(1);
+inv_del(inv, viking_beerkeg, 1);
+cam_shake(3, 0, 20, 2);
+p_delay(5);
+queue(failed_reveller_contest, 0, 0);
+~chatplayer("<p,sad>Ish no' fair! (hic) I canna drink another drop! I alsho feel veddy, veddy ill...");
+~chatnpc("<p,neutral>I guessh I win then ouddaladder! (hic) Niche try, anyway!");
+
+[queue,failed_reveller_contest]
+cam_reset;
+if(npc_find(coord, viking_reveller_3, 10, 0) = true) {
+    ~chatnpc("<p,neutral>Come back if'n you fanshy a rematch! (hic) Jusht let me have a coffee firsht...");
+}
+
+[queue,reveller_trial_complete]
+mes("Congratulations! You have completed the Revellers' trial.");
+%viking = add(%viking, 1);
+%viking_bits = clearbit_range(%viking_bits, ^viking_firecracker_placed, ^viking_keg_lowalc); // these get cleared here i guess? the poison salesman dialogue resets
+~set_viking_reveller_progress(^reveller_complete);
+if(npc_find(coord, viking_reveller_3, 10, 0) = true) {
+    ~chatnpc("<p,neutral>I jusht can't (hic) believe it! Thatsh shome mighty fine drinking legs you got! Anyone who can drink like THAT getsh my vote atta consh.. counsh... gets my vote!");
+}
+
+[opheldu,viking_low_alcahol_beerkeg]
+if(inzone(0_41_57_31_17, 0_41_57_38_33, coord) = false) {
+    mes("You can only use the beerkeg in the Fremennik Longhall.");
+    return;
+}
+if(last_useitem = viking_beerkeg) {
+    if(testbit(%viking_bits, ^viking_firecracker_placed) = ^false) { // TODO: recheck this for mesanims/order
+        if(npc_find(coord, viking_reveller_3, 10, 0) = true) {
+            ~chatnpc("<p,angry>Thinking of cheating my test, outerlander? I don't think so! You drink that keg fairly, or not at all! Don't let me catch you cheating!");
+            ~chatplayer("<p,neutral>I'm going to have to find some way to distract this guy while I cheat...");
+            return;
+        }
+    }
+    mes("You hear a loud bang from outside. It echoes through the drain.");
+    ~sound_area(explosion, 0, 0_41_57_35_37, 10);
+    p_delay(0);
+    mes("You empty the keg and refill it with low alcohol beer.");
+    inv_del(inv, viking_low_alcahol_beerkeg, 1);
+    %viking_bits = setbit(%viking_bits, ^viking_keg_lowalc);
+    npc_findallany(0_41_57_35_26, 10, 0);
+    while(npc_findnext = true) {
+        if(npc_type = viking_reveller | npc_type = viking_reveller_2 | npc_type = viking_reveller_3 | npc_type = viking_longhall_barkeep | npc_type = viking_brundt) {
+            npc_say("What was THAT?");
+            npc_facesquare(0_41_57_39_26);
+        }
+    }
+}
+
+[opheldu,viking_firecracker]
+if(last_useitem = tinderbox) {
+    @viking_light_firecracker;
+}
+~displaymessage(^dm_default);
+
+[label,viking_light_firecracker]
+mes("You light the string of the strange object. It starts to hiss slightly.");
+inv_del(inv, viking_firecracker, 1);
+inv_add(inv, viking_firecracker_lit, 1);
+~sound_area(exploding_vial, 0, coord, 5);
+settimer(firecracker_explode, ~random_range(140, 200));
+// fuse_light
+
+[timer,firecracker_explode]
+def_int $count = inv_total(inv, viking_firecracker_lit);
+if($count = 0) {
+    cleartimer(firecracker_explode);
+    return;
+}
+mes("The strange object you lit earlier explodes in your inventory!");
+say("Ow!");
+inv_del(inv, viking_firecracker_lit, $count);
+if($count > 1) inv_add(inv, viking_firecracker, sub($count, 1));
+queue(damage_player, 0, max(2, divide(stat(hitpoints), 25)));
+
+[oplocu,viking_pipe_end_longhall]
+if(last_useitem = viking_firecracker_lit) {
+    mes("You put the lit strange object into the pipe.");
+    inv_del(inv, viking_firecracker_lit, 1);
+    %viking_bits = setbit(%viking_bits, ^viking_firecracker_placed);
+    ~chatplayer("<p,happy>That is going to make a really loud bang when it goes off! It would be a perfect distraction to help me cheat in the drinking contest!");
+    return;
+}
+~displaymessage(^dm_default);
+
+[oploc1,viking_pipe_end_longhall]
+if(inv_total(inv, viking_firecracker_lit) > 0) {
+    // no stage check, you can do this before starting the trial or even the quest
+    anim(human_pickupfloor, 0);
+    p_delay(0);
+    mes("You put the lit strange object in the pipe.");
+    inv_del(inv, viking_firecracker_lit, 1);
+    %viking_bits = setbit(%viking_bits, ^viking_firecracker_placed);
+    ~chatplayer("<p,happy>That is going to make a really loud bang when it goes off! It would be a perfect distraction to help me cheat in the drinking contest!");
+    return;
+}
+~chatplayer("<p,confused>I don't have anything I really want to put inside a smelly old drain pipe.");
+
+[opobj3,viking_beerkeg]
+if(~obj_gettotal(viking_beerkeg) > 0) {
+    mes("You already have a keg of beer.");
+    return;
+}
+if(obj_coord = 0_41_57_36_28) {
+    if(~get_viking_reveller_progress = ^reveller_started) @pickup_obj_table;
+    if(npc_find(coord, viking_reveller_3, 10, 0) = true) {
+        if(%viking < ^viking_complete) ~chatnpc("<p,angry>Hey outerlander! I don't take kindly to people coming here and stealing my beer!");
+        else ~chatnpc("<p,angry>Hey, <~get_viking_name>! Go buy your own beer! That keg belongs to me!");
+    }
+    return;
+}
+@pickup_obj;

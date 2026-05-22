@@ -161,8 +161,7 @@ if ($choice = 0) {
 if(inv_total(inv, trail_clue_hard_riddle014_puzzlebox) > 0) {
     @puzzle_oziach;
 }
-~chatnpc("<p,neutral>The solving of this puzzle could be the key to your treasure.");
-~give_trail_puzzle(trail_clue_hard_riddle014_puzzlebox, "Oziach has given you a puzzle box!");
+~give_trail_puzzle(trail_clue_hard_riddle014_puzzlebox, "<p,neutral>The solving of this puzzle could be the key to your treasure.", "Oziach has given you a puzzle box!");
 
 [label,puzzle_oziach]
 if(inv_total(inv, trail_clue_hard_riddle014_puzzlebox) = 0) {
@@ -170,7 +169,7 @@ if(inv_total(inv, trail_clue_hard_riddle014_puzzlebox) = 0) {
     ~chatnpc("<p,angry>That's not much use - go and fetch it!");
     return;
 }
-if(~trail_puzzle_complete = true) {
+if(~trail_puzzle_complete(trail_clue_hard_riddle017_puzzlebox) = true) {
     ~chatnpc("<p,neutral>Well done, traveller.");
     inv_del(inv, trail_clue_hard_riddle014_puzzlebox, 1);
     ~progress_clue_hard(trail_clue_hard_riddle014, "Oziach has given you another clue scroll!");

@@ -36,36 +36,48 @@ anim=whippingplant_attack
 
 [iron_arrow_travel]
 model=model_3136_spotanim
-recol1s=15855
+recol1s=14798
 recol1d=8456
+recol2s=15855
+recol2d=8456
 
 [bronze_arrow_travel]
 model=model_3136_spotanim
-recol1s=15855
+recol1s=14798
 recol1d=8354
+recol2s=15855
+recol2d=8354
 
 [steel_arrow_travel]
 model=model_3136_spotanim
 
 [mithril_arrow_travel]
 model=model_3136_spotanim
-recol1s=15855
+recol1s=14798
 recol1d=3174
+recol2s=15855
+recol2d=3174
 
 [adamant_arrow_travel]
 model=model_3136_spotanim
-recol1s=15855
+recol1s=14798
 recol1d=6438
+recol2s=15855
+recol2d=6438
 
 [unlit_arrow_travel]
 model=model_3136_spotanim
-recol1s=15855
+recol1s=14798
 recol1d=3171
+recol2s=15855
+recol2d=3171
 
 [rune_arrow_travel]
 model=model_3136_spotanim
-recol1s=15855
+recol1s=14798
 recol1d=3272
+recol2s=15855
+recol2d=3272
 
 [ice_arrow_travel]
 model=model_3136_spotanim
@@ -86,14 +98,18 @@ model=model_3132_spotanim
 [iron_arrow_launch]
 model=model_3142_spotanim
 anim=arrow_launch
-recol1s=15855
+recol1s=14798
 recol1d=8456
+recol2s=15855
+recol2d=8456
 
 [bronze_arrow_launch]
 model=model_3142_spotanim
 anim=arrow_launch
-recol1s=15855
+recol1s=14798
 recol1d=8354
+recol2s=15855
+recol2d=8354
 
 [steel_arrow_launch]
 model=model_3142_spotanim
@@ -102,26 +118,34 @@ anim=arrow_launch
 [mithril_arrow_launch]
 model=model_3142_spotanim
 anim=arrow_launch
-recol1s=15855
+recol1s=14798
 recol1d=6346
+recol2s=15855
+recol2d=6346
 
 [adamant_arrow_launch]
 model=model_3142_spotanim
 anim=arrow_launch
-recol1s=15855
+recol1s=14798
 recol1d=6438
+recol2s=15855
+recol2d=6438
 
 [unlit_arrow_launch]
 model=model_3142_spotanim
 anim=arrow_launch
-recol1s=15855
+recol1s=14798
 recol1d=3171
+recol2s=15855
+recol2d=3171
 
 [rune_arrow_launch]
 model=model_3142_spotanim
 anim=arrow_launch
-recol1s=15855
+recol1s=14798
 recol1d=6476
+recol2s=15855
+recol2d=6476
 
 [ice_arrow_launch]
 model=model_3142_spotanim

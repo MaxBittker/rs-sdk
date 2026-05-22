@@ -32,8 +32,8 @@ export default class MapSpotAnim extends ModelSource {
             return;
         }
 
-        for (this.animCycle += delta; this.animCycle > this.type.seq.getDuration(this.animFrame); ) {
-            this.animCycle -= this.type.seq.getDuration(this.animFrame) + 1;
+        for (this.animCycle += delta; this.animCycle > this.type.seq.getDelay(this.animFrame); ) {
+            this.animCycle -= this.type.seq.getDelay(this.animFrame) + 1;
             this.animFrame++;
 
             if (this.animFrame >= this.type.seq.numFrames) {
@@ -54,7 +54,7 @@ export default class MapSpotAnim extends ModelSource {
             frame = this.type.seq.frames[this.animFrame];
         }
 
-        const model: Model = Model.copyForAnim(tmp, true, AnimFrame.shareAlpha(frame), false);
+        const model: Model = Model.copyForAnim(tmp, true, AnimFrame.animateTransparencies(frame), false);
 
         if (!this.animComplete) {
             model.prepareAnim();

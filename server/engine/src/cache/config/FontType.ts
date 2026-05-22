@@ -1,29 +1,15 @@
 import Jagfile from '#/io/Jagfile.js';
 
 export default class FontType {
-    static CHAR_LOOKUP: number[] = [];
     static instances: FontType[] = [];
-
-    static {
-        const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!"£$%^&*()-_=+[{]};:\'@#~,<.>/?\\| ';
-
-        for (let i = 0; i < 256; i++) {
-            let c = charset.indexOf(String.fromCharCode(i));
-            if (c == -1) {
-                c = 74;
-            }
-
-            FontType.CHAR_LOOKUP[i] = c;
-        }
-    }
 
     static load(dir: string) {
         const title = Jagfile.load(`${dir}/client/title`);
 
-        FontType.instances[0] = new FontType(title, 'p11');
-        FontType.instances[1] = new FontType(title, 'p12');
-        FontType.instances[2] = new FontType(title, 'b12');
-        FontType.instances[3] = new FontType(title, 'q8');
+        FontType.instances[0] = new FontType(title, 'p11_full', false);
+        FontType.instances[1] = new FontType(title, 'p12_full', false);
+        FontType.instances[2] = new FontType(title, 'b12_full', false);
+        FontType.instances[3] = new FontType(title, 'q8_full', true);
     }
 
     static get(id: number) {
@@ -36,16 +22,15 @@ export default class FontType {
 
     // ----
 
-    charMask: Uint8Array[] = new Array(94);
-    charMaskWidth: Uint8Array = new Uint8Array(94);
-    charMaskHeight: Uint8Array = new Uint8Array(94);
-    charOffsetX: Uint8Array = new Uint8Array(94);
-    charOffsetY: Uint8Array = new Uint8Array(94);
-    charAdvance: Uint8Array = new Uint8Array(95);
-    drawWidth: Uint8Array = new Uint8Array(256);
+    charMask: Uint8Array[] = new Array(256);
+    charMaskWidth: Uint8Array = new Uint8Array(256);
+    charMaskHeight: Uint8Array = new Uint8Array(256);
+    charOffsetX: Uint8Array = new Uint8Array(256);
+    charOffsetY: Uint8Array = new Uint8Array(256);
+    charAdvance: Uint8Array = new Uint8Array(256);
     height: number = 0;
 
-    constructor(title: Jagfile, font: string) {
+    constructor(title: Jagfile, font: string, quill: boolean) {
         const data = title.read(`${font}.dat`);
         const index = title.read('index.dat');
         if (!data || !index) {
@@ -58,7 +43,7 @@ export default class FontType {
             index.pos += (palCount - 1) * 3;
         }
 
-        for (let c = 0; c < 94; c++) {
+        for (let c = 0; c < 256; c++) {
             this.charOffsetX[c] = index.g1();
             this.charOffsetY[c] = index.g1();
 
@@ -82,7 +67,7 @@ export default class FontType {
                 }
             }
 
-            if (hi > this.height) {
+            if (hi > this.height && c < 128) {
                 this.height = hi;
             }
 
@@ -113,10 +98,10 @@ export default class FontType {
             }
         }
 
-        this.charAdvance[94] = this.charAdvance[8];
-
-        for (let c = 0; c < 256; c++) {
-            this.drawWidth[c] = this.charAdvance[FontType.CHAR_LOOKUP[c]];
+        if (quill) {
+            this.charAdvance[32] = this.charAdvance[73];
+        } else {
+            this.charAdvance[32] = this.charAdvance[105];
         }
     }
 
@@ -130,7 +115,7 @@ export default class FontType {
             if (str.charAt(c) == '@' && c + 4 < str.length && str.charAt(c + 4) == '@') {
                 c += 4;
             } else {
-                size += this.drawWidth[str.charCodeAt(c)];
+                size += this.charAdvance[str.charCodeAt(c)];
             }
         }
 

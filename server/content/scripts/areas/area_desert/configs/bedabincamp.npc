@@ -1,6 +1,6 @@
 [al_shabim]
 vislevel=hide
-name=Al Shabim.
+name=Al Shabim
 desc=He's the leader of the Bedabin tribe.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_staffready
@@ -73,13 +73,12 @@ param=shop_title,Bedabin Village Bartering
 category=shop_keeper
 
 [bedabin_guard]
+vislevel=hide
 name=Bedabin Nomad Guard
 desc=A bedabin nomad guard - it looks like he's protecting an area.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op1=Talk-to
-op2=Attack
-vislevel=64
 recol1s=14724
 recol1d=32767
 recol2s=2340

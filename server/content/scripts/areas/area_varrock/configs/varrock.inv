@@ -49,8 +49,8 @@ stock3=airrune,2000,10
 stock4=earthrune,2000,10
 stock5=mindrune,1000,10
 stock6=bodyrune,1000,10
-stock7=chaosrune,500,100
-stock8=deathrune,500,150
+stock7=chaosrune,1000,100
+stock8=deathrune,1000,150
 
 [swordshop]
 // https://classic.runescape.wiki/w/Varrock_Swords

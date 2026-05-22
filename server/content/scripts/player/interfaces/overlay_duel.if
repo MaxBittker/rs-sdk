@@ -1,0 +1,9 @@
+type=overlay
+
+[com_0]
+type=graphic
+x=472
+y=296
+width=25
+height=25
+graphic=headicons,6

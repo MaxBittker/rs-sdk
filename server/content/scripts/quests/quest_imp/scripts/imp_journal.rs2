@@ -10,7 +10,7 @@ if(%imp = ^imp_not_started) {
     if(inv_total(inv, black_bead) > 0 & inv_total(inv, red_bead) > 0 & inv_total(inv, white_bead) > 0 & inv_total(inv, yellow_bead) > 0) {
         $text = append($text, "@dbl@I have collected all the missing beads and need to return|@dbl@them to @dre@Wizard Mizgog@dbl@.");
     } else {
-        $text = append($text, "@dbl@I need to collect some items by killing @dre@Imps@dbl@, I can find|@dbl@Imps all over the kingdom.|");
+        $text = append($text, "@dbl@I need to collect some items by killing @dre@Imps.|");
         if(inv_total(inv, black_bead) > 0) {
             $text = append($text, "@str@1 Black Bead.|");
         } else {

@@ -1,0 +1,117 @@
+[opnpc1,lord_iorwerth]
+if(inv_total(inv, trail_clue_hard_riddle018) > 0) {
+    // https://www.youtube.com/watch?v=Pu1lndWPMKU
+    if(~obj_gettotal(trail_clue_hard_riddle018_puzzlebox) > 0) {
+        if(inv_total(inv, trail_clue_hard_riddle018_puzzlebox) = 0) {
+            ~chatplayer("<p,neutral>I don't have the puzzle box with me.");
+            ~chatnpc("<p,angry>That's not much use. Go and fetch it.");
+            return;
+        }
+        if(~trail_puzzle_complete(trail_clue_hard_riddle018_puzzlebox) = true) {
+            ~chatnpc("<p,neutral>You have done well, human!");
+            inv_del(inv, trail_clue_hard_riddle018_puzzlebox, 1);
+            ~progress_clue_hard(trail_clue_hard_riddle018, "Lord Iorwerth has given you another clue scroll!");
+            return;
+        }
+        // TODO: check mesanim
+        ~chatnpc("<p,neutral>Do not waste my time, human!");
+        return;
+    }
+    ~give_trail_puzzle(trail_clue_hard_riddle018_puzzlebox, "<p,neutral>Before I will help you, human, you must complete this for me!", "Lord Iorwerth has given you a puzzle box!");
+    return;
+}
+switch_int(%regicide_quest) {
+    case ^regicide_complete :
+        ~chatplayer("<p,neutral>Good day, Lord Iorwerth.");
+        ~chatnpc("<p,happy>Ahh <displayname()>. Good day, sorry I cannot stop to talk. So much to do, so little time.");
+    case ^regicide_reported_iorwerth, ^regicide_spoken_arianwyn :
+        if(~obj_gettotal(regicide_iorwerth_message) = 0) {
+            ~chatplayer("<p,sad>Lord Iorwerth, I have lost the message for King Lathas.");
+            ~chatnpc("<p,neutral>Here, have another copy, but don't let it fall into the wrong hands.");
+            ~chatplayer("<p,neutral>Thank you Lord Iorwerth.");
+            inv_add(inv, regicide_iorwerth_message, 1);
+            ~objbox(regicide_iorwerth_message, "Lord Iorwerth hands you a scroll.", 250, 0, 0);
+            return;
+        }
+        ~chatplayer("<p,neutral>Good day, Lord Iorwerth.");
+        ~chatnpc("<p,neutral>Have you delivered the message to King Lathas yet?");
+        ~chatplayer("<p,neutral>Not yet, my lord.");
+        ~chatnpc("<p,neutral>There is no time for delay, he'll need to see that.");
+    case ^regicide_killed_tyras :
+        ~chatplayer("<p,neutral>Lord Iorwerth, the deed is done.");
+        ~chatnpc("<p,happy>Good good... One of my scouts just reported that they have seen his tent in a ball of flame.");
+        // https://web.archive.org/web/20061231211932im_/http://www.runeweb.net/fireball/Regicide%20Images/Regicide25.PNG
+        ~chatnpc("<p,neutral>I'm sure you will want to get back to your king|and tell him. He will undoubtedly want some proof.|He should trust me enough in this matter,|Give him this letter, it verifies that the job is done.");
+        inv_add(inv, regicide_iorwerth_message, 1);
+        %regicide_quest = ^regicide_reported_iorwerth;
+        ~objbox(regicide_iorwerth_message, "Lord Iorwerth hands you a scroll.", 250, 0, 0);
+        ~chatnpc("<p,neutral>I'd use the pass through Arandar, You'll find the start of the trail in the far north-east of the woods. I have informed the guards there, you should now have the right to pass the Arandar palisade.");
+        ~chatplayer("<p,neutral>Thank you my lord.");
+    case ^regicide_spoken_iorwerth2 :
+        if(~obj_gettotal(regicide_alchemy) = 0) {
+            ~chatplayer("<p,sad>I lost my copy of the Big Book o' Bangs.");
+            if(inv_freespace(inv) = 0) {
+                ~chatnpc("<p,neutral>It's lucky I had a scribe make a few copies. Clear some space in your inventory so that I can give you a replacement.");
+                return;
+            }
+            ~chatnpc("<p,neutral>It's lucky I had a scribe make a few copies.");
+            inv_add(inv, regicide_alchemy, 1);
+            ~objbox(regicide_alchemy, "Lord Iorwerth hands you a book.", 250, 0, 0);
+            return;
+        }
+        ~chatplayer("<p,happy>Hello.");
+        ~chatnpc("<p,neutral>Good day, <displayname()>. Have you yet found a way to rid us of Tyras?");
+        ~chatplayer("<p,happy>No but I'm working on it.");
+        ~chatnpc("<p,neutral>Good, we are running short of time.");
+    case ^regicide_entered_camp :
+        ~chatnpc("<p,neutral><displayname()> how goes your search... Any luck hunting down that brigand?");
+        ~chatplayer("<p,neutral>I've finally tracked the brute down. His camp is in a secluded bit of forest, almost directly south of here.");
+        ~chatnpc("<p,neutral>Good job. I had a plan to destroy his camp, using the knowledge found in this book but before I had perfected any formula they moved camp. Here you may find the book useful.");
+        %regicide_quest = ^regicide_spoken_iorwerth2;
+        inv_add(inv, regicide_alchemy, 1);
+        ~objbox(regicide_alchemy, "Lord Iorwerth gives you a Book.", 250, 0, 0);
+    case ^regicide_defeated_guard :
+        ~chatnpc("<p,neutral><displayname()>, how goes your search? Any luck hunting down that brigand?");
+        ~chatplayer("<p,neutral>I have come across heavy resistance trying to follow some tracks from the old camp. I'm guessing I'm on the right path.");
+        ~chatnpc("<p,neutral>Good. Come find me when you've located the camp.");
+    case ^regicide_spoken_tracker2 :
+        ~chatnpc("<p,neutral><displayname()>, how goes your search? Any luck hunting down that brigand?");
+        ~chatplayer("<p,neutral>I think I just need to follow some tracks I found. Your scout showed me how.");
+        ~chatnpc("<p,neutral>Good. Come find me when you've located the camp.");
+    case ^regicide_found_footprints :
+        ~chatnpc("<p,neutral><displayname()>, how goes your search? Any luck hunting down that brigand?");
+        ~chatplayer("<p,sad>I've found some tracks at Tyras's old camp, but they trail off in to the trees.");
+        ~chatnpc("<p,neutral>Ask my scout. He may be able to help there.");
+        ~chatplayer("<p,neutral>Thanks I'll go ask him");
+        ~chatnpc("<p,neutral>Good. Come find me when you've located the camp.");
+    case ^regicide_shown_pendant :
+        ~chatnpc("<p,neutral><displayname()>, how goes your search? Any luck hunting down that brigand?");
+        ~chatplayer("<p,neutral>I've found no trace of him as yet.");
+        ~chatnpc("<p,neutral>I'm sure you will find something at his old camp that can help you.");
+        ~chatplayer("<p,neutral>I'll take a look and see what I can find.");
+        ~chatnpc("<p,neutral>Good. Come find me when you've located the camp.");
+    case ^regicide_spoken_tracker :
+        ~chatnpc("<p,neutral>Good day, <displayname()>. How may I help you now?");
+        ~chatplayer("<p,neutral>Your scout refused to help, unless I take proof that you sent me.");
+        if(~obj_gettotal(regicide_crystal_pendant) > 0) {
+            ~chatnpc("<p,neutral>Just show him the pendant I gave you.");
+            return;
+        }
+        if(inv_freespace(inv) = 0) {
+            // allegience is correct here
+            ~chatnpc("<p,neutral>Bless his loyalty but curse his suspicion. I will give you a token by which you may prove your allegience, but you must first clear some inventory space.");
+            return;
+        }
+        ~chatnpc("<p,neutral>Bless his loyalty but curse his suspicion. Here, he will recognise this.");
+        inv_add(inv, regicide_crystal_pendant, 1);
+        ~objbox(regicide_crystal_pendant, "Lord Iorwerth gives you a crystal pendant.", 180, 0, divide(^objbox_height, -2));
+    case ^regicide_spoken_iorwerth :
+        ~chatnpc("<p,neutral>The only help I can offer at this time is the use of a tracker. He can be found over the river to the south east. Good luck!");
+    case ^regicide_spoken_scouts :
+        // https://web.archive.org/web/20061231211932im_/http://www.runeweb.net/fireball/Regicide%20Images/Regicide9.PNG
+        ~chatplayer("<p,neutral>Hello I'm <displayname()>.|Your scouts said that I should come and see you.");
+        ~chatnpc("<p,neutral>Ahh.. <displayname()>. Welcome to Isafdar. I understand you've been sent here to rid us of that criminal Tyras. I offer my full support.");
+        ~chatnpc("<p,neutral>Unfortunately all my troops are hunting down a group of renegade elves, but you should find one of our trackers by Tyras's old camp. He should be able to help you.");
+        %regicide_quest = ^regicide_spoken_iorwerth;
+        ~chatplayer("<p,neutral>Thank you. I shall return, when my task is complete.");
+}

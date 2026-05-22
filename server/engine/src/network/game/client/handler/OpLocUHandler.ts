@@ -67,7 +67,7 @@ export default class OpLocUHandler extends ClientGameMessageHandler<OpLocU> {
 
         player.clearPendingAction();
 
-        if (ObjType.get(useObj).members && !Environment.NODE_MEMBERS) {
+        if (ObjType.get(useObj).members && !Environment.node.members) {
             player.messageGame("To use this item please login to a members' server.");
             player.write(new UnsetMapFlag());
             return false;

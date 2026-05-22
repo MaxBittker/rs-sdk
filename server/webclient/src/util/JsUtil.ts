@@ -41,3 +41,8 @@ export function bigIntModPow(base: bigint, exponent: bigint, modulus: bigint): b
     }
     return result;
 }
+
+export function mulShift16(a: number, b: number): number {
+    // (int) (((long) a * (long) b) >> 16);
+    return Number(BigInt.asIntN(32, (BigInt(a) * BigInt(b)) >> 16n));
+}

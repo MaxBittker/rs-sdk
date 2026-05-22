@@ -1,0 +1,510 @@
+[oploc1,horror_lighthouse_doorway]
+p_arrivedelay;
+if(%horrorquest = ^horror_complete) {
+    if(coordz(coord) = coordz(loc_coord)) p_teleport(movecoord(loc_coord, 0, 0, -1));
+    else p_teleport(loc_coord);
+    loc_change(inviswall, 3);
+    loc_add(0_39_56_13_52, horror_lighthouse_inactive, 3, wall_straight, 3);
+    sound_synth(door_open, 0, 0);
+    return;
+}
+if(coordz(coord) = coordz(loc_coord)) {
+    if(inzone(0_38_71_0_0, 0_38_71_63_63, coord) = true) {
+        p_teleport(0_39_56_13_52);
+        p_delay(0);
+        p_teleport(movecoord(coord, 0, 0, -1));
+        loc_change(inviswall, 3);
+        loc_add(0_39_56_13_52, horror_lighthouse_inactive, 3, wall_straight, 3);
+        sound_synth(door_open, 0, 0);
+    }
+    return;
+}
+if(%horrorquest > ^horror_started | (%horrorlighthouseentrance = ^true & %horrorbridgeleft = ^true & %horrorbridgeright = ^true)) {
+    if(%horrorquest < ^horror_entered_lighthouse) %horrorquest = ^horror_entered_lighthouse;
+    p_teleport(0_38_71_13_51);
+    p_delay(0);
+    p_teleport(movecoord(coord, 0, 0, 1));
+    loc_change(inviswall, 3);
+    loc_add(0_38_71_13_52, horror_lighthouse_inactive, 3, wall_straight, 3);
+    sound_synth(door_open, 0, 0);
+    npc_huntall(0_39_72_24_36, 25, 0);
+    while (npc_findnext = true) {
+        if(%npc_aggressive_player = uid) {
+            npc_del;
+        }
+    }
+    return;
+}
+if(%horrorlighthouseentrance = ^true) {
+    ~chatnpc_specific(nc_name(horror_girlfriend_prequest), horror_girlfriend_prequest, "<p,neutral>Please adventurer...|We are both curious as to what has happened in that|lighthouse, but you need to fix the bridge for me!");
+    return;
+}
+if(inv_total(inv, horror_key) > 0) {
+    inv_del(inv, horror_key, 1);
+    %horrorlighthouseentrance = ^true;
+    mes("You unlock the Lighthouse front door.");
+    return;
+}
+mes("This door is locked securely shut.");
+
+[oplocu,horror_lighthouse_doorway]
+if(%horrorlighthouseentrance = ^true) {
+    mes("You have already unlocked the Lighthouse door.");
+    return;
+}
+if(last_useitem = horror_key) {
+    inv_del(inv, horror_key, 1);
+    %horrorlighthouseentrance = ^true;
+    mes("You unlock the Lighthouse front door.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[oploc1,horror_broken_bridge_left_spot] @horror_cross_bridge;
+[oploc1,horror_broken_bridge_right_spot] @horror_cross_bridge;
+
+[label,horror_cross_bridge]
+def_int $dx = 1;
+def_int $dir = ^exact_east;
+if(loc_type = horror_broken_bridge_right_spot) {
+    $dx = -1;
+    $dir = ^exact_west;
+}
+if(%horrorbridgeleft = ^true & %horrorbridgeright = ^true) {
+    if(coord ! loc_coord) {
+        p_delay(0);
+        ~forcemove(loc_coord);
+        p_delay(0);
+    }
+    p_delay(0);
+    if(loc_type = horror_broken_bridge_left_spot) {
+        anim(human_into_sidestepl, 0);
+        ~set_readywalkturn_bas(human_ready_sidestepl, human_ready_sidestepl, human_walk_sidestepl);
+    } else {
+        ~set_readywalkturn_bas(human_ready_sidestep, human_ready_sidestep, human_walk_sidestep);
+    }
+    p_teleport(movecoord(coord, $dx, 0, 0));
+    p_delay(1);
+    p_teleport(movecoord(coord, $dx, 0, 0));
+    p_delay(1);
+    if(loc_type = horror_broken_bridge_right_spot) anim(human_outof_sidestep, 20);
+    p_delay(0);
+    ~update_bas;
+    p_teleport(movecoord(coord, $dx, 0, 0));
+    stat_advance(agility, 5);
+    return;
+}
+if(coord ! loc_coord) {
+    p_delay(0);
+    ~forcemove(loc_coord);
+}
+if(stat_random(agility, 5, 255) = false) {
+    ~agility_exactmove(agilityarena_dive_player, 20, 2, coord, movecoord(coord, multiply(2,$dx), 0, 0), 30, 49, $dir, false);
+    ~damage_self(~random_range(1, 5));
+} else {
+    ~agility_exactmove(human_steppingstonejump, 30, 1, coord, movecoord(coord, multiply(2,$dx), 0, 0), 58, 70, $dir, false);
+    ~forcemove(movecoord(coord, $dx, 0, 0));
+}
+stat_advance(agility, 5);
+
+[oplocu,horror_broken_bridge_left_spot]
+if(%horrorquest = ^horror_not_started) {
+    mes("You have no reason to do that.");
+    return;
+}
+if(last_useitem ! woodplank) {
+    ~mesbox("That won't help fix the bridge.");
+    return;
+}
+if(%horrorbridgeleft = ^true) {
+    ~mesbox("You have already fixed this half of the bridge.");
+    return;
+}
+if(inv_total(inv, nails) < 4) {
+    ~mesbox("You need 4 steel nails to attach the plank with.");
+    return;
+}
+if(inv_total(inv, hammer) = 0) {
+    ~mesbox("You need a hammer to hammer the nails in with.");
+    return;
+}
+anim(human_smithing, 0);
+sound_synth(anvil_4, 0, 0);
+inv_del(inv, woodplank, 1);
+inv_del(inv, nails, 4);
+%horrorbridgeleft = ^true;
+if(%horrorbridgeright = ^false) ~mesbox("You create half a makeshift walkway out of the plank.");
+else ~mesbox("You have now made a makeshift walkway over the bridge.");
+
+[oplocu,horror_broken_bridge_right_spot]
+if(%horrorquest = ^horror_not_started) {
+    mes("You have no reason to do that.");
+    return;
+}
+if(last_useitem ! woodplank) {
+    ~mesbox("That won't help fix the bridge.");
+    return;
+}
+if(%horrorbridgeright = ^true) {
+    ~mesbox("You have already fixed this half of the bridge.");
+    return;
+}
+if(inv_total(inv, nails) < 4) {
+    ~mesbox("You need 4 steel nails to attach the plank with.");
+    return;
+}
+if(inv_total(inv, hammer) = 0) {
+    ~mesbox("You need a hammer to hammer the nails in with.");
+    return;
+}
+anim(human_smithing, 0);
+sound_synth(anvil_4, 0, 0);
+inv_del(inv, woodplank, 1);
+inv_del(inv, nails, 4);
+%horrorbridgeright = ^true;
+if(%horrorbridgeleft = ^false) ~mesbox("You create half a makeshift walkway out of the plank.");
+else ~mesbox("You have now made a makeshift walkway over the bridge.");
+
+[oploc1,horror_ladder_top] @horror_ladder;
+[oploc1,horror_ladder_down] @horror_ladder;
+
+[label,horror_ladder]
+if(%horrorquest = ^horror_complete) {
+    ~climb_ladder(1_39_156_22_10, true);
+    return;
+}
+if(%horrorquest > ^horror_entered_lighthouse & %horrorquest < ^horror_complete) {
+    ~climb_ladder(1_39_72_22_10, true);
+    return;
+}
+if(npc_find(coord, horror_girlfriend_postquest, 5, 0) = true) {
+    ~chatnpc("<p,neutral>Please adventurer...|Do not let curiosity get the better of you! We Have to fix the lighthouse before any accidents happen!");
+    return;
+}
+mes("You must fix the lighthouse before any ships crash!");
+
+[oploc1,horror_lighthouse_spiralstairs_base]
+p_arrivedelay;
+p_teleport(movecoord(loc_coord, -1, 1, 1));
+
+[oploc1,horror_lighthouse_spiralstairs_middle]
+def_int $option = ~p_choice2("Climb Up.", 1, "Climb Down.", 2);
+if ($option = 1) {
+    if(%horrorquest >= ^horror_repaired_lighthouse & %horrorquest < ^horror_complete) p_teleport(2_39_56_9_57);
+    else p_teleport(movecoord(loc_coord, -1, 1, 1));
+} else if ($option = 2) {
+    if(%horrorquest >= ^horror_repaired_lighthouse & %horrorquest < ^horror_complete) p_teleport(1_38_71_10_58);
+    else p_teleport(movecoord(loc_coord, 0, -1, 2));
+}
+
+[oploc2,horror_lighthouse_spiralstairs_middle]
+p_arrivedelay;
+if(%horrorquest >= ^horror_repaired_lighthouse & %horrorquest < ^horror_complete) p_teleport(2_39_56_9_57);
+else p_teleport(movecoord(loc_coord, -1, 1, 1));
+
+[oploc3,horror_lighthouse_spiralstairs_middle]
+p_arrivedelay;
+p_teleport(movecoord(loc_coord, 0, -1, 2));
+
+[oploc1,horror_lighthouse_spiralstairs_top]
+p_arrivedelay;
+if(%horrorquest >= ^horror_repaired_lighthouse & %horrorquest < ^horror_complete) p_teleport(1_38_71_10_58);
+else p_teleport(movecoord(loc_coord, 0, -1, 1));
+
+[oploc1,horror_bookcase]
+~mesbox("There are three books here that look important...|What would you like to do?");
+switch_int(~p_choice4("Take the Lighthouse Manual", 1, "Take the ancient Diary", 2, "Take Jossiks' Journal", 3, "Take all three books", 4)) {
+    case 1 :
+        if(inv_freespace(inv) < 1) {
+            mes("You don't have enough space to take that.");
+            return;
+        }
+        inv_add(inv, horror_diary3, 1);
+    case 2 :
+        if(inv_freespace(inv) < 1) {
+            mes("You don't have enough space to take that.");
+            return;
+        }
+        inv_add(inv, horror_diary2, 1);
+    case 3 :
+        if(inv_freespace(inv) < 1) {
+            mes("You don't have enough space to take that.");
+            return;
+        }
+        inv_add(inv, horror_diary1, 1);
+    case 4 :
+        if(inv_freespace(inv) < 3) {
+            mes("You don't have enough space to take all three.");
+            return;
+        }
+        inv_add(inv, horror_diary1, 1);
+        inv_add(inv, horror_diary2, 1);
+        inv_add(inv, horror_diary3, 1);
+}
+
+[oplocu,horror_lighthouse_cog_broken]
+if(last_useitem = tinderbox) {
+    if(%horrortar = ^false) {
+        mes("The torch does not seem to be flammable...");
+        return;
+    }
+    if(%horrorlight = ^true) {
+        mes("You have already lit the torch."); // TODO: RECHECK THIS ON SECOND ACCOUNT
+        return;
+    }
+    %horrorlight = ^true;
+    mes("You light the torch with your tinderbox.");
+    ~horror_check_repaired;
+    return;
+}
+if(last_useitem = swamp_tar) {
+    if(%horrortar = ^true) {
+        mes("You have already put tar on the torch.");
+        return;
+    }
+    %horrortar = ^true;
+    inv_del(inv, swamp_tar, 1);
+    mes("You use the swamp tar to make the torch flammable again.");
+    return;
+}
+if(last_useitem = molten_glass) {
+    if(%horrorglass = ^true) {
+        mes("You have already repaired the lens.");
+        return;
+    }
+    %horrorglass = ^true;
+    inv_del(inv, molten_glass, 1);
+    mes("You use the molten glass to repair the lens.");
+    ~horror_check_repaired;
+    return;
+}
+~displaymessage(^dm_default);
+
+[proc,horror_check_repaired]
+if(%horrorlight = ^true & %horrorglass = ^true & %horrortar = ^true) {
+    if(%horrorquest < ^horror_repaired_lighthouse) %horrorquest = ^horror_repaired_lighthouse;
+    mes("You have managed to repair the lighthouse torch!");
+    p_teleport(movecoord(coord, 64, 0, -960));
+}
+
+[oploc1,horror_ladder_base]
+if(%horrorquest < ^horror_complete) {
+    ~climb_ladder(0_38_71_14_60, true);
+} else {
+    ~climb_ladder(0_39_56_14_60, true);
+}
+
+[oploc1,horror_far_left_door]
+if(coordz(coord) < coordz(loc_coord)) {
+    mes("The door cannot be opened from this side.");
+    return;
+}
+loc_change(inviswall, 3);
+p_teleport(movecoord(loc_coord, 0, 0, -1));
+loc_add(movecoord(loc_coord, 0, 0, -1), horror_far_left_door_inactive, 0, wall_straight, 3);
+sound_synth(sound_752, 0, 0);
+longqueue(strangedoorsound, 1, 0, ^discard);
+
+[oploc1,horror_far_right_door]
+if(%horrorfire = ^false | %horrorwater = ^false | %horrorearth = ^false | %horrorair = ^false | %horrorsword = ^false | %horrorarrow = ^false) {
+    mes("You cannot see any way to move this part of the wall...");
+    return;
+}
+if(coordz(coord) >= coordz(loc_coord)) {
+    mes("The door cannot be opened from this side.");
+    return;
+}
+loc_change(inviswall, 3);
+p_teleport(loc_coord);
+loc_add(movecoord(loc_coord, 0, 0, -1), horror_far_right_door_inactive, 0, wall_straight, 3);
+sound_synth(sound_752, 0, 0);
+longqueue(strangedoorsound, 1, 0, ^discard);
+
+[queue,strangedoorsound]
+sound_synth(sound_751, 0, 0);
+
+[oploc1,horror_mid_left_door] @study_horror_door;
+[oploc1,horror_mid_right_door] @study_horror_door;
+
+[oplocu,horror_mid_left_door] @placeobj_horror_door;
+[oplocu,horror_mid_right_door] @placeobj_horror_door;
+
+[label,placeobj_horror_door]
+def_obj $obj = last_useitem;
+def_int $op;
+if($obj = firerune) {
+    if(%horrorfire = ^true) {
+        mes("There is no space to put a fire rune into the wall.");
+        return;
+    }
+    ~chatplayer("<p,confused>I don't think I'll get that back if I put it in there.");
+    $op = ~p_choice2_header("Yes", 1, "No", 2, "Really place the rune into the door?");
+    if($op = 1) {
+        inv_del(inv, $obj, 1);
+        %horrorfire = ^true;
+        mes("You place a fire rune into the slot in the wall.");
+        ~horror_door_check_complete;
+    }
+    return;
+}
+if($obj = waterrune) {
+    if(%horrorwater = ^true) {
+        mes("There is no space to put a water rune into the wall.");
+        return;
+    }
+    ~chatplayer("<p,confused>I don't think I'll get that back if I put it in there.");
+    $op = ~p_choice2_header("Yes", 1, "No", 2, "Really place the rune into the door?");
+    if($op = 1) {
+        inv_del(inv, $obj, 1);
+        %horrorwater = ^true;
+        mes("You place a water rune into the slot in the wall.");
+        ~horror_door_check_complete;
+    }
+    return;
+}
+if($obj = earthrune) {
+    if(%horrorearth = ^true) {
+        mes("There is no space to put an earth rune into the wall.");
+        return;
+    }
+    ~chatplayer("<p,confused>I don't think I'll get that back if I put it in there.");
+    $op = ~p_choice2_header("Yes", 1, "No", 2, "Really place the rune into the door?");
+    if($op = 1) {
+        inv_del(inv, $obj, 1);
+        %horrorearth = ^true;
+        mes("You place an earth rune into the slot in the wall.");
+        ~horror_door_check_complete;
+    }
+    return;
+}
+if($obj = airrune) {
+    if(%horrorair = ^true) {
+        mes("There is no space to put an air rune into the wall.");
+        return;
+    }
+    ~chatplayer("<p,confused>I don't think I'll get that back if I put it in there.");
+    $op = ~p_choice2_header("Yes", 1, "No", 2, "Really place the rune into the door?");
+    if($op = 1) {
+        inv_del(inv, $obj, 1);
+        %horrorair = ^true;
+        mes("You place an air rune into the slot in the wall.");
+        ~horror_door_check_complete;
+    }
+    return;
+}
+// seems like any stab or slash weapon works (daggers, swords, longswords, scimitars, includes stuff like dark dagger and excalibur)
+if(oc_category($obj) = weapon_stab | oc_category($obj) = weapon_slash) {
+    if(%horrorsword = ^true) {
+        mes("There is no space to put a weapon into the wall.");
+        return;
+    }
+    ~chatplayer("<p,confused>I don't think I'll get that back if I put it in there.");
+    $op = ~p_choice2_header("Yes", 1, "No", 2, "Really place the weapon into the door?");
+    if($op = 1) {
+        inv_del(inv, $obj, 1);
+        %horrorsword = ^true;
+        mes("You place a sword into the slot in the wall.");
+        ~horror_door_check_complete;
+    }
+    return;
+}
+if(oc_category($obj) = arrows) {
+    if(%horrorarrow = ^true) {
+        mes("There is no space to put an arrow into the wall.");
+        return;
+    }
+    ~chatplayer("<p,confused>I don't think I'll get that back if I put it in there.");
+    $op = ~p_choice2_header("Yes", 1, "No", 2, "Really place the arrow into the door?");
+    if($op = 1) {
+        inv_del(inv, $obj, 1);
+        %horrorarrow = ^true;
+        mes("You place an arrow into the slot in the wall.");
+        ~horror_door_check_complete;
+    }
+    return;
+}
+~displaymessage(^dm_default);
+
+[proc,horror_door_check_complete]
+if(%horrorfire = ^true & %horrorwater = ^true & %horrorearth = ^true & %horrorair = ^true & %horrorsword = ^true & %horrorarrow = ^true) {
+    mes("You hear the sound of something moving within the wall.");
+    sound_synth(sound_754, 0, 0);
+}
+ 
+[label,study_horror_door]
+if(coordz(coord) >= coordz(loc_coord)) {
+    mes("You cannot see anything unusual about the wall from this side.");
+    return;
+}
+if(%horrorfire = ^false) {
+    if_setmodel(inter_188:horror_fire, 4513);
+} else {
+    if_setmodel(inter_188:horror_fire, 4514);
+}
+if(%horrorwater = ^false) {
+    if_setmodel(inter_188:horror_water, 4520);
+} else {
+    if_setmodel(inter_188:horror_water, 4521);
+}
+if(%horrorearth = ^false) {
+    if_setmodel(inter_188:horror_earth, 4511);
+} else {
+    if_setmodel(inter_188:horror_earth, 4512);
+}
+if(%horrorair = ^false) {
+    if_setmodel(inter_188:horror_air, 4509);
+} else {
+    if_setmodel(inter_188:horror_air, 4510);
+}
+if(%horrorsword = ^false) {
+    if_setmodel(inter_188:horror_melee, 4516);
+} else {
+    if_setmodel(inter_188:horror_melee, 4517);
+}
+if(%horrorarrow = ^false) {
+    if_setmodel(inter_188:horror_ranging, 4518);
+} else {
+    if_setmodel(inter_188:horror_ranging, 4519);
+}
+if_openmain(inter_188);
+
+[oploc1,horror_ladder_top2]
+p_arrivedelay;
+~climb_ladder(movecoord(loc_coord, 0, -1, 2), true);
+
+[oploc1,horror_ladder_base2]
+p_arrivedelay;
+~climb_ladder(movecoord(loc_coord, 0, 1, -2), true);
+npc_huntall(0_39_72_24_36, 25, 0);
+while (npc_findnext = true) {
+    if(%npc_aggressive_player = uid) {
+        npc_del;
+    }
+}
+
+[queue,quest_horror_complete]
+if(inzone(0_39_72_0_0, 0_39_72_63_63, coord) = false) {
+    return;
+}
+queue(horror_postquest_dialogue, 0, 0);
+p_teleport(1_39_156_19_17);
+stat_advance(magic, 46620);
+stat_advance(strength, 46620);
+stat_advance(ranged, 46620);
+inv_add(inv, horror_casket, 1);
+%horrorquest = ^horror_complete;
+session_log(^log_adventure, "Quest complete: Horror from the Deep");
+~send_quest_complete(questlist:horror, horror_casket, 225, ^horror_questpoints, "You have survived the\\nHorror From The Deep!");
+
+[opobj3,horror_casket]
+mes("It is too old and fragile to pick up.");
+
+[queue,horror_postquest_dialogue]
+// no inzone check
+~chatplayer("<p,neutral>Okay, it's dead!|Let's get out of here!");
+// you turn towards jossik so i assume it does a find rather than chatnpc_specific
+if(npc_findexact(0_39_72_22_25, horror_lighthousekeeeper_injured) = ^true) {
+    ~chatnpcnoturn("<p,happy>Yes, quickly, the mother might be dead, but it's children are not!");
+    ~chatnpcnoturn("<p,neutral>Follow me upstairs, I might be able to help you with that casket you found.");
+    ~chatnpcnoturn("<p,neutral>Bring it to my library, it looks familiar somehow...");
+}

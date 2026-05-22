@@ -9,7 +9,7 @@ export default class ScriptProvider {
     /**
      * The expected version of the script compiler that the runtime should be loading scripts from.
      */
-    public static readonly COMPILER_VERSION = 26;
+    public static readonly COMPILER_VERSION = 27;
 
     /**
      * Array of loaded scripts.
@@ -48,7 +48,7 @@ export default class ScriptProvider {
 
         const version = dat.g4s();
         if (version !== ScriptProvider.COMPILER_VERSION) {
-            printFatalError('\nFatal: Scripts were compiled with an incompatible RuneScript compiler. Please update it, try `npm run build` and then restart the server.');
+            printFatalError('\nFatal: Scripts were compiled with an incompatible script compiler. Please run `bun i`, then `bun run build`, and restart the server.');
         }
 
         const scripts = new Array<ScriptFile>(entries);

@@ -70,6 +70,12 @@ param=productmessage,You catch a lava eel.
 param=success_low,16
 param=success_high,96
 
+[fishing_struct_mort_slimey_eel]
+param=productmessage,You catch a slimey swamp eel.
+param=productexp,650
+param=success_low,10
+param=success_high,80
+
 [fishing_struct_mantaray]
 param=productexp,690
 

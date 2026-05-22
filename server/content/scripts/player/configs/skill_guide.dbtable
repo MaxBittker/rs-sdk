@@ -1,0 +1,11 @@
+[skill_guide_ops]
+column=lookup,stat,INDEXED,REQUIRED
+column=op,string,dbrow,LIST,REQUIRED
+
+[skill_guides]
+column=base,stat
+column=name,string,REQUIRED
+column=advancement,string
+column=inv,inv
+column=unlock,int,string,LIST
+default=advancement,Advancement

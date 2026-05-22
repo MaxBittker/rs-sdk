@@ -59,11 +59,10 @@ param=no_alchemy,1
 [arravshield2]
 name=Broken shield
 desc=Half of the Shield of Arrav.
-model=model_2757_obj
-2dxof=-18
-2dzoom=990
-2dyan=1160
-2dxan=192
+model=model_2758
+2dzoom=1630
+2dyan=8
+2dxan=376
 weight=6lb
 param=no_alchemy,1
 

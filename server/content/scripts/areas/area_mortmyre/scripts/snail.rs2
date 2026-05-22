@@ -1,0 +1,65 @@
+[ai_queue1,_snail] ~npc_default_retaliate_ap;
+[ai_opplayer2,_snail] npc_setmode(applayer2);
+
+[ai_applayer2,_snail]
+if (%npc_action_delay > map_clock) {
+    npc_setmode(applayer2);
+    return;
+}
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+def_int $maxhit = 2;
+
+npc_anim(npc_param(attack_anim), 0);
+~sound_area(snail_spit, 0, npc_coord, 10);
+
+%npc_action_delay = add(map_clock, npc_param(attackrate));
+// map_projanim_v2	id=curse_travel (109), starttime=20, endtime=56, angle=10, progress=56, startheight=32, endheight=124
+def_int $duration = ~player_projectile(npc_coord, coord, uid, curse_travel, 43, 31, 20, 16, 26, 56, 10);
+
+// seem to completely ignore defence
+// reduction is on the rolled damage rather than max hit 
+~playerhit_n_ranged(true, ~snelm_reduction(randominc($maxhit)), $duration, npc_param(attackrate));
+
+[ai_queue3,mmsnailround_swamp] @thin_snail_drop;
+[ai_queue3,mmsnailpoint_swamp] @thin_snail_drop;
+[ai_queue3,mmsnailround_yellow] @thin_snail_drop;
+[ai_queue3,mmsnailpoint_yellow] @thin_snail_drop;
+
+[ai_queue3,mmsnailround_blue] @fat_snail_drop;
+[ai_queue3,mmsnailpoint_blue] @fat_snail_drop;
+[ai_queue3,mmsnailround_red+black] @fat_snail_drop;
+[ai_queue3,mmsnailpoint_red+black] @fat_snail_drop;
+
+[label,thin_snail_drop]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+obj_add(npc_coord, snail_corpse1, 1, ^lootdrop_duration);
+
+[ai_queue3,mmsnailround_orange]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+obj_add(npc_coord, snail_corpse2, 1, ^lootdrop_duration);
+
+[label,fat_snail_drop]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+obj_add(npc_coord, snail_corpse3, 1, ^lootdrop_duration);
+
+
+
+

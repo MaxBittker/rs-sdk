@@ -13,6 +13,8 @@
 [opheld2,rune_spear_p] @levelrequire_attack(40, last_slot);
 [opheld2,rune_2h_sword] @levelrequire_attack(40, last_slot);
 [opheld2,rune_claws] @levelrequire_attack(40, last_slot);
+[opheld2,tbwt_rune_spear_kp] @levelrequire_attack(40, last_slot);
+[opheld2,rune_halberd] @levelrequire_attack_and_strength(40, 20, last_slot);
 
 [opheld2,rune_med_helm] @levelrequire_defence(40, last_slot);
 [opheld2,rune_full_helm] @levelrequire_defence(40, last_slot);
@@ -31,6 +33,8 @@
 [opheld2,rune_platelegs_gold] @levelrequire_defence(40, last_slot);
 [opheld2,rune_full_helm_gold] @levelrequire_defence(40, last_slot);
 [opheld2,rune_kiteshield_gold] @levelrequire_defence(40, last_slot);
+[opheld2,rune_plateskirt_trim] @levelrequire_defence(40, last_slot);
+[opheld2,rune_plateskirt_gold] @levelrequire_defence(40, last_slot);
 
 [opheld2,rune_platebody_zamorak] @levelrequire_dragon_slayer_quest_defence(40, last_slot);
 [opheld2,rune_platelegs_zamorak] @levelrequire_defence(40, last_slot);
@@ -44,6 +48,14 @@
 [opheld2,rune_platelegs_guthix] @levelrequire_defence(40, last_slot);
 [opheld2,rune_full_helm_guthix] @levelrequire_defence(40, last_slot);
 [opheld2,rune_kiteshield_guthix] @levelrequire_defence(40, last_slot);
+[opheld2,rune_platebody_goldplate] @levelrequire_dragon_slayer_quest_defence(40, last_slot);
+[opheld2,rune_platelegs_goldplate] @levelrequire_defence(40, last_slot);
+[opheld2,rune_full_helm_goldplate] @levelrequire_defence(40, last_slot);
+[opheld2,rune_kiteshield_goldplate] @levelrequire_defence(40, last_slot);
+[opheld2,rune_plateskirt_guthix] @levelrequire_defence(40, last_slot);
+[opheld2,rune_plateskirt_saradomin] @levelrequire_defence(40, last_slot);
+[opheld2,rune_plateskirt_zamorak] @levelrequire_defence(40, last_slot);
+[opheld2,rune_plateskirt_goldplate] @levelrequire_defence(40, last_slot);
 
 // Ranged
 [opheld2,robinhoodhat] @levelrequire_ranged_lower(40, last_slot);

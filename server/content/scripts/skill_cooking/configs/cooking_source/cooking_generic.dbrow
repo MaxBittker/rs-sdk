@@ -20,7 +20,7 @@ data=uncooked,uncooked_stew
 data=cooked,stew
 data=burnt,burnt_stew
 data=levelrequired,25
-data=experience,900
+data=experience,1170
 data=successchance,68,392
 data=successchance_cookomatic,78,412
 
@@ -30,7 +30,7 @@ data=uncooked,uncooked_curry
 data=cooked,curry
 data=burnt,burnt_curry
 data=levelrequired,60
-data=experience,1250
+data=experience,2800
 data=successchance,38,332
 
 [cooking_generic_beef]
@@ -124,6 +124,7 @@ data=successchance_range,112,476
 [cooking_generic_raw_oomlie]
 table=cooking_generic
 data=uncooked,raw_oomlie
+data=cooked,null
 data=cantcookmessage_fire,The meat is far too delicate to cook like this. Perhaps you should wrap it up to protect it from the heat.
 data=cantcookmessage_range,The meat is far too delicate to cook like this. Perhaps you should wrap it up to protect it from the heat.
 
@@ -144,7 +145,7 @@ data=cooked,cake
 data=burnt,burnt_cake
 data=additional,cake_tin
 data=levelrequired,40
-data=experience,1200
+data=experience,1800
 data=successchance,38,332
 data=cookmessage_range,You cook the cake in the oven...
 data=cantcookmessage_fire,You need a proper oven to cook that.
@@ -156,7 +157,7 @@ data=uncooked,uncooked_pizza
 data=cooked,plain_pizza
 data=burnt,burnt_pizza
 data=levelrequired,35
-data=experience,1100
+data=experience,1430
 data=successchance,48,352
 data=cookmessage_range,You cook the pizza in the oven...
 data=cantcookmessage_fire,You need a proper oven to cook that.
@@ -178,7 +179,7 @@ data=uncooked,uncooked_apple_pie
 data=cooked,apple_pie
 data=burnt,burnt_pie
 data=levelrequired,30
-data=experience,1000
+data=experience,1300
 data=successchance,58,372
 data=cookmessage_range,You cook the apple pie in the oven...
 data=cantcookmessage_fire,You need a proper oven to cook that.
@@ -190,7 +191,7 @@ data=uncooked,uncooked_meat_pie
 data=cooked,meat_pie
 data=burnt,burnt_pie
 data=levelrequired,20
-data=experience,800
+data=experience,1100
 data=successchance,78,412
 data=successchance_cookomatic,88,432
 data=cookmessage_range,You cook the meat pie in the oven...
@@ -203,7 +204,7 @@ data=uncooked,uncooked_redberry_pie
 data=cooked,redberry_pie
 data=burnt,burnt_pie
 data=levelrequired,10
-data=experience,600
+data=experience,780
 data=successchance,98,452
 data=successchance_cookomatic,108,462
 data=cookmessage_range,You cook the redberry pie in the oven...
@@ -340,6 +341,7 @@ data=levelrequired,45
 data=experience,1400
 data=successchance,18,292
 data=successchance_range,30,310
+data=successchance_gauntlets,30,310
 
 [cooking_generic_lobster]
 table=cooking_generic
@@ -512,3 +514,175 @@ data=successchance,500,500
 data=cantcookmessage_range,You need to warm that over a fire.
 data=cookmessage_fire,You warm the paste over the fire.
 data=successmessage,It thickens into a sticky goo.
+
+[cooking_generic_rabbit]
+table=cooking_generic
+data=uncooked,raw_rabbit
+data=cooked,cooked_rabbit
+data=burnt,burnt_meat
+data=levelrequired,1
+data=experience,300
+data=successchance,128,512
+data=successchance_cookomatic,138,532
+data=cookmessage_fire,You cook the rabbit on the fire...
+data=cookmessage_range,You cook the rabbit on the stove...
+data=successmessage,The rabbit is now nicely cooked.
+data=burnmessage,You accidentally burn the rabbit.
+
+[cooking_generic_karambwanji]
+table=cooking_generic
+data=uncooked,tbwt_raw_karambwanji
+data=cooked,tbwt_cooked_karambwanji
+data=burnt,ashes
+data=levelrequired,1
+data=experience,100
+data=successchance,200,400
+data=cookmessage_fire,You cook the karambwanji on the fire...
+data=cookmessage_range,You cook the karambwanji on the stove...
+data=successmessage,The karambwanji is now nicely cooked.
+data=burnmessage,You accidentally burn the karambwanji to ashes.
+
+[cooking_generic_karambwan]
+table=cooking_generic
+data=uncooked,tbwt_raw_karambwan
+data=cooked,tbwt_cooked_karambwan
+data=burnt,tbwt_burnt_karambwan
+// requirement is only 1, but need 30 to complete the quest
+data=levelrequired,1
+data=experience,1900
+data=successchance,70,255
+data=cookmessage_fire,You cook the karambwan on the fire...
+data=cookmessage_range,You cook the karambwan on the stove...
+data=successmessage,The karambwan is now nicely cooked.
+data=burnmessage,You accidentally burn the karambwan.
+
+[cooking_generic_poor_karambwan]
+table=cooking_generic
+data=uncooked,tbwt_raw_karambwan
+data=cooked,tbwt_poorly_cooked_karambwan
+data=burnt,tbwt_burnt_karambwan
+data=levelrequired,1
+data=experience,800
+data=successchance,70,255
+data=cookmessage_fire,You cook the karambwan on the fire...
+data=cookmessage_range,You cook the karambwan on the stove...
+// guess
+data=successmessage,The karambwan is now poorly cooked.
+data=burnmessage,You accidentally burn the karambwan.
+
+[cooking_generic_jogre_bones_in_raw_karambwanji_paste]
+table=cooking_generic
+data=uncooked,tbwt_jogre_bones_in_raw_karambwanji_paste
+data=cooked,tbwt_jogre_bones_marinated_in_karambwanji
+data=burnt,null
+data=levelrequired,30
+data=levelrequired_message,You need a Cooking level of 30 to cook jogre bones covered in raw karambwanji paste.
+data=experience,1000
+data=successchance,1,1
+data=cookmessage_fire,You cook the burnt bones on the fire...
+data=cookmessage_range,You cook the burnt bones on the stove...
+// this says burnt bones on osrs, idk if thats a mistake from refactoring or something
+data=successmessage,You marinate the burnt bones perfectly.
+
+[cooking_generic_burnt_jogre_bones_in_raw_karambwanji_paste]
+table=cooking_generic
+data=uncooked,tbwt_burnt_jogre_bones_in_raw_karambwanji_paste
+data=cooked,tbwt_burnt_jogre_bones_marinated_in_karambwanji
+data=burnt,null
+data=levelrequired,30
+data=levelrequired_message,You need a Cooking level of 30 to cook burnt jogre bones covered in raw karambwanji paste.
+data=experience,1000
+data=successchance,1,1
+data=cookmessage_fire,You cook the burnt bones on the fire...
+data=cookmessage_range,You cook the burnt bones on the stove...
+data=successmessage,You marinate the burnt bones perfectly.
+
+[cooking_generic_jogre_bones]
+table=cooking_generic
+data=uncooked,tbwt_jogre_bones
+data=cooked,tbwt_jogre_bones
+data=burnt,null
+data=levelrequired,0
+data=experience,0
+data=successchance,1,1
+data=successmessage,"You heat the bones, but they don't look any different."
+
+[cooking_generic_burnt_jogre_bones]
+table=cooking_generic
+data=uncooked,tbwt_burnt_jogre_bones
+data=cooked,tbwt_burnt_jogre_bones
+data=burnt,null
+data=levelrequired,0
+data=experience,0
+data=successchance,1,1
+data=successmessage,"You heat the bones, but they don't look any different."
+
+[cooking_snail_corpse1]
+table=cooking_generic
+data=uncooked,snail_corpse1
+data=cooked,snail_corpse_cooked1
+data=burnt,burnt_snail
+data=levelrequired,12
+data=experience,700
+data=successchance,93,444
+data=successchance_cookomatic,103,464
+data=levelrequired_message,You need a Cooking level of 12 to cook thin snails.
+data=cookmessage_fire,You cook the thin snail on the fire...
+data=cookmessage_range,You cook the thin snail on the stove...
+data=successmessage,The thin snail is now nicely cooked.
+data=burnmessage,You accidentally burn the snail.
+
+[cooking_snail_corpse2]
+table=cooking_generic
+data=uncooked,snail_corpse2
+data=cooked,snail_corpse_cooked2
+data=burnt,burnt_snail
+data=levelrequired,17
+data=experience,800
+data=successchance,93,444
+data=successchance_range,85,428
+data=successchance_cookomatic,95,448
+data=levelrequired_message,You need a Cooking level of 17 to cook lean snails.
+data=cookmessage_fire,You cook the lean snail on the fire...
+data=cookmessage_range,You cook the lean snail on the stove...
+data=successmessage,The lean snail is now nicely cooked.
+data=burnmessage,You accidentally burn the snail.
+
+[cooking_snail_corpse3]
+table=cooking_generic
+data=uncooked,snail_corpse3
+data=cooked,snail_corpse_cooked3
+data=burnt,burnt_snail
+data=levelrequired,22
+data=experience,950
+data=successchance,73,402
+data=successchance_cookomatic,83,422
+data=levelrequired_message,You need a Cooking level of 22 to cook fat snails.
+data=cookmessage_fire,You cook the fat snail on the fire...
+data=cookmessage_range,You cook the fat snail on the stove...
+data=successmessage,The fat snail is now nicely cooked.
+data=burnmessage,You accidentally burn the snail.
+
+[cooking_generic_mort_slimey_eel]
+table=cooking_generic
+data=uncooked,mort_slimey_eel
+data=cooked,mort_slimey_eel_cooked
+data=burnt,burnt_eel
+data=levelrequired,28
+data=experience,950
+data=successchance,63,382
+data=cookmessage_fire,You cook the eel on the fire...
+data=cookmessage_range,You cook the eel on the stove...
+data=successmessage,You cook an eel.
+data=burnmessage,You accidentally burn the eel.
+
+[cooking_generic_troll_thistle]
+table=cooking_generic
+data=uncooked,eadgar_troll_thistle
+data=cooked,eadgar_dried_troll_thistle
+data=burnt,null
+data=levelrequired,1
+data=experience,0
+data=successchance,1,1
+data=cookmessage_fire,null
+data=successmessage,You dry the troll thistle over the fire.

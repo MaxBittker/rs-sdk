@@ -3,6 +3,7 @@ name=Gnome goal
 desc=Aim for the goal!
 model=model_loc_2393
 active=yes
+op1=Shoot
 
 [gate_gnomeball_game]
 name=Gate

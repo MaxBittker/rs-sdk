@@ -64,7 +64,6 @@ if (stat(thieving) < 25) {
     return;
 }
 
-// TODO: we need to investigate this success rate a bit, for now this is the warrior woman success rate
 if(stat_random(thieving, 100, 240) = false) {
     npc_say("What do you think you're doing?");
     mes("You fail to pick the workman's pocket.");

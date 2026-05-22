@@ -1,4 +1,43 @@
 [opnpc1,king_lathas]
+if(%regicide_quest > ^regicide_not_started) {
+    switch_int(%regicide_quest) {
+        case ^regicide_complete :
+            ~chatplayer("<p,neutral>Good day my lord.");
+            ~chatnpc("<p,neutral>Hello <displayname()>. I've got nothing for you right now.");
+        case ^regicide_killed_tyras, ^regicide_spoken_iorwerth2, ^regicide_spoken_arianwyn :
+            ~chatplayer("<p,happy>My lord, Tyras is dead!");
+            ~chatnpc("<p,happy>This is grand news indeed! You'll forgive me if I'm a little apprehensive about this, but I take it you do have proof?");
+            if(inv_total(inv, regicide_iorwerth_message) = 0 | %regicide_quest < ^regicide_spoken_arianwyn) {
+                ~chatplayer("<p,sad>No I have nothing to corroborate this.");
+                ~chatnpc("<p,neutral>I am sure you have done as you say, but on this matter I can afford no doubts. You must find something to confirm your story.");
+                ~chatplayer("<p,neutral>I'll see what I can do"); // no period
+                return;
+            }
+            ~chatplayer("<p,neutral>Yes, I have a letter sent by Lord Iorwerth.");
+            ~objbox(regicide_iorwerth_message, "You hand the king the message. He looks at the seal then opens it.", 250, 0, 0);
+            inv_del(inv, regicide_iorwerth_message, 1);
+            queue(quest_regicide_complete, 0, 0);
+            ~chatnpc("<p,neutral>Yes... Good... This will do nicely. Well done, You're really proving to be quite useful. I'll send word when I next require your services. Oh and I guess you'll be wanting your reward.");
+        case ^regicide_entered_camp, ^regicide_spoken_iorwerth2 :
+            ~chatplayer("<p,happy>Goodday my lord."); // authentic typo
+            ~chatnpc("<p,neutral>Ah... <displayname()> how goes your exploration? Any luck finding my brother in the west lands?");
+            ~chatplayer("<p,neutral>I have tracked him down, but I've yet to deal with him.");
+            ~chatnpc("<p,neutral>What are you doing here then? I'm counting on you <displayname()>.");
+            ~chatplayer("<p,neutral>Yes my lord.");
+        case default :
+            ~chatplayer("<p,neutral>My Liege. What must I do again?");
+            ~chatnpc("<p,neutral>In short you must use the underpass to enter|the west lands, kill my brother Tyras, find an easy|route home and finally return back here, to report.|And don't worry, you will be well rewarded.");
+        case ^regicide_received_message :
+            ~chatplayer("<p,neutral>I received your message my Liege. How may I serve the kingdom?");
+            ~chatnpc("<p,neutral>Ahh.. <displayname()>. Yes... We have finally finished the work on the Well of Voyage. It is now time for us to move against my brother.");
+            ~chatnpc("<p,neutral>I've managed to get a letter through to the elves|that live to the west. They informed me that Tyras|and his brigands are camped up in the|woods to the South of their city.");
+            ~chatnpc("<p,neutral>The elves have agreed to help, however they have their battles to fight. Unfortunately the men at arms I promised you are unavailable but I have faith that you'll get the job done.");
+            ~chatnpc("<p,neutral>Finally and most importantly you must find an easy way to the west lands. We cannot use the well as a trade route, and certainly cannot move any bulk of troops through there.");
+            %regicide_quest = ^regicide_spoken_lathas;
+            ~chatnpc("<p,neutral>In short you must use the underpass to enter|the west lands, kill my brother Tyras, find an easy|route home and finally return back here, to report.|And don't worry, you will be well rewarded.");
+    }
+    return;
+}
 if(%biohazard = ^biohazard_reported_elena) {
     ~chatplayer("<p,quiz>I assume that you are the King of East Ardougne?");
     ~chatnpc("<p,angry>You assume correctly, but where do you get such impertinence.");

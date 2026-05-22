@@ -276,6 +276,3 @@ stat_advance(smithing, 50000);
 session_log(^log_adventure, "Quest complete: Elemental Workshop");
 // todo: find image for proof on sizing
 ~send_quest_complete(questlist:elemental_workshop, elemental_shield, 250, ^elemental_workshop_questpoints, "You have completed the\\nElemental Workshop Quest!");
-
-[debugproc,tew]
-queue(elemental_workshop_quest_complete, 0, 0);

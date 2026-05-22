@@ -1,0 +1,120 @@
+[opnpc1,viking_clothing_shopkeeper]
+def_int $op;
+if(%viking = ^viking_complete) {
+    ~chatnpc("<p,neutral>Hi. You wanted to buy some clothes? Or did you want to makeover your shoes?");
+    $op = ~p_choice3("I'd like to buy some clothes", 1, "I'd like to change my shoes", 2, "Neither thanks", 3);
+    switch_int($op) {
+        case 1 : ~openshop_activenpc;
+        case 2 :
+            // chisel dialogue, confirm for 2004
+            ~chatnpc("<p,neutral>It costs 500 coins to change your shoe colour. Just select what colour you would like from this catalogue, and then give me the 500 gold when you've picked.");
+            if(inv_total(inv, coins) < 500) {
+                ~chatplayer("<p,sad>I don't have 500 gold on me...");
+                ~chatnpc("<p,neutral>That's ok! Just come back when you do have it!");
+                return;
+            }
+            %if1 = 0;
+            if_openmain(shoestore);
+            if_setobject(shoestore:shoe1, dummy_shoe1, 200);
+            if_setobject(shoestore:shoe2, dummy_shoe2, 200);
+            if_setobject(shoestore:shoe3, dummy_shoe3, 200);
+            if_setobject(shoestore:shoe4, dummy_shoe4, 200);
+            if_setobject(shoestore:shoe5, dummy_shoe5, 200);
+            if_setobject(shoestore:shoe6, dummy_shoe6, 200);
+        case 3 :
+            ~chatplayer("<p,neutral>Neither thanks.");
+            ~chatnpc("<p,neutral>As you wish.");
+    }
+} else if(%viking = ^viking_not_started) {
+    ~chatplayer("<p,neutral>Hello!");
+    ~chatnpc("<p,neutral>I'm sorry outerlander, I cannot sell you any clothes. Our customs forbid it.");
+} else if(%viking < ^viking_complete) {
+    if(~get_viking_sigmund_progress > ^sigmund_not_started & ~get_viking_sigmund_progress < ^sigmund_complete) {
+        $op = ~p_choice2("Ask about the Merchant's trial", 1, "Ask about becoming a Fremennik", 2);
+        if($op = 1) @viking_clothing_merchant;
+    }
+    ~chatplayer("<p,quiz>Are you a member of the council of elders?");
+    ~chatnpc("<p,neutral>No, sorry, I'm not. Best look elsewhere outerlander.");
+    ~chatplayer("<p,neutral>Okay, thanks.");
+}
+
+[label,viking_clothing_merchant]
+if(inv_total(inv, viking_promissary_note) > 0) {
+    ~chatplayer("<p,happy>Hello. Can I have those boots now? Here is a written statement from Brundt outlining future tax burdens upon Fremennik merchants and shopkeepers for the year.");
+    inv_del(inv, viking_promissary_note, 1);
+    inv_add(inv, viking_new_boots, 1);
+    ~chatnpc("<p,neutral>Certainly! Let me have a look at what he has written here, just give me a moment...");
+    ~chatnpc("<p,neutral>Yes, that all appears in order. Tell Olaf to come to me next time for shoes!");
+    return;
+}
+if(inv_total(inv, viking_new_boots) > 0) {
+    ~chatplayer("<p,neutral>Hey, these shoes look pretty comfy. Think you could make me a pair like them?");
+    ~chatnpc("<p,neutral>Maybe if you pass your trial and become a full fledged member of the Fremennik...");
+    return;
+}
+switch_int(~get_viking_sigmund_progress) {
+    case ^sigmund_spoke_yrsa :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Yes I do outerlander. Only the Chieftain may permit such a thing. Talk to him.");
+    case ^sigmund_spoke_olaf :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>Well, I don't usually have many shoes in stock here in my little clothes shop... I will be able to make you up a pair if you are really desperate though?");
+        ~chatplayer("<p,neutral>They're not for me... I need them for Olaf.");
+        ~chatnpc("<p,neutral>Oh, that foolish bard... Why didn't he just ask me to make him some? It is his stupid pride, I believe!");
+        ~chatnpc("<p,neutral>I will tell you what I will do outerlander; I know that you must have the ear of the chieftain for him to consider you as worthy of becoming a Fremennik by trial.");
+        ~set_viking_sigmund_progress(^sigmund_spoke_yrsa);
+        ~chatnpc("<p,neutral>I will make you a pair of sturdy boots for Olaf if you will persuade him to reduce the sales tax placed upon all Fremennik shopkeepers. It does nothing but hurt my business now.");
+        ~chatplayer("<p,neutral>Okay, I will see what I can do.");
+    case default :
+        ~chatplayer("<~merchant_question_text>");
+        ~chatnpc("<p,neutral>No... sorry, I don't.");
+}
+
+[opnpc3,viking_clothing_shopkeeper]
+if(%viking < ^viking_complete) {
+    mes("Only Fremenniks may buy clothes here.");
+    return;
+}
+~openshop_activenpc;
+
+[if_button,shoestore:brown]
+%if1 = 1;
+
+[if_button,shoestore:khaki]
+%if1 = 2;
+
+[if_button,shoestore:ashen]
+%if1 = 3;
+
+[if_button,shoestore:dark]
+%if1 = 4;
+
+[if_button,shoestore:terracotta]
+%if1 = 5;
+
+[if_button,shoestore:grey]
+%if1 = 6;
+
+[if_button,shoestore:confirm]
+if (%if1 = 0) {
+    mes("You must make a selection."); // guess based of thessalia
+    return;
+}
+if_close;
+def_int $color = calc(%if1 - 1);
+setidkcolour(^idk_colour_boots, $color);
+buildappearance(worn);
+inv_del(inv, coins, 500);
+def_int $rand = random(4);
+if (npc_find(coord, viking_clothing_shopkeeper, 5, 0) = true) {
+    if ($rand = 0) {
+        ~chatnpc("<p,neutral>I think they suit you!");
+    } else if ($rand = 1) {
+        ~chatnpc("<p,neutral>Hey! They look great!");
+    } else if ($rand = 2) {
+        ~chatnpc("<p,neutral>Nice choice!");
+    } else if ($rand = 3) {
+        ~chatnpc("<p,neutral>Good call!");
+    }
+}
+~chatplayer("<p,happy>Thanks!");

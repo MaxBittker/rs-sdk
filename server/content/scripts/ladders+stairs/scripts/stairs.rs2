@@ -374,8 +374,11 @@ switch_coord (loc_coord) {
 p_arrivedelay;
 // 0 43 29: 2616 10 2
 switch_coord (loc_coord) {
-    case 0_48_52_43_29 : p_telejump(0_48_152_5_43); // draynor manor stairs to the vampire
-    case default : @unhandled_stairs(loc_coord);
+    case 0_48_52_43_29 : // draynor manor stairs to the vampire // https://youtu.be/JmlR1NcDkGI?si=vd58QL7jZd1weQAi&t=168
+        p_telejump(0_48_152_5_43);
+        mes("You walk down the stairs...");
+    case default : @unhandled_stairs(loc_coord);     
+
 }
 
 [oploc1,cryptstairsup]
@@ -413,6 +416,68 @@ switch_coord (loc_coord) {
     case 1_43_49_44_60 : p_telejump(0_43_49_44_58); // Brimhaven house
     case 1_43_49_7_60 : p_telejump(0_43_49_7_63); // Brimhaven house
     case 1_42_54_62_55 : p_telejump(0_42_54_62_53); // Camelot castle
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,board_game_stairs_top]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 1_34_77_31_7 : p_telejump(0_34_77_31_10);
+    case 1_34_77_36_14 : p_telejump(0_34_77_36_12);
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,board_game_stairs_top2]
+// arrive delay?
+switch_coord (loc_coord) {
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,board_game_stairs_base]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 0_34_77_31_7 : p_telejump(1_34_77_31_6);
+    case 0_34_77_36_13 : p_telejump(1_34_77_36_16);
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,board_game_stairs_base2]
+// arrive delay?
+switch_coord (loc_coord) {
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,board_game_stairs_grey_all]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 0_45_55_19_46 : 
+        def_int $randomZ = random(2);
+        def_int $randomX = ~random_range(-1, 1);
+        p_telejump(movecoord(1_34_77_30_5, $randomX, 0, $randomZ));
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,board_game_stairs_grey_top]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 1_45_55_17_47 : p_telejump(0_45_55_17_45);
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,board_game_stairs_grey_base]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 0_45_55_17_46 : p_telejump(1_45_55_17_49);
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,board_game_stairs_grey_base2]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 1_34_77_29_7 : 
+        def_int $randomZ = random(2);
+        def_int $randomX = ~random_range(-1, 1);
+        p_telejump(movecoord(0_45_55_19_44, $randomX, 0, $randomZ));
     case default : @unhandled_stairs(loc_coord);
 }
 

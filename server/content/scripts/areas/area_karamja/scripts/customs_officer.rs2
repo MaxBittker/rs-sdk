@@ -10,7 +10,7 @@
 ~chatplayer("<p,quiz>Can I journey on this ship?");
 
 if (%hunt >= 2) {
-    if (inv_total(inv, karamja_rum) > 0) {
+    if (inv_total(inv, karamja_rum) > 0 | inv_total(inv, tbwt_sliced_banana_in_karamja_rum) > 0) {
         @customs_spot_inspection;
     }
 
@@ -30,6 +30,7 @@ if (%hunt >= 2) {
 ~chatplayer("<p,shifty>Umm... it's for personal use?");
 
 inv_del(inv, karamja_rum, 28);
+inv_del(inv, tbwt_sliced_banana_in_karamja_rum, 28);
 mes("The customs officer confiscates your rum.");
 
 [label,customs_why]
@@ -44,11 +45,12 @@ mes("The customs officer confiscates your rum.");
 [label,customs_search]
 ~chatplayer("<p,happy>Search away, I have nothing to hide.");
 
-if (inv_total(inv, karamja_rum) > 0) {
+if (inv_total(inv, karamja_rum) > 0 | inv_total(inv, tbwt_sliced_banana_in_karamja_rum) > 0) {
     ~chatnpc("<p,neutral>Aha, trying to smuggle rum are we?");
     ~chatplayer("<p,shifty>Umm... it's for personal use?");
 
     inv_del(inv, karamja_rum, 28);
+    inv_del(inv, tbwt_sliced_banana_in_karamja_rum, 28);
     mes("The customs officer confiscates your rum.");
     mes("You will need to find some way to smuggle it off the island...");
     return;

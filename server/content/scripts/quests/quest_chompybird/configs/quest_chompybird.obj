@@ -74,6 +74,7 @@ iop4=Release All
 iop5=Release
 tradeable=no
 param=unbankable,^true
+param=destroy_drop,^true
 
 [raw_chompy]
 name=Raw chompy

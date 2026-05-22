@@ -1,0 +1,36 @@
+// [karamja_fishrestaurant]
+// size=6
+
+// https://web.archive.org/web/20060415002448/http://kbase.runescape.com/lang/en/aff/runescape/viewarticle.ws?article_id=2379
+//todo: Restock rates in '04?
+[razmiregeneralstore]
+size=40
+scope=shared
+restock=yes
+stackall=yes
+allstock=yes
+stock1=pot_empty,3,100
+stock2=jug_empty,2,100
+stock3=shears,2,100
+stock4=bucket_empty,2,100
+stock5=tinderbox,2,100
+stock6=chisel,2,100
+stock7=hammer,5,100
+stock8=oliveoil3,150,10
+stock9=vial_water,100,100
+stock10=pot_flour,100,10
+stock11=flamtaer_hammer,3,10
+
+//swamp paste increase to 1500 was https://runescape.wiki/w/Update:Patch_Notes_(2_November_2010)
+//https://i.imgur.com/BaNh2A5.jpeg November 2004
+//https://cdn.discordapp.com/attachments/1126857544523063367/1475494644514164868/image.png?ex=699db0f8&is=699c5f78&hm=a768779c45a6a7e5e302535a6833a87f832d133f215224d41d403d4e717c9aaa& Sometime After April 2005 Before May 06
+//todo: Restock rates in '04?
+[razmirebuildingstore]
+size=3
+scope=shared
+restock=yes
+stackall=yes
+allstock=no
+stock1=woodplank,1000,1000
+stock2=limestonebrick,1000,10
+stock3=swamppaste,1000,10

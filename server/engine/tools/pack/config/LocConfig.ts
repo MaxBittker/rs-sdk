@@ -38,7 +38,7 @@ export function parseLocConfig(key: string, value: string): ConfigValue | null |
         'name', 'desc',
         'op1', 'op2', 'op3', 'op4', 'op5',
         // defer parsing to packing stage:
-        'model', 'model2', 'model3', 'model4',
+        'model', 'model2', 'model3', 'model4', 'model5',
     ];
     // prettier-ignore
     const numberKeys = [

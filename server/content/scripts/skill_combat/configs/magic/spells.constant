@@ -54,6 +54,7 @@
 ^charge = 40
 ^ardougne_teleport = 49
 ^lumbridge_teleport = 50
+^trollheim_teleport = 52
 
 // npc spells
 ^skeleton_mage_attack = 100

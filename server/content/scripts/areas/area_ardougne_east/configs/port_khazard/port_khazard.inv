@@ -19,4 +19,4 @@ stock9=rope,30,20
 stock10=pot_flour,30,100
 stock11=bucket_bailing,30,100
 stock12=swamppaste,500,10
-stock13=knife,2,100
+// stock13=knife,2,100      //Try to find out when the knife was added to the store.

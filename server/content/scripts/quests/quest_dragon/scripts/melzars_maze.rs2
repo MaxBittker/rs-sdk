@@ -8,7 +8,7 @@ mes("The door is securely locked.");
 //     mes("The door is securely locked.");
 //     return;
 // }
-// ~open_and_close_door(loc_1535, $entering, false);
+// ~open_and_close_door(poordoor, $entering, false);
 
 [oplocu,melzardoor] // https://youtu.be/tmPf68hogzw?t=54
  if (last_useitem = melzarkey) {

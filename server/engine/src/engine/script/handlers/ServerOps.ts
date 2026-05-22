@@ -1,4 +1,4 @@
-import { LocLayer, LocAngle } from '@2004scape/rsmod-pathfinder';
+import { LocLayer, LocAngle } from '#/engine/routefinder/index.js';
 
 import SpotanimType from '#/cache/config/SpotanimType.js';
 import { CoordGrid } from '#/engine/CoordGrid.js';
@@ -10,6 +10,7 @@ import ScriptState from '#/engine/script/ScriptState.js';
 import { check, CoordValid, LocTypeValid, NumberPositive, SeqTypeValid, SpotAnimTypeValid, FindSquareValid } from '#/engine/script/ScriptValidators.js';
 import World from '#/engine/World.js';
 import Environment from '#/util/Environment.js';
+import Midi from '#/cache/midi/Midi.js';
 
 const ServerOps: CommandHandlers = {
     [ScriptOpcode.MAP_CLOCK]: state => {
@@ -17,11 +18,11 @@ const ServerOps: CommandHandlers = {
     },
 
     [ScriptOpcode.MAP_MEMBERS]: state => {
-        state.pushInt(Environment.NODE_MEMBERS ? 1 : 0);
+        state.pushInt(Environment.node.members ? 1 : 0);
     },
 
     [ScriptOpcode.MAP_LIVE]: state => {
-        state.pushInt(Environment.NODE_PRODUCTION ? 1 : 0);
+        state.pushInt(Environment.node.production ? 1 : 0);
     },
 
     [ScriptOpcode.MAP_PLAYERCOUNT]: state => {
@@ -73,7 +74,7 @@ const ServerOps: CommandHandlers = {
             return;
         }
 
-        if (!Environment.NODE_MEMBERS && !World.gameMap.isFreeToPlay(to.x, to.z)) {
+        if (!Environment.node.members && !World.gameMap.isFreeToPlay(to.x, to.z)) {
             state.pushInt(0);
             return;
         }
@@ -129,7 +130,7 @@ const ServerOps: CommandHandlers = {
     [ScriptOpcode.MAP_BLOCKED]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
-        if (!Environment.NODE_MEMBERS && !World.gameMap.isFreeToPlay(coord.x, coord.z)) {
+        if (!Environment.node.members && !World.gameMap.isFreeToPlay(coord.x, coord.z)) {
             state.pushInt(1);
             return;
         }
@@ -153,7 +154,7 @@ const ServerOps: CommandHandlers = {
             return;
         }
 
-        if (!Environment.NODE_MEMBERS && !World.gameMap.isFreeToPlay(to.x, to.z)) {
+        if (!Environment.node.members && !World.gameMap.isFreeToPlay(to.x, to.z)) {
             state.pushInt(0);
             return;
         }
@@ -211,40 +212,57 @@ const ServerOps: CommandHandlers = {
 
     [ScriptOpcode.MAP_LOCADDUNSAFE]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
+        // check south and west neighboring zones for big locs that bleed over...
+        // Maybe theres a smarter way to do this?
+        for (let x = -8; x <= 0; x += 8) {
+            for (let z = -8; z <= 0; z += 8) {
+                for (const loc of World.gameMap.getZone(coord.x + x, coord.z + z, coord.level).getAllLocsUnsafe()) {
+                    const type = check(loc.type, LocTypeValid);
 
-        for (const loc of World.gameMap.getZone(coord.x, coord.z, coord.level).getAllLocsUnsafe()) {
-            const type = check(loc.type, LocTypeValid);
+                    if (type.active !== 1) {
+                        continue;
+                    }
 
-            if (type.active !== 1) {
-                continue;
-            }
-
-            const layer = loc.layer;
-
-            if (!loc.isActive && layer === LocLayer.WALL) {
-                continue;
-            }
-
-            if (layer === LocLayer.WALL) {
-                if (loc.x === coord.x && loc.z === coord.z) {
-                    state.pushInt(1);
-                    return;
-                }
-            } else if (layer === LocLayer.GROUND) {
-                const width = loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH ? loc.length : loc.width;
-                const length = loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH ? loc.width : loc.length;
-                for (let index = 0; index < width * length; index++) {
-                    const deltaX = loc.x + (index % width);
-                    const deltaZ = loc.z + ((index / width) | 0);
-                    if (deltaX === coord.x && deltaZ === coord.z) {
-                        state.pushInt(1);
-                        return;
+                    if (!loc.isActive && loc.layer === LocLayer.WALL) {
+                        continue;
+                    }
+                    const width = loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH ? loc.length : loc.width;
+                    const length = loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH ? loc.width : loc.length;
+                    for (let index = 0; index < width * length; index++) {
+                        const deltaX = loc.x + (index % width);
+                        const deltaZ = loc.z + ((index / width) | 0);
+                        if (deltaX === coord.x && deltaZ === coord.z) {
+                            state.pushInt(1);
+                            return;
+                        }
                     }
                 }
-            } else if (layer === LocLayer.GROUND_DECOR) {
-                if (loc.x === coord.x && loc.z === coord.z) {
-                    state.pushInt(1);
-                    return;
+            }
+        }
+        state.pushInt(0);
+    },
+
+    [ScriptOpcode.MAP_LOC]: state => {
+        const coord: CoordGrid = check(state.popInt(), CoordValid);
+        for (let x = -8; x <= 0; x += 8) {
+            for (let z = -8; z <= 0; z += 8) {
+                for (const loc of World.gameMap.getZone(coord.x + x, coord.z + z, coord.level).getAllLocsSafe()) {
+                    const type = check(loc.type, LocTypeValid);
+
+                    if (type.active !== 1) {
+                        continue;
+                    }
+
+                    const width = loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH ? loc.length : loc.width;
+                    const length = loc.angle === LocAngle.NORTH || loc.angle === LocAngle.SOUTH ? loc.width : loc.length;
+                    for (let index = 0; index < width * length; index++) {
+                        const deltaX = loc.x + (index % width);
+                        const deltaZ = loc.z + ((index / width) | 0);
+                        if (deltaX === coord.x && deltaZ === coord.z) {
+                            state.pushInt(1);
+                            return;
+                        }
+                    }
                 }
             }
         }
@@ -257,7 +275,7 @@ const ServerOps: CommandHandlers = {
         check(maxRadius, NumberPositive);
         check(type, FindSquareValid);
         const origin: CoordGrid = check(coord, CoordValid);
-        const freeWorld = !Environment.NODE_MEMBERS;
+        const freeWorld = !Environment.node.members;
         if (maxRadius < 10) {
             if (type === MapFindSquareType.NONE) {
                 for (let i = 0; i < 50; i++) {
@@ -377,6 +395,12 @@ const ServerOps: CommandHandlers = {
         const coord = state.popInt();
 
         state.pushInt(World.gameMap.isMulti(coord) ? 1 : 0);
+    },
+
+    [ScriptOpcode.MIDI_LENGTH]: state => {
+        const track = state.popInt();
+
+        state.pushInt(Midi.getTickLength(track));
     }
 };
 

@@ -34,8 +34,7 @@ cost=120
 weight=250g
 category=gnome_premade_and_toadlegs_kingworm
 
-// rename: premade_cheese+tom_batta
-[premade_cheese_tom_batta]
+[premade_cheese+tom_batta]
 name=Cheese+tom batta
 desc=This smells really good.
 model=model_2803_obj
@@ -209,8 +208,7 @@ iop1=Eat
 weight=250g
 members=yes
 
-// rename: unfinished_cheese+tom_batta
-[unfinished_cheese_tom_batta]
+[unfinished_cheese+tom_batta]
 name=Unfinished batta
 desc=This batta is just missing those little finishing touches.
 category=gnome_unf_odd_batta
@@ -227,8 +225,7 @@ weight=250g
 members=yes
 param=gnome_cooking_type,3
 
-// rename: cheese+tom_batta
-[cheese_tom_batta]
+[cheese+tom_batta]
 category=gnome_batta
 cost=2
 name=Cheese+tom batta

@@ -1,0 +1,38 @@
+[ai_queue1,regicide_darkelf] ~npc_default_retaliate_ap;
+[ai_opplayer2,regicide_darkelf] npc_setmode(applayer2);
+[ai_applayer2,regicide_darkelf] ~npc_rangeattack;
+
+[ai_queue1,regicide_darkelf2] ~npc_default_retaliate_ap;
+[ai_opplayer2,regicide_darkelf2] npc_setmode(applayer2);
+[ai_applayer2,regicide_darkelf2] gosub(npc_default_attack);
+
+[ai_queue3,_elf_warrior]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+
+~trail_hardcluedrop(128, npc_coord);
+
+def_int $random = random(128);
+
+if ($random < 4) obj_add(npc_coord, dragonhide_body, 1, ^lootdrop_duration);
+else if ($random < 7) obj_add(npc_coord, dragonhide_chaps, 1, ^lootdrop_duration);
+else if ($random < 9) obj_add(npc_coord, mithril_spear, 1, ^lootdrop_duration);
+else if ($random < 10) obj_add(npc_coord, mithril_kiteshield, 1, ^lootdrop_duration);
+else if ($random < 11) obj_add(npc_coord, adamant_full_helm, 1, ^lootdrop_duration);
+else if ($random < 12) obj_add(npc_coord, rune_dagger, 1, ^lootdrop_duration);
+else if ($random < 20) obj_add(npc_coord, waterrune, 70, ^lootdrop_duration);
+else if ($random < 25) obj_add(npc_coord, naturerune, 12, ^lootdrop_duration);
+else if ($random < 28) obj_add(npc_coord, lawrune, 2, ^lootdrop_duration);
+else if ($random < 31) obj_add(npc_coord, firerune, 37, ^lootdrop_duration);
+else if ($random < 46) obj_add(npc_coord, ~randomherb, ^lootdrop_duration);
+else if ($random < 75) obj_add(npc_coord, coins, 44, ^lootdrop_duration);
+else if ($random < 85) obj_add(npc_coord, coins, 180, ^lootdrop_duration);
+else if ($random < 90) obj_add(npc_coord, coins, 20, ^lootdrop_duration);
+else if ($random < 93) obj_add(npc_coord, bass, 1, ^lootdrop_duration);
+else if ($random < 96) obj_add(npc_coord, shark, 1, ^lootdrop_duration);
+else if ($random < 97) obj_add(npc_coord, adamantite_ore, 1, ^lootdrop_duration);
+else if ($random < 102) obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);

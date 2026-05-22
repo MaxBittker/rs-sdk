@@ -58,6 +58,13 @@ async function applyTerser(script: BunOutput): Promise<boolean> {
         },
         mangle: {
             nth_identifier: nth_identifier
+            // rs-sdk: property mangling intentionally disabled. The bot framework accesses
+            // many client members by their original names from outside the bundle
+            // (bot.ejs auto-login: client.autoLogin / client.lastProgressPercent /
+            // client.setTargetedFramerate, the Puppeteer harness: randomizeCharacterDesign /
+            // acceptCharacterDesign, plus the WASM/midi glue). 274 upstream enabled property
+            // mangling with a reserved list tuned only for the standalone client, which breaks
+            // those external accesses. Leaving properties unmangled keeps everything addressable.
         }
     });
 
@@ -103,7 +110,8 @@ const buildsToRun = builds.filter(b => buildMode === 'both' || buildMode === b.n
 
 const entrypoints = [
     'src/client/Client.ts',
-    'src/mapview/MapView.ts'
+    'src/mapview/MapView.ts',
+    'src/io/OnDemandWorker.ts'
 ];
 
 for (const buildConfig of buildsToRun) {

@@ -8,8 +8,6 @@ import CamMoveToEncoder from '#/network/game/server/codec/CamMoveToEncoder.js';
 import CamResetEncoder from '#/network/game/server/codec/CamResetEncoder.js';
 import CamShakeEncoder from '#/network/game/server/codec/CamShakeEncoder.js';
 import ChatFilterSettingsEncoder from '#/network/game/server/codec/ChatFilterSettingsEncoder.js';
-import EnableTrackingEncoder from '#/network/game/server/codec/EnableTrackingEncoder.js';
-import FinishTrackingEncoder from '#/network/game/server/codec/FinishTrackingEncoder.js';
 import HintArrowEncoder from '#/network/game/server/codec/HintArrowEncoder.js';
 import IfCloseEncoder from '#/network/game/server/codec/IfCloseEncoder.js';
 import IfOpenChatEncoder from '#/network/game/server/codec/IfOpenChatEncoder.js';
@@ -76,8 +74,6 @@ import CamMoveTo from '#/network/game/server/model/CamMoveTo.js';
 import CamReset from '#/network/game/server/model/CamReset.js';
 import CamShake from '#/network/game/server/model/CamShake.js';
 import ChatFilterSettings from '#/network/game/server/model/ChatFilterSettings.js';
-import EnableTracking from '#/network/game/server/model/EnableTracking.js';
-import FinishTracking from '#/network/game/server/model/FinishTracking.js';
 import HintArrow from '#/network/game/server/model/HintArrow.js';
 import IfClose from '#/network/game/server/model/IfClose.js';
 import IfOpenChat from '#/network/game/server/model/IfOpenChat.js';
@@ -145,6 +141,8 @@ import SetPlayerOp from '#/network/game/server/model/SetPlayerOp.js';
 import SetPlayerOpEncoder from '#/network/game/server/codec/SetPlayerOpEncoder.js';
 import FriendlistLoaded from '#/network/game/server/model/FriendlistLoaded.js';
 import FriendlistLoadedEncoder from '#/network/game/server/codec/FriendlistLoadedEncoder.js';
+import MinimapToggle from '#/network/game/server/model/MinimapToggle.js';
+import MinimapToggleEncoder from '#/network/game/server/codec/MinimapToggleEncoder.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type GenericOutgoingMessage<T extends ServerGameMessage> = new (...args: any[]) => T;
@@ -173,8 +171,6 @@ class ServerGameProtRepository {
         this.bind(CamReset, new CamResetEncoder());
         this.bind(CamShake, new CamShakeEncoder());
         this.bind(ChatFilterSettings, new ChatFilterSettingsEncoder());
-        this.bind(EnableTracking, new EnableTrackingEncoder());
-        this.bind(FinishTracking, new FinishTrackingEncoder());
         this.bind(HintArrow, new HintArrowEncoder());
         this.bind(IfClose, new IfCloseEncoder());
         this.bind(IfOpenChat, new IfOpenChatEncoder());
@@ -207,6 +203,7 @@ class ServerGameProtRepository {
         this.bind(MessagePublic, new MessagePublicEncoder());
         this.bind(MidiJingle, new MidiJingleEncoder());
         this.bind(MidiSong, new MidiSongEncoder());
+        this.bind(MinimapToggle, new MinimapToggleEncoder());
         this.bind(NpcInfo, new NpcInfoEncoder());
         this.bind(ObjAdd, new ObjAddEncoder());
         this.bind(ObjCount, new ObjCountEncoder());

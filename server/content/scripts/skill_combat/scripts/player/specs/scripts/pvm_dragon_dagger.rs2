@@ -17,11 +17,12 @@ def_int $damage = 0;
 def_int $maxhit = scale(115, 100, %com_maxhit); // 15% bonus damage
 def_int $attackroll = scale(115, 100, ~player_attack_roll_specific(%damagetype)); // 15% bonus accuracy
 def_int $defenceroll = ~npc_defence_roll_specific(^slash_style);
+if(npc_type = tbwt_beast) $attackroll = 0;
 if (randominc($attackroll) > randominc($defenceroll)) {
     if (npc_type = count_draynor & inv_total(inv, garlic) > 0) {
         $maxhit = add($maxhit, 1);
     }
-    $damage = randominc(min($maxhit, npc_param(max_dealt)));
+    $damage = randominc(~npc_max_dealt($maxhit, 0));
     def_int $damage_capped = min($damage, npc_stat(hitpoints));
     ~give_combat_experience(%damagestyle, $damage_capped, %npc_combat_xp_multiplier);
     npc_heropoints($damage_capped);

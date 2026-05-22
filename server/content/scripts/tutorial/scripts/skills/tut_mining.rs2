@@ -27,7 +27,7 @@ if (%tutorial = ^newbie_mining_instructor_mining_start) {
 }
 
 if (%tutorial = ^newbie_mining_instructor_minted_copper_first) {
-    %tutorial = ^newbie_mining_instructor_before_smelt_bronze_bar;;
+    %tutorial = ^newbie_mining_instructor_before_smelt_bronze_bar;
 }
 ~set_tutorial_progress;
 inv_add(inv, tin_ore, 1);

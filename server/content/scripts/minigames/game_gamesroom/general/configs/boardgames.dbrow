@@ -1,0 +1,4 @@
+[games_room_zones]
+table=coord_pair_table
+data=coord_pair,0_34_77_0_0,0_34_77_63_63
+data=coord_pair,1_34_77_0_0,1_34_77_63_63

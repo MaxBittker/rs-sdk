@@ -165,12 +165,11 @@ export default class Packet extends Linkable2 {
         return result;
     }
 
-    gsmart(): number {
+    gsmarts(): number {
         return this.view.getUint8(this.pos) < 0x80 ? this.g1() - 0x40 : this.g2() - 0xc000;
     }
 
-    // signed
-    gsmarts(): number {
+    gsmart(): number {
         return this.view.getUint8(this.pos) < 0x80 ? this.g1() : this.g2() - 0x8000;
     }
 
@@ -190,7 +189,7 @@ export default class Packet extends Linkable2 {
         this.pos += length;
     }
 
-    pIsaac(opcode: number): void {
+    p1Enc(opcode: number): void {
         this.view.setUint8(this.pos++, (opcode + (this.random?.nextInt ?? 0)) & 0xff);
     }
 
@@ -238,20 +237,20 @@ export default class Packet extends Linkable2 {
         view.setUint8(this.pos++, 10);
     }
 
-    pdata(src: Uint8Array, length: number, offset: number): void {
+    pdata(src: Uint8Array, offset: number, length: number): void {
         this.data.set(src.subarray(offset, offset + length), this.pos);
-        this.pos += length - offset;
+        this.pos += length;
     }
 
     psize1(size: number): void {
         this.view.setUint8(this.pos - size - 1, size);
     }
 
-    bits(): void {
+    gBitStart(): void {
         this.bitPos = this.pos << 3;
     }
 
-    bytes(): void {
+    gBitEnd(): void {
         this.pos = (this.bitPos + 7) >>> 3;
     }
 
@@ -288,6 +287,6 @@ export default class Packet extends Linkable2 {
 
         this.pos = 0;
         this.p1(rawEnc.length);
-        this.pdata(rawEnc, rawEnc.length, 0);
+        this.pdata(rawEnc, 0, rawEnc.length);
     }
 }

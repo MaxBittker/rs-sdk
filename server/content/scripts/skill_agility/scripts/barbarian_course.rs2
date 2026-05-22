@@ -10,7 +10,7 @@ if(coordz(coord) < coordz($start_pos)) {
     return;
 }
 p_delay(0);
-if(stat_random(agility, 200, 260) = false) {
+if(stat_random(agility, 200, 280) = false) {
     // todo: actual rates (same for every other fail on this course)
     ~agility_instant_fail(0_39_155_54_29, calc(((stat(hitpoints) * 15) / 100) + 1), "You slip and fall to the pit below.");
     p_teleport(movecoord(coord, 1, 0, -1));
@@ -38,7 +38,7 @@ mes("You walk carefully across the slippery log...");
 ~forcemove(movecoord(coord, -2, 0, 0));
 sound_synth(log_balance, 4, 0);
 ~forcemove(movecoord(coord, -4, 0, 0));
-if(stat_random(agility, 185, 260) = false) {
+if(stat_random(agility, 180, 260) = false) {
     mes("...You lose your footing and fall into the water.");
     anim(human_walk_logbalance_stumble, 0);
     sound_synth(stumble_loop, 10, 0);
@@ -81,7 +81,7 @@ anim(human_into_sidestepl, 0);
 ~forcemove(movecoord(coord, -1, 0, 0));
 sound_synth(balancing_ledge, 2, 10);
 ~forcemove(movecoord(coord, -1, 0, 0));
-if(stat_random(agility, 210, 260) = false) {
+if(stat_random(agility, 200, 280) = false) {
     anim(human_walk_logbalance_stumble, 0);
     sound_synth(stumble_loop, 10, 0);
     mes("You slip and fall onto the spikes below.");
@@ -104,13 +104,14 @@ p_delay(0);
 stat_advance(agility, 200);
 ~update_barbarian_varp(4);
 
-[oploc1,castlecrumbly1] @climb_barbarian_crumblingwall;
-
-[label,climb_barbarian_crumblingwall]
+[oploc1,castlecrumbly1]
 if(coordx(coord) > coordx(loc_coord)) {
     mes("You cannot climb that from this side.");
     return;
 }
+@climb_barbarian_crumblingwall;
+
+[label,climb_barbarian_crumblingwall]
 mes("You climb the low wall...");
 def_coord $start = movecoord(loc_coord, -1, 0, 0);
 ~forcewalk2($start);

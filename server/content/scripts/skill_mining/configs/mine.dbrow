@@ -1,8 +1,7 @@
 [rune_essence_table]
 table=mining_table
-data=rock,loc_2491
+data=rock,blankrunestone
 data=ore_name,rune stones
-data=success_message,You manage to mine an unbound rune stone.
 data=rock_output,blankrune
 data=rock_level,1
 data=rock_exp,50
@@ -170,3 +169,34 @@ data=rock_level,1
 data=rock_exp,10
 data=rock_successchance,128,400
 data=rock_respawnrate,30
+
+[limestone_rock3]
+table=mining_table
+data=rock,loc_4027
+data=ore_name,limestone
+data=rock_output,limestone
+data=rock_level,10
+data=rock_exp,265
+data=rock_successchance,95,310
+data=rock_respawnrate,10
+
+[limestone_rock2]
+table=mining_table
+data=rock,loc_4028
+data=ore_name,limestone
+data=rock_output,limestone
+data=rock_level,10
+data=rock_exp,265
+data=rock_successchance,95,310
+data=rock_respawnrate,20
+
+[limestone_rock1]
+table=mining_table
+data=rock,loc_4029
+data=ore_name,limestone
+data=rock_output,limestone
+data=rock_level,10
+data=rock_exp,265
+data=rock_successchance,95,310
+data=rock_respawnrate,40
+

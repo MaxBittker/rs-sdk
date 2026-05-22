@@ -1,0 +1,791 @@
+[oploc1,shadelairentrancel]
+p_arrivedelay;
+if(testbit(%morttonmulti, ^mortton_unlocked_shade_lair) = ^false | ~get_shadekeys_total = 0) {
+    mes("The door seems locked. Perhaps you need a key.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+mes("You use your Shade key to unlock the door.");
+anim(human_pickuptable, 0);
+p_delay(0);
+sound_synth(iron_door_open, 0, 0);
+loc_change(shadelairdooropenl, 2);
+if (loc_find(0_54_51_28_56, shadelairentrancer) = true) {
+    loc_change(shadelairdooropenr, 2);
+}
+p_delay(0);
+p_teleport(0_54_151_37_61);
+
+[oploc1,shadelairentrancer]
+p_arrivedelay;
+if(testbit(%morttonmulti, ^mortton_unlocked_shade_lair) = ^false | ~get_shadekeys_total = 0) {
+    mes("The door seems locked. Perhaps you need a key.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+mes("You use your Shade key to unlock the door.");
+anim(human_pickuptable, 0);
+p_delay(0);
+sound_synth(iron_door_open, 0, 0);
+loc_change(shadelairdooropenr, 2);
+if (loc_find(0_54_51_29_56, shadelairentrancel) = true) {
+    loc_change(shadelairdooropenl, 2);
+}
+p_delay(0);
+p_teleport(0_54_151_37_61);
+
+[oploc1,shadelair_bronzedoor]
+switch_coord(loc_coord) {
+    case 0_54_151_37_62 : @catacombs_exit;
+    case default : @catacombs_open_door(~check_axis(coord, loc_coord, loc_angle));
+}
+
+[oploc1,shadelair_steeldoor]
+def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
+if($entering = true) {
+    if(inv_totalcat(inv, category_113) = 0 & inv_totalcat(inv, category_114) = 0 & inv_totalcat(inv, category_115) = 0) {
+        mes("You need a key to open this door.");
+        return;
+    }
+}
+@catacombs_open_door($entering);
+
+[oploc1,shadelair_blackdoor]
+def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
+if($entering = true) {
+    if(inv_totalcat(inv, category_114) = 0 & inv_totalcat(inv, category_115) = 0) {
+        mes("You need a key to open this door.");
+        return;
+    }
+}
+@catacombs_open_door($entering);
+
+[oploc1,shadelair_silverdoor]
+def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
+if($entering = true) {
+    if(inv_totalcat(inv, category_115) = 0) {
+        mes("You need a key to open this door.");
+        return;
+    }
+}
+@catacombs_open_door($entering);
+
+[label,catacombs_open_door](boolean $entering)
+if($entering = true) {
+    mes("You open the ominous tomb door.");
+} else {
+    mes("You walk back through the ominous door.");
+}
+~open_and_close_metal_gate(shadelair_doorinac, $entering, false); // uses grate sound
+
+[label,catacombs_exit]
+p_arrivedelay;
+p_walk(0_54_151_37_62);
+p_delay(0);
+mes("You make your way back out of the Shade tombs.");
+p_teleport(0_54_51_29_58);
+
+[proc,get_shadekeys_total]()(int)
+def_int $total = 0;
+$total = add($total, inv_totalcat(inv, category_112)); //bronze
+$total = add($total, inv_totalcat(inv, category_113)); //steel
+$total = add($total, inv_totalcat(inv, category_114)); //black
+$total = add($total, inv_totalcat(inv, category_115)); //silver
+return ($total);
+
+[oploc1,shadechest_bronze_bloodred]
+if (inv_total(inv, shadekey_bronze_bloodred) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a bronze key with a red trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_bronze_bloodred, 1);
+@open_shade_chest(^bronze_shadechest, ^red_shadekey);
+
+[oplocu,shadechest_bronze_bloodred]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_bronze_bloodred) {
+        mes("You need a bronze key with a red trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_bronze_bloodred, 1);
+    @open_shade_chest(^bronze_shadechest, ^red_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_bronze_brown]
+if (inv_total(inv, shadekey_bronze_brown) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a bronze key with a brown trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_bronze_brown, 1);
+@open_shade_chest(^bronze_shadechest, ^brown_shadekey);
+
+[oplocu,shadechest_bronze_brown]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_bronze_brown) {
+        mes("You need a bronze key with a brown trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_bronze_brown, 1);
+    @open_shade_chest(^bronze_shadechest, ^brown_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_bronze_crimson]
+if (inv_total(inv, shadekey_bronze_crimson) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a bronze key with a crimson trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_bronze_crimson, 1);
+@open_shade_chest(^bronze_shadechest, ^crimson_shadekey);
+
+[oplocu,shadechest_bronze_crimson]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_bronze_crimson) {
+        mes("You need a bronze key with a crimson trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_bronze_crimson, 1);
+    @open_shade_chest(^bronze_shadechest, ^crimson_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_bronze_black]
+if (inv_total(inv, shadekey_bronze_black) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a bronze key with a black trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_bronze_black, 1);
+@open_shade_chest(^bronze_shadechest, ^black_shadekey);
+
+[oplocu,shadechest_bronze_black]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_bronze_black) {
+        mes("You need a bronze key with a black trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_bronze_black, 1);
+    @open_shade_chest(^bronze_shadechest, ^black_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_bronze_purple]
+if (inv_total(inv, shadekey_bronze_purple) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a bronze key with a purple trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_bronze_purple, 1);
+@open_shade_chest(^bronze_shadechest, ^purple_shadekey);
+
+[oplocu,shadechest_bronze_purple]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_bronze_purple) {
+        mes("You need a bronze key with a purple trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_bronze_purple, 1);
+    @open_shade_chest(^bronze_shadechest, ^purple_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_steel_bloodred]
+if (inv_total(inv, shadekey_steel_bloodred) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a steel key with a red trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_steel_bloodred, 1);
+@open_shade_chest(^steel_shadechest, ^red_shadekey);
+
+[oplocu,shadechest_steel_bloodred]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_steel_bloodred) {
+        mes("You need a steel key with a red trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_steel_bloodred, 1);
+    @open_shade_chest(^steel_shadechest, ^red_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_steel_brown]
+if (inv_total(inv, shadekey_steel_brown) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a steel key with a brown trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_steel_brown, 1);
+@open_shade_chest(^steel_shadechest, ^brown_shadekey);
+
+[oplocu,shadechest_steel_brown]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_steel_brown) {
+        mes("You need a steel key with a brown trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_steel_brown, 1);
+    @open_shade_chest(^steel_shadechest, ^brown_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_steel_crimson]
+if (inv_total(inv, shadekey_steel_crimson) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a steel key with a crimson trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_steel_crimson, 1);
+@open_shade_chest(^steel_shadechest, ^crimson_shadekey);
+
+[oplocu,shadechest_steel_crimson]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_steel_crimson) {
+        mes("You need a steel key with a crimson trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_steel_crimson, 1);
+    @open_shade_chest(^steel_shadechest, ^crimson_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_steel_black]
+if (inv_total(inv, shadekey_steel_black) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a steel key with a black trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_steel_black, 1);
+@open_shade_chest(^steel_shadechest, ^black_shadekey);
+
+[oplocu,shadechest_steel_black]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_steel_black) {
+        mes("You need a steel key with a black trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_steel_black, 1);
+    @open_shade_chest(^steel_shadechest, ^black_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_steel_purple]
+if (inv_total(inv, shadekey_steel_purple) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a steel key with a purple trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_steel_purple, 1);
+@open_shade_chest(^steel_shadechest, ^purple_shadekey);
+
+[oplocu,shadechest_steel_purple]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_steel_purple) {
+        mes("You need a steel key with a purple trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_steel_purple, 1);
+    @open_shade_chest(^steel_shadechest, ^purple_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_black_bloodred]
+if (inv_total(inv, shadekey_black_bloodred) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a black key with a red trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_black_bloodred, 1);
+@open_shade_chest(^black_shadechest, ^red_shadekey);
+
+[oplocu,shadechest_black_bloodred]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_black_bloodred) {
+        mes("You need a black key with a red trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_black_bloodred, 1);
+    @open_shade_chest(^black_shadechest, ^red_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_black_brown]
+if (inv_total(inv, shadekey_black_brown) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a black key with a brown trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_black_brown, 1);
+@open_shade_chest(^black_shadechest, ^brown_shadekey);
+
+[oplocu,shadechest_black_brown]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_black_brown) {
+        mes("You need a black key with a brown trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_black_brown, 1);
+    @open_shade_chest(^black_shadechest, ^brown_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_black_crimson]
+if (inv_total(inv, shadekey_black_crimson) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a black key with a crimson trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_black_crimson, 1);
+@open_shade_chest(^black_shadechest, ^crimson_shadekey);
+
+[oplocu,shadechest_black_crimson]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_black_crimson) {
+        mes("You need a black key with a crimson trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_black_crimson, 1);
+    @open_shade_chest(^black_shadechest, ^crimson_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_black_black]
+if (inv_total(inv, shadekey_black_black) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a black key with a black trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_black_black, 1);
+@open_shade_chest(^black_shadechest, ^black_shadekey);
+
+[oplocu,shadechest_black_black]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_black_black) {
+        mes("You need a black key with a black trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_black_black, 1);
+    @open_shade_chest(^black_shadechest, ^black_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_black_purple]
+if (inv_total(inv, shadekey_black_purple) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a black key with a purple trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_black_purple, 1);
+@open_shade_chest(^black_shadechest, ^purple_shadekey);
+
+[oplocu,shadechest_black_purple]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_black_purple) {
+        mes("You need a black key with a purple trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_black_purple, 1);
+    @open_shade_chest(^black_shadechest, ^purple_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_silver_bloodred]
+if (inv_total(inv, shadekey_silver_bloodred) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a silver key with a red trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_silver_bloodred, 1);
+@open_shade_chest(^silver_shadechest, ^red_shadekey);
+
+[oplocu,shadechest_silver_bloodred]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_silver_bloodred) {
+        mes("You need a silver key with a red trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_silver_bloodred, 1);
+    @open_shade_chest(^silver_shadechest, ^red_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_silver_brown]
+if (inv_total(inv, shadekey_silver_brown) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a silver key with a brown trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_silver_brown, 1);
+@open_shade_chest(^silver_shadechest, ^brown_shadekey);
+
+[oplocu,shadechest_silver_brown]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_silver_brown) {
+        mes("You need a silver key with a brown trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_silver_brown, 1);
+    @open_shade_chest(^silver_shadechest, ^brown_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_silver_crimson]
+if (inv_total(inv, shadekey_silver_crimson) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a silver key with a crimson trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_silver_crimson, 1);
+@open_shade_chest(^silver_shadechest, ^crimson_shadekey);
+
+[oplocu,shadechest_silver_crimson]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_silver_crimson) {
+        mes("You need a silver key with a crimson trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_silver_crimson, 1);
+    @open_shade_chest(^silver_shadechest, ^crimson_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_silver_black]
+if (inv_total(inv, shadekey_silver_black) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a silver key with a black trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_silver_black, 1);
+@open_shade_chest(^silver_shadechest, ^black_shadekey);
+
+[oplocu,shadechest_silver_black]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_silver_black) {
+        mes("You need a silver key with a black trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_silver_black, 1);
+    @open_shade_chest(^silver_shadechest, ^black_shadekey);
+}
+~displaymessage(^dm_default);
+
+[oploc1,shadechest_silver_purple]
+if (inv_total(inv, shadekey_silver_purple) = 0) {
+    mes("You don't have the correct key.");
+    mes("You need a silver key with a purple trim to open this chest.");
+    sound_synth(locked, 0, 0);
+    return;
+}
+inv_del(inv, shadekey_silver_purple, 1);
+@open_shade_chest(^silver_shadechest, ^purple_shadekey);
+
+[oplocu,shadechest_silver_purple]
+def_obj $item = last_useitem;
+if (oc_category($item) = category_112 | oc_category($item) = category_113 | oc_category($item) = category_114 | oc_category($item) = category_115) {
+    if ($item ! shadekey_silver_purple) {
+        mes("You need a silver key with a purple trim to open this chest.");
+        sound_synth(locked, 0, 0);
+        return;
+    }
+    inv_del(inv, shadekey_silver_purple, 1);
+    @open_shade_chest(^silver_shadechest, ^purple_shadekey);
+}
+~displaymessage(^dm_default);
+
+[label,open_shade_chest](int $chest_tier, int $key_tier)
+def_namedobj $treasure;
+def_int $treasure_amount = 1;
+def_int $treasure_value = 0;
+def_int $coin_amount = 0;
+def_int $paste_amount = 0;
+
+switch_int($chest_tier) {
+    case ^bronze_shadechest : $paste_amount = ~random_range(5, 10);
+                         $treasure_value = ~random_range(400,600);
+                         $treasure, $treasure_amount = ~ShadebronzeDrop($key_tier);
+    case ^steel_shadechest : $paste_amount = ~random_range(15, 30);
+                         $treasure_value = ~random_range(900,1100);
+                         $treasure, $treasure_amount = ~ShadesteelDrop($key_tier);
+    case ^black_shadechest : $paste_amount = ~random_range(25, 40);
+                         $treasure_value = ~random_range(1500,2000);
+                         $treasure, $treasure_amount = ~ShadeblackDrop($key_tier);
+    case ^silver_shadechest : $paste_amount = ~random_range(25, 40);
+                         $treasure_value = ~random_range(3600,7000);
+                         $treasure, $treasure_amount = ~ShadesilverDrop($key_tier);
+
+}
+
+// https://oldschool.runescape.wiki/w/Shades_of_Mort%27ton_(minigame)#Coin_amounts
+$coin_amount = divide(sub($treasure_value,multiply(oc_cost($treasure), $treasure_amount)),3);
+
+loc_change(shadelairchestopen, 4);
+sound_synth(chest_open, 0, 0);
+
+inv_add(inv,$treasure, $treasure_amount);
+if($coin_amount < 1) {
+    ~objbox($treasure, "You find some treasure. The key strangely dissolves into the chest lock.", 200, 0, 0);
+} else {
+    inv_add(inv,coins, $coin_amount);
+    ~doubleobjbox($treasure,coins,"You find some treasure and <tostring($coin_amount)> gold coins. The key strangely dissolves into the chest lock.", 150);
+}
+
+inv_add(inv, swamppaste, $paste_amount);
+// https://youtu.be/-DIv3WwUHW0?si=L4eIKIk1jf6lFhUH&t=129 2 spaces
+~objbox(swamppaste, "You find <tostring($paste_amount)> doses of swamp paste  at the bottom of the chest.", 250, 0, 0);
+
+[proc,ShadebronzeDrop](int $key_tier)(namedobj, int)
+// https://runescape.salmoneus.net/activities/shades-of-mortton.html
+// https://www.youtube.com/watch?v=QMrg9I5lVsc
+// https://i.imgur.com/SFUHEv2.png
+// guess based on these and osrs + rs3 droptables + silver droptable leak
+def_namedobj $namedobj;
+def_int $count = 1;
+def_int $temp = add(1,sub(random(102),$key_tier));
+if($temp < 102){$namedobj=steel_axe;$count=1;}
+if($temp < 96) {$namedobj=magic_staff;$count=1;}
+if($temp < 90) {$namedobj=steel_mace;$count=1;}
+if($temp < 87) {$namedobj=silver_bar;$count=3;}
+if($temp < 81) {$namedobj=amulet_of_defence;$count=1;}
+if($temp < 74) {
+    if($temp > 71) {
+        $namedobj = ~trail_geteasyclue;
+        if($namedobj = null) $temp=add(1,sub(random(72),$key_tier));
+        else{$count=1;}
+    }
+}
+if($temp < 72) {$namedobj=black_dagger;$count=1;}
+if($temp < 66) {$namedobj=black_dagger_p;$count=1;}
+if($temp < 61) {$namedobj=mithril_dagger;$count=1;}
+if($temp < 56) {$namedobj=mithril_dagger_p;$count=1;}
+if($temp < 52) {$namedobj=steel_spear;$count=1;}
+if($temp < 48) {$namedobj=steel_spear_p;$count=1;}
+if($temp < 44) {$namedobj=steel_sword;$count=1;}
+if($temp < 40) {$namedobj=steel_scimitar;$count=1;}
+if($temp < 37) {$namedobj=black_mace;$count=1;}
+if($temp < 35) {$namedobj=black_axe;$count=1;}
+if($temp < 34) {$namedobj=steel_longsword;$count=1;}
+if($temp < 33) {$namedobj=steel_spear;$count=1;} // this is black spear in 2005
+if($temp < 32) {$namedobj=chaosrune;$count=~random_range(10,29);}
+if($temp < 17) {$namedobj=steel_med_helm;$count=1;}
+if($temp < 12) {$namedobj=gold_bar;$count=3;}
+if($temp < 7) {$namedobj=mithril_bar;$count=3;}
+if($temp < 2) {$namedobj=sapphire_ring;$count=1;}
+return ($namedobj,$count);
+
+[proc,ShadesteelDrop](int $key_tier)(namedobj, int)
+// https://runescape.salmoneus.net/activities/shades-of-mortton.html
+// https://i.imgur.com/SFUHEv2.png
+// guess based on these and osrs + rs3 droptables + silver droptable leak
+def_namedobj $namedobj;
+def_int $count = 1;
+def_int $temp = add(1,sub(random(135),$key_tier));
+if($temp < 135){$namedobj=cert_willow_logs;$count=~random_range(5,14);}
+if($temp < 125) {
+    if(random(10)<6) {$namedobj=chaosrune;$count=~random_range(10,29);}
+    else {$namedobj=naturerune;$count=~random_range(10,29);}
+}
+if($temp < 104) {$namedobj=mithril_mace;$count=1;}
+if($temp < 97) {$namedobj=Black_sword;$count=1;}
+if($temp < 93) {$namedobj=steel_kiteshield;$count=1;}
+if($temp < 91) {$namedobj=amulet_of_strength;$count=1;}
+if($temp < 85) {
+    if($temp > 81) {
+        $namedobj = ~trail_getmediumclue;
+        if($namedobj = null) $temp=add(1,sub(random(81),$key_tier));
+        else{$count=1;}
+    }
+}
+if($temp < 81) {$namedobj=black_scimitar;$count=1;}
+if($temp < 71) {$namedobj=steel_warhammer;$count=1;}
+if($temp < 64) {$namedobj=black_warhammer;$count=1;}
+if($temp < 57) {$namedobj=steel_battleaxe;$count=1;}
+if($temp < 51) {$namedobj=Mithril_spear;$count=1;}
+if($temp < 47) {$namedobj=mithril_spear_p;$count=1;}
+if($temp < 43) {$namedobj=adamant_dagger;$count=1;}
+if($temp < 39) {$namedobj=mithril_sword;$count=1;}
+if($temp < 36) {$namedobj=black_longsword;$count=1;}
+if($temp < 34) {$namedobj=steel_2h_sword;$count=1;}
+if($temp < 33) {$namedobj=steel_spear;$count=1;} // black spear in 2005
+if($temp < 32) {$namedobj=steel_spear;$count=1;} // double black spear from osrs official table
+if($temp < 31) {$namedobj=adamant_dagger_p;$count=1;}
+if($temp < 30) {$namedobj=black_med_helm;$count=1;}
+if($temp < 23) {$namedobj=studded_chaps;$count=1;}
+if($temp < 18) {$namedobj=steel_chainbody;$count=1;}
+if($temp < 13) {$namedobj=mithril_med_helm;$count=1;}
+if($temp < 10) {$namedobj=adamantite_bar;$count=3;}
+if($temp < 4) {$namedobj=emerald_ring;$count=1;}
+if($temp < 2) {$namedobj=fine_cloth;$count=1;}
+return ($namedobj,$count);
+
+[proc,ShadeblackDrop](int $key_tier)(namedobj, int)
+// https://www.youtube.com/watch?v=xtSany9isbg
+// https://www.youtube.com/watch?v=t5Ll-S1R1JE
+// https://runescape.salmoneus.net/activities/shades-of-mortton.html
+// https://i.imgur.com/SFUHEv2.png
+// guess based on these and osrs + rs3 droptables + silver droptable leak
+def_namedobj $namedobj;
+def_int $count = 1;
+def_int $temp = add(1,sub(random(142),$key_tier));
+if($temp < 142)
+{
+    if(random(10)<6) {$namedobj=cert_willow_logs;$count=10;}
+    else {$namedobj=cert_yew_logs; $count=10;}
+}
+if($temp < 126) {
+    if(random(10)<6) {$namedobj=naturerune;$count=~random_range(10,29);}
+    else {$namedobj=deathrune; $count=~random_range(10,29);}
+}
+if($temp < 120) {$namedobj=Steel_plateskirt;$count=1;}
+if($temp < 114) {$namedobj=Ruby_ring;$count=1;}
+if($temp < 107) {$namedobj=mithril_longsword;$count=1;}
+if($temp < 101) {$namedobj=adamant_axe;$count=1;}
+// if($temp < 95) {$namedobj=steel_spear;$count=1;} // black spear but also not in jagex guide
+if($temp < 91) {$namedobj=Black_Battleaxe;$count=1;}
+if($temp < 88) {$namedobj=Mithril_Scimitar;$count=1;}
+if($temp < 86) {$namedobj=Black_Sq_Shield;$count=1;}
+if($temp < 79) {$namedobj=Black_Full_helm;$count=1;}
+if($temp < 77) {$namedobj=Amulet_Of_Magic;$count=1;}
+if($temp < 75) {$namedobj=Flamtaer_Hammer;$count=1;}
+if($temp < 74) {
+    if($temp > 69) {
+        $namedobj = ~trail_getmediumclue;
+        if($namedobj = null) $temp=add(1,sub(random(64),$key_tier));
+        else{$count=1;}
+    }
+}
+if($temp < 64) {$namedobj=Mithril_Mace;$count=1;}
+if($temp < 58) {$namedobj=Mithril_2h_Sword;$count=1;}
+if($temp < 56) {$namedobj=Mithril_Warhammer;$count=1;}
+if($temp < 54) {$namedobj=Mithril_Battleaxe;$count=1;}
+if($temp < 52) {$namedobj=Adamant_Scimitar;$count=1;}
+if($temp < 50) {$namedobj=Adamant_Sword;$count=1;}
+if($temp < 48) {$namedobj=Black_2h_Sword;$count=1;}
+if($temp < 46) {$namedobj=Black_Kiteshield;$count=1;}
+if($temp < 40) {$namedobj=Mithril_Full_helm;$count=1;}
+if($temp < 34) {$namedobj=Black_Chainbody;$count=1;}
+if($temp < 29) {$namedobj=Mithril_Sq_Shield;$count=1;}
+if($temp < 23) {$namedobj=Black_Platelegs;$count=1;}
+if($temp < 19) {$namedobj=Mithril_Kiteshield;$count=1;}
+if($temp < 17) {$namedobj=Mithril_platelegs;$count=1;}
+if($temp < 15) {$namedobj=Mithril_chainbody;$count=1;}
+if($temp < 13) {$namedobj=Adamant_med_helm;$count=1;}
+if($temp < 11) {$namedobj=staff_of_air;$count=1;}
+if($temp < 10) {$namedobj=staff_of_water;$count=1;}
+if($temp < 9) {$namedobj=staff_of_earth;$count=1;}
+if($temp < 8) {$namedobj=staff_of_fire;$count=1;}
+if($temp < 7) {$namedobj=fine_cloth;$count=1;}
+return ($namedobj,$count);
+
+[proc,ShadesilverDrop](int $key_tier)(namedobj, int)
+// https://i.imgur.com/jnr4qWs.png
+// cursed.. but I shall be faithful
+// https://i.imgur.com/SFUHEv2.png
+def_namedobj $namedobj;
+def_int $count = 1;
+def_int $temp = add(1,sub(random(153),$key_tier));
+if($temp < 153) 
+{
+    if(random(10)<6) {$namedobj=cert_yew_logs;$count=~random_range(5,14);}
+    else {$namedobj=cert_magic_logs; $count=~random_range(5,14);}
+}
+if($temp < 148) {$namedobj=steel_spear;$count=1;} // black spear in 2005
+if($temp < 141) {$namedobj=Adamant_Spear;$count=1;}
+if($temp < 130) {$namedobj=Adamant_spear_p;$count=1;}
+if($temp < 119) {$namedobj=Mithril_PlateSkirt;$count=1;}
+if($temp < 115) {
+    if(random(10)<6) {$namedobj=deathrune;$count=~random_range(10,29);}
+    else {$namedobj=bloodrune; $count=~random_range(10,29);}
+}
+if($temp < 100) {$namedobj=Adamant_LongSword;$count=1;}
+if($temp < 97) {$namedobj=Flamtaer_hammer;$count=1;}
+if($temp < 93) {$namedobj=Adamant_Full_Helm;$count=1;}
+if($temp < 86) {$namedobj=Diamond_ring;$count=1;}
+if($temp < 82) {
+    if($temp > 79) {
+        $namedobj = ~trail_gethardclue;
+        if($namedobj = null) $temp=add(1,sub(random(80),$key_tier));
+        else{$count=1;}
+    }
+}
+if($temp < 80) {$namedobj=Amulet_Of_power;$count=1;}
+if($temp < 78) {$namedobj=Adamant_Sq_Shield;$count=1;}
+if($temp < 76) {$namedobj=Black_PlateBody;$count=1;}
+if($temp < 72) {$namedobj=Adamnt_Warhammer;$count=1;}
+if($temp < 69) {$namedobj=Adamant_Battleaxe;$count=1;}
+if($temp < 66) {$namedobj=Adamant_ChainBody;$count=1;}
+if($temp < 63) {$namedobj=Mithril_PlateBody;$count=1;}
+if($temp < 61) {$namedobj=Adamant_KiteShield;$count=1;}
+if($temp < 58) {$namedobj=Adamant_2h_Sword;$count=1;}
+if($temp < 55) {$namedobj=Adamant_PlateLegs;$count=1;}
+if($temp < 52) {$namedobj=Adamant_PlateSkirt;$count=1;}
+if($temp < 49) {$namedobj=Battlestaff;$count=1;}
+if($temp < 40) {$namedobj=Adamant_Full_Helm;$count=1;} // This is damned_amulet in the leak but they don't have full helm in the table so.. guess?
+if($temp < 30) {$namedobj=Adamant_PlateBody;$count=1;}
+if($temp < 28) {$namedobj=Rune_Med_Helm;$count=1;}
+if($temp < 25) {$namedobj=Rune_Sword;$count=1;}
+if($temp < 22) {$namedobj=Rune_Scimitar;$count=1;}
+if($temp < 20) {$namedobj=Rune_longsword;$count=1;}
+if($temp < 19) {$namedobj=Rune_Chainbody;$count=1;}
+if($temp < 18) {$namedobj=fine_cloth;$count=1;}
+return ($namedobj,$count);

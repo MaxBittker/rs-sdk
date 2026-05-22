@@ -26,7 +26,7 @@ param=mining_rock_empty,1
 [plainrock1_alt]
 name=Rocks
 desc=Stoney!
-model=plainrock1
+model=plainrock2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -49,7 +49,7 @@ category=mining_rock_normal
 param=mining_rock_empty,1
 
 // this should go into runecrafting based on its ID
-[loc_2491]
+[blankrunestone]
 name=Rune Essence
 desc=The source of all Rune Stones.
 model=model_loc_493
@@ -738,3 +738,64 @@ recol1d=15407
 recol2s=28538
 recol2d=21070
 category=mining_rock_macro_gas
+
+[loc_4027]
+name=Pile of Rock
+desc=A pile of lime rock.
+model=model_3184
+recol1s=15854
+recol1d=16874
+recol2s=6342
+recol2d=14797
+op1=Mine
+op2=Prospect
+op3=hidden
+category=mining_rock_normal
+param=next_loc_stage_mining,loc_4028
+
+[loc_4028]
+name=Pile of Rock
+desc=A pile of lime rock.
+model=model_3183
+recol1s=9513
+recol1d=16874
+recol2s=6342
+recol2d=14797
+op1=Mine
+op2=Prospect
+op3=hidden
+category=mining_rock_normal
+param=next_loc_stage_mining,loc_4029
+
+[loc_4029]
+name=Pile of Rock
+desc=A pile of lime rock.
+model=model_3195
+recol1s=9513
+recol1d=16874
+recol2s=6342
+recol2d=14797
+op1=Mine
+op2=Prospect
+op3=hidden
+resizex=96
+resizey=96
+resizez=96
+category=mining_rock_normal
+param=next_loc_stage_mining,loc_4030
+
+[loc_4030]
+name=Pile of Rock
+desc=A pile of lime rock.
+model=model_3195
+recol1s=9513
+recol1d=16874
+recol2s=6342
+recol2d=16874
+op1=Mine
+op2=Prospect
+resizex=64
+resizey=64
+resizez=64
+category=mining_rock_normal
+param=mining_rock_empty,1

@@ -2,7 +2,7 @@
 ~chatnpc("<p,neutral>Welcome adventurer, to the world renowned|Wizards' Tower. How may I help you?");
 // we don't support teleporting until the quest is complete
 if(%runemysteries = ^runemysteries_not_started) {
-    @multi2("Nothing thanks, I'm just looking around.", @head_wizard_nothing, "What are you doing down here?", @head_wizard_2);
+    @multi2("Nothing thanks, I'm just looking around.", head_wizard_nothing, "What are you doing down here?", head_wizard_2);
 } else if(%runemysteries = ^runemysteries_started) {
     @rune_mysteries;
 } else if(%runemysteries = ^runemysteries_given_talisman) {

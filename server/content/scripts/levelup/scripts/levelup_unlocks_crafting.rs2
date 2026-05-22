@@ -10,6 +10,7 @@ switch_int(stat_base(crafting)) {
     case 11 : ~objbox(leather_vambraces,"You can now craft @dbl@Leather Vambraces@bla@.", 250, 0, 0);
     case 13 : ~objbox(jade,"Members can now cut @dbl@Jade@bla@.", 250, 0, divide(^objbox_height, 2));
     case 14 : ~objbox(leather_armour,"You can now make @dbl@Leather Armour@bla@.", 250, 0, 0);
+    case 15 : ~objbox(snelm_round_swamp,"Members can now make @dbl@snail shell helmets (snelms)@bla@.", 250, 0, divide(^objbox_height, 2));
     case 16 : ~doubleobjbox(blessedstar,red_topaz,"You can now craft @dbl@Holy Symbols of Saradomin@bla@ and members can cut @dbl@Red Topaz@bla@.", 200); //imgur.com/PSmUwiG
     case 18 : ~objbox(leather_chaps,"You can now craft @dbl@Leather Chaps@bla@.", 250, 0, 0);
     case 20 : ~doubleobjbox(sapphire,sapphire_ring,"You can now cut @dbl@Sapphires@bla@ and craft @dbl@Sapphire @dbl@Rings@bla@.", 200);
@@ -22,7 +23,9 @@ switch_int(stat_base(crafting)) {
     case 33 : ~objbox(vial_empty,"Members can now craft @dbl@Vials@bla@.", 250, 0, ^objbox_height);
     case 34 : ~doubleobjbox(ruby,ruby_ring,"You can now cut @dbl@Rubies@bla@ and craft @dbl@Ruby Rings@bla@.", 200);
     case 38 : ~objbox(coif,"Members can now craft @dbl@Leather Coifs@bla@.", 250, 0, ^objbox_height);
-    case 40 : ~doubleobjbox(chisel,hammer,"You can now enter|the @dbl@Crafting Guild.", 200);
+    case 40 : 
+        ~doubleobjbox(chisel,hammer,"You can now enter|the @dbl@Crafting Guild.", 200);
+        ~mesbox("@dbl@~ This is one of the requirements of the @dre@FREMENNIK TRIALS@dbl@. @dbl@~");
     case 41 : ~objbox(studded_body,"Members can now craft @dbl@Studded Leather Body Armour@bla@.", 250, 0, 0);
     case 43 : ~doubleobjbox(diamond,diamond_ring,"You can now cut @dbl@Diamonds@bla@ and craft @dbl@Diamond @dbl@Rings@bla@.", 200);
     case 44 : ~objbox(studded_chaps,"Members can now craft @dbl@Studded Leather Chaps@bla@.", 250, 0, 0);

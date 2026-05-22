@@ -114,10 +114,10 @@ p_delay(2);
 ~dice_winnings;
 if(~death_get_playerroll > ~death_get_haroldroll) {
     if_settext(death_dice:com_33, "You win!");
-    midi_jingle(^dice_win_jingle, ^dice_win_jingle_millis);
+    ~music_jingle("dice win");
 } else {
     if_settext(death_dice:com_33, "You lose!");
-    midi_jingle(^dice_lose_jingle, ^dice_lose_jingle_millis);
+    ~music_jingle("dice lose");
 }
 if_sethide(death_dice:com_29, false);
 p_pausebutton;

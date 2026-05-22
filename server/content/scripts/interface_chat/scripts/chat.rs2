@@ -4,9 +4,10 @@ if_settext(multi2:com_1, $string1);
 if_settext(multi2:com_2, $string2);
 if_sethide(multi2:com_5, false);
 if_sethide(multi2:com_8, true);
-
 if_openchat(multi2);
-if_setresumebuttons(multi2:com_1, multi2:com_2, null, null, null);
+
+if_addresumebutton(multi2:com_1);
+if_addresumebutton(multi2:com_2);
 p_pausebutton;
 
 switch_component (last_com) {
@@ -21,9 +22,10 @@ if_settext(multi2:com_1, $string1);
 if_settext(multi2:com_2, $string2);
 if_sethide(multi2:com_5, true);
 if_sethide(multi2:com_8, false);
-
 if_openchat(multi2);
-if_setresumebuttons(multi2:com_1, multi2:com_2, null, null, null);
+
+if_addresumebutton(multi2:com_1);
+if_addresumebutton(multi2:com_2);
 p_pausebutton;
 
 switch_component (last_com) {
@@ -38,9 +40,11 @@ if_settext(multi3:com_2, $string2);
 if_settext(multi3:com_3, $string3);
 if_sethide(multi3:com_6, false);
 if_sethide(multi3:com_9, true);
-
 if_openchat(multi3);
-if_setresumebuttons(multi3:com_1, multi3:com_2, multi3:com_3, null, null);
+
+if_addresumebutton(multi3:com_1);
+if_addresumebutton(multi3:com_2);
+if_addresumebutton(multi3:com_3);
 p_pausebutton;
 
 switch_component (last_com) {
@@ -57,9 +61,11 @@ if_settext(multi3:com_2, $string2);
 if_settext(multi3:com_3, $string3);
 if_sethide(multi3:com_6, true);
 if_sethide(multi3:com_9, false);
-
 if_openchat(multi3);
-if_setresumebuttons(multi3:com_1, multi3:com_2, multi3:com_3, null, null);
+
+if_addresumebutton(multi3:com_1);
+if_addresumebutton(multi3:com_2);
+if_addresumebutton(multi3:com_3);
 p_pausebutton;
 
 switch_component (last_com) {
@@ -76,9 +82,12 @@ if_settext(multi4:com_3, $string3);
 if_settext(multi4:com_4, $string4);
 if_sethide(multi4:com_7, false);
 if_sethide(multi4:com_8, true);
-
 if_openchat(multi4);
-if_setresumebuttons(multi4:com_1, multi4:com_2, multi4:com_3, multi4:com_4, null);
+
+if_addresumebutton(multi4:com_1);
+if_addresumebutton(multi4:com_2);
+if_addresumebutton(multi4:com_3);
+if_addresumebutton(multi4:com_4);
 p_pausebutton;
 
 switch_component (last_com) {
@@ -96,9 +105,12 @@ if_settext(multi4:com_3, $string3);
 if_settext(multi4:com_4, $string4);
 if_sethide(multi4:com_7, true);
 if_sethide(multi4:com_8, false);
-
 if_openchat(multi4);
-if_setresumebuttons(multi4:com_1, multi4:com_2, multi4:com_3, multi4:com_4, null);
+
+if_addresumebutton(multi4:com_1);
+if_addresumebutton(multi4:com_2);
+if_addresumebutton(multi4:com_3);
+if_addresumebutton(multi4:com_4);
 p_pausebutton;
 
 switch_component (last_com) {
@@ -117,9 +129,13 @@ if_settext(multi5:com_4, $string4);
 if_settext(multi5:com_5, $string5);
 if_sethide(multi5:com_8, false);
 if_sethide(multi5:com_9, true);
-
 if_openchat(multi5);
-if_setresumebuttons(multi5:com_1, multi5:com_2, multi5:com_3, multi5:com_4, multi5:com_5);
+
+if_addresumebutton(multi5:com_1);
+if_addresumebutton(multi5:com_2);
+if_addresumebutton(multi5:com_3);
+if_addresumebutton(multi5:com_4);
+if_addresumebutton(multi5:com_5);
 p_pausebutton;
 
 switch_component (last_com) {
@@ -139,9 +155,13 @@ if_settext(multi5:com_4, $string4);
 if_settext(multi5:com_5, $string5);
 if_sethide(multi5:com_8, true);
 if_sethide(multi5:com_9, false);
-
 if_openchat(multi5);
-if_setresumebuttons(multi5:com_1, multi5:com_2, multi5:com_3, multi5:com_4, multi5:com_5);
+
+if_addresumebutton(multi5:com_1);
+if_addresumebutton(multi5:com_2);
+if_addresumebutton(multi5:com_3);
+if_addresumebutton(multi5:com_4);
+if_addresumebutton(multi5:com_5);
 p_pausebutton;
 
 switch_component (last_com) {
@@ -249,7 +269,7 @@ if ($lines = 0) {
 if_openchat($interface);
 
 [proc,chatplayer](string $string)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -301,7 +321,7 @@ if ($lines = 0) {
 if_openchat($interface);
 
 [proc,chatnpc](string $string)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -313,7 +333,7 @@ while ($page < $pagetotal) {
 }
 
 [proc,.chatnpc](string $string)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -325,7 +345,7 @@ while ($page < $pagetotal) {
 }
 
 [proc,chatnpcrange](string $string)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -337,7 +357,7 @@ while ($page < $pagetotal) {
 }
 
 [proc,.chatnpcrange](string $string)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -349,7 +369,7 @@ while ($page < $pagetotal) {
 }
 
 [proc,chatnpcnoturn](string $string)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -360,7 +380,7 @@ while ($page < $pagetotal) {
 }
 
 [proc,.chatnpcnoturn](string $string)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -371,7 +391,7 @@ while ($page < $pagetotal) {
 }
 
 [proc,chatnpc_specific](string $npc_name, npc $npc, string $string)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -417,7 +437,7 @@ if ($lines = 0) {
 if_openchat($interface);
 
 [proc,mesbox](string $string)
-split_init($string, 470, 5, q8);
+split_init($string, 470, 5, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -462,7 +482,7 @@ if ($lines = 0) {
 .if_openchat($interface);
 
 [proc,.mesbox](string $string)
-split_init($string, 470, 5, q8);
+split_init($string, 470, 5, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -510,7 +530,7 @@ if ($lines = 0) {
 if_openchat($interface);
 
 [proc,objbox](obj $obj, string $string, int $scale, int $x, int $y)
-split_init($string, 380, 4, q8);
+split_init($string, 380, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -555,7 +575,7 @@ if_setposition(doubleobjbox:com_6, $x2, $y2);
 if_openchat(doubleobjbox);
 
 [proc,doubleobjbox](obj $obj_1, obj $obj_2, string $string, int $scale)
-split_init($string, 350, 4, q8);
+split_init($string, 350, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -565,7 +585,7 @@ while ($page < $pagetotal) {
 }
 
 [proc,doubleobjbox2](obj $obj_1, int $scale1, int $x1, int $y1, obj $obj_2, int $scale2, int $x2, int $y2, string $string)
-split_init($string, 350, 4, q8);
+split_init($string, 350, 4, q8_full);
 def_int $page = 0;
 def_int $pagetotal = split_pagecount;
 while ($page < $pagetotal) {
@@ -586,16 +606,14 @@ if_setobject(multiobj2:obj1, $obj1, $scale1);
 if_settext(multiobj2:objtext1, $string1);
 if_setobject(multiobj2:obj2, $obj2, $scale2);
 if_settext(multiobj2:objtext2, $string2);
-
 if_openchat(multiobj2);
 
-if_setresumebuttons(multiobj2:obj1, multiobj2:obj2, multiobj2:objtext1, multiobj2:objtext2, null);
+if_addresumebutton(multiobj2:objtext1);
+if_addresumebutton(multiobj2:objtext2);
 p_pausebutton;
 
 switch_component (last_com) {
-    case multiobj2:obj1 : return($obj1);
     case multiobj2:objtext1 : return($obj1);
-    case multiobj2:obj2 : return($obj2);
     case multiobj2:objtext2 : return($obj2);
     case default : return(null);
 }
@@ -618,13 +636,15 @@ if_setobject(multiobj3:com_4, $obj3, $scale3);
 if_settext(multiobj3:com_7, $string3);
 if_openchat(multiobj3);
 
-if_setresumebuttons(multiobj3:com_2, multiobj3:com_3, multiobj3:com_4, null, null);
+if_addresumebutton(multiobj3:com_5);
+if_addresumebutton(multiobj3:com_6);
+if_addresumebutton(multiobj3:com_7);
 p_pausebutton;
 
 switch_component (last_com) {
-    case multiobj3:com_2 : return($obj1);
-    case multiobj3:com_3 : return($obj2);
-    case multiobj3:com_4 : return($obj3);
+    case multiobj3:com_5 : return($obj1);
+    case multiobj3:com_6 : return($obj2);
+    case multiobj3:com_7 : return($obj3);
     case default : return(null);
 }
 
@@ -639,13 +659,15 @@ if_setobject(multiobj3_close:com_3, $obj3, $scale3);
 if_settext(multiobj3_close:com_6, $string3);
 if_openchat(multiobj3_close);
 
-if_setresumebuttons(multiobj3_close:com_1, multiobj3_close:com_2, multiobj3_close:com_3, null, null);
+if_addresumebutton(multiobj3_close:com_4);
+if_addresumebutton(multiobj3_close:com_5);
+if_addresumebutton(multiobj3_close:com_6);
 p_pausebutton;
 
 switch_component (last_com) {
-    case multiobj3_close:com_1 : return($obj1);
-    case multiobj3_close:com_2 : return($obj2);
-    case multiobj3_close:com_3 : return($obj3);
+    case multiobj3_close:com_4 : return($obj1);
+    case multiobj3_close:com_5 : return($obj2);
+    case multiobj3_close:com_6 : return($obj3);
     case default : return(null);
 }
 
@@ -671,13 +693,427 @@ if_setobject(multiobj4:com_5, $obj4, $scale4);
 if_settext(multiobj4:com_9, $string4);
 if_openchat(multiobj4);
 
-if_setresumebuttons(multiobj4:com_2, multiobj4:com_3, multiobj4:com_4, multiobj4:com_5, null);
+if_addresumebutton(multiobj4:com_6);
+if_addresumebutton(multiobj4:com_7);
+if_addresumebutton(multiobj4:com_8);
+if_addresumebutton(multiobj4:com_9);
 p_pausebutton;
 
 switch_component (last_com) {
-    case multiobj4:com_2 : return($obj1);
-    case multiobj4:com_3 : return($obj2);
-    case multiobj4:com_4 : return($obj3);
-    case multiobj4:com_5 : return($obj4);
+    case multiobj4:com_6 : return($obj1);
+    case multiobj4:com_7 : return($obj2);
+    case multiobj4:com_8 : return($obj3);
+    case multiobj4:com_9 : return($obj4);
     case default : return(null);
+}
+
+
+[proc,skill_multi2](namedobj $obj1, int $x1, int $y1, int $scale1, string $string1, namedobj $obj2, int $x2, int $y2, int $scale2, string $string2)(namedobj, int)
+if_openchat(skill_multi2);
+
+if_setposition(skill_multi2:model_a, $x1, $y1);
+if_setposition(skill_multi2:model_b, $x2, $y2);
+
+if_setobject(skill_multi2:model_a, $obj1, $scale1);
+if_setobject(skill_multi2:model_b, $obj2, $scale2);
+
+if_settext(skill_multi2:prompt, "What would you like to make?");
+if_settext(skill_multi2:make1_a, $string1);
+if_settext(skill_multi2:make1_b, $string2);
+
+if_addresumebutton(skill_multi2:make1_a);
+if_addresumebutton(skill_multi2:make5_a);
+if_addresumebutton(skill_multi2:make10_a);
+if_addresumebutton(skill_multi2:makex_a);
+if_addresumebutton(skill_multi2:make1_b);
+if_addresumebutton(skill_multi2:make5_b);
+if_addresumebutton(skill_multi2:make10_b);
+if_addresumebutton(skill_multi2:makex_b);
+p_pausebutton;
+
+def_component $last_com = last_com;
+if(%weakqueue_map_clock = map_clock) {
+    if_close;
+    p_delay(0);
+}
+
+switch_component ($last_com) {
+    case skill_multi2:makex_a : 
+        p_countdialog;
+        return($obj1, last_int);
+    case skill_multi2:make10_a : return($obj1, 10);
+    case skill_multi2:make5_a : return($obj1, 5);
+    case skill_multi2:make1_a : return($obj1, 1);
+    case skill_multi2:makex_b : 
+        p_countdialog;
+        return($obj2, last_int);
+    case skill_multi2:make10_b : return($obj2, 10);
+    case skill_multi2:make5_b : return($obj2, 5);
+    case skill_multi2:make1_b : return($obj2, 1);
+    case default : return(null, null);
+}
+
+[proc,skill_multi2_header](string $header, namedobj $obj1, int $x1, int $y1, int $scale1, string $string1, namedobj $obj2, int $x2, int $y2, int $scale2, string $string2)(namedobj, int)
+if_openchat(skill_multi2);
+
+if_setposition(skill_multi2:model_a, $x1, $y1);
+if_setposition(skill_multi2:model_b, $x2, $y2);
+
+if_setobject(skill_multi2:model_a, $obj1, $scale1);
+if_setobject(skill_multi2:model_b, $obj2, $scale2);
+
+if_settext(skill_multi2:prompt, $header);
+if_settext(skill_multi2:make1_a, $string1);
+if_settext(skill_multi2:make1_b, $string2);
+
+if_addresumebutton(skill_multi2:make1_a);
+if_addresumebutton(skill_multi2:make5_a);
+if_addresumebutton(skill_multi2:make10_a);
+if_addresumebutton(skill_multi2:makex_a);
+if_addresumebutton(skill_multi2:make1_b);
+if_addresumebutton(skill_multi2:make5_b);
+if_addresumebutton(skill_multi2:make10_b);
+if_addresumebutton(skill_multi2:makex_b);
+p_pausebutton;
+
+def_component $last_com = last_com;
+if(%weakqueue_map_clock = map_clock) {
+    if_close;
+    p_delay(0);
+}
+
+switch_component ($last_com) {
+    case skill_multi2:makex_a : 
+        p_countdialog;
+        return($obj1, last_int);
+    case skill_multi2:make10_a : return($obj1, 10);
+    case skill_multi2:make5_a : return($obj1, 5);
+    case skill_multi2:make1_a : return($obj1, 1);
+    case skill_multi2:makex_b : 
+        p_countdialog;
+        return($obj2, last_int);
+    case skill_multi2:make10_b : return($obj2, 10);
+    case skill_multi2:make5_b : return($obj2, 5);
+    case skill_multi2:make1_b : return($obj2, 1);
+    case default : return(null, null);
+}
+
+[proc,skill_multi3](namedobj $obj1, int $x1, int $y1, int $scale1, string $string1, namedobj $obj2, int $x2, int $y2, int $scale2, string $string2, namedobj $obj3, int $x3, int $y3, int $scale3, string $string3)(namedobj, int)
+if_openchat(skill_multi3);
+
+if_setposition(skill_multi3:model_a, $x1, $y1);
+if_setposition(skill_multi3:model_b, $x2, $y2);
+if_setposition(skill_multi3:model_c, $x3, $y3);
+
+if_setobject(skill_multi3:model_a, $obj1, $scale1);
+if_setobject(skill_multi3:model_b, $obj2, $scale2);
+if_setobject(skill_multi3:model_c, $obj3, $scale3);
+
+if_settext(skill_multi3:make1_a, $string1);
+if_settext(skill_multi3:make1_b, $string2);
+if_settext(skill_multi3:make1_c, $string3);
+
+if_addresumebutton(skill_multi3:make1_a);
+if_addresumebutton(skill_multi3:make5_a);
+if_addresumebutton(skill_multi3:make10_a);
+if_addresumebutton(skill_multi3:makex_a);
+if_addresumebutton(skill_multi3:make1_b);
+if_addresumebutton(skill_multi3:make5_b);
+if_addresumebutton(skill_multi3:make10_b);
+if_addresumebutton(skill_multi3:makex_b);
+if_addresumebutton(skill_multi3:make1_c);
+if_addresumebutton(skill_multi3:make5_c);
+if_addresumebutton(skill_multi3:make10_c);
+if_addresumebutton(skill_multi3:makex_c);
+p_pausebutton;
+
+def_component $last_com = last_com;
+if(%weakqueue_map_clock = map_clock) {
+    if_close;
+    p_delay(0);
+}
+
+switch_component ($last_com) {
+    case skill_multi3:makex_a : 
+        p_countdialog;
+        return($obj1, last_int);
+    case skill_multi3:make10_a : return($obj1, 10);
+    case skill_multi3:make5_a : return($obj1, 5);
+    case skill_multi3:make1_a : return($obj1, 1);
+    case skill_multi3:makex_b : 
+        p_countdialog;
+        return($obj2, last_int);
+    case skill_multi3:make10_b : return($obj2, 10);
+    case skill_multi3:make5_b : return($obj2, 5);
+    case skill_multi3:make1_b : return($obj2, 1);
+    case skill_multi3:makex_c : 
+        p_countdialog;
+        return($obj3, last_int);
+    case skill_multi3:make10_c : return($obj3, 10);
+    case skill_multi3:make5_c : return($obj3, 5);
+    case skill_multi3:make1_c : return($obj3, 1);
+    case default : return(null, null);
+}
+
+[proc,skill_multi4](namedobj $obj1, int $x1, int $y1, int $scale1, string $string1, namedobj $obj2, int $x2, int $y2, int $scale2, string $string2, 
+                    namedobj $obj3, int $x3, int $y3, int $scale3, string $string3, namedobj $obj4, int $x4, int $y4, int $scale4, string $string4)(namedobj, int)
+if_openchat(skill_multi4);
+
+if_setposition(skill_multi4:model_a, $x1, $y1);
+if_setposition(skill_multi4:model_b, $x2, $y2);
+if_setposition(skill_multi4:model_c, $x3, $y3);
+if_setposition(skill_multi4:model_d, $x4, $y4);
+
+if_setobject(skill_multi4:model_a, $obj1, $scale1);
+if_setobject(skill_multi4:model_b, $obj2, $scale2);
+if_setobject(skill_multi4:model_c, $obj3, $scale3);
+if_setobject(skill_multi4:model_d, $obj4, $scale4);
+
+if_settext(skill_multi4:make1_a, $string1);
+if_settext(skill_multi4:make1_b, $string2);
+if_settext(skill_multi4:make1_c, $string3);
+if_settext(skill_multi4:make1_d, $string4);
+
+if_addresumebutton(skill_multi4:make1_a);
+if_addresumebutton(skill_multi4:make5_a);
+if_addresumebutton(skill_multi4:make10_a);
+if_addresumebutton(skill_multi4:makex_a);
+if_addresumebutton(skill_multi4:make1_b);
+if_addresumebutton(skill_multi4:make5_b);
+if_addresumebutton(skill_multi4:make10_b);
+if_addresumebutton(skill_multi4:makex_b);
+if_addresumebutton(skill_multi4:make1_c);
+if_addresumebutton(skill_multi4:make5_c);
+if_addresumebutton(skill_multi4:make10_c);
+if_addresumebutton(skill_multi4:makex_c);
+if_addresumebutton(skill_multi4:make1_d);
+if_addresumebutton(skill_multi4:make5_d);
+if_addresumebutton(skill_multi4:make10_d);
+if_addresumebutton(skill_multi4:makex_d);
+p_pausebutton;
+
+def_component $last_com = last_com;
+if(%weakqueue_map_clock = map_clock) {
+    if_close;
+    p_delay(0);
+}
+
+switch_component ($last_com) {
+    case skill_multi4:makex_a : 
+        p_countdialog;
+        return($obj1, last_int);
+    case skill_multi4:make10_a : return($obj1, 10);
+    case skill_multi4:make5_a : return($obj1, 5);
+    case skill_multi4:make1_a : return($obj1, 1);
+    case skill_multi4:makex_b : 
+        p_countdialog;
+        return($obj2, last_int);
+    case skill_multi4:make10_b : return($obj2, 10);
+    case skill_multi4:make5_b : return($obj2, 5);
+    case skill_multi4:make1_b : return($obj2, 1);
+    case skill_multi4:makex_c : 
+        p_countdialog;
+        return($obj3, last_int);
+    case skill_multi4:make10_c : return($obj3, 10);
+    case skill_multi4:make5_c : return($obj3, 5);
+    case skill_multi4:make1_c : return($obj3, 1);
+    case skill_multi4:makex_d : 
+        p_countdialog;
+        return($obj4, last_int);
+    case skill_multi4:make10_d : return($obj4, 10);
+    case skill_multi4:make5_d : return($obj4, 5);
+    case skill_multi4:make1_d : return($obj4, 1);
+    case default : return(null, null);
+}
+
+[proc,skill_multi5](namedobj $obj1, int $x1, int $y1, int $scale1, string $string1, namedobj $obj2, int $x2, int $y2, int $scale2, string $string2, 
+                    namedobj $obj3, int $x3, int $y3, int $scale3, string $string3, namedobj $obj4, int $x4, int $y4, int $scale4, string $string4, 
+                    namedobj $obj5, int $x5, int $y5, int $scale5, string $string5)(namedobj, int)
+if_openchat(skill_multi5);
+
+if_setposition(skill_multi5:model_a, $x1, $y1);
+if_setposition(skill_multi5:model_b, $x2, $y2);
+if_setposition(skill_multi5:model_c, $x3, $y3);
+if_setposition(skill_multi5:model_d, $x4, $y4);
+if_setposition(skill_multi5:model_e, $x5, $y5);
+
+if_setobject(skill_multi5:model_a, $obj1, $scale1);
+if_setobject(skill_multi5:model_b, $obj2, $scale2);
+if_setobject(skill_multi5:model_c, $obj3, $scale3);
+if_setobject(skill_multi5:model_d, $obj4, $scale4);
+if_setobject(skill_multi5:model_e, $obj5, $scale5);
+
+if_settext(skill_multi5:prompt, "What would you like to make?");
+if_settext(skill_multi5:make1_a, $string1);
+if_settext(skill_multi5:make1_b, $string2);
+if_settext(skill_multi5:make1_c, $string3);
+if_settext(skill_multi5:make1_d, $string4);
+if_settext(skill_multi5:make1_e, $string5);
+
+if_addresumebutton(skill_multi5:make1_a);
+if_addresumebutton(skill_multi5:make5_a);
+if_addresumebutton(skill_multi5:make10_a);
+if_addresumebutton(skill_multi5:makex_a);
+if_addresumebutton(skill_multi5:make1_b);
+if_addresumebutton(skill_multi5:make5_b);
+if_addresumebutton(skill_multi5:make10_b);
+if_addresumebutton(skill_multi5:makex_b);
+if_addresumebutton(skill_multi5:make1_c);
+if_addresumebutton(skill_multi5:make5_c);
+if_addresumebutton(skill_multi5:make10_c);
+if_addresumebutton(skill_multi5:makex_c);
+if_addresumebutton(skill_multi5:make1_d);
+if_addresumebutton(skill_multi5:make5_d);
+if_addresumebutton(skill_multi5:make10_d);
+if_addresumebutton(skill_multi5:makex_d);
+if_addresumebutton(skill_multi5:make1_e);
+if_addresumebutton(skill_multi5:make5_e);
+if_addresumebutton(skill_multi5:make10_e);
+if_addresumebutton(skill_multi5:makex_e);
+p_pausebutton;
+
+def_component $last_com = last_com;
+if(%weakqueue_map_clock = map_clock) {
+    if_close;
+    p_delay(0);
+}
+
+switch_component ($last_com) {
+    case skill_multi5:makex_a : 
+        p_countdialog;
+        return($obj1, last_int);
+    case skill_multi5:make10_a : return($obj1, 10);
+    case skill_multi5:make5_a : return($obj1, 5);
+    case skill_multi5:make1_a : return($obj1, 1);
+    case skill_multi5:makex_b : 
+        p_countdialog;
+        return($obj2, last_int);
+    case skill_multi5:make10_b : return($obj2, 10);
+    case skill_multi5:make5_b : return($obj2, 5);
+    case skill_multi5:make1_b : return($obj2, 1);
+    case skill_multi5:makex_c : 
+        p_countdialog;
+        return($obj3, last_int);
+    case skill_multi5:make10_c : return($obj3, 10);
+    case skill_multi5:make5_c : return($obj3, 5);
+    case skill_multi5:make1_c : return($obj3, 1);
+    case skill_multi5:makex_d : 
+        p_countdialog;
+        return($obj4, last_int);
+    case skill_multi5:make10_d : return($obj4, 10);
+    case skill_multi5:make5_d : return($obj4, 5);
+    case skill_multi5:make1_d : return($obj4, 1);
+    case skill_multi5:makex_e : 
+        p_countdialog;
+        return($obj5, last_int);
+    case skill_multi5:make10_e : return($obj5, 10);
+    case skill_multi5:make5_e : return($obj5, 5);
+    case skill_multi5:make1_e : return($obj5, 1);
+    case default : return(null, null);
+}
+
+[proc,skill_multi5_header](string $header, namedobj $obj1, int $x1, int $y1, int $scale1, string $string1, namedobj $obj2, int $x2, int $y2, int $scale2, string $string2, 
+                    namedobj $obj3, int $x3, int $y3, int $scale3, string $string3, namedobj $obj4, int $x4, int $y4, int $scale4, string $string4, 
+                    namedobj $obj5, int $x5, int $y5, int $scale5, string $string5)(namedobj, int)
+if_openchat(skill_multi5);
+
+if_setposition(skill_multi5:model_a, $x1, $y1);
+if_setposition(skill_multi5:model_b, $x2, $y2);
+if_setposition(skill_multi5:model_c, $x3, $y3);
+if_setposition(skill_multi5:model_d, $x4, $y4);
+if_setposition(skill_multi5:model_e, $x5, $y5);
+
+if_setobject(skill_multi5:model_a, $obj1, $scale1);
+if_setobject(skill_multi5:model_b, $obj2, $scale2);
+if_setobject(skill_multi5:model_c, $obj3, $scale3);
+if_setobject(skill_multi5:model_d, $obj4, $scale4);
+if_setobject(skill_multi5:model_e, $obj5, $scale5);
+
+if_settext(skill_multi5:prompt, $header);
+if_settext(skill_multi5:make1_a, $string1);
+if_settext(skill_multi5:make1_b, $string2);
+if_settext(skill_multi5:make1_c, $string3);
+if_settext(skill_multi5:make1_d, $string4);
+if_settext(skill_multi5:make1_e, $string5);
+
+if_addresumebutton(skill_multi5:make1_a);
+if_addresumebutton(skill_multi5:make5_a);
+if_addresumebutton(skill_multi5:make10_a);
+if_addresumebutton(skill_multi5:makex_a);
+if_addresumebutton(skill_multi5:make1_b);
+if_addresumebutton(skill_multi5:make5_b);
+if_addresumebutton(skill_multi5:make10_b);
+if_addresumebutton(skill_multi5:makex_b);
+if_addresumebutton(skill_multi5:make1_c);
+if_addresumebutton(skill_multi5:make5_c);
+if_addresumebutton(skill_multi5:make10_c);
+if_addresumebutton(skill_multi5:makex_c);
+if_addresumebutton(skill_multi5:make1_d);
+if_addresumebutton(skill_multi5:make5_d);
+if_addresumebutton(skill_multi5:make10_d);
+if_addresumebutton(skill_multi5:makex_d);
+if_addresumebutton(skill_multi5:make1_e);
+if_addresumebutton(skill_multi5:make5_e);
+if_addresumebutton(skill_multi5:make10_e);
+if_addresumebutton(skill_multi5:makex_e);
+p_pausebutton;
+
+def_component $last_com = last_com;
+if(%weakqueue_map_clock = map_clock) {
+    if_close;
+    p_delay(0);
+}
+
+switch_component ($last_com) {
+    case skill_multi5:makex_a : 
+        p_countdialog;
+        return($obj1, last_int);
+    case skill_multi5:make10_a : return($obj1, 10);
+    case skill_multi5:make5_a : return($obj1, 5);
+    case skill_multi5:make1_a : return($obj1, 1);
+    case skill_multi5:makex_b : 
+        p_countdialog;
+        return($obj2, last_int);
+    case skill_multi5:make10_b : return($obj2, 10);
+    case skill_multi5:make5_b : return($obj2, 5);
+    case skill_multi5:make1_b : return($obj2, 1);
+    case skill_multi5:makex_c : 
+        p_countdialog;
+        return($obj3, last_int);
+    case skill_multi5:make10_c : return($obj3, 10);
+    case skill_multi5:make5_c : return($obj3, 5);
+    case skill_multi5:make1_c : return($obj3, 1);
+    case skill_multi5:makex_d : 
+        p_countdialog;
+        return($obj4, last_int);
+    case skill_multi5:make10_d : return($obj4, 10);
+    case skill_multi5:make5_d : return($obj4, 5);
+    case skill_multi5:make1_d : return($obj4, 1);
+    case skill_multi5:makex_e : 
+        p_countdialog;
+        return($obj5, last_int);
+    case skill_multi5:make10_e : return($obj5, 10);
+    case skill_multi5:make5_e : return($obj5, 5);
+    case skill_multi5:make1_e : return($obj5, 1);
+    case default : return(null, null);
+}
+
+[if_close,skill_multi2]
+if(p_finduid(uid) = true) {
+    %weakqueue_map_clock = map_clock;
+}
+
+[if_close,skill_multi3]
+if(p_finduid(uid) = true) {
+    %weakqueue_map_clock = map_clock;
+}
+
+[if_close,skill_multi4]
+if(p_finduid(uid) = true) {
+    %weakqueue_map_clock = map_clock;
+}
+
+[if_close,skill_multi5]
+if(p_finduid(uid) = true) {
+    %weakqueue_map_clock = map_clock;
 }

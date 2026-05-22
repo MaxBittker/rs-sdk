@@ -3,7 +3,7 @@
 
 // todo: should com_0 be set to "You sail to <$place_name>."?
 if_openmain(ship_journey);
-midi_jingle(^sailing_journey_jingle, ^sailing_journey_jingle_millis);
+~music_jingle("sailing journey");
 
 // hide all tabs except friends list and ignore list
 if_settab(null, 0);

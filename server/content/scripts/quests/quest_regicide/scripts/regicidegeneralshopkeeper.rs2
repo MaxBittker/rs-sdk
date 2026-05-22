@@ -1,0 +1,18 @@
+[opnpc1,regicidegeneralshopkeeper]
+~chatnpc("<p,happy>Good day <text_gender("sir", "miss")>. I'm the quartermaster for this camp. We have a little we could trade here.");
+if(%regicide_quest = ^regicide_complete) {
+    ~chatnpc("<p,happy>We have a new stock of dragon halberds. Would you like a look at what we have now?");
+} else {
+    ~chatnpc("<p,happy>We should be getting a new stock soon. Would you like a look at what we do have?");
+}
+switch_int(~p_choice2("Yes please. What are you selling?", 1, "No thanks.", 2)) {
+    case 1 :
+        ~chatplayer("<p,happy>Yes please. What are you selling?");
+        if(map_members = ^true) {
+            ~openshop(regicide_general_shop, 400, 1300, 30, "Quartermaster's Stores");
+        } else {
+            ~openshop(regicide_general_shop_2, 400, 1000, 30, "Quartermaster's Stores");
+        }
+    case 2 :
+        ~chatplayer("<p,neutral>No thanks.");
+}

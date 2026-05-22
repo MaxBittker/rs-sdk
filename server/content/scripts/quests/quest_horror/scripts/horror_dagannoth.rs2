@@ -1,0 +1,305 @@
+[opnpc2,horror_dagannoth_jr4]
+if (%npc_aggressive_player ! uid) {
+    mes("It's not after you...");
+    return;
+}
+@player_combat_start;
+
+[apnpc2,horror_dagannoth_jr4]
+if (%npc_aggressive_player ! uid) {
+    mes("It's not after you...");
+    return;
+}
+@player_combat_start_ap;
+
+[ai_queue3,horror_dagannoth_jr4]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+if (%npc_aggressive_player = uid) {
+    if(%horrorquest = ^horror_repaired_lighthouse) {
+        queue(queue_defeat_dagjr, 0, 0);
+    }
+}
+
+[queue,queue_defeat_dagjr]
+%horrorquest = ^horror_defeated_dagjr;
+~chatplayer("<p,happy>Okay, now that the creature's dead we can get you out of here.");
+if(inzone(0_39_72_0_0, 0_39_72_63_63, coord) = true) queue(spawn_dagmother, 0, 0);
+if(npc_findexact(0_39_72_22_25, horror_lighthousekeeeper_injured) = ^true) {
+    ~chatnpcnoturn("<p,scared>No... you do not understand...");
+    ~chatnpcnoturn("<p,scared>That was not the creature that attacked me...");
+    ~chatnpcnoturn("<p,scared>That was one of its babies...");
+}
+
+// works similar to sara wizards, check prayer so we dont get
+// stuck in setmode loop if spam clicking
+[opnpc2,_dagannoth_mother]
+if (%npc_aggressive_player ! uid) {
+    mes("It's not after you...");
+    return;
+}
+if (~check_protect_prayer(^melee_style) = false) {
+    npc_setmode(opplayer2);
+}
+@player_combat_start;
+
+[apnpc2,_dagannoth_mother] 
+if (%npc_aggressive_player ! uid) {
+    mes("It's not after you...");
+    return;
+}
+if (~check_protect_prayer(^ranged_style) = false) {
+    npc_setmode(applayer2);
+}
+@player_combat_start_ap;
+
+[ai_queue1,_dagannoth_mother]
+if(npc_getmode = applayer2) ~npc_default_retaliate_ap;
+else ~npc_default_retaliate;
+
+// only melees in op, only ranges in ap, will switch to ranged if you're praying melee and vice versa
+// if you switch prayer every tick she will never attack (matches osrs) :)
+[ai_opplayer2,_dagannoth_mother]
+if (~check_protect_prayer(^melee_style) = true) {
+    npc_setmode(applayer2);
+    return;
+}
+gosub(npc_default_attack);
+
+[ai_applayer2,_dagannoth_mother]
+if (~check_protect_prayer(^ranged_style) = true) {
+    npc_setmode(opplayer2);
+    return;
+}
+~dagannoth_rangeattack(12, ^true);
+
+[proc,dagannoth_rangeattack](int $maxhit, int $double_roll)
+if (%npc_action_delay > map_clock) {
+    npc_setmode(applayer2);
+    return;
+}
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+
+def_int $attack_roll = ~npc_ranged_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(^ranged_style); // TODO: confirm if this rolls against ranged def (prob does...)
+
+npc_anim(horror_dagannoth_rangeattack, 0);
+~sound_area(dagganoth_spines, 0, npc_coord, 10);
+
+%npc_action_delay = add(map_clock, npc_param(attackrate));
+// map_projanim_v2	id=horror_spines_travel (294), starttime=10, endtime=66, angle=25, progress=50, startheight=210, endheight=110
+def_int $duration = ~player_projectile(npc_coord, coord, uid, spotanim_294, 52, 28, 10, 25, 36, 50, 5);
+def_int $damage = randominc($maxhit);
+def_int $damage2 = randominc($maxhit);
+if_close; // close the player interface when taking a hit.
+if (~check_protect_prayer(^ranged_style) = true) { 
+    $damage = 0;
+    $damage2 = 0;
+}
+anim(%com_defendanim, $duration);
+queue(combat_damage_player, calc($duration / 30), $damage);
+if($double_roll = ^true) queue(combat_damage_player, calc($duration / 30), $damage2);
+queue*(playerhit_n_retaliate, calc($duration / 30))(npc_uid);
+~npc_set_attack_vars;
+
+[ai_timer,horror_dagganoth_air]
+if(finduid(%npc_aggressive_player) = true) {
+    if(distance(coord, npc_coord) > 17) {
+        npc_del;
+        return;
+    }
+    npc_changetype(horror_dagganoth_water, 1000);
+    %aggressive_npc = npc_uid;
+    npc_say("Krrrrrrk");
+    //mes("The Dagannoth changes to blue..."); https://oldschool.runescape.wiki/w/Update:More_Small_Changes, TODO: enable for 289
+    // can switch mode between phase changes
+    if(random(2) = 0) npc_setmode(opplayer2);
+    else npc_setmode(applayer2);
+    ~sound_area(sound_750, 0, npc_coord, 10);
+    return;
+}
+npc_del;
+
+[ai_timer,horror_dagganoth_water]
+if(finduid(%npc_aggressive_player) = true) {
+    if(distance(coord, npc_coord) > 17) {
+        npc_del;
+        return;
+    }
+    npc_changetype(horror_dagganoth_melee, 1000);
+    %aggressive_npc = npc_uid;
+    npc_say("Chkhkhkhkhk");
+    //mes("The Dagannoth changes to orange...");
+    if(random(2) = 0) npc_setmode(opplayer2);
+    else npc_setmode(applayer2);
+    ~sound_area(sound_750, 0, npc_coord, 10);
+    return;
+}
+npc_del;
+
+[ai_timer,horror_dagganoth_melee]
+if(finduid(%npc_aggressive_player) = true) {
+    if(distance(coord, npc_coord) > 17) {
+        npc_del;
+        return;
+    }
+    npc_changetype(horror_dagganoth_earth, 1000);
+    %aggressive_npc = npc_uid;
+    npc_say("Krrrrrrssssssss");
+    //mes("The Dagannoth changes to brown...");
+    if(random(2) = 0) npc_setmode(opplayer2);
+    else npc_setmode(applayer2);
+    ~sound_area(sound_750, 0, npc_coord, 10);
+    return;
+}
+npc_del;
+
+[ai_timer,horror_dagganoth_earth]
+if(finduid(%npc_aggressive_player) = true) {
+    if(distance(coord, npc_coord) > 17) {
+        npc_del;
+        return;
+    }
+    npc_changetype(horror_dagganoth_fire, 1000);
+    %aggressive_npc = npc_uid;
+    npc_say("Sssssrrrkkkkk");
+    //mes("The Dagannoth changes to red...");
+    if(random(2) = 0) npc_setmode(opplayer2);
+    else npc_setmode(applayer2);
+    ~sound_area(sound_750, 0, npc_coord, 10);
+    return;
+}
+npc_del;
+
+[ai_timer,horror_dagganoth_fire]
+if(finduid(%npc_aggressive_player) = true) {
+    if(distance(coord, npc_coord) > 17) {
+        npc_del;
+        return;
+    }
+    npc_changetype(horror_dagganoth_ranged, 1000);
+    %aggressive_npc = npc_uid;
+    npc_say("Krkrkrkrkrkrkrkr");
+    //mes("The Dagannoth changes to green...");
+    if(random(2) = 0) npc_setmode(opplayer2);
+    else npc_setmode(applayer2);
+    ~sound_area(sound_750, 0, npc_coord, 10);
+    return;
+}
+npc_del;
+
+[ai_timer,horror_dagganoth_ranged]
+if(finduid(%npc_aggressive_player) = true) {
+    if(distance(coord, npc_coord) > 17) {
+        npc_del;
+        return;
+    }
+    npc_changetype(horror_dagganoth_air, 1000);
+    %aggressive_npc = npc_uid;
+    npc_say("Tktktktktktkt");
+    //mes("The Dagannoth changes to white...");
+    if(random(2) = 0) npc_setmode(opplayer2);
+    else npc_setmode(applayer2);
+    ~sound_area(sound_750, 0, npc_coord, 10);
+    return;
+}
+npc_del;
+
+[ai_queue3,_dagannoth_mother]
+gosub(npc_death);
+// requires kill credit supposedly
+if (npc_findhero = ^false) {
+    return;
+}
+if (%npc_aggressive_player = uid) { // should always be true but just incase
+    if(%horrorquest = ^horror_defeated_dagjr) {
+        queue(quest_horror_complete, 0, 0);
+    }
+}
+
+[queue,spawn_dagmother]
+npc_huntall(0_39_72_24_36, 25, 0);
+while (npc_findnext = true) {
+    if(%npc_aggressive_player = uid) {
+        npc_setmode(opplayer2);
+        return;
+    }
+}
+cam_moveto(0_39_72_18_37, 500, 50, 10);
+p_delay(0);
+def_coord $start = 0_39_72_10_34;
+npc_add($start, horror_dagganoth_aira, 1000);
+~sound_area(sound_753, 0, npc_coord, 10);
+%npc_aggressive_player = uid;
+%aggressive_npc = npc_uid;
+hint_stop;
+hint_npc;
+cam_lookat(0_39_72_13_36, 100, 50, 10);
+p_delay(1);
+npc_changetype(horror_dagganoth_airb, 1000);
+npc_walk(movecoord($start, 1, 0, 0));
+p_delay(1);
+npc_changetype(horror_dagganoth_airc, 1000);
+npc_walk(movecoord($start, 2, 0, 0));
+p_delay(1);
+npc_changetype(horror_dagganoth_air, 1000);
+npc_tele(map_findsquare(0_39_72_24_38, 0, 8, ^map_findsquare_lineofwalk));
+npc_setmode(applayer2);
+cam_reset;
+
+[ai_queue1,horror_dagganoth_jr] ~npc_default_retaliate_ap;
+[ai_opplayer2,horror_dagganoth_jr] npc_setmode(applayer2);
+[ai_applayer2,horror_dagganoth_jr] ~dagannoth_rangeattack(8, ^false);
+
+[ai_queue1,horror_dagganoth_jr_lighter] ~npc_default_retaliate_ap;
+[ai_opplayer2,horror_dagganoth_jr_lighter] npc_setmode(applayer2);
+[ai_applayer2,horror_dagganoth_jr_lighter] ~dagannoth_rangeattack(8, ^false);
+
+[ai_queue1,horror_dagganoth_jr_darker] ~npc_default_retaliate_ap;
+[ai_opplayer2,horror_dagganoth_jr_darker] npc_setmode(applayer2);
+[ai_applayer2,horror_dagganoth_jr_darker] ~dagannoth_rangeattack(8, ^false);
+
+
+[ai_queue3,_dagganoth]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+~trail_mediumcluedrop(128, npc_coord);
+
+def_int $random = random(128);
+
+if($random < 6) obj_add(npc_coord, iron_spear, 1, ^lootdrop_duration);
+else if($random < 11) obj_add(npc_coord, bronze_spear, 1, ^lootdrop_duration);
+else if($random < 12) obj_add(npc_coord, mithril_spear, 1, ^lootdrop_duration);
+else if($random < 16) obj_add(npc_coord, waterrune, 15, ^lootdrop_duration);
+else if($random < 18) obj_add(npc_coord, steel_arrow, 15, ^lootdrop_duration);
+else if($random < 19) obj_add(npc_coord, mithril_javelin, 3, ^lootdrop_duration);
+else if($random < 31) obj_add(npc_coord, lobster_pot, 1, ^lootdrop_duration);
+else if($random < 35) obj_add(npc_coord, raw_herring, 3, ^lootdrop_duration);
+else if($random < 39) obj_add(npc_coord, raw_sardine, 5, ^lootdrop_duration);
+else if($random < 42) obj_add(npc_coord, harpoon, 1, ^lootdrop_duration);
+else if($random < 44) obj_add(npc_coord, feather, 15, ^lootdrop_duration);
+else if($random < 46) obj_add(npc_coord, fishing_bait, 50, ^lootdrop_duration);
+else if($random < 48) obj_add(npc_coord, raw_lobster, 1, ^lootdrop_duration);
+else if($random < 50) obj_add(npc_coord, raw_tuna, 1, ^lootdrop_duration);
+else if($random < 52) obj_add(npc_coord, seaweed, 10, ^lootdrop_duration);
+else if($random < 53) obj_add(npc_coord, bigoysterpearls, 1, ^lootdrop_duration);
+else if($random < 54) obj_add(npc_coord, smalloysterpearls, 1, ^lootdrop_duration);
+else if($random < 83) obj_add(npc_coord, coins, 56, ^lootdrop_duration);
+else if($random < 92) obj_add(npc_coord, coins, 25, ^lootdrop_duration);
+else if($random < 100) obj_add(npc_coord, coins, 44, ^lootdrop_duration);
+else if($random < 106) obj_add(npc_coord, coins, 41, ^lootdrop_duration);
+else if($random < 108) obj_add(npc_coord, opal_bolttips, 12, ^lootdrop_duration);
+else if($random < 109) obj_add(npc_coord, casket, 1, ^lootdrop_duration);
+else if($random < 110) obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);

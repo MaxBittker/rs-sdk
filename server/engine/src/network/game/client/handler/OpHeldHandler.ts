@@ -56,8 +56,6 @@ export default class OpHeldHandler extends ClientGameMessageHandler<OpHeld> {
         }
 
         player.moveClickRequest = false; // uses the dueling ring op to move whilst busy & queue pending: https://youtu.be/GPfN3Isl2rM
-        player.faceEntity = -1;
-        player.masks |= player.entitymask;
 
         // opheld5 gets wealth logged in content
         if (message.op !== 5) {
@@ -68,7 +66,7 @@ export default class OpHeldHandler extends ClientGameMessageHandler<OpHeld> {
         const script = ScriptProvider.getByTrigger(trigger, obj.id, obj.category);
         if (script) {
             player.executeScript(ScriptRunner.init(script, player), true);
-        } else if (Environment.NODE_DEBUG) {
+        } else if (Environment.node.debug) {
             player.messageGame(`No trigger for [${ServerTriggerType.toString(trigger)},${obj.debugname}]`);
         }
 

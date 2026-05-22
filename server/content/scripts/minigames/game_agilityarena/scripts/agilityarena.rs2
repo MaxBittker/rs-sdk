@@ -77,7 +77,7 @@ if(testbit(%agilityarena_varbit, ^agilityarena_eligible_tickets) = ^false) {
 if(testbit(%agilityarena_varbit, ^agilityarena_first_pillar_tagged) = ^true) {
     %agilityarena_varbit = clearbit(%agilityarena_varbit, ^agilityarena_first_pillar_tagged);
 }
-midi_jingle(^agility_complete_jingle, ^agility_complete_millis);
+~music_jingle("agility complete");
 inv_add(inv, agilityarena_ticket, 1);
 mes("You have received an Agility Arena Ticket!");
 ~objbox(agilityarena_ticket, "You have received an Agility Arena Ticket!", 250, 0, 0);
@@ -92,7 +92,7 @@ if(loc_angle = ^loc_east) {
 ~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
 sound_synth(tightrope, 2, 0);
 ~forcemove(movecoord(coord, 0, 0, multiply($z_dist, 2)));
-if(stat_random(agility, 230, 280) = false) {
+if(stat_random(agility, 200, 440) = false) {
     ~update_bas;
     anim(human_walk_logbalance_stumble, 0);
     facesquare(movecoord(coord, 0, 0, -1)); // face south
@@ -121,10 +121,10 @@ def_int $dx = 0;
 def_coord $start_pos;
 def_int $dir;
 switch_int(loc_angle) {
-    case ^loc_west : 
+    case ^loc_west :
         if(coordz(coord) < coordz(loc_coord)) {
-        mes("You can't use that rope swing from here.");
-        return;
+            mes("You can't use that rope swing from here.");
+            return;
         }
         $dz = -5;
         $start_pos = movecoord(loc_coord, 0, 0, 2);
@@ -157,7 +157,10 @@ switch_int(loc_angle) {
 p_delay(0);
 ~playerwalk3($start_pos);
 p_arrivedelay;
-if(stat_random(agility, 225, 285) = false) {
+if(coord ! $start_pos) {
+    return;
+}
+if(stat_random(agility, 100, 310) = false) {
     sound_synth(stumble_loop, 6, 10);
     ~agility_exactmove(human_ropeswing_long_miss, 30, 2, $start_pos, movecoord($start_pos, divide($dx, 5), 0, divide($dz, 5)), 30, 76, $dir, false);
     mes("You missed the rope!");
@@ -193,7 +196,7 @@ sound_synth(jump_no_land, 0, 0);
 ~agility_exactmove(human_spot_jump, 0, 1, coord, loc_coord, 15, 30, $dir, false);
 sound_synth(jump_no_land, 0, 0);
 ~agility_exactmove(human_spot_jump, 0, 1, loc_coord, movecoord(loc_coord, $dx, 0, $dz), 15, 30, $dir, false);
-if(stat_random(agility, 230, 280) = false) {
+if(stat_random(agility, 120, 340) = false) {
     anim(human_walk_logbalance_stumble, 0);
     p_delay(0);
     p_teleport(movecoord(coord, multiply($dz, -1), -3, multiply($dx, 1)));
@@ -264,7 +267,7 @@ if (.loc_find(movecoord(coord, 0, 0, 1), agilityarena_handholds_middle) = true) 
 // https://youtu.be/fu3V6gn4WWM?si=JsMRX4S23YvvD-Ev&t=355 2t delay instead of 1t (OSRS is 1t)
 sound_synth(handholds_grab_to_second, 0, 0);
 ~agility_exactmove($start_seq, 0, 1, loc_coord, movecoord(loc_coord, $dx, 0, $dz), 46, 60, $dir, false);
-if(stat_random(agility, 180, 280) = false) {
+if(stat_random(agility, 80, 280) = false) {
     ~update_bas;
     ~agility_exactmove($fall_seq, 0, 2, movecoord(loc_coord, $dx, 0, $dz), movecoord(loc_coord, multiply(2, $dx), 0, multiply(2, $dz)), 26, 44, $dir, false);
     p_teleport(movecoord(coord, 0, -3, 0));
@@ -311,7 +314,7 @@ if ($dx = 0 & $dz >= 1) {
     $dir = ^exact_east;
     $dx = 1;
 }
-if(stat_random(agility, 240, 290) = false) {
+if(stat_random(agility, 220, 460) = false) {
     ~forcemove(movecoord(coord, $dx, 0, $dz));
     mes("You stumbled!");
     anim(human_lowwall_fail, 0);
@@ -320,9 +323,7 @@ if(stat_random(agility, 240, 290) = false) {
     return;
 }
 sound_synth(climb_wall, 0, 40);
-~agility_exactmove(human_walk_crumbledwall, 30, 3, coord, movecoord(coord, multiply(3, $dx), 0, multiply(3, $dz)), 30, 100, $dir, true);
-// exact move for 270+ (changed sept 27 2004 most likely)
-// ~agility_exactmove(human_lowwall, 0, 3, coord, movecoord(coord, multiply(3, $dx), 0, multiply(3, $dz)), 0, 144, $dir, true);
+~agility_exactmove(human_lowwall, 0, 3, coord, movecoord(coord, multiply(3, $dx), 0, multiply(3, $dz)), 0, 144, $dir, true);
 stat_advance(agility, 80);
 
 [oploc1,agilityarena_monkeybars_end]
@@ -354,7 +355,7 @@ sound_synth(monkeybars_on, 0, 0);
 p_delay(0);
 sound_synth(monkeybars_loop, 6, 0);
 ~forcemove(movecoord(coord, calc($dx * 2), 0, calc($dz * 2)));
-if(stat_random(agility, 230, 280) = false) {
+if(stat_random(agility, 160, 400) = false) {
     ~update_bas;
     anim(human_monkeybars_off, 0);
     sound_synth(monkeybars_off, 0, 0);
@@ -400,7 +401,7 @@ if(coordx(coord) < coordx(loc_coord)) {
 ~set_forcemove_bas($walk_seq);
 sound_synth(balancing_ledge, 3, 10);
 ~forcemove(movecoord(coord, multiply($x_dist, 2), 0, 0));
-if(stat_random(agility, 230, 280) = false) {
+if(stat_random(agility, 140, 370) = false) {
     ~update_bas;
     anim(human_walk_logbalance_stumble, 0);
     facesquare(movecoord(coord, -1, 0, 0)); // face west
@@ -446,7 +447,7 @@ if(coordz(coord) > coordz(loc_coord)) {
 ~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
 sound_synth(log_balance, 2, 0);
 ~forcemove(movecoord(coord, multiply($x_dist, 2), 0, multiply($z_dist, 2)));
-if(stat_random(agility, 230, 280) = false) {
+if(stat_random(agility, 180, 420) = false) {
     ~update_bas;
     anim(human_walk_logbalance_stumble, 0);
     p_delay(0);

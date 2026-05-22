@@ -92,7 +92,7 @@ if(inv_total(inv, cadava) = 0) {
     ~chatnpc("<p,neutral>Fair luck to you, the end is close.");
     return;
 }
-~chatplayer("<p,happy>I have a Cadaver potion from Father Lawrence.");
+~chatplayer("<p,happy>I have a Cadava potion from Father Lawrence.");
 ~chatplayer("<p,neutral>It should make you seem dead,|and get you away from this place.");
 ~mesbox("You pass the potion to Juliet.");
 inv_del(inv, cadava, 1);

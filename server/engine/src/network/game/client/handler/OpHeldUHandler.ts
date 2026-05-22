@@ -84,10 +84,8 @@ export default class OpHeldUHandler extends ClientGameMessageHandler<OpHeldU> {
         const useObjType = ObjType.get(player.lastUseItem);
 
         player.clearPendingAction();
-        player.faceEntity = -1;
-        player.masks |= player.entitymask;
 
-        if ((objType.members || useObjType.members) && !Environment.NODE_MEMBERS) {
+        if ((objType.members || useObjType.members) && !Environment.node.members) {
             player.messageGame("To use this item please login to a members' server.");
             return false;
         }
@@ -119,7 +117,7 @@ export default class OpHeldUHandler extends ClientGameMessageHandler<OpHeldU> {
         if (script) {
             player.executeScript(ScriptRunner.init(script, player), true);
         } else {
-            if (Environment.NODE_DEBUG) {
+            if (Environment.node.debug) {
                 player.messageGame(`No trigger for [opheldu,${objType.debugname}]`);
             }
 

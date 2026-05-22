@@ -25,6 +25,8 @@ recol1d=28539
 2dyan=1892
 2dxan=264
 weight=2oz
+param=brew_potion_struct,mort_serum3_tarrominvial
+param=brew_potion_struct_secondary,ashesvial
 
 [torch_lit]
 cost=4
@@ -94,9 +96,12 @@ weight=2kg
 2dyan=120
 2dxan=280
 op4=Light
+manwear=model_4048,0
+womanwear=model_4048,0
 category=category_22
 param=levelrequire,1
 param=productexp,400
+param=funeral_pyre_struct,pyre_logs
 
 [magic_logs]
 name=Magic logs
@@ -116,6 +121,7 @@ weight=2kg
 category=category_22
 param=levelrequire,75
 param=productexp,3038
+param=funeral_pyre_struct,pyre_magic_logs
 
 [yew_logs]
 name=Yew logs
@@ -134,6 +140,7 @@ weight=2kg
 category=category_22
 param=levelrequire,60
 param=productexp,2025
+param=funeral_pyre_struct,pyre_yew_logs
 
 [maple_logs]
 name=Maple logs
@@ -152,6 +159,7 @@ weight=2kg
 category=category_22
 param=levelrequire,45
 param=productexp,1350
+param=funeral_pyre_struct,pyre_maple_logs
 
 [willow_logs]
 name=Willow logs
@@ -170,6 +178,7 @@ weight=2kg
 category=category_22
 param=levelrequire,30
 param=productexp,900
+param=funeral_pyre_struct,pyre_willow_logs
 
 [oak_logs]
 name=Oak logs
@@ -188,3 +197,4 @@ weight=2kg
 category=category_22
 param=levelrequire,15
 param=productexp,600
+param=funeral_pyre_struct,pyre_oak_logs

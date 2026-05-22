@@ -34,7 +34,7 @@ export default class ClientLocAnim extends ModelSource {
 
         if (randomFrame && this.anim.loops !== -1) {
             this.animFrame = (Math.random() * this.anim.numFrames) | 0;
-            this.animCycle -= (Math.random() * this.anim.getDuration(this.animFrame)) | 0;
+            this.animCycle -= (Math.random() * this.anim.getDelay(this.animFrame)) | 0;
         }
     }
 
@@ -45,8 +45,8 @@ export default class ClientLocAnim extends ModelSource {
                 delta = 100;
             }
 
-            while (delta > this.anim.getDuration(this.animFrame)) {
-                delta -= this.anim.getDuration((this.animFrame));
+            while (delta > this.anim.getDelay(this.animFrame)) {
+                delta -= this.anim.getDelay((this.animFrame));
                 this.animFrame++;
 
                 if (this.animFrame < this.anim.numFrames) {

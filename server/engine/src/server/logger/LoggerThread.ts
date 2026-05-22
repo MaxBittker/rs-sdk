@@ -29,28 +29,28 @@ async function handleRequests(_parentPort: ParentPort, msg: any) {
 
     switch (type) {
         case 'session_log': {
-            if (Environment.LOGGER_SERVER) {
+            if (Environment.logger.enabled) {
                 const { logs } = msg;
                 await client.sessionLog(logs);
             }
             break;
         }
         case 'wealth_event': {
-            if (Environment.LOGGER_SERVER) {
+            if (Environment.logger.enabled) {
                 const { events } = msg;
                 await client.wealthEvent(events);
             }
             break;
         }
         case 'report': {
-            if (Environment.LOGGER_SERVER) {
+            if (Environment.logger.enabled) {
                 const { session_uuid, coord, offender, reason } = msg;
                 await client.report(session_uuid, coord, offender, reason);
             }
             break;
         }
         case 'input_track': {
-            if (Environment.LOGGER_SERVER) {
+            if (Environment.logger.enabled) {
                 const { session_uuid, timestamp, buf } = msg;
                 await client.inputTrack(session_uuid, timestamp, buf);
             }

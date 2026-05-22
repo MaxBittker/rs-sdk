@@ -4,7 +4,7 @@ switch_obj (last_useitem)
     case cabbage, tomato, potato, equa_leaves, doogleleaves :
         @quest_chompybird_add_ingredients_to_chompy_message;
     case default : ~displaymessage(^dm_default);
-};
+}
 
 
 [label,quest_chompybird_add_ingredients_to_chompy_message]
@@ -62,9 +62,9 @@ inv_del(inv, raw_chompy, 1);
 // Temp note: dur updated
 loc_change(chompybird_spitroast, 5);
 loc_anim(roast);
-anim(human_potterywheel, 0);
+anim(human_cooking, 0);
 sound_synth(spit_roast, 0, 0);
-p_delay(2);
+p_delay(1);
     
 def_boolean $passes_roll = stat_random(cooking, 200, 255);
 if ($passes_roll = true) {
@@ -72,8 +72,8 @@ if ($passes_roll = true) {
     // Temp note: dur updated
     loc_change(chompybird_spitroast_cooked, 5);
     loc_anim(roast);
-    anim(human_potterywheel, 0);
-    p_delay(2);
+    anim(human_cooking, 0);
+    p_delay(1);
     anim(human_pickuptable, 0);
     mes("Eventually the chompy is cooked.");
     inv_add(inv, cooked_chompy, 1);
@@ -83,8 +83,8 @@ if ($passes_roll = true) {
     // Temp note: dur updated
     loc_change(chompybird_spitroast_ruined, 5);
     loc_anim(roast);
-    anim(human_potterywheel, 0);
-    p_delay(2);
+    anim(human_cooking, 0);
+    p_delay(1);
     anim(human_pickuptable, 0);
     inv_add(inv, ruined_chompy, 1);
     p_delay(1);
@@ -185,9 +185,9 @@ inv_del(inv, raw_chompy, 1);
 // Temp note: dur updated
 loc_change(chompybird_spitroast, 5);
 loc_anim(roast);
-anim(human_potterywheel, 0);
+anim(human_cooking, 0);
 sound_synth(spit_roast, 0, 0);
-p_delay(2);
+p_delay(1);
     
 def_boolean $passes_roll = stat_random(cooking, 200, 255);
 if ($passes_roll = true) {
@@ -197,8 +197,8 @@ if ($passes_roll = true) {
     // Temp note: dur updated
     loc_change(chompybird_spitroast_cooked, 5);
     loc_anim(roast);
-    anim(human_potterywheel, 0);
-    p_delay(2);
+    anim(human_cooking, 0);
+    p_delay(1);
     anim(human_pickuptable, 0);
     mes("Eventually the chompy is cooked.");
     inv_add(inv, cooked_s_chompy, 1);
@@ -211,8 +211,8 @@ if ($passes_roll = true) {
     // Temp note: dur updated
     loc_change(chompybird_spitroast_ruined, 5);
     loc_anim(roast);
-    anim(human_potterywheel, 0);
-    p_delay(2);
+    anim(human_cooking, 0);
+    p_delay(1);
     anim(human_pickuptable, 0);
     inv_add(inv, ruined_chompy, 1);
     p_delay(1);

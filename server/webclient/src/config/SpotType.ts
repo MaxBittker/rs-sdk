@@ -4,7 +4,7 @@ import LruCache from '#/datastruct/LruCache.js';
 
 import Model from '#/dash3d/Model.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 
 export default class SpotType {
@@ -25,7 +25,7 @@ export default class SpotType {
     ambient: number = 0;
     contrast: number = 0;
 
-    static init(config: Jagfile): void {
+    static init(config: JagFile): void {
         const dat: Packet = new Packet(config.read('spotanim.dat'));
 
         this.numDefinitions = dat.g2();

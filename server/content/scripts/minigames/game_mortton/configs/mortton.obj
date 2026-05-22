@@ -1,0 +1,704 @@
+[shade_bones1]
+name=Loar remains
+recol1s=24309
+recol1d=256
+desc=The remains of a deadly shade.
+model=model_2595_obj
+2dxof=-4
+2dyof=12
+2dzoom=1780
+2dyan=436
+2dxan=320
+members=yes
+category=category_2049
+param=pyre_shade_exp,250
+param=shades_struct,loar_shades
+
+[shade_bones2]
+name=Phrin remains
+recol1s=24309
+recol1d=3137
+desc=The remains of a deadly shade.
+model=model_2595_obj
+2dxof=-4
+2dyof=12
+2dzoom=1780
+2dyan=436
+2dxan=320
+members=yes
+category=category_2049
+param=pyre_shade_exp,375
+param=shades_struct,phrin_shades
+
+[shade_bones3]
+name=Riyl remains
+recol1s=24309
+recol1d=5120
+desc=The remains of a deadly shade.
+model=model_2595_obj
+2dxof=-4
+2dyof=12
+2dzoom=1780
+2dyan=436
+2dxan=320
+members=yes
+category=category_2049
+param=pyre_shade_exp,525
+param=shades_struct,riyl_shades
+
+[shade_bones4]
+name=Asyn remains
+recol1s=24309
+recol1d=1068
+desc=The remains of a deadly shade.
+model=model_2595_obj
+2dxof=-4
+2dyof=12
+2dzoom=1780
+2dyan=436
+2dxan=320
+members=yes
+category=category_2049
+param=pyre_shade_exp,700
+param=shades_struct,asyn_shades
+
+[shade_bones5]
+name=Fiyr remains
+recol1s=24309
+recol1d=6342
+desc=The remains of a deadly shade.
+model=model_2595_obj
+2dxof=-4
+2dyof=12
+2dzoom=1780
+2dyan=436
+2dxan=320
+members=yes
+category=category_2049
+param=pyre_shade_exp,900
+param=shades_struct,fiyr_shades
+
+[sacred_oil4]
+name=Sacred oil(4)
+recol1s=15855
+recol1d=11809
+desc=4 doses of sacred Oil
+cost=100
+model=model_2789_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+param=next_obj_stage,sacred_oil3
+param=dose_count,4
+param=decant_potion_enum,potion_sacredoil
+category=category_111
+
+[sacred_oil3]
+name=Sacred oil(3)
+recol1s=15855
+recol1d=11809
+desc=3 doses of sacred Oil
+cost=90
+model=model_2697_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+param=next_obj_stage,sacred_oil2
+param=dose_count,3
+param=decant_potion_enum,potion_sacredoil
+category=category_111
+
+[sacred_oil2]
+name=Sacred oil(2)
+recol1s=15855
+recol1d=11809
+desc=2 doses of sacred Oil
+cost=75
+model=model_2384_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+param=next_obj_stage,sacred_oil1
+param=dose_count,2
+param=decant_potion_enum,potion_sacredoil
+category=category_111
+
+[sacred_oil1]
+name=Sacred oil(1)
+recol1s=15855
+recol1d=11809
+desc=1 dose of sacred Oil
+cost=60
+model=model_2621_obj
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+members=yes
+param=next_obj_stage,vial_empty
+param=dose_count,1
+param=decant_potion_enum,potion_sacredoil
+category=category_111
+
+[logs_pyre]
+name=Pyre logs
+recol1s=15617
+recol1d=10400
+desc=Logs prepared with sacred oil for a funeral pyre.
+cost=8
+model=model_2800_obj
+2dxof=3
+2dyof=66
+2dzoom=670
+2dyan=120
+2dxan=280
+members=yes
+category=category_2050
+param=funeral_pyre_struct,pyre_logs
+
+[oak_logs_pyre]
+name=Oak pyre logs
+recol1s=15617
+recol1d=11490
+desc=Oak logs prepared with sacred oil for a funeral pyre.
+cost=40
+model=model_2800_obj
+2dxof=3
+2dyof=66
+2dzoom=670
+2dyan=120
+2dxan=280
+members=yes
+category=category_2050
+param=funeral_pyre_struct,pyre_oak_logs
+
+[willow_logs_pyre]
+name=Willow pyre logs
+recol1s=15617
+recol1d=9378
+desc=Willow logs prepared with sacred oil for a funeral pyre.
+cost=80
+model=model_2800_obj
+2dxof=3
+2dyof=66
+2dzoom=670
+2dyan=120
+2dxan=280
+members=yes
+category=category_2050
+param=funeral_pyre_struct,pyre_willow_logs
+
+[maple_logs_pyre]
+name=Maple pyre logs
+recol1s=15617
+recol1d=9344
+desc=Maple logs prepared with sacred oil for a funeral pyre.
+cost=160
+model=model_2800_obj
+2dxof=3
+2dyof=66
+2dzoom=670
+2dyan=120
+2dxan=280
+members=yes
+category=category_2050
+param=funeral_pyre_struct,pyre_maple_logs
+
+[yew_logs_pyre]
+name=Yew pyre logs
+recol1s=15617
+recol1d=10467
+desc=Yew logs prepared with sacred oil for a funeral pyre.
+cost=320
+model=model_2800_obj
+2dxof=3
+2dyof=66
+2dzoom=670
+2dyan=120
+2dxan=280
+members=yes
+category=category_2050
+param=funeral_pyre_struct,pyre_yew_logs
+
+[magic_logs_pyre]
+name=Magic pyre logs
+recol1s=15617
+recol1d=10434
+desc=Magic logs prepared with sacred oil for a funeral pyre.
+members=yes
+cost=640
+model=model_2800_obj
+2dxof=3
+2dyof=66
+2dzoom=670
+2dyan=120
+2dxan=280
+members=yes
+category=category_2050
+param=funeral_pyre_struct,pyre_magic_logs
+
+[shadekey_bronze_bloodred]
+name=Bronze key red
+recol1s=31401
+recol1d=8354
+recol2s=15954
+recol2d=15360
+recol3s=30753
+recol3d=8354
+recol4s=992
+recol4d=8354
+recol5s=31
+recol5d=8354
+desc=A bronze key with a blood-red painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=81
+members=yes
+category=category_112
+tradeable=no
+
+[shadekey_bronze_brown]
+name=Bronze key brown
+recol1s=31401
+recol1d=8354
+recol2s=15954
+recol2d=15648
+recol3s=30753
+recol3d=8354
+recol4s=992
+recol4d=8354
+recol5s=31
+recol5d=8354
+desc=A bronze key with a brown painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=82
+members=yes
+category=category_112
+tradeable=no
+
+[shadekey_bronze_crimson]
+name=Bronze key crimson
+recol1s=31401
+recol1d=8354
+recol2s=15954
+recol2d=29729
+recol3s=30753
+recol3d=8354
+recol4s=992
+recol4d=8354
+recol5s=31
+recol5d=8354
+desc=A bronze key with a crimson painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=83
+members=yes
+category=category_112
+tradeable=no
+
+[shadekey_bronze_black]
+name=Bronze key black
+recol1s=31401
+recol1d=8354
+recol2s=15954
+recol2d=2114
+recol3s=30753
+recol3d=8354
+recol4s=992
+recol4d=8354
+recol5s=31
+recol5d=8354
+desc=A bronze key with a black painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=84
+members=yes
+category=category_112
+tradeable=no
+
+[shadekey_bronze_purple]
+name=Bronze key purple
+recol1s=31401
+recol1d=8354
+recol2s=15954
+recol2d=8203
+recol3s=30753
+recol3d=8354
+recol4s=992
+recol4d=8354
+recol5s=31
+recol5d=8354
+desc=A bronze key with a purple painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=85
+members=yes
+category=category_112
+tradeable=no
+
+[shadekey_steel_bloodred]
+name=Steel key red
+recol1s=31401
+recol1d=10570
+recol2s=15954
+recol2d=15360
+recol3s=30753
+recol3d=10570
+recol4s=992
+recol4d=10570
+recol5s=31
+recol5d=10570
+desc=A steel key with a blood-red painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=86
+members=yes
+category=category_113
+tradeable=no
+
+[shadekey_steel_brown]
+name=Steel key brown
+recol1s=31401
+recol1d=10570
+recol2s=15954
+recol2d=15648
+recol3s=30753
+recol3d=10570
+recol4s=992
+recol4d=10570
+recol5s=31
+recol5d=10570
+desc=A steel key with a brown painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=87
+members=yes
+category=category_113
+tradeable=no
+
+[shadekey_steel_crimson]
+name=Steel key crimson
+recol1s=31401
+recol1d=10570
+recol2s=15954
+recol2d=29729
+recol3s=30753
+recol3d=10570
+recol4s=992
+recol4d=10570
+recol5s=31
+recol5d=10570
+desc=A steel key with a crimson painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=88
+members=yes
+category=category_113
+tradeable=no
+
+[shadekey_steel_black]
+name=Steel key black
+recol1s=31401
+recol1d=10570
+recol2s=15954
+recol2d=2114
+recol3s=30753
+recol3d=10570
+recol4s=992
+recol4d=10570
+recol5s=31
+recol5d=10570
+desc=A steel key with a black painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=89
+members=yes
+category=category_113
+tradeable=no
+
+[shadekey_steel_purple]
+name=Steel key purple
+recol1s=31401
+recol1d=10570
+recol2s=15954
+recol2d=8203
+recol3s=30753
+recol3d=10570
+recol4s=992
+recol4d=10570
+recol5s=31
+recol5d=10570
+desc=A steel key with a purple painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=90
+members=yes
+category=category_113
+tradeable=no
+
+[shadekey_black_bloodred]
+name=Black key red
+recol1s=31401
+recol1d=0
+recol2s=15954
+recol2d=15360
+recol3s=30753
+recol3d=0
+recol4s=992
+recol4d=0
+recol5s=31
+recol5d=1057
+desc=A black key with a blood-red painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=91
+members=yes
+category=category_114
+tradeable=no
+
+[shadekey_black_brown]
+name=Black key brown
+recol1s=31401
+recol1d=0
+recol2s=15954
+recol2d=15648
+recol3s=30753
+recol3d=0
+recol4s=992
+recol4d=0
+recol5s=31
+recol5d=1057
+desc=A black key with a brown painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=92
+members=yes
+category=category_114
+tradeable=no
+
+[shadekey_black_crimson]
+name=Black key crimson
+recol1s=31401
+recol1d=0
+recol2s=15954
+recol2d=29729
+recol3s=30753
+recol3d=0
+recol4s=992
+recol4d=0
+recol5s=31
+recol5d=1057
+desc=A black key with a crimson painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=93
+members=yes
+category=category_114
+tradeable=no
+
+[shadekey_black_black]
+name=Black key black
+recol1s=31401
+recol1d=0
+recol2s=15954
+recol2d=2114
+recol3s=30753
+recol3d=0
+recol4s=992
+recol4d=0
+recol5s=31
+recol5d=1057
+desc=A black key with a black painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=94
+members=yes
+category=category_114
+tradeable=no
+
+[shadekey_black_purple]
+name=Black key purple
+recol1s=31401
+recol1d=0
+recol2s=15954
+recol2d=8203
+recol3s=30753
+recol3d=0
+recol4s=992
+recol4d=0
+recol5s=31
+recol5d=1057
+desc=A black key with a purple painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=95
+members=yes
+category=category_114
+tradeable=no
+
+[shadekey_silver_bloodred]
+name=Silver key red
+recol1s=31401
+recol1d=19028
+recol2s=15954
+recol2d=15360
+recol3s=30753
+recol3d=19028
+recol4s=992
+recol4d=19028
+recol5s=31
+recol5d=19028
+desc=A silver key with a blood-red painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=96
+members=yes
+category=category_115
+tradeable=no
+
+[shadekey_silver_brown]
+name=Silver key brown
+recol1s=31401
+recol1d=19028
+recol2s=15954
+recol2d=15648
+recol3s=30753
+recol3d=19028
+recol4s=992
+recol4d=19028
+recol5s=31
+recol5d=19028
+desc=A silver key with a brown painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=97
+members=yes
+category=category_115
+tradeable=no
+
+[shadekey_silver_crimson]
+name=Silver key crimson
+recol1s=31401
+recol1d=19028
+recol2s=15954
+recol2d=29729
+recol3s=30753
+recol3d=19028
+recol4s=992
+recol4d=19028
+recol5s=31
+recol5d=19028
+desc=A silver key with a crimson painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=98
+members=yes
+category=category_115
+tradeable=no
+
+[shadekey_silver_black]
+name=Silver key black
+recol1s=31401
+recol1d=19028
+recol2s=15954
+recol2d=2114
+recol3s=30753
+recol3d=19028
+recol4s=992
+recol4d=19028
+recol5s=31
+recol5d=19028
+desc=A silver key with a black painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=99
+members=yes
+category=category_115
+tradeable=no
+
+[shadekey_silver_purple]
+name=Silver key purple
+recol1s=31401
+recol1d=19028
+recol2s=15954
+recol2d=8203
+recol3s=30753
+recol3d=19028
+recol4s=992
+recol4d=19028
+recol5s=31
+recol5d=19028
+desc=A silver key with a purple painted eyelet.
+model=obj_3450
+2dyof=2
+2dzoom=1050
+2dyan=2040
+2dxan=420
+cost=100
+members=yes
+category=category_115
+tradeable=no

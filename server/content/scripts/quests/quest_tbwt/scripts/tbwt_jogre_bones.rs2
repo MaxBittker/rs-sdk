@@ -1,0 +1,104 @@
+[label,tbwt_smelt_jogre_bones]
+def_int $slot = last_useslot;
+mes("You gingerly place the Jogre bones in the furnace.");
+anim(human_furnace, 0);
+sound_synth(furnace, 0, 0);
+inv_delslot(inv, $slot);
+p_delay(2);
+mes("You retrieve some burnt Jogre bones.");
+anim(human_furnace, 0);
+inv_setslot(inv, $slot, tbwt_burnt_jogre_bones, 1);
+stat_advance(cooking, 250);
+
+[label,tbwt_jogre_bones_superheat]
+sound_synth(superheat_all, 0, 0);
+spotanim_pl(superheatitem_casting, 92, 0);
+anim(human_castsuperheatitem, 0);
+// delete runes and give xp
+inv_del(inv, firerune, 4);
+inv_del(inv, naturerune, 1);
+stat_advance(magic, 530);
+stat_advance(cooking, 250);
+inv_setslot(inv, last_slot, tbwt_burnt_jogre_bones, 1);
+p_delay(1);
+
+[label,light_jogre_bones_ground]
+if (stat(firemaking) < 30) {
+    mes("You need a firemaking level of 30 to burn Jogre bones.");
+    mes("You could find some other way of burning them.");
+    return;
+}
+if (~area_allow_loc_add(obj_coord) = false) {
+    mes("You can't light a fire here.");
+    return;
+}
+// check if they have tinderbox
+if(inv_total(inv, tinderbox) < 1) {
+    mes("You need a tinderbox to light a fire.");
+    return;
+}
+p_stopaction;
+anim(human_createfire, 0);
+sound_synth(tinderbox_strike, 0, 0);
+mes("You attempt to light the Jogre Bones.");
+// no hidden op, i guess it was prob just delayed?
+p_delay(3);
+~push_player(obj_coord);
+~firemaking_jogre_bones_success(obj_coord);
+
+[label,light_jogre_bones_inv](int $slot)
+if (stat(firemaking) < 30) {
+    mes("You need a firemaking level of 30 to burn Jogre bones.");
+    mes("You could find some other way of burning them.");
+    return;
+}
+// check if the coord is already occupied by an interactable loc
+if (~area_allow_loc_add(coord) = false) {
+    mes("You can't light a fire here.");
+    return;
+}
+// check if they have tinderbox
+if(inv_total(inv, tinderbox) < 1) {
+    mes("You need a tinderbox to light a fire.");
+    return;
+}
+inv_dropslot(inv, coord, $slot, ^lootdrop_duration);
+p_stopaction;
+anim(human_createfire, 0);
+sound_synth(tinderbox_strike, 0, 0);
+mes("You attempt to light the Jogre Bones.");
+// no hidden op, i guess it was prob just delayed?
+p_delay(3);
+~push_player(obj_coord);
+~firemaking_jogre_bones_success(obj_coord);
+
+[proc,firemaking_jogre_bones_success](coord $fire_coord)
+obj_del;
+stat_advance(firemaking, 900);
+sound_synth(fire_lit, 0, 0);
+facesquare($fire_coord);
+//mes("<tostring(map_clock)>, <tostring(%action_delay)>: The fire catches and the logs begin to burn.");
+mes("The fire catches and the bones begin to burn.");
+def_int $delay = calc(25 + random(25));
+// Temp note: dur does not need updated
+loc_add($fire_coord, bones_in_paste_fire, 1, centrepiece_straight, $delay);
+
+// -2 to match osrs behavior. Potentially this is an engine problem with world_delay being too slow though
+world_delay(add($delay, -2));
+obj_addall($fire_coord, tbwt_burnt_jogre_bones, 1, 100);
+
+[label,explode_cooked_jogre_bones](obj $bones)
+if(stat(cooking) < 30) {
+    // doesnt change for burnt bones
+    ~mesbox("You need a Cooking level of 30 to cook jogre bones covered in cooked karambwanji paste.");
+    return;
+}
+anim(human_cooking, 0); // same on fire/range
+sound_synth(fry, 0, 0);
+inv_del(inv, $bones, 1);
+p_delay(2);
+mes("The cooked karambwanji paste catches fire and explodes.");
+inv_add(inv, ashes, 1);
+sound_synth(explosion, 0, 0);
+spotanim_map(smokepuff, coord, 160, 0);
+~damage_self(2);

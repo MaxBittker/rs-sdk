@@ -15,15 +15,15 @@ export default class JagFX {
     loopBegin: number = 0;
     loopEnd: number = 0;
 
-    static unpack(dat: Packet): void {
+    static init(buf: Packet): void {
         while (true) {
-            const id = dat.g2();
+            const id = buf.g2();
             if (id === 65535) {
                 break;
             }
 
             this.synth[id] = new JagFX();
-            this.synth[id].load(dat);
+            this.synth[id].load(buf);
             this.delays[id] = this.synth[id].optimiseStart();
         }
     }

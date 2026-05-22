@@ -86,6 +86,8 @@ frame16=anim_965
 frame17=anim_1249
 
 [human_lowwall_fail]
+preanim_move=delayanim
+postanim_move=delaymove
 frame1=anim_861
 frame2=anim_1141
 frame3=anim_1427
@@ -99,6 +101,7 @@ frame10=anim_8294
 frame11=anim_8295
 frame12=anim_8296
 frame13=anim_8297
+delay13=4
 
 [agilityarena_sawblades_twist]
 frame1=anim_8238
@@ -506,7 +509,7 @@ iframe22=anim_8200
 iframe23=anim_8201
 iframe24=anim_8202
 
-[seq_1127]
+[godstatue_spin]
 loops=16
 frame1=anim_8549
 frame2=anim_8557
@@ -715,7 +718,7 @@ frame31=anim_8540
 frame32=anim_8541
 frame33=anim_8542
 
-[seq_1135]
+[macro_spotlight_off]
 loops=1
 frame1=anim_8592
 frame2=anim_8593
@@ -727,7 +730,7 @@ frame7=anim_8598
 frame8=anim_8599
 frame9=anim_8600
 
-[seq_1136]
+[macro_spotlight_on]
 loops=1
 frame1=anim_8600
 frame2=anim_8599
@@ -739,13 +742,13 @@ frame7=anim_8594
 frame8=anim_8593
 frame9=anim_8592
 
-[seq_1137]
+[human_sitting_chair]
 frame1=anim_8388
 frame2=anim_8389
 frame3=anim_8390
 frame4=anim_8391
 
-[seq_1138]
+[godsorb]
 loops=27
 frame1=anim_8565
 frame2=anim_8576
@@ -775,7 +778,7 @@ frame25=anim_8582
 frame26=anim_8583
 frame27=anim_8584
 
-[seq_1139]
+[troll_walk_shield]
 frame1=anim_8696
 frame2=anim_8697
 frame3=anim_8698
@@ -785,7 +788,7 @@ frame6=anim_8701
 frame7=anim_8702
 frame8=anim_8703
 
-[seq_1140]
+[troll_walk_sword]
 frame1=anim_8713
 frame2=anim_8714
 frame3=anim_8715
@@ -795,7 +798,7 @@ frame6=anim_8718
 frame7=anim_8719
 frame8=anim_8720
 
-[seq_1141]
+[troll_walk_sword+shield]
 frame1=anim_8704
 frame2=anim_8705
 frame3=anim_8706
@@ -831,7 +834,7 @@ frame8=anim_8730
 frame9=anim_8731
 frame10=anim_8723
 
-[seq_1144]
+[sitting_ready]
 frame1=anim_4894
 frame2=anim_4898
 
@@ -846,7 +849,7 @@ frame7=anim_4905
 frame8=anim_4910
 frame9=anim_4914
 
-[seq_1146]
+[walk_walkingstick]
 stretches=yes
 frame1=anim_4768
 frame2=anim_4771
@@ -857,7 +860,7 @@ frame6=anim_4893
 frame7=anim_4767
 frame8=anim_4770
 
-[seq_1147]
+[wounded_sitting]
 priority=6
 frame1=anim_8601
 frame2=anim_8009
@@ -1205,7 +1208,7 @@ frame16=anim_4208
 frame17=anim_4209
 frame18=anim_4210
 
-[seq_1161]
+[human_castentangle_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_1147
@@ -1217,7 +1220,7 @@ frame6=anim_617
 frame7=anim_912
 frame8=anim_1193
 
-[seq_1162]
+[human_caststrike_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_1140
@@ -1233,7 +1236,7 @@ frame10=anim_956
 frame11=anim_1240
 frame12=anim_1521
 
-[seq_1163]
+[human_castconfuse_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_672
@@ -1249,7 +1252,7 @@ frame10=anim_1584
 frame11=anim_1877
 frame12=anim_2175
 
-[seq_1164]
+[human_castweaken_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_2004
@@ -1265,7 +1268,7 @@ frame10=anim_2398
 frame11=anim_678
 frame12=anim_967
 
-[seq_1165]
+[human_castcurse_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_878
@@ -1281,7 +1284,7 @@ frame10=anim_1973
 frame11=anim_2275
 frame12=anim_556
 
-[seq_1166]
+[human_castcrumbleundead_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_1415
@@ -1297,7 +1300,7 @@ frame10=anim_1949
 frame11=anim_2252
 frame12=anim_532
 
-[seq_1167]
+[human_castwave_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_2349
@@ -1315,7 +1318,7 @@ frame12=anim_1205
 frame13=anim_924
 frame14=anim_630
 
-[seq_1168]
+[human_castenfeeble_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_1532
@@ -1331,7 +1334,7 @@ frame10=anim_1290
 frame11=anim_1570
 frame12=anim_1864
 
-[seq_1169]
+[human_caststun_staff]
 replaceheldleft=hide
 priority=6
 frame1=anim_1647

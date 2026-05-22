@@ -218,6 +218,7 @@ export default class ClientPlayer extends ClientEntity {
     maxTileX: number = 0;
     maxTileZ: number = 0;
     transmog: NpcType | null = null;
+    skillLevel: number = 0;
 
     setAppearance(buf: Packet): void {
         buf.pos = 0;
@@ -284,6 +285,7 @@ export default class ClientPlayer extends ClientEntity {
 
         this.name = JString.toScreenName(JString.toRawUsername(buf.g8()));
         this.combatLevel = buf.g1();
+        this.skillLevel = buf.g2();
         this.ready = true;
 
         this.baseId = 0n;
@@ -329,7 +331,7 @@ export default class ClientPlayer extends ClientEntity {
             const spotModel = spot.getTempModel2();
 
             if (spotModel != null) {
-                const temp: Model = Model.copyForAnim(spotModel, true, AnimFrame.shareAlpha(this.spotanimFrame), false);
+                const temp: Model = Model.copyForAnim(spotModel, true, AnimFrame.animateTransparencies(this.spotanimFrame), false);
 
                 temp.translate(-this.spotanimHeight, 0, 0);
                 temp.prepareAnim();
@@ -475,7 +477,7 @@ export default class ClientPlayer extends ClientEntity {
 
             if (needsModel) {
                 if (this.modelCacheKey !== -1n) {
-                    model = ClientPlayer.modelCache.find(this.baseId);
+                    model = ClientPlayer.modelCache.find(this.modelCacheKey);
                 }
 
                 if (model == null) {
@@ -539,7 +541,7 @@ export default class ClientPlayer extends ClientEntity {
         }
 
         const tmp = Model.tempModel;
-        tmp.set(model, AnimFrame.shareAlpha(primaryTransformId) && AnimFrame.shareAlpha(secondaryTransformId));
+        tmp.set(model, AnimFrame.animateTransparencies(primaryTransformId) && AnimFrame.animateTransparencies(secondaryTransformId));
 
         if (primaryTransformId !== -1 && secondaryTransformId !== -1) {
             tmp.maskAnimate(primaryTransformId, secondaryTransformId, SeqType.list[this.primaryAnim].walkmerge);

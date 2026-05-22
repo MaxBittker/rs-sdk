@@ -26,7 +26,6 @@ class TinyMidiPCM {
 
         this.renderTimer = undefined;
 
-        this.test = 0;
     }
 
     async init() {
@@ -42,12 +41,12 @@ class TinyMidiPCM {
 
     // set buffer size based on seconds
     setBufferDuration(seconds) {
-        this.bufferSize = 4 * this.sampleRate * this.channels * seconds;
+        this.bufferSize = 2 * this.sampleRate * this.channels * seconds;
     }
 
     ensureInitialized() {
         if (!this.wasmModule) {
-            throw new Error(`${this.constructor.name} not initalized. call .init()`);
+            throw new Error(`${this.constructor.name} not initialized. call .init()`);
         }
     }
 

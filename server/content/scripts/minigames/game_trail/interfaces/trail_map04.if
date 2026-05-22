@@ -16,7 +16,7 @@ y=8
 buttontype=close
 width=74
 height=14
-font=p12
+font=p12_full
 shadowed=yes
 text=Close Window
 colour=0xFAD782
@@ -432,7 +432,7 @@ x=313
 y=187
 width=11
 height=11
-font=p11
+font=p11_full
 text=3E
 colour=0x4C3D26
 
@@ -442,7 +442,7 @@ x=340
 y=178
 width=13
 height=11
-font=p11
+font=p11_full
 text=3N
 colour=0x4C3D26
 
@@ -452,7 +452,7 @@ x=330
 y=155
 width=9
 height=11
-font=p11
+font=p11_full
 text=1E
 colour=0x4C3D26
 
@@ -462,7 +462,7 @@ x=350
 y=149
 width=14
 height=11
-font=p11
+font=p11_full
 text=2N
 colour=0x4C3D26
 

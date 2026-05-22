@@ -1,4 +1,10 @@
-[oplocu,spinning_wheel]
+[oplocu,_spinning_wheel]
+if(loc_type = viking_spinningwheel) {
+    if(%viking < ^viking_complete) {
+        mes("Only Fremenniks may use this spinning wheel.");
+        return;
+    }
+}
 switch_obj (last_useitem) 
 {
     case wool : @craft_spinning(last_useitem);
@@ -8,11 +14,102 @@ switch_obj (last_useitem)
             return;
         }
         @craft_spinning(last_useitem);
+    case viking_golden_fleece : // this still delays after other objs were changed to use weakqueue, also not weakqueueable until after 2007
+        if (map_members = ^false) {
+            mes(^mes_members_feature);
+            return;
+        }
+        anim(human_spinningwheel, 0);
+        loc_anim(spinningwheel);
+        sound_synth(spinning, 0, 0);
+        inv_del(inv, viking_golden_fleece, 1);
+        inv_add(inv, viking_golden_wool, 1);
+        mes("You spin the fleece into some golden string.");
+        stat_advance(crafting, 25);
+        p_delay(2);
     case ball_of_wool : ~objbox(ball_of_wool, "You have already spun this wool.", 250, 0, divide(^objbox_height, 2));
     case bow_string : ~objbox(bow_string, "You have already spun this bow string.", 250, 0, divide(^objbox_height, 2));
+    case viking_golden_wool : ~objbox(viking_golden_wool, "You have already spun this wool.", 250, 0, divide(^objbox_height, 2));
     case default : ~displaymessage(^dm_default);
-};
+}
 
+[oploc2,_spinning_wheel]
+if(loc_type = viking_spinningwheel) {
+    if(%viking < ^viking_complete) {
+        ~mesbox("Only Fremenniks may use this spinning wheel.");
+        return;
+    }
+}
+def_int $amt = 0;
+def_int $count = 0;
+def_obj $obj;
+
+// https://web.archive.org/web/20050525015428/http://runers2.fc2web.com/Lumbridge.htm
+$obj, $amt = ~skill_multi2_header(
+    "What would you like to spin?",
+    wool, 0, -2, 200, "\\n\\n\\n\\nWool", 
+    flax, 0, -3, 200, "\\n\\n\\n\\nFlax"
+);
+def_struct $struct = oc_param($obj, crafting_spinning_struct);
+
+if ($obj = flax & map_members = ^false) {
+    mes(^mes_members_crafting);
+    return;
+}
+
+def_int $level = struct_param($struct, levelrequire);
+if (stat(crafting) < $level) {
+    ~mesbox("You need level <tostring($level)> Crafting to make that.");
+    return;
+}
+
+if ($amt = 0) {
+    return;
+}
+
+// Make sure the player has an item to spin
+if (inv_total(inv, $obj) = 0) {
+    // https://youtu.be/U7QIAbcMKU4?si=QJv8TzKWe5P4C9Z8&t=47
+    mes("You'll need <lowercase(oc_name($obj))> to make that.");
+    return;
+}
+
+// macro event
+if (afk_event = ^true) {
+    ~macro_event_general_spawn(~macro_event_set_random);
+    return;
+}
+
+// play human animation
+anim(human_spinningwheel, 0);
+loc_anim(spinningwheel);
+sound_synth(spinning, 0, 0);
+weakqueue*(crafting_spinning, 3)($obj, $struct, $amt, loc_type, loc_coord);
+
+[label,process_spin](obj $spinning_obj, struct $struct, int $amt, loc $loc, coord $coord)
+if (inv_total(inv, $spinning_obj) = 0) {
+    mes("You have run out of <lowercase(oc_name($spinning_obj))>.");
+    return;
+}
+if(loc_find($coord, $loc) = true) {
+    anim(human_spinningwheel, 0);
+    loc_anim(spinningwheel);
+    sound_synth(spinning, 0, 0);
+    weakqueue*(crafting_spinning, 2)($spinning_obj, $struct, $amt, $loc, $coord);
+}
+
+[queue,crafting_spinning](obj $spinning_obj, struct $struct, int $amt, loc $loc, coord $coord)
+inv_del(inv, struct_param($struct, ingredient), 1);
+inv_add(inv, struct_param($struct, product), 1);
+mes(struct_param($struct, processmessage));
+stat_advance(crafting, struct_param($struct, productexp));
+$amt = sub($amt, 1);
+if ($amt = 0) {
+    return;
+}
+@process_spin($spinning_obj, $struct, $amt, $loc, $coord);
+
+// delay spinning
 [label,craft_spinning](obj $spinning_obj)
 def_struct $struct = oc_param($spinning_obj, crafting_spinning_struct);
 // check if we have the required level
@@ -32,25 +129,6 @@ loc_anim(spinningwheel);
 sound_synth(spinning, 0, 0);
 inv_del(inv, struct_param($struct, ingredient), 1);
 inv_add(inv, struct_param($struct, product), 1);
-mes(struct_param($struct, processmessage));
+mes(struct_param($struct, productmessage));
 stat_advance(crafting, struct_param($struct, productexp));
-p_delay(3);
-//weakqueue(crafting_spinning, 2, $struct);
-
-/**
-//May have not used weakqueue for this back then https://youtu.be/eQEYx8hwA_I?t=410
-// todo flax spinning must have been queue because of 2 diff messages: https://youtu.be/HQEpeWAUMbI?t=51
-// todo one for in queue and one out of queue. -jordan
-[weakqueue,crafting_spinning](struct $struct)
-// delete item
-inv_del(inv, struct_param($struct, ingredient), 1);
-
-// add item
-inv_add(inv, struct_param($struct, product), 1);
-// display game message
-mes(struct_param($struct, processmessage));
-
-stat_advance(crafting, struct_param($struct, productexp));
-*/
-
-
+p_delay(2);

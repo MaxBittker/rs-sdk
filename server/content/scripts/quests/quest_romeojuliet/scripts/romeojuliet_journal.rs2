@@ -31,7 +31,7 @@ if(%rjquest = ^romeojuliet_not_started) {
     $text = append($text, "@str@said that Father Lawrence might be able to overcome this.|");
     $text = append($text, "@str@I found Father Lawrence and he suggested the use of a|@str@potion to fool Juliet's father that she is dead so that|");
     $text = append($text, "@str@Romeo and Juliet can be together in peace.|");
-    $text = append($text, "@dbl@I need to find the @dre@Apothecary@dbl@ to make a @dre@cadaver potion@dbl@.");
+    $text = append($text, "@dbl@I need to find the @dre@Apothecary@dbl@ to make a @dre@cadava potion@dbl@.");
 
 } else if(%rjquest = ^romeojuliet_spoken_apothecary) {
     $text = "@str@I have agreed to find Juliet for Romeo and tell her how he|@str@feels. For some reason he can't just do this himself.|";
@@ -40,14 +40,14 @@ if(%rjquest = ^romeojuliet_not_started) {
     $text = append($text, "@str@said that Father Lawrence might be able to overcome this.|");
     $text = append($text, "@str@I found Father Lawrence and he suggested the use of a|@str@potion to fool Juliet's father that she is dead so that|");
     $text = append($text, "@str@Romeo and Juliet can be together in peace.|");
-    $text = append($text, "@str@I went to the Apothecary regarding making this cadaver|@str@potion, and he told me to bring him some cadaver berries.|");
+    $text = append($text, "@str@I went to the Apothecary regarding making this cadava|@str@potion, and he told me to bring him some cadava berries.|");
 
     if (inv_total(inv, cadava) > 0) {
-        $text = append($text, "@dbl@I should take this @dre@cadaver potion@dbl@ to @dre@Juliet@dbl@.");
+        $text = append($text, "@dbl@I should take this @dre@cadava potion@dbl@ to @dre@Juliet@dbl@.");
     } else if (inv_total(inv, cadavaberries) > 0) {
-        $text = append($text, "@dbl@I should take these @dre@cadaver berries@dbl@ to the @dre@Apothecary@dbl@.");
+        $text = append($text, "@dbl@I should take these @dre@cadava berries@dbl@ to the @dre@Apothecary@dbl@.");
     } else {
-        $text = append($text, "@dbl@I will have to find some @dre@cadaver berries@dbl@.");
+        $text = append($text, "@dbl@I will have to find some @dre@cadava berries@dbl@.");
     }
 
 } else if(%rjquest = ^romeojuliet_juliet_crypt) {
@@ -57,7 +57,7 @@ if(%rjquest = ^romeojuliet_not_started) {
     $text = append($text, "@str@said that Father Lawrence might be able to overcome this.|");
     $text = append($text, "@str@I found Father Lawrence and he suggested the use of a|@str@potion to fool Juliet's father that she is dead so that|");
     $text = append($text, "@str@Romeo and Juliet can be together in peace.|");
-    $text = append($text, "@str@I went to the Apothecary regarding making this cadaver|@str@potion, and he told me to bring him some cadaver berries.|");
+    $text = append($text, "@str@I went to the Apothecary regarding making this cadava|@str@potion, and he told me to bring him some cadava berries.|");
     $text = append($text, "@str@After the Apothecary made me the potion, I delivered it to|@str@Juliet. She asked me to tell Romeo the plan.|");
     $text = append($text, "@dbl@I have to find @dre@Romeo@dbl@ and tell him what's happened.");
 
@@ -68,7 +68,7 @@ if(%rjquest = ^romeojuliet_not_started) {
     $text = append($text, "@str@said that Father Lawrence might be able to overcome this.|");
     $text = append($text, "@str@I found Father Lawrence and he suggested the use of a|@str@potion to fool Juliet's father that she is dead so that|");
     $text = append($text, "@str@Romeo and Juliet can be together in peace.|");
-    $text = append($text, "@str@I went to the Apothecary regarding making this cadaver|@str@potion, and he told me to bring him some cadaver berries.|");
+    $text = append($text, "@str@I went to the Apothecary regarding making this cadava|@str@potion, and he told me to bring him some cadava berries.|");
     $text = append($text, "@str@After the Apothecary made me the potion, I delivered it to|@str@Juliet. She asked me to tell Romeo the plan.|");
     $text = append($text, "@str@I told Romeo what was going to happen, but I'm not exactly|@str@sure he understood what was happening. Ah well, I was|");
     $text = append($text, "@str@rewarded for all of my help regardless.|");

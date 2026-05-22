@@ -341,3 +341,10 @@ data=consumable,2dose1magic
 data=consumable,3dose1magic
 data=consumable,4dose1magic
 data=stat_change,magic,4,0
+
+[viking_beer_effect]
+table=consume_table
+data=consumable,viking_tankard_full
+data=stat_change,strength,2,4
+data=stat_change,attack,-2,-10
+data=stat_heal,hitpoints,4,0

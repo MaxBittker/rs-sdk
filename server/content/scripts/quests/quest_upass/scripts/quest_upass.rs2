@@ -226,7 +226,7 @@ if(last_useitem = spade) {
 [oploc1,cave_railings2]
 mes("You attempt to pick the lock...");
 def_int $roll = random(100);
-if ($roll < 50) { // Some arbitrary rng.
+if (stat_random(thieving, 128, 400) = false) {
     mes("You fail to pick the lock.");
     return;
 }
@@ -251,7 +251,7 @@ if(stat(thieving) < 50) {
 }
 mes("You attempt to pick the lock...");
 def_int $roll = random(100);
-if ($roll < 50) { // Some arbitrary rng.
+if (stat_random(thieving, 128, 400) = false) {
     mes("You fail to pick the lock.");
     return;
 }
@@ -573,6 +573,16 @@ switch_obj (last_useitem) {
 
 [label,open_iban_door]
 if(coordx(loc_coord) < coordx(coord)) {
+    if(%regicide_quest >= ^regicide_spoken_lathas) {
+        mes("You pull open the large doors...");
+        // Temp note: dur updated
+        loc_change(loc_param(next_loc_stage), 5);
+        sound_synth(door_open, 0, 0);
+        p_teleport(movecoord(loc_coord, 1, 0, 0));
+        p_delay(0);
+        p_teleport(movecoord(coord, -130, 0, 64));
+        return;
+    }
     if(inv_total(worn, zamrobetop) = 0 | inv_total(worn, zamrobebottom) = 0 | inv_freespace(worn) ! calc(inv_size(worn) - 2)) {
         mes("The door refuses to open...");
         p_delay(1);
@@ -616,6 +626,9 @@ if(coordx(loc_coord) < coordx(coord)) {
     mes("...And walk out of the temple.");
     sound_synth(door_open, 0, 0);
     ~forcemove(movecoord(loc_coord, 2, 0, 0));
+    if(%regicide_quest >= ^regicide_spoken_lathas) {
+        p_teleport(movecoord(coord, 128, 0, -64));
+    }
 }
 
 [opheld1,ibandoll]

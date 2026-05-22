@@ -54,7 +54,7 @@ param=prayerbonus,8
 
 [stringsnake]
 name=Unpowered symbol
-desc=An unholy symbol of Zamorak.
+desc=An unblessed symbol of Zamorak.
 cost=200
 model=model_2670_obj
 recol1s=25249
@@ -123,6 +123,8 @@ model=model_2770_obj
 2dyan=868
 2dxan=368
 weight=1g
+manwear=model_4047,0
+womanwear=model_4047,0
 
 [thread]
 name=Thread
@@ -245,6 +247,7 @@ weight=5g
 members=yes
 
 [dragonhide_black]
+cost=80
 name=Dragonhide
 desc=The scaly rough hide from a Dragon
 model=model_2356_obj
@@ -259,8 +262,10 @@ recol2d=12684
 2dxan=440
 weight=7lb
 members=yes
+param=color,black
 
 [dragonhide_red]
+cost=60
 name=Dragonhide
 desc=The scaly rough hide from a Dragon
 model=model_2356_obj
@@ -275,8 +280,10 @@ recol2d=12288
 2dxan=440
 weight=7lb
 members=yes
+param=color,red
 
 [dragonhide_blue]
+cost=40
 name=Dragonhide
 desc=The scaly rough hide from a Dragon
 model=model_2356_obj
@@ -291,8 +298,10 @@ recol2d=93
 2dxan=440
 weight=7lb
 members=yes
+param=color,blue
 
 [dragonhide_green]
+cost=20
 name=Dragonhide
 desc=The scaly rough hide from a Dragon
 model=model_2356_obj
@@ -303,3 +312,4 @@ model=model_2356_obj
 2dxan=440
 weight=7lb
 members=yes
+param=color,green

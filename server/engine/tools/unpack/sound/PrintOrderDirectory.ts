@@ -5,14 +5,14 @@ import fs from 'fs';
 type Synth = {
     id: number;
     name: string;
-}
+};
 
 type SynthDirectory = {
     name: string;
     parentDirectory: string | null;
     synths: Synth[];
     childDirectories: SynthDirectory[];
-}
+};
 
 const lookup = new Map<string, string>();
 function scanDirectory(dir: SynthDirectory, fullPath: string = '') {
@@ -30,8 +30,8 @@ function scanDirectory(dir: SynthDirectory, fullPath: string = '') {
 const tree = JSON.parse(fs.readFileSync('data/pack/synths.json', 'utf-8')) as SynthDirectory;
 scanDirectory(tree);
 
-const order = loadOrder(`${Environment.BUILD_SRC_DIR}/pack/synth.order`);
-const pack = loadPack(`${Environment.BUILD_SRC_DIR}/pack/synth.pack`);
+const order = loadOrder(`${Environment.build.srcDir}/pack/synth.order`);
+const pack = loadPack(`${Environment.build.srcDir}/pack/synth.pack`);
 
 fs.writeFileSync('data/pack/dir2.txt', '');
 for (const id of order) {

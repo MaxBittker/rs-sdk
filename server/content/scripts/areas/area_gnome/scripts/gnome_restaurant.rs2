@@ -40,12 +40,12 @@ inv_add(inv, batta_tin, 1);
 [label,gnome_restaurant_assign_chocolate_bomb]
 ~chatplayer("<p,neutral>Hi Mr Gianne.");
 ~chatnpc("<p,happy>Call me Aluft. So how did you get on?");
-if (inv_total(inv, cheese_tom_batta) > 0) {
+if (inv_total(inv, cheese+tom_batta) > 0) {
     ~chatplayer("<p,neutral>No problem, it was easy.");
     ~mesbox("You give Aluft the batta. He sniffs it then takes a bite...");
     ~chatnpc("<p,happy>Not bad, not bad at all.");
     ~chatnpc("<p,neutral>Ok now for something a little harder. Try and make me a chocolate bomb. They're my favourite. Here's everything you need.");
-    inv_del(inv, cheese_tom_batta, 1);
+    inv_del(inv, cheese+tom_batta, 1);
     inv_add(inv, chocolate_bar, 4);
     inv_add(inv, equa_leaves, 1);
     inv_add(inv, chocolate_dust, 1);
@@ -66,7 +66,7 @@ if (~gnome_restaurant_missing_batta_tin = true) {
         return;
     }
 } else {
-    if (~gnome_restaurant_food_check(premade_cheese_tom_batta, "batta") = false) {
+    if (~gnome_restaurant_food_check(premade_cheese+tom_batta, "batta") = false) {
         return;
     }
 }
@@ -352,7 +352,7 @@ switch_int(%gnome_restaurant_progress) {
     case 14 :
         ~chatnpc("<p,neutral>Hello again <displayname()> how did you do?");
         ~gnome_restaurant_job_checks("Here you go Aluft.", "a cheese and tomato batta, a veg ball, and two portions of worm crunchies", "I need ", " please", 60,
-        cheese_tom_batta, 1, 
+        cheese+tom_batta, 1, 
         veg_ball, 1, 
         worm_crunchies, 2, 
         null, 0, 

@@ -26,4 +26,5 @@ switch_obj($weapon) {
     case rune_thrownaxe : @pvm_rune_thrownaxe_sa;
     case dragon_spear, dragon_spear_p : @pvm_dragon_spear_sa;
     case rune_claws : @pvm_rune_claws_sa;
+    case dragon_halberd : @pvm_dragon_halberd_sa;
 }

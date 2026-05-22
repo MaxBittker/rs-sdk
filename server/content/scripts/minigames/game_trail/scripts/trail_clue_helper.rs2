@@ -72,10 +72,15 @@ return (false);
 [proc,trail_casket_obtained](namedobj $casket)
 ~objbox($casket, "You've found a casket!", 250, 0, divide(^objbox_height, 2));
 
+[label,trail_clue_loc_interact](obj $clue)
+if(oc_category($clue) = trail_clue_hard) @trail_clue_hard_loc_interact($clue);
+if(oc_category($clue) = trail_clue_medium) @trail_clue_medium_loc_interact($clue);
+else @trail_clue_easy_loc_interact($clue);
+
 [proc,trail_complete]
 ~clear_trail_progress;
 mes("Well done you've completed the Treasure Trail!");
-midi_jingle(^treasure_hunt_win_jingle, ^treasure_hunt_win_jingle_millis);
+~music_jingle("treasure hunt win");
 inv_transmit(trail_rewardinv, trail_reward:inv);
 if_openmain(trail_reward);
 queue(trail_give_reward, 0, 0);

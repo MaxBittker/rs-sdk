@@ -11,7 +11,7 @@ switch_int (%waterfall_quest) {
         ~chatnpc("<p,neutral>People come from miles around to fish in the clear lakes or to wander the beautiful hill sides");
         ~chatplayer("<p,neutral>It is quite pretty.");
         ~chatnpc("<p,neutral>Surely pretty is an understatement kind <text_gender("Sir", "Lady")>. Beautiful, amazing or possibly life-changing would be more suitable wording. Have you seen the Baxtorian Waterfall? Named after the elf king who was buried beneath.");
-        @multi4("What happened to the elf king?", waterfall_hadley_elf_king, "Where else is worth visiting around here?", waterfall_hadley_worth_visiting,  "I don't like nature, it gives me a rash!", @waterfall_hadley_nature, "Thanks then, goodbye.", waterfall_hadley_bye);
+        @multi4("What happened to the elf king?", waterfall_hadley_elf_king, "Where else is worth visiting around here?", waterfall_hadley_worth_visiting,  "I don't like nature, it gives me a rash!", waterfall_hadley_nature, "Thanks then, goodbye.", waterfall_hadley_bye);
     case default :
         ~chatnpc("<p,neutral>Are you on holiday? If so you've come to the right place. I'm Hadley the tourist guide, anything you need to know just ask me. We have some of the most unspoilt wildlife and scenery in RuneScape.");
         ~chatnpc("<p,neutral>People come from miles around to fish in the clear lakes or to wander the beautiful hill sides");
