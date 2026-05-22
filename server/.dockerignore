@@ -2,7 +2,12 @@
 node_modules/
 server/engine/node_modules/
 server/gateway/node_modules/
+server/webclient/node_modules/
 sdk/node_modules/
+
+# Webclient bundle is built inside the image (see Dockerfile); never ship the local
+# build artifacts, or a deploy could silently serve a stale client.
+server/webclient/out/
 
 # Dirs not needed for production
 benchmark/

@@ -14,6 +14,7 @@ WORKDIR /opt/server
 # Copy only package files first
 COPY server/engine/package.json server/engine/bun.lock /opt/server/engine/
 COPY server/gateway/package.json server/gateway/bun.lock /opt/server/gateway/
+COPY server/webclient/package.json server/webclient/bun.lock /opt/server/webclient/
 
 # Install engine deps with bun cache mount
 WORKDIR /opt/server/engine
@@ -22,6 +23,11 @@ RUN --mount=type=cache,target=/root/.bun/install/cache \
 
 # Install gateway deps with bun cache mount
 WORKDIR /opt/server/gateway
+RUN --mount=type=cache,target=/root/.bun/install/cache \
+    bun install
+
+# Install webclient deps with bun cache mount
+WORKDIR /opt/server/webclient
 RUN --mount=type=cache,target=/root/.bun/install/cache \
     bun install
 
@@ -35,6 +41,13 @@ COPY server/webclient /opt/server/webclient
 COPY server/engine /opt/server/engine
 COPY server/gateway /opt/server/gateway
 COPY sdk /opt/sdk
+
+# Build webclient bundle (out/standard, out/bot, out/viewer). out/ is gitignored and
+# NOT shipped from the local build context (see .dockerignore), so it must be built
+# here — otherwise the engine would serve a stale or missing client. The engine serves
+# this from ../webclient/out relative to its CWD (i.e. /opt/server/webclient/out).
+WORKDIR /opt/server/webclient
+RUN bun run build
 
 # Patch and build engine
 # 274 removed .env.example; runtime config now comes from process.env (overlaid in
