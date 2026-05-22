@@ -1,7 +1,12 @@
 import { tryParseBoolean, tryParseInt } from '#/util/TryParse.js';
-import { loadWorldConfig } from '#/util/WorldConfig.js';
+import { loadWorldConfig, migrateFromLegacyEnv } from '#/util/WorldConfig.js';
 
-const config = loadWorldConfig();
+// rs-sdk: 274 reads nested config from data/config/world.json only; it does NOT
+// consult process.env. Deployments (fly.io [env], Docker -e, etc.) set the legacy
+// flat env vars (WEB_PORT, LOGIN_SERVER, NODE_MEMBERS, ...), so overlay process.env
+// on top of the loaded config — env vars win, absent keys fall back to world.json /
+// defaults. Locally (no such vars set) this is a no-op.
+const config = migrateFromLegacyEnv(loadWorldConfig(), process.env as Record<string, string>);
 
 export default {
     runtime: {

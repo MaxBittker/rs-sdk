@@ -218,7 +218,7 @@ function parseLegacyEnvFile(filePath: string): Record<string, string> {
     return env;
 }
 
-function migrateFromLegacyEnv(defaults: WorldConfig, env: Record<string, string>): WorldConfig {
+export function migrateFromLegacyEnv(defaults: WorldConfig, env: Record<string, string>): WorldConfig {
     const config = structuredClone(defaults);
 
     config.easyStartup = tryParseBoolean(env.EASY_STARTUP, config.easyStartup);

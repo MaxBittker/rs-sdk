@@ -37,9 +37,10 @@ COPY server/gateway /opt/server/gateway
 COPY sdk /opt/sdk
 
 # Patch and build engine
+# 274 removed .env.example; runtime config now comes from process.env (overlaid in
+# Environment.ts) / data/config/world.json, so no .env file is needed at build time.
 WORKDIR /opt/server/engine
-RUN [ -f .env ] || cp .env.example .env && \
-    sed -i 's/port: Environment.WEB_PORT,/port: Environment.WEB_PORT, hostname: "0.0.0.0",/' src/web/index.ts && \
+RUN sed -i 's/port: Environment.WEB_PORT,/port: Environment.WEB_PORT, hostname: "0.0.0.0",/' src/web/index.ts && \
     bun run build
 
 # Patch gateway
