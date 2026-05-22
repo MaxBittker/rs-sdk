@@ -977,7 +977,7 @@ export class Client extends GameShell {
      * Use findNpcByName to get the index
      */
     talkToNpc(npcIndex: number): boolean {
-        if (!this.ingame || !this.out || npcIndex < 0) {
+        if (!this.ingame || !this.out || !this.localPlayer || npcIndex < 0) {
             return false;
         }
 
@@ -985,6 +985,11 @@ export class Client extends GameShell {
         if (!n) {
             return false;
         }
+
+        // Walk to the NPC first. In 274's client-routefinder mode the server expects the
+        // client to send the route to an interaction target; without it the player never
+        // moves and the server replies "I can't reach that!". Mirrors spellOnNpc/useItemOnNpc.
+        this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], n.routeX[0], n.routeZ[0], false, 1, 1, 0, 0, 0, 2);
 
         // Send OPNPC1 packet (Talk-to)
         this.writePacketOpcode(ClientProt.OPNPC1);
@@ -999,7 +1004,7 @@ export class Client extends GameShell {
      * Use getNearbyNpcs() to see available options for each NPC
      */
     interactNpc(npcIndex: number, optionIndex: number): boolean {
-        if (!this.ingame || !this.out || npcIndex < 0 || optionIndex < 1 || optionIndex > 5) {
+        if (!this.ingame || !this.out || !this.localPlayer || npcIndex < 0 || optionIndex < 1 || optionIndex > 5) {
             return false;
         }
 
@@ -1007,6 +1012,11 @@ export class Client extends GameShell {
         if (!n) {
             return false;
         }
+
+        // Walk to the NPC first. In 274's client-routefinder mode the server expects the
+        // client to send the route to an interaction target; without it the player never
+        // moves and the server replies "I can't reach that!". Mirrors spellOnNpc/useItemOnNpc.
+        this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], n.routeX[0], n.routeZ[0], false, 1, 1, 0, 0, 0, 2);
 
         // Send the appropriate OPNPC packet based on option index
         const opcodes = [
@@ -1027,9 +1037,19 @@ export class Client extends GameShell {
      * Option 2 is Attack (wilderness only), Option 3 is Follow, Option 4 is Trade
      */
     interactPlayer(playerIndex: number, optionIndex: number): boolean {
-        if (!this.ingame || !this.out || playerIndex < 0 || optionIndex < 1 || optionIndex > 4) {
+        if (!this.ingame || !this.out || !this.localPlayer || playerIndex < 0 || optionIndex < 1 || optionIndex > 4) {
             return false;
         }
+
+        const p = this.players[playerIndex];
+        if (!p) {
+            return false;
+        }
+
+        // Walk to the player first. In 274's client-routefinder mode the server expects the
+        // client to send the route to an interaction target; without it the player never
+        // moves and the server replies "I can't reach that!". Mirrors spellOnNpc/useItemOnNpc.
+        this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], p.routeX[0], p.routeZ[0], false, 1, 1, 0, 0, 0, 2);
 
         const opcodes = [
             ClientProt.OPPLAYER1,
