@@ -194,7 +194,7 @@ export class BotOverlay implements GatewayMessageHandler {
         // Get dialog state - include componentId for direct clicking
         const dialogOptions: Array<{ index: number; text: string; componentId?: number; buttonType?: number }> = [];
         const allDialogComponents: Array<{ id: number; type: number; buttonType: number; option: string; text: string }> = [];
-        if (c.chatComId !== -1) {
+        if (c.chatModalId !== -1) {
             const options = this.client.getDialogOptions();
             for (const opt of options) {
                 dialogOptions.push({

@@ -1702,7 +1702,7 @@ export class Client extends GameShell {
             return false;
         }
 
-        const combatInterfaceId = this.sideOverlayId[0];
+        const combatInterfaceId = this.sideIcon[0];
         if (combatInterfaceId === -1) {
             console.log('[Client] No combat interface in tab 0');
             return false;
@@ -2456,12 +2456,12 @@ export class Client extends GameShell {
         if (!this.ingame || tabIndex < 0 || tabIndex > 13) {
             return false;
         }
-        if (this.sideOverlayId[tabIndex] === -1) {
+        if (this.sideIcon[tabIndex] === -1) {
             return false;
         }
-        this.sideTab = tabIndex;
-        this.redrawSidebar = true;
-        this.redrawSideicons = true;
+        this.activeIcon = tabIndex;
+        this.redrawSide = true;
+        this.redrawIcons = true;
         return true;
     }
 

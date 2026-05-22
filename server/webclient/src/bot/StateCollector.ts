@@ -209,7 +209,7 @@ export class BotStateCollector implements ScanProvider {
 
     private collectDialogState(): DialogState {
         const c = this.client as any;
-        const isOpen = c.chatComId !== -1;
+        const isOpen = c.chatModalId !== -1;
         const isWaiting = c.resumedPauseButton || false;
 
         // Capture dialog to history when open
