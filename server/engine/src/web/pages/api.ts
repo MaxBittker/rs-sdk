@@ -67,11 +67,12 @@ export function handleExportCollisionApi(url: URL): Response | null {
             }
         };
 
+        let zipEntries: Record<string, Uint8Array> | null = null;
         const zipPath = 'data/pack/.cache/maps-server.zip';
         if (fs.existsSync(zipPath)) {
             try {
-                const entries = unzipSync(fs.readFileSync(zipPath));
-                for (const name of Object.keys(entries)) addMapsquare(name);
+                zipEntries = unzipSync(fs.readFileSync(zipPath));
+                for (const name of Object.keys(zipEntries)) addMapsquare(name);
             } catch (e) {
                 console.warn('exportCollision: failed to read maps zip, falling back to dir only', e);
             }
@@ -80,6 +81,18 @@ export function handleExportCollisionApi(url: URL): Response | null {
         if (fs.existsSync(mapDir)) {
             for (const file of fs.readdirSync(mapDir)) addMapsquare(file);
         }
+
+        // Load a map packet (e.g. "m37_71" / "l37_71") from whichever source has it —
+        // the raw dir or the zip. Mapsquares present only in the zip have no dir file,
+        // so reading from the dir alone throws ENOENT during the door scan below.
+        const loadMapPacket = (prefix: string, mx: number, mz: number): Packet | null => {
+            const file = `${mapDir}${prefix}${mx}_${mz}`;
+            if (fs.existsSync(file)) {
+                return Packet.load(file);
+            }
+            const bytes = zipEntries?.[`${prefix}${mx}_${mz}`];
+            return bytes ? new Packet(bytes) : null;
+        };
         const mapsquares: Array<[number, number]> = [...mapsquareSet].map(k => {
             const [mx, mz] = k.split('_').map(Number);
             return [mx, mz];
@@ -143,9 +156,14 @@ export function handleExportCollisionApi(url: URL): Response | null {
             const mapsquareX = mx << 6;
             const mapsquareZ = mz << 6;
 
+            // Parse loc file (same format as GameMap.loadLocations). Skip squares with
+            // no loc data in either source — nothing to scan for doors.
+            const locPacket = loadMapPacket('l', mx, mz);
+            if (!locPacket) continue;
+
             // Load ground data for bridge level adjustments (same as GameMap.loadGround)
             const lands = new Int8Array(4 * MAPSQUARE_SIZE * MAPSQUARE_SIZE);
-            const groundPacket = Packet.load(`${mapDir}m${mx}_${mz}`);
+            const groundPacket = loadMapPacket('m', mx, mz) ?? new Packet(new Uint8Array());
             for (let level = 0; level < LEVELS; level++) {
                 for (let x = 0; x < MAPSQUARE_SIZE; x++) {
                     for (let z = 0; z < MAPSQUARE_SIZE; z++) {
@@ -162,8 +180,6 @@ export function handleExportCollisionApi(url: URL): Response | null {
                 }
             }
 
-            // Parse loc file (same format as GameMap.loadLocations)
-            const locPacket = Packet.load(`${mapDir}l${mx}_${mz}`);
             let locId = -1;
             let locIdOffset = locPacket.gsmarts();
             while (locIdOffset !== 0) {
