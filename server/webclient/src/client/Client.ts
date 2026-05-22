@@ -134,9 +134,9 @@ export class Client extends GameShell {
         let acc: number = 0;
         for (let i: number = 0; i < 99; i++) {
             const level: number = i + 1;
-            const delta: number = (level + Math.pow(2.0, level / 7.0) * 300.0) | 0;
+            const delta: number = (level + Math.pow(2.0, level / 10.0) * 300.0) | 0;
             acc += delta;
-            Client.levelExperience[i] = (acc / 4) | 0;
+            Client.levelExperience[i] = ((acc / 4) | 0) * 10;
         }
     }
 
