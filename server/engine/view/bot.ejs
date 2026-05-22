@@ -412,7 +412,7 @@
     </script>
 
     <script type="module">
-        import { Client } from './bot/client.js';
+        import { Client } from './bot/client.js?v=<%= cachebust %>';
 
         <% if (per_deployment_token) { %>
             document.cookie = 'per_deployment_token="<%= per_deployment_token %>"; Domain=' + window.location.hostname;
