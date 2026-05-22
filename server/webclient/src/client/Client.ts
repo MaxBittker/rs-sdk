@@ -846,6 +846,19 @@ export class Client extends GameShell {
             this.out.p1(this.idkDesignColour[i]);
         }
 
+        // IDK_SAVEDESIGN only sets the appearance. The on-screen "Accept" button is a
+        // normal button (clientcode CC_ACCEPT_DESIGN) whose IF_BUTTON trigger
+        // ([if_button,player_kit:accept]) is what closes the design interface and
+        // advances the tutorial. A real click sends both; replicate the IF_BUTTON here.
+        for (let i = 0; i < IfType.list.length; i++) {
+            const com = IfType.list[i];
+            if (com && com.clientCode === ClientCode.CC_ACCEPT_DESIGN) {
+                this.writePacketOpcode(ClientProt.IF_BUTTON);
+                this.out.p2(com.id);
+                break;
+            }
+        }
+
         return true;
     }
 
@@ -1637,7 +1650,7 @@ export class Client extends GameShell {
         this.out.p1Enc(ClientProt.RESUME_P_COUNTDIALOG);
         this.out.p4(value);
         this.dialogInputOpen = false;
-        this.redrawChatback = true;
+        this.redrawChat = true;
 
         console.log(`[Client] submitCountDialog: value=${value}`);
         return true;
@@ -2108,16 +2121,16 @@ export class Client extends GameShell {
         }
 
         if (optionIndex === 0) {
-            if (!this.resumedPauseButton && this.chatComId !== -1) {
+            if (!this.resumedPauseButton && this.chatModalId !== -1) {
                 this.writePacketOpcode(ClientProt.RESUME_PAUSEBUTTON);
-                this.out.p2(this.chatComId);
+                this.out.p2(this.chatModalId);
                 this.resumedPauseButton = true;
                 return true;
             }
             return false;
         }
 
-        if (this.chatComId !== -1) {
+        if (this.chatModalId !== -1) {
             const dialogOptions = this.getDialogOptions();
             if (optionIndex > 0 && optionIndex <= dialogOptions.length) {
                 const option = dialogOptions[optionIndex - 1];
@@ -2146,7 +2159,7 @@ export class Client extends GameShell {
     getDialogOptions(): Array<{ index: number; text: string; componentId: number; buttonType: number }> {
         const options: Array<{ index: number; text: string; componentId: number; buttonType: number }> = [];
 
-        if (this.chatComId === -1) {
+        if (this.chatModalId === -1) {
             return options;
         }
 
@@ -2171,7 +2184,7 @@ export class Client extends GameShell {
             }
         };
 
-        scanComponent(this.chatComId);
+        scanComponent(this.chatModalId);
         return options;
     }
 
@@ -2181,7 +2194,7 @@ export class Client extends GameShell {
     debugDialogComponents(): Array<{ id: number; type: number; buttonType: number; option: string; text: string; scripts?: string; scriptOperand?: string }> {
         const components: Array<{ id: number; type: number; buttonType: number; option: string; text: string; scripts?: string; scriptOperand?: string }> = [];
 
-        if (this.chatComId === -1) {
+        if (this.chatModalId === -1) {
             return components;
         }
 
@@ -2208,7 +2221,7 @@ export class Client extends GameShell {
             }
         };
 
-        scanComponent(this.chatComId);
+        scanComponent(this.chatModalId);
         return components;
     }
 
@@ -2218,7 +2231,7 @@ export class Client extends GameShell {
     getDialogText(): string[] {
         const texts: string[] = [];
 
-        if (this.chatComId === -1) {
+        if (this.chatModalId === -1) {
             return texts;
         }
 
@@ -2261,7 +2274,7 @@ export class Client extends GameShell {
             }
         };
 
-        scanComponent(this.chatComId);
+        scanComponent(this.chatModalId);
         return texts;
     }
 
@@ -2269,8 +2282,8 @@ export class Client extends GameShell {
      * Capture the current dialog text to history
      */
     captureDialogToHistory(): void {
-        if (this.chatComId === -1) return;
-        if (this.chatComId === this.lastCapturedDialogId) return;
+        if (this.chatModalId === -1) return;
+        if (this.chatModalId === this.lastCapturedDialogId) return;
 
         const texts = this.getDialogText();
         if (texts.length === 0) return;
@@ -2278,14 +2291,14 @@ export class Client extends GameShell {
         this.dialogHistory.unshift({
             text: texts,
             tick: this.loopCycle,
-            interfaceId: this.chatComId
+            interfaceId: this.chatModalId
         });
 
         if (this.dialogHistory.length > this.dialogHistoryMax) {
             this.dialogHistory.pop();
         }
 
-        this.lastCapturedDialogId = this.chatComId;
+        this.lastCapturedDialogId = this.chatModalId;
     }
 
     /**
@@ -2306,7 +2319,7 @@ export class Client extends GameShell {
      * Check if a dialog/chat interface is currently open
      */
     isDialogOpen(): boolean {
-        return this.chatComId !== -1;
+        return this.chatModalId !== -1;
     }
 
     /**
@@ -2320,7 +2333,7 @@ export class Client extends GameShell {
      * Get the currently open chat/dialog interface ID
      */
     getChatInterface(): number {
-        return this.chatComId;
+        return this.chatModalId;
     }
 
     /**
