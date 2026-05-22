@@ -31,7 +31,7 @@ import SpotType from '#/config/SpotType.js';
 import FloType from '#/config/FloType.js';
 import LocType from '#/config/LocType.js';
 
-import Jagfile from '#/io/Jagfile.js';
+import JagFile from '#/io/JagFile.js';
 import Packet from '#/io/Packet.js';
 import OnDemandProvider from '#/io/OnDemandProvider.js';
 
@@ -83,9 +83,9 @@ export class ItemViewer {
             downloadUrl(`${serverBase}/versionlist${crcs[5]}`),
         ]);
 
-        const jagConfig = new Jagfile(configData);
-        const jagTextures = new Jagfile(texturesData);
-        const jagVersionlist = new Jagfile(versionlistData);
+        const jagConfig = new JagFile(configData);
+        const jagTextures = new JagFile(texturesData);
+        const jagVersionlist = new JagFile(versionlistData);
 
         // Parse version list to determine model count
         const versionlistPacket = new Packet(jagVersionlist.read('model_version'));

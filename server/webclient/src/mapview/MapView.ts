@@ -793,21 +793,25 @@ export class MapView extends GameShell {
             this.fetchPlayerPositions();
         }
 
-        const left: number = this.focusX - ((this.sWid / this.zoom) | 0);
-        const top: number = this.focusZ - ((this.sHei / this.zoom) | 0);
-        const right: number = this.focusX + ((this.sWid / this.zoom) | 0);
-        const bottom: number = this.focusZ + ((this.sHei / this.zoom) | 0);
-        if (left < 48) {
-            this.focusX = ((this.sWid / this.zoom) | 0) + 48;
+        // custom: clamp focus so the view stays within map bounds.
+        // When the view is wider/taller than the map (zoomed out), the min and max
+        // clamps would conflict and pin focus to a fixed value, freezing panning.
+        // In that case center the axis instead; otherwise clamp to one edge only.
+        const halfW: number = (this.sWid / this.zoom) | 0;
+        const halfH: number = (this.sHei / this.zoom) | 0;
+        if (halfW * 2 >= this.mapWidth - 96) {
+            this.focusX = this.mapWidth >> 1;
+        } else if (this.focusX - halfW < 48) {
+            this.focusX = halfW + 48;
+        } else if (this.focusX + halfW > this.mapWidth - 48) {
+            this.focusX = this.mapWidth - 48 - halfW;
         }
-        if (top < 48) {
-            this.focusZ = ((this.sHei / this.zoom) | 0) + 48;
-        }
-        if (right > this.mapWidth - 48) {
-            this.focusX = this.mapWidth - 48 - ((this.sWid / this.zoom) | 0);
-        }
-        if (bottom > this.mapHeight - 48) {
-            this.focusZ = this.mapHeight - 48 - ((this.sHei / this.zoom) | 0);
+        if (halfH * 2 >= this.mapHeight - 96) {
+            this.focusZ = this.mapHeight >> 1;
+        } else if (this.focusZ - halfH < 48) {
+            this.focusZ = halfH + 48;
+        } else if (this.focusZ + halfH > this.mapHeight - 48) {
+            this.focusZ = this.mapHeight - 48 - halfH;
         }
     }
 
