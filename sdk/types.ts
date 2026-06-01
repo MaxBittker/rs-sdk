@@ -115,6 +115,20 @@ export interface NearbyLoc {
     options: string[];
 }
 
+/**
+ * Filter for selecting a nearby location by name and/or id.
+ *
+ * Many objects share the same name but have different ids (e.g. all mining
+ * rocks are named "Rocks" but each ore type has its own id). Use `id` to pin
+ * down a specific variant. At least one of `name` or `id` should be provided.
+ */
+export interface LocFilter {
+    /** Name pattern to match (string is treated as a case-insensitive regex). */
+    name?: string | RegExp;
+    /** Exact location id to match. */
+    id?: number;
+}
+
 export interface GameMessage {
     type: number;
     text: string;

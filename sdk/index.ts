@@ -10,6 +10,7 @@ import type {
     InventoryItem,
     NearbyNpc,
     NearbyLoc,
+    LocFilter,
     GroundItem,
     DialogState,
     BankItem,
@@ -38,6 +39,40 @@ export function deriveGatewayUrl(server?: string): string {
         return `ws://${server.includes(':') ? server : server + ':7780'}`;
     }
     return `wss://${server}/gateway`;
+}
+
+/**
+ * Build a predicate that matches a NearbyLoc by name pattern and/or id.
+ *
+ * Accepts either a `string | RegExp` name pattern (with an optional `{ id }`
+ * options object) or a `LocFilter` object carrying `name` and/or `id`. A string
+ * name is treated as a case-insensitive regex. When both name and id are given,
+ * a loc must satisfy both. When neither is given, every loc matches.
+ */
+export function locMatcher(
+    patternOrFilter: string | RegExp | LocFilter,
+    options?: { id?: number }
+): (loc: NearbyLoc) => boolean {
+    let namePattern: string | RegExp | undefined;
+    let id: number | undefined;
+
+    if (typeof patternOrFilter === 'string' || patternOrFilter instanceof RegExp) {
+        namePattern = patternOrFilter;
+        id = options?.id;
+    } else {
+        namePattern = patternOrFilter.name;
+        id = patternOrFilter.id;
+    }
+
+    const regex = namePattern === undefined
+        ? undefined
+        : (typeof namePattern === 'string' ? new RegExp(namePattern, 'i') : namePattern);
+
+    return (loc: NearbyLoc) => {
+        if (regex && !regex.test(loc.name)) return false;
+        if (id !== undefined && loc.id !== id) return false;
+        return true;
+    };
 }
 
 interface SyncToSDKMessage {
@@ -632,13 +667,24 @@ export class BotSDK {
         ) || null;
     }
 
-    /** Find location by name pattern. */
-    findNearbyLoc(pattern: string | RegExp): NearbyLoc | null {
+    /**
+     * Find a nearby location by name pattern, optionally filtering by id.
+     *
+     * @example
+     * sdk.findNearbyLoc(/rocks/i);              // closest "Rocks"
+     * sdk.findNearbyLoc(/rocks/i, { id: 2091 }); // closest "Rocks" with id 2091
+     * sdk.findNearbyLoc({ id: 2091 });           // closest loc with id 2091
+     * sdk.findNearbyLoc({ name: /rocks/i, id: 2091 });
+     */
+    findNearbyLoc(pattern: string | RegExp, options?: { id?: number }): NearbyLoc | null;
+    findNearbyLoc(filter: LocFilter): NearbyLoc | null;
+    findNearbyLoc(
+        patternOrFilter: string | RegExp | LocFilter,
+        options?: { id?: number }
+    ): NearbyLoc | null {
         if (!this.state) return null;
-        const regex = typeof pattern === 'string'
-            ? new RegExp(pattern, 'i')
-            : pattern;
-        return this.state.nearbyLocs.find(l => regex.test(l.name)) || null;
+        const match = locMatcher(patternOrFilter, options);
+        return this.state.nearbyLocs.find(match) || null;
     }
 
     /** Get all nearby locations (trees, rocks, etc). */
@@ -697,17 +743,45 @@ export class BotSDK {
     }
 
     /**
-     * Find a nearby location by name pattern (on-demand scan).
-     * @param pattern - String or RegExp to match location name
+     * Find a nearby location by name pattern (on-demand scan), optionally
+     * filtering by id.
+     *
+     * @example
+     * await sdk.scanFindNearbyLoc(/rocks/i);                  // closest "Rocks"
+     * await sdk.scanFindNearbyLoc(/rocks/i, 20);              // within radius 20
+     * await sdk.scanFindNearbyLoc(/rocks/i, { id: 2091 });    // id-filtered
+     * await sdk.scanFindNearbyLoc(/rocks/i, { id: 2091 }, 20);
+     * await sdk.scanFindNearbyLoc({ name: /rocks/i, id: 2091 });
+     *
+     * @param pattern - String/RegExp name pattern, or a LocFilter object
+     * @param optionsOrRadius - `{ id }` options object, or (legacy) a numeric scan radius
      * @param radius - Scan radius in tiles (default 15)
      * @returns First matching location or null
      */
-    async scanFindNearbyLoc(pattern: string | RegExp, radius?: number): Promise<NearbyLoc | null> {
-        const locs = await this.scanNearbyLocs(radius);
-        const regex = typeof pattern === 'string'
-            ? new RegExp(pattern, 'i')
-            : pattern;
-        return locs.find(l => regex.test(l.name)) || null;
+    async scanFindNearbyLoc(
+        pattern: string | RegExp,
+        optionsOrRadius?: { id?: number } | number,
+        radius?: number
+    ): Promise<NearbyLoc | null>;
+    async scanFindNearbyLoc(filter: LocFilter, radius?: number): Promise<NearbyLoc | null>;
+    async scanFindNearbyLoc(
+        patternOrFilter: string | RegExp | LocFilter,
+        optionsOrRadius?: { id?: number } | number,
+        radius?: number
+    ): Promise<NearbyLoc | null> {
+        // Disambiguate the overloaded 2nd argument: a number is a legacy radius,
+        // an object is an `{ id }` options form (and may be followed by radius).
+        let options: { id?: number } | undefined;
+        let scanRadius: number | undefined;
+        if (typeof optionsOrRadius === 'number') {
+            scanRadius = optionsOrRadius;
+        } else {
+            options = optionsOrRadius;
+            scanRadius = radius;
+        }
+        const locs = await this.scanNearbyLocs(scanRadius);
+        const match = locMatcher(patternOrFilter, options);
+        return locs.find(match) || null;
     }
 
     /**

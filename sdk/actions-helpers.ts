@@ -4,6 +4,7 @@
 import { BotSDK } from './index';
 import type {
     NearbyLoc,
+    LocFilter,
     NearbyNpc,
     InventoryItem,
     GroundItem,
@@ -398,14 +399,19 @@ export class ActionHelpers {
     // ============ Resolution Helpers ============
 
     resolveLocation(
-        target: NearbyLoc | string | RegExp | undefined,
+        target: NearbyLoc | LocFilter | string | RegExp | undefined,
         defaultPattern: RegExp
     ): NearbyLoc | null {
         if (!target) {
             return this.sdk.findNearbyLoc(defaultPattern);
         }
-        if (typeof target === 'object' && 'x' in target) {
+        // A resolved NearbyLoc carries coordinates; pass it through as-is.
+        if (typeof target === 'object' && !(target instanceof RegExp) && 'x' in target) {
             return target;
+        }
+        // Otherwise it's a name pattern (string/RegExp) or a LocFilter ({ name?, id? }).
+        if (typeof target === 'object' && !(target instanceof RegExp)) {
+            return this.sdk.findNearbyLoc(target);
         }
         return this.sdk.findNearbyLoc(target);
     }
