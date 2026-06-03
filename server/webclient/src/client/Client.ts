@@ -8573,6 +8573,32 @@ export class Client extends GameShell {
                 return true;
             }
 
+            if (this.ptype === ServerProt.MESSAGE_PUBLIC) {
+                // rs-sdk: out-of-visual-range public chat broadcast (engine MessagePublicHandler)
+                const from: bigint = this.in.g8();
+
+                let ignored: boolean = false;
+                for (let i: number = 0; i < this.ignoreCount; i++) {
+                    if (this.ignoreUserhash[i] === from) {
+                        ignored = true;
+                        break;
+                    }
+                }
+
+                if (!ignored && this.chatDisabled === 0) {
+                    try {
+                        const uncompressed: string = WordPack.unpack(this.in, this.psize - 8);
+                        const filtered: string = WordFilter.filter(uncompressed);
+                        this.addChat(2, filtered, JString.toScreenName(JString.toRawUsername(from)));
+                    } catch (_e) {
+                        // ignore malformed broadcast
+                    }
+                }
+
+                this.ptype = -1;
+                return true;
+            }
+
             if (this.ptype === ServerProt.MESSAGE_PRIVATE) {
                 const from: bigint = this.in.g8();
                 const messageId: number = this.in.g4();
