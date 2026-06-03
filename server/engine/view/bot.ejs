@@ -285,6 +285,21 @@
             }
         }
 
+        // Update URL with password without page reload (makes refresh auto-login work)
+        function updateUrlWithPassword(password) {
+            const url = new URL(window.location);
+            url.searchParams.set('password', password);
+            window.history.replaceState({}, '', url);
+        }
+
+        // Sync password field changes to URL
+        function syncPasswordToUrl() {
+            const password = document.getElementById('bot-password').value;
+            if (password) {
+                updateUrlWithPassword(password);
+            }
+        }
+
         // Update URL with goal without page reload
         function updateUrlWithGoal(goal) {
             const url = new URL(window.location);
@@ -383,7 +398,7 @@
                 <span id="login-controls">
                     <input type="text" id="bot-username" placeholder="username" value="" onblur="syncUsernameToUrl();" onchange="syncUsernameToUrl();">
                     <button onclick="randomUsername();" title="Generate random name" style="background:#333;color:#04A800;padding:4px 8px;">🎲</button>
-                    <input type="password" id="bot-password" placeholder="password" value="test">
+                    <input type="password" id="bot-password" placeholder="password" value="test" onblur="syncPasswordToUrl();" onchange="syncPasswordToUrl();">
                     <button onclick="quickLogin();" style="background:#04A800;">Login</button>
                 </span>
                 <span id="tutorial-controls" style="display: none;">
@@ -454,6 +469,7 @@
             // Always sync username to URL
             updateUrlWithBot(username);
             const password = document.getElementById('bot-password').value || 'test';
+            updateUrlWithPassword(password);
 
             document.getElementById('bot-status').textContent = 'Logging in as ' + username + '...';
 
@@ -480,8 +496,9 @@
                 return;
             }
 
-            // Sync username to URL, save password to localStorage
+            // Sync credentials to URL, save password to localStorage
             updateUrlWithBot(username);
+            updateUrlWithPassword(password);
             localStorage.setItem('bot_password', password);
 
             // Use the fully autonomous autoLogin method
@@ -511,8 +528,9 @@
 
             document.getElementById('bot-status').textContent = 'Logging in as ' + username + '... (new accounts auto-register)';
 
-            // Sync username to URL, save password to localStorage
+            // Sync credentials to URL, save password to localStorage
             updateUrlWithBot(username);
+            updateUrlWithPassword(password);
             localStorage.setItem('bot_password', password);
 
             // Use fully autonomous login (server auto-registers new accounts)
