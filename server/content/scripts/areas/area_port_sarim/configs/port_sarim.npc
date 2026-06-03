@@ -218,7 +218,6 @@ param=shop_buy_multiplier,600
 param=shop_delta,10
 param=shop_title,Betty's Magic Emporium.
 moverestrict=indoors
-param=death_sound,female_death
 
 [grum]
 vislevel=hide

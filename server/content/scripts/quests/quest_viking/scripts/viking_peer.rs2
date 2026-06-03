@@ -183,25 +183,50 @@ if($op = 2) {
 @peer_deposit;
 
 [label,peer_deposit]
-def_int $space_needed = 0;
-$space_needed = add($space_needed, ~moveallinv_itemspace2(inv, bank));
-$space_needed = add($space_needed, ~moveallinv_itemspace2(worn, bank));
-if(inv_freespace(bank) < $space_needed | inv_totalparam(inv, unbankable) > 0 | inv_totalparam(worn, unbankable) > 0) {
-    ~chatnpc("<p,neutral>I am sorry outerlander, the spell is not working.");
-    return;
-}
-
-~moveallinv(inv, bank);
-def_int $size = inv_size(worn);
+def_int $size = inv_size(inv);
+def_int $dep_count;
 def_int $i = 0;
 def_obj $obj;
+def_int $fail = ^false;
+while ($i < $size) {
+    $obj = inv_getobj(inv, $i);
+    if ($obj ! null) {
+        if (~bank_check_nobreak($obj, ^false) = false) {
+            if(~bank_deposit_request(inv, $obj, inv_total(inv, $obj), $i, ^false) = true) {
+                $dep_count = add($dep_count, 1);
+            } else {
+                $fail = ^true;
+            }
+        } else {
+            $fail = ^true;
+        }
+    }
+    $i = add($i, 1);
+}
+
+$size = inv_size(worn);
+$i = 0;
 while ($i < $size) {
     $obj = inv_getobj(worn, $i);
     if ($obj ! null) {
-        inv_moveitem(worn, bank, $obj, inv_total(worn, $obj));
-        ~update_all($obj); // based off rsprox logs it does update_all (and plays unequip sounds) for ea item
+        if (~bank_check_nobreak($obj, ^false) = false) {
+            if(~bank_deposit_request(worn, $obj, inv_total(worn, $obj), $i, ^false) = true) {
+                $dep_count = add($dep_count, 1);
+            } else {
+                $fail = ^true;
+            }
+        } else {
+            $fail = ^true;
+        }
     }
     $i = add($i, 1);
+}
+
+if($fail = ^true) {
+    if($dep_count > 0) mes("Some of your items cannot be stored in the bank.");
+    else mes("Your items cannot be stored in the bank.");
+    ~chatnpc("<p,sad>I am sorry outerlander, the spell is not working.");
+    return;
 }
 ~chatnpc("<p,neutral>The task is done. I wish you luck with your test, outerlander.");
 
@@ -318,7 +343,7 @@ def_int $solved = ^false;
 def_int $riddle_id = getbit_range(%viking_bits, ^viking_seerdoor_start, ^viking_seerdoor_end);
 if(~get_viking_peer_progress < ^peer_completed_riddle) {
     if($riddle_id = 0) {
-        if(~get_viking_door_lock(1) = 12 & ~get_viking_door_lock(2) = 8 & ~get_viking_door_lock(3) = 13 & ~get_viking_door_lock(4) = 13) { // MIND
+        if(~get_viking_door_lock(1) = 12 & ~get_viking_door_lock(2) = 8 & ~get_viking_door_lock(3) = 13 & ~get_viking_door_lock(4) = 3) { // MIND
             $solved = ^true;
         }
     } else if($riddle_id = 1) {
@@ -489,10 +514,10 @@ inv_add(inv, viking_uncoloured_wooden_coin, 1);
 switch_obj(last_useitem) {
     case viking_jug_empty, viking_jug_1, viking_jug_2 :
         inv_setslot(inv, last_useslot, viking_jug_3, 1);
-        mes("You fill the bucket from the tap.");
+        mes("You fill the jug from the tap.");
     case viking_bucket_empty, viking_bucket_1, viking_bucket_2, viking_bucket_3, viking_bucket_4 :
         inv_setslot(inv, last_useslot, viking_bucket_5, 1);
-        mes("You fill the jug from the tap.");
+        mes("You fill the bucket from the tap.");
     case viking_airtight_vase : // this one uses inv del + add
         mes("You fill the strange looking vase with water.");
         inv_del(inv, viking_airtight_vase, 1);

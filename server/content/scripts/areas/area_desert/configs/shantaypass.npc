@@ -21,8 +21,6 @@ model5=model_429_idk
 model6=model_361_obj_wear
 head1=model_113_idk_head
 wanderrange=2
-param=defend_sound,female_hit
-param=death_sound,female_death
 
 [shantay]
 vislevel=hide
@@ -133,6 +131,7 @@ model7=model_276_npc
 model8=model_185_obj_wear
 model9=model_519_obj_wear
 head1=model_63_idk_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 respawnrate=100

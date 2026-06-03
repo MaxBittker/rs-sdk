@@ -8,10 +8,10 @@ if(%regicide_quest = ^regicide_complete) {
 switch_int(~p_choice2("Yes please. What are you selling?", 1, "No thanks.", 2)) {
     case 1 :
         ~chatplayer("<p,happy>Yes please. What are you selling?");
-        if(map_members = ^true) {
-            ~openshop(regicide_general_shop, 400, 1300, 30, "Quartermaster's Stores");
+        if(%regicide_quest = ^regicide_complete) {
+            ~openshop(regicide_general_shop_2, 400, 1300, 30, "Quartermaster's Stores");
         } else {
-            ~openshop(regicide_general_shop_2, 400, 1000, 30, "Quartermaster's Stores");
+            ~openshop(regicide_general_shop, 400, 1300, 30, "Quartermaster's Stores");
         }
     case 2 :
         ~chatplayer("<p,neutral>No thanks.");

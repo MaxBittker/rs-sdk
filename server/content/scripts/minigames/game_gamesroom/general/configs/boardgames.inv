@@ -2,6 +2,7 @@
 size=64
 protect=no
 scope=temp
+dummyinv=yes
 
 [boardgames_sideinv]
 size=28

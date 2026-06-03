@@ -17,13 +17,16 @@ readyanim=human_ready
 desc=An evil human cleric.
 op2=Attack
 vislevel=22
-attack=18
-defence=22
-strength=18
-hitpoints=20
-magic=25
 wanderrange=12
 maxrange=14
+hitpoints=20
+attack=18
+strength=18
+defence=22
+magic=25
+param=damagetype,^crush_style
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3484
 
 [priestperilevilmonk2]
 name=Monk of Zamorak
@@ -45,13 +48,16 @@ readyanim=human_ready
 desc=An evil human cleric.
 op2=Attack
 vislevel=17
-attack=8
-defence=12
-strength=8
-hitpoints=10
-magic=25
 wanderrange=12
 maxrange=14
+hitpoints=10
+attack=8
+strength=8
+defence=12
+magic=25
+param=damagetype,^crush_style
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3485
 
 [priestperilevilmonk3]
 name=Monk of Zamorak
@@ -72,11 +78,16 @@ walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 desc=An evil human cleric.
 op2=Attack
-attack=25
-defence=25
-strength=25
+wanderrange=12
+maxrange=14
 hitpoints=25
+attack=25
+strength=25
+defence=25
 magic=40
+param=damagetype,^crush_style
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3486
 
 [priestperilguarddog]
 name=Temple guardian
@@ -93,12 +104,12 @@ walkanim=dm_walk
 readyanim=dm_ready
 desc=Looks like a big ugly dog.
 op2=Attack
-attack=20
-defence=20
-strength=20
-hitpoints=45
 wanderrange=5
 maxrange=5
+hitpoints=45
+attack=20
+strength=20
+defence=20
 param=damagetype,^stab_style
 param=attack_anim,dm_attack
 param=defend_anim,dm_block
@@ -107,6 +118,9 @@ param=attack_sound,wolf_attack
 param=defend_sound,wolf_hit
 param=death_sound,wolf_death
 param=death_drop,null
+// OSRS Monster examine spell mentioned Immune to cannons.
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3487
 
 [priestperiltrappedmonk]
 name=Drezel

@@ -3,7 +3,7 @@
 def_string $text;
 
 if(%morttonquest = 0) {
-    $text = "@dbl@I can start this quest by exploring the town of @dre@Mort'ton|@dbl@which is accessible from the southern edge of @dre@Mort Myre@dbl@.";
+    $text = "@dbl@I can start this quest by exploring the town of @dre@Mort'ton@dbl@ which is accessible from the southern edge of @dre@Mort Myre@dbl@.";
     ~quest_journal("Shades of Mort'ton", $text);
     return;
 } else if (%morttonquest = ^mortton_quest_complete) {
@@ -22,7 +22,7 @@ if (%morttonquest >= ^mortton_kill_shades) {
     $text = append($text, "@str@I made serum 207 from tarromin, water and ashes by using|@str@Herbi Flax's diary. I wonder what the serum is used for?|");
     $text = append($text, "@str@I used the serum on a local NPC and I've been able to ask|@str@a few questions about the place.|");
     if (%morttonquest = ^mortton_kill_shades) {
-        $text = append($text, "@dbl@I talked to @dre@Razmire Keelgan@dbl@ and he asked me to kill @dre@five|@dre@shades@dbl@ for him. He seems to hate them!|");
+        $text = append($text, "@dbl@I talked to @dre@Razmire Keelgan@dbl@ and he asked me to kill @dre@five shades@dbl@ for him. He seems to hate them!|");
     } else {
         $text = append($text, "@str@I talked to Razmire Keelgan and he asked me to kill five|@str@shades for him. He seems to hate them!|");
     }
@@ -55,21 +55,21 @@ if (%morttonquest >= ^mortton_lit_pyre) {
 }
 
 if(%morttonquest = ^mortton_read_diary) {
-    $text = append($text,"@dbl@I made my way down through @dre@Mort Myre@dbl@ and I found the|@dbl@town of @dre@Mort'ton@dbl@. ");
+    $text = append($text,"@dbl@I made my way down through @dre@Mort Myre@dbl@ and I found the town of @dre@Mort'ton@dbl@. ");
     if (inv_total(inv, serum_book) = 0 & inv_total(bank, serum_book) = 0) {
-        $text = append($text, "I discovered a @dre@diary@dbl@ which had some|@dbl@interesting @dre@notes@dbl@ in it. @dbl@Maybe it was important?");
+        $text = append($text, "I discovered a @dre@diary@dbl@ which had some interesting @dre@notes@dbl@ in it. @dbl@Maybe it was important?");
     } else if (inv_total(bank, serum_book) > 0) {
-        $text = append($text, "I discovered a @dre@diary@dbl@ which had some|@dbl@interesting @dre@notes@dbl@ in it, @dbl@I placed the book in my @dre@bank@dbl@.");
+        $text = append($text, "I discovered a @dre@diary@dbl@ which had some interesting @dre@notes@dbl@ in it, I placed the book in my @dre@bank@dbl@.");
     } else {
-        $text = append($text, "I've found a @dre@diary@dbl@ which has some|@dbl@interesting @dre@notes@dbl@ in it. @dbl@Perhaps this can help me?");
+        $text = append($text, "I've found a @dre@diary@dbl@ which has some interesting @dre@notes@dbl@ in it. Perhaps this can help me?");
     }
 }
 if(%morttonquest = ^mortton_made_serum) {
     if (testbit(%morttonmulti, ^mortton_used_serum_on_razmire) = ^true | testbit(%morttonmulti, ^mortton_used_serum_on_ulsquire) = ^true) {
         $text = append($text, "@str@I made serum 207 from tarromin, water and ashes by|@str@using Herbi Flax's diary. I wonder what the serum is used|@str@for?|");
-        $text = append($text, "@dbl@I used the @dre@serum@dbl@ on a local NPC and I've been able to|@dbl@ask a few questions about the place.");
+        $text = append($text, "@dbl@I used the @dre@serum@dbl@ on a local NPC and I've been able to ask a few questions about the place.");
     } else {
-        $text = append($text, "@dbl@I made @dre@serum 207@dbl@ from tarromin, water and ashes by|@dbl@using @dre@Herbi Flax's@dbl@ diary. I wonder what the @dre@serum@dbl@ is used|@dbl@for?");
+        $text = append($text, "@dbl@I made @dre@serum 207@dbl@ from tarromin, water and ashes by using @dre@Herbi Flax's@dbl@ diary. I wonder what the @dre@serum@dbl@ is used for?");
     }
 }
 
@@ -92,26 +92,26 @@ if (%morttonquest = ^mortton_shades_to_razmire) {
 }
 
 if (%morttonquest = ^mortton_shades_to_ulsquire) {
-    $text = append($text, "@dre@Ulsquire@dbl@ seems to know a lot about this area, maybe if I|@dre@investigate@dbl@ around here a little more I can help the locals.");
+    $text = append($text, "@dre@Ulsquire@dbl@ seems to know a lot about this area, maybe if I @dre@investigate@dbl@ around here a little more I can help the locals.");
 }
 
 if (%morttonquest = ^mortton_ulsquire_temple) {
-    $text = append($text, "@dre@Ulsquire@dbl@ seems to know a lot about this area, he's quite|@dbl@interested in @dre@'Flaemtaer temple'@dbl@ and wishes he could|@dbl@rebuild it.");
+    $text = append($text, "@dre@Ulsquire@dbl@ seems to know a lot about this area, he's quite interested in @dre@'Flaemtaer temple'@dbl@ and wishes he could rebuild it.");
 }
 
 if (%morttonquest = ^mortton_rebuild_temple) {
-    $text = append($text, "@dbl@I've started @dre@rebuilding@dbl@ the @dre@temple@dbl@ using @dre@limestone bricks@dbl@,|@dre@wooden planks@dbl@ and @dre@nails@dbl@. I wonder what @dre@power@dbl@ the @dre@temple|@dbl@has, if any?|");
+    $text = append($text, "@dbl@I've started @dre@rebuilding@dbl@ the @dre@temple@dbl@ using @dre@limestone bricks@dbl@, @dre@wooden planks@dbl@ and @dre@nails@dbl@. I wonder what @dre@power@dbl@ the @dre@temple@dbl@ has, if any?|");
     if (inv_totalcat(inv, category_110) > 0) {
-        $text = append($text, "@dbl@I have some @dre@olive oil@dbl@ which @dre@Ulsquire@dbl@ said may be useful|@dbl@when the @dre@temple@dbl@ is constructed.");
+        $text = append($text, "@dbl@I have some @dre@olive oil@dbl@ which @dre@Ulsquire@dbl@ said may be useful when the @dre@temple@dbl@ is constructed.");
     }
 }
 
 if (%morttonquest = ^mortton_can_light_altar) {
-    $text = append($text, "@dbl@There must be some way to make use of the @dre@altar@dbl@ that|@dbl@appears in the @dre@middle@dbl@ of the @dre@temple@dbl@.");
+    $text = append($text, "@dbl@There must be some way to make use of the @dre@altar@dbl@ that appears in the @dre@middle@dbl@ of the @dre@temple@dbl@.");
 }
 
 if (%morttonquest = ^mortton_created_sacred_oil) {
-    $text = append($text, "@dre@Ulsquire@dbl@ said something about putting the @dre@Shades@dbl@ to rest|@dbl@by giving them a @dre@holy cremation@dbl@, maybe this @dre@oil@dbl@ can help?");
+    $text = append($text, "@dre@Ulsquire@dbl@ said something about putting the @dre@Shades@dbl@ to rest by giving them a @dre@holy cremation@dbl@, maybe this @dre@oil@dbl@ can help?");
 }
 
 if (%morttonquest = ^mortton_created_pyre_logs) {
@@ -120,17 +120,17 @@ if (%morttonquest = ^mortton_created_pyre_logs) {
     if($shade_count = 0 & $pyre_log_count = 0) {
         $text = append($text, "@dbl@Maybe the @dre@pyre logs@dbl@ are connected to the @dre@Shade@dbl@ remains?|");        
     } else if($shade_count > 0 & $pyre_log_count = 0) {
-        $text = append($text, "@dbl@I have some @dre@Shade@dbl@ remains, I need to find a way to put its|@dre@spirit@dbl@ to rest.");
+        $text = append($text, "@dbl@I have some @dre@Shade@dbl@ remains, I need to find a way to put its @dre@spirit@dbl@ to rest.");
     } else if($shade_count = 0 & $pyre_log_count > 0) {
-        $text = append($text, "@dbl@I have some @dre@pyre logs@dbl@, perhaps I can use these somehow to|@dbl@put a @dre@Shades spirit@dbl@ to rest.");
+        $text = append($text, "@dbl@I have some @dre@pyre logs@dbl@, perhaps I can use these somehow to put a @dre@Shades spirit@dbl@ to rest.");
     } else {
         $text = append($text, "@str@Maybe the pyre logs are connected to the Shade remains?|");
-        $text = append($text, "@dbl@I have some @dre@Shade@dbl@ remains and I have some @dre@pyre logs@dbl@, I can|@dbl@now try to put a @dre@shades@dbl@ spirit to rest.");
+        $text = append($text, "@dbl@I have some @dre@Shade@dbl@ remains and I have some @dre@pyre logs@dbl@, I can now try to put a @dre@shades@dbl@ spirit to rest.");
     }
 }
 
 if (%morttonquest = ^mortton_logs_on_pyre) {
-    $text = append($text, "@dbl@I need to put the @dre@shade remains@dbl@ on the @dre@funeral pyre@dbl@ and|@dbl@then @dre@light@dbl@ it in order to put the@dre@ shade spirit@dbl@ to rest.");
+    $text = append($text, "@dbl@I need to put the @dre@shade remains@dbl@ on the @dre@funeral pyre@dbl@ and then @dre@light@dbl@ it in order to put the@dre@ shade spirit@dbl@ to rest.");
 }
 
 if (%morttonquest = ^mortton_lit_pyre) {

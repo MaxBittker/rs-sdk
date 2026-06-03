@@ -4,7 +4,7 @@ def_string $text;
 // https://www.youtube.com/watch?v=Nl-tT4d5wJY
 switch_int(%fluffs) {
     case ^fluffs_not_started : // https://www.youtube.com/watch?v=68LT97Wx7aM
-        $text = "@dbl@I can start this quest by talking to @dre@Gertrude@dbl@.|@dbl@She can be found in a house south of the road leading|";
+        $text = "@dbl@I can start this quest by talking to @dre@Gertrude@dbl@. She can be found in a house south of the road leading|";
         $text = append($text, "@dre@west out of Varrock@dbl@.");
     case ^fluffs_started :
         $text = "@str@I accepted the challenge of finding Gertrude's lost cat.||";
@@ -12,7 +12,7 @@ switch_int(%fluffs) {
     case ^fluffs_paid_boy :
         $text = "@str@I accepted the challenge of finding Gertrude's lost cat.|";
         $text = append($text, "@str@I spoke to Shilop, Gertrude's Son.||");
-        $text = append($text, "@dbl@I need to @dre@go to their play area@dbl@ and @dre@find the lost cat and|@dre@return it to Gertrude@dbl@.");
+        $text = append($text, "@dbl@I need to @dre@go to their play area@dbl@ and @dre@find the lost cat and return it to Gertrude@dbl@.");
     case ^fluffs_gave_milk :
         $text = "@str@I accepted the challenge of finding Gertrude's lost cat.|";
         $text = append($text, "@str@I spoke to Shilop, Gertrude's Son.|");

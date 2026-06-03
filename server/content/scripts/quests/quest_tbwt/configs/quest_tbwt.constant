@@ -4,7 +4,6 @@
 ^tbwt_started = 3
 ^tbwt_completed_all_brothers = 4
 ^tbwt_received_gold_reward = 5
-^tbwt_complete = 6
 
 ^tbwt_timfraku_title_start = 0
 ^tbwt_timfraku_title_end = 1

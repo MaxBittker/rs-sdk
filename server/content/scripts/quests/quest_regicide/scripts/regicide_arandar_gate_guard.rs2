@@ -3,7 +3,7 @@
 
 [label,arandar_gate](int $side)
 if(%regicide_quest > ^regicide_killed_tyras | coordz(coord) < coordz(loc_coord)) {
-    sound_synth(sound_613, 0, 0);
+    sound_synth(bigdoor_open, 0, 0);
     loc_del(6);
     if($side = ^left) {
         loc_add(0_37_52_16_5, overpass_gate_left_open, 2, centrepiece_straight, 6);

@@ -8,7 +8,7 @@ def_string $text;
 // https://www.youtube.com/watch?v=AYgahiNzRkw
 // https://www.youtube.com/watch?v=Hq1GPDMUemA
 if(%princequest = ^prince_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Hassan@dbl@ in @dre@Al-Kharid|@dre@Palace@dbl@.";
+    $text = "@dbl@I can start this quest by speaking to @dre@Hassan@dbl@ in @dre@Al-Kharid Palace@dbl@.";
 
 } else if(%princequest = ^prince_started) {
     $text = "@str@I started this quest by speaking to Hassan in Al-Kharid|@str@Palace. He told me I should speak to Osman the spy master.|";
@@ -58,7 +58,7 @@ if(%princequest = ^prince_not_started) {
 } else if(%princequest = ^prince_prep_finished) {
     $text = "@str@Prince Ali has been kidnapped but luckily the spy Leela|@str@has found he is being held near draynor village. I will|";
     $text = append($text, "@str@need to disguise the Prince and tie up his captor to free|@str@him from their clutches.|");
-    $text = append($text, "@dbl@Before I can free @dre@Prince Ali@dbl@, I need to deal with the @dre@Guard@gbl@. @dre@Leela@dbl@ suggested I speak with the @dre@Guard@dbl@ to try and|@dbl@determine any weaknesses he might have.|");
+    $text = append($text, "@dbl@Before I can free @dre@Prince Ali@dbl@, I need to deal with the @dre@Guard@dbl@.|@dre@Leela@dbl@ suggested I speak with the @dre@Guard@dbl@ to try and determine any weaknesses he might have.|");
 
 } else if(%princequest = ^prince_guard_drunk) {
     $text = "@str@Prince Ali has been kidnapped but luckily the spy Leela|@str@has found he is being held near draynor village. I will|";
@@ -71,7 +71,7 @@ if(%princequest = ^prince_not_started) {
     $text = append($text, "@str@need to disguise the Prince and tie up his captor to free|@str@him from their clutches.|");
     $text = append($text, "@str@I also had to prevent the Guard from seeing what I was up|@str@to, by getting him drunk.|");
     $text = append($text, "@str@With the guard disposed of, I used my rope to tie up Lady|@str@Keli in a cupboard, so I could disguise the Prince.|");
-    $text = append($text, "@dbl@I can now free @dre@Prince Ali@dbl@. I'll need to make sure I|@dbl@give him his disguise when I do.");
+    $text = append($text, "@dbl@I can now free @dre@Prince Ali@dbl@. I'll need to make sure I give him his disguise when I do.");
 
 } else if(%princequest = ^prince_saved) {
     $text = "@str@Prince Ali has been kidnapped but luckily the spy Leela|@str@has found he is being held near draynor village. I will|";

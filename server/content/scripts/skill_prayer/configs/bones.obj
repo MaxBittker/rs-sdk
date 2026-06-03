@@ -138,6 +138,7 @@ iop1=Bury
 weight=800g
 category=bones
 param=bone_exp,160
+tradeable=no
 
 [tbwt_burnt_jogre_bones_in_raw_karambwanji_paste]
 name=Pasty jogre bones
@@ -157,6 +158,7 @@ iop1=Bury
 weight=800g
 category=bones
 param=bone_exp,170
+tradeable=no
 
 [tbwt_burnt_jogre_bones_in_cooked_karambwanji_paste]
 name=Pasty jogre bones
@@ -176,6 +178,7 @@ iop1=Bury
 weight=800g
 category=bones
 param=bone_exp,160
+tradeable=no
 
 [tbwt_burnt_jogre_bones_marinated_in_karambwanji]
 name=Marinated j' bones
@@ -193,6 +196,7 @@ iop1=Bury
 weight=800g
 category=bones
 param=bone_exp,180
+tradeable=no
 
 [tbwt_jogre_bones_in_raw_karambwanji_paste]
 name=Pasty jogre bones
@@ -210,6 +214,7 @@ iop1=Bury
 weight=800g
 category=bones
 param=bone_exp,160
+tradeable=no
 
 [tbwt_jogre_bones_in_cooked_karambwanji_paste]
 name=Pasty jogre bones
@@ -227,6 +232,7 @@ iop1=Bury
 weight=800g
 category=bones
 param=bone_exp,160
+tradeable=no
 
 [tbwt_jogre_bones_marinated_in_karambwanji]
 name=Marinated j' bones
@@ -242,3 +248,4 @@ iop1=Bury
 weight=800g
 category=bones
 param=bone_exp,170
+tradeable=no

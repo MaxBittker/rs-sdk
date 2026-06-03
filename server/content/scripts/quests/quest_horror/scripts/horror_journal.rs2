@@ -1,29 +1,26 @@
 [if_button,questlist:horror]
 def_string $text;
 if (%horrorquest = ^horror_not_started) {
-    $text = append($text, "@dbl@I can start this quest by speaking to @dre@Larrissa@dbl@ at the|");
-    $text = append($text, "@dre@Lighthouse@dbl@ to the @dre@North@dbl@ of the @dre@Barbarian Outpost@dbl@.|");
+    $text = append($text, "@dbl@I can start this quest by speaking to @dre@Larrissa@dbl@ at the @dre@Lighthouse@dbl@ to the @dre@North@dbl@ of the @dre@Barbarian Outpost@dbl@.|");
     $text = append($text, "@dbl@To complete this quest I need:|");
-    $text = append($text, "@dre@Level 35 agility|");
-    $text = append($text, "@dre@Level 13 or higher magic will be an advantage|");
-    $text = append($text, "@dre@I must also be able to defeat strong level 100 enemies|");
+    $text = append($text, "@dre@Level 35 agility|Level 13 or higher magic will be an advantage|I must also be able to defeat strong level 100 enemies");
     ~quest_journal("Horror from the Deep", $text);
     return;
 }
 
 if(%horrorquest = ^horror_complete) {
-    $text = append($text, "@str@I travelled to an isolated lighthouse north of the @str@Barbarian|");
-    $text = append($text, "@str@outpost, to find a Fremennik girl called @str@Larrissa locked|");
-    $text = append($text, "@str@outside, and worried about her boyfriend @str@Jossik.|");
-    $text = append($text, "@str@I recovered a spare key from Larrissa's cousin Gunnjorn|@str@and ");
+    $text = append($text, "@str@I travelled to an isolated lighthouse north of the Barbarian|");
+    $text = append($text, "@str@outpost, to find a Fremennik girl called Larrissa locked|");
+    $text = append($text, "@str@outside, and worried about her boyfriend Jossik.|");
+    $text = append($text, "@str@I recovered a spare key from Larrissa's cousin Gunnjorn and ");
     $text = append($text, "@str@repaired the bridge to Rellekka with some planks.|");
     $text = append($text, "@str@After I entered the lighthouse, and repaired the lighting|");
-    $text = append($text, "@str@@str@mechanism, I discovered a strange wall that blocked the|");
-    $text = append($text, "@str@@str@entrance to an underground cavern, where Jossik was.|");
-    $text = append($text, "@str@After I killed some strange sea monsters, I managed to @str@get|");
-    $text = append($text, "@str@Jossik out of the cavern and back to the lighthouse.|");
+    $text = append($text, "@str@mechanism, I discovered a strange wall that blocked the|");
+    $text = append($text, "@str@entrance to an underground cavern, where Jossik was.|");
+    $text = append($text, "@str@After I killed some strange sea monsters, I managed to|");
+    $text = append($text, "@str@get Jossik out of the cavern and back to the lighthouse.|");
     $text = append($text, "@str@I found a strange casket on the dead body of the sea|");
-    $text = append($text, "@str@@str@monster, which Jossik said he could tell me about.|||");
+    $text = append($text, "@str@monster, which Jossik said he could tell me about.|||");
     $text = append($text, "@red@QUEST COMPLETE!");
     ~quest_journal("Horror from the Deep", $text);
     return;

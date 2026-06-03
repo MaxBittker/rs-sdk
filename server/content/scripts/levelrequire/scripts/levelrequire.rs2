@@ -83,6 +83,14 @@ if (stat_base(strength) < $level | stat_base(defence) < $level) {
 }
 ~equip($slot);
 
+[label,levelrequire_magic_and_defence](int $magic_level, int $defence_level, int $slot)
+if (stat_base(magic) < $magic_level | stat_base(defence) < $defence_level) {
+    mes("You are not a high enough level to use this item.");
+    mes("You need to have a magic level of <tostring($magic_level)> and a defence level of <tostring($defence_level)>.");
+    return;
+}
+~equip($slot);
+
 [label,levelrequire_dragon_slayer_quest_defence](int $level, int $slot)
 if (~levelrequire_dragon_slayer_quest = false) {
     return;

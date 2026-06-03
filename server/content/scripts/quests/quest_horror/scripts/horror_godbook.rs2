@@ -314,7 +314,8 @@ if(%horror_balancepage1 = ^true & %horror_balancepage2 = ^true & %horror_balance
 
 [opheld3,saradominbook_complete]
 if(%sa_energy < 250) {
-    mes("You don't have enough Special Energy to preach.");
+    // https://i.imgur.com/onxUvRr.png
+    mes("You do not have enough Special Energy to preach.");
     return;
 }
 def_int $op = ~p_choice4_header("Partnerships", 1, "Last Rites", 2, "Blessings", 3, "Preach", 4, "Select a relevant passage");
@@ -370,11 +371,12 @@ switch_int($op) {
         p_delay(2);
         say("This is Saradomin's wisdom.");
 }
-%sa_energy = sub(%sa_energy, 250);
+~sub_sa_energy(250);
 
 [opheld3,zamorakbook_complete]
 if(%sa_energy < 250) {
-    mes("You don't have enough Special Energy to preach.");
+    // https://i.imgur.com/onxUvRr.png
+    mes("You do not have enough Special Energy to preach.");
     return;
 }
 def_int $op = ~p_choice4_header("Wedding Ceremony", 1, "Last Rites", 2, "Blessings", 3, "Preach", 4, "Select a relevant passage");
@@ -434,11 +436,12 @@ switch_int($op) {
         p_delay(2);
         say("Zamorak give me strength!");
 }
-%sa_energy = sub(%sa_energy, 250);
+~sub_sa_energy(250);
 
 [opheld3,guthixbook_complete]
 if(%sa_energy < 250) {
-    mes("You don't have enough Special Energy to preach.");
+    // https://i.imgur.com/onxUvRr.png
+    mes("You do not have enough Special Energy to preach.");
     return;
 }
 def_int $op = ~p_choice4_header("Wedding Ceremony", 1, "Last Rites", 2, "Blessings", 3, "Preach", 4, "Select a relevant passage");
@@ -498,4 +501,4 @@ switch_int($op) {
         p_delay(2);
         say("May Guthix bring you balance.");
 }
-%sa_energy = sub(%sa_energy, 250);
+~sub_sa_energy(250);

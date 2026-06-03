@@ -28,7 +28,6 @@ param=shop_buy_multiplier,400
 param=shop_delta,30
 param=shop_title,Valaine's Shop of Champions.
 moverestrict=indoors
-param=death_sound,female_death
 
 [scavvo]
 vislevel=hide

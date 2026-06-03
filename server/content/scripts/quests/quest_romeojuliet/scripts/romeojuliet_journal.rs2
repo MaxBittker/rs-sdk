@@ -6,11 +6,11 @@ def_string $text;
 // https://www.youtube.com/watch?v=QMFBcDCVpSY
 // https://www.youtube.com/watch?v=rVoZHYV0Rws
 if(%rjquest = ^romeojuliet_not_started) {
-    $text = "@dbl@I can start this quest by talking to @dre@Romeo@dbl@ in @dre@Varrock|@dre@Square@dbl@.";
+    $text = "@dbl@I can start this quest by talking to @dre@Romeo@dbl@ in @dre@Varrock Square@dbl@.";
 
 } else if(%rjquest = ^romeojuliet_spoken_romeo) {
     $text = "@str@I have agreed to find Juliet for Romeo and tell her how he|@str@feels. For some reason he can't just do this himself.|";
-    $text = append($text, "@dbl@I should go and speak to @dre@Juliet@dbl@. I can find her @dre@west@dbl@ of|@dre@Varrock@dbl@.");
+    $text = append($text, "@dbl@I should go and speak to @dre@Juliet@dbl@. I can find her @dre@west@dbl@ of @dre@Varrock@dbl@.");
 
 } else if(%rjquest = ^romeojuliet_spoken_juliet) {
     $text = "@str@I have agreed to find Juliet for Romeo and tell her how he|@str@feels. For some reason he can't just do this himself.|";

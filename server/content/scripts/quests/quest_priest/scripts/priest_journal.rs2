@@ -1,40 +1,43 @@
 [if_button,questlist:priest]
-def_string $text;
+def_string $x;
+def_string $n = "The Restless Ghost";
 
 // https://github.com/Indio3/quest-journals/tree/master/quest_priest
 if(%prieststart = ^priest_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Father Aereck@dbl@ in the|@dre@church@dbl@ next to @dre@Lumbridge Castle|";
-    $text = append($text, "@dbl@I must be unafraid of a @dre@Level 13 Skeleton");
-
-} else if(%prieststart = ^priest_started) {
-    $text = "@str@Father Aereck asked me to help him deal with the Ghost in|@str@the graveyard next to the church.|";
-    $text = append($text, "@dbl@I should find @dre@Father Urhney@dbl@ who is an expert on @dre@ghosts@dbl@.|@dbl@He lives in a @dre@shack@dbl@ in @dre@Lumbridge Swamp@dbl@.");
-
-} else if(%prieststart = ^priest_spoken_urhney) {
-    $text = "@str@Father Aereck asked me to help him deal with the Ghost in|@str@the graveyard next to the church.|";
-    $text = append($text, "@str@I found Father Urhney in the swamp south of Lumbridge. He|@str@gave me an Amulet of Ghostspeak to talk to the ghost.|");
-    $text = append($text, "@dbl@I should talk to the @dre@Ghost@dbl@ to find out why it is haunting the|@dre@graveyard crypt@dbl@.");
-
-} else if(%prieststart = ^priest_spoken_ghost) {
-    $text = "@str@Father Aereck asked me to help him deal with the Ghost in|@str@the graveyard next to the church.|";
-    $text = append($text, "@str@I found Father Urhney in the swamp south of Lumbridge. He|@str@gave me an Amulet of Ghostspeak to talk to the ghost.|");
-    $text = append($text, "@str@I spoke to the Ghost and he told me he could not rest in|@str@peace because an evil wizard had stolen his skull.|");
-    $text = append($text, "@dbl@I should go and search the @dre@Wizard's Tower South West of|@dre@Lumbridge@dbl@ for the @dre@Ghost's Skull@dbl@.");
-
-} else if(%prieststart = ^priest_obtained_skull) {
-    $text = "@str@Father Aereck asked me to help him deal with the Ghost in|@str@the graveyard next to the church.|";
-    $text = append($text, "@str@I found Father Urhney in the swamp south of Lumbridge. He|@str@gave me an Amulet of Ghostspeak to talk to the ghost.|");
-    $text = append($text, "@str@I spoke to the Ghost and he told me he could not rest in|@str@peace because an evil wizard had stolen his skull.|");
-    $text = append($text, "@str@I found the Ghost's Skull in the basement of the Wizards'|@str@Tower. It was guarded by a skeleton, but I took it anyway.|");
-    $text = append($text, "@dbl@I should take the @dre@Skull@dbl@ back to the @dre@Ghost@dbl@ so it can rest");
-
-} else {
-    $text = "@str@Father Aereck asked me to help him deal with the Ghost in|@str@the graveyard next to the church.|";
-    $text = append($text, "@str@I found Father Urhney in the swamp south of Lumbridge. He|@str@gave me an Amulet of Ghostspeak to talk to the ghost.|");
-    $text = append($text, "@str@I spoke to the Ghost and he told me he could not rest in|@str@peace because an evil wizard had stolen his skull.|");
-    $text = append($text, "@str@I found the Ghost's Skull in the basement of the Wizards'|@str@Tower. It was guarded by a skeleton, but I took it anyway.|");
-    $text = append($text, "@str@I placed the Skull in the Ghost's coffin, and allowed it to rest|@str@in peace once more, with gratitude for my help.||");
-    $text = append($text, "@red@QUEST COMPLETE!");
+    $x = "@dbl@I can start this quest by speaking to @dre@Father Aereck@dbl@ in the @dre@church@dbl@ next to @dre@Lumbridge Castle|";
+    $x = append($x, "@dbl@I must be unafraid of a @dre@Level 13 Skeleton");
+    ~quest_journal($n, $x);
+    return;
 }
 
-~quest_journal("The Restless Ghost", $text);
+$x = "@str@Father Aereck asked me to help him deal with the Ghost in|@str@the graveyard next to the church.|";
+if(%prieststart = ^priest_started) {
+    $x = append($x, "@dbl@I should find @dre@Father Urhney@dbl@ who is an expert on @dre@ghosts@dbl@.|@dbl@He lives in a @dre@shack@dbl@ in @dre@Lumbridge Swamp@dbl@.");
+    ~quest_journal($n, $x);
+    return;
+}
+
+$x = append($x, "@str@I found Father Urhney in the swamp south of Lumbridge. He|@str@gave me an Amulet of Ghostspeak to talk to the ghost.|");
+if(%prieststart = ^priest_spoken_urhney) {
+    $x = append($x, "@dbl@I should talk to the @dre@Ghost@dbl@ to find out why it is haunting the|@dre@graveyard crypt@dbl@.");
+    ~quest_journal($n, $x);
+    return;
+}
+
+$x = append($x, "@str@I spoke to the Ghost and he told me he could not rest in|@str@peace because an evil wizard had stolen his skull.|");
+if(%prieststart = ^priest_spoken_ghost) {
+    $x = append($x, "@dbl@I should go and search the @dre@Wizard's Tower South West of|@dre@Lumbridge@dbl@ for the @dre@Ghost's Skull@dbl@.");
+    ~quest_journal($n, $x);
+    return;
+}
+
+$x = append($x, "@str@I found the Ghost's Skull in the basement of the Wizards'|@str@Tower. It was guarded by a skeleton, but I took it anyway.|");
+if(%prieststart = ^priest_obtained_skull) {
+    $x = append($x, "@dbl@I should take the @dre@Skull@dbl@ back to the @dre@Ghost@dbl@ so it can rest");
+    ~quest_journal($n, $x);
+    return;
+}
+
+$x = append($x, "@str@I placed the Skull in the Ghost's coffin, and allowed it to rest|@str@in peace once more, with gratitude for my help.||");
+$x = append($x, "@red@QUEST COMPLETE!");
+~quest_journal($n, $x);

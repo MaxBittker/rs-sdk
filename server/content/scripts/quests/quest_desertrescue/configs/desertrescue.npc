@@ -20,7 +20,6 @@ model6=model_361_obj_wear
 model7=model_509_obj_wear
 head1=model_118_idk_head
 wanderrange=3
-param=death_sound,female_death
 
 [anabarrel]
 vislevel=hide
@@ -57,7 +56,6 @@ model6=model_361_obj_wear
 model7=model_509_obj_wear
 head1=model_115_idk_head
 wanderrange=3
-param=death_sound,female_death
 //There are 2 male slave npc on the osrs side that have
 //a different id than the others, they have wander 3
 //these 2 are the original id versions from before the rework.
@@ -157,7 +155,7 @@ param=attack_sound,baxe_crush
 huntmode=cowardly
 huntrange=1
 // Unknown reason osrs side this npc use unarmed attacks --attack seq_422 defend seq_424--
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 
 [desertminingmercenary1]
 name=Mercenary
@@ -207,9 +205,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,hacksword_slash
-// param=defend_sound, TODO
-// osrs defend_sound blade2_mail
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade2_mail
+// osrs stats and Vislvl match 1:1
 // desertminingcamp guards,mercenarys,mercenary captain,rowdy guards share same seqs + param stats.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4665
 
@@ -261,9 +258,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,hacksword_slash
-// param=defend_sound, TODO
-// osrs defend_sound blade2_mail
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade2_mail
+// osrs stats and Vislvl match 1:1
 // desertminingcamp guards,mercenarys,mercenary captain,rowdy guards share same seqs + param stats.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4669
 
@@ -320,9 +316,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,hacksword_slash
-// param=defend_sound, TODO
-// osrs defend_sound blade2_mail
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade2_mail
+// osrs stats and Vislvl match 1:1
 // desertminingcamp guards,mercenarys,mercenary captain,rowdy guards share same seqs + param stats.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4635
 
@@ -409,7 +404,7 @@ model8=model_490_obj_wear
 model9=model_517_obj_wear
 head1=model_57_obj_wear
 wanderrange=3
-maxrange=3
+maxrange=40
 huntrange=1
 hitpoints=60
 attack=32
@@ -428,9 +423,10 @@ param=damagetype,^slash_style
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,hacksword_slash
-// param=defend_sound, TODO
-// osrs defend_sound blade2_mail
+param=defend_sound,blade2_mail
 huntmode=cowardly
+// osrs stats and Vislvl match 1:1
+// stats taken from osrs cache...
 // https://oldschool.runescape.wiki/w/Guard_(Desert_Mining_Camp)#Brown_hair
 // desertminingcamp guards,mercenarys,mercenary captain,rowdy guards share same seqs + param stats.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4654

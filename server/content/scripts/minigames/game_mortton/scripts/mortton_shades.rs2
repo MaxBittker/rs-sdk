@@ -48,11 +48,17 @@ if(%morttonquest = ^mortton_kill_shades) {
 [queue,shadeattack_reset]
 %morttonmulti = clearbit(%morttonmulti, ^shadeattack);
 
-[ai_queue2,shadeshadow_level1]
+[ai_queue2,_shade]
 ~npc_default_damage(last_int);
-npc_queue(13, 0, 0);
+if(npc_param(next_npc_type) ! null) {
+    npc_queue(13, 0, 0);
+}
 
-[ai_queue13,shadeshadow_level1]
+[ai_queue13,_shade]
+if(npc_param(next_npc_type) = null) {
+    return;
+}
+
 npc_anim(null, 0);
 npc_changetype(npc_param(next_npc_type), 500);
 npc_anim(shade_rise, 0);
@@ -63,57 +69,61 @@ npc_anim(null, 0);
 if (finduid(%npc_aggressive_player) = true) {
     npc_setmode(opplayer2);
     %npc_attacking_uid = uid;
-    %aggressive_npc = npc_uid;
-}
-%npc_int = 10;
-npc_settimer(~random_range(5,15));
-
-[ai_queue14,shade_level1]
-%npc_int = 10;
-
-[ai_opplayer2,shadeshadow_level1] 
-//They did not do the shade rise anim when transforming from hunting in old videos
-//https://youtu.be/3d4dxPVz-7k?si=VjWR5sOid5NHU_V-&t=411
-//https://youtu.be/Cgfa0ebrSac?si=mHSBgvg_rRdqOm1J&t=70
-if (npc_stat(hitpoints) = 0) {
-    return;
 }
 
-if(%npc_aggressive_player ! uid & testbit(%morttonmulti, ^shadeattack) = ^false) {
-    //guess on distance.
-    .npc_findall(npc_coord, shadeshadow_level1, 10, ^vis_lineofsight);
-    while (.npc_findnext = true) {
-        if(.npc_getmode = wander) {
-            .npc_setmode(opplayer2);
-            .%npc_aggressive_player = uid;
+%npc_int2 = 10;
+if(npc_type = shade_level1) {
+    npc_settimer(~random_range(5,15));
+} else {
+    npc_settimer(~random_range(1,7)); 
+}
+
+[ai_opplayer2,_shade]
+if(npc_param(next_npc_type) = null) {
+    ~shade_attack;
+} else {
+    //They did not do the shade rise anim when transforming from hunting in old videos
+    //https://youtu.be/3d4dxPVz-7k?si=VjWR5sOid5NHU_V-&t=411
+    //https://youtu.be/Cgfa0ebrSac?si=mHSBgvg_rRdqOm1J&t=70
+    if (npc_stat(hitpoints) = 0) {
+        return;
+    }
+
+    if(%npc_aggressive_player ! uid & testbit(%morttonmulti, ^shadeattack) = ^false) {
+        //guess on distance.
+        .npc_findall(npc_coord, npc_type, 10, ^vis_lineofsight);
+        while (.npc_findnext = true) {
+            if(.npc_getmode = wander) {
+                .npc_setmode(opplayer2);
+                .%npc_aggressive_player = uid;
+            }
         }
     }
+
+    %morttonmulti = setbit(%morttonmulti, ^shadeattack);
+    clearqueue(shadeattack_reset);
+    longqueue(shadeattack_reset, 100, 0, ^accelerate);
+    sound_synth(shade_appear, 0, 0); //This is area sound in osrs. Should it exist in 04?
+    npc_changetype(npc_param(next_npc_type), 500);
+    %npc_attacking_uid = uid;
+    npc_queue(14, 0, 95);
+    ~shade_attack;
 }
 
-%morttonmulti = setbit(%morttonmulti, ^shadeattack);
-clearqueue(shadeattack_reset);
-longqueue(shadeattack_reset, 100, 0, ^accelerate);
-sound_synth(shade_appear, 0, 0); //This is area sound in osrs. Should it exist in 04?
-npc_changetype(npc_param(next_npc_type), 500);
-%npc_attacking_uid = uid;
-%aggressive_npc = npc_uid;
-npc_queue(14, 0, 95);
-~shade_attack;
-
-[ai_opplayer2,shade_level1]
-~shade_attack;
-
-[ai_queue2,shade_level1]
-~npc_default_damage(last_int);
-npc_settimer(~random_range(5,15));
+[ai_queue14,_shade]
+%npc_int2 = 10;
 
 [proc,shade_attack]
 if (%npc_action_delay > map_clock) {
     return;
 }
 if (~npc_check_notcombat = false) {
-    npc_changetype(shadeshadow_level1, ^max_32bit_int);
+    npc_changetype(npc_param(shadeshadow), ^max_32bit_int);
     npc_setmode(null);
+    %npc_int2 = 0;
+    if (npc_type ! shadeshadow_level1) {
+        npc_statheal(hitpoints, 0, 100);
+    }
     return;
 }
 if (~npc_check_notcombat_self = false) {
@@ -155,6 +165,10 @@ if ($hit = true) {
     queue*(playerhit_n_retaliate, 0)(npc_uid);
 }
 
+if (~check_protect_prayer(^melee_style) = true) { 
+    $damage = 0;
+}
+
 //OSRS moved this to inside the hit check at some point after ~2021?
 //In all old videos it always shows the hitsplat, even if the player does not actively start combat / retaliate because the attack missed.
 //https://youtu.be/Cgfa0ebrSac?si=zvUg4j1hTfAje3Bb&t=73
@@ -177,7 +191,7 @@ if (npc_getmode = opplayer2 | %current_temple_build = 0) {
 }
 
 if (distance(npc_coord, ^mortton_temple_shadow_transform_center_coord) <= 5) {
-    npc_changetype_keepall(shade_level1, ^max_32bit_int);
+    npc_changetype(shade_level1, ^max_32bit_int);
     npc_anim(shade_rise, 0);
     npc_setmode(none);
     npc_walk(npc_coord);
@@ -186,10 +200,41 @@ if (distance(npc_coord, ^mortton_temple_shadow_transform_center_coord) <= 5) {
     npc_setmode(null);
 }
 
+[ai_timer,_shade]
+npc_settimer(~random_range(1,7));
+
+if (npc_param(shadeshadow) = null) {
+    return;
+}
+
+if (finduid(%npc_aggressive_player) = false | (npc_getmode ! opplayer2 & npc_getmode ! applayer2)) {
+    npc_setmode(null);
+    npc_changetype(npc_param(shadeshadow), ^max_32bit_int);
+    %npc_int2 = 0;
+    npc_statheal(hitpoints, 0, 100);
+    return;
+}
+
+def_boolean $shouldReset = true;
+.npc_findall(coord, npc_type, 3, 0);
+while (.npc_findnext = true) {
+    if(.%npc_aggressive_player = uid & add(.%npc_action_delay, 5) > map_clock) {
+        $shouldReset = false; // I hate this but need some way to know if there is any shade currently attacking the player...
+    }
+}
+
+if (%npc_int2 = 10 & $shouldReset = true) {
+    npc_setmode(null);
+    npc_changetype(npc_param(shadeshadow), ^max_32bit_int);
+    %npc_int2 = 0;
+    npc_statheal(hitpoints, 0, 100);
+    return;
+}
+
 [ai_timer,shade_level1]
-if (%npc_int = 10) {
-    npc_setmode(wander);
-    %npc_int = 0;
+if ((%npc_int2 = 10 & add(%npc_lastcombat, 8) <= map_clock) | (%npc_aggressive_player ! null & finduid(%npc_aggressive_player) = false)) {
+    npc_setmode(null);
+    %npc_int2 = 0;
     npc_changetype(shadeshadow_level1, ^max_32bit_int);
     npc_settimer(~random_range(1,7));
     return;

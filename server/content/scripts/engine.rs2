@@ -659,6 +659,10 @@
 [command,.npc_hasop](int $op)(boolean)
 // info: check if the npc's target is within the npc's maxrange
 [command,npc_inrange]()(boolean)
+// info: Get the current npc's destination
+[command,npc_destination]()(coord)
+// info: Get the secondary npc's destination
+[command,.npc_destination]()(coord)
 
 // Loc ops (3000-3499)
 // info: Spawn a loc at $coord

@@ -8,7 +8,7 @@ def_string $new_text;
 
 if($quest_progress < ^eadgar_started) {
     // https://youtu.be/945tUgBj3SM?t=14
-    $new_text = "@dbl@I can start this quest by speaking to @dre@Sanfew@dbl@ after|@dbl@completing the @dre@Druidic Ritual@dbl@ quest in @dre@Taverley@dbl@. To complete|@dbl@this quest I need @dre@Level 31 Herblore@dbl@. I also need to have|@dbl@rescued @dre@Mad Eadgar@dbl@ from the @dre@Troll Stronghold";
+    $new_text = "@dbl@I can start this quest by speaking to @dre@Sanfew@dbl@ after|completing the @dre@Druidic Ritual@dbl@ quest in @dre@Taverley@dbl@. To complete|this quest I need @dre@Level 31 Herblore@dbl@. I also need to have|rescued @dre@Mad Eadgar@dbl@ from the @dre@Troll Stronghold";
 } else {
     // https://youtu.be/945tUgBj3SM?t=118
     // this starts out strikethrough and all subsequent journal updates follow from here
@@ -17,7 +17,7 @@ if($quest_progress < ^eadgar_started) {
 
 if($quest_progress = ^eadgar_started) {
     // https://youtu.be/945tUgBj3SM?t=118
-    $new_text = append($prev_text, "||@dbl@I need to find out where to get @dre@Goutweed - Mad Eadgar@dbl@ may|@dbl@be able to help.");
+    $new_text = append($prev_text, "||@dbl@I need to find out where to get @dre@Goutweed - Mad Eadgar@dbl@ may|be able to help.");
 }
 
 if($quest_progress = ^eadgar_spoken_eadgar_first) {
@@ -45,7 +45,7 @@ if($quest_progress >= ^eadgar_explained_plan) {
     // https://youtu.be/945tUgBj3SM?t=569
     $prev_text = append($prev_text, "||@str@I got the parrot Eadgar wanted.");
     if($quest_progress = ^eadgar_explained_plan) {
-        $new_text = append($prev_text, "||@dbl@I need to @dre@hide the parrot@dbl@ somewhere it can hear what Trolls|@dbl@expect humans to sound like.");
+        $new_text = append($prev_text, "||@dbl@I need to @dre@hide the parrot@dbl@ somewhere it can hear what Trolls|expect humans to sound like.");
     }
 }
 
@@ -59,31 +59,31 @@ if ($quest_progress >= ^eadgar_hid_parrot) {
 
 if ($quest_progress = ^eadgar_needs_items) {
     // from my run of the quest in OSRS, capitalization differs from RS3! ("Troll Cook" in OSRS versus "troll cook" in RS3)
-    $new_text = "||@dbl@Eadgar wants to make a @dre@fake human @dbl@to give the Troll Cook.|@dbl@I still need to bring him:";
+    $new_text = "||@dbl@Eadgar wants to make a @dre@fake human @dbl@to give the Troll Cook.|I still need to bring him:";
 
     def_int $chickens_needed = calc(5 - %eadgar_chickens);
     def_int $grain_needed = calc(10 - %eadgar_grain);
-    def_string $items_remaining = "";
+    def_string $items_remaining = "@dre@";
     if(testbit(%eadgar_bits, ^eadgar_given_logs) ! 1) {
         // TODO the string for logs needs verified as far as formatting, the rest match OSRS including plural vs singular for >1 vs 1
-        $items_remaining = append($items_remaining, "|@dre@Some Logs");
+        $items_remaining = append($items_remaining, "|Some Logs");
     }
     if($chickens_needed > 0) {
         if($chickens_needed > 1) {
-            $items_remaining = append($items_remaining, "|@dre@<tostring($chickens_needed)> raw chickens");
+            $items_remaining = append($items_remaining, "|<tostring($chickens_needed)> raw chickens");
         } else {
-            $items_remaining = append($items_remaining, "|@dre@<tostring($chickens_needed)> raw chicken");
+            $items_remaining = append($items_remaining, "|<tostring($chickens_needed)> raw chicken");
         }
     }
     if($grain_needed > 0) {
         if($grain_needed > 1) {
-            $items_remaining = append($items_remaining, "|@dre@<tostring($grain_needed)> sheaves of grains");
+            $items_remaining = append($items_remaining, "|<tostring($grain_needed)> sheaves of grains");
         } else {
-            $items_remaining = append($items_remaining, "|@dre@<tostring($grain_needed)> sheaf of grain");
+            $items_remaining = append($items_remaining, "|<tostring($grain_needed)> sheaf of grain");
         }
     }
     if(testbit(%eadgar_bits, ^eadgar_given_clothes) ! 1) {
-        $items_remaining = append($items_remaining, "|@dre@Some Dirty Clothes");
+        $items_remaining = append($items_remaining, "|Some Dirty Clothes");
     }
 
     $new_text = append($prev_text, $new_text);
@@ -97,7 +97,7 @@ if($quest_progress >= ^eadgar_needs_potion) {
         if(inv_total(inv, eadgar_ground_troll_thistle_potion) > 0) { // bank is not checked here
             $new_text = append($prev_text, "|@dbl@I made the Troll potion. I should go give it to @dre@Mad @dre@Eadgar");
         } else {
-            $new_text = append($prev_text, "|@dbl@I need to make a troll truth potion by putting @dre@dried, @dre@ground|@dre@troll thistle @dbl@in a @dre@potion of ranarr weed"); 
+            $new_text = append($prev_text, "|@dbl@I need to make a troll truth potion by putting @dre@dried, @dre@ground|troll thistle @dbl@in a @dre@potion of ranarr weed"); 
         }
     }
 }

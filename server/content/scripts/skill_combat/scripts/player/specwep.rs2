@@ -12,11 +12,14 @@ if (%sa_energy < oc_param(inv_getobj(worn, ^wearpos_rhand), sa_energy)) {
 }
 return(true);
 
-[proc,set_sa_vars](int $energy_used)
+[proc,sub_sa_energy](int $energy_used)
 if (%sa_energy = ^sa_max_energy) {
     settimer(sa_regen, ^sa_regen_interval);
 }
 %sa_energy = max(sub(%sa_energy, $energy_used), 0);
+
+[proc,set_sa_vars](int $energy_used)
+~sub_sa_energy($energy_used);
 %sa_attack = ^false;
 
 [proc,sa_reset]

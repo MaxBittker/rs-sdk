@@ -7,7 +7,7 @@ switch_int(stat_base(mining)) {
     case 21 : ~objbox(mithril_pickaxe,"You can now mine with @dbl@Mithril Pickaxes.", 250, 0, 0);
     case 30 : ~objbox(coal,"You can now mine @dbl@Coal.", 250, 0, 0);
     case 31 : ~objbox(adamant_pickaxe,"You can now mine with @dbl@Adamant Pickaxes.", 250, 0, 0);
-    case 40 : ~doubleobjbox(gold_ore,red_topaz,"You can now mine @dbl@Gold@bla@. Members can mine @dbl@Gem|@dbl@rocks@bla@.", 200);
+    case 40 : ~doubleobjbox(gold_ore,red_topaz,"You can now mine @dbl@Gold@bla@. Members can mine @dbl@Gem|rocks@bla@.", 200);
     case 41 : ~objbox(rune_pickaxe,"You can now mine with @dbl@Rune Pickaxes.", 250, 0, 0); //imgur.com/UvfRKuk
     case 55 : ~objbox(mithril_ore,"You can now mine @dbl@Mithril.", 250, 0, 0);
     case 60 : ~objbox(mithril_ore,"You can now enter the world famous @dbl@Mining Guild.", 250, 0, 0); //imgur.com/BPWbfAD

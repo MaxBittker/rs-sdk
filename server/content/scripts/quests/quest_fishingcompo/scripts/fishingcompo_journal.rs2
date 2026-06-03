@@ -7,7 +7,7 @@ switch_int (%fishingcompo) {
     // https://www.youtube.com/watch?v=jaBcQxTiuXU
     // https://i.imgur.com/LWLG2Tu.png
     case ^fishingcompo_not_started :
-        $text = "@dbl@I can start this quest by speaking to the @dre@Dwarves@dbl@ at the|@dbl@tunnel entrances on either side of @dre@White Wolf Mountain@dbl@.|";
+        $text = "@dbl@I can start this quest by speaking to the @dre@Dwarves@dbl@ at the tunnel entrances on either side of @dre@White Wolf Mountain@dbl@.|";
         if (stat_base(fishing) < 10) {
             $text = append($text, "@dre@I must have level 10 fishing.");
         } else {
@@ -18,31 +18,31 @@ switch_int (%fishingcompo) {
     // https://i.imgur.com/HxObvES.png
     case ^fishingcompo_started :
         $text = "@str@The Dwarves will let me use the tunnel through White Wolf|@str@Mountain if I can win the Hemenster Fishing Competition.|";
-        $text = append($text, "@dbl@They gave me a @dre@Fishing Contest Pass@dbl@ to enter the contest.|@dbl@I need to bring them back the @dre@Hemenster Fishing Trophy");
+        $text = append($text, "@dbl@They gave me a @dre@Fishing Contest Pass@dbl@ to enter the contest. I need to bring them back the @dre@Hemenster Fishing Trophy");
 
     // https://i.imgur.com/hG37f76.png
     case ^fishingcompo_in_comp :
         $text = "@str@The Dwarves will let me use the tunnel through White Wolf|@str@Mountain if I can win the Hemenster Fishing Competition.|";
-        $text = append($text, "@dbl@My @dre@fishing spot@dbl@ in the contest is @dre@next to the willow tree|@dbl@I need to catch the @dre@biggest fish@dbl@ to win!");
+        $text = append($text, "@dbl@My @dre@fishing spot@dbl@ in the contest is @dre@next to the willow tree @dbl@I need to catch the @dre@biggest fish@dbl@ to win!");
 
     // https://i.imgur.com/8x8IfCu.png
     case ^fishingcompo_garlic_comp :
         $text = "@str@The Dwarves will let me use the tunnel through White Wolf|@str@Mountain if I can win the Hemenster Fishing Competition.|";
-        $text = append($text, "@dbl@My @dre@fishing spot@dbl@ in the contest is @dre@next to the pipes|@dbl@I need to catch the @dre@biggest fish@dbl@ to win!");
+        $text = append($text, "@dbl@My @dre@fishing spot@dbl@ in the contest is @dre@next to the pipes @dbl@I need to catch the @dre@biggest fish@dbl@ to win!");
 
     // https://i.imgur.com/qVUDtzy.png
     // https://imgur.com/5MYzmc6
     case ^fishingcompo_won_comp :
         $text = "@str@The Dwarves will let me use the tunnel through White Wolf|@str@Mountain if I can win the Hemenster Fishing Competition.|";
         $text = append($text, "@str@I easily won the contest by catching some Giant Carp.|");
-        $text = append($text, "@dbl@I should take the @dre@Trophy@dbl@ back to the @dre@Dwarf@dbl@ at the side of|@dre@White Wolf Mountain@dbl@ and claim my @dre@reward");
+        $text = append($text, "@dbl@I should take the @dre@Trophy@dbl@ back to the @dre@Dwarf@dbl@ at the side of @dre@White Wolf Mountain@dbl@ and claim my @dre@reward");
 
     // https://i.imgur.com/ywDjrCG.png
     // https://i.imgur.com/VqNiW9P.png
     case ^fishingcompo_complete :
         $text = "@dbl@The Dwarves wanted me to earn their friendship by|@dbl@winning the Hemenster Fishing Competition.|";
-        $text = append($text, "@dbl@I scared away a vampire with some garlic and easily won the|@dbl@contest by catching some Giant Carp.|");
-        $text = append($text, "@dbl@As a reward for getting the Fishing Competition Trophy the|@dbl@Dwarves will let me use their tunnel to travel quickly and|");
+        $text = append($text, "@dbl@I scared away a vampire with some garlic and easily won the contest by catching some Giant Carp.|");
+        $text = append($text, "@dbl@As a reward for getting the Fishing Competition Trophy the Dwarves will let me use their tunnel to travel quickly and|");
         $text = append($text, "@dbl@safely under White Wolf Mountain anytime I wish.||");
         $text = append($text, "@red@QUEST COMPLETE!");
 

@@ -145,8 +145,7 @@ if(~get_viking_thorvald_progress = ^viking_not_started) {
     }
     return;
 }
-// every update in osrs changed both glarials tomb and this, so i assume its a shared check
-if(~waterfall_can_enter_glarials_tomb = false) {
+if(~can_enter_thorvald_trial = false) {
     if(npc_find(coord, viking_thorvald, 5, 0) = true) {
         ~chatnpc("<p,neutral>You may not enter the battleground with any armour or weaponry of any kind.");
         ~chatnpc("<p,neutral>If you need to place your equipment into your bank account, I recommend that you speak to the seer, who knows a spell that will do that for you.");
@@ -181,7 +180,7 @@ if(inzone(2_41_157_0_0, 2_41_157_63_63, coord) = false) {
 npc_add(map_findsquare(coord, 1, 2, ^map_findsquare_lineofwalk), viking_enemy1, 1000);
 ~viking_enemy_randomsay;
 spotanim_map(smokepuff, npc_coord, 0, 0);
-~sound_area(smokepuff, 0, npc_coord, 10);
+~.sound_area(smokepuff, 0, npc_coord, 10);
 hint_npc;
 // this prevents other players from attacking w/manual cast, this might've been a later change
 %npc_lastcombat = sub(^max_32bit_int, 8);
@@ -323,7 +322,7 @@ if(npc_finduid($uid) = true & (npc_type = viking_enemy1 | npc_type = viking_enem
 }
 
 [queue,viking_defeat](npc_uid $uid)
-mes("Congratulations! You have completed the warriors trial.");
+mes("Congratulations! You have completed the warriors trial!");
 if(~get_viking_thorvald_progress < ^thorvald_complete) {
     %viking = add(%viking, 1);
     ~set_viking_thorvald_progress(^thorvald_complete);
@@ -331,7 +330,7 @@ if(~get_viking_thorvald_progress < ^thorvald_complete) {
 inv_add(inv, viking_sword, 1);
 if(npc_finduid($uid) = true) {
     spotanim_map(smokepuff, npc_coord, 0, 0);
-    ~sound_area(smokepuff, 0, npc_coord, 10);
+    ~.sound_area(smokepuff, 0, npc_coord, 10);
     npc_del;
 }
 
@@ -412,13 +411,13 @@ p_teleport(1_41_57_43_44);
 p_delay(4);
 if(npc_finduid($uid) = true) {
     spotanim_map(smokepuff, npc_coord, 0, 0);
-    ~sound_area(smokepuff, 0, npc_coord, 10);
+    ~.sound_area(smokepuff, 0, npc_coord, 10);
     npc_del;
 }
 stat_heal(hitpoints, 0, 100);
 stat_heal(prayer, 0, 100);
 mes("...still alive somehow?");
-mes("Congratulations! You have completed the warrior's trial.");
+mes("Congratulations! You have passed the warrior's trial!");
 if(npc_find(movecoord(coord, 0, -1, 0), viking_thorvald, 5, 0) = true) {
     ~chatnpc("<p,laugh>Hahaha! Well fought outerlander! Now come down from there, you have passed my trial with flying colours!");
     ~chatplayer("<p,confused>But... I don't understand... I did not manage to beat Koschei...");
@@ -432,3 +431,49 @@ if(npc_find(movecoord(coord, 0, -1, 0), viking_thorvald, 5, 0) = true) {
 
 [oploc1,viking_warrior_ladder_down]
 ~climb_ladder(movecoord(coord, 0, -1, 0), true);
+
+[proc,can_enter_thorvald_trial]()(boolean)
+if ((inv_totalcat(inv, armour_hands) > 0 | inv_totalcat(worn, armour_hands) > 0)
+    | (inv_totalcat(inv, weapon_staff) > 0 | inv_totalcat(worn, weapon_staff) > 0) 
+    | (inv_totalcat(inv, armour_helmet) > 0 | inv_totalcat(worn, armour_helmet) > 0) 
+    | (inv_totalcat(inv, armour_body) > 0 | inv_totalcat(worn, armour_body) > 0) 
+    | (inv_totalcat(inv, armour_legs) > 0 | inv_totalcat(worn, armour_legs) > 0) 
+    | (inv_totalcat(inv, armour_shield) > 0 | inv_totalcat(worn, armour_shield) > 0) 
+    | (inv_totalcat(inv, armour_cape) > 0 | inv_totalcat(worn, armour_cape) > 0) 
+    | (inv_totalcat(inv, armour_godcape) > 0 | inv_totalcat(worn, armour_godcape) > 0) 
+    | (inv_totalcat(inv, weapon_slash) > 0 | inv_totalcat(worn, weapon_slash) > 0) 
+    | (inv_totalcat(inv, weapon_blunt) > 0 | inv_totalcat(worn, weapon_blunt) > 0) 
+    | (inv_totalcat(inv, weapon_stab) > 0 | inv_totalcat(worn, weapon_stab) > 0) 
+    | (inv_totalcat(inv, weapon_crossbow) > 0 | inv_totalcat(worn, weapon_crossbow) > 0) 
+    | (inv_totalcat(inv, weapon_axe) > 0 | inv_totalcat(worn, weapon_axe) > 0) 
+    | (inv_totalcat(inv, weapon_pickaxe) > 0 | inv_totalcat(worn, weapon_pickaxe) > 0) 
+    | (inv_totalcat(inv, weapon_javelin) > 0 | inv_totalcat(worn, weapon_javelin) > 0) 
+    | (inv_totalcat(inv, weapon_2h_sword) > 0 | inv_totalcat(worn, weapon_2h_sword) > 0) 
+    | (inv_totalcat(inv, weapon_spear) > 0 | inv_totalcat(worn, weapon_spear) > 0) 
+    | (inv_totalcat(inv, weapon_spiked) > 0 | inv_totalcat(worn, weapon_spiked) > 0) 
+    | (inv_totalcat(inv, weapon_thrown) > 0 | inv_totalcat(worn, weapon_thrown) > 0) 
+    | (inv_totalcat(inv, weapon_scythe) > 0 | inv_totalcat(worn, weapon_scythe) > 0) 
+    | (inv_totalcat(inv, weapon_bow) > 0 | inv_totalcat(worn, weapon_bow) > 0) 
+    | (inv_totalcat(inv, arrows) > 0 | inv_totalcat(worn, arrows) > 0)
+    | (inv_totalcat(worn, flowers) > 0) // doesn't check worn
+    | (inv_totalcat(inv, category_149) > 0) // runes
+    | (inv_total(inv, headless_arrow) > 0) // headless arrows
+    | (inv_total(inv, arrow_shaft) > 0) 
+    | (inv_total(inv, bow_string) > 0)
+    | (inv_total(inv, logs) > 0) // logs (not all in category work)
+    | (inv_total(inv, magic_logs) > 0)
+    | (inv_total(inv, yew_logs) > 0)
+    | (inv_total(inv, maple_logs) > 0)
+    | (inv_total(inv, willow_logs) > 0)
+    | (inv_total(inv, oak_logs) > 0)
+    | (inv_totalcat(inv, unstrung_bow) > 0)
+    | (inv_totalcat(inv, trail_clue_easy) > 0)
+    | (inv_totalcat(inv, trail_clue_medium) > 0)
+    | (inv_totalcat(inv, trail_clue_hard) > 0)
+    | (inv_totalcat(inv, trail_casket_easy) > 0)
+    | (inv_totalcat(inv, trail_casket_medium) > 0)
+    | (inv_totalcat(inv, trail_casket_hard) > 0)
+    | (inv_totalcat(inv, cannon_parts) > 0)) {
+    return(false);
+}
+return(true);

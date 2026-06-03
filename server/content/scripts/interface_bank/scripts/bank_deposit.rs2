@@ -19,9 +19,9 @@ def_int $number = inv_total(inv, $item);
 // How many should we deposit?
 if ($requested_number < $number) $number = $requested_number;
 // Is it actually bankable?
-if (~bank_check_nobreak($item) = true) {
+if (~bank_check_nobreak($item, ^true) = true) {
     // custom handling here if needed.
     return;
 }
 // Okay, deposit it into the bank.
-~bank_deposit_request(inv, $item, $number, $slot);
+~bank_deposit_request(inv, $item, $number, $slot, ^true);

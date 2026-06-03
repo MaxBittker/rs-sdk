@@ -61,8 +61,6 @@ attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
 param=gnome_original,gnomeballer_red
-param=death_anim,midget_death
-param=death_sound,gnome_death
 
 [gnomeballer_red_tackled2]
 name=Gnome baller
@@ -82,8 +80,6 @@ attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
 param=gnome_original,gnomeballer_red
-param=death_anim,midget_death
-param=death_sound,gnome_death
 
 [gnomeballer_orange]
 name=Gnome baller
@@ -148,8 +144,6 @@ attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
 param=gnome_original,gnomeballer_orange
-param=death_anim,midget_death
-param=death_sound,gnome_death
 
 [gnomeballer_orange_tackled2]
 name=Gnome baller
@@ -169,8 +163,6 @@ attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
 param=gnome_original,gnomeballer_orange
-param=death_anim,midget_death
-param=death_sound,gnome_death
 
 [gnomeballer_yellow]
 name=Gnome baller
@@ -235,8 +227,6 @@ attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
 param=gnome_original,gnomeballer_yellow
-param=death_anim,midget_death
-param=death_sound,gnome_death
 
 [gnomeballer_yellow_tackled2]
 name=Gnome baller
@@ -256,8 +246,6 @@ attackrange=1
 huntrange=1
 huntmode=gnomeball_tackler
 param=gnome_original,gnomeballer_yellow
-param=death_anim,midget_death
-param=death_sound,gnome_death
 
 [gnomeballer_green]
 name=Gnome winger

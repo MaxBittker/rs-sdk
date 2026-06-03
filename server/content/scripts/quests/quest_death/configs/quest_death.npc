@@ -632,8 +632,7 @@ param=damagetype,^crush_style
 param=attack_anim,human_blunt_pound
 param=defend_anim,human_blunt_block
 param=attack_sound,warhammer_crush
-// param=defend_sound, TODO
-// osrs defend sound blade3_mail
+param=defend_sound,blade3_mail
 category=death_guard
 // osrs stats and Vislvl match 1:1
 
@@ -685,8 +684,7 @@ param=damagetype,^crush_style
 param=attack_anim,human_blunt_pound
 param=defend_anim,human_blunt_block
 param=attack_sound,warhammer_crush
-// param=defend_sound, TODO
-// osrs defend sound blade2_mail
+param=defend_sound,blade2_mail
 category=death_guard
 // osrs stats and Vislvl match 1:1
 
@@ -1150,7 +1148,7 @@ param=damagetype,^crush_style
 param=defend_sound,female_hit
 param=death_sound,female_death
 category=citizen_burthorpe
-// tarkista
+// stats taken from osrs cache...
 
 [death_growncat_black]
 name=Bob
@@ -1216,8 +1214,7 @@ param=damagetype,^slash_style
 param=attack_anim,human_dhsword_chop
 param=defend_anim,human_sword_def
 param=attack_sound,2H_stab
-param=defend_sound,blade3
-// osrs defend sound steel_mail
+param=defend_sound,steel_mail
 // osrs stats and Vislvl match 1:1
 
 [death_mountain_goat]

@@ -5,7 +5,7 @@ def_string $text;
 // original sources are lacking, and the OSRS journal has been overhauled so it's not a valid source for this quest
 
 if (%sheepherderquest = ^sheepherder_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Councillor Halgrive|@dbl@near to the @dre@Zoo @dbl@in @dre@East Ardougne@dbl@.";
+    $text = "@dbl@I can start this quest by speaking to @dre@Councillor Halgrive @dbl@near to the @dre@Zoo @dbl@in @dre@East Ardougne@dbl@.";
 
     ~quest_journal("Sheep Herder", $text);
     return;
@@ -17,7 +17,7 @@ $text = append($text, "@str@He gave me some poisoned sheep feed to do this.|");
 if (%sheepherderquest > ^sheepherder_tasked_with_talking_to_dr_orbon) {
     $text = append($text, "|@str@I bought some protective clothing from Dr Orbon in the|@str@chapel north of Ardougne Zoo. I could now kill the sheep.|");
 } else if (%sheepherderquest = ^sheepherder_tasked_with_talking_to_dr_orbon) {
-    $text = append($text, "|@dbl@I need to get some protective clothing from @dre@Dr Orbon @dbl@who|@dbl@is in the church just north of @dre@Ardougne Zoo");
+    $text = append($text, "|@dbl@I need to get some protective clothing from @dre@Dr Orbon @dbl@who is in the church just north of @dre@Ardougne Zoo");
 }
 
 if (%sheepherderquest > ^sheepherder_tasked_with_disposing_of_sheep) {
@@ -34,15 +34,15 @@ if (%sheepherderquest > ^sheepherder_tasked_with_disposing_of_sheep) {
 
     if ($sheep1 = 6 & $sheep2 = 6 & $sheep3 = 6 & $sheep4 = 6) {
         $text = append($text, "|@str@I equipped a prod and then I used it to herd the diseased|@str@sheep to a pen where I could safely kill them and|@str@incinerate their bones.|");
-        $text = append($text, "|@dbl@I should return to @dre@Councillor Halgrive @dbl@to collect the|@dbl@reward he has promised me for my hard work.");
+        $text = append($text, "|@dbl@I should return to @dre@Councillor Halgrive @dbl@to collect the reward he has promised me for my hard work.");
     } else {
         if ($sheep1 = 6) {
             $text = append($text, "|@str@I have killed the first sheep and incinerated its bones.|");
         } else if ($sheep1 > 0) {
             if (inv_total(inv, sheepbonesa) > 0) {
-                $text = append($text, "|@dbl@I have killed the first sheep. Now I must|@dbl@incinerate its @dre@bones@dbl@.|");
+                $text = append($text, "|@dbl@I have killed the first sheep. Now I must incinerate its @dre@bones@dbl@.|");
             } else {
-                $text = append($text, "|@dbl@I have herded the first sheep to the pen. Now I must kill|@dbl@it safely.|");
+                $text = append($text, "|@dbl@I have herded the first sheep to the pen. Now I must kill it safely.|");
             }
         } else {
             // RS3: "to the special pen"
@@ -55,9 +55,9 @@ if (%sheepherderquest > ^sheepherder_tasked_with_disposing_of_sheep) {
             $text = append($text, "|@str@I have killed the second sheep and incinerated its bones.|");
         } else if ($sheep2 > 0) {
             if (inv_total(inv, sheepbonesb) > 0) {
-                $text = append($text, "|@dbl@I have killed the second sheep. Now I must|@dbl@incinerate its @dre@bones@dbl@.|");
+                $text = append($text, "|@dbl@I have killed the second sheep. Now I must incinerate its @dre@bones@dbl@.|");
             } else {
-                $text = append($text, "|@dbl@I have herded the second sheep to the pen. Now I must kill|@dbl@it safely.|");
+                $text = append($text, "|@dbl@I have herded the second sheep to the pen. Now I must kill it safely.|");
             }
         } else {
             $text = append($text, "|@dbl@I must find the second sheep and herd it to the pen.|");
@@ -67,9 +67,9 @@ if (%sheepherderquest > ^sheepherder_tasked_with_disposing_of_sheep) {
             $text = append($text, "|@str@I have killed the third sheep and incinerated its bones.|");
         } else if ($sheep3 > 0) {
             if (inv_total(inv, sheepbonesc) > 0) {
-                $text = append($text, "|@dbl@I have killed the third sheep. Now I must|@dbl@incinerate its @dre@bones@dbl@.|");
+                $text = append($text, "|@dbl@I have killed the third sheep. Now I must incinerate its @dre@bones@dbl@.|");
             } else {
-                $text = append($text, "|@dbl@I have herded the third sheep to the pen. Now I must kill|@dbl@it safely.|");
+                $text = append($text, "|@dbl@I have herded the third sheep to the pen. Now I must kill it safely.|");
             }
         } else {
             $text = append($text, "|@dbl@I must find the third sheep and herd it to the pen.|");
@@ -79,9 +79,9 @@ if (%sheepherderquest > ^sheepherder_tasked_with_disposing_of_sheep) {
             $text = append($text, "|@str@I have killed the fourth sheep and incinerated its bones.|");
         } else if ($sheep4 > 0) {
             if (inv_total(inv, sheepbonesd) > 0) {
-                $text = append($text, "|@dbl@I have killed the fourth sheep. Now I must|@dbl@incinerate its @dre@bones@dbl@.|");
+                $text = append($text, "|@dbl@I have killed the fourth sheep. Now I must incinerate its @dre@bones@dbl@.|");
             } else {
-                $text = append($text, "|@dbl@I have herded the fourth sheep to the pen. Now I must kill|@dbl@it safely.|");
+                $text = append($text, "|@dbl@I have herded the fourth sheep to the pen. Now I must kill it safely.|");
             }
         } else {
             $text = append($text, "|@dbl@I must find the fourth sheep and herd it to the pen.|");

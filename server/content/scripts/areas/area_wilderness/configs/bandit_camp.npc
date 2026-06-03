@@ -235,7 +235,7 @@ param=defend_anim,human_sword_def
 param=attack_sound,stabsword_stab
 huntmode=cowardly
 huntrange=6
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1026
 
 [guard_bandit]
@@ -283,5 +283,5 @@ param=defend_sound,brassclash
 huntmode=ranged
 huntrange=1
 attackrange=1
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1027

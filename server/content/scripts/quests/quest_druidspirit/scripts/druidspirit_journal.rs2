@@ -42,7 +42,7 @@ switch_int(%druidspirit) {
 
     case ^druidspirit_started, ^druidspirit_entered_swamp :
         $text = "@str@After talking to Drezel in the temple of Saradomin I've|@str@agreed to look for a Druid called Filliman Tarlock.|";
-        $text = append($text, "@dbl@I need to look for @dre@Filliman Tarlock@dbl@ in the @dre@Swamps@dbl@ of Mort|@dbl@Myre. I should be wary of the @dre@Ghasts@dbl@.");
+        $text = append($text, "@dbl@I need to look for @dre@Filliman Tarlock@dbl@ in the @dre@Swamps@dbl@ of Mort|Myre. I should be wary of the @dre@Ghasts@dbl@.");
 
     case ^druidspirit_failed_talk :
         $text = "@str@After talking to Drezel in the temple of Saradomin I've|@str@agreed to look for a Druid called Filliman Tarlock.|";
@@ -53,7 +53,7 @@ switch_int(%druidspirit) {
         $text = "@str@After talking to Drezel in the temple of Saradomin I've|@str@agreed to look for a Druid called Filliman Tarlock.|";
         $text = append($text, "@str@I've found a spirit in the swamp which I think might be|@str@Filliman Tarlock.|");
         $text = append($text, "@str@I've communicated with Filliman using the amulet of|@str@ghostspeak.|");
-        $text = append($text, "@dbl@I think I need to convince this poor fellow @dre@Tarlock@dbl@ that he's|@dbl@actually @dre@dead@dbl@!");
+        $text = append($text, "@dbl@I think I need to convince this poor fellow @dre@Tarlock@dbl@ that he's|actually @dre@dead@dbl@!");
 
     case ^druidspirit_shown_mirror :
         $text = "@str@After talking to Drezel in the temple of Saradomin I've|@str@agreed to look for a Druid called Filliman Tarlock.|";
@@ -63,7 +63,7 @@ switch_int(%druidspirit) {
         $text = append($text, "@str@next step is:|");
         if (inv_total(inv, filliman_journal) > 0) {
             $text = append($text, "@str@Perhaps I should try to help Filliman to find his journal?|");
-            $text = append($text, "@dbl@I've found @dre@Filliman's journal@dbl@, perhaps @dre@Filliman@dbl@ is still|@dbl@looking for it?");
+            $text = append($text, "@dbl@I've found @dre@Filliman's journal@dbl@, perhaps @dre@Filliman@dbl@ is still|looking for it?");
         } else {
             $text = append($text, "@dbl@Perhaps I should try to help @dre@Filliman@dbl@ to find his @dre@journal@dbl@?");
         }
@@ -86,8 +86,8 @@ switch_int(%druidspirit) {
         $text = append($text, "@str@I've given Filliman his journal. I wonder what he plans to do|@str@now?|");
         $text = append($text, "@str@I've agreed to help Filliman become a nature spirit.|@str@I need to find 'something from nature', 'something of|");
         $text = append($text, "@str@faith' and 'something of the spirit-to-become freely given'.|");
-        $text = append($text, "@dre@Filliman@dbl@ gave me a '@dre@bloom'@dbl@ spell but I need to be @dre@blessed@dbl@ at|@dbl@the @dre@temple@dbl@ before I can cast it. I am supposed to collect|");
-        $text = append($text, "@dbl@'@dre@something from nature@dbl@'.");
+        $text = append($text, "@dre@Filliman@dbl@ gave me a '@dre@bloom'@dbl@ spell but I need to be @dre@blessed@dbl@ at|the @dre@temple@dbl@ before I can cast it. I am supposed to collect|");
+        $text = append($text, "'@dre@something from nature@dbl@'.");
 
     case ^druidspirit_blessed :
         $text = "@str@After talking to Drezel in the temple of Saradomin I've|@str@agreed to look for a Druid called Filliman Tarlock.|";
@@ -141,7 +141,7 @@ switch_int(%druidspirit) {
             $text = append($text, "@str@The spell scroll was absorbed into the spirit stone I think I|@str@have collected 'something of spirit-to-become freely|");
             $text = append($text, "@str@given.'");
         } else {
-            $text = append($text, "@dbl@I need to find :|@dbl@'@dre@Something of the spirit-to-become freely given.@dbl@'");
+            $text = append($text, "@dbl@I need to find :|'@dre@Something of the spirit-to-become freely given.@dbl@'");
         }
 
     case ^druidspirit_performed_ritual :
@@ -198,7 +198,7 @@ switch_int(%druidspirit) {
         $text = append($text, "@str@Filliman has blessed the silver sickle for me.|");
         $text = append($text, "@str@I cast the bloom spell in the swamp.|");
         $text = append($text, "@str@I collected some bloomed items from the swamp.|");
-        $text = append($text, "@dre@Filliman@dbl@ said something about a '@dre@druid pouch@dbl@' perhaps this|@dbl@will help with the @dre@ghasts@dbl@.");
+        $text = append($text, "@dre@Filliman@dbl@ said something about a '@dre@druid pouch@dbl@' perhaps this|will help with the @dre@ghasts@dbl@.");
 
     case ^druidspirit_added_pouch :
         $text = $entered_grotto;

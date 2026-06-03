@@ -5,7 +5,7 @@
 ^chompybird_removed_rock_from_chest = 20
 ^chompybird_shown_toad = 25
 ^chompybird_dropped_toad = 30
-^chompybird_chompy_ate_toad = 35
+^chompybird_chompy_bird_spawned = 35
 ^chompybird_rantz_tried_to_shoot_chompy = 40
 ^chompybird_rantz_gave_player_bow = 45
 ^chompybird_player_killed_chompy = 50

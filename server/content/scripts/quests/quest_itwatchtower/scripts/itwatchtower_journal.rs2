@@ -3,8 +3,7 @@ def_string $n = "Watch Tower";
 def_string $x;
 
 if (%itwatchtower = ^itwatchtower_not_started) {
-    $x = append($x, "@dbl@I can start this quest by speaking to the @dre@Watchtower|");
-    $x = append($x, "@dre@wizard@dbl@ on the top floor of Yanille's @dre@Watchtower@dbl@.||");
+    $x = append($x, "@dbl@I can start this quest by speaking to the @dre@Watchtower wizard@dbl@ on the top floor of Yanille's @dre@Watchtower@dbl@.||");
     $x = append($x, "@dbl@To complete this quest I need:|");
     if (stat_base(magic) < 14) {
         $x = append($x, "@dre@Level 14 Magic|");
@@ -46,12 +45,9 @@ if (%itwatchtower = ^itwatchtower_not_started) {
 if (%itwatchtower = ^itwatchtower_started) {
     $x = append($x, "@dbl@I accepted the challenge of finding the lost @dre@crystals.|");
     if(inv_total(inv, fingernails) > 0) {
-        $x = append($x, "@dbl@I found some @dre@fingernails@dbl@ as evidence. I should take them to|");
-        $x = append($x, "@dbl@the @dre@Watchtower wizard@dbl@ in the Watchtower.");
+        $x = append($x, "@dbl@I found some @dre@fingernails@dbl@ as evidence. I should take them to the @dre@Watchtower wizard@dbl@ in the Watchtower.|");
     } else {
-        $x = append($x, "@dbl@I need to @dre@find evidence@dbl@ of what's happened. It has been|");
-        $x = append($x, "@dbl@suggested I try searching the @dre@bushes@dbl@ near the|");
-        $x = append($x, "@dbl@Watchtower.");
+        $x = append($x, "@dbl@I need to @dre@find evidence@dbl@ of what's happened. It has been suggested I try searching the @dre@bushes@dbl@ near the Watchtower|");
     }
     ~quest_journal($n, $x);
     return;
@@ -62,14 +58,12 @@ $x = append($x, "@str@I found some fingernails as evidence. I should take them t
 $x = append($x, "@str@the Watchtower wizard.|");
 if ((%itwatchtower >= ^itwatchtower_given_fingernails) & (%itwatchtower <= ^itwatchtower_given_riddle)) {
     $x = append($x, "|@dbl@Now I need to @dre@deal with the tribal ogres.||");
-    $x = append($x, "@dbl@I should search the area to see if I can find any ogre and|");
-    $x = append($x, "@dbl@try and communicate with the leaders.|");
+    $x = append($x, "@dbl@I should search the area to see if I can find any ogre and try and communicate with the leaders.|");
     if (testbit(%itwatchtower_bits, ^itwatchtower_helped_og) = ^true) {
         $x = append($x, "@str@I returned Og's stolen gold.|");
     } else if (testbit(%itwatchtower_bits, ^itwatchtower_spoken_og) = ^true) {
         if(inv_total(inv, stolen_gold) > 0) {
-            $x = append($x, "@dbl@I have Og's @dre@stolen gold@dbl@; I should give it to @dre@Og@dbl@ for a|");
-            $x = append($x, "@dbl@reward.|");
+            $x = append($x, "@dbl@I have Og's @dre@stolen gold@dbl@; I should give it to @dre@Og@dbl@ for a reward.|");
         } else {
             $x = append($x, "@dbl@Og wants me to @dre@retrieve his stolen gold@dbl@ from Toban.|");
         }
@@ -78,8 +72,7 @@ if ((%itwatchtower >= ^itwatchtower_given_fingernails) & (%itwatchtower <= ^itwa
         $x = append($x, "@str@I knocked out one of Gorad's teeth and gave it to Grew.|");
     } else if (testbit(%itwatchtower_bits, ^itwatchtower_spoken_grew) = ^true) {
         if (inv_total(inv, ogretooth) > 0) {
-            $x = append($x, "@dbl@I have @dre@one of Gorad's teeth@dbl@; I should give it to @dre@Grew@dbl@ for a|");
-            $x = append($x, "@dbl@reward.|");
+            $x = append($x, "@dbl@I have @dre@one of Gorad's teeth@dbl@; I should give it to @dre@Grew@dbl@ for a reward.|");
         } else {
             $x = append($x, "@dbl@Grew wants me to give him @dre@one of Gorad's teeth.|");
         }
@@ -88,8 +81,7 @@ if ((%itwatchtower >= ^itwatchtower_given_fingernails) & (%itwatchtower <= ^itwa
         $x = append($x, "@str@I gave the bones to Toban.|");
     } else if (testbit(%itwatchtower_bits, ^itwatchtower_spoken_toban) = ^true) {
         if (inv_total(inv, dragon_bones) > 0) {
-            $x = append($x, "@dbl@I have the @dre@dragon bones@dbl@; I should give them to @dre@Toban@dbl@ for a|");
-            $x = append($x, "@dbl@reward.|");
+            $x = append($x, "@dbl@I have the @dre@dragon bones@dbl@; I should give them to @dre@Toban@dbl@ for a reward.|");
         } else {
             $x = append($x, "@dbl@Toban wants the @dre@bones of an adult dragon.|");
         }
@@ -124,8 +116,7 @@ if (%itwatchtower = ^itwatchtower_solved_riddle) {
     if (inv_total(inv, skavidmap) > 0) {
         $x = append($x, "@dbl@I have it with me now, so I can navigate the skavid caves.|");
     } else {
-        $x = append($x, "@dbl@I do not have the map with me now, so I cannot navigate|");
-        $x = append($x, "@dbl@the caves.|");
+        $x = append($x, "@dbl@I do not have the map with me now, so I cannot navigate the caves.|");
     }
     $x = append($x, "@dbl@I need to @dre@search the skavid caves.|");
     if (testbit(%itwatchtower_bits, ^itwatchtower_learning_skavid) = ^true) {
@@ -152,16 +143,13 @@ $x = append($x, "|@str@I was given a map by the guard.|");
 $x = append($x, "@str@I need to search the skavid caves.|");
 $x = append($x, "|@str@I found my way into the skavid caves.|");
 if (%itwatchtower = ^itwatchtower_skavid_crystal) {//RS3
-    $x = append($x, "@dbl@I have been told that the other crystals are in the|");
-    $x = append($x, "@dre@shamans' enclave@dbl@. I should speak to the @dre@Watchtower|");
-    $x = append($x, "@dre@wizard@dbl@ to find out how to get in.|");
+    $x = append($x, "@dbl@I have been told that the other crystals are in the @dre@shamans' enclave@dbl@. I should speak to the @dre@Watchtower wizard@dbl@ to find out how to get in.");
     ~quest_journal($n, $x);
     return;
 }
 $x = append($x, "@str@I used some cave nightshade to distract the guard.|");
 if (%itwatchtower = ^itwatchtower_fed_nightshade) {
-    $x = append($x, "@dbl@I need to @dre@defeat the ogre shamans@dbl@ and @dre@find the other|");
-    $x = append($x, "@dre@crystals.|");
+    $x = append($x, "@dbl@I need to @dre@defeat the ogre shamans@dbl@ and @dre@find the other crystals.|");
     ~quest_journal($n, $x);
     return;
 }
@@ -173,11 +161,9 @@ $x = append($x, "@str@by powerful magics! I should speak with the Watchtower|");
 $x = append($x, "@str@wizard to see if he has any advice for me.|");
 if (%itwatchtower = ^itwatchtower_learned_potion) {
     if (inv_total(inv, ogre_potion) > 0) {
-        $x = append($x, "|@dbl@I have made the @dre@ogre potion@dbl@. I need to get it enchanted|");
-        $x = append($x, "@dbl@by the Watchtower wizard.");
+        $x = append($x, "|@dbl@I have made the @dre@ogre potion@dbl@. I need to get it enchanted by the Watchtower wizard.|");
     } else {
-        $x = append($x, "@dbl@I need to make the @dre@potion@dbl@ that will @dre@defeat the ogre|");//guessed linebreak
-        $x = append($x, "@dre@shamans@dbl@.");
+        $x = append($x, "@dbl@I need to make the @dre@potion@dbl@ that will @dre@defeat the ogre @dre@shamans@dbl@.");
     }
     ~quest_journal($n, $x);
     return;
@@ -195,18 +181,14 @@ if (%itwatchtower = ^itwatchtower_made_potion) {
         $x = append($x, "|@str@I killed all the ogre shamans.||");
         //this doesn't match rs3& osrs, even if you destroy the crystal the text says you have mined it
         if (inv_total(inv, powering_crystal4) > 0) {
-            $x = append($x, "@dbl@I have @dre@mined the sacred rock@dbl@ and have taken the last|");
-            $x = append($x, "@dre@crystal.|");
+            $x = append($x, "@dbl@I have @dre@mined the sacred rock@dbl@ and have taken the last @dre@crystal.|");
             if (~watchtower_has_all_crystals = true) {
-                $x = append($x, "@dbl@I need to @dre@return all the crystals to the Watchtower wizard.|");
-                $x = append($x, "@dre@|");
+                $x = append($x, "@dbl@I need to @dre@return all the crystals to the Watchtower wizard.||");
             } else {
-                $x = append($x, "@dbl@I need to @dre@recover some of the crystals@dbl@ and take them|");
-                $x = append($x, "@dbl@to the Watchtower wizard.|");
+                $x = append($x, "@dbl@I need to @dre@recover some of the crystals@dbl@ and take them to the Watchtower wizard.|");
             }
         } else {
-            $x = append($x, "@dbl@Now the @dre@shamans@dbl@ are dead, I should be able to|");
-            $x = append($x, "@dre@mine the Rock of Dalgroth@dbl@.|");
+            $x = append($x, "@dbl@Now the @dre@shamans@dbl@ are dead, I should be able to @dre@mine the Rock of Dalgroth@dbl@.|");
         }
     }
     ~quest_journal($n, $x);
@@ -215,8 +197,7 @@ if (%itwatchtower = ^itwatchtower_made_potion) {
 
 $x = append($x, "|@str@I need to return all the crystals to the Watchtower wizard.|");
 if (%itwatchtower = ^itwatchtower_found_all_crystals) {
-    $x = append($x, "|@dbl@I have taken the crystals to the Watchtower wizard. Now I|");
-    $x = append($x, "@dbl@need to throw the @dre@lever@dbl@ to @dre@activate the shield@dbl@.|");
+    $x = append($x, "|@dbl@I have taken the crystals to the Watchtower wizard. Now I need to throw the @dre@lever@dbl@ to @dre@activate the shield@dbl@.|");
     //no placing crystals in 2004 like rs3/osrs show
     ~quest_journal($n, $x);
     return;
@@ -231,8 +212,7 @@ if (%itwatchtower >= ^itwatchtower_complete) {
 }
 
 if (%itwatchtower < ^itwatchtower_complete_read_scroll) {
-    $x = append($x, "|@dbl@I have been given a @dre@spell scroll@dbl@ as a reward, which I need to|");
-    $x = append($x, "@dbl@ read.");
+    $x = append($x, "|@dbl@I have been given a @dre@spell scroll@dbl@ as a reward, which I need to read.|");
 }
 
 ~quest_journal($n, $x);

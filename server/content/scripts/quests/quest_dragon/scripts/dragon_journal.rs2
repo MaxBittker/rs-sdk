@@ -2,7 +2,7 @@
 def_string $text;
 
 if (%dragonquest = ^quest_dragon_not_started) {
-    $text = "@dbl@I can start this quest by speaking to the @dre@Guildmaster@dbl@ in|@dbl@the @dre@Champions' Guild@dbl@, south-west of Varrock.|";
+    $text = "@dbl@I can start this quest by speaking to the @dre@Guildmaster@dbl@ in|the @dre@Champions' Guild@dbl@, south-west of Varrock.|";
     $text = append($text, "@dbl@I will need to be able to defeat a @dre@level 83 dragon@dbl@.|");
     if (%qp < 32) {
         $text = append($text, "@dbl@To enter the Champions' Guild I need @dre@32 Quest Points@dbl@.");
@@ -16,17 +16,17 @@ if (%dragonquest = ^quest_dragon_not_started) {
 $text = "@str@The Guildmaster of the Champions' Guild said his friend|@str@Oziach could help me with a Rune Plate mail body.|";
 
 if (%dragonquest > ^quest_dragon_spoken_to_guildmaster) {
-    $text = append($text, "@dre@Oziach@dbl@ will sell me @dre@Rune Plate Mail@dbl@ if I can prove myself|@dbl@worthy by killing the @dre@Dragon Elvarg@dbl@ who lives on @dre@Crandor@dbl@|");
+    $text = append($text, "@dre@Oziach@dbl@ will sell me @dre@Rune Plate Mail@dbl@ if I can prove myself|worthy by killing the @dre@Dragon Elvarg@dbl@ who lives on @dre@Crandor@dbl@|");
 }
 if (%dragonquest = ^quest_dragon_spoken_to_guildmaster) {
-    $text = append($text, "@dbl@I should speak to @dre@Oziach@dbl@, who lives by the cliffs to the|@dbl@west of @dre@Edgeville@dbl@.");
+    $text = append($text, "@dbl@I should speak to @dre@Oziach@dbl@, who lives by the cliffs to the|west of @dre@Edgeville@dbl@.");
 }
 
 if (%dragonquest = ^quest_dragon_spoken_to_oziach) {
     if (%dragon_oracle < ^quest_dragon_knows_about_oracle | %dragon_shield < ^quest_dragon_knows_about_shield | %dragon_goblin < ^quest_dragon_knows_about_goblin) {
         $text = append($text, "@dbl@I should return to @dre@Oziach@dbl@ for more detailed instructions.");
     } else {
-        $text = append($text, "@dbl@To defeat the dragon I will need to find a @dre@map@dbl@ to|@dbl@Crandor, a @dre@ship@dbl@, a @dre@captain@dbl@ to take me there and some kind|");
+        $text = append($text, "@dbl@To defeat the dragon I will need to find a @dre@map@dbl@ to|Crandor, a @dre@ship@dbl@, a @dre@captain@dbl@ to take me there and some kind|");
         $text = append($text, "@dbl@of @dre@protection@dbl@ against the dragon's breath.|");
         $text = append($text, ~ds_map_pieces());
         $text = append($text, ~ds_shield_check());
@@ -38,7 +38,7 @@ if (%dragonquest = ^quest_dragon_bought_ship) {
     if (%dragon_oracle < ^quest_dragon_knows_about_oracle | %dragon_shield < ^quest_dragon_knows_about_shield | %dragon_goblin < ^quest_dragon_knows_about_goblin) {
         $text = append($text, "@dbl@I should return to @dre@Oziach@dbl@ for more detailed instructions.");
     } else {
-        $text = append($text, "@dbl@To defeat the dragon I will need to find a @dre@map@dbl@ to|@dbl@Crandor, a @dre@ship@dbl@, a @dre@captain@dbl@ to take me there and some kind|");
+        $text = append($text, "@dbl@To defeat the dragon I will need to find a @dre@map@dbl@ to|Crandor, a @dre@ship@dbl@, a @dre@captain@dbl@ to take me there and some kind|");
         $text = append($text, "@dbl@of @dre@protection@dbl@ against the dragon's breath.|");
         $text = append($text, ~ds_map_pieces());
         $text = append($text, ~ds_shield_check());
@@ -49,7 +49,7 @@ if (%dragonquest = ^quest_dragon_bought_ship) {
 }
 
 if (%dragonquest = ^quest_dragon_repaired_ship) {
-    $text = append($text, "@dbl@To defeat the dragon I will need to find a @dre@map@dbl@ to|@dbl@Crandor, a @dre@ship@dbl@, a @dre@captain@dbl@ to take me there and some kind|");
+    $text = append($text, "@dbl@To defeat the dragon I will need to find a @dre@map@dbl@ to|Crandor, a @dre@ship@dbl@, a @dre@captain@dbl@ to take me there and some kind|");
     $text = append($text, "@dbl@of @dre@protection@dbl@ against the dragon's breath.|");
     $text = append($text, ~ds_map_pieces());
     $text = append($text, ~ds_shield_check());
@@ -95,13 +95,6 @@ if (%dragonquest >= ^dragon_complete) {
 
 ~quest_journal("Dragon Slayer", $text);
 
-[proc,ds_intro]()(string)
-def_string $text = "";
-$text = append($text, "@str@The Guildmaster of the Champions' Guild said his friend|@str@Oziach could help me with a Rune Plate mail body.|");
-$text = append($text, "@dre@Oziach@dbl@ will sell me @dre@Rune Plate Mail@dbl@ if I can prove myself|@dbl@worthy by killing the @dre@Dragon Elvarg@dbl@ who lives on @dre@Crandor@dbl@|");
-return($text);
-
-
 [proc,ds_map_pieces]()(string)
 def_string $text = "";
 
@@ -120,7 +113,7 @@ if (%dragonquest < ^quest_dragon_ned_given_map) {
         if (%dragon_oracle = ^quest_dragon_has_spoken_to_oracle) {
             $text = append($text, ~ds_oracle_rhyme());
         } else {
-            $text = append($text, "@dbl@One-third of the map is hidden, and only the @dre@Oracle@dbl@ on @dre@Ice|@dre@Mountain@dbl@ will know where it is.|");
+            $text = append($text, "@dbl@One-third of the map is hidden, and only the @dre@Oracle@dbl@ on @dre@Ice|Mountain@dbl@ will know where it is.|");
         }
     }
 
@@ -141,15 +134,15 @@ return($text);
 
 [proc,ds_oracle_rhyme]()(string)
 def_string $text = "";
-$text = append($text, "@dbl@I asked the @dre@Oracle@dbl@ about the lost map piece, and she told|@dbl@me the following rhyme:|");
+$text = append($text, "@dbl@I asked the @dre@Oracle@dbl@ about the lost map piece, and she told|me the following rhyme:|");
 $text = append($text, "@dre@The map's behind a door below,|");
-$text = append($text, "@dre@but entering is rather tough.|");
-$text = append($text, "@dre@This is what you need to know:|");
-$text = append($text, "@dre@You must use the following stuff...|");
-$text = append($text, "@dre@First, a drink used by a mage.|");
-$text = append($text, "@dre@Next, some worm string, changed to sheet.|");
-$text = append($text, "@dre@Then, a small crustacean cage.|");
-$text = append($text, "@dre@Last, a bowl that's not seen heat.|");
+$text = append($text, "but entering is rather tough.|");
+$text = append($text, "This is what you need to know:|");
+$text = append($text, "You must use the following stuff...|");
+$text = append($text, "First, a drink used by a mage.|");
+$text = append($text, "Next, some worm string, changed to sheet.|");
+$text = append($text, "Then, a small crustacean cage.|");
+$text = append($text, "Last, a bowl that's not seen heat.|");
 return($text);
 
 
@@ -161,7 +154,7 @@ if (inv_total(inv, antidragonbreathshield) > 0 |
 {
     $text = append($text, "@str@The Duke of Lumbridge gave me an anti-dragonbreath|@str@shield.|");
 } else {
-    $text = append($text, "@dbl@I should ask the @dre@Duke of Lumbridge@dbl@ for an @dre@anti-|@dre@dragonbreath shield@dbl@.|");
+    $text = append($text, "@dbl@I should ask the @dre@Duke of Lumbridge@dbl@ for an @dre@anti-|dragonbreath shield@dbl@.|");
 }
 return($text);
 

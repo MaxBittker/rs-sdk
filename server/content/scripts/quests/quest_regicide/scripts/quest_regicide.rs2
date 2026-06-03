@@ -29,10 +29,11 @@ p_teleport(0_36_150_10_24);
 p_teleport(0_36_50_8_16);
 
 [oploc1,regicide_trap_woodspring]
-p_delay(0);
 if(stat_random(agility, 30, 155) = false) {
-    @regicide_fail_trap_woodspring;
+    weakqueue*(regicide_move_trap_woodspring, 0)(loc_type, loc_coord, coord);
+    return;
 }
+p_delay(0);
 switch_int(loc_angle) {
     case ^loc_east :
         if (coordx(coord) <= coordx(loc_coord)) {
@@ -75,49 +76,62 @@ switch_int(loc_angle) {
 }
 mes("You manage to skillfully pass the trap.");
 
+[queue,regicide_move_trap_woodspring](loc $loc_type, coord $loc_coord, coord $coord)
+if(loc_find($loc_coord, $loc_type) = true & coord = $coord) {
+    switch_int(loc_angle) {
+        case ^loc_east :
+            if (coordx(coord) <= coordx(loc_coord)) {
+                p_walk(loc_coord);
+            } else {
+                p_walk(movecoord(loc_coord, 1, 0, 0));
+            }
+        case ^loc_west :
+            if (coordx(movecoord(coord, -1, 0, 0)) <= coordx(loc_coord)) {
+                p_walk(movecoord(loc_coord, 1, 0, 0));
+            } else {
+                p_walk(movecoord(loc_coord, 2, 0, 0));
+            }
+        case ^loc_north :
+            if (coordz(coord) <= coordz(loc_coord)) {
+                p_walk(loc_coord);
+            } else {
+                p_walk(movecoord(loc_coord, 0, 0, 1));
+            }
+        case ^loc_south :
+            if (coordz(coord) > coordz(loc_coord)) {
+                p_walk(movecoord(loc_coord, 0, 0, 2));
+            } else {
+                p_walk(movecoord(loc_coord, 0, 0, 1));
+            }
+    }
+}
+
 [label,regicide_fail_trap_woodspring]
 def_coord $dest;
 def_int $dir;
-p_stopaction;
 switch_int(loc_angle) {
     case ^loc_east :
-        if (coordx(coord) <= coordx(loc_coord)) {
-            ~forcemove(loc_coord);
-        } else {
-            ~forcemove(movecoord(loc_coord, 1, 0, 0));
-        }
         $dest = movecoord(loc_coord, -1, 0, 0);
         $dir = ^exact_east;
     case ^loc_west :
-        if (coordx(movecoord(coord, -1, 0, 0)) <= coordx(loc_coord)) {
-            ~forcemove(movecoord(loc_coord, 1, 0, 0));
-        } else {
-            ~forcemove(movecoord(loc_coord, 2, 0, 0));
-        }
         $dest = movecoord(loc_coord, 3, 0, 0);
         $dir = ^exact_west;
     case ^loc_north :
-        if (coordz(coord) <= coordz(loc_coord)) {
-            ~forcemove(loc_coord);
-        } else {
-            ~forcemove(movecoord(loc_coord, 0, 0, 1));
-        }
         $dest = movecoord(loc_coord, 0, 0, -1);
         $dir = ^exact_north;
     case ^loc_south :
-        if (coordz(coord) > coordz(loc_coord)) {
-            ~forcemove(movecoord(loc_coord, 0, 0, 2));
-        } else {
-            ~forcemove(movecoord(loc_coord, 0, 0, 1));
-        }
         $dest = movecoord(loc_coord, 0, 0, 3);
         $dir = ^exact_south;
 }
-loc_anim(woodspring);
-mes("You set off the trap as you pass.");
-sound_synth(springtrap, 0, 0);
-~agility_exactmove(human_stumble_back, 10, 0, coord, $dest, 10, 56, $dir, false);
-~damage_self(8);
+if_close;
+if(p_finduid(uid) = true) {
+    p_stopaction;
+    loc_anim(woodspring);
+    mes("You set off the trap as you pass.");
+    sound_synth(springtrap, 0, 0);
+    ~agility_exactmove(human_stumble_back, 10, 0, coord, $dest, 10, 56, $dir, false);
+    ~damage_self(8);
+}
 
 [oploc1,regicide_trap_tripwire]
 def_int $dx = 0;
@@ -282,7 +296,7 @@ if(inzone(0_35_49_33_37, 0_35_49_35_37, coord) = true) {
 } else if(inzone(0_35_50_37_61, 0_35_50_37_63, coord) = true) {
     p_teleport(movecoord(0_36_150_50_43, random(1), 0, random(1)));
 } else if(inzone(0_35_50_38_61, 0_35_50_38_63, coord) = true) {
-    p_teleport(movecoord(0_36_150_50_56, 1, 0, random(1)));
+    p_teleport(movecoord(0_36_150_50_43, 1, 0, random(1)));
 } else if(inzone(0_34_50_32_2, 0_34_50_34_2, coord) = true) {
     p_teleport(movecoord(0_36_150_9_56, random(1), 0, 0));
 } else if(inzone(0_34_50_32_3, 0_34_50_34_3, coord) = true) {
@@ -309,7 +323,7 @@ if(inzone(0_36_150_50_56, 0_36_150_51_56, coord) = true) {
 } else if(inzone(0_36_150_50_43, 0_36_150_50_44, coord) = true) {
     p_teleport(0_35_50_35_62);
 } else if(inzone(0_36_150_51_43, 0_36_150_51_44, coord) = true) {
-    p_teleport(0_35_50_38_62);
+    p_teleport(0_35_50_39_62);
 } else if(inzone(0_36_150_9_56, 0_36_150_10_56, coord) = true) {
     p_teleport(0_34_50_33_1);
 } else if(inzone(0_36_150_9_57, 0_36_150_10_57, coord) = true) {
@@ -672,6 +686,9 @@ if(last_useitem = ball_of_wool) {
 }
 ~displaymessage(^dm_default);
 
+[oplocu,regicide_furnace]
+@use_furnace;
+
 [opheldu,regicide_quicklime]
 if(last_useitem = pestle_and_mortar) {
     inv_del(inv, regicide_quicklime, 1);
@@ -811,6 +828,7 @@ if(%regicide_quest = ^regicide_reported_iorwerth & inv_total(inv, regicide_iorwe
 [opheld1,regicide_iorwerth_message]
 if(%regicide_quest > ^regicide_reported_iorwerth) {
     ~regicide_iowerth_message_scroll;
+    return;
 }
 mes("You try to open the message...");
 mes("The seal on the scroll is unbreakable.");

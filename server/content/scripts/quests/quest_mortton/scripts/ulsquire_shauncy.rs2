@@ -108,6 +108,9 @@ if(%morttonquest < ^mortton_kill_shades) {
     //Why so sad friend :( authentic
     ~chatnpc("<p,sad>Great! Well done my friend!");
     queue(mortton_quest_complete, 0, 0);
+} else if (%morttonquest = ^mortton_quest_complete) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,happy>Hello again! Many thanks for helping us to solve the riddle with the Shades, we can start to work now putting all those Shade spirits to rest and get a little bit of a reward to go along with it!");
 }
 
 [label,ulsquire_thanks]

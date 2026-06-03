@@ -2,7 +2,7 @@
 def_string $text;
 
 if(%doricquest = 0) {
-    $text = "@dbl@I can start this quest by talking to @dre@Doric@dbl@ at his home|@dbl@north of @dre@Falador@dbl@.";
+    $text = "@dbl@I can start this quest by talking to @dre@Doric@dbl@ at his home|north of @dre@Falador@dbl@.";
 } else if(%doricquest = 10) {
     // https://github.com/Indio3/quest-journals/blob/master/quest_doric/qdq_01.jpg
     $text = "@str@I have spoken to @dre@Doric||";

@@ -71,11 +71,11 @@ if ($progress > ^itexam_first_exam) {
 
             $x = append($x, "|@dbl@I should talk to him to see if he can help with any exams.");
         } else {
-            $x = append($x, "|@dbl@I have agreed to help the student in the green top.");
-            $x = append($x, "|@dbl@He has lost his rock sample and thinks he may have|@dbl@dropped it around the digsite.|@dbl@I need to find it and return it to him.");
+            $x = append($x, "|@dbl@I have agreed to help the student in the green top.|");
+            $x = append($x, "He has lost his rock sample and thinks he may have dropped it around the digsite.|I need to find it and return it to him.");
         }
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the green top about the|@dbl@exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the green top about the exams.");
     }
 
     if ($errand2 = ^itexam_errand_answered) {
@@ -91,10 +91,10 @@ if ($progress > ^itexam_first_exam) {
             $x = append($x, "|@dbl@I should talk to her to see if she can help with any exams.");
         } else {
             $x = append($x, "|@dbl@I agreed to help the student in the purple shirt.");
-            $x = append($x, "|@dbl@She has lost her rock sample and thinks she may have|@dbl@dropped it in a bush. I need to find it and return it to her.");
+            $x = append($x, "|She has lost her rock sample and thinks she may have dropped it in a bush. I need to find it and return it to her.");
         }
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the purple shirt about|@dbl@the exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the purple shirt about the exams.");
     }
 
     if ($errand3 = ^itexam_errand_answered) {
@@ -110,21 +110,21 @@ if ($progress > ^itexam_first_exam) {
             $x = append($x, "|@dbl@I should talk to him to see if he can help with any exams.");
         } else {
             $x = append($x, "|@dbl@I have agreed to help the student in the orange top.");
-            $x = append($x, "|@dbl@He has lost his rock sample and thinks he may have|@dbl@dropped it in the water.|@dbl@I need to find it and return it to him.");
+            $x = append($x, "|He has lost his rock sample and thinks he may have dropped it in the water.|I need to find it and return it to him.");
         }
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the orange top about the|@dbl@exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the orange top about the exams.");
     }
 
     if ($errand1 = ^itexam_errand_answered & $errand2 = ^itexam_errand_answered & $errand3 = ^itexam_errand_answered) {
-        $x = append($x, "|@dbl@I should talk to the Examiner to take my first exam. If I|@dbl@have forgotten anything I can always ask the students|@dbl@again.");
+        $x = append($x, "|@dbl@I should talk to the Examiner to take my first exam. If I have forgotten anything I can always ask the students again.");
     }
 }
 
 if ($progress > ^itexam_second_exam) {
     $x = append($x, "|@str@I have passed my second Earth Science exam.|");
 } else if ($progress = ^itexam_second_exam) {
-    $x = append($x, "|@dbl@I need to study for my second exam. Perhaps the three|@dbl@students on the digsite can help me again?|");
+    $x = append($x, "|@dbl@I need to study for my second exam. Perhaps the three students on the digsite can help me again?|");
 
     def_int $errand1 = ~itexam_errand_progress(^itexam_errand_student1);
     def_int $errand2 = ~itexam_errand_progress(^itexam_errand_student2);
@@ -133,30 +133,30 @@ if ($progress > ^itexam_second_exam) {
     if ($errand1 = ^itexam_errand_answered) {
         $x = append($x, "|@str@I need to speak to the student in the green top about the|@str@exams.");
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the green top about the|@dbl@exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the green top about the exams.");
     }
 
     if ($errand2 = ^itexam_errand_answered) {
         $x = append($x, "|@str@I need to speak to the student in the purple shirt about|@str@the exams.");
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the purple shirt about|@dbl@the exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the purple shirt about the exams.");
     }
 
     if ($errand3 = ^itexam_errand_answered) {
         $x = append($x, "|@str@I need to speak to the student in the orange top about the|@str@exams.");
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the orange top about the|@dbl@exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the orange top about the exams.");
     }
 
     if ($errand1 = ^itexam_errand_answered & $errand2 = ^itexam_errand_answered & $errand3 = ^itexam_errand_answered) {
-        $x = append($x, "|@dbl@I should talk to the Examiner to take my second exam. If|@dbl@I have forgotten anything I can always ask the students|@dbl@again.");
+        $x = append($x, "|@dbl@I should talk to the Examiner to take my second exam. If I have forgotten anything I can always ask the students again.");
     }
 }
 
 if ($progress > ^itexam_third_exam) {
     $x = append($x, "|@str@I have passed my third Earth Science exam.|");
 } else if ($progress = ^itexam_third_exam) {
-    $x = append($x, "|@dbl@I need to study for my third exam. Perhaps the three|@dbl@students on the digsite can help me again?|");
+    $x = append($x, "|@dbl@I need to study for my third exam. Perhaps the three students on the digsite can help me again?|");
 
     def_int $errand1 = ~itexam_errand_progress(^itexam_errand_student1);
     def_int $errand2 = ~itexam_errand_progress(^itexam_errand_student2);
@@ -165,7 +165,7 @@ if ($progress > ^itexam_third_exam) {
     if ($errand1 = ^itexam_errand_answered) {
         $x = append($x, "|@str@I need to speak to the student in the green top about the|@str@exams.");
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the green top about the|exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the green top about the exams.");
     }
 
     if ($errand2 = ^itexam_errand_answered) {
@@ -174,17 +174,17 @@ if ($progress > ^itexam_third_exam) {
         $x = append($x, "|@str@I need to speak to the student in the purple shirt about|@str@the exams.");
         $x = append($x, "|@dbl@I need to bring her an opal.");
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the purple shirt about|@dbl@the exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the purple shirt about the exams.");
     }
 
     if ($errand3 = ^itexam_errand_answered) {
         $x = append($x, "|@str@I need to speak to the student in the orange top about the|@str@exams.");
     } else {
-        $x = append($x, "|@dbl@I need to speak to the student in the orange top about the|@dbl@exams.");
+        $x = append($x, "|@dbl@I need to speak to the student in the orange top about the exams.");
     }
 
     if ($errand1 = ^itexam_errand_answered & $errand2 = ^itexam_errand_answered & $errand3 = ^itexam_errand_answered) {
-        $x = append($x, "|@dbl@I should talk to the Examiner to take my third exam. If|@dbl@I have forgotten anything I can always ask the students|@dbl@again.");
+        $x = append($x, "|@dbl@I should talk to the Examiner to take my third exam. If I have forgotten anything I can always ask the students again.");
     }
 }
 
@@ -194,7 +194,7 @@ if ($progress > ^itexam_impress_archeological_expert) {
     $x = append($x, "|@str@I need to take the letter to a workman near a winch.|");
 } else if ($progress = ^itexam_impress_archeological_expert) {
     // todo: this is the RS3 text minus the expert's name
-    $x = append($x, "|@dbl@I need a find from the site to impress the @dre@archeological|@dre@expert at the Exam Centre.");
+    $x = append($x, "|@dbl@I need a find from the site to impress the @dre@archeological expert at the Exam Centre.");
     $x = append($x, "|@dbl@I need to take the @dre@letter @dbl@to a workman near a @dre@winch.");
 }
 
@@ -203,7 +203,7 @@ if ($progress > ^itexam_mineshaft_permit) {
     $x = append($x, "|@str@I need to find a way to move the rocks blocking the way|@str@in the shaft. Perhaps someone else in these dig shafts|@str@can help me.|");
 } else if ($progress = ^itexam_mineshaft_permit) {
     $x = append($x, "|@dbl@I need to @dre@investigate the dig shafts.");
-    $x = append($x, "|@dbl@I need to find a way to move the rocks blocking the way|@dbl@in the shaft. Perhaps someone else in these dig shafts|@dbl@can help me.");
+    $x = append($x, "|@dbl@I need to find a way to move the rocks blocking the way in the shaft. Perhaps someone else in these dig shafts can help me.");
 }
 
 if ($progress > ^itexam_poured_compound_on_bricks) {
@@ -211,7 +211,7 @@ if ($progress > ^itexam_poured_compound_on_bricks) {
     $x = append($x, "|@str@I need to ignite the explosive compound and blow up the|@str@rocks blocking the way.|");
 } else if ($progress = ^itexam_poured_compound_on_bricks) {
     $x = append($x, "|@str@I covered the rocks in the cave with an explosive compound.|");
-    $x = append($x, "|@dbl@I need to ignite the explosive compound and blow up the|@dbl@rocks blocking the way.");
+    $x = append($x, "|@dbl@I need to ignite the explosive compound and blow up the rocks blocking the way.");
 }
 
 if ($progress > ^itexam_removed_blockage) {
@@ -219,7 +219,7 @@ if ($progress > ^itexam_removed_blockage) {
     $x = append($x, "|@str@I should look for an interesting find in the secret room I|@str@found, and show it to the archeological expert|@str@at the Exam Centre.|");
 } else if ($progress = ^itexam_removed_blockage) {
     // todo: this is the RS3 text minus the expert's name
-    $x = append($x, "|@dbl@I should look for an interesting find in the secret room I|@dbl@found, and show it to @dre@the archeological expert|@dbl@at the Exam Centre.");
+    $x = append($x, "|@dbl@I should look for an interesting find in the secret room I found, and show it to @dre@the archeological expert@dbl@ at the Exam Centre.");
 }
 
 if ($progress = ^itexam_complete) {

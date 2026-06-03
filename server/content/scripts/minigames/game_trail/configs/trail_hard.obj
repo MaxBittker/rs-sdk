@@ -582,7 +582,7 @@ iop1=Read
 weight=20g
 category=trail_clue_hard
 param=trail_coord,0_40_48_56_5
-param=trail_casket,trail_clue_medium_map002_casket
+param=trail_casket,trail_clue_hard_map002_casket
 tradeable=no
 
 [trail_clue_hard_map002_casket]
@@ -615,7 +615,7 @@ iop1=Read
 weight=20g
 category=trail_clue_hard
 param=trail_coord,0_38_51_56_44
-param=trail_casket,trail_clue_medium_map003_casket
+param=trail_casket,trail_clue_hard_map003_casket
 tradeable=no
 
 [trail_clue_hard_map003_casket]
@@ -647,7 +647,7 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_hard
-param=trail_coord,0_38_49_25_46
+param=trail_coord,0_38_49_27_43
 param=trail_loc,^true
 tradeable=no
 
@@ -1181,11 +1181,10 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_hard
-param=trail_desc,02 degrees 39 minutes North|29 degrees 58 minutes East
+param=trail_desc,02 degrees 46 minutes North|29 degrees 11 minutes East
 param=trail_sextant,yes
 param=trail_casket,trail_clue_hard_sextant028_casket
-param=trail_coord,0_53_50_7_46
-param=trail_guardian,trail_hard2
+param=trail_coord,0_52_50_46_50
 tradeable=no
 
 [trail_clue_hard_sextant028_casket]
@@ -1392,7 +1391,7 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_hard
-param=trail_desc,Often sought out by scholars of|histories past, find me where|words of wisdom speak volumes.
+param=trail_desc,Often examined by learners of|what has past, find me where|words of wisdom speak volumes.
 tradeable=no
 
 [trail_clue_hard_riddle019_puzzlebox]
@@ -1568,7 +1567,7 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_hard
-param=trail_desc,Small shoe.'|Often found with|rod on mushroom.
+param=trail_desc,'Small shoe.'|Often found with|rod on mushroom.
 tradeable=no
 
 [trail_clue_hard_riddle026_puzzlebox]

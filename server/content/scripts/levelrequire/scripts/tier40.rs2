@@ -80,3 +80,9 @@
 [opheld2,mystic_air_staff] @levelrequire_magic_and_attack(40, 40, last_slot);
 [opheld2,mystic_earth_staff] @levelrequire_magic_and_attack(40, 40, last_slot);
 [opheld2,mystic_lava_staff] @levelrequire_magic_and_attack(40, 40, last_slot);
+
+[opheld2,splitbark_helm] @levelrequire_magic_and_defence(40, 40, last_slot);
+[opheld2,splitbark_body] @levelrequire_magic_and_defence(40, 40, last_slot);
+[opheld2,splitbark_legs] @levelrequire_magic_and_defence(40, 40, last_slot);
+[opheld2,splitbark_greaves] @levelrequire_magic_and_defence(40, 40, last_slot);
+[opheld2,splitbark_gauntlets] @levelrequire_magic_and_defence(40, 40, last_slot);

@@ -281,7 +281,6 @@ model7=model_483_npc
 model8=model_563_obj_wear
 head1=model_113_idk_head
 head2=model_131_npc_head
-param=death_sound,female_death
 
 [warrioradventurerpg]
 vislevel=hide

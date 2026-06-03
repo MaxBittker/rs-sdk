@@ -1,0 +1,5 @@
+[queue,cr_queue]
+cam_reset;
+
+[queue,clear_overlay]
+if_openoverlay(null);

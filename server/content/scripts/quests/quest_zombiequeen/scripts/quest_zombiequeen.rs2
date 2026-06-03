@@ -1615,10 +1615,6 @@ switch_int(~p_choice2("Yes, I am sure.", 1, "No, I'll keep hold of the remains."
     case 2 : mes("You decide to keep hold of Rashiliyia's remains.");
 }
 
-// maybe move this somewhere else
-[queue,cr_queue]
-cam_reset;
-
 [proc,random_undead_one]()(npc)
 switch_int(random(4)) {
     case 0 : return (zqskeleton_unarmed);

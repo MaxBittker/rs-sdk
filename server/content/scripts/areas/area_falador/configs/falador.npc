@@ -70,8 +70,7 @@ defence=5
 param=damagetype,^stab_style
 param=attack_anim,human_farmersfork_stab
 param=defend_anim,human_farmersfork_def
-param=attack_sound,staff_stab
-// osrs attack_sound farmersfork_stab
+param=attack_sound,farmersfork_stab
 // stats taken 3lv Gardener (Falador) Vislvl match.
 // Also Hitpoints match RSC version.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3276
@@ -146,7 +145,6 @@ param=shop_buy_multiplier,400
 param=shop_delta,30
 param=shop_title,Falador General Store
 moverestrict=indoors
-param=death_sound,female_death
 
 [cassie]
 vislevel=hide
@@ -183,7 +181,6 @@ param=shop_buy_multiplier,600
 param=shop_delta,20
 param=shop_title,Cassies' Shield Shop.
 moverestrict=indoors
-param=death_sound,female_death
 
 [flynn]
 vislevel=hide
@@ -461,4 +458,3 @@ model6=model_358_idk
 head1=model_103_idk_head
 moverestrict=indoors
 wanderrange=4
-param=death_sound,female_death

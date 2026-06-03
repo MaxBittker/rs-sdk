@@ -29,7 +29,6 @@ attack=35
 strength=38
 defence=40
 param=damagetype,^slash_style
-param=death_sound,female_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4923
 
 [helemos]

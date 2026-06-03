@@ -4,29 +4,29 @@ def_string $text;
 // https://github.com/Indio3/quest-journals/tree/master/quest_priestperil
 // https://www.youtube.com/watch?v=9TIiEdfi2g4
 if(%priestperil = ^priestperil_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@King Roald@dbl@ in @dre@Varrock|@dre@Palace||@dbl@I must be able to defeat a @dre@level 30 enemy";
+    $text = "@dbl@I can start this quest by speaking to @dre@King Roald@dbl@ in @dre@Varrock Palace||@dbl@I must be able to defeat a @dre@level 30 enemy";
 
 } else if(%priestperil = ^priestperil_started) {
     $text = "@str@I spoke to King Roald who asked me to investigate why his|@str@friend Priest Drezel has stopped communicating with him.||";
-    $text = append($text, "@dre@Drezel@dbl@ lives in a @dre@temple@dbl@ to the @dre@east@dbl@ of Varrock Palace. I|@dbl@should head there and @dre@investigate@dbl@ what's happened to him");
+    $text = append($text, "@dre@Drezel@dbl@ lives in a @dre@temple@dbl@ to the @dre@east@dbl@ of Varrock Palace. I should head there and @dre@investigate@dbl@ what's happened to him");
 
 } else if(%priestperil = ^priestperil_agree_to_kill_dog) {
     $text = "@str@I spoke to King Roald who asked me to investigate why his|@str@friend Priest Drezel has stopped communicating with him.|";
     $text = append($text, "@str@I headed to the temple where Drezel lives, but it was all|@str@locked shut. I spoke through the locked door to Drezel.|");
-    $text = append($text, "@dbl@He told me that there was an annoying @dre@dog@dbl@ below the|@dbl@temple, and has asked me to @dre@kill it@dbl@ for him");
+    $text = append($text, "@dbl@He told me that there was an annoying @dre@dog@dbl@ below the temple, and has asked me to @dre@kill it@dbl@ for him");
 
 } else if(%priestperil = ^priestperil_killed_dog) {
     $text = "@str@I spoke to King Roald who asked me to investigate why his|@str@friend Priest Drezel has stopped communicating with him.|";
     $text = append($text, "@str@I headed to the temple where Drezel lives, but it was all|@str@locked shut. I spoke through the locked door to Drezel.|");
     $text = append($text, "@str@He told me that there was an annoying dog below the|@str@temple, and asked me to kill it, which I did easily.||");
-    $text = append($text, "@dbl@I should tell @dre@King Roald@dbl@ everything's fine with @dre@Drezel@dbl@ now I|@dbl@have killed that @dre@dog@dbl@ for him, and claim my @dre@reward");
+    $text = append($text, "@dbl@I should tell @dre@King Roald@dbl@ everything's fine with @dre@Drezel@dbl@ now I have killed that @dre@dog@dbl@ for him, and claim my @dre@reward");
 
 } else if(%priestperil = ^priestperil_return_to_drezel) {
     $text = "@str@I spoke to King Roald who asked me to investigate why his|@str@friend Priest Drezel has stopped communicating with him.|";
     $text = append($text, "@str@I headed to the temple where Drezel lives, but it was all|@str@locked shut. I spoke through the locked door to Drezel.|");
     $text = append($text, "@str@He told me that there was an annoying dog below the|@str@temple, and asked me to kill it, which I did easily.|");
     $text = append($text, "@str@When I told Roald what I had done, he was furious. The|@str@person who told me to kill the dog wasn't Drezel at all!||");
-    $text = append($text, "@dbl@I must return to the @dre@temple@dbl@ and find out what happened to|@dbl@the real @dre@Drezel@dbl@, or the King will have me executed!");
+    $text = append($text, "@dbl@I must return to the @dre@temple@dbl@ and find out what happened to the real @dre@Drezel@dbl@, or the King will have me executed!");
 
 } else if(%priestperil = ^priestperil_find_drezel_key) {
     $text = "@str@I spoke to King Roald who asked me to investigate why his|@str@friend Priest Drezel has stopped communicating with him.|";
@@ -78,7 +78,7 @@ if(%priestperil = ^priestperil_not_started) {
     $text = append($text, "@str@When I told Roald what I had done, he was furious. The|@str@person who told me to kill the dog wasn't Drezel at all!|");
     $text = append($text, "@str@I returned to the temple and found the real Drezel locked|@str@in a makeshift cell upstairs, guarded by a vampire.|");
     $text = append($text, "@str@I used a key from the monument to open the cell door and|@str@and used Holy Water to trap the vampire in his coffin.|");
-    $text = append($text, "@dbl@I should head downstairs to the @dre@monument@dbl@ like @dre@Drezel|@dbl@asked me to, and assess what @dre@damage@dbl@ has been done");
+    $text = append($text, "@dbl@I should head downstairs to the @dre@monument@dbl@ like @dre@Drezel@dbl@ asked me to, and assess what @dre@damage@dbl@ has been done");
 
 } else if(%priestperil >= ^priestperil_begin_bring_essence & %priestperil < ^priestperil_end_bring_essence) {
     $text = "@str@I spoke to King Roald who asked me to investigate why his|@str@friend Priest Drezel has stopped communicating with him.|";
@@ -88,7 +88,7 @@ if(%priestperil = ^priestperil_not_started) {
     $text = append($text, "@str@I returned to the temple and found the real Drezel locked|@str@in a makeshift cell upstairs, guarded by a vampire.|");
     $text = append($text, "@str@I used a key from the monument to open the cell door and|@str@and used Holy Water to trap the vampire in his coffin.|");
     $text = append($text, "@str@I followed Drezel downstairs only to find that the Salve|@str@had been contaminated and now needed purifying.|");
-    $text = append($text, "@dbl@I need to bring Drezel @dre@fifty rune essences@dbl@ to undo the|@dbl@damage done by the Zamorakians and @dre@purify the|@dre@Salve");
+    $text = append($text, "@dbl@I need to bring Drezel @dre@fifty rune essences@dbl@ to undo the damage done by the Zamorakians and @dre@purify the Salve");
 
 } else {
     $text = "@str@I spoke to King Roald who asked me to investigate why his|@str@friend Priest Drezel has stopped communicating with him.|";

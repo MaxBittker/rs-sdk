@@ -6,3 +6,15 @@ if (%option_run = ^player_run_off) {
 } else {
     p_delay(max(0, sub(divide(distance(coord, $coord), 2), 1)));
 }
+
+// forced walk with delay
+[proc,playerwalk](coord $coord)
+runanim(null);
+p_walk($coord);
+p_delay(max(0, sub(distance(coord, $coord), 1)));
+def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
+if ($weapon = null) {
+    runanim(human_running);
+} else {
+    runanim(oc_param($weapon, running_baseanim));
+}

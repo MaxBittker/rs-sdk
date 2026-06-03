@@ -21,9 +21,8 @@ switch_obj(last_useitem) {
         def_int $choice = ~p_choice2("Yes, I'd like to bless my gold bowl.", 1, "No thanks, I'll wait.", 2);
         if ($choice = 1) {
             ~chatplayer("<p,neutral>Yes, I'd like to bless my gold bowl.");
-            @gujuo_start;
-        }
-        else {
+            @gujuo_bless_bowl;
+        } else {
             ~chatplayer("<p,neutral>No thanks, I'll wait.");
             ~chatnpc("<p,neutral>Very well, let me know when you want to try.");
             @gujuo_how_goes_ungadulu;

@@ -452,7 +452,7 @@ if(%eadgar_quest = ^eadgar_got_burnt_meat & inv_total(inv, eadgar_troll_storeroo
 if(coord = 0_44_157_53_37) {
     @eadgar_storeroom_open;
 } else {
-    if(%eadgar_quest = ^eadgar_unlocked_storeroom) {
+    if(%eadgar_quest >= ^eadgar_unlocked_storeroom) {
         @eadgar_storeroom_open;
     } else if(inv_total(inv, eadgar_troll_storeroom_key) > 0 & %eadgar_quest = ^eadgar_got_burnt_meat) { // todo any sound for unlocking?
         %eadgar_quest = ^eadgar_unlocked_storeroom;
@@ -465,51 +465,92 @@ if(coord = 0_44_157_53_37) {
 }
 
 [label,eadgar_storeroom_open]
-~open_and_close_door(eadgar_storeroomdoor, ~check_axis(coord, loc_coord, loc_angle), false); // todo any sound for opening?
+~open_and_close_door2(eadgar_storeroomdoor_open, ~check_axis(coord, loc_coord, loc_angle), door_open);
 
 // big greetz to Ashie for this code
+// https://www.youtube.com/watch?v=kovUX7iTHIw and https://www.youtube.com/watch?v=Kt5WcY9qP0g
+// based off these the knockout from the patrolling guards and the goutweed guard are 1t slower
 [ai_timer,_troll_sguard]
-huntall(npc_coord, 1, 0);
-if (huntnext = true) {
-    if (p_finduid(uid) = false) {
-        return;
-    }
-    npc_settimer(0);
-    npc_say("!");
-    ~eadgar_troll_whack;
-    npc_settimer(1);
-    npc_setmode(patrol);
+if(npc_coord ! npc_destination) %npc_int = ~coord_direction(npc_coord, npc_destination);
+
+huntall(npc_coord, 0, 0);
+while (huntnext = true) {
+    ~troll_guard_attack;
+}
+
+huntall(~movecoord_indirection(npc_coord, %npc_int, 1), 0, 0);
+while (huntnext = true) {
+    ~troll_guard_attack;
+}
+
+if(npc_coord = npc_destination) return;
+
+huntall(~movecoord_indirection(npc_coord, %npc_int, 2), 0, 0);
+while (huntnext = true) {
+    ~troll_guard_attack;
+}
+
+[proc,troll_guard_attack]
+if (getqueue(eadgar_take_goutweed) > 0 | getqueue(troll_guard_knockout) > 0 | getqueue(troll_guard_teleport) > 0) {
     return;
 }
+if_close;
+npc_say("!");
+npc_anim(eadgar_troll_axethrow, 0);
+~player_projectile(npc_coord, coord, uid, spotanim_290, 40, 36, 41, 15, 5, 11, 5);
+sound_synth(throw_club, 0, 0);
+queue(troll_guard_knockout, 2, 0);
+
+[ai_timer,eadgar_storeroom_guard]
+~sound_area(troll_snore, 0, npc_coord, 5);
+spotanim_npc(troll_zeds, 0, 0);
+npc_facesquare(movecoord(npc_coord, 0, 0, 1));
+npc_settimer(~random_range(8, 16));
 
 [oploc1,eadgar_crate_goutweed] // todo what happens if you hold the objbox open and get hit by a patrolling guard?
-if(npc_find(0_44_157_41_27, eadgar_storeroom_guard, 4, 0) = true) {
-    // guess based on osrs videos, it's pretty centered vertically but looks scaled down slightly
-    // todo change to match https://web.archive.org/web/20051025140652im_/http://www.runeweb.net/fireball/Eadgars%20Ruse%20Images/Eadgar18.PNG
-    ~objbox(eadgar_goutweed_herb, "You've found some goutweed!", 225, 0, calc(^objbox_height / 4));
-    if_close;
-    inv_add(inv, eadgar_goutweed_herb, 1); // what happens if inv is full?
+// guess based on osrs videos, it's pretty centered vertically but looks scaled down slightly
+// todo change to match https://web.archive.org/web/20051025140652im_/http://www.runeweb.net/fireball/Eadgars%20Ruse%20Images/Eadgar18.PNG
+if (getqueue(eadgar_take_goutweed) > 0 | getqueue(troll_guard_knockout) > 0 | getqueue(troll_guard_teleport) > 0) {
+    return;
+}
+queue(eadgar_take_goutweed, 0, 0);
+inv_add(inv, eadgar_goutweed_herb, 1);
+~objbox(eadgar_goutweed_herb, "You've found some goutweed!", 225, 0, calc(^objbox_height / 4));
+
+[queue,eadgar_take_goutweed]
+if(inzone(0_44_157_0_0, 0_44_157_63_63, coord) = false) {
+    return;
+}
+if(npc_findexact(0_44_157_41_27, eadgar_storeroom_guard) = true) {
     npc_say("Hm?");
     npc_facesquare(coord);
-    ~eadgar_troll_whack;
-    npc_facesquare(0_44_157_41_29); // OSRS videos show the guard always turning to face away from the box after
+    npc_anim(eadgar_troll_axethrow, 0);
+    ~player_projectile(npc_coord, coord, uid, spotanim_290, 40, 36, 41, 15, 5, 11, 5);
+    sound_synth(throw_club, 0, 0);
+    queue(troll_guard_knockout, 2, 0);
 }
 
-[proc,eadgar_troll_whack]
-npc_anim(eadgar_troll_axethrow, 0);
-p_delay(1);
-p_stopaction;
+[queue,troll_guard_knockout]
+if(inzone(0_44_157_0_0, 0_44_157_63_63, coord) = false) {
+    return;
+}
 if_openoverlay(eadgar_fade_to_black);
-anim(eadgar_knockout, 2);
+sound_synth(rock_impact, 0, 0);
+anim(eadgar_knockout, 0);
 ~damage_self(random(7)); // osrs wiki says 0-6 damage is possible
-sound_synth(stunned, 0, 0);
-p_delay(2);
+queue(troll_guard_teleport, 1, 0);
+queue(clear_overlay, 2, 0);
+
+[queue,troll_guard_teleport]
+// https://youtu.be/Kt5WcY9qP0g?si=D79k9J7lXVZxVOa-&t=944, fades out rather than
+// clearing instantly, although this is a different interface, doesn't seem to work correctly with the 
+// timing + this interface, so likely that just didn't happen until the interface was updated
+if(inzone(0_44_157_0_0, 0_44_157_63_63, coord) = false) {
+    return;
+}
 p_teleport(0_44_157_49_40);
-if_openoverlay(null);
 spotanim_pl(spotanim_291, 124, 0);
-%action_delay = calc(map_clock + 2);
-%stunned = calc(map_clock + 2);
-walktrigger(stunned);
+sound_synth(stun_all, 0, 0);
 
 [queue,eadgar_quest_complete]
 session_log(^log_adventure, "Quest complete: Eadgar's Ruse");

@@ -39,6 +39,11 @@ mes("You cant eat it whole; maybe you should cut it up.");
 [opheld1,tbwt_cooked_karambwanji] @player_consume_item(consume_effect_stat, null, null);
 [opheld1,tbwt_poorly_cooked_karambwan] @player_consume_item(consume_effect_poisonbwan, null, null);
 
+// Snails
+[opheld1,snail_corpse_cooked1] @player_consume_item(consume_effect_snail1, 2, 3);
+[opheld1,snail_corpse_cooked2] @player_consume_item(consume_effect_snail2, 2, 3);
+[opheld1,snail_corpse_cooked3] @player_consume_item(consume_effect_snail3, 2, 3);
+
 // cocktails
 // these work like normal food in osrs
 [opheld1,_gnome_cocktail]

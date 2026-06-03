@@ -25,9 +25,16 @@ param=magicdefence,10
 param=strengthbonus,32
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_staff_pummel
 param=defend_anim,human_staff_block
 param=crush_sound,staff_hit
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [fire_battlestaff]
 members=yes
@@ -61,9 +68,16 @@ param=magicdefence,10
 param=strengthbonus,35
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_stafforb_pummel
 param=defend_anim,human_stafforb_block
 param=crush_sound,staff_hit
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [water_battlestaff]
 members=yes
@@ -97,9 +111,16 @@ param=magicdefence,10
 param=strengthbonus,35
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_stafforb_pummel
 param=defend_anim,human_stafforb_block
 param=crush_sound,staff_hit
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [air_battlestaff]
 members=yes
@@ -131,9 +152,16 @@ param=magicdefence,10
 param=strengthbonus,35
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_stafforb_pummel
 param=defend_anim,human_stafforb_block
 param=crush_sound,staff_hit
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [earth_battlestaff]
 members=yes
@@ -167,9 +195,16 @@ param=magicdefence,10
 param=strengthbonus,35
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_stafforb_pummel
 param=defend_anim,human_stafforb_block
 param=crush_sound,staff_hit
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [lava_battlestaff]
 name=Lava battlestaff
@@ -201,9 +236,16 @@ param=magicdefence,10
 param=strengthbonus,35
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_stafforb_pummel
 param=defend_anim,human_stafforb_block
 param=crush_sound,staff_hit
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [mystic_lava_staff]
 name=Mystic lava staff
@@ -235,6 +277,13 @@ param=magicdefence,10
 param=strengthbonus,50
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_stafforb_pummel
 param=defend_anim,human_stafforb_block
 param=crush_sound,staff_hit
+// osrs crush attack sound newstaff / crush attack sound is a guess.

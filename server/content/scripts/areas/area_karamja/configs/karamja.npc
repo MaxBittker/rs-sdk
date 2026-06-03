@@ -55,7 +55,6 @@ model8=model_480_npc
 head1=model_115_idk_head
 head2=model_95_npc_head
 wanderrange=4
-param=death_sound,female_death
 
 [generalshopkeeper7]
 vislevel=hide
@@ -201,7 +200,6 @@ param=shop_sell_multiplier,1500
 param=shop_buy_multiplier,500
 param=shop_delta,20
 param=shop_title,Jiminua's Jungle Store.
-param=death_sound,female_death
 
 [trufitus]
 vislevel=hide

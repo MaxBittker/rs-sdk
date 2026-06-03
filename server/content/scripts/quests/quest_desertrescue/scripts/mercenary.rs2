@@ -12,7 +12,7 @@ if(%desertrescue >= ^desertrescue_entered_camp) {
         ~chatplayer("<p,happy>Hey, I've come to collect my bet!");
         ~chatnpc("<p,bored>Well, I guess congratulations are in order.");
         ~chatplayer("<p,happy>Thanks!");
-        ~chatnpc("<p,confused>And we'll only charge the paltry sum of.. erm...|@dbl@-- The guards starts to do some mental calculations. --|@dbl@-- You can see his brow furrow and he starts to --|@dbl@-- sweat profusely. --");
+        ~chatnpc("<p,confused>And we'll only charge the paltry sum of.. erm...|@dbl@-- The guards starts to do some mental calculations. --|-- You can see his brow furrow and he starts to --|-- sweat profusely. --");
         def_int $winnings = 1;
         def_string $cleanup = "Five";
         switch_int($bet) {
@@ -146,7 +146,7 @@ if(inv_total(inv, coins) < 5) {
     return;
 }
 inv_del(inv, coins, 5);
-~chatnpc("<p,happy>Well, it certainly will help... @dbl@ -- The guard takes the five|@dbl@gold coins. -- @bla@Now then, what did you want to know?");
+~chatnpc("<p,happy>Well, it certainly will help... @dbl@ -- The guard takes the five|gold coins. -- @bla@Now then, what did you want to know?");
 @multi2("What is this place?", mercenary_place2, "What are you guarding?", mercenary_guarding2);
 
 [label,mercenary_5coin3]
@@ -166,7 +166,7 @@ inv_del(inv, coins, 5);
 ~chatplayer("<p,neutral>What is this place?");
 ~chatnpc("<p,happy>It's just a mining camp. Prisoners are sent here from Al Kharid. They serve out their sentence by mining. Most prisoners will end their days here, surrounded by desert.");
 ~chatplayer("<p,happy>So you could almost say that they got their ... 'Just Desserts'");
-~chatnpc("<p,bored>You could say that...|@dbl@-- There is an awkward pause --@dbl@");
+~chatnpc("<p,bored>You could say that...|@dbl@-- There is an awkward pause --");
 ~chatnpc("<p,bored>But it wouldn't be very funny.");
 ~chatplayer("<p,confused>When they talk about 'the silence of the desert',|this must be what they mean.");
 @multi2("Can I take a look around the place?", mercenary_lookplace, "Okay, thanks.", mercenary_okthanks);

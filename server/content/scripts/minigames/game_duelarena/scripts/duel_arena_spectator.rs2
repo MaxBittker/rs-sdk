@@ -33,7 +33,7 @@ switch_int ($random) {
     case 3 :
         ~chatnpc("<p,neutral>Hmph.");
     case 4 :
-        ~chatnpc("<p,happy>My favourite fighter is <nc_name(duel_mubariz)>!");
+        ~chatnpc("<p,happy>My favourite fighter is Mubariz!");
         ~chatplayer("<p,neutral>The guy at the information kiosk?");
         ~chatnpc("<p,happy>Yeah! He rocks!");
         ~chatplayer("<p,neutral>Takes all sorts, I guess.");

@@ -5,33 +5,32 @@ def_string $text;
 // https://github.com/Indio3/quest-journals/blob/master/quest_vampire/VS--YouTube-2007RunescapeQuestGuideVampireSlayer-059.jpg
 // https://www.youtube.com/watch?v=TsTiP9vEBl8
 if(%vampire = ^quest_vampire_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Morgan@dbl@ who is in|@dre@Draynor Village.||";
-    $text = append($text, "@dbl@Requirements:|@dbl@Must be able to kill a level 34 @dre@Vampire@dbl@.");
+    $text = "@dbl@I can start this quest by speaking to @dre@Morgan@dbl@ who is in @dre@Draynor Village.||";
+    $text = append($text, "@dbl@Requirements:|Must be able to kill a level 34 @dre@Vampire@dbl@.");
 
 } else if(%vampire = ^quest_vampire_started) {
     $text = "@str@I spoke to Morgan in Draynor Village. He told me that the|@str@locals are being attacked by a terrifying Vampire!||";
-    $text = append($text, "@dbl@I need to speak to @dre@Dr Harlow@dbl@ who can normally be found in|@dbl@the @dre@Jolly Boar Inn@dbl@ North East of @dre@Varrock@dbl@.");
+    $text = append($text, "@dbl@I need to speak to @dre@Dr Harlow@dbl@ who can normally be found in the @dre@Jolly Boar Inn@dbl@ North East of @dre@Varrock@dbl@.");
 
 } else if(%vampire = ^quest_vampire_spoke_to_harlow) {
     $text = "@str@I spoke to Morgan in Draynor Village. He told me that the|@str@locals are being attacked by a terrifying Vampire!||";
     $text = append($text, "@str@I have spoken to Dr Harlow. He seemed terribly drunk, and|@str@he kept asking me to buy him drinks.||");
     
     if (inv_total(inv, stake) < 1) { // Player doesn't have a stake
-        $text = append($text,"@dbl@I should see what advice @dre@Dr Harlow@dbl@ can give me about killing|@dre@Vampires@dbl@.|");
+        $text = append($text,"@dbl@I should see what advice @dre@Dr Harlow@dbl@ can give me about killing @dre@Vampires@dbl@.|");
 
     } else { // Player has a stake
 
         // stake + garlic, but no hammer
         if (inv_total(inv, garlic) > 0 & inv_total(inv, hammer) < 1) {
             $text = append($text,"@str@Dr Harlow gave me a stake to finish off the Vampire when|@str@I'm fighting it, and I have some garlic which should weaken|@str@the Vampire.||");
-            $text = append($text,"@dbl@I'll need a hammer to drive the stake deeply into the|@dre@Vampire's@dbl@ chest. I can get a hammer from any general|@dbl@store.|");
+            $text = append($text,"@dbl@I'll need a hammer to drive the stake deeply into the @dre@Vampire's@dbl@ chest. I can get a hammer from any general store.|");
 
         // only stake (no garlic, no hammer)
         } else if (inv_total(inv, garlic) < 1 & inv_total(inv, hammer) < 1) {
             $text = append($text,"@str@Dr Harlow gave me a stake to finish off the Vampire when|@str@I'm fighting it.||");
-            $text = append($text,"@dbl@Dr Harlow said I should get some @dre@garlic@dbl@ to weaken the|@dre@Vampire@dbl@. He thought I might find some @dre@garlic@dbl@ somewhere|");
-            $text = append($text,"@dbl@in @dre@Morgan's@dbl@ house.|");
-            $text = append($text,"@dbl@I'll also need a @dre@hammer@dbl@ to drive the stake deeply into the|@dre@Vampire's@dbl@ chest. I can get a @dre@hammer@dbl@ from any general store.|");
+            $text = append($text,"@dbl@Dr Harlow said I should get some @dre@garlic@dbl@ to weaken the @dre@Vampire@dbl@. He thought I might find some @dre@garlic@dbl@ somewhere in @dre@Morgan's@dbl@ house.|");
+            $text = append($text,"@dbl@I'll also need a @dre@hammer@dbl@ to drive the stake deeply into the @dre@Vampire's@dbl@ chest. I can get a @dre@hammer@dbl@ from any general store.|");
 
         // stake + garlic + hammer
         } else if (inv_total(inv, garlic) > 0 & inv_total(inv, hammer) > 0) {
@@ -41,12 +40,11 @@ if(%vampire = ^quest_vampire_not_started) {
         // stake + hammer (no garlic)
         } else if (inv_total(inv, garlic) < 1 & inv_total(inv, hammer) > 0) {
             $text = append($text,"@str@Dr Harlow gave me a stake to finish off the Vampire when|@str@I'm fighting it. I've got a hammer to drive the stake deep|@str@into the Vampire's chest.||");
-            $text = append($text,"@dbl@Dr Harlow said I should get some @dre@garlic@dbl@ to weaken the|@dre@Vampire@dbl@. He thought I might find some @dre@garlic@dbl@ somewhere|");
-            $text = append($text,"@dbl@in @dre@Morgan's@dbl@ house.|");
+            $text = append($text,"@dbl@Dr Harlow said I should get some @dre@garlic@dbl@ to weaken the @dre@Vampire@dbl@. He thought I might find some @dre@garlic@dbl@ somewhere in @dre@Morgan's@dbl@ house.|");
         }
     }
 
-    $text = append($text,"@dbl@When I'm ready, I should go to @dre@Draynor Manor@dbl@, north of|@dbl@Draynor to kill the @dre@Vampire@dbl@ that's living in the basement.");
+    $text = append($text,"@dbl@When I'm ready, I should go to @dre@Draynor Manor@dbl@, north of Draynor to kill the @dre@Vampire@dbl@ that's living in the basement.");
     
 } else {
     $text = "@str@I spoke to Morgan in Draynor Village. He told me that|@str@the locals are being attacked by a terrifying vampire!||";

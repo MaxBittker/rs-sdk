@@ -17,6 +17,7 @@ model5=model_170_idk
 model6=model_176_idk
 model7=model_260_npc
 head1=model_59_idk_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 

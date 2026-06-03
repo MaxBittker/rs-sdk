@@ -34,7 +34,6 @@
 ^mortton_created_pyre_logs = 70
 ^mortton_logs_on_pyre = 75
 ^mortton_lit_pyre = 80
-^mortton_quest_complete = 85
 
 ^mortton_temple_shadow_transform_center_coord = 0_54_51_46_54
 ^mortton_razmire_coord = 0_54_51_33_32

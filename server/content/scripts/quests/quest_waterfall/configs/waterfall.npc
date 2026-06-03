@@ -66,7 +66,6 @@ model5=model_429_idk
 model6=model_358_idk
 head1=model_113_idk_head
 moverestrict=indoors
-param=death_sound,female_death
 
 [hudon_waterfall_quest]
 name=Hudon

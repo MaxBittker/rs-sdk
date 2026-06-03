@@ -44,7 +44,7 @@ param=death_sound,null
 param=rangeattack_sound,arrowlaunch2
 param=proj_launch,iron_arrow_launch
 param=proj_travel,iron_arrow_travel
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6056
 // this npc havent any hit or death sounds...
 
@@ -319,7 +319,7 @@ param=npc_ammo,iron_arrow
 huntmode=aggressive_ranged
 // https://oldschool.runescape.wiki/w/Tower_Archer
 huntrange=11
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6065
 // this npc havent any hit or death sounds...
 
@@ -365,7 +365,7 @@ param=npc_ammo,steel_arrow
 huntmode=aggressive_ranged
 // https://oldschool.runescape.wiki/w/Tower_Archer
 huntrange=11
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6065
 // this npc havent any hit or death sounds...
 
@@ -411,7 +411,7 @@ param=npc_ammo,mithril_arrow
 huntmode=aggressive_ranged
 // https://oldschool.runescape.wiki/w/Tower_Archer
 huntrange=11
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6067
 // this npc havent any hit or death sounds...
 
@@ -457,7 +457,7 @@ param=npc_ammo,adamant_arrow
 huntmode=aggressive_ranged
 // https://oldschool.runescape.wiki/w/Tower_Archer
 huntrange=11
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6068
 // this npc havent any hit or death sounds...
 

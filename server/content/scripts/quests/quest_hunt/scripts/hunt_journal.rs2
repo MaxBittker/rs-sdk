@@ -6,40 +6,38 @@ def_string $text;
 // https://www.youtube.com/watch?v=ySRMuGXaxr0
 // Some videos from Mr Ashie B's OSRS playthrough and RSProx logs
 if(%hunt = ^hunt_not_started) { // Not started
-    $text = "@dbl@I can start this quest by speaking to @dre@Redbeard Frank@dbl@ who|@dbl@is at @dre@Port Sarim@dbl@.||";
+    $text = "@dbl@I can start this quest by speaking to @dre@Redbeard Frank@dbl@ who is at @dre@Port Sarim@dbl@.||";
     $text = append($text, "@dbl@There aren't any requirements for this quest.");
 
 } else if(%hunt = ^hunt_fetch_rum) { // Started - Need to fetch rum
-    $text = "@dbl@I have spoken to @dre@Redbeard Frank@dbl@. He has agreed to tell me|@dbl@the location of some @dre@treasure@dbl@ for some @dre@Karamja Rum@dbl@.||";
+    $text = "@dbl@I have spoken to @dre@Redbeard Frank@dbl@. He has agreed to tell me the location of some @dre@treasure@dbl@ for some @dre@Karamja Rum@dbl@.||";
 
     if (%hunt_store_employed = 0 & %crate_rum < 2) {// Not employed at Plantation & rum not shipped
         if (inv_total(inv, karamja_rum) > 0) { // Not employed at Plantation
-            $text = append($text, "@dbl@I have the @dre@rum@dbl@, and now I need to find a way to get the rum|@dbl@off @dre@Karamja@dbl@. This might be tricky, as the @dre@Customs Officers|");
+            $text = append($text, "@dbl@I have the @dre@rum@dbl@, and now I need to find a way to get the rum off @dre@Karamja@dbl@. This might be tricky, as the @dre@Customs Officers|");
             $text = append($text, "@dbl@are searching people for it.");
         } else { // Not employed at Plantation
-            $text = append($text, "@dbl@I need to go to @dre@Karamja@dbl@ and buy some @dre@rum@dbl@. I hope it is not|@dbl@too expensive.");
+            $text = append($text, "@dbl@I need to go to @dre@Karamja@dbl@ and buy some @dre@rum@dbl@. I hope it is not too expensive.");
         }
     } else if (%hunt_store_employed = 0 & %crate_rum = 2 | %hunt_store_employed = 1 & %crate_rum = 2) { // Not employed at Plantation & rum shipped
         $text = append($text, "@str@I have taken employment on the banana plantation, as the|@str@Customs Officers might not notice the rum if it is covered in|@str@bananas.||");
         $text = append($text, "@str@I have hidden my rum in the crate. I should fill it with|@str@bananas and speak to Luthas to have it shipped over.||");
-        $text = append($text, "@dbl@I have spoken to @dre@Luthas@dbl@, and the crate has been shipped|@dbl@to @dre@Wydin's store@dbl@ in @dre@Port Sarim@dbl@. Now all I have to do is|");
-        $text = append($text, "@dbl@get to it.");
+        $text = append($text, "@dbl@I have spoken to @dre@Luthas@dbl@, and the crate has been shipped to @dre@Wydin's store@dbl@ in @dre@Port Sarim@dbl@. Now all I have to do is get to it.");
     } else if (%hunt_store_employed = 1) { // Employed at Plantation
-        $text = append($text, "@dbl@I have taken employment on the @dre@banana plantation@dbl@, as the|@dre@Customs Officers@dbl@ might not notice the @dre@rum@dbl@ if it is covered|");
-        $text = append($text, "@dbl@in @dre@bananas@dbl@.||");
+        $text = append($text, "@dbl@I have taken employment on the @dre@banana plantation@dbl@, as the @dre@Customs Officers@dbl@ might not notice the @dre@rum@dbl@ if it is covered in @dre@bananas@dbl@.||");
 
         if (inv_total(inv, karamja_rum) > 0 & %crate_rum = 0) { // Player has rum in inventory but not in the crate yet
-            $text = append($text, "@dbl@I'm sure I will be able to hide my @dre@rum@dbl@ in the next crate|@dbl@destined for @dre@Wydin's store@dbl@.");
+            $text = append($text, "@dbl@I'm sure I will be able to hide my @dre@rum@dbl@ in the next crate destined for @dre@Wydin's store@dbl@.");
         } else {
             if (%crate_rum = 1) { // Rum in the crate
                 if (%crate_bananas < 10) { // Crate not filled with bananas yet
-                    $text = append($text, "@dbl@I have hidden my @dre@rum@dbl@ in the crate. I should fill it with|@dre@bananas@dbl@ and speak to @dre@Luthas@dbl@ and have it shipped over.");
+                    $text = append($text, "@dbl@I have hidden my @dre@rum@dbl@ in the crate. I should fill it with @dre@bananas@dbl@ and speak to @dre@Luthas@dbl@ and have it shipped over.");
                 } else { // Crate filled with bananas & rum
-                    $text = append($text, "@dbl@I have hidden my @dre@rum@dbl@ in the crate and filled it with|@dre@bananas@dbl@. I should speak to @dre@Luthas@dbl@ and have it shipped|");
+                    $text = append($text, "@dbl@I have hidden my @dre@rum@dbl@ in the crate and filled it with @dre@bananas@dbl@. I should speak to @dre@Luthas@dbl@ and have it shipped|");
                     $text = append($text, "@dbl@over.");
                 }
             } else { // No rum in the crate yet
-                $text = append($text, "@dbl@Now all I need is some @dre@rum@dbl@ to hide in the next crate destined|@dbl@for @dre@Wydin's store@dbl@.");
+                $text = append($text, "@dbl@Now all I need is some @dre@rum@dbl@ to hide in the next crate destined for @dre@Wydin's store@dbl@.");
             }
         }
     } else if (%hunt_store_employed = 2) { // Employed at Wydin's store
@@ -48,38 +46,37 @@ if(%hunt = ^hunt_not_started) { // Not started
             $text = append($text, "@str@I have hidden my rum in the crate. I should fill it with|@str@bananas and speak to Luthas to have it shipped over.||");
             $text = append($text, "@str@I have spoken to Luthas, and the crate has been shipped to|@str@to Wydin's store in Port Sarim. Now all I have to do is|");
             $text = append($text, "@str@get to it.||");
-            $text = append($text, "@dbl@I have taken a job at @dre@Wydin's store@dbl@. I now have access to|@dbl@the back room of his shop where the @dre@rum@dbl@ is hidden.");
+            $text = append($text, "@dbl@I have taken a job at @dre@Wydin's store@dbl@. I now have access to the back room of his shop where the @dre@rum@dbl@ is hidden.");
         } else if (%crate_rum = 0) { // Player has collected rum from Wydin's store
             if (inv_total(inv, karamja_rum) > 0) { // Player has rum in inventory
-                $text = append($text, "@dbl@I have the @dre@Karamja Rum@dbl@. I should take it to @dre@Redbeard|@dre@Frank@dbl@.");
+                $text = append($text, "@dbl@I have the @dre@Karamja Rum@dbl@. I should take it to @dre@Redbeard Frank@dbl@.");
             } else { // Player does not have rum in inventory
-                $text = append($text, "@dbl@I had some @dre@rum@dbl@, but I seem to have lost it. I will need to|@dbl@smuggle some more off @dre@Karamja@dbl@.");
+                $text = append($text, "@dbl@I had some @dre@rum@dbl@, but I seem to have lost it. I will need to smuggle some more off @dre@Karamja@dbl@.");
             }
         }
     } else if (%hunt_store_employed = 3) { // Employed at Wydin's store (Re-smuggling?) - Matches OSRS
         if (%crate_rum = 0) { // Player has collected rum from Wydin's store
             if (inv_total(inv, karamja_rum) > 0) { // Player has rum in inventory
-                $text = append($text, "@dbl@I have the @dre@Karamja Rum@dbl@. I should take it to @dre@Redbeard|@dre@Frank@dbl@.");
+                $text = append($text, "@dbl@I have the @dre@Karamja Rum@dbl@. I should take it to @dre@Redbeard Frank@dbl@.");
             } else { // Player does not have rum in inventory
-                $text = append($text, "@dbl@I had some @dre@rum@dbl@, but I seem to have lost it. I will need to|@dbl@smuggle some more off @dre@Karamja@dbl@.");
+                $text = append($text, "@dbl@I had some @dre@rum@dbl@, but I seem to have lost it. I will need to smuggle some more off @dre@Karamja@dbl@.");
             }
         } else { // Rum still in crate, or not shipped yet (Matches OSRS re-smuggling for when player has smuggled rum previously, but lost it)
-            $text = append($text, "@dbl@I have taken a job at @dre@Wydin's store@dbl@. I now have access to|@dbl@the back room of his shop where the @dre@rum@dbl@ is hidden.");
+            $text = append($text, "@dbl@I have taken a job at @dre@Wydin's store@dbl@. I now have access to the back room of his shop where the @dre@rum@dbl@ is hidden.");
         }
     }
 
 } else if(%hunt = ^hunt_received_key) { // Received key from Redbeard Frank
     $text = "@str@I have spoken to Redbeard Frank. He has agreed to tell me|@str@the location of some treasure for some Karamja Rum.||";
     $text = append($text, "@str@I have smuggled some rum off Karamja, and retrieved it|@str@from the back room of Wydin's shop.||");
-    $text = append($text, "@dbl@I have given the rum to @dre@Redbeard Frank@dbl@. He has told me|@dbl@that the @dre@treasure@dbl@ is hidden in the chest in the upstairs|");
-    $text = append($text, "@dbl@room of the @dre@Blue Moon Inn@dbl@ in @dre@Varrock@dbl@.||");
+    $text = append($text, "@dbl@I have given the rum to @dre@Redbeard Frank@dbl@. He has told me that the @dre@treasure@dbl@ is hidden in the chest in the upstairs room of the @dre@Blue Moon Inn@dbl@ in @dre@Varrock@dbl@.||");
 
     if (inv_total(inv, piratemessage) > 0) { // Player has opened the chest and got the pirate's message
-        $text = append($text, "@dbl@I have opened the chest in the @dre@Blue Moon@dbl@, and found a|@dre@note @dbl@inside. I think it will tell me where to dig.");
+        $text = append($text, "@dbl@I have opened the chest in the @dre@Blue Moon@dbl@, and found a @dre@note @dbl@inside. I think it will tell me where to dig.");
     } else if (inv_total(inv, chest_key) > 0) { // Player has the chest key
-        $text = append($text, "@dbl@I have a @dre@key@dbl@ that can be used to unlock the chest that|@dbl@hold the treasure.");
+        $text = append($text, "@dbl@I have a @dre@key@dbl@ that can be used to unlock the chest that hold the treasure.");
     } else { // Player has lost the chest key
-        $text = append($text, "@dbl@I have lost the @dre@key@dbl@ that @dre@Redbeard Frank@dbl@ gave me. I|@dbl@should see if he has another.");
+        $text = append($text, "@dbl@I have lost the @dre@key@dbl@ that @dre@Redbeard Frank@dbl@ gave me. I should see if he has another.");
     }
 
 } else if(%hunt = ^hunt_read_note) { // Received key from Redbeard Frank
@@ -88,7 +85,7 @@ if(%hunt = ^hunt_not_started) { // Not started
     $text = append($text, "@str@I have given the rum to Redbeard Frank. He has told me|@str@that the treasure is hidden in the chest in the upstairs|");
     $text = append($text, "@str@room of the Blue Moon Inn in Varrock.||");
     $text = append($text, "@str@I have opened the chest in the Blue Moon, and found a|@str@note inside. I think it will tell me where to dig.||");
-    $text = append($text, "@dbl@The note reads @dre@'Visit the city of the White Knights. In the|@dre@park, Saradomin points to the X which marks the spot.'");
+    $text = append($text, "@dbl@The note reads @dre@'Visit the city of the White Knights. In the park, Saradomin points to the X which marks the spot.'");
 
 } else { // Quest complete
     $text = "@str@I have spoken to Redbeard Frank. He has agreed to tell me|@str@the location of some treasure for some Karamja Rum.||";

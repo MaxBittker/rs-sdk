@@ -39,7 +39,14 @@ param=magicdefence,10
 param=strengthbonus,10
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_staff_pummel
 param=defend_anim,human_staff_block
 param=crush_sound,staff_hit
 tradeable=no
+// osrs crush attack sound newstaff / crush attack sound is a guess.

@@ -1,0 +1,11 @@
+[eadgar_quest]
+scope=perm
+
+[eadgar_bits]
+scope=perm
+
+[eadgar_grain]
+scope=perm
+
+[eadgar_chickens]
+scope=perm

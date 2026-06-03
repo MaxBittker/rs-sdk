@@ -141,11 +141,10 @@ param=strengthbonus,3
 param=damagetype,^crush_style
 param=attack_anim,human_staff_pummel
 param=defend_anim,human_staff_block
-param=attack_sound,staff_hit
-// osrs attack_sound staff_double
+param=attack_sound,staff_double
 // TODO: check respawn time.
 // osrs stats and Vislvl match 1:1
-// stats taken here https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3957
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3957
 
 [ungadulu_bad]
 name=Ungadulu
@@ -181,7 +180,7 @@ head1=model_52_idk_head
 head2=model_82_idk_head
 wanderrange=3
 maxrange=5
-// TODO respawnrate?
+// respawnrate=TODO
 hitpoints=150
 attack=147
 strength=147
@@ -193,10 +192,9 @@ param=strengthbonus,3
 param=damagetype,^crush_style
 param=attack_anim,human_staff_pummel
 param=defend_anim,human_staff_block
-param=attack_sound,staff_hit
-// osrs attack_sound staff_double
-// stats taken here https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3958
-// Stats match osrs version but our version Vislvl is different.
+param=attack_sound,staff_double
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3958
 
 [jungle_savage]
 name=Jungle Savage
@@ -241,8 +239,8 @@ param=damagetype,^stab_style
 param=attack_anim,human_spear_spike
 param=defend_anim,human_spear_def
 param=attack_sound,staff_stab
-// Stats match osrs version but our version Vislvl is different.
-// stats taken here https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3959
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3959
 
 [nezikchened]
 name=Nezikchened
@@ -281,7 +279,7 @@ param=death_drop,null
 huntmode=nezikchened
 huntrange=5
 // osrs stats and Vislvl match 1:1
-// stats taken here https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3962
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3962
 
 [viyeldi]
 name=Viyeldi
@@ -317,11 +315,11 @@ param=strengthbonus,3
 param=damagetype,^crush_style
 param=attack_anim,human_staff_pummel
 param=defend_anim,human_staff_block
-param=attack_sound,staff_hit
+param=attack_sound,staff_double
 param=defend_sound,otherworld_hit
 param=death_sound,otherworld_death
-// osrs attack_sound staff_double
-// defend animation https://discord.com/channels/953326730632904844/1126857544523063367/1300620868782788709
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3963
 
 [san_tojalon]
 name=San Tojalon
@@ -368,8 +366,8 @@ param=death_sound,skeleton_death
 param=death_drop,null
 huntmode=aggressive_melee
 huntrange=1
-// Stats match osrs version but our version Vislvl is different.
-// stats taken here https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3964
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3964
 
 [irvig_senay]
 name=Irvig Senay
@@ -416,7 +414,7 @@ param=death_drop,null
 huntmode=aggressive_melee
 huntrange=1
 // osrs stats and Vislvl match 1:1
-// stats taken here https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3965
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3965
 
 [ranalph_devere]
 name=Ranalph Devere
@@ -463,8 +461,8 @@ param=death_sound,skeleton_death
 param=death_drop,null
 huntmode=aggressive_melee
 huntrange=1
-// Stats match osrs version but our version Vislvl is different.
-// stats taken here https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3966
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3966
 
 [boulder_legends]
 name=Boulder
@@ -500,4 +498,4 @@ param=undead,^true
 param=death_anim,ghost_death
 param=death_sound,ghost_death
 param=death_drop,null
-// stats taken here https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3968
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3968

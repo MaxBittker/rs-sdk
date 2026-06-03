@@ -11,7 +11,7 @@ def_string $text;
 // https://www.youtube.com/watch?v=UaErjaM-ZvA
 // & Manpaint's OSRS sources used
 if(%hetty = ^hetty_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Hetty@dbl@ in her house in |@dre@Rimmington@dbl@, West of @dre@Port Sarim";
+    $text = "@dbl@I can start this quest by speaking to @dre@Hetty@dbl@ in her house in @dre@Rimmington@dbl@, West of @dre@Port Sarim";
 } else if(%hetty = ^hetty_started) {
     $text = "@str@I spoke to Hetty in her house at Rimmington. Hetty told me|@str@she could increase my magic power if I can bring her|@str@certain ingredients for a potion.||";
     $text = append($text, "@dbl@Hetty needs me to bring her the following:|");

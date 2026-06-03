@@ -76,7 +76,7 @@ switch_int(%chompybird) {
         @where_to_put_toadies;
     // Maybe chompy_ate_toad has a separate set of dialogue, but in normal circumstances the stage
     // advances to rantz_tried_to_shoot_chompy too quickly to tell.
-    case ^chompybird_dropped_toad, ^chompybird_chompy_ate_toad :
+    case ^chompybird_dropped_toad, ^chompybird_chompy_bird_spawned :
         ~chatplayer("<p,neutral>There you go, I've placed the bait.");
         ~chatnpc("<p,happy>Goodz, me now waits for da chompy! It shouldn't be long now. Sneaky... sneaky...");
         ~chatplayer("<p,neutral>Yes, I know... stick da chompy!");
@@ -227,6 +227,10 @@ switch_obj(last_useitem) {
     case ogre_bow :
         ~chatnpc("<p,neutral>Yeah, it's a goodly stabbie chucker, but you's is too weedy to use it like Rantz.");
 
+    case feather :
+        ~mesbox("You show Rantz the feathers....");
+        ~chatnpc("<p,neutral>What yous shoving dem flufsies in my face? Yous wan be stuck wiv a stabba like da chompy?");
+        
     case default :
         mes("Nothing interesting happens.");
 }
@@ -562,8 +566,10 @@ if(%chompybird_kills >= 4000 & ~obj_gettotal(cbhat18) = 0) {
     $hat18 = ^true;
     $avail_hats = add($avail_hats, 1);
 }
+// https://img.photobucket.com/albums/v86/PingMe/RS-rantz.jpg
 if($avail_hats = 0) {
-    ~chatnpc("<p,happy>Sorry, but der's no new hats for you this time! Go shoot some more chompies.");
+    if(%chompybird_kills < 4000) ~chatnpc("<p,happy>Sorry, but der's no new hats for you this time! Go shoot some more chompies.");
+    else ~chatnpc("<p,happy>Sorry, but you've got all da hats you can get!");
     return;
 }
 ~chatnpc("<p,happy>Hey, you did good wiv da stabbie chucker, der's a flappy hat for ya.");

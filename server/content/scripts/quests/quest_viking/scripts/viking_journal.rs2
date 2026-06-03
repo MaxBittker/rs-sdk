@@ -2,14 +2,10 @@
 def_string $text;
 if (%viking = ^viking_not_started) {
     // https://youtu.be/YUIvEgcvl5c?si=bGb8qyGR_XEP_kQ3&t=64
-    $text = append($text, "@dbl@I can start this quest by speaking to @dre@Chieftain Brundt@dbl@ in|");
-    $text = append($text, "@dbl@The @dre@Fremennik Longhall@dbl@, which is in the town of @dre@Rellekka@dbl@ to|");
-    $text = append($text, "@dbl@the north of @dre@Sinclair Mansion@dbl@.|");
+    $text = append($text, "@dbl@I can start this quest by speaking to @dre@Chieftain Brundt@dbl@ in the @dre@Fremennik Longhall@dbl@, which is in the town of @dre@Rellekka@dbl@ to the north of @dre@Sinclair Mansion@dbl@.|");
     $text = append($text, "@dbl@To complete the quest I need:|");
-    $text = append($text, "@dre@Level 40 Woodcutting|");
-    $text = append($text, "@dre@Level 40 Crafting|");
-    $text = append($text, "@dre@Level 25 Fletching|");
-    $text = append($text, "@dbl@I must also be able to defeat a @dre@level 69 enemy@dbl@ and must|@dbl@not be afraid of @dre@combat without any weapons or armour");
+    $text = append($text, "@dre@Level 40 Woodcutting|Level 40 Crafting|Level 25 Fletching|");
+    $text = append($text, "@dbl@I must also be able to defeat a @dre@level 69 enemy@dbl@ and must not be afraid of @dre@combat without any weapons or armour");
     ~quest_journal("The Fremennik Trials", $text);
     return;
 }
@@ -59,7 +55,7 @@ if(%viking < ^viking_complete) {
         $text = append($text, "@dbl@The @dre@Navigator@dbl@ will vote for me if I can pass his trial|");
         $text = append($text, "@dbl@I need to get from one end of his @dre@maze@dbl@ to the other|");
     } else if(~get_viking_swensen_progress = ^swensen_not_started) {
-        $text = append($text, "|||");
+        $text = append($text, "|");
     }
 
     // SIGMUND TRIAL
@@ -68,43 +64,47 @@ if(%viking < ^viking_complete) {
     if(~get_viking_sigmund_progress < ^sigmund_complete & ~get_viking_sigmund_progress > ^sigmund_not_started) {
         $text = append($text, "@dbl@The @dre@Merchant@dbl@ will vote for me if I can pass his trial.|");
         $text = append($text, "@dbl@Someone in this town has a @dre@rare flower@dbl@ that he wants.|");
-    } else if(~get_viking_sigmund_progress = ^sigmund_not_started) {
+    } else {
         $text = append($text, "|");
     }
 
     if(~get_viking_sigmund_progress = ^sigmund_spoke_olaf) {
-        $text = append($text, "@dbl@The @dre@bard@dbl@ is looking for some @dre@new boots@dbl@...|");
+        $text = append($text, "@dbl@The @dre@bard@dbl@ is looking for some @dre@new boots@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_yrsa) {
-        $text = append($text, "@dbl@The @dre@shopkeeper@dbl@ is looking for a @dre@tax reduction@dbl@...|");
+        $text = append($text, "@dbl@The @dre@shopkeeper@dbl@ is looking for a @dre@tax reduction@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_chief) {
-        $text = append($text, "|@dbl@The @dre@chieftan@dbl@ wants a @dre@map of new hunting grounds@dbl@...|");
+        $text = append($text, "|@dbl@The @dre@chieftan@dbl@ wants a @dre@map of new hunting grounds@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_sigli) {
-        $text = append($text, "|@dbl@The @dre@hunter@dbl@ is looking for a @dre@custom bowstring@dbl@...|");
+        $text = append($text, "|@dbl@The @dre@hunter@dbl@ is looking for a @dre@custom bowstring@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_skul) {
-        $text = append($text, "|@dbl@The @dre@armourer@dbl@ is looking for a @dre@rare inedible fish@dbl@...|");
+        $text = append($text, "|@dbl@The @dre@armourer@dbl@ is looking for a @dre@rare inedible fish@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_fisherman) {
-        $text = append($text, "|@dbl@The @dre@fisherman@dbl@ is looking for a @dre@map of fishing spots@dbl@...|");
+        $text = append($text, "|@dbl@The @dre@fisherman@dbl@ is looking for a @dre@map of fishing spots@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_swensen) {
-        $text = append($text, "|@dbl@The @dre@navigator@dbl@ is looking for a @dre@weather forecast@dbl@...|");
+        $text = append($text, "|@dbl@The @dre@navigator@dbl@ is looking for a @dre@weather forecast@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_seer) {
-        $text = append($text, "|@dbl@The @dre@seer@dbl@ is looking for a @dre@warrior to be his bodyguard@dbl@...|");
+        $text = append($text, "|@dbl@The @dre@seer@dbl@ is looking for a @dre@warrior to be his bodyguard@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_thorvald) {
-        $text = append($text, "|@dbl@The @dre@warrior@dbl@ is looking for a @dre@champions token@dbl@...|");
+        $text = append($text, "|@dbl@The @dre@warrior@dbl@ is looking for a @dre@champions token@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_manni) {
-        $text = append($text, "|@dbl@The @dre@reveller@dbl@ is looking for a @dre@legendary cocktail@dbl@...|");
+        $text = append($text, "|@dbl@The @dre@reveller@dbl@ is looking for a @dre@legendary cocktail@dbl@...||");
     } else if(~get_viking_sigmund_progress = ^sigmund_spoke_thora) {
-        $text = append($text, "|@dbl@All @dre@Askeladden@dbl@ wants is @dre@some money@dbl@!|");
+        $text = append($text, "|@dbl@All @dre@Askeladden@dbl@ wants is @dre@some money@dbl@!||");
+    } else {
+        $text = append($text, "|");
     }
     
     if(~get_viking_sigmund_progress < ^sigmund_spoke_chief | ~get_viking_sigmund_progress > ^sigmund_spoke_thora) {
         if(~obj_gettotal(viking_song) > 0 | ~obj_gettotal(viking_new_boots) > 0 | ~obj_gettotal(viking_map_to_hunting_grounds) > 0 | ~obj_gettotal(viking_bowstring) > 0 |
             ~obj_gettotal(viking_unique_fish) > 0 | ~obj_gettotal(viking_another_map) > 0 | ~obj_gettotal(viking_weather_forecast) > 0 | ~obj_gettotal(viking_champion_token) > 0 | ~obj_gettotal(viking_legendary_cocktail) > 0 |
             ~obj_gettotal(viking_promissary_note) > 0 | ~obj_gettotal(viking_promissary_note2) > 0 | ~obj_gettotal(viking_promissary_note3) > 0) {
-                $text = append($text, "|@dbl@I should use my @dre@trade goods@dbl@ to try and get the @dre@flower|");
+                $text = append($text, "@dbl@I should use my @dre@trade goods@dbl@ to try and get the @dre@flower|");
             }
     }
     if(~get_viking_sigmund_progress = ^sigmund_complete) {
         $text = append($text, "@str@I now have the Merchant's vote at the council.|");
+    } else if(~get_viking_sigmund_progress < ^sigmund_complete & ~get_viking_sigmund_progress > ^sigmund_not_started) {
+        $text = append($text, "|");
     }
 
     // SIGLI TRIAL

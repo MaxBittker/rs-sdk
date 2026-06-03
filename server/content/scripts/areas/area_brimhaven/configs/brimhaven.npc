@@ -114,6 +114,7 @@ model9=model_176_idk
 model10=model_181_idk
 head1=model_63_idk_head
 head2=model_78_npc_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 category=shop_keeper

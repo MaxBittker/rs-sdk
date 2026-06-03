@@ -62,7 +62,7 @@ param=attack_anim,human_unarmedkick
 param=attack_sound,unarmed_kick
 param=damagetype,^crush_style
 param=defend_sound,brassclash2
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // attack anim https://web.archive.org/web/20221001173148/http://runers2.fc2web.com/taverlydungeon.htm
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_300
 
@@ -108,8 +108,11 @@ param=slashdefence,64
 param=crushdefence,50
 // param=rangedefence,
 param=damagetype,^crush_style
+param=attack_anim,human_unarmedkick
+param=attack_sound,unarmed_kick
 // param=defend_sound,
 // huntmode=
 // huntrange=
 // TODO
+// attack anim guesses
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4929

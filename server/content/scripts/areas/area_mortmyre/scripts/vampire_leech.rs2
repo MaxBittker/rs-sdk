@@ -1,0 +1,127 @@
+[ai_opplayer2,vampire_leech]
+~leech_attack;
+
+[proc,leech_attack]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+if (~npc_check_notcombat = false) {
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+anim(%com_defendanim, 0);
+npc_anim(npc_param(attack_anim), 0);
+if (npc_param(attack_sound) ! null) {
+    sound_synth(npc_param(attack_sound), 0, 0);
+}
+~leech_meleeattack;
+
+[proc,leech_meleeattack]
+def_int $attack_roll = ~npc_melee_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
+def_int $maxhit = ~npc_melee_maxhit;
+
+def_int $damage = 0;
+def_boolean $hit = false;
+// https://x.com/JagexAsh/status/1368496987356737537 1/5 Chance of reducing each individual skill by one
+if (randominc($attack_roll) > randominc($defence_roll)) {
+    $damage = randominc($maxhit);
+    if (~check_protect_prayer(^melee_style) = true) { 
+        $damage = 0;
+    }
+    ~leech_reduce_stats;
+}
+
+if_close;
+%npc_action_delay = add(map_clock, npc_param(attackrate));
+
+if (npc_stat(hitpoints) = 0) {
+    return;
+}
+
+~npc_set_attack_vars;
+queue*(playerhit_n_retaliate, 0)(npc_uid);
+queue(combat_damage_player, 0, $damage);
+
+[proc,leech_reduce_stats]
+if (random(5) = 0) {
+    stat_drain(attack, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(defence, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(strength, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(hitpoints, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(ranged, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(prayer, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(magic, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(cooking, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(woodcutting, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(fletching, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(fishing, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(firemaking, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(crafting, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(smithing, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(mining, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(herblore, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(agility, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(thieving, 1, 0);
+}
+
+if (random(5) = 0) {
+    stat_drain(runecraft, 1, 0);
+}
+// todo: post slayer
+// if (random(5) = 0) {
+//     stat_drain(slayer, 1, 0);
+// }

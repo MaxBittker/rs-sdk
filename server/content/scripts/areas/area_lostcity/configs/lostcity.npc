@@ -113,6 +113,7 @@ recol3s=30613
 recol3d=18721
 model1=model_2857_npc
 head1=model_11_npc_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 param=death_anim,fairy_death

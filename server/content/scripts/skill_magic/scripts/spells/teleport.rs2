@@ -89,7 +89,7 @@ if(inv_total(inv, plaguesample) > 0) {
 [proc,tele_checks]()
 if(inv_total(inv, thanainabarrel) > 0) {
     inv_del(inv, thanainabarrel, ^max_32bit_int);
-    mes("Your drop 'Ana in a barrel' before you teleport.");
+    mes("You drop 'Ana in a barrel' before you teleport.");
 }
 
 [proc,pre_tele_checks](coord $coord)(boolean)

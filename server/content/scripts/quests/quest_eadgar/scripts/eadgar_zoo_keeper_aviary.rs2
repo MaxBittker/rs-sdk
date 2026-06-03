@@ -24,26 +24,33 @@ switch_int(~p_choice3("It's very nice.", 1, "When did you add it?", 2, "What do 
 ~chatnpc("<p,happy>Well, fruit and grain mostly. I try to give them a balanced diet, but their favourite treat is pineapple chunks.");
 %eadgar_bits = setbit(%eadgar_bits, ^eadgar_pete_dialog_2);
 
-[opheldu,vodka]
+[opheldu,vodka] @opheldu_liquor(vodka);
+// vodka works both ways, other liquors only work one way (chunks -> alcohol), NIH otherwise  
+[opheldu,gin] @opheldu_liquor(gin);
+[opheldu,brandy] @opheldu_liquor(brandy);
+[opheldu,whisky] @opheldu_liquor(whisky);
+
+[label,opheldu_liquor](obj $liquor)
 switch_obj(last_useitem) {
-    case pineapple_chunks : @make_alco_chunks;
+    case pineapple_chunks : @make_alco_chunks($liquor);
     case default : ~displaymessage(^dm_default);
 }
 
-// in OSRS you can set these bits and make alco-chunks even if the quest is not started yet
-[label,make_alco_chunks]
+[label,make_alco_chunks](obj $liquor)
 if(%eadgar_quest = ^eadgar_complete) {
     mes("You don't need to make any more.");
     return;
 }
-if (testbit(%eadgar_bits, ^eadgar_pete_dialog_1) = ^true & testbit(%eadgar_bits, ^eadgar_pete_dialog_2) = ^true) {
-    // in OSRS you cannot make more alco-chunks if the parrot is held in inventory or bank
-    if(inv_total(inv, eadgar_drunk_parrot) > 0 | inv_total(bank, eadgar_drunk_parrot) > 0) {
-        mes("You don't need to make any more.");
-    } else {
-        inv_del(inv, pineapple_chunks, 1);
-        inv_del(inv, vodka, 1);
-        inv_add(inv, eadgar_alco_chunks, 1);
+if (testbit(%eadgar_bits, ^eadgar_pete_dialog_1) = ^true) { // no message is given at all if only the first dialog is triggered
+    if (testbit(%eadgar_bits, ^eadgar_pete_dialog_2) = ^true) {
+        // in OSRS you cannot make more alco-chunks if the parrot is held in inventory or bank
+        if(inv_total(inv, eadgar_drunk_parrot) > 0 | inv_total(bank, eadgar_drunk_parrot) > 0) {
+            mes("You don't need to make any more.");
+        } else {
+            inv_del(inv, pineapple_chunks, 1);
+            inv_del(inv, $liquor, 1);
+            inv_add(inv, eadgar_alco_chunks, 1);
+        }
     }
 } else {
     mes("Why would you want to do that?"); // todo double check this against my video
@@ -54,7 +61,7 @@ if (testbit(%eadgar_bits, ^eadgar_pete_dialog_1) = ^true & testbit(%eadgar_bits,
 switch_obj(last_useitem) {
     case eadgar_alco_chunks : @eadgar_catch_parrot;
     case pineapple_chunks : @eadgar_aviary_pineapple_chunks;
-    case vodka : @eadgar_aviary_vodka;
+    case vodka, gin, brandy, whisky : @eadgar_aviary_liquor;
     case default : ~displaymessage(^dm_default);
 }
 
@@ -93,7 +100,7 @@ inv_del(inv, pineapple_chunks, 1);
 ~mesbox("You manage to attract a parrot, but it flies away when you try to catch it.");
 ~chatplayer("<p,neutral>I need some way to slow it down...");
 
-[label,eadgar_aviary_vodka]
+[label,eadgar_aviary_liquor]
 // osrs, from Ashie, vodka is not deleted
 ~chatplayer("<p,neutral>They won't drink it straight from the bottle...");
 

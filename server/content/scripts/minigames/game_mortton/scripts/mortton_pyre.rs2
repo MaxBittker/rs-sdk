@@ -55,6 +55,10 @@ if(oc_category(last_useitem) = category_2050) {
         mes("You can't do that until you have made your own funeral pyre logs.");
         return;
     }
+    if(getqueue(funeral_pyre_reward) > 0) {
+        mes("Your pyre is still burning!");
+        return;
+    }
     @add_logs_to_funeral_pyre(last_useitem);
 }
 ~displaymessage(^dm_default);
@@ -81,6 +85,7 @@ mes("You put some logs on the pyre.");
 if(%morttonquest < ^mortton_logs_on_pyre) {
     %morttonquest = ^mortton_logs_on_pyre;
 }
+clearqueue(clear_pyre_loc);
 longqueue(clear_pyre_loc, 49, 0, ^accelerate);
 loc_change(struct_param($struct, pyre_logs_loc), 49); //49t osrs
 
@@ -103,6 +108,7 @@ if ($current_pyre ! %pyre_loc) {
 }
 
 %mortton_current_shade = $remains;
+clearqueue(clear_pyre_loc);
 longqueue(clear_pyre_loc, 49, 0, ^accelerate);
 loc_change(loc_param(next_loc_stage), 49); //49t osrs
 anim(human_pickuptable, 0);
@@ -198,7 +204,9 @@ sound_synth(smokepuff, 0, 0);
 %mortton_current_shade = null;
 loc_findallzone($coord);
 if(loc_findnext = true) {
-    loc_change(temple_pyre, 1);
+    if(loc_coord = $coord) {
+        loc_change(temple_pyre, 1);
+    }
 }
 if(npc_find(~get_pyre_coord($coord, $rotation), shade_heaven, 0, 0) = true) {
     npc_del;

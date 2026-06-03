@@ -7,7 +7,7 @@ switch_int (%totemquest) {
 
     // https://www.youtube.com/watch?v=Ltk3seMJwGo
     case ^totem_not_started :
-        $text = "@dbl@I can start this quest by speaking to @dre@Kangai Mau@dbl@ in @dre@the|@dre@Shrimp & Parrot@dbl@ restaurant in @dre@Brimhaven|";
+        $text = "@dbl@I can start this quest by speaking to @dre@Kangai Mau@dbl@ in @dre@the Shrimp & Parrot@dbl@ restaurant in @dre@Brimhaven|";
         $text = append($text, "@dbl@To complete this quest I need:|");
         if (stat_base(thieving) < 21) {
             $text = append($text, "@dre@Level 21 Thieving");
@@ -18,7 +18,7 @@ switch_int (%totemquest) {
     // https://www.youtube.com/watch?v=Q7SxyBTA4Ak & https://www.youtube.com/watch?v=Dal2Ozmbyys
     case ^totem_started :
         $text = "@str@I agreed to help Kangai Mau on Brimhaven recover the|@str@tribal totem stolen from his village by Lord Handelmort.|";
-        $text = append($text, "@dbl@I need to get into @dre@Lord Handelmorts Mansion@dbl@ in|@dre@Ardougne");
+        $text = append($text, "@dbl@I need to get into @dre@Lord Handelmorts Mansion@dbl@ in @dre@Ardougne");
 
     case ^totem_crate_marked :
         $text = "@str@I agreed to help Kangai Mau on Brimhaven recover the|@str@tribal totem stolen from his village by Lord Handelmort.|";
@@ -44,7 +44,7 @@ switch_int (%totemquest) {
         } else {
             $text = append($text, "@str@I worked out the combination for the door.|");
             if (inv_total(inv, tribal_totem) > 0 | inv_total(bank, tribal_totem) > 0) {
-                $text = append($text, "@dbl@I should take the @dre@tribal totem@dbl@ back to @dre@Kangai Mau in|@dre@Brimhaven@dbl@ and claim my @dre@reward@dbl@ for helping his tribe");
+                $text = append($text, "@dbl@I should take the @dre@tribal totem@dbl@ back to @dre@Kangai Mau in Brimhaven@dbl@ and claim my @dre@reward@dbl@ for helping his tribe");
             } else {
                 $text = append($text, "@dbl@I should find the @dre@Tribal Totem@dbl@ and return it!");
             }

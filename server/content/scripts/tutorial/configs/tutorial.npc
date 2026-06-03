@@ -350,6 +350,7 @@ model6=model_254_idk
 model7=model_181_idk
 model8=model_320_idk
 head1=model_53_idk_head
+defaultmode=none
 wanderrange=0
 maxrange=2
 moverestrict=nomove

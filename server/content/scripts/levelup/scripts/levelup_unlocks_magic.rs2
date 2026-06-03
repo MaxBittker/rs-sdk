@@ -38,7 +38,7 @@ switch_int(stat_base(magic)) {
     case 62 : ~objbox(battlestaff, "Members can now cast @dbl@Wind Wave@bla@!", 250, 0, 0);
     case 63 : ~objbox(battlestaff, "Members can now @dbl@Charge Fire Orbs@bla@!", 250, 0, 0);
     case 65 : ~objbox(battlestaff, "Members can now cast @dbl@Water Wave@bla@!", 250, 0, 0);
-    case 66 : ~objbox(battlestaff, "Members can now cast @dbl@Vulnerability and Charge Air|@dbl@Orbs! Members can also enter the Wizards' Guild!", 250, 0, 0); //imgur.com/Sc4Zok3
+    case 66 : ~objbox(battlestaff, "Members can now cast @dbl@Vulnerability and Charge Air|Orbs! Members can also enter the Wizards' Guild!", 250, 0, 0); //imgur.com/Sc4Zok3
     case 68 : ~objbox(battlestaff, "Members can now enchant @dbl@Dragonstone Jewellery@bla@!", 250, 0, 0);
     case 70 : ~objbox(battlestaff, "Members can now cast @dbl@Earth Wave@bla@!", 250, 0, 0);
     case 73 : ~objbox(battlestaff, "Members can now cast @dbl@Enfeeble@bla@!", 250, 0, 0);

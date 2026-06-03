@@ -1104,6 +1104,7 @@ model=obj_3619
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,0
 
@@ -1116,6 +1117,7 @@ model=obj_3620
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,1
 
@@ -1128,6 +1130,7 @@ model=obj_3621
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,2
 
@@ -1140,6 +1143,7 @@ model=obj_3622
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,3
 
@@ -1152,6 +1156,7 @@ model=obj_3623
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,4
 
@@ -1164,6 +1169,7 @@ model=obj_3624
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,5
 
@@ -1176,6 +1182,7 @@ model=obj_3625
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,6
 
@@ -1188,6 +1195,7 @@ model=obj_3626
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,7
 
@@ -1200,6 +1208,7 @@ model=obj_3627
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,8
 
@@ -1212,6 +1221,7 @@ model=obj_3628
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,9
 
@@ -1224,6 +1234,7 @@ model=obj_3629
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,10
 
@@ -1236,6 +1247,7 @@ model=obj_3630
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,11
 
@@ -1248,6 +1260,7 @@ model=obj_3631
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,12
 
@@ -1260,6 +1273,7 @@ model=obj_3632
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,13
 
@@ -1272,6 +1286,7 @@ model=obj_3633
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,14
 
@@ -1284,6 +1299,7 @@ model=obj_3634
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,15
 
@@ -1296,6 +1312,7 @@ model=obj_3635
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,16
 
@@ -1308,6 +1325,7 @@ model=obj_3636
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,17
 
@@ -1320,6 +1338,7 @@ model=obj_3637
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,18
 
@@ -1332,6 +1351,7 @@ model=obj_3638
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,19
 
@@ -1344,6 +1364,7 @@ model=obj_3639
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,20
 
@@ -1356,6 +1377,7 @@ model=obj_3640
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,21
 
@@ -1368,6 +1390,7 @@ model=obj_3641
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,22
 
@@ -1380,6 +1403,7 @@ model=obj_3642
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,23
 
@@ -1392,6 +1416,7 @@ model=obj_3643
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,0
 
@@ -1404,6 +1429,7 @@ model=obj_3644
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,1
 
@@ -1416,6 +1442,7 @@ model=obj_3645
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,2
 
@@ -1428,6 +1455,7 @@ model=obj_3646
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,3
 
@@ -1440,6 +1468,7 @@ model=obj_3647
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,4
 
@@ -1452,6 +1481,7 @@ model=obj_3648
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,5
 
@@ -1464,6 +1494,7 @@ model=obj_3649
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,6
 
@@ -1476,6 +1507,7 @@ model=obj_3650
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,7
 
@@ -1488,6 +1520,7 @@ model=obj_3651
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,8
 
@@ -1500,6 +1533,7 @@ model=obj_3652
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,9
 
@@ -1512,6 +1546,7 @@ model=obj_3653
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,10
 
@@ -1524,6 +1559,7 @@ model=obj_3654
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,11
 
@@ -1536,6 +1572,7 @@ model=obj_3655
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,12
 
@@ -1548,6 +1585,7 @@ model=obj_3656
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,13
 
@@ -1560,6 +1598,7 @@ model=obj_3657
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,14
 
@@ -1572,6 +1611,7 @@ model=obj_3658
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,15
 
@@ -1584,6 +1624,7 @@ model=obj_3659
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,16
 
@@ -1596,6 +1637,7 @@ model=obj_3660
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,17
 
@@ -1608,6 +1650,7 @@ model=obj_3661
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,18
 
@@ -1620,6 +1663,7 @@ model=obj_3662
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,19
 
@@ -1632,6 +1676,7 @@ model=obj_3663
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,20
 
@@ -1644,6 +1689,7 @@ model=obj_3664
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,21
 
@@ -1656,6 +1702,7 @@ model=obj_3665
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,22
 
@@ -1668,5 +1715,6 @@ model=obj_3666
 2dxan=520
 iop5=Move
 members=yes
+dummyitem=inv_only
 category=trail_puzzle_piece
 param=puzzle_piece_id,23

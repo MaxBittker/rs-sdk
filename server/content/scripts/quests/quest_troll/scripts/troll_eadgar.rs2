@@ -37,6 +37,9 @@ if(%eadgar_quest = ^eadgar_started) {
     @eadgar_default_tree;
 }
 
+[opnpcu,troll_eadgar]
+p_opnpc(1);
+
 [label,eadgar_default_tree]
 switch_int(~p_choice3("Why do you live so close to the trolls?", 1, "What do you have to offer?", 2, "No thanks, Eadgar.", 3)) {
     case 1 : @eadgar_live_so_close;

@@ -135,12 +135,7 @@ mes("You really, really do not want to eat that.");
 
 [opheldu,karamja_rum]
 switch_obj(last_useitem) {
-    case banana :
-        anim(rum_stuffing, 0);
-        inv_del(inv, banana, 1);
-        inv_del(inv, karamja_rum, 1);
-        inv_add(inv, tbwt_banana_in_karamja_rum, 1);
-        mes("You stuff the banana into the neck of the bottle. You begin to wonder why.");
+    case banana : @make_banana_rum;
     case tbwt_sliced_banana :
         inv_del(inv, tbwt_sliced_banana, 1);
         inv_del(inv, karamja_rum, 1);
@@ -152,6 +147,13 @@ switch_obj(last_useitem) {
         mes("You pour some of the Karamjan rum over the silk.");
     case default : ~displaymessage(^dm_default);
 }
+
+[label,make_banana_rum]
+anim(rum_stuffing, 0);
+inv_del(inv, banana, 1);
+inv_del(inv, karamja_rum, 1);
+inv_add(inv, tbwt_banana_in_karamja_rum, 1);
+mes("You stuff the banana into the neck of the bottle. You begin to wonder why.");
 
 [opheldu,tbwt_monkey_corpse]
 def_obj $item = last_useitem;
@@ -179,11 +181,16 @@ switch_obj(last_useitem) {
 [opheldu,banana]
 def_obj $item = last_useitem;
 if ((oc_category($item) = weapon_polearm) | (oc_category($item) = weapon_spear) | (oc_category($item) = weapon_slash) | (oc_category($item) = weapon_stab) | ($item = knife)) {
-    anim(banana_slicing, 0);
-    mes("You deftly chop the bananas into slices.");
-    inv_del(inv, banana, 1);
-    inv_add(inv, tbwt_sliced_banana, 1);
+    @slice_banana;
+} else if($item = karamja_rum) {
+    @make_banana_rum;
 }
+
+[label,slice_banana]
+anim(banana_slicing, 0);
+mes("You deftly chop the bananas into slices.");
+inv_del(inv, banana, 1);
+inv_add(inv, tbwt_sliced_banana, 1);
 
 [opheldu,tbwt_raw_karambwanji_paste]
 switch_obj(last_useitem) {
@@ -255,7 +262,7 @@ switch_obj(last_useitem) {
 
 // QUEUE
 
-[queue,twbt_quest_complete]
+[queue,tbwt_quest_complete]
 session_log(^log_adventure, "Quest complete: Tai Bwo Wannai Trio");
 %tbwt_main = ^tbwt_complete;
 ~send_quest_complete(questlist:tbwt, tbwt_raw_karambwan, 250, ^tbwt_questpoints, "You have completed the\\n'Tai Bwo Wannai Trio' Quest!"); // https://web.archive.org/web/20051228165555/http://runescape.salmoneus.net/quests/TaiBwoTrio/taibwocomplt.png

@@ -69,4 +69,5 @@ param=defend_sound,insect_hit
 param=death_sound,insect_death
 param=death_drop,null
 // osrs stats and Vislvl match 1:1
+// osrs sounds scorpion_attack, scorpion_hit, scorpion_death
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5372

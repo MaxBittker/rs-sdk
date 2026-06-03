@@ -313,7 +313,7 @@ param=death_anim,human_transdeath
 param=magicattack_anim,human_trans_casting
 param=spawn_anim,human_castteleport_reverse
 param=attack_sound,otherworld_attack
-param=defend_sound,otherworld_hit
+param=defend_sound,screech2
 param=death_sound,otherworld_death
 param=death_drop,null
 category=kolodion
@@ -356,7 +356,7 @@ param=defend_sound,black_demon_hit
 param=death_sound,black_demon_death
 param=death_drop,null
 category=kolodion
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1609
 
 [zamorak_mage]

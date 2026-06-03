@@ -40,7 +40,7 @@ if (testbit(%elemental_workshop_bits, ^elemental_workshop_complete) = ^true) {
     if (inv_total(inv, elemental_workshop_bar) > 0) {
         $text = append($text, "@str@I have made a bar from the elemental ore.|");
         $text = append($text, "@dbl@Now I just need to make something from it.||");
-        $text = append($text, "@dbl@All I need to do now is make the shield.|");
+        $text = append($text, "All I need to do now is make the shield.|");
     } else {
         $text = append($text, "@dbl@There is obviously lots to do here.");
     }

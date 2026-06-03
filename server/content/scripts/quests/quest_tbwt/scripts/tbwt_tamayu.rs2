@@ -297,29 +297,29 @@ if (npc_find(^tbwt_tamayu_hunter_cutscene_final_spawn, tbwt_tamayu_final_hunter,
 
     npc_anim(human_spear_spike, 0);
     .npc_anim(lion_block, 0);
-    ~sound_area(beast_hit, 0, coord, 0);
-    ~sound_area(staff_stab, 0, coord, 0);
+    ~.sound_area(beast_hit, 0, coord, 0);
+    ~.sound_area(staff_stab, 0, coord, 0);
     npc_say("The end approaches, Shaikahan!");
     p_delay(2);
 
     npc_anim(human_spear_spike, 0);
     .npc_anim(lion_block, 0);
-    ~sound_area(beast_hit, 0, coord, 0);
-    ~sound_area(staff_stab, 0, coord, 0);
+    ~.sound_area(beast_hit, 0, coord, 0);
+    ~.sound_area(staff_stab, 0, coord, 0);
     p_delay(2);
 
     ~music_jingle("tamayu_slays_the_shaikahan");
     npc_anim(human_spear_spike, 0);
     .npc_anim(lion_block, 0);
-    ~sound_area(beast_hit, 0, coord, 0);
-    ~sound_area(staff_stab, 0, coord, 0);
+    ~.sound_area(beast_hit, 0, coord, 0);
+    ~.sound_area(staff_stab, 0, coord, 0);
     npc_say("Gods! Witness this triumph!");
     p_delay(2);
 
     npc_anim(human_spear_spike, 0);
     .npc_anim(lion_death_hold_last_frame, 0);
-    ~sound_area(beast_death, 0, coord, 0);
-    ~sound_area(staff_stab, 0, coord, 0);
+    ~.sound_area(beast_death, 0, coord, 0);
+    ~.sound_area(staff_stab, 0, coord, 0);
     p_delay(2);
 
     p_delay(0);

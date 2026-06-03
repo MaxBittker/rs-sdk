@@ -1838,9 +1838,9 @@ param=damagetype,^crush_style
 param=attack_anim,rabbit_attack
 param=defend_anim,rabbit_block
 param=death_anim,rabbit_death
-// param=attack_sound,rabbit_attack
-// param=defend_sound,rabbit_hit
-// param=death_sound,rabbit_death
+param=attack_sound,rabbit_attack
+param=defend_sound,rabbit_hit
+param=death_sound,rabbit_death
 
 [viking_bunny_2]
 name=Bunny
@@ -1874,9 +1874,9 @@ param=damagetype,^crush_style
 param=attack_anim,rabbit_attack
 param=defend_anim,rabbit_block
 param=death_anim,rabbit_death
-// param=attack_sound,rabbit_attack
-// param=defend_sound,rabbit_hit
-// param=death_sound,rabbit_death
+param=attack_sound,rabbit_attack
+param=defend_sound,rabbit_hit
+param=death_sound,rabbit_death
 
 [viking_seagull]
 name=Gull

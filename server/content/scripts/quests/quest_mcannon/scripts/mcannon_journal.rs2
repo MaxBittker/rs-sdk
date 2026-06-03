@@ -6,8 +6,7 @@ switch_int(%mcannon) {
     // https://github.com/Indio3/quest-journals/blob/master/quest_mcannon/2013-03-16-LQe6fp5uXds-1.PNG
     // https://github.com/Indio3/quest-journals/blob/master/quest_mcannon/2016-01-11-890L_-_VhgA-1.PNG
     case ^mcannon_not_started :
-        $text = "@dbl@I can start this quest by speaking to the @dre@Commander|@dre@of the Black Watch@dbl@. He is defending an area @dre@north-|";
-        $text = append($text, "@dre@west of the Fishing Guild@dbl@ against @dre@goblin@dbl@ attack.");
+        $text = "@dbl@I can start this quest by speaking to the @dre@Commander of the Black Watch@dbl@. He is defending an area @dre@north-west of the Fishing Guild@dbl@ against @dre@goblin@dbl@ attack.|";
 
     case ^mcannon_tasked_with_fixing_railings :
         $text = "@str@I have spoken to the Commander, he recruited me|@str@into the Black Guard and asked me to help the dwarves.||";
@@ -19,7 +18,7 @@ switch_int(%mcannon) {
         } else {
             // https://github.com/Indio3/quest-journals/blob/master/quest_mcannon/2011-09-12-ugcIS97DDPY-1.PNG
             // https://github.com/Indio3/quest-journals/blob/master/quest_mcannon/2017-04-06-jTYYn-7E1J0-1.PNG
-            $text = append($text, "@dbl@My first task is to @dre@fix the broken railings|@dbl@in the dwarves defensive perimeter.");
+            $text = append($text, "@dbl@My first task is to @dre@fix the broken railings@dbl@ in the dwarves defensive perimeter.");
         }
 
     // https://github.com/Indio3/quest-journals/blob/master/quest_mcannon/2020-08-31-Sf53lSP-_x8-1.PNG
@@ -32,7 +31,7 @@ switch_int(%mcannon) {
         if (inv_total(inv, mcannonremains) > 0) {
             $text = append($text, "@str@I went to the watchtower where I found some dwarf|@str@remains.|@dbl@I should take them back to @dre@the Commander@dbl@.");
         } else {
-            $text = append($text, "@str@I have repaired all the broken railings,|@dbl@The Commander has asked me to check up on his|@dbl@guards at @dre@the watchtower@dbl@ to the South of his camp.");
+            $text = append($text, "@str@I have repaired all the broken railings,|@dbl@The Commander has asked me to check up on his guards at @dre@the watchtower@dbl@ to the South of his camp.");
         }
 
     // https://github.com/Indio3/quest-journals/blob/master/quest_mcannon/2020-08-31-Sf53lSP-_x8-2.PNG
@@ -71,7 +70,7 @@ switch_int(%mcannon) {
     // https://github.com/Indio3/quest-journals/blob/master/quest_mcannon/2021-12-16-geamZhtekMk-1.PNG
     case ^mcannon_tasked_with_speaking_to_nulodion :
         $text = "@str@I have spoken to the Commander, he recruited me|@str@into the Black Guard and asked me to help the dwarves.||";
-        $text = append($text, "@dbl@The Commander asked me to find @dre@Nulodion the Cannon|@dre@Engineer@dbl@, he needs to know what @dre@ammunition the|@dre@multicannon@dbl@ fires.");
+        $text = append($text, "@dbl@The Commander asked me to find @dre@Nulodion the Cannon Engineer@dbl@, he needs to know what @dre@ammunition the multicannon@dbl@ fires.");
 
     // https://github.com/Indio3/quest-journals/blob/master/quest_mcannon/2013-03-06-pUxZhGGBI70-4.PNG
     case ^mcannon_return_to_dwarf_commander_with_notes :

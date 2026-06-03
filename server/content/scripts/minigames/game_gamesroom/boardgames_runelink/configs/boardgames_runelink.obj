@@ -7,6 +7,8 @@ model=model_2399_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_waterrune]
 name=Board game piece
@@ -17,6 +19,8 @@ model=model_2652_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_earthrune]
 name=Board game piece
@@ -27,6 +31,8 @@ model=model_2737_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_airrune]
 name=Board game piece
@@ -37,6 +43,8 @@ model=model_2405_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_mindrune]
 name=Board game piece
@@ -47,6 +55,8 @@ model=model_2481_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_bodyrune]
 name=Board game piece
@@ -57,6 +67,8 @@ model=model_2340_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_naturerune]
 name=Board game piece
@@ -67,6 +79,8 @@ model=model_2734_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_chaosrune]
 name=Board game piece
@@ -77,6 +91,8 @@ model=model_2707_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_lawrune]
 name=Board game piece
@@ -87,6 +103,8 @@ model=model_2382_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_cosmicrune]
 name=Board game piece
@@ -97,6 +115,8 @@ model=model_2735_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_bloodrune]
 name=Board game piece
@@ -107,6 +127,8 @@ model=model_2665_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only
 
 [boardgames_runelink_soulrune]
 name=Board game piece
@@ -117,3 +139,5 @@ model=model_2434_obj
 2dxan=516
 members=yes
 category=boardgames_piece
+tradeable=no
+dummyitem=inv_only

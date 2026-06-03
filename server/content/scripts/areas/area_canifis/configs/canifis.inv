@@ -46,11 +46,11 @@ stock22=wolfenrobetop_purple,5,100
 stock23=wolfenrobebottom_purple,5,100
 stock24=wolfenhat_purple,5,100
 stock25=wolfengloves_purple,5,100
-stock26=red_cape,5,100
-stock27=black_cape,5,100
-stock28=blue_cape,5,100
-stock29=yellow_cape,5,100
-stock30=green_cape,5,100
+stock26=red_cape,5,500
+stock27=black_cape,5,500
+stock28=blue_cape,5,500
+stock29=yellow_cape,5,500
+stock30=green_cape,5,500
 
 // https://web.archive.org/web/20050204072034im_/http://www.runehq.com/images/cityguides/canifisgenstore.PNG
 [werewolfgeneralstore]

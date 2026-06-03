@@ -5,9 +5,9 @@ def_string $text;
 // QUEST NOT STARTED
 // ------------------------
 if (%blackarmgang = ^blackarmgang_not_started & %phoenixgang = ^phoenixgang_not_started) {
-    $text = append($text, "@dbl@I can start this quest by speaking to @dre@Reldo@dbl@ in @dre@Varrock's|@dre@Palace Library@dbl@, or by speaking to the @dre@Tramp@dbl@ near|");
+    $text = append($text, "@dbl@I can start this quest by speaking to @dre@Reldo@dbl@ in @dre@Varrock's|Palace Library@dbl@, or by speaking to the @dre@Tramp@dbl@ near|");
     $text = append($text, "@dbl@the @dre@Blue Moon Inn@dbl@ in @dre@Varrock@dbl@.|");
-    $text = append($text, "@dbl@I will need the help of a @dre@Fellow Adventurer@dbl@ and some|@dbl@combat experience may be an advantage.|");
+    $text = append($text, "@dbl@I will need the help of a @dre@Fellow Adventurer@dbl@ and some|combat experience may be an advantage.|");
 }
 
 // ------------------------
@@ -15,19 +15,19 @@ if (%blackarmgang = ^blackarmgang_not_started & %phoenixgang = ^phoenixgang_not_
 // ------------------------
 if (%blackarmgang < ^blackarmgang_joined) {
     if (%phoenixgang = ^phoenixgang_started) {
-        $text = append($text, "@dre@Reldo@dbl@ says there is a @dre@quest@dbl@ hidden in one of the books in|@dbl@his @dre@library somewhere. I should look for it and see.|");
+        $text = append($text, "@dre@Reldo@dbl@ says there is a @dre@quest@dbl@ hidden in one of the books in|his @dre@library somewhere. I should look for it and see.|");
     }
     if (%phoenixgang = ^phoenixgang_read_book) {
         $text = append($text, "@str@I read about a valuable shield stolen long ago by a gang of|@str@thieves with an outstanding reward upon it.|");
-        $text = append($text, "@dbl@I should ask @dre@Reldo@dbl@ in the @dre@Varrock palace library@dbl@ if he|@dbl@knows anything more about this.|");
+        $text = append($text, "@dbl@I should ask @dre@Reldo@dbl@ in the @dre@Varrock palace library@dbl@ if he|@nows anything more about this.|");
     }
     if (%phoenixgang = ^phoenixgang_spoken_reldo) {
         $text = append($text, "@str@I read about a valuable shield stolen long ago by a gang of|@str@thieves with an outstanding reward upon it.|");
-        $text = append($text, "@dbl@Reldo told me that the fur trader in @dre@Varrock@dbl@, named|@dre@Baraek@dbl@, knows about the @dre@Phoenix Gang@dbl@. I should speak to|@dbl@him next.|");
+        $text = append($text, "@dbl@Reldo told me that the fur trader in @dre@Varrock@dbl@, named|@dre@Baraek@dbl@, knows about the @dre@Phoenix Gang@dbl@. I should speak to|him next.|");
     }
     if (%phoenixgang = ^phoenixgang_spoken_baraek) {
         $text = append($text, "@str@I read about a valuable shield stolen long ago by a gang of|@str@thieves with an outstanding reward upon it.|");
-        $text = append($text, "@dbl@Baraek told me that the @dre@'Phoenix Gang'@dbl@ have a hideout in|@dbl@the @dre@south-eastern part of Varrock@dbl@, disguising themselves|");
+        $text = append($text, "@dbl@Baraek told me that the @dre@'Phoenix Gang'@dbl@ have a hideout in|the @dre@south-eastern part of Varrock@dbl@, disguising themselves|");
         $text = append($text, "@dbl@as the @dre@VTAM Corporation@dbl@. I should find them and join.|");
     }
     if (%phoenixgang = ^phoenixgang_spoken_straven) {
@@ -38,11 +38,11 @@ if (%blackarmgang < ^blackarmgang_joined) {
         if (inv_total(inv, intelligence_report) > 0) {
             $text = append($text, "@str@I spoke to Straven in the Phoenix Gang Headquarters|@str@south east of the Blue Moon Inn. He offered to let me|");
             $text = append($text, "@str@join the Gang in return for killing Jonny the Beard and|@str@recovering an Intelligence Report from him.|");
-            $text = append($text, "@dbl@I confronted and killed @dre@Jonny the Beard@dbl@ in the @dre@Blue|@dre@Moon Inn@dbl@ and took an @dre@Intelligence Report@dbl@ from him. I|");
+            $text = append($text, "@dbl@I confronted and killed @dre@Jonny the Beard@dbl@ in the @dre@Blue|Moon Inn@dbl@ and took an @dre@Intelligence Report@dbl@ from him. I|");
             $text = append($text, "@dbl@should take this @dre@Report@dbl@ to @dre@Straven@dbl@.|");
         } else {
             $text = append($text, "@dbl@I spoke to @dre@Straven@dbl@ in the @dre@Phoenix Gang Headquarters|@dbl@south east of the @dre@Blue Moon Inn@dbl@. He offered to let me|");
-            $text = append($text, "@dbl@join the @dre@Gang@dbl@ in return for killing @dre@Jonny the Beard@dbl@ and|@dbl@recovering an @dre@Intelligence Report@dbl@ from him. I can find|");
+            $text = append($text, "@dbl@join the @dre@Gang@dbl@ in return for killing @dre@Jonny the Beard@dbl@ and|recovering an @dre@Intelligence Report@dbl@ from him. I can find|");
             $text = append($text, "@dre@Jonny@dbl@ in the @dre@Blue Moon Inn@dbl@.|");
         }
     }
@@ -57,9 +57,9 @@ if (%blackarmgang < ^blackarmgang_joined) {
             $text = append($text, "@str@I confronted and killed Jonny the Beard in the Blue|@str@Moon Inn and took an Intelligence Report from him. I|");
             $text = append($text, "@str@gave this Report to Straven and he allowed me to join the|@str@Phoenix Gang.|");
 
-            $text = append($text, "@dbl@I searched the @dre@Phoenix Gang Headquarters@dbl@ and found|@dbl@what seemed to be half of the @dre@Shield of Arrav@dbl@. A|");
-            $text = append($text, "@dre@Fellow Adventurer@dbl@ also found a @dre@Shield Half@dbl@ and gave it to|@dbl@me. I took them both to the @dre@Curator@dbl@ in @dre@Varrock Museum|");
-            $text = append($text, "@dbl@who confirmed they were genuine. The @dre@Curator@dbl@ gave me|@dbl@two @dre@Certificates@dbl@. I should now give one to a @dre@Fellow|");
+            $text = append($text, "@dbl@I searched the @dre@Phoenix Gang Headquarters@dbl@ and found|what seemed to be half of the @dre@Shield of Arrav@dbl@. A|");
+            $text = append($text, "@dre@Fellow Adventurer@dbl@ also found a @dre@Shield Half@dbl@ and gave it to|me. I took them both to the @dre@Curator@dbl@ in @dre@Varrock Museum|");
+            $text = append($text, "@dbl@who confirmed they were genuine. The @dre@Curator@dbl@ gave me|two @dre@Certificates@dbl@. I should now give one to a @dre@Fellow|");
             $text = append($text, "@dre@Adventurer@dbl@ and take my @dre@Certificate@dbl@ to @dre@King Roald|@dbl@in @dre@Varrock Palace@dbl@ to collect my reward.");
         } else if(inv_total(inv, arravcertificate) = 1) {
             $text = append($text, "@str@I spoke to Straven in the Phoenix Gang Headquarters|@str@south east of the Blue Moon Inn. He offered to let me|");
@@ -67,8 +67,8 @@ if (%blackarmgang < ^blackarmgang_joined) {
             $text = append($text, "@str@I confronted and killed Jonny the Beard in the Blue|@str@Moon Inn and took an Intelligence Report from him. I|");
             $text = append($text, "@str@gave this Report to Straven and he allowed me to join the|@str@Phoenix Gang.|");
 
-            $text = append($text, "@dbl@I searched the @dre@Phoenix Gang Headquarters@dbl@ and found|@dbl@what seemed to be half of the @dre@Shield of Arrav@dbl@. A|");
-            $text = append($text, "@dre@Fellow Adventurer@dbl@ also found a @dre@Shield Half@dbl@ and gave it to|@dbl@me. We took them both to the @dre@Curator@dbl@ in @dre@Varrock Museum|");
+            $text = append($text, "@dbl@I searched the @dre@Phoenix Gang Headquarters@dbl@ and found|what seemed to be half of the @dre@Shield of Arrav@dbl@. A|");
+            $text = append($text, "@dre@Fellow Adventurer@dbl@ also found a @dre@Shield Half@dbl@ and gave it to|me. We took them both to the @dre@Curator@dbl@ in @dre@Varrock Museum|");
             $text = append($text, "@dbl@who confirmed they were genuine. The @dre@Curator@dbl@ gave us a|@dre@Certificate@dbl@ each. I should now take my @dre@Certificate|");
             $text = append($text, "@dbl@to @dre@King Roald@dbl@ in @dre@Varrock Palace@dbl@ to collect my reward.");
         } else if (inv_total(inv, arravshield2) > 0 & inv_total(inv, arravshield1) > 0) {
@@ -76,19 +76,19 @@ if (%blackarmgang < ^blackarmgang_joined) {
             $text = append($text, "@str@join the Gang in return for killing Jonny the Beard and|@str@recovering an Intelligence Report from him.|");
             $text = append($text, "@str@I confronted and killed Jonny the Beard in the Blue|@str@Moon Inn and took an Intelligence Report from him. I|");
             $text = append($text, "@str@gave this Report to Straven and he allowed me to join the|@str@Phoenix Gang.|");
-            $text = append($text, "@dbl@I searched the @dre@Phoenix Gang Headquarters@dbl@ and found|@dbl@what seems to be half of the @dre@Shield of Arrav@dbl@. A|");
-            $text = append($text, "@dre@Fellow Adventurer@dbl@ also found a @dre@Shield Half@dbl@ and gave it to|@dbl@me. I should take them both to the @dre@Curator@dbl@ in @dre@Varrock|");
+            $text = append($text, "@dbl@I searched the @dre@Phoenix Gang Headquarters@dbl@ and found|what seems to be half of the @dre@Shield of Arrav@dbl@. A|");
+            $text = append($text, "@dre@Fellow Adventurer@dbl@ also found a @dre@Shield Half@dbl@ and gave it to|me. I should take them both to the @dre@Curator@dbl@ in @dre@Varrock|");
             $text = append($text, "@dre@Museum@dbl@ to see if they're genuine.");
         } else if (inv_total(inv, arravshield2) < 1 & inv_total(inv, arravshield1) > 0) {
             $text = append($text, "@str@I spoke to Straven in the Phoenix Gang Headquarters|@str@south east of the Blue Moon Inn. He offered to let me|");
             $text = append($text, "@str@join the Gang in return for killing Jonny the Beard and|@str@recovering an Intelligence Report from him.|");
             $text = append($text, "@str@I confronted and killed Jonny the Beard in the Blue|@str@Moon Inn and took an Intelligence Report from him. I|");
             $text = append($text, "@str@gave this Report to Straven and he allowed me to join the|@str@Phoenix Gang.|");
-            $text = append($text, "@dbl@I searched the @dre@Phoenix Gang Headquarters@dbl@ and found|@dbl@what seems to be half of the @dre@Shield of Arrav@dbl@. I should|");
-            $text = append($text, "@dbl@see if a @dre@Fellow Adventurer@dbl@ can find the other @dre@Shield Half@dbl@|@dbl@and take them both to the @dre@Curator@dbl@ in @dre@Varrock Museum|");
+            $text = append($text, "@dbl@I searched the @dre@Phoenix Gang Headquarters@dbl@ and found|what seems to be half of the @dre@Shield of Arrav@dbl@. I should|");
+            $text = append($text, "@dbl@see if a @dre@Fellow Adventurer@dbl@ can find the other @dre@Shield Half@dbl@|and take them both to the @dre@Curator@dbl@ in @dre@Varrock Museum|");
             $text = append($text, "@dbl@to see if they're genuine.");
         } else {
-            $text = append($text, "@dbl@I confronted and killed @dre@Jonny the Beard@dbl@ in the @dre@Blue|@dre@Moon Inn@dbl@ and took an @dre@Intelligence Report@dbl@ from him. I|");
+            $text = append($text, "@dbl@I confronted and killed @dre@Jonny the Beard@dbl@ in the @dre@Blue|Moon Inn@dbl@ and took an @dre@Intelligence Report@dbl@ from him. I|");
             $text = append($text, "@dbl@gave this @dre@Report@dbl@ to @dre@Straven@dbl@ and he allowed me to join the|@dre@Phoenix Gang@dbl@. I can now search the @dre@Gang Headquarters|");
             $text = append($text, "@dbl@ for the @dre@Shield of Arrav@dbl@.");
         }
@@ -115,7 +115,7 @@ if (%phoenixgang < ^phoenixgang_joined) {
     if (%blackarmgang = ^blackarmgang_started) {
         if (%phoenixgang >= ^phoenixgang_started) {
             $text = append($text, "|@str@I also spoke to the Tramp in Varrock.|");
-            $text = append($text, "@dbl@According to him there is a criminal organisation known as|@dbl@the '@dre@Black Arm Gang@dbl@' down an alley near to him. I should|");
+            $text = append($text, "@dbl@According to him there is a criminal organisation known as|the '@dre@Black Arm Gang@dbl@' down an alley near to him. I should|");
             $text = append($text, "@dbl@speak to their @dre@leader, Katrine@dbl@, about joining.|");
         } else {
             $text = append($text, "@str@To start this quest, I spoke to the Tramp in Varrock.|@str@He gave me the location of the Black Arm Gang HQ.|");
@@ -134,12 +134,12 @@ if (%phoenixgang < ^phoenixgang_joined) {
         $text = append($text, "@dbl@I spoke to @dre@Katrine@dbl@ in the @dre@Black Arm Gang Headquarters.|@dbl@She offered to let me join the gang in return for|");
         $text = append($text, "@dbl@stealing two @dre@Phoenix Crossbows@dbl@ from the @dre@Phoenix Gang.@dbl@|");
         if (inv_total(inv, phoenix_crossbow) > 1) {
-            $text = append($text, "@dbl@With the help of a @dre@Fellow Adventurer@dbl@, I was able to obtain|@dbl@these @dre@Crossbows@dbl@. @dbl@I should now return them to @dre@Katrine@dbl@.|");
+            $text = append($text, "@dbl@With the help of a @dre@Fellow Adventurer@dbl@, I was able to obtain|these @dre@Crossbows@dbl@. @dbl@I should now return them to @dre@Katrine@dbl@.|");
         } else if (inv_total(inv, phoenixkey2) > 0) {
             $text = append($text, "@dbl@With the help of a @dre@Fellow Adventurer@dbl@, I was able to obtain a|@dre@Key@dbl@ to the @dre@Phoenix Gang's Weapon Stash@dbl@ south east of|");
             $text = append($text, "@dbl@the @dre@Blue Moon Inn@dbl@. I should now be able to steal the @dre@Crossbows|");
         } else {
-            $text = append($text, "@dbl@I should seek help by asking a @dre@Fellow Adventurer@dbl@ to|@dbl@infiltrate the Phoenix Gang@dbl@.|");
+            $text = append($text, "@dbl@I should seek help by asking a @dre@Fellow Adventurer@dbl@ to|infiltrate the Phoenix Gang@dbl@.|");
         }
     }
     if (%blackarmgang = ^blackarmgang_joined) {
@@ -151,36 +151,36 @@ if (%phoenixgang < ^phoenixgang_joined) {
             $text = append($text, "@str@With the help of a Fellow Adventurer, I was able to obtain|@str@two Phoenix Crossbows. I gave them to Katrine and she|");
             $text = append($text, "@str@allowed me to join the Black Arm Gang.|");
 
-            $text = append($text, "@dbl@I searched the @dre@Black Arm Gang Headquarters@dbl@ and found|@dbl@what seemed to be half of the @dre@Shield of Arrav@dbl@. A|");
-            $text = append($text, "@dre@Fellow Adventurer @dbl@also found a @dre@Shield Half@dbl@ and gave it to|@dbl@me. I took them both to the @dre@Curator@dbl@ in @dre@Varrock|");
-            $text = append($text, "@dre@Museum@dbl@ who confirmed they @dbl@were genuine.|@dbl@The @dre@Curator@dbl@ gave me two @dre@Certificates@dbl@. I @dbl@should now give|");
+            $text = append($text, "@dbl@I searched the @dre@Black Arm Gang Headquarters@dbl@ and found|what seemed to be half of the @dre@Shield of Arrav@dbl@. A|");
+            $text = append($text, "@dre@Fellow Adventurer @dbl@also found a @dre@Shield Half@dbl@ and gave it to|me. I took them both to the @dre@Curator@dbl@ in @dre@Varrock|");
+            $text = append($text, "@dre@Museum@dbl@ who confirmed they @dbl@were genuine.|The @dre@Curator@dbl@ gave me two @dre@Certificates@dbl@. I @dbl@should now give|");
             $text = append($text, "@dbl@one to a @dre@Fellow Adventurer@dbl@ and take my @dre@Certificate|");
             $text = append($text, "@dbl@to @dre@King Roald@dbl@ in @dre@Varrock Palace@dbl@ to collect my reward.");
         } else if(inv_total(inv, arravcertificate) = 1) {
             $text = append($text, "@str@With the help of a Fellow Adventurer, I was able to obtain|@str@two Phoenix Crossbows. I gave them to Katrine and she|");
             $text = append($text, "@str@allowed me to join the Black Arm Gang.|");
 
-            $text = append($text, "@dbl@I searched the @dre@Black Arm Gang Headquarters@dbl@ and found|@dbl@what seemed to be half of the @dre@Shield of Arrav@dbl@. A|");
-            $text = append($text, "@dre@Fellow Adventurer @dbl@also found a @dre@Shield Half@dbl@ and gave it to|@dbl@me. We took them both to the @dre@Curator@dbl@ in @dre@Varrock|");
-            $text = append($text, "@dre@Museum@dbl@ who confirmed they were genuine.|@dbl@The @dre@Curator@dbl@ gave us a @dre@Certificate@dbl@ each. I should now|");
+            $text = append($text, "@dbl@I searched the @dre@Black Arm Gang Headquarters@dbl@ and found|what seemed to be half of the @dre@Shield of Arrav@dbl@. A|");
+            $text = append($text, "@dre@Fellow Adventurer @dbl@also found a @dre@Shield Half@dbl@ and gave it to|me. We took them both to the @dre@Curator@dbl@ in @dre@Varrock|");
+            $text = append($text, "@dre@Museum@dbl@ who confirmed they were genuine.|The @dre@Curator@dbl@ gave us a @dre@Certificate@dbl@ each. I should now|");
             $text = append($text, "@dbl@take my @dre@Certificate@dbl@ to @dre@King Roald@dbl@ in @dre@Varrock Palace|@dbl@ to collect my reward.");
         } else if (inv_total(inv, arravshield1) > 0 & inv_total(inv, arravshield2) > 0) {
             $text = append($text, "@str@With the help of a Fellow Adventurer, I was able to obtain|@str@two Phoenix Crossbows. I gave them to Katrine and she|");
             $text = append($text, "@str@allowed me to join the Black Arm Gang.|");
 
-            $text = append($text, "@dbl@I searched the @dre@Black Arm Gang Headquarters@dbl@ and found|@dbl@what seems to be half of the @dre@Shield of Arrav@dbl@. A|");
-            $text = append($text, "@dre@Fellow Adventurer @dbl@also found a @dre@Shield Half@dbl@ and gave it to|@dbl@me. I should take them both to the @dre@Curator@dbl@ in @dre@Varrock|");
+            $text = append($text, "@dbl@I searched the @dre@Black Arm Gang Headquarters@dbl@ and found|what seems to be half of the @dre@Shield of Arrav@dbl@. A|");
+            $text = append($text, "@dre@Fellow Adventurer @dbl@also found a @dre@Shield Half@dbl@ and gave it to|me. I should take them both to the @dre@Curator@dbl@ in @dre@Varrock|");
             $text = append($text, "@dre@Museum@dbl@ to see if they're genuine.");
         } else if (inv_total(inv, arravshield1) < 1 & inv_total(inv, arravshield2) > 0) {
             $text = append($text, "@str@With the help of a Fellow Adventurer, I was able to obtain|@str@two Phoenix Crossbows. I gave them to Katrine and she|");
             $text = append($text, "@str@allowed me to join the Black Arm Gang.|");
 
-            $text = append($text, "@dbl@I searched the @dre@Black Arm Gang Headquarters@dbl@ and found|@dbl@what seems to be half of the @dre@Shield of Arrav@dbl@. I should|");
+            $text = append($text, "@dbl@I searched the @dre@Black Arm Gang Headquarters@dbl@ and found|what seems to be half of the @dre@Shield of Arrav@dbl@. I should|");
             $text = append($text, "@dbl@see if a @dre@Fellow Adventurer@dbl@ can find the other @dre@Shield Half|@dbl@and take them both to the @dre@Curator@dbl@ in @dre@Varrock|");
             $text = append($text, "@dre@Museum@dbl@ to see if they're genuine.");
         } else {
-            $text = append($text, "@dbl@With the help of a @dre@Fellow Adventurer@dbl@, I was able to obtain|@dbl@two @dre@Phoenix Crossbows@dbl@. @dbl@I gave them to @dre@Katrine@dbl@ and she|");
-            $text = append($text, "@dbl@allowed me to join the @dre@Black Arm Gang@dbl@. I can now search|@dbl@the @dre@Gang Headquarters@dbl@ for the @dre@Shield of Arrav@dbl@.|");
+            $text = append($text, "@dbl@With the help of a @dre@Fellow Adventurer@dbl@, I was able to obtain|two @dre@Phoenix Crossbows@dbl@. @dbl@I gave them to @dre@Katrine@dbl@ and she|");
+            $text = append($text, "@dbl@allowed me to join the @dre@Black Arm Gang@dbl@. I can now search|the @dre@Gang Headquarters@dbl@ for the @dre@Shield of Arrav@dbl@.|");
         }
     }
     if (%blackarmgang = ^blackarmgang_complete) {

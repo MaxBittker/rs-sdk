@@ -26,20 +26,32 @@ def_coord $loc_coord = loc_coord;
 def_coord $north_entrance = movecoord($loc_coord, 2, 0, 2);
 def_coord $south_entrance = movecoord($loc_coord, 2, 0, -1);
 if(coordz(coord) > coordz($loc_coord) & coord ! $north_entrance) {
+    ~playerwalk($north_entrance);
+    if(coord ! $north_entrance) {
+        p_teleport($north_entrance);
+        p_delay(2); // delays 2t longer than the other side after moving
+    }
+    facesquare(movecoord(coord, 0, 0, -1));
     p_delay(0);
-    p_teleport($north_entrance);
 } else if (coordz(coord) <= coordz($loc_coord) & coord ! $south_entrance) {
+    ~playerwalk($south_entrance);
+    if(coord ! $south_entrance) {
+        p_teleport($south_entrance);
+        p_delay(0);
+    }
+    facesquare(movecoord(coord, 0, 0, 1));
     p_delay(0);
-    p_teleport($south_entrance);
+} else {
+    if(coordz(coord) > coordz($loc_coord)) p_delay(1);
+    else p_delay(0);
 }
-p_delay(0);
 // replace gate
-// Temp note: dur updated
 loc_del(5);
 loc_add(movecoord($loc_coord, 3, 0, 0), gnome_areagate_open_right, 0, loc_shape, 5); // opened right side
 loc_add(movecoord($loc_coord, 2, 0, 0), inviswall, 3, loc_shape, 5); // blocks whole path
 loc_add(movecoord($loc_coord, 2, 0, 1), inviswall, 1, loc_shape, 5);
-loc_add($loc_coord, gnome_areagate_open_left, 2, loc_shape, 5); 
+loc_add($loc_coord, gnome_areagate_open_left, 2, loc_shape, 5);
+p_delay(0);
 // walk to dest
 if(coordz(coord) > coordz($loc_coord)) {
     ~forcemove(movecoord(coord, 0, 0, -3));
@@ -54,8 +66,7 @@ if(coordz(coord) > coordz($loc_coord)) {
 // pass start x because these door locs are also on the sides (maybe to increase the hitbox)
 [label,open_tree_door](loc $open_door, int $start_x)
 sound_synth(door_open, 0, 0);
-// Temp note: dur updated
-loc_change($open_door, 5);
+loc_change($open_door, 6);
 p_teleport(movecoord(coord, calc($start_x - coordx(coord)), 0, 0));
 p_delay(0);
 def_coord $end_pos = movecoord(coord, 0, 0, -2);
@@ -63,4 +74,3 @@ if(coordz(coord) < coordz(loc_coord)) {
     $end_pos = movecoord(coord, 0, 0, 2);
 }
 ~forcemove($end_pos);
-p_delay(0);

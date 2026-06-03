@@ -4,9 +4,7 @@ def_string $text;
 // Source for not_started stage: https://imgur.com/UbZkoqe
 if (%scorpcatcher = ^scorpcatcher_not_started) {
 
-    $text = "@dbl@I can start this quest by speaking to @dre@Thormac@dbl@ who is in the|";
-    $text = append($text, "@dre@Sorcerer's Tower@dbl@ south-west of @dre@Catherby@dbl@.||");
-
+    $text = "@dbl@I can start this quest by speaking to @dre@Thormac@dbl@ who is in the @dre@Sorcerer's Tower@dbl@ south-west of @dre@Catherby@dbl@.||";
     $text = append($text, "@dbl@Requirements:|");
     if (stat_base(prayer) >= 31) {
         $text = append($text, "@str@Level 31 Prayer|");
@@ -49,8 +47,7 @@ $text = append($text, "@str@of Catherby. He's lost his pet Kharid Scorpions and 
 $text = append($text, "@str@my help to find them.");
 
 if (%scorpcatcher = ^scorpcatcher_started) {
-    $text = append($text, "||@dbl@I need to go to the @dre@Seers' Village@dbl@ and talk to the @dre@Seers@dbl@|");
-    $text = append($text, "@dbl@about the lost @dre@Kharid Scorpions@dbl@.");
+    $text = append($text, "||@dbl@I need to go to the @dre@Seers' Village@dbl@ and talk to the @dre@Seers@dbl@ about the lost @dre@Kharid Scorpions@dbl@.");
 } else if (%scorpcatcher > ^scorpcatcher_started) {
     $text = append($text, "||@str@I've spoken to a Seer and been given the location of one|@str@of the Kharid Scorpions.");
 }
@@ -62,15 +59,14 @@ if (%scorpcatcher >= ^scorpcatcher_first_hint) {
         $text = append($text, "||@str@The first Kharid Scorpion is in a secret room near some|");
         $text = append($text, "@str@nasty spiders with two coffins nearby.");
     } else {
-        $text = append($text, "||@dbl@The first @dre@Kharid Scorpion@dbl@ is in a secret room near some|");
-        $text = append($text, "@dre@nasty spiders@dbl@ with two @dre@coffins@dbl@ nearby.");
+        $text = append($text, "||@dbl@The first @dre@Kharid Scorpion@dbl@ is in a secret room near some @dre@nasty spiders@dbl@ with two @dre@coffins@dbl@ nearby.");
     }
 
     if (%scorpcatcher = ^scorpcatcher_first_hint) {
         if ($hasA = ^true) {
-            $text = append($text, "||@dbl@I'll need to talk to a @dre@Seer@dbl@ again now I've caught the first|@dre@Kharid Scorpion@dbl@.");
+            $text = append($text, "||@dbl@I'll need to talk to a @dre@Seer@dbl@ again now I've caught the first @dre@Kharid Scorpion@dbl@.");
         } else {
-            $text = append($text, "||@dbl@I'll need to talk to a @dre@Seer@dbl@ again once I've caught the first|@dre@Kharid Scorpion@dbl@.");
+            $text = append($text, "||@dbl@I'll need to talk to a @dre@Seer@dbl@ again once I've caught the first @dre@Kharid Scorpion@dbl@.");
         }
     }
 }
@@ -83,9 +79,7 @@ if (%scorpcatcher >= ^scorpcatcher_second_hint) {
         $text = append($text, "@str@uncivilised-looking warriors in the east. It's been picked up|");
         $text = append($text, "@str@by some sort of merchant.");
     } else {
-        $text = append($text, "||@dbl@The second @dre@Kharid Scorpion@dbl@ has been in a @dre@village of|");
-        $text = append($text, "@dre@uncivilised-looking warriors in the east@dbl@. It's been picked up|");
-        $text = append($text, "@dbl@by some sort of @dre@merchant@dbl@.");
+        $text = append($text, "||@dbl@The second @dre@Kharid Scorpion@dbl@ has been in a @dre@village of uncivilised-looking warriors in the east@dbl@. It's been picked up by some sort of @dre@merchant@dbl@.");
     }
 
     // Source for third scorpion: https://www.youtube.com/watch?v=rk8N48dUG4Y & https://www.youtube.com/watch?v=rulbDoHlgQg
@@ -93,8 +87,8 @@ if (%scorpcatcher >= ^scorpcatcher_second_hint) {
         $text = append($text, "||@str@The third Kharid Scorpion is in some sort of upstairs room|");
         $text = append($text, "@str@with brown clothing on a table.");
     } else {
-        $text = append($text, "||@dbl@The third @dre@Kharid Scorpion@dbl@ is in some sort of @dre@upstairs room|"); // Assuming dark-red text on upstairs room; only seen it with strike-through on sources. RS3 has it in dark-red though.
-        $text = append($text, "@dbl@with @dre@brown clothing@dbl@ on a table.");
+        // Assuming dark-red text on upstairs room; only seen it with strike-through on sources. RS3 has it in dark-red though.
+        $text = append($text, "||@dbl@The third @dre@Kharid Scorpion@dbl@ is in some sort of @dre@upstairs room@dbl@ with @dre@brown clothing@dbl@ on a table.");
     }
 
     if ($hasA = ^true & $hasB = ^true & $hasC = ^true & %scorpcatcher < ^scorpcatcher_complete) {

@@ -24,9 +24,6 @@ model5=model_185_obj_wear
 model6=model_323_obj_wear
 model7=model_553_npc
 head1=model_51_obj_wear
-param=attack_anim,human_staff_pummel
-param=defend_anim,human_staff_block
-param=attack_sound,staff_hit
 // stats based off: https://oldschool.runescape.wiki/w/Mourner?oldid=9768605#Lv_11, 70t respawn on rs3
 respawnrate=140
 hitpoints=19
@@ -38,6 +35,9 @@ param=strengthbonus,2
 param=stabdefence,6
 param=slashdefence,6
 param=crushdefence,9
+param=attack_anim,human_staff_pummel
+param=defend_anim,human_staff_block
+param=attack_sound,staff_hit
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_9013
 
 [mourner3]
@@ -96,10 +96,6 @@ model5=model_185_obj_wear
 model6=model_323_obj_wear
 model7=model_555_npc
 head1=model_51_obj_wear
-param=damagetype,^crush_style
-param=attack_anim,human_staff_spike
-param=defend_anim,human_staff_block
-param=attack_sound,staff_stab
 // stats based off: https://oldschool.runescape.wiki/w/Mourner?oldid=9768605#Lv_18, 70t respawn on rs3
 respawnrate=140
 hitpoints=13
@@ -111,6 +107,10 @@ param=strengthbonus,5
 param=stabdefence,5
 param=slashdefence,5
 param=crushdefence,7
+param=damagetype,^crush_style
+param=attack_anim,human_staff_spike
+param=defend_anim,human_staff_block
+param=attack_sound,staff_stab
 
 [mournerstew3]
 name=Mourner

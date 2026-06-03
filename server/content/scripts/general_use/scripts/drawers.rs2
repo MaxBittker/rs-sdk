@@ -15,7 +15,7 @@ if(map_members = ^true) {
         @riddle_loc_medium_exp004;
     } else if(loc_coord = 1_43_49_57_29) {
         @riddle_loc_medium_exp007;
-    } else if(loc_coord = 0_45_55_49_50) {
+    } else if(loc_coord = 0_45_55_41_57) {
         @riddle_loc_medium_exp008;
     }
 }
@@ -35,7 +35,7 @@ if(loc_coord = 1_40_51_14_62) {
     @riddle_loc_medium_exp004;
 } else if(loc_coord = 1_43_49_57_29) {
     @riddle_loc_medium_exp007;
-}  else if(loc_coord = 0_45_55_49_50) {
+}  else if(loc_coord = 0_45_55_41_57) {
     @riddle_loc_medium_exp008;
 }
 ~displaymessage(^dm_default);

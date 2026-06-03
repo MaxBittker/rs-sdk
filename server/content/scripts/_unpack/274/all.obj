@@ -1087,6 +1087,8 @@ model=obj_3363
 2dxan=220
 weight=2kg
 // category=category_4
+param=grindable_ingredient_refined,blamish_snail_slime
+param=grindable_ingredient_message,You grind the blamish snail up into a slimy pulp.
 
 [snail_corpse2]
 name=Lean snail
@@ -1110,6 +1112,8 @@ model=obj_3363
 2dxan=220
 weight=2kg
 // category=category_4
+param=grindable_ingredient_refined,blamish_snail_slime
+param=grindable_ingredient_message,You grind the blamish snail up into a slimy pulp.
 
 [snail_corpse3]
 name=Fat snail
@@ -1133,6 +1137,8 @@ model=obj_3363
 2dxan=220
 weight=2kg
 // category=category_4
+param=grindable_ingredient_refined,blamish_snail_slime
+param=grindable_ingredient_message,You grind the blamish snail up into a slimy pulp.
 
 [snail_corpse_cooked1]
 name=Thin snail meat

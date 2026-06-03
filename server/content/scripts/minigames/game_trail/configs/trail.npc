@@ -34,10 +34,12 @@ defence=24
 magic=80
 param=magicdefence,3
 param=damagetype,^crush_style
-timer=20
 param=attack_sound,null
 param=defend_sound,null
 param=death_sound,null
+timer=20
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2954
 
 [trail_hard2]
 name=Saradomin Wizard
@@ -79,7 +81,9 @@ param=magicdefence,30
 param=damagetype,^stab_style
 param=attack_anim,human_ddagger_lunge
 param=defend_anim,human_ddagger_block
-timer=20
 param=attack_sound,null
 param=defend_sound,null
 param=death_sound,null
+timer=20
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2955

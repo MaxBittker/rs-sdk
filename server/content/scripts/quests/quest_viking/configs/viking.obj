@@ -388,7 +388,7 @@ womanwear=obj_3711_manwear,0
 members=yes
 weight=20kg
 tradeable=no
-respawnrate=1
+respawnrate=2
 
 [viking_low_alcahol_beerkeg]
 name=Low alcohol keg

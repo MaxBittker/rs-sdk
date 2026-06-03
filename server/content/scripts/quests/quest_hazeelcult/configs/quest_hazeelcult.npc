@@ -125,7 +125,6 @@ model8=model_447_obj_wear
 model9=model_412_npc
 head1=model_103_idk_head
 head2=model_128_npc_head
-param=death_sound,female_death
 
 [butler_jones_hazeel_cultist]
 vislevel=hide
@@ -228,6 +227,7 @@ model8=model_328_npc
 model9=model_239_obj_wear
 head1=model_64_npc_head
 head2=model_71_obj_wear
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
@@ -270,8 +270,8 @@ defence=4
 param=stabdefence,5
 param=slashdefence,6
 param=crushdefence,8
-param=attack_anim,human_stafforb_pummel
-param=defend_anim,human_stafforb_block
+param=attack_anim,human_staff_pummel
+param=defend_anim,human_staff_block
 param=attack_sound,staff_hit
 // The npc in question is no longer killable after the release of the Secrets of the North quest.
 // sounds are guess and The animations are taken from the video.

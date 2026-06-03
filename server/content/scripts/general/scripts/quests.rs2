@@ -22,6 +22,7 @@ if ($random < 32) {       // The least common music that plays when completing a
 } else {                 // The most common music that plays when completing a quest.
     ~music_jingle("quest complete 1");
 }
+~update_questpoints;
 // Send Quest Scroll
 switch_component ($component) {
     case questlist:itgronigen ://Obveratory: Updates QP before quest scroll is queued & uses custom quest scroll
@@ -39,7 +40,6 @@ switch_component ($component) {
         if_setobject(questscroll:com_4, $obj, $objscale);
         if_openmain(questscroll);
     case default ://All other quests
-        ~update_questpoints;
         if_settext(questscroll:com_3, $questmessage);
         if_settext(questscroll:com_9, tostring($questpoints));
         if_settext(questscroll:com_10, "Quest points.");
@@ -245,6 +245,9 @@ if (%viking = ^viking_complete) {
 }
 if (%horrorquest = ^horror_complete) {
     $questpoints = add($questpoints, ^horror_questpoints); 
+}
+if (%eadgar_quest = ^eadgar_complete) {
+    $questpoints = add($questpoints, ^eadgar_questpoints); 
 }
 return ($questpoints);
 

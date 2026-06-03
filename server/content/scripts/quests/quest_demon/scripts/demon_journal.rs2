@@ -3,22 +3,22 @@ def_string $text;
 
 // https://github.com/Indio3/quest-journals/tree/master/quest_demon & Manpaint's OSRS sources used
 if(%demonstart = ^demon_not_started) {
-    $text = "@dbl@I can start this quest by speaking to the @dre@Gypsy@dbl@ in the @dre@tent|@dbl@in @dre@Varrock's main square||@dbl@I must be able to defeat an apocalyptic demon!";
+    $text = "@dbl@I can start this quest by speaking to the @dre@Gypsy@dbl@ in the @dre@tent|@dbl@in @dre@Varrock's main square||I must be able to defeat an apocalyptic demon!";
 } else if(%demonstart = ^demon_talked_aris) {
     $text = "@str@I spoke to the Gypsy in Varrock Square who saw my future.|@str@Unfortunately it involved killing a demon who nearly|@str@destroyed Varrock over 150 years ago.||";
-    $text = append($text, "@dbl@To defeat the @dre@demon@dbl@ I need the magical sword of @dre@Silverlight@dbl@.|@dbl@I should ask @dre@Sir Prysin@dbl@ in @dre@Varrock Palace@dbl@ where it is.");
+    $text = append($text, "@dbl@To defeat the @dre@demon@dbl@ I need the magical sword of @dre@Silverlight@dbl@.|I should ask @dre@Sir Prysin@dbl@ in @dre@Varrock Palace@dbl@ where it is.");
 } else if(%demonstart = ^demon_key_hunt | (%demonstart >= ^demon_find_bones & %demonstart <= ^demon_got_traiborn_key)) {
     $text = "@str@I spoke to the Gypsy in Varrock Square who saw my future.|@str@Unfortunately it involved killing a demon who nearly|@str@destroyed Varrock over 150 years ago.||";
 
     if(inv_total(inv, silverlight_key_3) >= 1 & inv_total(inv, silverlight_key_2) >= 1 & inv_total(inv, silverlight_key_1) >= 1) {
-        $text = append($text, "@dbl@To defeat the @dre@demon@dbl@ I need the magical sword of @dre@Silverlight@dbl@.|@dbl@Now I have @dre@all 3 keys@dbl@ I should go and speak to @dre@Sir|@dre@Prysin@dbl@ and @dbl@collect the magical sword @dre@Silverlight@dbl@ from him.||");
+        $text = append($text, "@dbl@To defeat the @dre@demon@dbl@ I need the magical sword of @dre@Silverlight@dbl@.|Now I have @dre@all 3 keys@dbl@ I should go and speak to @dre@Sir|Prysin@dbl@ and @dbl@collect the magical sword @dre@Silverlight@dbl@ from him.||");
     } else {
         $text = append($text, "@dbl@To defeat the @dre@demon@dbl@ I need the magical sword of @dre@Silverlight@dbl@.|@dre@Sir Prysin@dbl@ needs @dre@3 keys@dbl@ before he can give me @dre@Silverlight@dbl@.||");
 
         if(inv_total(inv, silverlight_key_3) > 0) {
             $text = append($text, "@str@I have the 1st Key with me.|");
         } else {
-            $text = append($text, "@dbl@The @dre@1st Key@dbl@ was dropped down the @dre@palace kitchen drains@dbl@.|@dbl@Maybe some water can dislodge it.|");
+            $text = append($text, "@dbl@The @dre@1st Key@dbl@ was dropped down the @dre@palace kitchen drains@dbl@.|Maybe some water can dislodge it.|");
             // Could do with a source here - Does it say 'I washed the key down the drain...' as Manpaint's source shows, or is that an OSRS addition?
             // There's no varp constant to track it, so omitted - can be added later if needed.
         }
@@ -32,16 +32,16 @@ if(%demonstart = ^demon_not_started) {
         if(inv_total(inv, silverlight_key_1) > 0) {
             $text = append($text, "@str@I have the 3rd Key with me.|");
         } else {
-            $text = append($text, "@dbl@The @dre@3rd Key@dbl@ is with Wizard Traiborn at the Wizards' Tower,|@dbl@south of Draynor Village.|");
+            $text = append($text, "@dbl@The @dre@3rd Key@dbl@ is with Wizard Traiborn at the Wizards' Tower,|south of Draynor Village.|");
             /*
              * Could do with a 2004 source here - Does it say 'Traiborn needs # more bones.' as Manpaint's source shows, or is that an OSRS addition?
              * Can be added later if needed.
              */
             /*} else if (inv_total(bank, silverlight_key_1) > 0) {
-                $text = append($text, "@dbl@The @dre@3rd Key@dbl@ is with Wizard Traiborn at the Wizards' Tower,|@dbl@south of Draynor Village.|");
+                $text = append($text, "@dbl@The @dre@3rd Key@dbl@ is with Wizard Traiborn at the Wizards' Tower,|south of Draynor Village.|");
             } else {
                 def_int $bones_needed = sub(^demon_got_traiborn_key, %demonstart);
-                $text = append($text, "@dbl@The @dre@3rd Key@dbl@ is with Wizard Traiborn at the Wizards' Tower,|@dbl@south of Draynor Village.|@dre@Traiborn@dbl@ needs @dre@<tostring($bones_needed)>@dbl@ more @dre@bones@dbl@.");
+                $text = append($text, "@dbl@The @dre@3rd Key@dbl@ is with Wizard Traiborn at the Wizards' Tower,|south of Draynor Village.|@dre@Traiborn@dbl@ needs @dre@<tostring($bones_needed)>@dbl@ more @dre@bones@dbl@.");
             */
         }
     }
@@ -50,7 +50,7 @@ if(%demonstart = ^demon_not_started) {
     $text = "@str@I spoke to the Gypsy in Varrock Square who saw my future.|@str@Unfortunately it involved killing a demon who nearly|@str@destroyed Varrock over 150 years ago.|";
     $text = append($text, "@str@I reclaimed the magical sword Silverlight from Sir Prysin.||");
 
-    $text = append($text, "@dbl@Now I should go to the stone circle south of the city and|@dbl@destroy @dre@Delrith@dbl@ using @dre@Silverlight@dbl@!");
+    $text = append($text, "@dbl@Now I should go to the stone circle south of the city and|destroy @dre@Delrith@dbl@ using @dre@Silverlight@dbl@!");
         
 } else {
     $text = "@str@I spoke to the Gypsy in Varrock Square who saw my future.|@str@Unfortunately it involved killing a demon who nearly|@str@destroyed Varrock over 150 years ago.||@str@I reclaimed the magical sword Silverlight from Sir Prysin.|@str@Using its power I managed to destroy the demon Delrith|@str@like the great hero Wally did many years before.||@red@QUEST COMPLETE!";

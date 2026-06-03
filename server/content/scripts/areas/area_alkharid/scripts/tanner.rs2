@@ -51,7 +51,7 @@ if(npc_type = werewolftanner) {
     if_settext(tanner:com_96, "\\n\\n\\n\\n\\n\\nSoft leather: 2 gp");
     if_settext(tanner:com_101, "\\n\\n\\n\\n\\n\\nHard leather: 5 gp");
 } else {
-    %temp = ^true;
+    %temp = ^false;
     if_settext(tanner:com_91, "Dragonhides: All 20 gp per hide");
     if_settext(tanner:com_96, "\\n\\n\\n\\n\\n\\nSoft leather: 1 gp");
     if_settext(tanner:com_101, "\\n\\n\\n\\n\\n\\nHard leather: 3 gp");

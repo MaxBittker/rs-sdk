@@ -1,0 +1,9 @@
+[skill_guide_skill]
+type=stat
+scope=temp
+protect=no
+
+[skill_guide_pages]
+type=int
+scope=temp
+protect=no

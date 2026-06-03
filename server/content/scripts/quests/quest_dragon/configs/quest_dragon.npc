@@ -161,13 +161,13 @@ param=damagetype,^slash_style
 param=attack_anim,skeleton_attack
 param=defend_anim,skeleton_block
 param=death_anim,skeleton_death
-param=attack_sound,skeleton_attack
+param=attack_sound,stabsword_slash
 param=defend_sound,skelly_hit
 param=death_sound,skeleton_death
 param=undead,^true
 huntmode=cowardly
 huntrange=1
-// stats and information taken from a normal 25lv skeleton // Vislvl match 1:1
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3972 (22lv)
 
 [dragonslayer_zombie]
@@ -204,7 +204,7 @@ param=undead,^true
 huntmode=cowardly
 huntrange=1
 // https://web.archive.org/web/20051105211000/http://www.tip.it/runescape/index.php?rs2monster_id=151
-// stats taken zombie_entranan // Vislvl match 1:1
+// stats taken zombie_entranan (25lv) // Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3980 (24lv)
 
 [dragonslayer_demon]

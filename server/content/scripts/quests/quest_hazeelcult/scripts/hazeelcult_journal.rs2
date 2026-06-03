@@ -2,8 +2,7 @@
 def_string $x;
 
 if (%hazeelcultquest = ^hazeelcult_not_started) {
-    $x = append($x, "@dbl@I can start this quest by talking to @dre@Sir Ceril Carnillean@dbl@ at|");
-    $x = append($x, "@dbl@the house due @dre@West@dbl@ of @dre@Ardougne Zoo");
+    $x = append($x, "@dbl@I can start this quest by talking to @dre@Sir Ceril Carnillean@dbl@ at the house due @dre@West@dbl@ of @dre@Ardougne Zoo");
     ~quest_journal("Hazeel Cult", $x);
     return;
 }
@@ -21,9 +20,8 @@ if (%hazeelcultquest = ^hazeelcult_started) {
 $x = append($x, "|@str@I found a member of the cult called Clivet at the entrance|");
 $x = append($x, "@str@to the cult's hideout, south of Ardougne.|");
 if (%hazeelcultquest = ^hazeelcult_spoken_clivet) {
-    $x = append($x, "@dbl@He told me a pack of lies about the Carnilleans, then asked|");
-    $x = append($x, "@dbl@me to join the cult. Obviously, I refused.|");
-    $x = append($x, "@dbl@I was still no closer to recovering the @dre@missing armour");
+    $x = append($x, "@dbl@He told me a pack of lies about the Carnilleans, then asked me to join the cult. Obviously, I refused.|");
+    $x = append($x, "I was still no closer to recovering the @dre@missing armour");
     ~quest_journal("Hazeel Cult", $x);
     return;
 }
@@ -31,10 +29,7 @@ if (%hazeelcultquest = ^hazeelcult_spoken_clivet) {
 // %hazeelcultquest >= ^hazeelcult_clivet_decision
 if (%hazeelcult_side = ^hazeelcult_evilside) {//rs3 line breaks
     if (%hazeelcultquest = ^hazeelcult_clivet_decision) {
-        $x = append($x, "@dre@Clivet@dbl@ told me the truth about the @dre@Carnilleans@dbl@,|");
-        $x = append($x, "@dbl@and I decided I would help them in their|");
-        $x = append($x, "@dbl@revenge. He gave me some @dre@poison@dbl@ to put into|");
-        $x = append($x, "@dbl@the @dre@family's food");
+        $x = append($x, "@dre@Clivet@dbl@ told me the truth about the @dre@Carnilleans@dbl@, and I decided I would help them in their revenge. He gave me some @dre@poison@dbl@ to put into the @dre@family's food");
         ~quest_journal("Hazeel Cult", $x);
         return;
     }
@@ -46,8 +41,7 @@ if (%hazeelcult_side = ^hazeelcult_evilside) {//rs3 line breaks
         if (inv_total(inv, mark_of_hazeel) >= 1 | inv_total(bank, mark_of_hazeel) >= 1 | inv_total(worn, mark_of_hazeel) >= 1) {
             $x = append($x, "@str@I spoke to Clivet and he told me that I had failed, but he|");
             $x = append($x, "@str@gave me an amulet anyway.|");
-            $x = append($x, "@dbl@By turning the @dre@sewer valves@dbl@ in the directions shown by the|");
-            $x = append($x, "@dre@amulet@dbl@, I can take the @dre@sewer raft@dbl@ to the hideout");
+            $x = append($x, "@dbl@By turning the @dre@sewer valves@dbl@ in the directions shown by the @dre@amulet@dbl@, I can take the @dre@sewer raft@dbl@ to the hideout");
         } else {
             $x = append($x, "@dbl@I should report back to @dre@Clivet@dbl@.");
         }
@@ -59,8 +53,7 @@ if (%hazeelcult_side = ^hazeelcult_evilside) {//rs3 line breaks
     $x = append($x, "@str@gave me an amulet anyway.|");
     $x = append($x, "@str@Then I managed to take the sewer rafts to the cult hideout.|");
     if (%hazeelcultquest =  ^hazeelcult_finished_side_task) {
-        $x = append($x, "@dre@Alomone@dbl@ told me to find a @dre@spell scroll@dbl@ that is hidden|");
-        $x = append($x, "@dbl@somewhere within the @dre@Carnillean household");
+        $x = append($x, "@dre@Alomone@dbl@ told me to find a @dre@spell scroll@dbl@ that is hidden somewhere within the @dre@Carnillean household|");
         ~quest_journal("Hazeel Cult", $x);
         return;
     }
@@ -68,9 +61,7 @@ if (%hazeelcult_side = ^hazeelcult_evilside) {//rs3 line breaks
     $x = append($x, "@str@I found the scroll needed to revive Hazeel in a secret|");
     $x = append($x, "@str@compartment upstairs at the Carnillean Mansion.|");
     if (%hazeelcultquest = ^hazeelcult_given_armour_or_scroll) {
-        $x = append($x, "@dbl@I should take the scroll to @dre@Alomone@dbl@ so they can|");
-        $x = append($x, "@dbl@perform the ceremony to revive @dre@Hazeel@dbl@ and get my|");
-        $x = append($x, "@dre@reward.");
+        $x = append($x, "@dbl@I should take the scroll to @dre@Alomone@dbl@ so they can perform the ceremony to revive @dre@Hazeel@dbl@ and get my @dre@reward.");
         ~quest_journal("Hazeel Cult", $x);
         return;
     }
@@ -85,8 +76,7 @@ if (%hazeelcult_side = ^hazeelcult_evilside) {//rs3 line breaks
         $x = append($x, "@str@He told me a pack of lies about the Carnilleans, then asked|");
         $x = append($x, "@str@me to join the cult. Obviously, I refused.|");
         $x = append($x, "@str@I was still no closer to recovering the missing armour|");
-        $x = append($x, "@dbl@After speaking to him, he jumped onto a @dre@raft@dbl@ and headed|");
-        $x = append($x, "@dbl@into the @dre@sewer system@dbl@. I need to find a way to follow.");
+        $x = append($x, "@dbl@After speaking to him, he jumped onto a @dre@raft@dbl@ and headed into the @dre@sewer system@dbl@. I need to find a way to follow.");
         ~quest_journal("Hazeel Cult", $x);
         return;
     }
@@ -106,8 +96,7 @@ if (%hazeelcult_side = ^hazeelcult_evilside) {//rs3 line breaks
     $x = append($x, "@str@I returned the armour, but Ceril didn't believe Jones was|");
     $x = append($x, "@str@involved with the cult and was responsible for the theft.|");
     if (%hazeelcultquest = ^hazeelcult_given_armour_or_scroll) {
-        $x = append($x, "@dbl@I have to find some @dre@evidence@dbl@ linking @dre@Butler Jones@dbl@ to the|");
-        $x = append($x, "@dre@Cult@dbl@ so that I can @dre@clear my name@dbl@ and claim my @dre@reward");
+        $x = append($x, "@dbl@I have to find some @dre@evidence@dbl@ linking @dre@Butler Jones@dbl@ to the @dre@Cult@dbl@ so that I can @dre@clear my name@dbl@ and claim my @dre@reward");
         ~quest_journal("Hazeel Cult", $x);
         return;
     }

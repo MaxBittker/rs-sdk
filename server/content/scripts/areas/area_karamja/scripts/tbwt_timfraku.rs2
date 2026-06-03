@@ -273,7 +273,7 @@ inv_add(inv, coins, 2000);
 @tbwt_timfraku_complete_quest;
 
 [label,tbwt_timfraku_complete_quest]
-queue(twbt_quest_complete, 0, 0);
+queue(tbwt_quest_complete, 0, 0);
 
 [queue,tbwt_timfraku_talk_to_sons]
 if(npc_find(coord, tbwt_timfraku, 10, 0) = true) {

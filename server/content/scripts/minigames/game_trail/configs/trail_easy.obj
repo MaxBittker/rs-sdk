@@ -637,6 +637,10 @@ category=trail_clue_easy
 param=trail_desc,Search the drawers found upstairs|in East Ardougne's houses.
 tradeable=no
 
+// TODO: Change coord ~Nov 05 & Change text ~Dec 05 ?
+// See: https://runescape.wiki/w/RuneScape:Longest_unfixed_errors
+// param=trail_desc,A crate found in the|tower of a church is|your next location.
+// param=trail_coord,1_40_51_52_40
 [trail_clue_easy_vague004]
 name=Clue scroll
 desc=A clue!
@@ -650,8 +654,8 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_easy
-param=trail_desc,A crate found in the|tower of a church is|your next location.
-param=trail_coord,1_40_51_52_40
+param=trail_desc,The crate in the ground|floor of a church is|your next location.
+param=trail_coord,0_40_51_49_40
 param=trail_loc,^true
 tradeable=no
 
@@ -722,7 +726,7 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_easy
-param=trail_desc,Search the drawers in|the ground floor of a|shop in Yanille.
+param=trail_desc,Search the drawers in|the ground floor of a|house in Yanille.
 param=trail_coord,0_40_48_10_13
 param=trail_loc,^true
 tradeable=no
@@ -828,8 +832,8 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_easy
-param=trail_desc,Search the drawers downstairs|of houses in the eastern|part of Falador.
-param=trail_coord,0_47_52_31_14
+param=trail_desc,Search the drawers upstairs|of houses in the eastern|part of Falador.
+param=trail_coord,1_47_52_27_19
 param=trail_loc,^true
 tradeable=no
 
@@ -900,8 +904,8 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_easy
-param=trail_desc,Search the boxes in one|of the tents in Al Kharid.
-param=trail_coord,0_51_50_44_6
+param=trail_desc,Search the crates|in Draynor Manor.
+param=trail_coord,2_48_52_34_41
 param=trail_loc,^true
 tradeable=no
 
@@ -918,8 +922,8 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_easy
-param=trail_desc,Search the crates|in Draynor Manor.
-param=trail_coord,2_48_52_34_41
+param=trail_desc,Search the tents in the|Imperial Guard camp in|Burthorpe for some boxes.
+param=trail_coord,0_45_55_5_20
 param=trail_loc,^true
 tradeable=no
 
@@ -936,8 +940,8 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_easy
-param=trail_desc,Search the crates|in Draynor Manor.
-param=trail_coord,2_48_52_34_41
+param=trail_desc,Search the crate near|a cart in Port Khazard.
+param=trail_coord,0_41_49_36_13
 param=trail_loc,^true
 tradeable=no
 
@@ -1008,7 +1012,7 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_easy
-param=trail_desc,Search upstairs in the|houses of Seers' Village|for some drawers.
+param=trail_desc,Search the upstairs of|houses in Seers' Village|for some drawers.
 param=trail_coord,1_42_54_28_16
 param=trail_loc,^true
 tradeable=no

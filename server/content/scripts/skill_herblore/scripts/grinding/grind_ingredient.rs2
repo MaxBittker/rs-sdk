@@ -11,6 +11,15 @@ if(last_useitem = vial_water | last_useitem = guamjangervial) { // this only wor
 }
 ~attempt_grind_ingredient(last_useslot, last_slot);
 
+[opheldu,snail_corpse1]
+~attempt_grind_snail(last_useslot, last_slot);
+
+[opheldu,snail_corpse2]
+~attempt_grind_snail(last_useslot, last_slot);
+
+[opheldu,snail_corpse3]
+~attempt_grind_snail(last_useslot, last_slot);
+
 [proc,attempt_grind_ingredient](int $use_slot, int $last_slot)
 def_obj $used_on = inv_getobj(inv, $last_slot);
 def_obj $used_with = inv_getobj(inv, $use_slot);
@@ -33,3 +42,44 @@ if (map_members = ^false) {
 
 def_string $message = oc_param($used_on, grindable_ingredient_message);
 ~grind_ingredient($used_on, $refined, $message, $last_slot);
+
+// Because grinding snails are a little different with a 3rd item(bottle), messaging and sound.
+// https://youtu.be/qfrMSnLa04w
+[proc,attempt_grind_snail](int $use_slot, int $last_slot)
+def_obj $used_on = inv_getobj(inv, $last_slot);
+def_obj $used_with = inv_getobj(inv, $use_slot);
+
+if ($used_with ! pestle_and_mortar) {
+    ~displaymessage(^dm_default);
+    return;
+}
+
+def_namedobj $refined = oc_param($used_on, grindable_ingredient_refined);
+if ($refined = null) {
+    ~displaymessage(^dm_default);
+    return;
+}
+
+if (map_members = ^false) {
+    mes(^mes_members_herblore);
+    return;
+}
+
+ // Note this is different.
+if (inv_total(inv, empty_dye_bottle) = 0) {
+    ~objbox(empty_dye_bottle, "You need an empty sample bottle to place the slime in.", 250, 0, ^objbox_height);
+    return; 
+} else {
+    inv_del(inv, empty_dye_bottle , 1);
+}
+
+def_string $message = oc_param($used_on, grindable_ingredient_message);
+~grind_snail($used_on, $refined, $message, $last_slot);
+
+/** Grind a snail. */
+[proc,grind_snail](obj $grindable, namedobj $refined, string $message, int $slot)
+inv_del(inv, $grindable, 1);
+inv_add(inv, $refined, 1);
+mes($message);
+anim(human_herbing_grind, 0);
+sound_synth(grind_snail, 0, 0); // Note this is different.

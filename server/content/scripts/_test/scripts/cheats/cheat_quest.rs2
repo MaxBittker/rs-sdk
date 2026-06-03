@@ -159,7 +159,25 @@ if (p_finduid(uid) = true) {
                 case 50 : queue(waterfall_quest_complete, 0, 0);
                 case 51 : queue(ball_quest_complete, 0, 0);
                 case 52 : queue(elemental_workshop_quest_complete, 0, 0);
-                case 53 : queue(priestperil_complete, 0, 0);
+                case 53 : queue(druidspirit_quest_complete, 0, 0);
+                case 54 :
+                    queue(priestperil_complete, 0, 0); 
+                    %priestperil = ^priestperil_access_holy_barrier;
+                case 55 : queue(death_quest_complete, 0, 0);
+                case 56 : queue(troll_quest_complete, 0, 0);
+                case 57 : queue(tbwt_quest_complete, 0, 0);
+                case 58 : queue(quest_regicide_complete, 0, 0);
+                case 59 : queue(eadgar_quest_complete, 0, 0);
+                case 60 : queue(mortton_quest_complete, 0, 0);
+                case 61 : queue(viking_quest_complete, 0, 0);
+                case 62 :
+                    stat_advance(magic, 46620);
+                    stat_advance(strength, 46620);
+                    stat_advance(ranged, 46620);
+                    inv_add(inv, horror_casket, 1);
+                    %horrorquest = ^horror_complete;
+                    session_log(^log_adventure, "Quest complete: Horror from the Deep");
+                    ~send_quest_complete(questlist:horror, horror_casket, 225, ^horror_questpoints, "You have survived the\\nHorror From The Deep!");
                 case default : mes("Quest not found.");
             }
         } else if ($choice3 = 1) {
@@ -269,7 +287,41 @@ if (p_finduid(uid) = true) {
                     %waterfall_quest = 0;
                 case 51 : %ballquest = 0;
                 case 52 : %elemental_workshop_bits = 0;
-                case 53 : %priestperil = 0;
+                case 53 : 
+                    %druidspirit = 0; 
+                    %druidspirit_bits = null;
+                case 54 :
+                    %priestperil = 0;
+                    %priestperil_mausoleum = null;
+                case 55 :
+                    %death_equiproom = 0;
+                    %death_map = 0;
+                    %death_bits = null;
+                case 56 :
+                    %troll_quest = 0;
+                    %troll_varbit = null;
+                case 57 :
+                    %tbwt_main = 0;
+                    %tbwt_tiadeche = 0;
+                    %tbwt_tinsay = 0;
+                    %tbwt_tamayu = 0;
+                    %tbwt_lubufu = 0;
+                    %tbwt_bits = null;
+                case 58 :
+                    %regicide_quest = 0;
+                    %regicide_bits = null;
+                case 59 :
+                    %eadgar_quest = 0;
+                    %eadgar_bits = null;
+                    %eadgar_grain = 0;
+                    %eadgar_chickens = 0;
+                case 60 :
+                    %morttonquest = 0;
+                    %morttonmulti = null;
+                case 61 :
+                    %viking = 0;
+                    %viking_bits = 0;
+                case 62 : %deephorror = 0;
                 case default : mes("Quest not found.");
             }
             ~update_questlist;
@@ -373,7 +425,23 @@ if ($arrav_choice = 0) {
     %blackarmgang = 0;
 }
 queue(elemental_workshop_quest_complete, 0, 0);
+queue(druidspirit_quest_complete, 0, 0);
 queue(priestperil_complete, 0, 0);
+    %priestperil = ^priestperil_access_holy_barrier;
+queue(death_quest_complete, 0, 0);
+queue(troll_quest_complete, 0, 0);
+queue(tbwt_quest_complete, 0, 0);
+queue(quest_regicide_complete, 0, 0);
+queue(eadgar_quest_complete, 0, 0);
+queue(mortton_quest_complete, 0, 0);
+queue(viking_quest_complete, 0, 0);
+    stat_advance(magic, 46620);
+    stat_advance(strength, 46620);
+    stat_advance(ranged, 46620);
+    inv_add(inv, horror_casket, 1);
+    %horrorquest = ^horror_complete;
+    session_log(^log_adventure, "Quest complete: Horror from the Deep");
+    ~send_quest_complete(questlist:horror, horror_casket, 225, ^horror_questpoints, "You have survived the\\nHorror From The Deep!");
 
 ~update_questlist;
 mes("All quests have been completed.");
@@ -469,6 +537,32 @@ return;
 %ballquest = 0;
 %elemental_workshop_bits = 0;
 %priestperil = 0;
+%priestperil_mausoleum = null;
+%druidspirit = 0; 
+%druidspirit_bits = null;
+%priestperil = 0;
+%death_equiproom = 0;
+%death_map = 0;
+%death_bits = null;
+%troll_quest = 0;
+%troll_varbit = null;
+%tbwt_main = 0;
+%tbwt_tiadeche = 0;
+%tbwt_tinsay = 0;
+%tbwt_tamayu = 0;
+%tbwt_lubufu = 0;
+%tbwt_bits = null;
+%regicide_quest = 0;
+%regicide_bits = null;
+%eadgar_quest = 0;
+%eadgar_bits = null;
+%eadgar_grain = 0;
+%eadgar_chickens = 0;
+%morttonquest = 0;
+%morttonmulti = null;
+%viking = 0;
+%viking_bits = 0;
+%deephorror = 0;
 ~update_questlist;
 mes("All quests have been reset.");
 return;

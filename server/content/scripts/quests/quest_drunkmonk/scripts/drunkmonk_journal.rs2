@@ -10,7 +10,7 @@ switch_int(%drunkmonkquest) {
 
     // https://i.imgur.com/L0hYkHX.png
     case ^drunkmonk_spoken_to_omad :
-        $text = "@dre@Brother Omad@dbl@ asked me to recover a @dre@child's blanket@dbl@.|@dbl@I need to find a @dre@secret cave@dbl@ that is hidden under a @dre@ring of";
+        $text = "@dre@Brother Omad@dbl@ asked me to recover a @dre@child's blanket@dbl@.|I need to find a @dre@secret cave@dbl@ that is hidden under a @dre@ring of";
         $text = append($text, "|@dre@stones@dbl@ in the @dre@forest@dbl@ south of @dre@Ardougne");
 
     // https://i.imgur.com/ShYzNLZ.png
@@ -39,7 +39,7 @@ switch_int(%drunkmonkquest) {
     case ^drunkmonk_fixed_cart :
         $text = "@str@Brother Omad asked me to recover a child's blanket.|@str@I found the secret cave and gave back the blanket.||";
         $text = append($text, "@str@I found Brother Cedric in the forest south of Ardougne. I|@str@sobered him up and I helped him fix his cart.|");
-        $text = append($text, "@dre@Brother Cedric@dbl@ said that I should tell @dre@Brother Omad@dbl@ that|@dbl@he is on the way.");
+        $text = append($text, "@dre@Brother Cedric@dbl@ said that I should tell @dre@Brother Omad@dbl@ that|he is on the way.");
 
     // https://i.imgur.com/ZqW3usU.png
     case ^drunkmonk_complete :

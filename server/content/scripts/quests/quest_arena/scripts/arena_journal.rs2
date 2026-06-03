@@ -4,7 +4,7 @@ def_string $text;
 // https://github.com/Indio3/quest-journals/tree/master/quest_arena
 switch_int(%arenaquest) {
     case ^arena_not_started : // https://raw.githubusercontent.com/Indio3/quest-journals/refs/heads/master/quest_arena/2009-02-09-VC8v40lWlv4-1.PNG
-        $text = "@dbl@I can start this quest by speaking to @dre@Lady Servil@dbl@ just|@dre@North-West@dbl@ of the @dre@Khazard Port.||";
+        $text = "@dbl@I can start this quest by speaking to @dre@Lady Servil@dbl@ just|North-West@dbl@ of the @dre@Khazard Port.||";
         $text = append($text, "@dbl@I must be able to defeat a @dre@level 137@dbl@ enemy@dbl@.");
     case ^arena_started :
         $text = "@str@I encountered a distraught Lady Servil who said that her|@str@son and husband have been kidnapped by the evil General|";
@@ -14,7 +14,7 @@ switch_int(%arenaquest) {
         $text = "@str@I encountered a distraught Lady Servil who said that her|@str@son and husband have been kidnapped by the evil General|";
         $text = append($text, "@str@Khazard, and are being forced to fight in his Fight Arena.||");
         $text = append($text, "@str@I headed to the Arena to try and find Lady Servil's son and|@str@husband, but the guards wouldn't let me into the building.||");
-        $text = append($text, "@dbl@Luckily I found some @dre@Khazard armour@dbl@ in a chest in a|@dbl@building on the north-east edge of the town.");
+        $text = append($text, "@dbl@Luckily I found some @dre@Khazard armour@dbl@ in a chest in a|building on the north-east edge of the town.");
     case ^arena_spoken_drunkguard :
         $text = "@str@I encountered a distraught Lady Servil who said that her|@str@son and husband have been kidnapped by the evil General|";
         $text = append($text, "@str@Khazard, and are being forced to fight in his Fight Arena.||");
@@ -29,7 +29,7 @@ switch_int(%arenaquest) {
         $text = append($text, "@str@Luckily I found some Khazard armour in a chest in a|@str@building on the north-east edge of the town. I used it to|");
         $text = append($text, "@str@disguise myself as a guard so I could look around.||");
         $text = append($text, "@str@After plying one of the guards with some Khali Brew I was|@str@able to steal his keys.||");
-        $text = append($text, "@dbl@Now I've got the keys I should try to rescue @dre@Lady Servil's|@dre@family@dbl@.");
+        $text = append($text, "@dbl@Now I've got the keys I should try to rescue @dre@Lady Servil's|family@dbl@.");
     case ^arena_entered_ogre_fight :
         $text = "@str@I encountered a distraught Lady Servil who said that her|@str@son and husband have been kidnapped by the evil General|";
         $text = append($text, "@str@Khazard, and are being forced to fight in his Fight Arena.||");
@@ -69,7 +69,7 @@ switch_int(%arenaquest) {
         $text = append($text, "@str@Jeremy told me that his father had been taken to fight in|@str@the Fight Arena. We went to the arena to save him.||");
         $text = append($text, "@str@I had to fight a large Ogre to stop it killing Sir Servil. When|@str@I'd defeated it, General Khazard had me locked up.||");
         $text = append($text, "@str@I was led to the Fight Arena and forced to fight a collossal|@str@Scorpion.||");
-        $text = append($text, "@dbl@After I'd defeated the Scorpion, @dre@General Khazard@dbl@ ordered|@dbl@me to fight his pet, @dre@Bouncer@dbl@.");
+        $text = append($text, "@dbl@After I'd defeated the Scorpion, @dre@General Khazard@dbl@ ordered|me to fight his pet, @dre@Bouncer@dbl@.");
     case ^arena_defeated_bouncer :
         $text = "@str@I encountered a distraught Lady Servil who said that her|@str@son and husband have been kidnapped by the evil General|";
         $text = append($text, "@str@Khazard, and are being forced to fight in his Fight Arena.||");
@@ -81,7 +81,7 @@ switch_int(%arenaquest) {
         $text = append($text, "@str@I had to fight a large Ogre to stop it killing Sir Servil. When|@str@I'd defeated it, General Khazard had me locked up.||");
         $text = append($text, "@str@I was led to the Fight Arena and forced to fight a collossal|@str@Scorpion.||");
         $text = append($text, "@str@I defeated a giant Scorpion and a monstrous dog in the|@str@Fight Arena.||");
-        $text = append($text, "@dre@General Khazard@dbl@ agreed to release the @dre@Servils@dbl@, but he|@dbl@wants to kill me himself! I can stay to fight him, or I can run|");
+        $text = append($text, "@dre@General Khazard@dbl@ agreed to release the @dre@Servils@dbl@, but he|wants to kill me himself! I can stay to fight him, or I can run|");
         $text = append($text, "@dbl@away.");
     case ^arena_freed_servils :
         $text = "@str@I encountered a distraught Lady Servil who said that her|@str@son and husband have been kidnapped by the evil General|";
@@ -94,7 +94,7 @@ switch_int(%arenaquest) {
         $text = append($text, "@str@I had to fight a large Ogre to stop it killing Sir Servil. When|@str@I'd defeated it, General Khazard had me locked up.||");
         $text = append($text, "@str@I was led to the Fight Arena and forced to fight a collossal|@str@Scorpion.||");
         $text = append($text, "@str@I defeated a giant Scorpion and a monstrous dog in the|@str@Fight Arena.||");
-        $text = append($text, "@dre@General Khazard@dbl@ agreed to release the Servils. He|@dbl@challenged me to fight him, but I ran away.|");
+        $text = append($text, "@dre@General Khazard@dbl@ agreed to release the Servils. He|challenged me to fight him, but I ran away.|");
         $text = append($text, "@dbl@I should go and tell @dre@Lady Servil@dbl@ the good news.");
     case ^arena_defeated_genkhazard :
         $text = "@str@I encountered a distraught Lady Servil who said that her|@str@son and husband have been kidnapped by the evil General|";

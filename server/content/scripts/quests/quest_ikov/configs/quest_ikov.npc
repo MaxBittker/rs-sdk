@@ -127,7 +127,7 @@ param=defend_anim,human_sword_def
 param=attack_sound,stabsword_slash
 param=defend_sound,steel2
 category=guardian_of_armadyl
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3445
 
 [ikov_guardianfemale]
@@ -182,7 +182,7 @@ param=attack_sound,stabsword_slash
 param=defend_sound,steel2
 category=guardian_of_armadyl
 // this npc havent female_death sound...
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3446
 
 [ikov_winelda]
@@ -215,7 +215,6 @@ model8=model_454_obj_wear
 model9=model_534_obj_wear
 head1=model_115_idk_head
 head2=model_102_obj_wear
-param=death_sound,female_death
 
 [ikov_firewarrior]
 name=Fire Warrior of Lesarkus
@@ -267,5 +266,5 @@ param=defend_anim,null
 param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3448

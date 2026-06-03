@@ -106,13 +106,13 @@ param=attack_anim,troll_attack
 param=defend_anim,troll_block
 param=death_anim,troll_death
 param=attack_sound,2H_crush
-param=defend_sound,troll_hit
+param=defend_sound,stone_armour3
 param=defend_sound,troll_death
 param=death_drop,big_bones
 category=troll_general
 huntmode=cowardly
 huntrange=1
-// osrs defend sound stone_armour3
+// osrs stats and Vislvl match 1:1
 
 [troll_general2]
 name=Troll General
@@ -161,13 +161,12 @@ param=attack_anim,troll_attack
 param=defend_anim,troll_block
 param=death_anim,troll_death
 param=attack_sound,warhammer_crush
-param=defend_sound,troll_hit
+param=defend_sound,stone_armour3
 param=defend_sound,troll_death
 param=death_drop,big_bones
 category=troll_general
 huntmode=cowardly
 huntrange=1
-// osrs defend sound stone_armour3
 // osrs stats and Vislvl match 1:1
 
 [troll_general3]
@@ -217,13 +216,12 @@ param=attack_anim,troll_attack
 param=defend_anim,troll_block
 param=death_anim,troll_death
 param=attack_sound,mace_crush
-param=defend_sound,troll_hit
+param=defend_sound,stone_armour3
 param=defend_sound,troll_death
 param=death_drop,big_bones
 category=troll_general
 huntmode=cowardly
 huntrange=1
-// osrs defend sound stone_armour3
 // osrs stats and Vislvl match 1:1
 
 [troll_spectator1]

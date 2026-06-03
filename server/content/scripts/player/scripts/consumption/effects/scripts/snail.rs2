@@ -1,0 +1,18 @@
+[label,consume_effect_snail1] @consume_snail(5, 7);
+[label,consume_effect_snail2] @consume_snail(5, 8);
+[label,consume_effect_snail3] @consume_snail(7, 9);
+
+// OSRS
+// TODO: Change this to "slimy" Jul 5th 2005 (rev 320+)
+[label,consume_snail](int $low, int $high)
+def_obj $snail = last_item;
+mes("You eat the cooked snail - ummm, slimey!");
+sound_synth(eat, 0, 0);
+anim(human_eat, 0);
+inv_delslot(inv, last_slot);
+def_int $hitpoints = stat(hitpoints);
+def_int $heal = ~random_range($low, $high);
+if ($hitpoints < stat_base(hitpoints)) {
+    stat_heal(hitpoints, $heal, 0);
+    mes("It heals some health.");
+}

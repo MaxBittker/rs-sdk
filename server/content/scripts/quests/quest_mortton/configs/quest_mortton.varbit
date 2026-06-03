@@ -1,0 +1,9 @@
+[pyre_loc]
+basevar=morttonmulti
+startbit=9
+endbit=13
+
+[temple_resources]
+basevar=morttonmulti
+startbit=14
+endbit=27

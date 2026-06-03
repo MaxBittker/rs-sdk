@@ -17,6 +17,11 @@ param=damagetype,^crush_style
 param=attack_anim,horror_crab_attack
 param=defend_anim,horror_crab_defend
 param=death_anim,horror_crab_hide
+param=attack_sound,insect_attack
+param=defend_sound,insect_hit
+param=death_sound,insect_death
+// osrs sounds rock_crab_attack, rock_crab_hit, rock_crab_death
+// Sounds are guesses.
 
 [horror_rockcrab_inactive]
 name=Rocks
@@ -28,15 +33,21 @@ walkanim=horror_crab_walk
 readyanim=horror_crab_hide_ready
 minimap=no
 wanderrange=0
+maxrange=9
 respawnrate=100
 hitpoints=50
 param=death_drop,null
 param=attack_anim,horror_crab_attack
 param=defend_anim,horror_crab_defend
 param=death_anim,horror_crab_hide
+param=attack_sound,insect_attack
+param=defend_sound,insect_hit
+param=death_sound,insect_death
 huntrange=1
 attackrange=1
 huntmode=aggressive_ranged
+// osrs sounds rock_crab_attack, rock_crab_hit, rock_crab_death
+// Sounds are guesses.
 
 [horror_rockcrab_small]
 name=Rock Crab
@@ -59,6 +70,11 @@ param=damagetype,^crush_style
 param=attack_anim,horror_crab_attack
 param=defend_anim,horror_crab_defend
 param=death_anim,horror_crab_hide
+param=attack_sound,insect_attack
+param=defend_sound,insect_hit
+param=death_sound,insect_death
+// osrs sounds rock_crab_attack, rock_crab_hit, rock_crab_death
+// Sounds are guesses.
 
 [horror_rockcrab_small_inactive]
 name=Rocks
@@ -72,12 +88,18 @@ resizeh=84
 resizev=84
 minimap=no
 wanderrange=0
+maxrange=9
 respawnrate=100
 hitpoints=50
 param=death_drop,null
 param=attack_anim,horror_crab_attack
 param=defend_anim,horror_crab_defend
 param=death_anim,horror_crab_hide
+param=attack_sound,insect_attack
+param=defend_sound,insect_hit
+param=death_sound,insect_death
 huntrange=1
 attackrange=1
 huntmode=aggressive_ranged
+// osrs sounds rock_crab_attack, rock_crab_hit, rock_crab_death
+// sounds are guesses.

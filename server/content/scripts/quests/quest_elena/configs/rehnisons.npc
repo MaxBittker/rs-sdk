@@ -41,7 +41,6 @@ model5=model_353_idk
 model6=model_438_idk
 head1=model_103_idk_head
 moverestrict=indoors
-param=death_sound,female_death
 
 [billy_rehnison]
 vislevel=hide
@@ -82,4 +81,3 @@ model3=model_2918_npc
 head1=model_118_idk_head
 moverestrict=indoors
 param=death_anim,midget_death
-param=death_sound,female_death

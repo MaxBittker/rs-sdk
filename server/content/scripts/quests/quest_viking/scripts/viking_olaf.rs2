@@ -60,6 +60,19 @@ if(%viking = ^viking_not_started) {
             ~chatplayer("<p,happy>Sure! This certainly sounds pretty easy to accomplish - I'll have your vote in no time!");
             ~chatnpc("<p,happy>That is great news outerlander! We always need more music lovers here!");
     }
+} else if(%viking = ^viking_complete) {
+    ~chatnpc("<p,quiz>Hello again to you <~get_viking_name>. Us bards should stick together, what?");
+    switch_int(~p_choice2("I was wondering...", 1, "I forget now...", 2)) { // options from rs3
+        case 1 : // osrs grammar here, rs3 looks to be fixed
+            ~chatplayer("<p,quiz>I was wondering... Can I learn to play my lyre again?");
+            ~chatnpc("<p,neutral>Well, that is an interesting question. Let me let you into a little secret. If you make another offering to Fossegrimen you will learn a secret melody.");
+            ~chatplayer("<p,quiz>What kind of melody?");
+            ~chatnpc("<p,neutral>It is the song of Rellekka. When you play it, it will bring you back to this town wherever you are in this world.");
+            ~chatnpc("<p,neutral>We often go adventuring with bards for precisely this reason; No matter where we have ended up we can return safe and sound to home.");
+            ~chatplayer("<p,happy>Thanks Olaf!");
+        case 2 :
+            ~chatplayer("<p,confused>I forget now...");
+    }
 }
 
 [label,viking_olaf_merchant]
@@ -459,7 +472,7 @@ mes("You feel the musical ability from the Fossegrimen leave you...");
 %viking_bits = clearbit(%viking_bits, ^viking_rock_stew);
 ~set_viking_olaf_progress(^olaf_complete);
 def_int $totalinv = inv_total(inv, viking_enchanted_strung_lyre);
-def_int $totalbank = inv_total(inv, viking_enchanted_strung_lyre);
+def_int $totalbank = inv_total(bank, viking_enchanted_strung_lyre);
 if($totalinv > 0) {
     inv_del(inv, viking_enchanted_strung_lyre, $totalinv);
     inv_add(inv, viking_strung_lyre, $totalinv);

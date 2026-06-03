@@ -181,9 +181,9 @@ param=damagetype,^crush_style
 param=attack_anim,rabbit_attack
 param=defend_anim,rabbit_block
 param=death_anim,rabbit_death
-// param=attack_sound,rabbit_attack
-// param=defend_sound,rabbit_hit
-// param=death_sound,rabbit_death
+param=attack_sound,rabbit_attack
+param=defend_sound,rabbit_hit
+param=death_sound,rabbit_death
 
 [regicide_bunny1]
 name=Rabbit
@@ -213,9 +213,9 @@ param=damagetype,^crush_style
 param=attack_anim,rabbit_attack
 param=defend_anim,rabbit_block
 param=death_anim,rabbit_death
-// param=attack_sound,rabbit_attack
-// param=defend_sound,rabbit_hit
-// param=death_sound,rabbit_death
+param=attack_sound,rabbit_attack
+param=defend_sound,rabbit_hit
+param=death_sound,rabbit_death
 
 [regicide_bunny2]
 name=Rabbit
@@ -245,9 +245,9 @@ param=damagetype,^crush_style
 param=attack_anim,rabbit_attack
 param=defend_anim,rabbit_block
 param=death_anim,rabbit_death
-// param=attack_sound,rabbit_attack
-// param=defend_sound,rabbit_hit
-// param=death_sound,rabbit_death
+param=attack_sound,rabbit_attack
+param=defend_sound,rabbit_hit
+param=death_sound,rabbit_death
 
 [regicide_darkbear]
 name=Grizzly bear
@@ -445,9 +445,8 @@ param=damagetype,^stab_style
 param=attack_anim,human_staff_pummel
 param=defend_anim,human_spear_block
 param=attack_sound,scythe_slash
+param=defend_sound,big_bar_mail
 category=tyras_guard
-// param=defend_sound, TODO
-// osrs sounds big_bar_mail, scythe_slash
 // old attack anim https://www.youtube.com/watch?v=zhzVchpmscU
 // osrs attack anim seq_440,,, Old attack anim is seq_414 or seq_419
 
@@ -529,9 +528,8 @@ param=damagetype,^stab_style
 param=attack_anim,human_spear_spike
 param=defend_anim,human_spear_block
 param=attack_sound,scythe_slash
+param=defend_sound,big_bar_mail
 category=tyras_guard
-// param=defend_sound, TODO
-// osrs defend sound big_bar_mail
 // old attack anim https://www.youtube.com/watch?v=zhzVchpmscU
 // osrs attack anim seq_440
 
@@ -582,9 +580,8 @@ param=rangedefence,79
 param=attack_anim,human_spear_spike
 param=defend_anim,human_spear_block
 param=attack_sound,scythe_slash
+param=defend_sound,big_bar_mail
 category=tyras_guard
-// param=defend_sound, TODO
-// osrs defend sound big_bar_mail
 // osrs attack anim seq_440
 
 [regicide_tyras_lazy_guard]

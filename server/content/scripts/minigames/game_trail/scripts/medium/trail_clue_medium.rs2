@@ -175,7 +175,7 @@ if(inv_total(inv, trail_clue_medium_riddle008) > 0) {
         anim(human_openchest, 0);
         sound_synth(cupboard_open, 0, 0);
         p_delay(0);
-        loc_change(drawers1open_inactive, 5);
+        loc_change(drawers2open_inactive, 5);
         p_delay(0);
         inv_del(inv, trail_clue_medium_riddle008_key, 1);
         ~progress_clue_medium(trail_clue_medium_riddle008, "You've found another clue scroll!");

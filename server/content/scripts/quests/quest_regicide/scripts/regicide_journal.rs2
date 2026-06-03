@@ -6,8 +6,7 @@ if (%regicide_quest = ^regicide_not_started) {
         ~quest_journal("Regicide", $text);
         return;
     }
-    $text  = append($text, "@dbl@I can start this quest by speaking to @dre@King Lathas@dbl@ in|");
-    $text = append($text, "@dre@Ardougne Castle@dbl@.||");
+    $text  = append($text, "@dbl@I can start this quest by speaking to @dre@King Lathas@dbl@ in @dre@Ardougne Castle@dbl@.||");
     $text = append($text, "@dbl@This quest has the following requirements:|");
     if (%upass >= ^upass_complete) {
         $text = append($text, "@str@Underground Pass|");
@@ -39,61 +38,61 @@ if (%regicide_quest = ^regicide_complete) {
 if(%regicide_quest > ^regicide_received_message) {
     $text  = append($text, "@str@A courier has given me a message. I have been sent for|@str@ by King Lathas. I must go to his castle in Ardougne.||");
 } else if(%regicide_quest = ^regicide_received_message) {
-    $text  = append($text, "@dbl@A courier has given me a message. I have been sent for|@dbl@ by @dre@King Lathas@dbl@. I must go to his castle in @dre@Ardougne@dbl@.||");
+    $text  = append($text, "@dbl@A courier has given me a message. I have been sent for by @dre@King Lathas@dbl@. I must go to his castle in @dre@Ardougne@dbl@.||");
 }
 
 if(%regicide_quest > ^regicide_spoken_lathas) {
     $text = append($text, "@str@King Lathas has asked me to re-enter the underground @str@pass. Now that the Well of Voyage is repaired I'm to go @str@to the realm beyond. Once there I must @str@assassinate his @str@brother@str@. I'm told that a group of @str@elves@str@ there will assist me.||");
 } else if(%regicide_quest = ^regicide_spoken_lathas) {
-    $text = append($text, "@dbl@King Lathas has asked me to re-enter the underground @dbl@pass. Now that the @dre@Well of Voyage@dbl@ is repaired I'm to go @dbl@to the realm beyond. Once there I must @dre@assassinate his @dre@brother@dbl@. I'm told that a group of @dre@elves@dbl@ there will assist me.||");
+    $text = append($text, "@dbl@King Lathas has asked me to re-enter the underground pass. Now that the @dre@Well of Voyage@dbl@ is repaired I'm to go to the realm beyond. Once there I must @dre@assassinate his brother@dbl@. I'm told that a group of @dre@elves@dbl@ there will assist me.||");
 }
 
 if(%regicide_quest > ^regicide_spoken_scouts) {
     $text = append($text, "@str@I have met a elvish scout party, who said I should go see @str@Lord Iorwerth@str@. He can be found at his camp in the north @str@west of the woodland.||");
 } else if(%regicide_quest = ^regicide_spoken_scouts) {
-    $text = append($text, "@dbl@I have met a elvish scout party, who said I should go see @dre@Lord Iorwerth@dbl@. He can be found at his camp in the north @dbl@west of the woodland.||");
+    $text = append($text, "@dbl@I have met a elvish scout party, who said I should go see @dre@Lord Iorwerth@dbl@. He can be found at his camp in the north west of the woodland.||");
 }
 
 if(%regicide_quest > ^regicide_spoken_iorwerth) {
     $text = append($text, "@str@Lord Iorwerth has offered the help of one of his @str@trackers@str@, @str@who I'm to meet with at a camp Tyras recently @str@abandoned. The @str@abandoned camp@str@ is to the south east. Lord @str@Iorwerth asked that I tell him of my findings.||");
 } else if(%regicide_quest = ^regicide_spoken_iorwerth) {
-    $text = append($text, "@dbl@Lord Iorwerth has offered the help of one of his @dre@trackers@dbl@, @dbl@who I'm to meet with at a camp Tyras recently @dbl@abandoned. The @dre@abandoned camp@dbl@ is to the south east. Lord @dbl@Iorwerth asked that I tell him of my findings.||");
+    $text = append($text, "@dbl@Lord Iorwerth has offered the help of one of his @dre@trackers@dbl@, who I'm to meet with at a camp Tyras recently abandoned. The @dre@abandoned camp@dbl@ is to the south east. Lord Iorwerth asked that I tell him of my findings.||");
 }
 
 if(%regicide_quest > ^regicide_shown_pendant) {
     $text = append($text, "@str@After proving that I was not a bandit the tracker has @str@offered his help. He has told me to @str@search@str@ the @str@west side@str@ of @str@the camp for any trace of Tyras's men.||");
 } else if(%regicide_quest = ^regicide_shown_pendant) {
-    $text = append($text, "@dbl@After proving that I was not a bandit the tracker has @dbl@offered his help. He has told me to @dre@search@dbl@ the @dre@west side@dbl@ of @dbl@the camp for any trace of Tyras's men.||");
+    $text = append($text, "@dbl@After proving that I was not a bandit the tracker has offered his help. He has told me to @dre@search@dbl@ the @dre@west side@dbl@ of the camp for any trace of Tyras's men.||");
 } else if(%regicide_quest = ^regicide_spoken_tracker) {
     if(~obj_gettotal(regicide_crystal_pendant) > 0) {
-        $text = append($text, "@dbl@Lord Iorwerth has given me his pendant as proof that I @dbl@am not the intruder that the @dre@tracker@dbl@ believes me to be.||");
+        $text = append($text, "@dbl@Lord Iorwerth has given me his pendant as proof that I am not the intruder that the @dre@tracker@dbl@ believes me to be.||");
     } else {
-        $text = append($text, "@dbl@The tracker didn't trust me and asked for some @dre@proof@dbl@ that @dbl@I had been sent by @dre@Lord Iorwerth@dbl@.||");
+        $text = append($text, "@dbl@The tracker didn't trust me and asked for some @dre@proof@dbl@ that I had been sent by @dre@Lord Iorwerth@dbl@.||");
     }
 }
 
 if(%regicide_quest > ^regicide_found_footprints) {
     $text = append($text, "@str@I have found some tracks leading off into the @str@undergrowth @str@but I am unable to follow them.||");
 } else if(%regicide_quest = ^regicide_found_footprints) {
-    $text = append($text, "@dbl@I have found some tracks leading off into the @dre@undergrowth @dbl@but I am unable to follow them.||");
+    $text = append($text, "@dbl@I have found some tracks leading off into the @dre@undergrowth@dbl@ but I am unable to follow them.||");
 }
 
 if(%regicide_quest > ^regicide_spoken_tracker2) {
     $text = append($text, "@str@I asked the tracker about the tracks, he told me of signs to @str@look for and how to @str@pass@str@ the @str@dense woodland@str@.||");
 } else if(%regicide_quest = ^regicide_spoken_tracker2) {
-    $text = append($text, "@dbl@I asked the tracker about the tracks, he told me of signs to @dbl@look for and how to @dre@pass@dbl@ the @dre@dense woodland@dbl@.||");
+    $text = append($text, "@dbl@I asked the tracker about the tracks, he told me of signs to look for and how to @dre@pass@dbl@ the @dre@dense woodland@dbl@.||");
 }
 
 if(%regicide_quest > ^regicide_defeated_guard) {
     $text = append($text, "@str@Pushing my way through the undergrowth I encountered @str@a soldier, one of King Tyras's men I guess.||");
 } else if(%regicide_quest = ^regicide_defeated_guard) {
-    $text = append($text, "@dbl@Pushing my way through the undergrowth I encountered @dbl@a soldier, one of King Tyras's men I guess.||");
+    $text = append($text, "@dbl@Pushing my way through the undergrowth I encountered a soldier, one of King Tyras's men I guess.||");
 }
 
 if(%regicide_quest > ^regicide_entered_camp) {
     $text = append($text, "@str@I have found the camp of King Tyras hidden in the woods @str@The king is in his tent and is well guarded. I should go @str@and tell @str@Lord Iorwerth@str@ what I've found out.||");
 } else if(%regicide_quest = ^regicide_entered_camp) {
-    $text = append($text, "@dbl@I have found the camp of King Tyras hidden in the woods @dbl@The king is in his tent and is well guarded. I should go @dbl@and tell @dre@Lord Iorwerth@dbl@ what I've found out.||");
+    $text = append($text, "@dbl@I have found the camp of King Tyras hidden in the woods The king is in his tent and is well guarded. I should go and tell @dre@Lord Iorwerth@dbl@ what I've found out.||");
 }
 
 if(%regicide_quest > ^regicide_spoken_iorwerth2) {
@@ -102,30 +101,30 @@ if(%regicide_quest > ^regicide_spoken_iorwerth2) {
 } else if(%regicide_quest = ^regicide_spoken_iorwerth2) {
     if(~obj_gettotal(regicide_barrel_lid_fused) > 0) {
         $text = append($text, "@str@Lord Iorwerth@str@ has given me a @str@book@str@. It may be of help. The @str@book talks of things that go bang.||");
-        $text = append($text, "@dbl@The bomb was quite hard to make but I have it now. Now @dbl@I just need a way to give Tyras my gift.||");
+        $text = append($text, "@dbl@The bomb was quite hard to make but I have it now. Now I just need a way to give Tyras my gift.||");
     } else if(testbit(%regicide_bits, ^regicide_chemist_chat) = ^true) {
         $text = append($text, "@str@Lord Iorwerth@str@ has given me a @str@book@str@. It may be of help. The @str@book talks of things that go bang but I don't know about @str@this... I need to talk to a chemist.||");
-        $text = append($text, "@dbl@The chemist read the book and told me I need to make|@dbl@Naphta, Quicklime and Brimstone. The Chemist can remind|@dbl@me how to make these things.||");
+        $text = append($text, "@dbl@The chemist read the book and told me I need to make Naphta, Quicklime and Brimstone. The Chemist can remind me how to make these things.||");
     } else {
-        $text = append($text, "@dre@Lord Iorwerth@dbl@ has given me a @dre@book@dbl@. It may be of help. @dbl@The book talks of things that go bang but I don't know @dbl@about this... I need to talk to a @dre@chemist@dbl@.||");
+        $text = append($text, "@dre@Lord Iorwerth@dbl@ has given me a @dre@book@dbl@. It may be of help. The book talks of things that go bang but I don't know about this... I need to talk to a @dre@chemist@dbl@.||");
     }
 }
 
 if(%regicide_quest > ^regicide_killed_tyras) {
     $text = append($text, "@str@The catapult provided a great way to deliver my gift to King Tyras @str@and no one is any the wiser it was me. I should tell @str@Lord Iorwerth@str@ then return to King Lathas.||");
 } else if(%regicide_quest = ^regicide_killed_tyras) {
-    $text = append($text, "@dbl@The catapult provided a great way to deliver my gift to King Tyras @dbl@and no one is any the wiser it was me. I should tell @dre@Lord Iorwerth@dbl@ then return to King Lathas.||");
+    $text = append($text, "@dbl@The catapult provided a great way to deliver my gift to King Tyras and no one is any the wiser it was me. I should tell @dre@Lord Iorwerth@dbl@ then return to King Lathas.||");
 }
 
 if(%regicide_quest > ^regicide_reported_iorwerth) {
     $text = append($text, "@str@Lord Iorwerth has given me a @str@message@str@ to carry to @str@King @str@Lathas@str@. He also mentioned a pass over the mountains.|");
 } else if(%regicide_quest = ^regicide_reported_iorwerth) {
-    $text = append($text, "@dbl@Lord Iorwerth has given me a @dre@message@dbl@ to carry to @dre@King @dre@Lathas@dbl@. He also mentioned a pass over the mountains.|");
+    $text = append($text, "@dbl@Lord Iorwerth has given me a @dre@message@dbl@ to carry to @dre@King Lathas@dbl@. He also mentioned a pass over the mountains.|");
 }
 
 if(%regicide_quest > ^regicide_spoken_arianwyn) {
     $text = append($text, "@str@Lord Iorwerth has given me a @str@message@str@ to carry to @str@King @str@Lathas@str@. He also mentioned a pass over the mountains.||");
 } else if(%regicide_quest = ^regicide_spoken_arianwyn) {
-    $text = append($text, "@dbl@When returning home I met an elf who showed me the @dbl@truth of who's side I really was on. I'm sure I'll be seeing @dbl@him again.||");
+    $text = append($text, "@dbl@When returning home I met an elf who showed me the truth of who's side I really was on. I'm sure I'll be seeing him again.||");
 }
 ~quest_journal("Regicide", $text);

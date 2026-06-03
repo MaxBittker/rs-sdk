@@ -5,14 +5,22 @@
 
 // a default melee retaliate script.
 [proc,npc_default_retaliate]
-if (finduid(%npc_aggressive_player) = false | ~npc_retal_ready = false) {
+if (finduid(%npc_aggressive_player) = false) {
     return;
 }
-%npc_action_delay = add(map_clock, divide(npc_param(attackrate), 2)); // flinch
-%npc_attacking_uid = %npc_aggressive_player;
+
 if (npc_stat(hitpoints) <= npc_param(retreat)) {
     npc_setmode(playerescape);
-} else {
+}
+
+if (~npc_retal_ready = false) {
+    return;
+}
+
+%npc_action_delay = add(map_clock, divide(npc_param(attackrate), 2)); // flinch
+%npc_attacking_uid = %npc_aggressive_player;
+
+if (npc_stat(hitpoints) > npc_param(retreat)) {
     npc_setmode(opplayer2);
     if (npc_inrange = false) {
         npc_setmode(playerescape);
@@ -21,15 +29,23 @@ if (npc_stat(hitpoints) <= npc_param(retreat)) {
 
 // mostly used for ranged and magic npc's
 [proc,npc_default_retaliate_ap]
-if (finduid(%npc_aggressive_player) = false | ~npc_retal_ready = false) {
+if (finduid(%npc_aggressive_player) = false) {
     return;
 }
-%npc_action_delay = add(map_clock, divide(npc_param(attackrate), 2));
-%npc_attacking_uid = %npc_aggressive_player;
+
 // default to ap
 if (npc_stat(hitpoints) <= npc_param(retreat)) {
     npc_setmode(playerescape);
-} else {
+}
+
+if (~npc_retal_ready = false) {
+    return;
+}
+
+%npc_action_delay = add(map_clock, divide(npc_param(attackrate), 2));
+%npc_attacking_uid = %npc_aggressive_player;
+
+if (npc_stat(hitpoints) > npc_param(retreat)) {
     npc_setmode(applayer2);
     if (npc_inrange = false) {
         npc_setmode(playerescape);
@@ -290,7 +306,7 @@ return (false);
 
 
 [proc,npc_retal_ready]()(boolean)
-if ((add(%npc_action_delay, 8) < map_clock) | (npc_getmode ! applayer2 & npc_getmode ! opplayer2 & npc_getmode ! playerescape)) {
+if ((add(%npc_action_delay, 8) < map_clock) | (npc_getmode ! applayer2 & npc_getmode ! opplayer2)) {
     return (true);
 }
 return (false);

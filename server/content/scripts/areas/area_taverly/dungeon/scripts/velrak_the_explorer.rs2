@@ -10,7 +10,7 @@ if($option = 1) {
     ~chatplayer("<p,quiz>So... do you know anywhere good to explore?");
     ~chatnpc("<p,sad>Well, this dungeon was quite good to explore|...until I got captured, anyway.|I was given a key to an inner part of this dungeon|by a mysterious cloaked stranger!");
     ~chatnpc("<p,sad>It's rather tough for me to get that far into the dungeon however... I just keep getting captured!|Would you like to give it a go?");
-    $option = ~p_choice2("Yes please!", 1, "Do I get a reward?", 2);
+    $option = ~p_choice2("Yes please!", 1, "No, it's too dangerous for me too.", 2);
     if($option = 1) {
         ~chatplayer("<p,happy>Yes please!");
         inv_add(inv, dusty_key, 1);

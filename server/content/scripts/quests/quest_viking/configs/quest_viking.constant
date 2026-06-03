@@ -1,6 +1,5 @@
 ^viking_not_started = 0
 ^viking_started = 1
-^viking_complete = 10
 
 ^viking_firecracker_placed = 0
 ^viking_spoken_poisonsalesman = 1

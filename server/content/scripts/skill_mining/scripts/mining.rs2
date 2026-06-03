@@ -131,7 +131,7 @@ if (random($chance) = ^true) {
     def_int $respawn = ~scale_by_playercount(db_getfield($data, mining_table:rock_respawnrate, 0));
     // Temp note: dur does not need updated
     loc_change(loc_param(next_loc_stage_mining), $respawn);
-    sound_synth(sound_230, 0, 0); // Sudden says its sound_230
+    sound_synth(mine, 0, 0); // Sudden says its mine
     anim(null, 0);
     // The 'perfect' gold rocks in Family Crest are the same ID as regular gold rocks, so check to 
     // give out the right ore if we're in that location. Only gold rocks are in this room.
@@ -174,7 +174,7 @@ if (random($chance) = ^true) {
     def_int $respawn = ~scale_by_playercount(db_getfield($data, mining_table:rock_respawnrate, 0));
     // Temp note: dur does not need updated
     loc_change(loc_param(next_loc_stage_mining), $respawn);
-    sound_synth(sound_230, 0, 0); // Sudden says its sound_230
+    sound_synth(mine, 0, 0); // Sudden says its mine
     anim(null, 0);
     inv_add(inv, db_getfield($data, mining_table:rock_output, 0), 1);
     stat_advance(mining, db_getfield($data, mining_table:rock_exp, 0));

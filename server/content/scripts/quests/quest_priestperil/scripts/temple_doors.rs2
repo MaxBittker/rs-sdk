@@ -21,7 +21,7 @@ if ($entering = true) {
 def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
 if ($entering = true) {
     if (%priestperil = ^priestperil_started) {
-        ~mesbox("You knock at the door...You hear a voice from inside. @dbl@Who are you|@dbl@and what do you want?");
+        ~mesbox("You knock at the door...You hear a voice from inside. @dbl@Who are you|and what do you want?");
         ~chatplayer("<p,quiz>Ummmm.....");
         @multi4("Roald sent me to check on Drezel.", templedoors_drezel, 
                 "Hi, I just moved in next door...", templedoors_moved_in, 
@@ -32,15 +32,15 @@ if ($entering = true) {
         
         if (%priestperil = ^priestperil_agree_to_kill_dog) {
             ~chatplayer("<p,quiz>What am I supposed to be doing again?");
-            ~mesbox("@dbl@Ah! I want you to go kill the horrible dog in the mausoleum for me!|@dbl@You can use the entrance out there. You'll do this for good old|@dbl@Delzig, won't ya buddy? @dre@(Drezel!) @dbl@*cough* for good old Drezel, right|@dbl@buddy?");
+            ~mesbox("@dbl@Ah! I want you to go kill the horrible dog in the mausoleum for me!|You can use the entrance out there. You'll do this for good old|Delzig, won't ya buddy? @dre@(Drezel!) @dbl@*cough* for good old Drezel, right|buddy?");
         } else if (%priestperil = ^priestperil_killed_dog) {
             ~chatplayer("<p,happy>I killed that dog for you.");
-            ~mesbox("@dbl@HAHAHAHAHA! Really? Hey, that's great! @dre@Yeah thanks a lot buddy!|@dre@HAHAHAHAHAHA");
+            ~mesbox("@dbl@HAHAHAHAHA! Really? Hey, that's great! @dre@Yeah thanks a lot buddy!|HAHAHAHAHAHA");
             ~chatplayer("<p,quiz>What's so funny?");
-            ~mesbox("@dbl@HAHAHAHA nothing buddy!|@dbl@We're just so grateful to you! HAHAHA|@dre@Yeah, maybe you should go tell the King|@dre@what a great job you did buddy! HAHAHA"); // https://web.archive.org/web/20070611202228/http://www.runeweb.net:80/index.php?page=rs2-quest-priestinperil
+            ~mesbox("@dbl@HAHAHAHA nothing buddy!|@dbl@We're just so grateful to you! HAHAHA|@dre@Yeah, maybe you should go tell the King|what a great job you did buddy! HAHAHA"); // https://web.archive.org/web/20070611202228/http://www.runeweb.net:80/index.php?page=rs2-quest-priestinperil
         }
     } else {
-        ~mesbox("You knock at the door...You hear a voice from inside. @dbl@Who are you|@dbl@and what do you want?");
+        ~mesbox("You knock at the door...You hear a voice from inside. @dbl@Who are you|and what do you want?");
         ~chatplayer("<p,quiz>Ummmm.....");
         @multi3("Hi, I just moved in next door...", templedoors_moved_in, 
                 "I hear this place is of historic interest.", templedoors_historic, 
@@ -52,11 +52,11 @@ if ($entering = true) {
 
 [label,templedoors_drezel]
 ~chatplayer("<p,happy>Roald sent me to check on Drezel.");
-~mesbox("@dbl@(Psst... Hey... Who's Roald? Who's Drezel?)@dre@(Uh... isn't Drezel that|@dre@dude upstairs? Oh, wait, Roald's the King of Varrock right?)@dbl@(He is???|@dbl@Aw man... Hey, you deal with this okay?) He's just coming! Wait a|@dbl@second!@dre@Hello, my name is Drevil. @dbl@(Drezel!) @dre@I mean Drezel. How can|@dre@I help?");
+~mesbox("@dbl@(Psst... Hey... Who's Roald? Who's Drezel?)@dre@(Uh... isn't Drezel that|dude upstairs? Oh, wait, Roald's the King of Varrock right?)@dbl@(He is???|Aw man... Hey, you deal with this okay?) He's just coming! Wait a|second!@dre@ Hello, my name is Drevil. @dbl@(Drezel!) @dre@I mean Drezel. How can|I help?");
 ~chatplayer("<p,neutral>Well, as I say, the King sent me to make sure everything's okay with you.");
 ~mesbox("@dre@And, uh, what would you do if everything wasn't okay with me?");
 ~chatplayer("<p,neutral>I'm not sure. Ask you what help you need I suppose.");
-~mesbox("@dre@Ah, good, well, I don't think... @dbl@(Psst... hey... the dog!) @dre@OH! Yes, of|@dre@course! Will you do me a favour adventurer?");
+~mesbox("@dre@Ah, good, well, I don't think... @dbl@(Psst... hey... the dog!) @dre@OH! Yes, of|course! Will you do me a favour adventurer?");
 @multi2("Sure.", templedoors_agree_help, "Nope.", templedoors_nope);
 
 [label,templedoors_moved_in]
@@ -67,20 +67,20 @@ if ($entering = true) {
 [label,templedoors_historic]
 ~chatplayer("<p,happy>I hear this place is of historic interest.");
 ~chatplayer("<p,quiz>Can I come in and have a wander around? Possibly look at some antiques or buy something from your gift shop?");
-~mesbox("@dbl@(Pssst... Hey... Is this place of historic interest?) @dre@(I dunno. I guess it|@dre@might be. Does it matter?) @dbl@(I suppose not.) @dbl@Clear off! You can't come|@dbl@in!");
+~mesbox("@dbl@(Pssst... Hey... Is this place of historic interest?) @dre@(I dunno. I guess it|might be. Does it matter?) @dbl@(I suppose not.) Clear off! You can't come|in!");
 
 [label,templedoors_pipes]
 ~chatplayer("<p,happy>The council sent me to check your pipes.");
-~mesbox("@dbl@They did? Ummm.... (Psst... Are there any pipes in here, you|@dbl@reckon?) @dre@(I dunno... I don't think so...) @dbl@We don't have any thanks!|@dbl@Bye!");
+~mesbox("@dbl@They did? Ummm.... (Psst... Are there any pipes in here, you|reckon?) @dre@(I dunno... I don't think so...) @dbl@We don't have any thanks!|Bye!");
 
 
 [label,templedoors_agree_help]
 ~chatplayer("<p,neutral>Sure. I'm a helpful person!");
 %priestperil = ^priestperil_agree_to_kill_dog;
-~mesbox("@dre@HAHAHAHA! Really? Thanks buddy!|@dre@You see that mausoleum out @dre@there?|@dre@There's a horrible big dog underneath it|@dre@that I'd like you to @dre@kill for me!");
-~mesbox("@dre@It's been really bugging me!|@dre@Barking all the time and stuff!|@dre@Please kill it for me buddy!");
+~mesbox("@dre@HAHAHAHA! Really? Thanks buddy!|You see that mausoleum out there?|There's a horrible big dog underneath it|that I'd like you to kill for me!");
+~mesbox("@dre@It's been really bugging me!|Barking all the time and stuff!|Please kill it for me buddy!");
 ~chatplayer("<p,happy>Okey-dokey, one dead dog coming up.");
 
 [label,templedoors_nope]
 ~chatplayer("<p,neutral>Nope. Something about all this is very suspicious...");
-~mesbox("@dre@Get lost then! I have important things to do, as sure as my name is|@dre@Dibzil. @dbl@(Drezel!)");
+~mesbox("@dre@Get lost then! I have important things to do, as sure as my name is|Dibzil. @dbl@(Drezel!)");

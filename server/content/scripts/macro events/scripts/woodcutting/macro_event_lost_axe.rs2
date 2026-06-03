@@ -34,7 +34,7 @@ if (inv_total(inv, macro_hatchethandle) > 0 & inv_total(inv, $axe_head) > 0) {
     inv_del(inv, macro_hatchethandle, 1);
     inv_del(inv, $axe_head, 1);
     inv_add(inv, $axe, 1);
-    sound_synth(attach_handle, 0, 0);
+    //sound_synth(swordclash3, 0, 0);
     mes("You carefully attach the two pieces together."); // https://youtu.be/tev6FR2iowQ?t=34
 }
 

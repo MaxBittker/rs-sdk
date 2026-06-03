@@ -7,7 +7,7 @@ def_string $text;
 // https://www.youtube.com/watch?v=U3O_aHm3TxU
 // https://www.youtube.com/watch?v=12JjImJ3xXc
 if(%runemysteries = ^runemysteries_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Duke Horacio of|@dre@Lumbridge@dbl@, upstairs in @dre@Lumbridge Castle@dbl@";
+    $text = "@dbl@I can start this quest by speaking to @dre@Duke Horacio of Lumbridge@dbl@, upstairs in @dre@Lumbridge Castle@dbl@";
 
 } else if(%runemysteries = ^runemysteries_started) {
     $text = "@str@I spoke to Duke Horacio and he showed me a strange|@str@talisman that had been found by one of his subjects.|";
@@ -31,7 +31,7 @@ if(%runemysteries = ^runemysteries_not_started) {
     $text = append($text, "@str@I agreed to take it to the Wizards' Tower, South West of|@str@Lumbridge for further examination by the wizards.|");
     $text = append($text, "@str@I gave the Talisman to the Head Wizard of the Tower and|@str@agreed to help him with his research into rune stones.|");
     $text = append($text, "@str@I took the research package to Varrock and delivered it.|");
-    $text = append($text, "@dbl@I should speak to @dre@Aubury@dbl@ again when he has finished|@dbl@examining the @dre@research package@dbl@ I have delivered him.");
+    $text = append($text, "@dbl@I should speak to @dre@Aubury@dbl@ again when he has finished examining the @dre@research package@dbl@ I have delivered him.");
 
 } else if(%runemysteries = ^runemysteries_received_notes) {
     $text = "@str@I spoke to Duke Horacio and he showed me a strange|@str@talisman that had been found by one of his subjects.|";

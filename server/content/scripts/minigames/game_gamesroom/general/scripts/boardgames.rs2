@@ -1,8 +1,6 @@
 // https://www.youtube.com/watch?v=2J9QHQbIj5I Oldest video I found of gameplay (Nov 2006)
-//        https://www.youtube.com/watch?v=js7TproAYSY Skill level bug
-//        Sitting at table & spectate game logic (Noteworthy glitch https://www.youtube.com/watch?v=GxdihzOz03s)
-//        Upstairs high ranked areas
-//        Misc. Doors / ladders / stairs / npcs (bartender)
+// https://www.youtube.com/watch?v=js7TproAYSY Skill level bug
+// https://www.youtube.com/watch?v=GxdihzOz03s Chair bug
 [proc,set_boardgames_timepermove](int $time)
 if (.finduid(%duel2accept) = false) {
     mes("That player is no longer available.");
@@ -258,16 +256,16 @@ if (%boardgames_myturn = 0) {
 }
 
 [proc,boardgames_table_setup]
-def_int $current_table = ~find_next_boardgames_table;
+def_coord $current_table_coord;
+def_int $current_table;
 
-if($current_table = -1) {
+$current_table_coord, $current_table = ~find_next_boardgames_table;
+
+if($current_table_coord = null) {
     //There's probably a mes for this? Guess
     mes("All tables are currently full!");
     return;
 }
-
-def_int $quadrant = divide($current_table, 16);
-def_int $local_table = modulo($current_table, 16);
 
 if(loc_find(~get_boardgames_table_coord($current_table), boardgames_table) = false) {
     return;
@@ -283,31 +281,31 @@ if (.p_finduid(%duel2accept) = false) {
 
 if(loc_shape = centrepiece_straight) {
     if(loc_angle = ^loc_south) {
-    p_teleport(movecoord(loc_coord, -1, 0, 0));
-    .p_teleport(movecoord(loc_coord, 1, 0, 0));
+    p_telejump(movecoord(loc_coord, -1, 0, 0));
+    .p_telejump(movecoord(loc_coord, 1, 0, 0));
     } else if(loc_angle = ^loc_north) {
-    p_teleport(movecoord(loc_coord, 1, 0, 0));
-    .p_teleport(movecoord(loc_coord, -1, 0, 0));
+    p_telejump(movecoord(loc_coord, 1, 0, 0));
+    .p_telejump(movecoord(loc_coord, -1, 0, 0));
     } else if(loc_angle = ^loc_east) {
-    p_teleport(movecoord(loc_coord, 0, 0, -1));
-    .p_teleport(movecoord(loc_coord, 0, 0, 1));
+    p_telejump(movecoord(loc_coord, 0, 0, -1));
+    .p_telejump(movecoord(loc_coord, 0, 0, 1));
     } else {
-    p_teleport(movecoord(loc_coord, 0, 0, 1));
-    .p_teleport(movecoord(loc_coord, 0, 0, -1));
+    p_telejump(movecoord(loc_coord, 0, 0, 1));
+    .p_telejump(movecoord(loc_coord, 0, 0, -1));
     }
 } else {
     if(loc_angle = ^loc_east) {
-        p_teleport(movecoord(loc_coord, -1, 0, -1));
-        .p_teleport(movecoord(loc_coord, 1, 0, 1));
+        p_telejump(movecoord(loc_coord, -1, 0, -1));
+        .p_telejump(movecoord(loc_coord, 1, 0, 1));
     } else if(loc_angle = ^loc_south) {
-        p_teleport(movecoord(loc_coord, -1, 0, 1));
-        .p_teleport(movecoord(loc_coord, 1, 0, -1));
+        p_telejump(movecoord(loc_coord, -1, 0, 1));
+        .p_telejump(movecoord(loc_coord, 1, 0, -1));
     } else if(loc_angle = ^loc_north) {
-        p_teleport(movecoord(loc_coord, 1, 0, -1));
-        .p_teleport(movecoord(loc_coord, -1, 0, 1));
+        p_telejump(movecoord(loc_coord, 1, 0, -1));
+        .p_telejump(movecoord(loc_coord, -1, 0, 1));
     } else {
-        p_teleport(movecoord(loc_coord, 1, 0, 1));
-        .p_teleport(movecoord(loc_coord, -1, 0, -1));
+        p_telejump(movecoord(loc_coord, 1, 0, 1));
+        .p_telejump(movecoord(loc_coord, -1, 0, -1));
     }
 }
 
@@ -328,9 +326,14 @@ anim(human_sittingdown_ready, 0);
 .anim(human_sittingdown_ready, 0);
 
 //Todo: Figure out the exact seating order
-//Figure out how the tables upstairs work.. if you challenge from inside the experienced zone?
-//Challenging upstairs in the general area just teleports you back to table 0 downstairs.
 [proc,get_boardgames_table_coord](int $tablenum)(coord)
+if($tablenum > 47) {
+    return (~get_boardgames_table_coord_upstairs($tablenum));
+} else {
+    return (~get_boardgames_table_coord_downstairs($tablenum));
+}
+
+[proc,get_boardgames_table_coord_downstairs](int $tablenum)(coord)
 def_int $x = 0;
 def_int $z = 0;
 def_int $quadrant = divide($tablenum, 12);
@@ -383,16 +386,55 @@ if($quadrant = 1) {
 
 return (movecoord(0_34_77_0_0, $x, 0, $z));
 
-[proc,find_next_boardgames_table]()(int)
+[proc,get_boardgames_table_coord_upstairs](int $tablenum)(coord)
+$tablenum = sub($tablenum, 48);
+
+def_int $local_table = modulo($tablenum, 12);
+def_int $quadrant = divide($tablenum, 12);
+def_int $x = 0;
+def_int $z = 0;
+
+switch_int ($local_table) {
+    case 0 : $x = 18; $z = 29;
+    case 1 : $x = 19; $z = 19;
+    case 2 : $x = 20; $z = 24;
+    case 3 : $x = 20; $z = 26;
+    case 4 : $x = 20; $z = 29;
+    case 5 : $x = 21; $z = 21;
+    case 6 : $x = 22; $z = 29;
+    case 7 : $x = 24; $z = 20;
+    case 8 : $x = 26; $z = 20;
+    case 9 : $x = 29; $z = 18;
+    case 10 : $x = 29; $z = 20;
+    case 11 : $x = 29; $z = 22;
+}
+
+if ($quadrant = 1) { 
+    $x = sub(63, $x);
+} else if ($quadrant = 2) { 
+    $x = sub(63, $x);
+    $z = sub(63, $z);
+} else if ($quadrant = 3) { 
+    $z = sub(63, $z);
+}
+
+return (movecoord(1_34_77_0_0, $x, 0, $z));
+
+[proc,find_next_boardgames_table]()(coord, int)
 def_int $i = 0;
-while ($i < 48) {
+if(%boardgames_challengeroom = 1) {
+    $i = add($i, 48);
+}
+
+def_int $max = add($i, 48);
+while ($i < $max) {
     def_coord $check_coord = ~get_boardgames_table_coord($i);
     if (loc_find($check_coord, boardgames_table) = true) {
-            return ($i);
+        return ($check_coord, $i);
     }
     $i = add($i, 1);
 }
-return (-1);
+return (null, -1);
 
 [proc,get_boardgames_table]()(loc)
 switch_int (%boardgames_game) {

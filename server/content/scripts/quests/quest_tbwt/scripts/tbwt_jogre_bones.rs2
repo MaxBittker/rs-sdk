@@ -22,30 +22,6 @@ stat_advance(cooking, 250);
 inv_setslot(inv, last_slot, tbwt_burnt_jogre_bones, 1);
 p_delay(1);
 
-[label,light_jogre_bones_ground]
-if (stat(firemaking) < 30) {
-    mes("You need a firemaking level of 30 to burn Jogre bones.");
-    mes("You could find some other way of burning them.");
-    return;
-}
-if (~area_allow_loc_add(obj_coord) = false) {
-    mes("You can't light a fire here.");
-    return;
-}
-// check if they have tinderbox
-if(inv_total(inv, tinderbox) < 1) {
-    mes("You need a tinderbox to light a fire.");
-    return;
-}
-p_stopaction;
-anim(human_createfire, 0);
-sound_synth(tinderbox_strike, 0, 0);
-mes("You attempt to light the Jogre Bones.");
-// no hidden op, i guess it was prob just delayed?
-p_delay(3);
-~push_player(obj_coord);
-~firemaking_jogre_bones_success(obj_coord);
-
 [label,light_jogre_bones_inv](int $slot)
 if (stat(firemaking) < 30) {
     mes("You need a firemaking level of 30 to burn Jogre bones.");
@@ -67,10 +43,27 @@ p_stopaction;
 anim(human_createfire, 0);
 sound_synth(tinderbox_strike, 0, 0);
 mes("You attempt to light the Jogre Bones.");
-// no hidden op, i guess it was prob just delayed?
-p_delay(3);
-~push_player(obj_coord);
-~firemaking_jogre_bones_success(obj_coord);
+walktrigger(clear_jogre_timer);
+settimer(light_jogre_bones, 3);
+
+[walktrigger,clear_jogre_timer]
+if(gettimer(light_jogre_bones) > 0) {
+    cleartimer(light_jogre_bones);
+}
+
+[timer,light_jogre_bones]
+if(obj_find(coord, tbwt_jogre_bones) = true) {
+    if(stat_random(firemaking, 64, 512) = true) { // fm roll
+        cleartimer(light_jogre_bones);
+        ~push_player(obj_coord);
+        ~firemaking_jogre_bones_success(obj_coord);
+    } else { // replay anim + sound on fail
+        anim(human_createfire, 0);
+        sound_synth(tinderbox_strike, 0, 0);
+    }
+    return;
+}
+cleartimer(light_jogre_bones);
 
 [proc,firemaking_jogre_bones_success](coord $fire_coord)
 obj_del;

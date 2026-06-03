@@ -5,6 +5,9 @@ if(loc_type = viking_furnace | loc_type = viking_furnace2) {
         return;
     }
 }
+@use_furnace;
+
+[label,use_furnace]
 switch_obj (last_useitem)
 {
     case gold_bar, perfect_gold_bar : @craft_gold_interface;

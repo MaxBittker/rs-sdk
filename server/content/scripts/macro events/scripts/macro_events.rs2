@@ -57,6 +57,9 @@ if (~inzone_coord_pair_table(trawler_game_zones, $coord) = true | ~inzone_coord_
 if (~in_tutorial_island($coord) = true) {
     return(false);
 }
+if (~inzone_coord_pair_table(games_room_zones, $coord) = true) { // https://runescape.salmoneus.net/forums/topic/244971-no-random-events/ Not sure about '04 - 07' but in '08 they weren't allowed. Were updated to be allowed in 2009.
+    return(false);
+}
 return(true);
 
 [proc,macro_event_allowed]()(boolean)

@@ -33,9 +33,12 @@ param=slashdefence,1
 param=crushdefence,3
 param=damagetype,^crush_style
 param=defend_anim,human_unarmedblock
+param=attack_sound,vampire_attack
+param=defend_sound,vampire_hit
+param=death_sound,vampire_death
 param=combat_xp_multiplier,100
 timer=1
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3481
 
 [harlow]

@@ -4,7 +4,7 @@ if(%regicide_quest > ^regicide_not_started) {
         case ^regicide_complete :
             ~chatplayer("<p,neutral>Good day my lord.");
             ~chatnpc("<p,neutral>Hello <displayname()>. I've got nothing for you right now.");
-        case ^regicide_killed_tyras, ^regicide_spoken_iorwerth2, ^regicide_spoken_arianwyn :
+        case ^regicide_killed_tyras, ^regicide_reported_iorwerth, ^regicide_spoken_arianwyn :
             ~chatplayer("<p,happy>My lord, Tyras is dead!");
             ~chatnpc("<p,happy>This is grand news indeed! You'll forgive me if I'm a little apprehensive about this, but I take it you do have proof?");
             if(inv_total(inv, regicide_iorwerth_message) = 0 | %regicide_quest < ^regicide_spoken_arianwyn) {

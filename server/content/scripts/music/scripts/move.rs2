@@ -436,6 +436,7 @@ settimer(move_ikovtrigger, 1);
 
 [mapzone,0_49_46]
 ~start_desertheat_timer;
+@music_playbyregion(coord);
 
 [mapzone,0_49_47] 
 ~start_desertheat_timer;
@@ -505,6 +506,7 @@ settimer(move_ikovtrigger, 1);
 
 [mapzone,0_50_46]
 ~start_desertheat_timer;
+@music_playbyregion(coord);
 
 [mapzone,0_50_47] 
 ~start_desertheat_timer;

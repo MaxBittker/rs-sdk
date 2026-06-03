@@ -309,7 +309,7 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_medium
-param=trail_desc,In a town where the guards|are armed with maces, search|the upstairs rooms of the|Public House.
+param=trail_desc,In a town where the guards|are armed with maces search|the upstairs rooms of the|Public House.
 tradeable=no
 
 [trail_clue_medium_riddle003]
@@ -1013,7 +1013,7 @@ model=model_3374_obj
 iop1=Read
 weight=20g
 category=trail_clue_medium
-param=trail_coord,0_48_49_37_17
+param=trail_coord,0_45_50_44_9
 param=trail_casket,trail_clue_medium_map007_casket
 tradeable=no
 

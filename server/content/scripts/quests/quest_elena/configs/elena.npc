@@ -22,7 +22,6 @@ model4=model_353_idk
 model5=model_440_npc
 model6=model_445_obj_wear
 head1=model_113_idk_head
-param=death_sound,female_death
 
 [elenap]
 vislevel=hide
@@ -46,4 +45,3 @@ model4=model_353_idk
 model5=model_438_idk
 model6=model_358_idk
 head1=model_113_idk_head
-param=death_sound,female_death

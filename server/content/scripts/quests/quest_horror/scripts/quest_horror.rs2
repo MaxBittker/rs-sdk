@@ -302,7 +302,7 @@ if(coordz(coord) < coordz(loc_coord)) {
 loc_change(inviswall, 3);
 p_teleport(movecoord(loc_coord, 0, 0, -1));
 loc_add(movecoord(loc_coord, 0, 0, -1), horror_far_left_door_inactive, 0, wall_straight, 3);
-sound_synth(sound_752, 0, 0);
+sound_synth(strangedoor_open, 0, 0);
 longqueue(strangedoorsound, 1, 0, ^discard);
 
 [oploc1,horror_far_right_door]
@@ -317,11 +317,11 @@ if(coordz(coord) >= coordz(loc_coord)) {
 loc_change(inviswall, 3);
 p_teleport(loc_coord);
 loc_add(movecoord(loc_coord, 0, 0, -1), horror_far_right_door_inactive, 0, wall_straight, 3);
-sound_synth(sound_752, 0, 0);
+sound_synth(strangedoor_open, 0, 0);
 longqueue(strangedoorsound, 1, 0, ^discard);
 
 [queue,strangedoorsound]
-sound_synth(sound_751, 0, 0);
+sound_synth(strangedoor_close, 0, 0);
 
 [oploc1,horror_mid_left_door] @study_horror_door;
 [oploc1,horror_mid_right_door] @study_horror_door;
@@ -428,7 +428,7 @@ if(oc_category($obj) = arrows) {
 [proc,horror_door_check_complete]
 if(%horrorfire = ^true & %horrorwater = ^true & %horrorearth = ^true & %horrorair = ^true & %horrorsword = ^true & %horrorarrow = ^true) {
     mes("You hear the sound of something moving within the wall.");
-    sound_synth(sound_754, 0, 0);
+    sound_synth(strangedoor_sound, 0, 0);
 }
  
 [label,study_horror_door]

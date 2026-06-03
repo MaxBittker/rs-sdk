@@ -38,11 +38,10 @@ param=damagetype,^slash_style
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,stabsword_stab
-// param=defend_sound, TODO
-// osrs defend_sound blade4
+param=defend_sound,blade4
 huntmode=cowardly
 huntrange=1
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3517
 
 [sir_mordred]
@@ -93,7 +92,7 @@ param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,2H_slash
 param=defend_sound,steel2
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3527
 
 [morgan_le_faye]
@@ -122,4 +121,3 @@ model6=model_358_idk
 model7=model_534_obj_wear
 model8=model_414_npc
 head1=model_113_idk_head
-param=death_sound,female_death

@@ -12,13 +12,15 @@ if(%eadgar_quest = ^eadgar_unlocked_storeroom & inv_total(inv, eadgar_goutweed_h
         } else {
             @multi2("What was I meant to be doing again?", eadgar_sanfew_reminder, "Actually I don't need to speak to you.", sanfew_dont_need);
         }
+    } else {
+        @multi2("What was I meant to be doing again?", eadgar_sanfew_reminder, "Actually I don't need to speak to you.", sanfew_dont_need);
     }
 }
 if(%eadgar_quest = ^eadgar_complete) {
     if(inv_total(inv, eadgar_goutweed_herb) > 0) {
         @multi3("I have some more goutweed for you.", sanfew_goutweed_exchange, "Have you any more work for me, to help reclaim the circle?", sanfew_more_work, "Actually I don't need to speak to you.", sanfew_dont_need);
     } else {
-        @sanfew_postquest;
+        @multi3("Did you say you needed more goutweed?", sanfew_goutweed_exchange, "Have you any more work for me, to help reclaim the circle?", sanfew_more_work, "Actually I don't need to speak to you.", sanfew_dont_need);
     }
 } else if(%druidquest = ^druid_started) {
     @multi2("I've been sent to help purify the Varrock stone circle.", druid_sanfew_information, "Actually I don't need to speak to you.", sanfew_dont_need);
@@ -93,6 +95,10 @@ if(%druidquest > ^druid_spoken_sanfew) { // guess they made a label with the exa
 
 [label,sanfew_more_work]
 ~chatplayer("<p,quiz>Have you any more work for me to help reclaim the stone circle?");
+if(%eadgar_quest = ^eadgar_complete) {
+    ~chatnpc("<p,neutral>Well, not right now I don't think young 'un. In fact, I need to make some more preparations myself for the ritual. Rest assured, if I need any more help I will ask you again.");
+    return;
+}
 if(%death_equiproom = ^death_complete & %troll_quest = ^troll_complete) {
     if(stat_base(herblore) >= 31) {
         // source https://youtu.be/Kt5WcY9qP0g?t=61
@@ -153,12 +159,18 @@ queue(eadgar_quest_complete, 0, 0);
 ~chatnpc("<p,neutral>If you ever come across more goutweed, bring it to me; I don't need any more for the ritual, but it's still quite difficult for me to get. I'll exchange it for some other herbs.");
 
 [label,sanfew_goutweed_exchange]
-// swap happens right away
-def_int $herbs = inv_total(inv, eadgar_goutweed_herb);
-inv_del(inv, eadgar_goutweed_herb, $herbs);
-while($herbs > 0) {
-    inv_add(inv, ~randomherb);
-    $herbs = sub($herbs, 1);
+if(inv_total(inv, eadgar_goutweed_herb) > 0) {
+    // swap happens right away
+    def_int $herbs = inv_total(inv, eadgar_goutweed_herb);
+    inv_del(inv, eadgar_goutweed_herb, $herbs);
+    while($herbs > 0) {
+        inv_add(inv, ~randomherb);
+        $herbs = sub($herbs, 1);
+    }
+    ~chatplayer("<p,happy>I have some more goutweed for you.");
+    ~chatnpc("<p,happy>Ah, good. Here are some herbs in exchange.");
+} else {
+    //TODO: Check mesanims for these
+    ~chatplayer("<p,neutral>Did you say you needed more goutweed?");
+    ~chatnpc("<p,neutral>I don't need any more goutweed for the ritual, but it's still quite difficult for me to get. If you ever come across some, bring it to me; I'll exchange it for some other herbs.");
 }
-~chatplayer("<p,happy>I have some more goutweed for you.");
-~chatnpc("<p,happy>Ah, good. Here are some herbs in exchange.");

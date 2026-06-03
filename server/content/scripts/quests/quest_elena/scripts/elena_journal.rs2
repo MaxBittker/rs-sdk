@@ -14,7 +14,7 @@ if (%elenaquest = ^quest_elena_not_started) {
 $text = "@str@I've spoken to Edmond, he's asked me to help find his|@str@daughter Elena.|";
 
 if (%elenaquest = ^quest_elena_started) {
-    $text = append($text, "|@dbl@I need to get some Dwellberries for @dre@Alrena @dbl@so she can|@dbl@make me a @dre@Gasmask|@dbl@I'm told I'll find some in @dre@McGrubor's wood");
+    $text = append($text, "|@dbl@I need to get some Dwellberries for @dre@Alrena @dbl@so she can|make me a @dre@Gasmask @dbl@I'm told I'll find some in @dre@McGrubor's wood");
 }
 
 if (%elenaquest >= ^quest_elena_gasmask) {
@@ -22,7 +22,7 @@ if (%elenaquest >= ^quest_elena_gasmask) {
 }
 
 if (%elenaquest = ^quest_elena_gasmask) {
-    $text = append($text, "|@dbl@I need to talk to @dre@Edmond @dbl@about getting into @dre@West|@dre@Ardougne");
+    $text = append($text, "|@dbl@I need to talk to @dre@Edmond @dbl@about getting into @dre@West Ardougne");
 }
 
 if (%elenaquest >= ^quest_elena_started_mud_patch) {
@@ -30,13 +30,13 @@ if (%elenaquest >= ^quest_elena_started_mud_patch) {
 }
 
 if (%elenaquest >= ^quest_elena_mud_patch4) {
-    $text = append($text, "|@str@I've softened the ground in Edmond's garden enough to|@str@dig.|");
+    $text = append($text, "|@str@I've softened the ground in Edmond's garden enough to dig.|");
 
     if (%elenaquest = ^quest_elena_mud_patch4) {
         $text = append($text, "|@dbl@Now I need to dig a tunnel into @dre@West Ardougne");
     }
 } else if (%elenaquest >= ^quest_elena_started_mud_patch) {
-    $text = append($text, "|@dbl@I need to use @dre@Water @dbl@to soften the ground in Edmond's|@dbl@garden before I can dig into it.");
+    $text = append($text, "|@dbl@I need to use @dre@Water @dbl@to soften the ground in Edmond's garden before I can dig into it.");
 }
 
 if (%elenaquest >= ^quest_elena_opened_tunnel) {
@@ -53,17 +53,17 @@ if (%elenaquest >= ^quest_elena_opened_pipe) {
     if (%elenaquest = ^quest_elena_opened_pipe) {
         // todo: RS3/OSRS RS tells the player to talk an old family friend (Jethick) but RSC lacks that dialogue?
         // consider replacing this or adding that dialogue (maybe this is why it was introduced)
-        $text = append($text, "|@dbl@Edmond told me to look out for an old family friend|@dbl@named @dre@Jethick.");
+        $text = append($text, "|@dbl@Edmond told me to look out for an old family friend named @dre@Jethick.");
     }
 } else if (%elenaquest = ^quest_elena_tied_rope) {
     // RS3
-    $text = append($text, "|@dbl@I've tied a rope to the sewer grill but I need help to pull it|@dbl@off.");
+    $text = append($text, "|@dbl@I've tied a rope to the sewer grill but I need help to pull it off.");
 }
 
 if (%elenaquest > ^quest_elena_returned_book) {
     $text = append($text, "|@str@I've spoken to Jethick, he thinks Elena was staying with|@str@the Rehnison Family, in a timber house to the north of the|@str@city.|");
 } else if (%elenaquest >= ^quest_elena_shown_picture) {
-    $text = append($text, "|@dbl@I've spoken to @dre@Jethick@dbl@, he thinks @dre@Elena @dbl@was staying with|@dbl@the @dre@Rehnison Family@dbl@, in a timber house to the north of the|@dbl@city.|");
+    $text = append($text, "|@dbl@I've spoken to @dre@Jethick@dbl@, he thinks @dre@Elena @dbl@was staying with the @dre@Rehnison Family@dbl@, in a timber house to the north of the city.|");
 }
 
 if (%elenaquest = ^quest_elena_spoken_martha_ted) {
@@ -76,7 +76,7 @@ if (%elenaquest >= ^quest_elena_spoke_to_milli) {
 }
 
 if (%elenaquest = ^quest_elena_spoke_to_milli) {
-    $text = append($text, "|@dbl@I need to get access to the @dre@Plague House.|@dre@Milli @dbl@said it was to the south of the city.");
+    $text = append($text, "|@dbl@I need to get access to the @dre@Plague House. Milli @dbl@said it was to the south of the city.");
 } else if (%elenaquest = ^quest_elena_spoke_to_plague_house | %elenaquest = ^quest_elena_spoke_to_clerk) {
     $text = append($text, "|@dbl@I need clearance from either the @dre@Head Mourner @dbl@or @dre@Bravek|@dbl@to get into the @dre@Plague House");
 }
@@ -86,7 +86,7 @@ if (%elenaquest >= ^quest_elena_spoke_to_bravek) {
 }
 
 if (%elenaquest = ^quest_elena_spoke_to_bravek) {
-    $text = append($text, "|@dbl@I need to bring @dre@Bravek @dbl@the @dre@Hangover Cure @dbl@when I work it|@dbl@out.");
+    $text = append($text, "|@dbl@I need to bring @dre@Bravek @dbl@the @dre@Hangover Cure @dbl@when I work it out.");
 }
 
 if (%elenaquest > ^quest_elena_spoke_cured_bravek) {

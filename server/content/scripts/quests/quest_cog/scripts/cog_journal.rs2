@@ -8,7 +8,7 @@ switch_int (~get_cog_progress) {
 
     case ^quest_cog_tasked_with_placing_cogs, ^quest_cog_three_remaining_cogs, ^quest_cog_two_remaining_cogs, ^quest_cog_one_remaining_cog :
         $text = "@str@I spoke to Brother Kojo at the Clock Tower South of|@str@Argougne and agreed to help him repair the clock.|";
-        $text = append($text, "@dbl@To repair the clock I need to find the four coloured cogs|@dbl@and place them on the four correctly coloured spindles.|");
+        $text = append($text, "@dbl@To repair the clock I need to find the four coloured cogs|and place them on the four correctly coloured spindles.|");
 
         if(testbit(%cog_bits, ^quest_cog_blue) = ^false) {
             $text = append($text, "@dbl@I haven't placed the @dre@Blue Cog@dbl@ on its @dre@spindle@dbl@ yet|");

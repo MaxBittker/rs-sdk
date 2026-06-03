@@ -19,11 +19,9 @@ if (%upass = ^upass_complete) {
 
 if (%upass = ^upass_not_started) {
     if (testbit(%ibanmulti, ^upass_started_bit) = ^false) {
-        $x = append($x, "@dbl@I can start this quest by speaking to @dre@King Lathas@dbl@ who is|");
-        $x = append($x, "@dbl@in @dre@East Ardougne@dbl@.");
+        $x = append($x, "@dbl@I can start this quest by speaking to @dre@King Lathas@dbl@ who is in @dre@East Ardougne@dbl@.");
     } else {
-        $x = append($x, "@dbl@King Lathas asked me to meet a tracker named @dre@Koftik@dbl@. He|");
-        $x = append($x, "@dbl@can be found by a @dre@cave entrance@dbl@ in far @dre@West Ardougne.");
+        $x = append($x, "@dbl@King Lathas asked me to meet a tracker named @dre@Koftik@dbl@. He can be found by a @dre@cave entrance@dbl@ in far @dre@West Ardougne.");
     }
     ~quest_journal($n, $x);
     return;
@@ -33,14 +31,11 @@ $x = append($x, "@str@King Lathas asked me to meet a tracker named Koftik. He|")
 $x = append($x, "@str@can be found by a cave entrance in far West Ardougne.|");
 if (%upass = ^upass_spoken_koftik) {
     if (~has_fire_arrow_parts = false) {
-        $x = append($x, "|@dbl@I have met Koftik. He fears these caves, but he agreed to|");
-        $x = append($x, "@dbl@help. He said to meet him at the @dre@bridge@dbl@ inside the cave.|");
+        $x = append($x, "|@dbl@I have met Koftik. He fears these caves, but he agreed to help. He said to meet him at the @dre@bridge@dbl@ inside the cave.|");
     } else {
         $x = append($x, "|@str@I have met Koftik. He fears these caves, but he agreed to|");
         $x = append($x, "@str@help. He said to meet him at the bridge inside the cave.|");
-        $x = append($x, "|@dbl@I have met Koftik at an underground river where there is a|");
-        $x = append($x, "@dbl@drawbridge. But it's held up by @dre@ropes@dbl@ and pulleys. Koftik|");
-        $x = append($x, "@dbl@found a damp cloth amongst the charred remains of some|@dbl@arrows.");
+        $x = append($x, "|@dbl@I have met Koftik at an underground river where there is a drawbridge. But it's held up by @dre@ropes@dbl@ and pulleys. Koftik found a damp cloth amongst the charred remains of some arrows.");
     }
     ~quest_journal($n, $x);
     return;
@@ -56,8 +51,7 @@ $x = append($x, "@str@with a burning arrow. I guess the only way now is onwards.
 if (%upass = ^upass_passed_bridge) {
     $x = append($x, "|@dbl@I must work my way deeper into these caverns.|");
     if (testbit(%ibanmulti, ^upass_read_journal_of_randas) = ^true) {
-       $x = append($x, "|@dbl@I have found a journal, it tells of a @dre@well@dbl@ that I must enter,|");
-       $x = append($x, "@dbl@but it's blocked due to too much holy energy in the area.");
+       $x = append($x, "|@dbl@I have found a journal, it tells of a @dre@well@dbl@ that I must enter, but it's blocked due to too much holy energy in the area.");
     }
     ~quest_journal($n, $x);
     return;
@@ -65,7 +59,7 @@ if (%upass = ^upass_passed_bridge) {
 
 $x = append($x, "|@str@After destroying four orbs I was able to climb down a well.|");
 if (%upass = ^upass_entered_second_area) {
-    $x = append($x, "@dbl@Something is watching me, I'm starting to understand|@dbl@Koftik's fear.|");
+    $x = append($x, "@dbl@Something is watching me, I'm starting to understand Koftik's fear.|");
     $x = append($x, "|@dbl@I must work my way deeper into these caverns.");
     ~quest_journal($n, $x);
     return;
@@ -76,8 +70,7 @@ if (%upass = ^upass_killed_unicorn) {
     if (testbit(%ibanmulti, ^upass_read_well_inscription) = ^false) {
         $x = append($x, "|@dbl@I must work my way deeper into these caverns.");
     } else {
-        $x = append($x, "|@dbl@I have found yet another @dre@well@dbl@. Upon it an inscription says|");
-        $x = append($x, "@dbl@that I must 'feed' it @dre@three crests@dbl@ and a @dre@creature's remains@dbl@.");
+        $x = append($x, "|@dbl@I have found yet another @dre@well@dbl@. Upon it an inscription says that I must 'feed' it @dre@three crests@dbl@ and a @dre@creature's remains@dbl@.");
     }
     ~quest_journal($n, $x);
     return;
@@ -87,14 +80,12 @@ $x = append($x, "|@str@I have found yet another well. Upon it an inscription say
 $x = append($x, "@str@that I must 'feed' it three crests and a creature's remains.|");
 if (%upass = ^upass_entered_main_area) {
     if (testbit(%ibanmulti, ^upass_koftik_gone_insane) = ^false) {
-        $x = append($x, "|@dbl@After 'feeding' crests and a horn to the well I was able to|");
-        $x = append($x, "@dbl@pass through the double doors that lead to a huge cavern.|");
-        $x = append($x, "|@dbl@Maybe I should do a little exploration down here.");
+        $x = append($x, "|@dbl@After 'feeding' crests and a horn to the well I was able to pass through the double doors that lead to a huge cavern.|");
+        $x = append($x, "|Maybe I should do a little exploration down here.");
     } else {
         $x = append($x, "|@str@After 'feeding' crests and a horn to the well I was able to|");
         $x = append($x, "@str@pass through the double doors that lead to a huge cavern.|");
-        $x = append($x, "|@dbl@I have seen Koftik again, I fear for his sanity. In his raving|");
-        $x = append($x, "@dbl@he did mention @dre@dwarfs@dbl@ that live in the south of this cavern.");
+        $x = append($x, "|@dbl@I have seen Koftik again, I fear for his sanity. In his raving he did mention @dre@dwarfs@dbl@ that live in the south of this cavern.");
     }
     ~quest_journal($n, $x);
     return;
@@ -105,8 +96,7 @@ $x = append($x, "@str@pass through the double doors that lead to a huge cavern.|
 $x = append($x, "|@str@I have seen Koftik again, I fear for his sanity. In his raving|");
 $x = append($x, "@str@he did mention dwarfs that live in the south of this cavern.|");
 if (%upass = ^upass_spoken_nilhoof) {
-    $x = append($x, "|@dbl@I have met some dwarfs living here, the group leader said|");
-    $x = append($x, "@dbl@to seek Iban's advisor: a @dre@witch@dbl@ living on a platform above.");
+    $x = append($x, "|@dbl@I have met some dwarfs living here, the group leader said to seek Iban's advisor: a @dre@witch@dbl@ living on a platform above.");
     ~quest_journal($n, $x);
     return;
 }
@@ -122,10 +112,9 @@ if ((%upass = ^upass_found_doll)
     & ($blood = ^false) & ($dove = ^false)
     & ($ashes = ^false) & ($shadow = ^false)
     ) {
-    $x = append($x, "|@dbl@After distracting the witch with her cat I was able to steal a|");
-    $x = append($x, "@dbl@doll and a book. The book may give some clues.");
+    $x = append($x, "|@dbl@After distracting the witch with her cat I was able to steal a doll and a book. The book may give some clues.|");
     if (testbit(%ibanmulti, ^upass_read_history) = ^true) {
-        $x = append($x, "|@dbl@The book tells of four elements that brought Iban back|@dbl@from the dead:|");
+        $x = append($x, "@dbl@The book tells of four elements that brought Iban back from the dead:|");
         $x = append($x, "@dbl@Flesh|@dbl@Blood|@dbl@Shadow|@dbl@Conscience");
     }
     ~quest_journal($n, $x);
@@ -136,34 +125,28 @@ $x = append($x, "|@str@After distracting the witch with her cat I was able to st
 $x = append($x, "@str@doll and a book. The book may give some clues.|");
 if ((%upass = ^upass_found_doll) | (%upass = ^upass_confronted_iban)) {
     if ($ashes = ^true) {
-        $x = append($x, "|@dbl@Having burned Iban's tomb, I was able to collect some of|");
-        $x = append($x, "@dbl@ his ashes. I rubbed some of the ash into the doll.|");
+        $x = append($x, "|@dbl@Having burned Iban's tomb, I was able to collect some of his ashes. I rubbed some of the ash into the doll.|");
     }
     if ($blood = ^true) {
-        $x = append($x, "|@dbl@I killed the huge blood-drinking spider, Kalrag. As it died I|");
-        $x = append($x, "@dbl@managed to smear some of its fluids onto the doll.|");
+        $x = append($x, "|@dbl@I killed the huge blood-drinking spider, Kalrag. As it died I managed to smear some of its fluids onto the doll.|");
     }
     if ($shadow = ^true) {
-        $x = append($x, "|@dbl@Collecting Shadow was tough, but after defeating 3 demons|");
-        $x = append($x, "@dbl@I was able to open a chest. The doll now has Iban's|@dbl@shadow.|");
+        $x = append($x, "|@dbl@Collecting Shadow was tough, but after defeating 3 demons I was able to open a chest. The doll now has Iban's shadow.|");
     }
     if ($dove = ^true) {
-        $x = append($x, "|@dbl@After searching some cages I found some dove bones.|");
-        $x = append($x, "@dbl@Crushing these over the doll imbued it with Iban's|@dbl@conscience|");
+        $x = append($x, "|@dbl@After searching some cages I found some dove bones. Crushing these over the doll imbued it with Iban's conscience|");
     }
     if (($blood = ^true) & ($dove = ^true) & ($ashes = ^true) & ($shadow = ^true)) {
         $x = append($x, "|@dbl@I have completed the doll, all that remains is to face @dre@Iban@dbl@.|");
-        $x = append($x, "@dbl@Even with the doll, how do I kill something that's dead?|");
+        $x = append($x, "Even with the doll, how do I kill something that's dead?|");
     }
     ~quest_journal($n, $x);
     return;
 }
 
 if (%upass = ^upass_defeated_iban) {
-    $x = append($x, "|@dbl@Throwing Iban's doll into the Well of the Damned, I sent him|");
-    $x = append($x, "@dbl@to meet his god. Knowing how forgiving Zamorak is, I|");
-    $x = append($x, "@dbl@ doubt I'll be seeing anything from him again.|");
-    $x = append($x, "@dbl@I must report back to @dre@the king@dbl@ and tell him about all this.|");
+    $x = append($x, "|@dbl@Throwing Iban's doll into the Well of the Damned, I sent him to meet his god. Knowing how forgiving Zamorak is, I doubt I'll be seeing anything from him again.|");
+    $x = append($x, "I must report back to @dre@the king@dbl@ and tell him about all this.");
 }
 ~quest_journal($n, $x);
 

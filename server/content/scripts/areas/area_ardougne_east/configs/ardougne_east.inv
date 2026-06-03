@@ -62,15 +62,15 @@ size=40
 restock=yes
 stackall=yes
 allstock=yes
-stock1=vial_empty,500,30
-stock3=bronze_pickaxe,2,100
-stock4=iron_axe,2,100
-stock5=cooked_meat,2,100
-stock6=tinderbox,2,100
-stock7=ball_of_wool,30,100
-stock8=bronze_arrow,500,10
-stock9=rope,20,100
-stock10=papyrus,50,1000
+stock1=vial_water,500,30
+stock2=bronze_pickaxe,2,100
+stock3=iron_axe,2,100
+stock4=cooked_meat,2,100
+stock5=tinderbox,2,100
+stock6=ball_of_wool,30,100
+stock7=bronze_arrow,500,10
+stock8=rope,20,100
+stock9=papyrus,50,1000
 
 [spiceshop]
 // https://oldschool.runescape.wiki/w/Unused_shops

@@ -119,8 +119,8 @@ param=death_sound,insect_death
 param=death_drop,null
 huntmode=cowardly
 huntrange=1
-// Stats match osrs version but our version Vislvl is different.
-// wander and maxrange data taken rs3. // osrs wanderrange 6 maxrange 8
+// osrs stats and Vislvl match 1:1
+// wander and maxrange data taken from rs3. // osrs wanderrange 6 maxrange 8
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4533
 
 [blessed_giantrat]
@@ -388,9 +388,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,hacksword_slash
-// param=defend_sound, TODO
-// osrs defend_sound blade4
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade4
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_8987
 
 [upass_paladin2]
@@ -434,9 +433,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,hacksword_slash
-// param=defend_sound, TODO
-// osrs defend_sound blade4
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade4
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_8988
 
 [upass_paladin3]
@@ -480,9 +478,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_sword_slash
 param=defend_anim,human_sword_def
 param=attack_sound,hacksword_slash
-// param=defend_sound, TODO
-// osrs defend_sound blade4
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade4
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_8989
 
 [soulman]
@@ -509,6 +506,7 @@ model4=model_246_idk
 model5=model_168_npc
 model6=model_181_idk
 model7=model_176_idk
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
@@ -539,7 +537,6 @@ model7=model_479_npc
 model8=model_447_obj_wear
 model9=model_534_obj_wear
 model10=model_377_obj_wear
-param=death_sound,female_death
 
 [cavewitchcat]
 vislevel=hide
@@ -659,7 +656,7 @@ param=death_sound,kilrag_death
 param=death_drop,null
 huntrange=5
 huntmode=cowardly
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_8993
 
 [othainian]
@@ -822,6 +819,7 @@ model6=model_286_obj_wear
 model7=model_251_idk
 model8=model_265_obj_wear
 head1=model_83_idk_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 respawnrate=100

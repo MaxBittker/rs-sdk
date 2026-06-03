@@ -77,11 +77,19 @@ if (~npc_check_notcombat = false) {
 if (~npc_check_notcombat_self = false) {
     return;
 }
-anim(%com_defendanim, 0);
+// dont use shield animation for the head attack: https://www.youtube.com/watch?v=lsXJDBPxW2k&t=32s
+// still works this way in osrs
+def_obj $weapon = inv_getobj(worn, ^wearpos_rhand);
 if (random(2) = 0) {
     npc_anim(dragon_attack, 0);
+    anim(%com_defendanim, 0);
 } else {
     npc_anim(dragon_head_attack, 0);
+    if ($weapon ! null & (map_members ! ^false | oc_members($weapon) ! true)) {
+        anim(oc_param($weapon, defend_anim), 0);
+    } else {
+        anim(human_unarmedblock, 0);
+    }
 }
 if (npc_param(attack_sound) ! null) {
     sound_synth(npc_param(attack_sound), 0, 0);

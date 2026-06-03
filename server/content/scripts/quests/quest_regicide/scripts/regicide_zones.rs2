@@ -1,25 +1,25 @@
 // woodsprings
-[zone,0_35_50_48_8] settimer(regicide_woodspring, 1);
-[zone,0_35_50_48_16] settimer(regicide_woodspring, 1);
-[zone,0_35_50_56_8] settimer(regicide_woodspring, 1);
-[zone,0_35_50_8_24] settimer(regicide_woodspring, 1);
-[zone,0_35_50_16_24] settimer(regicide_woodspring, 1);
-[zone,0_34_50_0_8] settimer(regicide_woodspring, 1);
-[zone,0_34_49_56_40] settimer(regicide_woodspring, 1);
-[zone,0_34_49_16_32] settimer(regicide_woodspring, 1);
-[zone,0_34_49_24_32] settimer(regicide_woodspring, 1);
-[zone,0_35_49_32_24] settimer(regicide_woodspring, 1);
+[zone,0_35_50_48_8] softtimer(regicide_woodspring, 1);
+[zone,0_35_50_48_16] softtimer(regicide_woodspring, 1);
+[zone,0_35_50_56_8] softtimer(regicide_woodspring, 1);
+[zone,0_35_50_8_24] softtimer(regicide_woodspring, 1);
+[zone,0_35_50_16_24] softtimer(regicide_woodspring, 1);
+[zone,0_34_50_0_8] softtimer(regicide_woodspring, 1);
+[zone,0_34_49_56_40] softtimer(regicide_woodspring, 1);
+[zone,0_34_49_16_32] softtimer(regicide_woodspring, 1);
+[zone,0_34_49_24_32] softtimer(regicide_woodspring, 1);
+[zone,0_35_49_32_24] softtimer(regicide_woodspring, 1);
 
-[zoneexit,0_35_50_48_8] cleartimer(regicide_woodspring);
-[zoneexit,0_35_50_48_16] cleartimer(regicide_woodspring);
-[zoneexit,0_35_50_56_8] cleartimer(regicide_woodspring);
-[zoneexit,0_35_50_8_24] cleartimer(regicide_woodspring);
-[zoneexit,0_35_50_16_24] cleartimer(regicide_woodspring);
-[zoneexit,0_35_50_0_8] cleartimer(regicide_woodspring);
-[zoneexit,0_34_49_56_40] cleartimer(regicide_woodspring);
-[zoneexit,0_34_49_16_32] cleartimer(regicide_woodspring);
-[zoneexit,0_34_49_24_32] cleartimer(regicide_woodspring);
-[zoneexit,0_35_49_32_24] cleartimer(regicide_woodspring);
+[zoneexit,0_35_50_48_8] clearsofttimer(regicide_woodspring);
+[zoneexit,0_35_50_48_16] clearsofttimer(regicide_woodspring);
+[zoneexit,0_35_50_56_8] clearsofttimer(regicide_woodspring);
+[zoneexit,0_35_50_8_24] clearsofttimer(regicide_woodspring);
+[zoneexit,0_35_50_16_24] clearsofttimer(regicide_woodspring);
+[zoneexit,0_35_50_0_8] clearsofttimer(regicide_woodspring);
+[zoneexit,0_34_49_56_40] clearsofttimer(regicide_woodspring);
+[zoneexit,0_34_49_16_32] clearsofttimer(regicide_woodspring);
+[zoneexit,0_34_49_24_32] clearsofttimer(regicide_woodspring);
+[zoneexit,0_35_49_32_24] clearsofttimer(regicide_woodspring);
 
 // tripwires, 40_48 doesnt have a trigger on the adj zone, so if you come in from the east side
 // it will be delayed by 1t
@@ -48,7 +48,7 @@
 [zoneexit,0_35_50_24_0] cleartimer(regicide_pitfall);
 [zoneexit,0_35_50_32_56] cleartimer(regicide_pitfall);
 
-[timer,regicide_woodspring]
+[softtimer,regicide_woodspring]
 if(coord = 0_35_50_55_14 | coord = 0_35_50_55_15) {
     if(loc_find(0_35_50_55_14, regicide_trap_woodspring) = true) @regicide_fail_trap_woodspring;
 } else if(coord = 0_35_50_17_27 | coord = 0_35_50_18_27) {
@@ -74,7 +74,7 @@ if(loc_find(coord, regicide_pitfall_side) = true | loc_find(coord, regicide_pitf
     p_delay(0);
     mes("It's a trap!");
     anim(human_walk_logbalance_stumble, 0);
-    // sound
+    sound_synth(stumble_loop, 3, 0);
     p_delay(0);
     @regicide_pitfall_falldown;
 }

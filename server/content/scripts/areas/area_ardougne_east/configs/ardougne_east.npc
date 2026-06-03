@@ -38,7 +38,7 @@ param=attack_anim,human_bow
 param=rangeattack_sound,arrowlaunch2
 param=proj_launch,iron_arrow_launch
 param=proj_travel,iron_arrow_travel
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3301
 
 [zoo_keeper]
@@ -182,10 +182,9 @@ param=damagetype,^crush_style
 param=attack_anim,human_blunt_pound
 param=defend_anim,human_blunt_block
 param=attack_sound,warhammer_crush
-// param=defend_sound, TODO
+param=defend_sound,blade2_mail
 category=guard
 // osrs stats and Vislvl match 1:1
-// osrs sound blade2_mail
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5418
 
 [brother_kojo]
@@ -348,6 +347,7 @@ param=shop_sell_multiplier,1000
 param=shop_buy_multiplier,700
 param=shop_delta,20
 param=shop_title,Ardougne Silver Stall.
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
@@ -387,6 +387,7 @@ param=shop_sell_multiplier,1500
 param=shop_buy_multiplier,800
 param=shop_delta,30
 param=shop_title,Ardougne Gem Stall.
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
@@ -518,6 +519,7 @@ model9=model_181_idk
 head1=model_53_idk_head
 head2=model_40_obj_wear
 head3=model_80_idk_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
@@ -744,7 +746,6 @@ model7=model_361_obj_wear
 head1=model_115_idk_head
 head2=model_131_npc_head
 moverestrict=indoors
-param=death_sound,female_death
 category=shop_keeper
 param=owned_shop,topshop
 param=shop_sell_multiplier,1000
@@ -774,7 +775,6 @@ model6=model_358_idk
 model7=model_483_npc
 head1=model_114_idk_head
 wanderrange=2
-param=death_sound,female_death
 
 [holgartland]
 vislevel=hide

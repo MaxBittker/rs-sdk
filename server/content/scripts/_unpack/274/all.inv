@@ -24,13 +24,13 @@ stock11=flamtaer_hammer,3,10
 //swamp paste increase to 1500 was https://runescape.wiki/w/Update:Patch_Notes_(2_November_2010)
 //https://i.imgur.com/BaNh2A5.jpeg November 2004
 //https://cdn.discordapp.com/attachments/1126857544523063367/1475494644514164868/image.png?ex=699db0f8&is=699c5f78&hm=a768779c45a6a7e5e302535a6833a87f832d133f215224d41d403d4e717c9aaa& Sometime After April 2005 Before May 06
-//todo: Restock rates in '04?
+//todo: Restock rates in '04? Guessing that planks were made 10 minutes either with the 2005 change or for construction in 2006 change
 [razmirebuildingstore]
 size=3
 scope=shared
 restock=yes
 stackall=yes
 allstock=no
-stock1=woodplank,1000,1000
+stock1=woodplank,1000,10
 stock2=limestonebrick,1000,10
 stock3=swamppaste,1000,10

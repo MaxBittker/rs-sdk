@@ -58,6 +58,13 @@
 ^waterfall_complete = 10
 ^zanaris_complete = 6
 ^zombiequeen_complete = 15
+^troll_complete = 50
+^tbwt_complete = 6
+^regicide_complete = 15
+^eadgar_complete = 110
+^mortton_quest_complete = 85
+^viking_complete = 10
+^horror_complete = 10
 
 ^arena_questpoints = 2
 ^arthur_questpoints = 6
@@ -97,7 +104,6 @@
 ^junglepotion_questpoints = 1
 ^legends_questpoints = 4
 ^mcannon_questpoints = 1
-^mortton_questpoints = 3
 ^murder_questpoints = 3
 ^priest_questpoints = 1
 ^priestperil_questpoints = 1
@@ -119,6 +125,7 @@
 ^troll_questpoints = 1
 ^tbwt_questpoints = 2
 ^regicide_questpoints = 3
+^eadgar_questpoints = 1
+^mortton_questpoints = 3
 ^viking_questpoints = 3
 ^horror_questpoints = 2
-^eadgar_questpoints = 1

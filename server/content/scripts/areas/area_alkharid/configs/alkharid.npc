@@ -224,7 +224,6 @@ param=shop_buy_multiplier,400
 param=shop_delta,30
 param=shop_title,Al-Kharid General Store
 moverestrict=indoors
-param=death_sound,female_death
 
 [gem_trader]
 vislevel=hide
@@ -332,7 +331,6 @@ param=shop_buy_multiplier,650
 param=shop_delta,10
 param=shop_title,Ranael's Super Skirt Store.
 moverestrict=indoors
-param=death_sound,female_death
 
 [dommik]
 vislevel=hide

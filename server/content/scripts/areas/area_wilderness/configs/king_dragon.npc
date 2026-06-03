@@ -47,6 +47,6 @@ param=defend_sound,dragon_hit
 param=death_sound,dragon_death
 param=death_drop,dragon_bones
 huntmode=king_dragon
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1 / There is a slight difference in defense bonuses.
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_239
 // this variation have old stats npc_6502

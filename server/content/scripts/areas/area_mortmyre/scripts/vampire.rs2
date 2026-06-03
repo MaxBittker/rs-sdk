@@ -1,0 +1,124 @@
+// lvl 61
+// https://web.archive.org/web/20041209225827/http://www.runehq.com/cache/viewMonster256.htm
+// https://web.archive.org/web/20041127023732/http://www.tip.it/runescape/index.php?rs2monster_id=308
+// lvl 72
+// https://web.archive.org/web/20041209225827/http://www.runehq.com/cache/viewMonster257.htm
+// https://web.archive.org/web/20041127023732/http://www.tip.it/runescape/index.php?rs2monster_id=309
+// https://oldschool.runescape.wiki/w/Feral_Vampyre
+
+[ai_queue3,_vampire]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+// Default drop from config.
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+
+// Tertiary
+~trail_mediumcluedrop(128, npc_coord);
+
+def_int $random = random(128);
+
+if ($random < 10) {
+    obj_add(npc_coord, earthrune, 1, ^lootdrop_duration);
+} else if ($random < 20) {
+    obj_add(npc_coord, deathrune, 2, ^lootdrop_duration);
+} else if ($random < 28) {
+    obj_add(npc_coord, chaosrune, 3, ^lootdrop_duration);
+} else if ($random < 33) {
+    obj_add(npc_coord, bloodrune, 1, ^lootdrop_duration);
+} else if ($random < 34) {
+    obj_add(npc_coord, bloodrune, 2, ^lootdrop_duration);
+} else if ($random < 44) {
+    obj_add(npc_coord, ~randomherb, ^lootdrop_duration);
+} else if ($random < 63) {
+    obj_add(npc_coord, coins, 15, ^lootdrop_duration); // guess - seed table
+} else if ($random < 103) {
+    obj_add(npc_coord, coins, 15, ^lootdrop_duration);
+} else if ($random < 106) {
+    obj_add(npc_coord, black_axe, 1, ^lootdrop_duration);
+} else if ($random < 108) {
+    obj_add(npc_coord, earth_talisman, 1, ^lootdrop_duration);
+} else if ($random < 112) {
+    obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
+}
+
+[proc,vampire_holysymbol_weaken]
+if (inv_total(worn, blessedstar) > 0) {
+    // https://twitter.com/JagexAsh/status/650998169736753152
+    def_boolean $weakened = false;
+    if(npc_stat(attack) = npc_basestat(attack)) {
+        npc_statsub(attack, divide(npc_basestat(attack), 4), 0);
+        $weakened = true;
+    }
+    if(npc_stat(strength) = npc_basestat(strength)) {
+        npc_statsub(strength, divide(npc_basestat(strength), 4), 0);
+        $weakened = true;
+    }
+    if(npc_stat(defence) = npc_basestat(defence)) {
+        npc_statsub(defence, divide(npc_basestat(defence), 4), 0);
+        $weakened = true;
+    }
+    if(npc_stat(magic) = npc_basestat(magic)) {
+        npc_statsub(magic, divide(npc_basestat(magic), 4), 0);
+        $weakened = true;
+    }
+    if ($weakened = true) {
+        mes("The vampire is weakened by your holy symbol of Saradomin.");
+    }
+}
+
+[ai_opplayer2,_vampire]
+~vampire_attack;
+
+[proc,vampire_attack]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+
+if (random(6) = 0) { // estimate
+    ~vampire_bite;
+} else {
+    ~npc_default_attack;
+}
+
+~vampire_holysymbol_weaken;
+
+[proc,vampire_bite]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+if (~npc_check_notcombat = false) {
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+anim(%com_defendanim, 0);
+npc_anim(vamp_bite, 0);
+sound_synth(vampire_suck, 0, 0);
+
+def_int $attack_roll = ~npc_melee_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
+def_int $maxhit = ~npc_melee_maxhit;
+
+def_int $damage = 0;
+def_boolean $hit = false;
+
+if (randominc($attack_roll) > randominc($defence_roll)) {
+    $damage = randominc($maxhit);
+    stat_drain(strength, 1, 0);
+    npc_statheal(hitpoints, divide($damage, 2), 0);
+}
+
+if_close;
+%npc_action_delay = add(map_clock, npc_param(attackrate));
+
+if (npc_stat(hitpoints) = 0) {
+    return;
+}
+
+~npc_set_attack_vars;
+queue*(playerhit_n_retaliate, 0)(npc_uid);
+queue(combat_damage_player, 0, $damage);

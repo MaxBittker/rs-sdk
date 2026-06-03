@@ -222,7 +222,7 @@ if(last_useitem = viking_beerkeg) {
         }
     }
     mes("You hear a loud bang from outside. It echoes through the drain.");
-    ~sound_area(explosion, 0, 0_41_57_35_37, 10);
+    ~.sound_area(explosion, 0, 0_41_57_35_37, 10);
     p_delay(0);
     mes("You empty the keg and refill it with low alcohol beer.");
     inv_del(inv, viking_low_alcahol_beerkeg, 1);
@@ -246,7 +246,7 @@ if(last_useitem = tinderbox) {
 mes("You light the string of the strange object. It starts to hiss slightly.");
 inv_del(inv, viking_firecracker, 1);
 inv_add(inv, viking_firecracker_lit, 1);
-~sound_area(exploding_vial, 0, coord, 5);
+~.sound_area(exploding_vial, 0, coord, 5);
 settimer(firecracker_explode, ~random_range(140, 200));
 // fuse_light
 

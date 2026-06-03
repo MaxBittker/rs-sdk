@@ -253,7 +253,7 @@ if($num_of_walls_fully_repaired > 0) {
 
 [label,mortton_temple_not_enough_resources]
 //TODO: Find source, guess from osrs but no timber beams or flamtaer bag in mes
-~mesbox("~ Repairing the temple ~|@dbl@To repair the temple you need to increase your material resource|@dbl@pool by bringing limestone bricks, wooden planks and swamp paste|@dbl@in your inventory.");
+~mesbox("~ Repairing the temple ~|@dbl@To repair the temple you need to increase your material resource|pool by bringing limestone bricks, wooden planks and swamp paste|in your inventory.");
 def_string $planks = "Wooden planks";
 if (inv_total(inv,woodplank) > 0) {
     $planks = append("@str@", $planks);
@@ -284,14 +284,14 @@ if (oc_category(last_useitem) = category_110) {
         return;
     }
 
-    if(%temple_sanctity_p < 10) {
+    if(%temple_sanctity < 300) {
         ~mesbox("You need to increase your sanctity to at least 10% before you can|use the sacred flame. Using the sacred flame reduces your sanctity.");
         return;
     }
     def_obj $obj = last_useitem;
     def_int $slot = last_useslot;
     def_int $doses = oc_param($obj, dose_count);
-    def_int $sanc_drain = divide(multiply(multiply(9, $doses), 30), 1000);
+    def_int $sanc_drain = divide(multiply(multiply(9, $doses), 30), 10);
     %temple_sanctity = sub(%temple_sanctity, $sanc_drain);
 
     inv_setslot(inv, $slot, oc_param($obj, next_obj_stage), 1);
@@ -308,7 +308,7 @@ if (oc_category(last_useitem) = category_110) {
         return;
     }
 
-    if(%temple_sanctity_p < 20) {
+    if(%temple_sanctity < 600 ) {
         //Was fixed to be 20% later
         ~mesbox("You need to increase your sanctity to %20 before you can use the|sacred flame for this purpose.  Using the sacred flame reduces your|sanctity.");
         return;
@@ -326,7 +326,7 @@ if (oc_category(last_useitem) = category_110) {
     //Todo: Guess since it is called serum 208 now
     if(testbit(%morttonmulti, ^mortton_made_perm_serum) = ^false) {
         %morttonmulti = setbit(%morttonmulti, ^mortton_made_perm_serum);
-        ~objbox(oc_param($obj, next_obj_stage_temple), "You sanctify serum 207 in the sacred flame and|rename it to serum 207(p).", 250, 0, 0);
+        ~objbox(oc_param($obj, next_obj_stage_temple), "You sanctify serum 207 in the sacred flame and|rename it to serum 207(p).", 200, 0, ^objbox_height);
     }
     return;
 }

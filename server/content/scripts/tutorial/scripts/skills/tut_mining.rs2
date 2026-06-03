@@ -70,7 +70,7 @@ sound_synth(mine_quick, 0, 10);
 p_delay(0);
 sound_synth(mine_quick, 0, 10);
 p_delay(0);
-sound_synth(sound_230, 0, 10);
+sound_synth(mine, 0, 10);
 p_delay(0);
 // Temp note: dur does not need updated ??
 loc_change(plainrock1, 10);

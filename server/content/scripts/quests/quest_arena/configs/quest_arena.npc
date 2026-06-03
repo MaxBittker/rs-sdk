@@ -36,9 +36,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_axe_hack
 param=defend_anim,human_axe_def
 param=attack_sound,baxe_slash
-// param=defend_sound,
-// osrs defend_sound blade3_mail
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade3_mail
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1208
 
 [arena_guard2]
@@ -79,9 +78,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_axe_hack
 param=defend_anim,human_axe_def
 param=attack_sound,baxe_slash
-// param=defend_sound,
-// guess defend_sound blade3_mail
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade3_mail
+// osrs stats and Vislvl match 1:1
 // The NPC in question has been replaced by another NPC that no longer has an attack option or stats. npc_1209
 // stats and params is guess.
 
@@ -122,9 +120,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_axe_hack
 param=defend_anim,human_axe_def
 param=attack_sound,baxe_slash
-// param=defend_sound,
-// guess defend_sound blade3_mail
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade3_mail
+// osrs stats and Vislvl match 1:1
 // The NPC in question has been replaced by another NPC that no longer has an attack option or stats. npc_1210
 // stats and params is guess.
 
@@ -166,9 +163,8 @@ param=damagetype,^slash_style
 param=attack_anim,human_axe_hack
 param=defend_anim,human_axe_def
 param=attack_sound,baxe_slash
-// param=defend_sound,
-// osrs defend_sound blade3_mail
-// Stats match osrs version but our version Vislvl is different.
+param=defend_sound,blade3_mail
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1211
 
 [arena_guard5_cutscene]
@@ -206,8 +202,7 @@ param=damagetype,^slash_style
 param=attack_anim,human_axe_hack
 param=defend_anim,human_axe_def
 param=attack_sound,baxe_slash
-// param=defend_sound,
-// osrs defend_sound blade3_mail
+param=defend_sound,blade3_mail
 // https://chisel.weirdgloop.org/moid/npc_id.html#1212 npc_1212
 
 [general_khazard]
@@ -389,7 +384,6 @@ model4=model_353_idk
 model5=model_428_idk
 model6=model_358_idk
 head1=model_103_idk_head
-param=death_sound,female_death
 
 [jeremy_servil]
 vislevel=hide
@@ -498,8 +492,7 @@ param=attack_sound,growl6
 param=defend_sound,growl5
 huntmode=aggressive_melee
 huntrange=2
-// TODO monster examine spell
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1224
 
 [arena_ogre]
@@ -534,7 +527,7 @@ param=death_sound,giant_death
 huntmode=aggressive_melee
 huntrange=2
 // TODO monster examine spell
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1225
 
 [arena_scorpion]

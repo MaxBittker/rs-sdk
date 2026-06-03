@@ -198,7 +198,7 @@ stat_advance(agility, 10);
 p_teleport(2_44_157_21_42);
 if(%troll_entered_stronghold = ^false) %troll_entered_stronghold = ^true;
 
-[oploc1,troll_stronghold_top_exit_mid]
+[oploc1,_troll_stronghold_top_exit]
 p_teleport(0_44_57_24_42);
 
 [oploc1,troll_stronghold_stairstop]

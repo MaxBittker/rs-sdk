@@ -7,13 +7,13 @@ switch_int (%seaslugquest) {
 
     // https://www.youtube.com/watch?v=MlBZXxD5yq4
     case ^seaslug_not_started :
-        $text = "@dbl@I can start this quest by speaking to @dre@Caroline@dbl@ who is @dre@East|@dre@of Ardougne||";
+        $text = "@dbl@I can start this quest by speaking to @dre@Caroline@dbl@ who is @dre@East of Ardougne||";
         $text = append($text, "@dbl@Requirements:|@dbl@You'll need level 30 @dre@Firemaking");
 
     case ^seaslug_started :
         $text = "@str@I have spoken to Caroline and agreed to help.||";
-        $text = append($text, "@dbl@I need to talk to @dre@Holgart@dbl@ He'll take me to the @dre@Fishing|@dre@Platform@dbl@.||");
-        $text = append($text, "@dbl@I need to get to the @dre@Fishing Platform@dbl@ and find out what's|@dbl@happened to @dre@Kent@dbl@ and @dre@Kennith@dbl@.");
+        $text = append($text, "@dbl@I need to talk to @dre@Holgart@dbl@ He'll take me to the @dre@Fishing Platform@dbl@.||");
+        $text = append($text, "@dbl@I need to get to the @dre@Fishing Platform@dbl@ and find out what's happened to @dre@Kent@dbl@ and @dre@Kennith@dbl@.");
 
     // https://i.imgur.com/eUB0fvC.png
     // https://i.imgur.com/0iX14KB.png
@@ -21,14 +21,14 @@ switch_int (%seaslugquest) {
         $text = "@str@I have spoken to Caroline and agreed to help.||";
 
         if (inv_total(inv, swamppaste) < 1) {
-            $text = append($text, "@dbl@I've spoken to @dre@Holgart@dbl@, but his boat is broken.|@dbl@He needs me to bring him some @dre@Swamp Paste@dbl@.||");
-            $text = append($text, "@dbl@I've can make @dre@Swamp Paste@dbl@ by mixing @dre@Swamp Tar@dbl@ with|@dre@Flour@dbl@ and then heating the mixture on a @dre@Fire@dbl@.|");
+            $text = append($text, "@dbl@I've spoken to @dre@Holgart@dbl@, but his boat is broken.|He needs me to bring him some @dre@Swamp Paste@dbl@.||");
+            $text = append($text, "@dbl@I can make @dre@Swamp Paste@dbl@ by mixing @dre@Swamp Tar@dbl@ with @dre@Flour@dbl@ and then heating the mixture on a @dre@Fire@dbl@.|");
             $text = append($text, "@dbl@I can find @dre@Swamp Tar@dbl@ in the @dre@Swamp South of Lumbridge@dbl@.||");
         } else {
-            $text = append($text, "@dbl@I need to take the @dre@Swamp Paste@dbl@ to @dre@Holgart@dbl@ He's near|@dre@Caroline@dbl@, they're @dre@East of Ardougne@dbl@.||");
+            $text = append($text, "@dbl@I need to take the @dre@Swamp Paste@dbl@ to @dre@Holgart@dbl@ He's near @dre@Caroline@dbl@, they're @dre@East of Ardougne@dbl@.||");
         }
 
-        $text = append($text, "@dbl@I need to get to the @dre@Fishing Platform@dbl@ and find out what's|@dbl@happened to @dre@Kent@dbl@ and @dre@Kennith@dbl@.");
+        $text = append($text, "@dbl@I need to get to the @dre@Fishing Platform@dbl@ and find out what's happened to @dre@Kent@dbl@ and @dre@Kennith@dbl@.");
 
     case ^seaslug_boat_repaired :
         $text = "@str@I have spoken to Caroline and agreed to help.||";
@@ -49,7 +49,7 @@ switch_int (%seaslugquest) {
         $text = append($text, "@str@I've found Kennith, he's hiding behind some boxes.||");
         $text = append($text, "@str@I've found Kent on a small island.||");
         $text = append($text, "@dre@Kent@dbl@ has asked me to help @dre@Kennith@dbl@ escape.|");
-        $text = append($text, "@dbl@After speaking to @dre@Bailey@dbl@, I found out that Sea Slugs are|@dbl@afraid of heat.|");
+        $text = append($text, "@dbl@After speaking to @dre@Bailey@dbl@, I found out that Sea Slugs are afraid of heat.|");
         $text = append($text, "@dbl@I should find a way of lighting this damp torch.");
 
     case ^seaslug_lit_torch :
@@ -59,7 +59,7 @@ switch_int (%seaslugquest) {
         $text = append($text, "@str@I've found Kent on a small island.||");
         $text = append($text, "@str@Kent has asked me to help Kennith escape.|@str@After speaking to Bailey, I found out that Sea Slugs are|@str@afraid of heat.|");
         $text = append($text, "@str@I should find a way of lighting this damp torch.|");
-        $text = append($text, "@dre@Kennith@dbl@ won't go near the @dre@Sea Slugs@dbl@.|@dbl@I need to find another way to get him out.");
+        $text = append($text, "@dre@Kennith@dbl@ won't go near the @dre@Sea Slugs@dbl@.|I need to find another way to get him out.");
 
     // https://www.youtube.com/watch?v=_DO7LpbyI5k & https://www.youtube.com/watch?v=kEBlrWEBgBI
     case ^seaslug_kennith_need_escape, ^seaslug_panel_opened :
@@ -70,7 +70,7 @@ switch_int (%seaslugquest) {
         $text = append($text, "@str@Kent has asked me to help Kennith escape.|@str@After speaking to Bailey, I found out that Sea Slugs are|@str@afraid of heat.|");
         $text = append($text, "@str@I should find a way of lighting this damp torch.|");
         $text = append($text, "@str@I've created an opening to let Kenneth escape.||");
-        $text = append($text, "@dre@Kennith@dbl@ won't go near the @dre@Sea Slugs@dbl@.|@dbl@I need to find another way to get him out.");
+        $text = append($text, "@dre@Kennith@dbl@ won't go near the @dre@Sea Slugs@dbl@.|I need to find another way to get him out.");
 
     case ^seaslug_need_kennith_path :
         $text = "@str@I have spoken to Caroline and agreed to help.||";
@@ -81,7 +81,7 @@ switch_int (%seaslugquest) {
         $text = append($text, "@str@I should find a way of lighting this damp torch.|");
         $text = append($text, "@str@I've created an opening to let Kenneth escape.||");
         $text = append($text, "@str@Kennith can't get downstairs without some help.||");
-        $text = append($text, "@dre@Kennith@dbl@ won't go near the @dre@Sea Slugs@dbl@.|@dbl@I need to find another way to get him out.");
+        $text = append($text, "@dre@Kennith@dbl@ won't go near the @dre@Sea Slugs@dbl@.|I need to find another way to get him out.");
 
     case ^seaslug_saved_kennith :
         $text = "@str@I have spoken to Caroline and agreed to help.||";

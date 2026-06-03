@@ -2,7 +2,7 @@
 def_string $text;
 
 if (%biohazard = ^biohazard_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Elena @dbl@who is in @dre@East|@dre@Ardougne";
+    $text = "@dbl@I can start this quest by speaking to @dre@Elena @dbl@who is in @dre@East|Ardougne";
 
     ~quest_journal("Biohazard", $text);
     return;
@@ -13,7 +13,7 @@ $text = "@str@I've spoken to Elena, the Mourners stole her distillator|";
 if (%biohazard > ^biohazard_started) {
     $text = append($text, "|@str@I've spoken to Jerico about getting into West Ardougne|");
 } else if (%biohazard = ^biohazard_started) {
-    $text = append($text, "|@dbl@I need to talk to @dre@Jerico @dbl@about getting over the wall and|@dbl@into @dre@West Ardougne");
+    $text = append($text, "|@dbl@I need to talk to @dre@Jerico @dbl@about getting over the wall and|into @dre@West Ardougne");
 }
 
 if (%biohazard = ^biohazard_spoken_jerico) {
@@ -27,7 +27,7 @@ if (%biohazard = ^biohazard_used_birdfeed) {
 
 if (%biohazard = ^biohazard_released_pigeons) {
     $text = append($text, "|@dbl@The Watch Tower is now surrounded by flapping pigeons!");
-    $text = append($text, "|@dbl@Maybe I can sneak over the wall while the mourners are|@dbl@distracted");
+    $text = append($text, "|@dbl@Maybe I can sneak over the wall while the mourners are|distracted");
 }
 
 if (%biohazard >= ^biohazard_climbed_ladder) {
@@ -35,13 +35,13 @@ if (%biohazard >= ^biohazard_climbed_ladder) {
     $text = append($text, "|@str@Omart and Kilron will stay to help me out again|");
 
     if (%biohazard < ^biohazard_found_distillator) {
-        $text = append($text, "|@dbl@Somewhere in this city is @dre@Elena's distillator @dbl@- I must find|@dbl@it and return it to her|");
+        $text = append($text, "|@dbl@Somewhere in this city is @dre@Elena's distillator @dbl@- I must find|it and return it to her|");
     }
 }
 
 if (%biohazard = ^biohazard_poisoned_stew) {
-    $text = append($text, "|@dbl@I have rather unkindly poisoned the mourners' stew by|@dbl@putting rotten apples into it!");
-    $text = append($text, "|@dbl@At least the mourners aren't very nice people, so I don't|@dbl@feel bad about this");
+    $text = append($text, "|@dbl@I have rather unkindly poisoned the mourners' stew by|putting rotten apples into it!");
+    $text = append($text, "|@dbl@At least the mourners aren't very nice people, so I don't|feel bad about this");
 }
 
 if (%biohazard > ^biohazard_found_distillator) {
@@ -60,7 +60,7 @@ if (%biohazard > ^biohazard_found_distillator) {
 if (%biohazard > ^biohazard_given_distillator) {
     $text = append($text, "|@str@Elena gave me some chemicals to take to Guidor|");
 } else if (%biohazard = ^biohazard_given_distillator) {
-    $text = append($text, "|@dbl@Elena's asked me to take the following items to @dre@Guidor @dbl@who|@dbl@lives in @dre@Varrock");
+    $text = append($text, "|@dbl@Elena's asked me to take the following items to @dre@Guidor @dbl@who|lives in @dre@Varrock");
 
     $text = append($text, "|@dre@Plague Sample @dbl@from @dre@Elena");
     if (inv_total(inv, plaguesample) > 0) {
@@ -88,7 +88,7 @@ if (%biohazard > ^biohazard_given_distillator) {
 if (%biohazard > ^biohazard_spoken_chemist) {
     $text = append($text, "|@str@I've given all the items to Guidor|");
 } else if (%biohazard = ^biohazard_spoken_chemist) {
-    $text = append($text, "|@dbl@The Varrock guards are out looking for someone carrying|@dbl@suspicious materials. I must smuggle the items to @dre@Guidor|@dbl@secretly");
+    $text = append($text, "|@dbl@The Varrock guards are out looking for someone carrying|suspicious materials. I must smuggle the items to @dre@Guidor|@dbl@secretly");
 }
 
 if (%biohazard = ^biohazard_found_secret) {

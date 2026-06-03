@@ -107,7 +107,6 @@ model5=model_419_idk
 model6=model_358_idk
 model7=model_483_npc
 head1=model_103_idk_head
-param=death_sound,female_death
 
 [mary_the_maid]
 vislevel=hide
@@ -133,7 +132,6 @@ model6=model_358_idk
 model7=model_483_npc
 model8=model_414_npc
 head1=model_114_idk_head
-param=death_sound,female_death
 
 [stanford_the_gardener]
 vislevel=hide
@@ -238,7 +236,6 @@ model5=model_419_idk
 model6=model_358_idk
 model7=model_417_npc
 head1=model_113_idk_head
-param=death_sound,female_death
 
 [bob_sinclair]
 vislevel=hide
@@ -290,7 +287,6 @@ model5=model_419_idk
 model6=model_358_idk
 model7=model_414_npc
 head1=model_114_idk_head
-param=death_sound,female_death
 
 [david_sinclair]
 vislevel=hide
@@ -340,7 +336,6 @@ model4=model_353_idk
 model5=model_419_idk
 model6=model_358_idk
 head1=model_113_idk_head
-param=death_sound,female_death
 
 [frank_sinclair]
 vislevel=hide

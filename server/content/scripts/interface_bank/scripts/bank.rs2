@@ -84,15 +84,17 @@ if ($withdraw > 0) {
     }
 }
 
-[proc,bank_deposit_request](inv $inv, obj $obj, int $amount, int $slot)
+[proc,bank_deposit_request](inv $inv, obj $obj, int $amount, int $slot, int $mes)(boolean)
 def_int $overflow = inv_itemspace2(bank, oc_uncert($obj), $amount, ^max_32bit_int);
-if (sub(^max_32bit_int, $amount) < inv_total(bank, $obj)) {
-    mes("You already have a full stack of that item in the bank."); // 2024 osrs
-} else if ($overflow >= $amount) {
+if (sub(^max_32bit_int, $amount) < inv_total(bank, oc_uncert($obj))) {
+    if($mes = ^true) mes("You already have a full stack of that item in the bank."); // 2024 osrs
+    return (false);
+}
+if ($overflow >= $amount) {
     // https://youtu.be/2BgXLZD-xgo?t=28
     // https://youtu.be/Ep4gaI5ic1s?t=197
-    mes("You don't have enough space in your bank account."); // osrs
-    return;
+    if($mes = ^true) mes("You don't have enough space in your bank account."); // osrs
+    return (false);
 }
 def_int $deposit = sub($amount, $overflow);
 if ($deposit > 0) {
@@ -100,9 +102,9 @@ if ($deposit > 0) {
     inv_moveitem_uncert($inv, bank, $obj, $deposit);
 }
 
-[proc,bank_check_nobreak](obj $obj)(boolean)
+[proc,bank_check_nobreak](obj $obj, int $send_mes)(boolean)
 if (oc_param($obj, unbankable) = ^true) {
-    mes("A magical force prevents you from banking this item!"); // osrs
+    if($send_mes = ^true) mes("A magical force prevents you from banking this item!"); // osrs
     return(true);
 }
 

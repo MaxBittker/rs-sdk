@@ -6,6 +6,7 @@ if (~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
 p_aprange(0);
 
 [opplayer1,_]
+p_stopaction;
 if (~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
     @pvp_gnomeball_pass;
     return;
@@ -25,7 +26,7 @@ if (~in_games_room(coord) = true & ~in_games_room(.coord) = true) {
 
     if (.%duel2accept ! uid) {
         %duel2accept = .uid;
-        if (inzone(^draughts_room_start_coord, ^draughts_room_end_coord, coord) = true) {
+        if ((inzone(^draughts_room_start_coord, ^draughts_room_end_coord, coord) = true) | (inzone(^draughts_challengeroom_start_coord, ^draughts_challengeroom_end_coord, coord) = true)) {
             %boardgames_game = 0;
             %boardgames_closinginterface = 1;
             %boardgames_timepermove = 1;
@@ -33,7 +34,7 @@ if (~in_games_room(coord) = true & ~in_games_room(.coord) = true) {
             %boardgames_piece = 1;
             if_openmain(boardgames_draughts_options);
             %boardgames_closinginterface = 0;
-        } else if (inzone(^runelinks_room_start_coord, ^runelinks_room_end_coord, coord) = true) {
+        } else if ((inzone(^runelinks_room_start_coord, ^runelinks_room_end_coord, coord) = true) | (inzone(^runelinks_challengeroom_start_coord, ^runelinks_challengeroom_end_coord,  coord) = true)) {
             %boardgames_game = 1;
             %boardgames_closinginterface = 1;
             %boardgames_timepermove = 1;

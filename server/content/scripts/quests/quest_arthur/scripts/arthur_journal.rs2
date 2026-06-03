@@ -13,7 +13,7 @@ switch_int(%arthur) {
     case ^arthur_started :
         $text = "@str@I spoke to King Arthur and he said I would be worth of|@str@becoming a Knight of the Round Table if I could free Merlin|";
         $text = append($text, "@str@from a giant crystal that he has been trapped in.||");
-        $text = append($text, "@dbl@I should ask the @dre@other Knights@dbl@ if they have any @dre@advice@dbl@ for|@dbl@me on how I should go about doing this.");
+        $text = append($text, "@dbl@I should ask the @dre@other Knights@dbl@ if they have any @dre@advice@dbl@ for|me on how I should go about doing this.");
 
     // https://i.imgur.com/5PiO2j1.png
     case ^arthur_spoken_gawain :
@@ -39,7 +39,7 @@ switch_int(%arthur) {
         $text = append($text, "@str@I told Lancelot of Gawain's suspicions, and he told me that|@str@Mordred's Fortress is not completely impenetrable.|");
         $text = append($text, "@str@I stowed away in a shipment of candles and reached the|@str@Stronghold of Sir Mordred, and bested him in combat.|");
         $text = append($text, "@str@In return for sparing her son, Morgan Le Faye told me|@str@how I could break the spell that had imprisoned Merlin.|");
-        $text = append($text, "@dbl@I need to summon the spirit @dre@Thrantax@dbl@ at a @dre@magic symbol@dbl@ as|@dbl@close to the Crystal as I can possibly find.|");
+        $text = append($text, "@dbl@I need to summon the spirit @dre@Thrantax@dbl@ at a @dre@magic symbol@dbl@ as|close to the Crystal as I can possibly find.|");
         $text = append($text, "@dbl@To bind @dre@Thrantax@dbl@ to my will I will need the following:|");
 
         if (testbit(%excalibur_components_progress, ^chaosaltar_index) = ^true) {
@@ -88,7 +88,7 @@ switch_int(%arthur) {
         $text = append($text, "@str@I summoned the Spirit Thrantax and forced him to aid me in|@str@breaking Morgan Le Fayes curse upon Merlin. He used his|");
         $text = append($text, "@str@magic to weaken the crystal so that a blow from Excalibur|@str@would be able to shatter it for good.|");
         $text = append($text, "@str@I freed Merlin by shattering the Crystal that trapped him|");
-        $text = append($text, "@dbl@Now that @dre@Merlin@dbl@ is freed I should speak to @dre@King Arthur@dbl@ to|@dbl@claim my @dre@reward@dbl@ and become a @dre@Knight of the Round|@dre@Table");
+        $text = append($text, "@dbl@Now that @dre@Merlin@dbl@ is freed I should speak to @dre@King Arthur@dbl@ to|claim my @dre@reward@dbl@ and become a @dre@Knight of the Round|Table");
 
     // https://i.imgur.com/ujKBq0P.png
     case ^arthur_complete :

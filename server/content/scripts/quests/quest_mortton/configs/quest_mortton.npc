@@ -211,6 +211,8 @@ category=category_348
 huntmode=cowardly
 // guess
 huntrange=1
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1293
 
 [mort_afflicted_woman]
 name=Afflicted
@@ -255,6 +257,8 @@ category=category_348
 huntmode=cowardly
 // guess
 huntrange=1
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1294
 
 [mort_man2]
 name=Mort'ton local
@@ -351,6 +355,8 @@ category=category_348
 huntmode=cowardly
 // guess
 huntrange=1
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1297
 
 [mort_afflicted_woman2]
 name=Afflicted
@@ -395,3 +401,5 @@ category=category_348
 huntmode=cowardly
 // guess
 huntrange=1
+// osrs stats and Vislvl match 1:1
+// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1298

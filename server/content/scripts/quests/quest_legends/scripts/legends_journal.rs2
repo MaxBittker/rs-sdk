@@ -163,18 +163,16 @@ if(%legendsquest >= ^legends_swung_bullroarer) {
     $text = append($text, "|@str@A local forester took a copy of my Kharazi map and in");
     $text = append($text, "|@str@return I got a bullroarer which may attract a native.");
 } else if(%legendsquest = ^legends_mapped_jungle) {
-    $text = append($text, "|@dbl@I need to make friends with a @dre@native@dbl@ and bring back");
-    $text = append($text, "|@dbl@a @dre@gift@dbl@ which can be displayed in the @dre@Legends Guild.");
+    $text = append($text, "|@dbl@I need to make friends with a @dre@native@dbl@ and bring back a @dre@gift@dbl@ which can be displayed in the @dre@Legends Guild.");
 }
 if(%legendsquest > ^legends_accepted_rescue_ungadulu) {
-    $text = append($text, "|@str@I agreed to help Gujuo by freeing a Shaman. The shaman @str@is in some caves in North West Kharazi.");
+    $text = append($text, "|@str@I agreed to help Gujuo by freeing a Shaman. The shaman|@str@is in some caves in North West Kharazi.");
 } else if(%legendsquest = ^legends_accepted_rescue_ungadulu) {
-    $text = append($text, "|@dbl@I agreed to help @dre@Gujuo@dbl@ by releasing a @dre@Shaman@dbl@ who is @dbl@being held in some @dre@caves@dbl@ in @dre@North West Kharazi@dbl@.");
+    $text = append($text, "|@dbl@I agreed to help @dre@Gujuo@dbl@ by releasing a @dre@Shaman@dbl@ who is being held in some @dre@caves@dbl@ in @dre@North West Kharazi@dbl@.");
 } else if(%legendsquest = ^legends_swung_bullroarer) {
-    $text = append($text, "|@dbl@I've met '@dre@Gujuo@dbl@', a @dre@Kharazi Jungle native@dbl@. Perhaps I can @dbl@make friends with him?");
+    $text = append($text, "|@dbl@I've met '@dre@Gujuo@dbl@', a @dre@Kharazi Jungle native@dbl@. Perhaps I can make friends with him?");
 } else if(%legendsquest = ^legends_got_bullroarer) {
-    $text = append($text, "|@dbl@I need to make friends with a @dre@native@dbl@ and bring back");
-    $text = append($text, "|@dbl@a @dre@gift@dbl@ which can be displayed in the @dre@Legends Guild.");
+    $text = append($text, "|@dbl@I need to make friends with a @dre@native@dbl@ and bring back a @dre@gift@dbl@ which can be displayed in the @dre@Legends Guild.");
 }
 
 if(%legendsquest >= ^legends_spoke_ungadulu) {
@@ -186,7 +184,7 @@ if(%legendsquest >= ^legends_spoke_ungadulu) {
 if(%legendsquest > ^legends_spoke_ungadulu) {
     $text = append($text, "|@str@Ungadulu acted strange and mentioned sacred water.");
 } else if(%legendsquest = ^legends_spoke_ungadulu) {
-    $text = append($text, "|@dre@Ungadulu@dbl@ is acting weird and talking a lot of nonsense, @dbl@perhaps someone else can help me understand what he's @dbl@talking about.");
+    $text = append($text, "|@dre@Ungadulu@dbl@ is acting weird and talking a lot of nonsense, perhaps someone else can help me understand what he's talking about.");
     $text = append($text, "|@dbl@I need to get some @dre@Yommi tree seeds@dbl@ from @dre@Ungadulu@dbl@.");
 }
 
@@ -197,7 +195,7 @@ if(%legendsquest >= ^legends_summoned_nezikchened_fire) {
 } else if(%legendsquest = ^legends_asked_gujuo_holy_water) {
     if(inv_total(inv, goldbowlbless_empty) > 0 | inv_total(inv, goldbowlbless_water) > 0) {
         $text = append($text, "|@str@Gujuo said I need a blessed vessel of sun metal.");
-        $text = append($text, "|@dbl@I have a @dre@blessed golden bowl@dbl@, now I need some @dre@sacred @dre@water@dbl@.");
+        $text = append($text, "|@dbl@I have a @dre@blessed golden bowl@dbl@, now I need some @dre@sacred water@dbl@.");
     } else if(inv_total(inv, goldbowl_empty) > 0 | inv_total(inv, goldbowl_water) > 0 | inv_total(inv, goldbowl_pure) > 0) {
         $text = append($text, "|@str@Gujuo said I need a blessed vessel of sun metal.");
         $text = append($text, "|@dbl@I have a @dre@golden bowl@dbl@, now it needs to be @dre@blessed@dbl@.");
@@ -208,46 +206,46 @@ if(%legendsquest >= ^legends_summoned_nezikchened_fire) {
 if(%legendsquest >= ^legends_summoned_nezikchened_fire) {
     $text = append($text, "|@str@I used the book of binding on Ungadulu and|@str@a demon called Nezikchened appeared. I think that @str@Ungadulu is possessed by this demon.");
 } else if(%legendsquest = ^legends_filled_bowl) {
-    $text = append($text, "|@dbl@I have some @dre@sacred water@dbl@. @dre@Ungadulu@dbl@ mentioned that it @dbl@may help me to get closer to him. I need get some @dre@Yommi @dre@tree seeds@dbl@ from @dre@Ungadulu@dbl@.");
+    $text = append($text, "|@dbl@I have some @dre@sacred water@dbl@. @dre@Ungadulu@dbl@ mentioned that it may help me to get closer to him. I need get some @dre@Yommi tree seeds@dbl@ from @dre@Ungadulu@dbl@.");
     if(inv_total(inv, book_of_binding) > 0) {
-        $text = append($text, "|@dbl@I found a '@dre@book of binding@dbl@' which may give some clue as to @dbl@how I can release @dre@Ungadulu@dbl@.");
+        $text = append($text, "|@dbl@I found a '@dre@book of binding@dbl@' which may give some clue as to how I can release @dre@Ungadulu@dbl@.");
     }
 }
 
 if(%legendsquest >= ^legends_defeated_nezikchened_fire) {
-    $text = append($text, "|@str@I used the book of binding to force the demon @str@Nezikchened out of Ungadulu. I then slew the demon.");
+    $text = append($text, "|@str@I used the book of binding to force the demon|@str@Nezikchened out of Ungadulu. I then slew the demon.");
 } else if(%legendsquest >= ^legends_summoned_nezikchened_fire) {
-    $text = append($text, "|@dbl@I need to release @dre@Ungadulu@dbl@ so that I can get some @dre@Yommi @dre@tree seeds@dbl@ from him.");
+    $text = append($text, "|@dbl@I need to release @dre@Ungadulu@dbl@ so that I can get some @dre@Yommi tree seeds@dbl@ from him.");
 }
 
 if(%legendsquest >= ^legends_water_pool_dried_up) {
     $text = append($text, "|@str@Ungadulu studies supernatural spirits!");
-    $text = append($text, "|@str@I used sacred water to germinate the Yommi tree seeds @str@that Ungadulu gave me.");
+    $text = append($text, "|@str@I used sacred water to germinate the Yommi tree seeds|@str@that Ungadulu gave me.");
 
 } else if(%legendsquest = ^legends_germinated_seeds) {
-    $text = append($text, "|@dbl@I have some @dre@germinated Yommi tree seeds@dbl@. I just need to @dbl@plant them now in some @dre@fertile soil@dbl@.");
+    $text = append($text, "|@dbl@I have some @dre@germinated Yommi tree seeds@dbl@. I just need to plant them now in some @dre@fertile soil@dbl@.");
     $text = append($text, "|@dre@Ungadulu@dbl@ studies supernatural @dre@spirits!");
 } else if(%legendsquest = ^legends_defeated_nezikchened_fire) {
     if(inv_total(inv, yommiseeds) > 0) {
         $text = append($text, "|@dbl@I have some @dre@Yommi tree seeds@dbl@ from @dre@Ungadulu@dbl@. I need to @dre@germinate@dbl@ them with @dre@sacred water@dbl@ before planting them in @dre@fertile soil@dbl@.");
         $text = append($text, "|@dre@Ungadulu@dbl@ studies supernatural @dre@spirits!");
     } else {
-        $text = append($text, "|@dbl@I need to get some @dre@Yommi tree seeds@dbl@ from @dre@Ungadulu@dbl@ now @dbl@that I have released him from his possession.");
+        $text = append($text, "|@dbl@I need to get some @dre@Yommi tree seeds@dbl@ from @dre@Ungadulu@dbl@ now that I have released him from his possession.");
     }
 }
 
 if(%legendsquest >= ^legends_enter_lower_dungeon) {
-    $text = append($text, "|@str@Gujuo said the sacred water source is in the Viyeldi caves. @str@I had to make a bravery potion in order to enter the @str@caves. The Viyeldi caves are under the caves where @str@Ungadulu is.");
+    $text = append($text, "|@str@Gujuo said the sacred water source is in the Viyeldi caves.|@str@I had to make a bravery potion in order to enter the|@str@caves. The Viyeldi caves are under the caves where|@str@Ungadulu is.");
 } else if(%legendsquest = ^legends_talk_gujuo_pool) {
     if(inv_total(inv, bravery_pot) > 0) {
         $text = append($text, "|@str@Gujuo said the sacred water source is in the Viyeldi caves.");
         $text = append($text, "|@str@I have made a bravery potion in order to enter the caves.");
-        $text = append($text, "|@dbl@I need to find the @dre@Viyeldi @dbl@caves and the source of the @dre@sacred water@dbl@.");
+        $text = append($text, "|@dbl@I need to find the @dre@Viyeldi@dbl@ caves and the source of the @dre@sacred water@dbl@.");
     } else {
         if(inv_total(inv, snake_weed) > 0 & inv_total(inv, ardrigal) > 0) {
-            $text = append($text, "|@dbl@I need to make the @dre@bravery potion@dbl@ using @dbl@the @dre@Snake weed @dbl@and @dre@Ardrigal @dbl@I have.");
+            $text = append($text, "|@dbl@I need to make the @dre@bravery potion@dbl@ using the @dre@Snake weed@dbl@ and @dre@Ardrigal@dbl@ I have.");
         } else {
-            $text = append($text, "|@dre@Gujuo@dbl@ said the @dre@Viyeldi caves@dbl@ might be the @dre@source@dbl@ of the @dre@sacred water@dbl@. I need to make a @dre@bravery potion@dbl@ before I @dbl@can enter.");
+            $text = append($text, "|@dre@Gujuo@dbl@ said the @dre@Viyeldi caves@dbl@ might be the @dre@source@dbl@ of the @dre@sacred water@dbl@. I need to make a @dre@bravery potion@dbl@ before I can enter.");
             $text = append($text, "|@dbl@I need to collect:-");
             if(inv_total(inv, snake_weed) > 0) $text = append($text, "|@str@I have snake weed.");
             else $text = append($text, "|@dre@Snake weed");
@@ -262,7 +260,7 @@ if(%legendsquest >= ^legends_enter_lower_dungeon) {
 if(%legendsquest = ^legends_crystal_pieces_smelted) {
     $text = append($text, "|@str@I fixed chunks of crystal into dragon heart shape.");
 } else if(%legendsquest = ^legends_enter_lower_dungeon) {
-    $text = append($text, "|@dbl@I'm able to access the @dre@Viyeldi Caves@dbl@. I need to find the @dbl@source of @dre@sacred water@dbl@, which may be protected.");
+    $text = append($text, "|@dbl@I'm able to access the @dre@Viyeldi Caves@dbl@. I need to find the source of @dre@sacred water@dbl@, which may be protected.");
     def_int $crystal_count;
     if(inv_total(inv, heartcrystal_sectiona) > 0) {
         $crystal_count = add($crystal_count, 1);
@@ -298,14 +296,14 @@ if(%legendsquest = ^legends_crystal_pieces_smelted) {
 }
 
 if(%legendsquest = ^legends_heart_in_recess) {
-    $text = append($text, "|@str@I made a glowing dragon heart stone from chunks of @str@crystal which gave me access to a strange cave.");
+    $text = append($text, "|@str@I made a glowing dragon heart stone from chunks of|@str@crystal which gave me access to a strange cave.");
 } else if(%legendsquest = ^legends_crystal_pieces_smelted) {
     if(inv_total(inv, heartcrystal_glow) > 0) {
-        $text = append($text, "|@dbl@I have a @dre@glowing dragon heart@dbl@ crystal which might help me @dbl@to gain access to the @dre@sacred water@dbl@.");
+        $text = append($text, "|@dbl@I have a @dre@glowing dragon heart@dbl@ crystal which might help me to gain access to the @dre@sacred water@dbl@.");
     } else if(inv_total(inv, heartcrystal) > 0) {
-        $text = append($text, "|@dbl@I have a @dre@Dragon heart@dbl@ crystal which might help me @dbl@to gain @dbl@access to the @dre@sacred water@dbl@.");
+        $text = append($text, "|@dbl@I have a @dre@Dragon heart@dbl@ crystal which might help me to gain @dbl@access to the @dre@sacred water@dbl@.");
     } else {
-        $text = append($text, "|@dbl@I've lost the dragon heart crystal. I should try to get @dbl@more crystal chunks and make another dragon heart.");
+        $text = append($text, "|@dbl@I've lost the dragon heart crystal. I should try to get more crystal chunks and make another dragon heart.");
     }
     $text = append($text, "|@dbl@I need to find the @dre@source@dbl@ of the @dre@sacred water@dbl@.");
 }
@@ -313,19 +311,19 @@ if(%legendsquest = ^legends_heart_in_recess) {
 if(%legendsquest = ^legends_pushed_boulder) {
     $text = append($text, "|@str@A strange spirit seems to be guarding the sacred water.");
 } else if(%legendsquest = ^legends_heart_in_recess) {
-    $text = append($text, "|@dbl@I need to find the source of the @dre@sacred water@dbl@ and collect @dbl@some so I can grow a @dre@Yommi tree@dbl@.");
+    $text = append($text, "|@dbl@I need to find the source of the @dre@sacred water@dbl@ and collect some so I can grow a @dre@Yommi tree@dbl@.");
 }
 
 if(%legendsquest >= ^legends_defeated_nezikchened_water & testbit(%legends_bits, ^legends_killed_viyeldi) = ^false) {
     // OSRS https://youtu.be/uYxkN3aJ-44?si=tqlI4SWhr7Z2yB1C&t=7469
-    $text = append($text, "|@str@The spirit Echnid Zeikin gave me a dagger and asked me @str@to kill Viyeldi. The Spirit turned out to be a demon in @str@disguise. I wasn't tricked, though and I defeated the @str@demon with Ungadulu's help.");
+    $text = append($text, "|@str@The spirit Echnid Zeikin gave me a dagger and asked me|@str@to kill Viyeldi. The Spirit turned out to be a demon in|@str@disguise. I wasn't tricked, though and I defeated the|@str@demon with Ungadulu's help.");
 } else if(%legendsquest >= ^legends_received_dagger) {
-    $text = append($text, "|@str@The spirit gave me a dagger and said I have to kill Viyeldi @str@with it if I want to get some sacred water.");
+    $text = append($text, "|@str@The spirit gave me a dagger and said I have to kill Viyeldi|@str@with it if I want to get some sacred water.");
 }
 
 if(%legendsquest = ^legends_received_dagger & testbit(%legends_bits, ^legends_killed_viyeldi) = ^true) {
     if(testbit(%legends_bits, ^legends_given_dagger) = ^true) {
-        $text = append($text, "|@str@I killed Viyeldi with the black dagger and I returned it to @str@the spirit, but it turned into the demon.");
+        $text = append($text, "|@str@I killed Viyeldi with the black dagger and I returned it to|@str@the spirit, but it turned into the demon.");
         $text = append($text, "|@dbl@I guess I'm going to have to defeat this @dre@demon@dbl@.");
     } else {
         $text = append($text, "|@str@I've killed Viyeldi with a dagger the spirit gave me.");
@@ -333,12 +331,12 @@ if(%legendsquest = ^legends_received_dagger & testbit(%legends_bits, ^legends_ki
 }
 
 if(%legendsquest >= ^legends_defeated_nezikchened_water & testbit(%legends_bits, ^legends_killed_viyeldi) = ^true) {
-    $text = append($text, "|@str@I was tricked by the demon into killing Viyeldi but I @str@managed to destroy the demon in the end.");
+    $text = append($text, "|@str@I was tricked by the demon into killing Viyeldi but I|@str@managed to destroy the demon in the end.");
 }
 
 if(%legendsquest = ^legends_received_dagger & testbit(%legends_bits, ^legends_given_dagger) = ^false) {
     if(testbit(%legends_bits, ^legends_killed_viyeldi) = ^true) $text = append($text, "|@dbl@The @dre@Spirit@dbl@ said I should return the @dre@dagger@dbl@ to him.");
-    else $text = append($text, "|@dbl@The @dre@Spirit@dbl@ said I should return the @dre@dagger@dbl@ to him once I @dbl@had @dre@killed Viyeldi@dbl@.");
+    else $text = append($text, "|@dbl@The @dre@Spirit@dbl@ said I should return the @dre@dagger@dbl@ to him once I had @dre@killed Viyeldi@dbl@.");
     if(~obj_gettotal(holyforce) > 0) {
         // OSRS https://github.com/Indio3/quest-journals/blob/master/quest_legends/2025-03-28_18-19-11.png?raw=true
         $text = append($text, "@dbl@I told @dre@Ungadulu@dbl@ about the @dre@spirit@dbl@. Ungadulu may be able to help me.");
@@ -347,15 +345,15 @@ if(%legendsquest = ^legends_received_dagger & testbit(%legends_bits, ^legends_gi
             $text = append($text, "|@dbl@I have the @dre@dagger@dbl@ with which I killed @dre@Viyeldi@dbl@.");
             $text = append($text, "|@dbl@The @dre@spirit@dbl@ asked me to return this.");
         } else {
-            $text = append($text, "|@dbl@I have a death dagger from the @dre@spirit@dbl@, @dre@Echned Zekin@dbl@, the @dbl@spirit asked me to kill @dre@Viyeldi@dbl@.");
+            $text = append($text, "|@dbl@I have a death dagger from the @dre@spirit@dbl@, @dre@Echned Zekin@dbl@, the spirit asked me to kill @dre@Viyeldi@dbl@.");
         }
     }
 }
 
 if(%legendsquest >= ^legends_spawned_nezikchened_final) {
-    $text = append($text, "|@str@I made a Yommi tree totem pole by growing a Yommi @str@tree and watering it with sacred water.");
+    $text = append($text, "|@str@I made a Yommi tree totem pole by growing a Yommi|@str@tree and watering it with sacred water.");
 } else if(%legendsquest = ^legends_collected_totem) {
-    $text = append($text, "|@str@I collected some sacred water in order to I made a totem @str@pole from a Yommi tree.");
+    $text = append($text, "|@str@I collected some sacred water in order to I made a totem|@str@pole from a Yommi tree.");
 } else if(%legendsquest = ^legends_sacred_water_collected) {
     $text = append($text, "|@str@I now have some pure sacred water.");
 } else if(%legendsquest = ^legends_defeated_nezikchened_water) {
@@ -365,9 +363,9 @@ if(%legendsquest >= ^legends_spawned_nezikchened_final) {
 }
 
 if(%legendsquest >= ^legends_spawned_nezikchened_final) {
-    $text = append($text, "|@str@I used the totem pole on an evil totem pole and the demon @str@Nezikchened appeared again.");
+    $text = append($text, "|@str@I used the totem pole on an evil totem pole and the demon|@str@Nezikchened appeared again.");
 } else if(%legendsquest = ^legends_collected_totem) {
-    $text = append($text, "|@dbl@I've got a @dre@Yommi tree totem pole@dbl@, I need to place this @dbl@somewhere so that @dre@Gujuo@dbl@ can gather his people together. @dbl@Perhaps then I can make @dre@friends@dbl@ with the Kharazi tribe.");
+    $text = append($text, "|@dbl@I've got a @dre@Yommi tree totem pole@dbl@, I need to place this somewhere so that @dre@Gujuo@dbl@ can gather his people together. Perhaps then I can make @dre@friends@dbl@ with the Kharazi tribe.");
 } else if(%legendsquest = ^legends_sacred_water_collected) {
     $text = append($text, "|@dbl@I can now try to grow a @dre@Yommi tree@dbl@ in order to make a @dre@Yommi tree totem pole@dbl@.");
 } else if(%legendsquest = ^legends_defeated_nezikchened_water) {
@@ -385,9 +383,9 @@ if(%legendsquest >= ^legends_defeated_nezikchened_final) {
     }
 } else if(%legendsquest = ^legends_spawned_nezikchened_final) {
     if(testbit(%legends_bits, ^legends_killed_viyeldi) = ^true & getbit_range(%legends_bits, ^legends_defeated_san_final, ^legends_defeated_ranalph_final) < 7) {
-        $text = append($text, "|@dbl@I have to defeat the demon @dre@Nezikchened@dbl@ in order to @dbl@replace the @dre@evil totem pole.");
+        $text = append($text, "|@dbl@I have to defeat the demon @dre@Nezikchened@dbl@ in order to replace the @dre@evil totem pole.");
     } else {
-        $text = append($text, "|@dbl@I have to defeat the demon @dre@Nezikchened@dbl@ and the @dre@Viyeldi @dre@fighters@dbl@ in order to replace the evil totem pole.");
+        $text = append($text, "|@dbl@I have to defeat the demon @dre@Nezikchened@dbl@ and the @dre@Viyeldi fighters@dbl@ in order to replace the evil totem pole.");
     }
 }
 
@@ -404,14 +402,14 @@ if(%legendsquest >= ^legends_got_gilded_totem) {
 
 if(%legendsquest > ^legends_got_gilded_totem) {
     $text = append($text, "|@str@After mapping the Kharazi Jungle for Radimus Erkle|@str@I freed the Kharazi tribe from the power a foul demon|@str@called Nezikchened.");
-    $text = append($text, "|@str@In return for this heroic action the Kharazi tribe presented @str@me with a gilded totem pole.");
+    $text = append($text, "|@str@In return for this heroic action the Kharazi tribe presented|@str@me with a gilded totem pole.");
     $text = append($text, "|@str@I've handed the totem pole and map over to Radimus.");
 } else if(%legendsquest = ^legends_got_gilded_totem) {
     if(~obj_gettotal(thtotempolegift) > 0) {
-        $text = append($text, "|@str@Gujuo gave me a fine gilded totem pole for freeing the @str@Kharazi Jungle from Nezikchened's demonic power.");
+        $text = append($text, "|@str@Gujuo gave me a fine gilded totem pole for freeing the|@str@Kharazi Jungle from Nezikchened's demonic power.");
         $text = append($text, "|@dbl@The @dre@gilded totem pole@dbl@ will make a find addition to the @dre@Legends Guild@dbl@.");
     } else {
-        $text = append($text, "|@dbl@Perhaps @dre@Gujuo@dbl@ can call his people together now and I can @dbl@make @dre@friends@dbl@ with the @dre@Kharazi Jungle tribe@dbl@.");
+        $text = append($text, "|@dbl@Perhaps @dre@Gujuo@dbl@ can call his people together now and I can make @dre@friends@dbl@ with the @dre@Kharazi Jungle tribe@dbl@.");
     }
 }
 
@@ -441,11 +439,11 @@ if(%legendsquest > ^legends_returned_to_radimus) {
     $text = append($text, "|@str@The gilded totem pole is on display in the Legends Guild @str@for all to see.");
     if($completed > 0) $text = append($text, "|@str@Radimus has given me <$training_completed> training <$session_completed> as reward.");
 } else if(%legendsquest = ^legends_returned_to_radimus) {
-    $text = append($text, "|@dre@Radimus@dbl@ asked me to join him inside the @dre@Legends Guild@dbl@ to @dbl@discuss my reward.");
+    $text = append($text, "|@dre@Radimus@dbl@ asked me to join him inside the @dre@Legends Guild@dbl@ to discuss my reward.");
 }
 
 if(%legendsquest > ^legends_returned_to_radimus) {
-    $text = append($text, "|@dre@Radimus Erkle@dbl@, the @dre@Grand Vizier@dbl@ of the @dre@Legends Guild@dbl@ has @dbl@offered me some @dre@training@dbl@ for completing the @dre@quest@dbl@.");
+    $text = append($text, "|@dre@Radimus Erkle@dbl@, the @dre@Grand Vizier@dbl@ of the @dre@Legends Guild@dbl@ has offered me some @dre@training@dbl@ for completing the @dre@quest@dbl@.");
     $text = append($text, "|@dbl@I still have @dre@<$training_sessions>@dbl@ training <$session_left> with @dre@Radimus@dbl@.");
 }
 

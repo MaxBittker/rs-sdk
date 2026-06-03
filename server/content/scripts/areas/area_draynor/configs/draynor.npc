@@ -50,7 +50,6 @@ model6=model_358_idk
 model7=model_376_obj_wear
 head1=model_115_idk_head
 head2=model_101_obj_wear
-param=death_sound,female_death
 
 [joe]
 name=Joe
@@ -99,7 +98,6 @@ model6=model_361_obj_wear
 model7=model_377_obj_wear
 head1=model_115_idk_head
 head2=model_102_obj_wear
-param=death_sound,female_death
 
 [lady_keli]
 name=Lady Keli
@@ -122,7 +120,6 @@ model5=model_428_idk
 model6=model_358_idk
 head1=model_113_idk_head
 respawnrate=100
-param=death_sound,female_death
 
 [prince_ali_prison]
 name=Prince Ali
@@ -255,7 +252,6 @@ model5=model_428_idk
 model6=model_358_idk
 head1=model_118_idk_head
 wanderrange=2
-param=death_sound,female_death
 
 [professor_oddenstein]
 vislevel=hide

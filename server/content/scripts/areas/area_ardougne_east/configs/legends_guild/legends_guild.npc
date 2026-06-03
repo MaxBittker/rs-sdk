@@ -200,7 +200,6 @@ head1=model_113_idk_head
 head2=model_101_obj_wear
 wanderrange=3
 param=damagetype,^crush_style
-param=death_sound,female_death
 category=shop_keeper
 param=owned_shop,generallegends
 param=shop_sell_multiplier,1550

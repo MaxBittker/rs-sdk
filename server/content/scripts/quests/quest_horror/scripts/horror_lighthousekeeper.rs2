@@ -244,7 +244,7 @@ if(random(3) < 0) {
     $start = movecoord(0_39_72_10_32, random(3), 0, random(8));
 }
 npc_add($start, horror_dagannoth_jr1, 1000);
-sound_synth(sound_753, 0, 0);
+sound_synth(dagganoth_chitters, 0, 0);
 %npc_aggressive_player = uid;
 %aggressive_npc = npc_uid;
 hint_stop;

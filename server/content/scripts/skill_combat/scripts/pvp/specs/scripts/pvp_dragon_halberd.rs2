@@ -23,10 +23,10 @@ if(coordz(coord) > coordz(.coord)) {
     $dir = ^exact_west;
 }
 anim(dragon_halberd_special_attack, 0);
-sound_synth(sound_706, 0, 0);
+sound_synth(halberd_swipe, 0, 0);
 spotanim_map($spot, $spot_coord, 92, 0);
 .anim(.%com_defendanim, 20);
-.sound_synth(sound_706, 0, 0);
+.sound_synth(halberd_swipe, 0, 0);
 
 ~pvp_dragon_halberd_spec_hit(100);
 

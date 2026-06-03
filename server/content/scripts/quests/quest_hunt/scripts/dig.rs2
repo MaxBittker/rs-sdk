@@ -4,8 +4,8 @@ if (%hunt ! 3) {
     return;
 }
 
-if (npc_find(coord, wyson, 10, 0) = true) {
-    @wyson_attack;
+if (npc_find(coord, pirate_irate_gardener, 10, 0) = true) {
+    @pirate_irate_gardener_attack;
 }
 
 p_arrivedelay;
@@ -25,6 +25,6 @@ session_log(^log_adventure, "Quest complete: Pirate's Treasure");
 // https://web.archive.org/web/20080325101204/http://www.global-rs.com/quests/piratestreasure/
 ~send_quest_complete(questlist:hunt, emerald, 250, ^hunt_questpoints, "You have completed the\\nPirate's Treasure Quest!");
 
-[label,wyson_attack]
+[label,pirate_irate_gardener_attack]
 npc_say("Hey, leave off my flowers!");
 npc_setmode(opplayer2);

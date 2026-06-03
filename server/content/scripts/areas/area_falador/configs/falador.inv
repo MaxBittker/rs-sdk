@@ -65,7 +65,6 @@ stock5=adamant_mace,2,12000
 
 [generalshop4]
 // https://classic.runescape.wiki/w/Falador_General_Store
-// recheck
 scope=shared
 size=40
 restock=yes
@@ -78,4 +77,3 @@ stock4=bucket_empty,2,100
 stock5=tinderbox,2,100
 stock6=chisel,2,100
 stock7=hammer,5,100
-// recheck

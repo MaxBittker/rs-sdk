@@ -1,6 +1,5 @@
 [miningstore]
 // https://classic.runescape.wiki/w/Drogo%27s_Mining_Emporium
-// recheck
 scope=shared
 size=40
 restock=yes

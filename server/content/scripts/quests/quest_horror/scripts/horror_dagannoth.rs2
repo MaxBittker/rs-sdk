@@ -92,7 +92,7 @@ def_int $attack_roll = ~npc_ranged_attack_roll;
 def_int $defence_roll = ~player_defence_roll_specific(^ranged_style); // TODO: confirm if this rolls against ranged def (prob does...)
 
 npc_anim(horror_dagannoth_rangeattack, 0);
-~sound_area(dagganoth_spines, 0, npc_coord, 10);
+~.sound_area(dagganoth_spines, 0, npc_coord, 10);
 
 %npc_action_delay = add(map_clock, npc_param(attackrate));
 // map_projanim_v2	id=horror_spines_travel (294), starttime=10, endtime=66, angle=25, progress=50, startheight=210, endheight=110
@@ -123,7 +123,7 @@ if(finduid(%npc_aggressive_player) = true) {
     // can switch mode between phase changes
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
-    ~sound_area(sound_750, 0, npc_coord, 10);
+    ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
     return;
 }
 npc_del;
@@ -140,7 +140,7 @@ if(finduid(%npc_aggressive_player) = true) {
     //mes("The Dagannoth changes to orange...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
-    ~sound_area(sound_750, 0, npc_coord, 10);
+    ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
     return;
 }
 npc_del;
@@ -157,7 +157,7 @@ if(finduid(%npc_aggressive_player) = true) {
     //mes("The Dagannoth changes to brown...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
-    ~sound_area(sound_750, 0, npc_coord, 10);
+    ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
     return;
 }
 npc_del;
@@ -174,7 +174,7 @@ if(finduid(%npc_aggressive_player) = true) {
     //mes("The Dagannoth changes to red...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
-    ~sound_area(sound_750, 0, npc_coord, 10);
+    ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
     return;
 }
 npc_del;
@@ -191,7 +191,7 @@ if(finduid(%npc_aggressive_player) = true) {
     //mes("The Dagannoth changes to green...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
-    ~sound_area(sound_750, 0, npc_coord, 10);
+    ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
     return;
 }
 npc_del;
@@ -208,7 +208,7 @@ if(finduid(%npc_aggressive_player) = true) {
     //mes("The Dagannoth changes to white...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
-    ~sound_area(sound_750, 0, npc_coord, 10);
+    ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
     return;
 }
 npc_del;
@@ -237,7 +237,7 @@ cam_moveto(0_39_72_18_37, 500, 50, 10);
 p_delay(0);
 def_coord $start = 0_39_72_10_34;
 npc_add($start, horror_dagganoth_aira, 1000);
-~sound_area(sound_753, 0, npc_coord, 10);
+~.sound_area(dagganoth_chitters, 0, npc_coord, 10);
 %npc_aggressive_player = uid;
 %aggressive_npc = npc_uid;
 hint_stop;

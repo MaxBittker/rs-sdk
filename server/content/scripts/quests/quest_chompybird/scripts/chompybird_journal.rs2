@@ -3,7 +3,7 @@ def_string $text;
 
 if (%chompybird = ^chompybird_not_started) {
     // early OSRS
-    $text = "@dbl@I can start this quest by speaking to the ogre @dre@Rantz @dbl@who|@dbl@lives @dre@East @dbl@of the @dre@Ogre City@dbl@, @dre@North @dbl@of the @dre@Swamp Pool.|";
+    $text = "@dbl@I can start this quest by speaking to the ogre @dre@Rantz @dbl@who|lives @dre@East @dbl@of the @dre@Ogre City@dbl@, @dre@North @dbl@of the @dre@Swamp Pool.|";
 
     $text = append($text, "@dbl@To complete this quest I need:|");
 
@@ -91,9 +91,9 @@ if (%chompybird > ^chompybird_rantz_gave_player_bow) {
     if (inv_total(inv, ogre_bow) > 0) {
         // reverts when dropped
         $text = append($text, "|@str@Rantz doesn't seem to be a very good shot... maybe I|@str@should try to shoot a chompy for him?|");
-        $text = append($text, "|@dre@Rantz @dbl@has lent me an @dre@Ogre bow @dbl@so I can kill a @dre@chompy|@dre@bird.");
+        $text = append($text, "|@dre@Rantz @dbl@has lent me an @dre@Ogre bow @dbl@so I can kill a @dre@chompy|bird.");
     } else {
-        $text = append($text, "|@dre@Rantz @dbl@doesn't seem to be a very good shot... maybe I|@dbl@should try to shoot a @dre@chompy @dbl@for him?");
+        $text = append($text, "|@dre@Rantz @dbl@doesn't seem to be a very good shot... maybe I|should try to shoot a @dre@chompy @dbl@for him?");
     }
 }
 
@@ -107,7 +107,7 @@ if (%chompybird = ^chompybird_player_killed_chompy) {
         $text = append($text, "|@str@Rantz stands no chance of shooting a chompy bird - he'll|@str@starve to death if I don't help him.|");
         $text = append($text, "|@dbl@I should take this @dre@raw chompy @dbl@to @dre@Rantz.");
     } else {
-        $text = append($text, "|@dre@Rantz @dbl@stands no chance of shooting a @dre@chompy bird @dbl@- he'll|@dbl@starve to death if I don't @dre@help him.");
+        $text = append($text, "|@dre@Rantz @dbl@stands no chance of shooting a @dre@chompy bird @dbl@- he'll|starve to death if I don't @dre@help him.");
     }
 }
 
@@ -123,7 +123,7 @@ if (%chompybird >= ^chompybird_chompy_cooked) {
     $text = append($text, "|@str@That cheeky ogre Rantz has asked me to cook the chompy|@str@for him and his kids, and they want it seasoning as well!|"); // [sic] seasoning (RS3)
 
     if (%chompybird = ^chompybird_chompy_cooked) {
-        $text = append($text, "|@dbl@I've @dre@cooked @dbl@the @dre@chompy @dbl@for that cheeky @dre@ogre @dbl@and his @dre@kids@dbl@,|@dbl@I'd better take it to them before they @dre@starve@dbl@!");
+        $text = append($text, "|@dbl@I've @dre@cooked @dbl@the @dre@chompy @dbl@for that cheeky @dre@ogre @dbl@and his @dre@kids@dbl@,|I'd better take it to them before they @dre@starve@dbl@!");
     }
 }
 

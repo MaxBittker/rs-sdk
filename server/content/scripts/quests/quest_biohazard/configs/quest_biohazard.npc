@@ -164,7 +164,6 @@ model5=model_421_idk
 model6=model_358_idk
 head1=model_103_idk_head
 moverestrict=indoors
-param=death_sound,female_death
 
 [guidor]
 vislevel=hide

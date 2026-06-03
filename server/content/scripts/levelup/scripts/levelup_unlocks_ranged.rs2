@@ -3,9 +3,9 @@
 switch_int(stat_base(ranged)) {
     case 5  : ~doubleobjbox(oak_shortbow,steel_knife,"You can now wield @dbl@Oak Bows@bla@ and members can wield|@dbl@Steel Throwing Weapons@bla@.", 200);
     case 10 : ~objbox(black_knife,"Members can now wield @dbl@Black Throwing Weapons@bla@.", 250, 0, 0);
-    case 20 : ~doubleobjbox(willow_shortbow,mithril_knife,"You can now wield @dbl@Willow Bows@bla@ and wear @dbl@Studded|@dbl@Armour@bla@ and @dbl@Coifs@bla@, and members can now wield @dbl@Mithril|@dbl@Throwing Weapons@bla@.", 200);
+    case 20 : ~doubleobjbox(willow_shortbow,mithril_knife,"You can now wield @dbl@Willow Bows@bla@ and wear @dbl@Studded|@dbl@Armour@bla@ and @dbl@Coifs@bla@, and members can now wield @dbl@Mithril|Throwing Weapons@bla@.", 200);
     case 30 : ~doubleobjbox(maple_shortbow,adamant_knife,"You can now wield @dbl@Maple Bows@bla@ and members can wield|@dbl@Adamant Throwing Weapons@bla@.", 200);
-    case 40 : ~doubleobjbox(yew_shortbow,dragonhide_body,"You can now wear @dbl@Green Dragonhide armour@bla@.|Members can wield @dbl@Yew Bows@bla@ & @dbl@Rune Throwing|@dbl@Weapons @bla@and wear @dbl@ranger boots@bla@ and the @dbl@Robin|@dbl@Hood hat@bla@.", 200);
+    case 40 : ~doubleobjbox(yew_shortbow,dragonhide_body,"You can now wear @dbl@Green Dragonhide armour@bla@.|Members can wield @dbl@Yew Bows@bla@ & @dbl@Rune Throwing|Weapons @bla@and wear @dbl@ranger boots@bla@ and the @dbl@Robin|Hood hat@bla@.", 200);
     case 50 : ~doubleobjbox(magic_shortbow,blue_dragonhide_body,"Members can now wield @dbl@Magic Bows@bla@ and can wear|@dbl@Blue Dragonhide armour@bla@.", 200);
     case 60 : ~objbox(red_dragonhide_body,"Members can now wear @dbl@Red Dragonhide armour@bla@.", 250, 0, divide(^objbox_height, 2));
     case 70 : ~objbox(black_dragonhide_body,"Members can now wear @dbl@Black Dragonhide armour@bla@.", 250, 0, 0);

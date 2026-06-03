@@ -8,13 +8,11 @@ switch_int(%waterfall_quest) {
         $text = "@dbl@I can start this quest by speaking to @dre@Almera@dbl@ in her house|@dbl@next to the @dre@Baxtorian Falls@dbl@.||";
         $text = append($text, "@dbl@I need to be able to fight @dre@Level 84 Giants@dbl@.");
     case ^waterfall_started : // https://www.youtube.com/watch?v=QKcPbLewwzo
-        $text = "@dbl@I spoke to @dre@Almera@dbl@ in a house close to the Baxtorian|@dbl@waterfall. Her son was missing so I offered to help find|";
-        $text = append($text, "@dbl@him. The boy, @dre@Hudon's@dbl@ looking for treasure in the|@dbl@waterfall.");
+        $text = "@dbl@I spoke to @dre@Almera@dbl@ in a house close to the Baxtorian waterfall. Her son was missing so I offered to help find him. The boy, @dre@Hudon's@dbl@ looking for treasure in the waterfall.";
     case ^waterfall_spoken_to_hudon : // https://discord.com/channels/1436052890765623447/1436129229363347567/1442239091965169834
         $text = "@str@I spoke to Almera in a house close to the Baxtorian|@str@waterfall. Her son was missing so I offered to help find|";
         $text = append($text, "@str@him. The boy, Hudon's looking for treasure in the waterfall.||");
-        $text = append($text, "@dbl@I found Hudon a short raft ride down the river. He is|@dbl@convinced there is treasure here somewhere. Maybe I|");
-        $text = append($text, "@dbl@need to do a little research.");
+        $text = append($text, "@dbl@I found Hudon a short raft ride down the river. He is convinced there is treasure here somewhere. Maybe I need to do a little research.|");
     case ^waterfall_opened_book_on_baxtorian :
         $text = "@str@I spoke to Almera in a house close to the Baxtorian|@str@waterfall. Her son was missing so I offered to help find|";
         $text = append($text, "@str@him. The boy, Hudon's looking for treasure in the waterfall.||");
@@ -23,11 +21,11 @@ switch_int(%waterfall_quest) {
         $text = append($text, "@str@I found a book in the tourist office about Baxtorian. The|@str@book tells of a sad love story about 2 elf lovers. It ends|");
         $text = append($text, "@str@with Baxtorian withdrawing to his home under the waterfall|@str@after his wife dies. It is told that only Glarial could enter|");
         $text = append($text, "@str@their home.||");
-        $text = append($text, "@dbl@The book also mentions @dre@Glarial's tomb@dbl@ and a pebble, it|@dbl@appears that the pebble is used to enter the tomb.|");
+        $text = append($text, "@dbl@The book also mentions @dre@Glarial's tomb@dbl@ and a pebble, it appears that the pebble is used to enter the tomb.|");
         if (testbit(%waterfall_golrie_and_puzzle, 0) = ^true) { // https://www.youtube.com/watch?v=vwM9jclC4W4
             $text = append($text, "@str@From what I understand Glarial's pebble was hidden in a|@str@cave under the Tree Gnome Village by Golrie's ancestors.");
         } else {
-            $text = append($text, "@dbl@From what I understand @dre@Glarial's pebble@dbl@ was hidden in a|@dbl@cave under the @dre@Tree Gnome Village@dbl@ by @dre@Golrie's@dbl@ ancestors.");
+            $text = append($text, "@dbl@From what I understand @dre@Glarial's pebble@dbl@ was hidden in a cave under the @dre@Tree Gnome Village@dbl@ by @dre@Golrie's@dbl@ ancestors.");
         }
     case ^waterfall_entered_glarial_tomb :
         $text = "@str@I spoke to Almera in a house close to the Baxtorian|@str@waterfall. Her son was missing so I offered to help find|";
@@ -45,8 +43,7 @@ switch_int(%waterfall_quest) {
         }
         if (inv_total(inv, glarials_amulet_waterfall_quest) > 0) {
             $text = append($text, "|@str@There must be something that will help me down here.");
-            $text = append($text, "||@dbl@Inside the tomb I found Glarial's amulet and|@dbl@ashes. I wonder if I can find my way into|"); // https://www.youtube.com/watch?v=vwM9jclC4W4
-            $text = append($text, "@dbl@Baxtorian's home through the waterfall?");
+            $text = append($text, "||@dbl@Inside the tomb I found Glarial's amulet and ashes. I wonder if I can find my way into Baxtorian's home through the waterfall?"); // https://www.youtube.com/watch?v=vwM9jclC4W4
         } else {
             $text = append($text, "|@dbl@There must be something that will help me down here.");
         }
@@ -61,8 +58,7 @@ switch_int(%waterfall_quest) {
         $text = append($text, "@str@The book also mentions Glarial's tomb and a pebble, it|@str@appears that the pebble is used to enter the tomb.|");
         $text = append($text, "@str@From what I understand Glarial's pebble was hidden in a|@str@cave under the Tree Gnome Village by Golrie's ancestors.||");
         $text = append($text, "@str@I have managed to enter the tomb of Glarial.||");
-        $text = append($text, "@dbl@Inside the tomb I found @dre@Glarial's Amulet@dbl@ and used it to|@dbl@enter @dre@Baxtorian Falls@dbl@. I should look around and see if I|");
-        $text = append($text, "@dbl@can find the treasure.");
+        $text = append($text, "@dbl@Inside the tomb I found @dre@Glarial's Amulet@dbl@ and used it to enter @dre@Baxtorian Falls@dbl@. I should look around and see if I can find the treasure.");
     case ^waterfall_entered_puzzle_room :
         $text = "@str@I spoke to Almera in a house close to the Baxtorian|@str@waterfall. Her son was missing so I offered to help find|";
         $text = append($text, "@str@him. The boy, Hudon's looking for treasure in the waterfall.||");
@@ -75,8 +71,7 @@ switch_int(%waterfall_quest) {
         $text = append($text, "@str@From what I understand Glarial's pebble was hidden in a|@str@cave under the Tree Gnome Village by Golrie's ancestors.||");
         $text = append($text, "@str@I have managed to enter the tomb of Glarial.||");
         $text = append($text, "@str@Inside the tomb I found Glarial's Amulet and used it to|@str@enter Baxtorian Falls.||");
-        $text = append($text, "@dbl@I found a @dre@Chalice@dbl@ within @dre@Baxtorian Falls@dbl@ which looks like it|@dbl@contains @dre@Baxtorian's Treasure@dbl@. However, it is floating out|");
-        $text = append($text, "@dbl@of reach. I'll need to work out how to get to it.");
+        $text = append($text, "@dbl@I found a @dre@Chalice@dbl@ within @dre@Baxtorian Falls@dbl@ which looks like it contains @dre@Baxtorian's Treasure@dbl@. However, it is floating out of reach. I'll need to work out how to get to it.");
     case ^waterfall_placed_amulet :
         $text = "@str@I spoke to Almera in a house close to the Baxtorian|@str@waterfall. Her son was missing so I offered to help find|";
         $text = append($text, "@str@him. The boy, Hudon's looking for treasure in the waterfall.||");
@@ -89,8 +84,7 @@ switch_int(%waterfall_quest) {
         $text = append($text, "@str@From what I understand Glarial's pebble was hidden in a|@str@cave under the Tree Gnome Village by Golrie's ancestors.||");
         $text = append($text, "@str@I have managed to enter the tomb of Glarial.||");
         $text = append($text, "@str@Inside the tomb I found Glarial's Amulet and used it to|@str@enter Baxtorian Falls.||");
-        $text = append($text, "@dbl@I found a @dre@Chalice@dbl@ within @dre@Baxtorian Falls@dbl@ which looks like it|@dbl@contains @dre@Baxtorian's Treasure@dbl@. The @dre@Chalice@dbl@ was floating|");
-        $text = append($text, "@dbl@out of reach but I worked out how to raise the floor to get|@dbl@to it. Now I just need to retrieve the treasure from it.");
+        $text = append($text, "@dbl@I found a @dre@Chalice@dbl@ within @dre@Baxtorian Falls@dbl@ which looks like it contains @dre@Baxtorian's Treasure@dbl@. The @dre@Chalice@dbl@ was floating out of reach but I worked out how to raise the floor to get to it. Now I just need to retrieve the treasure from it.");
     case ^waterfall_complete :
         $text = "@str@I spoke to Almera in a house close to the Baxtorian|@str@waterfall. Her son was missing so I offered to help find|";
         $text = append($text, "@str@him. The boy, Hudon's looking for treasure in the waterfall.||");

@@ -4,12 +4,12 @@ def_string $text;
 // https://github.com/Indio3/quest-journals/blob/master/quest_druid/2024-07-24_00-45-11.png & Manpaint's sources used (OSRS)
 // Thanks to KeepBotting for this source from Oct 2007, though, which is invaluable: https://www.youtube.com/watch?v=4o0_I0tTeRQ
 if(%druidquest = ^druid_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Kaqemeex@dbl@ who is at|@dbl@the @dre@Druids Circle@dbl@ just @dre@North@dbl@ of @dre@Taverley";
+    $text = "@dbl@I can start this quest by speaking to @dre@Kaqemeex@dbl@ who is at|the @dre@Druids Circle@dbl@ just @dre@North@dbl@ of @dre@Taverley";
 } else if(%druidquest = ^druid_started) {
     $text = "@str@I told Kaqemeex I would help them prepare their ceremony.|@dbl@I should speak to @dre@Sanfew@dbl@ in the village to the @dre@South";
 } else if(%druidquest = ^druid_spoken_sanfew) {
     $text = "@str@I told Kaqemeex I would help them prepare their ceremony.||";
-    $text = append($text, "@dre@Sanfew@dbl@ told me for the ritual they would need me to place|@dre@raw bear meat@dbl@, @dre@raw chicken@dbl@, @dre@raw rat meat@dbl@ and @dre@raw beef@dbl@ in|@dbl@the@dre@ Cauldron of Thunder@dbl@ in the @dre@dungeon South@dbl@ of @dre@Taverley");
+    $text = append($text, "@dre@Sanfew@dbl@ told me for the ritual they would need me to place|@dre@raw bear meat@dbl@, @dre@raw chicken@dbl@, @dre@raw rat meat@dbl@ and @dre@raw beef@dbl@ in|the@dre@ Cauldron of Thunder@dbl@ in the @dre@dungeon South@dbl@ of @dre@Taverley");
 } else if(%druidquest = ^druid_given_ingredients) {
     $text = "@str@I told Kaqemeex I would help them prepare their ceremony.|";
     $text = append($text, "@str@The ceremony required various meats being placed in the|@str@Cauldron of Thunder. I did this and gave them to Sanfew.|@dbl@I should speak to @dre@Kaqemeex@dbl@ again and claim my @dre@reward");

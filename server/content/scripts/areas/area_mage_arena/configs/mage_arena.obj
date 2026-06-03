@@ -128,6 +128,7 @@ param=crushattack_anim,human_blunt_pound
 param=defend_anim,human_blunt_block
 param=crush_sound,staff_hit
 tradeable=no
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [guthix_staff]
 name=Staff of guthix
@@ -159,6 +160,7 @@ param=crushattack_anim,human_blunt_pound
 param=defend_anim,human_blunt_block
 param=crush_sound,staff_hit
 tradeable=no
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [zamorak_staff]
 name=Staff of zamorak
@@ -191,3 +193,4 @@ param=crushattack_anim,human_blunt_pound
 param=defend_anim,human_blunt_block
 param=crush_sound,staff_hit
 tradeable=no
+// osrs crush attack sound newstaff / crush attack sound is a guess.

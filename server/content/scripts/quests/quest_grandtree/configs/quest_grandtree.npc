@@ -88,6 +88,7 @@ model5=model_176_idk
 model6=model_254_idk
 model7=model_181_idk
 head1=model_53_idk_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 
@@ -130,7 +131,7 @@ param=attack_sound,gnome_attack
 param=defend_sound,gnome_hit
 param=death_sound,gnome_death
 // trivia npc sounds - https://oldschool.runescape.wiki/w/Foreman
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1429
 
 [grandtree_shipyardguard]

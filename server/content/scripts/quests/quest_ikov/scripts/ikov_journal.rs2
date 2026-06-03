@@ -1,6 +1,6 @@
 [if_button,questlist:ikov]
 //TODO: Figure out proper line breaks (Engine change to split_init/get?)
-//sources:
+//sources: 
 // https://www.youtube.com/watch?v=dxzKr2lNxF0 (manpaint - RS3 - armadyl)
 // https://www.youtube.com/watch?v=9TyXHMa6FLM (manpaint - RS3 - lucien)
 // https://www.youtube.com/watch?v=8dXASlWFCJ8 (bball - OSRS - armadyl)
@@ -8,8 +8,7 @@ def_string $x;
 def_string $n = "Temple of Ikov";
 
 if (%ikov = ^ikov_not_started) {
-    $x = append($x, "@dbl@I can start this quest at the @dre@Flying Horse Inn@dbl@ in|");
-    $x = append($x, "@dre@Ardougne@dbl@ by speaking to @dbl@Lucien||");//end phrase
+    $x = append($x, "@dbl@I can start this quest at the @dre@Flying Horse Inn@dbl@ in @dre@Ardougne@dbl@ by speaking to @dbl@Lucien||");
     $x = append($x, "@dbl@I must have:|");
     // Not sure if these are checked or not for @str@
     $x = append($x, "@dre@Level 42 thieving|");
@@ -19,9 +18,7 @@ if (%ikov = ^ikov_not_started) {
 }
 
 if (%ikov = ^ikov_started) {//OSRS
-    $x = append($x, "@dre@Lucien@dbl@ has asked me to retrieve the @dre@Staff of Armadyl@dbl@ from|");
-    $x = append($x, "@dbl@the @dre@Temple of Ikov@dbl@. The entrance is near @dre@Hemenster@dbl@. He has|");
-    $x = append($x, "@dbl@given me a @dre@pendant@dbl@ so I can enter the @dre@chamber of fear.");//end phrase
+    $x = append($x, "@dre@Lucien@dbl@ has asked me to retrieve the @dre@Staff of Armadyl@dbl@ from the @dre@Temple of Ikov@dbl@. The entrance is near @dre@Hemenster@dbl@. He has given me a @dre@pendant@dbl@ so I can enter the @dre@chamber of fear.");
     ~quest_journal($n, $x);
     return;
 }
@@ -50,8 +47,7 @@ if (%ikov < ^ikov_completed_armadyl) {
         return;
     }
     if (%ikov = ^ikov_spoken_winelda) {//OSRS & RS3
-        $x = append($x, "|@dbl@My path is blocked by lava. @dre@Winelda@dbl@ will teleport me across|");
-        $x = append($x, "@dbl@if I first get her @dre@twenty limpwurt roots");//end phrase
+        $x = append($x, "|@dbl@My path is blocked by lava. @dre@Winelda@dbl@ will teleport me across if I first get her @dre@twenty limpwurt roots");
         ~quest_journal($n, $x);
         return;
     }
@@ -60,12 +56,9 @@ if (%ikov < ^ikov_completed_armadyl) {
         $x = append($x, "@str@after I got her twenty limpwurt roots.|");//end phrase
     }
     if (%ikov = ^ikov_helping_armadyl) {//OSRS
-        $x = append($x, "|@dbl@I agreed to help the @dre@Guardians of Armadyl@dbl@, I will kill|");
-        $x = append($x, "@dre@Lucien@dbl@. The guardians gave me a @dre@pendant@dbl@ that I will need|");
-        $x = append($x, "@dbl@to enable me to attack him");//end phrase
+        $x = append($x, "|@dbl@I agreed to help the @dre@Guardians of Armadyl@dbl@, I will kill @dre@Lucien@dbl@. The guardians gave me a @dre@pendant@dbl@ that I will need to enable me to attack him");
     } else if (~obj_gettotal(ikov_staffofarmardyl) > 0) {
-        $x = append($x, "|@dbl@I now have the staff. @dre@Lucien@dbl@ said that he would be staying|");
-        $x = append($x, "@dbl@in his @dre@house north of Varrock");//end phrase
+        $x = append($x, "|@dbl@I now have the staff. @dre@Lucien@dbl@ said that he would be staying in his @dre@house north of Varrock");
     }
     ~quest_journal($n, $x);
     return;

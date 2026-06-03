@@ -28,7 +28,6 @@ model8=model_245_npc
 head1=model_28_obj_wear
 head2=model_78_npc_head
 moverestrict=indoors
-param=death_sound,ghost_death
 
 [skull_skeleton]
 name=Skeleton

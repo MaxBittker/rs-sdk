@@ -103,8 +103,8 @@ size=5
 stock1=steel_dart_tip,10
 stock2=steel_arrowheads,15
 stock3=steel_knife,5
-stock5=nails,2
-stock4=studs,1
+stock4=nails,2
+stock5=studs,1
 
 [smithing_mithril1]
 size=5
@@ -213,24 +213,24 @@ stock3=rune_knife,5
 
 [smithing_bronze_claws]
 size=1
-stock0=bronze_claws,1
+stock1=bronze_claws,1
 
 [smithing_iron_claws]
 size=1
-stock0=iron_claws,1
+stock1=iron_claws,1
 
 [smithing_steel_claws]
 size=1
-stock0=steel_claws,1
+stock1=steel_claws,1
 
 [smithing_mithril_claws]
 size=1
-stock0=mithril_claws,1
+stock1=mithril_claws,1
 
 [smithing_adamant_claws]
 size=1
-stock0=adamant_claws,1
+stock1=adamant_claws,1
 
 [smithing_rune_claws]
 size=1
-stock0=rune_claws,1
+stock1=rune_claws,1

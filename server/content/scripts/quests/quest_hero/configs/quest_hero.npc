@@ -165,10 +165,9 @@ param=damagetype,^slash_style
 param=attack_anim,human_axe_hack
 param=defend_anim,human_axe_def
 param=attack_sound,baxe_slash
-// param=defend_sound, TODO
-// osrs defend_sound blade3_mail
+param=defend_sound,blade3_mail
 param=death_drop,grip_keys
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4919
 
 [charlie_the_cook]

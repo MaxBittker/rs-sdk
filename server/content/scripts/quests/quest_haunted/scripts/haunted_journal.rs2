@@ -3,7 +3,7 @@ def_string $text;
 
 // https://github.com/Indio3/quest-journals/tree/master/quest_haunted sources all here, release OSRS
 if(%haunted = ^haunted_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Veronica@dbl@ who is|@dbl@outside @dre@Draynor Manor||@dbl@There aren't any requirements for this quest";
+    $text = "@dbl@I can start this quest by speaking to @dre@Veronica@dbl@ who is outside @dre@Draynor Manor||@dbl@There aren't any requirements for this quest";
 } else if(%haunted = ^haunted_started) {
     $text = "@str@I have spoken to Veronica||@dbl@I need to find @dre@Ernest|@dbl@He went into @dre@Draynor Manor@dbl@ and hasn't returned";
 } else if(%haunted = ^haunted_spoken_to_oddenstein) {

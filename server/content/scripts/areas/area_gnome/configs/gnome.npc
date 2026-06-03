@@ -16,7 +16,6 @@ respawnrate=120
 hitpoints=3
 param=attackbonus,-42
 param=strengthbonus,-42
-param=rangebonus,2
 param=stabdefence,-42
 param=slashdefence,-42
 param=crushdefence,-42
@@ -55,7 +54,6 @@ respawnrate=120
 hitpoints=3
 param=attackbonus,-42
 param=strengthbonus,-42
-param=rangebonus,2
 param=stabdefence,-42
 param=slashdefence,-42
 param=crushdefence,-42
@@ -98,7 +96,6 @@ respawnrate=120
 hitpoints=3
 param=attackbonus,-42
 param=strengthbonus,-42
-param=rangebonus,2
 param=stabdefence,-42
 param=slashdefence,-42
 param=crushdefence,-42
@@ -171,7 +168,7 @@ param=death_anim,terrorbird_mounted_death
 param=attack_sound,terrorbird_attack
 param=defend_sound,terrorbird_hit
 param=death_sound,terrorbird_death
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2067
 
 [terrorbird_mountedspear]
@@ -203,7 +200,7 @@ param=death_anim,terrorbird_mounted_death
 param=attack_sound,terrorbird_attack
 param=defend_sound,terrorbird_hit
 param=death_sound,terrorbird_death
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2068
 
 [gnometrainer]
@@ -442,7 +439,7 @@ param=death_anim,midget_death
 param=attack_sound,gnome_attack
 param=defend_sound,scythe_slash
 param=death_sound,gnome_death
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6081
 
 [gnomekingsguard2]
@@ -476,7 +473,7 @@ param=death_anim,midget_death
 param=attack_sound,hacksword_slash
 param=defend_sound,brassclash
 param=death_sound,gnome_death
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_6082
 
 [gnomeshopkeeper]
@@ -508,6 +505,7 @@ model1=model_2909_npc
 model2=model_2900_npc
 model3=model_2915_npc
 head1=model_23_npc_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 category=bank_teller
@@ -625,7 +623,6 @@ model2=model_2908_npc
 model3=model_2922_npc
 head1=model_19_npc_head
 wanderrange=1
-members=yes
 param=death_anim,midget_death
 param=death_sound,gnome_death
 

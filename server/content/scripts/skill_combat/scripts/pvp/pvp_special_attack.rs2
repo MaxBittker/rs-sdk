@@ -42,7 +42,7 @@ switch_obj($weapon) {
     case magic_shortbow : @pvp_magic_shortbow_sa;
     case magic_longbow : @pvp_magic_longbow_sa;
     case rune_thrownaxe : @pvp_rune_thrownaxe_sa;
-    case dragon_spear, dragon_spear_p : @pvp_dragon_spear_sa;
+    case dragon_spear, dragon_spear_p, tbwt_dragon_spear_kp : @pvp_dragon_spear_sa;
     case rune_claws : @pvp_rune_claws_sa;
     case dragon_halberd : @pvp_dragon_halberd_sa;
 }

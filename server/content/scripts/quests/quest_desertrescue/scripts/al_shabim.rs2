@@ -68,7 +68,7 @@ if(inv_total(inv, thbedobinkey) > 0) {
 %desertrescue = ^desertrescue_learned_darts;
 inv_del(inv, thprotodart, 1);
 // https://web.archive.org/web/20051025141912im_/http://runeweb.net/rathofdoom/quests/touristtrap/5.png
-~objbox(thprotodart, "@dbl@*** Dart Construction ***|@dbl@Congratulations! You can now construct darts.", 250, 0, 0);
+~objbox(thprotodart, "@dbl@*** Dart Construction ***|Congratulations! You can now construct darts.", 250, 0, 0);
 ~chatnpc("<p,neutral>Oh, and here is your pineapple!");
 inv_add(inv, tentipineapple, 1);
 ~objbox(tentipineapple, "You receive a tasty looking pineapple from Al Shabim", 250, 0, 0);

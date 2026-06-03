@@ -7,7 +7,8 @@
     npc_anim(chompy_landing, 0);
     npc_say("Sqwirk!");
     if(finduid(%npc_attacking_uid) = true) {
-        if (%chompybird >= ^chompybird_chompy_ate_toad & %chompybird < ^chompybird_rantz_gave_player_bow) {
+        if (%chompybird < ^chompybird_rantz_gave_player_bow) {
+            queue(chompy_bird_spawned, 0, 0);
             npc_queue(11, 0, add(15, random(10)));
         }
         hint_npc;
@@ -40,24 +41,24 @@ if (.npc_finduid(%chompy_attacking_toad) = true & distance(npc_coord, .npc_coord
     npc_walk(npc_coord);
     npc_facesquare(.npc_coord);
     npc_say("Sqwark!");
-    ~sound_area(chompy_bird_squak, 0, npc_coord, 5);
+    ~.sound_area(chompy_bird_squak, 0, npc_coord, 5);
     npc_delay(1);
     npc_anim(chompy_attack, 0);
     npc_delay(1);
-    ~sound_area(toad_croak, 0, npc_coord, 5);
+    ~.sound_area(toad_croak, 0, npc_coord, 5);
     .npc_say("!!Croak!!");
     npc_say("Gobble!");
     .npc_delay(1);
     .npc_del;
     npc_setmode(null);
-    if (p_finduid(%npc_attacking_uid) = true) {
-        if (%chompybird = ^chompybird_dropped_toad) {
-            %chompybird = ^chompybird_chompy_ate_toad;
-        }
-    }
 } else {
     npc_setmode(null);
     npc_sethuntmode(chompybird);
+}
+
+[queue,chompy_bird_spawned]
+if (%chompybird = ^chompybird_dropped_toad) {
+    %chompybird = ^chompybird_chompy_bird_spawned;
 }
 
 [ai_timer,chompy_bird]
@@ -210,8 +211,9 @@ mes("You scratch a notch on your bow for the chompy bird kill.");
 if(%chompybird_kills = 4000) {
     stat_advance(ranged, 300000);
     mes("You've been awarded ranged experience for your relentless pursuit of chompies!");
-    // https://youtu.be/cQ_HQgUodI0?si=NMThWxkpJozNbe57&t=121
-    ~objbox(chompy_bird_obj, "@blu@**** Congratulations! 4000 Chompies! ****|@dre@~ You're an Expert Dragon Archer! ~|This is the highest honour that can be bestowed on any chompy bird hunter.", 250, 0, ^objbox_height); 
+    // https://youtu.be/cQ_HQgUodI0?si=NMThWxkpJozNbe57&t=121 (2009)
+    // https://img.photobucket.com/albums/v86/PingMe/RS-honor.jpg (March 2005)
+    ~objbox(chompy_bird_obj, "*** Congratulations! ***|~ You're an Expert Dragon Archer! ~|This is the highest honour that can be bestowed on any chompy bird hunter.", 250, 0, ^objbox_height); 
 }
 
 [ai_queue11,chompy_bird]
@@ -231,7 +233,7 @@ if (.npc_find(0_41_46_6_37, rantz, 5, 0) = true) {
 [ai_queue12,chompy_bird]
 if (.npc_finduid(%rantz_attacking_chompy) = true) {
     .npc_anim(ogre_longbow, 0);
-    ~sound_area(ogre_bow, 0, .npc_coord, 10);
+    ~.sound_area(ogre_bow, 0, .npc_coord, 10);
     .spotanim_npc(ogre_arrow_launch, 50, 0);
     ~.npc_to_npc_projectile(npc_uid, ogre_arrow_travel, 38, 36, 41, 15, 5, 11, 5);
     npc_queue(13, 0, 3);

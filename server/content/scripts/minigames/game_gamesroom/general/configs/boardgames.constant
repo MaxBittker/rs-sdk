@@ -6,9 +6,13 @@
 
 ^draughts_room_start_coord = 0_34_77_16_8
 ^draughts_room_end_coord = 0_34_77_23_15
+^draughts_challengeroom_start_coord = 1_34_77_16_8
+^draughts_challengeroom_end_coord = 1_34_77_23_15
 
 ^runelinks_room_start_coord = 0_34_77_40_8
 ^runelinks_room_end_coord = 0_34_77_47_15
+^runelinks_challengeroom_start_coord = 1_34_77_40_8
+^runelinks_challengeroom_end_coord = 1_34_77_47_15
 
 ^boardgames_win = 1
 ^boardgames_loss = 2

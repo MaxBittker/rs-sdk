@@ -13,8 +13,8 @@ if($coal_to_remove > inv_freespace(inv)) {
     $coal_to_remove = inv_freespace(inv);
     $coal_mes = "You remove some of the coal from the truck.";
 }
-// assuming sound_230 is our mine_ore equivalent (this uses mine_ore in osrs)
-sound_synth(sound_230, 0, 0);
+// assuming mine is our mine_ore equivalent (this uses mine_ore in osrs)
+sound_synth(mine, 0, 0);
 %coal_truck = calc(%coal_truck - $coal_to_remove);
 inv_add(inv, coal, $coal_to_remove);
 mes($coal_mes);
@@ -34,7 +34,7 @@ if(calc($dep_amount + %coal_truck) > ^coal_truck_max) {
     $dep_amount = calc(^coal_truck_max - %coal_truck);
     $coal_mes = "You put some of the coal in the truck.";
 }
-sound_synth(sound_230, 0, 0);
+sound_synth(mine, 0, 0);
 %coal_truck = calc(%coal_truck + $dep_amount);
 inv_del(inv, coal, $dep_amount);
 mes($coal_mes);

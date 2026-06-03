@@ -22,5 +22,6 @@ model6=model_179_obj_wear
 model7=model_274_idk
 head1=model_47_npc_head
 head2=model_84_idk_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove

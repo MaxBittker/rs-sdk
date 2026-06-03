@@ -2,8 +2,7 @@
 def_string $text;
 
 if(%treequest = ^tree_not_started) {
-    $text = "@dbl@I can start this quest by speaking to @dre@Bolren@dbl@ at the center";
-    $text = append($text, "|@dbl@of the @dre@Tree Gnome maze@dbl@, West of @dre@Port Khazard");
+    $text = "@dbl@I can start this quest by speaking to @dre@Bolren@dbl@ at the center of the @dre@Tree Gnome maze@dbl@, West of @dre@Port Khazard";
     $text = append($text, "||@dbl@I need to be able to defeat a @dre@level 112 Warlord");
     ~quest_journal("Tree Gnome Village", $text);
     return;
@@ -36,9 +35,7 @@ if(%treequest > ^tree_finding_trackers) {
     $text = append($text, "||@str@I found the three trackers and used their coordinates to fire");
     $text = append($text, "|@str@the ballista straight into the Khazard stronghold.");
 } else if(%treequest = ^tree_finding_trackers) {
-    $text = append($text, "||@dbl@I need to head into the @dre@Battlefield@dbl@ and find the @dre@three Gnome");
-    $text = append($text, "|@dre@trackers@dbl@ who have the @dre@firing coordinates@dbl@ and then fire the");
-    $text = append($text, "|@dre@ballista!");
+    $text = append($text, "||@dbl@I need to head into the @dre@Battlefield@dbl@ and find the @dre@three Gnome @dre@trackers@dbl@ who have the @dre@firing coordinates@dbl@ and then fire the @dre@ballista!");
     // no tracking for coordinates yet, add in 2005 (varb)
 }
 
@@ -46,8 +43,7 @@ if(%treequest > ^tree_ballista_fired) {
     $text = append($text, "|@str@With the stronghold breached by ballista fire, I was able to");
     $text = append($text, "|@str@make my way inside and recover the orb of protection.");
 } else if(%treequest = ^tree_ballista_fired) {
-    $text = append($text, "|@dbl@With the @dre@Khazard stronghold@dbl@ exposed I should get inside");
-    $text = append($text, "|@dbl@and retrieve the gnomes' @dre@orb of protection.");
+    $text = append($text, "|@dbl@With the @dre@Khazard stronghold@dbl@ exposed I should get inside and retrieve the gnomes' @dre@orb of protection.");
 }
 
 if(%treequest > ^tree_retrieved_orb) {

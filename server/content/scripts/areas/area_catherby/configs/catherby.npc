@@ -32,6 +32,7 @@ param=shop_sell_multiplier,1300
 param=shop_buy_multiplier,400
 param=shop_delta,30
 param=shop_title,Arhein Store
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 

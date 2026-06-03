@@ -22,7 +22,7 @@ if(coordz(coord) > coordz(npc_coord)) {
     $dir = ^exact_west;
 }
 anim(dragon_halberd_special_attack, 0);
-sound_synth(sound_706, 0, 0);
+sound_synth(halberd_swipe, 0, 0);
 spotanim_map($spot, $spot_coord, 92, 0);
 npc_anim(npc_param(defend_anim), 20); 
 

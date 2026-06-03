@@ -209,6 +209,7 @@ sharelight=yes
 ambient=60
 contrast=60
 op1=Use
+category=troll_stronghold_top_exit
 
 [troll_stronghold_top_exit_right]
 name=Exit
@@ -220,6 +221,7 @@ sharelight=yes
 ambient=60
 contrast=60
 op1=Leave
+category=troll_stronghold_top_exit
 
 [troll_stronghold_top_exit_mid]
 name=Exit
@@ -230,6 +232,7 @@ sharelight=yes
 ambient=60
 contrast=60
 op1=Leave
+category=troll_stronghold_top_exit
 
 [troll_eadgar_cooking_pot]
 name=Fire

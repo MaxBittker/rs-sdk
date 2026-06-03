@@ -146,7 +146,7 @@ data=musicdata,music_Elven_Mist
 
 [musicregion_36_51]
 table=musicregion
-data=mapsquare,0_36_50_0_0
+data=mapsquare,0_36_51_0_0
 data=musicdata,music_Overpass
 
 [musicregion_36_52]
@@ -537,12 +537,12 @@ data=musicdata,music_Miles_Away
 [musicregion_41_75]
 table=musicregion
 data=mapsquare,0_41_75_0_0
-data=musicdata,music_Quest
+data=musicdata,music_Down_To_Earth
 
 [musicregion_41_146]
 table=musicregion
 data=mapsquare,0_41_146_0_0
-data=musicdata,music_The_Navigator
+data=musicdata,music_Chompy_Hunt
 
 [musicregion_41_152]
 table=musicregion
@@ -717,7 +717,7 @@ data=musicdata,music_Miracle_Dance
 [musicregion_43_145]
 table=musicregion
 data=mapsquare,0_43_145_0_0
-data=musicdata,music_Voodoo_Cult
+data=musicdata,music_Superstition
 
 [musicregion_43_146]
 table=musicregion

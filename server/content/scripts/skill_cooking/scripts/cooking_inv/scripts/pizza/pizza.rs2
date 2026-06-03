@@ -51,7 +51,7 @@ switch_int(oc_param(last_useitem, gnome_cooking_type)) {
 switch_obj (last_useitem) {
     case plain_pizza : @make_pizza_with_topping(last_slot);
     case uncooked_pizza : @uncooked_pizza_message(last_slot);
-    case vodka : @make_alco_chunks;
+    case vodka : @make_alco_chunks(vodka); // vodka works both ways, other liquors only work one way (chunks -> alcohol), NIH otherwise  
     case default : ~displaymessage(^dm_default);
 }
 

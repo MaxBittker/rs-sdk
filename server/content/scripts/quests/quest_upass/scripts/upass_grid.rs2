@@ -79,7 +79,7 @@ p_stopaction;
 p_delay(0);
 mes("It's a trap!");
 anim(human_walk_logbalance_stumble, 0);
-// sound
+sound_synth(stumble_loop, 3, 0);
 p_delay(0);
 mes("You fall onto the spikes.");
 // seems to just be random based off old videos, changed with sote on osrs to be relative to where you fall

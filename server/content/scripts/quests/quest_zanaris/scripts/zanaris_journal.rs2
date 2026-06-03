@@ -5,7 +5,7 @@ def_string $text;
 switch_int (%zanaris) {
 
     case ^zanaris_not_started :
-        $text = "@dbl@I can start this quest by speaking to the Adventurers in|@dbl@the Swamp just south of Lumbridge.|";
+        $text = "@dbl@I can start this quest by speaking to the Adventurers in the Swamp just south of Lumbridge.|";
         $text = append($text, "@dbl@To complete this quest I need:|");
         if (stat_base(crafting) < 31) {
             $text = append($text, "@dre@Level 31 Crafting|");
@@ -22,13 +22,13 @@ switch_int (%zanaris) {
     // https://www.youtube.com/watch?v=spo3LQY3O9s
     case ^zanaris_started :
         $text = "@str@According to one of the adventurers in Lumbridge Swamp|@str@the entrance to Zanaris is somewhere around there.|";
-        $text = append($text, "@dbl@Apparently there is a @dre@leprechaun@dbl@ hiding in a @dre@tree@dbl@ nearby|@dbl@who can tell me how to enter the @dre@Lost City of Zanaris");
+        $text = append($text, "@dbl@Apparently there is a @dre@leprechaun@dbl@ hiding in a @dre@tree@dbl@ nearby who can tell me how to enter the @dre@Lost City of Zanaris");
 
     // https://www.youtube.com/watch?v=spo3LQY3O9s
     case ^zanaris_spoken_shamus :
         $text = "@str@According to one of the adventurers in Lumbridge Swamp|@str@the entrance to Zanaris is somewhere around there.|";
         $text = append($text, "@str@I found a Leprechaun hiding in a nearby tree.|");
-        $text = append($text, "@dbl@He told me that the entrance to @dre@Zanaris@dbl@ is in the @dre@shed@dbl@ in|@dre@Lumbridge swamp@dbl@ but only if I am carrying a @dre@Dramen Staff|");
+        $text = append($text, "@dbl@He told me that the entrance to @dre@Zanaris@dbl@ is in the @dre@shed@dbl@ in @dre@Lumbridge swamp@dbl@ but only if I am carrying a @dre@Dramen Staff|");
         $text = append($text, "@dbl@I can find a @dre@Dramen Tree@dbl@ in a cave on @dre@Entrana|@dbl@somewhere");
 
     // https://i.imgur.com/QedBGtJ.png
@@ -55,7 +55,7 @@ switch_int (%zanaris) {
         $text = append($text, "@str@He told me that the entrance to Zanaris is in the shed in|@str@Lumbridge swamp but only if I am carrying a Dramen Staff.|");
         $text = append($text, "@str@The Dramen Tree was guarded by a powerful Tree Spirit.|");
         $text = append($text, "@str@I cut a branch from the tree and crafted a Dramen Staff.|");
-        $text = append($text, "@dbl@I should enter @dre@Zanaris@dbl@ by going to the @dre@shed@dbl@ in @dre@Lumbridge|@dre@Swamp@dbl@ while keeping the @dre@Dramen staff@dbl@ with me");
+        $text = append($text, "@dbl@I should enter @dre@Zanaris@dbl@ by going to the @dre@shed@dbl@ in @dre@Lumbridge Swamp@dbl@ while keeping the @dre@Dramen staff@dbl@ with me");
 
     case ^zanaris_complete :
         $text = "@str@According to one of the adventurers in Lumbridge Swamp|@str@the entrance to Zanaris is somewhere around there.|";

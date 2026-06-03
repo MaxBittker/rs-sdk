@@ -23,7 +23,7 @@ sound_synth(%com_attacksound, 0, 0);
 npc_setmode(playerescape);
 world_delay(2);
 npc_setmode(null);
-~sound_area(monkey_death, 2, npc_coord, 8);
+~.sound_area(monkey_death, 2, npc_coord, 8);
 switch_int(random(10)) {
     case 0 :
         npc_say("Ook! Ook! Oook!");

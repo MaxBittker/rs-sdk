@@ -16,7 +16,7 @@ if (~npc_check_notcombat_self = false) {
 def_int $maxhit = 2;
 
 npc_anim(npc_param(attack_anim), 0);
-~sound_area(snail_spit, 0, npc_coord, 10);
+~.sound_area(snail_spit, 0, npc_coord, 10);
 
 %npc_action_delay = add(map_clock, npc_param(attackrate));
 // map_projanim_v2	id=curse_travel (109), starttime=20, endtime=56, angle=10, progress=56, startheight=32, endheight=124

@@ -36,6 +36,7 @@ model1=model_2962_npc
 model2=model_2964_npc
 model3=model_2965_npc
 head1=model_27_npc_head
+defaultmode=none
 wanderrange=0
 moverestrict=nomove
 param=death_anim,ghost_death
@@ -72,7 +73,7 @@ param=undead,^true
 huntmode=cowardly
 huntrange=1
 category=undead_one
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5342
 
 [zqskeleton_armed]
@@ -113,7 +114,7 @@ param=undead,^true
 huntmode=cowardly
 huntrange=1
 category=undead_one
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5344
 
 [zqzombie_unarmed]
@@ -153,7 +154,7 @@ param=death_drop,null
 huntmode=cowardly
 huntrange=1
 category=undead_one
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5346
 
 [zqzombie_armed]
@@ -198,7 +199,7 @@ param=death_drop,null
 huntmode=cowardly
 huntrange=1
 category=undead_one
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5349
 
 [zqzombiequeen]
@@ -266,7 +267,7 @@ param=defend_sound,zombie_hit
 param=death_sound,zombie_death
 param=undead,^true
 param=death_drop,null
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5353
 
 [zq_mainzombie2]
@@ -304,8 +305,7 @@ param=defend_sound,zombie_hit
 param=death_sound,zombie_death
 param=undead,^true
 param=death_drop,null
-// osrs attack_sound stabsword_slash after graphics update
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5354
 
 [zq_mainzombie3]
@@ -336,5 +336,5 @@ param=defend_sound,ghost_hit
 param=death_sound,ghost_death
 param=undead,^true
 param=death_drop,null
-// Stats match osrs version but our version Vislvl is different.
+// osrs stats and Vislvl match 1:1
 // https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5355

@@ -625,10 +625,18 @@ param=magicdefence,10
 param=strengthbonus,50
 param=attackrate,5
 param=ready_baseanim,human_staffready
+param=walk_f_baseanim,human_halberdwalk_f
+param=walk_b_baseanim,human_halberdwalk_b
+param=walk_l_baseanim,human_halberdwalk_l
+param=walk_r_baseanim,human_halberdwalk_r
+param=running_baseanim,human_halberdrunning
+param=turnonspot_baseanim,human_halberdturnonspot
 param=crushattack_anim,human_blunt_pound
 param=defend_anim,human_blunt_block
-// param=crushattack_anim,human_axe_chop
+param=crush_sound,staff_hit
 tradeable=no
+// param=crushattack_anim,human_axe_chop
+// osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [brokenibanstaff]
 name=Broken iban staff

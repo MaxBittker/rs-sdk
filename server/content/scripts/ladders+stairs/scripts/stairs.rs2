@@ -220,7 +220,6 @@ switch_coord (loc_coord) {
     case 0_47_50_18_48 : p_telejump(1_47_50_18_47); // Port Sarim
     case 0_51_49_48_49 : p_telejump(1_51_49_50_49); // Al Kharid General Store
     case 0_45_52_27_6 : p_telejump(1_45_52_28_8); // Dark Wizard's Tower - Ground Floor
-    case 1_45_52_27_6 : p_telejump(2_45_52_28_8); // Dark Wizard's Tower - First Floor
     case 0_45_51_51_18 : p_telejump(1_45_51_53_18); // Crafting Guild
     case 0_39_53_21_37 : p_telejump(1_39_53_22_39); // Hadley house - ground floor
     case 0_48_48_10_52 : p_telejump(1_48_48_12_52); // Tutorial island Quest Guide house - ground floor
@@ -244,6 +243,7 @@ switch_coord (loc_coord) {
     case 1_40_50_12_40 : @stair_options(2_40_50_11_41, 0_40_50_12_42); // Clock Tower - level 1
     case 1_50_54_2_41 : @stair_options(2_50_54_4_41, 0_50_54_3_40); // Varrock Palace Northwest Tower - level 1
     case 1_48_49_31_23 : @stair_options(2_48_49_32_25, 0_48_49_33_24); // Wizard Tower - level 1
+    case 1_45_52_27_6 : @stair_options(2_45_52_28_8, 0_45_52_28_8); // Dark Wizard's Tower - First Floor
     case 1_51_61_16_32 : @stair_options(2_51_61_18_32, 0_51_61_18_32); // Rogues Castle - level 1
     case 2_51_61_16_32 : @stair_options(3_51_61_17_32, 1_51_61_18_32); // Rogues Castle - level 2
     case 1_50_54_58_31 : @stair_options(2_50_54_58_30, 0_50_54_58_30); // Varrock church
@@ -259,6 +259,7 @@ switch_coord (loc_coord) {
     case 1_40_50_12_40 : p_telejump(2_40_50_11_41); // Clock Tower - level 1
     case 1_50_54_2_41 : p_telejump(2_50_54_4_41); // Varrock Palace Northwest Tower - level 1
     case 1_48_49_31_23 : p_telejump(2_48_49_32_25); // Wizard Tower - level 1
+    case 1_45_52_27_6 : p_telejump(2_45_52_28_8); // Dark Wizard's Tower - First Floor
     case 1_51_61_16_32 : p_telejump(2_51_61_18_32); // Rogues Castle - level 1
     case 2_51_61_16_32 : p_telejump(3_51_61_17_32); // Rogues Castle - level 2
     case 1_50_54_58_31 : p_telejump(2_50_54_58_30); // Varrock church
@@ -274,6 +275,7 @@ switch_coord (loc_coord) {
     case 1_40_50_12_40 : p_telejump(0_40_50_12_42); // Clock Tower - level 1
     case 1_50_54_2_41 : p_telejump(0_50_54_3_40); // Varrock Palace Northwest Tower - level 1
     case 1_48_49_31_23 : p_telejump(0_48_49_33_24); // Wizard Tower - level 1
+    case 1_45_52_27_6 : p_telejump(0_45_52_28_8); // Dark Wizard's Tower - First Floor
     case 1_51_61_16_32 : p_telejump(0_51_61_18_32); // Rogues Castle - level 1
     case 2_51_61_16_32 : p_telejump(1_51_61_18_32); // Rogues Castle - level 2
     case 1_50_54_58_31 : p_telejump(0_50_54_58_30); // Varrock church
@@ -322,7 +324,6 @@ switch_coord (loc_coord) {
     case 1_47_50_16_61 : p_telejump(0_47_50_17_61); // Port Sarim
     case 1_47_50_18_48 : p_telejump(0_47_50_17_48); // Port Sarim
     case 1_51_49_49_49 : p_telejump(0_51_49_49_48); // Al Kharid General Store
-    case 1_45_52_28_7 : p_telejump(0_45_52_28_8); // Dark Wizard's Tower - level 1
     case 2_45_52_28_7 : p_telejump(1_45_52_28_8); // Dark Wizard's Tower - level 2
     case 1_45_51_52_18 : p_telejump(0_45_51_52_17); // Crafting Guild - level 1
     case 1_39_53_22_38 : p_telejump(0_39_53_23_38); // Hadley house - level 1

@@ -5,15 +5,15 @@ size=40
 restock=yes
 stackall=yes
 allstock=yes
-stock0=pot_empty,3,100
-stock1=jug_empty,2,100
-stock2=shears,2,100
-stock3=bucket_empty,2,100
-stock4=tinderbox,2,100
-stock5=chisel,2,100
-stock6=hammer,5,100
-// stock7=knife,2,100
-// stock8=cup_empty,20,50 (Possible added with Ghost ahoy quest 15 February 2005)
+stock1=pot_empty,3,100
+stock2=jug_empty,2,100
+stock3=shears,2,100
+stock4=bucket_empty,2,100
+stock5=tinderbox,2,100
+stock6=chisel,2,100
+stock7=hammer,5,100
+// stock8=knife,2,100
+// stock9=cup_empty,20,50 (Possible added with Ghost ahoy quest 15 February 2005)
 
 // https://web.archive.org/web/20060518195311/http://runevillage.com/rs2Cities/city2Burthorpe.php
 [death_pub]
@@ -22,6 +22,6 @@ size=40
 restock=yes
 stackall=yes
 allstock=no
-stock0=asgarnian_ale,12,10
-stock1=wizards_mind_bomb,12,10
-stock2=dwarven_stout,12,10
+stock1=asgarnian_ale,12,10
+stock2=wizards_mind_bomb,12,10
+stock3=dwarven_stout,12,10
