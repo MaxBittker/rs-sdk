@@ -19,6 +19,10 @@ but if you want to develop deeper changes to the stack or host your own server, 
 | `server/webclient/` | TypeScript web client with BotSDK for automation |
 | `server/gateway/` | WebSocket relay for bot clients to connect to SDK agents |
 
+> `server/{engine,content,webclient}` are vendored copies of upstream LostCity with local
+> modifications. **[server/PATCHES.md](server/PATCHES.md)** is the canonical checklist of every
+> monkeypatch and how to verify it after a vendor sync — read it before touching vendored code.
+
 ### Engine (`server/engine/`)
 
 The game server handling world simulation, player logic, and network protocol.
