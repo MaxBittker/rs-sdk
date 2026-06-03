@@ -1,11 +1,12 @@
 out/
 .env
-package-lock.json
 tsconfig.tsbuildinfo
 
 data/pack/
 data/src/
 data/unpack/
+data/config/
+
 dump/
 
 data/players/

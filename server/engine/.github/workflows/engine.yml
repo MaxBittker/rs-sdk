@@ -5,26 +5,28 @@ on:
   push:
     paths:
     - '.github/workflows/engine.yml'
+    - 'package.json'
+    - 'package-lock.json'
     - 'src/**'
     - 'tools/**'
   workflow_dispatch:
-
 
 jobs:
   verify:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
-    - uses: oven-sh/setup-bun@v2
+    - uses: actions/setup-node@v6
       with:
-        bun-version: latest
+        node-version: 24
+        cache: npm
 
-    - run: bun install
+    - run: npm ci
 
     - name: Lint
-      run: bun run lint
+      run: npm run lint
 
     - name: Compile
-      run: bun run tsc
+      run: npx tsc --noEmit

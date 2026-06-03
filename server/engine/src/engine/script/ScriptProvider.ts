@@ -48,7 +48,7 @@ export default class ScriptProvider {
 
         const version = dat.g4s();
         if (version !== ScriptProvider.COMPILER_VERSION) {
-            printFatalError('\nFatal: Scripts were compiled with an incompatible script compiler. Please run `bun i`, then `bun run build`, and restart the server.');
+            printFatalError('\nFatal: Scripts were compiled with an incompatible script compiler. Please run `npm install`, then `npm run build`, and restart the server.');
         }
 
         const scripts = new Array<ScriptFile>(entries);

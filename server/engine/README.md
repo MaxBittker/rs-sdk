@@ -26,7 +26,7 @@ In absence of the [Server](https://github.com/LostCityRS/Server) scripts, downlo
 git clone https://github.com/LostCityRS/Engine-TS -b 274 --single-branch engine
 git clone https://github.com/LostCityRS/Content -b 274 --single-branch content
 cd engine
-bun start
+npm start
 ```
 
 \* *use `--single-branch` when you don't need to track the commit history of all versions*
@@ -45,16 +45,16 @@ Be aware it may have compatibility issues (that are addressed in the Client-Java
 
 ## Dependencies
 
-- [Bun 1.3+](https://bun.sh)
+- [Node.js 24+](https://nodejs.org)
 
 > [!TIP]
 > If you're using VS Code (recommended), [we have an extension to install on the marketplace.](https://marketplace.visualstudio.com/items?itemName=2004scape.runescriptlanguage)
 
 ## Workflow
 
-Content developers should run `bun start`. The server will watch for changes to scripts and configs, then automatically repack everything.
+Content developers should run `npm start`. The server will watch for changes to scripts and configs, then automatically repack everything.
 
-Engine developers should run `bun dev`. This does what `bun start` does above, but also completely restarts the server when engine code has changed.
+Engine developers should run `npm run dev`. This does what `npm start` does above, but also completely restarts the server when engine code has changed.
 
 ## License
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). See the [LICENSE](LICENSE) file for details.

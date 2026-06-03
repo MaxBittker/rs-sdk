@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 
 import { compressGz } from '#/io/GZip.js';
-import Environment from '#/util/Environment.js';
 import FileStream from '#/io/FileStream.js';
+import Environment from '#/util/Environment.js';
 import { getArtifactManifestPath, getArtifactSourceStamp, loadArtifactManifest, openArtifactStore, saveArtifactManifest } from '#tools/pack/ArtifactCache.js';
 import { didFileSetChange } from '#tools/pack/FsCache.js';
 import { listFilesExt } from '#tools/pack/Parse.js';
@@ -12,7 +12,7 @@ import { printWarning } from '#/util/Logger.js';
 
 export function packClientGraphics(cache: FileStream, modelFlags: number[]) {
     const models = listFilesExt(`${Environment.build.srcDir}/models`, '.ob2');
-    const toolChanged = didFileSetChange('data/pack/.stamps/graphics-tools.txt', [Environment.runtime.isBun ? __filename : import.meta.filename]);
+    const toolChanged = didFileSetChange('data/pack/.stamps/graphics-tools.txt', [import.meta.filename]);
     const rebuildModelsArchive = shouldBuildFile(`${Environment.build.srcDir}/pack/model.pack`, 'data/pack/main_file_cache.idx1');
     const needsModelHydration = rebuildModelsArchive || cache.count(1) === 0;
     const needsModelPackWork = rebuildModelsArchive || shouldBuild(`${Environment.build.srcDir}/models`, '.ob2', getArtifactManifestPath('graphics-models')) || toolChanged;

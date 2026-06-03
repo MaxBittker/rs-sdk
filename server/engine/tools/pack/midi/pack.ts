@@ -11,7 +11,7 @@ import { listFilesExt } from '#tools/pack/Parse.js';
 
 export function packClientMidi(cache: FileStream) {
     const midis = [...listFilesExt(`${Environment.build.srcDir}/jingles`, '.mid'), ...listFilesExt(`${Environment.build.srcDir}/songs`, '.mid')];
-    const toolChanged = didFileSetChange('data/pack/.stamps/midi-tools.txt', [Environment.runtime.isBun ? __filename : import.meta.filename]);
+    const toolChanged = didFileSetChange('data/pack/.stamps/midi-tools.txt', [import.meta.filename]);
     const rebuildMidiArchive = shouldBuildFile(`${Environment.build.srcDir}/pack/midi.pack`, 'data/pack/main_file_cache.idx3');
     const needsMidiHydration = rebuildMidiArchive || cache.count(3) === 0;
     const artifactName = 'midi';

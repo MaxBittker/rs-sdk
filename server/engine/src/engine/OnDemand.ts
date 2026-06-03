@@ -1,9 +1,8 @@
 import FileStream from '#/io/FileStream.js';
 import Packet from '#/io/Packet.js';
 import ClientSocket from '#/server/ClientSocket.js';
-import { createRuntimeWorker } from '#/util/RuntimeWorker.js';
 
-import type { Worker } from 'worker_threads';
+import { Worker } from 'worker_threads';
 
 type OnDemandRequest = {
     type: 'request';
@@ -106,7 +105,7 @@ class OnDemand {
             return this.worker;
         }
 
-        const worker = createRuntimeWorker(new URL('./OnDemandThread.ts', import.meta.url)) as WorkerWithTransfers;
+        const worker = new Worker(new URL('./OnDemandThread.ts', import.meta.url)) as WorkerWithTransfers;
         this.worker = worker;
 
         worker.on('message', (msg: OnDemandWorkerMessage) => this.onWorkerMessage(msg));

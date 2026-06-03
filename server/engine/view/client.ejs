@@ -32,6 +32,15 @@
             display: none;
         }
 
+        center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
         #game {
             padding-left: 0;
             padding-right: 0;
@@ -71,13 +80,23 @@
         }
 
         #controls {
-            margin-top: 3px;
-            margin-bottom: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: .5vh;
+            margin-bottom: .5vh;
+            height: max(2vh, 24px); /* Minimum height of 24px */
+            font-size: max(1.5vh, 12px); /* Minimum font size of 12px */
         }
 
-        #controls > a, #controls select, #controls optgroup, #controls optgroup > option {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12px;
+        #hide-message {
+            height: max(3vh, 36px); /* Minimum height of 36px */
+            margin-top: .5vh;
+            margin-bottom: .5vh;
+        }
+
+        #hide-message p {
+            margin: 0;
+            line-height: max(1.5vh, 18px); /* Minimum line height of 18px */
+            font-size: max(1.2vh, 11px); /* Minimum font size of 11px */
         }
 
         @keyframes blink {
@@ -100,7 +119,6 @@
         #mobilekeyboard-container {
             display: none;
         }
-
     </style>
 
     <script>
@@ -153,6 +171,9 @@
             document.getElementById('controls').style.display = 'none';
             document.getElementById('hide-message').style.display = '';
 
+            let size = localStorage.getItem('canvasSize');
+            if (size === 'auto') { document.getElementById('canvas').style.height = '93vh'; }
+
             countDown = 0;
             hideMessage();
 
@@ -165,10 +186,16 @@
         function hideMessage() {
             if (countDown >= countDownMax) {
                 document.getElementById('hide-message').style.display = 'none';
+                let size = localStorage.getItem('canvasSize');
+                if (size) { setSize(size); }
                 return;
             }
 
             document.getElementById('count-down').textContent = (countDownMax - countDown) + 's';
+
+            // Recalculate canvas size while timer is showing
+            let size = localStorage.getItem('canvasSize');
+            if (size === 'auto') { setSize(size); }
 
             countDown++;
             timer = setTimeout(hideMessage, 1000);
@@ -180,6 +207,9 @@
             document.getElementById('controls').style.display = '';
             document.getElementById('hide-message').style.display = 'none';
 
+            let size = localStorage.getItem('canvasSize');
+            if (size) { setSize(size); }
+
             localStorage.removeItem('hideControls');
         }
 
@@ -187,7 +217,13 @@
             if ((e.ctrlKey || e.metaKey) && e.altKey) {
                 if (e.code === 'KeyI') {
                     e.preventDefault();
-                    showControls();
+                    let controls = localStorage.getItem('hideControls');
+                    if (controls) {
+                        showControls();
+                    }
+                    else {
+                        hideControls();
+                    }
                 }
             }
         });
@@ -236,6 +272,7 @@
         function setSize(size) {
             let canvas = document.getElementById('canvas');
             if (size == null) { size = document.getElementById('size').value; }
+
             switch (size) {
                 default:
                 case '1':
@@ -244,15 +281,53 @@
                     canvas.style.width = (765 * parseInt(size)) + 'px';
                     canvas.style.height = (503 * parseInt(size)) + 'px';
                     canvas.style.maxWidth = 'none';
+                    canvas.style.maxHeight = 'none';
                     break;
                 case 'auto':
-                    canvas.style.width = '100%';
-                    canvas.style.height = 'auto';
+                    // Calculate available space
+                    let reservedHeight;
+                    const controlsVisible = document.getElementById('controls').style.display !== 'none';
+                    const timerVisible = document.getElementById('hide-message').style.display !== 'none';
+
+                    if (controlsVisible) {
+                        // Reserve space for controls with minimum height
+                        reservedHeight = Math.max(window.innerHeight * 0.05, 32 + 8); // Increased buffer
+                    } else if (timerVisible) {
+                        // Reserve space for timer with minimum height  
+                        reservedHeight = Math.max(window.innerHeight * 0.05, 32 + 8); // Increased buffer
+                    } else {
+                        reservedHeight = 0;
+                    }
+
+                    const availableHeight = window.innerHeight - reservedHeight;
+                    const availableWidth = window.innerWidth;
+
+                    // Canvas aspect ratio (765:503)
+                    const aspectRatio = 765 / 503;
+
+                    // Calculate scale based on both dimensions
+                    const scaleByHeight = availableHeight / 503;
+                    const scaleByWidth = availableWidth / 765;
+
+                    // Use the smaller scale to ensure it fits in both directions
+                    const scale = Math.min(scaleByHeight, scaleByWidth);
+
+                    canvas.style.width = (765 * scale) + 'px';
+                    canvas.style.height = (503 * scale) + 'px';
+                    canvas.style.maxWidth = '100vw';
+                    canvas.style.maxHeight = availableHeight + 'px';
                     break;
             }
             document.getElementById('size').value = size;
             localStorage.setItem('canvasSize', size);
         }
+
+        window.addEventListener('resize', function () {
+            let size = localStorage.getItem('canvasSize');
+            if (size === 'auto') {
+                setSize('auto');
+            }
+        });
 
         function setFilter(type) {
             let canvas = document.getElementById('canvas');
@@ -285,24 +360,24 @@
         <div class="centered" id="controls">
             <select id="size" name="size" onchange="setSize();">
                 <optgroup>
-                <option value="1" id="1">1x Size</option>
-                <option value="2" id="2">2x Size</option>
-                <option value="3" id="3">3x Size</option>
-                <option value="auto" id="auto" selected>Auto Sizing</option>
+                    <option value="1" id="1">1x Size</option>
+                    <option value="2" id="2">2x Size</option>
+                    <option value="3" id="3">3x Size</option>
+                    <option value="auto" id="auto" selected>Auto Sizing</option>
                 </optgroup>
             </select> |
             <select id="filtering" name="filtering" onchange="setFilter('dropdown');">
                 <optgroup>
-                <option value="auto" id="auto">Auto Scaling</option>
-                <option value="pixelated" id="pixelated">Pixel Scaling</option>
+                    <option value="auto" id="auto">Auto Scaling</option>
+                    <option value="pixelated" id="pixelated">Pixel Scaling</option>
                 </optgroup>
             </select> |
             <span id="mobilekeyboard-container">
                 <select id="mobilekeyboard" name="mobilekeyboard" onchange="setKeyboardChoice();">
                     <optgroup>
-                    <option value="hybrid" id="hybrid">Hybrid keyboard</option>
-                    <option value="canvas" id="canvas">Canvas keyboard</option>
-                    <option value="native" id="native">Native keyboard</option>
+                        <option value="hybrid" id="hybrid">Hybrid keyboard</option>
+                        <option value="canvas" id="canvas">Canvas keyboard</option>
+                        <option value="native" id="native">Native keyboard</option>
                     </optgroup>
                 </select> |
             </span>

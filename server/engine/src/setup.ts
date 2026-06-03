@@ -1,5 +1,6 @@
 import { spawn } from 'child_process';
 import http, { type IncomingMessage, type ServerResponse } from 'http';
+import path from 'path';
 import { Readable } from 'stream';
 import type { ReadableStream as NodeReadableStream } from 'stream/web';
 
@@ -7,9 +8,13 @@ import ejs from 'ejs';
 import { register } from 'prom-client';
 
 import Environment from '#/util/Environment.js';
-import { createDefaultWorldConfig, loadWorldConfig, normalizeWorldConfig, saveWorldConfig } from '#/util/WorldConfig.js';
+import { createDefaultWorldConfig, getDatabaseUrl, loadWorldConfig, normalizeWorldConfig, saveWorldConfig } from '#/util/WorldConfig.js';
 import { printInfo } from '#/util/Logger.js';
 import kleur from 'kleur';
+
+type NodeRequestInit = RequestInit & {
+    duplex?: 'half';
+};
 
 function jsonResponse(value: unknown, status: number = 200): Response {
     return new Response(JSON.stringify(value, null, 2), {
@@ -28,7 +33,6 @@ function getProcessMemorySnapshot() {
         runtime: {
             pid: process.pid,
             platform: process.platform,
-            bun: process.versions.bun ?? null,
             node: process.versions.node ?? null
         },
         memory: {
@@ -46,11 +50,11 @@ function tailLines(value: string, count: number): string {
     return lines.slice(Math.max(0, lines.length - count)).join('\n');
 }
 
-async function runProcess(command: string, args: string[]): Promise<{ code: number; output: string }> {
+async function runProcess(command: string, args: string[], env: NodeJS.ProcessEnv = process.env): Promise<{ code: number; output: string }> {
     return await new Promise((resolve, reject) => {
         const child = spawn(command, args, {
             cwd: process.cwd(),
-            env: process.env,
+            env,
             stdio: ['ignore', 'pipe', 'pipe']
         });
 
@@ -70,12 +74,21 @@ async function runProcess(command: string, args: string[]): Promise<{ code: numb
 }
 
 async function runSetupMigration(backend: string): Promise<void> {
-    const script = backend === 'sqlite' ? 'sqlite:migrate' : 'db:migrate';
-    const command = Environment.runtime.isBun ? 'bun' : process.platform === 'win32' ? 'npm.cmd' : 'npm';
-    const args = ['run', script];
+    const config = loadWorldConfig();
+    const schema = backend === 'sqlite' ? 'prisma/singleworld/schema.prisma' : 'prisma/multiworld/schema.prisma';
+    const prismaCli = path.join(process.cwd(), 'node_modules', 'prisma', 'build', 'index.js');
+    const command = process.execPath;
+    const args = [prismaCli, 'migrate', 'deploy', '--schema', schema];
+    let env = process.env;
+    if (backend !== 'sqlite') {
+        env = {
+            ...process.env,
+            DATABASE_URL: getDatabaseUrl(config)
+        };
+    }
 
-    printInfo(`Running ${script}...`);
-    const result = await runProcess(command, args);
+    printInfo(`Running ${backend === 'sqlite' ? 'sqlite:migrate' : 'db:migrate'}...`);
+    const result = await runProcess(command, args, env);
 
     if (result.code !== 0) {
         const tail = tailLines(result.output, 40);
@@ -187,15 +200,17 @@ function createNodeRequest(req: IncomingMessage, fallbackPort: number): Request 
         return new Request(url, { method, headers });
     }
 
-    return new Request(url, {
+    const init: NodeRequestInit = {
         method,
         headers,
         body: Readable.toWeb(req) as ReadableStream,
         duplex: 'half'
-    });
+    };
+
+    return new Request(url, init);
 }
 
-async function writeNodeResponse(res: ServerResponse, response: Response): Promise<void> {
+async function writeResponse(res: ServerResponse, response: Response): Promise<void> {
     res.statusCode = response.status;
     response.headers.forEach((value, key) => {
         res.setHeader(key, value);
@@ -213,11 +228,11 @@ async function writeNodeResponse(res: ServerResponse, response: Response): Promi
     });
 }
 
-async function startNodeManagementWeb(): Promise<void> {
+async function startManagementWeb(): Promise<void> {
     const server = http.createServer(async (req, res) => {
         try {
             const response = await handleManagementRequest(createNodeRequest(req, Environment.web.managementPort));
-            await writeNodeResponse(res, response);
+            await writeResponse(res, response);
         } catch (err) {
             console.error(err);
             res.statusCode = 500;
@@ -227,15 +242,6 @@ async function startNodeManagementWeb(): Promise<void> {
 
     await new Promise<void>(resolve => {
         server.listen(Environment.web.managementPort, '0.0.0.0', () => resolve());
-    });
-}
-
-async function startBunManagementWeb(): Promise<void> {
-    Bun.serve({
-        port: Environment.web.managementPort,
-        fetch(req) {
-            return handleManagementRequest(req);
-        }
     });
 }
 
@@ -264,11 +270,7 @@ function tryOpenBrowser(url: string): void {
     }
 }
 
-if (Environment.runtime.isBun) {
-    await startBunManagementWeb();
-} else {
-    await startNodeManagementWeb();
-}
+await startManagementWeb();
 
 const setupUrl = `http://localhost:${Environment.web.managementPort}/setup`;
 tryOpenBrowser(setupUrl);

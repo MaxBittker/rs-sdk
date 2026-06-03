@@ -4,6 +4,9 @@ on:
   pull_request:
   push:
     paths:
+    - '.github/workflows/migrations.yml'
+    - 'package.json'
+    - 'package-lock.json'
     - 'prisma/**'
   workflow_dispatch:
 
@@ -22,15 +25,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
+          cache: npm
 
       - name: Install dependencies
-        run: npm i
+        run: npm ci
 
       - name: Run Singleworld Migrations
         run: |

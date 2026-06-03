@@ -1,7 +1,7 @@
 import fs from 'fs';
 import fsp from 'fs/promises';
 
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt-ts';
 import { WebSocket, WebSocketServer } from 'ws';
 
 import { db, toDbDate } from '#/db/query.js';

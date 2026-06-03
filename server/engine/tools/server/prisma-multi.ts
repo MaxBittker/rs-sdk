@@ -1,4 +1,5 @@
 import child_process from 'child_process';
+import path from 'path';
 
 import { getDatabaseUrl, loadWorldConfig } from '#/util/WorldConfig.js';
 
@@ -11,9 +12,9 @@ if (!args.some(arg => arg === '--schema' || arg.startsWith('--schema='))) {
 const config = loadWorldConfig();
 const databaseUrl = getDatabaseUrl(config);
 
-const prismaExecutable = process.platform === 'win32' ? 'prisma.cmd' : 'prisma';
+const prismaCli = path.join(process.cwd(), 'node_modules', 'prisma', 'build', 'index.js');
 
-const result = child_process.spawnSync(prismaExecutable, args, {
+const result = child_process.spawnSync(process.execPath, [prismaCli, ...args], {
     stdio: 'inherit',
     env: {
         ...process.env,

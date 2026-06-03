@@ -201,7 +201,7 @@ function validateCategoryPack(pack: PackFile) {
             (shouldBuild(`${Environment.build.srcDir}/scripts`, '.loc', packFile) ||
                 shouldBuild(`${Environment.build.srcDir}/scripts`, '.npc', packFile) ||
                 shouldBuild(`${Environment.build.srcDir}/scripts`, '.obj', packFile) ||
-                didFileSetChange(`data/pack/.stamps/revalidate-${pack.type}.txt`, [Environment.runtime.isBun ? __filename : import.meta.filename, 'tools/pack/Parse.ts'])))
+                didFileSetChange(`data/pack/.stamps/revalidate-${pack.type}.txt`, [import.meta.filename, 'tools/pack/Parse.ts'])))
     ) {
         const categories = crawlConfigCategories();
         for (let i = 0; i < categories.length; i++) {
@@ -324,7 +324,7 @@ export async function revalidatePack() {
 
     currentRevalidateContext = {
         snapshot,
-        toolChanged: didFileSetChange('data/pack/.stamps/revalidate-tools.txt', [Environment.runtime.isBun ? __filename : import.meta.filename, 'tools/pack/Parse.ts'])
+        toolChanged: didFileSetChange('data/pack/.stamps/revalidate-tools.txt', [import.meta.filename, 'tools/pack/Parse.ts'])
     };
 
     try {

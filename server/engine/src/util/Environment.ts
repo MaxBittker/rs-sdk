@@ -10,7 +10,6 @@ const config = migrateFromLegacyEnv(loadWorldConfig(), process.env as Record<str
 
 export default {
     runtime: {
-        isBun: typeof process.versions.bun !== 'undefined',
         maxNpcs: 16383
     },
     ...config,

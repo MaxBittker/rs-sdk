@@ -1,4 +1,4 @@
-import { Kysely, MysqlDialect, SqliteDialect } from 'kysely';
+import { Kysely, MysqlDialect } from 'kysely';
 import type { Dialect, LogEvent } from 'kysely';
 import { createPool } from 'mysql2';
 
@@ -8,18 +8,20 @@ import Environment from '#/util/Environment.js';
 let dialect: Dialect;
 
 if (Environment.db.backend === 'sqlite') {
-    if (Environment.runtime.isBun) {
-        const { BunSqliteDialect } = await import('./dialect/BunSqliteDialect.js');
+    // rs-sdk: Bun has no node:sqlite — pick the dialect for the active runtime.
+    if (typeof Bun !== 'undefined') {
+        const { BunSqliteDialect } = await import('#/db/dialect/BunSqliteDialect.js');
         const { Database } = await import('bun:sqlite');
 
         dialect = new BunSqliteDialect({
             database: new Database('db.sqlite')
         });
     } else {
-        const { default: Database } = await import('better-sqlite3');
+        const { NodeSqliteDialect } = await import('#/db/dialect/NodeSqliteDialect.js');
+        const { DatabaseSync } = await import('node:sqlite');
 
-        dialect = new SqliteDialect({
-            database: new Database('db.sqlite')
+        dialect = new NodeSqliteDialect({
+            database: new DatabaseSync('db.sqlite')
         });
     }
 } else {

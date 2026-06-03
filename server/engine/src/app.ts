@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { Worker } from 'worker_threads';
 
 import { collectDefaultMetrics, register } from 'prom-client';
 
@@ -9,7 +10,6 @@ import Environment from '#/util/Environment.js';
 import { printError, printInfo } from '#/util/Logger.js';
 import { startManagementWeb, startWeb } from '#/web.js';
 import OnDemand from '#/engine/OnDemand.js';
-import { createRuntimeWorker } from '#/util/RuntimeWorker.js';
 
 if (OnDemand.cache.count(0) !== 9 || OnDemand.cache.count(2) === 0 || !fs.existsSync('data/pack/server/script.dat')) {
     printInfo('Packing cache, please wait until you see the world is ready.');
@@ -28,9 +28,9 @@ if (OnDemand.cache.count(0) !== 9 || OnDemand.cache.count(2) === 0 || !fs.exists
 }
 
 if (Environment.easyStartup) {
-    createRuntimeWorker(new URL('./login.ts', import.meta.url));
-    createRuntimeWorker(new URL('./friend.ts', import.meta.url));
-    createRuntimeWorker(new URL('./logger.ts', import.meta.url));
+    new Worker(new URL('./login.ts', import.meta.url));
+    new Worker(new URL('./friend.ts', import.meta.url));
+    new Worker(new URL('./logger.ts', import.meta.url));
 }
 
 await World.start();
@@ -44,7 +44,6 @@ await startManagementWeb();
 register.setDefaultLabels({ nodeId: Environment.node.id });
 collectDefaultMetrics({ register });
 
-// bun does not give us a signal to gracefully shut down in our dev mode...
 let exiting = false;
 function safeExit() {
     if (exiting) {

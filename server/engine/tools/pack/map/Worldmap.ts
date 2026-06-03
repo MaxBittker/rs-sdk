@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { LocShape } from '@2004scape/rsmod-pathfinder';
+import { LocShape } from '#/engine/routefinder/flags.js';
 
 import FloType from '#/cache/config/FloType.js';
 import LocType from '#/cache/config/LocType.js';

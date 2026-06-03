@@ -1,6 +1,6 @@
 import { NpcInfoProt } from '#/network/rsbuf/index.js';
 import * as rsbuf from '#/network/rsbuf/index.js';
-import { CollisionFlag } from '#/engine/routefinder/index.js';
+import { CollisionFlag, CollisionType } from '#/engine/routefinder/index.js';
 
 import HuntType from '#/cache/config/HuntType.js';
 import NpcType from '#/cache/config/NpcType.js';
@@ -26,7 +26,7 @@ import { NpcQueueRequest } from '#/engine/entity/NpcQueueRequest.js';
 import { NpcStat } from '#/engine/entity/NpcStat.js';
 import PathingEntity from '#/engine/entity/PathingEntity.js';
 import Player from '#/engine/entity/Player.js';
-import { isFlagged } from '#/engine/GameMap.js';
+import { canTravel } from '#/engine/GameMap.js';
 import ScriptFile from '#/engine/script/ScriptFile.js';
 import { HuntIterator } from '#/engine/script/ScriptIterators.js';
 import ScriptPointer from '#/engine/script/ScriptPointer.js';
@@ -775,48 +775,86 @@ export default class Npc extends PathingEntity {
         }
 
         let direction: number;
-        let flags: number;
         if (this.target.x >= this.x && this.target.z >= this.z) {
             direction = Direction.SOUTH_WEST;
-            flags = CollisionFlag.WALL_SOUTH | CollisionFlag.WALL_WEST;
         } else if (this.target.x >= this.x && this.target.z < this.z) {
             direction = Direction.NORTH_WEST;
-            flags = CollisionFlag.WALL_NORTH | CollisionFlag.WALL_WEST;
         } else if (this.target.x < this.x && this.target.z >= this.z) {
             direction = Direction.SOUTH_EAST;
-            flags = CollisionFlag.WALL_SOUTH | CollisionFlag.WALL_EAST;
         } else {
             direction = Direction.NORTH_EAST;
-            flags = CollisionFlag.WALL_NORTH | CollisionFlag.WALL_EAST;
         }
 
+        const dx: number = CoordGrid.deltaX(direction);
+        const dz: number = CoordGrid.deltaZ(direction);
         const mx: number = CoordGrid.moveX(this.x, direction);
         const mz: number = CoordGrid.moveZ(this.z, direction);
-
-        if (isFlagged(mx, mz, this.level, flags)) {
-            this.resetDefaults();
-            return;
-        }
-
         const coord: CoordGrid = { x: mx, z: mz, level: this.level };
-        if (
-            CoordGrid.distanceToSW(coord, {
-                x: this.startX,
-                z: this.startZ
-            }) < NpcType.get(this.type).maxrange
-        ) {
+        const maxRange: number = NpcType.get(this.type).maxrange;
+
+        const collisionStrategy: CollisionType = this.getCollisionStrategy() ?? CollisionType.NORMAL;
+        const extraFlag: CollisionFlag = this.blockWalkFlag();
+
+        const diagonalTravelValid: boolean = canTravel(this.level, this.x, this.z, dx, dz, this.width, extraFlag, collisionStrategy);
+        const diagonalStepValid: boolean = diagonalTravelValid && CoordGrid.distanceToSW(coord, { x: this.startX, z: this.startZ }) <= maxRange;
+
+        if (diagonalStepValid) {
             this.queueWaypoint(coord.x, coord.z);
-            this.updateMovement();
-            return;
+        } else {
+            let primaryCoord: CoordGrid;
+            let secondaryCoord: CoordGrid;
+            let primaryTravelValid: boolean;
+            let secondaryTravelValid: boolean;
+
+            if (direction === Direction.SOUTH_WEST) {
+                // Prefer West over South
+                primaryCoord = { x: mx, z: this.z, level: this.level };
+                secondaryCoord = { x: this.x, z: mz, level: this.level };
+                primaryTravelValid = canTravel(this.level, this.x, this.z, dx, 0, this.width, extraFlag, collisionStrategy);
+                secondaryTravelValid = canTravel(this.level, this.x, this.z, 0, dz, this.width, extraFlag, collisionStrategy);
+            } else if (direction === Direction.NORTH_EAST) {
+                // Prefer East over North
+                primaryCoord = { x: mx, z: this.z, level: this.level };
+                secondaryCoord = { x: this.x, z: mz, level: this.level };
+                primaryTravelValid = canTravel(this.level, this.x, this.z, dx, 0, this.width, extraFlag, collisionStrategy);
+                secondaryTravelValid = canTravel(this.level, this.x, this.z, 0, dz, this.width, extraFlag, collisionStrategy);
+            } else if (direction === Direction.NORTH_WEST) {
+                // Prefer West over North
+                primaryCoord = { x: mx, z: this.z, level: this.level };
+                secondaryCoord = { x: this.x, z: mz, level: this.level };
+                primaryTravelValid = canTravel(this.level, this.x, this.z, dx, 0, this.width, extraFlag, collisionStrategy);
+                secondaryTravelValid = canTravel(this.level, this.x, this.z, 0, dz, this.width, extraFlag, collisionStrategy);
+            } else {
+                // Prefer East over South
+                primaryCoord = { x: mx, z: this.z, level: this.level };
+                secondaryCoord = { x: this.x, z: mz, level: this.level };
+                primaryTravelValid = canTravel(this.level, this.x, this.z, dx, 0, this.width, extraFlag, collisionStrategy);
+                secondaryTravelValid = canTravel(this.level, this.x, this.z, 0, dz, this.width, extraFlag, collisionStrategy);
+            }
+
+            const primaryValid = primaryTravelValid && CoordGrid.distanceToSW(primaryCoord, { x: this.startX, z: this.startZ }) <= maxRange;
+            const secondaryValid = secondaryTravelValid && CoordGrid.distanceToSW(secondaryCoord, { x: this.startX, z: this.startZ }) <= maxRange;
+
+            if (primaryValid) {
+                this.queueWaypoint(primaryCoord.x, primaryCoord.z);
+            } else if (secondaryValid) {
+                this.queueWaypoint(secondaryCoord.x, secondaryCoord.z);
+            }
         }
 
-        // walk along other axis.
-        if (direction === Direction.NORTH_EAST || direction === Direction.NORTH_WEST) {
-            this.queueWaypoint(this.x, coord.z);
-        } else {
-            this.queueWaypoint(coord.x, this.z);
+        if (!this.updateMovement()) {
+            this.stuckCounter++;
         }
-        this.updateMovement();
+
+        const distX: number = CoordGrid.distanceToSW({ x: this.x, z: this.startZ }, { x: this.startX, z: this.startZ });
+        const distZ: number = CoordGrid.distanceToSW({ x: this.startX, z: this.z }, { x: this.startX, z: this.startZ });
+        const atMaxRangeBoth: boolean = distX >= maxRange && distZ >= maxRange;
+
+        // Resets if it has been stuck for 5 ticks and is not at max range in both directions
+        if (this.stuckCounter >= 5 && !atMaxRangeBoth) {
+            this.resetDefaults();
+            this.stuckCounter = 0;
+        }
     }
 
     private playerFollowMode(): void {
