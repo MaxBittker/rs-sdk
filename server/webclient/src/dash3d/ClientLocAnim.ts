@@ -1,7 +1,9 @@
+import { Client } from '#/client/Client.js';
+
 import LocType from '#/config/LocType.js';
 import SeqType from '#/config/SeqType.js';
-import type Model from '#/dash3d/Model.js';
 
+import type Model from '#/dash3d/Model.js';
 import ModelSource from '#/dash3d/ModelSource.js';
 
 export default class ClientLocAnim extends ModelSource {
@@ -16,7 +18,7 @@ export default class ClientLocAnim extends ModelSource {
     animFrame: number;
     animCycle: number;
 
-    constructor(loopCycle: number, index: number, shape: number, angle: number, heightSW: number, heightSE: number, heightNE: number, heightNW: number, seq: number, randomFrame: boolean) {
+    constructor(index: number, shape: number, angle: number, heightSW: number, heightSE: number, heightNE: number, heightNW: number, seq: number, randomFrame: boolean) {
         super();
 
         this.index = index;
@@ -30,7 +32,7 @@ export default class ClientLocAnim extends ModelSource {
 
         this.anim = SeqType.list[seq];
         this.animFrame = 0;
-        this.animCycle = loopCycle;
+        this.animCycle = Client.loopCycle;
 
         if (randomFrame && this.anim.loops !== -1) {
             this.animFrame = (Math.random() * this.anim.numFrames) | 0;
@@ -38,9 +40,9 @@ export default class ClientLocAnim extends ModelSource {
         }
     }
 
-    override getTempModel(loopCycle: number): Model | null {
+    override getTempModel(): Model | null {
         if (this.anim) {
-            let delta = loopCycle - this.animCycle;
+            let delta = Client.loopCycle - this.animCycle;
             if (delta > 100 && this.anim.loops > 0) {
                 delta = 100;
             }
@@ -61,7 +63,7 @@ export default class ClientLocAnim extends ModelSource {
                 }
             }
 
-            this.animCycle = loopCycle - delta;
+            this.animCycle = Client.loopCycle - delta;
         }
 
         let frame = -1;

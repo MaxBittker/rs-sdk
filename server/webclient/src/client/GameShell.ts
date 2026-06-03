@@ -441,6 +441,28 @@ export default abstract class GameShell {
             }
         }
 
+        if (ch < 30) {
+            ch = 0;
+        }
+
+        if (keyCode.code === 37) {
+            ch = 1;
+        } else if (keyCode.code === 39) {
+            ch = 2;
+        } else if (keyCode.code === 38) {
+            ch = 3;
+        } else if (keyCode.code === 40) {
+            ch = 4;
+        } else if (keyCode.code === 17) {
+            ch = 5;
+        } else  if (keyCode.code === 8 || keyCode.code === 127) {
+            ch = 8;
+        } else if (keyCode.code === 9) {
+            ch = 9;
+        } else if (keyCode.code === 10) {
+            ch = 10;
+        }
+
         if (ch > 0 && ch < 128) {
             this.keyHeld[ch] = 1;
         }
@@ -477,6 +499,28 @@ export default abstract class GameShell {
             } else if (ch >= 'a'.charCodeAt(0) && ch <= 'z'.charCodeAt(0)) {
                 ch -= 'a'.charCodeAt(0) - 1;
             }
+        }
+
+        if (ch < 30) {
+            ch = 0;
+        }
+
+        if (keyCode.code === 37) {
+            ch = 1;
+        } else if (keyCode.code === 39) {
+            ch = 2;
+        } else if (keyCode.code === 38) {
+            ch = 3;
+        } else if (keyCode.code === 40) {
+            ch = 4;
+        } else if (keyCode.code === 17) {
+            ch = 5;
+        } else  if (keyCode.code === 8 || keyCode.code === 127) {
+            ch = 8;
+        } else if (keyCode.code === 9) {
+            ch = 9;
+        } else if (keyCode.code === 10) {
+            ch = 10;
         }
 
         if (ch > 0 && ch < 128) {

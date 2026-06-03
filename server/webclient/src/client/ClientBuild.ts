@@ -715,7 +715,7 @@ export default class ClientBuild {
         }
     }
 
-    loadLocations(src: Uint8Array, xOffset: number, zOffset: number, loopCycle: number, world: World | null, collisions: (CollisionMap | null)[]): void {
+    loadLocations(src: Uint8Array, xOffset: number, zOffset: number, world: World | null, collisions: (CollisionMap | null)[]): void {
         const buf: Packet = new Packet(src);
         let locId: number = -1;
 
@@ -756,13 +756,13 @@ export default class ClientBuild {
                         cmap = collisions[currentLevel];
                     }
 
-                    this.addLoc(level, stx, stz, locId, shape, rotation, loopCycle, world, cmap);
+                    this.addLoc(level, stx, stz, locId, shape, rotation, world, cmap);
                 }
             }
         }
     }
 
-    private addLoc(level: number, x: number, z: number, locId: number, shape: number, angle: number, loopCycle: number, world: World | null, collision: CollisionMap | null): void {
+    private addLoc(level: number, x: number, z: number, locId: number, shape: number, angle: number, world: World | null, collision: CollisionMap | null): void {
         if (ClientBuild.lowMem) {
             if ((this.mapl[level][x][z] & MapFlag.ForceHighDetail) !== 0) {
                 return;
@@ -795,7 +795,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(22, angle, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setGroundDecor(model, level, x, z, y, typecode, typecode2);
@@ -809,7 +809,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(10, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 10, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 10, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             if (model) {
@@ -861,7 +861,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(shape, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.addScenery(level, x, z, y, model, typecode, typecode2, 1, 1, 0);
@@ -878,7 +878,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(0, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 0, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 0, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setWall(level, x, z, y, ClientBuild.WSHAPE0[angle], 0, model, null, typecode, typecode2);
@@ -933,7 +933,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(1, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 1, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 1, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setWall(level, x, z, y, ClientBuild.WSHAPE1[angle], 0, model, null, typecode, typecode2);
@@ -962,8 +962,8 @@ export default class ClientBuild {
                 model1 = loc.getModel(2, angle + 4, heightSW, heightSE, heightNE, heightNW, -1);
                 model2 = loc.getModel(2, offset, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model1 = new ClientLocAnim(loopCycle, locId, 2, angle + 4, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
-                model2 = new ClientLocAnim(loopCycle, locId, 2, offset, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model1 = new ClientLocAnim(locId, 2, angle + 4, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model2 = new ClientLocAnim(locId, 2, offset, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setWall(
@@ -1007,7 +1007,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(3, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 3, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 3, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setWall(level, x, z, y, ClientBuild.WSHAPE1[angle], 0, model, null, typecode, typecode2);
@@ -1032,7 +1032,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(shape, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.addScenery(level, x, z, y, model, typecode, typecode2, 1, 1, 0);
@@ -1069,7 +1069,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle * 512, ClientBuild.WSHAPE0[angle]);
@@ -1086,7 +1086,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(
@@ -1107,7 +1107,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 256);
@@ -1116,7 +1116,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 512);
@@ -1125,7 +1125,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 768);
@@ -1168,7 +1168,7 @@ export default class ClientBuild {
         return loc.checkModel(shape);
     }
 
-    static changeLocUnchecked(level: number, x: number, z: number, locId: number, shape: number, angle: number, loopCycle: number, trueLevel: number, levelHeightmap: Int32Array[][], world: World | null, cmap: CollisionMap | null): void {
+    static changeLocUnchecked(level: number, x: number, z: number, locId: number, shape: number, angle: number, trueLevel: number, levelHeightmap: Int32Array[][], world: World | null, cmap: CollisionMap | null): void {
         let heightSW: number = levelHeightmap[trueLevel][x][z];
         let heightSE: number = levelHeightmap[trueLevel][x + 1][z];
         let heightNW: number = levelHeightmap[trueLevel][x + 1][z + 1];
@@ -1190,7 +1190,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(22, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setGroundDecor(model, level, x, z, y, typecode, typecode2);
@@ -1203,7 +1203,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(10, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 10, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 10, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             if (model) {
@@ -1233,7 +1233,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(shape, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.addScenery(level, x, z, y, model, typecode, typecode2, 1, 1, 0);
@@ -1246,7 +1246,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(0, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 0, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 0, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setWall(level, x, z, y, ClientBuild.WSHAPE0[angle], 0, model, null, typecode, typecode2);
@@ -1259,7 +1259,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(1, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 1, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 1, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setWall(level, x, z, y, ClientBuild.WSHAPE1[angle], 0, model, null, typecode, typecode2);
@@ -1276,8 +1276,8 @@ export default class ClientBuild {
                 model1 = loc.getModel(2, angle + 4, heightSW, heightSE, heightNE, heightNW, -1);
                 model2 = loc.getModel(2, offset, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model1 = new ClientLocAnim(loopCycle, locId, 2, angle + 4, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
-                model2 = new ClientLocAnim(loopCycle, locId, 2, offset, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model1 = new ClientLocAnim(locId, 2, angle + 4, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model2 = new ClientLocAnim(locId, 2, offset, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setWall(level, x, z, y, ClientBuild.WSHAPE0[angle], ClientBuild.WSHAPE0[offset], model1, model2, typecode, typecode2);
@@ -1290,7 +1290,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(3, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, 3, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 3, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setWall(level, x, z, y, ClientBuild.WSHAPE1[angle], 0, model, null, typecode, typecode2);
@@ -1303,7 +1303,7 @@ export default class ClientBuild {
             if (loc.anim === -1) {
                 model = loc.getModel(shape, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(loopCycle, locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.addScenery(level, x, z, y, model, typecode, typecode2, 1, 1, 0);
@@ -1340,7 +1340,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle * 512, ClientBuild.WSHAPE0[angle]);
@@ -1357,7 +1357,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, ClientBuild.DECORXOF[angle] * wallwidth, ClientBuild.DECORZOF[angle] * wallwidth, typecode, model, typecode2, angle * 512, ClientBuild.WSHAPE0[angle]);
@@ -1366,7 +1366,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 256);
@@ -1375,7 +1375,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 512);
@@ -1384,7 +1384,7 @@ export default class ClientBuild {
                 if (loc.anim === -1) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(loopCycle, locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 768);

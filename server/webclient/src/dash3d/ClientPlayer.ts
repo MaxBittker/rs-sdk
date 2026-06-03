@@ -1,3 +1,5 @@
+import { Client } from '#/client/Client.js';
+
 import IdkType from '#/config/IdkType.js';
 import NpcType from '#/config/NpcType.js';
 import ObjType from '#/config/ObjType.js';
@@ -309,7 +311,7 @@ export default class ClientPlayer extends ClientEntity {
         this.baseId += BigInt(this.gender);
     }
 
-    override getTempModel(loopCycle: number): Model | null {
+    override getTempModel(): Model | null {
         if (!this.ready) {
             return null;
         }
@@ -355,11 +357,11 @@ export default class ClientPlayer extends ClientEntity {
         }
 
         if (this.locModel != null) {
-            if (loopCycle >= this.locStopCycle) {
+            if (Client.loopCycle >= this.locStopCycle) {
                 this.locModel = null;
             }
 
-            if (loopCycle >= this.locStartCycle && loopCycle < this.locStopCycle) {
+            if (Client.loopCycle >= this.locStartCycle && Client.loopCycle < this.locStopCycle) {
                 const loc = this.locModel;
                 if (loc) {
                     loc.translate(this.locOffsetY - this.y, this.locOffsetX - this.x, this.locOffsetZ - this.z);

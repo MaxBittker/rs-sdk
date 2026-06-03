@@ -8,6 +8,7 @@ import { MiniMenuAction } from '#/client/MiniMenuAction.js';
 import MobileKeyboard from '#/client/MobileKeyboard.js';
 import MouseTracking from '#/client/MouseTracking.js';
 import Skill from '#/client/Skill.js';
+import TitleFlames from '#/client/TitleFlames.js';
 
 import FloType from '#/config/FloType.js';
 import SeqType, { PostanimMove, PreanimMove, RestartMode } from '#/config/SeqType.js';
@@ -42,7 +43,7 @@ import JString from '#/datastruct/JString.js';
 import LinkList from '#/datastruct/LinkList.js';
 
 import { Int32Array2d, TypedArray1d, TypedArray3d, Int32Array3d, Uint8Array3d } from '#/util/Arrays.js';
-import { downloadUrl, sleep, arraycopy } from '#/util/JsUtil.js';
+import { downloadUrl, sleep } from '#/util/JsUtil.js';
 
 import AnimFrame from '#/dash3d/AnimFrame.js';
 import { canvas2d } from '#/graphics/Canvas.js';
@@ -119,6 +120,9 @@ export class Client extends GameShell {
     static oplogic9: number = 0;
     static oplogic10: number = 0;
 
+    static loopCycle: number = 0;
+    static drawCycle: number = 0;
+
     static CHARSET: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"£$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
 
     static readbit = new Int32Array(32);
@@ -152,9 +156,6 @@ export class Client extends GameShell {
     private lastProgressMessage: string = '';
 
     ingame: boolean = false;
-    private loopCycle: number = 0;
-    private drawCycle: number = 0;
-    private flameCycle: number = 0;
 
     private prevMouseClickTime: number = 0;
     private mouseTracked: boolean = false;
@@ -297,22 +298,7 @@ export class Client extends GameShell {
     private loginPass: string = '';
 
     private imageRunes: Pix8[] = [];
-    private flameActive: boolean = false;
-    private imageFlamesLeft: Pix32 | null = null;
-    private imageFlamesRight: Pix32 | null = null;
-    private flameBuffer1: Int32Array | null = null;
-    private flameBuffer0: Int32Array | null = null;
-    private flameBuffer3: Int32Array | null = null;
-    private flameBuffer2: Int32Array | null = null;
-    private flameGradient: Int32Array | null = null;
-    private flameGradient0: Int32Array | null = null;
-    private flameGradient1: Int32Array | null = null;
-    private flameGradient2: Int32Array | null = null;
-    private flameLineOffset: Int32Array = new Int32Array(256);
-    private flameCycle0: number = 0;
-    private flameGradientCycle0: number = 0;
-    private flameGradientCycle1: number = 0;
-    private flamesInterval: ReturnType<typeof setInterval> | null = null;
+    private titleFlames: TitleFlames | null = null;
 
     private areaSide: PixMap | null = null;
     private areaMap: PixMap | null = null;
@@ -547,7 +533,7 @@ export class Client extends GameShell {
     private midiSong: number = -1;
     private nextMidiSong: number = -1;
     private nextMusicDelay: number = 0;
-    private midiFading: boolean = false;
+    private midiFading: boolean = true;
 
     private waveEnabled: boolean = true;
     private waveVolume: number = 0;
@@ -592,6 +578,7 @@ export class Client extends GameShell {
     private idkDesignColour: Int32Array = new Int32Array(5);
     private idkDesignButton1: Pix32 | null = null;
     private idkDesignButton2: Pix32 | null = null;
+    private readonly searchParams: URLSearchParams;
 
     // rs-sdk: Bot SDK overlay for bot development (dynamically loaded when enabled)
     private botOverlay: InstanceType<typeof import('#/bot/index.js').BotOverlay> | null = null;
@@ -610,6 +597,7 @@ export class Client extends GameShell {
 
     constructor(nodeid: number, lowmem: boolean, members: boolean) {
         super();
+        this.searchParams = new URLSearchParams(window.location.search);
 
         if (typeof nodeid === 'undefined' || typeof lowmem === 'undefined' || typeof members === 'undefined') {
             return;
@@ -2327,7 +2315,7 @@ export class Client extends GameShell {
 
         this.dialogHistory.unshift({
             text: texts,
-            tick: this.loopCycle,
+            tick: Client.loopCycle,
             interfaceId: this.chatModalId
         });
 
@@ -2635,13 +2623,23 @@ export class Client extends GameShell {
         playMidi(data, this.midiVolume, fading);
     }
 
+    private getIntParam(name: string, fallback: number = 0): number {
+        const value: string | null = this.searchParams.get(name);
+        if (value === null || !/^[+-]?\d+$/.test(value)) {
+            return fallback;
+        }
+
+        const parsed: number = Number(value);
+        return Number.isSafeInteger(parsed) ? parsed : fallback;
+    }
+
     private drawError(): void {
         canvas2d.fillStyle = 'black';
         canvas2d.fillRect(0, 0, this.sWid, this.sHei);
 
         this.setFramerate(1);
 
-        this.flameActive = false;
+        this.titleFlames?.close();
         let y: number = 0;
 
         if (this.errorLoading) {
@@ -2896,7 +2894,8 @@ export class Client extends GameShell {
 
             if (!Client.lowMem) {
                 this.midiSong = 0; // scape_main
-                this.midiFading = false;
+                this.midiSong = this.getIntParam('music', this.midiSong);
+                this.midiFading = true;
                 this.onDemand.request(2, this.midiSong);
 
                 while (this.onDemand.remaining() > 0) {
@@ -3274,7 +3273,7 @@ export class Client extends GameShell {
             return;
         }
 
-        this.loopCycle++;
+        Client.loopCycle++;
 
         if (!this.ingame) {
             await this.titleScreenLoop();
@@ -3291,7 +3290,7 @@ export class Client extends GameShell {
             return;
         }
 
-        this.drawCycle++;
+        Client.drawCycle++;
 
         if (!this.ingame) {
             await this.titleScreenDraw();
@@ -3558,10 +3557,10 @@ export class Client extends GameShell {
                 y += 30;
             }
 
-            this.b12?.drawStringTag(`Username: ${this.loginUser}${this.loginSelect === 0 && this.loopCycle % 40 < 20 ? '@yel@|' : ''}`, w / 2 - 90, y, Colour.WHITE, true);
+            this.b12?.drawStringTag(`Username: ${this.loginUser}${this.loginSelect === 0 && Client.loopCycle % 40 < 20 ? '@yel@|' : ''}`, w / 2 - 90, y, Colour.WHITE, true);
             y += 15;
 
-            this.b12?.drawStringTag(`Password: ${JString.getRepeatedCharacter(this.loginPass)}${this.loginSelect === 1 && this.loopCycle % 40 < 20 ? '@yel@|' : ''}`, w / 2 - 88, y, Colour.WHITE, true);
+            this.b12?.drawStringTag(`Password: ${JString.getRepeatedCharacter(this.loginPass)}${this.loginSelect === 1 && Client.loopCycle % 40 < 20 ? '@yel@|' : ''}`, w / 2 - 88, y, Colour.WHITE, true);
             y += 15;
 
             x = ((w / 2) | 0) - 80;
@@ -3734,306 +3733,19 @@ export class Client extends GameShell {
 
         this.imageTitlebox = Pix8.depack(this.title, 'titlebox');
         this.imageTitlebutton = Pix8.depack(this.title, 'titlebutton');
+
+        const flameIcon: number = this.getIntParam('fl_icon');
         for (let i: number = 0; i < 12; i++) {
-            this.imageRunes[i] = Pix8.depack(this.title, 'runes', i);
+            this.imageRunes[i] = Pix8.depack(this.title, 'runes', flameIcon === 0 ? i : (i & 0x3) + 12);
         }
-        this.imageFlamesLeft = new Pix32(128, 265);
-        this.imageFlamesRight = new Pix32(128, 265);
-
-        if (this.imageTitle0) arraycopy(this.imageTitle0.data, 0, this.imageFlamesLeft.data, 0, 33920);
-        if (this.imageTitle1) arraycopy(this.imageTitle1.data, 0, this.imageFlamesRight.data, 0, 33920);
-
-        this.flameGradient0 = new Int32Array(256);
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient0[index] = index * 262144;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient0[index + 64] = index * 1024 + Colour.RED;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient0[index + 128] = index * 4 + Colour.YELLOW;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient0[index + 192] = Colour.WHITE;
-        }
-
-        this.flameGradient1 = new Int32Array(256);
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient1[index] = index * 1024;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient1[index + 64] = index * 4 + Colour.GREEN;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient1[index + 128] = index * 262144 + Colour.CYAN;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient1[index + 192] = Colour.WHITE;
-        }
-
-        this.flameGradient2 = new Int32Array(256);
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient2[index] = index * 4;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient2[index + 64] = index * 262144 + Colour.BLUE;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient2[index + 128] = index * 1024 + Colour.MAGENTA;
-        }
-        for (let index: number = 0; index < 64; index++) {
-            this.flameGradient2[index + 192] = Colour.WHITE;
-        }
-
-        this.flameGradient = new Int32Array(256);
-        this.flameBuffer0 = new Int32Array(32768);
-        this.flameBuffer1 = new Int32Array(32768);
-        this.generateFlameCoolingMap(null);
-        this.flameBuffer3 = new Int32Array(32768);
-        this.flameBuffer2 = new Int32Array(32768);
 
         this.drawProgress('Connecting to fileserver', 10).then((): void => {
-            if (!this.flameActive) {
-                this.flameActive = true;
-                this.flamesInterval = setInterval(this.renderFlames.bind(this), 35);
+            if (!this.titleFlames && this.imageTitle0 && this.imageTitle1) {
+                this.titleFlames = new TitleFlames(this.imageRunes);
+                this.titleFlames.setupFire(this.imageTitle0, this.imageTitle1);
+                this.titleFlames.start();
             }
         });
-    }
-
-    private renderFlames(): void {
-        if (!this.flameActive) {
-            return;
-        }
-
-        this.flameCycle++;
-
-        // runs every ~40ms so update twice to compensate
-        this.updateFlames();
-        this.updateFlames();
-        this.drawFlames();
-    }
-
-    private updateFlames(): void {
-        if (!this.flameBuffer3 || !this.flameBuffer2 || !this.flameBuffer0 || !this.flameLineOffset) {
-            return;
-        }
-
-        const height: number = 256;
-
-        for (let x: number = 10; x < 117; x++) {
-            const rand: number = (Math.random() * 100.0) | 0;
-            if (rand < 50) this.flameBuffer3[x + ((height - 2) << 7)] = 255;
-        }
-
-        for (let l: number = 0; l < 100; l++) {
-            const x: number = ((Math.random() * 124.0) | 0) + 2;
-            const y: number = ((Math.random() * 128.0) | 0) + 128;
-            const index: number = x + (y << 7);
-            this.flameBuffer3[index] = 192;
-        }
-
-        for (let y: number = 1; y < height - 1; y++) {
-            for (let x: number = 1; x < 127; x++) {
-                const index: number = x + (y << 7);
-                this.flameBuffer2[index] = ((this.flameBuffer3[index - 1] + this.flameBuffer3[index + 1] + this.flameBuffer3[index - 128] + this.flameBuffer3[index + 128]) / 4) | 0;
-            }
-        }
-
-        this.flameCycle0 += 128;
-        if (this.flameCycle0 > this.flameBuffer0.length) {
-            this.flameCycle0 -= this.flameBuffer0.length;
-            this.generateFlameCoolingMap(this.imageRunes[(Math.random() * 12.0) | 0]);
-        }
-
-        for (let y: number = 1; y < height - 1; y++) {
-            for (let x: number = 1; x < 127; x++) {
-                const index: number = x + (y << 7);
-                let intensity: number = this.flameBuffer2[index + 128] - ((this.flameBuffer0[(index + this.flameCycle0) & (this.flameBuffer0.length - 1)] / 5) | 0);
-                if (intensity < 0) {
-                    intensity = 0;
-                }
-                this.flameBuffer3[index] = intensity;
-            }
-        }
-
-        this.flameLineOffset.copyWithin(0, 1, height);
-
-        this.flameLineOffset[height - 1] = (Math.sin(this.loopCycle / 14.0) * 16.0 + Math.sin(this.loopCycle / 15.0) * 14.0 + Math.sin(this.loopCycle / 16.0) * 12.0) | 0;
-
-        if (this.flameGradientCycle0 > 0) {
-            this.flameGradientCycle0 -= 4;
-        }
-
-        if (this.flameGradientCycle1 > 0) {
-            this.flameGradientCycle1 -= 4;
-        }
-
-        if (this.flameGradientCycle0 === 0 && this.flameGradientCycle1 === 0) {
-            const rand: number = (Math.random() * 2000.0) | 0;
-
-            if (rand === 0) {
-                this.flameGradientCycle0 = 1024;
-            } else if (rand === 1) {
-                this.flameGradientCycle1 = 1024;
-            }
-        }
-    }
-
-    private generateFlameCoolingMap(image: Pix8 | null): void {
-        if (!this.flameBuffer0 || !this.flameBuffer1) {
-            return;
-        }
-
-        const flameHeight: number = 256;
-
-        // Clears the initial flame buffer
-        this.flameBuffer0.fill(0);
-
-        // Blends the fire at random
-        for (let i: number = 0; i < 5000; i++) {
-            const rand: number = (Math.random() * 128.0 * flameHeight) | 0;
-            this.flameBuffer0[rand] = (Math.random() * 256.0) | 0;
-        }
-
-        // changes colour between last few flames
-        for (let i: number = 0; i < 20; i++) {
-            for (let y: number = 1; y < flameHeight - 1; y++) {
-                for (let x: number = 1; x < 127; x++) {
-                    const index: number = x + (y << 7);
-                    this.flameBuffer1[index] = ((this.flameBuffer0[index - 1] + this.flameBuffer0[index + 1] + this.flameBuffer0[index - 128] + this.flameBuffer0[index + 128]) / 4) | 0;
-                }
-            }
-
-            const last: Int32Array = this.flameBuffer0;
-            this.flameBuffer0 = this.flameBuffer1;
-            this.flameBuffer1 = last;
-        }
-
-        // Renders the rune images
-        if (image) {
-            let off: number = 0;
-
-            for (let y: number = 0; y < image.hi; y++) {
-                for (let x: number = 0; x < image.wi; x++) {
-                    if (image.data[off++] !== 0) {
-                        const x0: number = x + image.xof + 16;
-                        const y0: number = y + image.yof + 16;
-                        const index: number = x0 + (y0 << 7);
-                        this.flameBuffer0[index] = 0;
-                    }
-                }
-            }
-        }
-    }
-
-    private drawFlames(): void {
-        if (!this.flameGradient || !this.flameGradient0 || !this.flameGradient1 || !this.flameGradient2 || !this.flameLineOffset || !this.flameBuffer3) {
-            return;
-        }
-
-        const height: number = 256;
-
-        // just colours
-        if (this.flameGradientCycle0 > 0) {
-            for (let i: number = 0; i < 256; i++) {
-                if (this.flameGradientCycle0 > 768) {
-                    this.flameGradient[i] = this.titleFlamesMerge(this.flameGradient0[i], this.flameGradient1[i], 1024 - this.flameGradientCycle0);
-                } else if (this.flameGradientCycle0 > 256) {
-                    this.flameGradient[i] = this.flameGradient1[i];
-                } else {
-                    this.flameGradient[i] = this.titleFlamesMerge(this.flameGradient1[i], this.flameGradient0[i], 256 - this.flameGradientCycle0);
-                }
-            }
-        } else if (this.flameGradientCycle1 > 0) {
-            for (let i: number = 0; i < 256; i++) {
-                if (this.flameGradientCycle1 > 768) {
-                    this.flameGradient[i] = this.titleFlamesMerge(this.flameGradient0[i], this.flameGradient2[i], 1024 - this.flameGradientCycle1);
-                } else if (this.flameGradientCycle1 > 256) {
-                    this.flameGradient[i] = this.flameGradient2[i];
-                } else {
-                    this.flameGradient[i] = this.titleFlamesMerge(this.flameGradient2[i], this.flameGradient0[i], 256 - this.flameGradientCycle1);
-                }
-            }
-        } else {
-            this.flameGradient.set(this.flameGradient0);
-        }
-
-        if (this.imageTitle0 && this.imageFlamesLeft) {
-            this.imageTitle0.data.set(this.imageFlamesLeft.data.subarray(0, 33920));
-        }
-
-        let srcOffset: number = 0;
-        let dstOffset: number = 1152;
-
-        for (let y: number = 1; y < height - 1; y++) {
-            const offset: number = ((this.flameLineOffset[y] * (height - y)) / height) | 0;
-
-            let step: number = offset + 22;
-            if (step < 0) {
-                step = 0;
-            }
-
-            srcOffset += step;
-
-            for (let x: number = step; x < 128; x++) {
-                let value: number = this.flameBuffer3[srcOffset++];
-                if (value === 0) {
-                    dstOffset++;
-                } else {
-                    const alpha: number = value;
-                    const invAlpha: number = 256 - value;
-                    value = this.flameGradient[value];
-
-                    if (this.imageTitle0) {
-                        const background: number = this.imageTitle0.data[dstOffset];
-                        this.imageTitle0.data[dstOffset++] = ((((value & 0xff00ff) * alpha + (background & 0xff00ff) * invAlpha) & 0xff00ff00) + (((value & 0xff00) * alpha + (background & 0xff00) * invAlpha) & 0xff0000)) >> 8;
-                    }
-                }
-            }
-            dstOffset += step;
-        }
-
-        this.imageTitle0?.draw(0, 0);
-
-        if (this.imageTitle1 && this.imageFlamesRight) {
-            this.imageTitle1.data.set(this.imageFlamesRight.data.subarray(0, 33920));
-        }
-
-        srcOffset = 0;
-        dstOffset = 1176;
-
-        for (let y: number = 1; y < height - 1; y++) {
-            const offset: number = ((this.flameLineOffset[y] * (height - y)) / height) | 0;
-
-            const step: number = 103 - offset;
-            dstOffset += offset;
-
-            for (let x: number = 0; x < step; x++) {
-                let value: number = this.flameBuffer3[srcOffset++];
-                if (value === 0) {
-                    dstOffset++;
-                } else {
-                    const alpha: number = value;
-                    const invAlpha: number = 256 - value;
-                    value = this.flameGradient[value];
-
-                    if (this.imageTitle1) {
-                        const background: number = this.imageTitle1.data[dstOffset];
-                        this.imageTitle1.data[dstOffset++] = ((((value & 0xff00ff) * alpha + (background & 0xff00ff) * invAlpha) & 0xff00ff00) + (((value & 0xff00) * alpha + (background & 0xff00) * invAlpha) & 0xff0000)) >> 8;
-                    }
-                }
-            }
-
-            srcOffset += 128 - step;
-            dstOffset += 128 - step - offset;
-        }
-
-        this.imageTitle1?.draw(637, 0);
-    }
-
-    private titleFlamesMerge(src: number, dst: number, alpha: number): number {
-        const invAlpha: number = 256 - alpha;
-        return ((((src & 0xff00ff) * invAlpha + (dst & 0xff00ff) * alpha) & 0xff00ff00) + (((src & 0xff00) * invAlpha + (dst & 0xff00) * alpha) & 0xff0000)) >> 8;
     }
 
     private async login(username: string, password: string, reconnect: boolean): Promise<void> {
@@ -4334,29 +4046,12 @@ export class Client extends GameShell {
     }
 
     private unloadTitle(): void {
-        this.flameActive = false;
-
-        if (this.flamesInterval) {
-            clearInterval(this.flamesInterval);
-            this.flamesInterval = null;
-        }
+        this.titleFlames?.close();
+        this.titleFlames = null;
 
         this.imageTitlebox = null;
         this.imageTitlebutton = null;
         this.imageRunes = [];
-
-        this.flameGradient = null;
-        this.flameGradient0 = null;
-        this.flameGradient1 = null;
-        this.flameGradient2 = null;
-
-        this.flameBuffer0 = null;
-        this.flameBuffer1 = null;
-        this.flameBuffer3 = null;
-        this.flameBuffer2 = null;
-
-        this.imageFlamesLeft = null;
-        this.imageFlamesRight = null;
     }
 
     private prepareGame(): void {
@@ -5445,7 +5140,7 @@ export class Client extends GameShell {
                                 } else if (this.chatInput === '::prefetchmusic') {
                                     if (this.onDemand) {
                                         for (let i = 0; i < this.onDemand.getFileCount(2); i++) {
-                                            this.onDemand.prefetchPriority(2, i, 1);
+                                            await this.onDemand.prefetchPriority(2, i, 1);
                                         }
                                     }
                                 } else if (this.chatInput === '::lag') {
@@ -5461,7 +5156,7 @@ export class Client extends GameShell {
                                 // authentic in later revs
                                 this.showFps = false;
                             } else if (this.chatInput.startsWith('::fps ')) {
-                                // custom ::fps command for setting a target framerate
+                                // authentic in later revs
                                 try {
                                     const desiredFps = parseInt(this.chatInput.substring(6)) || 50;
                                     this.setTargetedFramerate(desiredFps);
@@ -5477,37 +5172,48 @@ export class Client extends GameShell {
                                 if (this.chatInput.startsWith('yellow:')) {
                                     colour = 0;
                                     this.chatInput = this.chatInput.substring(7);
-                                } else if (this.chatInput.startsWith('red:')) {
+                                }
+                                if (this.chatInput.startsWith('red:')) {
                                     colour = 1;
                                     this.chatInput = this.chatInput.substring(4);
-                                } else if (this.chatInput.startsWith('green:')) {
+                                }
+                                if (this.chatInput.startsWith('green:')) {
                                     colour = 2;
                                     this.chatInput = this.chatInput.substring(6);
-                                } else if (this.chatInput.startsWith('cyan:')) {
+                                }
+                                if (this.chatInput.startsWith('cyan:')) {
                                     colour = 3;
                                     this.chatInput = this.chatInput.substring(5);
-                                } else if (this.chatInput.startsWith('purple:')) {
+                                }
+                                if (this.chatInput.startsWith('purple:')) {
                                     colour = 4;
                                     this.chatInput = this.chatInput.substring(7);
-                                } else if (this.chatInput.startsWith('white:')) {
+                                }
+                                if (this.chatInput.startsWith('white:')) {
                                     colour = 5;
                                     this.chatInput = this.chatInput.substring(6);
-                                } else if (this.chatInput.startsWith('flash1:')) {
+                                }
+                                if (this.chatInput.startsWith('flash1:')) {
                                     colour = 6;
                                     this.chatInput = this.chatInput.substring(7);
-                                } else if (this.chatInput.startsWith('flash2:')) {
+                                }
+                                if (this.chatInput.startsWith('flash2:')) {
                                     colour = 7;
                                     this.chatInput = this.chatInput.substring(7);
-                                } else if (this.chatInput.startsWith('flash3:')) {
+                                }
+                                if (this.chatInput.startsWith('flash3:')) {
                                     colour = 8;
                                     this.chatInput = this.chatInput.substring(7);
-                                } else if (this.chatInput.startsWith('glow1:')) {
+                                }
+                                if (this.chatInput.startsWith('glow1:')) {
                                     colour = 9;
                                     this.chatInput = this.chatInput.substring(6);
-                                } else if (this.chatInput.startsWith('glow2:')) {
+                                }
+                                if (this.chatInput.startsWith('glow2:')) {
                                     colour = 10;
                                     this.chatInput = this.chatInput.substring(6);
-                                } else if (this.chatInput.startsWith('glow3:')) {
+                                }
+                                if (this.chatInput.startsWith('glow3:')) {
                                     colour = 11;
                                     this.chatInput = this.chatInput.substring(6);
                                 }
@@ -5576,12 +5282,12 @@ export class Client extends GameShell {
     // todo: order
     private lag() {
         console.log('============');
-        console.log(`flame-cycle:${this.flameCycle0}`);
+        console.log(`flame-cycle:${this.titleFlames?.coolingCycle ?? 0}`);
         if (this.onDemand) {
             console.log(`od-cycle:${this.onDemand.cycle}`);
         }
-        console.log(`loop-cycle:${this.loopCycle}`);
-        console.log(`draw-cycle:${this.drawCycle}`);
+        console.log(`loop-cycle:${Client.loopCycle}`);
+        console.log(`draw-cycle:${Client.drawCycle}`);
         console.log(`ptype:${this.ptype}`);
         console.log(`psize:${this.psize}`);
         // this.stream?.debug();
@@ -5820,7 +5526,7 @@ export class Client extends GameShell {
 
             if (this.nextMusicDelay === 0 && this.midiActive && !Client.lowMem) {
                 this.midiSong = this.nextMidiSong;
-                this.midiFading = false;
+                this.midiFading = true;
                 this.onDemand?.request(2, this.midiSong);
             }
         }
@@ -5874,9 +5580,9 @@ export class Client extends GameShell {
             e.abortRoute();
         }
 
-        if (e.exactMoveEnd > this.loopCycle) {
+        if (e.exactMoveEnd > Client.loopCycle) {
             this.exactMove1(e);
-        } else if (e.exactMoveStart >= this.loopCycle) {
+        } else if (e.exactMoveStart >= Client.loopCycle) {
             this.exactMove2(e);
         } else {
             this.routeMove(e);
@@ -5887,7 +5593,7 @@ export class Client extends GameShell {
     }
 
     private exactMove1(e: ClientEntity): void {
-        const delta: number = e.exactMoveEnd - this.loopCycle;
+        const delta: number = e.exactMoveEnd - Client.loopCycle;
         const dstX: number = e.exactStartX * 128 + e.size * 64;
         const dstZ: number = e.exactStartZ * 128 + e.size * 64;
 
@@ -5908,9 +5614,9 @@ export class Client extends GameShell {
     }
 
     private exactMove2(e: ClientEntity): void {
-        if (e.exactMoveStart === this.loopCycle || e.primaryAnim === -1 || e.primaryAnimDelay !== 0 || e.primaryAnimCycle + 1 > SeqType.list[e.primaryAnim].getDelay(e.primaryAnimFrame)) {
+        if (e.exactMoveStart === Client.loopCycle || e.primaryAnim === -1 || e.primaryAnimDelay !== 0 || e.primaryAnimCycle + 1 > SeqType.list[e.primaryAnim].getDelay(e.primaryAnimFrame)) {
             const duration: number = e.exactMoveStart - e.exactMoveEnd;
-            const delta: number = this.loopCycle - e.exactMoveEnd;
+            const delta: number = Client.loopCycle - e.exactMoveEnd;
             const dx0: number = e.exactStartX * 128 + e.size * 64;
             const dz0: number = e.exactStartZ * 128 + e.size * 64;
             const dx1: number = e.exactEndX * 128 + e.size * 64;
@@ -6153,7 +5859,7 @@ export class Client extends GameShell {
             }
         }
 
-        if (e.spotanimId !== -1 && this.loopCycle >= e.spotanimLastCycle) {
+        if (e.spotanimId !== -1 && Client.loopCycle >= e.spotanimLastCycle) {
             if (e.spotanimFrame < 0) {
                 e.spotanimFrame = 0;
             }
@@ -6175,7 +5881,7 @@ export class Client extends GameShell {
 
         if (e.primaryAnim != -1 && e.primaryAnimDelay <= 1) {
             seq = SeqType.list[e.primaryAnim];
-            if (seq.preanim_move === PreanimMove.DELAYANIM && e.preanimRouteLength > 0 && this.loopCycle >= e.exactMoveStart && this.loopCycle > e.exactMoveEnd) {
+            if (seq.preanim_move === PreanimMove.DELAYANIM && e.preanimRouteLength > 0 && Client.loopCycle >= e.exactMoveStart && Client.loopCycle > e.exactMoveEnd) {
                 e.primaryAnimDelay = 1;
                 return;
             }
@@ -6247,7 +5953,7 @@ export class Client extends GameShell {
         if (this.redrawFrame) {
             this.redrawFrame = false;
 
-            if (!this.flameActive) {
+            if (!this.titleFlames?.active) {
                 this.imageTitle0?.draw(0, 0);
                 this.imageTitle1?.draw(637, 0);
             }
@@ -6411,31 +6117,31 @@ export class Client extends GameShell {
                     }
                 }
 
-                if (this.sideIcon[0] !== -1 && (this.tutFlashIcon !== 0 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[0] !== -1 && (this.tutFlashIcon !== 0 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[0]?.plotSprite(29, 13);
                 }
 
-                if (this.sideIcon[1] !== -1 && (this.tutFlashIcon !== 1 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[1] !== -1 && (this.tutFlashIcon !== 1 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[1]?.plotSprite(53, 11);
                 }
 
-                if (this.sideIcon[2] !== -1 && (this.tutFlashIcon !== 2 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[2] !== -1 && (this.tutFlashIcon !== 2 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[2]?.plotSprite(82, 11);
                 }
 
-                if (this.sideIcon[3] !== -1 && (this.tutFlashIcon !== 3 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[3] !== -1 && (this.tutFlashIcon !== 3 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[3]?.plotSprite(115, 12);
                 }
 
-                if (this.sideIcon[4] !== -1 && (this.tutFlashIcon !== 4 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[4] !== -1 && (this.tutFlashIcon !== 4 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[4]?.plotSprite(153, 13);
                 }
 
-                if (this.sideIcon[5] !== -1 && (this.tutFlashIcon !== 5 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[5] !== -1 && (this.tutFlashIcon !== 5 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[5]?.plotSprite(180, 11);
                 }
 
-                if (this.sideIcon[6] !== -1 && (this.tutFlashIcon !== 6 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[6] !== -1 && (this.tutFlashIcon !== 6 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[6]?.plotSprite(208, 13);
                 }
             }
@@ -6464,27 +6170,27 @@ export class Client extends GameShell {
                     }
                 }
 
-                if (this.sideIcon[8] !== -1 && (this.tutFlashIcon !== 8 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[8] !== -1 && (this.tutFlashIcon !== 8 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[7]?.plotSprite(74, 2);
                 }
 
-                if (this.sideIcon[9] !== -1 && (this.tutFlashIcon !== 9 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[9] !== -1 && (this.tutFlashIcon !== 9 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[8]?.plotSprite(102, 3);
                 }
 
-                if (this.sideIcon[10] !== -1 && (this.tutFlashIcon !== 10 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[10] !== -1 && (this.tutFlashIcon !== 10 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[9]?.plotSprite(137, 4);
                 }
 
-                if (this.sideIcon[11] !== -1 && (this.tutFlashIcon !== 11 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[11] !== -1 && (this.tutFlashIcon !== 11 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[10]?.plotSprite(174, 2);
                 }
 
-                if (this.sideIcon[12] !== -1 && (this.tutFlashIcon !== 12 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[12] !== -1 && (this.tutFlashIcon !== 12 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[11]?.plotSprite(201, 2);
                 }
 
-                if (this.sideIcon[13] !== -1 && (this.tutFlashIcon !== 13 || this.loopCycle % 20 < 10)) {
+                if (this.sideIcon[13] !== -1 && (this.tutFlashIcon !== 13 || Client.loopCycle % 20 < 10)) {
                     this.sideicons[12]?.plotSprite(226, 2);
                 }
             }
@@ -6625,7 +6331,7 @@ export class Client extends GameShell {
         Model.mouseY = this.mouseY - 4;
 
         Pix2D.cls();
-        this.world?.renderAll(this.camX, this.camY, this.camZ, level, this.camYaw, this.camPitch, this.loopCycle);
+        this.world?.renderAll(this.camX, this.camY, this.camZ, level, this.camYaw, this.camPitch);
         this.world?.removeSprites();
         this.entityOverlays();
         this.coordArrow();
@@ -6689,7 +6395,7 @@ export class Client extends GameShell {
                 continue;
             }
 
-            if (!player.locModel || this.loopCycle < player.locStartCycle || this.loopCycle >= player.locStopCycle) {
+            if (!player.locModel || Client.loopCycle < player.locStartCycle || Client.loopCycle >= player.locStopCycle) {
                 if ((player.x & 0x7f) === 64 && (player.z & 0x7f) === 64) {
                     if (this.tileLastOccupiedCycle[stx][stz] == this.sceneCycle && i != -1) {
                         continue;
@@ -6738,13 +6444,13 @@ export class Client extends GameShell {
 
     private addProjectiles(): void {
         for (let proj = this.projectiles.head(); proj !== null; proj = this.projectiles.next()) {
-            if (proj.level !== this.minusedlevel || this.loopCycle > proj.t2) {
+            if (proj.level !== this.minusedlevel || Client.loopCycle > proj.t2) {
                 proj.unlink();
-            } else if (this.loopCycle >= proj.t1) {
+            } else if (Client.loopCycle >= proj.t1) {
                 if (proj.target > 0) {
                     const npc: ClientNpc | null = this.npc[proj.target - 1];
                     if (npc) {
-                        proj.setTarget(npc.x, this.getAvH(npc.x, npc.z, proj.level) - proj.h2, npc.z, this.loopCycle);
+                        proj.setTarget(npc.x, this.getAvH(npc.x, npc.z, proj.level) - proj.h2, npc.z, Client.loopCycle);
                     }
                 }
 
@@ -6758,7 +6464,7 @@ export class Client extends GameShell {
                     }
 
                     if (player) {
-                        proj.setTarget(player.x, this.getAvH(player.x, player.z, proj.level) - proj.h2, player.z, this.loopCycle);
+                        proj.setTarget(player.x, this.getAvH(player.x, player.z, proj.level) - proj.h2, player.z, Client.loopCycle);
                     }
                 }
 
@@ -6800,7 +6506,7 @@ export class Client extends GameShell {
         for (let spot = this.spotanims.head(); spot !== null; spot = this.spotanims.next()) {
             if (spot.level !== this.minusedlevel || spot.animComplete) {
                 spot.unlink();
-            } else if (this.loopCycle >= spot.startCycle) {
+            } else if (Client.loopCycle >= spot.startCycle) {
                 spot.update(this.worldUpdateNum);
 
                 if (spot.animComplete) {
@@ -6981,7 +6687,7 @@ export class Client extends GameShell {
                     }
                 }
 
-                if (this.hintType === 1 && this.hintNpc === this.npcIds[index - this.playerCount] && this.loopCycle % 20 < 10) {
+                if (this.hintType === 1 && this.hintNpc === this.npcIds[index - this.playerCount] && Client.loopCycle % 20 < 10) {
                     this.getOverlayPosEntity(entity, entity.height + 15);
 
                     if (this.projectX > -1) {
@@ -7039,7 +6745,7 @@ export class Client extends GameShell {
                 }
             }
 
-            if (entity.combatCycle > this.loopCycle + 100) {
+            if (entity.combatCycle > Client.loopCycle + 100) {
                 this.getOverlayPosEntity(entity, entity.height + 15);
 
                 if (this.projectX > -1) {
@@ -7053,7 +6759,7 @@ export class Client extends GameShell {
             }
 
             for (let i = 0; i < 4; ++i) {
-                if (entity.damageCycles[i] <= this.loopCycle) {
+                if (entity.damageCycles[i] <= Client.loopCycle) {
                     continue;
                 }
 
@@ -7168,7 +6874,7 @@ export class Client extends GameShell {
 
         this.getOverlayPos(((this.hintTileX - this.mapBuildBaseX) << 7) + this.hintOffsetX, ((this.hintTileZ - this.mapBuildBaseZ) << 7) + this.hintOffsetZ, this.hintHeight * 2);
 
-        if (this.projectX > -1 && this.loopCycle % 20 < 10) {
+        if (this.projectX > -1 && Client.loopCycle % 20 < 10) {
             this.headicons[2].plotSprite(this.projectX - 12, this.projectY - 28);
         }
     }
@@ -7591,7 +7297,7 @@ export class Client extends GameShell {
                     if (data) {
                         const x: number = (this.mapBuildIndex[i] >> 8) * 64 - this.mapBuildBaseX;
                         const z: number = (this.mapBuildIndex[i] & 0xff) * 64 - this.mapBuildBaseZ;
-                        build.loadLocations(data, x, z, this.loopCycle, this.world, this.collision);
+                        build.loadLocations(data, x, z, this.world, this.collision);
                     }
                 }
             }
@@ -9592,16 +9298,16 @@ export class Client extends GameShell {
                     if (wall) {
                         const locId = (wall.typecode >> 14) & 0x7fff;
                         if (shape == 2) {
-                            wall.model1 = new ClientLocAnim(this.loopCycle, locId, 2, rotate + 4, heightSW, heightSE, heightNE, heightNW, seq, false);
-                            wall.model2 = new ClientLocAnim(this.loopCycle, locId, 2, (rotate + 1) & 0x3, heightSW, heightSE, heightNE, heightNW, seq, false);
+                            wall.model1 = new ClientLocAnim(locId, 2, rotate + 4, heightSW, heightSE, heightNE, heightNW, seq, false);
+                            wall.model2 = new ClientLocAnim(locId, 2, (rotate + 1) & 0x3, heightSW, heightSE, heightNE, heightNW, seq, false);
                         } else {
-                            wall.model1 = new ClientLocAnim(this.loopCycle, locId, shape, rotate, heightSW, heightSE, heightNE, heightNW, seq, false);
+                            wall.model1 = new ClientLocAnim(locId, shape, rotate, heightSW, heightSE, heightNE, heightNW, seq, false);
                         }
                     }
                 } else if (layer == 1) {
                     const decor = this.world.getDecor(this.minusedlevel, z, x);
                     if (decor) {
-                        decor.model = new ClientLocAnim(this.loopCycle, (decor.typecode >> 14) & 0x7fff, 4, 0, heightSW, heightNE, heightNE, heightNW, seq, false);
+                        decor.model = new ClientLocAnim((decor.typecode >> 14) & 0x7fff, 4, 0, heightSW, heightNE, heightNE, heightNW, seq, false);
                     }
                 } else if (layer == 2) {
                     const sprite = this.world.getScene(this.minusedlevel, x, z);
@@ -9610,12 +9316,12 @@ export class Client extends GameShell {
                     }
 
                     if (sprite) {
-                        sprite.model = new ClientLocAnim(this.loopCycle, (sprite.typecode >> 14) & 0x7fff, shape, rotate, heightSW, heightSE, heightNE, heightNW, seq, false);
+                        sprite.model = new ClientLocAnim((sprite.typecode >> 14) & 0x7fff, shape, rotate, heightSW, heightSE, heightNE, heightNW, seq, false);
                     }
                 } else if (layer == 3) {
                     const decor = this.world.getGd(this.minusedlevel, x, z);
                     if (decor) {
-                        decor.model = new ClientLocAnim(this.loopCycle, (decor.typecode >> 14) & 0x7fff, 22, rotate, heightSW, heightSE, heightNE, heightNW, seq, false);
+                        decor.model = new ClientLocAnim((decor.typecode >> 14) & 0x7fff, 22, rotate, heightSW, heightSE, heightNE, heightNW, seq, false);
                     }
                 }
             }
@@ -9670,8 +9376,8 @@ export class Client extends GameShell {
                 x2 = x2 * 128 + 64;
                 z2 = z2 * 128 + 64;
 
-                const proj: ClientProj = new ClientProj(spotanim, this.minusedlevel, x, this.getAvH(x, z, this.minusedlevel) - h1, z, t1 + this.loopCycle, t2 + this.loopCycle, angle, startpos, targetEntity, h2);
-                proj.setTarget(x2, this.getAvH(x2, z2, this.minusedlevel) - h2, z2, t1 + this.loopCycle);
+                const proj: ClientProj = new ClientProj(spotanim, this.minusedlevel, x, this.getAvH(x, z, this.minusedlevel) - h1, z, t1 + Client.loopCycle, t2 + Client.loopCycle, angle, startpos, targetEntity, h2);
+                proj.setTarget(x2, this.getAvH(x2, z2, this.minusedlevel) - h2, z2, t1 + Client.loopCycle);
                 this.projectiles.push(proj);
             }
         } else if (opcode === ServerProt.MAP_ANIM) {
@@ -9683,7 +9389,7 @@ export class Client extends GameShell {
                 x = x * 128 + 64;
                 z = z * 128 + 64;
 
-                const spot: MapSpotAnim = new MapSpotAnim(spotanim, this.minusedlevel, x, z, this.getAvH(x, z, this.minusedlevel) - height, this.loopCycle, time);
+                const spot: MapSpotAnim = new MapSpotAnim(spotanim, this.minusedlevel, x, z, this.getAvH(x, z, this.minusedlevel) - height, Client.loopCycle, time);
                 this.spotanims.push(spot);
             }
         } else if (opcode === ServerProt.OBJ_REVEAL) {
@@ -9734,8 +9440,8 @@ export class Client extends GameShell {
                 if (model) {
                     this.locChangeCreate(this.minusedlevel, x, z, layer, -1, 0, 0, t1 + 1, t2 + 1);
 
-                    player.locStartCycle = t1 + this.loopCycle;
-                    player.locStopCycle = t2 + this.loopCycle;
+                    player.locStartCycle = t1 + Client.loopCycle;
+                    player.locStopCycle = t2 + Client.loopCycle;
                     player.locModel = model;
 
                     let width: number = loc.width;
@@ -9957,7 +9663,7 @@ export class Client extends GameShell {
             }
 
             if (this.groundh) {
-                ClientBuild.changeLocUnchecked(level, x, z, id, shape, angle, this.loopCycle, tileLevel, this.groundh, this.world, this.collision[level]);
+                ClientBuild.changeLocUnchecked(level, x, z, id, shape, angle, tileLevel, this.groundh, this.world, this.collision[level]);
             }
         }
     }
@@ -10024,7 +9730,7 @@ export class Client extends GameShell {
                 continue;
             }
 
-            if (player.cycle !== this.loopCycle) {
+            if (player.cycle !== Client.loopCycle) {
                 this.players[index] = null;
             }
         }
@@ -10109,7 +9815,7 @@ export class Client extends GameShell {
             if (info === 0) {
                 this.playerIds[this.playerCount++] = index;
                 if (player) {
-                    player.cycle = this.loopCycle;
+                    player.cycle = Client.loopCycle;
                 }
             } else {
                 const op: number = buf.gBit(2);
@@ -10117,13 +9823,13 @@ export class Client extends GameShell {
                 if (op === 0) {
                     this.playerIds[this.playerCount++] = index;
                     if (player) {
-                        player.cycle = this.loopCycle;
+                        player.cycle = Client.loopCycle;
                     }
                     this.entityUpdateIds[this.entityUpdateCount++] = index;
                 } else if (op === 1) {
                     this.playerIds[this.playerCount++] = index;
                     if (player) {
-                        player.cycle = this.loopCycle;
+                        player.cycle = Client.loopCycle;
                     }
 
                     const walkDir: number = buf.gBit(3);
@@ -10136,7 +9842,7 @@ export class Client extends GameShell {
                 } else if (op === 2) {
                     this.playerIds[this.playerCount++] = index;
                     if (player) {
-                        player.cycle = this.loopCycle;
+                        player.cycle = Client.loopCycle;
                     }
 
                     const walkDir: number = buf.gBit(3);
@@ -10175,7 +9881,7 @@ export class Client extends GameShell {
             this.playerIds[this.playerCount++] = index;
             const player: ClientPlayer | null = this.players[index];
             if (player) {
-                player.cycle = this.loopCycle;
+                player.cycle = Client.loopCycle;
             }
 
             let dx: number = buf.gBit(5);
@@ -10286,8 +9992,8 @@ export class Client extends GameShell {
             const damage = buf.g1();
             const damageType = buf.g1();
 
-            player.addHitmark(this.loopCycle, damageType, damage);
-            player.combatCycle = this.loopCycle + 400;
+            player.addHitmark(Client.loopCycle, damageType, damage);
+            player.combatCycle = Client.loopCycle + 400;
             player.health = buf.g1();
             player.totalHealth = buf.g1();
         }
@@ -10346,11 +10052,11 @@ export class Client extends GameShell {
             const heightDelay: number = buf.g4();
 
             player.spotanimHeight = heightDelay >> 16;
-            player.spotanimLastCycle = this.loopCycle + (heightDelay & 0xffff);
+            player.spotanimLastCycle = Client.loopCycle + (heightDelay & 0xffff);
             player.spotanimFrame = 0;
             player.spotanimCycle = 0;
 
-            if (player.spotanimLastCycle > this.loopCycle) {
+            if (player.spotanimLastCycle > Client.loopCycle) {
                 player.spotanimFrame = -1;
             }
 
@@ -10364,8 +10070,8 @@ export class Client extends GameShell {
             player.exactStartZ = buf.g1();
             player.exactEndX = buf.g1();
             player.exactEndZ = buf.g1();
-            player.exactMoveEnd = buf.g2() + this.loopCycle;
-            player.exactMoveStart = buf.g2() + this.loopCycle;
+            player.exactMoveEnd = buf.g2() + Client.loopCycle;
+            player.exactMoveStart = buf.g2() + Client.loopCycle;
             player.exactMoveFacing = buf.g1();
 
             player.abortRoute();
@@ -10375,8 +10081,8 @@ export class Client extends GameShell {
             const damage = buf.g1();
             const damageType = buf.g1();
 
-            player.addHitmark(this.loopCycle, damageType, damage);
-            player.combatCycle = this.loopCycle + 400;
+            player.addHitmark(Client.loopCycle, damageType, damage);
+            player.combatCycle = Client.loopCycle + 400;
             player.health = buf.g1();
             player.totalHealth = buf.g1();
         }
@@ -10397,7 +10103,7 @@ export class Client extends GameShell {
                 continue;
             }
 
-            if (npc.cycle !== this.loopCycle) {
+            if (npc.cycle !== Client.loopCycle) {
                 npc.type = null;
                 this.npc[index] = null;
             }
@@ -10440,7 +10146,7 @@ export class Client extends GameShell {
             if (info === 0) {
                 this.npcIds[this.npcCount++] = index;
                 if (npc) {
-                    npc.cycle = this.loopCycle;
+                    npc.cycle = Client.loopCycle;
                 }
             } else {
                 const op: number = buf.gBit(2);
@@ -10448,13 +10154,13 @@ export class Client extends GameShell {
                 if (op === 0) {
                     this.npcIds[this.npcCount++] = index;
                     if (npc) {
-                        npc.cycle = this.loopCycle;
+                        npc.cycle = Client.loopCycle;
                     }
                     this.entityUpdateIds[this.entityUpdateCount++] = index;
                 } else if (op === 1) {
                     this.npcIds[this.npcCount++] = index;
                     if (npc) {
-                        npc.cycle = this.loopCycle;
+                        npc.cycle = Client.loopCycle;
                     }
 
                     const walkDir: number = buf.gBit(3);
@@ -10467,7 +10173,7 @@ export class Client extends GameShell {
                 } else if (op === 2) {
                     this.npcIds[this.npcCount++] = index;
                     if (npc) {
-                        npc.cycle = this.loopCycle;
+                        npc.cycle = Client.loopCycle;
                     }
 
                     const walkDir: number = buf.gBit(3);
@@ -10502,7 +10208,7 @@ export class Client extends GameShell {
             this.npcIds[this.npcCount++] = index;
 
             if (npc) {
-                npc.cycle = this.loopCycle;
+                npc.cycle = Client.loopCycle;
                 npc.type = NpcType.list(buf.gBit(11));
                 npc.size = npc.type.size;
                 npc.turnspeed = npc.type.turnspeed;
@@ -10553,8 +10259,8 @@ export class Client extends GameShell {
                 const damage = buf.g1();
                 const damageType = buf.g1();
 
-                npc.addHitmark(this.loopCycle, damageType, damage);
-                npc.combatCycle = this.loopCycle + 400;
+                npc.addHitmark(Client.loopCycle, damageType, damage);
+                npc.combatCycle = Client.loopCycle + 400;
                 npc.health = buf.g1();
                 npc.totalHealth = buf.g1();
             }
@@ -10607,8 +10313,8 @@ export class Client extends GameShell {
                 const damage = buf.g1();
                 const damageType = buf.g1();
 
-                npc.addHitmark(this.loopCycle, damageType, damage);
-                npc.combatCycle = this.loopCycle + 400;
+                npc.addHitmark(Client.loopCycle, damageType, damage);
+                npc.combatCycle = Client.loopCycle + 400;
                 npc.health = buf.g1();
                 npc.totalHealth = buf.g1();
             }
@@ -10629,11 +10335,11 @@ export class Client extends GameShell {
                 const info: number = buf.g4();
 
                 npc.spotanimHeight = info >> 16;
-                npc.spotanimLastCycle = this.loopCycle + (info & 0xffff);
+                npc.spotanimLastCycle = Client.loopCycle + (info & 0xffff);
                 npc.spotanimFrame = 0;
                 npc.spotanimCycle = 0;
 
-                if (npc.spotanimLastCycle > this.loopCycle) {
+                if (npc.spotanimLastCycle > Client.loopCycle) {
                     npc.spotanimFrame = -1;
                 }
 
@@ -10832,7 +10538,7 @@ export class Client extends GameShell {
             tooltip = tooltip + '@whi@ / ' + (this.menuNumEntries - 2) + ' more options';
         }
 
-        this.b12?.drawStringAntiMacro(tooltip, 4, 15, Colour.WHITE, true, (this.loopCycle / 1000) | 0);
+        this.b12?.drawStringAntiMacro(tooltip, 4, 15, Colour.WHITE, true, (Client.loopCycle / 1000) | 0);
     }
 
     private openMenu(): void {
@@ -11987,10 +11693,10 @@ export class Client extends GameShell {
                 let priority = 0;
                 if (op.toLowerCase() === 'attack') {
                     if (player.combatLevel > this.localPlayer.combatLevel) {
-                        priority = 2000;
+                        priority = MiniMenuAction._PRIORITY;
                     }
                 } else if (this.playerOpPriority[i]) {
-                    priority = 2000;
+                    priority = MiniMenuAction._PRIORITY;
                 }
 
                 if (i === 0) {
@@ -13040,7 +12746,7 @@ export class Client extends GameShell {
             if (this.midiActive !== lastMidiActive) {
                 if (this.midiActive) {
                     this.midiSong = this.nextMidiSong;
-                    this.midiFading = false;
+                    this.midiFading = true;
                     this.onDemand?.request(2, this.midiSong);
                 } else {
                     stopMidi(false);
@@ -13168,7 +12874,7 @@ export class Client extends GameShell {
             }
         } else if (clientCode === ClientCode.CC_DESIGN_PREVIEW) {
             com.modelXAn = 150;
-            com.modelYAn = ((Math.sin(this.loopCycle / 40.0) * 256.0) | 0) & 0x7ff;
+            com.modelYAn = ((Math.sin(Client.loopCycle / 40.0) * 256.0) | 0) & 0x7ff;
 
             if (this.idkDesignRedraw) {
                 for (let i = 0; i < 7; i++) {
@@ -13239,7 +12945,7 @@ export class Client extends GameShell {
         } else if (clientCode === ClientCode.CC_REPORT_INPUT) {
             com.text = this.reportAbuseInput;
 
-            if (this.loopCycle % 20 < 10) {
+            if (Client.loopCycle % 20 < 10) {
                 com.text = com.text + '|';
             } else {
                 com.text = com.text + ' ';
@@ -13754,7 +13460,7 @@ export class Client extends GameShell {
             }
         }
 
-        if (this.hintType != 0 && this.loopCycle % 20 < 10) {
+        if (this.hintType != 0 && Client.loopCycle % 20 < 10) {
             if (this.hintType == 1 && this.hintNpc >= 0 && this.hintNpc < this.npc.length) {
                 const npc = this.npc[this.hintNpc];
 
@@ -13867,7 +13573,7 @@ export class Client extends GameShell {
         this.chatType[0] = type;
         this.chatUsername[0] = sender;
         this.chatText[0] = text;
-        this.messageTick[0] = this.loopCycle;
+        this.messageTick[0] = Client.loopCycle;
     }
 
     private isFriend(username: string | null): boolean {

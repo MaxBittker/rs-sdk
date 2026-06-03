@@ -1,4 +1,3 @@
-import { BuildArea } from '#/dash3d/CollisionMap.js';
 import { LocAngle } from '#/dash3d/LocAngle.js';
 import Occlude from '#/dash3d/Occlude.js';
 
@@ -953,7 +952,7 @@ export default class World {
         World.groundZ = -1;
     }
 
-    renderAll(eyeX: number, eyeY: number, eyeZ: number, maxLevel: number, eyeYaw: number, eyePitch: number, loopCycle: number): void {
+    renderAll(eyeX: number, eyeY: number, eyeZ: number, maxLevel: number, eyeYaw: number, eyePitch: number): void {
         if (eyeX < 0) {
             eyeX = 0;
         } else if (eyeX >= this.maxTileX * 128) {
@@ -1045,14 +1044,14 @@ export default class World {
                         if (forwardTileZ >= World.minZ) {
                             tile = tiles[rightTileX][forwardTileZ];
                             if (tile && tile.drawFront) {
-                                this.fill(tile, true, loopCycle);
+                                this.fill(tile, true);
                             }
                         }
 
                         if (backwardTileZ < World.maxZ) {
                             tile = tiles[rightTileX][backwardTileZ];
                             if (tile && tile.drawFront) {
-                                this.fill(tile, true, loopCycle);
+                                this.fill(tile, true);
                             }
                         }
                     }
@@ -1061,14 +1060,14 @@ export default class World {
                         if (forwardTileZ >= World.minZ) {
                             tile = tiles[leftTileX][forwardTileZ];
                             if (tile && tile.drawFront) {
-                                this.fill(tile, true, loopCycle);
+                                this.fill(tile, true);
                             }
                         }
 
                         if (backwardTileZ < World.maxZ) {
                             tile = tiles[leftTileX][backwardTileZ];
                             if (tile && tile.drawFront) {
-                                this.fill(tile, true, loopCycle);
+                                this.fill(tile, true);
                             }
                         }
                     }
@@ -1100,14 +1099,14 @@ export default class World {
                         if (forwardTileZ >= World.minZ) {
                             tile = tiles[rightTileX][forwardTileZ];
                             if (tile && tile.drawFront) {
-                                this.fill(tile, false, loopCycle);
+                                this.fill(tile, false);
                             }
                         }
 
                         if (backgroundTileZ < World.maxZ) {
                             tile = tiles[rightTileX][backgroundTileZ];
                             if (tile && tile.drawFront) {
-                                this.fill(tile, false, loopCycle);
+                                this.fill(tile, false);
                             }
                         }
                     }
@@ -1116,14 +1115,14 @@ export default class World {
                         if (forwardTileZ >= World.minZ) {
                             tile = tiles[leftTileX][forwardTileZ];
                             if (tile && tile.drawFront) {
-                                this.fill(tile, false, loopCycle);
+                                this.fill(tile, false);
                             }
                         }
 
                         if (backgroundTileZ < World.maxZ) {
                             tile = tiles[leftTileX][backgroundTileZ];
                             if (tile && tile.drawFront) {
-                                this.fill(tile, false, loopCycle);
+                                this.fill(tile, false);
                             }
                         }
                     }
@@ -1387,7 +1386,7 @@ export default class World {
         }
     }
 
-    private fill(next: Square, checkAdjacent: boolean, loopCycle: number): void {
+    private fill(next: Square, checkAdjacent: boolean): void {
         World.fillQueue.push(next);
 
         while (true) {
@@ -1467,14 +1466,14 @@ export default class World {
 
                     const wall: Wall | null = linkedSquare.wall;
                     if (wall) {
-                        wall.model1?.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
+                        wall.model1?.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
                     }
 
                     for (let i: number = 0; i < linkedSquare.spriteCount; i++) {
                         const sprite: Sprite | null = linkedSquare.sprites[i];
 
                         if (sprite) {
-                            sprite.model?.worldRender(loopCycle, sprite.yaw, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, sprite.x - World.cx, sprite.y - World.cy, sprite.z - World.cz, sprite.typecode);
+                            sprite.model?.worldRender(sprite.yaw, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, sprite.x - World.cx, sprite.y - World.cy, sprite.z - World.cz, sprite.typecode);
                         }
                     }
                 }
@@ -1535,17 +1534,17 @@ export default class World {
                     }
 
                     if ((wall.angle1 & frontWallTypes) !== 0 && !this.wallOccluded(originalLevel, tileX, tileZ, wall.angle1)) {
-                        wall.model1?.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
+                        wall.model1?.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
                     }
 
                     if ((wall.angle2 & frontWallTypes) !== 0 && !this.wallOccluded(originalLevel, tileX, tileZ, wall.angle2)) {
-                        wall.model2?.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
+                        wall.model2?.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
                     }
                 }
 
                 if (decor && !this.spriteOccluded(originalLevel, tileX, tileZ, decor.model.minY)) {
                     if ((decor.wshape & frontWallTypes) !== 0) {
-                        decor.model.worldRender(loopCycle, decor.angle, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, decor.x - World.cx, decor.y - World.cy, decor.z - World.cz, decor.typecode);
+                        decor.model.worldRender(decor.angle, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, decor.x - World.cx, decor.y - World.cy, decor.z - World.cz, decor.typecode);
                     } else if ((decor.wshape & 0x300) !== 0) {
                         const x: number = decor.x - World.cx;
                         const y: number = decor.y - World.cy;
@@ -1569,13 +1568,13 @@ export default class World {
                         if ((decor.wshape & 0x100) !== 0 && nearestZ < nearestX) {
                             const drawX: number = x + DECORXOF[angle];
                             const drawZ: number = z + DECORZOF[angle];
-                            decor.model.worldRender(loopCycle, angle * 512 + 256, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, drawX, y, drawZ, decor.typecode);
+                            decor.model.worldRender(angle * 512 + 256, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, drawX, y, drawZ, decor.typecode);
                         }
 
                         if ((decor.wshape & 0x200) !== 0 && nearestZ > nearestX) {
                             const drawX: number = x + DECORXOF2[angle];
                             const drawZ: number = z + DECORZOF2[angle];
-                            decor.model.worldRender(loopCycle, (angle * 512 + 1280) & 0x7ff, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, drawX, y, drawZ, decor.typecode);
+                            decor.model.worldRender((angle * 512 + 1280) & 0x7ff, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, drawX, y, drawZ, decor.typecode);
                         }
                     }
                 }
@@ -1583,21 +1582,21 @@ export default class World {
                 if (tileDrawn) {
                     const groundDecor: GroundDecor | null = tile.groundDecor;
                     if (groundDecor) {
-                        groundDecor.model?.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, groundDecor.x - World.cx, groundDecor.y - World.cy, groundDecor.z - World.cz, groundDecor.typecode);
+                        groundDecor.model?.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, groundDecor.x - World.cx, groundDecor.y - World.cy, groundDecor.z - World.cz, groundDecor.typecode);
                     }
 
                     const objs: GroundObject | null = tile.groundObject;
                     if (objs && objs.height === 0) {
                         if (objs.bottomObj) {
-                            objs.bottomObj.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy, objs.z - World.cz, objs.typecode);
+                            objs.bottomObj.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy, objs.z - World.cz, objs.typecode);
                         }
 
                         if (objs.middleObj) {
-                            objs.middleObj.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy, objs.z - World.cz, objs.typecode);
+                            objs.middleObj.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy, objs.z - World.cz, objs.typecode);
                         }
 
                         if (objs.topObj) {
-                            objs.topObj.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy, objs.z - World.cz, objs.typecode);
+                            objs.topObj.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy, objs.z - World.cz, objs.typecode);
                         }
                     }
                 }
@@ -1653,7 +1652,7 @@ export default class World {
                     const wall: Wall | null = tile.wall;
 
                     if (wall && !this.wallOccluded(originalLevel, tileX, tileZ, wall.angle1)) {
-                        wall.model1?.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
+                        wall.model1?.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
                     }
 
                     tile.cornerSides = 0;
@@ -1757,7 +1756,7 @@ export default class World {
                         farthest.cycle = World.cycleNo;
 
                         if (!this.spriteOccluded2(originalLevel, farthest.minTileX, farthest.maxTileX, farthest.minTileZ, farthest.maxTileZ, farthest.model?.minY ?? 0)) {
-                            farthest.model?.worldRender(loopCycle, farthest.yaw, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, farthest.x - World.cx, farthest.y - World.cy, farthest.z - World.cz, farthest.typecode);
+                            farthest.model?.worldRender(farthest.yaw, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, farthest.x - World.cx, farthest.y - World.cy, farthest.z - World.cz, farthest.typecode);
                         }
 
                         for (let x: number = farthest.minTileX; x <= farthest.maxTileX; x++) {
@@ -1820,15 +1819,15 @@ export default class World {
             const objs: GroundObject | null = tile.groundObject;
             if (objs && objs.height !== 0) {
                 if (objs.bottomObj) {
-                    objs.bottomObj.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy - objs.height, objs.z - World.cz, objs.typecode);
+                    objs.bottomObj.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy - objs.height, objs.z - World.cz, objs.typecode);
                 }
 
                 if (objs.middleObj) {
-                    objs.middleObj.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy - objs.height, objs.z - World.cz, objs.typecode);
+                    objs.middleObj.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy - objs.height, objs.z - World.cz, objs.typecode);
                 }
 
                 if (objs.topObj) {
-                    objs.topObj.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy - objs.height, objs.z - World.cz, objs.typecode);
+                    objs.topObj.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, objs.x - World.cx, objs.y - World.cy - objs.height, objs.z - World.cz, objs.typecode);
                 }
             }
 
@@ -1837,7 +1836,7 @@ export default class World {
 
                 if (decor && !this.spriteOccluded(originalLevel, tileX, tileZ, decor.model.minY)) {
                     if ((decor.wshape & tile.backWallTypes) !== 0) {
-                        decor.model.worldRender(loopCycle, decor.angle, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, decor.x - World.cx, decor.y - World.cy, decor.z - World.cz, decor.typecode);
+                        decor.model.worldRender(decor.angle, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, decor.x - World.cx, decor.y - World.cy, decor.z - World.cz, decor.typecode);
                     } else if ((decor.wshape & 0x300) !== 0) {
                         const x: number = decor.x - World.cx;
                         const y: number = decor.y - World.cy;
@@ -1861,13 +1860,13 @@ export default class World {
                         if ((decor.wshape & 0x100) !== 0 && nearestZ >= nearestX) {
                             const drawX: number = x + DECORXOF[angle];
                             const drawZ: number = z + DECORZOF[angle];
-                            decor.model.worldRender(loopCycle, angle * 512 + 256, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, drawX, y, drawZ, decor.typecode);
+                            decor.model.worldRender(angle * 512 + 256, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, drawX, y, drawZ, decor.typecode);
                         }
 
                         if ((decor.wshape & 0x200) !== 0 && nearestZ <= nearestX) {
                             const drawX: number = x + DECORXOF2[angle];
                             const drawZ: number = z + DECORZOF2[angle];
-                            decor.model.worldRender(loopCycle, (angle * 512 + 1280) & 0x7ff, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, drawX, y, drawZ, decor.typecode);
+                            decor.model.worldRender((angle * 512 + 1280) & 0x7ff, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, drawX, y, drawZ, decor.typecode);
                         }
                     }
                 }
@@ -1875,11 +1874,11 @@ export default class World {
                 const wall: Wall | null = tile.wall;
                 if (wall) {
                     if ((wall.angle2 & tile.backWallTypes) !== 0 && !this.wallOccluded(originalLevel, tileX, tileZ, wall.angle2)) {
-                        wall.model2?.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
+                        wall.model2?.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
                     }
 
                     if ((wall.angle1 & tile.backWallTypes) !== 0 && !this.wallOccluded(originalLevel, tileX, tileZ, wall.angle1)) {
-                        wall.model1?.worldRender(loopCycle, 0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
+                        wall.model1?.worldRender(0, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, wall.x - World.cx, wall.y - World.cy, wall.z - World.cz, wall.typecode);
                     }
                 }
             }

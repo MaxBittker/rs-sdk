@@ -136,10 +136,16 @@ class TinyMidiPCM {
     const sampleRate = 22050;
     const flushTime = 250;
     const renderInterval = 30;
-    const fadeseconds = 2;
+    const fadeInterval = 50;
+    const fadeStepDb = 0.25;
+    const fadeEndStep = 144;
+    const fadeResetStep = 200;
 
-    let midiTimeout = null;
-    let fadeTimeout = null;
+    let fadeTimer = null;
+    let fade = fadeResetStep;
+    let fadeMidiBuffer = null;
+    let fadeVolume = 0;
+    let midiFade = false;
     // let renderEndSeconds = 0;
     // let currentMidiBuffer = null;
     let samples = new Float32Array();
@@ -222,11 +228,14 @@ class TinyMidiPCM {
 
     let flushInterval;
 
-    function fadeOut(callback) {
+    function decibelsToGain(volume = 0) {
+        return Math.pow(10, volume / 20);
+    }
+
+    function applyOutputVolumeDb(volume = 0) {
         const currentTime = window.audioContext.currentTime;
         gainNode.gain.cancelScheduledValues(currentTime);
-        gainNode.gain.setTargetAtTime(0, currentTime, 0.5);
-        return setTimeout(callback, fadeseconds * 1000);
+        gainNode.gain.setValueAtTime(decibelsToGain(volume), currentTime);
     }
 
     function stop() {
@@ -248,12 +257,8 @@ class TinyMidiPCM {
         }
     }
 
-    function start(vol, midiBuffer) {
-        // vol -1 = reuse last volume level
-        if (vol !== -1) {
-            window._tinyMidiVolume(vol);
-        }
-
+    function start(volume, midiBuffer) {
+        applyOutputVolumeDb(volume);
         // currentMidiBuffer = midiBuffer;
         // startTime = window.audioContext.currentTime;
         lastTime = window.audioContext.currentTime;
@@ -261,48 +266,91 @@ class TinyMidiPCM {
         tinyMidiPCM.render(midiBuffer);
     }
 
-    window._tinyMidiStop = async fade => {
-        if (fade) {
-            fadeTimeout = fadeOut(() => {
-                stop();
-            });
-        } else {
-            stop();
-            clearTimeout(midiTimeout);
-            clearTimeout(fadeTimeout);
+    function clearFadeTimer() {
+        if (fadeTimer) {
+            clearInterval(fadeTimer);
+            fadeTimer = null;
         }
+    }
+
+    function stepFade() {
+        if (!fadeMidiBuffer) {
+            clearFadeTimer();
+            return;
+        }
+
+        fade++;
+        applyOutputVolumeDb(-(fade * fadeStepDb));
+
+        if (fade >= fadeEndStep) {
+            const nextMidiBuffer = fadeMidiBuffer;
+            const nextVolume = fadeVolume;
+
+            fadeMidiBuffer = null;
+            clearFadeTimer();
+            stop();
+            start(nextVolume, nextMidiBuffer);
+            fade = -(nextVolume / fadeStepDb);
+        }
+    }
+
+    function startFadeTimer() {
+        clearFadeTimer();
+        stepFade();
+
+        if (fadeMidiBuffer) {
+            fadeTimer = setInterval(stepFade, fadeInterval);
+        }
+    }
+
+    window._tinyMidiStop = async () => {
+        midiFade = false;
+        fadeMidiBuffer = null;
+        clearFadeTimer();
+        stop();
+        fade = fadeResetStep;
     };
 
-    window._tinyMidiVolume = (vol = 1) => {
-        gainNode.gain.setValueAtTime(vol, window.audioContext.currentTime);
+    window._tinyMidiAdjustVolumeDb = (volume = 0) => {
+        if (fadeMidiBuffer) {
+            fadeVolume = volume;
+            return;
+        }
+
+        applyOutputVolumeDb(volume);
+        fade = midiFade ? -(volume / fadeStepDb) : fadeResetStep;
     };
 
-    window._tinyMidiPlay = async (midiBuffer, vol, fade) => {
+    window._tinyMidiPlay = async (midiBuffer, volume, useFade) => {
         if (!midiBuffer) {
             return;
         }
 
-        await window._tinyMidiStop(fade);
+        midiFade = useFade;
 
-        if (fade) {
-            midiTimeout = setTimeout(() => {
-                start(vol, midiBuffer);
-            }, fadeseconds * 1000);
+        if (useFade) {
+            fadeMidiBuffer = midiBuffer;
+            fadeVolume = volume;
+            startFadeTimer();
         } else {
-            start(vol, midiBuffer);
+            fadeMidiBuffer = null;
+            clearFadeTimer();
+            stop();
+            start(volume, midiBuffer);
+            fade = fadeResetStep;
         }
     };
 })();
 
-export function playMidi(data, dB, fade) {
+export function playMidi(data, volume, fade) {
     if (window._tinyMidiPlay) {
-        window._tinyMidiPlay(data, Math.pow(10, dB / 20), fade);
+        window._tinyMidiPlay(data, volume, fade);
     }
 }
 
-export function setMidiVolume(dB) {
-    if (window._tinyMidiVolume) {
-        window._tinyMidiVolume(Math.pow(10, dB / 20));
+export function setMidiVolume(volume) {
+    if (window._tinyMidiAdjustVolumeDb) {
+        window._tinyMidiAdjustVolumeDb(volume);
     }
 }
 
