@@ -46,6 +46,18 @@ import type {
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES, PRAYER_LEVELS } from './types';
 
+// Modal interfaces dismissBlockingUI must never auto-close: closing these is
+// destructive (declines a two-party screen) or strands the player (must be
+// completed, not closed). Everything else is informational or re-openable.
+// Ids from server/content/pack/interface.pack.
+const NEVER_AUTO_CLOSE = new Set([
+    3323, // trademain - auto-close would silently decline a player trade
+    3443, // tradeconfirm - second trade screen, same risk
+    6412, // duel_confirm - same risk for duels
+    6554, // macro_cube - anti-macro random event, must be solved
+    3559, // player_kit - character design, must be accepted (see skipTutorial)
+]);
+
 export class BotActions {
     private helpers: ActionHelpers;
 
@@ -195,6 +207,17 @@ export class BotActions {
 
             if (state.dialog.isOpen) {
                 await this.sdk.sendClickDialog(0);
+                await this.sdk.waitForStateChange(2000).catch(() => {});
+                continue;
+            }
+
+            // Modal interfaces (books, quest scrolls, level-up art) also block
+            // input. Skip deliberate sessions (shop/bank have their own close
+            // actions) and modals where auto-close is destructive — see
+            // NEVER_AUTO_CLOSE. Anything else is informational or re-openable.
+            if (state.interface?.isOpen && !state.shop?.isOpen && !state.bank?.isOpen
+                && !NEVER_AUTO_CLOSE.has(state.interface.interfaceId)) {
+                await this.sdk.sendCloseModal();
                 await this.sdk.waitForStateChange(2000).catch(() => {});
                 continue;
             }
@@ -1338,29 +1361,34 @@ export class BotActions {
         return { success: false, message: 'Timeout waiting for bank interface to open', reason: 'timeout' };
     }
 
-    /** Close the bank interface. */
-    async closeBank(timeout: number = 5000): Promise<ActionResult> {
+    /** Close any open modal interface (bank, book, quest scroll, etc.). */
+    async closeInterface(timeout: number = 5000): Promise<ActionResult> {
         const state = this.sdk.getState();
         if (!state?.interface?.isOpen) {
-            return { success: true, message: 'Bank already closed' };
+            return { success: true, message: 'Interface already closed' };
         }
 
         await this.sdk.sendCloseModal();
 
         try {
             await this.sdk.waitForCondition(s => !s.interface?.isOpen, timeout);
-            return { success: true, message: 'Bank closed' };
+            return { success: true, message: 'Interface closed' };
         } catch {
             await this.sdk.sendCloseModal();
             await this.sdk.waitForTicks(1);
 
             const finalState = this.sdk.getState();
             if (!finalState?.interface?.isOpen) {
-                return { success: true, message: 'Bank closed (second attempt)' };
+                return { success: true, message: 'Interface closed (second attempt)' };
             }
 
-            return { success: false, message: `Bank close timeout - interface.isOpen=${finalState?.interface?.isOpen}` };
+            return { success: false, message: `Interface close timeout - interface.isOpen=${finalState?.interface?.isOpen}` };
         }
+    }
+
+    /** Close the bank interface. */
+    async closeBank(timeout: number = 5000): Promise<ActionResult> {
+        return this.closeInterface(timeout);
     }
 
     /** Deposit an item into the bank. Use -1 for all. */

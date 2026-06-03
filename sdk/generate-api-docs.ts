@@ -96,8 +96,8 @@ function parseClassMethods(source: string, className: string): MethodDoc[] {
     while ((match = methodRegex.exec(source)) !== null) {
         const [fullMatch, asyncKeyword, name, params, returnType] = match;
 
-        // Skip if required groups didn't match
-        if (!name || !params || !returnType) continue;
+        // Skip if required groups didn't match (params may be empty for zero-arg methods)
+        if (!name || params === undefined || !returnType) continue;
 
         // Skip private methods, constructor, keywords, and duplicates
         if (name.startsWith('_')) continue;

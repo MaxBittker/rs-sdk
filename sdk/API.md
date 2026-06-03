@@ -12,6 +12,7 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
 | Method | Description |
 |--------|-------------|
 | `skipTutorial(options)` | Skip tutorial by navigating dialogs and talking to tutorial NPCs. |
+| `dismissBlockingUI()` | Dismiss any blocking UI like level-up dialogs. |
 | `waitForDialogClose(timeout)` | Wait for dialog to close. |
 
 ### Movement
@@ -26,6 +27,7 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
 |--------|-------------|
 | `equipItem(target)` | Equip an item from inventory. |
 | `unequipItem(target)` | Unequip an item to inventory. |
+| `getEquipment()` | Get all currently equipped items. |
 | `findEquippedItem(pattern)` | Find an equipped item by name pattern. |
 | `eatFood(target)` | Eat food to restore hitpoints. |
 | `attackNpc(target, timeout)` | Attack an NPC, walking to it if needed. |
@@ -102,11 +104,13 @@ These methods wait for the **effect to complete**, not just server acknowledgmen
 |--------|-------------|
 | `useItemOnLoc(item, loc, options)` | Use an inventory item on a nearby location (e. |
 | `useItemOnNpc(item, npc, options)` | Use an inventory item on a nearby NPC (e. |
+| `closeInterface(timeout)` | Close any open modal interface (bank, book, quest scroll, etc. |
 | `interactLoc(target, option)` | Interact with a nearby location object (rock, fishing spot, furnace, etc. |
 | `interactNpc(target, option)` | Interact with a nearby NPC using a specified option (e. |
 | `pickpocketNpc(target)` | Pickpocket an NPC. |
 | `activatePrayer(prayer)` | Activate a prayer by name or index. |
 | `deactivatePrayer(prayer)` | Deactivate a prayer by name or index. |
+| `deactivateAllPrayers()` | Deactivate all currently active prayers. |
 | `enchantItem(target, level, options)` | Cast an enchantment spell on a jewelry item. |
 | `stringAmulet(target, options)` | String an amulet using a ball of wool. |
 
@@ -120,19 +124,35 @@ These methods resolve when server **acknowledges** them (not when effects comple
 
 | Method | Description |
 |--------|-------------|
+| `getConnectionState()` | Get current connection state (connecting, connected, reconnecting, disconnected). |
+| `getReconnectAttempt()` | Get current reconnection attempt number. |
+| `getConnectionMode()` | Get connection mode (control or observe). |
+| `getState()` | Get current game state snapshot. |
+| `getStateReceivedAt()` | Get timestamp when state was last received (ms since epoch) |
+| `getStateAge()` | Get age of current state in milliseconds |
 | `getSkill(name)` | Get a skill by name (case-insensitive). |
 | `getSkillXp(name)` | Get XP for a skill by name. |
+| `getSkills()` | Get all skills. |
 | `getInventoryItem(slot)` | Get inventory item by slot number. |
 | `findInventoryItem(pattern)` | Find inventory item by name pattern. |
+| `getInventory()` | Get all inventory items. |
 | `getEquipmentItem(slot)` | Get equipment item by slot number. |
 | `findEquipmentItem(pattern)` | Find equipment item by name pattern. |
+| `getEquipment()` | Get all equipped items. |
 | `getBankItem(slot)` | Get bank item by slot number (bank must be open). |
 | `findBankItem(pattern)` | Find bank item by name pattern (bank must be open). |
+| `getBankItems()` | Get all bank items (bank must be open). |
 | `getNearbyNpc(index)` | Get NPC by index. |
 | `findNearbyNpc(pattern)` | Find NPC by name pattern. |
+| `getNearbyNpcs()` | Get all nearby NPCs. |
 | `getNearbyLoc(x, z, id)` | Get location (object) by coordinates and ID. |
 | `findNearbyLoc(pattern)` | Find location by name pattern. |
+| `getNearbyLocs()` | Get all nearby locations (trees, rocks, etc). |
 | `findGroundItem(pattern)` | Find ground item by name pattern. |
+| `getGroundItems()` | Get all ground items. |
+| `getDialog()` | Get current dialog state. |
+| `getPrayerState()` | Get current prayer state from world state. |
+| `getActivePrayers()` | Get list of all currently active prayer names. |
 
 ### On-Demand Scanning
 
@@ -163,8 +183,13 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `sendClickComponent(componentId)` | Click a component using IF_BUTTON packet - for simple buttons, spellcasting, etc. |
 | `sendClickComponentWithOption(componentId, optionIndex, slot)` | Click a component using INV_BUTTON packet - for components with inventory operations (smithing, c... |
 | `sendClickInterfaceOption(optionIndex)` | Click an interface option by index. |
+| `sendAcceptCharacterDesign()` | Accept character design in tutorial. |
+| `sendRandomizeCharacterDesign()` | Randomize character appearance in tutorial. |
 | `sendShopBuy(slot, amount)` | Buy from shop by slot and amount. |
 | `sendShopSell(slot, amount)` | Sell to shop by slot and amount. |
+| `sendCloseShop()` | Close shop interface. |
+| `sendCloseModal()` | Close any modal interface. |
+| `sendCountDialog(value)` | Submit a numeric value to an open p_countdialog (Enter Amount) prompt. |
 | `sendSetCombatStyle(style)` | Set combat style (0-3). |
 | `sendTogglePrayer(prayer)` | Toggle a prayer on or off by name or index (0-14). |
 | `sendSpellOnNpc(npcIndex, spellComponent)` | Cast spell on NPC using spell component ID. |
@@ -193,11 +218,24 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `waitForReady(timeout)` | Wait for game state to be fully loaded and ready. |
 | `waitForStateChange(timeout)` | Wait for next state update from server. |
 | `waitForTicks(ticks)` | Wait for a specific number of server ticks (~300ms each). |
+| `waitForStateUpdate()` | Wait for the next state update from the server. |
+
+### Connection
+
+| Method | Description |
+|--------|-------------|
+| `connect()` | Connect to the gateway WebSocket. |
+| `disconnect()` | Disconnect from the gateway. |
+| `isConnected()` | Check if WebSocket is connected. |
+| `isBotConnected()` | Check if bot is currently connected to gateway. |
 
 ### Other
 
 | Method | Description |
 |--------|-------------|
+| `checkBotStatus()` | Check bot status via gateway HTTP endpoint. |
+| `launchBrowser()` | Launch native browser to client URL. |
+| `isBankOpen()` | Check if bank interface is open. |
 | `clickDialogByText(pattern)` | Click a dialog option whose visible text matches `pattern`. |
 | `isPrayerActive(prayer)` | Check if a specific prayer is currently active. |
 

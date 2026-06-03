@@ -74,7 +74,7 @@ export function formatWorldState(
     if (state.modalOpen) {
         lines.push('');
         lines.push(`## Modal Open (interface: ${state.modalInterface})`);
-        if (state.modalInterface === 269) {
+        if (state.modalInterface === 3559) {
             lines.push('(Character design screen - use acceptCharacterDesign to continue)');
         }
     }
@@ -85,12 +85,13 @@ export function formatWorldState(
         if (state.dialog.isWaiting) {
             lines.push('(Waiting for server response...)');
         } else if (state.dialog.options.length > 0) {
-            lines.push('Options:');
+            lines.push('Options (select with sendClickDialog(N) using the N below, or clickDialogByText("...")):');
             for (const opt of state.dialog.options) {
                 lines.push(`  ${opt.index}. ${opt.text}`);
             }
+            lines.push('(NOTE: N is the number shown above — NOT a 0-based array position. optionIndex 0 means "continue", not the first option.)');
         } else {
-            lines.push('(Click to continue - use optionIndex: 0)');
+            lines.push('(Click to continue - use sendClickDialog(0))');
         }
     }
 
@@ -103,6 +104,9 @@ export function formatWorldState(
             for (const opt of state.interface.options) {
                 lines.push(`  ${opt.index}. ${opt.text}`);
             }
+        }
+        if (!state.shop?.isOpen && !state.bank?.isOpen) {
+            lines.push('(This modal blocks most actions - close it with bot.closeInterface() or sdk.sendCloseModal())');
         }
     }
 
