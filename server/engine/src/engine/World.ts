@@ -948,10 +948,18 @@ class World {
                     const bucket = (parseInt(octets[0]) << 24) | (parseInt(octets[1]) << 16) | (parseInt(octets[2]) << 8) | parseInt(octets[3]);
                     this.playerLoop.add(BigInt(bucket), player);
                 } else if (remote.indexOf(':') !== -1) {
-                    // IPv6 - site prefix determines the bucket
+                    // IPv6 - site prefix determines the bucket.
+                    // Compressed addresses (e.g. "2a01:4f8::2") can yield an empty hextet ->
+                    // parseInt('') = NaN -> BigInt(NaN) THROWS, aborting processLogins for every
+                    // queued player this tick (and forever after, since newPlayers is only
+                    // cleared at the end). Fall back to bucket 0 for unparseable prefixes.
                     const hextets = remote.split(':');
                     const bucket = parseInt(hextets[2], 16) % 256;
-                    this.playerLoop.add(BigInt(bucket), player);
+                    this.playerLoop.add(BigInt(Number.isNaN(bucket) ? 0 : bucket), player);
+                } else {
+                    // unknown address format - still must enter the player loop or they become
+                    // a zombie (in world, but never processed and never sent another packet)
+                    this.playerLoop.add(0n, player);
                 }
             } else {
                 // 127.0.0.1
@@ -1895,6 +1903,10 @@ class World {
         if (isPlayerLoginResponse(msg)) {
             const { socket } = msg;
             if (!this.loginRequests.has(socket)) {
+                // socket disconnected (or was culled) while the login thread was processing -
+                // the reply has nowhere to go. Log it: from the player's perspective this is
+                // a login that hangs forever on "Connecting to server..."
+                console.warn(`[World] Dropping login reply ${msg.reply} for vanished socket ${socket}`);
                 return;
             }
 

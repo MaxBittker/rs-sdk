@@ -335,6 +335,15 @@ export default class LoginServer {
                                     .executeTakeFirst();
 
                                 if (typeof insertResult.insertId === 'undefined') {
+                                    // previously a bare return - the world never got a reply and
+                                    // the client hung forever on "Connecting to server..."
+                                    console.error('[LoginServer] auto-register insert failed for', username);
+                                    s.send(
+                                        JSON.stringify({
+                                            replyTo,
+                                            response: 7
+                                        })
+                                    );
                                     return;
                                 }
 
@@ -409,6 +418,7 @@ export default class LoginServer {
                                         // Extreme safety check for savefile existing but having bad data on read:
                                         console.error('on reconnect, account_id %s had invalid save data on disk', account.id);
                                         this.rejectLoginForSafety(s, replyTo);
+                                        return; // was missing - fell through and sent a second (success) reply
                                     }
                                     s.send(
                                         JSON.stringify({
