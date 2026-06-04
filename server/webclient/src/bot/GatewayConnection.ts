@@ -33,15 +33,29 @@ export class GatewayConnection {
     private reconnectTimer: number | null = null;
     private connected: boolean = false;
     private handler: GatewayMessageHandler;
-    private botUsername: string;
-    private botPassword: string | null;
+    /** Returns the credentials the game client actually logged in with (may be empty pre-login) */
+    private credentialSource: (() => { username: string; password: string }) | null;
     /** When true, prevents auto-reconnect (used during graceful disconnect) */
     private preventReconnect: boolean = false;
 
-    constructor(handler: GatewayMessageHandler) {
+    constructor(handler: GatewayMessageHandler, credentialSource?: () => { username: string; password: string }) {
         this.handler = handler;
-        this.botUsername = getBotUsername();
-        this.botPassword = getBotPassword();
+        this.credentialSource = credentialSource ?? null;
+    }
+
+    /**
+     * Resolve credentials fresh on every connect attempt.
+     * Prefer the game client's actual login credentials - URL params can be stale
+     * (e.g. user typed different credentials into the login screen than what the
+     * page was loaded with), which previously caused an infinite auth-fail
+     * reconnect loop using the page-load values.
+     */
+    private resolveCredentials(): { username: string; password: string } {
+        const creds = this.credentialSource?.();
+        if (creds && creds.username && creds.password) {
+            return creds;
+        }
+        return { username: getBotUsername(), password: getBotPassword() || '' };
     }
 
     connect(): void {
@@ -56,14 +70,15 @@ export class GatewayConnection {
 
             this.ws.onopen = () => {
                 this.connected = true;
-                console.log(`[GatewayConnection] Connected, registering as '${this.botUsername}'`);
+                const { username, password } = this.resolveCredentials();
+                console.log(`[GatewayConnection] Connected, registering as '${username}'`);
 
                 // Register as bot with gateway
                 this.send({
                     type: 'connected',
-                    username: this.botUsername,
-                    password: this.botPassword || '',
-                    clientId: `${this.botUsername}-${Date.now()}`
+                    username,
+                    password,
+                    clientId: `${username}-${Date.now()}`
                 });
 
                 this.handler.onConnected();

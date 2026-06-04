@@ -39,7 +39,7 @@ export class BotOverlay implements GatewayMessageHandler {
         this.client = client;
         this.collector = new BotStateCollector(client);
         this.executor = new ActionExecutor(client);
-        this.gateway = new GatewayConnection(this);
+        this.gateway = new GatewayConnection(this, () => this.client.getCredentials());
         this.ui = new OverlayUI(client, {
             onPacketLogToggle: () => {}
         });
