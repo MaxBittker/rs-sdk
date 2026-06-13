@@ -23,6 +23,19 @@ type BunOutput = {
     sourcemap: string;
 }
 
+// The bot client bundles sdk/index.ts + sdk/actions.ts (for the in-browser
+// script runner). Those statically import sdk/pathfinding.ts, which pulls in a
+// 273KB rsmod WASM binary + a 22MB collision-data.json - Node-only machinery
+// that bloats the client and breaks wasm-bindgen init in the browser. Alias it
+// to a lightweight stub; the runner uses the client's native pathfinding instead.
+const PATHFINDING_STUB = path.resolve('src/bot/pathfinding-browser-stub.ts');
+const stubPathfindingPlugin = {
+    name: 'stub-sdk-pathfinding',
+    setup(build: any) {
+        build.onResolve({ filter: /(^|\/)pathfinding$/ }, () => ({ path: PATHFINDING_STUB }));
+    },
+};
+
 async function bunBuild(entry: string, external: string[] = [], minify = true, drop: string[] = [], customDefine: Record<string, string> = {}): Promise<BunOutput> {
     const build = await Bun.build({
         entrypoints: [entry],
@@ -31,6 +44,7 @@ async function bunBuild(entry: string, external: string[] = [], minify = true, d
         external,
         minify,
         drop,
+        plugins: [stubPathfindingPlugin],
     });
 
     if (!build.success) {
@@ -124,7 +138,10 @@ for (const buildConfig of buildsToRun) {
     for (const file of entrypoints) {
         const output = path.basename(file).replace('.ts', '.js').toLowerCase();
 
-        const script = await bunBuild(file, [], prod, prod ? ['console'] : [], customDefine);
+        // 'open' is a Node-only dep reached only by BotSDK's auto-launch path,
+        // which the in-browser runner disables (autoLaunchBrowser:false). Mark it
+        // external so the browser bundle doesn't try to polyfill it.
+        const script = await bunBuild(file, ['open'], prod, prod ? ['console'] : [], customDefine);
         if (script) {
             if (prod) {
                 await applyTerser(script);
@@ -155,6 +172,17 @@ if (viewerScript) {
     fs.writeFileSync('out/viewer/viewer.js.map', viewerScript.sourcemap);
 }
 fs.copyFileSync('src/3rdparty/tinymidipcm/tinymidipcm.wasm', 'out/viewer/tinymidipcm.wasm');
+
+// Ship the generated SDK API reference next to the bot client so the in-browser
+// script runner's "Copy SDK Context" button can fetch it at /bot/api.md.
+if (buildMode === 'both' || buildMode === 'bot') {
+    const apiMd = path.resolve('../../sdk/API.md');
+    if (fs.existsSync(apiMd)) {
+        fs.copyFileSync(apiMd, 'out/bot/api.md');
+    } else {
+        console.warn('[bundle] sdk/API.md not found - run `bun sdk/generate-api-docs.ts` to enable Copy SDK Context');
+    }
+}
 
 // Copy bot client to root out for backwards compatibility
 if (buildMode === 'both' || buildMode === 'bot') {
