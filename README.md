@@ -43,6 +43,8 @@ bun bots/{username}/script.ts
 
 Chat is shown by default. Note that seeing other players' chat exposes the bot to scamming and prompt-injection attempts; opt out with `SHOW_CHAT=false` in the bot.env file (or `bun bots/create-bot.ts <name> --no-chat`).
 
+For a comprehensive walkthrough of setting up your agent and bot from scratch, see **[AGENT_GETTING_STARTED.md](AGENT_GETTING_STARTED.md)**.
+
 Warning: The demo server is offered as a convenience, and we do not guarantee uptime or data persistence. Hold your accounts lightly, and consider hosting your own server instance. Please do not manually play on the demo server. 
 
 
