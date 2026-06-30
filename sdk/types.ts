@@ -116,10 +116,22 @@ export interface NearbyLoc {
 }
 
 export interface GameMessage {
+    /** Chat type code. 0=system/game, 1=public (crowned), 2=public, 3=PM received, 6=PM sent, 7=PM (crowned). */
     type: number;
     text: string;
+    /** Sender name with @cr/@col codes stripped (empty for system messages). */
     sender: string;
     tick: number;
+    /** True if this client sent the message (own public speech or sent PM). */
+    fromSelf: boolean;
+}
+
+/** Chat type codes that represent real player chat (public + private), not system spam. */
+export const PLAYER_CHAT_TYPES: readonly number[] = [1, 2, 3, 6, 7];
+
+/** True if a chat type is player chat (public or private), false for system/game messages. */
+export function isPlayerChat(type: number): boolean {
+    return PLAYER_CHAT_TYPES.includes(type);
 }
 
 export interface DialogEntry {
@@ -342,6 +354,22 @@ export interface ActionResult {
     data?: any;
     /** Machine-readable failure category (e.g. 'cant_reach', 'no_match', 'timeout') */
     reason?: string;
+}
+
+/**
+ * Outcome of sending a chat message. RS silently caps public chat at 80 chars
+ * and runs a word filter, so `sendSay` surfaces both via the `data` field
+ * (shape below) and `say()` returns these per chunk.
+ */
+export interface SayResult {
+    /** Whether the message was sent (false only if not in game). */
+    sent: boolean;
+    /** True if the message exceeded 80 chars and was clipped. */
+    truncated: boolean;
+    /** True if the word filter altered the text (likely censorship). */
+    filtered: boolean;
+    /** The text as actually broadcast (post-truncation, post-filter). */
+    finalText: string;
 }
 
 // ============ SDK Config ============

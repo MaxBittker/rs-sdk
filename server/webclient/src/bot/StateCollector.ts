@@ -929,32 +929,46 @@ export class BotStateCollector implements ScanProvider {
         return items;
     }
 
+    private static readonly MAX_GAME_MESSAGES = 50;
+
     private collectGameMessages(): GameMessage[] {
         const c = this.client as any;
-        const messages: GameMessage[] = [];
 
         const messageText = c.chatText || [];
         const messageSender = c.chatUsername || [];
         const messageType = c.chatType || [];
         const messageTick = c.messageTick || [];
 
-        // Get recent messages (up to 5)
-        for (let i = 0; i < 10; i++) {
+        const ownName = String(c.localPlayer?.name ?? '').replace(/@\w+@/g, '').toLowerCase();
+
+        // The client's chat ring is newest-first (index 0 is the most recent) and
+        // 100 deep, interleaving player chat with system spam. We keep up to 50 of
+        // the most recent so a partner's message isn't evicted by level-up/combat
+        // lines within a few ticks (the old 5-deep window was the main reason
+        // bot<->bot handoffs silently failed). Type-filtering is left to the SDK
+        // (sdk.getChat) so system messages stay available here too.
+        const messages: GameMessage[] = [];
+        for (let i = 0; i < messageText.length && messages.length < BotStateCollector.MAX_GAME_MESSAGES; i++) {
             const text = messageText[i];
+            if (!text) continue;
+
             const type = messageType[i] || 0;
+            // Strip @cr1@/@whi@ crown+colour codes so sender filtering is reliable.
+            const sender = String(messageSender[i] || '').replace(/@\w+@/g, '');
+            const fromSelf = type === 6 || (sender !== '' && sender.toLowerCase() === ownName);
 
-            if (text) {
-                messages.push({
-                    type: type,
-                    text: text,
-                    sender: messageSender[i] || '',
-                    tick: messageTick[i] || 0
-                });
-            }
-
-            if (messages.length >= 5) break;
+            messages.push({
+                type,
+                text,
+                sender,
+                tick: messageTick[i] || 0,
+                fromSelf
+            });
         }
 
+        // Return in chronological order (oldest first, newest last) so .slice(-N)
+        // callers and the formatter pick up the MOST RECENT messages.
+        messages.reverse();
         return messages;
     }
 

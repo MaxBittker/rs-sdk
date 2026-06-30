@@ -123,7 +123,7 @@ export function formatBotState(state: BotState): string {
     if (state.gameMessages.length === 0) {
         lines.push('None');
     } else {
-        for (const msg of state.gameMessages) {
+        for (const msg of state.gameMessages.slice(-10)) {
             // Strip color tags
             const cleanText = msg.text.replace(/@\w+@/g, '');
             if (msg.sender) {
@@ -326,7 +326,7 @@ export function formatWorldStateForAgent(state: BotWorldState, goal: string): st
     if (state.gameMessages && state.gameMessages.length > 0) {
         lines.push('');
         lines.push('### Recent Messages');
-        for (const msg of state.gameMessages) {
+        for (const msg of state.gameMessages.slice(-10)) {
             const cleanText = msg.text.replace(/@\w+@/g, '');
             if (msg.sender) {
                 lines.push(`- ${msg.sender}: ${cleanText}`);

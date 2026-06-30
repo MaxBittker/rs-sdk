@@ -93,6 +93,14 @@ const SCROLLBAR_GRIP_FOREGROUND = 0x4d4233;
 const SCROLLBAR_GRIP_HIGHLIGHT = 0x766654;
 const SCROLLBAR_GRIP_LOWLIGHT = 0x332d25;
 
+/** Result of {@link Client.say} — reports truncation/censorship the wire hides. */
+export interface SayOutcome {
+    ok: boolean;
+    truncated: boolean;
+    filtered: boolean;
+    finalText: string;
+}
+
 export class Client extends GameShell {
     static nodeId: number = 10;
     static memServer: boolean = true;
@@ -1773,11 +1781,14 @@ export class Client extends GameShell {
     /**
      * Send a public chat message in-game
      */
-    say(message: string): boolean {
+    say(message: string): SayOutcome {
         if (!this.ingame || !this.out || !this.localPlayer) {
-            return false;
+            return { ok: false, truncated: false, filtered: false, finalText: '' };
         }
 
+        // RS public chat is hard-capped at 80 chars; anything past it is dropped
+        // silently on the wire, so report it back to the caller.
+        const truncated: boolean = message.length > 80;
         let text = message.substring(0, 80);
 
         this.out.p1Enc(ClientProt.MESSAGE_PUBLIC);
@@ -1789,8 +1800,12 @@ export class Client extends GameShell {
         WordPack.pack(this.out, text);
         this.out.psize1(this.out.pos - start);
 
-        text = JString.toSentenceCase(text);
-        text = WordFilter.filter(text);
+        const cased = JString.toSentenceCase(text);
+        text = WordFilter.filter(cased);
+        // The client-side WordFilter approximates the server's WordEnc.filter; if
+        // it changed the text, censorship likely applied (and the broadcast may
+        // differ further). Good enough to warn the agent its message was altered.
+        const filtered: boolean = text !== cased;
 
         if (this.localPlayer) {
             this.localPlayer.chatMessage = text;
@@ -1801,7 +1816,7 @@ export class Client extends GameShell {
             this.addChat(2, this.localPlayer.chatMessage, this.localPlayer.name ?? '');
         }
 
-        return true;
+        return { ok: true, truncated, filtered, finalText: text };
     }
 
     /**

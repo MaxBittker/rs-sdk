@@ -121,10 +121,11 @@ export interface MenuAction {
 }
 
 export interface GameMessage {
-    type: number;  // 0=game, 2=public chat, 3=private, etc.
+    type: number;  // 0=game, 1=public(crowned), 2=public chat, 3=PM recv, 6=PM sent, 7=PM(crowned)
     text: string;
-    sender: string;
+    sender: string;     // @cr/@col codes stripped; empty for system messages
     tick: number;
+    fromSelf: boolean;  // true if this client sent it (own speech or sent PM)
 }
 
 export interface DialogEntry {

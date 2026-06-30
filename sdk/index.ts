@@ -18,9 +18,10 @@ import type {
     SDKConnectionMode,
     BotStatus,
     PrayerState,
-    PrayerName
+    PrayerName,
+    GameMessage
 } from './types';
-import { PRAYER_INDICES, PRAYER_NAMES } from './types';
+import { PRAYER_INDICES, PRAYER_NAMES, PLAYER_CHAT_TYPES, isPlayerChat } from './types';
 import * as pathfinding from './pathfinding';
 
 /**
@@ -64,11 +65,41 @@ interface PendingScreenshot {
     timeout: ReturnType<typeof setTimeout>;
 }
 
+/**
+ * Split text into ≤maxLen chunks on word boundaries. Words longer than maxLen
+ * are hard-split so nothing is dropped.
+ */
+function chunkMessage(text: string, maxLen: number): string[] {
+    const chunks: string[] = [];
+    let current = '';
+    for (const word of text.trim().split(/\s+/)) {
+        // A single oversized word: flush, then hard-split it.
+        if (word.length > maxLen) {
+            if (current) { chunks.push(current); current = ''; }
+            for (let i = 0; i < word.length; i += maxLen) {
+                chunks.push(word.slice(i, i + maxLen));
+            }
+            continue;
+        }
+        const candidate = current ? `${current} ${word}` : word;
+        if (candidate.length > maxLen) {
+            if (current) chunks.push(current);
+            current = word;
+        } else {
+            current = candidate;
+        }
+    }
+    if (current) chunks.push(current);
+    return chunks;
+}
+
 export class BotSDK {
     readonly config: Required<SDKConfig>;
     private ws: WebSocket | null = null;
     private state: BotWorldState | null = null;
     private stateReceivedAt: number = 0;
+    /** High-water tick consumed by getNewChat(); -1 means "nothing read yet". */
+    private chatCursor: number = -1;
     private pendingActions = new Map<string, PendingAction>();
     private pendingScreenshots = new Map<string, PendingScreenshot>();
     private stateListeners = new Set<(state: BotWorldState) => void>();
@@ -518,6 +549,68 @@ export class BotSDK {
     getStateAge(): number {
         if (this.stateReceivedAt === 0) return 0;
         return Date.now() - this.stateReceivedAt;
+    }
+
+    /**
+     * Read recent chat messages. Returns player chat (public + PMs) by default,
+     * newest last. The underlying buffer holds the 50 most recent messages, so a
+     * teammate's line survives system spam (level-ups, combat) — unlike reading
+     * `getState().gameMessages` raw and slicing, which used to evict it fast.
+     *
+     * @param opts.limit Max messages to return (default 20).
+     * @param opts.types Chat type codes to include (default player chat: 1/2/3/6/7). Pass e.g. `[0]` for system messages.
+     * @param opts.includeSelf Include your own messages (default false).
+     */
+    getChat(opts: { limit?: number; types?: readonly number[]; includeSelf?: boolean } = {}): GameMessage[] {
+        const { limit = 20, types = PLAYER_CHAT_TYPES, includeSelf = false } = opts;
+        const all = this.state?.gameMessages ?? [];
+        const typeSet = new Set(types);
+        const filtered = all.filter(m =>
+            typeSet.has(m.type) && (includeSelf || !m.fromSelf)
+        );
+        return limit > 0 ? filtered.slice(-limit) : filtered;
+    }
+
+    /**
+     * Read only chat messages that have arrived since the last call (cursor-based,
+     * newest last). Advances an internal high-water tick so repeat polls never
+     * re-show the same message — no need to hand-roll a baseline tick. Excludes
+     * your own messages by default.
+     *
+     * @param opts.types Chat type codes to include (default player chat: 1/2/3/6/7).
+     * @param opts.includeSelf Include your own messages (default false).
+     */
+    getNewChat(opts: { types?: readonly number[]; includeSelf?: boolean } = {}): GameMessage[] {
+        const { types = PLAYER_CHAT_TYPES, includeSelf = false } = opts;
+        const all = this.state?.gameMessages ?? [];
+        const prev = this.chatCursor;
+        const typeSet = new Set(types);
+
+        // Advance the cursor past every message currently in the buffer (including
+        // system lines) so the next call only sees genuinely newer messages.
+        let maxTick = prev;
+        for (const m of all) if (m.tick > maxTick) maxTick = m.tick;
+        this.chatCursor = maxTick;
+
+        return all.filter(m =>
+            m.tick > prev && typeSet.has(m.type) && (includeSelf || !m.fromSelf)
+        );
+    }
+
+    /**
+     * Read recent chat from a specific sender (case-insensitive, substring match
+     * on name), newest last. Handy for "what did my partner say?" without
+     * regex-matching the sender field yourself.
+     *
+     * @param name Sender name (or substring) to match.
+     * @param opts.limit Max messages to return (default 20).
+     */
+    getChatFrom(name: string, opts: { limit?: number } = {}): GameMessage[] {
+        const { limit = 20 } = opts;
+        const needle = name.toLowerCase();
+        const all = this.state?.gameMessages ?? [];
+        const filtered = all.filter(m => m.sender.toLowerCase().includes(needle));
+        return limit > 0 ? filtered.slice(-limit) : filtered;
     }
 
     /** Get a skill by name (case-insensitive). */
@@ -1004,9 +1097,38 @@ export class BotSDK {
         return this.sendAction({ type: 'setTab', tabIndex, reason: 'SDK' });
     }
 
-    /** Send a chat message. */
+    /**
+     * Send a single chat message. RS caps public chat at 80 chars and runs a word
+     * filter; `result.data` reports `{ sent, truncated, filtered, finalText }` so
+     * you know if your message was clipped or censored. For longer text that
+     * shouldn't be silently truncated, use {@link say} instead.
+     */
     async sendSay(message: string): Promise<ActionResult> {
         return this.sendAction({ type: 'say', message, reason: 'SDK' });
+    }
+
+    /**
+     * Send a message of any length, auto-split into ≤80-char chunks on word
+     * boundaries and sent in order (so a multi-sentence plan isn't lost to the
+     * 80-char cap). Waits a tick between chunks so they don't collide. Returns one
+     * ActionResult per chunk.
+     *
+     * @param text The full message to send.
+     * @param opts.maxLen Max chars per chunk (default 80, the RS limit).
+     * @param opts.delayTicks Ticks to wait between chunks (default 1).
+     */
+    async say(text: string, opts: { maxLen?: number; delayTicks?: number } = {}): Promise<ActionResult[]> {
+        const maxLen = Math.min(opts.maxLen ?? 80, 80);
+        const delayTicks = opts.delayTicks ?? 1;
+        const chunks = chunkMessage(text, maxLen);
+        const results: ActionResult[] = [];
+        for (let i = 0; i < chunks.length; i++) {
+            results.push(await this.sendSay(chunks[i]!));
+            if (i < chunks.length - 1 && delayTicks > 0) {
+                await this.sendWait(delayTicks);
+            }
+        }
+        return results;
     }
 
     /** Wait for specified number of game ticks. */
@@ -1278,12 +1400,12 @@ export class BotSDK {
         }
 
         if (message.type === 'sdk_state' && message.state) {
-            // Filter out player chat messages unless showChat is enabled.
-            // Type 2 = public chat (in-range OR global broadcast — both arrive
-            // with a structured sender), Type 3 = private message received.
+            // Filter out player chat messages unless showChat is enabled. Player
+            // chat = public (types 1/2) and private (3/6/7); system/game messages
+            // (level-ups, combat, examines) always pass through.
             if (this.config.showChat === false && message.state.gameMessages) {
                 message.state.gameMessages = message.state.gameMessages.filter(
-                    msg => msg.type !== 2 && msg.type !== 3
+                    msg => !isPlayerChat(msg.type)
                 );
             }
 

@@ -2,7 +2,7 @@
 // Adapted from webclient/src/bot/formatters.ts for SDK use
 
 import type { BotWorldState, PrayerName } from './types';
-import { PRAYER_NAMES } from './types';
+import { PRAYER_NAMES, isPlayerChat } from './types';
 
 /**
  * Format a duration in ms to human readable string
@@ -262,25 +262,22 @@ export function formatWorldState(
     // Type 2 = public chat, Type 3 = received private message. Other types are
     // server-generated text (welcomes, "you can't reach", level-up notices...).
     if (state.gameMessages && state.gameMessages.length > 0) {
-        const ownName = state.player?.name?.toLowerCase() ?? '';
         const stripCodes = (s: string) => s.replace(/@\w+@/g, '');
         const sinceTick = options?.sinceTick ?? -1;
         const fresh = state.gameMessages.filter(m => m.tick > sinceTick);
 
         const playerChat = fresh.filter(m =>
-            (m.type === 2 || m.type === 3) &&
+            isPlayerChat(m.type) &&
             m.sender &&
-            m.sender.toLowerCase() !== ownName  // suppress own-speech echo
+            !m.fromSelf  // suppress own-speech echo
         );
-        const systemMessages = fresh.filter(m =>
-            m.type !== 2 && m.type !== 3
-        );
+        const systemMessages = fresh.filter(m => !isPlayerChat(m.type));
 
         if (playerChat.length > 0) {
             lines.push('');
             lines.push('## Player Chat');
             for (const msg of playerChat.slice(-5)) {
-                const tag = msg.type === 3 ? ' [PM]' : '';
+                const tag = (msg.type === 3 || msg.type === 7) ? ' [PM]' : '';
                 lines.push(`- ${msg.sender}${tag}: ${stripCodes(msg.text)}`);
             }
         }

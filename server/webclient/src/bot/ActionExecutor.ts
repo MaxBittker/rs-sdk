@@ -287,12 +287,25 @@ export class ActionExecutor {
                     return result;
                 }
 
-                case 'say':
-                    return this.wrapBool(
-                        this.client.say(action.message),
-                        `Said: ${action.message}`,
-                        'Failed to send message'
-                    );
+                case 'say': {
+                    const say = this.client.say(action.message);
+                    if (!say.ok) {
+                        return { success: false, message: 'Failed to send message' };
+                    }
+                    let message = `Said: ${say.finalText}`;
+                    if (say.truncated) message += ' (truncated to 80 chars)';
+                    if (say.filtered) message += ' (word-filtered)';
+                    return {
+                        success: true,
+                        message,
+                        data: {
+                            sent: true,
+                            truncated: say.truncated,
+                            filtered: say.filtered,
+                            finalText: say.finalText
+                        }
+                    };
+                }
 
                 case 'scanNearbyLocs':
                     if (!this.scanProvider) {

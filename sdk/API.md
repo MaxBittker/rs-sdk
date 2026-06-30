@@ -130,6 +130,9 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `getState()` | Get current game state snapshot. |
 | `getStateReceivedAt()` | Get timestamp when state was last received (ms since epoch) |
 | `getStateAge()` | Get age of current state in milliseconds |
+| `getChat(opts)` | Read recent chat messages. |
+| `getNewChat(opts)` | Read only chat messages that have arrived since the last call (cursor-based, newest last). |
+| `getChatFrom(name, opts)` | Read recent chat from a specific sender (case-insensitive, substring match on name), newest last. |
 | `getSkill(name)` | Get a skill by name (case-insensitive). |
 | `getSkillXp(name)` | Get XP for a skill by name. |
 | `getSkills()` | Get all skills. |
@@ -196,7 +199,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `sendSpellOnItem(slot, spellComponent)` | Cast spell on inventory item. |
 | `sendSpellOnGroundItem(x, z, itemId, spellComponent)` | Cast spell on ground item (e. |
 | `sendSetTab(tabIndex)` | Switch to a UI tab by index. |
-| `sendSay(message)` | Send a chat message. |
+| `sendSay(message)` | Send a single chat message. |
 | `sendWait(ticks)` | Wait for specified number of game ticks. |
 | `sendBankDeposit(slot, amount)` | Deposit item to bank by slot. |
 | `sendBankWithdraw(slot, amount)` | Withdraw item from bank by slot. |
@@ -238,6 +241,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `isBankOpen()` | Check if bank interface is open. |
 | `clickDialogByText(pattern)` | Click a dialog option whose visible text matches `pattern`. |
 | `isPrayerActive(prayer)` | Check if a specific prayer is currently active. |
+| `say(text, opts)` | Send a message of any length, auto-split into ≤80-char chunks on word boundaries and sent in orde... |
 
 ---
 
@@ -285,56 +289,14 @@ interface SkillState {
 }
 ```
 
-### DialogState
+### SayResult
 
 ```typescript
-interface DialogState {
-  isOpen: boolean;
-  options: DialogOption[];
-  isWaiting: boolean;
-  text?: string;
-  allComponents?: DialogComponent[];
-}
-```
-
-### InterfaceState
-
-```typescript
-interface InterfaceState {
-  isOpen: boolean;
-  interfaceId: number;
-  options: Array<{ index: number; text: string; componentId: number;
-}
-```
-
-### ShopState
-
-```typescript
-interface ShopState {
-  isOpen: boolean;
-  title: string;
-  shopItems: ShopItem[];
-  playerItems: ShopItem[];
-  shopConfig?: ShopConfig;
-}
-```
-
-### BankState
-
-```typescript
-interface BankState {
-  isOpen: boolean;
-  items: BankItem[];
-}
-```
-
-### CombatStyleState
-
-```typescript
-interface CombatStyleState {
-  currentStyle: number;
-  weaponName: string;
-  styles: CombatStyleOption[];
+interface SayResult {
+  sent: boolean; // Whether the message was sent (false only if not in game).
+  truncated: boolean; // True if the message exceeded 80 chars and was clipped.
+  filtered: boolean; // True if the word filter altered the text (likely censorship).
+  finalText: string; // The text as actually broadcast (post-truncation, post-filter).
 }
 ```
 
