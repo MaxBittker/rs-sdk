@@ -35,12 +35,19 @@ export class GatewayConnection {
     private handler: GatewayMessageHandler;
     /** Returns the credentials the game client actually logged in with (may be empty pre-login) */
     private credentialSource: (() => { username: string; password: string }) | null;
+    /** Returns the server-configured chat cap so the gateway can relay it to controlling SDKs */
+    private configSource: (() => { maxMessageLength: number }) | null;
     /** When true, prevents auto-reconnect (used during graceful disconnect) */
     private preventReconnect: boolean = false;
 
-    constructor(handler: GatewayMessageHandler, credentialSource?: () => { username: string; password: string }) {
+    constructor(
+        handler: GatewayMessageHandler,
+        credentialSource?: () => { username: string; password: string },
+        configSource?: () => { maxMessageLength: number }
+    ) {
         this.handler = handler;
         this.credentialSource = credentialSource ?? null;
+        this.configSource = configSource ?? null;
     }
 
     /**
@@ -73,12 +80,14 @@ export class GatewayConnection {
                 const { username, password } = this.resolveCredentials();
                 console.log(`[GatewayConnection] Connected, registering as '${username}'`);
 
-                // Register as bot with gateway
+                // Register as bot with gateway. Relay the server-configured chat cap so
+                // controlling SDKs learn it (they only talk to the gateway, not the engine).
                 this.send({
                     type: 'connected',
                     username,
                     password,
-                    clientId: `${username}-${Date.now()}`
+                    clientId: `${username}-${Date.now()}`,
+                    maxMessageLength: this.configSource?.().maxMessageLength
                 });
 
                 this.handler.onConnected();

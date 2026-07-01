@@ -33,6 +33,10 @@ export interface WorldConfig {
         hopTime: number;
         rateLimitAddressLogin: number;
         rateLimitDeviceLogin: number;
+        // rs-sdk: tunables to make bot collaboration easier.
+        maxMessageLength: number; // max length of a public/private chat message
+        objRevealTicks: number; // ticks before a player-dropped obj becomes visible to everyone
+        objDespawnScale: number; // percent applied to ground-item despawn timers (100 = vanilla)
     };
     login: {
         enabled: boolean;
@@ -106,7 +110,10 @@ export function createDefaultWorldConfig(): WorldConfig {
             debugProcChar: '~',
             hopTime: 45000,
             rateLimitAddressLogin: 30,
-            rateLimitDeviceLogin: 5
+            rateLimitDeviceLogin: 5,
+            maxMessageLength: 80, // rs-sdk: the real RS wire/client limit (server was a looser 100, but the client never sent >80). Single source of truth for server validation + client truncation + SDK chunking.
+            objRevealTicks: 100, // rs-sdk: matches Obj.REVEAL default
+            objDespawnScale: 100 // rs-sdk: 100% = unchanged despawn timers
         },
         login: {
             enabled: false,
@@ -246,6 +253,9 @@ export function migrateFromLegacyEnv(defaults: WorldConfig, env: Record<string, 
     config.node.hopTime = tryParseInt(env.NODE_HOP_TIME, tryParseInt(env.NODE_MAX_NPCS, config.node.hopTime));
     config.node.rateLimitAddressLogin = tryParseInt(env.NODE_RATELIMIT_ADDRESS_LOGIN, config.node.rateLimitAddressLogin);
     config.node.rateLimitDeviceLogin = tryParseInt(env.NODE_RATELIMIT_DEVICE_LOGIN, config.node.rateLimitDeviceLogin);
+    config.node.maxMessageLength = tryParseInt(env.NODE_MAX_MESSAGE_LENGTH, config.node.maxMessageLength);
+    config.node.objRevealTicks = tryParseInt(env.NODE_OBJ_REVEAL_TICKS, config.node.objRevealTicks);
+    config.node.objDespawnScale = tryParseInt(env.NODE_OBJ_DESPAWN_SCALE, config.node.objDespawnScale);
 
     config.login.enabled = tryParseBoolean(env.LOGIN_SERVER, config.login.enabled);
     config.login.host = tryParseString(env.LOGIN_HOST, config.login.host);

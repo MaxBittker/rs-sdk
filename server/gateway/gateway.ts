@@ -121,6 +121,7 @@ interface BotSession {
     // Session metadata for diagnostics
     connectedAt: number;              // When bot first connected (timestamp)
     lastHeartbeat: number;            // Last message received (any type)
+    maxMessageLength?: number;        // Server-configured chat cap, relayed from the bot page to SDKs
 }
 
 // Session status for diagnostics
@@ -169,6 +170,7 @@ interface PendingTakeover {
     clientId: string;
     username: string;
     timeout: ReturnType<typeof setTimeout>;
+    maxMessageLength?: number;
 }
 const pendingTakeovers = new Map<string, PendingTakeover>();  // username -> pending new connection
 
@@ -224,7 +226,7 @@ const SyncModule = {
     },
 
     // Helper to complete a bot connection (called immediately or after takeover completes)
-    completeBotConnection(ws: any, clientId: string, username: string, preservedState?: BotSession | null) {
+    completeBotConnection(ws: any, clientId: string, username: string, preservedState?: BotSession | null, maxMessageLength?: number) {
         const now = Date.now();
         const session: BotSession = {
             ws,
@@ -235,7 +237,8 @@ const SyncModule = {
             currentActionId: null,
             pendingScreenshotId: null,
             connectedAt: now,
-            lastHeartbeat: now
+            lastHeartbeat: now,
+            maxMessageLength: maxMessageLength ?? preservedState?.maxMessageLength
         };
 
         botSessions.set(username, session);
@@ -246,7 +249,7 @@ const SyncModule = {
         this.sendToBot(session, { type: 'status', status: 'Connected to gateway' });
 
         for (const sdkSession of this.getSDKSessionsForBot(username)) {
-            this.sendToSDK(sdkSession, { type: 'sdk_connected', success: true });
+            this.sendToSDK(sdkSession, { type: 'sdk_connected', success: true, maxMessageLength: session.maxMessageLength });
         }
     },
 
@@ -290,14 +293,14 @@ const SyncModule = {
                     // handleClose will process the pending takeover
                 }, 5000);  // 5 second grace period
 
-                pendingTakeovers.set(username, { ws, clientId, username, timeout });
+                pendingTakeovers.set(username, { ws, clientId, username, timeout, maxMessageLength: message.maxMessageLength });
 
                 // Don't complete the connection yet - wait for old session to close
                 return;
             }
 
             // No existing session or same ws reconnecting - complete immediately
-            this.completeBotConnection(ws, clientId, username, existingSession);
+            this.completeBotConnection(ws, clientId, username, existingSession, message.maxMessageLength);
             return;
         }
 
@@ -398,7 +401,8 @@ const SyncModule = {
                 type: 'sdk_connected',
                 success: true,
                 mode,
-                otherControllers: 0  // Always 0 now since we pre-empt old controllers
+                otherControllers: 0,  // Always 0 now since we pre-empt old controllers
+                maxMessageLength: botSessions.get(targetUsername)?.maxMessageLength
             });
 
             const botSession = botSessions.get(targetUsername);
@@ -509,7 +513,7 @@ const SyncModule = {
                     setTimeout(() => {
                         // Verify pending ws is still open
                         if (pending.ws && pending.ws.readyState === 1 /* OPEN */) {
-                            this.completeBotConnection(pending.ws, pending.clientId, pending.username, session);
+                            this.completeBotConnection(pending.ws, pending.clientId, pending.username, session, pending.maxMessageLength);
                         } else {
                             console.log(`[Gateway] Pending connection for ${username} already closed, skipping`);
                         }

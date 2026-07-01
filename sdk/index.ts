@@ -42,7 +42,7 @@ export function deriveGatewayUrl(server?: string): string {
 }
 
 interface SyncToSDKMessage {
-    type: 'sdk_connected' | 'sdk_state' | 'sdk_action_result' | 'sdk_error' | 'sdk_screenshot_response';
+    type: 'sdk_connected' | 'sdk_state' | 'sdk_action_result' | 'sdk_error' | 'sdk_screenshot_response' | 'sdk_info';
     success?: boolean;
     state?: BotWorldState;
     stateReceivedAt?: number;  // Timestamp when gateway received state from bot
@@ -51,6 +51,7 @@ interface SyncToSDKMessage {
     error?: string;
     screenshotId?: string;
     dataUrl?: string;
+    maxMessageLength?: number;  // Server-configured chat cap (in sdk_connected / sdk_info)
 }
 
 interface PendingAction {
@@ -98,6 +99,11 @@ export class BotSDK {
     private ws: WebSocket | null = null;
     private state: BotWorldState | null = null;
     private stateReceivedAt: number = 0;
+    /**
+     * Server-configured max chat length, learned from the gateway handshake
+     * (sdk_connected / sdk_info). Defaults to the RS wire limit until known.
+     */
+    private serverMaxMessageLength: number = 80;
     /** High-water tick consumed by getNewChat(); -1 means "nothing read yet". */
     private chatCursor: number = -1;
     private pendingActions = new Map<string, PendingAction>();
@@ -226,6 +232,9 @@ export class BotSDK {
                     if (msg.type === 'sdk_connected') {
                         this.ws?.removeEventListener('message', checkConnected);
                         this.reconnectAttempt = 0;
+                        if (typeof msg.maxMessageLength === 'number' && msg.maxMessageLength > 0) {
+                            this.serverMaxMessageLength = msg.maxMessageLength;
+                        }
                         this.setConnectionState('connected');
 
                         // Automatically wait for game state to be ready
@@ -1098,27 +1107,36 @@ export class BotSDK {
     }
 
     /**
-     * Send a single chat message. RS caps public chat at 80 chars and runs a word
-     * filter; `result.data` reports `{ sent, truncated, filtered, finalText }` so
-     * you know if your message was clipped or censored. For longer text that
-     * shouldn't be silently truncated, use {@link say} instead.
+     * Send a single chat message. The server caps public chat at {@link maxMessageLength}
+     * chars (80 by default) and runs a word filter; `result.data` reports
+     * `{ sent, truncated, filtered, finalText }` so you know if your message was clipped
+     * or censored. For longer text that shouldn't be silently truncated, use {@link say}.
      */
     async sendSay(message: string): Promise<ActionResult> {
         return this.sendAction({ type: 'say', message, reason: 'SDK' });
     }
 
     /**
-     * Send a message of any length, auto-split into ≤80-char chunks on word
-     * boundaries and sent in order (so a multi-sentence plan isn't lost to the
-     * 80-char cap). Waits a tick between chunks so they don't collide. Returns one
-     * ActionResult per chunk.
+     * Server-configured max chat length, learned from the gateway handshake. Defaults
+     * to 80 (the RS wire limit) until the bot session reports the server's value, which
+     * a server operator can raise via `node.maxMessageLength` in world.json.
+     */
+    get maxMessageLength(): number {
+        return this.serverMaxMessageLength;
+    }
+
+    /**
+     * Send a message of any length, auto-split into chunks on word boundaries and sent
+     * in order (so a multi-sentence plan isn't lost to the chat-length cap). Waits a
+     * tick between chunks so they don't collide. Returns one ActionResult per chunk.
      *
      * @param text The full message to send.
-     * @param opts.maxLen Max chars per chunk (default 80, the RS limit).
+     * @param opts.maxLen Max chars per chunk. Defaults to (and is capped at) the
+     *   server-configured {@link maxMessageLength}.
      * @param opts.delayTicks Ticks to wait between chunks (default 1).
      */
     async say(text: string, opts: { maxLen?: number; delayTicks?: number } = {}): Promise<ActionResult[]> {
-        const maxLen = Math.min(opts.maxLen ?? 80, 80);
+        const maxLen = Math.min(opts.maxLen ?? this.serverMaxMessageLength, this.serverMaxMessageLength);
         const delayTicks = opts.delayTicks ?? 1;
         const chunks = chunkMessage(text, maxLen);
         const results: ActionResult[] = [];
@@ -1397,6 +1415,13 @@ export class BotSDK {
             message = JSON.parse(data);
         } catch {
             return;
+        }
+
+        // The server-configured chat cap can arrive after the initial handshake: if the
+        // SDK connects before the bot page registers, the gateway re-sends sdk_connected
+        // (and may send sdk_info) once the bot is known. Capture it whenever it appears.
+        if ((message.type === 'sdk_connected' || message.type === 'sdk_info') && typeof message.maxMessageLength === 'number' && message.maxMessageLength > 0) {
+            this.serverMaxMessageLength = message.maxMessageLength;
         }
 
         if (message.type === 'sdk_state' && message.state) {

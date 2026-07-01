@@ -104,6 +104,9 @@ export interface SayOutcome {
 export class Client extends GameShell {
     static nodeId: number = 10;
     static memServer: boolean = true;
+    // rs-sdk: max public/private chat length, injected from the server's world.json
+    // (Environment.node.maxMessageLength) via bot.ejs. Defaults to the RS wire limit.
+    static maxMessageLength: number = 80;
     static lowMem: boolean = false;
 
     static cyclelogic1: number = 0;
@@ -603,9 +606,15 @@ export class Client extends GameShell {
 
     // ----
 
-    constructor(nodeid: number, lowmem: boolean, members: boolean) {
+    constructor(nodeid: number, lowmem: boolean, members: boolean, maxMessageLength?: number) {
         super();
         this.searchParams = new URLSearchParams(window.location.search);
+
+        // rs-sdk: capture the server-configured chat cap before the undefined-guard
+        // below (the guard only concerns the core three params).
+        if (typeof maxMessageLength === 'number' && maxMessageLength > 0) {
+            Client.maxMessageLength = maxMessageLength;
+        }
 
         if (typeof nodeid === 'undefined' || typeof lowmem === 'undefined' || typeof members === 'undefined') {
             return;
@@ -749,6 +758,11 @@ export class Client extends GameShell {
      */
     getCredentials(): { username: string; password: string } {
         return { username: this.loginUser, password: this.loginPass };
+    }
+
+    /** rs-sdk: server-configured max chat length (relayed to the SDK via the gateway). */
+    getMaxMessageLength(): number {
+        return Client.maxMessageLength;
     }
 
     /**
@@ -1786,10 +1800,11 @@ export class Client extends GameShell {
             return { ok: false, truncated: false, filtered: false, finalText: '' };
         }
 
-        // RS public chat is hard-capped at 80 chars; anything past it is dropped
-        // silently on the wire, so report it back to the caller.
-        const truncated: boolean = message.length > 80;
-        let text = message.substring(0, 80);
+        // Public chat is capped at Client.maxMessageLength (server-configured, default
+        // 80 = the RS wire limit); anything past it is dropped silently on the wire, so
+        // report it back to the caller.
+        const truncated: boolean = message.length > Client.maxMessageLength;
+        let text = message.substring(0, Client.maxMessageLength);
 
         this.out.p1Enc(ClientProt.MESSAGE_PUBLIC);
         this.out.p1(0);

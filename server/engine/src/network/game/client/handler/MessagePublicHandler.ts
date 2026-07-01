@@ -7,13 +7,14 @@ import Packet from '#/io/Packet.js';
 import ClientGameMessageHandler from '#/network/game/client/ClientGameMessageHandler.js';
 import MessagePublic from '#/network/game/client/model/MessagePublic.js';
 import OutgoingMessagePublic from '#/network/game/server/model/MessagePublic.js';
+import Environment from '#/util/Environment.js';
 import WordPack from '#/wordenc/WordPack.js';
 
 export default class MessagePublicHandler extends ClientGameMessageHandler<MessagePublic> {
     handle(message: MessagePublic, player: Player): boolean {
         const { colour, effect, input } = message;
 
-        if (player.socialProtect || colour < 0 || colour > 11 || effect < 0 || effect > 2 || input.length > 100) {
+        if (player.socialProtect || colour < 0 || colour > 11 || effect < 0 || effect > 2 || input.length > Environment.node.maxMessageLength) {
             return false;
         }
 

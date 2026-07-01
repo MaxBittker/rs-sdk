@@ -437,7 +437,7 @@
         let clientInstance = null;
 
         (() => {
-            clientInstance = new Client(<%= nodeid %>, <%= lowmem %>, <%= members %>);
+            clientInstance = new Client(<%= nodeid %>, <%= lowmem %>, <%= members %>, <%= maxMessageLength %>);
             window.gameClient = clientInstance;
             // Auto-initialize from URL params (login, fps)
             autoInitFromUrlParams();

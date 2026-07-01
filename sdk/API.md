@@ -241,7 +241,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `isBankOpen()` | Check if bank interface is open. |
 | `clickDialogByText(pattern)` | Click a dialog option whose visible text matches `pattern`. |
 | `isPrayerActive(prayer)` | Check if a specific prayer is currently active. |
-| `say(text, opts)` | Send a message of any length, auto-split into ≤80-char chunks on word boundaries and sent in orde... |
+| `say(text, opts)` | Send a message of any length, auto-split into chunks on word boundaries and sent in order (so a m... |
 
 ---
 

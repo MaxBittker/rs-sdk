@@ -1516,15 +1516,24 @@ class World {
         const zone: Zone = this.gameMap.getZone(obj.x, obj.z, obj.level);
         zone.addObj(obj, receiver64);
         this.trackZone(zone);
+
+        // rs-sdk: scale the despawn timer for perishable ground items so bots have more
+        // time to reach a drop. RESPAWN objs use `duration` as a respawn delay, so leave
+        // those untouched. objDespawnScale is a percent (100 = vanilla).
+        if (obj.lifecycle === EntityLifeCycle.DESPAWN && duration > 0) {
+            duration = Math.max(1, Math.round((duration * Environment.node.objDespawnScale) / 100));
+        }
+
         // If the obj is dropped to a specific person
         if (receiver64 !== Obj.NO_RECEIVER) {
-            // objs with a receiver always attempt to reveal 100 ticks after being dropped.
+            // objs with a receiver attempt to reveal after objRevealTicks ticks.
             // items that can't be revealed (untradable, members obj in f2p) will be skipped in revealObj
             obj.setLifeCycle(duration);
             obj.receiver64 = receiver64;
 
-            // Reveal Obj in 100 ticks
-            obj.reveal = Obj.REVEAL;
+            // rs-sdk: configurable reveal delay (default Obj.REVEAL). Clamp to >=1 so a
+            // receiver-scoped obj is never stuck permanently private (reveal countdown hits 0).
+            obj.reveal = Math.max(1, Environment.node.objRevealTicks);
         }
         // If the obj is dropped to all
         else {

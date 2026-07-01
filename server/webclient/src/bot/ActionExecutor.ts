@@ -293,7 +293,7 @@ export class ActionExecutor {
                         return { success: false, message: 'Failed to send message' };
                     }
                     let message = `Said: ${say.finalText}`;
-                    if (say.truncated) message += ' (truncated to 80 chars)';
+                    if (say.truncated) message += ` (truncated to ${this.client.getMaxMessageLength()} chars)`;
                     if (say.filtered) message += ' (word-filtered)';
                     return {
                         success: true,

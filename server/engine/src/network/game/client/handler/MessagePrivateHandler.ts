@@ -3,14 +3,14 @@ import World from '#/engine/World.js';
 import Packet from '#/io/Packet.js';
 import ClientGameMessageHandler from '#/network/game/client/ClientGameMessageHandler.js';
 import MessagePrivate from '#/network/game/client/model/MessagePrivate.js';
-import { fromBase37 } from '#/util/JString.js';
+import Environment from '#/util/Environment.js';
 import WordPack from '#/wordenc/WordPack.js';
 
 export default class MessagePrivateHandler extends ClientGameMessageHandler<MessagePrivate> {
     handle(message: MessagePrivate, player: Player): boolean {
         const { username, input } = message;
 
-        if (player.socialProtect || input.length > 100) {
+        if (player.socialProtect || input.length > Environment.node.maxMessageLength) {
             return false;
         }
 

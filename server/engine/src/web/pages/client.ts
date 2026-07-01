@@ -23,6 +23,7 @@ export async function handleClientPage(url: URL): Promise<Response | null> {
             lowmem,
             members: Environment.NODE_MEMBERS,
             botUsername,
+            maxMessageLength: Environment.node.maxMessageLength,
             cachebust: CLIENT_CACHEBUST,
             per_deployment_token: Environment.WEB_SOCKET_TOKEN_PROTECTION ? getPublicPerDeploymentToken() : ''
         }), {

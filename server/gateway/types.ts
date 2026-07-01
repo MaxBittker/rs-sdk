@@ -22,6 +22,7 @@ export interface BotClientMessage {
     password?: string;
     dataUrl?: string;       // For screenshot_response
     screenshotId?: string;  // For screenshot_response correlation
+    maxMessageLength?: number;  // Server-configured chat cap (in 'connected'), relayed to SDKs
 }
 
 // Messages from Gateway → Bot Client
@@ -65,4 +66,5 @@ export interface SyncToSDKMessage {
     mode?: SDKConnectionMode;      // Connection mode (in sdk_connected response)
     otherControllers?: number;     // Number of other controllers (in sdk_connected response)
     message?: string;              // Info message (in sdk_info)
+    maxMessageLength?: number;     // Server-configured chat cap (in sdk_connected / sdk_info)
 }
