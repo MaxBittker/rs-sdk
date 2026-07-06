@@ -25,6 +25,11 @@ export default class IfButtonHandler extends ClientGameMessageHandler<IfButton> 
 
         if (player.resumeButtons.indexOf(player.lastCom) !== -1) {
             if (player.activeScript && player.activeScript.execution === ScriptState.PAUSEBUTTON) {
+                // Consume the choice: later p_pausebutton pauses in the same
+                // script (plain continue pages) must accept RESUME_PAUSEBUTTON
+                // again, which ResumePauseButtonHandler refuses while resume
+                // buttons are registered.
+                player.resumeButtons = [];
                 player.executeScript(player.activeScript, true, true);
             }
         } else {

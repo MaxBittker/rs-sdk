@@ -65,6 +65,12 @@ survival) is described in the project memory; this file is the human-readable ch
 - [ ] **`[LOGOUT DEBUG]` instrumentation** — console.warn breadcrumbs in
       `NetworkPlayer.ts`, `IdleTimerHandler.ts`, `ClientCheatHandler.ts`, `PlayerOps.ts`,
       `World.ts` (and webclient `Client.ts`). Low-stakes but useful; fine to re-add lazily.
+- [ ] **Choice-dialog resume guard** — `handler/ResumePauseButtonHandler.ts` ignores a bare
+      RESUME_PAUSEBUTTON while `player.resumeButtons` is non-empty (a pending `p_choice`
+      would otherwise resolve from stale `last_com`, silently re-picking the player's last
+      clicked option — bots re-declined the Al Kharid toll forever);
+      `handler/IfButtonHandler.ts` clears `resumeButtons` when a registered option resumes
+      the script. Verify: `HEADLESS=true bun sdk/test/alkharid-gate-choice-resume.ts`.
 
 ### Assets
 - [ ] `public/img/skill/*` (19 files), `public/img/*`, favicons, hiscores images —
