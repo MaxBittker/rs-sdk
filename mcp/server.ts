@@ -276,6 +276,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
           // so the SDK surface stays minimal for script authors.
           const state = connection.sdk.getState();
           if (state) {
+            // Message ticks are the client's loopCycle, which restarts near 0
+            // when the bot page reloads. If every tick is below our cursor the
+            // client reloaded — reset the cursor or chat would be muted forever.
+            if (state.gameMessages && state.gameMessages.length > 0 &&
+                state.gameMessages.every(m => m.tick < connection.lastShownMessageTick)) {
+              connection.lastShownMessageTick = -1;
+            }
             const sinceTick = connection.lastShownMessageTick;
             if (state.gameMessages) {
               for (const m of state.gameMessages) {

@@ -132,7 +132,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 | `getStateAge()` | Get age of current state in milliseconds |
 | `getChat(opts)` | Read recent chat messages. |
 | `getNewChat(opts)` | Read only chat messages that have arrived since the last call (cursor-based, newest last). |
-| `getChatFrom(name, opts)` | Read recent chat from a specific sender (case-insensitive, substring match on name), newest last. |
+| `getChatFrom(name, opts)` | Read recent chat from a specific sender (case-insensitive, substring match on name), newest last,... |
 | `getSkill(name)` | Get a skill by name (case-insensitive). |
 | `getSkillXp(name)` | Get XP for a skill by name. |
 | `getSkills()` | Get all skills. |
@@ -218,6 +218,13 @@ These methods resolve when server **acknowledges** them (not when effects comple
 |--------|-------------|
 | `waitForBotConnection(timeout?)` | Wait for bot to connect to gateway after browser launch. |
 | `waitForConnection(timeout)` | Wait for WebSocket connection to be established. |
+| `waitForChat(opts: {
+        from?: string;
+        matching?: RegExp | string;
+        types?: readonly number[];
+        includeSelf?: boolean;
+        timeout?: number;
+    } = {})` | Wait for the next chat message matching the given filters (messages arriving after this call; you... |
 | `waitForReady(timeout)` | Wait for game state to be fully loaded and ready. |
 | `waitForStateChange(timeout)` | Wait for next state update from server. |
 | `waitForTicks(ticks)` | Wait for a specific number of server ticks (~300ms each). |

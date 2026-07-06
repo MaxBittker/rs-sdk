@@ -22,6 +22,7 @@ import type {
     GameMessage
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES, PLAYER_CHAT_TYPES, isPlayerChat } from './types';
+import { ChatHistory } from './chat-history';
 import * as pathfinding from './pathfinding';
 
 /**
@@ -104,8 +105,14 @@ export class BotSDK {
      * (sdk_connected / sdk_info). Defaults to the RS wire limit until known.
      */
     private serverMaxMessageLength: number = 80;
-    /** High-water tick consumed by getNewChat(); -1 means "nothing read yet". */
-    private chatCursor: number = -1;
+    /**
+     * Chat accumulated across state syncs. The client ring only holds 100
+     * messages (and each sync only carries 50), so without this an agent could
+     * never read further back than ~50 lines. See sdk/chat-history.ts.
+     */
+    private chatHistory = new ChatHistory();
+    /** Cursor consumed by getNewChat(): value of chatHistory.seen at last read. */
+    private chatReadCursor: number = 0;
     private pendingActions = new Map<string, PendingAction>();
     private pendingScreenshots = new Map<string, PendingScreenshot>();
     private stateListeners = new Set<(state: BotWorldState) => void>();
@@ -562,19 +569,18 @@ export class BotSDK {
 
     /**
      * Read recent chat messages. Returns player chat (public + PMs) by default,
-     * newest last. The underlying buffer holds the 50 most recent messages, so a
-     * teammate's line survives system spam (level-ups, combat) — unlike reading
-     * `getState().gameMessages` raw and slicing, which used to evict it fast.
+     * newest last. Reads from the SDK's accumulated history — up to 500
+     * messages retained since connect — so old lines survive both system spam
+     * (level-ups, combat) and the client's own 100-deep ring eviction.
      *
-     * @param opts.limit Max messages to return (default 20).
+     * @param opts.limit Max messages to return (default 20; pass 0 for the full history).
      * @param opts.types Chat type codes to include (default player chat: 1/2/3/6/7). Pass e.g. `[0]` for system messages.
      * @param opts.includeSelf Include your own messages (default false).
      */
     getChat(opts: { limit?: number; types?: readonly number[]; includeSelf?: boolean } = {}): GameMessage[] {
         const { limit = 20, types = PLAYER_CHAT_TYPES, includeSelf = false } = opts;
-        const all = this.state?.gameMessages ?? [];
         const typeSet = new Set(types);
-        const filtered = all.filter(m =>
+        const filtered = this.chatHistory.all().filter(m =>
             typeSet.has(m.type) && (includeSelf || !m.fromSelf)
         );
         return limit > 0 ? filtered.slice(-limit) : filtered;
@@ -582,44 +588,94 @@ export class BotSDK {
 
     /**
      * Read only chat messages that have arrived since the last call (cursor-based,
-     * newest last). Advances an internal high-water tick so repeat polls never
-     * re-show the same message — no need to hand-roll a baseline tick. Excludes
-     * your own messages by default.
+     * newest last). Repeat polls never re-show the same message — no need to
+     * hand-roll a baseline. The first call returns everything seen since
+     * connect. Excludes your own messages by default.
      *
      * @param opts.types Chat type codes to include (default player chat: 1/2/3/6/7).
      * @param opts.includeSelf Include your own messages (default false).
      */
     getNewChat(opts: { types?: readonly number[]; includeSelf?: boolean } = {}): GameMessage[] {
         const { types = PLAYER_CHAT_TYPES, includeSelf = false } = opts;
-        const all = this.state?.gameMessages ?? [];
-        const prev = this.chatCursor;
         const typeSet = new Set(types);
 
-        // Advance the cursor past every message currently in the buffer (including
-        // system lines) so the next call only sees genuinely newer messages.
-        let maxTick = prev;
-        for (const m of all) if (m.tick > maxTick) maxTick = m.tick;
-        this.chatCursor = maxTick;
+        // Advance the cursor past everything recorded so far (including system
+        // lines) so the next call only sees genuinely newer messages.
+        const prev = this.chatReadCursor;
+        this.chatReadCursor = this.chatHistory.seen;
 
-        return all.filter(m =>
-            m.tick > prev && typeSet.has(m.type) && (includeSelf || !m.fromSelf)
+        return this.chatHistory.since(prev).filter(m =>
+            typeSet.has(m.type) && (includeSelf || !m.fromSelf)
         );
     }
 
     /**
      * Read recent chat from a specific sender (case-insensitive, substring match
-     * on name), newest last. Handy for "what did my partner say?" without
-     * regex-matching the sender field yourself.
+     * on name), newest last, from the accumulated history. Handy for "what did
+     * my partner say?" without regex-matching the sender field yourself.
      *
      * @param name Sender name (or substring) to match.
-     * @param opts.limit Max messages to return (default 20).
+     * @param opts.limit Max messages to return (default 20; pass 0 for all).
      */
     getChatFrom(name: string, opts: { limit?: number } = {}): GameMessage[] {
         const { limit = 20 } = opts;
         const needle = name.toLowerCase();
-        const all = this.state?.gameMessages ?? [];
-        const filtered = all.filter(m => m.sender.toLowerCase().includes(needle));
+        const filtered = this.chatHistory.all().filter(m =>
+            m.sender !== '' && m.sender.toLowerCase().includes(needle)
+        );
         return limit > 0 ? filtered.slice(-limit) : filtered;
+    }
+
+    /**
+     * Wait for the next chat message matching the given filters (messages
+     * arriving after this call; your own messages are excluded by default).
+     * The easy way to coordinate two bots: `sdk.say('ready'); const reply =
+     * await sdk.waitForChat({ from: 'partner', timeout: 60000 });`
+     *
+     * @param opts.from Only accept this sender (case-insensitive substring).
+     * @param opts.matching Only accept messages whose text matches this pattern.
+     * @param opts.types Chat type codes to accept (default player chat: 1/2/3/6/7).
+     * @param opts.includeSelf Accept your own messages (default false).
+     * @param opts.timeout Ms to wait before returning null (default 30000).
+     * @returns The first matching message, or null on timeout.
+     */
+    async waitForChat(opts: {
+        from?: string;
+        matching?: RegExp | string;
+        types?: readonly number[];
+        includeSelf?: boolean;
+        timeout?: number;
+    } = {}): Promise<GameMessage | null> {
+        const { from, matching, types = PLAYER_CHAT_TYPES, includeSelf = false, timeout = 30000 } = opts;
+        const typeSet = new Set(types);
+        const needle = from?.toLowerCase();
+        const pattern = typeof matching === 'string' ? new RegExp(matching, 'i') : matching;
+        const accepts = (m: GameMessage) =>
+            typeSet.has(m.type) &&
+            (includeSelf || !m.fromSelf) &&
+            (!needle || m.sender.toLowerCase().includes(needle)) &&
+            (!pattern || pattern.test(m.text));
+
+        // Private cursor starting "now" — does not consume getNewChat's cursor.
+        let cursor = this.chatHistory.seen;
+
+        return new Promise((resolve) => {
+            const timeoutId = setTimeout(() => {
+                unsubscribe();
+                resolve(null);
+            }, timeout);
+
+            const unsubscribe = this.onStateUpdate(() => {
+                const fresh = this.chatHistory.since(cursor);
+                cursor = this.chatHistory.seen;
+                const match = fresh.find(accepts);
+                if (match) {
+                    clearTimeout(timeoutId);
+                    unsubscribe();
+                    resolve(match);
+                }
+            });
+        });
     }
 
     /** Get a skill by name (case-insensitive). */
@@ -1432,6 +1488,13 @@ export class BotSDK {
                 message.state.gameMessages = message.state.gameMessages.filter(
                     msg => !isPlayerChat(msg.type)
                 );
+            }
+
+            // Accumulate chat into the deep history buffer (post-showChat
+            // filter, so hidden player chat stays hidden). Must happen before
+            // state listeners fire so waitForChat sees the new messages.
+            if (message.state.gameMessages) {
+                this.chatHistory.record(message.state.gameMessages);
             }
 
             // Wrap skills array with a Proxy so both state.skills[0] and state.skills.Woodcutting work

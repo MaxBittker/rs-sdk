@@ -179,7 +179,9 @@ For the complete method reference, see **[sdk/API.md](sdk/API.md)** (auto-genera
 | `sendDropItem(slot)` | Drop inventory item |
 | `sendUseItem(slot)` | Use inventory item (bury, etc.) |
 | `sendUseItemOnItem(src, dst)` | Combine two items |
-| `sendSay(message)` | Send chat message |
+| `say(text)` | Send chat, auto-chunked past the length cap |
+| `getChat(opts?)` / `getNewChat(opts?)` | Read chat history (500-deep) / only unseen messages |
+| `waitForChat(opts?)` | Wait for a message (`{from, matching, timeout}`) |
 | `waitForCondition(pred)` | Wait for state predicate |
 | `waitForTicks(n)` | Wait n game ticks |
 | `scanNearbyLocs(radius?)` | Extended-range loc scan |
