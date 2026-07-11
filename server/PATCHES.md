@@ -75,6 +75,11 @@ survival) is described in the project memory; this file is the human-readable ch
 ### Assets
 - [ ] `public/img/skill/*` (19 files), `public/img/*`, favicons, hiscores images —
       restored after upstream website migrations deleted them. Verify pages render with images.
+- [ ] `tools/pack/PackAll.ts` `packOnDemandZip()` — regenerates `data/pack/ondemand.zip`
+      (snapshot of cache idx1–4) at the end of `packAll()`. Existed upstream in the 254 era,
+      dropped in 274. Serves the hiscores ItemViewer at `/ondemand.zip`; without it, newly
+      packed item models render as blank hiscores icons. Verify: after `bun run build`,
+      `unzip -l data/pack/ondemand.zip` includes the highest model id in `content/pack/model.pack`.
 
 ---
 

@@ -1,4 +1,7 @@
+import fs from 'fs';
 import { parentPort } from 'worker_threads';
+
+import * as fflate from 'fflate';
 
 import FileStream from '#/io/FileStream.js';
 import Environment from '#/util/Environment.js';
@@ -114,6 +117,26 @@ function shouldRebuildModelFlagSources() {
     );
 }
 
+// Snapshot of the ondemand archives (models, anims, midi, maps) served at
+// /ondemand.zip for the hiscores ItemViewer. Must be rebuilt whenever the cache
+// changes or newly-packed item models render as blank icons on the hiscores.
+function packOnDemandZip(cache: FileStream) {
+    const zipPack: Record<string, Uint8Array> = {};
+    for (let archive = 1; archive <= 4; archive++) {
+        const count = cache.count(archive);
+        for (let file = 0; file < count; file++) {
+            const data = cache.read(archive, file);
+            if (!data) {
+                continue;
+            }
+
+            zipPack[`${archive}.${file}`] = data;
+        }
+    }
+
+    fs.writeFileSync('data/pack/ondemand.zip', fflate.zipSync(zipPack, { level: 0 }));
+}
+
 export async function packAll(modelFlags: number[]) {
     if (parentPort) {
         parentPort.postMessage({
@@ -169,6 +192,8 @@ export async function packAll(modelFlags: number[]) {
     }
 
     packClientVersionList(cache, modelFlags); // relies on additional flags set during packMaps
+
+    packOnDemandZip(cache);
 
     if (parentPort) {
         parentPort.postMessage({
