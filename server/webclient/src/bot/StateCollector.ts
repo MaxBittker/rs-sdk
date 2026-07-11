@@ -381,7 +381,7 @@ export class BotStateCollector implements ScanProvider {
             level: c.minusedlevel || 0,
             runEnergy: c.runenergy || 0,
             runWeight: c.runweight || 0,
-            animId: player.primarySeqId ?? -1,
+            animId: player.primaryAnim ?? -1,
             spotanimId: player.spotanimId ?? -1,
             combat: {
                 inCombat,
