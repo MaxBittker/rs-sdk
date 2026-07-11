@@ -73,7 +73,7 @@ You don't need to run the gateway/botclient in order to run automations against 
 
 Running the server locally has many advantages, primary being the ability to set a high tickrate. 
 
-You can set tickrate in `server/engine/.env` via the `TICK_RATE` variable (default is 600ms, try 200ms or 30ms for faster gameplay, especially useful for headless testing).
+You can set tickrate in `server/engine/.env` via the `NODE_TICKRATE` variable (default is 400ms, try 200ms or 30ms for faster gameplay, especially useful for headless testing). You can also change it at runtime with the in-game `::speed <ms>` command (minimum 20ms, doesn't persist across restarts).
 
 You want all three of these running: 
 
