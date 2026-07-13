@@ -6,9 +6,9 @@ MCP (Model Context Protocol) server for controlling RS-Agent bots. Supports mult
 
 Claude Code auto-discovers the MCP server via `.mcp.json`. Just:
 
-1. **Install dependencies:**
+1. **Install dependencies (from the project root):**
    ```bash
-   cd mcp && bun install
+   bun install
    ```
 
 2. **Create a bot (if you haven't):**
@@ -59,12 +59,11 @@ disconnect_bot({ name: "mybot" })
 
 ## Resources
 
-The server exposes API documentation as resources:
+The server exposes API documentation as a resource:
 
-- `file://api/bot.ts` — High-level bot actions (chopTree, walkTo, attackNpc, etc.)
-- `file://api/sdk.ts` — Low-level SDK (getState, sendWalk, findNearbyNpc, etc.)
+- `file://../sdk/API.md` — Auto-generated reference for `bot.*` (high-level actions) and `sdk.*` (low-level SDK)
 
-Read these to discover available methods.
+Read this to discover available methods.
 
 ## Multiple Bots
 
@@ -92,7 +91,7 @@ If you're not using Claude Code's auto-discovery, add to your MCP client config:
   "mcpServers": {
     "rs-agent": {
       "command": "bun",
-      "args": ["run", "/path/to/rs-agent/Server/mcp/server.ts"]
+      "args": ["run", "/path/to/rs-sdk/mcp/server.ts"]
     }
   }
 }
@@ -109,12 +108,11 @@ bun run mcp/server.ts
 ```
 mcp/
 ├── server.ts           # MCP server (stdio transport)
-├── package.json        # MCP SDK dependency
 └── api/
-    ├── index.ts        # BotManager - manages multiple connections
-    ├── bot.ts          # High-level BotActions API docs
-    └── sdk.ts          # Low-level BotSDK API docs
+    └── index.ts        # BotManager - manages multiple connections
 ```
+
+The `@modelcontextprotocol/sdk` dependency lives in the root `package.json`.
 
 ## Troubleshooting
 
@@ -123,7 +121,7 @@ mcp/
 - Check `bots/{name}/bot.env` exists
 
 **"Bot is not connected"**
-- Use `connect_bot` before `execute_code`
+- Bots auto-connect on the first `execute_code` call — check the error output for connection failures
 - Use `list_bots` to see connected bots
 
 **"Connection failed"**
@@ -131,13 +129,13 @@ mcp/
 - Verify credentials in `bots/{name}/bot.env`
 
 **MCP server not appearing in Claude Code**
-- Run `bun install` in the mcp directory
+- Run `bun install` at the project root
 - Check `.mcp.json` exists at project root
 - Restart Claude Code
 
 ## API Reference
 
-See `api/bot.ts` and `api/sdk.ts` for full API documentation.
+See [`sdk/API.md`](../sdk/API.md) for the full auto-generated API documentation.
 
 ### High-Level Bot Actions
 

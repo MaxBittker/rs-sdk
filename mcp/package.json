@@ -1,8 +1,0 @@
-{
-  "name": "rs-agent-mcp",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.4"
-  }
-}

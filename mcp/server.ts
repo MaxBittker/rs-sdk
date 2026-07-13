@@ -41,16 +41,10 @@ server.setRequestHandler(ListResourcesRequestSchema, async () => {
   return {
     resources: [
       {
-        uri: 'file://api/bot.ts',
-        name: 'Bot API',
-        description: 'High-level bot actions: chopTree, walkTo, attackNpc, openBank, etc. Domain-aware methods that wait for effects.',
-        mimeType: 'text/plain'
-      },
-      {
-        uri: 'file://api/sdk.ts',
-        name: 'SDK API',
-        description: 'Low-level SDK: getState, sendWalk, getInventory, findNearbyNpc, etc. Direct protocol access.',
-        mimeType: 'text/plain'
+        uri: 'file://../sdk/API.md',
+        name: 'SDK API Reference',
+        description: 'Auto-generated reference for bot.* (high-level actions: chopTree, walkTo, attackNpc, openBank, ...) and sdk.* (low-level: getState, sendWalk, findNearbyNpc, ...).',
+        mimeType: 'text/markdown'
       }
     ]
   };
@@ -343,7 +337,7 @@ function errorResponse(message: string) {
 // Start server
 async function main() {
   console.error('[MCP Server] Starting RS-Agent MCP server v2.0...');
-  console.error('[MCP Server] No bots connected. Use connect_bot tool to connect.');
+  console.error('[MCP Server] Bots auto-connect on the first execute_code call.');
 
   const transport = new StdioServerTransport();
   await server.connect(transport);

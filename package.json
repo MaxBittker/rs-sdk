@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^7.5.3",
+    "@modelcontextprotocol/sdk": "^1.25.3",
     "open": "^11.0.0"
   }
 }
