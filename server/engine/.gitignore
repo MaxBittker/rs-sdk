@@ -25,6 +25,8 @@ coverage/
 # these are artifacts generated from other repos
 public/loader.jar
 public/runescape*.jar
+# built clients are served from webclient/out; a copy here shadows fresh builds
+public/client/*.js
 public/client/*.js.map
 
 ### Windows ###

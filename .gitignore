@@ -10,9 +10,11 @@ public-client/
 server.json
 .env
 
-# Nix
-result
-.direnv/
+backups/
+.obsidian/
+
+# Regenerable: curl https://rs-sdk-demo.fly.dev/api/exportCollision > sdk/collision-data.json
+sdk/collision-data.json
 
 # Bot folders (except template)
 bots/*/

@@ -2,16 +2,13 @@
   "name": "server",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest",
-    "@types/tmi.js": "^1.8.6"
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.5.3",
-    "open": "^11.0.0",
-    "tmi.js": "^1.8.5",
-    "ts-morph": "^27.0.2"
+    "open": "^11.0.0"
   }
 }

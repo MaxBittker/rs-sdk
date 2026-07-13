@@ -197,12 +197,9 @@ await sdk.waitForConnection(60000);
 
 ## Example Script
 
-See `scripts/example-remote.ts` for a complete example.
+See `bots/_template/script.ts` for a complete starter example, or create a new
+bot with `bun bots/create-bot.ts <username>` and run its generated script:
 
 ```bash
-# Run locally
-bun scripts/example-remote.ts
-
-# Connect to remote server
-GATEWAY_HOST=game.example.com BOT_USERNAME=player1 bun scripts/example-remote.ts
+bun bots/<username>/script.ts
 ```

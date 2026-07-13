@@ -30,9 +30,9 @@ The game server handling world simulation, player logic, and network protocol.
 ```
 engine/
 ├── src/           # Server source code
-├── public/        # Static files served to clients
-│   ├── client/    # Standard web client build
-│   └── bot/       # Bot client build (with BotSDK)
+├── public/        # Static assets (soundfont, wasm). Built clients are served
+│                  # directly from webclient/out — do NOT copy client.js here,
+│                  # it would shadow fresh builds (see commit 6569364d2)
 ├── view/          # EJS templates (bot.ejs for bot interface)
 ├── data/          # Runtime game data
 ├── prisma/        # Database schema and migrations
@@ -111,31 +111,15 @@ The interactive menu provides options to:
 | `bun run build` | Build client bundles (standard + bot) |
 | `bun run build:dev` | Build in development mode |
 
-After building, copy to engine:
+No copy step is needed after building — the engine serves the built bundles
+directly from `webclient/out`.
+
+### Collision data (`sdk/collision-data.json`)
+
+Used by `sdk/pathfinding.ts` and not tracked in git. Regenerate it from a running server:
 ```sh
-cp out/standard/client.js ../engine/public/client/client.js
-cp out/bot/client.js ../engine/public/bot/client.js
+curl https://rs-sdk-demo.fly.dev/api/exportCollision > sdk/collision-data.json
 ```
-
-### Agent (`cd agent`)
-
-| Command | Description |
-|---------|-------------|
-| `bun run gateway` | Start gateway (unified sync + controller) |
-| `bun run gateway:dev` | Gateway with hot-reload |
-| `bun run agent` | Start Claude Agent service |
-| `bun run agent:dev` | Agent service with hot-reload |
-| `bun run cli` | Run agent CLI |
-| `bun cli.ts launch <bot> "goal"` | Launch browser + start agent |
-| `bun cli.ts status` | View connected bots |
-| `bun run login` | Automated login helper |
-
-### Java Client (`cd javaclient`)
-
-| Command | Description |
-|---------|-------------|
-| `./gradlew build` | Build the Java client |
-| `./gradlew run --args="10 0 highmem members 32"` | Run the Java client |
 
 ---
 
