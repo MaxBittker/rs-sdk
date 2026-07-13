@@ -1,4 +1,4 @@
-# @rs-agent/sdk
+# BotSDK
 
 SDK for controlling bots and reading game state.
 

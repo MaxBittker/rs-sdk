@@ -20,6 +20,7 @@ import { runTest, sleep } from './utils/test-runner';
 import { Locations } from './utils/save-generator';
 
 const ZANARIS_LANDMARKS = [
+    { x: 3215, z: 9577, label: 'West of spawn' },
     { x: 3238, z: 9558, label: 'East market door' },
     { x: 3254, z: 9590, label: 'Exit ladder' },
     { x: 3233, z: 9554, label: 'South market door' },

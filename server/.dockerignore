@@ -12,6 +12,7 @@ server/webclient/out/
 # Dirs not needed for production
 benchmark/
 bots/
+docs/
 jobs/
 learnings/
 mcp/

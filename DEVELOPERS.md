@@ -61,9 +61,7 @@ WebSocket relay service connecting browser game clients to SDK automation script
 ```
 gateway/
 ├── gateway.ts         # WebSocket router for bot ↔ SDK communication
-├── types.ts           # Gateway message protocol types
-├── run-recorder.ts    # Run logging and screenshots
-└── agent-state/       # Live state files per bot
+└── types.ts           # Gateway message protocol types
 ```
 
 
@@ -73,16 +71,14 @@ gateway/
 
 | Command | Description |
 |---------|-------------|
-| `./start.sh` | Interactive menu (Linux/macOS) |
-| `start.bat` | Interactive menu (Windows) |
-| `bun run server/start.ts` | Run interactive menu directly |
+| `bun run server/start.ts` | Interactive menu |
 
 The interactive menu provides options to:
 - Start the game server
 - Update all subprojects
 - Run web or Java client
 - Build clients
-- Change game version (225, 244, 245.2, 254)
+- Change game version (225, 244, 245.2, 254, 274)
 
 ### Engine (`cd server/engine`)
 

@@ -37,10 +37,7 @@
     ]
   },
   "dependencies": {
-    "@2004scape/rsmod-pathfinder": "github:MaxBittker/rsmod-pathfinder#71a5588",
     "@isaacs/ttlcache": "2.1.5",
-    "@jimp/js-png": "1.6.1",
-    "@jimp/plugin-quantize": "1.6.1",
     "@lostcityrs/runescript": "0.9.6",
     "bcrypt-ts": "8.0.1",
     "ejs": "5.0.2",
@@ -67,7 +64,6 @@
     "prettier": "3.8.3",
     "prisma": "6.19.3",
     "prisma-kysely": "2.3.0",
-    "tsx": "4.22.3",
     "typescript-eslint": "8.60.0"
   },
   "peerDependencies": {

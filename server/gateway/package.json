@@ -2,18 +2,9 @@
   "name": "bot-agent",
   "version": "1.0.0",
   "type": "module",
-  "bin": {
-    "rsbot": "./cli.ts"
-  },
   "scripts": {
     "gateway": "bun run gateway.ts",
-    "gateway:dev": "bun run --watch gateway.ts",
-    "cli": "bun run cli.ts",
-    "login": "bun run login.ts"
-  },
-  "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0",
-    "puppeteer": "^24.0.0"
+    "gateway:dev": "bun run --watch gateway.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"

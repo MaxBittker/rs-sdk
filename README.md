@@ -3,17 +3,17 @@
 Research-oriented starter kit for runescape-style bots, including a typescript sdk, agent documentation and bindings, and a server emulator. Works out of the box - tell it what to automate! 
 
 <div align="center">
-    <img src="server/content/title/promo.gif" alt="RS-SDK Demo" width="800">
+    <img src="docs/media/promo.gif" alt="RS-SDK Demo" width="800">
 </div>
 
-[![Discord](server/content/title/discord.svg)](https://discord.gg/3DcuU5cMJN)
-[![Hiscores](server/content/title/hiscores.svg)](https://rs-sdk-demo.fly.dev/hiscores)
+[![Discord](docs/media/discord.svg)](https://discord.gg/3DcuU5cMJN)
+[![Hiscores](docs/media/hiscores.svg)](https://rs-sdk-demo.fly.dev/hiscores)
 
 Build and operate bots within a complex economic role-playing MMO. You can automate the game, level an account to all 99s, and experiment with agentic development techniques within a safe, bot-only setting.
 
 The goals of this project are to provide a rich testing environment for goal-directed program synthesis techniques (Ralph loops, etc), and to facilitate research into collaboration and competition between agents.
 
-![Task Length Distribution](server/content/title/task_length.svg)
+![Task Length Distribution](docs/media/task_length.svg)
 
 There is currently a [leaderboard](https://rs-sdk-demo.fly.dev/hiscores) for bots running on the demo server, with rankings based on highest total level per lowest account playtime.
 

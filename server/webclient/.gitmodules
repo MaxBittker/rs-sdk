@@ -1,9 +1,0 @@
-[submodule "3rdparty/tinymidipcm"]
-	path = 3rdparty/tinymidipcm
-	url = https://github.com/misterhat/tinymidipcm
-[submodule "3rdparty/bzip2-wasm"]
-	path = 3rdparty/bzip2-wasm
-	url = https://github.com/misterhat/bzip2-wasm
-[submodule "3rdparty/emsdk"]
-	path = 3rdparty/emsdk
-	url = https://github.com/emscripten-core/emsdk

@@ -1,4 +1,0 @@
-#!/usr/bin/env bun
-// Simple rsbot CLI wrapper - delegates to cli.ts
-// Reads from current working directory by default
-import './cli.ts';

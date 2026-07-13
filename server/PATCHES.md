@@ -137,7 +137,8 @@ survival) is described in the project memory; this file is the human-readable ch
 - [ ] **`scripts/login_logout/login.rs2`** — random-event timer gated on `map_random_events`.
 - [ ] **`scripts/macro events/scripts/macro_events.rs2`** — macro events disabled when off.
 - [ ] **`scripts/shop/configs/shop.varp`** — `transmit=yes` on shop varps (bot shop state).
-- [ ] **`title/*.svg, promo.gif`** — website art additions.
+- [x] **README art** — moved out of the vendored tree to `docs/media/` (promo.gif, discord.svg,
+      hiscores.svg, task_length.svg); nothing in `content/title/` is locally modified anymore.
 - [ ] Smithing arrowheads + telegrab + nails fixes live in content history; they're additive
       and survive rebases, but re-run a smoke test if smithing/magic behaves oddly.
 

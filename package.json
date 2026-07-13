@@ -2,7 +2,8 @@
   "name": "server",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "puppeteer": "^24.0.0"
   },
   "peerDependencies": {
     "typescript": "^5"

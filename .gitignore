@@ -2,7 +2,6 @@ node_modules/
 __pycache__/
 .DS_Store
 runs/
-gateway/agent-state/
 screenshots/
 public-bot/
 public-client/
@@ -22,6 +21,10 @@ bots/*/
 
 # Daemon type checker temp file
 sdk/__exec_check.ts
+
+# Upstream npm lockfile; this repo builds the engine with bun/bun.lock only.
+# Deleted locally — ignore so vendor syncs don't silently reintroduce it.
+server/engine/package-lock.json
 
 # SDK is copied into Docker via Dockerfile; don't duplicate it under server/
 server/sdk/
