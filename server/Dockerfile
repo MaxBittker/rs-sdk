@@ -5,7 +5,7 @@ FROM oven/bun:debian
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt update && apt install -y --no-install-recommends \
-    default-jdk git ca-certificates bash sqlite3
+    git ca-certificates bash sqlite3
 
 WORKDIR /opt/server
 

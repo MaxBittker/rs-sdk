@@ -28,6 +28,15 @@ server/docs/
 
 # Large files not needed for production
 server/engine/screenshots/
+sdk/collision-data.json
+sdk/test/
+
+# Local dev state: never seed the prod volume with local saves/db, and never let
+# stale local pack output short-circuit the in-image `bun run build` (packs must be
+# rebuilt from server/content, same reasoning as server/webclient/out above).
+server/engine/data/players/
+server/engine/db.sqlite
+server/engine/data/pack/
 
 # Config files at parent level
 *.md
