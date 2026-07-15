@@ -340,6 +340,9 @@ class World {
     cycle(): void {
         try {
             const start: number = Date.now();
+            // rs-sdk: cap catch-up at 2 ticks of backlog. Sustained overload (many bots)
+            // otherwise makes the world sprint at max speed until the full backlog replays.
+            this.nextTick = Math.max(this.nextTick, start - this.tickRate * 2);
             const drift: number = Math.max(0, start - this.nextTick);
 
             // world processing

@@ -32,6 +32,10 @@ survival) is described in the project memory; this file is the human-readable ch
 - [ ] **`WorldConfig.ts`** — default `web.port = 8888` on all platforms; `xpRate = 25`.
 - [ ] **`World.ts`** — connection timeouts relaxed for bot background tabs
       (`TIMEOUT_NO_CONNECTION` 5m / `TIMEOUT_NO_RESPONSE` 10m, gated by `NODE_DEBUG_SOCKET`).
+- [ ] **`World.ts` tick drift cap** — `cycle()` clamps `nextTick` to at most 2 ticks of
+      backlog before computing `drift`, so the world resumes normal pacing after sustained
+      overload instead of sprinting through the whole backlog at max speed.
+      Verify: `grep -n "start - this.tickRate \* 2" src/engine/World.ts`
 
 ### Database
 - [ ] **Bun sqlite dialect** — `src/db/dialect/BunSqliteDialect*.ts` (3 files) + runtime chooser
