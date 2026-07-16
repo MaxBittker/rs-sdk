@@ -28,8 +28,8 @@ await ctx.sdk.sendInteractLoc(tree.x, tree.z, tree.id, chopOpt.opIndex);
 
 | Location | Coordinates | Tree Types |
 |----------|-------------|------------|
-| Lumbridge trees | (3200, 3220) | Regular trees |
-| Draynor willows | (3087, 3235) | Willow (level 30+) |
+| Lumbridge trees | (3195, 3220) | Regular trees. Large cluster spreading west/south from here |
+| Draynor willows | (3087, 3235) | Willow (level 30+). **DANGER: Dark wizards spawn at (3084, 3236)/(3085, 3238)** — right in the willows. Avoid under combat level 20 |
 | Varrock oaks | (3190, 3458) | Oak (level 15+) |
 
 ## Handling Drift
@@ -37,7 +37,7 @@ await ctx.sdk.sendInteractLoc(tree.x, tree.z, tree.id, chopOpt.opIndex);
 Stay within a reasonable area:
 
 ```typescript
-const TREE_AREA = { x: 3200, z: 3220 };
+const TREE_AREA = { x: 3195, z: 3220 };
 const MAX_DRIFT = 15;
 
 const player = state.player;

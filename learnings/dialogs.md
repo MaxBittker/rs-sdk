@@ -8,8 +8,8 @@ Level-up dialogs block all actions. Dismiss them immediately:
 
 ```typescript
 if (state.dialog.isOpen) {
-    await ctx.sdk.sendClickDialog(0);
-    continue;  // Skip rest of loop iteration
+  await ctx.sdk.sendClickDialog(0);
+  continue; // Skip rest of loop iteration
 }
 ```
 
@@ -45,22 +45,22 @@ For NPC conversations with choices:
 ```typescript
 // Click through until specific option appears
 for (let i = 0; i < 20; i++) {
-    const s = ctx.sdk.getState();
-    if (!s?.dialog.isOpen) {
-        await new Promise(r => setTimeout(r, 150));
-        continue;
-    }
+  const s = ctx.sdk.getState();
+  if (!s?.dialog.isOpen) {
+    await new Promise((r) => setTimeout(r, 150));
+    continue;
+  }
 
-    // Look for target option
-    const targetOpt = s.dialog.options.find(o => /yes/i.test(o.text));
-    if (targetOpt) {
-        await ctx.sdk.sendClickDialog(targetOpt.index);
-        break;
-    }
+  // Look for target option
+  const targetOpt = s.dialog.options.find((o) => /yes/i.test(o.text));
+  if (targetOpt) {
+    await ctx.sdk.sendClickDialog(targetOpt.index);
+    break;
+  }
 
-    // Otherwise click to continue
-    await ctx.sdk.sendClickDialog(0);
-    await new Promise(r => setTimeout(r, 200));
+  // Otherwise click to continue
+  await ctx.sdk.sendClickDialog(0);
+  await new Promise((r) => setTimeout(r, 200));
 }
 ```
 
@@ -86,48 +86,52 @@ Always use `0` as fallback for "Click here to continue" screens.
 Requires 10gp. Position west of gate: (3267, 3228).
 
 ```typescript
-const gate = ctx.sdk.getState()?.nearbyLocs.find(l => /gate/i.test(l.name));
+const gate = ctx.sdk.getState()?.nearbyLocs.find((l) => /gate/i.test(l.name));
 await ctx.sdk.sendInteractLoc(gate.x, gate.z, gate.id, 1);
 await sleep(1000);
 
 // Click through dialog: 0 = continue, or pick "Yes" when available
 for (let i = 0; i < 10; i++) {
-    const yesOpt = ctx.sdk.getState()?.dialog?.options.find(o => /yes/i.test(o.text));
-    await ctx.sdk.sendClickDialog(yesOpt?.index ?? 0);
-    await sleep(300);
+  const yesOpt = ctx.sdk
+    .getState()
+    ?.dialog?.options.find((o) => /yes/i.test(o.text));
+  await ctx.sdk.sendClickDialog(yesOpt?.index ?? 0);
+  await sleep(300);
 }
 
-await ctx.bot.walkTo(3277, 3227);  // Walk through to Al Kharid
+await ctx.bot.walkTo(3277, 3227); // Walk through to Al Kharid
 ```
 
-## Buying Kebabs from Karim (Al Kharid)
+## Buying Kebabs from the Kebab Seller (Al Kharid)
 
-Karim sells kebabs via dialog (not a shop interface). Location: (3273, 3180)
+Sells kebabs via dialog (not a shop interface). Location: (3273, 3180), spawns at (3272, 3182).
 
 ```typescript
 // Walk to kebab seller
 await ctx.bot.walkTo(3273, 3180);
 
-// Find Karim
-const seller = ctx.sdk.getState()?.nearbyNpcs.find(n => /kebab/i.test(n.name));
-const talkOpt = seller.optionsWithIndex.find(o => /talk/i.test(o.text));
+// Find the kebab seller
+const seller = ctx.sdk
+  .getState()
+  ?.nearbyNpcs.find((n) => /kebab/i.test(n.name));
+const talkOpt = seller.optionsWithIndex.find((o) => /talk/i.test(o.text));
 await ctx.sdk.sendInteractNpc(seller.index, talkOpt.opIndex);
-await new Promise(r => setTimeout(r, 1000));
+await new Promise((r) => setTimeout(r, 1000));
 
 // Handle dialog to buy kebab (1gp each)
 for (let i = 0; i < 15; i++) {
-    const s = ctx.sdk.getState();
-    if (!s?.dialog.isOpen) {
-        await new Promise(r => setTimeout(r, 200));
-        continue;
-    }
-    const buyOpt = s.dialog.options.find(o => /yes/i.test(o.text));
-    if (buyOpt) {
-        await ctx.sdk.sendClickDialog(buyOpt.index);
-        break;
-    }
-    await ctx.sdk.sendClickDialog(0);
-    await new Promise(r => setTimeout(r, 300));
+  const s = ctx.sdk.getState();
+  if (!s?.dialog.isOpen) {
+    await new Promise((r) => setTimeout(r, 200));
+    continue;
+  }
+  const buyOpt = s.dialog.options.find((o) => /yes/i.test(o.text));
+  if (buyOpt) {
+    await ctx.sdk.sendClickDialog(buyOpt.index);
+    break;
+  }
+  await ctx.sdk.sendClickDialog(0);
+  await new Promise((r) => setTimeout(r, 300));
 }
 ```
 
@@ -140,8 +144,8 @@ If your script makes no progress, check for stuck dialogs:
 ```typescript
 // In your main loop
 if (state.dialog.isOpen) {
-    console.log('Dialog open, dismissing...');
-    await ctx.sdk.sendClickDialog(0);
-    continue;
+  console.log("Dialog open, dismissing...");
+  await ctx.sdk.sendClickDialog(0);
+  continue;
 }
 ```

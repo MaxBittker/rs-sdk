@@ -58,8 +58,8 @@ const result = await bot.craftJewelry();
 ### Furnace Locations
 | Location | Coordinates | Notes |
 |----------|-------------|-------|
-| Lumbridge | (3225, 3256) | Near spawn, furnace id=2785 |
-| Al Kharid | TBD | 10gp toll gate |
+| Lumbridge | (3225, 3256) | Near spawn, furnace id=2785 (second furnace id=2781 at 3226, 3255) |
+| Al Kharid | (3273, 3184) | 10gp toll gate. Furnace ids 2785 / 2781, next to the Kebab seller |
 
 ### Confirmed XP Values
 | Product | XP |

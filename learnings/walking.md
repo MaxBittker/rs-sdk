@@ -142,9 +142,9 @@ await ctx.bot.walkTo(3092, 3243);  // May path through (3220, 3220)
 | Toll gate (Lumbridge side) | (3268, 3228) | Pay 10gp to enter |
 | Toll gate (Al Kharid side) | (3277, 3227) | Walk here after paying |
 | Al Kharid bank | (3269, 3167) | x=3269 is 1 tile west of typical "in Al Kharid" check |
-| Kebab seller (Karim) | (3273, 3180) | Dialog-based shop, 1gp per kebab |
+| Kebab seller | (3273, 3180) | Dialog-based shop, 1gp per kebab.
 | Scimitar shop (Zeke) | (3287, 3186) | Bronze to Mithril scimitars |
-| Warriors/Men (palace) | (3293, 3175) | Good thieving/combat training |
+| Al-Kharid warriors (palace) | ~(3293, 3170) | Good thieving/combat training.
 | Fishing spots | (3267, 3148) | Safe shrimp fishing (there is a lvl 14 scorpion)
 
 ### Al Kharid Detection

@@ -28,7 +28,7 @@ Cowhides are worth ~100 GP each normally, but the Lumbridge general store pays *
 | Shop | Location | Coordinates | What They Sell |
 |------|----------|-------------|----------------|
 | Lumbridge General Store | Lumbridge | (3212, 3247) | Basic supplies, tools |
-| Varrock Sword Shop | Varrock | (3204, 3417) | Bronze to steel swords |
+| Varrock Sword Shop | Varrock | (3204, 3398) | Bronze to steel swords. Shop keeper (3203, 3397), Shop assistant (3205, 3399) |
 | Bob's Axes | Lumbridge | (3230, 3203) | Axes (bronze 16gp), Pickaxes (bronze 1gp) |
 | Lumbridge General Store | Lumbridge | (3210, 3244) | Hammer (1gp), Pot, Jug, Bucket, Tinderbox, Chisel, Shears |
 | Gerrant's Fishy Business | Port Sarim | (3014, 3224) | Small fishing net (5gp), fishing gear |

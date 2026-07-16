@@ -23,15 +23,16 @@ await new Promise(r => setTimeout(r, 2500));
 ### Furnace Locations
 | Location | Coordinates | Furnace IDs | Notes |
 |----------|-------------|-------------|-------|
-| Lumbridge smithy | (3225, 3256) | 2785, 2781 | Right next to spawn, reliable |
-| Al Kharid | TBD | | Needs 10gp toll gate |
+| Lumbridge furnace | (3225, 3256) | 2785, 2781 | Right next to spawn, reliable.
+| Al Kharid furnace | (3273, 3184) | 2785, 2781 | Needs 10gp toll gate. 
+
 
 ### Anvil Locations
 | Location | Coordinates | Anvil ID | Notes |
 |----------|-------------|----------|-------|
 | Varrock (west) | (3188, 3421) | 2783 | Multiple anvils in smithy, near west bank |
 
-Also anvils at (3188, 3424) and (3188, 3426) — same building.
+Also anvils at (3188, 3424) and (3188, 3426) — same building, same id 2783.
 
 ### How to Smith at Anvil
 

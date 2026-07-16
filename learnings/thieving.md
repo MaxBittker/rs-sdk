@@ -122,8 +122,9 @@ Al Kharid is excellent for sustained thieving because kebabs cost only 1gp and c
 ### Location
 | Target | Coordinates | Notes |
 |--------|-------------|-------|
-| Men near palace | (3293, 3175) | Multiple men, good density |
-| Karim (kebabs) | (3273, 3180) | 1gp per kebab (dialog shop) |
+| Al-Kharid warriors near palace | ~(3293, 3170) | Good density. NPC name is `Al-Kharid warrior` (id 18) — **not** "Man". Has a Pickpocket option |
+| Al Kharid men | ~(3277, 3187), (3294, 3196) | NPC name `Man` (id 16), also pickpocketable, but scattered — 15+ tiles north of the warriors |
+| Kebab seller (kebabs) | (3273, 3180) | 1gp per kebab (dialog shop).
 
 ### Thieving + Kebab Loop
 
@@ -146,18 +147,18 @@ if (hp.current <= EAT_HP_THRESHOLD) {
 
 // Restock kebabs if low
 if (kebabCount < MIN_KEBABS && getCoins(ctx) >= 3) {
-    await ctx.bot.walkTo(3273, 3180);  // Karim
+    await ctx.bot.walkTo(3273, 3180);  // Kebab seller
     // ... buy kebab dialog (see dialogs.md)
 }
 
-// Walk to men if not nearby
-const distToMen = /* calculate distance to (3293, 3175) */;
-if (distToMen > 15) {
-    await ctx.bot.walkTo(3293, 3175);
+// Walk to the warriors if not nearby
+const distToTargets = /* calculate distance to (3293, 3170) */;
+if (distToTargets > 15) {
+    await ctx.bot.walkTo(3293, 3170);
 }
 
-// Pickpocket
-const man = ctx.sdk.getState()?.nearbyNpcs.find(n => /^man$/i.test(n.name));
+// Pickpocket - match the actual NPC name, /^man$/i finds nothing here
+const target = ctx.sdk.getState()?.nearbyNpcs.find(n => /^al-kharid warrior$/i.test(n.name));
 // ... standard pickpocket pattern
 ```
 
@@ -173,6 +174,7 @@ const man = ctx.sdk.getState()?.nearbyNpcs.find(n => /^man$/i.test(n.name));
 
 Stand on **(2669, 3310)** to steal from the **east** Baker's stall at (2667, 3310) without guards aggroing. This is a safe spot — guards don't path here.
 
+- **Heads up on the stand tile**: (2669, 3310) is the Baker's own spawn tile, and Baker (id 571) is `blockwalk=yes`. You can only stand there once he has wandered off it — expect the walk to fail or stop short while he's home. Retry, or accept an adjacent tile.
 - **Only use the east stall** — the west stall at (2655, 3311) has no safe spot and guards will attack.
 - Stall id: 2561, steal opIndex: 2
 - Gives cakes, bread, chocolate slices (all heal HP)

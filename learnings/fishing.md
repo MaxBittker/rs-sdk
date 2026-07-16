@@ -7,33 +7,33 @@ Successful patterns for fishing automation.
 Fishing spots are **NPCs**, not locations:
 
 ```typescript
-const spot = state.nearbyNpcs.find(npc => /fishing\s*spot/i.test(npc.name));
+const spot = state.nearbyNpcs.find((npc) => /fishing\s*spot/i.test(npc.name));
 ```
 
 ## Spot Types Matter
 
 Different spots have different level requirements:
 
-| Spot Options | Fish Type | Level |
-|--------------|-----------|-------|
-| Net, Bait | Shrimp, anchovies | 1+ |
-| Net, Harpoon | Mackerel, cod, bass | 16+ |
-| Lure, Bait | Trout, salmon | 20+ |
+| Spot Options | Fish Type           | Level |
+| ------------ | ------------------- | ----- |
+| Net, Bait    | Shrimp, anchovies   | 1+    |
+| Net, Harpoon | Mackerel, cod, bass | 16+   |
+| Lure, Bait   | Trout, salmon       | 20+   |
 
 Filter for the right spot type:
 
 ```typescript
 // Level 1 fishing - need "Bait" option (indicates small net spot)
-const smallNetSpots = fishingSpots.filter(npc =>
-    npc.options.some(opt => /^bait$/i.test(opt))
+const smallNetSpots = fishingSpots.filter((npc) =>
+  npc.options.some((opt) => /^bait$/i.test(opt)),
 );
 ```
 
 ## Fishing Action
 
 ```typescript
-const spot = state.nearbyNpcs.find(npc => /fishing\s*spot/i.test(npc.name));
-const netOpt = spot.optionsWithIndex.find(o => /^net$/i.test(o.text));
+const spot = state.nearbyNpcs.find((npc) => /fishing\s*spot/i.test(npc.name));
+const netOpt = spot.optionsWithIndex.find((o) => /^net$/i.test(o.text));
 await ctx.sdk.sendInteractNpc(spot.index, netOpt.opIndex);
 ```
 
@@ -43,31 +43,33 @@ Don't over-engineer wait conditions. Just keep clicking:
 
 ```typescript
 while (true) {
-    // Dismiss any dialogs (level-ups)
-    if (state.dialog.isOpen) {
-        await ctx.sdk.sendClickDialog(0);
-        continue;
-    }
+  // Dismiss any dialogs (level-ups)
+  if (state.dialog.isOpen) {
+    await ctx.sdk.sendClickDialog(0);
+    continue;
+  }
 
-    const spot = state.nearbyNpcs.find(npc => /fishing\s*spot/i.test(npc.name));
-    if (spot) {
-        const netOpt = spot.optionsWithIndex.find(o => /^net$/i.test(o.text));
-        await ctx.sdk.sendInteractNpc(spot.index, netOpt.opIndex);
-    }
+  const spot = state.nearbyNpcs.find((npc) => /fishing\s*spot/i.test(npc.name));
+  if (spot) {
+    const netOpt = spot.optionsWithIndex.find((o) => /^net$/i.test(o.text));
+    await ctx.sdk.sendInteractNpc(spot.index, netOpt.opIndex);
+  }
 
-    await new Promise(r => setTimeout(r, 1000));
+  await new Promise((r) => setTimeout(r, 1000));
 }
 ```
 
 ## Safe Fishing Locations
 
-| Location | Coordinates | Spot Type | Notes |
-|----------|-------------|-----------|-------|
-| **Draynor Village** | **(3087, 3230)** | **Net/Bait** | **USE THIS for level 1.** Shrimp/anchovies. Dark wizards north - stay south if you are low combat level! |
-| Lumbridge Swamp | (3239, 3147) | Lure/Bait | **WARNING: Fly fishing only (level 20+), NO small net spots!** |
-| Barbarian Village | (3104, 3432) | Lure/Bait | Fly fishing (level 20+) |
+| Location            | Coordinates      | Spot Type    | Notes                                                                                                                                     |
+| ------------------- | ---------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **Draynor Village** | **(3087, 3230)** | **Net/Bait** | **USE THIS for level 1.** Shrimp/anchovies. Dark wizards at (3084, 3236)/(3085, 3238) — stay south of z≈3232 if you are low combat level! |
+| Al Kharid river     | (3267, 3148)     | Lure/Bait    | Fly fishing (level 20+). 10gp toll gate to reach. Watch for a lvl 14 scorpion.                                                            |
+| Barbarian Village   | (3110, 3434)     | Lure/Bait    | Fly fishing (level 20+). Second spot at (3104, 3424).                                                                                     |
 
 **COMMON MISTAKE**: Lumbridge area (3238, 3251) has NO level-1 fishing spots. Use Draynor!
+
+**COMMON MISTAKE**: Lumbridge Swamp **(3239, 3147)** has NO fishing spots _at all_ — not net, not lure/bait. Verified against map spawn data: nearest spot is 28 tiles east at (3267, 3148) across the toll gate. Do not walk here to fish.
 
 ## Handling Drift
 
@@ -79,12 +81,12 @@ const MAX_DRIFT = 15;
 
 const player = state.player;
 const drift = Math.sqrt(
-    Math.pow(player.worldX - START_AREA.x, 2) +
-    Math.pow(player.worldZ - START_AREA.z, 2)
+  Math.pow(player.worldX - START_AREA.x, 2) +
+    Math.pow(player.worldZ - START_AREA.z, 2),
 );
 
 if (drift > MAX_DRIFT) {
-    console.log(`Drifted ${drift.toFixed(0)} tiles, walking back`);
-    await ctx.bot.walkTo(START_AREA.x, START_AREA.z);
+  console.log(`Drifted ${drift.toFixed(0)} tiles, walking back`);
+  await ctx.bot.walkTo(START_AREA.x, START_AREA.z);
 }
 ```
