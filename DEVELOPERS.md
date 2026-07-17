@@ -112,10 +112,16 @@ directly from `webclient/out`.
 
 ### Collision data (`sdk/collision-data.json`)
 
-Used by `sdk/pathfinding.ts` and not tracked in git. Regenerate it from a running server:
+Used by `sdk/pathfinding.ts`, which imports it directly. It's ~23MB but compresses
+to ~3.4MB in git, so it's tracked — a clone works without any fetch step.
+
+Regenerate it after map changes, or pull from a different server:
 ```sh
-curl https://rs-sdk-demo.fly.dev/api/exportCollision > sdk/collision-data.json
+bun run fetch-collision-data -- --force
+bun run fetch-collision-data -- --force --server=http://localhost:8080
 ```
+The server can also be set with `COLLISION_SERVER`. **Commit the result** — a stale
+tracked copy is how the 442-vs-483 mapsquare drift crept in previously.
 
 ---
 

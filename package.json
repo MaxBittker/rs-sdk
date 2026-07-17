@@ -1,6 +1,9 @@
 {
   "name": "server",
   "private": true,
+  "scripts": {
+    "fetch-collision-data": "bun sdk/fetch-collision-data.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "puppeteer": "^24.0.0"
