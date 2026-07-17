@@ -112,8 +112,15 @@ export class ActionHelpers {
     getMessageTick(): number {
         const state = this.sdk.getState();
         if (!state?.gameMessages?.length) return 0;
-        // Messages are newest-first, so [0] has the highest tick
-        return state.gameMessages[0]!.tick;
+        // Take the max rather than indexing an end: StateCollector emits messages
+        // chronologically (oldest-first), but don't depend on that ordering here —
+        // reading the wrong end silently hands back a stale baseline, which makes
+        // every "since this tick" check match ancient messages.
+        let maxTick = 0;
+        for (const msg of state.gameMessages) {
+            if (msg.tick > maxTick) maxTick = msg.tick;
+        }
+        return maxTick;
     }
 
     /**
