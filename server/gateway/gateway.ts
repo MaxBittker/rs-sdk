@@ -144,9 +144,15 @@ function getSessionStatus(session: BotSession): SessionStatus {
  * - This prevents conflicts from stale daemon connections or background scripts
  * - Multiple 'observe' mode clients can coexist freely
  * - Mixed: One controller and multiple observers can coexist
+ *
+ * Identity: `sessionId` is server-generated and is the ONLY key used to look a
+ * session up. `sdkClientId` is a client-supplied label kept for logs/status
+ * output only — it is never trusted as identity, since a client could otherwise
+ * claim another client's id and rebind its session (cross-account action injection).
  */
 interface SDKSession {
     ws: any;
+    sessionId: string;
     sdkClientId: string;
     targetUsername: string;
     mode: SDKConnectionMode;
@@ -156,13 +162,20 @@ interface SDKSession {
 //
 // Session Maps:
 // - botSessions: Keyed by username (only one bot per username allowed)
-// - sdkSessions: Keyed by sdkClientId (multiple SDKs per bot allowed)
+// - sdkSessions: Keyed by server-generated sessionId (multiple SDKs per bot allowed)
 // - wsToType: Reverse lookup from WebSocket to session type/id
 // - pendingTakeovers: Tracks new connections waiting for old session to close
 
 const botSessions = new Map<string, BotSession>();      // username -> BotSession
-const sdkSessions = new Map<string, SDKSession>();      // sdkClientId -> SDKSession
+const sdkSessions = new Map<string, SDKSession>();      // sessionId -> SDKSession
 const wsToType = new Map<any, { type: 'bot' | 'sdk'; id: string }>();
+
+// Monotonic counter so server-generated session ids can never collide, even
+// within the same millisecond.
+let sdkSessionSeq = 0;
+function newSDKSessionId(): string {
+    return `sdks-${++sdkSessionSeq}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
 // Pending takeovers: new bot waiting for old session to close
 interface PendingTakeover {
@@ -173,6 +186,10 @@ interface PendingTakeover {
     maxMessageLength?: number;
 }
 const pendingTakeovers = new Map<string, PendingTakeover>();  // username -> pending new connection
+
+// SDK sockets with an sdk_connect in flight (awaiting auth), so a second
+// concurrent connect on the same socket can't slip through registration.
+const sdkConnecting = new Set<any>();
 
 // ============ Sync Module ============
 
@@ -195,6 +212,19 @@ const SyncModule = {
                 console.error(`[Gateway] [${session.sdkClientId}] Failed to send to SDK:`, error);
             }
         }
+    },
+
+    /**
+     * Resolve the SDK session a socket owns. Returns null unless the session still
+     * belongs to this exact socket — a session whose `ws` is someone else's must
+     * never accept messages from this one.
+     */
+    getSessionForSocket(ws: any): SDKSession | null {
+        const wsInfo = wsToType.get(ws);
+        if (!wsInfo || wsInfo.type !== 'sdk') return null;
+        const session = sdkSessions.get(wsInfo.id);
+        if (!session || session.ws !== ws) return null;
+        return session;
     },
 
     getSDKSessionsForBot(username: string): SDKSession[] {
@@ -357,12 +387,32 @@ const SyncModule = {
 
     async handleSDKMessage(ws: any, message: SDKMessage) {
         if (message.type === 'sdk_connect') {
-            const sdkClientId = message.clientId || `sdk-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+            // Label only — never used as a lookup key. Client-supplied, so keep it
+            // bounded to stop log spam/forgery via absurdly long ids.
+            const sdkClientId = (message.clientId || 'sdk').slice(0, 64);
             const targetUsername = message.username;
             const mode: SDKConnectionMode = message.mode || 'control';
 
+            // One session per socket: a second sdk_connect on an already-registered
+            // socket would orphan the first session in the maps. sdkConnecting covers
+            // the await below, where two connects could otherwise both pass this check.
+            if (wsToType.has(ws) || sdkConnecting.has(ws)) {
+                console.log(`[Gateway] Rejected duplicate sdk_connect on existing socket (${sdkClientId} -> ${targetUsername})`);
+                ws.send(JSON.stringify({
+                    type: 'sdk_error',
+                    error: 'Already connected on this socket'
+                }));
+                return;
+            }
+
             // Authenticate via login server (if enabled)
-            const authResult = await authenticateSDK(targetUsername, message.password || '');
+            sdkConnecting.add(ws);
+            let authResult: { success: boolean; error?: string };
+            try {
+                authResult = await authenticateSDK(targetUsername, message.password || '');
+            } finally {
+                sdkConnecting.delete(ws);
+            }
             if (!authResult.success) {
                 console.log(`[Gateway] SDK auth failed: ${sdkClientId} -> ${targetUsername} (${authResult.error})`);
                 ws.send(JSON.stringify({
@@ -373,14 +423,15 @@ const SyncModule = {
                 return;
             }
 
-            const session: SDKSession = { ws, sdkClientId, targetUsername, mode };
-            sdkSessions.set(sdkClientId, session);
-            wsToType.set(ws, { type: 'sdk', id: sdkClientId });
+            const sessionId = newSDKSessionId();
+            const session: SDKSession = { ws, sessionId, sdkClientId, targetUsername, mode };
+            sdkSessions.set(sessionId, session);
+            wsToType.set(ws, { type: 'sdk', id: sessionId });
 
             // Last controller wins: disconnect existing controllers for this bot
             if (mode === 'control') {
                 const oldControllers = this.getControllersForBot(targetUsername)
-                    .filter(s => s.sdkClientId !== sdkClientId);
+                    .filter(s => s.sessionId !== sessionId);
 
                 for (const old of oldControllers) {
                     console.log(`[Gateway] Pre-empting old controller ${old.sdkClientId} for ${targetUsername} (replaced by ${sdkClientId})`);
@@ -388,7 +439,7 @@ const SyncModule = {
                         type: 'sdk_error',
                         error: 'Disconnected: another controller connected'
                     });
-                    sdkSessions.delete(old.sdkClientId);
+                    sdkSessions.delete(old.sessionId);
                     wsToType.delete(old.ws);
                     try { old.ws.close(); } catch {}
                 }
@@ -417,10 +468,7 @@ const SyncModule = {
         }
 
         if (message.type === 'sdk_action') {
-            const wsInfo = wsToType.get(ws);
-            if (!wsInfo || wsInfo.type !== 'sdk') return;
-
-            const sdkSession = sdkSessions.get(wsInfo.id);
+            const sdkSession = this.getSessionForSocket(ws);
             if (!sdkSession) return;
 
             // Gate actions based on mode - observe mode cannot send actions
@@ -460,10 +508,7 @@ const SyncModule = {
         }
 
         if (message.type === 'sdk_screenshot_request') {
-            const wsInfo = wsToType.get(ws);
-            if (!wsInfo || wsInfo.type !== 'sdk') return;
-
-            const sdkSession = sdkSessions.get(wsInfo.id);
+            const sdkSession = this.getSessionForSocket(ws);
             if (!sdkSession) return;
 
             // Always use the authenticated session target — ignore message.username to prevent IDOR
@@ -497,6 +542,13 @@ const SyncModule = {
 
         if (wsInfo.type === 'bot') {
             const session = botSessions.get(wsInfo.id);
+            // Same ownership rule as SDK sessions: a stale socket closing must not
+            // null out the ws of the session that replaced it.
+            if (session && session.ws !== ws) {
+                console.log(`[Gateway] Ignoring close from superseded bot socket (${session.username})`);
+                wsToType.delete(ws);
+                return;
+            }
             if (session) {
                 console.log(`[Gateway] Bot disconnected: ${session.clientId} (${session.username})`);
                 const username = session.username;
@@ -531,12 +583,15 @@ const SyncModule = {
             }
         } else if (wsInfo.type === 'sdk') {
             const session = sdkSessions.get(wsInfo.id);
-            if (session) {
-                console.log(`[Gateway] SDK disconnected: ${session.sdkClientId}`);
+            // Only tear down a session this socket still owns; never delete an entry
+            // that now belongs to another socket.
+            if (session && session.ws === ws) {
+                console.log(`[Gateway] SDK disconnected: ${session.sessionId} (${session.sdkClientId})`);
                 sdkSessions.delete(wsInfo.id);
             }
         }
 
+        sdkConnecting.delete(ws);
         wsToType.delete(ws);
     }
 };
@@ -609,8 +664,8 @@ const server = Bun.serve({
             const username = decodeURIComponent(botStatusMatch[1]);
             const botSession = botSessions.get(username);
 
-            const controllers = SyncModule.getControllersForBot(username).map(s => s.sdkClientId);
-            const observers = SyncModule.getObserversForBot(username).map(s => s.sdkClientId);
+            const controllers = SyncModule.getControllersForBot(username).map(s => s.sessionId);
+            const observers = SyncModule.getObserversForBot(username).map(s => s.sessionId);
 
             const isConnected = !!botSession?.ws;
             const stateAge = botSession?.lastStateReceivedAt
@@ -652,6 +707,7 @@ const server = Bun.serve({
             const sdks: Record<string, any> = {};
             for (const [id, session] of sdkSessions) {
                 sdks[id] = {
+                    clientId: session.sdkClientId,
                     targetUsername: session.targetUsername,
                     mode: session.mode
                 };
