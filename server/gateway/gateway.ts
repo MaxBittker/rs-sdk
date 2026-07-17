@@ -598,12 +598,37 @@ const SyncModule = {
 
 // ============ Message Router ============
 
+/**
+ * Reject a frame we can't route. The socket is closed rather than ignored: every
+ * legitimate client sends well-formed envelopes, so a malformed one is either a
+ * broken client or a probe, and neither should keep an unauthenticated socket open.
+ */
+function rejectFrame(ws: any, reason: string) {
+    console.error(`[Gateway] Rejecting frame: ${reason}`);
+    try {
+        ws.send(JSON.stringify({ type: 'error', error: `Invalid message: ${reason}` }));
+    } catch {}
+    try { ws.close(); } catch {}
+}
+
 async function handleMessage(ws: any, data: string) {
     let parsed: any;
     try {
         parsed = JSON.parse(data);
     } catch {
-        console.error('[Gateway] Invalid JSON');
+        rejectFrame(ws, 'malformed JSON');
+        return;
+    }
+
+    // Shape-check before dispatch. `null` and `[]` are valid JSON, and a non-string
+    // `type` survives JSON.parse — both used to reach the router and throw on
+    // `parsed.type.startsWith(...)`, taking the whole gateway down with them.
+    if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        rejectFrame(ws, 'expected a JSON object');
+        return;
+    }
+    if (typeof parsed.type !== 'string') {
+        rejectFrame(ws, 'missing or non-string "type"');
         return;
     }
 
@@ -619,7 +644,7 @@ async function handleMessage(ws: any, data: string) {
     }
 
     // Route based on message type for new connections
-    if (parsed.type?.startsWith('sdk_')) {
+    if (parsed.type.startsWith('sdk_')) {
         await SyncModule.handleSDKMessage(ws, parsed);
     } else if (parsed.type === 'connected' || parsed.type === 'state' || parsed.type === 'actionResult') {
         await SyncModule.handleBotMessage(ws, parsed);
@@ -631,6 +656,17 @@ function handleClose(ws: any) {
 }
 
 // ============ Server Setup ============
+
+// Last-resort net. Bun exits(1) on an unhandled rejection by default, so a single
+// missed `.catch()` anywhere would drop every bot and SDK session. Individual call
+// sites still catch their own errors — this only keeps the router alive if one is
+// ever added without one.
+process.on('unhandledRejection', (reason) => {
+    console.error('[Gateway] Unhandled rejection (ignored, gateway stays up):', reason);
+});
+process.on('uncaughtException', (error) => {
+    console.error('[Gateway] Uncaught exception (ignored, gateway stays up):', error);
+});
 
 console.log(`[Gateway] Starting Gateway Service on port ${GATEWAY_PORT}...`);
 
@@ -743,11 +779,22 @@ Bots: ${botSessions.size} | SDKs: ${sdkSessions.size}
         },
 
         message(ws: any, message: string | Buffer) {
-            handleMessage(ws, message.toString());
+            // handleMessage is async: without this catch a throw anywhere in a handler
+            // becomes an unhandled rejection, which Bun treats as fatal (exit 1) and
+            // takes down every other session with it. One bad frame must only ever
+            // affect its own socket.
+            handleMessage(ws, message.toString()).catch((error) => {
+                console.error('[Gateway] Unhandled error while handling message:', error);
+                try { ws.close(); } catch {}
+            });
         },
 
         close(ws: any) {
-            handleClose(ws);
+            try {
+                handleClose(ws);
+            } catch (error) {
+                console.error('[Gateway] Unhandled error while closing socket:', error);
+            }
         }
     }
 });

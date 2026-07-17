@@ -101,8 +101,18 @@ if [ ! -L /opt/server/engine/data/players ]; then
 fi
 
 # === START GATEWAY SERVICE ===
+# Supervised: the engine runs as PID 1, so if the gateway dies the container stays
+# "healthy" while SDK connectivity is silently dead until a redeploy. Respawn it
+# instead, with a short backoff so a crash-on-boot can't spin the CPU.
 echo "Starting gateway service on port 7780..."
-cd /opt/server/gateway && bun run gateway.ts &
+(
+    cd /opt/server/gateway
+    while true; do
+        bun run gateway.ts
+        echo "[entrypoint] Gateway exited (code $?), restarting in 2s..." >&2
+        sleep 2
+    done
+) &
 
 # === START GAME SERVER ===
 cd /opt/server/engine
