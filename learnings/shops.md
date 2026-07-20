@@ -6,7 +6,7 @@ Successful patterns for shop interactions and selling items.
 
 **General stores pay 0 GP when overstocked!**
 
-This was discovered the hard way after selling 40+ cowhides for 0 GP total. General stores have dynamic pricing based on stock levels:
+This was discovered the hard way after selling 40+ cow hides for 0 GP total. General stores have dynamic pricing based on stock levels:
 
 | Stock Level | Price You Get |
 |-------------|---------------|
@@ -16,7 +16,7 @@ This was discovered the hard way after selling 40+ cowhides for 0 GP total. Gene
 
 ### Implication for Money-Making
 
-Cowhides are worth ~100 GP each normally, but the Lumbridge general store pays **0 GP** because it's completely overstocked (likely from other bots selling there).
+Cow hides are worth ~100 GP each normally, but the Lumbridge general store pays **0 GP** because it's completely overstocked (likely from other bots selling there).
 
 **Solutions:**
 1. Find specialized shops (tanner, leather worker)
@@ -66,7 +66,7 @@ if (!ctx.sdk.getState()?.shop?.isOpen) {
 }
 
 // Find item to sell in inventory
-const item = ctx.sdk.getState()?.inventory.find(i => /cowhide/i.test(i.name));
+const item = ctx.sdk.getState()?.inventory.find(i => /^cow hide$/i.test(i.name));
 if (item) {
     // Sell item (slot, quantity)
     await ctx.sdk.sendShopSell(item.slot, item.count);

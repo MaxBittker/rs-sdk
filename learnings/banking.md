@@ -109,7 +109,7 @@ async function bankTrip(ctx, itemPattern, bankCoords, returnCoords) {
 ```
 
 
-### Key Learnings from Cowhide Banking
+### Key Learnings from Cow hide Banking
 1. **Gate exit threshold**: Use `z < 3268` not `z < 3265` for cow field
 2. **Always open gate first**: `openDoor(/gate/i)` before walking through
 3. **Use sendWalk for gate traversal**: More reliable than pathfinder

@@ -29,7 +29,7 @@ Crafting covers a wide range of item creation: pottery, leather armour, jewelry,
 | Red d'hide body | 77 | Red dragonhide |
 | Black d'hide body | 84 | Black dragonhide |
 
-- **Materials:** Cowhides → Tannery in Al Kharid, thread + needle
+- **Materials:** Cow hide → Tannery in Al Kharid, thread + needle
 - **Dragonhide:** Obtained from killing dragons, tanned into leather
 
 ## Gems
