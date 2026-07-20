@@ -387,7 +387,11 @@ export interface SDKConfig {
     host?: string;
     /** Gateway port (default: 7780) */
     port?: number;
-    /** Connection mode: 'control' (default) can send actions, 'observe' is read-only */
+    /**
+     * Connection mode: 'control' (default) can send actions, 'observe' is read-only.
+     * Connecting in 'control' mode pre-empts whatever controller the bot already has,
+     * killing it - so read-only clients must pass 'observe' explicitly.
+     */
     connectionMode?: SDKConnectionMode;
     /**
      * Auto-launch browser behavior:
@@ -402,6 +406,14 @@ export interface SDKConfig {
     browserLaunchUrl?: string;
     /** Timeout waiting for bot to connect after browser launch (default: 30000ms) */
     browserLaunchTimeout?: number;
+    /**
+     * How long connect() waits for game state to become ready after authenticating
+     * (default: 15000ms). Set to 0 to have connect() resolve as soon as the gateway
+     * authenticates, leaving the caller to wait for state itself — this keeps
+     * "couldn't reach/authenticate with the gateway" distinguishable from
+     * "authenticated fine, but no game client is logged in".
+     */
+    readyTimeout?: number;
     actionTimeout?: number;
     autoReconnect?: boolean;
     reconnectMaxRetries?: number;

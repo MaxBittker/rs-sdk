@@ -243,6 +243,7 @@ These methods resolve when server **acknowledges** them (not when effects comple
 
 | Method | Description |
 |--------|-------------|
+| `isAuthenticated()` | Check if the gateway has accepted our credentials. |
 | `checkBotStatus()` | Check bot status via gateway HTTP endpoint. |
 | `launchBrowser()` | Launch native browser to client URL. |
 | `isBankOpen()` | Check if bank interface is open. |

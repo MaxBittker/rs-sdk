@@ -120,6 +120,9 @@ export class BotSDK {
     private connectPromise: Promise<void> | null = null;
     private sdkClientId: string;
 
+    /** True once the gateway has accepted our credentials (sdk_connected received). */
+    private authenticated = false;
+
     // Reconnection state
     private connectionState: ConnectionState = 'disconnected';
     private reconnectAttempt = 0;
@@ -138,6 +141,7 @@ export class BotSDK {
             freshDataThreshold: config.freshDataThreshold ?? 3000,
             browserLaunchUrl: config.browserLaunchUrl || '',
             browserLaunchTimeout: config.browserLaunchTimeout || 10000,
+            readyTimeout: config.readyTimeout ?? 15000,
             actionTimeout: config.actionTimeout || 60000,
             autoReconnect: config.autoReconnect ?? true,
             reconnectMaxRetries: config.reconnectMaxRetries ?? Infinity,
@@ -212,6 +216,7 @@ export class BotSDK {
                 console.warn(`[LOGOUT DEBUG] SDK WebSocket closed - autoReconnect=${this.config.autoReconnect}, intentionalDisconnect=${this.intentionalDisconnect}`);
                 this.connectPromise = null;
                 this.ws = null;
+                this.authenticated = false;
 
                 for (const [actionId, pending] of this.pendingActions) {
                     clearTimeout(pending.timeout);
@@ -239,13 +244,23 @@ export class BotSDK {
                     if (msg.type === 'sdk_connected') {
                         this.ws?.removeEventListener('message', checkConnected);
                         this.reconnectAttempt = 0;
+                        this.authenticated = true;
                         if (typeof msg.maxMessageLength === 'number' && msg.maxMessageLength > 0) {
                             this.serverMaxMessageLength = msg.maxMessageLength;
                         }
                         this.setConnectionState('connected');
 
+                        // Gateway accepted us. Anything that goes wrong past this point is a
+                        // game-state problem, not a connection problem.
+                        const readyTimeout = this.config.readyTimeout;
+                        if (readyTimeout <= 0) {
+                            // Caller opted to wait for state itself.
+                            resolve();
+                            return;
+                        }
+
                         // Automatically wait for game state to be ready
-                        this.waitForReady(15000)
+                        this.waitForReady(readyTimeout)
                             .then(() => {
                                 console.log('[BotSDK] Connected and game state ready');
                                 resolve();
@@ -342,6 +357,15 @@ export class BotSDK {
     /** Check if WebSocket is connected. */
     isConnected(): boolean {
         return this.ws !== null && this.ws.readyState === WebSocket.OPEN;
+    }
+
+    /**
+     * Check if the gateway has accepted our credentials.
+     * True means the transport and auth are both fine - if state is still missing after
+     * this, the problem is that no game client is logged in, not the connection.
+     */
+    isAuthenticated(): boolean {
+        return this.authenticated && this.isConnected();
     }
 
     /** Get current connection state (connecting, connected, reconnecting, disconnected). */

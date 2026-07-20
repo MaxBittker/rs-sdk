@@ -15,6 +15,54 @@ import { formatWorldState } from './formatter';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
+/**
+ * Connect, then wait for game state - reporting the two failure modes separately.
+ *
+ * These have completely different remedies, so they must not share an error message:
+ *  - can't reach / can't authenticate with the gateway  -> server or credential problem
+ *  - authenticated fine, but no state arrives           -> no game client is logged in
+ *
+ * readyTimeout: 0 is what keeps them separable. Otherwise connect() internally waits
+ * up to 15s for game state before resolving, so a shorter timeout out here fires first
+ * and reports "failed to connect" for a connection that already succeeded.
+ */
+async function connectAndAwaitState(sdk: BotSDK, gatewayUrl: string, username: string, timeout: number) {
+    try {
+        const connectTimeout = new Promise<never>((_, reject) => {
+            setTimeout(() => reject(new Error('Connection timeout')), timeout);
+        });
+        await Promise.race([sdk.connect(), connectTimeout]);
+    } catch (err: any) {
+        console.error(`Error: Failed to connect to ${gatewayUrl}`);
+        console.error(`  ${err.message}`);
+        process.exit(1);
+    }
+
+    try {
+        await sdk.waitForCondition(s => s !== null, timeout);
+    } catch {
+        // State may not arrive - diagnosed below.
+    }
+
+    const state = sdk.getState();
+    if (!state) {
+        if (sdk.isAuthenticated()) {
+            console.error(`Error: No game state for '${username}' (gateway is fine - connected and authenticated OK)`);
+            console.error(`  Nothing is logged into the game as '${username}', so there's no state to report.`);
+            console.error(`  This is also what you see after a server restart or when an idle client goes stale.`);
+            console.error(`  Fix: open the web client and log in as '${username}', then re-run.`);
+            console.error(`  (Scripts via sdk/runner.ts launch the client for you.)`);
+        } else {
+            console.error(`Error: No state received for '${username}'`);
+            console.error(`  Lost the gateway connection before any state arrived.`);
+        }
+        sdk.disconnect();
+        process.exit(1);
+    }
+
+    return { state, stateAge: sdk.getStateAge() };
+}
+
 function printUsage() {
     console.log(`
 SDK CLI - Bot state inspection
@@ -26,7 +74,7 @@ Usage:
 
 Options:
   --server <host>   Server hostname (default: from bot.env or rs-sdk-demo.fly.dev)
-  --timeout <ms>    Connection timeout in ms (default: 5000)
+  --timeout <ms>    Budget for connecting, and for the first state to arrive (default: 5000)
   --json            Output raw JSON (for state subcommand)
   --help            Show this help
 
@@ -100,41 +148,21 @@ async function fetchState(botName: string, flags: { server: string; timeout: num
 
     const gatewayUrl = deriveGatewayUrl(server);
 
+    // 'observe', not the BotSDK default of 'control': this is a read-only dump, and the
+    // gateway pre-empts existing controllers when a new one connects. Connecting as a
+    // controller here would kill whatever script currently owns the bot — and pre-emption
+    // disables its auto-reconnect, so it would die permanently on a mere state check.
     const sdk = new BotSDK({
         botUsername: username,
         password,
         gatewayUrl,
+        connectionMode: 'observe',
         autoReconnect: false,
-        autoLaunchBrowser: false
+        autoLaunchBrowser: false,
+        readyTimeout: 0
     });
 
-    try {
-        const connectTimeout = new Promise<never>((_, reject) => {
-            setTimeout(() => reject(new Error('Connection timeout')), timeout);
-        });
-        await Promise.race([sdk.connect(), connectTimeout]);
-    } catch (err: any) {
-        console.error(`Error: Failed to connect to ${gatewayUrl}`);
-        console.error(`  ${err.message}`);
-        process.exit(1);
-    }
-
-    try {
-        await sdk.waitForCondition(s => s !== null, Math.min(timeout, 3000));
-    } catch {
-        // State may not arrive
-    }
-
-    const state = sdk.getState();
-    const stateAge = sdk.getStateAge();
-
-    if (!state) {
-        console.error(`Error: No state received for '${username}'`);
-        console.error(`  Bot may not be connected to the game server.`);
-        console.error(`  Connect the bot first via the web client.`);
-        sdk.disconnect();
-        process.exit(1);
-    }
+    const { state, stateAge } = await connectAndAwaitState(sdk, gatewayUrl, username, timeout);
 
     if (flags.json) {
         console.log(JSON.stringify(state, null, 2));
@@ -225,37 +253,18 @@ async function main() {
         if (!server) server = 'rs-sdk-demo.fly.dev';
         const gatewayUrl = deriveGatewayUrl(server);
 
+        // Read-only, so 'observe' — see the note in fetchState() above.
         const sdk = new BotSDK({
             botUsername: username,
             password,
             gatewayUrl,
+            connectionMode: 'observe',
             autoReconnect: false,
-            autoLaunchBrowser: false
+            autoLaunchBrowser: false,
+            readyTimeout: 0
         });
 
-        try {
-            const connectTimeout = new Promise<never>((_, reject) => {
-                setTimeout(() => reject(new Error('Connection timeout')), timeout);
-            });
-            await Promise.race([sdk.connect(), connectTimeout]);
-        } catch (err: any) {
-            console.error(`Error: Failed to connect to ${gatewayUrl}`);
-            console.error(`  ${err.message}`);
-            process.exit(1);
-        }
-
-        try {
-            await sdk.waitForCondition(s => s !== null, Math.min(timeout, 3000));
-        } catch {}
-
-        const state = sdk.getState();
-        const stateAge = sdk.getStateAge();
-
-        if (!state) {
-            console.error(`Error: No state received for '${username}'`);
-            sdk.disconnect();
-            process.exit(1);
-        }
+        const { state, stateAge } = await connectAndAwaitState(sdk, gatewayUrl, username, timeout);
 
         if (jsonFlag) {
             console.log(JSON.stringify(state, null, 2));
