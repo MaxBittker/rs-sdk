@@ -40,6 +40,23 @@ export default class LoggerClient extends InternalClient {
         );
     }
 
+    public async playerTelemetry(events: string[]) {
+        await this.connect();
+
+        if (!this.ws || !this.wsr || !this.wsr.checkIfWsLive()) {
+            return;
+        }
+
+        this.ws.send(
+            JSON.stringify({
+                type: 'player_telemetry',
+                world: Environment.node.id,
+                profile: Environment.node.profile,
+                events
+            })
+        );
+    }
+
     public async report(session_uuid: string, coord: number, offender: string, reason: number) {
         await this.connect();
 

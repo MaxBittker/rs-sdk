@@ -129,6 +129,18 @@ export type hiscore_bank = {
     items: string;
     date: Generated<Timestamp>;
 };
+export type player_telemetry = {
+    id: Generated<number>;
+    timestamp: Timestamp;
+    username: string;
+    session_uuid: string | null;
+    x: number;
+    z: number;
+    level: number;
+    ip: string | null;
+    total_xp: Generated<number>;
+    skills: string | null;
+};
 export type DB = {
     account: account;
     account_login: account_login;
@@ -140,6 +152,7 @@ export type DB = {
     ignorelist: ignorelist;
     input_report: input_report;
     ipban: ipban;
+    player_telemetry: player_telemetry;
     private_chat: private_chat;
     public_chat: public_chat;
     report: report;

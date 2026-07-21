@@ -320,6 +320,7 @@ export default class Player extends PathingEntity {
     baseLevels = new Uint8Array(21);
     lastStats: Int32Array = new Int32Array(21); // we track this so we know to flush stats only once a tick on changes
     lastLevels: Uint8Array = new Uint8Array(21); // we track this so we know to flush stats only once a tick on changes
+    lastTelemetryTotalXp: number = -1; // so telemetry snapshots only include the full skills blob when xp changed
     originX: number = -1;
     originZ: number = -1;
     buildArea: BuildArea = new BuildArea(this);

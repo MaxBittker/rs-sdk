@@ -42,6 +42,13 @@ async function handleRequests(_parentPort: ParentPort, msg: any) {
             }
             break;
         }
+        case 'player_telemetry': {
+            if (Environment.logger.enabled) {
+                const { events } = msg;
+                await client.playerTelemetry(events);
+            }
+            break;
+        }
         case 'report': {
             if (Environment.logger.enabled) {
                 const { session_uuid, coord, offender, reason } = msg;

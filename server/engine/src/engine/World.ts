@@ -48,7 +48,8 @@ import Obj from '#/engine/entity/Obj.js';
 import Player from '#/engine/entity/Player.js';
 import { PlayerLoading } from '#/engine/entity/PlayerLoading.js';
 import { EntityQueueState, PlayerQueueType } from '#/engine/entity/PlayerQueueRequest.js';
-import { PlayerStat } from '#/engine/entity/PlayerStat.js';
+import { PlayerStat, PlayerStatEnabled, PlayerStatNameMap } from '#/engine/entity/PlayerStat.js';
+import { PlayerTelemetryEvent } from '#/engine/entity/tracking/PlayerTelemetry.js';
 import { SessionLog } from '#/engine/entity/tracking/SessionLog.js';
 import { WealthTransactionEvent, WealthEvent } from '#/engine/entity/tracking/WealthEvent.js';
 import GameMap, { changeLocCollision, changeNpcCollision, changePlayerCollision } from '#/engine/GameMap.js';
@@ -123,6 +124,7 @@ class World {
 
     private static readonly PLAYER_SAVERATE: number = 1500; // 15m autosave
     private static readonly PLAYER_COORDLOGRATE: number = 50; // 30s server check-in
+    private static readonly PLAYER_TELEMETRYRATE: number = 100; // periodic position/skills/ip snapshot for long-term visualizations
 
     private static readonly AFK_EVENTRATE: number = 500; // 5m: 60/5 = 12 chances per hour
     private static readonly AFK_CHANCE1: number = 1 / (120 / 5); // 1/24 - 4% chance every 5 mins: avg 1 event every 2 hrs
@@ -433,6 +435,19 @@ class World {
             if (tick % World.PLAYER_COORDLOGRATE === 0 && tick > 0) {
                 for (const player of this.playerLoop.all()) {
                     player.addSessionLog(LoggerEventType.MODERATOR, 'Server check in');
+                }
+            }
+
+            if (tick % World.PLAYER_TELEMETRYRATE === 0 && tick > 0) {
+                const events: PlayerTelemetryEvent[] = [];
+                for (const player of this.playerLoop.all()) {
+                    events.push(this.buildTelemetryEvent(player));
+                }
+                if (events.length > 0) {
+                    this.loggerThread.postMessage({
+                        type: 'player_telemetry',
+                        events
+                    });
                 }
             }
 
@@ -2352,6 +2367,40 @@ class World {
             event_type
         });
         trackSessionEventsPublished.inc();
+    }
+
+    private buildTelemetryEvent(player: Player): PlayerTelemetryEvent {
+        let totalXp = 0;
+        for (let i = 0; i < player.stats.length; i++) {
+            if (PlayerStatEnabled[i]) {
+                totalXp += player.stats[i];
+            }
+        }
+
+        let skills: string | null = null;
+        if (player.lastTelemetryTotalXp !== totalXp) {
+            const blob: Record<string, { xp: number; level: number }> = {};
+            for (let i = 0; i < player.stats.length; i++) {
+                const name = PlayerStatNameMap.get(i);
+                if (name && PlayerStatEnabled[i]) {
+                    blob[name.toLowerCase()] = { xp: player.stats[i], level: player.baseLevels[i] };
+                }
+            }
+            skills = JSON.stringify(blob);
+            player.lastTelemetryTotalXp = totalXp;
+        }
+
+        return {
+            timestamp: Date.now(),
+            username: player.username,
+            session_uuid: player.session !== 'headless' ? player.session : null,
+            x: player.x,
+            z: player.z,
+            level: player.level,
+            ip: player instanceof NetworkPlayer ? player.client.remoteAddress : null,
+            total_xp: totalXp,
+            skills
+        };
     }
 
     addWealthEvent(event: WealthEvent) {

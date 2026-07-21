@@ -150,6 +150,27 @@ model session_wealth {
     recipient_value   Int?
 }
 
+model player_telemetry {
+    id Int @id @default(autoincrement())
+
+    timestamp DateTime
+    username  String
+
+    session_uuid String?
+
+    x     Int
+    z     Int
+    level Int
+
+    ip String?
+
+    total_xp Int     @default(0)
+    skills   String?
+
+    @@index([username, timestamp])
+    @@index([timestamp])
+}
+
 model public_chat {
     id Int @id @default(autoincrement())
 

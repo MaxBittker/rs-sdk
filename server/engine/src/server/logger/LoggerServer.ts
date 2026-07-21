@@ -1,6 +1,7 @@
 import { WebSocket, WebSocketServer } from 'ws';
 
 import { db, toDbDate } from '#/db/query.js';
+import { PlayerTelemetryEvent } from '#/engine/entity/tracking/PlayerTelemetry.js';
 import { SessionLog } from '#/engine/entity/tracking/SessionLog.js';
 import { WealthTransactionEvent } from '#/engine/entity/tracking/WealthEvent.js';
 import Environment from '#/util/Environment.js';
@@ -53,6 +54,24 @@ export default class LoggerServer {
                             }));
 
                             await db.insertInto('session_wealth').values(schemaEvents).execute();
+                            break;
+                        }
+                        case 'player_telemetry': {
+                            const { events } = msg;
+
+                            const rows = events.map((x: PlayerTelemetryEvent) => ({
+                                timestamp: toDbDate(x.timestamp),
+                                username: x.username,
+                                session_uuid: x.session_uuid,
+                                x: x.x,
+                                z: x.z,
+                                level: x.level,
+                                ip: x.ip,
+                                total_xp: x.total_xp,
+                                skills: x.skills
+                            }));
+
+                            await db.insertInto('player_telemetry').values(rows).execute();
                             break;
                         }
                         case 'report': {
