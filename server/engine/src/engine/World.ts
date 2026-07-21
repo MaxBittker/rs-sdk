@@ -124,7 +124,7 @@ class World {
 
     private static readonly PLAYER_SAVERATE: number = 1500; // 15m autosave
     private static readonly PLAYER_COORDLOGRATE: number = 50; // 30s server check-in
-    private static readonly PLAYER_TELEMETRYRATE: number = 200; // periodic position/skills/ip snapshot for long-term visualizations (60s at 300ms ticks)
+    private static readonly PLAYER_TELEMETRYRATE: number = 100; // periodic position/skills/ip snapshot for long-term visualizations (30s at 300ms ticks)
 
     private static readonly AFK_EVENTRATE: number = 500; // 5m: 60/5 = 12 chances per hour
     private static readonly AFK_CHANCE1: number = 1 / (120 / 5); // 1/24 - 4% chance every 5 mins: avg 1 event every 2 hrs

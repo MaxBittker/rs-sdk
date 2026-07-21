@@ -141,6 +141,23 @@ export type player_telemetry = {
     total_xp: Generated<number>;
     skills: string | null;
 };
+export type player_telemetry_segment = {
+    id: Generated<number>;
+    username: string;
+    session_uuid: string | null;
+    ip: string | null;
+    start_time: Timestamp;
+    end_time: Timestamp;
+    sample_count: number;
+    data: Buffer;
+};
+export type player_skills_log = {
+    id: Generated<number>;
+    timestamp: Timestamp;
+    username: string;
+    total_xp: number;
+    skills: string;
+};
 export type DB = {
     account: account;
     account_login: account_login;
@@ -153,6 +170,8 @@ export type DB = {
     input_report: input_report;
     ipban: ipban;
     player_telemetry: player_telemetry;
+    player_telemetry_segment: player_telemetry_segment;
+    player_skills_log: player_skills_log;
     private_chat: private_chat;
     public_chat: public_chat;
     report: report;

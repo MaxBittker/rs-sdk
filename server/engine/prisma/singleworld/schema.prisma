@@ -171,6 +171,33 @@ model player_telemetry {
     @@index([timestamp])
 }
 
+model player_telemetry_segment {
+    id Int @id @default(autoincrement())
+
+    username     String
+    session_uuid String?
+    ip           String?
+
+    start_time   DateTime
+    end_time     DateTime
+    sample_count Int
+    data         Bytes
+
+    @@index([username, start_time])
+    @@index([start_time])
+}
+
+model player_skills_log {
+    id Int @id @default(autoincrement())
+
+    timestamp DateTime
+    username  String
+    total_xp  Int
+    skills    String
+
+    @@index([username, timestamp])
+}
+
 model public_chat {
     id Int @id @default(autoincrement())
 
