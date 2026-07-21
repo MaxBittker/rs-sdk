@@ -1,10 +1,13 @@
+import http from 'http';
+import { gzipSync } from 'zlib';
+
 import { WebSocket, WebSocketServer } from 'ws';
 
 import { sql } from 'kysely';
 
 import { db, toDbDate } from '#/db/query.js';
 import { PlayerTelemetryEvent } from '#/engine/entity/tracking/PlayerTelemetry.js';
-import { encodeSegment } from '#/server/logger/TelemetryCodec.js';
+import { encodeSegment, decodeSegment } from '#/server/logger/TelemetryCodec.js';
 import { SessionLog } from '#/engine/entity/tracking/SessionLog.js';
 import { WealthTransactionEvent } from '#/engine/entity/tracking/WealthEvent.js';
 import Environment from '#/util/Environment.js';
@@ -117,6 +120,143 @@ async function compactTelemetry() {
     }
 }
 
+// Anonymous movement traces for the map's history mode. Runs here (worker thread) so
+// decoding thousands of segments never stalls the game tick; the engine web server
+// proxies /playertraces to this port. Lines are flat [x1,z1,x2,z2,...] with no identity.
+const TRACES_HTTP_PORT = Environment.logger.port + 1;
+const TRACES_MAX_HOURS = 168;
+const TRACES_MAX_POINTS = 2_000_000;
+const TRACES_CACHE_MS = 5 * 60 * 1000;
+
+const tracesCache = new Map<number, { at: number; buf: Buffer }>();
+
+// drop repeated points and interior points of straight runs
+function thinLine(line: number[]): number[] {
+    const out: number[] = [];
+    for (let i = 0; i < line.length; i += 2) {
+        const x = line[i];
+        const z = line[i + 1];
+        const n = out.length;
+        if (n >= 2 && out[n - 2] === x && out[n - 1] === z) {
+            continue;
+        }
+        if (n >= 4) {
+            const dx1 = out[n - 2] - out[n - 4];
+            const dz1 = out[n - 1] - out[n - 3];
+            const dx2 = x - out[n - 2];
+            const dz2 = z - out[n - 1];
+            if (dx1 * dz2 === dx2 * dz1 && dx1 * dx2 + dz1 * dz2 > 0) {
+                out[n - 2] = x;
+                out[n - 1] = z;
+                continue;
+            }
+        }
+        out.push(x, z);
+    }
+    return out;
+}
+
+async function buildTraces(hours: number): Promise<Buffer> {
+    const since = toDbDate(Date.now() - hours * 3600_000);
+    const lines: number[][] = [];
+    let points = 0;
+
+    const segments = await db
+        .selectFrom('player_telemetry_segment')
+        .select(['data'])
+        .where('end_time', '>=', since)
+        .execute();
+
+    for (const seg of segments) {
+        const flat: number[] = [];
+        for (const s of decodeSegment(Buffer.from(seg.data))) {
+            flat.push(s.x, s.z);
+        }
+        const line = thinLine(flat);
+        points += line.length / 2;
+        lines.push(line);
+    }
+
+    // recent rows not compacted yet - group per session so lines never span players
+    const raw = await db
+        .selectFrom('player_telemetry')
+        .select(['username', 'session_uuid', 'x', 'z'])
+        .where('timestamp', '>=', since)
+        .orderBy('id')
+        .execute();
+
+    const rawLines = new Map<string, number[]>();
+    for (const r of raw) {
+        const key = `${r.username}\0${r.session_uuid ?? ''}`;
+        const line = rawLines.get(key);
+        if (line) {
+            line.push(r.x, r.z);
+        } else {
+            rawLines.set(key, [r.x, r.z]);
+        }
+    }
+    for (const flat of rawLines.values()) {
+        const line = thinLine(flat);
+        points += line.length / 2;
+        lines.push(line);
+    }
+
+    // halve sample density until under the cap so the payload stays bounded
+    while (points > TRACES_MAX_POINTS) {
+        points = 0;
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (line.length > 8) {
+                const thinned: number[] = [];
+                for (let j = 0; j < line.length; j += 4) {
+                    thinned.push(line[j], line[j + 1]);
+                }
+                const last = line.length - 2;
+                if (thinned[thinned.length - 2] !== line[last] || thinned[thinned.length - 1] !== line[last + 1]) {
+                    thinned.push(line[last], line[last + 1]);
+                }
+                lines[i] = thinned;
+            }
+            points += lines[i].length / 2;
+        }
+    }
+
+    return gzipSync(JSON.stringify({ hours, lines }));
+}
+
+function startTracesHttp() {
+    const server = http.createServer(async (req, res) => {
+        try {
+            const url = new URL(req.url ?? '/', 'http://localhost');
+            if (url.pathname !== '/traces') {
+                res.writeHead(404);
+                res.end();
+                return;
+            }
+
+            const hours = Math.max(1, Math.min(TRACES_MAX_HOURS, Number(url.searchParams.get('hours')) || 24));
+
+            let cached = tracesCache.get(hours);
+            if (!cached || Date.now() - cached.at > TRACES_CACHE_MS) {
+                cached = { at: Date.now(), buf: await buildTraces(hours) };
+                tracesCache.set(hours, cached);
+            }
+
+            // served as opaque bytes so the engine's proxy fetch doesn't transparently
+            // decompress; the proxy re-labels it as gzipped json for the browser
+            res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
+            res.end(cached.buf);
+        } catch (err) {
+            console.error('Traces request failed', err);
+            res.writeHead(500);
+            res.end();
+        }
+    });
+    server.listen(TRACES_HTTP_PORT, '0.0.0.0', () => {
+        printInfo(`Telemetry traces listening on port ${TRACES_HTTP_PORT}`);
+    });
+}
+
 let compacting = false;
 async function compactTelemetrySafe() {
     if (compacting) {
@@ -138,6 +278,7 @@ export default class LoggerServer {
     constructor() {
         setTimeout(compactTelemetrySafe, TELEMETRY_COMPACT_STARTUP_DELAY_MS);
         setInterval(compactTelemetrySafe, TELEMETRY_COMPACT_INTERVAL_MS);
+        startTracesHttp();
         this.server = new WebSocketServer({ port: Environment.logger.port, host: '0.0.0.0' }, () => {
             printInfo(`Logger server listening on port ${Environment.logger.port}`);
         });

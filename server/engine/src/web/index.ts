@@ -73,6 +73,33 @@ export async function startWeb() {
                 });
             }
 
+            // Anonymous long-term movement traces for the map history mode (proxied from
+            // the logger worker, which owns the telemetry DB work; payload is pre-gzipped)
+            if (url.pathname === '/playertraces' || url.pathname === '/playertraces/') {
+                try {
+                    const hours = url.searchParams.get('hours') ?? '24';
+                    const upstream = await fetch(`http://${Environment.logger.host}:${Environment.logger.port + 1}/traces?hours=${encodeURIComponent(hours)}`);
+                    if (!upstream.ok) {
+                        throw new Error(`traces upstream ${upstream.status}`);
+                    }
+                    return new Response(await upstream.arrayBuffer(), {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Content-Encoding': 'gzip',
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    });
+                } catch (_err) {
+                    return new Response(JSON.stringify({ error: 'traces unavailable' }), {
+                        status: 503,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    });
+                }
+            }
+
             // Gateway status endpoint (proxy all bot statuses)
             if (url.pathname === '/status' || url.pathname === '/status/') {
                 try {

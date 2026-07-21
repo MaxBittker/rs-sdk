@@ -20,6 +20,17 @@ export class MapView extends GameShell {
     static shouldDrawMultimap: boolean = false;
     static shouldDrawFreemap: boolean = false;
     static shouldDrawPlayers: boolean = true;
+    static shouldDrawHistory: boolean = false;
+
+    // custom: long-term anonymous movement traces ('H'), pre-rendered into a sparse
+    // per-row heat buffer in map space so redraws only blend visible non-zero tiles
+    historyLoading: boolean = false;
+    readonly historyHours: number = 24;
+    readonly historyJumpThreshold: number = 250;
+    heatRowStart: Int32Array | null = null;
+    heatXs: Uint16Array | null = null;
+    heatVs: Uint8Array | null = null;
+    heatPalette: Int32Array = new Int32Array(0);
 
     // custom: player tracking
     playerPositions: {x: number, z: number, level: number, name: string}[] = [];
@@ -446,6 +457,15 @@ export class MapView extends GameShell {
             const bottom: number = Math.min(this.mapHeight, this.focusZ + ((this.sHei / this.zoom) | 0));
             this.renderWorldMap(left, top, right, bottom, 0, 0, this.sWid, this.sHei);
 
+            // custom: long-term movement traces under the live player layer
+            if (MapView.shouldDrawHistory) {
+                this.drawHistory(left, top, right, bottom, 0, 0, this.sWid, this.sHei);
+                if (this.historyLoading && this.b12) {
+                    this.b12.drawString(`loading ${this.historyHours}h movement traces...`, 11, 27, 0);
+                    this.b12.drawString(`loading ${this.historyHours}h movement traces...`, 10, 26, 0x00ffff);
+                }
+            }
+
             // custom: draw player positions
             if (MapView.shouldDrawPlayers) {
                 this.drawPlayers(left, top, right, bottom, 0, 0, this.sWid, this.sHei);
@@ -644,6 +664,13 @@ export class MapView extends GameShell {
             } else if (key == 'p'.charCodeAt(0) || key == 'P'.charCodeAt(0)) {
                 // custom:
                 MapView.shouldDrawPlayers = !MapView.shouldDrawPlayers;
+                this.redraw = true;
+            } else if (key == 'h'.charCodeAt(0) || key == 'H'.charCodeAt(0)) {
+                // custom: long-term movement traces
+                MapView.shouldDrawHistory = !MapView.shouldDrawHistory;
+                if (MapView.shouldDrawHistory && !this.heatRowStart && !this.historyLoading) {
+                    this.fetchHistoryTraces();
+                }
                 this.redraw = true;
             }
         } while (key > 0);
@@ -1992,6 +2019,152 @@ export class MapView extends GameShell {
                 this.redraw = true;
             })
             .catch(() => {});
+    }
+
+    // custom: fetch and pre-render long-term anonymous traces
+    fetchHistoryTraces(): void {
+        this.historyLoading = true;
+        fetch(`/playertraces?hours=${this.historyHours}`)
+            .then(res => {
+                if (!res.ok) throw new Error(`${res.status}`);
+                return res.json();
+            })
+            .then((data: { lines: number[][] }) => {
+                this.buildHeat(data.lines);
+                this.historyLoading = false;
+                this.redraw = true;
+            })
+            .catch(() => {
+                this.historyLoading = false;
+                MapView.shouldDrawHistory = false;
+                this.redraw = true;
+            });
+    }
+
+    buildHeat(lines: number[][]): void {
+        const w: number = this.mapWidth;
+        const h: number = this.mapHeight;
+        const dense: Uint16Array = new Uint16Array(w * h);
+
+        // rasterize every line pass; overlap accumulates into heat
+        for (const line of lines) {
+            for (let i = 2; i < line.length; i += 2) {
+                let x1: number = line[i - 2] - this.mapOriginX;
+                let y1: number = this.mapOriginZ + h - this.remapZ(line[i - 1]);
+                const x2: number = line[i] - this.mapOriginX;
+                const y2: number = this.mapOriginZ + h - this.remapZ(line[i + 1]);
+
+                // teleports aren't movement - don't draw a line across the map
+                if (Math.abs(x2 - x1) > this.historyJumpThreshold || Math.abs(y2 - y1) > this.historyJumpThreshold) continue;
+
+                const dx: number = Math.abs(x2 - x1);
+                const dy: number = Math.abs(y2 - y1);
+                const sx: number = x1 < x2 ? 1 : -1;
+                const sy: number = y1 < y2 ? 1 : -1;
+                let err: number = dx - dy;
+                for (;;) {
+                    if (x1 >= 0 && x1 < w && y1 >= 0 && y1 < h) {
+                        const off: number = x1 + y1 * w;
+                        if (dense[off] < 0xffff) dense[off]++;
+                    }
+                    if (x1 === x2 && y1 === y2) break;
+                    const e2: number = 2 * err;
+                    if (e2 > -dy) { err -= dy; x1 += sx; }
+                    if (e2 < dx) { err += dx; y1 += sy; }
+                }
+            }
+        }
+
+        // compact to per-row sparse arrays with a log intensity curve
+        let count: number = 0;
+        for (let i = 0; i < dense.length; i++) {
+            if (dense[i] !== 0) count++;
+        }
+
+        const rowStart: Int32Array = new Int32Array(h + 1);
+        const xs: Uint16Array = new Uint16Array(count);
+        const vs: Uint8Array = new Uint8Array(count);
+        let n: number = 0;
+        for (let y = 0; y < h; y++) {
+            rowStart[y] = n;
+            const base: number = y * w;
+            for (let x = 0; x < w; x++) {
+                const v: number = dense[base + x];
+                if (v !== 0) {
+                    xs[n] = x;
+                    vs[n] = Math.min(255, (Math.log2(1 + v) * 42) | 0);
+                    n++;
+                }
+            }
+        }
+        rowStart[h] = n;
+
+        if (this.heatPalette.length === 0) {
+            this.heatPalette = new Int32Array(256);
+            for (let i = 0; i < 256; i++) {
+                // dark teal -> cyan -> white
+                const t: number = i / 255;
+                const r: number = t < 0.5 ? (t * 2 * 0x30) | 0 : (0x30 + (t - 0.5) * 2 * 0xcf) | 0;
+                const g: number = t < 0.5 ? (0x40 + t * 2 * 0x8c) | 0 : (0xcc + (t - 0.5) * 2 * 0x33) | 0;
+                const b: number = t < 0.5 ? (0x60 + t * 2 * 0x9f) | 0 : 0xff;
+                this.heatPalette[i] = (r << 16) | (g << 8) | b;
+            }
+        }
+
+        this.heatRowStart = rowStart;
+        this.heatXs = xs;
+        this.heatVs = vs;
+    }
+
+    // custom: blend the visible slice of the heat buffer into the frame
+    drawHistory(left: number, top: number, right: number, bottom: number, widthOffset: number, heightOffset: number, width: number, height: number): void {
+        if (!this.heatRowStart || !this.heatXs || !this.heatVs) {
+            return;
+        }
+
+        const pixels: Int32Array = Pix2D.pixels;
+        const stride: number = Pix2D.width;
+        const screenH: number = pixels.length / stride;
+        const scaleX: number = (width - widthOffset) / (right - left);
+        const scaleY: number = (height - heightOffset) / (bottom - top);
+        const cellW: number = Math.max(1, Math.ceil(scaleX));
+        const cellH: number = Math.max(1, Math.ceil(scaleY));
+
+        const y0: number = Math.max(0, top);
+        const y1: number = Math.min(this.mapHeight, bottom);
+
+        for (let my = y0; my < y1; my++) {
+            const start: number = this.heatRowStart[my];
+            const end: number = this.heatRowStart[my + 1];
+            if (start === end) continue;
+
+            const syBase: number = (heightOffset + scaleY * (my - top)) | 0;
+            for (let i = start; i < end; i++) {
+                const mx: number = this.heatXs[i];
+                if (mx < left || mx >= right) continue;
+
+                const v: number = this.heatVs[i];
+                const rgb: number = this.heatPalette[v];
+                const alpha: number = 70 + ((v * 150) >> 8);
+                const invAlpha: number = 256 - alpha;
+                const srcR: number = ((rgb >> 16) & 0xff) * alpha;
+                const srcG: number = ((rgb >> 8) & 0xff) * alpha;
+                const srcB: number = (rgb & 0xff) * alpha;
+
+                const sxBase: number = (widthOffset + scaleX * (mx - left)) | 0;
+                for (let py = syBase; py < syBase + cellH; py++) {
+                    if (py < 0 || py >= screenH) continue;
+                    let off: number = sxBase + py * stride;
+                    for (let px = sxBase; px < sxBase + cellW; px++, off++) {
+                        if (px < 0 || px >= stride) continue;
+                        const dst: number = pixels[off];
+                        pixels[off] = ((((srcR + ((dst >> 16) & 0xff) * invAlpha) >> 8) << 16) |
+                                       (((srcG + ((dst >> 8) & 0xff) * invAlpha) >> 8) << 8) |
+                                       ((srcB + (dst & 0xff) * invAlpha) >> 8));
+                    }
+                }
+            }
+        }
     }
 
     // custom: track player movement trails
