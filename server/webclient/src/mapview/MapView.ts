@@ -26,7 +26,9 @@ export class MapView extends GameShell {
     // per-row heat buffer in map space so redraws only blend visible non-zero tiles
     historyLoading: boolean = false;
     readonly historyHours: number = 24;
-    readonly historyJumpThreshold: number = 250;
+    // max legit movement between samples is ~66 tiles (running, 10s interval); anything
+    // bigger is a teleport or a sampling gap - draw nothing rather than a false chord
+    readonly historyJumpThreshold: number = 80;
     heatRowStart: Int32Array | null = null;
     heatXs: Uint16Array | null = null;
     heatVs: Uint8Array | null = null;

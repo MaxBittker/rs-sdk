@@ -124,7 +124,11 @@ class World {
 
     private static readonly PLAYER_SAVERATE: number = 1500; // 15m autosave
     private static readonly PLAYER_COORDLOGRATE: number = 50; // 30s server check-in
-    private static readonly PLAYER_TELEMETRYRATE: number = 100; // periodic position/skills/ip snapshot for long-term visualizations (30s at 300ms ticks)
+    // periodic position/skills/ip snapshots for long-term visualizations: movers are
+    // sampled every 33 ticks (~10s) so map traces interpolate over at most ~66 tiles,
+    // idle players only on the ~30s heartbeat (every 3rd interval)
+    private static readonly PLAYER_TELEMETRYRATE: number = 33;
+    private static readonly PLAYER_TELEMETRY_HEARTBEAT: number = 3;
 
     private static readonly AFK_EVENTRATE: number = 500; // 5m: 60/5 = 12 chances per hour
     private static readonly AFK_CHANCE1: number = 1 / (120 / 5); // 1/24 - 4% chance every 5 mins: avg 1 event every 2 hrs
@@ -439,9 +443,12 @@ class World {
             }
 
             if (tick % World.PLAYER_TELEMETRYRATE === 0 && tick > 0) {
+                const heartbeat: boolean = tick % (World.PLAYER_TELEMETRYRATE * World.PLAYER_TELEMETRY_HEARTBEAT) === 0;
                 const events: PlayerTelemetryEvent[] = [];
                 for (const player of this.playerLoop.all()) {
-                    events.push(this.buildTelemetryEvent(player));
+                    if (heartbeat || player.x !== player.lastTelemetryX || player.z !== player.lastTelemetryZ || player.level !== player.lastTelemetryLevel) {
+                        events.push(this.buildTelemetryEvent(player));
+                    }
                 }
                 if (events.length > 0) {
                     this.loggerThread.postMessage({
@@ -2393,6 +2400,10 @@ class World {
             skills = JSON.stringify(blob);
             player.lastTelemetryBaseLevelSum = baseLevelSum;
         }
+
+        player.lastTelemetryX = player.x;
+        player.lastTelemetryZ = player.z;
+        player.lastTelemetryLevel = player.level;
 
         return {
             timestamp: Date.now(),

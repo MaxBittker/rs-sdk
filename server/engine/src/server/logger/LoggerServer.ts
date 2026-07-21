@@ -17,7 +17,7 @@ import { printInfo } from '#/util/Logger.js';
 // delta-encoded + deflated into player_telemetry_segment (~2-4 bytes/sample instead of
 // ~180 bytes of row+index), skills blobs are moved to player_skills_log, and the raw
 // rows are deleted. No granularity is lost - segments decode back to the full samples.
-const TELEMETRY_COMPACT_MIN_AGE_HOURS = Number(process.env.TELEMETRY_COMPACT_MIN_AGE_HOURS ?? 2);
+const TELEMETRY_COMPACT_MIN_AGE_HOURS = Number(process.env.TELEMETRY_COMPACT_MIN_AGE_HOURS ?? 1);
 const TELEMETRY_COMPACT_INTERVAL_MS = 60 * 60 * 1000;
 const TELEMETRY_COMPACT_STARTUP_DELAY_MS = 2 * 60 * 1000;
 const TELEMETRY_COMPACT_BATCH_ROWS = 120_000;
