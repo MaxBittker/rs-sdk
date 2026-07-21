@@ -130,11 +130,15 @@ const TRACES_CACHE_MS = 5 * 60 * 1000;
 
 const tracesCache = new Map<number, { at: number; buf: Buffer }>();
 
-// only connect consecutive samples close in time AND space - anything else (old
-// coarse-cadence data, teleports, login gaps) must not draw a line the player never
-// walked. Broken-off samples become single-point lines, rendered as heat dots.
+// only connect consecutive samples close in time AND plausibly-walkable in space -
+// anything else (coarse-cadence data, teleports, login gaps) must not draw a line the
+// player never walked. Broken-off samples become single-point lines, rendered as dots.
+// Since corner sampling shipped (samples at every direction change), connected
+// segments are exact walked paths; data collected before that draws as dots only.
 const TRACES_LINE_MAX_DT = 15; // seconds
 const TRACES_LINE_MAX_STEP = 70; // tiles
+const TRACES_LINE_SPEED = 8; // tiles/second - fastest legit movement is ~6.7 running
+const TRACES_LINE_MIN_EPOCH = Date.parse('2026-07-21T21:30:00Z') / 1000; // corner sampling deploy
 
 function splitIntoTraces(samples: { epoch: number; x: number; z: number }[]): number[][] {
     const out: number[][] = [];
@@ -149,7 +153,8 @@ function splitIntoTraces(samples: { epoch: number; x: number; z: number }[]): nu
             }
             const dt = s.epoch - prev.epoch;
             const step = Math.max(Math.abs(s.x - prev.x), Math.abs(s.z - prev.z));
-            if (dt > TRACES_LINE_MAX_DT || step > TRACES_LINE_MAX_STEP) {
+            const maxStep = Math.max(8, Math.min(TRACES_LINE_MAX_STEP, dt * TRACES_LINE_SPEED));
+            if (prev.epoch < TRACES_LINE_MIN_EPOCH || dt > TRACES_LINE_MAX_DT || step > maxStep) {
                 out.push(current);
                 current = [];
             }

@@ -129,6 +129,8 @@ class World {
     // idle players only on the ~30s heartbeat (every 3rd interval)
     private static readonly PLAYER_TELEMETRYRATE: number = 33;
     private static readonly PLAYER_TELEMETRY_HEARTBEAT: number = 3;
+    private static readonly PLAYER_TELEMETRY_TURNBUDGET: number = 6; // max corner samples per interval per player
+    private static readonly PLAYER_TELEMETRY_MINRUN: number = 3; // min straight-run tiles before a turn counts as a corner (not combat wiggle)
 
     private static readonly AFK_EVENTRATE: number = 500; // 5m: 60/5 = 12 chances per hour
     private static readonly AFK_CHANCE1: number = 1 / (120 / 5); // 1/24 - 4% chance every 5 mins: avg 1 event every 2 hrs
@@ -176,6 +178,7 @@ class World {
     varsString: string[] = [];
 
     sessionLogs: SessionLog[] = [];
+    pendingTelemetry: PlayerTelemetryEvent[] = [];
     wealthTransactionGroup: Map<string, WealthTransactionEvent> = new Map();
     wealthTransactions: WealthTransactionEvent[] = [];
 
@@ -442,20 +445,28 @@ class World {
                 }
             }
 
+            // corner/teleport detection needs per-tick position deltas so straight-line
+            // interpolation between samples is exact rather than clipping through walls
+            for (const player of this.playerLoop.all()) {
+                this.trackTelemetryMovement(player);
+            }
+
             if (tick % World.PLAYER_TELEMETRYRATE === 0 && tick > 0) {
                 const heartbeat: boolean = tick % (World.PLAYER_TELEMETRYRATE * World.PLAYER_TELEMETRY_HEARTBEAT) === 0;
-                const events: PlayerTelemetryEvent[] = [];
                 for (const player of this.playerLoop.all()) {
+                    player.telemetryTurnBudget = World.PLAYER_TELEMETRY_TURNBUDGET;
                     if (heartbeat || player.x !== player.lastTelemetryX || player.z !== player.lastTelemetryZ || player.level !== player.lastTelemetryLevel) {
-                        events.push(this.buildTelemetryEvent(player));
+                        this.pendingTelemetry.push(this.buildTelemetryEvent(player));
                     }
                 }
-                if (events.length > 0) {
-                    this.loggerThread.postMessage({
-                        type: 'player_telemetry',
-                        events
-                    });
-                }
+            }
+
+            if (this.pendingTelemetry.length > 0 && tick % World.PLAYER_TELEMETRYRATE === 0) {
+                this.loggerThread.postMessage({
+                    type: 'player_telemetry',
+                    events: this.pendingTelemetry
+                });
+                this.pendingTelemetry = [];
             }
 
             // todo: move this into PLAYER_COORDLOGRATE if memory usage is sane?
@@ -2376,7 +2387,51 @@ class World {
         trackSessionEventsPublished.inc();
     }
 
-    private buildTelemetryEvent(player: Player): PlayerTelemetryEvent {
+    // emit extra samples at path corners and teleports so the map's straight-line
+    // interpolation between consecutive samples matches the tiles actually walked
+    private trackTelemetryMovement(player: Player): void {
+        const px: number = player.telemetryPrevX;
+        const pz: number = player.telemetryPrevZ;
+        player.telemetryPrevX = player.x;
+        player.telemetryPrevZ = player.z;
+        if (px === -1) {
+            return;
+        }
+
+        const dx: number = player.x - px;
+        const dz: number = player.z - pz;
+        if (dx === 0 && dz === 0) {
+            return;
+        }
+
+        if (Math.abs(dx) > 2 || Math.abs(dz) > 2) {
+            // teleport/jump - pin both ends so no line can be drawn across the gap
+            this.pendingTelemetry.push(this.buildTelemetryEvent(player, px, pz));
+            this.pendingTelemetry.push(this.buildTelemetryEvent(player));
+            player.telemetryDirX = 0;
+            player.telemetryDirZ = 0;
+            player.telemetryRunLen = 0;
+            return;
+        }
+
+        const sx: number = Math.sign(dx);
+        const sz: number = Math.sign(dz);
+        if ((player.telemetryDirX !== 0 || player.telemetryDirZ !== 0) && (sx !== player.telemetryDirX || sz !== player.telemetryDirZ)) {
+            // direction changed - the previous tile is a path corner. Emit it if the
+            // straight run into it was long enough to be real movement (not combat
+            // wiggle), so interpolated segments hug the actual path around obstacles.
+            if (player.telemetryTurnBudget > 0 && player.telemetryRunLen >= World.PLAYER_TELEMETRY_MINRUN) {
+                player.telemetryTurnBudget--;
+                this.pendingTelemetry.push(this.buildTelemetryEvent(player, px, pz));
+            }
+            player.telemetryRunLen = 0;
+        }
+        player.telemetryRunLen += Math.max(Math.abs(dx), Math.abs(dz));
+        player.telemetryDirX = sx;
+        player.telemetryDirZ = sz;
+    }
+
+    private buildTelemetryEvent(player: Player, overrideX?: number, overrideZ?: number): PlayerTelemetryEvent {
         let totalXp = 0;
         let baseLevelSum = 0;
         for (let i = 0; i < player.stats.length; i++) {
@@ -2401,16 +2456,18 @@ class World {
             player.lastTelemetryBaseLevelSum = baseLevelSum;
         }
 
-        player.lastTelemetryX = player.x;
-        player.lastTelemetryZ = player.z;
+        const x: number = overrideX ?? player.x;
+        const z: number = overrideZ ?? player.z;
+        player.lastTelemetryX = x;
+        player.lastTelemetryZ = z;
         player.lastTelemetryLevel = player.level;
 
         return {
             timestamp: Date.now(),
             username: player.username,
             session_uuid: player.session !== 'headless' ? player.session : null,
-            x: player.x,
-            z: player.z,
+            x,
+            z,
             level: player.level,
             ip: player instanceof NetworkPlayer ? player.client.remoteAddress : null,
             total_xp: totalXp,

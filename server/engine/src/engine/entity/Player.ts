@@ -324,6 +324,12 @@ export default class Player extends PathingEntity {
     lastTelemetryX: number = -1; // movers get sampled every telemetry interval, idlers only on the heartbeat
     lastTelemetryZ: number = -1;
     lastTelemetryLevel: number = -1;
+    telemetryPrevX: number = -1; // last tick's position, for corner/teleport detection
+    telemetryPrevZ: number = -1;
+    telemetryDirX: number = 0; // sign of the last movement step; 0 = wasn't moving
+    telemetryDirZ: number = 0;
+    telemetryRunLen: number = 0; // tiles moved in the current straight direction
+    telemetryTurnBudget: number = 0; // corner samples allowed this interval (combat wiggle guard)
     originX: number = -1;
     originZ: number = -1;
     buildArea: BuildArea = new BuildArea(this);
