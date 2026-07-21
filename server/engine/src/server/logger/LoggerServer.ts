@@ -18,7 +18,9 @@ import { printInfo } from '#/util/Logger.js';
 // ~180 bytes of row+index), skills blobs are moved to player_skills_log, and the raw
 // rows are deleted. No granularity is lost - segments decode back to the full samples.
 const TELEMETRY_COMPACT_MIN_AGE_HOURS = Number(process.env.TELEMETRY_COMPACT_MIN_AGE_HOURS ?? 1);
-const TELEMETRY_COMPACT_INTERVAL_MS = 60 * 60 * 1000;
+// 10min: under swarm load (~1100 players) raw grows ~8k rows/min, and buildTraces
+// loads all uncompacted raw rows into memory - keep that window small
+const TELEMETRY_COMPACT_INTERVAL_MS = 10 * 60 * 1000;
 const TELEMETRY_COMPACT_STARTUP_DELAY_MS = 2 * 60 * 1000;
 const TELEMETRY_COMPACT_BATCH_ROWS = 120_000;
 
@@ -126,6 +128,10 @@ async function compactTelemetry() {
 const TRACES_HTTP_PORT = Environment.logger.port + 1;
 const TRACES_MAX_HOURS = 168;
 const TRACES_MAX_POINTS = 2_000_000;
+// hard ceilings on what a single build may hold in memory - a request for a busy
+// window must degrade (truncate) rather than OOM the whole server
+const TRACES_MAX_INPUT_POINTS = TRACES_MAX_POINTS * 4;
+const TRACES_MAX_RAW_ROWS = 500_000;
 const TRACES_CACHE_MS = 5 * 60 * 1000;
 
 const tracesCache = new Map<number, { at: number; buf: Buffer }>();
@@ -205,7 +211,12 @@ async function buildTraces(hours: number): Promise<Buffer> {
         .where('end_time', '>=', since)
         .execute();
 
+    let truncated = false;
     for (const seg of segments) {
+        if (points >= TRACES_MAX_INPUT_POINTS) {
+            truncated = true;
+            break;
+        }
         for (const trace of splitIntoTraces(decodeSegment(Buffer.from(seg.data)))) {
             const line = thinLine(trace);
             points += line.length / 2;
@@ -219,7 +230,11 @@ async function buildTraces(hours: number): Promise<Buffer> {
         .select(['username', 'session_uuid', 'timestamp', 'x', 'z'])
         .where('timestamp', '>=', since)
         .orderBy('id')
+        .limit(TRACES_MAX_RAW_ROWS)
         .execute();
+    if (raw.length === TRACES_MAX_RAW_ROWS) {
+        truncated = true;
+    }
 
     const rawSessions = new Map<string, { epoch: number; x: number; z: number }[]>();
     for (const r of raw) {
@@ -233,6 +248,10 @@ async function buildTraces(hours: number): Promise<Buffer> {
         }
     }
     for (const samples of rawSessions.values()) {
+        if (points >= TRACES_MAX_INPUT_POINTS) {
+            truncated = true;
+            break;
+        }
         for (const trace of splitIntoTraces(samples)) {
             const line = thinLine(trace);
             points += line.length / 2;
@@ -240,8 +259,15 @@ async function buildTraces(hours: number): Promise<Buffer> {
         }
     }
 
-    // halve sample density until under the cap so the payload stays bounded
-    while (points > TRACES_MAX_POINTS) {
+    if (truncated) {
+        printInfo(`Traces build for ${hours}h hit input cap - result is a partial sample`);
+    }
+
+    // halve sample density until under the cap so the payload stays bounded; dot-only
+    // lines can't be thinned, so bail once a pass stops making progress
+    let prevPoints = Infinity;
+    while (points > TRACES_MAX_POINTS && points < prevPoints) {
+        prevPoints = points;
         points = 0;
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];

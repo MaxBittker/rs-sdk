@@ -132,6 +132,10 @@ class World {
     private static readonly PLAYER_TELEMETRY_TURNBUDGET: number = 6; // max corner samples per interval per player
     private static readonly PLAYER_TELEMETRY_MINRUN: number = 3; // min straight-run tiles before a turn counts as a corner (not combat wiggle)
 
+    // concurrent players allowed per source IP. A 1100-account swarm from two IPs OOM'd
+    // the 4GB prod box on 2026-07-21; the engine otherwise accepts up to 2048 players.
+    private static readonly PLAYER_MAX_PER_IP: number = Number(process.env.MAX_PLAYERS_PER_IP ?? 25);
+
     private static readonly AFK_EVENTRATE: number = 500; // 5m: 60/5 = 12 chances per hour
     private static readonly AFK_CHANCE1: number = 1 / (120 / 5); // 1/24 - 4% chance every 5 mins: avg 1 event every 2 hrs
     private static readonly AFK_CHANCE2: number = 1 / (60 / 5); // 1/12 - 8% chance every 5 mins: avg 1 event every 1 hr while "aggro zone" hasn't changed
@@ -843,6 +847,20 @@ class World {
 
     private processLogins(): void {
         const start: number = Date.now();
+
+        // counted once per tick; sessions admitted below increment it so a burst of
+        // logins from one IP can't all slip under the cap in the same tick
+        let ipCounts: Map<string, number> | null = null;
+        if (this.newPlayers.size > 0) {
+            ipCounts = new Map();
+            for (const other of this.playerLoop.all()) {
+                if (other instanceof NetworkPlayer) {
+                    const ip = other.client.remoteAddress;
+                    ipCounts.set(ip, (ipCounts.get(ip) ?? 0) + 1);
+                }
+            }
+        }
+
         player: for (const player of this.newPlayers) {
             // prevent logging in if a player save is being flushed
             if (this.logoutRequests.has(player.username)) {
@@ -947,6 +965,19 @@ class World {
                 }
 
                 continue;
+            }
+
+            // per-IP connection cap - reconnects and session transfers never reach here,
+            // so this only gates net-new sessions
+            if (player instanceof NetworkPlayer && ipCounts) {
+                const ip = player.client.remoteAddress;
+                const count = ipCounts.get(ip) ?? 0;
+                if (count >= World.PLAYER_MAX_PER_IP) {
+                    player.addSessionLog(LoggerEventType.ENGINE, `Tried to log in - too many connections from ${ip}`);
+                    this.forceLogout(player, 7);
+                    continue;
+                }
+                ipCounts.set(ip, count + 1);
             }
 
             // normal login process
