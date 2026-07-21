@@ -130,6 +130,39 @@ const TRACES_CACHE_MS = 5 * 60 * 1000;
 
 const tracesCache = new Map<number, { at: number; buf: Buffer }>();
 
+// only connect consecutive samples close in time AND space - anything else (old
+// coarse-cadence data, teleports, login gaps) must not draw a line the player never
+// walked. Broken-off samples become single-point lines, rendered as heat dots.
+const TRACES_LINE_MAX_DT = 15; // seconds
+const TRACES_LINE_MAX_STEP = 70; // tiles
+
+function splitIntoTraces(samples: { epoch: number; x: number; z: number }[]): number[][] {
+    const out: number[][] = [];
+    let current: number[] = [];
+    let prev: { epoch: number; x: number; z: number } | null = null;
+
+    for (const s of samples) {
+        if (prev) {
+            if (s.x === prev.x && s.z === prev.z) {
+                prev = s;
+                continue;
+            }
+            const dt = s.epoch - prev.epoch;
+            const step = Math.max(Math.abs(s.x - prev.x), Math.abs(s.z - prev.z));
+            if (dt > TRACES_LINE_MAX_DT || step > TRACES_LINE_MAX_STEP) {
+                out.push(current);
+                current = [];
+            }
+        }
+        current.push(s.x, s.z);
+        prev = s;
+    }
+    if (current.length > 0) {
+        out.push(current);
+    }
+    return out;
+}
+
 // drop repeated points and interior points of straight runs
 function thinLine(line: number[]): number[] {
     const out: number[] = [];
@@ -168,37 +201,38 @@ async function buildTraces(hours: number): Promise<Buffer> {
         .execute();
 
     for (const seg of segments) {
-        const flat: number[] = [];
-        for (const s of decodeSegment(Buffer.from(seg.data))) {
-            flat.push(s.x, s.z);
+        for (const trace of splitIntoTraces(decodeSegment(Buffer.from(seg.data)))) {
+            const line = thinLine(trace);
+            points += line.length / 2;
+            lines.push(line);
         }
-        const line = thinLine(flat);
-        points += line.length / 2;
-        lines.push(line);
     }
 
     // recent rows not compacted yet - group per session so lines never span players
     const raw = await db
         .selectFrom('player_telemetry')
-        .select(['username', 'session_uuid', 'x', 'z'])
+        .select(['username', 'session_uuid', 'timestamp', 'x', 'z'])
         .where('timestamp', '>=', since)
         .orderBy('id')
         .execute();
 
-    const rawLines = new Map<string, number[]>();
+    const rawSessions = new Map<string, { epoch: number; x: number; z: number }[]>();
     for (const r of raw) {
         const key = `${r.username}\0${r.session_uuid ?? ''}`;
-        const line = rawLines.get(key);
-        if (line) {
-            line.push(r.x, r.z);
+        const sample = { epoch: dbDateToEpoch(String(r.timestamp)), x: r.x, z: r.z };
+        const session = rawSessions.get(key);
+        if (session) {
+            session.push(sample);
         } else {
-            rawLines.set(key, [r.x, r.z]);
+            rawSessions.set(key, [sample]);
         }
     }
-    for (const flat of rawLines.values()) {
-        const line = thinLine(flat);
-        points += line.length / 2;
-        lines.push(line);
+    for (const samples of rawSessions.values()) {
+        for (const trace of splitIntoTraces(samples)) {
+            const line = thinLine(trace);
+            points += line.length / 2;
+            lines.push(line);
+        }
     }
 
     // halve sample density until under the cap so the payload stays bounded

@@ -2048,8 +2048,18 @@ export class MapView extends GameShell {
         const h: number = this.mapHeight;
         const dense: Uint16Array = new Uint16Array(w * h);
 
-        // rasterize every line pass; overlap accumulates into heat
+        // rasterize every line pass; overlap accumulates into heat. Single-point lines
+        // are samples the server wouldn't connect (coarse cadence, teleports) - they
+        // render as dots rather than false paths
         for (const line of lines) {
+            if (line.length >= 2) {
+                const px: number = line[0] - this.mapOriginX;
+                const py: number = this.mapOriginZ + h - this.remapZ(line[1]);
+                if (px >= 0 && px < w && py >= 0 && py < h) {
+                    const off: number = px + py * w;
+                    if (dense[off] < 0xffff) dense[off]++;
+                }
+            }
             for (let i = 2; i < line.length; i += 2) {
                 let x1: number = line[i - 2] - this.mapOriginX;
                 let y1: number = this.mapOriginZ + h - this.remapZ(line[i - 1]);
