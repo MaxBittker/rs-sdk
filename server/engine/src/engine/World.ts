@@ -124,7 +124,7 @@ class World {
 
     private static readonly PLAYER_SAVERATE: number = 1500; // 15m autosave
     private static readonly PLAYER_COORDLOGRATE: number = 50; // 30s server check-in
-    private static readonly PLAYER_TELEMETRYRATE: number = 100; // periodic position/skills/ip snapshot for long-term visualizations
+    private static readonly PLAYER_TELEMETRYRATE: number = 200; // periodic position/skills/ip snapshot for long-term visualizations (60s at 300ms ticks)
 
     private static readonly AFK_EVENTRATE: number = 500; // 5m: 60/5 = 12 chances per hour
     private static readonly AFK_CHANCE1: number = 1 / (120 / 5); // 1/24 - 4% chance every 5 mins: avg 1 event every 2 hrs
@@ -2371,14 +2371,18 @@ class World {
 
     private buildTelemetryEvent(player: Player): PlayerTelemetryEvent {
         let totalXp = 0;
+        let baseLevelSum = 0;
         for (let i = 0; i < player.stats.length; i++) {
             if (PlayerStatEnabled[i]) {
                 totalXp += player.stats[i];
+                baseLevelSum += player.baseLevels[i];
             }
         }
 
+        // total_xp is on every row; the full blob only when a base level changed, since
+        // grinding bots gain xp every snapshot and would bloat the table otherwise
         let skills: string | null = null;
-        if (player.lastTelemetryTotalXp !== totalXp) {
+        if (player.lastTelemetryBaseLevelSum !== baseLevelSum) {
             const blob: Record<string, { xp: number; level: number }> = {};
             for (let i = 0; i < player.stats.length; i++) {
                 const name = PlayerStatNameMap.get(i);
@@ -2387,7 +2391,7 @@ class World {
                 }
             }
             skills = JSON.stringify(blob);
-            player.lastTelemetryTotalXp = totalXp;
+            player.lastTelemetryBaseLevelSum = baseLevelSum;
         }
 
         return {

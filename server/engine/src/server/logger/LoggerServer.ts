@@ -1,5 +1,7 @@
 import { WebSocket, WebSocketServer } from 'ws';
 
+import { sql } from 'kysely';
+
 import { db, toDbDate } from '#/db/query.js';
 import { PlayerTelemetryEvent } from '#/engine/entity/tracking/PlayerTelemetry.js';
 import { SessionLog } from '#/engine/entity/tracking/SessionLog.js';
@@ -7,10 +9,31 @@ import { WealthTransactionEvent } from '#/engine/entity/tracking/WealthEvent.js'
 import Environment from '#/util/Environment.js';
 import { printInfo } from '#/util/Logger.js';
 
+// raw telemetry rows are kept for this long, then thinned to one row per player per
+// 10 minutes (level-change rows are always kept) so a large population can't fill the volume
+const TELEMETRY_DETAIL_DAYS = 2;
+const TELEMETRY_PRUNE_INTERVAL_MS = 60 * 60 * 1000;
+
 export default class LoggerServer {
     private server: WebSocketServer;
 
     constructor() {
+        setInterval(async () => {
+            try {
+                const result = await db
+                    .deleteFrom('player_telemetry')
+                    .where('timestamp', '<', sql<string>`datetime('now', '-' || ${TELEMETRY_DETAIL_DAYS} || ' days')`)
+                    .where('skills', 'is', null)
+                    .where(sql<boolean>`cast(strftime('%M', timestamp) as integer) % 10 != 0`)
+                    .executeTakeFirst();
+
+                if (result.numDeletedRows > 0n) {
+                    printInfo(`Telemetry prune: downsampled ${result.numDeletedRows} old rows`);
+                }
+            } catch (err) {
+                console.error('Telemetry prune failed', err);
+            }
+        }, TELEMETRY_PRUNE_INTERVAL_MS);
         this.server = new WebSocketServer({ port: Environment.logger.port, host: '0.0.0.0' }, () => {
             printInfo(`Logger server listening on port ${Environment.logger.port}`);
         });

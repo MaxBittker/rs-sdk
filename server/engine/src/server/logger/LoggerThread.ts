@@ -43,10 +43,10 @@ async function handleRequests(_parentPort: ParentPort, msg: any) {
             break;
         }
         case 'player_telemetry': {
-            if (Environment.logger.enabled) {
-                const { events } = msg;
-                await client.playerTelemetry(events);
-            }
+            // not gated on Environment.logger.enabled - telemetry persists even when the
+            // moderation log stream (session_log etc) is turned off
+            const { events } = msg;
+            await client.playerTelemetry(events);
             break;
         }
         case 'report': {
