@@ -136,6 +136,8 @@ class World {
     // the 4GB prod box on 2026-07-21; the engine otherwise accepts up to 2048 players.
     private static readonly PLAYER_MAX_PER_IP: number = Number(process.env.MAX_PLAYERS_PER_IP ?? 200);
 
+    private static readonly PLAYER_SLOT_AUDITRATE: number = 100; // 30s at 300ms ticks
+
     private static readonly AFK_EVENTRATE: number = 500; // 5m: 60/5 = 12 chances per hour
     private static readonly AFK_CHANCE1: number = 1 / (120 / 5); // 1/24 - 4% chance every 5 mins: avg 1 event every 2 hrs
     private static readonly AFK_CHANCE2: number = 1 / (60 / 5); // 1/12 - 8% chance every 5 mins: avg 1 event every 1 hr while "aggro zone" hasn't changed
@@ -395,6 +397,9 @@ class World {
 
             // player logout
             this.processLogouts();
+
+            // reclaim slots held by players the player loop can no longer see
+            this.auditPlayerSlots();
 
             // player login, good spot for it (before packets so they immediately load but after processing so nothing hits them)
             this.processLogins();
@@ -1867,6 +1872,34 @@ class World {
         }
 
         return count;
+    }
+
+    // players[] is what getTotalPlayers() counts, and that count gates logins (world full /
+    // maxConnected). A player that ends up in players[] but not in the player loop is never
+    // ticked, never times out and never logs out, so its slot leaks forever and the phantom
+    // count eventually locks everyone out. That can't happen by design - reclaim and shout if
+    // it ever does again rather than quietly refusing every new login.
+    private auditPlayerSlots(): void {
+        if (this.currentTick % World.PLAYER_SLOT_AUDITRATE !== 0) {
+            return;
+        }
+
+        const live: Set<Player> = new Set(this.playerLoop.all());
+
+        for (let slot = 1; slot < 2047; slot++) {
+            const player = this.players[slot];
+            if (typeof player === 'undefined' || live.has(player)) {
+                continue;
+            }
+
+            printError(`Reclaiming orphaned player slot ${slot} ('${player.username}') - not in the player loop`);
+            this.removePlayer(player);
+
+            if (typeof this.players[slot] !== 'undefined') {
+                // removePlayer bailed (e.g. slot already reset to -1) - drop the slot anyway
+                delete this.players[slot];
+            }
+        }
     }
 
     scaleByPlayerCount(rate: number): number {
