@@ -203,6 +203,43 @@ function thinLine(line: number[]): number[] {
     return out;
 }
 
+// drop a vertex only when it sits within `tol` tiles of the segment between its
+// neighbours - simplifies near-straight runs while keeping real corners (which have a
+// large perpendicular distance). Corner-preserving alternative to vertex decimation.
+function simplifyLine(line: number[], tol: number): number[] {
+    if (line.length <= 4) {
+        return line;
+    }
+    const tol2: number = tol * tol;
+    const out: number[] = [line[0], line[1]];
+    let ax: number = line[0];
+    let az: number = line[1];
+    for (let i = 2; i < line.length - 2; i += 2) {
+        const bx: number = line[i];
+        const bz: number = line[i + 1];
+        const cx: number = line[i + 2];
+        const cz: number = line[i + 3];
+        const dx: number = cx - ax;
+        const dz: number = cz - az;
+        const len2: number = dx * dx + dz * dz;
+        // perpendicular distance^2 from b to segment a->c
+        let d2: number;
+        if (len2 === 0) {
+            d2 = (bx - ax) * (bx - ax) + (bz - az) * (bz - az);
+        } else {
+            const cross: number = (bx - ax) * dz - (bz - az) * dx;
+            d2 = (cross * cross) / len2;
+        }
+        if (d2 > tol2) {
+            out.push(bx, bz);
+            ax = bx;
+            az = bz;
+        }
+    }
+    out.push(line[line.length - 2], line[line.length - 1]);
+    return out;
+}
+
 async function buildTraces(hours: number): Promise<Buffer> {
     const since = toDbDate(Date.now() - hours * 3600_000);
     const lines: number[][] = [];
@@ -268,27 +305,22 @@ async function buildTraces(hours: number): Promise<Buffer> {
         printInfo(`Traces build for ${hours}h hit input cap - result is a partial sample`);
     }
 
-    // halve sample density until under the cap so the payload stays bounded; dot-only
-    // lines can't be thinned, so bail once a pass stops making progress
+    // simplify with a growing tolerance until under the cap so the payload stays
+    // bounded. Unlike vertex decimation this keeps corners (only near-straight points
+    // drop), so lines never start cutting across walls. Dot-only lines can't shrink, so
+    // bail once a pass stops making progress.
     let prevPoints = Infinity;
+    let tol = 1;
     while (points > TRACES_MAX_POINTS && points < prevPoints) {
         prevPoints = points;
         points = 0;
         for (let i = 0; i < lines.length; i++) {
-            const line = lines[i];
-            if (line.length > 8) {
-                const thinned: number[] = [];
-                for (let j = 0; j < line.length; j += 4) {
-                    thinned.push(line[j], line[j + 1]);
-                }
-                const last = line.length - 2;
-                if (thinned[thinned.length - 2] !== line[last] || thinned[thinned.length - 1] !== line[last + 1]) {
-                    thinned.push(line[last], line[last + 1]);
-                }
-                lines[i] = thinned;
+            if (lines[i].length > 4) {
+                lines[i] = simplifyLine(lines[i], tol);
             }
             points += lines[i].length / 2;
         }
+        tol *= 2;
     }
 
     return gzipSync(JSON.stringify({ hours, lines }));
