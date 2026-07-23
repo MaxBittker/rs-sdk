@@ -25,7 +25,7 @@ export class MapView extends GameShell {
     // custom: long-term anonymous movement traces ('H'), pre-rendered into a sparse
     // per-row heat buffer in map space so redraws only blend visible non-zero tiles
     historyLoading: boolean = false;
-    readonly historyHours: number = 24;
+    readonly historyHours: number = 168; // one week
     // max legit movement between samples is ~66 tiles (running, 10s interval); anything
     // bigger is a teleport or a sampling gap - draw nothing rather than a false chord
     readonly historyJumpThreshold: number = 80;
@@ -463,8 +463,9 @@ export class MapView extends GameShell {
             if (MapView.shouldDrawHistory) {
                 this.drawHistory(left, top, right, bottom, 0, 0, this.sWid, this.sHei);
                 if (this.historyLoading && this.b12) {
-                    this.b12.drawString(`loading ${this.historyHours}h movement traces...`, 11, 27, 0);
-                    this.b12.drawString(`loading ${this.historyHours}h movement traces...`, 10, 26, 0x00ffff);
+                    const window: string = this.historyHours % 24 === 0 ? `${this.historyHours / 24}d` : `${this.historyHours}h`;
+                    this.b12.drawString(`loading ${window} movement traces...`, 11, 27, 0);
+                    this.b12.drawString(`loading ${window} movement traces...`, 10, 26, 0x00ffff);
                 }
             }
 

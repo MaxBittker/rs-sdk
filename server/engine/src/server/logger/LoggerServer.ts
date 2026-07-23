@@ -132,6 +132,9 @@ const TRACES_MAX_POINTS = 2_000_000;
 // window must degrade (truncate) rather than OOM the whole server
 const TRACES_MAX_INPUT_POINTS = TRACES_MAX_POINTS * 4;
 const TRACES_MAX_RAW_ROWS = 500_000;
+// a week-wide window at swarm scale can hold 300k+ segment blobs; cap how many we
+// materialize at once (most recent first) so the build can't blow memory
+const TRACES_MAX_SEGMENTS = 250_000;
 const TRACES_CACHE_MS = 5 * 60 * 1000;
 
 const tracesCache = new Map<number, { at: number; buf: Buffer }>();
@@ -209,9 +212,11 @@ async function buildTraces(hours: number): Promise<Buffer> {
         .selectFrom('player_telemetry_segment')
         .select(['data'])
         .where('end_time', '>=', since)
+        .orderBy('end_time', 'desc')
+        .limit(TRACES_MAX_SEGMENTS)
         .execute();
 
-    let truncated = false;
+    let truncated = segments.length === TRACES_MAX_SEGMENTS;
     for (const seg of segments) {
         if (points >= TRACES_MAX_INPUT_POINTS) {
             truncated = true;
