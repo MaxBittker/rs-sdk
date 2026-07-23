@@ -134,7 +134,7 @@ class World {
 
     // concurrent players allowed per source IP. A 1100-account swarm from two IPs OOM'd
     // the 4GB prod box on 2026-07-21; the engine otherwise accepts up to 2048 players.
-    private static readonly PLAYER_MAX_PER_IP: number = Number(process.env.MAX_PLAYERS_PER_IP ?? 200);
+    private static readonly PLAYER_MAX_PER_IP: number = Number(process.env.MAX_PLAYERS_PER_IP ?? 400);
 
     private static readonly PLAYER_SLOT_AUDITRATE: number = 100; // 30s at 300ms ticks
 
