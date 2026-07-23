@@ -2088,11 +2088,19 @@ export class MapView extends GameShell {
             }
         }
 
-        // compact to per-row sparse arrays with a log intensity curve
+        // compact to per-row sparse arrays. Normalize intensity against the busiest
+        // tile on a log scale so heavy-traffic areas keep a gradient instead of all
+        // pinning to max (which made dense zones a flat opaque blob over a week of data).
         let count: number = 0;
+        let maxCount: number = 1;
         for (let i = 0; i < dense.length; i++) {
-            if (dense[i] !== 0) count++;
+            const v: number = dense[i];
+            if (v !== 0) {
+                count++;
+                if (v > maxCount) maxCount = v;
+            }
         }
+        const norm: number = 255 / Math.log(1 + maxCount);
 
         const rowStart: Int32Array = new Int32Array(h + 1);
         const xs: Uint16Array = new Uint16Array(count);
@@ -2105,7 +2113,7 @@ export class MapView extends GameShell {
                 const v: number = dense[base + x];
                 if (v !== 0) {
                     xs[n] = x;
-                    vs[n] = Math.min(255, (Math.log2(1 + v) * 42) | 0);
+                    vs[n] = Math.min(255, (Math.log(1 + v) * norm) | 0);
                     n++;
                 }
             }
@@ -2113,14 +2121,25 @@ export class MapView extends GameShell {
         rowStart[h] = n;
 
         if (this.heatPalette.length === 0) {
+            // blue -> cyan -> yellow -> red. No white at the top so the hottest tiles
+            // stay a saturated colour you can still read the terrain through.
+            const stops: number[][] = [
+                [0x20, 0x40, 0xb0], // low: blue
+                [0x20, 0xd0, 0xf0], // cyan
+                [0xf0, 0xe0, 0x30], // yellow
+                [0xff, 0x30, 0x10] // hot: red
+            ];
             this.heatPalette = new Int32Array(256);
             for (let i = 0; i < 256; i++) {
-                // dark teal -> cyan -> white
-                const t: number = i / 255;
-                const r: number = t < 0.5 ? (t * 2 * 0x30) | 0 : (0x30 + (t - 0.5) * 2 * 0xcf) | 0;
-                const g: number = t < 0.5 ? (0x40 + t * 2 * 0x8c) | 0 : (0xcc + (t - 0.5) * 2 * 0x33) | 0;
-                const b: number = t < 0.5 ? (0x60 + t * 2 * 0x9f) | 0 : 0xff;
-                this.heatPalette[i] = (r << 16) | (g << 8) | b;
+                const t: number = (i / 255) * (stops.length - 1);
+                const seg: number = Math.min(stops.length - 2, t | 0);
+                const f: number = t - seg;
+                const a = stops[seg];
+                const b = stops[seg + 1];
+                const r: number = (a[0] + (b[0] - a[0]) * f) | 0;
+                const g: number = (a[1] + (b[1] - a[1]) * f) | 0;
+                const bl: number = (a[2] + (b[2] - a[2]) * f) | 0;
+                this.heatPalette[i] = (r << 16) | (g << 8) | bl;
             }
         }
 
@@ -2158,7 +2177,8 @@ export class MapView extends GameShell {
 
                 const v: number = this.heatVs[i];
                 const rgb: number = this.heatPalette[v];
-                const alpha: number = 70 + ((v * 150) >> 8);
+                // capped so even the hottest tile stays translucent and the map reads through
+                const alpha: number = 40 + ((v * 115) >> 8);
                 const invAlpha: number = 256 - alpha;
                 const srcR: number = ((rgb >> 16) & 0xff) * alpha;
                 const srcG: number = ((rgb >> 8) & 0xff) * alpha;
