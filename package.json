@@ -2,13 +2,15 @@
   "name": "server",
   "private": true,
   "scripts": {
-    "check": "bun run typecheck && bun run typecheck:webclient && bun run test:focused && bun run docs:api:check",
+    "check": "bun run typecheck && bun run typecheck:webclient && bun run typecheck:mcp && bun run test:focused && bun run docs:api:check",
     "docs:api": "bun sdk/generate-api-docs.ts",
     "docs:api:check": "bun sdk/generate-api-docs.ts --check",
     "fetch-collision-data": "bun sdk/fetch-collision-data.ts",
     "test:docs": "bun test sdk/test/api-docs.test.ts sdk/test/docs-snippets.test.ts",
-    "test:focused": "bun sdk/test/chat-history.test.ts && bun sdk/test/click-dialog-by-text.test.ts && bun run test:docs",
+    "test:focused": "bun sdk/test/chat-history.test.ts && bun sdk/test/click-dialog-by-text.test.ts && bun run test:docs && bun run test:mcp",
+    "test:mcp": "bun test mcp/execution.test.ts",
     "typecheck": "tsc --noEmit",
+    "typecheck:mcp": "tsc --noEmit -p mcp/tsconfig.json",
     "typecheck:webclient": "tsc --noEmit -p server/webclient/tsconfig.json"
   },
   "devDependencies": {
