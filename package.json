@@ -6,11 +6,10 @@
     "docs:api": "bun sdk/generate-api-docs.ts",
     "docs:api:check": "bun sdk/generate-api-docs.ts --check",
     "fetch-collision-data": "bun sdk/fetch-collision-data.ts",
-    "test:docs": "bun test sdk/test/api-docs.test.ts sdk/test/docs-snippets.test.ts sdk/test/wiki-search.test.ts",
+    "test:docs": "bun test sdk/test/api-docs.test.ts sdk/test/docs-snippets.test.ts",
     "test:focused": "bun sdk/test/chat-history.test.ts && bun sdk/test/click-dialog-by-text.test.ts && bun run test:docs",
     "typecheck": "tsc --noEmit",
-    "typecheck:webclient": "tsc --noEmit -p server/webclient/tsconfig.json",
-    "wiki:search": "bun wiki/search.ts"
+    "typecheck:webclient": "tsc --noEmit -p server/webclient/tsconfig.json"
   },
   "devDependencies": {
     "@types/bun": "latest",
