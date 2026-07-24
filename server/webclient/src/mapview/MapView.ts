@@ -2100,7 +2100,7 @@ export class MapView extends GameShell {
                 if (v > maxCount) maxCount = v;
             }
         }
-        const norm: number = 255 / Math.log(1 + maxCount);
+        const invLogMax: number = 1 / Math.log(1 + maxCount);
 
         const rowStart: Int32Array = new Int32Array(h + 1);
         const xs: Uint16Array = new Uint16Array(count);
@@ -2113,7 +2113,10 @@ export class MapView extends GameShell {
                 const v: number = dense[base + x];
                 if (v !== 0) {
                     xs[n] = x;
-                    vs[n] = Math.min(255, (Math.log(1 + v) * norm) | 0);
+                    // gamma <1 lifts the low end so single-pass (lightest) traces read
+                    // as visible cyan rather than near-invisible dark blue
+                    const ratio: number = Math.log(1 + v) * invLogMax;
+                    vs[n] = Math.min(255, (Math.pow(ratio, 0.55) * 255) | 0);
                     n++;
                 }
             }
@@ -2177,8 +2180,9 @@ export class MapView extends GameShell {
 
                 const v: number = this.heatVs[i];
                 const rgb: number = this.heatPalette[v];
-                // capped so even the hottest tile stays translucent and the map reads through
-                const alpha: number = 40 + ((v * 115) >> 8);
+                // floor keeps the lightest traces visible; cap keeps the hottest tile
+                // translucent so the map still reads through
+                const alpha: number = 70 + ((v * 90) >> 8);
                 const invAlpha: number = 256 - alpha;
                 const srcR: number = ((rgb >> 16) & 0xff) * alpha;
                 const srcG: number = ((rgb >> 8) & 0xff) * alpha;
