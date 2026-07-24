@@ -20,7 +20,7 @@ export class MapView extends GameShell {
     static shouldDrawMultimap: boolean = false;
     static shouldDrawFreemap: boolean = false;
     static shouldDrawPlayers: boolean = true;
-    static shouldDrawHistory: boolean = false;
+    static shouldDrawHistory: boolean = true; // heatmap on by default; fetched lazily on first frame
 
     // custom: long-term anonymous movement traces ('H'), pre-rendered into a sparse
     // per-row heat buffer in map space so redraws only blend visible non-zero tiles
@@ -821,6 +821,11 @@ export class MapView extends GameShell {
         if (MapView.shouldDrawPlayers && now - this.lastPlayerFetch > this.playerPollInterval) {
             this.lastPlayerFetch = now;
             this.fetchPlayerPositions();
+        }
+
+        // custom: lazily load the history heatmap the first time it's shown (default on)
+        if (MapView.shouldDrawHistory && !this.heatRowStart && !this.historyLoading) {
+            this.fetchHistoryTraces();
         }
 
         // custom: clamp focus so the view stays within map bounds.
