@@ -1,6 +1,6 @@
 # Cannon stand
 
-*The mounting for the muticannon.*
+*The mounting for the multicannon.*
 
 | Detail | |
 |---|---|

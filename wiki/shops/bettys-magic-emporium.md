@@ -16,8 +16,8 @@
 | [Earth rune](../items/earth-rune.md) | 1000 | 4 gp | 2 gp |
 | [Mind rune](../items/mind-rune.md) | 1000 | 3 gp | 1 gp |
 | [Body rune](../items/body-rune.md) | 1000 | 3 gp | 1 gp |
-| [Chaos rune](../items/chaos-rune.md) | 500 | 15 gp | 9 gp |
-| [Death rune](../items/death-rune.md) | 500 | 30 gp | 18 gp |
+| [Chaos rune](../items/chaos-rune.md) | 1000 | 15 gp | 9 gp |
+| [Death rune](../items/death-rune.md) | 1000 | 30 gp | 18 gp |
 | [Eye of newt](../items/eye-of-newt.md) | 300 | 3 gp | 1 gp |
 | [Wizards hat](../items/wizards-hat.md) | 1 | 2 gp | 1 gp |
 | [Wizards hat](../items/wizards-hat.md) | 1 | 2 gp | 1 gp |

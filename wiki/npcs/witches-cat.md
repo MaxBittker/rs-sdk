@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m33_71 | m33_71 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m33_71 | m33_71 | (2131, 4602) L1 |
 
 ## Interactions
 

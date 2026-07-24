@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m48_149 | m48_149 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m48_149 | m48_149 | (3103, 9571) |
 
 ## Interactions
 

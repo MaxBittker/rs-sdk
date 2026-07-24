@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Ardougne (west) | m39_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Ardougne (west) | m39_50 | (2523, 3211) |
 
 ## Interactions
 

@@ -1,6 +1,6 @@
 # Journal
 
-*This must be Filliman Tarlocks personal journal.*
+*A daily journal.*
 
 | Detail | |
 |---|---|

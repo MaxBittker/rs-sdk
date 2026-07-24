@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m43_53 | m43_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m43_53 | m43_53 | (2800, 3439) |
 
 ## Interactions
 

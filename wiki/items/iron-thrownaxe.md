@@ -22,4 +22,4 @@
 
 ## Sources
 
-- Sold by: [Authentic Throwing Weapons](../shops/authentic-throwing-weapons.md) for 9 gp
+- Sold by: [Authentic throwing weapons](../shops/authentic-throwing-weapons.md) for 9 gp

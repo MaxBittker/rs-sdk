@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Falador (east) | m47_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Falador (east) | m47_50 | (3028, 3221) |
 
 ## Interactions
 

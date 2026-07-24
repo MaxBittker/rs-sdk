@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | Smithy for Burthorpe. |
 | **Aggressive** | No |
-| **Movement** | Stationary (indoors) |
+| **Movement** | Wander (range 5) |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_55 | m45_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_55 | m45_55 | (2919, 3574) |
 
 ## Interactions
 

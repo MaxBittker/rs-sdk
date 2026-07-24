@@ -7,7 +7,8 @@ Successful patterns for mining automation.
 Rocks are **locations** (not NPCs). Filter for rocks with a "Mine" option:
 
 ```typescript
-const rock = state.nearbyLocs
+const state = sdk.getState();
+const rock = state?.nearbyLocs
     .filter(loc => /rocks?/i.test(loc.name))
     .filter(loc => loc.optionsWithIndex.some(o => /^mine$/i.test(o.text)))
     .sort((a, b) => a.distance - b.distance)[0];
@@ -16,23 +17,23 @@ const rock = state.nearbyLocs
 ## Mining Action
 
 ```typescript
-// Walk closer if needed (interaction range is ~3 tiles)
-if (rock.distance > 3) {
-    await ctx.sdk.sendWalk(rock.x, rock.z, true);
-    await new Promise(r => setTimeout(r, 1000));
-}
-
-const mineOpt = rock.optionsWithIndex.find(o => /^mine$/i.test(o.text));
-await ctx.sdk.sendInteractLoc(rock.x, rock.z, rock.id, mineOpt.opIndex);
+if (!rock) throw new Error('No mineable rock nearby');
+const result = await bot.interactLoc(rock, 'mine');
+if (!result.success) console.warn(result.reason, result.message);
 ```
+
+For lower-level control, `sendInteractLoc()` only confirms client dispatch. Take
+an XP/inventory baseline and wait for the intended change rather than sleeping
+for an arbitrary duration.
 
 ## Detecting Mining Activity
 
 Animation ID 625 indicates active mining:
 
 ```typescript
-const isMining = state.player?.animId === 625;
-const isIdle = state.player?.animId === -1;
+const animation = sdk.getState()?.player?.animId ?? -1;
+const isMining = animation === 625;
+const isIdle = animation === -1;
 ```
 
 
@@ -53,8 +54,8 @@ const isIdle = state.player?.animId === -1;
 ## Counting Ore
 
 ```typescript
-function countOre(ctx): number {
-    const state = ctx.sdk.getState();
+function countOre() {
+    const state = sdk.getState();
     if (!state) return 0;
     return state.inventory
         .filter(i => /ore$/i.test(i.name))
@@ -65,10 +66,12 @@ function countOre(ctx): number {
 ## Drop When Full
 
 ```typescript
+const state = sdk.getState();
+if (!state) throw new Error('No world state');
 if (state.inventory.length >= 28) {
     const ores = state.inventory.filter(i => /ore$/i.test(i.name));
     for (const ore of ores) {
-        await ctx.sdk.sendDropItem(ore.slot);
+        await sdk.sendDropItem(ore.slot);
         await new Promise(r => setTimeout(r, 100));
     }
 }

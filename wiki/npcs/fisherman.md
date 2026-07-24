@@ -4,16 +4,17 @@
 |---|---|
 | **Combat Level** | None |
 | **Hitpoints** | N/A |
-| **Description** | Its a fisherman! |
+| **Description** | There's something fishy about this guy. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Stationary |
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Gnome Stronghold | m43_51 |
-| m43_73 | m43_73 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Gnome Stronghold | m43_51 | (2768, 3274), (2781, 3290) L1 |
+| m41_57 | m41_57 | (2641, 3699) |
+| m43_73 | m43_73 | (2802, 4706) |
 
 ## Interactions
 
@@ -27,5 +28,5 @@ Fisherman has no drops.
 
 ## Notes
 
-- Associated with the **Grail** quest.
-- Has 5 visual variants (grail_fisherman, fishplatform1, fishplatform2, fishplatform3, fishplatform4).
+- Associated with the **Viking** quest.
+- Has 6 visual variants (viking_fisherman1, grail_fisherman, fishplatform1, fishplatform2, fishplatform3, fishplatform4).

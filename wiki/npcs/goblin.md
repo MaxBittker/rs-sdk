@@ -24,27 +24,27 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Barbarian Village | m49_51 |
-| Edgeville area | m48_51 |
-| Falador | m46_50 |
-| Lumbridge | m50_50 |
-| Lumbridge (west) | m49_50 |
-| m37_147 | m37_147 |
-| m37_150 | m37_150 |
-| m38_151 | m38_151 |
-| m38_49 | m38_49 |
-| m40_150 | m40_150 |
-| m40_153 | m40_153 |
-| m40_53 | m40_53 |
-| m40_54 | m40_54 |
-| m46_54 | m46_54 |
-| Varrock | m50_52 |
-| Varrock (east) | m51_52 |
-| Varrock (south) | m50_51 |
-| West Ardougne | m39_49 |
-| Wilderness | m48_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Barbarian Village | m49_51 | (3142, 3297) |
+| Edgeville area | m48_51 | (3110, 3281) |
+| Falador | m46_50 | (2995, 3209) |
+| Lumbridge | m50_50 | (3202, 3253) |
+| Lumbridge (west) | m49_50 | (3141, 3258) |
+| m37_147 | m37_147 | (2380, 9456) |
+| m37_150 | m37_150 | (2377, 9657) |
+| m37_52 | m37_52 | (2373, 3333) |
+| m38_151 | m38_151 | (2438, 9695) |
+| m38_49 | m38_49 | (2460, 3177) |
+| m40_150 | m40_150 | (2564, 9653) |
+| m40_153 | m40_153 | (2564, 9836) |
+| m40_53 | m40_53 | (2563, 3398) |
+| m46_54 | m46_54 | (2951, 3497) |
+| Varrock | m50_52 | (3259, 3338) |
+| Varrock (east) | m51_52 | (3311, 3375) |
+| Varrock (south) | m50_51 | (3215, 3276) |
+| West Ardougne | m39_49 | (2550, 3197) |
+| Wilderness | m48_53 | (3118, 3432) |
 
 ## Drops
 
@@ -61,7 +61,7 @@ Always drops: Bones
 | Coins (x9) | 3/128 |
 | Bronze sq shield | 3/128 |
 | Earth rune (x4) | 3/128 |
-| Bolt (x8) | 3/128 |
+| Bolts (x8) | 3/128 |
 | Chef's hat | 3/128 |
 | Bronze spear | 4/128 (members) |
 | Body rune (x7) | 5/128 |

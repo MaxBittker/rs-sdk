@@ -6,7 +6,7 @@
 | **Hitpoints** | 10 |
 | **Description** | The Burthorpe Castle cook. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 5) |
 | **Respawn** | 50 ticks |
 
 ## Combat Stats
@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_55 | m45_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_55 | m45_55 | (2893, 3558) |
 
 ## Drops
 

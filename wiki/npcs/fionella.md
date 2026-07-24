@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m42_52 | m42_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m42_52 | m42_52 | (2725, 3378) L1 |
 
 ## Interactions
 

@@ -11,4 +11,4 @@
 
 ## Sources
 
-- Sold by: [Shop of Distate](../shops/shop-of-distate.md) for 1 gp
+- Sold by: [Shop of Distaste](../shops/shop-of-distaste.md) for 1 gp

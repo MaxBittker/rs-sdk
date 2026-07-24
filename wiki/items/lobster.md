@@ -11,6 +11,7 @@
 
 ## Sources
 
+- Sold by: [Fishrestaurant](../shops/fishrestaurant.md) for 150 gp
 - Sold by: [The Shrimp and Parrot](../shops/the-shrimp-and-parrot.md) for 195 gp
 - Sold by: [Fishing Guild Shop](../shops/fishing-guild-shop.md) for 150 gp
 - Dropped by: [Black Demon](../npcs/black-demon.md) (3/128)

@@ -21,12 +21,6 @@
 | Range Defence | 0 |
 | Attack Style | Crush |
 
-## Location
-
-| Area | Map |
-|------|-----|
-| West Ardougne | m39_49 |
-
 ## Drops
 
 Always drops: Bones

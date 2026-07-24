@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Ardougne | m40_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Ardougne | m40_50 | (2604, 3209) |
 
 ## Interactions
 

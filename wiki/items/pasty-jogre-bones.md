@@ -8,3 +8,4 @@
 | **Members** | Yes |
 | **Weight** | 800g |
 | **Value** | 0 gp |
+| **Tradeable** | No |

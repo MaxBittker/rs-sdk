@@ -23,9 +23,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m46_153 | m46_153 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m46_153 | m46_153 | (2965, 9811) |
 
 ## Interactions
 

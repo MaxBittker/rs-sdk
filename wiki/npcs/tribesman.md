@@ -24,12 +24,12 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Fight Arena area | m42_49 |
-| m43_47 | m43_47 |
-| m44_47 | m44_47 |
-| m45_46 | m45_46 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Fight Arena area | m42_49 | (2723, 3159) |
+| m43_47 | m43_47 | (2771, 3014) |
+| m44_47 | m44_47 | (2842, 3017) |
+| m45_46 | m45_46 | (2918, 2987) |
 
 ## Drops
 
@@ -39,7 +39,7 @@ Always drops: Bones
 |------|--------|
 | Bronze spear | 7/138 |
 | Steel javelin (x10) | 3/138 |
-| Bolt(p) (x4) | 2/138 |
+| Bolts(p) (x4) | 2/138 |
 | Iron spear | 2/138 |
 | Steel arrow(p) (x5) | 2/138 |
 | Mithril javelin (x10) | 2/138 |

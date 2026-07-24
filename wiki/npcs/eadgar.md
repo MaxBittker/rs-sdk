@@ -6,14 +6,14 @@
 | **Hitpoints** | N/A |
 | **Description** | A rather mad looking hermit. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 5) |
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| m44_157 | m44_157 |
-| m45_157 | m45_157 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_157 | m44_157 | (2829, 10083) |
+| m45_157 | m45_157 | (2890, 10086) L2 |
 
 ## Interactions
 

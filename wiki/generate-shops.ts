@@ -475,6 +475,10 @@ function generateShopMarkdown(page: ShopPage, objData: Map<string, ObjInfo>): st
 
 function updateReadme(pages: { name: string; file: string; location: string }[]) {
     const readmePath = join(WIKI_DIR, 'README.md');
+    if (!existsSync(readmePath)) {
+        console.log('  No wiki/README.md; skipping index update');
+        return;
+    }
     let content = readFileSync(readmePath, 'utf-8');
 
     // Remove existing Shops section if present

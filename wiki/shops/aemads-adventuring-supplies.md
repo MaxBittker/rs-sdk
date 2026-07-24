@@ -10,7 +10,7 @@
 
 | Item | Stock | Buy Price | Sell Price |
 |------|-------|-----------|------------|
-| [Vial](../items/vial.md) | 500 | 2 gp | 0 gp |
+| [Vial of water](../items/vial-of-water.md) | 500 | 2 gp | 0 gp |
 | [Bronze pickaxe](../items/bronze-pickaxe.md) | 2 | 1 gp | 0 gp |
 | [Iron axe](../items/iron-axe.md) | 2 | 72 gp | 22 gp |
 | [Cooked meat](../items/cooked-meat.md) | 2 | 5 gp | 1 gp |

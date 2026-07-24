@@ -15,3 +15,4 @@
 | [Tuna](../items/tuna.md) | 5 | 130 gp | 75 gp |
 | [Lobster](../items/lobster.md) | 3 | 195 gp | 112 gp |
 | [Swordfish](../items/swordfish.md) | 2 | 260 gp | 150 gp |
+| [Tbwt Cooked Karambwan](../items/tbwt-cooked-karambwan.md) | 3 | 1 gp | 0 gp |

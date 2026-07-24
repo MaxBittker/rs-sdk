@@ -1,4 +1,4 @@
-# Al Shabim.
+# Al Shabim
 
 | Detail | |
 |---|---|
@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m49_47 | m49_47 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m49_47 | m49_47 | (3171, 3025) |
 
 ## Interactions
 
@@ -22,4 +22,4 @@
 
 ## Drops
 
-Al Shabim. has no drops.
+Al Shabim has no drops.

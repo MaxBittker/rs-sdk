@@ -11,13 +11,13 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m42_154 | m42_154 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m42_154 | m42_154 | (2693, 9904) |
 
 ## Drops
 
-Always drops: Rocks
+Always drops: Rock
 
 ## Notes
 

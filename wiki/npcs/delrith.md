@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Varrock | m50_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Varrock | m50_52 | (3229, 3369) |
 
 ## Drops
 

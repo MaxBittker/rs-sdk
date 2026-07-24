@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Wilderness | m48_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Wilderness | m48_53 | (3076, 3429) |
 
 ## Interactions
 

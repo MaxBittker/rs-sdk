@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Ardougne (south) | m40_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Ardougne (south) | m40_49 | (2583, 3171) |
 
 ## Interactions
 

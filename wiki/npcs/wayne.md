@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Falador (north) | m46_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Falador (north) | m46_51 | (2973, 3312) |
 
 ## Interactions
 

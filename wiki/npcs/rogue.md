@@ -24,10 +24,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| m48_61 | m48_61 |
-| m51_61 | m51_61 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m48_61 | m48_61 | (3076, 3916) |
+| m51_61 | m51_61 | (3276, 3930), (3281, 3934) L3, (3286, 3939) L2, (3288, 3931) L1 |
 
 ## Drops
 
@@ -37,7 +37,7 @@ Always drops: Bones
 |------|--------|
 | Bronze med helm | 2/128 |
 | Iron dagger | 1/128 |
-| Bolt (x2-12) | 22/128 |
+| Bolts (x2-12) | 22/128 |
 | Bronze arrow (x7) | 3/128 |
 | Earth rune (x4) | 2/128 |
 | Fire rune (x6) | 2/128 |

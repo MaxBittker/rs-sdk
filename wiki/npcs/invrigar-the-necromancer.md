@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Seers' Village area | m41_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Seers' Village area | m41_50 | (2667, 3241) L1 |
 
 ## Drops
 

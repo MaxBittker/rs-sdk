@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | Barman of the Toad and Chicken. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 1) |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_55 | m45_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_55 | m45_55 | (2906, 3537) |
 
 ## Interactions
 

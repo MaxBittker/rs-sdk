@@ -10,9 +10,9 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| m40_51 | m40_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m40_51 | m40_51 | (2565, 3271), (2573, 3268) L1 |
 
 ## Interactions
 

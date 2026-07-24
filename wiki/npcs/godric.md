@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | Dunstan's son. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 2) |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_157 | m44_157 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_157 | m44_157 | (2827, 10077) |
 
 ## Interactions
 

@@ -66,7 +66,7 @@ runTest({
 
     // Check bank contents
     const bankState = sdk.getState();
-    const bankCoins = bankState.bank.items.find(i => /coins/i.test(i.name));
+    const bankCoins = bankState?.bank.items.find(i => /coins/i.test(i.name));
     console.log(`Bank coins: ${bankCoins ? `${bankCoins.count} (slot ${bankCoins.slot})` : 'NOT FOUND'}`);
 
     // Step 3: Withdraw exactly 25 coins
@@ -94,7 +94,7 @@ runTest({
     console.log(`Inventory coins: ${invCount} (expected: 25)`);
 
     const finalBankState = sdk.getState();
-    const remainingBankCoins = finalBankState.bank.items.find(i => /coins/i.test(i.name));
+    const remainingBankCoins = finalBankState?.bank.items.find(i => /coins/i.test(i.name));
     const bankCount = remainingBankCoins?.count ?? 0;
     console.log(`Bank coins remaining: ${bankCount} (expected: 75)`);
 

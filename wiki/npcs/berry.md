@@ -17,16 +17,16 @@
 | Strength Bonus | 20 |
 | Stab Defence | 0 |
 | Slash Defence | 0 |
-| Crush Defence | 0 |
+| Crush Defence | 10 |
 | Magic Defence | 200 |
 | Range Defence | 200 |
 | Attack Style | Crush |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_157 | m44_157 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_157 | m44_157 | (2832, 10083) |
 
 ## Drops
 

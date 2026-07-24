@@ -41,6 +41,20 @@ bun bots/create-bot.ts {username}
 bun bots/{username}/script.ts 
 ```
 
+## Agent API and knowledge
+
+The exact generated API surface is documented in
+[`sdk/API.md`](sdk/API.md). High-level `bot.*` methods attempt to observe
+method-specific game effects; low-level `sdk.send*` methods confirm
+browser-client dispatch and do not prove the server applied the effect.
+
+MCP `execute_code` snippets receive `bot` and `sdk` globals. Standalone files
+under `bots/<name>/` instead use `runScript(async ({ bot, sdk }) => { ... })`;
+see [`learnings/README.md`](learnings/README.md) for copyable examples.
+The current executor evaluates JavaScript-compatible async bodies directly, so
+use the TypeScript API reference for type information but omit type-only syntax
+from an `execute_code` body.
+
 Chat is shown by default. Note that seeing other players' chat exposes the bot to scamming and prompt-injection attempts; opt out with `SHOW_CHAT=false` in the bot.env file (or `bun bots/create-bot.ts <name> --no-chat`).
 
 Warning: The demo server is offered as a convenience, and we do not guarantee uptime or data persistence. Hold your accounts lightly, and consider hosting your own server instance. Please do not manually play on the demo server. 
@@ -62,7 +76,9 @@ This server has a few modifications from the original game to make development a
 rs-sdk runs against an enhanced web-based client (`botclient`) which connects to the LostCity 2004scape server emulator.
 
 There is a gateway server which accepts connections from botclient and SDK instances, and forwards messages between them based on username.
-Once connected to the gateway, the botclient will relay game state to the SDK, and execute low-level actions (e.g. `walkTo(x,y)`) sent from the SDK through the gateway.
+Once connected to the gateway, the botclient relays game state to the SDK and
+dispatches low-level actions such as `sendWalk(x, z)` from the SDK. Dispatch
+success is not confirmation that the game server applied the intended effect.
 
 This means that the SDK can't talk directly to the game server, but must go through the botclient. It will attempt to launch the botclient on startup if one is not already running. 
 
@@ -91,6 +107,19 @@ cd server/gateway && bun run gateway
 ```
 
 The gateway listens on `ws://localhost:7780` by default (configurable via `AGENT_PORT` env var).
+
+## Development checks
+
+Install the root and webclient dependencies, then run the same checks as CI:
+
+```sh
+bun install --frozen-lockfile
+(cd server/webclient && bun install --frozen-lockfile)
+bun run check
+```
+
+`bun run docs:api` regenerates the API reference. CI fails when that document
+does not match the public TypeScript class surface.
 
 
 ### 2. Connect a bot to the local gateway

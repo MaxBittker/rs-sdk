@@ -21,5 +21,5 @@
 
 ## Sources
 
-- Sold by: [Authentic Throwing Weapons](../shops/authentic-throwing-weapons.md) for 208 gp
+- Sold by: [Authentic throwing weapons](../shops/authentic-throwing-weapons.md) for 208 gp
 - Dropped by: [Black dragon](../npcs/black-dragon.md) (20/128)

@@ -1,6 +1,6 @@
 # Cannon furnace
 
-*Used to make the cannon's ammo.*
+*This powers the multicannon.*
 
 | Detail | |
 |---|---|

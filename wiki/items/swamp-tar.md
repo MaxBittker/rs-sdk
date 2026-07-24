@@ -19,3 +19,4 @@
 | m53_53 | Ground | 1 |
 | m54_52 | Ground | 1 |
 | m54_53 | Ground | 1 |
+| Morytania | Ground | 1 |

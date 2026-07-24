@@ -1,4 +1,4 @@
-# Glarials amulet
+# Glarial's amulet
 
 *A bright green gem set in a necklace.*
 

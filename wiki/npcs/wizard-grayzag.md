@@ -11,9 +11,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Desert | m48_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Desert | m48_49 | (3110, 3161) L2 |
 
 ## Drops
 

@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m43_52 | m43_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m43_52 | m43_52 | (2808, 3342) |
 
 ## Interactions
 

@@ -18,6 +18,7 @@
 
 ## Sources
 
+- Sold by: [The Lighthouse Store](../shops/the-lighthouse-store.md) for 1 gp
 - Sold by: [Bedabin Village Bartering](../shops/bedabin-village-bartering.md) for 1 gp
 - Sold by: [Shantay Pass Shop](../shops/shantay-pass-shop.md) for 1 gp
 - Dropped by: [Imp](../npcs/imp.md) (2/128)

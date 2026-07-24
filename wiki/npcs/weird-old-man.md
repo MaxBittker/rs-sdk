@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m50_48 | m50_48 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m50_48 | m50_48 | (3227, 3106) |
 
 ## Interactions
 

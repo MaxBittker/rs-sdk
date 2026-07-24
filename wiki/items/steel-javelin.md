@@ -21,6 +21,6 @@
 
 ## Sources
 
-- Sold by: [Authentic Throwing Weapons](../shops/authentic-throwing-weapons.md) for 31 gp
+- Sold by: [Authentic throwing weapons](../shops/authentic-throwing-weapons.md) for 31 gp
 - Dropped by: [Tribesman](../npcs/tribesman.md) (3/138)
 - Dropped by: [Jogre](../npcs/jogre.md) (2/128)

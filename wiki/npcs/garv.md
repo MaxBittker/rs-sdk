@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Karamja (west) | m43_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Karamja (west) | m43_49 | (2776, 3186) |
 
 ## Interactions
 

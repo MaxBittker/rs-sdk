@@ -10,9 +10,9 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Ardougne (south) | m40_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Ardougne (south) | m40_49 | (2606, 3154), (2610, 3143) L2 |
 
 ## Drops
 

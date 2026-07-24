@@ -10,10 +10,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Falador (south) | m45_50 |
-| Varrock (east) | m51_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Falador (south) | m45_50 | (2933, 3219) |
+| Varrock (east) | m51_52 | (3274, 3390) |
 
 ## Interactions
 

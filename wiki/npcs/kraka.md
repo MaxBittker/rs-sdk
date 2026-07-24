@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_56 | m44_56 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_56 | m44_56 | (2875, 3598) |
 
 ## Drops
 
@@ -262,4 +262,5 @@ Always drops: Big bones
 ## Notes
 
 - Associated with the **Death** quest.
+- Will flee from combat when attacked.
 - Category: Troll General.
