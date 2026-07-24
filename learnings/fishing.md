@@ -7,7 +7,7 @@ Successful patterns for fishing automation.
 Fishing spots are **NPCs**, not locations:
 
 ```typescript
-const spot = state.nearbyNpcs.find((npc) => /fishing\s*spot/i.test(npc.name));
+const spot = sdk.getState()?.nearbyNpcs.find((npc) => /fishing\s*spot/i.test(npc.name));
 ```
 
 ## Spot Types Matter
@@ -24,17 +24,20 @@ Filter for the right spot type:
 
 ```typescript
 // Level 1 fishing - need "Bait" option (indicates small net spot)
+const fishingSpots = sdk.getState()?.nearbyNpcs.filter(
+  npc => /fishing\s*spot/i.test(npc.name),
+) ?? [];
 const smallNetSpots = fishingSpots.filter((npc) =>
-  npc.options.some((opt) => /^bait$/i.test(opt)),
+  npc.optionsWithIndex.some((opt) => /^bait$/i.test(opt.text)),
 );
 ```
 
 ## Fishing Action
 
 ```typescript
-const spot = state.nearbyNpcs.find((npc) => /fishing\s*spot/i.test(npc.name));
-const netOpt = spot.optionsWithIndex.find((o) => /^net$/i.test(o.text));
-await ctx.sdk.sendInteractNpc(spot.index, netOpt.opIndex);
+const spot = sdk.getState()?.nearbyNpcs.find((npc) => /fishing\s*spot/i.test(npc.name));
+const netOpt = spot?.optionsWithIndex.find((o) => /^net$/i.test(o.text));
+if (spot && netOpt) await sdk.sendInteractNpc(spot.index, netOpt.opIndex);
 ```
 
 ## Continuous Clicking Works
@@ -43,16 +46,22 @@ Don't over-engineer wait conditions. Just keep clicking:
 
 ```typescript
 while (true) {
+  const state = sdk.getState();
+  if (!state) {
+    await sdk.waitForStateUpdate();
+    continue;
+  }
+
   // Dismiss any dialogs (level-ups)
   if (state.dialog.isOpen) {
-    await ctx.sdk.sendClickDialog(0);
+    await sdk.sendClickDialog(0);
     continue;
   }
 
   const spot = state.nearbyNpcs.find((npc) => /fishing\s*spot/i.test(npc.name));
   if (spot) {
     const netOpt = spot.optionsWithIndex.find((o) => /^net$/i.test(o.text));
-    await ctx.sdk.sendInteractNpc(spot.index, netOpt.opIndex);
+    if (netOpt) await sdk.sendInteractNpc(spot.index, netOpt.opIndex);
   }
 
   await new Promise((r) => setTimeout(r, 1000));
@@ -79,7 +88,8 @@ Fishing spots move. Check distance and walk back if needed:
 const START_AREA = { x: 3087, z: 3230 };
 const MAX_DRIFT = 15;
 
-const player = state.player;
+const player = sdk.getState()?.player;
+if (!player) throw new Error('No player state');
 const drift = Math.sqrt(
   Math.pow(player.worldX - START_AREA.x, 2) +
     Math.pow(player.worldZ - START_AREA.z, 2),
@@ -87,6 +97,6 @@ const drift = Math.sqrt(
 
 if (drift > MAX_DRIFT) {
   console.log(`Drifted ${drift.toFixed(0)} tiles, walking back`);
-  await ctx.bot.walkTo(START_AREA.x, START_AREA.z);
+  await bot.walkTo(START_AREA.x, START_AREA.z);
 }
 ```

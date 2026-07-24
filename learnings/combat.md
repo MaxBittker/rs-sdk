@@ -8,54 +8,54 @@ Use `bot.attackNpc()` for cleaner code, or raw SDK for more control:
 
 ```typescript
 // Porcelain method (recommended)
-await ctx.bot.attackNpc(/cow/i);
+const attack = await bot.attackNpc(/cow/i);
+if (!attack.success) console.warn(attack.reason, attack.message);
 
-// Raw SDK method
-const npc = state.nearbyNpcs.find(n => /cow/i.test(n.name));
-const attackOpt = npc.optionsWithIndex.find(o => /attack/i.test(o.text));
-await ctx.sdk.sendInteractNpc(npc.index, attackOpt.opIndex);
+// Raw SDK dispatch (observe combat state afterwards)
+const state = sdk.getState();
+const npc = state?.nearbyNpcs.find(n => /cow/i.test(n.name));
+const attackOpt = npc?.optionsWithIndex.find(o => /attack/i.test(o.text));
+if (npc && attackOpt) {
+    await sdk.sendInteractNpc(npc.index, attackOpt.opIndex);
+    await sdk.waitForCondition(s => s.player?.combat.inCombat === true, 5_000);
+}
 ```
 
 ## Combat Style Cycling
 
-Rotate styles for balanced training:
+Combat-style indices depend on the equipped weapon. Resolve them from the
+current state instead of hard-coding `0..3`:
 
 ```typescript
-// Combat style indices
-const STYLES = {
-    ATTACK: 0,    // Train Attack
-    STRENGTH: 1,  // Train Strength
-    STRENGTH2: 2, // Also Strength (some weapons)
-    DEFENCE: 3,   // Train Defence
-};
-
-// Cycle every 30 seconds or on level-up
-let lastStyleChange = Date.now();
-const CYCLE_INTERVAL = 30_000;
-
-if (Date.now() - lastStyleChange > CYCLE_INTERVAL) {
-    currentStyle = (currentStyle + 1) % 4;
-    if (currentStyle === 2) currentStyle = 3; // Skip duplicate strength
-    await ctx.sdk.sendSetCombatStyle(currentStyle);
-    lastStyleChange = Date.now();
+const targetSkill = 'Defence';
+const style = sdk.getState()?.combatStyle?.styles.find(
+    candidate => candidate.trainedSkill === targetSkill,
+);
+if (!style) {
+    throw new Error(`No ${targetSkill} style is available for the equipped weapon`);
 }
+await sdk.sendSetCombatStyle(style.index);
+await sdk.waitForCondition(
+    state => state.combatStyle?.currentStyle === style.index,
+    5_000,
+);
 ```
 
 ## Checking Combat State
 
 ```typescript
-// Optional chaining needed - combat can be undefined
-const inCombat = state.combat?.inCombat ?? false;
+const state = sdk.getState();
+const inCombat = state?.player?.combat.inCombat ?? false;
 
-// Or check if we're animating (attacking)
-const isAttacking = state.player?.animId !== -1;
+// Animation is a useful heuristic, but is not specific to combat.
+const isAnimating = (state?.player?.animId ?? -1) !== -1;
 ```
 
 ## Safe Training Locations
 
 | Location | Coordinates | Targets | Notes |
 |----------|-------------|---------|-------|
-| Lumbridge cows | (3253, 3290) | Cows | Safe, good for all levels. Gate at (3253, 3270) |
+| Lumbridge cows | (3253, 3290) | Cows | Safe, good for all levels. South gate at (3253, 3266) |
 | Lumbridge goblins | (3252, 3230) | Goblins, rats | Mixed enemies. Cluster runs NE from here — nothing at the old (3240, 3220) waypoint |
 | Lumbridge chickens | (3237, 3295) | Chickens | Very safe, feathers drop |
 | Al Kharid warriors | ~(3293, 3170) | `Al-Kharid warrior` (lvl 9) | Faster XP, kebabs nearby for food, can hit hard via multicombat vs low combat levels. |
@@ -64,11 +64,11 @@ const isAttacking = state.player?.animId !== -1;
 
 The cow field is fenced with a gate on the south side:
 - **Field center**: ~(3253, 3290)
-- **Gate position**: (3253, 3270)
+- **South gate position**: (3253, 3266)
 - **Inside cow pen**: x between 3242-3265, z between 3255-3298
 
 ```typescript
-function isInsideCowPen(x: number, z: number): boolean {
+function isInsideCowPen(x, z) {
     return x >= 3242 && x <= 3265 && z >= 3255 && z <= 3298;
 }
 ```
@@ -79,11 +79,11 @@ Cow field and chicken coop have fenced gates:
 
 ```typescript
 // Check for gate blocking path
-const gate = state.nearbyLocs.find(l => /gate/i.test(l.name));
+const gate = sdk.getState()?.nearbyLocs.find(l => /gate/i.test(l.name));
 if (gate) {
     const openOpt = gate.optionsWithIndex.find(o => /^open$/i.test(o.text));
     if (openOpt) {
-        await ctx.bot.openDoor(gate);
+        await bot.openDoor(gate);
     }
 }
 ```
@@ -93,8 +93,8 @@ if (gate) {
 After killing an NPC, find the next one quickly:
 
 ```typescript
-async function findTarget(ctx, pattern: RegExp) {
-    const state = ctx.sdk.getState();
+async function findTarget(pattern) {
+    const state = sdk.getState();
     if (!state) return null;
 
     return state.nearbyNpcs
@@ -110,10 +110,10 @@ async function findTarget(ctx, pattern: RegExp) {
 
 ```typescript
 // WRONG - nearbyLocs is for static objects (trees, rocks, etc.)
-const loot = state.nearbyLocs.filter(i => /hide/i.test(i.name));  // Won't work!
+const wrongLoot = sdk.getState()?.nearbyLocs.filter(i => /hide/i.test(i.name));  // Won't work!
 
 // CORRECT - scanGroundItems() for drops
-const groundItems = await ctx.sdk.scanGroundItems();
+const groundItems = await sdk.scanGroundItems();
 const loot = groundItems.filter(i => /hide|bones|coins/i.test(i.name));
 ```
 
@@ -123,14 +123,14 @@ Pick up a few items (e.g. 3), then return to combat. Prevents getting stuck in i
 
 ```typescript
 const MAX_PICKUPS = 3;
-const groundItems = await ctx.sdk.scanGroundItems();
+const groundItems = await sdk.scanGroundItems();
 const loot = groundItems
     .filter(i => /hide|bones/i.test(i.name))
     .filter(i => i.distance < 5)
     .slice(0, MAX_PICKUPS);
 
 for (const item of loot) {
-    await ctx.bot.pickupItem(item);
+    await bot.pickupItem(item);
     await new Promise(r => setTimeout(r, 500));
 }
 // Back to combat
@@ -143,7 +143,7 @@ Timeouts and errors are frequent in crowded areas. Wrap attacks in try/catch:
 ```typescript
 // This pattern enabled consistent 10-minute runs
 try {
-    await ctx.bot.attackNpc(/cow/i);
+    await bot.attackNpc(/cow/i);
 } catch (err) {
     console.log(`Attack timed out, trying next cow`);
     continue;  // Don't crash - just find another target
@@ -163,7 +163,7 @@ try {
 Browser glitches sometimes return invalid positions. Validate state before acting:
 
 ```typescript
-const player = ctx.sdk.getState()?.player;
+const player = sdk.getState()?.player;
 if (!player || player.worldX === 0 || player.worldZ === 0) {
     console.log('Invalid state - waiting for sync');
     await new Promise(r => setTimeout(r, 2000));
@@ -182,21 +182,24 @@ if (Math.abs(player.worldX - lastX) > 500) {
 For balanced progression, automatically train whichever stat is lowest:
 
 ```typescript
-function getLowestCombatStat(state): { stat: string, style: number } {
+function getLowestCombatStat(state) {
     const skills = state.skills;
     const atk = skills.find(s => s.name === 'Attack')?.baseLevel ?? 1;
     const str = skills.find(s => s.name === 'Strength')?.baseLevel ?? 1;
     const def = skills.find(s => s.name === 'Defence')?.baseLevel ?? 1;
 
-    if (def <= atk && def <= str) return { stat: 'Defence', style: 3 };
-    if (str <= atk) return { stat: 'Strength', style: 1 };
-    return { stat: 'Attack', style: 0 };
+    if (def <= atk && def <= str) return 'Defence';
+    if (str <= atk) return 'Strength';
+    return 'Attack';
 }
 
-// Set combat style based on lowest stat
-const { stat, style } = getLowestCombatStat(ctx.sdk.getState());
-await ctx.sdk.sendSetCombatStyle(style);
-console.log(`Training ${stat} (lowest)`);
+const state = sdk.getState();
+if (!state) throw new Error('No world state');
+const stat = getLowestCombatStat(state);
+const style = state.combatStyle?.styles.find(option => option.trainedSkill === stat);
+if (!style) throw new Error(`No style trains ${stat} with the equipped weapon`);
+await sdk.sendSetCombatStyle(style.index);
+console.log(`Training ${stat} with ${style.name}`);
 ```
 
 This pattern enabled balanced 60+ in all melee stats.

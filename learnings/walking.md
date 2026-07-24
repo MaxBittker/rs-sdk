@@ -4,15 +4,17 @@ Successful patterns for movement and pathfinding.
 
 ## Basic Walking
 
-For short distances (<30 tiles), `bot.walkTo()` works directly:
+`bot.walkTo()` performs pathfinding for both short and long routes:
 
 ```typescript
-await ctx.bot.walkTo(3222, 3218);  // Walk to Lumbridge
+const result = await bot.walkTo(3222, 3218);  // Walk to Lumbridge
+if (!result.success) console.warn(result.reason, result.message);
 ```
 
 ## Long Distance Walking
 
-For distances >30 tiles, use waypoints with 20-25 tile segments:
+`walkTo()` supports long routes. Use waypoints when you intentionally need a
+safer route, want progress checkpoints, or need to avoid a dangerous area:
 
 ```typescript
 const WAYPOINTS_TO_BANK = [
@@ -23,14 +25,14 @@ const WAYPOINTS_TO_BANK = [
     { x: 3185, z: 3436 },  // Final destination
 ];
 
-async function walkWaypoints(ctx, waypoints) {
+async function walkWaypoints(waypoints) {
     for (const wp of waypoints) {
         // Try up to 3 times per waypoint
         for (let attempt = 0; attempt < 3; attempt++) {
-            await ctx.bot.walkTo(wp.x, wp.z);
+            await bot.walkTo(wp.x, wp.z);
             await new Promise(r => setTimeout(r, 500));
 
-            const player = ctx.sdk.getState()?.player;
+            const player = sdk.getState()?.player;
             const dist = Math.sqrt(
                 Math.pow(player.worldX - wp.x, 2) +
                 Math.pow(player.worldZ - wp.z, 2)
@@ -47,9 +49,9 @@ async function walkWaypoints(ctx, waypoints) {
 Always check if you actually arrived:
 
 ```typescript
-const result = await ctx.bot.walkTo(targetX, targetZ);
+const result = await bot.walkTo(targetX, targetZ);
 
-const player = ctx.sdk.getState()?.player;
+const player = sdk.getState()?.player;
 const dist = Math.sqrt(
     Math.pow(player.worldX - targetX, 2) +
     Math.pow(player.worldZ - targetZ, 2)
@@ -82,17 +84,20 @@ const BANK_TO_MINE = [
 ];
 ```
 
-## Opening Obstacles (CRITICAL!)
+## Opening Obstacles
 
-**MUST open doors/gates BEFORE attempting to walk through.** The pathfinder cannot handle closed gates and will get stuck.
+`bot.walkTo()` attempts to open doors and gates on its route. If a route fails,
+inspect nearby objects and open the specific obstacle before retrying:
 
 ```typescript
-// WRONG - pathfinder gets stuck at closed gate
-await ctx.bot.walkTo(3250, 3260);  // Will fail if gate is closed
-
-// CORRECT - open gate first, then walk
-await ctx.bot.openDoor(/gate/i);
-await ctx.bot.walkTo(3250, 3260);  // Now works!
+let result = await bot.walkTo(3250, 3260);
+if (!result.success) {
+    const gate = sdk.findNearbyLoc(/^gate$/i);
+    if (gate?.optionsWithIndex.some(option => /^open$/i.test(option.text))) {
+        await bot.openDoor(gate);
+        result = await bot.walkTo(3250, 3260);
+    }
+}
 ```
 
 
@@ -111,12 +116,12 @@ Stay **north of z=3240** when walking west from cow field to Draynor. Use `walkT
 
 ```typescript
 // Safe: curve north around Dark Wizards
-await ctx.bot.walkTo(3230, 3270);  // Go west, stay north
-await ctx.bot.walkTo(3150, 3250);  // Continue west
-await ctx.bot.walkTo(3092, 3243);  // Draynor Bank
+await bot.walkTo(3230, 3270);  // Go west, stay north
+await bot.walkTo(3150, 3250);  // Continue west
+await bot.walkTo(3092, 3243);  // Draynor Bank
 
 // DANGEROUS: straight line cuts through wizard area!
-await ctx.bot.walkTo(3092, 3243);  // May path through (3220, 3220)
+await bot.walkTo(3092, 3243);  // May path through (3220, 3220)
 ```
 
 ## Key Coordinates
@@ -125,7 +130,7 @@ await ctx.bot.walkTo(3092, 3243);  // May path through (3220, 3220)
 |----------|-------------|
 | Lumbridge spawn | (3222, 3218) |
 | Lumbridge cows (field center) | (3253, 3290) |
-| Cow field gate | (3253, 3270) |
+| Cow field south gate | (3253, 3266) |
 | Draynor fishing | (3087, 3230) |
 | Varrock West bank | (3185, 3436) |
 | SE Varrock mine | (3285, 3365) |
@@ -152,8 +157,8 @@ await ctx.bot.walkTo(3092, 3243);  // May path through (3220, 3220)
 ```typescript
 // Simple check: x >= 3270 means inside Al Kharid
 // BUT note the bank is at x=3269, so use x >= 3267 for safety
-function isInAlKharid(ctx): boolean {
-    const player = ctx.sdk.getState()?.player;
+function isInAlKharid() {
+    const player = sdk.getState()?.player;
     if (!player) return false;
     return player.worldX >= 3267 && player.worldZ < 3220;
 }

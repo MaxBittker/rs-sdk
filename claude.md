@@ -128,8 +128,8 @@ Read and grep in the learnings/ and wiki/ folder for tips, skill guides, item an
 For the complete method reference, see **[sdk/API.md](sdk/API.md)** (auto-generated from source).
 
 **Quick overview:**
-- `bot.*` - High-level actions that wait for effects to complete (chopTree, walkTo, attackNpc, etc.)
-- `sdk.*` - Low-level methods that resolve on server acknowledgment (sendWalk, getState, findNearbyNpc, etc.)
+- `bot.*` - High-level actions that attempt to observe method-specific evidence (chopTree, walkTo, attackNpc, etc.). Check a result when the method returns one.
+- `sdk.*` - State queries and low-level browser-client dispatches. A successful `send*` result does not prove the game server applied the effect.
 
 ### bot.* Quick Reference
 
@@ -184,7 +184,22 @@ For the complete method reference, see **[sdk/API.md](sdk/API.md)** (auto-genera
 | `waitForChat(opts?)` | Wait for a message (`{from, matching, timeout}`) |
 | `waitForCondition(pred)` | Wait for state predicate |
 | `waitForTicks(n)` | Wait n game ticks |
-| `scanNearbyLocs(radius?)` | Extended-range loc scan |
+| `scanNearbyLocs(radius?)` | Async extended-range loc scan; must be awaited |
+
+See `sdk/API.md` for exact async signatures, parameter defaults, and return
+types. For wiki data, use `bun run wiki:search --json <query>` instead of
+grepping every generated page.
+
+### Code environments
+
+MCP `execute_code` exposes `bot` and `sdk` directly. Standalone
+`bots/{username}/*.ts` files must import `runScript` and receive
+`{ bot, sdk }` in its callback. Do not paste runner-context expressions into
+`execute_code`.
+
+Only one control connection should own a bot. Use observe mode for read-only
+monitoring, avoid overlapping action programs on the same bot, and inspect
+`sdk.getStateAge()` before acting after a disconnect or long pause.
 
 ---
 
