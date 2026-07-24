@@ -1,6 +1,6 @@
 # Unpowered symbol
 
-*An unholy symbol of Zamorak.*
+*An unblessed symbol of Zamorak.*
 
 | Detail | |
 |---|---|

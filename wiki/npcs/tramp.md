@@ -24,10 +24,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Varrock | m50_52 |
-| Varrock (north) | m50_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Varrock | m50_52 | (3208, 3391) |
+| Varrock (north) | m50_53 | (3235, 3401) |
 
 ## Drops
 

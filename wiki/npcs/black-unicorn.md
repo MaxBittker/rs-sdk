@@ -9,11 +9,12 @@
 | **Movement** | Wander (range 17) |
 | **Respawn** | 180 ticks |
 
-## Location
+## Locations
 
-| Area | Map |
-|------|-----|
-| m50_57 | m50_57 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m42_57 | m42_57 | (2708, 3672) |
+| m50_57 | m50_57 | (3209, 3672) |
 
 ## Drops
 

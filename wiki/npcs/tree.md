@@ -23,10 +23,12 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Barbarian Village | m49_52 |
-| Wilderness (low) | m48_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Barbarian Village | m49_52 | (3138, 3352) |
+| m55_54 | m55_54 | (3556, 3470) |
+| m56_54 | m56_54 | (3586, 3482) |
+| Wilderness (low) | m48_52 | (3103, 3347) |
 
 ## Drops
 
@@ -34,4 +36,5 @@ Tree has no drops.
 
 ## Notes
 
+- Has 2 visual variants (nasty_tree, nasty_tree_swamp).
 - Will attack nearby players on sight.

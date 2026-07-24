@@ -20,3 +20,4 @@
 ## Sources
 
 - Sold by: [Barkers' Habidashery](../shops/barkers-habidashery.md) for 650 gp
+- Sold by: [Yrsa's Accountrements](../shops/yrsas-accountrements.md) for 650 gp

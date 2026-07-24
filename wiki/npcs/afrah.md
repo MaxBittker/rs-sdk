@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Canifis area | m52_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Canifis area | m52_50 | (3385, 3204) |
 
 ## Interactions
 

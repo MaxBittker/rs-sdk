@@ -10,16 +10,17 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Al Kharid | m51_49 |
-| Falador (west) | m45_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Al Kharid | m51_49 | (3276, 3193) |
+| Falador (west) | m45_51 | (2934, 3284) L1 |
 
 ## Interactions
 
 | Option | Action |
 |--------|--------|
 | Talk-to | Talk-to |
+| Trade | Trade |
 
 ## Drops
 

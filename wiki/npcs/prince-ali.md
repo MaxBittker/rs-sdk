@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Edgeville area | m48_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Edgeville area | m48_50 | (3123, 3242) |
 
 ## Drops
 

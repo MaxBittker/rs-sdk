@@ -24,13 +24,13 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Barbarian Village | m49_51 |
-| m41_52 | m41_52 |
-| Taverley | m47_51 |
-| Varrock | m50_52 |
-| Varrock (south) | m50_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Barbarian Village | m49_51 | (3154, 3293) |
+| m41_52 | m41_52 | (2645, 3367) |
+| Taverley | m47_51 | (3035, 3296) |
+| Varrock | m50_52 | (3240, 3345) |
+| Varrock (south) | m50_51 | (3227, 3290) |
 
 ## Drops
 

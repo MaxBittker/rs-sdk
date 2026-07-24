@@ -17,4 +17,5 @@
 | [Jug](../items/jug.md) | 2 | 2 gp | 0 gp |
 | [Tinderbox](../items/tinderbox.md) | 2 | 1 gp | 0 gp |
 | [Chisel](../items/chisel.md) | 2 | 1 gp | 0 gp |
-| [Hammer](../items/hammer.md) | 2 | 1 gp | 0 gp |
+| [Hammer](../items/hammer.md) | 5 | 1 gp | 0 gp |
+| [Empty Dye Bottle](../items/empty-dye-bottle.md) | 10 | 1 gp | 0 gp |

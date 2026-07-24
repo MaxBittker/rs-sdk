@@ -1,6 +1,6 @@
 # Slave boots
 
-*Comfortable desert shoes.*
+*A set of filthy, smelly, flea infested desert slave boots.*
 
 | Detail | |
 |---|---|

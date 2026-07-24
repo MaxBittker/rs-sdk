@@ -11,9 +11,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Varrock (north) | m50_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Varrock (north) | m50_53 | (3223, 3395) |
 
 ## Drops
 

@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Yanille | m41_48 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Yanille | m41_48 | (2678, 3086) L1 |
 
 ## Interactions
 

@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | An off-duty Burthorpe Castle guard. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 1) |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_55 | m45_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_55 | m45_55 | (2905, 3539) L1 |
 
 ## Interactions
 

@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m42_55 | m42_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m42_55 | m42_55 | (2739, 3581) |
 
 ## Interactions
 

@@ -4,7 +4,7 @@
 |---|---|
 | **Combat Level** | 42 |
 | **Hitpoints** | 60 |
-| **Description** | His beard seems to have a life of it's own. |
+| **Description** | His beard seems to have a life of its own. |
 | **Aggressive** | No |
 | **Movement** | Wander (range 3) |
 | **Respawn** | 60 ticks |
@@ -24,14 +24,14 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Catherby | m42_50 |
-| m39_153 | m39_153 |
-| m39_53 | m39_53 |
-| m49_154 | m49_154 |
-| m49_59 | m49_59 |
-| Rimmington | m44_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Catherby | m42_50 | (2691, 3215) |
+| m39_153 | m39_153 | (2528, 9843) |
+| m39_53 | m39_53 | (2549, 3408) |
+| m49_154 | m49_154 | (3157, 9905) |
+| m49_59 | m49_59 | (3139, 3818) |
+| Rimmington | m44_50 | (2827, 3246) |
 
 ## Drops
 

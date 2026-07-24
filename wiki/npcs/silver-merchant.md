@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m41_51 | m41_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m41_51 | m41_51 | (2658, 3316) |
 
 ## Interactions
 

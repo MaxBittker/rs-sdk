@@ -6,7 +6,7 @@
 | **Hitpoints** | 10 |
 | **Description** | A servant for Prince Anlaf. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 5) |
 | **Respawn** | 50 ticks |
 
 ## Combat Stats
@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_55 | m45_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_55 | m45_55 | (2901, 3564) |
 
 ## Drops
 

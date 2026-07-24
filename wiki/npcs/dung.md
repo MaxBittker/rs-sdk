@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | Human is his speciality. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Stationary |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_56 | m44_56 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_56 | m44_56 | (2862, 3588) |
 
 ## Drops
 

@@ -11,4 +11,5 @@
 
 ## Sources
 
+- Sold by: [The Lighthouse Store](../shops/the-lighthouse-store.md) for 2 gp
 - Sold by: [The Toad and Chicken](../shops/the-toad-and-chicken.md) for 2 gp

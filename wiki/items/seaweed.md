@@ -15,6 +15,8 @@
 |------|-------|----------|
 | Feldip Hills | Ground | 1 |
 | Karamja | Ground | 1 |
+| m39_71 | Ground | 1 |
+| m42_58 | Ground | 1 |
 | m43_46 | Ground | 1 |
 | m43_47 | Ground | 1 |
 | m43_52 | Ground | 1 |

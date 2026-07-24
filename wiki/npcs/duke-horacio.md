@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Lumbridge | m50_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Lumbridge | m50_50 | (3212, 3220) L1 |
 
 ## Interactions
 

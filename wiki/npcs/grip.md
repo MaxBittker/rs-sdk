@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Karamja (west) | m43_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Karamja (west) | m43_49 | (2774, 3192) |
 
 ## Drops
 

@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Al Kharid | m50_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Al Kharid | m50_49 | (3235, 3153) |
 
 ## Interactions
 

@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Varrock (east) | m51_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Varrock (east) | m51_52 | (3285, 3381) |
 
 ## Interactions
 

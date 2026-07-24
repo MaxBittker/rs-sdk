@@ -13,7 +13,7 @@
 | [Bronze arrow](../items/bronze-arrow.md) | 2000 | 1 gp | 0 gp |
 | [Iron arrow](../items/iron-arrow.md) | 1500 | 3 gp | 1 gp |
 | [Steel arrow](../items/steel-arrow.md) | 1000 | 12 gp | 6 gp |
-| [Bolt](../items/bolt.md) | 1500 | 3 gp | 1 gp |
+| [Bolts](../items/bolts.md) | 1500 | 3 gp | 1 gp |
 | [Shortbow](../items/shortbow.md) | 4 | 50 gp | 27 gp |
 | [Longbow](../items/longbow.md) | 4 | 80 gp | 44 gp |
 | [Oak shortbow](../items/oak-shortbow.md) | 2 | 100 gp | 55 gp |

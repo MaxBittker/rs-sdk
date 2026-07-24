@@ -1,6 +1,6 @@
-# Glarials urn
+# Glarial's urn
 
-*An urn containing glarials ashes*
+*An urn containing Glarial's ashes*
 
 | Detail | |
 |---|---|

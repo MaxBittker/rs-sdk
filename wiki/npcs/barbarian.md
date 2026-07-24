@@ -24,10 +24,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| m39_55 | m39_55 |
-| Wilderness | m48_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m39_55 | m39_55 | (2534, 3568) |
+| Wilderness | m48_53 | (3076, 3414), (3096, 3428) L2 |
 
 ## Drops
 

@@ -11,8 +11,8 @@
 | Item | Stock | Buy Price | Sell Price |
 |------|-------|-----------|------------|
 | [Bronze arrow](../items/bronze-arrow.md) | 200 | 1 gp | 0 gp |
-| [Bolt](../items/bolt.md) | 150 | 3 gp | 0 gp |
-| [Pearl bolt](../items/pearl-bolt.md) | 1 | 110 gp | 27 gp |
+| [Bolts](../items/bolts.md) | 150 | 3 gp | 0 gp |
+| [Pearl bolts](../items/pearl-bolts.md) | 1 | 110 gp | 27 gp |
 | [Shortbow](../items/shortbow.md) | 4 | 50 gp | 12 gp |
 | [Longbow](../items/longbow.md) | 2 | 80 gp | 20 gp |
 | [Crossbow](../items/crossbow.md) | 2 | 70 gp | 17 gp |

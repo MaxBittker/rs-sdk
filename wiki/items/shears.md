@@ -19,6 +19,9 @@
 
 ## Sources
 
+- Sold by: [Regicide General Shop](../shops/regicide-general-shop.md) for 1 gp
+- Sold by: [Quatermaster's Stores](../shops/quatermasters-stores.md) for 1 gp
+- Sold by: [Razmiregeneralstore](../shops/razmiregeneralstore.md) for 1 gp
 - Sold by: [Karamja General Store](../shops/karamja-general-store.md) for 1 gp
 - Sold by: [Khazard General Store](../shops/khazard-general-store.md) for 1 gp
 - Sold by: [Varrock General Store](../shops/varrock-general-store.md) for 1 gp

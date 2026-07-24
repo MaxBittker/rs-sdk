@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | A dishevelled and irritable hermit. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 5) |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m35_74 | m35_74 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m35_74 | m35_74 | (2270, 4759) |
 
 ## Interactions
 

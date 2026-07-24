@@ -10,7 +10,7 @@
 
 | Item | Stock | Buy Price | Sell Price |
 |------|-------|-----------|------------|
-| [Bolt](../items/bolt.md) | 200 | 3 gp | 1 gp |
+| [Bolts](../items/bolts.md) | 200 | 3 gp | 1 gp |
 | [Bronze arrow](../items/bronze-arrow.md) | 1000 | 1 gp | 0 gp |
 | [Iron arrow](../items/iron-arrow.md) | 800 | 3 gp | 1 gp |
 | [Steel arrow](../items/steel-arrow.md) | 0 | 12 gp | 6 gp |

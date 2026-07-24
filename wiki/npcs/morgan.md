@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Edgeville area | m48_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Edgeville area | m48_51 | (3098, 3268) |
 
 ## Interactions
 

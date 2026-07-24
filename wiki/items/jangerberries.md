@@ -4,7 +4,7 @@
 
 | Detail | |
 |---|---|
-| **Type** | Other |
+| **Type** | Food |
 | **Members** | Yes |
 | **Weight** | 7g |
 | **Value** | 0 gp |

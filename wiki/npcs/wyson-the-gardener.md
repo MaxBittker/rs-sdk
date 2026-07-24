@@ -2,19 +2,24 @@
 
 | Detail | |
 |---|---|
-| **Combat Level** | 3 |
+| **Combat Level** | None |
 | **Hitpoints** | 7 |
-| **Description** | An old gardener. |
+| **Description** | The head gardener. |
 | **Aggressive** | No |
 | **Movement** | Wander |
-| **Respawn** | 50 ticks |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Camelot area | m46_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Taverley (north) | m47_52 | (3027, 3379) |
+
+## Interactions
+
+| Option | Action |
+|--------|--------|
+| Talk-to | Talk-to |
 
 ## Drops
 
-Always drops: Bones
+Wyson the gardener has no drops.

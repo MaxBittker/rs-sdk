@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Wilderness (low) | m48_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Wilderness (low) | m48_52 | (3110, 3330) |
 
 ## Interactions
 

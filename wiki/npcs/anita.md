@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m37_54 | m37_54 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m37_54 | m37_54 | (2390, 3514) L1 |
 
 ## Interactions
 

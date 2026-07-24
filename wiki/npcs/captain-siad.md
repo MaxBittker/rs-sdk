@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m51_47 | m51_47 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m51_47 | m51_47 | (3291, 3032) L1 |
 
 ## Interactions
 

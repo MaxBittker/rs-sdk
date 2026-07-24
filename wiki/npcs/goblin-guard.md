@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m37_147 | m37_147 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m37_147 | m37_147 | (2391, 9458) |
 
 ## Drops
 
@@ -43,7 +43,7 @@ Always drops: Bones
 | Coins (x9) | 3/128 |
 | Bronze sq shield | 3/128 |
 | Earth rune (x4) | 3/128 |
-| Bolt (x8) | 3/128 |
+| Bolts (x8) | 3/128 |
 | Chef's hat | 3/128 |
 | Bronze spear | 4/128 (members) |
 | Body rune (x7) | 5/128 |

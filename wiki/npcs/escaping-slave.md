@@ -1,4 +1,4 @@
-# Escaping slave.
+# Escaping slave
 
 | Detail | |
 |---|---|
@@ -16,7 +16,7 @@
 
 ## Drops
 
-Escaping slave. has no drops.
+Escaping slave has no drops.
 
 ## Notes
 

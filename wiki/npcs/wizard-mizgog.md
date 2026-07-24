@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Desert | m48_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Desert | m48_49 | (3103, 3163) L2 |
 
 ## Interactions
 

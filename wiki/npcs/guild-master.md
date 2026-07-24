@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Barbarian Village | m49_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Barbarian Village | m49_52 | (3191, 3362) |
 
 ## Interactions
 

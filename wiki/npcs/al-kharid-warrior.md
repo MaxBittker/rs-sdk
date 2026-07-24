@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Al Kharid | m51_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Al Kharid | m51_49 | (3282, 3176) |
 
 ## Drops
 
@@ -36,7 +36,7 @@ Always drops: Bones
 |------|--------|
 | Iron dagger | 1/128 |
 | Bronze med helm | 2/128 |
-| Bolt (x2-12) | 22/128 (members) |
+| Bolts (x2-12) | 22/128 (members) |
 | Bronze arrow (x7) | 3/128 |
 | Earth rune (x4) | 2/128 |
 | Fire rune (x6) | 2/128 |

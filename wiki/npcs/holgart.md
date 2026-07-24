@@ -10,10 +10,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Gnome Stronghold | m43_51 |
-| m42_51 | m42_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Gnome Stronghold | m43_51 | (2799, 3320) |
+| m42_51 | m42_51 | (2720, 3306) |
 
 ## Interactions
 

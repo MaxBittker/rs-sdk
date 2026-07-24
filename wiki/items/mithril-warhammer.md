@@ -20,3 +20,7 @@
 | Magic Attack | -4 |
 | Strength Bonus | +20 |
 | Attack Speed | 6 |
+
+## Sources
+
+- Sold by: [Skulgrimen's Battle Gear](../shops/skulgrimens-battle-gear.md) for 2158 gp

@@ -4,7 +4,7 @@
 |---|---|
 | **Owner** | [Ogre merchant](../npcs/ogre-merchant.md) |
 | **Location** | Yanille |
-| **Type** | General Store |
+| **Type** | Specialty Shop |
 
 ## Stock
 

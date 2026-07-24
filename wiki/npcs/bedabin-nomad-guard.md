@@ -2,12 +2,11 @@
 
 | Detail | |
 |---|---|
-| **Combat Level** | 64 |
+| **Combat Level** | None |
 | **Hitpoints** | 70 |
 | **Description** | A bedabin nomad guard - it looks like he's protecting an area. |
 | **Aggressive** | No |
-| **Movement** | Wander |
-| **Respawn** | 100 ticks |
+| **Movement** | Stationary |
 
 ## Combat Stats
 
@@ -24,10 +23,16 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m49_47 | m49_47 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m49_47 | m49_47 | (3170, 3045) |
+
+## Interactions
+
+| Option | Action |
+|--------|--------|
+| Talk-to | Talk-to |
 
 ## Drops
 
-Always drops: Bones
+Bedabin Nomad Guard has no drops.

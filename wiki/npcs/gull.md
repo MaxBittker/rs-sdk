@@ -23,14 +23,16 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Brimhaven | m44_48 |
-| m29_75 | m29_75 |
-| m30_75 | m30_75 |
-| m31_75 | m31_75 |
-| m46_47 | m46_47 |
-| Shilo Village area | m45_48 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Brimhaven | m44_48 | (2818, 3133) |
+| m29_75 | m29_75 | (1884, 4815) |
+| m30_75 | m30_75 | (1940, 4831) |
+| m31_75 | m31_75 | (2020, 4816) |
+| m39_71 | m39_71 | (2553, 4576) |
+| m41_57 | m41_57 | (2624, 3702) |
+| m42_58 | m42_58 | (2694, 3752) |
+| m46_47 | m46_47 | (2974, 3068) |
 
 ## Drops
 
@@ -38,4 +40,4 @@ Always drops: Bones
 
 ## Notes
 
-- Has 3 visual variants (seabird1, gull1, gull2).
+- Has 7 visual variants (seabird1, viking_seagull, viking_seagull2, viking_seagull3, viking_seagull4, gull1, gull2).

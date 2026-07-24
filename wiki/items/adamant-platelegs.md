@@ -24,5 +24,5 @@
 
 ## Sources
 
-- Sold by: [Louie's Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 6400 gp
+- Sold by: [Louies' Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 6400 gp
 - Dropped by: [Greater demon](../npcs/greater-demon.md) (1/128)

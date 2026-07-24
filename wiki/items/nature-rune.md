@@ -14,6 +14,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| m41_58 | Ground | 2 |
 | m51_60 | Ground | 4 |
 
 ## Sources

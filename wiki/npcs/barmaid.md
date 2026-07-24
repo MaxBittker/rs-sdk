@@ -10,9 +10,9 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Camelot area | m46_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Camelot area | m46_52 | (2956, 3373) L1, (2957, 3370) |
 
 ## Interactions
 

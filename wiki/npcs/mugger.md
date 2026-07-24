@@ -24,12 +24,12 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Barbarian Village | m49_52 |
-| m46_149 | m46_149 |
-| m47_49 | m47_49 |
-| Varrock | m50_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Barbarian Village | m49_52 | (3175, 3361) |
+| m46_149 | m46_149 | (2993, 9545) |
+| m47_49 | m47_49 | (3018, 3185) |
+| Varrock | m50_52 | (3249, 3391) |
 
 ## Drops
 

@@ -24,12 +24,13 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Ardougne area | m40_48 |
-| Desert | m48_49 |
-| Lumbridge (west) | m49_50 |
-| m48_149 | m48_149 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Ardougne area | m40_48 | (2586, 3088) L2, (2586, 3089) L1, (2588, 3090) |
+| Desert | m48_49 | (3107, 3157) L1, (3107, 3158) |
+| Lumbridge (west) | m49_50 | (3148, 3200) |
+| m31_73 | m31_73 | (2010, 4710) |
+| m48_149 | m48_149 | (3109, 9558) |
 
 ## Drops
 

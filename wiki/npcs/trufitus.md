@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Feldip Hills | m43_48 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Feldip Hills | m43_48 | (2809, 3086) |
 
 ## Interactions
 
