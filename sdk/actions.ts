@@ -53,13 +53,18 @@ import {
     countInventoryItem,
     detectInteractionEvidence,
     isMessageAfterBaseline,
-    resolveInterfaceOption,
+    MAX_SHOP_ACTION_PACKETS,
+    MAX_SHOP_ACTION_QUANTITY,
+    SHOP_ACTION_DEADLINE_MS,
+    validateActionQuantity,
 } from './action-reliability';
 import {
     findProducedItem,
+    matchingProductOptions,
     productPosition,
     resolveFletchProduct,
     resolveLeatherProduct,
+    resolveMakeOneOption,
 } from './crafting-products';
 
 // Modal interfaces dismissBlockingUI must never auto-close: closing these is
@@ -1106,6 +1111,16 @@ export class BotActions {
 
     /** Buy an item from an open shop .*/
     async buyFromShop(target: ShopItem | string | RegExp, amount: number = 1): Promise<ShopResult> {
+        const validatedAmount = validateActionQuantity(amount, { max: MAX_SHOP_ACTION_QUANTITY });
+        if (!validatedAmount.valid) {
+            return {
+                success: false,
+                message: validatedAmount.message,
+                phase: 'validation',
+                reason: 'invalid_amount',
+            };
+        }
+        const requestedAmount = validatedAmount.amount;
         const shop = this.sdk.getState()?.shop;
         if (!shop?.isOpen) {
             return { success: false, message: 'Shop is not open', phase: 'validation', reason: 'shop_not_open' };
@@ -1128,7 +1143,6 @@ export class BotActions {
                 .reduce((sum, i) => sum + i.count, 0);
 
         const totalBefore = countInvItems();
-        const requestedAmount = Math.max(1, Math.floor(amount));
         const outcome = (failure: 'dispatch_failed' | 'timeout' = 'timeout'): ShopResult => {
             const amountBought = Math.max(0, countInvItems() - totalBefore);
             const quantity = classifyQuantity(requestedAmount, amountBought);
@@ -1147,16 +1161,16 @@ export class BotActions {
             };
         };
 
-        // Decompose amount into valid buy commands (10, 5, 1)
+        // Stream bounded buy commands instead of materializing an amount-sized array.
         let remaining = requestedAmount;
-        const buySteps: number[] = [];
-        while (remaining > 0) {
-            if (remaining >= 10) { buySteps.push(10); remaining -= 10; }
-            else if (remaining >= 5) { buySteps.push(5); remaining -= 5; }
-            else { buySteps.push(1); remaining -= 1; }
-        }
-
-        for (const stepAmount of buySteps) {
+        let packetsSent = 0;
+        const deadline = Date.now() + Math.min(SHOP_ACTION_DEADLINE_MS, this.sdk.config.actionTimeout);
+        while (
+            remaining > 0 &&
+            packetsSent < MAX_SHOP_ACTION_PACKETS &&
+            Date.now() < deadline
+        ) {
+            const stepAmount = remaining >= 10 ? 10 : remaining >= 5 ? 5 : 1;
             const countBefore = countInvItems();
 
             const result = await this.sdk.sendShopBuy(shopItem.slot, stepAmount);
@@ -1165,6 +1179,7 @@ export class BotActions {
                 if (failed.amountBought === 0) failed.message = result.message;
                 return failed;
             }
+            packetsSent++;
 
             try {
                 await this.sdk.waitForCondition(state => {
@@ -1176,6 +1191,7 @@ export class BotActions {
             } catch {
                 return outcome('timeout');
             }
+            remaining -= stepAmount;
         }
 
         return outcome();
@@ -1183,6 +1199,17 @@ export class BotActions {
 
     /** Sell an item to an open shop. */
     async sellToShop(target: InventoryItem | ShopItem | string | RegExp, amount: SellAmount = 1): Promise<ShopSellResult> {
+        const validatedAmount = amount === 'all'
+            ? null
+            : validateActionQuantity(amount, { max: MAX_SHOP_ACTION_QUANTITY });
+        if (validatedAmount && !validatedAmount.valid) {
+            return {
+                success: false,
+                message: validatedAmount.message,
+                phase: 'validation',
+                reason: 'invalid_amount',
+            };
+        }
         const shop = this.sdk.getState()?.shop;
         if (!shop?.isOpen) {
             return { success: false, message: 'Shop is not open', phase: 'validation', reason: 'shop_not_open' };
@@ -1210,17 +1237,8 @@ export class BotActions {
         const getTotalCount = (playerItems: typeof shop.playerItems) =>
             playerItems.filter(i => i.id === sellItem.id).reduce((sum, i) => sum + i.count, 0);
 
-        // Decompose amount into valid sell commands (10, 5, 1)
-        let remaining = Math.max(1, Math.floor(amount));
-        const sellSteps: number[] = [];
-        while (remaining > 0) {
-            if (remaining >= 10) { sellSteps.push(10); remaining -= 10; }
-            else if (remaining >= 5) { sellSteps.push(5); remaining -= 5; }
-            else { sellSteps.push(1); remaining -= 1; }
-        }
-
         const totalCountBefore = getTotalCount(shop.playerItems);
-        const requestedAmount = Math.max(1, Math.floor(amount));
+        const requestedAmount = validatedAmount!.amount;
         const outcome = (
             failure: 'dispatch_failed' | 'rejected' | 'timeout' = 'timeout',
             rejected = false,
@@ -1246,15 +1264,29 @@ export class BotActions {
             };
         };
 
-        for (const stepAmount of sellSteps) {
-            const countBefore = getTotalCount(this.sdk.getState()?.shop.playerItems ?? []);
+        // Stream bounded sell commands and resolve a currently occupied slot
+        // before every dispatch (non-stackable batches remove the anchor slot).
+        let remaining = requestedAmount;
+        let packetsSent = 0;
+        const deadline = Date.now() + Math.min(SHOP_ACTION_DEADLINE_MS, this.sdk.config.actionTimeout);
+        while (
+            remaining > 0 &&
+            packetsSent < MAX_SHOP_ACTION_PACKETS &&
+            Date.now() < deadline
+        ) {
+            const currentPlayerItems = this.sdk.getState()?.shop.playerItems ?? [];
+            const currentSellItem = currentPlayerItems.find(item => item.id === sellItem.id);
+            if (!currentSellItem) return outcome('timeout');
+            const countBefore = getTotalCount(currentPlayerItems);
+            const stepAmount = remaining >= 10 ? 10 : remaining >= 5 ? 5 : 1;
 
-            const result = await this.sdk.sendShopSell(sellItem.slot, stepAmount);
+            const result = await this.sdk.sendShopSell(currentSellItem.slot, stepAmount);
             if (!result.success) {
                 const failed = outcome('dispatch_failed');
                 if (failed.amountSold === 0) failed.message = result.message;
                 return failed;
             }
+            packetsSent++;
 
             try {
                 const finalState = await this.sdk.waitForCondition(state => {
@@ -1294,6 +1326,7 @@ export class BotActions {
             } catch {
                 return outcome('timeout');
             }
+            remaining -= stepAmount;
         }
 
         return outcome();
@@ -1305,12 +1338,14 @@ export class BotActions {
         msgBaseline: ReturnType<typeof captureMessageBaseline>,
     ): Promise<ShopSellResult> {
         let totalSold = 0;
+        let packetsSent = 0;
+        const deadline = Date.now() + Math.min(SHOP_ACTION_DEADLINE_MS, this.sdk.config.actionTimeout);
 
         const getTotalCount = (playerItems: ShopItem[]) => {
             return playerItems.filter(i => i.id === sellItem.id).reduce((sum, i) => sum + i.count, 0);
         };
 
-        while (true) {
+        while (packetsSent < MAX_SHOP_ACTION_PACKETS && Date.now() < deadline) {
             const state = this.sdk.getState();
             if (!state?.shop.isOpen) {
                 break;
@@ -1329,6 +1364,7 @@ export class BotActions {
             if (!result.success) {
                 break;
             }
+            packetsSent++;
 
             try {
                 const finalState = await this.sdk.waitForCondition(s => {
@@ -1563,6 +1599,16 @@ export class BotActions {
 
     /** Deposit an item into the bank. Use -1 for all. */
     async depositItem(target: InventoryItem | string | RegExp, amount: number = -1): Promise<BankDepositResult> {
+        const validatedAmount = validateActionQuantity(amount, { allowAll: true });
+        if (!validatedAmount.valid) {
+            return {
+                success: false,
+                message: validatedAmount.message,
+                phase: 'validation',
+                reason: 'invalid_amount',
+            };
+        }
+        const dispatchAmount = validatedAmount.amount;
         const state = this.sdk.getState();
         if (!state?.interface?.isOpen) {
             return {
@@ -1573,7 +1619,14 @@ export class BotActions {
             };
         }
 
-        const item = this.helpers.resolveInventoryItem(target, /./);
+        let item: InventoryItem | null;
+        if (typeof target === 'object' && 'slot' in target) {
+            item = state.inventory.find(current =>
+                current.slot === target.slot && current.id === target.id
+            ) ?? state.inventory.find(current => current.id === target.id) ?? null;
+        } else {
+            item = this.helpers.resolveInventoryItem(target, /./);
+        }
         if (!item) {
             return {
                 success: false,
@@ -1584,8 +1637,8 @@ export class BotActions {
         }
 
         const countBefore = state.inventory.filter(i => i.id === item.id).reduce((sum, i) => sum + i.count, 0);
-        const requestedAmount = amount === -1 ? countBefore : Math.max(1, Math.floor(amount));
-        const dispatch = await this.sdk.sendBankDeposit(item.slot, amount);
+        const requestedAmount = dispatchAmount === -1 ? countBefore : dispatchAmount;
+        const dispatch = await this.sdk.sendBankDeposit(item.slot, dispatchAmount);
         if (!dispatch.success) {
             return {
                 success: false,
@@ -1635,6 +1688,16 @@ export class BotActions {
 
     /** Withdraw an item from the bank by slot number. */
     async withdrawItem(target: BankItem | string | RegExp | number, amount: number = 1): Promise<BankWithdrawResult> {
+        const validatedAmount = validateActionQuantity(amount, { allowAll: true });
+        if (!validatedAmount.valid) {
+            return {
+                success: false,
+                message: validatedAmount.message,
+                phase: 'validation',
+                reason: 'invalid_amount',
+            };
+        }
+        const dispatchAmount = validatedAmount.amount;
         const state = this.sdk.getState();
         if (!state?.interface?.isOpen) {
             return {
@@ -1649,7 +1712,9 @@ export class BotActions {
         if (typeof target === 'number') {
             bankItem = state.bank.items.find(item => item.slot === target);
         } else if (typeof target === 'object' && 'slot' in target) {
-            bankItem = state.bank.items.find(item => item.slot === target.slot) ?? target;
+            bankItem = state.bank.items.find(item =>
+                item.slot === target.slot && item.id === target.id
+            ) ?? state.bank.items.find(item => item.id === target.id);
         } else {
             bankItem = this.sdk.findBankItem(target) ?? undefined;
         }
@@ -1663,8 +1728,11 @@ export class BotActions {
         }
 
         const countBefore = countInventoryItem(state.inventory, bankItem.id);
-        const requestedAmount = amount === -1 ? bankItem.count : Math.max(1, Math.floor(amount));
-        const dispatch = await this.sdk.sendBankWithdraw(bankItem.slot, amount);
+        const bankCountBefore = state.bank.items
+            .filter(item => item.id === bankItem!.id)
+            .reduce((sum, item) => sum + item.count, 0);
+        const requestedAmount = dispatchAmount === -1 ? bankItem.count : dispatchAmount;
+        const dispatch = await this.sdk.sendBankWithdraw(bankItem.slot, dispatchAmount);
         if (!dispatch.success) {
             return {
                 success: false,
@@ -1679,14 +1747,34 @@ export class BotActions {
 
         try {
             const finalState = await this.sdk.waitForCondition(s => {
-                return countInventoryItem(s.inventory, bankItem!.id) > countBefore;
+                const inventoryIncreased = countInventoryItem(s.inventory, bankItem!.id) > countBefore;
+                const bankCountNow = s.bank.items
+                    .filter(item => item.id === bankItem!.id)
+                    .reduce((sum, item) => sum + item.count, 0);
+                return inventoryIncreased || bankCountNow < bankCountBefore;
             }, 5000);
-            const amountWithdrawn = Math.max(
+            const bankCountAfter = finalState.bank.items
+                .filter(item => item.id === bankItem.id)
+                .reduce((sum, item) => sum + item.count, 0);
+            const bankDecrease = Math.max(0, bankCountBefore - bankCountAfter);
+            const inventoryIncrease = Math.max(
                 0,
                 countInventoryItem(finalState.inventory, bankItem.id) - countBefore,
             );
+            const amountWithdrawn = Math.max(
+                bankDecrease,
+                inventoryIncrease,
+            );
             const quantity = classifyQuantity(requestedAmount, amountWithdrawn);
-            const newItem = finalState.inventory.find(item => item.id === bankItem.id);
+            const newItem = finalState.inventory.find(after => {
+                const beforeCount = state.inventory
+                    .filter(before => before.id === after.id)
+                    .reduce((sum, before) => sum + before.count, 0);
+                const afterCount = finalState.inventory
+                    .filter(candidate => candidate.id === after.id)
+                    .reduce((sum, candidate) => sum + candidate.count, 0);
+                return afterCount > beforeCount;
+            });
             return {
                 success: quantity.complete,
                 message: quantity.complete
@@ -2102,8 +2190,9 @@ export class BotActions {
         const position = productPosition(requestedProduct, higherTierLogs);
         let selection: ActionResult | null = null;
         if (state.interface?.isOpen) {
-            const option = resolveInterfaceOption(state.interface.options, requestedProduct.optionPattern)
-                ?? state.interface.options[position]
+            const matchingOptions = matchingProductOptions(state.interface.options, requestedProduct);
+            const option = resolveMakeOneOption(state.interface.options, requestedProduct)
+                ?? (matchingOptions.length === 0 ? state.interface.options[position] : null)
                 ?? null;
             selection = option ? await this.sdk.clickInterfaceOption(option) : null;
         } else if (state.dialog.isOpen) {
@@ -2220,8 +2309,9 @@ export class BotActions {
         const position = productPosition(requestedProduct, false);
         let selection: ActionResult | null = null;
         if (state.interface?.isOpen) {
-            const option = resolveInterfaceOption(state.interface.options, requestedProduct.optionPattern)
-                ?? state.interface.options[position]
+            const matchingOptions = matchingProductOptions(state.interface.options, requestedProduct);
+            const option = resolveMakeOneOption(state.interface.options, requestedProduct)
+                ?? (matchingOptions.length === 0 ? state.interface.options[position] : null)
                 ?? null;
             selection = option ? await this.sdk.clickInterfaceOption(option) : null;
         } else if (state.dialog.isOpen) {
