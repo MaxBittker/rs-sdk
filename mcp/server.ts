@@ -126,6 +126,20 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           type: 'object',
           properties: {}
         }
+      },
+      {
+        name: 'get_state',
+        description: 'Read-only: Get current game state for a bot without executing any code. Safe to call while scripts are running. Returns position, inventory, skills, nearby NPCs/objects, recent messages, dialog state, and equipment.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            bot_name: {
+              type: 'string',
+              description: 'Bot name (matches folder in bots/). Auto-connects on first use.'
+            }
+          },
+          required: ['bot_name']
+        }
       }
     ]
   };
@@ -154,6 +168,31 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
           bots,
           count: bots.length
         });
+      }
+
+      case 'get_state': {
+        const botName = args?.bot_name as string;
+
+        if (!botName) {
+          return errorResponse('bot_name is required');
+        }
+
+        // Auto-connect if not already connected
+        let connection = botManager.get(botName);
+        if (!connection) {
+          console.error(`[MCP] Bot "${botName}" not connected, auto-connecting...`);
+          connection = await botManager.connect(botName);
+        }
+
+        const state = connection.sdk.getState();
+        if (!state) {
+          return errorResponse('No game state available (bot may not be in-game)');
+        }
+
+        const output = formatWorldState(state, connection.sdk.getStateAge());
+        return {
+          content: [{ type: 'text', text: output }]
+        };
       }
 
       case 'execute_code': {
