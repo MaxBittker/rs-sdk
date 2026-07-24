@@ -4,7 +4,7 @@
 
 import { BotSDK } from './index';
 import { ActionHelpers } from './actions-helpers';
-import { findDoorsAlongPath, blockDoor, } from './pathfinding';
+import { findDoorsAlongPath } from './pathfinding';
 import type {
     ActionResult,
     SkillState,
@@ -224,6 +224,37 @@ export class BotActions {
 
             break;
         }
+    }
+
+    /**
+     * Wait for an action effect while clearing safe, incidental UI interrupts
+     * such as level-up dialogs. Deliberate trade/duel/design interfaces remain
+     * protected by dismissBlockingUI's allowlist.
+     */
+    private async waitForActionCondition(
+        predicate: (state: NonNullable<ReturnType<BotSDK['getState']>>) => boolean,
+        timeout: number
+    ): Promise<NonNullable<ReturnType<BotSDK['getState']>>> {
+        const deadline = Date.now() + timeout;
+
+        while (Date.now() < deadline) {
+            const current = this.sdk.getState();
+            if (current && predicate(current)) return current;
+
+            if (current?.dialog.isOpen ||
+                (current?.interface?.isOpen && !current.shop?.isOpen && !current.bank?.isOpen
+                    && !NEVER_AUTO_CLOSE.has(current.interface.interfaceId))) {
+                await this.dismissBlockingUI();
+                const afterDismiss = this.sdk.getState();
+                if (afterDismiss && predicate(afterDismiss)) return afterDismiss;
+            }
+
+            const remaining = deadline - Date.now();
+            if (remaining <= 0) break;
+            await this.sdk.waitForStateChange(Math.min(remaining, 2_000)).catch(() => {});
+        }
+
+        throw new Error('waitForActionCondition timed out');
     }
 
     // ============ Porcelain: Smart Actions ============
@@ -816,11 +847,12 @@ export class BotActions {
                 const key = `${nearest.x},${nearest.z}`;
                 const fails = (doorFailCounts.get(key) ?? 0) + 1;
                 doorFailCounts.set(key, fails);
-                // Only permanently block after 3 reach failures
+                // Temporarily exclude after repeated reach failures. The
+                // session-owned evidence expires automatically.
                 if (fails >= 3 && !blockedDoors.has(key)) {
                     blockedDoors.add(key);
-                    blockDoor(level, nearest.x, nearest.z);
-                    console.log(`[walkTo] Blocked impassable door at (${nearest.x}, ${nearest.z}) — re-routing`);
+                    this.sdk.blockDoorTemporarily(level, nearest.x, nearest.z);
+                    console.log(`[walkTo] Temporarily avoiding impassable door at (${nearest.x}, ${nearest.z}) — re-routing`);
                 }
             }
             return false;
@@ -870,11 +902,12 @@ export class BotActions {
                                         requiredDoorKeys.delete(dk);
                                         await this.sdk.waitForTicks(1);
                                     } else if (result === 'locked') {
-                                        // Definitely locked — block permanently in pathfinder
+                                        // Definitely locked right now — avoid it for
+                                        // this session's next path queries.
                                         blockedDoors.add(dk);
-                                        blockDoor(door.level, door.x, door.z);
+                                        this.sdk.blockDoorTemporarily(door.level, door.x, door.z);
                                         requiredDoorKeys.delete(dk);
-                                        console.log(`[walkTo] Blocked locked door at (${door.x}, ${door.z}) — re-routing`);
+                                        console.log(`[walkTo] Temporarily avoiding locked door at (${door.x}, ${door.z}) — re-routing`);
                                         break; // Re-query path on next iteration
                                     } else {
                                         // cant_reach or not_found — transient failure, track attempts
@@ -882,9 +915,9 @@ export class BotActions {
                                         doorFailCounts.set(dk, fails);
                                         if (fails >= 3) {
                                             blockedDoors.add(dk);
-                                            blockDoor(door.level, door.x, door.z);
+                                            this.sdk.blockDoorTemporarily(door.level, door.x, door.z);
                                             requiredDoorKeys.delete(dk);
-                                            console.log(`[walkTo] Blocked impassable door at (${door.x}, ${door.z}) after ${fails} failures — re-routing`);
+                                            console.log(`[walkTo] Temporarily avoiding impassable door at (${door.x}, ${door.z}) after ${fails} failures — re-routing`);
                                         } else {
                                             console.log(`[walkTo] Door at (${door.x}, ${door.z}) ${result} (attempt ${fails}/3) — retrying`);
                                         }
@@ -1617,19 +1650,31 @@ export class BotActions {
             }
         }
 
-        const startTick = this.sdk.getState()?.tick || 0;
+        const startState = this.sdk.getState();
+        const startTick = startState?.tick || 0;
+        const startLifeId = startState?.player?.lifeId;
+        const combatSkillNames = new Set(['Attack', 'Strength', 'Defence', 'Hitpoints', 'Ranged', 'Magic']);
+        const startCombatXp = (startState?.skills ?? [])
+            .filter(skill => combatSkillNames.has(skill.name))
+            .reduce((total, skill) => total + skill.experience, 0);
         const msgBaseline = this.helpers.getMessageTick();
         const result = await this.sdk.sendInteractNpc(npc.index, attackOpt.opIndex);
         if (!result.success) {
-            return { success: false, message: result.message };
+            return {
+                success: false,
+                message: result.message,
+                reason: result.reason === 'cant_reach' ? 'out_of_reach' : 'timeout'
+            };
         }
 
         try {
-            const finalState = await this.sdk.waitForCondition(state => {
+            const finalState = await this.waitForActionCondition(state => {
                 for (const msg of state.gameMessages) {
                     if (msg.tick > msgBaseline) {
                         const text = msg.text.toLowerCase();
-                        if (text.includes("someone else is fighting") || text.includes("already under attack")) {
+                        if (text.includes("someone else is fighting") ||
+                            text.includes("already under attack") ||
+                            text.includes("can't reach")) {
                             return true;
                         }
                     }
@@ -1640,24 +1685,67 @@ export class BotActions {
                     return true;
                 }
 
-                if (targetNpc.distance <= 2) {
+                if (state.player?.isDead || (startLifeId !== undefined && state.player?.lifeId !== startLifeId)) {
                     return true;
                 }
 
-                return false;
+                if (state.player?.combat.inCombat && state.player.combat.targetIndex === npc.index) {
+                    return true;
+                }
+
+                return state.combatEvents.some(event =>
+                    event.tick > startTick &&
+                    event.type === 'damage_dealt' &&
+                    event.targetType === 'npc' &&
+                    event.targetIndex === npc.index
+                ) || state.skills
+                    .filter(skill => combatSkillNames.has(skill.name))
+                    .reduce((total, skill) => total + skill.experience, 0) > startCombatXp;
             }, timeout);
 
-            // Check for "already in combat"
+            if (finalState.player?.isDead ||
+                (startLifeId !== undefined && finalState.player?.lifeId !== startLifeId)) {
+                return { success: false, message: `Died while attacking ${npc.name}`, reason: 'died' };
+            }
+
+            const engagedRequestedTarget =
+                (finalState.player?.combat.inCombat &&
+                    finalState.player.combat.targetIndex === npc.index) ||
+                finalState.combatEvents.some(event =>
+                    event.tick > startTick &&
+                    event.type === 'damage_dealt' &&
+                    event.targetType === 'npc' &&
+                    event.targetIndex === npc.index
+                );
+            const gainedCombatXp = finalState.skills
+                .filter(skill => combatSkillNames.has(skill.name))
+                .reduce((total, skill) => total + skill.experience, 0) > startCombatXp;
+
             for (const msg of finalState.gameMessages) {
                 if (msg.tick > msgBaseline) {
                     const text = msg.text.toLowerCase();
+                    if (text.includes("can't reach")) {
+                        return { success: false, message: `Cannot reach ${npc.name}`, reason: 'out_of_reach' };
+                    }
                     if (text.includes("someone else is fighting") || text.includes("already under attack")) {
+                        // "I'm already under attack!" can race with a successful
+                        // engagement. Prefer observed target/damage/XP evidence.
+                        if (engagedRequestedTarget || gainedCombatXp) {
+                            return { success: true, message: `Already fighting ${npc.name}` };
+                        }
                         return { success: false, message: `${npc.name} is already in combat`, reason: 'already_in_combat' };
                     }
                 }
             }
 
-            return { success: true, message: `Attacking ${npc.name}` };
+            if (engagedRequestedTarget || gainedCombatXp) {
+                return { success: true, message: `Attacking ${npc.name}` };
+            }
+
+            const targetStillVisible = finalState.nearbyNpcs.some(candidate => candidate.index === npc.index);
+            return targetStillVisible
+                ? { success: false, message: `No combat effect observed for ${npc.name}`, reason: 'timeout' }
+                : { success: false, message: `${npc.name} disappeared before combat was observed`, reason: 'npc_not_found' };
         } catch {
             return { success: false, message: `Timeout waiting to attack ${npc.name}`, reason: 'timeout' };
         }

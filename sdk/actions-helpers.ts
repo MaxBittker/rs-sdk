@@ -105,9 +105,8 @@ export class ActionHelpers {
     }
 
     /**
-     * Get the tick of the most recent game message (using server tick from messages,
-     * NOT state.tick which is a different counter). Use this before an action to
-     * establish a baseline for checkCantReachMessage.
+     * Get the public tick of the most recent game message. Use this before an
+     * action to establish a baseline for checkCantReachMessage.
      */
     getMessageTick(): number {
         const state = this.sdk.getState();
@@ -126,7 +125,6 @@ export class ActionHelpers {
     /**
      * Check recent game messages for "can't reach" indicators.
      * @param sinceMessageTick - Only check messages with tick > this value.
-     *   IMPORTANT: Use getMessageTick() to get this value, NOT state.tick (different counter).
      */
     checkCantReachMessage(sinceMessageTick: number): boolean {
         const state = this.sdk.getState();

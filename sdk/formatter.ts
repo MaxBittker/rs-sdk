@@ -41,12 +41,17 @@ export function formatWorldState(
         lines.push('## Player');
         lines.push(`Name: ${p.name} (Combat ${p.combatLevel})`);
         lines.push(`Position: (${p.worldX}, ${p.worldZ}) Level ${p.level}`);
+        if (p.isDead) {
+            lines.push(`Status: DEAD (life ${p.lifeId}, death tick ${p.lastDeathTick ?? 'unknown'})`);
+        } else if (p.respawnCount > 0) {
+            lines.push(`Life: ${p.lifeId} (${p.respawnCount} respawn${p.respawnCount === 1 ? '' : 's'} observed)`);
+        }
 
         // Combat status
         if (p.combat.inCombat) {
             const target = state.nearbyNpcs.find(n => n.index === p.combat.targetIndex);
             if (target) {
-                const hpStr = target.maxHp > 0 ? ` HP: ${target.hp}/${target.maxHp}` : '';
+                const hpStr = target.hp !== null && target.maxHp !== null ? ` HP: ${target.hp}/${target.maxHp}` : '';
                 lines.push(`In Combat: ${target.name}${hpStr}`);
             } else {
                 lines.push(`In Combat: target index ${p.combat.targetIndex}`);
@@ -211,7 +216,7 @@ export function formatWorldState(
         lines.push('## Nearby NPCs');
         for (const npc of state.nearbyNpcs.slice(0, 10)) {
             const lvl = npc.combatLevel > 0 ? ` (Lvl ${npc.combatLevel})` : '';
-            const hp = npc.maxHp > 0 ? ` HP: ${npc.hp}/${npc.maxHp}` : '';
+            const hp = npc.hp !== null && npc.maxHp !== null ? ` HP: ${npc.hp}/${npc.maxHp}` : '';
             const combat = npc.inCombat ? ' [in combat]' : '';
             const opts = npc.options?.length > 0 ? ` [${npc.options.join(', ')}]` : '';
             lines.push(`- ${npc.name}${lvl}${hp}${combat} - ${npc.distance} tiles (idx: ${npc.index})${opts}`);

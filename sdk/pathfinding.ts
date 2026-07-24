@@ -20,6 +20,42 @@ export interface DoorInfo {
     blockrange: boolean;
 }
 
+export interface TemporaryDoorBlock {
+    door: DoorInfo;
+    expiresAt: number;
+}
+
+/**
+ * Session-owned evidence that a door is temporarily impassable.
+ *
+ * Entries expire automatically so a transient route failure cannot poison the
+ * process-wide collision map for every bot until restart.
+ */
+export class TemporaryDoorBlocklist {
+    private entries = new Map<string, TemporaryDoorBlock>();
+
+    constructor(private readonly now: () => number = Date.now) {}
+
+    block(door: DoorInfo, ttlMs: number = 30_000): void {
+        this.entries.set(doorKey(door.level, door.x, door.z), {
+            door,
+            expiresAt: this.now() + Math.max(0, ttlMs)
+        });
+    }
+
+    active(): DoorInfo[] {
+        const now = this.now();
+        for (const [key, entry] of this.entries) {
+            if (entry.expiresAt <= now) this.entries.delete(key);
+        }
+        return [...this.entries.values()].map(entry => entry.door);
+    }
+
+    clear(): void {
+        this.entries.clear();
+    }
+}
+
 // Spatial index of all known door positions, keyed by "level,x,z"
 const doorIndex = new Map<string, DoorInfo>();
 
@@ -115,18 +151,42 @@ export function findLongPath(
     srcZ: number,
     destX: number,
     destZ: number,
-    maxWaypoints: number = 500
+    maxWaypoints: number = 500,
+    blockedDoors: Iterable<DoorInfo> = []
 ): Array<{ x: number; z: number; level: number }> {
     if (!initialized) {
         initPathfinding();
     }
 
-    const waypointsRaw = rsmod.findLongPath(
-        level, srcX, srcZ, destX, destZ,
-        1, 1, 1, 0, -1, true, 0, maxWaypoints, CollisionType.NORMAL
-    );
+    // Re-apply only this SDK session's temporary door walls for the duration of
+    // this synchronous query. The shared collision snapshot is restored before
+    // another bot can pathfind.
+    const applied: DoorInfo[] = [];
+    try {
+        for (const door of blockedDoors) {
+            rsmod.changeWall(
+                door.x, door.z, door.level,
+                door.angle, door.shape, door.blockrange,
+                false, true
+            );
+            applied.push(door);
+        }
 
-    return unpackWaypoints(waypointsRaw);
+        const waypointsRaw = rsmod.findLongPath(
+            level, srcX, srcZ, destX, destZ,
+            1, 1, 1, 0, -1, true, 0, maxWaypoints, CollisionType.NORMAL
+        );
+
+        return unpackWaypoints(waypointsRaw);
+    } finally {
+        for (const door of applied) {
+            rsmod.changeWall(
+                door.x, door.z, door.level,
+                door.angle, door.shape, door.blockrange,
+                false, false
+            );
+        }
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -192,22 +252,8 @@ export function findDoorsAlongPath(
 
 /** Look up a door at an exact position. */
 export function getDoorAt(level: number, x: number, z: number): DoorInfo | undefined {
-    return doorIndex.get(doorKey(level, x, z));
-}
-
-/**
- * Re-add wall collision for a door that couldn't be opened (e.g. locked).
- * This causes the pathfinder to route around it on subsequent queries.
- * Also removes the door from the index so findDoorsAlongPath won't return it.
- */
-export function blockDoor(level: number, x: number, z: number): boolean {
     if (!initialized) initPathfinding();
-    const key = doorKey(level, x, z);
-    const door = doorIndex.get(key);
-    if (!door) return false;
-    rsmod.changeWall(x, z, level, door.angle, door.shape, door.blockrange, false, true);
-    doorIndex.delete(key);
-    return true;
+    return doorIndex.get(doorKey(level, x, z));
 }
 
 // Unpack waypoints from rsmod format

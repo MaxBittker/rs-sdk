@@ -1,6 +1,7 @@
 // Bot SDK - Standalone client for remote bot control
 // Low-level WebSocket API that maps 1:1 to the action protocol
-// Actions resolve when game ACKNOWLEDGES them (not when effects complete)
+// Raw actions resolve when the browser validates/routes and dispatches them.
+// Use BotActions when the caller needs observation of the resulting game effect.
 
 import type {
     BotWorldState,
@@ -119,6 +120,7 @@ export class BotSDK {
     private connectionListeners = new Set<(state: ConnectionState, attempt?: number) => void>();
     private connectPromise: Promise<void> | null = null;
     private sdkClientId: string;
+    private temporaryDoorBlocks = new pathfinding.TemporaryDoorBlocklist();
 
     /** True once the gateway has accepted our credentials (sdk_connected received). */
     private authenticated = false;
@@ -741,6 +743,23 @@ export class BotSDK {
         return this.state?.inventory || [];
     }
 
+    /**
+     * Count total item quantity matching a name pattern.
+     *
+     * This sums stack sizes across every matching slot. Use
+     * `getInventory().filter(...)` when the number of occupied slots is needed.
+     */
+    countInventoryItems(pattern: string | RegExp): number {
+        if (!this.state) return 0;
+        const regex = typeof pattern === 'string'
+            ? new RegExp(pattern, 'i')
+            : new RegExp(pattern.source, pattern.flags.replace(/[gy]/g, ''));
+        return this.state.inventory.reduce(
+            (total, item) => total + (regex.test(item.name) ? item.count : 0),
+            0
+        );
+    }
+
     /** Get equipment item by slot number. */
     getEquipmentItem(slot: number): InventoryItem | null {
         if (!this.state) return null;
@@ -1304,7 +1323,15 @@ export class BotSDK {
         const destZoneAllocated = pathfinding.isZoneAllocated(level, destX, destZ);
 
         // 2048x2048 BFS grid handles any in-game distance in a single call.
-        const waypoints = pathfinding.findLongPath(level, srcX, srcZ, destX, destZ, maxWaypoints);
+        const waypoints = pathfinding.findLongPath(
+            level,
+            srcX,
+            srcZ,
+            destX,
+            destZ,
+            maxWaypoints,
+            this.temporaryDoorBlocks.active()
+        );
 
         // If no waypoints and destination zone isn't allocated, that's expected -
         // we just can't path there yet (might need to open a door first)
@@ -1330,6 +1357,17 @@ export class BotSDK {
         }
 
         return { success: true, waypoints, reachedDestination };
+    }
+
+    /**
+     * Temporarily exclude a known door from this SDK instance's path queries.
+     * The shared collision map is never mutated beyond the synchronous query.
+     */
+    blockDoorTemporarily(level: number, x: number, z: number, ttlMs: number = 30_000): boolean {
+        const door = pathfinding.getDoorAt(level, x, z);
+        if (!door) return false;
+        this.temporaryDoorBlocks.block(door, ttlMs);
+        return true;
     }
 
     /** Find path to destination (async alias for findPath). */

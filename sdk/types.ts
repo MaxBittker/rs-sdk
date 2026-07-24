@@ -34,6 +34,14 @@ export interface PlayerState {
     spotanimId: number;
     /** Combat state tracking */
     combat: PlayerCombatState;
+    /** True while the player's hitpoints are zero. */
+    isDead: boolean;
+    /** Changes after each observed death/respawn cycle. */
+    lifeId: number;
+    /** Number of respawns observed during this client session. */
+    respawnCount: number;
+    /** Public game tick when death was last observed, or null if none was observed. */
+    lastDeathTick: number | null;
 }
 
 export interface SkillState {
@@ -68,12 +76,15 @@ export interface NearbyNpc {
     x: number;
     z: number;
     distance: number;
-    hp: number;
-    maxHp: number;
+    /** Current HP, or null until the server reveals it by updating the NPC. */
+    hp: number | null;
+    /** Maximum HP, or null until the server reveals it by updating the NPC. */
+    maxHp: number | null;
     healthPercent: number | null;
     targetIndex: number;
     inCombat: boolean;
-    combatCycle: number;
+    /** Public game tick when damage was last observed on this NPC. */
+    lastCombatTick: number | null;
     animId: number;
     spotanimId: number;
     optionsWithIndex: NpcOption[];
@@ -354,6 +365,8 @@ export interface ActionResult {
     data?: any;
     /** Machine-readable failure category (e.g. 'cant_reach', 'no_match', 'timeout') */
     reason?: string;
+    /** Primitive actions report dispatch; porcelain actions may report observation/completion. */
+    phase?: 'validation' | 'routing' | 'dispatch' | 'observation' | 'completion';
 }
 
 /**
@@ -510,7 +523,7 @@ export interface EatResult {
 export interface AttackResult {
     success: boolean;
     message: string;
-    reason?: 'npc_not_found' | 'no_attack_option' | 'out_of_reach' | 'already_in_combat' | 'timeout';
+    reason?: 'npc_not_found' | 'no_attack_option' | 'out_of_reach' | 'already_in_combat' | 'died' | 'timeout';
 }
 
 export interface CastSpellResult {

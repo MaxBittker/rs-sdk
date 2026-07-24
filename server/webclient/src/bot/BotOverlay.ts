@@ -9,6 +9,8 @@ import { formatBotState, formatWorldStateForAgent } from './formatters.js';
 import { GatewayConnection, type GatewayMessageHandler } from './GatewayConnection.js';
 import { OverlayUI } from './OverlayUI.js';
 import { ScriptRunnerUI } from './ScriptRunnerUI.js';
+import { BotActionQueue, type QueuedBotAction } from './ActionQueue.js';
+import type { ActionResult } from './ActionExecutor.js';
 
 // Global instance reference (set when overlay is created)
 let globalBotOverlay: BotOverlay | null = null;
@@ -26,8 +28,7 @@ export class BotOverlay implements GatewayMessageHandler {
     private scriptRunner: ScriptRunnerUI;
 
     // Action state
-    private pendingAction: BotAction | null = null;
-    private currentActionId: string | null = null;
+    private actionQueue = new BotActionQueue();
     private waitTicks: number = 0;
 
     // Server tick counter - increments once per PLAYER_INFO packet (~420ms)
@@ -91,8 +92,7 @@ export class BotOverlay implements GatewayMessageHandler {
 
     onAction(action: BotAction, actionId: string | null): void {
         console.log(`[BotOverlay] Received action: ${action.type} (${actionId})`);
-        this.pendingAction = action;
-        this.currentActionId = actionId;
+        this.actionQueue.enqueue({ action, actionId });
         this.lastActionTime = Date.now();
         // Reset idle timer - SDK actions count as activity
         this.client.idleTimer = performance.now();
@@ -107,10 +107,10 @@ export class BotOverlay implements GatewayMessageHandler {
         this.ui.logAction('connected', 'Connected to SDK gateway');
 
         // Clear any stale pending actions from previous sessions
-        if (this.pendingAction) {
-            console.log(`[BotOverlay] Clearing stale pending action on connect: ${this.pendingAction.type}`);
+        if (this.actionQueue.active || this.actionQueue.pendingCount > 0) {
+            console.log('[BotOverlay] Clearing stale action queue on connect');
         }
-        this.pendingAction = null;
+        this.actionQueue.clear();
         this.waitTicks = 0;
     }
 
@@ -146,17 +146,19 @@ export class BotOverlay implements GatewayMessageHandler {
         // Handle wait ticks
         if (this.waitTicks > 0) {
             this.waitTicks--;
-            if (this.waitTicks === 0 && this.currentActionId) {
-                this.sendActionResult({ success: true, message: 'Wait complete' });
+            const active = this.actionQueue.active;
+            if (this.waitTicks === 0 && active) {
+                this.finishAction(active, { success: true, message: 'Wait complete', phase: 'completion' });
             }
             return;
         }
 
-        // Execute pending action
-        if (this.pendingAction) {
-            const action = this.pendingAction;
-            this.pendingAction = null;
+        // Never overlap an asynchronous action with the next queued action.
+        if (this.actionQueue.active) return;
 
+        const queued = this.actionQueue.startNext();
+        if (queued) {
+            const action = queued.action;
             console.log(`[BotOverlay] Executing action: ${action.type}`);
             const resultOrPromise = this.executor.execute(action);
 
@@ -164,11 +166,15 @@ export class BotOverlay implements GatewayMessageHandler {
             if (resultOrPromise instanceof Promise) {
                 resultOrPromise.then(result => {
                     console.log(`[BotOverlay] Async action result: ${result.success ? 'success' : 'failed'} - ${result.message}`);
-                    this.sendActionResult(result);
-                    this.sendState();  // Immediate feedback after action
+                    this.finishAction(queued, result);
                 }).catch(e => {
                     console.error(`[BotOverlay] Async action error:`, e);
-                    this.sendActionResult({ success: false, message: `Error: ${e}` });
+                    this.finishAction(queued, {
+                        success: false,
+                        message: `Error: ${e}`,
+                        phase: 'completion',
+                        reason: 'execution_error'
+                    });
                 });
                 return;
             }
@@ -182,10 +188,7 @@ export class BotOverlay implements GatewayMessageHandler {
                 return;
             }
 
-            this.sendActionResult(result);
-
-            // Send state immediately after action for fresh feedback
-            this.sendState();
+            this.finishAction(queued, result);
             return;
         }
 
@@ -198,7 +201,7 @@ export class BotOverlay implements GatewayMessageHandler {
     private collectWorldState(): BotWorldState | null {
         if (!this.collector || !this.client) return null;
 
-        const baseState = this.collector.collectState();
+        const baseState = this.collector.collectState(this.serverTick);
         const c = this.client as any;
 
         // Get dialog state - include componentId for direct clicking
@@ -234,7 +237,6 @@ export class BotOverlay implements GatewayMessageHandler {
 
         return {
             ...baseState,
-            tick: this.serverTick,  // Override with server tick (not client frame counter)
             dialog: {
                 isOpen: this.client.isDialogOpen(),
                 options: dialogOptions,
@@ -264,12 +266,16 @@ export class BotOverlay implements GatewayMessageHandler {
         this.gateway.sendState(state, formattedState);
     }
 
-    private sendActionResult(result: { success: boolean; message: string; data?: any }): void {
-        if (this.currentActionId) {
-            this.gateway.sendActionResult(this.currentActionId, result);
+    private finishAction(entry: QueuedBotAction, result: ActionResult): void {
+        // An old async completion may arrive after reconnect cleared the queue.
+        if (this.actionQueue.active !== entry) return;
+
+        if (entry.actionId) {
+            this.gateway.sendActionResult(entry.actionId, result);
             this.ui.logAction(result.success ? 'success' : 'failed', result.message);
-            this.currentActionId = null;
         }
+        this.actionQueue.complete(entry);
+        this.sendState();
     }
 
     private captureAndSendScreenshot(screenshotId?: string): void {
@@ -289,14 +295,12 @@ export class BotOverlay implements GatewayMessageHandler {
     update(): void {
         if (!this.ui.isVisible() || this.ui.isMinimized()) return;
 
-        const state = this.collector.collectState();
-        // Override with actual game tick (not client render cycle)
-        state.tick = this.serverTick;
+        const state = this.collector.collectState(this.serverTick);
         this.ui.updateContent(formatBotState(state));
     }
 
     getState(): BotState {
-        return this.collector.collectState();
+        return this.collector.collectState(this.serverTick);
     }
 
     toggle(): void {

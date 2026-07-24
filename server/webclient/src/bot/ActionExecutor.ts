@@ -1,13 +1,17 @@
 // ActionExecutor.ts - Executes bot actions by calling client methods
 // Maps BotAction types to actual game client operations
 
-import type { Client } from '#/client/Client.js';
+import type { Client, ClientActionResult } from '#/client/Client.js';
 import type { BotAction, NearbyLoc, GroundItem } from './types.js';
 
 export interface ActionResult {
     success: boolean;
     message: string;
     data?: any;  // Optional data payload for scan results
+    /** Stage reached by this primitive action. Success here means dispatched, not effect-complete. */
+    phase?: 'validation' | 'routing' | 'dispatch' | 'observation' | 'completion';
+    /** Stable failure category suitable for retry decisions. */
+    reason?: string;
 }
 
 export type ActionResultOrPromise = ActionResult | Promise<ActionResult>;
@@ -51,7 +55,7 @@ export class ActionExecutor {
                 }
 
                 case 'talkToNpc': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.talkToNpc(action.npcIndex),
                         `Talking to NPC #${action.npcIndex}`,
                         'Failed to talk to NPC'
@@ -61,7 +65,7 @@ export class ActionExecutor {
                 }
 
                 case 'interactNpc': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.interactNpc(action.npcIndex, action.optionIndex),
                         `Interacting with NPC #${action.npcIndex}`,
                         'Failed to interact with NPC'
@@ -71,7 +75,7 @@ export class ActionExecutor {
                 }
 
                 case 'interactPlayer': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.interactPlayer(action.playerIndex, action.optionIndex),
                         `Interacting with player #${action.playerIndex}`,
                         'Failed to interact with player'
@@ -81,7 +85,7 @@ export class ActionExecutor {
                 }
 
                 case 'interactLoc': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.interactLoc(action.x, action.z, action.locId, action.optionIndex),
                         `Interacting with loc ${action.locId}`,
                         'Failed to interact with location'
@@ -105,7 +109,7 @@ export class ActionExecutor {
                     );
 
                 case 'pickupItem': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.pickupGroundItem(action.x, action.z, action.itemId),
                         `Picking up item ${action.itemId}`,
                         'Failed to pickup item'
@@ -145,7 +149,7 @@ export class ActionExecutor {
                     );
 
                 case 'useItemOnLoc': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.useItemOnLoc(action.itemSlot, action.x, action.z, action.locId),
                         `Using item on location`,
                         'Failed to use item on location'
@@ -155,7 +159,7 @@ export class ActionExecutor {
                 }
 
                 case 'useItemOnNpc': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.useItemOnNpc(action.itemSlot, action.npcIndex),
                         `Using item on NPC #${action.npcIndex}`,
                         'Failed to use item on NPC'
@@ -208,7 +212,7 @@ export class ActionExecutor {
                     );
 
                 case 'spellOnNpc': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.spellOnNpc(action.npcIndex, action.spellComponent),
                         `Casting spell on NPC #${action.npcIndex}`,
                         'Failed to cast spell on NPC'
@@ -225,7 +229,7 @@ export class ActionExecutor {
                     );
 
                 case 'spellOnGroundItem':
-                    return this.wrapBool(
+                    return this.wrapClientAction(
                         this.client.spellOnGroundItem(action.x, action.z, action.itemId, action.spellComponent),
                         `Casting spell on ground item ${action.itemId} at (${action.x}, ${action.z})`,
                         'Failed to cast spell on ground item'
@@ -278,7 +282,7 @@ export class ActionExecutor {
                     );
 
                 case 'interactGroundItem': {
-                    const result = this.wrapBool(
+                    const result = this.wrapClientAction(
                         this.client.interactGroundItem(action.x, action.z, action.itemId, action.optionIndex),
                         `Interacting with ground item ${action.itemId}`,
                         'Failed to interact with ground item'
@@ -355,7 +359,21 @@ export class ActionExecutor {
 
     // Helper to wrap boolean client methods
     private wrapBool(result: boolean, successMsg: string, failMsg: string): ActionResult {
-        return result ? { success: true, message: successMsg } : { success: false, message: failMsg };
+        return result
+            ? { success: true, message: successMsg, phase: 'dispatch' }
+            : { success: false, message: failMsg, phase: 'validation', reason: 'client_rejected' };
+    }
+
+    private wrapClientAction(result: ClientActionResult, successMsg: string, failMsg: string): ActionResult {
+        if (result.success) {
+            return { success: true, message: successMsg, phase: 'dispatch' };
+        }
+        return {
+            success: false,
+            message: `${failMsg}: ${result.reason}`,
+            phase: result.reason === 'cant_reach' ? 'routing' : 'validation',
+            reason: result.reason
+        };
     }
 
     // Show red click cross at an NPC's screen position

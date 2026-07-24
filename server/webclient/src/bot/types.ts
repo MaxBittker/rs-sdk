@@ -57,18 +57,18 @@ export interface NearbyNpc {
     x: number;
     z: number;
     distance: number;
-    /** Current HP - NOTE: 0 until NPC takes damage (server only sends on hit) */
-    hp: number;
-    /** Max HP - NOTE: 0 until NPC takes damage (server only sends on hit) */
-    maxHp: number;
+    /** Current HP, or null until the server reveals it by updating the NPC. */
+    hp: number | null;
+    /** Maximum HP, or null until the server reveals it by updating the NPC. */
+    maxHp: number | null;
     /** Health as percentage 0-100 (null until NPC takes damage) */
     healthPercent: number | null;
     /** Index of who this NPC is targeting (-1 if none) */
     targetIndex: number;
     /** Is this NPC currently in combat? (has target OR was hit within last 400 ticks) */
     inCombat: boolean;
-    /** Combat cycle - set to tick+400 when NPC takes damage. Compare with state.tick for timing. */
-    combatCycle: number;
+    /** Public game tick when damage was last observed on this NPC. */
+    lastCombatTick: number | null;
     /** Current animation ID (-1 = idle/none) */
     animId: number;
     /** Current spot animation ID (-1 = none) */
@@ -200,6 +200,14 @@ export interface PlayerState {
     spotanimId: number;
     /** Combat state tracking */
     combat: PlayerCombatState;
+    /** True while the player's hitpoints are zero. */
+    isDead: boolean;
+    /** Changes after each observed death/respawn cycle. */
+    lifeId: number;
+    /** Number of respawns observed during this client session. */
+    respawnCount: number;
+    /** Public game tick when death was last observed, or null if none was observed. */
+    lastDeathTick: number | null;
 }
 
 // Combat style state
