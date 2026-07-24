@@ -51,6 +51,11 @@ export class TemporaryDoorBlocklist {
         return [...this.entries.values()].map(entry => entry.door);
     }
 
+    has(level: number, x: number, z: number): boolean {
+        this.active();
+        return this.entries.has(doorKey(level, x, z));
+    }
+
     clear(): void {
         this.entries.clear();
     }

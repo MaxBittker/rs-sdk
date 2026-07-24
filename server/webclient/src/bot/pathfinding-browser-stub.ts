@@ -24,6 +24,7 @@ export interface DoorInfo {
 export class TemporaryDoorBlocklist {
     block(_door: DoorInfo, _ttlMs?: number): void {}
     active(): DoorInfo[] { return []; }
+    has(_level: number, _x: number, _z: number): boolean { return false; }
     clear(): void {}
 }
 

@@ -958,7 +958,8 @@ export class BotSDK {
                 type: 'sdk_action',
                 username: this.config.botUsername,
                 actionId,
-                action
+                action,
+                actionTimeoutMs: this.config.actionTimeout
             });
         });
     }
@@ -1368,6 +1369,11 @@ export class BotSDK {
         if (!door) return false;
         this.temporaryDoorBlocks.block(door, ttlMs);
         return true;
+    }
+
+    /** Check this SDK session's non-expired temporary door evidence. */
+    isDoorTemporarilyBlocked(level: number, x: number, z: number): boolean {
+        return this.temporaryDoorBlocks.has(level, x, z);
     }
 
     /** Find path to destination (async alias for findPath). */

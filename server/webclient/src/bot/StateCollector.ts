@@ -83,8 +83,9 @@ export class BotStateCollector implements ScanProvider {
     private lifeId: number = 0;
     private respawnCount: number = 0;
     private lastDeathTick: number | null = null;
-    private messagePublicTicks = new Map<string, number>();
-    private dialogPublicTicks = new Map<string, number>();
+    private publicationRevision = 0;
+    private messageObservations = new Map<string, { tick: number; observationId: number }>();
+    private dialogObservations = new Map<string, { tick: number; observationId: number }>();
 
     // Cached prayer component map (built once on first use)
     private prayerComponentMap: PrayerComponentMap | null = null;
@@ -93,15 +94,22 @@ export class BotStateCollector implements ScanProvider {
         this.client = client;
     }
 
-    collectState(currentTick: number): BotState {
+    collectState(currentTick: number, publish: boolean = false): BotState {
         const c = this.client as any; // Access private members
         const clientCycle = this.client.getClientCycle();
+        if (publish) this.publicationRevision++;
 
         // Collect combat events (must be done before returning state)
         this.collectCombatEvents(currentTick);
+        if (publish) {
+            for (const event of this.combatEvents) {
+                if (!event.observationId) event.observationId = this.publicationRevision;
+            }
+        }
 
         return {
             tick: currentTick,
+            revision: this.publicationRevision,
             player: this.collectPlayerState(currentTick, clientCycle),
             skills: this.collectSkills(),
             inventory: this.collectInventory(INVENTORY_INTERFACE_ID),
@@ -111,8 +119,8 @@ export class BotStateCollector implements ScanProvider {
             nearbyPlayers: this.collectNearbyPlayers(),
             nearbyLocs: this.scanNearbyLocs(),
             groundItems: this.scanGroundItems(),
-            gameMessages: this.collectGameMessages(currentTick),
-            recentDialogs: this.collectRecentDialogs(currentTick),
+            gameMessages: this.collectGameMessages(currentTick, publish),
+            recentDialogs: this.collectRecentDialogs(currentTick, publish),
             menuActions: this.collectMenuActions(),
             shop: this.collectShopState(),
             bank: this.collectBankState(),
@@ -235,18 +243,29 @@ export class BotStateCollector implements ScanProvider {
         return { isOpen, options, isWaiting };
     }
 
-    private collectRecentDialogs(currentTick: number): Array<{ text: string[]; tick: number; interfaceId: number }> {
+    private collectRecentDialogs(currentTick: number, publish: boolean): Array<{ text: string[]; tick: number; interfaceId: number; observationId?: number }> {
         if (typeof this.client.getDialogHistory !== 'function') return [];
 
         const activeKeys = new Set<string>();
         const dialogs = this.client.getDialogHistory().map(entry => {
             const key = `${entry.tick}|${entry.interfaceId}|${entry.text.join('\u0000')}`;
             activeKeys.add(key);
-            if (!this.dialogPublicTicks.has(key)) this.dialogPublicTicks.set(key, currentTick);
-            return { ...entry, tick: this.dialogPublicTicks.get(key)! };
+            let observation = this.dialogObservations.get(key);
+            if (!observation) {
+                observation = { tick: currentTick, observationId: 0 };
+                this.dialogObservations.set(key, observation);
+            }
+            if (publish && observation.observationId === 0) {
+                observation.observationId = this.publicationRevision;
+            }
+            return {
+                ...entry,
+                tick: observation.tick,
+                observationId: observation.observationId || undefined
+            };
         });
-        for (const key of this.dialogPublicTicks.keys()) {
-            if (!activeKeys.has(key)) this.dialogPublicTicks.delete(key);
+        for (const key of this.dialogObservations.keys()) {
+            if (!activeKeys.has(key)) this.dialogObservations.delete(key);
         }
         return dialogs;
     }
@@ -961,13 +980,14 @@ export class BotStateCollector implements ScanProvider {
 
     private static readonly MAX_GAME_MESSAGES = 50;
 
-    private collectGameMessages(currentTick: number): GameMessage[] {
+    private collectGameMessages(currentTick: number, publish: boolean): GameMessage[] {
         const c = this.client as any;
 
         const messageText = c.chatText || [];
         const messageSender = c.chatUsername || [];
         const messageType = c.chatType || [];
         const messageTick = c.messageTick || [];
+        const messageSequence = c.messageSequence || [];
 
         const ownName = String(c.localPlayer?.name ?? '').replace(/@\w+@/g, '').toLowerCase();
 
@@ -979,6 +999,7 @@ export class BotStateCollector implements ScanProvider {
         // (sdk.getChat) so system messages stay available here too.
         const messages: GameMessage[] = [];
         const activeKeys = new Set<string>();
+        const fallbackOccurrences = new Map<string, number>();
         for (let i = 0; i < messageText.length && messages.length < BotStateCollector.MAX_GAME_MESSAGES; i++) {
             const text = messageText[i];
             if (!text) continue;
@@ -988,20 +1009,32 @@ export class BotStateCollector implements ScanProvider {
             const sender = String(messageSender[i] || '').replace(/@\w+@/g, '');
             const fromSelf = type === 6 || (sender !== '' && sender.toLowerCase() === ownName);
             const rawTick = messageTick[i] || 0;
-            const key = `${rawTick}|${type}|${sender}|${text}`;
+            const baseKey = `${rawTick}|${type}|${sender}|${text}`;
+            const occurrence = fallbackOccurrences.get(baseKey) ?? 0;
+            fallbackOccurrences.set(baseKey, occurrence + 1);
+            const sequence = messageSequence[i] || 0;
+            const key = sequence > 0 ? `seq:${sequence}` : `${baseKey}|occ:${occurrence}`;
             activeKeys.add(key);
-            if (!this.messagePublicTicks.has(key)) this.messagePublicTicks.set(key, currentTick);
+            let observation = this.messageObservations.get(key);
+            if (!observation) {
+                observation = { tick: currentTick, observationId: 0 };
+                this.messageObservations.set(key, observation);
+            }
+            if (publish && observation.observationId === 0) {
+                observation.observationId = this.publicationRevision;
+            }
 
             messages.push({
                 type,
                 text,
                 sender,
-                tick: this.messagePublicTicks.get(key)!,
+                tick: observation.tick,
+                observationId: observation.observationId || undefined,
                 fromSelf
             });
         }
-        for (const key of this.messagePublicTicks.keys()) {
-            if (!activeKeys.has(key)) this.messagePublicTicks.delete(key);
+        for (const key of this.messageObservations.keys()) {
+            if (!activeKeys.has(key)) this.messageObservations.delete(key);
         }
 
         // Return in chronological order (oldest first, newest last) so .slice(-N)

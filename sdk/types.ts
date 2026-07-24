@@ -133,6 +133,8 @@ export interface GameMessage {
     /** Sender name with @cr/@col codes stripped (empty for system messages). */
     sender: string;
     tick: number;
+    /** Monotonic publication revision when this message first became agent-visible. */
+    observationId?: number;
     /** True if this client sent the message (own public speech or sent PM). */
     fromSelf: boolean;
 }
@@ -148,6 +150,8 @@ export function isPlayerChat(type: number): boolean {
 export interface DialogEntry {
     text: string[];      // Lines of text in the dialog
     tick: number;        // Game tick when captured
+    /** Monotonic publication revision when this dialog first became agent-visible. */
+    observationId?: number;
     interfaceId: number; // Interface ID of the dialog
 }
 
@@ -231,6 +235,8 @@ export interface CombatStyleState {
 
 export interface CombatEvent {
     tick: number;
+    /** Monotonic publication revision when this event first became agent-visible. */
+    observationId?: number;
     type: 'damage_taken' | 'damage_dealt' | 'kill';
     damage: number;
     sourceType: 'player' | 'npc' | 'other_player';
@@ -290,6 +296,8 @@ export interface PrayerResult {
 
 export interface BotWorldState {
     tick: number;
+    /** Monotonic state publication cursor; advances even for multiple publications in one game tick. */
+    revision?: number;
     inGame: boolean;
     player: PlayerState | null;
     skills: SkillState[];

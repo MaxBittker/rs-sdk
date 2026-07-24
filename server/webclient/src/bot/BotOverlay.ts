@@ -90,9 +90,25 @@ export class BotOverlay implements GatewayMessageHandler {
 
     // ============ GatewayMessageHandler Implementation ============
 
-    onAction(action: BotAction, actionId: string | null): void {
+    onAction(action: BotAction, actionId: string | null, actionTimeoutMs?: number): void {
         console.log(`[BotOverlay] Received action: ${action.type} (${actionId})`);
-        this.actionQueue.enqueue({ action, actionId });
+        // Leave a small delivery margin so the SDK receives a deterministic
+        // queue_expired result before its own action timeout rejects locally.
+        const queueTtlMs = actionTimeoutMs === undefined
+            ? undefined
+            : Math.max(0, actionTimeoutMs - 1_000);
+        const queued = this.actionQueue.enqueue({ action, actionId }, queueTtlMs);
+        if (!queued) {
+            const result: ActionResult = {
+                success: false,
+                message: 'Action queue is full',
+                phase: 'validation',
+                reason: 'busy'
+            };
+            if (actionId) this.gateway.sendActionResult(actionId, result);
+            this.ui.logAction('failed', result.message);
+            return;
+        }
         this.lastActionTime = Date.now();
         // Reset idle timer - SDK actions count as activity
         this.client.idleTimer = performance.now();
@@ -106,11 +122,18 @@ export class BotOverlay implements GatewayMessageHandler {
     onConnected(): void {
         this.ui.logAction('connected', 'Connected to SDK gateway');
 
-        // Clear any stale pending actions from previous sessions
+        // Drop queued work from the previous connection. An asynchronous action
+        // already executing remains the active quiescence barrier until it
+        // settles, so fresh actions can never overlap its game mutations.
+        const active = this.actionQueue.active;
         if (this.actionQueue.active || this.actionQueue.pendingCount > 0) {
-            console.log('[BotOverlay] Clearing stale action queue on connect');
+            console.log('[BotOverlay] Advancing action queue generation on connect');
         }
-        this.actionQueue.clear();
+        this.actionQueue.beginGeneration();
+        // Wait actions have no background promise and can be released safely.
+        if (active && this.waitTicks > 0) {
+            this.actionQueue.complete(active);
+        }
         this.waitTicks = 0;
     }
 
@@ -143,6 +166,17 @@ export class BotOverlay implements GatewayMessageHandler {
     // ============ Main Tick Loop ============
 
     tick(): void {
+        for (const expired of this.actionQueue.expirePending()) {
+            const result: ActionResult = {
+                success: false,
+                message: `Action expired in queue: ${expired.action.type}`,
+                phase: 'validation',
+                reason: 'queue_expired'
+            };
+            if (expired.actionId) this.gateway.sendActionResult(expired.actionId, result);
+            this.ui.logAction('failed', result.message);
+        }
+
         // Handle wait ticks
         if (this.waitTicks > 0) {
             this.waitTicks--;
@@ -201,7 +235,7 @@ export class BotOverlay implements GatewayMessageHandler {
     private collectWorldState(): BotWorldState | null {
         if (!this.collector || !this.client) return null;
 
-        const baseState = this.collector.collectState(this.serverTick);
+        const baseState = this.collector.collectState(this.serverTick, true);
         const c = this.client as any;
 
         // Get dialog state - include componentId for direct clicking
@@ -267,14 +301,20 @@ export class BotOverlay implements GatewayMessageHandler {
     }
 
     private finishAction(entry: QueuedBotAction, result: ActionResult): void {
-        // An old async completion may arrive after reconnect cleared the queue.
+        // Ignore a completion that is not the active quiescence barrier.
         if (this.actionQueue.active !== entry) return;
+
+        const publishResult = this.actionQueue.isCurrentGeneration(entry);
+        this.actionQueue.complete(entry);
+        if (!publishResult) {
+            console.log(`[BotOverlay] Released stale action after reconnect: ${entry.action.type}`);
+            return;
+        }
 
         if (entry.actionId) {
             this.gateway.sendActionResult(entry.actionId, result);
             this.ui.logAction(result.success ? 'success' : 'failed', result.message);
         }
-        this.actionQueue.complete(entry);
         this.sendState();
     }
 

@@ -30,6 +30,7 @@ export interface SyncToBotMessage {
     type: 'action' | 'thinking' | 'error' | 'status' | 'screenshot_request' | 'save_and_disconnect';
     action?: BotAction;
     actionId?: string;  // For correlation
+    actionTimeoutMs?: number;  // SDK deadline, so browser queue can expire work first
     thinking?: string;
     error?: string;
     status?: string;
@@ -49,6 +50,7 @@ export interface SDKMessage {
     mode?: SDKConnectionMode;  // Connection mode: 'control' (default) or 'observe'
     actionId?: string;
     action?: BotAction;
+    actionTimeoutMs?: number;
     screenshotId?: string;  // For screenshot request correlation
 }
 

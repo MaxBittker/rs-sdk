@@ -117,7 +117,7 @@ export type ClientActionFailureReason =
  * belongs to the higher-level BotActions API.
  */
 export type ClientActionResult =
-    | { success: true }
+    | { success: true; routed?: boolean }
     | { success: false; reason: ClientActionFailureReason };
 
 export class Client extends GameShell {
@@ -526,6 +526,8 @@ export class Client extends GameShell {
     private chatUsername: (string | null)[] = new TypedArray1d(100, null);
     private chatText: (string | null)[] = new TypedArray1d(100, null);
     private messageTick: Int32Array = new Int32Array(100);  // Track when each message arrived
+    private messageSequence: number[] = new TypedArray1d(100, 0);
+    private nextMessageSequence: number = 0;
     // Dialog history storage (similar to message history)
     private dialogHistory: Array<{ text: string[]; tick: number; interfaceId: number }> = [];
     private dialogHistoryMax: number = 10;
@@ -1156,16 +1158,12 @@ export class Client extends GameShell {
             0,      // forceapproach
             2       // type = MOVE_OPCLICK
         );
-        if (!routed) {
-            return { success: false, reason: 'cant_reach' };
-        }
-
         // Send OPNPCT packet
         this.writePacketOpcode(ClientProt.OPNPCT);
         this.out.p2(npcIndex);
         this.out.p2(spellComponent);
 
-        return { success: true };
+        return { success: true, routed };
     }
 
     /**
@@ -1233,10 +1231,6 @@ export class Client extends GameShell {
             0,
             2  // MOVE_OPCLICK
         );
-        if (!routed) {
-            return { success: false, reason: 'cant_reach' };
-        }
-
         // Send OPOBJT packet: x, z, itemId, spellComponent
         this.writePacketOpcode(ClientProt.OPOBJT);
         this.out.p2(worldX);
@@ -1244,7 +1238,7 @@ export class Client extends GameShell {
         this.out.p2(itemId);
         this.out.p2(spellComponent);
 
-        return { success: true };
+        return { success: true, routed };
     }
 
     /**
@@ -3979,6 +3973,7 @@ export class Client extends GameShell {
 
                 for (let i: number = 0; i < 100; i++) {
                     this.chatText[i] = null;
+                    this.messageSequence[i] = 0;
                 }
 
                 this.useMode = 0;
@@ -13710,12 +13705,14 @@ export class Client extends GameShell {
             this.chatUsername[i] = this.chatUsername[i - 1];
             this.chatText[i] = this.chatText[i - 1];
             this.messageTick[i] = this.messageTick[i - 1];
+            this.messageSequence[i] = this.messageSequence[i - 1];
         }
 
         this.chatType[0] = type;
         this.chatUsername[0] = sender;
         this.chatText[0] = text;
         this.messageTick[0] = Client.loopCycle;
+        this.messageSequence[0] = ++this.nextMessageSequence;
     }
 
     private isFriend(username: string | null): boolean {

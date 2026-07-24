@@ -117,9 +117,15 @@ export class ActionHelpers {
         // every "since this tick" check match ancient messages.
         let maxTick = 0;
         for (const msg of state.gameMessages) {
-            if (msg.tick > maxTick) maxTick = msg.tick;
+            const cursor = msg.observationId ?? msg.tick;
+            if (cursor > maxTick) maxTick = cursor;
         }
         return maxTick;
+    }
+
+    /** True when a message was published after a cursor from getMessageTick(). */
+    isMessageAfter(message: { tick: number; observationId?: number }, cursor: number): boolean {
+        return (message.observationId ?? message.tick) > cursor;
     }
 
     /**
@@ -131,7 +137,7 @@ export class ActionHelpers {
         if (!state) return false;
 
         for (const msg of state.gameMessages) {
-            if (msg.tick > sinceMessageTick) {
+            if (this.isMessageAfter(msg, sinceMessageTick)) {
                 const text = msg.text.toLowerCase();
                 if (text.includes("can't reach") || text.includes("cannot reach") || text.includes("i can't reach")) {
                     return true;
@@ -356,7 +362,7 @@ export class ActionHelpers {
                 let failReason: 'locked' | 'cant_reach' | null = null;
                 await this.sdk.waitForCondition(state => {
                     for (const msg of state.gameMessages) {
-                        if (msg.tick > msgBaseline) {
+                        if (this.isMessageAfter(msg, msgBaseline)) {
                             const text = msg.text.toLowerCase();
                             if (text.includes("locked")) { failReason = 'locked'; return true; }
                             if (text.includes("can't reach") || text.includes("cannot reach")) { failReason = 'cant_reach'; return true; }

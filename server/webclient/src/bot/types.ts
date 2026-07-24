@@ -125,12 +125,16 @@ export interface GameMessage {
     text: string;
     sender: string;     // @cr/@col codes stripped; empty for system messages
     tick: number;
+    /** Monotonic publication revision when this message first became agent-visible. */
+    observationId?: number;
     fromSelf: boolean;  // true if this client sent it (own speech or sent PM)
 }
 
 export interface DialogEntry {
     text: string[];      // Lines of text in the dialog
     tick: number;        // Game tick when captured
+    /** Monotonic publication revision when this dialog first became agent-visible. */
+    observationId?: number;
     interfaceId: number; // Interface ID of the dialog
 }
 
@@ -228,6 +232,8 @@ export interface CombatStyleState {
 export interface CombatEvent {
     /** Game tick when event occurred */
     tick: number;
+    /** Monotonic publication revision when this event first became agent-visible. */
+    observationId?: number;
     /** Type of combat event */
     type: 'damage_taken' | 'damage_dealt' | 'kill';
     /** Damage amount (for damage events) */
@@ -265,6 +271,8 @@ export interface PrayerState {
 
 export interface BotState {
     tick: number;
+    /** Monotonic publication cursor; advances for each state sent to agents. */
+    revision: number;
     player: PlayerState | null;
     skills: SkillState[];
     inventory: InventoryItem[];

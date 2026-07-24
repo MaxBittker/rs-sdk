@@ -88,23 +88,42 @@ describe('BotStateCollector combat state', () => {
         expect((collector as any).combatEvents[0].tick).toBe(12);
     });
 
-    test('normalizes raw client message cycles onto the public state clock', () => {
+    test('publishes UI-observed and same-tick duplicate messages on newer revisions', () => {
         const client = createClient();
         client.chatText = ['Hello'];
         client.chatUsername = ['Guide'];
         client.chatType = [0];
         client.messageTick = [9_999];
+        client.messageSequence = [1];
         const collector = new BotStateCollector(client);
 
-        expect((collector as any).collectGameMessages(5)[0].tick).toBe(5);
-        expect((collector as any).collectGameMessages(6)[0].tick).toBe(5);
+        // UI polling sees the message at server tick 5, but must not consume
+        // the publication cursor before an agent-visible state is sent.
+        const uiState = collector.collectState(5, false);
+        expect(uiState.revision).toBe(0);
+        expect(uiState.gameMessages[0]!.observationId).toBeUndefined();
+        expect(uiState.combatEvents[0]!.observationId).toBeUndefined();
 
-        client.chatText.unshift('New message');
-        client.chatUsername.unshift('');
+        const published = collector.collectState(6, true);
+        expect(published.revision).toBe(1);
+        expect(published.gameMessages[0]).toMatchObject({ tick: 5, observationId: 1 });
+        expect(published.combatEvents[0]).toMatchObject({ tick: 5, observationId: 1 });
+
+        // A repeated publication at the same server tick advances revision,
+        // while old evidence retains its original observation id.
+        const repeated = collector.collectState(6, true);
+        expect(repeated).toMatchObject({ tick: 6, revision: 2 });
+        expect(repeated.gameMessages[0]!.observationId).toBe(1);
+
+        client.chatText.unshift('Hello');
+        client.chatUsername.unshift('Guide');
         client.chatType.unshift(0);
-        client.messageTick.unshift(10_000);
-        const messages = (collector as any).collectGameMessages(6);
-        expect(messages.at(-1).tick).toBe(6);
+        client.messageTick.unshift(9_999);
+        client.messageSequence.unshift(2);
+        const sameTickDuplicate = collector.collectState(6, true);
+
+        expect(sameTickDuplicate.revision).toBe(3);
+        expect(sameTickDuplicate.gameMessages.map(message => message.observationId)).toEqual([1, 3]);
     });
 
     test('represents unrevealed NPC health as unknown rather than dead', () => {

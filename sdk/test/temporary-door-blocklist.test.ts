@@ -17,9 +17,11 @@ describe('TemporaryDoorBlocklist', () => {
 
         blocklist.block(door, 500);
         expect(blocklist.active()).toEqual([door]);
+        expect(blocklist.has(door.level, door.x, door.z)).toBeTrue();
 
         now = 1_500;
         expect(blocklist.active()).toEqual([]);
+        expect(blocklist.has(door.level, door.x, door.z)).toBeFalse();
     });
 
     test('is isolated per SDK session', () => {

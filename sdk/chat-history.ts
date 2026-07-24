@@ -9,16 +9,19 @@
  * last {@link CHAT_HISTORY_LIMIT} messages seen since connect, regardless of
  * how fast the client ring churns.
  *
- * Merging relies on two properties of the client ring:
- * - `tick` (Client.loopCycle) is monotonically non-decreasing per message,
- *   except when the page reloads (loopCycle restarts near 0 with a fresh ring).
- * - Messages sharing a tick keep their relative order in every snapshot.
+ * Merging prefers `observationId`, the monotonic state-publication revision
+ * when a message first became agent-visible. Older clients fall back to
+ * `tick`. A lower cursor means the browser page reloaded with a fresh ring.
  */
 
 import type { GameMessage } from './types';
 
 /** Messages retained by the SDK, independent of the client's 100-deep ring. */
 export const CHAT_HISTORY_LIMIT = 500;
+
+function messageCursor(message: GameMessage): number {
+    return message.observationId ?? message.tick;
+}
 
 export class ChatHistory {
     private messages: GameMessage[] = [];
@@ -49,27 +52,27 @@ export class ChatHistory {
 
         if (!last) {
             fresh = snapshot.slice();
-        } else if (snapshot[snapshot.length - 1]!.tick < last.tick) {
-            // Ticks went backwards: the client page reloaded, so loopCycle
-            // restarted and the ring was rebuilt from empty. Nothing in this
+        } else if (messageCursor(snapshot[snapshot.length - 1]!) < messageCursor(last)) {
+            // Publication cursor went backwards: the client page reloaded and
+            // the ring was rebuilt from empty. Nothing in this
             // snapshot can overlap what we already hold.
             fresh = snapshot.slice();
         } else {
             // Normal case: the snapshot overlaps our tail. Everything newer
-            // than our last tick is new. Messages AT our last tick may be
-            // split across snapshots (a chat packet processed after the
-            // PLAYER_INFO that triggered the previous sync gets the same
-            // loopCycle), so count how many of that tick we already hold and
-            // keep only the surplus.
+            // than our last publication cursor is new. Messages AT our last
+            // cursor can share one publication, so count how many we already
+            // hold and keep only the surplus.
+            const lastCursor = messageCursor(last);
             let held = 0;
-            for (let i = this.messages.length - 1; i >= 0 && this.messages[i]!.tick === last.tick; i--) {
+            for (let i = this.messages.length - 1; i >= 0 && messageCursor(this.messages[i]!) === lastCursor; i--) {
                 held++;
             }
             let matched = 0;
             fresh = [];
             for (const m of snapshot) {
-                if (m.tick < last.tick) continue;
-                if (m.tick === last.tick && ++matched <= held) continue;
+                const cursor = messageCursor(m);
+                if (cursor < lastCursor) continue;
+                if (cursor === lastCursor && ++matched <= held) continue;
                 fresh.push(m);
             }
         }
