@@ -4,7 +4,7 @@
 import type { BotAction, BotWorldState } from './types.js';
 
 export interface GatewayMessageHandler {
-    onAction(action: BotAction, actionId: string | null): void;
+    onAction(action: BotAction, actionId: string | null, actionTimeoutMs?: number): void;
     onScreenshotRequest(screenshotId?: string): void;
     onConnected(): void;
     onDisconnected(): void;
@@ -176,7 +176,7 @@ export class GatewayConnection {
     private handleMessage(msg: any): void {
         if (msg.type === 'action') {
             console.log(`[GatewayConnection] Received action: ${msg.action?.type} (${msg.actionId})`);
-            this.handler.onAction(msg.action, msg.actionId || null);
+            this.handler.onAction(msg.action, msg.actionId || null, msg.actionTimeoutMs);
         } else if (msg.type === 'status') {
             console.log(`[GatewayConnection] Gateway status: ${msg.status}`);
         } else if (msg.type === 'screenshot_request') {

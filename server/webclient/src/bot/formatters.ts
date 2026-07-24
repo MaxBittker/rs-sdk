@@ -17,6 +17,11 @@ export function formatBotState(state: BotState): string {
         lines.push(`${p.name} (Combat ${p.combatLevel})`);
         lines.push(`Pos: (${p.worldX}, ${p.worldZ})  Level: ${p.level}`);
         lines.push(`Run: ${p.runEnergy}%  Weight: ${p.runWeight}kg`);
+        if (p.isDead) {
+            lines.push(`Status: DEAD  Life: ${p.lifeId}  Death tick: ${p.lastDeathTick ?? '?'}`);
+        } else if (p.respawnCount > 0) {
+            lines.push(`Life: ${p.lifeId}  Respawns observed: ${p.respawnCount}`);
+        }
         lines.push('');
     }
 
@@ -57,7 +62,9 @@ export function formatBotState(state: BotState): string {
             const npc = state.nearbyNpcs[i];
             const name = npc.name.padEnd(16);
             const lvl = npc.combatLevel > 0 ? `Lv${String(npc.combatLevel).padStart(2)}` : '    ';
-            const hp = npc.maxHp > 0 ? `${String(npc.hp).padStart(2)}/${String(npc.maxHp).padEnd(2)}` : '     ';
+            const hp = npc.hp !== null && npc.maxHp !== null
+                ? `${String(npc.hp).padStart(2)}/${String(npc.maxHp).padEnd(2)}`
+                : '  ?/?';
             const dist = `${npc.distance}t`.padStart(3);
             const opts = npc.optionsWithIndex.map(o => o.text);
             const opStr = opts.length > 0 ? `[${opts.join(',')}]` : '';
@@ -284,7 +291,7 @@ export function formatWorldStateForAgent(state: BotWorldState, goal: string): st
         lines.push('### Nearby NPCs');
         for (const npc of state.nearbyNpcs.slice(0, 8)) {
             const lvl = npc.combatLevel > 0 ? ` (Lvl ${npc.combatLevel})` : '';
-            const hp = npc.maxHp > 0 ? ` HP: ${npc.hp}/${npc.maxHp}` : '';
+            const hp = npc.hp !== null && npc.maxHp !== null ? ` HP: ${npc.hp}/${npc.maxHp}` : '';
             const opts = npc.options.length > 0 ? ` [${npc.options.join(', ')}]` : '';
             lines.push(`- ${npc.name}${lvl}${hp} - ${npc.distance} tiles away, index: ${npc.index}${opts}`);
         }

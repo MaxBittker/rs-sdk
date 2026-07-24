@@ -74,9 +74,18 @@ export class BotStateCollector implements ScanProvider {
     // Combat event tracking
     private combatEvents: CombatEvent[] = [];
     private lastPlayerDamageCycles: Int32Array = new Int32Array(4);
+    private lastPlayerDamageTick: number = -1;
     private lastNpcDamageCycles: Map<number, Int32Array> = new Map();
+    private lastNpcCombatTicks: Map<number, number> = new Map();
     private static readonly MAX_EVENTS = 50;
     private static readonly EVENT_EXPIRY_TICKS = 50;
+    private lastDeadState: boolean | null = null;
+    private lifeId: number = 0;
+    private respawnCount: number = 0;
+    private lastDeathTick: number | null = null;
+    private publicationRevision = 0;
+    private messageObservations = new Map<string, { tick: number; observationId: number }>();
+    private dialogObservations = new Map<string, { tick: number; observationId: number }>();
 
     // Cached prayer component map (built once on first use)
     private prayerComponentMap: PrayerComponentMap | null = null;
@@ -85,26 +94,33 @@ export class BotStateCollector implements ScanProvider {
         this.client = client;
     }
 
-    collectState(): BotState {
+    collectState(currentTick: number, publish: boolean = false): BotState {
         const c = this.client as any; // Access private members
-        const currentTick = c.loopCycle || 0;
+        const clientCycle = this.client.getClientCycle();
+        if (publish) this.publicationRevision++;
 
         // Collect combat events (must be done before returning state)
         this.collectCombatEvents(currentTick);
+        if (publish) {
+            for (const event of this.combatEvents) {
+                if (!event.observationId) event.observationId = this.publicationRevision;
+            }
+        }
 
         return {
             tick: currentTick,
-            player: this.collectPlayerState(),
+            revision: this.publicationRevision,
+            player: this.collectPlayerState(currentTick, clientCycle),
             skills: this.collectSkills(),
             inventory: this.collectInventory(INVENTORY_INTERFACE_ID),
             equipment: this.collectInventory(EQUIPMENT_INTERFACE_ID),
             combatStyle: this.collectCombatStyle(),
-            nearbyNpcs: this.collectNearbyNpcs(),
+            nearbyNpcs: this.collectNearbyNpcs(clientCycle),
             nearbyPlayers: this.collectNearbyPlayers(),
             nearbyLocs: this.scanNearbyLocs(),
             groundItems: this.scanGroundItems(),
-            gameMessages: this.collectGameMessages(),
-            recentDialogs: this.collectRecentDialogs(),
+            gameMessages: this.collectGameMessages(currentTick, publish),
+            recentDialogs: this.collectRecentDialogs(currentTick, publish),
             menuActions: this.collectMenuActions(),
             shop: this.collectShopState(),
             bank: this.collectBankState(),
@@ -227,11 +243,31 @@ export class BotStateCollector implements ScanProvider {
         return { isOpen, options, isWaiting };
     }
 
-    private collectRecentDialogs(): Array<{ text: string[]; tick: number; interfaceId: number }> {
-        if (typeof this.client.getDialogHistory === 'function') {
-            return this.client.getDialogHistory();
+    private collectRecentDialogs(currentTick: number, publish: boolean): Array<{ text: string[]; tick: number; interfaceId: number; observationId?: number }> {
+        if (typeof this.client.getDialogHistory !== 'function') return [];
+
+        const activeKeys = new Set<string>();
+        const dialogs = this.client.getDialogHistory().map(entry => {
+            const key = `${entry.tick}|${entry.interfaceId}|${entry.text.join('\u0000')}`;
+            activeKeys.add(key);
+            let observation = this.dialogObservations.get(key);
+            if (!observation) {
+                observation = { tick: currentTick, observationId: 0 };
+                this.dialogObservations.set(key, observation);
+            }
+            if (publish && observation.observationId === 0) {
+                observation.observationId = this.publicationRevision;
+            }
+            return {
+                ...entry,
+                tick: observation.tick,
+                observationId: observation.observationId || undefined
+            };
+        });
+        for (const key of this.dialogObservations.keys()) {
+            if (!activeKeys.has(key)) this.dialogObservations.delete(key);
         }
-        return [];
+        return dialogs;
     }
 
     private collectInterfaceState(): InterfaceState {
@@ -268,12 +304,13 @@ export class BotStateCollector implements ScanProvider {
                 if (cycle > lastCycle && cycle > 0) {
                     // New damage detected
                     const damage = player.damageValues[i] || 0;
+                    this.lastPlayerDamageTick = currentTick;
                     this.combatEvents.push({
                         tick: currentTick,
                         type: 'damage_taken',
                         damage,
                         sourceType: 'npc', // Assume NPC source for now
-                        sourceIndex: player.targetId ?? -1,
+                        sourceIndex: player.faceEntity ?? -1,
                         targetType: 'player',
                         targetIndex: -1 // Self
                     });
@@ -305,8 +342,9 @@ export class BotStateCollector implements ScanProvider {
 
                 if (cycle > lastCycle && cycle > 0) {
                     const damage = npc.damageValues[j] || 0;
+                    this.lastNpcCombatTicks.set(npcIndex, currentTick);
                     // Check if player is targeting this NPC (likely we dealt the damage)
-                    const playerTarget = player?.targetId ?? -1;
+                    const playerTarget = player?.faceEntity ?? -1;
                     const isPlayerSource = playerTarget === npcIndex;
 
                     this.combatEvents.push({
@@ -331,6 +369,7 @@ export class BotStateCollector implements ScanProvider {
         for (const npcIndex of this.lastNpcDamageCycles.keys()) {
             if (!activeNpcIndices.has(npcIndex)) {
                 this.lastNpcDamageCycles.delete(npcIndex);
+                this.lastNpcCombatTicks.delete(npcIndex);
             }
         }
 
@@ -340,40 +379,44 @@ export class BotStateCollector implements ScanProvider {
         }
     }
 
-    private collectPlayerState(): PlayerState | null {
+    private collectPlayerState(currentTick: number, clientCycle: number): PlayerState | null {
         const c = this.client as any;
         const player = c.localPlayer;
-        const loopCycle = c.loopCycle || 0;
 
         if (!player) return null;
 
         // Get player's combat state
-        const targetId = player.targetId ?? -1;
+        const targetId = player.faceEntity ?? -1;
         // combatCycle is set to loopCycle + 400 when damage is taken/dealt
         // So if combatCycle > loopCycle, we're in combat (within 400 ticks of last hit)
         const combatCycle = player.combatCycle ?? -1000;
-        const inCombat = combatCycle > loopCycle;
-
-        // Find most recent damage tick from damageCycles array
-        let lastDamageTick = -1;
-        const damageCycles = player.damageCycles;
-        if (damageCycles) {
-            for (let i = 0; i < damageCycles.length; i++) {
-                if (damageCycles[i] > lastDamageTick) {
-                    lastDamageTick = damageCycles[i];
-                }
-            }
-        }
+        const inCombat = targetId !== -1 || combatCycle > clientCycle;
 
         // Hitpoints is skill index 3
         const skillLevel = c.statEffectiveLevel || [];
         const skillBaseLevel = c.statBaseLevel || [];
 
+        const hp = skillLevel[3] || 0;
+        const maxHp = skillBaseLevel[3] || 0;
+        const isDead = maxHp > 0 && hp <= 0;
+
+        if (this.lastDeadState === null) {
+            this.lastDeadState = isDead;
+            if (!isDead) this.lifeId = 1;
+        } else if (!this.lastDeadState && isDead) {
+            this.lastDeadState = true;
+            this.lastDeathTick = currentTick;
+        } else if (this.lastDeadState && !isDead) {
+            this.lastDeadState = false;
+            this.respawnCount++;
+            this.lifeId++;
+        }
+
         return {
             name: player.name || 'Unknown',
             combatLevel: player.combatLevel || 0,
-            hp: skillLevel[3] || 0,
-            maxHp: skillBaseLevel[3] || 0,
+            hp,
+            maxHp,
             x: player.x || 0,
             z: player.z || 0,
             worldX: (c.mapBuildBaseX || 0) + ((player.x || 0) >> 7),
@@ -386,8 +429,12 @@ export class BotStateCollector implements ScanProvider {
             combat: {
                 inCombat,
                 targetIndex: targetId,
-                lastDamageTick
-            }
+                lastDamageTick: this.lastPlayerDamageTick
+            },
+            isDead,
+            lifeId: this.lifeId,
+            respawnCount: this.respawnCount,
+            lastDeathTick: this.lastDeathTick
         };
     }
 
@@ -571,7 +618,7 @@ export class BotStateCollector implements ScanProvider {
         return items;
     }
 
-    private collectNearbyNpcs(): NearbyNpc[] {
+    private collectNearbyNpcs(clientCycle: number): NearbyNpc[] {
         const c = this.client as any;
         const npcs: NearbyNpc[] = [];
         const player = c.localPlayer;
@@ -615,16 +662,18 @@ export class BotStateCollector implements ScanProvider {
                 }
             }
 
-            const hp = npc.health || 0;
-            const maxHp = npc.totalHealth || 0;
+            const healthKnown = (npc.totalHealth ?? 0) > 0;
+            const hp = healthKnown ? (npc.health ?? 0) : null;
+            const maxHp = healthKnown ? npc.totalHealth : null;
             // healthPercent is null until NPC takes damage (server only sends health on hit)
-            const healthPercent = maxHp > 0 ? Math.round((hp / maxHp) * 100) : null;
+            const healthPercent = hp !== null && maxHp !== null && maxHp > 0
+                ? Math.round((hp / maxHp) * 100)
+                : null;
             const targetId = npc.faceEntity ?? -1;
             // combatCycle is set to loopCycle + 400 when NPC takes damage
             const combatCycle = npc.combatCycle ?? -1000;
-            const loopCycle = c.loopCycle || 0;
             // NPC is in combat if it was hit recently (within 400 ticks of last damage)
-            const inCombat = combatCycle > loopCycle;
+            const inCombat = targetId !== -1 || combatCycle > clientCycle;
 
             // Convert fine-grained local coords (128 units/tile) to world coordinates
             const npcWorldX = baseX + (npcX >> 7);
@@ -642,7 +691,7 @@ export class BotStateCollector implements ScanProvider {
                 healthPercent,
                 targetIndex: targetId,
                 inCombat,
-                combatCycle,
+                lastCombatTick: this.lastNpcCombatTicks.get(npcIndex) ?? null,
                 animId: npc.primaryAnim ?? -1,
                 spotanimId: npc.spotanimId ?? -1,
                 optionsWithIndex,
@@ -931,13 +980,14 @@ export class BotStateCollector implements ScanProvider {
 
     private static readonly MAX_GAME_MESSAGES = 50;
 
-    private collectGameMessages(): GameMessage[] {
+    private collectGameMessages(currentTick: number, publish: boolean): GameMessage[] {
         const c = this.client as any;
 
         const messageText = c.chatText || [];
         const messageSender = c.chatUsername || [];
         const messageType = c.chatType || [];
         const messageTick = c.messageTick || [];
+        const messageSequence = c.messageSequence || [];
 
         const ownName = String(c.localPlayer?.name ?? '').replace(/@\w+@/g, '').toLowerCase();
 
@@ -948,6 +998,8 @@ export class BotStateCollector implements ScanProvider {
         // bot<->bot handoffs silently failed). Type-filtering is left to the SDK
         // (sdk.getChat) so system messages stay available here too.
         const messages: GameMessage[] = [];
+        const activeKeys = new Set<string>();
+        const fallbackOccurrences = new Map<string, number>();
         for (let i = 0; i < messageText.length && messages.length < BotStateCollector.MAX_GAME_MESSAGES; i++) {
             const text = messageText[i];
             if (!text) continue;
@@ -956,14 +1008,33 @@ export class BotStateCollector implements ScanProvider {
             // Strip @cr1@/@whi@ crown+colour codes so sender filtering is reliable.
             const sender = String(messageSender[i] || '').replace(/@\w+@/g, '');
             const fromSelf = type === 6 || (sender !== '' && sender.toLowerCase() === ownName);
+            const rawTick = messageTick[i] || 0;
+            const baseKey = `${rawTick}|${type}|${sender}|${text}`;
+            const occurrence = fallbackOccurrences.get(baseKey) ?? 0;
+            fallbackOccurrences.set(baseKey, occurrence + 1);
+            const sequence = messageSequence[i] || 0;
+            const key = sequence > 0 ? `seq:${sequence}` : `${baseKey}|occ:${occurrence}`;
+            activeKeys.add(key);
+            let observation = this.messageObservations.get(key);
+            if (!observation) {
+                observation = { tick: currentTick, observationId: 0 };
+                this.messageObservations.set(key, observation);
+            }
+            if (publish && observation.observationId === 0) {
+                observation.observationId = this.publicationRevision;
+            }
 
             messages.push({
                 type,
                 text,
                 sender,
-                tick: messageTick[i] || 0,
+                tick: observation.tick,
+                observationId: observation.observationId || undefined,
                 fromSelf
             });
+        }
+        for (const key of this.messageObservations.keys()) {
+            if (!activeKeys.has(key)) this.messageObservations.delete(key);
         }
 
         // Return in chronological order (oldest first, newest last) so .slice(-N)

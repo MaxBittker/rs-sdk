@@ -53,7 +53,7 @@ async function runCombatEventsTest(): Promise<boolean> {
         }
 
         console.log(`Found target: ${target.name} (lvl ${target.combatLevel}, index ${target.index})`);
-        console.log(`Initial state: hp=${target.hp}/${target.maxHp}, inCombat=${target.inCombat}, combatCycle=${target.combatCycle}\n`);
+        console.log(`Initial state: hp=${target.hp}/${target.maxHp}, inCombat=${target.inCombat}, lastCombatTick=${target.lastCombatTick}\n`);
 
         // Attack the target
         console.log(`Attacking ${target.name}...`);
@@ -108,9 +108,9 @@ async function runCombatEventsTest(): Promise<boolean> {
 
             // Check NPC state
             const currentTarget = state.nearbyNpcs.find(n => n.index === target!.index);
-            if (currentTarget && currentTarget.maxHp > 0) {
+            if (currentTarget && currentTarget.maxHp !== null && currentTarget.maxHp > 0) {
                 // NPC has taken damage, we can see its health
-                console.log(`[tick ${tick}] NPC health: ${currentTarget.hp}/${currentTarget.maxHp} (${currentTarget.healthPercent}%), combatCycle=${currentTarget.combatCycle}`);
+                console.log(`[tick ${tick}] NPC health: ${currentTarget.hp}/${currentTarget.maxHp} (${currentTarget.healthPercent}%), lastCombatTick=${currentTarget.lastCombatTick}`);
             }
 
             // If target died, find a new one

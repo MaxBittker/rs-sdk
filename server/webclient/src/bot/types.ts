@@ -57,18 +57,18 @@ export interface NearbyNpc {
     x: number;
     z: number;
     distance: number;
-    /** Current HP - NOTE: 0 until NPC takes damage (server only sends on hit) */
-    hp: number;
-    /** Max HP - NOTE: 0 until NPC takes damage (server only sends on hit) */
-    maxHp: number;
+    /** Current HP, or null until the server reveals it by updating the NPC. */
+    hp: number | null;
+    /** Maximum HP, or null until the server reveals it by updating the NPC. */
+    maxHp: number | null;
     /** Health as percentage 0-100 (null until NPC takes damage) */
     healthPercent: number | null;
     /** Index of who this NPC is targeting (-1 if none) */
     targetIndex: number;
     /** Is this NPC currently in combat? (has target OR was hit within last 400 ticks) */
     inCombat: boolean;
-    /** Combat cycle - set to tick+400 when NPC takes damage. Compare with state.tick for timing. */
-    combatCycle: number;
+    /** Public game tick when damage was last observed on this NPC. */
+    lastCombatTick: number | null;
     /** Current animation ID (-1 = idle/none) */
     animId: number;
     /** Current spot animation ID (-1 = none) */
@@ -125,12 +125,16 @@ export interface GameMessage {
     text: string;
     sender: string;     // @cr/@col codes stripped; empty for system messages
     tick: number;
+    /** Monotonic publication revision when this message first became agent-visible. */
+    observationId?: number;
     fromSelf: boolean;  // true if this client sent it (own speech or sent PM)
 }
 
 export interface DialogEntry {
     text: string[];      // Lines of text in the dialog
     tick: number;        // Game tick when captured
+    /** Monotonic publication revision when this dialog first became agent-visible. */
+    observationId?: number;
     interfaceId: number; // Interface ID of the dialog
 }
 
@@ -200,6 +204,14 @@ export interface PlayerState {
     spotanimId: number;
     /** Combat state tracking */
     combat: PlayerCombatState;
+    /** True while the player's hitpoints are zero. */
+    isDead: boolean;
+    /** Changes after each observed death/respawn cycle. */
+    lifeId: number;
+    /** Number of respawns observed during this client session. */
+    respawnCount: number;
+    /** Public game tick when death was last observed, or null if none was observed. */
+    lastDeathTick: number | null;
 }
 
 // Combat style state
@@ -220,6 +232,8 @@ export interface CombatStyleState {
 export interface CombatEvent {
     /** Game tick when event occurred */
     tick: number;
+    /** Monotonic publication revision when this event first became agent-visible. */
+    observationId?: number;
     /** Type of combat event */
     type: 'damage_taken' | 'damage_dealt' | 'kill';
     /** Damage amount (for damage events) */
@@ -257,6 +271,8 @@ export interface PrayerState {
 
 export interface BotState {
     tick: number;
+    /** Monotonic publication cursor; advances for each state sent to agents. */
+    revision: number;
     player: PlayerState | null;
     skills: SkillState[];
     inventory: InventoryItem[];

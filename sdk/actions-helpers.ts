@@ -105,9 +105,8 @@ export class ActionHelpers {
     }
 
     /**
-     * Get the tick of the most recent game message (using server tick from messages,
-     * NOT state.tick which is a different counter). Use this before an action to
-     * establish a baseline for checkCantReachMessage.
+     * Get the public tick of the most recent game message. Use this before an
+     * action to establish a baseline for checkCantReachMessage.
      */
     getMessageTick(): number {
         const state = this.sdk.getState();
@@ -118,22 +117,27 @@ export class ActionHelpers {
         // every "since this tick" check match ancient messages.
         let maxTick = 0;
         for (const msg of state.gameMessages) {
-            if (msg.tick > maxTick) maxTick = msg.tick;
+            const cursor = msg.observationId ?? msg.tick;
+            if (cursor > maxTick) maxTick = cursor;
         }
         return maxTick;
+    }
+
+    /** True when a message was published after a cursor from getMessageTick(). */
+    isMessageAfter(message: { tick: number; observationId?: number }, cursor: number): boolean {
+        return (message.observationId ?? message.tick) > cursor;
     }
 
     /**
      * Check recent game messages for "can't reach" indicators.
      * @param sinceMessageTick - Only check messages with tick > this value.
-     *   IMPORTANT: Use getMessageTick() to get this value, NOT state.tick (different counter).
      */
     checkCantReachMessage(sinceMessageTick: number): boolean {
         const state = this.sdk.getState();
         if (!state) return false;
 
         for (const msg of state.gameMessages) {
-            if (msg.tick > sinceMessageTick) {
+            if (this.isMessageAfter(msg, sinceMessageTick)) {
                 const text = msg.text.toLowerCase();
                 if (text.includes("can't reach") || text.includes("cannot reach") || text.includes("i can't reach")) {
                     return true;
@@ -358,7 +362,7 @@ export class ActionHelpers {
                 let failReason: 'locked' | 'cant_reach' | null = null;
                 await this.sdk.waitForCondition(state => {
                     for (const msg of state.gameMessages) {
-                        if (msg.tick > msgBaseline) {
+                        if (this.isMessageAfter(msg, msgBaseline)) {
                             const text = msg.text.toLowerCase();
                             if (text.includes("locked")) { failReason = 'locked'; return true; }
                             if (text.includes("can't reach") || text.includes("cannot reach")) { failReason = 'cant_reach'; return true; }

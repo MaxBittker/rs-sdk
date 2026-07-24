@@ -4,7 +4,7 @@
 
 import { BotSDK } from './index';
 import { ActionHelpers } from './actions-helpers';
-import { findDoorsAlongPath, blockDoor, } from './pathfinding';
+import { findDoorsAlongPath } from './pathfinding';
 import type {
     ActionResult,
     SkillState,
@@ -226,6 +226,50 @@ export class BotActions {
         }
     }
 
+    /**
+     * Wait for an action effect while clearing safe, incidental UI interrupts
+     * such as level-up dialogs. Deliberate trade/duel/design interfaces remain
+     * protected by dismissBlockingUI's allowlist.
+     */
+    private async waitForActionCondition(
+        predicate: (state: NonNullable<ReturnType<BotSDK['getState']>>) => boolean,
+        timeout: number
+    ): Promise<NonNullable<ReturnType<BotSDK['getState']>>> {
+        const deadline = Date.now() + timeout;
+        const hasSafeBlockingUI = (state: NonNullable<ReturnType<BotSDK['getState']>>) =>
+            state.dialog.isOpen ||
+            (state.interface?.isOpen && !state.shop?.isOpen && !state.bank?.isOpen
+                && !NEVER_AUTO_CLOSE.has(state.interface.interfaceId));
+
+        while (Date.now() < deadline) {
+            let current = this.sdk.getState();
+
+            if (current && hasSafeBlockingUI(current)) {
+                await this.dismissBlockingUI();
+                current = this.sdk.getState();
+                // A dismissal can be acknowledged before the state update, or
+                // fail after the retry cap. Never report success while the
+                // blocker is still observably open.
+                if (current && hasSafeBlockingUI(current)) {
+                    const remaining = deadline - Date.now();
+                    if (remaining <= 0) break;
+                    await this.sdk.waitForStateChange(Math.min(remaining, 2_000)).catch(() => {});
+                    continue;
+                }
+            }
+
+            // Evaluate success only after clearing a safe incidental interrupt,
+            // so the next action never inherits a level-up/modal blocker.
+            if (current && predicate(current)) return current;
+
+            const remaining = deadline - Date.now();
+            if (remaining <= 0) break;
+            await this.sdk.waitForStateChange(Math.min(remaining, 2_000)).catch(() => {});
+        }
+
+        throw new Error('waitForActionCondition timed out');
+    }
+
     // ============ Porcelain: Smart Actions ============
 
     /** Open a door or gate, walking to it if needed. */
@@ -283,7 +327,7 @@ export class BotActions {
         try {
             await this.sdk.waitForCondition(state => {
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't reach") || text.includes("cannot reach")) {
                             return true;
@@ -394,7 +438,7 @@ export class BotActions {
             await this.sdk.waitForCondition(state => {
                 // Check for "can't reach" messages
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't reach") || text.includes("cannot reach")) {
                             return true;
@@ -480,7 +524,7 @@ export class BotActions {
             await this.sdk.waitForCondition(state => {
                 // Check for "can't reach" messages
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't reach") || text.includes("cannot reach")) {
                             return true;
@@ -583,7 +627,7 @@ export class BotActions {
 
                 const failureMessages = ["can't light a fire", "you need to move", "can't do that here"];
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (failureMessages.some(f => text.includes(f))) {
                             return true;
@@ -656,7 +700,7 @@ export class BotActions {
             const finalState = await this.sdk.waitForCondition(state => {
                 // Check for failure messages
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't reach") || text.includes("cannot reach")) {
                             return true;
@@ -679,7 +723,7 @@ export class BotActions {
 
             // Check for failure reasons
             for (const msg of finalState.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("can't reach") || text.includes("cannot reach")) {
                         return { success: false, message: `Cannot reach ${item.name} - path blocked`, reason: 'cant_reach' };
@@ -740,7 +784,7 @@ export class BotActions {
             const finalState = await this.sdk.waitForCondition(state => {
                 // Check for can't-reach messages
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't reach") || text.includes("cannot reach")) return true;
                     }
@@ -794,7 +838,6 @@ export class BotActions {
         const MAX_DOOR_RETRIES = 3;
         let doorRetryCount = 0;
         let poorProgressCount = 0;
-        const blockedDoors = new Set<string>(); // Doors confirmed locked
         const doorFailCounts = new Map<string, number>(); // Tracks reach failures per door
 
         // Try to open a blocking door. Returns true if door was opened.
@@ -816,11 +859,11 @@ export class BotActions {
                 const key = `${nearest.x},${nearest.z}`;
                 const fails = (doorFailCounts.get(key) ?? 0) + 1;
                 doorFailCounts.set(key, fails);
-                // Only permanently block after 3 reach failures
-                if (fails >= 3 && !blockedDoors.has(key)) {
-                    blockedDoors.add(key);
-                    blockDoor(level, nearest.x, nearest.z);
-                    console.log(`[walkTo] Blocked impassable door at (${nearest.x}, ${nearest.z}) — re-routing`);
+                // Temporarily exclude after repeated reach failures. The
+                // session-owned evidence expires automatically.
+                if (fails >= 3 && !this.sdk.isDoorTemporarilyBlocked(level, nearest.x, nearest.z)) {
+                    this.sdk.blockDoorTemporarily(level, nearest.x, nearest.z);
+                    console.log(`[walkTo] Temporarily avoiding impassable door at (${nearest.x}, ${nearest.z}) — re-routing`);
                 }
             }
             return false;
@@ -862,7 +905,7 @@ export class BotActions {
                             // Find which required door is closest to this waypoint
                             for (const door of requiredDoors) {
                                 const dk = `${door.x},${door.z}`;
-                                if (blockedDoors.has(dk)) break; // Already known locked
+                                if (this.sdk.isDoorTemporarilyBlocked(door.level, door.x, door.z)) break;
                                 const doorDist = Math.abs(door.x - wp.x) + Math.abs(door.z - wp.z);
                                 if (doorDist <= 1) {
                                     const result = await this.helpers.openDoorAt(door.x, door.z);
@@ -870,21 +913,20 @@ export class BotActions {
                                         requiredDoorKeys.delete(dk);
                                         await this.sdk.waitForTicks(1);
                                     } else if (result === 'locked') {
-                                        // Definitely locked — block permanently in pathfinder
-                                        blockedDoors.add(dk);
-                                        blockDoor(door.level, door.x, door.z);
+                                        // Definitely locked right now — avoid it for
+                                        // this session's next path queries.
+                                        this.sdk.blockDoorTemporarily(door.level, door.x, door.z);
                                         requiredDoorKeys.delete(dk);
-                                        console.log(`[walkTo] Blocked locked door at (${door.x}, ${door.z}) — re-routing`);
+                                        console.log(`[walkTo] Temporarily avoiding locked door at (${door.x}, ${door.z}) — re-routing`);
                                         break; // Re-query path on next iteration
                                     } else {
                                         // cant_reach or not_found — transient failure, track attempts
                                         const fails = (doorFailCounts.get(dk) ?? 0) + 1;
                                         doorFailCounts.set(dk, fails);
                                         if (fails >= 3) {
-                                            blockedDoors.add(dk);
-                                            blockDoor(door.level, door.x, door.z);
+                                            this.sdk.blockDoorTemporarily(door.level, door.x, door.z);
                                             requiredDoorKeys.delete(dk);
-                                            console.log(`[walkTo] Blocked impassable door at (${door.x}, ${door.z}) after ${fails} failures — re-routing`);
+                                            console.log(`[walkTo] Temporarily avoiding impassable door at (${door.x}, ${door.z}) after ${fails} failures — re-routing`);
                                         } else {
                                             console.log(`[walkTo] Door at (${door.x}, ${door.z}) ${result} (attempt ${fails}/3) — retrying`);
                                         }
@@ -1117,7 +1159,7 @@ export class BotActions {
             try {
                 const finalState = await this.sdk.waitForCondition(state => {
                     for (const msg of state.gameMessages) {
-                        if (msg.tick > msgBaseline) {
+                        if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                             const text = msg.text.toLowerCase();
                             if (text.includes("can't sell this item")) {
                                 return true;
@@ -1130,7 +1172,7 @@ export class BotActions {
                 }, 5000);
 
                 for (const msg of finalState.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't sell this item to this shop")) {
                             return { success: false, message: `Shop doesn't buy ${sellItem.name}`, rejected: true };
@@ -1188,7 +1230,7 @@ export class BotActions {
             try {
                 const finalState = await this.sdk.waitForCondition(s => {
                     for (const msg of s.gameMessages) {
-                        if (msg.tick > msgBaseline) {
+                        if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                             if (msg.text.toLowerCase().includes("can't sell this item")) {
                                 return true;
                             }
@@ -1200,7 +1242,7 @@ export class BotActions {
                 }, 3000);
 
                 for (const msg of finalState.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't sell this item to this shop")) {
                             return {
@@ -1617,19 +1659,30 @@ export class BotActions {
             }
         }
 
-        const startTick = this.sdk.getState()?.tick || 0;
+        const startState = this.sdk.getState();
+        const startTick = startState?.tick || 0;
+        const startRevision = startState?.revision ?? startTick;
+        const startLifeId = startState?.player?.lifeId;
+        const eventAfterStart = (event: { tick: number; observationId?: number }) =>
+            (event.observationId ?? event.tick) > startRevision;
         const msgBaseline = this.helpers.getMessageTick();
         const result = await this.sdk.sendInteractNpc(npc.index, attackOpt.opIndex);
         if (!result.success) {
-            return { success: false, message: result.message };
+            return {
+                success: false,
+                message: result.message,
+                reason: result.reason === 'cant_reach' ? 'out_of_reach' : 'timeout'
+            };
         }
 
         try {
-            const finalState = await this.sdk.waitForCondition(state => {
+            const finalState = await this.waitForActionCondition(state => {
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
-                        if (text.includes("someone else is fighting") || text.includes("already under attack")) {
+                        if (text.includes("someone else is fighting") ||
+                            text.includes("already under attack") ||
+                            text.includes("can't reach")) {
                             return true;
                         }
                     }
@@ -1640,24 +1693,63 @@ export class BotActions {
                     return true;
                 }
 
-                if (targetNpc.distance <= 2) {
+                if (state.player?.isDead || (startLifeId !== undefined && state.player?.lifeId !== startLifeId)) {
                     return true;
                 }
 
-                return false;
+                if (state.player?.combat.inCombat && state.player.combat.targetIndex === npc.index) {
+                    return true;
+                }
+
+                return state.combatEvents.some(event =>
+                    eventAfterStart(event) &&
+                    event.type === 'damage_dealt' &&
+                    event.targetType === 'npc' &&
+                    event.targetIndex === npc.index
+                );
             }, timeout);
 
-            // Check for "already in combat"
+            if (finalState.player?.isDead ||
+                (startLifeId !== undefined && finalState.player?.lifeId !== startLifeId)) {
+                return { success: false, message: `Died while attacking ${npc.name}`, reason: 'died' };
+            }
+
+            const engagedRequestedTarget =
+                (finalState.player?.combat.inCombat &&
+                    finalState.player.combat.targetIndex === npc.index) ||
+                finalState.combatEvents.some(event =>
+                    eventAfterStart(event) &&
+                    event.type === 'damage_dealt' &&
+                    event.targetType === 'npc' &&
+                    event.targetIndex === npc.index
+                );
+
             for (const msg of finalState.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
+                    if (text.includes("can't reach")) {
+                        return { success: false, message: `Cannot reach ${npc.name}`, reason: 'out_of_reach' };
+                    }
                     if (text.includes("someone else is fighting") || text.includes("already under attack")) {
+                        // "I'm already under attack!" can race with a successful
+                        // engagement. Only requested-target evidence can turn
+                        // this refusal into success.
+                        if (engagedRequestedTarget) {
+                            return { success: true, message: `Already fighting ${npc.name}` };
+                        }
                         return { success: false, message: `${npc.name} is already in combat`, reason: 'already_in_combat' };
                     }
                 }
             }
 
-            return { success: true, message: `Attacking ${npc.name}` };
+            if (engagedRequestedTarget) {
+                return { success: true, message: `Attacking ${npc.name}` };
+            }
+
+            const targetStillVisible = finalState.nearbyNpcs.some(candidate => candidate.index === npc.index);
+            return targetStillVisible
+                ? { success: false, message: `No combat effect observed for ${npc.name}`, reason: 'timeout' }
+                : { success: false, message: `${npc.name} disappeared before combat was observed`, reason: 'npc_not_found' };
         } catch {
             return { success: false, message: `Timeout waiting to attack ${npc.name}`, reason: 'timeout' };
         }
@@ -1688,7 +1780,7 @@ export class BotActions {
         try {
             const finalState = await this.sdk.waitForCondition(state => {
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't reach") || text.includes("cannot reach")) {
                             return true;
@@ -1709,7 +1801,7 @@ export class BotActions {
 
             // Check for "not enough runes" first
             for (const msg of finalState.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("do not have enough") || text.includes("don't have enough")) {
                         return { success: false, message: `Not enough runes to cast spell`, reason: 'no_runes' };
@@ -2000,7 +2092,7 @@ export class BotActions {
 
             // Check for failure messages
             for (const msg of state.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("need a higher") || text.includes("level to")) {
                         return { success: false, message: 'Fletching level too low' };
@@ -2143,7 +2235,7 @@ export class BotActions {
 
             // Check for failure messages
             for (const msg of state.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("need a crafting level") || text.includes("level to")) {
                         return { success: false, message: 'Crafting level too low', reason: 'level_too_low' };
@@ -2361,7 +2453,7 @@ export class BotActions {
 
             // Check for failure messages
             for (const msg of state.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("need a smithing level") || text.includes("level to")) {
                         return { success: false, message: 'Smithing level too low', reason: 'level_too_low' };
@@ -2483,7 +2575,7 @@ export class BotActions {
             const finalState = await this.sdk.waitForCondition(state => {
                 // Check for can't-reach messages
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't reach") || text.includes("cannot reach")) return true;
                     }
@@ -2593,7 +2685,7 @@ export class BotActions {
             const finalState = await this.sdk.waitForCondition(state => {
                 // Check for can't-reach messages
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't reach") || text.includes("cannot reach")) return true;
                     }
@@ -2671,7 +2763,7 @@ export class BotActions {
 
                 // Check game messages for stun/catch or can't reach
                 for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes('stunned') || text.includes('caught') || text.includes('stun')) return true;
                         if (text.includes("can't reach") || text.includes('cannot reach')) return true;
@@ -2683,7 +2775,7 @@ export class BotActions {
 
             // Check what happened
             for (const msg of finalState.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("can't reach") || text.includes('cannot reach')) {
                         return { success: false, message: `Can't reach ${npc.name}`, reason: 'cant_reach' };
@@ -2993,7 +3085,7 @@ export class BotActions {
 
             // Check for failure messages
             for (const msg of state.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("need a crafting level") || text.includes("level to")) {
                         return { success: false, message: 'Crafting level too low', reason: 'level_too_low' };
@@ -3100,7 +3192,7 @@ export class BotActions {
 
             // Check for failure messages
             for (const msg of state.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("do not have enough") || text.includes("don't have enough") || text.includes("need runes")) {
                         return { success: false, message: 'Not enough runes', reason: 'no_runes' };
@@ -3204,7 +3296,7 @@ export class BotActions {
 
             // Check for failure messages
             for (const msg of state.gameMessages) {
-                if (msg.tick > msgBaseline) {
+                if (this.helpers.isMessageAfter(msg, msgBaseline)) {
                     const text = msg.text.toLowerCase();
                     if (text.includes("need a crafting level") || text.includes("level to")) {
                         return { success: false, message: 'Crafting level too low', reason: 'level_too_low' };

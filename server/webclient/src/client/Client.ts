@@ -101,6 +101,25 @@ export interface SayOutcome {
     finalText: string;
 }
 
+export type ClientActionFailureReason =
+    | 'not_in_game'
+    | 'invalid_target'
+    | 'invalid_option'
+    | 'item_not_found'
+    | 'target_not_found'
+    | 'out_of_scene'
+    | 'cant_reach';
+
+/**
+ * Result of validating and routing a client-side interaction.
+ *
+ * Success means the interaction packet was dispatched. Effect observation
+ * belongs to the higher-level BotActions API.
+ */
+export type ClientActionResult =
+    | { success: true; routed?: boolean }
+    | { success: false; reason: ClientActionFailureReason };
+
 export class Client extends GameShell {
     static nodeId: number = 10;
     static memServer: boolean = true;
@@ -507,6 +526,8 @@ export class Client extends GameShell {
     private chatUsername: (string | null)[] = new TypedArray1d(100, null);
     private chatText: (string | null)[] = new TypedArray1d(100, null);
     private messageTick: Int32Array = new Int32Array(100);  // Track when each message arrived
+    private messageSequence: number[] = new TypedArray1d(100, 0);
+    private nextMessageSequence: number = 0;
     // Dialog history storage (similar to message history)
     private dialogHistory: Array<{ text: string[]; tick: number; interfaceId: number }> = [];
     private dialogHistoryMax: number = 10;
@@ -696,6 +717,11 @@ export class Client extends GameShell {
      */
     setOnGameTickCallback(callback: (() => void) | null): void {
         this.onGameTickCallback = callback;
+    }
+
+    /** Client-cycle clock used by entity animation and combat-cycle fields. */
+    getClientCycle(): number {
+        return Client.loopCycle;
     }
 
     /**
@@ -989,26 +1015,32 @@ export class Client extends GameShell {
      * Talk to an NPC by index (sends OPNPC1 - first option, usually "Talk-to")
      * Use findNpcByName to get the index
      */
-    talkToNpc(npcIndex: number): boolean {
-        if (!this.ingame || !this.out || !this.localPlayer || npcIndex < 0) {
-            return false;
+    talkToNpc(npcIndex: number): ClientActionResult {
+        if (!this.ingame || !this.out || !this.localPlayer) {
+            return { success: false, reason: 'not_in_game' };
+        }
+        if (npcIndex < 0) {
+            return { success: false, reason: 'invalid_target' };
         }
 
         const n = this.npc[npcIndex];
         if (!n) {
-            return false;
+            return { success: false, reason: 'target_not_found' };
         }
 
         // Walk to the NPC first. In 274's client-routefinder mode the server expects the
         // client to send the route to an interaction target; without it the player never
         // moves and the server replies "I can't reach that!". Mirrors spellOnNpc/useItemOnNpc.
-        this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], n.routeX[0], n.routeZ[0], false, 1, 1, 0, 0, 0, 2);
+        const routed = this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], n.routeX[0], n.routeZ[0], false, 1, 1, 0, 0, 0, 2);
+        if (!routed) {
+            return { success: false, reason: 'cant_reach' };
+        }
 
         // Send OPNPC1 packet (Talk-to)
         this.writePacketOpcode(ClientProt.OPNPC1);
         this.out.p2(npcIndex);
 
-        return true;
+        return { success: true };
     }
 
     /**
@@ -1016,20 +1048,29 @@ export class Client extends GameShell {
      * Option 1 is usually "Talk-to", Option 2 might be "Pickpocket", etc.
      * Use getNearbyNpcs() to see available options for each NPC
      */
-    interactNpc(npcIndex: number, optionIndex: number): boolean {
-        if (!this.ingame || !this.out || !this.localPlayer || npcIndex < 0 || optionIndex < 1 || optionIndex > 5) {
-            return false;
+    interactNpc(npcIndex: number, optionIndex: number): ClientActionResult {
+        if (!this.ingame || !this.out || !this.localPlayer) {
+            return { success: false, reason: 'not_in_game' };
+        }
+        if (npcIndex < 0) {
+            return { success: false, reason: 'invalid_target' };
+        }
+        if (optionIndex < 1 || optionIndex > 5) {
+            return { success: false, reason: 'invalid_option' };
         }
 
         const n = this.npc[npcIndex];
         if (!n) {
-            return false;
+            return { success: false, reason: 'target_not_found' };
         }
 
         // Walk to the NPC first. In 274's client-routefinder mode the server expects the
         // client to send the route to an interaction target; without it the player never
         // moves and the server replies "I can't reach that!". Mirrors spellOnNpc/useItemOnNpc.
-        this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], n.routeX[0], n.routeZ[0], false, 1, 1, 0, 0, 0, 2);
+        const routed = this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], n.routeX[0], n.routeZ[0], false, 1, 1, 0, 0, 0, 2);
+        if (!routed) {
+            return { success: false, reason: 'cant_reach' };
+        }
 
         // Send the appropriate OPNPC packet based on option index
         const opcodes = [
@@ -1042,27 +1083,36 @@ export class Client extends GameShell {
         this.writePacketOpcode(opcodes[optionIndex - 1]);
         this.out.p2(npcIndex);
 
-        return true;
+        return { success: true };
     }
 
     /**
      * Interact with a player using a specific option (1-4)
      * Option 2 is Attack (wilderness only), Option 3 is Follow, Option 4 is Trade
      */
-    interactPlayer(playerIndex: number, optionIndex: number): boolean {
-        if (!this.ingame || !this.out || !this.localPlayer || playerIndex < 0 || optionIndex < 1 || optionIndex > 4) {
-            return false;
+    interactPlayer(playerIndex: number, optionIndex: number): ClientActionResult {
+        if (!this.ingame || !this.out || !this.localPlayer) {
+            return { success: false, reason: 'not_in_game' };
+        }
+        if (playerIndex < 0) {
+            return { success: false, reason: 'invalid_target' };
+        }
+        if (optionIndex < 1 || optionIndex > 4) {
+            return { success: false, reason: 'invalid_option' };
         }
 
         const p = this.players[playerIndex];
         if (!p) {
-            return false;
+            return { success: false, reason: 'target_not_found' };
         }
 
         // Walk to the player first. In 274's client-routefinder mode the server expects the
         // client to send the route to an interaction target; without it the player never
         // moves and the server replies "I can't reach that!". Mirrors spellOnNpc/useItemOnNpc.
-        this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], p.routeX[0], p.routeZ[0], false, 1, 1, 0, 0, 0, 2);
+        const routed = this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], p.routeX[0], p.routeZ[0], false, 1, 1, 0, 0, 0, 2);
+        if (!routed) {
+            return { success: false, reason: 'cant_reach' };
+        }
 
         const opcodes = [
             ClientProt.OPPLAYER1,
@@ -1073,7 +1123,7 @@ export class Client extends GameShell {
         this.writePacketOpcode(opcodes[optionIndex - 1]);
         this.out.p2(playerIndex);
 
-        return true;
+        return { success: true };
     }
 
     /**
@@ -1083,18 +1133,21 @@ export class Client extends GameShell {
      * npcIndex: the index of the NPC to target
      * spellComponent: the interface component ID of the spell (e.g., 1152 for Wind Strike)
      */
-    spellOnNpc(npcIndex: number, spellComponent: number): boolean {
-        if (!this.ingame || !this.out || !this.localPlayer || npcIndex < 0) {
-            return false;
+    spellOnNpc(npcIndex: number, spellComponent: number): ClientActionResult {
+        if (!this.ingame || !this.out || !this.localPlayer) {
+            return { success: false, reason: 'not_in_game' };
+        }
+        if (npcIndex < 0) {
+            return { success: false, reason: 'invalid_target' };
         }
 
         const n = this.npc[npcIndex];
         if (!n) {
-            return false;
+            return { success: false, reason: 'target_not_found' };
         }
 
         // Try to move towards the NPC
-        this.tryMove(
+        const routed = this.tryMove(
             this.localPlayer.routeX[0],
             this.localPlayer.routeZ[0],
             n.routeX[0],
@@ -1105,13 +1158,12 @@ export class Client extends GameShell {
             0,      // forceapproach
             2       // type = MOVE_OPCLICK
         );
-
         // Send OPNPCT packet
         this.writePacketOpcode(ClientProt.OPNPCT);
         this.out.p2(npcIndex);
         this.out.p2(spellComponent);
 
-        return true;
+        return { success: true, routed };
     }
 
     /**
@@ -1155,20 +1207,20 @@ export class Client extends GameShell {
      * Cast a spell on a ground item (e.g., Telekinetic Grab)
      * Sends OPOBJT packet
      */
-    spellOnGroundItem(worldX: number, worldZ: number, itemId: number, spellComponent: number): boolean {
+    spellOnGroundItem(worldX: number, worldZ: number, itemId: number, spellComponent: number): ClientActionResult {
         if (!this.ingame || !this.out || !this.localPlayer) {
-            return false;
+            return { success: false, reason: 'not_in_game' };
         }
 
         const sceneX = worldX - this.mapBuildBaseX;
         const sceneZ = worldZ - this.mapBuildBaseZ;
 
         if (sceneX < 0 || sceneX >= 104 || sceneZ < 0 || sceneZ >= 104) {
-            return false;
+            return { success: false, reason: 'out_of_scene' };
         }
 
         // Try to move towards the ground item
-        this.tryMove(
+        const routed = this.tryMove(
             this.localPlayer.routeX[0],
             this.localPlayer.routeZ[0],
             sceneX,
@@ -1179,7 +1231,6 @@ export class Client extends GameShell {
             0,
             2  // MOVE_OPCLICK
         );
-
         // Send OPOBJT packet: x, z, itemId, spellComponent
         this.writePacketOpcode(ClientProt.OPOBJT);
         this.out.p2(worldX);
@@ -1187,16 +1238,16 @@ export class Client extends GameShell {
         this.out.p2(itemId);
         this.out.p2(spellComponent);
 
-        return true;
+        return { success: true, routed };
     }
 
     /**
      * Pick up a ground item at the specified world coordinates
      * Use the groundItems from BotState to get item locations
      */
-    pickupGroundItem(worldX: number, worldZ: number, itemId: number): boolean {
+    pickupGroundItem(worldX: number, worldZ: number, itemId: number): ClientActionResult {
         if (!this.ingame || !this.out || !this.localPlayer) {
-            return false;
+            return { success: false, reason: 'not_in_game' };
         }
 
         // Convert world coordinates to scene coordinates
@@ -1205,11 +1256,11 @@ export class Client extends GameShell {
 
         // Validate scene coordinates
         if (sceneX < 0 || sceneX >= 104 || sceneZ < 0 || sceneZ >= 104) {
-            return false;
+            return { success: false, reason: 'out_of_scene' };
         }
 
         // First send MOVE_OPCLICK via tryMove (type=2) to walk to the item
-        this.tryMove(
+        const routed = this.tryMove(
             this.localPlayer.routeX[0],
             this.localPlayer.routeZ[0],
             sceneX,
@@ -1220,6 +1271,9 @@ export class Client extends GameShell {
             0,      // forceapproach
             2       // type = MOVE_OPCLICK
         );
+        if (!routed) {
+            return { success: false, reason: 'cant_reach' };
+        }
 
         // Then send OPOBJ3 packet (Take is option 3, not option 1)
         this.writePacketOpcode(ClientProt.OPOBJ3);
@@ -1227,16 +1281,19 @@ export class Client extends GameShell {
         this.out.p2(worldZ);
         this.out.p2(itemId);
 
-        return true;
+        return { success: true };
     }
 
     /**
      * Interact with a ground item using a specific option (1-5)
      * Option 1 = op[0], Option 2 = op[1], Option 3 = Take (op[2]), etc.
      */
-    interactGroundItem(worldX: number, worldZ: number, itemId: number, optionIndex: number): boolean {
-        if (!this.ingame || !this.out || !this.localPlayer || optionIndex < 1 || optionIndex > 5) {
-            return false;
+    interactGroundItem(worldX: number, worldZ: number, itemId: number, optionIndex: number): ClientActionResult {
+        if (!this.ingame || !this.out || !this.localPlayer) {
+            return { success: false, reason: 'not_in_game' };
+        }
+        if (optionIndex < 1 || optionIndex > 5) {
+            return { success: false, reason: 'invalid_option' };
         }
 
         // Convert world coordinates to scene coordinates
@@ -1245,11 +1302,11 @@ export class Client extends GameShell {
 
         // Validate scene coordinates
         if (sceneX < 0 || sceneX >= 104 || sceneZ < 0 || sceneZ >= 104) {
-            return false;
+            return { success: false, reason: 'out_of_scene' };
         }
 
         // First send MOVE_OPCLICK via tryMove (type=2) to walk to the item
-        this.tryMove(
+        const routed = this.tryMove(
             this.localPlayer.routeX[0],
             this.localPlayer.routeZ[0],
             sceneX,
@@ -1260,6 +1317,9 @@ export class Client extends GameShell {
             0,      // forceapproach
             2       // type = MOVE_OPCLICK
         );
+        if (!routed) {
+            return { success: false, reason: 'cant_reach' };
+        }
 
         // Then send OPOBJ packet
         const opcodes = [
@@ -1274,7 +1334,7 @@ export class Client extends GameShell {
         this.out.p2(worldZ);
         this.out.p2(itemId);
 
-        return true;
+        return { success: true };
     }
 
     /**
@@ -1881,22 +1941,22 @@ export class Client extends GameShell {
     /**
      * Use an inventory item on an NPC (OPNPCU)
      */
-    useItemOnNpc(itemSlot: number, npcIndex: number, interfaceId: number = 3214): boolean {
+    useItemOnNpc(itemSlot: number, npcIndex: number, interfaceId: number = 3214): ClientActionResult {
         if (!this.ingame || !this.out || !this.localPlayer) {
             console.log('[Client] useItemOnNpc failed - not in game');
-            return false;
+            return { success: false, reason: 'not_in_game' };
         }
 
         const component = IfType.list[interfaceId];
         if (!component || !component.linkObjType) {
             console.log('[Client] useItemOnNpc failed - invalid interface');
-            return false;
+            return { success: false, reason: 'item_not_found' };
         }
 
         const rawItemId = component.linkObjType[itemSlot];
         if (!rawItemId || rawItemId <= 0) {
             console.log(`[Client] useItemOnNpc failed - no item in slot ${itemSlot}`);
-            return false;
+            return { success: false, reason: 'item_not_found' };
         }
         const itemObj = ObjType.list(rawItemId - 1);
         const itemId = itemObj.id;
@@ -1904,16 +1964,19 @@ export class Client extends GameShell {
         const n = this.npc[npcIndex];
         if (!n) {
             console.log(`[Client] useItemOnNpc failed - NPC ${npcIndex} not found`);
-            return false;
+            return { success: false, reason: 'target_not_found' };
         }
 
-        this.tryMove(
+        const routed = this.tryMove(
             this.localPlayer.routeX[0],
             this.localPlayer.routeZ[0],
             n.routeX[0],
             n.routeZ[0],
             false, 1, 1, 0, 0, 0, 2
         );
+        if (!routed) {
+            return { success: false, reason: 'cant_reach' };
+        }
 
         console.log(`[Client] Using item ${itemObj.name} (id:${itemId}, slot ${itemSlot}) on NPC ${npcIndex}`);
 
@@ -1923,28 +1986,28 @@ export class Client extends GameShell {
         this.out.p2(itemSlot);
         this.out.p2(interfaceId);
 
-        return true;
+        return { success: true };
     }
 
     /**
      * Use an inventory item on a location (OPLOCU)
      */
-    useItemOnLoc(itemSlot: number, worldX: number, worldZ: number, locId: number, interfaceId: number = 3214): boolean {
+    useItemOnLoc(itemSlot: number, worldX: number, worldZ: number, locId: number, interfaceId: number = 3214): ClientActionResult {
         if (!this.ingame || !this.out || !this.localPlayer) {
             console.log('[Client] useItemOnLoc failed - not in game');
-            return false;
+            return { success: false, reason: 'not_in_game' };
         }
 
         const component = IfType.list[interfaceId];
         if (!component || !component.linkObjType) {
             console.log('[Client] useItemOnLoc failed - invalid interface');
-            return false;
+            return { success: false, reason: 'item_not_found' };
         }
 
         const rawItemId = component.linkObjType[itemSlot];
         if (!rawItemId || rawItemId <= 0) {
             console.log(`[Client] useItemOnLoc failed - no item in slot ${itemSlot}`);
-            return false;
+            return { success: false, reason: 'item_not_found' };
         }
         const itemObj = ObjType.list(rawItemId - 1);
         const itemId = itemObj.id;
@@ -1954,14 +2017,20 @@ export class Client extends GameShell {
 
         if (destSceneX < 0 || destSceneX > 103 || destSceneZ < 0 || destSceneZ > 103) {
             console.log(`[Client] useItemOnLoc failed - location out of scene bounds`);
-            return false;
+            return { success: false, reason: 'out_of_scene' };
         }
 
         const loc = LocType.list(locId);
-        if (loc) {
-            let width = loc.width;
-            let height = loc.length;
-            this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], destSceneX, destSceneZ, false, width, height, 0, 0, 0, 2);
+        if (!loc) {
+            return { success: false, reason: 'target_not_found' };
+        }
+        const routed = this.tryMove(
+            this.localPlayer.routeX[0], this.localPlayer.routeZ[0],
+            destSceneX, destSceneZ,
+            false, loc.width, loc.length, 0, 0, 0, 2
+        );
+        if (!routed) {
+            return { success: false, reason: 'cant_reach' };
         }
 
         console.log(`[Client] Using item ${itemObj.name} (id:${itemId}, slot ${itemSlot}) on loc ${loc?.name || locId} at (${worldX}, ${worldZ})`);
@@ -1974,7 +2043,7 @@ export class Client extends GameShell {
         this.out.p2(itemSlot);
         this.out.p2(interfaceId);
 
-        return true;
+        return { success: true };
     }
 
     /**
@@ -2133,9 +2202,15 @@ export class Client extends GameShell {
     /**
      * Interact with a location/object in the world (doors, trees, etc.)
      */
-    interactLoc(worldX: number, worldZ: number, locId: number, optionIndex: number): boolean {
-        if (!this.ingame || !this.out || !this.localPlayer || optionIndex < 1 || optionIndex > 5) {
-            return false;
+    interactLoc(worldX: number, worldZ: number, locId: number, optionIndex: number): ClientActionResult {
+        if (!this.ingame || !this.out || !this.localPlayer) {
+            return { success: false, reason: 'not_in_game' };
+        }
+        if (locId < 0) {
+            return { success: false, reason: 'invalid_target' };
+        }
+        if (optionIndex < 1 || optionIndex > 5) {
+            return { success: false, reason: 'invalid_option' };
         }
 
         // Walk to the loc first so the server receives a movement path. In 274's
@@ -2145,11 +2220,16 @@ export class Client extends GameShell {
         // "I can't reach that!" whenever we aren't already adjacent. Mirrors useItemOnLoc.
         const destSceneX = worldX - this.mapBuildBaseX;
         const destSceneZ = worldZ - this.mapBuildBaseZ;
-        if (destSceneX >= 0 && destSceneX <= 103 && destSceneZ >= 0 && destSceneZ <= 103) {
-            const loc = LocType.list(locId);
-            if (loc) {
-                this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], destSceneX, destSceneZ, false, loc.width, loc.length, 0, 0, 0, 2);
-            }
+        if (destSceneX < 0 || destSceneX > 103 || destSceneZ < 0 || destSceneZ > 103) {
+            return { success: false, reason: 'out_of_scene' };
+        }
+        const loc = LocType.list(locId);
+        if (!loc) {
+            return { success: false, reason: 'target_not_found' };
+        }
+        const routed = this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], destSceneX, destSceneZ, false, loc.width, loc.length, 0, 0, 0, 2);
+        if (!routed) {
+            return { success: false, reason: 'cant_reach' };
         }
 
         const opcodes = [
@@ -2164,7 +2244,7 @@ export class Client extends GameShell {
         this.out.p2(worldZ);
         this.out.p2(locId);
 
-        return true;
+        return { success: true };
     }
 
     /**
@@ -3893,6 +3973,7 @@ export class Client extends GameShell {
 
                 for (let i: number = 0; i < 100; i++) {
                     this.chatText[i] = null;
+                    this.messageSequence[i] = 0;
                 }
 
                 this.useMode = 0;
@@ -13624,12 +13705,14 @@ export class Client extends GameShell {
             this.chatUsername[i] = this.chatUsername[i - 1];
             this.chatText[i] = this.chatText[i - 1];
             this.messageTick[i] = this.messageTick[i - 1];
+            this.messageSequence[i] = this.messageSequence[i - 1];
         }
 
         this.chatType[0] = type;
         this.chatUsername[0] = sender;
         this.chatText[0] = text;
         this.messageTick[0] = Client.loopCycle;
+        this.messageSequence[0] = ++this.nextMessageSequence;
     }
 
     private isFriend(username: string | null): boolean {

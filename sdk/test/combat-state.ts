@@ -128,15 +128,15 @@ async function runCombatStateTest(): Promise<boolean> {
             if (!isArray) allTestsPassed = false;
         }
 
-        // Test 4: Check combatCycle field exists
-        console.log('\n--- Test 4: NPC combatCycle Field ---');
+        // Test 4: Check public-clock combat marker exists
+        console.log('\n--- Test 4: NPC lastCombatTick Field ---');
         if (npc) {
-            const hasCombatCycle = 'combatCycle' in npc;
-            console.log(`  combatCycle field exists: ${hasCombatCycle}`);
-            if (hasCombatCycle) {
-                const validCombatCycle = typeof npc.combatCycle === 'number';
-                console.log(`  combatCycle valid: ${validCombatCycle} (value: ${npc.combatCycle})`);
-                if (!validCombatCycle) allTestsPassed = false;
+            const hasLastCombatTick = 'lastCombatTick' in npc;
+            console.log(`  lastCombatTick field exists: ${hasLastCombatTick}`);
+            if (hasLastCombatTick) {
+                const validLastCombatTick = npc.lastCombatTick === null || typeof npc.lastCombatTick === 'number';
+                console.log(`  lastCombatTick valid: ${validLastCombatTick} (value: ${npc.lastCombatTick})`);
+                if (!validLastCombatTick) allTestsPassed = false;
             } else {
                 allTestsPassed = false;
             }
@@ -158,7 +158,7 @@ async function runCombatStateTest(): Promise<boolean> {
             console.log(`    healthPercent=${attackableNpc.healthPercent} (null = not yet damaged)`);
             console.log(`    targetIndex=${attackableNpc.targetIndex}`);
             console.log(`    inCombat=${attackableNpc.inCombat}`);
-            console.log(`    combatCycle=${attackableNpc.combatCycle} (current tick: ${currentTick})`);
+            console.log(`    lastCombatTick=${attackableNpc.lastCombatTick} (current tick: ${currentTick})`);
 
             // Attack the NPC
             const attackOpt = attackableNpc.optionsWithIndex.find(o => o.text.toLowerCase() === 'attack');
@@ -177,7 +177,7 @@ async function runCombatStateTest(): Promise<boolean> {
                     console.log(`    targetIndex: ${pc.targetIndex}`);
                     console.log(`    lastDamageTick: ${pc.lastDamageTick}`);
 
-                    // Player should be in combat now (via combatCycle check)
+                    // Player should be in combat now.
                     if (pc.inCombat) {
                         console.log(`  PASS: player.combat.inCombat is TRUE during combat`);
                     } else {
@@ -204,17 +204,17 @@ async function runCombatStateTest(): Promise<boolean> {
                     console.log(`    hp=${updatedNpc.hp}/${updatedNpc.maxHp}`);
                     console.log(`    targetIndex=${updatedNpc.targetIndex}`);
                     console.log(`    inCombat=${updatedNpc.inCombat}`);
-                    console.log(`    combatCycle=${updatedNpc.combatCycle}`);
+                    console.log(`    lastCombatTick=${updatedNpc.lastCombatTick}`);
 
                     // After taking damage, NPC should have health data and be in combat
-                    if (updatedNpc.maxHp > 0) {
+                    if (updatedNpc.maxHp !== null && updatedNpc.maxHp > 0) {
                         console.log(`  PASS: NPC health now visible (hp=${updatedNpc.hp}/${updatedNpc.maxHp})`);
                     }
                     if (updatedNpc.inCombat) {
                         console.log(`  PASS: NPC inCombat is TRUE`);
                     }
-                    if (updatedNpc.combatCycle > newTick) {
-                        console.log(`  PASS: NPC combatCycle (${updatedNpc.combatCycle}) > current tick (${newTick})`);
+                    if (updatedNpc.lastCombatTick !== null && updatedNpc.lastCombatTick <= newTick) {
+                        console.log(`  PASS: NPC lastCombatTick (${updatedNpc.lastCombatTick}) uses public tick clock (${newTick})`);
                     }
                 } else {
                     console.log(`  NOTE: NPC no longer visible (died)`);

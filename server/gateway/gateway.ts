@@ -501,7 +501,8 @@ const SyncModule = {
             this.sendToBot(botSession, {
                 type: 'action',
                 action: message.action,
-                actionId: message.actionId
+                actionId: message.actionId,
+                actionTimeoutMs: message.actionTimeoutMs
             });
 
             console.log(`[Gateway] [${botSession.username}] SDK action: ${message.action?.type} (${message.actionId})`);

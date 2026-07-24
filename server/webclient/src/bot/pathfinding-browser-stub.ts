@@ -10,7 +10,7 @@
 //
 // Must export every symbol sdk/index.ts and sdk/actions.ts import from
 // './pathfinding'. Currently: isZoneAllocated, findLongPath, findDoorsAlongPath,
-// blockDoor. The rest are exported for completeness so any future import resolves.
+// TemporaryDoorBlocklist. The rest are exported for completeness so any future import resolves.
 
 export interface DoorInfo {
     level: number;
@@ -19,6 +19,13 @@ export interface DoorInfo {
     angle: number;
     shape: number;
     blockrange: boolean;
+}
+
+export class TemporaryDoorBlocklist {
+    block(_door: DoorInfo, _ttlMs?: number): void {}
+    active(): DoorInfo[] { return []; }
+    has(_level: number, _x: number, _z: number): boolean { return false; }
+    clear(): void {}
 }
 
 type Waypoint = { x: number; z: number; level: number };
@@ -39,7 +46,8 @@ export function findLongPath(
     _srcZ: number,
     _destX: number,
     _destZ: number,
-    _maxWaypoints?: number
+    _maxWaypoints?: number,
+    _blockedDoors?: Iterable<DoorInfo>
 ): Waypoint[] {
     return [];
 }
@@ -62,8 +70,4 @@ export function findDoorsAlongPath(_waypoints: Array<{ x: number; z: number }>):
 
 export function getDoorAt(_level: number, _x: number, _z: number): DoorInfo | undefined {
     return undefined;
-}
-
-export function blockDoor(_level: number, _x: number, _z: number): boolean {
-    return false;
 }

@@ -3,7 +3,7 @@
  * Logic tests for the SDK chat system — no bot required.
  *
  * Covers the accumulated ChatHistory buffer (merge/dedup across state-sync
- * snapshots, tick-split edge case, page-reload tick reset, retention cap) and
+ * snapshots, publication-split edge case, page-reload cursor reset, retention cap) and
  * the SDK surface built on it (getChat, getNewChat cursor, getChatFrom,
  * waitForChat), driving the SDK through its real handleMessage path.
  */
@@ -31,6 +31,7 @@ function msg(tick: number, text: string, opts: Partial<GameMessage> = {}): GameM
         text,
         sender: opts.sender ?? 'partner',
         tick,
+        observationId: opts.observationId,
         fromSelf: opts.fromSelf ?? false,
     };
 }
@@ -86,6 +87,19 @@ async function run(): Promise<void> {
         check('picks up surplus messages sharing the last-held tick',
             texts(fresh) === 'b2,c' && texts(h.all()) === 'a,b1,b2,c',
             `fresh=${texts(fresh)}`);
+    }
+
+    // A duplicate identical message at the same raw game tick remains distinct
+    // when it first becomes visible in a later publication.
+    {
+        const h = new ChatHistory();
+        h.record([msg(11, 'same', { observationId: 2 })]);
+        const fresh = h.record([
+            msg(11, 'same', { observationId: 2 }),
+            msg(11, 'same', { observationId: 3 })
+        ]);
+        check('keeps identical same-tick messages from later publications',
+            fresh.length === 1 && fresh[0]!.observationId === 3 && h.all().length === 2);
     }
 
     // 5. Snapshot window slid past history (heavy spam): older-than-held
