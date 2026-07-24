@@ -57,12 +57,16 @@ export function buildExecutionOutput(
 
   const state = connection.sdk.getState();
   if (state) {
-    const sinceTick = updateMessageCursor(connection);
+    const sinceCursor = updateMessageCursor(connection, state.gameMessages ?? []);
+    const terminalState = {
+      ...state,
+      gameMessages: (state.gameMessages ?? []).filter(
+        message => getMessageCursor(message) > sinceCursor,
+      ),
+    };
     parts.push('── Terminal World State ──');
     parts.push(truncateText(
-      formatWorldState(state, connection.sdk.getStateAge(), {
-        sinceTick,
-      }),
+      formatWorldState(terminalState, connection.sdk.getStateAge()),
       MAX_STATE_CHARS,
       'world state',
     ));
@@ -101,19 +105,34 @@ export function truncateText(text: string, maxChars: number, label: string): str
   return text.slice(0, Math.max(0, maxChars - suffix.length)) + suffix;
 }
 
-function updateMessageCursor(connection: BotConnection): number {
-  const state = connection.sdk.getState();
-  if (!state) return connection.lastShownMessageTick;
+type CursorBearingMessage = {
+  tick: number;
+  observationId?: unknown;
+};
 
-  if (state.gameMessages?.length > 0
-      && state.gameMessages.every(message => message.tick < connection.lastShownMessageTick)) {
-    connection.lastShownMessageTick = -1;
+function getMessageCursor(message: { tick: number }): number {
+  const observationId = (message as CursorBearingMessage).observationId;
+  return typeof observationId === 'number' && Number.isFinite(observationId)
+    ? observationId
+    : message.tick;
+}
+
+function updateMessageCursor(
+  connection: BotConnection,
+  messages: readonly { tick: number }[],
+): number {
+  if (messages.length > 0
+      && messages.every(
+        message => getMessageCursor(message) < connection.lastShownMessageCursor,
+      )) {
+    connection.lastShownMessageCursor = -1;
   }
-  const sinceTick = connection.lastShownMessageTick;
-  for (const message of state.gameMessages ?? []) {
-    if (message.tick > connection.lastShownMessageTick) {
-      connection.lastShownMessageTick = message.tick;
+  const sinceCursor = connection.lastShownMessageCursor;
+  for (const message of messages) {
+    const messageCursor = getMessageCursor(message);
+    if (messageCursor > connection.lastShownMessageCursor) {
+      connection.lastShownMessageCursor = messageCursor;
     }
   }
-  return sinceTick;
+  return sinceCursor;
 }

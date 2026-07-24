@@ -40,7 +40,7 @@ function connectionWithState(): BotConnection {
     bot: {},
     username: 'tester',
     connected: true,
-    lastShownMessageTick: -1,
+    lastShownMessageCursor: -1,
   } as unknown as BotConnection;
 }
 
@@ -66,5 +66,42 @@ describe('bounded MCP output', () => {
     expect(output.length).toBeLessThanOrEqual(100);
     expect(output).toContain('truncated');
     expect(() => JSON.parse(output)).not.toThrow();
+  });
+
+  test('uses observation ids to show messages that share a public tick', () => {
+    const connection = connectionWithState();
+    const state = connection.sdk.getState()!;
+    const messages = state.gameMessages as Array<
+      (typeof state.gameMessages)[number] & { observationId?: number }
+    >;
+    messages[0]!.observationId = 1;
+
+    const first = buildExecutionOutput({
+      status: 'success',
+      logs: [],
+      logsTruncated: false,
+      elapsedMs: 1,
+      mayHaveInFlightCall: false,
+    }, connection, false);
+
+    messages.push({
+      type: 0,
+      text: 'same tick, later observation',
+      sender: '',
+      tick: 100,
+      observationId: 2,
+      fromSelf: false,
+    });
+    const second = buildExecutionOutput({
+      status: 'success',
+      logs: [],
+      logsTruncated: false,
+      elapsedMs: 1,
+      mayHaveInFlightCall: false,
+    }, connection, false);
+
+    expect(first).toContain('terminal snapshot');
+    expect(second).not.toContain('terminal snapshot');
+    expect(second).toContain('same tick, later observation');
   });
 });

@@ -34,7 +34,7 @@ function fakeConnection(overrides: {
     bot: overrides.bot ?? {},
     username: 'tester',
     connected: true,
-    lastShownMessageTick: -1,
+    lastShownMessageCursor: -1,
   } as unknown as BotConnection;
 }
 
