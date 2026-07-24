@@ -1064,22 +1064,31 @@ function generateNpcMarkdown(page: NpcPage, objNames: Map<string, string>): stri
     if (page.spawns.length > 0) {
         lines.push(page.spawns.length > 1 ? '## Locations' : '## Location');
         lines.push('');
-        lines.push('| Area | Map |');
-        lines.push('|------|-----|');
+        lines.push('| Area | Map | Coordinate samples |');
+        lines.push('|------|-----|--------------------|');
 
-        // Group spawns by map square, then by area
-        const byArea = new Map<string, Set<string>>();
+        // Group spawns by area while retaining useful exact coordinates. Limit
+        // samples so very common NPCs do not produce enormous generated pages.
+        const byArea = new Map<string, { squares: Set<string>; coordinates: Set<string> }>();
         for (const spawn of page.spawns) {
             const area = getAreaFromMapSquare(spawn.mapSquare);
-            if (!byArea.has(area)) byArea.set(area, new Set());
-            byArea.get(area)!.add(spawn.mapSquare);
+            if (!byArea.has(area)) {
+                byArea.set(area, { squares: new Set(), coordinates: new Set() });
+            }
+            const group = byArea.get(area)!;
+            group.squares.add(spawn.mapSquare);
+            const floor = spawn.level > 0 ? ` L${spawn.level}` : '';
+            group.coordinates.add(`(${spawn.globalX}, ${spawn.globalZ})${floor}`);
         }
 
         // Sort by area name
         const sortedAreas = [...byArea.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-        for (const [area, squares] of sortedAreas) {
-            const squareList = [...squares].sort().join(', ');
-            lines.push(`| ${area} | ${squareList} |`);
+        for (const [area, group] of sortedAreas) {
+            const squareList = [...group.squares].sort().join(', ');
+            const allCoordinates = [...group.coordinates].sort();
+            const coordinateList = allCoordinates.slice(0, 12).join(', ');
+            const overflow = allCoordinates.length > 12 ? `, +${allCoordinates.length - 12} more` : '';
+            lines.push(`| ${area} | ${squareList} | ${coordinateList}${overflow} |`);
         }
         lines.push('');
     } else if (primary.hasPatrol || primary.defaultmode === 'patrol') {

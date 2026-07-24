@@ -16,7 +16,7 @@ Men at Lumbridge castle are excellent for early thieving. Proven: 1 → 43 in ~1
 
 ```typescript
 // Find a man to pickpocket
-const man = ctx.sdk.getState()?.nearbyNpcs.find(n => /^man$/i.test(n.name));
+const man = sdk.getState()?.nearbyNpcs.find(n => /^man$/i.test(n.name));
 if (!man) {
     console.log('No man found nearby');
     return;
@@ -30,7 +30,7 @@ if (!pickpocketOpt) {
 }
 
 // Execute pickpocket
-await ctx.sdk.sendInteractNpc(man.index, pickpocketOpt.opIndex);
+await sdk.sendInteractNpc(man.index, pickpocketOpt.opIndex);
 await new Promise(r => setTimeout(r, 1500));  // Wait for result
 ```
 
@@ -51,7 +51,7 @@ When caught, the character is stunned for ~5 seconds:
 
 ```typescript
 // Check for stun (player can't act)
-const messages = ctx.sdk.getState()?.gameMessages ?? [];
+const messages = sdk.getState()?.gameMessages ?? [];
 const wasStunned = messages.some(m => /stunned|caught/i.test(m.text));
 
 if (wasStunned) {
@@ -63,22 +63,22 @@ if (wasStunned) {
 ### Full Thieving Loop
 
 ```typescript
-async function pickpocketLoop(ctx, duration: number) {
+async function pickpocketLoop(duration) {
     const startTime = Date.now();
     let successCount = 0;
 
     while (Date.now() - startTime < duration) {
         // Dismiss any dialogs first
-        if (ctx.sdk.getState()?.dialog.isOpen) {
-            await ctx.sdk.sendClickDialog(0);
+        if (sdk.getState()?.dialog.isOpen) {
+            await sdk.sendClickDialog(0);
             continue;
         }
 
         // Find target
-        const man = ctx.sdk.getState()?.nearbyNpcs.find(n => /^man$/i.test(n.name));
+        const man = sdk.getState()?.nearbyNpcs.find(n => /^man$/i.test(n.name));
         if (!man) {
             // Walk to Lumbridge castle
-            await ctx.bot.walkTo(3222, 3218);
+            await bot.walkTo(3222, 3218);
             await new Promise(r => setTimeout(r, 1000));
             continue;
         }
@@ -86,7 +86,7 @@ async function pickpocketLoop(ctx, duration: number) {
         // Pickpocket
         const opt = man.optionsWithIndex.find(o => /pickpocket/i.test(o.text));
         if (opt) {
-            await ctx.sdk.sendInteractNpc(man.index, opt.opIndex);
+            await sdk.sendInteractNpc(man.index, opt.opIndex);
             await new Promise(r => setTimeout(r, 1500));
             successCount++;
         }
@@ -104,12 +104,12 @@ Bank when you hit 200-500 GP to avoid losing progress on disconnect:
 const GP_BANK_THRESHOLD = 500;
 
 // Check GP in inventory
-const coins = ctx.sdk.getState()?.inventory.find(i => /coins/i.test(i.name));
+const coins = sdk.getState()?.inventory.find(i => /coins/i.test(i.name));
 const gp = coins?.count ?? 0;
 
 if (gp >= GP_BANK_THRESHOLD) {
     console.log(`Have ${gp} GP - banking!`);
-    await bankTrip(ctx);  // Walk to Draynor, deposit
+    await bankTrip();  // Walk to Draynor, deposit
 }
 ```
 
@@ -133,32 +133,40 @@ const MIN_KEBABS = 3;
 const EAT_HP_THRESHOLD = 7;
 
 // Check if we need food
-const hp = getHP(ctx);
-const kebabCount = getKebabCount(ctx);
+const state = sdk.getState();
+if (!state?.player) throw new Error('No player state');
+const hp = state.player.hp;
+const kebabCount = state.inventory
+    .filter(item => /kebab/i.test(item.name))
+    .reduce((total, item) => total + item.count, 0);
+const coins = state.inventory.find(item => /coins/i.test(item.name))?.count ?? 0;
 
-if (hp.current <= EAT_HP_THRESHOLD) {
+if (hp <= EAT_HP_THRESHOLD) {
     // Eat food if available
-    const food = ctx.sdk.getState()?.inventory.find(i => /kebab/i.test(i.name));
+    const food = sdk.getState()?.inventory.find(i => /kebab/i.test(i.name));
     if (food) {
         const eatOpt = food.optionsWithIndex.find(o => /eat/i.test(o.text));
-        await ctx.sdk.sendUseItem(food.slot, eatOpt.opIndex);
+        if (eatOpt) await sdk.sendUseItem(food.slot, eatOpt.opIndex);
     }
 }
 
 // Restock kebabs if low
-if (kebabCount < MIN_KEBABS && getCoins(ctx) >= 3) {
-    await ctx.bot.walkTo(3273, 3180);  // Kebab seller
+if (kebabCount < MIN_KEBABS && coins >= 3) {
+    await bot.walkTo(3273, 3180);  // Kebab seller
     // ... buy kebab dialog (see dialogs.md)
 }
 
 // Walk to the warriors if not nearby
-const distToTargets = /* calculate distance to (3293, 3170) */;
+const distToTargets = Math.hypot(
+    state.player.worldX - 3293,
+    state.player.worldZ - 3170,
+);
 if (distToTargets > 15) {
-    await ctx.bot.walkTo(3293, 3170);
+    await bot.walkTo(3293, 3170);
 }
 
 // Pickpocket - match the actual NPC name, /^man$/i finds nothing here
-const target = ctx.sdk.getState()?.nearbyNpcs.find(n => /^al-kharid warrior$/i.test(n.name));
+const target = sdk.getState()?.nearbyNpcs.find(n => /^al-kharid warrior$/i.test(n.name));
 // ... standard pickpocket pattern
 ```
 

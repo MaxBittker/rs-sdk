@@ -7,7 +7,7 @@ Successful patterns for woodcutting automation.
 Trees are **locations** with "Chop down" option:
 
 ```typescript
-const tree = state.nearbyLocs
+const tree = sdk.getState()?.nearbyLocs
     .filter(loc => /^tree$/i.test(loc.name))
     .filter(loc => loc.optionsWithIndex.some(o => /chop/i.test(o.text)))
     .sort((a, b) => a.distance - b.distance)[0];
@@ -17,11 +17,11 @@ const tree = state.nearbyLocs
 
 ```typescript
 // Using porcelain method
-const result = await ctx.bot.chopTree();
+const result = await bot.chopTree();
 
 // Or raw SDK
 const chopOpt = tree.optionsWithIndex.find(o => /chop/i.test(o.text));
-await ctx.sdk.sendInteractLoc(tree.x, tree.z, tree.id, chopOpt.opIndex);
+await sdk.sendInteractLoc(tree.x, tree.z, tree.id, chopOpt.opIndex);
 ```
 
 ## Tree Locations
@@ -40,24 +40,27 @@ Stay within a reasonable area:
 const TREE_AREA = { x: 3195, z: 3220 };
 const MAX_DRIFT = 15;
 
-const player = state.player;
+const player = sdk.getState()?.player;
+if (!player) throw new Error('No player state');
 const dist = Math.sqrt(
     Math.pow(player.worldX - TREE_AREA.x, 2) +
     Math.pow(player.worldZ - TREE_AREA.z, 2)
 );
 
 if (dist > MAX_DRIFT) {
-    await ctx.bot.walkTo(TREE_AREA.x, TREE_AREA.z);
+    await bot.walkTo(TREE_AREA.x, TREE_AREA.z);
 }
 ```
 
 ## Drop Logs When Full
 
 ```typescript
+const state = sdk.getState();
+if (!state) throw new Error('No world state');
 if (state.inventory.length >= 28) {
     const logs = state.inventory.filter(i => /logs$/i.test(i.name));
     for (const log of logs) {
-        await ctx.sdk.sendDropItem(log.slot);
+        await sdk.sendDropItem(log.slot);
         await new Promise(r => setTimeout(r, 100));
     }
 }
@@ -68,11 +71,11 @@ if (state.inventory.length >= 28) {
 Burn logs for additional XP (requires tinderbox):
 
 ```typescript
-const logs = ctx.sdk.findInventoryItem(/logs/i);
-const tinderbox = ctx.sdk.findInventoryItem(/tinderbox/i);
+const logs = sdk.findInventoryItem(/logs/i);
+const tinderbox = sdk.findInventoryItem(/tinderbox/i);
 
 if (logs && tinderbox) {
-    const result = await ctx.bot.burnLogs();
+    const result = await bot.burnLogs();
     if (result.success) {
         console.log(`Burned logs, gained ${result.xpGained} FM XP`);
     }
