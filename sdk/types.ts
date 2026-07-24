@@ -166,7 +166,16 @@ export interface DialogState {
 export interface InterfaceState {
     isOpen: boolean;
     interfaceId: number;
-    options: Array<{ index: number; text: string; componentId: number }>;
+    options: InterfaceOption[];
+}
+
+/** A clickable viewport-interface option as published in world state. */
+export interface InterfaceOption {
+    /** Human-facing 1-based ordinal. Do not use this as an array position. */
+    index: number;
+    text: string;
+    /** Stable component dispatched when this option is selected. */
+    componentId: number;
 }
 
 export interface ShopItem {
@@ -347,13 +356,22 @@ export type BotAction =
     | { type: 'scanGroundItems'; radius?: number; reason: string }
     | { type: 'togglePrayer'; prayerIndex: number; reason: string };
 
-export interface ActionResult {
+export type ActionPhase = 'validation' | 'routing' | 'dispatch' | 'observation' | 'completion';
+
+/**
+ * Compatibility-safe common contract for action outcomes.
+ * `phase` and `reason` remain optional while specialized results migrate.
+ */
+export interface ActionResultBase<Reason extends string = string> {
     success: boolean;
     message: string;
+    phase?: ActionPhase;
+    reason?: Reason;
+}
+
+export interface ActionResult extends ActionResultBase {
     /** Optional data payload (used by scan actions to return results) */
     data?: any;
-    /** Machine-readable failure category (e.g. 'cant_reach', 'no_match', 'timeout') */
-    reason?: string;
 }
 
 /**
@@ -450,16 +468,17 @@ export type ConnectionState = 'disconnected' | 'connecting' | 'connected' | 'rec
 
 // ============ Result Types ============
 
-export interface ChopTreeResult {
-    success: boolean;
+export interface ChopTreeResult extends ActionResultBase<
+    'tree_not_found' | 'inventory_full' | 'cant_reach' | 'level_interrupted' | 'dispatch_failed' | 'timeout'
+> {
     logs?: InventoryItem;
-    message: string;
 }
 
-export interface BurnLogsResult {
-    success: boolean;
+export interface BurnLogsResult extends ActionResultBase<
+    'no_tinderbox' | 'no_logs' | 'cant_reach' | 'bad_location' | 'level_interrupted' | 'dispatch_failed' | 'timeout'
+> {
     xpGained: number;
-    message: string;
+    logsConsumed?: number;
 }
 
 export interface PickupResult {
@@ -469,22 +488,27 @@ export interface PickupResult {
     reason?: 'item_not_found' | 'cant_reach' | 'inventory_full' | 'timeout';
 }
 
-export interface TalkResult {
-    success: boolean;
+export interface TalkResult extends ActionResultBase<
+    'npc_not_found' | 'cant_reach' | 'dispatch_failed' | 'timeout'
+> {
     dialog?: DialogState;
-    message: string;
 }
 
-export interface ShopResult {
-    success: boolean;
+export interface ShopResult extends ActionResultBase<
+    'shop_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
+> {
     item?: InventoryItem;
-    message: string;
+    requestedAmount?: number;
+    amountBought?: number;
+    partial?: boolean;
 }
 
-export interface ShopSellResult {
-    success: boolean;
-    message: string;
+export interface ShopSellResult extends ActionResultBase<
+    'shop_not_open' | 'item_not_found' | 'rejected' | 'dispatch_failed' | 'partial_fill' | 'timeout'
+> {
+    requestedAmount?: number;
     amountSold?: number;
+    partial?: boolean;
     rejected?: boolean;
 }
 
@@ -528,19 +552,22 @@ export interface OpenDoorResult {
     door?: NearbyLoc;
 }
 
-export interface FletchResult {
-    success: boolean;
-    message: string;
+export interface FletchResult extends ActionResultBase<
+    'no_knife' | 'no_logs' | 'interface_not_opened' | 'no_matching_option' |
+    'level_too_low' | 'wrong_product' | 'dispatch_failed' | 'timeout'
+> {
     xpGained?: number;
     product?: InventoryItem;
 }
 
-export interface CraftLeatherResult {
-    success: boolean;
-    message: string;
+export interface CraftLeatherResult extends ActionResultBase<
+    'no_needle' | 'no_leather' | 'no_thread' | 'interface_not_opened' |
+    'no_matching_option' | 'level_too_low' | 'wrong_product' | 'dispatch_failed' |
+    'timeout' | 'no_xp_gained'
+> {
     xpGained?: number;
     itemsCrafted?: number;
-    reason?: 'no_needle' | 'no_leather' | 'no_thread' | 'interface_not_opened' | 'level_too_low' | 'timeout' | 'no_xp_gained';
+    product?: InventoryItem;
 }
 
 export interface SmithResult {
@@ -558,18 +585,21 @@ export interface OpenBankResult {
     reason?: 'no_bank_found' | 'no_bank_option' | 'timeout' | 'dialog_stuck' | 'cant_reach';
 }
 
-export interface BankDepositResult {
-    success: boolean;
-    message: string;
+export interface BankDepositResult extends ActionResultBase<
+    'bank_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
+> {
+    requestedAmount?: number;
     amountDeposited?: number;
-    reason?: 'bank_not_open' | 'item_not_found' | 'timeout';
+    partial?: boolean;
 }
 
-export interface BankWithdrawResult {
-    success: boolean;
-    message: string;
+export interface BankWithdrawResult extends ActionResultBase<
+    'bank_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
+> {
     item?: InventoryItem;
-    reason?: 'bank_not_open' | 'item_not_found' | 'timeout';
+    requestedAmount?: number;
+    amountWithdrawn?: number;
+    partial?: boolean;
 }
 
 export interface UseItemOnLocResult {
@@ -584,16 +614,28 @@ export interface UseItemOnNpcResult {
     reason?: 'item_not_found' | 'npc_not_found' | 'cant_reach' | 'timeout';
 }
 
-export interface InteractLocResult {
-    success: boolean;
-    message: string;
-    reason?: 'loc_not_found' | 'no_matching_option' | 'cant_reach' | 'timeout';
+export type InteractionEvidence =
+    'dialog' | 'interface' | 'animation' | 'inventory' | 'xp' | 'message' | 'custom';
+
+export interface InteractionWaitOptions {
+    /** Real deadline in milliseconds. Default: 5000. */
+    timeout?: number;
+    /** Additional task-specific evidence predicate. */
+    evidence?: (state: BotWorldState, initialState: BotWorldState) => boolean;
+    /** Treat a new game message matching this pattern as success evidence. */
+    message?: string | RegExp;
 }
 
-export interface InteractNpcResult {
-    success: boolean;
-    message: string;
-    reason?: 'npc_not_found' | 'no_matching_option' | 'cant_reach' | 'timeout';
+export interface InteractLocResult extends ActionResultBase<
+    'loc_not_found' | 'no_matching_option' | 'cant_reach' | 'dispatch_failed' | 'timeout'
+> {
+    evidence?: InteractionEvidence;
+}
+
+export interface InteractNpcResult extends ActionResultBase<
+    'npc_not_found' | 'no_matching_option' | 'cant_reach' | 'dispatch_failed' | 'timeout'
+> {
+    evidence?: InteractionEvidence;
 }
 
 export interface PickpocketResult {

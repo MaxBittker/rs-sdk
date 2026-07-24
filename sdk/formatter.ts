@@ -104,6 +104,7 @@ export function formatWorldState(
             for (const opt of state.interface.options) {
                 lines.push(`  ${opt.index}. ${opt.text}`);
             }
+            lines.push('(Select with sdk.clickInterfaceOption("text") or an option object; shown numbers are 1-based labels.)');
         }
         if (!state.shop?.isOpen && !state.bank?.isOpen) {
             lines.push('(This modal blocks most actions - close it with bot.closeInterface() or sdk.sendCloseModal())');
@@ -151,24 +152,28 @@ export function formatWorldState(
     const maxSlots = 28;
     const emptySlots = maxSlots - usedSlots;
     lines.push(`## Inventory (${emptySlots} empty slots)`);
+    lines.push('(Quantities aggregated by name; slot usage shown per item.)');
     if ((state.inventory || []).length === 0) {
         lines.push('(Empty)');
     } else {
-        const itemCounts = new Map<string, { count: number; options: string[] }>();
+        const itemCounts = new Map<string, { count: number; slots: number; options: string[] }>();
         for (const item of state.inventory) {
             const existing = itemCounts.get(item.name);
             if (existing) {
                 existing.count += item.count;
+                existing.slots += 1;
             } else {
                 itemCounts.set(item.name, {
                     count: item.count,
+                    slots: 1,
                     options: item.optionsWithIndex?.map(o => o.text) ?? []
                 });
             }
         }
         for (const [name, data] of itemCounts) {
             const opts = data.options.length > 0 ? ` [${data.options.join(', ')}]` : '';
-            lines.push(`- ${name} x${data.count}${opts}`);
+            const slots = data.slots === 1 ? '1 slot' : `${data.slots} slots`;
+            lines.push(`- ${name} x${data.count} across ${slots}${opts}`);
         }
     }
 
@@ -177,7 +182,7 @@ export function formatWorldState(
         lines.push('');
         lines.push('## Equipment');
         for (const item of state.equipment) {
-            lines.push(`- ${item.name}`);
+            lines.push(`- ${item.name} x${item.count}`);
         }
     }
 

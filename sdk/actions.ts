@@ -37,6 +37,7 @@ import type {
     UseItemOnNpcResult,
     InteractLocResult,
     InteractNpcResult,
+    InteractionWaitOptions,
     PickpocketResult,
     PrayerResult,
     PrayerName,
@@ -45,6 +46,21 @@ import type {
     StringAmuletResult,
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES, PRAYER_LEVELS } from './types';
+import {
+    captureInteractionBaseline,
+    captureMessageBaseline,
+    classifyQuantity,
+    countInventoryItem,
+    detectInteractionEvidence,
+    isMessageAfterBaseline,
+    resolveInterfaceOption,
+} from './action-reliability';
+import {
+    findProducedItem,
+    productPosition,
+    resolveFletchProduct,
+    resolveLeatherProduct,
+} from './crafting-products';
 
 // Modal interfaces dismissBlockingUI must never auto-close: closing these is
 // destructive (declines a two-party screen) or strands the player (must be
@@ -518,29 +534,67 @@ export class BotActions {
 
         const tree = this.helpers.resolveLocation(target, /^tree$/i);
         if (!tree) {
-            return { success: false, message: 'No tree found' };
+            return { success: false, message: 'No tree found', phase: 'validation', reason: 'tree_not_found' };
+        }
+        const inventoryBefore = [...this.sdk.getInventory()];
+        if (inventoryBefore.length >= 28) {
+            return { success: false, message: 'Inventory is full', phase: 'validation', reason: 'inventory_full' };
         }
 
-        const invCountBefore = this.sdk.getInventory().length;
+        const msgBaseline = captureMessageBaseline(this.sdk.getState());
         const result = await this.sdk.sendInteractLoc(tree.x, tree.z, tree.id, 1);
-
         if (!result.success) {
-            return { success: false, message: result.message };
+            return { success: false, message: result.message, phase: 'dispatch', reason: 'dispatch_failed' };
         }
 
+        let failure: 'cant_reach' | 'inventory_full' | null = null;
+        let levelInterrupted = false;
         try {
-            await this.sdk.waitForCondition(state => {
-                const newItem = state.inventory.length > invCountBefore;
-                const treeGone = !state.nearbyLocs.find(l =>
-                    l.x === tree.x && l.z === tree.z && l.id === tree.id
-                );
-                return newItem || treeGone;
+            const finalState = await this.sdk.waitForCondition(state => {
+                for (const message of state.gameMessages) {
+                    if (!isMessageAfterBaseline(message, msgBaseline)) continue;
+                    if (/can't reach|cannot reach/i.test(message.text)) failure = 'cant_reach';
+                    if (/inventory.*full/i.test(message.text)) failure = 'inventory_full';
+                }
+                if (state.dialog.isOpen) levelInterrupted = true;
+                const gainedLogs = countInventoryItem(state.inventory, /logs/i) >
+                    countInventoryItem(inventoryBefore, /logs/i);
+                return failure !== null || gainedLogs || levelInterrupted;
             }, 30000);
-
-            const logs = this.sdk.findInventoryItem(/logs/i);
-            return { success: true, logs: logs || undefined, message: 'Chopped tree' };
+            if (failure) {
+                return {
+                    success: false,
+                    message: failure === 'cant_reach' ? `Cannot reach ${tree.name}` : 'Inventory is full',
+                    phase: 'observation',
+                    reason: failure,
+                };
+            }
+            const gainedLogs = countInventoryItem(finalState.inventory, /logs/i) >
+                countInventoryItem(inventoryBefore, /logs/i);
+            if (!gainedLogs && levelInterrupted) {
+                return {
+                    success: false,
+                    message: 'Tree chop was interrupted by a level-up dialog',
+                    phase: 'observation',
+                    reason: 'level_interrupted',
+                };
+            }
+            const logs = finalState.inventory.find(item => /logs/i.test(item.name));
+            return {
+                success: true,
+                logs,
+                message: `Chopped ${tree.name}`,
+                phase: 'completion',
+            };
         } catch {
-            return { success: false, message: 'Timed out waiting for tree chop' };
+            return {
+                success: false,
+                message: levelInterrupted
+                    ? 'Tree chop was interrupted by a level-up dialog'
+                    : 'Timed out waiting for logs from tree chop',
+                phase: 'observation',
+                reason: levelInterrupted ? 'level_interrupted' : 'timeout',
+            };
         }
     }
 
@@ -550,60 +604,98 @@ export class BotActions {
 
         const tinderbox = this.sdk.findInventoryItem(/tinderbox/i);
         if (!tinderbox) {
-            return { success: false, xpGained: 0, message: 'No tinderbox in inventory' };
+            return {
+                success: false,
+                xpGained: 0,
+                message: 'No tinderbox in inventory',
+                phase: 'validation',
+                reason: 'no_tinderbox',
+            };
         }
 
         const logs = this.helpers.resolveInventoryItem(logsTarget, /logs/i);
         if (!logs) {
-            return { success: false, xpGained: 0, message: 'No logs in inventory' };
+            return {
+                success: false,
+                xpGained: 0,
+                message: 'No logs in inventory',
+                phase: 'validation',
+                reason: 'no_logs',
+            };
         }
 
         const fmBefore = this.sdk.getSkill('Firemaking')?.experience || 0;
-
+        const logsBefore = countInventoryItem(this.sdk.getInventory(), logs.id);
+        const msgBaseline = captureMessageBaseline(this.sdk.getState());
         const result = await this.sdk.sendUseItemOnItem(tinderbox.slot, logs.slot);
         if (!result.success) {
-            return { success: false, xpGained: 0, message: result.message };
+            return {
+                success: false,
+                xpGained: 0,
+                message: result.message,
+                phase: 'dispatch',
+                reason: 'dispatch_failed',
+            };
         }
 
-        const startTick = this.sdk.getState()?.tick || 0;
-        const msgBaseline = this.helpers.getMessageTick();
-        let lastDialogClickTick = 0;
-
+        let failure: 'cant_reach' | 'bad_location' | null = null;
+        let levelInterrupted = false;
         try {
-            await this.sdk.waitForCondition(state => {
+            const finalState = await this.sdk.waitForCondition(state => {
                 const fmXp = state.skills.find(s => s.name === 'Firemaking')?.experience || 0;
-                if (fmXp > fmBefore) {
-                    return true;
-                }
-
-                if (state.dialog.isOpen && (state.tick - lastDialogClickTick) >= 3) {
-                    lastDialogClickTick = state.tick;
-                    this.sdk.sendClickDialog(0).catch(() => {});
-                }
-
-                const failureMessages = ["can't light a fire", "you need to move", "can't do that here"];
-                for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
-                        const text = msg.text.toLowerCase();
-                        if (failureMessages.some(f => text.includes(f))) {
-                            return true;
-                        }
+                if (state.dialog.isOpen) levelInterrupted = true;
+                for (const message of state.gameMessages) {
+                    if (!isMessageAfterBaseline(message, msgBaseline)) continue;
+                    if (/can't reach|cannot reach/i.test(message.text)) failure = 'cant_reach';
+                    if (/can't light a fire|need to move|can't do that here/i.test(message.text)) {
+                        failure = 'bad_location';
                     }
                 }
-
-                return false;
+                const logsConsumed = logsBefore - countInventoryItem(state.inventory, logs.id);
+                return failure !== null || fmXp > fmBefore || logsConsumed > 0 || levelInterrupted;
             }, 30000);
 
-            const fmAfter = this.sdk.getSkill('Firemaking')?.experience || 0;
+            if (failure) {
+                return {
+                    success: false,
+                    xpGained: 0,
+                    logsConsumed: 0,
+                    message: failure === 'cant_reach' ? 'Cannot reach a place to light the logs' : 'Cannot light a fire here',
+                    phase: 'observation',
+                    reason: failure,
+                };
+            }
+            const fmAfter = finalState.skills.find(skill => skill.name === 'Firemaking')?.experience || 0;
             const xpGained = fmAfter - fmBefore;
-
+            const logsConsumed = Math.max(0, logsBefore - countInventoryItem(finalState.inventory, logs.id));
+            if (xpGained === 0 && logsConsumed === 0 && levelInterrupted) {
+                return {
+                    success: false,
+                    xpGained: 0,
+                    logsConsumed: 0,
+                    message: 'Firemaking was interrupted by a level-up dialog',
+                    phase: 'observation',
+                    reason: 'level_interrupted',
+                };
+            }
             return {
-                success: xpGained > 0,
+                success: xpGained > 0 || logsConsumed > 0,
                 xpGained,
-                message: xpGained > 0 ? 'Burned logs' : 'Failed to light fire (possibly bad location)'
+                logsConsumed,
+                message: 'Burned logs',
+                phase: 'completion',
             };
         } catch {
-            return { success: false, xpGained: 0, message: 'Timed out waiting for fire' };
+            return {
+                success: false,
+                xpGained: 0,
+                logsConsumed: 0,
+                message: levelInterrupted
+                    ? 'Firemaking was interrupted by a level-up dialog'
+                    : 'Timed out waiting for fire',
+                phase: 'observation',
+                reason: levelInterrupted ? 'level_interrupted' : 'timeout',
+            };
         }
     }
 
@@ -702,19 +794,27 @@ export class BotActions {
     }
 
     /** Talk to an NPC and wait for dialog to open. Walks to the NPC first (handling doors). */
-    async talkTo(target: NearbyNpc | string | RegExp): Promise<TalkResult> {
+    async talkTo(
+        target: NearbyNpc | string | RegExp,
+        options: Pick<InteractionWaitOptions, 'timeout'> = {},
+    ): Promise<TalkResult> {
         await this.dismissBlockingUI();
 
         const npc = this.helpers.resolveNpc(target);
         if (!npc) {
-            return { success: false, message: 'NPC not found' };
+            return { success: false, message: 'NPC not found', phase: 'validation', reason: 'npc_not_found' };
         }
 
         // Walk to the NPC first (handles doors)
         if (npc.distance > 2) {
             const walkResult = await this.walkTo(npc.x, npc.z, 2);
             if (!walkResult.success) {
-                return { success: false, message: `Cannot reach ${npc.name}: ${walkResult.message}` };
+                return {
+                    success: false,
+                    message: `Cannot reach ${npc.name}: ${walkResult.message}`,
+                    phase: 'routing',
+                    reason: 'cant_reach',
+                };
             }
         }
 
@@ -722,57 +822,56 @@ export class BotActions {
         const npcPattern = typeof target === 'object' ? new RegExp(npc.name, 'i') : target;
         const npcNow = this.helpers.resolveNpc(npcPattern);
         if (!npcNow) {
-            return { success: false, message: `${npc.name} no longer visible` };
+            return {
+                success: false,
+                message: `${npc.name} no longer visible`,
+                phase: 'validation',
+                reason: 'npc_not_found',
+            };
         }
 
-        const startTick = this.sdk.getState()?.tick || 0;
-        const msgBaseline = this.helpers.getMessageTick();
-        let lastMoveTick = startTick;
-        let lastX = this.sdk.getState()?.player?.x ?? 0;
-        let lastZ = this.sdk.getState()?.player?.z ?? 0;
-
+        const initialState = this.sdk.getState();
+        if (!initialState) {
+            return { success: false, message: 'No game state', phase: 'observation', reason: 'timeout' };
+        }
+        const baseline = captureInteractionBaseline(initialState);
         const result = await this.sdk.sendTalkToNpc(npcNow.index);
         if (!result.success) {
-            return { success: false, message: result.message };
+            return { success: false, message: result.message, phase: 'dispatch', reason: 'dispatch_failed' };
         }
 
         try {
             const finalState = await this.sdk.waitForCondition(state => {
-                // Check for can't-reach messages
-                for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
-                        const text = msg.text.toLowerCase();
-                        if (text.includes("can't reach") || text.includes("cannot reach")) return true;
-                    }
-                }
+                const cantReach = state.gameMessages.some(message =>
+                    isMessageAfterBaseline(message, baseline) && /can't reach|cannot reach/i.test(message.text)
+                );
+                return cantReach || (!initialState.dialog.isOpen && state.dialog.isOpen);
+            }, options.timeout ?? 10000);
 
-                // Dialog opened — success
-                if (state.dialog.isOpen) return true;
-
-                // Track movement
-                if (state.player && (state.player.x !== lastX || state.player.z !== lastZ)) {
-                    lastX = state.player.x;
-                    lastZ = state.player.z;
-                    lastMoveTick = state.tick;
-                }
-
-                // Player idle for 2+ ticks with no dialog → give up
-                if (state.tick - lastMoveTick >= 2) return true;
-
-                return false;
-            }, 30000); // safety net only
-
-            if (this.helpers.checkCantReachMessage(msgBaseline)) {
-                return { success: false, message: `Cannot reach ${npcNow.name}` };
+            const cantReach = finalState.gameMessages.some(message =>
+                isMessageAfterBaseline(message, baseline) && /can't reach|cannot reach/i.test(message.text)
+            );
+            if (cantReach) {
+                return {
+                    success: false,
+                    message: `Cannot reach ${npcNow.name}`,
+                    phase: 'observation',
+                    reason: 'cant_reach',
+                };
             }
-
-            if (finalState.dialog.isOpen) {
-                return { success: true, dialog: finalState.dialog, message: `Talking to ${npcNow.name}` };
-            }
-
-            return { success: false, message: 'Dialog did not open' };
+            return {
+                success: true,
+                dialog: finalState.dialog,
+                message: `Talking to ${npcNow.name}`,
+                phase: 'completion',
+            };
         } catch {
-            return { success: false, message: 'Timed out waiting for dialog' };
+            return {
+                success: false,
+                message: `Timed out waiting ${options.timeout ?? 10000}ms for dialog`,
+                phase: 'observation',
+                reason: 'timeout',
+            };
         }
     }
 
@@ -1009,12 +1108,17 @@ export class BotActions {
     async buyFromShop(target: ShopItem | string | RegExp, amount: number = 1): Promise<ShopResult> {
         const shop = this.sdk.getState()?.shop;
         if (!shop?.isOpen) {
-            return { success: false, message: 'Shop is not open' };
+            return { success: false, message: 'Shop is not open', phase: 'validation', reason: 'shop_not_open' };
         }
 
         const shopItem = this.helpers.resolveShopItem(target, shop.shopItems);
         if (!shopItem) {
-            return { success: false, message: `Item not found in shop: ${target}` };
+            return {
+                success: false,
+                message: `Item not found in shop: ${target}`,
+                phase: 'validation',
+                reason: 'item_not_found',
+            };
         }
 
         // Count total items across all inventory slots (handles non-stackable items)
@@ -1024,9 +1128,27 @@ export class BotActions {
                 .reduce((sum, i) => sum + i.count, 0);
 
         const totalBefore = countInvItems();
+        const requestedAmount = Math.max(1, Math.floor(amount));
+        const outcome = (failure: 'dispatch_failed' | 'timeout' = 'timeout'): ShopResult => {
+            const amountBought = Math.max(0, countInvItems() - totalBefore);
+            const quantity = classifyQuantity(requestedAmount, amountBought);
+            const boughtItem = this.sdk.getInventory().find(item => item.id === shopItem.id);
+            return {
+                success: quantity.complete,
+                item: boughtItem,
+                requestedAmount,
+                amountBought,
+                partial: quantity.partial,
+                message: quantity.complete
+                    ? `Bought ${shopItem.name} x${amountBought}`
+                    : `Bought ${shopItem.name} x${amountBought}; requested ${requestedAmount}`,
+                phase: quantity.complete ? 'completion' : 'observation',
+                reason: quantity.complete ? undefined : quantity.partial ? 'partial_fill' : failure,
+            };
+        };
 
         // Decompose amount into valid buy commands (10, 5, 1)
-        let remaining = Math.max(1, Math.floor(amount));
+        let remaining = requestedAmount;
         const buySteps: number[] = [];
         while (remaining > 0) {
             if (remaining >= 10) { buySteps.push(10); remaining -= 10; }
@@ -1039,12 +1161,9 @@ export class BotActions {
 
             const result = await this.sdk.sendShopBuy(shopItem.slot, stepAmount);
             if (!result.success) {
-                const totalBought = countInvItems() - totalBefore;
-                if (totalBought > 0) {
-                    const boughtItem = this.sdk.getInventory().find(i => i.id === shopItem.id);
-                    return { success: true, item: boughtItem, message: `Bought ${shopItem.name} x${totalBought} (wanted ${amount})` };
-                }
-                return { success: false, message: result.message };
+                const failed = outcome('dispatch_failed');
+                if (failed.amountBought === 0) failed.message = result.message;
+                return failed;
             }
 
             try {
@@ -1055,37 +1174,37 @@ export class BotActions {
                     return total > countBefore;
                 }, 5000);
             } catch {
-                const totalBought = countInvItems() - totalBefore;
-                if (totalBought > 0) {
-                    const boughtItem = this.sdk.getInventory().find(i => i.id === shopItem.id);
-                    return { success: true, item: boughtItem, message: `Bought ${shopItem.name} x${totalBought} (wanted ${amount})` };
-                }
-                return { success: false, message: `Failed to buy ${shopItem.name} (no coins or out of stock?)` };
+                return outcome('timeout');
             }
         }
 
-        const totalBought = countInvItems() - totalBefore;
-        const boughtItem = this.sdk.getInventory().find(i => i.id === shopItem.id);
-        return { success: true, item: boughtItem, message: `Bought ${shopItem.name} x${totalBought}` };
+        return outcome();
     }
 
     /** Sell an item to an open shop. */
     async sellToShop(target: InventoryItem | ShopItem | string | RegExp, amount: SellAmount = 1): Promise<ShopSellResult> {
         const shop = this.sdk.getState()?.shop;
         if (!shop?.isOpen) {
-            return { success: false, message: 'Shop is not open' };
+            return { success: false, message: 'Shop is not open', phase: 'validation', reason: 'shop_not_open' };
         }
 
         const sellItem = this.helpers.resolveShopItem(target, shop.playerItems);
         if (!sellItem) {
-            return { success: false, message: `Item not found to sell: ${target}` };
+            return {
+                success: false,
+                message: `Item not found to sell: ${target}`,
+                phase: 'validation',
+                reason: 'item_not_found',
+            };
         }
 
-        const startTick = this.sdk.getState()?.tick || 0;
-        const msgBaseline = this.helpers.getMessageTick();
+        const msgBaseline = captureMessageBaseline(this.sdk.getState());
 
         if (amount === 'all') {
-            return this.sellAllToShop(sellItem, startTick, msgBaseline);
+            const requestedAmount = shop.playerItems
+                .filter(item => item.id === sellItem.id)
+                .reduce((sum, item) => sum + item.count, 0);
+            return this.sellAllToShop(sellItem, requestedAmount, msgBaseline);
         }
 
         const getTotalCount = (playerItems: typeof shop.playerItems) =>
@@ -1101,23 +1220,46 @@ export class BotActions {
         }
 
         const totalCountBefore = getTotalCount(shop.playerItems);
+        const requestedAmount = Math.max(1, Math.floor(amount));
+        const outcome = (
+            failure: 'dispatch_failed' | 'rejected' | 'timeout' = 'timeout',
+            rejected = false,
+        ): ShopSellResult => {
+            const amountSold = Math.max(
+                0,
+                totalCountBefore - getTotalCount(this.sdk.getState()?.shop.playerItems ?? []),
+            );
+            const quantity = classifyQuantity(requestedAmount, amountSold);
+            return {
+                success: quantity.complete && !rejected,
+                requestedAmount,
+                amountSold,
+                partial: quantity.partial,
+                rejected,
+                message: quantity.complete && !rejected
+                    ? `Sold ${sellItem.name} x${amountSold}`
+                    : `Sold ${sellItem.name} x${amountSold}; requested ${requestedAmount}`,
+                phase: quantity.complete && !rejected ? 'completion' : 'observation',
+                reason: quantity.complete && !rejected
+                    ? undefined
+                    : rejected ? 'rejected' : quantity.partial ? 'partial_fill' : failure,
+            };
+        };
 
         for (const stepAmount of sellSteps) {
             const countBefore = getTotalCount(this.sdk.getState()?.shop.playerItems ?? []);
 
             const result = await this.sdk.sendShopSell(sellItem.slot, stepAmount);
             if (!result.success) {
-                const totalSold = totalCountBefore - getTotalCount(this.sdk.getState()?.shop.playerItems ?? []);
-                if (totalSold > 0) {
-                    return { success: true, message: `Sold ${sellItem.name} x${totalSold} (wanted ${amount})`, amountSold: totalSold };
-                }
-                return { success: false, message: result.message };
+                const failed = outcome('dispatch_failed');
+                if (failed.amountSold === 0) failed.message = result.message;
+                return failed;
             }
 
             try {
                 const finalState = await this.sdk.waitForCondition(state => {
                     for (const msg of state.gameMessages) {
-                        if (msg.tick > msgBaseline) {
+                        if (isMessageAfterBaseline(msg, msgBaseline)) {
                             const text = msg.text.toLowerCase();
                             if (text.includes("can't sell this item")) {
                                 return true;
@@ -1130,35 +1272,38 @@ export class BotActions {
                 }, 5000);
 
                 for (const msg of finalState.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (isMessageAfterBaseline(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't sell this item to this shop")) {
-                            return { success: false, message: `Shop doesn't buy ${sellItem.name}`, rejected: true };
+                            const rejected = outcome('rejected', true);
+                            rejected.message = `Shop doesn't buy ${sellItem.name}`;
+                            return rejected;
                         }
                         if (text.includes("can't sell this item to a shop")) {
-                            return { success: false, message: `Cannot sell ${sellItem.name} to any shop`, rejected: true };
+                            const rejected = outcome('rejected', true);
+                            rejected.message = `Cannot sell ${sellItem.name} to any shop`;
+                            return rejected;
                         }
                         if (text.includes("can't sell this item")) {
-                            return { success: false, message: `${sellItem.name} is not tradeable`, rejected: true };
+                            const rejected = outcome('rejected', true);
+                            rejected.message = `${sellItem.name} is not tradeable`;
+                            return rejected;
                         }
                     }
                 }
             } catch {
-                const totalSold = totalCountBefore - getTotalCount(this.sdk.getState()?.shop.playerItems ?? []);
-                if (totalSold > 0) {
-                    return { success: true, message: `Sold ${sellItem.name} x${totalSold} (wanted ${amount})`, amountSold: totalSold };
-                }
-                return { success: false, message: `Failed to sell ${sellItem.name} (timeout)` };
+                return outcome('timeout');
             }
         }
 
-        const totalCountAfter = getTotalCount(this.sdk.getState()?.shop.playerItems ?? []);
-        const totalSold = totalCountBefore - totalCountAfter;
-
-        return { success: true, message: `Sold ${sellItem.name} x${totalSold}`, amountSold: totalSold };
+        return outcome();
     }
 
-    private async sellAllToShop(sellItem: ShopItem, startTick: number, msgBaseline: number): Promise<ShopSellResult> {
+    private async sellAllToShop(
+        sellItem: ShopItem,
+        requestedAmount: number,
+        msgBaseline: ReturnType<typeof captureMessageBaseline>,
+    ): Promise<ShopSellResult> {
         let totalSold = 0;
 
         const getTotalCount = (playerItems: ShopItem[]) => {
@@ -1188,7 +1333,7 @@ export class BotActions {
             try {
                 const finalState = await this.sdk.waitForCondition(s => {
                     for (const msg of s.gameMessages) {
-                        if (msg.tick > msgBaseline) {
+                        if (isMessageAfterBaseline(msg, msgBaseline)) {
                             if (msg.text.toLowerCase().includes("can't sell this item")) {
                                 return true;
                             }
@@ -1200,24 +1345,30 @@ export class BotActions {
                 }, 3000);
 
                 for (const msg of finalState.gameMessages) {
-                    if (msg.tick > msgBaseline) {
+                    if (isMessageAfterBaseline(msg, msgBaseline)) {
                         const text = msg.text.toLowerCase();
                         if (text.includes("can't sell this item to this shop")) {
                             return {
-                                success: totalSold > 0,
-                                message: totalSold > 0
-                                    ? `Sold ${sellItem.name} x${totalSold}, then shop stopped buying`
-                                    : `Shop doesn't buy ${sellItem.name}`,
+                                success: false,
+                                message: `Sold ${sellItem.name} x${totalSold}; requested ${requestedAmount}`,
+                                requestedAmount,
                                 amountSold: totalSold,
-                                rejected: true
+                                partial: totalSold > 0,
+                                rejected: true,
+                                phase: 'observation',
+                                reason: 'rejected',
                             };
                         }
                         if (text.includes("can't sell this item")) {
                             return {
                                 success: false,
                                 message: `${sellItem.name} cannot be sold`,
+                                requestedAmount,
                                 amountSold: totalSold,
-                                rejected: true
+                                partial: totalSold > 0,
+                                rejected: true,
+                                phase: 'observation',
+                                reason: 'rejected',
                             };
                         }
                     }
@@ -1237,10 +1388,29 @@ export class BotActions {
         }
 
         if (totalSold === 0) {
-            return { success: false, message: `Failed to sell any ${sellItem.name}` };
+            return {
+                success: false,
+                message: `Failed to sell any ${sellItem.name}`,
+                requestedAmount,
+                amountSold: 0,
+                partial: false,
+                phase: 'observation',
+                reason: 'timeout',
+            };
         }
 
-        return { success: true, message: `Sold ${sellItem.name} x${totalSold}`, amountSold: totalSold };
+        const quantity = classifyQuantity(requestedAmount, totalSold);
+        return {
+            success: quantity.complete,
+            message: quantity.complete
+                ? `Sold ${sellItem.name} x${totalSold}`
+                : `Sold ${sellItem.name} x${totalSold}; requested ${requestedAmount}`,
+            requestedAmount,
+            amountSold: totalSold,
+            partial: quantity.partial,
+            phase: quantity.complete ? 'completion' : 'observation',
+            reason: quantity.complete ? undefined : 'partial_fill',
+        };
     }
 
     // ============ Porcelain: Bank Actions ============
@@ -1395,31 +1565,71 @@ export class BotActions {
     async depositItem(target: InventoryItem | string | RegExp, amount: number = -1): Promise<BankDepositResult> {
         const state = this.sdk.getState();
         if (!state?.interface?.isOpen) {
-            return { success: false, message: 'Bank is not open', reason: 'bank_not_open' };
+            return {
+                success: false,
+                message: 'Bank is not open',
+                phase: 'validation',
+                reason: 'bank_not_open',
+            };
         }
 
         const item = this.helpers.resolveInventoryItem(target, /./);
         if (!item) {
-            return { success: false, message: `Item not found in inventory: ${target}`, reason: 'item_not_found' };
+            return {
+                success: false,
+                message: `Item not found in inventory: ${target}`,
+                phase: 'validation',
+                reason: 'item_not_found',
+            };
         }
 
         const countBefore = state.inventory.filter(i => i.id === item.id).reduce((sum, i) => sum + i.count, 0);
-
-        await this.sdk.sendBankDeposit(item.slot, amount);
+        const requestedAmount = amount === -1 ? countBefore : Math.max(1, Math.floor(amount));
+        const dispatch = await this.sdk.sendBankDeposit(item.slot, amount);
+        if (!dispatch.success) {
+            return {
+                success: false,
+                message: dispatch.message,
+                requestedAmount,
+                amountDeposited: 0,
+                partial: false,
+                phase: 'dispatch',
+                reason: 'dispatch_failed',
+            };
+        }
 
         try {
-            await this.sdk.waitForCondition(s => {
+            const finalState = await this.sdk.waitForCondition(s => {
                 const countNow = s.inventory.filter(i => i.id === item.id).reduce((sum, i) => sum + i.count, 0);
                 return countNow < countBefore;
             }, 5000);
 
-            const finalState = this.sdk.getState();
-            const countAfter = finalState?.inventory.filter(i => i.id === item.id).reduce((sum, i) => sum + i.count, 0) ?? 0;
-            const amountDeposited = countBefore - countAfter;
-
-            return { success: true, message: `Deposited ${item.name} x${amountDeposited}`, amountDeposited };
+            const countAfter = finalState.inventory
+                .filter(i => i.id === item.id)
+                .reduce((sum, i) => sum + i.count, 0);
+            const amountDeposited = Math.max(0, countBefore - countAfter);
+            const quantity = classifyQuantity(requestedAmount, amountDeposited);
+            return {
+                success: quantity.complete,
+                message: quantity.complete
+                    ? `Deposited ${item.name} x${amountDeposited}`
+                    : `Deposited ${item.name} x${amountDeposited}; requested ${requestedAmount}`,
+                requestedAmount,
+                amountDeposited,
+                partial: quantity.partial,
+                phase: quantity.complete ? 'completion' : 'observation',
+                reason: quantity.complete ? undefined : 'partial_fill',
+            };
         } catch {
-            return { success: false, message: `Timeout waiting for ${item.name} to be deposited`, reason: 'timeout' };
+            return {
+                success: false,
+                message: `Timeout waiting for ${item.name} to be deposited`,
+                requestedAmount,
+                amountDeposited: 0,
+                partial: false,
+                phase: 'observation',
+                reason: 'timeout',
+            };
         }
     }
 
@@ -1427,44 +1637,78 @@ export class BotActions {
     async withdrawItem(target: BankItem | string | RegExp | number, amount: number = 1): Promise<BankWithdrawResult> {
         const state = this.sdk.getState();
         if (!state?.interface?.isOpen) {
-            return { success: false, message: 'Bank is not open', reason: 'bank_not_open' };
+            return {
+                success: false,
+                message: 'Bank is not open',
+                phase: 'validation',
+                reason: 'bank_not_open',
+            };
         }
 
-        let bankSlot: number;
+        let bankItem: BankItem | undefined;
         if (typeof target === 'number') {
-            bankSlot = target;
+            bankItem = state.bank.items.find(item => item.slot === target);
         } else if (typeof target === 'object' && 'slot' in target) {
-            bankSlot = target.slot;
+            bankItem = state.bank.items.find(item => item.slot === target.slot) ?? target;
         } else {
-            const found = this.sdk.findBankItem(target);
-            if (!found) {
-                return { success: false, message: `Bank item not found: ${target}`, reason: 'item_not_found' };
-            }
-            bankSlot = found.slot;
+            bankItem = this.sdk.findBankItem(target) ?? undefined;
+        }
+        if (!bankItem) {
+            return {
+                success: false,
+                message: `Bank item not found: ${target}`,
+                phase: 'validation',
+                reason: 'item_not_found',
+            };
         }
 
-        const invCountBefore = state.inventory.length;
-
-        await this.sdk.sendBankWithdraw(bankSlot, amount);
+        const countBefore = countInventoryItem(state.inventory, bankItem.id);
+        const requestedAmount = amount === -1 ? bankItem.count : Math.max(1, Math.floor(amount));
+        const dispatch = await this.sdk.sendBankWithdraw(bankItem.slot, amount);
+        if (!dispatch.success) {
+            return {
+                success: false,
+                message: dispatch.message,
+                requestedAmount,
+                amountWithdrawn: 0,
+                partial: false,
+                phase: 'dispatch',
+                reason: 'dispatch_failed',
+            };
+        }
 
         try {
-            await this.sdk.waitForCondition(s => {
-                return s.inventory.length > invCountBefore ||
-                       s.inventory.some(i => {
-                           const before = state.inventory.find(bi => bi.slot === i.slot);
-                           return before && i.count > before.count;
-                       });
+            const finalState = await this.sdk.waitForCondition(s => {
+                return countInventoryItem(s.inventory, bankItem!.id) > countBefore;
             }, 5000);
-
-            const finalInv = this.sdk.getInventory();
-            const newItem = finalInv.find(i => {
-                const before = state.inventory.find(bi => bi.slot === i.slot);
-                return !before || i.count > before.count;
-            });
-
-            return { success: true, message: `Withdrew item from bank slot ${bankSlot}`, item: newItem };
+            const amountWithdrawn = Math.max(
+                0,
+                countInventoryItem(finalState.inventory, bankItem.id) - countBefore,
+            );
+            const quantity = classifyQuantity(requestedAmount, amountWithdrawn);
+            const newItem = finalState.inventory.find(item => item.id === bankItem.id);
+            return {
+                success: quantity.complete,
+                message: quantity.complete
+                    ? `Withdrew ${bankItem.name} x${amountWithdrawn}`
+                    : `Withdrew ${bankItem.name} x${amountWithdrawn}; requested ${requestedAmount}`,
+                item: newItem,
+                requestedAmount,
+                amountWithdrawn,
+                partial: quantity.partial,
+                phase: quantity.complete ? 'completion' : 'observation',
+                reason: quantity.complete ? undefined : 'partial_fill',
+            };
         } catch {
-            return { success: false, message: `Timeout waiting for item to be withdrawn`, reason: 'timeout' };
+            return {
+                success: false,
+                message: `Timeout waiting for ${bankItem.name} to be withdrawn`,
+                requestedAmount,
+                amountWithdrawn: 0,
+                partial: false,
+                phase: 'observation',
+                reason: 'timeout',
+            };
         }
     }
 
@@ -1813,217 +2057,112 @@ export class BotActions {
 
         const knife = this.sdk.findInventoryItem(/knife/i);
         if (!knife) {
-            return { success: false, message: 'No knife in inventory' };
+            return { success: false, message: 'No knife in inventory', phase: 'validation', reason: 'no_knife' };
         }
 
         const logs = this.sdk.findInventoryItem(/logs/i);
         if (!logs) {
-            return { success: false, message: 'No logs in inventory' };
+            return { success: false, message: 'No logs in inventory', phase: 'validation', reason: 'no_logs' };
         }
 
-        // Check if we're using oak or higher-tier logs (affects button order)
-        const isOakOrHigherLogs = /oak|willow|maple|yew|magic/i.test(logs.name);
-
+        const higherTierLogs = /oak|willow|maple|yew|magic/i.test(logs.name);
+        const requestedProduct = resolveFletchProduct(product ?? (higherTierLogs ? 'shortbow' : undefined));
+        if (!requestedProduct) {
+            return {
+                success: false,
+                message: `Unknown fletching product "${product}"`,
+                phase: 'validation',
+                reason: 'no_matching_option',
+            };
+        }
+        const inventoryBefore = [...this.sdk.getInventory()];
         const fletchingBefore = this.sdk.getSkill('Fletching')?.experience || 0;
-        const startTick = this.sdk.getState()?.tick || 0;
-        const msgBaseline = this.helpers.getMessageTick();
+        const msgBaseline = captureMessageBaseline(this.sdk.getState());
 
-        // Use knife on logs to open fletching dialog
         const result = await this.sdk.sendUseItemOnItem(knife.slot, logs.slot);
         if (!result.success) {
-            return { success: false, message: result.message };
+            return { success: false, message: result.message, phase: 'dispatch', reason: 'dispatch_failed' };
         }
 
-        // Wait for dialog/interface to open
         try {
-            await this.sdk.waitForCondition(
-                s => s.dialog.isOpen || s.interface?.isOpen,
-                5000
-            );
+            await this.sdk.waitForCondition(s => s.dialog.isOpen || s.interface?.isOpen, 5000);
         } catch {
-            return { success: false, message: 'Fletching dialog did not open' };
-        }
-
-        // Handle product selection and crafting
-        const MAX_ATTEMPTS = 30;
-        let buttonClicked = false;
-
-        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-            const state = this.sdk.getState();
-            if (!state) {
-                return { success: false, message: 'Lost game state' };
-            }
-
-            // Check if XP was gained (success!)
-            const currentXp = state.skills.find(s => s.name === 'Fletching')?.experience || 0;
-            if (currentXp > fletchingBefore) {
-                const craftedProduct = this.sdk.findInventoryItem(/shortbow|longbow|arrow shaft|stock/i);
-                return {
-                    success: true,
-                    message: 'Fletched logs successfully',
-                    xpGained: currentXp - fletchingBefore,
-                    product: craftedProduct || undefined
-                };
-            }
-
-            // Handle interface (make-x style)
-            if (state.interface?.isOpen) {
-                // Try to find product by text in options
-                let targetIndex = 1;
-                if (product) {
-                    const productLower = product.toLowerCase();
-                    const matchingOption = state.interface.options.find(o =>
-                        o.text.toLowerCase().includes(productLower)
-                    );
-                    if (matchingOption) {
-                        targetIndex = matchingOption.index;
-                    }
-                }
-
-                if (!buttonClicked) {
-                    await this.sdk.sendClickInterfaceOption(targetIndex);
-                    buttonClicked = true;
-                } else if (state.interface.options.length > 0 && state.interface.options[0]) {
-                    await this.sdk.sendClickInterfaceOption(0);
-                }
-                await this.sdk.waitForTicks(1);
-                continue;
-            }
-
-            // Handle dialog - use allComponents to find the right button
-            if (state.dialog.isOpen) {
-                if (!buttonClicked && product && state.dialog.allComponents) {
-                    // Find the button that matches our product by looking at allComponents text
-                    const productLower = product.toLowerCase();
-
-                    // Build a mapping of product text to button index
-                    // allComponents contains both text labels and "Ok" buttons
-                    // We need to find which "Ok" button corresponds to our product
-
-                    // Look for a component whose text matches the product
-                    const matchingComponents = state.dialog.allComponents.filter(c => {
-                        const text = c.text.toLowerCase();
-                        // Match patterns like "shortbow", "longbow", "arrow shaft"
-                        if (productLower.includes('short') && text.includes('shortbow')) return true;
-                        if (productLower.includes('long') && text.includes('longbow')) return true;
-                        if (productLower.includes('arrow') && text.includes('arrow')) return true;
-                        if (productLower.includes('shaft') && text.includes('shaft')) return true;
-                        if (productLower.includes('stock') && text.includes('stock')) return true;
-                        // Generic match
-                        return text.includes(productLower);
-                    });
-
-                    if (matchingComponents.length > 0) {
-                        // Found a matching text component - now find the associated Ok button
-                        // The Ok buttons in dialog.options should correspond to the products
-                        // Try to find the index by matching component IDs or order
-
-                        // Get all Ok buttons from options
-                        const okButtons = state.dialog.options.filter(o =>
-                            o.text.toLowerCase() === 'ok'
-                        );
-
-                        if (okButtons.length > 0) {
-                            // Try to determine which Ok button to click based on product type
-                            // Button order depends on log type:
-                            // - Regular logs: [Arrow shafts, Shortbow, Longbow] - 3 main products
-                            // - Oak/higher logs: [Shortbow, Longbow] - 2 main products (no arrow shafts option)
-                            let okIndex = 0; // Default to first
-
-                            if (productLower.includes('short')) {
-                                if (isOakOrHigherLogs) {
-                                    // Oak/higher logs: Shortbow is first (index 0)
-                                    okIndex = 0;
-                                } else {
-                                    // Regular logs: Shortbow is second (index 1, after arrow shafts)
-                                    okIndex = Math.min(1, okButtons.length - 1);
-                                }
-                            } else if (productLower.includes('long')) {
-                                if (isOakOrHigherLogs) {
-                                    // Oak/higher logs: Longbow is second (index 1)
-                                    okIndex = Math.min(1, okButtons.length - 1);
-                                } else {
-                                    // Regular logs: Longbow is third (index 2)
-                                    okIndex = Math.min(2, okButtons.length - 1);
-                                }
-                            } else if (productLower.includes('stock')) {
-                                okIndex = Math.min(3, okButtons.length - 1);
-                            }
-                            // arrow/shaft stays at 0
-
-                            const targetButton = okButtons[okIndex];
-                            if (targetButton) {
-                                await this.sdk.sendClickDialog(targetButton.index);
-                                buttonClicked = true;
-                                await this.sdk.waitForTicks(1);
-                                continue;
-                            }
-                        }
-                    }
-                }
-
-                // Fallback: use index-based approach if we couldn't match by text
-                if (!buttonClicked) {
-                    // Determine fallback index based on product keyword and log type
-                    let targetButtonIndex = 1; // Default: first option
-                    if (product) {
-                        const productLower = product.toLowerCase();
-                        if (productLower.includes('short')) {
-                            // Oak/higher: shortbow is button 1; Regular: button 2
-                            targetButtonIndex = isOakOrHigherLogs ? 1 : 2;
-                        } else if (productLower.includes('long')) {
-                            // Oak/higher: longbow is button 2; Regular: button 3
-                            targetButtonIndex = isOakOrHigherLogs ? 2 : 3;
-                        } else if (productLower.includes('stock')) {
-                            targetButtonIndex = 4;
-                        }
-                        // arrow/shaft stays at 1
-                    }
-
-                    if (state.dialog.options.length >= targetButtonIndex) {
-                        await this.sdk.sendClickDialog(targetButtonIndex);
-                        buttonClicked = true;
-                        await this.sdk.waitForTicks(1);
-                        continue;
-                    }
-                }
-
-                // If we already clicked or don't have enough options, click continue/first
-                if (state.dialog.options.length > 0 && state.dialog.options[0]) {
-                    await this.sdk.sendClickDialog(state.dialog.options[0].index);
-                } else {
-                    await this.sdk.sendClickDialog(0);
-                }
-                await this.sdk.waitForTicks(1);
-                continue;
-            }
-
-            // Check for failure messages
-            for (const msg of state.gameMessages) {
-                if (msg.tick > msgBaseline) {
-                    const text = msg.text.toLowerCase();
-                    if (text.includes("need a higher") || text.includes("level to")) {
-                        return { success: false, message: 'Fletching level too low' };
-                    }
-                }
-            }
-
-            await this.sdk.waitForTicks(1);
-        }
-
-        // Final XP check
-        const finalXp = this.sdk.getSkill('Fletching')?.experience || 0;
-        if (finalXp > fletchingBefore) {
-            const craftedProduct = this.sdk.findInventoryItem(/shortbow|longbow|arrow shaft|stock/i);
             return {
-                success: true,
-                message: 'Fletched logs successfully',
-                xpGained: finalXp - fletchingBefore,
-                product: craftedProduct || undefined
+                success: false,
+                message: 'Fletching dialog did not open',
+                phase: 'observation',
+                reason: 'interface_not_opened',
             };
         }
 
-        return { success: false, message: 'Fletching timed out' };
+        const state = this.sdk.getState();
+        if (!state) {
+            return { success: false, message: 'Lost game state', phase: 'observation', reason: 'timeout' };
+        }
+        const position = productPosition(requestedProduct, higherTierLogs);
+        let selection: ActionResult | null = null;
+        if (state.interface?.isOpen) {
+            const option = resolveInterfaceOption(state.interface.options, requestedProduct.optionPattern)
+                ?? state.interface.options[position]
+                ?? null;
+            selection = option ? await this.sdk.clickInterfaceOption(option) : null;
+        } else if (state.dialog.isOpen) {
+            const textOption = state.dialog.options.find(option => {
+                requestedProduct.optionPattern.lastIndex = 0;
+                return requestedProduct.optionPattern.test(option.text);
+            });
+            const okOptions = state.dialog.options.filter(option => /^ok$/i.test(option.text));
+            const option = textOption ?? okOptions[position] ?? null;
+            selection = option ? await this.sdk.sendClickDialog(option.index) : null;
+        }
+        if (!selection?.success) {
+            return {
+                success: false,
+                message: selection?.message ?? `No option for ${requestedProduct.name}`,
+                phase: 'dispatch',
+                reason: selection ? 'dispatch_failed' : 'no_matching_option',
+            };
+        }
+
+        let levelTooLow = false;
+        try {
+            const finalState = await this.sdk.waitForCondition(current => {
+                levelTooLow = current.gameMessages.some(message =>
+                    isMessageAfterBaseline(message, msgBaseline) && /need a higher|level to/i.test(message.text)
+                );
+                const xp = current.skills.find(skill => skill.name === 'Fletching')?.experience || 0;
+                return levelTooLow ||
+                    (xp > fletchingBefore &&
+                        findProducedItem(inventoryBefore, current.inventory, requestedProduct) !== null);
+            }, 10000);
+            if (levelTooLow) {
+                return { success: false, message: 'Fletching level too low', phase: 'observation', reason: 'level_too_low' };
+            }
+            const xp = finalState.skills.find(skill => skill.name === 'Fletching')?.experience || 0;
+            const produced = findProducedItem(inventoryBefore, finalState.inventory, requestedProduct);
+            if (xp > fletchingBefore && produced) {
+                return {
+                    success: true,
+                    message: `Fletched ${requestedProduct.name}`,
+                    phase: 'completion',
+                    xpGained: xp - fletchingBefore,
+                    product: produced,
+                };
+            }
+        } catch {
+            const current = this.sdk.getState();
+            const xp = current?.skills.find(skill => skill.name === 'Fletching')?.experience || 0;
+            if (xp > fletchingBefore) {
+                return {
+                    success: false,
+                    message: `Fletching XP increased, but requested ${requestedProduct.name} was not produced`,
+                    phase: 'observation',
+                    reason: 'wrong_product',
+                    xpGained: xp - fletchingBefore,
+                };
+            }
+        }
+        return { success: false, message: 'Fletching timed out', phase: 'observation', reason: 'timeout' };
     }
 
     /** Craft leather into armour using needle and thread. */
@@ -2032,158 +2171,123 @@ export class BotActions {
 
         const needle = this.sdk.findInventoryItem(/needle/i);
         if (!needle) {
-            return { success: false, message: 'No needle in inventory', reason: 'no_needle' };
+            return { success: false, message: 'No needle in inventory', phase: 'validation', reason: 'no_needle' };
         }
 
         const leather = this.sdk.findInventoryItem(/^leather$/i);
         if (!leather) {
-            return { success: false, message: 'No leather in inventory', reason: 'no_leather' };
+            return { success: false, message: 'No leather in inventory', phase: 'validation', reason: 'no_leather' };
         }
 
         const thread = this.sdk.findInventoryItem(/thread/i);
         if (!thread) {
-            return { success: false, message: 'No thread in inventory', reason: 'no_thread' };
+            return { success: false, message: 'No thread in inventory', phase: 'validation', reason: 'no_thread' };
         }
 
+        const requestedProduct = resolveLeatherProduct(product);
+        if (!requestedProduct) {
+            return {
+                success: false,
+                message: `Unknown leather product "${product}"`,
+                phase: 'validation',
+                reason: 'no_matching_option',
+            };
+        }
+        const inventoryBefore = [...this.sdk.getInventory()];
         const craftingBefore = this.sdk.getSkill('Crafting')?.experience || 0;
-        const startTick = this.sdk.getState()?.tick || 0;
-        const msgBaseline = this.helpers.getMessageTick();
+        const msgBaseline = captureMessageBaseline(this.sdk.getState());
 
-        // Use needle on leather to open crafting interface
         const result = await this.sdk.sendUseItemOnItem(needle.slot, leather.slot);
         if (!result.success) {
-            return { success: false, message: result.message };
+            return { success: false, message: result.message, phase: 'dispatch', reason: 'dispatch_failed' };
         }
 
-        // Wait for interface/dialog to open
         try {
-            await this.sdk.waitForCondition(
-                s => s.dialog.isOpen || s.interface?.isOpen,
-                10000
-            );
+            await this.sdk.waitForCondition(s => s.dialog.isOpen || s.interface?.isOpen, 10000);
         } catch {
-            return { success: false, message: 'Crafting interface did not open', reason: 'interface_not_opened' };
-        }
-
-        // Handle product selection and crafting
-        const MAX_ATTEMPTS = 50;
-
-        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-            const state = this.sdk.getState();
-            if (!state) {
-                return { success: false, message: 'Lost game state' };
-            }
-
-            // Check if XP was gained (success!)
-            const currentXp = state.skills.find(s => s.name === 'Crafting')?.experience || 0;
-            if (currentXp > craftingBefore) {
-                return {
-                    success: true,
-                    message: 'Crafted leather item successfully',
-                    xpGained: currentXp - craftingBefore,
-                    itemsCrafted: 1
-                };
-            }
-
-            // Handle interface (leather crafting interface id=2311)
-            if (state.interface?.isOpen) {
-                if (product) {
-                    // Try to find matching option by text
-                    const productOption = state.interface.options.find(o =>
-                        o.text.toLowerCase().includes(product.toLowerCase())
-                    );
-                    if (productOption) {
-                        await this.sdk.sendClickInterfaceOption(productOption.index);
-                        await this.sdk.waitForTicks(1);
-                        continue;
-                    }
-                }
-
-                // Leather crafting interface (2311) - options are 1-indexed in state but
-                // sendClickInterfaceOption uses 0-based array indices.
-                // option.index 1 = leather body (lvl 14), array idx 0
-                // option.index 2 = leather gloves (lvl 1), array idx 1
-                // option.index 3 = leather chaps (lvl 18), array idx 2
-                if (state.interface.interfaceId === 2311) {
-                    // Map product names to array indices (0-based)
-                    let optionIndex = 1; // Default: gloves (array idx 1, lowest level requirement)
-                    if (product) {
-                        const productLower = product.toLowerCase();
-                        if (productLower.includes('body') || productLower.includes('armour')) {
-                            optionIndex = 0; // array idx 0 -> option.index 1 = body
-                        } else if (productLower.includes('chaps') || productLower.includes('legs')) {
-                            optionIndex = 2; // array idx 2 -> option.index 3 = chaps
-                        } else if (productLower.includes('glove') || productLower.includes('vamb')) {
-                            optionIndex = 1; // array idx 1 -> option.index 2 = gloves
-                        }
-                    }
-                    await this.sdk.sendClickInterfaceOption(optionIndex);
-                } else if (state.interface.options.length > 0 && state.interface.options[0]) {
-                    await this.sdk.sendClickInterfaceOption(0);
-                }
-                await this.sdk.waitForTicks(1);
-                continue;
-            }
-
-            // Handle dialog
-            if (state.dialog.isOpen) {
-                const craftOption = state.dialog.options.find(o =>
-                    /glove|make|craft|leather|body|chaps/i.test(o.text)
-                );
-                if (craftOption) {
-                    await this.sdk.sendClickDialog(craftOption.index);
-                } else if (state.dialog.options.length > 0 && state.dialog.options[0]) {
-                    await this.sdk.sendClickDialog(state.dialog.options[0].index);
-                } else {
-                    await this.sdk.sendClickDialog(0);
-                }
-                await this.sdk.waitForTicks(1);
-                continue;
-            }
-
-            // Check for failure messages
-            for (const msg of state.gameMessages) {
-                if (msg.tick > msgBaseline) {
-                    const text = msg.text.toLowerCase();
-                    if (text.includes("need a crafting level") || text.includes("level to")) {
-                        return { success: false, message: 'Crafting level too low', reason: 'level_too_low' };
-                    }
-                    if (text.includes("don't have") && text.includes("thread")) {
-                        return { success: false, message: 'Out of thread', reason: 'no_thread' };
-                    }
-                }
-            }
-
-            // Check if leather is gone (possibly consumed)
-            const currentLeather = this.sdk.findInventoryItem(/^leather$/i);
-            if (!currentLeather) {
-                // Check XP one more time
-                const finalXp = this.sdk.getSkill('Crafting')?.experience || 0;
-                if (finalXp > craftingBefore) {
-                    return {
-                        success: true,
-                        message: 'Crafted leather item successfully',
-                        xpGained: finalXp - craftingBefore,
-                        itemsCrafted: 1
-                    };
-                }
-            }
-
-            await this.sdk.waitForTicks(1);
-        }
-
-        // Final XP check
-        const finalXp = this.sdk.getSkill('Crafting')?.experience || 0;
-        if (finalXp > craftingBefore) {
             return {
-                success: true,
-                message: 'Crafted leather item successfully',
-                xpGained: finalXp - craftingBefore,
-                itemsCrafted: 1
+                success: false,
+                message: 'Crafting interface did not open',
+                phase: 'observation',
+                reason: 'interface_not_opened',
             };
         }
 
-        return { success: false, message: 'Crafting timed out', reason: 'timeout' };
+        const state = this.sdk.getState();
+        if (!state) {
+            return { success: false, message: 'Lost game state', phase: 'observation', reason: 'timeout' };
+        }
+        const position = productPosition(requestedProduct, false);
+        let selection: ActionResult | null = null;
+        if (state.interface?.isOpen) {
+            const option = resolveInterfaceOption(state.interface.options, requestedProduct.optionPattern)
+                ?? state.interface.options[position]
+                ?? null;
+            selection = option ? await this.sdk.clickInterfaceOption(option) : null;
+        } else if (state.dialog.isOpen) {
+            const option = state.dialog.options.find(candidate => {
+                requestedProduct.optionPattern.lastIndex = 0;
+                return requestedProduct.optionPattern.test(candidate.text);
+            }) ?? state.dialog.options[position] ?? null;
+            selection = option ? await this.sdk.sendClickDialog(option.index) : null;
+        }
+        if (!selection?.success) {
+            return {
+                success: false,
+                message: selection?.message ?? `No option for ${requestedProduct.name}`,
+                phase: 'dispatch',
+                reason: selection ? 'dispatch_failed' : 'no_matching_option',
+            };
+        }
+
+        let failure: 'level_too_low' | 'no_thread' | null = null;
+        try {
+            const finalState = await this.sdk.waitForCondition(current => {
+                for (const message of current.gameMessages) {
+                    if (!isMessageAfterBaseline(message, msgBaseline)) continue;
+                    if (/need a crafting level|level to/i.test(message.text)) failure = 'level_too_low';
+                    if (/don't have.*thread/i.test(message.text)) failure = 'no_thread';
+                }
+                const xp = current.skills.find(skill => skill.name === 'Crafting')?.experience || 0;
+                return failure !== null ||
+                    (xp > craftingBefore &&
+                        findProducedItem(inventoryBefore, current.inventory, requestedProduct) !== null);
+            }, 10000);
+            if (failure) {
+                return {
+                    success: false,
+                    message: failure === 'no_thread' ? 'Out of thread' : 'Crafting level too low',
+                    phase: 'observation',
+                    reason: failure,
+                };
+            }
+            const xp = finalState.skills.find(skill => skill.name === 'Crafting')?.experience || 0;
+            const produced = findProducedItem(inventoryBefore, finalState.inventory, requestedProduct);
+            if (xp > craftingBefore && produced) {
+                return {
+                    success: true,
+                    message: `Crafted ${requestedProduct.name}`,
+                    phase: 'completion',
+                    xpGained: xp - craftingBefore,
+                    itemsCrafted: countInventoryItem(finalState.inventory, requestedProduct.inventoryPattern) -
+                        countInventoryItem(inventoryBefore, requestedProduct.inventoryPattern),
+                    product: produced,
+                };
+            }
+        } catch {
+            const current = this.sdk.getState();
+            const xp = current?.skills.find(skill => skill.name === 'Crafting')?.experience || 0;
+            if (xp > craftingBefore) {
+                return {
+                    success: false,
+                    message: `Crafting XP increased, but requested ${requestedProduct.name} was not produced`,
+                    phase: 'observation',
+                    reason: 'wrong_product',
+                    xpGained: xp - craftingBefore,
+                };
+            }
+        }
+        return { success: false, message: 'Crafting timed out', phase: 'observation', reason: 'timeout' };
     }
 
     // ============ Smithing ============
@@ -2411,18 +2515,18 @@ export class BotActions {
     /**
      * Interact with a nearby location object (rock, fishing spot, furnace, etc.).
      * Walks to the target first (handling doors), sends the interaction, then waits
-     * for an effect (animation, dialog, interface) or detects failure when the player
-     * has been idle for 2 ticks with nothing happening.
+     * for observable effect evidence until a real deadline.
      * @param target - NearbyLoc object or name string/regex to find
      * @param option - Option index or name regex to match (default: 1, the first option)
      */
     async interactLoc(
         target: NearbyLoc | string | RegExp,
         option: number | string | RegExp = 1,
+        wait: InteractionWaitOptions = {},
     ): Promise<InteractLocResult> {
         const resolvedLoc = this.helpers.resolveLocation(target, /./);
         return this.helpers.withDoorRetry(
-            () => this._interactLocOnce(target, option),
+            () => this._interactLocOnce(target, option, wait),
             (r) => r.reason === 'cant_reach',
             2,
             resolvedLoc ? { x: resolvedLoc.x, z: resolvedLoc.z } : undefined
@@ -2432,12 +2536,18 @@ export class BotActions {
     private async _interactLocOnce(
         target: NearbyLoc | string | RegExp,
         option: number | string | RegExp = 1,
+        wait: InteractionWaitOptions = {},
     ): Promise<InteractLocResult> {
         await this.dismissBlockingUI();
 
         const loc = this.helpers.resolveLocation(target, /./);
         if (!loc) {
-            return { success: false, message: `Location not found: ${target}`, reason: 'loc_not_found' };
+            return {
+                success: false,
+                message: `Location not found: ${target}`,
+                phase: 'validation',
+                reason: 'loc_not_found',
+            };
         }
 
         // Resolve option index
@@ -2448,7 +2558,12 @@ export class BotActions {
             const regex = typeof option === 'string' ? new RegExp(option, 'i') : option;
             const match = loc.optionsWithIndex.find(o => regex.test(o.text));
             if (!match) {
-                return { success: false, message: `No matching option on ${loc.name}`, reason: 'no_matching_option' };
+                return {
+                    success: false,
+                    message: `No matching option on ${loc.name}`,
+                    phase: 'validation',
+                    reason: 'no_matching_option',
+                };
             }
             opIndex = match.opIndex;
         }
@@ -2457,7 +2572,12 @@ export class BotActions {
         if (loc.distance > 2) {
             const walkResult = await this.walkTo(loc.x, loc.z, 2);
             if (!walkResult.success) {
-                return { success: false, message: `Cannot reach ${loc.name}: ${walkResult.message}`, reason: 'cant_reach' };
+                return {
+                    success: false,
+                    message: `Cannot reach ${loc.name}: ${walkResult.message}`,
+                    phase: 'routing',
+                    reason: 'cant_reach',
+                };
             }
         }
 
@@ -2465,76 +2585,74 @@ export class BotActions {
         const locPattern = typeof target === 'object' ? new RegExp(loc.name, 'i') : target;
         const locNow = this.helpers.resolveLocation(locPattern, /./);
         if (!locNow) {
-            return { success: false, message: `${loc.name} no longer visible`, reason: 'loc_not_found' };
+            return {
+                success: false,
+                message: `${loc.name} no longer visible`,
+                phase: 'validation',
+                reason: 'loc_not_found',
+            };
         }
 
-        const startTick = this.sdk.getState()?.tick || 0;
-        const msgBaseline = this.helpers.getMessageTick();
-        let lastMoveTick = startTick;
-        let lastX = this.sdk.getState()?.player?.x ?? 0;
-        let lastZ = this.sdk.getState()?.player?.z ?? 0;
-
+        const initialState = this.sdk.getState();
+        if (!initialState) {
+            return { success: false, message: 'No game state', phase: 'observation', reason: 'timeout' };
+        }
+        const baseline = captureInteractionBaseline(initialState);
         const result = await this.sdk.sendInteractLoc(locNow.x, locNow.z, locNow.id, opIndex);
         if (!result.success) {
-            return { success: false, message: result.message, reason: 'timeout' };
+            return { success: false, message: result.message, phase: 'dispatch', reason: 'dispatch_failed' };
         }
 
         try {
             const finalState = await this.sdk.waitForCondition(state => {
-                // Check for can't-reach messages
-                for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
-                        const text = msg.text.toLowerCase();
-                        if (text.includes("can't reach") || text.includes("cannot reach")) return true;
-                    }
-                }
+                const cantReach = state.gameMessages.some(message =>
+                    isMessageAfterBaseline(message, baseline) && /can't reach|cannot reach/i.test(message.text)
+                );
+                return cantReach || detectInteractionEvidence(state, baseline, wait) !== null;
+            }, wait.timeout ?? 5000);
 
-                // Success indicators
-                if (state.dialog.isOpen || state.interface?.isOpen) return true;
-                if (state.player && state.player.animId !== -1) return true;
-
-                // Track movement — if player moved, update last move tick
-                if (state.player && (state.player.x !== lastX || state.player.z !== lastZ)) {
-                    lastX = state.player.x;
-                    lastZ = state.player.z;
-                    lastMoveTick = state.tick;
-                }
-
-                // Player idle for 2+ ticks with nothing happening → give up
-                if (state.tick - lastMoveTick >= 2) return true;
-
-                return false;
-            }, 30000); // safety net only
-
-            if (this.helpers.checkCantReachMessage(msgBaseline)) {
-                return { success: false, message: `Can't reach ${locNow.name}`, reason: 'cant_reach' };
+            const cantReach = finalState.gameMessages.some(message =>
+                isMessageAfterBaseline(message, baseline) && /can't reach|cannot reach/i.test(message.text)
+            );
+            if (cantReach) {
+                return {
+                    success: false,
+                    message: `Can't reach ${locNow.name}`,
+                    phase: 'observation',
+                    reason: 'cant_reach',
+                };
             }
-
-            if (finalState.dialog.isOpen || finalState.interface?.isOpen ||
-                (finalState.player && finalState.player.animId !== -1)) {
-                return { success: true, message: `Interacted with ${locNow.name}` };
-            }
-
-            return { success: false, message: `Nothing happened interacting with ${locNow.name}`, reason: 'timeout' };
+            const evidence = detectInteractionEvidence(finalState, baseline, wait);
+            return {
+                success: true,
+                message: `Interacted with ${locNow.name} (${evidence})`,
+                phase: 'completion',
+                evidence: evidence ?? undefined,
+            };
         } catch {
-            return { success: false, message: `Timed out interacting with ${locNow.name}`, reason: 'timeout' };
+            return {
+                success: false,
+                message: `Timed out after ${wait.timeout ?? 5000}ms interacting with ${locNow.name}`,
+                phase: 'observation',
+                reason: 'timeout',
+            };
         }
     }
 
     /**
      * Interact with a nearby NPC using a specified option (e.g. "Trade", "Pickpocket", "Fish").
      * Walks to the NPC first (handling doors), sends the interaction, then waits
-     * for an effect (animation, dialog, interface) or detects failure when the player
-     * has been idle for 2 ticks with nothing happening.
+     * for observable effect evidence until a real deadline.
      * @param target - NearbyNpc object or name string/regex to find
      * @param option - Option index or name regex to match (default: 1, the first option)
      */
     async interactNpc(
         target: NearbyNpc | string | RegExp,
         option: number | string | RegExp = 1,
+        wait: InteractionWaitOptions = {},
     ): Promise<InteractNpcResult> {
         return this.helpers.withDoorRetry(
-            () => this._interactNpcOnce(target, option),
+            () => this._interactNpcOnce(target, option, wait),
             (r) => r.reason === 'cant_reach'
         );
     }
@@ -2542,12 +2660,18 @@ export class BotActions {
     private async _interactNpcOnce(
         target: NearbyNpc | string | RegExp,
         option: number | string | RegExp = 1,
+        wait: InteractionWaitOptions = {},
     ): Promise<InteractNpcResult> {
         await this.dismissBlockingUI();
 
         const npc = this.helpers.resolveNpc(target);
         if (!npc) {
-            return { success: false, message: `NPC not found: ${target}`, reason: 'npc_not_found' };
+            return {
+                success: false,
+                message: `NPC not found: ${target}`,
+                phase: 'validation',
+                reason: 'npc_not_found',
+            };
         }
 
         // Resolve option index
@@ -2558,7 +2682,12 @@ export class BotActions {
             const regex = typeof option === 'string' ? new RegExp(option, 'i') : option;
             const match = npc.optionsWithIndex.find(o => regex.test(o.text));
             if (!match) {
-                return { success: false, message: `No matching option on ${npc.name}`, reason: 'no_matching_option' };
+                return {
+                    success: false,
+                    message: `No matching option on ${npc.name}`,
+                    phase: 'validation',
+                    reason: 'no_matching_option',
+                };
             }
             opIndex = match.opIndex;
         }
@@ -2567,7 +2696,12 @@ export class BotActions {
         if (npc.distance > 2) {
             const walkResult = await this.walkTo(npc.x, npc.z, 2);
             if (!walkResult.success) {
-                return { success: false, message: `Cannot reach ${npc.name}: ${walkResult.message}`, reason: 'cant_reach' };
+                return {
+                    success: false,
+                    message: `Cannot reach ${npc.name}: ${walkResult.message}`,
+                    phase: 'routing',
+                    reason: 'cant_reach',
+                };
             }
         }
 
@@ -2575,59 +2709,57 @@ export class BotActions {
         const npcPattern = typeof target === 'object' ? new RegExp(npc.name, 'i') : target;
         const npcNow = this.helpers.resolveNpc(npcPattern);
         if (!npcNow) {
-            return { success: false, message: `${npc.name} no longer visible`, reason: 'npc_not_found' };
+            return {
+                success: false,
+                message: `${npc.name} no longer visible`,
+                phase: 'validation',
+                reason: 'npc_not_found',
+            };
         }
 
-        const startTick = this.sdk.getState()?.tick || 0;
-        const msgBaseline = this.helpers.getMessageTick();
-        let lastMoveTick = startTick;
-        let lastX = this.sdk.getState()?.player?.x ?? 0;
-        let lastZ = this.sdk.getState()?.player?.z ?? 0;
-
+        const initialState = this.sdk.getState();
+        if (!initialState) {
+            return { success: false, message: 'No game state', phase: 'observation', reason: 'timeout' };
+        }
+        const baseline = captureInteractionBaseline(initialState);
         const result = await this.sdk.sendInteractNpc(npcNow.index, opIndex);
         if (!result.success) {
-            return { success: false, message: result.message, reason: 'timeout' };
+            return { success: false, message: result.message, phase: 'dispatch', reason: 'dispatch_failed' };
         }
 
         try {
             const finalState = await this.sdk.waitForCondition(state => {
-                // Check for can't-reach messages
-                for (const msg of state.gameMessages) {
-                    if (msg.tick > msgBaseline) {
-                        const text = msg.text.toLowerCase();
-                        if (text.includes("can't reach") || text.includes("cannot reach")) return true;
-                    }
-                }
+                const cantReach = state.gameMessages.some(message =>
+                    isMessageAfterBaseline(message, baseline) && /can't reach|cannot reach/i.test(message.text)
+                );
+                return cantReach || detectInteractionEvidence(state, baseline, wait) !== null;
+            }, wait.timeout ?? 5000);
 
-                // Success indicators
-                if (state.dialog.isOpen || state.interface?.isOpen) return true;
-                if (state.player && state.player.animId !== -1) return true;
-
-                // Track movement — if player moved, update last move tick
-                if (state.player && (state.player.x !== lastX || state.player.z !== lastZ)) {
-                    lastX = state.player.x;
-                    lastZ = state.player.z;
-                    lastMoveTick = state.tick;
-                }
-
-                // Player idle for 2+ ticks with nothing happening → give up
-                if (state.tick - lastMoveTick >= 2) return true;
-
-                return false;
-            }, 30000); // safety net only
-
-            if (this.helpers.checkCantReachMessage(msgBaseline)) {
-                return { success: false, message: `Can't reach ${npcNow.name}`, reason: 'cant_reach' };
+            const cantReach = finalState.gameMessages.some(message =>
+                isMessageAfterBaseline(message, baseline) && /can't reach|cannot reach/i.test(message.text)
+            );
+            if (cantReach) {
+                return {
+                    success: false,
+                    message: `Can't reach ${npcNow.name}`,
+                    phase: 'observation',
+                    reason: 'cant_reach',
+                };
             }
-
-            if (finalState.dialog.isOpen || finalState.interface?.isOpen ||
-                (finalState.player && finalState.player.animId !== -1)) {
-                return { success: true, message: `Interacted with ${npcNow.name}` };
-            }
-
-            return { success: false, message: `Nothing happened interacting with ${npcNow.name}`, reason: 'timeout' };
+            const evidence = detectInteractionEvidence(finalState, baseline, wait);
+            return {
+                success: true,
+                message: `Interacted with ${npcNow.name} (${evidence})`,
+                phase: 'completion',
+                evidence: evidence ?? undefined,
+            };
         } catch {
-            return { success: false, message: `Timed out interacting with ${npcNow.name}`, reason: 'timeout' };
+            return {
+                success: false,
+                message: `Timed out after ${wait.timeout ?? 5000}ms interacting with ${npcNow.name}`,
+                phase: 'observation',
+                reason: 'timeout',
+            };
         }
     }
 
