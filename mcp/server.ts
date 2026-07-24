@@ -2,8 +2,9 @@
 /**
  * MCP Code Execution Server for RS-Agent
  *
- * Manages multiple bot connections dynamically at runtime.
- * Agents can connect, disconnect, and execute code on any connected bot.
+ * Security boundary: execute_code intentionally runs trusted agent-provided
+ * code in this Bun process. It is not a sandbox and can access process APIs,
+ * the filesystem, and the network with the MCP server's permissions.
  */
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -12,332 +13,250 @@ import {
   CallToolRequestSchema,
   ListResourcesRequestSchema,
   ReadResourceRequestSchema,
-  ListToolsRequestSchema
+  ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 import { botManager } from './api/index.js';
-import { formatWorldState } from '../sdk/formatter.js';
+import {
+  executeUserCode,
+  holdQueueUntil,
+  PerBotExecutionQueue,
+  runCancellableOperation,
+} from './execution.js';
+import { AGENT_TOOL_DEFINITIONS, inspectState, performAction, queryEntities } from './agent-tools.js';
+import { buildExecutionOutput, jsonResponseText } from './output.js';
+import { getResourceDefinitions, readAllowedResource } from './resources.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const executionQueue = new PerBotExecutionQueue();
 
-// Create MCP server
 const server = new Server(
   {
     name: 'rs-agent-bot',
-    version: '2.0.0'
+    version: '2.1.0',
   },
   {
     capabilities: {
       resources: {},
-      tools: {}
-    }
-  }
+      tools: {},
+    },
+  },
 );
 
-// List available API modules as resources
-server.setRequestHandler(ListResourcesRequestSchema, async () => {
-  return {
-    resources: [
-      {
-        uri: 'file://../sdk/API.md',
-        name: 'SDK API Reference',
-        description: 'Auto-generated reference for bot.* (high-level actions: chopTree, walkTo, attackNpc, openBank, ...) and sdk.* (low-level: getState, sendWalk, findNearbyNpc, ...).',
-        mimeType: 'text/markdown'
-      }
-    ]
-  };
+server.setRequestHandler(ListResourcesRequestSchema, async () => ({
+  resources: getResourceDefinitions().map(({ filePath: _filePath, ...resource }) => resource),
+}));
+
+server.setRequestHandler(ReadResourceRequestSchema, async request => {
+  const content = await readAllowedResource(request.params.uri);
+  return { contents: [content] };
 });
 
-// Read API module contents
-server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
-  try {
-    const uri = request.params.uri;
-    let filePath: string;
-
-    if (uri.startsWith('file://')) {
-      const relativePath = uri.replace('file://', '');
-      filePath = join(__dirname, relativePath);
-    } else {
-      throw new Error(`Unsupported URI scheme: ${uri}`);
-    }
-
-    const content = await Bun.file(filePath).text();
-
-    return {
-      contents: [
-        {
-          uri: request.params.uri,
-          mimeType: 'text/plain',
-          text: content
-        }
-      ]
-    };
-  } catch (error: any) {
-    throw new Error(`Failed to read resource: ${error.message}`);
-  }
-});
-
-// List available tools
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-  return {
-    tools: [
-      {
-        name: 'execute_code',
-        description: 'Execute TypeScript code on a bot. Auto-connects using credentials from bots/{name}/bot.env. The code runs in an async context with bot (BotActions) and sdk (BotSDK) available.',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            bot_name: {
-              type: 'string',
-              description: 'Bot name (matches folder in bots/). Auto-connects on first use.'
-            },
-            code: {
-              type: 'string',
-              description: 'TypeScript code to execute. Available globals: bot (BotActions), sdk (BotSDK). Example: "await bot.chopTree(); return sdk.getState();"'
-            },
-            timeout: {
-              type: 'number',
-              description: 'Execution timeout in minutes (default: 2, max: 60)'
-            }
+server.setRequestHandler(ListToolsRequestSchema, async () => ({
+  tools: [
+    {
+      name: 'execute_code',
+      description: 'Execute trusted TypeScript on a bot. Auto-connects using bots/{name}/bot.env. The async body receives bot (BotActions), sdk (BotSDK), console (request-scoped), and signal (AbortSignal). Calls are serialized per bot. This is not a security sandbox.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          bot_name: {
+            type: 'string',
+            description: 'Bot name (matches folder in bots/). Auto-connects on first use.',
           },
-          required: ['bot_name', 'code']
-        }
-      },
-      {
-        name: 'disconnect_bot',
-        description: 'Disconnect a connected bot',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-              description: 'Bot name to disconnect'
-            }
+          code: {
+            type: 'string',
+            maxLength: 262144,
+            description: 'TypeScript async function body. Available globals: bot, sdk, console, signal.',
           },
-          required: ['name']
-        }
+          timeout: {
+            type: 'number',
+            minimum: 0.1,
+            maximum: 60,
+            description: 'Execution timeout in minutes (default: 2, max: 60).',
+          },
+        },
+        required: ['bot_name', 'code'],
+        additionalProperties: false,
       },
-      {
-        name: 'list_bots',
-        description: 'List all connected bots',
-        inputSchema: {
-          type: 'object',
-          properties: {}
-        }
-      }
-    ]
-  };
-});
+    },
+    ...AGENT_TOOL_DEFINITIONS,
+    {
+      name: 'disconnect_bot',
+      description: 'Disconnect a connected bot.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          name: { type: 'string', description: 'Bot name to disconnect.' },
+        },
+        required: ['name'],
+        additionalProperties: false,
+      },
+    },
+    {
+      name: 'list_bots',
+      description: 'List bot sessions with transport/auth state, game-state freshness, control mode, and gateway controller/observer information.',
+      inputSchema: {
+        type: 'object',
+        properties: {},
+        additionalProperties: false,
+      },
+    },
+  ] as any,
+}));
 
-// Handle tool calls
 server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
-  const { name, arguments: args } = request.params;
+  const { name } = request.params;
+  const args = (request.params.arguments ?? {}) as Record<string, unknown>;
 
   try {
     switch (name) {
       case 'disconnect_bot': {
-        const botName = args?.name as string;
-
-        if (!botName) {
-          return errorResponse('Bot name is required');
-        }
-
+        const botName = requireString(args.name, 'name');
         await botManager.disconnect(botName);
         return successResponse({ message: `Disconnected bot "${botName}"` });
       }
 
       case 'list_bots': {
-        const bots = botManager.list();
-        return successResponse({
-          bots,
-          count: bots.length
-        });
+        const bots = (await botManager.list()).map(bot => ({
+          ...bot,
+          executionBusy: executionQueue.isLocked(bot.name),
+        }));
+        return successResponse({ bots, count: bots.length });
+      }
+
+      case 'inspect_state': {
+        const botName = requireString(args.bot_name, 'bot_name');
+        const sections = optionalStringArray(args.sections, 'sections');
+        // Inspection intentionally returns cached state with an explicit age,
+        // even when stale, so agents can diagnose a stopped browser.
+        const connection = await botManager.ensureHealthy(botName, { requireFreshState: false });
+        return successResponse(inspectState(connection, sections));
+      }
+
+      case 'query_entities': {
+        const botName = requireString(args.bot_name, 'bot_name');
+        return await executionQueue.run(botName, async () => {
+          const connection = await botManager.ensureHealthy(botName);
+          const outcome = await runCancellableOperation(
+            () => queryEntities(connection, args),
+            extra.signal,
+          );
+          const response = outcome.status === 'success'
+            ? successResponse(outcome.value)
+            : errorResponse(outcome.error ?? `Entity query ${outcome.status}`);
+          return outcome.quiescence
+            ? holdQueueUntil(response, outcome.quiescence)
+            : response;
+        }, extra.signal);
+      }
+
+      case 'perform_action': {
+        const botName = requireString(args.bot_name, 'bot_name');
+        return await executionQueue.run(botName, async () => {
+          const connection = await botManager.ensureHealthy(botName);
+          const outcome = await runCancellableOperation(
+            () => performAction(connection, args),
+            extra.signal,
+          );
+          const response = outcome.status === 'success'
+            ? successResponse(outcome.value)
+            : errorResponse(outcome.error ?? `Action ${outcome.status}`);
+          return outcome.quiescence
+            ? holdQueueUntil(response, outcome.quiescence)
+            : response;
+        }, extra.signal);
       }
 
       case 'execute_code': {
-        const botName = args?.bot_name as string;
-        const code = args?.code as string;
-
-        if (!botName) {
-          return errorResponse('bot_name is required');
+        const botName = requireString(args.bot_name, 'bot_name');
+        const code = requireString(args.code, 'code');
+        if (code.length > 262_144) {
+          throw new Error('code exceeds the 262144-character execution limit');
         }
+        const timeoutMinutes = clampTimeoutMinutes(args.timeout);
 
-        if (!code) {
-          return errorResponse('code is required');
-        }
-
-        const isLongCode = code.length > 2000;
-
-        // Capture console output BEFORE connecting to prevent SDK logs from corrupting MCP JSON-RPC stdout
-        const logs: string[] = [];
-        const originalLog = console.log;
-        const originalWarn = console.warn;
-        const originalError = console.error;
-
-        console.log = (...args) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-        console.warn = (...args) => logs.push('[warn] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-        // Don't capture console.error - let it go to stderr for MCP debugging
-
-        // Auto-connect if not already connected
-        let connection = botManager.get(botName);
-        if (!connection) {
-          console.error(`[MCP] Bot "${botName}" not connected, auto-connecting...`);
-          connection = await botManager.connect(botName);
-          // Wait up to 15s for initial world state after fresh connection
-          try {
-            await connection.sdk.waitForCondition(() => connection!.sdk.getState() !== null, 15000);
-          } catch {
-            console.error(`[MCP] Warning: initial state not received within 15s for bot "${botName}"`);
-          }
-        }
-
-        try {
-          const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-          const fn = new AsyncFunction('bot', 'sdk', code);
-
-          // Execute code with configurable timeout + MCP cancellation signal
-          const timeoutMinutes = Math.min(Math.max((args?.timeout as number) || 2, 0.1), 60);
-          const EXECUTION_TIMEOUT = timeoutMinutes * 60 * 1000;
-          let timeoutId: ReturnType<typeof setTimeout>;
-          const timeoutPromise = new Promise<never>((_, reject) => {
-            timeoutId = setTimeout(() => reject(new Error(`Code execution timed out after ${timeoutMinutes} minute(s)`)), EXECUTION_TIMEOUT);
+        return await executionQueue.run(botName, async () => {
+          const connection = await botManager.ensureHealthy(botName);
+          const outcome = await executeUserCode({
+            bot: connection.bot,
+            sdk: connection.sdk,
+            code,
+            timeoutMs: timeoutMinutes * 60_000,
+            externalSignal: extra.signal,
+            logLimitChars: 48 * 1024,
           });
 
-          // AbortController that fires on MCP cancellation
-          const abortController = new AbortController();
-          const signal = abortController.signal;
-
-          if (extra.signal) {
-            if (extra.signal.aborted) {
-              abortController.abort(extra.signal.reason);
-            } else {
-              extra.signal.addEventListener('abort', () => {
-                console.error(`[MCP] execute_code cancelled by client for bot "${botName}"`);
-                abortController.abort('Cancelled by client');
-              }, { once: true });
-            }
-          }
-
-          const cancelPromise = new Promise<never>((_, reject) => {
-            signal.addEventListener('abort', () => {
-              reject(new Error(typeof signal.reason === 'string' ? signal.reason : 'Code execution cancelled'));
-            }, { once: true });
-          });
-
-          // Wrap bot and sdk in proxies that throw on every method call once cancelled
-          const cancellable = <T extends object>(target: T): T =>
-            new Proxy(target, {
-              get(obj, prop, receiver) {
-                const value = Reflect.get(obj, prop, receiver);
-                if (typeof value === 'function') {
-                  return (...args: any[]) => {
-                    if (signal.aborted) throw new Error('Execution cancelled');
-                    return value.apply(obj, args);
-                  };
-                }
-                return value;
-              }
-            });
-
-          let result: any;
-          try {
-            result = await Promise.race([fn(cancellable(connection.bot), cancellable(connection.sdk)), timeoutPromise, cancelPromise]);
-          } finally {
-            clearTimeout(timeoutId!);
-            if (!signal.aborted) abortController.abort('Execution finished');
-          }
-
-          // Build formatted output
-          const parts: string[] = [];
-
-          if (logs.length > 0) {
-            parts.push('── Console ──');
-            parts.push(logs.join('\n'));
-          }
-
-          if (result !== undefined) {
-            if (logs.length > 0) parts.push('');
-            parts.push('── Result ──');
-            parts.push(JSON.stringify(result, null, 2));
-          }
-
-          // Append formatted world state. The connection's tick cursor
-          // advances each call so repeat execute_code invocations only show
-          // NEW chat / system messages — old ones the bot already saw don't
-          // get re-emitted. Cursor lives on BotConnection (MCP-only concern)
-          // so the SDK surface stays minimal for script authors.
-          const state = connection.sdk.getState();
-          if (state) {
-            // Message ticks are the client's loopCycle, which restarts near 0
-            // when the bot page reloads. If every tick is below our cursor the
-            // client reloaded — reset the cursor or chat would be muted forever.
-            if (state.gameMessages && state.gameMessages.length > 0 &&
-                state.gameMessages.every(m => m.tick < connection.lastShownMessageTick)) {
-              connection.lastShownMessageTick = -1;
-            }
-            const sinceTick = connection.lastShownMessageTick;
-            if (state.gameMessages) {
-              for (const m of state.gameMessages) {
-                if (m.tick > connection.lastShownMessageTick) {
-                  connection.lastShownMessageTick = m.tick;
-                }
-              }
-            }
-            parts.push('');
-            parts.push('── World State ──');
-            parts.push(formatWorldState(state, connection.sdk.getStateAge(), { sinceTick }));
-          }
-
-          // Add reminder for long code
-          if (isLongCode) {
-            parts.push('');
-            parts.push('── Tip ──');
-            parts.push(`Long script detected. Consider writing to a .ts file and running with: bun run bots/${botName}/script.ts`);
-          }
-
-          const output = parts.length > 0 ? parts.join('\n') : '(no output)';
-
-          return {
-            content: [{ type: 'text', text: output }]
+          const response = {
+            content: [{
+              type: 'text' as const,
+              text: buildExecutionOutput(outcome, connection, code.length > 2_000),
+            }],
+            ...(outcome.status === 'success' ? {} : { isError: true }),
           };
-        } finally {
-          console.log = originalLog;
-          console.warn = originalWarn;
-          console.error = originalError;
-        }
+
+          // The public SDK cannot abort a call already in progress. Keep this
+          // bot's queue locked until that call settles so a new mutation cannot
+          // overlap it, while still returning timeout diagnostics immediately.
+          return outcome.quiescence
+            ? holdQueueUntil(response, outcome.quiescence)
+            : response;
+        }, extra.signal);
       }
 
       default:
-        throw new Error(`Unknown tool: ${name}`);
+        return errorResponse(`Unknown tool: ${name}`);
     }
-  } catch (error: any) {
-    const errorMessage = `Error: ${error.message}\n\nStack trace:\n${error.stack}`;
-    return {
-      content: [{ type: 'text', text: errorMessage }],
-      isError: true
-    };
+  } catch (error) {
+    return errorResponse(error instanceof Error ? error.message : String(error));
   }
 });
 
-function successResponse(data: any) {
+function successResponse(data: unknown) {
   return {
-    content: [{ type: 'text', text: JSON.stringify(data, null, 2) }]
+    content: [{ type: 'text' as const, text: jsonResponseText(data) }],
   };
 }
 
 function errorResponse(message: string) {
   return {
-    content: [{ type: 'text', text: `Error: ${message}` }],
-    isError: true
+    content: [{ type: 'text' as const, text: `Error: ${message}` }],
+    isError: true,
   };
 }
 
-// Start server
+function requireString(value: unknown, field: string): string {
+  if (typeof value !== 'string' || value.length === 0) {
+    throw new Error(`${field} is required`);
+  }
+  return value;
+}
+
+function optionalStringArray(value: unknown, field: string): string[] | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value) || value.some(entry => typeof entry !== 'string')) {
+    throw new Error(`${field} must be an array of strings`);
+  }
+  return value;
+}
+
+function clampTimeoutMinutes(value: unknown): number {
+  if (value === undefined) return 2;
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    throw new Error('timeout must be a finite number of minutes');
+  }
+  return Math.min(Math.max(value, 0.1), 60);
+}
+
+function installStdioSafeConsole(): void {
+  // MCP reserves stdout for JSON-RPC. SDK diagnostics use console.log, so route
+  // process-level logs to stderr once. User code receives its own scoped
+  // console argument and never requires per-request global monkeypatching.
+  console.log = (...args: unknown[]) => console.error(...args);
+}
+
 async function main() {
-  console.error('[MCP Server] Starting RS-Agent MCP server v2.0...');
-  console.error('[MCP Server] Bots auto-connect on the first execute_code call.');
+  installStdioSafeConsole();
+  console.error('[MCP Server] Starting RS-Agent MCP server v2.1...');
+  console.error('[MCP Server] Bots auto-connect on first use. execute_code runs trusted code and is not sandboxed.');
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
@@ -345,7 +264,9 @@ async function main() {
   console.error('[MCP Server] Server running on stdio');
 }
 
-main().catch((error) => {
-  console.error('[MCP Server] Fatal error:', error);
-  process.exit(1);
-});
+if (import.meta.main) {
+  main().catch(error => {
+    console.error('[MCP Server] Fatal error:', error);
+    process.exit(1);
+  });
+}

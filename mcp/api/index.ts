@@ -6,6 +6,7 @@ import { BotActions } from '../../sdk/actions';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
+import type { BotStatus, ConnectionState, SDKConnectionMode, SessionStatus } from '../../sdk/types';
 
 export interface BotConnection {
   sdk: BotSDK;
@@ -21,7 +22,34 @@ export interface BotConnection {
   lastShownMessageTick: number;
 }
 
-class BotManager {
+export interface BotConnectionSummary {
+  name: string;
+  username: string;
+  connected: boolean;
+  authenticated: boolean;
+  connectionState: ConnectionState;
+  connectionMode: SDKConnectionMode;
+  reconnectAttempt: number;
+  hasState: boolean;
+  stateAgeMs: number | null;
+  inGame: boolean | null;
+  tick: number | null;
+  player: { name: string; worldX: number; worldZ: number } | null;
+  sessionStatus: SessionStatus | 'unknown';
+  controllers: string[];
+  observers: string[];
+}
+
+export interface EnsureHealthyOptions {
+  /** Require a current game snapshot, not merely an authenticated gateway. */
+  requireFreshState?: boolean;
+  /** Maximum acceptable local state age. */
+  maxStateAgeMs?: number;
+  /** Time allowed for a state to become fresh after connection/reconnection. */
+  readyTimeoutMs?: number;
+}
+
+export class BotManager {
   private connections: Map<string, BotConnection> = new Map();
   private defaultGatewayUrl = 'ws://localhost:7780';
 
@@ -49,9 +77,9 @@ class BotManager {
 
     // Load credentials from bot.env if no password provided
     if (!password) {
-      // Try cwd first, then fall back to the repo root (one level up from mcp/)
+      // Try cwd first, then fall back to the repository root from mcp/api/.
       const cwdPath = join(process.cwd(), 'bots', name, 'bot.env');
-      const repoPath = join(import.meta.dir, '..', 'bots', name, 'bot.env');
+      const repoPath = join(import.meta.dir, '..', '..', 'bots', name, 'bot.env');
       const envPath = existsSync(cwdPath) ? cwdPath : repoPath;
 
       if (!existsSync(envPath)) {
@@ -82,7 +110,6 @@ class BotManager {
     console.error(`[MCP] Connecting bot "${name}":`);
     console.error(`[MCP]   username: ${username}`);
     console.error(`[MCP]   gateway: ${gateway}`);
-    console.error(`[MCP]   password: ${pwd ? pwd.substring(0, 3) + '...' : 'MISSING'}`);
 
     const sdk = new BotSDK({
       botUsername: username,
@@ -124,6 +151,57 @@ class BotManager {
     return connection;
   }
 
+  /**
+   * Return a usable cached connection, reconnecting a dead transport and, for
+   * mutating tools, refreshing a stale browser session. Throws an actionable
+   * error rather than letting an operation run against old state.
+   */
+  async ensureHealthy(name: string, options: EnsureHealthyOptions = {}): Promise<BotConnection> {
+    const {
+      requireFreshState = true,
+      maxStateAgeMs = 15_000,
+      readyTimeoutMs = 15_000,
+    } = options;
+
+    let connection = this.get(name);
+    if (!connection) {
+      connection = await this.connect(name);
+    } else if (!connection.sdk.isConnected() || !connection.sdk.isAuthenticated()) {
+      connection.connected = false;
+      await this.connectWithRetry(connection.sdk);
+      connection.connected = true;
+    }
+
+    if (!requireFreshState) return connection;
+    if (this.hasFreshState(connection, maxStateAgeMs)) return connection;
+
+    // Refresh even when gateway diagnostics say the browser is active: stale
+    // local state can mean this SDK socket stopped receiving updates. For a
+    // stale/dead browser, reconnecting also re-runs BotSDK's auto-launch policy.
+    await connection.sdk.checkBotStatus();
+    await connection.sdk.disconnect();
+    connection.connected = false;
+    await this.connectWithRetry(connection.sdk);
+    connection.connected = true;
+
+    try {
+      await connection.sdk.waitForCondition(
+        () => this.hasFreshState(connection!, maxStateAgeMs),
+        readyTimeoutMs,
+      );
+    } catch {
+      const latestStatus = await connection.sdk.checkBotStatus();
+      throw new Error(this.formatUnhealthyMessage(name, connection, latestStatus, maxStateAgeMs));
+    }
+
+    if (!this.hasFreshState(connection, maxStateAgeMs)) {
+      const latestStatus = await connection.sdk.checkBotStatus();
+      throw new Error(this.formatUnhealthyMessage(name, connection, latestStatus, maxStateAgeMs));
+    }
+
+    return connection;
+  }
+
   private async connectWithRetry(sdk: BotSDK, maxAttempts = 3, timeoutMs = 30000): Promise<void> {
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
@@ -160,7 +238,7 @@ class BotManager {
     if (connection.unsubscribeConnectionState) {
       connection.unsubscribeConnectionState();
     }
-    connection.sdk.disconnect();
+    await connection.sdk.disconnect();
     connection.connected = false;
     this.connections.delete(name);
     console.error(`[MCP] Bot "${name}" disconnected`);
@@ -176,11 +254,43 @@ class BotManager {
   /**
    * List all connected bots
    */
-  list(): Array<{ name: string; username: string; connected: boolean }> {
-    return Array.from(this.connections.entries()).map(([name, conn]) => ({
-      name,
-      username: conn.username,
-      connected: conn.connected
+  async list(): Promise<BotConnectionSummary[]> {
+    return Promise.all(Array.from(this.connections.entries()).map(async ([name, conn]) => {
+      let status: BotStatus | null = null;
+      try {
+        status = await conn.sdk.checkBotStatus();
+      } catch {
+        // Local connection details remain useful if gateway diagnostics fail.
+      }
+
+      const state = conn.sdk.getState();
+      const stateAge = state && conn.sdk.getStateReceivedAt() > 0
+        ? conn.sdk.getStateAge()
+        : null;
+
+      return {
+        name,
+        username: conn.username,
+        connected: conn.sdk.isConnected(),
+        authenticated: conn.sdk.isAuthenticated(),
+        connectionState: conn.sdk.getConnectionState(),
+        connectionMode: conn.sdk.getConnectionMode(),
+        reconnectAttempt: conn.sdk.getReconnectAttempt(),
+        hasState: state !== null,
+        stateAgeMs: stateAge,
+        inGame: state?.inGame ?? status?.inGame ?? null,
+        tick: state?.tick ?? null,
+        player: state?.player
+          ? {
+              name: state.player.name,
+              worldX: state.player.worldX,
+              worldZ: state.player.worldZ,
+            }
+          : status?.player ?? null,
+        sessionStatus: status?.status ?? 'unknown',
+        controllers: status?.controllers ?? [],
+        observers: status?.observers ?? [],
+      };
     }));
   }
 
@@ -202,6 +312,26 @@ class BotManager {
       }
     }
     return result;
+  }
+
+  private hasFreshState(connection: BotConnection, maxStateAgeMs: number): boolean {
+    return connection.sdk.getState() !== null
+      && connection.sdk.getStateReceivedAt() > 0
+      && connection.sdk.getStateAge() <= maxStateAgeMs;
+  }
+
+  private formatUnhealthyMessage(
+    name: string,
+    connection: BotConnection,
+    status: BotStatus,
+    maxStateAgeMs: number,
+  ): string {
+    const localAge = connection.sdk.getStateReceivedAt() > 0
+      ? `${connection.sdk.getStateAge()}ms`
+      : 'never received';
+    const remoteAge = status.stateAge === null ? 'never received' : `${status.stateAge}ms`;
+    return `Bot "${name}" has no fresh game state (local: ${localAge}, gateway: ${status.status}/${remoteAge}, required <= ${maxStateAgeMs}ms). `
+      + 'Open or reload the bot browser, confirm the character is logged in, then retry.';
   }
 }
 
