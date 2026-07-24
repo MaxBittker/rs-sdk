@@ -18,9 +18,11 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { botManager } from './api/index.js';
 import { formatWorldState } from '../sdk/formatter.js';
+import { executeCode, PerBotQueue } from './execution.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const executionQueue = new PerBotQueue();
 
 // Create MCP server
 const server = new Server(
@@ -169,98 +171,49 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
         }
 
         const isLongCode = code.length > 2000;
-
-        // Capture console output BEFORE connecting to prevent SDK logs from corrupting MCP JSON-RPC stdout
-        const logs: string[] = [];
-        const originalLog = console.log;
-        const originalWarn = console.warn;
-        const originalError = console.error;
-
-        console.log = (...args) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-        console.warn = (...args) => logs.push('[warn] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-        // Don't capture console.error - let it go to stderr for MCP debugging
-
-        // Auto-connect if not already connected
-        let connection = botManager.get(botName);
-        if (!connection) {
-          console.error(`[MCP] Bot "${botName}" not connected, auto-connecting...`);
-          connection = await botManager.connect(botName);
-          // Wait up to 15s for initial world state after fresh connection
-          try {
-            await connection.sdk.waitForCondition(() => connection!.sdk.getState() !== null, 15000);
-          } catch {
-            console.error(`[MCP] Warning: initial state not received within 15s for bot "${botName}"`);
-          }
-        }
-
-        try {
-          const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-          const fn = new AsyncFunction('bot', 'sdk', code);
-
-          // Execute code with configurable timeout + MCP cancellation signal
-          const timeoutMinutes = Math.min(Math.max((args?.timeout as number) || 2, 0.1), 60);
-          const EXECUTION_TIMEOUT = timeoutMinutes * 60 * 1000;
-          let timeoutId: ReturnType<typeof setTimeout>;
-          const timeoutPromise = new Promise<never>((_, reject) => {
-            timeoutId = setTimeout(() => reject(new Error(`Code execution timed out after ${timeoutMinutes} minute(s)`)), EXECUTION_TIMEOUT);
-          });
-
-          // AbortController that fires on MCP cancellation
-          const abortController = new AbortController();
-          const signal = abortController.signal;
-
-          if (extra.signal) {
-            if (extra.signal.aborted) {
-              abortController.abort(extra.signal.reason);
-            } else {
-              extra.signal.addEventListener('abort', () => {
-                console.error(`[MCP] execute_code cancelled by client for bot "${botName}"`);
-                abortController.abort('Cancelled by client');
-              }, { once: true });
+        return executionQueue.run(botName, async () => {
+          // Connecting is part of the serialized session so concurrent first
+          // calls cannot create duplicate controllers for the same bot.
+          let connection = botManager.get(botName);
+          if (!connection) {
+            console.error(`[MCP] Bot "${botName}" not connected, auto-connecting...`);
+            connection = await botManager.connect(botName);
+            try {
+              await connection.sdk.waitForCondition(
+                () => connection!.sdk.getState() !== null,
+                15000,
+              );
+            } catch {
+              console.error(`[MCP] Warning: initial state not received within 15s for bot "${botName}"`);
             }
           }
 
-          const cancelPromise = new Promise<never>((_, reject) => {
-            signal.addEventListener('abort', () => {
-              reject(new Error(typeof signal.reason === 'string' ? signal.reason : 'Code execution cancelled'));
-            }, { once: true });
+          const timeoutMinutes = Math.min(
+            Math.max((args?.timeout as number) || 2, 0.1),
+            60,
+          );
+          const outcome = await executeCode({
+            bot: connection.bot,
+            sdk: connection.sdk,
+            code,
+            timeoutMs: timeoutMinutes * 60_000,
+            signal: extra.signal,
           });
-
-          // Wrap bot and sdk in proxies that throw on every method call once cancelled
-          const cancellable = <T extends object>(target: T): T =>
-            new Proxy(target, {
-              get(obj, prop, receiver) {
-                const value = Reflect.get(obj, prop, receiver);
-                if (typeof value === 'function') {
-                  return (...args: any[]) => {
-                    if (signal.aborted) throw new Error('Execution cancelled');
-                    return value.apply(obj, args);
-                  };
-                }
-                return value;
-              }
-            });
-
-          let result: any;
-          try {
-            result = await Promise.race([fn(cancellable(connection.bot), cancellable(connection.sdk)), timeoutPromise, cancelPromise]);
-          } finally {
-            clearTimeout(timeoutId!);
-            if (!signal.aborted) abortController.abort('Execution finished');
-          }
-
-          // Build formatted output
           const parts: string[] = [];
 
-          if (logs.length > 0) {
+          if (outcome.logs.length > 0) {
             parts.push('── Console ──');
-            parts.push(logs.join('\n'));
+            parts.push(outcome.logs.join('\n'));
           }
 
-          if (result !== undefined) {
-            if (logs.length > 0) parts.push('');
+          if (outcome.status === 'success' && outcome.result !== undefined) {
+            if (parts.length > 0) parts.push('');
             parts.push('── Result ──');
-            parts.push(JSON.stringify(result, null, 2));
+            parts.push(stringifyResult(outcome.result));
+          } else if (outcome.status !== 'success') {
+            if (parts.length > 0) parts.push('');
+            parts.push(`── ${outcome.status.toUpperCase()} ──`);
+            parts.push(outcome.error ?? 'Execution failed');
           }
 
           // Append formatted world state. The connection's tick cursor
@@ -298,15 +251,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
           }
 
           const output = parts.length > 0 ? parts.join('\n') : '(no output)';
-
           return {
-            content: [{ type: 'text', text: output }]
+            value: {
+              content: [{ type: 'text' as const, text: output }],
+              ...(outcome.status === 'success' ? {} : { isError: true }),
+            },
+            holdUntil: outcome.quiescence,
           };
-        } finally {
-          console.log = originalLog;
-          console.warn = originalWarn;
-          console.error = originalError;
-        }
+        }, extra.signal);
       }
 
       default:
@@ -334,8 +286,25 @@ function errorResponse(message: string) {
   };
 }
 
+function stringifyResult(value: unknown): string {
+  try {
+    return JSON.stringify(value, null, 2);
+  } catch {
+    return String(value);
+  }
+}
+
+function keepStdioProtocolClean(): void {
+  // stdout belongs to MCP JSON-RPC. User code receives a scoped console;
+  // process and SDK diagnostics go to stderr.
+  console.log = (...args: unknown[]) => console.error(...args);
+  console.info = (...args: unknown[]) => console.error(...args);
+  console.debug = (...args: unknown[]) => console.error(...args);
+}
+
 // Start server
 async function main() {
+  keepStdioProtocolClean();
   console.error('[MCP Server] Starting RS-Agent MCP server v2.0...');
   console.error('[MCP Server] Bots auto-connect on the first execute_code call.');
 

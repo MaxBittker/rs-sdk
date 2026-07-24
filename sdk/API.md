@@ -174,6 +174,7 @@
 | `getPrayerState(): PrayerState \| null` | Get current prayer state from world state. |
 | `isPrayerActive(prayer: PrayerName \| number): boolean` | Check if a specific prayer is currently active. |
 | `getActivePrayers(): PrayerName[]` | Get list of all currently active prayer names. |
+| `isDoorTemporarilyBlocked(level: number, x: number, z: number): boolean` | Check this SDK session's non-expired temporary door evidence. |
 
 ### Other
 
@@ -181,6 +182,8 @@
 |---|---|
 | `async checkBotStatus(): Promise<BotStatus>` | Check bot status via gateway HTTP endpoint. Returns info about whether bot is connected and who else is controlling/observing. |
 | `async launchBrowser(): Promise<void>` | Launch native browser to client URL. Uses the `open` package for cross-platform support (macOS, Windows, Linux, WSL). Falls back to printing the URL if no browser can be opened. |
+| `countInventoryItems(pattern: string \| RegExp): number` | Count total item quantity matching a name pattern. This sums stack sizes across every matching slot. Use `getInventory().filter(...)` when the number of occupied slots is needed. |
+| `blockDoorTemporarily(level: number, x: number, z: number, ttlMs: number = 30_000): boolean` | Temporarily exclude a known door from this SDK instance's path queries. The shared collision map is never mutated beyond the synchronous query. |
 
 ### Condition Waiting
 
@@ -295,6 +298,14 @@ interface PlayerState {
   spotanimId: number;
   /** Combat state tracking */
   combat: PlayerCombatState;
+  /** True while the player's hitpoints are zero. */
+  isDead: boolean;
+  /** Changes after each observed death/respawn cycle. */
+  lifeId: number;
+  /** Number of respawns observed during this client session. */
+  respawnCount: number;
+  /** Public game tick when death was last observed, or null if none was observed. */
+  lastDeathTick: number | null;
 }
 ```
 
@@ -390,6 +401,8 @@ interface PrayerResult {
 ```typescript
 interface BotWorldState {
   tick: number;
+  /** Monotonic state publication cursor; advances even for multiple publications in one game tick. */
+  revision?: number;
   inGame: boolean;
   player: PlayerState | null;
   skills: SkillState[];
@@ -423,6 +436,8 @@ interface ActionResult {
   data?: any;
   /** Machine-readable failure category (e.g. 'cant_reach', 'no_match', 'timeout') */
   reason?: string;
+  /** Primitive actions report dispatch; porcelain actions may report observation/completion. */
+  phase?: 'validation' | 'routing' | 'dispatch' | 'observation' | 'completion';
 }
 ```
 
@@ -540,7 +555,7 @@ interface EatResult {
 interface AttackResult {
   success: boolean;
   message: string;
-  reason?: 'npc_not_found' | 'no_attack_option' | 'out_of_reach' | 'already_in_combat' | 'timeout';
+  reason?: 'npc_not_found' | 'no_attack_option' | 'out_of_reach' | 'already_in_combat' | 'died' | 'timeout';
 }
 ```
 

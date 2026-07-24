@@ -42,6 +42,13 @@ execute_code({
 })
 ```
 
+Calls for the same bot run in FIFO order, so two agent programs cannot
+interleave multi-step actions. If a call times out or is cancelled, the next
+call waits for any SDK operation that already started to settle. Calls for
+different bots may still run concurrently.
+
+`execute_code` runs trusted repository code; it is not a security sandbox.
+
 ### `list_bots`
 List all connected bots and their status.
 
@@ -108,6 +115,7 @@ bun run mcp/server.ts
 ```
 mcp/
 ├── server.ts           # MCP server (stdio transport)
+├── execution.ts        # Per-bot execution isolation
 └── api/
     └── index.ts        # BotManager - manages multiple connections
 ```
