@@ -12,6 +12,7 @@ import type {
     BankItem,
     NearbyNpc,
     NearbyLoc,
+    LocFilter,
     GroundItem,
     ShopItem,
     ChopTreeResult,
@@ -2413,11 +2414,12 @@ export class BotActions {
      * Walks to the target first (handling doors), sends the interaction, then waits
      * for an effect (animation, dialog, interface) or detects failure when the player
      * has been idle for 2 ticks with nothing happening.
-     * @param target - NearbyLoc object or name string/regex to find
+     * @param target - NearbyLoc object, name string/regex, or a LocFilter
+     *   `{ name?, id? }` to disambiguate same-named objects by id (e.g. ore rocks)
      * @param option - Option index or name regex to match (default: 1, the first option)
      */
     async interactLoc(
-        target: NearbyLoc | string | RegExp,
+        target: NearbyLoc | LocFilter | string | RegExp,
         option: number | string | RegExp = 1,
     ): Promise<InteractLocResult> {
         const resolvedLoc = this.helpers.resolveLocation(target, /./);
@@ -2430,7 +2432,7 @@ export class BotActions {
     }
 
     private async _interactLocOnce(
-        target: NearbyLoc | string | RegExp,
+        target: NearbyLoc | LocFilter | string | RegExp,
         option: number | string | RegExp = 1,
     ): Promise<InteractLocResult> {
         await this.dismissBlockingUI();
@@ -2461,9 +2463,14 @@ export class BotActions {
             }
         }
 
-        // Re-find the location after walking (it may have changed)
-        const locPattern = typeof target === 'object' ? new RegExp(loc.name, 'i') : target;
-        const locNow = this.helpers.resolveLocation(locPattern, /./);
+        // Re-find the location after walking (it may have changed). Preserve the
+        // resolved id so that an id-filtered target re-binds to the same variant
+        // (e.g. the same ore type) rather than the nearest same-named object.
+        const locFilter: LocFilter | string | RegExp =
+            typeof target === 'string' || target instanceof RegExp
+                ? target
+                : { name: new RegExp(loc.name, 'i'), id: loc.id };
+        const locNow = this.helpers.resolveLocation(locFilter, /./);
         if (!locNow) {
             return { success: false, message: `${loc.name} no longer visible`, reason: 'loc_not_found' };
         }
