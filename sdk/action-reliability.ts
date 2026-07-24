@@ -50,6 +50,38 @@ export interface QuantityOutcome {
     partial: boolean;
 }
 
+/** Upper bound for porcelain actions that expand a quantity into repeated packets. */
+export const MAX_ACTION_QUANTITY = 10_000;
+export const MAX_SHOP_ACTION_QUANTITY = 1_000;
+export const MAX_SHOP_ACTION_PACKETS = 100;
+export const SHOP_ACTION_DEADLINE_MS = 60_000;
+
+export type QuantityValidation =
+    | { valid: true; amount: number }
+    | { valid: false; message: string };
+
+/**
+ * Validate a quantity before it is serialized or used to control a loop.
+ * The -1 "all" sentinel is only accepted when explicitly enabled.
+ */
+export function validateActionQuantity(
+    amount: number,
+    options: { allowAll?: boolean; max?: number } = {},
+): QuantityValidation {
+    if (options.allowAll && amount === -1) return { valid: true, amount };
+    const max = options.max ?? MAX_ACTION_QUANTITY;
+    if (typeof amount !== 'number' || !Number.isFinite(amount)) {
+        return { valid: false, message: 'Amount must be a finite number' };
+    }
+    if (!Number.isSafeInteger(amount) || amount <= 0) {
+        return { valid: false, message: 'Amount must be a positive safe integer' };
+    }
+    if (amount > max) {
+        return { valid: false, message: `Amount ${amount} exceeds the maximum ${max}` };
+    }
+    return { valid: true, amount };
+}
+
 /** Quantity success is exact: a non-zero partial fill is still unsuccessful. */
 export function classifyQuantity(requested: number, actual: number): QuantityOutcome {
     const normalizedRequested = Math.max(0, Math.floor(requested));

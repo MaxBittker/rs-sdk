@@ -495,7 +495,7 @@ export interface TalkResult extends ActionResultBase<
 }
 
 export interface ShopResult extends ActionResultBase<
-    'shop_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
+    'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
 > {
     item?: InventoryItem;
     requestedAmount?: number;
@@ -504,7 +504,7 @@ export interface ShopResult extends ActionResultBase<
 }
 
 export interface ShopSellResult extends ActionResultBase<
-    'shop_not_open' | 'item_not_found' | 'rejected' | 'dispatch_failed' | 'partial_fill' | 'timeout'
+    'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'rejected' | 'dispatch_failed' | 'partial_fill' | 'timeout'
 > {
     requestedAmount?: number;
     amountSold?: number;
@@ -512,7 +512,7 @@ export interface ShopSellResult extends ActionResultBase<
     rejected?: boolean;
 }
 
-export type SellAmount = 1 | 5 | 10 | 'all';
+export type SellAmount = number | 'all';
 
 export interface EquipResult {
     success: boolean;
@@ -586,7 +586,7 @@ export interface OpenBankResult {
 }
 
 export interface BankDepositResult extends ActionResultBase<
-    'bank_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
+    'invalid_amount' | 'bank_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
 > {
     requestedAmount?: number;
     amountDeposited?: number;
@@ -594,7 +594,7 @@ export interface BankDepositResult extends ActionResultBase<
 }
 
 export interface BankWithdrawResult extends ActionResultBase<
-    'bank_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
+    'invalid_amount' | 'bank_not_open' | 'item_not_found' | 'dispatch_failed' | 'partial_fill' | 'timeout'
 > {
     item?: InventoryItem;
     requestedAmount?: number;

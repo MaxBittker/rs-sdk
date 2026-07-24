@@ -1,4 +1,4 @@
-import type { InventoryItem } from './types';
+import type { InterfaceOption, InventoryItem } from './types';
 import { countInventoryItem } from './action-reliability';
 
 export interface CraftProduct {
@@ -39,16 +39,6 @@ const FLETCH_PRODUCTS: Array<{ aliases: RegExp; product: CraftProduct }> = [
             higherTierPosition: 1,
         },
     },
-    {
-        aliases: /stock/i,
-        product: {
-            name: 'crossbow stock',
-            optionPattern: /stock/i,
-            inventoryPattern: /stock/i,
-            regularPosition: 3,
-            higherTierPosition: 3,
-        },
-    },
 ];
 
 const LEATHER_PRODUCTS: Array<{ aliases: RegExp; product: CraftProduct }> = [
@@ -62,12 +52,21 @@ const LEATHER_PRODUCTS: Array<{ aliases: RegExp; product: CraftProduct }> = [
         },
     },
     {
-        aliases: /glove|vamb/i,
+        aliases: /glove/i,
         product: {
             name: 'leather gloves',
-            optionPattern: /glove|vamb/i,
+            optionPattern: /glove/i,
             inventoryPattern: /^leather gloves$/i,
             regularPosition: 1,
+        },
+    },
+    {
+        aliases: /boot/i,
+        product: {
+            name: 'leather boots',
+            optionPattern: /boot/i,
+            inventoryPattern: /^leather boots$/i,
+            regularPosition: 2,
         },
     },
     {
@@ -76,7 +75,34 @@ const LEATHER_PRODUCTS: Array<{ aliases: RegExp; product: CraftProduct }> = [
             name: 'leather chaps',
             optionPattern: /chap|leg/i,
             inventoryPattern: /^leather chaps$/i,
-            regularPosition: 2,
+            regularPosition: 4,
+        },
+    },
+    {
+        aliases: /vamb/i,
+        product: {
+            name: 'leather vambraces',
+            optionPattern: /vamb/i,
+            inventoryPattern: /^leather (?:vambraces|vambs)$/i,
+            regularPosition: 3,
+        },
+    },
+    {
+        aliases: /coif/i,
+        product: {
+            name: 'leather coif',
+            optionPattern: /coif/i,
+            inventoryPattern: /^leather coif$/i,
+            regularPosition: 5,
+        },
+    },
+    {
+        aliases: /cowl/i,
+        product: {
+            name: 'leather cowl',
+            optionPattern: /cowl/i,
+            inventoryPattern: /^leather cowl$/i,
+            regularPosition: 6,
         },
     },
 ];
@@ -95,6 +121,39 @@ export function productPosition(product: CraftProduct, higherTierLogs: boolean):
     return higherTierLogs
         ? product.higherTierPosition ?? product.regularPosition
         : product.regularPosition;
+}
+
+function matches(pattern: RegExp, text: string): boolean {
+    pattern.lastIndex = 0;
+    return pattern.test(text);
+}
+
+export function matchingProductOptions(
+    options: readonly InterfaceOption[],
+    product: CraftProduct,
+): InterfaceOption[] {
+    return options.filter(option => matches(product.optionPattern, option.text));
+}
+
+/**
+ * Prefer exactly one item when an interface exposes Make-10/Make-5/Make-1
+ * components for the same product. A sole product option remains compatible
+ * with interfaces that do not expose a quantity in their text.
+ */
+export function resolveMakeOneOption(
+    options: readonly InterfaceOption[],
+    product: CraftProduct,
+): InterfaceOption | null {
+    const productOptions = matchingProductOptions(options, product);
+    const makeOne = productOptions.find(option =>
+        /\bmake\s*[-x]?\s*(?:1|one)\b/i.test(option.text)
+    );
+    if (makeOne) return makeOne;
+    const implicitSingle = productOptions.find(option =>
+        !/\bmake\s*[-x]?\s*(?:5|10)\b/i.test(option.text)
+    );
+    if (implicitSingle) return implicitSingle;
+    return productOptions.length === 1 ? productOptions[0]! : null;
 }
 
 export function findProducedItem(
