@@ -19,11 +19,52 @@ import type {
     BotStatus,
     PrayerState,
     PrayerName,
-    GameMessage
+    GameMessage,
+    InterfaceOption,
 } from './types';
 import { PRAYER_INDICES, PRAYER_NAMES, PLAYER_CHAT_TYPES, isPlayerChat } from './types';
 import { ChatHistory } from './chat-history';
 import * as pathfinding from './pathfinding';
+import { resolveInterfaceOption, type InterfaceOptionSelector } from './action-reliability';
+
+const SDK_CONFIG_KEYS = new Set<keyof SDKConfig>([
+    'botUsername', 'password', 'gatewayUrl', 'host', 'port', 'connectionMode',
+    'autoLaunchBrowser', 'freshDataThreshold', 'browserLaunchUrl',
+    'browserLaunchTimeout', 'readyTimeout', 'actionTimeout', 'autoReconnect',
+    'reconnectMaxRetries', 'reconnectBaseDelay', 'reconnectMaxDelay', 'showChat',
+]);
+
+function validateSDKConfig(config: SDKConfig): void {
+    if (!config || typeof config !== 'object') {
+        throw new TypeError('BotSDK config must be an object');
+    }
+    if (typeof config.botUsername !== 'string' || !config.botUsername.trim()) {
+        if ('botName' in config) {
+            throw new TypeError('BotSDK config requires "botUsername"; replace the unsupported "botName" key');
+        }
+        throw new TypeError('BotSDK config.botUsername must be a non-empty string');
+    }
+    const unknown = Object.keys(config).filter(key => !SDK_CONFIG_KEYS.has(key as keyof SDKConfig));
+    if (unknown.length > 0) {
+        console.warn(`[BotSDK] Unknown config option${unknown.length === 1 ? '' : 's'} ignored: ${unknown.join(', ')}`);
+    }
+}
+
+function editDistance(left: string, right: string): number {
+    const row = Array.from({ length: right.length + 1 }, (_, index) => index);
+    for (let i = 1; i <= left.length; i++) {
+        let diagonal = row[0]!;
+        row[0] = i;
+        for (let j = 1; j <= right.length; j++) {
+            const above = row[j]!;
+            row[j] = left[i - 1] === right[j - 1]
+                ? diagonal
+                : 1 + Math.min(diagonal, above, row[j - 1]!);
+            diagonal = above;
+        }
+    }
+    return row[right.length]!;
+}
 
 /**
  * Derive the gateway WebSocket URL from a SERVER env value.
@@ -119,6 +160,7 @@ export class BotSDK {
     private connectionListeners = new Set<(state: ConnectionState, attempt?: number) => void>();
     private connectPromise: Promise<void> | null = null;
     private sdkClientId: string;
+    private warnedSkillNames = new Set<string>();
 
     /** True once the gateway has accepted our credentials (sdk_connected received). */
     private authenticated = false;
@@ -130,8 +172,9 @@ export class BotSDK {
     private intentionalDisconnect = false;
 
     constructor(config: SDKConfig) {
+        validateSDKConfig(config);
         this.config = {
-            botUsername: config.botUsername,
+            botUsername: config.botUsername.trim(),
             password: config.password || '',
             gatewayUrl: config.gatewayUrl || '',
             host: config.host || 'localhost',
@@ -702,12 +745,26 @@ export class BotSDK {
         });
     }
 
-    /** Get a skill by name (case-insensitive). */
+    /** Get a skill by name (case-insensitive; HP aliases Hitpoints). */
     getSkill(name: string): SkillState | null {
         if (!this.state) return null;
-        return this.state.skills.find(s =>
-            s.name.toLowerCase() === name.toLowerCase()
-        ) || null;
+        const requested = name.trim().toLowerCase();
+        const normalized = /^(hp|hitpoint|hitpoints)$/.test(requested) ? 'hitpoints' : requested;
+        const skill = this.state.skills.find(s => s.name.toLowerCase() === normalized) || null;
+        if (!skill && normalized && !this.warnedSkillNames.has(normalized)) {
+            this.warnedSkillNames.add(normalized);
+            const closest = this.state.skills
+                .map(candidate => ({
+                    candidate,
+                    distance: editDistance(normalized, candidate.name.toLowerCase()),
+                }))
+                .sort((a, b) => a.distance - b.distance)[0];
+            const suggestion = closest && closest.distance <= Math.max(2, Math.floor(normalized.length / 3))
+                ? ` Did you mean "${closest.candidate.name}"?`
+                : '';
+            console.warn(`[BotSDK] Unknown skill "${name}".${suggestion}`);
+        }
+        return skill;
     }
 
     /** Get XP for a skill by name. */
@@ -1072,23 +1129,51 @@ export class BotSDK {
         return this.sendAction({ type: 'clickComponentWithOption', componentId, optionIndex, slot, reason: 'SDK' });
     }
 
-    /** Click an interface option by index. Convenience wrapper that looks up componentId from state. */
-    async sendClickInterfaceOption(optionIndex: number): Promise<ActionResult> {
+    /**
+     * Click an interface option by 0-based array position.
+     * Prefer clickInterfaceOption() when selecting from published state.
+     */
+    async sendClickInterfaceOption(arrayPosition: number): Promise<ActionResult> {
         const state = this.getState();
         if (!state?.interface?.isOpen) {
-            return { success: false, message: 'No interface open' };
+            return { success: false, message: 'No interface open', reason: 'no_interface' };
         }
 
         const options = state.interface.options;
-        if (optionIndex < 0 || optionIndex >= options.length) {
-            return { success: false, message: `Invalid option index ${optionIndex}, interface has ${options.length} options` };
+        if (arrayPosition < 0 || arrayPosition >= options.length) {
+            return {
+                success: false,
+                message: `Invalid array position ${arrayPosition}; interface has ${options.length} options`,
+                reason: 'no_match',
+            };
         }
 
-        const option = options[optionIndex];
+        const option = options[arrayPosition];
         if (!option) {
-            return { success: false, message: `Option ${optionIndex} not found` };
+            return { success: false, message: `Option at array position ${arrayPosition} not found`, reason: 'no_match' };
         }
 
+        return this.sendClickComponent(option.componentId);
+    }
+
+    /**
+     * Click exactly one interface option by its state object or visible text.
+     * This API never interprets InterfaceOption.index as an array position.
+     */
+    async clickInterfaceOption(selector: InterfaceOptionSelector): Promise<ActionResult> {
+        const state = this.getState();
+        if (!state?.interface?.isOpen) {
+            return { success: false, message: 'No interface open', reason: 'no_interface' };
+        }
+        const option: InterfaceOption | null = resolveInterfaceOption(state.interface.options, selector);
+        if (!option) {
+            const available = state.interface.options.map(candidate => `"${candidate.text}"`).join(', ') || '(none)';
+            return {
+                success: false,
+                message: `No interface option matched ${String(selector)}. Available: ${available}`,
+                reason: 'no_match',
+            };
+        }
         return this.sendClickComponent(option.componentId);
     }
 
