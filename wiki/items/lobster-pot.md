@@ -17,5 +17,6 @@
 
 ## Sources
 
+- Sold by: [Fremennik Fish Monger](../shops/fremennik-fish-monger.md) for 26 gp
 - Sold by: [Harrys Fishing Shop](../shops/harrys-fishing-shop.md) for 20 gp
 - Sold by: [Gerrant's Fishy Business](../shops/gerrants-fishy-business.md) for 20 gp

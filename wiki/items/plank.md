@@ -18,3 +18,7 @@
 | m49_57 | Ground | 1 |
 | m51_57 | Ground | 1 |
 | Rimmington | Ground | 1 |
+
+## Sources
+
+- Sold by: [Razmirebuildingstore](../shops/razmirebuildingstore.md) for 1 gp

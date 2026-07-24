@@ -20,3 +20,9 @@
 | Magic Attack | -4 |
 | Strength Bonus | +8 |
 | Attack Speed | 6 |
+
+## Sources
+
+- Sold by: [Skulgrimen's Battle Gear](../shops/skulgrimens-battle-gear.md) for 61 gp
+- Dropped by: [Warrior](../npcs/warrior.md) (3/128)
+- Dropped by: [Market Guard](../npcs/market-guard.md) (3/128)

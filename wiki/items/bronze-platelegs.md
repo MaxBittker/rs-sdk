@@ -24,4 +24,4 @@
 
 ## Sources
 
-- Sold by: [Louie's Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 80 gp
+- Sold by: [Louies' Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 80 gp

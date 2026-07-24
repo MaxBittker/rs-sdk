@@ -6,7 +6,7 @@
 | **Hitpoints** | 140 |
 | **Description** | One of the Troll Generals. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 3) |
 
 ## Combat Stats
 
@@ -23,9 +23,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_157 | m44_157 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_157 | m44_157 | (2831, 10086) L2 |
 
 ## Drops
 

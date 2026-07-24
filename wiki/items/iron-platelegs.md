@@ -31,5 +31,5 @@
 ## Sources
 
 - Sold by: [Horvik's Armour Shop](../shops/horviks-armour-shop.md) for 280 gp
-- Sold by: [Louie's Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 280 gp
+- Sold by: [Louies' Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 280 gp
 - Dropped by: [Ice giant](../npcs/ice-giant.md) (1/128)

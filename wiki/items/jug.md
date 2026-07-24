@@ -23,11 +23,15 @@
 
 ## Sources
 
+- Sold by: [Regicide General Shop](../shops/regicide-general-shop.md) for 1 gp
+- Sold by: [Quatermaster's Stores](../shops/quatermasters-stores.md) for 1 gp
+- Sold by: [Razmiregeneralstore](../shops/razmiregeneralstore.md) for 1 gp
 - Sold by: [Bandit Duty Free](../shops/bandit-duty-free.md) for 1 gp
 - Sold by: [Karamja General Store](../shops/karamja-general-store.md) for 1 gp
 - Sold by: [Frenita's Cookery Shop](../shops/frenitas-cookery-shop.md) for 1 gp
 - Sold by: [Dal's General Ogre Supplies](../shops/dals-general-ogre-supplies.md) for 1 gp
 - Sold by: [Khazard General Store](../shops/khazard-general-store.md) for 1 gp
+- Sold by: [The Lighthouse Store](../shops/the-lighthouse-store.md) for 1 gp
 - Sold by: [Varrock General Store](../shops/varrock-general-store.md) for 1 gp
 - Sold by: [General Store](../shops/general-store.md) for 2 gp
 - Sold by: [Burthorpe Supplies](../shops/burthorpe-supplies.md) for 1 gp

@@ -20,4 +20,5 @@
 
 ## Sources
 
+- Sold by: [Sigmund the Merchant](../shops/sigmund-the-merchant.md) for 5 gp
 - Dropped by: [Imp](../npcs/imp.md) (5/128)

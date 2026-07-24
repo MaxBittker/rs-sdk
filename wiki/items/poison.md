@@ -14,3 +14,7 @@
 | Area | Floor | Quantity |
 |------|-------|----------|
 | Wilderness (low) | Ground | 1 |
+
+## Sources
+
+- Sold by: [The Lighthouse Store](../shops/the-lighthouse-store.md) for 1 gp

@@ -7,7 +7,7 @@
 | **Type** | Other |
 | **Members** | Yes |
 | **Weight** | 7lb |
-| **Value** | 0 gp |
+| **Value** | 80 gp |
 
 ## Sources
 

@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_46 | m45_46 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_46 | m45_46 | (2883, 2951) |
 
 ## Interactions
 

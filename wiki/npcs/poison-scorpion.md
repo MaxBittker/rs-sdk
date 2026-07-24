@@ -24,10 +24,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Catherby | m42_50 |
-| m45_152 | m45_152 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Catherby | m42_50 | (2715, 3218) |
+| m45_152 | m45_152 | (2929, 9752) |
 
 ## Drops
 

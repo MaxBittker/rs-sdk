@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Varrock (north) | m50_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Varrock (north) | m50_53 | (3211, 3425) |
 
 ## Interactions
 

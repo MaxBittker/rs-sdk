@@ -22,4 +22,3 @@
 | [Pot of flour](../items/pot-of-flour.md) | 30 | 14 gp | 4 gp |
 | [Bailing bucket](../items/bailing-bucket.md) | 30 | 14 gp | 4 gp |
 | [Swamp paste](../items/swamp-paste.md) | 500 | 42 gp | 12 gp |
-| [Knife](../items/knife.md) | 2 | 8 gp | 2 gp |

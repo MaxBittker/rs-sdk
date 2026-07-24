@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m51_48 | m51_48 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m51_48 | m51_48 | (3304, 3123) |
 
 ## Interactions
 

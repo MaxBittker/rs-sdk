@@ -25,4 +25,4 @@
 ## Sources
 
 - Sold by: [Valaine's Shop of Champions](../shops/valaines-shop-of-champions.md) for 2496 gp
-- Sold by: [Louie's Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 1920 gp
+- Sold by: [Louies' Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 1920 gp

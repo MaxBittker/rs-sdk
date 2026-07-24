@@ -10,10 +10,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Ardougne (south) | m40_49 |
-| Edgeville area | m48_50 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Ardougne (south) | m40_49 | (2587, 3142) |
+| Edgeville area | m48_50 | (3123, 3245) |
 
 ## Interactions
 

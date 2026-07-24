@@ -24,20 +24,20 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Ardougne area | m40_48 |
-| Camelot area | m46_52 |
-| Edgeville area | m48_50 |
-| Falador (south) | m45_50 |
-| Karamja | m44_49 |
-| Lumbridge | m50_50 |
-| Seers' Village area | m41_50 |
-| Taverley | m47_51 |
-| Varrock | m50_52 |
-| Varrock (east) | m51_51 |
-| Varrock (south) | m50_51 |
-| Wilderness | m48_54, m49_53, m50_54 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Ardougne area | m40_48 | (2595, 3131) |
+| Camelot area | m46_52 | (2947, 3329) |
+| Edgeville area | m48_50 | (3073, 3250) |
+| Falador (south) | m45_50 | (2941, 3236) |
+| Karamja | m44_49 | (2832, 3170) |
+| Lumbridge | m50_50 | (3217, 3226) |
+| Seers' Village area | m41_50 | (2625, 3203) |
+| Taverley | m47_51 | (3009, 3307) |
+| Varrock | m50_52 | (3205, 3355) |
+| Varrock (east) | m51_51 | (3299, 3273) |
+| Varrock (south) | m50_51 | (3214, 3281) |
+| Wilderness | m48_54, m49_53, m50_54 | (3073, 3498), (3177, 3405), (3213, 3502) |
 
 ## Drops
 
@@ -49,7 +49,7 @@ Always drops: Ashes
 | Red bead | 5/128 |
 | White bead | 5/128 |
 | Yellow bead | 5/128 |
-| Bolt | 8/128 |
+| Bolts | 8/128 |
 | Wizards hat | 8/128 |
 | Egg | 5/128 |
 | Raw chicken | 5/128 |
@@ -72,7 +72,7 @@ Always drops: Ashes
 | Mind talisman | 7/128 |
 | Ashes | 6/128 |
 | Clay | 4/128 |
-| Cadaver berries | 4/128 |
+| Cadava berries | 4/128 |
 | Grain | 3/128 |
 | Chef's hat | 2/128 |
 | Flier | 2/128 |

@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | An experienced Sherpa. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 5) |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_55 | m44_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_55 | m44_55 | (2820, 3556) |
 
 ## Interactions
 

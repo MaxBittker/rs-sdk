@@ -8,12 +8,6 @@
 | **Aggressive** | No |
 | **Movement** | Wander |
 
-## Interactions
-
-| Option | Action |
-|--------|--------|
-| attack | attack |
-
 ## Drops
 
 Mummy has no drops.

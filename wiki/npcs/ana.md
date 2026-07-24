@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m51_147 | m51_147 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m51_147 | m51_147 | (3302, 9466) |
 
 ## Interactions
 

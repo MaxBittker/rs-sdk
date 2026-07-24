@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m37_150 | m37_150 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m37_150 | m37_150 | (2392, 9653) |
 
 ## Interactions
 

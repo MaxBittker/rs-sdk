@@ -3,7 +3,7 @@
 | Detail | |
 |---|---|
 | **Combat Level** | 101 |
-| **Hitpoints** | 90 |
+| **Hitpoints** | 120 |
 | **Description** | An unusually large troll. |
 | **Aggressive** | No |
 | **Movement** | Wander |
@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_56 | m45_56 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_56 | m45_56 | (2911, 3612) |
 
 ## Drops
 

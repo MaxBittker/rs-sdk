@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Taverley | m47_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Taverley | m47_51 | (3018, 3291) |
 
 ## Drops
 

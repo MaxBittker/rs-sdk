@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_53 | m44_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_53 | m44_53 | (2819, 3451) |
 
 ## Interactions
 

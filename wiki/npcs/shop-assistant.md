@@ -10,15 +10,15 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Al Kharid | m51_49 |
-| Camelot area | m46_52 |
-| Falador | m46_50 |
-| Karamja | m45_49 |
-| Lumbridge | m50_50 |
-| Varrock (north) | m50_53 |
-| Wilderness | m48_54 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Al Kharid | m51_49 | (3316, 3182) |
+| Camelot area | m46_52 | (2955, 3389) |
+| Falador | m46_50 | (2948, 3216) |
+| Karamja | m45_49 | (2902, 3150) |
+| Lumbridge | m50_50 | (3212, 3247) |
+| Varrock (north) | m50_53 | (3217, 3411) |
+| Wilderness | m48_54 | (3081, 3511) |
 
 ## Interactions
 

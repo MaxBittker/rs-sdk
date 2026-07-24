@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m39_55 | m39_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m39_55 | m39_55 | (2540, 3548) |
 
 ## Interactions
 

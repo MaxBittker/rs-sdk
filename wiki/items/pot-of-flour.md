@@ -11,6 +11,7 @@
 
 ## Sources
 
+- Sold by: [Razmiregeneralstore](../shops/razmiregeneralstore.md) for 10 gp
 - Sold by: [Frenita's Cookery Shop](../shops/frenitas-cookery-shop.md) for 10 gp
 - Sold by: [Khazard General Store](../shops/khazard-general-store.md) for 14 gp
 - Sold by: [Foodshop](../shops/foodshop.md) for 10 gp

@@ -6,7 +6,7 @@
 | **Hitpoints** | 90 |
 | **Description** | Small for a troll but mean and ugly. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 5) |
 | **Respawn** | 100 ticks |
 
 ## Combat Stats
@@ -17,20 +17,20 @@
 | Strength Bonus | 20 |
 | Stab Defence | 0 |
 | Slash Defence | 0 |
-| Crush Defence | 0 |
+| Crush Defence | 10 |
 | Magic Defence | 200 |
 | Range Defence | 200 |
 | Attack Style | Crush |
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| m44_157 | m44_157 |
-| m44_56 | m44_56 |
-| m44_57 | m44_57 |
-| m45_156 | m45_156 |
-| m45_56 | m45_56 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_157 | m44_157 | (2829, 10079) L1, (2855, 10054) L2 |
+| m44_56 | m44_56 | (2852, 3591) |
+| m44_57 | m44_57 | (2856, 3683) |
+| m45_156 | m45_156 | (2921, 10032) |
+| m45_56 | m45_56 | (2916, 3631) |
 
 ## Drops
 

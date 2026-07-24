@@ -1,6 +1,6 @@
 # Wine of zamorak
 
-*I wonder if stealing Zamorak's wine was a good idea.*
+*An evil wine for an evil god.*
 
 | Detail | |
 |---|---|

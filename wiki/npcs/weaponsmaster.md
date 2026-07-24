@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Varrock | m50_52 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Varrock | m50_52 | (3246, 3384) L1 |
 
 ## Drops
 

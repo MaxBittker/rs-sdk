@@ -6,7 +6,7 @@
 | **Hitpoints** | 135 |
 | **Description** | A big, bad troll. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 3) |
 | **Respawn** | 100 ticks |
 
 ## Combat Stats
@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_56 | m44_56 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_56 | m44_56 | (2857, 3591) |
 
 ## Drops
 
@@ -262,4 +262,5 @@ Always drops: Big bones
 ## Notes
 
 - Associated with the **Death** quest.
+- Will flee from combat when attacked.
 - Category: Troll General.

@@ -6,14 +6,14 @@
 | **Hitpoints** | N/A |
 | **Description** | Human is his speciality. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 3) |
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Lumbridge | m50_50 |
-| m44_157 | m44_157 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Lumbridge | m50_50 | (3209, 3215) |
+| m44_157 | m44_157 | (2842, 10056) L1 |
 
 ## Drops
 

@@ -10,15 +10,15 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m37_54 | m37_54 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m37_54 | m37_54 | (2393, 3483) |
 
 ## Interactions
 
 | Option | Action |
 |--------|--------|
-| Talk-to | Talk-to |
+| Pass-to | Pass-to |
 
 ## Drops
 

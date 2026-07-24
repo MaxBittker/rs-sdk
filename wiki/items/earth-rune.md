@@ -24,7 +24,6 @@
 - Sold by: [Aubury's Rune Shop](../shops/auburys-rune-shop.md) for 4 gp
 - Sold by: [Lundail's Arena-side Rune Shop](../shops/lundails-arena-side-rune-shop.md) for 4 gp
 - Sold by: [Betty's Magic Emporium](../shops/bettys-magic-emporium.md) for 4 gp
-- Dropped by: [Unferth](../npcs/unferth.md) (2/128)
 - Dropped by: [Tower guard](../npcs/tower-guard.md) (2/128)
 - Dropped by: [Farmer](../npcs/farmer.md) (2/128)
 - Dropped by: [Dark warrior](../npcs/dark-warrior.md) (1/128)
@@ -35,7 +34,6 @@
 - Dropped by: [Pee Hat](../npcs/pee-hat.md) (4/128)
 - Dropped by: [Chaos druid warrior](../npcs/chaos-druid-warrior.md) (2/128)
 - Dropped by: [Wizard](../npcs/wizard.md) (3/128)
-- Dropped by: [Ocga](../npcs/ocga.md) (2/128)
 - Dropped by: [Colonel Radick](../npcs/colonel-radick.md) (2/128)
 - Dropped by: [Chaos druid](../npcs/chaos-druid.md) (2/128)
 - Dropped by: [Earth warrior](../npcs/earth-warrior.md) (13/128)
@@ -45,7 +43,6 @@
 - Dropped by: [Dark wizard](../npcs/dark-wizard.md) (4/128)
 - Dropped by: [Goblin](../npcs/goblin.md) (3/128)
 - Dropped by: [Gunthor the brave](../npcs/gunthor-the-brave.md) (3/128)
-- Dropped by: [Breoca](../npcs/breoca.md) (2/128)
 - Dropped by: [Pirate](../npcs/pirate.md) (2/128)
 - Dropped by: [Rock](../npcs/rock.md) (4/128)
 - Dropped by: [Soldier](../npcs/soldier.md) (2/128)
@@ -53,11 +50,9 @@
 - Dropped by: [Barbarian woman](../npcs/barbarian-woman.md) (3/128)
 - Dropped by: [Stick](../npcs/stick.md) (4/128)
 - Dropped by: [Rogue](../npcs/rogue.md) (2/128)
-- Dropped by: [Hygd](../npcs/hygd.md) (2/128)
 - Dropped by: [Thief](../npcs/thief.md) (2/128)
 - Dropped by: [Troll General](../npcs/troll-general.md) (4/128)
 - Dropped by: [Kraka](../npcs/kraka.md) (4/128)
-- Dropped by: [Ceolburg](../npcs/ceolburg.md) (2/128)
 - Dropped by: [Barbarian](../npcs/barbarian.md) (3/128)
 - Dropped by: [Necromancer](../npcs/necromancer.md) (4/128)
 - Dropped by: [Mugger](../npcs/mugger.md) (2/128)
@@ -65,5 +60,3 @@
 - Dropped by: [Man](../npcs/man.md) (2/128)
 - Dropped by: [Black Knight](../npcs/black-knight.md) (3/128)
 - Dropped by: [Skeleton](../npcs/skeleton.md) (2/128)
-- Dropped by: [Hild](../npcs/hild.md) (2/128)
-- Dropped by: [Penda](../npcs/penda.md) (2/128)

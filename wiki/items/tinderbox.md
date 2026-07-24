@@ -17,6 +17,9 @@
 
 ## Sources
 
+- Sold by: [Regicide General Shop](../shops/regicide-general-shop.md) for 1 gp
+- Sold by: [Quatermaster's Stores](../shops/quatermasters-stores.md) for 1 gp
+- Sold by: [Razmiregeneralstore](../shops/razmiregeneralstore.md) for 1 gp
 - Sold by: [Bandit Duty Free](../shops/bandit-duty-free.md) for 1 gp
 - Sold by: [Karamja General Store](../shops/karamja-general-store.md) for 1 gp
 - Sold by: [Jiminua's Jungle Store](../shops/jiminuas-jungle-store.md) for 1 gp
@@ -25,6 +28,8 @@
 - Sold by: [Aemad's Adventuring Supplies](../shops/aemads-adventuring-supplies.md) for 1 gp
 - Sold by: [Khazard General Store](../shops/khazard-general-store.md) for 1 gp
 - Sold by: [West Ardougne General Store](../shops/west-ardougne-general-store.md) for 1 gp
+- Sold by: [Sigmund the Merchant](../shops/sigmund-the-merchant.md) for 1 gp
+- Sold by: [The Lighthouse Store](../shops/the-lighthouse-store.md) for 1 gp
 - Sold by: [Varrock General Store](../shops/varrock-general-store.md) for 1 gp
 - Sold by: [General Store](../shops/general-store.md) for 1 gp
 - Sold by: [Burthorpe Supplies](../shops/burthorpe-supplies.md) for 1 gp

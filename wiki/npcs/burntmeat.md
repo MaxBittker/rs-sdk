@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | Human is his speciality. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Stationary |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_157 | m44_157 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_157 | m44_157 | (2844, 10057) L1 |
 
 ## Interactions
 
@@ -26,4 +26,4 @@ Burntmeat has no drops.
 
 ## Notes
 
-- Associated with the **Troll** quest.
+- Associated with the **Eadgar** quest.

@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m38_49 | m38_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m38_49 | m38_49 | (2438, 3186) |
 
 ## Interactions
 

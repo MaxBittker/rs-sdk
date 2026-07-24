@@ -6,13 +6,13 @@
 | **Hitpoints** | N/A |
 | **Description** | Commander of the Imperial Guard. |
 | **Aggressive** | No |
-| **Movement** | Stationary (indoors) |
+| **Movement** | Wander (range 2) |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_55 | m45_55 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_55 | m45_55 | (2896, 3528) |
 
 ## Interactions
 

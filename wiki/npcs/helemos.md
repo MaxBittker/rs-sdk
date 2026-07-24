@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m45_54 | m45_54 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m45_54 | m45_54 | (2894, 3510) L1 |
 
 ## Interactions
 

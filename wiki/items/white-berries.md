@@ -13,6 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| m35_49 | Ground | 1 |
 | m50_59 | Ground | 1 |
 
 ## Sources

@@ -1,6 +1,6 @@
 # Zamorak platelegs
 
-*Rune platelegs in the colours of zamorak.*
+*Rune platelegs in the colours of Zamorak.*
 
 | Detail | |
 |---|---|

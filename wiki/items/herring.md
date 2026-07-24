@@ -17,4 +17,5 @@
 
 ## Sources
 
+- Sold by: [Fishrestaurant](../shops/fishrestaurant.md) for 15 gp
 - Sold by: [The Shrimp and Parrot](../shops/the-shrimp-and-parrot.md) for 19 gp

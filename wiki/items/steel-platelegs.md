@@ -30,6 +30,6 @@
 
 ## Sources
 
-- Sold by: [Louie's Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 1000 gp
+- Sold by: [Louies' Armoured Legs Bazaar](../shops/louies-armoured-legs-bazaar.md) for 1000 gp
 - Dropped by: [Green dragon](../npcs/green-dragon.md) (4/128)
 - Dropped by: [Blue dragon](../npcs/blue-dragon.md) (4/128)

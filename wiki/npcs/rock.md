@@ -4,9 +4,9 @@
 |---|---|
 | **Combat Level** | 111 |
 | **Hitpoints** | 140 |
-| **Description** | The biggest and badest troll. |
+| **Description** | The biggest and baddest troll. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 3) |
 | **Respawn** | 100 ticks |
 
 ## Combat Stats
@@ -20,13 +20,13 @@
 | Crush Defence | 35 |
 | Magic Defence | 200 |
 | Range Defence | 200 |
-| Attack Style | Crush |
+| Attack Style | Slash |
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m44_56 | m44_56 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m44_56 | m44_56 | (2855, 3591) |
 
 ## Drops
 
@@ -262,4 +262,5 @@ Always drops: Big bones
 ## Notes
 
 - Associated with the **Death** quest.
+- Will flee from combat when attacked.
 - Category: Troll General.

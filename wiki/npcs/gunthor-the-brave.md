@@ -24,9 +24,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Wilderness | m48_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Wilderness | m48_53 | (3081, 3444) |
 
 ## Drops
 

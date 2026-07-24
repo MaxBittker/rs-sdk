@@ -1,4 +1,4 @@
-# Authentic Throwing Weapons
+# Authentic throwing weapons
 
 | Detail | |
 |---|---|

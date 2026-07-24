@@ -1,4 +1,4 @@
-# Louie's Armoured Legs Bazaar
+# Louies' Armoured Legs Bazaar
 
 | Detail | |
 |---|---|

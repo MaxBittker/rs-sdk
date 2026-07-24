@@ -24,22 +24,23 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Camelot area | m46_52 |
-| Falador (north) | m46_51 |
-| m39_52 | m39_52 |
-| m40_51 | m40_51 |
-| m41_51 | m41_51 |
-| m41_52 | m41_52 |
-| m41_53 | m41_53 |
-| m42_55 | m42_55 |
-| m44_157 | m44_157 |
-| m45_55 | m45_55 |
-| m46_53 | m46_53 |
-| Varrock | m50_52 |
-| Varrock (north) | m50_53 |
-| Wilderness | m48_54, m49_53, m50_54, m51_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Camelot area | m46_52 | (2950, 3379) |
+| Falador (north) | m46_51 | (3006, 3321) |
+| m39_52 | m39_52 | (2510, 3378) |
+| m40_51 | m40_51 | (2570, 3275) |
+| m41_51 | m41_51 | (2651, 3307) |
+| m41_52 | m41_52 | (2635, 3339) |
+| m41_53 | m41_53 | (2655, 3426) |
+| m41_57 | m41_57 | (2657, 3663) |
+| m42_55 | m42_55 | (2739, 3577) |
+| m44_157 | m44_157 | (2850, 10092) |
+| m45_55 | m45_55 | (2896, 3566) |
+| m46_53 | m46_53 | (2964, 3396) |
+| Varrock | m50_52 | (3205, 3379) |
+| Varrock (north) | m50_53 | (3263, 3407) |
+| Wilderness | m48_54, m49_53, m50_54, m51_53 | (3085, 3518), (3173, 3429), (3175, 3403) L1, (3201, 3495) L1, (3204, 3496), (3271, 3428) |
 
 ## Drops
 
@@ -73,7 +74,7 @@ Always drops: Bones
 
 ## Notes
 
-- Has 21 visual variants (guard1, guard2, death_guard1, death_guard2, murderguard, troll_sguard1, troll_sguard2, troll_sguard3, troll_sguard4, troll_sguard5, troll_sguard6, troll_sguard7, troll_sguard8, eadgar_storeroom_guard, guard_carnillean, bioguard1, ranging_guild_guard, lathastrainer1, lathastrainer2, lathastrainer3, ardougne_guard).
+- Has 23 visual variants (guard1, guard2, viking_longhall_guard1, viking_longhall_guard2, death_guard1, death_guard2, troll_sguard1, troll_sguard2, troll_sguard3, troll_sguard4, troll_sguard5, troll_sguard6, troll_sguard7, troll_sguard8, eadgar_storeroom_guard, murderguard, guard_carnillean, bioguard1, ranging_guild_guard, lathastrainer1, lathastrainer2, lathastrainer3, ardougne_guard).
 - Can be pickpocketed for Thieving experience.
 - Category: Guard.
 - Can drop medium clue scrolls.

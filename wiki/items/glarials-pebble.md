@@ -1,4 +1,4 @@
-# Glarials pebble
+# Glarial's pebble
 
 *A small pebble with elven inscription.*
 

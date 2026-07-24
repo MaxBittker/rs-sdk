@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m40_54 | m40_54 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m40_54 | m40_54 | (2612, 3474) |
 
 ## Interactions
 

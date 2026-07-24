@@ -4,7 +4,7 @@
 |---|---|
 | **Combat Level** | 44 |
 | **Hitpoints** | 50 |
-| **Description** | A venomous deadly spider. |
+| **Description** | A barely visible deadly jungle spider. |
 | **Aggressive** | No |
 | **Movement** | Wander (range 10) |
 | **Respawn** | 60 ticks |
@@ -24,17 +24,17 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Brimhaven | m44_48 |
-| Feldip Hills | m43_48 |
-| Gnome Stronghold | m43_50 |
-| m43_46 | m43_46 |
-| m43_47 | m43_47 |
-| m44_47 | m44_47 |
-| m45_46 | m45_46 |
-| m45_47 | m45_47 |
-| Yanille | m41_48 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Brimhaven | m44_48 | (2855, 3085) |
+| Feldip Hills | m43_48 | (2777, 3116) |
+| Gnome Stronghold | m43_50 | (2767, 3204) |
+| m43_46 | m43_46 | (2810, 2981) |
+| m43_47 | m43_47 | (2780, 3029) |
+| m44_47 | m44_47 | (2844, 3061) |
+| m45_46 | m45_46 | (2883, 2996) |
+| m45_47 | m45_47 | (2914, 3046) |
+| Yanille | m41_48 | (2667, 3090) |
 
 ## Drops
 

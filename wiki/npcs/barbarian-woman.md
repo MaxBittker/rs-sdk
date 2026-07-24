@@ -24,11 +24,11 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| m39_55 | m39_55 |
-| Varrock (north) | m50_53 |
-| Wilderness | m48_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m39_55 | m39_55 | (2548, 3558) |
+| Varrock (north) | m50_53 | (3225, 3395) |
+| Wilderness | m48_53 | (3075, 3420) |
 
 ## Drops
 

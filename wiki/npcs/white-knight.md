@@ -6,7 +6,7 @@
 | **Hitpoints** | 52 |
 | **Description** | The Knight seems to be watching something. |
 | **Aggressive** | No |
-| **Movement** | Wander |
+| **Movement** | Wander (range 5) |
 | **Respawn** | 100 ticks |
 
 ## Combat Stats
@@ -24,10 +24,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Camelot area | m46_52 |
-| m45_54 | m45_54 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Camelot area | m46_52 | (2956, 3337), (2957, 3341) L2, (2958, 3341) L1, (2960, 3338) L3 |
+| m45_54 | m45_54 | (2921, 3514) |
 
 ## Drops
 

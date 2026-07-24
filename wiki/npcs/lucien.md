@@ -24,10 +24,10 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| m40_51 | m40_51 |
-| Wilderness | m49_54 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m40_51 | m40_51 | (2573, 3321) |
+| Wilderness | m49_54 | (3176, 3476) |
 
 ## Drops
 

@@ -23,11 +23,12 @@
 
 ## Locations
 
-| Area | Map |
-|------|-----|
-| Edgeville area | m48_51 |
-| m42_55 | m42_55 |
-| Taverley | m47_51 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Edgeville area | m48_51 | (3110, 3295) |
+| Falador (north) | m46_51 | (3007, 3273) |
+| m42_55 | m42_55 | (2735, 3521) |
+| Taverley | m47_51 | (3009, 3280) |
 
 ## Drops
 

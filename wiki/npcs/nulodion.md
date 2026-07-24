@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m47_53 | m47_53 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m47_53 | m47_53 | (3011, 3453) |
 
 ## Interactions
 

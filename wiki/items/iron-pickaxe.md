@@ -25,6 +25,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| m41_58 | Ground | 1 |
 | m52_152 | Ground | 1 |
 | m52_153 | Ground | 1 |
 

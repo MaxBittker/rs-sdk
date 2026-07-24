@@ -17,5 +17,3 @@
 | [Tinderbox](../items/tinderbox.md) | 2 | 1 gp | 0 gp |
 | [Chisel](../items/chisel.md) | 2 | 1 gp | 0 gp |
 | [Hammer](../items/hammer.md) | 5 | 1 gp | 0 gp |
-| [Knife](../items/knife.md) | 2 | 7 gp | 2 gp |
-| [Empty cup](../items/empty-cup.md) | 20 | 2 gp | 0 gp |

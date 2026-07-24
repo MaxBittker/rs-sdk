@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Karamja | m45_49 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| Karamja | m45_49 | (2925, 3143) |
 
 ## Interactions
 

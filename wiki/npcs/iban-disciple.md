@@ -9,11 +9,12 @@
 | **Movement** | Wander |
 | **Respawn** | 500 ticks |
 
-## Location
+## Locations
 
-| Area | Map |
-|------|-----|
-| m33_72 | m33_72 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m31_73 | m31_73 | (2021, 4710) L1 |
+| m33_72 | m33_72 | (2149, 4646) L1 |
 
 ## Drops
 

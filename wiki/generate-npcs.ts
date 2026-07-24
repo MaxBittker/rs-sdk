@@ -1229,6 +1229,10 @@ function generateNotes(page: NpcPage): string[] {
 
 function updateReadme(pages: { name: string; file: string }[]) {
     const readmePath = join(WIKI_DIR, 'README.md');
+    if (!existsSync(readmePath)) {
+        console.log('  No wiki/README.md; skipping index update');
+        return;
+    }
     let content = readFileSync(readmePath, 'utf-8');
 
     // Remove existing NPCs section if present

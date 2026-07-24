@@ -23,9 +23,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| Shilo Village area | m45_48 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m39_71 | m39_71 | (2547, 4580) |
 
 ## Drops
 

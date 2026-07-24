@@ -1,11 +1,11 @@
 # Vase
 
-*A vessel for holding plants.*
+*An unusually shaped vase. You can see something glinting inside.*
 
 | Detail | |
 |---|---|
 | **Type** | Quest Item |
 | **Members** | Yes |
-| **Weight** | 500g |
+| **Weight** | 1g |
 | **Value** | 0 gp |
 | **Tradeable** | No |

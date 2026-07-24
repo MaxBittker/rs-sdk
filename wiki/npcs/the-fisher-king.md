@@ -10,9 +10,9 @@
 
 ## Location
 
-| Area | Map |
-|------|-----|
-| m43_73 | m43_73 |
+| Area | Map | Coordinate samples |
+|------|-----|--------------------|
+| m43_73 | m43_73 | (2762, 4688) L1 |
 
 ## Interactions
 
