@@ -85,6 +85,23 @@ if (shopItem && shopItem.count > 0) {
 }
 ```
 
+## Partial Fills
+
+`bot.buyFromShop` / `bot.sellToShop` report `success: true` only when the whole
+requested amount went through. Running out of stock, coins, or inventory space
+gives `success: false` with `partial: true` — read the amount rather than
+assuming the request was filled:
+
+```typescript
+const bought = await bot.buyFromShop(/bronze pickaxe/i, 5);
+if (!bought.success) {
+    console.log(`Got ${bought.amountBought} of ${bought.requestedAmount} (${bought.reason})`);
+}
+```
+
+Quantities above 1000 are rejected up front rather than expanded into thousands
+of Buy-1 packets.
+
 ## Money-Making Alternatives
 
 Since general stores are unreliable for selling, consider:

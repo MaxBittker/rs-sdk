@@ -25,6 +25,13 @@ import type {
 import { PRAYER_INDICES, PRAYER_NAMES, PLAYER_CHAT_TYPES, isPlayerChat } from './types';
 import { ChatHistory } from './chat-history';
 import * as pathfinding from './pathfinding';
+import { resolveInterfaceOption, type InterfaceOptionSelector } from './action-quantity';
+
+function selectorLabel(selector: InterfaceOptionSelector): string {
+    if (typeof selector === 'string') return `"${selector}"`;
+    if (selector instanceof RegExp) return String(selector);
+    return `option "${selector.text}"`;
+}
 
 /**
  * Derive the gateway WebSocket URL from a SERVER env value.
@@ -704,12 +711,12 @@ export class BotSDK {
         });
     }
 
-    /** Get a skill by name (case-insensitive). */
+    /** Get a skill by name (case-insensitive; "hp"/"hitpoint" alias Hitpoints). */
     getSkill(name: string): SkillState | null {
         if (!this.state) return null;
-        return this.state.skills.find(s =>
-            s.name.toLowerCase() === name.toLowerCase()
-        ) || null;
+        const requested = name.trim().toLowerCase();
+        const normalized = /^(hp|hitpoint|hitpoints)$/.test(requested) ? 'hitpoints' : requested;
+        return this.state.skills.find(s => s.name.toLowerCase() === normalized) || null;
     }
 
     /** Get XP for a skill by name. */
@@ -1092,23 +1099,53 @@ export class BotSDK {
         return this.sendAction({ type: 'clickComponentWithOption', componentId, optionIndex, slot, reason: 'SDK' });
     }
 
-    /** Click an interface option by index. Convenience wrapper that looks up componentId from state. */
-    async sendClickInterfaceOption(optionIndex: number): Promise<ActionResult> {
+    /**
+     * Click an interface option by **0-based array position**.
+     *
+     * Note the mismatch: `InterfaceOption.index` is a 1-based display label, so
+     * passing one straight through clicks the option after the one you matched.
+     * Prefer `clickInterfaceOption()` when selecting from published state.
+     */
+    async sendClickInterfaceOption(arrayPosition: number): Promise<ActionResult> {
         const state = this.getState();
         if (!state?.interface?.isOpen) {
-            return { success: false, message: 'No interface open' };
+            return { success: false, message: 'No interface open', reason: 'no_interface' };
         }
 
         const options = state.interface.options;
-        if (optionIndex < 0 || optionIndex >= options.length) {
-            return { success: false, message: `Invalid option index ${optionIndex}, interface has ${options.length} options` };
+        const option = options[arrayPosition];
+        if (arrayPosition < 0 || arrayPosition >= options.length || !option) {
+            return {
+                success: false,
+                message: `Invalid array position ${arrayPosition}; interface has ${options.length} options (0..${options.length - 1})`,
+                reason: 'no_match',
+            };
         }
 
-        const option = options[optionIndex];
+        return this.sendClickComponent(option.componentId);
+    }
+
+    /**
+     * Click exactly one interface option, selected by its state object or by
+     * visible text (substring for strings, match for regexes).
+     *
+     * This dispatches the option's `componentId` and never interprets
+     * `InterfaceOption.index` as an array position.
+     */
+    async clickInterfaceOption(selector: InterfaceOptionSelector): Promise<ActionResult> {
+        const state = this.getState();
+        if (!state?.interface?.isOpen) {
+            return { success: false, message: 'No interface open', reason: 'no_interface' };
+        }
+        const option = resolveInterfaceOption(state.interface.options, selector);
         if (!option) {
-            return { success: false, message: `Option ${optionIndex} not found` };
+            const available = state.interface.options.map(o => `"${o.text}"`).join(', ') || '(none)';
+            return {
+                success: false,
+                message: `No interface option matched ${selectorLabel(selector)}. Available: ${available}`,
+                reason: 'no_match',
+            };
         }
-
         return this.sendClickComponent(option.componentId);
     }
 

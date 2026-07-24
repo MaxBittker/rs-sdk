@@ -24,6 +24,17 @@ const withdrawAll = await bot.withdrawItem(0, -1);  // withdraws all from slot 0
 await bot.closeBank();
 ```
 
+`success` on deposit/withdraw means the **full** requested amount moved. A short
+fill returns `success: false` with `partial: true`, so check the amount instead
+of assuming you got everything:
+
+```typescript
+const ore = await bot.withdrawItem(/iron ore/i, 28);
+if (!ore.success) {
+    console.log(`Only got ${ore.amountWithdrawn} of ${ore.requestedAmount} (${ore.reason})`);
+}
+```
+
 
 
 ## Depositing Items

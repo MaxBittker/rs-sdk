@@ -181,7 +181,20 @@ export interface DialogState {
 export interface InterfaceState {
     isOpen: boolean;
     interfaceId: number;
-    options: Array<{ index: number; text: string; componentId: number }>;
+    options: InterfaceOption[];
+}
+
+/** A clickable viewport-interface option as published in world state. */
+export interface InterfaceOption {
+    /**
+     * Human-facing 1-based ordinal, for display only. Never pass this to
+     * `sendClickInterfaceOption`, which takes a 0-based array position — use
+     * `sdk.clickInterfaceOption(option)` to dispatch by componentId instead.
+     */
+    index: number;
+    text: string;
+    /** Stable component dispatched when this option is selected. */
+    componentId: number;
 }
 
 export interface ShopItem {
@@ -497,19 +510,31 @@ export interface TalkResult {
 }
 
 export interface ShopResult {
+    /** True only when the full requested amount was bought. */
     success: boolean;
     item?: InventoryItem;
     message: string;
+    requestedAmount?: number;
+    amountBought?: number;
+    /** Some but not all of the requested amount was bought. */
+    partial?: boolean;
+    reason?: 'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'partial_fill' | 'timeout';
 }
 
 export interface ShopSellResult {
+    /** True only when the full requested amount was sold. */
     success: boolean;
     message: string;
+    requestedAmount?: number;
     amountSold?: number;
+    /** Some but not all of the requested amount was sold. */
+    partial?: boolean;
     rejected?: boolean;
+    reason?: 'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'rejected' | 'partial_fill' | 'timeout';
 }
 
-export type SellAmount = 1 | 5 | 10 | 'all';
+/** Any positive integer up to MAX_SHOP_ACTION_QUANTITY, or 'all'. */
+export type SellAmount = number | 'all';
 
 export interface EquipResult {
     success: boolean;
@@ -580,17 +605,26 @@ export interface OpenBankResult {
 }
 
 export interface BankDepositResult {
+    /** True only when the full requested amount was deposited. */
     success: boolean;
     message: string;
+    requestedAmount?: number;
     amountDeposited?: number;
-    reason?: 'bank_not_open' | 'item_not_found' | 'timeout';
+    /** Some but not all of the requested amount was deposited. */
+    partial?: boolean;
+    reason?: 'invalid_amount' | 'bank_not_open' | 'item_not_found' | 'partial_fill' | 'timeout';
 }
 
 export interface BankWithdrawResult {
+    /** True only when the full requested amount was withdrawn. */
     success: boolean;
     message: string;
     item?: InventoryItem;
-    reason?: 'bank_not_open' | 'item_not_found' | 'timeout';
+    requestedAmount?: number;
+    amountWithdrawn?: number;
+    /** Some but not all of the requested amount was withdrawn. */
+    partial?: boolean;
+    reason?: 'invalid_amount' | 'bank_not_open' | 'item_not_found' | 'partial_fill' | 'timeout';
 }
 
 export interface UseItemOnLocResult {

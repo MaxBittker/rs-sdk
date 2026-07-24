@@ -69,8 +69,8 @@
 |---|---|
 | `async closeShop(timeout: number = 5000): Promise<ActionResult>` | Close the shop interface. |
 | `async openShop(target: NearbyNpc \| string \| RegExp = /shop\s*keeper/i): Promise<ActionResult>` | Open a shop by trading with an NPC. |
-| `async buyFromShop(target: ShopItem \| string \| RegExp, amount: number = 1): Promise<ShopResult>` | Buy an item from an open shop . |
-| `async sellToShop(target: InventoryItem \| ShopItem \| string \| RegExp, amount: SellAmount = 1): Promise<ShopSellResult>` | Sell an item to an open shop. |
+| `async buyFromShop(target: ShopItem \| string \| RegExp, amount: number = 1): Promise<ShopResult>` | Buy an item from an open shop. `success` is true only when the full requested amount arrived; a short fill (out of stock, out of coins, full inventory) returns `success: false` with `partial: true` and the actual `amountBought`. |
+| `async sellToShop(target: InventoryItem \| ShopItem \| string \| RegExp, amount: SellAmount = 1): Promise<ShopSellResult>` | Sell an item to an open shop. `success` is true only when the full requested amount was sold; a short fill returns `success: false` with `partial: true` and `amountSold`. |
 
 ### Banking
 
@@ -149,7 +149,7 @@
 | `getChat(opts: { limit?: number; types?: readonly number[]; includeSelf?: boolean } = {}): GameMessage[]` | Read recent chat messages. Returns player chat (public + PMs) by default, newest last. Reads from the SDK's accumulated history — up to 500 messages retained since connect — so old lines survive both system spam (level-ups, combat) and the client's own 100-deep ring eviction. |
 | `getNewChat(opts: { types?: readonly number[]; includeSelf?: boolean } = {}): GameMessage[]` | Read only chat messages that have arrived since the last call (cursor-based, newest last). Repeat polls never re-show the same message — no need to hand-roll a baseline. The first call returns everything seen since connect. Excludes your own messages by default. |
 | `getChatFrom(name: string, opts: { limit?: number } = {}): GameMessage[]` | Read recent chat from a specific sender (case-insensitive, substring match on name), newest last, from the accumulated history. Handy for "what did my partner say?" without regex-matching the sender field yourself. |
-| `getSkill(name: string): SkillState \| null` | Get a skill by name (case-insensitive). |
+| `getSkill(name: string): SkillState \| null` | Get a skill by name (case-insensitive; "hp"/"hitpoint" alias Hitpoints). |
 | `getSkillXp(name: string): number \| null` | Get XP for a skill by name. |
 | `getSkills(): SkillState[]` | Get all skills. |
 | `getInventoryItem(slot: number): InventoryItem \| null` | Get inventory item by slot number. |
@@ -174,6 +174,7 @@
 | `getPrayerState(): PrayerState \| null` | Get current prayer state from world state. |
 | `isPrayerActive(prayer: PrayerName \| number): boolean` | Check if a specific prayer is currently active. |
 | `getActivePrayers(): PrayerName[]` | Get list of all currently active prayer names. |
+| `isDoorTemporarilyBlocked(level: number, x: number, z: number): boolean` | Check this SDK session's non-expired temporary door evidence. |
 
 ### Other
 
@@ -181,6 +182,9 @@
 |---|---|
 | `async checkBotStatus(): Promise<BotStatus>` | Check bot status via gateway HTTP endpoint. Returns info about whether bot is connected and who else is controlling/observing. |
 | `async launchBrowser(): Promise<void>` | Launch native browser to client URL. Uses the `open` package for cross-platform support (macOS, Windows, Linux, WSL). Falls back to printing the URL if no browser can be opened. |
+| `countInventoryItems(pattern: string \| RegExp): number` | Count total item quantity matching a name pattern. This sums stack sizes across every matching slot. Use `getInventory().filter(...)` when the number of occupied slots is needed. |
+| `async clickInterfaceOption(selector: InterfaceOptionSelector): Promise<ActionResult>` | Click exactly one interface option, selected by its state object or by visible text (substring for strings, match for regexes). This dispatches the option's `componentId` and never interprets `InterfaceOption.index` as an array position. |
+| `blockDoorTemporarily(level: number, x: number, z: number, ttlMs: number = 30_000): boolean` | Temporarily exclude a known door from this SDK instance's path queries. The shared collision map is never mutated beyond the synchronous query. |
 
 ### Condition Waiting
 
@@ -224,7 +228,7 @@
 | `async clickDialogByText(pattern: string \| RegExp): Promise<ActionResult>` | Click a dialog option whose visible text matches `pattern`. Convenience wrapper that resolves the server-assigned index for you, sidestepping the 1-based vs 0-based array-position confusion of `sendClickDialog()`. Matches against `DialogOption.text` (case-insensitive by default for string patterns). |
 | `async sendClickComponent(componentId: number): Promise<ActionResult>` | Click a component using IF_BUTTON packet - for simple buttons, spellcasting, etc. |
 | `async sendClickComponentWithOption(componentId: number, optionIndex: number = 1, slot: number = 0): Promise<ActionResult>` | Click a component using INV_BUTTON packet - for components with inventory operations (smithing, crafting, etc.) |
-| `async sendClickInterfaceOption(optionIndex: number): Promise<ActionResult>` | Click an interface option by index. Convenience wrapper that looks up componentId from state. |
+| `async sendClickInterfaceOption(arrayPosition: number): Promise<ActionResult>` | Click an interface option by **0-based array position**. Note the mismatch: `InterfaceOption.index` is a 1-based display label, so passing one straight through clicks the option after the one you matched. Prefer `clickInterfaceOption()` when selecting from published state. |
 | `async sendAcceptCharacterDesign(): Promise<ActionResult>` | Accept character design in tutorial. |
 | `async sendRandomizeCharacterDesign(): Promise<ActionResult>` | Randomize character appearance in tutorial. |
 | `async sendShopBuy(slot: number, amount: number = 1): Promise<ActionResult>` | Buy from shop by slot and amount. |
@@ -295,6 +299,14 @@ interface PlayerState {
   spotanimId: number;
   /** Combat state tracking */
   combat: PlayerCombatState;
+  /** True while the player's hitpoints are zero. */
+  isDead: boolean;
+  /** Changes after each observed death/respawn cycle. */
+  lifeId: number;
+  /** Number of respawns observed during this client session. */
+  respawnCount: number;
+  /** Public game tick when death was last observed, or null if none was observed. */
+  lastDeathTick: number | null;
 }
 ```
 
@@ -327,7 +339,7 @@ interface DialogState {
 interface InterfaceState {
   isOpen: boolean;
   interfaceId: number;
-  options: Array<{ index: number; text: string; componentId: number }>;
+  options: InterfaceOption[];
 }
 ```
 
@@ -390,6 +402,8 @@ interface PrayerResult {
 ```typescript
 interface BotWorldState {
   tick: number;
+  /** Monotonic state publication cursor; advances even for multiple publications in one game tick. */
+  revision?: number;
   inGame: boolean;
   player: PlayerState | null;
   skills: SkillState[];
@@ -423,6 +437,8 @@ interface ActionResult {
   data?: any;
   /** Machine-readable failure category (e.g. 'cant_reach', 'no_match', 'timeout') */
   reason?: string;
+  /** Primitive actions report dispatch; porcelain actions may report observation/completion. */
+  phase?: 'validation' | 'routing' | 'dispatch' | 'observation' | 'completion';
 }
 ```
 
@@ -488,9 +504,15 @@ interface TalkResult {
 
 ```typescript
 interface ShopResult {
+  /** True only when the full requested amount was bought. */
   success: boolean;
   item?: InventoryItem;
   message: string;
+  requestedAmount?: number;
+  amountBought?: number;
+  /** Some but not all of the requested amount was bought. */
+  partial?: boolean;
+  reason?: 'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'partial_fill' | 'timeout';
 }
 ```
 
@@ -498,10 +520,15 @@ interface ShopResult {
 
 ```typescript
 interface ShopSellResult {
+  /** True only when the full requested amount was sold. */
   success: boolean;
   message: string;
+  requestedAmount?: number;
   amountSold?: number;
+  /** Some but not all of the requested amount was sold. */
+  partial?: boolean;
   rejected?: boolean;
+  reason?: 'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'rejected' | 'partial_fill' | 'timeout';
 }
 ```
 
@@ -540,7 +567,7 @@ interface EatResult {
 interface AttackResult {
   success: boolean;
   message: string;
-  reason?: 'npc_not_found' | 'no_attack_option' | 'out_of_reach' | 'already_in_combat' | 'timeout';
+  reason?: 'npc_not_found' | 'no_attack_option' | 'out_of_reach' | 'already_in_combat' | 'died' | 'timeout';
 }
 ```
 
@@ -617,10 +644,14 @@ interface OpenBankResult {
 
 ```typescript
 interface BankDepositResult {
+  /** True only when the full requested amount was deposited. */
   success: boolean;
   message: string;
+  requestedAmount?: number;
   amountDeposited?: number;
-  reason?: 'bank_not_open' | 'item_not_found' | 'timeout';
+  /** Some but not all of the requested amount was deposited. */
+  partial?: boolean;
+  reason?: 'invalid_amount' | 'bank_not_open' | 'item_not_found' | 'partial_fill' | 'timeout';
 }
 ```
 
@@ -628,10 +659,15 @@ interface BankDepositResult {
 
 ```typescript
 interface BankWithdrawResult {
+  /** True only when the full requested amount was withdrawn. */
   success: boolean;
   message: string;
   item?: InventoryItem;
-  reason?: 'bank_not_open' | 'item_not_found' | 'timeout';
+  requestedAmount?: number;
+  amountWithdrawn?: number;
+  /** Some but not all of the requested amount was withdrawn. */
+  partial?: boolean;
+  reason?: 'invalid_amount' | 'bank_not_open' | 'item_not_found' | 'partial_fill' | 'timeout';
 }
 ```
 
