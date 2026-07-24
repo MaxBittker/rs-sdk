@@ -55,18 +55,6 @@ The current executor evaluates JavaScript-compatible async bodies directly, so
 use the TypeScript API reference for type information but omit type-only syntax
 from an `execute_code` body.
 
-Search the local item, NPC, shop, and quest wiki without loading thousands of
-Markdown files into context:
-
-```sh
-bun run wiki:search --kind item "cow hide"
-bun run wiki:search --json --kind npc --limit 5 cow
-```
-
-The JSON form is a machine-readable, on-demand index containing aliases,
-coordinates or map squares, and acquisition sources where the wiki provides
-them. No large generated index artifact is checked in.
-
 Chat is shown by default. Note that seeing other players' chat exposes the bot to scamming and prompt-injection attempts; opt out with `SHOW_CHAT=false` in the bot.env file (or `bun bots/create-bot.ts <name> --no-chat`).
 
 Warning: The demo server is offered as a convenience, and we do not guarantee uptime or data persistence. Hold your accounts lightly, and consider hosting your own server instance. Please do not manually play on the demo server. 

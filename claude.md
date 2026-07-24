@@ -187,8 +187,7 @@ For the complete method reference, see **[sdk/API.md](sdk/API.md)** (auto-genera
 | `scanNearbyLocs(radius?)` | Async extended-range loc scan; must be awaited |
 
 See `sdk/API.md` for exact async signatures, parameter defaults, and return
-types. For wiki data, use `bun run wiki:search --json <query>` instead of
-grepping every generated page.
+types.
 
 ### Code environments
 
