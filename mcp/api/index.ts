@@ -15,11 +15,11 @@ export interface BotConnection {
   connected: boolean;
   unsubscribeConnectionState?: () => void;
   /**
-   * High-water tick for gameMessages already shown to the agent. Used by
-   * the MCP server's formatter so repeated execute_code calls only render
-   * NEW chat / system messages. Internal — not part of the SDK surface.
+   * High-water cursor for gameMessages already shown to the agent. Prefers
+   * observationId when available and falls back to tick for older clients.
+   * Internal — not part of the SDK surface.
    */
-  lastShownMessageTick: number;
+  lastShownMessageCursor: number;
 }
 
 export interface BotConnectionSummary {
@@ -133,7 +133,7 @@ export class BotManager {
       bot,
       username,
       connected: true,
-      lastShownMessageTick: -1
+      lastShownMessageCursor: -1
     };
 
     // Track connection state changes

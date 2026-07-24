@@ -57,7 +57,7 @@ function installConnection(manager: BotManager, options: {
     bot: {},
     username: 'tester',
     connected: socketConnected,
-    lastShownMessageTick: -1,
+    lastShownMessageCursor: -1,
   } as unknown as BotConnection;
   (manager as any).connections.set('tester', connection);
 
