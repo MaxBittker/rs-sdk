@@ -35,9 +35,6 @@ export const combatSkill: SkillPlugin = {
                 await bot.eatFood(food);
                 await sleep(500);
                 ({ cur, base } = hpCurrent(sdk));
-                if (cur >= Math.max(5, Math.floor(base * 0.55))) {
-                    noteConfirm(memory, 'combat', true, 'ate_food');
-                }
             }
             if (cur < Math.max(5, Math.floor(base * 0.55))) {
                 log('combat: low HP, no food or still unsafe');
@@ -67,6 +64,7 @@ export const combatSkill: SkillPlugin = {
         }
         if (!cow) {
             log('combat: no cow');
+            noteConfirm(memory, 'combat', false, 'no_target');
             return false;
         }
 

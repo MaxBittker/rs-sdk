@@ -3,7 +3,7 @@ import type { KitSpec, TaskName } from '../types';
 export const COOK_RAW_BATCH = 4;
 
 export const FOOD =
-    /^(?!raw\b)(?!burnt\b).*(shrimp|anchov|trout|salmon|tuna|lobster|swordfish|shark|meat|chicken|beef|bread|cake|pie)/i;
+    /^(?!.*(?:tin|dish|uncooked|raw|burnt))(?:shrimps?|anchovies|trout|salmon|tuna|lobster|swordfish|shark|meat|chicken|beef|bread|cake|(?:\w+\s+)?pie)$/i;
 const AXE = /^(?:bronze|iron|steel|black|mithril|adamant|adamantite|rune|dragon)?\s*axe$/i;
 const PICKAXE = /pickaxe/i;
 const KNIFE = /knife/i;

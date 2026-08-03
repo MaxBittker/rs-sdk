@@ -23,8 +23,18 @@ test('food pattern recognizes every combat-kit food and excludes raw or burnt fo
         expect(FOOD.test(food)).toBe(true);
     }
 
-    expect(FOOD.test('raw tuna')).toBe(false);
-    expect(FOOD.test('burnt lobster')).toBe(false);
+    expect(FOOD.test('Redberry pie')).toBe(true);
+    expect(FOOD.test('Meat pie')).toBe(true);
+
+    for (const nonFood of [
+        'raw tuna',
+        'burnt lobster',
+        'Cake tin',
+        'Pie dish',
+        'Uncooked apple pie',
+    ]) {
+        expect(FOOD.test(nonFood)).toBe(false);
+    }
 });
 
 test('skill fallback preserves a detail recorded by the skill', () => {
