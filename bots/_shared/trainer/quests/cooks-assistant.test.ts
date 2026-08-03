@@ -35,7 +35,7 @@ describe("Cook's Assistant step selection", () => {
 });
 
 describe("Cook's Assistant completion evidence", () => {
-    test('requires consumed ingredients when the turn-in dialog closes', () => {
+    test('requires all ingredients to be consumed when the turn-in dialog closes', () => {
         expect(
             hasCooksAssistantTurnInEvidence({
                 items: ['Egg', 'Pot of flour', 'Bucket of milk'],
@@ -50,23 +50,31 @@ describe("Cook's Assistant completion evidence", () => {
                 dialogOpen: false,
                 chat: [],
             }),
+        ).toBeFalse();
+
+        expect(
+            hasCooksAssistantTurnInEvidence({
+                items: [],
+                dialogOpen: false,
+                chat: [],
+            }),
         ).toBeTrue();
     });
 
-    test('accepts quest completion and cooking XP chat evidence', () => {
+    test('accepts only system quest completion chat evidence', () => {
         expect(
             hasCooksAssistantTurnInEvidence({
                 items: ['Egg', 'Pot of flour', 'Bucket of milk'],
                 dialogOpen: true,
-                chat: [{ text: 'Congratulations! You have completed Cook’s Assistant.' }],
+                chat: [{ type: 0, text: 'Congratulations! You have completed Cook’s Assistant.' }],
             }),
         ).toBeTrue();
         expect(
             hasCooksAssistantTurnInEvidence({
                 items: ['Egg', 'Pot of flour', 'Bucket of milk'],
                 dialogOpen: true,
-                chat: [{ message: 'You receive 300 Cooking experience.' }],
+                chat: [{ type: 2, text: 'Congratulations on completing Cook’s Assistant!' }],
             }),
-        ).toBeTrue();
+        ).toBeFalse();
     });
 });
