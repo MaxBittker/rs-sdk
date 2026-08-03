@@ -1,7 +1,8 @@
 import type { SkillPlugin, SkillRunContext } from '../types';
 import { kitForTask } from '../bank/kits';
 import { bestResourceForLevel, TRAINING_AREAS } from '../knowledge/wiki';
-import { avoidKey, isAvoided } from '../memory';
+import { avoidKey, isAvoided, noteAvoid, noteConfirm } from '../memory';
+import { confirmByItemGain, confirmByXpDelta } from '../observe/confirm';
 import { walkToPoint } from '../travel';
 import { hasItem, inventoryCount, sleep } from '../util';
 import { pickBestTree, waitUntilIdle } from './smart-select';
@@ -58,21 +59,29 @@ export const woodcuttingSkill: SkillPlugin = {
                 return gained > 0;
             }
 
-            const beforeXp = sdk.getSkill('Woodcutting')?.experience ?? 0;
-            const beforeLogs = (sdk.getInventory() ?? []).filter((i) => /logs?/i.test(i.name)).length;
+            const beforeXp = sdk.getSkillXp('Woodcutting') ?? sdk.getSkill('Woodcutting')?.experience ?? 0;
+            const beforeInv = (sdk.getInventory() ?? []).map((item) => item.name);
             log(`woodcutting: ${pick.reason}`);
             const result = await bot.chopTree(pick.loc as any);
             if (!result?.success) {
                 log(`woodcutting: ${result?.message ?? 'failed'}`);
+                noteAvoid(memory, avoidKey('loc', pick.loc.name, pick.loc.x, pick.loc.z), 45_000);
+                noteConfirm(memory, 'woodcutting', false, result?.message ?? 'failed');
                 await sleep(400);
-                if (i === 0) return false;
-                break;
+                return false;
             }
             await waitUntilIdle(sdk, 16000);
-            const xpNow = sdk.getSkill('Woodcutting')?.experience ?? 0;
-            const logsNow = (sdk.getInventory() ?? []).filter((i) => /logs?/i.test(i.name)).length;
-            if (xpNow > beforeXp || logsNow > beforeLogs) gained += 1;
-            else break; // stalled
+            const afterXp = sdk.getSkillXp('Woodcutting') ?? sdk.getSkill('Woodcutting')?.experience ?? 0;
+            const afterInv = (sdk.getInventory() ?? []).map((item) => item.name);
+            const confirmed =
+                confirmByXpDelta(beforeXp, afterXp) || confirmByItemGain(beforeInv, afterInv, /logs?/i);
+            if (!confirmed) {
+                noteAvoid(memory, avoidKey('loc', pick.loc.name, pick.loc.x, pick.loc.z), 45_000);
+                noteConfirm(memory, 'woodcutting', false, ctx.observation?.errors[0] ?? 'no_progress');
+                return false;
+            }
+            noteConfirm(memory, 'woodcutting', true, 'xp_or_item');
+            gained += 1;
         }
         return gained > 0;
     },
