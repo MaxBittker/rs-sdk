@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { deriveHints } from './hints';
+import { defaultMemory } from '../memory';
 import type { Observation, TrainerMemory } from '../types';
 
 function obs(over: Partial<Observation> = {}): Observation {
@@ -29,10 +30,7 @@ function obs(over: Partial<Observation> = {}): Observation {
 }
 
 function memory(over: Partial<TrainerMemory> = {}): TrainerMemory {
-    return {
-        avoids: [],
-        ...over,
-    };
+    return { ...defaultMemory(), ...over };
 }
 
 describe('deriveHints', () => {
@@ -68,7 +66,12 @@ describe('deriveHints', () => {
         const hints = deriveHints(
             obs(),
             memory({
-                lastConfirm: { ok: false, task: 'woodcutting', at: '' },
+                lastConfirm: {
+                    ok: false,
+                    task: 'woodcutting',
+                    reason: 'no logs',
+                    at: '',
+                },
             }),
             'woodcutting',
         );
