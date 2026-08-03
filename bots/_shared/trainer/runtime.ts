@@ -4,7 +4,7 @@
  */
 import { dirname, join } from 'path';
 import { runScript } from '../../../sdk/runner';
-import type { SkillLevels, TaskName } from './types';
+import type { SkillLevels, TaskName, TrainerMemory } from './types';
 import { chooseTask, shouldKeepSticky } from './planner/choose-task';
 import {
     activeLadder,
@@ -15,6 +15,7 @@ import {
 import { bootstrapSkillRegistry, runSkill } from './skills/registry';
 import { noteSupplyNeed } from './skills/supply';
 import { runBankSession } from './bank/session';
+import { FOOD } from './bank/kits';
 import {
     clearStall,
     expireAvoids,
@@ -61,6 +62,17 @@ function hasBlockingUi(sdk: { getState: () => any }): boolean {
     if (s.dialog?.isOpen && !s.shop?.isOpen && !s.bank?.isOpen) return true;
     if (s.levelUp) return true;
     return false;
+}
+
+export function noteSkillFallback(
+    memory: TrainerMemory,
+    task: TaskName,
+    ok: boolean,
+    beforeConfirmAt: string | null,
+): void {
+    if ((memory.lastConfirm?.at ?? null) === beforeConfirmAt) {
+        noteConfirm(memory, task, ok, ok ? 'ok' : 'skill returned false');
+    }
 }
 
 async function ensureTutorialDone(bot: any, sdk: any): Promise<void> {
@@ -186,7 +198,7 @@ export async function runTrainer(): Promise<void> {
                     oreCount: countMatching(sdk, /ore|clay|coal/i),
                     foodCount: countMatching(
                         sdk,
-                        /^(?!raw\b)(?!burnt\b).*(shrimp|anchov|trout|salmon|meat|chicken|beef|bread)/i,
+                        FOOD,
                     ),
                     stalls: memory.stalls,
                     hints,
@@ -253,17 +265,13 @@ export async function runTrainer(): Promise<void> {
                         case 'supply': {
                             log(`supply: need ${decision.label}`);
                             noteSupplyNeed(memory, decision.label, decision.item);
+                            const beforeConfirmAt = memory.lastConfirm?.at ?? null;
                             ok = await runSkill('supply', ctxBase);
                             if (!ok && coins < 16) {
                                 log('supply: underfunded → thieving');
                                 ok = await runSkill('thieving', ctxBase);
                             }
-                            noteConfirm(
-                                memory,
-                                'supply',
-                                ok,
-                                ok ? 'ok' : 'skill returned false',
-                            );
+                            noteSkillFallback(memory, 'supply', ok, beforeConfirmAt);
                             memory.sticky = null;
                             break;
                         }
@@ -274,13 +282,9 @@ export async function runTrainer(): Promise<void> {
                                 log(`skill: ${decision.task} (${decision.reason})`);
                             }
                             memory.lastTask = decision.task;
+                            const beforeConfirmAt = memory.lastConfirm?.at ?? null;
                             ok = await runSkill(decision.task, ctxBase);
-                            noteConfirm(
-                                memory,
-                                decision.task ?? decision.kind,
-                                ok,
-                                ok ? 'ok' : 'skill returned false',
-                            );
+                            noteSkillFallback(memory, decision.task, ok, beforeConfirmAt);
                             if (!ok) memory.sticky = null;
                             break;
                         }

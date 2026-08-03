@@ -1,5 +1,5 @@
 import type { SkillPlugin, SkillRunContext } from '../types';
-import { kitForTask } from '../bank/kits';
+import { FOOD, kitForTask } from '../bank/kits';
 import { TRAINING_AREAS } from '../knowledge/wiki';
 import { avoidKey, isAvoided, noteAvoid, noteConfirm } from '../memory';
 import { confirmByItemGain, confirmByXpDelta } from '../observe/confirm';
@@ -29,9 +29,7 @@ export const combatSkill: SkillPlugin = {
         let { cur, base } = hpCurrent(sdk);
 
         if (ctx.observation?.lowHp || cur < Math.max(5, Math.floor(base * 0.55))) {
-            const food = sdk.findInventoryItem(
-                /^(?!raw\b)(?!burnt\b).*(shrimp|anchov|trout|salmon|meat|chicken|beef|bread)/i,
-            );
+            const food = sdk.findInventoryItem(FOOD);
             if (food) {
                 log(`combat: eat ${food.name} (hp ${cur}/${base})`);
                 await bot.eatFood(food);
