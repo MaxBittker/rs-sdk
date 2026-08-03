@@ -37,6 +37,9 @@ export function getSkillFact(id: string): WikiFact | null {
     return loadWikiIndex().byId[id] ?? null;
 }
 
+/** Read a compiled quest fact by id. */
+export const getQuestFact = getSkillFact;
+
 /**
  * From a skill guide "Trees" / resource table, pick the best row the player can use.
  * Supports name-first rows like [Tree, Level, Log Type, Locations] and

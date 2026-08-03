@@ -5,6 +5,7 @@
 import type { BotActions } from '../../../sdk/actions';
 import type { BotSDK } from '../../../sdk/index';
 import type { Observation, SkillLevels, TrainerMemory } from '../types';
+import { cooksAssistantQuest } from './cooks-assistant';
 
 export interface QuestContext {
     sdk: BotSDK;
@@ -36,8 +37,7 @@ export function listQuests(): QuestPlugin[] {
 
 export function bootstrapQuestRegistry(): void {
     quests.length = 0;
-    // Phase 2 runners register here, e.g.:
-    // registerQuest(cooksAssistant);
+    registerQuest(cooksAssistantQuest);
 }
 
 export function nextQuest(ctx: QuestContext): QuestPlugin | null {
