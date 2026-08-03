@@ -36,4 +36,11 @@ describe('confirm helpers', () => {
         expect(confirmByItemGain(['Bronze axe'], ['Bronze axe', 'Logs'], /logs?/i)).toBe(true);
         expect(confirmByItemGain(['Logs'], ['Logs'], /logs?/i)).toBe(false);
     });
+
+    test('item gain works with reused global pattern', () => {
+        const pattern = /logs?/gi;
+        expect(confirmByItemGain(['Bronze axe'], ['Bronze axe', 'Logs'], pattern)).toBe(true);
+        expect(confirmByItemGain(['Logs'], ['Logs'], pattern)).toBe(false);
+        expect(confirmByItemGain(['Bronze axe'], ['Bronze axe', 'Log'], pattern)).toBe(true);
+    });
 });
