@@ -11,7 +11,7 @@ type SdkLike = {
     }>;
     getNearbyNpcs: () => Array<{ name: string; x: number; z: number }>;
     getNewChat: (opts?: { types?: readonly number[]; includeSelf?: boolean }) => Array<{ text?: string; message?: string }>;
-    getSkill: (name: string) => { level?: number; currentLevel?: number } | null | undefined;
+    getSkill: (name: string) => { level?: number; baseLevel?: number } | null | undefined;
 };
 
 export function classifyChatErrors(
@@ -41,8 +41,8 @@ export function buildObservation(sdk: SdkLike): Observation {
     const npcs = sdk.getNearbyNpcs?.() ?? [];
     const chat = sdk.getNewChat?.({ types: [0], includeSelf: false }) ?? [];
     const hpSkill = sdk.getSkill?.('Hitpoints');
-    const hpMax = hpSkill?.level ?? 10;
-    const hp = hpSkill?.currentLevel ?? hpMax;
+    const hpMax = hpSkill?.baseLevel ?? s.player?.maxHp ?? 10;
+    const hp = hpSkill?.level ?? s.player?.hp ?? hpMax;
 
     const nearbyChop: ObservationTarget[] = locs
         .filter((l) => l.optionsWithIndex?.some((o) => /chop/i.test(o.text)))

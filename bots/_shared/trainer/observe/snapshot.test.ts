@@ -20,7 +20,9 @@ function mockSdk(over: Record<string, any> = {}) {
         getNearbyNpcs: () => over.npcs ?? [{ name: 'Man', x: 3221, z: 3218 }],
         getNewChat: () => over.chat ?? [],
         getSkill: (name: string) =>
-            name === 'Hitpoints' ? { level: 10, currentLevel: over.hp ?? 10 } : { level: 1, currentLevel: 1 },
+            name === 'Hitpoints'
+                ? { level: over.hp ?? 10, baseLevel: over.hpMax ?? 10 }
+                : { level: 1, baseLevel: 1 },
         ...over.extra,
     };
 }
