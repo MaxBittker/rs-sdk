@@ -65,7 +65,10 @@ export function hasCooksAssistantTurnInEvidence({ items, chat }: TurnInEvidenceI
     if (allIngredientsConsumed) return true;
 
     const completionChat = chat.some(({ type, text, message }) =>
-        type === 0 && /quest complete|congratulations/i.test(`${text ?? ''} ${message ?? ''}`),
+        type === 0 &&
+        /cook'?s assistant|quest complete|you have completed|cooking experience/i.test(
+            `${text ?? ''} ${message ?? ''}`,
+        ),
     );
     return completionChat;
 }
@@ -195,11 +198,12 @@ export const cooksAssistantQuest: QuestPlugin = {
         }
 
         if (!(await walkToPoint(bot, sdk, COOK, 'Cook'))) return false;
+        sdk.getNewChat({ types: [0] });
         const talked = await bot.talkTo(/cook/i);
         if (!actionSucceeded(talked)) return false;
         await advanceCookDialog(bot, sdk, log);
         const remainingItems = (sdk.getInventory() ?? []).map((item) => item.name);
-        const chat = [...sdk.getNewChat({ types: [0] }), ...sdk.getChat({ types: [0] })];
+        const chat = sdk.getNewChat({ types: [0] });
         if (
             hasCooksAssistantTurnInEvidence({
                 items: remainingItems,

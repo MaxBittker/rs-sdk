@@ -73,6 +73,20 @@ describe("Cook's Assistant completion evidence", () => {
             hasCooksAssistantTurnInEvidence({
                 items: ['Egg', 'Pot of flour', 'Bucket of milk'],
                 dialogOpen: true,
+                chat: [{ type: 0, text: 'You have completed the quest.' }],
+            }),
+        ).toBeTrue();
+        expect(
+            hasCooksAssistantTurnInEvidence({
+                items: ['Egg', 'Pot of flour', 'Bucket of milk'],
+                dialogOpen: true,
+                chat: [{ type: 0, text: 'Congratulations!' }],
+            }),
+        ).toBeFalse();
+        expect(
+            hasCooksAssistantTurnInEvidence({
+                items: ['Egg', 'Pot of flour', 'Bucket of milk'],
+                dialogOpen: true,
                 chat: [{ type: 2, text: 'Congratulations on completing Cook’s Assistant!' }],
             }),
         ).toBeFalse();
