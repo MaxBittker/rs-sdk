@@ -258,6 +258,12 @@ export async function runTrainer(): Promise<void> {
                                 log('supply: underfunded → thieving');
                                 ok = await runSkill('thieving', ctxBase);
                             }
+                            noteConfirm(
+                                memory,
+                                'supply',
+                                ok,
+                                ok ? 'ok' : 'skill returned false',
+                            );
                             memory.sticky = null;
                             break;
                         }
