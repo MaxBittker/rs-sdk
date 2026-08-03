@@ -47,6 +47,9 @@ export class ScriptRunnerUI {
     private runBtn!: HTMLButtonElement;
     private stopBtn!: HTMLButtonElement;
     private restartBtn!: HTMLButtonElement;
+    private progressiveBtn!: HTMLButtonElement;
+    private progressiveStopBtn!: HTMLButtonElement;
+    private progressiveRunning = false;
 
     private abortController: AbortController | null = null;
     private running = false;
@@ -224,6 +227,86 @@ export class ScriptRunnerUI {
         await this.run();
     }
 
+    /** Start Bun progressive trainer against the currently logged-in account. */
+    private async runProgressive(): Promise<void> {
+        const { username, password } = this.client.getCredentials();
+        if (!username) {
+            this.setStatus('log in first, then start Progressive');
+            return;
+        }
+        this.progressiveBtn.disabled = true;
+        this.setStatus(`starting progressive on ${username}…`);
+        try {
+            const webPort = window.location.port || '8890';
+            const res = await fetch('/api/progressive/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, webPort }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || !data?.ok) {
+                throw new Error(data?.error || `HTTP ${res.status}`);
+            }
+            this.progressiveRunning = true;
+            this.setStatus(`progressive running on ${username} (pid ${data.pid ?? '?'})`);
+            this.appendProgressiveLog(username);
+        } catch (err: any) {
+            this.setStatus(`progressive failed: ${err?.message ?? err}`);
+            this.progressiveRunning = false;
+        } finally {
+            this.syncButtons();
+        }
+    }
+
+    private async stopProgressive(): Promise<void> {
+        const { username } = this.client.getCredentials();
+        if (!username) {
+            this.setStatus('no username');
+            return;
+        }
+        this.setStatus(`stopping progressive on ${username}…`);
+        try {
+            const res = await fetch('/api/progressive/stop', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username }),
+            });
+            const data = await res.json().catch(() => ({}));
+            this.progressiveRunning = false;
+            this.setStatus(data?.stopped ? 'progressive stopped' : 'progressive not running');
+        } catch (err: any) {
+            this.setStatus(`stop failed: ${err?.message ?? err}`);
+        } finally {
+            this.syncButtons();
+        }
+    }
+
+    private async appendProgressiveLog(username: string): Promise<void> {
+        try {
+            await new Promise((r) => setTimeout(r, 1500));
+            const res = await fetch(`/api/progressive/log?username=${encodeURIComponent(username)}`);
+            const data = await res.json();
+            if (data?.lines?.length) {
+                this.renderOutput(['── Progressive ──', ...data.lines]);
+            }
+        } catch {
+            // ignore
+        }
+    }
+
+    private async refreshProgressiveStatus(): Promise<void> {
+        const { username } = this.client.getCredentials();
+        if (!username) return;
+        try {
+            const res = await fetch(`/api/progressive/status?username=${encodeURIComponent(username)}`);
+            const data = await res.json();
+            this.progressiveRunning = !!data?.running;
+            this.syncButtons();
+        } catch {
+            // ignore
+        }
+    }
+
     private async copyContext(): Promise<void> {
         try {
             this.setStatus('copying context…');
@@ -319,12 +402,21 @@ export class ScriptRunnerUI {
         this.runBtn = this.makeButton('▶ Run', () => this.run());
         this.stopBtn = this.makeButton('■ Stop', () => this.stop());
         this.restartBtn = this.makeButton('↻ Restart', () => this.restart());
+        this.progressiveBtn = this.makeButton('▶ Progressive', () => this.runProgressive());
+        this.progressiveBtn.style.color = '#FFD700';
+        this.progressiveBtn.style.borderColor = '#FFD700';
+        this.progressiveBtn.title = 'Run wiki progressive trainer on this logged-in account';
+        this.progressiveStopBtn = this.makeButton('■ Stop Prog', () => this.stopProgressive());
+        this.progressiveStopBtn.style.color = '#FFD700';
+        this.progressiveStopBtn.style.borderColor = '#FFD700';
         this.status = document.createElement('span');
         this.status.style.cssText = 'margin-left: auto; font-size: 10px; opacity: 0.8;';
         this.status.textContent = 'idle';
         controls.appendChild(this.runBtn);
         controls.appendChild(this.stopBtn);
         controls.appendChild(this.restartBtn);
+        controls.appendChild(this.progressiveBtn);
+        controls.appendChild(this.progressiveStopBtn);
         controls.appendChild(this.status);
 
         this.output = document.createElement('pre');
@@ -354,6 +446,8 @@ export class ScriptRunnerUI {
         container.prepend(wrap);
 
         this.syncButtons();
+        this.refreshProgressiveStatus();
+        setInterval(() => this.refreshProgressiveStatus(), 5000);
     }
 
     private makeButton(label: string, onClick: () => void): HTMLButtonElement {
@@ -377,6 +471,10 @@ export class ScriptRunnerUI {
         this.stopBtn.disabled = !this.running;
         this.runBtn.style.opacity = this.running ? '0.4' : '1';
         this.stopBtn.style.opacity = this.running ? '1' : '0.4';
+        this.progressiveBtn.disabled = this.progressiveRunning;
+        this.progressiveStopBtn.disabled = !this.progressiveRunning;
+        this.progressiveBtn.style.opacity = this.progressiveRunning ? '0.4' : '1';
+        this.progressiveStopBtn.style.opacity = this.progressiveRunning ? '1' : '0.4';
     }
 
     private setStatus(text: string): void {

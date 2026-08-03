@@ -29,6 +29,8 @@ export interface PlannerInput {
     /** Stall counts from memory — high = try escape route. */
     stalls?: Partial<Record<TaskName | 'supply', number>>;
     hints?: PlannerHints;
+    /** Current sticky task, used only for safety interrupts. */
+    stickyTask?: TaskName;
 }
 
 /**
@@ -36,10 +38,6 @@ export interface PlannerInput {
  */
 export function chooseTask(input: PlannerInput): PlannerDecision {
     if (input.hasBlockingUi) return { kind: 'dismiss_ui' };
-
-    if (input.hints?.lowHp && input.foodCount < 1) {
-        return { kind: 'bank', reason: 'low HP — withdraw food' };
-    }
 
     if (isOpeningCashPhase(input.coins)) {
         return { kind: 'skill', task: 'thieving', reason: `opening cash ${input.coins}/${OPENING_CASH_TARGET}` };
@@ -50,6 +48,15 @@ export function chooseTask(input: PlannerInput): PlannerDecision {
     if (!step) return { kind: 'idle', reason: 'ladder complete' };
 
     const stalls = input.stalls ?? {};
+
+    if (
+        input.hints?.lowHp &&
+        input.foodCount < 1 &&
+        (step.task === 'combat' || input.stickyTask === 'combat') &&
+        (stalls.bank ?? 0) < 3
+    ) {
+        return { kind: 'bank', reason: 'low HP — withdraw food' };
+    }
 
     // Escape: WC stuck → fletch/sell/bank if we have something useful
     if ((stalls.woodcutting ?? 0) >= 4) {

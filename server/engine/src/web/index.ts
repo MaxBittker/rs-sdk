@@ -6,6 +6,7 @@ import { handleHiscoresPage, handleHiscoresPlayerPage, handleHiscoresOutfitPage,
 import { handleViewerAssets } from './hiscoresServer.js';
 import { handleScreenshotsListPage, handleScreenshotFilePage } from './pages/screenshots.js';
 import { handleScreenshotUpload, handleExportCollisionApi } from './pages/api.js';
+import { handleProgressiveApi, handleProgressiveLog } from './pages/progressive-api.js';
 import { handleBugReport } from './pages/bug-report.js';
 import { handleDisclaimerPage, handleMapviewPage, handlePublicFiles } from './pages/static.js';
 import { WebSocketData, handleWebSocketUpgrade, handleGatewayEndpointGet, websocketHandlers } from './websocket.js';
@@ -182,6 +183,12 @@ export async function startWeb() {
 
             const exportCollisionResponse = handleExportCollisionApi(url);
             if (exportCollisionResponse) return exportCollisionResponse;
+
+            const progressiveApiResponse = await handleProgressiveApi(req, url);
+            if (progressiveApiResponse) return progressiveApiResponse;
+
+            const progressiveLogResponse = handleProgressiveLog(url);
+            if (progressiveLogResponse) return progressiveLogResponse;
 
             // Hiscores
             const hiscoresResponse = await handleHiscoresPage(url);

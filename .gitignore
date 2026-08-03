@@ -12,9 +12,15 @@ server.json
 backups/
 .obsidian/
 
-# Bot folders (except template)
+# Bot folders (except template, shared trainer, and progressive entry)
 bots/*/
 !bots/_template/
+!bots/_shared/
+!bots/progressive/
+bots/**/bot.env
+bots/**/trainer-memory.json
+bots/**/trainer-run.*
+logs/
 
 # Daemon type checker temp file
 sdk/__exec_check.ts

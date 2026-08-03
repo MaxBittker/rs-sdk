@@ -150,9 +150,14 @@ export const cooksAssistantQuest: QuestPlugin = {
 
         if (step === 'get_pot_bucket') {
             const checklist = fact?.itemsNeeded ?? ['Pot', 'Bucket'];
-            const needed = checklist.filter((item) =>
+            let needed = checklist.filter((item) =>
                 /^pot$/i.test(item) ? !hasPot && !hasFlour : /^bucket$/i.test(item) ? !hasBucket && !hasMilk : false,
             );
+            if (needed.length === 0 && ((!hasPot && !hasFlour) || (!hasBucket && !hasMilk))) {
+                needed = ['Pot', 'Bucket'].filter((item) =>
+                    /^pot$/i.test(item) ? !hasPot && !hasFlour : !hasBucket && !hasMilk,
+                );
+            }
             const target = needed[0];
             if (!target) {
                 memory.step = 'need_items';

@@ -68,7 +68,7 @@ export const woodcuttingSkill: SkillPlugin = {
                 noteAvoid(memory, avoidKey('loc', pick.loc.name, pick.loc.x, pick.loc.z), 45_000);
                 noteConfirm(memory, 'woodcutting', false, result?.message ?? 'failed');
                 await sleep(400);
-                return false;
+                return gained > 0;
             }
             await waitUntilIdle(sdk, 16000);
             const afterXp = sdk.getSkillXp('Woodcutting') ?? sdk.getSkill('Woodcutting')?.experience ?? 0;
@@ -78,7 +78,7 @@ export const woodcuttingSkill: SkillPlugin = {
             if (!confirmed) {
                 noteAvoid(memory, avoidKey('loc', pick.loc.name, pick.loc.x, pick.loc.z), 45_000);
                 noteConfirm(memory, 'woodcutting', false, ctx.observation?.errors[0] ?? 'no_progress');
-                return false;
+                return gained > 0;
             }
             noteConfirm(memory, 'woodcutting', true, 'xp_or_item');
             gained += 1;

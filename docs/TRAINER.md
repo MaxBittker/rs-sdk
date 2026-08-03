@@ -55,7 +55,7 @@ Build order is fixed: **live snapshot → memory → wiki confirm**.
 tick
   → snapshot.buildObservation()   // HP, invent, nearby, chat, UI flags, action errors
   → memory.updateFromObservation() // avoidUntil, lastConfirm, stall counters
-  → hints.derivePlannerHints()    // noTargetNearby, lowHp, recentFail, questReady
+  → hints.derivePlannerHints()    // noTargetNearby, lowHp, recentFail
   → chooseTask()                  // existing ladder + hints (break sticky on fail)
   → skill / quest                 // wiki targets filtered by avoids + nearby
   → confirm()                     // XP / items / chat → success or avoid

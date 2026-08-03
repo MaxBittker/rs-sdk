@@ -147,6 +147,9 @@ async function getOrCreateConnection(): Promise<BotConnection> {
     }
 
     const gatewayUrl = deriveGatewayUrl(server);
+    const webPort = process.env.WEB_PORT;
+    const botUrl = process.env.BOT_URL;
+    const browserLaunchUrl = botUrl || (webPort ? `http://localhost:${webPort}/bot` : undefined);
 
     console.error(`[Runner] Connecting to bot "${username}"...`);
 
@@ -156,7 +159,8 @@ async function getOrCreateConnection(): Promise<BotConnection> {
         gatewayUrl,
         connectionMode: 'control',
         autoReconnect: true,
-        showChat
+        showChat,
+        ...(browserLaunchUrl ? { browserLaunchUrl } : {}),
     });
 
     const bot = new BotActions(sdk);

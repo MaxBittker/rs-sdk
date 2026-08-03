@@ -1,9 +1,10 @@
 import type { SkillPlugin, SkillRunContext } from '../types';
 import { kitForTask } from '../bank/kits';
 import { bestResourceForLevel, TRAINING_AREAS } from '../knowledge/wiki';
-import { avoidKey, isAvoided } from '../memory';
+import { avoidKey, isAvoided, noteAvoid, noteConfirm } from '../memory';
+import { confirmByItemGain, confirmByXpDelta } from '../observe/confirm';
 import { walkToPoint } from '../travel';
-import { countMatching, hasItem, inventoryCount, sleep } from '../util';
+import { hasItem, inventoryCount, sleep } from '../util';
 import { pickBestRock, waitUntilIdle } from './smart-select';
 
 export const miningSkill: SkillPlugin = {
@@ -48,22 +49,27 @@ export const miningSkill: SkillPlugin = {
             }
 
             const beforeXp = sdk.getSkill('Mining')?.experience ?? 0;
-            const beforeOre = countMatching(sdk, /ore|clay|coal/i);
+            const beforeInventory = (sdk.getInventory() ?? []).map((item) => item.name);
             log(`mining: ${pick.reason}`);
             const result = await bot.interactLoc(pick.loc as any, 'mine');
             if (!result?.success) {
                 log(`mining: ${result?.message ?? 'failed'}`);
+                noteAvoid(memory, avoidKey('loc', pick.loc.name, pick.loc.x, pick.loc.z), 45_000);
+                noteConfirm(memory, 'mining', false, result?.message ?? 'failed');
                 await sleep(400);
-                if (i === 0) return false;
-                break;
+                return gained > 0;
             }
             await waitUntilIdle(sdk, 14000);
-            if (
-                (sdk.getSkill('Mining')?.experience ?? 0) > beforeXp ||
-                countMatching(sdk, /ore|clay|coal/i) > beforeOre
-            ) {
+            const afterXp = sdk.getSkill('Mining')?.experience ?? 0;
+            const afterInventory = (sdk.getInventory() ?? []).map((item) => item.name);
+            if (confirmByXpDelta(beforeXp, afterXp) || confirmByItemGain(beforeInventory, afterInventory, /ore|clay|coal/i)) {
+                noteConfirm(memory, 'mining', true, 'xp_or_item');
                 gained += 1;
-            } else break;
+            } else {
+                noteAvoid(memory, avoidKey('loc', pick.loc.name, pick.loc.x, pick.loc.z), 45_000);
+                noteConfirm(memory, 'mining', false, ctx.observation?.errors[0] ?? 'no_progress');
+                return gained > 0;
+            }
         }
         return gained > 0;
     },

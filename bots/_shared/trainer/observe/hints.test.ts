@@ -70,11 +70,27 @@ describe('deriveHints', () => {
                     ok: false,
                     task: 'woodcutting',
                     reason: 'no logs',
-                    at: '',
+                    at: new Date().toISOString(),
                 },
             }),
             'woodcutting',
         );
         expect(hints.recentFail).toBe(true);
+    });
+
+    test('does not treat an old failure as recent', () => {
+        const hints = deriveHints(
+            obs(),
+            memory({
+                lastConfirm: {
+                    ok: false,
+                    task: 'woodcutting',
+                    reason: 'no logs',
+                    at: new Date(Date.now() - 61_000).toISOString(),
+                },
+            }),
+            'woodcutting',
+        );
+        expect(hints.recentFail).toBe(false);
     });
 });

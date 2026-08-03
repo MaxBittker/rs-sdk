@@ -557,8 +557,10 @@ export class BotSDK {
         const gatewayUrl = this.config.gatewayUrl || `ws://${this.config.host}:${this.config.port}`;
 
         if (gatewayUrl.includes('localhost') || gatewayUrl.includes('127.0.0.1')) {
-            // Local development: assume client on port 8888
-            return `http://localhost:8888/bot?bot=${encodeURIComponent(this.config.botUsername)}&password=${encodeURIComponent(this.config.password)}`;
+            // Local development: WEB_PORT overrides default client port (8888).
+            // LostCity/rs-sdk local stacks often serve the bot client on 8890.
+            const webPort = process.env.WEB_PORT || '8888';
+            return `http://localhost:${webPort}/bot?bot=${encodeURIComponent(this.config.botUsername)}&password=${encodeURIComponent(this.config.password)}`;
         }
 
         // Remote: assume same host with /bot path

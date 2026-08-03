@@ -4,7 +4,6 @@ export interface PlannerHints {
     noTargetNearby: boolean;
     lowHp: boolean;
     recentFail: boolean;
-    questReady: boolean;
 }
 
 export function deriveHints(
@@ -20,14 +19,11 @@ export function deriveHints(
     }
     const recentFail =
         memory.lastConfirm?.ok === false &&
-        memory.lastConfirm.task === (activeTask ?? memory.lastConfirm.task);
-    const questReady =
-        process.env.TRAINER_AUTO_QUESTS === '1' &&
-        !memory.quests?.['cooks-assistant']?.complete;
+        memory.lastConfirm.task === (activeTask ?? memory.lastConfirm.task) &&
+        Date.now() - Date.parse(memory.lastConfirm.at) <= 60_000;
     return {
         noTargetNearby,
         lowHp: obs.lowHp,
         recentFail,
-        questReady,
     };
 }

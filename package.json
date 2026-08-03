@@ -6,9 +6,11 @@
     "docs:api": "bun sdk/generate-api-docs.ts",
     "docs:api:check": "bun sdk/generate-api-docs.ts --check",
     "fetch-collision-data": "bun sdk/fetch-collision-data.ts",
-    "test": "bun test sdk/test server/webclient/src/bot server/webclient/src/util",
+    "test": "bun test sdk/test server/webclient/src/bot server/webclient/src/util bots/_shared/trainer",
     "typecheck": "tsc --noEmit",
-    "typecheck:webclient": "tsc --noEmit -p server/webclient/tsconfig.json"
+    "typecheck:webclient": "tsc --noEmit -p server/webclient/tsconfig.json",
+    "wiki:index": "bun scripts/wiki-index.ts && bun scripts/wiki-world.ts",
+    "progressive": "bun scripts/run-progressive.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",

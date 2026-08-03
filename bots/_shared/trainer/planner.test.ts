@@ -144,7 +144,7 @@ describe('planner', () => {
             sticky,
             baseInput({
                 levels: levels({ Thieving: 40 }),
-                hints: { noTargetNearby: true, lowHp: false, recentFail: false, questReady: false },
+                hints: { noTargetNearby: true, lowHp: false, recentFail: false },
             }),
         );
         expect(keep).toBe(false);
@@ -163,45 +163,63 @@ describe('planner', () => {
                 sticky,
                 baseInput({
                     coins: 20,
-                    hints: { noTargetNearby: false, lowHp: false, recentFail: true, questReady: false },
+                    hints: { noTargetNearby: false, lowHp: false, recentFail: true },
                 }),
             ),
         ).toBe(false);
     });
 
-    test('lowHp hint banks for food on non-combat step', () => {
+    test('lowHp does not preempt non-combat ladder work', () => {
         const d = chooseTask(
             baseInput({
                 levels: levels({ Thieving: 40, Woodcutting: 10 }),
                 foodCount: 0,
-                hints: { noTargetNearby: false, lowHp: true, recentFail: false, questReady: false },
+                hints: { noTargetNearby: false, lowHp: true, recentFail: false },
             }),
         );
-        expect(d.kind).toBe('bank');
-        if (d.kind === 'bank') expect(d.reason).toMatch(/low HP/i);
+        expect(d.kind).toBe('skill');
+        if (d.kind === 'skill') expect(d.task).toBe('woodcutting');
     });
 
-    test('lowHp hint reason is distinct from combat food bank', () => {
-        const withoutHints = chooseTask(
+    test('lowHp banks only for combat and honors bank stall escape', () => {
+        const combatLevels = levels({
+            Thieving: 40,
+            Woodcutting: 30,
+            Fletching: 20,
+            Mining: 30,
+        });
+        const lowHp = chooseTask(
             baseInput({
-                levels: levels({ Thieving: 40, Woodcutting: 30, Fletching: 20, Mining: 30 }),
+                levels: combatLevels,
                 foodCount: 0,
+                hints: { noTargetNearby: false, lowHp: true, recentFail: false },
             }),
         );
-        expect(withoutHints.kind).toBe('bank');
-        if (withoutHints.kind === 'bank') {
-            expect(withoutHints.reason).toMatch(/withdraw food for combat/i);
-        }
+        expect(lowHp.kind).toBe('bank');
+        if (lowHp.kind === 'bank') expect(lowHp.reason).toMatch(/low HP/i);
 
-        const withHints = chooseTask(
+        const stalledBank = chooseTask(
             baseInput({
-                levels: levels({ Thieving: 40, Woodcutting: 30, Fletching: 20, Mining: 30 }),
+                levels: combatLevels,
                 foodCount: 0,
-                hints: { noTargetNearby: false, lowHp: true, recentFail: false, questReady: false },
+                stalls: { bank: 3 },
+                hints: { noTargetNearby: false, lowHp: true, recentFail: false },
             }),
         );
-        expect(withHints.kind).toBe('bank');
-        if (withHints.kind === 'bank') expect(withHints.reason).toMatch(/low HP/i);
+        expect(stalledBank.kind).toBe('skill');
+        if (stalledBank.kind === 'skill') expect(stalledBank.task).toBe('combat');
+    });
+
+    test('lowHp does not preempt opening-cash thieving', () => {
+        const d = chooseTask(
+            baseInput({
+                coins: 20,
+                foodCount: 0,
+                hints: { noTargetNearby: false, lowHp: true, recentFail: false },
+            }),
+        );
+        expect(d.kind).toBe('skill');
+        if (d.kind === 'skill') expect(d.task).toBe('thieving');
     });
 });
 

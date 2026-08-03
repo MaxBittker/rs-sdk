@@ -202,6 +202,7 @@ export async function runTrainer(): Promise<void> {
                     ),
                     stalls: memory.stalls,
                     hints,
+                    stickyTask: memory.sticky?.kind === 'skill' ? memory.sticky.task : undefined,
                 };
 
                 let decision = chooseTask(plannerInput);

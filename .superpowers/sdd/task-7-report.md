@@ -20,3 +20,11 @@ Status: completed
 - Turn-in reads system chat only (`types: [0]`) and accepts chat confirmation only from a system message.
 - Inventory turn-in evidence now requires the pot of flour, bucket of milk, and egg to all be absent; regression tests cover partial consumption and player-chat congratulations.
 - Verification: `bun test bots/_shared/trainer/quests/cooks-assistant.test.ts bots/_shared/trainer/` (41 passed) and `bun run typecheck` passed.
+
+## Turn-in chat baseline
+
+Status: completed
+
+- Turn-in now drains `getNewChat({ types: [0] })` before `talkTo`, then reads only post-dialog new chat — no retained history.
+- Completion regex tightened to `cook's assistant|quest complete|you have completed|cooking experience`; bare `Congratulations!` rejected.
+- Verification: `bun test bots/_shared/trainer/` (41 passed).
