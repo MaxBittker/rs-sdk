@@ -169,16 +169,39 @@ describe('planner', () => {
         ).toBe(false);
     });
 
-    test('lowHp during combat prefers bank when no food', () => {
+    test('lowHp hint banks for food on non-combat step', () => {
         const d = chooseTask(
+            baseInput({
+                levels: levels({ Thieving: 40, Woodcutting: 10 }),
+                foodCount: 0,
+                hints: { noTargetNearby: false, lowHp: true, recentFail: false, questReady: false },
+            }),
+        );
+        expect(d.kind).toBe('bank');
+        if (d.kind === 'bank') expect(d.reason).toMatch(/low HP/i);
+    });
+
+    test('lowHp hint reason is distinct from combat food bank', () => {
+        const withoutHints = chooseTask(
+            baseInput({
+                levels: levels({ Thieving: 40, Woodcutting: 30, Fletching: 20, Mining: 30 }),
+                foodCount: 0,
+            }),
+        );
+        expect(withoutHints.kind).toBe('bank');
+        if (withoutHints.kind === 'bank') {
+            expect(withoutHints.reason).toMatch(/withdraw food for combat/i);
+        }
+
+        const withHints = chooseTask(
             baseInput({
                 levels: levels({ Thieving: 40, Woodcutting: 30, Fletching: 20, Mining: 30 }),
                 foodCount: 0,
                 hints: { noTargetNearby: false, lowHp: true, recentFail: false, questReady: false },
             }),
         );
-        expect(d.kind === 'bank' || (d.kind === 'skill' && d.task === 'combat')).toBe(true);
-        expect(d.kind).toBe('bank');
+        expect(withHints.kind).toBe('bank');
+        if (withHints.kind === 'bank') expect(withHints.reason).toMatch(/low HP/i);
     });
 });
 
