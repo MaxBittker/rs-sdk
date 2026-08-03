@@ -1,5 +1,9 @@
 import { describe, expect, test } from 'bun:test';
-import { cooksAssistantQuest, nextCooksStep } from './cooks-assistant';
+import {
+    cooksAssistantQuest,
+    hasCooksAssistantTurnInEvidence,
+    nextCooksStep,
+} from './cooks-assistant';
 
 describe("Cook's Assistant step selection", () => {
     test('with no items selects the required container step', () => {
@@ -27,5 +31,42 @@ describe("Cook's Assistant step selection", () => {
                 memory: { quests: { 'cooks-assistant': { complete: true } } },
             } as any),
         ).toBeFalse();
+    });
+});
+
+describe("Cook's Assistant completion evidence", () => {
+    test('requires consumed ingredients when the turn-in dialog closes', () => {
+        expect(
+            hasCooksAssistantTurnInEvidence({
+                items: ['Egg', 'Pot of flour', 'Bucket of milk'],
+                dialogOpen: false,
+                chat: [],
+            }),
+        ).toBeFalse();
+
+        expect(
+            hasCooksAssistantTurnInEvidence({
+                items: ['Egg', 'Pot of flour'],
+                dialogOpen: false,
+                chat: [],
+            }),
+        ).toBeTrue();
+    });
+
+    test('accepts quest completion and cooking XP chat evidence', () => {
+        expect(
+            hasCooksAssistantTurnInEvidence({
+                items: ['Egg', 'Pot of flour', 'Bucket of milk'],
+                dialogOpen: true,
+                chat: [{ text: 'Congratulations! You have completed Cook’s Assistant.' }],
+            }),
+        ).toBeTrue();
+        expect(
+            hasCooksAssistantTurnInEvidence({
+                items: ['Egg', 'Pot of flour', 'Bucket of milk'],
+                dialogOpen: true,
+                chat: [{ message: 'You receive 300 Cooking experience.' }],
+            }),
+        ).toBeTrue();
     });
 });

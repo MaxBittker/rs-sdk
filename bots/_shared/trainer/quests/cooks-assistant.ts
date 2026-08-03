@@ -51,6 +51,60 @@ function actionSucceeded(result: { success: boolean } | undefined): boolean {
     return !!result?.success;
 }
 
+interface TurnInEvidenceInput {
+    items: string[];
+    dialogOpen: boolean;
+    chat: Array<{ text?: string; message?: string }>;
+}
+
+export function hasCooksAssistantTurnInEvidence({ items, dialogOpen, chat }: TurnInEvidenceInput): boolean {
+    const stillHasAllIngredients =
+        hasItem(items, /\bpot of flour\b/i) &&
+        hasItem(items, /\bbucket of milk\b/i) &&
+        hasItem(items, /\begg\b/i);
+    if (!stillHasAllIngredients) return true;
+
+    const completionChat = chat.some(({ text, message }) =>
+        /quest complete|congratulations|cooking experience/i.test(`${text ?? ''} ${message ?? ''}`),
+    );
+    return completionChat || (!dialogOpen && !stillHasAllIngredients);
+}
+
+async function advanceCookDialog(
+    bot: Parameters<QuestPlugin['run']>[0]['bot'],
+    sdk: Parameters<QuestPlugin['run']>[0]['sdk'],
+    log: (message: string) => void,
+): Promise<boolean> {
+    for (let attempt = 0; attempt < 8 && sdk.getState()?.dialog.isOpen; attempt += 1) {
+        try {
+            await bot.navigateDialog([/yes|certainly|ok|continue|click here/i]);
+        } catch (error) {
+            log(`quest cooks-assistant: dialog navigation failed (${String(error)})`);
+            return false;
+        }
+    }
+    return !sdk.getState()?.dialog.isOpen;
+}
+
+async function moveWindmillFloor(
+    bot: Parameters<QuestPlugin['run']>[0]['bot'],
+    sdk: Parameters<QuestPlugin['run']>[0]['sdk'],
+    destination: RegExp,
+    direction: RegExp,
+    log: (message: string) => void,
+): Promise<boolean> {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+        if (sdk.findNearbyLoc(destination)) return true;
+        const climbed = await bot.interactLoc(/staircase|stairs|ladder/i, direction);
+        if (!actionSucceeded(climbed)) {
+            log(`quest cooks-assistant: windmill ${direction} climb ${attempt + 1} failed`);
+        }
+    }
+    const reached = !!sdk.findNearbyLoc(destination);
+    if (!reached) log(`quest cooks-assistant: could not reach windmill ${destination}`);
+    return reached;
+}
+
 export const cooksAssistantQuest: QuestPlugin = {
     id: 'cooks-assistant',
     title: "Cook's Assistant",
@@ -76,8 +130,10 @@ export const cooksAssistantQuest: QuestPlugin = {
             const cook = nearestNpc(/cook/i, playerPos(sdk) ?? COOK)?.point ?? COOK;
             if (!(await walkToPoint(bot, sdk, cook, 'Cook'))) return false;
             const talked = await bot.talkTo(/cook/i);
-            if (actionSucceeded(talked)) memory.step = 'need_items';
-            return actionSucceeded(talked);
+            if (!actionSucceeded(talked)) return false;
+            if (!(await advanceCookDialog(bot, sdk, log))) return false;
+            memory.step = 'need_items';
+            return true;
         }
 
         if (step === 'get_pot_bucket') {
@@ -112,8 +168,10 @@ export const cooksAssistantQuest: QuestPlugin = {
                 grain = sdk.findInventoryItem(/\bgrain\b/i);
             }
             if (!grain || !(await walkToPoint(bot, sdk, MILL))) return false;
+            if (!(await moveWindmillFloor(bot, sdk, /^hopper$/i, /climb-up|climb up|climb/i, log))) return false;
             if (!actionSucceeded(await bot.useItemOnLoc(grain, /^hopper$/i))) return false;
             if (!actionSucceeded(await bot.interactLoc(/hopper controls?|controls/i, /operate/i))) return false;
+            if (!(await moveWindmillFloor(bot, sdk, /flour bin|\bbin\b/i, /climb-down|climb down|climb/i, log))) return false;
             return actionSucceeded(await bot.useItemOnLoc(/^pot$/i, /flour bin|\bbin\b/i));
         }
 
@@ -129,10 +187,23 @@ export const cooksAssistantQuest: QuestPlugin = {
 
         if (!(await walkToPoint(bot, sdk, COOK, 'Cook'))) return false;
         const talked = await bot.talkTo(/cook/i);
-        if (actionSucceeded(talked)) {
+        if (!actionSucceeded(talked)) return false;
+        await advanceCookDialog(bot, sdk, log);
+        const remainingItems = (sdk.getInventory() ?? []).map((item) => item.name);
+        const chat = [...sdk.getNewChat(), ...sdk.getChat()];
+        if (
+            hasCooksAssistantTurnInEvidence({
+                items: remainingItems,
+                dialogOpen: !!sdk.getState()?.dialog.isOpen,
+                chat,
+            })
+        ) {
             memory.complete = true;
             memory.step = 'turn_in';
+            return true;
         }
-        return actionSucceeded(talked);
+        memory.step = 'turn_in';
+        log('quest cooks-assistant: turn-in opened but completion was not confirmed');
+        return false;
     },
 };
