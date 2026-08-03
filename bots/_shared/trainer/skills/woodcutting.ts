@@ -21,7 +21,7 @@ export const woodcuttingSkill: SkillPlugin = {
     kit: kitForTask('woodcutting'),
     shouldRun: (ctx) => hasItem(ctx.sdk, /axe/i),
     async run(ctx: SkillRunContext): Promise<boolean> {
-        const { sdk, bot, levels, log } = ctx;
+        const { sdk, bot, levels, memory, log } = ctx;
         if (!hasItem(sdk, /axe/i)) {
             log('woodcutting: missing axe');
             return false;

@@ -12,7 +12,7 @@ export const miningSkill: SkillPlugin = {
     kit: kitForTask('mining'),
     shouldRun: (ctx) => hasItem(ctx.sdk, /pickaxe/i),
     async run(ctx: SkillRunContext): Promise<boolean> {
-        const { sdk, bot, levels, log } = ctx;
+        const { sdk, bot, levels, memory, log } = ctx;
         if (!hasItem(sdk, /pickaxe/i)) {
             log('mining: missing pickaxe');
             return false;

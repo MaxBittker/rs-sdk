@@ -1,7 +1,15 @@
 import { describe, expect, test } from 'bun:test';
+import { bestResourceForLevel } from '../knowledge/wiki';
 import { pickBestTree } from './smart-select';
 
 describe('smart tree selection', () => {
+    test('selects a level-one mining ore from numeric-first wiki rows', () => {
+        const resource = bestResourceForLevel('mining', 1, /ores?/i);
+        expect(resource).not.toBeNull();
+        expect(resource!.name).toMatch(/tin|copper|rune essence/i);
+        expect(resource!.level).toBe(1);
+    });
+
     test('never picks oak below level 15', () => {
         const sdk = {
             getState: () => ({ player: { worldX: 3200, worldZ: 3200 } }),

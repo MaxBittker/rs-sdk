@@ -1,0 +1,7693 @@
+{
+  "generatedAt": "2026-08-03T02:09:05.535Z",
+  "count": 77,
+  "byId": {
+    "attack": {
+      "id": "attack",
+      "kind": "skill",
+      "title": "Attack",
+      "tables": [
+        {
+          "heading": "Weapon Tiers",
+          "rows": [
+            [
+              "Level",
+              "Metal"
+            ],
+            [
+              "1",
+              "Bronze"
+            ],
+            [
+              "1",
+              "Iron"
+            ],
+            [
+              "5",
+              "Steel"
+            ],
+            [
+              "10",
+              "Black"
+            ],
+            [
+              "20",
+              "Mithril"
+            ],
+            [
+              "30",
+              "Adamant"
+            ],
+            [
+              "40",
+              "Rune"
+            ],
+            [
+              "60",
+              "Dragon"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "crafting": {
+      "id": "crafting",
+      "kind": "skill",
+      "title": "Crafting",
+      "tables": [
+        {
+          "heading": "Pottery",
+          "rows": [
+            [
+              "Item",
+              "Level",
+              "XP",
+              "Process"
+            ],
+            [
+              "Pot",
+              "1",
+              "6.3",
+              "Soft clay → Potter's wheel → Pottery oven"
+            ],
+            [
+              "Pie dish",
+              "7",
+              "10",
+              "Soft clay → Potter's wheel → Pottery oven"
+            ],
+            [
+              "Bowl",
+              "8",
+              "15",
+              "Soft clay → Potter's wheel → Pottery oven"
+            ]
+          ]
+        },
+        {
+          "heading": "Leather",
+          "rows": [
+            [
+              "Item",
+              "Level",
+              "Leather Type"
+            ],
+            [
+              "Leather gloves",
+              "1",
+              "Normal leather"
+            ],
+            [
+              "Leather boots",
+              "7",
+              "Normal leather"
+            ],
+            [
+              "Leather body",
+              "14",
+              "Normal leather"
+            ],
+            [
+              "Leather chaps",
+              "18",
+              "Normal leather"
+            ],
+            [
+              "Hardleather body",
+              "28",
+              "Hard leather"
+            ],
+            [
+              "Studded body",
+              "36",
+              "Studded leather (add steel studs)"
+            ],
+            [
+              "Studded chaps",
+              "44",
+              "Studded leather (add steel studs)"
+            ],
+            [
+              "Green d'hide body",
+              "63",
+              "Green dragonhide"
+            ],
+            [
+              "Blue d'hide body",
+              "71",
+              "Blue dragonhide"
+            ],
+            [
+              "Red d'hide body",
+              "77",
+              "Red dragonhide"
+            ],
+            [
+              "Black d'hide body",
+              "84",
+              "Black dragonhide"
+            ]
+          ]
+        },
+        {
+          "heading": "Gems",
+          "rows": [
+            [
+              "Gem",
+              "Level"
+            ],
+            [
+              "Opal",
+              "1"
+            ],
+            [
+              "Jade",
+              "13"
+            ],
+            [
+              "Red topaz",
+              "16"
+            ],
+            [
+              "Sapphire",
+              "20"
+            ],
+            [
+              "Emerald",
+              "27"
+            ],
+            [
+              "Ruby",
+              "34"
+            ],
+            [
+              "Diamond",
+              "43"
+            ],
+            [
+              "Dragonstone",
+              "55"
+            ]
+          ]
+        },
+        {
+          "heading": "Jewelry",
+          "rows": [
+            [
+              "Item",
+              "Level",
+              "Mould",
+              "Gem"
+            ],
+            [
+              "Gold ring",
+              "5",
+              "Ring mould",
+              "None"
+            ],
+            [
+              "Sapphire ring",
+              "20",
+              "Ring mould",
+              "Sapphire"
+            ],
+            [
+              "Gold necklace",
+              "6",
+              "Necklace mould",
+              "None"
+            ],
+            [
+              "Sapphire necklace",
+              "22",
+              "Necklace mould",
+              "Sapphire"
+            ],
+            [
+              "Gold amulet (u)",
+              "8",
+              "Amulet mould",
+              "None"
+            ],
+            [
+              "Sapphire amulet",
+              "24",
+              "Amulet mould",
+              "Sapphire"
+            ],
+            [
+              "Emerald ring",
+              "27",
+              "Ring mould",
+              "Emerald"
+            ],
+            [
+              "Emerald necklace",
+              "29",
+              "Necklace mould",
+              "Emerald"
+            ],
+            [
+              "Emerald amulet",
+              "31",
+              "Amulet mould",
+              "Emerald"
+            ],
+            [
+              "Ruby ring",
+              "34",
+              "Ring mould",
+              "Ruby"
+            ],
+            [
+              "Ruby necklace",
+              "40",
+              "Necklace mould",
+              "Ruby"
+            ],
+            [
+              "Ruby amulet",
+              "50",
+              "Amulet mould",
+              "Ruby"
+            ],
+            [
+              "Diamond ring",
+              "43",
+              "Ring mould",
+              "Diamond"
+            ],
+            [
+              "Diamond necklace",
+              "56",
+              "Necklace mould",
+              "Diamond"
+            ],
+            [
+              "Diamond amulet",
+              "70",
+              "Amulet mould",
+              "Diamond"
+            ],
+            [
+              "Dragonstone ring",
+              "55",
+              "Ring mould",
+              "Dragonstone"
+            ],
+            [
+              "Dragonstone necklace",
+              "72",
+              "Necklace mould",
+              "Dragonstone"
+            ],
+            [
+              "Dragonstone amulet",
+              "80",
+              "Amulet mould",
+              "Dragonstone"
+            ]
+          ]
+        },
+        {
+          "heading": "Holy & Unholy Symbols",
+          "rows": [
+            [
+              "Item",
+              "Level",
+              "Materials"
+            ],
+            [
+              "Holy symbol",
+              "16",
+              "Silver bar + Holy mould → Furnace"
+            ],
+            [
+              "Unholy symbol",
+              "17",
+              "Silver bar + Unholy mould → Furnace"
+            ]
+          ]
+        },
+        {
+          "heading": "Battlestaves (Members)",
+          "rows": [
+            [
+              "Staff",
+              "Crafting Level",
+              "Magic Level"
+            ],
+            [
+              "Water battlestaff",
+              "54",
+              "56"
+            ],
+            [
+              "Earth battlestaff",
+              "58",
+              "60"
+            ],
+            [
+              "Fire battlestaff",
+              "62",
+              "63"
+            ],
+            [
+              "Air battlestaff",
+              "66",
+              "66"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "herblore": {
+      "id": "herblore",
+      "kind": "skill",
+      "title": "Herblore",
+      "tables": [
+        {
+          "heading": "Herb Identification",
+          "rows": [
+            [
+              "Level",
+              "Herb",
+              "Identify XP"
+            ],
+            [
+              "3",
+              "Guam leaf",
+              "2.5"
+            ],
+            [
+              "5",
+              "Marrentill",
+              "3.8"
+            ],
+            [
+              "11",
+              "Tarromin",
+              "5"
+            ],
+            [
+              "25",
+              "Harralander",
+              "7.5"
+            ],
+            [
+              "30",
+              "Ranarr weed",
+              "8"
+            ],
+            [
+              "40",
+              "Toadflax",
+              "8.8"
+            ],
+            [
+              "48",
+              "Irit leaf",
+              "10"
+            ],
+            [
+              "54",
+              "Avantoe",
+              "11.3"
+            ],
+            [
+              "59",
+              "Kwuarm",
+              "11.8"
+            ],
+            [
+              "65",
+              "Snapdragon",
+              "12.5"
+            ],
+            [
+              "67",
+              "Cadantine",
+              "13.1"
+            ],
+            [
+              "70",
+              "Lantadyme",
+              "13.8"
+            ],
+            [
+              "75",
+              "Dwarf weed",
+              "15"
+            ],
+            [
+              "75",
+              "Torstol",
+              "15"
+            ]
+          ]
+        },
+        {
+          "heading": "Secondary Ingredients & Sources",
+          "rows": [
+            [
+              "Ingredient",
+              "Source"
+            ],
+            [
+              "Eyeball",
+              "Shops (3 gp), monster drops"
+            ],
+            [
+              "Mistletoe",
+              "Shops (3 gp), monster drops"
+            ],
+            [
+              "Unicorn horn dust",
+              "Ground unicorn horns (pestle & mortar)"
+            ],
+            [
+              "Chocolate dust",
+              "Ground chocolate bars from Cook's Guild"
+            ],
+            [
+              "Blue dragon scale dust",
+              "Taverley Dungeon"
+            ],
+            [
+              "Wine of Zamorak",
+              "Chaos Temples (Falador, Wilderness level 38)"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "ranged": {
+      "id": "ranged",
+      "kind": "skill",
+      "title": "Ranged",
+      "tables": [
+        {
+          "heading": "Bows",
+          "rows": [
+            [
+              "Bow",
+              "Ranged Level",
+              "Max Arrow"
+            ],
+            [
+              "Shortbow",
+              "1",
+              "Iron"
+            ],
+            [
+              "Longbow",
+              "1",
+              "Iron"
+            ],
+            [
+              "Oak shortbow",
+              "5",
+              "Steel"
+            ],
+            [
+              "Oak longbow",
+              "5",
+              "Steel"
+            ],
+            [
+              "Willow shortbow",
+              "20",
+              "Mithril"
+            ],
+            [
+              "Willow longbow",
+              "20",
+              "Mithril"
+            ],
+            [
+              "Maple shortbow",
+              "30",
+              "Adamant"
+            ],
+            [
+              "Maple longbow",
+              "30",
+              "Adamant"
+            ],
+            [
+              "Yew shortbow",
+              "40",
+              "Rune"
+            ],
+            [
+              "Yew longbow",
+              "40",
+              "Rune"
+            ],
+            [
+              "Magic shortbow",
+              "50",
+              "Rune"
+            ],
+            [
+              "Magic longbow",
+              "50",
+              "Rune"
+            ]
+          ]
+        },
+        {
+          "heading": "Armour",
+          "rows": [
+            [
+              "Armour",
+              "Ranged Level",
+              "Defence Level"
+            ],
+            [
+              "Leather",
+              "1",
+              "10"
+            ],
+            [
+              "Studded leather",
+              "1",
+              "20"
+            ],
+            [
+              "Green d'hide",
+              "40",
+              "40"
+            ],
+            [
+              "Blue d'hide",
+              "50",
+              "40"
+            ],
+            [
+              "Red d'hide",
+              "60",
+              "40"
+            ],
+            [
+              "Black d'hide",
+              "70",
+              "40"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "**Requirement:** 40 Ranged",
+        "**Features:** Target practice, weapon shop"
+      ]
+    },
+    "prayer": {
+      "id": "prayer",
+      "kind": "skill",
+      "title": "Prayer",
+      "tables": [
+        {
+          "heading": "Prayers",
+          "rows": [
+            [
+              "Level",
+              "Prayer",
+              "Effect"
+            ],
+            [
+              "1",
+              "Thick Skin",
+              "+5% Defence"
+            ],
+            [
+              "4",
+              "Burst of Strength",
+              "+5% Strength"
+            ],
+            [
+              "7",
+              "Clarity of Thought",
+              "+5% Attack"
+            ],
+            [
+              "10",
+              "Rock Skin",
+              "+10% Defence"
+            ],
+            [
+              "13",
+              "Superhuman Strength",
+              "+10% Strength"
+            ],
+            [
+              "16",
+              "Improved Reflexes",
+              "+10% Attack"
+            ],
+            [
+              "19",
+              "Rapid Restore",
+              "2x stat recovery (not prayer/hitpoints)"
+            ],
+            [
+              "22",
+              "Rapid Heal",
+              "2x hitpoints recovery"
+            ],
+            [
+              "25",
+              "Protect Item",
+              "Keep 1 extra item on death"
+            ],
+            [
+              "28",
+              "Steel Skin",
+              "+15% Defence"
+            ],
+            [
+              "31",
+              "Ultimate Strength",
+              "+15% Strength"
+            ],
+            [
+              "34",
+              "Incredible Reflexes",
+              "+15% Attack"
+            ],
+            [
+              "37",
+              "Protect from Magic",
+              "Blocks magical attacks"
+            ],
+            [
+              "40",
+              "Protect from Missiles",
+              "Blocks ranged attacks"
+            ],
+            [
+              "43",
+              "Protect from Melee",
+              "Blocks melee attacks"
+            ]
+          ]
+        },
+        {
+          "heading": "Bone Types",
+          "rows": [
+            [
+              "Bone",
+              "XP",
+              "Source"
+            ],
+            [
+              "Regular bones",
+              "4.5",
+              "Most small monsters"
+            ],
+            [
+              "Burnt bones",
+              "4.5",
+              "Greater Demon hut (wilderness)"
+            ],
+            [
+              "Bat bones",
+              "4.5",
+              "Giant Bats (Taverley Dungeon, Keep LeFaye)"
+            ],
+            [
+              "Wolf bones",
+              "4.5",
+              "Wolves (White Mountain, Al Kharid)"
+            ],
+            [
+              "Big bones",
+              "15",
+              "Hill Giants, Moss Giants, Ice Giants, Fire Giants"
+            ],
+            [
+              "Babydragon bones",
+              "30",
+              "Baby dragons (Taverley Dungeon, Brimhaven Dungeon)"
+            ],
+            [
+              "Dragon bones",
+              "72",
+              "Adult dragons (Green, Blue, Red, Black, KBD)"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "**Requirement:** 31 Prayer",
+        "**Features:** Altar with temporary prayer boost, Brother Jered (blesses holy symbols, gives priest robes)"
+      ]
+    },
+    "agility": {
+      "id": "agility",
+      "kind": "skill",
+      "title": "Agility",
+      "tables": [
+        {
+          "heading": "Gnome Stronghold Course (Level 1+)",
+          "rows": [
+            [
+              "Obstacle",
+              "XP",
+              "Failable"
+            ],
+            [
+              "Log balance",
+              "7.5",
+              "No"
+            ],
+            [
+              "Net climb",
+              "7.5",
+              "No"
+            ],
+            [
+              "Tree branch",
+              "5",
+              "No"
+            ],
+            [
+              "Tight rope",
+              "7.5",
+              "No"
+            ],
+            [
+              "Tree branch (down)",
+              "5",
+              "No"
+            ],
+            [
+              "Net climb (down)",
+              "7.5",
+              "No"
+            ],
+            [
+              "Pipes",
+              "7.5",
+              "No"
+            ],
+            [
+              "**Lap bonus**",
+              "**39**",
+              "No"
+            ],
+            [
+              "**Total per lap**",
+              "**86.5**",
+              ""
+            ]
+          ]
+        },
+        {
+          "heading": "Barbarian Outpost Course (Level 35+)",
+          "rows": [
+            [
+              "Obstacle",
+              "XP",
+              "Failable"
+            ],
+            [
+              "Pipe",
+              "10",
+              "No"
+            ],
+            [
+              "Rope swing",
+              "20",
+              "Yes"
+            ],
+            [
+              "Log balance",
+              "12.5",
+              "Yes"
+            ],
+            [
+              "Net climb",
+              "7.5",
+              "No"
+            ],
+            [
+              "Ledge",
+              "20",
+              "Yes"
+            ],
+            [
+              "Crumbling walls",
+              "12.5",
+              "No"
+            ],
+            [
+              "**Lap bonus**",
+              "**139.5**",
+              "Yes"
+            ],
+            [
+              "**Total per lap**",
+              "**222**",
+              ""
+            ]
+          ]
+        },
+        {
+          "heading": "Wilderness Course (Level 52+)",
+          "rows": [
+            [
+              "Obstacle",
+              "XP",
+              "Failable"
+            ],
+            [
+              "Ridge",
+              "15",
+              "Yes"
+            ],
+            [
+              "Pipe",
+              "12.5",
+              "No"
+            ],
+            [
+              "Rope swing",
+              "20",
+              "Yes"
+            ],
+            [
+              "Stepping stones",
+              "20",
+              "Yes"
+            ],
+            [
+              "Log balance",
+              "20",
+              "Yes"
+            ],
+            [
+              "Rocks",
+              "0",
+              "No"
+            ],
+            [
+              "**Lap bonus**",
+              "**571.5**",
+              "Yes"
+            ],
+            [
+              "**Total per lap**",
+              "**659**",
+              ""
+            ]
+          ]
+        },
+        {
+          "heading": "Individual Shortcuts",
+          "rows": [
+            [
+              "Level",
+              "Shortcut",
+              "XP",
+              "Location"
+            ],
+            [
+              "5",
+              "Crumbling wall",
+              "15",
+              "Taverley-Falador"
+            ],
+            [
+              "15",
+              "Monkey bars",
+              "20",
+              "Edgeville Dungeon"
+            ],
+            [
+              "20",
+              "Log balance",
+              "8.5",
+              "Coal Trucks to Seers' Village"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "Obstacle",
+        "Log balance",
+        "Net climb",
+        "Tree branch",
+        "Tight rope",
+        "Tree branch (down)",
+        "Net climb (down)",
+        "Pipes",
+        "**Lap bonus**",
+        "**Total per lap**"
+      ]
+    },
+    "defence": {
+      "id": "defence",
+      "kind": "skill",
+      "title": "Defence",
+      "tables": [
+        {
+          "heading": "Melee Armour",
+          "rows": [
+            [
+              "Type",
+              "Properties"
+            ],
+            [
+              "Full helm",
+              "Superior protection, hinders magic and ranged"
+            ],
+            [
+              "Medium helm",
+              "Less protection, fewer penalties"
+            ],
+            [
+              "Chainmail",
+              "Good vs slash/crush, weak vs stab. Allows ranged use"
+            ],
+            [
+              "Platebody",
+              "Strongest melee defence, weak vs crush. Restricts ranged/magic"
+            ],
+            [
+              "Kite shield",
+              "Excellent slash defence, weak vs stab"
+            ],
+            [
+              "Square shield",
+              "Excellent slash defence, weak vs crush"
+            ],
+            [
+              "Anti-dragonfire shield",
+              "Reduces dragonfire damage"
+            ]
+          ]
+        },
+        {
+          "heading": "Ranger Armour",
+          "rows": [
+            [
+              "Type",
+              "Properties"
+            ],
+            [
+              "Leather",
+              "Basic protection, good flexibility for ranged"
+            ],
+            [
+              "Studded leather",
+              "Improved leather, still allows ranged"
+            ],
+            [
+              "Dragonhide",
+              "Strongest ranged armour, good magic defence, hinders magic casting"
+            ]
+          ]
+        },
+        {
+          "heading": "Mage Armour",
+          "rows": [
+            [
+              "Type",
+              "Properties"
+            ],
+            [
+              "Mage robes",
+              "No melee/ranged defence, boosts magic attack and magic defence"
+            ]
+          ]
+        },
+        {
+          "heading": "Armour Level Requirements",
+          "rows": [
+            [
+              "Level",
+              "Metal / Type"
+            ],
+            [
+              "1",
+              "Bronze, Leather"
+            ],
+            [
+              "5",
+              "Iron"
+            ],
+            [
+              "10",
+              "Steel, Studded leather"
+            ],
+            [
+              "20",
+              "Black/White, Green d'hide (requires 40 Ranged)"
+            ],
+            [
+              "30",
+              "Mithril"
+            ],
+            [
+              "40",
+              "Adamant, Blue d'hide (requires 50 Ranged), Mystic robes"
+            ],
+            [
+              "50",
+              "Rune"
+            ],
+            [
+              "60",
+              "Dragon (some items require quests), Red d'hide (requires 60 Ranged)"
+            ],
+            [
+              "70",
+              "Black d'hide (requires 70 Ranged)"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "mining": {
+      "id": "mining",
+      "kind": "skill",
+      "title": "Mining",
+      "tables": [
+        {
+          "heading": "Pickaxes",
+          "rows": [
+            [
+              "Pickaxe",
+              "Level",
+              "Shop Price"
+            ],
+            [
+              "Bronze",
+              "1",
+              "1 gp (free spawns at Barbarian Village, Lumbridge 3F)"
+            ],
+            [
+              "Iron",
+              "1",
+              "137 gp"
+            ],
+            [
+              "Steel",
+              "6",
+              "500 gp"
+            ],
+            [
+              "Mithril",
+              "21",
+              "1,300 gp"
+            ],
+            [
+              "Adamant",
+              "31",
+              "3,200 gp"
+            ],
+            [
+              "Rune",
+              "41",
+              "32,000 gp"
+            ]
+          ]
+        },
+        {
+          "heading": "Ores",
+          "rows": [
+            [
+              "Level",
+              "Ore",
+              "Notable Locations"
+            ],
+            [
+              "1",
+              "Rune essence",
+              "Varrock, Yanille rune essence mines"
+            ],
+            [
+              "1",
+              "Tin",
+              "SW Varrock, SE Varrock, Rimmington"
+            ],
+            [
+              "1",
+              "Copper",
+              "SW Varrock, SE Varrock, Rimmington"
+            ],
+            [
+              "10",
+              "Iron",
+              "Asgarnian Ice Dungeon, Al Kharid"
+            ],
+            [
+              "15",
+              "Silver",
+              "SE Varrock, Fight Arena, Al Kharid"
+            ],
+            [
+              "20",
+              "Coal",
+              "Al Kharid, SW Varrock, Crafting Guild"
+            ],
+            [
+              "30",
+              "Gold",
+              "Dwarven Mine, Coal Trucks, Barbarian Village, Mining Guild"
+            ],
+            [
+              "40",
+              "Mithril",
+              "North Brimhaven, Crafting Guild"
+            ],
+            [
+              "40",
+              "Gems",
+              "Shilo Village (requires Shilo Village quest)"
+            ],
+            [
+              "55",
+              "Adamantite",
+              "Al Kharid, Fight Arena, West Lumbridge Swamp, Mining Guild"
+            ],
+            [
+              "70",
+              "Runite",
+              "Al Kharid, West Lumbridge Swamp, Grand Tree, Desert Mining Camp"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "1",
+        "1",
+        "1",
+        "10",
+        "15",
+        "20",
+        "30",
+        "40",
+        "40",
+        "55",
+        "70"
+      ]
+    },
+    "woodcutting": {
+      "id": "woodcutting",
+      "kind": "skill",
+      "title": "Woodcutting",
+      "tables": [
+        {
+          "heading": "Axes",
+          "rows": [
+            [
+              "Axe",
+              "Level",
+              "How to Obtain"
+            ],
+            [
+              "Bronze",
+              "1",
+              "Free spawn near Lumbridge windmill, Bob's Axes"
+            ],
+            [
+              "Iron",
+              "1",
+              "Bob's Axes, Smithing"
+            ],
+            [
+              "Steel",
+              "6",
+              "Bob's Axes, Tree Spirit drops, Smithing"
+            ],
+            [
+              "Black",
+              "6",
+              "Black Demon / KBD drops, player trade"
+            ],
+            [
+              "Mithril",
+              "21",
+              "Tree Spirit drops, Smithing"
+            ],
+            [
+              "Adamant",
+              "31",
+              "Tree Spirit drops, Smithing"
+            ],
+            [
+              "Rune",
+              "41",
+              "Tree Spirit drops, Smithing"
+            ]
+          ]
+        },
+        {
+          "heading": "Trees",
+          "rows": [
+            [
+              "Tree",
+              "Level",
+              "Log Type",
+              "Locations"
+            ],
+            [
+              "Normal",
+              "1",
+              "Logs",
+              "Draynor, south of Seers, Feldip Hills"
+            ],
+            [
+              "Oak",
+              "15",
+              "Oak logs",
+              "East of Draynor bank, south of Seers bank"
+            ],
+            [
+              "Willow",
+              "30",
+              "Willow logs",
+              "SW of Draynor bank, NW of Seers bank"
+            ],
+            [
+              "Maple",
+              "45",
+              "Maple logs",
+              "North and south of Seers bank"
+            ],
+            [
+              "Yew",
+              "60",
+              "Yew logs",
+              "Cemetery south of Seers, south of Edgeville bank"
+            ],
+            [
+              "Magic",
+              "75",
+              "Magic logs",
+              "South of Sorcerer's Tower, Gnome Stronghold"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "Normal",
+        "Oak",
+        "Willow",
+        "Maple",
+        "Yew",
+        "Magic"
+      ]
+    },
+    "fishing": {
+      "id": "fishing",
+      "kind": "skill",
+      "title": "Fishing",
+      "tables": [
+        {
+          "heading": "Equipment",
+          "rows": [
+            [
+              "Equipment",
+              "Used At",
+              "Bait Required"
+            ],
+            [
+              "Small fishing net",
+              "Net/Bait spots (sea)",
+              "None"
+            ],
+            [
+              "Fishing rod",
+              "Net/Bait spots (sea/river)",
+              "Fishing bait"
+            ],
+            [
+              "Fly fishing rod",
+              "Lure/Bait spots (river)",
+              "Feathers"
+            ],
+            [
+              "Harpoon",
+              "Cage/Harpoon spots",
+              "None"
+            ],
+            [
+              "Lobster pot",
+              "Cage/Harpoon spots",
+              "None"
+            ],
+            [
+              "Big fishing net",
+              "Net/Harpoon spots (members)",
+              "None"
+            ]
+          ]
+        },
+        {
+          "heading": "Fish Table",
+          "rows": [
+            [
+              "Level",
+              "Fish",
+              "XP",
+              "Equipment",
+              "Spot Type"
+            ],
+            [
+              "1",
+              "Shrimp",
+              "10",
+              "Small net",
+              "Net/Bait"
+            ],
+            [
+              "5",
+              "Sardine",
+              "20",
+              "Bait",
+              "Net/Bait"
+            ],
+            [
+              "10",
+              "Herring",
+              "30",
+              "Bait",
+              "Net/Bait"
+            ],
+            [
+              "15",
+              "Anchovies",
+              "40",
+              "Small net",
+              "Net/Bait"
+            ],
+            [
+              "16",
+              "Mackerel",
+              "20",
+              "Big net",
+              "Net/Harpoon"
+            ],
+            [
+              "20",
+              "Trout",
+              "50",
+              "Fly rod",
+              "Lure/Bait"
+            ],
+            [
+              "23",
+              "Cod",
+              "45",
+              "Big net",
+              "Net/Harpoon"
+            ],
+            [
+              "25",
+              "Pike",
+              "60",
+              "Bait",
+              "Lure/Bait"
+            ],
+            [
+              "30",
+              "Salmon",
+              "70",
+              "Fly rod",
+              "Lure/Bait"
+            ],
+            [
+              "35",
+              "Tuna",
+              "80",
+              "Harpoon",
+              "Cage/Harpoon"
+            ],
+            [
+              "40",
+              "Lobster",
+              "90",
+              "Lobster pot",
+              "Cage/Harpoon"
+            ],
+            [
+              "46",
+              "Bass",
+              "100",
+              "Big net",
+              "Net/Harpoon"
+            ],
+            [
+              "50",
+              "Swordfish",
+              "100",
+              "Harpoon",
+              "Cage/Harpoon"
+            ],
+            [
+              "76",
+              "Shark",
+              "110",
+              "Harpoon",
+              "Net/Harpoon"
+            ],
+            [
+              "79",
+              "Sea turtle",
+              "57",
+              "Trawler",
+              "Mini-game"
+            ],
+            [
+              "81",
+              "Manta ray",
+              "69",
+              "Trawler",
+              "Mini-game"
+            ]
+          ]
+        },
+        {
+          "heading": "Fishing Locations",
+          "rows": [
+            [
+              "Location",
+              "Spot Types",
+              "Members"
+            ],
+            [
+              "Lumbridge (river)",
+              "Lure/Bait",
+              "No"
+            ],
+            [
+              "Draynor Village",
+              "Net/Bait",
+              "No"
+            ],
+            [
+              "Karamja (Musa Point)",
+              "Cage/Harpoon",
+              "No"
+            ],
+            [
+              "Barbarian Village (river)",
+              "Lure/Bait",
+              "No"
+            ],
+            [
+              "Catherby",
+              "All types",
+              "Yes"
+            ],
+            [
+              "Fishing Guild",
+              "All types",
+              "Yes"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "Lumbridge (river)",
+        "Draynor Village",
+        "Karamja (Musa Point)",
+        "Barbarian Village (river)",
+        "Catherby",
+        "Fishing Guild"
+      ]
+    },
+    "strength": {
+      "id": "strength",
+      "kind": "skill",
+      "title": "Strength",
+      "tables": [
+        {
+          "heading": "Temporary Boosts",
+          "rows": [
+            [
+              "Source",
+              "Effect"
+            ],
+            [
+              "Strength potion",
+              "Temporary strength level increase"
+            ],
+            [
+              "Burst of Strength (Prayer 4)",
+              "+5% strength"
+            ],
+            [
+              "Superhuman Strength (Prayer 13)",
+              "+10% strength"
+            ],
+            [
+              "Ultimate Strength (Prayer 31)",
+              "+15% strength"
+            ],
+            [
+              "Dragon battleaxe special",
+              "Large temporary boost, reduces other combat stats"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "fletching": {
+      "id": "fletching",
+      "kind": "skill",
+      "title": "Fletching",
+      "tables": [
+        {
+          "heading": "Bows",
+          "rows": [
+            [
+              "Bow",
+              "Fletching Level (cut/string)",
+              "Ranged Level to Wield"
+            ],
+            [
+              "Shortbow",
+              "5 / 5",
+              "1"
+            ],
+            [
+              "Longbow",
+              "10 / 10",
+              "1"
+            ],
+            [
+              "Oak shortbow",
+              "20 / 20",
+              "5"
+            ],
+            [
+              "Oak longbow",
+              "25 / 25",
+              "5"
+            ],
+            [
+              "Willow shortbow",
+              "35 / 35",
+              "20"
+            ],
+            [
+              "Willow longbow",
+              "40 / 40",
+              "20"
+            ],
+            [
+              "Maple shortbow",
+              "50 / 50",
+              "30"
+            ],
+            [
+              "Maple longbow",
+              "55 / 55",
+              "30"
+            ],
+            [
+              "Yew shortbow",
+              "65 / 65",
+              "40"
+            ],
+            [
+              "Yew longbow",
+              "70 / 70",
+              "40"
+            ],
+            [
+              "Magic shortbow",
+              "80 / 80",
+              "50"
+            ],
+            [
+              "Magic longbow",
+              "85 / 85",
+              "50"
+            ]
+          ]
+        },
+        {
+          "heading": "Arrow Types",
+          "rows": [
+            [
+              "Arrow",
+              "Fletching Level",
+              "Min Bow"
+            ],
+            [
+              "Bronze",
+              "1",
+              "Any"
+            ],
+            [
+              "Iron",
+              "15",
+              "Any"
+            ],
+            [
+              "Steel",
+              "30",
+              "Oak"
+            ],
+            [
+              "Mithril",
+              "45",
+              "Willow"
+            ],
+            [
+              "Adamant",
+              "60",
+              "Maple"
+            ],
+            [
+              "Rune",
+              "75",
+              "Yew"
+            ]
+          ]
+        },
+        {
+          "heading": "Crossbow Bolt Tips",
+          "rows": [
+            [
+              "Tip",
+              "Fletching Level"
+            ],
+            [
+              "Opal",
+              "17"
+            ],
+            [
+              "Pearl",
+              "34"
+            ],
+            [
+              "Barbed",
+              "51 (buy from Ranging Guild)"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "magic": {
+      "id": "magic",
+      "kind": "skill",
+      "title": "Magic",
+      "tables": [
+        {
+          "heading": "Elemental Runes",
+          "rows": [
+            [
+              "Rune",
+              "Replaced By"
+            ],
+            [
+              "Air",
+              "Staff of air"
+            ],
+            [
+              "Water",
+              "Staff of water"
+            ],
+            [
+              "Earth",
+              "Staff of earth"
+            ],
+            [
+              "Fire",
+              "Staff of fire"
+            ]
+          ]
+        },
+        {
+          "heading": "Catalytic Runes",
+          "rows": [
+            [
+              "Rune",
+              "Used For"
+            ],
+            [
+              "Mind",
+              "Strike spells"
+            ],
+            [
+              "Body",
+              "Curse spells"
+            ],
+            [
+              "Cosmic",
+              "Bolt spells"
+            ],
+            [
+              "Chaos",
+              "Enchantment spells"
+            ],
+            [
+              "Nature",
+              "Conversion spells"
+            ],
+            [
+              "Death",
+              "Blast spells"
+            ],
+            [
+              "Law",
+              "Teleport spells"
+            ],
+            [
+              "Blood",
+              "Required for high level wave spells"
+            ],
+            [
+              "Soul",
+              "Required for high level curse spells"
+            ]
+          ]
+        },
+        {
+          "heading": "Jewelry Enchantment",
+          "rows": [
+            [
+              "Item",
+              "Level",
+              "Effect",
+              "Uses"
+            ],
+            [
+              "Amulet of Damned",
+              "7",
+              "Reflects 10% damage",
+              "40 damage reflected"
+            ],
+            [
+              "Amulet of Magic",
+              "7",
+              "+10 magic attack",
+              "Permanent"
+            ],
+            [
+              "Ring of Dueling",
+              "27",
+              "Teleport to Duel Arena",
+              "8"
+            ],
+            [
+              "Ring of Defence",
+              "27",
+              "+7 defence",
+              "Permanent"
+            ],
+            [
+              "Ring of Forging",
+              "49",
+              "100% iron smelting success",
+              "140 ores"
+            ],
+            [
+              "Ring of Strength",
+              "49",
+              "+10 strength",
+              "Permanent"
+            ],
+            [
+              "Ring of Life",
+              "57",
+              "Emergency teleport at <10% HP",
+              "1"
+            ],
+            [
+              "Amulet of Glory",
+              "68",
+              "+6 all combat stats",
+              "Permanent"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "**Requirement:** 66 Magic",
+        "**Features:** Sells rare soul runes, training zombies"
+      ]
+    },
+    "thieving": {
+      "id": "thieving",
+      "kind": "skill",
+      "title": "Thieving",
+      "tables": [
+        {
+          "heading": "Pickpocketing",
+          "rows": [
+            [
+              "NPC",
+              "Level",
+              "Loot"
+            ],
+            [
+              "Man/Woman",
+              "1",
+              "3 gp"
+            ],
+            [
+              "Farmer",
+              "10",
+              "9 gp, seeds"
+            ],
+            [
+              "Warrior",
+              "25",
+              "18 gp"
+            ],
+            [
+              "Guard",
+              "40",
+              "30 gp"
+            ],
+            [
+              "Knight",
+              "55",
+              "50 gp"
+            ],
+            [
+              "Paladin",
+              "70",
+              "80 gp, 2 chaos runes"
+            ],
+            [
+              "Hero",
+              "80",
+              "200-300 gp, various gems"
+            ]
+          ]
+        },
+        {
+          "heading": "Market Stalls",
+          "rows": [
+            [
+              "Stall",
+              "Level",
+              "Loot"
+            ],
+            [
+              "Cake stall",
+              "5",
+              "Cake, bread, chocolate slice"
+            ],
+            [
+              "Tea stall",
+              "5",
+              "Cup of tea"
+            ],
+            [
+              "Silk stall",
+              "20",
+              "Silk (sell for 60 gp to silk trader)"
+            ],
+            [
+              "Fur stall",
+              "35",
+              "Fur"
+            ],
+            [
+              "Silver stall",
+              "50",
+              "Silver ore"
+            ],
+            [
+              "Spice stall",
+              "65",
+              "Spice"
+            ],
+            [
+              "Gem stall",
+              "75",
+              "Gems (sapphire to diamond)"
+            ]
+          ]
+        },
+        {
+          "heading": "Chests",
+          "rows": [
+            [
+              "Chest",
+              "Level",
+              "Location",
+              "Loot"
+            ],
+            [
+              "10 gp chest",
+              "1",
+              "East Ardougne, Magic Axe Hut, Pirates' Hideout",
+              "10 gp"
+            ],
+            [
+              "Nature rune chest",
+              "28",
+              "East Ardougne, Pirates' Hideout",
+              "3 nature runes"
+            ],
+            [
+              "50 gp chest",
+              "43",
+              "Ardougne, Pirates' Hideout",
+              "50 gp"
+            ],
+            [
+              "Steel arrowtips chest",
+              "47",
+              "Hemenster",
+              "5 steel arrowtips"
+            ],
+            [
+              "Blood rune chest",
+              "59",
+              "Chaos Druid Tower",
+              "2 blood runes"
+            ],
+            [
+              "Ardougne castle chest",
+              "72",
+              "Ardougne Castle",
+              "1,000 gp, raw shark"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "10 gp chest",
+        "Nature rune chest",
+        "50 gp chest",
+        "Steel arrowtips chest",
+        "Blood rune chest",
+        "Ardougne castle chest"
+      ]
+    },
+    "hitpoints": {
+      "id": "hitpoints",
+      "kind": "skill",
+      "title": "Hitpoints",
+      "tables": [
+        {
+          "heading": "Recovery",
+          "rows": [
+            [
+              "Method",
+              "Effect"
+            ],
+            [
+              "Food",
+              "Restores varying HP depending on food type"
+            ],
+            [
+              "Rapid Heal prayer (level 22)",
+              "Doubles natural HP regeneration rate"
+            ],
+            [
+              "Monks at monastery",
+              "Heal you for free"
+            ]
+          ]
+        },
+        {
+          "heading": "Poison",
+          "rows": [
+            [
+              "Cure",
+              "Source"
+            ],
+            [
+              "Antipoison potion",
+              "Herblore (level 5) or shops"
+            ],
+            [
+              "Superantipoison",
+              "Herblore (level 48)"
+            ],
+            [
+              "Curing prayers",
+              "Prayer book"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "firemaking": {
+      "id": "firemaking",
+      "kind": "skill",
+      "title": "Firemaking",
+      "tables": [
+        {
+          "heading": "Log Types",
+          "rows": [
+            [
+              "Log",
+              "Level",
+              "XP"
+            ],
+            [
+              "Normal logs",
+              "1",
+              "40"
+            ],
+            [
+              "Oak logs",
+              "1",
+              "40"
+            ],
+            [
+              "Willow logs",
+              "15",
+              "60"
+            ],
+            [
+              "Teak logs",
+              "30",
+              "90"
+            ],
+            [
+              "Maple logs",
+              "45",
+              "135"
+            ],
+            [
+              "Yew logs",
+              "60",
+              "202.5"
+            ],
+            [
+              "Magic logs",
+              "75",
+              "303.8"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "smithing": {
+      "id": "smithing",
+      "kind": "skill",
+      "title": "Smithing",
+      "tables": [
+        {
+          "heading": "Smelting",
+          "rows": [
+            [
+              "Bar",
+              "Ores Required",
+              "Level",
+              "Notes"
+            ],
+            [
+              "Bronze",
+              "1 Tin + 1 Copper",
+              "1",
+              ""
+            ],
+            [
+              "Iron",
+              "1 Iron ore",
+              "15",
+              "50% success rate (Ring of Forging = 100%)"
+            ],
+            [
+              "Silver",
+              "1 Silver ore",
+              "20",
+              "Used for Crafting, not Smithing items"
+            ],
+            [
+              "Steel",
+              "1 Iron ore + 2 Coal",
+              "30",
+              ""
+            ],
+            [
+              "Gold",
+              "1 Gold ore",
+              "40",
+              "Used for Crafting, not Smithing items"
+            ],
+            [
+              "Mithril",
+              "1 Mithril ore + 4 Coal",
+              "50",
+              ""
+            ],
+            [
+              "Adamant",
+              "1 Adamantite ore + 6 Coal",
+              "70",
+              ""
+            ],
+            [
+              "Runite",
+              "1 Runite ore + 8 Coal",
+              "85",
+              ""
+            ]
+          ]
+        },
+        {
+          "heading": "Forging",
+          "rows": [
+            [
+              "Item",
+              "Bronze",
+              "Iron",
+              "Steel",
+              "Mithril",
+              "Adamant",
+              "Rune"
+            ],
+            [
+              "Dagger",
+              "1",
+              "15",
+              "30",
+              "50",
+              "70",
+              "85"
+            ],
+            [
+              "Axe",
+              "1",
+              "16",
+              "31",
+              "51",
+              "71",
+              "86"
+            ],
+            [
+              "Mace",
+              "2",
+              "17",
+              "32",
+              "52",
+              "72",
+              "87"
+            ],
+            [
+              "Med helm",
+              "3",
+              "18",
+              "33",
+              "53",
+              "73",
+              "88"
+            ],
+            [
+              "Sword",
+              "4",
+              "19",
+              "34",
+              "54",
+              "74",
+              "89"
+            ],
+            [
+              "Scimitar",
+              "5",
+              "20",
+              "35",
+              "55",
+              "75",
+              "90"
+            ],
+            [
+              "Longsword",
+              "6",
+              "21",
+              "36",
+              "56",
+              "76",
+              "91"
+            ],
+            [
+              "Full helm",
+              "7",
+              "22",
+              "37",
+              "57",
+              "77",
+              "92"
+            ],
+            [
+              "Square shield",
+              "8",
+              "23",
+              "38",
+              "58",
+              "78",
+              "93"
+            ],
+            [
+              "Warhammer",
+              "9",
+              "24",
+              "39",
+              "59",
+              "79",
+              "94"
+            ],
+            [
+              "Battleaxe",
+              "10",
+              "25",
+              "40",
+              "60",
+              "80",
+              "95"
+            ],
+            [
+              "Chainbody",
+              "11",
+              "26",
+              "41",
+              "61",
+              "81",
+              "96"
+            ],
+            [
+              "Kite shield",
+              "12",
+              "27",
+              "42",
+              "62",
+              "82",
+              "97"
+            ],
+            [
+              "2h sword",
+              "14",
+              "29",
+              "44",
+              "64",
+              "84",
+              "99"
+            ],
+            [
+              "Plateskirt",
+              "16",
+              "31",
+              "46",
+              "66",
+              "86",
+              "99"
+            ],
+            [
+              "Platelegs",
+              "16",
+              "31",
+              "46",
+              "66",
+              "86",
+              "99"
+            ],
+            [
+              "Platebody",
+              "18",
+              "33",
+              "48",
+              "68",
+              "88",
+              "99"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": []
+    },
+    "cooking": {
+      "id": "cooking",
+      "kind": "skill",
+      "title": "Cooking",
+      "tables": [
+        {
+          "heading": "Food Table",
+          "rows": [
+            [
+              "Level",
+              "Food",
+              "Heals",
+              "XP"
+            ],
+            [
+              "1",
+              "Cooked meat",
+              "3",
+              "30"
+            ],
+            [
+              "1",
+              "Shrimp",
+              "3",
+              "30"
+            ],
+            [
+              "1",
+              "Bread",
+              "4",
+              "40"
+            ],
+            [
+              "1",
+              "Sardine",
+              "4",
+              "40"
+            ],
+            [
+              "5",
+              "Herring",
+              "5",
+              "50"
+            ],
+            [
+              "10",
+              "Mackerel",
+              "6",
+              "60"
+            ],
+            [
+              "10",
+              "Redberry pie",
+              "6 (2 bites)",
+              "78"
+            ],
+            [
+              "15",
+              "Trout",
+              "7",
+              "70"
+            ],
+            [
+              "15",
+              "Anchovies",
+              "3",
+              "30"
+            ],
+            [
+              "18",
+              "Cod",
+              "7",
+              "70"
+            ],
+            [
+              "20",
+              "Pike",
+              "8",
+              "80"
+            ],
+            [
+              "20",
+              "Meat pie",
+              "8 (2 bites)",
+              "80"
+            ],
+            [
+              "25",
+              "Salmon",
+              "9",
+              "90"
+            ],
+            [
+              "25",
+              "Stew",
+              "9",
+              "117"
+            ],
+            [
+              "30",
+              "Chompy bird",
+              "10",
+              "100"
+            ],
+            [
+              "30",
+              "Tuna",
+              "10",
+              "100"
+            ],
+            [
+              "30",
+              "Apple pie",
+              "10 (2 bites)",
+              "100"
+            ],
+            [
+              "35",
+              "Wine",
+              "15",
+              "110"
+            ],
+            [
+              "35",
+              "Pizza",
+              "10 (2 bites)",
+              "143"
+            ],
+            [
+              "40",
+              "Lobster",
+              "12",
+              "120"
+            ],
+            [
+              "40",
+              "Cake",
+              "12 (3 bites)",
+              "180"
+            ],
+            [
+              "43",
+              "Bass",
+              "13",
+              "130"
+            ],
+            [
+              "45",
+              "Swordfish",
+              "14",
+              "140"
+            ],
+            [
+              "45",
+              "Meat pizza",
+              "14 (2 bites)",
+              "26"
+            ],
+            [
+              "50",
+              "Chocolate cake",
+              "15 (3 bites)",
+              "30"
+            ],
+            [
+              "50",
+              "Oomlie wrap",
+              "14",
+              "40"
+            ],
+            [
+              "53",
+              "Lava eel",
+              "14",
+              "140"
+            ],
+            [
+              "53",
+              "Ugthanki kebab",
+              "19",
+              "120"
+            ],
+            [
+              "60",
+              "Curry",
+              "19",
+              "221"
+            ],
+            [
+              "65",
+              "Pineapple pizza",
+              "20 (2 bites)",
+              "110"
+            ],
+            [
+              "80",
+              "Shark",
+              "20",
+              "210"
+            ],
+            [
+              "82",
+              "Sea turtle",
+              "20",
+              "211.3"
+            ],
+            [
+              "91",
+              "Manta ray",
+              "22",
+              "216.3"
+            ]
+          ]
+        },
+        {
+          "heading": "Cooking Methods",
+          "rows": [
+            [
+              "Method",
+              "How"
+            ],
+            [
+              "Meat/Fish",
+              "Use raw item on range or fire"
+            ],
+            [
+              "Bread",
+              "Mix flour + water → dough → cook on range"
+            ],
+            [
+              "Stew",
+              "Bowl of water + cooked meat + potato → cook on range"
+            ],
+            [
+              "Pizza",
+              "Flour + water → dough → tomato → cheese → cook → add topping"
+            ],
+            [
+              "Cake",
+              "Flour + egg + milk → cake tin → cook on range"
+            ],
+            [
+              "Wine",
+              "Grapes + jug of water"
+            ],
+            [
+              "Curry",
+              "Bowl of water + cooked meat + spice → cook on range"
+            ],
+            [
+              "Pies",
+              "Pastry dough + pie dish + filling → cook on range"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [],
+      "locations": [
+        "**Requirement:** 32 Cooking + Chef's hat equipped",
+        "**Features:** Flour mill, water supply, stoves, apples, chocolate"
+      ]
+    },
+    "holy-grail": {
+      "id": "holy-grail",
+      "kind": "quest",
+      "title": "Holy Grail",
+      "tables": [
+        {
+          "heading": "Holy Grail",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "2 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "King Arthur",
+              "Camelot Castle"
+            ],
+            [
+              "Merlin",
+              "Camelot Castle (downstairs)"
+            ],
+            [
+              "Brother Galahad",
+              "Hermit shack, west of McGrubor's Woods"
+            ],
+            [
+              "High Priest",
+              "Church on Entrana"
+            ],
+            [
+              "Crone",
+              "Entrana"
+            ],
+            [
+              "Draynor Manor",
+              "North of Draynor Village (Magic Whistles on top floor)"
+            ],
+            [
+              "Black Knight Titan",
+              "Fisher King's realm (level 120, requires Excalibur)"
+            ],
+            [
+              "Fisher King",
+              "Fisher King's Castle"
+            ],
+            [
+              "Sir Percival",
+              "Goblin Village, north of Falador"
+            ],
+            [
+              "Holy Grail",
+              "East tower top floor, Fisher King's Castle"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Excalibur (from Merlin's Crystal)",
+        "Food and combat equipment"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "King Arthur",
+        "Merlin",
+        "Brother Galahad",
+        "High Priest",
+        "Crone",
+        "Draynor Manor",
+        "Black Knight Titan",
+        "Fisher King",
+        "Sir Percival",
+        "Holy Grail"
+      ],
+      "locations": [
+        "King Arthur",
+        "Merlin",
+        "Brother Galahad",
+        "High Priest",
+        "Crone",
+        "Draynor Manor",
+        "Black Knight Titan",
+        "Fisher King",
+        "Sir Percival",
+        "Holy Grail"
+      ]
+    },
+    "temple-of-ikov": {
+      "id": "temple-of-ikov",
+      "kind": "quest",
+      "title": "Temple of Ikov",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Lucien",
+              "Quest start",
+              "Flying Horse Bar, W of Ardougne"
+            ],
+            [
+              "Temple of Ikov",
+              "Main quest dungeon",
+              "SE of Ranging Guild"
+            ],
+            [
+              "Lesarkus",
+              "Level 84 boss (ice arrows only)",
+              "Temple of Ikov"
+            ],
+            [
+              "Winelda",
+              "Teleports you across lava",
+              "Temple of Ikov"
+            ],
+            [
+              "Guardians of Armadyl",
+              "Final choice NPCs",
+              "Temple of Ikov inner sanctum"
+            ],
+            [
+              "Boots of Lightness",
+              "Key item for bridge crossing",
+              "Temple of Ikov basement"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Lit candle",
+        "Pendant of Lucien (obtained during quest)",
+        "Yew bow or better",
+        "~50 ice arrows (obtained during quest)",
+        "20 limpwurt roots",
+        "Light equipment (weight below zero required)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Lucien",
+        "Temple of Ikov",
+        "Lesarkus",
+        "Winelda",
+        "Guardians of Armadyl",
+        "Boots of Lightness"
+      ],
+      "locations": [
+        "Lucien",
+        "Temple of Ikov",
+        "Lesarkus",
+        "Winelda",
+        "Guardians of Armadyl",
+        "Boots of Lightness"
+      ]
+    },
+    "murder-mystery": {
+      "id": "murder-mystery",
+      "kind": "quest",
+      "title": "Murder Mystery",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "3"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Guard",
+              "Quest start, outside Sinclair Mansion"
+            ],
+            [
+              "Sinclair Mansion",
+              "N of Seers' Village, crime scene"
+            ],
+            [
+              "Poison Salesman",
+              "S of Seers' Village bank"
+            ],
+            [
+              "Bob",
+              "Suspect"
+            ],
+            [
+              "Frank",
+              "Suspect"
+            ],
+            [
+              "David",
+              "Suspect"
+            ],
+            [
+              "Elizabeth",
+              "Suspect"
+            ],
+            [
+              "Carol",
+              "Suspect"
+            ],
+            [
+              "Anna",
+              "Suspect"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Pot of flour (obtainable during quest)",
+        "Flypaper (obtainable during quest)"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Guard",
+        "Sinclair Mansion",
+        "Poison Salesman",
+        "Bob",
+        "Frank",
+        "David",
+        "Elizabeth",
+        "Carol",
+        "Anna"
+      ],
+      "locations": [
+        "Use a pot of flour on the crime scene items to dust for prints.",
+        "Use flypaper to lift the prints.",
+        "Compare the fingerprints to confirm the murderer's identity."
+      ]
+    },
+    "pirates-treasure": {
+      "id": "pirates-treasure",
+      "kind": "quest",
+      "title": "Pirate's Treasure",
+      "tables": [
+        {
+          "heading": "Pirate's Treasure",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Redbeard Frank",
+              "Pub in Port Sarim"
+            ],
+            [
+              "Luthas",
+              "Banana plantation, Karamja"
+            ],
+            [
+              "Wyndin's food store",
+              "Port Sarim, near the docks"
+            ],
+            [
+              "Blue Moon Inn",
+              "Varrock, south side"
+            ],
+            [
+              "Treasure location",
+              "Falador Park"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "White apron",
+        "Spade",
+        "60 gp (30 gp for rum, 30 gp for Karamja fare)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Redbeard Frank",
+        "Luthas",
+        "Wyndin's food store",
+        "Blue Moon Inn",
+        "Treasure location"
+      ],
+      "locations": [
+        "Redbeard Frank",
+        "Luthas",
+        "Wyndin's food store",
+        "Blue Moon Inn"
+      ]
+    },
+    "dragon-slayer": {
+      "id": "dragon-slayer",
+      "kind": "quest",
+      "title": "Dragon Slayer",
+      "tables": [
+        {
+          "heading": "Dragon Slayer",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Guildmaster",
+              "Champions' Guild, south of Varrock"
+            ],
+            [
+              "Oracle",
+              "Ice Mountain"
+            ],
+            [
+              "Wormbrain",
+              "Port Sarim Jail"
+            ],
+            [
+              "Melzar's Maze",
+              "South of Crafting Guild"
+            ],
+            [
+              "Klarense",
+              "Port Sarim docks"
+            ],
+            [
+              "Captain Ned",
+              "Draynor Village"
+            ],
+            [
+              "Duke of Lumbridge",
+              "Lumbridge Castle, 2nd floor"
+            ],
+            [
+              "Elvarg (level 83)",
+              "Crandor volcano, underground lair"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Silk",
+        "Wizard's Mind Bomb (or 33 Magic)",
+        "Unfired bowl",
+        "Lobster pot",
+        "3 Planks",
+        "12 Nails (steel recommended)",
+        "Hammer",
+        "2,000+ gp (for ship purchase and other costs)",
+        "Anti-dragon shield (obtained during quest)",
+        "Food and combat equipment for final fight"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Guildmaster",
+        "Oracle",
+        "Wormbrain",
+        "Melzar's Maze",
+        "Klarense",
+        "Captain Ned",
+        "Duke of Lumbridge",
+        "Elvarg (level 83)"
+      ],
+      "locations": [
+        "Guildmaster",
+        "Oracle",
+        "Wormbrain",
+        "Melzar's Maze",
+        "Klarense",
+        "Captain Ned",
+        "Duke of Lumbridge",
+        "Elvarg (level 83)"
+      ]
+    },
+    "prince-ali-rescue": {
+      "id": "prince-ali-rescue",
+      "kind": "quest",
+      "title": "Prince Ali Rescue",
+      "tables": [
+        {
+          "heading": "Prince Ali Rescue",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "3"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Hassan",
+              "Al Kharid Palace"
+            ],
+            [
+              "Osman",
+              "Al Kharid Palace courtyard"
+            ],
+            [
+              "Ned",
+              "House in Draynor Village"
+            ],
+            [
+              "Aggie",
+              "House in Draynor Village"
+            ],
+            [
+              "Lady Keli",
+              "Jail in Draynor Village"
+            ],
+            [
+              "Joe (guard)",
+              "Outside the jail, Draynor Village"
+            ],
+            [
+              "Prince Ali",
+              "Inside the jail cell, Draynor Village"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "2 Onions",
+        "Pot of flour",
+        "Redberries",
+        "Bucket of water",
+        "Ashes",
+        "3 Balls of wool",
+        "Soft clay",
+        "Bronze bar",
+        "Rope",
+        "3 Beers",
+        "Approximately 100 gp (for purchases)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Hassan",
+        "Osman",
+        "Ned",
+        "Aggie",
+        "Lady Keli",
+        "Joe (guard)",
+        "Prince Ali"
+      ],
+      "locations": [
+        "Hassan",
+        "Osman",
+        "Ned",
+        "Aggie",
+        "Lady Keli",
+        "Joe (guard)",
+        "Prince Ali"
+      ]
+    },
+    "monks-friend": {
+      "id": "monks-friend",
+      "kind": "quest",
+      "title": "Monk's Friend",
+      "tables": [
+        {
+          "heading": "Monk's Friend",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Brother Omad",
+              "Monastery, south of Ardougne Zoo"
+            ],
+            [
+              "Brother Cedric",
+              "Forest, north of the monastery"
+            ],
+            [
+              "Ring of stones",
+              "NW of the monastery"
+            ],
+            [
+              "Thieves' den",
+              "Below the ring of stones"
+            ],
+            [
+              "Khazard guardhouse",
+              "Near the forest area"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Jug (or obtain during quest)",
+        "Logs (normal wood)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Brother Omad",
+        "Brother Cedric",
+        "Ring of stones",
+        "Thieves' den",
+        "Khazard guardhouse"
+      ],
+      "locations": [
+        "Brother Omad",
+        "Brother Cedric",
+        "Ring of stones",
+        "Thieves' den",
+        "Khazard guardhouse"
+      ]
+    },
+    "death-plateau": {
+      "id": "death-plateau",
+      "kind": "quest",
+      "title": "Death Plateau",
+      "tables": [
+        {
+          "heading": "Death Plateau",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Denulth",
+              "Imperial Guard camp, Burthorpe"
+            ],
+            [
+              "Eohric",
+              "Castle, Burthorpe"
+            ],
+            [
+              "Harold",
+              "Toad and Chicken Inn, Burthorpe"
+            ],
+            [
+              "Saba",
+              "Cave on the mountainside"
+            ],
+            [
+              "Tenzing",
+              "Sherpa's house, mountain path"
+            ],
+            [
+              "Dunstan",
+              "Blacksmith, Burthorpe"
+            ],
+            [
+              "Death Plateau",
+              "North of Burthorpe"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Iron bar",
+        "10 bread",
+        "10 cooked trout"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Denulth",
+        "Eohric",
+        "Harold",
+        "Saba",
+        "Tenzing",
+        "Dunstan",
+        "Death Plateau"
+      ],
+      "locations": [
+        "Denulth",
+        "Eohric",
+        "Harold",
+        "Saba",
+        "Tenzing",
+        "Dunstan",
+        "Death Plateau"
+      ]
+    },
+    "dwarf-cannon": {
+      "id": "dwarf-cannon",
+      "kind": "quest",
+      "title": "Dwarf Cannon",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Dwarf Commander",
+              "Quest start and progression",
+              "Across log bridge from Seers' Village"
+            ],
+            [
+              "Gilob",
+              "Captured dwarf to rescue",
+              "Cave near windmill SE of Fishing Guild"
+            ],
+            [
+              "Nulodion",
+              "Provides ammo mould",
+              "South Ice Mountain"
+            ],
+            [
+              "Watchtower",
+              "Investigation site",
+              "Dwarf camp"
+            ],
+            [
+              "Cannon shed",
+              "Cannon repair location",
+              "Dwarf camp"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "None required (all items obtained during quest)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Dwarf Commander",
+        "Gilob",
+        "Nulodion",
+        "Watchtower",
+        "Cannon shed"
+      ],
+      "locations": [
+        "Dwarf Commander",
+        "Gilob",
+        "Nulodion",
+        "Watchtower"
+      ]
+    },
+    "scorpion-catcher": {
+      "id": "scorpion-catcher",
+      "kind": "quest",
+      "title": "Scorpion Catcher",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Thormac",
+              "Quest start and completion",
+              "Sorcerer's Tower, S of Seers' Village"
+            ],
+            [
+              "Scorpion 1",
+              "Capture target",
+              "Taverley Dungeon (between Black Demons and Poison Spiders)"
+            ],
+            [
+              "Scorpion 2",
+              "Capture target",
+              "Barbarian Outpost, N of waterfall"
+            ],
+            [
+              "Scorpion 3",
+              "Capture target",
+              "Monastery upper floor, N of Falador"
+            ],
+            [
+              "Black Demons",
+              "Dangerous NPCs nearby",
+              "Taverley Dungeon"
+            ],
+            [
+              "Poison Spiders",
+              "Dangerous NPCs nearby",
+              "Taverley Dungeon"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Scorpion cage (obtained from Thormac)",
+        "Dusty key (for Taverley Dungeon access, if needed)",
+        "Armour",
+        "Dragonfire shield or antifire shield",
+        "Antipoison",
+        "Food"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Thormac",
+        "Scorpion 1",
+        "Scorpion 2",
+        "Scorpion 3",
+        "Black Demons",
+        "Poison Spiders"
+      ],
+      "locations": [
+        "Thormac",
+        "Scorpion 1",
+        "Scorpion 2",
+        "Scorpion 3",
+        "Black Demons",
+        "Poison Spiders"
+      ]
+    },
+    "mage-arena": {
+      "id": "mage-arena",
+      "kind": "quest",
+      "title": "Mage Arena",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Hard"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "0 (mini-quest)"
+            ]
+          ]
+        },
+        {
+          "heading": "Choosing Your God",
+          "rows": [
+            [
+              "God",
+              "Spell Effect"
+            ],
+            [
+              "Zamorak",
+              "Flames of Zamorak - highest damage, reduces target's Magic level"
+            ],
+            [
+              "Saradomin",
+              "Saradomin Strike - reduces target's Prayer level"
+            ],
+            [
+              "Guthix",
+              "Claws of Guthix - reduces target's Defence level"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Kolodion",
+              "Arena guardian, fight 4 forms"
+            ],
+            [
+              "God Statues",
+              "Choose god, pray for cape"
+            ],
+            [
+              "Staff Shop",
+              "Purchase God Staff (80,000 gp)"
+            ],
+            [
+              "Mage Arena",
+              "Level 55 Wilderness, W of members gate"
+            ],
+            [
+              "Lever (W of Ardougne)",
+              "Teleport to Wilderness near arena"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Knife or slashing weapon (to cut webs)",
+        "Runes for combat spells",
+        "80,000 gp (to purchase a God Staff)",
+        "Food and armor"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Kolodion",
+        "God Statues",
+        "Staff Shop",
+        "Mage Arena",
+        "Lever (W of Ardougne)"
+      ],
+      "locations": [
+        "Kolodion",
+        "God Statues",
+        "Staff Shop",
+        "Mage Arena",
+        "Lever (W of Ardougne)"
+      ]
+    },
+    "watchtower": {
+      "id": "watchtower",
+      "kind": "quest",
+      "title": "Watch Tower",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "4"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Watchtower Wizard",
+              "Quest start and completion",
+              "Watchtower, N of Yanille"
+            ],
+            [
+              "Og",
+              "Ogre chieftain",
+              "Ogre settlement, W of Yanille"
+            ],
+            [
+              "Gorad",
+              "Level 56 ogre chieftain",
+              "Ogre settlement"
+            ],
+            [
+              "Toban",
+              "Ogre chieftain, provides gold bar",
+              "Ogre settlement"
+            ],
+            [
+              "Ogre Shamans",
+              "Must be eliminated",
+              "Various locations in Gu'Tanoth"
+            ],
+            [
+              "Scavid creatures",
+              "Teach Scavid language",
+              "Caves beneath Gu'Tanoth"
+            ],
+            [
+              "Gu'Tanoth (Ogre city)",
+              "Major quest area",
+              "South of Yanille"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Lit candle",
+        "Bat bones",
+        "2 ropes",
+        "Jangerberry",
+        "Guam leaf",
+        "Pestle and mortar",
+        "Death rune",
+        "Combat gear and food"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Watchtower Wizard",
+        "Og",
+        "Gorad",
+        "Toban",
+        "Ogre Shamans",
+        "Scavid creatures",
+        "Gu'Tanoth (Ogre city)"
+      ],
+      "locations": [
+        "Watchtower Wizard",
+        "Og",
+        "Gorad",
+        "Toban",
+        "Scavid creatures",
+        "Gu'Tanoth (Ogre city)"
+      ]
+    },
+    "rune-mysteries": {
+      "id": "rune-mysteries",
+      "kind": "quest",
+      "title": "Rune Mysteries",
+      "tables": [
+        {
+          "heading": "Rune Mysteries",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Duke Horacio",
+              "Lumbridge Castle, 2nd floor"
+            ],
+            [
+              "Head Wizard (Sedridor)",
+              "Wizard Tower, basement"
+            ],
+            [
+              "Aubury",
+              "Rune shop, southeast Varrock (behind east bank)"
+            ],
+            [
+              "Rune Essence Mine",
+              "Accessed via teleport from Sedridor or Aubury"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [
+        "NPC / Location",
+        "Duke Horacio",
+        "Head Wizard (Sedridor)",
+        "Aubury",
+        "Rune Essence Mine"
+      ],
+      "locations": [
+        "Duke Horacio",
+        "Head Wizard (Sedridor)",
+        "Aubury",
+        "Rune Essence Mine"
+      ]
+    },
+    "digsite": {
+      "id": "digsite",
+      "kind": "quest",
+      "title": "Digsite Quest",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Examiners",
+              "Quest start, Digsite Examination Centre"
+            ],
+            [
+              "Students (colored shirts)",
+              "Provide exam answers"
+            ],
+            [
+              "Workmen",
+              "Pickpocket for specimens"
+            ],
+            [
+              "Varrock Museum",
+              "Certificate stamping"
+            ],
+            [
+              "Digsite",
+              "SE of Varrock, main quest area"
+            ],
+            [
+              "Mine shaft",
+              "Contains Arcenia root"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Cup of tea (for an examiner)",
+        "Pestle and mortar",
+        "Vial",
+        "Tinderbox"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Examiners",
+        "Students (colored shirts)",
+        "Workmen",
+        "Varrock Museum",
+        "Digsite",
+        "Mine shaft"
+      ],
+      "locations": [
+        "Examiners",
+        "Students (colored shirts)",
+        "Workmen",
+        "Varrock Museum",
+        "Digsite",
+        "Mine shaft"
+      ]
+    },
+    "jungle-potion": {
+      "id": "jungle-potion",
+      "kind": "quest",
+      "title": "Jungle Potion",
+      "tables": [
+        {
+          "heading": "Jungle Potion",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Trufitus",
+              "Tai Bwo Wannai village, Karamja"
+            ],
+            [
+              "Jiminua's store",
+              "Tai Bwo Wannai village"
+            ],
+            [
+              "Snake Weed",
+              "Marshy jungle vines, SW of village"
+            ],
+            [
+              "Ardrigal",
+              "Palm trees, NE of village"
+            ],
+            [
+              "Sito Foil",
+              "Scorched earth, S of fire building"
+            ],
+            [
+              "Vocenia Moss",
+              "Rock pile, SE of village"
+            ],
+            [
+              "Rogue's Purse",
+              "Dungeon fungus wall, past Jogres"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "432 gp (to buy antipoison from Jiminua's store, recommended)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Trufitus",
+        "Jiminua's store",
+        "Snake Weed",
+        "Ardrigal",
+        "Sito Foil",
+        "Vocenia Moss",
+        "Rogue's Purse"
+      ],
+      "locations": [
+        "Trufitus",
+        "Jiminua's store",
+        "Snake Weed",
+        "Ardrigal",
+        "Sito Foil",
+        "Vocenia Moss",
+        "Rogue's Purse"
+      ]
+    },
+    "restless-ghost": {
+      "id": "restless-ghost",
+      "kind": "quest",
+      "title": "The Restless Ghost",
+      "tables": [
+        {
+          "heading": "The Restless Ghost",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Father Aerick",
+              "Lumbridge Chapel, south of Lumbridge Castle"
+            ],
+            [
+              "Father Urhney",
+              "House in Lumbridge Swamp"
+            ],
+            [
+              "Restless Ghost",
+              "Coffin in Lumbridge Chapel graveyard"
+            ],
+            [
+              "Ghost's skull",
+              "Wizard Tower basement altar"
+            ],
+            [
+              "Skeleton (level 13)",
+              "Wizard Tower basement (spawns on skull pickup)"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [
+        "NPC / Location",
+        "Father Aerick",
+        "Father Urhney",
+        "Restless Ghost",
+        "Ghost's skull",
+        "Skeleton (level 13)"
+      ],
+      "locations": [
+        "Father Aerick",
+        "Father Urhney",
+        "Restless Ghost",
+        "Ghost's skull",
+        "Skeleton (level 13)"
+      ]
+    },
+    "shield-of-arrav": {
+      "id": "shield-of-arrav",
+      "kind": "quest",
+      "title": "Shield of Arrav",
+      "tables": [
+        {
+          "heading": "Shield of Arrav",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Reldo",
+              "Varrock Palace Library"
+            ],
+            [
+              "Baraek",
+              "Varrock Square (fur trader)"
+            ],
+            [
+              "Straven",
+              "Phoenix Gang hideout, southeast Varrock"
+            ],
+            [
+              "Katrine",
+              "Black Arm Gang hideout, southwest Varrock"
+            ],
+            [
+              "Jonny the Beard",
+              "Blue Moon Inn, Varrock"
+            ],
+            [
+              "Haig Halen (curator)",
+              "Varrock Museum"
+            ],
+            [
+              "King Roald",
+              "Varrock Palace"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [
+        "NPC / Location",
+        "Reldo",
+        "Baraek",
+        "Straven",
+        "Katrine",
+        "Jonny the Beard",
+        "Haig Halen (curator)",
+        "King Roald"
+      ],
+      "locations": []
+    },
+    "vampire-slayer": {
+      "id": "vampire-slayer",
+      "kind": "quest",
+      "title": "Vampire Slayer",
+      "tables": [
+        {
+          "heading": "Vampire Slayer",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "3"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Morgan",
+              "House in Draynor Village"
+            ],
+            [
+              "Dr. Harlow",
+              "Jolly Boar Inn, northeast of Varrock"
+            ],
+            [
+              "Count Draynor",
+              "Draynor Manor basement coffin"
+            ],
+            [
+              "Garlic",
+              "Cupboard, upstairs in Morgan's house"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Beer (purchased or found)",
+        "Garlic (from Morgan's cupboard in Draynor Village)",
+        "Stake (from Dr. Harlow)",
+        "Hammer (from Dr. Harlow or brought separately)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Morgan",
+        "Dr. Harlow",
+        "Count Draynor",
+        "Garlic"
+      ],
+      "locations": [
+        "Morgan",
+        "Dr. Harlow",
+        "Count Draynor",
+        "Garlic"
+      ]
+    },
+    "legends-quest": {
+      "id": "legends-quest",
+      "kind": "quest",
+      "title": "Legends Quest",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "4"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Radimus Erkle",
+              "Quest start, Legends' Guild entrance"
+            ],
+            [
+              "Gujuo",
+              "Jungle native, summoned with bull roarer"
+            ],
+            [
+              "Ungadulu",
+              "Trapped shaman, rescue target"
+            ],
+            [
+              "Nezikchened (level 187)",
+              "Demon boss, multiple encounters"
+            ],
+            [
+              "Warrior Spirits",
+              "Deep cave guardians, drop crystal pieces"
+            ],
+            [
+              "Kharazi Jungle",
+              "Main quest area, S of Shilo Village"
+            ],
+            [
+              "Legends' Guild",
+              "Quest start and end, unlocked upon completion"
+            ],
+            [
+              "Sacred Pool",
+              "Source of holy water"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Papyrus (3)",
+        "Charcoal (3)",
+        "Gold bars (2)",
+        "Cut sapphire, emerald, ruby, diamond",
+        "Hammer",
+        "Machete",
+        "Pickaxe",
+        "Hatchet",
+        "Vial of water",
+        "Snake weed",
+        "Ardrigal herb",
+        "Runes for charge orb spells",
+        "Combat gear (food, potions, prayer potions)",
+        "Bull roarer (crafted during quest)"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Radimus Erkle",
+        "Gujuo",
+        "Ungadulu",
+        "Nezikchened (level 187)",
+        "Warrior Spirits",
+        "Kharazi Jungle",
+        "Legends' Guild",
+        "Sacred Pool"
+      ],
+      "locations": []
+    },
+    "romeo-and-juliet": {
+      "id": "romeo-and-juliet",
+      "kind": "quest",
+      "title": "Romeo & Juliet",
+      "tables": [
+        {
+          "heading": "Romeo & Juliet",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "5"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Juliet",
+              "2nd floor, house west of Varrock"
+            ],
+            [
+              "Romeo",
+              "Varrock Square"
+            ],
+            [
+              "Father Lawrence",
+              "Chapel, northeast Varrock"
+            ],
+            [
+              "Apothecary",
+              "South of Varrock Square"
+            ],
+            [
+              "Cadava bushes",
+              "South of Varrock, near the mine"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Cadava berries (picked from bushes south of Varrock)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Juliet",
+        "Romeo",
+        "Father Lawrence",
+        "Apothecary",
+        "Cadava bushes"
+      ],
+      "locations": [
+        "Juliet",
+        "Romeo",
+        "Father Lawrence",
+        "Apothecary",
+        "Cadava bushes"
+      ]
+    },
+    "tourist-trap": {
+      "id": "tourist-trap",
+      "kind": "quest",
+      "title": "The Tourist Trap",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Irena",
+              "Quest start and completion",
+              "South of Shantay Pass"
+            ],
+            [
+              "Captain",
+              "Level 47, drops metal key",
+              "Mining camp"
+            ],
+            [
+              "Al Shabim",
+              "Nomad leader, provides intel",
+              "Nomads' camp"
+            ],
+            [
+              "Captain Siad",
+              "Has blueprints on desk",
+              "Mining camp office"
+            ],
+            [
+              "Ana",
+              "Prisoner to rescue",
+              "Mining camp mines"
+            ],
+            [
+              "Cart driver",
+              "Bribe 100 gp for transport",
+              "Mining camp"
+            ],
+            [
+              "Shantay Pass",
+              "Desert entry point",
+              "South of Al Kharid"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Desert robes or waterskins (desert heat protection)",
+        "5 gp (Shantay Pass fee)",
+        "100 gp (cart bribe)",
+        "Feathers (for dart crafting)",
+        "Bronze bar (for dart crafting)",
+        "Combat gear"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Irena",
+        "Captain",
+        "Al Shabim",
+        "Captain Siad",
+        "Ana",
+        "Cart driver",
+        "Shantay Pass"
+      ],
+      "locations": [
+        "Irena",
+        "Captain",
+        "Al Shabim",
+        "Captain Siad",
+        "Ana",
+        "Cart driver",
+        "Shantay Pass"
+      ]
+    },
+    "family-crest": {
+      "id": "family-crest",
+      "kind": "quest",
+      "title": "Family Crest",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Dimintheis",
+              "Quest start and completion",
+              "SE of East Varrock bank"
+            ],
+            [
+              "Chef (eldest son)",
+              "Holds crest piece 1",
+              "NE of Catherby"
+            ],
+            [
+              "Gem Trader (second son)",
+              "Directs to crest piece 2",
+              "Al Kharid"
+            ],
+            [
+              "Nobleman",
+              "Needs perfect gold items",
+              "Near gold rocks"
+            ],
+            [
+              "Wizard (third son)",
+              "Poisoned, directs to Chronozon",
+              "Jolly Boar Inn, NE Varrock"
+            ],
+            [
+              "Chronozon",
+              "Level 139 boss, holds crest piece 3",
+              "Wilderness Dungeon"
+            ],
+            [
+              "Hellhounds",
+              "Level 122, guard dungeon path",
+              "Dungeon near gold rocks"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Equipment to cast all 4 blast spells (Wind, Water, Earth, Fire Blast)",
+        "Antipoison",
+        "Combat gear",
+        "Ring mould, necklace mould",
+        "Ruby (x2)",
+        "Food"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Dimintheis",
+        "Chef (eldest son)",
+        "Gem Trader (second son)",
+        "Nobleman",
+        "Wizard (third son)",
+        "Chronozon",
+        "Hellhounds"
+      ],
+      "locations": [
+        "Dimintheis",
+        "Chef (eldest son)",
+        "Gem Trader (second son)",
+        "Nobleman",
+        "Wizard (third son)",
+        "Chronozon",
+        "Hellhounds"
+      ]
+    },
+    "observatory": {
+      "id": "observatory",
+      "kind": "quest",
+      "title": "Observatory Quest",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Constellation Rewards",
+          "rows": [
+            [
+              "Constellation",
+              "Bonus Reward"
+            ],
+            [
+              "Aries",
+              "875 XP (combat)"
+            ],
+            [
+              "Leo",
+              "875 XP (combat)"
+            ],
+            [
+              "Virgo",
+              "875 XP (combat)"
+            ],
+            [
+              "Capricorn",
+              "875 XP (combat)"
+            ],
+            [
+              "Other constellations",
+              "Various items"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Professor",
+              "Quest start, Observatory reception"
+            ],
+            [
+              "Professor's Assistant",
+              "Provides crafting material list"
+            ],
+            [
+              "Observatory Dungeon",
+              "Contains key, mould, and path to telescope"
+            ],
+            [
+              "Observatory",
+              "W across river from Tree Gnome Maze"
+            ],
+            [
+              "Telescope",
+              "Observe constellation for reward"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Items gathered during the quest (from the assistant)"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Professor",
+        "Professor's Assistant",
+        "Observatory Dungeon",
+        "Observatory",
+        "Telescope"
+      ],
+      "locations": [
+        "Professor",
+        "Professor's Assistant",
+        "Observatory Dungeon",
+        "Observatory",
+        "Telescope"
+      ]
+    },
+    "lost-city": {
+      "id": "lost-city",
+      "kind": "quest",
+      "title": "Lost City",
+      "tables": [
+        {
+          "heading": "Lost City",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "3 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "Adventurers",
+              "Camp in Lumbridge Swamp"
+            ],
+            [
+              "Shamus",
+              "Unusual tree, west of adventurer camp"
+            ],
+            [
+              "Entrana",
+              "Sail from Port Sarim (no weapons/armour)"
+            ],
+            [
+              "Dramen tree",
+              "Entrana dungeon, past the Greater Demons"
+            ],
+            [
+              "Tree Spirit",
+              "Spawns when chopping the Dramen tree (level 101)"
+            ],
+            [
+              "Zanaris entrance",
+              "Shed in Lumbridge Swamp (requires Dramen staff)"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Food and combat equipment (cannot bring weapons or armour to Entrana)",
+        "Knife (to carve the Dramen branch)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Adventurers",
+        "Shamus",
+        "Entrana",
+        "Dramen tree",
+        "Tree Spirit",
+        "Zanaris entrance"
+      ],
+      "locations": [
+        "Adventurers",
+        "Shamus",
+        "Entrana",
+        "Dramen tree",
+        "Tree Spirit",
+        "Zanaris entrance"
+      ]
+    },
+    "waterfall-quest": {
+      "id": "waterfall-quest",
+      "kind": "quest",
+      "title": "Waterfall Quest",
+      "tables": [
+        {
+          "heading": "Waterfall Quest",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "1 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "Almera",
+              "House north of Baxtorian Falls"
+            ],
+            [
+              "Hudon",
+              "Island at Baxtorian Falls (after raft crash)"
+            ],
+            [
+              "Hadley",
+              "House downstream of the waterfall"
+            ],
+            [
+              "Tree Gnome Village cave",
+              "Inside the Tree Gnome Village maze"
+            ],
+            [
+              "Glarial's Tombstone",
+              "West of Baxtorian Falls"
+            ],
+            [
+              "Waterfall dungeon",
+              "Inside Baxtorian Falls (requires Glarial's amulet)"
+            ],
+            [
+              "Fire Giants",
+              "Waterfall dungeon"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Food (recommended for low-level players)",
+        "Rope",
+        "6 water runes",
+        "6 air runes",
+        "6 earth runes"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Almera",
+        "Hudon",
+        "Hadley",
+        "Tree Gnome Village cave",
+        "Glarial's Tombstone",
+        "Waterfall dungeon",
+        "Fire Giants"
+      ],
+      "locations": [
+        "Almera",
+        "Hudon",
+        "Hadley",
+        "Tree Gnome Village cave",
+        "Glarial's Tombstone",
+        "Waterfall dungeon",
+        "Fire Giants"
+      ]
+    },
+    "priest-in-peril": {
+      "id": "priest-in-peril",
+      "kind": "quest",
+      "title": "Priest in Peril",
+      "tables": [
+        {
+          "heading": "Priest in Peril",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "King Roald",
+              "Varrock Palace"
+            ],
+            [
+              "Temple",
+              "East of Varrock Palace, on the Morytania border"
+            ],
+            [
+              "Temple Guardian Dog",
+              "Dungeon beneath the temple"
+            ],
+            [
+              "Monk of Zamorak",
+              "Inside the temple (level 30)"
+            ],
+            [
+              "Drezel",
+              "3rd floor of the temple"
+            ],
+            [
+              "Monuments",
+              "Dungeon beneath the temple"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "50 unnoted rune essence or pure essence",
+        "Weapon and armour",
+        "Food"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "King Roald",
+        "Temple",
+        "Temple Guardian Dog",
+        "Monk of Zamorak",
+        "Drezel",
+        "Monuments"
+      ],
+      "locations": [
+        "King Roald",
+        "Temple",
+        "Temple Guardian Dog",
+        "Monk of Zamorak",
+        "Drezel",
+        "Monuments"
+      ]
+    },
+    "barcrawl": {
+      "id": "barcrawl",
+      "kind": "quest",
+      "title": "Alfred Grimhand's Barcrawl",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Easy"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "0 (mini-quest)"
+            ]
+          ]
+        },
+        {
+          "heading": "Bar Locations",
+          "rows": [
+            [
+              "Bar",
+              "Location"
+            ],
+            [
+              "Jolly Boar Inn",
+              "Northeast of Varrock"
+            ],
+            [
+              "Blue Moon Inn",
+              "Varrock (south side)"
+            ],
+            [
+              "Rising Sun Inn",
+              "Falador"
+            ],
+            [
+              "Rusty Anchor Inn",
+              "Port Sarim"
+            ],
+            [
+              "Dead Man's Chest",
+              "Brimhaven"
+            ],
+            [
+              "Karamja Spirits Bar",
+              "Karamja (Musa Point)"
+            ],
+            [
+              "Dragon Inn",
+              "Yanille"
+            ],
+            [
+              "Flying Horse Inn",
+              "Ardougne"
+            ],
+            [
+              "Forester's Arms",
+              "Seers' Village"
+            ],
+            [
+              "Blurberry's Bar",
+              "Tree Gnome Stronghold, Grand Tree 2F"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Barbarian guard",
+              "Quest start, Barbarian Outpost gate"
+            ],
+            [
+              "Bartenders (10 bars)",
+              "Stamp your Barcrawl card"
+            ],
+            [
+              "Barbarian Outpost",
+              "NE of Baxtorian Falls, reward location"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Barcrawl card (given at start)",
+        "Coins (enough to buy a drink at each bar)"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Barbarian guard",
+        "Bartenders (10 bars)",
+        "Barbarian Outpost"
+      ],
+      "locations": [
+        "Jolly Boar Inn",
+        "Blue Moon Inn",
+        "Rising Sun Inn",
+        "Rusty Anchor Inn",
+        "Dead Man's Chest",
+        "Karamja Spirits Bar",
+        "Dragon Inn",
+        "Flying Horse Inn",
+        "Forester's Arms",
+        "Blurberry's Bar"
+      ]
+    },
+    "underground-pass": {
+      "id": "underground-pass",
+      "kind": "quest",
+      "title": "Underground Pass",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "5"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "King Lathas",
+              "Quest start, East Ardougne Castle"
+            ],
+            [
+              "Koftik",
+              "Guide at West Ardougne cave entrance"
+            ],
+            [
+              "Paladins (level 62)",
+              "Drop colored crests in Level 2"
+            ],
+            [
+              "Iban (level 91 demon)",
+              "Final encounter at the well"
+            ],
+            [
+              "West Ardougne cave",
+              "Dungeon entrance"
+            ],
+            [
+              "Iban's Tomb",
+              "Final area, ritual completion"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Bow and arrows (fire arrows obtained during quest)",
+        "Rope",
+        "Zamorak robes (top and bottom)",
+        "Food and combat gear for multiple demon fights"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "King Lathas",
+        "Koftik",
+        "Paladins (level 62)",
+        "Iban (level 91 demon)",
+        "West Ardougne cave",
+        "Iban's Tomb"
+      ],
+      "locations": [
+        "King Lathas",
+        "Koftik",
+        "Paladins (level 62)",
+        "Iban (level 91 demon)",
+        "West Ardougne cave",
+        "Iban's Tomb"
+      ]
+    },
+    "imp-catcher": {
+      "id": "imp-catcher",
+      "kind": "quest",
+      "title": "Imp Catcher",
+      "tables": [
+        {
+          "heading": "Imp Catcher",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Wizard Mizgog",
+              "Wizard Tower, 3rd floor"
+            ],
+            [
+              "Imps",
+              "Found throughout the world (common near Falador, Varrock, Lumbridge)"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Red bead",
+        "White bead",
+        "Black bead",
+        "Yellow bead"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Wizard Mizgog",
+        "Imps"
+      ],
+      "locations": [
+        "Wizard Mizgog",
+        "Imps"
+      ]
+    },
+    "black-knights-fortress": {
+      "id": "black-knights-fortress",
+      "kind": "quest",
+      "title": "Black Knights' Fortress",
+      "tables": [
+        {
+          "heading": "Black Knights' Fortress",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "3"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Sir Amik Varze",
+              "White Knights' Castle, 3rd floor, Falador"
+            ],
+            [
+              "Black Knights' Fortress",
+              "Ice Mountain, north of Falador"
+            ],
+            [
+              "Monastery cabbage patch",
+              "South of the fortress, on the mountain path"
+            ],
+            [
+              "Grill",
+              "Inside the fortress, eastern wall"
+            ],
+            [
+              "Cauldron / hole",
+              "Inside the fortress"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Bronze medium helmet",
+        "Iron chainmail",
+        "Cabbage (must NOT be from Draynor Manor; the Monastery cabbage patch works)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Sir Amik Varze",
+        "Black Knights' Fortress",
+        "Monastery cabbage patch",
+        "Grill",
+        "Cauldron / hole"
+      ],
+      "locations": [
+        "Sir Amik Varze",
+        "Black Knights' Fortress",
+        "Monastery cabbage patch",
+        "Grill",
+        "Cauldron / hole"
+      ]
+    },
+    "merlins-crystal": {
+      "id": "merlins-crystal",
+      "kind": "quest",
+      "title": "Merlin's Crystal",
+      "tables": [
+        {
+          "heading": "Merlin's Crystal",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "6 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "King Arthur",
+              "Camelot Castle"
+            ],
+            [
+              "Sir Gawain",
+              "Camelot Castle"
+            ],
+            [
+              "Sir Lancelot",
+              "Camelot Castle"
+            ],
+            [
+              "Keep Le Faye",
+              "Accessed via crate west of Catherby bank"
+            ],
+            [
+              "Sir Mordred",
+              "3rd floor of Keep Le Faye (level 39)"
+            ],
+            [
+              "Morgan Le Faye",
+              "Keep Le Faye"
+            ],
+            [
+              "Candle maker",
+              "Catherby"
+            ],
+            [
+              "Lady of the Lake",
+              "South of Taverley"
+            ],
+            [
+              "Beggar / Excalibur",
+              "Outside jewellery shop, Port Sarim"
+            ],
+            [
+              "Chaos Temple",
+              "Level 12 Wilderness"
+            ],
+            [
+              "Pentagram room",
+              "Ground floor, Camelot Castle"
+            ],
+            [
+              "Merlin's Crystal",
+              "Southeast top floor, Camelot Castle"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Tinderbox",
+        "Bucket",
+        "Bread",
+        "Insect repellent (obtainable during quest)",
+        "Bat bones (obtainable during quest)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "King Arthur",
+        "Sir Gawain",
+        "Sir Lancelot",
+        "Keep Le Faye",
+        "Sir Mordred",
+        "Morgan Le Faye",
+        "Candle maker",
+        "Lady of the Lake",
+        "Beggar / Excalibur",
+        "Chaos Temple",
+        "Pentagram room",
+        "Merlin's Crystal"
+      ],
+      "locations": [
+        "King Arthur",
+        "Sir Gawain",
+        "Sir Lancelot",
+        "Keep Le Faye",
+        "Sir Mordred",
+        "Morgan Le Faye",
+        "Candle maker",
+        "Lady of the Lake",
+        "Beggar / Excalibur",
+        "Chaos Temple",
+        "Pentagram room",
+        "Merlin's Crystal"
+      ]
+    },
+    "nature-spirit": {
+      "id": "nature-spirit",
+      "kind": "quest",
+      "title": "Nature Spirit",
+      "tables": [
+        {
+          "heading": "Nature Spirit",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "2 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "Drezel",
+              "Underground Saradomin Temple, east of Varrock"
+            ],
+            [
+              "Filliman Tarlock",
+              "Circular island in Mort Myre Swamp"
+            ],
+            [
+              "Grotto",
+              "Circular island in Mort Myre Swamp"
+            ],
+            [
+              "Nature Spirit",
+              "Inside the grotto after completing the ritual"
+            ],
+            [
+              "Silver sickle mould shop",
+              "Crafting shop in Al Kharid"
+            ],
+            [
+              "Ghasts",
+              "Roaming Mort Myre Swamp"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Ghostspeak amulet",
+        "Silver bar",
+        "Silver sickle mould (purchasable from Al Kharid crafting shop)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Drezel",
+        "Filliman Tarlock",
+        "Grotto",
+        "Nature Spirit",
+        "Silver sickle mould shop",
+        "Ghasts"
+      ],
+      "locations": [
+        "Drezel",
+        "Filliman Tarlock",
+        "Grotto",
+        "Nature Spirit",
+        "Silver sickle mould shop",
+        "Ghasts"
+      ]
+    },
+    "clock-tower": {
+      "id": "clock-tower",
+      "kind": "quest",
+      "title": "Clock Tower",
+      "tables": [
+        {
+          "heading": "Clock Tower",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Brother Kojo",
+              "Clock tower, SW of Ardougne Zoo"
+            ],
+            [
+              "Red cog",
+              "Dungeon (red brick path, past ogres)"
+            ],
+            [
+              "White cog",
+              "Dungeon (white brick path, poison rats)"
+            ],
+            [
+              "Blue cog",
+              "Dungeon (blue brick path, water obstacle)"
+            ],
+            [
+              "Black cog",
+              "Dungeon (black brick path, fire obstacle)"
+            ],
+            [
+              "1F pole (red)",
+              "Clock tower, 1st floor"
+            ],
+            [
+              "2F pole (blue)",
+              "Clock tower, 2nd floor"
+            ],
+            [
+              "3F pole (white)",
+              "Clock tower, 3rd floor"
+            ],
+            [
+              "Basement pole (black)",
+              "Clock tower, basement"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Bucket of water (obtainable during quest)",
+        "Ice gloves (optional but helpful for the black cog)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Brother Kojo",
+        "Red cog",
+        "White cog",
+        "Blue cog",
+        "Black cog",
+        "1F pole (red)",
+        "2F pole (blue)",
+        "3F pole (white)",
+        "Basement pole (black)"
+      ],
+      "locations": [
+        "Brother Kojo",
+        "Red cog",
+        "White cog",
+        "Blue cog",
+        "Black cog",
+        "1F pole (red)",
+        "2F pole (blue)",
+        "3F pole (white)",
+        "Basement pole (black)"
+      ]
+    },
+    "knights-sword": {
+      "id": "knights-sword",
+      "kind": "quest",
+      "title": "The Knight's Sword",
+      "tables": [
+        {
+          "heading": "The Knight's Sword",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Squire",
+              "White Knights' Castle, Falador"
+            ],
+            [
+              "Reldo",
+              "Varrock Palace Library"
+            ],
+            [
+              "Thurgo",
+              "Hut south of Port Sarim (Mudskipper Point)"
+            ],
+            [
+              "Sir Vyvin",
+              "White Knights' Castle, 2nd floor"
+            ],
+            [
+              "Blurite cave",
+              "Near Thurgo's hut, south of Port Sarim"
+            ],
+            [
+              "Ice Warriors (level 57)",
+              "Inside the blurite cave"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Redberry pie (or pie to befriend Thurgo)",
+        "2 Iron bars"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Squire",
+        "Reldo",
+        "Thurgo",
+        "Sir Vyvin",
+        "Blurite cave",
+        "Ice Warriors (level 57)"
+      ],
+      "locations": [
+        "Squire",
+        "Reldo",
+        "Thurgo",
+        "Sir Vyvin",
+        "Blurite cave",
+        "Ice Warriors (level 57)"
+      ]
+    },
+    "tribal-totem": {
+      "id": "tribal-totem",
+      "kind": "quest",
+      "title": "Tribal Totem",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Kangai Mau",
+              "Quest start, Shrimp and Parrot pub, Brimhaven"
+            ],
+            [
+              "Gardener",
+              "Info about mansion, W of Ardougne market"
+            ],
+            [
+              "Wizard Cromperty",
+              "RPDT teleport, NE Ardougne"
+            ],
+            [
+              "RPDT Depot",
+              "Swap box labels for teleport redirect"
+            ],
+            [
+              "Handelmort Mansion",
+              "W of Ardougne market, contains totem"
+            ],
+            [
+              "NW Ardougne houses",
+              "Guide book location"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "None (all items obtained during quest)"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Kangai Mau",
+        "Gardener",
+        "Wizard Cromperty",
+        "RPDT Depot",
+        "Handelmort Mansion",
+        "NW Ardougne houses"
+      ],
+      "locations": []
+    },
+    "dorics-quest": {
+      "id": "dorics-quest",
+      "kind": "quest",
+      "title": "Doric's Quest",
+      "tables": [
+        {
+          "heading": "Doric's Quest",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Doric",
+              "North of Falador, east of the road to Taverley"
+            ],
+            [
+              "Dwarven Mines",
+              "South of Ice Mountain, north of Falador"
+            ],
+            [
+              "Mining sites",
+              "Various; Dwarven Mines contain all three ore types"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Pickaxe",
+        "6 Clay",
+        "4 Copper ore",
+        "2 Iron ore"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Doric",
+        "Dwarven Mines",
+        "Mining sites"
+      ],
+      "locations": [
+        "Doric",
+        "Dwarven Mines",
+        "Mining sites"
+      ]
+    },
+    "witchs-potion": {
+      "id": "witchs-potion",
+      "kind": "quest",
+      "title": "Witch's Potion",
+      "tables": [
+        {
+          "heading": "Witch's Potion",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Hetty",
+              "House in Rimmington"
+            ],
+            [
+              "Betty's Magic Emporium",
+              "Port Sarim"
+            ],
+            [
+              "Rats",
+              "Various locations; common in Lumbridge"
+            ],
+            [
+              "Onion field",
+              "Near Rimmington"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Onion",
+        "Burnt meat",
+        "Eye of newt (3 gp from Betty's Magic Emporium in Port Sarim)",
+        "Rat's tail (dropped by rats)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Hetty",
+        "Betty's Magic Emporium",
+        "Rats",
+        "Onion field"
+      ],
+      "locations": [
+        "Hetty",
+        "Betty's Magic Emporium",
+        "Onion field"
+      ]
+    },
+    "gertudes-cat": {
+      "id": "gertudes-cat",
+      "kind": "quest",
+      "title": "Gertrude's Cat",
+      "tables": [
+        {
+          "heading": "Gertrude's Cat",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Gertrude",
+              "West of Varrock"
+            ],
+            [
+              "Wilough & Shilop",
+              "Varrock Square"
+            ],
+            [
+              "Lumber mill",
+              "East of Jolly Boar Inn, NE of Varrock"
+            ],
+            [
+              "Fluffs (cat)",
+              "2nd floor of the lumber mill"
+            ],
+            [
+              "Kitten",
+              "SE crates, lower floor of the lumber mill"
+            ],
+            [
+              "Doogle leaves",
+              "Near Gertrude's house"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "100 gp (to pay Shilop)",
+        "Bucket of milk",
+        "Raw sardine",
+        "Doogle leaves (found near Gertrude's house)",
+        "Seasoned sardine (use doogle leaves on raw sardine)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Gertrude",
+        "Wilough & Shilop",
+        "Lumber mill",
+        "Fluffs (cat)",
+        "Kitten",
+        "Doogle leaves"
+      ],
+      "locations": [
+        "Gertrude",
+        "Wilough & Shilop",
+        "Lumber mill",
+        "Fluffs (cat)",
+        "Kitten",
+        "Doogle leaves"
+      ]
+    },
+    "troll-stronghold": {
+      "id": "troll-stronghold",
+      "kind": "quest",
+      "title": "Troll Stronghold",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Denulth",
+              "Quest start",
+              "Burthorpe"
+            ],
+            [
+              "Dad",
+              "Boss fight at Arena Gate",
+              "Death Plateau"
+            ],
+            [
+              "Troll General",
+              "Boss fight (safespottable)",
+              "Troll Stronghold"
+            ],
+            [
+              "Berry",
+              "Holds cell key",
+              "Troll Stronghold prison"
+            ],
+            [
+              "Twig",
+              "Holds cell key",
+              "Troll Stronghold prison"
+            ],
+            [
+              "Godric",
+              "Prisoner to rescue",
+              "Troll Stronghold prison"
+            ],
+            [
+              "Mad Eadgar",
+              "Prisoner to rescue",
+              "Troll Stronghold prison"
+            ],
+            [
+              "Dunstan",
+              "Quest completion",
+              "Burthorpe"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Climbing boots (12 gp from shop)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Denulth",
+        "Dad",
+        "Troll General",
+        "Berry",
+        "Twig",
+        "Godric",
+        "Mad Eadgar",
+        "Dunstan"
+      ],
+      "locations": [
+        "Denulth",
+        "Dad",
+        "Troll General",
+        "Berry",
+        "Twig",
+        "Godric",
+        "Mad Eadgar",
+        "Dunstan"
+      ]
+    },
+    "ernest-the-chicken": {
+      "id": "ernest-the-chicken",
+      "kind": "quest",
+      "title": "Ernest the Chicken",
+      "tables": [
+        {
+          "heading": "Ernest the Chicken",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "4"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Veronica",
+              "Outside Draynor Manor entrance"
+            ],
+            [
+              "Professor Oddenstein",
+              "Draynor Manor, top floor"
+            ],
+            [
+              "Lever maze",
+              "Draynor Manor basement"
+            ],
+            [
+              "Fountain",
+              "Draynor Manor garden"
+            ],
+            [
+              "Compost heap",
+              "Draynor Manor grounds"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [],
+      "keyNpcs": [
+        "NPC / Location",
+        "Veronica",
+        "Professor Oddenstein",
+        "Lever maze",
+        "Fountain",
+        "Compost heap"
+      ],
+      "locations": [
+        "Veronica",
+        "Professor Oddenstein",
+        "Lever maze",
+        "Fountain",
+        "Compost heap"
+      ]
+    },
+    "tree-gnome-village": {
+      "id": "tree-gnome-village",
+      "kind": "quest",
+      "title": "Tree Gnome Village",
+      "tables": [
+        {
+          "heading": "Tree Gnome Village",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Elkoy",
+              "NW corner of Tree Gnome Maze"
+            ],
+            [
+              "King Bolren",
+              "Center of Tree Gnome Village"
+            ],
+            [
+              "Commander Montai",
+              "Gnome battlefield, north of village"
+            ],
+            [
+              "Gnome Trackers (3)",
+              "Scattered across the battlefield"
+            ],
+            [
+              "Khazard Commanders (level 48)",
+              "NW building, Khazard stronghold"
+            ],
+            [
+              "Khazard Warlord (level 112)",
+              "North of Tree Gnome Village"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "6 logs (normal logs)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Elkoy",
+        "King Bolren",
+        "Commander Montai",
+        "Gnome Trackers (3)",
+        "Khazard Commanders (level 48)",
+        "Khazard Warlord (level 112)"
+      ],
+      "locations": [
+        "Elkoy",
+        "King Bolren",
+        "Commander Montai",
+        "Gnome Trackers (3)",
+        "Khazard Commanders (level 48)",
+        "Khazard Warlord (level 112)"
+      ]
+    },
+    "shilo-village": {
+      "id": "shilo-village",
+      "kind": "quest",
+      "title": "Shilo Village",
+      "tables": [
+        {
+          "heading": "Shilo Village",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Mosol Rei",
+              "Near the walled village, deep Karamja jungle"
+            ],
+            [
+              "Trufitus",
+              "North of Mosol Rei's location"
+            ],
+            [
+              "Ancient temple",
+              "East of starting area"
+            ],
+            [
+              "Tribal Statue",
+              "Karamja jungle"
+            ],
+            [
+              "Tomb",
+              "SW of the temple area"
+            ],
+            [
+              "Undead Zombie (level 86)",
+              "Underground tomb area"
+            ],
+            [
+              "Undead Skeleton (level 65)",
+              "Underground tomb area"
+            ],
+            [
+              "Undead Ghost (level 88)",
+              "Underground tomb area"
+            ],
+            [
+              "Shilo Village",
+              "Southern Karamja (accessible after quest)"
+            ],
+            [
+              "Gem rocks",
+              "Inside Shilo Village"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Chisel (for crafting bone beads)",
+        "Needle and thread (for crafting)",
+        "Bronze wire (for crafting beads)",
+        "Antipoison recommended"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Mosol Rei",
+        "Trufitus",
+        "Ancient temple",
+        "Tribal Statue",
+        "Tomb",
+        "Undead Zombie (level 86)",
+        "Undead Skeleton (level 65)",
+        "Undead Ghost (level 88)",
+        "Shilo Village",
+        "Gem rocks"
+      ],
+      "locations": [
+        "Mosol Rei",
+        "Ancient temple",
+        "Tribal Statue",
+        "Tomb",
+        "Undead Zombie (level 86)",
+        "Undead Skeleton (level 65)",
+        "Undead Ghost (level 88)",
+        "Shilo Village",
+        "Gem rocks"
+      ]
+    },
+    "plague-city": {
+      "id": "plague-city",
+      "kind": "quest",
+      "title": "Plague City",
+      "tables": [
+        {
+          "heading": "Plague City",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "Edmond",
+              "Northwest East Ardougne"
+            ],
+            [
+              "Alrena",
+              "Edmond's house, northwest East Ardougne"
+            ],
+            [
+              "Bravek",
+              "Civic office in West Ardougne"
+            ],
+            [
+              "Elena",
+              "Basement of quarantined house, West Ardougne"
+            ],
+            [
+              "Sewers entrance",
+              "Behind Edmond's house"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Dwellberries",
+        "4 buckets of water",
+        "Spade",
+        "Rope"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Edmond",
+        "Alrena",
+        "Bravek",
+        "Elena",
+        "Sewers entrance"
+      ],
+      "locations": [
+        "Edmond",
+        "Alrena",
+        "Bravek",
+        "Elena",
+        "Sewers entrance"
+      ]
+    },
+    "demon-slayer": {
+      "id": "demon-slayer",
+      "kind": "quest",
+      "title": "Demon Slayer",
+      "tables": [
+        {
+          "heading": "Demon Slayer",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "3"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Gypsy",
+              "Varrock Square"
+            ],
+            [
+              "Sir Prysin",
+              "Varrock Palace, ground floor"
+            ],
+            [
+              "Captain Rovin",
+              "Varrock Palace, top floor"
+            ],
+            [
+              "Wizard Traiborn",
+              "Wizard Tower, 1st floor"
+            ],
+            [
+              "Stone circle",
+              "South of Varrock"
+            ],
+            [
+              "Varrock Sewers",
+              "Manhole near Varrock Palace"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "1 coin",
+        "Bucket",
+        "25 bones"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Gypsy",
+        "Sir Prysin",
+        "Captain Rovin",
+        "Wizard Traiborn",
+        "Stone circle",
+        "Varrock Sewers"
+      ],
+      "locations": [
+        "Gypsy",
+        "Sir Prysin",
+        "Captain Rovin",
+        "Wizard Traiborn",
+        "Stone circle",
+        "Varrock Sewers"
+      ]
+    },
+    "hazeel-cult": {
+      "id": "hazeel-cult",
+      "kind": "quest",
+      "title": "Hazeel Cult",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Ceril",
+              "Quest start, leader of Carnillean family",
+              "Carnillean Mansion, W Ardougne"
+            ],
+            [
+              "Clivet",
+              "Cult leader, alternative quest path",
+              "Cave S of Carnillean Mansion"
+            ],
+            [
+              "Alamone",
+              "Level 13 cult member (Path B)",
+              "Sewer caves"
+            ],
+            [
+              "Butler",
+              "Secret cult conspirator",
+              "Carnillean Mansion"
+            ],
+            [
+              "Sewer valves (x5)",
+              "Puzzle to open waterway",
+              "Beneath the cave"
+            ],
+            [
+              "Carnillean Mansion",
+              "Central quest location",
+              "West of Ardougne"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "None required"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Ceril",
+        "Clivet",
+        "Alamone",
+        "Butler",
+        "Sewer valves (x5)",
+        "Carnillean Mansion"
+      ],
+      "locations": [
+        "Ceril",
+        "Clivet",
+        "Alamone",
+        "Butler",
+        "Sewer valves (x5)"
+      ]
+    },
+    "elemental-workshop": {
+      "id": "elemental-workshop",
+      "kind": "quest",
+      "title": "Elemental Workshop",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Bookcase",
+              "Quest start (contains Battered Book)",
+              "House SW of Seers' Village bank"
+            ],
+            [
+              "Odd Looking Wall",
+              "Workshop entrance",
+              "Same house as bookcase"
+            ],
+            [
+              "Elemental rock",
+              "Source of elemental ore",
+              "Inside the workshop"
+            ],
+            [
+              "Earth Elemental",
+              "Level 35, attacks when mining",
+              "Inside the workshop"
+            ],
+            [
+              "Waterwheel (valves/lever)",
+              "Powers workshop machinery",
+              "Inside the workshop"
+            ],
+            [
+              "Bellows",
+              "Repair to operate furnace",
+              "Inside the workshop"
+            ],
+            [
+              "Workbench",
+              "Craft Elemental Shield",
+              "Inside the workshop"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Knife",
+        "Leather",
+        "Needle",
+        "Thread",
+        "4 coal"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Bookcase",
+        "Odd Looking Wall",
+        "Elemental rock",
+        "Earth Elemental",
+        "Waterwheel (valves/lever)",
+        "Bellows",
+        "Workbench"
+      ],
+      "locations": [
+        "Bookcase",
+        "Odd Looking Wall",
+        "Elemental rock",
+        "Earth Elemental",
+        "Waterwheel (valves/lever)",
+        "Bellows",
+        "Workbench"
+      ]
+    },
+    "druidic-ritual": {
+      "id": "druidic-ritual",
+      "kind": "quest",
+      "title": "Druidic Ritual",
+      "tables": [
+        {
+          "heading": "Druidic Ritual",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "4 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "Kaqemeex",
+              "Stone circle, north of Taverley"
+            ],
+            [
+              "Sanfew",
+              "2nd floor, Herblore shop in Taverley"
+            ],
+            [
+              "Cauldron of Thunder",
+              "Taverley Dungeon, past the prison door"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "4 raw meats (raw beef, raw rat meat, raw chicken, or raw bear meat)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Kaqemeex",
+        "Sanfew",
+        "Cauldron of Thunder"
+      ],
+      "locations": [
+        "Kaqemeex",
+        "Sanfew",
+        "Cauldron of Thunder"
+      ]
+    },
+    "witchs-house": {
+      "id": "witchs-house",
+      "kind": "quest",
+      "title": "Witch's House",
+      "tables": [
+        {
+          "heading": "Witch's House",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "4 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "Boy",
+              "South of the witch's house, Taverley"
+            ],
+            [
+              "Witch's house",
+              "Taverley, near the southern entrance"
+            ],
+            [
+              "Witch",
+              "Patrols the garden of her house"
+            ],
+            [
+              "Witch's Experiment",
+              "Inside the garden shed (4-phase boss)"
+            ],
+            [
+              "Fountain",
+              "Witch's yard"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Leather gloves",
+        "Cheese",
+        "Food",
+        "Weapon and armour"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Boy",
+        "Witch's house",
+        "Witch",
+        "Witch's Experiment",
+        "Fountain"
+      ],
+      "locations": [
+        "Boy",
+        "Witch's house",
+        "Witch",
+        "Witch's Experiment",
+        "Fountain"
+      ]
+    },
+    "fishing-contest": {
+      "id": "fishing-contest",
+      "kind": "quest",
+      "title": "Fishing Contest",
+      "tables": [
+        {
+          "heading": "Fishing Contest",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Austri / Vestri (dwarves)",
+              "East and west entrances of White Wolf Mountain"
+            ],
+            [
+              "McGrubor's Woods",
+              "West of Seers' Village (push loose fence to enter)"
+            ],
+            [
+              "Red vine worms",
+              "Dig near red vines in McGrubor's Woods"
+            ],
+            [
+              "Fishing competition",
+              "Hemenster, south of Seers' Village"
+            ],
+            [
+              "Sinister Stranger (vampire)",
+              "Fishing competition, near pipes"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Spade",
+        "Garlic (obtainable from various locations)",
+        "5 gp (competition entry fee)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Austri / Vestri (dwarves)",
+        "McGrubor's Woods",
+        "Red vine worms",
+        "Fishing competition",
+        "Sinister Stranger (vampire)"
+      ],
+      "locations": [
+        "5 gp (competition entry fee)"
+      ]
+    },
+    "biohazard": {
+      "id": "biohazard",
+      "kind": "quest",
+      "title": "Biohazard",
+      "tables": [
+        {
+          "heading": "Biohazard",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "3 QP"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where to Find"
+            ],
+            [
+              "Elena",
+              "Her house in East Ardougne"
+            ],
+            [
+              "Jerico",
+              "House north of East Ardougne chapel"
+            ],
+            [
+              "Mourner headquarters",
+              "Northeast West Ardougne"
+            ],
+            [
+              "Nurse Sarah",
+              "East Ardougne church"
+            ],
+            [
+              "Chemist",
+              "West of Rimmington"
+            ],
+            [
+              "Dancing Donkey Inn",
+              "Varrock"
+            ],
+            [
+              "Guidor",
+              "Varrock"
+            ],
+            [
+              "King Lathas",
+              "Ardougne Castle"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Items obtained during the quest (pigeon cage, rotten apple, doctor's gown)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Elena",
+        "Jerico",
+        "Mourner headquarters",
+        "Nurse Sarah",
+        "Chemist",
+        "Dancing Donkey Inn",
+        "Guidor",
+        "King Lathas"
+      ],
+      "locations": [
+        "Elena",
+        "Jerico",
+        "Mourner headquarters",
+        "Nurse Sarah",
+        "Chemist",
+        "Dancing Donkey Inn",
+        "Guidor",
+        "King Lathas"
+      ]
+    },
+    "heros-quest": {
+      "id": "heros-quest",
+      "kind": "quest",
+      "title": "Hero's Quest",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Role",
+              "Location"
+            ],
+            [
+              "Achetties",
+              "Quest start and completion",
+              "Hero's Guild, N of Taverley"
+            ],
+            [
+              "Ice Queen",
+              "Drops Ice Gloves",
+              "White Wolf Mountain ice cavern"
+            ],
+            [
+              "Firebird",
+              "Drops Firebird Feather",
+              "Entrana"
+            ],
+            [
+              "Gerrant",
+              "Creates Oily Fishing Rod",
+              "Port Sarim fishing shop"
+            ],
+            [
+              "ScarFace Pete's Mansion",
+              "Master Thieves Armband location",
+              "Brimhaven"
+            ],
+            [
+              "Blue Dragons",
+              "Guard path to lava stream",
+              "Taverley Dungeon"
+            ],
+            [
+              "Lava stream",
+              "Fishing spot for Lava Eel",
+              "Taverley Dungeon"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Ice Gloves (obtained during quest)",
+        "Oily Fishing Rod (obtained during quest)",
+        "Fishing bait",
+        "Harralander potion (unf)",
+        "Blamish snail slime",
+        "Antifire shield or dragonfire shield",
+        "Combat gear",
+        "Food"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Achetties",
+        "Ice Queen",
+        "Firebird",
+        "Gerrant",
+        "ScarFace Pete's Mansion",
+        "Blue Dragons",
+        "Lava stream"
+      ],
+      "locations": [
+        "Achetties",
+        "Ice Queen",
+        "Firebird",
+        "Gerrant",
+        "Blue Dragons",
+        "Lava stream"
+      ]
+    },
+    "big-chompy-bird-hunting": {
+      "id": "big-chompy-bird-hunting",
+      "kind": "quest",
+      "title": "Big Chompy Bird Hunting",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Rantz",
+              "Quest start, SE of Yanille"
+            ],
+            [
+              "Wolves",
+              "Source of bones for arrow tips"
+            ],
+            [
+              "Swamp (near Rantz)",
+              "Collect swamp gas and toads"
+            ],
+            [
+              "Spit-roast (N of Rantz)",
+              "Cook the Chompy bird"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Achey tree logs (obtainable during quest)",
+        "Feathers",
+        "Wolf bones (obtainable during quest)",
+        "Ogre bellows (obtained during quest)"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Rantz",
+        "Wolves",
+        "Swamp (near Rantz)",
+        "Spit-roast (N of Rantz)"
+      ],
+      "locations": [
+        "Rantz",
+        "Wolves",
+        "Swamp (near Rantz)",
+        "Spit-roast (N of Rantz)"
+      ]
+    },
+    "sea-slug": {
+      "id": "sea-slug",
+      "kind": "quest",
+      "title": "Sea Slug",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Intermediate"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Caroline",
+              "Quest start, S of Legends' Guild"
+            ],
+            [
+              "Holgart",
+              "Fisherman, provides boat transport"
+            ],
+            [
+              "Bailey",
+              "Found on Fishing Platform"
+            ],
+            [
+              "Kennith",
+              "Caroline's son, trapped on platform"
+            ],
+            [
+              "Kent",
+              "Caroline's husband, on platform"
+            ],
+            [
+              "Fishing Platform",
+              "Main quest area, offshore"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Swamp paste"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Caroline",
+        "Holgart",
+        "Bailey",
+        "Kennith",
+        "Kent",
+        "Fishing Platform"
+      ],
+      "locations": [
+        "Caroline",
+        "Holgart",
+        "Bailey",
+        "Kennith",
+        "Kent",
+        "Fishing Platform"
+      ]
+    },
+    "cooks-assistant": {
+      "id": "cooks-assistant",
+      "kind": "quest",
+      "title": "Cook's Assistant",
+      "tables": [
+        {
+          "heading": "Cook's Assistant",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Cook",
+              "Lumbridge Castle, ground floor kitchen"
+            ],
+            [
+              "Wheat field",
+              "North of Lumbridge"
+            ],
+            [
+              "Windmill",
+              "North of the wheat field"
+            ],
+            [
+              "Chicken farm",
+              "Northeast of Lumbridge, east side of river"
+            ],
+            [
+              "Dairy cow",
+              "East of the chicken farm"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Pot",
+        "Bucket"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Cook",
+        "Wheat field",
+        "Windmill",
+        "Chicken farm",
+        "Dairy cow"
+      ],
+      "locations": [
+        "Cook",
+        "Wheat field",
+        "Windmill",
+        "Chicken farm",
+        "Dairy cow"
+      ]
+    },
+    "grand-tree": {
+      "id": "grand-tree",
+      "kind": "quest",
+      "title": "The Grand Tree",
+      "tables": [
+        {
+          "heading": "The Grand Tree",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Long"
+            ],
+            [
+              "Quest Points",
+              "5"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "King Narnode Shareen",
+              "Ground floor, Grand Tree, Gnome Stronghold"
+            ],
+            [
+              "Hazelmere",
+              "Island south of Ardougne"
+            ],
+            [
+              "Glough",
+              "Tree house, Gnome Stronghold"
+            ],
+            [
+              "Charlie",
+              "Prison, Gnome Stronghold"
+            ],
+            [
+              "Anita",
+              "Gnome Stronghold"
+            ],
+            [
+              "Foreman",
+              "Karamja shipyard"
+            ],
+            [
+              "Black Demon (level 172)",
+              "Grand Tree roots"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "None required (all items obtained during quest)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "King Narnode Shareen",
+        "Hazelmere",
+        "Glough",
+        "Charlie",
+        "Anita",
+        "Foreman",
+        "Black Demon (level 172)"
+      ],
+      "locations": [
+        "King Narnode Shareen",
+        "Hazelmere",
+        "Glough",
+        "Charlie",
+        "Anita",
+        "Foreman",
+        "Black Demon (level 172)"
+      ]
+    },
+    "goblin-diplomacy": {
+      "id": "goblin-diplomacy",
+      "kind": "quest",
+      "title": "Goblin Diplomacy",
+      "tables": [
+        {
+          "heading": "Goblin Diplomacy",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "5"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Bartender",
+              "Rusty Anchor pub, Port Sarim"
+            ],
+            [
+              "Aggie",
+              "House in Draynor Village"
+            ],
+            [
+              "Wyson the Gardener",
+              "Falador Park"
+            ],
+            [
+              "General Wartface",
+              "Goblin Village, north of Falador"
+            ],
+            [
+              "General Bentnoze",
+              "Goblin Village, north of Falador"
+            ],
+            [
+              "Goblins",
+              "Various locations; common near Lumbridge"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "3 Goblin armours (dropped by goblins)",
+        "3 Redberries",
+        "2 Onions",
+        "2 Woad leaves (buy from Wyson the Gardener in Falador Park)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Bartender",
+        "Aggie",
+        "Wyson the Gardener",
+        "General Wartface",
+        "General Bentnoze",
+        "Goblins"
+      ],
+      "locations": [
+        "Bartender",
+        "Aggie",
+        "Wyson the Gardener",
+        "General Wartface",
+        "General Bentnoze"
+      ]
+    },
+    "sheep-herder": {
+      "id": "sheep-herder",
+      "kind": "quest",
+      "title": "Sheep Herder",
+      "tables": [
+        {
+          "heading": "Overview",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "4"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC/Location",
+              "Role"
+            ],
+            [
+              "Councillor Halgrive",
+              "Quest start, S of Ardougne chapel"
+            ],
+            [
+              "Doctor Orbon",
+              "Sells plague suit (100 gp)"
+            ],
+            [
+              "Shed",
+              "Contains cattle prod"
+            ],
+            [
+              "Sheep pen",
+              "Herd infected sheep here"
+            ],
+            [
+              "Furnace",
+              "Burn sheep bones"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "100 gp (to purchase plague suit)"
+      ],
+      "keyNpcs": [
+        "NPC/Location",
+        "Councillor Halgrive",
+        "Doctor Orbon",
+        "Shed",
+        "Sheep pen",
+        "Furnace"
+      ],
+      "locations": [
+        "Councillor Halgrive",
+        "Doctor Orbon",
+        "Shed",
+        "Sheep pen",
+        "Furnace"
+      ]
+    },
+    "sheep-shearer": {
+      "id": "sheep-shearer",
+      "kind": "quest",
+      "title": "Sheep Shearer",
+      "tables": [
+        {
+          "heading": "Sheep Shearer",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Novice"
+            ],
+            [
+              "Length",
+              "Short"
+            ],
+            [
+              "Quest Points",
+              "1"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Fred the Farmer",
+              "Farm northwest of Lumbridge"
+            ],
+            [
+              "Sheep pen",
+              "Adjacent to Fred's farm"
+            ],
+            [
+              "Spinning wheel",
+              "Lumbridge Castle, 2nd floor"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "Shears (available from general stores)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Fred the Farmer",
+        "Sheep pen",
+        "Spinning wheel"
+      ],
+      "locations": [
+        "Fred the Farmer",
+        "Sheep pen",
+        "Spinning wheel"
+      ]
+    },
+    "fight-arena": {
+      "id": "fight-arena",
+      "kind": "quest",
+      "title": "Fight Arena",
+      "tables": [
+        {
+          "heading": "Fight Arena",
+          "rows": [
+            [
+              "Detail",
+              "Info"
+            ],
+            [
+              "Difficulty",
+              "Experienced"
+            ],
+            [
+              "Length",
+              "Medium"
+            ],
+            [
+              "Quest Points",
+              "2"
+            ]
+          ]
+        },
+        {
+          "heading": "Key NPCs & Locations",
+          "rows": [
+            [
+              "NPC / Location",
+              "Where"
+            ],
+            [
+              "Lady Servil",
+              "SE of the Gnome Battlefield"
+            ],
+            [
+              "Jeremy",
+              "Prison cells near the Fight Arena"
+            ],
+            [
+              "Khazard armour chest",
+              "NE house near the Fight Arena"
+            ],
+            [
+              "Tavern",
+              "Near the Fight Arena"
+            ],
+            [
+              "Khazard Ogre (level 55)",
+              "Fight Arena"
+            ],
+            [
+              "Khazard Scorpion (level 44)",
+              "Fight Arena"
+            ],
+            [
+              "Bouncer (level 132)",
+              "Fight Arena"
+            ]
+          ]
+        }
+      ],
+      "itemsNeeded": [
+        "None required (all items obtained during quest)"
+      ],
+      "keyNpcs": [
+        "NPC / Location",
+        "Lady Servil",
+        "Jeremy",
+        "Khazard armour chest",
+        "Tavern",
+        "Khazard Ogre (level 55)",
+        "Khazard Scorpion (level 44)",
+        "Bouncer (level 132)"
+      ],
+      "locations": [
+        "Lady Servil",
+        "Jeremy",
+        "Khazard armour chest",
+        "Tavern",
+        "Khazard Ogre (level 55)",
+        "Khazard Scorpion (level 44)",
+        "Bouncer (level 132)"
+      ]
+    }
+  }
+}
