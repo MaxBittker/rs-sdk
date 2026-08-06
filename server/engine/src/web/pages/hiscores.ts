@@ -27,6 +27,23 @@ const HISCORES_STYLES = `
     input { margin-top: 4px; }
 `;
 
+// Format XP with up to 2 significant decimal places and k/m/b suffixes
+function formatXp(value: number): string {
+    if (value >= 1_000_000_000) {
+        const n = value / 1_000_000_000;
+        return `${parseFloat(n.toFixed(2))}b`;
+    }
+    if (value >= 1_000_000) {
+        const n = value / 1_000_000;
+        return `${parseFloat(n.toFixed(2))}m`;
+    }
+    if (value >= 1_000) {
+        const n = value / 1_000;
+        return `${parseFloat(n.toFixed(2))}k`;
+    }
+    return `${value}`;
+}
+
 // Format gold value with K/M suffixes
 function formatGold(value: number): string {
     if (value >= 10_000_000) {
@@ -117,6 +134,7 @@ export async function handleHiscoresPlayerPage(url: URL): Promise<Response | nul
             <td><a href="/hiscores?category=0&profile=${profile}" class="c">Overall</a></td>
             <td align="right">${overallRank}</td>
             <td align="right">${overallStats ? overallStats.level.toLocaleString() : '-'}</td>
+            <td align="right">${overallStats && overallStats.value != null ? `<span title="${Number(overallStats.value).toLocaleString()}">${formatXp(Number(overallStats.value))}</span>` : '-'}</td>
             <td align="right">${overallStats ? formatPlaytime(overallStats.playtime) : '-'}</td>
         </tr>
     `);
@@ -148,6 +166,7 @@ export async function handleHiscoresPlayerPage(url: URL): Promise<Response | nul
                 <td><a href="/hiscores?category=${skill.id + 1}&profile=${profile}" class="c"><img src="/img/skill/${iconFile}" width="16" height="16" style="vertical-align:middle;margin-right:4px">${skill.name}</a></td>
                 <td align="right">${rank}</td>
                 <td align="right">${stat ? stat.level.toLocaleString() : '-'}</td>
+                <td align="right">${stat ? `<span title="${Number(stat.value).toLocaleString()}">${formatXp(Number(stat.value))}</span>` : '-'}</td>
                 <td align="right">${stat ? formatPlaytime(stat.playtime) : '-'}</td>
             </tr>
         `);
@@ -212,6 +231,7 @@ export async function handleHiscoresPlayerPage(url: URL): Promise<Response | nul
                                     <td><b>Skill</b></td>
                                     <td align="right"><b>Rank</b></td>
                                     <td align="right"><b>Level</b></td>
+                                    <td align="right"><b>XP</b></td>
                                     <td align="right"><b>Time</b></td>
                                 </tr>
                                 ${skillRows.join('')}
@@ -256,16 +276,16 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
     const playerSearch = url.searchParams.get('player')?.toLowerCase().trim() || '';
     const rankSearch = tryParseInt(url.searchParams.get('rank'), -1);
 
-    let rows: { rank: number; username: string; level: number; playtime: number }[] = [];
+    let rows: { rank: number; username: string; level: number; xp?: number; playtime: number }[] = [];
     let selectedSkill = 'Overall';
-    let searchedPlayer: { rank: number; username: string; level: number; playtime: number } | null = null;
+    let searchedPlayer: { rank: number; username: string; level: number; xp?: number; playtime: number } | null = null;
 
     if (category === -1 || category === 0) {
         // Overall - query hiscore_large
         let query = db
             .selectFrom('hiscore_large')
             .innerJoin('account', 'account.id', 'hiscore_large.account_id')
-            .select(['account.username', 'hiscore_large.level', 'hiscore_large.playtime'])
+            .select(['account.username', 'hiscore_large.level', 'hiscore_large.value', 'hiscore_large.playtime'])
             .where('hiscore_large.type', '=', 0)
             .where('hiscore_large.profile', '=', profile)
             .where('account.staffmodlevel', '<=', 1)
@@ -283,6 +303,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
             rank: startRank + i + 1,
             username: r.username,
             level: r.level,
+            xp: Number(r.value),
             playtime: r.playtime
         }));
 
@@ -290,7 +311,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
             const idx = allResults.findIndex(r => r.username.toLowerCase() === playerSearch);
             if (idx !== -1) {
                 const r = allResults[idx];
-                searchedPlayer = { rank: idx + 1, username: r.username, level: r.level, playtime: r.playtime };
+                searchedPlayer = { rank: idx + 1, username: r.username, level: r.level, xp: Number(r.value), playtime: r.playtime };
             }
         }
         selectedSkill = 'Overall';
@@ -302,7 +323,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
             let query = db
                 .selectFrom('hiscore')
                 .innerJoin('account', 'account.id', 'hiscore.account_id')
-                .select(['account.username', 'hiscore.level', 'hiscore.playtime'])
+                .select(['account.username', 'hiscore.level', 'hiscore.value', 'hiscore.playtime'])
                 .where('hiscore.type', '=', category)
                 .where('hiscore.profile', '=', profile)
                 .where('account.staffmodlevel', '<=', 1)
@@ -319,6 +340,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
                 rank: startRank + i + 1,
                 username: r.username,
                 level: r.level,
+                xp: Number(r.value),
                 playtime: r.playtime
             }));
 
@@ -326,7 +348,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
                 const idx = allResults.findIndex(r => r.username.toLowerCase() === playerSearch);
                 if (idx !== -1) {
                     const r = allResults[idx];
-                    searchedPlayer = { rank: idx + 1, username: r.username, level: r.level, playtime: r.playtime };
+                    searchedPlayer = { rank: idx + 1, username: r.username, level: r.level, xp: Number(r.value), playtime: r.playtime };
                 }
             }
             selectedSkill = skillName;
@@ -353,6 +375,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
     const rankCol = rows.map(r => `${r.rank}<br>`).join('\n');
     const nameCol = rows.map(r => `<a href="/hiscores/player/${encodeURIComponent(r.username)}?profile=${profile}" class="c">${escapeHtml(r.username)}</a><br>`).join('\n');
     const levelCol = rows.map(r => `${r.level.toLocaleString()}<br>`).join('\n');
+    const xpCol = rows.map(r => r.xp != null ? `<span title="${r.xp.toLocaleString()}">${formatXp(r.xp)}</span><br>` : '-<br>').join('\n');
     const timeCol = rows.map(r => `${formatPlaytime(r.playtime)}<br>`).join('\n');
 
     const html = `<!DOCTYPE html>
@@ -455,22 +478,27 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
                                                 rows.length > 0
                                                     ? `<table>
                                                 <tr>
-                                                    <td align="right" valign="top">
+                                                    <td align="right" valign="top" style="white-space:nowrap">
                                                         <b>Rank</b><br>
                                                         ${rankCol}
                                                     </td>
                                                     <td>&nbsp;</td>
-                                                    <td valign="top">
+                                                    <td valign="top" style="white-space:nowrap">
                                                         <b>Name</b><br>
                                                         ${nameCol}
                                                     </td>
                                                     <td>&nbsp;</td>
-                                                    <td valign="top">
+                                                    <td align="right" valign="top" style="white-space:nowrap">
                                                         <b>Level</b><br>
                                                         ${levelCol}
                                                     </td>
                                                     <td>&nbsp;</td>
-                                                    <td align="right" valign="top">
+                                                    <td align="right" valign="top" style="white-space:nowrap">
+                                                        <b>XP</b><br>
+                                                        ${xpCol}
+                                                    </td>
+                                                    <td>&nbsp;</td>
+                                                    <td align="right" valign="top" style="white-space:nowrap">
                                                         <b>Time</b><br>
                                                         ${timeCol}
                                                     </td>
