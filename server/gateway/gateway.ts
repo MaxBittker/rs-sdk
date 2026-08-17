@@ -846,6 +846,36 @@ const server = Bun.serve({
             });
         }
 
+        // Read the bot's last world state: GET /state/:username
+        //
+        // Same rationale as /chat: `sdk/cli.ts` state dumps used to open a
+        // fresh observer WebSocket per invocation, which is the last remaining
+        // per-call handshake over TLS tunnels ("Failed to connect to wss://…"
+        // in the split market runs). The gateway already holds the latest
+        // frame, so answer from it. `stateAge` lets the caller flag staleness;
+        // 404 when nothing has ever registered as this bot.
+        const stateMatch = url.pathname.match(/^\/state\/(.+)$/);
+        if (stateMatch && stateMatch[1] && req.method === 'GET') {
+            const username = decodeURIComponent(stateMatch[1]);
+            const auth = await authenticateHttpRequest(req, url, username);
+            if (!auth.success) {
+                return jsonResponse({ error: `Authentication failed: ${auth.error}` }, 401);
+            }
+            const botSession = botSessions.get(username);
+            if (!botSession || !botSession.lastState) {
+                return jsonResponse({
+                    error: `No game state for '${username}' - nothing is logged into the game as that bot`,
+                    botStatus: botSession ? getSessionStatus(botSession) : 'dead',
+                    state: null
+                }, 404);
+            }
+            return jsonResponse({
+                state: botSession.lastState,
+                stateAge: Date.now() - botSession.lastStateReceivedAt,
+                botStatus: getSessionStatus(botSession)
+            });
+        }
+
         // Send chat: POST /say/:username  body: {"text": "...", "password"?: "...", "timeoutMs"?: n}
         //
         // Relays through the bot's game client like observer 'say' does, but as

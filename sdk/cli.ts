@@ -12,8 +12,63 @@
 
 import { BotSDK, deriveGatewayUrl } from './index';
 import { formatWorldState } from './formatter';
+import type { BotWorldState } from './types';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+
+/** ws://host -> http://host, wss://host/path -> https://host/path (the gateway serves both on one port). */
+function gatewayHttpBase(gatewayUrl: string): string {
+    return gatewayUrl.replace(/^ws(s?):\/\//, 'http$1://').replace(/\/$/, '');
+}
+
+/**
+ * Primary path: one bounded HTTP GET against the gateway's /state/:bot, which
+ * answers from the last frame it holds. No per-invocation WebSocket handshake
+ * (the thing that flakes over TLS tunnels), and a hard per-attempt timeout
+ * with one retry on network failure. Returns null when the gateway predates
+ * the endpoint (old gateways answer unknown paths with a text banner), so the
+ * caller can fall back to the observer socket.
+ */
+async function fetchStateViaHttp(
+    gatewayUrl: string,
+    username: string,
+    password: string,
+    timeout: number
+): Promise<{ state: BotWorldState; stateAge: number } | null> {
+    const params = new URLSearchParams();
+    if (password) params.set('password', password);
+    const qs = params.toString();
+    const url = `${gatewayHttpBase(gatewayUrl)}/state/${encodeURIComponent(username)}${qs ? `?${qs}` : ''}`;
+
+    let res: Response | null = null;
+    let lastErr: unknown;
+    for (let attempt = 0; attempt < 2 && !res; attempt++) {
+        try {
+            res = await fetch(url, { signal: AbortSignal.timeout(timeout) });
+        } catch (err) {
+            lastErr = err;
+            if (attempt === 0) await new Promise(resolve => setTimeout(resolve, 500));
+        }
+    }
+    if (!res) {
+        console.error(`Error: Failed to reach gateway at ${url}`);
+        console.error(`  ${(lastErr as any)?.message ?? lastErr}`);
+        process.exit(1);
+    }
+    if (!(res.headers.get('content-type') ?? '').includes('json')) return null;
+
+    const body: any = await res.json().catch(() => null);
+    if (res.status === 404 || !body?.state) {
+        console.error(`Error: No game state for '${username}' (gateway is fine - answered OK)`);
+        console.error(`  Nothing is logged into the game as '${username}', so there's no state to report.`);
+        console.error(`  This is also what you see after a server restart or when an idle client goes stale.`);
+        console.error(`  Fix: open the web client and log in as '${username}', then re-run.`);
+        console.error(`  (Scripts via sdk/runner.ts launch the client for you.)`);
+        if (body?.error && res.status !== 404) console.error(`  ${body.error}`);
+        process.exit(1);
+    }
+    return { state: body.state as BotWorldState, stateAge: Number(body.stateAge) || 0 };
+}
 
 /**
  * Connect, then wait for game state - reporting the two failure modes separately.
@@ -154,25 +209,31 @@ async function fetchState(botName: string, flags: { server: string; timeout: num
 
     const gatewayUrl = deriveGatewayUrl(server);
 
-    // 'observe', not the BotSDK default of 'control': this is a read-only dump, and the
-    // gateway pre-empts existing controllers when a new one connects. Connecting as a
-    // controller here would kill whatever script currently owns the bot — and pre-emption
-    // disables its auto-reconnect, so it would die permanently on a mere state check.
-    const sdk = new BotSDK({
-        botUsername: username,
-        password,
-        gatewayUrl,
-        connectionMode: 'observe',
-        autoReconnect: false,
-        autoLaunchBrowser: false,
-        readyTimeout: 0
-    });
-
-    const { state, stateAge } = await connectAndAwaitState(sdk, gatewayUrl, username, timeout);
+    // Try the gateway's HTTP state endpoint first; only gateways that predate
+    // it fall through to the observer WebSocket below.
+    let result = await fetchStateViaHttp(gatewayUrl, username, password, timeout);
+    let sdk: BotSDK | null = null;
+    if (!result) {
+        // 'observe', not the BotSDK default of 'control': this is a read-only dump, and the
+        // gateway pre-empts existing controllers when a new one connects. Connecting as a
+        // controller here would kill whatever script currently owns the bot — and pre-emption
+        // disables its auto-reconnect, so it would die permanently on a mere state check.
+        sdk = new BotSDK({
+            botUsername: username,
+            password,
+            gatewayUrl,
+            connectionMode: 'observe',
+            autoReconnect: false,
+            autoLaunchBrowser: false,
+            readyTimeout: 0
+        });
+        result = await connectAndAwaitState(sdk, gatewayUrl, username, timeout);
+    }
+    const { state, stateAge } = result;
 
     if (flags.json) {
         console.log(JSON.stringify(state, null, 2));
-        sdk.disconnect();
+        sdk?.disconnect();
         process.exit(0);
     }
 
@@ -188,7 +249,7 @@ async function fetchState(botName: string, flags: { server: string; timeout: num
 
     console.log(formatWorldState(state, stateAge));
 
-    sdk.disconnect();
+    sdk?.disconnect();
     process.exit(0);
 }
 

@@ -170,6 +170,24 @@ describe('gateway HTTP chat endpoints', () => {
         expect(Date.now() - start).toBeLessThan(5000);
     }, 10000);
 
+    test('GET /state/:bot returns the last frame with its age', async () => {
+        const res = await fetch(`${BASE}/state/tbot`);
+        expect(res.status).toBe(200);
+        const body: any = await res.json();
+        expect(body.state.player.name).toBe('tbot');
+        expect(body.state.inGame).toBe(true);
+        expect(typeof body.stateAge).toBe('number');
+        expect(body.botStatus).toBe('active');
+    });
+
+    test('GET /state for an unknown bot answers 404 JSON, not a banner', async () => {
+        const res = await fetch(`${BASE}/state/nobody`);
+        expect(res.status).toBe(404);
+        const body: any = await res.json();
+        expect(body.state).toBeNull();
+        expect(body.botStatus).toBe('dead');
+    });
+
     test('POST /say rejects a missing text body without dispatching', async () => {
         const res = await fetch(`${BASE}/say/tbot`, {
             method: 'POST',
@@ -216,4 +234,38 @@ describe('chat CLI over HTTP', () => {
         expect(stderr).toMatch(/timed out/i);
         expect(Date.now() - start).toBeLessThan(20000);
     }, 30000);
+});
+
+describe('state CLI over HTTP', () => {
+    async function runStateCli(args: string[]): Promise<{ exitCode: number; stdout: string; stderr: string }> {
+        const proc = Bun.spawn({
+            cmd: ['bun', join(REPO_ROOT, 'sdk', 'cli.ts'), ...args, '--server', `localhost:${PORT}`],
+            cwd: REPO_ROOT,
+            stdout: 'pipe',
+            stderr: 'pipe'
+        });
+        const [stdout, stderr, exitCode] = await Promise.all([
+            new Response(proc.stdout).text(),
+            new Response(proc.stderr).text(),
+            proc.exited
+        ]);
+        return { exitCode, stdout, stderr };
+    }
+
+    test('dumps state end-to-end without an observer socket', async () => {
+        const before = ((await (await fetch(`${BASE}/status/tbot`)).json()) as any).observers.length;
+        const { exitCode, stdout } = await runStateCli(['tbot', 'state', '--json']);
+        expect(exitCode).toBe(0);
+        expect(JSON.parse(stdout).player.name).toBe('tbot');
+        const after = ((await (await fetch(`${BASE}/status/tbot`)).json()) as any).observers.length;
+        expect(after).toBe(before);
+    }, 20000);
+
+    test('explains a missing bot instead of hanging', async () => {
+        const start = Date.now();
+        const { exitCode, stderr } = await runStateCli(['nobody', 'state', '--timeout', '3000']);
+        expect(exitCode).toBe(1);
+        expect(stderr).toContain("No game state for 'nobody'");
+        expect(Date.now() - start).toBeLessThan(15000);
+    }, 20000);
 });
