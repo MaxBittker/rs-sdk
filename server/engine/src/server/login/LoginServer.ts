@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import fs from 'fs';
 import fsp from 'fs/promises';
 
@@ -15,6 +16,68 @@ import { printInfo } from '#/util/Logger.js';
 import { startManagementWeb } from '#/web.js';
 import InvType from '#/cache/config/InvType.js';
 import ObjType from '#/cache/config/ObjType.js';
+
+// bcrypt-ts is pure JS: one compare pins this thread for ~50-200ms. Prod outage
+// 2026-08-17: a reconnect stampede after a redeploy (~5 auths/s across fleets and
+// SDK clients) saturated the login worker, every auth crossed the gateway's 15s
+// timeout, clients retried, and the login server never drained the backlog.
+// Two mitigations:
+//  1. remember the outcome of each (stored hash, plaintext) pair so a reconnecting
+//     client with the same creds costs a sha256 instead of a bcrypt. The key is the
+//     bcrypt hash itself (salted), so a password change invalidates the entry.
+//  2. verify off-thread with Bun.password when running under bun (native bcrypt in
+//     the thread pool) so a cold compare doesn't block message handling.
+const PASSWORD_CACHE_MAX = 20000;
+const passwordCache: Map<string, { ok: Set<string>; bad: Set<string> }> = new Map();
+
+function passwordDigest(password: string): string {
+    return createHash('sha256').update(password).digest('base64');
+}
+
+async function comparePassword(password: string, hash: string): Promise<boolean> {
+    const digest = passwordDigest(password);
+    let entry = passwordCache.get(hash);
+    if (entry) {
+        if (entry.ok.has(digest)) return true;
+        if (entry.bad.has(digest)) return false;
+    }
+
+    let match: boolean;
+    if (typeof Bun !== 'undefined' && Bun.password) {
+        try {
+            match = await Bun.password.verify(password, hash);
+        } catch {
+            match = await bcrypt.compare(password, hash);
+        }
+    } else {
+        match = await bcrypt.compare(password, hash);
+    }
+
+    if (!entry) {
+        if (passwordCache.size >= PASSWORD_CACHE_MAX) {
+            // Map iterates in insertion order - drop the oldest
+            const oldest = passwordCache.keys().next().value;
+            if (oldest !== undefined) passwordCache.delete(oldest);
+        }
+        entry = { ok: new Set(), bad: new Set() };
+        passwordCache.set(hash, entry);
+    }
+    if (match) {
+        entry.ok.add(digest);
+    } else {
+        // bounded so a guessing loop can't grow memory
+        if (entry.bad.size >= 8) entry.bad.clear();
+        entry.bad.add(digest);
+    }
+    return match;
+}
+
+async function hashPassword(password: string): Promise<string> {
+    if (typeof Bun !== 'undefined' && Bun.password) {
+        return Bun.password.hash(password, { algorithm: 'bcrypt', cost: 10 });
+    }
+    return bcrypt.hash(password, 10);
+}
 
 async function updateHiscores(account: { id: number; staffmodlevel: number; banned_until: string | Date | null } | undefined, player: Player, profile: string) {
     if (!account) return;
@@ -328,7 +391,7 @@ export default class LoginServer {
                                     .insertInto('account')
                                     .values({
                                         username,
-                                        password: bcrypt.hashSync(password, 10),
+                                        password: await hashPassword(password),
                                         registration_ip: remoteAddress,
                                         registration_date: toDbDate(new Date())
                                     })
@@ -355,7 +418,7 @@ export default class LoginServer {
                                     .executeTakeFirst();
                             }
 
-                            const passwordMatch = account ? await bcrypt.compare(password, account.password) : false;
+                            const passwordMatch = account ? await comparePassword(password, account.password) : false;
 
                             if (!account || !passwordMatch) {
                                 // invalid username or password
@@ -668,7 +731,13 @@ export default class LoginServer {
                             .executeTakeFirst();
                     } else if (type === 'sdk_auth') {
                         // SDK/Gateway authentication - validates username/password for remote bot control
-                        const { replyTo, password } = msg;
+                        const { replyTo, password, sentAt } = msg;
+                        // The gateway gives up after 15s; a reply to an older request is
+                        // discarded there, so don't spend a bcrypt on it (this is what
+                        // let a backlog snowball into the 2026-08-17 outage).
+                        if (typeof sentAt === 'number' && Date.now() - sentAt > 14000) {
+                            return;
+                        }
                         // Normalize like player_login so case differences (e.g. "Bitty" vs "bitty")
                         // resolve to the same account row.
                         const username = toSafeName(msg.username);
@@ -697,7 +766,7 @@ export default class LoginServer {
                                     .insertInto('account')
                                     .values({
                                         username,
-                                        password: bcrypt.hashSync(password, 10),
+                                        password: await hashPassword(password),
                                         registration_ip: 'sdk',
                                         registration_date: toDbDate(new Date())
                                     })
@@ -736,7 +805,7 @@ export default class LoginServer {
                             return;
                         }
 
-                        const sdkPasswordMatch = account ? await bcrypt.compare(password, account.password) : false;
+                        const sdkPasswordMatch = account ? await comparePassword(password, account.password) : false;
 
                         if (!account || !sdkPasswordMatch) {
                             s.send(JSON.stringify({

@@ -94,7 +94,9 @@ async function authenticateSDK(username: string, password: string): Promise<{ su
             type: 'sdk_auth',
             replyTo,
             username,
-            password
+            password,
+            // lets the login server skip requests we've already timed out on
+            sentAt: Date.now()
         }));
     });
 }
