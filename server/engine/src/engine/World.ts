@@ -1,6 +1,7 @@
 // stdlib
 import fs from 'fs';
 import { Worker } from 'worker_threads';
+import WSClientSocket from '#/server/ws/WSClientSocket.js';
 
 // deps
 import * as rsbuf from '#/network/rsbuf/index.js';
@@ -1270,6 +1271,8 @@ class World {
                 }
             }
         }
+        // one websocket message per client per tick (see WSClientSocket.send)
+        WSClientSocket.flushAll();
         this.cycleStats[WorldStat.CLIENT_OUT] = Date.now() - start;
     }
 

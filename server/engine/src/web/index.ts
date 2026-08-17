@@ -30,6 +30,7 @@ const WEB_SLOW_MS = Number(process.env.WEB_SLOW_MS ?? 100);
 function routeKey(url: URL): string {
     // collapse ids/usernames so keys stay bounded: keep the first two path segments
     const parts = url.pathname.split('/').filter(Boolean);
+    if (parts[0] === 'status' && parts.length > 1) parts[1] = ':bot';
     let key = '/' + parts.slice(0, 2).join('/');
     if (parts.length > 2) key += '/*';
     if (url.searchParams.size > 0) key += '?' + [...url.searchParams.keys()].slice(0, 3).sort().join('&');
