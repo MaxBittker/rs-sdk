@@ -10,6 +10,9 @@ import type {
     SyncToSDKMessage,
     SDKConnectionMode
 } from './types';
+import { PLAYER_CHAT_TYPES } from './types';
+import { ChatHistory } from '../../sdk/chat-history';
+import { chunkMessage } from '../../sdk/chunking';
 
 const GATEWAY_PORT = parseInt(process.env.AGENT_PORT || '7780');
 
@@ -129,7 +132,7 @@ interface BotSession {
 // Session status for diagnostics
 type SessionStatus = 'active' | 'stale' | 'dead';
 
-const STALE_THRESHOLD_MS = 8000;  // 30 seconds without state = stale
+const STALE_THRESHOLD_MS = 8000;  // 8 seconds without state = stale (bots publish ~every tick)
 
 function getSessionStatus(session: BotSession): SessionStatus {
     if (!session.ws) return 'dead';
@@ -173,6 +176,26 @@ interface SDKSession {
 const botSessions = new Map<string, BotSession>();      // username -> BotSession
 const sdkSessions = new Map<string, SDKSession>();      // sessionId -> SDKSession
 const wsToType = new Map<any, { type: 'bot' | 'sdk'; id: string }>();
+
+// Per-bot accumulated chat, fed from state snapshots (same merge logic the SDK
+// uses). Keyed by username so history survives bot reconnects/takeovers.
+// Backs the HTTP GET /chat/:username endpoint, which lets chat tools read
+// recent messages with a single bounded request instead of opening an observer
+// WebSocket and waiting for a state frame.
+const chatHistories = new Map<string, ChatHistory>();
+function chatHistoryFor(username: string): ChatHistory {
+    let history = chatHistories.get(username);
+    if (!history) {
+        history = new ChatHistory();
+        chatHistories.set(username, history);
+    }
+    return history;
+}
+
+// Actions dispatched from HTTP requests (POST /say/:username) awaiting their
+// actionResult from the bot client. Keyed by actionId; entries self-expire.
+const pendingHttpActions = new Map<string, { resolve: (result: any) => void; timeout: ReturnType<typeof setTimeout> }>();
+let httpActionSeq = 0;
 
 // Monotonic counter so server-generated session ids can never collide, even
 // within the same millisecond.
@@ -351,6 +374,18 @@ const SyncModule = {
             const actionId = message.actionId || session.currentActionId || undefined;
             console.log(`[Gateway] [${session.username}] Action result: ${message.result.success ? 'success' : 'failed'} - ${message.result.message}`);
 
+            // Actions dispatched over HTTP resolve their waiting request here.
+            if (actionId) {
+                const pendingHttp = pendingHttpActions.get(actionId);
+                if (pendingHttp) {
+                    pendingHttpActions.delete(actionId);
+                    clearTimeout(pendingHttp.timeout);
+                    pendingHttp.resolve(message.result);
+                    session.currentActionId = null;
+                    return;
+                }
+            }
+
             for (const sdkSession of this.getSDKSessionsForBot(session.username)) {
                 this.sendToSDK(sdkSession, {
                     type: 'sdk_action_result',
@@ -365,6 +400,9 @@ const SyncModule = {
         if (message.type === 'state' && message.state) {
             session.lastState = message.state;
             session.lastStateReceivedAt = Date.now();
+            if (message.state.gameMessages?.length) {
+                chatHistoryFor(session.username).record(message.state.gameMessages);
+            }
             for (const sdkSession of this.getSDKSessionsForBot(session.username)) {
                 this.sendToSDK(sdkSession, {
                     type: 'sdk_state',
@@ -602,6 +640,47 @@ const SyncModule = {
     }
 };
 
+// ============ HTTP Chat Helpers ============
+
+/**
+ * Auth for the HTTP chat endpoints - same per-bot credential check as
+ * sdk_connect. Password comes from the JSON body, an Authorization: Bearer
+ * header, or a ?password= query param (a no-op unless LOGIN_SERVER is on,
+ * matching the WebSocket paths).
+ */
+async function authenticateHttpRequest(req: Request, url: URL, username: string, bodyPassword?: unknown): Promise<{ success: boolean; error?: string }> {
+    const header = req.headers.get('authorization');
+    const bearer = header?.startsWith('Bearer ') ? header.slice(7) : undefined;
+    const password = typeof bodyPassword === 'string' && bodyPassword !== ''
+        ? bodyPassword
+        : (bearer ?? url.searchParams.get('password') ?? '');
+    return authenticateSDK(username, password);
+}
+
+/**
+ * Dispatch one say chunk to the bot client and wait (bounded) for its
+ * actionResult. Never rejects: a client that doesn't answer inside the budget
+ * yields a failed result, so the HTTP handler always responds.
+ */
+function dispatchHttpSay(botSession: BotSession, text: string, timeoutMs: number): Promise<{ success: boolean; message: string; data?: any; reason?: string }> {
+    const actionId = `http-${++httpActionSeq}-${Math.random().toString(36).slice(2, 8)}`;
+    return new Promise(resolve => {
+        const timeout = setTimeout(() => {
+            pendingHttpActions.delete(actionId);
+            resolve({ success: false, message: `Say timed out after ${timeoutMs}ms (game client did not answer)`, reason: 'timeout' });
+        }, timeoutMs);
+        pendingHttpActions.set(actionId, { resolve, timeout });
+        // Also track on the session so clients that don't echo actionId still route back.
+        botSession.currentActionId = actionId;
+        SyncModule.sendToBot(botSession, {
+            type: 'action',
+            action: { type: 'say', message: text, reason: 'HTTP chat' },
+            actionId,
+            actionTimeoutMs: timeoutMs
+        });
+    });
+}
+
 // ============ Message Router ============
 
 /**
@@ -679,7 +758,7 @@ console.log(`[Gateway] Starting Gateway Service on port ${GATEWAY_PORT}...`);
 const server = Bun.serve({
     port: GATEWAY_PORT,
 
-    fetch(req, server) {
+    async fetch(req, server) {
         const url = new URL(req.url);
 
         // WebSocket upgrade
@@ -692,8 +771,8 @@ const server = Bun.serve({
         // CORS headers
         const corsHeaders = {
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type'
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization'
         };
 
         if (req.method === 'OPTIONS') {
@@ -718,6 +797,7 @@ const server = Bun.serve({
                 status: botSession ? getSessionStatus(botSession) : 'dead',
                 inGame: isConnected ? (botSession?.lastState?.inGame || false) : false,
                 stateAge,
+                maxMessageLength: botSession?.maxMessageLength ?? null,
                 controllers,
                 observers,
                 player: isConnected && botSession?.lastState?.player ? {
@@ -730,6 +810,95 @@ const server = Bun.serve({
             return new Response(JSON.stringify(response, null, 2), {
                 headers: { 'Content-Type': 'application/json', ...corsHeaders }
             });
+        }
+
+        const jsonResponse = (body: unknown, status = 200) => new Response(JSON.stringify(body, null, 2), {
+            status,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders }
+        });
+
+        // Read recent chat: GET /chat/:username?limit=20&system=1
+        //
+        // Serves from the gateway's accumulated per-bot history, so one bounded
+        // HTTP request replaces the observer-WebSocket dance (connect, wait for
+        // a state frame, read, disconnect). Over TLS tunnels that dance is a
+        // real handshake per invocation and the dominant source of chat-tool
+        // flakiness.
+        const chatMatch = url.pathname.match(/^\/chat\/(.+)$/);
+        if (chatMatch && chatMatch[1] && req.method === 'GET') {
+            const username = decodeURIComponent(chatMatch[1]);
+            const auth = await authenticateHttpRequest(req, url, username);
+            if (!auth.success) {
+                return jsonResponse({ error: `Authentication failed: ${auth.error}` }, 401);
+            }
+
+            const limitRaw = parseInt(url.searchParams.get('limit') || '20', 10);
+            const limit = Number.isFinite(limitRaw) ? limitRaw : 20;
+            const systemParam = url.searchParams.get('system');
+            const includeSystem = systemParam === '1' || systemParam === 'true';
+            const types = new Set<number>(includeSystem ? [0, ...PLAYER_CHAT_TYPES] : PLAYER_CHAT_TYPES);
+
+            const all = (chatHistories.get(username)?.all() ?? []).filter(m => types.has(m.type));
+            const botSession = botSessions.get(username);
+            return jsonResponse({
+                messages: limit > 0 ? all.slice(-limit) : all,
+                botStatus: botSession ? getSessionStatus(botSession) : 'dead'
+            });
+        }
+
+        // Send chat: POST /say/:username  body: {"text": "...", "password"?: "...", "timeoutMs"?: n}
+        //
+        // Relays through the bot's game client like observer 'say' does, but as
+        // a single request/response with a hard per-chunk deadline - a caller
+        // can trust that this either answers or fails within its budget.
+        const sayMatch = url.pathname.match(/^\/say\/(.+)$/);
+        if (sayMatch && sayMatch[1] && req.method === 'POST') {
+            const username = decodeURIComponent(sayMatch[1]);
+            let body: any;
+            try {
+                body = await req.json();
+            } catch {
+                return jsonResponse({ error: 'Body must be JSON: {"text": "..."}' }, 400);
+            }
+            const text = typeof body?.text === 'string' ? body.text.trim() : '';
+            if (!text) {
+                return jsonResponse({ error: 'Missing "text"' }, 400);
+            }
+            const auth = await authenticateHttpRequest(req, url, username, body?.password);
+            if (!auth.success) {
+                return jsonResponse({ error: `Authentication failed: ${auth.error}` }, 401);
+            }
+
+            const botSession = botSessions.get(username);
+            if (!botSession || !botSession.ws) {
+                return jsonResponse({
+                    error: `Bot not connected - no game client is logged in as '${username}', so there is nothing to relay chat through`
+                }, 409);
+            }
+
+            const timeoutRaw = Number(body?.timeoutMs);
+            const perChunkTimeout = Math.min(Math.max(Number.isFinite(timeoutRaw) && timeoutRaw > 0 ? timeoutRaw : 10000, 2000), 30000);
+            const chunks = chunkMessage(text, botSession.maxMessageLength ?? 80);
+
+            const results: any[] = [];
+            let ok = true;
+            for (let i = 0; i < chunks.length; i++) {
+                const result = await dispatchHttpSay(botSession, chunks[i]!, perChunkTimeout);
+                results.push({ chunk: chunks[i], ...result });
+                if (!result.success) {
+                    // The relay is broken; burning the timeout again per
+                    // remaining chunk helps nobody.
+                    ok = false;
+                    for (let j = i + 1; j < chunks.length; j++) {
+                        results.push({ chunk: chunks[j], success: false, message: 'Skipped: previous chunk failed' });
+                    }
+                    break;
+                }
+                if (i < chunks.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 600));  // ~1 tick so chunks don't collide
+                }
+            }
+            return jsonResponse({ ok, results }, ok ? 200 : 502);
         }
 
         // Status endpoint (admin/debugging - more detailed)
@@ -769,6 +938,8 @@ const server = Bun.serve({
 Endpoints:
 - GET /status              All connections status
 - GET /status/:username    Per-bot status (controllers, observers)
+- GET /chat/:username      Recent chat (?limit=20&system=1)
+- POST /say/:username      Send chat ({"text": "..."}); relayed through the bot's game client
 
 WebSocket:
 - ws://localhost:${GATEWAY_PORT}    Bot/SDK connections

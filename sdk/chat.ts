@@ -1,9 +1,12 @@
 #!/usr/bin/env bun
 // SDK Chat CLI - send and read chat without taking control of the bot
 //
-// Connects in 'observe' mode: the gateway lets observers dispatch 'say' (and
-// nothing else), and observers neither pre-empt nor get pre-empted by whatever
-// controller currently owns the bot. Safe to use while a script is running.
+// Talks to the gateway's HTTP chat endpoints (POST /say/:bot, GET /chat/:bot),
+// so every invocation is one bounded request/response - there is no
+// per-invocation WebSocket handshake to stall on a flaky link, and a dead
+// game-client relay fails fast with a clear message instead of hanging.
+// Gateways that predate the HTTP endpoints get the legacy observer-WebSocket
+// path automatically; --watch always uses it (it needs the live feed).
 //
 // Usage:
 //   bun sdk/chat.ts <botname>                    # Show recent chat
@@ -14,6 +17,11 @@ import { BotSDK, deriveGatewayUrl } from './index';
 import type { GameMessage } from './types';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+
+// No invocation (except --watch) may outlive this, whatever goes wrong - a
+// chat check that silently eats a shell tool's whole timeout is worse than a
+// failed one.
+const HARD_DEADLINE_MS = 90_000;
 
 function printUsage() {
     console.log(`
@@ -28,7 +36,7 @@ Options:
   --limit <n>       Messages of history to show (default: 20)
   --system          Include system/game messages, not just player chat
   --server <host>   Server hostname (default: from bot.env or rs-sdk-demo.fly.dev)
-  --timeout <ms>    Budget for connecting / first state (default: 5000)
+  --timeout <ms>    Budget per network request (default: 5000)
   --help            Show this help
 
 Examples:
@@ -76,6 +84,212 @@ function formatMessage(m: GameMessage): string {
 }
 
 const PLAYER_AND_SYSTEM_TYPES = [0, 1, 2, 3, 6, 7] as const;
+
+/** ws://host -> http://host, wss://host/path -> https://host/path (the gateway serves both on one port). */
+function gatewayHttpBase(gatewayUrl: string): string {
+    return gatewayUrl.replace(/^ws(s?):\/\//, 'http$1://').replace(/\/$/, '');
+}
+
+/**
+ * fetch with a hard per-attempt timeout and one retry on network-level
+ * failure (refused/reset/stalled connect - the flaky-tunnel cases). HTTP
+ * error statuses are answers, not failures, and are returned as-is.
+ */
+async function boundedFetch(url: string, init: RequestInit, timeoutMs: number): Promise<Response> {
+    let lastErr: unknown;
+    for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+            return await fetch(url, { ...init, signal: AbortSignal.timeout(timeoutMs) });
+        } catch (err) {
+            lastErr = err;
+            if (attempt === 0) await new Promise(resolve => setTimeout(resolve, 500));
+        }
+    }
+    throw lastErr;
+}
+
+/** True if this response came from a gateway that has the HTTP chat endpoints. */
+function isChatEndpointResponse(res: Response): boolean {
+    // Old gateways answer unknown paths with a 200 text/plain banner; the chat
+    // endpoints always answer JSON (including their error statuses).
+    return (res.headers.get('content-type') ?? '').includes('json');
+}
+
+interface CliContext {
+    username: string;
+    password: string;
+    gatewayUrl: string;
+    timeout: number;
+    limit: number;
+    system: boolean;
+}
+
+// ============ HTTP paths (primary) ============
+
+/** Returns exit code, or null if the gateway lacks the HTTP endpoints. */
+async function sendViaHttp(ctx: CliContext, text: string): Promise<number | null> {
+    const url = `${gatewayHttpBase(ctx.gatewayUrl)}/say/${encodeURIComponent(ctx.username)}`;
+    let res: Response;
+    try {
+        // The gateway bounds each chunk at 10s and aborts on first failure;
+        // this attempt timeout only has to outlast a legitimate slow send.
+        res = await boundedFetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, password: ctx.password, timeoutMs: 10_000 })
+        }, 60_000);
+    } catch (err: any) {
+        console.error(`Error: Failed to reach gateway at ${url}`);
+        console.error(`  ${err?.message ?? err}`);
+        return 1;
+    }
+    if (!isChatEndpointResponse(res)) return null;
+
+    const body: any = await res.json().catch(() => null);
+    if (res.status === 409) {
+        console.error(`Error: Failed to send: ${body?.error ?? 'Bot not connected'}`);
+        console.error(`  No game client is logged in as '${ctx.username}' - chat is relayed through it.`);
+        console.error(`  Log the bot in (browser or lite client), then retry.`);
+        return 1;
+    }
+    if (!body || (!res.ok && !Array.isArray(body.results))) {
+        console.error(`Error: Failed to send: ${body?.error ?? `gateway answered ${res.status}`}`);
+        return 1;
+    }
+
+    let ok = true;
+    for (const result of body.results ?? []) {
+        if (result.success) {
+            console.log(`Sent: ${result.data?.finalText ?? result.chunk}`);
+            if (result.data?.truncated) console.log('  (truncated by server cap)');
+            if (result.data?.filtered) console.log('  (altered by word filter)');
+        } else {
+            ok = false;
+            console.error(`Error: Failed to send: ${result.message}`);
+        }
+    }
+    return ok ? 0 : 1;
+}
+
+/** Returns exit code, or null if the gateway lacks the HTTP endpoints. */
+async function readViaHttp(ctx: CliContext): Promise<number | null> {
+    const params = new URLSearchParams({ limit: String(ctx.limit) });
+    if (ctx.system) params.set('system', '1');
+    if (ctx.password) params.set('password', ctx.password);
+    const url = `${gatewayHttpBase(ctx.gatewayUrl)}/chat/${encodeURIComponent(ctx.username)}?${params}`;
+
+    let res: Response;
+    try {
+        res = await boundedFetch(url, {}, ctx.timeout);
+    } catch (err: any) {
+        console.error(`Error: Failed to reach gateway at ${url}`);
+        console.error(`  ${err?.message ?? err}`);
+        return 1;
+    }
+    if (!isChatEndpointResponse(res)) return null;
+
+    const body: any = await res.json().catch(() => null);
+    if (!res.ok || !body || !Array.isArray(body.messages)) {
+        console.error(`Error: Failed to read chat: ${body?.error ?? `gateway answered ${res.status}`}`);
+        return 1;
+    }
+
+    if (body.messages.length === 0) {
+        console.log('(no chat in recent history)');
+        if (body.botStatus && body.botStatus !== 'active') {
+            console.log(`(bot client is ${body.botStatus} - history only accumulates while it is connected)`);
+        }
+    }
+    for (const m of body.messages as GameMessage[]) {
+        console.log(formatMessage(m));
+    }
+    return 0;
+}
+
+// ============ Observer-WebSocket path (fallback + --watch) ============
+
+async function runOverWebSocket(ctx: CliContext, messageToSend: string, watch: boolean): Promise<number> {
+    const sdk = new BotSDK({
+        botUsername: ctx.username,
+        password: ctx.password,
+        gatewayUrl: ctx.gatewayUrl,
+        connectionMode: 'observe',
+        autoReconnect: watch,       // one-shots fail fast; watch survives blips
+        autoLaunchBrowser: false,
+        readyTimeout: 0,
+        connectTimeout: ctx.timeout,   // SDK default (30s) is far past our budget
+        actionTimeout: 15_000,         // a dead relay reports failure, not a 60s stall
+        showChat: true
+    });
+
+    try {
+        await sdk.connect();
+    } catch (err: any) {
+        console.error(`Error: Failed to connect to ${ctx.gatewayUrl}`);
+        console.error(`  ${err.message}`);
+        return 1;
+    }
+
+    if (messageToSend) {
+        const results = await sdk.say(messageToSend);
+        let ok = true;
+        for (const result of results) {
+            if (result.success) {
+                const data = result.data as { finalText?: string; truncated?: boolean; filtered?: boolean } | undefined;
+                console.log(`Sent: ${data?.finalText ?? messageToSend}`);
+                if (data?.truncated) console.log('  (truncated by server cap)');
+                if (data?.filtered) console.log('  (altered by word filter)');
+            } else {
+                ok = false;
+                console.error(`Error: Failed to send: ${result.message}`);
+                if (/bot not connected/i.test(result.message)) {
+                    console.error(`  No game client is logged in as '${ctx.username}' - chat is relayed through it.`);
+                    console.error(`  Log the bot in (browser or lite client), then retry.`);
+                }
+            }
+        }
+        sdk.disconnect();
+        return ok ? 0 : 1;
+    }
+
+    // Reading (history or watch) needs the state feed.
+    const types = ctx.system ? PLAYER_AND_SYSTEM_TYPES : undefined;
+    try {
+        await sdk.waitForCondition(s => s !== null, ctx.timeout);
+    } catch {
+        if (sdk.isAuthenticated()) {
+            console.error(`Error: No game state for '${ctx.username}' - nothing is logged in as this bot, so there's no chat feed.`);
+        } else {
+            console.error(`Error: No state received for '${ctx.username}'`);
+        }
+        sdk.disconnect();
+        return 1;
+    }
+
+    const history = sdk.getChat({ limit: ctx.limit, types, includeSelf: true });
+    if (history.length === 0) {
+        console.log('(no chat in recent history)');
+    }
+    for (const m of history) {
+        console.log(formatMessage(m));
+    }
+    // Drain the new-message cursor so watch mode only prints what arrives next.
+    sdk.getNewChat({ types, includeSelf: true });
+
+    if (!watch) {
+        sdk.disconnect();
+        return 0;
+    }
+
+    console.log(`--- watching chat for '${ctx.username}' (Ctrl+C to stop) ---`);
+    setInterval(() => {
+        for (const m of sdk.getNewChat({ types, includeSelf: true })) {
+            const time = new Date().toTimeString().slice(0, 8);
+            console.log(`[${time}] ${formatMessage(m)}`);
+        }
+    }, 500);
+    return await new Promise<never>(() => {});  // runs until Ctrl+C
+}
 
 async function main() {
     const args = process.argv.slice(2);
@@ -135,88 +349,31 @@ async function main() {
         process.exit(1);
     }
 
-    const gatewayUrl = deriveGatewayUrl(server);
-
-    const sdk = new BotSDK({
-        botUsername: username,
+    const ctx: CliContext = {
+        username,
         password,
-        gatewayUrl,
-        connectionMode: 'observe',
-        autoReconnect: watch,       // one-shots fail fast; watch survives blips
-        autoLaunchBrowser: false,
-        readyTimeout: 0,
-        showChat: true
-    });
-
-    try {
-        const connectTimeout = new Promise<never>((_, reject) => {
-            setTimeout(() => reject(new Error('Connection timeout')), timeout);
-        });
-        await Promise.race([sdk.connect(), connectTimeout]);
-    } catch (err: any) {
-        console.error(`Error: Failed to connect to ${gatewayUrl}`);
-        console.error(`  ${err.message}`);
-        process.exit(1);
-    }
-
-    if (messageToSend) {
-        const results = await sdk.say(messageToSend);
-        let ok = true;
-        for (const result of results) {
-            if (result.success) {
-                const data = result.data as { finalText?: string; truncated?: boolean; filtered?: boolean } | undefined;
-                console.log(`Sent: ${data?.finalText ?? messageToSend}`);
-                if (data?.truncated) console.log('  (truncated by server cap)');
-                if (data?.filtered) console.log('  (altered by word filter)');
-            } else {
-                ok = false;
-                console.error(`Error: Failed to send: ${result.message}`);
-                if (/bot not connected/i.test(result.message)) {
-                    console.error(`  No game client is logged in as '${username}' - chat is relayed through it.`);
-                    console.error(`  Log the bot in (browser or lite client), then retry.`);
-                }
-            }
-        }
-        sdk.disconnect();
-        process.exit(ok ? 0 : 1);
-    }
-
-    // Reading (history or watch) needs the state feed.
-    const types = system ? PLAYER_AND_SYSTEM_TYPES : undefined;
-    try {
-        await sdk.waitForCondition(s => s !== null, timeout);
-    } catch {
-        if (sdk.isAuthenticated()) {
-            console.error(`Error: No game state for '${username}' - nothing is logged in as this bot, so there's no chat feed.`);
-        } else {
-            console.error(`Error: No state received for '${username}'`);
-        }
-        sdk.disconnect();
-        process.exit(1);
-    }
-
-    const history = sdk.getChat({ limit, types, includeSelf: true });
-    if (history.length === 0) {
-        console.log('(no chat in recent history)');
-    }
-    for (const m of history) {
-        console.log(formatMessage(m));
-    }
-    // Drain the new-message cursor so watch mode only prints what arrives next.
-    sdk.getNewChat({ types, includeSelf: true });
+        gatewayUrl: deriveGatewayUrl(server),
+        timeout,
+        limit,
+        system
+    };
 
     if (!watch) {
-        sdk.disconnect();
-        process.exit(0);
+        // Absolute backstop: no code path (including the WS fallback) may park
+        // this process past the deadline.
+        const deadline = setTimeout(() => {
+            console.error(`Error: chat CLI exceeded its ${HARD_DEADLINE_MS / 1000}s deadline - giving up`);
+            process.exit(1);
+        }, HARD_DEADLINE_MS);
+        if (typeof (deadline as any).unref === 'function') (deadline as any).unref();
+
+        const httpExit = messageToSend ? await sendViaHttp(ctx, messageToSend) : await readViaHttp(ctx);
+        if (httpExit !== null) process.exit(httpExit);
+        // Gateway predates the HTTP chat endpoints - use the observer socket.
+        process.exit(await runOverWebSocket(ctx, messageToSend, false));
     }
 
-    console.log(`--- watching chat for '${username}' (Ctrl+C to stop) ---`);
-    setInterval(() => {
-        for (const m of sdk.getNewChat({ types, includeSelf: true })) {
-            const time = new Date().toTimeString().slice(0, 8);
-            console.log(`[${time}] ${formatMessage(m)}`);
-        }
-    }, 500);
+    await runOverWebSocket(ctx, '', true);
 }
 
 main();

@@ -530,6 +530,10 @@ interface BotWorldState {
   combatStyle?: CombatStyleState;
   combatEvents: CombatEvent[];
   prayers: PrayerState;
+  /** Absent when the connected client predates authoritative PK-skull telemetry. */
+  isSkulled?: boolean;
+  /** Absent when the connected client predates authoritative auto-retaliate telemetry. */
+  autoRetaliateEnabled?: boolean;
   /** Absent when the connected client predates the signal. */
   opFeedback?: OpFeedbackState;
 }
