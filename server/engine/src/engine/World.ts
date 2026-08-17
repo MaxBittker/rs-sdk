@@ -175,6 +175,13 @@ class World {
     readonly lastCycleStats: Uint16Array = new Uint16Array(12);
     readonly cycleStats: Uint16Array = new Uint16Array(12);
 
+    // rs-sdk: rolling history of the last TICK_HISTORY cycles (per-phase ms + wall interval
+    // between cycle starts) so /tickstats on the management port can report load without a restart.
+    static readonly TICK_HISTORY = 300;
+    readonly tickHistory: Uint16Array = new Uint16Array(World.TICK_HISTORY * 13); // 12 stats + interval
+    tickHistoryCount: number = 0;
+    lastCycleStart: number = 0;
+
     tickRate: number = World.TICKRATE; // speeds up when we're processing server shutdown
     currentTick: number = 0; // the current tick of the game world.
     nextTick: number = 0; // the next time the game world should tick.
@@ -538,6 +545,14 @@ class World {
             this.lastCycleStats[WorldStat.CLEANUP] = this.cycleStats[WorldStat.CLEANUP];
             this.lastCycleStats[WorldStat.BANDWIDTH_IN] = this.cycleStats[WorldStat.BANDWIDTH_IN];
             this.lastCycleStats[WorldStat.BANDWIDTH_OUT] = this.cycleStats[WorldStat.BANDWIDTH_OUT];
+
+            {
+                const row: number = (this.tickHistoryCount % World.TICK_HISTORY) * 13;
+                this.tickHistory.set(this.cycleStats, row);
+                this.tickHistory[row + 12] = this.lastCycleStart ? Math.min(65535, start - this.lastCycleStart) : 0;
+                this.tickHistoryCount++;
+                this.lastCycleStart = start;
+            }
 
             // push stats to prometheus
             if (Environment.node.production) {
@@ -1883,6 +1898,48 @@ class World {
     }
 
     // todo: could cache this, or increment/decrement on add/remove
+    // rs-sdk: summary of the recent tick history for the management /tickstats endpoint
+    getTickStats(): Record<string, unknown> {
+        const names = ['cycle', 'world', 'clientIn', 'npc', 'player', 'logout', 'login', 'zone', 'clientOut', 'cleanup', 'bandwidthIn', 'bandwidthOut', 'interval'];
+        const n: number = Math.min(this.tickHistoryCount, World.TICK_HISTORY);
+        const sum: number[] = new Array(13).fill(0);
+        const max: number[] = new Array(13).fill(0);
+        let overBudget = 0;
+        for (let i = 0; i < n; i++) {
+            const row: number = i * 13;
+            for (let j = 0; j < 13; j++) {
+                const v: number = this.tickHistory[row + j];
+                sum[j] += v;
+                if (v > max[j]) max[j] = v;
+            }
+            if (this.tickHistory[row] > this.tickRate) overBudget++;
+        }
+        const avg: Record<string, number> = {};
+        const peak: Record<string, number> = {};
+        for (let j = 0; j < 13; j++) {
+            avg[names[j]] = n ? Math.round((sum[j] / n) * 10) / 10 : 0;
+            peak[names[j]] = max[j];
+        }
+        const last: Record<string, number> = {};
+        for (let j = 0; j < 12; j++) {
+            last[names[j]] = this.lastCycleStats[j];
+        }
+        return {
+            tick: this.currentTick,
+            tickRate: this.tickRate,
+            players: this.getTotalPlayers(),
+            npcs: this.getTotalNpcs(),
+            zonesTracking: this.zonesTracking.size,
+            window: n,
+            overBudget,
+            avg,
+            peak,
+            last,
+            heapMB: Math.trunc(process.memoryUsage().heapTotal / 1024 / 1024),
+            rssMB: Math.trunc(process.memoryUsage().rss / 1024 / 1024)
+        };
+    }
+
     getTotalPlayers(): number {
         let count = 0;
 

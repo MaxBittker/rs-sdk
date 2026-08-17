@@ -9,6 +9,7 @@ import { handleScreenshotUpload, handleExportCollisionApi } from './pages/api.js
 import { handleBugReport } from './pages/bug-report.js';
 import { handleDisclaimerPage, handleMapviewPage, handlePublicFiles } from './pages/static.js';
 import { WebSocketData, handleWebSocketUpgrade, handleGatewayEndpointGet, websocketHandlers } from './websocket.js';
+import { getIp } from './utils.js';
 
 export type { WebSocketData };
 
@@ -16,12 +17,67 @@ export type WebSocketRoutes = {
     '/': Response
 };
 
+// rs-sdk: per-route request accounting so /tickstats (management port) can show what the
+// public web server is being asked to do, and slow handlers get logged with the client IP.
+// Everything here runs on the tick thread, so a slow HTTP handler is a stalled world.
+type RouteStat = { count: number; totalMs: number; maxMs: number };
+let webWindowStart = Date.now();
+let webWindow: Map<string, RouteStat> = new Map();
+let webLastWindow: { start: number; end: number; routes: Record<string, RouteStat> } | null = null;
+const WEB_WINDOW_MS = 60_000;
+const WEB_SLOW_MS = Number(process.env.WEB_SLOW_MS ?? 100);
+
+function routeKey(url: URL): string {
+    // collapse ids/usernames so keys stay bounded: keep the first two path segments
+    const parts = url.pathname.split('/').filter(Boolean);
+    let key = '/' + parts.slice(0, 2).join('/');
+    if (parts.length > 2) key += '/*';
+    if (url.searchParams.size > 0) key += '?' + [...url.searchParams.keys()].slice(0, 3).sort().join('&');
+    return key;
+}
+
+function recordRequest(url: URL, req: Request, ms: number) {
+    const now = Date.now();
+    if (now - webWindowStart >= WEB_WINDOW_MS) {
+        webLastWindow = { start: webWindowStart, end: now, routes: Object.fromEntries(webWindow) };
+        webWindow = new Map();
+        webWindowStart = now;
+    }
+    const key = routeKey(url);
+    const stat = webWindow.get(key) ?? { count: 0, totalMs: 0, maxMs: 0 };
+    stat.count++;
+    stat.totalMs += ms;
+    if (ms > stat.maxMs) stat.maxMs = ms;
+    webWindow.set(key, stat);
+    if (ms >= WEB_SLOW_MS) {
+        console.warn(`[web] slow ${req.method} ${url.pathname}${url.search} ${ms}ms ip=${getIp(req) ?? req.headers.get('fly-client-ip') ?? '?'}`);
+    }
+}
+
+export function getWebStats() {
+    return {
+        current: { start: webWindowStart, end: Date.now(), routes: Object.fromEntries(webWindow) },
+        last: webLastWindow
+    };
+}
+
 export async function startWeb() {
     Bun.serve<WebSocketData, WebSocketRoutes>({
         port: Environment.WEB_PORT,
         async fetch(req, server) {
             const url = new URL(req.url ?? '', `http://${req.headers.get('host')}`);
+            const start = Date.now();
+            try {
+                return await handleRequest(req, server, url);
+            } finally {
+                recordRequest(url, req, Date.now() - start);
+            }
+        },
+        websocket: websocketHandlers
+    });
+}
 
+async function handleRequest(req: Request, server: Bun.Server, url: URL): Promise<Response | undefined> {
             // Handle WebSocket upgrades first
             const wsResponse = handleWebSocketUpgrade(req, server, url);
             if (wsResponse !== undefined) {
@@ -216,20 +272,87 @@ export async function startWeb() {
 
             // 404
             return new Response(null, { status: 404 });
-        },
-        websocket: websocketHandlers
-    });
 }
+
+// Internal-only diagnostics (management port is not exposed by fly). Reach it with
+// `fly proxy 8898:8898` or `fly ssh console -C "bun -e 'fetch(\"http://localhost:8898/tickstats\").then(r=>r.text()).then(console.log)'"`.
+let profileRunning = false;
 
 export async function startManagementWeb() {
     Bun.serve({
         port: Environment.WEB_MANAGEMENT_PORT,
         routes: {
-            '/prometheus': new Response(await register.metrics(), {
+            // computed per request (a static Response here froze the metrics at startup)
+            '/prometheus': async () => new Response(await register.metrics(), {
                 headers: {
                     'Content-Type': register.contentType
                 }
-            })
+            }),
+            // rolling per-phase cycle timings over the last ~300 ticks
+            '/tickstats': () => Response.json({ ...World.getTickStats(), web: getWebStats() }),
+            // sample the main thread with JSC's sampling profiler for ?ms= (default 3000, max 15000)
+            // at ?interval= microseconds (default 250). Covers everything on the event loop:
+            // world cycles, websocket I/O callbacks, timers.
+            '/profile': async (req: Request) => {
+                if (profileRunning) {
+                    return new Response('profile already running', { status: 409 });
+                }
+                const url = new URL(req.url);
+                const ms = Math.min(15000, Math.max(100, parseInt(url.searchParams.get('ms') ?? '3000') || 3000));
+                const interval = Math.min(5000, Math.max(50, parseInt(url.searchParams.get('interval') ?? '250') || 250));
+                const stacks = Math.max(0, parseInt(url.searchParams.get('stacks') ?? '40') || 40);
+                profileRunning = true;
+                try {
+                    const { profile } = await import('bun:jsc');
+                    const before = World.getTickStats();
+                    const result = await profile(() => Bun.sleep(ms), interval);
+                    const after = World.getTickStats();
+                    // stackTraces is really { interval, traces: [{ frames: [{ name, sourceURL?, line, category }] }] };
+                    // fold into inclusive sample counts per frame (each frame counted once per trace) and
+                    // the hottest leaf->caller pairs, which is what actually points at the slow code path.
+                    type Frame = { name: string; sourceURL?: string; line: number; category: string };
+                    const traces: { frames: Frame[] }[] = (result.stackTraces as unknown as { traces?: { frames: Frame[] }[] })?.traces ?? [];
+                    const label = (f: Frame) => `${f.name || '(anon)'} ${f.sourceURL ? f.sourceURL.replace(/^.*\/src\//, 'src/') + ':' + f.line : f.category}`;
+                    const inclusive = new Map<string, number>();
+                    const leafPairs = new Map<string, number>();
+                    for (const t of traces) {
+                        const seen = new Set<string>();
+                        for (const f of t.frames) {
+                            const k = label(f);
+                            if (!seen.has(k)) {
+                                seen.add(k);
+                                inclusive.set(k, (inclusive.get(k) ?? 0) + 1);
+                            }
+                        }
+                        // frames[0] is the leaf; walk up to the first frame with a source file
+                        const leaf = t.frames[0];
+                        const caller = t.frames.find((f, i) => i > 0 && f.sourceURL);
+                        if (leaf) {
+                            const k = `${label(leaf)}  <-  ${caller ? label(caller) : '?'}`;
+                            leafPairs.set(k, (leafPairs.get(k) ?? 0) + 1);
+                        }
+                    }
+                    const top = (m: Map<string, number>) => [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, stacks).map(([k, v]) => `${String(v).padStart(6)}  ${(100 * v / Math.max(1, traces.length)).toFixed(1).padStart(5)}%  ${k}`);
+                    const text = [
+                        `# profile ${ms}ms @ ${interval}us, ${traces.length} samples (~${(traces.length * interval / 1000 / ms * 100).toFixed(0)}% of wall busy in JS), ticks ${before.tick}..${after.tick}, players ${after.players}`,
+                        '',
+                        `# inclusive samples per frame (top ${stacks})`,
+                        ...top(inclusive),
+                        '',
+                        `# hottest leaf <- nearest source caller (top ${stacks})`,
+                        ...top(leafPairs),
+                        '',
+                        result.functions,
+                        '',
+                        result.bytecodes
+                    ].join('\n');
+                    return new Response(text, { headers: { 'Content-Type': 'text/plain' } });
+                } catch (err) {
+                    return new Response(`profile failed: ${err instanceof Error ? err.stack ?? err.message : String(err)}`, { status: 500 });
+                } finally {
+                    profileRunning = false;
+                }
+            }
         },
         fetch() {
             return new Response(null, { status: 404 });

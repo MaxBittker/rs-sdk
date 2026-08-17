@@ -63,6 +63,75 @@ function formatPlaytime(ticks: number): string {
     return `${minutes}m`;
 }
 
+// rs-sdk: ranked lists are served from a short-lived cache. Every hiscores request used to
+// materialise the whole hiscore/hiscore_large table (160k+ rows) on the tick thread; a burst
+// of page loads was enough to freeze the world for seconds. The list changes on player save
+// (autosave is 15 min), so a 60s TTL is invisible to users.
+type RankedRow = { username: string; level: number; playtime: number };
+const RANKED_TTL_MS = Number(process.env.HISCORES_CACHE_MS ?? 60_000);
+const rankedCache = new Map<string, { at: number; rows: RankedRow[]; pending: Promise<RankedRow[]> | null }>();
+
+// category 0 = overall (hiscore_large type 0), otherwise hiscore type = category
+async function getRankedList(profile: string, category: number): Promise<RankedRow[]> {
+    const key = `${profile}:${category}`;
+    const now = Date.now();
+    const cached = rankedCache.get(key);
+    if (cached && now - cached.at < RANKED_TTL_MS) {
+        return cached.rows;
+    }
+    if (cached?.pending) {
+        return cached.pending;
+    }
+    const load = (async () => {
+        let rows: RankedRow[];
+        if (category === 0) {
+            let query = db
+                .selectFrom('hiscore_large')
+                .innerJoin('account', 'account.id', 'hiscore_large.account_id')
+                .select(['account.username', 'hiscore_large.level', 'hiscore_large.playtime'])
+                .where('hiscore_large.type', '=', 0)
+                .where('hiscore_large.profile', '=', profile)
+                .where('account.staffmodlevel', '<=', 1)
+                .orderBy('hiscore_large.level', 'desc')
+                .orderBy('hiscore_large.playtime', 'asc');
+            if (hiddenNames.length > 0) {
+                query = query.where(eb => eb.not(eb(eb.fn('lower', ['account.username']), 'in', hiddenNames)));
+            }
+            rows = await query.execute();
+        } else {
+            let query = db
+                .selectFrom('hiscore')
+                .innerJoin('account', 'account.id', 'hiscore.account_id')
+                .select(['account.username', 'hiscore.level', 'hiscore.playtime'])
+                .where('hiscore.type', '=', category)
+                .where('hiscore.profile', '=', profile)
+                .where('account.staffmodlevel', '<=', 1)
+                .orderBy('hiscore.level', 'desc')
+                .orderBy('hiscore.playtime', 'asc');
+            if (hiddenNames.length > 0) {
+                query = query.where(eb => eb.not(eb(eb.fn('lower', ['account.username']), 'in', hiddenNames)));
+            }
+            rows = await query.execute();
+        }
+        rankedCache.set(key, { at: Date.now(), rows, pending: null });
+        return rows;
+    })();
+    rankedCache.set(key, { at: cached?.at ?? 0, rows: cached?.rows ?? [], pending: load });
+    try {
+        return await load;
+    } catch (err) {
+        rankedCache.delete(key);
+        throw err;
+    }
+}
+
+// rank of a player in a ranked list (1-based), or null when absent
+function rankIn(rows: RankedRow[], username: string): number | null {
+    const lower = username.toLowerCase();
+    const idx = rows.findIndex(r => r.username.toLowerCase() === lower);
+    return idx === -1 ? null : idx + 1;
+}
+
 // Player profile page handler
 export async function handleHiscoresPlayerPage(url: URL): Promise<Response | null> {
     const match = url.pathname.match(/^\/hi(?:gh)?scores\/player\/([^/]+)\/?$/);
@@ -87,22 +156,11 @@ export async function handleHiscoresPlayerPage(url: URL): Promise<Response | nul
     // Get overall stats
     const overallStats = await db.selectFrom('hiscore_large').select(['level', 'value', 'playtime']).where('account_id', '=', account.id).where('profile', '=', profile).where('type', '=', 0).executeTakeFirst();
 
-    // Get overall rank (by level DESC, playtime ASC)
+    // Get overall rank (by level DESC, playtime ASC) from the cached ranked list
     let overallRank = '-';
     if (overallStats) {
-        let rankQuery = db
-            .selectFrom('hiscore_large')
-            .innerJoin('account', 'account.id', 'hiscore_large.account_id')
-            .select(db.fn.count('hiscore_large.account_id').as('rank'))
-            .where('hiscore_large.type', '=', 0)
-            .where('hiscore_large.profile', '=', profile)
-            .where('account.staffmodlevel', '<=', 1)
-            .where(eb => eb.or([eb('hiscore_large.level', '>', overallStats.level), eb.and([eb('hiscore_large.level', '=', overallStats.level), eb('hiscore_large.playtime', '<', overallStats.playtime)])]));
-        if (hiddenNames.length > 0) {
-            rankQuery = rankQuery.where(eb => eb.not(eb(eb.fn('lower', ['account.username']), 'in', hiddenNames)));
-        }
-        const rankResult = await rankQuery.executeTakeFirst();
-        overallRank = String((Number(rankResult?.rank) || 0) + 1);
+        const rank = rankIn(await getRankedList(profile, 0), account.username);
+        overallRank = rank ? String(rank) : '-';
     }
 
     // Get individual skill stats
@@ -127,19 +185,8 @@ export async function handleHiscoresPlayerPage(url: URL): Promise<Response | nul
         let rank = '-';
 
         if (stat) {
-            let skillRankQuery = db
-                .selectFrom('hiscore')
-                .innerJoin('account', 'account.id', 'hiscore.account_id')
-                .select(db.fn.count('hiscore.account_id').as('rank'))
-                .where('hiscore.type', '=', skill.id + 1)
-                .where('hiscore.profile', '=', profile)
-                .where('account.staffmodlevel', '<=', 1)
-                .where(eb => eb.or([eb('hiscore.level', '>', stat.level), eb.and([eb('hiscore.level', '=', stat.level), eb('hiscore.playtime', '<', stat.playtime)])]));
-            if (hiddenNames.length > 0) {
-                skillRankQuery = skillRankQuery.where(eb => eb.not(eb(eb.fn('lower', ['account.username']), 'in', hiddenNames)));
-            }
-            const rankResult = await skillRankQuery.executeTakeFirst();
-            rank = String((Number(rankResult?.rank) || 0) + 1);
+            const r = rankIn(await getRankedList(profile, skill.id + 1), account.username);
+            rank = r ? String(r) : '-';
         }
 
         const iconFile = skill.name.toLowerCase() + '.png';
@@ -261,21 +308,8 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
     let searchedPlayer: { rank: number; username: string; level: number; playtime: number } | null = null;
 
     if (category === -1 || category === 0) {
-        // Overall - query hiscore_large
-        let query = db
-            .selectFrom('hiscore_large')
-            .innerJoin('account', 'account.id', 'hiscore_large.account_id')
-            .select(['account.username', 'hiscore_large.level', 'hiscore_large.playtime'])
-            .where('hiscore_large.type', '=', 0)
-            .where('hiscore_large.profile', '=', profile)
-            .where('account.staffmodlevel', '<=', 1)
-            .orderBy('hiscore_large.level', 'desc')
-            .orderBy('hiscore_large.playtime', 'asc');
-        if (hiddenNames.length > 0) {
-            query = query.where(eb => eb.not(eb(eb.fn('lower', ['account.username']), 'in', hiddenNames)));
-        }
-
-        const allResults = await query.execute();
+        // Overall - cached ranked list of hiscore_large
+        const allResults = await getRankedList(profile, 0);
 
         // Handle rank search - show 21 entries starting from that rank
         const startRank = rankSearch > 0 ? rankSearch - 1 : 0;
@@ -299,20 +333,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
         const skillIndex = category - 1;
         const skillName = SKILL_NAMES[skillIndex];
         if (skillName) {
-            let query = db
-                .selectFrom('hiscore')
-                .innerJoin('account', 'account.id', 'hiscore.account_id')
-                .select(['account.username', 'hiscore.level', 'hiscore.playtime'])
-                .where('hiscore.type', '=', category)
-                .where('hiscore.profile', '=', profile)
-                .where('account.staffmodlevel', '<=', 1)
-                .orderBy('hiscore.level', 'desc')
-                .orderBy('hiscore.playtime', 'asc');
-            if (hiddenNames.length > 0) {
-                query = query.where(eb => eb.not(eb(eb.fn('lower', ['account.username']), 'in', hiddenNames)));
-            }
-
-            const allResults = await query.execute();
+            const allResults = await getRankedList(profile, category);
 
             const startRank = rankSearch > 0 ? rankSearch - 1 : 0;
             rows = allResults.slice(startRank, startRank + 21).map((r, i) => ({

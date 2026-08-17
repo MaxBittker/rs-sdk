@@ -242,6 +242,11 @@ export default class LoginServer {
     // In-memory tracking of concurrent logins per IP
     private ipLoginCount: Map<string, Set<number>> = new Map();
     private accountIp: Map<number, string> = new Map();
+    // rs-sdk: last time a login took over an already-logged-in account. Some scripts crash-loop
+    // and re-login every ~300ms; every takeover is a full save/reload/kick on the world's tick
+    // thread, so refuse takeovers that come sooner than TAKEOVER_MIN_MS after the previous one.
+    private lastTakeover: Map<number, number> = new Map();
+    private static readonly TAKEOVER_MIN_MS = Number(process.env.LOGIN_TAKEOVER_MIN_MS ?? 10_000);
 
     private trackLogin(ip: string, accountId: number) {
         // Remove any existing tracking for this account (handles IP changes, takeovers)
@@ -513,6 +518,19 @@ export default class LoginServer {
                                 // Already logged in elsewhere - new login takes over
                                 // Clear the old session's logged_in state so the new login can proceed
                                 // The old world will handle the orphaned session gracefully on disconnect
+                                const lastTakeover = this.lastTakeover.get(account.id) ?? 0;
+                                if (Date.now() - lastTakeover < LoginServer.TAKEOVER_MIN_MS) {
+                                    // took over less than TAKEOVER_MIN_MS ago - refuse as "already logged in"
+                                    // and leave the current session alone
+                                    s.send(
+                                        JSON.stringify({
+                                            replyTo,
+                                            response: 5
+                                        })
+                                    );
+                                    return;
+                                }
+                                this.lastTakeover.set(account.id, Date.now());
                                 console.log(`[LOGIN] Account ${username} already logged in on world ${account.logged_in}, new login taking over`);
                                 this.untrackLogin(account.id);
                                 await db.updateTable('account_login')
