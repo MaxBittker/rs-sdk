@@ -69,7 +69,7 @@
 | Signature | Description |
 |---|---|
 | `async closeShop(timeout: number = 5000): Promise<ActionResult>` | Close the shop interface. |
-| `async openShop(target: NearbyNpc \| string \| RegExp = /shop\s*keeper/i): Promise<ActionResult>` | Open a shop by trading with an NPC. |
+| `async openShop(target?: NearbyNpc \| string \| RegExp): Promise<ActionResult>` | Open a shop by trading with an NPC. Defaults to the nearest shopkeeper. |
 | `async buyFromShop(target: ShopItem \| string \| RegExp, amount: number = 1): Promise<ShopResult>` | Buy an item from an open shop. `success` is true only when the full requested amount arrived; a short fill (out of stock, out of coins, full inventory) returns `success: false` with `partial: true` and the actual `amountBought`. |
 | `async sellToShop(target: InventoryItem \| ShopItem \| string \| RegExp, amount: SellAmount = 1): Promise<ShopSellResult>` | Sell an item to an open shop. `success` is true only when the full requested amount was sold; a short fill returns `success: false` with `partial: true` and `amountSold`. |
 
@@ -79,7 +79,7 @@
 |---|---|
 | `async openBank(timeout: number = 10000): Promise<OpenBankResult>` | Open a bank booth or talk to a banker. |
 | `async closeBank(timeout: number = 5000): Promise<ActionResult>` | Close the bank interface. |
-| `async depositItem(target: InventoryItem \| string \| RegExp, amount: number = -1): Promise<BankDepositResult>` | Deposit an item into the bank. Use -1 for all. |
+| `async depositItem(target: InventoryItem \| string \| RegExp, amount: number = -1): Promise<BankDepositResult>` | Deposit an item into the bank. Use -1 for all. A pattern with `-1` deposits every distinct matching item: an alternation like `/^(shark\|burnt shark)$/i` covers both ids, not just whichever matched first. |
 | `async withdrawItem(target: BankItem \| string \| RegExp \| number, amount: number = 1, options: { asNote?: boolean } = {}): Promise<BankWithdrawResult>` | Withdraw an item from the bank by slot, name, or BankItem. `asNote: true` withdraws as a banknote: the note/item toggle is synced first (and synced back to items on the next plain withdrawal), and completion is detected on the noted item's arrival. Items the engine cannot note are withdrawn unnoted with a game message; the result then carries the unnoted item. |
 
 ### Player Trading
@@ -104,8 +104,8 @@
 | `async eatFood(target: InventoryItem \| string \| RegExp): Promise<EatResult>` | Eat food to restore hitpoints. |
 | `async attack(target: CombatTarget, timeout: number = 5000): Promise<AttackResult>` | Attack an NPC or another player, walking to the target if needed. Takes either an entity (from `sdk.findNearbyNpc`/`sdk.findNearbyPlayer`) or a name/pattern, matched against NPCs first and players second - so pass the entity when a player shares a name with a monster. ```ts await bot.attack(/^chicken$/i); await bot.attack(sdk.findNearbyPlayer('Zezima')!); ``` PvP attacks are refused outside the wilderness and across too big a level gap; those come back as `reason: 'not_attackable'` with the server's own wording in `message`. |
 | `async attackPlayer(target: NearbyPlayer \| string \| RegExp, timeout: number = 5000): Promise<AttackResult>` | Attack another player (OPPLAYER2). Prefer {@link attack}, which also takes NPCs. |
-| `async castSpell(target: CombatTarget, spellComponent: number, timeout: number = 3000): Promise<CastSpellResult>` | Cast a combat spell on an NPC or another player. The two are the same action to the server (OPNPCT vs OPPLAYERT), so this takes either: an entity from `sdk.findNearbyNpc`/`sdk.findNearbyPlayer`, or a name/pattern matched against NPCs first and players second. ```ts await bot.castSpell('goblin', Spells.WIND_STRIKE); await bot.castSpell(sdk.findNearbyPlayer('Zezima')!, Spells.FIRE_STRIKE); ``` Magic XP is the evidence of a cast landing, so a splash still counts as success with `hit: false`. |
-| `async castSpellOnPlayer(target: NearbyPlayer \| string \| RegExp, spellComponent: number, timeout: number = 3000): Promise<CastSpellResult>` | Cast a combat spell on another player (OPPLAYERT). Prefer {@link castSpell}. |
+| `async castSpell(target: CombatTarget, spellComponent: number \| string, timeout: number = 3000): Promise<CastSpellResult>` | Cast a combat spell on an NPC or another player. The two are the same action to the server (OPNPCT vs OPPLAYERT), so this takes either: an entity from `sdk.findNearbyNpc`/`sdk.findNearbyPlayer`, or a name/pattern matched against NPCs first and players second. ```ts await bot.castSpell('goblin', Spells.WIND_STRIKE); await bot.castSpell(sdk.findNearbyPlayer('Zezima')!, Spells.FIRE_STRIKE); ``` Magic XP is the evidence of a cast landing, so a splash still counts as success with `hit: false`. |
+| `async castSpellOnPlayer(target: NearbyPlayer \| string \| RegExp, spellComponent: number \| string, timeout: number = 3000): Promise<CastSpellResult>` | Cast a combat spell on another player (OPPLAYERT). Prefer {@link castSpell}. |
 
 ### Condition Waiting
 
@@ -620,7 +620,7 @@ interface ShopResult {
   amountBought?: number;
   /** Some but not all of the requested amount was bought. */
   partial?: boolean;
-  reason?: 'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'partial_fill' | 'timeout';
+  reason?: 'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'partial_fill' | 'timeout' | 'out_of_stock' | 'no_inventory_space';
 }
 ```
 
@@ -691,7 +691,7 @@ interface CastSpellResult {
   hit?: boolean;
   xpGained?: number;
   /** `npc_not_found` also covers players: no target matched. */
-  reason?: 'npc_not_found' | 'out_of_reach' | 'no_runes' | 'not_attackable' | 'timeout';
+  reason?: 'npc_not_found' | 'out_of_reach' | 'no_runes' | 'not_attackable' | 'timeout' | 'unknown_spell';
   /** What the resolved target was, when one was found. */
   targetType?: 'npc' | 'player';
 }

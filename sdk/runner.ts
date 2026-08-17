@@ -3,6 +3,7 @@
 
 import { BotSDK, deriveGatewayUrl } from './index';
 import { BotActions } from './actions';
+import { initPathfinding } from './pathfinding';
 import { formatWorldStateSummary } from './formatter';
 import type { BotWorldState } from './types';
 import { readFileSync, existsSync } from 'fs';
@@ -154,6 +155,14 @@ async function getOrCreateConnection(): Promise<BotConnection> {
 
     const gatewayUrl = deriveGatewayUrl(server);
 
+    // Warm the pathfinder BEFORE the live socket exists. Init is fully
+    // synchronous (tens of seconds on slow hosts), and paying it lazily
+    // inside the first walkTo blocks the event loop long enough for the
+    // gateway to kill the connection on missed pings - which presented as
+    // "interactLoc froze the whole process". Idempotent, so repeat
+    // connections skip it.
+    initPathfinding();
+
     console.error(`[Runner] Connecting to bot "${username}"...`);
 
     const sdk = new BotSDK({
@@ -283,15 +292,21 @@ export async function runScript(
 
     // Clean exit on signals - prevents orphaned processes when parent shell is killed
     let signalReceived = false;
-    const signalCleanup = (signal: string) => {
-        if (signalReceived) return; // Prevent double-cleanup
+    const signalCleanup = (signal: string, exitCode: number) => {
+        if (signalReceived) {
+            // Second signal: the disconnect is wedged, exit immediately.
+            process.exit(exitCode);
+        }
         signalReceived = true;
         console.error(`[Runner] Received ${signal} - disconnecting and exiting...`);
-        sdk.disconnect().finally(() => process.exit(0));
+        // Exit 128+signum, never 0: a supervisor must not read a killed run
+        // as success. And a wedged disconnect must not hang the process.
+        setTimeout(() => process.exit(exitCode), 5000);
+        sdk.disconnect().finally(() => process.exit(exitCode));
     };
-    const onSigterm = () => signalCleanup('SIGTERM');
-    const onSigint = () => signalCleanup('SIGINT');
-    const onSighup = () => signalCleanup('SIGHUP');
+    const onSigterm = () => signalCleanup('SIGTERM', 143);
+    const onSigint = () => signalCleanup('SIGINT', 130);
+    const onSighup = () => signalCleanup('SIGHUP', 129);
     process.on('SIGTERM', onSigterm);
     process.on('SIGINT', onSigint);
     process.on('SIGHUP', onSighup);
@@ -404,8 +419,21 @@ export async function runScript(
         const username = process.env.BOT_USERNAME;
         if (username) {
             console.error(`[Runner] Disconnecting bot "${username}"...`);
-            await sdk.disconnect();
+            // Bound the disconnect - a wedged socket must not hang the exit.
+            await Promise.race([
+                sdk.disconnect(),
+                new Promise(resolve => setTimeout(resolve, 10000)),
+            ]);
             connections.delete(username);
+            // A leaked handle (reconnect timer, half-closed socket) used to
+            // keep the bun process alive for minutes after the script was
+            // done. Unref'd, so it never delays a clean exit; it only fires
+            // when something else is wedging the event loop.
+            const forceExit = setTimeout(() => {
+                console.error('[Runner] Event loop still alive after disconnect - forcing exit');
+                process.exit(process.exitCode ?? 0);
+            }, 5000);
+            forceExit.unref?.();
         }
     }
 

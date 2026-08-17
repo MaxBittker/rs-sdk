@@ -185,6 +185,11 @@ export class BotStateCollector implements ScanProvider {
             modalOpen: (c.mainModalId ?? -1) !== -1,
             modalInterface: c.mainModalId ?? -1,
             prayers: this.collectPrayerState(),
+            // These policy-critical settings are ordinary server varps. Keep
+            // them explicit rather than making controllers infer state from a
+            // head icon or blindly click a control that might already be set.
+            isSkulled: (c.var?.[78] ?? 0) > 0,
+            autoRetaliateEnabled: (c.var?.[172] ?? 1) === 0,
             opFeedback: this.collectOpFeedback(currentTick)
         };
     }
@@ -945,8 +950,11 @@ export class BotStateCollector implements ScanProvider {
             // The dispatch paths route to the NPC's route tile with its real
             // footprint (Client.talkToNpc etc.), so the probe must ask the
             // exact same question - see reach.ts invariant 1.
+            const tileSceneX = npc.routeX?.[0] ?? npcX >> 7;
+            const tileSceneZ = npc.routeZ?.[0] ?? npcZ >> 7;
+            const size = (npcType.size as number | undefined) ?? 1;
             const reachable = this.reachProbeReady()
-                ? this.reachProbe.canReachEntity(npc.routeX?.[0] ?? npcX >> 7, npc.routeZ?.[0] ?? npcZ >> 7, npcType.size ?? 1)
+                ? this.reachProbe.canReachEntity(tileSceneX, tileSceneZ, size)
                 : undefined;
 
             npcs.push({
@@ -957,6 +965,9 @@ export class BotStateCollector implements ScanProvider {
                 combatLevel: npcType.vislevel || 0,
                 x: npcWorldX,
                 z: npcWorldZ,
+                tileX: baseX + tileSceneX,
+                tileZ: baseZ + tileSceneZ,
+                size,
                 distance,
                 hp,
                 maxHp,

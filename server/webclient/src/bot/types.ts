@@ -80,6 +80,15 @@ export interface NearbyNpc {
     combatLevel: number;
     x: number;
     z: number;
+    /**
+     * Authoritative SW route tile (routeX[0]). `x`/`z` are the interpolated
+     * render position, which trails a moving NPC by 1-3 tiles and is offset
+     * by floor(size/2) for multi-tile NPCs; drops spawn on THIS tile.
+     */
+    tileX: number;
+    tileZ: number;
+    /** Footprint in tiles (1 = single tile, cows/giants are 2+). */
+    size: number;
     distance: number;
     /** Current HP, or null until the server reveals it by updating the NPC. */
     hp: number | null;
@@ -428,6 +437,10 @@ export interface BotState {
     modalInterface: number;
     /** Prayer state (active prayers, prayer points) */
     prayers: PrayerState;
+    /** Authoritative client varp 78: a PK skull is currently active. */
+    isSkulled: boolean;
+    /** Authoritative client varp 172: server auto-retaliation is enabled. */
+    autoRetaliateEnabled: boolean;
     /** Whether the server accepted or silently discarded recent ops */
     opFeedback: OpFeedbackState;
 }

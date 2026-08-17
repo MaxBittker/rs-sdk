@@ -1349,8 +1349,13 @@ export class Client extends GameShell {
             return { success: false, reason: 'out_of_scene' };
         }
 
-        // First send MOVE_OPCLICK via tryMove (type=2) to walk to the item
-        const routed = this.tryMove(
+        // First send MOVE_OPCLICK via tryMove (type=2) to walk to the item.
+        // Mirror the authentic menu handler (OP_OBJ1..5 above): when the
+        // item's own tile is unroutable (it sits on a table or other blocked
+        // scenery), retry with a 1x1 loc footprint, then dispatch regardless -
+        // the server accepts an ADJACENT take (reachedEntity shape -2) and is
+        // the authority on reachability.
+        let routed = this.tryMove(
             this.localPlayer.routeX[0],
             this.localPlayer.routeZ[0],
             sceneX,
@@ -1362,7 +1367,17 @@ export class Client extends GameShell {
             2       // type = MOVE_OPCLICK
         );
         if (!routed) {
-            return { success: false, reason: 'cant_reach' };
+            routed = this.tryMove(
+                this.localPlayer.routeX[0],
+                this.localPlayer.routeZ[0],
+                sceneX,
+                sceneZ,
+                false,
+                1, 1,
+                0, 0,
+                0,
+                2
+            );
         }
 
         // Then send OPOBJ3 packet (Take is option 3, not option 1)
@@ -1371,7 +1386,7 @@ export class Client extends GameShell {
         this.out.p2(worldZ);
         this.out.p2(itemId);
 
-        return { success: true };
+        return { success: true, routed };
     }
 
     /**
@@ -1395,8 +1410,10 @@ export class Client extends GameShell {
             return { success: false, reason: 'out_of_scene' };
         }
 
-        // First send MOVE_OPCLICK via tryMove (type=2) to walk to the item
-        const routed = this.tryMove(
+        // First send MOVE_OPCLICK via tryMove (type=2) to walk to the item.
+        // As in pickupGroundItem: retry an unroutable tile with a 1x1
+        // footprint and dispatch regardless, matching the authentic client.
+        let routed = this.tryMove(
             this.localPlayer.routeX[0],
             this.localPlayer.routeZ[0],
             sceneX,
@@ -1408,7 +1425,17 @@ export class Client extends GameShell {
             2       // type = MOVE_OPCLICK
         );
         if (!routed) {
-            return { success: false, reason: 'cant_reach' };
+            routed = this.tryMove(
+                this.localPlayer.routeX[0],
+                this.localPlayer.routeZ[0],
+                sceneX,
+                sceneZ,
+                false,
+                1, 1,
+                0, 0,
+                0,
+                2
+            );
         }
 
         // Then send OPOBJ packet
@@ -1424,7 +1451,7 @@ export class Client extends GameShell {
         this.out.p2(worldZ);
         this.out.p2(itemId);
 
-        return { success: true };
+        return { success: true, routed };
     }
 
     /**

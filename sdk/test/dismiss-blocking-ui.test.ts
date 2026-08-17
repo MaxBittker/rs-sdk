@@ -84,4 +84,42 @@ describe('dismissBlockingUI()', () => {
 
         expect(calls).toEqual([1, 2]);
     });
+
+    // Regression for the harvested reports msw80ivq/mswmz7f3/mswa5fca/mswjr44j:
+    // dismissBlockingUI runs before every BotActions call, and clicking the
+    // first option of a p_choice menu ANSWERS the choice as option 1 on the
+    // server — the caller's intended click then silently no-ops and the wrong
+    // quest branch runs. A multi-option dialog is a decision, not blocking UI.
+    test('never clicks a multi-option choice dialog', async () => {
+        const { bot, calls } = mount([
+            makeState({
+                dialogOpen: true,
+                options: [
+                    makeOption(1, "Who's Saradomin?"),
+                    makeOption(2, 'Nice place you have here.'),
+                    makeOption(3, "I'm looking for a quest!"),
+                ],
+            }),
+        ]);
+        await bot.dismissBlockingUI();
+
+        expect(calls).toEqual([]);
+    });
+
+    test('still clears a continue page that precedes a choice, then stops', async () => {
+        const { bot, calls } = mount([
+            makeState({ dialogOpen: true, options: [makeOption(1, 'Click here to continue')] }),
+            makeState({
+                dialogOpen: true,
+                options: [
+                    makeOption(1, "No thank you, I'll walk around."),
+                    makeOption(2, 'Who does my money go to?'),
+                    makeOption(3, 'Yes, ok.'),
+                ],
+            }),
+        ]);
+        await bot.dismissBlockingUI();
+
+        expect(calls).toEqual([1]);
+    });
 });

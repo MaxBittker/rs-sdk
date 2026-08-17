@@ -132,9 +132,15 @@ async function fetchState(botName: string, flags: { server: string; timeout: num
         username = botName;
     }
 
-    if (!server) server = 'rs-sdk-demo.fly.dev';
+    // A bot.env with SERVER= explicitly blank means "local" (deriveGatewayUrl's
+    // own default) - only fall back to the demo server when nothing anywhere
+    // named a server at all. Diagnosing a local bot against the demo gateway
+    // reports "connected fine, no game state", indistinguishable from a dead
+    // client.
+    const serverExplicitlyLocal = botEnv?.server !== undefined && botEnv.server === '' && !server;
+    if (!server && !serverExplicitlyLocal) server = 'rs-sdk-demo.fly.dev';
 
-    const isLocal = server === 'localhost' || server.startsWith('localhost:');
+    const isLocal = !server || server === 'localhost' || server.startsWith('localhost:') || server.startsWith('127.');
 
     if (!username) {
         console.error('Error: Username required');

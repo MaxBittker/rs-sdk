@@ -246,6 +246,12 @@ export class BotActions {
             if (!state) break;
 
             if (state.dialog.isOpen) {
+                // A multi-option dialog is a CHOICE, not blocking UI: clicking
+                // its first option answers the choice as option 1 on the
+                // server, silently running the wrong quest branch and leaving
+                // the caller's intended click refused as stale. Leave it for
+                // the caller (navigateDialog/clickDialogByText) to answer.
+                if (state.dialog.options.length > 1) break;
                 // Click the server-assigned index of the first published option
                 // ("Click here to continue" arrives at index 1, not 0). A bare
                 // 0 is only a fallback for optionless dialogs mid-transition.
@@ -280,8 +286,10 @@ export class BotActions {
         timeout: number
     ): Promise<NonNullable<ReturnType<BotSDK['getState']>>> {
         const deadline = Date.now() + timeout;
+        // A multi-option dialog is a choice the caller must answer, never
+        // "safe" to dismiss - see dismissBlockingUI.
         const hasSafeBlockingUI = (state: NonNullable<ReturnType<BotSDK['getState']>>) =>
-            state.dialog.isOpen ||
+            (state.dialog.isOpen && state.dialog.options.length <= 1) ||
             (state.interface?.isOpen && !state.shop?.isOpen && !state.bank?.isOpen
                 && !NEVER_AUTO_CLOSE.has(state.interface.interfaceId));
 
@@ -463,17 +471,24 @@ export class BotActions {
 
         // Re-find the location after walking (it may have moved in view). A RegExp
         // target is kept as-is — rebuilding it from the matched name used to drop
-        // the caller's anchors, turning /^hopper$/i into one matching "Hopper controls".
-        const locPattern = loc instanceof RegExp || typeof loc === 'string'
-            ? loc
-            : exactNamePattern(resolvedLoc.name);
-        const locNow = this.helpers.resolveLocation(locPattern, /./);
+        // the caller's anchors, turning /^hopper$/i into one matching "Hopper
+        // controls". An entity target re-finds by identity so same-named
+        // neighbours can't win on distance.
+        const locNow = loc instanceof RegExp || typeof loc === 'string'
+            ? this.helpers.resolveLocation(loc, /./)
+            : this.helpers.refindLocation(resolvedLoc)
+                ?? this.helpers.resolveLocation(exactNamePattern(resolvedLoc.name), /./);
         if (!locNow) {
             return { success: false, message: `${resolvedLoc.name} no longer visible`, reason: 'loc_not_found' };
         }
 
         const startTick = this.sdk.getState()?.tick || 0;
         const msgBaseline = this.helpers.getMessageTick();
+        // Some loc scripts (flour bin) swap the item with no animation,
+        // dialog, or reach failure — the inventory change is the evidence.
+        const invBefore = this.helpers.inventorySignature(this.sdk.getState());
+        const inventoryChanged = (state: Parameters<ActionHelpers['inventorySignature']>[0]): boolean =>
+            invBefore !== '' && this.helpers.inventorySignature(state) !== invBefore;
 
         // Use the item on the location
         const result = await this.sdk.sendUseItemOnLoc(resolvedItem.slot, locNow.x, locNow.z, locNow.id);
@@ -504,6 +519,10 @@ export class BotActions {
                     return true;
                 }
 
+                if (inventoryChanged(state)) {
+                    return true;
+                }
+
                 return false;
             }, timeout);
 
@@ -514,6 +533,11 @@ export class BotActions {
 
             return { success: true, message: `Used ${resolvedItem.name} on ${locNow.name}` };
         } catch {
+            // The effect can land after the wait expires with no other
+            // evidence — an inventory change still proves the use worked.
+            if (inventoryChanged(this.sdk.getState())) {
+                return { success: true, message: `Used ${resolvedItem.name} on ${locNow.name}` };
+            }
             return { success: false, message: `Timeout using ${resolvedItem.name} on ${locNow.name}`, reason: 'timeout' };
         }
     }
@@ -560,6 +584,11 @@ export class BotActions {
 
         const startTick = this.sdk.getState()?.tick || 0;
         const msgBaseline = this.helpers.getMessageTick();
+        // Some NPC scripts (cow milking) swap the item with no animation or
+        // dialog — the inventory change is the only observable evidence.
+        const invBefore = this.helpers.inventorySignature(this.sdk.getState());
+        const inventoryChanged = (state: Parameters<ActionHelpers['inventorySignature']>[0]): boolean =>
+            invBefore !== '' && this.helpers.inventorySignature(state) !== invBefore;
 
         // Use the item on the NPC
         const result = await this.sdk.sendUseItemOnNpc(resolvedItem.slot, npcNow.index);
@@ -590,6 +619,10 @@ export class BotActions {
                     return true;
                 }
 
+                if (inventoryChanged(state)) {
+                    return true;
+                }
+
                 return false;
             }, timeout);
 
@@ -600,6 +633,11 @@ export class BotActions {
 
             return { success: true, message: `Used ${resolvedItem.name} on ${npcNow.name}` };
         } catch {
+            // The effect can land after the wait expires with no other
+            // evidence — an inventory change still proves the use worked.
+            if (inventoryChanged(this.sdk.getState())) {
+                return { success: true, message: `Used ${resolvedItem.name} on ${npcNow.name}` };
+            }
             return { success: false, message: `Timeout using ${resolvedItem.name} on ${npcNow.name}`, reason: 'timeout' };
         }
     }
@@ -1192,13 +1230,24 @@ export class BotActions {
         }
     }
 
-    /** Open a shop by trading with an NPC. */
-    async openShop(target: NearbyNpc | string | RegExp = /shop\s*keeper/i): Promise<ActionResult> {
+    /** Open a shop by trading with an NPC. Defaults to the nearest shopkeeper. */
+    async openShop(target?: NearbyNpc | string | RegExp): Promise<ActionResult> {
         await this.dismissBlockingUI();
 
-        const npc = this.helpers.resolveNpc(target);
+        // Many shops are run by a named NPC (Bob's Brilliant Axes -> 'Bob'),
+        // so with no explicit target, fall back from the /shop keeper/ name to
+        // the nearest NPC that offers a Trade option. An explicit target that
+        // doesn't match stays a failure - trading with someone else instead
+        // would be worse.
+        const npc = this.helpers.resolveNpc(target ?? /shop\s*keeper/i)
+            ?? (target === undefined
+                ? this.sdk.getState()?.nearbyNpcs
+                    .filter(n => n.optionsWithIndex.some(o => /trade/i.test(o.text)))
+                    .sort((a, b) => a.distance - b.distance)[0]
+                : null)
+            ?? null;
         if (!npc) {
-            return { success: false, message: 'Shopkeeper not found' };
+            return { success: false, message: target === undefined ? 'No nearby NPC with a Trade option' : `Shopkeeper not found: ${target}` };
         }
 
         const tradeOpt = npc.optionsWithIndex.find(o => /trade/i.test(o.text));
@@ -1259,8 +1308,23 @@ export class BotActions {
             return { success: false, message: `Item not found in shop: ${target}`, reason: 'item_not_found' };
         }
 
+        // A shop lists every line it can ever sell; count is the live shelf
+        // stock. Buying a count-0 line used to walk the whole funded flow and
+        // come back success-shaped with amountBought 0.
+        if (shopItem.count <= 0) {
+            return { success: false, message: `${shopItem.name} is out of stock`, reason: 'out_of_stock', requestedAmount, amountBought: 0 };
+        }
+
         // Count total items across all inventory slots (handles non-stackable items)
         const countInvItems = () => countItems(this.sdk.getInventory(), shopItem.id);
+
+        // The buy-wait timeout fires identically for no-coins, no-stock and
+        // no-free-slot; a full inventory with no existing stack of the item
+        // can never receive it, so fail that loudly up front. (A full
+        // inventory WITH a stack may still work when the item stacks.)
+        if (this.sdk.getInventory().length >= 28 && countInvItems() === 0) {
+            return { success: false, message: `No inventory space to buy ${shopItem.name}`, reason: 'no_inventory_space', requestedAmount, amountBought: 0 };
+        }
 
         const totalBefore = countInvItems();
         const outcome = (): ShopResult => {
@@ -1305,7 +1369,7 @@ export class BotActions {
             } catch {
                 const failed = outcome();
                 if (failed.amountBought === 0) {
-                    failed.message = `Failed to buy ${shopItem.name} (no coins or out of stock?)`;
+                    failed.message = `Failed to buy ${shopItem.name} (no coins, out of stock, or full inventory?)`;
                 }
                 return failed;
             }
@@ -1689,7 +1753,13 @@ export class BotActions {
         return this.closeInterface(timeout);
     }
 
-    /** Deposit an item into the bank. Use -1 for all. */
+    /**
+     * Deposit an item into the bank. Use -1 for all.
+     *
+     * A pattern with `-1` deposits every distinct matching item: an
+     * alternation like `/^(shark|burnt shark)$/i` covers both ids, not just
+     * whichever matched first.
+     */
     async depositItem(target: InventoryItem | string | RegExp, amount: number = -1): Promise<BankDepositResult> {
         const validated = validateActionQuantity(amount, { allowAll: true, max: MAX_BANK_ACTION_QUANTITY });
         if (!validated.valid) {
@@ -1700,6 +1770,33 @@ export class BotActions {
         const state = this.sdk.getState();
         if (!state?.interface?.isOpen) {
             return { success: false, message: 'Bank is not open', reason: 'bank_not_open' };
+        }
+
+        // Deposit-all with a pattern: one deposit per distinct matching id.
+        if (dispatchAmount === -1 && (typeof target === 'string' || target instanceof RegExp)) {
+            const pattern = typeof target === 'string' ? new RegExp(target, 'i') : target;
+            const matchingIds = [...new Set(state.inventory.filter(i => pattern.test(i.name)).map(i => i.id))];
+            if (matchingIds.length > 1) {
+                let totalDeposited = 0;
+                const names: string[] = [];
+                for (const id of matchingIds) {
+                    const slotItem = this.sdk.getInventory().find(i => i.id === id);
+                    if (!slotItem) continue;
+                    const one = await this.depositItem(slotItem, -1);
+                    totalDeposited += one.amountDeposited ?? 0;
+                    names.push(slotItem.name);
+                    if (!one.success) {
+                        return { ...one, amountDeposited: totalDeposited, message: `Deposited ${totalDeposited} across ${names.join(', ')}; stopped: ${one.message}` };
+                    }
+                }
+                return {
+                    success: true,
+                    message: `Deposited ${totalDeposited} across ${names.join(', ')}`,
+                    requestedAmount: totalDeposited,
+                    amountDeposited: totalDeposited,
+                    partial: false,
+                };
+            }
         }
 
         const item = this.helpers.resolveInventoryItem(target, /./);
@@ -2322,6 +2419,10 @@ export class BotActions {
             return { success: false, message: `No equip option on ${item.name}` };
         }
 
+        // Whether an identical item was already worn - if so, its presence in
+        // the equipment can't serve as arrival evidence below.
+        const equippedBefore = this.sdk.getEquipment().some(e => e.id === item.id);
+
         const result = await this.sdk.sendUseItem(item.slot, equipOpt.opIndex);
         if (!result.success) {
             return { success: false, message: result.message };
@@ -2329,11 +2430,17 @@ export class BotActions {
 
         try {
             await this.sdk.waitForCondition(state =>
-                !state.inventory.find(i => i.slot === item.slot && i.id === item.id),
+                !state.inventory.find(i => i.slot === item.slot && i.id === item.id) ||
+                (!equippedBefore && state.equipment.some(e => e.id === item.id)),
                 5000
             );
             return { success: true, message: `Equipped ${item.name}` };
         } catch {
+            // The equip can round-trip after the wait expires - the item
+            // showing up worn is still proof it landed.
+            if (!equippedBefore && this.sdk.getEquipment().some(e => e.id === item.id)) {
+                return { success: true, message: `Equipped ${item.name}` };
+            }
             return { success: false, message: `Failed to equip ${item.name}` };
         }
     }
@@ -2706,18 +2813,26 @@ export class BotActions {
      * Magic XP is the evidence of a cast landing, so a splash still counts as
      * success with `hit: false`.
      */
-    async castSpell(target: CombatTarget, spellComponent: number, timeout: number = 3000): Promise<CastSpellResult> {
+    async castSpell(target: CombatTarget, spellComponent: number | string, timeout: number = 3000): Promise<CastSpellResult> {
+        const resolvedSpell = this.resolveSpellComponent(spellComponent);
+        if (resolvedSpell === null) {
+            return { success: false, message: `Unknown spell: ${spellComponent} - pass a component id (Spells.WIND_STRIKE = 1152) or a known combat spell name`, reason: 'unknown_spell' };
+        }
         await this.dismissBlockingUI();
 
         const entity = this.helpers.resolveCombatTarget(target);
         if (!entity) {
             return { success: false, message: `Target not found: ${target}`, reason: 'npc_not_found' };
         }
-        return this.castSpellOnEntity(entity, spellComponent, timeout);
+        return this.castSpellOnEntity(entity, resolvedSpell, timeout);
     }
 
     /** Cast a combat spell on another player (OPPLAYERT). Prefer {@link castSpell}. */
-    async castSpellOnPlayer(target: NearbyPlayer | string | RegExp, spellComponent: number, timeout: number = 3000): Promise<CastSpellResult> {
+    async castSpellOnPlayer(target: NearbyPlayer | string | RegExp, spellComponent: number | string, timeout: number = 3000): Promise<CastSpellResult> {
+        const resolvedSpell = this.resolveSpellComponent(spellComponent);
+        if (resolvedSpell === null) {
+            return { success: false, message: `Unknown spell: ${spellComponent} - pass a component id (Spells.WIND_STRIKE = 1152) or a known combat spell name`, reason: 'unknown_spell' };
+        }
         await this.dismissBlockingUI();
 
         const player = typeof target === 'object' && 'index' in target
@@ -2726,8 +2841,44 @@ export class BotActions {
         if (!player) {
             return { success: false, message: `Player not found: ${target}`, reason: 'npc_not_found' };
         }
-        return this.castSpellOnEntity(player, spellComponent, timeout);
+        return this.castSpellOnEntity(player, resolvedSpell, timeout);
     }
+
+    /**
+     * A string spell used to be accepted and silently cast nothing —
+     * castSpell reported 16 "successful" casts with no runes consumed.
+     * Resolve known combat-spell names; reject anything else loudly.
+     */
+    private resolveSpellComponent(spell: number | string): number | null {
+        if (typeof spell === 'number' && Number.isFinite(spell)) return spell;
+        if (typeof spell === 'string') {
+            return BotActions.SPELL_COMPONENTS[spell.toLowerCase().trim().replace(/[\s_-]+/g, ' ')] ?? null;
+        }
+        return null;
+    }
+
+    private static readonly SPELL_COMPONENTS: Record<string, number> = {
+        'wind strike': 1152,
+        'confuse': 1153,
+        'water strike': 1154,
+        'earth strike': 1156,
+        'weaken': 1157,
+        'fire strike': 1158,
+        'wind bolt': 1160,
+        'curse': 1161,
+        'water bolt': 1163,
+        'earth bolt': 1166,
+        'fire bolt': 1169,
+        'wind blast': 1172,
+        'water blast': 1175,
+        'earth blast': 1177,
+        'fire blast': 1181,
+        'wind wave': 1183,
+        'water wave': 1185,
+        'earth wave': 1188,
+        'fire wave': 1189,
+        'bind': 1572,
+    };
 
     private async castSpellOnEntity(
         entity: NearbyNpc | NearbyPlayer,
@@ -2742,6 +2893,14 @@ export class BotActions {
         }
         const msgBaseline = this.helpers.getMessageTick();
         const startMagicXp = startState.skills.find(s => s.name === 'Magic')?.experience ?? 0;
+        // A real splash still consumes runes. No XP AND no inventory change
+        // means the client never dispatched (e.g. unreachable target) - that
+        // must not be reported as a splash. With no inventory data at all we
+        // can't disprove a cast, so give the splash the benefit of the doubt.
+        const invBefore = this.helpers.inventorySignature(startState);
+        const runesConsumed = (): boolean =>
+            invBefore === '' ||
+            this.helpers.inventorySignature(this.sdk.getState()) !== invBefore;
 
         const result = await this.sdk.sendSpellOnTarget(entity, spellComponent);
         if (!result.success) {
@@ -2784,8 +2943,17 @@ export class BotActions {
                 return { success: true, message: `Hit ${entity.name} for ${xpGained} Magic XP`, hit: true, xpGained, targetType };
             }
 
+            if (!runesConsumed()) {
+                return { success: false, message: `No evidence ${entity.name} was cast on - no XP, no runes consumed (unreachable target?)`, reason: 'out_of_reach', targetType };
+            }
             return { success: true, message: `Splashed on ${entity.name}`, hit: false, xpGained: 0, targetType };
         } catch {
+            if (this.helpers.checkCantReachMessage(msgBaseline)) {
+                return { success: false, message: `Cannot reach ${entity.name} - obstacle in the way`, reason: 'out_of_reach', targetType };
+            }
+            if (!runesConsumed()) {
+                return { success: false, message: `No evidence ${entity.name} was cast on - no XP, no runes consumed (unreachable target?)`, reason: 'out_of_reach', targetType };
+            }
             return { success: true, message: `Splashed on ${entity.name} (timeout)`, hit: false, xpGained: 0, targetType };
         }
     }
@@ -3234,6 +3402,17 @@ export class BotActions {
      * Column 4 (1122): Med Helm, Full Helm, Sq Shield, Kiteshield
      * Column 5 (1123): Dart Tips, Arrowheads, Throwing Knives, Wire/Studs
      */
+    private static readonly METAL_BAR_PATTERNS: Record<string, RegExp> = {
+        'bronze': /^bronze bar$/i,
+        'iron': /^iron bar$/i,
+        'steel': /^steel bar$/i,
+        'mithril': /^mithril bar$/i,
+        'adamant': /^adamantite bar$/i,
+        'adamantite': /^adamantite bar$/i,
+        'rune': /^runite bar$/i,
+        'runite': /^runite bar$/i,
+    };
+
     private static readonly SMITHING_COMPONENTS: Record<string, { component: number; slot: number }> = {
         // Column 1 - Bladed weapons
         'dagger': { component: 1119, slot: 0 },
@@ -3297,7 +3476,20 @@ export class BotActions {
         product: string | number = 'dagger',
         options: { barPattern?: RegExp; timeout?: number } = {}
     ): Promise<SmithResult> {
-        const { barPattern = /bar$/i, timeout = 10000 } = options;
+        if (typeof product !== 'string' && typeof product !== 'number') {
+            // A RegExp product used to throw deep inside on .toLowerCase().
+            return { success: false, message: `smithAtAnvil takes a product name string (e.g. 'mithril longsword'), got: ${product}`, reason: 'level_too_low' };
+        }
+
+        // A 'mithril longsword' request must smith with mithril bars — the
+        // anvil interface uses whichever bar the click finds, so an
+        // unqualified /bar$/i grabs the first bar in the inventory.
+        const metalMatch = typeof product === 'string'
+            ? product.toLowerCase().match(/^(bronze|iron|steel|mithril|adamant(?:ite)?|run(?:e|ite))\s+/)
+            : null;
+        const metal = metalMatch?.[1];
+        const metalBar = metal !== undefined ? BotActions.METAL_BAR_PATTERNS[metal] : undefined;
+        const { barPattern = metalBar ?? /bar$/i, timeout = 10000 } = options;
 
         await this.dismissBlockingUI();
 
@@ -3310,7 +3502,8 @@ export class BotActions {
         // Check for bars
         const bar = this.sdk.findInventoryItem(barPattern);
         if (!bar) {
-            return { success: false, message: 'No bars in inventory', reason: 'no_bars' };
+            const wanted = metal !== undefined ? `${metal} bars` : 'bars';
+            return { success: false, message: `No ${wanted} in inventory`, reason: 'no_bars' };
         }
 
         // Find anvil
@@ -3325,16 +3518,22 @@ export class BotActions {
         if (typeof product === 'number') {
             componentId = product;
         } else {
-            const key = product.toLowerCase();
+            // Strip a leading metal so 'mithril longsword' hits the
+            // 'longsword' entry directly.
+            const key = metalMatch
+                ? product.toLowerCase().slice(metalMatch[0].length).trim()
+                : product.toLowerCase();
             const directMatch = BotActions.SMITHING_COMPONENTS[key];
             if (directMatch) {
                 componentId = directMatch.component;
                 componentSlot = directMatch.slot;
             } else {
-                // Try partial match
-                const matchingKey = Object.keys(BotActions.SMITHING_COMPONENTS).find(k =>
-                    k.includes(key) || key.includes(k)
-                );
+                // Try partial match. Prefer the LONGEST matching key:
+                // 'longsword'.includes('sword') is also true, and first-wins
+                // used to silently smith the wrong product.
+                const matchingKey = Object.keys(BotActions.SMITHING_COMPONENTS)
+                    .filter(k => k.includes(key) || key.includes(k))
+                    .sort((a, b) => b.length - a.length)[0];
                 const partialMatch = matchingKey ? BotActions.SMITHING_COMPONENTS[matchingKey] : undefined;
                 if (partialMatch) {
                     componentId = partialMatch.component;
@@ -3348,6 +3547,17 @@ export class BotActions {
         const smithingBefore = this.sdk.getSkill('Smithing')?.experience || 0;
         const startTick = this.sdk.getState()?.tick || 0;
         const msgBaseline = this.helpers.getMessageTick();
+
+        // The generic product sweep below matches /axe/ against an equipped
+        // "Bronze pickaxe" and reports it as the smithed item — prefer the
+        // product the caller actually asked for.
+        const findSmithedItem = (): InventoryItem | null => {
+            if (typeof product === 'string') {
+                const named = this.sdk.findInventoryItem(new RegExp(product.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+                if (named) return named;
+            }
+            return this.sdk.findInventoryItem(/dagger|(?<!pick)axe|mace|helm|sword|shield|body|legs|skirt|claws|knives|bolts|arrowtips|arrowheads|arrow|dart|nails/i);
+        };
 
         // Use bar on anvil
         const useResult = await this.sdk.sendUseItemOnLoc(bar.slot, anvil.x, anvil.z, anvil.id);
@@ -3392,7 +3602,7 @@ export class BotActions {
             const currentXp = state.skills.find(s => s.name === 'Smithing')?.experience || 0;
             if (currentXp > smithingBefore) {
                 // Find the smithed item
-                const smithedItem = this.sdk.findInventoryItem(/dagger|axe|mace|helm|sword|shield|body|legs|skirt|claws|knives|bolts|arrowtips|arrowheads|arrow|dart|nails/i);
+                const smithedItem = findSmithedItem();
                 return {
                     success: true,
                     message: 'Smithed item successfully',
@@ -3419,7 +3629,7 @@ export class BotActions {
             if (!state.interface?.isOpen) {
                 const finalXp = this.sdk.getSkill('Smithing')?.experience || 0;
                 if (finalXp > smithingBefore) {
-                    const smithedItem = this.sdk.findInventoryItem(/dagger|axe|mace|helm|sword|shield|body|legs|skirt|claws|knives|bolts|arrowtips|arrowheads|arrow|dart|nails/i);
+                    const smithedItem = findSmithedItem();
                     return {
                         success: true,
                         message: 'Smithed item successfully',
@@ -3507,11 +3717,12 @@ export class BotActions {
         }
 
         // Re-find the location after walking (it may have changed). Keep a RegExp
-        // target as-is so its anchors survive; only rebuild for entity targets.
-        const locPattern = target instanceof RegExp || typeof target === 'string'
-            ? target
-            : exactNamePattern(loc.name);
-        const locNow = this.helpers.resolveLocation(locPattern, /./, optionFilter);
+        // target as-is so its anchors survive; an entity target re-finds by
+        // identity so same-named neighbours (Varrock cart crates) can't win.
+        const locNow = target instanceof RegExp || typeof target === 'string'
+            ? this.helpers.resolveLocation(target, /./, optionFilter)
+            : this.helpers.refindLocation(loc)
+                ?? this.helpers.resolveLocation(exactNamePattern(loc.name), /./, optionFilter);
         if (!locNow) {
             return { success: false, message: `${loc.name} no longer visible`, reason: 'loc_not_found' };
         }
@@ -3527,6 +3738,15 @@ export class BotActions {
         // climb animation never observed - the level change IS the evidence.
         const levelChanged = (state: { player: { level: number } | null } | null): boolean =>
             startLevel !== -1 && state?.player != null && state.player.level !== startLevel;
+
+        // Dungeon trapdoors/ladders teleport within the same level (the
+        // underground band is a +6400 z offset), so also treat a jump far
+        // beyond walking range as evidence the interaction worked.
+        const dispatchX = lastX;
+        const dispatchZ = lastZ;
+        const teleported = (state: { player: { x: number; z: number } | null } | null): boolean =>
+            state?.player != null &&
+            Math.max(Math.abs(state.player.x - dispatchX), Math.abs(state.player.z - dispatchZ)) > 8;
 
         const result = await this.sdk.sendInteractLoc(locNow.x, locNow.z, locNow.id, opIndex);
         if (!result.success) {
@@ -3546,7 +3766,7 @@ export class BotActions {
                 // Success indicators
                 if (state.dialog.isOpen || state.interface?.isOpen) return true;
                 if (state.player && state.player.animId !== -1) return true;
-                if (levelChanged(state)) return true;
+                if (levelChanged(state) || teleported(state)) return true;
 
                 // Track movement — if player moved, update last move tick
                 if (state.player && (state.player.x !== lastX || state.player.z !== lastZ)) {
@@ -3567,7 +3787,7 @@ export class BotActions {
 
             if (finalState.dialog.isOpen || finalState.interface?.isOpen ||
                 (finalState.player && finalState.player.animId !== -1) ||
-                levelChanged(finalState)) {
+                levelChanged(finalState) || teleported(finalState)) {
                 return { success: true, message: `Interacted with ${locNow.name}` };
             }
 
@@ -3576,14 +3796,15 @@ export class BotActions {
             try {
                 await this.sdk.waitForCondition(s =>
                     s.dialog.isOpen || Boolean(s.interface?.isOpen) ||
-                    (s.player != null && s.player.animId !== -1) || levelChanged(s), 2000);
+                    (s.player != null && s.player.animId !== -1) ||
+                    levelChanged(s) || teleported(s), 2000);
                 return { success: true, message: `Interacted with ${locNow.name}` };
             } catch {
                 return { success: false, message: `Nothing happened interacting with ${locNow.name}`, reason: 'timeout' };
             }
         } catch {
             // Even on the safety-net timeout, a level transition means it worked.
-            if (levelChanged(this.sdk.getState())) {
+            if (levelChanged(this.sdk.getState()) || teleported(this.sdk.getState())) {
                 return { success: true, message: `Interacted with ${locNow.name}` };
             }
             return { success: false, message: `Timed out interacting with ${locNow.name}`, reason: 'timeout' };

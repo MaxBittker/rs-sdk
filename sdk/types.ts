@@ -88,6 +88,16 @@ export interface NearbyNpc {
     combatLevel: number;
     x: number;
     z: number;
+    /**
+     * Authoritative SW route tile. `x`/`z` are the interpolated render
+     * position, which trails a moving NPC by 1-3 tiles and is offset by
+     * floor(size/2) for multi-tile NPCs; drops spawn on THIS tile. Optional
+     * only against clients older than this field.
+     */
+    tileX?: number;
+    tileZ?: number;
+    /** Footprint in tiles (1 = single tile, cows/giants are 2+). */
+    size?: number;
     distance: number;
     /** Current HP, or null until the server reveals it by updating the NPC. */
     hp: number | null;
@@ -749,7 +759,7 @@ export interface ShopResult {
     amountBought?: number;
     /** Some but not all of the requested amount was bought. */
     partial?: boolean;
-    reason?: 'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'partial_fill' | 'timeout';
+    reason?: 'invalid_amount' | 'shop_not_open' | 'item_not_found' | 'partial_fill' | 'timeout' | 'out_of_stock' | 'no_inventory_space';
 }
 
 export interface ShopSellResult {
@@ -799,7 +809,7 @@ export interface CastSpellResult {
     hit?: boolean;
     xpGained?: number;
     /** `npc_not_found` also covers players: no target matched. */
-    reason?: 'npc_not_found' | 'out_of_reach' | 'no_runes' | 'not_attackable' | 'timeout';
+    reason?: 'npc_not_found' | 'out_of_reach' | 'no_runes' | 'not_attackable' | 'timeout' | 'unknown_spell';
     /** What the resolved target was, when one was found. */
     targetType?: 'npc' | 'player';
 }

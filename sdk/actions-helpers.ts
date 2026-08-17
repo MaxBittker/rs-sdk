@@ -499,6 +499,28 @@ export class ActionHelpers {
 
     // ============ Resolution Helpers ============
 
+    /**
+     * Compact signature of the inventory for change detection. Some server
+     * scripts (cow milking, flour bin) produce no animation, dialog, or
+     * distinctive message — the item swap is the only observable evidence.
+     */
+    inventorySignature(state: { inventory?: { slot: number; id: number; count: number }[] } | null): string {
+        if (!state?.inventory) return '';
+        return state.inventory.map(i => `${i.slot}:${i.id}:${i.count}`).join(',');
+    }
+
+    /**
+     * Re-find a previously resolved loc by identity (id + tile) in current
+     * state. Name-based re-resolution picks the nearest same-named loc, which
+     * is the wrong one when duplicates sit within a few tiles (Varrock cart
+     * crates). Returns null if that exact loc is no longer visible.
+     */
+    refindLocation(original: { id: number; x: number; z: number }): NearbyLoc | null {
+        return this.sdk.getState()?.nearbyLocs.find(
+            l => l.id === original.id && l.x === original.x && l.z === original.z
+        ) ?? null;
+    }
+
     resolveLocation(
         target: NearbyLoc | string | RegExp | undefined,
         defaultPattern: RegExp,

@@ -10,6 +10,8 @@
 //
 // Run from server/webclient so the '#/*' import map resolves.
 
+import { fileURLToPath } from 'node:url';
+
 import { startSession, type LiteSession } from './session.js';
 import { type ActionResult } from '#/bot/ActionExecutor.js';
 import { BotActionQueue, type QueuedBotAction } from '#/bot/ActionQueue.js';
@@ -355,7 +357,7 @@ if (!botName) {
     process.exit(1);
 }
 
-const repoRoot = new URL('../../../../', import.meta.url).pathname;
+const repoRoot = fileURLToPath(new URL('../../../../', import.meta.url));
 const envPath = `${repoRoot}bots/${botName}/bot.env`;
 const env = Object.fromEntries(
     (await Bun.file(envPath).text())

@@ -174,15 +174,20 @@ function groundItemOp(c: LiteClient, worldX: number, worldZ: number, itemId: num
         return { success: false, reason: 'out_of_scene' };
     }
 
-    if (!tryMoveTo(c, dest.x, dest.z, 0, 0, 0, 0, 0)) {
-        return { success: false, reason: 'cant_reach' };
-    }
+    // Some quest ground items deliberately sit on blocked scenery (for
+    // example the Fremennik longhall keg on a table) and are operated from an
+    // adjacent square. Attempt the client route - retrying an unroutable tile
+    // with a 1x1 footprint so the player still walks adjacent, exactly like
+    // the authentic client's OP_OBJ menu handler - but always dispatch so the
+    // authoritative server reach check/custom OPOBJ handler can decide.
+    const routed = tryMoveTo(c, dest.x, dest.z, 0, 0, 0, 0, 0)
+        || tryMoveTo(c, dest.x, dest.z, 1, 1, 0, 0, 0);
 
     c.writeOpcode([ClientProt.OPOBJ1, ClientProt.OPOBJ2, ClientProt.OPOBJ3, ClientProt.OPOBJ4, ClientProt.OPOBJ5][optionIndex - 1]);
     c.out.p2(worldX);
     c.out.p2(worldZ);
     c.out.p2(itemId);
-    return { success: true };
+    return { success: true, routed };
 }
 
 // ============================================================== inventory

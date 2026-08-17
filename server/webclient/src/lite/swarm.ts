@@ -26,6 +26,8 @@
 // supervised: `onEnd` re-logs it in with backoff, keeping its stats and its share
 // of the gold, and the report marks anything that is currently offline.
 
+import { fileURLToPath } from 'node:url';
+
 import { startSession, type LiteSession, type SessionEnd } from './session.js';
 import { BotStateCollector } from '#/bot/StateCollector.js';
 import { ActionExecutor } from '#/bot/ActionExecutor.js';
@@ -349,7 +351,7 @@ const collectorName = argv.find(a => a.startsWith('--collector='))?.slice('--col
 const minutes = Number(argv.find(a => a.startsWith('--minutes='))?.slice('--minutes='.length) ?? 0);
 const DEBUG = argv.find(a => a.startsWith('--debug='))?.slice('--debug='.length) ?? '';
 
-const repoRoot = new URL('../../../../', import.meta.url).pathname;
+const repoRoot = fileURLToPath(new URL('../../../../', import.meta.url));
 
 async function readEnv(bot: string): Promise<Record<string, string>> {
     const text = await Bun.file(`${repoRoot}bots/${bot}/bot.env`).text();

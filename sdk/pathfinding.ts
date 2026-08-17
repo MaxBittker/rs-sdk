@@ -73,6 +73,9 @@ const populatedZones = new Set<string>();
 const ONE_WAY_DOORS = new Set<string>([
     '0,3108,3353', // Draynor Manor front door (west tile) — only opens from outside
     '0,3109,3353', // Draynor Manor front door (east tile) — only opens from outside
+    '0,2924,9654', // Melzar's Maze basement 'funexit' door — only opens from the maze side
+    '0,2927,9649', // Melzar's Maze basement 'funexit' door — only opens from the maze side
+    '0,2931,9640', // Melzar's Maze basement 'funexit' door — only opens from the maze side
 ]);
 
 function doorKey(level: number, x: number, z: number): string {
