@@ -1240,39 +1240,43 @@ class World {
 
         this.cycleStats[WorldStat.BANDWIDTH_OUT] = 0; // reset bandwidth counter
 
-        for (const player of this.playerLoop.all()) {
-            if (!isClientConnected(player)) {
-                continue;
-            }
+        // one websocket message per client for this phase's packets (see WSClientSocket.send)
+        WSClientSocket.beginBatch();
+        try {
+            for (const player of this.playerLoop.all()) {
+                if (!isClientConnected(player)) {
+                    continue;
+                }
 
-            try {
-                // - map update
-                player.updateMap();
-                // - player info
-                player.updatePlayers();
-                // - npc info
-                player.updateNpcs();
-                // - zone updates
-                player.updateZones();
-                // - inv changes
-                player.updateInvs();
-                // - stat changes
-                player.updateStats();
-                // - afk zones changes
-                player.updateAfkZones();
+                try {
+                    // - map update
+                    player.updateMap();
+                    // - player info
+                    player.updatePlayers();
+                    // - npc info
+                    player.updateNpcs();
+                    // - zone updates
+                    player.updateZones();
+                    // - inv changes
+                    player.updateInvs();
+                    // - stat changes
+                    player.updateStats();
+                    // - afk zones changes
+                    player.updateAfkZones();
 
-                // - flush packets
-                player.encodeOut();
-            } catch (err) {
-                console.error(err);
-                if (isClientConnected(player)) {
-                    player.logout();
-                    player.client.close();
+                    // - flush packets
+                    player.encodeOut();
+                } catch (err) {
+                    console.error(err);
+                    if (isClientConnected(player)) {
+                        player.logout();
+                        player.client.close();
+                    }
                 }
             }
+        } finally {
+            WSClientSocket.endBatch();
         }
-        // one websocket message per client per tick (see WSClientSocket.send)
-        WSClientSocket.flushAll();
         this.cycleStats[WorldStat.CLIENT_OUT] = Date.now() - start;
     }
 

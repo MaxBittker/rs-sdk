@@ -16,11 +16,14 @@ const pendingFlush: Set<WSClientSocket> = new Set();
 export default class WSClientSocket extends ClientSocket {
     socket: RuntimeWebSocket | null = null;
 
-    // rs-sdk: outgoing game packets are coalesced into one websocket message per tick.
-    // Upstream writes each packet with its own send(); on TCP the kernel coalesces that,
-    // on websockets it is a frame + syscall per packet (~20 per player per tick), which
-    // profiled at ~20% of the tick thread with ~1000 players. The client side reads the
-    // socket as a byte stream (ClientStream queues frames), so framing is not observable.
+    // rs-sdk: while World.processClientsOut() runs, outgoing packets are coalesced into one
+    // websocket message per client (that phase writes ~20 packets per player per tick -
+    // player/npc info, zones, invs, stats - and a frame + syscall each profiled at ~20% of
+    // the tick thread with ~1000 players). Outside that phase - script replies, dialogs,
+    // login/logout, anything mid-tick - packets go out immediately as before, so their
+    // latency is unchanged. Clients read the socket as a byte stream (ClientStream queues
+    // frames), so framing is not observable.
+    static batching = false;
     private pending: Uint8Array = new Uint8Array(4096);
     private pendingLen = 0;
 
@@ -38,9 +41,11 @@ export default class WSClientSocket extends ClientSocket {
             return;
         }
 
-        // login negotiation and non-player replies go straight out - they are single
-        // small packets whose latency matters and nothing would flush them otherwise
-        if (this.state !== 1 || !this.player) {
+        if (!WSClientSocket.batching || this.state !== 1 || !this.player) {
+            // keep the stream in order: anything batched earlier goes first
+            if (this.pendingLen > 0) {
+                this.flush();
+            }
             this.sendNow(src);
             return;
         }
@@ -70,8 +75,13 @@ export default class WSClientSocket extends ClientSocket {
         this.sendNow(data);
     }
 
-    // flush every socket that batched output this tick; called by World once per cycle
-    static flushAll(): void {
+    // World brackets processClientsOut() with these
+    static beginBatch(): void {
+        WSClientSocket.batching = true;
+    }
+
+    static endBatch(): void {
+        WSClientSocket.batching = false;
         for (const socket of pendingFlush) {
             socket.flush();
         }
