@@ -106,4 +106,20 @@ describe('walkTo() partial paths', () => {
 
         expect(result.success).toBe(true);
     });
+
+    test('rejects non-numeric coordinates instead of walking', async () => {
+        // walkTo(p.worldX, p.worldZ) with a NearbyPlayer (which only has .x/.z)
+        // used to become walkTo(undefined, undefined) and march across the map.
+        const { bot, queries } = makeBot(() => ({
+            success: true,
+            reachedDestination: true,
+            waypoints: [{ x: 3170, z: 3430, level: 0 }],
+        }));
+
+        const result = await bot.walkTo(undefined as any, undefined as any);
+
+        expect(result.success).toBe(false);
+        expect(result.message).toContain('numeric');
+        expect(queries()).toBe(0);
+    });
 });

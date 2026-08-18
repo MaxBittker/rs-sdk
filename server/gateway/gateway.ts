@@ -664,7 +664,7 @@ async function authenticateHttpRequest(req: Request, url: URL, username: string,
  * actionResult. Never rejects: a client that doesn't answer inside the budget
  * yields a failed result, so the HTTP handler always responds.
  */
-function dispatchHttpSay(botSession: BotSession, text: string, timeoutMs: number, to?: string): Promise<{ success: boolean; message: string; data?: any; reason?: string }> {
+function dispatchHttpSayNow(botSession: BotSession, text: string, timeoutMs: number, to?: string): Promise<{ success: boolean; message: string; data?: any; reason?: string }> {
     const actionId = `http-${++httpActionSeq}-${Math.random().toString(36).slice(2, 8)}`;
     return new Promise(resolve => {
         const timeout = setTimeout(() => {
@@ -683,6 +683,26 @@ function dispatchHttpSay(botSession: BotSession, text: string, timeoutMs: number
             actionTimeoutMs: timeoutMs
         });
     });
+}
+
+/**
+ * Per-bot serialization for HTTP says. Concurrent requests used to each
+ * overwrite `botSession.currentActionId`; when a client doesn't echo the
+ * actionId, only the LAST dispatch got its actionResult and every earlier
+ * one reported a false "timed out" for a message that was delivered. One
+ * outstanding say per bot also matches the server's one-social-packet-per-tick
+ * budget.
+ */
+const httpSayQueues = new Map<string, Promise<unknown>>();
+function dispatchHttpSay(botSession: BotSession, text: string, timeoutMs: number, to?: string): Promise<{ success: boolean; message: string; data?: any; reason?: string }> {
+    const key = botSession.username;
+    const prev = httpSayQueues.get(key) ?? Promise.resolve();
+    const next = prev.catch(() => {}).then(() => dispatchHttpSayNow(botSession, text, timeoutMs, to));
+    httpSayQueues.set(key, next);
+    next.finally(() => {
+        if (httpSayQueues.get(key) === next) httpSayQueues.delete(key);
+    });
+    return next;
 }
 
 // ============ Message Router ============

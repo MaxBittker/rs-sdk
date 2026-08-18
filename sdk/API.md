@@ -62,7 +62,7 @@
 
 | Signature | Description |
 |---|---|
-| `async walkTo(x: number, z: number, tolerance: number = 3): Promise<ActionResult>` | Walk to coordinates using pathfinding, auto-opening doors. |
+| `async walkTo(x: number, z: number, tolerance: number = 3): Promise<ActionResult>` | Walk to coordinates using pathfinding, auto-opening doors. Aborts if the player dies en route. |
 
 ### Shopping
 
@@ -86,7 +86,7 @@
 
 | Signature | Description |
 |---|---|
-| `async tradeWith(target: NearbyPlayer \| string \| RegExp, timeout: number = 30_000): Promise<ActionResult>` | Open a trade session with another player, walking closer if needed. Requesting a player who already requested you accepts their request; otherwise this waits (re-requesting periodically) until they request back or the timeout expires. |
+| `async tradeWith(target: NearbyPlayer \| string \| RegExp, timeout: number = 30_000, options: { retryOnBusy?: boolean } = {}): Promise<ActionResult>` | Open a trade session with another player, walking closer if needed. Requesting a player who already requested you accepts their request; otherwise this waits (re-requesting periodically) until they request back or the timeout expires. The session is verified against the requested partner: a screen that opens with a *different* player (their pending request racing yours) is declined and the requested partner pursued until the deadline. `options.retryOnBusy` keeps retrying (with backoff) through "is busy at the moment" refusals instead of failing on the first one. |
 | `async offerTradeItems(items: TradeItemSpec[], timeout: number = 15_000): Promise<ActionResult>` | Place items into your side of an open trade. Each spec resolves against your inventory; `amount` -1 offers all of that item (default 1). Waits until the offer window reflects each addition. Adding items resets both players' accepts server-side. |
 | `async acceptTrade(timeout: number = 10_000): Promise<ActionResult>` | Accept the current trade screen and wait for observable progress: the screen advancing (offer -> confirm), the trade completing, or the acceptance being registered while waiting on the partner. A closed screen is classified: completed (`success: true`, `data.gave` / `data.received`) or declined (`success: false, reason: 'declined'`). |
 | `async declineTrade(timeout: number = 5_000): Promise<ActionResult>` | Decline (close) the open trade and wait for the screen to close. Retries once if the first close landed during the offer->confirm transition (sendDeclineTrade refuses to send while no screen is open). |
@@ -213,7 +213,7 @@
 | `async waitForChat(opts: { from?: string; matching?: RegExp \| string; types?: readonly number[]; includeSelf?: boolean; timeout?: number; } = {}): Promise<GameMessage \| null>` | Wait for the next chat message matching the given filters (messages arriving after this call; your own messages are excluded by default). The easy way to coordinate two bots: `sdk.say('ready'); const reply = await sdk.waitForChat({ from: 'partner', timeout: 60000 });` |
 | `async waitForTradeRequest(opts: { from?: string; timeout?: number } = {}): Promise<string \| null>` | Wait for an incoming trade request ("X wishes to trade with you."). Requests arrive as chat type {@link TRADE_REQUEST_CHAT_TYPE}, which the default chat readers filter out. Returns the requester's name, or null on timeout. |
 | `async waitForReady(timeout: number = 15000): Promise<BotWorldState>` | Wait for game state to be fully loaded and ready. Ensures player position is valid (not 0,0), bot is in-game, and state is recent. |
-| `async waitForCondition(predicate: (state: BotWorldState) => boolean, timeout: number = 30000): Promise<BotWorldState>` | _No description provided._ |
+| `async waitForCondition(predicate: (state: BotWorldState) => boolean, timeout: number = 30000): Promise<BotWorldState>` | Wait until the predicate passes on a state update and return that state. THROWS `Error('waitForCondition timed out')` if the timeout expires - wrap in try/catch (or `.catch(...)`) when a timeout is an expected outcome rather than a fatal one. |
 | `async waitForStateChange(timeout: number = 30000): Promise<BotWorldState>` | Wait for next state update from server. |
 | `async waitForTicks(ticks: number = 1): Promise<BotWorldState>` | Wait for a specific number of server ticks (~300ms each). |
 | `async waitForStateUpdate(): Promise<BotWorldState>` | Wait for the next state update from the server. This is the most common waiting pattern - ensures fresh data after an action. State updates arrive once per server tick (~300ms) when PLAYER_INFO is received. |
@@ -439,7 +439,7 @@ interface TradeResult {
 interface ServeTradesResult {
   success: boolean;
   message: string;
-  /** Completed trades, in order. */
+  /** Every served session in order, completed and failed alike (check `.success`). */
   trades: TradeResult[];
   reason?: 'until' | 'max_trades' | 'timeout' | 'error';
 }

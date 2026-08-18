@@ -1003,12 +1003,32 @@ export class BotActions {
         }
     }
 
-    /** Walk to coordinates using pathfinding, auto-opening doors. */
+    /** Walk to coordinates using pathfinding, auto-opening doors. Aborts if the player dies en route. */
     async walkTo(x: number, z: number, tolerance: number = 3): Promise<ActionResult> {
+        if (!Number.isFinite(x) || !Number.isFinite(z)) {
+            // walkTo(undefined, undefined) used to be accepted and marched the
+            // bot across the map (players expose coordinates as .x/.z).
+            return {
+                success: false,
+                message: `walkTo requires numeric coordinates - got (${x}, ${z}). Nearby entities (players included) expose them as .x/.z; your own position is state.player.worldX/.worldZ`,
+            };
+        }
         await this.dismissBlockingUI();
 
         const state = this.sdk.getState();
         if (!state?.player) return { success: false, message: 'No player state' };
+
+        // Death mid-walk: an orphaned walkTo that keeps marching after a
+        // respawn re-enters the danger zone that killed it. Abort instead.
+        const startLifeId = state.player.lifeId;
+        const diedEnRoute = (): ActionResult | null => {
+            const p = this.sdk.getState()?.player;
+            if (!p) return null;
+            if (p.isDead || (startLifeId !== undefined && p.lifeId !== undefined && p.lifeId !== startLifeId)) {
+                return { success: false, message: `Walk aborted: player died en route to (${x}, ${z})${p.isDead ? '' : ' (respawned)'}` };
+            }
+            return null;
+        };
 
         const distTo = (pos: { x: number; z: number }) => this.helpers.distance(pos.x, pos.z, x, z);
         let pos = { x: state.player.worldX, z: state.player.worldZ };
@@ -1060,6 +1080,9 @@ export class BotActions {
         };
 
         for (let i = 0; i < MAX_ITERATIONS; i++) {
+            const dead = diedEnRoute();
+            if (dead) return dead;
+
             // Try pathfinding (with one retry)
             let path = await this.sdk.sendFindPath(x, z, 500);
             if (!path.success || !path.waypoints?.length) {
@@ -1167,6 +1190,8 @@ export class BotActions {
                 }
 
                 const result = await this.helpers.walkStepToward(wp.x, wp.z, 2, pos);
+                const deadMidStep = diedEnRoute();
+                if (deadMidStep) return deadMidStep;
                 if (distTo(result.pos) <= tolerance) return { success: true, message: 'Arrived' };
 
                 if (result.status === 'stuck') {
@@ -1965,13 +1990,39 @@ export class BotActions {
      * Requesting a player who already requested you accepts their request;
      * otherwise this waits (re-requesting periodically) until they request
      * back or the timeout expires.
+     *
+     * The session is verified against the requested partner: a screen that
+     * opens with a *different* player (their pending request racing yours)
+     * is declined and the requested partner pursued until the deadline.
+     *
+     * `options.retryOnBusy` keeps retrying (with backoff) through "is busy
+     * at the moment" refusals instead of failing on the first one.
      */
-    async tradeWith(target: NearbyPlayer | string | RegExp, timeout: number = 30_000): Promise<ActionResult> {
+    async tradeWith(
+        target: NearbyPlayer | string | RegExp,
+        timeout: number = 30_000,
+        options: { retryOnBusy?: boolean } = {}
+    ): Promise<ActionResult> {
         await this.dismissBlockingUI();
+
+        // Same matching semantics as findNearbyPlayer: substring for strings,
+        // the pattern itself for RegExps, exact name for resolved entities.
+        const matchesTarget = (name: string | null | undefined): boolean => {
+            if (!name) return false;
+            if (typeof target === 'object' && 'index' in target) return exactNamePattern(target.name).test(name);
+            if (typeof target === 'string') return new RegExp(target, 'i').test(name);
+            return target.test(name);
+        };
 
         const open = this.sdk.getTradeState();
         if (open.isOpen) {
-            return { success: true, message: `Trade already open with ${open.partner ?? 'unknown partner'}` };
+            if (matchesTarget(open.partner)) {
+                return { success: true, message: `Trade already open with ${open.partner}` };
+            }
+            // A session with someone else (their request raced this call) must
+            // not be silently adopted - decline it and pursue the requested
+            // partner instead.
+            await this.declineTrade();
         }
 
         const resolvePlayer = (): NearbyPlayer | null =>
@@ -1993,17 +2044,19 @@ export class BotActions {
         }
 
         const deadline = Date.now() + timeout;
-        const msgBaseline = this.helpers.getMessageTick();
+        let msgBaseline = this.helpers.getMessageTick();
         const REREQUEST_INTERVAL = 8_000;
+        const BUSY_RETRY_DELAY = 3_000;
 
         let failReason: 'busy' | null = null;
         while (Date.now() < deadline) {
+            failReason = null;
             const current = resolvePlayer();
             if (current) player = current;
             await this.sdk.sendTradeRequest(player.index);
 
             try {
-                const finalState = await this.waitForActionCondition(state => {
+                await this.waitForActionCondition(state => {
                     if (this.helpers.findRefusal(msgBaseline, ['is busy at the moment'])) {
                         failReason = 'busy';
                         return true;
@@ -2012,10 +2065,33 @@ export class BotActions {
                 }, Math.min(REREQUEST_INTERVAL, Math.max(1, deadline - Date.now())));
 
                 if (failReason) {
+                    if (options.retryOnBusy && Date.now() + BUSY_RETRY_DELAY < deadline) {
+                        // Partner is mid-trade with someone else - back off and retry.
+                        msgBaseline = this.helpers.getMessageTick();
+                        await this.sdk.waitForCondition(
+                            () => false, BUSY_RETRY_DELAY
+                        ).catch(() => {});
+                        continue;
+                    }
                     return { success: false, message: `${player.name} is busy at the moment`, reason: failReason };
                 }
-                const partner = finalState.trade?.partner ?? player.name;
-                return { success: true, message: `Trade opened with ${partner}` };
+
+                // The screen is open - but possibly with a different player
+                // whose pending request the server matched first. The partner
+                // label can lag the open by a tick, so give it a moment.
+                let partner = this.sdk.getTradeState().partner;
+                if (!partner) {
+                    const settled = await this.sdk.waitForCondition(
+                        s => !!s.trade?.partner || s.trade?.isOpen !== true, 2_000
+                    ).catch(() => null);
+                    partner = settled?.trade?.partner ?? this.sdk.getTradeState().partner;
+                }
+                if (!this.sdk.getTradeState().isOpen) continue; // closed while settling
+                if (partner && !matchesTarget(partner)) {
+                    await this.declineTrade();
+                    continue; // wrong partner - keep pursuing the requested one
+                }
+                return { success: true, message: `Trade opened with ${partner ?? player.name}` };
             } catch {
                 // No response yet - re-request and keep waiting until deadline.
             }
@@ -2184,7 +2260,7 @@ export class BotActions {
         const timeout = options.timeout ?? 60_000;
         const requestTimeout = options.requestTimeout ?? 30_000;
 
-        const opened = await this.tradeWith(target, requestTimeout);
+        const opened = await this.tradeWith(target, requestTimeout, { retryOnBusy: options.retryOnBusy });
         const deadline = Date.now() + timeout;
         if (!opened.success) {
             return {
@@ -2223,6 +2299,10 @@ export class BotActions {
         } = options;
         const deadline = Date.now() + timeout;
         const trades: TradeResult[] = [];
+        // maxTrades counts COMPLETED trades: a declined/failed/empty session
+        // must not consume the serving window (a lowballer would end a
+        // maxTrades:1 window without anything changing hands).
+        const completed = () => trades.filter(t => t.success).length;
 
         const fromMatches = (name: string): boolean => {
             if (!from) return true;
@@ -2232,14 +2312,14 @@ export class BotActions {
 
         while (true) {
             if (until?.()) {
-                return { success: true, message: `Stop condition met after ${trades.length} trade(s)`, trades, reason: 'until' };
+                return { success: true, message: `Stop condition met after ${completed()} completed trade(s) (${trades.length} session(s))`, trades, reason: 'until' };
             }
-            if (maxTrades !== undefined && trades.length >= maxTrades) {
-                return { success: true, message: `Completed ${trades.length} trade(s)`, trades, reason: 'max_trades' };
+            if (maxTrades !== undefined && completed() >= maxTrades) {
+                return { success: true, message: `Completed ${completed()} trade(s) (${trades.length} session(s))`, trades, reason: 'max_trades' };
             }
             const remaining = deadline - Date.now();
             if (remaining <= 0) {
-                return { success: true, message: `Serving window ended after ${trades.length} trade(s)`, trades, reason: 'timeout' };
+                return { success: true, message: `Serving window ended after ${completed()} completed trade(s) (${trades.length} session(s))`, trades, reason: 'timeout' };
             }
 
             // A session can already be open (e.g. a request raced the loop).
@@ -2270,7 +2350,7 @@ export class BotActions {
             }
 
             const result = await this.runOpenTradeSession(
-                { give: options.give, want: options.want, accept: options.accept },
+                { give: options.give, want: options.want, accept: options.accept, rejectAfterMs: options.rejectAfterMs },
                 Date.now() + Math.min(tradeTimeout, Math.max(1, deadline - Date.now()))
             );
             trades.push(result);
@@ -2286,6 +2366,27 @@ export class BotActions {
     private async runOpenTradeSession(options: TradeOptions, deadline: number): Promise<TradeResult> {
         const want = options.want ?? [];
         const acceptOffer = options.accept ?? ((offer: TradeItem[]) => offerSatisfies(want, offer));
+        // Evaluate the accept policy when the partner's visible offer changes,
+        // plus a periodic re-check - re-running a user predicate every tick
+        // floods the console (a logging predicate produced hundreds of lines
+        // per session), but never re-running it would strand predicates that
+        // depend on external state (time, inventory) on an unchanged offer.
+        const REEVAL_INTERVAL_MS = 2_000;
+        let lastOfferKey: string | null = null;
+        let lastOfferDecision = false;
+        let lastEvalAt = 0;
+        const offerAcceptable = (theirOffer: TradeItem[]): boolean => {
+            const key = JSON.stringify(theirOffer.map(i => [i.id, i.count]));
+            if (key !== lastOfferKey || Date.now() - lastEvalAt >= REEVAL_INTERVAL_MS) {
+                lastOfferKey = key;
+                lastEvalAt = Date.now();
+                lastOfferDecision = acceptOffer(theirOffer);
+            }
+            return lastOfferDecision;
+        };
+        // rejectAfterMs bounds how long an unacceptable offer may occupy the
+        // screen; without it a non-buyer holds the session until the timeout.
+        const rejectDeadline = options.rejectAfterMs !== undefined ? Date.now() + options.rejectAfterMs : Infinity;
         const startState = this.sdk.getState();
         const partner = this.sdk.getTradeState().partner ?? undefined;
         const invBefore = countInventoryById(startState?.inventory ?? []);
@@ -2356,8 +2457,16 @@ export class BotActions {
             noteOffers(trade);
             if (trade.screen === 'confirm') break;
 
+            const acceptable = offerAcceptable(trade.theirOffer);
+            if (!acceptable && Date.now() >= rejectDeadline) {
+                return fail(
+                    `Partner's offer still unacceptable after ${options.rejectAfterMs}ms - declined`,
+                    'want_not_met',
+                    true
+                );
+            }
             const tick = this.sdk.getState()?.tick ?? 0;
-            if (acceptOffer(trade.theirOffer) && !trade.myAccepted && tick !== lastAcceptTick) {
+            if (acceptable && !trade.myAccepted && tick !== lastAcceptTick) {
                 lastAcceptTick = tick;
                 await this.sdk.sendAcceptTrade();
             }
@@ -2456,6 +2565,13 @@ export class BotActions {
         }
 
         if (accepted) {
+            // The post-trade inventory update can land a tick or two behind
+            // the close - don't report received items as missing (or the
+            // received list as empty) while the delta is still in flight.
+            for (let i = 0; i < 2 && shortfall(offers.theirs, gained).length > 0; i++) {
+                await this.sdk.waitForTicks(1).catch(() => {});
+                ({ gained, lost } = diff());
+            }
             const gaveText = lost.length ? lost.map(i => `${i.name} x${i.count}`).join(', ') : 'nothing';
             const receivedText = gained.length ? gained.map(i => `${i.name} x${i.count}`).join(', ') : 'nothing';
             let message = `Trade completed with ${partner ?? 'partner'}: gave ${gaveText}, received ${receivedText}`;
@@ -3752,6 +3868,11 @@ export class BotActions {
         target: NearbyLoc | string | RegExp,
         option: number | string | RegExp = 1,
     ): Promise<InteractLocResult> {
+        if (target == null) {
+            // An undefined target used to fall through to a match-anything
+            // pattern and silently interact with a random nearby loc.
+            return { success: false, message: `interactLoc requires a target loc, name, or pattern (got ${target})`, reason: 'loc_not_found' };
+        }
         const resolvedLoc = this.helpers.resolveLocation(target, /./);
         return this.helpers.withDoorRetry(
             () => this._interactLocOnce(target, option),
@@ -3902,6 +4023,9 @@ export class BotActions {
         target: NearbyNpc | string | RegExp,
         option: number | string | RegExp = 1,
     ): Promise<InteractNpcResult> {
+        if (target == null) {
+            return { success: false, message: `interactNpc requires a target npc, name, or pattern (got ${target})`, reason: 'npc_not_found' };
+        }
         return this.helpers.withDoorRetry(
             () => this._interactNpcOnce(target, option),
             (r) => r.reason === 'cant_reach'

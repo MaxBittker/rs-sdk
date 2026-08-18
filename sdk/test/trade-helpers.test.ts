@@ -68,15 +68,15 @@ describe('inventory diffing', () => {
         ]);
         const { gained, lost } = diffInventories(before, after);
         expect(gained).toEqual([
-            { slot: -1, id: 2, name: 'Coins', count: 250 },
-            { slot: -1, id: 3, name: 'Lobster', count: 2 },
+            { slot: -1, id: 2, name: 'Coins', count: 250, amount: 250 },
+            { slot: -1, id: 3, name: 'Lobster', count: 2, amount: 2 },
         ]);
-        expect(lost).toEqual([{ slot: -1, id: 1, name: 'Logs', count: 3 }]);
+        expect(lost).toEqual([{ slot: -1, id: 1, name: 'Logs', count: 3, amount: 3 }]);
     });
 });
 
 describe('shortfall', () => {
-    const it = (id: number, name: string, count: number): TradeItem => ({ slot: -1, id, name, count });
+    const it = (id: number, name: string, count: number): TradeItem => ({ slot: -1, id, name, count, amount: count });
 
     test('lists what the final offer promised but the inventory never gained', () => {
         expect(shortfall([it(995, 'Coins', 250), it(379, 'Lobster', 1)], [it(995, 'Coins', 250)]))

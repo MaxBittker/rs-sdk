@@ -19,6 +19,7 @@ import { dirname, join } from 'path';
 import { botManager } from './api/index.js';
 import { formatWorldState } from '../sdk/formatter.js';
 import { initPathfinding } from '../sdk/pathfinding.js';
+import { Spells } from '../sdk/spells.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -86,7 +87,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: 'execute_code',
-        description: 'Execute TypeScript code on a bot. Auto-connects using credentials from bots/{name}/bot.env. The code runs in an async context with bot (BotActions) and sdk (BotSDK) available.',
+        description: 'Execute TypeScript code on a bot. Auto-connects using credentials from bots/{name}/bot.env. The code runs in an async context with bot (BotActions), sdk (BotSDK), and Spells (spell component ids) available. WARNING: many MCP clients cap tool-call waits at ~60s; if the client gives up, the code KEEPS RUNNING on the bot until it finishes or hits the timeout - keep interactive snippets short and put long loops in a bots/{name}/*.ts script instead.',
         inputSchema: {
           type: 'object',
           properties: {
@@ -96,11 +97,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             code: {
               type: 'string',
-              description: 'TypeScript code to execute. Available globals: bot (BotActions), sdk (BotSDK). Example: "await bot.chopTree(); return sdk.getState();"'
+              description: 'TypeScript code to execute (type annotations are stripped before running). Available globals: bot (BotActions), sdk (BotSDK), Spells (e.g. Spells.HIGH_ALCHEMY). Example: "await bot.chopTree(); return sdk.getState();"'
             },
             timeout: {
               type: 'number',
-              description: 'Execution timeout in minutes (default: 2, max: 60)'
+              description: 'Execution timeout in minutes (default: 2, max: 60). Note: the MCP client may stop waiting sooner (often ~60s) - the code still runs to completion on the bot.'
             }
           },
           required: ['bot_name', 'code']
@@ -177,8 +178,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
         const originalWarn = console.warn;
         const originalError = console.error;
 
-        console.log = (...args) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-        console.warn = (...args) => logs.push('[warn] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+        // Errors need special-casing: JSON.stringify(new Error(...)) is '{}',
+        // which used to swallow every console.log(err) into two braces.
+        const fmtLogArg = (a: unknown): string => {
+          if (a instanceof Error) return a.stack ?? `${a.name}: ${a.message}`;
+          if (typeof a === 'object' && a !== null) {
+            try { return JSON.stringify(a, null, 2) ?? String(a); } catch { return String(a); }
+          }
+          return String(a);
+        };
+        console.log = (...args) => logs.push(args.map(fmtLogArg).join(' '));
+        console.warn = (...args) => logs.push('[warn] ' + args.map(fmtLogArg).join(' '));
         // Don't capture console.error - let it go to stderr for MCP debugging
 
         // Auto-connect if not already connected
@@ -195,8 +205,25 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
         }
 
         try {
+          // The tool advertises TypeScript, so strip type syntax (non-null !,
+          // annotations, generics) before evaluation - new Function() alone
+          // rejects TS with a bare SyntaxError. Fall back to evaluating the
+          // raw code so plain JS behaves exactly as before if transpilation
+          // trips on something.
           const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-          const fn = new AsyncFunction('bot', 'sdk', code);
+          let fn: (bot: unknown, sdk: unknown, spells: unknown) => Promise<unknown>;
+          try {
+            // The assignment keeps the wrapper from being tree-shaken as a
+            // side-effect-free expression (which yields empty output).
+            const transpiled = new Bun.Transpiler({ loader: 'ts' })
+              .transformSync(`globalThis.__rsExecFn = (async (bot, sdk, Spells) => {\n${code}\n})`);
+            (0, eval)(transpiled);
+            fn = (globalThis as any).__rsExecFn;
+            delete (globalThis as any).__rsExecFn;
+            if (typeof fn !== 'function') throw new Error('transpile produced no function');
+          } catch {
+            fn = new AsyncFunction('bot', 'sdk', 'Spells', code);
+          }
 
           // Execute code with configurable timeout + MCP cancellation signal
           const timeoutMinutes = Math.min(Math.max((args?.timeout as number) || 2, 0.1), 60);
@@ -244,7 +271,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
 
           let result: any;
           try {
-            result = await Promise.race([fn(cancellable(connection.bot), cancellable(connection.sdk)), timeoutPromise, cancelPromise]);
+            result = await Promise.race([fn(cancellable(connection.bot), cancellable(connection.sdk), Spells), timeoutPromise, cancelPromise]);
           } finally {
             clearTimeout(timeoutId!);
             if (!signal.aborted) abortController.abort('Execution finished');

@@ -48,8 +48,8 @@ export function diffInventories(
         const a = after.get(id);
         const delta = (a?.count ?? 0) - (b?.count ?? 0);
         const name = a?.name ?? b?.name ?? 'Unknown';
-        if (delta > 0) gained.push({ slot: -1, id, name, count: delta });
-        else if (delta < 0) lost.push({ slot: -1, id, name, count: -delta });
+        if (delta > 0) gained.push({ slot: -1, id, name, count: delta, amount: delta });
+        else if (delta < 0) lost.push({ slot: -1, id, name, count: -delta, amount: -delta });
     }
     return { gained, lost };
 }
@@ -67,7 +67,7 @@ export function shortfall(expected: TradeItem[], received: TradeItem[]): TradeIt
     }
     for (const item of seen.values()) {
         const missing = item.count - (got.get(item.id) ?? 0);
-        if (missing > 0) out.push({ ...item, count: missing });
+        if (missing > 0) out.push({ ...item, count: missing, amount: missing });
     }
     return out;
 }

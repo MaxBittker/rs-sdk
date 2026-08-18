@@ -52,6 +52,14 @@ export function shortestNameMatch<T extends { name: string; reachable?: boolean 
     items: readonly T[],
     pattern: string | RegExp,
 ): T | null {
+    if (typeof pattern !== 'string' && !(pattern instanceof RegExp)) {
+        // A numeric id (or undefined) used to surface as a cryptic
+        // "pattern.test is not a function" TypeError deep in the match loop.
+        throw new TypeError(
+            `name pattern must be a string or RegExp, got ${pattern === null ? 'null' : typeof pattern} (${String(pattern)}). ` +
+            'To look up by numeric id, filter a get*() list by .id, e.g. sdk.getNearbyLocs().find(l => l.id === 1234)'
+        );
+    }
     const regex = typeof pattern === 'string' ? new RegExp(pattern, 'i') : pattern;
     let best: T | null = null;
     let bestReachable: T | null = null;

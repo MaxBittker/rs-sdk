@@ -131,6 +131,10 @@ export interface NearbyPlayer {
     combatLevel: number;
     x: number;
     z: number;
+    /** Alias of `x` (filled in by the SDK; some callers expect worldX/worldZ). */
+    worldX?: number;
+    /** Alias of `z`. */
+    worldZ?: number;
     distance: number;
     /** See NearbyNpc.reachable. */
     reachable?: boolean;
@@ -322,6 +326,8 @@ export interface TradeItem {
     id: number;
     name: string;
     count: number;
+    /** Alias of `count` (filled in by the SDK; some callers expect `.amount`). */
+    amount?: number;
 }
 
 /**
@@ -368,13 +374,23 @@ export interface TradeOptions {
     want?: TradeItemSpec[];
     /**
      * Escape hatch replacing `want`: accept only when this predicate passes
-     * on the partner's visible offer. Also re-checked on the confirm screen.
+     * on the partner's visible offer. Called when the visible offer changes
+     * and re-checked every ~2s (not every tick - keep any logging light).
+     * Also re-checked on the confirm screen.
      */
     accept?: (theirOffer: TradeItem[]) => boolean;
     /** Deadline in ms for the open offer+confirm screens (default 60_000). On expiry the trade is declined. */
     timeout?: number;
     /** How long to wait for the partner to accept the trade request (default 30_000). */
     requestTimeout?: number;
+    /**
+     * Decline if the partner's offer still fails the accept policy after this
+     * many ms on the offer screen. Default: only `timeout` applies, so an
+     * unacceptable offer can occupy the screen for the whole window.
+     */
+    rejectAfterMs?: number;
+    /** Keep retrying (with backoff) through "is busy at the moment" refusals until `requestTimeout`. Default false. */
+    retryOnBusy?: boolean;
 }
 
 export interface TradeResult {
@@ -405,10 +421,16 @@ export interface ServeTradesOptions {
     onTrade?: (result: TradeResult) => void;
     /** Serving stops once this returns true (checked between trades). */
     until?: () => boolean;
-    /** Stop after this many completed trades. Default: unlimited. */
+    /**
+     * Stop after this many COMPLETED trades. Declined, failed, or empty
+     * sessions do not count toward this limit (they are still recorded in
+     * the result's `trades` list).
+     */
     maxTrades?: number;
     /** Per-trade deadline in ms once a session opens (default 60_000). */
     tradeTimeout?: number;
+    /** Decline a session whose offer still fails the accept policy after this many ms (see TradeOptions.rejectAfterMs). */
+    rejectAfterMs?: number;
     /** Overall serving deadline in ms (default 10 minutes). */
     timeout?: number;
 }
@@ -416,7 +438,7 @@ export interface ServeTradesOptions {
 export interface ServeTradesResult {
     success: boolean;
     message: string;
-    /** Completed trades, in order. */
+    /** Every served session in order, completed and failed alike (check `.success`). */
     trades: TradeResult[];
     reason?: 'until' | 'max_trades' | 'timeout' | 'error';
 }

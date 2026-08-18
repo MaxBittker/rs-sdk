@@ -118,6 +118,7 @@ interface PendingScreenshot {
 // importing the full SDK; re-exported here for existing consumers and tests.
 export { chunkMessage } from './chunking';
 import { chunkMessage } from './chunking';
+export { Spells, type SpellName } from './spells';
 
 export class BotSDK {
     readonly config: Required<SDKConfig>;
@@ -1734,6 +1735,12 @@ export class BotSDK {
         }
     }
 
+    /**
+     * Wait until the predicate passes on a state update and return that state.
+     * THROWS `Error('waitForCondition timed out')` if the timeout expires -
+     * wrap in try/catch (or `.catch(...)`) when a timeout is an expected
+     * outcome rather than a fatal one.
+     */
     async waitForCondition(
         predicate: (state: BotWorldState) => boolean,
         timeout: number = 30000
@@ -1867,6 +1874,26 @@ export class BotSDK {
             // state listeners fire so waitForChat sees the new messages.
             if (message.state.gameMessages) {
                 this.chatHistory.record(message.state.gameMessages);
+            }
+
+            // Players publish coordinates as x/z (NPCs/locs also carry
+            // worldX/worldZ) - fill the aliases in so walkTo(p.worldX, ...)
+            // can't silently become walkTo(undefined, undefined).
+            if (message.state.nearbyPlayers) {
+                for (const p of message.state.nearbyPlayers) {
+                    if (p.worldX === undefined) { p.worldX = p.x; p.worldZ = p.z; }
+                }
+            }
+
+            // Trade offers publish counts as `count`; mirror to `amount` so
+            // either spelling works (TradeResult item lists do the same).
+            if (message.state.trade) {
+                for (const list of [message.state.trade.myOffer, message.state.trade.theirOffer]) {
+                    if (!list) continue;
+                    for (const item of list) {
+                        if (item.amount === undefined) item.amount = item.count;
+                    }
+                }
             }
 
             // Wrap skills array with a Proxy so both state.skills[0] and state.skills.Woodcutting work

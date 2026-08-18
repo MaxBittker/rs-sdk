@@ -112,7 +112,10 @@ export function formatWorldStateSummary(
     }
     if (state.bank?.isOpen) blockers.push('bank open');
     if (state.shop?.isOpen) blockers.push(`shop open (${state.shop.title})`);
-    if (state.interface?.isOpen && !state.bank?.isOpen && !state.shop?.isOpen) {
+    if (state.trade?.isOpen) {
+        // A live two-party session, not a stray modal - closing it declines the trade.
+        blockers.push(`trade ${state.trade.screen} screen open with ${state.trade.partner ?? 'unknown'}`);
+    } else if (state.interface?.isOpen && !state.bank?.isOpen && !state.shop?.isOpen) {
         blockers.push(`interface ${state.interface.interfaceId} open`);
     } else if (state.modalOpen && !state.dialog?.isOpen) {
         blockers.push(`modal ${state.modalInterface} open`);
@@ -195,7 +198,7 @@ export function formatWorldState(
     }
 
     // Modal/dialog state (important for understanding game state)
-    if (state.modalOpen) {
+    if (state.modalOpen && !state.trade?.isOpen) {
         lines.push('');
         lines.push(`## Modal Open (interface: ${state.modalInterface})`);
         if (state.modalInterface === 3559) {
@@ -229,7 +232,9 @@ export function formatWorldState(
                 lines.push(`  ${opt.index}. ${opt.text}`);
             }
         }
-        if (!state.shop?.isOpen && !state.bank?.isOpen) {
+        if (state.trade?.isOpen) {
+            lines.push('(This is the player-trade window - see the Trade section below. Drive it with bot.trade()/offerTradeItems()/acceptTrade(); closing it would DECLINE the trade.)');
+        } else if (!state.shop?.isOpen && !state.bank?.isOpen) {
             lines.push('(This modal blocks most actions - close it with bot.closeInterface() or sdk.sendCloseModal())');
         }
     }

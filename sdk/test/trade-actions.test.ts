@@ -134,7 +134,7 @@ describe('bot.trade gift flow', () => {
         expect(result.success).toBe(true);
         expect(result.reason).toBeUndefined();
         expect(result.partner).toBe('MuleBot');
-        expect(result.gave).toEqual([{ slot: -1, id: 1511, name: 'Logs', count: 1 }]);
+        expect(result.gave).toEqual([{ slot: -1, id: 1511, name: 'Logs', count: 1, amount: 1 }]);
         expect(result.received).toEqual([]);
         expect(harness.dispatched.map(d => d.call)).toEqual([
             'sendTradeRequest',
@@ -211,6 +211,32 @@ describe('bot.tradeWith failure modes', () => {
         expect(result).toMatchObject({ success: false, reason: 'player_not_found' });
         expect(harness.dispatched).toEqual([]);
     });
+
+    test('declines a session that is already open with a DIFFERENT player', async () => {
+        // A pending request from Impostor raced this call; the open screen
+        // must not be silently adopted as a trade with MuleBot.
+        const harness = createHarness([
+            { trade: { isOpen: true, screen: 'offer', partner: 'Impostor' } },
+            { }, // closed after the decline; MuleBot never answers
+        ]);
+
+        const result = await harness.bot.tradeWith(partner, 600);
+        const calls = harness.dispatched.map(d => d.call);
+        expect(calls).toContain('sendDeclineTrade');
+        expect(calls).toContain('sendTradeRequest');
+        expect(result).toMatchObject({ success: false, reason: 'no_response' });
+    });
+
+    test('adopts an already-open session when the partner matches', async () => {
+        const harness = createHarness([
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot' } },
+        ]);
+
+        const result = await harness.bot.tradeWith(partner, 600);
+        expect(result.success).toBe(true);
+        expect(result.message).toContain('MuleBot');
+        expect(harness.dispatched).toEqual([]);
+    });
 });
 
 describe('bot.serveTrades', () => {
@@ -235,7 +261,7 @@ describe('bot.serveTrades', () => {
         expect(result.success).toBe(true);
         expect(result.reason).toBe('until');
         expect(result.trades).toHaveLength(1);
-        expect(result.trades[0]!.received).toEqual([{ slot: -1, id: 995, name: 'Coins', count: 250 }]);
+        expect(result.trades[0]!.received).toEqual([{ slot: -1, id: 995, name: 'Coins', count: 250, amount: 250 }]);
         expect(harness.dispatched.map(d => d.call)).toEqual([
             'sendTradeRequest',  // requesting back = accepting
             'sendAcceptTrade',
@@ -254,6 +280,58 @@ describe('bot.serveTrades', () => {
         const result = await harness.bot.serveTrades({ from: /^fleet_/i, timeout: 300 });
         expect(result.trades).toHaveLength(0);
         expect(harness.dispatched).toEqual([]);
+    });
+
+    test('a declined session does not consume maxTrades', async () => {
+        const coins = (n: number) => item(0, 995, 'Coins', n);
+        const harness = createHarness([
+            { },
+            // Session 1: a lowballer offers nothing and then declines.
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot' } },
+            { message: 'Other player declined trade.' },
+            { },
+            { },
+            // Session 2: a real buyer's session (already open when the loop looks).
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot', theirOffer: [coins(250)] } },
+            { trade: { isOpen: true, screen: 'confirm', partner: 'MuleBot', theirOffer: [coins(250)] } },
+            { message: 'Accepted trade.', inventory: [{ slot: 0, id: 995, name: 'Coins', count: 250 }] },
+        ]);
+        harness.sdk.waitForTradeRequest = async () => 'MuleBot';
+
+        const result = await harness.bot.serveTrades({
+            from: /mule/i,
+            want: [{ item: 'coins', amount: 100 }],
+            maxTrades: 1,
+            timeout: 5_000,
+        });
+
+        // The declined session is recorded but only the completed one counts.
+        expect(result.reason).toBe('max_trades');
+        expect(result.trades).toHaveLength(2);
+        expect(result.trades[0]!.success).toBe(false);
+        expect(result.trades[1]!.success).toBe(true);
+        expect(result.trades[1]!.received).toEqual([{ slot: -1, id: 995, name: 'Coins', count: 250, amount: 250 }]);
+    });
+
+    test('rejectAfterMs declines an offer that stays unacceptable', async () => {
+        const harness = createHarness([
+            { },
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot' } },
+            { }, // decline lands here
+        ], { hold: [1] });
+        harness.sdk.waitForTradeRequest = async () => 'MuleBot';
+
+        const result = await harness.bot.serveTrades({
+            from: /mule/i,
+            want: [{ item: 'coins', amount: 100 }],
+            rejectAfterMs: 50,
+            timeout: 3_000,
+            until: () => harness.dispatched.some(d => d.call === 'sendDeclineTrade'),
+        });
+
+        expect(harness.dispatched.map(d => d.call)).toContain('sendDeclineTrade');
+        expect(result.trades[0]!.success).toBe(false);
+        expect(result.trades[0]!.reason).toBe('want_not_met');
     });
 });
 
@@ -275,7 +353,7 @@ describe('bot.trade completion detection', () => {
         const result = await harness.bot.trade(partner, { give: [{ item: 'logs', amount: -1 }], timeout: 3_000 });
 
         expect(result.success).toBe(true);
-        expect(result.gave).toEqual([{ slot: -1, id: 1511, name: 'Logs', count: 1 }]);
+        expect(result.gave).toEqual([{ slot: -1, id: 1511, name: 'Logs', count: 1, amount: 1 }]);
         expect(result.message).toContain('inferred from inventory');
     });
 
@@ -319,8 +397,8 @@ describe('bot.trade completion detection', () => {
 
         expect(harness.dispatched.map(d => d.call)).toContain('sendDeclineTrade');
         expect(result.success).toBe(true);
-        expect(result.received).toEqual([{ slot: -1, id: 995, name: 'Coins', count: 50 }]);
-        expect(result.gave).toEqual([{ slot: -1, id: 1511, name: 'Logs', count: 1 }]);
+        expect(result.received).toEqual([{ slot: -1, id: 995, name: 'Coins', count: 50, amount: 50 }]);
+        expect(result.gave).toEqual([{ slot: -1, id: 1511, name: 'Logs', count: 1, amount: 1 }]);
         expect(result.message).toContain('completed as the decline landed');
     });
 
@@ -338,7 +416,7 @@ describe('bot.trade completion detection', () => {
         const result = await harness.bot.trade(partner, { timeout: 3_000 });
 
         expect(result.success).toBe(true);
-        expect(result.possiblyDropped).toEqual([{ slot: -1, id: 379, name: 'Lobster', count: 1 }]);
+        expect(result.possiblyDropped).toEqual([{ slot: -1, id: 379, name: 'Lobster', count: 1, amount: 1 }]);
         expect(result.message).toContain('check the ground');
     });
 });
@@ -369,7 +447,7 @@ describe('bot.acceptTrade', () => {
         const result = await harness.bot.acceptTrade(2_000);
         expect(result.success).toBe(true);
         expect(result.message).toContain('Trade completed');
-        expect(result.data.received).toEqual([{ slot: -1, id: 1285, name: 'Mithril sword', count: 1 }]);
+        expect(result.data.received).toEqual([{ slot: -1, id: 1285, name: 'Mithril sword', count: 1, amount: 1 }]);
     });
 
     test('treats the offer->confirm blip as progress, not a close', async () => {
