@@ -30,9 +30,11 @@ SDK Chat CLI - send and read chat without stealing bot control
 Usage:
   bun sdk/chat.ts <botname>                 # Show recent chat
   bun sdk/chat.ts <botname> <message...>    # Send a message
+  bun sdk/chat.ts <botname> --to <player> <message...>  # Send a private message
   bun sdk/chat.ts <botname> --watch         # Tail chat live (Ctrl+C to stop)
 
 Options:
+  --to <player>     Send as a private message to this player instead of public chat
   --limit <n>       Messages of history to show (default: 20)
   --system          Include system/game messages, not just player chat
   --server <host>   Server hostname (default: from bot.env or rs-sdk-demo.fly.dev)
@@ -41,8 +43,12 @@ Options:
 
 Examples:
   bun sdk/chat.ts mybot "meet me at the bank"
+  bun sdk/chat.ts mybot --to otherbot "got the ruby, banking now"
   bun sdk/chat.ts mybot --watch
   bun sdk/chat.ts mybot --limit 50 --system
+
+Private messages reach the target anywhere in the world (no friends-list setup
+needed) and show up in chat reads as "[PM from ...]" / "[PM to ...]".
 
 Sending requires a game client (browser or lite) to be logged in as the bot;
 this tool only relays chat through it. Reading works off the same state feed
@@ -126,9 +132,17 @@ interface CliContext {
 
 // ============ HTTP paths (primary) ============
 
-/** Returns exit code, or null if the gateway lacks the HTTP endpoints. */
-async function sendViaHttp(ctx: CliContext, text: string): Promise<number | null> {
-    const url = `${gatewayHttpBase(ctx.gatewayUrl)}/say/${encodeURIComponent(ctx.username)}`;
+/**
+ * Returns exit code, or null if the gateway lacks the HTTP endpoints.
+ * With `to` set, posts to /dm (a distinct path, so a pre-DM gateway answers
+ * with its non-JSON banner and we fall back to WebSocket - a DM must never
+ * silently degrade into public chat).
+ */
+async function sendViaHttp(ctx: CliContext, text: string, to?: string): Promise<number | null> {
+    const base = gatewayHttpBase(ctx.gatewayUrl);
+    const url = to
+        ? `${base}/dm/${encodeURIComponent(ctx.username)}`
+        : `${base}/say/${encodeURIComponent(ctx.username)}`;
     let res: Response;
     try {
         // The gateway bounds each chunk at 10s and aborts on first failure;
@@ -136,7 +150,7 @@ async function sendViaHttp(ctx: CliContext, text: string): Promise<number | null
         res = await boundedFetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text, password: ctx.password, timeoutMs: 10_000 })
+            body: JSON.stringify({ text, to, password: ctx.password, timeoutMs: 10_000 })
         }, 60_000);
     } catch (err: any) {
         console.error(`Error: Failed to reach gateway at ${url}`);
@@ -160,7 +174,7 @@ async function sendViaHttp(ctx: CliContext, text: string): Promise<number | null
     let ok = true;
     for (const result of body.results ?? []) {
         if (result.success) {
-            console.log(`Sent: ${result.data?.finalText ?? result.chunk}`);
+            console.log(`Sent${to ? ` [PM to ${to}]` : ''}: ${result.data?.finalText ?? result.chunk}`);
             if (result.data?.truncated) console.log('  (truncated by server cap)');
             if (result.data?.filtered) console.log('  (altered by word filter)');
         } else {
@@ -208,7 +222,7 @@ async function readViaHttp(ctx: CliContext): Promise<number | null> {
 
 // ============ Observer-WebSocket path (fallback + --watch) ============
 
-async function runOverWebSocket(ctx: CliContext, messageToSend: string, watch: boolean): Promise<number> {
+async function runOverWebSocket(ctx: CliContext, messageToSend: string, watch: boolean, dmTarget?: string): Promise<number> {
     const sdk = new BotSDK({
         botUsername: ctx.username,
         password: ctx.password,
@@ -231,12 +245,12 @@ async function runOverWebSocket(ctx: CliContext, messageToSend: string, watch: b
     }
 
     if (messageToSend) {
-        const results = await sdk.say(messageToSend);
+        const results = dmTarget ? await sdk.dm(dmTarget, messageToSend) : await sdk.say(messageToSend);
         let ok = true;
         for (const result of results) {
             if (result.success) {
                 const data = result.data as { finalText?: string; truncated?: boolean; filtered?: boolean } | undefined;
-                console.log(`Sent: ${data?.finalText ?? messageToSend}`);
+                console.log(`Sent${dmTarget ? ` [PM to ${dmTarget}]` : ''}: ${data?.finalText ?? messageToSend}`);
                 if (data?.truncated) console.log('  (truncated by server cap)');
                 if (data?.filtered) console.log('  (altered by word filter)');
             } else {
@@ -245,6 +259,9 @@ async function runOverWebSocket(ctx: CliContext, messageToSend: string, watch: b
                 if (/bot not connected/i.test(result.message)) {
                     console.error(`  No game client is logged in as '${ctx.username}' - chat is relayed through it.`);
                     console.error(`  Log the bot in (browser or lite client), then retry.`);
+                }
+                if (dmTarget && /observe mode can only send 'say'/i.test(result.message)) {
+                    console.error(`  This gateway predates private-message support - redeploy the gateway to enable DMs.`);
                 }
             }
         }
@@ -304,6 +321,7 @@ async function main() {
     let limit = 20;
     let watch = false;
     let system = false;
+    let dmTarget = '';
     const positional: string[] = [];
 
     for (let i = 0; i < args.length; i++) {
@@ -315,6 +333,8 @@ async function main() {
             watch = true;
         } else if (arg === '--system') {
             system = true;
+        } else if (arg === '--to') {
+            dmTarget = args[++i] || '';
         } else if (arg === '--server') {
             server = args[++i] || '';
         } else if (arg === '--timeout') {
@@ -332,6 +352,14 @@ async function main() {
         process.exit(1);
     }
     const messageToSend = positional.slice(1).join(' ');
+    if (dmTarget && !messageToSend) {
+        console.error('Error: --to requires a message to send');
+        process.exit(1);
+    }
+    if (dmTarget.length > 12) {
+        console.error(`Error: '--to ${dmTarget}' - player names are at most 12 characters`);
+        process.exit(1);
+    }
 
     let username = botName;
     let password = process.env.PASSWORD || '';
@@ -367,10 +395,10 @@ async function main() {
         }, HARD_DEADLINE_MS);
         if (typeof (deadline as any).unref === 'function') (deadline as any).unref();
 
-        const httpExit = messageToSend ? await sendViaHttp(ctx, messageToSend) : await readViaHttp(ctx);
+        const httpExit = messageToSend ? await sendViaHttp(ctx, messageToSend, dmTarget || undefined) : await readViaHttp(ctx);
         if (httpExit !== null) process.exit(httpExit);
         // Gateway predates the HTTP chat endpoints - use the observer socket.
-        process.exit(await runOverWebSocket(ctx, messageToSend, false));
+        process.exit(await runOverWebSocket(ctx, messageToSend, false, dmTarget || undefined));
     }
 
     await runOverWebSocket(ctx, '', true);

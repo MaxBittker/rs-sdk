@@ -1511,6 +1511,48 @@ export class BotSDK {
         return results;
     }
 
+    /**
+     * Send a single private message to another player by name. Delivered if the
+     * target is online anywhere in the world - no friends-list setup needed. It
+     * arrives in their chat as type 3 ("From <you>"), and echoes locally as
+     * type 6 ("To <name>"). Same length cap and word filter as {@link sendSay};
+     * the server accepts at most one social packet (say or PM) per tick, so
+     * don't fire this back-to-back with public chat in the same tick.
+     * For longer text, use {@link dm}.
+     */
+    async sendPrivateMessage(targetName: string, message: string): Promise<ActionResult> {
+        return this.sendAction({ type: 'privateMessage', targetName, message, reason: 'SDK' });
+    }
+
+    /**
+     * Send a private message of any length, auto-split into chunks like
+     * {@link say}. Returns one ActionResult per chunk.
+     *
+     * @param targetName The recipient's username (max 12 chars).
+     * @param text The full message to send.
+     * @param opts.maxLen Max chars per chunk, capped at {@link maxMessageLength}.
+     * @param opts.delayTicks Ticks to wait between chunks (default 1).
+     */
+    async dm(targetName: string, text: string, opts: { maxLen?: number; delayTicks?: number } = {}): Promise<ActionResult[]> {
+        const maxLen = Math.min(opts.maxLen ?? this.serverMaxMessageLength, this.serverMaxMessageLength);
+        const delayTicks = opts.delayTicks ?? 1;
+        const chunks = chunkMessage(text, maxLen);
+        const results: ActionResult[] = [];
+        for (let i = 0; i < chunks.length; i++) {
+            results.push(await this.sendPrivateMessage(targetName, chunks[i]!));
+            if (i < chunks.length - 1 && delayTicks > 0) {
+                if (this.config.connectionMode === 'observe') {
+                    // Observe mode may only dispatch chat actions - a 'wait' would
+                    // occupy the executor of whatever controller owns the bot.
+                    await new Promise(resolve => setTimeout(resolve, delayTicks * 600));
+                } else {
+                    await this.sendWait(delayTicks);
+                }
+            }
+        }
+        return results;
+    }
+
     /** Wait for specified number of game ticks. */
     async sendWait(ticks: number = 1): Promise<ActionResult> {
         return this.sendAction({ type: 'wait', ticks, reason: 'SDK' });

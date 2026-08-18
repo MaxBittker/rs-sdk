@@ -128,13 +128,19 @@ chat (and nothing else) and never pre-empts (or gets pre-empted by) a
 controller:
 
 ```bash
-bun sdk/chat.ts {username} "meet me at the bank"   # send
+bun sdk/chat.ts {username} "meet me at the bank"   # send public chat
+bun sdk/chat.ts {username} --to {player} "on my way"  # send a private message
 bun sdk/chat.ts {username}                          # recent chat
 bun sdk/chat.ts {username} --watch                  # tail live
 ```
 
 Public chat is capped at 400 chars per message; `sdk.say()` auto-splits longer
 text into wire-safe chunks.
+
+Private messages (`sdk.dm(name, text)` / `sdk.sendPrivateMessage(name, msg)`)
+reach the target anywhere in the world - no friends-list setup needed - and
+show up in `getChat()` as type 3 (received) / 6 (sent). The server accepts one
+social packet (say or PM) per tick; `dm()` paces its chunks automatically.
 
 ## Script Duration Guidelines
 
@@ -215,6 +221,7 @@ For the complete method reference, see **[sdk/API.md](sdk/API.md)** (auto-genera
 | `sendUseItem(slot)`                                 | Use inventory item (bury, etc.)                     |
 | `sendUseItemOnItem(src, dst)`                       | Combine two items                                   |
 | `say(text)`                                         | Send chat, auto-chunked past the length cap         |
+| `dm(name, text)`                                    | Send a private message, auto-chunked                |
 | `getChat(opts?)` / `getNewChat(opts?)`              | Read chat history (500-deep) / only unseen messages |
 | `waitForChat(opts?)`                                | Wait for a message (`{from, matching, timeout}`)    |
 | `waitForCondition(pred)`                            | Wait for state predicate                            |

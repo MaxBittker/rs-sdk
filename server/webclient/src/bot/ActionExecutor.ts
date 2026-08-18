@@ -335,6 +335,26 @@ export class ActionExecutor {
                     };
                 }
 
+                case 'privateMessage': {
+                    const pm = this.client.sendPrivateMessage(action.targetName, action.message);
+                    if (!pm.ok) {
+                        return { success: false, message: `Failed to send PM to ${action.targetName}` };
+                    }
+                    let message = `PM to ${action.targetName}: ${pm.finalText}`;
+                    if (pm.truncated) message += ` (truncated to ${this.client.getMaxMessageLength()} chars)`;
+                    if (pm.filtered) message += ' (word-filtered)';
+                    return {
+                        success: true,
+                        message,
+                        data: {
+                            sent: true,
+                            truncated: pm.truncated,
+                            filtered: pm.filtered,
+                            finalText: pm.finalText
+                        }
+                    };
+                }
+
                 case 'scanNearbyLocs':
                     if (!this.scanProvider) {
                         return { success: false, message: 'No scan provider available' };
@@ -499,6 +519,7 @@ export function formatAction(action: BotAction): string {
         case 'acceptCharacterDesign': return 'Accept character design';
         case 'randomizeCharacterDesign': return 'Randomize character design';
         case 'say': return `Say: ${action.message}`;
+        case 'privateMessage': return `PM ${action.targetName}: ${action.message}`;
         case 'togglePrayer': return `Toggle prayer ${action.prayerIndex}`;
         default: return action.type;
     }

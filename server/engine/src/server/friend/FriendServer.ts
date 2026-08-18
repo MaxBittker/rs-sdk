@@ -267,20 +267,27 @@ export class FriendServer {
                         const targetUsername37 = BigInt(message.targetUsername37);
                         const { staffLvl, pmId, chat } = message;
 
-                        const from = await db.selectFrom('account').selectAll().where('username', '=', fromBase37(username37)).executeTakeFirstOrThrow();
-                        const to = await db.selectFrom('account').selectAll().where('username', '=', fromBase37(targetUsername37)).executeTakeFirstOrThrow();
+                        // Chat logging is best-effort: without account rows (local
+                        // easy-startup logins never create them) the lookup throws,
+                        // and that must not eat the message before the relay below.
+                        try {
+                            const from = await db.selectFrom('account').selectAll().where('username', '=', fromBase37(username37)).executeTakeFirstOrThrow();
+                            const to = await db.selectFrom('account').selectAll().where('username', '=', fromBase37(targetUsername37)).executeTakeFirstOrThrow();
 
-                        await db
-                            .insertInto('private_chat')
-                            .values({
-                                account_id: from.id,
-                                profile: message.profile,
-                                to_account_id: to.id,
-                                timestamp: toDbDate(Date.now()),
-                                coord: message.coord,
-                                message: chat
-                            })
-                            .execute();
+                            await db
+                                .insertInto('private_chat')
+                                .values({
+                                    account_id: from.id,
+                                    profile: message.profile,
+                                    to_account_id: to.id,
+                                    timestamp: toDbDate(Date.now()),
+                                    coord: message.coord,
+                                    message: chat
+                                })
+                                .execute();
+                        } catch (err) {
+                            console.error(`[Friends]: failed to log private chat: ${err instanceof Error ? err.message : err}`);
+                        }
 
                         await this.sendPrivateMessage(username37, staffLvl, pmId, targetUsername37, chat);
                     } else if (type === FriendsClientOpcodes.PUBLIC_CHAT_LOG) {

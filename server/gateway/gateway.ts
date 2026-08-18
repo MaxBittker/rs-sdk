@@ -515,13 +515,13 @@ const SyncModule = {
             const sdkSession = this.getSessionForSocket(ws);
             if (!sdkSession) return;
 
-            // Gate actions based on mode: observers may only send 'say', so chat
-            // tools can talk without being able to drive the bot.
-            if (sdkSession.mode === 'observe' && message.action?.type !== 'say') {
+            // Gate actions based on mode: observers may only send chat ('say' /
+            // 'privateMessage'), so chat tools can talk without driving the bot.
+            if (sdkSession.mode === 'observe' && message.action?.type !== 'say' && message.action?.type !== 'privateMessage') {
                 this.sendToSDK(sdkSession, {
                     type: 'sdk_error',
                     actionId: message.actionId,
-                    error: `Observe mode can only send 'say' actions (got '${message.action?.type}')`
+                    error: `Observe mode can only send 'say' or 'privateMessage' actions (got '${message.action?.type}')`
                 });
                 console.log(`[Gateway] [${sdkSession.targetUsername}] Rejected action from observe-mode SDK: ${message.action?.type}`);
                 return;
@@ -664,7 +664,7 @@ async function authenticateHttpRequest(req: Request, url: URL, username: string,
  * actionResult. Never rejects: a client that doesn't answer inside the budget
  * yields a failed result, so the HTTP handler always responds.
  */
-function dispatchHttpSay(botSession: BotSession, text: string, timeoutMs: number): Promise<{ success: boolean; message: string; data?: any; reason?: string }> {
+function dispatchHttpSay(botSession: BotSession, text: string, timeoutMs: number, to?: string): Promise<{ success: boolean; message: string; data?: any; reason?: string }> {
     const actionId = `http-${++httpActionSeq}-${Math.random().toString(36).slice(2, 8)}`;
     return new Promise(resolve => {
         const timeout = setTimeout(() => {
@@ -676,7 +676,9 @@ function dispatchHttpSay(botSession: BotSession, text: string, timeoutMs: number
         botSession.currentActionId = actionId;
         SyncModule.sendToBot(botSession, {
             type: 'action',
-            action: { type: 'say', message: text, reason: 'HTTP chat' },
+            action: to
+                ? { type: 'privateMessage', targetName: to, message: text, reason: 'HTTP chat' }
+                : { type: 'say', message: text, reason: 'HTTP chat' },
             actionId,
             actionTimeoutMs: timeoutMs
         });
@@ -883,6 +885,64 @@ const server = Bun.serve({
         // Relays through the bot's game client like observer 'say' does, but as
         // a single request/response with a hard per-chunk deadline - a caller
         // can trust that this either answers or fails within its budget.
+        // Send a private message: POST /dm/:username  body: {"to": "...", "text": "...", "password"?: "...", "timeoutMs"?: n}
+        //
+        // A distinct path (not a `to` field on /say) on purpose: gateways that
+        // predate DMs answer unknown paths with the text/plain banner, which
+        // callers detect and handle - a DM must never silently degrade into
+        // public chat.
+        const dmMatch = url.pathname.match(/^\/dm\/(.+)$/);
+        if (dmMatch && dmMatch[1] && req.method === 'POST') {
+            const username = decodeURIComponent(dmMatch[1]);
+            let body: any;
+            try {
+                body = await req.json();
+            } catch {
+                return jsonResponse({ error: 'Body must be JSON: {"to": "...", "text": "..."}' }, 400);
+            }
+            const text = typeof body?.text === 'string' ? body.text.trim() : '';
+            const to = typeof body?.to === 'string' ? body.to.trim() : '';
+            if (!text) {
+                return jsonResponse({ error: 'Missing "text"' }, 400);
+            }
+            if (!to || to.length > 12) {
+                return jsonResponse({ error: 'Missing or invalid "to" (target player name, max 12 chars)' }, 400);
+            }
+            const auth = await authenticateHttpRequest(req, url, username, body?.password);
+            if (!auth.success) {
+                return jsonResponse({ error: `Authentication failed: ${auth.error}` }, 401);
+            }
+
+            const botSession = botSessions.get(username);
+            if (!botSession || !botSession.ws) {
+                return jsonResponse({
+                    error: `Bot not connected - no game client is logged in as '${username}', so there is nothing to relay chat through`
+                }, 409);
+            }
+
+            const timeoutRaw = Number(body?.timeoutMs);
+            const perChunkTimeout = Math.min(Math.max(Number.isFinite(timeoutRaw) && timeoutRaw > 0 ? timeoutRaw : 10000, 2000), 30000);
+            const chunks = chunkMessage(text, botSession.maxMessageLength ?? 80);
+
+            const results: any[] = [];
+            let ok = true;
+            for (let i = 0; i < chunks.length; i++) {
+                const result = await dispatchHttpSay(botSession, chunks[i]!, perChunkTimeout, to);
+                results.push({ chunk: chunks[i], ...result });
+                if (!result.success) {
+                    ok = false;
+                    for (let j = i + 1; j < chunks.length; j++) {
+                        results.push({ chunk: chunks[j], success: false, message: 'Skipped: previous chunk failed' });
+                    }
+                    break;
+                }
+                if (i < chunks.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 600));  // ~1 tick so chunks don't collide
+                }
+            }
+            return jsonResponse({ ok, to, results }, ok ? 200 : 502);
+        }
+
         const sayMatch = url.pathname.match(/^\/say\/(.+)$/);
         if (sayMatch && sayMatch[1] && req.method === 'POST') {
             const username = decodeURIComponent(sayMatch[1]);
@@ -972,6 +1032,7 @@ Endpoints:
 - GET /status/:username    Per-bot status (controllers, observers)
 - GET /chat/:username      Recent chat (?limit=20&system=1)
 - POST /say/:username      Send chat ({"text": "..."}); relayed through the bot's game client
+- POST /dm/:username       Send a private message ({"to": "...", "text": "..."})
 
 WebSocket:
 - ws://localhost:${GATEWAY_PORT}    Bot/SDK connections

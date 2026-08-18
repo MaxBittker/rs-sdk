@@ -201,6 +201,7 @@
 | `async launchBrowser(): Promise<void>` | Launch native browser to client URL. Uses the `open` package for cross-platform support (macOS, Windows, Linux, WSL). Falls back to printing the URL if no browser can be opened. |
 | `countInventoryItems(pattern: string \| RegExp): number` | Count total item quantity matching a name pattern. This sums stack sizes across every matching slot. Use `getInventory().filter(...)` when the number of occupied slots is needed. |
 | `async clickInterfaceOption(selector: InterfaceOptionSelector): Promise<ActionResult>` | Click exactly one interface option, selected by its state object or by visible text (substring for strings, match for regexes). This dispatches the option's `componentId` and never interprets `InterfaceOption.index` as an array position. |
+| `async dm(targetName: string, text: string, opts: { maxLen?: number; delayTicks?: number } = {}): Promise<ActionResult[]>` | Send a private message of any length, auto-split into chunks like {@link say}. Returns one ActionResult per chunk. |
 | `blockDoorTemporarily(level: number, x: number, z: number, ttlMs: number = 30_000): boolean` | Temporarily exclude a known door from this SDK instance's path queries. The shared collision map is never mutated beyond the synchronous query. |
 
 ### Condition Waiting
@@ -269,6 +270,7 @@
 | `async sendSetTab(tabIndex: number): Promise<ActionResult>` | Switch to a UI tab by index. |
 | `async sendSay(message: string): Promise<ActionResult>` | Send a single chat message. The server caps public chat at {@link maxMessageLength} chars (400 on rs-sdk servers) and runs a word filter; `result.data` reports `{ sent, truncated, filtered, finalText }` so you know if your message was clipped or censored. For longer text that shouldn't be silently truncated, use {@link say}. |
 | `async say(text: string, opts: { maxLen?: number; delayTicks?: number } = {}): Promise<ActionResult[]>` | Send a message of any length, auto-split into chunks on word boundaries and sent in order (so a multi-sentence plan isn't lost to the chat-length cap). Waits a tick between chunks so they don't collide. Returns one ActionResult per chunk. |
+| `async sendPrivateMessage(targetName: string, message: string): Promise<ActionResult>` | Send a single private message to another player by name. Delivered if the target is online anywhere in the world - no friends-list setup needed. It arrives in their chat as type 3 ("From <you>"), and echoes locally as type 6 ("To <name>"). Same length cap and word filter as {@link sendSay}; the server accepts at most one social packet (say or PM) per tick, so don't fire this back-to-back with public chat in the same tick. For longer text, use {@link dm}. |
 | `async sendWait(ticks: number = 1): Promise<ActionResult>` | Wait for specified number of game ticks. |
 | `async sendBankDeposit(slot: number, amount: number = 1): Promise<ActionResult>` | Deposit item to bank by slot. |
 | `async sendBankWithdraw(slot: number, amount: number = 1): Promise<ActionResult>` | Withdraw item from bank by slot. |

@@ -790,6 +790,40 @@ export function say(c: LiteClient, message: string): SayOutcome {
     return { ok: true, truncated, filtered, finalText: echoed };
 }
 
+export function sendPrivateMessage(c: LiteClient, targetName: string, message: string): SayOutcome {
+    if (!c.isInGame() || !c.localPlayer) {
+        return { ok: false, truncated: false, filtered: false, finalText: '' };
+    }
+
+    const userhash = JString.toUserhash(targetName);
+    if (userhash === 0n) {
+        return { ok: false, truncated: false, filtered: false, finalText: '' };
+    }
+
+    const cap = c.getMaxMessageLength();
+    const truncated = message.length > cap;
+    const text = truncated ? message.substring(0, cap) : message;
+
+    // MessagePrivateDecoder reads: 8-byte target userhash, then packed text -
+    // the size byte covers both.
+    c.writeOpcode(ClientProt.MESSAGE_PRIVATE);
+    const lengthPos = c.out.pos;
+    c.out.p1(0);
+    const start = c.out.pos;
+    c.out.p8(userhash);
+    WordPack.pack(c.out, text);
+    c.out.data[lengthPos] = c.out.pos - start;
+
+    // Local echo as a sent-PM (type 6), mirroring Client's socialInput path:
+    // the server never echoes your own PM back.
+    const cased = JString.toSentenceCase(text);
+    const echoed = WordFilter.filter(cased);
+    const filtered = echoed !== cased;
+    c.addChat(6, echoed, JString.toScreenName(JString.toRawUsername(userhash)));
+
+    return { ok: true, truncated, filtered, finalText: echoed };
+}
+
 // ================================================================ combat
 
 export function setCombatStyle(c: LiteClient, style: number): boolean {

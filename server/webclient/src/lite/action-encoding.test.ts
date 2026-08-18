@@ -20,6 +20,7 @@ import { beforeAll, describe, expect, test } from 'bun:test';
 import './dom-shim.js';
 
 import CollisionMap from '#/dash3d/CollisionMap.js';
+import JString from '#/datastruct/JString.js';
 import { ClientProt } from '#/io/ClientProt.js';
 import Packet from '#/io/Packet.js';
 import { ServerProt } from '#/io/ServerProt.js';
@@ -97,6 +98,13 @@ class Capture {
     g2(): number {
         const value = ((this.buf.data[this.pos] << 8) | this.buf.data[this.pos + 1]) & 0xffff;
         this.pos += 2;
+        return value;
+    }
+    g8(): bigint {
+        let value = 0n;
+        for (let i = 0; i < 8; i++) {
+            value = (value << 8n) | BigInt(this.buf.data[this.pos++]);
+        }
         return value;
     }
     rest(until: number): number[] {
@@ -223,6 +231,46 @@ describe('outgoing action encoding', () => {
         expect(c.chatText[0]).toBe('Hello world'); // sentence-cased like the browser echo
         expect(c.localPlayer!.chatMessage).toBe('Hello world');
         expect(c.localPlayer!.chatTimer).toBe(150);
+    });
+
+    test('MESSAGE_PRIVATE carries the target userhash inside the size byte, then packed text', () => {
+        if (!available) {
+            return;
+        }
+
+        const c = makeClient('bota');
+
+        const start = c.out.pos;
+        const outcome = c.sendPrivateMessage('botb', 'hello world');
+        expect(outcome.ok).toBe(true);
+
+        // The oracle: pack the same text the way the browser client does.
+        const scratch = Packet.alloc(0);
+        WordPack.pack(scratch, 'hello world');
+        const packed = Array.from(scratch.data.subarray(0, scratch.pos));
+
+        const r = new Capture(c.out, start);
+        expect(r.g1()).toBe(ClientProt.MESSAGE_PRIVATE);
+        expect(r.g1()).toBe(8 + packed.length); // size covers userhash + text
+        expect(r.g8()).toBe(JString.toUserhash('botb'));
+        expect(r.rest(c.out.pos)).toEqual(packed);
+    });
+
+    test('sendPrivateMessage() self-echoes as a sent-PM (type 6) and rejects bad names', () => {
+        if (!available) {
+            return;
+        }
+
+        const c = makeClient('bota');
+        c.sendPrivateMessage('botb', 'hello world');
+
+        expect(c.chatType[0]).toBe(6); // same type the browser uses for "To <name>:"
+        expect(c.chatUsername[0]).toBe('Botb');
+        expect(c.chatText[0]).toBe('Hello world');
+
+        const before = c.out.pos;
+        expect(c.sendPrivateMessage('', 'hi').ok).toBe(false);
+        expect(c.out.pos).toBe(before); // nothing written for an invalid target
     });
 
     test('INV_BUTTON carries the real obj id from linkObjType, not 0', () => {

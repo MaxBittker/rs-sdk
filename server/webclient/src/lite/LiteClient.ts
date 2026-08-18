@@ -860,6 +860,9 @@ export class LiteClient {
     say(message: string): A.SayOutcome {
         return A.say(this, message);
     }
+    sendPrivateMessage(targetName: string, message: string): A.SayOutcome {
+        return A.sendPrivateMessage(this, targetName, message);
+    }
     setCombatStyle(style: number): boolean {
         return A.setCombatStyle(this, style);
     }

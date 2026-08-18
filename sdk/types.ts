@@ -600,6 +600,7 @@ export type BotAction =
     | { type: 'useItemOnLoc'; itemSlot: number; x: number; z: number; locId: number; reason: string }
     | { type: 'useItemOnNpc'; itemSlot: number; npcIndex: number; reason: string }
     | { type: 'say'; message: string; reason: string }
+    | { type: 'privateMessage'; targetName: string; message: string; reason: string }
     | { type: 'spellOnNpc'; npcIndex: number; spellComponent: number; reason: string }
     | { type: 'spellOnPlayer'; playerIndex: number; spellComponent: number; reason: string }
     | { type: 'spellOnItem'; slot: number; spellComponent: number; reason: string }

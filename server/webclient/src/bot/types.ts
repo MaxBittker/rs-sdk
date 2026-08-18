@@ -506,6 +506,7 @@ export type BotAction =
     | { type: 'spellOnGroundItem'; x: number; z: number; itemId: number; spellComponent: number; reason: string }
     | { type: 'setTab'; tabIndex: number; reason: string }
     | { type: 'say'; message: string; reason: string }
+    | { type: 'privateMessage'; targetName: string; message: string; reason: string }
     | { type: 'bankDeposit'; slot: number; amount: number; reason: string }
     | { type: 'bankWithdraw'; slot: number; amount: number; reason: string }
     | { type: 'submitCountDialog'; value: number; reason: string }

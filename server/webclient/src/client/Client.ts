@@ -2016,6 +2016,42 @@ export class Client extends GameShell {
     }
 
     /**
+     * Send a private message to another player (MESSAGE_PRIVATE). Mirrors the
+     * socialInput path the friends-tab UI uses, without needing the target on
+     * the friends list - the server relays PMs to any online player.
+     */
+    sendPrivateMessage(targetName: string, message: string): SayOutcome {
+        if (!this.ingame || !this.out) {
+            return { ok: false, truncated: false, filtered: false, finalText: '' };
+        }
+
+        const userhash: bigint = JString.toUserhash(targetName);
+        if (userhash === 0n) {
+            return { ok: false, truncated: false, filtered: false, finalText: '' };
+        }
+
+        const truncated: boolean = message.length > Client.maxMessageLength;
+        let text = message.substring(0, Client.maxMessageLength);
+
+        this.out.p1Enc(ClientProt.MESSAGE_PRIVATE);
+        this.out.p1(0);
+        const start: number = this.out.pos;
+
+        this.out.p8(userhash);
+        WordPack.pack(this.out, text);
+        this.out.psize1(this.out.pos - start);
+
+        const cased = JString.toSentenceCase(text);
+        text = WordFilter.filter(cased);
+        const filtered: boolean = text !== cased;
+
+        // Local echo as a sent-PM (type 6) - the server never echoes your own PM back.
+        this.addChat(6, text, JString.toScreenName(JString.toRawUsername(userhash)));
+
+        return { ok: true, truncated, filtered, finalText: text };
+    }
+
+    /**
      * Use one inventory item on another inventory item (OPHELDU)
      */
     useItemOnItem(sourceSlot: number, targetSlot: number, interfaceId: number = 3214): boolean {
