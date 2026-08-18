@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { countInventoryById, countMatching, diffInventories, missingFromOffer, offerSatisfies } from '../trade-helpers';
+import { countInventoryById, countMatching, diffInventories, missingFromOffer, offerSatisfies, shortfall } from '../trade-helpers';
 import type { TradeItem } from '../types';
 
 const offer = (...items: Array<[string, number]>): TradeItem[] =>
@@ -72,5 +72,20 @@ describe('inventory diffing', () => {
             { slot: -1, id: 3, name: 'Lobster', count: 2 },
         ]);
         expect(lost).toEqual([{ slot: -1, id: 1, name: 'Logs', count: 3 }]);
+    });
+});
+
+describe('shortfall', () => {
+    const it = (id: number, name: string, count: number): TradeItem => ({ slot: -1, id, name, count });
+
+    test('lists what the final offer promised but the inventory never gained', () => {
+        expect(shortfall([it(995, 'Coins', 250), it(379, 'Lobster', 1)], [it(995, 'Coins', 250)]))
+            .toEqual([it(379, 'Lobster', 1)]);
+        expect(shortfall([it(995, 'Coins', 250)], [it(995, 'Coins', 100)])).toEqual([it(995, 'Coins', 150)]);
+    });
+
+    test('empty when everything (or more) arrived', () => {
+        expect(shortfall([it(995, 'Coins', 250)], [it(995, 'Coins', 250)])).toEqual([]);
+        expect(shortfall([], [it(995, 'Coins', 5)])).toEqual([]);
     });
 });

@@ -7,6 +7,7 @@ import { ActionHelpers, ALREADY_FIGHTING_REFUSALS, NO_RUNES_REFUSALS } from './a
 import { findDoorsAlongPath, isTileWalkable } from './pathfinding';
 import type {
     ActionResult,
+    BotWorldState,
     SkillState,
     InventoryItem,
     BankItem,
@@ -52,6 +53,7 @@ import type {
     TradeItemSpec,
     TradeOptions,
     TradeResult,
+    TradeState,
     ServeTradesOptions,
     ServeTradesResult,
 } from './types';
@@ -62,6 +64,7 @@ import {
     diffInventories,
     missingFromOffer,
     offerSatisfies,
+    shortfall,
 } from './trade-helpers';
 import {
     classifyQuantity,
@@ -2071,7 +2074,9 @@ export class BotActions {
     /**
      * Accept the current trade screen and wait for observable progress:
      * the screen advancing (offer -> confirm), the trade completing, or the
-     * acceptance being registered while waiting on the partner.
+     * acceptance being registered while waiting on the partner. A closed
+     * screen is classified: completed (`success: true`, `data.gave` /
+     * `data.received`) or declined (`success: false, reason: 'declined'`).
      */
     async acceptTrade(timeout: number = 10_000): Promise<ActionResult> {
         const before = this.sdk.getTradeState();
@@ -2079,43 +2084,72 @@ export class BotActions {
             return { success: false, message: 'No trade screen is open', reason: 'not_open' };
         }
         const screenBefore = before.screen;
+        const partner = before.partner ?? undefined;
+        const invBefore = countInventoryById(this.sdk.getState()?.inventory ?? []);
+        const msgBaseline = this.helpers.getMessageTick();
+        const offers = { mine: before.myOffer, theirs: before.theirOffer };
+        const deadline = Date.now() + timeout;
 
         await this.sdk.sendAcceptTrade();
 
-        try {
-            const finalState = await this.waitForActionCondition(s => {
-                const t = s.trade;
-                if (!t || !t.isOpen) return true;               // completed (or declined)
-                if (t.screen !== screenBefore) return true;      // advanced to confirm
-                return t.myAccepted;                             // registered, waiting on partner
-            }, timeout);
+        while (true) {
+            let finalState: BotWorldState;
+            try {
+                finalState = await this.waitForActionCondition(s => {
+                    const t = s.trade;
+                    if (!t || !t.isOpen) return true;               // completed, declined, or the offer->confirm blip
+                    if (t.screen !== screenBefore) return true;      // advanced to confirm
+                    return t.myAccepted;                             // registered, waiting on partner
+                }, Math.max(1, deadline - Date.now()));
+            } catch {
+                return { success: false, message: 'No visible response to accept', reason: 'timeout' };
+            }
 
             const after = finalState.trade;
-            if (!after || !after.isOpen) {
-                return { success: true, message: 'Trade screen closed' };
+            if (after?.isOpen) {
+                offers.mine = after.myOffer;
+                offers.theirs = after.theirOffer;
+                if (after.screen !== screenBefore) {
+                    return { success: true, message: 'Advanced to confirm screen' };
+                }
+                return { success: true, message: 'Accepted - waiting for other player' };
             }
-            if (after.screen !== screenBefore) {
-                return { success: true, message: 'Advanced to confirm screen' };
-            }
-            return { success: true, message: 'Accepted - waiting for other player' };
-        } catch {
-            return { success: false, message: 'No visible response to accept', reason: 'timeout' };
+
+            // Only a persistent close is final (offer->confirm blip).
+            if (!(await this.tradeClosedForGood())) continue;
+            const settled = await this.classifyClosedSession(msgBaseline, partner, invBefore, offers);
+            return {
+                success: settled.success,
+                message: settled.message,
+                reason: settled.reason,
+                data: { gave: settled.gave, received: settled.received, possiblyDropped: settled.possiblyDropped },
+            };
         }
     }
 
-    /** Decline (close) the open trade and wait for the screen to close. */
+    /**
+     * Decline (close) the open trade and wait for the screen to close.
+     * Retries once if the first close landed during the offer->confirm
+     * transition (sendDeclineTrade refuses to send while no screen is open).
+     */
     async declineTrade(timeout: number = 5_000): Promise<ActionResult> {
         const trade = this.sdk.getTradeState();
         if (!trade.isOpen) {
             return { success: true, message: 'No trade was open' };
         }
-        await this.sdk.sendDeclineTrade();
-        try {
-            await this.waitForActionCondition(s => s.trade?.isOpen !== true, timeout);
-            return { success: true, message: 'Trade declined' };
-        } catch {
-            return { success: false, message: 'Trade screen did not close', reason: 'timeout' };
+        const deadline = Date.now() + timeout;
+        for (let attempt = 0; attempt < 2; attempt++) {
+            await this.sdk.sendDeclineTrade();
+            try {
+                await this.waitForActionCondition(s => s.trade?.isOpen !== true, Math.max(1, deadline - Date.now()));
+            } catch {
+                return { success: false, message: 'Trade screen did not close', reason: 'timeout' };
+            }
+            if (await this.tradeClosedForGood()) {
+                return { success: true, message: 'Trade declined' };
+            }
         }
+        return { success: false, message: 'Trade screen did not close', reason: 'timeout' };
     }
 
     /**
@@ -2128,6 +2162,11 @@ export class BotActions {
      * accept time is the offer that reaches the confirm screen; the confirm
      * re-verification makes offer-switching structurally impossible to slip
      * past this method.
+     *
+     * `options.requestTimeout` (default 30 s) bounds the trade request;
+     * `options.timeout` (default 60 s) bounds the open offer+confirm screens.
+     * Every close is classified as completed or declined, so `success: false`
+     * means nothing changed hands.
      *
      * @example
      * ```ts
@@ -2143,9 +2182,10 @@ export class BotActions {
      */
     async trade(target: NearbyPlayer | string | RegExp, options: TradeOptions = {}): Promise<TradeResult> {
         const timeout = options.timeout ?? 60_000;
-        const deadline = Date.now() + timeout;
+        const requestTimeout = options.requestTimeout ?? 30_000;
 
-        const opened = await this.tradeWith(target, timeout);
+        const opened = await this.tradeWith(target, requestTimeout);
+        const deadline = Date.now() + timeout;
         if (!opened.success) {
             return {
                 success: false,
@@ -2211,6 +2251,8 @@ export class BotActions {
                     continue;
                 }
             } else {
+                // A blocking modal makes the server answer requests with "is busy".
+                await this.dismissBlockingUI();
                 const requester = await this.sdk.waitForTradeRequest({ timeout: Math.min(remaining, 15_000) });
                 if (!requester) continue;
                 if (!fromMatches(requester)) continue;
@@ -2248,18 +2290,35 @@ export class BotActions {
         const partner = this.sdk.getTradeState().partner ?? undefined;
         const invBefore = countInventoryById(startState?.inventory ?? []);
         const sessionBaseline = this.helpers.getMessageTick();
+        // Last offers seen while the screen was open (see classifyClosedSession).
+        const offers = { mine: [] as TradeItem[], theirs: [] as TradeItem[] };
+        const noteOffers = (t: TradeState) => {
+            if (t.isOpen) { offers.mine = t.myOffer; offers.theirs = t.theirOffer; }
+        };
+        noteOffers(this.sdk.getTradeState());
 
+        // Our decline can race the partner's accept, so re-classify after it.
         const fail = async (message: string, reason: TradeResult['reason'], decline: boolean): Promise<TradeResult> => {
-            if (decline) await this.declineTrade();
+            if (decline) {
+                const declined = await this.declineTrade();
+                const settled = await this.classifyClosedSession(sessionBaseline, partner, invBefore, offers);
+                if (settled.success) {
+                    return { ...settled, message: `${settled.message} (completed as the decline landed: ${message})` };
+                }
+                if (!declined.success) {
+                    message = `${message}; ${declined.message}`;
+                }
+            }
             return { success: false, message, partner, gave: [], received: [], reason };
         };
 
         // 1. Put our items in.
         if (options.give?.length) {
             const offered = await this.offerTradeItems(options.give, Math.max(1, deadline - Date.now()));
+            noteOffers(this.sdk.getTradeState());
             if (!offered.success) {
                 if (!this.sdk.getTradeState().isOpen) {
-                    return this.classifyClosedSession(sessionBaseline, partner, invBefore);
+                    return this.classifyClosedSession(sessionBaseline, partner, invBefore, offers);
                 }
                 return fail(offered.message, 'offer_failed', true);
             }
@@ -2290,10 +2349,11 @@ export class BotActions {
             const trade = this.sdk.getTradeState();
             if (!trade.isOpen) {
                 if (await this.tradeClosedForGood()) {
-                    return this.classifyClosedSession(sessionBaseline, partner, invBefore);
+                    return this.classifyClosedSession(sessionBaseline, partner, invBefore, offers);
                 }
                 continue; // transition blip - the confirm screen is opening
             }
+            noteOffers(trade);
             if (trade.screen === 'confirm') break;
 
             const tick = this.sdk.getState()?.tick ?? 0;
@@ -2328,10 +2388,11 @@ export class BotActions {
             const trade = this.sdk.getTradeState();
             if (!trade.isOpen) {
                 if (await this.tradeClosedForGood()) {
-                    return this.classifyClosedSession(sessionBaseline, partner, invBefore);
+                    return this.classifyClosedSession(sessionBaseline, partner, invBefore, offers);
                 }
                 continue;
             }
+            noteOffers(trade);
             if (trade.screen !== 'confirm') {
                 // Back on the offer screen: only possible if this session was
                 // re-entered mid-transition; let the offer-screen rules apply.
@@ -2361,34 +2422,52 @@ export class BotActions {
     }
 
     /**
-     * Once the trade screen has closed, decide from game messages whether the
-     * trade completed ("Accepted trade.") or was declined, and report the
-     * inventory delta for a completion.
+     * Once the trade screen has closed, decide whether the trade completed
+     * or was declined, and report the inventory delta for a completion.
+     *
+     * Primary signal is the "Accepted trade." message; fallback is our
+     * offered items still being gone from the inventory two ticks after close.
      */
     private async classifyClosedSession(
         sessionBaseline: number,
         partner: string | undefined,
-        invBefore: Map<number, { name: string; count: number }>
+        invBefore: Map<number, { name: string; count: number }>,
+        offers: { mine: TradeItem[]; theirs: TradeItem[] } = { mine: [], theirs: [] }
     ): Promise<TradeResult> {
         // Let the post-trade inventory update land before diffing.
         await this.sdk.waitForTicks(1).catch(() => {});
 
         const declined = this.helpers.findRefusal(sessionBaseline, ['declined trade']);
         const noSpace = this.helpers.findRefusal(sessionBaseline, ['enough inventory space']);
-        const accepted = this.helpers.findRefusal(sessionBaseline, ['accepted trade']);
+        let accepted = this.helpers.findRefusal(sessionBaseline, ['accepted trade']);
+        let inferred = false;
+
+        const diff = () => diffInventories(invBefore, countInventoryById(this.sdk.getState()?.inventory ?? []));
+        let { gained, lost } = diff();
+
+        const offerGone = () => offers.mine.length > 0 && shortfall(offers.mine, lost).length === 0;
+        if (!accepted && !declined && !noSpace && offerGone()) {
+            await this.sdk.waitForTicks(1).catch(() => {});
+            ({ gained, lost } = diff());
+            if (offerGone()) {
+                accepted = 'inferred';
+                inferred = true;
+            }
+        }
 
         if (accepted) {
-            const invAfter = countInventoryById(this.sdk.getState()?.inventory ?? []);
-            const { gained, lost } = diffInventories(invBefore, invAfter);
             const gaveText = lost.length ? lost.map(i => `${i.name} x${i.count}`).join(', ') : 'nothing';
             const receivedText = gained.length ? gained.map(i => `${i.name} x${i.count}`).join(', ') : 'nothing';
-            return {
-                success: true,
-                message: `Trade completed with ${partner ?? 'partner'}: gave ${gaveText}, received ${receivedText}`,
-                partner,
-                gave: lost,
-                received: gained,
-            };
+            let message = `Trade completed with ${partner ?? 'partner'}: gave ${gaveText}, received ${receivedText}`;
+            if (inferred) message += ' (inferred from inventory: "Accepted trade." message not seen)';
+
+            // Overflow at completion is dropped on the ground, not refused.
+            const possiblyDropped = shortfall(offers.theirs, gained);
+            if (possiblyDropped.length) {
+                message += `; ${possiblyDropped.map(i => `${i.name} x${i.count}`).join(', ')} shown in their final offer did not reach your inventory — check the ground under you (inventory full?)`;
+                return { success: true, message, partner, gave: lost, received: gained, possiblyDropped };
+            }
+            return { success: true, message, partner, gave: lost, received: gained };
         }
         if (noSpace) {
             return { success: false, message: noSpace, partner, gave: [], received: [], reason: 'no_space' };

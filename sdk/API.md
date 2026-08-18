@@ -88,9 +88,9 @@
 |---|---|
 | `async tradeWith(target: NearbyPlayer \| string \| RegExp, timeout: number = 30_000): Promise<ActionResult>` | Open a trade session with another player, walking closer if needed. Requesting a player who already requested you accepts their request; otherwise this waits (re-requesting periodically) until they request back or the timeout expires. |
 | `async offerTradeItems(items: TradeItemSpec[], timeout: number = 15_000): Promise<ActionResult>` | Place items into your side of an open trade. Each spec resolves against your inventory; `amount` -1 offers all of that item (default 1). Waits until the offer window reflects each addition. Adding items resets both players' accepts server-side. |
-| `async acceptTrade(timeout: number = 10_000): Promise<ActionResult>` | Accept the current trade screen and wait for observable progress: the screen advancing (offer -> confirm), the trade completing, or the acceptance being registered while waiting on the partner. |
-| `async declineTrade(timeout: number = 5_000): Promise<ActionResult>` | Decline (close) the open trade and wait for the screen to close. |
-| `async trade(target: NearbyPlayer \| string \| RegExp, options: TradeOptions = {}): Promise<TradeResult>` | Full trade happy path with one player: open the session, offer `give`, accept once the partner's offer satisfies `want` (or the `accept` predicate), re-verify on the confirm screen, and report the actual inventory delta. Any offer change resets both accepts server-side, so the offer seen at accept time is the offer that reaches the confirm screen; the confirm re-verification makes offer-switching structurally impossible to slip past this method. |
+| `async acceptTrade(timeout: number = 10_000): Promise<ActionResult>` | Accept the current trade screen and wait for observable progress: the screen advancing (offer -> confirm), the trade completing, or the acceptance being registered while waiting on the partner. A closed screen is classified: completed (`success: true`, `data.gave` / `data.received`) or declined (`success: false, reason: 'declined'`). |
+| `async declineTrade(timeout: number = 5_000): Promise<ActionResult>` | Decline (close) the open trade and wait for the screen to close. Retries once if the first close landed during the offer->confirm transition (sendDeclineTrade refuses to send while no screen is open). |
+| `async trade(target: NearbyPlayer \| string \| RegExp, options: TradeOptions = {}): Promise<TradeResult>` | Full trade happy path with one player: open the session, offer `give`, accept once the partner's offer satisfies `want` (or the `accept` predicate), re-verify on the confirm screen, and report the actual inventory delta. Any offer change resets both accepts server-side, so the offer seen at accept time is the offer that reaches the confirm screen; the confirm re-verification makes offer-switching structurally impossible to slip past this method. `options.requestTimeout` (default 30 s) bounds the trade request; `options.timeout` (default 60 s) bounds the open offer+confirm screens. Every close is classified as completed or declined, so `success: false` means nothing changed hands. |
 | `async serveTrades(options: ServeTradesOptions = {}): Promise<ServeTradesResult>` | Serve incoming trades: wait for "wishes to trade with you." requests, accept ones matching the `from` filter, and run each session with the shared give/want/accept policy. The receiving half of a muling setup: ```ts // Worker: bot.trade('mule01', { give: [{ item: /ore/i, amount: -1 }] }) // Mule: bot.serveTrades({ from: /^fleet_/i, until: () => sdk.getInventory().length >= 26 }) ``` This owns the bot while running - it is an explicit serving loop, not a background hook, so it never fights another controller for the session. |
 
 ### Combat & Equipment
@@ -426,6 +426,8 @@ interface TradeResult {
   /** Items added to your inventory (by the completed trade). */
   received: TradeItem[];
   reason?: 'player_not_found' | 'no_response' | 'declined' | 'busy' | 'offer_failed' | 'want_not_met' | 'no_space' | 'not_open' | 'timeout' | 'error';
+  /** Items from the partner's final offer that did not reach the inventory (dropped on the ground on overflow). */
+  possiblyDropped?: TradeItem[];
 }
 ```
 

@@ -54,6 +54,24 @@ export function diffInventories(
     return { gained, lost };
 }
 
+/** Items (by id) in `expected` that `received` falls short of. */
+export function shortfall(expected: TradeItem[], received: TradeItem[]): TradeItem[] {
+    const got = new Map<number, number>();
+    for (const item of received) got.set(item.id, (got.get(item.id) ?? 0) + item.count);
+    const out: TradeItem[] = [];
+    const seen = new Map<number, TradeItem>();
+    for (const item of expected) {
+        const existing = seen.get(item.id);
+        if (existing) existing.count += item.count;
+        else seen.set(item.id, { slot: -1, id: item.id, name: item.name, count: item.count });
+    }
+    for (const item of seen.values()) {
+        const missing = item.count - (got.get(item.id) ?? 0);
+        if (missing > 0) out.push({ ...item, count: missing });
+    }
+    return out;
+}
+
 /** Aggregate an inventory-like item list into an (id -> {name, count}) map. */
 export function countInventoryById(items: Array<{ id: number; name: string; count: number }>): Map<number, { name: string; count: number }> {
     const map = new Map<number, { name: string; count: number }>();

@@ -1721,12 +1721,9 @@ export class Client extends GameShell {
             return false;
         }
 
-        // Check if any modal is open
-        if (this.mainModalId === -1 && this.sideModalId === -1) {
-            return true; // Already closed
-        }
-
-        // Use the existing private closeModal() which handles all cleanup
+        // Always send CLOSE_MODAL: local modal ids can lag the server (trade
+        // offer->confirm transition). Note the engine still clears the weak
+        // queue on a stray close.
         this.closeModal();
 
         return true;

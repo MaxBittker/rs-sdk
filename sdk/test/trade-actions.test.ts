@@ -62,12 +62,15 @@ function state(frame: Frame, tick: number) {
  * fast-forwards to the last frame (the trade being closed), mirroring the
  * server closing both screens.
  */
-function createHarness(frames: Frame[]) {
+function createHarness(frames: Frame[], opts: { hold?: number[] } = {}) {
     const sequence = frames.map((frame, i) => state(frame, i + 1));
+    // Frames the harness refuses to auto-advance past: waits time out there
+    // until a decline fast-forwards. Models "nothing happens until we act".
+    const hold = new Set(opts.hold ?? []);
     let idx = 0;
     const dispatched: Array<{ call: string; args: unknown[] }> = [];
     const advance = () => {
-        if (idx < sequence.length - 1) idx++;
+        if (idx < sequence.length - 1 && !hold.has(idx)) idx++;
         return sequence[idx];
     };
     const record = (call: string, effect?: () => void) => async (...args: unknown[]) => {
@@ -83,7 +86,7 @@ function createHarness(frames: Frame[]) {
         waitForCondition: async (pred: (s: any) => boolean) => {
             for (let guard = 0; guard < sequence.length + 1; guard++) {
                 if (pred(sequence[idx])) return sequence[idx];
-                if (idx >= sequence.length - 1) break;
+                if (idx >= sequence.length - 1 || hold.has(idx)) break;
                 idx++;
             }
             throw new Error('waitForCondition timed out');
@@ -251,5 +254,133 @@ describe('bot.serveTrades', () => {
         const result = await harness.bot.serveTrades({ from: /^fleet_/i, timeout: 300 });
         expect(result.trades).toHaveLength(0);
         expect(harness.dispatched).toEqual([]);
+    });
+});
+
+describe('bot.trade completion detection', () => {
+    const logsInv = [{ slot: 0, id: 1511, name: 'Logs', count: 1 }];
+
+    test('infers completion from the inventory when "Accepted trade." was never seen', async () => {
+        const harness = createHarness([
+            { inventory: logsInv },
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot' }, inventory: logsInv },
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot', myOffer: [logs(1)] }, inventory: [] },
+            { trade: { isOpen: true, screen: 'confirm', partner: 'MuleBot', myOffer: [logs(1)] }, inventory: [] },
+            // Closed, no message (scrolled out of the client window), logs still gone.
+            { inventory: [] },
+            { inventory: [] },
+            { inventory: [] },
+        ]);
+
+        const result = await harness.bot.trade(partner, { give: [{ item: 'logs', amount: -1 }], timeout: 3_000 });
+
+        expect(result.success).toBe(true);
+        expect(result.gave).toEqual([{ slot: -1, id: 1511, name: 'Logs', count: 1 }]);
+        expect(result.message).toContain('inferred from inventory');
+    });
+
+    test('a decline whose item return lands a tick late is still a decline', async () => {
+        const harness = createHarness([
+            { inventory: logsInv },
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot' }, inventory: logsInv },
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot', myOffer: [logs(1)] }, inventory: [] },
+            // Closed with no message; inventory update lags one tick.
+            { inventory: [] },
+            { inventory: [] },
+            { inventory: logsInv },
+            { inventory: logsInv },
+        ]);
+
+        const result = await harness.bot.trade(partner, { give: [{ item: 'logs', amount: -1 }], timeout: 3_000 });
+
+        expect(result.success).toBe(false);
+        expect(result.reason).toBe('declined');
+        expect(result.gave).toEqual([]);
+    });
+
+    test('a timeout whose decline races the partner accept reports the completed trade', async () => {
+        const coins = (n: number) => item(0, 995, 'Coins', n);
+        const harness = createHarness([
+            { inventory: logsInv },
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot', theirOffer: [coins(50)] }, inventory: logsInv },
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot', myOffer: [logs(1)], theirOffer: [coins(50)] }, inventory: [] },
+            // Confirm screen: we accept, partner never does (held) -> deadline expires.
+            { trade: { isOpen: true, screen: 'confirm', partner: 'MuleBot', myOffer: [logs(1)], theirOffer: [coins(50)], myAccepted: true }, inventory: [] },
+            // The decline arrives after the partner's accept: trade completed.
+            { message: 'Accepted trade.', inventory: [{ slot: 0, id: 995, name: 'Coins', count: 50 }] },
+            { message: 'Accepted trade.', inventory: [{ slot: 0, id: 995, name: 'Coins', count: 50 }] },
+        ], { hold: [3] });
+
+        const result = await harness.bot.trade(partner, {
+            give: [{ item: 'logs', amount: -1 }],
+            want: [{ item: 'coins', amount: 50 }],
+            timeout: 300,
+        });
+
+        expect(harness.dispatched.map(d => d.call)).toContain('sendDeclineTrade');
+        expect(result.success).toBe(true);
+        expect(result.received).toEqual([{ slot: -1, id: 995, name: 'Coins', count: 50 }]);
+        expect(result.gave).toEqual([{ slot: -1, id: 1511, name: 'Logs', count: 1 }]);
+        expect(result.message).toContain('completed as the decline landed');
+    });
+
+    test('flags items from the final offer that never reached the inventory', async () => {
+        const coins = (n: number) => item(0, 995, 'Coins', n);
+        const lobster = item(1, 379, 'Lobster', 1);
+        const harness = createHarness([
+            { },
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot', theirOffer: [coins(250), lobster] } },
+            { trade: { isOpen: true, screen: 'confirm', partner: 'MuleBot', theirOffer: [coins(250), lobster] } },
+            { message: 'Accepted trade.', inventory: [{ slot: 0, id: 995, name: 'Coins', count: 250 }] },
+            { message: 'Accepted trade.', inventory: [{ slot: 0, id: 995, name: 'Coins', count: 250 }] },
+        ]);
+
+        const result = await harness.bot.trade(partner, { timeout: 3_000 });
+
+        expect(result.success).toBe(true);
+        expect(result.possiblyDropped).toEqual([{ slot: -1, id: 379, name: 'Lobster', count: 1 }]);
+        expect(result.message).toContain('check the ground');
+    });
+});
+
+describe('bot.acceptTrade', () => {
+    test('reports a decline as failure, not "Trade screen closed"', async () => {
+        const harness = createHarness([
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot' } },
+            { message: 'Other player declined trade.' },
+            { message: 'Other player declined trade.' },
+            { message: 'Other player declined trade.' },
+        ]);
+
+        const result = await harness.bot.acceptTrade(2_000);
+        expect(result.success).toBe(false);
+        expect(result.reason).toBe('declined');
+    });
+
+    test('reports the delta when the confirm accept completes the trade', async () => {
+        const sword = item(0, 1285, 'Mithril sword', 1);
+        const harness = createHarness([
+            { trade: { isOpen: true, screen: 'confirm', partner: 'MuleBot', myOffer: [item(0, 995, 'Coins', 229)], theirOffer: [sword] }, inventory: [] },
+            { message: 'Accepted trade.', inventory: [{ slot: 0, id: 1285, name: 'Mithril sword', count: 1 }] },
+            { message: 'Accepted trade.', inventory: [{ slot: 0, id: 1285, name: 'Mithril sword', count: 1 }] },
+            { message: 'Accepted trade.', inventory: [{ slot: 0, id: 1285, name: 'Mithril sword', count: 1 }] },
+        ]);
+
+        const result = await harness.bot.acceptTrade(2_000);
+        expect(result.success).toBe(true);
+        expect(result.message).toContain('Trade completed');
+        expect(result.data.received).toEqual([{ slot: -1, id: 1285, name: 'Mithril sword', count: 1 }]);
+    });
+
+    test('treats the offer->confirm blip as progress, not a close', async () => {
+        const harness = createHarness([
+            { trade: { isOpen: true, screen: 'offer', partner: 'MuleBot' } },
+            { }, // side modal closed, confirm not yet open
+            { trade: { isOpen: true, screen: 'confirm', partner: 'MuleBot' } },
+            { trade: { isOpen: true, screen: 'confirm', partner: 'MuleBot' } },
+        ]);
+
+        const result = await harness.bot.acceptTrade(2_000);
+        expect(result).toMatchObject({ success: true, message: 'Advanced to confirm screen' });
     });
 });

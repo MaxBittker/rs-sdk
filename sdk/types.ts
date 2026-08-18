@@ -371,8 +371,10 @@ export interface TradeOptions {
      * on the partner's visible offer. Also re-checked on the confirm screen.
      */
     accept?: (theirOffer: TradeItem[]) => boolean;
-    /** Overall deadline in ms (default 60_000). On expiry the trade is declined. */
+    /** Deadline in ms for the open offer+confirm screens (default 60_000). On expiry the trade is declined. */
     timeout?: number;
+    /** How long to wait for the partner to accept the trade request (default 30_000). */
+    requestTimeout?: number;
 }
 
 export interface TradeResult {
@@ -386,6 +388,8 @@ export interface TradeResult {
     received: TradeItem[];
     reason?: 'player_not_found' | 'no_response' | 'declined' | 'busy' | 'offer_failed'
         | 'want_not_met' | 'no_space' | 'not_open' | 'timeout' | 'error';
+    /** Items from the partner's final offer that did not reach the inventory (dropped on the ground on overflow). */
+    possiblyDropped?: TradeItem[];
 }
 
 export interface ServeTradesOptions {

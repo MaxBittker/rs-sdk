@@ -415,9 +415,8 @@ export function closeBotModal(c: LiteClient): boolean {
     if (!c.isInGame()) {
         return false;
     }
-    if (c.mainModalId === -1 && c.sideModalId === -1) {
-        return false;
-    }
+    // Always send CLOSE_MODAL: local modal ids can lag the server (mirrors
+    // Client.closeBotModal).
     c.writeOpcode(ClientProt.CLOSE_MODAL);
     return true;
 }
