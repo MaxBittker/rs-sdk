@@ -8,7 +8,11 @@ p_delay(3);
 %death = ^false;
 
 [queue,player_death]
-if (.finduid(%duel2accept) = true & ~.in_duel_arena(.coord) = true) {
+// gate on the dying player's own duel state (mirrors the label's guard). The old
+// check (.finduid(%duel2accept) & ~.in_duel_arena(.coord)) looked at the
+// challenged player's position, and %duel2accept is set on Challenge and can go
+// stale, so a death anywhere could skip item loss + respawn. See issue #55.
+if (~in_duel_arena(coord) = true & %duelstatus < ^duelstatus_lost) {
     @player_death_duel;
 }
 ~player_death;
