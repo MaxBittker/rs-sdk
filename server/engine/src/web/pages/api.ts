@@ -31,10 +31,24 @@ export async function handleScreenshotUpload(req: Request, url: URL): Promise<Re
     }
 }
 
-// Export collision data for SDK bundling
-export function handleExportCollisionApi(url: URL): Response | null {
+// Export collision data for SDK bundling.
+// The full scan takes seconds and runs on the tick thread, so the serialized
+// result is cached after the first request. Collision is populated once from
+// packed map data at startup; a server restart (i.e. any map/content change)
+// naturally invalidates the cache.
+let collisionExportCache: string | null = null;
+
+export function handleExportCollisionApi(req: Request, url: URL): Response | null {
     if (url.pathname !== '/api/exportCollision') {
         return null;
+    }
+    if (req.method !== 'GET') {
+        return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'GET' } });
+    }
+    if (collisionExportCache !== null) {
+        return new Response(collisionExportCache, {
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
     try {
@@ -230,7 +244,8 @@ export function handleExportCollisionApi(url: URL): Response | null {
 
         console.log(`Found ${doors.length} openable doors/gates`);
 
-        return new Response(JSON.stringify({ tiles, zones, doors }), {
+        collisionExportCache = JSON.stringify({ tiles, zones, doors });
+        return new Response(collisionExportCache, {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (e: any) {

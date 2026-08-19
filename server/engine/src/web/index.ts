@@ -237,7 +237,7 @@ async function handleRequest(req: Request, server: Bun.Server, url: URL): Promis
             const screenshotUploadResponse = await handleScreenshotUpload(req, url);
             if (screenshotUploadResponse) return screenshotUploadResponse;
 
-            const exportCollisionResponse = handleExportCollisionApi(url);
+            const exportCollisionResponse = handleExportCollisionApi(req, url);
             if (exportCollisionResponse) return exportCollisionResponse;
 
             // Hiscores

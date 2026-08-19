@@ -398,7 +398,7 @@
                 <span id="login-controls">
                     <input type="text" id="bot-username" placeholder="username" value="" onblur="syncUsernameToUrl();" onchange="syncUsernameToUrl();">
                     <button onclick="randomUsername();" title="Generate random name" style="background:#333;color:#04A800;padding:4px 8px;">🎲</button>
-                    <input type="password" id="bot-password" placeholder="password" value="test" onblur="syncPasswordToUrl();" onchange="syncPasswordToUrl();">
+                    <input type="password" id="bot-password" placeholder="password (blank = random)" value="" onblur="syncPasswordToUrl();" onchange="syncPasswordToUrl();">
                     <button onclick="quickLogin();" style="background:#04A800;">Login</button>
                 </span>
                 <span id="tutorial-controls" style="display: none;">
@@ -450,6 +450,26 @@
         }
 
 
+        // Generate a strong random password. A fixed default would let anyone
+        // who knows a username take over accounts created through this page.
+        function generatePassword() {
+            const bytes = new Uint8Array(12);
+            crypto.getRandomValues(bytes);
+            return Array.from(bytes, b => 'abcdefghijklmnopqrstuvwxyz0123456789'[b % 36]).join('');
+        }
+
+        // Use the entered password, or generate one and show it in the field
+        // (it also persists via the URL and localStorage sync).
+        function ensurePassword() {
+            let password = document.getElementById('bot-password').value;
+            if (!password) {
+                password = generatePassword();
+                document.getElementById('bot-password').value = password;
+                localStorage.setItem('bot_password', password);
+            }
+            return password;
+        }
+
         // Generate new random username and sync to URL
         window.randomUsername = function() {
             const username = generateUsername();
@@ -468,7 +488,7 @@
             }
             // Always sync username to URL
             updateUrlWithBot(username);
-            const password = document.getElementById('bot-password').value || 'test';
+            const password = ensurePassword();
             updateUrlWithPassword(password);
 
             document.getElementById('bot-status').textContent = 'Logging in as ' + username + '...';
@@ -520,7 +540,7 @@
         // Create account and login function
         window.createAndLogin = async function() {
             const username = document.getElementById('bot-username').value || generateUsername();
-            const password = document.getElementById('bot-password').value || 'botpass123';
+            const password = ensurePassword();
 
             // Update the input fields with generated/provided values
             document.getElementById('bot-username').value = username;
