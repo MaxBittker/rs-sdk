@@ -78,13 +78,13 @@ async function createBot(username?: string, serverOverride?: string, hideChat?: 
         console.log(`Server set to: ${serverOverride}`);
     }
 
-    // Public chat is shown by default; disable it with --no-chat / --hide-chat
+    // Public chat defaults to whatever the template sets; --no-chat forces it off.
     if (hideChat) {
         await replaceInFile(envPath, { 'SHOW_CHAT=true': 'SHOW_CHAT=false' });
-        console.log(`Public chat: disabled`);
-    } else {
-        console.log(`Public chat: enabled (default)`);
     }
+    const envText = await readFile(envPath, 'utf-8');
+    const chatOn = /^SHOW_CHAT=true$/m.test(envText);
+    console.log(`Public chat: ${chatOn ? 'enabled' : 'disabled'}`);
 
     console.log(`\n✓ Bot "${botUsername}" created successfully!`);
     console.log(`\nCredentials saved in bots/${botUsername}/bot.env`);

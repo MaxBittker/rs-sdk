@@ -51,7 +51,7 @@ async function connectAndAwaitState(sdk: BotSDK, gatewayUrl: string, username: s
             console.error(`  Nothing is logged into the game as '${username}', so there's no state to report.`);
             console.error(`  This is also what you see after a server restart or when an idle client goes stale.`);
             console.error(`  Fix: open the web client and log in as '${username}', then re-run.`);
-            console.error(`  (Scripts via sdk/runner.ts launch the client for you.)`);
+            console.error(`  (Standalone scripts do not launch a client: sdk/runner.ts sets autoLaunchBrowser: false.)`);
         } else {
             console.error(`Error: No state received for '${username}'`);
             console.error(`  Lost the gateway connection before any state arrived.`);
