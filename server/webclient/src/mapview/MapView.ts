@@ -1499,7 +1499,7 @@ export class MapView extends GameShell {
             }
         }
 
-        if (this.zoom == this.targetZoom && MapView.shouldDrawLabels) {
+        if (MapView.shouldDrawLabels) {
             for (let i: number = 0; i < this.mapLabelCount; i++) {
                 let x = this.mapLabelX[i];
                 let y = this.mapLabelY[i];
@@ -1513,36 +1513,38 @@ export class MapView extends GameShell {
 
                 let rgb: number = 0xffffff;
                 let font: WorldMapFont | null = null;
+                // Wheel and pinch zoom settle on arbitrary values, so choose a font
+                // across the full zoom range instead of only at the preset zooms.
                 if (labelSize == 0) {
-                    if (this.zoom == 3.0) {
+                    if (this.zoom < 4.0) {
                         font = this.f11;
-                    } else if (this.zoom == 4.0) {
+                    } else if (this.zoom < 6.0) {
                         font = this.f12;
-                    } else if (this.zoom == 6.0) {
+                    } else if (this.zoom < 8.0) {
                         font = this.f14;
-                    } else if (this.zoom == 8.0) {
+                    } else {
                         font = this.f17;
                     }
                 } else if (labelSize == 1) {
-                    if (this.zoom == 3.0) {
+                    if (this.zoom < 4.0) {
                         font = this.f14;
-                    } else if (this.zoom == 4.0) {
+                    } else if (this.zoom < 6.0) {
                         font = this.f17;
-                    } else if (this.zoom == 6.0) {
+                    } else if (this.zoom < 8.0) {
                         font = this.f19;
-                    } else if (this.zoom == 8.0) {
+                    } else {
                         font = this.f22;
                     }
                 } else if (labelSize == 2) {
                     rgb = 0xffaa00;
 
-                    if (this.zoom == 3.0) {
+                    if (this.zoom < 4.0) {
                         font = this.f19;
-                    } else if (this.zoom == 4.0) {
+                    } else if (this.zoom < 6.0) {
                         font = this.f22;
-                    } else if (this.zoom == 6.0) {
+                    } else if (this.zoom < 8.0) {
                         font = this.f26;
-                    } else if (this.zoom == 8.0) {
+                    } else {
                         font = this.f30;
                     }
                 }
@@ -1578,7 +1580,7 @@ export class MapView extends GameShell {
         }
 
         // custom: region labels for unified map
-        if (this.zoom == this.targetZoom && MapView.shouldDrawLabels) {
+        if (MapView.shouldDrawLabels) {
             const regionLabels: {label: string, x: number, z: number}[] = [
                 { label: 'Underground', x: 41 * 64 + 32, z: 71 * 64 + 32 },
                 { label: 'Misc', x: 41 * 64 + 32, z: 83 * 64 + 32 }
