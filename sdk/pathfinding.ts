@@ -78,6 +78,16 @@ const ONE_WAY_DOORS = new Set<string>([
     '0,2931,9640', // Melzar's Maze basement 'funexit' door — only opens from the maze side
 ]);
 
+// Pay-gates: doors that open a payment dialog instead of opening on interact.
+// Auto-routing through them strands the bot on the dialog mid-walk (and the
+// 10gp toll dialog's options are 1-based, so naive dialog handlers hang).
+// Keep their walls so walkTo never treats them as passable; scripts that want
+// to cross must interact with the gate deliberately and answer the dialog.
+const PAY_GATES = new Set<string>([
+    '0,3268,3227', // Al Kharid toll gate (north tile)
+    '0,3268,3228', // Al Kharid toll gate (south tile)
+]);
+
 function doorKey(level: number, x: number, z: number): string {
     return `${level},${x},${z}`;
 }
@@ -127,7 +137,7 @@ export function initPathfinding(): void {
 
             // Skip one-way doors — keep their wall collision so the pathfinder
             // won't route through them (entering traps the bot).
-            if (ONE_WAY_DOORS.has(key)) {
+            if (ONE_WAY_DOORS.has(key) || PAY_GATES.has(key)) {
                 skippedOneWay++;
                 continue;
             }
