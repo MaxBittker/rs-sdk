@@ -227,10 +227,14 @@ export default class Model extends ModelSource {
     }
 
     static load(id: number): Model | null {
-        const meta = Model.meta[id];
+        let meta = Model.meta[id];
         if (!meta) {
             Model.provider.requestModel(id);
-            return null;
+            // a synchronous provider (viewer lazy-loading from a zip) may have unpacked it
+            meta = Model.meta[id];
+            if (!meta) {
+                return null;
+            }
         }
 
         const model = new Model();
@@ -414,10 +418,10 @@ export default class Model extends ModelSource {
     }
 
     static requestDownload(id: number): boolean {
-        const meta = Model.meta[id];
-        if (!meta) {
+        if (!Model.meta[id]) {
             Model.provider.requestModel(id);
-            return false;
+            // a synchronous provider (viewer lazy-loading from a zip) may have unpacked it
+            return Model.meta[id] != null;
         }
 
         return true;

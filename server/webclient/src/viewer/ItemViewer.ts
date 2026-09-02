@@ -65,6 +65,49 @@ class NoopProvider extends OnDemandProvider {
 }
 
 /**
+ * Synchronous provider that gunzips + unpacks a model from the ondemand.zip
+ * entries the first time Model asks for it. Model.load/requestDownload re-check
+ * the metadata table right after requestModel, so a render that only needs a
+ * handful of models (a player sprite, an item icon) never touches the other
+ * ~3000 entries. Missing ids are recorded as empty models so they aren't
+ * re-requested forever.
+ */
+class ZipProvider extends OnDemandProvider {
+    private readonly entries: Map<number, Uint8Array>;
+
+    constructor(entries: Map<number, Uint8Array>) {
+        super();
+        this.entries = entries;
+    }
+
+    override requestModel(id: number): void {
+        const entry = this.entries.get(id);
+        if (!entry) {
+            Model.unpack(id, null);
+            return;
+        }
+        this.entries.delete(id);
+        try {
+            // Strip 2-byte version trailer and decompress
+            Model.unpack(id, gunzipSync(entry.subarray(0, entry.length - 2)));
+        } catch {
+            Model.unpack(id, null);
+        }
+    }
+}
+
+export type ItemViewerData = { config: Uint8Array; textures: Uint8Array; versionlist: Uint8Array; ondemand: Uint8Array };
+export type ItemViewerOptions = {
+    /**
+     * Keep model entries compressed and unpack them on first use instead of
+     * gunzipping the whole archive up front. Cuts init from ~650ms/220MB to a
+     * few ms for callers that render a handful of things (the engine's sprite
+     * worker). Animation frames are still unpacked eagerly.
+     */
+    lazyModels?: boolean;
+};
+
+/**
  * Minimal standalone renderer for items and characters.
  */
 export class ItemViewer {
@@ -88,15 +131,28 @@ export class ItemViewer {
         }
 
         // Fetch required archives
-        const [configData, texturesData, versionlistData] = await Promise.all([
+        const [config, textures, versionlist, ondemand] = await Promise.all([
             downloadUrl(`${serverBase}/config${crcs[2]}`),
             downloadUrl(`${serverBase}/textures${crcs[6]}`),
             downloadUrl(`${serverBase}/versionlist${crcs[5]}`),
+            downloadUrl(`${serverBase}/ondemand.zip`)
         ]);
 
-        const jagConfig = new JagFile(configData);
-        const jagTextures = new JagFile(texturesData);
-        const jagVersionlist = new JagFile(versionlistData);
+        this.initFromData({ config, textures, versionlist, ondemand });
+    }
+
+    /**
+     * Initialize the rendering pipeline from already-loaded archive bytes.
+     *
+     * This is the transport-free half of init(): the engine uses it to run the
+     * viewer inside a Bun worker (reading the pack from disk) so hiscores pages
+     * can serve pre-rendered sprites instead of shipping the whole model cache
+     * to every browser.
+     */
+    initFromData(data: ItemViewerData, options: ItemViewerOptions = {}): void {
+        const jagConfig = new JagFile(data.config);
+        const jagTextures = new JagFile(data.textures);
+        const jagVersionlist = new JagFile(data.versionlist);
 
         // Parse version list to determine model count
         const versionlistPacket = new Packet(jagVersionlist.read('model_version'));
@@ -108,7 +164,14 @@ export class ItemViewer {
 
         // Initialize model system
         AnimFrame.init(animCount);
-        Model.init(modelCount, new NoopProvider());
+        const zip = unzipSync(data.ondemand);
+        if (options.lazyModels) {
+            Model.init(modelCount, new ZipProvider(this.indexModels(zip)));
+            this.preloadAnims(zip);
+        } else {
+            Model.init(modelCount, new NoopProvider());
+            this.preloadModels(zip);
+        }
 
         // Set up canvas drawing area
         this.drawArea = new PixMap(canvas.width, canvas.height);
@@ -131,14 +194,11 @@ export class ItemViewer {
         IdkType.init(jagConfig);
         SpotType.init(jagConfig);
 
-        // Pre-load model data from ondemand.zip
-        await this.preloadModels(serverBase);
-
         this.initialized = true;
     }
 
     /**
-     * Fetch and unpack all models from ondemand.zip.
+     * Unpack every model and animation frame from an unzipped ondemand.zip.
      *
      * The zip contains entries named "{archive+1}.{file}" where:
      * - archive 0 (entries "1.*") = model data
@@ -147,30 +207,49 @@ export class ItemViewer {
      * Each entry is gzipped with a 2-byte version trailer that must be stripped
      * before decompression.
      */
-    private async preloadModels(serverBase: string): Promise<void> {
-        const data = await downloadUrl(`${serverBase}/ondemand.zip`);
-        const zip = unzipSync(data);
+    private preloadModels(zip: Record<string, Uint8Array>): void {
+        for (const [name, entry] of Object.entries(zip)) {
+            const parsed = ItemViewer.parseEntryName(name);
+            if (!parsed) continue;
 
-        for (const [name, entryData] of Object.entries(zip)) {
-            const parts = name.split('.');
-            if (parts.length !== 2) continue;
-
-            const archivePlusOne = parseInt(parts[0]);
-            const file = parseInt(parts[1]);
-            if (isNaN(archivePlusOne) || isNaN(file)) continue;
-
-            const archive = archivePlusOne - 1;
-
-            // Strip 2-byte version trailer and decompress
-            const entry = entryData as Uint8Array;
-            const decompressed = gunzipSync(entry.slice(0, entry.length - 2));
-
-            if (archive === 0) {
-                Model.unpack(file, decompressed);
-            } else if (archive === 1) {
+            const decompressed = gunzipSync(entry.subarray(0, entry.length - 2));
+            if (parsed.archive === 0) {
+                Model.unpack(parsed.file, decompressed);
+            } else if (parsed.archive === 1) {
                 AnimFrame.unpack(decompressed);
             }
         }
+    }
+
+    /** Unpack only the animation frames (archive 1); models stay compressed for ZipProvider. */
+    private preloadAnims(zip: Record<string, Uint8Array>): void {
+        for (const [name, entry] of Object.entries(zip)) {
+            const parsed = ItemViewer.parseEntryName(name);
+            if (parsed?.archive === 1) {
+                AnimFrame.unpack(gunzipSync(entry.subarray(0, entry.length - 2)));
+            }
+        }
+    }
+
+    /** Map model id -> still-compressed zip entry (archive 0). */
+    private indexModels(zip: Record<string, Uint8Array>): Map<number, Uint8Array> {
+        const entries = new Map<number, Uint8Array>();
+        for (const [name, entry] of Object.entries(zip)) {
+            const parsed = ItemViewer.parseEntryName(name);
+            if (parsed?.archive === 0) {
+                entries.set(parsed.file, entry);
+            }
+        }
+        return entries;
+    }
+
+    private static parseEntryName(name: string): { archive: number; file: number } | null {
+        const parts = name.split('.');
+        if (parts.length !== 2) return null;
+        const archivePlusOne = parseInt(parts[0]);
+        const file = parseInt(parts[1]);
+        if (isNaN(archivePlusOne) || isNaN(file)) return null;
+        return { archive: archivePlusOne - 1, file };
     }
 
     /**

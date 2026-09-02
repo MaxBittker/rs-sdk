@@ -4,6 +4,7 @@ import path from 'path';
 import Environment from '#/util/Environment.js';
 import { handleHiscoresPage, handleHiscoresPlayerPage, handleHiscoresOutfitPage, handleHiscoresBankPage, handleHiscoresKothPage } from './pages/hiscores.js';
 import { handlePublicFiles } from './pages/static.js';
+import { handleSpriteRequest } from './sprites/SpriteRenderer.js';
 
 const PACK_DIR = path.resolve(import.meta.dir, '../../data/pack');
 const VIEWER_OUT_DIR = path.resolve(import.meta.dir, '../../../webclient/out/viewer');
@@ -62,11 +63,19 @@ function buildCrcBuffer(): Uint8Array {
 
 let crcBuffer: Uint8Array | null = null;
 
+// Browser cache policy for the in-browser viewer (bank/outfit pages still render item icons
+// client-side). The archives are requested as /config{crc} etc., so the URL changes whenever
+// the content does and they can be cached hard; the unversioned ones get a bounded TTL.
+const CACHE_ARCHIVE = 'public, max-age=31536000, immutable';
+const CACHE_ONDEMAND = 'public, max-age=3600';
+const CACHE_VIEWER_JS = 'public, max-age=600';
+const CACHE_CRC = 'public, max-age=60';
+
 export function handleViewerAssets(url: URL): Response | null {
     // CRC endpoint
     if (url.pathname.startsWith('/crc')) {
         if (!crcBuffer) crcBuffer = buildCrcBuffer();
-        return new Response(Buffer.from(crcBuffer));
+        return new Response(Buffer.from(crcBuffer), { headers: { 'Cache-Control': CACHE_CRC } });
     }
 
     // Cache archive endpoints
@@ -75,7 +84,9 @@ export function handleViewerAssets(url: URL): Response | null {
         if (url.pathname.startsWith(`/${name}`)) {
             const filePath = `${PACK_DIR}/client/${name}`;
             if (fs.existsSync(filePath)) {
-                return new Response(Bun.file(filePath));
+                // only the crc-suffixed form is content-addressed
+                const versioned = url.pathname.length > name.length + 1;
+                return new Response(Bun.file(filePath), { headers: { 'Cache-Control': versioned ? CACHE_ARCHIVE : CACHE_CRC } });
             }
             return new Response(null, { status: 404 });
         }
@@ -86,7 +97,7 @@ export function handleViewerAssets(url: URL): Response | null {
         const zipPath = `${PACK_DIR}/ondemand.zip`;
         if (fs.existsSync(zipPath)) {
             return new Response(Bun.file(zipPath), {
-                headers: { 'Content-Type': 'application/zip' },
+                headers: { 'Content-Type': 'application/zip', 'Cache-Control': CACHE_ONDEMAND },
             });
         }
         return new Response(null, { status: 404 });
@@ -99,7 +110,7 @@ export function handleViewerAssets(url: URL): Response | null {
         if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
             const ext = path.extname(filePath);
             return new Response(Bun.file(filePath), {
-                headers: { 'Content-Type': VIEWER_MIME[ext] || 'application/octet-stream' },
+                headers: { 'Content-Type': VIEWER_MIME[ext] || 'application/octet-stream', 'Cache-Control': CACHE_VIEWER_JS },
             });
         }
         // Audio assets (soundfonts, etc.) are not needed for icon rendering — return empty to avoid 404 noise
@@ -130,6 +141,9 @@ export function startHiscoresWeb() {
 
             const hiscoresKothResponse = await handleHiscoresKothPage(url);
             if (hiscoresKothResponse) return hiscoresKothResponse;
+
+            const spriteResponse = await handleSpriteRequest(url);
+            if (spriteResponse) return spriteResponse;
 
             // Static files (decoration images)
             const publicFilesResponse = handlePublicFiles(url);

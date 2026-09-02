@@ -2,6 +2,7 @@ import { db, toDbDate } from '#/db/query.js';
 import Environment from '#/util/Environment.js';
 import { tryParseInt } from '#/util/TryParse.js';
 import { escapeHtml, SKILL_NAMES, ENABLED_SKILLS } from '../utils.js';
+import { playerSpriteUrl } from '#/web/sprites/SpriteRenderer.js';
 
 const hiddenNames = Environment.HISCORES_HIDDEN_NAMES;
 
@@ -880,14 +881,45 @@ function formatAgo(dbDate: string | Date): string {
     return `${Math.floor(mins / 1440)}d ago`;
 }
 
-export async function handleHiscoresKothPage(url: URL): Promise<Response | null> {
-    const match = url.pathname.match(/^\/hi(?:gh)?scores\/koth\/?$/);
-    if (!match) return null;
+// the reigning king of each window, shown side by side above the table
+const KING_WINDOWS = [
+    { label: 'All time', ms: 0 },
+    { label: 'This week', ms: 7 * 24 * 3600_000 },
+    { label: 'Today', ms: 24 * 3600_000 }
+];
 
-    const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
-    const windowParam = url.searchParams.get('window') || 'all';
-    const windowMs = windowParam === 'day' ? 24 * 3600_000 : windowParam === 'week' ? 7 * 24 * 3600_000 : 0;
+type KothRow = { username: string; minutes: number; last_held: string | Date };
+type KothKing = { label: string; ms: number; leader: { username: string; minutes: number } | undefined; sprite: KothLoadout | undefined };
+type KothPageData = { results: KothRow[]; spriteFor: Map<string, KothLoadout>; kings: KothKing[] };
 
+// Same short TTL + in-flight dedup as getRankedList: these run on the tick thread, and the
+// capture table grows by one row per minute so a group-by over it is not free.
+const kothCache = new Map<string, { at: number; data: KothPageData | null; pending: Promise<KothPageData> | null }>();
+
+async function getKothPageData(profile: string, windowMs: number): Promise<KothPageData> {
+    const key = `${profile}:${windowMs}`;
+    const now = Date.now();
+    const cached = kothCache.get(key);
+    if (cached?.data && now - cached.at < RANKED_TTL_MS) {
+        return cached.data;
+    }
+    if (cached?.pending) {
+        return cached.pending;
+    }
+    const load = loadKothPageData(profile, windowMs).then(data => {
+        kothCache.set(key, { at: Date.now(), data, pending: null });
+        return data;
+    });
+    kothCache.set(key, { at: cached?.at ?? 0, data: cached?.data ?? null, pending: load });
+    try {
+        return await load;
+    } catch (err) {
+        kothCache.delete(key);
+        throw err;
+    }
+}
+
+async function loadKothPageData(profile: string, windowMs: number): Promise<KothPageData> {
     let query = db
         .selectFrom('koth_capture')
         .innerJoin('account', 'account.username', 'koth_capture.username')
@@ -939,12 +971,6 @@ export async function handleHiscoresKothPage(url: URL): Promise<Response | null>
         windowMs
     );
 
-    // the reigning king of each window, shown side by side above the table
-    const KING_WINDOWS = [
-        { label: 'All time', ms: 0 },
-        { label: 'This week', ms: 7 * 24 * 3600_000 },
-        { label: 'Today', ms: 24 * 3600_000 }
-    ];
     const kings = await Promise.all(
         KING_WINDOWS.map(async w => {
             let kingQuery = db
@@ -968,10 +994,25 @@ export async function handleHiscoresKothPage(url: URL): Promise<Response | null>
         })
     );
 
-    const spriteCanvas = (loadout: KothLoadout, size: 'big' | 'small'): string => {
+    return { results: results as KothRow[], spriteFor, kings };
+}
+
+export async function handleHiscoresKothPage(url: URL): Promise<Response | null> {
+    const match = url.pathname.match(/^\/hi(?:gh)?scores\/koth\/?$/);
+    if (!match) return null;
+
+    const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
+    const windowParam = url.searchParams.get('window') || 'all';
+    const windowMs = windowParam === 'day' ? 24 * 3600_000 : windowParam === 'week' ? 7 * 24 * 3600_000 : 0;
+
+    const { results, spriteFor, kings } = await getKothPageData(profile, windowMs);
+
+    // sprites are rendered server-side (see web/sprites) and cached by URL, so the page is
+    // plain HTML + <img> — no viewer bundle or model archives shipped to the browser
+    const spriteImg = (loadout: KothLoadout, size: 'big' | 'small'): string => {
         const w = size === 'big' ? 78 : 52;
         const h = size === 'big' ? 130 : 88;
-        return `<canvas class="koth-sprite" data-appearance="${escapeHtml(JSON.stringify(loadout))}" width="${w}" height="${h}" style="image-rendering:pixelated;vertical-align:middle"></canvas>`;
+        return `<img src="${playerSpriteUrl(loadout, w, h)}" width="${w}" height="${h}" alt="" loading="lazy" decoding="async" style="image-rendering:pixelated;vertical-align:middle">`;
     };
 
     const rows = results.map((r, i) => {
@@ -979,7 +1020,7 @@ export async function handleHiscoresKothPage(url: URL): Promise<Response | null>
         return `
             <tr>
                 <td align="right">${i + 1}</td>
-                <td>${sprite ? spriteCanvas(sprite, 'small') : ''}</td>
+                <td>${sprite ? spriteImg(sprite, 'small') : ''}</td>
                 <td><a href="/hiscores/player/${encodeURIComponent(r.username)}?profile=${profile}" class="c">${escapeHtml(r.username)}</a></td>
                 <td align="right" class="yellow">${Number(r.minutes).toLocaleString()}</td>
                 <td align="right" style="font-size:11px">${formatAgo(r.last_held as string | Date)}</td>
@@ -1007,7 +1048,7 @@ export async function handleHiscoresKothPage(url: URL): Promise<Response | null>
             .map(
                 k => `<td class="e" width="33%" align="center" valign="bottom">
                 <b style="font-size:11px">${k.label}</b><br>
-                ${k.sprite ? spriteCanvas(k.sprite, 'small') + '<br>' : ''}
+                ${k.sprite ? spriteImg(k.sprite, 'small') + '<br>' : ''}
                 ${k.leader ? `<a href="/hiscores/player/${encodeURIComponent(k.leader.username)}?profile=${profile}" class="c text-orange">${escapeHtml(k.leader.username)}</a><br><span class="yellow" style="font-size:11px">${Number(k.leader.minutes).toLocaleString()} min</span>` : '<span style="font-size:11px">unclaimed</span>'}
             </td>`
             )
@@ -1135,41 +1176,10 @@ export async function handleHiscoresKothPage(url: URL): Promise<Response | null>
         </td>
     </tr>
 </table>
-<!-- Hidden canvas required by viewer internals -->
-<canvas id="canvas" width="256" height="256" style="display:none"></canvas>
-<script type="module">
-    import { ItemViewer } from '/viewer/viewer.js';
-
-    const sprites = document.querySelectorAll('canvas.koth-sprite');
-    if (sprites.length > 0) {
-        const viewer = new ItemViewer();
-        try {
-            await viewer.init('');
-            for (const el of sprites) {
-                try {
-                    const appearance = JSON.parse(el.dataset.appearance);
-                    const img = viewer.renderPlayerSpriteAsImageData(appearance, el.width, el.height);
-                    if (img) {
-                        el.getContext('2d').putImageData(img, 0, 0);
-                    } else {
-                        el.style.display = 'none';
-                    }
-                } catch (renderErr) {
-                    el.style.display = 'none';
-                }
-            }
-        } catch (err) {
-            console.error('ItemViewer init failed:', err);
-            for (const el of sprites) {
-                el.style.display = 'none';
-            }
-        }
-    }
-</script>
 </body>
 </html>`;
 
-    return new Response(html, { headers: { 'Content-Type': 'text/html' } });
+    return new Response(html, { headers: { 'Content-Type': 'text/html', 'Cache-Control': 'public, max-age=30' } });
 }
 
 // Bank value leaderboard handler
