@@ -887,13 +887,27 @@ export function acceptCharacterDesign(c: LiteClient): boolean {
         c.out.p1(c.designColours[i]);
     }
 
+    // Several interfaces carry a CC_ACCEPT_DESIGN button (tutorial player_kit,
+    // the Falador hairdresser and Varrock tailor kits). Only the one inside the
+    // open modal has a live [if_button] trigger; a first-match scan over the
+    // whole list can hit another interface's button and the server answers
+    // 'No trigger for ...' while the design screen stays open.
+    const modal = c.mainModalId;
+    let fallback = -1;
     for (let i = 0; i < IfType.list.length; i++) {
         const com = IfType.list[i];
-        if (com && com.clientCode === ClientCode.CC_ACCEPT_DESIGN) {
+        if (!com || com.clientCode !== ClientCode.CC_ACCEPT_DESIGN) continue;
+        if (modal !== -1 && (com.layerId === modal || i === modal)) {
             c.writeOpcode(ClientProt.IF_BUTTON);
             c.out.p2(i);
             return true;
         }
+        if (fallback === -1) fallback = i;
+    }
+    if (fallback !== -1) {
+        c.writeOpcode(ClientProt.IF_BUTTON);
+        c.out.p2(fallback);
+        return true;
     }
     return false;
 }

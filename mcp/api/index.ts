@@ -49,9 +49,10 @@ class BotManager {
 
     // Load credentials from bot.env if no password provided
     if (!password) {
-      // Try cwd first, then fall back to the repo root (one level up from mcp/)
+      // Try cwd first, then fall back to the repo root (this file lives in mcp/api/,
+      // so the root is two levels up)
       const cwdPath = join(process.cwd(), 'bots', name, 'bot.env');
-      const repoPath = join(import.meta.dir, '..', 'bots', name, 'bot.env');
+      const repoPath = join(import.meta.dir, '..', '..', 'bots', name, 'bot.env');
       const envPath = existsSync(cwdPath) ? cwdPath : repoPath;
 
       if (!existsSync(envPath)) {

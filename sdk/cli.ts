@@ -144,7 +144,7 @@ To execute code on a bot, use the MCP execute_code tool instead.
 /**
  * Try to load credentials from bots/<name>/bot.env
  */
-function tryLoadBotEnv(botName: string): { username: string; password: string; server?: string } | null {
+function tryLoadBotEnv(botName: string): { username: string; password: string; server?: string; gatewayUrl?: string } | null {
     const envPath = join(process.cwd(), 'bots', botName, 'bot.env');
     if (!existsSync(envPath)) return null;
 
@@ -165,7 +165,8 @@ function tryLoadBotEnv(botName: string): { username: string; password: string; s
     return {
         username: env.BOT_USERNAME,
         password: env.PASSWORD,
-        server: env.SERVER
+        server: env.SERVER,
+        gatewayUrl: env.GATEWAY_URL
     };
 }
 
@@ -183,6 +184,9 @@ async function fetchState(botName: string, flags: { server: string; timeout: num
         username = botEnv.username;
         password = botEnv.password;
         if (botEnv.server && !server) server = botEnv.server;
+        // The runner loads the whole bot.env into process.env, so a GATEWAY_URL
+        // there reaches deriveGatewayUrl; give the CLI the same behaviour.
+        if (botEnv.gatewayUrl && !process.env.GATEWAY_URL) process.env.GATEWAY_URL = botEnv.gatewayUrl;
     } else {
         username = botName;
     }

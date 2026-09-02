@@ -4,6 +4,7 @@ import World from '#/engine/World.js';
 import { handleClientPage, handleCacheEndpoints } from './pages/client.js';
 import { handleHiscoresPage, handleHiscoresPlayerPage, handleHiscoresOutfitPage, handleHiscoresBankPage, handleHiscoresKothPage } from './pages/hiscores.js';
 import { handleViewerAssets } from './hiscoresServer.js';
+import { handleSpriteRequest } from './sprites/SpriteRenderer.js';
 import { handleScreenshotsListPage, handleScreenshotFilePage } from './pages/screenshots.js';
 import { handleScreenshotUpload, handleExportCollisionApi } from './pages/api.js';
 import { handleBugReport } from './pages/bug-report.js';
@@ -188,6 +189,50 @@ async function handleRequest(req: Request, server: Bun.Server, url: URL): Promis
                 }
             }
 
+            // Gateway per-bot HTTP endpoints (proxy to gateway, preserving method,
+            // query string and body). These are what sdk/cli.ts (GET /state/:bot) and
+            // sdk/chat.ts (GET /chat/:bot, POST /say/:bot, POST /dm/:bot) use as their
+            // fast path; without this allowlist they 404 on deployments that front the
+            // gateway through this web server.
+            const gatewayBotMatch = url.pathname.match(/^\/(state|chat|say|dm)\/([^/]+)\/?$/);
+            if (gatewayBotMatch) {
+                const [, route, username] = gatewayBotMatch;
+                const isPost = req.method === 'POST';
+                const expectsPost = route === 'say' || route === 'dm';
+                if (isPost !== expectsPost) {
+                    return new Response(JSON.stringify({ error: `${route} expects ${expectsPost ? 'POST' : 'GET'}` }), {
+                        status: 405,
+                        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+                    });
+                }
+                try {
+                    const gatewayUrl = process.env.GATEWAY_URL || 'http://localhost:7780';
+                    const target = `${gatewayUrl}/${route}/${username}${url.search}`;
+                    const init: RequestInit = { method: req.method, signal: AbortSignal.timeout(15000) };
+                    if (isPost) {
+                        init.body = await req.text();
+                        init.headers = { 'Content-Type': req.headers.get('content-type') || 'application/json' };
+                    }
+                    const response = await fetch(target, init);
+                    const text = await response.text();
+                    return new Response(text, {
+                        status: response.status,
+                        headers: {
+                            'Content-Type': response.headers.get('content-type') || 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    });
+                } catch (error) {
+                    return new Response(JSON.stringify({
+                        error: `Failed to reach gateway /${route}`,
+                        message: error instanceof Error ? error.message : 'Unknown error'
+                    }, null, 2), {
+                        status: 503,
+                        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+                    });
+                }
+            }
+
             // Bot status endpoint (proxy to gateway)
             const botStatusMatch = url.pathname.match(/^\/status\/([^/]+)\/?$/);
             if (botStatusMatch) {
@@ -255,6 +300,9 @@ async function handleRequest(req: Request, server: Bun.Server, url: URL): Promis
 
             const hiscoresKothResponse = await handleHiscoresKothPage(url);
             if (hiscoresKothResponse) return hiscoresKothResponse;
+
+            const spriteResponse = await handleSpriteRequest(url);
+            if (spriteResponse) return spriteResponse;
 
             // Viewer assets (cache data, JS, WASM for item icon rendering)
             const viewerResponse = handleViewerAssets(url);

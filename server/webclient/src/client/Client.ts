@@ -929,13 +929,22 @@ export class Client extends GameShell {
         // normal button (clientcode CC_ACCEPT_DESIGN) whose IF_BUTTON trigger
         // ([if_button,player_kit:accept]) is what closes the design interface and
         // advances the tutorial. A real click sends both; replicate the IF_BUTTON here.
+        // Prefer the accept button inside the open modal: other interfaces
+        // (hairdresser, tailor kits) carry the same clientcode with no live
+        // trigger for this screen.
+        let accept: IfType | null = null;
         for (let i = 0; i < IfType.list.length; i++) {
             const com = IfType.list[i];
-            if (com && com.clientCode === ClientCode.CC_ACCEPT_DESIGN) {
-                this.writePacketOpcode(ClientProt.IF_BUTTON);
-                this.out.p2(com.id);
+            if (!com || com.clientCode !== ClientCode.CC_ACCEPT_DESIGN) continue;
+            if (this.mainModalId !== -1 && (com.layerId === this.mainModalId || com.id === this.mainModalId)) {
+                accept = com;
                 break;
             }
+            if (!accept) accept = com;
+        }
+        if (accept) {
+            this.writePacketOpcode(ClientProt.IF_BUTTON);
+            this.out.p2(accept.id);
         }
 
         return true;
@@ -1740,6 +1749,14 @@ export class Client extends GameShell {
             return true;
         }
 
+        // The side-inventory fallback below reads component 2006's linkObjType,
+        // which the server never clears after the bank closes - without this
+        // guard state.bank.isOpen stays true for the rest of the session after
+        // the first bank visit and every inventory guard refuses to send.
+        if (this.mainModalId === -1) {
+            return false;
+        }
+
         const component = IfType.list[BANK_SIDE_INV_ID];
         if (component && component.linkObjType) {
             for (let i = 0; i < component.linkObjType.length; i++) {
@@ -1984,6 +2001,16 @@ export class Client extends GameShell {
         // Public chat is capped at Client.maxMessageLength (server-configured, default
         // 80 = the RS wire limit); anything past it is dropped silently on the wire, so
         // report it back to the caller.
+        // '::cmd' is a client cheat, not public chat - mirror the keyboard input path
+        // and the lite client so bot-driven ::give/::setstat are not spoken aloud.
+        if (message.startsWith('::')) {
+            const cheat = message.substring(2);
+            this.out.p1Enc(ClientProt.CLIENT_CHEAT);
+            this.out.p1(cheat.length + 1);
+            this.out.pjstr(cheat);
+            return { ok: true, truncated: false, filtered: false, finalText: message };
+        }
+
         const truncated: boolean = message.length > Client.maxMessageLength;
         let text = message.substring(0, Client.maxMessageLength);
 

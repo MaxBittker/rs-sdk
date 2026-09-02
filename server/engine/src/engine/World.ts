@@ -968,6 +968,15 @@ class World {
                 }
                 other.addSessionLog(LoggerEventType.ENGINE, 'Kicked due to login from another session');
 
+                // Close any open modal BEFORE snapshotting. save() only serializes
+                // scope=perm invs, so anything parked in a temp inv behind an open
+                // interface (tradeoffer, dueloffer, duelwinnings, partyroom_tempinv,
+                // trawler_rewardinv) is deleted unless the interface's [if_close]
+                // return-to-inventory script runs first. The logout and reconnect
+                // paths both already do this; the takeover path did not, so logging
+                // in from a second client mid-trade silently destroyed the offer.
+                other.closeModal();
+
                 // Save the existing player's in-memory state before removing them
                 // This prevents losing progress when the new login was loaded from stale disk save
                 const existingSave = other.save();

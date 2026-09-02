@@ -104,7 +104,11 @@ interface PendingAction {
 class ActionDispatchError extends Error {
     constructor(message: string, readonly reason: 'timeout' | 'disconnected' | 'error') {
         super(message);
-        this.name = 'ActionDispatchError';
+        // Own-property define rather than assignment: hosts that freeze
+        // Error.prototype make the inherited `name` non-writable and a plain
+        // assignment throws in strict mode (from ws.onclose, taking the process
+        // exit code with it).
+        Object.defineProperty(this, 'name', { value: 'ActionDispatchError', writable: true, configurable: true });
     }
 }
 
@@ -166,7 +170,7 @@ export class BotSDK {
             autoLaunchBrowser: config.autoLaunchBrowser ?? 'auto',
             freshDataThreshold: config.freshDataThreshold ?? 3000,
             browserLaunchUrl: config.browserLaunchUrl || '',
-            browserLaunchTimeout: config.browserLaunchTimeout || 10000,
+            browserLaunchTimeout: config.browserLaunchTimeout || 30000,
             readyTimeout: config.readyTimeout ?? 15000,
             connectTimeout: config.connectTimeout ?? 30000,
             actionTimeout: config.actionTimeout || 60000,
@@ -1561,6 +1565,8 @@ export class BotSDK {
 
     /** Deposit item to bank by slot. */
     async sendBankDeposit(slot: number, amount: number = 1): Promise<ActionResult> {
+        // Amounts other than 1/5/10/All dispatch the "X" option; the client
+        // executor waits for the server's count dialog and submits `amount`.
         return this.sendAction({ type: 'bankDeposit', slot, amount, reason: 'SDK' });
     }
 

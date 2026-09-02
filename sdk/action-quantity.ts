@@ -61,16 +61,24 @@ export function shortestNameMatch<T extends { name: string; reachable?: boolean 
         );
     }
     const regex = typeof pattern === 'string' ? new RegExp(pattern, 'i') : pattern;
-    let best: T | null = null;
-    let bestReachable: T | null = null;
-    for (const item of items) {
-        if (!testPattern(regex, item.name)) continue;
-        if (!best || item.name.length < best.name.length) best = item;
-        if (item.reachable !== false && (!bestReachable || item.name.length < bestReachable.name.length)) {
-            bestReachable = item;
+    const pick = (matches: (name: string) => boolean): T | null => {
+        let best: T | null = null;
+        let bestReachable: T | null = null;
+        for (const item of items) {
+            if (!matches(item.name)) continue;
+            if (!best || item.name.length < best.name.length) best = item;
+            if (item.reachable !== false && (!bestReachable || item.name.length < bestReachable.name.length)) {
+                bestReachable = item;
+            }
         }
-    }
-    return bestReachable ?? best;
+        return bestReachable ?? best;
+    };
+    const found = pick(name => testPattern(regex, name));
+    if (found || typeof pattern !== 'string' || !/[.*+?^${}()|[\]\\]/.test(pattern)) return found;
+    // A literal item name with regex metacharacters ("Serum 207 (1)",
+    // "Cake (1/3)") compiles to a pattern that matches nothing - fall back to a
+    // plain case-insensitive substring match before giving up.
+    return pick(name => testPattern(pattern, name));
 }
 
 /** Anchored, escaped pattern matching exactly `name` (case-insensitive). */

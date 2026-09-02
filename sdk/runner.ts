@@ -180,11 +180,26 @@ async function getOrCreateConnection(): Promise<BotConnection> {
 
     const bot = new BotActions(sdk);
 
+    // Cover the browser-launch wait (up to browserLaunchTimeout) plus the
+    // handshake and ready waits that follow it, not just the handshake.
+    const CONNECT_TIMEOUT_MS = 90_000;
+    let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
     const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('Connection timed out after 30s')), 30000);
+        timeoutHandle = setTimeout(() => reject(new Error(`Connection timed out after ${CONNECT_TIMEOUT_MS / 1000}s`)), CONNECT_TIMEOUT_MS);
     });
 
-    await Promise.race([sdk.connect(), timeoutPromise]);
+    try {
+        await Promise.race([sdk.connect(), timeoutPromise]);
+    } catch (error) {
+        // The BotSDK was never registered in `connections`, so nothing else will
+        // ever tear it down - and with autoReconnect on, its reconnect timers
+        // would keep the process alive as a zombie holding the bot's control
+        // connection while runScript has already given up.
+        await sdk.disconnect().catch(() => {});
+        throw error;
+    } finally {
+        clearTimeout(timeoutHandle);
+    }
 
     console.error(`[Runner] Connected to bot "${username}"`);
 
@@ -269,6 +284,7 @@ export async function runScript(
                 managedConnection = true;
             }
         } catch (error: any) {
+            console.error(`[Runner] Failed to connect: ${error?.message ?? error}`);
             return {
                 success: false,
                 error,

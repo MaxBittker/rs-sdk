@@ -161,6 +161,15 @@ describe('shortestNameMatch', () => {
         expect(shortestNameMatch(locs, /^hopper$/i)?.name).toBe('Hopper');
         expect(shortestNameMatch(locs, /furnace/i)).toBeNull();
     });
+
+    test('a literal name with regex metacharacters still matches as a string', () => {
+        const items = [{ name: 'Serum 207 (1)' }, { name: 'Cake (1/3)' }, { name: 'Serum 207 (4)' }];
+        expect(shortestNameMatch(items, 'Serum 207 (1)')).toBe(items[0]!);
+        expect(shortestNameMatch(items, 'cake (1/3)')).toBe(items[1]!);
+        // A string that is a working regex keeps regex semantics.
+        expect(shortestNameMatch(items, '^cake')).toBe(items[1]!);
+        expect(shortestNameMatch(items, 'Serum 207 (9)')).toBeNull();
+    });
 });
 
 describe('exactNamePattern', () => {

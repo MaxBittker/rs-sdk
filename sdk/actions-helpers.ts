@@ -580,6 +580,30 @@ export class ActionHelpers {
     }
 
     /**
+     * Re-find an NPC the caller already chose, by its server slot `index`.
+     *
+     * The index is the entity handle interact packets address and it survives
+     * the npc walking (or a fishing spot relocating). Re-resolving by name
+     * instead hands the action to whichever same-named neighbour is nearest on
+     * arrival - the wrong fishing spot, the wrong "Man". Returns null when the
+     * slot is no longer in view.
+     */
+    refindNpc(original: { index: number }): NearbyNpc | null {
+        return this.sdk.getState()?.nearbyNpcs.find(n => n.index === original.index) ?? null;
+    }
+
+    /**
+     * After walking, re-resolve an npc target: a pattern re-finds by pattern
+     * (keeping the caller's anchors), an entity re-finds by identity.
+     */
+    refindNpcTarget(target: NearbyNpc | string | RegExp, resolved: NearbyNpc): NearbyNpc | null {
+        if (typeof target === 'object' && 'index' in target) {
+            return this.refindNpc(resolved);
+        }
+        return this.resolveNpc(target);
+    }
+
+    /**
      * Resolve a combat target that may be an npc or another player.
      *
      * A passed-in entity is used as-is (its `kind` says which it is). A name or
@@ -589,7 +613,18 @@ export class ActionHelpers {
      */
     resolveCombatTarget(target: CombatTarget): NearbyNpc | NearbyPlayer | null {
         if (typeof target === 'object' && 'index' in target) {
-            return target;
+            if (Array.isArray((target as { optionsWithIndex?: unknown }).optionsWithIndex)) {
+                return target;
+            }
+            // A bare {index, name} handle (kept across ticks by a re-attack
+            // loop) is not a live entry: reading .optionsWithIndex off it used
+            // to throw and silently stop the fight loop. Re-find the live entry
+            // by its server slot instead.
+            const state = this.sdk.getState();
+            const kind = (target as { kind?: string }).kind;
+            const npc = kind === 'player' ? null : state?.nearbyNpcs.find(n => n.index === target.index) ?? null;
+            const player = kind === 'npc' ? null : state?.nearbyPlayers.find(p => p.index === target.index) ?? null;
+            return npc ?? player ?? null;
         }
         return this.sdk.findNearbyNpc(target) ?? this.sdk.findNearbyPlayer(target);
     }
