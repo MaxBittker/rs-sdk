@@ -49,6 +49,9 @@ export class MapView extends GameShell {
     // custom: wheel zoom
     wheelDelta: number = 0;
 
+    // custom: cursor coordinate readout
+    cursorCoordinatesDirty: boolean = true;
+
     // custom: touch state
     touchIds: number[] = [];
     touchStartX: number = 0;
@@ -446,17 +449,43 @@ export class MapView extends GameShell {
         }
     }
 
+    getVisibleMapBounds(): {left: number, top: number, right: number, bottom: number} {
+        return {
+            left: Math.max(0, this.focusX - ((this.sWid / this.zoom) | 0)),
+            top: Math.max(0, this.focusZ - ((this.sHei / this.zoom) | 0)),
+            right: Math.min(this.mapWidth, this.focusX + ((this.sWid / this.zoom) | 0)),
+            bottom: Math.min(this.mapHeight, this.focusZ + ((this.sHei / this.zoom) | 0))
+        };
+    }
+
+    drawCursorCoordinates(left: number, top: number, right: number, bottom: number, y: number): void {
+        const x: number = 410;
+        const width: number = Math.min(150, this.sWid - x);
+        if (width <= 0) return;
+
+        let label: string = 'X: ----  Y: ----';
+        if (this.mouseX >= 0 && this.mouseX < this.sWid && this.mouseY >= 0 && this.mouseY < this.sHei) {
+            const mapX: number = Math.floor(left + (this.mouseX * (right - left)) / this.sWid);
+            const mapY: number = Math.floor(top + (this.mouseY * (bottom - top)) / this.sHei);
+            const worldX: number = this.mapOriginX + mapX;
+            const worldY: number = this.mapOriginZ + this.mapHeight - mapY;
+            label = `X: ${worldX}  Y: ${worldY}`;
+        }
+
+        this.drawStringBox(x, y, width, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, label);
+        this.cursorCoordinatesDirty = false;
+    }
+
     override async mainredraw(): Promise<void> {
+        const {left, top, right, bottom} = this.getVisibleMapBounds();
+        const controlsY: number = this.sHei - this.keyY - 20 + 1;
+
         if (this.redraw) {
             this.redraw = false;
             this.redrawTimer = 0;
 
             Pix2D.cls();
 
-            const left: number = Math.max(0, this.focusX - ((this.sWid / this.zoom) | 0));
-            const top: number = Math.max(0, this.focusZ - ((this.sHei / this.zoom) | 0));
-            const right: number = Math.min(this.mapWidth, this.focusX + ((this.sWid / this.zoom) | 0));
-            const bottom: number = Math.min(this.mapHeight, this.focusZ + ((this.sHei / this.zoom) | 0));
             this.renderWorldMap(left, top, right, bottom, 0, 0, this.sWid, this.sHei);
 
             // custom: long-term movement traces under the live player layer
@@ -539,30 +568,36 @@ export class MapView extends GameShell {
             this.drawStringBox(this.overviewX, this.overviewY + this.overviewHeight, this.overviewWidth, 18, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, 'Overview');
             this.drawStringBox(this.keyX, this.keyY + this.keyHeight, this.keyWidth, 18, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, 'Key');
 
-            const y = this.sHei - this.keyY - 20 + 1;
             if (this.targetZoom == 3.0) {
-                this.drawStringBox(170, y, 50, 30, this.ACTIVE_BORDER_TL, this.ACTIVE, this.ACTIVE_BORDER_BR, '37%');
+                this.drawStringBox(170, controlsY, 50, 30, this.ACTIVE_BORDER_TL, this.ACTIVE, this.ACTIVE_BORDER_BR, '37%');
             } else {
-                this.drawStringBox(170, y, 50, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, '37%');
+                this.drawStringBox(170, controlsY, 50, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, '37%');
             }
 
             if (this.targetZoom == 4.0) {
-                this.drawStringBox(230, y, 50, 30, this.ACTIVE_BORDER_TL, this.ACTIVE, this.ACTIVE_BORDER_BR, '50%');
+                this.drawStringBox(230, controlsY, 50, 30, this.ACTIVE_BORDER_TL, this.ACTIVE, this.ACTIVE_BORDER_BR, '50%');
             } else {
-                this.drawStringBox(230, y, 50, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, '50%');
+                this.drawStringBox(230, controlsY, 50, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, '50%');
             }
 
             if (this.targetZoom == 6.0) {
-                this.drawStringBox(290, y, 50, 30, this.ACTIVE_BORDER_TL, this.ACTIVE, this.ACTIVE_BORDER_BR, '75%');
+                this.drawStringBox(290, controlsY, 50, 30, this.ACTIVE_BORDER_TL, this.ACTIVE, this.ACTIVE_BORDER_BR, '75%');
             } else {
-                this.drawStringBox(290, y, 50, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, '75%');
+                this.drawStringBox(290, controlsY, 50, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, '75%');
             }
 
             if (this.targetZoom == 8.0) {
-                this.drawStringBox(350, y, 50, 30, this.ACTIVE_BORDER_TL, this.ACTIVE, this.ACTIVE_BORDER_BR, '100%');
+                this.drawStringBox(350, controlsY, 50, 30, this.ACTIVE_BORDER_TL, this.ACTIVE, this.ACTIVE_BORDER_BR, '100%');
             } else {
-                this.drawStringBox(350, y, 50, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, '100%');
+                this.drawStringBox(350, controlsY, 50, 30, this.INACTIVE_BORDER_TL, this.INACTIVE, this.INACTIVE_BORDER_BR, '100%');
             }
+
+            this.drawCursorCoordinates(left, top, right, bottom, controlsY);
+        } else if (this.cursorCoordinatesDirty) {
+            // The readout is an opaque fixed-size box, so cursor movement can update
+            // it without rerendering the full map and movement heat layer.
+            this.drawCursorCoordinates(left, top, right, bottom, controlsY);
+            this.redrawTimer = 0;
         }
 
         this.redrawTimer--;
@@ -2383,6 +2418,8 @@ export class MapView extends GameShell {
 
         this.mouseX = x;
         this.mouseY = y;
+        this.cursorCoordinatesDirty = true;
+        this.redrawTimer = 0;
 
         if (e.button === 2) {
             this.nextMouseClickButton = 2;
@@ -2397,21 +2434,23 @@ export class MapView extends GameShell {
         // e.preventDefault();
     }
 
-    override mouseUp(_x: number, _y: number, e: MouseEvent) {
+    override mouseUp(x: number, y: number, _e: MouseEvent) {
         this.dragging = false;
         canvas.style.cursor = 'grab';
 
-        this.mouseX = -1;
-        this.mouseY = -1;
+        this.mouseX = x;
+        this.mouseY = y;
         this.mouseButton = 0;
         this.nextMouseClickX = -1;
         this.nextMouseClickY = -1;
         this.nextMouseClickButton = 0;
+        this.cursorCoordinatesDirty = true;
+        this.redrawTimer = 0;
 
         // e.preventDefault();
     }
 
-    override pointerDown(x: number, y: number, e: PointerEvent) {
+    override pointerDown(x: number, y: number, _e: PointerEvent) {
         this.idleTimer = performance.now();
         this.mouseX = x;
         this.mouseY = y;
@@ -2419,40 +2458,54 @@ export class MapView extends GameShell {
         this.nextMouseClickX = x;
         this.nextMouseClickY = y;
         this.nextMouseClickButton = 1;
+        this.cursorCoordinatesDirty = true;
+        this.redrawTimer = 0;
     }
 
-    override pointerUp(_x: number, _y: number, e: PointerEvent) {
-        this.mouseX = -1;
-        this.mouseY = -1;
+    override pointerUp(x: number, y: number, _e: PointerEvent) {
+        this.mouseX = x;
+        this.mouseY = y;
         this.mouseButton = 0;
         this.nextMouseClickX = -1;
         this.nextMouseClickY = -1;
         this.nextMouseClickButton = 0;
+        this.cursorCoordinatesDirty = true;
+        this.redrawTimer = 0;
     }
 
-    override pointerEnter() {
+    override pointerEnter(x: number, y: number) {
+        this.mouseX = x;
+        this.mouseY = y;
+        this.cursorCoordinatesDirty = true;
+        this.redrawTimer = 0;
     }
 
     override pointerLeave() {
+        this.mouseX = -1;
+        this.mouseY = -1;
+        this.cursorCoordinatesDirty = true;
+        this.redrawTimer = 0;
     }
 
     override pointerMove(x: number, y: number, _e: PointerEvent) {
         if (!this.dragging) {
             this.mouseX = x;
             this.mouseY = y;
+            this.cursorCoordinatesDirty = true;
+            this.redrawTimer = 0;
         }
     }
 
-    override windowMouseUp(e: MouseEvent) {
+    override windowMouseUp(_e: MouseEvent) {
         this.dragging = false;
         canvas.style.cursor = 'grab';
 
-        this.mouseX = -1;
-        this.mouseY = -1;
         this.mouseButton = 0;
         this.nextMouseClickX = -1;
         this.nextMouseClickY = -1;
         this.nextMouseClickButton = 0;
+        this.cursorCoordinatesDirty = true;
+        this.redrawTimer = 0;
     }
 
     override windowMouseMove(e: MouseEvent) {
@@ -2463,6 +2516,8 @@ export class MapView extends GameShell {
 
             this.mouseX = x;
             this.mouseY = y;
+            this.cursorCoordinatesDirty = true;
+            this.redrawTimer = 0;
         }
     }
 }
