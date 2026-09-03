@@ -287,12 +287,13 @@ const SyncModule = {
     // Helper to complete a bot connection (called immediately or after takeover completes)
     completeBotConnection(ws: any, clientId: string, username: string, preservedState?: BotSession | null, maxMessageLength?: number) {
         const now = Date.now();
+        const preserveFromLive = preservedState?.ws && preservedState.ws.readyState === 1;
         const session: BotSession = {
             ws,
             clientId,
             username,
-            lastState: preservedState?.lastState || null,
-            lastStateReceivedAt: preservedState?.lastStateReceivedAt || 0,
+            lastState: preserveFromLive ? preservedState!.lastState : null,
+            lastStateReceivedAt: preserveFromLive ? preservedState!.lastStateReceivedAt : 0,
             currentActionId: null,
             pendingScreenshotId: null,
             connectedAt: now,
@@ -329,7 +330,9 @@ const SyncModule = {
             }
 
             const existingSession = botSessions.get(username);
-            if (existingSession && existingSession.ws !== ws && existingSession.ws) {
+            const existingWs = existingSession?.ws;
+            const existingWsLive = existingWs && existingWs.readyState === 1; /* OPEN */
+            if (existingSession && existingWs !== ws && existingWsLive) {
                 // Graceful takeover: ask old bot to save and disconnect, WAIT before allowing new session
                 console.log(`[Gateway] Requesting graceful disconnect for existing session: ${existingSession.clientId}`);
                 console.log(`[Gateway] New session ${clientId} will wait for old session to close`);
