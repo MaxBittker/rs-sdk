@@ -1,4 +1,4 @@
-import { describe, expect, mock, test } from 'bun:test';
+import { afterAll, describe, expect, mock, test } from 'bun:test';
 
 mock.module('#3rdparty/tinymidipcm.js', () => ({
     stopMidi() {},
@@ -37,8 +37,14 @@ mock.module('#/client/MobileKeyboard.js', () => ({
     }
 };
 (globalThis as any).navigator = { userAgent: 'bun-test' };
+// Later test files in the same process (lite/) need the real fetch to reach
+// the game server; leaving this stub installed makes them all skip.
+const realFetch = globalThis.fetch;
 (globalThis as any).fetch = async () => ({
     arrayBuffer: async () => new ArrayBuffer(0)
+});
+afterAll(() => {
+    (globalThis as any).fetch = realFetch;
 });
 (globalThis as any).document = {
     hidden: false,
