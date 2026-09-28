@@ -21,6 +21,7 @@ import { formatWorldState } from '../sdk/formatter.js';
 import { initPathfinding } from '../sdk/pathfinding.js';
 import { Spells } from '../sdk/spells.js';
 import { marketTool, readMarket } from './market-tools.js';
+import { ConsoleCapture } from './console-capture.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -178,7 +179,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
         const isLongCode = code.length > 2000;
 
         // Capture console output BEFORE connecting to prevent SDK logs from corrupting MCP JSON-RPC stdout
-        const logs: string[] = [];
+        const logs = new ConsoleCapture();
         const originalLog = console.log;
         const originalWarn = console.warn;
         const originalError = console.error;
@@ -287,7 +288,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
 
           if (logs.length > 0) {
             parts.push('── Console ──');
-            parts.push(logs.join('\n'));
+            parts.push(logs.lines().join('\n'));
           }
 
           if (result !== undefined) {
