@@ -86,33 +86,35 @@ export default class WsSyncReq {
             'onIncomingCallback': callbackOnIncoming,
             'expectedObject': expectedObj,
         };
-        const data_new = this.cloneObjectDestructuve (dataToSend);
-        data_new[this.keyOfRequestId] = uniqueId;
+        try {
+            const data_new = this.cloneObjectDestructuve (dataToSend);
+            data_new[this.keyOfRequestId] = uniqueId;
 
-        if (this.send(data_new)) {
-            let start = Date.now();
-            while (true) {
-                if (!this.checkIfWsLive()) {
-                    delete this.waitedSyncCallbacks[uniqueId];
-                    return { error : 'ws-sync - connection lost: ' + uniqueId, result:null};
-                } else if ((Date.now() - start) > timeoutMs) {
-                    return { error : 'ws-sync - exceeded timeout: ' + uniqueId, result:null};
-                } else {
-                    await this.sleep(this.loopPauseWaitIntervalMS);
-                    if (uniqueId in this.waitedSyncCallbacks) {
-                        const value = this.waitedSyncCallbacks[uniqueId];
-                        if (value['result'] != null) {
-                            delete this.waitedSyncCallbacks[uniqueId];
-                            return { error: null, result: value['result'] };
-                        }
+            if (this.send(data_new)) {
+                let start = Date.now();
+                while (true) {
+                    if (!this.checkIfWsLive()) {
+                        return { error : 'ws-sync - connection lost: ' + uniqueId, result:null};
+                    } else if ((Date.now() - start) > timeoutMs) {
+                        return { error : 'ws-sync - exceeded timeout: ' + uniqueId, result:null};
                     } else {
-                        var msg = 'ws-sync - unexpected exception, this should not be happen... the unique id does not exist: ' + uniqueId;
-                        return { error : msg, result:null };
+                        await this.sleep(this.loopPauseWaitIntervalMS);
+                        if (uniqueId in this.waitedSyncCallbacks) {
+                            const value = this.waitedSyncCallbacks[uniqueId];
+                            if (value['result'] != null) {
+                                return { error: null, result: value['result'] };
+                            }
+                        } else {
+                            var msg = 'ws-sync - unexpected exception, this should not be happen... the unique id does not exist: ' + uniqueId;
+                            return { error : msg, result:null };
+                        }
                     }
                 }
+            } else {
+                return { error : 'ws-sync - failed to send request. Socket may be disconnected', result:null };
             }
-        } else {
-            return { error : 'ws-sync - failed to send request. Socket may be disconnected', result:null };
+        } finally {
+            delete this.waitedSyncCallbacks[uniqueId];
         }
     }
 

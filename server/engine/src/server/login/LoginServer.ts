@@ -546,7 +546,7 @@ export default class LoginServer {
                                     s.send(
                                         JSON.stringify({
                                             replyTo,
-                                            response: 5
+                                            response: 3
                                         })
                                     );
                                     return;
