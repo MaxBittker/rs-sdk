@@ -790,16 +790,10 @@ export async function handleHiscoresOutfitPage(url: URL): Promise<Response | nul
 
 // Lava Maze runite leaderboard: one runite_mine row per ore mined from the two Lava Maze
 // rocks (see RUNITE_MINED in DebugOps.ts)
-function formatAgo(dbDate: string | Date): string {
-    const then = typeof dbDate === 'string' ? new Date(dbDate.replace(' ', 'T') + 'Z').getTime() : dbDate.getTime();
-    const mins = Math.floor((Date.now() - then) / 60_000);
-    if (mins < 2) return 'just now';
-    if (mins < 60) return `${mins}m ago`;
-    if (mins < 60 * 48) return `${Math.floor(mins / 60)}h ago`;
-    return `${Math.floor(mins / 1440)}d ago`;
-}
-
 type RuniteRow = { username: string; ore: number; last_mined: string | Date };
+
+// All three windows share one page, so each board is kept short.
+const RUNITE_BOARD_SIZE = 10;
 
 // Same short TTL + in-flight dedup as getRankedList: these run on the tick thread.
 const runiteCache = new Map<string, { at: number; rows: RuniteRow[]; pending: Promise<RuniteRow[]> | null }>();
@@ -825,7 +819,7 @@ async function getRuniteRows(profile: string, windowMs: number): Promise<RuniteR
             .orderBy('ore', 'desc')
             // ties go to whoever reached the count first
             .orderBy('last_mined', 'asc')
-            .limit(50);
+            .limit(RUNITE_BOARD_SIZE);
         if (windowMs > 0) {
             query = query.where('runite_mine.timestamp', '>', toDbDate(Date.now() - windowMs));
         }
@@ -850,23 +844,37 @@ export async function handleHiscoresRunitePage(url: URL): Promise<Response | nul
     if (!match) return null;
 
     const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
-    const windowParam = url.searchParams.get('window') || 'all';
-    const windowMs = windowParam === 'day' ? 24 * 3600_000 : windowParam === 'week' ? 7 * 24 * 3600_000 : 0;
 
-    const results = await getRuniteRows(profile, windowMs);
+    const [allTime, week, day] = await Promise.all([getRuniteRows(profile, 0), getRuniteRows(profile, 7 * 24 * 3600_000), getRuniteRows(profile, 24 * 3600_000)]);
 
-    const rows = results.map(
-        (r, i) => `
-            <tr>
-                <td align="right">${i + 1}</td>
-                <td><a href="/hiscores/player/${encodeURIComponent(r.username)}?profile=${profile}" class="c">${escapeHtml(r.username)}</a></td>
-                <td align="right" class="yellow">${Number(r.ore).toLocaleString()}</td>
-                <td align="right" style="font-size:11px">${formatAgo(r.last_mined)}</td>
-            </tr>
-        `
-    );
-
-    const windowTab = (key: string, label: string): string => (windowParam === key ? `<b class="text-orange">${label}</b>` : `<a href="/hiscores/runite?window=${key}&profile=${profile}" class="c">${label}</a>`);
+    const board = (title: string, results: RuniteRow[]): string => `
+                                        <td width="33%" valign="top">
+                                            <center>
+                                                <b>${title}</b><br>
+                                                <table width="100%" bgcolor="black" cellpadding="2">
+                                                    <tr>
+                                                        <td class="e" valign="top">
+                                                            ${
+                                                                results.length > 0
+                                                                    ? `<table width="100%" cellspacing="1" cellpadding="1">
+                                                                ${results
+                                                                    .map(
+                                                                        (r, i) => `
+                                                                <tr>
+                                                                    <td align="right">${i + 1}</td>
+                                                                    <td><a href="/hiscores/player/${encodeURIComponent(r.username)}?profile=${profile}" class="c">${escapeHtml(r.username)}</a></td>
+                                                                    <td align="right" class="yellow">${Number(r.ore).toLocaleString()}</td>
+                                                                </tr>`
+                                                                    )
+                                                                    .join('')}
+                                                            </table>`
+                                                                    : '<center><br>None yet<br><br></center>'
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </center>
+                                        </td>`;
 
     const html = `<!DOCTYPE html>
 <html>
@@ -945,24 +953,11 @@ export async function handleHiscoresRunitePage(url: URL): Promise<Response | nul
                         <td width="400" valign="top">
                             <center>
                                 <b>Runite ore mined</b><br>
-                                ${windowTab('all', 'All time')} | ${windowTab('week', 'This week')} | ${windowTab('day', 'Today')}<br>
-                                <table width="400" bgcolor="black" cellpadding="4">
+                                <table width="400" cellspacing="2" cellpadding="0">
                                     <tr>
-                                        <td class="e" valign="top">
-                                            ${
-                                                rows.length > 0
-                                                    ? `<table align="center" cellspacing="2" cellpadding="2">
-                                                <tr>
-                                                    <td><b>#</b></td>
-                                                    <td><b>Name</b></td>
-                                                    <td align="right"><b>Ore</b></td>
-                                                    <td align="right"><b>Last mined</b></td>
-                                                </tr>
-                                                ${rows.join('')}
-                                            </table>`
-                                                    : '<center><br>No runite mined yet</center>'
-                                            }
-                                        </td>
+                                        ${board('All time', allTime)}
+                                        ${board('This week', week)}
+                                        ${board('Today', day)}
                                     </tr>
                                 </table>
                             </center>
