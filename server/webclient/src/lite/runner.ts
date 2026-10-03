@@ -12,7 +12,8 @@
 
 import { fileURLToPath } from 'node:url';
 
-import { startSession, type LiteSession } from './session.js';
+import { LoginError } from './net/GameConnection.js';
+import { startSession, type LiteSession, type SessionOptions } from './session.js';
 import { type ActionResult } from '#/bot/ActionExecutor.js';
 import { BotActionQueue, type QueuedBotAction } from '#/bot/ActionQueue.js';
 import type { BotAction, BotWorldState } from '#/bot/types.js';
@@ -27,6 +28,35 @@ import {
 
 const TICK_MS = 20; // matches the browser draw loop that drives BotOverlay.tick()
 const RECONNECT_MS = 3000;
+/** Login codes that often clear after a short wait (session collision / rate limit). */
+const TRANSIENT_LOGIN_CODES = new Set([4, 5, 16]);
+const LOGIN_RETRY_MS = [5_000, 15_000, 30_000];
+const MAX_LOGIN_ATTEMPTS = 3;
+
+async function startSessionWithRetry(opts: SessionOptions): Promise<LiteSession> {
+    let lastErr: unknown;
+    for (let attempt = 0; attempt < MAX_LOGIN_ATTEMPTS; attempt++) {
+        try {
+            return await startSession(opts);
+        } catch (err) {
+            lastErr = err;
+            if (!(err instanceof LoginError) || !TRANSIENT_LOGIN_CODES.has(err.code)) {
+                throw err;
+            }
+            if (attempt >= MAX_LOGIN_ATTEMPTS - 1) break;
+            const delay = LOGIN_RETRY_MS[attempt] ?? 30_000;
+            const hint =
+                err.code === 4
+                    ? 'account disabled/busy (often a login race — session may still be active)'
+                    : err.message;
+            console.warn(
+                `[lite-runner] Login rejected (code ${err.code}: ${hint}), retrying in ${delay / 1000}s (${attempt + 1}/${MAX_LOGIN_ATTEMPTS - 1})`
+            );
+            await Bun.sleep(delay);
+        }
+    }
+    throw lastErr;
+}
 
 class LiteGatewayRunner {
     private client: LiteClient;
@@ -44,6 +74,7 @@ class LiteGatewayRunner {
     private lastFastKbdPrayerOffDispatchTick = -1;
 
     private ws: WebSocket | null = null;
+    private readonly gatewayClientId: string;
     private wsConnected = false;
     private preventReconnect = false;
     private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
@@ -54,6 +85,8 @@ class LiteGatewayRunner {
         private gatewayUrl: string,
         private fastKbdAttackEnabled = false,
     ) {
+        const { username } = session.client.getCredentials();
+        this.gatewayClientId = `${username}-lite-${Date.now()}`;
         this.client = session.client;
         // State collection and action execution go through the client, which
         // activates this bot's interface table first - see LiteClient.activate.
@@ -86,9 +119,11 @@ class LiteGatewayRunner {
         if (this.ws) return;
 
         console.log(`[lite-runner] Connecting to gateway ${this.gatewayUrl}`);
-        this.ws = new WebSocket(this.gatewayUrl);
+        const socket = new WebSocket(this.gatewayUrl);
+        this.ws = socket;
 
-        this.ws.onopen = () => {
+        socket.onopen = () => {
+            if (socket !== this.ws) return;
             this.wsConnected = true;
             const { username, password } = this.client.getCredentials();
             console.log(`[lite-runner] Gateway connected, registering as '${username}'`);
@@ -96,7 +131,7 @@ class LiteGatewayRunner {
                 type: 'connected',
                 username,
                 password,
-                clientId: `${username}-lite-${Date.now()}`,
+                clientId: this.gatewayClientId,
                 maxMessageLength: this.client.getMaxMessageLength()
             });
             // Drop queued work from the previous connection (BotOverlay.onConnected)
@@ -106,9 +141,13 @@ class LiteGatewayRunner {
                 this.actionQueue.complete(active);
             }
             this.waitTicks = 0;
+            // Publish immediately — don't wait for the next PLAYER_INFO tick. A
+            // zombie gateway snapshot otherwise survives indefinitely.
+            this.sendState();
         };
 
-        this.ws.onmessage = event => {
+        socket.onmessage = event => {
+            if (socket !== this.ws) return;
             try {
                 this.handleMessage(JSON.parse(String(event.data)));
             } catch (e) {
@@ -116,7 +155,8 @@ class LiteGatewayRunner {
             }
         };
 
-        this.ws.onclose = () => {
+        socket.onclose = () => {
+            if (socket !== this.ws) return;
             this.wsConnected = false;
             this.ws = null;
             if (!this.preventReconnect) {
@@ -126,7 +166,7 @@ class LiteGatewayRunner {
             }
         };
 
-        this.ws.onerror = () => {
+        socket.onerror = () => {
             // onclose follows
         };
     }
@@ -371,7 +411,7 @@ const host = env.SERVER || 'localhost';
 // mirror the server's NODE_PROFANITY_FILTER by hand: PROFANITY_FILTER=false in
 // bot.env or the process env disables local chat censoring.
 const profanityRaw = (env.PROFANITY_FILTER ?? process.env.PROFANITY_FILTER ?? '').toLowerCase();
-const session = await startSession({
+const session = await startSessionWithRetry({
     host,
     username: env.BOT_USERNAME!,
     password: env.PASSWORD!,

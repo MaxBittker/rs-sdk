@@ -19,6 +19,8 @@ const DEFAULT_RSA_EXPONENT = '58778699976184461502525193738213253649000149147835
 
 export const LOGIN_RESPONSE: Record<number, string> = {
     3: 'Invalid username or password',
+    // 4 is "disabled" on paper but this server also returns it for login races
+    // (session still tearing down / logged in too fast). Lite retries transiently.
     4: 'Account disabled',
     5: 'Account already logged in',
     6: 'Client out of date (revision or archive CRC mismatch)',
