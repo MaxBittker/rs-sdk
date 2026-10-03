@@ -76,3 +76,22 @@ if (state.inventory.length >= 28) {
     }
 }
 ```
+
+## Adamantite: where it actually is
+
+Server-wide census of adamantite rocks (loc ids 2104/2105/2133/2134):
+
+| Location | Rocks | Notes |
+|----------|-------|-------|
+| Dwarven Mine | 3 | (3035,9764), (3042,9772), (3042,9774). King Scorpions (lvl 32) nearby are aggressive to combat < 65. |
+| Al Kharid mine | 2 | (3298,3317), (3300,3318). Lvl 14 scorpions ignore combat 29+. |
+| Near Seers (surface) | 3 | (2836-2837, 3243-3244) — unverified routing. |
+| Wilderness hobgoblin mine | 7 | PvP risk. |
+| Various dungeons | rest | quest-gated or remote. |
+
+The **Mining Guild has no adamantite** (coal and mithril only). The gold
+cluster at (2731, 3224) south of Catherby is on White Wolf Mountain's slope
+and unroutable from the south ("no waypoints").
+
+Requirements: adamantite needs Mining 70; wielding a pickaxe above your
+Mining level makes mining silently do nothing.
