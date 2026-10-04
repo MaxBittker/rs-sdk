@@ -13,6 +13,7 @@ import type {
 import { PLAYER_CHAT_TYPES } from './types';
 import { ChatHistory } from '../../sdk/chat-history';
 import { chunkMessage } from '../../sdk/chunking';
+import { repeatsLastFanout } from './state-fanout';
 
 const GATEWAY_PORT = parseInt(process.env.AGENT_PORT || '7780');
 // Bind address. Fleet hosts running a private gateway set 127.0.0.1 so only
@@ -139,6 +140,7 @@ interface BotSession {
     connectedAt: number;              // When bot first connected (timestamp)
     lastHeartbeat: number;            // Last message received (any type)
     maxMessageLength?: number;        // Server-configured chat cap, relayed from the bot page to SDKs
+    lastFanoutState?: BotWorldState;  // Last state actually sent to SDK subscribers
 }
 
 // Session status for diagnostics
@@ -416,12 +418,16 @@ const SyncModule = {
             if (message.state.gameMessages?.length) {
                 chatHistoryFor(session.username).record(message.state.gameMessages);
             }
-            for (const sdkSession of this.getSDKSessionsForBot(session.username)) {
-                this.sendToSDK(sdkSession, {
-                    type: 'sdk_state',
-                    state: message.state,
-                    stateReceivedAt: session.lastStateReceivedAt
-                });
+            const subscribers = this.getSDKSessionsForBot(session.username);
+            if (subscribers.length > 0 && !repeatsLastFanout(session.lastFanoutState ?? null, message.state)) {
+                session.lastFanoutState = message.state;
+                for (const sdkSession of subscribers) {
+                    this.sendToSDK(sdkSession, {
+                        type: 'sdk_state',
+                        state: message.state,
+                        stateReceivedAt: session.lastStateReceivedAt
+                    });
+                }
             }
         }
 

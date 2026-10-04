@@ -26,6 +26,9 @@ WEBSITE_REGISTRATION = "false"
 WEB_PORT = "8080"
 # Gateway's direct listener (see the 7443 service below).
 GATEWAY_PUBLIC_PORT = "7781"
+# Concurrent game sessions per source IP (code default 200). Keyed on
+# Fly-Client-IP, which clients can't spoof.
+MAX_PLAYERS_PER_IP = "100"
 
 [http_service]
 auto_start_machines = true

@@ -1,11 +1,12 @@
 import path from 'path';
+import { isIP } from 'node:net';
 
-export function getIp(req: Request): string | null {
-    const forwardedFor = req.headers.get('cf-connecting-ip') || req.headers.get('x-forwarded-for');
-    if (!forwardedFor) {
-        return null;
-    }
-    return forwardedFor.split(',')[0].trim();
+export function getIp(req: Request, behindFlyProxy = Boolean(process.env.FLY_APP_NAME)): string | null {
+    // Only Fly's ingress can vouch for this header. Outside Fly, callers fall
+    // back to the socket peer; arbitrary forwarded headers are never trusted.
+    if (!behindFlyProxy) return null;
+    const ip = req.headers.get('fly-client-ip')?.trim();
+    return ip && isIP(ip) ? ip : null;
 }
 
 export const MIME_TYPES = new Map<string, string>([
