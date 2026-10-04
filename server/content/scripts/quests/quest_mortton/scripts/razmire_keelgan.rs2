@@ -240,7 +240,7 @@ if(%morttonquest < ^mortton_kill_shades) {
 ~openshop(razmiregeneralstore, 400, 1300, 300, "Razmire General Store.");
 
 [label,razmire_building_open]
-~openshop(razmirebuildingstore, 950, 1050, 400, "Razmire Builders Merchants.");
+~openshop(razmirebuildingstore, 650, 1050, 400, "Razmire Builders Merchants.");
 
 [label,razmire_thanks]
 ~chatplayer("<p,neutral>Ok, thanks");
