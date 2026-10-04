@@ -56,10 +56,6 @@ WORKDIR /opt/server/engine
 RUN sed -i 's/port: Environment.WEB_PORT,/port: Environment.WEB_PORT, hostname: "0.0.0.0",/' src/web/index.ts && \
     BUILD_VERIFY=false bun run build
 
-# Patch gateway
-WORKDIR /opt/server/gateway
-RUN sed -i 's/port: GATEWAY_PORT,/port: GATEWAY_PORT, hostname: "0.0.0.0",/' gateway.ts
-
 WORKDIR /opt/server
 
 EXPOSE 8080/tcp

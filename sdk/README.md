@@ -144,6 +144,32 @@ await page.goto("https://rs-sdk-demo.fly.dev/bot?bot=mybot123&password=test");
 | `actionTimeout` | `30000`       | Action timeout in ms                                 |
 | `autoReconnect` | `true`        | Auto-reconnect on disconnect                         |
 
+### Direct gateway
+
+For `rs-sdk-demo.fly.dev`, `connect()` and the lite runner first try the
+gateway's own port, `wss://rs-sdk-demo.fly.dev:7443`. State frames arrive
+compressed (about 6x smaller), and nothing is relayed through the game server.
+If that port doesn't answer within 3 seconds they use
+`wss://rs-sdk-demo.fly.dev/gateway` as before. Set `GATEWAY_DIRECT=false` to
+skip the check.
+
+### Private gateway for a fleet
+
+If your lite runners and the scripts that control them run on one machine, run
+the gateway there too. Bot state then stays on that machine and only game
+traffic goes to the server.
+
+```bash
+cd server/gateway && bun install
+GATEWAY_HOSTNAME=127.0.0.1 LOGIN_SERVER=false bun gateway.ts   # ws://127.0.0.1:7780
+```
+
+Add `GATEWAY_URL=ws://127.0.0.1:7780` to each bot's `bot.env`. The lite runner,
+`runScript` scripts, `sdk/cli.ts`, `sdk/chat.ts` and the MCP server all honor
+it. With `LOGIN_SERVER=false` the gateway accepts any password, so keep it on
+`127.0.0.1`. Bots in a browser tab always use the game server's `/gateway`, and
+bots on a private gateway don't appear in the server's public `/status`.
+
 ## Two-Layer API
 
 ### Plumbing (BotSDK)

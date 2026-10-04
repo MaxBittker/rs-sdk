@@ -57,7 +57,7 @@ observers get.
 }
 
 /** Same bot.env resolution as sdk/cli.ts. */
-function tryLoadBotEnv(botName: string): { username: string; password: string; server?: string } | null {
+function tryLoadBotEnv(botName: string): { username: string; password: string; server?: string; gatewayUrl?: string } | null {
     const envPath = join(process.cwd(), 'bots', botName, 'bot.env');
     if (!existsSync(envPath)) return null;
 
@@ -78,7 +78,8 @@ function tryLoadBotEnv(botName: string): { username: string; password: string; s
     return {
         username: env.BOT_USERNAME,
         password: env.PASSWORD,
-        server: env.SERVER
+        server: env.SERVER,
+        gatewayUrl: env.GATEWAY_URL
     };
 }
 
@@ -368,6 +369,8 @@ async function main() {
         username = botEnv.username;
         password = botEnv.password;
         if (botEnv.server && !server) server = botEnv.server;
+        // Same as sdk/cli.ts: a bot.env GATEWAY_URL (e.g. a private fleet gateway) wins.
+        if (botEnv.gatewayUrl && !process.env.GATEWAY_URL) process.env.GATEWAY_URL = botEnv.gatewayUrl;
     }
     if (!server) server = process.env.SERVER || 'rs-sdk-demo.fly.dev';
 

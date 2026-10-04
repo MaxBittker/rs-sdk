@@ -24,6 +24,8 @@ NODE_TICKRATE = "300"
 NODE_XPRATE = "25"
 WEBSITE_REGISTRATION = "false"
 WEB_PORT = "8080"
+# Gateway's direct listener (see the 7443 service below).
+GATEWAY_PUBLIC_PORT = "7781"
 
 [http_service]
 auto_start_machines = true
@@ -41,6 +43,17 @@ protocol = "tcp"
 
   [[services.ports]]
   port = 43594
+
+# SDK gateway, direct: wss://rs-sdk-demo.fly.dev:7443. Compressed state frames,
+# and the relay work stays off the game server's tick thread. The SDK and lite
+# runner prefer it and fall back to wss://.../gateway if it is unreachable.
+[[services]]
+internal_port = 7781
+protocol = "tcp"
+
+  [[services.ports]]
+  port = 7443
+  handlers = ["tls", "http"]
 
 [[vm]]
 memory = "4gb"

@@ -47,6 +47,7 @@ class LiteGatewayRunner {
     private wsConnected = false;
     private preventReconnect = false;
     private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+    private resolvingGateway = false;
     private tickTimer: ReturnType<typeof setInterval> | null = null;
 
     constructor(
@@ -83,10 +84,19 @@ class LiteGatewayRunner {
     }
 
     connect(): void {
-        if (this.ws) return;
+        if (this.ws || this.resolvingGateway) return;
+        // Re-checked on every (re)connect, so the direct port is picked up again
+        // after a server restart and abandoned if it ever stops answering.
+        this.resolvingGateway = true;
+        void preferDirectGateway(this.gatewayUrl).then(url => {
+            this.resolvingGateway = false;
+            if (!this.ws && !this.preventReconnect) this.open(url);
+        });
+    }
 
-        console.log(`[lite-runner] Connecting to gateway ${this.gatewayUrl}`);
-        this.ws = new WebSocket(this.gatewayUrl);
+    private open(url: string): void {
+        console.log(`[lite-runner] Connecting to gateway ${url}`);
+        this.ws = new WebSocket(url);
 
         this.ws.onopen = () => {
             this.wsConnected = true;
@@ -349,6 +359,23 @@ function deriveGatewayUrl(server: string): string {
         return `ws://${server.includes(':') ? server : server + ':7780'}`;
     }
     return `wss://${server}/gateway`;
+}
+
+// Same table as sdk/index.ts preferDirectGateway: publish straight to the
+// gateway's own TLS port when it answers (compressed frames, no relay through
+// the game server's tick thread), else keep the relayed /gateway URL.
+const DIRECT_GATEWAYS: Record<string, string> = {
+    'wss://rs-sdk-demo.fly.dev/gateway': 'wss://rs-sdk-demo.fly.dev:7443',
+};
+async function preferDirectGateway(url: string): Promise<string> {
+    const direct = DIRECT_GATEWAYS[url];
+    if (!direct || process.env.GATEWAY_DIRECT === 'false') return url;
+    try {
+        const res = await fetch(direct.replace(/^ws/, 'http') + '/', { signal: AbortSignal.timeout(3000) });
+        return res.ok ? direct : url;
+    } catch {
+        return url;
+    }
 }
 
 const botName = process.argv[2];

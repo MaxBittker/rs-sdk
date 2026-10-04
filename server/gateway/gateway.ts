@@ -15,6 +15,16 @@ import { ChatHistory } from '../../sdk/chat-history';
 import { chunkMessage } from '../../sdk/chunking';
 
 const GATEWAY_PORT = parseInt(process.env.AGENT_PORT || '7780');
+// Bind address. Fleet hosts running a private gateway set 127.0.0.1 so only
+// local processes can reach it (it has no auth when LOGIN_SERVER is off).
+const GATEWAY_HOSTNAME = process.env.GATEWAY_HOSTNAME || '0.0.0.0';
+// Optional second listener that clients reach directly (on Fly: wss://host:7443
+// -> 7781), instead of through the game server's /gateway relay. It negotiates
+// permessage-deflate: live state frames compress to ~13% at ~6 ms CPU per MB,
+// spent in this process rather than on the game's tick thread. The main port
+// stays uncompressed - the engine relay reaches it over loopback, where
+// compressing would only cost CPU on both ends.
+const GATEWAY_PUBLIC_PORT = parseInt(process.env.GATEWAY_PUBLIC_PORT || '0');
 
 // Login server configuration - when enabled, SDK connections require per-bot authentication
 const LOGIN_SERVER_ENABLED = process.env.LOGIN_SERVER === 'true';
@@ -226,7 +236,8 @@ const SyncModule = {
     sendToBot(session: BotSession, message: SyncToBotMessage) {
         if (session.ws) {
             try {
-                session.ws.send(JSON.stringify(message));
+                // compress only takes effect on sockets that negotiated deflate (public listener)
+                session.ws.send(JSON.stringify(message), true);
             } catch (error) {
                 console.error(`[Gateway] [${session.username}] Failed to send to bot:`, error);
             }
@@ -236,7 +247,7 @@ const SyncModule = {
     sendToSDK(session: SDKSession, message: SyncToSDKMessage) {
         if (session.ws) {
             try {
-                session.ws.send(JSON.stringify(message));
+                session.ws.send(JSON.stringify(message), true);
             } catch (error) {
                 console.error(`[Gateway] [${session.sdkClientId}] Failed to send to SDK:`, error);
             }
@@ -779,10 +790,8 @@ process.on('uncaughtException', (error) => {
 
 console.log(`[Gateway] Starting Gateway Service on port ${GATEWAY_PORT}...`);
 
-const server = Bun.serve({
-    port: GATEWAY_PORT,
-
-    async fetch(req, server) {
+const gatewayHandlers = {
+    async fetch(req: Request, server: any) {
         const url = new URL(req.url);
 
         // WebSocket upgrade
@@ -1087,7 +1096,19 @@ Bots: ${botSessions.size} | SDKs: ${sdkSessions.size}
             }
         }
     }
-});
+};
+
+Bun.serve({ port: GATEWAY_PORT, hostname: GATEWAY_HOSTNAME, ...gatewayHandlers });
+
+if (GATEWAY_PUBLIC_PORT) {
+    Bun.serve({
+        port: GATEWAY_PUBLIC_PORT,
+        hostname: GATEWAY_HOSTNAME,
+        fetch: gatewayHandlers.fetch,
+        websocket: { ...gatewayHandlers.websocket, perMessageDeflate: true }
+    });
+    console.log(`[Gateway] Public listener (permessage-deflate) on port ${GATEWAY_PUBLIC_PORT}`);
+}
 
 console.log(`[Gateway] Gateway running at http://localhost:${GATEWAY_PORT}`);
 console.log(`[Gateway] Bot/SDK: ws://localhost:${GATEWAY_PORT}`);

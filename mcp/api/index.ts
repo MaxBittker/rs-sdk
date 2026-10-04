@@ -65,7 +65,10 @@ class BotManager {
       username = env.BOT_USERNAME || name;
       pwd = env.PASSWORD;
 
-      if (env.SERVER) {
+      // A bot.env GATEWAY_URL (e.g. a private fleet gateway) wins, as in sdk/cli.ts.
+      if (env.GATEWAY_URL) {
+        gateway = env.GATEWAY_URL;
+      } else if (env.SERVER) {
         gateway = deriveGatewayUrl(env.SERVER);
       }
 

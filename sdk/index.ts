@@ -81,6 +81,41 @@ export function deriveGatewayUrl(server?: string): string {
     return `wss://${server}/gateway`;
 }
 
+// Public servers whose gateway also listens on its own TLS port. Connecting
+// there skips the game server's /gateway relay (which runs on the game's tick
+// thread) and negotiates permessage-deflate, so state frames arrive ~6x
+// smaller. Keyed by the relayed URL deriveGatewayUrl produces; HTTP endpoints
+// keep using the relayed origin.
+const DIRECT_GATEWAYS: Record<string, string> = {
+    'wss://rs-sdk-demo.fly.dev/gateway': 'wss://rs-sdk-demo.fly.dev:7443',
+};
+const directGatewayChecks = new Map<string, Promise<string>>();
+
+/**
+ * The direct gateway WebSocket URL for a relayed one when its port answers,
+ * otherwise the URL unchanged. Checked once per process, so a network that
+ * blocks the port keeps working through the relay. GATEWAY_DIRECT=false opts out.
+ */
+export function preferDirectGateway(url: string, directGateways: Record<string, string> = DIRECT_GATEWAYS): Promise<string> {
+    const direct = directGateways[url];
+    if (!direct || (typeof process !== 'undefined' && process.env?.GATEWAY_DIRECT === 'false')) {
+        return Promise.resolve(url);
+    }
+    let check = directGatewayChecks.get(direct);
+    if (!check) {
+        check = fetch(direct.replace(/^ws/, 'http') + '/', { signal: AbortSignal.timeout(3000) })
+            .then(res => (res.ok ? direct : url), () => url);
+        directGatewayChecks.set(direct, check);
+    }
+    return check;
+}
+
+/** Drop a cached direct-gateway check so the next connect probes again. */
+export function forgetDirectGateway(url: string, directGateways: Record<string, string> = DIRECT_GATEWAYS): void {
+    const direct = directGateways[url];
+    if (direct) directGatewayChecks.delete(direct);
+}
+
 interface SyncToSDKMessage {
     type: 'sdk_connected' | 'sdk_state' | 'sdk_action_result' | 'sdk_error' | 'sdk_screenshot_response' | 'sdk_info';
     success?: boolean;
@@ -224,8 +259,12 @@ export class BotSDK {
             }
         }
 
-        this.connectPromise = new Promise((resolve, reject) => {
-            const url = this.config.gatewayUrl || `ws://${this.config.host}:${this.config.port}`;
+        const configuredUrl = this.config.gatewayUrl || `ws://${this.config.host}:${this.config.port}`;
+        this.connectPromise = preferDirectGateway(configuredUrl).then(url => new Promise<void>((resolve, reject) => {
+            if (this.intentionalDisconnect) {
+                reject(new Error('Disconnected while connecting'));
+                return;
+            }
             this.ws = new WebSocket(url);
 
             // One deadline for the whole handshake - socket open AND the
@@ -338,6 +377,11 @@ export class BotSDK {
                 } catch {}
             };
             this.ws.addEventListener('message', checkConnected);
+        })).catch(error => {
+            // Re-probe on the next attempt: a direct port that stopped answering
+            // falls back to the relay instead of failing every reconnect.
+            forgetDirectGateway(configuredUrl);
+            throw error;
         });
 
         return this.connectPromise;
