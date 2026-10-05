@@ -1,5 +1,6 @@
 import type { ServerWebSocket } from 'bun';
 import World from '#/engine/World.js';
+import { WorldStat } from '#/engine/WorldStat.js';
 import OnDemand from '#/engine/OnDemand.js';
 import { LoggerEventType } from '#/server/logger/LoggerEventType.js';
 import NullClientSocket from '#/server/NullClientSocket.js';
@@ -70,7 +71,17 @@ export function handleGatewayEndpointGet(url: URL): Response | null {
     return null;
 }
 
+// Relayed SDK frames are compressed on this (the tick) thread, ~7 ms CPU per MB.
+// When the last tick ran long, send them uncompressed: costs bandwidth, not ticks.
+function compressRelayFrame(): boolean {
+    return World.lastCycleStats[WorldStat.CYCLE] < World.tickRate * 0.75;
+}
+
 export const websocketHandlers = {
+    // Negotiated for every socket (Bun can't opt out per upgrade), but only relay
+    // frames are sent compressed; game packets go out as before. Clients that offer
+    // the extension (browsers, Bun, Node ws) also compress what they publish.
+    perMessageDeflate: true,
     open(ws: ServerWebSocket<WebSocketData>) {
         // Handle agent SDK proxy connections
         if (ws.data.isAgentProxy) {
@@ -89,7 +100,7 @@ export const websocketHandlers = {
 
             agentWs.onmessage = (event) => {
                 try {
-                    ws.send(event.data);
+                    ws.send(event.data, compressRelayFrame());
                 } catch (_) {
                     agentWs.close();
                 }
