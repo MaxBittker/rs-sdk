@@ -148,12 +148,11 @@ export class GatewayConnection {
         }
     }
 
-    sendState(state: BotWorldState, formattedState: string): void {
+    sendState(state: BotWorldState): void {
         if (!this.connected) return;
         this.send({
             type: 'state',
-            state,
-            formattedState
+            state
         });
     }
 

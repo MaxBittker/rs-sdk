@@ -5,7 +5,7 @@ import type { Client } from '#/client/Client.js';
 import type { BotState, BotAction, BotWorldState } from './types.js';
 import { BotStateCollector } from './StateCollector.js';
 import { ActionExecutor, formatAction } from './ActionExecutor.js';
-import { formatBotState, formatWorldStateForAgent } from './formatters.js';
+import { formatBotState } from './formatters.js';
 import { GatewayConnection, type GatewayMessageHandler } from './GatewayConnection.js';
 import { OverlayUI } from './OverlayUI.js';
 import { BotActionQueue, type QueuedBotAction } from './ActionQueue.js';
@@ -307,8 +307,7 @@ export class BotOverlay implements GatewayMessageHandler {
         const state = this.collectWorldState();
         if (!state) return;
 
-        const formattedState = formatWorldStateForAgent(state, 'SDK Control');
-        this.gateway.sendState(state, formattedState);
+        this.gateway.sendState(state);
     }
 
     private finishAction(entry: QueuedBotAction, result: ActionResult): void {

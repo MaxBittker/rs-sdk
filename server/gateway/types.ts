@@ -13,7 +13,6 @@ import type { BotWorldState, BotAction, ActionResult } from '../../sdk/types';
 export interface BotClientMessage {
     type: 'state' | 'actionResult' | 'setGoal' | 'connected' | 'screenshot_response';
     state?: BotWorldState;
-    formattedState?: string;
     result?: ActionResult;
     actionId?: string;  // Echo back for correlation
     goal?: string;
