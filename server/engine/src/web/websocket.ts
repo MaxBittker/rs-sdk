@@ -5,7 +5,7 @@ import { LoggerEventType } from '#/server/logger/LoggerEventType.js';
 import NullClientSocket from '#/server/NullClientSocket.js';
 import WSClientSocket from '#/server/ws/WSClientSocket.js';
 import Environment from '#/util/Environment.js';
-import { getIp } from './utils.js';
+import { gatewayLabelQuery, getIp } from './utils.js';
 
 export type WebSocketData = {
     client: WSClientSocket,
@@ -13,8 +13,10 @@ export type WebSocketData = {
     isAgentProxy?: boolean,
     agentWs?: WebSocket,
     agentReady?: boolean,
-    agentQueue?: string[]
+    agentQueue?: string[],
+    agentLabel?: string
 };
+
 
 export function handleWebSocketUpgrade(
     req: Request,
@@ -32,7 +34,8 @@ export function handleWebSocketUpgrade(
             data: {
                 client: new WSClientSocket(),
                 remoteAddress: getIp(req),
-                isAgentProxy: true
+                isAgentProxy: true,
+                agentLabel: gatewayLabelQuery(req)
             }
         });
 
@@ -71,7 +74,7 @@ export const websocketHandlers = {
     open(ws: ServerWebSocket<WebSocketData>) {
         // Handle agent SDK proxy connections
         if (ws.data.isAgentProxy) {
-            const agentWs = new WebSocket('ws://localhost:7780');
+            const agentWs = new WebSocket(`ws://localhost:7780/${ws.data.agentLabel ?? ''}`);
             ws.data.agentWs = agentWs;
             ws.data.agentReady = false;
             ws.data.agentQueue = [];

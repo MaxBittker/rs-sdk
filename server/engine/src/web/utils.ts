@@ -9,6 +9,19 @@ export function getIp(req: Request, behindFlyProxy = Boolean(process.env.FLY_APP
     return ip && isIP(ip) ? ip : null;
 }
 
+// Fly Proxy tells us which edge accepted the client and the client's IP. The
+// gateway can't see either through the loopback /gateway hop, so pass them
+// along for its per-swarm bandwidth stats (GET /traffic on port 7780).
+export function gatewayLabelQuery(req: Request): string {
+    const params = new URLSearchParams();
+    const edge = req.headers.get('fly-region') ?? '';
+    const ip = req.headers.get('fly-client-ip')?.trim() ?? '';
+    if (/^[a-z]{3}$/.test(edge)) params.set('edge', edge);
+    if (isIP(ip)) params.set('ip', ip);
+    const query = params.toString();
+    return query ? `?${query}` : '';
+}
+
 export const MIME_TYPES = new Map<string, string>([
     ['.js', 'application/javascript'],
     ['.mjs', 'application/javascript'],

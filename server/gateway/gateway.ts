@@ -14,6 +14,8 @@ import { PLAYER_CHAT_TYPES } from './types';
 import { ChatHistory } from '../../sdk/chat-history';
 import { chunkMessage } from '../../sdk/chunking';
 import { repeatsLastFanout } from './state-fanout';
+import { StateFieldSampler, TrafficMeter, formatFieldReport, formatTrafficReport, type ConnectionLabel } from './traffic';
+import { isIP } from 'node:net';
 
 const GATEWAY_PORT = parseInt(process.env.AGENT_PORT || '7780');
 // Bind address. Fleet hosts running a private gateway set 127.0.0.1 so only
@@ -26,6 +28,25 @@ const GATEWAY_HOSTNAME = process.env.GATEWAY_HOSTNAME || '0.0.0.0';
 // stays uncompressed - the engine relay reaches it over loopback, where
 // compressing would only cost CPU on both ends.
 const GATEWAY_PUBLIC_PORT = parseInt(process.env.GATEWAY_PUBLIC_PORT || '0');
+
+const traffic = new TrafficMeter();
+traffic.start();
+const stateFields = new StateFieldSampler();
+
+// Labels for traffic stats only. Direct-listener requests come through Fly
+// Proxy, which sets Fly-Region / Fly-Client-IP. Relayed ones arrive from the
+// engine's /gateway proxy over loopback, which appends ?edge=&ip= because the
+// gateway can't see those headers through that hop.
+function connectionLabel(req: Request, url: URL, server: any): ConnectionLabel {
+    const direct = GATEWAY_PUBLIC_PORT > 0 && server.port === GATEWAY_PUBLIC_PORT;
+    const edge = (direct ? req.headers.get('fly-region') : url.searchParams.get('edge')) ?? '';
+    const ip = ((direct ? req.headers.get('fly-client-ip') : url.searchParams.get('ip')) ?? '').trim();
+    return {
+        edge: /^[a-z]{3}$/.test(edge) ? edge : 'direct',
+        ip: isIP(ip) ? ip : (server.requestIP?.(req)?.address ?? ''),
+        via: direct ? 'direct' : 'relay'
+    };
+}
 
 // Login server configuration - when enabled, SDK connections require per-bot authentication
 const LOGIN_SERVER_ENABLED = process.env.LOGIN_SERVER === 'true';
@@ -238,8 +259,10 @@ const SyncModule = {
     sendToBot(session: BotSession, message: SyncToBotMessage) {
         if (session.ws) {
             try {
+                const json = JSON.stringify(message);
+                traffic.record('bot_out', session.username, '', session.ws.data, json.length);
                 // compress only takes effect on sockets that negotiated deflate (public listener)
-                session.ws.send(JSON.stringify(message), true);
+                session.ws.send(json, true);
             } catch (error) {
                 console.error(`[Gateway] [${session.username}] Failed to send to bot:`, error);
             }
@@ -249,7 +272,9 @@ const SyncModule = {
     sendToSDK(session: SDKSession, message: SyncToSDKMessage) {
         if (session.ws) {
             try {
-                session.ws.send(JSON.stringify(message), true);
+                const json = JSON.stringify(message);
+                traffic.record('sdk_out', session.targetUsername, session.mode, session.ws.data, json.length);
+                session.ws.send(json, true);
             } catch (error) {
                 console.error(`[Gateway] [${session.sdkClientId}] Failed to send to SDK:`, error);
             }
@@ -413,13 +438,20 @@ const SyncModule = {
         }
 
         if (message.type === 'state' && message.state) {
+            stateFields.observe(session.username, message.state as unknown as Record<string, unknown>);
             session.lastState = message.state;
             session.lastStateReceivedAt = Date.now();
             if (message.state.gameMessages?.length) {
                 chatHistoryFor(session.username).record(message.state.gameMessages);
             }
             const subscribers = this.getSDKSessionsForBot(session.username);
-            if (subscribers.length > 0 && !repeatsLastFanout(session.lastFanoutState ?? null, message.state)) {
+            const repeat = subscribers.length > 0 && repeatsLastFanout(session.lastFanoutState ?? null, message.state);
+            if (subscribers.length > 0 && session.lastFanoutState?.tick === message.state.tick) {
+                // meter only: what skipping (repeat) saved, or what a per-tick merge would also save
+                traffic.record(repeat ? 'dedup_skipped' : 'sametick_out', session.username, '', undefined,
+                    JSON.stringify(message.state).length * subscribers.length);
+            }
+            if (subscribers.length > 0 && !repeat) {
                 session.lastFanoutState = message.state;
                 for (const sdkSession of subscribers) {
                     this.sendToSDK(sdkSession, {
@@ -802,7 +834,7 @@ const gatewayHandlers = {
 
         // WebSocket upgrade
         if (req.headers.get('upgrade') === 'websocket') {
-            const upgraded = server.upgrade(req);
+            const upgraded = server.upgrade(req, { data: connectionLabel(req, url, server) });
             if (upgraded) return undefined;
             return new Response('WebSocket upgrade failed', { status: 400 });
         }
@@ -851,10 +883,42 @@ const gatewayHandlers = {
             });
         }
 
-        const jsonResponse = (body: unknown, status = 200) => new Response(JSON.stringify(body, null, 2), {
-            status,
-            headers: { 'Content-Type': 'application/json', ...corsHeaders }
-        });
+        const jsonResponse = (body: unknown, status = 200) => {
+            const json = JSON.stringify(body, null, 2);
+            const [, route = '', bot = ''] = url.pathname.split('/');
+            let botName = bot;
+            try { botName = decodeURIComponent(bot); } catch {}
+            traffic.record('http_out', botName, route, undefined, json.length);
+            return new Response(json, {
+                status,
+                headers: { 'Content-Type': 'application/json', ...corsHeaders }
+            });
+        };
+
+        // Bandwidth attribution: GET /traffic?window=60[&format=text], and which
+        // state fields carry the bytes: GET /traffic/fields[?format=text].
+        // Internal only: never served on the public listener (it lists client IPs).
+        if (url.pathname.startsWith('/traffic') && GATEWAY_PUBLIC_PORT > 0 && server.port === GATEWAY_PUBLIC_PORT) {
+            return new Response('Not found', { status: 404 });
+        }
+        if (url.pathname === '/traffic/fields' && req.method === 'GET') {
+            const report = stateFields.report();
+            if (url.searchParams.get('format') === 'text') {
+                return new Response(formatFieldReport(report), { headers: { 'Content-Type': 'text/plain' } });
+            }
+            return new Response(JSON.stringify(report, null, 2), { headers: { 'Content-Type': 'application/json' } });
+        }
+        if (url.pathname === '/traffic' && req.method === 'GET') {
+            const windowSec = Math.min(600, Math.max(10, parseInt(url.searchParams.get('window') || '60', 10) || 60));
+            const report = traffic.report(windowSec, {
+                bots: [...botSessions.values()].filter(b => b.ws).map(b => b.username),
+                sdks: [...sdkSessions.values()].map(s => ({ bot: s.targetUsername, mode: s.mode }))
+            });
+            if (url.searchParams.get('format') === 'text') {
+                return new Response(formatTrafficReport(report), { headers: { 'Content-Type': 'text/plain' } });
+            }
+            return new Response(JSON.stringify(report, null, 2), { headers: { 'Content-Type': 'application/json' } });
+        }
 
         // Read recent chat: GET /chat/:username?limit=20&system=1
         //
@@ -1088,7 +1152,17 @@ Bots: ${botSessions.size} | SDKs: ${sdkSessions.size}
             // becomes an unhandled rejection, which Bun treats as fatal (exit 1) and
             // takes down every other session with it. One bad frame must only ever
             // affect its own socket.
-            handleMessage(ws, message.toString()).catch((error) => {
+            const text = message.toString();
+            const wsInfo = wsToType.get(ws);
+            if (wsInfo?.type === 'bot') {
+                traffic.record('bot_in', wsInfo.id, '', ws.data, text.length);
+            } else if (wsInfo?.type === 'sdk') {
+                const session = sdkSessions.get(wsInfo.id);
+                traffic.record('sdk_in', session?.targetUsername ?? '', session?.mode ?? '', ws.data, text.length);
+            } else {
+                traffic.record('pending_in', '', '', ws.data, text.length);
+            }
+            handleMessage(ws, text).catch((error) => {
                 console.error('[Gateway] Unhandled error while handling message:', error);
                 try { ws.close(); } catch {}
             });
