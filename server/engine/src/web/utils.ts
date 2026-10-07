@@ -86,3 +86,6 @@ export const SKILL_NAMES = [
 export const ENABLED_SKILLS = SKILL_NAMES
     .map((name, i) => name ? { id: i, name } : null)
     .filter(Boolean) as { id: number; name: string }[];
+
+// rs-sdk: quest points share the hiscore table under a type no stat id reaches (level = value = qp)
+export const QUEST_POINTS_HISCORE_TYPE = 100;

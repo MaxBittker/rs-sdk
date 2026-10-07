@@ -12,10 +12,12 @@ import { PlayerStatEnabled } from '#/engine/entity/PlayerStat.js';
 import Packet from '#/io/Packet.js';
 import Environment from '#/util/Environment.js';
 import { toSafeName } from '#/util/JString.js';
-import { printInfo } from '#/util/Logger.js';
+import { printInfo, printWarning } from '#/util/Logger.js';
 import { startManagementWeb } from '#/web.js';
+import { QUEST_POINTS_HISCORE_TYPE } from '#/web/utils.js';
 import InvType from '#/cache/config/InvType.js';
 import ObjType from '#/cache/config/ObjType.js';
+import VarPlayerType from '#/cache/config/VarPlayerType.js';
 import { outfitAppearance } from '#/server/login/OutfitAppearance.js';
 
 // bcrypt-ts is pure JS: one compare pins this thread for ~50-200ms. Prod outage
@@ -182,7 +184,27 @@ async function updateHiscores(account: HiscoreAccount | undefined, player: Playe
         await db.updateTable('hiscore').set(update[i]).where('account_id', '=', account.id).where('type', '=', update[i].type).where('profile', '=', profile).execute();
     }
 
+    await updateQuestHiscore(account, player, profile);
     await updateWealthHiscores(account, player, profile);
+}
+
+// rs-sdk: quest points board. %qp is recounted from quest progress on every login and is
+// scope=perm so it reaches the save. Playtime is only stamped when the total changes, so ties
+// go to whoever reached it first - and autosave only writes when someone finishes a quest.
+async function updateQuestHiscore(account: HiscoreAccount, player: Player, profile: string) {
+    const qp = player.vars[VarPlayerType.getId('qp')] ?? 0;
+    if (qp < 1) {
+        return;
+    }
+
+    const existing = await db.selectFrom('hiscore').select('level').where('account_id', '=', account.id).where('type', '=', QUEST_POINTS_HISCORE_TYPE).where('profile', '=', profile).executeTakeFirst();
+    if (existing && existing.level === qp) {
+        // unchanged
+    } else if (existing) {
+        await db.updateTable('hiscore').set({ level: qp, value: qp, playtime: player.playtime, date: toDbDate(new Date()) }).where('account_id', '=', account.id).where('type', '=', QUEST_POINTS_HISCORE_TYPE).where('profile', '=', profile).execute();
+    } else {
+        await db.insertInto('hiscore').values({ account_id: account.id, profile, type: QUEST_POINTS_HISCORE_TYPE, level: qp, value: qp, playtime: player.playtime }).execute();
+    }
 }
 
 // rs-sdk: outfit + bank boards are also refreshed on autosave (not just logout), so players who
@@ -332,6 +354,11 @@ export default class LoginServer {
 
         InvType.load('data/pack');
         ObjType.load('data/pack');
+        // Player.vars is sized from VarPlayerType, so saves load without varps until this is loaded
+        VarPlayerType.load('data/pack');
+        if (VarPlayerType.getByName('qp')?.scope !== VarPlayerType.SCOPE_PERM) {
+            printWarning('qp varp is not scope=perm - the quest points hiscore will not update');
+        }
 
         this.server = new WebSocketServer({ port: Environment.login.port, host: '0.0.0.0' }, () => {
             printInfo(`Login server listening on port ${Environment.login.port}`);
@@ -723,7 +750,9 @@ export default class LoginServer {
                             try {
                                 const account = await db.selectFrom('account').select(['id', 'staffmodlevel', 'banned_until']).where('username', '=', username).executeTakeFirst();
                                 if (hiscoreEligible(account)) {
-                                    await updateWealthHiscores(account, PlayerLoading.load(username, new Packet(raw), null), profile);
+                                    const player = PlayerLoading.load(username, new Packet(raw), null);
+                                    await updateQuestHiscore(account, player, profile);
+                                    await updateWealthHiscores(account, player, profile);
                                 }
                             } catch (err) {
                                 console.error(username, 'autosave hiscore update failed', err);

@@ -1,7 +1,7 @@
 import { db, toDbDate } from '#/db/query.js';
 import Environment from '#/util/Environment.js';
 import { tryParseInt } from '#/util/TryParse.js';
-import { escapeHtml, SKILL_NAMES, ENABLED_SKILLS } from '../utils.js';
+import { escapeHtml, SKILL_NAMES, ENABLED_SKILLS, QUEST_POINTS_HISCORE_TYPE } from '../utils.js';
 import { itemSpriteUrl, playerSpriteUrl } from '#/web/sprites/SpriteRenderer.js';
 
 const hiddenNames = Environment.HISCORES_HIDDEN_NAMES;
@@ -143,7 +143,8 @@ function hiscoreTableLinks(profile: string): string {
                 return `<tr><td><a href="/hiscores?category=${s.id}&profile=${profile}" class="c">${icon}${s.name}</a></td></tr>`;
             })
             .join('\n') +
-        `\n<tr><td>&nbsp;</td></tr>\n<tr><td><a href="/hiscores/outfit?profile=${profile}" class="c text-orange">Equipment</a></td></tr>` +
+        `\n<tr><td>&nbsp;</td></tr>\n<tr><td><a href="/hiscores?category=${QUEST_POINTS_HISCORE_TYPE}&profile=${profile}" class="c text-orange">Quest Points</a></td></tr>` +
+        `\n<tr><td><a href="/hiscores/outfit?profile=${profile}" class="c text-orange">Equipment</a></td></tr>` +
         `\n<tr><td><a href="/hiscores/bank?profile=${profile}" class="c text-orange">Bank</a></td></tr>` +
         `\n<tr><td><a href="/hiscores/runite?profile=${profile}" class="c text-orange">Lava Maze Runite</a></td></tr>`
     );
@@ -216,6 +217,21 @@ export async function handleHiscoresPlayerPage(url: URL): Promise<Response | nul
             </tr>
         `);
     }
+
+    const questStat = skillStats.find(s => s.type === QUEST_POINTS_HISCORE_TYPE);
+    let questRank = '-';
+    if (questStat) {
+        const r = rankIn(await getRankedList(profile, QUEST_POINTS_HISCORE_TYPE), account.username);
+        questRank = r ? String(r) : '-';
+    }
+    skillRows.push(`
+        <tr>
+            <td><a href="/hiscores?category=${QUEST_POINTS_HISCORE_TYPE}&profile=${profile}" class="c text-orange">Quest Points</a></td>
+            <td align="right">${questRank}</td>
+            <td align="right">${questStat ? questStat.level.toLocaleString() : '-'}</td>
+            <td align="right">${questStat ? formatPlaytime(questStat.playtime) : '-'}</td>
+        </tr>
+    `);
 
     const html = `<!DOCTYPE html>
 <html>
@@ -322,6 +338,9 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
 
     let rows: { rank: number; username: string; level: number; playtime: number }[] = [];
     let selectedSkill = 'Overall';
+    // quest points rank by points, then by the playtime they reached that total at
+    const isQuestBoard = category === QUEST_POINTS_HISCORE_TYPE;
+    const levelLabel = isQuestBoard ? 'Points' : 'Level';
     let searchedPlayer: { rank: number; username: string; level: number; playtime: number } | null = null;
 
     if (category === -1 || category === 0) {
@@ -346,9 +365,8 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
         }
         selectedSkill = 'Overall';
     } else {
-        // Individual skill - query hiscore
-        const skillIndex = category - 1;
-        const skillName = SKILL_NAMES[skillIndex];
+        // Individual skill (or quest points) - query hiscore
+        const skillName = isQuestBoard ? 'Quest Points' : SKILL_NAMES[category - 1];
         if (skillName) {
             const allResults = await getRankedList(profile, category);
 
@@ -490,7 +508,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
                                                     </td>
                                                     <td>&nbsp;</td>
                                                     <td valign="top">
-                                                        <b>Level</b><br>
+                                                        <b>${levelLabel}</b><br>
                                                         ${levelCol}
                                                     </td>
                                                     <td>&nbsp;</td>
@@ -566,7 +584,7 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
                                 <b>Search Result</b><br>
                                 Rank: ${searchedPlayer.rank} |
                                 <a href="/hiscores/player/${encodeURIComponent(searchedPlayer.username)}?profile=${profile}" class="c">${escapeHtml(searchedPlayer.username)}</a> |
-                                Level: ${searchedPlayer.level.toLocaleString()} |
+                                ${levelLabel}: ${searchedPlayer.level.toLocaleString()} |
                                 Time: ${formatPlaytime(searchedPlayer.playtime)}
                             </center>
                         </td>
