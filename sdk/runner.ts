@@ -190,6 +190,7 @@ async function getOrCreateConnection(): Promise<BotConnection> {
 
     try {
         await Promise.race([sdk.connect(), timeoutPromise]);
+        await requireLiveClient(sdk, username, server);
     } catch (error) {
         // The BotSDK was never registered in `connections`, so nothing else will
         // ever tear it down - and with autoReconnect on, its reconnect timers
@@ -207,6 +208,49 @@ async function getOrCreateConnection(): Promise<BotConnection> {
     connections.set(username, connection);
 
     return connection;
+}
+
+/** How long to wait for a fresh state frame before deciding no client is attached. */
+const LIVE_CLIENT_WAIT_MS = 10_000;
+
+/**
+ * Throw unless a game client (browser tab or lite runner) is publishing state
+ * for this bot right now.
+ *
+ * connect() succeeds against the gateway alone, so without this check a script
+ * with no client "connects" and every action silently does nothing. Two shapes:
+ * the gateway has no state at all (no client ever attached; connect() already
+ * waited out its ready timeout), or it replays the last state it cached before
+ * the client left, which passes the ready check. A live client advances
+ * `tick` every game tick, so wait for one - this compares ticks rather than
+ * `getStateAge()`, which mixes gateway and local clocks.
+ */
+async function requireLiveClient(sdk: BotSDK, username: string, server: string | undefined): Promise<void> {
+    const cached = sdk.getState();
+    if (cached) {
+        try {
+            await sdk.waitForCondition(s => s.tick !== cached.tick, LIVE_CLIENT_WAIT_MS);
+            return;
+        } catch {}
+    }
+
+    const why = cached
+        ? `its last state is ${Math.round(sdk.getStateAge() / 1000)}s old and no new tick arrived in ${LIVE_CLIENT_WAIT_MS / 1000}s`
+        : 'no game state was received';
+    // Same derivation as BotSDK's browser launch URL: SERVER may be a bare
+    // host or a ws(s):// gateway URL.
+    let origin = 'http://localhost:8888';
+    if (server && !server.startsWith('localhost') && !server.startsWith('127.')) {
+        origin = /^wss?:\/\//.test(server)
+            ? server.replace(/^ws/, 'http').replace(/\/gateway$/, '')
+            : `https://${server}`;
+    }
+    throw new Error(
+        `No game client is attached to "${username}" (${why}).\n` +
+        `Scripts drive a running client; they don't start one. Start one, leave it running, then rerun:\n` +
+        `  headless:  cd server/webclient && bun src/lite/runner.ts ${username}\n` +
+        `  browser:   ${origin}/bot?bot=${encodeURIComponent(username)}&password=<PASSWORD from bot.env>`
+    );
 }
 
 // ============ Core Runner ============
@@ -285,6 +329,8 @@ export async function runScript(
             }
         } catch (error: any) {
             console.error(`[Runner] Failed to connect: ${error?.message ?? error}`);
+            // Same as a script error below: `bun script.ts` must exit non-zero.
+            process.exitCode = 1;
             return {
                 success: false,
                 error,

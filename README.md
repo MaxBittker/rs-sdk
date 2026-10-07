@@ -38,8 +38,21 @@ Manually:
 ```sh
 bun install
 bun bots/create-bot.ts {username}
-bun bots/{username}/script.ts 
 ```
+
+A script drives a running game client; it does not start one. Start the
+headless lite client in its own terminal and leave it running:
+```sh
+cd server/webclient && bun install && bun src/lite/runner.ts {username}
+```
+(Or open `https://rs-sdk-demo.fly.dev/bot?bot={username}&password={PASSWORD}`
+in a browser, with the password from `bots/{username}/bot.env`.)
+
+Then, from the repo root:
+```sh
+bun bots/{username}/script.ts
+```
+Without a client the script exits with `No game client is attached`.
 
 ## Agent API and knowledge
 
@@ -80,9 +93,9 @@ Once connected to the gateway, the botclient relays game state to the SDK and
 dispatches low-level actions such as `sendWalk(x, z)` from the SDK. Dispatch
 success is not confirmation that the game server applied the intended effect.
 
-This means that the SDK can't talk directly to the game server, but must go through the botclient. It will attempt to launch the botclient on startup if one is not already running. 
+This means that the SDK can't talk directly to the game server, but must go through a client: the browser botclient or the headless lite client (`server/webclient/src/lite`). The MCP server opens a browser tab if none is running; standalone `runScript` scripts never launch one and exit with an error when no client is attached.
 
-You don't need to run the gateway/botclient in order to run automations against the demo server, but you may choose to if you are fixing bugs or adding features to the rs-sdk project
+You don't need to run your own gateway or web client bundler in order to run automations against the demo server, but you may choose to if you are fixing bugs or adding features to the rs-sdk project
 
 
 ## Running the server locally
