@@ -274,15 +274,6 @@ export async function handleHiscoresPlayerPage(url: URL): Promise<Response | nul
                 </table>
                 <br>
 
-                <!-- Profile selector -->
-                <center>
-                    <form method="GET" action="/hiscores/player/${encodeURIComponent(account.username)}">
-                        <select name="profile" onchange="this.form.submit()">
-                            <option value="main"${profile === 'main' ? ' selected' : ''}>Main</option>
-                        </select>
-                    </form>
-                </center>
-
                 <!-- Stats table -->
                 <table width="400" bgcolor="black" cellpadding="4">
                     <tr>
@@ -456,16 +447,6 @@ export async function handleHiscoresPage(url: URL): Promise<Response | null> {
                     </tr>
                 </table>
                 <br>
-
-                <!-- Profile selector -->
-                <center>
-                    <form id="profile-select-form" method="GET" action="/hiscores">
-                        <input type="hidden" name="category" value="${currentCategory}">
-                        <select name="profile" id="profile" onchange="this.form.submit()">
-                            <option value="main"${profile === 'main' ? ' selected' : ''}>Main</option>
-                        </select>
-                    </form>
-                </center>
 
                 <!-- Two column layout: skills + data -->
                 <table>
