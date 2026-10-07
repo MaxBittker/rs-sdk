@@ -29,6 +29,21 @@ This automatically creates:
 - `bots/{username}/lab_log.md` - Session notes template
 - `bots/{username}/script.ts` - Ready-to-run starter script
 
+### Start a Game Client (scripts only)
+
+Scripts (`bun bots/{username}/*.ts`) and `bun sdk/cli.ts` need a running game
+client; they never start one. Before running a script, start the headless lite
+client in the background and leave it running:
+
+```bash
+cd server/webclient && bun install && bun src/lite/runner.ts {username}
+```
+
+It logs `Gateway connected, registering as '{username}'` once it's ready. One
+process per bot; it exits non-zero if the game session ends. Without it, a
+script exits with `No game client is attached`. MCP `execute_code` doesn't need
+this step; it opens a browser client itself.
+
 ### Quick Start
 
 1. Install dependencies: `bun install` (from project root)
@@ -326,7 +341,7 @@ wiki/
 
 ## Troubleshooting
 
-**"No state received"** - Bot isn't connected to game. Open browser first or use `autoLaunchBrowser: true`.
+**"No game client is attached" / "No state received"** - No client is publishing state for the bot. Start the lite client (`cd server/webclient && bun src/lite/runner.ts {username}`) or open the bot's browser URL, then rerun.
 
 **Script stalls** - Check for open dialogs (`state.dialog.isOpen`). Level-ups block everything.
 
