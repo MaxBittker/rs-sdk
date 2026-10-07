@@ -115,15 +115,18 @@ async function updateHiscores(account: HiscoreAccount | undefined, player: Playe
         totalLevel += player.baseLevels[i];
     }
 
-    const existing = await db.selectFrom('hiscore_large').select('type').select('value').select('playtime').where('account_id', '=', account.id).where('type', '=', 0).where('profile', '=', profile).executeTakeFirst();
-    if (existing && (existing.value !== totalXp || existing.playtime !== player.playtime)) {
+    // rs-sdk: playtime is the tiebreak (level desc, playtime asc), so it's only stamped when the
+    // level changes - it records when the player reached that level. Restamping it on every
+    // logout pushed maxed players down the board for continuing to play.
+    const existing = await db.selectFrom('hiscore_large').select('type').select('level').select('value').select('playtime').where('account_id', '=', account.id).where('type', '=', 0).where('profile', '=', profile).executeTakeFirst();
+    if (existing && (existing.value !== totalXp || existing.level !== totalLevel)) {
         await db
             .updateTable('hiscore_large')
             .set({
                 type: 0,
                 level: totalLevel,
                 value: totalXp,
-                playtime: player.playtime,
+                playtime: existing.level === totalLevel ? existing.playtime : player.playtime,
                 date: toDbDate(new Date())
             })
             .where('account_id', '=', account.id)
@@ -153,13 +156,13 @@ async function updateHiscores(account: HiscoreAccount | undefined, player: Playe
             const hiscoreType = stat + 1;
 
             // todo: can we upsert in kysely?
-            const existing = await db.selectFrom('hiscore').select('type').select('value').select('playtime').where('account_id', '=', account.id).where('type', '=', hiscoreType).where('profile', '=', profile).executeTakeFirst();
-            if (existing && (existing.value !== player.stats[stat] || existing.playtime !== player.playtime)) {
+            const existing = await db.selectFrom('hiscore').select('type').select('level').select('value').select('playtime').where('account_id', '=', account.id).where('type', '=', hiscoreType).where('profile', '=', profile).executeTakeFirst();
+            if (existing && (existing.value !== player.stats[stat] || existing.level !== player.baseLevels[stat])) {
                 update.push({
                     type: hiscoreType,
                     level: player.baseLevels[stat],
                     value: player.stats[stat],
-                    playtime: player.playtime,
+                    playtime: existing.level === player.baseLevels[stat] ? existing.playtime : player.playtime,
                     date: toDbDate(new Date())
                 });
             } else if (!existing) {

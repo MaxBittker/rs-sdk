@@ -104,6 +104,13 @@ survival) is described in the project memory; this file is the human-readable ch
       outfit hiscore write; `/hiscores/outfit` shows a `/sprite/player` image for the top 10 and
       `/sprite/item` icons (no in-browser viewer bundle). Sprites come from `web/sprites/`
       (worker hosting webclient `src/viewer/ItemViewer.ts` `renderPlayerSprite`).
+- [ ] **Hiscore playtime tiebreak** — `hiscore.playtime`/`hiscore_large.playtime` (migration
+      `20260208000000_hiscore_playtime_and_outfit`); boards rank level desc, playtime asc.
+      `LoginServer.ts` `updateHiscores()` stamps playtime only when a row's **level** changes
+      (XP-only changes keep it), so it means "playtime when this level was reached" — restamping
+      on every logout pushed maxed players down for continuing to play. Quest points (type 100,
+      `updateQuestHiscore()`) follows the same rule.
+      Verify: `grep -n "existing.level === totalLevel ? existing.playtime" src/server/login/LoginServer.ts`
 - [ ] **Worker-thread crash hardening** — `src/server/InternalClient.ts` uses persistent
       `.on('close'/'error')` handlers instead of `.once()` (a second ws error after a
       successful open was an unhandled EventEmitter 'error' that killed the worker → every
