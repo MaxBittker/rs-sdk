@@ -46,6 +46,12 @@ export function renderBankItemCensus(census: BankCensus, url: URL, options: { pr
             .sort((a, b) => direction * (a[by] - b[by]) || a.name.localeCompare(b.name, 'en') || (a.id ?? 0) - (b.id ?? 0))
             .slice(0, 50);
     const panel = (title: string, direction: number) => {
+        const sortHeading = (metric: 'quantity' | 'holders', label: string) => {
+            const query = new URLSearchParams({ profile: options.profile, by: metric });
+            if (search) query.set('q', search);
+            const selected = by === metric;
+            return `<th class="number"${selected ? ` aria-sort="${direction === 1 ? 'ascending' : 'descending'}"` : ''}><a class="sort${selected ? ' selected' : ''}" href="${escapeHtml(`${url.pathname}?${query}`)}" title="Sort by ${label.toLowerCase()}">${label}${selected ? (direction === 1 ? ' ↑' : ' ↓') : ''}</a></th>`;
+        };
         const rows = order(direction)
             .map(item => {
                 const query = new URLSearchParams({ profile: options.profile, q: item.name });
@@ -55,7 +61,7 @@ export function renderBankItemCensus(census: BankCensus, url: URL, options: { pr
             .join('');
         return `<section class="panel">
         <h2>${title}</h2>
-        <table><thead><tr><th>Item</th><th class="number">Quantity</th><th class="number">Holders</th></tr></thead><tbody>
+        <table><thead><tr><th>Item</th>${sortHeading('quantity', 'Quantity')}${sortHeading('holders', 'Holders')}</tr></thead><tbody>
         ${rows || '<tr><td colspan="3" class="empty">No matching bank items</td></tr>'}
         </tbody></table>
     </section>`;
@@ -74,6 +80,7 @@ export function renderBankItemCensus(census: BankCensus, url: URL, options: { pr
     input,select,button { font:14px Arial; padding:5px; } input { max-width:220px; }
     .columns { display:grid; grid-template-columns:1fr 1fr; gap:14px; } .panel { padding:12px; border:2px solid #382418; background:#000; min-width:0; }
     table { width:100%; border-collapse:collapse; } th { font-size:11px; color:#c8bea8; text-align:left; padding:10px 4px; border-bottom:1px solid #51432b; }
+    .sort { color:inherit; text-decoration:underline; text-underline-offset:3px; }
     td { padding:4px; border-bottom:1px solid #211d16; } .number { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; } .selected { color:#ffe139; }
     .item { display:flex; align-items:center; gap:6px; min-height:34px; } .item img { image-rendering:pixelated; flex:none; } .empty { padding:30px 4px; text-align:center; }
     footer { display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:14px; color:#c8bea8; font-size:11px; } .refresh { margin:0; }
@@ -82,7 +89,7 @@ export function renderBankItemCensus(census: BankCensus, url: URL, options: { pr
 </style></head><body><main>
 <header><h1>Bank items</h1></header>
 <form method="GET" action="${escapeHtml(url.pathname)}" class="controls"><input type="hidden" name="profile" value="${escapeHtml(options.profile)}">
-<select id="rank-by" name="by" aria-label="Rank by"><option value="quantity"${by === 'quantity' ? ' selected' : ''}>Quantity</option><option value="holders"${by === 'holders' ? ' selected' : ''}>Holders</option></select>
+<input type="hidden" name="by" value="${by}">
 <input id="item-search" name="q" aria-label="Search items" value="${escapeHtml(search)}" placeholder="Search items"><button type="submit">Search</button>
 ${search ? `<a href="${escapeHtml(url.pathname)}?profile=${encodeURIComponent(options.profile)}&by=${by}">Clear</a>` : ''}</form>
 <div class="columns">${panel('Rarest items', 1)}${panel('Most common items', -1)}</div>
