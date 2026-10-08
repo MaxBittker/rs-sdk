@@ -225,7 +225,8 @@ async function updateWealthHiscores(account: HiscoreAccount, player: Player, pro
             if (item) {
                 const objType = ObjType.get(item.id);
                 if (objType) {
-                    const value = objType.cost * item.count;
+                    // Equipment scores count one item per slot, including stacked throwing weapons.
+                    const value = objType.cost;
                     items.push({ id: item.id, name: objType.name || `obj_${item.id}`, value });
                     totalValue += value;
                 }
