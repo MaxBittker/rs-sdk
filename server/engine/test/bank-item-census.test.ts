@@ -51,7 +51,7 @@ test('rarity can mean total units or number of holders, with encoded links to th
     const rare = quantity.split('<h2>Rarest items</h2>')[1].split('<h2>Most common items</h2>')[0];
     expect(rare.indexOf('Shrimps')).toBeLessThan(rare.indexOf('Rune &amp; sword'));
     expect(quantity).toContain('https://rs-sdk-demo.fly.dev/hiscores/bank?profile=main&amp;q=Rune+%26+sword');
-    expect(quantity).toContain('Refresh production snapshot');
+    expect(quantity).toContain('action="/refresh"');
     const holders = await renderBankItemCensus(census, new URL('http://localhost/hiscores/bank/items?by=holders'), options).text();
     const rareHolders = holders.split('<h2>Rarest items</h2>')[1].split('<h2>Most common items</h2>')[0];
     expect(rareHolders.indexOf('Rune &amp; sword')).toBeLessThan(rareHolders.indexOf('Shrimps'));

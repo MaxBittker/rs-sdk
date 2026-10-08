@@ -32,7 +32,6 @@ export function summarizeBankItems(banks: BankSnapshot[]): BankCensus {
 export function renderBankItemCensus(census: BankCensus, url: URL, options: { profile: string; capturedAt: string; holdersBaseUrl?: string; assetBaseUrl?: string; refresh?: boolean }): Response {
     const search = (url.searchParams.get('q') || '').trim();
     const by = url.searchParams.get('by') === 'holders' ? 'holders' : 'quantity';
-    const metric = by === 'holders' ? 'Number of holders' : 'Total quantity';
     const visible = census.items.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
     const base = options.holdersBaseUrl || '/hiscores/bank';
     const assets = options.assetBaseUrl || '';
@@ -46,7 +45,7 @@ export function renderBankItemCensus(census: BankCensus, url: URL, options: { pr
             })
             .join('');
         return `<section class="panel">
-        <h2>${title}</h2><p class="muted">${direction === 1 ? 'Lowest' : 'Highest'} ${metric.toLowerCase()}</p>
+        <h2>${title}</h2>
         <table><thead><tr><th>Item</th><th class="number">Quantity</th><th class="number">Holders</th></tr></thead><tbody>
         ${rows || '<tr><td colspan="3" class="empty">No matching bank items</td></tr>'}
         </tbody></table>
@@ -54,36 +53,33 @@ export function renderBankItemCensus(census: BankCensus, url: URL, options: { pr
     };
     const timestamp = new Date(options.capturedAt).toLocaleString('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
     const html = `<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bank Item Census</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bank items</title>
 <style>
     * { box-sizing: border-box; }
     body { margin:0; background:#000; color:#fff; font:13px Arial,Helvetica,sans-serif; }
-    main { max-width:1080px; margin:24px auto; padding:22px; background:#17150f url('${assets}/img/background2.jpg'); border:3px solid #382418; }
-    h1 { font-size:24px; margin:0 0 8px; } h2 { margin:0 0 4px; font-size:19px; }
+    main { max-width:1080px; margin:24px auto; padding:18px; background:#17150f url('${assets}/img/background2.jpg'); border:3px solid #382418; }
+    h1 { font-size:22px; margin:0; } h2 { margin:0 0 4px; font-size:17px; }
     a { color:#fff; text-decoration:none; } a:hover { text-decoration:underline; color:#ffe139; }
-    header { text-align:center; } .muted { color:#c8bea8; margin:6px 0 12px; line-height:1.5; }
-    .stats { display:flex; gap:32px; justify-content:center; flex-wrap:wrap; margin:20px 0; }
-    .stats strong { display:block; color:#ffe139; font-size:21px; margin-bottom:3px; }
-    .controls { padding:12px; margin:20px 0; background:#474747 url('${assets}/img/stoneback.gif'); border:4px outset #777; display:flex; justify-content:center; align-items:end; gap:18px; flex-wrap:wrap; }
-    label { display:block; font-weight:bold; margin-bottom:6px; } input,select,button { font:14px Arial; padding:5px; } input { max-width:220px; }
-    .columns { display:grid; grid-template-columns:1fr 1fr; gap:18px; } .panel { padding:14px; border:2px solid #382418; background:#000; min-width:0; }
+    header { text-align:center; }
+    .controls { padding:8px; margin:14px 0; background:#474747 url('${assets}/img/stoneback.gif'); border:3px outset #777; display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap; }
+    input,select,button { font:14px Arial; padding:5px; } input { max-width:220px; }
+    .columns { display:grid; grid-template-columns:1fr 1fr; gap:14px; } .panel { padding:12px; border:2px solid #382418; background:#000; min-width:0; }
     table { width:100%; border-collapse:collapse; } th { font-size:11px; color:#c8bea8; text-align:left; padding:10px 4px; border-bottom:1px solid #51432b; }
     td { padding:4px; border-bottom:1px solid #211d16; } .number { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; } .selected { color:#ffe139; }
     .item { display:flex; align-items:center; gap:6px; min-height:34px; } .item img { image-rendering:pixelated; flex:none; } .empty { padding:30px 4px; text-align:center; }
-    footer { text-align:center; margin-top:20px; } .refresh { margin-top:12px; } .note { font-size:12px; }
-    @media(max-width:780px) { main { margin:0; padding:14px; } .columns { grid-template-columns:1fr; } .stats { gap:16px; } }
+    footer { display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:14px; color:#c8bea8; font-size:11px; } .refresh { margin:0; }
+    footer button { font-size:11px; }
+    @media(max-width:780px) { main { margin:0; padding:12px; } .columns { grid-template-columns:1fr; } }
 </style></head><body><main>
-<header><h1>Bank Item Census</h1><p class="muted">The rarest and most common items in players’ saved banks.<br>Click an item to see its holders, ranked by matching bank value.</p>
-<p class="muted note">${options.refresh ? 'Production snapshot' : 'Saved bank data'} · ${escapeHtml(timestamp)} · ${escapeHtml(options.profile)} profile</p>
-<div class="stats"><div><strong>${census.banks.toLocaleString('en-US')}</strong>Banks counted</div><div><strong>${census.items.length.toLocaleString('en-US')}</strong>Distinct items</div><div><strong>${census.quantity.toLocaleString('en-US')}</strong>Total quantity</div></div></header>
+<header><h1>Bank items</h1></header>
 <form method="GET" action="${escapeHtml(url.pathname)}" class="controls"><input type="hidden" name="profile" value="${escapeHtml(options.profile)}">
-<div><label for="rank-by">Rank by</label><select id="rank-by" name="by"><option value="quantity"${by === 'quantity' ? ' selected' : ''}>Total quantity</option><option value="holders"${by === 'holders' ? ' selected' : ''}>Number of holders</option></select></div>
-<div><label for="item-search">Item name contains</label><input id="item-search" name="q" value="${escapeHtml(search)}" placeholder="e.g. rune, shrimp"></div><button type="submit">Show</button>
+<select id="rank-by" name="by" aria-label="Rank by"><option value="quantity"${by === 'quantity' ? ' selected' : ''}>Quantity</option><option value="holders"${by === 'holders' ? ' selected' : ''}>Holders</option></select>
+<input id="item-search" name="q" aria-label="Search items" value="${escapeHtml(search)}" placeholder="Search items"><button type="submit">Search</button>
 ${search ? `<a href="${escapeHtml(url.pathname)}?profile=${encodeURIComponent(options.profile)}&by=${by}">Clear</a>` : ''}</form>
 <div class="columns">${panel('Rarest items', 1)}${panel('Most common items', -1)}</div>
-<footer><p class="muted note">Quantity counts all units in banked stacks. Holders counts each bank once per item.<br>Noted and unnoted variants sharing a name are combined. Items absent from all banks are omitted.<br>Each list shows up to 50 items.</p>
+<footer><span>${census.banks.toLocaleString('en-US')} banks · ${escapeHtml(timestamp)}</span>
 <a href="${escapeHtml(`${base}?profile=${encodeURIComponent(options.profile)}`)}">Bank Hiscores</a>
-${options.refresh ? '<form method="POST" action="/refresh" class="refresh"><button type="submit">Refresh production snapshot</button></form>' : ''}</footer>
+${options.refresh ? '<form method="POST" action="/refresh" class="refresh"><button type="submit">Refresh</button></form>' : ''}</footer>
 </main></body></html>`;
     return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
