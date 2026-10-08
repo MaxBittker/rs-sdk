@@ -1,24 +1,29 @@
 import type { BankSnapshot } from './BankHiscores.js';
 import { escapeHtml } from '../utils.js';
 
-export type BankItemTotal = { id?: number; name: string; quantity: number; holders: number };
+export type BankCensusItemDefinition = { id: number; tradeable: boolean; quest: boolean };
+export type BankItemTotal = { id?: number; name: string; quantity: number; holders: number; rarityEligible: boolean };
 export type BankCensus = { banks: number; quantity: number; items: BankItemTotal[] };
 
-export function summarizeBankItems(banks: BankSnapshot[]): BankCensus {
+export function summarizeBankItems(banks: BankSnapshot[], definitions: BankCensusItemDefinition[] = []): BankCensus {
+    const catalog = new Map(definitions.map(item => [item.id, item]));
     const items = new Map<string, BankItemTotal>();
     let quantity = 0;
     for (const bank of banks) {
         const held = new Set<string>();
         for (const item of bank.items) {
-            // Banked noted/unnoted variants can share a name. Combine them because
-            // the linked holder board searches item names, rather than item IDs.
-            const key = item.name.toLowerCase();
+            // Combine noted variants, jewellery charges and potion doses. The
+            // linked holder board searches the base name to include all variants.
+            const name = item.name.replace(/\s*\(\d+\)\s*$/, '').trim();
+            const key = name.toLowerCase();
+            const definition = item.id == null ? undefined : catalog.get(item.id);
             let total = items.get(key);
             if (!total) {
-                total = { id: item.id, name: item.name, quantity: 0, holders: 0 };
+                total = { id: item.id, name, quantity: 0, holders: 0, rarityEligible: false };
                 items.set(key, total);
             }
             total.quantity += item.count;
+            if (definition?.tradeable && !definition.quest) total.rarityEligible = true;
             quantity += item.count;
             if (!held.has(key)) {
                 total.holders++;
@@ -35,7 +40,11 @@ export function renderBankItemCensus(census: BankCensus, url: URL, options: { pr
     const visible = census.items.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
     const base = options.holdersBaseUrl || '/hiscores/bank';
     const assets = options.assetBaseUrl || '';
-    const order = (direction: number) => [...visible].sort((a, b) => direction * (a[by] - b[by]) || a.name.localeCompare(b.name, 'en') || (a.id ?? 0) - (b.id ?? 0)).slice(0, 50);
+    const order = (direction: number) =>
+        visible
+            .filter(item => direction !== 1 || item.rarityEligible)
+            .sort((a, b) => direction * (a[by] - b[by]) || a.name.localeCompare(b.name, 'en') || (a.id ?? 0) - (b.id ?? 0))
+            .slice(0, 50);
     const panel = (title: string, direction: number) => {
         const rows = order(direction)
             .map(item => {
