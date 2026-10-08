@@ -1137,13 +1137,6 @@ export async function handleHiscoresBankPage(url: URL): Promise<Response | null>
                         <td width="400" valign="top">
                             <center>
                                 <b>Bank</b><br>
-                                <form method="GET" action="/hiscores/bank" style="margin:8px 0">
-                                    <input type="hidden" name="profile" value="${profile}">
-                                    <label for="bank-item-search">Item name contains</label><br>
-                                    <input id="bank-item-search" type="text" name="q" value="${escapeHtml(itemSearch)}" placeholder="e.g. shrimp" style="width:220px">
-                                    <button type="submit">Search</button>
-                                    ${itemSearch ? `<a href="/hiscores/bank?profile=${profile}" class="c">Clear</a>` : ''}
-                                </form>
                                 <p style="margin:4px 0 8px;font-size:11px">${itemSearch ? `Ranked by the combined value of banked items containing &ldquo;${escapeHtml(itemSearch)}&rdquo; (ignoring case).` : 'Ranked by total bank value. Search to rank only matching items.'}</p>
                                 <table width="420" bgcolor="black" cellpadding="4">
                                     <tr>
@@ -1169,6 +1162,24 @@ export async function handleHiscoresBankPage(url: URL): Promise<Response | null>
                     </tr>
                 </table>
 
+                <br>
+                <!-- Item search box -->
+                <table width="200" bgcolor="black" cellpadding="4">
+                    <tr>
+                        <td class="b" bgcolor="#474747" background="/img/stoneback.gif">
+                            <center>
+                                <form method="GET" action="/hiscores/bank" autocomplete="off">
+                                    <b><label for="bank-item-search">Search by item</label></b><br>
+                                    <input id="bank-item-search" type="text" size="12" name="q" value="${escapeHtml(itemSearch)}" placeholder="e.g. shrimp" autocomplete="off">
+                                    <input type="hidden" name="profile" value="${profile}">
+                                    <br>
+                                    <input type="submit" value="Search">
+                                    ${itemSearch ? `<br><a href="/hiscores/bank?profile=${profile}" class="c">Clear</a>` : ''}
+                                </form>
+                            </center>
+                        </td>
+                    </tr>
+                </table>
                 <br>
             </center>
         </td>
