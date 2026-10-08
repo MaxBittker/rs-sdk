@@ -3,6 +3,8 @@ import Environment from '#/util/Environment.js';
 import { tryParseInt } from '#/util/TryParse.js';
 import { escapeHtml, SKILL_NAMES, ENABLED_SKILLS, QUEST_POINTS_HISCORE_TYPE } from '../utils.js';
 import { itemSpriteUrl, playerSpriteUrl } from '#/web/sprites/SpriteRenderer.js';
+import { parseBankSnapshots, rankMatchingBanks } from './BankHiscores.js';
+import type { BankSnapshot } from './BankHiscores.js';
 
 const hiddenNames = Environment.HISCORES_HIDDEN_NAMES;
 
@@ -990,13 +992,7 @@ export async function handleHiscoresRunitePage(url: URL): Promise<Response | nul
     return new Response(html, { headers: { 'Content-Type': 'text/html', 'Cache-Control': 'public, max-age=30' } });
 }
 
-// Bank value leaderboard handler
-export async function handleHiscoresBankPage(url: URL): Promise<Response | null> {
-    const match = url.pathname.match(/^\/hi(?:gh)?scores\/bank\/?$/);
-    if (!match) return null;
-
-    const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
-
+function bankHiscoresQuery(profile: string) {
     let query = db
         .selectFrom('hiscore_bank')
         .innerJoin('account', 'account.id', 'hiscore_bank.account_id')
@@ -1004,12 +1000,50 @@ export async function handleHiscoresBankPage(url: URL): Promise<Response | null>
         .where('hiscore_bank.profile', '=', profile)
         .where('account.staffmodlevel', '<=', 1)
         .orderBy('hiscore_bank.value', 'desc')
-        .limit(50);
+        .orderBy('account.username', 'asc');
     if (hiddenNames.length > 0) {
         query = query.where(eb => eb.not(eb(eb.fn('lower', ['account.username']), 'in', hiddenNames)));
     }
 
-    const results = await query.execute();
+    return query;
+}
+
+// Reuse a short-lived, parsed snapshot across arbitrary searches. Search terms are not
+// cache keys, and only the most recently searched profile's banks are held in memory.
+let bankSearchCache: { profile: string; at: number; rows: BankSnapshot[]; pending: Promise<BankSnapshot[]> | null } | null = null;
+
+async function getBankSearchSnapshot(profile: string): Promise<BankSnapshot[]> {
+    const cached = bankSearchCache;
+    if (cached?.profile === profile) {
+        if (cached.pending) return cached.pending;
+        if (Date.now() - cached.at < RANKED_TTL_MS) return cached.rows;
+    }
+
+    const entry = { profile, at: 0, rows: [] as BankSnapshot[], pending: null as Promise<BankSnapshot[]> | null };
+    bankSearchCache = entry;
+    entry.pending = bankHiscoresQuery(profile).execute().then(rows => {
+        entry.rows = parseBankSnapshots(rows);
+        entry.at = Date.now();
+        return entry.rows;
+    });
+    try {
+        return await entry.pending;
+    } finally {
+        entry.pending = null;
+    }
+}
+
+// Bank value leaderboard handler
+export async function handleHiscoresBankPage(url: URL): Promise<Response | null> {
+    const match = url.pathname.match(/^\/hi(?:gh)?scores\/bank\/?$/);
+    if (!match) return null;
+
+    const profile = (url.searchParams.get('profile') || 'main').replace(/[^a-zA-Z0-9_-]/g, '');
+    const itemSearch = (url.searchParams.get('q') || '').trim();
+    const results = itemSearch
+        ? rankMatchingBanks(await getBankSearchSnapshot(profile), itemSearch)
+        : await bankHiscoresQuery(profile).limit(50).execute();
+    const title = itemSearch ? `Bank Hiscores: ${escapeHtml(itemSearch)}` : 'Bank Hiscores';
 
     const rows = results.map((r, i) => {
         let itemsList = '';
@@ -1042,7 +1076,7 @@ export async function handleHiscoresBankPage(url: URL): Promise<Response | null>
     const html = `<!DOCTYPE html>
 <html>
 <head>
-    <title>Bank Hiscores</title>
+    <title>${title}</title>
     <style>${HISCORES_STYLES}</style>
 </head>
 <body>
@@ -1072,7 +1106,7 @@ export async function handleHiscoresBankPage(url: URL): Promise<Response | null>
                     <tr>
                         <td class="e">
                             <center>
-                                <b>Bank Hiscores</b><br>
+                                <b>${title}</b><br>
                                 <a href="/" class="c">Main menu</a> | <a href="/hiscores?profile=${profile}" class="c">All Hiscores</a>
                             </center>
                         </td>
@@ -1103,6 +1137,14 @@ export async function handleHiscoresBankPage(url: URL): Promise<Response | null>
                         <td width="400" valign="top">
                             <center>
                                 <b>Bank</b><br>
+                                <form method="GET" action="/hiscores/bank" style="margin:8px 0">
+                                    <input type="hidden" name="profile" value="${profile}">
+                                    <label for="bank-item-search">Item name contains</label><br>
+                                    <input id="bank-item-search" type="text" name="q" value="${escapeHtml(itemSearch)}" placeholder="e.g. shrimp" style="width:220px">
+                                    <button type="submit">Search</button>
+                                    ${itemSearch ? `<a href="/hiscores/bank?profile=${profile}" class="c">Clear</a>` : ''}
+                                </form>
+                                <p style="margin:4px 0 8px;font-size:11px">${itemSearch ? `Ranked by the combined value of banked items containing &ldquo;${escapeHtml(itemSearch)}&rdquo; (ignoring case).` : 'Ranked by total bank value. Search to rank only matching items.'}</p>
                                 <table width="420" bgcolor="black" cellpadding="4">
                                     <tr>
                                         <td class="e" valign="top">
@@ -1113,11 +1155,11 @@ export async function handleHiscoresBankPage(url: URL): Promise<Response | null>
                                                     <td><b>#</b></td>
                                                     <td><b>Name</b></td>
                                                     <td align="right"><b>Value</b></td>
-                                                    <td><b>Top Items</b></td>
+                                                    <td><b>${itemSearch ? 'Matching Items' : 'Top Items'}</b></td>
                                                 </tr>
                                                 ${rows.join('')}
                                             </table>`
-                                                    : '<center><br>No bank data found</center>'
+                                                    : `<center><br>${itemSearch ? `No banked items match &ldquo;${escapeHtml(itemSearch)}&rdquo;` : 'No bank data found'}</center>`
                                             }
                                         </td>
                                     </tr>
