@@ -210,55 +210,81 @@ export class BotActions {
                 return { success: false, message: 'No Talk option on tutorial NPC' };
             }
 
-            const result = await this.sdk.sendInteractNpc(guide.index, talkOpt.opIndex);
-            if (!result.success) {
-                return { success: false, message: result.message };
+            // A fresh login can publish its first in-game state before the design modal
+            // arrives, and a throttled background tab widens that window. Give the modal a
+            // moment so it's accepted before talking to the guide.
+            if (!state.modalOpen) {
+                await this.sdk.waitForCondition(s => s.modalOpen || s.dialog.isOpen, 3000).catch(() => {});
+                await checkAndHandleDesignModal();
             }
 
-            // Wait for dialog to open
-            try {
-                await this.sdk.waitForCondition(s => s.dialog.isOpen, 5000);
-                await this.sdk.waitForTicks(1);
-
-                // Loop through all dialog pages until closed
-                let clickCount = 0;
-                const MAX_CLICKS = 10;
-
-                while (clickCount < MAX_CLICKS) {
-                    // Check for design modal each iteration
-                    await checkAndHandleDesignModal();
-
-                    const currentState = this.sdk.getState();
-                    if (!currentState?.dialog.isOpen) {
-                        return { success: true, message: `Tutorial skipped after ${clickCount} dialog clicks` };
-                    }
-
-                    if (currentState.dialog.isWaiting) {
-                        await this.sdk.waitForTicks(1);
-                        continue;
-                    }
-
-                    const options = currentState.dialog.options;
-                    if (options.length > 0) {
-                        // Smart option selection: skip > yes > confirm > first option
-                        const skipOption = options.find(o => /skip|complete|finish/i.test(o.text));
-                        const yesOption = options.find(o => /yes|continue|proceed/i.test(o.text));
-                        const confirmOption = options.find(o => /confirm|accept|agree|ok/i.test(o.text));
-
-                        const selectedOption = skipOption || yesOption || confirmOption || options[0];
-                        await this.sdk.sendClickDialog(selectedOption!.index);
-                    } else {
-                        await this.sdk.sendClickDialog(0);
-                    }
-
-                    clickCount++;
-                    await this.sdk.waitForTicks(1);
+            // Talking straight after login can come back "I can't reach that!" while the
+            // client is still settling; retry rather than fail the whole skip.
+            const TALK_ATTEMPTS = 3;
+            let dialogOpened = false;
+            for (let attempt = 1; attempt <= TALK_ATTEMPTS && !dialogOpened; attempt++) {
+                if (this.sdk.getState()?.dialog.isOpen) {
+                    dialogOpened = true;
+                    break;
                 }
 
-                return { success: true, message: `Clicked through ${clickCount} dialogs` };
-            } catch {
-                return { success: false, message: 'Timed out waiting for dialog to open' };
+                const result = await this.sdk.sendInteractNpc(guide.index, talkOpt.opIndex);
+                if (!result.success) {
+                    return { success: false, message: result.message };
+                }
+
+                try {
+                    await this.sdk.waitForCondition(s => s.dialog.isOpen, 5000);
+                    dialogOpened = true;
+                } catch {
+                    await checkAndHandleDesignModal();
+                    await this.sdk.waitForTicks(2);
+                }
             }
+
+            if (!dialogOpened) {
+                const lastMessage = this.sdk.getState()?.gameMessages.at(-1)?.text;
+                return { success: false, message: `Timed out waiting for the tutorial guide's dialog after ${TALK_ATTEMPTS} attempts${lastMessage ? ` (last game message: "${lastMessage}")` : ''}` };
+            }
+
+            await this.sdk.waitForTicks(1);
+
+            // Loop through all dialog pages until closed
+            let clickCount = 0;
+            const MAX_CLICKS = 10;
+
+            while (clickCount < MAX_CLICKS) {
+                // Check for design modal each iteration
+                await checkAndHandleDesignModal();
+
+                const currentState = this.sdk.getState();
+                if (!currentState?.dialog.isOpen) {
+                    return { success: true, message: `Tutorial skipped after ${clickCount} dialog clicks` };
+                }
+
+                if (currentState.dialog.isWaiting) {
+                    await this.sdk.waitForTicks(1);
+                    continue;
+                }
+
+                const options = currentState.dialog.options;
+                if (options.length > 0) {
+                    // Smart option selection: skip > yes > confirm > first option
+                    const skipOption = options.find(o => /skip|complete|finish/i.test(o.text));
+                    const yesOption = options.find(o => /yes|continue|proceed/i.test(o.text));
+                    const confirmOption = options.find(o => /confirm|accept|agree|ok/i.test(o.text));
+
+                    const selectedOption = skipOption || yesOption || confirmOption || options[0];
+                    await this.sdk.sendClickDialog(selectedOption!.index);
+                } else {
+                    await this.sdk.sendClickDialog(0);
+                }
+
+                clickCount++;
+                await this.sdk.waitForTicks(1);
+            }
+
+            return { success: true, message: `Clicked through ${clickCount} dialogs` };
         }
 
         return { success: false, message: 'No tutorial NPC found' };
