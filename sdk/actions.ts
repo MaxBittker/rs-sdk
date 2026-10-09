@@ -88,7 +88,7 @@ import {
 // completed, not closed). Everything else is informational or re-openable.
 // Ids from server/content/pack/interface.pack.
 const NEVER_AUTO_CLOSE = new Set([
-    11942, // grand_exchange - deliberate offer/draft session
+    40000, // grand_exchange - deliberate offer/draft session (reserved block, see server/PATCHES.md)
     3323, // trademain - auto-close would silently decline a player trade
     3443, // tradeconfirm - second trade screen, same risk
     6412, // duel_confirm - same risk for duels

@@ -179,26 +179,42 @@ survival) is described in the project memory; this file is the human-readable ch
       then `bun run test:market:integration` with built content. Full design/operations:
       `docs/grand-exchange.md`; API: `sdk/MARKET.md`.
 
-### Custom content IDs (renumber on EVERY upgrade)
-Upstream appends new configs at the tail of each `content/pack/*.pack`, which is exactly where ours
-live, so every upgrade collides. Take upstream's pack, then re-append ours past its max id:
-- [ ] `interface.pack`/`interface.order`: GE components `grand_exchange` root **11942** … `grand_exchange_side:inv`
-      **12437** (was 10984–11479 on 274). Order file = upstream order + our block, same offset.
-- [ ] `loc.pack` `grand_exchange_booth` **5116** (274: 4671); `npc.pack` `grand_exchange_teller` **1596**
-      (274: 1359). `maps/m49_53.jm2` references both **numerically** (`0 44 51: 5116 10 1`, NPC
-      section `0 45 53: 1596`) — update them with the packs.
-- [ ] `varp.pack` `pvp_death_mark` **394** (274: 358). Upstream identified the 274 placeholders
-      (`varp_357/358` → `boardgames_varbit3/4`), so don't reuse placeholders — append (builds already
-      run `BUILD_VERIFY=false` for the GE). **Saves store varps by id**: `PlayerLoading.load` moves a
-      value found at 358 to `pvp_death_mark` (safe because 289's varp 358 is temp-scoped and never
-      saved). Next renumber needs the same treatment.
-- [ ] Numeric GE id outside content: `sdk/actions.ts` `NEVER_AUTO_CLOSE` (GE root) and
+### Custom content IDs
+Upstream pack ids mirror each revision's cache: they don't grow within a revision (274's maxima were
+unchanged across 77 upstream commits) but jump at every revision bump, and upstream also *names*
+placeholder ids over time (`varp_357/358` became `boardgames_varbit3/4` in 289). Our configs either
+sit in a **reserved range above any upstream revision** (never renumber) or at the pack tail
+(renumber on every revision bump). The packers write gaps as empty entries.
+
+Reserved (fixed since 289; upstream `377-wip` tops out at interface 18785 / varp 724):
+- [ ] **Interfaces 40000+** — GE `grand_exchange` root **40000** … `grand_exchange_side:inv` **40495**
+      (`interface.pack` + same ids appended to `interface.order`). Free: the interface format lists
+      component ids explicitly, so the gap costs no bytes. Ids must stay below 65535 (the format's
+      root marker). Add new custom interfaces after 40495.
+- [ ] **Varps 1000+** — `pvp_death_mark` **1000**. Saves store varps by id, so a fixed id means no
+      more save migrations. Cost: per-player `vars`/`varsString` arrays are sized to the max id.
+      `PlayerLoading.load` still moves a value found at **358** (its 274 id) to `pvp_death_mark`;
+      safe because 289's varp 358 is temp-scoped and never saved. Keep that shim until no pre-289
+      saves remain (prod saves + `market.sqlite` checkpoints).
+- [ ] Numeric reserved ids outside content: `sdk/actions.ts` `NEVER_AUTO_CLOSE` (40000) and
       `sdk/test/ge-actions.test.ts`. Engine code resolves GE components by name (`Component.getId`).
+
+Tail-appended (renumber at each revision bump):
+- [ ] `loc.pack` `grand_exchange_booth` **5116** (274: 4671). Not reserved high: the engine allocates a
+      `LocType` per id, so 30000 would mean ~25k empty objects in prod heap.
+- [ ] `npc.pack` `grand_exchange_teller` **1596** (274: 1359). Can't go high: 289's NPC_INFO sends the
+      type in 11 bits (max 2047); 377 widens to 13 bits but has 3851 npcs, so it collides then anyway.
+- [ ] `maps/m49_53.jm2` references both **numerically** (`0 44 51: 5116 10 1`, NPC section
+      `0 45 53: 1596`) — update with the packs. Neither id is persisted anywhere.
+
+Upgrade hazards:
 - [ ] **Asset debugnames get renamed upstream** (289 renamed ~3.5k models, plus idk/seq/npc/interface
       names; ids stayed stable). Our configs reference names: `grand_exchange.loc` model
       `furniture_banktable` (274: `model_loc_590`), `grand_exchange.npc` `man_*`/`chat_male_head_shorthair`
       (274: `model_NNN_idk`). Map old→new through the id in `pack/model.pack`; the build fails loudly
       on a missing name.
+- [ ] `Player.save()` also checkpoints into `data/market.sqlite` `accounts`, and `load()` prefers that
+      row — a save-format experiment on a throwaway name leaves a row there; delete it after.
 - [ ] `quest_mortton/.../razmire_keelgan.rs2` building store: our anti-buyback sell price **650**
       combined with upstream 289's 4% haggle fix → `~openshop(razmirebuildingstore, 650, 1050, 40, ...)`.
 
@@ -382,9 +398,10 @@ grep -A2 "Math.pow(2.0, level / 10.0)" server/engine/src/engine/entity/Player.ts
 # boot + live endpoints after deploy
 curl -so /dev/null -w "%{http_code}\n" https://rs-sdk-demo.fly.dev/{playercount,hiscores,mapview/}
 
-# custom IDs still past upstream's tail (see "Custom content IDs")
-tail -1 server/content/pack/{loc,npc,varp,interface}.pack
-grep -n "grand_exchange_booth\|grand_exchange_teller\|pvp_death_mark" server/content/pack/{loc,npc,varp}.pack
+# custom IDs: reserved ranges still above upstream, tail-appended ones past upstream's max
+grep -n "^40000=\|^1000=" server/content/pack/{interface,varp}.pack
+grep -n "grand_exchange_booth\|grand_exchange_teller" server/content/pack/{loc,npc}.pack
+tail -1 server/content/pack/{loc,npc}.pack
 
 # end-to-end: login a bot, chop a tree 3+ tiles away (exercises walk-before-op),
 # have a second distant bot chat (exercises MESSAGE_PUBLIC both directions),
