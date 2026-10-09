@@ -53,6 +53,18 @@ survival) is described in the project memory; this file is the human-readable ch
       overload instead of sprinting through the whole backlog at max speed.
       Verify: `grep -n "start - this.tickRate \* 2" src/engine/World.ts`
 
+### Old-client guidance (rs-sdk)
+- [ ] **Outdated-client record** — `World.ts` login: on a revision mismatch, `noteOutdatedClient()`
+      decodes the rest of the login block (identical across revisions) for the username and keeps
+      `{revision, at}` in `World.outdatedClients` (30 min TTL); a correct-revision login clears it.
+      Management port `/outdated-client?username=` exposes it (port 8898, not published by fly).
+      Gateway `sdk_connect`: when the bot has no live client, it asks that endpoint and answers
+      `sdk_error` naming the fix — old SDK checkouts print gateway errors, so this is the one hint
+      that reaches people who haven't pulled. Public `/api/version` (`web/pages/api.ts`) returns
+      `{revision}`; the lite runner (`session.ts`) checks it first and throws `OutdatedClientError`
+      (a `LoginError` code 6) — runner/swarm exit **3** so supervisors stop restarting.
+      Verify: `curl localhost:8888/api/version` and `curl 'localhost:8898/outdated-client?username=x'`.
+
 ### Database
 - [ ] **Bun sqlite dialect** — `src/db/dialect/BunSqliteDialect*.ts` (3 files) + runtime chooser
       in `src/db/query.ts` (`typeof Bun !== 'undefined'` → bun:sqlite, else upstream's

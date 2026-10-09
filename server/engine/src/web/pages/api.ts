@@ -8,6 +8,7 @@ import * as rsmod from '#/engine/routefinder/index.js';
 import { CollisionFlag, LocLayer } from '#/engine/routefinder/index.js';
 import LocType from '#/cache/config/LocType.js';
 import Packet from '#/io/Packet.js';
+import Environment from '#/util/Environment.js';
 
 export async function handleScreenshotUpload(req: Request, url: URL): Promise<Response | null> {
     if (url.pathname !== '/api/screenshot' || req.method !== 'POST') {
@@ -37,6 +38,14 @@ export async function handleScreenshotUpload(req: Request, url: URL): Promise<Re
 // packed map data at startup; a server restart (i.e. any map/content change)
 // naturally invalidates the cache.
 let collisionExportCache: string | null = null;
+
+// rs-sdk: lets clients outside the browser (the lite runner) check they speak this server's revision
+export function handleVersionApi(url: URL): Response | null {
+    if (url.pathname !== '/api/version') {
+        return null;
+    }
+    return Response.json({ revision: Environment.engine.revision });
+}
 
 export function handleExportCollisionApi(req: Request, url: URL): Response | null {
     if (url.pathname !== '/api/exportCollision') {

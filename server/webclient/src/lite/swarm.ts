@@ -28,6 +28,7 @@
 
 import { fileURLToPath } from 'node:url';
 
+import { OutdatedClientError } from './net/GameConnection.js';
 import { startSession, type LiteSession, type SessionEnd } from './session.js';
 import { BotStateCollector } from '#/bot/StateCollector.js';
 import { ActionExecutor } from '#/bot/ActionExecutor.js';
@@ -386,6 +387,14 @@ function onSessionEnd(bot: PickpocketBot, end: SessionEnd): void {
     void relogin(bot);
 }
 
+/** Every bot would hit the same revision mismatch, and retrying can't fix it. */
+function exitIfOutdated(e: unknown): void {
+    if (e instanceof OutdatedClientError) {
+        console.error(`[swarm] ${e.message}`);
+        process.exit(3);
+    }
+}
+
 /** Retry forever: the world may be restarting, and a bot is no use logged out. */
 async function relogin(bot: PickpocketBot): Promise<void> {
     let delay = RELOGIN_MS;
@@ -400,6 +409,7 @@ async function relogin(bot: PickpocketBot): Promise<void> {
             console.log(`[swarm] ${bot.name} back online (${bot.stats.relogins} re-logins so far)`);
             return;
         } catch (e) {
+            exitIfOutdated(e);
             console.error(`[swarm] ${bot.name} re-login failed (${e}); retrying in ${Math.round(delay / 1000)}s`);
             delay = Math.min(delay * 2, RELOGIN_MAX_MS);
         }
@@ -414,6 +424,7 @@ for (const name of names) {
         await login(bot);
         console.log(`[swarm] ${name} logged in${bot.isCollector ? ' (COLLECTOR)' : ''}`);
     } catch (e) {
+        exitIfOutdated(e);
         console.error(`[swarm] ${name} failed to log in: ${e}`);
         void relogin(bot); // keep trying in the background rather than losing the bot
     }

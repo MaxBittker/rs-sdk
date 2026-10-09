@@ -2,12 +2,13 @@ import { handleMarket } from './pages/market.js';
 import { register } from 'prom-client';
 import Environment from '#/util/Environment.js';
 import World from '#/engine/World.js';
+import { toSafeName } from '#/util/JString.js';
 import { handleClientPage, handleCacheEndpoints } from './pages/client.js';
 import { handleHiscoresPage, handleHiscoresPlayerPage, handleHiscoresOutfitPage, handleHiscoresBankPage, handleHiscoresRunitePage } from './pages/hiscores.js';
 import { handleViewerAssets } from './hiscoresServer.js';
 import { handleSpriteRequest } from './sprites/SpriteRenderer.js';
 import { handleScreenshotsListPage, handleScreenshotFilePage } from './pages/screenshots.js';
-import { handleScreenshotUpload, handleExportCollisionApi } from './pages/api.js';
+import { handleScreenshotUpload, handleExportCollisionApi, handleVersionApi } from './pages/api.js';
 import { handleBugReport } from './pages/bug-report.js';
 import { handleDisclaimerPage, handleMapviewPage, handlePublicFiles } from './pages/static.js';
 import { WebSocketData, handleWebSocketUpgrade, handleGatewayEndpointGet, websocketHandlers } from './websocket.js';
@@ -294,6 +295,9 @@ async function handleRequest(req: Request, server: Bun.Server, url: URL): Promis
             const exportCollisionResponse = handleExportCollisionApi(req, url);
             if (exportCollisionResponse) return exportCollisionResponse;
 
+            const versionResponse = handleVersionApi(url);
+            if (versionResponse) return versionResponse;
+
             // Hiscores
             const hiscoresResponse = await handleHiscoresPage(url);
             if (hiscoresResponse) return hiscoresResponse;
@@ -348,6 +352,13 @@ export async function startManagementWeb() {
             }),
             // rolling per-phase cycle timings over the last ~300 ticks
             '/tickstats': () => Response.json({ ...World.getTickStats(), web: getWebStats() }),
+            // rs-sdk: the gateway asks whether a bot's recent login was refused for an old client
+            // revision, so it can tell that bot's SDK scripts to update (management port only)
+            '/outdated-client': (req: Request) => {
+                const username = new URL(req.url).searchParams.get('username') ?? '';
+                const outdated = username ? (World.outdatedClients.get(toSafeName(username)) ?? null) : null;
+                return Response.json({ serverRevision: Environment.engine.revision, outdated });
+            },
             // sample the main thread with JSC's sampling profiler for ?ms= (default 3000, max 15000)
             // at ?interval= microseconds (default 250). Covers everything on the event loop:
             // world cycles, websocket I/O callbacks, timers.

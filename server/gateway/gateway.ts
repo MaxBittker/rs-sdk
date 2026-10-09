@@ -133,6 +133,33 @@ async function authenticateSDK(username: string, password: string): Promise<{ su
     });
 }
 
+// ============ Outdated Client Check ============
+
+// The engine records logins it refused for an old client revision, on its management port (not
+// published). When an SDK connects to a bot with no client attached, ask whether that's why, so
+// scripts on an old checkout are told to update instead of waiting on a client that can't log in.
+const ENGINE_MANAGEMENT_URL = process.env.ENGINE_MANAGEMENT_URL || `http://127.0.0.1:${process.env.WEB_MANAGEMENT_PORT || 8898}`;
+
+type OutdatedClient = { revision: number; serverRevision: number };
+
+async function lookupOutdatedClient(username: string): Promise<OutdatedClient | null> {
+    try {
+        const res = await fetch(`${ENGINE_MANAGEMENT_URL}/outdated-client?username=${encodeURIComponent(username)}`, { signal: AbortSignal.timeout(1000) });
+        if (!res.ok) return null;
+        const body = await res.json() as { serverRevision?: number; outdated?: { revision: number } | null };
+        if (!body.outdated || typeof body.serverRevision !== 'number') return null;
+        return { revision: body.outdated.revision, serverRevision: body.serverRevision };
+    } catch {
+        return null; // no engine on this host (private fleet gateway), or it's busy: skip the hint
+    }
+}
+
+function outdatedClientMessage(username: string, outdated: OutdatedClient): string {
+    return `Bot "${username}" can't log in: its headless client is revision ${outdated.revision}, but the server now runs revision ${outdated.serverRevision}. ` +
+        `Update your rs-sdk checkout (git pull, then cd server/webclient && bun install) and restart the client: ` +
+        `cd server/webclient && bun src/lite/runner.ts ${username}. Browser bots (the /bot page) update by reloading.`;
+}
+
 // ============ Types ============
 
 /**
@@ -501,8 +528,14 @@ const SyncModule = {
             // Authenticate via login server (if enabled)
             sdkConnecting.add(ws);
             let authResult: { success: boolean; error?: string };
+            let outdated: OutdatedClient | null = null;
             try {
                 authResult = await authenticateSDK(targetUsername, message.password || '');
+                // A bot with no client attached may be stuck on an old client revision
+                const bot = botSessions.get(targetUsername);
+                if (authResult.success && (!bot || getSessionStatus(bot) === 'dead')) {
+                    outdated = await lookupOutdatedClient(targetUsername);
+                }
             } finally {
                 sdkConnecting.delete(ws);
             }
@@ -511,6 +544,16 @@ const SyncModule = {
                 ws.send(JSON.stringify({
                     type: 'sdk_error',
                     error: `Authentication failed: ${authResult.error}`
+                }));
+                ws.close();
+                return;
+            }
+
+            if (outdated) {
+                console.log(`[Gateway] SDK connect refused: ${targetUsername}'s client is revision ${outdated.revision} (server ${outdated.serverRevision})`);
+                ws.send(JSON.stringify({
+                    type: 'sdk_error',
+                    error: outdatedClientMessage(targetUsername, outdated)
                 }));
                 ws.close();
                 return;

@@ -10,7 +10,7 @@ import Isaac from '#/io/Isaac.js';
 import JString from '#/datastruct/JString.js';
 import Packet from '#/io/Packet.js';
 
-const CLIENT_VERSION = 289;
+export const CLIENT_VERSION = 289;
 
 /** Defaults match webclient/bundle.ts, which bakes these in at build time. */
 const DEFAULT_RSA_MODULUS =
@@ -58,6 +58,25 @@ export class LoginError extends Error {
     ) {
         super(message);
         this.name = 'LoginError';
+    }
+}
+
+/**
+ * The server runs a different game revision than this checkout: retrying can't help. A login
+ * response 6 ("client out of date") with the fix spelled out, so existing LoginError handling
+ * still applies.
+ */
+export class OutdatedClientError extends LoginError {
+    constructor(
+        readonly origin: string,
+        readonly serverRevision: number | null
+    ) {
+        super(
+            6,
+            `This lite client is revision ${CLIENT_VERSION}, but ${origin} runs ${serverRevision === null ? 'a different revision' : `revision ${serverRevision}`}. ` +
+                'The game server was upgraded: update this checkout (git pull, then cd server/webclient && bun install) and start the client again.'
+        );
+        this.name = 'OutdatedClientError';
     }
 }
 

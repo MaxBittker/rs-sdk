@@ -201,6 +201,9 @@ class World {
 
     loginAddressAttempts: TTLCache<string, number> = new TTLCache({ ttl: 60000 });
     loginDeviceAttempts: TTLCache<string, number> = new TTLCache({ ttl: 15000 });
+    // rs-sdk: logins refused for an old client revision, by safe username. The gateway reads this
+    // (management /outdated-client) to tell that bot's SDK scripts to update their checkout.
+    outdatedClients: TTLCache<string, { revision: number; at: number }> = new TTLCache({ ttl: 30 * 60_000, max: 10_000 });
 
     constructor() {
         this.loginThread.on('message', msg => {
@@ -2100,6 +2103,30 @@ class World {
         });
     }
 
+    // rs-sdk: an old client's login block is laid out like ours (274 and 289 differ only in the
+    // revision), so read its username: the gateway can then tell that bot's scripts to update.
+    private noteOutdatedClient(revision: number): void {
+        try {
+            World.loginBuf.pos += 1 + 9 * 4; // info, archive crcs
+            World.loginBuf.rsadec(priv);
+            if (World.loginBuf.g1() !== 10) {
+                return;
+            }
+            World.loginBuf.pos += 4 * 4 + 4; // isaac seed, uid
+            const username = World.loginBuf.gjstr();
+            if (username.length < 1 || username.length > 12) {
+                return;
+            }
+            const name = toSafeName(username);
+            if (!this.outdatedClients.has(name)) {
+                printInfo(`Refused login for ${name}: client revision ${revision}, server ${Environment.engine.revision}`);
+            }
+            this.outdatedClients.set(name, { revision, at: Date.now() });
+        } catch {
+            // unreadable login block: nothing to record
+        }
+    }
+
     rebootTimer(duration: number): void {
         this.shutdownTick = this.currentTick + duration;
 
@@ -2462,6 +2489,7 @@ class World {
                 rev = World.loginBuf.g2();
             }
             if (rev !== Environment.engine.revision) {
+                this.noteOutdatedClient(rev);
                 client.send(Uint8Array.from([6]));
                 client.close();
                 return;
@@ -2503,6 +2531,7 @@ class World {
             const uid = World.loginBuf.g4s();
             const username = World.loginBuf.gjstr();
             const password = World.loginBuf.gjstr();
+            this.outdatedClients.delete(toSafeName(username));
 
             if (Environment.node.production && Environment.node.rateLimitDeviceLogin > 0) {
                 const last = this.loginDeviceAttempts.get(`${uid}@${client.remoteAddress}`);

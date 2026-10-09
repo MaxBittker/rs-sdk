@@ -15,7 +15,7 @@
 import './dom-shim.js';
 
 import { invalidateCache, loadCache } from './cache.js';
-import { GameConnection, LoginError } from './net/GameConnection.js';
+import { CLIENT_VERSION, GameConnection, LoginError, OutdatedClientError } from './net/GameConnection.js';
 import { LiteClient } from './LiteClient.js';
 import { LocIndex } from './world/LocIndex.js';
 import { ClientProt } from '#/io/ClientProt.js';
@@ -83,6 +83,20 @@ export interface LiteSession {
     stopped: Promise<SessionEnd>;
 }
 
+/** The server's game revision from /api/version, or null if it doesn't say (older server, network). */
+async function fetchServerRevision(origin: string): Promise<number | null> {
+    try {
+        const res = await fetch(`${origin}/api/version`, { signal: AbortSignal.timeout(5000) });
+        if (!res.ok) {
+            return null;
+        }
+        const body = (await res.json()) as { revision?: unknown };
+        return typeof body.revision === 'number' ? body.revision : null;
+    } catch {
+        return null;
+    }
+}
+
 export async function startSession(opts: SessionOptions): Promise<LiteSession> {
     if (opts.profanityFilter !== undefined) {
         WordFilter.enabled = opts.profanityFilter;
@@ -90,6 +104,13 @@ export async function startSession(opts: SessionOptions): Promise<LiteSession> {
     const secured = opts.secured ?? !(opts.host.startsWith('localhost') || opts.host.startsWith('127.'));
     const origin = `${secured ? 'https' : 'http'}://${opts.host}`;
     const cacheDir = opts.cacheDir ?? `${process.env.HOME}/.cache/rs-sdk-lite`;
+
+    // Fail with the fix, not a decode error or an opaque login response 6, when the server
+    // has moved to another revision. Servers without /api/version skip the check.
+    const serverRevision = await fetchServerRevision(origin);
+    if (serverRevision !== null && serverRevision !== CLIENT_VERSION) {
+        throw new OutdatedClientError(origin, serverRevision);
+    }
 
     let { checksums } = await loadCache({ origin, cacheDir, members: opts.members, quiet: opts.quiet });
     let locIndex = await LocIndex.load({ origin, cacheDir, versionlistCrc: checksums[5], quiet: opts.quiet });
@@ -118,7 +139,9 @@ export async function startSession(opts: SessionOptions): Promise<LiteSession> {
         invalidateCache();
         ({ checksums } = await loadCache({ origin, cacheDir, members: opts.members, quiet: opts.quiet }));
         if (checksums.every((crc, i) => crc === stale[i])) {
-            throw err;
+            // still refused with fresh CRCs: the revision is the likely cause unless the
+            // server confirmed it matches
+            throw serverRevision === null ? new OutdatedClientError(origin, null) : err;
         }
         console.error(`[lite] ${opts.username}: stale archive CRCs after server redeploy, re-fetched /crc and retrying login`);
         locIndex = await LocIndex.load({ origin, cacheDir, versionlistCrc: checksums[5], quiet: opts.quiet });

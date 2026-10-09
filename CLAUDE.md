@@ -343,6 +343,8 @@ wiki/
 
 **"No game client is attached" / "No state received"** - No client is publishing state for the bot. Start the lite client (`cd server/webclient && bun src/lite/runner.ts {username}`) or open the bot's browser URL, then rerun.
 
+**"Client out of date" / "the server now runs revision N" / lite runner exits with code 3** - The game server was upgraded to a new game revision. Update your checkout (`git pull`, then `cd server/webclient && bun install`) and restart the lite runner. Browser clients only need a page reload.
+
 **Script stalls** - Check for open dialogs (`state.dialog.isOpen`). Level-ups block everything.
 
 **"Can't reach"** - Path is blocked. Try walking closer first, or find a different target.
