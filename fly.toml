@@ -1,5 +1,6 @@
 app = "rs-sdk-demo"
 primary_region = "iad"
+kill_timeout = "120s"
 
 [build]
 dockerfile = "server/Dockerfile"
@@ -10,6 +11,8 @@ ignorefile = "server/.dockerignore"
 BUG_REPORTS_FILE = "/opt/server/data/bug-reports.jsonl"
 # Grand Exchange escrow and authoritative player checkpoints survive redeploys.
 GE_DATABASE = "/opt/server/data/market.sqlite"
+# Preserve existing exclusions and keep imported local test presets off every board.
+HISCORES_HIDDEN_NAMES = "georgedroyd,groyper,testsave47,maxbittker,max,ironpick,goldsmith,goldfish,goldfletch,goldvanilla"
 NODE_DEBUG = "true"
 BUILD_STARTUP = "false"
 BUILD_STARTUP_UPDATE = "false"
