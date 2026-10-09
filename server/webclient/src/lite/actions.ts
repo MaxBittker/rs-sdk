@@ -776,6 +776,15 @@ export function say(c: LiteClient, message: string): SayOutcome {
         return { ok: false, truncated: false, filtered: false, finalText: '' };
     }
 
+    // Mirrors Client.say: ::commands go out as CLIENT_CHEAT, never as public chat.
+    if (message.startsWith('::')) {
+        const cheat = message.substring(2);
+        c.writeOpcode(ClientProt.CLIENT_CHEAT);
+        c.out.p1(cheat.length + 1);
+        c.out.pjstr(cheat);
+        return { ok: true, truncated: false, filtered: false, finalText: message };
+    }
+
     const cap = c.getMaxMessageLength();
     const truncated = message.length > cap;
     const text = truncated ? message.substring(0, cap) : message;
