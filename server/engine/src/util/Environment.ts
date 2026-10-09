@@ -53,6 +53,11 @@ export default {
     NODE_RANDOM_EVENTS: tryParseBoolean(process.env.NODE_RANDOM_EVENTS, false),
     NODE_TICKRATE: tryParseInt(process.env.NODE_TICKRATE, 400),
     HISCORES_WEB_PORT: tryParseInt(process.env.HISCORES_WEB_PORT, 8889),
+    // Read-only spectator feed of live players/npcs on ws /worldfeed (web/worldfeed.ts).
+    // Off by default; set WORLD_FEED_TOKEN to require ?token= on connect.
+    WORLD_FEED: tryParseBoolean(process.env.WORLD_FEED, false),
+    WORLD_FEED_TOKEN: process.env.WORLD_FEED_TOKEN || '',
+    WORLD_FEED_MAX_CLIENTS: tryParseInt(process.env.WORLD_FEED_MAX_CLIENTS, 32),
     HISCORES_HIDDEN_NAMES: (process.env.HISCORES_HIDDEN_NAMES || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean),
     BANNED_USERNAME_WORDS: (process.env.BANNED_USERNAME_WORDS || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
 };

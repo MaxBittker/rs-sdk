@@ -97,6 +97,13 @@ survival) is described in the project memory; this file is the human-readable ch
       `/api/screenshot`), `pages/client.ts` (serves `view/bot.ejs` at `/` and `/bot`),
       `pages/hiscores.ts` + `src/web/hiscoresServer.ts` + `src/hiscores.ts` (custom hiscores;
       **profile query param XSS-sanitized**), `pages/screenshots.ts`, `pages/static.ts`.
+- [ ] **World feed** (`src/web/worldfeed.ts`, rs-sdk-only): read-only `/worldfeed` WebSocket
+      streaming live players/npcs for external 3D viewers (rs-world). Off unless `WORLD_FEED=true`
+      (`WORLD_FEED_TOKEN`, `WORLD_FEED_MAX_CLIENTS` in `Environment.ts`). Hooks: `isWorldFeed`
+      branches in `websocket.ts` upgrade/open/message/close, and `cycleWorldFeed()` in
+      `World.cycle()` between `processClientsOut()` and `processCleanup()` — it reads the per-tick
+      info masks, `walkDir`/`runDir`/`tele`/`jump` and `lastTickX/Z`, so it must stay before cleanup.
+      Verify: `grep -n "cycleWorldFeed()" src/engine/World.ts` and `bun test test/worldfeed.test.ts`.
 - [ ] **`view/bot.ejs`** — the entire bot UI page (rs-sdk-only): reads `?bot=`/`?password=`
       (auto-login), **writes both back to the URL on login/field-change**, cache-busted
       `client.js?v=<%= cachebust %>` import, quick-login/create/skip-tutorial controls.

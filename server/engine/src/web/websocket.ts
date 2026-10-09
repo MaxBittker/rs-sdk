@@ -7,6 +7,7 @@ import NullClientSocket from '#/server/NullClientSocket.js';
 import WSClientSocket from '#/server/ws/WSClientSocket.js';
 import Environment from '#/util/Environment.js';
 import { gatewayLabelQuery, getIp } from './utils.js';
+import { checkWorldFeedUpgrade, isWorldFeedPath, onWorldFeedClose, onWorldFeedMessage, onWorldFeedOpen } from './worldfeed.js';
 
 export type WebSocketData = {
     client: WSClientSocket,
@@ -15,7 +16,8 @@ export type WebSocketData = {
     agentWs?: WebSocket,
     agentReady?: boolean,
     agentQueue?: string[],
-    agentLabel?: string
+    agentLabel?: string,
+    isWorldFeed?: boolean
 };
 
 
@@ -37,6 +39,27 @@ export function handleWebSocketUpgrade(
                 remoteAddress: getIp(req),
                 isAgentProxy: true,
                 agentLabel: gatewayLabelQuery(req)
+            }
+        });
+
+        if (upgraded) {
+            return undefined;
+        }
+        return new Response(null, { status: 404 });
+    }
+
+    // Read-only live world feed for external viewers
+    if (isWorldFeedPath(url.pathname)) {
+        const refused = checkWorldFeedUpgrade(url);
+        if (refused) {
+            return refused;
+        }
+
+        const upgraded = server.upgrade(req, {
+            data: {
+                client: new WSClientSocket(),
+                remoteAddress: getIp(req),
+                isWorldFeed: true
             }
         });
 
@@ -83,6 +106,11 @@ export const websocketHandlers = {
     // the extension (browsers, Bun, Node ws) also compress what they publish.
     perMessageDeflate: true,
     open(ws: ServerWebSocket<WebSocketData>) {
+        if (ws.data.isWorldFeed) {
+            onWorldFeedOpen(ws);
+            return;
+        }
+
         // Handle agent SDK proxy connections
         if (ws.data.isAgentProxy) {
             const agentWs = new WebSocket(`ws://localhost:7780/${ws.data.agentLabel ?? ''}`);
@@ -126,6 +154,11 @@ export const websocketHandlers = {
     },
 
     message(ws: ServerWebSocket<WebSocketData>, message: Buffer) {
+        if (ws.data.isWorldFeed) {
+            onWorldFeedMessage(ws, message);
+            return;
+        }
+
         // Handle agent SDK proxy connections
         if (ws.data.isAgentProxy) {
             try {
@@ -166,6 +199,11 @@ export const websocketHandlers = {
     },
 
     close(ws: ServerWebSocket<WebSocketData>) {
+        if (ws.data.isWorldFeed) {
+            onWorldFeedClose(ws);
+            return;
+        }
+
         // Handle agent SDK proxy connections
         if (ws.data.isAgentProxy) {
             try {

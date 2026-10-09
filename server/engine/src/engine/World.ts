@@ -75,6 +75,7 @@ import ClientSocket from '#/server/ClientSocket.js';
 import { FriendsServerOpcodes } from '#/server/friend/FriendServer.js';
 import { FriendThreadMessage } from '#/server/friend/FriendThread.js';
 import { LoggerEventType } from '#/server/logger/LoggerEventType.js';
+import { cycleWorldFeed } from '#/web/worldfeed.js';
 import { filteredEventTypes, groupedEventTypes } from '#/server/logger/WealthEventType.js';
 import { type GenericLoginThreadResponse, isPlayerLoginResponse, isPlayerLogoutResponse } from '#/server/login/index.d.js';
 import {
@@ -455,6 +456,9 @@ class World {
             // - afk zones changes
             // - flush packets
             this.processClientsOut();
+
+            // rs-sdk: live world feed for spectator viewers (reads the info masks before cleanup)
+            cycleWorldFeed();
 
             // cleanup
             // - reset zones
