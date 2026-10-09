@@ -333,9 +333,12 @@ Upgrade hazards:
 - [ ] **`GameShell.ts`** — `deltime = 14` (≈30% faster client loop).
 - [ ] **`MapView.ts`** — live player-position tracking (`playerPositions`,
       `shouldDrawPlayers`) for the `/mapview/` page; pairs with engine `/playerpositions`.
-      Also replaces upstream's three-area map (`reloadMain/Dungeon/Extra`) with one unified map
-      (`remapZ`, bounds `28<<6` × `44<<6`): on conflict keep ours. 289 widened upstream's main
-      area to mx 32–57 / mz 41–63; our layout still ends at mx 55 / starts at mz 44 (not extended).
+      Also replaces upstream's three-area map (`reloadMain/Dungeon/Extra`) with one unified map:
+      `MAP_BANDS` stacks overworld (raw mapsquare rows 42–62), underground (142–161 → 63–82) and
+      the high-z misc areas (69–77 → 83–91) without overlap; columns 29–56; bounds include one
+      padding square per side because the loaders skip edge squares. On conflict keep ours. After
+      a content sync, list `content/maps/m*_*.jm2` and confirm every square falls in a band and
+      the column range (289 added Ape Atoll at rows 42–43 and its dungeon at 142–143).
 - [ ] `src/3rdparty/tinymidipcm.js` tweak; `package.json` (bun scripts, deps).
 - [ ] **Filename casing**: `src/io/JagFile.ts` (capital F) in webclient vs `src/io/Jagfile.ts`
       in engine. macOS hides case-only renames from git — after a sync run:
