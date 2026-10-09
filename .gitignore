@@ -26,18 +26,14 @@ server/engine/package-lock.json
 # SDK is copied into Docker via Dockerfile; don't duplicate it under server/
 server/sdk/
 jobs/
-# Remote 25-account Lite fleet tooling (lives on the exedev host, not tracked here)
-bots/FLEET_MANDATE.md
-bots/camp_trainer.ts
-bots/fleet_*.ts
-bots/*_fleet.sh
-bots/*_fleet_monitor.sh
-bots/run_*_combat.sh
-bots/combat_status.sh
-bots/rs-sdk-remote.cron
+# Goo fleet controller sources, supervisors and report tools live in bots/fleet/
+# (private, mirrored on the exedev host) and are covered by bots/*/ above.
 
 # Durable Grand Exchange ledger and SQLite WAL files
 server/engine/data/market.sqlite*
 
 # Generated when engine utilities are invoked from the repository root
 /data/
+
+# Dashboard state is live host data, not source.
+/dashboard-max/data/
