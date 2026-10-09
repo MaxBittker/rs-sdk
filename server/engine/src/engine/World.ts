@@ -204,6 +204,10 @@ class World {
     // rs-sdk: logins refused for an old client revision, by safe username. The gateway reads this
     // (management /outdated-client) to tell that bot's SDK scripts to update their checkout.
     outdatedClients: TTLCache<string, { revision: number; at: number }> = new TTLCache({ ttl: 30 * 60_000, max: 10_000 });
+    // each record costs an RSA decode (~0.3 ms) on the tick thread; a fleet of old clients
+    // retrying after an upgrade would otherwise pay it for every attempt
+    private outdatedDecodeTick: number = -1;
+    private outdatedDecodes: number = 0;
 
     constructor() {
         this.loginThread.on('message', msg => {
@@ -2106,6 +2110,14 @@ class World {
     // rs-sdk: an old client's login block is laid out like ours (274 and 289 differ only in the
     // revision), so read its username: the gateway can then tell that bot's scripts to update.
     private noteOutdatedClient(revision: number): void {
+        if (this.outdatedDecodeTick !== this.currentTick) {
+            this.outdatedDecodeTick = this.currentTick;
+            this.outdatedDecodes = 0;
+        }
+        if (++this.outdatedDecodes > 8) {
+            return; // still refused; a later retry gets recorded
+        }
+
         try {
             World.loginBuf.pos += 1 + 9 * 4; // info, archive crcs
             World.loginBuf.rsadec(priv);
