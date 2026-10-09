@@ -25,7 +25,7 @@ export default class UpdateInvFullEncoder extends ServerGameMessageEncoder<Updat
         }
 
         buf.p2(component);
-        buf.p1(max);
+        buf.p2(max);
         for (let slot = 0; slot < max; slot++) {
             const obj = inv.get(slot);
 

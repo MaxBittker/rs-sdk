@@ -64,7 +64,7 @@ if(stat_random(thieving, 60, 300) = false) {
 }
 
 anim(human_pickpocket, 0);
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 // this is only inv, ai_queue3 does check bank
 if(inv_total(inv, $key) > 0 | (npc_type = troll_prison_guard1 & %troll_quest >= ^troll_freed_godric) 
     | (npc_type = troll_prison_guard2 & %troll_freed_eadgar = ^true)) {

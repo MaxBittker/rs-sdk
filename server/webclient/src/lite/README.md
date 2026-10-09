@@ -1,6 +1,6 @@
 # Lite client
 
-A headless RS274 client. Same protocol, same game state, no browser and no
+A headless RS289 client. Same protocol, same game state, no browser and no
 rendering — built so many bots fit on one machine.
 
 ## Why

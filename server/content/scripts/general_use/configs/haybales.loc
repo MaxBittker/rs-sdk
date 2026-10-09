@@ -1,7 +1,7 @@
 [haystack]
 name=Hay Bails
 desc=I bet there's a needle in it somewhere.
-model=model_loc_298
+model=outdoorfurniture_haystack
 width=2
 op1=Search
 blockrange=no
@@ -9,7 +9,7 @@ blockrange=no
 [haystack2]
 name=Hay Bails
 desc=I bet there's a needle in it somewhere.
-model=model_loc_299
+model=outdoorfurniture_haystack2
 width=2
 op1=Search
 blockrange=no
@@ -17,7 +17,7 @@ blockrange=no
 [haystack3]
 name=Haystack
 desc=I bet there's a needle in it somewhere.
-model=model_loc_300
+model=outdoorfurniture_haystack3
 width=2
 length=2
 op1=Search
@@ -26,6 +26,6 @@ blockrange=no
 [haybail]
 name=Hay bail
 desc=I bet there's a needle in it somewhere.
-model=model_loc_304
+model=outdoorfurniture_haybail
 op1=Search
 blockrange=no

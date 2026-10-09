@@ -32,7 +32,7 @@ if (%crate_rum = 2) {
 
     %crate_rum = 0;
     inv_add(inv, karamja_rum, 1);
-    sound_synth(pick2, 0, 0);
+    sound_synth(pick2, 1, 0);
 
     p_delay(1);
 }
@@ -41,7 +41,7 @@ def_int $choice = ~p_choice2_header("Yes.", 1, "No", 2, "Do you want to take a b
 if ($choice = 1) {
     mes("You take a banana.");
     anim(human_pickuptable, 0);
-    sound_synth(pick2, 0, 0);
+    sound_synth(pick2, 1, 0);
 
     inv_add(inv, banana, 1);
 }

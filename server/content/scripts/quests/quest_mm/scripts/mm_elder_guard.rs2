@@ -1,0 +1,79 @@
+[opnpc1,mm_elder_guard_1]
+if(~mm_wearing_greegree = false) {
+    return;
+}
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~mm_monkeyspeak;
+} else {
+    if(random(2) = 0) ~chatnpc("<p,neutral>Grr ... Get out of my way...");
+    else ~chatnpc("<p,neutral>Move!");
+}
+
+[opnpc1,mm_elder_guard_2]
+if(~mm_wearing_greegree = false) {
+    return;
+}
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    @mm_no_amulet_monkey;
+}
+~chatnpc("<p,quiz>Grrr ... What do you want?");
+if(coordz(coord) > add(coordz(npc_coord), 1)) {
+    ~chatplayer("<p,neutral>I would like to leave now.");
+    ~chatnpc("<p,neutral>As you wish.");
+    if_close;
+    ~forcemove(movecoord(coord, 0, 0, -3));
+    return;
+}
+if(%mm_kruk = ^kruk_spoken) {
+    ~chatplayer("<p,neutral>I must speak with Awowogei again.");
+    ~chatnpc("<p,neutral>As you wish.");
+    if_close;
+    if(coord ! movecoord(npc_coord, 1, 0, -1)) {
+        p_teleport(movecoord(npc_coord, 1, 0, -1));
+        p_delay(0);
+        p_teleport(movecoord(coord, 0, 0, 2));
+        p_delay(1);
+        p_teleport(movecoord(coord, 0, 0, 1));
+        p_delay(0);
+    } else {
+        ~forcemove(movecoord(coord, 0, 0, 3));
+    }
+    return;
+}
+if(%mm_garkor = ^garkor_seek_alliance) {
+    ~chatplayer("<p,neutral>I'd like to speak with Awowogei, please.");
+    ~chatnpc("<p,neutral>Only the Captain of the Monkey Guard or those he authorises may enter this building. You will need his permission to enter.");
+    ~chatplayer("<p,quiz>Who is the Captain of the Monkey Guard?");
+    if(%mm_elder_guard < ^elder_guard_spoken) %mm_elder_guard = ^elder_guard_spoken;
+    ~chatnpc("<p,neutral>He goes by the name of Kruk.");
+    return;
+}
+~chatplayer("<p,neutral>Oh nothing ... I'm just passing by.");
+
+// these hunt through ap, they can hit you diagonally and if you go under them (mithril seeds), they will try to walk out to interact
+// which they are unable to do so because of their config
+[ai_applayer2,mm_elder_guard_1] @mm_elder_guard_attack;
+[ai_applayer2,mm_elder_guard_2] @mm_elder_guard_attack;
+
+[label,mm_elder_guard_attack]
+if(~mm_wearing_greegree = true) {
+    npc_setmode(none);
+    return;
+}
+if_close;
+if(~mm_wearing_greegree = false) {
+    if (%npc_action_delay <= map_clock) {
+        %npc_action_delay = add(map_clock, 4);
+        if(p_finduid(uid) = true) p_delay(0);
+        npc_anim(m_gorilla_attack, 0);
+        sound_synth(gorilla_bigpunch, 0, 0);
+        huntall(coord, 1, ^vis_lineofsight);
+        if(huntnext = true) {
+            if_close;
+            if(busy = false & ~mm_wearing_greegree = false) {
+                queue*(mm_jail_guard_attack, 0)(npc_uid);
+            }
+        }
+        return;
+    }
+}

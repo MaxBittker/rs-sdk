@@ -1,9 +1,9 @@
-[varbit_69]
-basevar=varp_357
+[boardgames_rankchange_win]
+basevar=boardgames_varbit3
 startbit=0
 endbit=15
 
-[varbit_70]
-basevar=varp_357
+[boardgames_rankchange_lose]
+basevar=boardgames_varbit3
 startbit=16
 endbit=31

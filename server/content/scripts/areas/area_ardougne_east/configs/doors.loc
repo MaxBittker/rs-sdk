@@ -1,7 +1,7 @@
 [elenadoor2]
 name=Door
 desc=It's a door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -12,7 +12,7 @@ category=door_open_and_close
 param=next_loc_stage,elenadoor2open
 
 [elenadoor2open]
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=door
 recol2s=6342

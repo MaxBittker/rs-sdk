@@ -1,0 +1,29 @@
+[opnpc1,misc_fisherman]
+~manage_misc_daily_update;
+if (%misc_quest = ^misc_complete) {
+    ~chatnpcnoturn("<~man_misc_mesanim>Good day, Your Royal Highness.");
+} else {
+    ~chatnpcnoturn("<~man_misc_mesanim>Hello.");
+}
+if (%misc_quest = ^misc_complete) {
+    ~chatplayer("<p,neutral>Good day. What are you doing?");
+    ~chatnpcnoturn("<~man_misc_mesanim>You know very well what I'm doing, Your Royal Highness.");
+    ~chatplayer("<p,laugh>Just teasing!");
+} else {
+    ~chatplayer("<p,happy>Good day. What are you doing?");
+    ~chatnpcnoturn("<~man_misc_mesanim>I'm painting my toenails... what's it look like I'm doing? Silly outsider...");
+    ~chatplayer("<p,happy>Erm, good luck with that.");
+    ~chatnpcnoturn("<~man_misc_mesanim>Thanks.");
+}
+
+// This is to intercept fishing in miscellania
+[proc,frodi_intercept_fish](string $fishing_mes)(boolean)
+if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+    if (%misc_approval < 127) { %misc_approval = add(%misc_approval, 1); }
+    // Secondary pointer, because if primary, it overrides fishing pointers.
+    if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) .npc_say("Thanks!");
+    stat_advance(fishing, 1);
+    mes("<substring($fishing_mes, 0, sub(string_length($fishing_mes), 1))> and give it to Fisherman Frodi.");
+    return (true);
+}
+return (false);

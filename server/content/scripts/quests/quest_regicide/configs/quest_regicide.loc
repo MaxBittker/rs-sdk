@@ -1,7 +1,7 @@
 [regicide_roottree]
 name=Tree
 desc=A tree.
-model=loc_3885
+model=quest_regicide_roottree
 width=3
 length=3
 mapscene=11
@@ -9,13 +9,13 @@ mapscene=11
 [regicide_tree_dead1]
 name=Tree
 desc=A tree.
-model=loc_3886
+model=quest_regicide_tree_dead1
 mapscene=6
 
 [regicide_tree_dead2]
 name=Tree
 desc=A tree.
-model=loc_3887
+model=quest_regicide_tree_dead2
 width=3
 length=3
 mapscene=6
@@ -23,7 +23,7 @@ mapscene=6
 [regicide_tree_dead1_d1]
 name=Tree
 desc=A tree.
-model=loc_3886
+model=quest_regicide_tree_dead1
 recol1s=15784
 recol1d=12679
 mapscene=6
@@ -31,7 +31,7 @@ mapscene=6
 [regicide_tree_dead2_d1]
 name=Tree
 desc=A tree.
-model=loc_3887
+model=quest_regicide_tree_dead2
 recol1s=15784
 recol1d=12679
 width=3
@@ -41,7 +41,7 @@ mapscene=6
 [regicide_tree_dead1_d2]
 name=Tree
 desc=A tree.
-model=loc_3886
+model=quest_regicide_tree_dead1
 recol1s=15784
 recol1d=10534
 mapscene=6
@@ -49,7 +49,7 @@ mapscene=6
 [regicide_tree_dead2_d2]
 name=Tree
 desc=A tree.
-model=loc_3887
+model=quest_regicide_tree_dead2
 recol1s=15784
 recol1d=10534
 width=3
@@ -67,11 +67,11 @@ mapscene=11
 [regicide_tree_base]
 name=Tree
 desc=A tree.
-model=loc_3893
+model=quest_regicide_tree_base
 hillskew=yes
 
 [regicide_rock1]
-model=loc_3894
+model=quest_regicide_rock1
 width=2
 length=2
 hillskew=yes
@@ -79,7 +79,7 @@ mapscene=11
 active=no
 
 [regicide_rock2]
-model=loc_3895
+model=quest_regicide_rock2
 width=2
 length=2
 hillskew=yes
@@ -87,33 +87,33 @@ mapscene=11
 active=no
 
 [regicide_rock3]
-model=loc_3896
+model=quest_regicide_rock3
 hillskew=yes
 mapscene=11
 active=no
 
 [regicide_rock4]
-model=loc_3897
+model=quest_regicide_rock4
 hillskew=yes
 mapscene=11
 active=no
 
 [regicide_grass1_river]
-model=loc_3898
+model=quest_regicide_grass_river1
 recol1s=11712
 recol1d=15840
 hillskew=yes
 active=no
 
 [regicide_grass2_river]
-model=loc_3899
+model=quest_regicide_grass_river2
 recol1s=11712
 recol1d=15840
 hillskew=yes
 active=no
 
 [regicide_grass2l_river]
-model=loc_3899
+model=quest_regicide_grass_river2
 recol1s=11712
 recol1d=15840
 hillskew=yes
@@ -123,7 +123,7 @@ mirror=yes
 [regicide_rareflower_1]
 name=Flowers
 desc=A rare flower.
-model=model_loc_1192
+model=plants_rareflower_1
 recol1s=7168
 recol1d=31549
 recol2s=26921
@@ -145,7 +145,7 @@ resizez=100
 [regicide_rareflowers_1]
 name=Flowers
 desc=Don't flowers make you feel better?
-model=model_loc_1193
+model=plants_rareflowers_1
 recol1s=7168
 recol1d=31549
 recol2s=26921
@@ -167,7 +167,7 @@ resizez=200
 [regicide_rareflower_2]
 name=Flowers
 desc=A rare flower.
-model=model_loc_1192
+model=plants_rareflower_1
 recol1s=7168
 recol1d=31549
 recol2s=26921
@@ -189,7 +189,7 @@ resizez=170
 [regicide_rareflowers_2]
 name=Flowers
 desc=Don't flowers make you feel better?
-model=model_loc_1193
+model=plants_rareflowers_1
 recol1s=7168
 recol1d=31549
 recol2s=26921
@@ -211,7 +211,7 @@ resizez=170
 [regicide_rareflower_3]
 name=Flowers
 desc=A rare flower.
-model=model_loc_1192
+model=plants_rareflower_1
 recol1s=7168
 recol1d=31549
 recol2s=26921
@@ -233,7 +233,7 @@ resizez=150
 [regicide_rareflowers_3]
 name=Flowers
 desc=Don't flowers make you feel better?
-model=model_loc_1193
+model=plants_rareflowers_1
 recol1s=7168
 recol1d=31549
 recol2s=26921
@@ -253,34 +253,34 @@ resizey=150
 resizez=150
 
 [regicide_twigs1]
-model=loc_3907
+model=quest_regicide_twigs1
 hillskew=yes
 active=no
 
 [regicide_twigs2]
-model=loc_3908
+model=quest_regicide_twigs2
 hillskew=yes
 active=no
 
 [regicide_twigs3]
-model=loc_3909
+model=quest_regicide_twigs3
 hillskew=yes
 active=no
 
 [regicide_twigs_log]
-model=loc_3910
+model=quest_regicide_twigs_log
 hillskew=yes
 active=no
 
 [regicide_twigs_fade]
-model=loc_3911
+model=quest_regicide_twigs_fade
 hillskew=yes
 active=no
 
 [regicide_mushroom2]
 name=Mushroom
 desc=Fungal growth.
-model=model_loc_1165
+model=plants_mushroom2
 recol1s=18594
 recol1d=8886
 recol2s=3170
@@ -290,7 +290,7 @@ blockrange=no
 [regicide_mushrooms2]
 name=Mushrooms
 desc=Poisonous no doubt.
-model=model_loc_1166
+model=plants_mushrooms2
 recol1s=18594
 recol1d=8886
 recol2s=3170
@@ -309,7 +309,7 @@ blockrange=no
 [regicide_mushroom2_large]
 name=Mushroom
 desc=Poisonous no doubt.
-model=model_loc_1169
+model=plants_mushroom2_large
 recol1s=18594
 recol1d=8886
 recol2s=3170
@@ -319,7 +319,7 @@ blockrange=no
 [regicide_red_mushroom_corner]
 name=Mushroom
 desc=Fungal growth.
-model=loc_3915
+model=quest_regicide_mushrooms
 recol1s=31674
 recol1d=26320
 recol2s=3170
@@ -331,7 +331,7 @@ blockrange=no
 [regicide_red_mushrooms]
 name=Mushrooms
 desc=Poisonous no doubt.
-model=loc_3916
+model=quest_regicide_mushrooms2
 recol1s=31674
 recol1d=26320
 recol2s=3170
@@ -344,7 +344,7 @@ blockrange=no
 [regicide_red_mushroom_fade]
 name=Mushroom
 desc=Poisonous no doubt.
-model=loc_3917
+model=quest_regicide_mushrooms3
 recol1s=31674
 recol1d=26320
 recol2s=3170
@@ -363,7 +363,7 @@ active=yes
 [regicide_trap_arrowtrip]
 name=Twigs
 desc=Its a trap!
-model=loc_3919
+model=quest_regicide_trap_arrowtrip
 blockwalk=no
 blockrange=no
 
@@ -376,7 +376,7 @@ length=2
 [regicide_trap_tripwire]
 name=Tripwire
 desc=A tripwire.
-model=loc_3921
+model=quest_regicide_trap_tripwire
 blockwalk=no
 op1=Step-over
 length=2
@@ -384,7 +384,7 @@ length=2
 [regicide_trap_woodspring]
 name=Sticks
 desc=A odd looking group of tied sticks.
-model=loc_3922
+model=quest_regicide_trap_woodspring
 width=3
 blockwalk=no
 op1=Pass
@@ -392,21 +392,21 @@ op1=Pass
 [regicide_pitfall_corner]
 name=Leaves
 desc=A pile of leaves.
-model=loc_3923
+model=quest_regicide_trap_pitfall_corner
 blockwalk=no
 op1=Jump
 
 [regicide_pitfall_mid]
 name=Leaves
 desc=A pile of leaves.
-model=loc_3924
+model=quest_regicide_trap_pitfall_mid
 blockwalk=no
 op1=Jump
 
 [regicide_pitfall_side]
 name=Leaves
 desc=A pile of leaves.
-model=loc_3925
+model=quest_regicide_trap_pitfall_side
 blockwalk=no
 op1=Jump
 
@@ -422,20 +422,20 @@ length=2
 [regicide_trap_hand_holds]
 name=Protruding rocks
 desc=Looks like I can climb these.
-model=model_loc_1444
+model=walldecor_cave_detail1
 op1=Climb
 
 [regicide_trap_logslam]
 name=Tree
 desc=Its a tree
-model=loc_3928
+model=quest_regicide_trap_logslam
 width=3
 length=3
 
 [regicide_logbalance1]
 name=Log balance
 desc=I can balance on this log.
-model=model_loc_2291
+model=floor_log_balance1
 recol1s=11424
 recol1d=16808
 blockwalk=no
@@ -446,7 +446,7 @@ active=yes
 [regicide_logbalance2]
 name=Log balance
 desc=I can balance on this log.
-model=model_loc_2292
+model=floor_log_balance2
 recol1s=11424
 recol1d=16808
 blockwalk=no
@@ -457,7 +457,7 @@ active=yes
 [regicide_logbalance1_start]
 name=Log balance
 desc=I can balance on this log.
-model=model_loc_2291
+model=floor_log_balance1
 recol1s=11424
 recol1d=16808
 blockwalk=no
@@ -470,7 +470,7 @@ category=regicide_logbalance
 [regicide_logbalance2_start]
 name=Log balance
 desc=I can balance on this log.
-model=model_loc_2291
+model=floor_log_balance1
 recol1s=11424
 recol1d=16808
 blockwalk=no
@@ -483,7 +483,7 @@ category=regicide_logbalance
 [regicide_logbalance3_start]
 name=Log balance
 desc=I can balance on this log.
-model=model_loc_2291
+model=floor_log_balance1
 recol1s=11424
 recol1d=16808
 blockwalk=no
@@ -494,7 +494,7 @@ op1=Cross
 category=regicide_logbalance
 
 [regicide_blue_grass1]
-model=loc_3547
+model=quest_regicide_grass1
 recol1s=11712
 recol1d=14036
 hillskew=yes
@@ -504,7 +504,7 @@ resizey=64
 resizez=128
 
 [regicide_blue_grass2]
-model=loc_3548
+model=quest_regicide_grass2
 recol1s=11712
 recol1d=14036
 hillskew=yes
@@ -514,7 +514,7 @@ resizey=64
 resizez=128
 
 [regicide_blue_grass3]
-model=loc_3549
+model=quest_regicide_grass3
 recol1s=11712
 recol1d=14036
 hillskew=yes
@@ -551,7 +551,7 @@ op1=Enter
 category=regicide_cross_over
 
 [regicide_rabbit_hutch]
-model=model_loc_748
+model=cave_entrance5
 recol1s=25295
 recol1d=15750
 recol2s=23179
@@ -567,17 +567,17 @@ resizey=34
 resizez=64
 active=no
 
-[loc_3941]
+[regicide_old_camp_footprints]
 name=Tracks
 desc=Tracks in the soil.
-model=loc_3941
+model=quest_regicide_footsteps
 hillskew=yes
 shadow=no
 op1=Follow
 blockwalk=no
 
 [regicide_hollowlog]
-model=model_loc_1334
+model=plants_hollowlog
 recol1s=18823
 recol1d=16808
 recol2s=20904
@@ -586,7 +586,7 @@ width=3
 active=no
 
 [regicide_hollowlogsmaller]
-model=model_loc_1335
+model=plants_hollowlogsmaller
 recol1s=18823
 recol1d=16808
 recol2s=20904
@@ -597,14 +597,14 @@ active=no
 [overpass_gate_right]
 name=Huge Gate
 desc=You'd need a big siege engine to force that.
-model=loc_3874
+model=quest_regicide_wall_grand_door
 width=2
 op1=Enter
 
 [overpass_gate_left]
 name=Huge Gate
 desc=You'd need a big siege engine to force that.
-model=loc_3874
+model=quest_regicide_wall_grand_door
 width=2
 mirror=yes
 op1=Enter
@@ -612,17 +612,17 @@ op1=Enter
 [overpass_gate_right_open]
 name=Huge Gate
 desc=You'd need a big siege engine to force that.
-model=loc_3946
+model=quest_regicide_wall_grand_door_open
 length=2
 
 [overpass_gate_left_open]
 name=Huge Gate
 desc=You'd need a big siege engine to force that.
-model=loc_3947
+model=quest_regicide_wall_grand_door_openl
 length=2
 
 [dugupsoil1_brownmud]
-model=model_loc_184
+model=floor_dugupsoil1
 recol1s=13505
 recol1d=10500
 recol2s=14594
@@ -633,7 +633,7 @@ hillskew=yes
 active=no
 
 [dugupsoil2_brownmud]
-model=model_loc_185
+model=floor_dugupsoil2
 recol1s=13505
 recol1d=10500
 recol2s=14594
@@ -644,7 +644,7 @@ hillskew=yes
 active=no
 
 [dugupsoil3_brownmud]
-model=model_loc_186
+model=floor_dugupsoil3
 recol1s=13505
 recol1d=10500
 recol2s=14594
@@ -655,14 +655,14 @@ hillskew=yes
 active=no
 
 [swamp_edge]
-model=loc_3951
+model=quest_regicide_swamp_edge
 recol1s=15855
 recol1d=16774
 hillskew=yes
 active=no
 
 [swamp_edgel]
-model=loc_3951
+model=quest_regicide_swamp_edge
 recol1s=15855
 recol1d=16774
 hillskew=yes
@@ -670,14 +670,14 @@ mirror=yes
 active=no
 
 [swamp_edge2]
-model=loc_3953
+model=quest_regicide_swamp_edge2
 recol1s=15855
 recol1d=16774
 hillskew=yes
 active=no
 
 [swamp_edge2l]
-model=loc_3953
+model=quest_regicide_swamp_edge2
 recol1s=15855
 recol1d=16774
 hillskew=yes
@@ -685,28 +685,28 @@ mirror=yes
 active=no
 
 [regicide_swamp_soil1]
-model=loc_3955
+model=quest_regicide_swamp_soil1
 recol1s=15855
 recol1d=16774
 hillskew=yes
 active=no
 
 [regicide_swamp_soil2]
-model=loc_3956
+model=quest_regicide_swamp_soil2
 recol1s=15855
 recol1d=16774
 hillskew=yes
 active=no
 
 [regicide_swamp_soil3]
-model=loc_3957
+model=quest_regicide_swamp_soil3
 recol1s=15855
 recol1d=16774
 hillskew=yes
 active=no
 
 [regicide_swamp_root1]
-model=model_loc_1323
+model=wilderness_roots1
 recol1s=6240
 recol1d=3203
 resizex=256
@@ -717,7 +717,7 @@ length=2
 active=no
 
 [regicide_swamp_root2]
-model=model_loc_1324
+model=wilderness_roots2
 recol1s=6240
 recol1d=3203
 resizex=256
@@ -728,7 +728,7 @@ length=2
 active=no
 
 [regicide_swamp_root3]
-model=model_loc_1325
+model=wilderness_roots3
 recol1s=6240
 recol1d=3203
 resizex=256
@@ -739,7 +739,7 @@ length=2
 active=no
 
 [regicide_swamp_bubble1]
-model=model_swamp_bubbles
+model=floor_swampbubbles
 recol1s=3301
 recol1d=3203
 anim=swampbubs
@@ -783,7 +783,7 @@ active=no
 [regicide_tree_swamp1]
 name=tree
 desc=A tree
-model=loc_3886
+model=quest_regicide_tree_dead1
 recol1s=15784
 recol1d=3203
 recol2s=11712
@@ -795,7 +795,7 @@ resizez=60
 [regicide_tree_swamp2]
 name=tree
 desc=A tree
-model=loc_3886
+model=quest_regicide_tree_dead1
 recol1s=15784
 recol1d=3203
 recol2s=11712
@@ -807,7 +807,7 @@ resizez=80
 [regicide_pile_of_skulls]
 name=Pile of skulls
 desc=Disturbing but tidy.
-model=model_loc_658
+model=wilderness_pileofskulls
 recol1s=31709
 recol1d=3203
 blockrange=no
@@ -815,7 +815,7 @@ blockrange=no
 [regicide_charred_bones]
 name=Charred bones
 desc=I don't even want to think about what did that...
-model=model_loc_659
+model=wilderness_charredbones
 recol1s=21140
 recol1d=3203
 recol2s=19026
@@ -832,7 +832,7 @@ blockwalk=no
 [regicide_corpse]
 name=Corpse
 desc=Now that's what I call slimline!
-model=loc_3971
+model=quest_regicide_corpse3
 recol1s=27413
 recol1d=3203
 blockrange=no
@@ -840,7 +840,7 @@ blockrange=no
 [regicide_corpse2]
 name=Corpse
 desc=He looks very relaxed.
-model=model_loc_661
+model=floor_corpse2
 recol1s=27413
 recol1d=3203
 blockrange=no
@@ -848,7 +848,7 @@ blockrange=no
 [regicide_corpse3]
 name=Corpse
 desc=Now he's just too thin.
-model=loc_3973
+model=quest_regicide_corpse2
 recol1s=27413
 recol1d=3203
 blockrange=no
@@ -856,7 +856,7 @@ blockrange=no
 [regicide_corpse4]
 name=Corpse
 desc=He hasn't eaten in a long time.
-model=loc_3974
+model=quest_regicide_corpse1
 recol1s=27413
 recol1d=3203
 blockrange=no
@@ -864,7 +864,7 @@ blockrange=no
 [regicide_tar_collection]
 name=Tar
 desc=I don't wanna fall in that!
-model=loc_3975
+model=quest_regicide_transparent_square1
 blockrange=no
 active=yes
 forcedecor=yes
@@ -896,7 +896,7 @@ length=5
 active=yes
 
 [regicide_tent_human]
-model=loc_3979
+model=quest_regicide_tent
 ambient=50
 contrast=10
 sharelight=yes
@@ -905,14 +905,14 @@ active=no
 [regicide_tent_door]
 name=Tent flap
 desc=A way to get in the tent.
-model=loc_3980
+model=quest_regicide_tent_door
 op1=Enter
 ambient=50
 contrast=10
 sharelight=yes
 
 [regicide_tentroof1_human]
-model=model_loc_1669
+model=tent_roof1
 recol1s=26425
 recol1d=9623
 recol2s=5348
@@ -922,7 +922,7 @@ active=no
 
 // [sic] regicde
 [regicde_tentroofcentre1]
-model=model_loc_1683
+model=tent_roofcentre2
 recol1s=26425
 recol1d=21069
 recol2s=5348
@@ -932,8 +932,8 @@ active=no
 
 [regicide_tentroofcentre1]
 name=Tent
-desc=A Tent
-model=model_loc_1682
+desc=A Tent.
+model=tent_roofcentre1
 recol1s=26425
 recol1d=21069
 sharelight=yes
@@ -941,8 +941,8 @@ active=yes
 
 [regicide_tentroof_high]
 name=Tent
-desc=A Tent
-model=loc_3984
+desc=A Tent.
+model=quest_regicide_tentroof_high
 recol1s=26425
 recol1d=9623
 recol2s=5348
@@ -952,8 +952,8 @@ active=yes
 
 [regicide_tentroof_high_centre]
 name=Tent
-desc=A Tent
-model=loc_3985
+desc=A Tent.
+model=quest_regicide_tentroof_high_centre
 recol1s=26425
 recol1d=21069
 sharelight=yes
@@ -961,7 +961,7 @@ active=yes
 
 [regicide_tentroof_highcorner]
 name=Tent
-desc=A Tent
+desc=A Tent.
 model=loc_3986
 recol1s=26425
 recol1d=9623
@@ -970,26 +970,27 @@ recol2d=21069
 active=yes
 
 [propbarrel_burning]
-name=propbarrel_burning
+name=Barrel
+desc=A small barrel.
 model=loc_3987
 recol1s=9344
 recol1d=16808
 anim=propbarrel_burning
 
 [regicide_guideropes1]
-model=model_loc_1680
+model=tent_guideropes1
 recol1s=9344
 recol1d=16808
 active=no
 
 [regicide_guideropes2]
-model=model_loc_1681
+model=tent_guideropes2
 recol1s=9344
 recol1d=16808
 active=no
 
 [regicide_spearwall]
-model=model_loc_848
+model=quest_spearwall
 recol1s=15649
 recol1d=14729
 recol2s=12513
@@ -1005,7 +1006,7 @@ blockrange=no
 active=no
 
 [regicide_spearwall_straight]
-model=model_loc_2067
+model=castle_spearwall_row
 recol1s=15649
 recol1d=14729
 recol2s=12513
@@ -1022,7 +1023,7 @@ active=no
 [regicide_standard1_tyrus]
 name=Standard
 desc=A standard of Kandarin.
-model=model_loc_864
+model=outdoorfurniture_standard1_kandarin
 recol1s=12547
 recol1d=16808
 recol2s=24675
@@ -1037,7 +1038,7 @@ ambient=10
 [regicide_standard2_tyrus]
 name=Standard
 desc=A standard of Kandarin.
-model=model_loc_866
+model=outdoorfurniture_standard2_kandarin
 recol1s=12547
 recol1d=16808
 recol2s=24675
@@ -1052,12 +1053,12 @@ ambient=10
 [regicide_furnace]
 name=Small furnace
 desc=A small furnace.
-model=loc_3994
+model=quest_regicide_furnace
 
 [regicide_tent_human_for_fire]
 name=Tent wall
 desc=A tent wall
-model=loc_3979
+model=quest_regicide_tent
 ambient=50
 contrast=10
 active=yes
@@ -1065,7 +1066,7 @@ active=yes
 [regicide_tent_door_for_fire]
 name=Tent flap
 desc=A way to get in the tent.
-model=loc_3980
+model=quest_regicide_tent_door
 op1=Enter
 ambient=50
 contrast=10
@@ -1073,7 +1074,7 @@ contrast=10
 [regicide_tent_human_fire]
 name=Tent wall
 desc=A tent wall
-model=loc_3997
+model=quest_regicide_flamming_tent
 recol1s=26425
 recol1d=9623
 recol2s=5348
@@ -1104,7 +1105,7 @@ category=regicide_cross_over
 [flamming_tent_roof]
 name=Tent roof
 desc=A tent roof.
-model=loc_4000
+model=quest_regicide_flamming_tent_roof
 recol1s=26425
 recol1d=9623
 recol2s=5348
@@ -1113,7 +1114,7 @@ recol2d=21069
 [regicide_tentcorner_roofed]
 name=Tent wall
 desc=A tent wall
-model=loc_4001
+model=quest_regicide_tentcorner_roofed
 recol1s=26425
 recol1d=9623
 recol2s=5348
@@ -1125,10 +1126,10 @@ contrast=10
 [regicide_tentroof_stump]
 name=Tent pole
 desc=The charred remains of a tent pole.
-model=loc_4002
+model=quest_regicide_tentroof_stump
 
 [regicide_corpse_king]
-model=loc_4003
+model=quest_regicide_corpse_king
 
 [regicide_voyage_temple_well1]
 name=Well
@@ -1173,7 +1174,7 @@ op1=Climb-down
 [regicide_voyage_temple_entrance]
 name=Cave entrance
 desc=It looks like I can squeeze through here.
-model=model_loc_2
+model=cave_entrance3
 recol1s=10400
 recol1d=16737
 recol2s=8288
@@ -1191,7 +1192,7 @@ op1=Enter
 [regicide_voyage_temple_exit]
 name=Cave Exit
 desc=The exit to the outside.
-model=loc_3736
+model=quest_death_caveexit
 recol1s=10400
 recol1d=7329
 width=3
@@ -1291,7 +1292,7 @@ sharelight=yes
 active=no
 
 [regicide_bridge_e_l_high]
-model=model_loc_3009
+model=castle_loc_3009
 retex1s=pebblefloor
 retex1d=elfbrick
 recol2s=12683
@@ -1347,7 +1348,7 @@ sharelight=yes
 
 [regicide_propbarrel]
 name=regicide_propbarrel
-model=loc_4024
+model=quest_regicide_propbarrel
 anim=propbarrel_exploding_ready
 
 [regicide_propbarrel_burning]
@@ -1358,5 +1359,5 @@ anim=propbarrel_burning
 [regicide_fractionalizing_still]
 name=Fractionalizing still
 desc=A still for fractionalizing oils.
-model=loc_4026
+model=quest_regicide_fractionalizing_still
 op1=Operate

@@ -82,4 +82,4 @@ inv_del(inv, $grindable, 1);
 inv_add(inv, $refined, 1);
 mes($message);
 anim(human_herbing_grind, 0);
-sound_synth(grind_snail, 0, 0); // Note this is different.
+sound_synth(grind_snail, 1, 0); // Note this is different.

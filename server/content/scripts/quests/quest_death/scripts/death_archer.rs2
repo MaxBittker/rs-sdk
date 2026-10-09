@@ -10,7 +10,8 @@
 
 [label,death_archer_trapped]
 ~chatplayer("<p,happy>Hi!");
-~chatnpc("<p,happy>Thank goodness you opened that door!|I've been trapped here since last night!");
+// https://rsrclan.com/media/quests/P2P/deathplt/9957.png
+~chatnpc("<p,happy>Thank god you opened that door!|I've been trapped here since last night!");
 ~chatplayer("<p,happy>No problem!");
 
 [ai_queue3,_death_archer]

@@ -31,7 +31,7 @@ session_log(^log_adventure, "Quest complete: Family Crest");
 [proc,crest_toggle_lever](coord $coord, loc $new_loc, int $lever, boolean $up) {
     facesquare(movecoord($coord, 0, 1, 0));
     anim(human_leverdown, 0);
-    sound_synth(lever, 0, 0);
+    sound_synth(lever, 1, 0);
     // Tested on OSRS, levers revert to original state after 5 mins
     // Temp note: dur does not need updated
     loc_change($new_loc, 500);

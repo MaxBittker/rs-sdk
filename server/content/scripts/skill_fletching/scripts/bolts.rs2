@@ -41,7 +41,7 @@ if ($anim ! null) {
     anim($anim, 0);
 }
 if ($sound ! null) {
-    sound_synth($sound,0 , 0);
+    sound_synth($sound, 1, 0);
 }
 mes("You use your chisel to fletch small bolt tips.");
 

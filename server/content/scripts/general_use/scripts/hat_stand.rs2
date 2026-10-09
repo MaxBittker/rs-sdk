@@ -8,6 +8,6 @@ if (oc_wearpos(inv_getobj(inv, last_useslot)) ! ^wearpos_hat) {
 def_int $slot = last_useslot;
 p_delay(1);
 inv_dropslot(inv, coord, $slot, calc(calc(^lootdrop_duration * 3) / 2));
-sound_synth(put_down, 0, 0);
+sound_synth(put_down, 1, 0);
 p_delay(0);
 ~mesbox("Oops - it fell off the hatstand!");

@@ -1,0 +1,149 @@
+[opnpc1,possessed_pickaxe_stationary] @possessed_pickaxe_aggro;
+[ai_applayer2,possessed_pickaxe_stationary]
+if (npc_coord ! %npc_start_coord) { // Only attacks if stationary on spawn square in osrs
+    npc_setmode(null);
+    return;
+}
+@possessed_pickaxe_aggro;
+
+
+// Tick 1434	
+// sequence	npc=possessed_pickaxe_stationary (3613), id=pickaxe_summon (1446)
+// Tick 1487	
+// sequence	npc=possessed_pickaxe (3612), id=magicaxe_death (188)
+[label,possessed_pickaxe_aggro]
+npc_changetype_keepall(possessed_pickaxe, ^max_32bit_int);
+npc_anim(pickaxe_summon, 0);
+npc_delay(1);
+npc_anim(null, 0);
+~npc_retaliate(0);
+
+
+[ai_timer,possessed_pickaxe]
+npc_anim(seq_1448, 0); // osrs uses it's death anim.... But it breaks all proceeding anims.
+npc_changetype_keepall(possessed_pickaxe_stationary, ^max_32bit_int);
+npc_setmode(null);
+npc_delay(1);
+
+
+// Tick 6845	
+// sequence	npc=skeletal_miner_sitting (3614), id=skeleton_summon (1443)
+// Tick 6898	
+// sequence	npc=skeletal_miner (3615), id=skeleton_sitdown (1444)
+[ai_applayer2,skeletal_miner_sitting]
+npc_changetype_keepall(skeletal_miner, ^max_32bit_int);
+npc_anim(skeleton_summon, 0);
+npc_delay(1);
+npc_anim(null, 0);
+~npc_retaliate(0);
+
+
+// - Itll only revert if its near it's spawn and it hasnt attacked recently
+[ai_timer,skeletal_miner]
+if (~npc_retal_ready = true & npc_range(%npc_start_coord) < 5) { // skeletal miner only resets if its not in combat
+    npc_anim(skeleton_sitdown, 0);
+    npc_changetype_keepall(skeletal_miner_sitting, ^max_32bit_int);
+    npc_setmode(none); // doesnt resetdefaults
+    npc_delay(1);
+}
+
+
+
+[ai_applayer2,hauntedmine_suprise_ghost_hidden]
+npc_changetype_keepall(hauntedmine_suprise_ghost, ^max_32bit_int);
+npc_anim(bossghost_fade_in, 0);
+npc_delay(1);
+npc_anim(null, 0);
+// when the ghost enters follow mode, you can attack it right after
+// this wouldnt work if %npc_aggressive_player wasnt set (npc_setmode(opplayer2))
+~npc_retaliate(0);
+
+[ai_timer,hauntedmine_suprise_ghost]
+// If the npc:
+// - hasnt attacked in 8 ticks
+// - has a target
+// - its target is within los
+// - its target is within attackrange (2 tiles)
+// Then the ghost will change type, and STAY in op mode...
+
+// if not in combat:
+// - if hunt target is its own target, revert type and return early... Stays in op mode
+// - if hunt target is new, revert normally
+// - if no hunt target, fade out and reset normally
+// if currently in combat:
+// - set mode to playerfollow the hunt target, and set last combat (is this ~npc_retaliate ?)
+huntall(npc_coord, 2, ^vis_lineofsight);
+if (huntnext = true) { // todo hunt() ?
+    if (add(%npc_action_delay, 8) >=  map_clock) { // in combat already
+        npc_anim(bossghost_fade_in, 0); // same seq as aggroing
+        npc_delay(1);
+        npc_setmode(playerfollow); // Doesnt attack player, will retal if attacked (so its not action delay)
+        %npc_attacking_uid = null;
+        %npc_lastcombat = map_clock;
+        return;
+    }
+    if (uid = %npc_attacking_uid) { // hunt target is current target
+        npc_changetype_keepall(hauntedmine_suprise_ghost_hidden, ^max_32bit_int);
+        return;
+    }
+    // The ghost will do this every 52 ticks (incl 2t of delay), even in combat
+    npc_anim(bossghost_fade_in, 0); // same seq as aggroing
+    npc_delay(1);
+    npc_changetype_keepall(hauntedmine_suprise_ghost_hidden, ^max_32bit_int);
+    npc_setmode(null);
+    return;
+}
+// no hunt target
+npc_anim(bossghost_fade_out, 0);
+npc_delay(1);
+npc_changetype_keepall(hauntedmine_suprise_ghost_hidden, ^max_32bit_int);
+// yea they actually do this... Stays in op mode but will rehunt (engine) anything nearby
+npc_sethuntmode(null);
+
+
+
+// Tick 1677	
+// sequence	npc=hauntedmine_suprise_ghost (3625), id=bossghost_fade_in (1438)
+// Tick 1678	
+// Tick 1679	
+// sequence	npc=hauntedmine_suprise_ghost_hidden (3626), id=-1
+
+// Tick 1729	
+// sequence	npc=hauntedmine_suprise_ghost_hidden (3626), id=bossghost_fade_in (1438)
+// Tick 1730	
+// Tick 1731	
+// sequence	npc=hauntedmine_suprise_ghost_hidden (3626), id=-1
+
+
+// Tick 362	
+// // varbit	id=date_milliseconds_past_minute (12391), old=663, new=264
+// // varbit	id=date_seconds_past_minute (12392), old=13, new=14
+// // varp_large	id=map_clock (3079), old=204203, new=204204
+// // npc_info_small_v6	
+// // idle	npc=(index=19507, id=hauntedmine_suprise_ghost (3625), coord=(0_43_71_60_56))
+// // sequence	npc=hauntedmine_suprise_ghost (3625), id=bossghost_fade_in (1438)
+// // walk	npc=(index=19499, id=hauntedmine_suprise_ghost_hidden (3626), coord=(0_43_71_51_49)), newcoord=(0_43_71_50_50), step=north-west
+// // walk	npc=(index=19504, id=rat (2854), coord=(0_43_71_47_53)), newcoord=(0_43_71_48_54), step=north-east
+// // Tick 363	
+// // varbit	id=date_milliseconds_past_minute (12391), old=264, new=863
+// // varp_large	id=map_clock (3079), old=204204, new=204205
+// // npc_info_small_v6	
+// // walk	npc=(index=19499, id=hauntedmine_suprise_ghost_hidden (3626), coord=(0_43_71_50_50)), newcoord=(0_43_71_49_51), step=north-west
+// // walk	npc=(index=19504, id=rat (2854), coord=(0_43_71_48_54)), newcoord=(0_43_71_49_55), step=north-east
+// // Tick 364	
+// // varbit	id=date_milliseconds_past_minute (12391), old=863, new=464
+// // varbit	id=date_seconds_past_minute (12392), old=14, new=15
+// // varp_large	id=map_clock (3079), old=204205, new=204206
+// // npc_info_small_v6	
+// // idle	npc=(index=19507, id=hauntedmine_suprise_ghost_hidden (3626), coord=(0_43_71_60_56))
+// // sequence	npc=hauntedmine_suprise_ghost_hidden (3626), id=-1
+// // walk	npc=(index=19499, id=hauntedmine_suprise_ghost_hidden (3626), coord=(0_43_71_49_51)), newcoord=(0_43_71_48_52), step=north-west
+// // walk	npc=(index=19504, id=rat (2854), coord=(0_43_71_49_55)), newcoord=(0_43_71_50_54), step=south-east
+
+// Tick 414	
+// varbit	id=date_milliseconds_past_minute (12391), old=861, new=463
+// varbit	id=date_seconds_past_minute (12392), old=44, new=45
+// varp_large	id=map_clock (3079), old=204255, new=204256
+// npc_info_small_v6	
+// idle	npc=(index=19507, id=hauntedmine_suprise_ghost_hidden (3626), coord=(0_43_71_60_56))
+// sequence	npc=hauntedmine_suprise_ghost_hidden (3626), id=bossghost_fade_in (1438)

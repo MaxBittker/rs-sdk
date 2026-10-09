@@ -1,0 +1,22 @@
+[ai_queue3,possessed_pickaxe]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+
+// Default drop from config.
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+
+def_int $random = random(500);
+
+if ($random < 475) {
+    obj_add(npc_coord, iron_pickaxe, 1, ^lootdrop_duration);
+} else if ($random < 485) {
+    obj_add(npc_coord, steel_pickaxe, 1, ^lootdrop_duration);
+} else if ($random < 495) {
+    obj_add(npc_coord, mithril_pickaxe, 1, ^lootdrop_duration);
+} else if ($random < 499) {
+    obj_add(npc_coord, adamant_pickaxe, 1, ^lootdrop_duration);
+} else {
+    obj_add(npc_coord, rune_pickaxe, 1, ^lootdrop_duration);
+}

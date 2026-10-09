@@ -1,7 +1,7 @@
 [keyprint]
 name=Key print
 desc=An imprint of a key in a lump of clay.
-model=model_2389_obj
+model=inv_keymould
 2dyof=-9
 2dzoom=900
 2dyan=1988
@@ -10,7 +10,7 @@ weight=10g
 tradeable=no
 
 [plainwig]
-model=model_2783_obj
+model=inv_wig
 recol1s=29476
 recol1d=23252
 2dxof=3
@@ -24,7 +24,7 @@ desc=A grey woollen wig.
 tradeable=no
 
 [blondwig]
-model=model_2783_obj
+model=inv_wig
 2dxof=3
 2dyof=16
 2dzoom=630
@@ -39,7 +39,7 @@ tradeable=no
 name=Paste
 desc=A bottle of skin coloured paste.
 cost=5
-model=model_2705_obj
+model=inv_dyebottle
 recol1s=15855
 recol1d=30385
 2dyof=-2
@@ -52,7 +52,7 @@ tradeable=no
 [princeskey]
 name=Bronze key
 desc=A heavy key made of bronze.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=8354
 2dxof=-3

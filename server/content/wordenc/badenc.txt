@@ -1,0 +1,381 @@
+# bad words detected by the chat filter
+# format: <word> [ exceptions ... ]
+
+# exception format: <prev>:<next chars>
+# allowed: a-z, ', 0-9, ?. ? represents a space, word boundary, or symbol
+
+# the chat filter works off fragments, and exceptions allow these to appear in larger words
+# e.g.
+#   anal c:s?  -> canals (c...s), canal (c...end-of-word)
+#   anal ?:oy  -> analogy, analogue (...o), analyse, analyst (...y) at a word start
+#   stfu a:l e:l i:l u:l -> mastful, restful, fistful, lustful (vowel + "stfu" + l)
+
+ahole
+anal c:s? o:y w:? ?:oy
+angelfire
+anus
+arse e:d f:er o:lrs? p:cdlnrs? v:? ?:n
+asbandit
+ashole
+asmonkey
+ass b:aesy? c:eis? d:lz e:su g:eis h:ails i:es l:beirsy?8 m:aeis? n:iyz p:aeips? r:eilmsy? s:isy t:is w:suz ?:aeiosu
+asses b:? g:? l:? m:? p:? r:? ?:eis
+aswhip
+aswipe
+autorune
+baitch
+barstard
+barsterd
+bastard
+basterd
+bathterd
+bellend
+biatch
+bich
+biotch ?:y
+bisex
+bitch
+blodrag
+blojob
+blowjob
+blowme
+boloc
+bolock
+bolok
+bolox
+bondage
+boner
+boob
+bovinelabs
+breast a:? ?:p
+btch
+buga
+buger e:s?
+butmonkey
+butt ?:eot
+bych
+bytch
+cack ?:l
+cheat ?:ei
+chink
+chit r:e ?:c
+cjb
+clit a:y
+coc a:k n:t ?:ko
+cocain
+cocaine
+cock a:s? ?:aelrt
+cockrider
+cockrub
+cohc
+cok e:e n:e r:e ?:eisy' _:_
+coke e:d n:d r:d ?:dr
+condom
+coon a:s? c:s? o:? y:s?
+coq
+cox
+crap s:behipsy?
+creditcard
+crud ?:ei
+cum a:u? c:bu i:? l:? n:b o:e r:sv s:? u:b ?:qu
+cuniling
+cunt s:h
+cyber ?:n
+damm ?:em
+damn a:i ?:aei
+damnit a:e
+dhick
+dhik
+dhix
+dic a:aet? b:a d:t e:ait? i:u? n:aetu o:au? r:et u:eir ?:ehit
+dick
+dik a:ei
+dildo
+diq
+dix n:?
+dumass
+dumbass
+ecstacy
+ejaculat
+ejaculate
+erection t:?
+excrement
+excrete
+fac e:eit i:t l:e n:t r:e s:t t:e u:t ?:aeitu
+fack
+faeces
+fag
+fagot
+fak ?:ei
+fannies
+fanny
+faq
+fark
+fart ?:h
+fawk
+fck
+fcuk
+fec a:t e:t f:t n:t o:y r:t
+feck
+feg a:u i:u
+fek a:e
+felat
+felate
+felch
+feq
+fhagot
+fhuck
+fhuk
+fhuq
+fk a:?
+fluck
+foc e:u f:a u:a ?:au
+fock
+foek
+fok
+foq
+fruck
+fuack
+fuc
+fuck
+fudgepacker
+fuhck
+fuhk
+fuick
+fujpacker
+fuk
+fukc
+fuq
+fux
+fyck
+gangrap
+gangrape
+gay
+gecities
+gecity
+genital
+geocities
+geocity
+gey a:? o:? ?:s
+ghay
+ghey
+gook
+handjob
+hardcoresex
+hash e:? ?:i
+hashish ?:?
+heroin ?:e
+hetro
+hitler
+homo
+hooker
+hore b:n c:s? p:? s:s? ?:n
+hornie t:rs
+horny t:?
+horsecock
+hotmail
+hotmale
+htp
+incest
+jiz
+koc
+kock
+kok ?:a
+koq
+krap
+kunt
+kweer
+labia
+labium
+lesbian
+lesbo
+lesy s:?
+lez s:iy z:u
+lick c:aeis? f:ei? s:eln? ?:e
+lsd w:o
+marijuana
+masterbat
+masterbate
+masturbat
+masturbate
+mofo
+mofos
+molest
+motherfuck
+motherfucker
+motherfunker
+msn
+musterbat
+musterbate
+naked
+natsi ?:?
+natzi
+nazi s:e?
+necrophilia
+negro
+nhiga
+nhiger
+niga i:m
+niger s:ei? ?:i
+nigr e:a
+niple
+nob k:s? s:beis ?:biloy
+nonce
+nude
+nuts a:? d:? h:? l:? t:? ?:h
+oral h:? l:? m:elsty? p:? t:? ?:ly
+orgasm
+orgies f:?
+orgy
+paci a:t s:ano ?:fn
+paedo
+paedophil
+paedophile
+paki ?:s
+panties
+panty
+pascode
+pasw
+pasward
+paswerd
+paswird
+pasword
+paswurd
+pedo r:es? s:m
+pedophil
+pedophile
+penes o:s?
+penis
+penus
+perv m:i u:i ?:a
+pervert
+phuff
+pilock
+pimp
+piss ?:az
+pofter
+ponce
+porn
+porno
+pric a:o r:e ?:eiky
+prick ?:l
+prik a:a
+prostitut
+prostitute
+pscode
+psword
+puccy
+puf ?:fi
+pufs
+pusi ?:en
+puss ?:lz
+pussy
+pusy
+pw e:a i:r m:u u:ae ?:l
+pword
+pws
+qok
+queer
+quim
+qweer
+raip
+raipe
+raiping
+raipist
+rape a:t c:dr? d:d g:fsv? t:dz w:dr
+raping c:? t:s? w:?
+rapist e:?
+rectal
+rectum
+retard
+rshakz
+rugmuncher
+runebot
+scank
+scanq
+schit
+screw k:es? n:?
+scrotum
+seks _:_
+semen a:t i:t r:t u:t
+sex e:? i:? o:? s:? ?:t
+sextoy
+shag
+shat d:? ?:et
+sheit ?:e
+shet y:? ?:s _:_
+shiet
+shit
+shiz
+shiznit
+shlong
+shot5times
+sht i:a
+shti
+siht
+skanc a:e
+skank
+skanq
+slag
+slaper
+slit w:s? ?:h
+slut
+smeg
+sodomy ?:?
+spank
+spastic
+sperm
+sphincter
+sphosting
+spunk
+sqank
+stalk ?:is
+stfu a:l e:l i:l u:l
+suc ?:cehirtu
+sucer
+suck
+suk
+suq
+sux
+sxy
+tampon
+testes
+testicle
+testis
+throb r:? t:?
+tit a:uy b:l c:eiy e:eio l:u n:aeily o:k p:uy r:eiu s:ceiosuy? t:u u:iy ?:abehilnr
+titties
+toolkit ?:?
+toser
+tosr
+turd a:a s:iy
+twat l:e
+undress
+urinat
+urinate
+urine f:s
+vadge
+vagina
+vegina
+vibrator
+vitu
+vvv
+vvw
+vwv
+vww
+vze
+wang
+wank s:iy
+whore
+wiger
+willies
+willy
+wnker
+wop s:ei?
+wtf
+wvv
+wvw
+ww a:w? w:w?
+wwv
+www
+yaho

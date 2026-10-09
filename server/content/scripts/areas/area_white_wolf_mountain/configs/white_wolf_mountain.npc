@@ -11,5 +11,6 @@ model3=model_2978_npc
 model4=model_2984_npc
 model5=model_2985_npc
 model6=model_2993_npc
-head1=model_0_npc_head
+head1=dwarf_chat_model0
+wanderrange=2
 param=death_anim,dwarf_death

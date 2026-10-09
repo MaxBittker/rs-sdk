@@ -1,7 +1,7 @@
 [sewervalve1]
 name=Sewer valve
 desc=This looks like it can be turned.
-model=model_loc_2844
+model=quest_sewervalve
 active=yes
 op1=Turn-left
 op2=Turn-right
@@ -11,7 +11,7 @@ param=hazeelcult_valve_idx,0
 [sewervalve2]
 name=Sewer valve
 desc=This looks like it can be turned.
-model=model_loc_2844
+model=quest_sewervalve
 active=yes
 op1=Turn-left
 op2=Turn-right
@@ -21,7 +21,7 @@ param=hazeelcult_valve_idx,1
 [sewervalve3]
 name=Sewer valve
 desc=This looks like it can be turned.
-model=model_loc_2844
+model=quest_sewervalve
 active=yes
 op1=Turn-left
 op2=Turn-right
@@ -31,7 +31,7 @@ param=hazeelcult_valve_idx,2
 [sewervalve4]
 name=Sewer valve
 desc=This looks like it can be turned.
-model=model_loc_2844
+model=quest_sewervalve
 active=yes
 op1=Turn-left
 op2=Turn-right
@@ -41,7 +41,7 @@ param=hazeelcult_valve_idx,3
 [sewervalve5]
 name=Sewer valve
 desc=This looks like it can be turned.
-model=model_loc_2844
+model=quest_sewervalve
 active=yes
 op1=Turn-left
 op2=Turn-right
@@ -51,7 +51,7 @@ param=hazeelcult_valve_idx,4
 [hazeelsewerraft]
 name=Raft
 desc=A rudimentary type of boat.
-model=model_loc_1987
+model=outdoorfurniture_lograft
 length=2
 active=yes
 op1=Board
@@ -59,7 +59,7 @@ op1=Board
 [hazeelcbshut]
 name=Cupboard
 desc=It's closed.
-model=model_loc_368
+model=furniture_cupboard-high
 length=2
 op1=Open
 forceapproach=east
@@ -68,7 +68,7 @@ param=cupboard_other,hazeelcbopen
 [hazeelcbopen]
 name=Cupboard
 desc=It's open.
-model=model_loc_371
+model=furniture_cupboard_open-high
 length=2
 op1=Search
 op2=Shut
@@ -78,7 +78,7 @@ param=cupboard_other,hazeelcbshut
 [hazeelcultcave]
 name=Cave entrance
 desc=I can probably squeeze my way inside there.
-model=model_loc_194
+model=cave_entrance4
 width=4
 length=4
 active=yes
@@ -87,7 +87,7 @@ op1=Enter
 [hazeelcultstairs]
 name=Stairs
 desc=It's a flight of stairs.
-model=model_loc_54
+model=furniture_stairs
 width=2
 length=3
 op1=Climb-up
@@ -95,28 +95,28 @@ op1=Climb-up
 [loc_2854]
 name=Wall
 desc=Made of wood.
-model=model_loc_1602
+model=wooden_wall
 wallwidth=8
 occlude=yes
 active=yes
 op1=Knock-at
 
 [loc_2855]
-model=model_loc_1602
+model=wooden_wall
 wallwidth=8
 occlude=yes
 
-[loc_2856]
+[carnilleanshutchest]
 name=Chest
 desc=I wonder what's inside?
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 
 [carnilleanopenchest]
 name=Chest
 desc=It's open.
-model=model_loc_76
+model=furniture_chestopen
 op1=Search
 op2=Close
 forceapproach=north
@@ -124,20 +124,20 @@ forceapproach=north
 [carnilleancrate]
 name=Crate
 desc=Used for storage.
-model=model_loc_63
+model=warehouse_shop_crate
 active=yes
 op1=Search
 
 [carnilleanrange]
 name=Range
 desc=Used for cooking.
-model=model_loc_114
+model=furniture_range
 active=yes
 length=2
 
 [hazeelcoffin]
 name=Hazeels' coffin
 desc=Very ominous.
-model=model_loc_2860
+model=quest_loc_2860
 width=3
 active=yes

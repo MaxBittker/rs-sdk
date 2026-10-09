@@ -1,7 +1,7 @@
 [treestump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1341
+model=plants_treestump
 mapscene=6
 recol1s=4194
 recol1d=5218
@@ -9,7 +9,7 @@ recol1d=5218
 [treestump2]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1342
+model=plants_treestump2
 width=2
 length=2
 mapscene=6
@@ -20,7 +20,7 @@ recol1d=5218
 [treestump2_light]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1342
+model=plants_treestump2
 width=2
 length=2
 mapscene=6
@@ -31,7 +31,7 @@ recol1d=17633
 [treestump2_green]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1342
+model=plants_treestump2
 width=2
 length=2
 mapscene=6
@@ -42,7 +42,7 @@ recol1d=11490
 [treestump2_small]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1342
+model=plants_treestump2
 width=2
 length=2
 resizex=100
@@ -55,7 +55,7 @@ recol1d=5218
 [treestump2_big]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1342
+model=plants_treestump2
 width=2
 length=2
 resizex=448
@@ -69,7 +69,7 @@ recol1d=5218
 [deadtree1_large_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1347
+model=plants_deadtree_large_stump
 width=2
 length=2
 mapscene=6
@@ -80,7 +80,7 @@ recol1d=4194
 [deadtree1_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1347
+model=plants_deadtree_large_stump
 width=2
 length=2
 resizex=100
@@ -94,7 +94,7 @@ recol1d=4194
 [deadtree1_light_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1347
+model=plants_deadtree_large_stump
 width=2
 length=2
 resizex=100
@@ -110,7 +110,7 @@ recol2d=13602
 [deadtree1_small_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1347
+model=plants_deadtree_large_stump
 width=2
 length=2
 resizex=80
@@ -124,14 +124,14 @@ recol1d=4194
 [deadtree2_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1351
+model=plants_deadtree2_stump
 mapscene=6
 
 //green
 [deadtree2_stump_swamp]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1351
+model=plants_deadtree2_stump
 mapscene=6
 recol1s=7296
 recol1d=3203
@@ -142,7 +142,7 @@ recol2d=3203
 [deadtree2_stump_dark]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1351
+model=plants_deadtree2_stump
 recol1s=7296
 recol1d=4194
 recol2s=6240
@@ -152,28 +152,28 @@ recol2d=4194
 [deadtree3_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1354
+model=plants_loc_1354
 width=2
 length=2
 
 [evergreen_large_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1355
+model=plants_loc_1355
 width=3
 length=3
 
 [oaktree_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1356
+model=plants_loc_1356
 width=3
 length=3
 
 [yewtree_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1357
+model=plants_loc_1357
 width=3
 length=3
 
@@ -181,18 +181,18 @@ length=3
 [deadtree6_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1358
+model=plants_deadtree4_stump
 
 // black 1x1
 [deadtree_burnt_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1359
+model=plants_deadtree_burnt_stump
 
 [hollow_tree_stump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_4147
+model=tree_hollow_stump
 recol1s=8352
 recol1d=7428
 recol2s=7330
@@ -201,17 +201,17 @@ ambient=25
 mapscene=6
 
 [regicide_tree_stump]
-name=Treestump
-desc=It's a treestump.
-model=loc_3880
+name=Tree stump
+desc=It's a tree stump.
+model=quest_regicide_tree_stump
 width=3
 length=3
 mapscene=10
 
 [regicide_tree_stump_small]
-name=Treestump
-desc=It's a treestump.
-model=loc_3880
+name=Tree stump
+desc=It's a tree stump.
+model=quest_regicide_tree_stump
 width=2
 length=2
 mapscene=10
@@ -219,7 +219,7 @@ mapscene=10
 [hollow_tree_stump_big]
 name=Tree stump
 desc=This tree has been cut down.
-model=loc_4061
+model=tree_big_hollow_stump
 recol1s=8352
 recol1d=7428
 recol2s=7330

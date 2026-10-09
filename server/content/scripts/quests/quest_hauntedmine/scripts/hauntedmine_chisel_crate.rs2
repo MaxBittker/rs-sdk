@@ -1,0 +1,14 @@
+// Removed with the graphical rework in like 2006.
+// Heres the theory:
+// - When the quest came out, they put a precautionary crate for each chisel spawn
+// to combat people having to wait for chisel respawns (lots of ppl doing the quest)
+
+// also lol i borrowed the script for the merlin bucket crate... This is all guesswork here
+[oploc1,hauntedmine_chisel_crate]
+~mesbox("There are chisels in the crate.|Would you like a chisel?");
+def_int $op = ~p_choice2("Yes.", 1, "No.", 2);
+if($op = 2) {
+    return;
+}
+~mesbox("You take a chisel.");
+inv_add(inv, chisel, 1);

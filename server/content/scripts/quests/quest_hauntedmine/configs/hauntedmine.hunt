@@ -1,0 +1,13 @@
+// ignores multi stuff
+// also doesnt deaggro
+[aggressive_hauntedmine]
+type=player
+check_vis=lineofsight
+check_nottoostrong=off
+// check_notcombat=%lastcombat
+// not sure if it checks itself
+check_notcombat_self=%npc_lastcombat
+check_notbusy=off
+check_afk=off
+find_keephunting=off
+find_newmode=applayer2

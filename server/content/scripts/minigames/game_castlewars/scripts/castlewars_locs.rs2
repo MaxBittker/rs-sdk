@@ -1,0 +1,68 @@
+[oploc1,castlewars_saradomin_spawndoor] 
+if (%castlewars_team = ^castlewars_team_zamorak) {
+    mes("You're not allowed into the other teams starting room.");
+    return;
+}
+def_obj $rhand = inv_getobj(worn, ^wearpos_rhand);
+if ($rhand = castlewars_saradomin_banner | $rhand = castlewars_zamorak_banner) {
+    mes("You can't take a flag into the starting room.");
+    return;
+}
+~walk_through_door;
+
+[oploc1,castlewars_zamorak_spawndoor] 
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    mes("You're not allowed into the other teams starting room.");
+    return;
+}
+def_obj $rhand = inv_getobj(worn, ^wearpos_rhand);
+if ($rhand = castlewars_saradomin_banner | $rhand = castlewars_zamorak_banner) {
+    mes("You can't take a flag into the starting room.");
+    return;
+}
+~walk_through_door;
+
+[oploc1,castlewars_saradomin_quit]
+hint_stop;
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    ~castlewars_decrement_saradomin_count;
+    ~castlewars_waitingroom_tele(%castlewars_team);
+} else {
+    ~castlewars_exit_tele;
+}
+
+[oploc1,castlewars_zamorak_quit]
+hint_stop;
+if (%castlewars_team = ^castlewars_team_zamorak) {
+    ~castlewars_decrement_zamorak_count;
+    ~castlewars_waitingroom_tele(%castlewars_team);
+} else {
+    ~castlewars_exit_tele;
+}
+
+[oploc1,castlewars_zamorak_spawntrapdoor]
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    mes("You're not allowed into the other teams starting room.");
+    return;
+}
+def_obj $rhand = inv_getobj(worn, ^wearpos_rhand);
+if ($rhand = castlewars_saradomin_banner | $rhand = castlewars_zamorak_banner) {
+    mes("You can't take a flag into the starting room.");
+    return;
+}
+p_arrivedelay;
+p_teleport(movecoord(coord, 0, -1, 0));
+
+[oploc1,castlewars_saradomin_spawntrapdoor]
+if (%castlewars_team = ^castlewars_team_zamorak) {
+    mes("You're not allowed into the other teams starting room.");
+    return;
+}
+def_obj $rhand = inv_getobj(worn, ^wearpos_rhand);
+if ($rhand = castlewars_saradomin_banner | $rhand = castlewars_zamorak_banner) {
+    mes("You can't take a flag into the starting room.");
+    return;
+}
+p_arrivedelay;
+p_teleport(movecoord(coord, 0, -1, 0));
+

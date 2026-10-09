@@ -1,0 +1,95 @@
+
+// TODO: Stage=Complete journal entry
+
+[if_button,questlist:troll_love]
+def_string $text;
+
+if (%troll_love = ^troll_love_not_started) {
+    $text = "@dbl@I can start this quest by speaking to @dre@Ug@dbl@ who is in the @dre@Troll|";
+    $text = append($text, "@dre@Stronghold@dbl@.||");
+    $text = append($text, "@dbl@Requirements:|");
+    if (%death_equiproom < ^death_complete) {
+        $text = append($text, "@dbl@Must have completed @dre@Death Plateau|");
+    } else {
+        $text = append($text, "@str@Must have completed Death Plateau|");
+    }
+    if (%troll_quest < ^troll_complete) {
+        $text = append($text, "@dbl@Must have completed @dre@Troll Stronghold|");
+    } else {
+        $text = append($text, "@str@Must have completed Troll Stronghold|");
+    }
+    if (stat_base(agility) < 28) {
+        $text = append($text, "@dre@Level 28 Agility|");
+    } else {
+        $text = append($text, "@str@Level 28 Agility|");
+    }
+    $text = append($text, "@dbl@Must be able to defeat a level @dre@113 Troll@dbl@.");
+    ~quest_journal("Troll Romance", $text);
+    return;
+}
+
+$text = "@str@I have spoken to Ug and found out that he is in love with|";
+$text = append($text, "@str@Aga.|");
+
+if (%troll_love > ^troll_love_started) {
+    $text = append($text, "@str@I have spoken to Aga and found out that her heart could|");
+    $text = append($text, "@str@be won with a certain flower.|");
+} else if (%troll_love = ^troll_love_started) {
+    $text = append($text, "@dbl@I should speak to @dre@Aga@dbl@.");
+}
+
+if (%troll_love > ^troll_love_aga_wants_trollweiss) {
+    $text = append($text, "@str@I have spoken to Tenzing who told me where to find|");
+    $text = append($text, "@str@Trollweiss and that I will need a sled to get there.|");
+} else if (%troll_love = ^troll_love_aga_wants_trollweiss) {
+    $text = append($text, "@dbl@I should ask someone about @dre@Trollweiss@dbl@ who knows a lot|");
+    $text = append($text, "@dbl@about these mountains.");
+}
+
+if (%troll_love > ^troll_love_learnt_about_trollweiss) {
+    $text = append($text, "@str@Dunstan told me what he needs for the sled.|");
+} else if (%troll_love = ^troll_love_learnt_about_trollweiss) {
+    $text = append($text, "@dbl@I should talk to @dre@Dunstan@dbl@ about the sled.");
+}
+
+if (%troll_love > ^troll_love_bring_dunstan_materials) {
+    $text = append($text, "@str@I got some yew logs, an iron bar and rope and gave them to|"); // OSRS shows just 'Yew logs' regardless of maple or yew logs being used
+    $text = append($text, "@str@Dunstan who made a sled for me.|");
+} else if (%troll_love = ^troll_love_bring_dunstan_materials) {
+    $text = append($text, "@dbl@I need some @dre@yew@dbl@ or @dre@maple logs@dbl@, an @dre@iron bar@dbl@ and @dre@rope@dbl@ for the|");
+    $text = append($text, "@dbl@sled.");
+}
+
+if (%troll_love > ^troll_love_dunstan_made_sled) {
+    $text = append($text, "@str@I have made some sled wax and waxed the sled.|");
+} else if (%troll_love = ^troll_love_dunstan_made_sled) {
+    $text = append($text, "@dbl@I need to get @dre@wax@dbl@, @dre@swamp tar@dbl@ and a @dre@cake tin@dbl@ to make some|");
+    $text = append($text, "@dbl@sled wax.");
+}
+
+if (%troll_love > ^troll_love_waxed_sled) {
+    $text = append($text, "@str@I got the Trollweiss.|");
+} else if (%troll_love = ^troll_love_waxed_sled) {
+    $text = append($text, "@dbl@I need to get the @dre@Trollweiss@dbl@ from the @dre@plateau@dbl@ past the|");
+    $text = append($text, "@dre@realm of the ice trolls@dbl@.");
+}
+
+if (%troll_love > ^troll_love_picked_trollweiss) {
+    $text = append($text, "@str@I have given the Trollweiss to Ug.|");
+} else if (%troll_love = ^troll_love_picked_trollweiss) {
+    $text = append($text, "@dbl@I should give the @dre@Trollweiss@dbl@ to @dre@Ug."); // Intentional red period here
+}
+
+if (%troll_love > ^troll_love_dispose_of_arrg) {
+    $text = append($text, "@str@I have defeated Arrg.|");
+} else if (%troll_love = ^troll_love_dispose_of_arrg) {
+    $text = append($text, "@dbl@I have to defeat @dre@Arrg."); // Intentional red period here
+}
+
+if (%troll_love > ^troll_love_defeated_arrg) {
+    $text = append($text, "@str@I got my reward and Ug and Aga can live happily ever after.||@red@QUEST COMPLETE!");
+} else if (%troll_love = ^troll_love_defeated_arrg) {
+    $text = append($text, "@dbl@I should talk to @dre@Ug@dbl@ to get my reward.");
+}
+
+~quest_journal("Troll Romance", $text);

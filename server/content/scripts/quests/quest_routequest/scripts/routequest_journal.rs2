@@ -1,0 +1,253 @@
+[if_button,questlist:routequest]
+// Sourced from rs3 and osrs November 2025
+// MISSING:
+// journal for varp value 67
+def_string $text;
+if(%routequest = ^routequest_complete) {
+    $text = "@str@I was set a quest by Vanstrom Klause to deliver weapons @str@to a group called the Myreque. After negotiating with a @str@boatman, fixing a broken rope bridge and answering a @str@guards questions I eventually found the group called the Myreque. ";
+    $text = append($text, "@str@However, it seems that I was tricked by @str@Vanstrom who turned out to be a vampire following me to @str@the Myreque's hideout. He killed Sani and Harlod, both young members of the Myreque. ");
+    $text = append($text, "@str@During the quest I @str@found a quicker route between Mort'ton and Canifis, and @str@I feel that I better understand the reason for the darkness of Morytania. ");
+    $text = append($text, "@str@Perhaps in the future, I can offer help to @str@the Myreque?|");
+    $text = append($text, "@red@QUEST COMPLETE!");
+    ~quest_journal("In Search of the Myreque", $text);
+    return;
+}
+
+if(%routequest = ^routequest_not_started) {
+    $text = "@dbl@I can start this quest by talking to a @dre@stranger@dbl@ in the '@dre@Hair|@dre@ of the Dog Inn@dbl@' located in the town of @dre@Canifis@dbl@ in the land of|@dre@Morytania@dbl@.";
+    $text = append($text, "||@dbl@I need to complete the following quest:-"); // not a typo, source 2009 GoingCrazy201 video.
+    if (%druidspirit < ^druidspirit_complete) { // https://youtu.be/pNz0_8VjqPc?si=FNBsiGfffAnyVwu1&t=5
+        $text = append($text, "|@dre@Nature Spirit");
+    } else {
+        $text = append($text, "|@str@Nature Spirit");
+    }
+    $text = append($text, "|@dbl@I also need to be able to defeat a level 97 foe.");
+} else {
+    $text = "@str@I talked to a stranger called Vanstrom Klause in the 'Hair of|@str@the Dog Inn' located in the town of Canifis.";
+}
+
+if(%routequest >= ^routequest_started) {
+    $text = append($text, "|@dre@Vanstrom Klause@dbl@ asked me to take some @dre@weapons@dbl@ to a group|@dbl@called '@dre@The Myreque@dbl@'.");
+    $text = append($text, "|@dbl@The weapons I need to collect are:");
+
+    if(%routequest < ^routequest_enter_cutscene) {
+        def_int $longswords = inv_total(inv, steel_longsword);
+        def_int $swords = inv_total(inv, steel_sword);
+        def_int $daggers = inv_total(inv, steel_dagger);
+        def_int $maces = inv_total(inv, steel_mace);
+        def_int $warhammers = inv_total(inv, steel_warhammer);
+
+        if($longswords > 0) {
+            $text = append($text, "|@str@1 x Steel Longsword"); // not a typo
+        } else {
+            $text = append($text, "|@dbl@1 x Steel @dre@longsword");
+        }
+        if($swords > 1) {
+            $text = append($text, "|@str@2 x Steel sword");
+        } else {
+            $text = append($text, "|@dbl@<tostring(calc(2 - $swords))> x Steel @dre@sword");
+        }
+        if($daggers > 0) {
+            $text = append($text, "|@str@1 x Steel dagger");
+        } else {
+            $text = append($text, "|@dbl@1 x Steel @dre@dagger");
+        }
+        if($maces > 0) {
+            $text = append($text, "|@str@1 x Steel mace");
+        } else {
+            $text = append($text, "|@dbl@1 x Steel @dre@mace");
+        }
+        if($warhammers > 0) {
+            $text = append($text, "|@str@1 x Steel warhammer");
+        } else {
+            $text = append($text, "|@dbl@1 x Steel @dre@warhammer");
+        }
+
+        if($longswords = 1 & $swords = 2 & $daggers = 1 & $maces = 1 & $warhammers = 1) {
+            // RS3 journal
+            $text = append($text, "|@str@Vanstrom Klause asked me to take some weapons to a group|@str@called 'The Myreque'.");
+            $text = append($text, "|@dbl@I have all the weapons @dre@Vanstrom@dbl@ asked me to get. Vanstrom|@dbl@said that the @dre@boatman@dbl@ in @dre@Mort'ton@dbl@ should be able to help.");
+        }
+    } else {
+        // Swords missing is intentional.
+        $text = append($text, "|@str@1 x Steel Longsword");
+        $text = append($text, "|@str@1 x Steel dagger");
+        $text = append($text, "|@str@1 x Steel mace");
+        $text = append($text, "|@str@1 x Steel warhamer");
+    }
+}
+
+if(%routequest >= ^routequest_spoke_to_boatman) {
+    // OSRS journal
+    if(%routequest < ^routequest_boatman_agreed) {
+        $text = append($text, "|@dbl@The @dre@boatman@dbl@ won't take me to the @dre@Myreque's hideout@dbl@.");
+        $text = append($text, "|@dbl@Vanstrom did say I have to be persuasive.");
+    } else {
+        $text = append($text, "|@str@The boatman won't take me to the Myreque's hideout.");
+        $text = append($text, "|@str@Vanstrom did say I have to be persuasive.");
+    }
+}
+
+if(%routequest >= ^routequest_boatman_agreed) {
+    // OSRS journal
+    if(%routequest < ^routequest_boatman_repaired) {
+        if(inv_total(inv, druid_pouch) < 5) {
+            $text = append($text, "|@dbl@I've @dre@persuaded@dbl@ the @dre@boatman @dbl@to help me find the @dre@Myreque@dbl@. He");
+            $text = append($text, "|@dbl@won't lend the @dre@boat @dbl@unless I can defend against @dre@Ghasts@dbl@.");
+        } else {
+            $text = append($text, "|@str@I've persuaded the boatman to help me find the Myreque.");
+            $text = append($text, "|@str@I have the druid pouch as defence against the ghasts.");
+            $text = append($text, "|@str@The boatman says I need to collect 6 wooden planks before he|@str@will let me use his boat.");
+            if(inv_total(inv, woodplank) < 6) {
+                $text = append($text, "|@dbl@I need to get @dre@6 wooden planks@dbl@.");
+            } else {
+                $text = append($text, "|@dbl@I've got @dre@six planks@dbl@. I should give them to the @dre@boatman@dbl@.");
+            }
+        }
+    } else {
+        $text = append($text, "|@str@I've persuaded the boatman to help me find the Myreque.");
+    }
+}
+
+if(%routequest >= ^routequest_boatman_repaired) {
+    if(%routequest < ^routequest_entered_hollowed) {
+        $text = append($text, "|@dbl@The @dre@boatman @dbl@won't take me to the @dre@Myreque @dbl@but I can use his|@dre@boat@dbl@.");
+    } else {
+        $text = append($text, "|@str@The boatman loaned me the use of his boat.");
+    }
+}
+
+if(%routequest >= ^routequest_entered_hollowed) {
+    if(%routequest < ^routequest_found_guard) {
+        $text = append($text, "|@dbl@I borrowed the @dre@boat@dbl@ and travelled to the '@dre@Hollows@dbl@' in the|@dbl@middle of @dre@Mort Myre@dbl@ in search of the @dre@Myreque@dbl@.");
+    } else {
+        $text = append($text, "|@str@I borrowed the boat and travelled to the 'Hollows' in the|@str@middle of Mort Myre in search of the Myreque.");
+        $text = append($text, "|@str@While looking for the hideout, I came across a guard called|@str@Curpile, he may know where the Myreque are hidden.");
+    }
+}
+
+if(%routequest >= ^routequest_found_guard) {
+    if(%routequest < ^routequest_answered_questions) {
+        $text = append($text, "|@dbl@A guard named @dre@Curpile @dbl@asked me to answer some questions|@dbl@before he'll let me continue my search for the @dre@Myreque@dbl@.");
+    } else {
+        $text = append($text, "|@str@A guard called Curpile asked me some questions about the|@str@Myreque which I answered, he'll unlock the door for me now.");
+    }
+}
+
+if(%routequest >= ^routequest_answered_questions) {
+    if(%routequest < ^routequest_entered_underground) {
+        $text = append($text, "|@dbl@I need to find the @dre@entrance @dbl@to the @dre@Myreque's hideout@dbl@.");
+    } else {
+        $text = append($text, "|@str@I entered an underground area, It might be the Myreque|@str@hideout. I'd better look around fully to try and find them.");
+    }
+}
+
+if(%routequest >= ^routequest_entered_underground) {
+    if(%routequest < ^routequest_introduced_veliaf) {
+        $text = append($text, "|@dbl@I need to look for the @dre@members@dbl@ of the @dre@Myreque @dbl@now.");
+    } else {
+        $text = append($text, "|@str@I met Veliaf, he seems to be the leader of the Myreque.");
+    }
+}
+
+if(%routequest >= ^routequest_introduced_veliaf) {
+    if(%routequest < ^routequest_enter_cutscene) {
+        // linebreak doesn't match osrs. Osrs breaks at "members of the Myreque".
+        $text = append($text, "|@dre@Veliaf @dbl@is busy, he's asked me to introduce myself to the|@dbl@other @dre@members@dbl@ of the @dre@Myreque@dbl@.");
+        $text = append($text, "|@dbl@I need to talk to :");
+
+        // OSRS uses thsfm_spoken_allmyreque varbit, which was added around Myreue pt. 3 time.
+        // This was likely moved there then.
+        // I currently occupy varp 389 which stood unused for this purpose.
+
+        if(testbit(%routequest_myreque_bits, ^route_myreque_sani) = 1) {
+            $text = append($text, "|@str@Sani Piliu");
+        } else {
+            $text = append($text, "|@dre@Sani Piliu");
+        }
+
+        if(testbit(%routequest_myreque_bits, ^route_myreque_harold) = 1) {
+            $text = append($text, "|@str@Harold Evans");
+        } else {
+            $text = append($text, "|@dre@Harold Evans");
+        }
+
+        if(testbit(%routequest_myreque_bits, ^route_myreque_radigrad) = 1) {
+            $text = append($text, "|@str@Radigad Ponfit");
+        } else {
+            $text = append($text, "|@dre@Radigad Ponfit");
+        }
+
+        if(testbit(%routequest_myreque_bits, ^route_myreque_polmafi) = 1) {
+            $text = append($text, "|@str@Polmafi Fredygris");
+        } else {
+            $text = append($text, "|@dre@Polmafi Fredygris");
+        }
+
+        if(testbit(%routequest_myreque_bits, ^route_myreque_ivan) = 1) {
+            $text = append($text, "|@str@Ivan Strom");
+        } else {
+            $text = append($text, "|@dre@Ivan Strom");
+        }
+
+        if(bitcount(%routequest_myreque_bits) >= 5) {
+            $text = append($text, "|@str@Veliaf was busy, so I introduced myself to the other|@str@members of the Myreque.");
+            $text = append($text, "|@dbl@I've introduced myself to all the members now|@dbl@perhaps I should talk to @dre@Veliaf @dbl@again.");
+        }
+    } else {
+        $text = append($text, "|@str@Veliaf was busy, so I introduced myself to the other|@str@members of the Myreque.");
+    }
+}
+
+if(%routequest >= ^routequest_enter_cutscene) {
+    $text = append($text, "|@str@I tried talking to Veliaf but he was still busy.");
+    if(%routequest < ^routequest_ambush) {
+        // RS3
+        $text = append($text, "|@dbl@I should try @dre@talking@dbl@ to @dre@Veliaf@dbl@ in a @dre@few minutes@dbl@ when he's less|@dbl@busy.");
+    }
+}
+
+if(%routequest >= ^routequest_ambush) {
+    $text = append($text, "|@str@Veliaf was busy, so I introduced myself to the other|@str@members of the Myreque.");
+    $text = append($text, "|@str@While talking to Veliaf a mist cloud appeared in the room.");
+    $text = append($text, "|@str@The mist transformed into Vanstrom, he's a vampire!");
+    $text = append($text, "|@str@Vanstrom killed Sani and Harold then summoned a hell hound!");
+    if(%routequest < ^routequest_saved_myreque) {
+        $text = append($text, "|@dbl@I have to try and kill the @dre@hell hound @dbl@to save the @dre@Myreque@dbl@.");
+    } else {
+        $text = append($text, "|@str@I killed the hell hound and saved the rest of the Myreque.");
+    }
+}
+
+if(%routequest >= ^routequest_saved_myreque) {
+    if(%routequest < ^routequest_told_exit_route) {
+        $text = append($text, "|@dbl@I was tricked by @dre@Vanstrom@dbl@, he was a @dre@vampire@dbl@ after all!|@dbl@Maybe");
+        $text = append($text, " @dbl@someone can show me the @dre@way out@dbl@ of here?");
+    } else {
+        $text = append($text, "|@str@I was tricked by Vanstrom, he was a vampire after all!|@str@Maybe");
+        $text = append($text, " @str@someone can show me the way out of here?");
+    }
+}
+
+if(%routequest >= ^routequest_told_exit_route) {
+    if(%routequest < ^routequest_discovered_wall) {
+        $text = append($text, "|@dbl@I talked to @dre@Veliaf@dbl@, he says I can get into the @dre@basement @dbl@of|@dbl@the @dre@Inn@dbl@ through a @dre@secret wall@dbl@.");
+    } else {
+        $text = append($text, "|@str@I went through the secret wall Veliaf told me about into the|@str@basement of the inn.");
+    }
+}
+
+if(%routequest >= ^routequest_discovered_wall) {
+    if(%routequest < ^routequest_found_exit) {
+        $text = append($text, "|@dbl@I should try to find a way up to the @dre@surface@dbl@ from the @dre@basement@dbl@ of the @dre@Inn@dbl@.");
+    } else {
+        $text = append($text, "|@str@I climbed up the ladder in the Inn basement to try find my|@str@way out.");
+    }
+}
+
+if(%routequest >= ^routequest_found_exit) {
+    // RS3
+    $text = append($text, "|@dbl@I climbed out of the @dre@basement@dbl@ of the @dre@Inn@dbl@ to find myself in|@dbl@the town of @dre@Canifis@dbl@ where I first met that double crossing|@dre@Vanstrom@dbl@. I wonder if I can still find him there?");
+}
+
+~quest_journal("In Search of the Myreque", $text);

@@ -2,11 +2,11 @@
 if(distance(^blanket_ladder_coord, coord) <= 2 & ~drunkmonk_ladder_active = false) {
     mes("A ladder mysteriously appears.");
     // Temp note: dur does not need updated
-    loc_add(^blanket_ladder_coord, loc_1765, 1, centrepiece_straight, 200);
+    loc_add(^blanket_ladder_coord, wildymirrorladdertop1, 1, centrepiece_straight, 200);
 }
 
 [proc,drunkmonk_ladder_active]()(boolean)
-if(loc_find(^blanket_ladder_coord, loc_1765) = true) {
+if(loc_find(^blanket_ladder_coord, wildymirrorladdertop1) = true) {
     return(true);
 }
 return(false);

@@ -50,6 +50,11 @@ if(oc_category(last_useitem) = category_22) {
     ~objbox(last_useitem, "These logs won't burn hot enough to cremate the dead.|You need to make pyre logs.", 200, 0, 0);
     return;
 }
+if(last_useitem = tinderbox) {
+    mes("You should add some pyre logs and some suitable remains");
+    mes("before you light the pyre."); // todo: this is one mes in osrs but doesn't fit here
+    return;
+}
 if(oc_category(last_useitem) = category_2050) {
     if(%morttonquest < ^mortton_created_pyre_logs) {
         mes("You can't do that until you have made your own funeral pyre logs.");
@@ -79,7 +84,7 @@ if(%pyre_loc ! 0) {
 
 %pyre_loc = ~get_pyre_loc_id(loc_coord);
 anim(human_pickuptable, 0);
-sound_synth(log_down, 0, 0);
+sound_synth(log_down, 1, 0);
 inv_del(inv, $logs, 1);
 mes("You put some logs on the pyre.");
 if(%morttonquest < ^mortton_logs_on_pyre) {
@@ -96,6 +101,10 @@ if(oc_category(last_useitem) = category_2049) {
 ~displaymessage(^dm_default);
 
 [label,add_remains_to_funeral_pyre](obj $remains)
+if(getqueue(funeral_pyre_reward) > 0) {
+        mes("You've already set fire to a funeral pyre."); // todo: different mes? 
+        return;
+}
 if(%pyre_loc = 0) {
     mes("You need to put wood on the pyre before adding the remains.");
     return;
@@ -112,14 +121,14 @@ clearqueue(clear_pyre_loc);
 longqueue(clear_pyre_loc, 49, 0, ^accelerate);
 loc_change(loc_param(next_loc_stage), 49); //49t osrs
 anim(human_pickuptable, 0);
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 inv_del(inv, $remains, 1);
 mes("You place the shade's remains on the logs.");
 
 [oplocu,_category_2052]
-if(%pyre_loc = 0) {
-    mes("You should add some pyre logs and some suitable remains before you light the pyre.");
-    return;
+if(getqueue(funeral_pyre_reward) > 0) {
+        mes("You've already set fire to a funeral pyre.");
+        return;
 }
 
 def_int $current_pyre = ~get_pyre_loc_id(loc_coord);
@@ -135,6 +144,10 @@ if(last_useitem = tinderbox) {
 }
 
 [oploc1,_category_2052]
+if(getqueue(funeral_pyre_reward) > 0) {
+        mes("You've already set fire to a funeral pyre.");
+        return;
+}
 def_int $current_pyre = ~get_pyre_loc_id(loc_coord);
 if ($current_pyre ! %pyre_loc) {
     mes("This funeral pyre is not yours.");
@@ -148,10 +161,6 @@ if(inv_total(inv, tinderbox) > 0) {
 }
 
 [label,light_funeral_pyre]
-if(%morttonquest < ^mortton_lit_pyre) {
-    %morttonquest = ^mortton_lit_pyre;
-}
-
 //3t wait osrs
 if (%action_delay < map_clock) {
     mes("You attempt to light the funeral pyre.");
@@ -184,13 +193,16 @@ if(~validate_shade_and_log_type(loc_type, %mortton_current_shade) = false) {
     clearqueue(clear_pyre_loc);
     return;
 }
+if(%morttonquest < ^mortton_lit_pyre) {
+    %morttonquest = ^mortton_lit_pyre;
+}
 spotanim_map(temple_pyre_fire, ~get_pyre_coord(loc_coord, loc_angle), 0, 30);
-sound_synth(fire_lit, 0, 0);
+sound_synth(fire_lit, 1, 0);
 stat_advance(firemaking, struct_param($funeral_pyre_struct, pyre_fm_experience));
 stat_advance(prayer,add(oc_param(%mortton_current_shade, pyre_shade_exp),struct_param($funeral_pyre_struct, pyre_shade_exp_bonus)));
 %pyre_loc = 0;
 clearqueue(clear_pyre_loc);
-world_delay(0);
+world_delay(0); // todo: check delay length
 def_coord $pillar_coord = ~get_pyre_pillar_coord(loc_coord, loc_angle);
 npc_add(~get_pyre_coord(loc_coord, loc_angle), shade_heaven, 9);
 npc_facesquare($pillar_coord);
@@ -199,11 +211,11 @@ queue*(funeral_pyre_reward, 2)(loc_coord, loc_angle);  //2t min but can queue.
 [queue,funeral_pyre_reward](coord $coord, int $rotation)
 def_coord $pillar_coord = ~get_pyre_pillar_coord($coord, $rotation);
 spotanim_map(smokepuff_large, $pillar_coord, 96, 0);
-sound_synth(smokepuff, 0, 0);
+sound_synth(smokepuff, 1, 0);
 ~give_shade_rewards(%mortton_current_shade, $pillar_coord);
 %mortton_current_shade = null;
 loc_findallzone($coord);
-if(loc_findnext = true) {
+while(loc_findnext = true) {
     if(loc_coord = $coord) {
         loc_change(temple_pyre, 1);
     }

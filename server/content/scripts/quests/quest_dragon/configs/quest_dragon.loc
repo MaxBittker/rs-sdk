@@ -1,14 +1,14 @@
 [oraclechestshut]
 name=Chest
 desc=I wonder what's inside?
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 
 [oraclechestopen]
 name=Chest
 desc=It's open.
-model=model_loc_76
+model=furniture_chestopen
 op1=Search
 op2=Close
 forceapproach=north
@@ -16,7 +16,7 @@ forceapproach=north
 [shiphole]
 name=Hole
 desc=This ship's not getting far with that.
-model=model_loc_281
+model=ship_loc_281
 active=yes
 op1=Repair
 sharelight=yes
@@ -32,14 +32,14 @@ mapscene=7
 [dragonshipladdertop2]
 name=Ladder
 desc=Takes me into the ship.
-model=model_loc_10
+model=furniture_laddertop
 active=yes
 op1=Climb-down
 mapscene=7
 
 [dragonshipladder]
 name=Ladder
-model=model_loc_272
+model=ship_ladder
 active=yes
 op1=Climb-up
 mapscene=7
@@ -47,21 +47,21 @@ mapscene=7
 [dragonshipgangplank_on]
 name=Gangplank
 desc=Handy for boarding the ship.
-model=model_loc_69
+model=ship_gangplank
 active=yes
 op1=Cross
 
 [dragonshipgangplank_off]
 name=Gangplank
 desc=Handy for boarding the ship.
-model=model_loc_69
+model=ship_gangplank
 active=yes
 op1=Cross
 
 [melzardoor]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -72,7 +72,7 @@ recol2d=11458
 [reddoor]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -83,7 +83,7 @@ recol2d=30753
 [orangedoor]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -94,7 +94,7 @@ recol2d=31201
 [yellowdoor]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -105,7 +105,7 @@ recol2d=31649
 [bluedoor]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -116,7 +116,7 @@ recol2d=31
 [magentadoor]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -127,7 +127,7 @@ recol2d=30781
 [greendoor]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -138,7 +138,7 @@ recol2d=2626
 [funexit]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -149,29 +149,29 @@ recol2d=11458
 [funchestshut]
 name=Chest
 desc=It's closed.
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 
 [funchestopen]
 name=Chest
 desc=It's open.
-model=model_loc_76
+model=furniture_chestopen
 op1=Search
 op2=Close
 forceapproach=north
 
 [funladdertop]
 name=Ladder
-model=model_loc_133
+model=furniture_ladderdown
 active=yes
 op1=Climb-down
 mapscene=7
 
-[broken_ladder]
+[ladder_broken]
 name=Ladder
 desc=I can't climb this.
-model=model_loc_1752
+model=furniture_ladder_broken
 active=yes
 op1=Climb-up
 mapscene=7
@@ -179,7 +179,7 @@ mapscene=7
 [elvarg_gate_right]
 name=Gate
 desc=It's closed.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 active=yes
 op1=Open
 retex1s=wall
@@ -191,7 +191,7 @@ param=next_loc_stage,loc_1563
 [elvarg_gate_left]
 name=Gate
 desc=It's closed.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 active=yes
 op1=Open
 mirror=yes
@@ -204,7 +204,7 @@ param=next_loc_stage,loc_1562
 [crandor_rock_opening]
 name=Rock opening
 desc=A collection of rocks over what looks like a depression.
-model=model_loc_748
+model=cave_entrance5
 hillskew=yes
 width=2
 length=2
@@ -214,13 +214,13 @@ op1=Climb-down
 [crandor_climbing_rope]
 name=Climbing rope
 desc=A rope hangs here that I can climb.
-model=model_loc_1762
+model=outdoorfurniture_rope
 op1=Climb
 
 [dragonsecretdoor]
 name=Wall
 desc=There is something strange about this wall...
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall

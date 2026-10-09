@@ -65,7 +65,7 @@ export function unpackSeqConfig(config: ConfigIdx, id: number): string[] {
 
             def.push(`walkmerge=${labels.join(',')}`);
         } else if (code === 4) {
-            def.push('stretches=yes');
+            def.push('reachforward=yes');
         } else if (code === 5) {
             const priority = dat.g1();
             def.push(`priority=${priority}`);
@@ -111,14 +111,14 @@ export function unpackSeqConfig(config: ConfigIdx, id: number): string[] {
             }
             def.push(`postanim_move=${op}`);
         } else if (code === 11) {
-            const duplicatebehavior = dat.g1();
+            const duplicatebehaviour = dat.g1();
 
-            let op = duplicatebehavior.toString();
-            if (duplicatebehavior === 0) {
+            let op = duplicatebehaviour.toString();
+            if (duplicatebehaviour === 0) {
                 op = '0';
-            } else if (duplicatebehavior === 1) {
+            } else if (duplicatebehaviour === 1) {
                 op = 'reset';
-            } else if (duplicatebehavior === 2) {
+            } else if (duplicatebehaviour === 2) {
                 op = 'reset_loop';
             }
             def.push(`duplicatebehavior=${op}`);

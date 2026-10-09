@@ -4,7 +4,7 @@ x=245
 y=122
 width=32
 height=32
-model=obj_3081
+model=if_macroevents_cube_spin_puzzlebox_star
 anim=seq_1133
 zoom=390
 
@@ -14,7 +14,7 @@ x=245
 y=122
 width=32
 height=32
-model=obj_3063
+model=if_macroevents_cube_spin_puzzlebox_triangle
 anim=seq_1132
 zoom=390
 
@@ -24,7 +24,7 @@ x=245
 y=122
 width=32
 height=32
-model=obj_3087
+model=if_macroevents_cube_spin_puzzlebox_halfmoon
 anim=seq_1134
 zoom=390
 

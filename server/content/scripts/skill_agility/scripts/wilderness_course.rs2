@@ -4,7 +4,7 @@ if(stat(agility) < 52) {
     return;
 }
 mes("You go through the gate and try to edge over the ridge...");
-~open_and_close_door(poshdooropen, false, false);
+~open_and_close_door(loc_1541, false, false);
 p_delay(0);
 ~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
 ~forcemove(movecoord(coord, 0, 0, 7));
@@ -40,12 +40,12 @@ p_delay(0);
 stat_advance(agility, 150);
 if(loc_find(movecoord(coord, 0, 0, -1), loc_2309) = true) {
     loc_change(inviswall, 3);
-    loc_add(movecoord(loc_coord, 0, 0, -1), poshdooropen, 0, loc_shape, 3);
+    loc_add(movecoord(loc_coord, 0, 0, -1), loc_1541, 0, loc_shape, 3);
 }
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 p_teleport(movecoord(coord, 0, 0, -2));
 
-[oploc1,wilderness_obstacle_pipe] 
+[oploc1,obstical_pipe2] 
 if(coordz(coord) >= 3939) {
     mes("You can't enter the pipe from this side.");
     return;
@@ -66,17 +66,17 @@ if(%wilderness_obstacle_pipe_used >= map_clock) {
 %wilderness_obstacle_pipe_used = calc(map_clock + 11);
 p_delay(0);
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, movecoord(loc_coord, 0, 0, -1), movecoord(loc_coord, 0, 0, 2), 30, 126, ^exact_north, true);
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 p_delay(0);
 p_telejump(movecoord(loc_coord, 0, 0, 9)); // jump so we can switch active loc
 p_delay(0);
 ~change_merged_loc(movecoord(coord, 0, 0, 1));
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, movecoord(loc_coord, 0, 0, -1), movecoord(loc_coord, 0, 0, 2), 30, 126, ^exact_north, true);
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 stat_advance(agility, 125);
 ~update_wilderness_varp(1);
 
-[oploc1,wilderness_rope_swing]
+[oploc1,obstical_ropeswing2]
 def_coord $start_pos = movecoord(loc_coord, 0, 0, 1);
 def_int $delay = distance(coord, $start_pos);
 if(coordz(coord) > coordz($start_pos)) {
@@ -98,34 +98,35 @@ if(%wilderness_ropeswing_used >= map_clock) {
 loc_anim(ropeswing_long);
 ~agility_exactmove(human_ropeswing_long, 20, 0, $start_pos, movecoord($start_pos, 0, 0, 5), 45, 70, ^exact_north, false);
 mes("You skillfully swing across.");
-sound_synth(swing_across, 0, 0);
+sound_synth(swing_across, 1, 0);
 stat_advance(agility, 200);
 ~update_wilderness_varp(2);
 
 [oploc1,wilderness_stepping_stone]
+p_arrivedelay;
 mes("You carefully start crossing the stepping stones...");
-sound_synth(jump_no_land, 0, 0);
+sound_synth(jump_no_land, 1, 0);
 ~agility_exactmove(human_spot_jump, 0, 1, movecoord(loc_coord, 1, 0, 0), loc_coord, 15, 30, ^exact_west, false);
-sound_synth(jump_no_land, 0, 0);
+sound_synth(jump_no_land, 1, 0);
 ~agility_exactmove(human_spot_jump, 0, 1, loc_coord, movecoord(loc_coord, -1, 0, 0), 15, 30, ^exact_west, false);
-sound_synth(jump_no_land, 0, 0);
+sound_synth(jump_no_land, 1, 0);
 ~agility_exactmove(human_spot_jump, 0, 1, movecoord(loc_coord, -1, 0, 0), movecoord(loc_coord, -2, 0, 0), 15, 30, ^exact_west, false);
 if(stat_random(agility, 180, 250) = false) {
     ~agility_delay_fail(movecoord(coord, 0, 0, 2), movecoord(loc_coord, 1, 0, 3), calc(((stat(hitpoints) * 216) / 1000) + 1), "...You lose your footing and fall into the lava.");
-    sound_synth(sizzle, 0, 0);
+    sound_synth(sizzle, 1, 0);
     return;
 }
-sound_synth(jump_no_land, 0, 0);
+sound_synth(jump_no_land, 1, 0);
 ~agility_exactmove(human_spot_jump, 0, 1, movecoord(loc_coord, -2, 0, 0), movecoord(loc_coord, -3, 0, 0), 15, 30, ^exact_west, false);
-sound_synth(jump_no_land, 0, 0);
+sound_synth(jump_no_land, 1, 0);
 ~agility_exactmove(human_spot_jump, 0, 1, movecoord(loc_coord, -3, 0, 0), movecoord(loc_coord, -4, 0, 0), 15, 30, ^exact_west, false);
-sound_synth(jump_no_land, 0, 0);
-~agility_exactmove(human_spot_jump, 0, 1, movecoord(loc_coord, -4, 0, 0), movecoord(loc_coord, -5, 0, 0), 15, 30, ^exact_west, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 0, movecoord(loc_coord, -4, 0, 0), movecoord(loc_coord, -5, 0, 0), 15, 30, ^exact_west, false);
 stat_advance(agility, 200);
 mes("...You safely cross to the other side.");
 ~update_wilderness_varp(3);
 
-[oploc1,wilderness_log_balance]
+[oploc1,wilderness_log_balance1]
 p_teleport(movecoord(loc_coord, 1, 0, 0));
 p_arrivedelay;
 mes("You walk carefully across the slippery log...");

@@ -1,7 +1,7 @@
 [boardgames_fireplace_small]
 name=Fireplace
 desc=A nice and cosy fire.
-model=loc_4618
+model=outdoorfurniture_fire_boardgames_place
 retex1s=mossybricks
 retex1d=wall
 anim=fire
@@ -21,7 +21,7 @@ contrast=10
 [board_game_stairs_top]
 name=Stairs
 desc=They go down.
-model=loc_4620
+model=game_boardgames_stairs_top
 recol1s=15855
 recol1d=10572
 width=2
@@ -34,7 +34,7 @@ mapscene=7
 [board_game_stairs_top2]
 name=Stairs
 desc=They go down.
-model=loc_4620
+model=game_boardgames_stairs_top
 recol1s=15855
 recol1d=10572
 width=2
@@ -47,7 +47,7 @@ mapscene=7
 [board_game_stairs_base]
 name=Stairs
 desc=They go up.
-model=loc_4622
+model=game_boardgames_stairs_base
 recol1s=15855
 recol1d=10572
 width=2
@@ -60,7 +60,7 @@ mapscene=7
 [board_game_stairs_base2]
 name=Stairs
 desc=They go up.
-model=loc_4622
+model=game_boardgames_stairs_base
 recol1s=15855
 recol1d=10572
 width=2
@@ -85,7 +85,7 @@ mapscene=7
 [board_game_stairs_grey_top]
 name=Stairs
 desc=They go down.
-model=loc_4625
+model=game_boardgames_stairs_top_grey
 recol1s=15855
 recol1d=10572
 width=2
@@ -98,7 +98,7 @@ mapscene=7
 [board_game_stairs_grey_base]
 name=Stairs
 desc=They go up.
-model=loc_4626
+model=game_boardgames_stairs_base_grey
 recol1s=15855
 recol1d=10572
 width=2
@@ -111,7 +111,7 @@ mapscene=7
 [board_game_stairs_grey_base2]
 name=Stairs
 desc=They go up.
-model=loc_4626
+model=game_boardgames_stairs_base_grey
 recol1s=15855
 recol1d=10572
 width=2
@@ -122,7 +122,7 @@ sharelight=yes
 mapscene=7
 
 [board_game_poshwall_fencing]
-model=model_loc_982
+model=fence_poshwall
 recol1s=15855
 recol1d=10572
 blockrange=no
@@ -181,7 +181,7 @@ category=reverse_door_right_opened
 param=next_loc_stage,posh_doubledoor_reverse_r
 
 [old_paintedbrickwall_2]
-model=model_loc_1905
+model=basic_painted2wall
 retex1s=wall
 retex1d=mossybricks
 sharelight=yes
@@ -191,7 +191,7 @@ active=no
 [boardgames_draughts_door_experienced]
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=elfdoor
 recol2s=6342
@@ -204,7 +204,7 @@ param=next_loc_stage,elfdooropen_reverse
 [boardgames_runelink_door_experienced]
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=elfdoor
 recol2s=6342
@@ -217,7 +217,7 @@ param=next_loc_stage,elfdooropen_reverse
 [elfdoor_reverse]
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=elfdoor
 recol2s=6342
@@ -231,7 +231,7 @@ param=next_loc_stage,elfdooropen_reverse
 [elfdooropen_reverse]
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=elfdoor
 recol2s=6342
@@ -246,7 +246,7 @@ param=next_loc_stage,elfdoor_reverse
 [elfdoor_locked]
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=elfdoor
 recol2s=6342
@@ -256,21 +256,22 @@ op1=Open
 raiseobject=no
 
 [barrel_stacked]
-name=barrel_stacked
-model=loc_4641
+name=Stacked barrels
+desc=Mmm...beer!
+model=furniture_barrel_stacked
 
 [boardgames_noticeboard]
 name=Noticeboard
 desc=Has some board games news on it.
-model=model_loc_961
+model=walldecor_banknoticeboard
 ambient=50
 active=yes
 op1=Read
 
 [boardgames_runelink_ladderup_experienced]
-name=Ladder up
+name=Ladder
 desc=The ladder to the Runelink challenge room for experienced players.
-model=model_loc_11
+model=furniture_ladder
 forceapproach=north
 active=yes
 op1=Climb-up
@@ -278,15 +279,15 @@ op1=Climb-up
 [boardgames_runelink_ladderdown_experienced]
 name=Ladder
 desc=The ladder back to the Runelink challenge room.
-model=model_loc_10
+model=furniture_laddertop
 forceapproach=north
 active=yes
 op1=Climb-Down
 
 [boardgames_draughts_ladderup_experienced]
-name=Ladder up
+name=Ladder
 desc=The ladder to the Draughts challenge room for experienced players.
-model=model_loc_11
+model=furniture_ladder
 forceapproach=north
 active=yes
 op1=Climb-up
@@ -294,15 +295,15 @@ op1=Climb-up
 [boardgames_draughts_ladderdown_experienced]
 name=Ladder
 desc=The ladder back to the Draughts challenge room.
-model=model_loc_10
+model=furniture_laddertop
 forceapproach=north
 active=yes
 op1=Climb-Down
 
 [boardgames_ladderup]
-name=Ladder up
+name=Ladder
 desc=The ladder back up to the Toad and Chicken.
-model=model_loc_11
+model=furniture_ladder
 forceapproach=north
 active=yes
 op1=Climb-up
@@ -310,21 +311,21 @@ op1=Climb-up
 [boardgames_ladderdown]
 name=Ladder
 desc=Leads down to the Burthorpe Games Rooms.
-model=model_loc_1759
+model=furniture_dungeonladder
 active=yes
 op1=Climb-Down
 forceapproach=east
 active=yes
 
 [boardgames_wall]
-model=loc_4649
+model=game_boardgames_wall
 sharelight=yes
 active=no
 
 [boardgames_fireplace]
 name=Fireplace
 desc=A nice and cosy fire.
-model=loc_4618
+model=outdoorfurniture_fire_boardgames_place
 anim=fire
 length=3
 width=3
@@ -333,14 +334,14 @@ active=yes
 [boardgames_table]
 name=Table
 desc=A table for board games.
-model=loc_4651
+model=game_boardgames_table
 active=yes
 blockrange=no
 
 [boardgames_table_draughts]
 name=Table
 desc=A game of draughts is being played on this table.
-model=loc_4652
+model=game_boardgames_table_chess
 active=yes
 blockrange=no
 op1=View-game
@@ -348,19 +349,19 @@ op1=View-game
 [boardgames_table_runelink]
 name=Table
 desc=A game of Runelink is being played on this table.
-model=loc_4653
+model=game_boardgames_table_connect
 active=yes
 blockrange=no
 op1=View-game
 
 [boardgames_archtop]
-model=loc_4654
+model=game_boardgames_archtop
 length=4
 width=4
 active=no
 
 [boardgames_barriers]
-model=model_loc_512
+model=fence_museumbarrier
 recol1s=10570
 recol1d=11491
 recol2s=16417
@@ -372,7 +373,7 @@ active=no
 [boardgames_barstool_white]
 name=Stool
 desc=A comfy stool.
-model=model_loc_1100
+model=furniture_barstool
 recol1s=17441
 recol1d=21147
 recol2s=9312
@@ -380,13 +381,14 @@ recol2d=4192
 blockrange=no
 
 [boardgames_barstool_invis]
-model=model_loc_83
+model=blank
+model2=loc_4909
 blockrange=no
 
 [boardgames_draughts_plaque]
 name=Plaque
 desc=Draughts challenge room.
-model=model_loc_909
+model=walldecor_plaque
 recol1s=6240
 recol1d=31649
 active=yes
@@ -394,7 +396,7 @@ active=yes
 [boardgames_runelink_plaque]
 name=Plaque
 desc=Runelink challenge room.
-model=model_loc_909
+model=walldecor_plaque
 recol1s=6240
 recol1d=31649
 active=yes
@@ -402,7 +404,7 @@ active=yes
 [boardgames_draughts_plaque_experienced]
 name=Plaque
 desc=Draughts challenge room for experienced players.
-model=model_loc_909
+model=walldecor_plaque
 recol1s=6240
 recol1d=31649
 active=yes
@@ -410,13 +412,13 @@ active=yes
 [boardgames_runelink_plaque_experienced]
 name=Plaque
 desc=Runelink challenge room for experienced players.
-model=model_loc_909
+model=walldecor_plaque
 recol1s=6240
 recol1d=31649
 active=yes
 
 [ruginsidecorner_blue]
-model=loc_4662
+model=floor_ruginsidecorner
 recol1s=15360
 recol1d=9484
 recol2s=28321
@@ -426,7 +428,7 @@ recol3d=5255
 sharelight=yes
 
 [ruginsidecorner_darkknight]
-model=loc_4662
+model=floor_ruginsidecorner
 recol1s=15360
 recol1d=5252
 recol2s=28321
@@ -434,11 +436,11 @@ recol2d=14402
 sharelight=yes
 
 [ruginsidecorner]
-model=loc_4662
+model=floor_ruginsidecorner
 sharelight=yes
 
 [ruginsidecornerdiag_blue]
-model=loc_4665
+model=floor_ruginsidecornerdiag
 recol1s=15360
 recol1d=9484
 recol2s=28321
@@ -448,7 +450,7 @@ recol3d=5255
 sharelight=yes
 
 [ruginsidecornerdiag_darkknight]
-model=loc_4665
+model=floor_ruginsidecornerdiag
 recol1s=15360
 recol1d=5252
 recol2s=28321
@@ -456,10 +458,10 @@ recol2d=14402
 sharelight=yes
 
 [ruginsidecornerdiag]
-model=loc_4665
+model=floor_ruginsidecornerdiag
 sharelight=yes
 
 [runeflash]
 name=runeflash
-model=loc_4668
+model=if_runeflash
 anim=runeflash

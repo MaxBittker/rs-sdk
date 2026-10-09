@@ -1,18 +1,18 @@
 [lobster_pot]
 name=Lobster pot
 desc=Useful for catching lobsters.
-model=model_2663_obj
+model=inv_lobsterpot
 2dzoom=1180
 2dyan=1668
 2dxan=192
 cost=20
-manwear=model_531_obj_wear,0
-womanwear=model_531_obj_wear,6
+manwear=human_weapons_lobsterpot,0
+womanwear=human_weapons_lobsterpot,6
 weight=9oz
 param=fish_equipment_struct,fish_equipment_lobster_pot
 
 [net]
-model=model_2403_obj
+model=inv_smallfishingnet
 name=Small fishing net
 desc=Useful for catching small fish.
 2dxof=3
@@ -21,15 +21,15 @@ desc=Useful for catching small fish.
 2dyan=132
 2dxan=380
 cost=5
-manwear=model_551_obj_wear,0
-womanwear=model_551_obj_wear,6
+manwear=human_weapons_smallnet,0
+womanwear=human_weapons_smallnet,6
 weight=10lb
 param=fish_equipment_struct,fish_equipment_net
 
 [big_net]
 name=Big fishing net
 desc=Useful for catching lots of fish.
-model=model_2626_obj
+model=inv_largefishingnet
 2dxof=6
 2dyof=19
 2dzoom=1700
@@ -37,13 +37,13 @@ model=model_2626_obj
 2dxan=340
 cost=20
 members=yes
-manwear=model_489_obj_wear,0
-womanwear=model_489_obj_wear,6
+manwear=human_weapons_largenet,0
+womanwear=human_weapons_largenet,6
 weight=18lb
 param=fish_equipment_struct,fish_equipment_big_net
 
 [fishing_rod]
-model=model_2828_obj
+model=inv_fishingrod
 name=Fishing rod
 desc=Useful for catching sardine or herring.
 2dxof=-3
@@ -52,13 +52,13 @@ desc=Useful for catching sardine or herring.
 2dyan=136
 2dxan=328
 cost=5
-manwear=model_562_obj_wear,0
-womanwear=model_562_obj_wear,6
+manwear=human_weapons_fishingrod,0
+womanwear=human_weapons_fishingrod,6
 weight=3lb
 param=fish_equipment_struct,fish_equipment_fishing_rod
 
 [fly_fishing_rod]
-model=model_2695_obj
+model=inv_flyfishingrod
 name=Fly fishing rod
 desc=Useful for catching salmon or trout.
 2dxof=-5
@@ -67,23 +67,23 @@ desc=Useful for catching salmon or trout.
 2dyan=160
 2dxan=320
 cost=5
-manwear=model_562_obj_wear,0
-womanwear=model_562_obj_wear,6
+manwear=human_weapons_fishingrod,0
+womanwear=human_weapons_fishingrod,6
 weight=3lb
 param=fish_equipment_struct,fish_equipment_fly_fishing_rod
 
 [harpoon]
 name=Harpoon
 desc=Useful for catching really big fish.
-model=model_2469_obj
+model=inv_harpoon
 2dxof=2
 2dyof=-85
 2dzoom=1030
 2dyan=416
 2dxan=244
 cost=5
-manwear=model_503_obj_wear,0
-womanwear=model_503_obj_wear,6
+manwear=human_weapons_harpoon,0
+womanwear=human_weapons_harpoon,6
 weight=3lb
 param=fish_equipment_struct,fish_equipment_harpoon
 
@@ -92,18 +92,18 @@ name=Karambwan vessel
 desc=This Karambwan Vessel is loaded with Karambwanji.
 cost=40
 members=yes
-model=obj_3159
+model=quest_tbwt_inv_octopus_pot_loaded
 2dzoom=940
 2dxan=72
-manwear=obj_3157_manwear,0
-womanwear=obj_3157_manwear,6
+manwear=human_weapons_octopus_pot,0
+womanwear=human_weapons_octopus_pot,6
 weight=3150g
 param=fish_equipment_struct,fish_equipment_karambwan_vessel
 
 [fishing_bait]
 name=Fishing bait
 desc=For use with a fishing rod.
-model=model_2436_obj
+model=inv_maggots
 2dxof=1
 2dyof=-6
 2dzoom=650
@@ -116,7 +116,7 @@ weight=2g
 [feather]
 name=Feather
 desc=Used for fly fishing.
-model=model_2476_obj
+model=inv_feather
 2dxof=4
 2dyof=10
 2dzoom=700
@@ -130,7 +130,7 @@ category=category_532
 [shrimp]
 name=Shrimps
 desc=Some nicely cooked fish.
-model=model_2590_obj
+model=inv_shrimp
 2dzoom=950
 2dyan=552
 2dxan=272
@@ -142,7 +142,7 @@ category=category_58
 [raw_shrimp]
 name=Raw shrimps
 desc=I should try cooking this.
-model=model_2590_obj
+model=inv_shrimp
 recol1s=31201
 recol1d=30419
 recol2s=31041
@@ -158,7 +158,7 @@ param=fishing_struct,fishing_struct_shrimps
 [anchovies]
 name=Anchovies
 desc=Some nicely cooked fish.
-model=model_2590_obj
+model=inv_shrimp
 recol1s=31201
 recol1d=7442
 recol2s=31041
@@ -175,7 +175,7 @@ param=pizza_topping_struct,anchovy_topping
 [raw_anchovies]
 name=Raw anchovies
 desc=I should try cooking this.
-model=model_2590_obj
+model=inv_shrimp
 recol1s=31201
 recol1d=14804
 recol2s=31041
@@ -191,7 +191,7 @@ param=fishing_struct,fishing_struct_anchovies
 [burntfish1]
 name=Burnt fish
 desc=Oops!
-model=model_2590_obj
+model=inv_shrimp
 recol1s=31201
 recol1d=10570
 recol2s=31041
@@ -208,7 +208,7 @@ name=Raw karambwan
 desc=A raw green octopus.
 cost=200
 members=yes
-model=obj_3142
+model=quest_tbwt_inv_octopus
 2dyof=7
 2dzoom=1800
 2dyan=56
@@ -223,7 +223,7 @@ name=Raw karambwanji
 desc=Small brightly coloured tropical fish.
 cost=10
 members=yes
-model=obj_3150
+model=quest_tbwt_inv_fish_tropical
 2dxof=6
 2dyof=6
 2dzoom=1000
@@ -237,7 +237,7 @@ param=grindable_ingredient_message,You grind the raw Karambwanji to form a stick
 [sardine]
 name=Sardine
 desc=Some nicely cooked fish.
-model=model_2357_obj
+model=inv_fish4
 recol1s=15855
 recol1d=18827
 recol2s=26425
@@ -256,7 +256,7 @@ category=category_58
 [raw_sardine]
 name=Raw sardine
 desc=I should try cooking this.
-model=model_2357_obj
+model=inv_fish4
 recol1s=15855
 recol1d=13068
 recol2s=26425
@@ -275,7 +275,7 @@ param=fishing_struct,fishing_struct_sardine
 [salmon]
 name=Salmon
 desc=Some nicely cooked fish.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=31081
 recol2s=26425
@@ -292,7 +292,7 @@ category=category_58
 [raw_salmon]
 name=Raw salmon
 desc=I should try cooking this.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=25103
 recol2s=26425
@@ -309,7 +309,7 @@ param=fishing_struct,fishing_struct_salmon
 [trout]
 name=Trout
 desc=Some nicely cooked fish.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=18827
 recol2s=26425
@@ -326,7 +326,7 @@ category=category_58
 [raw_trout]
 name=Raw trout
 desc=I should try cooking this.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=28539
 recol2s=26425
@@ -343,7 +343,7 @@ param=fishing_struct,fishing_struct_trout
 [giant_carp]
 name=Giant carp
 desc=Some nicely cooked fish.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=23000
 recol2s=26425
@@ -362,7 +362,7 @@ tradeable=no
 [raw_giant_carp]
 name=Raw giant carp
 desc=I should try cooking this.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=9
 recol2s=26425
@@ -380,7 +380,7 @@ tradeable=no
 [cod]
 name=Cod
 desc=Some nicely cooked fish.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=7442
 recol2s=26425
@@ -398,7 +398,7 @@ members=yes
 [raw_cod]
 name=Raw cod
 desc=I should try cooking this.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=14804
 recol2s=26425
@@ -415,7 +415,7 @@ members=yes
 [burntfish2]
 name=Burnt fish
 desc=Oops!
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=7399
 recol2s=26425
@@ -431,7 +431,7 @@ category=category_116
 [raw_herring]
 name=Raw herring
 desc=I should try cooking this.
-model=model_2353_obj
+model=inv_fish1
 recol1s=15855
 recol1d=28539
 recol2s=26425
@@ -449,7 +449,7 @@ param=fishing_struct,fishing_struct_herring
 [herring]
 name=Herring
 desc=Some nicely cooked fish.
-model=model_2353_obj
+model=inv_fish1
 recol1s=15855
 recol1d=18827
 recol2s=26425
@@ -467,7 +467,7 @@ category=category_58
 [raw_pike]
 name=Raw pike
 desc=I should try cooking this.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=14990
 recol2s=26425
@@ -484,7 +484,7 @@ param=fishing_struct,fishing_struct_pike
 [pike]
 name=Pike
 desc=Some nicely cooked Pike.
-model=model_2354_obj
+model=inv_fish2
 recol1s=15855
 recol1d=16077
 recol2s=26425
@@ -501,7 +501,7 @@ iop1=Eat
 [raw_mackerel]
 name=Raw mackerel
 desc=I should try cooking this.
-model=model_2353_obj
+model=inv_fish1
 recol1s=15855
 recol1d=25359
 recol2s=26425
@@ -519,7 +519,7 @@ members=yes
 [mackerel]
 name=Mackerel
 desc=Some nicely cooked fish.
-model=model_2353_obj
+model=inv_fish1
 recol1s=15855
 recol1d=22052
 recol2s=26425
@@ -538,7 +538,7 @@ members=yes
 [burntfish3]
 name=Burnt fish
 desc=Oops!
-model=model_2353_obj
+model=inv_fish1
 recol1s=15855
 recol1d=7399
 recol2s=26425
@@ -555,7 +555,7 @@ category=category_116
 [raw_tuna]
 name=Raw tuna
 desc=I should try cooking this.
-model=model_2355_obj
+model=inv_fish3
 recol1s=15855
 recol1d=28539
 recol2s=26425
@@ -572,7 +572,7 @@ param=fishing_struct,fishing_struct_tuna
 [tuna]
 name=Tuna
 desc=Wow, this is a big fish.
-model=model_2355_obj
+model=inv_fish3
 recol1s=15855
 recol1d=18827
 recol2s=26425
@@ -589,7 +589,7 @@ category=category_58
 [raw_bass]
 name=Raw bass
 desc=I should try cooking this.
-model=model_2355_obj
+model=inv_fish3
 recol1s=15855
 recol1d=25103
 recol2s=26425
@@ -606,7 +606,7 @@ members=yes
 [bass]
 name=Bass
 desc=Wow, this is a big fish.
-model=model_2355_obj
+model=inv_fish3
 recol1s=15855
 recol1d=31081
 recol2s=26425
@@ -624,7 +624,7 @@ members=yes
 [burntfish4]
 name=Burnt fish
 desc=Oops!
-model=model_2355_obj
+model=inv_fish3
 recol1s=15855
 recol1d=7399
 recol2s=26425
@@ -640,12 +640,12 @@ category=category_116
 [burntfish5]
 name=Burnt fish
 desc=Oops!
-model=model_2357_obj
+model=inv_fish4
 recol1s=15855
 recol1d=7399
 recol2s=26425
 recol2d=10570
-model=model_2357_obj
+model=inv_fish4
 2dxof=-1
 2dyof=13
 2dzoom=820
@@ -658,7 +658,7 @@ category=category_116
 [raw_swordfish]
 name=Raw swordfish
 desc=I should try cooking this.
-model=model_2494_obj
+model=inv_swordfish
 recol1s=15855
 recol1d=26171
 recol2s=26425
@@ -675,7 +675,7 @@ param=fishing_struct,fishing_struct_swordfish
 [swordfish]
 name=Swordfish
 desc=I'd better be careful eating this!
-model=model_2494_obj
+model=inv_swordfish
 recol1s=15855
 recol1d=18772
 recol2s=26425
@@ -692,7 +692,7 @@ category=category_58
 [burnt_swordfish]
 name=Burnt swordfish
 desc=Oops!
-model=model_2494_obj
+model=inv_swordfish
 recol1s=15855
 recol1d=7399
 recol2s=26425
@@ -708,7 +708,7 @@ category=category_116
 [raw_lobster]
 name=Raw lobster
 desc=I should try cooking this.
-model=model_2804_obj
+model=inv_lobster
 recol1s=31041
 recol1d=15554
 2dxof=4
@@ -724,7 +724,7 @@ param=fishing_struct,fishing_struct_lobster
 [lobster]
 name=Lobster
 desc=This looks tricky to eat.
-model=model_2804_obj
+model=inv_lobster
 2dxof=4
 2dyof=16
 2dzoom=1020
@@ -738,7 +738,7 @@ category=category_58
 [burnt_lobster]
 name=Burnt lobster
 desc=Oops!
-model=model_2804_obj
+model=inv_lobster
 recol1s=31041
 recol1d=7399
 2dxof=4
@@ -753,7 +753,7 @@ category=category_116
 [raw_shark]
 name=Raw shark
 desc=I should try cooking this.
-model=model_2594_obj
+model=inv_shark
 recol1s=26425
 recol1d=22197
 2dxof=5
@@ -770,7 +770,7 @@ param=fishing_struct,fishing_struct_shark
 [shark]
 name=Shark
 desc=I'd better be careful eating this.
-model=model_2594_obj
+model=inv_shark
 recol1s=15855
 recol1d=20972
 recol2s=26425
@@ -789,7 +789,7 @@ members=yes
 [burnt_shark]
 name=Burnt shark
 desc=Oops!
-model=model_2594_obj
+model=inv_shark
 recol1s=15855
 recol1d=7399
 recol2s=26425
@@ -807,7 +807,7 @@ members=yes
 [raw_mantaray]
 name=Raw manta ray
 desc=A rare catch.
-model=model_2722_obj
+model=inv_mantaray
 recol1s=15137
 recol1d=7442
 recol2s=8456
@@ -825,7 +825,7 @@ param=fishing_struct,fishing_struct_mantaray
 [mantaray]
 name=Manta ray
 desc=A rare catch.
-model=model_2722_obj
+model=inv_mantaray
 recol1s=16912
 recol1d=20972
 recol2s=8456
@@ -843,7 +843,7 @@ members=yes
 [burnt_mantaray]
 name=Burnt manta ray
 desc=Oops!
-model=model_2722_obj
+model=inv_mantaray
 recol1s=16912
 recol1d=7399
 recol2s=8456
@@ -860,7 +860,7 @@ members=yes
 [raw_seaturtle]
 name=Raw sea turtle
 desc=A rare catch.
-model=model_2619_obj
+model=inv_seaturtle
 cost=500
 members=yes
 2dyof=-103
@@ -874,7 +874,7 @@ param=fishing_struct,fishing_struct_seaturtle
 [seaturtle]
 name=Sea turtle
 desc=Tasty!
-model=model_2619_obj
+model=inv_seaturtle
 recol1s=12610
 recol1d=8422
 recol2s=10821
@@ -892,7 +892,7 @@ members=yes
 [burnt_seaturtle]
 name=Burnt sea turtle
 desc=Oops!
-model=model_2619_obj
+model=inv_seaturtle
 recol1s=12610
 recol1d=3171
 recol2s=10821
@@ -909,7 +909,7 @@ category=category_116
 [seaweed]
 name=Seaweed
 desc=Slightly damp seaweed.
-model=model_2370_obj
+model=inv_seaweed
 2dxof=7
 2dyof=-13
 2dzoom=1360
@@ -923,7 +923,7 @@ category=cooking_generic
 [edible_seaweed]
 name=Edible seaweed
 desc=Slightly damp seaweed.
-model=model_2370_obj
+model=inv_seaweed
 2dxof=7
 2dyof=-13
 2dzoom=1360
@@ -938,7 +938,7 @@ members=yes
 [casket]
 name=Casket
 desc=I hope there's treasure in it.
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -952,7 +952,7 @@ members=yes
 [oystershell]
 name=Oyster
 desc=It's a rare oyster.
-model=model_2363_obj
+model=inv_oysterclosed
 2dxof=-1
 2dyof=6
 2dzoom=700
@@ -966,7 +966,7 @@ members=yes
 [oysterempty]
 name=Empty oyster
 desc=It's empty.
-model=model_2593_obj
+model=inv_oyster-open_empty
 2dxof=4
 2dyof=50
 2dzoom=910
@@ -979,7 +979,7 @@ members=yes
 [smalloysterpearls]
 name=Oyster pearl
 desc=I could work wonders with a chisel on this pearl.
-model=model_2721_obj
+model=inv_oyster-onepearl
 2dxof=4
 2dyof=50
 2dzoom=910
@@ -992,7 +992,7 @@ members=yes
 [bigoysterpearls]
 name=Oyster pearls
 desc=I could work wonders with a chisel on these pearls.
-model=model_2377_obj
+model=inv_oyster-fewpearls
 2dxof=4
 2dyof=50
 2dzoom=910
@@ -1005,7 +1005,7 @@ members=yes
 [mort_slimey_eel]
 name=Slimey eel
 desc=A slime covered eel - yuck!
-model=obj_3379
+model=quest_routethrough_inv_slimey_eel
 2dxof=4
 2dzoom=1650
 2dyan=36
@@ -1027,7 +1027,7 @@ recol4d=23847
 recol5s=30653
 recol5d=17921
 desc=A cooked slimey eel - not delicious, but pretty nutritious.
-model=obj_3379
+model=quest_routethrough_inv_slimey_eel
 2dxof=4
 2dzoom=1650
 2dyan=36
@@ -1050,7 +1050,7 @@ recol4d=10400
 recol5s=30653
 recol5d=10400
 desc=It looks like it's seen one too many fires.
-model=obj_3379
+model=quest_routethrough_inv_slimey_eel
 2dxof=4
 2dzoom=1650
 2dyan=36

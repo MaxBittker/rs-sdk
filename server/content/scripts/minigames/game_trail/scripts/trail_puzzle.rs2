@@ -346,6 +346,6 @@ if($slot <= 19) {
 } 
 
 if($open_slot ! -1) {
-    sound_synth(slide_puzzle, 0, 0);
+    sound_synth(slide_puzzle, 1, 0);
     inv_movetoslot(trail_puzzleinv, trail_puzzleinv, $slot, $open_slot);
 }

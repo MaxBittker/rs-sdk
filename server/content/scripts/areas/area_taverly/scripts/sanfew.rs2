@@ -110,14 +110,20 @@ if(%death_equiproom = ^death_complete & %troll_quest = ^troll_complete) {
         ~chatnpc("<p,neutral>My friend Eadgar lives in the area, and he may be able to help you. Bring some goutweed back and I will teach you something useful.");
         @multi2("I'll do it.", sanfew_ill_do_it, "No thanks.", sanfew_no_thanks);
     } else {
-        // Before my run of the quest in OSRS, I tried starting the quest with Death Plateau and Troll Stronghold completed but under 31 Herblore and I got:
-        ~chatnpc("<p,neutral>Not just yet, young 'un.");
-        // The wiki says there should be different dialog (below) but I'm skeptical of the spelling ("'m" versus "I'm")
-        // and also this line didn't show up for me, so... TODO I guess?
-        //~chatnpc("<p,sad>'m afraid you are not yet learned enough in the art of Herblore to be able to help me, adventurer...");
-        ~mesbox("You do not meet all of the requirements to start the Eadgar's Ruse quest.");
+        // OSRS: I tried starting the quest with Death Plateau and Troll Stronghold completed but under 31 Herblore and I got:
+        //~chatnpc("<p,neutral>Not just yet, young 'un.");
+        //~mesbox("You do not meet all of the requirements to start the Eadgar's Ruse quest.");
+        //
+        // This is confusing because according to the wiki transcript, you should only get that line/mesbox if you are *missing* the quest prereqs (Death Plateau and/or Troll Stronghold)
+        // OSRS wiki says there should be different dialog for *only* missing Herblore level (below) but this wasn't the case when I checked OSRS
+        ~chatnpc("<p,sad>I'm afraid you are not yet learned enough in the art of Herblore to be able to help me, adventurer...");
+        // The above line *is* used in RS3 if you are missing Herblore req only (but the mesbox afterwards is *not* - dialog simply ends)
+        // Relatively unsure which to use, but switched to the RS3 behavior as it feels older to me
     }
 } else {
+    // TODO this might be the wrong dialog - this is the "generic" line for when Sanfew has no more quests for you (after Druidic Ritual/Eadgar's Ruse)
+    // there might be another line for specifically trying to start Eadgar's Ruse without quest prereqs completed
+    // I don't yet have a test case recorded for trying to start Eadgar's Ruse with Druidic Ritual completed but NOT Death Plateau/Troll Stronghold
     ~chatnpc("<p,neutral>Well, not right now I don't think young 'un. In fact, I need to make some more preparations myself for the ritual. Rest assured, if I need any more help I will ask you again.");
 }
 
@@ -130,10 +136,9 @@ if(%death_equiproom = ^death_complete & %troll_quest = ^troll_complete) {
 ~chatnpc("<p,happy>Thank you, adventurer!");
 
 [label,sanfew_no_thanks]
-// source https://oldschool.runescape.wiki/w/Transcript:Eadgar%27s_Ruse?oldid=15100939
-// todo need to verify mesanim for these, think i missed them
+// mesanims from RS3
 ~chatplayer("<p,neutral>No thanks.");
-~chatnpc("<p,neutral>Oh well. No doubt some other adventurer will eventually come who can help me.");
+~chatnpc("<p,sad>Oh well. No doubt some other adventurer will eventually come who can help me.");
 
 [label,eadgar_sanfew_reminder]
 // rsprox/branon
@@ -170,7 +175,7 @@ if(inv_total(inv, eadgar_goutweed_herb) > 0) {
     ~chatplayer("<p,happy>I have some more goutweed for you.");
     ~chatnpc("<p,happy>Ah, good. Here are some herbs in exchange.");
 } else {
-    //TODO: Check mesanims for these
-    ~chatplayer("<p,neutral>Did you say you needed more goutweed?");
+    //mesanims rsprox/branon
+    ~chatplayer("<p,quiz>Did you say you needed more goutweed?");
     ~chatnpc("<p,neutral>I don't need any more goutweed for the ritual, but it's still quite difficult for me to get. If you ever come across some, bring it to me; I'll exchange it for some other herbs.");
 }

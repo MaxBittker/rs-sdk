@@ -177,3 +177,15 @@ if ($shield ! null & oc_param($shield, defend_anim) ! human_unarmed_def & (map_m
     return(oc_param($weapon, defend_anim));
 }
 return(human_unarmedblock);
+
+// returns the block sound to use, depending on armour
+[proc,combat_defend_sound](obj $shield)(synth)
+def_obj $body = inv_getobj(worn, ^wearpos_torso);
+
+if ($shield ! null & oc_param($shield, defend_sound) ! human_hit & (map_members ! ^false | oc_members($shield) = true)) {
+    return(oc_param($shield, defend_sound));
+} else if ($body ! null & oc_param($body, defend_sound) ! human_hit & (map_members ! ^false | oc_members($body) = true)) {
+    return(oc_param($body, defend_sound));
+} 
+return(human_block_1);
+

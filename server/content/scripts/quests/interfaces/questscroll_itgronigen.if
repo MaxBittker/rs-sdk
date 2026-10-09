@@ -4,7 +4,7 @@ x=243
 y=138
 width=35
 height=35
-model=model_3032
+model=if_questscroll
 zoom=650
 xan=400
 
@@ -51,7 +51,7 @@ x=114
 y=201
 width=85
 height=105
-model=model_loc_2210_8
+model=furniture_telescope
 zoom=1500
 xan=11
 yan=1849
@@ -87,7 +87,7 @@ x=341
 y=195
 width=32
 height=32
-model=model_3037
+model=if_rosette
 zoom=800
 xan=500
 

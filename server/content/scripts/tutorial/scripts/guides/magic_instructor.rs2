@@ -78,7 +78,7 @@ if (%tutorial = ^tutorial_successful_wind_strike) {
 // Removed until a later date. Not added yet in 2007.
 //npc_anim(vulnerability_casting, 0);
 //spotanim_npc(curse_cast, 92, 0);
-//sound_synth(curse_all, 0, 0);
+//sound_synth(curse_all, 1, 0);
 //def_int $duration = ~player_projectile(npc_coord, coord, uid, curse_travel, 31, 31, 61, 16, 0, 128, 5);
 //spotanim_pl(curse_hit, 124, 70);
 //p_delay(4);

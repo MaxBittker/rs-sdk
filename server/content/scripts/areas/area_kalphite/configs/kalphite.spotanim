@@ -1,13 +1,13 @@
 [kalphite_glow]
-model=spot_spotanim_278
+model=kalphite_glow
 anim=kalphite_glow
 
 [kalphite_queen_glow]
-model=spot_spotanim_279
+model=kalphite_glow_flying
 anim=kalphite_queen_glow
 
 [kalphite_glow_travel]
-model=model_3093_spotanim
+model=spells_confuse_travel_missile
 anim=confuse_travel
 ambient=75
 contrast=75
@@ -15,7 +15,7 @@ recol1s=15375
 recol1d=19453
 
 [kalphite_glow_impact]
-model=model_3094_spotanim
+model=spells_confuse_impact
 anim=confuse_impact
 ambient=75
 contrast=75

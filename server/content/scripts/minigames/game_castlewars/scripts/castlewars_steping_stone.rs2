@@ -1,0 +1,6 @@
+[oploc1,castlewars_steping_stone] // nice spelling @jmod 20 years ago
+if (loc_coord = coord) {
+    return; // osrs
+}
+sound_synth(jump_no_land, 0, 0);
+~agility_exactmove(human_spot_jump, 0, 0, coord, loc_coord, 15, 30, ~coord_direction(coord, loc_coord), false);

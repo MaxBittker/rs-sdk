@@ -6,6 +6,7 @@ data=op,Defence,skill_guide_combat_defence
 
 [skill_guide_combat_attack]
 table=skill_guides
+data=base,attack
 data=name,Combat - Attack
 data=advancement,Able to wield:
 data=inv,skill_guide_combat_weapons
@@ -21,6 +22,7 @@ data=unlock,60,Members: Dragon.
 
 [skill_guide_combat_defence]
 table=skill_guides
+data=base,defence
 data=name,Combat - Defence
 data=advancement,Able to wear:
 data=inv,skill_guide_combat_armours
@@ -137,12 +139,12 @@ data=unlock,-1,"To view the available spells, select the\nspellbook icon on the 
 table=skill_guides
 data=name,Magic - Armour
 data=inv,skill_guide_magic_armour
-data=unlock,20,Wizard boots.
-data=unlock,40,Splitbark helm\n     (with defence 40).
-data=unlock,40,Splitbark body\n     (with defence 40).
-data=unlock,40,Splitbark legs\n     with defence 40).
-data=unlock,40,Splitbark gauntlets\n     (with defence 40).
-data=unlock,40,Splitbark boots\n     (with defence 40).
+data=unlock,20,Members: Wizard boots.
+data=unlock,40,Members: Splitbark helm\n     (with defence 40).
+data=unlock,40,Members: Splitbark body\n     (with defence 40).
+data=unlock,40,Members: Splitbark legs\n     (with defence 40).
+data=unlock,40,Members: Splitbark gauntlets\n     (with defence 40).
+data=unlock,40,Members: Splitbark greaves\n     (with defence 40).
 
 // ----
 
@@ -241,7 +243,7 @@ data=unlock,66,Super Defence potion\nCadantine & White berries.
 data=unlock,69,Anti-firebreath potion\nLantadyme & Ground blue dragon scale.
 data=unlock,72,Ranging potion\nDwarf weed & Wine of Zamorak.
 data=unlock,76,Magic potion\nLantadyme & Potato cactus.
-data=unlock,78,Zamorak brew\nTorstol & Jangerberries.
+data=unlock,78,Zamorak potion\nTorstol & Jangerberries.
 
 // ----
 
@@ -258,12 +260,17 @@ data=op,Pickpocket,skill_guide_thieving_pickpocket
 table=skill_guides
 data=name,Thieving - Stalls
 data=inv,skill_guide_thieving_stalls
+data=unlock,2,Vegetable stall.
 data=unlock,5,Cake stall.
 data=unlock,5,Tea stall.
+data=unlock,5,Crafting stall.
+data=unlock,5,Monkey food stall.
 data=unlock,20,Silk stall.
 data=unlock,35,Fur stall.
 data=unlock,42,Fish stall.
 data=unlock,50,Silver stall.
+data=unlock,65,Magic stall.
+data=unlock,65,Scimitar stall.
 data=unlock,65,Spices stall.
 data=unlock,75,Gems stall.
 
@@ -272,7 +279,7 @@ data=unlock,75,Gems stall.
 table=skill_guides
 data=name,Thieving - Pickpocket
 data=inv,skill_guide_thieving_pickpocket
-data=unlock,1,Citizen.
+data=unlock,1,Man.
 data=unlock,10,Farmer.
 data=unlock,25,Warrior.
 data=unlock,32,Rogue.
@@ -530,7 +537,7 @@ data=unlock,12,Bronze kite shields.\n          3 Bars
 // [sic] exact number of spaces
 data=unlock,13,Members: Bronze claws.\n          2 Bars
 // [sic] exact number of spaces
-data=unlock,14,Bronze two handed swords.\n          3 Bar
+data=unlock,14,Bronze two handed swords.\n          3 Bars
 // [sic] exact number of spaces
 data=unlock,16,Bronze plate legs.\n          3 Bars
 // [sic] exact number of spaces
@@ -561,7 +568,7 @@ data=unlock,25,Iron battleaxes.\n          3 Bars
 data=unlock,26,Iron chainmail bodies.\n          3 Bars
 data=unlock,27,Iron kite shields.\n          3 Bars
 data=unlock,28,Members: Iron claws.\n          2 Bars
-data=unlock,29,Iron two handed swords.\n          3 Bar
+data=unlock,29,Iron two handed swords.\n          3 Bars
 data=unlock,31,Iron plate legs.\n          3 Bars
 data=unlock,31,Iron plate skirts.\n          3 Bars
 data=unlock,33,Iron plate bodies.\n          5 Bars
@@ -590,7 +597,7 @@ data=unlock,40,Steel battleaxes.\n          3 Bars
 data=unlock,41,Steel chainmail bodies.\n          3 Bars
 data=unlock,42,Steel kite shields.\n          3 Bars
 data=unlock,43,Members: Steel claws.\n          2 Bars
-data=unlock,44,Steel two handed swords.\n          3 Bar
+data=unlock,44,Steel two handed swords.\n          3 Bars
 data=unlock,46,Steel plate legs.\n          3 Bars
 data=unlock,46,Steel plate skirts.\n          3 Bars
 data=unlock,48,Steel plate bodies.\n          5 Bars
@@ -618,7 +625,7 @@ data=unlock,60,Mithril battleaxes.\n          3 Bars
 data=unlock,61,Mithril chainmail bodies.\n          3 Bars
 data=unlock,62,Mithril kite shields.\n          3 Bars
 data=unlock,63,Members: Mithril claws.\n          2 Bars
-data=unlock,64,Mithril two handed swords.\n          3 Bar
+data=unlock,64,Mithril two handed swords.\n          3 Bars
 data=unlock,66,Mithril plate legs.\n          3 Bars
 data=unlock,66,Mithril plate skirts.\n          3 Bars
 data=unlock,68,Mithril plate bodies.\n          5 Bars
@@ -646,7 +653,7 @@ data=unlock,80,Adamant battleaxes.\n          3 Bars
 data=unlock,81,Adamant chainmail bodies.\n          3 Bars
 data=unlock,82,Adamant kite shields.\n          3 Bars
 data=unlock,83,Members: Adamant claws.\n          2 Bars
-data=unlock,84,Adamant two handed swords.\n          3 Bar
+data=unlock,84,Adamant two handed swords.\n          3 Bars
 data=unlock,86,Adamant plate legs.\n          3 Bars
 data=unlock,86,Adamant plate skirts.\n          3 Bars
 data=unlock,88,Adamant plate bodies.\n          5 Bars
@@ -674,7 +681,7 @@ data=unlock,95,Rune battleaxes.\n          3 Bars
 data=unlock,96,Rune chainmail bodies.\n          3 Bars
 data=unlock,97,Rune kite shields.\n          3 Bars
 data=unlock,98,Members: Rune claws.\n          2 Bars
-data=unlock,99,Rune two handed swords.\n          3 Bar
+data=unlock,99,Rune two handed swords.\n          3 Bars
 data=unlock,99,Rune plate legs.\n          3 Bars
 data=unlock,99,Rune plate skirts.\n          3 Bars
 data=unlock,99,Rune plate bodies.\n          5 Bars
@@ -942,7 +949,7 @@ data=unlock,75,Rune arrows.
 table=skill_guides
 data=name,Fletching - Darts
 data=inv,skill_guide_fletching_darts
-data=unlock,10,Bronze darts.
+data=unlock,1,Bronze darts.
 data=unlock,22,Iron darts.
 data=unlock,37,Steel darts.
 data=unlock,52,Mithril darts.

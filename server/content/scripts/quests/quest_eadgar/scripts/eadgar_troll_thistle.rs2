@@ -1,7 +1,7 @@
 // picking, drying, and grinding troll thistle is allowed at any point before/during/after the quest
 [opnpc1,eadgar_troll_thistle]
 mes("You pick the Troll Thistle.");
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 // should drop to the ground if inv is full
 inv_add(inv, eadgar_troll_thistle, 1);
 @eadgar_troll_thistle_move(npc_coord);
@@ -37,11 +37,16 @@ if(last_useitem = ranarrvial) {
     ~attempt_grind_ingredient(last_useslot, last_slot);
 }
 
-[opheldu,eadgar_ground_troll_thistle]
+[opheldu,eadgar_ground_troll_thistle] @eadgar_mix_troll_truth_potion;
+
+[label,eadgar_mix_troll_truth_potion]
 if(%eadgar_quest = ^eadgar_needs_potion) {
     ~attempt_brew_potion(last_useslot, last_slot);
-} else if(%eadgar_quest = ^eadgar_complete) {
-    mes("You don't need to make any more."); // todo check if this is the case immediately after handing in the potion, or if completion is required before troll potions become unmixable
+} else if(%eadgar_quest > ^eadgar_needs_potion) {
+    // OSRS: Only tested this after quest completion, but potion was unmixable
+    // RS3: Potion becomes unmixable immediately after handing it in
+    // Here I'm assuming both observed behaviors are actually the same, and going with the latter case
+    mes("You don't need to make any more.");
 } else {
     // osrs, from Ashie
     ~chatplayer("<p,confused>Hmmm...perhaps I shouldn't try and mix these together. It might have unpredictable results...");

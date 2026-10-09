@@ -1,7 +1,7 @@
 [turnip_book]
 members=yes
 cost=1
-model=model_2794_obj
+model=inv_book
 2dzoom=840
 2dyan=152
 2dxan=256

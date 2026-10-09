@@ -117,6 +117,23 @@ if (%tutorial > ^newbie_combat_instructor_unequipping_items) {
     ~update_weapon_category($previous_weapon); // the attack tab weapon category
 }
 ~player_combat_stat; // update combat varps
+~mm_greegree_transmogrify(inv_getobj(worn, ^wearpos_rhand)); // greegree transmogrify
+// Force the sled 'crab walk' glitch. Must be a better way to do this than checking for the sled in the right hand slot, but this works for now.
+// https://www.youtube.com/watch?v=i9m-APfxg5Y&t=29s
+if (inv_getobj(worn, ^wearpos_rhand) = trollromance_toboggon_waxed) {
+    %wearing_sled = ^true;
+}
+if (%wearing_sled = ^true) {
+    readyanim(trollromance_toboggan_ready);
+    turnanim(trollromance_toboggan_walking);
+    walkanim(trollromance_toboggan_walking);
+    walkanim_b(trollromance_toboggan_walking);
+    walkanim_l(trollromance_toboggan_walking);
+    walkanim_r(trollromance_toboggan_walking);
+    runanim(trollromance_toboggan_walking);
+    buildappearance(worn);
+    p_animprotect(^true);
+}
 
 [proc,.update_all](obj $previous_weapon)
 // secret sauce
@@ -140,3 +157,6 @@ if (.%tutorial > ^newbie_combat_instructor_unequipping_items) {
     ~.update_weapon_category($previous_weapon); // the attack tab weapon category
 }
 ~.player_combat_stat; // update combat varps
+
+[queue,update_all]
+~update_all(null);

@@ -1,4 +1,4 @@
-[oploc1,game_trawler_gangplank1]
+[oploc1,trawler_gangplank]
 // osrs has a warning for if u have items in a trawler catch, but rs3 doesnt.
 // I think the warning was added to osrs at some point. Rs3 fishing trawler is largely unchanged
 def_int $dir_mod = ~gangplank_dir_mod;
@@ -26,7 +26,7 @@ if (~playercount_coord_pair_table(trawler_game_zones) > 0) {
 p_telejump($jump_coord);
 
 
-[oploc1,game_trawler_gangplank2]
+[oploc1,trawler_gangplankoff]
 def_int $dir_mod = ~gangplank_dir_mod;
 switch_int (loc_angle) {
     case ^loc_west,^loc_east :

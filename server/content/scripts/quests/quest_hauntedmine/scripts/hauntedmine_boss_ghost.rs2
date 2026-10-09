@@ -1,0 +1,349 @@
+[oploc1,hauntedmine_boss_door] ~open_and_close_door(loc_param(next_loc_stage), ~check_axis_locactive(coord), false);
+
+
+[proc,hauntedmine_boss_find]()(boolean)
+npc_findall(0_43_69_36_38, hauntedmine_boss_ghost, 10, 0);
+while (npc_findnext = true) {
+    if (%npc_attacking_uid = uid) return(true);
+}
+
+npc_findall(0_43_69_36_38, hauntedmine_boss_ghost_faded, 10, 0);
+while (npc_findnext = true) {
+    if (%npc_attacking_uid = uid) return(true);
+}
+
+return(false);
+
+// opnpct	npc=(index=19327, id=hauntedmine_boss_key (3619), coord=(0_43_69_36_39)), com=inventory:items (149:0), sub=12, obj=damp_tinderbox (4073)
+[opnpc1,hauntedmine_boss_key]
+if (inv_total(inv, hauntedmine_reward_key) > 0) {
+    mes("You already have a key like that.");
+    return;
+}
+if (%hauntedmine = ^hauntedmine_boss_found & ~hauntedmine_boss_find = true) {
+    mes("You should deal with that ghost before trying to take the key again.");
+    return;
+}
+
+anim(human_pickuptable, 10);
+
+if (%hauntedmine >= ^hauntedmine_boss_defeated) {
+    inv_add(inv, hauntedmine_reward_key, 1);
+    p_delay(0);
+    npc_del;
+    ~mesbox("You take the key. It doesn't resist anymore.");
+    return;
+}
+npc_tele(0_43_69_36_40);
+cam_moveto(0_43_69_40_40, 400, 0, 100);
+cam_lookat(0_43_69_36_39, 80, 0, 100);
+sound_synth(ghast_appear, 0, 0);
+p_delay(1);
+
+npc_tele(0_43_69_36_39);
+cam_moveto(0_43_69_40_40, 400, 0, 100);
+cam_lookat(0_43_69_36_39, 80, 0, 100);
+p_delay(1);
+cam_reset;
+
+~chatplayer("<p,confused>What the... ?");
+~mesbox("You hear a disembodied voice laughing at you....@dre@Poor puny mortal. |@dre@I'm going to have fun with you.");
+
+if (%hauntedmine = ^hauntedmine_lightstairsfound) %hauntedmine = ^hauntedmine_boss_found;
+
+npc_add(0_43_69_36_42, hauntedmine_boss_ghost, 1000); // duration from osrs
+npc_setmode(none);
+npc_settimer(0); // prevent attacking, not sure if they did it this way
+sound_synth(bigghost_appear, 0, 0);
+npc_anim(bossghost_summon, 0);
+
+if_close;
+cam_moveto(0_43_69_36_38, 400, 0, 100);
+cam_lookat(0_43_69_36_42, 80, 0, 100);
+p_delay(1);
+
+cam_lookat(0_43_69_36_39, 80, 1, 50);
+cam_moveto(0_43_69_30_39, 800, 1, 50);
+p_delay(1);
+npc_anim(seq_1435, 0);
+~hauntedmine_boss_crane_attack(0_43_69_35_35, 50);
+p_delay(2);
+
+cam_reset;
+
+npc_anim(bossghost_fade_out, 0);
+npc_delay(0);
+
+~npc_forcerun(0_43_69_34_42);
+npc_changetype_keepall(hauntedmine_boss_ghost_faded, ^max_32bit_int);
+~npc_forcerun(0_43_69_32_42);
+~npc_forcerun(0_43_69_30_42);
+~npc_forcerun(map_findsquare(0_43_69_28_44, 0, 1, ^map_findsquare_lineofsight));
+
+npc_anim(bossghost_fade_in, 0);
+sound_synth(bigghost_reappear, 0, 0);
+npc_changetype_keepall(hauntedmine_boss_ghost, ^max_32bit_int);
+npc_delay(0);
+
+npc_settimer(1);
+npc_setmode(playerface);
+hint_npc;
+%npc_attacking_uid = uid;
+%npc_int = 3; // section of the boss room
+
+
+[proc,hauntedmine_in_bossfight](coord $coord)(boolean)
+if (inzone(0_43_69_23_23, 0_43_69_46_54, $coord) = true) {
+    return(true);
+}
+return(false);
+
+[proc,hauntedmine_near_bossdoor](coord $coord)(boolean)
+if (inzone(0_43_69_47_35, 0_43_69_55_44, $coord) = true) {
+    return(true);
+}
+return(false);
+
+// hauntedmine_boss_ghost
+// hauntedmine_boss_ghost_faded
+[ai_timer,hauntedmine_boss_ghost] @hauntedmine_boss_timer;
+[ai_timer,hauntedmine_boss_ghost_faded] @hauntedmine_boss_timer;
+
+[label,hauntedmine_boss_timer]
+if (finduid(%npc_attacking_uid) = false) {
+    npc_del;
+    return;
+}
+if (~hauntedmine_near_bossdoor(coord) = true) {
+    return; // do nothing
+}
+if (~hauntedmine_in_bossfight(coord) = false) {
+    npc_del;
+    return;
+}
+
+if (%npc_action_delay > map_clock) {
+    return;
+}
+
+if_close; // todo confirm
+if (npc_type = hauntedmine_boss_ghost) npc_setmode(playerface);
+npc_anim(seq_1435, 0); // does this every time
+%npc_action_delay = add(map_clock, 5);
+~npc_set_attack_vars;
+
+
+if (inzone(0_43_69_30_40, 0_43_69_32_40, coord) = true) ~hauntedmine_boss_minecart_attack(0_43_69_30_40, 0_43_69_32_40, 0_43_69_31_40, 0_43_69_32_40); // yes these coords are diff than inzone coords
+else if (inzone(0_43_69_31_30, 0_43_69_31_37, coord) = true) ~hauntedmine_boss_minecart_attack(0_43_69_31_30, 0_43_69_31_37, 0_43_69_31_30, 0_43_69_31_37);
+else if (inzone(0_43_69_33_31, 0_43_69_33_36, coord) = true) ~hauntedmine_boss_minecart_attack(0_43_69_33_31, 0_43_69_33_36, 0_43_69_33_31, 0_43_69_33_36);
+else if (inzone(0_43_69_39_31, 0_43_69_39_36, coord) = true) ~hauntedmine_boss_minecart_attack(0_43_69_39_31, 0_43_69_39_36, 0_43_69_39_31, 0_43_69_39_36);
+else if (inzone(0_43_69_41_30, 0_43_69_41_37, coord) = true) ~hauntedmine_boss_minecart_attack(0_43_69_41_30, 0_43_69_41_37, 0_43_69_41_30, 0_43_69_41_37);
+else if (inzone(0_43_69_39_40, 0_43_69_42_40, coord) = true) ~hauntedmine_boss_minecart_attack(0_43_69_39_40, 0_43_69_42_40, 0_43_69_40_40, 0_43_69_42_40);
+else if (inzone(0_43_69_29_46, 0_43_69_43_46, coord) = true) ~hauntedmine_boss_minecart_attack(0_43_69_29_46, 0_43_69_43_46, 0_43_69_29_46, 0_43_69_43_46);
+else if (~hauntedmine_near_crane(coord, 0_43_69_41_42) = true) ~hauntedmine_boss_crane_attack(0_43_69_41_42, 0);
+else if (~hauntedmine_near_crane(coord, 0_43_69_35_35) = true) ~hauntedmine_boss_crane_attack(0_43_69_35_35, 0);
+else if (~hauntedmine_near_crane(coord, 0_43_69_35_30) = true) ~hauntedmine_boss_crane_attack(0_43_69_35_30, 0);
+else if (~hauntedmine_near_crane(coord, 0_43_69_30_42) = true) ~hauntedmine_boss_crane_attack(0_43_69_30_42, 0);
+else ~hauntedmine_boss_pickaxe_attack;
+
+// In osrs, if you tele out or exit from the door. You dont take damage from the boss.
+// This isnt a combat_clearqueue, its a custom damage queue
+[queue,hauntedmine_damage_queue](int $amount)
+if (~hauntedmine_in_bossfight(coord) = false) {
+    return;
+}
+~damage_self($amount);
+
+[proc,hauntedmine_boss_minecart_attack](coord $inzone1, coord $inzone2, coord $npc_dest1, coord $npc_dest2)
+.npc_findall(~centre_coord($inzone1, $inzone2), hauntedmine_boss_cart, add(divide(distance($inzone1, $inzone2), 2), 1), 0);
+while (.npc_findnext = true) {
+    if (inzone($inzone1, $inzone2, .npc_coord) = true) {
+        sound_synth(cart_away, 0, 0);
+
+        .npc_settimer(1);
+        .%npc_attacking_uid = uid;
+
+        .%npc_int2 = ~coord_direction(.npc_coord, coord); // direction
+        if (~coord_direction(.npc_coord, $npc_dest1) = .%npc_int2) .%npc_int = distance(.npc_coord, $npc_dest1);
+        else if (~coord_direction(.npc_coord, $npc_dest2) = .%npc_int2) .%npc_int = distance(.npc_coord, $npc_dest2);
+
+        return;
+    }
+}
+
+[ai_timer,hauntedmine_boss_cart]
+if (%npc_int < 1) {
+    npc_settimer(0);
+    return;
+}
+%npc_int = sub(%npc_int, 1);
+def_coord $tele_coord = ~movecoord_indirection(npc_coord, %npc_int2, 1);
+def_int $damage = 0;
+if (random(3) = 0) $damage = randominc(10); // todo: 1/3 chance to hit ?
+
+// find and attack player
+if (finduid(%npc_attacking_uid) = true & coord = $tele_coord) {
+    anim(human_stumble_back, 25); // matches osrs
+    if_close; 
+    if (p_finduid(uid) = true) {
+        sound_synth(cart_hit, 0, 0);
+        p_exactmove(coord, ~movecoord_indirection(coord, %npc_int2, 1), 25, 45, modulo(add(%npc_int2, 2), 4));
+        strongqueue(hauntedmine_damage_queue, 0, $damage);
+    }
+}
+
+npc_tele($tele_coord); // npc not delayed
+
+
+// sequence	npc=crane_posessed_mine (3618), id=mining_crane_attack (1452)
+// sequence	npc=hauntedmine_boss_ghost (3616), id=ghost_update_tendrill_summoning (5545)
+// synth_sound	id=1608
+
+// sequence	npc=crane_posessed_mine (3618), id=mining_crane_attack (1452), delay=50
+// sequence	npc=hauntedmine_boss_ghost (3616), id=ghost_update_tendrill_summoning (5545)
+// synth_sound	id=1594
+[proc,hauntedmine_boss_crane_attack](coord $crane_sw, int $delay)
+def_int $damage = 0;
+if (random(3) = 0) $damage = randominc(10); // todo: 1/3 chance to hit ?
+
+if (.npc_findexact($crane_sw, crane_posessed_mine) = true) {
+    .npc_anim(mining_crane_attack, $delay);
+    .npc_facesquare(coord);
+    sound_synth(crane_move_and_snap, 0, 0);
+    strongqueue(hauntedmine_damage_queue, 2, $damage);
+}
+
+[proc,hauntedmine_near_crane](coord $coord, coord $crane_sw)(boolean)
+if (inzone(movecoord($crane_sw, 0, 0, -1), movecoord($crane_sw, 2, 0, 3), $coord) = true) {
+    return(true);
+}
+if (inzone(movecoord($crane_sw, -1, 0, 0), movecoord($crane_sw, 3, 0, 2), $coord) = true) {
+    return(true);
+}
+return(false);
+
+
+// distance 2: starttime=20, endtime=44, angle=0, progress=0, startheight=0, endheight=0
+// distance 4: starttime=20, endtime=60, angle=0, progress=0, startheight=0, endheight=0
+[proc,hauntedmine_boss_pickaxe_attack]
+def_coord $random_coord = map_findsquare(coord, 1, 10, 0); // confirm vis, radius, and min radius
+def_int $duration = ~player_projectile($random_coord, coord, uid, pickaxe_travel_spotanim, 0, 0, 20, 0, 8, 0, 8);
+
+spotanim_map(pickaxe_summon_effect_spotanim, $random_coord, 50, 0);
+sound_synth(pickaxe_attack, 0, 0);
+
+def_int $max = 15;
+if (~check_protect_prayer(^ranged_style) = true) $max = 10;
+
+def_int $damage = 0;
+if (random(3) = 0) $damage = randominc($max); // todo: 1/3 chance to hit ?
+
+strongqueue(hauntedmine_damage_queue, divide($duration, 30), $damage);
+
+// no retal
+[ai_queue1,hauntedmine_boss_ghost]
+if (random(^hauntedmine_boss_movechance) = 0 & finduid(%npc_attacking_uid) = true) ~hauntedmine_boss_move(%npc_int, ~hauntedmine_boss_findindex(%npc_int));
+
+[ai_queue3,hauntedmine_boss_ghost]
+if (finduid(%npc_attacking_uid) = true) queue(hauntedmine_boss_death, 0, 0);
+~npc_death;
+
+[queue,hauntedmine_boss_death]
+if (%hauntedmine = ^hauntedmine_boss_found) %hauntedmine = ^hauntedmine_boss_defeated;
+// https://web.archive.org/web/20050519094942im_/http://www.runeweb.net/Roth/HauntedMine11.PNG
+~mesbox("As you make the killing strike, the machinery|within the room falls silent.");
+
+
+// excludes adjacent index's
+[proc,hauntedmine_boss_findindex](int $current_index)(int)
+def_int $start_range = add($current_index, 2);
+def_int $end_range = add($current_index, sub(^hauntedmine_boss_movecount, 2));
+
+return(modulo(~random_range($start_range, $end_range), ^hauntedmine_boss_movecount));
+
+[proc,hauntedmine_boss_move](int $current_index, int $new_index)
+npc_setmode(none);
+npc_anim(bossghost_fade_out, 0);
+sound_synth(bigghost_disappear, 0, 0);
+npc_delay(0);
+switch_int ($current_index) {
+    case 0 :
+        ~npc_forcerun(0_43_69_40_37);
+        npc_changetype_keepall(hauntedmine_boss_ghost_faded, ^max_32bit_int);
+        ~npc_forcerun(0_43_69_38_39);    
+    case 1 :
+        ~npc_forcerun(0_43_69_44_43);
+        npc_changetype_keepall(hauntedmine_boss_ghost_faded, ^max_32bit_int);
+        ~npc_forcerun(0_43_69_42_43);
+        ~npc_forcerun(0_43_69_40_42);
+        ~npc_forcerun(0_43_69_38_41);
+    case 2 :
+        ~npc_forcerun(0_43_69_36_46);
+        npc_changetype_keepall(hauntedmine_boss_ghost_faded, ^max_32bit_int);
+        ~npc_forcerun(0_43_69_36_44);
+        ~npc_forcerun(0_43_69_36_42);
+    case 3 :
+        ~npc_forcerun(0_43_69_29_43);
+        npc_changetype_keepall(hauntedmine_boss_ghost_faded, ^max_32bit_int);
+        ~npc_forcerun(0_43_69_30_42);
+        ~npc_forcerun(0_43_69_32_41);
+        ~npc_forcerun(0_43_69_34_40);
+    case 4 :
+        ~npc_forcerun(0_43_69_30_40);
+        npc_changetype_keepall(hauntedmine_boss_ghost_faded, ^max_32bit_int);
+        ~npc_forcerun(0_43_69_32_40);
+        ~npc_forcerun(0_43_69_34_40);
+    case 5 :
+        ~npc_forcerun(0_43_69_36_31);
+        npc_changetype_keepall(hauntedmine_boss_ghost_faded, ^max_32bit_int);
+        ~npc_forcerun(0_43_69_36_33);
+        ~npc_forcerun(0_43_69_36_35);
+        ~npc_forcerun(0_43_69_36_36);
+        ~npc_forcerun(0_43_69_36_38);
+}
+~npc_forcerun(0_43_69_36_40); // centre
+npc_delay(0);
+%npc_action_delay = 0; // reset for some reason
+
+switch_int ($new_index) {
+    case 0 :
+        ~npc_forcerun(0_43_69_38_39);
+        ~npc_forcerun(0_43_69_40_37);
+        ~npc_forcerun(~map_findsquare_inzone(0_43_69_42_35, 0_43_69_42_37));
+    case 1 :
+        ~npc_forcerun(0_43_69_38_41);
+        ~npc_forcerun(0_43_69_40_42);
+        ~npc_forcerun(0_43_69_42_43);
+        ~npc_forcerun(0_43_69_44_43);
+        ~npc_forcerun(map_findsquare(0_43_69_44_44, 0, 1, ^map_findsquare_lineofsight)); 
+    case 2 :
+        ~npc_forcerun(0_43_69_36_42);
+        ~npc_forcerun(0_43_69_36_44);
+        ~npc_forcerun(0_43_69_36_46);
+        ~npc_forcerun(~map_findsquare_inzone(0_43_69_36_47, 0_43_69_37_47));
+    case 3 :
+        ~npc_forcerun(0_43_69_34_40);
+        ~npc_forcerun(0_43_69_32_41);
+        ~npc_forcerun(0_43_69_30_42);
+        ~npc_forcerun(0_43_69_29_43);
+        ~npc_forcerun(map_findsquare(0_43_69_28_44, 0, 1, ^map_findsquare_lineofsight));
+    case 4 :
+        ~npc_forcerun(0_43_69_34_40);
+        ~npc_forcerun(0_43_69_32_40);
+        ~npc_forcerun(0_43_69_30_40);
+        ~npc_forcerun(~map_findsquare_inzone(0_43_69_27_38, 0_43_69_29_38));
+    case 5 :
+        ~npc_forcerun(0_43_69_36_38);
+        ~npc_forcerun(0_43_69_36_36);
+        ~npc_forcerun(0_43_69_36_35);
+        ~npc_forcerun(0_43_69_36_33);
+        ~npc_forcerun(0_43_69_36_31);
+        ~npc_forcerun(~map_findsquare_inzone(0_43_69_35_27, 0_43_69_35_29));
+}
+
+npc_changetype_keepall(hauntedmine_boss_ghost, ^max_32bit_int);
+npc_delay(2);
+npc_anim(bossghost_fade_in, 0);
+sound_synth(bigghost_reappear, 0, 0);
+%npc_action_delay = 0; // reset for some reason
+%npc_int = $new_index;

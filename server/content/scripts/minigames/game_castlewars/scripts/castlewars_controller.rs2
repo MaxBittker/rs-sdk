@@ -1,0 +1,213 @@
+[ai_timer,castlewars_judge]
+if (%npc_int = 0) {
+    if (~castlewars_waitingroom_saradomin_count < 1 | ~castlewars_waitingroom_zamorak_count < 1) {
+        return; // still waiting for players, dont start counter again until enough players
+    }
+}
+if (%npc_int = 100) { // warmup ends
+    if (~castlewars_waitingroom_saradomin_count < 1 | ~castlewars_waitingroom_zamorak_count < 1) {
+        %npc_int = 0; // not enough players, reset warmup
+        return;
+    }
+    ~castlewars_reset; // only reset locs & vars when a game *actually* starts
+}
+if (%npc_int >= 100) { // game is active
+    ~castlewars_process_players;
+}
+if (%npc_int >= 500) { // game ends
+    %npc_int = 0;
+    ~castlewars_increment_wins;
+}
+if (modulo(%npc_int, 20) = 0 & divide(sub(100, %npc_int), 20) > 0) {
+    npc_say("The next game will start in <~pluralise(divide(sub(100, %npc_int), 20), "minute")>"); // no punctuation https://youtu.be/QhZyBOd1wWY?t=279, no "1 minutes" typo https://youtu.be/Hmtn4-TRFno?t=59
+}
+%npc_int = add(%npc_int, 1);
+
+[proc,castlewars_process_players]
+huntall(^castlewars_centre_coord1, 32, 0);
+while (huntnext = true) {
+    if (p_finduid(uid) = true) ~castlewars_update_vars;
+}
+huntall(^castlewars_centre_coord2, 32, 0);
+while (huntnext = true) {
+    if (p_finduid(uid) = true) ~castlewars_update_vars;
+}
+huntall(^castlewars_centre_coord3, 32, 0);
+while (huntnext = true) {
+    if (p_finduid(uid) = true) ~castlewars_update_vars;
+}
+huntall(^castlewars_centre_coord4, 32, 0);
+while (huntnext = true) {
+    if (p_finduid(uid) = true) ~castlewars_update_vars;
+}
+huntall(^castlewars_centre_coord5, 32, 0);
+while (huntnext = true) {
+    if (p_finduid(uid) = true) ~castlewars_update_vars;
+}
+
+[proc,castlewars_update_vars]
+if (~in_castlewars_waitingroom(coord) = true) {
+    if (%npc_int = 100) {
+        if_close;
+        longqueue(castlewars_start, 0, 0, ^discard);
+    } else if (modulo(%npc_int, 20) = 0) { // every 100 ticks?
+        longqueue(castlewars_join_in_progress, 0, 0, ^discard);
+    }
+    return;
+}
+if (%castlewars_team = ^castlewars_team_zamorak) {
+    %castlewars_zamorak_maindoor = ~castlewars_zamorak_door_health;
+    %castlewars_zamorak_sidedoor = testbit(%castlewars_zamorak_bits, ^castlewars_sidedoor_bit);
+    %castlewars_zamorak_catapult = testbit(%castlewars_zamorak_bits, ^castlewars_catapult_bit);
+    %castlewars_zamorak_tunnel1 = testbit(%castlewars_zamorak_bits, ^castlewars_tunnel1_bit);
+    %castlewars_zamorak_tunnel2 = testbit(%castlewars_zamorak_bits, ^castlewars_tunnel2_bit);
+    // https://oldschool.runescape.wiki/w/Update:Karamja_Dungeon
+    if (inv_total(worn, castlewars_zamorak_banner) > 0 & ~castlewars_in_base = true) { // https://youtu.be/LE64K-ViNH8?t=571
+        if_close;
+        if (p_finduid(uid) = true) { // fails if delayed
+            inv_del(worn, castlewars_zamorak_banner, 1);
+            ~castlewars_flag_reset(castlewars_zamorak_banner);
+            ~update_all(castlewars_zamorak_banner);
+        }
+    }
+} else if (%castlewars_team = ^castlewars_team_saradomin) {
+    %castlewars_saradomin_maindoor = ~castlewars_saradomin_door_health;
+    %castlewars_saradomin_sidedoor = testbit(%castlewars_saradomin_bits, ^castlewars_sidedoor_bit);
+    %castlewars_saradomin_catapult = testbit(%castlewars_saradomin_bits, ^castlewars_catapult_bit);
+    %castlewars_saradomin_tunnel1 = testbit(%castlewars_saradomin_bits, ^castlewars_tunnel1_bit);
+    %castlewars_saradomin_tunnel2 = testbit(%castlewars_saradomin_bits, ^castlewars_tunnel2_bit);
+    // https://oldschool.runescape.wiki/w/Update:Karamja_Dungeon
+    if (inv_total(worn, castlewars_saradomin_banner) > 0 & ~castlewars_in_base = true) { // https://youtu.be/LE64K-ViNH8?t=571
+        if_close;
+        if (p_finduid(uid) = true) { // fails if delayed
+            inv_del(worn, castlewars_saradomin_banner, 1);
+            ~castlewars_flag_reset(castlewars_saradomin_banner);
+            ~update_all(castlewars_saradomin_banner);
+        }
+    }
+}
+~castlewars_set_hint;
+
+if (%castlewars_zamorak_flag_coord ! null & %castlewars_zamorak_flag_coord ! ^castlewars_zamorak_flag_coord) %castlewars_zamorak_flag = 2;
+else if (%castlewars_zamorak_flag_uid ! null) %castlewars_zamorak_flag = 1;
+else %castlewars_zamorak_flag = 0;
+
+if (%castlewars_saradomin_flag_coord ! null & %castlewars_saradomin_flag_coord ! ^castlewars_saradomin_flag_coord) %castlewars_saradomin_flag = 2;
+else if (%castlewars_saradomin_flag_uid ! null) %castlewars_saradomin_flag = 1;
+else %castlewars_saradomin_flag = 0;
+
+%castlewars_zamorak_score = max(getbit_range(%castlewars_zamorak_bits, ^castlewars_score_startbit, ^castlewars_score_endbit), 0);
+%castlewars_saradomin_score = max(getbit_range(%castlewars_saradomin_bits, ^castlewars_score_startbit, ^castlewars_score_endbit), 0);
+%castlewars_timer = sub(25, divide(%npc_int, 20));
+if (%npc_int = 500) { // game is over
+    // todo: confirm strongqueue vs if_close+queue
+    strongqueue(castlewars_end, 0, 0);
+    return;
+}
+
+[queue,castlewars_join_in_progress]
+if (~castlewars_can_join_in_progress = false) {
+    return;
+}
+if (~p_choice2_header("Yes please!", 1, "No thanks.", 2, "There's a free space, do you want to join?") = 2) {
+    return;
+}
+if (~castlewars_can_join_in_progress = false) {
+    ~mesbox("Sorry but the free place has already been taken."); // osrs
+    return;
+}
+~castlewars_start_tele(%castlewars_team);
+
+[proc,castlewars_can_join_in_progress]()(boolean)
+if (npc_find(^castlewars_lobby_coord, castlewars_judge, 10, 0) = false) {
+    return(false);
+}
+if (multiply(%npc_int, 5) <= 500) {
+    return(false);
+}
+def_int $saradomin_count = ~castlewars_saradomin_count;
+def_int $zamorak_count = ~castlewars_zamorak_count;
+// osrs tests:
+// - Equal amount of players = no join
+// - More players on your team = no join
+// - 3 players wait for join in progress interface, whilst other team has two players ingame.
+//      RESULT: 3rd player was blocked with "Sorry but the free place has already been taken."
+if (%castlewars_team = ^castlewars_team_saradomin & $saradomin_count >= $zamorak_count) {
+    return(false);
+}
+if (%castlewars_team = ^castlewars_team_zamorak & $zamorak_count >= $saradomin_count) {
+    return(false);
+}
+if (~in_castlewars_waitingroom(coord) = false) {
+    return(false);
+}
+return(true);
+
+[queue,castlewars_start]
+~castlewars_start_tele(%castlewars_team);
+
+[queue,castlewars_end]
+def_int $team = %castlewars_team;
+def_int $caps = %castlewars_caps;
+def_int $kills = %castlewars_kills;
+def_int $winner = ~castlewars_winning_team;
+if ($team = ^castlewars_team_saradomin) {
+    ~castlewars_decrement_saradomin_count;
+} else {
+    ~castlewars_decrement_zamorak_count;
+}
+~castlewars_exit_tele;
+
+if ($winner = ^castlewars_team_guthix) {
+    inv_add(inv, castlewars_ticket, 1);
+    ~objbox(castlewars_ticket, "It was a draw!|You captured the enemy's standard <tostring($caps)> times.|Enemies killed: <tostring($kills)>.", 250, 0, divide(^objbox_height, 2));
+} else if ($winner = $team) {
+    inv_add(inv, castlewars_ticket, 2);
+    ~objbox(castlewars_ticket, "You won!|You captured the enemy's standard <tostring($caps)> times.|Enemies killed: <tostring($kills)>.", 250, 0, divide(^objbox_height, 2));
+} else {
+    // no tickets https://oldschool.runescape.wiki/w/Update:Architectural_Alliance
+    ~objbox(castlewars_ticket, "You lost!|You captured the enemy's standard <tostring($caps)> times.|Enemies killed: <tostring($kills)>.", 250, 0, divide(^objbox_height, 2));
+}
+
+[proc,castlewars_reset]
+if (loc_find(0_37_48_58_15, castlewars_saradomin_maindoorr_open) = true | loc_find(0_37_48_58_15, castlewars_saradomin_brokendoorr) = true) {
+    loc_del(1);
+    loc_add(0_37_48_58_16, castlewars_saradomin_maindoorr, 3, wall_straight, 1);
+}
+if (loc_find(0_37_48_59_15, castlewars_saradomin_maindoorl_open) = true | loc_find(0_37_48_59_15, castlewars_saradomin_brokendoorl) = true) {
+    loc_del(1);
+    loc_add(0_37_48_59_16, castlewars_saradomin_maindoorl, 3, wall_straight, 1);
+}
+if (loc_find(0_37_48_5_48, castlewars_zamorak_maindoorr_open) = true | loc_find(0_37_48_5_48, castlewars_zamorak_brokendoorr) = true) {
+    loc_del(1);
+    loc_add(0_37_48_5_47, castlewars_zamorak_maindoorr, 3, wall_straight, 1);
+}
+if (loc_find(0_37_48_4_48, castlewars_zamorak_maindoorl_open) = true | loc_find(0_37_48_4_48, castlewars_zamorak_brokendoorl) = true) {
+    loc_del(1);
+    loc_add(0_37_48_4_47, castlewars_zamorak_maindoorl, 3, wall_straight, 1);
+}
+if (loc_find(^castlewars_saradomin_catapult_coord, castlewars_catapult_saradomin_burning) = true | loc_find(^castlewars_saradomin_catapult_coord, castlewars_catapult_saradomin_broken) = true) {
+    loc_change(castlewars_catapult_saradomin, 1);
+}
+if (loc_find(^castlewars_zamorak_catapult_coord, castlewars_catapult_zamorak_burning) = true | loc_find(^castlewars_zamorak_catapult_coord, castlewars_catapult_zamorak_broken) = true) {
+    loc_change(castlewars_catapult_zamorak, 1);
+}
+
+def_int $i = 0;
+def_coord $coord;
+while ($i < enum_getoutputcount(castlewars_rocks_coords)) {
+    $coord = enum(int, coord, castlewars_rocks_coords, $i);
+    loc_add($coord, castlewars_blocked_tunnel_1, modulo(add(~coord_direction($coord, 0_37_148_32_32), 1), 2), centrepiece_straight, ^max_32bit_int);
+    $i = add($i, 1);
+}
+
+// for some reason tunnel2's status bits dont clear ?
+// - does this in osrs to this day lol
+// - 2006 https://youtu.be/CHKF3kKca-A?t=2
+// - 2006 https://youtu.be/4mpkLKb3LAM?t=69
+%castlewars_saradomin_bits = clearbit_range(%castlewars_saradomin_bits, 0, ^castlewars_tunnel1_bit);
+%castlewars_zamorak_bits = clearbit_range(%castlewars_zamorak_bits, 0, ^castlewars_tunnel1_bit);
+%npc_int2 = add(map_clock, 2500);
+
+~castlewars_flag_reset(castlewars_saradomin_banner);
+~castlewars_flag_reset(castlewars_zamorak_banner);

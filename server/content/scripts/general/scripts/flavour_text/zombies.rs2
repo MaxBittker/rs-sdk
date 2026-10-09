@@ -13,7 +13,7 @@
 [label,zombie_brains]
 if (finduid(%npc_attacking_uid) = true) {
     if (distance(coord, npc_coord) < 10 & coordy(coord) = coordy(npc_coord)) {
-        sound_synth(zombie_moan, 0, 0);
+        sound_synth(zombie_moan, 1, 0);
     }
 }
 npc_say("Brainssss");

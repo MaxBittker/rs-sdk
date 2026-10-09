@@ -19,7 +19,7 @@ if (%blackarmgang < ^blackarmgang_joined) {
     }
     if (%phoenixgang = ^phoenixgang_read_book) {
         $text = append($text, "@str@I read about a valuable shield stolen long ago by a gang of|@str@thieves with an outstanding reward upon it.|");
-        $text = append($text, "@dbl@I should ask @dre@Reldo@dbl@ in the @dre@Varrock palace library@dbl@ if he|@nows anything more about this.|");
+        $text = append($text, "@dbl@I should ask @dre@Reldo@dbl@ in the @dre@Varrock palace library@dbl@ if he knows anything more about this.|");
     }
     if (%phoenixgang = ^phoenixgang_spoken_reldo) {
         $text = append($text, "@str@I read about a valuable shield stolen long ago by a gang of|@str@thieves with an outstanding reward upon it.|");

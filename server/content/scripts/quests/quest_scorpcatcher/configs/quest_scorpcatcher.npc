@@ -6,6 +6,7 @@ walkanim=smallscorpion_walk
 readyanim=smallscorpion_ready
 op1=Pick-up
 model1=model_2968_npc
+wanderrange=3
 respawnrate=100
 param=death_anim,smallscorpion_death
 param=death_sound,insect_death

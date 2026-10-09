@@ -1,7 +1,7 @@
 [human_smithing]
 replaceheldleft=hide
 replaceheldright=hammer
-stretches=yes
+reachforward=yes
 frame1=anim_1728
 frame2=anim_2028
 frame3=anim_2332

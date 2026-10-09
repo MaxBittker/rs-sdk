@@ -1,0 +1,38 @@
+[opnpc1,mm_kruk]
+if(~mm_wearing_greegree = false) {
+    return;
+}
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~mesbox("You will need an amulet of monkey speak to talk to him.");
+    return;
+}
+~chatplayer("<p,quiz>Hello?");
+if(%mm_kruk = ^kruk_spoken) {
+    ~chatnpc("<p,neutral>Sorry, I am far too busy dealing with the invaders right now.");
+    return;
+}
+~chatnpc("<p,quiz>What brings you up here, monkey?");
+if(%mm_elder_guard = ^elder_guard_spoken) {
+    ~chatplayer("<p,neutral>I have come to seek audience with Awowogei. I am told I need your permission to do so.");
+    ~chatnpc("<p,neutral>That's right - you do. What business have you on our island?");
+    ~chatplayer("<p,neutral>I am envoy from the monkeys of Karamja. I have come to propose an alliance.");
+    if(inv_total(worn, mm_monkey_greegree_for_normal_monkey) = 0) {
+        ~chatnpc("<p,neutral>I don't believe you. You don't look much like any Karamja monkey I've seen.");
+        ~chatnpc("<p,neutral>Stop wasting my time.");
+        return;
+    }
+    %mm_kruk = ^kruk_spoken;
+    ~chatnpc("<p,neutral>I see. Very well, you look genuine enough. Follow me.");
+    if_close;
+    ~fade_out;
+    p_delay(3);
+    p_telejump(0_43_43_50_10);
+    p_delay(0);
+    mes("Kruk escorts you to Awowogei.");
+    ~fade_in;
+    p_delay(4);
+    if_openoverlay(null);
+    return;
+}
+~chatplayer("<p,neutral>Nothing ... I'm just exploring.");
+~chatnpc("<p,neutral>You would do better to explore elsewhere - we are extremely busy at the moment.");

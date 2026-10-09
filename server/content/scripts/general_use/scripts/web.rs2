@@ -17,11 +17,11 @@ if (oc_param($item, slashattack_anim) = human_unarmedpunch & $item ! knife) {
 
 [label,cut_web](obj $item)
 if ($item = knife) {
-    anim(human_knife_slash, 0);
+    anim(human_knife_chop, 0);
 } else {
     anim(oc_param($item, slashattack_anim), 0);
 }
-sound_synth(hacksword_slash, 0, 15);
+sound_synth(hacksword_slash, 1, 15);
 
 if (random(2) = 1) {
     mes("You slash the web apart.");

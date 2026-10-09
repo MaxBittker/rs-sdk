@@ -219,7 +219,7 @@ return(true);
 [queue,squire_complete]
 %squire = ^squire_complete;
 session_log(^log_adventure, "Quest complete: The Knight's Sword");
-~send_quest_complete(questlist:squire, faladian_sword, 250, ^squire_questpoints, "You have completed the Knight's Sword Quest!");
+~send_quest_complete(questlist:squire, faladian_sword, 260, ^squire_questpoints, "You have completed the Knight's Sword Quest!");
 stat_advance(smithing, 127250);
 
 [label,thurgo_squire_complete]

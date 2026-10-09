@@ -1,0 +1,115 @@
+[opnpc1,mm_uwogo]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~mesbox("You will need an amulet of monkey speak to talk to him.");
+    return;
+}
+~chatplayer("<p,neutral>Good day, Uwogo.");
+~chatnpc("<p,neutral>Get away from me, you foul commoner!");
+
+[opnpc1,mm_murowoi]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~mesbox("You will need an amulet of monkey speak to talk to him.");
+    return;
+}
+~chatplayer("<p,neutral>Good day, Muruwoi.");
+~chatnpc("<p,neutral>Good day, visitor. You should speak to Awowogei.");
+
+[oploc1,mm_throne]
+if(~mm_wearing_greegree = false) {
+    queue(aa_guards_queue, 6, 0);
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~mesbox("You will need an amulet of monkey speak to talk to him.");
+    return;
+}
+// there are no checks for karamjan greegree here, can be any monkey
+switch_int(%mm_awowogei) {
+    case ^awowogei_complete_mission :
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>We are still pondering your proposition...We will let you know when we have an answer...");
+    case ^awowogei_sent_mission :
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,quiz>Have you brought with you a captive?");
+        if(inv_total(inv, mm_monkey_in_backpack) > 0) {
+            ~chatplayer("<p,neutral>Yes, I have.");
+            inv_del(inv, mm_monkey_in_backpack, 1);
+            cleartimer(monkey_backpack_timer);
+            sound_synth(ooks, 0, 0);
+            npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofsight), mm_freed_zoo_monkey, 50);
+            %npc_attacking_uid = uid;
+            @mm_awowogei_success;
+        }
+        npc_findallany(coord, 10, 0);
+        while (npc_findnext = true) {
+            if (%npc_attacking_uid = uid) {
+                if (npc_type = mm_freed_zoo_monkey) {
+                    ~chatplayer("<p,neutral>Yes, here it is.");
+                    @mm_awowogei_success;
+                }
+            }
+        }
+        ~chatplayer("<p,neutral>No, not yet.");
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>Then hurry, visitor. I am beginning to lose my faith in you.");
+    case ^mm_not_started :
+        ~chatplayer("<p,neutral>Greetings, Awowogei.");
+        loc_anim(m_monkey_ape_ruler_nod);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>Greetings, visitor. What brings you to my island?");
+        ~chatplayer("<p,neutral>I am an envoy from the monkeys of Karamja. We wish to propose an alliance.");
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>I see. Ours is a strong and mighty lineage of monkey, visitor. We clearly do not need your offer of an alliance.");
+        ~chatplayer("<p,neutral>Awowogei, please consider my offer carefully.");
+        ~chatplayer("<p,neutral>We offer strength in numbers and our island would serve as a northern platform for defence. All that we ask for in return is peace.");
+        if(npc_find(coord, mm_uwogo, 7, 0) = true & .npc_find(coord, mm_murowoi, 7, 0) = true) {
+            ~chatnpc("<p,neutral>I don't believe him, Awowogei. Never trust a northern monkey.");
+            facesquare(loc_coord);
+            loc_anim(m_monkey_ape_ruler_nod);
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,quiz>What is your opinion, Murowoi?");
+            ~.chatnpc("<p,neutral>I think he seems trustworthy, sir.");
+            facesquare(loc_coord);
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>I must admit, I have always regarded your kind as our inferior cousins, visitor.");
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>However, I am well aware that you may have a few things to offer.");
+            ~chatnpc("<p,neutral>Don't listen to him Awowogei!");
+            facesquare(loc_coord);
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,angry>Be silent, Uwogo.");
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>I have heard your kind are exceptionally resourceful. I wish to put this reputation to the test.");
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>You must be well aware your kind are hunted and trapped almost everywhere.");
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>In particular you may have heard of such activities in a city known to the humans as Ardougne.");
+            %mm_awowogei = ^awowogei_sent_mission;
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>There are several of your kind kept captive there. I challenge you to free one and return it to me.");
+            ~chatplayer("<p,quiz>How am I meant to free one of them?");
+            ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>This is for you to decide, visitor.");
+            // https://youtu.be/CrIK9wa_6j0?si=TP_5XVR8Ap397MAf&t=1820
+            ~chatplayer("<p,neutral>Very well. I will be back later,  with one of the captives.");
+        }
+}
+
+[oplocu,mm_throne]
+if(last_useitem = mm_monkey_in_backpack) {
+    if(%mm_awowogei = ^awowogei_sent_mission) {
+        ~chatplayer("<p,neutral>I have the captive here, Awowogei.");
+        // doesnt drop/remove it from inventory
+        @mm_awowogei_success;
+    }
+}
+~displaymessage(^dm_default);
+
+[label,mm_awowogei_success]
+facesquare(loc_coord);
+loc_anim(m_monkey_ape_ruler_nod);
+%mm_awowogei = ^awowogei_complete_mission;
+~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,happy>Well done!");
+~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>You have shown yourself to be very resourceful. You have managed to complete an extremely long journey remarkably quickly.");
+~chatplayer("<p,neutral>Thank you.");
+~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>You are clearly well acquainted with the ways of this world. We will talk more on this later.");
+~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>In the meantime, feel free to remain as long as you like on my island.");
+~chatplayer("<p,neutral>What about the proposed alliance, Awowogei?");
+~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>I must think upon it some more and discuss the matter with my advisers. We will contact you when we are ready.");

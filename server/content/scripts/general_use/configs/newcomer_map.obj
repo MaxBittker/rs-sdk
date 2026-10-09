@@ -1,7 +1,7 @@
 [newcomer_map]
 name=Newcomer map
 desc=Issued by RuneScape Council to all new citizens.
-model=model_2774_obj
+model=inv_map_scroll
 2dxof=-1
 2dyof=56
 2dzoom=990

@@ -1,8 +1,7 @@
-//guess
 [uncooked_apple_pie]
 name=Uncooked apple pie
 desc=This would be much tastier cooked.
-model=model_2767_obj
+model=inv_pie
 recol1s=30545
 recol1d=28368
 recol2s=7264
@@ -16,11 +15,10 @@ recol3d=20971
 cost=16
 weight=500g
 
-//guess
 [uncooked_meat_pie]
 name=Uncooked meat pie
 desc=This would be much healthier cooked.
-model=model_2767_obj
+model=inv_pie
 recol1s=30545
 recol1d=28368
 recol2s=7264
@@ -34,11 +32,10 @@ recol3d=20971
 cost=8
 weight=500g
 
-//guess
 [uncooked_redberry_pie]
 name=Uncooked berry pie
 desc=This would be much more appetising cooked.
-model=model_2767_obj
+model=inv_pie
 recol1s=30545
 recol1d=28368
 recol2s=7264

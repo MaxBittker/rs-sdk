@@ -16,7 +16,7 @@ import Obj from '#/engine/entity/Obj.js';
 import { recordKill } from '#/engine/entity/tracking/KillLedger.js';
 import { NpcHuntAllCommandIterator, NpcIterator } from '#/engine/script/ScriptIterators.js';
 import { ScriptOpcode } from '#/engine/script/ScriptOpcode.js';
-import ScriptPointer, { ActiveNpc, ActivePlayer, checkedHandler } from '#/engine/script/ScriptPointer.js';
+import { ActiveNpc, ActivePlayer } from '#/engine/script/ScriptPointer.js';
 import { CommandHandlers } from '#/engine/script/ScriptRunner.js';
 import ScriptState from '#/engine/script/ScriptState.js';
 import {
@@ -68,30 +68,30 @@ const NpcOps: CommandHandlers = {
         state.pointerAdd(ActiveNpc[state.intOperand]);
     },
 
-    [ScriptOpcode.NPC_ANIM]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_ANIM]: state => {
         const delay = check(state.popInt(), NumberNotNull);
         const seq = state.popInt();
 
         state.activeNpc.playAnimation(seq, delay);
-    }),
+    },
 
-    [ScriptOpcode.NPC_BASESTAT]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_BASESTAT]: state => {
         const stat = check(state.popInt(), NpcStatValid);
 
         state.pushInt(state.activeNpc.baseLevels[stat]);
-    }),
+    },
 
-    [ScriptOpcode.NPC_CATEGORY]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_CATEGORY]: state => {
         state.pushInt(check(state.activeNpc.type, NpcTypeValid).category);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1821835323808026853
-    [ScriptOpcode.NPC_COORD]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_COORD]: state => {
         const coord: CoordGrid = state.activeNpc;
         state.pushInt(CoordGrid.packCoord(coord.level, coord.x, coord.z));
-    }),
+    },
 
-    [ScriptOpcode.NPC_DEL]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_DEL]: state => {
         const npc = state.activeNpc;
         const type = check(npc.type, NpcTypeValid);
         // Kill ledger (KILL_LEDGER_FILE): npc_del at 0 hp is a death, not a
@@ -115,19 +115,19 @@ const NpcOps: CommandHandlers = {
             });
         }
         World.removeNpc(npc, type.respawnrate);
-    }),
+    },
 
-    [ScriptOpcode.NPC_DELAY]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_DELAY]: state => {
         state.activeNpc.delayed = true;
         state.activeNpc.delayedUntil = World.currentTick + 1 + check(state.popInt(), NumberNotNull);
         state.execution = ScriptState.NPC_SUSPENDED;
-    }),
+    },
 
-    [ScriptOpcode.NPC_FACESQUARE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_FACESQUARE]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
         state.activeNpc.faceSquare(coord.x, coord.z);
-    }),
+    },
 
     [ScriptOpcode.NPC_FINDEXACT]: state => {
         const [coord, id] = state.popInts(2);
@@ -149,7 +149,7 @@ const NpcOps: CommandHandlers = {
         return;
     },
 
-    [ScriptOpcode.NPC_FINDHERO]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_FINDHERO]: state => {
         const hash64 = state.activeNpc.heroPoints.findHero();
         if (hash64 === -1n) {
             state.pushInt(0);
@@ -165,9 +165,9 @@ const NpcOps: CommandHandlers = {
         state.activePlayer = player;
         state.pointerAdd(ActivePlayer[state.intOperand]);
         state.pushInt(1);
-    }),
+    },
 
-    [ScriptOpcode.NPC_PARAM]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_PARAM]: state => {
         const paramType: ParamType = check(state.popInt(), ParamTypeValid);
 
         const npcType: NpcType = check(state.activeNpc.type, NpcTypeValid);
@@ -176,18 +176,18 @@ const NpcOps: CommandHandlers = {
         } else {
             state.pushInt(ParamHelper.getIntParam(paramType.id, npcType, paramType.defaultInt));
         }
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1570357528172859392
-    [ScriptOpcode.NPC_QUEUE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_QUEUE]: state => {
         const delay = check(state.popInt(), NumberNotNull);
         const arg = state.popInt();
         const queueId = check(state.popInt(), QueueValid);
 
         state.activeNpc.enqueueScript(ServerTriggerType.AI_QUEUE1 + queueId - 1, delay, arg);
-    }),
+    },
 
-    [ScriptOpcode.NPC_RANGE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_RANGE]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
         const npc = state.activeNpc;
@@ -203,17 +203,17 @@ const NpcOps: CommandHandlers = {
                 })
             );
         }
-    }),
+    },
 
-    [ScriptOpcode.NPC_SAY]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_SAY]: state => {
         state.activeNpc.say(state.popString());
-    }),
+    },
 
-    [ScriptOpcode.NPC_SETHUNT]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_SETHUNT]: state => {
         state.activeNpc.huntrange = check(state.popInt(), NumberNotNull);
-    }),
+    },
 
-    [ScriptOpcode.NPC_SETHUNTMODE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_SETHUNTMODE]: state => {
         // TODO is this authentic? or is there npc_clearhuntmode (or similar)?
         const huntTypeId = state.popInt();
 
@@ -222,11 +222,11 @@ const NpcOps: CommandHandlers = {
         } else {
             state.activeNpc.huntMode = check(huntTypeId, HuntTypeValid).id;
         }
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1795184135327089047
     // https://x.com/JagexAsh/status/1821835323808026853
-    [ScriptOpcode.NPC_SETMODE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_SETMODE]: state => {
         const mode = check(state.popInt(), NpcModeValid);
 
         if (mode === NpcMode.NONE || mode === NpcMode.WANDER || mode === NpcMode.PATROL) {
@@ -268,15 +268,15 @@ const NpcOps: CommandHandlers = {
             state.activeNpc.resetDefaults();
             return;
         }
-    }),
+    },
 
-    [ScriptOpcode.NPC_STAT]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_STAT]: state => {
         const stat = check(state.popInt(), NpcStatValid);
 
         state.pushInt(state.activeNpc.levels[stat]);
-    }),
+    },
 
-    [ScriptOpcode.NPC_STATHEAL]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_STATHEAL]: state => {
         const [stat, constant, percent] = state.popInts(3);
 
         check(stat, NpcStatValid);
@@ -292,38 +292,38 @@ const NpcOps: CommandHandlers = {
         if (stat === NpcStat.HITPOINTS && npc.levels[stat] >= npc.baseLevels[stat]) {
             npc.heroPoints.clear();
         }
-    }),
+    },
 
-    [ScriptOpcode.NPC_TYPE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_TYPE]: state => {
         state.pushInt(check(state.activeNpc.type, NpcTypeValid).id);
-    }),
+    },
 
-    [ScriptOpcode.NPC_DAMAGE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_DAMAGE]: state => {
         const amount = check(state.popInt(), NumberNotNull);
         const type = check(state.popInt(), HitTypeValid);
 
         state.activeNpc.applyDamage(amount, type);
-    }),
+    },
 
-    [ScriptOpcode.NPC_NAME]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_NAME]: state => {
         state.pushString(check(state.activeNpc.type, NpcTypeValid).name ?? 'null');
-    }),
+    },
 
-    [ScriptOpcode.NPC_UID]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_UID]: state => {
         state.pushInt(state.activeNpc.uid);
-    }),
+    },
 
-    [ScriptOpcode.NPC_SETTIMER]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_SETTIMER]: state => {
         state.activeNpc.setTimer(check(state.popInt(), NumberNotNull));
-    }),
+    },
 
-    [ScriptOpcode.SPOTANIM_NPC]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.SPOTANIM_NPC]: state => {
         const delay = check(state.popInt(), NumberNotNull);
         const height = check(state.popInt(), NumberNotNull);
         const spotanimType: SpotanimType = check(state.popInt(), SpotAnimTypeValid);
 
         state.activeNpc.spotanim(spotanimType.id, height, delay);
-    }),
+    },
 
     [ScriptOpcode.NPC_HUNT]: state => {
         const [coord, distance, checkVis] = state.popInts(3);
@@ -478,56 +478,56 @@ const NpcOps: CommandHandlers = {
         state.pushInt(1);
     },
 
-    [ScriptOpcode.NPC_TELE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_TELE]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
         state.activeNpc.teleport(coord.x, coord.z, coord.level);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1821835323808026853
     // https://x.com/JagexAsh/status/1780932943038345562
-    [ScriptOpcode.NPC_WALK]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_WALK]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
         state.activeNpc.queueWaypoint(coord.x, coord.z);
-    }),
+    },
 
-    [ScriptOpcode.NPC_CHANGETYPE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_CHANGETYPE]: state => {
         const [id, duration] = state.popInts(2);
         const npcType: number = check(id, NpcTypeValid).id;
         check(duration, DurationValid);
 
         state.activeNpc.changeType(npcType, duration);
-    }),
+    },
 
-    [ScriptOpcode.NPC_CHANGETYPE_KEEPALL]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_CHANGETYPE_KEEPALL]: state => {
         const [id, duration] = state.popInts(2);
         const npcType: number = check(id, NpcTypeValid).id;
         check(duration, DurationValid);
 
         state.activeNpc.changeType(npcType, duration, false);
-    }),
+    },
 
-    [ScriptOpcode.NPC_GETMODE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_GETMODE]: state => {
         state.pushInt(state.activeNpc.targetOp);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1704492467226091853
-    [ScriptOpcode.NPC_HEROPOINTS]: checkedHandler([ScriptPointer.ActivePlayer, ...ActiveNpc], state => {
+    [ScriptOpcode.NPC_HEROPOINTS]: state => {
         state.activeNpc.heroPoints.addHero(state.activePlayer.hash64, check(state.popInt(), NumberNotNull));
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1780932943038345562
-    [ScriptOpcode.NPC_WALKTRIGGER]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_WALKTRIGGER]: state => {
         const [queueId, arg] = state.popInts(2);
 
         check(queueId, QueueValid);
 
         state.activeNpc.walktrigger = queueId - 1;
         state.activeNpc.walktriggerArg = arg;
-    }),
+    },
 
-    [ScriptOpcode.NPC_STATADD]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_STATADD]: state => {
         const [stat, constant, percent] = state.popInts(3);
 
         check(stat, NpcStatValid);
@@ -539,9 +539,9 @@ const NpcOps: CommandHandlers = {
         const current = npc.levels[stat];
         const added = current + ((constant + (base * percent) / 100) | 0);
         npc.levels[stat] = Math.min(added, 255);
-    }),
+    },
 
-    [ScriptOpcode.NPC_STATSUB]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_STATSUB]: state => {
         const [stat, constant, percent] = state.popInts(3);
 
         check(stat, NpcStatValid);
@@ -553,15 +553,15 @@ const NpcOps: CommandHandlers = {
         const current = npc.levels[stat];
         const subbed = current - ((constant + (base * percent) / 100) | 0);
         npc.levels[stat] = Math.max(subbed, 0);
-    }),
+    },
 
     // https://twitter.com/JagexAsh/status/1614498680144527360
-    [ScriptOpcode.NPC_ATTACKRANGE]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_ATTACKRANGE]: state => {
         state.pushInt(check(state.activeNpc.type, NpcTypeValid).attackrange);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1821492251429679257
-    [ScriptOpcode.NPC_HASOP]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_HASOP]: state => {
         const op = state.popInt();
 
         check(op, NumberNotNull);
@@ -574,10 +574,10 @@ const NpcOps: CommandHandlers = {
         }
 
         state.pushInt(npcType.op[op - 1] ? 1 : 0);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1432296606376906752
-    [ScriptOpcode.NPC_ARRIVEDELAY]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_ARRIVEDELAY]: state => {
         if (state.activeNpc.lastMovement < World.currentTick - 1) {
             return;
         }
@@ -590,18 +590,18 @@ const NpcOps: CommandHandlers = {
         }
 
         state.execution = ScriptState.NPC_SUSPENDED;
-    }),
-    [ScriptOpcode.NPC_INRANGE]: checkedHandler(ActiveNpc, state => {
+    },
+    [ScriptOpcode.NPC_INRANGE]: state => {
         state.pushInt(state.activeNpc.targetWithinMaxRange() ? 1 : 0);
-    }),
+    },
 
-    [ScriptOpcode.NPC_DESTINATION]: checkedHandler(ActiveNpc, state => {
+    [ScriptOpcode.NPC_DESTINATION]: state => {
         if (!state.activeNpc.hasWaypoints()) {
             state.pushInt(state.activeNpc.coord);
             return;
         }
         state.pushInt(state.activeNpc.waypoints[0]);
-    })
+    }
 };
 
 export default NpcOps;

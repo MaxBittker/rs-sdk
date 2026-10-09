@@ -57,7 +57,7 @@ if (stat_random(crafting, 85, 175) = false) {
     p_oploc(3);
 }
 
-if ((inv_total(inv,woodplank) > 0 & inv_total(inv,swamppaste) > 4 & inv_total(inv,limestonebrick) > 0) & %temple_resources_p < 100) {
+if ((inv_total(inv,woodplank) > 0 & inv_total(inv,swamppaste) > 4 & inv_total(inv,limestonebrick) > 0) & %temple_resources < 15000) {
     ~add_temple_resources;
 }
 
@@ -82,11 +82,11 @@ if(%temple_repaired_p = 100) {
         mes("You are now allowed to light the holy fire altar.");
         %morttonquest = ^mortton_can_light_altar;
     }
-    if (loc_find(^mortton_temple_altar_coord, templefire_altar_nofire_broken) = true) {
-        loc_change(templefire_altar_nofire, 99);
+    if (.loc_find(^mortton_temple_altar_coord, templefire_altar_nofire_broken) = true) {
+        .loc_change(templefire_altar_nofire, 99);
         huntall(^mortton_temple_altar_coord, 3, 0);
-        while(huntnext = true) {
-            mes("The holy fire appears sanctified, it can now be lit!");
+        while(.huntnext = true) {
+            .mes("The holy fire appears sanctified, it can now be lit!");
         }
     }
 }
@@ -295,7 +295,7 @@ if (oc_category(last_useitem) = category_110) {
     %temple_sanctity = sub(%temple_sanctity, $sanc_drain);
 
     inv_setslot(inv, $slot, oc_param($obj, next_obj_stage), 1);
-    sound_synth(oil_pour, 0, 0);
+    sound_synth(oil_pour, 1, 0);
     anim(human_pickuptable, 0);
     mes("You carefully sanctify the oil in the sacred flame.");
     if (%morttonquest = ^mortton_can_light_altar) {
@@ -320,12 +320,12 @@ if (oc_category(last_useitem) = category_110) {
     %temple_sanctity = sub(%temple_sanctity, 600);
 
     inv_setslot(inv, $slot, oc_param($obj, next_obj_stage_temple), 1);
-    sound_synth(oil_pour, 0, 0);
+    sound_synth(oil_pour, 1, 0);
     anim(human_pickuptable, 0);
     mes("You carefully sanctify the oil in the sacred flame.");
     //Todo: Guess since it is called serum 208 now
-    if(testbit(%morttonmulti, ^mortton_made_perm_serum) = ^false) {
-        %morttonmulti = setbit(%morttonmulti, ^mortton_made_perm_serum);
+    if(testbit(%morttonmulti, ^player_made_perm_serum) = ^false) {
+        %morttonmulti = setbit(%morttonmulti, ^player_made_perm_serum);
         ~objbox(oc_param($obj, next_obj_stage_temple), "You sanctify serum 207 in the sacred flame and|rename it to serum 207(p).", 200, 0, ^objbox_height);
     }
     return;

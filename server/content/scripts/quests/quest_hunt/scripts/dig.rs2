@@ -4,7 +4,7 @@ if (%hunt ! 3) {
     return;
 }
 
-if (npc_find(coord, pirate_irate_gardener, 10, 0) = true) {
+if (npc_find(coord, falador_gardener, 10, 0) = true) {
     @pirate_irate_gardener_attack;
 }
 

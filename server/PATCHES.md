@@ -1,12 +1,14 @@
 # Vendored-Tree Monkeypatch Checklist
 
-`server/{engine,content,webclient}` are vendored copies of upstream LostCity (rev 274).
+`server/{engine,content,webclient}` are vendored copies of upstream LostCity (rev 289, upgraded
+from 274 on 2026-10-09; branches `289` in each upstream repo).
 Every local modification ("monkeypatch") is listed here with a verification step.
 **Walk this checklist after every vendor sync/rebase** — history shows patches don't get
 dropped wholesale, they get subtly severed (see "Cross-boundary invariants" below).
 
 How the vendoring works: upstream clones with remotes live at `../repos/{engine,content,webclient}`;
-each `vendor-274` branch = upstream tip + ONE squashed "rs-sdk local mods" commit. The systematic
+each `vendor-289` branch = upstream tip + ONE squashed "rs-sdk local mods" commit (`vendor-274`
+is kept as the previous era's backup). The systematic
 audit (compare the mods commits between old and new vendor branches, file-level + added-line
 survival) is described in the project memory; this file is the human-readable checklist.
 
@@ -17,12 +19,17 @@ survival) is described in the project memory; this file is the human-readable ch
 ### Protocol / custom packets
 - [ ] **Global chat broadcast** — `MessagePublicHandler.ts` broadcasts public chat to all
       players outside the 14-tile overhead range via custom `MESSAGE_PUBLIC` packet
-      (opcode **255**, variable length). Pieces: `ServerGameProt.ts` (opcode),
+      (opcode **255**, variable length; still free after 289 reshuffled every opcode). Pieces: `ServerGameProt.ts` (opcode),
       `ServerGameProtRepository.ts` (binding), `codec/MessagePublicEncoder.ts` (p8 userhash +
       WordPack), `model/MessagePublic.ts`.
       Verify: `grep -n "MESSAGE_PUBLIC = new ServerGameProt(255" src/network/game/server/ServerGameProt.ts`
       **⚠ MUST pair with the webclient receive branch (see webclient section). An engine-side
       packet with no client handler causes a T1 LOGOUT on the receiving client.**
+
+- [ ] **Custom opcodes vs upstream renumbering** — every revision bump reshuffles BOTH opcode
+      tables (289 changed nearly every value). After a sync, confirm server opcode 255 and
+      client opcode 243 are still unused in upstream's `ServerGameProt`/`ClientGameProt`
+      (and webclient `ServerProt`/`ClientProt`), and that `ServerProtSizes[255] === -1`.
 
 ### Config / environment
 - [ ] **`Environment.ts`** — flat back-compat aliases over 274's nested `WorldConfig`, plus
@@ -61,6 +68,17 @@ survival) is described in the project memory; this file is the human-readable ch
       `db.sqlite-wal/-shm`; file-copy backups must checkpoint first.
 
 ### Web layer (mostly rs-sdk-only files, but `src/web.ts` is a 3-line shim — on conflict keep the shim)
+- [ ] **Upstream web server is Fastify since 289** (`src/web.ts`, `@fastify/*` deps). We keep the
+      Bun.serve shim and do NOT carry the fastify deps or `tsx` in `package.json`. Port anything
+      new from upstream's `web.ts` by hand — 289 added `OnDemand.onClientClosed(client)` to the WS
+      close handler, mirrored in `src/web/websocket.ts` (without it OnDemand's client map leaks).
+- [ ] **`WSClientSocket.ts` keeps our API**: `new WSClientSocket()` + `init(socket, addr)` (the
+      socket only exists after Bun's `open`), per-tick output batching (`beginBatch`/`endBatch`,
+      `flush`, `discard`) and the **1s delayed close**. Upstream 289 moved to
+      `constructor(socket, addr)` and immediate close (its 289 client drains buffered bytes after
+      a remote close). `TcpClientSocket.close()` also keeps the 1s delay — reconnect closes the old
+      socket before ownership moves, and `test/fixtures/reconnect-lifecycle.ts` asserts that close
+      can't detach the replacement. On conflict keep ours.
 - [ ] **`src/web/`** modular split: `websocket.ts` (`/gateway` WS proxy → gateway on :7780,
       `isAgentProxy`), `pages/api.ts` (`/api/exportCollision` — must read the in-engine TS
       routefinder, NOT the removed WASM; discovers mapsquares from maps **zip ∪ dir**;
@@ -161,6 +179,29 @@ survival) is described in the project memory; this file is the human-readable ch
       then `bun run test:market:integration` with built content. Full design/operations:
       `docs/grand-exchange.md`; API: `sdk/MARKET.md`.
 
+### Custom content IDs (renumber on EVERY upgrade)
+Upstream appends new configs at the tail of each `content/pack/*.pack`, which is exactly where ours
+live, so every upgrade collides. Take upstream's pack, then re-append ours past its max id:
+- [ ] `interface.pack`/`interface.order`: GE components `grand_exchange` root **11942** … `grand_exchange_side:inv`
+      **12437** (was 10984–11479 on 274). Order file = upstream order + our block, same offset.
+- [ ] `loc.pack` `grand_exchange_booth` **5116** (274: 4671); `npc.pack` `grand_exchange_teller` **1596**
+      (274: 1359). `maps/m49_53.jm2` references both **numerically** (`0 44 51: 5116 10 1`, NPC
+      section `0 45 53: 1596`) — update them with the packs.
+- [ ] `varp.pack` `pvp_death_mark` **394** (274: 358). Upstream identified the 274 placeholders
+      (`varp_357/358` → `boardgames_varbit3/4`), so don't reuse placeholders — append (builds already
+      run `BUILD_VERIFY=false` for the GE). **Saves store varps by id**: `PlayerLoading.load` moves a
+      value found at 358 to `pvp_death_mark` (safe because 289's varp 358 is temp-scoped and never
+      saved). Next renumber needs the same treatment.
+- [ ] Numeric GE id outside content: `sdk/actions.ts` `NEVER_AUTO_CLOSE` (GE root) and
+      `sdk/test/ge-actions.test.ts`. Engine code resolves GE components by name (`Component.getId`).
+- [ ] **Asset debugnames get renamed upstream** (289 renamed ~3.5k models, plus idk/seq/npc/interface
+      names; ids stayed stable). Our configs reference names: `grand_exchange.loc` model
+      `furniture_banktable` (274: `model_loc_590`), `grand_exchange.npc` `man_*`/`chat_male_head_shorthair`
+      (274: `model_NNN_idk`). Map old→new through the id in `pack/model.pack`; the build fails loudly
+      on a missing name.
+- [ ] `quest_mortton/.../razmire_keelgan.rs2` building store: our anti-buyback sell price **650**
+      combined with upstream 289's 4% haggle fix → `~openshop(razmirebuildingstore, 650, 1050, 40, ...)`.
+
 ### Assets
 - [ ] **`FileStream.write`** — update `packed[archive][file]` after changed writes, so
       same-pass version-list CRCs and `ondemand.zip` see the new map/model bytes.
@@ -184,12 +225,20 @@ survival) is described in the project memory; this file is the human-readable ch
       ClientStream,ServerProt,ClientProt}`, `wordfilter/*`), so a decode change upstream
       lands in both clients — which is the point.
       Verify: `bun src/lite/bench.ts 2` logs in and reports live sessions.
+- [ ] **Lite protocol decoder duplicates `Client.ts` packet reads** (`src/lite/protocol/incoming.ts`,
+      `entities.ts`, `zone.ts`) and the login handshake (`src/lite/net/GameConnection.ts`
+      `CLIENT_VERSION`). Opcode renumbering flows through the shared `ServerProt`/`ClientProt`
+      enums, but **layout changes don't**: diff upstream's `Client.ts` read paths every upgrade.
+      289 changed `UPDATE_INV_FULL` size `g1`→`g2` and `UPDATE_INV_PARTIAL` slot `g1`→`gsmart`
+      (ported). A mismatch desyncs the stream silently or kicks the bot.
 - [ ] **`src/io/ClientStream.ts` `isClosed` getter** — 3 added lines exposing
       `dummy || remoteClosed`. The browser client learns a socket is dead by reading from
       it and taking the throw; the lite session loop only reads when `available > 0`,
       which a remotely-closed stream reports as 0 *forever* — so without this the loop
       spins on a dead socket and the session never ends. Consumed by
       `lite/net/GameConnection.isClosed` → `LiteClient.isInGame()`.
+      Keep `dummy || remoteClosed` even though 289's `available` now reports buffered bytes after
+      a remote close: a partial trailing packet would leave `available > 0` forever.
       Verify: `grep -n "get isClosed" src/io/ClientStream.ts src/lite/net/GameConnection.ts`
 - [ ] **`src/client/LoopCycle.ts` + the `Client.loopCycle` accessor pair** — `loopCycle`
       moved out of Client into a one-field module, and `Client.ts` now exposes it as
@@ -268,6 +317,9 @@ survival) is described in the project memory; this file is the human-readable ch
 - [ ] **`GameShell.ts`** — `deltime = 14` (≈30% faster client loop).
 - [ ] **`MapView.ts`** — live player-position tracking (`playerPositions`,
       `shouldDrawPlayers`) for the `/mapview/` page; pairs with engine `/playerpositions`.
+      Also replaces upstream's three-area map (`reloadMain/Dungeon/Extra`) with one unified map
+      (`remapZ`, bounds `28<<6` × `44<<6`): on conflict keep ours. 289 widened upstream's main
+      area to mx 32–57 / mz 41–63; our layout still ends at mx 55 / starts at mz 44 (not extended).
 - [ ] `src/3rdparty/tinymidipcm.js` tweak; `package.json` (bun scripts, deps).
 - [ ] **Filename casing**: `src/io/JagFile.ts` (capital F) in webclient vs `src/io/Jagfile.ts`
       in engine. macOS hides case-only renames from git — after a sync run:
@@ -304,7 +356,10 @@ These are the rules derived from every severed-wire bug found so far:
 3. **`MAP_RANDOM_EVENTS`** is duplicated engine opcode ↔ content rs2 command.
 4. **BotAction unions are duplicated** `sdk/types.ts` ↔ `server/webclient/src/bot/types.ts`,
    and every action needs an `ActionExecutor` case.
-5. **tsc is necessary but not sufficient**: run `bunx tsc --noEmit` in BOTH engine and
+5. **Tests must not hardcode opcode numbers** — use `ClientProt.*`/`ServerProt.*` (289 broke 11
+   literal-opcode assertions in `bot/ClientInteraction.test.ts`; hand-built packets in
+   `lite/*.test.ts` also encode packet layouts).
+6. **tsc is necessary but not sufficient**: run `bunx tsc --noEmit` in BOTH engine and
    webclient after every sync (esbuild bundles despite TS errors), but `as any` client-field
    accesses and bot.ejs `clientInstance.*` references are invisible to it — grep-audit those.
 
@@ -327,8 +382,13 @@ grep -A2 "Math.pow(2.0, level / 10.0)" server/engine/src/engine/entity/Player.ts
 # boot + live endpoints after deploy
 curl -so /dev/null -w "%{http_code}\n" https://rs-sdk-demo.fly.dev/{playercount,hiscores,mapview/}
 
+# custom IDs still past upstream's tail (see "Custom content IDs")
+tail -1 server/content/pack/{loc,npc,varp,interface}.pack
+grep -n "grand_exchange_booth\|grand_exchange_teller\|pvp_death_mark" server/content/pack/{loc,npc,varp}.pack
+
 # end-to-end: login a bot, chop a tree 3+ tiles away (exercises walk-before-op),
-# have a second distant bot chat (exercises MESSAGE_PUBLIC both directions)
+# have a second distant bot chat (exercises MESSAGE_PUBLIC both directions),
+# deposit at a bank + open the GE (exercises inventory packet layouts + custom ids)
 ```
 
 If content map files changed: regenerate `sdk/collision-data.json` from the MEMBERS prod server:

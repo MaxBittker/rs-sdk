@@ -1,0 +1,12 @@
+[label,consume_monkey_nuts] @consume_ape_atoll_food(4);
+[label,consume_monkey_bar] @consume_ape_atoll_food(5);
+[label,consume_banana_stew] @consume_ape_atoll_food(11);
+
+// mes is not filtered on OSRS, no "It heals some health."
+[label,consume_ape_atoll_food](int $heal)
+mes("You eat the <lowercase(oc_name(last_item))>.");
+sound_synth(eat, 1, 0);
+anim(human_eat, 0);
+if(oc_param(last_item, next_obj_stage) ! null) inv_setslot(inv, last_slot, oc_param(last_item, next_obj_stage), 1);
+else inv_delslot(inv, last_slot);
+stat_heal(hitpoints, $heal, 0);

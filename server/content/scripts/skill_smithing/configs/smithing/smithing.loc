@@ -1,20 +1,20 @@
 [anvil]
 name=Anvil
 desc=Used for fashioning metal items.
-model=model_loc_2672
+model=furniture_loc_2672
 category=anvil
 
 [doric_anvil]
 name=Anvil
 desc=It says "Property of Doric the dwarf." on the side.
-model=model_loc_2672
+model=furniture_loc_2672
 forceapproach=north
 category=anvil
 
 [viking_anvil]
 name=Anvil
 desc=Used for fashioning metal items.
-model=model_loc_2672
+model=furniture_loc_2672
 recol1s=7399
 recol1d=7365
 blockrange=no

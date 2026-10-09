@@ -1,0 +1,32 @@
+[opnpc1,misc_lumberjack]
+~manage_misc_daily_update;
+if (%misc_quest = ^misc_complete) {
+    ~chatnpcnoturn("<~man_misc_mesanim>Good day, Your Royal Highness.");
+} else {
+    ~chatnpcnoturn("<~man_misc_mesanim>Hello.");
+}
+~chatplayer("<p,happy>Good day. What are you doing?");
+~chatnpcnoturn("<~man_misc_mesanim>I'm cutting down maple trees for their wood. It's a living.");
+~chatplayer("<p,happy>Good luck with that.");
+if (%misc_quest = ^misc_complete) {
+    ~chatnpcnoturn("<~man_misc_mesanim>Thank you, Your Royal Highness.");
+} else {
+    ~chatnpcnoturn("<p,happy>Thanks.");
+}
+
+[oploc1,misc_dummy_mapletree]
+mes("Lumberjack Leif is already chopping that down.");
+
+// This is to intercept woodcutting in miscellania
+[proc,leif_intercept_wood](obj $product)(boolean)
+if($product ! maple_logs) { // only maple trees can be counted here
+    return (false);
+}
+if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+    if (%misc_approval < 127) %misc_approval = add(%misc_approval, 1);
+    if (npc_find(0_39_60_54_29, misc_lumberjack, 2, 0) = true) npc_say("Thanks!"); 
+    stat_advance(woodcutting, 1);
+    mes("You get some <lowercase(oc_name($product))> and give them to Lumberjack Leif.");
+    return (true);
+}
+return (false);

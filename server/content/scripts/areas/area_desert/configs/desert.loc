@@ -1,7 +1,7 @@
 [desert_cactus_full]
 name=Kharidian cactus (Healthy)
 desc=A succulent cactus.
-model=model_loc_1396
+model=plants_cactus
 mapscene=4
 op1=Cut
 param=next_loc_stage,desert_cactus_empty
@@ -9,7 +9,7 @@ param=next_loc_stage,desert_cactus_empty
 [desert_cactus_empty]
 name=Kharidian cactus (Dry)
 desc=A less than succulent succulent.
-model=model_loc_1397
+model=plants_cactus_cut
 mapscene=4
 recol1s=320
 recol1d=384

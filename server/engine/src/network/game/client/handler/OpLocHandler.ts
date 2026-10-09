@@ -34,7 +34,15 @@ export default class OpLocHandler extends ClientGameMessageHandler<OpLoc> {
             return false;
         }
 
-        const locType = LocType.get(locId);
+        let locType = LocType.get(loc.type);
+        if (locType.multivarbit !== -1) {
+            const state = player.getVarBit(locType.multivarbit);
+
+            if (state >= 0 && state < locType.multiloc.length && locType.multiloc[state] !== -1) {
+                locType = LocType.get(locType.multiloc[state]);
+            }
+        }
+
         if (!locType.op || locType.op[message.op - 1] === null || locType.op[message.op - 1] === 'hidden') {
             // bad client: not a valid loc option
             player.write(new UnsetMapFlag());

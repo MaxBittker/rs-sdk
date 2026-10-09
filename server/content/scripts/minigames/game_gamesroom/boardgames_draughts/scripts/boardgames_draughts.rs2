@@ -324,7 +324,7 @@ def_boolean $king = false;
 def_boolean $move_made = false;
 
 if (%boardgames_draughts_moveagain = 1) {
-    world_delay(0);
+    world_delay(0); // todo: check delay length
     $slot = %boardgames_draughts_lastpiece;
     $piece = inv_getobj(boardgames_boardinv, $slot);
     if ($piece = $my_king) {
@@ -429,17 +429,17 @@ inv_delslot(boardgames_boardinv, $mid_slot);
 
 ~move_draughts_piece($start_slot, $target_slot);
 
-if (divide($target_slot, 8) = 0 & $king = false) {
-    ~make_draughts_king($target_slot);
-    $king = true;
-}
-
 if (~draughts_check_forced_captures_one_piece($target_slot, $king) = true) {
     %boardgames_draughts_musttake = 1;
     %boardgames_draughts_moveagain = 1;
     %boardgames_draughts_lastpiece = $target_slot;
     
     ~make_draughts_move_for_opponent($start_slot, $target_slot, $king);
+
+    if (divide($target_slot, 8) = 0 & $king = false) {
+        ~make_draughts_king($target_slot);
+        $king = true;
+    }
 
     ~draughts_find_and_force_move;
     return (true);
@@ -448,6 +448,12 @@ if (~draughts_check_forced_captures_one_piece($target_slot, $king) = true) {
     %boardgames_draughts_moveagain = 0;
     
     ~make_draughts_move_for_opponent($start_slot, $target_slot, $king);
+    
+    if (divide($target_slot, 8) = 0 & $king = false) {
+        ~make_draughts_king($target_slot);
+        $king = true;
+    }
+    
     return (true);
 }
 
@@ -648,7 +654,7 @@ if (~test_draughts_move($last_slot, $last_targetslot, $king) = true) {
         ~make_draughts_king($last_targetslot);
     }
 } else {
-    sound_synth(column_full, 0, 0);
+    sound_synth(column_full, 1, 0);
     inv_movetoslot(boardgames_boardinv, boardgames_boardinv, $last_slot, $last_slot);
     inv_movetoslot(boardgames_boardinv, boardgames_boardinv, $last_targetslot, $last_targetslot);
 }
@@ -663,9 +669,9 @@ if (.finduid(%duel2accept) = false) {
 
 def_namedobj $king = ~get_draughts_king(%boardgames_piece);
 inv_setslot(boardgames_boardinv, $slot, $king, 1);
-sound_synth(king, 0, 0);
+sound_synth(king, 1, 0);
 .inv_setslot(boardgames_boardinv, sub(63,$slot), $king, 1);
-.sound_synth(king, 0, 0);
+.sound_synth(king, 1, 0);
 
 [proc,make_draughts_move_for_opponent](int $last_slot, int $last_targetslot, boolean $king)
 if (.finduid(%duel2accept) = false) {
@@ -767,7 +773,7 @@ def_int $col = modulo($last_targetslot, 8);
 def_int $x = multiply($col, ^draughts_tile_size);
 def_int $y = multiply($row, ^draughts_tile_size);
 
-sound_synth(chesspiece_move, 0, 0);
+sound_synth(chesspiece_move, 1, 0);
 anim(human_sittingdown_move, 0);
 if_setanim(boardgames_draughts:runeflash, null);
 if_setposition(boardgames_draughts:runeflash, $x, $y);
@@ -785,7 +791,7 @@ def_int $col = modulo($last_targetslot, 8);
 def_int $x = multiply($col, ^draughts_tile_size);
 def_int $y = multiply($row, ^draughts_tile_size);
 
-.sound_synth(chesspiece_move, 0, 0);
+.sound_synth(chesspiece_move, 1, 0);
 .if_setanim(boardgames_draughts:runeflash, null);
 .if_setposition(boardgames_draughts:runeflash, $x, $y);
 .if_setanim(boardgames_draughts:runeflash, runeflash);
@@ -896,16 +902,59 @@ if (.finduid(%duel2accept) = false) {
 .if_setanim(boardgames_draughts:runeflash, null);
 .if_setanim(boardgames_draughts:runeflash, runeflash_off);
 .if_close;
-.queue*(draughts_game_end_results, 0)($rank_change, $p1_rank, $p2_rank);
+if (.p_finduid(%duel2accept) = false) {
+    return;
+}
+.p_teleport(movecoord(^draughts_room_tele_coord, ~random_range(-3, 3), .%boardgames_challengeroom, ~random_range(-3, 3)));
+.anim(null, 0);
+~.setup_draughts_view($p1_rank, $p2_rank);
+if (.%boardgames_closemode = ^boardgames_draw) {
+    ~.music_jingle("boardgames draw");
+    .if_settext(boardgames_draughts_view:winner, "It's a draw!");
+    if (.%boardgames_closereason = ^draughts_timeout) {
+        .if_settext(boardgames_draughts_view:status1, "Nothing happened for 40 moves.");
+    } else {
+        .if_settext(boardgames_draughts_view:status1, "A draw was agreed.");
+    }
+    .if_settext(boardgames_draughts_view:status2, "");
+} else if (.%boardgames_closemode = ^boardgames_win) {
+    ~.music_jingle("boardgames victory");
+    .if_settext(boardgames_draughts_view:winner, "You win!");
+    if (.%boardgames_closereason = ^draughts_normal_end) {
+        .if_settext(boardgames_draughts_view:status1, "Player took all pieces!");
+    } else {
+        .if_settext(boardgames_draughts_view:status1, "Player resigned.");
+    }
+
+    if(.%boardgames_rankedgame = 1 & .%boardgames_numturns > 3) {
+        .if_settext(boardgames_draughts_view:status2, "Rank change: +<tostring($rank_change)>");
+    } else {
+        .if_settext(boardgames_draughts_view:status2, "");
+    }
+} else if (.%boardgames_closemode = ^boardgames_loss) {
+    ~.music_jingle("boardgames defeat");
+    .if_settext(boardgames_draughts_view:winner, "You lose!");
+    if (.%boardgames_closereason = ^draughts_normal_end) {
+        .if_settext(boardgames_draughts_view:status1, "Player took all pieces!");
+    } else {
+        .if_settext(boardgames_draughts_view:status1, "Player resigned.");
+    }
+
+    if(.%boardgames_rankedgame = 1 & .%boardgames_numturns > 3) {
+        .if_settext(boardgames_draughts_view:status2, "Rank change: -<tostring($rank_change)>");
+    } else {
+        .if_settext(boardgames_draughts_view:status2, "");
+    }
+}
 
 [proc,draughts_game_end](int $rank_change, int $p1_rank, int $p2_rank)
 %boardgames_viewing = 1;
 if_setanim(boardgames_draughts:runeflash, null);
 if_setanim(boardgames_draughts:runeflash, runeflash_off);
 if_close;
-queue*(draughts_game_end_results, 0)($rank_change, $p1_rank, $p2_rank);
-
-[queue,draughts_game_end_results](int $rank_change, int $p1_rank, int $p2_rank)
+if(p_finduid(uid) = false) {
+    return;
+}
 p_teleport(movecoord(^draughts_room_tele_coord, ~random_range(-3, 3), %boardgames_challengeroom, ~random_range(-3, 3)));
 anim(null, 0);
 ~setup_draughts_view($p1_rank, $p2_rank);

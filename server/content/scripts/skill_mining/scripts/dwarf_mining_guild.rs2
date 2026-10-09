@@ -1,4 +1,4 @@
-[opnpc1,mguild_dwarf1]
+[opnpc1,guilddwarf]
 ~chatnpc("<p,happy>Welcome to the Mining Guild. Can I help you with anything?");
 @dwarf_at_entrance;
 

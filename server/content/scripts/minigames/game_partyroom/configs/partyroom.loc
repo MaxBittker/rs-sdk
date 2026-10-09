@@ -1,7 +1,7 @@
 [balloon_yellow]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_115
+model=quest_balloon_drop
 anim=balloon_drop
 blockwalk=no
 blockrange=no
@@ -13,7 +13,7 @@ param=next_loc_stage,balloon_yellow_pop
 [balloon_red]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_115
+model=quest_balloon_drop
 anim=balloon_drop
 blockwalk=no
 blockrange=no
@@ -27,7 +27,7 @@ param=next_loc_stage,balloon_red_pop
 [balloon_blue]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_115
+model=quest_balloon_drop
 anim=balloon_drop
 blockwalk=no
 blockrange=no
@@ -41,7 +41,7 @@ param=next_loc_stage,balloon_blue_pop
 [balloon_green]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_115
+model=quest_balloon_drop
 anim=balloon_drop
 blockwalk=no
 blockrange=no
@@ -55,7 +55,7 @@ param=next_loc_stage,balloon_green_pop
 [balloon_purple]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_115
+model=quest_balloon_drop
 anim=balloon_drop
 blockwalk=no
 blockrange=no
@@ -69,7 +69,7 @@ param=next_loc_stage,balloon_purple_pop
 [balloon_white]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_115
+model=quest_balloon_drop
 anim=balloon_drop
 blockwalk=no
 blockrange=no
@@ -83,7 +83,7 @@ param=next_loc_stage,balloon_white_pop
 [balloon2]
 name=Party Balloon
 desc=Aren't they pretty?
-model=model_loc_115_2
+model=quest_balloon_drop_2
 anim=balloon_drop
 blockwalk=no
 blockrange=no
@@ -95,7 +95,7 @@ param=next_loc_stage,balloon2_pop
 [balloon3]
 name=Party Balloon
 desc=Paaaarty!
-model=model_loc_115_3
+model=quest_balloon_drop_3
 anim=balloon_drop
 blockwalk=no
 blockrange=no
@@ -107,7 +107,7 @@ param=next_loc_stage,balloon3_pop
 [balloon_yellow_pop]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_123
+model=quest_balloon_burst
 anim=balloon_burst
 blockwalk=no
 blockrange=no
@@ -116,7 +116,7 @@ ambient=60
 [balloon_red_pop]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_123
+model=quest_balloon_burst
 anim=balloon_burst
 blockwalk=no
 blockrange=no
@@ -127,7 +127,7 @@ recol1d=30753
 [balloon_blue_pop]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_123
+model=quest_balloon_burst
 anim=balloon_burst
 blockwalk=no
 blockrange=no
@@ -138,7 +138,7 @@ recol1d=31
 [balloon_green_pop]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_123
+model=quest_balloon_burst
 anim=balloon_burst
 blockwalk=no
 blockrange=no
@@ -149,7 +149,7 @@ recol1d=992
 [balloon_purple_pop]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_123
+model=quest_balloon_burst
 anim=balloon_burst
 blockwalk=no
 blockrange=no
@@ -160,7 +160,7 @@ recol1d=24638
 [balloon_white_pop]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_123
+model=quest_balloon_burst
 anim=balloon_burst
 blockwalk=no
 blockrange=no
@@ -171,7 +171,7 @@ recol1d=32767
 [balloon2_pop]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_129
+model=quest_balloon_burst_two_2
 anim=balloon_burst_2
 blockwalk=no
 blockrange=no
@@ -180,7 +180,7 @@ ambient=60
 [balloon3_pop]
 name=Party Balloon
 desc=A party balloon.
-model=model_loc_130
+model=quest_balloon_burst_three_3
 anim=balloon_burst_3
 blockwalk=no
 blockrange=no
@@ -197,7 +197,7 @@ forceapproach=south
 [loc_2417]
 name=Closed chest
 desc=Place party drop items here.
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 recol1s=10570
@@ -206,7 +206,7 @@ recol1d=17921
 [partyroom_chestopen]
 name=Open chest
 desc=Place party drop items here.
-model=model_loc_76
+model=furniture_chestopen
 op2=Deposit
 op3=Shut
 forceapproach=north

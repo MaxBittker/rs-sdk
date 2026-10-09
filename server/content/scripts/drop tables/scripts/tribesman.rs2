@@ -37,7 +37,8 @@ if ($random < 7){
 } else if ($random < 97) {
     obj_add(npc_coord, limpwurt_root, 1, ^lootdrop_duration);
 } else if ($random < 109) {
-    obj_add(npc_coord, coins, 28, ^lootdrop_duration);
+    // https://web.archive.org/web/20041127014540/http://www.tip.it/runescape/index.php?rs2monster_id=134 (https://imgur.com/a/4MGxGm7)
+    obj_add(npc_coord, tbwt_cleaning_cloth, 1, ^lootdrop_duration);
 } else if ($random < 117) {
     obj_add(npc_coord, naturerune, 3, ^lootdrop_duration);
 } else if ($random < 122) {

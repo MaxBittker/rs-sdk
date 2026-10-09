@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-
 import { ConfigType } from '#/cache/config/ConfigType.js';
 import Jagfile from '#/io/Jagfile.js';
 import Packet from '#/io/Packet.js';
@@ -66,12 +65,11 @@ export default class SpotanimType extends ConfigType {
 
     model: number = 0;
     anim: number = -1;
-    hasalpha: boolean = false;
     recol_s: Uint16Array = new Uint16Array(6);
     recol_d: Uint16Array = new Uint16Array(6);
     resizeh: number = 128;
     resizev: number = 128;
-    orientation: number = 0;
+    angle: number = 0;
     ambient: number = 0;
     contrast: number = 0;
 
@@ -80,14 +78,12 @@ export default class SpotanimType extends ConfigType {
             this.model = dat.g2();
         } else if (code === 2) {
             this.anim = dat.g2();
-        } else if (code === 3) {
-            this.hasalpha = true;
         } else if (code === 4) {
             this.resizeh = dat.g2();
         } else if (code === 5) {
             this.resizev = dat.g2();
         } else if (code === 6) {
-            this.orientation = dat.g2();
+            this.angle = dat.g2();
         } else if (code === 7) {
             this.ambient = dat.g1();
         } else if (code === 8) {

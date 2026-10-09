@@ -15,17 +15,17 @@ if(%priestperil >= ^priestperil_meet_in_mausoleum) {
 
 def_int $grave_no = enum(loc, int, monument_graves_locs, $loc);
 
-if(testbit(%priestperil_mausoleum, 21) = 0) {
+if(testbit(%priestperilvar, 21) = 0) {
     ~generate_monument_layout;
-    %priestperil_mausoleum = setbit(%priestperil_mausoleum, 21);
+    %priestperilvar = setbit(%priestperilvar, 21);
 }
 
-def_int $seed = add(getbit_range(%priestperil_mausoleum, 22, 28), multiply($grave_no, 17));
+def_int $seed = add(getbit_range(%priestperilvar, 22, 28), multiply($grave_no, 17));
 def_int $content_id = add(modulo($seed, 7), 1);
 def_namedobj $gold_item = enum(int, namedobj, monument_graves_models, $content_id);
 
 def_int $swap_bit = sub($grave_no, 1);
-def_int $is_swapped = testbit(%priestperil_mausoleum, $swap_bit);
+def_int $is_swapped = testbit(%priestperilvar, $swap_bit);
 
 if($is_swapped = 1) {
     def_obj $regular_item = enum(namedobj, obj, monument_graves_objs, $gold_item);
@@ -39,7 +39,7 @@ if_openmain(priestperil_gravemonument);
 
 [proc,generate_monument_layout]
 def_int $layout_seed = random(100);
-%priestperil_mausoleum = setbit_range_toint(%priestperil_mausoleum, $layout_seed, 22, 28);
+%priestperilvar = setbit_range_toint(%priestperilvar, $layout_seed, 22, 28);
 
 [label,switch_monument_item](loc $loc)
 if(%priestperil >= ^priestperil_meet_in_mausoleum) {
@@ -49,12 +49,12 @@ if(%priestperil >= ^priestperil_meet_in_mausoleum) {
 
 def_int $grave_no = enum(loc, int, monument_graves_locs, $loc);
 
-def_int $seed = add(getbit_range(%priestperil_mausoleum, 22, 28), multiply($grave_no, 17));
+def_int $seed = add(getbit_range(%priestperilvar, 22, 28), multiply($grave_no, 17));
 def_int $content_id = add(modulo($seed, 7), 1);
 def_namedobj $grave_item = enum(int, namedobj, monument_graves_models, $content_id);
 
 def_int $swap_bit = sub($grave_no, 1);
-def_int $is_swapped = testbit(%priestperil_mausoleum, $swap_bit);
+def_int $is_swapped = testbit(%priestperilvar, $swap_bit);
 
 if($is_swapped = ^false | $grave_item = pipkey_iron) {
     if(last_useitem = pipkey_gold & $grave_item = pipkey_iron & ~obj_gettotal(pipkey_iron) > 0) {
@@ -72,7 +72,7 @@ if($is_swapped = ^false | $grave_item = pipkey_iron) {
         anim(human_opencupboard, 0);
         inv_del(inv, last_useitem, 1);
         inv_add(inv, $grave_item, 1);
-        %priestperil_mausoleum = setbit(%priestperil_mausoleum, $swap_bit);
+        %priestperilvar = setbit(%priestperilvar, $swap_bit);
         return;
     }
 } else {
@@ -133,12 +133,12 @@ if (%priestperil >= ^priestperil_meet_in_mausoleum) {
     mes("It would be wrong to dishonour this monument.");
 } else {
     def_int $grave_no = enum(loc, int, monument_graves_locs, $loc);
-    def_int $seed = add(getbit_range(%priestperil_mausoleum, 22, 28), multiply($grave_no, 17));
+    def_int $seed = add(getbit_range(%priestperilvar, 22, 28), multiply($grave_no, 17));
     def_int $content_id = add(modulo($seed, 7), 1);
     def_namedobj $grave_item = enum(int, namedobj, monument_graves_models, $content_id);
     
     def_int $swap_bit = sub($grave_no, 1);
-    def_int $is_swapped = testbit(%priestperil_mausoleum, $swap_bit);
+    def_int $is_swapped = testbit(%priestperilvar, $swap_bit);
     
     def_string $item_name;
     if($is_swapped = 1) {

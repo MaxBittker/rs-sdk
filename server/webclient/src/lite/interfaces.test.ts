@@ -49,11 +49,11 @@ function makeClient(name: string): LiteClient {
     });
 }
 
-/** UPDATE_INV_FULL body: component id, slot count, then (objId, count) per slot. */
+/** UPDATE_INV_FULL body: component id, slot count (p2 since 289), then (objId, count) per slot. */
 function invPacket(componentId: number, items: Array<[number, number]>): Packet {
     const buf = Packet.alloc(1);
     buf.p2(componentId);
-    buf.p1(items.length);
+    buf.p2(items.length);
     for (const [id, count] of items) {
         buf.p2(id);
         buf.p1(count);

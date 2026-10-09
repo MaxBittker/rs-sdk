@@ -1,0 +1,8 @@
+[opheld5,castlewars_explosives_potion]
+inv_delslot(inv, last_slot);
+sound_synth(castlewars_exploding_vial, 0, 0);
+anim(human_pickupfloor, 0);
+p_delay(2);
+mes("You were injured by the exploding potion");
+~damage_self(15); // osrs
+say("Ow!");

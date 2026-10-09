@@ -255,7 +255,7 @@ if (stat(smithing) < $levelrequired) {
 }
 // play anim and sound
 anim(human_smithing, 0);
-sound_synth(anvil_4, 0, 0);
+sound_synth(anvil_4, 1, 0);
 // delay player during whole smithing sesh
 // https://oldschool.runescape.wiki/w/Update:Dev_Blog:_Third_Old_School_RuneScape_Content_Poll
 if (~in_tutorial_island(coord) = true) {
@@ -296,7 +296,7 @@ if ($count < 1) {
 }
 // play anim and sound
 anim(human_smithing, 0);
-sound_synth(anvil_4, 0, 0);
+sound_synth(anvil_4, 1, 0);
 // recall proc
 ~smithing_anvil($data, $count);
 //--------------------------

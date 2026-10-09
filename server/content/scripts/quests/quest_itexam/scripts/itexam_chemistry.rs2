@@ -60,7 +60,7 @@ if (stat(herblore) < 10) {
 mes("You mix the root into the mixture.");
 mes("You produce a potentially explosive compound.");
 anim(human_herbing_vial, 0);
-sound_synth(grind, 0, 0);
+sound_synth(grind, 1, 0);
 ~chatplayer("<p,happy>Excellent! This looks just right!");
 inv_del(inv, arcenia_root, 1);
 inv_del(inv, postcharcoalmixture, 1);

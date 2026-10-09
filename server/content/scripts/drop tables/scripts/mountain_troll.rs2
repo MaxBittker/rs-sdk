@@ -1,6 +1,6 @@
-[ai_queue3,_mountain_troll] @troll_drop_table;
+[ai_queue3,_mountain_troll] ~troll_drop_table;
 
-[label,troll_drop_table]
+[proc,troll_drop_table]
 if (npc_findhero = ^true) { // this does check heropts
     if(npc_type = troll_prison_guard1 | npc_type = troll_prison_guard1_awake) {
         if(%troll_quest < ^troll_freed_godric & ~obj_gettotal(troll_key_godric) = 0) {

@@ -1,0 +1,307 @@
+[oploc1,trollromance_piste_walk_barrier_down]
+if (stat(agility) < 28) {
+    mes("You need an agility level of at least 28!");
+    return;
+}
+if (inv_total(worn, trollromance_toboggon_waxed) < 1) {
+    mes("You need to have a waxed sled equipped!");
+    return;
+}
+switch_coord (loc_coord) {
+    case 0_43_59_20_59 : ~trollromance_first_sled_ride;
+    case 0_43_59_21_59 : ~trollromance_first_sled_ride;
+    case 0_43_58_33_59 : ~trollromance_second_sled_ride;
+    case 0_43_58_34_59 : ~trollromance_second_sled_ride;
+    case default : ~displaymessage(^dm_default);
+}
+
+[oploc1,trollromance_piste_walk_barrier_up] // On OSRS, NIH message when attempting to go back up the snow hill
+~displaymessage(^dm_default);
+
+[oploc1,trollromance_caveentrance] // Tunnel entrance north-west of Trollheim
+p_teleport(0_43_159_51_11);
+
+[oploc1,trollromance_piste_tunnel_bottom] // Tunnel entrance in cave from Trollheim, back to Trollheim
+p_teleport(0_44_58_6_32);
+
+[oploc1,trollromance_snow_cavewall_crevis] // Crevasse out to Trollweiss Mountain
+p_teleport(0_43_60_26_29);
+
+[oploc1,trollromance_piste_top] // Tunnel entrance back towards Trollheim from Trollweiss Mountain
+p_teleport(0_43_159_20_55);
+~unequip_trollromance_sled;
+
+[oploc1,trollromance_piste_exit_tunnel_exit] // Tunnel entrance towards Rellekka cave from Trollweiss Mountain
+p_teleport(0_43_158_47_22);
+~unequip_trollromance_sled;
+
+[oploc1,trollromance_piste_exit_tunnel_top] // Tunnel entrance towards Trollweiss Mountain from Rellekka cave
+p_teleport(0_43_58_45_7);
+
+[oploc1,trollromance_piste_exit_tunnel_bottom] // Tunnel entrance towards Rellekka from Rellekka cave
+p_teleport(0_42_58_42_1);
+
+[oploc1,trollromance_stronghold_exit_tunnel] // Tunnel entrance towards Rellekka cave from Rellekka
+p_teleport(0_43_158_21_50);
+
+[oploc2,trollromance_rareflowers]
+if (inv_freespace(inv) = 0) {
+    ~chatplayer("<p,sad>I know it's only a flower, but I haven't got enough space...");
+    return;
+}
+if (%troll_love = ^troll_love_waxed_sled) %troll_love = ^troll_love_picked_trollweiss;
+if (inv_getobj(worn, ^wearpos_rhand) = trollromance_toboggon_waxed) p_animprotect(^true);
+anim(human_pickuptrollweiss_down, 0);
+p_delay(0);
+anim(human_pickuptrollweiss_up, 0);
+inv_add(inv, trollromance_rare_flower, 1);
+
+[proc,trollromance_dunstan_has_materials]()(boolean)
+if (inv_total(inv, yew_logs) > 0 | inv_total(inv, maple_logs) > 0) {
+    if (inv_total(inv, iron_bar) > 0 & inv_total(inv, rope) > 0) {
+        return (true);
+    }
+}
+return (false);
+
+[opheldu,bucket_wax]
+if(last_useitem = swamp_tar) { // Troll Romance quest
+    @make_sled_wax;
+}
+~displaymessage(^dm_default);
+
+[label,make_sled_wax]
+if (inv_total(inv, cake_tin) < 1) {
+    mes("You need something to put the wax in... like a cake tin.");
+    return;
+}
+mes("You make some sled wax.");
+inv_del(inv, bucket_wax, 1);
+inv_del(inv, swamp_tar, 1);
+inv_del(inv, cake_tin, 1);
+inv_add(inv, trollromance_wax, 1);
+
+[opheldu,trollromance_wax]
+if(last_useitem = trollromance_toboggon) { // Troll Romance quest
+    @make_waxed_sled;
+}
+~displaymessage(^dm_default);
+
+[label,make_waxed_sled]
+mes("You wax the sled. You're now ready to go.");
+if (%troll_love = ^troll_love_dunstan_made_sled) %troll_love = ^troll_love_waxed_sled;
+anim(trollromance_toboggan_waxing, 0);
+inv_del(inv, trollromance_toboggon, 1);
+inv_del(inv, trollromance_wax, 1);
+inv_add(inv, trollromance_toboggon_waxed, 1);
+inv_add(inv, cake_tin, 1);
+sound_synth(wax_sled, 0, 0);
+
+[proc,unequip_trollromance_sled]
+if (inv_getobj(worn, ^wearpos_rhand) = trollromance_toboggon_waxed) {
+    if (inv_freespace(inv) = 0) {
+        inv_del(worn, trollromance_toboggon_waxed, 1);
+        obj_add(coord, trollromance_toboggon_waxed, 1, 199);
+        return;
+    }
+    ~unequip(^wearpos_rhand);
+}
+~update_bas;
+%wearing_sled = ^false;
+
+[proc,can_ride_sled]()(boolean)
+if (add(%lastcombat, 10) > map_clock) {
+    mes("You can't use that during combat.");
+    return(false);
+}
+if (inzone(^sled_lower_coord, ^sled_upper_coord, coord) = true) {
+    ~equip(last_slot);
+    sound_synth(equip_sled, 0, 0);
+    ~update_all(null);
+    p_animprotect(^true);
+    return(true);
+}
+mes("You cannot use that here!");
+~unequip_trollromance_sled; // Safety, but shouldn't really be hit
+return(false);
+
+[opheld2,trollromance_toboggon_waxed]
+~can_ride_sled;
+
+[proc,trollromance_first_sled_ride]
+if_close;
+p_teleport(0_43_59_20_58);
+p_temprun;
+say("Here we go!");
+~bas_set(trollromance_toboggan_ready, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving);
+sound_synth(sled_start, 0, 0);
+p_delay(0);
+p_walk(0_43_59_18_56);
+p_delay(0);
+p_walk(0_43_59_18_54);
+p_delay(0);
+p_walk(0_43_59_18_52);
+if(random(250) = 0) { // Seems to happen SUPER rarely in OSRS, but it does happen. This is a 1 in 250 chance.
+    cam_moveto(0_43_59_26_39, 300, 20, 50);
+    cam_lookat(0_43_59_22_44, 300, 50, 50);
+    p_delay(0);
+    p_walk(0_43_59_20_50);
+    say("O-oh, this doesn't look good!");
+    sound_synth(sled_loop, 2, 0);
+    p_delay(0);
+    p_walk(0_43_59_21_48);
+    p_delay(0);
+    p_walk(0_43_59_21_46);
+    ~fade_out;
+    p_delay(0);
+    p_walk(0_43_59_22_44);
+    p_delay(0);
+    p_walk(0_43_59_23_43);
+    ~bas_set_all(trollromance_toboggan_crashing);
+    sound_synth(sledcrash, 0, 0);
+    sound_synth(rock_impact, 0, 0);
+    p_delay(0);
+    facesquare(loc_coord);
+    p_delay(0);
+    p_teleport(0_43_59_47_18);
+    spotanim_pl(eadgar_stunned, 124, 0);
+    anim(trollromance_toboggan_getup, 1);
+    inv_del(worn, trollromance_toboggon_waxed, 1);
+    ~update_bas;
+    obj_add(0_43_59_47_19, trollromance_toboggon_waxed, 1, 99);
+    cam_reset;
+    if_openoverlay(null);
+    p_delay(0);
+    sound_synth(stunned, 0, 0);
+    ~chatplayer("<p,angry>And I thought snow was soft...");
+    ~chatplayer("<p,confused>Although it was a little softer than that rock I hit.");
+    return;
+}
+p_delay(0);
+p_walk(0_43_59_17_50);
+p_delay(0);
+sound_synth(sled_loop, 5, 0);
+p_walk(0_43_59_17_48);
+p_delay(0);
+p_walk(0_43_59_17_46);
+p_delay(0);
+p_walk(0_43_59_17_44);
+p_delay(0);
+p_walk(0_43_59_17_42);
+cam_moveto(0_43_59_18_46, 300, 20, 50);
+cam_lookat(0_43_59_21_33, 300, 50, 50);
+p_delay(0);
+p_walk(0_43_59_19_40);
+p_delay(0);
+p_walk(0_43_59_21_38);
+p_delay(0);
+p_walk(0_43_59_23_36);
+cam_moveto(0_43_59_35_36, 300, 20, 50);
+cam_lookat(0_43_59_28_31, 300, 50, 50);
+p_delay(0);
+p_walk(0_43_59_25_34);
+p_delay(0);
+p_walk(0_43_59_27_32);
+~bas_set_all(trollromance_toboggan_flying);
+sound_synth(sled_jump, 0, 0);
+p_delay(0);
+p_walk(0_43_59_29_30);
+p_delay(0);
+p_walk(0_43_59_31_28);
+p_delay(0);
+p_walk(0_43_59_33_26);
+~bas_set(trollromance_toboggan_ready, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving);
+sound_synth(sled_stop, 0, 0);
+cam_reset;
+p_delay(0);
+p_walk(0_43_59_34_24);
+p_delay(0);
+p_teleport(0_43_59_38_18);
+say("That was quite a ride!");
+~update_bas;
+facesquare(loc_coord);
+stat_advance(agility, 250);
+
+[proc,trollromance_second_sled_ride]
+if_close;
+p_teleport(0_43_58_33_58);
+p_temprun;
+~bas_set(trollromance_toboggan_ready, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving, trollromance_toboggan_moving);
+sound_synth(sled_start_longer, 0, 0);
+p_delay(0);
+p_walk(0_43_58_31_56);
+p_delay(0);
+p_walk(0_43_58_29_54);
+p_delay(0);
+p_walk(0_43_58_29_52);
+p_delay(0);
+p_walk(0_43_58_29_50);
+p_delay(0);
+p_walk(0_43_58_29_48);
+p_delay(0);
+p_walk(0_43_58_27_46);
+sound_synth(sled_loop, 10, 0);
+p_delay(0);
+p_walk(0_43_58_25_44);
+p_delay(0);
+p_walk(0_43_58_23_42);
+p_delay(0);
+p_walk(0_43_58_22_40);
+p_delay(0);
+p_walk(0_43_58_20_38);
+p_delay(0);
+p_walk(0_43_58_18_36);
+p_delay(0);
+p_walk(0_43_58_18_34);
+p_delay(0);
+p_walk(0_43_58_18_32);
+p_delay(0);
+p_walk(0_43_58_20_30);
+p_delay(0);
+p_walk(0_43_58_22_28);
+p_delay(0);
+p_walk(0_43_58_24_26);
+p_delay(0);
+p_walk(0_43_58_26_24);
+p_delay(0);
+p_walk(0_43_58_26_22);
+p_delay(0);
+p_walk(0_43_58_28_20);
+cam_moveto(0_43_58_38_11, 300, 20, 50);
+cam_lookat(0_43_58_30_17, 250, 50, 50);
+p_delay(0);
+p_walk(0_43_58_30_18);
+p_delay(0);
+p_walk(0_43_58_32_16);
+p_delay(0);
+p_walk(0_43_58_34_15);
+p_delay(0);
+p_walk(0_43_58_36_13);
+cam_moveto(0_43_58_31_17, 1000, 20, 50);
+cam_lookat(0_43_58_40_9, 150, 50, 50);
+sound_synth(sled_jump, 0, 0);
+p_delay(0);
+p_walk(0_43_58_38_11);
+p_delay(0);
+p_walk(0_43_58_40_9);
+p_delay(0);
+p_teleport(0_43_58_42_7);
+sound_synth(sled_stop, 0, 30);
+facesquare(loc_coord);
+p_delay(0);
+~update_bas;
+cam_reset;
+stat_advance(agility, 250);
+
+[queue,trollromance_quest_complete]
+// https://web.archive.org/web/20060428042217/http://runescape.salmoneus.net/quests/TrollRomance/trollrmcecomplt.png
+session_log(^log_adventure, "Quest complete: Troll Romance");
+%troll_love = ^troll_love_complete;
+// Gems given in the below order as per: https://youtu.be/V88fh4k0Po4?si=Gyb2h6BI9566rs3Z&t=969
+inv_add(inv, uncut_diamond, 1);
+inv_add(inv, uncut_ruby, 2);
+inv_add(inv, uncut_emerald, 4);
+stat_advance(strength, 40000);
+stat_advance(agility, 80000);
+~send_quest_complete2(questlist:troll_love, trollromance_rare_flower, 250, ^troll_love_questpoints, "You have completed the Troll Romance Quest!", "7 Uncut Gems|8k Agility XP|4k Strength XP");
+// Actual values of XP shown in rework, rather than shorthand 'k' - https://youtu.be/z_7d2mBbyho?si=OroieY0gAbZtIrS2&t=475

@@ -71,7 +71,7 @@ if (~inzone_coord_pair_table(dwarf_zones, coord) = true) {
     mes("The dwarves won't be happy if you set up a cannon here."); // osrs
     return;
 }
-if (~inzone_coord_pair_table(bank_zones, coord) = true | ~in_duel_arena(coord) = true) { // guessing they dont let u set up at duel arena at all, esp with nomovement duels
+if (~inzone_coord_pair_table(bank_zones, coord) = true | ~in_duel_arena(coord) = true | ~in_castlewars_game(coord) = true | ~in_castlewars_waitingroom(coord) = true) { // guessing they dont let u set up at duel arena at all, esp with nomovement duels
     mes("You can't set up a cannon here."); // osrs
     return;
 }
@@ -301,5 +301,5 @@ if (%dropcannon = ^cannon_stage_base) {
 %dropcannon = ^cannon_stage_none;
 mes("You pick up the cannon,"); // https://youtu.be/TeQXQDaawO0?t=518
 mes("It's really heavy.");
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 loc_del(1);

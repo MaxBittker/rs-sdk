@@ -1,5 +1,6 @@
 [stealing]
 column=loc,loc,INDEXED,REQUIRED
+column=replacement,loc
 column=owner,npc
 column=guard,npc,LIST
 column=level,int

@@ -1,7 +1,7 @@
 [bananatreefull]
 name=Banana Tree
 desc=Grows weird yellow fruit.
-model=model_loc_2073
+model=plants_loc_2073
 width=2
 length=2
 op1=Search
@@ -12,7 +12,7 @@ param=next_loc_stage,bananatreefour
 [bananatreefour]
 name=Banana Tree
 desc=Grows weird yellow fruit.
-model=model_loc_2073
+model=plants_loc_2073
 width=2
 length=2
 op1=Search
@@ -23,7 +23,7 @@ param=next_loc_stage,bananatreethree
 [bananatreethree]
 name=Banana Tree
 desc=Grows weird yellow fruit.
-model=model_loc_2073
+model=plants_loc_2073
 width=2
 length=2
 op1=Search
@@ -34,7 +34,7 @@ param=next_loc_stage,bananatreetwo
 [bananatreetwo]
 name=Banana Tree
 desc=Grows weird yellow fruit.
-model=model_loc_2073
+model=plants_loc_2073
 width=2
 length=2
 op1=Search
@@ -45,7 +45,7 @@ param=next_loc_stage,bananatreeone
 [bananatreeone]
 name=Banana Tree
 desc=Grows weird yellow fruit.
-model=model_loc_2073
+model=plants_loc_2073
 width=2
 length=2
 op1=Search
@@ -56,7 +56,7 @@ param=next_loc_stage,bananatreeempty
 [bananatreeempty]
 name=Banana Tree
 desc=Grows weird yellow fruit.
-model=model_loc_2078
+model=plants_loc_2078
 width=2
 length=2
 op1=Search
@@ -65,5 +65,5 @@ mapscene=5
 [bananacrate]
 name=Crate
 desc=Used for storage.
-model=model_loc_63
+model=warehouse_shop_crate
 op1=Search

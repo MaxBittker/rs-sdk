@@ -1,4 +1,4 @@
 [hatstand]
 name=Hat stand
 desc=A stand for hats!
-model=model_loc_374
+model=furniture_hatstand

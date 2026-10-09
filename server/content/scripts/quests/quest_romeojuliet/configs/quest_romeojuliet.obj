@@ -1,7 +1,7 @@
 [cadavaberries]
 name=Cadava berries
 desc=Poisonous berries.
-model=model_2358_obj
+model=inv_berries
 recol1s=30753
 recol1d=30967
 2dxof=1
@@ -15,7 +15,7 @@ weight=7g
 name=Message
 desc=A message from Juliet to Romeo.
 cost=5
-model=model_2600_obj
+model=inv_scroll
 2dxof=1
 2dyof=7
 2dzoom=1040
@@ -27,7 +27,7 @@ tradeable=no
 [cadava]
 name=Cadava potion
 desc=I'm meant to give this to Juliet.
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=30967
 2dyof=-1

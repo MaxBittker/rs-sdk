@@ -1,7 +1,7 @@
 [mapletree]
 name=Maple tree
 desc=I bet this makes good syrup!
-model=model_loc_1307
+model=plants_loc_1307
 width=2
 mapscene=2
 length=2

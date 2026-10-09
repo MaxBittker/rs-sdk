@@ -22,7 +22,7 @@ jobs:
       uses: actions/checkout@v6
       with:
         repository: LostCityRS/Engine-TS
-        ref: '274'
+        ref: '289'
         path: engine
 
     - name: Install Node.js

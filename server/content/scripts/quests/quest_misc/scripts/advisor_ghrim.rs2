@@ -1,0 +1,282 @@
+// For facing npc that has nomove. timer=25 in npc file.
+[ai_timer,misc_advisor_ghrim]
+if(npc_getmode ! playerfaceclose & npc_getmode ! playerface) npc_facesquare(1_39_60_4_17);
+
+// IMPORTANT/IMPORTANT/IMPORTANT : manage_misc_resource_generation CALCS RESOURCES 
+
+[opnpc1,misc_advisor_ghrim]
+~manage_misc_daily_update;
+if(%misc_quest < ^misc_complete) {
+    @advisor_ghrim_quest;
+} else {
+    @advisor_ghrim_postquest;
+}
+
+[queue,misc_update_anthems]
+inv_del(inv, misc_awful_anthem, inv_total(inv, misc_awful_anthem));
+inv_add(inv, misc_good_anthem, 1);
+
+[label,advisor_ghrim_quest]
+~chatnpc("<p,shifty>Greetings, <text_gender("Sir", "Madam")>.");
+if (%misc_killed = 1) {
+    %misc_killed = 0;
+    ~chatnpc("<p,shifty>I should tell you right away that killing the people of this Kingdom will not make you popular with anyone.");
+}
+
+if (%misc_quest = 0) {
+    ~chatnpc("<p,shifty>The King needs someone to take over the rule of the Kingdom. If I were you, I should consider the position.");
+} else if (%misc_quest = 50 & inv_total(inv, misc_awful_anthem) > 0) {
+    @awfulanthem;
+} else if (%misc_quest = 60 & inv_total(inv, misc_good_anthem) = 0) {
+    @lostanthem;
+} else {
+    @advisor_ghrim_midquest;
+}
+
+[label,awfulanthem]
+~chatplayer("<p,sad>I got Prince Brand to compose a new Etceterian anthem for me, but it's awful!");
+~chatnpc("<p,shifty>Oh dear. Well, that is only to be expected. May I see it, please?");
+~chatplayer("<p,neutral>Here you go.");
+~chatnpc("<p,shifty>Hmm, yes...allow me to make a few adjustments.");
+if (%misc_quest = 50) {
+    %misc_quest = 60;
+}
+queue(misc_update_anthems, 0, 0);
+~chatnpc("<p,shifty>There you go, <text_gender("Sir", "Madam")>. Are there any other matters in which I may be of assistance?");
+@advisor_ghrim_midquest;
+
+[label,lostanthem]
+~chatplayer("<p,sad>I lost the corrected anthem you gave me.");
+~chatnpc("<p,shifty>Do you have another copy of the prince's anthem for me to correct?");
+if (inv_total(inv, misc_awful_anthem) > 0) {
+    @replaceawfulanthem;
+} else {
+    @noreplacement;
+}
+
+[label,replaceawfulanthem]
+~chatplayer("<p,neutral>Yes, here it is.");
+~chatnpc("<p,shifty>Hmm, yes...allow me to make a few adjustments.");
+queue(misc_update_anthems, 0, 0);
+~chatnpc("<p,shifty>There you go, <text_gender("Sir", "Madam")>. Are there any other matters in which I may be of assistance?");
+@advisor_ghrim_midquest;
+
+[label,noreplacement]
+~chatplayer("<p,sad>I'm afraid I don't have one.");
+~chatnpc("<p,shifty>If you bring me another, I can correct it. Are there any other matters in which I may be of assistance?");
+@advisor_ghrim_midquest;
+
+[label,advisor_ghrim_midquest]
+if (%misc_affection < ^misc_affection_complete & %misc_quest = ^misc_king_signed_treaty) { // If not completed yet.
+    @multi4(
+        "What am I meant to be doing again?", whatshouldIdo,
+        "How am I supposed to get the <text_gender("Princess", "Prince")> to marry me?", howtogaintrust,
+        "How do I gain the support of the population?", gainsupport,
+        "Is there anything else you can tell me?", whatelsecanyoutellme
+    );
+} else if (%misc_affection < ^misc_affection_complete & %misc_quest < ^misc_king_signed_treaty) { // If not completed yet.
+    @multi4(
+        "What am I meant to be doing again?", whatshouldIdo,
+        "How do I make peace with Etceteria?", howtomakepeace,
+        "How am I supposed to get the <text_gender("Princess", "Prince")> to marry me?", howtogaintrust,
+        "Is there anything else you can tell me?", whatelsecanyoutellme
+    );
+} else if (%misc_quest = ^misc_king_signed_treaty) {
+    @multi3(
+        "What am I meant to be doing again?", whatshouldIdo,
+        "How do I gain the support of the population?", gainsupport,
+        "Is there anything else you can tell me?", whatelsecanyoutellme
+    );
+} else {
+    @multi3(
+        "What am I meant to be doing again?", whatshouldIdo,
+        "How do I make peace with Etceteria?", howtomakepeace,
+        "Is there anything else you can tell me?", whatelsecanyoutellme
+    );
+}
+
+
+[label,gainsupport]
+~chatplayer("<p,confused>How do I gain the support of the population?");
+~chatnpc("<p,shifty>King Vargas would often go and help out his subjects|in their daily tasks, when he was still able to do so, and|they loved him dearly for it.");
+~chatnpc("<p,shifty>Currently, <~misc_approval_percentage>% of the population supports you.");
+if (%misc_approval < 95) {
+    ~chatnpc("<p,shifty>You will need 75 % of the population in your support in order to become Regent."); // The space between 75 and % is authentic.
+    return;
+}
+~chatnpc("<p,shifty>This is enough for you to become Regent; I should talk to King Vargas if I were you.");
+
+[label,whatshouldIdo]
+~chatplayer("<p,quiz>What am I meant to be doing again?");
+if (%misc_quest < ^misc_king_signed_treaty) {
+    ~chatnpc("<p,shifty>Negotiating peace with Etceteria, <text_gender("Sir", "Madam")>.");
+} else if (%misc_affection < ^misc_affection_complete) {
+    ~chatnpc("<p,shifty>Wooing the fair <text_gender("Princess Astrid", "Prince Brand")>, <text_gender("Sir", "Madam")>.");
+} else {
+    ~chatnpc("<p,shifty>Gaining the support of the population, <text_gender("Sir", "Madam")>. Currently, <~misc_approval_percentage>% of the population supports you.");
+    if (%misc_approval < 95) {
+        ~chatnpc("<p,shifty>You will need 75 % of the population in your support in order to become Regent.");
+    } else {
+        ~chatnpc("<p,shifty>This is enough for you to become Regent; I should talk to King Vargas if I were you.");
+    }
+}
+
+[label,howtomakepeace]
+~chatplayer("<p,quiz>How do I make peace with Etceteria?");
+switch_int (%misc_quest) {
+    case 10 : ~chatnpc("<p,shifty>You should go talk to Queen Sigrid of Etceteria.");
+    case 20 : ~chatnpc("<p,shifty>You should talk to the King.");
+    case 30 : ~chatnpc("<p,shifty>You should go talk to Queen Sigrid of Etceteria.");
+    case 40 : ~chatnpc("<p,shifty>You should find someone to compose a new anthem for Etceteria.");
+    case 50 : ~chatnpc("<p,shifty>You should get another copy of that anthem.");
+    case 60 : ~chatnpc("<p,shifty>You should show the anthem to Queen Sigrid.");
+    case 70 : ~chatnpc("<p,shifty>You should show the treaty to the King.");
+    case 80 : ~chatnpc("<p,shifty>You should find a way to make the nib and body for a very large pen.");
+    case 90 : ~chatnpc("<p,shifty>You should get the support of the population.");
+}
+
+// This option actually disappears when you are married.
+[label,howtogaintrust]
+~chatplayer("<p,quiz>How am I supposed to get the <text_gender("princess", "prince")> to marry me?");
+if (gender = ^gender_male) {
+    switch_int (divide(%misc_affection, 10)) {
+        case 0 : ~chatnpc("<p,shifty>I think you may find that talking to her would be a good way to start.");
+        case 1 : 
+            ~chatnpc("<p,shifty>I have watched the admirers come and go, trying to win her heart, and I can tell you this is no easy task.");
+            ~chatnpc("<p,shifty>You can hardly go wrong with a gift of flowers, and of course talking to her is important.");
+            ~chatnpc("<p,shifty>I also hear she favours suitors who knows how to dance.");
+        case 2 : ~chatnpc("<p,shifty>You seemed to have impressed her at least somewhat. She is quite the archer, collects bows, if you take my meaning...");
+        case 3 : 
+            ~chatnpc("<p,shifty>She has grown very fond of you; you would do well to show you are fond of her too.");
+            ~chatnpc("<p,shifty>When the time comes to actually ask for her hand in marriage, do not forget the engagement ring.");
+    }
+} else {
+    switch_int (divide(%misc_affection, 10)) {
+        case 0 : ~chatnpc("<p,shifty>I think you may find that talking to him would be a good way to start.");
+        case 1 : ~chatnpc("<p,shifty>You could hardly go wrong with a gift of flowers, and of course talking to him is important. He is also very receptive of praise for his musical performance.");
+        case 2 : ~chatnpc("<p,shifty>You seem to have impressed him at least somewhat. He has quite the sweet tooth, and is very fond of cake, if you take my meaning...");
+        case 3 : 
+            ~chatnpc("<p,shifty>He has grown very fond of you; you would do well to show you are fond of him too.");
+            ~chatnpc("<p,shifty>When the time comes to actually ask for his hand in marriage, do not forget the engagement ring.");
+    }
+}
+
+[label,whatelsecanyoutellme]
+~chatplayer("<p,quiz>Is there anything else you can tell me?");
+~chatnpc("<p,shifty>What would you like to know, <text_gender("Sir", "Madam")>?");
+@multi4(
+    "What can you tell me about the King?", tellmeaboutking,
+    "What can you tell me about the Prince?", tellmeaboutprince,
+    "What can you tell me about the Princess?", tellmeaboutprincess,
+    "What can you tell me about Queen Sigrid?", tellmeaboutsigrid
+);
+
+[label,tellmeaboutking]
+~chatplayer("<p,quiz>What can you tell me about the King?");
+~chatnpc("<p,shifty>King Vargas was once a brave and noble adventurer, well-loved by his subjects. Unfortunately, he was cursed while seeking a quest in the icelands and is now unable to reign.");
+
+[label,tellmeaboutprince]
+~chatplayer("<p,quiz>What can you tell me about the Prince?");
+~chatnpc("<p,shifty>Prince Brand has always dreamed of becoming a famous bard; unfortunately, his musical and literary skills are somewhat lacking.");
+~chatnpc("<p,shifty>He has no interest in ruling the kingdom, and seems to spend his time daydreaming or composing quite awful poems, and sagas of totally mundane events.");
+~chatnpc("<p,shifty>He is rather vain, if you'll pardon my saying so; he will greatly appreciate any compliments on his poetry. He also has quite a sweet tooth.");
+
+[label,tellmeaboutprincess]
+~chatplayer("<p,quiz>What can you tell me about the Princess?");
+~chatnpc("<p,shifty>Princess Astrid thinks she'd be perfectly capable of ruling the kingdom, but her father doesn't trust her enough by herself.");
+~chatnpc("<p,shifty>Especially since she devotes herself to the - as the King sees it - cowardly skill of archery rather than the noble skill of melee combat...");
+~chatnpc("<p,shifty>She is fond of jewellery, and of course she collects bows. She is also quite the conversationalist.");
+
+[label,tellmeaboutsigrid]
+~chatplayer("<p,quiz>What can you tell me about Queen Sigrid?");
+~chatnpc("<p,shifty>Queen Sigrid is quite envious of King Vargas, since he has the larger kingdom.");
+~chatnpc("<p,shifty>The King and she have never seen eye-to-eye, but I think if you approach her you may find her quite reasonable."); 
+
+[label,advisor_ghrim_postquest]
+~chatnpc("<p,shifty>Greetings, Your Royal Highness.");
+if (%misc_killed = 1) {
+    %misc_killed = 0;
+    ~chatnpc("<p,shifty>Your Royal Highness, I should tell you right away that killing the people of this Kingdom will not make you popular with anyone.");
+}
+@multi3(
+    "How is the Kingdom faring?", howfaring,
+    "How do I manage the kingdom?", howmanagekingdom,
+    "What am I meant to be doing again?", whattodo
+);
+
+[label,whattodo]
+~chatplayer("<p,quiz>What am I meant to be doing again?");
+~chatnpc("<p,shifty>Ruling the kingdom, Your Royal Highness.");
+
+[label,howmanagekingdom] // https://www.youtube.com/watch?v=8tSrcLl6e3w unfortunately osrs
+~chatplayer("<p,quiz>How do I manage the kingdom?");
+~chatnpc("<p,shifty>Your loyal subjects work hard to collect resources for|you. Every day they bring what they have collected to|the castle. The resources which they collect are coal|from the rocks to the north, maple logs from the trees");
+~chatnpc("<p,shifty>to the east, herbs from the garden just outside the|castle, and tuna and swordfish fished at the port to the|south. They are paid from the money in the coffers;|each day, one-tenth of the money in the coffers is");
+~chatnpc("<p,shifty>distributed to them. A maximum of 50k is paid to your|subjects, and the coffers can store up to 5 million gp.|Another thing which affects the amounts of resources|collected is your approval rating. The more your");
+~chatnpc("<p,shifty>subjects love you, the more they will be motivated to|work hard.  King Vargas would often go and help out|his subjects in their daily tasks, when he was still able to|do so, and they loved him dearly for it. Finally, you");
+~chatnpc("<p,shifty>can choose how much of their efforts your subjects|devote to each resource; of course, the harder they|work at collecting one, the less time they have to spend|collecting the others.");
+if (inv_total(inv, misc_ghrimbook) = 0 & inv_total(bank, misc_ghrimbook) = 0) {
+    ~chatnpc("<p,shifty>Have you got a copy of my book? It explains|everything in more detail.");
+    ~chatplayer("<p,neutral>No, I don't...");
+    inv_add(inv, misc_ghrimbook, 1);
+    ~chatnpc("<p,shifty>Here, you can have this one, I have plenty spare.");
+    ~chatplayer("<p,neutral>Thanks!");
+}
+
+
+[label,howfaring]
+~chatplayer("<p,quiz>How is the Kingdom faring?");
+~chatnpc("<p,shifty>Your subjects are content, Your Highness.");
+if (%misc_restotal > 0) {
+    @hasresourcescollected;
+} else {
+    @hasnoresourcescollected;
+}
+
+[label,hasresourcescollected]
+~chatnpc("<p,shifty>Your approval rating is <~misc_approval_percentage>%. Would you like to collect the resources gathered by your subjects?");
+@multi2(
+    "Yes", misc_resource_collected_yes,
+    "No", misc_resource_collected_no
+);
+
+[label,hasnoresourcescollected]
+~chatnpc("<p,shifty>Your approval rating is <~misc_approval_percentage>%. I'm afraid your subjects have not yet collected anything.");
+@misc_open_manage_misc_interface;
+
+[label,misc_resource_collected_yes]
+~chatplayer("<p,neutral>Yes, please.");
+// Calculate if there is enough space in the bank when this has a UI to transfer to.
+// https://www.youtube.com/watch?v=QU6vixKduHo // May 28, 2012 If there ISNT ENOUGH SPACE
+// https://www.youtube.com/watch?v=PdDDQK201F4
+// ~chatnpc("<p,shifty>I'm afraid you will need X more free spaces in your bank to hold all the items your subjects have collected.");
+// ~chatnpc("<p,shifty>You will need to make some space in your bank for your subjects to deliver your resources, Your Royal Highness.");
+~chatnpc("<p,shifty>Here is a list of what your subjects have collected.");
+def_string $resource_str = ~manage_misc_resource_generation; // IMPT: THIS LINE DOES THE CALCULATION 
+// ~bank_deposit_all_misc_resources; // Later when misc_resources_collected inv exists
+~mesbox($resource_str); //Replace this line later when UI exists with ~open_interface(resource_collection);
+// ~chatnpc("<p,shifty>I shall tell your subjects to deliver your resources to your storage right away, Your Royal Highness.");
+@misc_open_manage_misc_interface;
+
+[label,misc_resource_collected_no]
+~chatplayer("<p,neutral>No, thank you.");
+~chatnpc("<p,shifty>Very well, Your Royal Highness.");
+@misc_open_manage_misc_interface;
+
+[label,misc_open_manage_misc_interface]
+~chatnpc("<p,shifty>This is how your subjects are distributing their effort.");
+~open_manage_miscellania_interface;
+
+// Later when misc_resources_collected inv exists
+// [proc,bank_deposit_all_misc_resources]
+// def_int $slot = 0;
+// while ($slot < 10) {
+//     def_obj $item = inv_getobj(misc_resources_collected, $slot);
+//     if ($item = null) {
+//     } else {
+//         def_int $number = inv_total(misc_resources_collected, $item);
+//         ~bank_deposit_request(misc_resources_collected, $item, $number, $slot);
+//     }
+//     $slot = add($slot, 1);
+// }
+// inv_clear(misc_resources_collected);

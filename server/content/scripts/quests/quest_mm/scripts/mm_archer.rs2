@@ -1,0 +1,97 @@
+[ai_queue1,mm_posted_archer] ~npc_default_retaliate_ap;
+[ai_opplayer2,mm_posted_archer] npc_setmode(applayer2);
+[ai_applayer2,mm_posted_archer]
+// archers can not attack you in the long grass or if in monkey form, they will still try to though
+if(%mm_player_is_unconscious = ^true | loc_find(coord, mm_long_jungle_grass1) = true | loc_find(coord, mm_long_jungle_grass2) = true | loc_find(coord, mm_long_jungle_grass3) = true) {
+    return;
+}
+~mm_archer_attack;
+
+[ai_queue1,mm_monkey_archer] ~npc_default_retaliate_ap;
+[ai_opplayer2,mm_monkey_archer] npc_setmode(applayer2);
+[ai_applayer2,mm_monkey_archer]
+// archers can not attack you in the long grass or if in monkey form, they will still try to though
+if(%mm_player_is_unconscious = ^true | loc_find(coord, mm_long_jungle_grass1) = true | loc_find(coord, mm_long_jungle_grass2) = true | loc_find(coord, mm_long_jungle_grass3) = true) {
+    return;
+}
+~mm_archer_attack;
+
+[ai_queue1,mm_ravine_archer] ~npc_default_retaliate_ap;
+[ai_opplayer2,mm_ravine_archer] npc_setmode(applayer2);
+[ai_applayer2,mm_ravine_archer] ~mm_archer_attack;
+
+[proc,mm_archer_attack]
+if(~mm_wearing_greegree = true) {
+    return;
+}
+if (%npc_action_delay > map_clock) {
+    npc_setmode(applayer2);
+    return;
+}
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+
+def_int $attack_roll = ~npc_ranged_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
+def_int $maxhit = ~npc_ranged_maxhit;
+
+npc_anim(npc_param(attack_anim), 0);
+sound_synth(npc_param(rangeattack_sound), 1, 0);
+spotanim_npc(npc_param(proj_launch), npc_param(proj_height), 0);
+
+%npc_action_delay = add(map_clock, npc_param(attackrate));
+def_int $duration = 64;
+$duration = ~player_projectile(npc_coord, coord, uid, npc_param(proj_travel), 15, 36, 41, 15, 5, 11, 5);
+
+if(npc_type = mm_ravine_archer & %mm_player_is_unconscious = ^false & random(20) = 0) { // testing with 1 archer aggroed, it seems like about 1 in every 20 attacks, and its only when the arrow lands
+    strongqueue(aa_archer_knockout, 0, calc($duration / 30));
+}
+
+if (randominc($attack_roll) > randominc($defence_roll)) {
+    ~playerhit_n_ranged(true, randominc($maxhit), $duration, npc_param(attackrate));
+    ~npc_poison_player;
+    return;
+}
+~playerhit_n_ranged(true, 0, $duration, npc_param(attackrate));
+
+[walktrigger,wake_up]
+%mm_player_is_unconscious = ^false;
+anim(null, 0);
+
+[queue,aa_archer_knockout]
+p_stopaction;
+%mm_player_is_unconscious = ^true;
+~update_bas;
+anim(human_death, 0);
+p_delay(2);
+~fade_out;
+p_delay(3);
+p_telejump(movecoord(0_43_43_18_41, randominc(6), 0, randominc(1)));
+walktrigger(wake_up);
+~combat_clearqueue;
+clearqueue(aa_archer_knockout);
+clearqueue(aa_guard_knockout);
+clearqueue(aa_jail_knockout);
+queue(lumo_jailed_dialogue, 10, 0);
+if(%mm_jail_count < 255) %mm_jail_count = add(%mm_jail_count, 1);
+~fade_in;
+p_delay(4);
+def_int $severity = ~random_range(10, 20);
+if(random(10) = 0) { // seems random originally? only have one video of it: youtube.com/watch?si=-n3GpFUbwPR5L3PB&t=32&v=YGXz6CqRqig&feature=youtu.be
+    // assume the severity should be the same as the rest of the ape atoll stuff, maybe thats why it doesnt happen everytime?
+    // its not wrapped in the antipsn check, the player in the video is antipoisoned (same behaviour as osrs in this case)
+    if (%poison > -1) { 
+        if (%poison > $severity) {
+            mes("You have been poisoned!");
+            ~set_poison_timer;
+            %poison = $severity;
+        }
+    }
+    ~objbox(iron_arrow_p, "You have been hit by poisoned arrows and knocked out!", 250, 0, 0);
+}
+if_openoverlay(null);

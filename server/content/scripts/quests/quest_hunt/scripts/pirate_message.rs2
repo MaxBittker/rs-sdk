@@ -1,6 +1,6 @@
 [oploc1,piratechest]
 mes("The chest is locked.");
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 
 [oplocu,piratechest]
 if (last_useitem ! chest_key) {
@@ -11,7 +11,7 @@ if (last_useitem ! chest_key) {
 p_delay(1);
 // Temp note: dur updated ? Rounded up from 9 to 10 lol
 loc_change(piratechestopen, 10);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 
 mes("All that's in the chest is a message...");
 p_delay(7);

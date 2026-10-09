@@ -2,11 +2,10 @@
 [proc,kalphite_worker_spawn]
 // todo: refactor to loc_findall? Does this command even exist?
 def_coord $coord;
-def_coord $npc_coord = movecoord(npc_coord, 2, 0, 2);
 def_int $i = 0;
 while ($i < enum_getoutputcount(cocoon_coords)) {
     $coord = enum(int, coord, cocoon_coords, $i);
-    if (distance($npc_coord, $coord) <= 10 & loc_find($coord, kalphite_egg) = true) {
+    if (distance(npc_coord, $coord) < 10 & loc_find($coord, kalphite_egg) = true) {
         loc_anim(kalphite_egg_open);
         // close anim doesnt seem to be used?
         .npc_add(loc_coord, kalphite_worker_chamber, 500); // seems to be 5 min?

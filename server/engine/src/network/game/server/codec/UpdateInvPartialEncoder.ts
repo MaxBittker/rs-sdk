@@ -13,7 +13,7 @@ export default class UpdateInvPartialEncoder extends ServerGameMessageEncoder<Up
         for (const slot of message.slots) {
             const obj = inv.get(slot);
 
-            buf.p1(slot);
+            buf.psmart(slot);
             if (obj) {
                 buf.p2(obj.id + 1);
 

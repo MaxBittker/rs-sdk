@@ -80,25 +80,25 @@ if_close;
 def_int $color = calc(%if2 - 1);
 
 if (%if1 = 1) {
-    setidkit(woman_hair_bald, $color);
+    setidkit(woman_head_bald, $color);
 } else if (%if1 = 2) {
-    setidkit(woman_hair_bun, $color);
+    setidkit(woman_head_bun, $color);
 } else if (%if1 = 3) {
-    setidkit(woman_hair_dreadlocks, $color);
+    setidkit(woman_head_dredlocks, $color);
 } else if (%if1 = 4) {
-    setidkit(woman_hair_long, $color);
+    setidkit(woman_head_longhair, $color);
 } else if (%if1 = 5) {
-    setidkit(woman_hair_medium, $color);
+    setidkit(woman_head_mediumhair, $color);
 } else if (%if1 = 6) {
-    setidkit(woman_hair_pigtails, $color);
+    setidkit(woman_head_pigtails, $color);
 } else if (%if1 = 7) {
-    setidkit(woman_hair_short, $color);
+    setidkit(woman_head_shorthair, $color);
 } else if (%if1 = 8) {
-    setidkit(woman_hair_cropped, $color);
+    setidkit(woman_head_shorthair2, $color);
 } else if (%if1 = 9) {
-    setidkit(woman_hair_wildspikes, $color);
+    setidkit(woman_head_spikeyhair, $color);
 } else if (%if1 = 10) {
-    setidkit(woman_hair_spikes, $color);
+    setidkit(woman_head_spikeyhair2, $color);
 } 
 
 buildappearance(worn);
@@ -141,23 +141,23 @@ if_close;
 def_int $color = calc(%if2 - 1);
 
 if (%if1 = 1) {
-    setidkit(man_hair_bald, $color);
+    setidkit(man_head_bald, $color);
 } else if (%if1 = 2) {
-    setidkit(man_hair_dreadlocks, $color);
+    setidkit(man_head_dredlocks, $color);
 } else if (%if1 = 3) {
-    setidkit(man_hair_long, $color);
+    setidkit(man_head_longhair, $color);
 } else if (%if1 = 4) {
-    setidkit(man_hair_medium, $color);
+    setidkit(man_head_mediumhair, $color);
 } else if (%if1 = 5) {
-    setidkit(man_hair_tonsure, $color);
+    setidkit(man_head_priest, $color);
 } else if (%if1 = 6) {
-    setidkit(man_hair_short, $color);
+    setidkit(man_head_shorthair, $color);
 } else if (%if1 = 7) {
-    setidkit(man_hair_cropped, $color);
+    setidkit(man_head_shorthair2, $color);
 } else if (%if1 = 8) {
-    setidkit(man_hair_wildspikes, $color);
+    setidkit(man_head_spikeyhair, $color);
 } else if (%if1 = 9) {
-    setidkit(man_hair_spikes, $color);
+    setidkit(man_head_spikeyhair2, $color);
 } 
 
 buildappearance(worn);
@@ -202,7 +202,7 @@ def_int $color = calc(%if2 - 1);
 if (%if1 = 1) {
     setidkit(man_jaw_long, $color);
 } else if (%if1 = 2) {
-    setidkit(man_jaw_goatee, $color);
+    setidkit(man_jaw_goaty, $color);
 } else if (%if1 = 3) {
     setidkit(man_jaw_moustache, $color);
 } else if (%if1 = 4) {
@@ -214,7 +214,7 @@ if (%if1 = 1) {
 } else if (%if1 = 7) {
     setidkit(man_jaw_none, $color);
 } else if (%if1 = 8) {
-    setidkit(man_jaw_pointy, $color);
+    setidkit(man_jaw_short2, $color);
 } 
 
 buildappearance(worn);

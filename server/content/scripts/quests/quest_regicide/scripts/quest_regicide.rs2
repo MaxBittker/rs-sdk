@@ -128,7 +128,7 @@ if(p_finduid(uid) = true) {
     p_stopaction;
     loc_anim(woodspring);
     mes("You set off the trap as you pass.");
-    sound_synth(springtrap, 0, 0);
+    sound_synth(springtrap, 1, 0);
     ~agility_exactmove(human_stumble_back, 10, 0, coord, $dest, 10, 56, $dir, false);
     ~damage_self(8);
 }
@@ -221,7 +221,7 @@ if(.loc_find($trap4, regicide_trap_arrowtrip) = true) {
     loc_anim(arrowtrip);
     ~coord_projectile(.loc_coord, coord, iron_arrow_travel, 4, 35, 0, 45, 40, 0, 0);
 }
-sound_synth(tripwire_with_arrows, 0, 0);
+sound_synth(tripwire_with_arrows, 1, 0);
 queue(damage_player, 0, 5);
 queue(damage_player, 0, 5);
 
@@ -263,17 +263,21 @@ switch_int(loc_angle) {
             $dir = ^exact_east;
         }
 }
+def_coord $dest = movecoord(loc_coord, multiply(3,$dx), 0, multiply(3,$dz));
+if(map_blocked($start) = true | map_blocked($dest) = true) {
+    return;
+}
 if(coord ! $start) {
     p_teleport($start);
     p_delay(1);
 }
-sound_synth(jump_no_land, 0, 20);
+sound_synth(jump_no_land, 1, 20);
 if(stat_random(agility, 160, 300) = false) {
     mes("... you slip and fall.");
     ~agility_exactmove(agilityarena_dive_player, 20, 1, coord, movecoord(loc_coord, multiply(1,$dx), 0, multiply(1,$dz)), 30, 49, $dir, false);
     @regicide_pitfall_falldown;
 }
-~agility_exactmove(agilityarena_dive_player, 20, 1, coord, movecoord(loc_coord, multiply(3,$dx), 0, multiply(3,$dz)), 30, 49, $dir, false);
+~agility_exactmove(agilityarena_dive_player, 20, 1, coord, $dest, 30, 49, $dir, false);
 mes("... you manage to cross safely.");
 
 [label,regicide_pitfall_falldown]
@@ -453,7 +457,7 @@ if(distance(coord, $start) > 1) {
     return;
 }
 anim($seq, 30);
-sound_synth($synth, 0, $synth_delay);
+sound_synth($synth, 1, $synth_delay);
 p_locmerge(30, 94, $lb, $ub); 
 p_exactmove($start, $dest, 30, 94, $dir);
 p_delay(3);
@@ -476,7 +480,7 @@ if(loc_type = regicide_cross_over3) {
 ~chatnpc("<p,neutral>I remember you! You're the one who's working with them wicked elves. I will make you pay for that mistake.");
 ~npc_retaliate(0);
 
-[oploc1,loc_3941]
+[oploc1,regicide_old_camp_footprints]
 if(%regicide_quest = ^regicide_defeated_guard) {
     mes("I know where those tracks lead.");
 } else if(%regicide_quest = ^regicide_spoken_tracker2) {
@@ -512,7 +516,7 @@ if(last_useitem = regicide_barrel_lid_fused) {
     p_delay(1);
     anim(regicide_catapultwind, 0);
     loc_anim(winddown_catapult);
-    sound_synth(catapult_winch, 0, 0);
+    sound_synth(catapult_winch, 1, 0);
     if(.loc_find(0_34_49_10_47, regicide_catapult_left) = true) {
         .loc_anim(wind_catapult);
     }
@@ -530,16 +534,16 @@ if(last_useitem = regicide_barrel_lid_fused) {
         .loc_anim(trigger_catapult);
     }
     loc_anim(fire_catapult);
-    sound_synth(catapult_fire, 0, 0);
-    ~coord_projectile(0_34_49_9_49, 0_34_49_10_6, spotanim_286, 138, 75, 50, 30, 170, 0, 0);
+    sound_synth(catapult_fire, 1, 0);
+    ~coord_projectile(0_34_49_9_49, 0_34_49_10_6, regicide_barrelflight, 138, 75, 50, 30, 170, 0, 0);
     %regicide_catapult_used = ^false;
     p_delay(4);
     anim(regicide_player_vanish, 0);
     p_teleport(0_36_71_10_6);
     p_delay(0);
-    spotanim_map(spotanim_287, 0_36_71_10_6, 194, 100);
-    sound_synth(barrel_incoming, 0, 35);
-    ~coord_projectile(0_36_71_10_18, 0_36_71_10_7, spotanim_286, 112, 100, 10, 30, 90, 0, 0);
+    spotanim_map(regicide_barrelflight_exploding, 0_36_71_10_6, 194, 100);
+    sound_synth(barrel_incoming, 1, 35);
+    ~coord_projectile(0_36_71_10_18, 0_36_71_10_7, regicide_barrelflight, 112, 100, 10, 30, 90, 0, 0);
     p_delay(2);
     anim(regicide_player_vanish, 0);
     loc_add(0_36_71_13_6, regicide_tent_human_fire, 0, wall_straight, 10);
@@ -584,7 +588,7 @@ if(last_useitem = regicide_barrel_lid_fused) {
     loc_add(0_36_71_7_6, regicide_tent_human_fire, 2, wall_straight, 10);
     loc_add(0_36_71_7_5, regicide_tent_human_fire, 1, wall_diagonalcorner, 10);
     loc_add(0_36_71_7_7, regicide_tent_human_fire, 2, wall_diagonalcorner, 10);
-    sound_synth(bigfire, 0, 0);
+    sound_synth(bigfire, 1, 0);
     p_delay(7);
     anim(regicide_player_vanish, 0);
     p_teleport(0_34_49_7_49);
@@ -601,7 +605,7 @@ if(testbit(%regicide_bits, ^regicide_seen_guard) = ^true) {
 }
 // TODO: check this spawn time
 %regicide_bits = setbit(%regicide_bits, ^regicide_seen_guard);
-npc_add(map_findsquare(0_34_49_52_10, 0, 1, ^vis_lineofwalk), regicide_old_camp_guard, 500);
+npc_add(map_findsquare(0_34_49_52_10, 0, 1, ^map_findsquare_lineofwalk), regicide_old_camp_guard, 500);
 npc_say("I see you making nice with that elf, traitor!");
 ~npc_retaliate(0);
 
@@ -652,12 +656,12 @@ if(%regicide_quest < ^regicide_spoken_iorwerth2) {
 // https://youtu.be/wwJXlduVaxE?si=jDQIFE4TMqyDFFvO&t=513
 mes("You put the lime stone in the furnace.");
 anim(human_furnace, 0);
-sound_synth(furnace, 0, 0);
+sound_synth(furnace, 1, 0);
 p_delay(3);
 inv_del(inv, limestone, 1);
 inv_add(inv, regicide_quicklime, 1);
 anim(human_furnace, 0);
-sound_synth(sizzle, 0, 0);
+sound_synth(sizzle, 1, 0);
 if(inv_totalcat(worn, armour_hands) > 0) {
     mes("You retrieve a block of quicklime.");
     return;
@@ -677,7 +681,7 @@ if(last_useitem = ball_of_wool) {
     }
     p_arrivedelay;
     anim(regicide_useloom, 0);
-    sound_synth(loom, 0, 0);
+    sound_synth(loom, 1, 0);
     p_delay(2);
     mes("You weave the balls of wool into a strip of cloth.");
     inv_del(inv, ball_of_wool, 4);
@@ -693,7 +697,7 @@ if(last_useitem = ball_of_wool) {
 if(last_useitem = pestle_and_mortar) {
     inv_del(inv, regicide_quicklime, 1);
     anim(human_herbing_grind, 0);
-    sound_synth(grind, 0, 0);
+    sound_synth(grind, 1, 0);
     if(inv_total(inv, pot_empty) = 0) {
         mes("You burn yourself on the caustic dust before spilling it on the ground.");
         mes("Maybe you need something to store it in.");
@@ -792,7 +796,7 @@ if($val > 15) {
 p_walk(coord);
 queue(arianwyn_dialogue, 0, add($val, 1));
 if(npc_find(coord, regicide_good_elf3, 5, 0) = false) {
-    npc_add(map_findsquare(coord, 1, 3, ^vis_lineofsight), regicide_good_elf3, 300); // 3 mins rs3
+    npc_add(map_findsquare(coord, 1, 3, ^map_findsquare_lineofsight), regicide_good_elf3, 300); // 3 mins rs3
 }
 if(npc_find(coord, regicide_good_elf3, 5, 0) = true) {
     if($val = 0) ~chatnpc("<p,neutral>Are you the human by the name <displayname()>?");

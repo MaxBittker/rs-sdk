@@ -105,10 +105,11 @@ data=level,75
 // gives 16 xp instead of 160 xp
 data=experience,160
 data=respawn_ticks,600
-data=loot,uncut_sapphire,1,1,105,an uncut sapphire
-data=loot,uncut_emerald,1,1,17,an uncut emerald
-data=loot,uncut_ruby,1,1,5,an uncut ruby
-data=loot,uncut_diamond,1,1,1,an uncut diamond
+// https://i.imgur.com/OgJMi0d.png
+data=loot,uncut_sapphire,1,1,105,an Uncut sapphire
+data=loot,uncut_emerald,1,1,17,an Uncut emerald
+data=loot,uncut_ruby,1,1,5,an Uncut ruby
+data=loot,uncut_diamond,1,1,1,an Uncut diamond
 data=loot_total,128
 data=stall,gem stall
 data=stall,a gem
@@ -116,6 +117,7 @@ data=stall,a gem
 [stealing_viking_fur_stall]
 table=stealing
 data=loc,viking_fur_market
+data=replacement,viking_market
 data=owner,viking_fur_monger
 data=guard,viking_guard
 data=level,35
@@ -129,6 +131,7 @@ data=stall,some fur
 [stealing_viking_fish_stall]
 table=stealing
 data=loc,viking_fish_market
+data=replacement,viking_market
 data=owner,viking_fish_monger
 data=guard,viking_guard
 data=level,42
@@ -140,3 +143,75 @@ data=loot,raw_salmon,1,1,14,a salmon
 data=loot_total,20
 data=stall,fish stall
 data=stall,some fish
+
+[stealing_misc_fish_market]
+table=stealing
+data=loc,misc_fish_market
+data=replacement,viking_market
+data=owner,misc_fish_monger
+data=guard,misc_man_4
+data=guard,misc_man_6
+data=level,42
+data=experience,42
+data=respawn_ticks,32
+data=loot,raw_salmon,1,1,14,a salmon
+data=loot,raw_tuna,1,1,5,a tuna
+data=loot,raw_lobster,1,1,1,a lobster
+data=loot_total,20
+data=stall,fish stall
+data=stall,some fish
+
+[stealing_misc_veg_market]
+table=stealing
+data=loc,misc_veg_market
+data=replacement,viking_market
+data=owner,misc_veg_monger
+data=guard,misc_man_4
+data=guard,misc_man_6
+data=level,2
+data=experience,10
+data=respawn_ticks,5
+data=loot,potato,1,1,9,a potato
+data=loot,cabbage,1,1,6,a cabbage
+data=loot,onion,1,1,6,an onion
+data=loot,tomato,1,1,6,a tomato
+data=loot,garlic,1,1,3,a garlic
+data=loot_total,30
+data=stall,vegtable stall
+data=stall,some vegetables
+
+[stealing_etc_fish_market]
+table=stealing
+data=loc,etc_fish_market
+data=replacement,viking_market
+data=owner,etc_fish_monger
+data=guard,etc_guard1
+data=guard,etc_guard2
+data=level,42
+data=experience,42
+data=respawn_ticks,32
+data=loot,raw_salmon,1,1,14,a salmon
+data=loot,raw_tuna,1,1,5,a tuna
+data=loot,raw_lobster,1,1,1,a lobster
+data=loot_total,20
+data=stall,fish stall
+data=stall,some fish
+
+[stealing_etc_veg_market]
+table=stealing
+data=loc,etc_veg_market
+data=replacement,viking_market
+data=owner,etc_veg_monger
+data=guard,etc_guard1
+data=guard,etc_guard2
+data=level,2
+data=experience,10
+data=respawn_ticks,5
+data=loot,potato,1,1,9,a potato
+data=loot,cabbage,1,1,6,a cabbage
+data=loot,onion,1,1,6,an onion
+data=loot,tomato,1,1,6,a tomato
+data=loot,garlic,1,1,3,a garlic
+data=loot_total,30
+data=stall,vegtable stall
+data=stall,some vegetables

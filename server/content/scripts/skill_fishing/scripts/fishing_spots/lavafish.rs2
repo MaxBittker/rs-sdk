@@ -39,7 +39,7 @@ switch_obj (last_useitem) {
 }
 
 [label,burnup_fishing_equipment](namedobj $equipment, string $name)
-sound_synth(fire_lit, 0, 0);
+sound_synth(fire_lit, 1, 0);
 inv_del(inv, $equipment, 1);
 ~objbox($equipment, "The <$name> burns up in the lava!", 250, 0, divide(^objbox_height, 2));
 

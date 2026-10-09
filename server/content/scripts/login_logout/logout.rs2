@@ -1,12 +1,12 @@
-// TODO: Change compiler to remove return value
-[logout,_]()(boolean)
+[logout,_]
 ~set_pk_skull_logout;
 ~set_pvp_death_mark_logout;
 ~set_antifire_logout; // TODO: should be timer
 ~follower_logout;
 ~duel_arena_logout;
 ~macro_event_logout;
-return(true);
+~castlewars_logout;
+%last_logout = map_clock;
 
 [if_button,logout:try_logout]
 if_close;

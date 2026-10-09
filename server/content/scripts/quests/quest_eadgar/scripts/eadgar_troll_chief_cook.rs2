@@ -25,16 +25,16 @@ if(%eadgar_quest = ^eadgar_got_fake_man & inv_total(inv, eadgar_fake_man) > 0) {
     // rsprox/branon
     ~chatnpc("<p,happy>Did you find tasty human? Burntmeat smell something good.");
     ~chatplayer("<p,happy>Yes! Look!");
-    ~chatnpc_specific("Fake man", eadgar_parrotts, "<p,neutral>Heeeeeeelp!"); // no npc or chathead for this in 274
+    ~chatnpc_model("Fake man", 4053, "Heeeeeeelp!");
     ~chatnpc("<p,happy>Ah, dat look like nice tasty human.");
-    ~chatnpc_specific("Fake man", eadgar_parrotts, "<p,neutral>Aaaargh! Somebody save me!");
+    ~chatnpc_model("Fake man", 4053, "<p,neutral>Aaaargh! Somebody save me!");
     ~chatnpc("<p,happy>Yep, sound like human too. Burntmeat put it in stew.|Good work, human. Burnmeat give precious reward."); // linebreaks from runeweb 2004
     %eadgar_quest = ^eadgar_got_burnt_meat;
     inv_del(inv, eadgar_fake_man, 1);
     inv_add(inv, burnt_meat, 1);
     ~chatplayer("<p,neutral>This is burnt meat.");
-    // my run missed mesanims for these two, todo verify at some point
-    ~chatnpc("<p,neutral>It first thing I ever try to cook! Very precious to Burntmeat.");
+    // mesanims for these two from RS3
+    ~chatnpc("<p,happy>It first thing I ever try to cook! Very precious to Burntmeat.");
     ~chatplayer("<p,neutral>Thank you... and how's the stew?");
     @burntmeat_gave_fake_man;
 } else {

@@ -1,7 +1,7 @@
 [if_button,stats:attack] @skill_guide(attack, 0);
 [if_button,stats:hitpoints] @skill_guide(attack, 0);
 [if_button,stats:strength] @skill_guide(attack, 0);
-[if_button,stats:defence] @skill_guide(attack, 0);
+[if_button,stats:defence] @skill_guide(attack, 1);
 [if_button,stats:mining] @skill_guide(mining, 0);
 [if_button,stats:agility] @skill_guide(agility, 0);
 [if_button,stats:smithing] @skill_guide(smithing, 0);

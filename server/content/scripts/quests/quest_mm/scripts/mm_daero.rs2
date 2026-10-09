@@ -1,0 +1,312 @@
+[opnpc1,mm_daero]
+if(inzone(0_37_154_0_0, 0_37_154_63_63, npc_coord) = true | inzone(0_40_70_0_0, 0_41_71_63_63, npc_coord) = true) {
+    @daero_hangar_dialogue;
+}
+if(%mm_narnode < ^narnode_received_orders) {
+    ~mesbox("Daero seems like he is enjoying himself too much to talk.");
+    return;
+}
+if(%mm_main = ^mm_complete_training) {
+    ~chatplayer("<p,neutral>I need to return to Crash Island.");
+    ~chatnpc("<p,neutral>You know the routine...");
+    ~objbox(eye_patch, "You wear the blindfold Daero hands you.", 250, 0, 0);
+    ~daero_move_hangar;
+    return;
+}
+if(%mm_main = ^mm_complete) {
+    @daero_training;
+} else if(%mm_daero >= ^daero_left_grandtree) {
+    @daero_return_hangar;
+}else if(%mm_daero = ^daero_learnt_mission) {
+    @daero_p4_menu;
+} else if(%mm_daero = ^daero_given_orders) {
+    ~chatplayer("<p,quiz>What do the orders say?");
+    @mm_daero_p3;
+} else if(%mm_daero = ^daero_found) @mm_daero_p2;
+~chatplayer("<p,quiz>Are you Daero?");
+~chatnpc("<p,happy>Indeed I am - and you are?");
+~chatplayer("<p,neutral>I am an adventurer. I am currently in the service of your King.");
+%mm_daero = ^daero_found;
+~chatnpc("<p,happy>I see. You must be the individual who helped defeat my predecessor Glough. I hope you'll find me a more honest replacement.");
+@mm_daero_p2;
+
+[label,daero_hangar_dialogue]
+switch_int(%mm_daero) {
+    case ^daero_complete : ~chatnpc("<p,neutral>Speak to Waydar when you are ready to leave.");
+    case ^daero_reinit_complete :
+        ~chatnpc("<p,neutral>Well done, adventurer. You have managed to break Glough's code. Now the process of reinitialisation is complete, you can truly begin your journey into the unknown.");
+        ~chatplayer("<p,neutral>I've had some practice in the past.");
+        // https://youtu.be/Qr9nNWqN6Y8?si=rL7GlY8Qu--4FHes&t=599, https://youtu.be/qMJyd1UJjlI?si=7hcKIoox36HuDkso&t=833
+        ~chatnpc("<p,neutral>You are clearly a <text_gender("man", "woman")> of many talents.");
+        if(.npc_find(coord, mm_waydar, 14, 0) = true) {
+            %mm_daero = ^daero_complete;
+            ~chatnpc("<p,neutral>Flight Commander Waydar, now that reinitialisation is complete, I order you to fly to the south of Karamja with <displayname()>.");
+            ~.chatnpc("<p,neutral>Yes sir.");
+            ~chatnpc("<p,neutral>You are to safeguard <text_gender("him", "her")> on this potentially dangerous mission.");
+            ~.chatnpc("<p,neutral>Understood.");
+            ~chatnpc("<p,neutral><displayname()>, speak to Waydar when you are ready to leave.");
+            ~chatnpc("<p,neutral>And ... good luck.");
+        }
+    case ^daero_started_reinit :
+        switch_int(~p_choice4("Where is the hangar?", 1, "How do I leave?", 2, "How do I return here later?", 3, "What is reinitialisation?", 4)) {
+            case 1 :
+                ~chatplayer("<p,quiz>Where is the hangar?");
+                ~chatnpc("<p,neutral>We try to ensure the location of the hangar remains a secret. If you must know something, then know that it lies directly beneath the Gnomeball pitch. However, I cannot reveal the location of its entrance.");
+            case 2 :
+                ~chatplayer("<p,quiz>How do I leave?");
+                ~chatnpc("<p,neutral>There is a teleporter round the corner. You must use this.");
+            case 3 :
+                ~chatplayer("<p,quiz>How do I return later?");
+                ~chatnpc("<p,neutral>Come and find me on the Grand Tree. I will probably be at the bar.");
+            case 4 :
+                ~chatplayer("<p,quiz>What is reinitialisation?");
+                ~chatnpc("<p,neutral>Glough left a code on the facility which periodically needs to be entered if we wish to maintain the supply of power.");
+                ~chatnpc("<p,neutral>Without going through this process of reinitiliasation, we cannot power the mechanism which deploys the millitary gliders.");
+        }
+    case ^daero_left_grandtree :
+        ~chatnpc("<p,neutral>Welcome, adventurer, to the Underground Military Glider Hangar.");
+        ~chatplayer("<p,neutral>Wow! Why would Gnomes need such a place?");
+        ~chatnpc("<p,neutral>We do not, if the truth be told. This hangar was part of Glough's contingency planning. Had the attacks by land and sea failed, he would have turned to air.");
+        ~chatnpc("<p,neutral>It is fortunate indeed that you managed to expose him. The military gliders in this hangar are a prototype for a much refined version of the standard variety we currently use.");
+        ~chatnpc("<p,neutral>Let me introduce you to Flight Commander Waydar.");
+        if(.npc_find(coord, mm_waydar, 14, 0) = true) {
+            npc_setmode(apnpc1); // maybe npcface or something...
+            .npc_setmode(apnpc1);
+            facesquare(.npc_coord);
+            ~chatnpc_specific(nc_name(mm_daero), mm_daero, "<p,neutral>Flight Commander Waydar, I would like you to meet <displayname()>.");
+            ~chatnpc_specific(nc_name(mm_waydar), mm_waydar, "<p,neutral>Greetings High Tree Guardian.");
+            ~.chatnpcrange("<p,neutral>And greetings to you too, visitor.");
+            facesquare(npc_coord);
+            .npc_setmode(apnpc1);
+            ~chatnpc_specific(nc_name(mm_daero), mm_daero, "<p,neutral>Not just any old visitor Waydar; this is the person who exposed Glough and defeated his demon.");
+            ~chatnpc_specific(nc_name(mm_waydar), mm_waydar, "<p,neutral>I see. Well, there are no more demons left here.");
+            ~chatnpc_specific(nc_name(mm_daero), mm_daero, "<p,neutral>Quite. <text_gender("He", "She")> is now on a secret mission for the King.");
+            ~chatnpc_specific(nc_name(mm_daero), mm_daero, "<p,neutral>As you know, the 10th squad went missing during their mission to decommission the eastern shipyard of Karamja.");
+            ~chatnpc_specific(nc_name(mm_daero), mm_daero, "<p,neutral>We still do not know what happened, but evidence suggests they were blown far off course to the south.");
+            ~chatnpc_specific(nc_name(mm_waydar), mm_waydar, "<p,neutral>Their standard gliders must have fallen prey to the tropical weather.");
+            ~chatnpcnoturn("<p,neutral>When reinitialisation has been completed, you are to fly to the south of Karamja with <displayname()> and accompany <text_gender("him", "her")> on the mission.");
+            ~chatnpc_specific(nc_name(mm_waydar), mm_waydar, "<p,shifty>We are no closer to reinitialising sir - the code is too hard. It is likely the only person who could do it is Glough.");
+            ~chatnpcnoturn("<p,angry>That Gnome is never stepping foot in this hangar again. He always was and still is a menace. Do you understand me?");
+            ~chatnpc_specific(nc_name(mm_waydar), mm_waydar, "<p,scared>Yes sir.");
+            ~chatnpcnoturn("<p,neutral>Very well. Notify me when you have managed to reinitialise.");
+            %mm_daero = ^daero_started_reinit;
+            ~chatnpcnoturn("<p,neutral><displayname()>, you will have to wait till reinitialisation is complete.");
+        }
+}
+
+[opnpcu,mm_daero]
+p_opnpc(1); // osrs
+
+[label,mm_daero_p2]
+~chatplayer("<p,neutral>I have been asked to give you orders from King Narnode.");
+~chatnpc("<p,neutral>Well hand them over here then.");
+if(inv_total(inv, mm_narnode_orders) = 0) {
+    ~chatplayer("<p,neutral>However, I appear to have lost them...");
+    ~chatnpc("<p,neutral>Well you'd better retrieve them as soon as possible. Our enemies may extract sensitive information from them.");
+    return;
+}
+%mm_daero = ^daero_given_orders;
+inv_del(inv, mm_narnode_orders, 1);
+~objbox(mm_narnode_orders, "You hand King Narnode's orders to Daero.", 250, 0, 0);
+@mm_daero_p3;
+
+[label,mm_daero_p3]
+~chatnpc("<p,neutral>It is written in an old military code. Bear with me whilst I decode this.");
+if_close;
+mes("Daero starts decoding the orders.");
+p_delay(3);
+~chatnpc("<p,shifty>I hope you feel like a quest adventurer ...");
+~chatplayer("<p,quiz>Why is that?");
+~chatnpc("<p,neutral>... because you're going to get one.");
+~chatplayer("<p,angry>Tell me what the orders say!");
+~chatnpc("<p,neutral>Given your recent performance of uncovering and neutralising a threat at the very extremes of the Gnome hierarchy, the King has decreed that you are to undertake a reconnaisance mission.");
+~chatplayer("<p,quiz>Where to?");
+%mm_daero = ^daero_learnt_mission;
+~chatnpc("<p,neutral>You are to be taken far to the south of Karamja, further than any Gnome has purposely travelled before. You are to investigate Caranock's claim that Garkor's squad were blown off course.");
+~chatnpc("<p,neutral>You must really have impressed the King in the past.");
+@daero_p4_menu;
+
+[label,daero_p4_menu]
+if(%mm_daero_option_bit_one = ^true & %mm_daero_option_bit_two = ^true & %mm_daero_option_bit_three = ^true) {
+    @multi4("Talk about the journey...", daero_journey, "Talk about the 10th squad...", daero_10squad, "Talk about Caranock...", daero_caranock, "Leave...", daero_leave);
+}
+@multi3("Talk about the journey...", daero_journey, "Talk about the 10th squad...", daero_10squad, "Talk about Caranock...", daero_caranock);
+
+[label,daero_journey]
+if(%mm_daero_option_bit_one = ^false) %mm_daero_option_bit_one = ^true;
+@multi4("What lies to the south of Karamja?", daero_southkara, "How will I travel?", daero_howtravel, "Are you coming with me?", daero_comingwith, "@blu@Return to previous menu", daero_p4_menu);
+
+[label,daero_10squad]
+if(%mm_daero_option_bit_two = ^false) %mm_daero_option_bit_two = ^true;
+@multi4("Why did the King send a squad of the Royal Guard?", daero_royalguard, "Who is Garkor?", daero_garkor, "Why are the 10th squad so famous?", daero_10famous, "@blu@Return to previous menu", daero_p4_menu);
+
+[label,daero_caranock]
+if(%mm_daero_option_bit_three = ^false) %mm_daero_option_bit_three = ^true;
+@multi4("Who is Caranock?", daero_whocara, "What is a Gnome Liaison Officer?", daero_glo, "I'm not so sure about Caranock...", daero_surecara, "@blu@Return to previous menu", daero_p4_menu);
+
+[label,daero_southkara]
+~chatplayer("<p,quiz>What lies to the south of Karamja?");
+~chatnpc("<p,neutral>We do not know. Initial reports spoke of a large atoll populated by monkeys.");
+~chatplayer("<p,quiz>Monkeys? Like on Karamja?");
+~chatnpc("<p,neutral>From what I have heard, not quite like those monkeys...");
+@daero_journey;
+
+[label,daero_howtravel]
+~chatplayer("<p,quiz>How will I travel?");
+~chatnpc("<p,neutral>It is my responsibility to make arrangements for your mission. We will shortly visit a colleague of mine who will be accompanying you.");
+@daero_journey;
+
+[label,daero_comingwith]
+~chatplayer("<p,quiz>Are you coming with me?");
+~chatnpc("<p,neutral>I am afraid not. I must remain here to safeguard the Grand Tree. I will assign a Gnome agent to travel with you.");
+@daero_journey;
+
+[label,daero_royalguard]
+~chatplayer("<p,quiz>Why did the King send a squad of the Royal Guard?");
+~chatnpc("<p,neutral>The Royal Guard is composed of particularly elite soldiers who have proven themselves in battle. They are duty bound to protect the Grand Tree, its King and his interests.");
+~chatnpc("<p,neutral>In the face of danger, they can more than take care of themselves.");
+~chatplayer("<p,quiz>So the King worries we have come across an equally formidable foe?");
+~chatnpc("<p,neutral>He worries about this, yes.");
+@daero_10squad;
+
+[label,daero_garkor]
+~chatplayer("<p,quiz>Who is Garkor?");
+~chatnpc("<p,neutral>Sergeant Garkor holds the command of the 10th squad. As a soldier, he is extremely able. If his men are in trouble, he will be tirelessly working to save them.");
+~chatnpc("<p,neutral>You should aim to make contact with him.");
+@daero_10squad;
+
+[label,daero_10famous]
+~chatplayer("<p,quiz>Why are the 10th squad so famous?");
+~chatnpc("<p,neutral>They are, as you humans might say, the best of the best. As well as Sergeant Garkor, they have in their company a High Mage, two sappers and battle hardened foot soldiers.");
+~chatplayer("<p,quiz>What is a sapper?");
+~chatnpc("<p,neutral>You might consider the role as that of an engineer. Or perhaps of a munitions expert.");
+@daero_10squad;
+
+[label,daero_whocara]
+~chatplayer("<p,quiz>Who is Caranock?");
+~chatnpc("<p,neutral>I have never heard of him. According to the report you made to the King, he is the Gnome Liaison Officer at the eastern Karamja shipyard.");
+@daero_caranock;
+
+[label,daero_glo]
+~chatplayer("<p,quiz>What is a Gnome Liaison Officer?");
+~chatnpc("<p,neutral>It was a position Glough introduced. Gnome Liaison Officers are in general responsible for coordinating activities between Gnomes and other beings in our remote operations.");
+@daero_caranock;
+
+[label,daero_surecara]
+~chatplayer("<p,shifty>I'm not so sure about Caranock...");
+~chatnpc("<p,quiz>In what way?");
+~chatplayer("<p,neutral>I do not know. He just seemed a little suspicious. He was very keen to see me leave.");
+~chatnpc("<p,neutral>I do not know him; he is from before my time. Glough would presumably have hand picked him.");
+@daero_caranock;
+
+[label,daero_leave]
+~chatplayer("<p,neutral>Let us go then.");
+~chatnpc("<p,neutral>I must first introduce you to a colleague of mine who will be accompanying you on your mission.");
+switch_int(~p_choice2("Who is it?", 1, "I work better on my own...", 2)) {
+    case 1 :
+        ~chatplayer("<p,quiz>Who is it?");
+        ~chatnpc("<p,neutral>His name is Flight Commander Waydar.");
+    case 2 :
+        ~chatplayer("<p,angry>I work better on my own...");
+        ~chatnpc("<p,neutral>Tough. You will be working with Flight Commander Waydar.");
+}
+~chatnpc("<p,neutral>We must go now and meet Waydar. For security reasons I must ask you to wear a blindfold.");
+~objbox(eye_patch, "You wear the blindfold Daero hands you.", 250, 0, 0);
+%mm_daero = ^daero_left_grandtree;
+~daero_move_hangar;
+
+[label,daero_return_hangar]
+~chatnpc("<p,neutral>Hello again, adventurer. Would you like to return to the hangar?");
+switch_int(~p_choice2("Yes", 1, "No", 2)) {
+    case 1 :
+        ~chatplayer("<p,neutral>Yes please.");
+        ~objbox(eye_patch, "You wear the blindfold Daero hands you.", 250, 0, 0);
+        ~daero_move_hangar;
+    case 2 :
+        ~chatplayer("<p,neutral>Not right now, thanks.");
+        ~chatnpc("<p,neutral>Very well. Return to me when you do.");
+}
+
+[proc,daero_move_hangar]
+if_close;
+~fade_out;
+p_delay(4);
+if(%mm_daero < ^daero_reinit_complete) p_teleport(0_37_154_25_36);
+else p_teleport(0_41_70_25_36);
+~fade_in;
+p_delay(4);
+if_openoverlay(null);
+
+[label,daero_training]
+// https://youtu.be/GW9py01xZC8?si=dfetxOiU3ySh8Wtk&t=3237
+~chatplayer("<p,neutral>Good day, High Tree Guardian.");
+~chatnpc("<p,neutral>Hello there. I hear your mission is complete.");
+~chatplayer("<p,neutral>News travels quickly on this tree. I expect you also know that I am to be enrolled in the Royal Guard training programme.");
+~chatnpc("<p,neutral>Indeed I do.");
+~chatplayer("<p,quiz>How long does it take?");
+~chatnpc("<p,neutral>For you, it should hardly take any time at all.");
+~chatplayer("<p,neutral>Then let us begin.");
+~chatnpc("<p,neutral>Enthusiasm. I like that. We will first begin with a series of exercises designed to increase your strength and stamina.");
+~chatnpc("<p,neutral>We then will follow these up by improving your attack and defence techniques.");
+~chatnpc("<p,neutral>Let us begin. You must choose what you want to focus on:");
+def_int $op = ~p_choice2("Focus on increasing strength and stamina...", 1, "Focus on improving attack and defence techniques...", 2);
+if_close;
+~fade_out;
+p_delay(3);
+if($op = 2) p_teleport(1_38_54_52_34);
+else p_teleport(1_38_54_50_25);
+if_settext(inter_199:com_2, ^string_empty);
+if_settext(inter_199:com_3, ^string_empty);
+if_settext(inter_199:com_4, ^string_empty);
+if_settext(inter_199:com_5, ^string_empty);
+if_settext(inter_199:com_6, ^string_empty);
+if_settext(inter_199:com_7, "Several hours later...");
+if_setcolour(inter_199:com_7, ^white_rgb);
+if_settext(inter_199:com_8, ^string_empty);
+if_settext(inter_199:com_9, ^string_empty);
+if_settext(inter_199:com_10, ^string_empty);
+if_settext(inter_199:com_11, ^string_empty);
+if_settext(inter_199:com_12, ^string_empty);
+if_settext(inter_199:com_13, ^string_empty);
+if_openmain(inter_199);
+p_delay(0);
+~human_hit_sound;
+p_delay(2);
+sound_synth(human_block_1, 1, 20);
+p_delay(0);
+~human_hit_sound;
+p_delay(1);
+sound_synth(human_block_1, 1, 20);
+p_delay(2);
+sound_synth(human_block_1, 1, 20);
+p_delay(0);
+sound_synth(human_block_1, 1, 20);
+p_delay(1);
+~human_hit_sound;
+p_delay(0);
+sound_synth(human_block_1, 1, 20);
+p_delay(0);
+if_close;
+~fade_in;
+p_delay(3);
+
+%mm_main = ^mm_complete_training;
+if($op = 1) {
+    stat_advance(attack, 200000);
+    stat_advance(defence, 200000);
+    stat_advance(strength, 350000);
+    stat_advance(hitpoints, 350000);
+    mes("You gain 35,000 Strength XP.");
+    mes("You gain 35,000 Hitpoints XP.");
+    mes("You gain 20,000 Attack XP.");
+    mes("You gain 20,000 Defence XP.");
+} else {
+    stat_advance(attack, 350000);
+    stat_advance(defence, 350000);
+    stat_advance(strength, 200000);
+    stat_advance(hitpoints, 200000);
+    mes("You gain 20,000 Strength XP.");
+    mes("You gain 20,000 Hitpoints XP.");
+    mes("You gain 35,000 Attack XP.");
+    mes("You gain 35,000 Defence XP.");
+}

@@ -20,12 +20,14 @@ data=tree,deadtree2_swamp
 data=tree,deadtree6
 data=tree,evergreen_snowy_large
 data=tree,evergreen_vsnowy_large
-data=tree,loc_1316
-data=tree,loc_1315
+data=tree,evergreen_large
+data=tree,evergreen
 data=tree,regicide_tree_large
 data=tree,regicide_tree_large2
 data=tree,regicide_tree_large3
 data=tree,regicide_tree_small
+data=tree,mm_bush_kharazi_jungle_tree1
+data=tree,mm_bush_kharazi_jungle_tree2
 data=levelrequired,0
 data=productexp,250
 data=product,logs
@@ -157,8 +159,8 @@ data=successchance,rune_axe,7,21
 
 [hollow_tree_table]
 table=woodcutting_trees
-data=tree,loc_2289
-data=tree,loc_4060
+data=tree,hollow_tree
+data=tree,hollow_tree_big
 data=levelrequired,45
 data=productexp,825
 data=product,hollow_bark

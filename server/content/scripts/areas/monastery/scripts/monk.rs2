@@ -7,7 +7,7 @@ if (random(4) = 0) { // osrs - thanks to joe the toe!
 }
 
 [label,monk_heal_self]
-sound_synth(selfheal,0,0);
+sound_synth(selfheal, 1, 0);
 spotanim_npc(heal_casting, 120, 0);
 npc_statheal(hitpoints,2,0);
 npc_anim(human_castheal,0);
@@ -22,7 +22,7 @@ npc_anim(human_castheal,0);
 ~chatplayer("<p,quiz>Can you heal me? I'm injured.");
 ~chatnpc("<p,neutral>Ok.");
 if_close;
-sound_synth(heal, 0, 0);
+sound_synth(heal, 1, 0);
 spotanim_pl(heal_casting, 120, 0);
 npc_anim(human_castheal, 0);
 stat_heal(hitpoints, 2, 20);

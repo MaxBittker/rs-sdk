@@ -105,7 +105,9 @@ if(inv_total(inv, skavidmap) > 0) {
     mes("You enter the cave...");
     return(1);
 } else {
-    mes("There's no way I can find my way through without a map of some kind.");
+    // https://youtu.be/FvV0D3EAnx8?si=UJTxfdQhS64XfqJN&t=69
+    mes("There's no way I can find my way through");
+    mes("without a map of some kind.");
     return(0);
 }
 
@@ -209,7 +211,7 @@ if(last_useitem = toban_key) {
     if(inv_freespace(inv) = 0) {
         // Temp note: dur does not need updated ??
         loc_change(chestopen, 20);
-        sound_synth(chest_open, 0, 0);
+        sound_synth(chest_open, 1, 0);
         ~mesbox("There is something in there.|But you don't have the free space to hold it.");
         return;
     }
@@ -220,7 +222,7 @@ if(last_useitem = toban_key) {
 [label,open_toban_chest]
 // Temp note: dur does not need updated ?? @indio
 loc_change(chestopen, 20);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 if(inv_total(inv, stolen_gold) > 0) {
     mes("You have already got the stolen gold.");
     return;
@@ -284,7 +286,7 @@ if(($guard = ogre_guard1 & %gutanoth_gold < ^gutanoth_found_gold) |  ($guard = o
 [oploc1,tobanblock]
 ~chatplayer("<p,confused>What's this? The bridge is out - I'll need to find another way in. I can see a ladder up there coming out of a hole; there must be a tunnel that leads here...");
 
-[oplocu,loc_2326]
+[oplocu,tree_ropeswing4_norope]
 if(last_useitem = rope) {
     if(distance(coord, loc_coord) > 3) {
         mes("You need to be closer.");
@@ -298,11 +300,11 @@ if(last_useitem = rope) {
     p_delay(0);
     inv_del(inv, rope, 1);
     // Temp note: dur updated
-    loc_change(loc_2324, 5);
+    loc_change(tree_ropeswing3, 5);
     p_delay(0);
     loc_anim(ropeswing_long);
     ~agility_exactmove(human_ropeswing_long, 20, 0, coord, movecoord(loc_coord, 6, 0, 0), 45, 70, ^exact_east, false);
-    sound_synth(swing_across, 0, 0);
+    sound_synth(swing_across, 1, 0);
     mes("You skillfully swing across.");
     return;
 }
@@ -327,7 +329,7 @@ if(coordx(coord) > coordx(loc_coord)) {
 }
 p_delay(0);
 mes("You climb over the low wall.");
-sound_synth(climb_wall, 0, 0);
+sound_synth(climb_wall, 1, 0);
 ~agility_exactmove(human_walk_style, 30, 2, coord, $end, 30, 90, $dir, true);
 
 [opheld2,rockcake]
@@ -340,7 +342,7 @@ queue(damage_player, 0, 4);
 [oploc1,shuttanothchest1]
 p_arrivedelay;
 anim(human_openchest, 0);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change(chestopen, 300);
@@ -352,7 +354,7 @@ npc_add(coord, poisonspider, 1000);
 [oploc1,shuttanothchest2]
 p_arrivedelay;
 anim(human_openchest, 0);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change(chestopen, 300);
@@ -431,7 +433,7 @@ def_coord $opposite_coord = loc_coord;
 $opposite_coord = ~movecoord_loc_return(~multiply2(~door_close(loc_angle, loc_shape), -1));
 
 p_teleport($dest);
-sound_synth(grate_open, 0, 0);
+sound_synth(grate_open, 1, 0);
 if (loc_type = ogreguardgate2) {
     // Temp note: dur updated
     ~open_double_doors_left(3, double_door_open_and_close_right, null);
@@ -511,7 +513,7 @@ inv_add(inv, powering_crystal3, 1);
 [oploc1,watchleverup]
 mes("You pull the lever...");
 anim(human_leverdown, 0); // OSRS uses seq's not in 225, going to assume here
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 p_delay(0);
 if(~watchtower_has_all_crystals = true & %itwatchtower = ^itwatchtower_found_all_crystals) {
     mes("The magic forcefield activates.");

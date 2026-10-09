@@ -1,0 +1,68 @@
+[opnpc1,mm_lumdo]
+if(inzone(0_42_143_0_0, 2_42_143_63_63, npc_coord) = true) {
+    return;
+}
+if(inzone(0_43_42_0_0, 0_43_42_63_63, npc_coord) = true) {
+    ~chatplayer("<p,quiz>Can you take me back to Crash Island?");
+    ~chatnpc("<p,neutral>As you wish.");
+    if_close;
+    ~fade_out;
+    p_delay(3);
+    p_teleport(0_45_42_14_38);
+    ~fade_in;
+    p_delay(0);
+    queue(fade_clear, 2, 0);
+    return;
+}
+switch_int(%mm_lumdo) {
+    case ^lumdo_travelled :
+        ~chatplayer("<p,quiz>Can you take me back to Ape Atoll?");
+        ~chatnpc("<p,neutral>As you wish.");
+        if_close;
+        ~fade_out;
+        p_delay(3);
+        p_teleport(0_43_42_50_19);
+        ~fade_in;
+        p_delay(0);
+        queue(fade_clear, 2, 0);
+    case ^lumdo_wont_take :
+        ~chatplayer("<p,quiz>Will you take me to the atoll?");
+        ~chatnpc("<p,neutral>I am under direct orders to remain here.");
+    case ^lumdo_proof : @mm_lumdo_p2;
+    case ^mm_not_started :
+        ~chatnpc("<p,angry>Who are you two?");
+        ~chatplayer("<p,neutral>We are on a mission for King Narnode Shareen. I am <displayname()> and this is Flight Commander Waydar.");
+        ~chatnpc("<p,quiz>What business do you have here?");
+        ~chatplayer("<p,neutral>We are to investigate the disappearance of the 10th squad of the Royal Guard. Am I right in suspecting that you, Lumdo, are a member of the 10th squad?");
+        ~chatnpc("<p,neutral>I might be. Do you have any way to prove that you are who you say are?");
+        %mm_lumdo = ^lumdo_proof;
+        if(inv_total(inv, mm_gnome_royal_seal) > 0) {
+            ~chatplayer("<p,angry>I have the Gnome Royal Seal.");
+            ~objbox(mm_gnome_royal_seal, "You show Lumdo the Royal Seal.", 250, 0, 0);
+            ~chatnpc("<p,neutral>I see. Sorry for my distrust.");
+        } else {
+            ~chatplayer("<p,angry>We flew here on a military gnome glider. Is that not proof enough?");
+            ~chatnpc("<p,neutral>I suppose it is. Sorry for my distrust.");
+        }
+        @mm_lumdo_p2;
+}
+
+[label,mm_lumdo_p2]
+~chatplayer("<p,quiz>So are you Lumdo of the 10th squad?");
+~chatnpc("<p,neutral>I am indeed -");
+~chatplayer("<p,quiz>Where are the rest of your squad? Where is your Sergeant?");
+~chatnpc("<p,neutral>Let me begin at the beginning, human.");
+~chatnpc("<p,neutral>We were on our way to decommission Glough's old ship building facilities in eastern Karamja, as you probably know. However, we obviously chose the wrong season to fly.");
+~chatnpc("<p,neutral>We were one gnome to a glider, so each was extremely light. Like leaves in a wind, we were blown south before we even landed on that island.");
+~chatplayer("<p,quiz>Did you crash straight here?");
+~chatnpc("<p,neutral>Yes. The winds drove us into the treetops, which destroyed the canvas of our gliders. We dragged what remained of the gliders out onto this beach.");
+~chatplayer("<p,quiz>What did you do then?");
+~chatnpc("<p,neutral>Whilst we were falling, Sergeant Garkor noticed a large populated atoll to our west. You cannot see it from here, but it is within sailing distance.");
+~chatnpc("<p,neutral>We spent time gathering enough wood to fashion two boats. The Sergeant took the rest of the 10th squad in the larger of the boats to explore the island and to search for potential glider launch sites.");
+~chatplayer("<p,quiz>Presumably you are to guard the gliders until they return?");
+~chatnpc("<p,neutral>Affirmative.");
+%mm_lumdo = ^lumdo_wont_take;
+~chatplayer("<p,neutral>You must take us to the island. I have orders from the High Tree Guardian to make contact with your Sergeant.");
+~chatnpc("<p,angry>And I have orders from the Sergeant to stay here.");
+~chatplayer("<p,quiz>You will not take me?");
+~chatnpc("<p,angry>I will not take orders from you.");

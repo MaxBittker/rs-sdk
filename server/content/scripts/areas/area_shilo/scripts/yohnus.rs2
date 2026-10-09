@@ -17,7 +17,7 @@ switch_int(~p_choice2("Use Furnace - 20 Gold", 1, "No thanks!", 2)) {
         if_close;
         p_delay(0);
         ~forcemove(0_44_46_40_19);
-        if(loc_find(coord, loc_2266) = true) {
+        if(loc_find(coord, shilofurnacedoor) = true) {
             def_int $x;
             def_int $z;
             def_coord $loc_coord = loc_coord;
@@ -26,8 +26,8 @@ switch_int(~p_choice2("Use Furnace - 20 Gold", 1, "No thanks!", 2)) {
             $x, $z = ~door_open($angle, loc_shape);
             // Temp note: dur updated
             loc_change(inviswall, 3);
-            loc_add(movecoord($loc_coord, $x, 0, $z), desertdoor_inactive, modulo(add($angle, 1), 4), $shape, 3);
-            sound_synth(door_open, 0, 0);
+            loc_add(movecoord($loc_coord, $x, 0, $z), loc_1532, modulo(add($angle, 1), 4), $shape, 3);
+            sound_synth(door_open, 1, 0);
         }
         p_teleport(movecoord(coord, 0, 0, 1));
     case 2 :
@@ -35,10 +35,10 @@ switch_int(~p_choice2("Use Furnace - 20 Gold", 1, "No thanks!", 2)) {
         ~chatnpc("<p,neutral>Very well Bwana, have a nice day.");
 }
 
-[oploc1,loc_2266]
+[oploc1,shilofurnacedoor]
 def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
 if($entering = false) {
-    ~open_and_close_door2(desertdoor_inactive, ~check_axis(coord, loc_coord, loc_angle), door_open);
+    ~open_and_close_door2(loc_1532, ~check_axis(coord, loc_coord, loc_angle), door_open);
 } else if(npc_find(coord, shilofurnaceowner, 5, 0) = true) {
     @shilofurnaceowner_blacksmiths;
 }

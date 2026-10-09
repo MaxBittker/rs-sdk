@@ -1,7 +1,7 @@
 // https://youtu.be/0lPiEWFcXTM?t=99
 [oploc1,trapdoor]
 mes("The trapdoor opens...");
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 // Temp note: dur does not need updated ? @indio
 loc_change(trapdoor_open, 500);
 
@@ -12,6 +12,6 @@ p_telejump(movecoord(coord(), 0, 0, 6400));
 
 [oploc2,trapdoor_open]
 mes("You close the trapdoor.");
-sound_synth(door_close, 0,0 );
+sound_synth(door_close, 1, 0 );
 // Temp note: dur does not need updated ? @indio
 loc_change(trapdoor, 500);

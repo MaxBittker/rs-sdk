@@ -38,15 +38,17 @@
 // leaves
 [zone,0_34_50_32_0] settimer(regicide_pitfall, 1);
 [zone,0_35_49_32_32] settimer(regicide_pitfall, 1);
-[zone,0_35_49_32_0] settimer(regicide_pitfall, 1);
+[zone,0_35_49_32_40] settimer(regicide_pitfall, 1);
 [zone,0_35_50_24_0] settimer(regicide_pitfall, 1);
 [zone,0_35_50_32_56] settimer(regicide_pitfall, 1);
+[zone,0_35_50_40_56] settimer(regicide_pitfall, 1);
 
 [zoneexit,0_34_50_32_0] cleartimer(regicide_pitfall);
 [zoneexit,0_35_49_32_32] cleartimer(regicide_pitfall);
-[zoneexit,0_35_50_32_0] cleartimer(regicide_pitfall);
+[zoneexit,0_35_49_32_40] cleartimer(regicide_pitfall);
 [zoneexit,0_35_50_24_0] cleartimer(regicide_pitfall);
 [zoneexit,0_35_50_32_56] cleartimer(regicide_pitfall);
+[zoneexit,0_35_50_40_56] cleartimer(regicide_pitfall);
 
 [softtimer,regicide_woodspring]
 if(coord = 0_35_50_55_14 | coord = 0_35_50_55_15) {

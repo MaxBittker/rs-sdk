@@ -15,7 +15,7 @@
 def_int $duration = 60;
 // Temp note: dur does not need updated
 loc_change(loc_param(macro_gas), $duration);
-sound_synth(gas_hiss, 0, 0);
+sound_synth(gas_hiss, 1, 0);
 p_oploc(1);
 
 
@@ -38,7 +38,7 @@ if (%macro_gas_counter < 4) {
 }
 // Osrs wiki says: "Explosion of an exploding rock does not cease the smoke from puffing and therefore an exploding rock can explode again if it were mined again or mined by another player."
 anim(null, 0);
-sound_synth(gas_explosion, 0, 0);
+sound_synth(gas_explosion, 1, 0);
 spotanim_map(firewave_impact, loc_coord, 92, 0);
 queue(damage_player, 0, 10);
 %macro_gas_counter = 0;

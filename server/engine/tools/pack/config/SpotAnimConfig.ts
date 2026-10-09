@@ -10,10 +10,7 @@ export function parseSpotAnimConfig(key: string, value: string): ConfigValue | n
         'angle',
         'ambient', 'contrast',
     ];
-    // prettier-ignore
-    const booleanKeys = [
-        'hasalpha'
-    ];
+    const booleanKeys: string[] = [];
 
     if (stringKeys.includes(key)) {
         if (value.length > 1000) {
@@ -108,10 +105,6 @@ export function packSpotAnimConfigs(configs: Map<string, ConfigLine[]>, modelFla
                 } else if (key === 'anim') {
                     client.p1(2);
                     client.p2(value as number);
-                } else if (key === 'hasalpha') {
-                    if (value === true) {
-                        client.p1(3);
-                    }
                 } else if (key === 'resizeh') {
                     client.p1(4);
                     client.p2(value as number);

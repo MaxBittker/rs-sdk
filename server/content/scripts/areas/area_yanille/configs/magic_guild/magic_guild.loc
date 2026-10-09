@@ -1,17 +1,17 @@
-[loc_1600]
+[magicguild_door_l]
 name=Magic guild door
 desc=The doors to the Magic Guild.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 raiseobject=no
 category=double_door_open_and_close_left
 param=next_loc_stage,loc_1522
 param=open_sound,null
 
-[loc_1601]
+[magicguild_door_r]
 name=Magic guild door
 desc=The doors to the Magic guild.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 mirror=yes
 raiseobject=no

@@ -1,0 +1,48 @@
+[label,castlewars_takefrom]
+if (%castlewars_team ! .%castlewars_team) {
+    mes("Your enemies won't let you take from them.");
+    return;
+}
+def_int $team_flag = modulo(add(%castlewars_team, 1), 2);
+def_namedobj $obj = ~castlewars_flag($team_flag);
+if (.inv_getobj(worn, ^wearpos_rhand) ! $obj) {
+    mes("They don't have the enemy flag.");
+    return;
+}
+if (inv_freespace(inv) = 0) {
+    mes("You don't have enough free inventory space to do that.");
+    return;
+}
+.if_close;
+if (.p_finduid(.uid) = false) {
+    mes("You can't take from them yet.");
+    return;
+}
+if (.%castlewars_flag_clock >= map_clock) {
+    mes("You can't take from them yet.");
+    return;
+}
+
+.inv_del(worn, $obj, 1);
+.queue(update_all, 0, 0); // prevents logout, delays update for a tick, and you can interface it :)
+inv_add(inv, $obj, 1);
+
+if (~unequip_conflicts_space($obj) = false) {
+    mes("You don't have enough free inventory space to do that.");
+    ~castlewars_flag_drop(inv, $obj); // osrs
+    return;
+}
+
+if ($team_flag = ^castlewars_team_saradomin) {
+    %castlewars_saradomin_flag_coord = null;
+    %castlewars_saradomin_flag_uid = uid;
+} else if ($team_flag = ^castlewars_team_zamorak) {
+    %castlewars_zamorak_flag_coord = null;
+    %castlewars_zamorak_flag_uid = uid;
+}
+// test:
+// - when performing a take-from, have the flag drop from the `~unequip_conflicts_space($obj) = false` block
+// Player will maintain their %castlewars_flag_clock, even after picking the flag back up
+%castlewars_flag_clock = add(map_clock, 300);
+
+~equip(~inv_getslot(inv, $obj));

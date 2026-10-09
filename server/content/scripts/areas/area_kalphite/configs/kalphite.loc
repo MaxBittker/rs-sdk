@@ -1,14 +1,14 @@
 [kalphite_burrow_entrance]
 name=Tunnel entrance
 desc=How am I going to get down there?
-model=loc_3827
+model=quest_kalphite_burrow_entrance
 width=2
 length=2
 
 [kalphite_burrow_entrance_withrope]
 name=Tunnel entrance
 desc=How am I going to get down there?
-model=loc_3828
+model=quest_kalphite_burrow_entrance_withrope
 width=2
 length=2
 op1=Climb-down
@@ -16,7 +16,7 @@ op1=Climb-down
 [kalphite_burrow_exit]
 name=Rope
 desc=I hope this holds!
-model=model_loc_1762
+model=outdoorfurniture_rope
 blockwalk=no
 blockrange=no
 op1=Climb-up
@@ -24,7 +24,7 @@ op1=Climb-up
 [kalphite_chamber_entrance]
 name=Tunnel entrance
 desc=How am I going to get down there?
-model=loc_3827
+model=quest_kalphite_burrow_entrance
 recol1s=25326
 recol1d=18953
 recol2s=24236
@@ -41,7 +41,7 @@ length=2
 [kalphite_chamber_entrance_withrope]
 name=Tunnel entrance
 desc=How am I going to get down there?
-model=loc_3828
+model=quest_kalphite_burrow_entrance_withrope
 recol1s=25326
 recol1d=18953
 recol2s=24236
@@ -59,7 +59,7 @@ op1=Climb-down
 [kalphite_chamber_exit]
 name=Rope
 desc=I hope this holds!
-model=model_loc_1762
+model=outdoorfurniture_rope
 blockwalk=no
 blockrange=no
 op1=Climb-up

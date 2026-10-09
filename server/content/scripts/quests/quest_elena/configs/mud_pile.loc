@@ -1,6 +1,6 @@
 [plaguemudpile]
 name=Mud pile
 desc=A pile of what is hopefully mud.
-model=model_loc_13
+model=outdoorfurniture_mudpile
 length=2
 op1=Climb

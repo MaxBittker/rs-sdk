@@ -38,7 +38,7 @@ if(coord ! loc_coord) {
 if(stat_random(agility, 60, 252) = false) {
     ~agility_exactmove($fall_seq, 30, 1, coord, 0_53_52_47_2, 58, 60, $dir, false);
     spotanim_map(watersplash, coord, 0, 3);
-    sound_synth(pool_plop, 0, 0);
+    sound_synth(pool_plop, 1, 0);
     ~set_readywalkturn_bas(human_swim_ready, human_swim_ready, human_swim);
     if($dir = ^exact_south) {
         p_teleport(movecoord(coord, -1, 0, -2));
@@ -69,7 +69,7 @@ if(obj_coord = 0_53_52_45_9) {
     p_delay(0);
     anim(human_pickuptable, 0);
     obj_takeitem(inv);
-    sound_synth(pick2, 0, 0);
+    sound_synth(pick2, 1, 0);
     if(inv_total(inv, mirror) = 0) {
         obj_add(obj_coord, mirror, 1, 200);
         mes("You find a small mirror under the washing bowl.");
@@ -95,7 +95,7 @@ if(%druidspirit < ^druidspirit_performed_ritual) {
     if(npc_findexact(0_53_52_48_8, filliman_tarlock_spirit) = false) {
         npc_add(0_53_52_48_8, filliman_tarlock_spirit, 100); // 100t osrs
         npc_setmode(playerface); // NOT playerfaceclose
-        sound_synth(ghast_appear, 0, 0);
+        sound_synth(ghast_appear, 1, 0);
     }
     @filliman_spirit_dialogue;
 } else {
@@ -145,7 +145,7 @@ if($last_useitem = mortmyremushroom) {
     if(%druidspirit < ^druidspirit_picked_fungi) {
         mes("The fungus seems to be quite old and dry, not fresh.");
         if(npc_findexact(0_53_52_48_8, filliman_tarlock_spirit) = false) {
-            if(coord = 0_53_52_48_8) ~forcemove(map_findsquare(coord, 1, 1, ^vis_lineofwalk)); // random tile
+            if(coord = 0_53_52_48_8) ~forcemove(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk)); // random tile
             npc_add(0_53_52_48_8, filliman_tarlock_spirit, 100); // 100t osrs
             ~chatnpc("<p,idle>@blu@~ Filliman Tarlock suddenly appears! ~");
         }
@@ -219,7 +219,7 @@ while ($dx <= 1) {
             // i dont think you can grow pears or stems with this?
             if(loc_find($coord, log_druidicspirit) = true & ($changed = ^false | random(2) = 0)) { // TODO: is this randomization correct (just arbitrary atm)?
                 if(%druidspirit = ^druidspirit_blessed) %druidspirit = ^druidspirit_casted_spell;
-                sound_synth(loc_param(open_sound), 0, 0);
+                sound_synth(loc_param(open_sound), 1, 0);
                 loc_change(loc_param(next_loc_stage), 25);
                 $changed = ^true;
             }
@@ -262,7 +262,7 @@ while ($dx <= 1) {
             // i dont think you can grow pears or stems with this?
             if((loc_find($coord, log_druidicspirit) = true | loc_find($coord, peartree_druidicspirit) = true | loc_find($coord, branch_druidicspirit) = true) & ($changed = ^false | random(2) = 0)) { // TODO: is this randomization correct (just arbitrary atm)?
                 if(%druidspirit = ^druidspirit_blessed_sickle) %druidspirit = ^druidspirit_casted_sickle_bloom;
-                sound_synth(loc_param(open_sound), 0, 0);
+                sound_synth(loc_param(open_sound), 1, 0);
                 loc_change(loc_param(next_loc_stage), 25);
                 $changed = ^true;
             }
@@ -337,7 +337,7 @@ if(%druidspirit >= ^druidspirit_full_transform) $type = filliman_tarlock_ns;
 if(npc_find(coord, $type, 10, 0) = false) {
     npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), $type, 100); // anywhere in the grotto
     npc_setmode(playerface); // NOT playerfaceclose
-    sound_synth(ghast_appear, 0, 0);
+    sound_synth(ghast_appear, 1, 0);
 }
 if(%druidspirit >= ^druidspirit_full_transform) @filliman_ns_dialogue;
 @filliman_spirit_dialogue;
@@ -351,11 +351,11 @@ if (stat(prayer) >= $amount) {
 // prayer boost
 if (stat(prayer) >= stat_base(prayer)) {
     mes("You boost your prayer points.");
-    sound_synth(prayer_boost, 0, 0);
+    sound_synth(prayer_boost, 1, 0);
 } else {
     anim(human_pray, 0);
     mes("You recharge your prayer points.");
-    sound_synth(prayer_recharge, 0, 0);
+    sound_synth(prayer_recharge, 1, 0);
 }
 stat_add(prayer, calc($amount - stat(prayer)), 0);
 
@@ -388,7 +388,7 @@ if(inv_freespace(inv) = 0) {
 if(%druidspirit = ^druidspirit_casted_spell) %druidspirit = ^druidspirit_picked_fungi;
 if(%druidspirit = ^druidspirit_casted_sickle_bloom) %druidspirit = ^druidspirit_picked_sickle;
 mes("You pick a mushroom from the log.");
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 anim(human_pickupfloor, 0);
 inv_add(inv, mortmyremushroom, 1);
 loc_change(log_druidicspirit, 25);
@@ -400,7 +400,7 @@ if(inv_freespace(inv) = 0) {
 }
 if(%druidspirit = ^druidspirit_casted_sickle_bloom) %druidspirit = ^druidspirit_picked_sickle;
 mes("You take a cutting from the budding branch.");
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 anim(human_pickupfloor, 0);
 inv_add(inv, mortmyrebuddingstem, 1);
 loc_change(branch_druidicspirit, 25);
@@ -413,7 +413,7 @@ if(inv_freespace(inv) = 0) {
 }
 if(%druidspirit = ^druidspirit_casted_sickle_bloom) %druidspirit = ^druidspirit_picked_sickle;
 mes("You pick a pear from the tree.");
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 anim(human_pickuptable, 0);
 inv_add(inv, mortmyrepear, 1);
 loc_change(peartree_druidicspirit, 25);

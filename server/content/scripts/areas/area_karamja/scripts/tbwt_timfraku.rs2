@@ -47,6 +47,7 @@ switch_int(%tbwt_main) {
 @tbwt_timfraku_unstarted_options;
 
 [label,tbwt_timfraku_unstarted_options]
+%tbwt_main = ^tbwt_spoke_to_timfraku;
 if (%junglepotion >= ^junglepotion_complete) {
     @multi4("Why should I leave?", tbwt_timfraku_whyshouldileave, 
         "Right, I'm going then.", tbwt_timfraku_goingthen, 
@@ -59,17 +60,7 @@ if (%junglepotion >= ^junglepotion_complete) {
         );
 }
 
-
-[proc,tbwt_set_spoke_to_timfraku]
-switch_int(%tbwt_main) {
-    case ^tbwt_not_started :
-        %tbwt_main = ^tbwt_spoke_to_timfraku;
-    case ^tbwt_spoke_to_timfraku :
-        if(%junglepotion >= ^junglepotion_complete) %tbwt_main = ^tbwt_timfraku_asked_for_help;
-}
-
 [label,tbwt_timfraku_whyshouldileave]
-~tbwt_set_spoke_to_timfraku;
 ~chatplayer("<p,happy>Why should I leave?");
 ~chatnpc("<p,neutral>This place has been cursed. Our people have angered the gods and have fled the village.");
 @multi3("Where is this place?", tbwt_timfraku_whereisthisplace, 
@@ -78,7 +69,6 @@ switch_int(%tbwt_main) {
         );
 
 [label,tbwt_timfraku_goingthen]
-~tbwt_set_spoke_to_timfraku;
 ~chatplayer("<p,neutral>Right, I'm going then.");
 
 [label,tbwt_timfraku_spoke_to_timfraku]
@@ -96,13 +86,12 @@ if (%junglepotion < ^junglepotion_complete) {
         ~chatnpc("<p,angry>I said: begone!");
     }
 } else {
-    ~tbwt_set_spoke_to_timfraku;
-    ~chatplayer("<p,happy>Trufitus sent me.");
-    ~chatnpc("<p,neutral>Trufitus Shakaya? What news does he send?");
-    ~chatplayer("<p,happy>Trufitus has communed with the gods. Your village was never cursed and your people are free to return.");
-    ~chatnpc("<p,neutral>Bwana, do you speak the truth?");
-    ~chatplayer("<p,happy>Yes, I helped Trufitus gather ingredients for a commune potion.");
-    ~chatnpc("<p,neutral>Then it must be true.");
+    ~chatplayer("<p,neutral>Trufitus sent me.");
+    ~chatnpc("<p,quiz>Trufitus Shakaya? What news does he send?");
+    ~chatplayer("<p,neutral>Trufitus has communed with the gods. Your village was never cursed and your people are free to return.");
+    ~chatnpc("<p,shock>Bwana, do you speak the truth?");
+    ~chatplayer("<p,neutral>Yes, I helped Trufitus gather ingredients for a commune potion.");
+    ~chatnpc("<p,shock>Then it must be true.");
     if_close;
     mes("Timfraku appears to concentrate very deeply.");
     p_delay(4);
@@ -135,6 +124,7 @@ if (%junglepotion < ^junglepotion_complete) {
 
 [label,tbwt_timfraku_pre_quest_instructions]
 ~chatnpc("<p,neutral>I ask you to deliver the good news to my three sons Tamayu, Tinsay & Tiadeche, and then return them to the village.");
+if(%tbwt_main < ^tbwt_timfraku_asked_for_help) %tbwt_main = ^tbwt_timfraku_asked_for_help;
 @multi2_header("Yes", tbwt_timfraku_starttbwt, "No", tbwt_timfraku_declinetbwt, "Start Tai Bwo Wannai Trio?");
 
 [label,tbwt_timfraku_starttbwt]
@@ -146,7 +136,6 @@ if (%junglepotion < ^junglepotion_complete) {
 ~chatnpc("<p,neutral>We shall see, Bwana.");
 
 [label,tbwt_timfraku_declinetbwt]
-~tbwt_set_spoke_to_timfraku;
 ~chatplayer("<p,neutral>No, I've had quite enough of the jungle already.");
 ~chatnpc("<p,neutral>Very well. Return when you are ready.");
 
@@ -158,7 +147,6 @@ if (%junglepotion < ^junglepotion_complete) {
 // Assumed 2 options here due to others being Tai Bwo Wannai Cleanup related, which isn't applicable in Sept 2004 (275)
 // https://youtu.be/v3ReI2tx7eI?si=AyGbEyZcVWznJAVx&t=145
 [label,tbwt_timfraku_village]
-~tbwt_set_spoke_to_timfraku; // Does this set varp to 1 like the other options? Need to confirm on OSRS with another account
 @multi2("What do you do here?", tbwt_timfraku_whatdoyoudo, 
         //"Is there anything interesting to do here?", tbwt_timfraku_interesting,
         //"I've been doing some work around the village.", tbwt_timfraku_workaroundvillage,

@@ -1,4 +1,4 @@
-[opnpc1,king_lathas]
+[opnpc1,kinglathas]
 if(%regicide_quest > ^regicide_not_started) {
     switch_int(%regicide_quest) {
         case ^regicide_complete :

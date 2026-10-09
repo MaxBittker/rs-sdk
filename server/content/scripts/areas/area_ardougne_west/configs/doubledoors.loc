@@ -1,7 +1,7 @@
 [ardougnewalldoor_left]
 name=Door
 desc=It's a door.
-model=model_loc_2048
+model=ardoungewall_doorl
 sharelight=yes
 occlude=yes
 op1=Open
@@ -9,7 +9,7 @@ op1=Open
 [ardougnewalldoor_right]
 name=Door
 desc=It's a door.
-model=model_loc_2048
+model=ardoungewall_doorl
 sharelight=yes
 occlude=yes
 mirror=yes
@@ -17,7 +17,7 @@ op1=Open
 
 [w_ardougnedoubledoorl]
 name=Door
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 retex1s=wall
 retex1d=mossybricks
@@ -30,7 +30,7 @@ param=next_loc_stage,w_ardougnedoubledoorlopen
 
 [w_ardougnedoubledoorlopen]
 name=Door
-model=model_loc_71
+model=castle_doubledoorl
 op1=Close
 retex1s=wall
 retex1d=mossybricks
@@ -43,7 +43,7 @@ param=next_loc_stage,w_ardougnedoubledoorl
 
 [w_ardougnedoubledoorr]
 name=Door
-model=model_loc_71
+model=castle_doubledoorl
 mirror=yes
 op1=Open
 retex1s=wall
@@ -57,7 +57,7 @@ param=next_loc_stage,w_ardougnedoubledoorropen
 
 [w_ardougnedoubledoorropen]
 name=Door
-model=model_loc_71
+model=castle_doubledoorl
 mirror=yes
 op1=Close
 retex1s=wall

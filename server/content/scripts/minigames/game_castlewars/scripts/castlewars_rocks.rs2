@@ -1,0 +1,129 @@
+[label,castlewars_mining_firstswing]
+def_obj $pickaxe = ~pickaxe_checker;
+if ($pickaxe = null) {
+    anim(null, 0);
+    ~mesbox("You need a pickaxe to mine this rock. You do not have a pickaxe which you have the Mining level to use.");
+    return;
+}
+def_int $mining_rate = oc_param($pickaxe, mining_rate);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + $mining_rate);
+    p_oploc(1);
+    return;
+}
+anim(oc_param($pickaxe, mining_animation), 0);
+mes("You swing your pick at the rock.");
+if (%action_delay = map_clock) {
+    @castlewars_mining_roll;
+}
+p_oploc(3);
+
+
+[label,castlewars_mining_continue]
+def_obj $pickaxe = ~pickaxe_checker;
+if ($pickaxe = null) {
+    anim(null, 0);
+    ~mesbox("You need a pickaxe to mine this rock. You do not have a pickaxe which you have the Mining level to use.");
+    return;
+}
+
+p_oploc(3); // for some reason you continue collapsing this tunnel (https://youtu.be/0lPiEWFcXTM?t=205) lol, Doesnt match in osrs
+
+def_int $mining_rate = oc_param($pickaxe, mining_rate);
+sound_synth(mine_quick, 0, 0);
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + $mining_rate);
+} else if (%action_delay = map_clock) {
+    anim(oc_param($pickaxe, mining_animation), 0);
+    @castlewars_mining_roll;
+}
+
+
+[label,castlewars_mining_roll]
+if (stat_random(mining, 15, 255) = true) { // todo: figure out exact rate, for now its same as picking lock
+    p_delay(0); // https://youtu.be/0lPiEWFcXTM?t=36
+    if (loc_type = castlewars_blocked_tunnel_1) {
+        loc_change(castlewars_blocked_tunnel_2, ^max_32bit_int);
+        mes("You manage to remove some of the rocks.");
+    } else if (loc_type = castlewars_blocked_tunnel_2) {
+        loc_change(castlewars_blocked_tunnel_3, ^max_32bit_int);
+        ~castlewars_tunnel_clear(loc_coord);
+        mes("You manage to clear the rest of the rocks.");
+        anim(null, 0);
+    } else if (loc_type = castlewars_cavewall_rockslide) {
+        anim(null, 0);
+        @castlewars_collapse_tunnel;
+    }
+    p_oploc(3);
+}
+
+[proc,castlewars_tunnel_set](coord $loc_coord)
+def_int $tunnel = enum(coord, int, castlewars_rocks_ints, $loc_coord);
+def_int $bit = add(modulo($tunnel, 2), ^castlewars_tunnel1_bit);
+
+if ($tunnel < 2) %castlewars_saradomin_bits = clearbit(%castlewars_saradomin_bits, $bit);
+else %castlewars_zamorak_bits = clearbit(%castlewars_zamorak_bits, $bit);
+
+[proc,castlewars_tunnel_clear](coord $loc_coord)
+def_int $tunnel = enum(coord, int, castlewars_rocks_ints, $loc_coord);
+def_int $bit = add(modulo($tunnel, 2), ^castlewars_tunnel1_bit);
+
+if ($tunnel < 2) %castlewars_saradomin_bits = setbit(%castlewars_saradomin_bits, $bit);
+else %castlewars_zamorak_bits = setbit(%castlewars_zamorak_bits, $bit);
+
+[oploc1,castlewars_blocked_tunnel_1] @castlewars_mining_firstswing;
+[oploc3,castlewars_blocked_tunnel_1] @castlewars_mining_continue;
+
+[oploc1,castlewars_blocked_tunnel_2] @castlewars_mining_firstswing;
+[oploc3,castlewars_blocked_tunnel_2] @castlewars_mining_continue;
+
+[oploc1,castlewars_cavewall_rockslide] @castlewars_mining_firstswing;
+[oploc3,castlewars_cavewall_rockslide] @castlewars_mining_continue;
+
+[oplocu,castlewars_blocked_tunnel_1]
+if (last_useitem ! castlewars_explosives_potion) {
+    ~displaymessage(^dm_default);
+    return;
+}
+inv_delslot(inv, last_useslot);
+sound_synth(fire_wave_all, 0, 0);
+spotanim_map(firewave_impact, loc_coord, 92, 0);
+loc_change(castlewars_blocked_tunnel_2, ^max_32bit_int);
+mes("You manage to remove some of the rocks.");
+
+[oplocu,castlewars_blocked_tunnel_2]
+if (last_useitem ! castlewars_explosives_potion) {
+    ~displaymessage(^dm_default);
+    return;
+}
+inv_delslot(inv, last_useslot);
+sound_synth(fire_wave_all, 0, 0);
+spotanim_map(firewave_impact, loc_coord, 92, 0);
+loc_change(castlewars_blocked_tunnel_3, ^max_32bit_int);
+~castlewars_tunnel_set(loc_coord);
+mes("You manage to clear the rest of the rocks.");
+
+[oplocu,castlewars_cavewall_rockslide]
+if (last_useitem ! castlewars_explosives_potion) {
+    ~displaymessage(^dm_default);
+    return;
+}
+inv_delslot(inv, last_useslot);
+spotanim_map(firewave_impact, loc_coord, 92, 0);
+@castlewars_collapse_tunnel;
+
+[label,castlewars_collapse_tunnel]
+sound_synth(roof_collapse, 0, 0);
+mes("You've collapsed the tunnel!");
+def_coord $rocks_coord = ~closest_enum_coord(loc_coord, castlewars_rocks_coords);
+if (map_blocked($rocks_coord) = true) return;
+loc_add($rocks_coord, castlewars_blocked_tunnel_1, modulo(add(~coord_direction($rocks_coord, ^castlewars_underground_centre), 1), 2), centrepiece_straight, ^max_32bit_int);
+~castlewars_tunnel_set($rocks_coord);
+
+huntall(loc_coord, 1, 0);
+while (huntnext = true) {
+    if (inzone(loc_coord, movecoord(loc_coord, 1, 0, 1), coord) = true) {
+        if_close;
+        strongqueue(damage_player, 0, 255);
+    }
+}

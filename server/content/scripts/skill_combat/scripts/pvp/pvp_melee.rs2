@@ -37,15 +37,15 @@ if (~pvp_hit_roll(%damagetype) = true) {
 }
 
 anim(%com_attackanim, 0);
-sound_synth(%com_attacksound, 0, 0);
-.sound_synth(%com_attacksound, 0, 0);
+sound_synth(%com_attacksound, 1, 0);
+.sound_synth(%com_attacksound, 1, 0);
 
 .queue*(pvp_retaliate, 0)(uid);
 ~.pvp_damage(0, $damage);
 
 .anim(.%com_defendanim, 20);
-// .sound_synth(.%com_defendsound, 0, 20);
-// sound_synth(.%com_defendsound, 0, 20);
+// .sound_synth(.%com_defendsound, 1, 20);
+// sound_synth(.%com_defendsound, 1, 20);
 
 if ($damage > 0 & $poison_severity > 0 & random(4) = 0) { // 1/4 chance to poison
     .queue(poison_player, 0, $poison_severity);

@@ -1,6 +1,6 @@
 [oploc1,manholeclosed]
 mes("You pull back the cover from over the manhole.");
-sound_synth(coffin_open, 0, 0);
+sound_synth(coffin_open, 1, 0);
 // Temp note: dur does not need updated
 loc_change(manholeopen, 400);
 loc_add(movecoord(loc_coord, 0, 0, -1), loc_883, loc_angle, loc_shape, 400);

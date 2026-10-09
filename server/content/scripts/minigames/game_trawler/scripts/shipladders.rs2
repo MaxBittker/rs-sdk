@@ -1,4 +1,4 @@
-[oploc1,game_trawler_ship_ladder_down]
+[oploc1,trawler_laddertop]
 p_arrivedelay;
 anim(human_pickupfloor, 0);
 p_delay(0);
@@ -11,7 +11,7 @@ switch_int (loc_angle) {
     case default : mes("Angle: <tostring(loc_angle)>");
 }
 
-[oploc1,game_trawler_ship_ladder_up]
+[oploc1,trawler_ladder]
 p_arrivedelay;
 anim(human_reachforladder, 0);
 p_delay(0);

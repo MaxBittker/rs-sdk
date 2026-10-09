@@ -70,7 +70,7 @@ if(stat_random(thieving, 100, 240) = false) {
     npc_setmode(playerface);
     p_delay(0);
     spotanim_pl(stunned_thieving, 124, 0);
-    sound_synth(stunned, 0, 0);
+    sound_synth(stunned, 1, 0);
     anim(%com_defendanim, 0);
     ~damage_self(1);
     npc_setmode(null);
@@ -81,7 +81,7 @@ if(stat_random(thieving, 100, 240) = false) {
     walktrigger(stunned);
 } else {
     anim(human_pickpocket, 0);
-    sound_synth(pick, 0, 0);
+    sound_synth(pick, 1, 0);
     stat_advance(thieving, 104);
 
     def_int $rand = random(11);

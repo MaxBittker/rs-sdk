@@ -4,7 +4,7 @@ if ($data = null) {
     ~displaymessage(^dm_default);
     return;
 }
-sound_synth(teleport_all, 0, 0);
+sound_synth(teleport_all, 1, 0);
 mes("You step through the portal...");
 p_telejump(map_findsquare(db_getfield($data, runecraft_table:exit_coord, random(db_getfieldcount($data, runecraft_table:exit_coord)))));
 
@@ -37,7 +37,7 @@ if (db_getfield($data, runecraft_table:members, 0) = ^true) {
     }
 }
 anim(human_pickupfloor, 0);
-sound_synth(teleport_all, 0, 0);
+sound_synth(teleport_all, 1, 0);
 // https://www.youtube.com/watch?v=KIuXgWDMYbk
 mes("You hold the <db_getfield($data, runecraft_table:name, 0)> Talisman towards the mysterious ruins.");
 mes("You feel a powerful force take hold of you...");
@@ -75,7 +75,7 @@ if ($total_ess = 0) {
 
 anim(human_runecraft, 0);
 spotanim_pl(runecrafting, 96, 0);
-sound_synth(bind_runes, 0, 0);
+sound_synth(bind_runes, 1, 0);
 
 def_int $rune_count_per_ess = 1;
 if (db_getfieldcount($data, runecraft_table:multiplier) > 0) {

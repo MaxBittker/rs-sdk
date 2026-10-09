@@ -1,0 +1,140 @@
+[opnpc1,mm_garkor]
+def_int $op;
+if(%mm_main >= ^mm_defeated_demon) {
+    ~chatplayer("<p,quiz>What are you doing now?");
+    ~chatnpc("<p,neutral>My squad and I are to remain on this island as undercover operatives. I am collecting information on Awowogei and his policies.");
+    return;
+}
+switch_int(%mm_garkor) {
+    case ^garkor_joined_10th_squad :
+        if(inv_total(inv, mm_sigil) = 0 & inv_total(worn, mm_sigil) = 0) { // not 100% if this checks worn, since its not possible to wear it anymore!
+            $op = ~p_choice3("What should I do now?", 1, "What kind of enemy do we face?", 2, "I've lost the sigil.", 3);
+        } else {
+            $op = ~p_choice2("What should I do now?", 1, "What kind of enemy do we face?", 2);
+        }
+        if($op = 1) {
+            ~chatplayer("<p,quiz>What should I do now?");
+            ~chatnpc("<p,neutral>Collect your thoughts and belongings and then wear our squad sigil. Hurry, human, we do not wish to enter this fight without you.");
+        } else if($op = 2) {
+            ~chatplayer("<p,quiz>What kind of enemy do we face?");
+            ~chatnpc("<p,neutral>I don't know. I truly don't know.");
+        } else if($op = 3) {
+            ~chatplayer("<p,shifty>I've lost the sigil...");
+            ~chatnpc("<p,neutral>For all your power, your kind are exceptionally foolish. You must seek out Waymottin and ask him to make a replica. I have no spares.");
+        }
+    case ^garkor_learned_plan :
+        ~chatplayer("<p,neutral>What shall we do?");
+        ~chatnpc("<p,neutral>Zooknock and I have come up with a plan.");
+        ~chatplayer("<p,quiz>What kind of a plan?");
+        ~chatnpc("<p,neutral>I hope you were listening closely. The teleportation spell that was provided will teleport ALL of the 10th squad, no matter where we may be.");
+        ~chatnpc("<p,neutral>In effect, the spell will break Lumo, Bunkdo and Carado out of the jail for us.");
+        ~chatplayer("<p,neutral>But you will be teleported straight into whatever trap they have prepared!");
+        ~chatnpc("<p,neutral>Indeed. This is where you come in. Do not forget that we are the 10th squad of the Royal Guard, and that we are more than capable of holding our own.");
+        ~chatnpc("<p,neutral>With your assistance, we should be able to defeat whatever is thrown at us.");
+        ~chatplayer("<p,quiz>But how will I join you?");
+        ~chatnpc("<p,neutral>Simple. We fool the teleportation spell that you are in fact a member of our squad.");
+        ~chatplayer("<p,quiz>What?");
+        ~chatnpc("<p,neutral>Zooknock knows Glough's grasp of magic well. He believes the spell is linked to the sigils that all of our squad carry.");
+        ~chatnpc("<p,neutral>It is these sigils that identify us as a member of the squad.");
+        %mm_garkor = ^garkor_joined_10th_squad;
+        inv_add(inv, mm_sigil, 1);
+        ~objbox(mm_sigil, "Garkor hands you some kind of medallion.", 250, 0, 0);
+        ~chatnpc("<p,neutral>Welcome to the 10th squad, <displayname()>.");
+        ~chatplayer("<p,quiz>What is it?");
+        ~chatnpc("<p,neutral>It is a replica Waymottin has made of our squad sigils. If you wear that when the spell is cast, you will be summoned along with the rest of us.");
+        ~chatnpc("<p,neutral>You should prepare. Collect your thoughts and belongings and then wear the sigil. Hurry, human, we do not wish to enter this fight without you.");
+        ~chatplayer("<p,neutral>All I have to do is wear this sigil?");
+        ~chatnpc("<p,neutral>Yes - but do not do so until you are ready.");
+    case ^garkor_seek_alliance :
+        @mm_garkor_p4;
+    case ^garkor_need_correct_disguise :
+        if(~mm_wearing_greegree = true) {
+            if(inv_total(worn, mm_monkey_greegree_for_normal_monkey) = 0) {
+                ~chatnpc("<p,neutral>You don't look very much like a Karamjan monkey to me. It definitely will not fool Awowogei.");
+                return;
+            }
+            ~chatnpc("<p,neutral>Well done - you look just like a Karamjan monkey.");
+            @mm_garkor_p4;
+        }
+        ~chatnpc("<p,neutral>I said come back when you look like a Karamjan monkey. You still look like a human to me...");
+    case ^garkor_speak_zooknock :
+        if(~mm_wearing_greegree = true) {
+            ~chatnpc("<p,neutral>My my, Zooknock has outdone himself this time. You do look very much like a monkey you know.");
+            ~chatplayer("<p,neutral>I know.");
+            if(inv_total(worn, mm_monkey_greegree_for_normal_monkey) = 0) {
+                ~chatnpc("<p,neutral>However, you look like the wrong sort of monkey. My plan requires that you look like one of the monkeys of mainland Karamja.");
+                ~chatplayer("<p,quiz>What exactly is your plan?");
+                ~chatnpc("<p,neutral>When the time comes, you are to pretend you are an envoy from the monkeys of Karamja and that you are seeking an alliance.");
+                ~chatplayer("<p,quiz>How do you know this will work?");
+                %mm_garkor = ^garkor_need_correct_disguise;
+                ~chatnpc("<p,neutral>As I said, I've been listening to Awowogei for some time now. Come back when you look like one of the Karamjan monkeys.");
+                return;
+            }
+            ~chatnpc("<p,neutral>And by happy coincidence you appear to be just the right sort of monkey.");
+            @mm_garkor_p4;
+            return;
+        }
+        ~chatnpc("<p,quiz>Have you spoken to Zooknock about the monkey disguise yet?");
+        if(%mm_zooknock = ^zooknock_made_talisman) {
+            ~chatplayer("<p,neutral>Yes - I've now made an amulet of monkey speak and a monkey greegree.");
+            ~chatnpc("<p,neutral>Very good. In a moment, speak to me through your monkey disguise so that I may judge how good it is.");
+            return;
+        }
+        if(%mm_zooknock = ^zooknock_need_items) {
+            ~chatplayer("<p,neutral>Yes - I'm working on collecting the items we need for the disguise.");
+            ~chatnpc("<p,neutral>Very well. Return here when it is done.");
+            return;
+        }
+        if(%mm_zooknock = ^zooknock_told_mission) return; // just stops early...
+        ~chatplayer("<p,neutral>No, not yet.");
+        ~chatnpc("<p,neutral>You must hurry. He is working somewhere beneath the Ape Atoll.");
+    case ^garkor_spoken :
+        ~chatplayer("<p,quiz>How are you going to find an insider?");
+        ~chatnpc("<p,shifty>I've already found one - you.");
+        @mm_garkor_p2;
+    case ^mm_not_started :
+        ~chatplayer("<p,quiz>Hello?");
+        ~chatnpc("<p,neutral>A fine day you have chosen to visit this hellish island, human.");
+        ~chatplayer("<p,neutral>Good day to you to Sergeant. I've been sent by your King Narnode to -");
+        ~chatnpc("<p,neutral>Investigate the circumstances surrounding the mysterious disappearance of my squad. Yes, I know.");
+        ~chatplayer("<p,quiz>How did you know that?");
+        ~chatnpc("<p,neutral>The King and I are still in communication, albeit sporadic. I decided I need a human of your calibre to assist me. It is pleasing to see you are still alive.");
+        ~chatplayer("<p,quiz>Why do you need a human?");
+        ~chatnpc("<p,quiz>There is more going on than meets your eye, human. Did you not find it strange that an entire squad be sent to decomission a shipyard?");
+        ~chatplayer("<p,neutral>Well -");
+        ~chatnpc("<p,neutral>Indeed. But there are more pressing matters at hand. Three of my squad have been captured and placed in the jail. They are watched over by somewhat overpowering guards.");
+        ~chatnpc("<p,neutral>Before we can resume our original mission we must rescue them.");
+        ~chatplayer("<p,neutral>I know about the guards - I had to sneak out between the change of shifts.");
+        ~chatnpc("<p,neutral>Trust me; we too have considered this, but whilst it is possible for one, it is near impossible for three.");
+        ~chatnpc("<p,neutral>We have considered many things. I have my squad mage and sappers working below us right now. My, assassin Karam, is operating in the village itself.");
+        ~chatnpc("<p,neutral>I remain here so that I may overhear Awowogei's plans.");
+        ~chatplayer("<p,neutral>Awowogei?");
+        %mm_garkor = ^garkor_spoken;
+        ~chatnpc("<p,neutral>The self-proclaimed ruler of the island. I have been listening to him for some time now. I believe we will incur a minimum of casualties if we have an insider - a monkey working for us.");
+        ~chatplayer("<p,quiz>Have you seen these monkeys? You could never convince them to work for you!");
+        ~chatnpc("<p,shifty>I wasn't suggesting convincing them, human, but you.");
+        @mm_garkor_p2;
+}
+
+[label,mm_garkor_p2]
+~chatplayer("<p,shock>Don't be ridiculous! I'm a human - not a monkey!");
+~chatnpc("<p,shifty>Do not be so sceptical ... you humans are considered to be quite closely related to monkeys.");
+~chatplayer("<p,shock>Yes, but -");
+%mm_garkor = ^garkor_speak_zooknock;
+~chatnpc("<p,neutral>Go and see my squad mage, Zooknock. Tell him I have asked you to be 'disguised' as a monkey so that you may infiltrate the village. As you will see, he is something of an expert on the subject.");
+~chatplayer("<p,shock>I can't even communicate with the monkeys!");
+~chatnpc("<p,angry>Just go and find my squad mage, human.");
+
+[label,mm_garkor_p4]
+if(%mm_garkor < ^garkor_seek_alliance) %mm_garkor = ^garkor_seek_alliance;
+if(%mm_awowogei = ^awowogei_complete_mission) {
+    ~chatnpc("<p,neutral>Well done on winning Awowogei's trust. I overheard everything from here.");
+     ~chatnpc("<p,neutral>However, your efforts may be in vain...");
+    ~chatplayer("<p,neutral>What do you mean?");
+    ~chatnpc("<p,neutral>Progress in the caves has been slow. Whilst you were in Ardougne, Bunkwicket and Waymottin overheard a slightly disturbing conversation.");
+    ~chatplayer("<p,neutral>Who was speaking? What was said?");
+    ~chatnpc("<p,neutral>Listen closely whilst I narrate the details...");
+    @mm_ch4_cutscene;
+}
+~chatnpc("<p,neutral>I need you now to seek audience with Awowogei. Claim you are an envoy from the monkeys of Karamja and are seeking an alliance.");
+~chatnpc("<p,neutral>You must win his trust if we are to succeed.");

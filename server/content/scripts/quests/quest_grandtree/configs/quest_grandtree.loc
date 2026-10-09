@@ -1,7 +1,7 @@
 [largeroot_gnome]
 name=Root
 desc=A large root.
-model=model_loc_1339
+model=wilderness_largeroot1
 width=3
 length=3
 blockrange=no
@@ -12,7 +12,7 @@ category=grandtree_root
 [largeroot2_gnome]
 name=Root
 desc=A large root.
-model=model_loc_1340
+model=wilderness_largeroot2
 width=3
 length=3
 blockrange=no
@@ -23,7 +23,7 @@ category=grandtree_root
 [grandtree_cupboardclosed]
 name=Cupboard
 desc=This may be worth opening.
-model=model_loc_367
+model=furniture_cupboard
 length=2
 forceapproach=east
 op1=Open
@@ -32,7 +32,7 @@ param=cupboard_other,grandtree_cupboardopen
 [grandtree_cupboardopen]
 name=Cupboard
 desc=This may be worth opening.
-model=model_loc_370
+model=furniture_cupboard_open
 length=2
 forceapproach=east
 op2=Search
@@ -42,18 +42,18 @@ param=cupboard_other,grandtree_cupboardclosed
 [grandtree_chestclosed]
 name=Closed chest
 desc=I wonder what's inside.
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 
 [grandtree_chestopen]
-model=model_loc_76
+model=furniture_chestopen
 active=no
 
 [grandtree_fencegate_l]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -62,7 +62,7 @@ category=shipyard_gate
 [grandtree_fencegate_r]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 op1=Open
 active=yes
@@ -71,7 +71,7 @@ category=shipyard_gate
 [grandtree_pillart]
 name=Pillar
 desc=Wonder what this pillar is for?
-model=model_loc_2440
+model=gnome_treestump
 blockrange=no
 active=yes
 category=grandtree_pillar
@@ -79,7 +79,7 @@ category=grandtree_pillar
 [grandtree_pillaru]
 name=Pillar
 desc=Wonder what this pillar is for?
-model=model_loc_2440
+model=gnome_treestump
 blockrange=no
 active=yes
 category=grandtree_pillar
@@ -87,7 +87,7 @@ category=grandtree_pillar
 [grandtree_pillarz]
 name=Pillar
 desc=Wonder what this pillar is for?
-model=model_loc_2440
+model=gnome_treestump
 blockrange=no
 active=yes
 category=grandtree_pillar
@@ -95,7 +95,7 @@ category=grandtree_pillar
 [grandtree_pillaro]
 name=Pillar
 desc=Wonder what this pillar is for?
-model=model_loc_2440
+model=gnome_treestump
 blockrange=no
 active=yes
 category=grandtree_pillar
@@ -103,20 +103,20 @@ category=grandtree_pillar
 [grandtree_trapdoorclosed]
 name=Trapdoor
 desc=I wonder what's under it?
-model=model_loc_2444
+model=furniture_trapdoor_gt
 active=yes
 op1=Open
 mapscene=43
 
 [grandtree_trapdooropen]
-model=model_loc_2445
+model=furniture_trapdoor_gt_open_dark
 active=no
 mapscene=43
 
 [grandtree_trapdoorunder]
 name=Trap door
 desc=This leads to somewhere...but where?
-model=model_loc_2444
+model=furniture_trapdoor_gt
 active=yes
 op1=Open
 mapscene=43
@@ -124,28 +124,28 @@ mapscene=43
 [grandtree_climbtree]
 name=Tree
 desc=I reckon I could climb that!
-model=model_loc_1134
+model=tree_tk2
 active=yes
 op1=Climb-up
 
 [grandtree_downtree]
 name=Tree
 desc=I reckon I could climb that!
-model=model_loc_1137
+model=tree_tk_r
 active=yes
 op1=Climb-down
 
 [grandtree_daconiarocks1]
 name=Daconia rocks
 desc=Some magical rocks.
-model=plainrock1
+model=mine_rocks1
 recol1s=6342
 recol1d=4264
 
 [grandtree_daconiarocks2]
 name=Daconia rocks
 desc=Some magical rocks.
-model=plainrock2
+model=mine_rocks2
 recol1s=6342
 recol1d=4264
 

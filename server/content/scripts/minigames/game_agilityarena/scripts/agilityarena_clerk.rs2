@@ -1,16 +1,21 @@
 [apnpc1,agilityarena_clerk]
 ~chatplayer("<p,happy>Ahoy Cap'n!");
 ~chatnpc("<p,happy>Ahoy there!");
-// no parrot head model/npc so no parrot dialogue?
+~chatnpc_model("Parrot", 3624, "<p,parrot>Avast ye scurvy swabs!");
+~chatplayer("<p,confused>Huh?");
+~chatnpc("<p,happy>Don't mind me parrot, he's Cracked Jenny's Tea Cup!");
 def_int $op = ~p_choice4("What is this place?", 1, "What do I do in the arena?", 2, "I'd like to use the Agility Arena, please.", 3, "See you later.", 4);
 while($op ! null) {
     if($op = 1) {
         ~chatplayer("<p,confused>What is this place?");
         ~chatnpc("<p,happy>This, me hearty, is the entrance to the Brimhaven Agility Arena!");
         ~chatnpc("<p,happy>I were diggin for buried treasure when I found it! Amazed I was! It was a sight to behold!");
+        ~chatnpc_model("Parrot", 3624, "<p,parrot>Buried treasure!");
         ~chatnpc("<p,happy>It were the biggest thing I'd ever seen! It must've been at least a league from side to side!");
         ~chatnpc("<p,happy>It made me list, I were that excited!");
+        ~chatnpc_model("Parrot", 3624, "<p,parrot>Get on with it!");
         ~chatnpc("<p,happy>I'd found a huge cave with all these platforms. I reckon it be an ancient civilisation that made it. I had to be mighty careful as there was these traps everywhere! Dangerous it was!");
+        ~chatnpc_model("Parrot", 3624, "<p,parrot>Danger! Danger!");
         ~chatnpc("<p,happy>Entrance is only 200 coins!");
         $op = ~p_choice4("What is this place?", 1, "What do I do in the arena?", 2, "I'd like to use the Agility Arena, please.", 3, "See you later.", 4);
     } else if($op = 2) {
@@ -18,6 +23,7 @@ while($op ! null) {
         ~chatnpc("<p,neutral>Well, me hearty, it's simple. Ye can cross between two platforms by using the traps or obstacles strung across 'em. Try and make your way to the pillar that is indicated by the flashing arrow.");
         ~chatnpc("<p,neutral>Ye receive tickets for tagging more than one pillar in a row. So ye won't get a ticket from the first pillar but ye will for every platform ye tag in a row after that.");
         ~chatnpc("<p,neutral>If ye miss a platform ye will miss out on the next ticket so try and get every platform you can! When ye be done, take the tickets to Jackie over there and she'll exchange them for more stuff!");
+        ~chatnpc_model("Parrot", 3624, "<p,parrot>Tag when green light means tickets! Tag when red light means green light!");
         ~chatplayer("<p,happy>Thanks!");
         $op = ~p_choice4("What is this place?", 1, "What do I do in the arena?", 2, "I'd like to use the Agility Arena, please.", 3, "See you later.", 4);
     } else if($op = 3) {
@@ -27,9 +33,11 @@ while($op ! null) {
             return;
         }
         ~chatnpc("<p,neutral>Aye, entrance be 200 coins.");
+        ~chatnpc_model("Parrot", 3624, "<p,parrot>Pieces of eight!");
         ~chatnpc("<p,shock>A word of warning me hearty! There are dangerous traps down there!");
         if(inv_total(inv, coins) < 200) {
             ~chatplayer("<p,neutral>I don't have the money on me at the moment.");
+            ~chatnpc_model("Parrot", 3624, "<p,parrot>*squawk*");
             ~chatnpc("<p,angry>No coins, no entrance!");
             return;
         }
@@ -97,7 +105,7 @@ loc_del(5);
 loc_add(loc_coord, agilityarena_trap_timedblade2, loc_angle, centrepiece_straight, 5);
 huntall(loc_coord, 4, 0);
 while(huntnext = true) {
-    sound_synth(saw_rise_and_spin, 0, 0);
+    sound_synth(saw_rise_and_spin, 1, 0);
     if(coord = loc_coord | coord = movecoord(loc_coord, $dx, 0, $dz)) {
         if(coord = loc_coord) $dest = movecoord(coord, multiply($dx, -1), 0, multiply($dz, -1));
         else $dest = movecoord(coord, $dx, 0, $dz);

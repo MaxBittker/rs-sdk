@@ -1,0 +1,39 @@
+// these attempt to poison you even off attacks, seems to be about 1/10
+// based off old videos, the poison damage is inconsistent, can be anywhere from 2-4
+// it will also spam the message every time you get repoisoned while already poisoned
+// in current osrs this has been standardized
+// https://youtu.be/Qr9nNWqN6Y8?si=0_jCgBRSFTRU6noL&t=860, https://youtu.be/Qr9nNWqN6Y8?si=bqO3RYnda8c7amLq&t=1225
+// https://youtu.be/GW9py01xZC8?si=enQzpOMqfDjIXLG2&t=1234
+[ai_opplayer2,mm_jungle_spider]
+if (random(10) = 0) {
+    queue(aa_poison_player, 0, 0);
+}
+gosub(npc_default_attack);
+
+[ai_opplayer2,mm_jungle_snake]
+if (random(10) = 0) {
+    queue(aa_poison_player, 0, 0);
+}
+gosub(npc_default_attack);
+
+[ai_opplayer2,mm_jungle_scorpion]
+if (random(10) = 0) {
+    queue(aa_poison_player, 0, 0);
+}
+gosub(npc_default_attack);
+
+[ai_opplayer2,mm_warehouse_spider]
+if (random(10) = 0) {
+    queue(aa_poison_player, 0, 0);
+}
+gosub(npc_default_attack);
+
+[queue,aa_poison_player]
+def_int $severity = ~random_range(10, 20);
+if (%poison > -1) { 
+    if (%poison > $severity) {
+        mes("You have been poisoned!");
+        ~set_poison_timer;
+        %poison = $severity;
+    }
+}

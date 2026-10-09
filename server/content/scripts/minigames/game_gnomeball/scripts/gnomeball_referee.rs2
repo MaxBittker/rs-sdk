@@ -48,7 +48,7 @@ if (inv_getobj(worn, ^wearpos_rhand) = ball_gnomeball_game) {
 }
 if_close;
 npc_say("Peeeeeeeeeep");
-sound_synth(whistle, 0, 0);
+sound_synth(whistle, 1, 0);
 mes("The ref throws the ball into the air.");
 
 npc_anim(midget_throw, 0);
@@ -59,7 +59,7 @@ facesquare(npc_coord);
 anim(human_catch, add(sub($duration, 34), 1)); // duration + 1 is always 27 it seems
 p_delay(0);
 mes("You jump up and catch it.");
-sound_synth(catch, 0, 0);
+sound_synth(catch, 1, 0);
 p_delay(0);
 inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
 ~update_all(inv_getobj(worn, ^wearpos_rhand));

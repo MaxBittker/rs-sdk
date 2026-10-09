@@ -1,7 +1,7 @@
 [plaguehousestairsdown]
 name=Spooky stairs
 desc=It's a flight of stairs.
-model=model_loc_1732
+model=spooky_loc_1732
 width=2
 length=3
 op1=Walk-Down
@@ -9,7 +9,7 @@ op1=Walk-Down
 [plaguehousestairsup]
 name=Spooky stairs
 desc=It's a flight of stairs.
-model=model_loc_1730
+model=spooky_stairs
 width=2
 length=3
 op1=Walk-Up
@@ -17,7 +17,7 @@ op1=Walk-Up
 [rehnisonstairs]
 name=Stairs
 desc=A flight of stairs.
-model=model_loc_1738
+model=furniture_spiralstairs
 width=2
 length=2
 op1=Walk-up
@@ -25,5 +25,5 @@ op1=Walk-up
 [rehnisonstairstop]
 name=Stairs
 desc=A flight of stairs.
-model=model_loc_1740
+model=furniture_spiralstairstop
 op1=Walk-down

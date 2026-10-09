@@ -1,13 +1,13 @@
 [proc,sound_area](synth $sound, int $delay, coord $coord, int $distance)
 huntall($coord, $distance, 0);
 while (huntnext = true) {
-    sound_synth($sound, 0, $delay);
+    sound_synth($sound, 1, $delay);
 }
 
 [proc,.sound_area](synth $sound, int $delay, coord $coord, int $distance)
 huntall($coord, $distance, 0);
 while (.huntnext = true) {
-    .sound_synth($sound, 0, $delay);
+    .sound_synth($sound, 1, $delay);
 }
 
 // npc death has no no y coord check for its death!!!
@@ -15,4 +15,4 @@ while (.huntnext = true) {
 if (distance(coord, $coord) > $distance) {
     return;
 }
-sound_synth($sound, 0, $delay);
+sound_synth($sound, 1, $delay);

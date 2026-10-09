@@ -1,7 +1,7 @@
 [sink]
 name=Sink
 desc=Ideal for washing things in.
-model=model_loc_873
+model=furniture_sink
 length=2
 blockrange=no
 category=watersource
@@ -9,7 +9,7 @@ category=watersource
 [sink2]
 name=Sink
 desc=Ideal for washing things in.
-model=model_loc_873
+model=furniture_sink
 length=2
 blockrange=no
 retex1s=elfwood
@@ -19,14 +19,14 @@ category=watersource
 [desertwell]
 name=Well
 desc=No this is not a mirage!
-model=model_loc_878
+model=outdoorfurniture_desertwell
 blockrange=no
 category=well
 
 [fountain]
 name=Fountain
 desc=Everyone needs a water feature.
-model=model_loc_153
+model=outdoorfurniture_fountain
 width=2
 length=2
 mapscene=8
@@ -36,7 +36,7 @@ category=watersource
 [goldfountain]
 name=Fountain
 desc=A beautiful water feature.
-model=model_loc_153
+model=outdoorfurniture_fountain
 width=2
 length=2
 mapscene=8
@@ -50,7 +50,7 @@ category=watersource
 [well]
 name=Well
 desc=Best used with a bucket.
-model=model_loc_884
+model=outdoorfurniture_well
 width=2
 length=2
 blockrange=no
@@ -59,7 +59,7 @@ category=well
 [mortton_sink]
 name=Sink
 desc=Ideal for washing things in.
-model=model_loc_873
+model=furniture_sink
 retex1s=elfwood
 retex1d=wood2
 recol2s=26425

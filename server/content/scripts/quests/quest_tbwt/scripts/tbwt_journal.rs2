@@ -175,7 +175,7 @@ if (%tbwt_main > ^tbwt_timfraku_asked_for_help & %tbwt_main < ^tbwt_complete) {
             if (~get_tbwt_tamayu_agility_count >= 4) {
                 $text = append($text, "@str@I have increased his agility to match the Shaikahan's.|");
             }
-            if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true & testbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear) = ^true) {
+            if (testbit(%tbwt_flags, ^tbwt_tamayu_received_acceptable_spear) = ^true & testbit(%tbwt_flags, ^tbwt_tamayu_received_kp_spear) = ^true) {
                 $text = append($text, "@str@I have give him a stronger and Karambwan poisoned spear.||");
             }
         } else if (%tbwt_tamayu = ^tbwt_tamayu_slay_shaikahan) {

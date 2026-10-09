@@ -14,7 +14,7 @@ import { PlayerStat } from '#/engine/entity/PlayerStat.js';
 import { findPath } from '#/engine/GameMap.js';
 import { PlayerHuntAllCommandIterator } from '#/engine/script/ScriptIterators.js';
 import { ScriptOpcode } from '#/engine/script/ScriptOpcode.js';
-import ScriptPointer, { ActivePlayer, checkedHandler, ProtectedActivePlayer } from '#/engine/script/ScriptPointer.js';
+import ScriptPointer, { ActivePlayer, ProtectedActivePlayer } from '#/engine/script/ScriptPointer.js';
 import ScriptProvider from '#/engine/script/ScriptProvider.js';
 import { CommandHandlers } from '#/engine/script/ScriptRunner.js';
 import ScriptState from '#/engine/script/ScriptState.js';
@@ -97,7 +97,7 @@ const PlayerOps: CommandHandlers = {
     },
 
     // https://x.com/JagexAsh/status/1698973910048403797
-    [ScriptOpcode.STRONGQUEUE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STRONGQUEUE]: state => {
         const [scriptId, delay, arg] = state.popInts(3);
 
         const script = ScriptProvider.get(scriptId);
@@ -106,9 +106,9 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.enqueueScript(script, PlayerQueueType.STRONG, delay, [arg]);
-    }),
+    },
 
-    [ScriptOpcode.STRONGQUEUEVARARG]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STRONGQUEUEVARARG]: state => {
         const args = popScriptArgs(state);
         const [scriptId, delay] = state.popInts(2);
 
@@ -118,10 +118,10 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.enqueueScript(script, PlayerQueueType.STRONG, delay, args);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1698973910048403797
-    [ScriptOpcode.WEAKQUEUE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.WEAKQUEUE]: state => {
         const [scriptId, delay, arg] = state.popInts(3);
 
         const script = ScriptProvider.get(scriptId);
@@ -130,9 +130,9 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.enqueueScript(script, PlayerQueueType.WEAK, delay, [arg]);
-    }),
+    },
 
-    [ScriptOpcode.WEAKQUEUEVARARG]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.WEAKQUEUEVARARG]: state => {
         const args = popScriptArgs(state);
         const [scriptId, delay] = state.popInts(2);
 
@@ -142,11 +142,11 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.enqueueScript(script, PlayerQueueType.WEAK, delay, args);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1698973910048403797
     // https://x.com/JagexAsh/status/1821831590906859683
-    [ScriptOpcode.QUEUE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.QUEUE]: state => {
         const [scriptId, delay, arg] = state.popInts(3);
 
         const script = ScriptProvider.get(scriptId);
@@ -155,9 +155,9 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.enqueueScript(script, PlayerQueueType.NORMAL, delay, [arg]);
-    }),
+    },
 
-    [ScriptOpcode.QUEUEVARARG]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.QUEUEVARARG]: state => {
         const args = popScriptArgs(state);
         const [scriptId, delay] = state.popInts(2);
 
@@ -167,9 +167,9 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.enqueueScript(script, PlayerQueueType.NORMAL, delay, args);
-    }),
+    },
 
-    [ScriptOpcode.LONGQUEUE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.LONGQUEUE]: state => {
         const [scriptId, delay, arg, logoutAction] = state.popInts(4);
 
         const script = ScriptProvider.get(scriptId);
@@ -178,9 +178,9 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.enqueueScript(script, PlayerQueueType.LONG, delay, [logoutAction, arg]);
-    }),
+    },
 
-    [ScriptOpcode.LONGQUEUEVARARG]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.LONGQUEUEVARARG]: state => {
         const args = popScriptArgs(state);
         const [scriptId, delay, logoutAction] = state.popInts(3);
 
@@ -190,62 +190,62 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.enqueueScript(script, PlayerQueueType.LONG, delay, [logoutAction, ...args]);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1806246992797921391
-    [ScriptOpcode.ANIM]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.ANIM]: state => {
         const delay = state.popInt();
         const seq = state.popInt();
 
         state.activePlayer.playAnimation(seq, delay);
-    }),
+    },
 
-    [ScriptOpcode.BUILDAPPEARANCE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.BUILDAPPEARANCE]: state => {
         state.activePlayer.buildAppearance(check(state.popInt(), InvTypeValid).id);
-    }),
+    },
 
-    [ScriptOpcode.CAM_LOOKAT]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.CAM_LOOKAT]: state => {
         const [coord, height, rotationSpeed, rotationMultiplier] = state.popInts(4);
 
         const pos: CoordGrid = check(coord, CoordValid);
         state.activePlayer.cameraPackets.addTail(new CameraInfo(1, pos.x, pos.z, height, rotationSpeed, rotationMultiplier));
-    }),
+    },
 
-    [ScriptOpcode.CAM_MOVETO]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.CAM_MOVETO]: state => {
         const [coord, height, rotationSpeed, rotationMultiplier] = state.popInts(4);
 
         const pos: CoordGrid = check(coord, CoordValid);
         state.activePlayer.cameraPackets.addTail(new CameraInfo(0, pos.x, pos.z, height, rotationSpeed, rotationMultiplier));
-    }),
+    },
 
-    [ScriptOpcode.CAM_SHAKE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.CAM_SHAKE]: state => {
         const [type, jitter, amplitude, frequency] = state.popInts(4);
 
         state.activePlayer.write(new CamShake(type, jitter, amplitude, frequency));
-    }),
+    },
 
-    [ScriptOpcode.CAM_RESET]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.CAM_RESET]: state => {
         state.activePlayer.write(new CamReset());
-    }),
+    },
 
-    [ScriptOpcode.COORD]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.COORD]: state => {
         const coord: CoordGrid = state.activePlayer;
         state.pushInt(CoordGrid.packCoord(coord.level, coord.x, coord.z));
-    }),
+    },
 
-    [ScriptOpcode.DISPLAYNAME]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.DISPLAYNAME]: state => {
         state.pushString(state.activePlayer.displayName);
-    }),
+    },
 
-    [ScriptOpcode.FACESQUARE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.FACESQUARE]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
         state.activePlayer.faceSquare(coord.x, coord.z);
-    }),
+    },
 
-    [ScriptOpcode.IF_CLOSE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_CLOSE]: state => {
         state.activePlayer.closeModal();
-    }),
+    },
 
     [ScriptOpcode.LAST_COM]: state => {
         state.pushInt(state.activePlayer.lastCom);
@@ -340,23 +340,23 @@ const PlayerOps: CommandHandlers = {
         state.pushInt(state.activePlayer.lastUseSlot);
     },
 
-    [ScriptOpcode.MES]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.MES]: state => {
         const message = state.popString();
 
         state.activePlayer.messageGame(message);
-    }),
+    },
 
-    [ScriptOpcode.NAME]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.NAME]: state => {
         state.pushString(state.activePlayer.username);
-    }),
+    },
 
-    [ScriptOpcode.P_APRANGE]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_APRANGE]: state => {
         state.activePlayer.apRange = check(state.popInt(), NumberNotNull);
         state.activePlayer.apRangeCalled = true;
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1648254846686904321
-    [ScriptOpcode.P_ARRIVEDELAY]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_ARRIVEDELAY]: state => {
         if (state.activePlayer.lastMovement < World.currentTick) {
             return;
         }
@@ -364,27 +364,27 @@ const PlayerOps: CommandHandlers = {
         state.activePlayer.delayed = true;
         state.activePlayer.delayedUntil = World.currentTick + 1;
         state.execution = ScriptState.SUSPENDED;
-    }),
+    },
 
-    [ScriptOpcode.P_COUNTDIALOG]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_COUNTDIALOG]: state => {
         state.activePlayer.write(new PCountDialog());
         state.execution = ScriptState.COUNTDIALOG;
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1684478874703343616
     // https://x.com/JagexAsh/status/1780932943038345562
-    [ScriptOpcode.P_DELAY]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_DELAY]: state => {
         state.activePlayer.delayed = true;
         state.activePlayer.delayedUntil = World.currentTick + 1 + check(state.popInt(), NumberNotNull);
         state.execution = ScriptState.SUSPENDED;
-    }),
+    },
 
-    [ScriptOpcode.P_OPHELD]: checkedHandler(ProtectedActivePlayer, () => {
+    [ScriptOpcode.P_OPHELD]: () => {
         throw new Error('unimplemented');
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1791472651623370843
-    [ScriptOpcode.P_OPLOC]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_OPLOC]: state => {
         const type = check(state.popInt(), NumberNotNull) - 1;
         if (type < 0 || type >= 5) {
             throw new Error(`Invalid oploc: ${type + 1}`);
@@ -398,10 +398,10 @@ const PlayerOps: CommandHandlers = {
             state.activePlayer.queueWaypoint(state.activeLoc.x, state.activeLoc.z);
         }
         state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeLoc, ServerTriggerType.APLOC1 + type);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1791472651623370843
-    [ScriptOpcode.P_OPNPC]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_OPNPC]: state => {
         const type = check(state.popInt(), NumberNotNull) - 1;
         if (type < 0 || type >= 5) {
             throw new Error(`Invalid opnpc: ${type + 1}`);
@@ -412,59 +412,68 @@ const PlayerOps: CommandHandlers = {
         }
         state.activePlayer.stopAction();
         state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPC1 + type);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1791472651623370843
-    [ScriptOpcode.P_OPNPCT]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_OPNPCT]: state => {
         const spellId: number = check(state.popInt(), NumberNotNull);
         state.activePlayer.stopAction();
         state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPCT, spellId);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1389465615631519744
-    [ScriptOpcode.P_PAUSEBUTTON]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_PAUSEBUTTON]: state => {
         state.execution = ScriptState.PAUSEBUTTON;
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1780904271610867780
-    [ScriptOpcode.P_STOPACTION]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_STOPACTION]: state => {
         state.activePlayer.stopAction();
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1780230057023181259
-    [ScriptOpcode.P_CLEARPENDINGACTION]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_CLEARPENDINGACTION]: state => {
         state.activePlayer.clearPendingAction();
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1697517518007541917
-    [ScriptOpcode.P_TELEJUMP]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_TELEJUMP]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
         state.activePlayer.teleJump(coord.x, coord.z, coord.level);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1697517518007541917
     // https://x.com/JagexAsh/status/1790684996480442796
-    [ScriptOpcode.P_TELEPORT]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_TELEPORT]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
         state.activePlayer.teleport(coord.x, coord.z, coord.level);
-    }),
+    },
+
+    [ScriptOpcode.P_TRANSMOGRIFY]: state => {
+        const id = state.popInt();
+        if (id < -1 || id >= NpcType.count) {
+            throw new Error('Invalid npc.');
+        }
+
+        state.activePlayer.npcId = id;
+    },
 
     // https://x.com/JagexAsh/status/1605130887292751873
     // https://x.com/JagexAsh/status/1698248664349614138
-    [ScriptOpcode.P_WALK]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_WALK]: state => {
         const coord: CoordGrid = check(state.popInt(), CoordValid);
 
         const player = state.activePlayer;
         player.queueWaypoints(findPath(player.level, player.x, player.z, coord.x, coord.z));
-    }),
+    },
 
-    [ScriptOpcode.SAY]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.SAY]: state => {
         state.activePlayer.say(state.popString());
-    }),
+    },
 
-    [ScriptOpcode.SOUND_SYNTH]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.SOUND_SYNTH]: state => {
         const [synth, loops, delay] = state.popInts(3);
 
         check(synth, NumberNotNull);
@@ -475,34 +484,34 @@ const PlayerOps: CommandHandlers = {
         }
 
         player.write(new SynthSound(synth, loops, delay));
-    }),
+    },
 
-    [ScriptOpcode.STAFFMODLEVEL]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAFFMODLEVEL]: state => {
         state.pushInt(state.activePlayer.staffModLevel);
-    }),
+    },
 
-    [ScriptOpcode.STAT]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT]: state => {
         const stat: PlayerStat = check(state.popInt(), PlayerStatValid);
 
         state.pushInt(state.activePlayer.levels[stat]);
-    }),
+    },
 
-    [ScriptOpcode.STAT_TOTAL]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_TOTAL]: state => {
         let total = 0;
         for (let stat = 0; stat < state.activePlayer.baseLevels.length; stat++) {
             total += state.activePlayer.baseLevels[stat];
         }
 
         state.pushInt(total);
-    }),
+    },
 
-    [ScriptOpcode.STAT_BASE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_BASE]: state => {
         const stat: PlayerStat = check(state.popInt(), PlayerStatValid);
 
         state.pushInt(state.activePlayer.baseLevels[stat]);
-    }),
+    },
 
-    [ScriptOpcode.STAT_ADD]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_ADD]: state => {
         const [stat, constant, percent] = state.popInts(3);
 
         check(stat, PlayerStatValid);
@@ -520,9 +529,9 @@ const PlayerOps: CommandHandlers = {
         if (added !== current) {
             player.changeStat(stat);
         }
-    }),
+    },
 
-    [ScriptOpcode.STAT_SUB]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_SUB]: state => {
         const [stat, constant, percent] = state.popInts(3);
 
         check(stat, PlayerStatValid);
@@ -537,9 +546,9 @@ const PlayerOps: CommandHandlers = {
         if (subbed !== current) {
             player.changeStat(stat);
         }
-    }),
+    },
 
-    [ScriptOpcode.STAT_BOOST]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_BOOST]: state => {
         const [stat, constant, percent] = state.popInts(3);
 
         check(stat, PlayerStatValid);
@@ -559,10 +568,10 @@ const PlayerOps: CommandHandlers = {
         if (boosted !== current) {
             player.changeStat(stat);
         }
-    }),
+    },
 
     // same as stat_sub except it drains the current level instead of base level
-    [ScriptOpcode.STAT_DRAIN]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_DRAIN]: state => {
         const [stat, constant, percent] = state.popInts(3);
 
         check(stat, PlayerStatValid);
@@ -576,28 +585,29 @@ const PlayerOps: CommandHandlers = {
         if (subbed !== current) {
             player.changeStat(stat);
         }
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1110604592138670083
-    [ScriptOpcode.STAT_RANDOM]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_RANDOM]: state => {
         const [stat, low, high] = state.popInts(3);
 
         const level = state.activePlayer.levels[stat];
-        const value = Math.floor((low * (99 - level)) / 98) + Math.floor((high * (level - 1)) / 98) + 1;
+        const clampedLevel = Math.min(level, 99);
+        const value = Math.floor((low * (99 - clampedLevel)) / 98) + Math.floor((high * (clampedLevel - 1)) / 98) + 1;
         const chance = Math.floor(JavaRandom.nextDouble() * 256);
 
         state.pushInt(value > chance ? 1 : 0);
-    }),
+    },
 
-    [ScriptOpcode.SPOTANIM_PL]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.SPOTANIM_PL]: state => {
         const delay = check(state.popInt(), NumberNotNull);
         const height = state.popInt();
         const spotanim = state.popInt();
 
         state.activePlayer.spotanim(spotanim, height, delay);
-    }),
+    },
 
-    [ScriptOpcode.STAT_HEAL]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_HEAL]: state => {
         const [stat, constant, percent] = state.popInts(3);
 
         check(stat, PlayerStatValid);
@@ -617,55 +627,55 @@ const PlayerOps: CommandHandlers = {
         if (healed !== current) {
             player.changeStat(stat);
         }
-    }),
+    },
 
-    [ScriptOpcode.UID]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.UID]: state => {
         state.pushInt(state.activePlayer.uid);
-    }),
+    },
 
-    [ScriptOpcode.P_LOGOUT]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_LOGOUT]: state => {
         console.warn(`[LOGOUT DEBUG] P_LOGOUT script opcode called for ${state.activePlayer.username}`);
         state.activePlayer.requestLogout = true;
-    }),
+    },
 
-    [ScriptOpcode.P_PREVENTLOGOUT]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_PREVENTLOGOUT]: state => {
         // a short antilog can overwrite a long one in osrs, so no checks here
         state.activePlayer.preventLogoutMessage = check(state.popString(), StringNotNull);
         state.activePlayer.preventLogoutUntil = World.currentTick + check(state.popInt(), NumberNotNull);
-    }),
+    },
 
-    [ScriptOpcode.IF_SETCOLOUR]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETCOLOUR]: state => {
         const [com, colour] = state.popInts(2);
 
         check(com, NumberNotNull);
         check(colour, NumberNotNull);
 
         state.activePlayer.write(new IfSetColour(com, ColorConversion.rgb24to15(colour)));
-    }),
+    },
 
-    [ScriptOpcode.IF_OPENCHAT]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_OPENCHAT]: state => {
         state.activePlayer.openChatModal(check(state.popInt(), NumberNotNull));
-    }),
+    },
 
-    [ScriptOpcode.IF_OPENMAIN_SIDE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_OPENMAIN_SIDE]: state => {
         const [main, side] = state.popInts(2);
 
         check(main, NumberNotNull);
         check(side, NumberNotNull);
 
         state.activePlayer.openMainSideModal(main, side);
-    }),
+    },
 
-    [ScriptOpcode.IF_SETHIDE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETHIDE]: state => {
         const [com, hide] = state.popInts(2);
 
         check(com, NumberNotNull);
         check(hide, NumberNotNull);
 
         state.activePlayer.write(new IfSetHide(com, hide === 1));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETOBJECT]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETOBJECT]: state => {
         const [com, obj, scale] = state.popInts(3);
 
         check(com, NumberNotNull);
@@ -673,63 +683,63 @@ const PlayerOps: CommandHandlers = {
         check(scale, NumberNotNull);
 
         state.activePlayer.write(new IfSetObject(com, obj, scale));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETTABACTIVE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETTABACTIVE]: state => {
         state.activePlayer.write(new IfSetTabActive(check(state.popInt(), NumberNotNull)));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETMODEL]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETMODEL]: state => {
         const [com, model] = state.popInts(2);
 
         check(com, NumberNotNull);
         check(model, NumberNotNull);
 
         state.activePlayer.write(new IfSetModel(com, model));
-    }),
+    },
 
-    [ScriptOpcode.TUT_FLASH]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.TUT_FLASH]: state => {
         state.activePlayer.write(new TutFlash(check(state.popInt(), NumberNotNull)));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETANIM]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETANIM]: state => {
         const [com, seq] = state.popInts(2);
 
         check(com, NumberNotNull);
 
         state.activePlayer.write(new IfSetAnim(com, seq));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETTAB]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETTAB]: state => {
         const [com, tab] = state.popInts(2);
 
         check(tab, NumberNotNull);
 
         state.activePlayer.setTab(com, tab);
-    }),
+    },
 
-    [ScriptOpcode.IF_OPENMAIN]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_OPENMAIN]: state => {
         state.activePlayer.openMainModal(check(state.popInt(), NumberNotNull));
-    }),
+    },
 
-    [ScriptOpcode.IF_OPENOVERLAY]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_OPENOVERLAY]: state => {
         const com = state.popInt();
         state.activePlayer.openMainOverlay(com);
-    }),
+    },
 
-    [ScriptOpcode.TUT_OPEN]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.TUT_OPEN]: state => {
         state.activePlayer.openTutorial(check(state.popInt(), NumberNotNull));
-    }),
+    },
 
-    [ScriptOpcode.IF_OPENSIDE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_OPENSIDE]: state => {
         state.activePlayer.openSideModal(check(state.popInt(), NumberNotNull));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETPLAYERHEAD]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETPLAYERHEAD]: state => {
         state.activePlayer.write(new IfSetPlayerHead(check(state.popInt(), NumberNotNull)));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETTEXT]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETTEXT]: state => {
         let text = state.popString();
         const com = check(state.popInt(), NumberNotNull);
 
@@ -771,41 +781,41 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.activePlayer.write(new IfSetText(com, text));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETNPCHEAD]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETNPCHEAD]: state => {
         const [com, npc] = state.popInts(2);
 
         check(com, NumberNotNull);
         check(npc, NpcTypeValid);
 
         state.activePlayer.write(new IfSetNpcHead(com, npc));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETPOSITION]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETPOSITION]: state => {
         const [com, x, y] = state.popInts(3);
 
         check(com, NumberNotNull);
 
         state.activePlayer.write(new IfSetPosition(com, x, y));
-    }),
+    },
 
-    [ScriptOpcode.IF_SETSCROLLPOS]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_SETSCROLLPOS]: state => {
         const [com, y] = state.popInts(2);
 
         check(com, NumberNotNull);
 
         state.activePlayer.write(new IfSetScrollPos(com, y));
-    }),
+    },
 
-    [ScriptOpcode.STAT_ADVANCE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.STAT_ADVANCE]: state => {
         const [stat, xp] = state.popInts(2);
 
         check(stat, NumberNotNull);
         check(xp, NumberNotNull);
 
         state.activePlayer.addXp(stat, xp);
-    }),
+    },
 
     [ScriptOpcode.DAMAGE]: state => {
         const amount = check(state.popInt(), NumberNotNull);
@@ -820,20 +830,20 @@ const PlayerOps: CommandHandlers = {
         player.applyDamage(amount, type);
     },
 
-    [ScriptOpcode.IF_ADDRESUMEBUTTON]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.IF_ADDRESUMEBUTTON]: state => {
         const comId = state.popInt();
 
         state.activePlayer.resumeButtons.push(comId);
-    }),
+    },
 
-    [ScriptOpcode.TEXT_GENDER]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.TEXT_GENDER]: state => {
         const [male, female] = state.popStrings(2);
         if (state.activePlayer.gender === 0) {
             state.pushString(male);
         } else {
             state.pushString(female);
         }
-    }),
+    },
 
     [ScriptOpcode.MIDI_SONG]: state => {
         const id = state.popInt();
@@ -857,12 +867,12 @@ const PlayerOps: CommandHandlers = {
         player.playJingle(id);
     },
 
-    [ScriptOpcode.MINIMAP_TOGGLE]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.MINIMAP_TOGGLE]: state => {
         const type = check(state.popInt(), NumberNotNull);
         state.activePlayer.write(new MinimapToggle(type));
-    }),
+    },
 
-    [ScriptOpcode.SOFTTIMER]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.SOFTTIMER]: state => {
         const args = popScriptArgs(state);
         const interval = state.popInt();
         const timerId = state.popInt();
@@ -872,13 +882,13 @@ const PlayerOps: CommandHandlers = {
             throw new Error(`Unable to find timer script: ${timerId}`);
         }
         state.activePlayer.setTimer(PlayerTimerType.SOFT, script, args, interval);
-    }),
+    },
 
-    [ScriptOpcode.CLEARSOFTTIMER]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.CLEARSOFTTIMER]: state => {
         state.activePlayer.clearTimer(state.popInt());
-    }),
+    },
 
-    [ScriptOpcode.SETTIMER]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.SETTIMER]: state => {
         const args = popScriptArgs(state);
         const interval = state.popInt();
         const timerId = state.popInt();
@@ -888,13 +898,13 @@ const PlayerOps: CommandHandlers = {
             throw new Error(`Unable to find timer script: ${timerId}`);
         }
         state.activePlayer.setTimer(PlayerTimerType.NORMAL, script, args, interval);
-    }),
+    },
 
-    [ScriptOpcode.CLEARTIMER]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.CLEARTIMER]: state => {
         state.activePlayer.clearTimer(state.popInt());
-    }),
+    },
 
-    [ScriptOpcode.GETTIMER]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.GETTIMER]: state => {
         const timerId = state.popInt();
         const script = ScriptProvider.get(timerId);
         if (!script) {
@@ -909,7 +919,7 @@ const PlayerOps: CommandHandlers = {
         }
 
         state.pushInt(-1);
-    }),
+    },
 
     [ScriptOpcode.HINT_COORD]: state => {
         const [offset, coord, height] = state.popInts(3);
@@ -927,7 +937,7 @@ const PlayerOps: CommandHandlers = {
     },
 
     // https://x.com/JagexAsh/status/1684174294086033410
-    [ScriptOpcode.P_EXACTMOVE]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_EXACTMOVE]: state => {
         const [start, end, startCycle, endCycle, direction] = state.popInts(5);
 
         const startPos: CoordGrid = check(start, CoordValid);
@@ -935,7 +945,7 @@ const PlayerOps: CommandHandlers = {
 
         state.activePlayer.unsetMapFlag();
         state.activePlayer.exactMove(startPos.x, startPos.z, endPos.x, endPos.z, startCycle, endCycle, direction);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1653407769989349377
     [ScriptOpcode.BUSY]: state => {
@@ -967,14 +977,14 @@ const PlayerOps: CommandHandlers = {
 
     // https://x.com/JagexAsh/status/1684232225397657602
     // TODO: check active loc too
-    [ScriptOpcode.P_LOCMERGE]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_LOCMERGE]: state => {
         const [startCycle, endCycle, southEast, northWest] = state.popInts(4);
 
         const se: CoordGrid = check(southEast, CoordValid);
         const nw: CoordGrid = check(northWest, CoordValid);
 
         World.mergeLoc(state.activeLoc, state.activePlayer, startCycle, endCycle, se.z, se.x, nw.z, nw.x);
-    }),
+    },
 
     [ScriptOpcode.LAST_LOGIN_INFO]: state => {
         state.activePlayer.lastLoginInfo();
@@ -1035,7 +1045,7 @@ const PlayerOps: CommandHandlers = {
 
     // https://x.com/JagexAsh/status/1791472651623370843
     // https://x.com/JagexAsh/status/1790684996480442796
-    [ScriptOpcode.P_OPOBJ]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_OPOBJ]: state => {
         const op = check(state.popInt(), NumberNotNull) - 1;
         if (op < 0 || op >= 5) {
             throw new Error(`Invalid opobj: ${op + 1}`);
@@ -1051,10 +1061,10 @@ const PlayerOps: CommandHandlers = {
         // Sets player destination naively to the Obj's coordinate
         state.activePlayer.queueWaypoint(state.activeObj.x, state.activeObj.z);
         state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeObj, ServerTriggerType.APOBJ1 + op);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1791472651623370843
-    [ScriptOpcode.P_OPPLAYER]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_OPPLAYER]: state => {
         const type = check(state.popInt(), NumberNotNull) - 1;
         if (type < 0 || type >= 5) {
             throw new Error(`Invalid opplayer: ${type + 1}`);
@@ -1065,7 +1075,7 @@ const PlayerOps: CommandHandlers = {
         }
         state.activePlayer.stopAction();
         state.activePlayer.setInteraction(Interaction.SCRIPT, target, ServerTriggerType.APPLAYER1 + type);
-    }),
+    },
 
     [ScriptOpcode.ALLOWDESIGN]: state => {
         state.activePlayer.allowDesign = check(state.popInt(), NumberNotNull) === 1;
@@ -1166,10 +1176,10 @@ const PlayerOps: CommandHandlers = {
         state.activePlayer.gender = gender;
     },
 
-    [ScriptOpcode.SET_SKILL_LEVEL]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.SET_SKILL_LEVEL]: state => {
         const level = check(state.popInt(), NumberNotNull);
         state.activePlayer.skillLevel = level;
-    }),
+    },
 
     [ScriptOpcode.SETIDKCOLOUR]: state => {
         const [slot, color] = state.popInts(2);
@@ -1180,7 +1190,7 @@ const PlayerOps: CommandHandlers = {
     },
 
     // https://x.com/JagexAsh/status/1791472651623370843
-    [ScriptOpcode.P_OPPLAYERT]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_OPPLAYERT]: state => {
         const spellId = check(state.popInt(), NumberNotNull);
         const target = state._activePlayer2;
         if (!target) {
@@ -1188,10 +1198,10 @@ const PlayerOps: CommandHandlers = {
         }
         state.activePlayer.stopAction();
         state.activePlayer.setInteraction(Interaction.SCRIPT, target, ServerTriggerType.APPLAYERT, spellId);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1799020087086903511
-    [ScriptOpcode.FINDHERO]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.FINDHERO]: state => {
         const hash64 = state.activePlayer.heroPoints.findHero();
         if (hash64 === -1n) {
             state.pushInt(0);
@@ -1206,10 +1216,10 @@ const PlayerOps: CommandHandlers = {
         state._activePlayer2 = player;
         state.pointerAdd(ScriptPointer.ActivePlayer2);
         state.pushInt(1);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1799020087086903511
-    [ScriptOpcode.BOTH_HEROPOINTS]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.BOTH_HEROPOINTS]: state => {
         const damage: number = check(state.popInt(), NumberNotNull);
         const secondary: boolean = state.intOperand === 1;
 
@@ -1221,30 +1231,30 @@ const PlayerOps: CommandHandlers = {
         }
 
         toPlayer.heroPoints.addHero(fromPlayer.hash64, damage);
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1806246992797921391
-    [ScriptOpcode.P_ANIMPROTECT]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_ANIMPROTECT]: state => {
         state.activePlayer.animProtect = check(state.popInt(), NumberNotNull);
-    }),
+    },
 
-    [ScriptOpcode.RUNENERGY]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.RUNENERGY]: state => {
         const player = state.activePlayer;
         state.pushInt(player.runenergy);
-    }),
+    },
 
-    [ScriptOpcode.WEIGHT]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.WEIGHT]: state => {
         state.pushInt(state.activePlayer.runweight);
-    }),
+    },
 
-    [ScriptOpcode.SESSION_LOG]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.SESSION_LOG]: state => {
         const eventType = state.popInt() + 2;
         const event = state.popString();
 
         state.activePlayer.addSessionLog(eventType, event);
-    }),
+    },
 
-    [ScriptOpcode.WEALTH_EVENT]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.WEALTH_EVENT]: state => {
         const name = state.popString();
         const [eventType, count, value] = state.popInts(3);
 
@@ -1255,20 +1265,24 @@ const PlayerOps: CommandHandlers = {
             account_items: [{ id: objType?.id, name, count }],
             account_value: value
         });
-    }),
+    },
 
-    [ScriptOpcode.P_RUN]: checkedHandler(ProtectedActivePlayer, state => {
+    [ScriptOpcode.P_RUN]: state => {
         state.activePlayer.run = state.popInt();
 
         // todo: better way to sync engine varp
         state.activePlayer.setVar(VarPlayerType.RUN, state.activePlayer.run);
-    }),
+    },
 
-    [ScriptOpcode.PLAYERMEMBER]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.P_TEMPRUN]: state => {
+        state.activePlayer.tempRun = 1;
+    },
+
+    [ScriptOpcode.PLAYERMEMBER]: state => {
         state.pushInt(state.activePlayer.members ? 1 : 0);
-    }),
+    },
 
-    [ScriptOpcode.SET_PLAYER_OP]: checkedHandler(ActivePlayer, state => {
+    [ScriptOpcode.SET_PLAYER_OP]: state => {
         const text = state.popString();
         const [index, primary] = state.popInts(2);
 
@@ -1276,7 +1290,7 @@ const PlayerOps: CommandHandlers = {
         check(primary, PlayerOpStateValid);
 
         state.activePlayer.write(new SetPlayerOp(index, text, primary));
-    }),
+    },
 
     [ScriptOpcode.HUNTALL]: state => {
         const [coord, distance, checkVis] = state.popInts(3);

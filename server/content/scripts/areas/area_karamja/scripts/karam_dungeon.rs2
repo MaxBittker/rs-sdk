@@ -1,0 +1,341 @@
+// https://www.youtube.com/watch?v=R1UiYenE_r4
+[opnpc1,tribesman_doorman]
+~chatnpc("<p,neutral>Good day to you bwana.");
+@multi4("Can I go through that door please?", doorman_through, "Where does this strange entrance lead?", doorman_strange, "Good day to you too.", doorman_goodday, "I'm impressed, that tree is growing on that shed.", doorman_impressed);
+
+
+[label,karam_dungeon_pay]
+~chatplayer("<p,neutral>Ok, here's 875 coins.");
+inv_del(inv, coins, 875);
+%karam_dungeon_varbit = ^true;
+mes("You pay Saniboch 875 coins.");
+~objbox(coins_5, "You give Saniboch 875 coins.", 250, 0, 0);
+~chatnpc("<p,happy>Many thanks. You may now pass the door. May your death be a glorious one!");
+
+[opnpc3,tribesman_doorman]
+if(%karam_dungeon_varbit = ^true) {
+    ~chatnpc("<p,happy>You have already given me lots of nice coins, you may go in.");
+    return;
+}
+if(inv_total(inv, coins) < 875) {
+    ~chatplayer("<p,sad>I don't have the money on me at the moment.");
+    return;
+}
+@karam_dungeon_pay;
+
+[label,doorman_through]
+~chatplayer("<p,quiz>Can I go through that door please?");
+if(%karam_dungeon_varbit = ^true) {
+    ~chatnpc("<p,happy>Most certainly, you have already given me lots of nice coins.");
+    return;
+}
+~chatnpc("<p,neutral>Most certainly, but I must charge you the sum of 875 coins first.");
+if(inv_total(inv, coins) < 875) {
+    ~chatplayer("<p,sad>I don't have the money on me at the moment.");
+    ~chatnpc("<p,angry>I'll want 875 coins to let you enter; this is a dungeon for the more wealthy discerning adventurer. Begone with you, riff raff.");
+    ~chatplayer("<p,confused>But you don't even have clothes, how can you seriously call anyone riff raff.");
+    ~chatnpc("<p,angry>Hummph.");
+    return;
+}
+switch_int(~p_choice3("Ok, here's 875 coins.", 1, "Never mind.", 2, "Why is it worth the entry cost?", 3)) {
+    case 1 : @karam_dungeon_pay;
+    case 2 :
+        ~chatplayer("<p,neutral>Never mind.");
+    case 3 :
+        ~chatplayer("<p,neutral>Why is it worth the entry cost?");
+        ~chatnpc("<p,happy>It leads to a huge fearsome dungeon, populated by giants and strange dogs. Adventurers come from all around to explore its depths.");
+        ~chatnpc("<p,sad>I know not what lies deeper in myself, for my skills in agility and woodcutting are inadequate, but I hear tell of even greater dangers deeper in.");
+}
+
+[label,doorman_strange]
+~chatplayer("<p,quiz>Where does this strange entrance lead?");
+~chatnpc("<p,happy>To a huge fearsome dungeon, populated by giants and strange dogs. Adventurers come from all around to explore its depths.");
+~chatnpc("<p,sad>I know not what lies deeper in myself, for my skills in agility and woodcutting are inadequate.");
+
+[label,doorman_impressed]
+~chatplayer("<p,neutral>I'm impressed, that tree is growing on that shed.");
+~chatnpc("<p,happy>My employer tells me it is an uncommon sort of tree called the Fyburglars tree.");
+
+[label,doorman_goodday]
+~chatplayer("<p,neutral>Good day to you too.");
+
+[oploc1,dungeon_tree_open] // does nothing? in rs3
+[oploc1,dungeon_tree_closed] @karam_dungeon_enter;
+
+[label,karam_dungeon_enter]
+if(%karam_dungeon_varbit = ^false) {
+    if(npc_find(coord, tribesman_doorman, 7, 0) = true) ~chatnpc("<p,angry>You can't go in there without paying!");
+    return;
+}
+anim(human_pickuptable, 0);
+loc_change(dungeon_tree_open, 2);
+p_delay(0);
+%karam_dungeon_varbit = ^false;
+p_teleport(0_42_149_25_28);
+
+[oploc1,karam_dungeon_exit]
+p_teleport(0_42_49_57_16);
+
+[oploc1,karam_dungeon_vineblocking1] @start_cut_vines(10, 0_42_149_3_28, 0_42_149_1_28);
+[oploc3,karam_dungeon_vineblocking1] @cut_vines(10, 0_42_149_3_28, 0_42_149_1_28);
+
+[oploc1,karam_dungeon_vineblocking2] @start_cut_vines(27, 0_41_149_59_32, 0_41_149_59_34);
+[oploc3,karam_dungeon_vineblocking2] @cut_vines(27, 0_41_149_59_32, 0_41_149_59_34);
+
+[oploc1,karam_dungeon_vineblocking3] @start_cut_vines(22, 0_41_148_48_27, 0_41_148_50_27);
+[oploc3,karam_dungeon_vineblocking3] @cut_vines(22,  0_41_148_48_27, 0_41_148_50_27);
+
+[oploc1,karam_dungeon_vineblocking4] @start_cut_vines(34, 0_41_148_50_7, 0_41_148_52_7);
+[oploc3,karam_dungeon_vineblocking4] @cut_vines(34, 0_41_148_50_7, 0_41_148_52_7);
+
+[oploc1,karam_dungeon_vineblocking5] @start_cut_vines(34, 0_42_148_5_10, 0_42_148_7_10);
+[oploc3,karam_dungeon_vineblocking5] @cut_vines(34, 0_42_148_5_10, 0_42_148_7_10);
+
+[label,start_cut_vines](int $req, coord $start, coord $dest)
+// check level first
+def_obj $axe = ~woodcutting_axe_checker(false);
+def_seq $anim = human_pickuptable;
+if ($axe = null & coord = $start) { // if on the other side, should bypass the axe req
+    ~mesbox("To chop through the vines, you'll need an axe that you have the Woodcutting level to use."); // TODO: was the req part added in late 05?
+    return;
+}
+
+// level check after
+if(stat(woodcutting) < $req & coord = $start) {
+    ~mesbox("You need a Woodcutting level of <tostring($req)> to hack your way through the vines.");
+    return;
+}
+
+if($axe ! null) $anim = oc_param($axe, woodcutting_anim);
+
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 3);
+    p_oploc(1);
+    return;
+}
+
+anim($anim, 0); // no sound
+mes("You try to chop through the vines.");
+if (%action_delay = map_clock) {
+    @cross_vines($start, $dest, $axe);
+}
+
+p_oploc(3);
+
+[label,cut_vines](int $req, coord $start, coord $dest)
+def_obj $axe = ~woodcutting_axe_checker(false);
+def_seq $anim = human_pickuptable;
+if ($axe = null & coord = $start) {
+    ~mesbox("To chop through the vines, you'll need an axe that you have the Woodcutting level to use."); // TODO: was the req part added in late 05?
+    return;
+}
+
+// level check after
+if(stat(woodcutting) < $req & coord = $start) {
+    ~mesbox("You need a Woodcutting level of <tostring($req)> to hack your way through the vines.");
+    return;
+}
+
+if($axe ! null) $anim = oc_param($axe, woodcutting_anim);
+
+if (%action_delay < map_clock) {
+    %action_delay = calc(map_clock + 3);
+} else if (%action_delay = map_clock) {
+    anim($anim, 0);
+    @cross_vines($start, $dest, $axe);
+}
+
+p_oploc(3);
+
+[label,cross_vines](coord $start, coord $dest, obj $axe)
+def_int $tree_chance_low = 64;
+def_int $tree_chance_high = 200;
+// i assume no axe -> should work like bronze axe
+if($axe ! null) $tree_chance_low, $tree_chance_high = ~woodcutting_successchance(normal_tree_table, $axe);
+if (stat_random(woodcutting, $tree_chance_low, $tree_chance_high) = true) {
+    mes("You hack your way through the vines.");
+    anim(null, 0);
+    if(coord = $dest) {
+        $dest = $start;
+    }
+    loc_del(2);
+    p_teleport($dest);
+    p_delay(0);
+    return;
+}
+p_oploc(3);
+
+[oploc1,karam_dungeon_stone1]
+if(stat(agility) < 12) {
+    ~mesbox("You need an Agility level of 12 to cross the rocks.");
+    return;
+}
+p_arrivedelay;
+mes("You carefully start crossing the stepping stones...");
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, -1), 15, 30, ^exact_south, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, -1), 15, 30, ^exact_south, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, -1, 0, 0), 15, 30, ^exact_west, false);
+if(stat_random(agility, 210, 275) = false) {
+    mes("...You lose your footing and fall into the lava.");
+    facesquare(movecoord(coord, 0, 0, 1));
+    anim(human_walk_logbalance_stumble, 0);
+    sound_synth(stumble_loop, 10, 0);
+    strongqueue(damage_player, 0, add(divide(stat(hitpoints), 10), 1));
+    p_delay(1);
+    sound_synth(sizzle, 1, 0);
+    p_telejump(0_41_149_24_26);
+    return;
+}
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, -1, 0, 0), 15, 30, ^exact_west, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, -1), 15, 30, ^exact_south, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, -1), 15, 30, ^exact_south, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 0, coord, movecoord(coord, 0, 0, -1), 15, 30, ^exact_south, false);
+stat_advance(agility, 75);
+mes("...You safely cross to the other side.");
+
+[oploc1,karam_dungeon_stone2]
+p_arrivedelay;
+mes("You carefully start crossing the stepping stones...");
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, 1), 15, 30, ^exact_north, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, 1), 15, 30, ^exact_north, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, 1), 15, 30, ^exact_north, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 1, 0, 0), 15, 30, ^exact_east, false);
+if(stat_random(agility, 210, 275) = false) {
+    mes("...You lose your footing and fall into the lava.");
+    facesquare(movecoord(coord, 0, 0, -1));
+    anim(human_walk_logbalance_stumble, 0);
+    sound_synth(stumble_loop, 10, 0);
+    strongqueue(damage_player, 0, add(divide(stat(hitpoints), 10), 1));
+    p_delay(1);
+    sound_synth(sizzle, 1, 0);
+    p_telejump(0_41_149_24_21);
+    return;
+}
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 1, 0, 0), 15, 30, ^exact_east, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, 1), 15, 30, ^exact_north, false);
+sound_synth(jump_no_land, 1, 0);
+~agility_exactmove(human_spot_jump, 0, 1, coord, movecoord(coord, 0, 0, 1), 15, 30, ^exact_north, false);
+stat_advance(agility, 75);
+mes("...You safely cross to the other side.");
+
+[oploc1,karam_dungeon_cavestairs]
+p_teleport(2_41_149_19_59);
+
+[oploc1,karam_dungeon_cavestairs_lev2_down]
+p_teleport(0_41_149_25_55);
+
+[oploc1,karam_dungeon_cavestairs2]
+p_teleport(2_41_148_12_38);
+
+[oploc1,karam_dungeon_cavestairs_lev2_down2]
+p_teleport(0_41_148_12_45);
+
+[oploc1,karam_dungeon_bamboo_logbalance1]
+if(stat(agility) < 30) {
+    ~mesbox("You need an Agility level of 30 to cross the log.");
+    return;
+}
+@cross_karam_dungeon_log(1, 0_41_148_57_35);
+
+[oploc1,karam_dungeon_bamboo_logbalance3]
+@cross_karam_dungeon_log(-1, 0_42_148_0_36);
+
+[label,cross_karam_dungeon_log](int $x_dist, coord $fail_coord)
+p_teleport(movecoord(loc_coord, multiply($x_dist, -1), 0, 0));
+p_arrivedelay;
+mes("You walk carefully across the slippery log...");
+~set_readywalk_bas(human_walk_logbalance_ready, human_walk_logbalance);
+~forcemove(movecoord(coord, $x_dist, 0, 0));
+sound_synth(log_balance, 4, 0);
+~forcemove(movecoord(coord, $x_dist, 0, 0));
+if(stat_random(agility, 210, 275) = false) {
+    mes("...You lose your footing and fall into the lava.");
+    facesquare(movecoord(coord, 0, 0, $x_dist));
+    anim(human_walk_logbalance_stumble, 0);
+    sound_synth(stumble_loop, 10, 0);
+    strongqueue(damage_player, 0, add(divide(stat(hitpoints), 10), 1));
+    p_delay(0);
+    ~update_bas;
+    sound_synth(sizzle, 1, 0);
+    p_telejump($fail_coord);
+    return;
+}
+sound_synth(log_balance, 2, 0);
+~forcemove(movecoord(coord, multiply(2,$x_dist), 0, 0));
+mes("...You make it safely to the other side.");
+~forcemove(movecoord(coord, $x_dist, 0, 0));
+~update_bas;
+stat_advance(agility, 100);
+
+[oploc1,karam_dungeon_pipe]
+def_int $mod = 1;
+def_int $dir = ^exact_north;
+def_coord $next_pipe = 0_42_148_10_26;
+def_coord $start = 0_42_148_10_20;
+if(coordz(coord) > coordz(loc_coord)) {
+    if(stat(agility) < 34) {
+        ~mesbox("You need an Agility level of 34 to squeeze through the pipe.");
+        return;
+    }
+    $mod = -1;
+    $dir = ^exact_south;
+    $next_pipe = 0_42_148_10_21;
+    $start = 0_42_148_10_28;
+}
+~forcewalk2($start);
+if(%karam_dungeon_pipe_used2 >= map_clock) {
+    mes("The pipe is being used"); // todo: confirm, using the same as gnome course
+    return;
+}
+%karam_dungeon_pipe_used2 = calc(map_clock + 9);
+~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, 0, 0, multiply(3, $mod)), 30, 126, $dir, true);
+sound_synth(squeeze_in, 1, 0);
+p_teleport(movecoord(coord, 0, 0, multiply(2, $mod)));
+p_delay(0);
+~change_merged_loc($next_pipe);
+~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, 0, 0, multiply(3, $mod)), 30, 126, $dir, true);
+sound_synth(squeeze_in, 1, 0);
+stat_advance(agility, 100);
+
+[oploc1,karam_dungeon_pipe2]
+def_int $mod = -1;
+def_int $dir = ^exact_south;
+def_coord $next_pipe = 0_41_149_31_31;
+def_coord $start = 0_41_149_31_37;
+if(coordz(coord) <= coordz(loc_coord)) {
+    if(stat(agility) < 22) {
+        ~mesbox("You need an Agility level of 22 to squeeze through the pipe.");
+        return;
+    }
+    $mod = 1;
+    $dir = ^exact_north;
+    $start = 0_41_149_31_30;
+    $next_pipe = 0_41_149_31_35;
+}
+~forcewalk2($start);
+if(%karam_dungeon_pipe_used >= map_clock) {
+    mes("The pipe is being used"); // todo: confirm, using the same as gnome course
+    return;
+}
+%karam_dungeon_pipe_used = calc(map_clock + 9);
+~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, 0, 0, multiply(3, $mod)), 30, 126, $dir, true);
+sound_synth(squeeze_in, 1, 0);
+p_teleport(movecoord(coord, 0, 0, $mod));
+p_delay(0);
+~change_merged_loc($next_pipe);
+~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, 0, 0, multiply(3, $mod)), 30, 126, $dir, true);
+sound_synth(squeeze_in, 1, 0);
+stat_advance(agility, 85);

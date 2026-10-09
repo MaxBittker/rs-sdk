@@ -72,8 +72,9 @@ inv_add(inv, bunnyears, 1);
 @thessalia_what_have_you_got;
 
 [label,thessalia_b1_s1]
-~chatplayer("<p,quiz>What have you got?"); 
-~chatnpc("<p,happy>Well, I have a number of fine pieces of clothing on sale or, if you prefer I can offer you an exclusive, total clothing makeover?");
+~chatplayer("<p,quiz>What have you got?");
+// youtube.com/watch?t=129&v=VK_A2Vf9VE8&feature=youtu.be
+~chatnpc("<p,happy>Well, I have a number of fine pieces of clothing on sale, or if you prefer I can offer you an exclusive total clothing makeover?");
 @multi2("Tell me more about this makeover.", thessalia_b2_s1,
         "I'd just like to buy some clothes.", thessalia_b2_s2);
 
@@ -225,33 +226,33 @@ if (inv_total(inv, coins) < 500) {
 def_int $color = calc(%if3 - 1);
 
 if (%if1 = 1) {
-    setidkit(man_torso_plain, $color);
+    setidkit(man_torso_basic, $color);
 } else if (%if1 = 2) {
-    setidkit(man_torso_light_buttons, $color);
+    setidkit(man_torso_buttons, $color);
 } else if (%if1 = 3) {
     setidkit(man_torso_jacket, $color);
 } else if (%if1 = 4) {
-    setidkit(man_torso_dark_buttons, $color);
+    setidkit(man_torso_buttons2, $color);
 } else if (%if1 = 5) {
-    setidkit(man_torso_stitching, $color);
+    setidkit(man_torso_pattern1, $color);
 } else if (%if1 = 6) {
     setidkit(man_torso_shirt, $color);
 } else if (%if1 = 7) {
-    setidkit(man_torso_two_toned, $color);
+    setidkit(man_torso_elf, $color);
 }
 
 if (%if2 = 1) {
-    setidkit(man_arms_regular, $color);
+    setidkit(man_arms_basic, $color);
 } else if (%if2 = 2) {
-    setidkit(man_arms_musclebound, $color);
+    setidkit(man_arms_buff, $color);
 } else if (%if2 = 3) {
-    setidkit(man_arms_loose_sleeved, $color);
+    setidkit(man_arms_longsleeves, $color);
 } else if (%if2 = 4) {
-    setidkit(man_arms_large_cuffed, $color);
+    setidkit(man_arms_longsleeves2, $color);
 } else if (%if2 = 5) {
-    setidkit(man_arms_thin_sleeved, $color);
+    setidkit(man_arms_longsleeves3, $color);
 } else if (%if2 = 6) {
-    setidkit(man_arms_shoulder_pads, $color);
+    setidkit(man_arms_elf, $color);
 }
 
 @thessalia_finished_makeover;
@@ -334,13 +335,13 @@ if (inv_total(inv, coins) < 500) {
 def_int $color = calc(%if3 - 1);
 
 if (%if1 = 1) {
-    setidkit(man_legs_plain, $color);
+    setidkit(man_legs_basic, $color);
 } else if (%if1 = 2) {
-    setidkit(man_legs_shorts, $color);
+    setidkit(man_legs_basic2, $color);
 } else if (%if1 = 3) {
     setidkit(man_legs_flares, $color);
 } else if (%if1 = 4) {
-    setidkit(man_legs_turn_ups, $color);
+    setidkit(man_legs_turnups, $color);
 }
 
 @thessalia_finished_makeover;
@@ -388,39 +389,38 @@ if (inv_total(inv, coins) < 500) {
 def_int $color = calc(%if3 - 1);
 
 if (%if1 = 1) {
-    setidkit(woman_torso_plain, $color);
+    setidkit(woman_torso_basic, $color);
 } else if (%if1 = 2) {
-    setidkit(woman_torso_crop_top, $color);
+    setidkit(woman_torso_basic2, $color);
 } else if (%if1 = 3) {
-    setidkit(woman_torso_polo_neck, $color);
+    setidkit(woman_torso_basic3, $color);
 } else if (%if1 = 4) {
-    setidkit(woman_torso_simple, $color);
+    setidkit(woman_torso_basic4, $color);
 } else if (%if1 = 5) {
-    setidkit(woman_torso_torn, $color);
+    setidkit(woman_torso_tatty, $color);
 }
 
 if (%if2 = 1) {
-    setidkit(woman_arms_short_sleeves, $color);
+    setidkit(woman_arms_basic, $color);
 } else if (%if2 = 2) {
-    setidkit(woman_arms_bare_arms, $color);
+    setidkit(woman_arms_bare_braceless, $color);
 } else if (%if2 = 3) {
-    setidkit(woman_arms_muscley, $color);
+    setidkit(woman_arms_buff, $color);
 } else if (%if2 = 4) {
-    setidkit(woman_arms_long_sleeved, $color);
+    setidkit(woman_arms_longsleeves, $color);
 } else if (%if2 = 5) {
-    setidkit(woman_arms_large_cuffs, $color);
+    setidkit(woman_arms_longsleeves2, $color);
 }
 
 @thessalia_finished_makeover;
 
-[if_button,player_kit_tailor_legs_woman:com_133] %if1 = 1;
-[if_button,player_kit_tailor_legs_woman:com_134] %if1 = 2;
-[if_button,player_kit_tailor_legs_woman:com_135] %if1 = 3;
-[if_button,player_kit_tailor_legs_woman:com_136] %if1 = 4;
-[if_button,player_kit_tailor_legs_woman:com_137] %if1 = 5;
-[if_button,player_kit_tailor_legs_woman:com_138] %if1 = 6;
-[if_button,player_kit_tailor_legs_woman:com_139] %if1 = 7;
-[if_button,player_kit_tailor_legs_woman:com_140] %if1 = 8;
+[if_button,player_kit_tailor_legs_woman:com_132] %if1 = 1;
+[if_button,player_kit_tailor_legs_woman:com_133] %if1 = 2;
+[if_button,player_kit_tailor_legs_woman:com_134] %if1 = 3;
+[if_button,player_kit_tailor_legs_woman:com_135] %if1 = 4;
+[if_button,player_kit_tailor_legs_woman:com_136] %if1 = 5;
+[if_button,player_kit_tailor_legs_woman:com_137] %if1 = 7;
+[if_button,player_kit_tailor_legs_woman:com_138] %if1 = 8;
 
 [if_button,player_kit_tailor_legs_woman:com_91] %if3 = 2;
 [if_button,player_kit_tailor_legs_woman:com_92] %if3 = 3;
@@ -455,21 +455,19 @@ if (inv_total(inv, coins) < 500) {
 def_int $color = calc(%if3 - 1);
 
 if (%if1 = 1) {
-    setidkit(woman_legs_plain, $color);
+    setidkit(woman_legs_basic, $color);
 } else if (%if1 = 2) {
-    setidkit(woman_legs_shorts, $color);
+    setidkit(woman_legs_basic2, $color);
 } else if (%if1 = 3) {
     setidkit(woman_legs_flares, $color);
 } else if (%if1 = 4) {
-    setidkit(woman_legs_turn_ups, $color);
+    setidkit(woman_legs_longskirt, $color);
 } else if (%if1 = 5) {
-    setidkit(woman_legs_turn_ups_2, $color);
-} else if (%if1 = 6) {
-    setidkit(woman_legs_turn_ups_3, $color);
+    setidkit(woman_legs_longskirt_narrow, $color);
 } else if (%if1 = 7) {
-    setidkit(woman_legs_turn_ups_4, $color);
+    setidkit(woman_legs_turnups, $color);
 } else if (%if1 = 8) {
-    setidkit(woman_legs_turn_ups_5, $color);
+    setidkit(woman_legs_shortskirt, $color);
 }
 
 @thessalia_finished_makeover;

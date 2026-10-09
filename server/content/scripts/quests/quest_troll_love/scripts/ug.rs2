@@ -1,0 +1,116 @@
+[opnpc1,trollromance_ug]
+if (%troll_love < ^troll_love_started) {
+    @trollromance_ug_start_trollromance;
+
+} else if (%troll_love > ^troll_love_not_started & %troll_love < ^troll_love_learnt_about_trollweiss) {
+    @trollromance_ug_talk_to_aga;
+
+} else if (%troll_love > ^troll_love_aga_wants_trollweiss & %troll_love < ^troll_love_picked_trollweiss) {
+    @trollromance_ug_not_got_flower;
+
+} else if (%troll_love > ^troll_love_waxed_sled & %troll_love < ^troll_love_dispose_of_arrg) {
+    if (inv_total(inv, trollromance_rare_flower) > 0) { // Authentically gives no dialogue if you don't have the flower!
+        @trollromance_ug_picked_flower;
+    }
+
+} else if (%troll_love = ^troll_love_dispose_of_arrg) {
+    @trollromance_ug_not_defeated_arrg;
+
+} else if (%troll_love = ^troll_love_defeated_arrg) {
+    @trollromance_ug_defeated_arrg;
+    
+} else if (%troll_love = ^troll_love_complete) {
+    ~chatplayer("<p,neutral>How did it go with Aga?");
+    ~chatnpc("<p,happy>I give Trollweiss to Aga and she say it taste very nice. She very happy and we together now.");
+    ~chatplayer("<p,angry>What?! I went through all that trouble to get a snack for a hungry troll?");
+    ~chatnpc("<p,happy>Thank you many for getting Ug together with Aga. We much happy together! I so happy I can't stop crying!");
+}
+
+[label,trollromance_ug_start_trollromance]
+if (%troll_quest < ^troll_complete) {
+    ~mesbox("He doesn't look like he feels like talking.");
+    return;
+}
+~chatnpc("<p,angry>Arrrghhh, die man-thing!");
+~chatnpc("<p,sad>Ahhh, it no use, I too sad!");
+def_int $choice1 = ~p_choice2("Awww, you poor troll. What seems to be the problem?", 1, "Hahahahaha... a crying Troll", 2);
+if ($choice1 = 1) {
+    ~chatplayer("<p,neutral>Awww, you poor troll. What seems to be the problem?");
+    ~chatnpc("<p,neutral>I love Aga, she so beautiful, she smell so nice, like rotting dead ice wolf!");
+    ~chatnpc("<p,angry>But Arrg that... arrrrrg! He together with Aga and he much stronger than Ug. He rip Ug apart!");
+    def_int $choice2 = ~p_choice4("Who is Aga?", 1, "Arrg?", 2, "Don't worry now, I'll see what I can do.", 3, "A crying troll who's in love?!", 4);
+    while ($choice2 ! 0) {
+        if ($choice2 = 1) {
+            ~chatplayer("<p,neutral>Who is Aga?");
+            ~chatnpc("<p,happy>She most beautiful troll in world.");
+            ~chatnpc("<p,angry>Ug want to marry Aga, but she with Arrg!");
+            $choice2 = ~p_choice3("Arrg?", 2, "Don't worry now, I'll see what I can do.", 3, "A crying troll who's in love?!", 4);
+        } else if ($choice2 = 2) {
+            ~chatplayer("<p,neutral>Arrg?");
+            ~chatnpc("<p,angry>Arrrrghh!");
+            ~chatplayer("<p,neutral>This is getting confusing!");
+            $choice2 = ~p_choice3("Who is Aga?", 1, "Don't worry now, I'll see what I can do.", 3, "A crying troll who's in love?!", 4);
+        } else if ($choice2 = 3) {
+            %troll_love = ^troll_love_started;
+            ~send_quest_progress(questlist:troll_love, %troll_love, ^troll_love_complete);
+            ~chatplayer("<p,neutral>Don't worry now, I'll see what I can do.");
+            ~chatnpc("<p,happy>You help Ug? You nice, maybe Ug not eat you!");
+            ~chatplayer("<p,neutral>Errrr... thanks... I think?");
+            ~chatplayer("<p,neutral>I will go and talk to Aga.");
+            return;
+        } else if ($choice2 = 4) {
+            ~chatplayer("<p,neutral>A crying troll who's in love?!");
+            ~chatplayer("<p,neutral>This just gets better and better!");
+            return;
+        }
+    }
+} else {
+    ~chatplayer("<p,neutral>Hahahahaha... a crying Troll.");
+    ~chatplayer("<p,neutral>I bet all the other trolls laugh at you!");
+    ~chatnpc("<p,angry>Go away, man-thing, leave Ug alone!");
+    ~chatplayer("<p,neutral>Hahahahaa!");
+}
+
+[label,trollromance_ug_talk_to_aga]
+~chatnpc("<p,neutral>You talk to Aga yet?");
+if (%troll_love < ^troll_love_aga_wants_trollweiss) {
+    ~chatplayer("<p,neutral>Sorry not yet...");
+} else if (%troll_love = ^troll_love_aga_wants_trollweiss) {
+    ~chatplayer("<p,neutral>Yes, she said that she really wants a certain flower! Trollweiss, I think she called it.");
+    ~chatnpc("<p,sad>Oh no! Then Ug no chance, Trollweiss not found in years!");
+    ~chatplayer("<p,neutral>Don't worry I'll find it for you!");
+    ~chatnpc("<p,sad>You no chance, Ug no chance, need someone who live whole life in mountains.|Ug no know anyone like that...");
+    ~chatplayer("<p,neutral>Hang on a sec...");
+}
+
+[label,trollromance_ug_not_got_flower]
+~chatnpc("<p,sad>Have you got flower yet?");
+~chatplayer("<p,sad>Sorry, I'm still looking.");
+
+[label,trollromance_ug_picked_flower]
+~chatnpc("<p,sad>Have you got flower yet?");
+~chatplayer("<p,neutral>Yes, I've got it right here.");
+~chatnpc("<p,happy>Thanks man-thing. Ug so happy!");
+~chatnpc("<p,sad>But me too scared to give Trollweiss to Aga because Arrg will eat Ug for breakfast.");
+~chatplayer("<p,neutral>What? So I have to get rid of Arrg as well? After all this trouble I should be the one getting the girl...");
+~chatplayer("<p,neutral>Then again maybe not.");
+~chatnpc("<p,angry>You no touch Aga. Ug kill you.");
+~chatplayer("<p,neutral>Ok, I'll tell Arrg you said that. Shall I tell him to meet you here?");
+~chatnpc("<p,scared>No, no, no, wait! Ug just joke, oh great man-legend. Ug puny, you strong.");
+~chatplayer("<p,neutral>I suppose I am a bit of a legend.|Ok I'll do it!");
+%troll_love = ^troll_love_dispose_of_arrg;
+inv_del(inv, trollromance_rare_flower, 1);
+
+[label,trollromance_ug_not_defeated_arrg]
+~chatnpc("<p,neutral>You defeat Arrg yet?");
+~chatplayer("<p,neutral>No, not yet. Something like this requires careful planning.");
+
+[label,trollromance_ug_defeated_arrg]
+~chatnpc("<p,neutral>You defeat Arrg yet?");
+~chatplayer("<p,neutral>Yes, he has been defeated.");
+~chatnpc("<p,scared>You very strong and nice. Take pretty rocks as thanks.");
+~chatplayer("<p,neutral>Thanks, Ug. So, now you can go and speak to Aga!");
+~chatnpc("<p,scared>I too scared.");
+~chatplayer("<p,neutral>Has anyone ever told you that you are a useless troll? My grandmother has more guts than you and she doesn't even have her teeth anymore!");
+~chatnpc("<p,angry>Whaaat? Man-thing want to die? Ug no scared of you or your grandmother! Ug show you. Ug go to Aga now.");
+queue(trollromance_quest_complete, 0, 0);

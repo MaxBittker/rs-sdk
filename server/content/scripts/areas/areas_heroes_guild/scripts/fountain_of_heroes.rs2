@@ -1,11 +1,15 @@
 [oplocu,fountain_of_heroes]
 if (last_useitem = amulet_of_glory | last_useitem = amulet_of_glory_1 | last_useitem = amulet_of_glory_2 | last_useitem = amulet_of_glory_3) {
     def_int $slot = last_useslot;
-    mes("You dip the amulet in the fountain...");
-    anim(human_pickupfloor, 0);
     inv_setslot(inv, $slot, amulet_of_glory_4, 1); // setslot in osrs
-    p_delay(1);
+    mes("You dip the amulet in the fountain...you feel a power emanating from it.");
+    mes("You can now rub the amulet to teleport and wear it to get more gems whilst mining.");
     ~objbox(amulet_of_glory_4, "You dip the amulet in the fountain...you feel a power emanating from it.|@dbl@Effect:@bla@ You can now rub the amulet to teleport and wear it to get more gems whilst mining.", 250, 0, -20);
     return;
+
+    // no linebreak in mes in 2006 (https://i.imgur.com/oc5tZGV.png) / (https://i.imgur.com/irYaotF.png)
+    // pre rework no dipping anim, objbox instant (https://www.youtube.com/watch?v=5g-qEIkOmng&t=73s)
+    // somewhere between 2005 (https://i.imgur.com/j86N0ku.png) and jan 2007 (https://i.imgur.com/GgQVAMm.png) there's a space added in the objbox, I applied no space in mes to match objbox source
+    // gets reworked in probably may 2007 to have dipping anim, delay on objbox & new mes (You dip the amulet...)
 }
 ~displaymessage(^dm_default); 

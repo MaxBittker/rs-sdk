@@ -1,7 +1,7 @@
 [macro_genilamp]
 name=Lamp
 desc=Wonder what happens if I rub it...
-model=model_3348_obj
+model=inv_genilamp
 2dxof=2
 2dyof=-2
 2dzoom=840

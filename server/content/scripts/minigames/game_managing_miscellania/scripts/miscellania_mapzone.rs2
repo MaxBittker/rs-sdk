@@ -1,0 +1,8 @@
+[mapzone,0_39_60]
+if(%misc_visited = ^false) {
+    %misc_visited = ^true;
+    %misc_last_update = date_minutes;
+    %misc_approval = ^MISC_APPROVAL_25_PERCENT;
+}
+~manage_misc_daily_update;
+@music_playbyregion(coord);

@@ -1,7 +1,7 @@
 import { modelsHaveTexture } from '#/cache/graphics/Model.js';
 import ColorConversion from '#/util/ColorConversion.js';
 import { printFatalError, printWarning } from '#/util/Logger.js';
-import { LocPack, ModelPack, SeqPack, TexturePack } from '#tools/pack/PackFile.js';
+import { LocPack, ModelPack, SeqPack, TexturePack, VarbitPack } from '#tools/pack/PackFile.js';
 
 import { ConfigIdx } from './Common.js';
 
@@ -12,14 +12,14 @@ function renameModel(id: number, shape: number) {
         model = model.substring(0, model.length - 3);
     }
 
-    if (model.endsWith(LocShapeSuffix[shape])) {
+    if (shape !== LocShapeSuffix._8 && model.endsWith(LocShapeSuffix[shape])) {
         model = model.substring(0, model.length - 2);
     }
 
     return model;
 }
 
-type LocModelShape = { model: number, shape: number };
+type LocModelShape = { model: number; shape: number };
 export type LocModels = { models: LocModelShape[] };
 
 export function unpackLocModels(config: ConfigIdx, id: number): LocModels {
@@ -127,6 +127,13 @@ export function unpackLocModels(config: ConfigIdx, id: number): LocModels {
             // no-op
         } else if (code === 75) {
             dat.gbool();
+        } else if (code === 77) {
+            dat.g2();
+
+            const states = dat.g1();
+            for (let i = 0; i <= states; i++) {
+                dat.g2();
+            }
         }
     }
 
@@ -159,12 +166,6 @@ export enum LocShapeSuffix {
     _v = 21 // roofedge_squarecorner
 }
 
-function exclusiveAdd(collection: string[], value: string) {
-    if (collection.indexOf(value) === -1) {
-        collection.push(value);
-    }
-}
-
 export function unpackLocConfig(config: ConfigIdx, id: number): string[] {
     const { dat, pos, len } = config;
     dat.pos = pos[id];
@@ -176,8 +177,18 @@ export function unpackLocConfig(config: ConfigIdx, id: number): string[] {
     let lastCode = 0;
 
     const modelIds: number[] = [];
+    const modelNames: string[] = [];
     const recolSrc: number[] = [];
     const recolDst: number[] = [];
+
+    const addModel = (name: string) => {
+        if (modelNames.includes(name)) {
+            return;
+        }
+
+        def.push(`model${modelNames.length > 0 ? modelNames.length + 1 : ''}=${name}`);
+        modelNames.push(name);
+    };
 
     while (true) {
         const code = dat.g1();
@@ -188,8 +199,6 @@ export function unpackLocConfig(config: ConfigIdx, id: number): string[] {
         if (code === 1) {
             const count = dat.g1();
 
-            let written = 1;
-            let lastName;
             for (let i = 0; i < count; i++) {
                 const modelId = dat.g2();
                 const shape = dat.g1();
@@ -197,12 +206,7 @@ export function unpackLocConfig(config: ConfigIdx, id: number): string[] {
                 modelIds.push(modelId);
 
                 const name = renameModel(modelId, shape);
-                if (lastName !== name) {
-                    def.push(`model${written > 1 ? written : ''}=${name}`);
-
-                    written++;
-                    lastName = name;
-                }
+                addModel(name);
             }
         } else if (code === 2) {
             const name = dat.gjstr();
@@ -214,14 +218,13 @@ export function unpackLocConfig(config: ConfigIdx, id: number): string[] {
             const count = dat.g1();
 
             for (let i = 0; i < count; i++) {
-                const index = i + 1;
                 const modelId = dat.g2();
                 const shape = LocShapeSuffix._8;
 
                 modelIds.push(modelId);
 
                 const name = renameModel(modelId, shape);
-                exclusiveAdd(def, `model${index > 1 ? index : ''}=${name}`);
+                addModel(name);
             }
         } else if (code === 14) {
             const width = dat.g1();
@@ -247,8 +250,6 @@ export function unpackLocConfig(config: ConfigIdx, id: number): string[] {
 
             const seq = SeqPack.getById(seqId) || 'seq_' + seqId;
             def.push(`anim=${seq}`);
-        } else if (code === 25) {
-            def.push('hasalpha=yes');
         } else if (code === 28) {
             const wallwidth = dat.g1();
             def.push(`wallwidth=${wallwidth}`);
@@ -259,7 +260,7 @@ export function unpackLocConfig(config: ConfigIdx, id: number): string[] {
             const contrast = dat.g1b();
             def.push(`contrast=${contrast}`);
         } else if (code >= 30 && code < 35) {
-            const index = (code - 30) + 1;
+            const index = code - 30 + 1;
             const op = dat.gjstr();
             def.push(`op${index}=${op}`);
         } else if (code === 40) {
@@ -319,6 +320,20 @@ export function unpackLocConfig(config: ConfigIdx, id: number): string[] {
         } else if (code === 75) {
             const raiseobject = dat.gbool();
             def.push(`raiseobject=${raiseobject ? 'yes' : 'no'}`);
+        } else if (code === 77) {
+            const varbit = dat.g2();
+            const name = VarbitPack.getById(varbit) || `varbit_${varbit}`;
+            def.push(`multivarbit=${name}`);
+
+            const states = dat.g1();
+            for (let i = 0; i <= states; i++) {
+                const multiloc = dat.g2();
+
+                if (multiloc !== 65535) {
+                    const loc = LocPack.getById(multiloc) || `loc_${multiloc}`;
+                    def.push(`multiloc=${i},${loc}`);
+                }
+            }
         } else {
             printFatalError(`unknown loc code ${code}, last code ${lastCode}`);
         }

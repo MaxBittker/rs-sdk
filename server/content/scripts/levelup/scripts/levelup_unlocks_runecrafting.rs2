@@ -5,41 +5,45 @@ switch_int(stat_base(runecraft)) {
     case 5 : ~objbox(waterrune,"You can now craft @dbl@Water Runes.", 250, 0, 0);
     case 9 : ~objbox(earthrune,"You can now craft @dbl@Earth Runes.", 250, 0, 0);
     // case 11 : ~objbox(airrune,"You can now receive 2 @dbl@Air Runes@bla@.", 250, 0, 0);
+    // case 13 : ~objbox(mudrune,"Members can now craft @dbl@Mud Runes.", 250, 0, 0); // https://i.imgur.com/CBgQATk.png (after pure ess)
     case 14 : ~objbox(firerune,"You can now craft @dbl@Fire Runes.", 250, 0, 0);
     // case 19 : ~objbox(waterrune,"You can now receive 2 @dbl@Water Runes@bla@.", 250, 0, 0);
     case 20 : ~objbox(bodyrune,"You can now craft @dbl@Body Runes.", 250, 0, 0);
     // case 22 : ~objbox(airrune,"You can now receive 3 @dbl@Air Runes@bla@.", 250, 0, 0);
     // case 26 : ~objbox(earthrune,"You can now receive 2 @dbl@Earth Runes@bla@.", 250, 0, 0);
-    case 27 : ~objbox(cosmicrune,"You can now craft @dbl@Cosmic Runes.", 250, 0, 0);
+    case 27 : ~objbox(cosmicrune,"Members can now craft @dbl@Cosmic Runes.", 250, 0, 0);
     // case 28 : ~objbox(mindrune,"You can now receive 3 @dbl@Mind Runes@bla@.", 250, 0, 0);
     // case 33 : ~objbox(airrune,"You can now receive 4 @dbl@Air Runes@bla@.", 250, 0, 0);
-    case 35 : ~objbox(chaosrune,"You can now craft @dbl@Chaos Runes.", 250, 0, 0);
+    case 35 : ~objbox(chaosrune,"Members can now craft @dbl@Chaos Runes.", 250, 0, 0); // https://i.imgur.com/ZebP7RG.png
     // case 38 : ~objbox(waterrune,"You can now receive 3 @dbl@Water Runes@bla@.", 250, 0, 0);
     // case 42 : ~objbox(mindrune,"You can now receive 4 @dbl@Mind Runes@bla@.", 250, 0, 0);
-    case 44 : ~objbox(naturerune,"You can now craft @dbl@Nature Runes.", 250, 0, 0); // imgur.com/bz6j0wl
+    case 44 : ~objbox(naturerune,"Members can now craft @dbl@Nature Runes.", 250, 0, 0); // https://i.imgur.com/RpbOz9j.png (april 2nd 2004) / https://i.imgur.com/e0187NG.png (september 2004) Likely changed to members with Law Altar
     // case 46 : ~objbox(bodyrune,"You can now receive 2 @dbl@Body Runes@bla@.", 250, 0, 0);
     // case 52 : ~objbox(earthrune,"You can now receive 3 @dbl@Earth Runes@bla@.", 250, 0, 0);
     // https://oldschool.runescape.wiki/w/Law_Altar
     // 08/24/2004
-    case 54 : ~objbox(lawrune,"You can now craft @dbl@Law Runes@bla@.", 250, 0, 0);
+    case 54 : ~objbox(lawrune,"Members can now craft @dbl@Law Runes@bla@.", 250, 0, 0); // https://i.imgur.com/XeXDXB6.png (october 2004) Likely changed to members with Law Altar
     // case 55 : ~objbox(airrune,"You can now receive 4 @dbl@Air Runes@bla@.", 250, 0, 0);
     // case 56 : ~objbox(mindrune,"You can now receive 5 @dbl@Mind Runes@bla@.", 250, 0, 0);
     // case 57 : ~objbox(waterrune,"You can now receive 4 @dbl@Water Runes@bla@.", 250, 0, 0);
-    // case 59 : ~objbox(cosmicrune,"You can now receive 2 @dbl@Cosmic Runes@bla@.", 250, 0, 0);
+    // case 59 : ~objbox(cosmicrune,"Members can now receive 2 @dbl@Cosmic Runes@bla@.", 250, 0, 0); // https://i.imgur.com/9LbSVlN.png (after pure ess)
     // https://oldschool.runescape.wiki/w/Death_Altar
     // 10/17/2005
-    // case 65 : ~objbox(deathrune,"You can now craft @dbl@Death Runes@bla@.", 250, 0, 0);
+    // case 65 : ~objbox(deathrune,"Members can now craft @dbl@Death Runes.", 250, 0, 0); // https://i.imgur.com/JpAkzun.png (after pure ess)
     // case 66 : ~objbox(airrune,"You can now receive 7 @dbl@Air Runes@bla@.", 250, 0, 0);
     // case 70 : ~doubleobjbox(mindrune,firerune,"You can now receive 6 @dbl@Mind Runes@bla@|and you can now receive 3 @dbl@Fire Runes@bla@.");
-    // case 74 : ~objbox(chaosrune,"You can now receive 2 @dbl@Chaos Runes@bla@.", 250, 0, 0);
+    // case 74 : ~objbox(chaosrune,"Members can now receive 2 @dbl@Chaos Runes@bla@.", 250, 0, 0); // https://i.imgur.com/fd1utjc.png (after pure ess)
     // case 76 : ~objbox(waterrune,"You can now receive 5 @dbl@Water Runes@bla@.", 250, 0, 0);
+    // case 77 : ~objbox(bloodrune,"Members can now craft @dbl@Blood Runes.", 250, 0 ,0); https://i.imgur.com/AlIK0HI.png / https://i.imgur.com/VLDpViC.png (after pure ess)
     // case 77 : ~objbox(airrune,"You can now receive 8 @dbl@Air Runes@bla@.", 250, 0, 0);
     // case 78 : ~objbox(earthrune,"You can now receive 4 @dbl@Earth Runes@bla@.", 250, 0, 0);
     // case 84 : ~objbox(mindrune,"You can now receive 7 @dbl@Mind Runes@bla@.", 250, 0, 0);
     // case 88 : ~objbox(airrune,"You can now receive 9 @dbl@Air Runes@bla@.", 250, 0, 0);
-    // case 91 : ~objbox(naturerune,"You can now receive 2 @dbl@Nature Runes@bla@.", 250, 0, 0);
+    // https://i.imgur.com/LVWemoU.png (november 2005 N0valyfe blog) / https://i.imgur.com/Bw0aABK.png / https://i.imgur.com/PAyrJrX.png
+    // case 90 : ~objbox(soulrune,"Members can now craft @dbl@Soul Runes.", 250, 0, 0);
+    // case 91 : ~objbox(naturerune,"Members can now receive 2 @dbl@Nature Runes@bla@.", 250, 0, 0);
     // case 92 : ~objbox(bodyrune,"You can now receive 3 @dbl@Body Runes@bla@.", 250, 0, 0);
-    // case 95 : ~doubleobjbox(waterrune,lawrune,"You can now receive 6 @dbl@Water Runes@bla@|and you can now receive 2 @dbl@Law Runes@bla@.");
+    // case 95 : ~doubleobjbox(waterrune,lawrune,"You can now receive 6 @dbl@Water Runes@bla@|and members can now receive 2 @dbl@Law Runes@bla@.");
     // case 98 : ~objbox(mindrune,"You can now receive 8 @dbl@Mind Runes@bla@.", 250, 0, 0);
     // case 99 : ~objbox(airrune,"You can now receive 10 @dbl@Air Runes@bla@.", 250, 0, 0);
 }

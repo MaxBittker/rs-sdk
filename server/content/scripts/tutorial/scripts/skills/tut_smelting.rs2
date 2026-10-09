@@ -33,7 +33,7 @@ if (inv_total(inv, copper_ore) < 1) {
 
 p_arrivedelay();
 anim(human_furnace, 0);
-sound_synth(furnace, 0, 0);
+sound_synth(furnace, 1, 0);
 mes("You smelt the copper and tin together in the furnace.");
 p_delay(3);
 if (%tutorial = ^newbie_mining_instructor_before_smelt_bronze_bar) {

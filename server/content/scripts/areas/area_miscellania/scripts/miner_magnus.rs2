@@ -1,0 +1,33 @@
+[opnpc1,misc_miner]
+~manage_misc_daily_update;
+if (%misc_quest = ^misc_complete) {
+    ~chatnpcnoturn("<~man_misc_mesanim>Good day, Your Royal Highness.");
+} else {
+    ~chatnpcnoturn("<~man_misc_mesanim>Hello.");
+}
+~chatplayer("<p,happy>Good day. What are you doing?");
+~chatnpcnoturn("<~man_misc_mesanim>I'm mining coal. It's pretty tough going.");
+~chatplayer("<p,happy>Good luck with that.");
+if (%misc_quest = ^misc_complete) {
+    ~chatnpcnoturn("<~man_misc_mesanim>Thank you, Your Royal Highness.");
+} else {
+    ~chatnpcnoturn("<p,happy>Thanks.");
+}
+
+[oploc1,misc_dummy_coalrock1] // https://www.youtube.com/watch?v=CB18DoDgCbQ
+mes("Miner Magnus is already mining that.");
+
+[oploc2,misc_dummy_coalrock1] 
+@prospect_rock(finish_prospect_normal);
+
+// This is to intercept mining in miscellania
+[proc,magnus_intercept_ore](string $ore_name, int $exp)(boolean)
+if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+    if (%misc_approval < 127) %misc_approval = add(%misc_approval, 1);
+    if (npc_find(0_39_60_30_53, misc_miner, 2, 0) = true) npc_say("Thanks!");
+    // https://youtu.be/3JPE0glCQnY?si=-tTogcIxfipgGEhp&t=189
+    stat_advance(mining, 1);
+    mes("You manage to mine some <$ore_name>, and give it to Miner Magnus.");
+    return (true);
+}
+return (false);

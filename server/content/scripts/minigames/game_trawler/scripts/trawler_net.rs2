@@ -1,27 +1,27 @@
-[proc,trawler_net_ripped]()(boolean)
-if (loc_find(^trawler_start_net1, game_trawler_fish_net_broken1) = true) {
-    return(true);
+[proc,trawler_net_ripped]()(int)
+if (loc_find(^trawler_start_net1, trawlernet_top_l) = true) {
+    return(^true);
 }
-if (loc_find(^trawler_start_net2, game_trawler_fish_net_broken2) = true) {
-    return(true);
+if (loc_find(^trawler_start_net2, trawlernet_top_r) = true) {
+    return(^true);
 }
-return(false);
+return(^false);
 
 [proc,trawler_rip_net]
-if (~trawler_net_ripped = true) {
+if (~trawler_net_ripped = ^true) {
     return;
 }
-if (loc_find(^trawler_start_net1, game_trawler_fish_net1) = true) {
-    loc_change(game_trawler_fish_net_broken1, 1000);
+if (loc_find(^trawler_start_net1, trawlernet_l) = true) {
+    loc_change(trawlernet_top_l, 1000);
 }
-if (loc_find(^trawler_start_net2, game_trawler_fish_net2) = true) {
-    loc_change(game_trawler_fish_net_broken2, 1000); 
+if (loc_find(^trawler_start_net2, trawlernet_r) = true) {
+    loc_change(trawlernet_top_r, 1000); 
 }
-if (loc_find(^trawler_flood_net1, game_trawler_fish_net1) = true) {
-    loc_change(game_trawler_fish_net_broken1, 1000);
+if (loc_find(^trawler_flood_net1, trawlernet_l) = true) {
+    loc_change(trawlernet_top_l, 1000);
 }
-if (loc_find(^trawler_flood_net2, game_trawler_fish_net2) = true) {
-    loc_change(game_trawler_fish_net_broken2, 1000); 
+if (loc_find(^trawler_flood_net2, trawlernet_r) = true) {
+    loc_change(trawlernet_top_r, 1000); 
 }
 huntall(^trawler_start_center_under, 8, 0);
 while (huntnext = true) {
@@ -44,23 +44,23 @@ while (huntnext = true) {
 mes("The net has ripped!");
 ~mesbox("The net has ripped!|You can't catch anything whilst the net is ripped!"); // https://imgur.com/sIkyhcN
 
-[oploc1,game_trawler_fish_net1]
+[oploc1,trawlernet_l]
 anim(human_pickupfloor, 0);
 p_delay(0);
 mes("The net is not damaged.");
 
-[oploc1,game_trawler_fish_net2]
+[oploc1,trawlernet_r]
 anim(human_pickupfloor, 0);
 p_delay(0);
 mes("The net is not damaged.");
 
-[oplocu,game_trawler_fish_net1] @trawler_net_use;
-[oplocu,game_trawler_fish_net2] @trawler_net_use;
+[oplocu,trawlernet_l] @trawler_net_use;
+[oplocu,trawlernet_r] @trawler_net_use;
 
-[oploc1,game_trawler_fish_net_broken1] @trawler_fix_net;
-[oploc1,game_trawler_fish_net_broken2] @trawler_fix_net;
-[oplocu,game_trawler_fish_net_broken1] @trawler_net_use;
-[oplocu,game_trawler_fish_net_broken2] @trawler_net_use;
+[oploc1,trawlernet_top_l] @trawler_fix_net;
+[oploc1,trawlernet_top_r] @trawler_fix_net;
+[oplocu,trawlernet_top_l] @trawler_net_use;
+[oplocu,trawlernet_top_r] @trawler_net_use;
 
 [label,trawler_net_use]
 if (last_useitem = rope) {
@@ -82,21 +82,21 @@ if (stat_random(crafting, 30, 300) = false) { // stat random is mostly guessed, 
     mes("You fail to repair the net in the harsh conditions."); // https://youtu.be/scKmu6QETRw?t=347
     return;
 }
-if (loc_find(^trawler_start_net1, game_trawler_fish_net_broken1) = true) {
+if (loc_find(^trawler_start_net1, trawlernet_top_l) = true) {
     // Temp note: dur updated
-    loc_change(game_trawler_fish_net1, 2);
+    loc_change(trawlernet_l, 2);
 }
-if (loc_find(^trawler_start_net2, game_trawler_fish_net_broken2) = true) {
+if (loc_find(^trawler_start_net2, trawlernet_top_r) = true) {
     // Temp note: dur updated
-    loc_change(game_trawler_fish_net2, 2); 
+    loc_change(trawlernet_r, 2); 
 }
-if (loc_find(^trawler_flood_net1, game_trawler_fish_net_broken1) = true) {
+if (loc_find(^trawler_flood_net1, trawlernet_top_l) = true) {
     // Temp note: dur updated
-    loc_change(game_trawler_fish_net1, 2);
+    loc_change(trawlernet_l, 2);
 }
-if (loc_find(^trawler_flood_net2, game_trawler_fish_net_broken2) = true) {
+if (loc_find(^trawler_flood_net2, trawlernet_top_r) = true) {
     // Temp note: dur updated
-    loc_change(game_trawler_fish_net2, 2); 
+    loc_change(trawlernet_r, 2); 
 }
 anim(human_pickupfloor, 0);
 p_delay(0);

@@ -34,7 +34,11 @@ export default abstract class Entity extends DoublyLinkable {
     }
 
     setLifeCycle(tick: number): void {
-        this.lifecycleTick = tick;
+        if (tick === -1) {
+            this.lifecycleTick = tick;
+        } else {
+            this.lifecycleTick = Math.max(1, tick);
+        }
         this.lastLifecycleTick = World.currentTick;
     }
 }

@@ -1,5 +1,5 @@
 [plaguekeybarrel]
 name=Barrel
 desc=Used for storage.
-model=model_loc_362
+model=outdoorfurniture_barrel
 op1=Search

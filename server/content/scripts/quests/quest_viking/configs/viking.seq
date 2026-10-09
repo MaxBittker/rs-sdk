@@ -76,7 +76,7 @@ frame11=anim_9724
 frame12=anim_9725
 
 [human_walk_tankard_f]
-stretches=yes
+reachforward=yes
 replaceheldleft=hide
 replaceheldright=viking_tankard_full
 frame1=anim_9804
@@ -89,7 +89,7 @@ frame7=anim_9810
 frame8=anim_9811
 
 [human_walk_tankard_b]
-stretches=yes
+reachforward=yes
 replaceheldleft=hide
 replaceheldright=viking_tankard_full
 frame1=anim_9811
@@ -102,7 +102,7 @@ frame7=anim_9805
 frame8=anim_9804
 
 [human_walk_tankard_l]
-stretches=yes
+reachforward=yes
 replaceheldleft=hide
 replaceheldright=viking_tankard_full
 frame1=anim_9778
@@ -111,7 +111,7 @@ frame3=anim_9780
 frame4=anim_9781
 
 [human_walk_tankard_r]
-stretches=yes
+reachforward=yes
 replaceheldleft=hide
 replaceheldright=viking_tankard_full
 frame1=anim_9782
@@ -168,7 +168,7 @@ frame11=anim_9750
 frame12=anim_9743
 
 [viking_drop_to_knee]
-stretches=yes
+reachforward=yes
 frame1=anim_9734
 frame2=anim_9735
 frame3=anim_9736
@@ -189,7 +189,7 @@ frame17=anim_9742
 frame18=anim_9742
 
 [viking_drop_to_knee_and_backtoready]
-stretches=yes
+reachforward=yes
 frame1=anim_9742
 frame2=anim_9741
 frame3=anim_9740

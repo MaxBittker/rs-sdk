@@ -2,6 +2,10 @@
 [apnpc2,_] @player_combat_start_ap;
 
 [label,player_combat_start_ap]
+if (~mm_wearing_greegree = true) { // checks before attackrange
+    ~mesbox("You cannot attack as a monkey.");
+    return;
+}
 def_int $attackrange = ~player_attackrange(inv_getobj(worn, ^wearpos_rhand));
 if (($attackrange <= 1 & ~player_in_combat_check = false) | npc_range(coord) > $attackrange) {
     p_aprange($attackrange);
@@ -55,6 +59,9 @@ if(npc_type = tbwt_beast) {
         return (false);
     }
 }
+if (npc_param(undead) = ^true & inv_total(worn, crystalshard_necklace) > 0) {
+    $attack_roll = scale($attack_roll, 7, 6); // todo figure out if they do this lol
+}
 if (randominc($attack_roll) > randominc($defence_roll)) {
     return(true);
 }
@@ -92,7 +99,11 @@ switch_int ($damagetype) {
 }
 
 [proc,player_in_combat_check]()(boolean)
-if (map_multiway(npc_coord) = false) {
+if (~mm_wearing_greegree = true) {
+    ~mesbox("You cannot attack as a monkey.");
+    return(false);
+}
+if (map_multiway(npc_coord) = false & nc_param(npc_type, npc_forcemulti) = ^false) {
     // player has been attacked in the last 8 ticks, and not by the current npc
     // or player has been attacked in the last 8 ticks, and %aggressive_npc is null (for pvp)
     // "I'm already under attack!" probably existed for op2'ing an npc
@@ -122,7 +133,7 @@ return(true);
 
 // version of this has no period, used for crumble undead?
 [proc,player_in_combat_check2]()(boolean)
-if (map_multiway(npc_coord) = false) {
+if (map_multiway(npc_coord) = false & nc_param(npc_type, npc_forcemulti) = ^false) {
     // "I'm already under attack" with no period:
     // - 2004: https://web.archive.org/web/20130303093547/http://img86.exs.cx/img86/271/80mage.jpg
     if (add(%lastcombat_pvp, 8) > map_clock) {

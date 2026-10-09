@@ -792,7 +792,7 @@ export default class ClientBuild {
         if (shape === LocShape.GROUND_DECOR) {
             if (!ClientBuild.lowMem || loc.active || loc.forcedecor) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(22, angle, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -806,7 +806,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.CENTREPIECE_STRAIGHT || shape === LocShape.CENTREPIECE_DIAGONAL) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(10, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 10, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -858,7 +858,7 @@ export default class ClientBuild {
             }
         } else if (shape >= LocShape.ROOF_STRAIGHT) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(shape, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -875,7 +875,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.WALL_STRAIGHT) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(0, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 0, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -930,7 +930,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.WALL_DIAGONAL_CORNER) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(1, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 1, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -958,7 +958,7 @@ export default class ClientBuild {
 
             let model1: ModelSource | null;
             let model2: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model1 = loc.getModel(2, angle + 4, heightSW, heightSE, heightNE, heightNW, -1);
                 model2 = loc.getModel(2, offset, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
@@ -1004,7 +1004,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.WALL_SQUARE_CORNER) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(3, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 3, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1029,7 +1029,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.WALL_DIAGONAL) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(shape, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1066,7 +1066,7 @@ export default class ClientBuild {
 
             if (shape === LocShape.WALLDECOR_STRAIGHT_NOOFFSET) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1083,7 +1083,7 @@ export default class ClientBuild {
                 }
 
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1104,7 +1104,7 @@ export default class ClientBuild {
                 );
             } else if (shape === LocShape.WALLDECOR_DIAGONAL_OFFSET) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1113,7 +1113,7 @@ export default class ClientBuild {
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 256);
             } else if (shape === LocShape.WALLDECOR_DIAGONAL_NOOFFSET) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1122,7 +1122,7 @@ export default class ClientBuild {
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 512);
             } else if (shape === LocShape.WALLDECOR_DIAGONAL_BOTH) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1187,7 +1187,7 @@ export default class ClientBuild {
 
         if (shape === LocShape.GROUND_DECOR) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(22, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1200,7 +1200,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.CENTREPIECE_STRAIGHT || shape === LocShape.CENTREPIECE_DIAGONAL) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(10, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 10, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1230,7 +1230,7 @@ export default class ClientBuild {
             }
         } else if (shape >= LocShape.ROOF_STRAIGHT) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(shape, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1243,7 +1243,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.WALL_STRAIGHT) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(0, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 0, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1256,7 +1256,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.WALL_DIAGONAL_CORNER) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(1, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 1, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1272,7 +1272,7 @@ export default class ClientBuild {
 
             let model1: ModelSource | null;
             let model2: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model1 = loc.getModel(2, angle + 4, heightSW, heightSE, heightNE, heightNW, -1);
                 model2 = loc.getModel(2, offset, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
@@ -1287,7 +1287,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.WALL_SQUARE_CORNER) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(3, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, 3, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1300,7 +1300,7 @@ export default class ClientBuild {
             }
         } else if (shape === LocShape.WALL_DIAGONAL) {
             let model: ModelSource | null;
-            if (loc.anim === -1) {
+            if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(shape, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
                 model = new ClientLocAnim(locId, shape, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1337,7 +1337,7 @@ export default class ClientBuild {
 
             if (shape === LocShape.WALLDECOR_STRAIGHT_NOOFFSET) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1354,7 +1354,7 @@ export default class ClientBuild {
                 }
 
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1363,7 +1363,7 @@ export default class ClientBuild {
                 world?.setDecor(level, x, z, y, ClientBuild.DECORXOF[angle] * wallwidth, ClientBuild.DECORZOF[angle] * wallwidth, typecode, model, typecode2, angle * 512, ClientBuild.WSHAPE0[angle]);
             } else if (shape === LocShape.WALLDECOR_DIAGONAL_OFFSET) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1372,7 +1372,7 @@ export default class ClientBuild {
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 256);
             } else if (shape === LocShape.WALLDECOR_DIAGONAL_NOOFFSET) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
@@ -1381,7 +1381,7 @@ export default class ClientBuild {
                 world?.setDecor(level, x, z, y, 0, 0, typecode, model, typecode2, angle, 512);
             } else if (shape === LocShape.WALLDECOR_DIAGONAL_BOTH) {
                 let model: ModelSource | null;
-                if (loc.anim === -1) {
+                if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(4, 0, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
                     model = new ClientLocAnim(locId, 4, 0, heightSW, heightSE, heightNE, heightNW, loc.anim, true);

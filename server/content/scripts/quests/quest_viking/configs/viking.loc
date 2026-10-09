@@ -1,14 +1,14 @@
 [viking_doublebed]
 name=Bed
 desc=A wooden double bed.  For sleeping in...
-model=model_4409
+model=quest_misc_viking_bigbed
 width=3
 length=3
 
 [viking_lake_shrine_altar]
 name=Strange altar
 desc=This seems to be some kind of shrine.
-model=loc_4141
+model=quest_viking_lake_shrine_altar
 active=yes
 
 [viking_musical_tree]
@@ -35,7 +35,7 @@ blockrange=no
 [viking_troll_goldenappletree_trunk]
 name=Golden tree
 desc=Those golden fruit look good enough to eat!
-model=loc_3514
+model=quest_naturespirit_peartree_druidicspirit_trunk
 recol1s=7428
 recol1d=7329
 length=2
@@ -47,7 +47,7 @@ ambient=40
 contrast=40
 
 [viking_troll_goldenappletree_crown]
-model=loc_3519
+model=quest_naturespirit_grotto_roof2
 model2=loc_4145
 recol1s=7428
 recol1d=7329
@@ -76,7 +76,7 @@ active=no
 [viking_trollcave_entrance]
 name=Cave Entrance
 desc=This must be Lallis' home.
-model=model_loc_2
+model=cave_entrance3
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -95,7 +95,7 @@ op1=Enter
 [viking_bard_backstage_door]
 name=Door
 desc=Allows performers backstage at the Longhall.
-model=loc_4148
+model=quest_viking_abode_wooden_door
 active=yes
 ambient=30
 contrast=30
@@ -104,7 +104,7 @@ op1=Open
 [viking_troll_cauldron]
 name=Lalli's Stew
 desc=It smells pretty good actually.
-model=model_loc_692
+model=furniture_cauldron
 recol1s=544
 recol1d=23181
 recol2s=320
@@ -119,7 +119,7 @@ resizez=192
 [vt_mazeportal_1]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -128,7 +128,7 @@ contrast=100
 [vt_mazeportal_2]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -137,7 +137,7 @@ contrast=100
 [vt_mazeportal_3]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -146,7 +146,7 @@ contrast=100
 [vt_mazeportal_4]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -155,7 +155,7 @@ contrast=100
 [vt_mazeportal_5]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -164,7 +164,7 @@ contrast=100
 [vt_mazeportal_6]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -173,7 +173,7 @@ contrast=100
 [vt_mazeportal_7]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -182,7 +182,7 @@ contrast=100
 [vt_mazeportal_wrong]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -191,7 +191,7 @@ contrast=100
 [vt_mazeladdertopentrance]
 name=Ladder
 desc=Takes me into the maze.
-model=model_loc_10
+model=furniture_laddertop
 active=yes
 op1=Climb-down
 mapscene=7
@@ -199,7 +199,7 @@ mapscene=7
 [vt_mazeladderentrance]
 name=Ladder
 desc=Takes me out of the maze.
-model=loc_4159
+model=quest_viking_ladder
 active=yes
 op1=Climb-up
 mapscene=7
@@ -207,7 +207,7 @@ mapscene=7
 [vt_mazeladderexit]
 name=Ladder
 desc=Takes me out of the maze.
-model=loc_4159
+model=quest_viking_ladder
 active=yes
 op1=Climb-up
 mapscene=7
@@ -215,14 +215,14 @@ mapscene=7
 [vt_mazeladderescapeladder]
 name=Escape rope
 desc=Takes me out of the maze.
-model=model_loc_1762
+model=outdoorfurniture_rope
 active=yes
 op1=Climb-up
 
 [viking_pipe_end_longhall]
 name=Pipe
 desc=A thin metal pipe, presumably for rainwater to run through.
-model=loc_4162
+model=quest_viking_pipe_end_longhall
 recol1s=15855
 recol1d=9478
 recol2s=11627
@@ -242,7 +242,7 @@ op1=Put-inside
 [viking_seer_up_ladder]
 name=Ladder
 desc=I can climb this.
-model=loc_4163
+model=quest_viking_ladder_for_trapdoor
 active=yes
 op1=Climb-up
 mapscene=7
@@ -250,7 +250,7 @@ mapscene=7
 [viking_seer_down_ladder]
 name=Ladder
 desc=I can climb this.
-model=loc_4163
+model=quest_viking_ladder_for_trapdoor
 active=yes
 op1=Climb-up
 mapscene=7
@@ -258,7 +258,7 @@ mapscene=7
 [viking_seers_door1]
 name=Door
 desc=Keeps the wind out.
-model=loc_4148
+model=quest_viking_abode_wooden_door
 active=yes
 ambient=30
 contrast=30
@@ -267,7 +267,7 @@ op1=Open
 [viking_seers_door2]
 name=Door
 desc=Keeps the wind out.
-model=loc_4148
+model=quest_viking_abode_wooden_door
 active=yes
 ambient=30
 contrast=30
@@ -276,7 +276,7 @@ op1=Open
 [viking_seer_chest_closed]
 name=Chest
 desc=I wonder what's inside?
-model=wooden_chest
+model=furniture_chestclosed
 recol1s=10570
 recol1d=7332
 recol2s=16897
@@ -287,7 +287,7 @@ forceapproach=north
 [viking_seer_chest_open]
 name=Chest
 desc=I wonder what's inside?
-model=model_loc_76
+model=furniture_chestopen
 recol1s=10570
 recol1d=7332
 recol2s=16897
@@ -299,7 +299,7 @@ forceapproach=north
 [viking_small_table_frozen]
 name=Frozen table
 desc=Brrrrrr!
-model=loc_4169
+model=quest_viking_small_table_frozen
 recol1s=18821
 recol1d=23087
 recol2s=16707
@@ -311,7 +311,7 @@ active=yes
 [viking_seer_chest_closed_scales]
 name=Chest
 desc=There is some kind of balancing mechanism as a lock.
-model=loc_4170
+model=quest_viking_chest_closed_scales
 recol1s=10570
 recol1d=7332
 recol2s=16897
@@ -322,14 +322,14 @@ forceapproach=north
 [viking_seer_bookcase]
 name=Bookcase
 desc=A good source of books!
-model=loc_4171
+model=quest_viking_bookcase2_textured
 op1=Search
 forceapproach=east
 
 [viking_seer_range]
 name=Cooking range
 desc=An appliance for cooking with.
-model=model_loc_114
+model=furniture_range
 retex1s=wall
 retex1d=elfwood
 recol2s=3171
@@ -340,7 +340,7 @@ forceapproach=east
 [viking_seer_trapdoor_open]
 name=Trapdoor
 desc=I wonder what's down there?
-model=model_loc_1570
+model=furniture_trapdoor_open
 recol1s=15617
 recol1d=16741
 recol2s=8320
@@ -357,7 +357,7 @@ raiseobject=no
 [viking_seer_trapdoor_closed]
 name=Trapdoor
 desc=I wonder what's under it?
-model=model_loc_100
+model=furniture_trapdoor
 recol1s=15617
 recol1d=16741
 recol2s=8320
@@ -373,19 +373,19 @@ raiseobject=no
 [viking_seers_drain]
 name=Drain
 desc=Kind of funny smelling...
-model=loc_4175
+model=quest_viking_drain
 active=yes
 
 [viking_seers_tap]
 name=Tap
 desc=Water comes out of it.
-model=loc_4176
+model=quest_viking_tap
 active=yes
 
 [viking_cupboardhigh]
 name=Cupboard
 desc=This may be worth opening.
-model=model_loc_368
+model=furniture_cupboard-high
 length=2
 forceapproach=east
 op1=Open
@@ -393,7 +393,7 @@ op1=Open
 [viking_cupboardopen_high]
 name=Cupboard
 desc=This may be worth searching.
-model=model_loc_371
+model=furniture_cupboard_open-high
 length=2
 op1=Shut
 op2=Search
@@ -402,7 +402,7 @@ forceapproach=east
 [viking_seers_mural]
 name=Abstract mural
 desc=A very unusual piece of artwork...
-model=loc_4179
+model=quest_viking_seers_mural
 ambient=40
 contrast=40
 op1=Study
@@ -411,7 +411,7 @@ active=yes
 [viking_seers_mural_done]
 name=Abstract mural
 desc=A very unusual piece of artwork...
-model=loc_4179
+model=quest_viking_seers_mural
 recol1s=2114
 recol1d=11331
 recol2s=4228
@@ -423,21 +423,21 @@ op1=Study
 [viking_unimountedhead]
 name=Unicorn's head
 desc=Alas poor unicorn, I knew him well.
-model=model_loc_903
+model=walldecor_unimountedhead
 active=yes
 op1=Study
 
 [viking_bullmountedhead]
 name=Bull's head
 desc=Looks like the bull lost.
-model=model_loc_906
+model=walldecor_bullmountedhead
 active=yes
 op1=Study
 
 [viking_seerboxes_1]
 name=Boxes
 desc=A pile of boxes for storage.
-model=model_loc_359
+model=warehouse_shop_boxes
 retex1s=wood2
 retex1d=elfwood
 op1=Search
@@ -445,7 +445,7 @@ op1=Search
 [viking_seerboxes_3]
 name=Boxes
 desc=A pile of boxes for storage.
-model=model_2140
+model=warehouse_shop_boxes3
 retex1s=wood2
 retex1d=elfwood
 op1=Search
@@ -453,19 +453,19 @@ op1=Search
 [viking_seercrate]
 name=Crate
 desc=A wooden crate for storage.
-model=model_loc_63
+model=warehouse_shop_crate
 op1=Search
 
 [viking_seercrate_2]
 name=Crate
 desc=An old crate for storage.
-model=model_loc_355
+model=warehouse_shop_crate3
 op1=Search
 
 [viking_warrior_ladder]
 name=Ladder
 desc=I can climb this.
-model=loc_4159
+model=quest_viking_ladder
 op2=Climb-down
 op3=Climb-up
 forceapproach=south
@@ -473,23 +473,23 @@ forceapproach=south
 [viking_warrior_ladder_up]
 name=Ladder
 desc=This leads upwards.
-model=loc_4159
+model=quest_viking_ladder
 op1=Climb-up
 forceapproach=south
 
 [viking_warrior_ladder_down]
 name=Ladder
 desc=This leads downwards.
-model=loc_4189
+model=quest_viking_laddertop
 op1=Climb-down
 forceapproach=south
 
 [viking_flame_stand]
-model=loc_4190
+model=outdoorfurniture_fire_viking_torch
 active=no
 
 [viking_flame_stand_grey]
-model=loc_4190
+model=outdoorfurniture_fire_viking_torch
 recol1s=9545
 recol1d=6342
 recol2s=9377
@@ -501,7 +501,7 @@ recol4d=8422
 active=no
 
 [viking_torch_fire]
-model=model_2261
+model=outdoorfurniture_fire_floor
 anim=fire
 ambient=40
 contrast=40
@@ -511,13 +511,13 @@ resizey=80
 active=no
 
 [viking_longhall_wall]
-model=loc_4193
+model=quest_viking_longhall_wall
 sharelight=yes
 occlude=yes
 active=no
 
 [viking_longhall_wall_shorter]
-model=loc_4193
+model=quest_viking_longhall_wall
 sharelight=yes
 occlude=yes
 active=no
@@ -526,21 +526,21 @@ resizex=128
 resizey=82
 
 [viking_longhall_wall_hillskew]
-model=loc_4193
+model=quest_viking_longhall_wall
 sharelight=yes
 occlude=yes
 hillskew=yes
 active=no
 
 [viking_longhall_wall_mirror]
-model=loc_4193
+model=quest_viking_longhall_wall
 sharelight=yes
 occlude=yes
 mirror=yes
 active=no
 
 [viking_longhall_wall_inside]
-model=loc_4193
+model=quest_viking_longhall_wall
 recol1s=9445
 recol1d=19912
 sharelight=yes
@@ -548,7 +548,7 @@ occlude=yes
 active=no
 
 [viking_longhall_wall_outside]
-model=loc_4193
+model=quest_viking_longhall_wall
 recol1s=19912
 recol1d=9445
 sharelight=yes
@@ -556,77 +556,77 @@ occlude=yes
 active=no
 
 [viking_longhall_wall_support]
-model=loc_4199
+model=quest_viking_longhall_wall_withsupport
 sharelight=yes
 occlude=yes
 active=no
 
 [viking_longhall_wall_support_mirror]
-model=loc_4199
+model=quest_viking_longhall_wall_withsupport
 sharelight=yes
 occlude=yes
 mirror=yes
 active=no
 
 [viking_longhall_wall_window]
-model=loc_4201
+model=quest_viking_longhall_wall_window
 sharelight=yes
 active=no
 
 [viking_longhall_wall_window_mirror]
-model=loc_4201
+model=quest_viking_longhall_wall_window
 sharelight=yes
 mirror=yes
 active=no
 
 [viking_longhall_wall_tall]
-model=loc_4203
+model=quest_viking_longhall_wall_tall
 sharelight=yes
 occlude=yes
 active=no
 
 [viking_wall_braces_straight]
-model=loc_4204
+model=quest_viking_wall_braces_straight
 sharelight=yes
 mapscene=22
 active=no
 
 [viking_wall_braces_wonkey]
-model=loc_4205
+model=quest_viking_wall_braces_wonkey
 sharelight=yes
 mapscene=22
 active=no
 
 [viking_longhall_roof1]
-model=loc_4206
+model=quest_viking_longhall_roof1
 recol1s=10500
 recol1d=10468
 sharelight=yes
 active=no
 
 [viking_longhall_roof2]
-model=loc_4207
+model=quest_viking_longhall_roof2
 recol1s=10500
 recol1d=10468
 sharelight=yes
 active=no
 
 [viking_longhall_roof3]
-model=loc_4208
+model=quest_viking_longhall_roof3
 recol1s=10500
 recol1d=10468
 sharelight=yes
 active=no
 
 [viking_longhall_roof4]
-model=loc_4209
+model=quest_viking_longhall_roof4
 recol1s=10500
 recol1d=10468
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge1]
-model=loc_4210
+model=quest_viking_longhall_roofedge1
 sharelight=yes
 active=no
 
@@ -646,7 +646,7 @@ sharelight=yes
 active=no
 
 [viking_longhall_roof_edge1_mirror]
-model=loc_4210
+model=quest_viking_longhall_roofedge1
 mirror=yes
 sharelight=yes
 active=no
@@ -669,51 +669,51 @@ sharelight=yes
 active=no
 
 [viking_longhall_roof_edge1_new]
-model=loc_4218
+model=quest_viking_longhall_roofedge1new
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge1_new_mirror]
-model=loc_4218
+model=quest_viking_longhall_roofedge1new
 sharelight=yes
 mirror=yes
 active=no
 
 [viking_longhall_roof_edge2_new]
-model=loc_4220
+model=quest_viking_longhall_roofedge2new
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge2_new_mirror]
-model=loc_4220
+model=quest_viking_longhall_roofedge2new
 sharelight=yes
 mirror=yes
 active=no
 
 [viking_longhall_roof_edge3_new]
-model=loc_4222
+model=quest_viking_longhall_roofedge3new
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge3_new_mirror]
-model=loc_4222
+model=quest_viking_longhall_roofedge3new
 sharelight=yes
 mirror=yes
 active=no
 
 [viking_longhall_roof_edge4_new]
-model=loc_4224
+model=quest_viking_longhall_roofedge4new
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge4_new_mirror]
-model=loc_4224
+model=quest_viking_longhall_roofedge4new
 sharelight=yes
 mirror=yes
 active=no
 
 [viking_longhall_roof1_hillskew]
-model=loc_4206
+model=quest_viking_longhall_roof1
 recol1s=10500
 recol1d=10468
 sharelight=yes
@@ -721,7 +721,7 @@ hillskew=yes
 active=no
 
 [viking_longhall_roof2_hillskew]
-model=loc_4207
+model=quest_viking_longhall_roof2
 recol1s=10500
 recol1d=10468
 sharelight=yes
@@ -729,14 +729,14 @@ hillskew=yes
 active=no
 
 [viking_longhall_chimney]
-model=loc_4228
+model=quest_viking_longhall_chimney
 recol1s=10500
 recol1d=10468
 width=2
 active=no
 
 [viking_longhall_roof_edge_abode1]
-model=loc_4229
+model=quest_viking_longhall_roofedge_abode1
 sharelight=yes
 active=no
 
@@ -751,7 +751,7 @@ sharelight=yes
 active=no
 
 [viking_longhall_roof_edge_abode1_mirror]
-model=loc_4229
+model=quest_viking_longhall_roofedge_abode1
 mirror=yes
 sharelight=yes
 active=no
@@ -769,35 +769,35 @@ sharelight=yes
 active=no
 
 [viking_longhall_roof_edge_abode_new_1]
-model=loc_4235
+model=quest_viking_longhall_roofedge_abode1new
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge_abode_new_2]
-model=loc_4236
+model=quest_viking_longhall_roofedge_abode2new
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge_abode_new_3]
-model=loc_4237
+model=quest_viking_longhall_roofedge_abode3new
 sharelight=yes
 active=no
 
 // [sic] ends in _
 [viking_longhall_roof_edge_abode1_mirror_new_]
-model=loc_4235
+model=quest_viking_longhall_roofedge_abode1new
 mirror=yes
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge_abode2_mirror_new_]
-model=loc_4236
+model=quest_viking_longhall_roofedge_abode2new
 mirror=yes
 sharelight=yes
 active=no
 
 [viking_longhall_roof_edge_abode3_mirror_new_]
-model=loc_4237
+model=quest_viking_longhall_roofedge_abode3new
 mirror=yes
 sharelight=yes
 active=no
@@ -808,17 +808,17 @@ sharelight=yes
 active=no
 
 [viking_abode_poor_roof]
-model=loc_4242
+model=quest_viking_poor_abode_roof
 active=no
 sharelight=yes
 
 [viking_abode_poor_roof2]
-model=loc_4243
+model=quest_viking_poor_abode_roof2
 active=no
 sharelight=yes
 
 [viking_abode_poor_roof_corner]
-model=loc_4242
+model=quest_viking_poor_abode_roof
 width=2
 length=2
 active=no
@@ -832,7 +832,7 @@ active=no
 sharelight=yes
 
 [viking_abode_wall]
-model=loc_4246
+model=quest_viking_abode_wall
 sharelight=yes
 hillskew=yes
 active=no
@@ -840,7 +840,7 @@ active=no
 [viking_abode_door]
 name=Door
 desc=Keeps the cold winds out.
-model=loc_4148
+model=quest_viking_abode_wooden_door
 active=yes
 ambient=30
 contrast=30
@@ -850,8 +850,8 @@ param=next_loc_stage,viking_abode_door_open
 
 [viking_abode_door_open]
 name=Door
-desc=Doesn't keep the wind out if its open!
-model=loc_4148
+desc=Doesn't keep the wind out if it's open!
+model=quest_viking_abode_wooden_door
 active=yes
 ambient=30
 contrast=30
@@ -860,22 +860,22 @@ category=door_opened
 param=next_loc_stage,viking_abode_door
 
 [viking_door_inactive]
-model=loc_4148
+model=quest_viking_abode_wooden_door
 active=no
 ambient=30
 contrast=30
 
 [viking_fur_door]
 name=Door
-desc=I'm sure the animal is glad it's fur was put to good use.
-model=loc_4250
+desc=I'm sure the animal is glad its fur was put to good use.
+model=quest_viking_fur_door
 op1=Open
 active=yes
 
 [viking_fur_door_open]
 name=Door
-desc=I'm sure the animal is glad it's fur was put to good use.
-model=loc_4251
+desc=I'm sure the animal is glad its fur was put to good use.
+model=quest_viking_fur_door_open
 op1=Close
 blockwalk=no
 blockrange=no
@@ -884,7 +884,7 @@ active=yes
 [viking_chest_closed]
 name=Chest
 desc=I wonder what's inside?
-model=wooden_chest
+model=furniture_chestclosed
 recol1s=10570
 recol1d=7332
 recol2s=16897
@@ -895,7 +895,7 @@ forceapproach=north
 [viking_chest_open]
 name=Chest
 desc=I wonder what's inside?
-model=model_loc_76
+model=furniture_chestopen
 recol1s=10570
 recol1d=7332
 recol2s=16897
@@ -905,7 +905,7 @@ op2=Search
 forceapproach=north
 
 [viking_stage_edge]
-model=loc_4193
+model=quest_viking_longhall_wall
 recol1s=19912
 recol1d=14628
 recol2s=7331
@@ -916,7 +916,7 @@ resizey=54
 active=no
 
 [viking_theatre_floor]
-model=model_loc_796
+model=floor_pier
 recol1s=9409
 recol1d=14628
 recol2s=11523
@@ -930,7 +930,7 @@ resizey=48
 active=no
 
 [viking_pier]
-model=model_loc_796
+model=floor_pier
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -941,7 +941,7 @@ mapscene=46
 active=no
 
 [viking_pier2]
-model=model_loc_797
+model=floor_pier2
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -952,7 +952,7 @@ mapscene=46
 active=no
 
 [viking_pier3]
-model=model_loc_798
+model=floor_pier3
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -963,7 +963,7 @@ mapscene=46
 active=no
 
 [viking_pier_hillskew]
-model=model_loc_796
+model=floor_pier
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -975,7 +975,7 @@ mapscene=46
 active=no
 
 [viking_pier2_hillskew]
-model=model_loc_797
+model=floor_pier2
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -987,7 +987,7 @@ mapscene=46
 active=no
 
 [viking_pier3_hillskew]
-model=model_loc_798
+model=floor_pier3
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -999,7 +999,7 @@ mapscene=46
 active=no
 
 [viking_pier_rail]
-model=model_loc_814
+model=fence_pier_rail
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -1012,7 +1012,7 @@ blockrange=no
 active=no
 
 [viking_bridge_support]
-model=model_loc_814
+model=fence_pier_rail
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -1029,7 +1029,7 @@ resizez=98
 shadow=no
 
 [viking_pier_edge]
-model=model_loc_815
+model=floor_pier_edge
 recol1s=9409
 recol1d=9445
 recol2s=11523
@@ -1041,8 +1041,8 @@ shadow=no
 [viking_longhall_fire]
 name=Fire
 desc=Toasty.
-model=loc_3769
-model2=loc_3769i2
+model=outdoorfurniture_fire_flames
+model2=outdoorfurniture_fire_troll_base
 width=2
 length=2
 resizex=256
@@ -1057,8 +1057,8 @@ category=cooking_fire
 [viking_house_fire]
 name=Fire
 desc=Hot!
-model=loc_3769
-model2=loc_3769i2
+model=outdoorfurniture_fire_flames
+model2=outdoorfurniture_fire_troll_base
 anim=fire
 blockrange=no
 ambient=75
@@ -1068,7 +1068,7 @@ category=cooking_fire
 [viking_pig_roast]
 name=Spit roast
 desc=Finger licking good!
-model=loc_4267
+model=quest_viking_pigroast
 width=2
 anim=viking_pig_roast
 ambient=50
@@ -1076,7 +1076,7 @@ contrast=50
 blockrange=no
 
 [viking_roast_rocks]
-model=loc_4268
+model=quest_viking_roast_rocks
 forcedecor=yes
 ambient=40
 contrast=40
@@ -1084,28 +1084,28 @@ contrast=40
 [viking_longhall_table]
 name=Wooden Table
 desc=It's a long wooden table.
-model=loc_4269
+model=quest_viking_longhall_table
 length=4
 blockrange=no
 
 [viking_longhall_table_candle]
 name=Wooden Table
 desc=It's a table with candles on.
-model=loc_4269
-model2=loc_4270
+model=quest_viking_longhall_table
+model2=quest_viking_longhall_table_candle
 length=4
 blockrange=no
 
 [viking_longhall_chair]
 name=Chair
 desc=Generally used for sitting.
-model=loc_4271
+model=quest_viking_longhall_chair
 blockrange=no
 
 [viking_table]
 name=Table
 desc=Generally used for putting things on.
-model=loc_4272
+model=quest_viking_table
 length=2
 blockrange=no
 
@@ -1117,13 +1117,13 @@ model=loc_4273
 [viking_bar_no_pumps]
 name=Bar
 desc=For leaning against...
-model=loc_4274
+model=quest_viking_bar_no_pumps
 blockrange=no
 
 [viking_barrel_fish]
 name=Barrel
 desc=A wooden barrel containing lots of fish.
-model=model_loc_363
+model=outdoorfurniture_fishbarrel
 retex1s=wood2
 retex1d=elfwood
 recol2s=8456
@@ -1137,7 +1137,7 @@ blockrange=no
 [viking_market]
 name=Market stall
 desc=Always a source of good bargains.
-model=market_stall
+model=outdoorfurniture_market
 recol1s=32767
 recol1d=18956
 recol2s=15890
@@ -1152,8 +1152,8 @@ length=2
 [viking_fish_market]
 name=Fish stall
 desc=There's something fishy about this stall.
-model=loc_4277
-model2=market_stall
+model=quest_viking_market_fishmongers
+model2=outdoorfurniture_market
 recol1s=32767
 recol1d=18956
 recol2s=15890
@@ -1174,7 +1174,7 @@ active=yes
 [viking_fur_market]
 name=Fur stall
 desc=Around here, this is where you buy new doors.
-model=fur_stall
+model=outdoorfurniture_furmarket
 recol1s=32767
 recol1d=18956
 recol2s=15890
@@ -1193,7 +1193,7 @@ op2=Steal-from
 active=yes
 
 [viking_skewsteps]
-model=model_loc_1862
+model=furniture_skewsteps2
 recol1s=15855
 recol1d=8421
 hillskew=yes
@@ -1202,16 +1202,16 @@ forcedecor=yes
 active=no
 
 [viking_sword_shop]
-model=loc_4280
+model=quest_viking_sword_shop
 
 [viking_frozen_wall]
-model=loc_4281
+model=quest_viking_abode_frozen_wall
 sharelight=yes
 occlude=yes
 active=no
 
 [viking_frozen_wall2]
-model=loc_4282
+model=quest_viking_abode_frozen_wall2
 sharelight=yes
 occlude=yes
 active=no
@@ -1219,14 +1219,14 @@ active=no
 [viking_drain]
 name=Drain
 desc=Has a peculiar odour.
-model=loc_4175
+model=quest_viking_drain
 active=yes
 resizex=108
 resizey=108
 resizez=108
 
 [viking_drain_smaller]
-model=loc_4175
+model=quest_viking_drain
 resizex=60
 resizey=60
 resizez=60
@@ -1234,27 +1234,27 @@ resizez=60
 [viking_tap]
 name=Tap
 desc=Water comes out of this.
-model=loc_4176
+model=quest_viking_tap
 active=yes
 
 [viking_keg]
 name=Keg
 desc=It's kind of like a barrel.
-model=loc_4286
+model=quest_viking_keg
 blockrange=no
 active=yes
 
 [viking_bed]
 name=Bed
 desc=Looks pretty comfy.
-model=loc_4287
+model=quest_viking_bed
 length=2
 blockrange=no
 
 [viking_poorbed]
 name=Bed
 desc=I guess I could sleep in it if I was really tired.
-model=model_loc_423
+model=furniture_poorbed2
 recol1s=26389
 recol1d=25265
 recol2s=29596
@@ -1319,13 +1319,13 @@ active=no
 mapscene=21
 
 [viking_ladder_ground]
-model=loc_4295
+model=quest_viking_ladder_ground
 forcedecor=yes
 
 [viking_broken_cart]
 name=Abandoned Cart
 desc=Yup, looks like this neighbourhood is perfectly safe for travellers...
-model=model_loc_306
+model=outdoorfurniture_brokencart
 retex1s=planks
 retex1d=elfwood
 recol2s=15617
@@ -1336,7 +1336,7 @@ length=3
 [viking_boxes_1]
 name=Boxes
 desc=A pile of boxes for storage.
-model=model_loc_359
+model=warehouse_shop_boxes
 retex1s=wood2
 retex1d=elfwood
 blockrange=no
@@ -1344,7 +1344,7 @@ blockrange=no
 [viking_boxes_2]
 name=Boxes
 desc=A pile of boxes for storage.
-model=model_2139
+model=warehouse_shop_boxes2
 retex1s=wood2
 retex1d=elfwood
 blockrange=no
@@ -1352,14 +1352,14 @@ blockrange=no
 [viking_boxes_3]
 name=Boxes
 desc=A pile of boxes for storage.
-model=model_2140
+model=warehouse_shop_boxes3
 retex1s=wood2
 retex1d=elfwood
 
 [viking_crate]
 name=Crate
 desc=A wooden crate for storage.
-model=model_loc_63
+model=warehouse_shop_crate
 op1=Search
 blockrange=no
 category=empty_crate
@@ -1367,16 +1367,16 @@ category=empty_crate
 [viking_crate_2]
 name=Crate
 desc=An old crate for storage.
-model=model_loc_355
+model=warehouse_shop_crate3
 op1=Search
 category=empty_crate
 
 [viking_steps_side]
-model=loc_4302
+model=quest_viking_steps_side
 active=no
 
 [viking_wood_skewsteps]
-model=loc_4303
+model=quest_viking_skewsteps
 forcedecor=yes
 hillskew=yes
 active=no
@@ -1384,7 +1384,7 @@ active=no
 [viking_furnace]
 name=Furnace
 desc=A hot place for forging things in.
-model=model_loc_165
+model=furniture_loc_165
 recol1s=7399
 recol1d=7365
 recol2s=5285
@@ -1401,7 +1401,7 @@ category=smithing_furnace
 [viking_furnace2]
 name=Furnace
 desc=A hot place for forging things in.
-model=model_loc_2785
+model=furniture_furnace2
 recol1s=7399
 recol1d=7365
 recol2s=5285
@@ -1416,7 +1416,7 @@ category=smithing_furnace
 [viking_blacksmithtools]
 name=Blacksmith's tools
 desc=Various implements for working with metal.
-model=model_loc_2784
+model=walldecor_blacksmithtools
 recol1s=7399
 recol1d=7365
 recol2s=11627
@@ -1434,7 +1434,7 @@ active=yes
 [viking_fencegate_l]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=9445
 op1=Open
@@ -1444,7 +1444,7 @@ blockrange=no
 [viking_fencegate_r]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=9445
 mirror=yes
@@ -1455,21 +1455,21 @@ blockrange=no
 [inacviking_fencegate_l]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=9445
 active=yes
 blockrange=no
 
 [inacviking_fencegate_r]
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=9445
 mirror=yes
 blockrange=no
 
 [viking_cavewall_face1]
-model=model_loc_1417
+model=cavern_cavewall_face1
 recol1s=12580
 recol1d=10535
 sharelight=yes
@@ -1477,7 +1477,7 @@ hillskew=yes
 active=no
 
 [viking_cavewall_top]
-model=model_loc_1434
+model=cavern_cavewall_top_dark
 recol1s=12580
 recol1d=10535
 sharelight=yes
@@ -1485,7 +1485,7 @@ hillskew=yes
 active=no
 
 [viking_cavewall_top5]
-model=model_loc_1435
+model=cavern_cavewall_top5
 recol1s=12580
 recol1d=10535
 sharelight=yes
@@ -1494,7 +1494,7 @@ active=no
 active=no
 
 [viking_cavewall_top_higher]
-model=model_loc_1436
+model=cavern_cavewall_top5_high
 recol1s=12580
 recol1d=10535
 sharelight=yes
@@ -1514,7 +1514,7 @@ shadow=no
 active=no
 
 [viking_cavewall_lighter_top]
-model=model_loc_1434
+model=cavern_cavewall_top_dark
 recol1s=12580
 recol1d=13704
 sharelight=yes
@@ -1524,7 +1524,7 @@ active=no
 active=no
 
 [viking_cavewall_lighter_top5]
-model=model_loc_1435
+model=cavern_cavewall_top5
 recol1s=12580
 recol1d=13704
 sharelight=yes
@@ -1534,7 +1534,7 @@ active=no
 active=no
 
 [viking_cavewall_lighter_top_higher]
-model=model_loc_1436
+model=cavern_cavewall_top5_high
 recol1s=12580
 recol1d=13704
 sharelight=yes
@@ -1555,7 +1555,7 @@ resizey=64
 active=no
 
 [viking_cavewall_top_short]
-model=model_loc_1434
+model=cavern_cavewall_top_dark
 recol1s=12580
 recol1d=10535
 sharelight=yes
@@ -1567,7 +1567,7 @@ resizey=64
 active=no
 
 [viking_drystonewall]
-model=model_loc_979
+model=fence_drystonewall
 retex1s=rockwall
 retex1d=pebblefloor
 wallwidth=32
@@ -1577,14 +1577,14 @@ blockrange=no
 active=no
 
 [viking_spade]
-model=model_loc_514
+model=outdoorfurniture_mining_spade
 recol1s=14798
 recol1d=11493
 blockrange=no
 active=no
 
 [viking_pipe_end]
-model=loc_4327
+model=quest_viking_pipe_end
 recol1s=15855
 recol1d=9478
 recol2s=11627
@@ -1603,7 +1603,7 @@ active=no
 [viking_treestump]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1341
+model=plants_treestump
 recol1s=4194
 recol1d=9445
 mapscene=6
@@ -1612,7 +1612,7 @@ blockrange=no
 [viking_treestump2]
 name=Tree stump
 desc=This tree has been cut down.
-model=model_loc_1342
+model=plants_treestump2
 recol1s=4194
 recol1d=9445
 width=2
@@ -1621,22 +1621,22 @@ mapscene=6
 blockrange=no
 
 [viking_full_twig]
-model=model_loc_1246
+model=plants_ground_detail-c
 hillskew=yes
 active=no
 
 [viking_broken_twig]
-model=model_loc_1247
+model=plants_ground_detail-d
 hillskew=yes
 active=no
 
 [viking_sticks_twigs]
-model=model_loc_1248
+model=plants_ground_detail-e
 hillskew=yes
 active=no
 
 [viking_grass_1]
-model=loc_4333
+model=floor_new_grass1
 recol1s=21140
 recol1d=16871
 recol2s=15855
@@ -1648,7 +1648,7 @@ hillskew=yes
 active=no
 
 [viking_grass_2]
-model=loc_4334
+model=floor_new_grass2
 recol1s=21140
 recol1d=16871
 recol2s=15855
@@ -1660,7 +1660,7 @@ hillskew=yes
 active=no
 
 [viking_grass_3]
-model=loc_4335
+model=floor_new_grass3
 recol1s=21140
 recol1d=16871
 recol2s=15855
@@ -1672,7 +1672,7 @@ hillskew=yes
 active=no
 
 [viking_grass_4]
-model=loc_4336
+model=floor_new_grass4
 recol1s=21140
 recol1d=16871
 recol2s=15855
@@ -1684,17 +1684,17 @@ hillskew=yes
 active=no
 
 [viking_leaves_1]
-model=model_loc_1264
+model=plants_ground_detail_leaves
 hillskew=yes
 active=no
 
 [viking_leaves_2]
-model=model_loc_1265
+model=plants_ground_detail_leaves2
 hillskew=yes
 active=no
 
 [viking_dugupsoil_1]
-model=model_loc_184
+model=floor_dugupsoil1
 recol1s=13505
 recol1d=10534
 recol2s=15586
@@ -1705,7 +1705,7 @@ hillskew=yes
 active=no
 
 [viking_dugupsoil_2]
-model=model_loc_185
+model=floor_dugupsoil2
 recol1s=13505
 recol1d=10534
 recol2s=15586
@@ -1716,7 +1716,7 @@ hillskew=yes
 active=no
 
 [viking_dugupsoil_3]
-model=model_loc_186
+model=floor_dugupsoil3
 recol1s=13505
 recol1d=10534
 recol2s=15586
@@ -1727,7 +1727,7 @@ hillskew=yes
 active=no
 
 [viking_dugupsoil_brown_1]
-model=model_loc_184
+model=floor_dugupsoil1
 recol1s=13505
 recol1d=11523
 recol2s=15586
@@ -1738,7 +1738,7 @@ hillskew=yes
 active=no
 
 [viking_dugupsoil_brown_2]
-model=model_loc_185
+model=floor_dugupsoil2
 recol1s=13505
 recol1d=11523
 recol2s=15586
@@ -1749,7 +1749,7 @@ hillskew=yes
 active=no
 
 [viking_dugupsoil_brown_3]
-model=model_loc_186
+model=floor_dugupsoil3
 recol1s=13505
 recol1d=11523
 recol2s=15586
@@ -1760,7 +1760,7 @@ hillskew=yes
 active=no
 
 [viking_bluebells]
-model=model_loc_1178
+model=plants_heather
 recol1s=23026
 recol1d=10615
 recol2s=197
@@ -1771,7 +1771,7 @@ hillskew=yes
 active=no
 
 [viking_bluebells2]
-model=model_loc_1179
+model=plants_heather2
 recol1s=23026
 recol1d=10615
 recol2s=197
@@ -1782,7 +1782,7 @@ hillskew=yes
 active=no
 
 [viking_bluebells3]
-model=model_loc_1180
+model=plants_heather3
 recol1s=23026
 recol1d=10615
 recol2s=197
@@ -1795,7 +1795,7 @@ active=no
 [viking_shell1]
 name=Shell
 desc=Best left on the beach.
-model=model_loc_1266
+model=outdoorfurniture_shell1
 recol1s=23179
 recol1d=16879
 recol2s=28397
@@ -1805,13 +1805,13 @@ active=yes
 [viking_shell2]
 name=Shell
 desc=This once belonged to a sea animal.
-model=model_loc_1267
+model=outdoorfurniture_shell2
 active=yes
 
 [viking_shell1big]
 name=Shell
 desc=Best left for the crabs.
-model=model_loc_1269
+model=outdoorfurniture_shell1big
 recol1s=24176
 recol1d=14730
 recol2s=27381
@@ -1821,7 +1821,7 @@ active=yes
 [viking_shell2big]
 name=Shell
 desc=I can hear the sea with this.
-model=model_loc_1270
+model=outdoorfurniture_shell2big
 recol1s=16812
 recol1d=14730
 recol2s=21040
@@ -1831,7 +1831,7 @@ active=yes
 [viking_rubble_1]
 name=Bowl
 desc=It is a buried Bowl.
-model=model_loc_174
+model=floor_rubble_ground_detail_1
 recol1s=17969
 recol1d=10534
 recol2s=10570
@@ -1844,14 +1844,14 @@ active=yes
 hillskew=yes
 
 [viking_stalagmite_twin_grey]
-model=model_loc_468
+model=cave_stalagmite_twin
 recol1s=13537
 recol1d=10535
 hillskew=yes
 active=no
 
 [viking_stalagtite_twin_grey]
-model=model_loc_469
+model=cave_stalagtite_twin
 recol1s=13537
 recol1d=10535
 blockwalk=no
@@ -1859,14 +1859,14 @@ hillskew=yes
 active=no
 
 [viking_stalagmite_small_grey]
-model=model_loc_534
+model=cave_stagamite_small
 recol1s=13537
 recol1d=10535
 hillskew=yes
 active=no
 
 [viking_rockslide1]
-model=model_loc_471
+model=cavern_rockslide1
 recol1s=12580
 recol1d=10535
 width=2
@@ -1878,7 +1878,7 @@ mapscene=11
 active=no
 
 [viking_rockslide2]
-model=model_loc_472
+model=cavern_rockslide2
 recol1s=12580
 recol1d=10535
 width=2
@@ -1890,7 +1890,7 @@ mapscene=11
 active=no
 
 [viking_rockslide3]
-model=model_loc_473
+model=cavern_rockslide3
 recol1s=12580
 recol1d=10535
 width=2
@@ -1902,7 +1902,7 @@ hillskew=yes
 mapscene=12
 
 [viking_rockslide4]
-model=model_loc_474
+model=cavern_rockslide4
 recol1s=12580
 recol1d=10535
 width=2
@@ -1914,21 +1914,21 @@ hillskew=yes
 mapscene=12
 
 [viking_rockslide5]
-model=model_loc_475
+model=cavern_rockslide5
 recol1s=12580
 recol1d=10535
 hillskew=yes
 active=no
 
 [viking_rockslide6]
-model=model_loc_476
+model=cavern_rockslide6
 recol1s=12580
 recol1d=10535
 hillskew=yes
 active=no
 
 [viking_cave_detail1r]
-model=model_loc_1444
+model=walldecor_cave_detail1
 recol1s=12580
 recol1d=10535
 mirror=yes
@@ -1936,7 +1936,7 @@ hillskew=yes
 active=no
 
 [viking_boat_hull_right]
-model=loc_4363
+model=quest_viking_boat_hull
 width=2
 length=7
 active=no
@@ -1944,7 +1944,7 @@ shadow=no
 active=no
 
 [viking_boat_hull_left]
-model=loc_4363
+model=quest_viking_boat_hull
 width=2
 length=7
 mirror=yes
@@ -1952,31 +1952,31 @@ active=no
 shadow=no
 
 [viking_fur]
-model=loc_4365
+model=quest_viking_fur
 active=no
 
 [viking_shelf_empty]
 name=Shelf
 desc=An empty shelf...
-model=loc_4366
+model=quest_viking_shelf
 active=yes
 
 [viking_shelf_empty_low]
 name=Shelf
 desc=An empty shelf...
-model=loc_4367
+model=quest_viking_shelf_low
 active=yes
 
 [viking_shelf_cooking]
 name=Shelf
 desc=There are some pots and pans here.
-model=loc_4368
+model=quest_viking_shelf_cooking
 active=yes
 
 [viking_shelf_tankards]
 name=Shelf
 desc=There are some tankards here.
-model=loc_4369
+model=quest_viking_shelf_tankards
 active=yes
 
 [viking_shelf_bucket]
@@ -1988,10 +1988,10 @@ active=yes
 [viking_shelf_books]
 name=Shelf
 desc=There's a few books on this shelf.
-model=loc_4371
+model=quest_viking_shelf_books
 active=yes
 
 [viking_table_small]
 name=Table
 desc=It's a small table.
-model=loc_4372
+model=quest_viking_table_small

@@ -1,0 +1,62 @@
+[oploc1,castlewars_table_bandages]
+if (inv_freespace(inv) = 0) {
+    ~mesbox("Your inventory is too full to hold any more bandages.");
+    return;
+}
+inv_add(inv, castlewars_bandages, 1);
+sound_synth(pick2, 0, 0);
+anim(null, 0);
+
+[oploc1,castlewars_table_rocks]
+if (inv_freespace(inv) = 0) {
+    ~mesbox("Your inventory is too full to hold any more rocks.");
+    return;
+}
+inv_add(inv, castlewars_catapult_rock, 1);
+sound_synth(pick2, 0, 0);
+anim(null, 0);
+
+[oploc1,castlewars_table_pickaxes]
+if (inv_freespace(inv) = 0) {
+    ~mesbox("Your inventory is too full to hold any more pickaxes.");
+    return;
+}
+inv_add(inv, bronze_pickaxe, 1);
+sound_synth(pick2, 0, 0);
+anim(null, 0);
+
+[oploc1,castlewars_table_rope]
+if (inv_freespace(inv) = 0) {
+    ~mesbox("Your inventory is too full to hold any more climbing rope.");
+    return;
+}
+inv_add(inv, rope, 1);
+sound_synth(pick2, 0, 0);
+anim(null, 0);
+
+[oploc1,castlewars_table_toolbox]
+if (inv_freespace(inv) = 0) {
+    ~mesbox("Your inventory is too full to hold a toolkit."); // osrs
+    return;
+}
+inv_add(inv, castlewars_toolkit, 1);
+sound_synth(pick2, 0, 0);
+anim(null, 0);
+
+[oploc1,castlewars_table_barricades]
+if (inv_freespace(inv) = 0) {
+    ~mesbox("Your inventory is too full to hold any more barricades.");
+    return;
+}
+inv_add(inv, castlewars_barricade, 1);
+sound_synth(pick2, 0, 0);
+anim(null, 0);
+
+[oploc1,castlewars_table_potion]
+if (inv_freespace(inv) = 0) {
+    ~mesbox("Your inventory is too full to hold any more explosive potions.");
+    return;
+}
+inv_add(inv, castlewars_explosives_potion, 1);
+sound_synth(pick2, 0, 0);
+anim(null, 0);

@@ -42,7 +42,7 @@ if (inv_total(worn, saradomin_staff) > 0 & inv_total(worn, saradomin_cape) > 0 &
     }
     return;
 }
-~npc_cast_spell(^saradomin_strike, 5);
+~npc_cast_spell(^saradomin_strike_npc, 5);
 if (~npc_check_notcombat = true & ~npc_check_notcombat_self = true) {
     npc_say("Feel the wrath of Saradomin.");
 }
@@ -53,7 +53,7 @@ if (inv_total(worn, guthix_staff) > 0 & inv_total(worn, guthix_cape) > 0 & %npc_
         npc_say("Hail Guthix!");
     }    return;
 }
-~npc_cast_spell(^claws_of_guthix, 5);
+~npc_cast_spell(^claws_of_guthix_npc, 5);
 if (~npc_check_notcombat = true & ~npc_check_notcombat_self = true) {
     npc_say("Feel the wrath of Guthix.");
 }
@@ -65,7 +65,7 @@ if (inv_total(worn, zamorak_staff) > 0 & inv_total(worn, zamorak_cape) > 0 & %np
     }
     return;
 }
-~npc_cast_spell(^flames_of_zamorak, 5);
+~npc_cast_spell(^flames_of_zamorak_npc, 5);
 if (~npc_check_notcombat = true & ~npc_check_notcombat_self = true) {
     npc_say("Feel the wrath of Zamorak.");
 }

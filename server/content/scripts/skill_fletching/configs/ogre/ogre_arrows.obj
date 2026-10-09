@@ -4,7 +4,7 @@ desc=I can make an ogre arrow with these.
 members=yes
 stackable=yes
 cost=3
-model=model_2551_obj
+model=inv_arrow-heads
 recol1s=15855
 recol1d=30646
 recol2s=14798
@@ -22,7 +22,7 @@ weight=4g
 name=Achey tree logs
 desc=These logs are longer than normal.
 cost=4
-model=model_2800_obj
+model=inv_woodlogs
 recol1s=15617
 recol1d=11556
 category=category_22
@@ -41,7 +41,7 @@ desc=A wooden arrow shaft.
 cost=1
 stackable=yes
 members=yes
-model=model_2616_obj
+model=inv_arrow-shafts
 recol1s=10368
 recol1d=11556
 2dxof=6
@@ -57,7 +57,7 @@ desc=A wooden arrow shaft with four flights attached.
 cost=1
 stackable=yes
 members=yes
-model=model_2764_obj
+model=inv_arrow-flights
 recol1s=10368
 recol1d=11556
 recol2s=15360
@@ -75,7 +75,7 @@ desc=A large ogre arrow with a bone tip.
 cost=25
 stackable=yes
 members=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=10368
 recol1d=11556
 recol2s=15360
@@ -106,7 +106,7 @@ param=proj_travel,ogre_arrow_travel
 
 [ogre_arrow_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=10368
 recol1d=11556
 recol2s=15360
@@ -126,7 +126,7 @@ dummyitem=inv_only
 
 [ogre_arrow_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=10368
 recol1d=11556
 recol2s=15360
@@ -146,7 +146,7 @@ dummyitem=inv_only
 
 [ogre_arrow_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=10368
 recol1d=11556
 recol2s=15360
@@ -166,7 +166,7 @@ dummyitem=inv_only
 
 [ogre_arrow_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=10368
 recol1d=11556
 recol2s=15360

@@ -67,7 +67,7 @@ switch_int(~p_choice2("I'd like some mountain goat stew, please.", 1, "No thanks
         if_close;
         mes("You get a bowl of mountain goat stew.");
         anim(human_eat, 0);
-        sound_synth(eat, 0, 0);
+        sound_synth(eat, 1, 0);
         p_delay(1);
         mes("You eat the mountain goat stew.");
         if (stat(hitpoints) < stat_base(hitpoints)) {

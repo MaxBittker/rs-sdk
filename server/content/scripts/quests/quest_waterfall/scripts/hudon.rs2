@@ -1,10 +1,11 @@
 [apnpc1,hudon_waterfall_quest]
 @hudon_waterfall_quest_dialogue;
 
-[opnpc1,hudon_waterfall_quest]
-@hudon_waterfall_quest_dialogue;
-
 [label,hudon_waterfall_quest_dialogue]
+if(inzone(0_39_54_14_20, 0_39_54_18_25, coord) = false) {
+    ~mesbox("Hudon can't hear you because of the noise of the waterfall.|Perhaps the acoustics would be better from that island?");
+    return;
+}
 switch_int (%waterfall_quest) {
     case ^waterfall_not_started :
         ~chatplayer("<p,neutral>Hello there.");

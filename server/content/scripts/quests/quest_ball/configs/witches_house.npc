@@ -4,6 +4,15 @@ name=Nora T. Hagg
 desc=Distinctly witchey.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
+model1=woman_head_witch
+model2=woman_torso_basic3
+model3=woman_arms_longsleeves
+model4=woman_hands_basic
+model5=woman_legs_longskirt
+model6=woman_feet_boots
+model7=woman_hat_wizards
+head1=model_122_npc_head
+head2=chat_female_wizards
 recol1s=2340
 recol1d=4226
 recol2s=14724
@@ -14,16 +23,8 @@ recol4s=455
 recol4d=24075
 recol5s=14724
 recol5d=4226
-model1=model_405_npc
-model2=model_470_idk
-model3=model_348_idk
-model4=model_353_idk
-model5=model_428_idk
-model6=model_361_obj_wear
-model7=model_377_obj_wear
-head1=model_122_npc_head
-head2=model_102_obj_wear
-maxrange=50
+maxrange=40
+timer=1
 defaultmode=patrol
 patrol1=0_45_54_50_7,0
 patrol2=0_45_54_41_7,0
@@ -31,7 +32,6 @@ patrol3=0_45_54_32_7,0
 patrol4=0_45_54_24_7,0
 patrol5=0_45_54_32_7,0
 patrol6=0_45_54_41_7,0
-timer=1
 
 [shapeshifterglob]
 name=Witches experiment
@@ -40,16 +40,17 @@ walkanim=skavid_walk
 readyanim=skavid_ready
 op2=Attack
 vislevel=19
+model1=model_2999_npc
 recol1s=16871
 recol1d=9228
 recol2s=32767
 recol2d=10219
-model1=model_2999_npc
-// TODO respawnrate?
-hitpoints=21
+category=witches_experiment
+wanderrange=0
 attack=18
-strength=10
 defence=19
+strength=10
+hitpoints=21
 param=damagetype,^crush_style
 param=attack_anim,skavid_attack
 param=defend_anim,skavid_block
@@ -58,9 +59,6 @@ param=attack_sound,unarmed_punch
 param=defend_sound,imp_hit
 param=death_sound,imp_death
 param=death_drop,null
-category=witches_experiment
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3996
 
 [shapeshifterspider]
 name=Witches experiment second form
@@ -69,15 +67,17 @@ walkanim=giantspider_walk
 readyanim=giantspider_ready
 op2=Attack
 vislevel=30
+model1=npc_giantspider
 recol1s=5284
 recol1d=9228
 recol2s=31393
 recol2d=10219
-model1=model_2884_npc
-hitpoints=31
+category=witches_experiment
+wanderrange=2
 attack=28
-strength=20
 defence=29
+strength=20
+hitpoints=31
 param=damagetype,^crush_style
 param=attack_anim,giantspider_attack
 param=defend_anim,giantspider_block
@@ -86,9 +86,6 @@ param=attack_sound,insect_attack
 param=defend_sound,insect_hit
 param=death_sound,insect_death
 param=death_drop,null
-category=witches_experiment
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3997
 
 [shapeshifterbear]
 name=Witches experiment third form
@@ -98,18 +95,19 @@ walkanim=bear_walk
 readyanim=bear_ready
 op2=Attack
 vislevel=42
+model1=model_2966_npc
 recol1s=12517
 recol1d=9228
 recol2s=15721
 recol2d=12560
 recol3s=6275
 recol3d=10219
-model1=model_2966_npc
-// TODO respawnrate?
-hitpoints=41
+category=witches_experiment
+wanderrange=2
 attack=38
-strength=30
 defence=39
+strength=30
+hitpoints=41
 param=damagetype,^slash_style
 param=attack_anim,bear_attack
 param=defend_anim,bear_block
@@ -118,9 +116,6 @@ param=attack_sound,bear_attack
 param=defend_sound,bear_hit
 param=death_sound,bear_death
 param=death_drop,null
-category=witches_experiment
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3998
 
 [shapeshifterwolf]
 name=Witches experiment fourth form
@@ -129,18 +124,19 @@ walkanim=dog_walk
 readyanim=dog_ready
 op2=Attack
 vislevel=53
+model1=model_2937_npc
 recol1s=15855
 recol1d=9228
 recol2s=23254
 recol2d=12560
 recol3s=15393
 recol3d=10219
-model1=model_2937_npc
-// TODO respawnrate?
-hitpoints=51
+category=witches_experiment
+wanderrange=2
 attack=48
-strength=40
 defence=49
+strength=40
+hitpoints=51
 param=damagetype,^stab_style
 param=attack_anim,dog_attack
 param=defend_anim,dog_block
@@ -149,10 +145,6 @@ param=attack_sound,wolf_attack
 param=defend_sound,wolf_hit
 param=death_sound,wolf_death
 param=death_drop,null
-category=witches_experiment
-// osrs stats and Vislvl match 1:1
-// on runescape only wolf form can drop bones.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3999
 
 [witchrat]
 vislevel=hide
@@ -160,9 +152,9 @@ name=Mouse
 desc=Deceptively mouse shaped.
 walkanim=rat_walk
 readyanim=rat_ready
+model1=npc_rat
 recol1s=15855
 recol1d=21172
-model1=model_2927_npc
 wanderrange=0
 moverestrict=nomove
 param=death_anim,rat_death

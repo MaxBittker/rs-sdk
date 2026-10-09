@@ -1,5 +1,5 @@
 // Ranging Guild - Center Tower Ladder - Up
-[oploc1,loc_2511]
+[oploc1,ranging_ladder_up]
 p_arrivedelay;
 mes("You climb up the ladder.");
 ~fill_towers;
@@ -44,7 +44,7 @@ else if(npc_findexact(2_41_53_42_35, ranging_advisor4) = true) {
 }
 
 // Ranging Guild - Center Tower Ladder - Down
-[oploc1,loc_2512]
+[oploc1,ranging_ladder_down]
 p_arrivedelay;
 mes("You climb down the ladder.");
 p_telejump(0_41_53_43_37);

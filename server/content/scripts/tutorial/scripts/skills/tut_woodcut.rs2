@@ -49,23 +49,23 @@ def_int $counter = 0;
 
 ~tutorial_please_wait_woodcutting;
 anim(human_woodcutting_bronze_axe, 0);
-sound_synth(woodchop_4, 0, 18);
+sound_synth(woodchop_4, 1, 18);
 while (map_clock < %action_delay) {
     if ($counter = 2) {
-        sound_synth(woodchop_4, 0, 0);
+        sound_synth(woodchop_4, 1, 0);
     }
 
     if ($counter > 0 & calc($counter % 3) = 0 & $counter ! 9) {
-        sound_synth(woodchop_4, 0, 8);
+        sound_synth(woodchop_4, 1, 8);
     }
 
     if ($counter = 7) {
-        sound_synth(woodchop_4, 0, 18);
+        sound_synth(woodchop_4, 1, 18);
     }
 
     if ($counter > 0 & calc($counter % 4) = 0) {
         anim(human_woodcutting_bronze_axe, 0);
-        sound_synth(woodchop_4, 0, 18);
+        sound_synth(woodchop_4, 1, 18);
     }
 
     p_delay(0);

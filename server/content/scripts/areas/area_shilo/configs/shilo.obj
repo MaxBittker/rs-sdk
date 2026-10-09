@@ -2,7 +2,7 @@
 name=Paramaya ticket
 desc=Allows you to rest in the luxurious Paramayer Inn.
 cost=5
-model=model_2560_obj
+model=inv_ticket
 2dxof=6
 2dyof=-2
 2dzoom=830
@@ -15,7 +15,7 @@ members=yes
 name=Ship ticket
 desc=Allows you passage on the 'Lady of the waves' ship.
 cost=5
-model=model_2560_obj
+model=inv_ticket
 2dxof=6
 2dyof=-2
 2dzoom=830

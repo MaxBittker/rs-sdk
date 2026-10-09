@@ -1,0 +1,85 @@
+^mm_not_started = 0
+^mm_started = 1
+^mm_shown_seal = 2
+^mm_arrived_atoll = 3
+^mm_completed_ch2 = 4
+^mm_completed_ch3 = 5
+^mm_defeated_demon = 6
+^mm_reported_narnode = 7
+^mm_received_reward = 8
+^mm_complete = 9
+^mm_complete_training = 10
+
+// mm_narnode
+^narnode_worried = 1
+^narnode_spoken = 2
+^narnode_given_seal = 3
+^narnode_returned_shipyard = 4
+^narnode_mentioned_caranock = 5
+^narnode_southern_winds = 6
+^narnode_received_orders = 7
+
+// mm_caranock
+^mm_asked_caranock = 1
+^mm_caranock_p2 = 2
+^mm_caranock_p3 = 3
+
+// mm_daero
+^daero_found = 1
+^daero_given_orders = 2
+^daero_learnt_mission = 3
+^daero_left_grandtree = 4
+^daero_started_reinit = 5
+^daero_reinit_complete = 6
+^daero_complete = 7
+
+// mm_waydar
+^waydar_arrived_island = 1
+
+// mm_lumdo
+^lumdo_proof = 1
+^lumdo_wont_take = 2
+^lumdo_travelled = 3
+
+// mm_zooknock
+^zooknock_found = 1
+^zooknock_told_story = 2
+^zooknock_learned_story = 3
+^zooknock_told_mission = 4
+^zooknock_need_items = 5
+^zooknock_made_talisman = 6
+
+// mm_lumo
+^lumo_spoken = 1
+
+// mm_karam
+^karam_spoken = 1
+
+// mm_garkor
+^garkor_spoken = 1
+^garkor_speak_zooknock = 2
+^garkor_need_correct_disguise = 3
+^garkor_seek_alliance = 4
+^garkor_learned_plan = 5
+^garkor_joined_10th_squad = 6
+^garkor_finished_mission = 7
+
+// mm_monkey_child
+^monkey_child_spoke = 1
+^monkey_child_asked_who = 2
+^monkey_child_told_uncle = 3
+^monkey_child_learned_toy = 4
+^monkey_child_finding_bananas = 5
+^monkey_child_given_bananas = 6
+^monkey_child_received_talisman = 7
+^monkey_child_lost_toy = 8
+
+// mm_elder_guard
+^elder_guard_spoken = 1
+
+// mm_kruk
+^kruk_spoken = 1
+
+// mm_awowogei
+^awowogei_sent_mission = 1
+^awowogei_complete_mission = 2

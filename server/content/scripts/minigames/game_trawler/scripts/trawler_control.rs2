@@ -29,6 +29,9 @@ if (random(16) = 0) {
 }
 
 ~trawler_catch_fish($player_count);
+
+~trawler_overlay_huntall;
+
 npc_settimer(5); // this is important
 
 [ai_timer,murphy_halfsunk]
@@ -65,6 +68,9 @@ if (random(16) = 0) {
 }
 
 ~trawler_catch_fish($player_count);
+
+~trawler_overlay_huntall;
+
 npc_settimer(5); // this is important
 
 
@@ -74,7 +80,7 @@ if (modulo(%npc_int, 20) = 0 & %npc_int >= 20) {
     return;
 }
 if (random(5) = 0) { // handle murphy's sayings
-    if (loc_find(^trawler_start_net1, game_trawler_fish_net_broken1) = true | loc_find(^trawler_start_net2, game_trawler_fish_net_broken2) = true) {
+    if (loc_find(^trawler_start_net1, trawlernet_top_l) = true | loc_find(^trawler_start_net2, trawlernet_top_r) = true) {
         npc_say("Arrh! Check that net!");
         return;
     }
@@ -115,7 +121,7 @@ if (random(5) = 0) { // handle murphy's sayings
 def_int $leak_count = 0;
 def_int $i = 0;
 while ($i < enum_getoutputcount(trawler_hulls)) {
-    if (loc_find(enum(int, coord, trawler_hulls, $i), game_trawler_leak) = true) {
+    if (loc_find(enum(int, coord, trawler_hulls, $i), shipleak) = true) {
         $leak_count = add($leak_count, 1);
         %npc_trawler_flood_status = add(%npc_trawler_flood_status, 1);
     }
@@ -128,7 +134,7 @@ def_int $max_leaks = min(add(multiply($player_count, 3), 1), 9);
 def_int $leak_chance = max(divide(32, $player_count), 2);
 $i = 0;
 while ($i < enum_getoutputcount(trawler_hulls) & $leak_count < $max_leaks) {
-    if (loc_find(enum(int, coord, trawler_hulls, $i), game_trawler_hull) = true | loc_find(enum(int, coord, trawler_hulls, $i), game_trawler_repaired_leak) = true) {
+    if (loc_find(enum(int, coord, trawler_hulls, $i), shiphull_trawler) = true | loc_find(enum(int, coord, trawler_hulls, $i), filledhole) = true) {
         if (random($leak_chance) = 0) { // complete guess
             ~trawler_leak;
             if (random(5) = 0) {
@@ -144,7 +150,7 @@ while ($i < enum_getoutputcount(trawler_hulls) & $leak_count < $max_leaks) {
 // https://youtu.be/Yzu2wp2hJOw?list=PLn23LiLYLb1b7Lj_u-lnuUOa40FGWslbp This game, each player got 20 fish
 // with a final caught of 1697. Means a 1/10 chance per roll for each player
 [proc,trawler_catch_fish](int $player_count)
-if (~trawler_net_ripped = true) {
+if (~trawler_net_ripped = ^true) {
     return;
 }
 def_int $i = 0;

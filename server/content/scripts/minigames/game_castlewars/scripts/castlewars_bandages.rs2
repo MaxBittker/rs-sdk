@@ -1,0 +1,24 @@
+// back port todo: allow healing outside of castle wars when smuggled, even in duel arena (bug)
+// fixed a bit after the release of castlewars ?
+[opheld1,castlewars_bandages]
+if (~in_castlewars_game(coord) = false) { // i think this is how they patched it ?
+    inv_del(inv, castlewars_bandages, ^max_32bit_int);
+    return;
+}
+stat_heal(hitpoints, 6, 0);
+healenergy(3000);
+inv_delslot(inv, last_slot);
+
+[opplayeru,castlewars_bandages]
+if (~in_castlewars_game(coord) = false) { // i think this is how they patched it ?
+    inv_del(inv, castlewars_bandages, ^max_32bit_int);
+    return;
+}
+if (.%castlewars_team ! %castlewars_team) {
+    mes("You don't want to be healing your enemies!"); // osrs
+    return;
+}
+.stat_heal(hitpoints, 6, 0);
+.healenergy(3000);
+anim(human_lockedchest, 0);
+inv_delslot(inv, last_useslot);

@@ -174,6 +174,55 @@ export default class PixFont extends Linkable2 {
         }
     }
 
+    centreStringWave2(str: string | null, x: number, y: number, rgb: number, phase: number): void {
+        if (str === null) {
+            return;
+        }
+
+        x |= 0;
+        y |= 0;
+
+        x -= (this.stringWid(str) / 2) | 0;
+        const offY: number = y - this.height;
+
+        for (let i: number = 0; i < str.length; i++) {
+            const c: number = str.charCodeAt(i);
+
+            if (c != 32) {
+                this.plotLetter(this.charMask[c], x + this.charOffsetX[c] + ((Math.sin(i / 5.0 + phase / 5.0) * 5.0) | 0), offY + this.charOffsetY[c] + ((Math.sin(i / 3.0 + phase / 5.0) * 5.0) | 0), this.charMaskWidth[c], this.charMaskHeight[c], rgb);
+            }
+
+            x += this.charAdvance[c];
+        }
+    }
+
+    centreStringWave3(str: string | null, x: number, y: number, rgb: number, phase: number, timer: number): void {
+        if (str === null) {
+            return;
+        }
+
+        x |= 0;
+        y |= 0;
+
+        let amplitude: number = 7.0 - timer / 8.0;
+        if (amplitude < 0.0) {
+            amplitude = 0.0;
+        }
+
+        x -= (this.stringWid(str) / 2) | 0;
+        const offY: number = y - this.height;
+
+        for (let i: number = 0; i < str.length; i++) {
+            const c: number = str.charCodeAt(i);
+
+            if (c != 32) {
+                this.plotLetter(this.charMask[c], x + this.charOffsetX[c], offY + this.charOffsetY[c] + ((Math.sin(i / 1.5 + phase) * amplitude) | 0), this.charMaskWidth[c], this.charMaskHeight[c], rgb);
+            }
+
+            x += this.charAdvance[c];
+        }
+    }
+
     drawStringTag(str: string, x: number, y: number, rgb: number, shadowed: boolean): void {
         x |= 0;
         y |= 0;

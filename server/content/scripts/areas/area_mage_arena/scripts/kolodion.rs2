@@ -126,7 +126,7 @@ npc_setmode(opplayer2);
 p_delay($delay);
 anim(human_castteleport, 60);
 spotanim_pl(teleport_casting, 92, 60);
-sound_synth(teleport_all, 0, 0);
+sound_synth(teleport_all, 1, 0);
 // spawn coord is relative between the player and kolodion at the safe area
 def_coord $spawn_coord = movecoord(^mage_arena_start_coord, sub(coordx(npc_coord), coordx(coord)), 0, sub(coordz(npc_coord), coordz(coord)));
 p_delay(3);
@@ -145,7 +145,7 @@ switch_int (%magearena) {
         // https://youtu.be/Tte53ezNIP4?list=PLn23LiLYLb1Y4vxMPWXM-CVEvOUfuAP_o&t=23
         p_delay(3);
         spotanim_map(smokepuff_large, $spawn_coord, 124, 0);
-        sound_synth(smokepuff, 0, 0);
+        sound_synth(smokepuff, 1, 0);
         p_delay(0);
         ~spawn_mage_arena_boss($spawn_coord, $boss, 5);
         p_delay(1);
@@ -153,7 +153,7 @@ switch_int (%magearena) {
         npc_setmode(applayer2);
     case ^mage_arena_ogre :
         p_delay(1);
-        sound_synth(smokepuff, 0, 0);
+        sound_synth(smokepuff, 1, 0);
         ~spawn_mage_arena_boss($spawn_coord, $boss, 5);
         spotanim_npc(smokepuff_large, 124, 34);
         p_delay(1); // not a mistake
@@ -164,7 +164,7 @@ switch_int (%magearena) {
         // exact move
         p_delay(2);
         ~mage_arena_exactmove(movecoord($spawn_coord, 1, 0, 1));
-        sound_synth(teleport_reverse, 0, 0);
+        sound_synth(teleport_reverse, 1, 0);
         ~spawn_mage_arena_boss($spawn_coord, $boss, 4);
         spotanim_npc(hugespider_teleport_reverse, 16, 35);
         p_delay(0);
@@ -175,7 +175,7 @@ switch_int (%magearena) {
         p_delay(2);
         spotanim_npc(smokepuff_large, 124, 10);
         p_delay(0);
-        sound_synth(teleport_reverse, 0, 0);
+        sound_synth(teleport_reverse, 1, 0);
         ~spawn_mage_arena_boss($spawn_coord, $boss, 6);
         p_delay(0); // not a mistake
         npc_setmode(applayer2);
@@ -187,7 +187,7 @@ switch_int (%magearena) {
         ~mage_arena_exactmove($spawn_coord);
         ~spawn_mage_arena_boss($spawn_coord, $boss, 5);
         spotanim_npc(huge_teleport_reverse, 16, 35);
-        sound_synth(teleport_reverse, 0, 0);
+        sound_synth(teleport_reverse, 1, 0);
         p_delay(0);
         npc_say("Let us continue with our battle");
         npc_setmode(applayer2);

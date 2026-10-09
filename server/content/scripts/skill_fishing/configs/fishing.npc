@@ -1,4 +1,3 @@
-//--- Fishing Contest
 [0_41_53_compofishspot]
 vislevel=hide
 name=Fishing spot
@@ -7,11 +6,13 @@ readyanim=fishingspot_ready
 walkanim=fishingspot_walk
 minimap=no
 op1=Fish
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=category_453
+wanderrange=0
+maxrange=20
+timer=1
+moverestrict=nomove
+defaultmode=none
 
 [0_41_53_sinisterfishspot]
 vislevel=hide
@@ -21,11 +22,13 @@ readyanim=fishingspot_ready
 walkanim=fishingspot_walk
 minimap=no
 op1=Fish
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=category_453
+wanderrange=0
+maxrange=20
+timer=1
+moverestrict=nomove
+defaultmode=none
 
 [0_41_53_bigdavefishspot]
 vislevel=hide
@@ -35,11 +38,13 @@ readyanim=fishingspot_ready
 walkanim=fishingspot_walk
 minimap=no
 op1=Fish
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=category_453
+wanderrange=0
+maxrange=20
+timer=1
+moverestrict=nomove
+defaultmode=none
 
 [0_41_53_joshuafishspot]
 vislevel=hide
@@ -49,14 +54,14 @@ readyanim=fishingspot_ready
 walkanim=fishingspot_walk
 minimap=no
 op1=Fish
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=category_453
-//--- Fishing contest
+wanderrange=0
+maxrange=20
+timer=1
+moverestrict=nomove
+defaultmode=none
 
-//--- (Lure/Bait) Gnome Stronghold
 [0_37_53_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -68,16 +73,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_gnome_stronghold_enum
-//--- (Lure/Bait) Gnome Stronghold
 
-//--- (Lure/Bait) Baxtorian Falls
 [0_39_53_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -89,16 +94,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_baxtorian_falls_enum
-//--- (Lure/Bait) Baxtorian Falls
 
-//--- (Lure/Bait) Ardougne River
 [0_40_52_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -110,16 +115,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_ardougne_river_enum
-//--- (Lure/Bait) Ardougne River
 
-//--- (Cage/Harpoon) Fishing guild
 [0_40_53_rarefish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -131,16 +136,16 @@ op1=Cage
 op3=Harpoon
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=rarefish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_rarefish
 param=fishing_movement_enum,fishing_movement_fishing_guild_enum
-//--- (Cage/Harpoon) Fishing guild
 
-//--- (Net/Harpoon) Fishing guild
 [0_40_53_memberfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -152,16 +157,16 @@ op1=Net
 op3=Harpoon
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=memberfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_memberfish
 param=fishing_movement_enum,fishing_movement_fishing_guild_enum
-//--- (Net/Harpoon) Fishing guild
 
-//--- (Lure/Bait) Fisher kingdom
 [0_41_73_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -173,16 +178,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_fisher_realm_enum
-//--- (Lure/Bait) Fisher kingdom
 
-//--- (Lure/Bait) Seer's village
 [0_42_55_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -194,16 +199,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_seers_village_enum
-//--- (Lure/Bait) Seer's village
 
-//--- (Net/Bait) Fishing platform
 [0_43_51_saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -215,16 +220,16 @@ op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_fishing_platform_enum
-//--- (Net/Bait) Fishing platform
 
-//--- (Lure/Bait) Shilo village
 [0_44_46_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -236,16 +241,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_shilo_village_enum
-//--- (Lure/Bait) Shilo village
 
-//--- (Lure/Bait) Entrana
 [0_44_52_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -257,16 +262,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_entrana1_enum
-//--- (Lure/Bait) Entrana
 
-//--- (Net/Bait) Entrana
 [0_44_52_saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -278,16 +283,16 @@ op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_entrana2_enum
-//--- (Net/Bait) Entrana
 
-//--- (Net/Bait) Catherby
 [0_44_53_saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -299,16 +304,16 @@ op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_catherby_enum
-//--- (Net/Bait) Catherby
 
-//--- (Cage/Harpoon) Catherby
 [0_44_53_rarefish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -320,16 +325,16 @@ op1=Cage
 op3=Harpoon
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=rarefish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_rarefish
 param=fishing_movement_enum,fishing_movement_catherby_enum
-//--- (Cage/Harpoon) Catherby
 
-//--- (Net/Harpoon) Catherby
 [0_44_53_memberfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -341,16 +346,16 @@ op1=Net
 op3=Harpoon
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=memberfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_memberfish
 param=fishing_movement_enum,fishing_movement_catherby_enum
-//--- (Net/Harpoon) Catherby
 
-//--- (Net/Bait) Musa point
 [0_45_49_saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -362,16 +367,16 @@ op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_musa_point_enum
-//--- (Net/Bait) Musa point
 
-//--- (Cage/Harpoon) Musa point
 [0_45_49_rarefish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -383,16 +388,16 @@ op1=Cage
 op3=Harpoon
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=rarefish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_rarefish
 param=fishing_movement_enum,fishing_movement_musa_point_enum
-//--- (Cage/Harpoon) Musa point
 
-//--- (Net/Bait) Rimmington
 [0_46_49_saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -404,16 +409,16 @@ op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_rimmington_enum
-//--- (Net/Bait) Rimmington
 
-//--- (Net/Bait) Bandit Camp Wilderness
 [0_47_57_saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -425,16 +430,16 @@ op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_wilderness_camp_enum
-//--- (Net/Bait) Bandit Camp Wilderness
 
-//--- (Net/Bait) Draynor village
 [0_48_50_saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -446,16 +451,16 @@ op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_draynor_village_enum
-//--- (Net/Bait) Draynor village
 
-//--- (Lure/Bait) Barbarian village
 [0_48_53_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -467,16 +472,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_barbarian_village_enum
-//--- (Lure/Bait) Barbarian village
 
-//--- (Lure/Bait) Lumbridge
 [0_50_50_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -488,16 +493,16 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_lumbridge_river_enum
-//--- (Lure/Bait) Lumbridge
 
-//--- (Net/Bait) Al-Kharid
 [0_51_49_saltfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -509,16 +514,16 @@ op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_al_kharid_enum
-//--- (Net/Bait) Al-Kharid
 
-//--- lava eel Taverley Dungeon
 [0_45_152_lavafish]
 vislevel=hide
 readyanim=lava_ripples
@@ -528,14 +533,13 @@ desc=I can see eels swimming in the lava.
 minimap=no
 op1=Bait
 op3=hidden
-model1=model_loc_2630_8
-defaultmode=none
-moverestrict=nomove
+model1=outdoorfurniture_lavaripples
+maxrange=20
 timer=1
+moverestrict=nomove
+defaultmode=none
 param=fishing_movement_enum,fishing_movement_taverley_dungeon_enum
-//--- lava eel Taverley Dungeon
 
-//--- (Lure/Bait) Observatory
 [0_38_49_freshfish]
 vislevel=hide
 readyanim=fishingspot_ready
@@ -547,264 +551,312 @@ op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-model1=model_loc_42_8
-defaultmode=none
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_observatory_enum
-//--- (Lure/Bait) Observatory
 
-// --- (Net) Karambwanji/Karambwan
 [0_43_47_karambwanji]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=There are brightly coloured fish swimming in the water.
 minimap=no
 op1=Net
 op4=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
+model1=outdoorfurniture_loc_42
 category=category_632
+wanderrange=0
+maxrange=50
+moverestrict=nomove
+defaultmode=none
 
 [general_karambwanji]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=There are brightly coloured fish swimming in the water.
 minimap=no
 op1=Net
 op4=hidden
-defaultmode=none
+model1=outdoorfurniture_loc_42
+category=category_632
 wanderrange=0
 moverestrict=nomove
-category=category_632
+defaultmode=none
 
 [0_45_48_karambwan]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=Something dark green is lurking in these waters.
 minimap=no
 op1=Fish
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
+model1=outdoorfurniture_loc_42
 category=category_633
+wanderrange=0
+maxrange=50
+moverestrict=nomove
+defaultmode=none
 
 [general_karambwan]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=Something dark green is lurking in these waters.
 minimap=no
 op1=Fish
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
+model1=outdoorfurniture_loc_42
 category=category_633
+wanderrange=0
+maxrange=50
+moverestrict=nomove
+defaultmode=none
 
 [lubufu_karambwan]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=Something dark green is lurking in these waters.
 minimap=no
 op1=Fish
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
+model1=outdoorfurniture_loc_42
 category=category_633
-// --- (Net) Karambwanji/Karambwan
+wanderrange=0
+maxrange=50
+moverestrict=nomove
+defaultmode=none
 
-// Isafdar
 [0_34_50_freshfish]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see fish swimming in the water.
 minimap=no
 op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_0_34_50_enum
 
 [0_35_50_freshfish]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see fish swimming in the water.
 minimap=no
 op1=Lure
 op3=Bait
 op4=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=freshfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_freshfish
 param=fishing_movement_enum,fishing_movement_0_35_50_enum
 
 [0_33_51_memberfish]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see fish swimming in the water.
 minimap=no
 op1=Net
 op3=Harpoon
 op4=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=memberfish
+wanderrange=0
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_memberfish
 param=fishing_movement_enum,fishing_movement_0_33_51_enum
 
-// Rellekka
 [0_41_57_saltfish]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see fish swimming in the water.
 minimap=no
 op1=Net
 op3=Bait
 op4=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=saltfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_saltfish
 param=fishing_movement_enum,fishing_movement_0_41_57_saltfish_enum
 
 [0_41_57_rarefish]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see fish swimming in the water.
 minimap=no
 op1=Cage
 op3=Harpoon
 op4=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=rarefish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_rarefish
 param=fishing_movement_enum,fishing_movement_0_41_57_rarefish_enum
 
 [0_41_57_memberfish]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see fish swimming in the water.
 minimap=no
 op1=Net
 op3=Harpoon
 op4=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=memberfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=whirlpool,macro_whirlpool_memberfish
 param=fishing_movement_enum,fishing_movement_0_41_57_memberfish_enum
 
-// --- (Bait) Morytania swamp east
 [0_54_53_slimey_eel]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see 'things' swimming in the water.
 minimap=no
 op1=Bait
 op3=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=slimeyfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=fishing_movement_enum,fishing_movement_slimey_eel_east_enum
 
-// --- (Bait) Morytania swamp west
 [0_53_53_slimey_eel]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see 'things' swimming in the water.
 minimap=no
 op1=Bait
 op3=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=slimeyfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=fishing_movement_enum,fishing_movement_slimey_eel_west_enum
 
-// --- (Bait) Morytania swamp south
 [0_53_51_slimey_eel]
-name=Fishing spot
-model1=model_loc_42_8
 vislevel=hide
 readyanim=fishingspot_ready
 walkanim=fishingspot_walk
+name=Fishing spot
 desc=I can see 'things' swimming in the water.
 minimap=no
 op1=Bait
 op3=hidden
 op5=hidden
-defaultmode=none
-wanderrange=0
-moverestrict=nomove
-timer=1
+model1=outdoorfurniture_loc_42
 category=slimeyfish
+wanderrange=0
+maxrange=50
+timer=1
+moverestrict=nomove
+defaultmode=none
 param=fishing_movement_enum,fishing_movement_slimey_eel_south_enum
+
+[0_43_42_memberfish]
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+name=Fishing spot
+desc=I can see fish swimming in the water.
+minimap=no
+op1=Net
+op3=Harpoon
+op4=hidden
+op5=hidden
+model1=outdoorfurniture_loc_42
+wanderrange=0
+maxrange=50
+moverestrict=nomove
+defaultmode=none
+category=memberfish
+timer=1
+param=whirlpool,macro_whirlpool_memberfish
+param=fishing_movement_enum,fishing_movement_0_43_42_memberfish_enum
+
+[0_42_42_memberfish]
+vislevel=hide
+readyanim=fishingspot_ready
+walkanim=fishingspot_walk
+name=Fishing spot
+desc=I can see fish swimming in the water.
+minimap=no
+op1=Net
+op3=Harpoon
+op4=hidden
+op5=hidden
+model1=outdoorfurniture_loc_42
+wanderrange=0
+maxrange=50
+moverestrict=nomove
+defaultmode=none
+category=memberfish
+timer=1
+param=whirlpool,macro_whirlpool_memberfish
+param=fishing_movement_enum,fishing_movement_0_42_42_memberfish_enum

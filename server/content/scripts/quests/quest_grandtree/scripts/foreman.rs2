@@ -1,4 +1,7 @@
 [opnpc1,grandtree_foreman]
+if(%mm_main = ^mm_shown_seal) {
+    @mm_foreman_dialogue;
+}
 if((%grandtree ! ^grandtree_released_prison & %grandtree ! ^grandtree_obtained_lumber_order) | ~obj_gettotal(grandtree_order) > 0) {
     ~mesbox("The foreman is too busy to talk.");
     return;

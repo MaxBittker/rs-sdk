@@ -20,6 +20,11 @@ if(inv_freespace(inv) = 0) {
 } else {
     ~pickup_loc_floor(loc_coord, grain, 20, true);
     mes("You pick some grain.");
+    if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+        if(npc_find(coord, misc_farmer, 15, 0) = true) {
+            ~chatnpc("<p,angry>Oi! Leave my wheat alone!");
+        }
+    }
 }
 
 // Pickable Onion
@@ -48,7 +53,7 @@ if(inv_freespace(inv) = 0) {
 
 // Pickable flax
 // Could only pick one flax at a time until this update: https://oldschool.runescape.wiki/w/Update:Santa,_Flax_and_Castlewars
-[oploc2,flax_ground]
+[oploc2,flax]
 if(inv_freespace(inv) = 0) {
     mes("You can't carry any more flax.");
 } else {
@@ -59,8 +64,11 @@ if(inv_freespace(inv) = 0) {
     }
     anim(human_pickupfloor, 0);
     p_delay(0);
-    sound_synth(pick, 0, 0);
+    sound_synth(pick, 1, 0);
     mes("You pick some flax.");
     inv_add(inv, flax, 1);
-    loc_del(25); // 10t after update
+
+    if (random(16) < 3) {
+        loc_del(10);
+    }
 }

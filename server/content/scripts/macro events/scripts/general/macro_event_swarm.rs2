@@ -1,6 +1,6 @@
 [proc,macro_swarm_spawn]
 // spotanim_map(spotanim_86, npc_coord, 124, 0);
-sound_synth(swarm_appear, 0, 0);
+sound_synth(swarm_appear, 1, 0);
 %npc_macro_event_target = uid;
 %aggressive_npc = npc_uid; // interupt the player if they're in combat https://youtu.be/tw66JWQzpD0?t=32
 npc_setmode(opplayer2);

@@ -1,7 +1,7 @@
 [poison_chalice]
 name=Poison chalice
 desc=A cup of a strange brew...
-model=model_2639_obj
+model=inv_cocktail-full
 recol1s=473
 recol1d=12266
 2dyof=1

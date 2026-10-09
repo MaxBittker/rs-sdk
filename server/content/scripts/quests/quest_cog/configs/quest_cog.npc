@@ -7,16 +7,15 @@ name=Dungeon rat
 desc=A dirty rat.
 op2=Attack
 vislevel=12
+model1=model_2959_npc
 recol1s=6347
 recol1d=17969
-model1=model_2959_npc
 wanderrange=6
-maxrange=8
-respawnrate=50
-hitpoints=12
 attack=10
-strength=10
 defence=10
+strength=10
+hitpoints=12
+respawnrate=50
 param=damagetype,^stab_style
 param=attack_anim,giantrat_attack
 param=defend_anim,giantrat_block
@@ -24,5 +23,3 @@ param=death_anim,giantrat_death
 param=attack_sound,rat_attack
 param=defend_sound,rat_hit
 param=death_sound,rat_death
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3607

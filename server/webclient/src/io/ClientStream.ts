@@ -49,7 +49,7 @@ export default class ClientStream {
 
     // note: Java throws IOException on failure
     get available(): number {
-        if (this.dummy || this.remoteClosed) {
+        if (this.dummy) {
             return 0;
         }
 
@@ -58,7 +58,7 @@ export default class ClientStream {
 
     // note: Java throws IOException on failure
     write(src: Uint8Array, len: number): void {
-        if (this.dummy || this.remoteClosed) {
+        if (this.dummy) {
             return;
         }
 
@@ -70,20 +70,25 @@ export default class ClientStream {
         if (this.dummy) {
             return 0;
         }
-        if (this.remoteClosed) {
+        if (this.remoteClosed && this.wsin.available === 0) {
             return -1;
         }
 
-        return await this.wsin.read();
+        try {
+            return await this.wsin.read();
+        } catch (err) {
+            if (this.remoteClosed && this.wsin.available === 0) {
+                return -1;
+            }
+
+            throw err;
+        }
     }
 
     // note: Java throws IOException on failure
     async readBytes(dst: Uint8Array, off: number, len: number): Promise<void> {
         if (this.dummy) {
             return;
-        }
-        if (this.remoteClosed) {
-            throw this.socket;
         }
 
         await this.wsin.readBytes(dst, off, len);
@@ -118,8 +123,8 @@ export default class ClientStream {
 
     private remoteClose(): void {
         this.remoteClosed = true;
-        this.wsin.close();
-        this.wsout.close();
+        this.wsin.fail();
+        this.wsout.fail();
     }
 }
 
@@ -143,10 +148,11 @@ class WebSocketWriter {
             this.ioerror = false;
             throw this.socket;
         }
-        if (len > this.limit - 100) {
+        if (len >= this.limit - 100 || this.socket.bufferedAmount + len >= this.limit - 100) {
             throw this.socket;
         }
         if (this.socket.readyState !== WebSocket.OPEN) {
+            this.ioerror = true;
             return;
         }
         try {
@@ -238,25 +244,33 @@ class WebSocketReader {
     };
 
     async read(): Promise<number> {
-        if (this.closed) {
-            throw this.socket;
+        let event = this.nextEvent();
+        if (!event) {
+            if (this.closed) {
+                throw this.socket;
+            }
+
+            event = await this.waitForEvent();
         }
 
-        const event = this.nextEvent() ?? (await this.waitForEvent());
         this.total--;
         return event.read;
     }
 
     async readBytes(dst: Uint8Array, off: number, len: number): Promise<Uint8Array> {
-        if (this.closed) {
-            throw this.socket;
-        }
-
         let remaining = len;
         let dstPos = off;
 
         while (remaining > 0) {
-            const event = this.nextEvent() ?? (await this.waitForEvent());
+            let event = this.nextEvent();
+            if (!event) {
+                if (this.closed) {
+                    throw this.socket;
+                }
+
+                event = await this.waitForEvent();
+            }
+
             const count = event.readBytes(dst, dstPos, remaining);
             this.total -= count;
             dstPos += count;

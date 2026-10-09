@@ -1,4 +1,9 @@
 [opnpc1,zoo_keeper]
+// todo: should this be before the clue check (im pretty sure it should be)
+if(~mm_wearing_greegree = true) {
+    ~force_unequip_greegree;
+}
+
 // https://www.youtube.com/watch?v=1slVPlGyv48, https://web.archive.org/web/20040813233712/http://runehq.com/viewguidedb.php?id=00350 (answer: 32)
 if(inv_total(inv, trail_clue_medium_anagram003) > 0) {
     @trail_zoo_keeper;

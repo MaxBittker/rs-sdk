@@ -23,7 +23,7 @@ if (~prayer_checks($data) = false) {
 def_int $levelreq = db_getfield($data, prayers:level, 0);
 if (stat_base(prayer) < $levelreq){
     %prayer5 = ^false;
-    sound_synth(prayer_off, 0, 0);
+    sound_synth(prayer_off, 1, 0);
     ~mesbox("You need a @dbl@Prayer level of <tostring($levelreq)> to use <db_getfield($data, prayers:name, 0)>.");
     return;
 }

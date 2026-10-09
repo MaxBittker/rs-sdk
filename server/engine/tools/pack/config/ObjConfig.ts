@@ -20,10 +20,11 @@ export function parseObjConfig(key: string, value: string): ConfigValue | null |
         'cost', 'respawnrate',
         'resizex', 'resizey', 'resizez',
         'ambient', 'contrast',
+        'team'
     ];
     // prettier-ignore
     const booleanKeys = [
-        'code9', 'stackable', 'members', 'tradeable'
+        'stackable', 'members', 'tradeable'
     ];
 
     if (stringKeys.includes(key)) {
@@ -290,10 +291,6 @@ export function packObjConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
                 } else if (key === '2dyof') {
                     client.p1(8);
                     client.p2(value as number);
-                } else if (key === 'code9') {
-                    if (value === true) {
-                        client.p1(9);
-                    }
                 } else if (key === 'code10') {
                     client.p1(10);
                     client.p2(value as number);
@@ -413,6 +410,9 @@ export function packObjConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
                     client.p1(value as number);
                 } else if (key === 'contrast') {
                     client.p1(114);
+                    client.p1(value as number);
+                } else if (key === 'team') {
+                    client.p1(115);
                     client.p1(value as number);
                 } else if (key === 'respawnrate') {
                     server.p1(201);

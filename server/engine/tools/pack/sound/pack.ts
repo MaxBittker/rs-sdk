@@ -55,14 +55,15 @@ export function packClientSound(cache: FileStream) {
         }
         out.p2(-1);
 
-        if (Environment.build.verify && !Packet.checkcrc(out.data, 0, out.pos, 2127412105)) {
-            throw new Error('.synth checksum mismatch!\nYou can disable this safety check by setting BUILD_VERIFY=false');
-        }
-
         jag.write('sounds.dat', out);
         jag.save('data/pack/client/sounds');
         out.release();
     }
 
-    cache.write(0, 8, fs.readFileSync('data/pack/client/sounds'));
+    const packed = fs.readFileSync('data/pack/client/sounds');
+    if (Environment.build.verify && !Packet.checkcrc(packed, 0, packed.length, -1491954823)) {
+        throw new Error('sounds checksum mismatch!\nYou can disable this safety check by setting BUILD_VERIFY=false');
+    }
+
+    cache.write(0, 8, packed);
 }

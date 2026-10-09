@@ -1,7 +1,7 @@
 [hangover_cure]
 members=yes
 cost=2
-model=model_2504_obj
+model=inv_bucket-full
 recol1s=173
 recol1d=16047
 2dyof=-18

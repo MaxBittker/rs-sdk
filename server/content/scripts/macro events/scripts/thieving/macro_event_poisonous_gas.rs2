@@ -5,10 +5,10 @@ mes("You search the chest for traps.");
 mes("You find a trap on the chest,");
 p_delay(1);
 mes("You disable the trap.");
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 p_delay(1);
 mes("You open the chest.");
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(1);
 anim(human_openchest, 0);
 // Temp note: dur does not need updated
@@ -29,7 +29,7 @@ if (loc_find(%macro_event_target_coord, chest_macro_gas) = true) { // set active
     // if player is within 1 tile of gas, apply damage (2-3)
     if (distance(loc_coord, coord) <= 1 & coordy(loc_coord) = coordy(coord)) {
         // todo: figure out the mes for this thing
-        sound_synth(gas_hiss, 0, 0);
+        sound_synth(gas_hiss, 1, 0);
         def_int $random_poison_damage = ~random_range(2, 3);
         queue(poison_damage, 0, $random_poison_damage); // poison damage doesnt actually poison, its just a green hitsplat
     }

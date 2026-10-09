@@ -1,5 +1,9 @@
 [queue,playerhit_n_retaliate](npc_uid $nid)
 ~combat_preventlogout;
+if(~mm_wearing_greegree = true) {
+    // this might actually be damage queue, I think can be tested in pvp
+    strongqueue(force_unequip_greegree, 0, 0);
+}
 if (%option_nodef = ^player_auto_retaliate_on & npc_finduid($nid) = true & busy2 = false) {
     // npc flinches player
     if (%action_delay < map_clock) {
@@ -24,6 +28,10 @@ if (%option_nodef = ^player_auto_retaliate_on & npc_finduid($nid) = true & busy2
 // this needs fixing, and .queue support
 [queue,pvp_retaliate](player_uid $uid)
 ~combat_preventlogout;
+if(~mm_wearing_greegree = true) {
+    // this might actually be damage queue, I think can be tested in pvp
+    strongqueue(force_unequip_greegree, 0, 0);
+}
 if (%option_nodef = ^player_auto_retaliate_on & .finduid($uid) = true & busy2 = false) {
     // npc flinches player
     if (%action_delay < map_clock) {

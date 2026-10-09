@@ -1,0 +1,61 @@
+[opnpc1,trollromance_aga]
+if (%troll_love < ^troll_love_started) {
+    ~chatnpc("<p,angry>What man-thing want?");
+    ~chatplayer("<p,neutral>Errr... I've got to go.");
+
+} else if (%troll_love = ^troll_love_started) {
+    @trollromance_aga_learn_about_trollweiss;
+
+} else if (%troll_love > ^troll_love_started & %troll_love < ^troll_love_complete) {
+    @trollromance_aga_learnt_about_trollweiss;
+    
+} else if (%troll_love = ^troll_love_complete) {
+    ~chatnpc("<p,happy>Thanks for getting Aga and Ug happy. Without you Ug too shy, Aga so in love with Ug!");
+}
+
+[opnpcu,trollromance_aga]
+if (last_useitem = trollromance_rare_flower) mes("That's probably not a good idea...");
+else ~displaymessage(^dm_default);
+
+[label,trollromance_aga_learn_about_trollweiss]
+~chatnpc("<p,angry>What you want, man-thing?");
+def_int $choice = ~p_choice3("Well... you're big and hairy?", 1, "So... how's your... um... love life?", 2, "Errr... nothing.", 3);
+while ($choice ! 0) {
+    if ($choice = 1) {
+        ~chatplayer("<p,neutral>Well... you're big and hairy?");
+        ~chatnpc("<p,happy>Thanks, me very careful about looks!");
+        ~chatplayer("<p,neutral>Errr...");
+        $choice = ~p_choice2("So... how's your... um... love life?", 2, "Errr... I've got to go.", 3);
+    } else if ($choice = 2) {
+        ~chatplayer("<p,neutral>(I can't believe I am asking a troll about her love life!!)");
+        ~chatplayer("<p,neutral>So... how's your... um... love life?");
+        ~chatnpc("<p,neutral>It ok, I with Arrg, he very strong and mighty but sometimes...");
+        ~chatnpc("<p,sad>I not know if he love Aga,|He say he will show he love by bringing me flower Trollweiss.");
+        ~chatnpc("<p,happy>It a very rare, beautiful flower, it very special!");
+        ~chatnpc("<p,happy>It grow somewhere in these mountains.");
+        ~chatplayer("<p,neutral>(Maybe trolls DO have a romantic streak!)");
+        ~chatplayer("<p,neutral>And Arrg said he would get you the flower?");
+        ~chatnpc("<p,neutral>He very strong, if he love Aga he will get Trollweiss.");
+        %troll_love = ^troll_love_aga_wants_trollweiss;
+        $choice = ~p_choice2("Errr... I've got to go.", 3, "So... what do you think about Ug?", 4);
+    } else if ($choice = 3) {
+        ~chatplayer("<p,neutral>Errr... I've got to go.");
+        return;
+    } else if ($choice = 4) {
+        ~chatplayer("<p,neutral>So... what do you think about Ug?");
+        ~chatnpc("<p,confused>Who?");
+        ~chatplayer("<p,neutral>You know that wimpy, crying... nevermind.");
+        return;
+    }
+}
+
+[label,trollromance_aga_learnt_about_trollweiss]
+~chatnpc("<p,happy>Aga can't wait for Trollweiss.|Arrg will show his love!");
+def_int $choice = ~p_choice2("Well, got to go... see you.", 1, "So... what do you think about Ug?", 2);
+if ($choice = 1) {
+    ~chatplayer("<p,neutral>Errr... I've got to go.");
+} else if ($choice = 2) {
+    ~chatplayer("<p,neutral>So... what do you think about Ug?");
+    ~chatnpc("<p,confused>Who?");
+    ~chatplayer("<p,neutral>You know that wimpy, crying... nevermind.");
+}

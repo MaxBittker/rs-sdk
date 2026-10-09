@@ -1,18 +1,16 @@
 [small_bat]
 name=Bat
-model1=model_3782
 desc=Annoying flappy thing.
 walkanim=bat_walk
 readyanim=bat_ready
 op2=Attack
 vislevel=6
-wanderrange=20
-maxrange=32
-// respawnrate=TODO
-hitpoints=8
+model1=model_3782
+wanderrange=30
 attack=5
-strength=5
 defence=5
+strength=5
+hitpoints=8
 param=stabdefence,2
 param=slashdefence,2
 param=crushdefence,5
@@ -25,19 +23,22 @@ param=attack_sound,bat_attack
 param=defend_sound,bat_hit
 param=death_sound,bat_death
 param=death_drop,bat_bones
-// osrs stats and Vislvl match 1:1
 
 [macro_mime]
 name=Mime
-model1=model_3598
-model2=obj_3058_manwear3
-model3=model_292_idk
-model4=model_163_idk
-model5=model_179_obj_wear
-model6=model_254_idk
-model7=model_185_obj_wear
-model8=model_198_obj_wear
-model9=model_230_idk
+desc=A mute performer.
+readyanim=human_ready
+alwaysontop=yes
+vislevel=1
+model1=man_headextra_mime_mask
+model2=man_torsoextra_stripes
+model3=man_torso_basic
+model4=man_arms_longsleeves3
+model5=man_hands_gloves
+model6=man_legs_basic
+model7=man_feet_boots
+model8=man_hat_berret
+model9=man_head_bald
 recol1s=8384
 recol1d=23263
 recol2s=2340
@@ -50,20 +51,21 @@ recol5s=14724
 recol5d=2114
 recol6s=12677
 recol6d=2114
-desc=A mute performer.
-readyanim=human_ready
-alwaysontop=yes
-vislevel=1
+wanderrange=0
 timer=5
 
 [macro_theatre_saradomin]
+vislevel=hide
 name=Strange watcher
-model1=model_223_idk
-model2=model_250_idk
-model3=model_292_idk
-model4=model_170_idk
-model5=model_176_idk
-model6=model_3599
+desc=A member of the audience.
+readyanim=human_sitting_chair
+minimap=no
+model1=man_head_priest
+model2=man_jaw_long
+model3=man_torso_basic
+model4=man_arms_longsleeves
+model5=man_hands_basic
+model6=man_legs_sitting_chair
 recol1s=14724
 recol1d=20083
 recol2s=2340
@@ -76,19 +78,20 @@ recol5s=14801
 recol5d=27425
 recol6s=7298
 recol6d=20083
+wanderrange=0
+
+[macro_theatre_guthix]
 vislevel=hide
+name=Strange watcher
 desc=A member of the audience.
 readyanim=human_sitting_chair
 minimap=no
-
-[macro_theatre_guthix]
-name=Strange watcher
-model1=model_206_idk
-model2=model_252_idk
-model3=model_315_npc
-model4=model_173_npc
-model5=model_176_idk
-model6=model_3599
+model1=man_head_spikeyhair
+model2=man_jaw_split
+model3=man_torso_bare
+model4=man_arms_bare
+model5=man_hands_basic
+model6=man_legs_sitting_chair
 recol1s=24075
 recol1d=7552
 recol2s=6273
@@ -99,18 +102,19 @@ recol4s=2340
 recol4d=7360
 recol5s=7298
 recol5d=3168
+wanderrange=0
+
+[macro_theatre_zamorak]
 vislevel=hide
+name=Strange watcher
 desc=A member of the audience.
 readyanim=human_sitting_chair
 minimap=no
-
-[macro_theatre_zamorak]
-name=Strange watcher
-model1=model_209_npc
-model2=model_306_obj_wear
-model3=model_156_npc
-model4=model_176_idk
-model5=model_3599
+model1=man_head_skull
+model2=man_torso_platemail
+model3=man_arms_basicforplate
+model4=man_hands_basic
+model5=man_legs_sitting_chair
 recol1s=29562
 recol1d=16711
 recol2s=14801
@@ -123,7 +127,4 @@ recol5s=15855
 recol5d=12419
 recol6s=10570
 recol6d=10272
-vislevel=hide
-desc=A member of the audience.
-readyanim=human_sitting_chair
-minimap=no
+wanderrange=0

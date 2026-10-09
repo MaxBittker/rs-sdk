@@ -70,7 +70,7 @@ if (~npc_check_notcombat_self = false) { // Doesnt change mode! Keeps trying!
 anim(%com_defendanim, 0);
 npc_anim(npc_param(attack_anim), 0);
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 ~npc_meleeattack;
 
@@ -192,6 +192,11 @@ if (npc_type = count_draynor) {
     }
 }
 
+if ((npc_type = hauntedmine_boss_ghost | npc_type = hauntedmine_boss_ghost_faded) & %npc_attacking_uid ! uid) {
+    mes("Someone else is fighting that.");
+    return(false);
+}
+
 if (npc_hasop(2) = true) {
     return (true);
 }
@@ -298,6 +303,11 @@ if (npc_type = count_draynor) {
         return(false);
     }
 }
+if ((npc_type = hauntedmine_boss_ghost | npc_type = hauntedmine_boss_ghost_faded) & %npc_attacking_uid ! uid) {
+    mes("Someone else is fighting that.");
+    return(false);
+}
+
 if (npc_hasop(2) = true) {
     return (true);
 }
@@ -370,7 +380,7 @@ if(.%npc_lastcombat < map_clock) .%npc_lastcombat = map_clock;
 %aggressive_npc = npc_uid;
 
 [proc,npc_check_notcombat]()(boolean)
-if (map_multiway(npc_coord) = false) { // checks npc coord ALWAYS!
+if (map_multiway(npc_coord) = false & nc_param(npc_type, npc_forcemulti) = ^false) { // checks npc coord ALWAYS!
     if (add(%lastcombat_pvp, 8) > map_clock) {
         return(false);
     }
@@ -381,7 +391,7 @@ if (map_multiway(npc_coord) = false) { // checks npc coord ALWAYS!
 return(true);
 
 [proc,npc_check_notcombat_self]()(boolean)
-if (map_multiway(npc_coord) = false) {
+if (map_multiway(npc_coord) = false & nc_param(npc_type, npc_forcemulti) = ^false) {
     if (add(%npc_lastcombat, 8) > map_clock & %npc_aggressive_player ! null & %npc_aggressive_player ! uid) {
         return(false);
     }

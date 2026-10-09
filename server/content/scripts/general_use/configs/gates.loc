@@ -1,7 +1,7 @@
 [loc_1551]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -12,7 +12,7 @@ param=next_loc_stage,loc_1552
 [loc_1553]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 op1=Open
 active=yes
@@ -24,7 +24,7 @@ param=next_loc_stage,loc_1556
 [loc_1552]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 op1=Close
 active=yes
 raiseobject=no
@@ -34,7 +34,7 @@ param=next_loc_stage,loc_1551
 [loc_1556]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 op1=Close
 active=yes
@@ -45,7 +45,7 @@ param=next_loc_stage,loc_1553
 [loc_3197]
 name=Gate
 desc=Entrance to the Duel Arena.
-model=model_loc_47
+model=fence_gateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -57,7 +57,7 @@ param=next_loc_stage,loc_4139
 [loc_3198]
 name=Gate
 desc=Entrance to the Duel Arena.
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 op1=Open
 active=yes
@@ -70,7 +70,7 @@ param=next_loc_stage,loc_4140
 [loc_4139]
 name=Gate
 desc=Entrance to the Duel Arena.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=12580
 active=yes
@@ -82,7 +82,7 @@ param=next_loc_stage,loc_3197
 [loc_4140]
 name=Gate
 desc=Entrance to the Duel Arena.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=12580
 active=yes

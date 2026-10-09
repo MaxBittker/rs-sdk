@@ -1,9 +1,8 @@
-//guess
 [cooked_ugthanki_meat]
 name=Ugthanki meat
 desc=Freshly cooked ugthanki meat.
 cost=5
-model=model_2760_obj
+model=inv_meat
 recol1s=24609
 recol1d=16609
 recol2s=32767
@@ -16,16 +15,15 @@ recol2d=20774
 members=yes
 iop1=Eat
 weight=600g
-category=category_5
+category=meat
 param=ugthanki_kebab_struct,ugthanki_meat_kebab
 
-//guess
 [cooked_chicken]
 name=Cooked chicken
 desc=Mmm this looks tasty.
 iop1=Eat
 cost=4
-model=model_2498_obj
+model=inv_chicken_carcass
 recol1s=15619
 recol1d=13472
 2dxof=-3
@@ -33,7 +31,7 @@ recol1d=13472
 2dyan=1748
 2dxan=88
 weight=5oz
-category=category_5
+category=meat
 respawnrate=200
 param=pizza_topping_struct,meat_topping
 param=uncooked_pie_struct,uncooked_meat_pie
@@ -43,7 +41,7 @@ name=Cooked meat
 desc=Mmm this looks tasty.
 iop1=Eat
 cost=4
-model=model_2760_obj
+model=inv_meat
 recol1s=24609
 recol1d=16609
 recol2s=32767
@@ -54,18 +52,17 @@ recol2d=20774
 2dyan=176
 2dxan=308
 weight=10oz
-category=category_5
+category=meat
 respawnrate=200
 param=pizza_topping_struct,meat_topping
 param=uncooked_pie_struct,uncooked_meat_pie
 
-//guess
 [lava_eel]
 name=Lava eel
 desc=Strange, it looks cooler now it's been cooked.
 cost=150
 members=yes
-model=model_2427_obj
+model=inv_eel
 recol1s=15855
 recol1d=15616
 recol2s=11628

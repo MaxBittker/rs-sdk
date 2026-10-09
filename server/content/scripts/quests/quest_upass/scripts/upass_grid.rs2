@@ -1,37 +1,45 @@
 [oploc1,portcullis_lever_up]
 mes("You pull the lever...");
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 // Temp note: dur updated !! nice even number :)
 loc_change(upass_lever_down, 15);
 p_delay(1);
 mes("The portcullis opens.");
 if(loc_find(0_38_151_33_10, portcullis_upass) = true) {
-    loc_anim(portcullisopen); // sound portcullis_open
+    loc_anim(portcullisopen);
+    sound_synth(portcullis_open, 1, 0);
 }
 if(loc_find(0_38_151_33_12, portcullis_upass) = true) {
-    loc_anim(portcullisopen); // sound portcullis_open
+    loc_anim(portcullisopen);
+    sound_synth(portcullis_open, 1, 0);
 }
 if(loc_find(0_38_151_33_14, portcullis_upass) = true) {
-    loc_anim(portcullisopen); // sound portcullis_open
+    loc_anim(portcullisopen);
+    sound_synth(portcullis_open, 1, 0);
 }
 if(loc_find(0_38_151_33_16, portcullis_upass) = true) {
-    loc_anim(portcullisopen); // sound portcullis_open
+    loc_anim(portcullisopen);
+    sound_synth(portcullis_open, 1, 0);
 }
 ~forcemove(movecoord(coord, 0, 0, 2));
 ~forcemove(movecoord(coord, -2, 0, 1));
 ~forcemove(movecoord(coord, 0, 0, 1));
 mes("The portcullis closes.");
 if(loc_find(0_38_151_33_10, portcullis_upass) = true) {
-    loc_anim(portcullisclose); // sound portcullis_open
+    loc_anim(portcullisclose);
+    sound_synth(portcullis_close, 1, 0);
 }
 if(loc_find(0_38_151_33_12, portcullis_upass) = true) {
-    loc_anim(portcullisclose); // sound portcullis_open
+    loc_anim(portcullisclose);
+    sound_synth(portcullis_close, 1, 0);
 }
 if(loc_find(0_38_151_33_14, portcullis_upass) = true) {
-    loc_anim(portcullisclose); // sound portcullis_open
+    loc_anim(portcullisclose);
+    sound_synth(portcullis_close, 1, 0);
 }
 if(loc_find(0_38_151_33_16, portcullis_upass) = true) {
-    loc_anim(portcullisclose); // sound portcullis_open
+    loc_anim(portcullisclose);
+    sound_synth(portcullis_close, 1, 0);
 }
 
 // generates a 5-digit value from 1-5

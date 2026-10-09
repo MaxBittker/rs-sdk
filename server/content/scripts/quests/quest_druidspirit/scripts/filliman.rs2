@@ -44,7 +44,7 @@ switch_int(%druidspirit) {
         ~coord_projectile(0_53_152_47_8, npc_coord, druid_shooting_star, 0, 48, 30, 180, 46, 0, 10);
         ~coord_projectile(0_53_152_47_10, npc_coord, druid_shooting_star, 0, 48, 30, 180, 46, 0, 10);
         ~coord_projectile(0_53_152_50_7, npc_coord, druid_shooting_star, 0, 48, 30, 180, 46, 0, 10);
-        sound_synth(spirit_transform, 0, 30);
+        sound_synth(spirit_transform, 1, 30);
         p_delay(0);
         spotanim_map(druidicspirit_effect, npc_coord, 128, 40);
         spotanim_map(druidicspirit_effect, npc_coord, 64, 35);
@@ -147,9 +147,9 @@ switch_int(%druidspirit) {
             spotanim_map(druidicspirit_effect, npc_coord, 128, 106);
             spotanim_map(druidicspirit_effect, npc_coord, 64, 106);
             spotanim_map(druidicspirit_effect, npc_coord, 0, 106);
-            sound_synth(bloom_pears, 0, 30);
-            sound_synth(fire_bolt_all, 0, 30);
-            sound_synth(fire_bolt_all, 0, 30);
+            sound_synth(bloom_pears, 1, 30);
+            sound_synth(fire_bolt_all, 1, 30);
+            sound_synth(fire_bolt_all, 1, 30);
             p_delay(2);
             npc_anim(human_casting, 0);
             p_delay(2);
@@ -388,7 +388,7 @@ if_close;
 // no npc check
 npc_anim(human_casting, 30);
 if(testbit(%druidspirit_bits, ^druidspirit_spirit_stone) = ^true & testbit(%druidspirit_bits, ^druidspirit_nature_stone) = ^true & coord = 0_53_52_48_7) {
-    sound_synth(spirit_transform_start, 0, 30);
+    sound_synth(spirit_transform_start, 1, 30);
     ~coord_projectile(movecoord(npc_coord, 0, 0, -2), npc_coord, druid_shooting_star, 0, 48, 30, 180, 80, 0, 10);
     ~coord_projectile(movecoord(npc_coord, 2, 0, 0), npc_coord, druid_shooting_star, 0, 48, 30, 180, 80, 0, 10);
     ~coord_projectile(movecoord(npc_coord, -2, 0, 0), npc_coord, druid_shooting_star, 0, 48, 30, 180, 80, 0, 10);
@@ -397,12 +397,12 @@ if(testbit(%druidspirit_bits, ^druidspirit_spirit_stone) = ^true & testbit(%drui
     spotanim_map(druidicspirit_effect, npc_coord, 128, 40);
     spotanim_map(druidicspirit_effect, npc_coord, 64, 35);
     spotanim_map(druidicspirit_effect, npc_coord, 0, 30);
-    sound_synth(bloom_pears, 0, 30);
+    sound_synth(bloom_pears, 1, 30);
     ~chatnpc("<p,happy>Aha, everything seems to be in place! You can come through now into the grotto for the final section of my transformation.");
     return;
 }
 // fail
-sound_synth(spirit_transform_start, 0, 0);
+sound_synth(spirit_transform_start, 1, 0);
 p_delay(1);
 ~chatnpc("<p,neutral>Hmm, something still doesn't seem right. I think we need something more before we can continue.");
 

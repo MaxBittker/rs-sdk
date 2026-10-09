@@ -1,0 +1,30 @@
+[apnpc1,misc_banker]
+if (npc_range(coord) > 2) {
+    p_aprange(2);
+    return;
+}
+~chatnpc("<p,happy>Hi there, can I help you with anything?");
+@multi3("Is this a bank?", misc_banker_q1, "Do you get many customers?", misc_banker_q2, "I'd like to access my bank, please.", misc_banker_bank);
+
+[label,misc_banker_q1]
+~chatplayer("<p,quiz>Is this a bank?");
+~chatnpc("<p,quiz>Why yes, what else would it be?");
+~chatnpc("<p,quiz>Anything else?");
+@multi2("Do you get many customers?", misc_banker_q2, "I'd like to access my bank, please.", misc_banker_bank);
+
+[label,misc_banker_q2]
+~chatplayer("<p,quiz>Do you get many customers?");
+~chatnpc("<p,happy>We're the only bank on these two islands, so business is pretty good.");
+~chatnpc("<p,quiz>Anything else?");
+@multi2("Is this a bank?", misc_banker_q1, "I'd like to access my bank, please.", misc_banker_bank);
+
+[label,misc_banker_bank]
+~chatplayer("<p,neutral>I'd like to access my bank, please.");
+@openbank;
+
+[apnpc3,misc_banker]
+if (npc_range(coord) > 2) {
+    p_aprange(2);
+    return;
+}
+@openbank;

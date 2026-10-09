@@ -15,7 +15,7 @@ if($option = 1) {
     if_close;
     inv_del(inv, diamond, 1);
     mes("You give the doorman a diamond.");
-    ~open_and_close_door(poordoor, ~check_axis(coord, loc_coord, loc_angle), false);
+    ~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);
 } else if($option = 2) {
     ~chatplayer("<p,confused>A diamond?|Are you crazy?");
     ~chatnpc("<p,neutral>Nope. Those are the rules.");
@@ -27,7 +27,7 @@ if($option = 1) {
 if(loc_coord = 0_50_149_38_22) {
     // eastern door
     if(coordx(coord) = coordx(loc_coord)) {
-        ~open_and_close_door(poordoor, ~check_axis(coord, loc_coord, loc_angle), false);
+        ~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);
         return;
     }
     if (npc_find(0_50_149_35_22, doorman, 2, 0) = true) {
@@ -36,7 +36,7 @@ if(loc_coord = 0_50_149_38_22) {
 } else if(loc_coord = 0_50_149_33_18) {
     // southern door
     if(coordz(coord) < coordz(loc_coord)) {
-        ~open_and_close_door(poordoor, ~check_axis(coord, loc_coord, loc_angle), false);
+        ~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);
         return;
     }
     if (npc_find(0_50_149_33_20, doorman, 2, 0) = true) {

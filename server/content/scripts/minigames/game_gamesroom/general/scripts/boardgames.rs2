@@ -456,6 +456,6 @@ mes("This door is locked.");
 [oploc1,posh_doubledoor_locked_l]
 mes("This door is locked.");
 
-//From rs3, no longer has op in osrs
+// https://x.com/SnackFoodOSRS/status/1292539567661342726
 [oploc1,boardgames_noticeboard]
-~mesbox("No running with scissors!");
+~mesbox("Board Games News:|The empty rooms will be used for future expansion. If the games rooms prove to be popular then these rooms will be opened up for other board games such as Slime Wars and Chess.");

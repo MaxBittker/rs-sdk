@@ -77,52 +77,8 @@ async function convert(input: string, output: string) {
         data[i * 4 + 3] = 0xff;
     }
 
-    const lines = [`${cellSize}x${cellSize}`];
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < columns; col++) {
-            const cellIndex = row * columns + col;
-            if (cellIndex >= CHARSET.length) {
-                lines.push(`0,0,${cellSize},${cellSize}`);
-                continue;
-            }
-
-            const cellX = col * cellSize;
-            const cellY = row * cellSize;
-
-            let minX = cellSize;
-            let minY = cellSize;
-            let maxX = -1;
-            let maxY = -1;
-
-            const data = sheet.bitmap.data;
-            sheet.scan(cellX, cellY, cellSize, cellSize, function (x, y, idx) {
-                const r = data[idx + 0],
-                    g = data[idx + 1],
-                    b = data[idx + 2];
-                if (r === 0xff && g === 0 && b === 0xff) return;
-
-                const rx = x - cellX,
-                    ry = y - cellY;
-                if (rx < minX) minX = rx;
-                if (ry < minY) minY = ry;
-                if (rx > maxX) maxX = rx;
-                if (ry > maxY) maxY = ry;
-            });
-
-            if (maxX === -1) {
-                lines.push(`0,0,${cellSize},${cellSize}`);
-                continue;
-            }
-
-            const width = maxX - minX + 1;
-            const height = maxY - minY + 1;
-
-            lines.push(`${minX},${minY},${width},${height}`);
-        }
-    }
-
     await sheet.write(`${Environment.build.srcDir}/fonts/${output}.png`);
-    fs.writeFileSync(`${Environment.build.srcDir}/fonts/meta/${output}.opt`, lines.join('\n'));
+    fs.writeFileSync(`${Environment.build.srcDir}/fonts/meta/${output}.opt`, `${cellSize}x${cellSize}\n`);
 }
 
 await convert('sansserif11', 'f11');

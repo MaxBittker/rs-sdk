@@ -1,0 +1,39 @@
+[oploc1,misc_ulby_throneroomdoor]
+if (%misc_grantedaudience = 1 | %misc_quest > 0) {
+    ~open_and_close_door(loc_param(next_loc_stage), ~check_axis(coord, loc_coord, loc_angle), false);
+    return;
+}
+// sets interaction https://youtu.be/gNa8qCmeb-Q?si=zXPmku3uGLRl_Ljw&t=142 (also on osrs)
+if (npc_find(coord, misc_ulby_doorguard, 1, 0) = true) p_opnpc(1);
+
+[opnpc1,misc_ulby_doorguard]
+if (%heroquest = ^hero_complete) {
+    if (%misc_grantedaudience = 1 | %misc_quest > ^misc_not_started) {
+        @doorpass;
+    } else {
+        @doornotyetpass;
+    }
+} else {
+    @miscreqnotmet;
+}
+
+[label,miscreqnotmet]
+~chatnpc("<p,neutral>Halt! Who goes there?");
+~chatplayer("<p,neutral>My name is <~get_viking_name>, will you not let me through?");
+~chatnpc("<p,neutral>I'm afraid the King won't give an audience to anyone except a worthy hero.");
+~chatnpc("<p,neutral>If you become a member of the Heroes' Guild, he will definitely grant you an audience.");
+
+[label,doornotyetpass]
+~chatnpc("<p,neutral>Halt! Who goes there?");
+~chatplayer("<p,neutral>My name is <~get_viking_name>, will you not let me through?");
+~chatnpc("<p,neutral>I'm afraid the King won't give an audience to anyone except a worthy hero.");
+%misc_grantedaudience = 1;
+~chatplayer("<p,neutral>I am a member of the Heroes' Guild; does that not show my worth?");
+~chatnpc("<p,neutral>Then you may pass.");
+
+[label,doorpass]
+if (%misc_quest = ^misc_complete) {
+    ~chatnpc("<p,happy>Welcome back, Your Highness.");
+} else {
+    ~chatnpc("<p,happy>Welcome back, <text_gender("Sir", "Madam")>.");
+}

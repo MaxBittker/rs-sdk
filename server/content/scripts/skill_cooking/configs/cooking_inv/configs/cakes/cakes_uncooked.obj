@@ -1,8 +1,7 @@
-///guess
 [uncooked_cake]
 name=Uncooked cake
 desc=Now all I need to do is cook it.
-model=model_2465_obj
+model=inv_caketin-full
 2dzoom=770
 2dyan=144
 2dxan=172

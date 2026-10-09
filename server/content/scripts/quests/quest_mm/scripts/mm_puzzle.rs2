@@ -1,0 +1,192 @@
+[opheld1,mm_reinitialisation_hint]
+inv_clear(reinitialisation_inv_inactive);
+inv_setslot(reinitialisation_inv_inactive, 0, reinitialisation_01_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 1, reinitialisation_02_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 2, reinitialisation_03_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 3, reinitialisation_04_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 4, reinitialisation_05_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 5, reinitialisation_06_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 6, reinitialisation_07_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 7, reinitialisation_08_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 8, reinitialisation_09_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 9, reinitialisation_10_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 10, reinitialisation_11_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 11, reinitialisation_12_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 12, reinitialisation_13_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 13, reinitialisation_14_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 14, reinitialisation_15_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 15, reinitialisation_16_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 16, reinitialisation_17_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 17, reinitialisation_18_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 18, reinitialisation_19_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 19, reinitialisation_20_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 20, reinitialisation_21_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 21, reinitialisation_22_inactive, 1); 
+inv_setslot(reinitialisation_inv_inactive, 22, reinitialisation_23_inactive, 1);
+inv_setslot(reinitialisation_inv_inactive, 23, reinitialisation_24_inactive, 1);
+inv_transmit(reinitialisation_inv_inactive, reinitialisation_puzzle:com_3);
+if_openmain(reinitialisation_puzzle);
+
+[opheld5,_mm_reinit_inactive] // nothing
+
+[label,mm_open_puzzle]
+if(%mm_hangar_puzzle_complete = ^true) { // force reset puzzle and do move 1 move from completion
+    inv_clear(reinitialisation_inv);
+    ~init_reinit_puzzle;
+} else if(inv_freespace(reinitialisation_inv) > 1) {
+    inv_clear(reinitialisation_inv); // prob shouldn't ever need this
+    ~init_reinit_puzzle;
+}
+inv_transmit(reinitialisation_inv, reinitialisation_puzzle:com_3);
+if_openmain(reinitialisation_puzzle);
+
+[proc,init_reinit_puzzle]
+inv_setslot(reinitialisation_inv, 0, reinitialisation_01, 1);
+inv_setslot(reinitialisation_inv, 1, reinitialisation_02, 1);
+inv_setslot(reinitialisation_inv, 2, reinitialisation_03, 1);
+inv_setslot(reinitialisation_inv, 3, reinitialisation_04, 1);
+inv_setslot(reinitialisation_inv, 4, reinitialisation_05, 1);
+inv_setslot(reinitialisation_inv, 5, reinitialisation_06, 1);
+inv_setslot(reinitialisation_inv, 6, reinitialisation_07, 1);
+inv_setslot(reinitialisation_inv, 7, reinitialisation_08, 1);
+inv_setslot(reinitialisation_inv, 8, reinitialisation_09, 1);
+inv_setslot(reinitialisation_inv, 9, reinitialisation_10, 1);
+inv_setslot(reinitialisation_inv, 10, reinitialisation_11, 1);
+inv_setslot(reinitialisation_inv, 11, reinitialisation_12, 1);
+inv_setslot(reinitialisation_inv, 12, reinitialisation_13, 1);
+inv_setslot(reinitialisation_inv, 13, reinitialisation_14, 1);
+inv_setslot(reinitialisation_inv, 14, reinitialisation_15, 1);
+inv_setslot(reinitialisation_inv, 15, reinitialisation_16, 1);
+inv_setslot(reinitialisation_inv, 16, reinitialisation_17, 1);
+inv_setslot(reinitialisation_inv, 17, reinitialisation_18, 1);
+inv_setslot(reinitialisation_inv, 18, reinitialisation_19, 1);
+inv_setslot(reinitialisation_inv, 19, reinitialisation_20, 1);
+inv_setslot(reinitialisation_inv, 20, reinitialisation_21, 1);
+inv_setslot(reinitialisation_inv, 21, reinitialisation_22, 1); 
+inv_setslot(reinitialisation_inv, 22, reinitialisation_23, 1);
+inv_setslot(reinitialisation_inv, 23, reinitialisation_24, 1);
+
+~shuffle_reinit_puzzle;
+
+[proc,shuffle_reinit_puzzle]
+def_int $moves = 255; // 255 moves for mm puzzle
+if(%mm_hangar_puzzle_complete = ^true) {
+    $moves = 1;
+}
+def_int $current_idx = 24;
+while($moves > 0) {
+    // horizontal
+    def_int $next_idx = ~random_puzzle_slot($current_idx);
+    if($next_idx ! -1) {
+        inv_movetoslot(reinitialisation_inv, reinitialisation_inv, $next_idx, $current_idx);
+    }
+    $moves = calc($moves - 1);
+    $current_idx = $next_idx;
+}
+
+[proc,reinit_puzzle_complete]()(boolean)
+if (inv_getobj(reinitialisation_inv, 0) = reinitialisation_01 &
+        inv_getobj(reinitialisation_inv, 1) = reinitialisation_02 &
+        inv_getobj(reinitialisation_inv, 2) = reinitialisation_03 &
+        inv_getobj(reinitialisation_inv, 3) = reinitialisation_04 &
+        inv_getobj(reinitialisation_inv, 4) = reinitialisation_05 &
+        inv_getobj(reinitialisation_inv, 5) = reinitialisation_06 &
+        inv_getobj(reinitialisation_inv, 6) = reinitialisation_07 &
+        inv_getobj(reinitialisation_inv, 7) = reinitialisation_08 &
+        inv_getobj(reinitialisation_inv, 8) = reinitialisation_09 &
+        inv_getobj(reinitialisation_inv, 9) = reinitialisation_10 &
+        inv_getobj(reinitialisation_inv, 10) = reinitialisation_11 &
+        inv_getobj(reinitialisation_inv, 11) = reinitialisation_12 &
+        inv_getobj(reinitialisation_inv, 12) = reinitialisation_13 &
+        inv_getobj(reinitialisation_inv, 13) = reinitialisation_14 &
+        inv_getobj(reinitialisation_inv, 14) = reinitialisation_15 &
+        inv_getobj(reinitialisation_inv, 15) = reinitialisation_16 &
+        inv_getobj(reinitialisation_inv, 16) = reinitialisation_17 &
+        inv_getobj(reinitialisation_inv, 17) = reinitialisation_18 &
+        inv_getobj(reinitialisation_inv, 18) = reinitialisation_19 &
+        inv_getobj(reinitialisation_inv, 19) = reinitialisation_20 &
+        inv_getobj(reinitialisation_inv, 20) = reinitialisation_21 &
+        inv_getobj(reinitialisation_inv, 21) = reinitialisation_22 &
+        inv_getobj(reinitialisation_inv, 22) = reinitialisation_23 &
+        inv_getobj(reinitialisation_inv, 23) = reinitialisation_24) {
+    return (true);
+}
+return (false);
+
+[opheld5,_mm_reinit]
+def_int $slot = last_slot;
+def_int $open_slot = -1;
+
+// horizontal
+if (modulo($slot, 5) ! 0) {
+    if (inv_getobj(reinitialisation_inv, calc($slot - 1)) = null) $open_slot = calc($slot - 1);
+}
+if (modulo($slot, 5) ! 4) {
+    if (inv_getobj(reinitialisation_inv, calc($slot + 1)) = null) $open_slot = calc($slot + 1);
+}
+
+// vertical
+if($slot >= 5) {
+    if (inv_getobj(reinitialisation_inv, calc($slot - 5)) = null) $open_slot = calc($slot - 5);
+}
+if($slot <= 19) {
+    if (inv_getobj(reinitialisation_inv, calc($slot + 5)) = null) $open_slot = calc($slot + 5);
+} 
+
+if($open_slot ! -1) {
+    sound_synth(slide_puzzle, 0, 0);
+    inv_movetoslot(reinitialisation_inv, reinitialisation_inv, $slot, $open_slot);
+}
+
+if(~reinit_puzzle_complete = true) {
+    if_close;
+    if_settab(null, ^tab_magic);
+    mes("As you slide the final piece into place you begin to hear a low rumbling");
+    mes("sound...");
+    cam_shake(0, 10, 0, 0);
+    if(%mm_hangar_puzzle_complete = ^false) %mm_hangar_puzzle_complete = ^true;
+    //sound_synth(rumbling_loop, 5, 15);
+    settimer(hangar_cutscene, 3);
+}
+
+[timer,hangar_cutscene]
+if(inzone(0_37_154_0_0, 0_37_154_63_63, coord) = false) {
+    cleartimer(hangar_cutscene);
+    cam_reset;
+    return;
+}
+// search to make sure no one else is entering the cutscene
+huntall(coord, 10, 0);
+while(.huntnext = true) {
+    if(.%mm_hangar_cutscene_flag = ^true) {
+        return;
+    }
+}
+
+huntall(0_40_70_25_36, 1, 0);
+while(.huntnext = true) {
+    if(.%mm_hangar_cutscene_flag = ^true) {
+        return;
+    }
+}
+cleartimer(hangar_cutscene);
+%mm_hangar_cutscene_flag = ^true;
+~fade_out;
+p_delay(4);
+p_teleport(0_40_70_25_36);
+cam_moveto(0_40_70_31_26, 600, 232, 100);
+cam_lookat(0_40_70_16_38, 350, 232, 100);
+facesquare(0_40_70_16_38);
+~fade_in;
+p_delay(3);
+if(loc_find(0_40_70_16_30, mm_glider) = true) loc_anim(m_glider_unfold);
+if(loc_find(0_40_70_16_34, mm_glider) = true) loc_anim(m_glider_unfold);
+if(loc_find(0_40_70_16_38, mm_glider) = true) loc_anim(m_glider_unfold);
+if(loc_find(0_40_70_16_46, mm_glider) = true) loc_anim(m_glider_unfold);
+sound_synth(wing_unfold, 0, 0);
+p_delay(7); // 8t
+if_settab(magic, ^tab_magic);
+cam_reset;
+p_teleport(0_41_70_25_27);
+%mm_hangar_cutscene_flag = ^false;
+%mm_daero = ^daero_reinit_complete;

@@ -742,7 +742,7 @@ x=90
 y=160
 width=32
 height=32
-model=model_63_idk_head
+model=chat_male_head_bald
 zoom=500
 yan=1800
 
@@ -752,7 +752,7 @@ x=380
 y=165
 width=32
 height=32
-model=model_103_idk_head
+model=chat_female_head_bun
 zoom=500
 yan=200
 
@@ -762,7 +762,7 @@ x=90
 y=160
 width=32
 height=32
-model=model_81_idk_head
+model=chat_male_jaw_goaty
 zoom=500
 yan=1800
 

@@ -8,12 +8,11 @@ if_close;
 mes("You look amongst the junk on the floor.");
 p_delay(2);
 if (inv_total(inv, glarials_pebble_waterfall_quest) < 1) { // no bank check again
-    mes("mixed with the junk on the floor you find Glarial's pebble.");
+    mes("Mixed with the junk on the floor you find Glarial's pebble.");
     p_delay(2);
     ~chatplayer("<p,neutral>Could I take this old pebble?");
     ~chatnpc("<p,neutral>Oh that, yes have it, it's just some old elven junk I believe.");
     inv_add(inv, glarials_pebble_waterfall_quest, 1);
-    %waterfall_golrie_and_puzzle = setbit(%waterfall_golrie_and_puzzle, 0); // gonna have waterfall_addl_values, bit 0 can be golrie's key, bits 1-18 will be pillars and runes
     if(inv_total(inv, golrie_key_waterfall_quest) > 0) {
         if_close;
         mes("You give Golrie the key.");
@@ -37,7 +36,13 @@ switch_int(%waterfall_quest) {
     case ^waterfall_not_started, ^waterfall_started, ^waterfall_spoken_to_hudon :
         ~chatnpc("<p,neutral>What are you doing down here?|Leave before you get yourself into trouble.");
     case ^waterfall_opened_book_on_baxtorian :
-        ~chatplayer("<p,neutral>Hello, are you okay?");
-        ~chatnpc("<p,neutral>Oh, don't worry, I'm totally fine. I locked myself in here for protection, but I've left the key somewhere.");
-        ~chatplayer("<p,confused>Okay... I'll have a look for a key.");
+        ~chatplayer("<p,neutral>Hello, are you ok?");
+        ~chatnpc("<p,neutral>It's just those blasted hobgoblins.|I locked myself in here for protection.|But I've left the key somewhere|and now I'm stuck.");
+        if(inv_total(inv, golrie_key_waterfall_quest) > 0) {
+            ~chatplayer("<p,neutral>I found a key.");
+            ~chatnpc("<p,neutral>Well don't wait all day,|give it a try!");
+            ~chatplayer("<p,neutral>OK...");
+            return;
+        }
+        ~chatplayer("<p,neutral>OK... I'll have a look for a key.");
 }

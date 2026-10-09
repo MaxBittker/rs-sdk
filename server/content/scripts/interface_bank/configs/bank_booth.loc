@@ -1,7 +1,7 @@
 [bankbooth]
 name=Bank booth
 desc=The bank teller will serve you from here.
-model=model_loc_2213
+model=furniture_bankbooth
 op1=Use
 op2=Use-quickly
 blockrange=no
@@ -9,11 +9,11 @@ blockrange=no
 [loc_2214]
 name=Bank booth
 desc=This booth is for private customers only.
-model=model_loc_2214
+model=furniture_loc_2214
 blockrange=no
 
-[loc_2215]
+[bankboothclosed]
 name=Closed bank booth
 desc=This booth is closed.
-model=model_loc_2215
+model=furniture_bankbooth_closed
 blockrange=no

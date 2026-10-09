@@ -1,0 +1,57 @@
+[proc,castlewars_conflicting_god](int $god)(boolean)
+def_int $i = 0;
+def_obj $obj;
+if ($god = ^castlewars_team_saradomin) {
+    while ($i < inv_size(worn)) {
+        $obj = inv_getobj(worn, $i);
+        if ($obj ! null & (oc_param($obj, guthixitem) = ^true | oc_param($obj, zamorakitem) = ^true)) {
+            return(true);
+        }
+        $i = add($i, 1);
+    }
+} else if ($god = ^castlewars_team_zamorak) {
+    while ($i < inv_size(worn)) {
+        $obj = inv_getobj(worn, $i);
+        if ($obj ! null & (oc_param($obj, guthixitem) = ^true | oc_param($obj, saradominitem) = ^true)) {
+            return(true);
+        }
+        $i = add($i, 1);
+    }
+} else if ($god = ^castlewars_team_guthix) {
+    while ($i < inv_size(worn)) {
+        $obj = inv_getobj(worn, $i);
+        if ($obj ! null & (oc_param($obj, zamorakitem) = ^true | oc_param($obj, saradominitem) = ^true)) {
+            return(true);
+        }
+        $i = add($i, 1);
+    }
+}
+return(false);
+
+[proc,castlewars_transmog](npc $npc_type)
+if_settab(null, ^tab_combat_options);
+if_settab(null, ^tab_skills);
+if_settab(null, ^tab_quest_journal);
+if_settab(null, ^tab_inventory);
+if_settab(null, ^tab_wornitems);
+if_settab(null, ^tab_prayer);
+if_settab(null, ^tab_magic);
+// these ones arent disabled
+// if_settab(friends, ^tab_friends);
+// if_settab(ignore, ^tab_ignore);
+// if_settab(logout, ^tab_logout);
+// if_settab(music, ^tab_musicplayer);
+if_settab(null, ^tab_player_controls);
+if_settab(null, ^tab_game_options);
+
+p_transmogrify($npc_type);
+if ($npc_type = castlewars_imp) ~bas_set(imp_ready, imp_walk, imp_walk, imp_walk, imp_walk, imp_walk, null);
+else if ($npc_type = castlewars_sheep) ~bas_set(sheep_ready, sheep_walk, sheep_walk, sheep_walk, sheep_walk, sheep_walk, null);
+else if ($npc_type = castlewars_rabbit) ~bas_set(rabbit_ready, rabbit_walk, rabbit_walk, rabbit_walk, rabbit_walk, rabbit_walk, null);
+p_animprotect(^true);
+
+[proc,castlewars_transmog_reset]
+~initalltabs;
+~update_bas;
+p_animprotect(^false);
+p_transmogrify(null); // ?

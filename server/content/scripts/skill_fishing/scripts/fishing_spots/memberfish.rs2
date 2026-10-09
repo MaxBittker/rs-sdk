@@ -6,10 +6,15 @@
 [opnpc5,_memberfish] @fish_shark;
 
 [label,attempt_fish_shark]
-// check level 
+// check level
+if(~mm_wearing_greegree = true) {
+    ~mesbox("You cannot do that as a monkey.");
+    return;
+}
 if (stat(fishing) < 76) {
     anim(null, 0);
-    ~mesbox("You need at least 76 Fishing to harpoon these fish.");
+    // https://web.archive.org/web/*/http://runescape.salmoneus.net/cities/images/atollfish2.png
+    ~mesbox("You need at least 76 Fishing to Harpoon these fish.");
     return;
 }
 // check if they have fishing equipment
@@ -30,7 +35,7 @@ if (%action_delay < map_clock) {
 if (%action_delay = calc(map_clock + 4)) {
     mes("You start Harpooning fish.");
     anim(human_harpoon, 0);
-    sound_synth(fishing_cast, 0, 0);
+    sound_synth(fishing_cast, 1, 0);
     p_opnpc(5);
 } else if (%action_delay = map_clock) { 
     anim(human_harpoon, 0);
@@ -43,10 +48,15 @@ if (afk_event = ^true & npc_param(is_whirlpool) = ^false) {
 
 
 [label,fish_shark]
-// check level 
+// check level
+if(~mm_wearing_greegree = true) {
+    ~mesbox("You cannot do that as a monkey.");
+    return;
+}
 if (stat(fishing) < 76) {
     anim(null, 0);
-    ~mesbox("You need at least 76 Fishing to harpoon these fish.");
+    // https://web.archive.org/web/*/http://runescape.salmoneus.net/cities/images/atollfish2.png
+    ~mesbox("You need at least 76 Fishing to Harpoon these fish.");
     return;
 }
 // check if they have fishing equipment
@@ -70,6 +80,10 @@ p_opnpc(5);
 
 [label,attempt_fish_mackerel]
 // check level
+if(~mm_wearing_greegree = true) {
+    ~mesbox("You cannot do that as a monkey.");
+    return;
+}
 if (stat(fishing) < 16) {
     anim(null, 0);
     ~mesbox("You need at least 16 Fishing to catch these fish.");
@@ -93,7 +107,7 @@ if (%action_delay < map_clock) {
 if (%action_delay = calc(map_clock + 3)) {
     mes("You cast out your net...");
     anim(human_largenet, 0);
-    sound_synth(net, 0, 0);
+    sound_synth(net, 1, 0);
     p_opnpc(4);
 } else if (%action_delay = map_clock) { 
     ~fish_roll_big_net;
@@ -106,6 +120,10 @@ if (afk_event = ^true & npc_param(is_whirlpool) = ^false) {
 
 [label,fish_mackerel]
 // check level
+if(~mm_wearing_greegree = true) {
+    ~mesbox("You cannot do that as a monkey.");
+    return;
+}
 if (stat(fishing) < 16) {
     anim(null, 0);
     ~mesbox("You need at least 16 Fishing to catch these fish.");
@@ -214,7 +232,7 @@ if ($random < 25) {
 // https://youtu.be/Tp2VxwIWMcQ
 [opheld1,casket]
 inv_delslot(inv, last_slot);
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 def_int $random = random(128);
 // drop rates are from https://oldschool.runescape.wiki/w/Casket
 // todo: find screenshots for these objbox's
@@ -244,4 +262,4 @@ if ($random < 60) { // 10/128 coins for each
     inv_add(inv, keyhalf2, 1);
     ~objbox(keyhalf2, "You open the casket. Inside you find half a key.", 250, 0, 0);
 }
-sound_synth(found_gem, 0, 0); // https://youtu.be/fWox14AFvEM 
+sound_synth(found_gem, 1, 0); // https://youtu.be/fWox14AFvEM 

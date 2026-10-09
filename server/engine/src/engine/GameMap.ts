@@ -363,12 +363,12 @@ export function changeLandCollision(x: number, z: number, level: number, add: bo
 export function changeLocCollision(shape: number, angle: number, blockrange: boolean, length: number, width: number, active: number, x: number, z: number, level: number, add: boolean): void {
     const locLayer: LocLayer = rsmod.locShapeLayer(shape);
     if (locLayer === LocLayer.WALL) {
-        rsmod.changeWall(x, z, level, angle, shape, blockrange, false, add);
+        rsmod.changeWall(x, z, level, angle, shape, blockrange, add);
     } else if (locLayer === LocLayer.GROUND) {
         if (angle === LocAngle.NORTH || angle === LocAngle.SOUTH) {
-            rsmod.changeLoc(x, z, level, length, width, blockrange, false, add);
+            rsmod.changeLoc(x, z, level, length, width, blockrange, add);
         } else {
-            rsmod.changeLoc(x, z, level, width, length, blockrange, false, add);
+            rsmod.changeLoc(x, z, level, width, length, blockrange, add);
         }
     } else if (locLayer === LocLayer.GROUND_DECOR) {
         if (active === 1) {
@@ -400,8 +400,20 @@ export function changeNpcCollision(size: number, x: number, z: number, level: nu
  * @param level The level pos.
  * @param add True if adding this collision. False if removing.
  */
-export function changePlayerCollision(size: number, x: number, z: number, level: number, add: boolean): void {
-    rsmod.changePlayer(x, z, level, size, add);
+export function changeBlockCollision(size: number, x: number, z: number, level: number, add: boolean): void {
+    rsmod.changeBlock(x, z, level, size, add);
+}
+
+/**
+ * Change player-occupancy collision at a specified Position.
+ * @param size The size square of this entity. (1x1, 2x2, etc).
+ * @param x The x pos.
+ * @param z The z pos.
+ * @param level The level pos.
+ * @param add True if adding this collision. False if removing.
+ */
+export function changePlayerOccCollision(size: number, x: number, z: number, level: number, add: boolean): void {
+    rsmod.changePlayerOcc(x, z, level, size, add);
 }
 
 /**
@@ -471,7 +483,7 @@ export function isLineOfSight(level: number, srcX: number, srcZ: number, destX: 
 }
 
 export function isApproached(level: number, srcX: number, srcZ: number, destX: number, destZ: number, srcWidth: number, srcHeight: number, destWidth: number, destHeight: number): boolean {
-    return rsmod.hasLineOfSight(level, srcX, srcZ, destX, destZ, srcWidth, srcHeight, destWidth, destHeight, CollisionFlag.PLAYER);
+    return rsmod.hasLineOfSight(level, srcX, srcZ, destX, destZ, srcWidth, srcHeight, destWidth, destHeight, CollisionFlag.BLOCK_NPC_AND_PLAYERS);
 }
 
 export function layerForLocShape(shape: number): LocLayer {

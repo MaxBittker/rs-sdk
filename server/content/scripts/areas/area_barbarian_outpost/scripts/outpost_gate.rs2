@@ -4,7 +4,7 @@ if(%barcrawl ! ^barcrawl_complete) {
         @outpost_guard_talk;
     }
 }
-sound_synth(iron_door_open, 0, 0);
+sound_synth(iron_door_open, 1, 0);
 if(coordx(coord) > coordx(loc_coord)) { 
     p_teleport(loc_coord);
 } else {

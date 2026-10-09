@@ -107,7 +107,7 @@ if ($damage > 0 & $poison_severity > 0 & random(4) = 0) { // 1/4 chance to poiso
 npc_queue(2, $damage, add(divide($duration, 30), 1));
 npc_anim(npc_param(defend_anim), $duration);
 if (npc_param(defend_sound) ! null) {
-    sound_synth(npc_param(defend_sound), 0, $duration);
+    sound_synth(npc_param(defend_sound), 1, $duration);
 }
 if ($hit = false) {
     return(null);

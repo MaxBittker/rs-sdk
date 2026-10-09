@@ -10,10 +10,10 @@ if (stat(prayer) >= $amount) {
 // prayer boost
 if (stat(prayer) >= stat_base(prayer)) {
     mes("You boost your prayer points.");
-    sound_synth(prayer_boost, 0, 0);
+    sound_synth(prayer_boost, 1, 0);
 } else {
     mes("You recharge your prayer points.");
-    sound_synth(prayer_recharge, 0, 0);
+    sound_synth(prayer_recharge, 1, 0);
 }
 anim(human_pray, 0);
 stat_add(prayer, calc($amount - stat(prayer)), 0);

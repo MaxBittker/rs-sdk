@@ -1,17 +1,15 @@
 ^mortton_used_serum_on_ulsquire = 0
-^mortton_cured_ulsquire = 1
+^ulsquire_visible = 1
 ^mortton_used_serum_on_razmire = 2
-^mortton_cured_razmire = 3
+^razmire_visible = 3
 ^shadeattack = 4
-^mortton_used_perm_serum_on_ulsquire = 5
-^mortton_used_perm_serum_on_razmire = 6
-^mortton_made_perm_serum = 7
-^mortton_checked_table = 8
+^ulsquire_perm_serum_used = 5
+^razmire_perm_serum_used = 6
+^player_made_perm_serum = 7
+^shades_table_searched = 8
 //pyre_loc = 9-13
 //temple_resources = 14-27
-//shades_dampe_intro is the name of varbit in osrs.. they accidentally re-used the bit for this quest
-//truly a Jagex moment
-^mortton_shades_dampe_intro = 28
+^shades_ulsquire_oil_given = 28
 ^mortton_unlocked_shade_lair = 29
 ^mortton_gave_dairy_to_apothecary = 30
 ^mortton_temple_fullpool_warning = 31

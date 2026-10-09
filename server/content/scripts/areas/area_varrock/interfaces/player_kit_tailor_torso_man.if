@@ -1155,7 +1155,7 @@ x=50
 y=185
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_128]
@@ -1164,7 +1164,7 @@ x=114
 y=185
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_129]
@@ -1173,7 +1173,7 @@ x=176
 y=185
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_130]
@@ -1182,7 +1182,7 @@ x=240
 y=185
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_131]
@@ -1191,7 +1191,7 @@ x=302
 y=185
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_132]
@@ -1200,7 +1200,7 @@ x=358
 y=185
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_133]
@@ -1209,7 +1209,7 @@ x=420
 y=185
 width=32
 height=32
-model=model_297_idk
+model=man_torso_elf
 zoom=800
 
 [com_134]
@@ -1218,7 +1218,7 @@ x=50
 y=265
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_135]
@@ -1227,7 +1227,7 @@ x=114
 y=265
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_136]
@@ -1236,7 +1236,7 @@ x=176
 y=265
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_137]
@@ -1245,7 +1245,7 @@ x=240
 y=265
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_138]
@@ -1254,7 +1254,7 @@ x=302
 y=265
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_139]
@@ -1263,7 +1263,7 @@ x=358
 y=265
 width=32
 height=32
-model=model_292_idk
+model=man_torso_basic
 zoom=800
 
 [com_140]
@@ -1272,7 +1272,7 @@ x=50
 y=185
 width=32
 height=32
-model=model_173_npc
+model=man_arms_bare
 zoom=800
 
 [com_141]
@@ -1281,7 +1281,7 @@ x=114
 y=185
 width=32
 height=32
-model=model_173_npc
+model=man_arms_bare
 zoom=800
 
 [com_142]
@@ -1290,7 +1290,7 @@ x=176
 y=185
 width=32
 height=32
-model=model_173_npc
+model=man_arms_bare
 zoom=800
 
 [com_143]
@@ -1299,7 +1299,7 @@ x=240
 y=185
 width=32
 height=32
-model=model_173_npc
+model=man_arms_bare
 zoom=800
 
 [com_144]
@@ -1308,7 +1308,7 @@ x=302
 y=185
 width=32
 height=32
-model=model_173_npc
+model=man_arms_bare
 zoom=800
 
 [com_145]
@@ -1317,7 +1317,7 @@ x=358
 y=185
 width=32
 height=32
-model=model_173_npc
+model=man_arms_bare
 zoom=800
 
 [com_146]
@@ -1326,7 +1326,7 @@ x=420
 y=185
 width=32
 height=32
-model=model_173_npc
+model=man_arms_bare
 zoom=800
 
 [com_147]
@@ -1335,7 +1335,7 @@ x=50
 y=265
 width=32
 height=32
-model=model_151_idk
+model=man_arms_basic
 zoom=800
 
 [com_148]
@@ -1344,7 +1344,7 @@ x=114
 y=265
 width=32
 height=32
-model=model_167_idk
+model=man_arms_buff
 zoom=800
 
 [com_149]
@@ -1353,7 +1353,7 @@ x=176
 y=265
 width=32
 height=32
-model=model_170_idk
+model=man_arms_longsleeves
 zoom=800
 
 [com_150]
@@ -1362,7 +1362,7 @@ x=240
 y=265
 width=32
 height=32
-model=model_162_idk
+model=man_arms_longsleeves2
 zoom=800
 
 [com_151]
@@ -1371,7 +1371,7 @@ x=302
 y=265
 width=32
 height=32
-model=model_163_idk
+model=man_arms_longsleeves3
 zoom=800
 
 [com_152]
@@ -1380,7 +1380,7 @@ x=358
 y=265
 width=32
 height=32
-model=model_158_idk
+model=man_arms_elf
 zoom=800
 
 [com_153]
@@ -1389,7 +1389,7 @@ x=113
 y=185
 width=32
 height=32
-model=model_322_idk
+model=man_torsoextra_buttons
 zoom=800
 
 [com_154]
@@ -1398,7 +1398,7 @@ x=175
 y=185
 width=32
 height=32
-model=model_320_idk
+model=man_torsoextra_jacket
 zoom=800
 
 [com_155]
@@ -1407,7 +1407,7 @@ x=239
 y=185
 width=32
 height=32
-model=model_326_idk
+model=man_torsoextra_buttons2
 zoom=800
 
 [com_156]
@@ -1416,7 +1416,7 @@ x=301
 y=185
 width=32
 height=32
-model=model_324_idk
+model=man_torsoextra_pattern1
 zoom=800
 
 [com_157]
@@ -1425,7 +1425,7 @@ x=357
 y=185
 width=32
 height=32
-model=model_327_idk
+model=man_torsoextra_shirt
 zoom=800
 
 [plain]

@@ -1,7 +1,7 @@
-[loc_1598]
+[memberfencegate_l]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -10,10 +10,10 @@ category=gate_main_closed
 // todo: what is the intended next state?
 param=next_loc_stage,loc_1552
 
-[loc_1599]
+[memberfencegate_r]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 op1=Open
 active=yes

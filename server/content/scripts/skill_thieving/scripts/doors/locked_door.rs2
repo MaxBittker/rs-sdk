@@ -101,7 +101,7 @@ if (db_getfield($data, locked_door:lock_inversed, 0) = true) {
 // check if player is outside
 if ($locked = true) {
     mes("This door is locked.");
-    sound_synth(locked, 0, 0);
+    sound_synth(locked, 1, 0);
     return;
 }
 

@@ -121,6 +121,31 @@ export default class Zone {
         this.shared = shared;
     }
 
+    private updatedThisTick(obj: Obj, player: Player): boolean {
+        const events: ZoneEvent[] | undefined = this.entityEvents.get(obj);
+        if (typeof events === 'undefined') {
+            return false;
+        }
+
+        for (let index: number = 0; index < events.length; index++) {
+            const event: ZoneEvent = events[index];
+
+            if (event.message instanceof ObjDel) {
+                return true;
+            }
+
+            if (event.message instanceof ObjAdd && (event.receiver64 === Obj.NO_RECEIVER || event.receiver64 === player.hash64)) {
+                return true;
+            }
+
+            if (event.message instanceof ObjReveal && event.receiver64 !== player.hash64) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * - Update the player client the current visibility of the seen zones.
      * - When UpdateZoneFullFollows is written, this completely resets the client zones to default.
@@ -134,7 +159,7 @@ export default class Zone {
         // full update necessary to clear client zone memory
         player.write(new UpdateZoneFullFollows(this.x, this.z, player.originX, player.originZ));
         for (const obj of this.getAllObjsUnsafe()) {
-            if (obj.lastLifecycleTick === currentTick || (obj.receiver64 !== Obj.NO_RECEIVER && obj.receiver64 !== player.hash64)) {
+            if (this.updatedThisTick(obj, player) || (obj.receiver64 !== Obj.NO_RECEIVER && obj.receiver64 !== player.hash64)) {
                 continue;
             }
             player.write(new UpdateZonePartialFollows(this.x, this.z, player.originX, player.originZ));

@@ -9,7 +9,8 @@ if (getqueue(stolen_from_stall_vikingfur) > 0) {
     npc_say("Guards! Guards!");
     npc_huntall(npc_coord, 5, 0);
     while (npc_findnext = true) {
-        if (npc_type = viking_guard & npc_getmode ! opplayer2 & lineofsight(npc_coord, coord) = true) {
+        if (npc_param(market_guard) = ^true
+             & npc_getmode ! opplayer2 & lineofsight(npc_coord, coord) = true) {
             ~npc_retaliate(0);
         }
     }
@@ -29,7 +30,8 @@ if (getqueue(stolen_from_stall_vikingfish) > 0) {
     npc_say("Guards! Guards!");
     npc_huntall(npc_coord, 5, 0);
     while (npc_findnext = true) {
-        if (npc_type = viking_guard & npc_getmode ! opplayer2 & lineofsight(npc_coord, coord) = true) {
+        if (npc_param(market_guard) = ^true
+             & npc_getmode ! opplayer2 & lineofsight(npc_coord, coord) = true) {
             ~npc_retaliate(0);
         }
     }

@@ -1,7 +1,7 @@
 [achey_tree]
 name=Achey Tree
 desc=An interesting tree with long straight branches.
-model=model_loc_2023
+model=ogre_area_coppicetree
 width=2
 length=2
 mapscene=0

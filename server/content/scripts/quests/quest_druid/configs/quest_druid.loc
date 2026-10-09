@@ -1,7 +1,7 @@
 [cauldron_of_thunder]
 name=Cauldron of Thunder
 desc=An eerie glow permeates the cauldron.
-model=model_loc_692
+model=furniture_cauldron
 anim=cauldron
 recol1s=9513
 recol1d=25313

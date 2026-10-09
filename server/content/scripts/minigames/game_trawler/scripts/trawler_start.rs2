@@ -38,6 +38,8 @@ p_teleport(map_findsquare(^trawler_start_center_under, 0, 4, ^map_findsquare_lin
 if_openmain(ship_journey);
 ~music_jingle("sailing journey");
 
+~trawler_overlay_reset;
+
 p_delay(20);
 if_close;
 if_openmain(trawler_help);

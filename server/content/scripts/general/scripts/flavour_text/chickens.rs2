@@ -3,7 +3,7 @@
 if (random(5) = 0) {
     if (finduid(%npc_attacking_uid) = true) {
         if (distance(coord, npc_coord) < 10 & coordy(coord) = coordy(npc_coord)) {
-            sound_synth(chicken_hit, 0, 0);
+            sound_synth(chicken_hit, 1, 0);
         }
     }
     npc_anim(chicken_block, 0);

@@ -3,7 +3,7 @@
 
 [label,arandar_gate](int $side)
 if(%regicide_quest > ^regicide_killed_tyras | coordz(coord) < coordz(loc_coord)) {
-    sound_synth(bigdoor_open, 0, 0);
+    sound_synth(bigdoor_open, 1, 0);
     loc_del(6);
     if($side = ^left) {
         loc_add(0_37_52_16_5, overpass_gate_left_open, 2, centrepiece_straight, 6);
@@ -23,7 +23,7 @@ if(%regicide_quest > ^regicide_killed_tyras | coordz(coord) < coordz(loc_coord))
     }
     return;
 }
-if(npc_find(coord, regicide_arandar_gate_guard, 7, 0) = true) {
+if(npc_find(coord, elf_overpass_guard, 7, 0) = true) {
     // TODO: is this the original dialogue (it's from RS3), great houses seems like it might've been added later
     ~chatnpc("<p,neutral>No human may enter Tirannwn. Unless you have the proper documentation, sealed by one of the great houses.");
     ~chatplayer("<p,sad>I don't have one.");

@@ -9,8 +9,8 @@ mes("inside are several chapters...");
 @multi4_header("Introduction.", history_of_iban_introduction, "Iban.", history_of_iban, "The Resurrection.", history_of_iban_resurrection, "The Four Elements.", history_of_iban_elements, "Pick a chapter...");
 
 [label,history_of_iban_introduction]
-if_sethide(book:com_2, true);
-if_sethide(book:com_4, true);
+if_sethide(book:page_left_button, true);
+if_sethide(book:page_right_button, true);
 ~book("Introduction", "Introduction:||Gather round, all ye followers of the dark arts. Read carefully the words that I hereby inscribe, as I detail the heady brew that is responsible for my greatest creation in all my time on this world. I am Kardia, the most wretched witch in the land; scorned by beauty, the world and its inhabitants, see what I have created: The most fearsome and powerful force of darkness the like of which has never before been seen in this world, in human form...");
 
 [label,history_of_iban]
@@ -26,21 +26,21 @@ switch_int (%book_page) {
 }
 
 [label,history_of_iban_resurrection]
-if_sethide(book:com_2, true);
-if_sethide(book:com_4, true);
+if_sethide(book:page_left_button, true);
+if_sethide(book:page_right_button, true);
 ~book("Iban's Resurrection", "I knew of Iban's life, though of course I had not met him. Using the power of my dark practices, I vowed to resurrect this greatest of warriors. I would raise him again to fulfil the promise of his human life. To be a master...|of the undead...");
 
 [label,history_of_iban_elements]
 @multi4_header("Flesh.", history_of_iban_flesh, "Blood.", history_of_iban_blood, "Shadow.", history_of_iban_shadow, "Conscience.", history_of_iban_conscience, "The 4 Elements:");
 
 [label,history_of_iban_flesh]
-if_sethide(book:com_2, true);
-if_sethide(book:com_4, true);
+if_sethide(book:page_left_button, true);
+if_sethide(book:page_right_button, true);
 ~book("The 4 Elements: Flesh", "Flesh:|Taking a small doll with the likeness of Iban I smeared my effigy with the four elements that together bring existence into being. Essence of his darkness. At the battlefield where Iban lay, I had been able to steal a piece of Iban's cold flesh. Clasping some in my hand, I smeared it over the figure of Iban, and chanted his name with mighty incantation.");
 
 [label,history_of_iban_blood]
-if_sethide(book:com_2, true);
-if_sethide(book:com_4, true);
+if_sethide(book:page_left_button, true);
+if_sethide(book:page_right_button, true);
 ~book("The 4 Elements: Blood", "Blood:|I also needed blood, the giver of life force. By now Iban's body was a hardened vessel, the blood drained empty. But those caverns are home to the giant spider, a venomous creature known to feed on the warm blood of humans. I found and killed one of these foul beasts, and wiped the blood from its vile body onto the effigy of Iban that I had fashioned.");
 
 [label,history_of_iban_shadow]

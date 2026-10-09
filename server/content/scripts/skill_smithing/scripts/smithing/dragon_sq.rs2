@@ -37,7 +37,7 @@ if (inv_total(inv, hammer) < 1) {
 if_close; // have to close for some reason
 // play anim and sound
 anim(human_smithing, 0);
-sound_synth(anvil_4, 0, 0);
+sound_synth(anvil_4, 1, 0);
 // 6 tick delay https://youtu.be/YJmY-RN3MuA?t=86
 p_delay(6);
 ~mesbox("Even for an experienced armourer it is not an easy|task, but eventually it is ready.  You have restored|the dragon square shield to it's former glory.");

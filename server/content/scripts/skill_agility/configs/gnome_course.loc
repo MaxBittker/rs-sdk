@@ -1,60 +1,60 @@
 [loc_154]
 name=Obstacle pipe
 desc=A pipe I can squeeze through.
-model=model_loc_2287
+model=outdoorfurniture_obstical_doublepipe_foranim
 retex1s=wall
 retex1d=planks
 op1=Squeeze-through
 width=2
 
-[gnome_log_balance]
+[gnome_log_balance1]
 name=Log balance
 desc=A slippery log I can walk across.
-model=model_loc_2291
+model=floor_log_balance1
 op1=Walk-across
 active=yes
 sharelight=yes
 
-[gnome_obstacle_net_1]
+[obstical_net2]
 name=Obstacle net
 desc=This must be climbed over.
-model=model_loc_2284
+model=outdoorfurniture_obstical_net
 width=2
 op1=Climb-over
 
 [gnome_tree_branch_1]
 name=Tree branch
 desc=I can climb up this.
-model=model_loc_1140
+model=tree_tk_end2
 active=yes
 op1=Climb
 
-[gnome_balancing_rope]
+[balancing_rope]
 name=Balancing rope
 desc=I can balance on this rope.
-model=model_loc_269
+model=ship_rope
 hillskew=yes
 sharelight=yes
 active=yes
 op1=Walk-on
 
-[gnome_tree_branch_2]
+[climbing_tree]
 name=Tree branch
 desc=I can climb down here.
-model=model_loc_1138
+model=tree_tk_l
 active=yes
 op1=Climb-down
 
-[gnome_tree_branch_3]
+[climbing_tree2]
 name=Tree branch
 desc=I can climb down here.
-model=model_loc_1143
+model=tree_tk_ns
 active=yes
 op1=Climb-down
 
-[gnome_obstacle_net_2]
+[obstical_net3]
 name=Obstacle net
 desc=This must be climbed over.
-model=model_loc_2284
+model=outdoorfurniture_obstical_net
 width=2
 op1=Climb-over

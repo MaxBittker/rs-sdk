@@ -1,10 +1,8 @@
-// jagex name
-
 [eye_of_newt]
 cost=3
 name=Eye of newt
 desc=It seems to be looking at me.
-model=model_2520_obj
+model=inv_newtseye
 2dxof=1
 2dyof=-2
 2dzoom=690
@@ -13,13 +11,12 @@ model=model_2520_obj
 weight=7g
 param=brew_potion_struct,3dose1attack
 param=brew_potion_struct_secondary,3dose2attack
-// jagex name
 
 [red_spiders_eggs]
 name=Red spiders' eggs
 desc=Eewww.
 cost=7
-model=model_2343_obj
+model=inv_spidereggs
 2dxof=-3
 2dzoom=1500
 2dyan=12
@@ -27,13 +24,12 @@ model=model_2343_obj
 weight=7g
 param=brew_potion_struct,3dose1restore
 param=brew_potion_struct_secondary,3dose2restore
-// jagex name
 
 [limpwurt_root]
 name=Limpwurt root
 desc=The root of a limpwurt plant.
 cost=7
-model=model_2629_obj
+model=inv_root
 2dxof=3
 2dyof=4
 2dzoom=1130
@@ -42,14 +38,13 @@ model=model_2629_obj
 weight=7g
 param=brew_potion_struct,3dose1strength
 param=brew_potion_struct_secondary,3dose2strength
-// jagex name
 
 [snape_grass]
 name=Snape grass
 desc=Strange spikey grass.
 cost=10
 members=yes
-model=model_2440_obj
+model=inv_snapegrass
 2dxof=-1
 2dyof=2
 2dzoom=1170
@@ -59,12 +54,11 @@ weight=7g
 respawnrate=30
 param=brew_potion_struct,3doseprayerrestore
 param=brew_potion_struct_secondary,3dosefisherspotion
-// guessed name
 
 [unicorn_horn_dust]
 name=Unicorn horn dust
 desc=Finely ground horn of Unicorn.
-model=model_2742_obj
+model=inv_ash
 recol1s=21140
 recol1d=24135
 2dxof=-6
@@ -76,10 +70,9 @@ cost=20
 weight=7g
 param=brew_potion_struct,3doseantipoison
 param=brew_potion_struct_secondary,3dose2antipoison
-// guessed name
 
 [white_berries]
-model=model_2358_obj
+model=inv_berries
 recol1s=30753
 recol1d=32767
 2dxof=1
@@ -95,10 +88,9 @@ desc=Sour berries, used in potions.
 respawnrate=10
 param=brew_potion_struct,3dose1defense
 param=brew_potion_struct_secondary,3dose2defense
-// guessed name
 
 [dragon_scale_dust]
-model=model_2742_obj
+model=inv_ash
 recol1s=21140
 recol1d=4335
 2dxof=-6
@@ -112,12 +104,11 @@ weight=7g
 members=yes
 param=brew_potion_struct,weapon_poison
 param=brew_potion_struct_secondary,3dose1antidragon
-// jagex name
 
 [wine_of_zamorak]
 name=Wine of zamorak
 desc=An evil wine for an evil god.
-model=model_2390_obj
+model=inv_jug
 recol1s=32767
 recol1d=25765
 2dxof=1
@@ -128,13 +119,12 @@ recol1d=25765
 weight=3oz
 respawnrate=50
 param=brew_potion_struct,3doserangerspotion
-// guessed name
 
 [jangerberries]
 name=Jangerberries
 desc=They don't look very ripe.
 iop1=Eat
-model=model_2358_obj
+model=inv_berries
 recol1s=30753
 recol1d=15937
 recol2s=12480
@@ -154,7 +144,7 @@ param=brew_potion_struct,3dosepotionofzamorak
 name=Blamish snail slime
 desc=Yuck.
 cost=5
-model=model_2705_obj
+model=inv_dyebottle
 recol1s=15855
 recol1d=28570
 2dyof=-2
@@ -170,7 +160,7 @@ tradeable=no
 name=Ground bat bones
 desc=Let's see it fly now!
 cost=20
-model=model_2742_obj
+model=inv_ash
 2dxof=-6
 2dzoom=1210
 2dyan=1892
@@ -181,7 +171,7 @@ members=yes
 [cactus_potato]
 name=Potato cactus
 desc=How am I supposed to eat that?!
-model=obj_3138
+model=quest_kalphite_inv_cactus_potato
 2dyof=20
 2dzoom=1240
 2dyan=300

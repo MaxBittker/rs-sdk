@@ -1133,7 +1133,7 @@ x=50
 y=220
 width=32
 height=32
-model=model_254_idk
+model=man_legs_basic
 zoom=400
 
 [com_126]
@@ -1142,7 +1142,7 @@ x=185
 y=220
 width=32
 height=32
-model=model_271_idk
+model=man_legs_basic2
 zoom=400
 
 [com_127]
@@ -1151,7 +1151,7 @@ x=310
 y=210
 width=32
 height=32
-model=model_267_idk
+model=man_legs_flares
 zoom=420
 
 [com_128]
@@ -1160,7 +1160,7 @@ x=435
 y=220
 width=32
 height=32
-model=model_274_idk
+model=man_legs_turnups
 zoom=400
 
 [plain]

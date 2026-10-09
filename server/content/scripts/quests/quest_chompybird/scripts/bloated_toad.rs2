@@ -124,7 +124,7 @@ huntall(npc_coord, 1, 1);
 while (.huntnext = true) {
     .mes("You're hit by bits of exploding toad!");
 
-    .sound_synth(toad_burst, 0, 20);
+    .sound_synth(toad_burst, 1, 20);
     // is damage random per-player or per-toad?
     .queue(damage_player, calc(random(1) + 1), 0);
 }

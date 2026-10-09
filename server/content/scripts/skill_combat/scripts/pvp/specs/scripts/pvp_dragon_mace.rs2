@@ -14,9 +14,9 @@ if (randominc($attack_roll) > randominc($defence_roll)) {
     both_heropoints($damage);
 }
 anim(shatter, 0);
-sound_synth(shatter, 0, 0);
+sound_synth(shatter, 1, 0);
 spotanim_pl(sp_attack_shatter_spotanim, 96, 0);
 .anim(.%com_defendanim, 20);
-.sound_synth(shatter, 0, 0);
+.sound_synth(shatter, 1, 0);
 .queue*(pvp_retaliate, 0)(uid);
 ~.pvp_damage(0, $damage);

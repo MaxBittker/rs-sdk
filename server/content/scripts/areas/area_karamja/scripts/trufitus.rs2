@@ -52,8 +52,9 @@ if(%junglepotion >= ^junglepotion_complete) {
             ~chatnpc("<p,neutral>This is an ancient artefact!");
             ~mesbox("Trufitus looks at the item in awe.");
             ~chatnpc("<p,neutral>I can certainly try! Hmm, incredible, it seems very ancient and mentions something about Zadimus and Ah Za Rhoon. It says, 'Here lies the traitor Zadimus, let his spirit be forever tormented'.");
-            if(testbit(%zq_map_mechanisms, ^zq_deciphered_plaque) = ^false) %zq_map_mechanisms = setbit(%zq_map_mechanisms, ^zq_deciphered_plaque); // todo: is this set here or before?
             ~mesbox("Trufitus hands the Stone Plaque back.");
+            ~chatnpc("<p,neutral>If you have found anything else that you need help with, please just let me know.");
+            if(testbit(%zq_map_mechanisms, ^zq_deciphered_plaque) = ^false) %zq_map_mechanisms = setbit(%zq_map_mechanisms, ^zq_deciphered_plaque);
         case zqcrystal :
             if(%zombiequeen >= ^zombiequeen_complete) @trufitus_postquest_item;
             ~mesbox("You show Trufitus the Locating Crystal.");
@@ -220,7 +221,7 @@ if(%zombiequeen > ^zombiequeen_not_started) {
         case ^junglepotion_get_rogues_purse, ^junglepotion_found_rogues_purse : @trufitus_give_herb(rogues_purse, unidentified_rogues_purse);
         case ^junglepotion_found_all_herbs : @trufitus_finish_quest;
         case ^junglepotion_complete, ^junglepotion_complete_after_spoken :
-            if (%tbwt_main < ^tbwt_started) {
+            if (%tbwt_main < ^tbwt_timfraku_asked_for_help) {
                 @trufitus_greatest_respects;
             } else {
                 @trufitus_post_quest;

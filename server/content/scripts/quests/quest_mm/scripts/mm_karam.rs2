@@ -1,0 +1,56 @@
+[opnpc1,mm_karam_talker]
+if(%mm_main >= ^mm_defeated_demon) {
+    ~chatplayer("<p,quiz>What are you doing now?");
+    ~chatnpc("<p,neutral>My squad and I are to remain on this island in secret. The monkeys think we are trying to break our friends out of the jail, but we are just biding our time.");
+    return;
+}
+if(%mm_karam = ^karam_spoken) {
+    @multi4("What are you doing here?", karam_what, "How do you remain unseen?", karam_unseen, "How can you be everywhere?", karam_everywhere, "I'll be back later.", karam_later);
+}
+~chatplayer("<p,quiz>Hello? Is anybody there?");
+~chatnpc("<p,neutral>That depends on who is asking...");
+~chatplayer("<p,neutral>I am in the service of King Narnode Shareen.|I have been sent here to locate the missing|10th squad of the Royal Guard.");
+~chatnpc("<p,neutral>I see. As you can see, this is a dangerous place to be.");
+~chatplayer("<p,neutral>It certainly is ... who are you?");
+~chatnpc("<p,neutral>Karam, 10th squad, Royal Guard. High Assassin at your service.");
+%mm_karam = ^karam_spoken;
+@multi4("What are you doing here?", karam_what, "How do you remain unseen?", karam_unseen, "How can you be everywhere?", karam_everywhere, "I'll be back later.", karam_later);
+
+[label,karam_what]
+~chatplayer("<p,quiz>What are you doing here?");
+~chatnpc("<p,neutral>I am thinking of a way to free my friends. In the meantime, I am helping those who further my cause.");
+@multi4("What are you doing here?", karam_what, "How do you remain unseen?", karam_unseen, "How can you be everywhere?", karam_everywhere, "I'll be back later.", karam_later);
+
+[label,karam_unseen]
+~chatplayer("<p,quiz>How do you remain unseen?");
+~chatnpc("<p,neutral>I have been gifted by Zooknock, our squad mage. I have saved his life on a number of occasions.");
+~chatplayer("<p,quiz>Is there any way I could be like that?");
+~chatnpc("<p,neutral>Your best chance is to hide in this grass, human.");
+@multi4("What are you doing here?", karam_what, "How do you remain unseen?", karam_unseen, "How can you be everywhere?", karam_everywhere, "I'll be back later.", karam_later);
+
+[label,karam_everywhere]
+~chatplayer("<p,quiz>How can you be everywhere?");
+~chatnpc("<p,neutral>I move quickly.");
+@multi4("What are you doing here?", karam_what, "How do you remain unseen?", karam_unseen, "How can you be everywhere?", karam_everywhere, "I'll be back later.", karam_later);
+
+[label,karam_later]
+~chatplayer("<p,neutral>I'll be back later.");
+
+[opnpc1,mm_karam]
+~mesbox("He seems too busy to talk.");
+
+[ai_timer,mm_karam]
+npc_huntall(npc_coord, 10, 0);
+while (.npc_findnext = true) {
+    if(.npc_type = mm_monkey_guard | .npc_type = mm_duke | .npc_type = mm_oipuis | .npc_type = mm_uyoro | .npc_type = mm_ouhai | .npc_type = mm_uodai) {
+        if(%npc_action_delay > map_clock) {
+            return;
+        }
+        npc_say("!");
+        npc_walk(.npc_coord);
+        if(distance(npc_coord, .npc_coord) < 2) {
+            .npc_queue(4, 0, 0);
+            %npc_action_delay = add(map_clock, 50);
+        }
+    }
+}

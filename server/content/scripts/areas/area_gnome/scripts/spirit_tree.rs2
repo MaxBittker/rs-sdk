@@ -73,8 +73,4 @@ anim(human_reachforladder, 0);
 p_delay(0);
 p_telejump($dest);
 // RSC, confirm this is the same on RS3
-if(inv_total(inv, plaguesample) > 0) {
-    inv_del(inv, plaguesample, ^max_32bit_int);
-    mes("The plague sample is too delicate...it disintegrates in the crossing.");
-    return;
-}
+~post_tele_checks;

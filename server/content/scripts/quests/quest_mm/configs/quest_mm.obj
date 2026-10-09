@@ -1,0 +1,1193 @@
+[mm_small_ninja_monkey_bones]
+name=Monkey bones
+desc=These are smallish monkey bones.
+members=yes
+model=inv_bones
+2dxof=2
+2dzoom=1410
+2dyan=368
+2dxan=400
+iop1=Bury
+weight=500g
+tradeable=no
+param=mm_bones_type,1
+category=bones
+param=bone_exp,160
+
+[mm_medium_ninja_monkey_bones]
+name=Monkey bones
+desc=These are medium sized monkey bones.
+members=yes
+model=inv_bones
+2dxof=2
+2dzoom=1410
+2dyan=368
+2dxan=400
+iop1=Bury
+weight=500g
+tradeable=no
+param=mm_bones_type,2
+category=bones
+param=bone_exp,180
+
+[mm_normal_gorilla_monkey_bones]
+name=Monkey bones
+desc=These are quite large monkey bones.
+members=yes
+model=inv_bones_medium
+2dzoom=1830
+2dyan=648
+2dxan=216
+iop1=Bury
+weight=800g
+tradeable=no
+param=mm_bones_type,3
+category=bones
+param=bone_exp,180
+
+[mm_bearded_gorilla_monkey_bones]
+name=Monkey bones
+desc=These are quite large monkey bones.
+members=yes
+model=inv_bones_medium
+2dzoom=1830
+2dyan=648
+2dxan=216
+iop1=Bury
+weight=800g
+tradeable=no
+param=mm_bones_type,4
+category=bones
+param=bone_exp,200
+
+[mm_normal_monkey_bones]
+name=Monkey bones
+desc=These are small monkey bones.
+model=inv_bones
+2dxof=2
+2dzoom=1410
+2dyan=368
+2dxan=400
+iop1=Bury
+weight=500g
+category=bones
+param=bone_exp,50
+param=mm_bones_type,5
+
+[mm_small_zombie_monkey_bones]
+name=Monkey bones
+desc=These are smallish monkey bones. They smell extremely nauseating.
+members=yes
+model=inv_bones
+2dxof=2
+2dzoom=1410
+2dyan=368
+2dxan=400
+iop1=Bury
+weight=500g
+tradeable=no
+param=mm_bones_type,6
+category=bones
+param=bone_exp,50
+
+[mm_large_zombie_monkey_bones]
+name=Monkey bones
+desc=These are smallish monkey bones. They smell extremely nauseating.
+members=yes
+model=inv_bones
+2dzoom=1830
+2dyan=648
+2dxan=216
+iop1=Bury
+weight=500g
+tradeable=no
+param=mm_bones_type,7
+category=bones
+param=bone_exp,50
+
+[mm_skeleton_bones]
+name=Bones
+desc=They seem to shake slightly... It might be a good idea to bury them.
+members=yes
+cost=0
+model=inv_bones
+2dxof=2
+2dzoom=1410
+2dyan=368
+2dxan=400
+iop1=Bury
+weight=500g
+tradeable=no
+category=bones
+param=bone_exp,30
+
+[reinit]
+name=Reinit
+model=if_mm_slidepuzzle_slide01
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop1=Open
+
+[reinitialisation_01]
+name=Sliding button
+model=if_mm_slidepuzzle_slide01
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_02]
+name=Sliding button
+model=if_mm_slidepuzzle_slide02
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_03]
+name=Sliding button
+model=if_mm_slidepuzzle_slide03
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_04]
+name=Sliding button
+model=if_mm_slidepuzzle_slide04
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_05]
+name=Sliding button
+model=if_mm_slidepuzzle_slide05
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_06]
+name=Sliding button
+model=if_mm_slidepuzzle_slide06
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_07]
+name=Sliding button
+model=if_mm_slidepuzzle_slide07
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_08]
+name=Sliding button
+model=if_mm_slidepuzzle_slide08
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_09]
+name=Sliding button
+model=if_mm_slidepuzzle_slide09
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_10]
+name=Sliding button
+model=if_mm_slidepuzzle_slide10
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_11]
+name=Sliding button
+model=if_mm_slidepuzzle_slide11
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_12]
+name=Sliding button
+model=if_mm_slidepuzzle_slide12
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_13]
+name=Sliding button
+model=if_mm_slidepuzzle_slide13
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_14]
+name=Sliding button
+model=if_mm_slidepuzzle_slide14
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_15]
+name=Sliding button
+model=if_mm_slidepuzzle_slide15
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_16]
+name=Sliding button
+model=if_mm_slidepuzzle_slide16
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_17]
+name=Sliding button
+model=if_mm_slidepuzzle_slide17
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_18]
+name=Sliding button
+model=if_mm_slidepuzzle_slide18
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_19]
+name=Sliding button
+model=if_mm_slidepuzzle_slide19
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_20]
+name=Sliding button
+model=if_mm_slidepuzzle_slide20
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_21]
+name=Sliding button
+model=if_mm_slidepuzzle_slide21
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_22]
+name=Sliding button
+model=if_mm_slidepuzzle_slide22
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_23]
+name=Sliding button
+model=if_mm_slidepuzzle_slide23
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_24]
+name=Sliding button
+model=if_mm_slidepuzzle_slide24
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+desc=It's a sliding button of some kind.
+category=mm_reinit
+
+[reinitialisation_01_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide01
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_02_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide02
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_03_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide03
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_04_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide04
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_05_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide05
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_06_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide06
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_07_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide07
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_08_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide08
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_09_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide09
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_10_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide10
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_11_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide11
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_12_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide12
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_13_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide13
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_14_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide14
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_15_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide15
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_16_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide16
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_17_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide17
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_18_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide18
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_19_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide19
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_20_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide20
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_21_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide21
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_22_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide22
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_23_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide23
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[reinitialisation_24_inactive]
+name=Sliding button
+desc=It's a sliding button of some kind.
+model=if_mm_slidepuzzle_slide24
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+iop5=Move
+category=mm_reinit_inactive
+
+[mm_helper]
+dummyitem=inv_only
+
+// todo: "cert_mm_helper"
+[obj_4001]
+dummyitem=inv_only
+
+[mm_reinitialisation_hint]
+name=Spare controls
+recol1s=15855
+recol1d=5250
+desc=It looks like some kind of control panel.
+members=yes
+weight=200g
+model=quest_mm_inv_monkey_control_panel
+2dxof=3
+2dyof=8
+2dzoom=1820
+2dxan=388
+iop1=View
+tradeable=no
+
+[mm_gnome_royal_seal]
+name=Gnome royal seal
+desc=It's the official Royal Gnome Seal, signed by King Narnode Shareem.
+members=yes
+weight=20g
+model=inv_scrollwithseal
+2dxof=1
+2dyof=7
+2dzoom=1040
+2dyan=120
+2dxan=380
+tradeable=no
+
+[mm_narnode_orders]
+name=Narnode's orders
+recol1s=29594
+recol1d=29398
+desc=Unreadable orders handwritten by King Narnode Shareem.
+members=yes
+weight=20g
+model=inv_scroll
+2dxof=1
+2dyof=7
+2dzoom=1040
+2dyan=120
+2dxan=380
+tradeable=no
+
+[mm_monkey_dentures]
+name=Monkey dentures
+desc=Magical monkey talking dentures! What more can we say? Ook!
+members=yes
+cost=500
+weight=200g
+model=quest_mm_inv_monkey_dentures
+2dxof=3
+2dyof=-22
+2dzoom=1250
+2dyan=1864
+2dxan=216
+tradeable=no
+
+[mm_enchanted_gold_bar]
+name=Enchanted bar
+recol1s=11488
+recol1d=12678
+desc=A gold bar invested with a talkative monkey spirit.
+members=yes
+cost=800
+weight=4lb
+model=inv_orebar
+2dxof=1
+2dyof=-8
+2dzoom=820
+2dyan=1180
+2dxan=196
+op1=Listen
+tradeable=no
+
+[mm_eye_of_gnome]
+name=Eye of gnome
+desc=It's ... the eye of a gnome! Now what an earth could one do with this?
+members=yes
+cost=3
+weight=7g
+model=inv_newtseye
+2dxof=1
+2dyof=-2
+2dzoom=690
+2dyan=256
+2dxan=364
+
+[mm_monkey_magic]
+name=Monkey magic
+desc=A small sample of monkey magic.
+members=yes
+cost=500
+cost=3
+weight=7g
+model=inv_newtseye
+2dxof=1
+2dyof=-2
+2dzoom=690
+2dyan=256
+2dxan=364
+
+[mm_monkey_nuts]
+// category=category_59
+name=Monkey nuts
+desc=These are monkey nuts. Yummy.
+members=yes
+cost=3
+weight=7g
+model=quest_mm_inv_monkey_nuts
+2dyof=-2
+2dzoom=910
+2dyan=484
+2dxan=384
+iop1=Eat
+
+[mm_monkey_bar]
+// category=category_59
+name=Monkey bar
+desc=It's a monkey bar. It looks highly nutritious.
+members=yes
+cost=50
+weight=150g
+model=inv_chocolate
+2dxof=1
+2dyof=41
+2dzoom=950
+2dyan=208
+2dxan=276
+iop1=Eat
+
+[mm_banana_stew]
+// category=category_59
+name=Banana stew
+recol1s=21119
+recol1d=27432
+desc=It's a bowl full of mushy banana.
+members=yes
+cost=300
+weight=250g
+model=inv_bowl-full
+2dzoom=910
+2dyan=1856
+2dxan=204
+iop1=Eat
+param=next_obj_stage,bowl_empty
+
+[mm_monkey_wrench]
+name=Monkey wrench
+desc=For wrenching monkeys I'd guess.
+members=yes
+cost=10
+weight=21lb
+model=inv_newtseye
+2dxof=1
+2dyof=-2
+2dzoom=690
+2dyan=256
+2dxan=364
+
+[mm_monkey_amulet_mould]
+name=M'amulet mould
+desc=It's an amulet mould shaped like a monkey head.
+members=yes
+cost=10
+weight=7g
+model=quest_mm_inv_monkey_amulet_mould
+2dxof=4
+2dyof=3
+2dzoom=620
+2dyan=96
+2dxan=340
+tradeable=no
+
+[mm_amulet_of_monkey_speak]
+name=M'speak amulet
+desc=It's an Amulet of Monkey Speak. It makes vague chattering noises.
+members=yes
+cost=550
+weight=3lb
+model=quest_mm_inv_monkey_amulet
+2dyof=37
+2dzoom=520
+2dxan=332
+wearpos=front
+manwear=man_necklaces_monkey_amulet,0
+womanwear=woman_necklaces_monkey_amulet,0
+iop2=Wear
+tradeable=no
+
+[mm_amulet_of_monkey_speak_without_string]
+name=M'speak amulet
+desc=It's an unstrung Amulet of Monkey Speak. It makes vague chattering noises.
+members=yes
+cost=500
+weight=3lb
+model=quest_mm_inv_monkey_amulet_unstrung
+2dyof=32
+2dzoom=330
+2dxan=448
+tradeable=no
+
+[mm_monkey_talisman]
+name=Monkey talisman
+desc=A magical talisman in the shape of a monkey head.
+members=yes
+cost=1000
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+tradeable=no
+
+[mm_monkey_greegree_for_small_ninja_monkey]
+name=Monkey greegree
+recol1s=17969
+recol1d=5285
+recol2s=32767
+recol2d=15749
+recol3s=0
+recol3d=30753
+desc=A magical talisman in the shape of a monkey head. The eyes glow bright red!
+members=yes
+cost=3000
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+category=mm_greegree
+// param=param_295,1
+tradeable=no
+param=ready_baseanim,m_monkey_ready
+param=turnonspot_baseanim,m_monkey_walk
+param=walk_f_baseanim,m_monkey_walk
+param=walk_b_baseanim,m_monkey_walk
+param=walk_l_baseanim,m_monkey_walk
+param=walk_r_baseanim,m_monkey_walk
+param=running_baseanim,m_monkey_run
+param=next_npc_type,mm_transmogrification_small_ninja_monkey
+param=transform_sound,human_into_smallmonkey
+param=revert_sound,smallmonkey_into_human
+
+[mm_monkey_greegree_for_medium_ninja_monkey]
+name=Monkey greegree
+recol1s=17969
+recol1d=5285
+recol2s=32767
+recol2d=15749
+recol3s=0
+recol3d=30753
+desc=A magical talisman in the shape of a monkey head. The eyes glow bright red!
+members=yes
+cost=6000
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+category=mm_greegree
+// param=param_295,1
+tradeable=no
+param=ready_baseanim,m_monkey_ready
+param=turnonspot_baseanim,m_monkey_walk
+param=walk_f_baseanim,m_monkey_walk
+param=walk_b_baseanim,m_monkey_walk
+param=walk_l_baseanim,m_monkey_walk
+param=walk_r_baseanim,m_monkey_walk
+param=running_baseanim,m_monkey_run
+param=next_npc_type,mm_transmogrification_medium_ninja_monkey
+
+[mm_monkey_greegree_for_normal_gorilla]
+name=Monkey greegree
+recol1s=17969
+recol1d=6342
+recol2s=32767
+recol2d=9513
+recol3s=0
+recol3d=30753
+desc=A magical talisman in the shape of a monkey head. The eyes glow bright red!
+members=yes
+cost=1000
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+category=mm_greegree
+// param=param_295,1
+tradeable=no
+param=ready_baseanim,m_gorilla_ready
+param=turnonspot_baseanim,m_gorilla_walk
+param=walk_f_baseanim,m_gorilla_walk
+param=walk_b_baseanim,m_gorilla_walk
+param=walk_l_baseanim,m_gorilla_walk
+param=walk_r_baseanim,m_gorilla_walk
+param=running_baseanim,m_gorilla_run
+param=next_npc_type,mm_transmogrification_normal_gorilla
+param=transform_sound,human_into_gorilla
+param=revert_sound,gorilla_into_human
+
+[mm_monkey_greegree_for_bearded_gorilla]
+name=Monkey greegree
+recol1s=17969
+recol1d=6342
+recol2s=32767
+recol2d=9513
+recol3s=0
+recol3d=30753
+desc=A magical talisman in the shape of a monkey head. The eyes glow bright red!
+members=yes
+cost=1500
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+category=mm_greegree
+tradeable=no
+param=ready_baseanim,m_gorilla_ready
+param=turnonspot_baseanim,m_gorilla_walk
+param=walk_f_baseanim,m_gorilla_walk
+param=walk_b_baseanim,m_gorilla_walk
+param=walk_l_baseanim,m_gorilla_walk
+param=walk_r_baseanim,m_gorilla_walk
+param=running_baseanim,m_gorilla_run
+param=next_npc_type,mm_transmogrification_bearded_gorilla
+param=transform_sound,human_into_gorilla
+param=revert_sound,gorilla_into_human
+
+[mm_monkey_greegree_for_ancient_monkey_skull]
+name=Monkey greegree
+recol1s=17969
+recol1d=31
+recol2s=32767
+recol2d=9513
+recol3s=0
+recol3d=30753
+desc=A magical talisman in the shape of a monkey head. The eyes glow bright red!
+members=yes
+cost=10000
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+category=mm_greegree
+tradeable=no
+param=ready_baseanim,m_gorilla_ready
+param=turnonspot_baseanim,m_gorilla_walk
+param=walk_f_baseanim,m_gorilla_walk
+param=walk_b_baseanim,m_gorilla_walk
+param=walk_l_baseanim,m_gorilla_walk
+param=walk_r_baseanim,m_gorilla_walk
+param=running_baseanim,m_gorilla_run
+param=next_npc_type,mm_transmogrification_ancient_monkey
+param=transform_sound,human_into_gorilla
+param=revert_sound,gorilla_into_human
+
+[mm_monkey_greegree_for_small_zombie_monkey]
+name=Monkey greegree
+recol1s=17969
+recol1d=7592
+recol2s=32767
+recol2d=15749
+recol3s=0
+recol3d=30753
+desc=A magical talisman in the shape of a monkey head. The eyes glow bright red!
+members=yes
+cost=500
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+category=mm_greegree
+// param=param_295,1
+tradeable=no
+param=ready_baseanim,m_monkey_ready
+param=turnonspot_baseanim,m_monkey_walk
+param=walk_f_baseanim,m_monkey_walk
+param=walk_b_baseanim,m_monkey_walk
+param=walk_l_baseanim,m_monkey_walk
+param=walk_r_baseanim,m_monkey_walk
+param=running_baseanim,null
+param=next_npc_type,mm_transmogrification_small_zombie_monkey
+param=transform_sound,human_into_zombiemonkey
+param=revert_sound,zombiemonkey_into_human
+
+[mm_monkey_greegree_for_large_zombie_monkey]
+name=Monkey greegree
+recol1s=17969
+recol1d=7592
+recol2s=32767
+recol2d=15749
+recol3s=0
+recol3d=30753
+desc=A magical talisman in the shape of a monkey head. The eyes glow bright red!
+members=yes
+cost=2000
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+category=mm_greegree
+// param=param_295,1
+tradeable=no
+param=ready_baseanim,m_monkey_ready
+param=turnonspot_baseanim,m_monkey_walk
+param=walk_f_baseanim,m_monkey_walk
+param=walk_b_baseanim,m_monkey_walk
+param=walk_l_baseanim,m_monkey_walk
+param=walk_r_baseanim,m_monkey_walk
+param=running_baseanim,null
+param=next_npc_type,mm_transmogrification_large_zombie_monkey
+param=transform_sound,human_into_zombiemonkey
+param=revert_sound,zombiemonkey_into_human
+
+[mm_monkey_greegree_for_normal_monkey]
+name=Monkey greegree
+recol1s=17969
+recol1d=9409
+recol2s=32767
+recol2d=15749
+recol3s=0
+recol3d=30753
+desc=A magical talisman in the shape of a monkey head. The eyes glow bright red!
+members=yes
+cost=500
+weight=3oz
+model=quest_mm_inv_monkey_talisman
+2dyof=13
+2dzoom=750
+2dyan=4
+2dxan=456
+wearpos=righthand
+iop2=Hold
+category=mm_greegree
+// param=param_295,1
+tradeable=no
+param=ready_baseanim,monkey_ready
+param=turnonspot_baseanim,monkey_walk
+param=walk_f_baseanim,monkey_walk
+param=walk_b_baseanim,monkey_walk
+param=walk_l_baseanim,monkey_walk
+param=walk_r_baseanim,monkey_walk
+param=running_baseanim,m_normalmonkey_run
+param=next_npc_type,mm_transmogrification_normal_monkey
+
+[fade_to_black_inv]
+name=Dummy
+model=if_fadetoblack
+wearpos=righthand
+2dzoom=130
+2dxan=512
+dummyitem=inv_only
+
+[mm_monkey_in_backpack]
+name=Monkey
+desc=It's a monkey in your backpack. As you look it pokes you.
+members=yes
+weight=15kg
+model=quest_mm_inv_monkey_backpack
+2dxof=-3
+2dyof=7
+2dzoom=1590
+2dxan=488
+iop1=Poke
+// param=param_59,1
+tradeable=no
+
+[mm_ancient_monkey_skull]
+weight=500g
+name=Monkey skull
+desc=It's a very ancient skull from some kind of ape.
+members=yes
+model=quest_mm_inv_monkey_skull_relic
+2dxof=1
+2dyof=-10
+2dzoom=820
+2dyan=136
+2dxan=96
+tradeable=no
+param=mm_bones_type,8
+
+[mm_sigil]
+name=10th squad sigil
+desc=It's the official sigil of the 10th squad of the Royal Guard.
+members=yes
+weight=3oz
+model=quest_mm_inv_monkey_medal
+2dxof=1
+2dyof=7
+2dzoom=1040
+2dyan=120
+2dxan=380
+wearpos=front
+manwear=man_necklaces_monkey_medal,0
+womanwear=woman_necklaces_monkey_medal,0
+iop2=Wear
+tradeable=no

@@ -3,9 +3,9 @@
 ~set_pk_vars;
 spotanim_pl(sp_attack_puncture_spotanim, 96, 0);
 anim(puncture, 0);
-sound_synth(puncture, 0, 0);
+sound_synth(puncture, 1, 0);
 .anim(.%com_defendanim, 20);
-.sound_synth(puncture, 0, 0);
+.sound_synth(puncture, 1, 0);
 
 ~pvp_dragon_dagger_spec_hit;
 p_delay(0); // p_delays before 2006 or so

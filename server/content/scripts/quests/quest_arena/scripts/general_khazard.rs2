@@ -53,7 +53,7 @@ p_teleport(0_40_49_45_5);
 cam_reset;
 cam_moveto(0_40_49_47_3, 600, 0, 100);
 cam_lookat(0_40_49_42_5, 0, 0, 100);
-npc_add(0_40_49_47_5, arena_guard5_cutscene, 30); // 30t in old videos
+npc_add(0_40_49_47_5, arena_leadguard, 30); // 30t in old videos
 npc_setmode(none);
 npc_walk(0_40_49_41_5);
 ~forcemove(0_40_49_40_5);
@@ -67,7 +67,7 @@ if(loc_find(0_40_49_40_6, arena_prisondoor) = true) {
     // Temp note: dur updated
     loc_change(inviswall, 3);
     loc_add(movecoord($loc_coord, $x, 0, $z), ctratgatea, modulo(add($angle, 1), 4), $shape, 3);
-    sound_synth(grate_open, 0, 0);
+    sound_synth(grate_open, 1, 0);
 }
 ~forcemove(movecoord(coord, 0, 0, 1));
 p_delay(0);

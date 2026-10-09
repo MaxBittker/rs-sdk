@@ -11,17 +11,6 @@ const LINE_OF_SIGHT_MOVEMENT =
     CollisionFlag.WALL_WEST |
     CollisionFlag.LOC;
 
-const LINE_OF_SIGHT_ROUTE =
-    CollisionFlag.WALL_NORTH_WEST_ROUTE_BLOCKER |
-    CollisionFlag.WALL_NORTH_ROUTE_BLOCKER |
-    CollisionFlag.WALL_NORTH_EAST_ROUTE_BLOCKER |
-    CollisionFlag.WALL_EAST_ROUTE_BLOCKER |
-    CollisionFlag.WALL_SOUTH_EAST_ROUTE_BLOCKER |
-    CollisionFlag.WALL_SOUTH_ROUTE_BLOCKER |
-    CollisionFlag.WALL_SOUTH_WEST_ROUTE_BLOCKER |
-    CollisionFlag.WALL_WEST_ROUTE_BLOCKER |
-    CollisionFlag.LOC_ROUTE_BLOCKER;
-
 export function canMove(collision: CollisionType, tileFlag: number, blockFlag: number): boolean {
     switch (collision) {
         case CollisionType.NORMAL:
@@ -36,8 +25,7 @@ export function canMove(collision: CollisionType, tileFlag: number, blockFlag: n
             return (tileFlag & (blockFlag | CollisionFlag.ROOF)) === CollisionFlag.OPEN;
         case CollisionType.LINE_OF_SIGHT: {
             const movementFlags = (blockFlag & LINE_OF_SIGHT_MOVEMENT) << 9;
-            const routeFlags = (blockFlag & LINE_OF_SIGHT_ROUTE) >>> 13;
-            return (tileFlag & (movementFlags | routeFlags)) === CollisionFlag.OPEN;
+            return (tileFlag & movementFlags) === CollisionFlag.OPEN;
         }
         default:
             return false;

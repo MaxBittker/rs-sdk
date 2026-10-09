@@ -1,0 +1,1183 @@
+[proc,mm_login]
+if(inv_total(inv, mm_monkey_in_backpack) > 0) {
+    settimer(monkey_backpack_timer, ~random_range(5, 50));
+}
+
+// not sure on behaviour for login during cutscenes since these are all reworked (probably since they were very jank...)
+// so this is a guess, we're just gonna "complete" the cutscene since its the safest route
+
+// chapter 2
+if(inzone(0_40_71_0_0, 0_40_71_63_63, coord) = true) {
+    if(%mm_main < ^mm_arrived_atoll) {
+        p_teleport(0_43_42_49_19);
+        if_settab(magic, ^tab_magic);
+        %mm_main = ^mm_arrived_atoll;
+        %mm_lumdo = ^lumdo_travelled;
+    }
+}
+
+// chapter 3
+if(inzone(0_41_71_0_0, 0_41_71_63_63, coord) = true) {
+    if(%mm_main < ^mm_completed_ch2) {
+        p_teleport(%mm_cutscene_coord);
+        if_settab(magic, ^tab_magic);
+        %mm_main = ^mm_completed_ch2;
+        %mm_zooknock = ^zooknock_made_talisman;
+    }
+}
+
+// chapter 4
+if(inzone(1_41_71_0_0, 1_41_71_63_63, coord) = true) {
+    if(%mm_main < ^mm_completed_ch3) {
+        p_teleport(%mm_cutscene_coord);
+        if_settab(magic, ^tab_magic);
+        %mm_main = ^mm_completed_ch3;
+        %mm_garkor = ^garkor_learned_plan;
+    }
+}
+
+[label,mm_ch1]
+~music_jingle("new chapter");
+sound_synth(ooks, 0, 0);
+if_settext(inter_199:com_2, ^string_empty);
+if_settext(inter_199:com_3, ^string_empty);
+if_settext(inter_199:com_4, "Monkey Madness: Chapter 1");
+if_setcolour(inter_199:com_4, ^white_rgb);
+if_settext(inter_199:com_5, ^string_empty);
+if_settext(inter_199:com_6, ^string_empty);
+if_setcolour(inter_199:com_6, ^white_rgb);
+if_settext(inter_199:com_7, "In which our <text_gender("hero", "heroine")> finds <text_gender("him", "her")>self drawn back into");
+if_setcolour(inter_199:com_7, ^white_rgb);
+if_settext(inter_199:com_8, "Glough's web of deception and deceit.");
+if_setcolour(inter_199:com_8, ^white_rgb);
+if_settext(inter_199:com_9, ^string_empty);
+if_settext(inter_199:com_10, ^string_empty);
+if_settext(inter_199:com_11, ^string_empty);
+if_settext(inter_199:com_12, ^string_empty);
+if_settext(inter_199:com_13, ^string_empty);
+if_openmain(inter_199);
+
+[label,mm_ch2]
+~music_jingle("new chapter");
+sound_synth(ooks, 0, 0);
+if_settext(inter_199:com_2, ^string_empty);
+if_settext(inter_199:com_3, ^string_empty);
+if_settext(inter_199:com_4, "Monkey Madness: Chapter 2");
+if_setcolour(inter_199:com_4, ^white_rgb);
+if_settext(inter_199:com_5, ^string_empty);
+if_settext(inter_199:com_6, ^string_empty);
+if_setcolour(inter_199:com_6, ^white_rgb);
+if_settext(inter_199:com_7, "In which our <text_gender("hero", "heroine")> finds <text_gender("him", "her")>self engaging in");
+if_setcolour(inter_199:com_7, ^white_rgb);
+if_settext(inter_199:com_8, "severe quantities of monkey business.");
+if_setcolour(inter_199:com_8, ^white_rgb);
+if_settext(inter_199:com_9, ^string_empty);
+if_settext(inter_199:com_10, ^string_empty);
+if_settext(inter_199:com_11, ^string_empty);
+if_settext(inter_199:com_12, ^string_empty);
+if_settext(inter_199:com_13, ^string_empty);
+if_openmain(inter_199);
+
+[label,mm_ch3]
+~music_jingle("new chapter");
+sound_synth(ooks, 0, 0);
+if_settext(inter_199:com_2, ^string_empty);
+if_settext(inter_199:com_3, ^string_empty);
+if_settext(inter_199:com_4, "Monkey Madness: Chapter 3");
+if_setcolour(inter_199:com_4, ^white_rgb);
+if_settext(inter_199:com_5, ^string_empty);
+if_settext(inter_199:com_6, ^string_empty);
+if_setcolour(inter_199:com_6, ^white_rgb);
+if_settext(inter_199:com_7, "In which our <text_gender("hero", "heroine")> finds <text_gender("him", "her")>self contending");
+if_setcolour(inter_199:com_7, ^white_rgb);
+if_settext(inter_199:com_8, "with life as a monkey.");
+if_setcolour(inter_199:com_8, ^white_rgb);
+if_settext(inter_199:com_9, ^string_empty);
+if_settext(inter_199:com_10, ^string_empty);
+if_settext(inter_199:com_11, ^string_empty);
+if_settext(inter_199:com_12, ^string_empty);
+if_settext(inter_199:com_13, ^string_empty);
+if_openmain(inter_199);
+
+[label,mm_ch4]
+~music_jingle("new chapter");
+sound_synth(ooks, 0, 0);
+if_settext(inter_199:com_2, ^string_empty);
+if_settext(inter_199:com_3, ^string_empty);
+if_settext(inter_199:com_4, "Monkey Madness: Chapter 4");
+if_setcolour(inter_199:com_4, ^white_rgb);
+if_settext(inter_199:com_5, ^string_empty);
+if_settext(inter_199:com_6, ^string_empty);
+if_setcolour(inter_199:com_6, ^white_rgb);
+if_settext(inter_199:com_7, "The Final Battle");
+if_setcolour(inter_199:com_7, ^white_rgb);
+if_settext(inter_199:com_8, ^string_empty);
+if_setcolour(inter_199:com_8, ^white_rgb);
+if_settext(inter_199:com_9, ^string_empty);
+if_settext(inter_199:com_10, ^string_empty);
+if_settext(inter_199:com_11, ^string_empty);
+if_settext(inter_199:com_12, ^string_empty);
+if_settext(inter_199:com_13, ^string_empty);
+if_openmain(inter_199);
+
+[label,mm_ch2_cutscene]
+if_close;
+p_delay(0);
+%mm_cutscene_coord = coord;
+~music_jingle("meanwhile");
+queue(mm_ch2_reset, 0, 0);
+if_settext(inter_199:com_2, ^string_empty);
+if_settext(inter_199:com_3, ^string_empty);
+if_settext(inter_199:com_4, ^string_empty);
+if_settext(inter_199:com_5, ^string_empty);
+if_settext(inter_199:com_6, ^string_empty);
+if_setcolour(inter_199:com_6, ^white_rgb);
+if_settext(inter_199:com_7, "Meanwhile, far away in Karamja...");
+if_setcolour(inter_199:com_7, ^white_rgb);
+if_settext(inter_199:com_8, ^string_empty);
+if_settext(inter_199:com_9, ^string_empty);
+if_settext(inter_199:com_10, ^string_empty);
+if_settext(inter_199:com_11, ^string_empty);
+if_settext(inter_199:com_12, ^string_empty);
+if_settext(inter_199:com_13, ^string_empty);
+if_setcolour(scroll:com_3, ^yellow_rgb);
+if_setcolour(scroll:com_3, ^yellow_rgb);
+if_openmain(inter_199);
+~fade_out;
+p_delay(4);
+if_close;
+if(npc_findexact(0_40_71_43_38, mm_foreman_cutscene) = true & .npc_findexact(0_40_71_43_36, mm_caranock_cutscene) = true) {
+    p_teleport(0_40_71_36_37);
+    .npc_facesquare(movecoord(.npc_coord, 0, 0, 2));
+    npc_facesquare(movecoord(npc_coord, 0, 0, -2));
+    p_delay(0);
+    %mm_cutscene_part = 0;
+    walktrigger(mm_ch2_walktrigger);
+    ~music_setvar(8, 20);
+    if_settext(music:com_177, "Suspicious");
+    midi_song("suspicious");
+    cam_moveto(0_40_71_39_37, 400, 232, 232);
+    cam_lookat(0_40_71_49_37, 160, 232, 232);
+    ~fade_in;
+    if_settab(null, ^tab_magic);
+    @mm_ch2_cutscene_dialogue;
+}
+
+[queue,mm_ch2_reset]
+@music_play(%currentsong);
+
+[queue,mm_ch3_cutscene]
+if_close;
+p_delay(0);
+%mm_cutscene_coord = coord;
+~music_jingle("meanwhile");
+queue(mm_ch3_reset, 0, 0);
+if_settext(inter_199:com_2, ^string_empty);
+if_settext(inter_199:com_3, ^string_empty);
+if_settext(inter_199:com_4, ^string_empty);
+if_settext(inter_199:com_5, ^string_empty);
+if_settext(inter_199:com_6, ^string_empty);
+if_setcolour(inter_199:com_6, ^white_rgb);
+if_settext(inter_199:com_7, "Meanwhile, somewhere far below the Ape Atoll...");
+if_setcolour(inter_199:com_7, ^white_rgb);
+if_settext(inter_199:com_8, ^string_empty);
+if_settext(inter_199:com_9, ^string_empty);
+if_settext(inter_199:com_10, ^string_empty);
+if_settext(inter_199:com_11, ^string_empty);
+if_settext(inter_199:com_12, ^string_empty);
+if_settext(inter_199:com_13, ^string_empty);
+if_setcolour(scroll:com_3, ^yellow_rgb);
+if_setcolour(scroll:com_3, ^yellow_rgb);
+if_openmain(inter_199);
+~fade_out;
+p_delay(4);
+if_close;
+if(npc_findexact(0_41_71_46_15, mm_waydar_cutscene) = true & .npc_findexact(0_41_71_48_15, mm_caranock_cutscene) = true) {
+    p_teleport(0_41_71_47_28);
+    npc_facesquare(0_41_71_48_15);
+    .npc_facesquare(0_41_71_46_15);
+    p_delay(0);
+    %mm_cutscene_part = 0;
+    walktrigger(mm_ch3_walktrigger);
+    if_settext(music:com_177, "Suspicious");
+    midi_song("suspicious");
+    cam_moveto(0_41_71_47_24, 600, 232, 232);
+    cam_lookat(0_41_71_47_15, 160, 232, 232);
+    ~fade_in;
+    if_settab(null, ^tab_magic);
+    @mm_ch3_cutscene_dialogue;
+}
+
+[label,mm_ch4_cutscene]
+if_close;
+p_delay(0);
+%mm_cutscene_coord = coord;
+~music_jingle("meanwhile");
+if_settext(inter_199:com_2, ^string_empty);
+if_settext(inter_199:com_3, ^string_empty);
+if_settext(inter_199:com_4, ^string_empty);
+if_settext(inter_199:com_5, ^string_empty);
+if_settext(inter_199:com_6, ^string_empty);
+if_setcolour(inter_199:com_6, ^white_rgb);
+if_settext(inter_199:com_7, "Somewhere far below the Ape Atoll...");
+if_setcolour(inter_199:com_7, ^white_rgb);
+if_settext(inter_199:com_8, ^string_empty);
+if_settext(inter_199:com_9, ^string_empty);
+if_settext(inter_199:com_10, ^string_empty);
+if_settext(inter_199:com_11, ^string_empty);
+if_settext(inter_199:com_12, ^string_empty);
+if_settext(inter_199:com_13, ^string_empty);
+if_setcolour(scroll:com_3, ^yellow_rgb);
+if_setcolour(scroll:com_3, ^yellow_rgb);
+if_openmain(inter_199);
+~fade_out;
+p_delay(4);
+if_close;
+if(npc_findexact(1_41_71_54_35, mm_awowogei_cutscene) = true) {
+    // https://youtu.be/Qr9nNWqN6Y8?si=g2jLc94-ao414-5r&t=3784
+    // cutscene start and facing is different compared to osrs
+    p_teleport(1_41_71_47_35);
+    npc_facesquare(1_41_71_53_35);
+    if_settab(null, ^tab_magic);
+    p_delay(0);
+    if(npc_findexact(1_41_71_53_34, mm_waydar_cutscene) = true & .npc_findexact(1_41_71_53_36, mm_caranock_cutscene) = true) {
+        ~fade_in;
+        npc_facesquare(.npc_coord);
+        .npc_facesquare(npc_coord);
+        %mm_cutscene_part = 0;
+        walktrigger(mm_ch4_walktrigger);
+        if_settext(music:com_177, "Suspicious");
+        midi_song("suspicious");
+        cam_moveto(1_41_71_47_35, 740, 232, 232);
+        cam_lookat(1_41_71_53_35, 240, 232, 232);
+        @mm_ch4_cutscene_dialogue;
+    }
+}
+
+[walktrigger,mm_ch2_walktrigger]
+if(%mm_main >= ^mm_arrived_atoll) {
+    return;
+}
+if(inzone(0_40_71_0_0, 0_40_71_63_63, coord) = false) {
+    cam_reset;
+    if_settab(magic, ^tab_magic);
+    %mm_main = ^mm_arrived_atoll;
+    %mm_lumdo = ^lumdo_travelled;
+    @mm_ch2;
+}
+p_stopaction;
+walktrigger(mm_ch2_walktrigger);
+queue(mm_ch2_cutscene_queue, 0, 0);
+
+[queue,mm_ch2_cutscene_queue]
+if(inzone(0_40_71_0_0, 0_40_71_63_63, coord) = false) {
+    return;
+}
+%mm_cutscene_part = add(%mm_cutscene_part, 1);
+@mm_ch2_cutscene_dialogue;
+
+[label,mm_ch2_cutscene_dialogue]
+if(npc_findexact(0_40_71_43_38, mm_foreman_cutscene) = false | .npc_findexact(0_40_71_43_36, mm_caranock_cutscene) = false) {
+    cam_reset;
+    if_settab(magic, ^tab_magic);
+    p_teleport(%mm_cutscene_coord);
+    %mm_main = ^mm_arrived_atoll;
+    %mm_lumdo = ^lumdo_travelled;
+    @mm_ch2;
+}
+if(%mm_cutscene_part = 0) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~chatnpcnoturn("<p,shifty>The workers are getting restless, Caranock.");
+}
+if(%mm_cutscene_part = 1) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~.chatnpc("<p,shifty>I know...");
+}
+if(%mm_cutscene_part = 2) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~chatnpc("<p,shifty>All this talk of Glough being replaced doesn't bode well for ... how shall I put this ... their morale.");
+}
+if(%mm_cutscene_part = 3) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~.chatnpc("<p,angry>Look, I know.");
+}
+if(%mm_cutscene_part = 4) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~chatnpc("<p,angry>Those are all men with children to feed. Famished families. Worried wives. All of us rely on this shipyard.");
+}
+if(%mm_cutscene_part = 5) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~chatnpc("<p,angry>If something isn't done soon, there'll be revolt. And I won't be able to stop it.");
+}
+if(%mm_cutscene_part = 6) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~.chatnpc("<p,angry>Stop worrying. I'm working on something -");
+}
+if(%mm_cutscene_part = 7) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~chatnpc("<p,angry>What something? You're always working on something. All we ever hear is bad news.");
+}
+if(%mm_cutscene_part = 8) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~chatnpc("<p,angry>First, Glough disappears. Then news of a missing squad of the Royal Guard in our area. And what about that human sent by the King?");
+}
+if(%mm_cutscene_part = 9) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~.chatnpc("<p,angry>The human means nothing. If it becomes too much trouble, I will simply have it ... removed. In the meantime, let it continue to search for that blasted 10th squad.");
+}
+if(%mm_cutscene_part = 10) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~chatnpc("<p,neutral>I am still worried. What am I meant to tell the men?");
+}
+if(%mm_cutscene_part = 11) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~.chatnpc("<p,angry>Stop worrying. I'm working on something - Glough left a few of his agents in the Gnome airforce.");
+}
+if(%mm_cutscene_part = 12) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~.chatnpc("<p,neutral>For now, tell your men to continue work on the battleships. Give me some time.");
+}
+if(%mm_cutscene_part = 13) {
+    %mm_cutscene_part = add(%mm_cutscene_part, 1);
+    ~chatnpc("<p,neutral>I hope you're right, Caranock, for your sake. My sake. For all of our sakes...");
+}
+if(%mm_cutscene_part > 13) {
+    if_close;
+    ~fade_out;
+    p_delay(4);
+    %mm_cutscene_part = 0;
+    if_settab(magic, ^tab_magic);
+    cam_reset;
+    p_teleport(0_43_42_49_19);
+    %mm_main = ^mm_arrived_atoll;
+    %mm_lumdo = ^lumdo_travelled;
+    ~fade_in;
+    p_delay(4);
+    if_openoverlay(null);
+    @mm_ch2;
+}
+
+[walktrigger,mm_ch3_walktrigger]
+if(%mm_main >= ^mm_completed_ch2) {
+    return;
+}
+if(inzone(0_41_71_0_0, 0_41_71_63_63, coord) = false) {
+    cam_reset;
+    if_settab(magic, ^tab_magic);
+    %mm_main = ^mm_completed_ch2;
+    %mm_zooknock = ^zooknock_made_talisman;
+    @mm_ch3;
+}
+p_stopaction;
+walktrigger(mm_ch3_walktrigger);
+queue(mm_ch3_cutscene_queue, 0, 0);
+
+[queue,mm_ch3_cutscene_queue]
+if(inzone(0_41_71_0_0, 0_41_71_63_63, coord) = false) {
+    return;
+}
+%mm_cutscene_part = add(%mm_cutscene_part, 1);
+@mm_ch3_cutscene_dialogue;
+
+[label,mm_ch3_cutscene_dialogue]
+if(npc_findexact(0_41_71_46_15, mm_waydar_cutscene) = true & .npc_findexact(0_41_71_48_15, mm_caranock_cutscene) = true) {
+    if(%mm_cutscene_part = 0) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,shifty>It is good of you to meet me, Waydar.");
+    }
+    if(%mm_cutscene_part = 1) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,neutral>It is good to see you again, Caranock. It is a strange island these monkeys inhabit.");
+    }
+    if(%mm_cutscene_part = 2) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,quiz>Well observed. How have you been keeping yourself occupied?");
+    }
+    if(%mm_cutscene_part = 3) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,neutral>I am now a Flight Commander. My duties include testing Glough's prototype military glider.");
+    }
+    if(%mm_cutscene_part = 4) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>My my. How things have changed somewhat since Glough's time... Now, what of the human?");
+    }
+    if(%mm_cutscene_part = 5) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,neutral>The human? Just somebody Narnode appears to have taken a fancy to. It is hard to tell why. I suspect the human was involved with Glough's fall from grace.");
+    }
+    if(%mm_cutscene_part = 6) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>You may be right. Never mind - there are greater matters afoot. With Glough gone, it falls to us to continue with his plans.");
+    }
+    if(%mm_cutscene_part = 7) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Also, the shipyard workers are becoming restless.");
+    }
+    if(%mm_cutscene_part = 8) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,quiz>I see. What do you have in mind?");
+    }
+    if(%mm_cutscene_part = 9) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,shifty>Money for me, Waydar, and promotion for you. As you know, the 10th squad of the Royal Guard are slightly worse for wear on this island.");
+    }
+    if(%mm_cutscene_part = 10) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,angry>This I know. But I don't see how it leads to money or promotion.");
+    }
+    if(%mm_cutscene_part = 11) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,shifty>What if they were to die? An entire squad of the Royal Guard goes missing in the jungle of Karamja ... We could blame it on the humans.");
+    }
+    if(%mm_cutscene_part = 12) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,shock>Narnode would be furious!");
+    }
+    if(%mm_cutscene_part = 13) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,shifty>Precisely. He might even order an invasion. At the very least he'll step up the defence. More orders for me, promotion for you.");
+    }
+    if(%mm_cutscene_part = 14) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,neutral>Very clever. It might also serve us well to remind Narnode of Bolren's situation.");
+    }
+    if(%mm_cutscene_part = 15) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Ah yes - all that trouble with the Khazard. Last I heard, Bolren had retrieved the orbs of protection. Apparently some human lent their assistance.");
+    }
+    if(%mm_cutscene_part = 16) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,neutral>Really? Typical meddling human behaviour. Nevertheless, it will stoke fires of worry. After all, the battle still continues.");
+    }
+    if(%mm_cutscene_part = 17) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,shifty>I agree. Anyhow, we don't want your human wondering as to your whereabouts. When the time is right, don't hesitate to ... dispose of it.");
+    }
+    if(%mm_cutscene_part = 18) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,shifty>Understood. Military gliders are after all an untested form of transport...");
+    }
+    if(%mm_cutscene_part > 18) {
+        if_close;
+        %mm_main = ^mm_completed_ch2;
+        %mm_zooknock = ^zooknock_made_talisman;
+        ~fade_out;
+        p_delay(4);
+        %mm_cutscene_part = 0;
+        if_settab(magic, ^tab_magic);
+        cam_reset;
+        p_teleport(%mm_cutscene_coord);
+        ~fade_in;
+        p_delay(4);
+        if_openoverlay(null);
+        @mm_ch3;
+    }
+} else {
+    cam_reset;
+    if_settab(magic, ^tab_magic);
+    %mm_main = ^mm_completed_ch2;
+    %mm_zooknock = ^zooknock_made_talisman;
+    @mm_ch3;
+}
+
+[queue,mm_ch3_reset]
+if_settab(magic, ^tab_magic);
+cam_reset;
+@music_play(%currentsong);
+
+[walktrigger,mm_ch4_walktrigger]
+if(%mm_main >= ^mm_completed_ch3) {
+    return;
+}
+if(inzone(1_41_71_0_0, 1_41_71_63_63, coord) = false) {
+    cam_reset;
+    if_settab(magic, ^tab_magic);
+    %mm_main = ^mm_completed_ch3;
+    %mm_garkor = ^garkor_learned_plan;
+    @mm_ch4;
+}
+p_stopaction;
+walktrigger(mm_ch4_walktrigger);
+queue(mm_ch4_cutscene_queue, 0, 0);
+
+[queue,mm_ch4_cutscene_queue]
+if(inzone(1_41_71_0_0, 1_41_71_63_63, coord) = false) {
+    return;
+}
+%mm_cutscene_part = add(%mm_cutscene_part, 1);
+@mm_ch4_cutscene_dialogue;
+
+[label,mm_ch4_cutscene_dialogue]
+if(npc_findexact(1_41_71_53_34, mm_waydar_cutscene) = true & .npc_findexact(1_41_71_53_36, mm_caranock_cutscene) = true) {
+    if(%mm_cutscene_part = 0) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Good evening, Awowogei.");
+    }
+    if(%mm_cutscene_part = 1) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>It is always dark here, Gnome. Why have you asked to see me in private?");
+    }
+    if(%mm_cutscene_part = 2) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,neutral>Caranock and I have a suggestion to make.");
+    }
+    if(%mm_cutscene_part = 3) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>Then be quick about it.");
+    }
+    if(%mm_cutscene_part = 4) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,neutral>The foot soldiers of the Royal Guard in your jail...");
+    }
+    if(%mm_cutscene_part = 5) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Would it not be easier if they were somehow just to ... die?");
+    }
+    if(%mm_cutscene_part = 6) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>Why would I want to do that? Your king would declare war on my island.");
+    }
+    if(%mm_cutscene_part = 7) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>I can assure you he will not. We will lay the blame at the humans' feet.");
+    }
+    if(%mm_cutscene_part = 8) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Narnode will indeed declare war: not against you, but against humankind.");
+    }
+    if(%mm_cutscene_part = 9) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,neutral>You are of course welcome to your share of the profits.");
+    }
+    if(%mm_cutscene_part = 10) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>Intriguing. I have recently secured an alliance with the northern monkeys, which may prove useful.");
+    }
+    if(%mm_cutscene_part = 11) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,quiz>What would you have me do?");
+    }
+    if(%mm_cutscene_part = 12) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Kill the foot soldiers and the rest of the 10th squad. My superior has sent you a few tricks which may prove useful.");
+    }
+    if(%mm_cutscene_part = 13) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,quiz>Such as?");
+    }
+    if(%mm_cutscene_part = 14) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>High magic: the ability to summon the entire 10th squad to a single location. And -");
+    }
+    if(%mm_cutscene_part = 15) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,quiz>Even those who escaped?");
+    }
+    if(%mm_cutscene_part = 16) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Yes. And of course, you will also receive access to one of his 'pets'.");
+    }
+    if(%mm_cutscene_part = 17) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>You must be careful with these, as you have only one use of each. Ensure you set your trap well - none must survive lest they spread the truth.");
+    }
+    if(%mm_cutscene_part = 18) {
+        if_close;
+        p_delay(1);
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc("<p,quiz>What of my human?");
+    }
+    if(%mm_cutscene_part = 19) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,angry>What human??");
+    }
+    if(%mm_cutscene_part = 20) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Ignore <text_gender("him", "her")>. My colleague's official mission was to look after a human in the area, but don't worry: it is probably dead already.");
+    }
+    if(%mm_cutscene_part = 21) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,angry>I should hope so, for both of your sakes.");
+    }
+    if(%mm_cutscene_part = 22) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>Very well. I shall let you know when I have dealt with the Royal Guard.");
+    }
+    if(%mm_cutscene_part = 23) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~.chatnpc("<p,neutral>Good luck, Awowogei.");
+    }
+    if(%mm_cutscene_part = 24) {
+        %mm_cutscene_part = add(%mm_cutscene_part, 1);
+        ~chatnpc_specific(nc_name(mm_awowogei_cutscene), mm_awowogei_cutscene, "<p,neutral>With access to one of Glough's 'pets', I don't think I'll need it...");
+    }
+
+    if(%mm_cutscene_part > 24) {
+        if_close;
+        %mm_main = ^mm_completed_ch3;
+        ~fade_out;
+        p_delay(4);
+        %mm_cutscene_part = 0;
+        if_settab(magic, ^tab_magic);
+        cam_reset;
+        p_teleport(%mm_cutscene_coord);
+        ~fade_in;
+        p_delay(4);
+        if_openoverlay(null);
+        %mm_garkor = ^garkor_learned_plan;
+        @mm_ch4;
+    }
+} else {
+    cam_reset;
+    if_settab(magic, ^tab_magic);
+    %mm_garkor = ^garkor_learned_plan;
+    @mm_ch4;
+}
+
+
+[oploc1,bunker_controlpanal]
+if(%mm_daero > ^daero_started_reinit) ~mesbox("You have already completed reinitialisation.");
+else if(%mm_daero = ^daero_started_reinit) @mm_open_puzzle;
+else ~mesbox("You do not know what you are doing.");
+
+[oploc1,mm_reinitialisation_crate]
+mes("You search the crate.");
+p_delay(2);
+// https://web.archive.org/web/20060910110938im_/http://www.runeweb.net/Roth/monkey-maddness3.PNG
+if(inv_freespace(inv) = 0) {
+    ~objbox(mm_reinitialisation_hint, "This crate is full of...  spare controls!|You don't have space to take any.", 250, 0, 0);
+    return;
+}
+~objbox(mm_reinitialisation_hint, "This crate is full of ...| spare controls!", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) return;
+inv_add(inv, mm_reinitialisation_hint, 1);
+
+[oploc1,bunker_teleport] @mm_bunker_teleport;
+[oploc1,bunker_teleport_floor] @mm_bunker_teleport;
+[oploc1,bunker_teleport_corner] @mm_bunker_teleport;
+
+[label,mm_bunker_teleport]
+anim(human_castteleport, 0);
+spotanim_pl(teleport_casting, 92, 0);
+sound_synth(teleport_all, 0, 0);
+~fade_out;
+p_delay(3);
+p_teleport(0_37_54_25_10);
+~fade_in;
+p_delay(0);
+anim(null, 0);
+queue(fade_clear, 2, 0);
+
+[proc,monkeyspeak_text]()(string)
+def_string $dialogue = "";
+def_int $word_count = 0;
+def_int $roll = 0;
+while($word_count < 8) {
+    $roll = random(8);
+    if($roll = 0) {
+        $dialogue = append($dialogue, "Ah Ah! ");
+        $word_count = add($word_count, 2);
+    } else if($roll = 1) {
+        $dialogue = append($dialogue, "Ah Uh Ah! ");
+        $word_count = add($word_count, 3);
+    } else if($roll = 2) {
+        $dialogue = append($dialogue, "Ah! ");
+        $word_count = add($word_count, 1);
+    } else if($roll = 3) {
+        $dialogue = append($dialogue, "Ook Ah Ook! ");
+        $word_count = add($word_count, 3);
+    } else if($roll = 4) {
+        $dialogue = append($dialogue, "Ook Ah Uh! ");
+        $word_count = add($word_count, 3);
+    } else if($roll = 5) {
+        $dialogue = append($dialogue, "Ook Ook! ");
+        $word_count = add($word_count, 2);
+    } else if($roll = 6) {
+        $dialogue = append($dialogue, "Ook! ");
+        $word_count = add($word_count, 1);
+    } else if($roll = 7) {
+        $dialogue = append($dialogue, "Ook. ");
+        $word_count = add($word_count, 1);
+    }
+}
+return ($dialogue);
+
+[proc,mm_monkeyspeak]
+~chatnpc("<p,neutral><~monkeyspeak_text>");
+
+[label,mm_no_amulet_monkey]
+~chatnpc("<p,neutral><~monkeyspeak_text>");
+~mesbox("You cannot understand what he is saying.");
+
+[queue,aa_guards_queue]
+if(getqueue(aa_guards_queue) > 0) {
+    return;
+}
+~aa_summon_guards(^false);
+
+[proc,aa_summon_guards](int $cooldown_flag)
+if(~mm_wearing_greegree = true) {
+    return;
+}
+if(inzone(0_42_42_0_0, 2_43_43_63_63, coord) = false) { // didn't exist on launch?
+    return;
+}
+if($cooldown_flag = ^true) {
+    // npcs that have the guards summoned queued (like the aunt or dugopul)
+    // will set this var as soon as they call for them and not when the guards appear
+    if(%mm_guards_cooldown > map_clock) {
+        return;
+    }
+    %mm_guards_cooldown = add(map_clock, 50);
+}
+def_npc $main_guard = mm_duke;
+switch_int(random(5)) {
+    case 0 : $main_guard = mm_oipuis;
+    case 1 : $main_guard = mm_uyoro;
+    case 2 : $main_guard = mm_ouhai;
+    case 3 : $main_guard = mm_uodai;
+}
+
+npc_add(map_findsquare(coord, 0, 10, ^map_findsquare_lineofsight), $main_guard, 50);
+spotanim_map(smokepuff, npc_coord, 50, 0);
+sound_synth(smokepuff, 0, 0);
+%npc_aggressive_player = uid;
+npc_setmode(opplayer2);
+
+def_coord $main_coord = npc_coord;
+def_int $count = 0;
+while(random(2) = 0 & $count < 3) {
+    npc_add(map_findsquare($main_coord, 1, 1, ^map_findsquare_lineofsight), mm_monkey_guard, 50);
+    spotanim_map(smokepuff, npc_coord, 50, 0);
+    sound_synth(smokepuff, 0, 0);
+    %npc_aggressive_player = uid;
+    npc_setmode(opplayer2);
+    $count = add($count,1);
+}
+
+[oploc1,mm_bamboo_ladder]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+p_teleport(movecoord(coord, 0, 1, 0));
+mes("You climb up the ladder.");
+
+[oploc1,mm_bamboo_ladder_top]
+p_delay(0);
+anim(human_pickupfloor, 0);
+p_delay(1);
+p_teleport(movecoord(coord, 0, -1, 0));
+mes("You climb down the ladder.");
+
+[oploc1,mm_bamboo_ladder_top_reverse]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+def_int $dx = 0;
+def_int $dz = 0;
+switch_int(loc_angle) {
+    case ^loc_west : $dx = 1;
+    case ^loc_north : $dz = -1;
+    case ^loc_east : $dx = -1;
+    case ^loc_south : $dz = 1;
+}
+p_teleport(movecoord(loc_coord, $dx, -1, $dz));
+mes("You climb down the ladder.");
+
+[oploc1,mm_bamboo_ladder_reverse]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+def_int $dx = 0;
+def_int $dz = 0;
+switch_int(loc_angle) {
+    case ^loc_west : $dx = -1;
+    case ^loc_north : $dz = 1;
+    case ^loc_east : $dx = 1;
+    case ^loc_south : $dz = -1;
+}
+p_teleport(movecoord(loc_coord, $dx, 1, $dz));
+mes("You climb up the ladder.");
+
+[oploc1,mm_bamboo_ladder_watchtower_west]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+p_teleport(movecoord(coord, 0, 2, 0));
+mes("You climb up the ladder.");
+
+[oploc1,mm_bamboo_ladder_top_watchtower_west]
+p_delay(0);
+anim(human_pickupfloor, 0);
+p_delay(1);
+p_teleport(movecoord(coord, 0, -2, 0));
+mes("You climb down the ladder.");
+
+[oploc1,mm_bamboo_ladder_watchtower_east]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+p_teleport(movecoord(coord, 0, 2, 0));
+mes("You climb up the ladder.");
+
+[oploc1,mm_bamboo_ladder_top_watchtower_east]
+p_delay(0);
+anim(human_pickupfloor, 0);
+p_delay(1);
+p_teleport(movecoord(coord, 0, -2, 0));
+mes("You climb down the ladder.");
+
+[oploc1,mm_bamboo_door_secure]
+~open_and_close_door2(mm_bamboo_door_secure_inactive, ~check_axis(coord, loc_coord, loc_angle), bamboodoor_open);
+
+[oploc1,mm_banana_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(banana, "This crate is full of ...  bananas.", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, banana, 1);
+
+[oploc1,mm_banana_crates_stacked]
+mes("You search the crate.");
+p_delay(2);
+~objbox(banana, "This crate is full of ...| bananas.", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, banana, 1);
+
+[oploc1,mm_iron_scimitar_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(iron_scimitar, "This crate is full of ...| iron scimitars!", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, iron_scimitar, 1);
+
+[oploc1,mm_bronze_scimitar_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(bronze_scimitar, "This crate is full of ...| bronze scimitars!", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, bronze_scimitar, 1);
+
+[oploc1,mm_tinderbox_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(tinderbox, "This crate is full of ...| tinderboxes.", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, tinderbox, 1);
+
+[oploc1,mm_thread_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(thread, "This crate is full of ...| crafting thread.", 250, 0, divide(^objbox_height, 2));
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take some?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, thread, 1);
+
+[oploc1,mm_needle_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(needle, "This crate is full of ...| needles.", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, needle, 1);
+
+[oploc1,mm_chisel_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(chisel, "This crate is full of ...| chisels.", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, chisel, 1);
+
+[oploc1,mm_hammer_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(hammer, "This crate is full of ...| hammers.", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, hammer, 1);
+
+[oploc1,mm_denture_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(mm_monkey_dentures, "This crate is full of ...| magical monkey talking dentures!", 250, 0, divide(^objbox_height, 2));
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, mm_monkey_dentures, 1);
+
+[oploc1,mm_monkey_amulet_mould_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(mm_monkey_amulet_mould, "This crate is full of ...| monkey amulet moulds!", 250, 0, divide(^objbox_height, 2));
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, mm_monkey_amulet_mould, 1);
+
+[oploc1,mm_eye_of_gnome_crate]
+mes("You search the crate.");
+p_delay(2);
+~objbox(mm_eye_of_gnome, "This crate is full of ...| slimy gnome eyes!", 250, 0, 0);
+def_int $op = ~p_choice2_header("Yes", 1, "No", 2, "Do you wish to take one?");
+if($op = 2) {
+    return;
+}
+inv_add(inv, mm_eye_of_gnome, 1);
+
+[oploc2,mm_bookcase]
+mes("You find nothing to suit your reading taste here.");
+
+[oploc1,mm_pineapple_plant_one]
+// no invspace
+loc_change(pineapple_plant_no_pineapples, 50);
+inv_add(inv, pineapple, 1);
+mes("You pick a pineapple.");
+sound_synth(pick, 1, 0);
+
+[oploc1,mm_crate_over_hole]
+mes("You search the crate.");
+p_delay(2);
+// https://web.archive.org/web/20060910110938im_/http://www.runeweb.net/Roth/monkey-maddness-c.PNG
+~mesbox("You find a hole in the floor under the crate!|All you can see is the faint glimmer of light|from extremely far below.");
+def_int $op = ~p_choice2_header("Yes, I'm sure.", 1, "No, not yet.", 2, "Would you like to go down?");
+if($op = 2) {
+    ~mesbox("You push the crate over the hole again.");
+    return;
+}
+~mesbox("You begin to lower yourself into the hole...");
+if_close;
+~fade_out;
+p_delay(3);
+p_teleport(0_43_143_49_17);
+p_delay(0);
+~fade_in;
+queue(fade_clear, 2, 0);
+if(stat_random(agility, 150, 300) = false) {
+    // strongqueue
+    queue(damage_player, 0, divide(stat(hitpoints), 3)); // 1/3rd of hp
+    anim(m_human_land, 0);
+    walktrigger(mm_land_getup);
+    ~mesbox("... and fall to the bottom of a very deep cavern!");
+} else {
+    anim(m_human_catlike_land, 0);
+    walktrigger(catlike_land_getup);
+    ~mesbox("... and using your catlike agility land on all fours at the bottom of a large cavern!");
+}
+
+[walktrigger,catlike_land_getup]
+anim(null, 0);
+
+[walktrigger,mm_land_getup]
+anim(m_human_land_getup, 0);
+
+[oploc1,mm_climbing_rope_bottom_eastern_warehouse]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+p_teleport(map_findsquare(0_43_43_12_17, 0, 2, ^map_findsquare_lineofwalk));
+mes("You climb up the rope.");
+
+[oploc1,mm_eastern_warehouse_trapdoor]
+anim(human_pickupfloor, 0);
+p_delay(0);
+mes("The trapdoor seems locked from the inside.");
+
+[oploc1,mm_climbing_rope_bottom_western_warehouse]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+p_teleport(map_findsquare(0_42_43_61_16, 0, 2, ^map_findsquare_lineofwalk));
+mes("You climb up the rope.");
+
+[oploc1,mm_bamboo_door]
+mes("The door is locked.");
+
+[oploc1,mm_bridge_ladder]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+p_teleport(movecoord(loc_coord, 0, 2, -1));
+mes("You climb up the ladder.");
+
+[oploc1,mm_bridge_ladder_top]
+p_delay(0);
+anim(human_pickupfloor, 0);
+p_delay(1);
+p_teleport(movecoord(loc_coord, 0, -2, 1));
+mes("You climb down the ladder.");
+
+[oploc1,mm_jumping_square]
+if(~mm_wearing_greegree = true) {
+    mes("You do not want to do that as a monkey.");
+    return;
+}
+queue(damage_player, 0, 1);
+~agility_exactmove(agilityarena_dive_player, 20, 1, coord, movecoord(coord, 0, 0, -2), 30, 49, ^exact_south, false);
+p_teleport(0_43_42_51_36);
+
+[opobj1,mm_enchanted_gold_bar]
+def_string $text = "<~monkeyspeak_text>";
+if(inv_total(worn, mm_amulet_of_monkey_speak) > 0) {
+    if(random(2) = 0) $text = "'I'm stuck in this horrible gold bar!'";
+    else $text = "'Argh! Get me out of here!'";
+}
+~objbox(mm_enchanted_gold_bar, "The enchanted gold bar says:|@dbl@<$text>", 250, 0, 0);
+
+[oplocu,mm_pyre]
+if(last_useitem = mm_enchanted_gold_bar) {
+    anim(human_furnace, 0);
+    sound_synth(furnace, 0, 0);
+    p_delay(2);
+    mes("It becomes hot and a bit gloopy, but not much else happens.");
+    return;
+}
+~displaymessage(^dm_default);
+
+[oplocu,mm_iban_firewall_straight] @opu_mm_firewall;
+[oplocu,mm_iban_firewall_diagonal] @opu_mm_firewall;
+
+[label,opu_mm_firewall]
+def_int $slot = last_useslot;
+if(last_useitem = mm_enchanted_gold_bar) {
+    if(inv_total(inv, mm_monkey_amulet_mould) = 0) {
+        ~mesbox("You do not have anything suitable for smithing an enchanted gold bar.");
+        return;
+    }
+    anim(human_furnace, 0);
+    sound_synth(furnace, 0, 0);
+    inv_delslot(inv, $slot);
+    p_delay(2);
+    mes("You smith the enchanted gold into an amulet.");
+    inv_setslot(inv, $slot, mm_amulet_of_monkey_speak_without_string, 1);
+    stat_advance(crafting, 2000);
+    return;
+}
+@use_furnace;
+
+[label,mm_string_amulet]
+inv_del(inv, mm_amulet_of_monkey_speak_without_string, 1);
+inv_del(inv, ball_of_wool, 1);
+inv_add(inv, mm_amulet_of_monkey_speak, 1);
+stat_advance(crafting, 40);
+mes("You put some string on your amulet. It makes a slight 'Ook' sound.");
+
+[oploc1,mm_stairs_base]
+p_teleport(movecoord(coord, 0, 1, 4));
+mes("You climb up the stairs.");
+
+[oploc1,mm_stairs_top]
+p_teleport(movecoord(coord, 0, -1, -4));
+mes("You climb down the stairs.");
+
+[oploc1,mm_bananatreeempty]
+mes("There are no bananas left on the tree.");
+
+[proc,mm_greegree_zone](coord $coord)(boolean)
+if(inzone(0_42_42_0_0, 2_43_43_63_63, $coord) = true | inzone(0_42_142_0_0, 0_43_142_63_63, $coord) = true |
+    inzone(0_40_51_32_1, 0_41_51_15_23, $coord) = true | inzone(0_41_71_0_0, 0_41_71_63_63, $coord) = true |
+    inzone(0_43_143_0_0, 0_43_143_63_63, $coord) = true) {
+    return (true);
+}
+return (false);
+
+[oploc1,mm_bamboo_largedoor] @open_mm_largedoor;
+[oploc1,mm_bamboo_largedoor_left] @open_mm_largedoor;
+
+[label,open_mm_largedoor]
+if(~mm_wearing_greegree = false) {
+    mes("The gate is too heavy to move!");
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~chatnpc_specific(nc_name(mm_kruk), mm_kruk, "<p,neutral><~monkeyspeak_text>");
+} else {
+    ~chatnpc_specific(nc_name(mm_kruk), mm_kruk, "<p,angry>Open the gates! A monkey wishes to pass!");
+}
+sound_synth(ravinegate_open, 0, 0);
+if(coordz(coord) > coordz(loc_coord)) {
+    if(loc_find(0_42_43_33_14, mm_bamboo_largedoor_left) = true) {
+        loc_del(5);
+        loc_add(0_42_43_34_14, mm_bamboo_largedoor_open_left, 2, centrepiece_straight, 5);
+    }
+    if(loc_find(0_42_43_31_14, mm_bamboo_largedoor) = true) {
+        loc_del(5);
+        loc_add(0_42_43_31_14, mm_bamboo_largedoor_open, 0, centrepiece_straight, 5);
+    }
+    ~forcemove(movecoord(coord, 0, 0, -3));
+} else {
+    if(loc_find(0_42_43_33_14, mm_bamboo_largedoor_left) = true) {
+        loc_del(5);
+        loc_add(0_42_43_34_13, mm_bamboo_largedoor_open_left, 0, centrepiece_straight, 5);
+    }
+    if(loc_find(0_42_43_31_14, mm_bamboo_largedoor) = true) {
+        loc_del(5);
+        loc_add(0_42_43_31_13, mm_bamboo_largedoor_open, 2, centrepiece_straight, 5);
+    }
+    ~forcemove(movecoord(coord, 0, 0, 3));
+}
+p_delay(0);
+
+[proc,mm_greegree_transmogrify](obj $obj)
+if($obj = null) return;
+if(oc_category($obj) = mm_greegree) {
+    p_transmogrify(oc_param($obj, next_npc_type));
+    p_animprotect(^true);
+    if_settab(null, ^tab_magic);
+    settimer(mm_greegree_timer, 1);
+}
+
+[proc,mm_wearing_greegree]()(boolean)
+if(inv_totalcat(worn, mm_greegree) > 0) {
+    return (true);
+}
+return (false);
+
+[queue,fade_clear]
+if_openoverlay(null);
+
+// regular quest_complete song (osrs just uses ooks)
+[queue,mm_quest_complete]
+%mm_main = ^mm_complete;
+session_log(^log_adventure, "Quest complete: Monkey Madness");
+queue(mm_complete_dialogue, 0, 0);
+~send_quest_complete(questlist:mm, mm_monkey_in_backpack, 250, ^mm_questpoints, "You have completed the\\n'Monkey Madness' Quest!");
+
+[proc,fade_out]
+if_setanim(castlewars_shopside:com_0, null);
+if_openoverlay(castlewars_shopside);
+if_setobject(castlewars_shopside:com_0, fade_to_black_inv, 1000);
+if_setanim(castlewars_shopside:com_0, fade_out);
+
+[proc,fade_in]
+if_setanim(castlewars_shopside:com_0, null);
+if_openoverlay(castlewars_shopside);
+if_setobject(castlewars_shopside:com_0, fade_to_black_inv, 1000);
+if_setanim(castlewars_shopside:com_0, fade_in);

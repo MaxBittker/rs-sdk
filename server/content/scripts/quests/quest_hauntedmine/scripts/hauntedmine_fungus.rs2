@@ -1,0 +1,94 @@
+[oploc1,glowing_mushroom] @hauntedmine_pick_fungus;
+[oploc1,glowing_mushroom2] @hauntedmine_pick_fungus;
+
+[label,hauntedmine_pick_fungus]
+if (inv_freespace(inv) = 0) {
+    mes("You don't have enough inventory space to hold the fungus.");
+    return;
+}
+loc_del(2); // 1t in osrs
+inv_add(inv, glowing_fungus, 1);
+sound_synth(pick, 0, 0);
+mes("You pull the fungus from the water. It is very cold to the touch.");
+
+// Seems like a custom drop script in osrs. Early osrs dropping would universally anim(null, 0).
+// but they removed it at some point. However, glowing fungus still has anim(null, 0)!
+// Doing something like, setslot -> ashes and ~dropslot would be unreliable because
+// ~dropslot isnt guaranteed to drop it (a few area restrictions)
+
+// Additionally, ironmen can pick up the ashes from it, which means its obj_add anyway
+[opheld5,glowing_fungus]
+mes("When you drop the fungus it crumbles mysteriously to dust.");
+inv_delslot(inv, last_slot);
+obj_add(coord, ashes, 1, ^lootdrop_duration);
+anim(null, 0); // does this in osrs
+sound_synth(put_down, 0, 0);
+
+
+// test:
+// - Dying with 4 shrooms: changes all shrooms to ashes, and drops 1 ash in your death tile
+[proc,hauntedmine_fungus_crumble]
+def_int $count = inv_total(inv, glowing_fungus);
+if ($count < 1) {
+    return;
+}
+~inv_changeitem(inv, glowing_fungus, ashes, $count);
+mes("The strange fungus you are carrying crumbles to dust.");
+
+[proc,hauntedmine_fungus_crawl]
+def_int $count = inv_total(inv, glowing_fungus);
+if ($count < 1) {
+    return;
+}
+~inv_changeitem(inv, glowing_fungus, ashes, $count);
+~mesbox("As you crawl out into the sunlight, the strange fungus you are carrying crumbles to dust.");
+
+[proc,hauntedmine_fungus_stepout]
+def_int $count = inv_total(inv, glowing_fungus);
+if ($count < 1) {
+    return;
+}
+~inv_changeitem(inv, glowing_fungus, ashes, $count);
+~mesbox("As you step out into the sunlight, the strange fungus you are carrying crumbles to dust.");
+
+[oplocu,hauntedmine_puzzle_cart]
+if (last_useitem ! glowing_fungus) {
+    ~displaymessage(^dm_default);
+    return;
+}
+if (loc_coord = ^hauntedmine_endcart_coord) {
+    mes("I just went to all the effort of getting this over here. I'm not sending it back.");
+    return;
+}
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_begincart_fungus) = ^true) {
+    mes("There's already a load of fungus in this cart.");
+    return;
+}
+inv_delslot(inv, last_useslot);
+%hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_begincart_fungus);
+mes("You place the glowing fungus in the mine cart.");
+
+[oploc1,hauntedmine_puzzle_cart]
+if (loc_coord = ^hauntedmine_endcart_coord) {
+    if (testbit(%hauntedmine_bits, ^hauntedmine_bits_endcart_fungus) = ^false) {
+        mes("The cart is empty.");
+        return;
+    }
+    if (~p_choice2_header("Take it.", 0, "Leave it.", 1, "There's a glowing fungus I placed in here earlier.") = 1) {
+        return;
+    }
+    inv_add(inv, glowing_fungus, 1); // no inv_space check
+    %hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_endcart_fungus);
+    return;
+}
+
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_begincart_fungus) = ^false) {
+    mes("The cart is empty.");
+    return;
+}
+if (~p_choice2_header("Take it.", 0, "Leave it.", 1, "There's a glowing fungus I placed in here earlier.") = 1) {
+    return;
+}
+inv_add(inv, glowing_fungus, 1); // no inv_space check
+%hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_begincart_fungus);
+

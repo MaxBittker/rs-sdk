@@ -17,7 +17,7 @@ if(%arenaquest = ^arena_sent_jail) {
     ~chatnpc("<p,shifty>Wait.. sshh, the guard is coming. Looks like you'll be going into the arena. Good luck friend.");
     if_close;
     // https://youtu.be/NHsQfeSPUb0?si=c_S0jTnjDBF0xilE&t=189
-    npc_add(0_40_49_26_4, arena_guard5_cutscene, 100);
+    npc_add(0_40_49_26_4, arena_leadguard, 100);
     npc_setmode(none);
     npc_walk(npc_coord);
     p_delay(0);
@@ -40,7 +40,7 @@ if(%arenaquest = ^arena_sent_jail) {
         // Temp note: dur updated
         loc_change(inviswall, 3);
         loc_add(movecoord($loc_coord, $x, 0, $z), ctratgatea, modulo(add($angle, 1), 4), $shape, 3);
-        sound_synth(grate_open, 0, 0);
+        sound_synth(grate_open, 1, 0);
     }
     p_teleport(movecoord(coord, 0, 0, -1));
     p_delay(1);
@@ -61,8 +61,8 @@ if(%arenaquest = ^arena_sent_jail) {
         $x, $z = ~door_open($angle, loc_shape);
         // Temp note: dur updated
         loc_change(inviswall, 3);
-        loc_add(movecoord($loc_coord, $x, 0, $z), desertdoor_inactive, modulo(add($angle, 1), 4), $shape, 3);
-        sound_synth(door_open, 0, 0);
+        loc_add(movecoord($loc_coord, $x, 0, $z), loc_1532, modulo(add($angle, 1), 4), $shape, 3);
+        sound_synth(door_open, 1, 0);
     }
     ~forcemove(movecoord(coord, -4, 0, 4));
     npc_del;

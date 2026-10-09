@@ -150,7 +150,7 @@ if (calc($z / 2) <= $x & calc($x / 2) <= $z) { // south-west
 def_int $duration = ~player_projectile($projectile_coord, coord, uid, firebreath_travel, 92, 31, 51, 16, -5, 64, 10);
 
 npc_anim(dragon_firebreath_middle_attack, 0);
-sound_synth(dragonbreath, 0, 30);
+sound_synth(dragonbreath, 1, 30);
 spotanim_pl(fireblast_impact, 124, $duration); // https://web.archive.org/web/20040928200427/http://rsblacknights.com/modules/gallery/images/KingBlackDragon/kb3.JPG
 %npc_action_delay = add(map_clock, 5);
 
@@ -176,7 +176,7 @@ queue*(playerhit_n_retaliate, calc($duration / 30))(npc_uid);
 if_close;
 spotanim_npc(triple_firebreath_attack, 92, 0);
 npc_anim(dragon_firebreath_all_attack, 0);
-sound_synth(dragonbreath, 0, 30);
+sound_synth(dragonbreath, 1, 30);
 %npc_action_delay = add(map_clock, 5);
 
 def_int $damage = 0;
@@ -201,7 +201,7 @@ if_close;
 spotanim_npc(acidbreath_attack, 92, 0);
 npc_anim(dragon_firebreath_right_attack, 0);
 
-sound_synth(toxicbreath, 0, 30);
+sound_synth(toxicbreath, 1, 30);
 %npc_action_delay = add(map_clock, 5);
 
 def_int $damage = 0;
@@ -231,7 +231,7 @@ queue*(playerhit_n_retaliate, 0)(npc_uid);
 if_close;
 // spotanim_npc(portal, 92, 0);
 npc_anim(dragon_firebreath_middle_attack, 0);
-sound_synth(lightningbreath, 0, 30);
+sound_synth(lightningbreath, 1, 30);
 spotanim_pl(nezik_flamestrike, 0, 60);
 %npc_action_delay = add(map_clock, 5);
 
@@ -277,7 +277,7 @@ if_close;
 spotanim_npc(icebreath_attack, 92, 0);
 npc_anim(dragon_firebreath_left_attack, 0);
 
-sound_synth(kingicebreath, 0, 30);
+sound_synth(kingicebreath, 1, 30);
 %npc_action_delay = add(map_clock, 5);
 
 // freeze player
@@ -359,7 +359,7 @@ return($maxhit);
 [oploc1,dragonkinginlever]
 p_delay(0); // delay in osrs? isntead of arrivedelay
 anim(human_leverdown, 0); // OSRS uses seq's not in 225, going to assume here
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 // Temp note: dur updated
 loc_change(hauntedleverdown, 7);
 if_close;
@@ -374,7 +374,7 @@ mes("...And teleport into the Dragon's lair."); // changed to "Lair" (uppercase)
 [oploc1,dragonkingoutlever]
 p_arrivedelay;
 anim(human_leverdown, 0); // OSRS uses seq's not in 225, going to assume here
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 // Temp note: dur updated
 loc_change(hauntedleverdown, 7);
 if_close;

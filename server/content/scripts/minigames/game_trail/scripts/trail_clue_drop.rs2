@@ -1,5 +1,6 @@
 [proc,trail_geteasyclue]()(namedobj)
 if(~trail_hasclue_all = false) {
+    ~clear_trail_progress;
     def_namedobj $trail_clue_easy = enum(int, namedobj, trail_easy_enum, random(enum_getoutputcount(trail_easy_enum)));
     return($trail_clue_easy);
 } else {
@@ -8,6 +9,7 @@ if(~trail_hasclue_all = false) {
 
 [proc,trail_getmediumclue]()(namedobj)
 if(~trail_hasclue_all = false) {
+    ~clear_trail_progress;
     def_namedobj $trail_clue_medium = enum(int, namedobj, trail_medium_enum, random(enum_getoutputcount(trail_medium_enum)));
     return($trail_clue_medium);
 } else {
@@ -16,6 +18,7 @@ if(~trail_hasclue_all = false) {
 
 [proc,trail_gethardclue]()(namedobj)
 if(~trail_hasclue_all = false) {
+    ~clear_trail_progress;
     def_namedobj $trail_clue_hard = enum(int, namedobj, trail_hard_enum, random(enum_getoutputcount(trail_hard_enum)));
     return($trail_clue_hard);
 } else {

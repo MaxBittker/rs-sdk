@@ -1,4 +1,4 @@
-// A headless RS274 client that presents the exact surface the bot bridge reads.
+// A headless RS289 client that presents the exact surface the bot bridge reads.
 //
 // The bridge (src/bot/StateCollector.ts, ActionExecutor.ts) accesses the browser
 // Client through ~54 methods and ~36 private fields. Everything in this file

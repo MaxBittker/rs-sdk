@@ -150,7 +150,7 @@ export class MapView extends GameShell {
     activeMapFunctionCount: number = 0;
 
     overview: Pix32 | null = null;
-    overviewHeight: number = 200;
+    overviewHeight: number = 180;
     overviewWidth: number = ((this.overviewHeight * this.mapWidth) / this.mapHeight) | 0;
     overviewX: number = 635 - this.overviewWidth - 5;
     overviewY: number = 503 - this.overviewHeight - 20;
@@ -205,7 +205,7 @@ export class MapView extends GameShell {
         'Spinning Wheel',
         'Food Shop',
         'Cookery Shop',
-        '???',
+        'Mini-Game',
         'Water Source',
         'Cooking Range',
         'Skirt Shop',
@@ -215,7 +215,8 @@ export class MapView extends GameShell {
         'Chainmail Shop',
         'Silver Shop',
         'Fur Trader',
-        'Spice Shop'
+        'Spice Shop',
+        'Agility Training'
     ];
 
     constructor() {
@@ -227,6 +228,7 @@ export class MapView extends GameShell {
     override async maininit(): Promise<void> {
         // custom:
         this.keyHeight = this.sHei - this.keyY - 20;
+        this.overviewWidth = ((this.overviewHeight * this.mapWidth) / this.mapHeight) | 0;
         this.overviewX = this.sWid - this.overviewWidth - 5;
         this.overviewY = this.sHei - this.overviewHeight - 20;
         this.fullredraw = true;

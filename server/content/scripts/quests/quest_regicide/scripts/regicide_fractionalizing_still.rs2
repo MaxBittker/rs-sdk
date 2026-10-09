@@ -26,19 +26,19 @@ if(testbit(%regicide_still_settings, 27) = ^true) {
     %regicide_still_settings = clearbit(%regicide_still_settings, 28);
     %regicide_still_settings = setbit(%regicide_still_settings, 27);
 }
-sound_synth(valveturn, 0, 0);
+sound_synth(valveturn, 1, 0);
 
 [if_button,regicide_still:com_130]
 if(testbit(%regicide_still_settings, 26) = ^true) {
     %regicide_still_settings = clearbit(%regicide_still_settings, 26);
     %regicide_still_settings = setbit(%regicide_still_settings, 27);
-    sound_synth(low_pressure, 0, 0);
+    sound_synth(low_pressure, 1, 0);
 } else if(testbit(%regicide_still_settings, 27) = ^true) {
     %regicide_still_settings = clearbit(%regicide_still_settings, 27);
     %regicide_still_settings = setbit(%regicide_still_settings, 28);
-    sound_synth(mid_pressure, 0, 0);
+    sound_synth(mid_pressure, 1, 0);
 }
-sound_synth(valveturn, 0, 0);
+sound_synth(valveturn, 1, 0);
 
 [if_button,regicide_still:com_131]
 if(testbit(%regicide_still_settings, 30) = ^true) {
@@ -48,7 +48,7 @@ if(testbit(%regicide_still_settings, 30) = ^true) {
     %regicide_still_settings = clearbit(%regicide_still_settings, 31);
     %regicide_still_settings = setbit(%regicide_still_settings, 30);
 }
-sound_synth(valveturn, 0, 0);
+sound_synth(valveturn, 1, 0);
 
 [if_button,regicide_still:com_132]
 if(testbit(%regicide_still_settings, 29) = ^true) {
@@ -58,7 +58,7 @@ if(testbit(%regicide_still_settings, 29) = ^true) {
     %regicide_still_settings = clearbit(%regicide_still_settings, 30);
     %regicide_still_settings = setbit(%regicide_still_settings, 31);
 }
-sound_synth(valveturn, 0, 0);
+sound_synth(valveturn, 1, 0);
 
 [if_button,regicide_still:com_120]
 if(inv_total(inv, coal) = 0) {
@@ -67,7 +67,7 @@ if(inv_total(inv, coal) = 0) {
 inv_del(inv, coal, 1);
 // the change of heat when inserting coal is reliant on pressure
 %temp = add(%temp, 60);
-sound_synth(coalfill, 0, 0);
+sound_synth(coalfill, 1, 0);
 
 [proc,regicide_change_pressure_valve](int $base, int $max, int $value)
 def_int $current = -1;
@@ -88,7 +88,7 @@ def_int $bit = add($current, $value);
 if ($bit < $base) $bit = $base; 
 if ($bit > $max) {
     ~reset_regicide_still;
-    sound_synth(pressure_toohigh, 0, 0);
+    sound_synth(pressure_toohigh, 1, 0);
     return; 
 }
 
@@ -141,11 +141,11 @@ if(testbit(%regicide_still_settings, 30) = ^true) {
 }
 
 if(testbit(%regicide_still_settings, 26) = ^true) {
-    sound_synth(low_pressure, 0, 0);
+    sound_synth(low_pressure, 1, 0);
 } else if(testbit(%regicide_still_settings, 27) = ^true) {
-    sound_synth(mid_pressure, 0, 0);
+    sound_synth(mid_pressure, 1, 0);
 } else if(testbit(%regicide_still_settings, 28) = ^true) {
-    sound_synth(high_pressure, 0, 0);
+    sound_synth(high_pressure, 1, 0);
 }
 
 

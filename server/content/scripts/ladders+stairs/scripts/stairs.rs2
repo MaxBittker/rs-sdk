@@ -1,4 +1,4 @@
-[oploc1,loc_1722]
+[oploc1,stairs]
 p_arrivedelay;
 // Climb up
 switch_coord (loc_coord) {
@@ -42,7 +42,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1723]
+[oploc1,stairstop]
 p_arrivedelay;
 // Climb down
 switch_coord (loc_coord) {
@@ -87,7 +87,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1728]
+[oploc1,yanillestairsdown]
 // no arrive delay on these stairs
 // Climb up
 switch_coord (loc_coord) {
@@ -95,7 +95,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1729]
+[oploc1,yanillestairsup]
 // no arrive delay on these stairs
 // Climb up
 switch_coord (loc_coord) {
@@ -103,7 +103,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1730]
+[oploc1,spookystairs]
 p_arrivedelay;
 // Climb up
 switch_coord (loc_coord) {
@@ -113,7 +113,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1731]
+[oploc1,spookystairstop]
 p_arrivedelay;
 // Climb down
 switch_coord (loc_coord) {
@@ -124,7 +124,7 @@ switch_coord (loc_coord) {
 }
 
 
-[oploc1,loc_1733]
+[oploc1,stairs_cellar]
 p_arrivedelay;
 // Climb down
 switch_coord (loc_coord) {
@@ -164,7 +164,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1737]
+[oploc1,outdoorstairs_wooden_bottom]
 p_arrivedelay;
 // Climb up
 switch_coord (loc_coord) {
@@ -178,7 +178,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1738]
+[oploc1,spiralstairs]
 // Climb up
 switch_coord (loc_coord) {
     case 0_50_50_4_7 : p_telejump(1_50_50_5_9); // Lumbridge Castle South - level 0
@@ -231,11 +231,12 @@ switch_coord (loc_coord) {
     case 2_50_54_21_16 : p_telejump(3_50_54_23_16); // Varrock castle east tower - level 2
     case 0_53_54_25_36 : p_telejump(1_53_54_24_37); // Paterdomus Temple - Ground Floor (North)
     case 0_53_54_25_28 : p_telejump(1_53_54_24_29); // Paterdomus Temple - Ground Floor (South)
+    case 0_40_60_53_27 : p_telejump(1_40_60_55_27); // Etceteria castle - ground floor
     case 0_54_54_45_19 : p_telejump(1_54_54_44_20); // Canifis Hair of the Dog Tavern
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1739]
+[oploc1,spiralstairsmiddle]
 // Option for up/down
 switch_coord (loc_coord) {
     case 1_50_50_4_7 : @stair_options(2_50_50_5_9, 0_50_50_5_9); // Lumbridge Castle South - level 1
@@ -251,7 +252,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc2,loc_1739]
+[oploc2,spiralstairsmiddle]
 // Climb-up
 switch_coord (loc_coord) {
     case 1_50_50_4_7 : p_telejump(2_50_50_5_9); // Lumbridge Castle South - level 1
@@ -267,7 +268,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc3,loc_1739]
+[oploc3,spiralstairsmiddle]
 // Climb-down
 switch_coord (loc_coord) {
     case 1_50_50_4_7 : p_telejump(0_50_50_5_9); // Lumbridge Castle South - level 1
@@ -283,7 +284,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1740]
+[oploc1,spiralstairstop]
 // Climb down
 switch_coord (loc_coord) {
     case 2_50_50_5_8 : p_telejump(1_50_50_5_9); // Lumbridge Castle South - level 2
@@ -336,11 +337,12 @@ switch_coord (loc_coord) {
     case 3_50_54_22_16 : p_telejump(2_50_54_22_15); // Varrock castle east tower - level 3
     case 1_53_54_25_37 : p_telejump(0_53_54_25_38); // Paterdomus Temple - Level 1 (North)
     case 1_53_54_25_29 : p_telejump(0_53_54_25_30); // Paterdomus Temple - Level 1 (South)
+    case 1_40_60_54_27 : p_telejump(0_40_60_54_26); // Etceteria castle - level 2
     case 1_54_54_45_20 : p_telejump(0_54_54_45_21); // Canifis Hair of the Dog Tavern
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1742]
+[oploc1,spiralstairs_wooden]
 // Climb up - Tree Gnome Stronghold stairs
 switch_int (loc_angle) {
     case 0 : p_telejump(movecoord(loc_coord, 2, 1, 0));
@@ -350,7 +352,7 @@ switch_int (loc_angle) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1744]
+[oploc1,spiralstairstop_wooden]
 // Climb down - Tree Gnome Stronghold stairs
 switch_int (loc_angle) {
     case 0 : p_telejump(movecoord(loc_coord, 0, -1, -1));
@@ -360,7 +362,39 @@ switch_int (loc_angle) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_2316]
+[oploc1,spiralstairsmiddle_wooden]
+// Climb - Miscellania Castle stairs
+switch_coord (loc_coord) {
+    case 1_39_60_9_8 : @stair_options(movecoord(coord, 0, 1, 0), movecoord(coord, 0, -1, 0));
+    case 1_39_60_9_31 : @stair_options(movecoord(coord, 0, 1, 0), movecoord(coord, 0, -1, 0));
+    case 2_39_60_9_8 : @stair_options(movecoord(coord, 0, 1, 0), movecoord(coord, 0, -1, 0));
+    case 2_39_60_9_31 : @stair_options(movecoord(coord, 0, 1, 0), movecoord(coord, 0, -1, 0));
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc2,spiralstairsmiddle_wooden]
+// Climb up - Miscellania Castle stairs
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 1_39_60_9_8 : p_telejump(movecoord(coord, 0, 1, 0));
+    case 1_39_60_9_31 : p_telejump(movecoord(coord, 0, 1, 0));
+    case 2_39_60_9_8 : p_telejump(movecoord(coord, 0, 1, 0));
+    case 2_39_60_9_31 : p_telejump(movecoord(coord, 0, 1, 0));
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc3,spiralstairsmiddle_wooden]
+// Climb down - Miscellania Castle stairs
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 1_39_60_9_8 : p_telejump(movecoord(coord, 0, -1, 0));
+    case 1_39_60_9_31 : p_telejump(movecoord(coord, 0, -1, 0));
+    case 2_39_60_9_8 : p_telejump(movecoord(coord, 0, -1, 0));
+    case 2_39_60_9_31 : p_telejump(movecoord(coord, 0, -1, 0));
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,balance40up]
 // no arrive delay on these stairs
 // Climb up
 switch_coord (loc_coord) {
@@ -390,7 +424,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1725]
+[oploc1,woodenstairs]
 // No arrive delay
 switch_coord (loc_coord) {
     case 0_50_53_27_1 : p_telejump(1_50_53_30_1); // Blue moon inn - level 0
@@ -405,7 +439,7 @@ switch_coord (loc_coord) {
     case default : @unhandled_stairs(loc_coord);
 }
 
-[oploc1,loc_1726]
+[oploc1,woodenstairstop]
 // No arrive delay
 switch_coord (loc_coord) {
     case 1_50_53_28_1 : p_telejump(0_50_53_26_1); // Blue moon inn - level 1
@@ -493,3 +527,93 @@ if ($option = 1) {
 [label,unhandled_stairs](coord $coord)
 mes("Unhandled stairs: <lc_debugname(loc_type)> at");
 mes(~coord_tostring($coord)); // split line because its so hard to see the coord
+
+// https://oldschool.runescape.wiki/w/Update:Santa,%20Flax%20and%20Castlewars
+// "To fix this, when going up and down stairs, you can no longer take your own teams flag AWAY from its starting area."
+[label,castlewars_topstair_checksaradomin](coord $dest)
+if (%castlewars_team = ^castlewars_team_saradomin & inv_total(worn, castlewars_saradomin_banner) > 0) {
+    // text from osrs discord, exclamation point unconfirmed
+    mes("Saradomin won't let you take his standard toward the enemy!");
+    return;
+}
+p_teleport($dest);
+
+[label,castlewars_topstair_checkzamorak](coord $dest)
+if (%castlewars_team = ^castlewars_team_zamorak & inv_total(worn, castlewars_zamorak_banner) > 0) {
+    // text from osrs discord, exclamation point unconfirmed
+    mes("Zamorak won't let you take his standard toward the enemy!");
+    return;
+}
+p_teleport($dest);
+
+[oploc1,castlewars_topstair]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 1_37_48_51_8 : @castlewars_topstair_checksaradomin(0_37_48_51_5);
+    case 2_37_48_62_9 : @castlewars_topstair_checksaradomin(1_37_48_59_9);
+    case 3_37_48_57_2 : @castlewars_topstair_checksaradomin(2_37_48_57_5);
+    case 1_37_48_12_55 : @castlewars_topstair_checkzamorak(0_37_48_12_58);
+    case 2_37_48_1_54 : @castlewars_topstair_checkzamorak(1_37_48_4_54);
+    case 3_37_48_6_61 : @castlewars_topstair_checkzamorak(2_37_48_6_58);
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,castlewars_topstair_linked]
+p_arrivedelay;
+@unhandled_stairs(loc_coord);
+
+[oploc1,castlewars_outsidestairs_saradomin]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 0_37_48_51_6 : p_teleport(1_37_48_52_8);
+    case 1_37_48_60_9 : p_teleport(2_37_48_62_8);
+    case 2_37_48_57_2 : p_teleport(3_37_48_58_2);
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,castlewars_outsidestairs_zamorak]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 0_37_48_12_55 : p_teleport(1_37_48_11_55);
+    case 1_37_48_1_54 : p_teleport(2_37_48_1_55);
+    case 2_37_48_6_59 : p_teleport(3_37_48_5_61);
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,castlewars_outsidestairs_saradomin_linked]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 0_37_48_49_2 :
+        if (coordx(coord) < coordx(loc_coord)) {
+            // down
+            p_telejump(0_37_48_49_5);
+        } else {
+            // up - todo: confirm whether you can take your own banner up here. adding for now to satisfy "when going **up** and down stairs"
+            if (%castlewars_team = ^castlewars_team_saradomin & inv_total(worn, castlewars_saradomin_banner) > 0) {
+                // text from osrs discord, exclamation point unconfirmed
+                mes("Saradomin won't let you take his standard toward the enemy!");
+                return;
+            }
+            p_telejump(0_37_48_48_2);
+        }
+    case default : @unhandled_stairs(loc_coord);
+}
+
+[oploc1,castlewars_outsidestairs_zamorak_linked]
+p_arrivedelay;
+switch_coord (loc_coord) {
+    case 0_37_48_14_59 :
+        if (coordx(coord) > coordx(loc_coord)) {
+            // down
+            p_telejump(0_37_48_14_58);
+        } else {
+            // up - todo: confirm whether you can take your own banner up here. adding for now to satisfy "when going **up** and down stairs"
+            if (%castlewars_team = ^castlewars_team_zamorak & inv_total(worn, castlewars_zamorak_banner) > 0) {
+                // text from osrs discord, exclamation point unconfirmed
+                mes("Zamorak won't let you take his standard toward the enemy!");
+                return;
+            }
+            p_telejump(0_37_48_15_61);
+        }
+    case default : @unhandled_stairs(loc_coord);
+}

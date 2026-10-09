@@ -138,7 +138,7 @@ while(loc_findnext = true) {
             loc_add($central_coord, inviswall, $orig_angle, loc_shape, 3);
      }
 }
-sound_synth(iron_door_open, 0, 0);
+sound_synth(iron_door_open, 1, 0);
 if(%itkeepgatelock = 0) {
     %itkeepgatelock = 1;
     mes("The gate unlocks.");

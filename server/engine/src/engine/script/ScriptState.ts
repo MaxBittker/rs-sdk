@@ -6,7 +6,7 @@ import Obj from '#/engine/entity/Obj.js';
 import Player from '#/engine/entity/Player.js';
 import { ScriptArgument } from '#/engine/entity/PlayerQueueRequest.js';
 import ScriptFile from '#/engine/script/ScriptFile.js';
-import ScriptPointer, { ScriptPointerNameMap } from '#/engine/script/ScriptPointer.js';
+import ScriptPointer from '#/engine/script/ScriptPointer.js';
 import ServerTriggerType from '#/engine/script/ServerTriggerType.js';
 import { toInt32 } from '#/util/Numbers.js';
 
@@ -177,35 +177,6 @@ export default class ScriptState {
 
     pointerGet(pointer: ScriptPointer): boolean {
         return (this.pointers & (1 << pointer)) != 0;
-    }
-
-    /**
-     * Verifies all `pointers` are enabled.
-     *
-     * @param pointers The pointers to check for.
-     */
-    pointerCheck(...pointers: ScriptPointer[]) {
-        for (let i = 0; i < pointers.length; i++) {
-            const flag = 1 << pointers[i];
-            if ((this.pointers & flag) != flag) {
-                throw new Error(`Required pointer: ${ScriptState.pointerPrint(flag)}, current: ${ScriptState.pointerPrint(this.pointers)}`);
-            }
-        }
-    }
-
-    /**
-     * Pretty prints all enables flags using the names from `ScriptPointer`.
-     *
-     * @param flags The flags to print.
-     */
-    private static pointerPrint(flags: number): string {
-        let text = '';
-        for (let i = 0; i < ScriptPointer._LAST; i++) {
-            if ((flags & (1 << i)) != 0) {
-                text += `${ScriptPointerNameMap.get(i)}, `;
-            }
-        }
-        return text.substring(0, text.lastIndexOf(','));
     }
 
     /**

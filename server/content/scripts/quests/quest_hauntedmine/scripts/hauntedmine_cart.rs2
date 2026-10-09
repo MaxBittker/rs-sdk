@@ -1,0 +1,13 @@
+[ai_timer,_hauntedmine_cart]
+def_int $direction = ~coord_direction(npc_coord, npc_destination);
+huntall(~movecoord_indirection(npc_coord, $direction, 1), 0, 0); // Only checks the tile next to npc. Doesnt do anything if you're underneath it.
+while (huntnext = true) {
+    // Doesnt delay. You can interface/p_delay from client input before the npc queues this on you again
+    if_close;
+    if (p_finduid(uid) = true) {
+        sound_synth(cart_hit, 0, 0);
+        anim(human_stumble_back, 25); // osrs uses human_stumble_back_continuous
+        p_exactmove(coord, ~movecoord_indirection(coord, $direction, 1), 25, 45, modulo(add($direction, 2), 4));
+        if (random(2) = 0) strongqueue(damage_player, 0, randominc(2)); // seems like a 50% chance to hit 0-2
+    }
+}

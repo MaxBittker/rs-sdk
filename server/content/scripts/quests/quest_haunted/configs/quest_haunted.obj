@@ -1,7 +1,7 @@
 [pressure_gauge]
 name=Pressure gauge
 desc=It looks like part of a machine.
-model=model_2681_obj
+model=inv_valve
 2dyof=4
 2dzoom=660
 2dyan=1232
@@ -12,7 +12,7 @@ tradeable=no
 [fish_food]
 name=Fish food
 desc=Keeps your pet fish strong and healthy.
-model=model_2815_obj
+model=inv_fishfood
 2dxof=-1
 2dyof=-3
 2dzoom=780
@@ -23,7 +23,7 @@ weight=1oz
 [poison]
 name=Poison
 desc=This stuff looks nasty.
-model=model_2714_obj
+model=inv_poison
 2dxof=-2
 2dyof=-7
 2dzoom=780
@@ -34,7 +34,7 @@ weight=20g
 [poisoned_fish_food]
 name=Poisoned fish food
 desc=Doesn't seem very nice to the poor fishes.
-model=model_2815_obj
+model=inv_fishfood
 2dxof=-1
 2dyof=-3
 2dzoom=780
@@ -46,7 +46,7 @@ tradeable=no
 [closet_key]
 name=Key
 desc=A slightly smelly key.
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -59,7 +59,7 @@ tradeable=no
 cost=3
 name=Rubber tube
 desc=Its slightly charred.
-model=model_2463_obj
+model=inv_rubbertube
 2dyof=-2
 2dzoom=860
 2dyan=76
@@ -71,7 +71,7 @@ tradeable=no
 name=Oil can
 desc=It's pretty full.
 cost=3
-model=model_2466_obj
+model=inv_oilcan
 2dxof=-7
 2dyof=9
 2dzoom=1650

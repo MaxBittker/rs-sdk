@@ -733,7 +733,7 @@ x=65
 y=95
 width=32
 height=32
-model=model_63_idk_head
+model=chat_male_head_bald
 zoom=1200
 yan=200
 
@@ -743,7 +743,7 @@ x=150
 y=95
 width=32
 height=32
-model=model_49_idk_head
+model=chat_male_head_dredlocks
 zoom=1200
 yan=200
 
@@ -753,7 +753,7 @@ x=235
 y=95
 width=32
 height=32
-model=model_52_idk_head
+model=chat_male_head_longhair
 zoom=1200
 yan=200
 
@@ -763,7 +763,7 @@ x=320
 y=95
 width=32
 height=32
-model=model_55_idk_head
+model=chat_male_head_mediumhair
 zoom=1200
 yan=200
 
@@ -773,7 +773,7 @@ x=405
 y=95
 width=32
 height=32
-model=model_59_idk_head
+model=chat_male_head_priest
 zoom=1200
 yan=200
 
@@ -783,7 +783,7 @@ x=65
 y=175
 width=32
 height=32
-model=model_53_idk_head
+model=chat_male_head_shorthair
 zoom=1200
 yan=200
 
@@ -793,7 +793,7 @@ x=150
 y=175
 width=32
 height=32
-model=model_67_idk_head
+model=chat_male_head_shorthair2
 zoom=1200
 yan=200
 
@@ -803,7 +803,7 @@ x=235
 y=175
 width=32
 height=32
-model=model_46_idk_head
+model=chat_male_head_spikeyhair
 zoom=1200
 yan=200
 
@@ -813,7 +813,7 @@ x=320
 y=175
 width=32
 height=32
-model=model_45_idk_head
+model=chat_male_head_spikeyhair2
 zoom=1200
 yan=200
 
@@ -845,7 +845,7 @@ y=260
 width=20
 height=20
 fill=yes
-colour=0x494034
+colour=0x302008
 
 [com_102]
 type=rect

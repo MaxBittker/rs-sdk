@@ -1,48 +1,48 @@
 [trappedchaosaltar]
 name=Chaos altar
 desc=Shrine to the glory of Zamorak.
-model=model_loc_61
+model=furniture_chaosaltar
 width=2
 op1=Pray-at
 blockrange=no
 
-[loc_2290]
+[obstical_pipe4]
 name=Obstacle pipe
 desc=A pipe I can squeeze through.
-model=model_loc_2288
+model=cavern_cavewall_face1_withpipe
 op1=Squeeze-through
 width=2
 
-[loc_2303]
+[balancing_ledge3]
 name=Balancing ledge
 desc=I can just about edge across here.
-model=model_loc_717
+model=floor_straight_ledge
 active=yes
 op1=Walk-across
 
-[loc_2317]
+[climbingcaverocks1]
 name=Pile of rubble
 desc=I can climb up these rocks to another cave.
-model=model_loc_13
+model=outdoorfurniture_mudpile
 length=2
 op1=Climb-up
 recol1s=12512
 recol1d=15749
 
-[loc_2318]
+[climbingcaverocks2]
 name=Pile of rubble
 desc=I can climb down these rocks to another cave.
-model=model_loc_492
+model=cavern_potholewithrope
 width=2
 length=2
 op1=Climb-down
 recol1s=15753
 recol1d=9440
 
-[loc_2321]
+[monkeybars_end2]
 name=Monkeybars
 desc=I can traverse these.
-model=model_loc_2320
+model=outdoorfurniture_monkeybars_end
 width=3
 op1=Swing across
 blockwalk=no
@@ -56,6 +56,6 @@ param=obstacle_high_fail,330
 [shuttwistedchest]
 name=Closed chest
 desc=I wonder what's inside.
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north

@@ -754,7 +754,7 @@ x=71
 y=85
 width=64
 height=96
-model=model_2338_obj
+model=inv_cowhide
 zoom=500
 xan=500
 
@@ -823,7 +823,7 @@ x=71
 y=195
 width=64
 height=96
-model=model_2338_obj
+model=inv_cowhide
 zoom=500
 xan=500
 
@@ -891,7 +891,7 @@ x=270
 y=85
 width=64
 height=96
-model=model_2338_obj
+model=inv_cowhide
 zoom=500
 xan=500
 
@@ -960,7 +960,7 @@ x=390
 y=85
 width=64
 height=96
-model=model_2338_obj
+model=inv_cowhide
 zoom=500
 xan=500
 
@@ -1029,7 +1029,7 @@ x=270
 y=195
 width=64
 height=96
-model=model_2338_obj
+model=inv_cowhide
 zoom=500
 xan=500
 
@@ -1098,7 +1098,7 @@ x=390
 y=195
 width=64
 height=96
-model=model_2338_obj
+model=inv_cowhide
 zoom=500
 xan=500
 

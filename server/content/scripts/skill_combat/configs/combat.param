@@ -143,6 +143,14 @@ default=0
 type=int
 default=0
 
+[saradominitem]
+type=int
+default=0
+
+[guthixitem]
+type=int
+default=0
+
 [poison_severity]
 type=int
 default=0
@@ -175,3 +183,7 @@ default=0
 [sa_energy]
 type=int
 default=1000
+
+[npc_forcemulti]
+type=int
+default=0

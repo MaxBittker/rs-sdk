@@ -153,6 +153,8 @@ if (%grandtree = ^grandtree_searching_daconia) {//https://www.youtube.com/watch?
         $x = append($x, "@dre@King Narnode@dbl@ has seen the light. I need to find a @dre@Daconia|");
         $x = append($x, "@dre@rock@dbl@ that is hidden amongst the @dre@Grand Tree's roots.");
     }
+    ~quest_journal("The Grand Tree", $x);
+    return;
 }
 
 $x = append($x, "@str@King Narnode has seen the light. I found the last of the|");//line break guessed

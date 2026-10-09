@@ -24,7 +24,7 @@ frame19=anim_1233
 [human_potterywheel]
 replaceheldleft=hide
 replaceheldright=hide
-duplicatebehavior=reset_loop
+duplicatebehaviour=reset_loop
 postanim_move=abortanim
 frame1=anim_2425
 frame2=anim_708

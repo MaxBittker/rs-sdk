@@ -157,7 +157,17 @@ if(%viking < ^viking_complete) {
         $text = append($text, "@dbl@First I need to get some @dre@wood@dbl@ from a @dbl@special musical tree|");
         $text = append($text, "@dbl@Next I need to get some @dre@Golden Wool@dbl@ from a local troll|");
         $text = append($text, "@dbl@Finally I need to get the @dre@Lake Spirit@dbl@ to @dre@enchant my lyre|");
-        $text = append($text, "@dbl@Now I have musical wood, I should @dre@craft@dbl@ it into a @dre@lyre|");
+        if(~obj_gettotal(viking_enchanted_strung_lyre) > 0) {
+            $text = append($text, "@dbl@Now I have an enchanted @dre@Lyre@dbl@ I should go play it at the @dre@long hall@dbl@ to pass the @dre@Bard's trial|");
+        } else if(~obj_gettotal(viking_strung_lyre) > 0) {
+            $text = append($text, "@dbl@Now I have my lyre, I should get it @dre@enchanted@dbl@|");
+        } else if(~obj_gettotal(viking_golden_fleece) > 0 | ~obj_gettotal(viking_golden_wool) > 0) {
+            $text = append($text, "@dbl@I now have some @dre@golden wool@dbl@ to string my lyre|");
+        } else if(~obj_gettotal(viking_unstrung_lyre) > 0) {
+            $text = append($text, "@dbl@Now I have an unstrung lyre, I should get it @dre@strung@dbl@|");
+        } else if(~obj_gettotal(viking_musical_tree_branch) > 0) {
+            $text = append($text, "@dbl@Now I have musical wood, I should @dre@craft@dbl@ it into a @dre@lyre|");
+        }
     } else if(~get_viking_olaf_progress = ^olaf_not_started) {
         $text = append($text, "|");
     }

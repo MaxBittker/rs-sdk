@@ -1,5 +1,5 @@
 [label,consume_effect_poison_chalice]
-sound_synth(liquid, 0, 0);
+sound_synth(liquid, 1, 0);
 anim(human_eat, 0);
 inv_setslot(inv, last_slot, cocktail_glass_empty, 1);
 mes("You drink the strange green liquid.");

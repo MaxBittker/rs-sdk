@@ -1,0 +1,8 @@
+[routequest]
+scope=perm
+
+[routequestmulti]
+scope=perm
+
+[routequest_myreque_bits]
+scope=perm

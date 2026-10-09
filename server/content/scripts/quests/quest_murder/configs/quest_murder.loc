@@ -1,7 +1,7 @@
 [loc_2650]
 name=Sinclair family compost heap
 desc=A pile of smelly rotting waste.
-model=model_loc_152
+model=outdoorfurniture_compost
 width=2
 length=2
 op2=Investigate
@@ -9,19 +9,19 @@ op2=Investigate
 [quest_murder_beehive]
 name=Sinclair family beehive
 desc=A sturdily constructed home for bees.
-model=model_beehive
+model=outdoorfurniture_beehive
 op2=Investigate
 
 [murderdrain]
 name=Sinclair mansion drain
 desc=Looks like this is where waste from the kitchens comes out.
-model=model_loc_876
+model=walldecor_pipe_drain
 op2=Investigate
 
 [loc_2653]
 name=Spiders' nest
 desc=It looks like a spiders nest to me.
-model=model_loc_706_q
+model=walldecor_floorweb_q
 op2=Investigate
 recol1s=31457
 recol1d=21140
@@ -29,7 +29,7 @@ recol1d=21140
 [murderfountain]
 name=Sinclair family fountain
 desc=This fountain suits the garden.
-model=model_loc_153
+model=outdoorfurniture_fountain
 width=2
 length=2
 mapscene=8
@@ -39,74 +39,74 @@ category=watersource
 [murdersign]
 name=Sinclair family crest
 desc=Its the Sinclair Family coat of arms.
-model=model_loc_2655
+model=walldecor_familycrest
 op2=Investigate
 
 [murderbarrela]
 name=Annas' barrel
 desc=looks like this is where Anna keeps her stuff.
-model=model_loc_362
+model=outdoorfurniture_barrel
 op2=Search
 
 [murderbarrelb]
 name=Bobs' barrel
 desc=looks like this is where Bob keeps his stuff.
-model=model_loc_362
+model=outdoorfurniture_barrel
 op2=Search
 
 [murderbarrelc]
 name=Carols' barrel
 desc=looks like this is where Carol keeps her stuff.
-model=model_loc_362
+model=outdoorfurniture_barrel
 op2=Search
 
 [murderbarreld]
 name=Davids' barrel
 desc=looks like this is where David keeps his stuff.
-model=model_loc_362
+model=outdoorfurniture_barrel
 op2=Search
 
 [murderbarrele]
 name=Elizabeths' barrel
 desc=looks like this is where Elizabeth keeps her stuff.
-model=model_loc_362
+model=outdoorfurniture_barrel
 op2=Search
 
 [murderbarrelf]
 name=Franks' barrel
 desc=looks like this is where Frank keeps his stuff.
-model=model_loc_362
+model=outdoorfurniture_barrel
 op2=Search
 
 [flourbarrel]
 name=Barrel of flour
 desc=Looks like this is where the cook stores her flour.
-model=model_loc_362
+model=outdoorfurniture_barrel
 op2=Take From
 
 [murdersacks]
 name=Sacks
 desc=some sacks of general garden items.
-model=model_loc_23
+model=outdoorfurniture_sacks
 op2=Investigate
 
 [murderdoggatel]
 name=Sturdy wooden gate
 desc=luckily its what keeps that vicious dog inside.
-model=model_loc_47
+model=fence_gateclosedl
 op1=Investigate
 
 [murderdoggater]
 name=Sturdy wooden gate
 desc=luckily its what keeps that vicious dog inside.
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 op1=Investigate
 
 [loc_2666]
 name=Smashed window
 desc=looks like the killer smashed this to leave the mansion.
-model=model_loc_1843_q
+model=walldecor_brokenwindow_q
 active=yes
 op2=Investigate
 retex1s=wall

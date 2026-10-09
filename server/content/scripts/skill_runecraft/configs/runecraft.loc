@@ -21,7 +21,7 @@ param=rune_type,1
 [airtemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -52,7 +52,7 @@ param=rune_type,2
 [mindtemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -83,7 +83,7 @@ param=rune_type,3
 [watertemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -116,7 +116,7 @@ param=rune_type,4
 [earthtemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -147,7 +147,7 @@ param=rune_type,5
 [firetemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -180,7 +180,7 @@ param=rune_type,6
 [bodytemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -213,7 +213,7 @@ param=rune_type,7
 [cosmictemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -264,7 +264,7 @@ param=rune_type,9
 [naturetemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -305,7 +305,7 @@ length=3
 [lawtemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -316,7 +316,7 @@ param=rune_type,10
 [chaostemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -327,7 +327,7 @@ param=rune_type,8
 [deathtemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -338,7 +338,7 @@ param=rune_type,11
 [soultemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -347,7 +347,7 @@ contrast=100
 [bloodtemple_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100
@@ -393,10 +393,10 @@ length=3
 op1=Craft-rune
 anim=rune_altar
 
-[essencemine_portal]
+[blankrunestone_exit_portal]
 name=Portal
 desc=A portal from this mystical place.
-model=model_loc_740
+model=floor_glowingcircle
 anim=glowingcircle
 op1=Use
 ambient=100

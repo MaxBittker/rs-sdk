@@ -1,0 +1,23 @@
+[debugproc,reset_mm]
+if(p_finduid(uid) = true) {
+    mes("Reset MM vars");
+    %mm_main = 0;
+    %mm_cutscene_part = 0;
+    %mm_cutscene_coord = 0_50_50_0_0;
+    %mm_guards_cooldown = 0;
+    %varp_369 = 0;
+    %varp_370 = 0;
+    %mm_flags = 0;
+    %mm_gnomes = 0;
+    %mm_monkeys = 0;
+    %mm_misc = 0;
+}
+
+[debugproc,mmch2]
+if(p_finduid(uid) = true) @mm_ch2_cutscene;
+
+[debugproc,mmch3]
+if(p_finduid(uid) = true) queue(mm_ch3_cutscene, 0, 0);
+
+[debugproc,mmch4]
+if(p_finduid(uid) = true) @mm_ch4_cutscene;

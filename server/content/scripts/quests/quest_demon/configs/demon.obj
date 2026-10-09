@@ -1,7 +1,7 @@
 [silverlight_key_1]
 name=Key
 desc=A key given to me by Wizard Traiborn.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=22197
 2dxof=-3
@@ -15,7 +15,7 @@ tradeable=no
 [silverlight_key_2]
 name=Key
 desc=A key given to me by Captain Rovin.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=22197
 2dxof=-3
@@ -29,7 +29,7 @@ tradeable=no
 [silverlight_key_3]
 name=Key
 desc=A key I found in a drain.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=22197
 2dxof=-3
@@ -44,7 +44,7 @@ tradeable=no
 name=Silverlight
 desc=The magical sword 'Silverlight'.
 cost=50
-model=model_2566_obj
+model=inv_silverlight
 recol1s=15855
 recol1d=8456
 2dxof=-2
@@ -55,8 +55,8 @@ recol1d=8456
 2dxan=196
 iop2=Wield
 wearpos=righthand
-manwear=model_513_obj_wear,0
-womanwear=model_513_obj_wear,6
+manwear=human_weapons_model_513,0
+womanwear=human_weapons_model_513,6
 category=weapon_slash
 weight=4lb
 param=stabattack,9

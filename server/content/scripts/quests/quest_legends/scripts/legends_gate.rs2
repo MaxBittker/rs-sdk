@@ -34,7 +34,8 @@ while (npc_findnext = true) {
                 p_delay(1);
                 // https://storage.googleapis.com/tannerdino/images/rslegendguild1.gif
                 npc_say("Legends Guild Member Approaching");
-                mes("The guards salute you as you walk past.");
+                // https://www.youtube.com/watch?v=rR5XVPBpc2k&t=9s
+                mes("The guards Salute you as you walk past.");
             }
             else {
                 // https://youtu.be/5MwrA2Ci39Q?si=WygkpCCpQzjFKaJJ&t=78

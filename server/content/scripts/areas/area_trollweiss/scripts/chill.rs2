@@ -1,0 +1,34 @@
+[proc,apply_chill]
+def_int $i = 1;
+def_stat $stat;
+while ($i <= enum_getoutputcount(stats)) {
+    $stat = enum(int, stat, stats, $i);
+    // Only subtract if the current value is greater than 1
+    if (stat($stat) > 1) {
+        if ($stat ! hitpoints) {
+            stat_sub($stat, 1, 0);
+        } else {
+            queue(damage_player, 0, 1);
+        }
+    }
+    $i = calc($i + 1);
+}
+if (p_finduid(uid) = true) {
+    %sa_energy = 0;
+    healenergy(-10000);
+}
+
+[timer,chill]
+if (~inzone_coord_pair_table(chill_zones, coord) = true) {
+    ~apply_chill;
+    settimer(chill, 10);
+}
+
+[mapzone,0_44_58]
+if_openoverlay(overlay_atmosphere_snow_flakes);
+settimer(chill, 10);
+@music_playbyregion(coord);
+
+[mapzoneexit,0_44_58]
+if_openoverlay(null);
+settimer(chill, 10);

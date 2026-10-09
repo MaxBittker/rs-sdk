@@ -1,0 +1,615 @@
+[label,exit_myreque_hideout]
+p_arrivedelay;
+p_teleport(0_54_153_35_32);
+
+[label,enter_myreque_chamber_one]
+p_arrivedelay;
+p_teleport(0_54_153_21_7);
+
+[label,exit_myreque_chamber_one]
+p_arrivedelay;
+p_teleport(0_54_153_36_17);
+
+[label,enter_myreque_chamber_two]
+p_arrivedelay;
+p_teleport(0_54_153_19_14);
+
+[label,exit_myreque_chamber_two]
+p_arrivedelay;
+p_teleport(0_54_153_32_23);
+
+[label,enter_myreque_chamber_three]
+p_arrivedelay;
+p_teleport(0_54_153_10_28);
+
+[label,exit_myreque_chamber_three]
+p_arrivedelay;
+p_teleport(0_54_153_25_32);
+
+[oploc1,route_cavewalltunnel]
+// myreque hideout sourced from https://youtu.be/9FWqA3_PG0c
+// others sourced from osrs
+switch_coord (loc_coord) {
+    case 3_54_153_49_39 : @exit_myreque_hideout;
+    case 0_54_153_49_39 : @exit_myreque_hideout;
+    case 0_54_153_36_16 : @enter_myreque_chamber_one;
+    case 0_54_153_22_7 : @exit_myreque_chamber_one;
+    case 0_54_153_32_22 : @enter_myreque_chamber_two;
+    case 0_54_153_20_14 : @exit_myreque_chamber_two;
+    case 0_54_153_24_32 : @enter_myreque_chamber_three;
+    case 0_54_153_11_28 : @exit_myreque_chamber_three;
+}
+
+[oploc1,thrttavernbasementfalsewall]
+if(%routequest < ^routequest_told_exit_route) {
+    ~mesbox("You search the wall but don't find anything of note.");
+} else {
+    mes("You search the wall and find the door which Veliaf told you about.");
+    mes("You walk through.");
+    ~open_and_close_door2(thrttavernbasementfalsewall_inactive, ~check_axis_locactive(coord), door_open);
+    if(%routequest < ^routequest_discovered_wall) {
+        %routequest = ^routequest_discovered_wall;
+    }
+}
+
+[oploc1,thrt_tavern_trap_door]
+if(%routequest >= ^routequest_found_exit) {
+    // RS3
+    p_teleport(0_54_153_21_53);
+    mes("You open the trap door and find yourself in the inn basement");
+} else {
+    // OSRS
+    ~mesbox("The trapdoor is locked.");
+}
+
+[proc,exit_freedomfighterunderground]
+p_teleport(0_54_53_53_57);
+mes("You open the large wooden doors and step into the muddy marsh of Mort Myre.");
+
+[proc,open_freedomfighter_undergroundentrance](coord $loc_coord, boolean $mirrored)
+anim(human_pickuptable, 0);
+sound_synth(locked, 0, 0);
+p_delay(0);
+if($mirrored = true) {
+    loc_change(freedomfighterundergrounddooropenr, 3);
+    loc_add(movecoord($loc_coord, -1, 0, 0), freedomfighterundergrounddooropenl, loc_angle, loc_shape, 3);
+} else {
+    loc_change(freedomfighterundergrounddooropenl, 3);
+    loc_add(movecoord($loc_coord, 1, 0, 0), freedomfighterundergrounddooropenr, loc_angle, loc_shape, 3);
+}
+sound_synth(iron_door_open, 0, 0);
+p_delay(1);
+~exit_freedomfighterunderground;
+
+[oploc1,freedomfighterundergroundentrancer]
+p_arrivedelay;
+~open_freedomfighter_undergroundentrance(loc_coord, true);
+
+[oploc1,freedomfighterundergroundentrancel]
+p_arrivedelay;
+~open_freedomfighter_undergroundentrance(loc_coord, false);
+
+[oploc1,freedomfighterundergrounddooropenl]
+p_arrivedelay;
+~exit_freedomfighterunderground;
+
+[oploc1,freedomfighterundergrounddooropenr]
+p_arrivedelay;
+~exit_freedomfighterunderground;
+
+[oploc1,thrttavernbasementladder]
+// yes, it's really a teleport without ladder anim
+// sources:
+// around summer 2007: https://youtu.be/9FWqA3_PG0c?t=327
+// jan 2009: https://youtu.be/pNz0_8VjqPc?t=668
+p_arrivedelay;
+p_teleport(map_findsquare(0_54_54_38_8, 1, 1, ^map_findsquare_lineofsight));
+if(%routequest < ^routequest_found_exit) {
+    mes("You climb the ladder out into the outside.");
+    p_delay(0);
+    mes("You emerge to the south of the 'Hair of the Dog' tavern in Canifis.");
+    %routequest = ^routequest_found_exit;
+}
+
+[oploc1,route_stalagmite_cave_entrace]
+// source jan 2009 https://youtu.be/pNz0_8VjqPc?t=491
+~mesbox("It looks like an ordinary stalagmite, however, beyond it you can see that there is a small cave entrance.");
+
+[oploc2,route_stalagmite_cave_entrace]
+// sources:
+// jan 2009:
+// https://youtu.be/pNz0_8VjqPc?t=494 - pre-ambush
+// around summer 2007:
+// https://youtu.be/9FWqA3_PG0c?t=195 - pre-ambush
+// https://youtu.be/9FWqA3_PG0c?t=241 - post-ambush
+if(stat(agility) < 25) {
+    ~mesbox("You need an Agility level of 25 to squeeze through here."); // OSRS
+    return;
+}
+if(%routequest < ^routequest_ambush) {
+    ~mesbox("You try to squeeze past this stalagmite into a small cavern entrance.");
+    ~set_forcemove_bas(human_walk_sidestep);
+    ~forcemove(movecoord(coord, 1, 0, -1));
+    ~update_bas;
+    p_arrivedelay;
+    p_teleport(3_54_153_49_40);
+} else {
+    p_arrivedelay;
+    p_teleport(0_54_153_49_40);
+    if(%routequest = ^routequest_ambush) {
+        npc_huntall(coord, 10, 0);
+        while(npc_findnext = true) {
+            if(npc_type = skeleton_hellhound & %npc_aggressive_player = uid) {
+                return;
+            }
+        }
+        p_delay(0);
+        spotanim_map(smokepuff_large, movecoord(coord, 1, 0, 2), 0, 0);
+        p_delay(0);
+        npc_add(0_54_153_50_42, skeleton_hellhound, 1000);
+        npc_anim(skeleton_hound_summon, 0);
+        %npc_aggressive_player = uid;
+        %npc_lastcombat = sub(^max_32bit_int, 8);
+        npc_setmode(opplayer2);
+        hint_npc;
+        mes("The skeletal hell hound attacks.");
+    }
+}
+
+// MYREQUE MEMBERS DIALOGUE
+[opnpc1,route_sani_piliu]
+if(%routequest < ^routequest_introduced_veliaf) {
+    ~chatnpc("<p,happy>Hi there...you're new here, aren't you? You'd best go and talk with Veliaf. But afterwards, I'd love to introduce myself properly.");
+} else if(%routequest < ^routequest_enter_cutscene) {
+    if(testbit(%routequest_myreque_bits, ^route_myreque_sani) = 0) {
+        %routequest_myreque_bits = setbit(%routequest_myreque_bits, ^route_myreque_sani);
+        // Sourced from a 2007 video - https://youtu.be/9FWqA3_PG0c
+        ~chatnpc("<p,happy>Hello...very nice to meet you! My name is Sani Piliu, what's yours?");
+        ~chatplayer("<p,neutral>I am known as <displayname> nice to meet you Sani.");
+        ~chatnpc("<p,happy>The pleasure's all mine! Excuse me for being forward, but you somehow seem different to other people, somehow more determined. I sense a powerful aura|Sorry, that must seem really strange?");
+        ~chatplayer("<p,neutral>Well, perhaps a little but it's nice of you to say so in any case. I'd like to ask a few questions if that's Ok?");
+        ~chatnpc("<p,happy>Sure, go ahead, I'll answer as best as I can.");
+        @sani_multi;
+    } else {
+        // RS3
+        ~chatnpc("<p,happy>Oh hello <displayname>, nice to see you again! How's things?");
+        ~chatplayer("<p,neutral>Fine thanks, do you mind if I ask a few questions?");
+        ~chatnpc("<p,happy>Sure, go ahead, I'll answer as best as I can.");
+        @sani_multi;
+    }
+}
+[label,sani_multi]
+// RS3
+def_int $op = ~p_choice5("Tell me a bit about yourself.", 1, "What can you tell me about the Myreque", 2, "What's going on in Morytania?", 3, "Is this your main camp?", 4, "Ok, thanks.", 5);
+while($op ! null) {
+    switch_int($op) {
+        case 1 :
+            // osrs 2016
+            ~chatplayer("<p,neutral>Tell me a bit about yourself.");
+            ~chatnpc("<p,sad>There's not much to tell, really. I was about nine years old when my family was ripped to pieces by a vampire attack. One day a happy member of a loving family, the next day an orphan living a hand to mouth existence.");
+            ~chatnpc("<p,neutral>Somehow I managed to get by, eking out a living wherever I could. People took pity on me, I earnt food by helping people out, before too long I was quite adept at helping myself, other people appreciated my skills.");
+            ~chatnpc("<p,happy>I bumped into Veliaf in Canifis. He saw that I would be an asset to the resistance so I joined. I want to fight back against those killers who took my family. One day I may escape to the west across the Salve! Who knows?");
+        case 2 :
+            ~chatplayer("<p,neutral>What can you tell me about the Myreque?");
+            ~chatnpc("<p,neutral>As far as I know, Veliaf is one of two Lieutenants who report to another soldier called Calsidiu. While we don't advertise the fact, there are quite a lot of people in Morytania who want to put up a fight.");
+            ~chatnpc("<p,neutral>Our current operations are merely trying to find a weakness in the Drakans' hierarchy and perhaps get a spy in there. We need to find out how to kill them before we then take the war to them.");
+            ~chatplayer("<p,neutral>You make it sound easy!");
+            ~chatnpc("<p,neutral>With determination you can achieve great things. However, Veliaf always tells us not to underestimate the enemy. After those juvenile vampires discovered us in the forest, it's a mistake I won't be making again.");
+        case 3 :
+            ~chatplayer("<p,neutral>What's going on in Morytania?");
+            ~chatnpc("<p,neutral>Lowerniel Drakan and his siblings collect blood tithes from the locals as a way of controlling the population and keeping their brood happy. Sanguinesti and Castle Drakan hold sway over all the inhabitants of Morytania.");
+            ~chatnpc("<p,neutral>We're nothing more than an ill-organised rabble, but we're determined to fight against these evil monsters. We won't just offer our family members to the Drakans for a weekly snack, we're going to fight back!");
+        case 4 :
+            ~chatplayer("<p,neutral>Is this your main camp?");
+            ~chatnpc("<p,neutral>It's our only camp! At least, I don't know of any others.");
+        case 5 :
+            ~chatplayer("<p,neutral>Ok, thanks.");
+            return;
+    }
+    $op = ~p_choice5("Tell me a bit about yourself.", 1, "What can you tell me about the Myreque", 2, "What's going on in Morytania?", 3, "Is this your main camp?", 4, "Ok, thanks.", 5);
+}
+
+[opnpc1,route_harold_evans]
+if(%routequest < ^routequest_introduced_veliaf) {
+    ~chatnpc("<p,happy>Hail and well met, friend! You'd better go and introduce yourself to Veliaf. But after come and have a chat if you've a mind to.");
+} else if(%routequest < ^routequest_enter_cutscene) {
+    if(testbit(%routequest_myreque_bits, ^route_myreque_harold) = 0) {
+        %routequest_myreque_bits = setbit(%routequest_myreque_bits, ^route_myreque_harold);
+        // Sourced from a 2007 video
+        ~chatnpc("<p,happy>Well met friend! My name's Harold...nice to meet a fellow solider. Just joined us have you?");
+        ~chatplayer("<p,neutral>Not exactly! I'd like to ask a few questions if that's Ok?");
+        ~chatnpc("<p,happy>Sure, go ahead. I'll answer as best I can.");
+        @harold_multi;
+    } else {
+        // RS3
+        ~chatnpc("<p,happy>Well met, <displayname>! Here's to your strong sword arm!");
+        ~chatplayer("<p,neutral>Do you mind if I ask a few questions?");
+        ~chatnpc("<p,happy>Sure, go ahead. I'll answer as best I can.");
+        @harold_multi;
+    }
+}
+[label,harold_multi]
+// RS3 texts
+def_int $op = ~p_choice5("What's your job here?", 1, "What can you tell me about your squad?", 2, "What's your grasp of the situation soldier?", 3, "Have you heard any rumours?", 4, "Ok, thanks.", 5);
+while($op ! null) {
+    switch_int($op) {
+        case 1 :
+            ~chatplayer("<p,neutral>What's your job here?");
+            ~chatnpc("<p,neutral>I generally do what Veliaf orders. Taking a bridge, defending a tactical retreat... you name it, I'm usually in the thick of it. It's funny, I seem to cheat death most of the time.");
+        case 2 :
+            // august 2011
+            ~chatplayer("<p,neutral>What can you tell me about your squad?");
+            ~chatnpc("<p,neutral>They're all good soldiers, though they're pretty much a bunch of irregulars. I consider them a good squad, ready to leap into the fray if needed, but we're seriously outnumbered by the Drakans and their brood.");
+            ~chatnpc("<p,neutral>Most fights we have to improvise but this bunch are very good at that. That young lad over there, Ivan Strom, he saved our bacon in the last encounter by his faith in Saradomin... he weakened the Juves and we ran for it!");
+            ~chatplayer("<p,neutral>Juves? What are they?");
+            ~chatnpc("<p,neutral>It's short for 'juvenile', that's the stage that those vampires were at in the forest. They've only recently become vampyric and they're pretty inexperienced.");
+            ~chatnpc("<p,neutral>However, they're stronger and faster than many well trained militia men, and twice as bloodthirsty.");
+        case 3 :
+            ~chatplayer("<p,neutral>What's your grasp of the situation soldier?");
+            ~chatnpc("<p,neutral>The situation is grave, it would be dangerous to think differently. We're really up against it here, but we have no choice: this is a battle for our right to exist and we need to employ any tactics to achieve our goal.");
+        case 4 :
+            ~chatplayer("<p,neutral>Have you heard any rumours?");
+            ~chatnpc("<p,neutral>Yes, I hear them all the time. Thankfully, I don't pay any attention to them.");
+        case 5 :
+            ~chatplayer("<p,neutral>Ok, thanks.");
+            return;
+    }
+    $op = ~p_choice5("What's your job here?", 1, "What can you tell me about your squad?", 2, "What's your grasp of the situation soldier?", 3, "Have you heard any rumours?", 4, "Ok, thanks.", 5);
+}
+[opnpc1,route_radigad_ponfit]
+if(%routequest < ^routequest_introduced_veliaf) {
+    ~chatnpc("<p,happy>Greetings, friend! Once you've introduced yourself to Veliaf please feel free to chat with me...");
+} else if(%routequest < ^routequest_enter_cutscene) {
+    if(testbit(%routequest_myreque_bits, ^route_myreque_radigrad) = 0) {
+        %routequest_myreque_bits = setbit(%routequest_myreque_bits, ^route_myreque_radigrad);
+        // Sourced from a 2011 video - https://www.youtube.com/watch?v=hX65UDk-Vy8
+        ~chatnpc("<p,neutral>Ah, it's <displayname>.|I see you've introduced yourself to Veliaf, good! Now, how can I be of service to you?");
+        ~chatplayer("<p,neutral>Do you mind if I ask a few questions?");
+        ~chatnpc("<p,neutral>Sure, go ahead. I'll answer as best I can.");
+        @radigrad_multi;
+    } else {
+        // RS3
+        ~chatnpc("<p,neutral> Hello again! Radigad at your service. Are you planning to join the fray against the Morytanian monsters and the rest of the Drakans?");
+        ~chatplayer("<p,neutral>Maybe! I'd like to ask a few questions, if that's Ok?"); // RS3 capitalises OK, original text uses "Ok" capitalisation.
+        ~chatnpc("<p,neutral>Sure, go ahead. I'll answer as best I can.");
+        @radigrad_multi;
+    }
+} else if(%routequest < ^routequest_saved_myreque) {
+    mes("This person isn't able to talk to you at this time.");
+} else if(%routequest >= ^routequest_saved_myreque) {
+    ~chatplayer("<p,sad>Are you alright?");
+    ~chatnpc("<p,sad>Yeah, I'm fine, thanks. You certainly proved yourself against that unearthly monster that Vanstrom conjured. I'm sorry I can't be more upbeat, but I'm very sad about Harold and Sani. It's terrible to see your comrades cut down in combat, especially those two. They were still so very young.");
+}
+
+[label,radigrad_multi]
+// RS3 texts
+def_int $op = ~p_choice5("What's your job here?", 1, "What can you tell me about the Myreque?", 2, "What're your plans for the future?", 3, "Have you heard any rumours?", 4, "Ok, thanks.", 5);
+while($op ! null) {
+    switch_int($op) {
+        case 1 :
+            ~chatplayer("<p,neutral>What's your job here?");
+            ~chatnpc("<p,neutral>I'm a bit of an all-rounder and help Veliaf where I can. I've relied on his sword arm many a time, and I like to think that he can rely on mine.");
+        case 2 :
+            ~chatplayer("<p,neutral>What can you tell me about the Myreque?");
+            ~chatnpc("<p,neutral>We're just developing the resistance against the Drakans and the rest of the Vampyric entourage. We're seriously outnumbered. Veliaf doesn't like to hear us saying 'hopeless' but that's our situation at the minute.");
+        case 3 :
+            ~chatplayer("<p,neutral>What are your plans for the future?");
+            ~chatnpc("<p,neutral>I'm not really sure. I guess Veliaf might know that, however I hope that more people will join the ranks and take the fight to the dead hearts of our vampyric foe so that we might one day reclaim our right to exist.");
+        case 4 :
+            ~chatplayer("<p,neutral>Have you heard any rumours?");
+            ~chatnpc("<p,neutral>I have. Something you might find interesting is that our enigmatic leader 'Safalaan' has connections inside the Drakan Clan. I'm not sure how true that is but it would be great!");
+        case 5 :
+            ~chatplayer("<p,neutral>Ok, thanks.");
+            return;
+    }
+    $op = ~p_choice5("What's your job here?", 1, "What can you tell me about the Myreque?", 2, "What're your plans for the future?", 3, "Have you heard any rumours?", 4, "Ok, thanks.", 5);
+}
+[opnpc1,route_polmafi_ferdygris]
+if(%routequest < ^routequest_introduced_veliaf) {
+    ~chatnpc("<p,happy>Good day. You should quickly introduce yourself to Veliaf - after that I'll be happy to have a chat with you.");
+} else if(%routequest < ^routequest_enter_cutscene) {
+    if(testbit(%routequest_myreque_bits, ^route_myreque_polmafi) = 0) {
+        %routequest_myreque_bits = setbit(%routequest_myreque_bits, ^route_myreque_polmafi);
+        // Sourced from a 2011 video.
+        ~chatnpc("<p,neutral>Good! Now that you've introduced yourself to Veliaf and observed proper protocol, I'll be happy to chat with you. Now, please tell me, what can I do for you?");
+        ~chatplayer("<p,neutral>Do you mind if I ask a few questions?");
+        ~chatnpc("<p,happy>Not at all, I'm sure I'll be able to help, and if I can't, I'll tell you so.");
+        @polmafi_multi;
+    } else {
+        // RS3
+        ~chatnpc("<p,neutral>Warmest salutations of the day, my friend! How are you?");
+        ~chatplayer("<p,neutral>Fine, thanks. I'd like to ask a few questions, if that's Ok?"); // RS3 "if that's okay". Guessing original is "if that's Ok?" as it's consistent elsewhere.
+        ~chatnpc("<p,happy>Not at all, I'm sure I'll be able to help, and if I can't, I'll tell you so.");
+        @polmafi_multi;
+    }
+} else if(%routequest < ^routequest_saved_myreque) {
+    mes("This person isn't able to talk to you at this time.");
+} else if(%routequest >= ^routequest_saved_myreque) {
+    // rs3
+    ~chatnpc("<p,sad>I'm so sad since Sani and Harold were killed. The Myreque will be lonelier without them. Still, at least they didn't suffer.");
+    ~chatplayer("<p,sad>My commiserations for your loss. I wish that there was something I could do to help.");
+    ~chatnpc("<p,sad>Don't worry. No one blames you. Anyone could have been tricked by Vanstrom. Whilst I mourn the loss of my comrades, it serves no useful purpose to blame anyone for it.");
+}
+[label,polmafi_multi]
+// RS3 texts
+def_int $op = ~p_choice5("What are you doing here?", 1, "What can you tell me about the Myreque?", 2, "What do you know about Morytania?", 3, "Have you heard any rumours?", 4, "Ok, thanks.", 5);
+while($op ! null) {
+    switch_int($op) {
+        case 1 :
+            ~chatplayer("<p,neutral>What are you doing here?");
+            ~chatnpc("<p,neutral>I am the key advisor to Veliaf. He seeks my council on many issues before we engage the enemy. Not that we would be doing that any time soon... the situation is somewhat difficult and terrifying at the moment.");
+            ~chatnpc("<p,neutral>However, we must always remember, 'All that is required for evil to survive is for good people to do nothing.'");
+        case 2 :
+            ~chatplayer("<p,neutral>What can you tell me about the Myreque?");
+            ~chatnpc("<p,neutral>Well, we have a hierarchical chain of command. Veliaf reports to Calsidiu who is considered the head of the armed resistance against the Drakans.");
+            ~chatnpc("<p,neutral>I've also heard people talking about a spiritual man who inspires many people to join the resistance. He's said to be very influential with supposed contacts within the Drakan clan.");
+        case 3 :
+            ~chatplayer("<p,neutral>What do you know about Morytania?");
+            ~chatnpc("<p,neutral>It has a rugged landscape, situated to the east of the River Salve. Primary occupants seem to be human in appearance, but are in fact large vampyric predators.");
+            ~chatnpc("<p,neutral>They maintain a stock of human villages in the same way that humans keep cattle. Weekly blood tithes are paid to the Vampyric overlord Drakan in return for moderate safety.");
+        case 4 :
+            ~chatplayer("<p,neutral>Have you heard any rumours?");
+            ~chatnpc("<p,neutral>Yes, I hear them all the time, but they're usually neither correct nor even all that interesting. I suspect that we will be looking to make a strike against the human sympathisers some time soon.");
+        case 5 :
+            ~chatplayer("<p,neutral>Ok, thanks.");
+            return;
+    }
+    $op = ~p_choice5("What are you doing here?", 1, "What can you tell me about the Myreque?", 2, "What do you know about Morytania?", 3, "Have you heard any rumours?", 4, "Ok, thanks.", 5);
+}
+[opnpc1,route_ivan_strom]
+if(%routequest < ^routequest_introduced_veliaf) {
+    ~chatnpc("<p,happy>Oh--er... hello... greetings that is... sorry... you need to speak to Veliaf first. I'm not sure if I'm supposed to be talking to you.");
+} else if(%routequest < ^routequest_enter_cutscene) {
+    if(testbit(%routequest_myreque_bits, ^route_myreque_ivan) = 0) {
+        %routequest_myreque_bits = setbit(%routequest_myreque_bits, ^route_myreque_ivan);
+        // Sourced from a 2011 video.
+        ~chatplayer("<p,neutral>Greetings! My name is <displayname>. Veliaf said that I should introduce myself to all members of the Myreque.");
+        ~chatnpc("<p,neutral>Veliaf says it's okay for me to talk to you. My name is Ivan, nice to meet you.");
+        ~chatplayer("<p,neutral>Would you mind if I ask you a few questions?");
+        ~chatnpc("<p,neutral>Yeah, I suppose so, but I don't know how much I can help.");
+        @ivan_multi;
+    } else {
+        // RS3
+        ~chatnpc("<p,neutral>Oh, hello again. How are you?");
+        ~chatplayer("<p,neutral>Fine, thanks. I'd like to ask a few questions if that's alright?");
+        ~chatnpc("<p,neutral>Yeah, I suppose so, but I don't know how much I can help.");
+        @ivan_multi;
+    }
+} else if(%routequest < ^routequest_saved_myreque) {
+    mes("This person isn't able to talk to you at this time.");
+} else if(%routequest >= ^routequest_saved_myreque) {
+    // rs3
+    ~chatnpc("<p,sad>Oh, thank Saradomin you managed to kill that awful beast! It was so horrible seeing Sani and Harold killed right in front of my own eyes!");
+    ~chatplayer("<p,sad>I'm so sorry for your loss. If there's anything I can do, please let me know.");
+    ~chatnpc("<p,angry>I think you've done enough already, bringing that monster Vanstrom here.");
+}
+[label,ivan_multi]
+// RS3 texts
+def_int $op = ~p_choice5("What are you doing here?", 1, "What can you tell me about the Myreque?", 2, "What do you know about Morytania?", 3, "Have you heard any rumours?", 4, "Ok, thanks.", 5);
+while($op ! null) {
+    switch_int($op) {
+        case 1 :
+            ~chatplayer("<p,neutral>What are you doing here?");
+            ~chatnpc("<p,neutral>I'm not sure really. I should really be at the temple to Saradomin, but Veliaf says that the trip's too dangerous. I am a trainee cleric of Saradomin. I hope one day to serve him as faithfully as all his priests.");
+        case 2 :
+            ~chatplayer("<p,neutral>What can you tell me about the Myreque?");
+            ~chatnpc("<p,neutral>Well, they're certainly brave and they're prepared to put up a fight against the evil of the Drakan clan. I'm proud to be associated with them, but with my poor skills I worry that I will let them down.");
+        case 3 :
+            ~chatplayer("<p,neutral>What do you know about Morytania?");
+            ~chatnpc("<p,neutral>It's a lost land ruled by the evil Drakans. People cling to each other in fear every week when the blood tithes are to be paid. With Saradomin's help we'll bring light back to this dark land.");
+        case 4 :
+            ~chatplayer("<p,neutral>Have you heard any rumours?");
+            ~chatnpc("<p,neutral>I'm sorry my friend, but I spend most of my free time in prayer to Saradomin. I prefer to cleanse my soul in case he should wish that I serve him closer.");
+        case 5 :
+            ~chatplayer("<p,neutral>Ok, thanks.");
+            return;
+    }
+    $op = ~p_choice5("What are you doing here?", 1, "What can you tell me about the Myreque?", 2, "What do you know about Morytania?", 3, "Have you heard any rumours?", 4, "Ok, thanks.", 5);
+}
+[opnpc1,route_veliaf_hurtz]
+if(%routequest < ^routequest_introduced_veliaf) {
+    ~chatplayer("<p,neutral>Hello there...");
+    ~chatnpc("<p,neutral>Hello there...how did you get in here?|Who are you?");
+    ~chatplayer("<p,neutral>I was asked to bring you some weapons...apparently you need them? Don't worry, I'm a friend!");
+    ~chatnpc("<p,neutral>Hmm, well, it's true we could do with some supplies. It's very good of you to bring them to us. I'm sorry but I'm a bit busy at the moment, please introduce yourself to the others, then we can talk about those weapons.");
+    %routequest = ^routequest_introduced_veliaf;
+    @route_veliaf_intro_multi;
+} else if(%routequest = ^routequest_introduced_veliaf) {
+    if(bitcount(%routequest_myreque_bits) >= 5) {
+        ~chatnpc("<p,neutral>Hello again...so, You've introduced yourself to the team have you? Good. Now, let's have a look at those weapons you brought us.");
+        if(~routequest_has_weapons = true) {
+            ~chatnpc("<p,neutral>These weapons look great! Many thanks.");
+            inv_del(inv, steel_longsword, 1);
+            inv_del(inv, steel_sword, 2);
+            inv_del(inv, steel_mace, 1);
+            inv_del(inv, steel_dagger, 1);
+            inv_del(inv, steel_warhammer, 1);
+            %routequest = ^routequest_enter_cutscene;
+            if_close;
+            @route_attempt_enter_cutscene(0);
+        } else {
+            // RS3
+            ~chatnpc("<p,neutral>Well, you don't seem to have what we need in your inventory. We really need specific weapons, we each have our own specialisms. If you're wielding one of the weapons which you want us to have, probably bet to un-equip it and then come and have a chat.");
+            def_int $op = ~p_choice2("Ok, I'll go get them.", 1, "Which weapons do you need?", 2);
+            if($op ! null) {
+                if($op = 1) {
+                    ~chatplayer("<p,neutral>Ok, I'll go get them.");
+                    ~chatnpc("<p,neutral>Ok, I'd appreciate that.");
+                } else if($op = 2) {
+                    ~chatplayer("<p,neutral>Which weapons do you need?");
+                    ~chatnpc("<p,neutral>Here, I've compiled a list.");
+                    @veliaf_weapon_list;
+                }
+            }
+        }
+    } else {
+        ~chatnpc("<p,quiz>Have you introduced yourself to the rest of the gang ?"); // not a typo
+        def_int $op = ~p_choice3("I wanted to ask you some questions first.", 1, "Not yet, I'll go do that now.", 2, "Who else do I have to introduce myself to?", 3);
+        if($op ! null) {
+            switch_int($op) {
+                case 1 :
+                    ~chatplayer("<p,neutral>I wanted to ask some questions first.");
+                    ~chatnpc("<p,neutral>Well, ok, but only briefly, I have things to do.");
+                    @route_veliaf_intro_multi;
+                case 2 :
+                    ~chatplayer("<p,neutral>Not yet, I'll go do that now.");
+                    ~chatnpc("<p,neutral>OK, great.");
+                case 3 : 
+                    ~chatplayer("<p,neutral>Who else do I have to introduce myself to?");
+                    @veliaf_intro_list;
+            }
+        }
+    }
+} else if(%routequest = ^routequest_enter_cutscene) {
+    @route_attempt_enter_cutscene(0);
+} else if(%routequest < ^routequest_saved_myreque) {
+    mes("Veliaf can't talk right now, he seems to be formulating a plan.");
+} else if(%routequest = ^routequest_saved_myreque) {
+    ~chatnpc("<p,neutral>That murderer Vanstrom has killed Sani and Harold! He came in and killed them right in front of our eyes. And that beast he summoned probably would have killed the rest of us if it wasn't for you!");
+    ~chatplayer("<p,neutral>It was the least I could do!|After all, I was the one he followed here,|I'm sort of responsible.");
+    ~chatnpc("<p,neutral>That is for your conscience to bear, but now perhaps you can understand why we fight for our freedom?");
+    ~chatplayer("<p,neutral>Yes, I think I understand now.");
+    @route_veliaf_multi;
+}
+
+[label,route_veliaf_intro_multi]
+def_int $op = ~p_choice5("So are you the leader?", 1, "Can you tell me about your organisation?", 2, "What can you tell me about Morytania?", 3, "What are your plans for the future?", 4, "Ok, thanks.", 5);
+while($op ! null) {
+    switch_int($op) {
+        case 1 : 
+            ~chatplayer("<p,neutral>So are you the leader?");
+            ~chatnpc("<p,neutral>Well, as much as anyone is, it's not official or anything. I guess the others just look up to me or something. I feel a certain responsibility for them so I guess that means I'm a leader of sorts.");
+        case 2 :
+            ~chatplayer("<p,neutral>Can you tell me about your organisation?");
+            ~chatnpc("<p,neutral>Huh, organisation? That's rich! We're really not that organised, however, the Myreque are dedicated to mounting a resistance against the Drakans and the evil that they've brought to Morytania.");
+        case 3 : 
+            ~chatplayer("<p,neutral>What can you tell me about Morytania?");
+            ~chatnpc("<p,neutral>I can tell you that it used to be a beautiful country before Lowerniel and his quarelling siblings arrived.");
+            ~chatplayer("<p,neutral>Lowerniel? Who's that?");
+            ~chatnpc("<p,neutral>Lowerniel Vergidiyad Drakan - he's the head of the Drakan family and along with his brother Ranis and his sister Vanescula they play out their petty backstabbing games using the peoples of Morytania as their pawns.");
+            ~chatplayer("<p,neutral>You sound very bitter.");
+            ~chatnpc("<p,neutral>So would you, if you lost everyone dear to you at the hands of such monsters.");
+        case 4 :
+            ~chatplayer("<p,neutral>What are your plans for the future?");
+            ~chatnpc("<p,neutral>At the moment we're maintaining a low profile after we were spotted scouting out the Drakans' castle. The forest where we camped is infested with vampires, and even though they're only juveniles in terms of experience, we only just managed to survive. After we've regrouped, we will try to recruit more people to our cause. At the minute we're hopelessly outnumbered.");
+        case 5 :
+            ~chatplayer("<p,neutral>Ok, thanks.");
+            return;
+    }
+    $op = ~p_choice5("So are you the leader?", 1, "Can you tell me about your organisation?", 2, "What can you tell me about Morytania?", 3, "What are your plans for the future?", 4, "Ok, thanks.", 5);
+}
+
+[label,route_veliaf_multi]
+def_int $op = ~p_choice5("I want to join your organisation.", 1, "What do you plan to do now?", 2, "How do I get out of here?", 3, "Let's get revenge on Vanstrom!", 4, "Ok, thanks.", 5);
+while($op ! null) {
+    switch_int($op) {
+        case 1 : 
+            ~chatplayer("<p,neutral>I want to join your organisation.");
+            ~chatnpc("<p,neutral>Hmm, well, thanks for your support.|But I'll need to talk to my superior first.");
+        case 2 :
+            ~chatplayer("<p,neutral>What do you plan to do now?");
+            ~chatnpc("<p,neutral>Well, I guess Vanstrom will expect that we're dead. He's so arrogant that he doesn't really consider us a threat. I can understand that; if I was that powerful I would probably feel the same.");
+            ~chatnpc("<p,neutral>I guess we'll regroup and then try to recruit more people. We first need to know how we can fight against these monsters, then we'll take the war to them!");
+        case 3 : 
+            ~chatplayer("<p,neutral>How do I get out of here?");
+            ~chatnpc("<p,neutral>If you go back into the main corridor which leads|into this room, it goes down towards the|basement of an inn.");
+            ~chatnpc("<p,neutral>If you search the wall, you'll find that it is in fact moveable. You should be able to get into the room, take the ladder to come out to the south of the 'Hair of the Dog Tavern' in Canifis.");
+            if(%routequest < ^routequest_told_exit_route) %routequest = ^routequest_told_exit_route;
+        case 4 :
+            ~chatplayer("<p,neutral>Let's get revenge on Vanstrom!");
+            ~chatnpc("<p,neutral>Yes, of course, we'll certainly get our revenge on him and his superiors! Then they'll taste the bitter sorrow that we've had to endure so long!");
+        case 5 :
+            ~chatplayer("<p,neutral>Ok, thanks.");
+            return;
+    }
+    $op = ~p_choice5("I want to join your organisation.", 1, "What do you plan to do now?", 2, "How do I get out of here?", 3, "Let's get revenge on Vanstrom!", 4, "Ok, thanks.", 5);
+}
+
+
+[label,veliaf_intro_list]
+def_string $list = "You must introduce yourself to the follow people:";
+if(testbit(%routequest_myreque_bits, ^route_myreque_sani) > 0) $list = append($list, "|@str@- Sani");
+else $list = append($list, "|- Sani");
+
+if(testbit(%routequest_myreque_bits, ^route_myreque_harold) > 0) $list = append($list, "|@str@- Harold");
+else $list = append($list, "|- Harold");
+
+if(testbit(%routequest_myreque_bits, ^route_myreque_radigrad) > 0) $list = append($list, "|@str@- Radigad");
+else $list = append($list, "|- Radigad");
+
+if(testbit(%routequest_myreque_bits, ^route_myreque_polmafi) > 0) $list = append($list, "|@str@- Polmafi");
+else $list = append($list, "|- Polmafi");
+
+if(testbit(%routequest_myreque_bits, ^route_myreque_ivan) > 0) $list = append($list, "|@str@- Ivan");
+else $list = append($list, "|- Ivan");
+~mesbox("<$list>");
+
+[label,veliaf_weapon_list]
+// what interface was this using originally?
+def_string $text = "You must supply the following weapons:";
+def_int $longswords = inv_total(inv, steel_longsword);
+def_int $swords = inv_total(inv, steel_sword);
+def_int $daggers = inv_total(inv, steel_dagger);
+def_int $maces = inv_total(inv, steel_mace);
+def_int $warhammers = inv_total(inv, steel_warhammer);
+
+if($longswords > 0) {
+    $text = append($text, "|@str@- 1 steel longsword"); // not a typo
+} else {
+    $text = append($text, "|- 1 steel longsword");
+}
+if($swords > 1) {
+    $text = append($text, "|@str@- 2 steel swords");
+} else {
+    $text = append($text, "|- 2 steel swords");
+}
+if($daggers > 0) {
+    $text = append($text, "|@str@- 1 steel dagger");
+} else {
+    $text = append($text, "|- 1 steel dagger");
+}
+if($maces > 0) {
+    $text = append($text, "|@str@- 1 steel mace");
+} else {
+    $text = append($text, "|- 1 steel mace");
+}
+if($warhammers > 0) {
+    $text = append($text, "|@str@- 1 steel warhammer");
+} else {
+    $text = append($text, "|- 1 steel warhammer");
+}
+~mesbox("<$text>");
+~chatnpc("<p,quiz>Mind you, I've only checked your main inventory. If you're wielding one of those weapons, I won't take that into account.");
+
+[opnpc2,skeleton_hellhound]
+if (%npc_aggressive_player ! uid) {
+    mes("It's not after you...");
+    return;
+}
+@player_combat_start;
+
+[apnpc2,skeleton_hellhound] 
+if (%npc_aggressive_player ! uid) {
+    mes("It's not after you...");
+    return;
+}
+@player_combat_start_ap;
+
+[ai_queue3,skeleton_hellhound]
+gosub(npc_death);
+if(npc_findhero = ^false) {
+    return;
+}
+// no map_blocked for this i guess https://youtu.be/gfVu0dMX2y0?si=1CDvgFso42sGqAc5&t=424
+obj_add(npc_coord, big_bones, 1, ^lootdrop_duration);
+obj_add(movecoord(npc_coord, 1, 0, 0), big_bones, 1, ^lootdrop_duration);
+obj_add(movecoord(npc_coord, 1, 0, 1), big_bones, 1, ^lootdrop_duration);
+obj_add(movecoord(npc_coord, 0, 0, 1), big_bones, 1, ^lootdrop_duration);
+obj_add(movecoord(npc_coord, 2, 0, 0), uncut_ruby, 1, ^lootdrop_duration);
+obj_add(movecoord(npc_coord, 2, 0, -1), uncut_ruby, 1, ^lootdrop_duration);
+queue(skeleton_hellhound_defeat, 0, 0);
+
+[queue,skeleton_hellhound_defeat]
+if(%routequest = ^routequest_ambush) {
+    %routequest = ^routequest_saved_myreque;
+}

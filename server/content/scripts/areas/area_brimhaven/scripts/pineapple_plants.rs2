@@ -9,7 +9,7 @@ loc_change(loc_param(next_loc_stage), 500);
 inv_add(inv, pineapple, 1);
 
 mes("You pick a pineapple.");
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 
 [oploc1,pineapple_plant_no_pineapples]
 mes("There are no pineapples left on this plant.");

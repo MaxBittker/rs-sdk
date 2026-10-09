@@ -21,7 +21,7 @@ if (random(2) = 0) {
     npc_anim(kalphite_attack_claws, 0);
 }
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 ~npc_meleeattack;
 

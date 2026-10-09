@@ -26,7 +26,7 @@ if (inv_total(inv, bronze_bar) < 1) {
 p_delay(0);
 // play anim and sound
 anim(human_smithing, 0);
-sound_synth(anvil_4, 0, 0);
+sound_synth(anvil_4, 1, 0);
 ~set_tutorial_progress;
 // recall proc
 ~tut_smithing_anvil($count);

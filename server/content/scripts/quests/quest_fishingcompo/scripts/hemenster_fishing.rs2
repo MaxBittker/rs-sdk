@@ -95,7 +95,7 @@ if (inv_freespace(inv) < 1 & inv_total(inv, $bait) > 1) {
     return;
 }
 // In RSC this is immediate with no bubble, i'm going to guess it probably uses the fishing animation + delay
-sound_synth(fishing_cast, 0, 0);
+sound_synth(fishing_cast, 1, 0);
 anim(human_fishing_casting, 0);
 p_delay(4); 
 @hemenster_catch($bait);

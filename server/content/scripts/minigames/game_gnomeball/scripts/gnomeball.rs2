@@ -100,7 +100,7 @@ if (~inzone_coord_pair_table(gnomeball_zones, coord) = true) {
     mes("The ball magically returns to the ref as you put it down.");
     inv_delslot(inv, last_slot);
     anim(human_pickupfloor, 0);
-    sound_synth(pick, 0, 0);
+    sound_synth(pick, 1, 0);
     return;
 }
 ~dropslot(last_slot);

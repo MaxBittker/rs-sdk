@@ -1,68 +1,68 @@
 [hopper_full]
 name=Hopper
 desc=Grain goes in here.
-model=model_loc_1783
+model=mill_top1
 width=2
 
 [hopper_lumbridge]
 name=Hopper
 desc=Grain goes in here.
-model=model_loc_1783
+model=mill_top1
 width=2
 category=hopper_nonfull
 
 [hopper_varrock]
 name=Hopper
 desc=Grain goes in here.
-model=model_loc_1783
+model=mill_top1
 width=2
 category=hopper_nonfull
 
 [hopper_zanaris]
 name=Hopper
 desc=Grain goes in here.
-model=model_loc_1783
+model=mill_top1
 width=2
 category=hopper_nonfull
 
 [hopper_ardougne]
 name=Hopper
 desc=Grain goes in here.
-model=model_loc_1783
+model=mill_top1
 width=2
 category=hopper_nonfull
 
-[hoppercontrol_lumbridge]
+[hopperlevers1]
 name=Hopper controls
 desc=These control the flow of grain from the hopper to the millstones.
-model=model_loc_1785
+model=mill_top3
 op1=Operate
 category=hoppercontrol
 param=millbase_coord,0_49_51_30_43
 param=hopper_coord,2_49_51_30_43
 
-[hoppercontrol_varrock]
+[hopperlevers2]
 name=Hopper controls
 desc=These control the flow of grain from the hopper to the millstones.
-model=model_loc_1785
+model=mill_top3
 op1=Operate
 category=hoppercontrol
 param=millbase_coord,0_49_53_3_58
 param=hopper_coord,2_49_53_4_58
 
-[hoppercontrol_zanaris]
+[hopperlevers3]
 name=Hopper controls
 desc=These control the flow of grain from the hopper to the millstones.
-model=model_loc_1785
+model=mill_top3
 op1=Operate
 category=hoppercontrol
 param=millbase_coord,0_49_149_37_41
 param=hopper_coord,1_49_149_37_41
 
-[hoppercontrol_ardougne]
+[hopperlevers4]
 name=Hopper controls
 desc=These control the flow of grain from the hopper to the millstones.
-model=model_loc_1785
+model=mill_top3
 op1=Operate
 category=hoppercontrol
 param=millbase_coord,0_41_52_8_57
@@ -71,4 +71,4 @@ param=hopper_coord,2_41_52_8_58
 [hoppercontrol_inuse]
 name=Hopper controls
 desc=These control the flow of grain from the hopper to the millstones.
-model=model_loc_2722
+model=mill_loc_2722

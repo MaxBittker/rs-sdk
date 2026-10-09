@@ -30,7 +30,7 @@ if (p_finduid(uid) = true) {
     inv_del(inv, bones, $total_bones);
     inv_add(inv, $product, $total_bones);
     // play sound and anim
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
     anim($anim, 0);
     spotanim_pl($spotanim, 92, 0);
     // delete runes and give xp

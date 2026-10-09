@@ -1,7 +1,7 @@
 [furnace1]
 name=Furnace
 desc=A hot place for forging things in.
-model=model_loc_165
+model=furniture_loc_165
 width=3
 length=3
 sharelight=yes
@@ -9,10 +9,10 @@ forceapproach=east
 op2=Smelt
 category=smithing_furnace
 
-[furnace_side]
+[furnace2]
 name=Furnace
 desc=A hot place for forging things in.
-model=model_loc_2785
+model=furniture_furnace2
 forceapproach=east
 sharelight=yes
 category=smithing_furnace
@@ -20,7 +20,7 @@ category=smithing_furnace
 [furnace_legendsquest]
 name=Furnace
 desc=A hot place for forging things in.
-model=model_loc_2966
+model=cave_furnace_upass
 width=3
 length=3
 forceapproach=east
@@ -33,7 +33,7 @@ category=smithing_furnace
 [newbiefurnace]
 name=Furnace
 desc=A hot place for forging things in.
-model=model_loc_165
+model=furniture_loc_165
 active=yes
 width=3
 length=3
@@ -44,7 +44,7 @@ category=smithing_furnace
 [furnace_upass]
 name=Furnace
 desc=A hot place for forging things in.
-model=model_loc_2966
+model=cave_furnace_upass
 width=3
 length=3
 forceapproach=east

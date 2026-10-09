@@ -1,0 +1,23 @@
+[xmas_yoyo]
+name=Yo-yo
+cost=10
+desc=A gift from Santa.
+model=inv_yo
+iop1=Play
+iop2=Loop
+iop3=Walk
+iop4=Crazy
+weight=10g
+2dxof=7
+2dyof=5
+2dzoom=560
+2dyan=2036
+2dxan=196
+tradeable=no
+
+[xmas_yoyoworn]
+name=Xmas yoyoworn
+model=human_weapons_yo
+wearpos=righthand
+manwear=human_weapons_yo,0
+womanwear=human_weapons_yo,6

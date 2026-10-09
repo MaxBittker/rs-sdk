@@ -216,7 +216,7 @@ def_namedobj $product = struct_param($struct, product);
 // mes(oc_debugname($product));
 if_close;
 anim(human_furnace, 0);
-sound_synth(furnace, 0, 0);
+sound_synth(furnace, 1, 0);
 p_delay(2);
 ~crafting_gold($product, $gem, $productexp, $count);
 // weakqueue(crafting_gold, 1, $productexp, $gem, $product, $count);
@@ -267,7 +267,7 @@ if (inv_total(inv, $gem) < 1 & $gem ! null) {
 }
 
 anim(human_furnace, 0);
-sound_synth(furnace, 0, 0);
+sound_synth(furnace, 1, 0);
 p_delay(2);
 ~crafting_gold($product, $gem, $productexp, $count);
 
@@ -319,7 +319,7 @@ if (afk_event = ^true) {
 
 [label,process_craft_silver](struct $struct, namedobj $product, int $count)
 anim(human_furnace, 0);
-sound_synth(furnace, 0, 0);
+sound_synth(furnace, 1, 0);
 // initial is 2t, afterwards is 3t cause processing order, not action_delay dependennt
 weakqueue*(craft_silver, 2)($struct, $product, $count);
 
@@ -357,7 +357,7 @@ if(sub($count, 1) < 1) {
 // }
 // // these go after
 // anim(human_furnace, 0);
-// sound_synth(furnace, 0, 0);
+// sound_synth(furnace, 1, 0);
 // // requeue itself
 // weakqueue(crafting_gold, 3, $productexp, $gem, $product, $count);
 // //----------------------

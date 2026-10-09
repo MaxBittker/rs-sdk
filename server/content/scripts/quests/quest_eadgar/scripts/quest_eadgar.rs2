@@ -11,7 +11,8 @@ switch_int(%eadgar_quest) {
     case ^eadgar_needs_parrot_back : @eadgar_needs_parrot_back;
     case ^eadgar_got_parrot_back : @eadgar_got_parrot_back;
     case ^eadgar_got_fake_man : @eadgar_given_fake_man_yet;
-    case ^eadgar_got_burnt_meat, ^eadgar_unlocked_storeroom : @eadgar_did_the_plan_work; // todo is this dialog available after receiving the burnt meat or only after unlocking the storeroom? using both for now
+    case ^eadgar_got_burnt_meat, ^eadgar_unlocked_storeroom : @eadgar_did_the_plan_work; // In RS3 this dialog is available after getting the burnt meat / In OSRS it's available after unlocking the storeroom
+    // I haven't checked the inverse for either game yet but for now I'm assuming behavior is the same and the dialog should be available during both quest stages (minor TODO I guess)
 }
 
 [label,eadgar_quest_initial_tree]
@@ -69,7 +70,7 @@ if(%eadgar_quest = ^eadgar_spoken_burntmeat_first | %eadgar_quest = ^eadgar_spok
 // rsprox/branon
 ~chatnpc("<p,neutral>Oh, it's you. Have you got me a parrot yet?");
 if(inv_total(inv, eadgar_drunk_parrot) > 0) {
-    ~chatnpc_specific("Parrot", eadgar_parrotts, "<p,neutral>Raaawk! Polly wanna cracker!");
+    ~chatnpc_model("Parrot", 3624, "<p,parrot>Raaawk! Polly wanna cracker!");
     ~chatplayer("<p,happy>Here it is! How are you going to explain your plan?");
     ~chatnpc("<p,happy>Yes, yes, of course. It's quite ingenious really!");
     ~chatnpc("<p,neutral>What we need is something that looks like a human,|sounds like a human, smells like a human and tastes|like a human."); //linebreaks from from runeweb, one of the few 2004-era images we have of this quest
@@ -77,7 +78,7 @@ if(inv_total(inv, eadgar_drunk_parrot) > 0) {
     ~chatnpc("<p,neutral>We'll just make a scarecrow. We'll need logs, and 10 sheaves of wheat for stuffing.");
     ~chatplayer("<p,quiz>How are we going to make it sound like a human?");
     ~chatnpc("<p,happy>That's what the parrot's for, of course.");
-    ~chatnpc_specific("Parrot", eadgar_parrotts, "<p,neutral>Who's a pretty boy then?"); // mesanim lore_bird_chathead_quizical
+    ~chatnpc_model("Parrot", 3624, "<p,parrot>Who's a pretty boy then?"); // mesanim lore_bird_chathead_quizical
     ~chatnpc("<p,neutral>Although the trolls might get suspicious if it doesn't say what they expect a human to say...");
     ~chatnpc("<p,neutral>You should hide it for a while somewhere it can pick up some more appropriate catchphrases.");
     ~chatplayer("<p,quiz>How are we going to make it smell like a human?");
@@ -118,7 +119,7 @@ if(inv_total(inv, eadgar_drunk_parrot) > 0 | inv_total(bank, eadgar_drunk_parrot
 // rsprox/branon
 ~chatplayer("<p,quiz>What should I do with this parrot?");
 ~chatnpc("<p,neutral>I told you, put it somewhere it'll learn to say the sort of thing the trolls will expect it to say.");
-~chatnpc("<p,neutral>That is likely to be screaming. There's bound to be a good spot somewhere in the troll prison.");
+~chatnpc("<p,neutral>This is likely to be screaming. There's bound to be a good spot somewhere in the troll prison.");
 @eadgar_scarecrow_tree; // only time this dialog tree is accessible!
 
 [proc,eadgar_lost_parrot_start] // this dialog is used in two places and needs to resume execution in both, so i made it a proc
@@ -145,16 +146,16 @@ if(inv_freespace(inv) > 0) {
 
 [oploc1,eadgar_rack]
 // rsprox/branon
-if(%eadgar_quest = ^eadgar_hid_parrot) {
-    switch_int(random(2)) {
-        case 0 : ~chatnpc_specific("Parrot", eadgar_parrotts, "<p,neutral>Polly wanna cracker!");
-        case 1 : ~chatnpc_specific("Parrot", eadgar_parrotts, "<p,neutral>Pieces of eight! Pieces of eight!");
-        case 2 : ~chatnpc_specific("Parrot", eadgar_parrotts, "<p,neutral>Who's a pretty boy then?");
+if(%eadgar_quest >= ^eadgar_hid_parrot & %eadgar_quest <= ^eadgar_needs_potion) {
+    switch_int(randominc(2)) {
+        case 0 : ~chatnpc_model("Parrot", 3624, "<p,parrot>Polly wanna cracker!");
+        case 1 : ~chatnpc_model("Parrot", 3624, "<p,parrot>Pieces of eight! Pieces of eight!");
+        case 2 : ~chatnpc_model("Parrot", 3624, "<p,parrot>Who's a pretty boy then?");
     }
     ~chatplayer("<p,neutral>I don't think it's done yet.");
 } else if(%eadgar_quest = ^eadgar_needs_parrot_back) {
     ~mesbox("You look under the rack and find the drunk parrot.");
-    ~chatnpc_specific("Parrot", eadgar_parrotts, "<p,neutral>Ah, hello Sir. Could you please free me?|I seem to have ... OW! What are you doing?|That's my spleen!"); // linebreaks from runeweb 2004
+    ~chatnpc_model("Parrot", 3624, "<p,parrot>Ah, hello Sir. Could you please free me?|I seem to have ... OW! What are you doing?|That's my spleen!"); // linebreaks from runeweb 2004
     ~chatplayer("<p,happy>I think it's probably heard enough.");
     inv_add(inv, eadgar_drunk_parrot, 1);
     %eadgar_quest = ^eadgar_got_parrot_back;
@@ -218,7 +219,33 @@ if(%eadgar_quest = ^eadgar_explained_plan) {
 @eadgar_scarecrow_tree;
 
 [label,eadgar_scarecrow_items]
-def_int $logs_num = inv_total(inv, logs);
+// All the videos and guides use normal logs but we checked some others:
+// OSRS - Maple logs work but Redwood logs do not - likely not using a category.
+// RS3 - Achey logs work.
+//
+// Current theory is that any 2004-era log should work, with priority from lowest to highest level.
+// TODO not sure about pyre logs...
+def_obj $log_type = null;
+if(inv_total(inv, logs) > 0) {
+    $log_type = logs;
+} else if(inv_total(inv, achey_tree_logs) > 0) {
+    $log_type = achey_tree_logs;
+} else if(inv_total(inv, oak_logs) > 0) {
+    $log_type = oak_logs;
+} else if(inv_total(inv, willow_logs) > 0) {
+    $log_type = willow_logs;
+} else if(inv_total(inv, maple_logs) > 0) {
+    $log_type = maple_logs;
+} else if(inv_total(inv, yew_logs) > 0) {
+    $log_type = yew_logs;
+} else if(inv_total(inv, magic_logs) > 0) {
+    $log_type = magic_logs;
+}
+
+def_int $logs_num = 0;
+if($log_type ! null) {
+    $logs_num = inv_total(inv, $log_type);
+}
 def_int $chickens_num = min(inv_total(inv, raw_chicken), calc(5 - %eadgar_chickens));
 def_int $grain_num = min(inv_total(inv, grain), calc(10 - %eadgar_grain));
 def_int $clothes_num = inv_total(inv, eadgar_dirty_druid_robe);
@@ -252,14 +279,16 @@ $grain_num = min(calc(10 - %eadgar_grain), $grain_num);
 
 // videos show items are removed here, immediately before the player's "I have XYZ" dialog fires
 if ($logs_num >= 1 & testbit(%eadgar_bits, ^eadgar_given_logs) = ^false) {
-    inv_del(inv, logs, 1);
+    inv_del(inv, $log_type, 1);
     %eadgar_bits = setbit(%eadgar_bits, ^eadgar_given_logs);
 } else {
     $logs_str = "no logs";
-    // This is to match Soup's OSRS video.
-    // The player gives Eadgar the logs first, then returns later with the dirty clothes, while still carrying
-    // a second set of logs for making a fire. The player's dialog reads "I have no logs" while turning in the clothes,
-    // even though there are actually logs in the inventory.
+    // Resetting the strings to say "no" even if the items are present in the inventory is done on purpose to match OSRS/RS3.
+    // This happens for all the items, logs/chickens/grain/clothes. Works like this:
+    //
+    // Player gives Eadgar ALL of a required item (1 logs for example)
+    // Player returns later with other items, while still carrying an extra of the previous item (1 extra logs to make a fire)
+    // The player's dialog will read "I have no logs" while turning in other items, even though there are actually logs in the inventory.
 }
 
 if ($chickens_num > 0) {
@@ -267,8 +296,7 @@ if ($chickens_num > 0) {
 } else {
     $chickens_str = "no chickens";
 }
-// TODO check if this "no X" dialog behavior is consistent for grain and chickens also
-// I forgot to check these, but for now I'm assuming it is
+
 if ($grain_num > 0) {
     inv_del(inv, grain, $grain_num);
 } else {
@@ -287,12 +315,18 @@ if ($clothes_num >= 1 & testbit(%eadgar_bits, ^eadgar_given_clothes) = ^false) {
 %eadgar_grain = calc(%eadgar_grain + $grain_num);
 
 // check if anything more is needed
-def_int $logs_needed = calc(1 - $logs_num);
 def_int $chickens_needed = calc(5 - %eadgar_chickens);
 def_int $grain_needed = calc(10 - %eadgar_grain);
-def_int $clothes_needed = calc(1 - $clothes_num);
 
-// rsprox/branon
+// TODO we are currently missing a possible dialog line here:
+//~chatplayer("<p,neutral>I don't have anything.");
+//
+// I ran across this in RS3 by talking to Eadgar with an empty inventory (no required items present)
+// Appears to exist in OSRS too: https://chisel.weirdgloop.org/dialogue/content/2449
+//
+// The issue is I don't know if this line ONLY appears if the player has NO required item types at all,
+// or if it also appears when (for example) all 10 grain have been turned in, but the player has 1 grain in their inventory
+// and nothing else (required item is present, but it's not a type of item we still *need*)
 ~chatplayer("<p,neutral>I have <$logs_str>, <$chickens_str>, <$grain_str> and <$clothes_str>.");
 
 // if not all items are delivered, dialog goes back to default tree after eadgar tells you what else is needed
@@ -355,17 +389,20 @@ if(p_finduid(uid) = true) {
 // rsprox/branon
 if(inv_total(inv, eadgar_ground_troll_thistle_potion) > 0) {
     ~chatplayer("<p,happy>I've got the troll truth potion.");
+    queue(eadgar_give_potion, 0, 0); // todo might actually be queued before player dialog above
     // Jagex appears to have changed this line at some point after 2014: https://youtu.be/945tUgBj3SM?t=860 
     // Eadgar says "thank you" instead of "hand it here" in OSRS now   
     ~chatnpc("<p,happy>Excellent, hand it here. Now just go fetch that poor parrot back, it's probably had enough by now."); 
-    inv_del(inv, eadgar_ground_troll_thistle_potion, 1); // only one is taken
-    %eadgar_quest = ^eadgar_needs_parrot_back;
 } else {
     // rsprox/branon
     ~chatplayer("<p,quiz>How do I make the troll truth potion again?");
     ~chatnpc("<p,neutral>Troll Thistle grows around this mountain. If properly prepared, it can be made into a sort of Troll truth potion.");
     @eadgar_how_prepare_troll_truth_potion;
 }
+
+[queue,eadgar_give_potion]
+%eadgar_quest = ^eadgar_needs_parrot_back;
+inv_del(inv, eadgar_ground_troll_thistle_potion, 1); // only one is taken
 
 [label,eadgar_needs_parrot_back]
 // rsprox/branon
@@ -375,8 +412,8 @@ if(inv_total(inv, eadgar_ground_troll_thistle_potion) > 0) {
 
 [label,eadgar_got_parrot_back]
 if(inv_total(inv, eadgar_drunk_parrot) > 0) {
-    // todo skipped this leaf in my run, need mesanims here
-    ~chatplayer("<p,neutral>I've brought the parrot.");
+    // mesanims from RS3
+    ~chatplayer("<p,happy>I've brought the parrot.");
     ~chatnpc("<p,happy>Hand it here...there we go! Can you tell this isn't a bona fide human being? I sure can't!");
 } else {
     // rsprox/branon
@@ -390,7 +427,7 @@ if(inv_total(inv, eadgar_drunk_parrot) > 0) {
 // to match OSRS videos - the drunk parrot/fake man swap is queued
 // and does not occur until the player clicks through or cancels eadgar's default dialog tree
 queue(eadgar_fake_man, 0, 0);
-~chatnpc_specific("Fake man", eadgar_parrotts, "<p,neutral>What am I doing here? Ow! Where's the rest of the|Guard? Agh! I won't tell you anything!"); // linebreaks from runeweb 2004
+~chatnpc_model("Fake man", 4053, "<p,neutral>What am I doing here? Ow! Where's the rest of the|Guard? Agh! I won't tell you anything!"); // linebreaks from runeweb 2004
 @eadgar_default_tree;
 
 [queue,eadgar_fake_man]
@@ -422,14 +459,14 @@ if(inv_total(inv, eadgar_fake_man) > 0) { // bank is not checked here
 [oploc1,eadgar_kitchen_drawers]
 p_arrivedelay;
 anim(human_openchest, 0);
-sound_synth(cupboard_open, 0, 0);
+sound_synth(cupboard_open, 1, 0);
 p_delay(0);
 loc_change(eadgar_kitchen_drawers_open, 300);
 
 [oploc1,eadgar_kitchen_drawers_open]
 p_arrivedelay;
 anim(human_closechest, 0);
-sound_synth(cupboard_close, 0, 0);
+sound_synth(cupboard_close, 1, 0);
 p_delay(0);
 loc_change(eadgar_kitchen_drawers, 300);
 
@@ -497,8 +534,8 @@ if (getqueue(eadgar_take_goutweed) > 0 | getqueue(troll_guard_knockout) > 0 | ge
 if_close;
 npc_say("!");
 npc_anim(eadgar_troll_axethrow, 0);
-~player_projectile(npc_coord, coord, uid, spotanim_290, 40, 36, 41, 15, 5, 11, 5);
-sound_synth(throw_club, 0, 0);
+~player_projectile(npc_coord, coord, uid, eadgar_thrown_club, 40, 36, 41, 15, 5, 11, 5);
+sound_synth(throw_club, 1, 0);
 queue(troll_guard_knockout, 2, 0);
 
 [ai_timer,eadgar_storeroom_guard]
@@ -525,8 +562,8 @@ if(npc_findexact(0_44_157_41_27, eadgar_storeroom_guard) = true) {
     npc_say("Hm?");
     npc_facesquare(coord);
     npc_anim(eadgar_troll_axethrow, 0);
-    ~player_projectile(npc_coord, coord, uid, spotanim_290, 40, 36, 41, 15, 5, 11, 5);
-    sound_synth(throw_club, 0, 0);
+    ~player_projectile(npc_coord, coord, uid, eadgar_thrown_club, 40, 36, 41, 15, 5, 11, 5);
+    sound_synth(throw_club, 1, 0);
     queue(troll_guard_knockout, 2, 0);
 }
 
@@ -535,7 +572,7 @@ if(inzone(0_44_157_0_0, 0_44_157_63_63, coord) = false) {
     return;
 }
 if_openoverlay(eadgar_fade_to_black);
-sound_synth(rock_impact, 0, 0);
+sound_synth(rock_impact, 1, 0);
 anim(eadgar_knockout, 0);
 ~damage_self(random(7)); // osrs wiki says 0-6 damage is possible
 queue(troll_guard_teleport, 1, 0);
@@ -549,8 +586,8 @@ if(inzone(0_44_157_0_0, 0_44_157_63_63, coord) = false) {
     return;
 }
 p_teleport(0_44_157_49_40);
-spotanim_pl(spotanim_291, 124, 0);
-sound_synth(stun_all, 0, 0);
+spotanim_pl(eadgar_stunned, 124, 0);
+sound_synth(stun_all, 1, 0);
 
 [queue,eadgar_quest_complete]
 session_log(^log_adventure, "Quest complete: Eadgar's Ruse");

@@ -9,6 +9,7 @@ mes("You climb down the ladder.");
 [oploc1,magearena_ladder_from_cellar]
 p_arrivedelay;
 ~climb_ladder(movecoord(coord, 549, 0, -756), true);
+mes("You climb up the ladder."); // https://web.archive.org/web/20040829183021if_/http://www.iownjoo.com:80/freeimghost/ajay/rs2thedevilscry1.jpg
 
 
 [oploc1,magearena_waterportal1] @jump_in_sparkling_pool(^sparkling_pool_chamber_coord);
@@ -70,7 +71,7 @@ p_exactmove(coord, $middle, 20, 35, $dir);
 p_delay(1);
 anim(human_smokepuff_tele_disappear, 0);
 spotanim_pl(watersplash, 0, 20);
-sound_synth(pool_plop, 0, 0);
+sound_synth(pool_plop, 1, 0);
 p_delay(1);
 p_teleport($tele_coord);
 anim(null, 0);
@@ -116,6 +117,7 @@ if ((inv_totalcat(inv, armour_hands) > 0 | inv_totalcat(worn, armour_hands) > 0)
     | (inv_totalcat(inv, weapon_scythe) > 0 | inv_totalcat(worn, weapon_scythe) > 0) 
     | (inv_totalcat(inv, weapon_bow) > 0 | inv_totalcat(worn, weapon_bow) > 0)
     | (inv_totalcat(inv, weapon_claws) > 0 | inv_totalcat(worn, weapon_claws) > 0)
+    | (inv_totalcat(inv, weapon_polearm) > 0 | inv_totalcat(worn, weapon_polearm) > 0)
     | (inv_totalcat(inv, arrows) > 0 | inv_totalcat(worn, arrows) > 0)
     | (inv_totalcat(inv, unstrung_bow) > 0)
     | (inv_total(inv, headless_arrow) > 0) // headless arrows
@@ -145,7 +147,7 @@ return (false);
 p_delay(3);
 anim(human_castteleport, 60);
 spotanim_pl(teleport_casting, 92, 60);
-sound_synth(teleport_all, 0, 0);
+sound_synth(teleport_all, 1, 0);
 p_delay(2);
 p_teleport(map_findsquare(^mage_arena_finish_coord, 0, 2, ^map_findsquare_lineofwalk));
 anim(null, 0);

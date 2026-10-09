@@ -1,6 +1,6 @@
 // ************************* TRIGGERS **************************
 // normal food
-[opheld1,_category_5] @player_consume_item(consume_effect_stat, 2, 3);
+[opheld1,_meat] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_58] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_59] @player_consume_item(consume_effect_stat, 2, 3);
 [opheld1,_category_86] @player_consume_item(consume_effect_stat, 2, 3);
@@ -43,6 +43,11 @@ mes("You cant eat it whole; maybe you should cut it up.");
 [opheld1,snail_corpse_cooked1] @player_consume_item(consume_effect_snail1, 2, 3);
 [opheld1,snail_corpse_cooked2] @player_consume_item(consume_effect_snail2, 2, 3);
 [opheld1,snail_corpse_cooked3] @player_consume_item(consume_effect_snail3, 2, 3);
+
+// ape atoll food
+[opheld1,mm_monkey_nuts] @player_consume_item(consume_monkey_nuts, 2, 3);
+[opheld1,mm_monkey_bar] @player_consume_item(consume_monkey_bar, 2, 3);
+[opheld1,mm_banana_stew] @player_consume_item(consume_banana_stew, 2, 3);
 
 // cocktails
 // these work like normal food in osrs

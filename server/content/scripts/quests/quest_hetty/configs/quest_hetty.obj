@@ -1,8 +1,8 @@
 [rats_tail]
 cost=3
-name=Rats tail
+name=Rat's tail
 desc=A bit of rat.
-model=model_2751_obj
+model=inv_ratstail
 2dxof=2
 2dyof=-1
 2dzoom=590

@@ -1,7 +1,7 @@
 [troll_pass_entrance]
 name=Cave Entrance
 desc=Looks like small cave.
-model=model_loc_2
+model=cave_entrance3
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -20,7 +20,7 @@ op1=Enter
 [troll_pass_exit]
 name=Cave Exit
 desc=The way out.
-model=loc_3736
+model=quest_death_caveexit
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -43,7 +43,7 @@ op1=Exit
 [troll_mad_eadgar_entrance]
 name=Cave Entrance
 desc=Looks like small cave.
-model=model_loc_2
+model=cave_entrance3
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -62,7 +62,7 @@ op1=Enter
 [troll_mad_eadgar_exit]
 name=Cave Exit
 desc=The way out.
-model=loc_3736
+model=quest_death_caveexit
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -85,7 +85,7 @@ op1=Exit
 [troll_stronghold_exit]
 name=Exit
 desc=The back way out.
-model=loc_3736
+model=quest_death_caveexit
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -117,7 +117,7 @@ contrast=40
 [troll_celldoor]
 name=Cell Door
 desc=The door is closed.
-model=loc_3763
+model=quest_troll_stronghold_prison_door
 op1=Open
 category=door_closed
 param=next_loc_stage,troll_celldoor_open
@@ -126,7 +126,7 @@ param=open_sound,iron_door_open
 [troll_celldoor_open]
 name=Cell Door
 desc=The door is open.
-model=loc_3763
+model=quest_troll_stronghold_prison_door
 op1=Close
 category=door_opened
 param=next_loc_stage,troll_celldoor
@@ -135,26 +135,26 @@ param=close_sound,iron_door_close
 [troll_celldoor_eadgar]
 name=Cell Door
 desc=The door to Mad Eadgar's cell.
-model=loc_3763
+model=quest_troll_stronghold_prison_door
 op1=Unlock
 
 [troll_celldoor_eadgar_open]
-model=loc_3763
+model=quest_troll_stronghold_prison_door
 
 [troll_celldoor_godric]
 name=Cell Door
 desc=The door to Godric's cell.
-model=loc_3763
+model=quest_troll_stronghold_prison_door
 op1=Unlock
 
 [troll_celldoor_godric_open]
-model=loc_3763
+model=quest_troll_stronghold_prison_door
 
 [troll_stronghold_camp_fire]
 name=Fire
 desc=Hot!
-model=loc_3769
-model2=loc_3769i2
+model=outdoorfurniture_fire_flames
+model2=outdoorfurniture_fire_troll_base
 width=2
 length=2
 resizex=256
@@ -265,12 +265,12 @@ category=door_opened
 param=next_loc_stage,troll_stronghold_interior_door
 
 [troll_stronghold_prisonwall]
-model=loc_3778
+model=quest_troll_stronghold_prisonwall
 hillskew=yes
 blockrange=no
 
 [troll_stronghold_prisonwall_no_hillskew]
-model=loc_3778
+model=quest_troll_stronghold_prisonwall
 blockrange=no
 
 [troll_stronghold_prison_door_closed]
@@ -287,39 +287,39 @@ hillskew=yes
 [troll_stronghold_arena_entrance_left]
 name=Arena Entrance
 desc=The entrance to the Troll Arena.
-model=loc_3778
+model=quest_troll_stronghold_prisonwall
 hillskew=yes
 op1=Open
 
 [troll_stronghold_arena_entrance_right]
 name=Arena Entrance
 desc=The entrance to the Troll Arena.
-model=loc_3778
+model=quest_troll_stronghold_prisonwall
 hillskew=yes
 mirror=yes
 op1=Open
 
 [troll_stronghold_arena_entrance_inactive]
-model=loc_3778
+model=quest_troll_stronghold_prisonwall
 hillskew=yes
 
 [troll_stronghold_arena_exit_left]
 name=Arena Exit
 desc=The exit to the Troll Arena.
-model=loc_3778
+model=quest_troll_stronghold_prisonwall
 hillskew=yes
 op1=Open
 
 [troll_stronghold_arena_exit_right]
 name=Arena Exit
 desc=The exit to the Troll Arena.
-model=loc_3778
+model=quest_troll_stronghold_prisonwall
 hillskew=yes
 mirror=yes
 op1=Open
 
 [troll_stronghold_arena_exit_inactive]
-model=loc_3778
+model=quest_troll_stronghold_prisonwall
 hillskew=yes
 
 [troll_stronghold_stairs]
@@ -345,7 +345,7 @@ mapscene=7
 [troll_climbingrocks_top]
 name=Rocks
 desc=A rocky outcrop.
-model=model_loc_2231
+model=quest_climbingrocks
 recol1s=12580
 recol1d=8454
 hillskew=yes
@@ -354,7 +354,7 @@ op1=Climb
 [troll_climbingrocks_bottom]
 name=Rocks
 desc=A rocky outcrop.
-model=model_loc_2232
+model=quest_climbingrocks2
 recol1s=12580
 recol1d=8454
 hillskew=yes
@@ -379,7 +379,7 @@ mirror=yes
 [troll_rocks_grass]
 name=Grass
 desc=Looks tasty! If you're a goat, that is.
-model=loc_3794
+model=quest_troll_rocks_grass
 recol1s=11712
 recol1d=8512
 hillskew=yes
@@ -389,14 +389,14 @@ blockrange=no
 [troll_rocks_grass_falloff]
 name=Grass
 desc=Looks tasty! If you're a goat, that is.
-model=loc_3795
+model=quest_troll_rocks_grass_falloff
 hillskew=yes
 blockwalk=no
 active=yes
 blockrange=no
 
 [troll_floor_depth2]
-model=model_loc_767
+model=floor_depth2
 recol1s=7329
 recol1d=11592
 hillskew=yes
@@ -408,7 +408,7 @@ resizez=128
 [troll_corpse]
 name=Corpse
 desc=Now that's what I call slimline!
-model=model_loc_660
+model=floor_corpse1
 recol1s=27413
 recol1d=23183
 blockrange=no
@@ -417,7 +417,7 @@ blockrange=no
 [troll_corpse2]
 name=Corpse
 desc=He looks very relaxed.
-model=model_loc_661
+model=floor_corpse2
 recol1s=27413
 recol1d=23183
 blockrange=no
@@ -426,7 +426,7 @@ blockrange=no
 [troll_corpse3]
 name=Corpse
 desc=Now he's just too thin.
-model=model_loc_662
+model=floor_corpse3
 recol1s=27413
 recol1d=23183
 width=2
@@ -436,7 +436,7 @@ blockrange=no
 [troll_rockcounter]
 name=Counter
 desc=A counter made from a stone block.
-model=model_loc_2791
+model=cave_loc_2791
 recol1s=10400
 recol1d=11592
 width=2
@@ -446,7 +446,7 @@ blockrange=no
 [troll_chair]
 name=Chair
 desc=The ideal thing to sit on.
-model=model_loc_1088
+model=furniture_chair
 recol1s=10401
 recol1d=9411
 blockrange=no
@@ -455,7 +455,7 @@ blockrange=no
 [troll_smashedchair]
 name=Smashed chair
 desc=Not so good for sitting on.
-model=model_loc_1089
+model=furniture_smashedchair
 recol1s=10401
 recol1d=9411
 blockrange=no
@@ -464,7 +464,7 @@ blockrange=no
 [troll_mountain_shortcut_climbingrocks1]
 name=Rocks
 desc=A rocky outcrop.
-model=model_loc_2231
+model=quest_climbingrocks
 recol1s=12580
 recol1d=8454
 hillskew=yes
@@ -475,7 +475,7 @@ blockrange=no
 [troll_mountain_shortcut_climbingrocks2]
 name=Rocks
 desc=A rocky outcrop.
-model=model_loc_2232
+model=quest_climbingrocks2
 recol1s=12580
 recol1d=8454
 hillskew=yes

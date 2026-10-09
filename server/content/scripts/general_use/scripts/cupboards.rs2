@@ -41,7 +41,7 @@ switch_coord (loc_coord) {
 [label,open_cupboard](boolean $message)
 p_arrivedelay;
 anim(human_openchest,0);
-sound_synth(cupboard_open, 0, 0);
+sound_synth(cupboard_open, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change(loc_param(cupboard_other), 300);
@@ -52,7 +52,7 @@ if ($message = true) {
 [label,close_cupboard](boolean $message)
 p_arrivedelay;
 anim(human_closechest, 0);
-sound_synth(cupboard_close, 0, 0);
+sound_synth(cupboard_close, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change(loc_param(cupboard_other), 300);

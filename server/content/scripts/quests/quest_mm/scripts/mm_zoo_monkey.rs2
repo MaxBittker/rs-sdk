@@ -1,0 +1,151 @@
+[opnpc1,mm_zoo_monkey]
+if(inv_total(inv, mm_monkey_in_backpack) > 0) {
+    ~objbox(mm_monkey_in_backpack, "You cannot fit another monkey in your backpack.",  250, 0, 0);
+    return;
+}
+~chatplayer("<p,neutral>Hello there, little monkey.");
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~mm_monkeyspeak;
+    ~mesbox("You cannot understand what it is saying.");
+    return;
+}
+if(~mm_wearing_greegree = false) {
+    ~chatnpc("<p,quiz>Hello there! I've never met a talking human!");
+} else {
+    ~chatnpc("<p,quiz>Hello there!");
+}
+~chatplayer("<p,quiz>How would you like to get out of here?");
+~chatnpc("<p,neutral>Escape!? It's all I ever think about!");
+~chatplayer("<p,neutral>That's convenient. When would you like to leave?");
+~chatnpc("<p,neutral>Where will you be taking me?");
+~chatplayer("<p,shifty>Erm ... to the happy, sunny jungle of Karamja...");
+~chatnpc("<p,neutral>Wowee! I was born there you know!");
+~chatplayer("<p,neutral>That's nice. Are you ready to go?");
+~chatnpc("<p,quiz>Yes. Actually, can I bring some of my friends?");
+~chatplayer("<p,angry>No, I only have space for one.");
+~chatnpc("<p,neutral>Pleeeeease?");
+~chatplayer("<p,angry>No!");
+~chatnpc("<p,neutral>Pretty pleeeeease?");
+~chatplayer("<p,angry>No!!");
+~chatnpc("<p,neutral>Pretty please with a banana on top?");
+~chatplayer("<p,neutral>Look, I already said no. If you want to come then jump into my backpack.");
+~chatnpc("<p,neutral>Ook!");
+sound_synth(ooks, 0, 0);
+inv_add(inv, mm_monkey_in_backpack, 1);
+settimer(monkey_backpack_timer, ~random_range(5, 50));
+
+[opnpc1,mm_freed_zoo_monkey]
+if(inv_total(inv, mm_monkey_in_backpack) > 0) {
+    ~objbox(mm_monkey_in_backpack, "You cannot fit another monkey in your backpack.",  250, 0, 0);
+    return;
+}
+~chatplayer("<p,neutral>Hello there, monkey.");
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~mm_monkeyspeak;
+    ~mesbox("You cannot understand what it is saying.");
+    return;
+}
+if(%npc_attacking_uid ! uid) {
+    ~chatnpc("<p,quiz>Go away! I don't know you!");
+    return;
+}
+~chatnpc("<p,quiz>Are we there yet??");
+~chatplayer("<p,neutral>Not quite yet ... you should get back in my backpack now.");
+npc_del;
+inv_add(inv, mm_monkey_in_backpack, 1);
+settimer(monkey_backpack_timer, ~random_range(5, 50));
+sound_synth(ooks, 0, 0);
+
+[opobju,mm_monkey_in_backpack]
+def_int $rand;
+def_namedobj $clue = ~trail_getmediumclue;
+if(last_useitem = mm_monkey_nuts | last_useitem = mm_monkey_bar | last_useitem = mm_banana_stew) {
+    if(random(5) < 2) inv_del(inv, last_useitem, 1); // similar to timer, is also about 2/5ths...
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry><~monkeyspeak_text>");
+    else ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry>I don't want that!");
+} else if(last_useitem = banana) {
+    inv_del(inv, last_useitem, 1);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,neutral><~monkeyspeak_text>"); // neutral not happy
+    } else {
+        $rand = random(4);
+        if($rand = 0) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,happy>Mmmm - you shouldn't have!");
+        else if ($rand = 1) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,happy>Mmmm - bananas!");
+        else if ($rand = 2) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,happy>Mmmm - my favourite!");
+        else ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,happy>Mmmm - thank you!");
+    }
+    if(random(256) = 0) {
+        if(%mm_player_received_monkey_trail_clue = ^false & $clue ! null) {
+            inv_add(inv, $clue, 1);
+            %mm_player_received_monkey_trail_clue = ^true;
+            ~doubleobjbox(mm_monkey_in_backpack, trail_clue_medium_anagram001, "The monkey chews on the banana and spits out a clue!", 200);
+        }
+    }
+} else {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry><~monkeyspeak_text>");
+    else ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry>What are you trying to do to me!?");
+}
+
+[opheld5,mm_monkey_in_backpack]
+inv_delslot(inv, last_slot);
+cleartimer(monkey_backpack_timer);
+sound_synth(ooks, 0, 0);
+// tested on osrs, will be "freed" in these mapsquares, includes the southern bit of rimmington near the
+// chemists house in 45_49, and the south of thurgo's house in 46_48, does not include musa point by 46_49
+// or brimhaven in 43_50
+if(inzone(0_43_45_0_0, 0_46_48_63_63, coord) = true | inzone(0_42_49_0_0, 0_45_49_63_63, coord) = true | inzone(0_42_50_0_0, 0_42_50_63_63, coord) = true) {
+    npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofsight), monkey, 50);
+    stat_advance(thieving, multiply(10, multiply(stat_base(thieving), 2)));
+    ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,happy>Yay! I'm free!");
+    return;
+}
+npc_add(map_findsquare(coord, 1, 1, ^map_findsquare_lineofsight), mm_freed_zoo_monkey, 50);
+%npc_attacking_uid = uid;
+
+[queue,reset_monkey_timer]
+settimer(monkey_backpack_timer, ~random_range(5, 50));
+
+[timer,monkey_backpack_timer]
+if(inv_total(inv, mm_monkey_in_backpack) = 0) {
+    cleartimer(monkey_backpack_timer);
+    return;
+}
+if(busy2 = true) { // wont run while interacting/walking
+    return;
+}
+def_int $rand = random(5);
+if(inv_freespace(inv) < 5) {
+    $rand = random(6); // seems you can only get "It's really crowded in here!", with a near full inv (less than 5 empty slots)
+}
+queue(reset_monkey_timer, 0, 0);
+if(inv_total(inv, banana) > 0) {
+    if(random(5) < 2) { // about 2/5ths, based off 45 dialogue samples
+        inv_del(inv, banana, 1);
+    }
+}
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,neutral><~monkeyspeak_text>");
+    return;
+}
+if($rand = 0) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,quiz>Are we nearly there yet?");
+else if($rand = 1) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,happy>In the jungle, the mighty jungle...");
+else if($rand = 5) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry>It's really crowded in here!");
+else if($rand = 2) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,neutral>I'm tired!");
+else if($rand = 3) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,neutral>I'm hungry!");
+else if($rand = 4) {
+    ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,shock>*snore* ... Ook? Argh!! It's the Shaihakan!");
+    ~chatplayer("<p,quiz>The what?");
+    ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,shifty>Oh, nothing - it was just a bad dream...");
+}
+
+[opheld1,mm_monkey_in_backpack]
+def_int $rand = random(4);
+sound_synth(ooks, 0, 0);
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,neutral><~monkeyspeak_text>");
+    return;
+}
+if($rand = 0) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry>What are you trying to do to me!?");
+else if ($rand = 1) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry>Oww!");
+else if ($rand = 1) ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry>Oi!");
+else ~chatnpc_specific("The monkey in your backpack...", mm_zoo_monkey, "<p,angry>That hurt!");

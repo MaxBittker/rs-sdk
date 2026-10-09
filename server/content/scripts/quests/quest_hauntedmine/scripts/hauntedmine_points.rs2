@@ -1,0 +1,159 @@
+[oploc1,hauntedmine_points_info]
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_pointspuzzlestarted) = ^false) { // it randomized it on first lever pull for me, but i assume it also randomizes here too
+    %hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_pointspuzzlestarted);
+    %hauntedmine_bits = setbit_range_toint(%hauntedmine_bits, random(256), ^hauntedmine_bits_lever_b, ^hauntedmine_bits_lever_k);
+}
+if_setmodel(hauntedmine_controls:com_210, sub(^hauntedmine_track_points_offset, multiply(2, testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_a))));
+if_setmodel(hauntedmine_controls:com_209, sub(^hauntedmine_track_points_offset, multiply(2, testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_b))));
+if_setmodel(hauntedmine_controls:com_211, sub(^hauntedmine_track_points_offset_mirrored, multiply(2, testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_c))));
+if_setmodel(hauntedmine_controls:com_212, sub(^hauntedmine_track_points_offset, multiply(2, testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_d))));
+if_setmodel(hauntedmine_controls:com_213, sub(^hauntedmine_track_points_offset, multiply(2, testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_e))));
+if_setmodel(hauntedmine_controls:com_214, sub(^hauntedmine_track_points_offset_mirrored, multiply(2, testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_i))));
+if_setmodel(hauntedmine_controls:com_215, sub(^hauntedmine_track_points_offset_mirrored, multiply(2, testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_j))));
+if_setmodel(hauntedmine_controls:com_216, sub(^hauntedmine_track_points_offset, multiply(2, testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_k))));
+if_openmain(hauntedmine_controls);
+
+[if_close,hauntedmine_controls] ~hauntedmine_controls_hideall;
+
+[if_button,hauntedmine_controls:com_222]
+~hauntedmine_animate_start;
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_b) = ^false) {
+    if (testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_e) = ^true) ~hauntedmine_animate_sink(^hauntedmine_bits_animate_38_42, hauntedmine_controls:com_246, 0_43_70_38_42); // b: 0, e: 1
+    else if (testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_i) = ^true) ~hauntedmine_animate_sink(^hauntedmine_bits_animate_37_47, hauntedmine_controls:com_299, 0_43_70_37_47); // b: 0, e: 0, i: 1, g: 1
+    else ~hauntedmine_animate_sink(^hauntedmine_bits_animate_39_50, hauntedmine_controls:com_310, 0_43_70_39_50); // b: 0, e: 0, i: 0
+} else {
+    if (testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_d) = ^true) ~hauntedmine_animate_sink(^hauntedmine_bits_animate_35_59, hauntedmine_controls:com_342, 0_43_70_35_59); // b: 1, d: 1
+    else if (testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_a) = ^false) ~hauntedmine_animate_returned; // b: 1, d: 0, a: 0
+    else if (testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_c) = ^true) ~hauntedmine_animate_sink(^hauntedmine_bits_animate_38_44, hauntedmine_controls:com_279, 0_43_70_38_44); // b: 1, d: 0, a: 1, c: 1
+    else if (testbit(%hauntedmine_bits, ^hauntedmine_bits_lever_j) = ^true) ~hauntedmine_animate_sink(^hauntedmine_bits_animate_35_59, hauntedmine_controls:com_322, 0_43_70_35_59); // b: 1, d: 0, a: 1, c: 0, j: 1
+    else ~hauntedmine_animate_success; // b: 1, d: 0, a: 1, c: 0, j: 0
+}
+
+
+[proc,hauntedmine_animate_start]
+~hauntedmine_controls_hideall;
+%hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_animate_start);
+npc_add(0_43_70_26_27, puzzle_cart, 20);
+npc_walk(0_43_70_26_30);
+cam_moveto(0_43_70_25_31, 400, 0, 100);
+cam_lookat(0_43_70_26_26, 100, 0, 100);
+p_delay(0);
+
+if_close;
+%hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_animate_start);
+sound_synth(cart_away, 0, 0);
+cam_moveto(0_43_70_25_34, 400, 1, 10);
+cam_lookat(0_43_70_26_29, 100, 1, 10);
+p_delay(2);
+
+if_openmain(hauntedmine_controls);
+
+
+[proc,hauntedmine_animate_sink](int $bit, component $path_indicator, coord $coord)
+if_sethide($path_indicator, false);
+%hauntedmine_bits = setbit(%hauntedmine_bits, $bit);
+cam_moveto(movecoord($coord, 0, 0, 4), 400, 0, 100);
+cam_lookat(movecoord($coord, -1, 0, 0), 100, 0, 100);
+npc_del;
+p_delay(1);
+
+if_close;
+%hauntedmine_bits = clearbit(%hauntedmine_bits, $bit);
+cam_moveto(movecoord($coord, 1, 0, 4), 400, 1, 10);
+cam_lookat($coord, 100, 1, 10);
+loc_add($coord, mine_cart_flooded, 1, centrepiece_straight, 5);
+sound_synth(pool_plop, 0, 0);
+p_delay(2);
+
+cam_reset;
+loc_del(1);
+%hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_begincart_fungus);
+mes("Oh dear, the mine cart seems to have sunk.");
+if_openmain(hauntedmine_controls);
+if_sethide($path_indicator, false);
+
+
+[proc,hauntedmine_animate_returned]
+if_sethide(hauntedmine_controls:com_356, false);
+%hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_animate_returned);
+cam_moveto(0_43_70_25_34, 400, 0, 100);
+cam_lookat(0_43_70_26_29, 100, 0, 100);
+
+p_delay(0);
+npc_walk(0_43_70_26_27);
+p_delay(0);
+
+if_close;
+%hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_animate_returned);
+cam_moveto(0_43_70_25_31, 400, 1, 10);
+cam_lookat(0_43_70_26_26, 100, 1, 10);
+sound_synth(cart_away, 0, 0);
+p_delay(4);
+
+// doesnt clear fungus
+cam_reset;
+npc_del;
+mes("How useful, it's come right back to where it started.");
+if_openmain(hauntedmine_controls);
+if_sethide(hauntedmine_controls:com_356, false);
+
+
+[proc,hauntedmine_animate_success]
+if_sethide(hauntedmine_controls:com_260, false);
+%hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_animate_success);
+cam_moveto(0_43_70_24_59, 400, 0, 100);
+cam_lookat(0_43_70_27_55, 100, 0, 100);
+npc_del;
+
+p_delay(0);
+npc_add(0_43_70_27_55, puzzle_cart, 10);
+npc_walk(0_43_70_24_55);
+p_delay(0);
+
+if_close;
+%hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_animate_success);
+cam_lookat(0_43_70_24_55, 100, 1, 10);
+sound_synth(cart_away, 0, 0);
+p_delay(4);
+
+cam_reset;
+npc_del;
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_begincart_fungus) = ^true) {
+    %hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_endcart_fungus);
+    %hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_begincart_fungus);
+    ~chatplayer("<p,quiz>I wonder if that cart is anywhere useful now?");
+}
+if_openmain(hauntedmine_controls);
+if_sethide(hauntedmine_controls:com_260, false);
+
+
+[oploc1,hauntedmine_point_lever1] ~hauntedmine_point_lever(1);
+[oploc1,hauntedmine_point_lever2] ~hauntedmine_point_lever(2);
+[oploc1,hauntedmine_point_lever3] ~hauntedmine_point_lever(3);
+[oploc1,hauntedmine_point_lever4] ~hauntedmine_point_lever(4);
+[oploc1,hauntedmine_point_lever5] ~hauntedmine_point_lever(5);
+[oploc1,hauntedmine_point_lever6] ~hauntedmine_point_lever(6);
+[oploc1,hauntedmine_point_lever7] ~hauntedmine_point_lever(7);
+[oploc1,hauntedmine_point_lever8] ~hauntedmine_point_lever(8);
+
+[proc,hauntedmine_point_lever](int $bit)
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_pointspuzzlestarted) = ^false) {
+    %hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_pointspuzzlestarted);
+    %hauntedmine_bits = setbit_range_toint(%hauntedmine_bits, random(256), ^hauntedmine_bits_lever_b, ^hauntedmine_bits_lever_k);
+}
+anim(human_leverdown, 0);
+sound_synth(lever, 0, 0);
+%hauntedmine_bits = togglebit(%hauntedmine_bits, $bit);
+loc_change(hauntedmine_point_lever_inactive, 1);
+mes("You pull the lever. The old points creak into place."); // osrs
+
+
+[proc,hauntedmine_controls_hideall]
+if_sethide(hauntedmine_controls:com_246, true);
+if_sethide(hauntedmine_controls:com_260, true);
+if_sethide(hauntedmine_controls:com_279, true);
+if_sethide(hauntedmine_controls:com_299, true);
+if_sethide(hauntedmine_controls:com_310, true);
+if_sethide(hauntedmine_controls:com_322, true);
+if_sethide(hauntedmine_controls:com_342, true);
+if_sethide(hauntedmine_controls:com_356, true);

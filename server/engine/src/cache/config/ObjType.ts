@@ -142,7 +142,6 @@ export default class ObjType extends ConfigType {
     zan2d = 0;
     xof2d = 0;
     yof2d = 0;
-    code9 = false;
     code10 = -1;
     stackable = false;
     cost = 1;
@@ -151,10 +150,10 @@ export default class ObjType extends ConfigType {
     iop: (string | null)[] = [null, null, null, null, 'Drop'];
     manwear = -1;
     manwear2 = -1;
-    manwearOffsetY = 0;
+    manwearOffset = 0;
     womanwear = -1;
     womanwear2 = -1;
-    womanwearOffsetY = 0;
+    womanwearOffset = 0;
     manwear3 = -1;
     womanwear3 = -1;
     manhead = -1;
@@ -170,6 +169,7 @@ export default class ObjType extends ConfigType {
     resizez = 128;
     ambient = 0;
     contrast = 0;
+    team = 0;
 
     // server-side
     wearpos = -1;
@@ -199,8 +199,6 @@ export default class ObjType extends ConfigType {
             this.xof2d = dat.g2s();
         } else if (code === 8) {
             this.yof2d = dat.g2s();
-        } else if (code === 9) {
-            this.code9 = true;
         } else if (code === 10) {
             this.code10 = dat.g2();
         } else if (code === 11) {
@@ -217,12 +215,12 @@ export default class ObjType extends ConfigType {
             this.members = true;
         } else if (code === 23) {
             this.manwear = dat.g2();
-            this.manwearOffsetY = dat.g1b();
+            this.manwearOffset = dat.g1b();
         } else if (code === 24) {
             this.manwear2 = dat.g2();
         } else if (code === 25) {
             this.womanwear = dat.g2();
-            this.womanwearOffsetY = dat.g1b();
+            this.womanwearOffset = dat.g1b();
         } else if (code === 26) {
             this.womanwear2 = dat.g2();
         } else if (code === 27) {
@@ -281,6 +279,8 @@ export default class ObjType extends ConfigType {
             this.ambient = dat.g1b();
         } else if (code === 114) {
             this.contrast = dat.g1b();
+        } else if (code === 115) {
+            this.team = dat.g1();
         } else if (code === 201) {
             this.respawnrate = dat.g2();
         } else if (code === 249) {

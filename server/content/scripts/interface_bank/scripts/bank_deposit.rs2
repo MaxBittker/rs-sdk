@@ -19,7 +19,7 @@ def_int $number = inv_total(inv, $item);
 // How many should we deposit?
 if ($requested_number < $number) $number = $requested_number;
 // Is it actually bankable?
-if (~bank_check_nobreak($item, ^true) = true) {
+if (~bank_check_allowed($item, ^true) = false) {
     // custom handling here if needed.
     return;
 }

@@ -28,12 +28,17 @@ export async function packClientTexture(cache: FileStream) {
         }
 
         const textures = Jagfile.new();
-        textures.write('index.dat', index);
         for (let id = 0; id < all.length; id++) {
             textures.write(`${id}.dat`, all[id]);
         }
+        textures.write('index.dat', index);
         textures.save('data/pack/client/textures');
     }
 
-    cache.write(0, 6, fs.readFileSync('data/pack/client/textures'));
+    const packed = fs.readFileSync('data/pack/client/textures');
+    if (Environment.build.verify && !Packet.checkcrc(packed, 0, packed.length, 915347346)) {
+        throw new Error('textures checksum mismatch!\nYou can disable this safety check by setting BUILD_VERIFY=false');
+    }
+
+    cache.write(0, 6, packed);
 }

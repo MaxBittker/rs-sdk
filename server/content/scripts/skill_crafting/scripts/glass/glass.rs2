@@ -46,7 +46,7 @@ inv_del(inv, soda_ash, 1);
 inv_add(inv, molten_glass, 1);
 // play anim and sound
 anim(human_furnace,0);
-sound_synth(furnace,0,0);
+sound_synth(furnace, 1, 0);
 // success message
 mes("You heat the sand and soda ash in the furnace to make glass.");
 // give xp

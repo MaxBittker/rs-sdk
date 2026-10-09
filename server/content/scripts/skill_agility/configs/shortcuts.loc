@@ -1,7 +1,7 @@
 [fullstyle]
 name=Stile
 desc=I can climb over the fence with this.
-model=model_loc_993
+model=fence_fullstyle
 length=2
 hillskew=yes
 op1=Climb-over
@@ -10,19 +10,19 @@ blockrange=no
 [castlecrumbly]
 name=Crumbling wall
 desc=It looks like I might be able to climb over this piece of the wall...
-model=model_loc_1660
+model=castle_crumbly2
 op1=Climb-over
 
-[loc_2298]
+[watchshortcut]
 name=Climbing rocks
 desc=The irregular surface can be climbed.
-model=model_loc_448
+model=walldecor_climbing_rocks
 op1=Climb-up
 
 [loc_2320]
 name=Monkeybars
 desc=I can traverse these.
-model=model_loc_2320
+model=outdoorfurniture_monkeybars_end
 width=3
 op1=Swing across
 blockwalk=no
@@ -33,10 +33,10 @@ param=end_coord,0_48_155_49_49
 param=obstacle_low_fail,256
 param=obstacle_high_fail,512
 
-[loc_2322]
+[tree_ropeswing1]
 name=Ropeswing
 desc=Use this to swing across gaps.
-model=model_loc_2322
+model=outdoorfurniture_ropeswing_long_rope2
 op1=Swing-on
 length=6
 blockwalk=no
@@ -45,10 +45,10 @@ param=start_coord,0_42_50_21_9
 param=end_coord,0_42_50_16_9
 param=dir,3
 
-[loc_2323]
+[tree_ropeswing2]
 name=Ropeswing
 desc=Use this to swing across gaps.
-model=model_loc_2322
+model=outdoorfurniture_ropeswing_long_rope2
 op1=Swing-on
 length=6
 blockwalk=no
@@ -57,10 +57,10 @@ param=start_coord,0_42_50_17_5
 param=end_coord,0_42_50_21_5
 param=dir,1
 
-[loc_2324]
+[tree_ropeswing3]
 name=Ropeswing
 desc=Use this to swing across gaps.
-model=model_loc_2322
+model=outdoorfurniture_ropeswing_long_rope2
 op1=Swing-on
 length=6
 blockwalk=no
@@ -69,34 +69,34 @@ param=start_coord,0_39_48_15_19
 param=end_coord,0_39_48_15_24
 param=dir,0
 
-[loc_2332]
+[zq_logbalance]
 name=A wooden log
 desc=A nearly rotten wooden log that crosses the river.
-model=model_loc_2291
-op1=Balance
+model=floor_log_balance1
+op1=Cross
 sharelight=yes
 mapscene=13
 
-[loc_2333]
+[zqrockjump1]
 name=Stepping stones
 desc=A rocky outcrop from the running water.
-model=model_loc_2311
-op1=Balance
+model=floor_steppingstone
+op1=Cross
 active=yes
 category=karamja_stepping_stone
 
-[loc_2334]
+[zqrockjump2]
 name=Stepping stones
 desc=A rocky outcrop from the running water.
-model=model_loc_2311
-op1=Balance
+model=floor_steppingstone
+op1=Cross
 active=yes
 category=karamja_stepping_stone
 
-[loc_2335]
+[zqrockjump3]
 name=Stepping stones
 desc=A rocky outcrop from the running water.
-model=model_loc_2311
-op1=Balance
+model=floor_steppingstone
+op1=Cross
 active=yes
 category=karamja_stepping_stone

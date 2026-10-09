@@ -17,7 +17,7 @@ switch_int($option) {
         ~chatnpc("<p,neutral>Aye, I have that artefact in my possession.");
         ~chatnpc("<p,neutral>'Tis very valuable, and not an artefact to be given away lightly.");
         ~chatnpc("<p,neutral>I would want to give it away only to one who is worthy and good.");
-        if(%arthur = ^arthur_freed_merlin) {
+        if(%arthur > ^arthur_excalibur_bound) {
             ~chatnpc("<p,neutral>...But you have already proved thyself to be worthy of wielding it once already. I shall return it to you if you can prove yourself to still be worthy.");
             ~chatplayer("<p,quiz>...And how can I do that?");
             ~chatnpc("<p,neutral>Why, by proving yourself to be above material goods.");

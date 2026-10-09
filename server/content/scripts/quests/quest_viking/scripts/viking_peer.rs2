@@ -191,7 +191,7 @@ def_int $fail = ^false;
 while ($i < $size) {
     $obj = inv_getobj(inv, $i);
     if ($obj ! null) {
-        if (~bank_check_nobreak($obj, ^false) = false) {
+        if (~bank_check_allowed($obj, ^false) = true) {
             if(~bank_deposit_request(inv, $obj, inv_total(inv, $obj), $i, ^false) = true) {
                 $dep_count = add($dep_count, 1);
             } else {
@@ -209,7 +209,7 @@ $i = 0;
 while ($i < $size) {
     $obj = inv_getobj(worn, $i);
     if ($obj ! null) {
-        if (~bank_check_nobreak($obj, ^false) = false) {
+        if (~bank_check_allowed($obj, ^false) = true) {
             if(~bank_deposit_request(worn, $obj, inv_total(worn, $obj), $i, ^false) = true) {
                 $dep_count = add($dep_count, 1);
             } else {
@@ -532,12 +532,12 @@ def_int $last_slot = last_useslot;
 switch_obj(last_useitem) {
     case viking_jug_1, viking_jug_2, viking_jug_3 :
         anim(throw_bucketofwater, 0);
-        sound_synth(holy_water_pour, 0, 0);
+        sound_synth(holy_water_pour, 1, 0);
         inv_setslot(inv, $last_slot, viking_jug_empty, 1);
         mes("You empty the jug down the drain.");
     case viking_bucket_1, viking_bucket_2, viking_bucket_3, viking_bucket_4, viking_bucket_5 :
         anim(throw_bucketofwater, 0);
-        sound_synth(holy_water_pour, 0, 0);
+        sound_synth(holy_water_pour, 1, 0);
         inv_setslot(inv, $last_slot, viking_bucket_empty, 1);
         mes("You empty the bucket down the drain.");
     case viking_airtight_vase_water :
@@ -765,14 +765,14 @@ switch_obj(last_useitem) {
 [oploc1,viking_cupboardhigh]
 p_arrivedelay;
 anim(human_openhighcupboard, 0);
-sound_synth(cupboard_open, 0, 0);
+sound_synth(cupboard_open, 1, 0);
 p_delay(0);
 loc_change(viking_cupboardopen_high, 300);
 
 [oploc1,viking_cupboardopen_high]
 p_arrivedelay;
 anim(human_closehighcupboard, 0);
-sound_synth(cupboard_close, 0, 0);
+sound_synth(cupboard_close, 1, 0);
 p_delay(0);
 loc_change(viking_cupboardhigh, 300);
 
@@ -902,7 +902,7 @@ switch_obj(last_useitem) {
         mes("You fill the vase with water.");
     case viking_jug_3 :
         inv_del(inv, last_useitem, 1);
-        inv_add(inv, viking_bucket_empty, 1);
+        inv_add(inv, viking_jug_empty, 1);
         inv_del(inv, viking_airtight_vase, 1);
         inv_add(inv, viking_airtight_vase_water, 1);
         mes("You fill the vase with water.");
@@ -986,22 +986,22 @@ if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true & testbit(%viking_b
 mes("You study the mural... it appears to be missing something...");
 
 if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true & testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true & inv_total(inv, viking_vase_lid) > 0) {
-    if_setobject(inter_185:com_1, viking_dummy_lid, 10);
+    if_setobject(viking_mural:com_1, viking_dummy_lid, 10);
 }
 
-if_setobject(inter_185:com_9, viking_dummy_coin, 116);
-if_setobject(inter_185:com_10, viking_dummy_coin, 116);
-if_setobject(inter_185:com_11, viking_dummy_coin, 116);
-if_setobject(inter_185:com_12, viking_dummy_coin, 116);
-if_setobject(inter_185:com_13, viking_dummy_coin, 116);
-if_setobject(inter_185:com_14, viking_dummy_coin, 116);
-if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true) if_setobject(inter_185:com_15, viking_dummy_coin, 116);
-else if_setobject(inter_185:com_15, viking_dummy_coin2, 116);
+if_setobject(viking_mural:com_9, viking_dummy_coin, 116);
+if_setobject(viking_mural:com_10, viking_dummy_coin, 116);
+if_setobject(viking_mural:com_11, viking_dummy_coin, 116);
+if_setobject(viking_mural:com_12, viking_dummy_coin, 116);
+if_setobject(viking_mural:com_13, viking_dummy_coin, 116);
+if_setobject(viking_mural:com_14, viking_dummy_coin, 116);
+if(testbit(%viking_bits, ^viking_seerdoor_reddisk_1) = ^true) if_setobject(viking_mural:com_15, viking_dummy_coin, 116);
+else if_setobject(viking_mural:com_15, viking_dummy_coin2, 116);
 
-if(testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true) if_setobject(inter_185:com_16, viking_dummy_coin, 116);
-else if_setobject(inter_185:com_16, viking_dummy_coin2, 116);
+if(testbit(%viking_bits, ^viking_seerdoor_reddisk_2) = ^true) if_setobject(viking_mural:com_16, viking_dummy_coin, 116);
+else if_setobject(viking_mural:com_16, viking_dummy_coin2, 116);
 
-if_openmain(inter_185);
+if_openmain(viking_mural);
 
 [oplocu,viking_seers_mural]
 // this mural is kind of reworked in late 2006 to prevent skipping with drop trick
@@ -1024,12 +1024,12 @@ if($last_useitem = viking_red_wooden_coin) {
 
 [oploc1,viking_seer_trapdoor_closed]
 mes("The trapdoor opens...");
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 loc_change(viking_seer_trapdoor_open, 500);
 
 [oploc2,viking_seer_trapdoor_open]
 mes("The trapdoor closes...");
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 loc_change(viking_seer_trapdoor_closed, 500);
 
 [oploc1,viking_seers_door2]

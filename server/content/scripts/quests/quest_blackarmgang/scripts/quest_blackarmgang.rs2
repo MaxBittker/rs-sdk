@@ -71,7 +71,7 @@ def_locshape $shape = loc_shape;
 def_coord $loc_coord = loc_coord;
 $x, $z = ~door_open($angle, loc_shape);
 def_coord $dest = $loc_coord;
-sound_synth(door_open, 0, 0); 
+sound_synth(door_open, 1, 0); 
 mes($message);
 if ($leaving = true) {
     if (coord ! $loc_coord) {
@@ -83,7 +83,7 @@ if ($leaving = true) {
 p_teleport($dest);
 // Temp note: dur updated
 loc_change(inviswall, 3);
-loc_add(movecoord($loc_coord, $x, 0, $z), poordoor, modulo(add($angle, 1), 4), $shape, 3);
+loc_add(movecoord($loc_coord, $x, 0, $z), loc_1535, modulo(add($angle, 1), 4), $shape, 3);
 
 [opobj3,phoenix_crossbow]
 // not a zone specific check, you can drop a crossbow in the nearby building to trigger this dialogue 
@@ -123,6 +123,6 @@ if(%phoenixgang = ^phoenixgang_joined) {
     %blackarmgang = ^blackarmgang_complete;
     session_log(^log_adventure, "Quest complete: Shield of Arrav (Black Arm Gang)");
 }
-~send_quest_complete(questlist:blackarmgang, coins, 250, ^blackarmgang_questpoints, "You have completed the\\nShield of Arrav Quest!");
+~send_quest_complete(questlist:blackarmgang, coins, 260, ^blackarmgang_questpoints, "You have completed the\\nShield of Arrav Quest!");
 inv_del(inv, arravcertificate, 1);
 inv_add(inv, coins, 600);

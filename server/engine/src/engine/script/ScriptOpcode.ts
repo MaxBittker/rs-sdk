@@ -153,9 +153,11 @@ export const enum ScriptOpcode {
     P_PAUSEBUTTON, // official
     P_PREVENTLOGOUT,
     P_RUN, // todo: real command name?
+    P_TEMPRUN, // todo: real command name?
     P_STOPACTION, // official
     P_TELEJUMP, // official
     P_TELEPORT,
+    P_TRANSMOGRIFY, // official
     P_WALK, // official
     PLAYERMEMBER, // official
     PROJANIM_PL, // official
@@ -425,6 +427,8 @@ export const enum ScriptOpcode {
     COS_DEG, // custom
     ATAN2_DEG, // custom
     ABS, // custom
+    DATE_MINUTES, // derived
+    DATE_RUNEDAY, // derived
 
     // Struct ops (4700-4799)
     STRUCT_PARAM = 4700,
@@ -604,9 +608,11 @@ export const ScriptOpcodeMap: Map<string, number> = new Map([
     ['P_PAUSEBUTTON', ScriptOpcode.P_PAUSEBUTTON],
     ['P_PREVENTLOGOUT', ScriptOpcode.P_PREVENTLOGOUT],
     ['P_RUN', ScriptOpcode.P_RUN],
+    ['P_TEMPRUN', ScriptOpcode.P_TEMPRUN],
     ['P_STOPACTION', ScriptOpcode.P_STOPACTION],
     ['P_TELEJUMP', ScriptOpcode.P_TELEJUMP],
     ['P_TELEPORT', ScriptOpcode.P_TELEPORT],
+    ['P_TRANSMOGRIFY', ScriptOpcode.P_TRANSMOGRIFY],
     ['P_WALK', ScriptOpcode.P_WALK],
     ['PLAYERMEMBER', ScriptOpcode.PLAYERMEMBER],
     ['PROJANIM_NPC', ScriptOpcode.PROJANIM_NPC],
@@ -852,6 +858,8 @@ export const ScriptOpcodeMap: Map<string, number> = new Map([
     ['COS_DEG', ScriptOpcode.COS_DEG],
     ['ATAN2_DEG', ScriptOpcode.ATAN2_DEG],
     ['ABS', ScriptOpcode.ABS],
+    ['DATE_MINUTES', ScriptOpcode.DATE_MINUTES],
+    ['DATE_RUNEDAY', ScriptOpcode.DATE_RUNEDAY],
 
     ['STRUCT_PARAM', ScriptOpcode.STRUCT_PARAM],
 

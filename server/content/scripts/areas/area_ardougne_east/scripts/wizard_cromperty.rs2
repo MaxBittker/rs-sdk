@@ -69,7 +69,7 @@ npc_say("Dipsolum sententa sententi!");
 spotanim_pl(curse_impact, 124, 70);
 spotanim_npc(curse_casting, 92, 0);
 // IncompleteProjectile(id = 109, startHeight = 31, endHeight = 31, delay = 61, angle = 16, distOffset = 128)	
-sound_synth(curse_all, 0, 0);
+sound_synth(curse_all, 1, 0);
 p_delay(4);
 def_coord $coord = 0_41_51_25_7;
 if(%totemquest >= ^totem_crate_delivered) {

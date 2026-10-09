@@ -28,7 +28,7 @@ while($i < 8) {
                         p_telejump(movecoord(coord, 1, 0, 0));
                         anim(human_stunned, 0);
                         spotanim_pl(stunned, 124, 0);
-                        sound_synth(stunned, 0, 0);
+                        sound_synth(stunned, 1, 0);
                     }
                 }
             }
@@ -36,5 +36,5 @@ while($i < 8) {
         $j = add($j, 1);
     }
     $i = add($i, 1);
-    world_delay(0);
+    world_delay(0); // todo: check delay length
 }

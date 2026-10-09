@@ -1,0 +1,34 @@
+[ai_queue3,mm_skeleton]
+gosub(npc_death);
+if (npc_findhero = ^false) {
+    return;
+}
+obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+settimer(mm_skeleton_reanimate, 10);
+
+[ai_queue4,mm_skeleton]
+gosub(npc_death);
+loc_add(npc_coord, bones_in_paste_fire, 0, centrepiece_straight, 50); // 50t osrs
+
+[timer,mm_skeleton_reanimate]
+cleartimer(mm_skeleton_reanimate);
+def_coord $base = movecoord(coord, multiply(-1, modulo(coordx(coord), 8)), 0, multiply(-1, modulo(coordz(coord), 8)));
+def_int $i = 0;
+def_int $dx;
+def_int $dz;
+while ($i < 9) {
+    $dx = multiply(sub(1, divide($i, 3)), 8);
+    $dz = multiply(sub(1, modulo($i, 3)), 8);
+
+    obj_findallzone(movecoord($base, $dx, 0, $dz));
+    while(obj_findnext = true) {
+        if(obj_type = mm_skeleton_bones & distance(coord, obj_coord) < 2) {
+            obj_del;
+            npc_add(obj_coord, mm_skeleton, 500);
+            npc_setmode(opplayer2);
+            npc_anim(skeleton_reverse_death, 0);
+            npc_queue(4, 0, 195);
+        }
+    }
+    $i = calc($i + 1);
+}

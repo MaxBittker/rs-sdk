@@ -1,14 +1,14 @@
 [plaguemanholeclosed]
 name=Manhole
 desc=There's a cover over this manhole.
-model=model_loc_881
+model=outdoorfurniture_manholeclosed
 op1=Open
 param=next_loc_stage,plaguemanholeopen
 
 [plaguemanholeopen]
 name=Manhole
 desc=How dangerous, someone has left this manhole open.
-model=model_loc_882
+model=outdoorfurniture_manholeopen
 op1=Climb-down
 recol1s=12684
 recol1d=9513
@@ -17,5 +17,5 @@ param=next_loc_stage,plaguemanholeclosed
 [plaguemanholecover]
 name=Manhole cover
 desc=This is supposed to stop people falling down the manhole.
-model=model_loc_881
+model=outdoorfurniture_manholeclosed
 op1=Close

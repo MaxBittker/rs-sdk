@@ -9,7 +9,7 @@ recol3d=6272
 recol4s=15855
 recol4d=6272
 desc=A diary belonging to Herbi Flax.
-model=model_2543_obj
+model=inv_book_fancy
 iop1=Read
 2dxof=1
 2dyof=-21
@@ -18,6 +18,7 @@ iop1=Read
 2dxan=244
 members=yes
 tradeable=no
+weight=510g
 
 [ashesvial]
 name=Unfinished potion
@@ -25,12 +26,13 @@ recol1s=15855
 recol1d=26416
 desc=I need another ingredient to finish this potion.
 cost=11
-model=model_2789_obj
+model=inv_vial
 2dyof=-1
 2dzoom=550
 2dyan=1996
 2dxan=84
 members=yes
+weight=56g
 
 [mort_serum4]
 name=Serum 207 (4)
@@ -38,7 +40,7 @@ recol1s=15855
 recol1d=400
 desc=4 doses serum 207 as described in Herbi Flax's diary.
 cost=14
-model=model_2789_obj
+model=inv_vial
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -49,6 +51,7 @@ param=next_obj_stage,mort_serum3
 param=next_obj_stage_temple,mort_serum_perm4
 param=dose_count,4
 param=decant_potion_enum,potion_mortserum
+weight=35g
 
 [mort_serum3]
 name=Serum 207 (3)
@@ -56,7 +59,7 @@ recol1s=15855
 recol1d=400
 desc=3 doses serum 207 as described in Herbi Flax's diary.
 cost=13
-model=model_2697_obj
+model=inv_vial3dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -67,6 +70,7 @@ param=next_obj_stage,mort_serum2
 param=next_obj_stage_temple,mort_serum_perm3
 param=dose_count,3
 param=decant_potion_enum,potion_mortserum
+weight=30g
 
 [mort_serum2]
 name=Serum 207 (2)
@@ -74,7 +78,7 @@ recol1s=15855
 recol1d=400
 desc=2 doses serum 207 as described in Herbi Flax's diary.
 cost=13
-model=model_2384_obj
+model=inv_vial2dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -85,6 +89,7 @@ param=next_obj_stage,mort_serum1
 param=next_obj_stage_temple,mort_serum_perm2
 param=dose_count,2
 param=decant_potion_enum,potion_mortserum
+weight=25g
 
 [mort_serum1]
 name=Serum 207 (1)
@@ -92,7 +97,7 @@ recol1s=15855
 recol1d=400
 desc=1 dose serum 207 as described in Herbi Flax's diary.
 cost=11
-model=model_2621_obj
+model=inv_vial1dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -103,6 +108,7 @@ param=next_obj_stage,vial_empty
 param=next_obj_stage_temple,mort_serum_perm1
 param=dose_count,1
 param=decant_potion_enum,potion_mortserum
+weight=20g
 
 [mort_serum_perm4]
 name=Serum 207(p) (4)
@@ -110,7 +116,7 @@ recol1s=15855
 recol1d=479
 desc=4 doses permanent serum 207 as described in Herbi Flax's diary.
 cost=14
-model=model_2789_obj
+model=inv_vial
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -121,6 +127,7 @@ param=dose_count,4
 param=decant_potion_enum,potion_mortserumperm
 category=category_109
 tradeable=false
+weight=35g
 
 [mort_serum_perm3]
 name=Serum 207(p) (3)
@@ -128,7 +135,7 @@ recol1s=15855
 recol1d=479
 desc=3 doses permanent serum 207 as described in Herbi Flax's diary.
 cost=13
-model=model_2697_obj
+model=inv_vial3dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -139,6 +146,7 @@ param=dose_count,3
 param=decant_potion_enum,potion_mortserumperm
 category=category_109
 tradeable=false
+weight=30g
 
 [mort_serum_perm2]
 name=Serum 207(p) (2)
@@ -146,7 +154,7 @@ recol1s=15855
 recol1d=479
 desc=2 doses permanent serum 207 as described in Herbi Flax's diary.
 cost=13
-model=model_2384_obj
+model=inv_vial2dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -157,6 +165,7 @@ param=dose_count,2
 param=decant_potion_enum,potion_mortserumperm
 category=category_109
 tradeable=false
+weight=25g
 
 [mort_serum_perm1]
 name=Serum 207(p) (1)
@@ -164,7 +173,7 @@ recol1s=15855
 recol1d=479
 desc=1 dose permanent serum 207 as described in Herbi Flax's diary.
 cost=11
-model=model_2621_obj
+model=inv_vial1dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -175,6 +184,7 @@ param=dose_count,1
 param=decant_potion_enum,potion_mortserumperm
 category=category_109
 tradeable=false
+weight=20g
 
 [limestonebrick]
 name=Limestone brick
@@ -182,13 +192,14 @@ recol1s=5285
 recol1d=14797
 desc=A well carved lime stone brick.
 cost=20
-model=model_2510_obj
+model=inv_zqplaque
 2dxof=8
 2dyof=19
 2dzoom=1580
 2dyan=136
 2dxan=200
 members=yes
+weight=1360g
 
 [oliveoil4]
 name=Olive oil(4)
@@ -196,7 +207,7 @@ recol1s=15855
 recol1d=22465
 desc=4 doses of olive oil
 cost=22
-model=model_2789_obj
+model=inv_vial
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -206,6 +217,7 @@ category=category_110
 param=next_obj_stage,sacred_oil4
 param=dose_count,4
 param=decant_potion_enum,potion_oliveoil
+weight=35g
 
 [oliveoil3]
 name=Olive oil(3)
@@ -213,7 +225,7 @@ recol1s=15855
 recol1d=22465
 desc=3 doses of olive oil
 cost=20
-model=model_2697_obj
+model=inv_vial3dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -223,6 +235,7 @@ category=category_110
 param=next_obj_stage,sacred_oil3
 param=dose_count,3
 param=decant_potion_enum,potion_oliveoil
+weight=30g
 
 [oliveoil2]
 name=Olive oil(2)
@@ -230,7 +243,7 @@ recol1s=15855
 recol1d=22465
 desc=2 doses of olive oil
 cost=17
-model=model_2384_obj
+model=inv_vial2dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -240,6 +253,7 @@ category=category_110
 param=next_obj_stage,sacred_oil2
 param=dose_count,2
 param=decant_potion_enum,potion_oliveoil
+weight=25g
 
 [oliveoil1]
 name=Olive oil(1)
@@ -247,7 +261,7 @@ recol1s=15855
 recol1d=22465
 desc=1 dose of olive oil
 cost=14
-model=model_2621_obj
+model=inv_vial1dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -257,3 +271,4 @@ category=category_110
 param=next_obj_stage,sacred_oil1
 param=dose_count,1
 param=decant_potion_enum,potion_oliveoil
+weight=20g

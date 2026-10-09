@@ -4,7 +4,7 @@ if (%npc_aggressive_player ! uid) {
     return;
 }
 npc_setmode(opplayer2);
-@player_combat_start_nomulti;
+@player_combat_start;
 
 [apnpc2,trail_hard2] 
 if (%npc_aggressive_player ! uid) {
@@ -12,7 +12,7 @@ if (%npc_aggressive_player ! uid) {
     return;
 }
 npc_setmode(applayer2);
-@player_combat_start_ap_nomulti;
+@player_combat_start_ap;
 
 [ai_queue1,trail_hard2]
 if(npc_getmode = applayer2) ~npc_default_retaliate_ap;
@@ -20,11 +20,11 @@ else ~npc_default_retaliate;
 
 [ai_applayer2,trail_hard2]
 // once he's in ap he never switches back, and will only attack with mage
-~npc_cast_spell(^saradomin_strike, 4);
+~npc_cast_spell(^saradomin_strike_npc, 4);
 
 [ai_opplayer2,trail_hard2]
 if (~check_protect_prayer(^melee_style) = true) {
-    ~npc_cast_spell(^saradomin_strike, 4);
+    ~npc_cast_spell(^saradomin_strike_npc, 4);
     npc_setmode(opplayer2); // keep in op
     return;
 } 
@@ -34,7 +34,7 @@ if(~check_protect_prayer(^magic_style) = true) {
 }
 
 if(random(3) = 0) { // about 1/3, 71/42 in 113 attacks
-    ~npc_cast_spell(^saradomin_strike, 4);
+    ~npc_cast_spell(^saradomin_strike_npc, 4);
     npc_setmode(opplayer2);
 } else {
     ~sarawiz_melee_attack;

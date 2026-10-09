@@ -1,5 +1,7 @@
 import { describe, expect, mock, test } from 'bun:test';
 
+import { ClientProt } from '#/io/ClientProt.js';
+
 mock.module('#3rdparty/tinymidipcm.js', () => ({
     stopMidi() {},
     setMidiVolume() {},
@@ -99,7 +101,7 @@ describe('ranged spell dispatch', () => {
         const result = Client.prototype.spellOnNpc.call(client, 42, 1152);
 
         expect(result).toEqual({ success: true, routed: false });
-        expect(opcodes).toEqual([181]); // ClientProt.OPNPCT
+        expect(opcodes).toEqual([ClientProt.OPNPCT]);
         expect(payload).toEqual([42, 1152]);
     });
 
@@ -119,7 +121,7 @@ describe('ranged spell dispatch', () => {
         const result = Client.prototype.spellOnPlayer.call(client, 3, 1152);
 
         expect(result).toEqual({ success: true, routed: true });
-        expect(opcodes).toEqual([240]); // ClientProt.OPPLAYERT
+        expect(opcodes).toEqual([ClientProt.OPPLAYERT]);
         expect(payload).toEqual([3, 1152]);
     });
 
@@ -159,7 +161,7 @@ describe('ranged spell dispatch', () => {
         );
 
         expect(result).toEqual({ success: true, routed: false });
-        expect(opcodes).toEqual([91]); // ClientProt.OPOBJT
+        expect(opcodes).toEqual([ClientProt.OPOBJT]);
         expect(payload).toEqual([3205, 3206, 995, 1151]);
     });
 });
@@ -182,7 +184,7 @@ describe('interactPlayer', () => {
 
         expect(Client.prototype.interactPlayer.call(playerClient(opcodes, payload), 5, 2))
             .toEqual({ success: true, routed: true });
-        expect(opcodes).toEqual([166]); // ClientProt.OPPLAYER2
+        expect(opcodes).toEqual([ClientProt.OPPLAYER2]);
         expect(payload).toEqual([5]);
     });
 
@@ -192,7 +194,7 @@ describe('interactPlayer', () => {
 
         expect(Client.prototype.interactPlayer.call(playerClient(opcodes, payload), 5, 5))
             .toEqual({ success: true, routed: true });
-        expect(opcodes).toEqual([174]); // ClientProt.OPPLAYER5
+        expect(opcodes).toEqual([ClientProt.OPPLAYER5]);
     });
 });
 
@@ -218,7 +220,7 @@ describe('npc ap-range dispatch', () => {
 
         expect(Client.prototype.interactNpc.call(npcClient(opcodes, payload, false), 42, 1))
             .toEqual({ success: true, routed: false });
-        expect(opcodes).toEqual([236]); // ClientProt.OPNPC1
+        expect(opcodes).toEqual([ClientProt.OPNPC1]);
         expect(payload).toEqual([42]);
     });
 
@@ -228,7 +230,7 @@ describe('npc ap-range dispatch', () => {
 
         expect(Client.prototype.talkToNpc.call(npcClient(opcodes, payload, false), 42))
             .toEqual({ success: true, routed: false });
-        expect(opcodes).toEqual([236]); // ClientProt.OPNPC1
+        expect(opcodes).toEqual([ClientProt.OPNPC1]);
     });
 
     test('routed stays true when the route succeeds', () => {
@@ -237,7 +239,7 @@ describe('npc ap-range dispatch', () => {
 
         expect(Client.prototype.interactNpc.call(npcClient(opcodes, payload, true), 42, 2))
             .toEqual({ success: true, routed: true });
-        expect(opcodes).toEqual([233]); // ClientProt.OPNPC2
+        expect(opcodes).toEqual([ClientProt.OPNPC2]);
     });
 });
 
@@ -275,7 +277,7 @@ describe('clickComponent', () => {
         };
 
         expect(Client.prototype.clickComponent.call(client, 3903)).toBe(true);
-        expect(opcodes).toEqual([9]); // ClientProt.IF_BUTTON
+        expect(opcodes).toEqual([ClientProt.IF_BUTTON]);
         expect(payload).toEqual([3903]);
     });
 });
@@ -445,7 +447,7 @@ describe('loc routing', () => {
         const result = Client.prototype.interactLoc.call(client as never, 2512, 3468, 1996, 1);
 
         expect(result).toEqual({ success: true, routed: false });
-        expect(opcodes).toEqual([215]); // ClientProt.OPLOC1
+        expect(opcodes).toEqual([ClientProt.OPLOC1]);
         expect(payload).toEqual([2512, 3468, 1996]);
     });
 
@@ -469,7 +471,7 @@ describe('loc routing', () => {
         const result = Client.prototype.useItemOnLoc.call(client as never, 0, 2512, 3468, 1996, 3214);
 
         expect(result).toEqual({ success: true, routed: false });
-        expect(opcodes).toEqual([60]); // ClientProt.OPLOCU
+        expect(opcodes).toEqual([ClientProt.OPLOCU]);
         expect(payload).toEqual([2512, 3468, 1996, 954, 0, 3214]);
     });
 });

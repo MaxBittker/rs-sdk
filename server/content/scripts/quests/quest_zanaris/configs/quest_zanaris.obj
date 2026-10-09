@@ -1,5 +1,5 @@
 [dramen_branch]
-model=model_2412_obj
+model=inv_dramenbranch
 name=Dramen branch
 desc=A limb of the fabled Dramen tree.
 cost=15
@@ -17,15 +17,15 @@ name=Dramen staff
 desc=Crafted from a Dramen tree branch.
 cost=15
 members=yes
-model=model_2648_obj
+model=inv_staff
 2dyof=-23
 2dzoom=1460
 2dyan=1416
 2dxan=196
 iop2=Wield
 wearpos=righthand
-manwear=model_534_obj_wear,0
-womanwear=model_534_obj_wear,6
+manwear=human_weapons_staff,0
+womanwear=human_weapons_staff,6
 category=weapon_staff
 weight=4lb
 param=stabattack,-1

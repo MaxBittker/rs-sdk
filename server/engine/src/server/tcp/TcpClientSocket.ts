@@ -17,7 +17,10 @@ export default class TcpClientSocket extends ClientSocket {
     }
 
     close(): void {
-        // give time to acknowledge and receive packets
+        // rs-sdk: keep the pre-289 1s delay (upstream now ends immediately). Same as
+        // WSClientSocket: a reconnect closes the old socket before ownership moves to
+        // the new one, and the close event must not detach the replacement
+        // (test/fixtures/reconnect-lifecycle.ts).
         this.state = -1;
         setTimeout(() => this.socket.end(), 1000);
     }

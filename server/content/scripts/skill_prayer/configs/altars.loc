@@ -1,7 +1,7 @@
 [thrantaxaltar]
 name=Chaos altar
 desc=A shrine to evil.
-model=model_loc_61
+model=furniture_chaosaltar
 active=yes
 width=2
 op1=Pray-at
@@ -11,7 +11,7 @@ category=prayer_altar
 [altar]
 name=Altar
 desc=Shrine to the glory of Saradomin.
-model=model_loc_409
+model=furniture_altar
 width=2
 op1=Pray-at
 blockrange=no
@@ -20,7 +20,7 @@ category=prayer_altar
 [guthix_altar]
 name=Altar of Guthix
 desc=An ancient altar to the glory of Guthix.
-model=model_loc_410
+model=outdoorfurniture_dolmen
 width=2
 length=2
 op1=Pray-at
@@ -30,7 +30,7 @@ category=prayer_altar
 [chaosaltar]
 name=Chaos altar
 desc=Shrine to the glory of Zamorak.
-model=model_loc_61
+model=furniture_chaosaltar
 width=2
 op1=Pray-at
 blockrange=no

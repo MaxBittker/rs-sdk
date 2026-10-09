@@ -2,6 +2,7 @@
 switch_obj (last_useitem)
 {
     case unstrung_gold_amulet, unstrung_sapphire_amulet, unstrung_emerald_amulet, unstrung_ruby_amulet, unstrung_diamond_amulet, nostringstar : @string_amulet(last_useslot);
+    case mm_amulet_of_monkey_speak_without_string : @mm_string_amulet;
     case nostringsnake, unstrung_dragonstone_amulet :
         if (map_members = ^false) {
             mes(^mes_members_feature);

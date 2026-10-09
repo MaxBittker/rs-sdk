@@ -1,0 +1,105 @@
+// https://www.youtube.com/watch?v=JpnnkC4Z-4M
+[ai_queue1,bronze_dragon] ~npc_default_retaliate_ap;
+[ai_opplayer2,bronze_dragon] npc_setmode(applayer2);
+[ai_applayer2,bronze_dragon] @metal_dragon_attack;
+
+[ai_queue1,iron_dragon] ~npc_default_retaliate_ap;
+[ai_opplayer2,iron_dragon] npc_setmode(applayer2);
+[ai_applayer2,iron_dragon] @metal_dragon_attack;
+
+[ai_queue1,steel_dragon] ~npc_default_retaliate_ap;
+[ai_opplayer2,steel_dragon] npc_setmode(applayer2);
+[ai_applayer2,steel_dragon] @metal_dragon_attack;
+
+[label,metal_dragon_attack]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+
+if(npc_range(coord) < 2) { // melee range (metal drags melee in ap)
+    if (random(4) = 0) {
+        ~metal_dragon_fire; // metal dragon breath does not take prot magic into account
+    } else {
+        ~npc_default_attack; // these only use the "headbutt" attack, unlike regular drags
+    }
+} else {
+    ~metal_dragon_dragonfire_far;
+}
+
+[proc,metal_dragon_dragonfire_far]
+if_close;
+def_coord $npc_coord = movecoord(npc_coord, 2, 0, 2);
+def_coord $player_coord = coord;
+def_coord $projectile_coord;
+
+def_int $z = calc(coordz($npc_coord) - coordz($player_coord));
+def_int $x = calc(coordx($npc_coord) - coordx($player_coord));
+// do corners first
+if (calc($z / 2) <= $x & calc($x / 2) <= $z) { // south-west
+    $projectile_coord = movecoord($npc_coord, -1, 0, -1);
+} else if (calc($z / 2) <= multiply($x, -1) & calc($x / 2) >= multiply($z, -1)) { // south-east
+    $projectile_coord = movecoord($npc_coord, 1, 0, -1);
+} else if (calc($x / 2) >= $z & calc($z / 2) >= $x) { // north-east
+    $projectile_coord = movecoord($npc_coord, 1, 0, 1);
+} else if (calc($z / 2) >= multiply($x, -1) & calc($z / 2 * -1) >= $x) { // north-west
+    $projectile_coord = movecoord($npc_coord, -1, 0, 1);
+} else if (calc($x / 2) <= $z & calc($z / 2) >= $x) { // south
+    $projectile_coord = movecoord($npc_coord, 0, 0, -1);
+}  else if (calc($x / 2) <= $z & calc($x / 2) <= multiply($z, -1)) { // east
+    $projectile_coord = movecoord($npc_coord, 1, 0, 0);
+} else if (calc($z / 2) <= $x & calc($z / 2 * -1) >= $x) { // north
+    $projectile_coord = movecoord($npc_coord, 0, 0, 1);
+} else { // west
+    $projectile_coord = movecoord($npc_coord, -1, 0, 0);
+}
+def_int $duration = ~player_projectile($projectile_coord, coord, uid, firebreath_travel, 43, 31, 51, 32, -5, 127, 10);
+
+npc_anim(dragon_firebreath_middle_attack, 0);
+sound_synth(dragonbreath, 1, 30);
+%npc_action_delay = add(map_clock, 4);
+
+def_int $damage = randominc(~metal_dragon_breath_maxhit);
+queue(combat_damage_player, calc($duration / 30), $damage);
+queue*(playerhit_n_retaliate, calc($duration / 30))(npc_uid);
+~npc_set_attack_vars;
+
+[proc,metal_dragon_breath_maxhit]()(int)
+def_int $attack_roll = ~npc_magic_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
+def_int $maxhit = 30;
+if (inv_total(worn, antidragonbreathshield) > 0) {
+    $maxhit = 5;
+    mes("Your shield absorbs most of the dragon fire!"); // late 2004
+} else if (randominc($attack_roll) > randominc($defence_roll)) {
+    $maxhit = add($maxhit, 20);
+    // these messages only show for unprotected or antifire protected players
+    mes("You're horribly burnt by the dragon fire!");
+} else {
+    mes("You manage to resist some of the dragon fire!");
+}
+
+if (map_clock < %dragonresist) {
+    $maxhit = sub($maxhit, 15);
+    // https://www.youtube.com/watch?v=MAmr6kecquw&t=217s
+    mes("Your potion protects you from the heat of the dragon's breath!");
+}
+return (max($maxhit, 0));
+
+[proc,metal_dragon_fire]
+if_close;
+spotanim_npc(firebreath_attack, 92, 0);
+npc_anim(dragon_firebreath_middle_attack, 0);
+sound_synth(dragonbreath, 1, 30);
+%npc_action_delay = add(map_clock, 4);
+def_int $damage = randominc(~metal_dragon_breath_maxhit);
+queue(combat_damage_player, 0, $damage);
+queue*(playerhit_n_retaliate, 0)(npc_uid);
+~npc_set_attack_vars;
+

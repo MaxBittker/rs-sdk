@@ -11,11 +11,11 @@ if (inv_freespace(inv) < 1 & ~obj_gettotal(serum_book) = 0) {
 mes("You find nothing useful here.");
 
 [oploc5,shades_experimenttable]
-if (inv_freespace(inv) < 3 & testbit(%morttonmulti, ^mortton_checked_table) = ^false) {
+if (inv_freespace(inv) < 3 & testbit(%morttonmulti, ^shades_table_searched) = ^false) {
     ~objbox(unidentified_tarromin, "You see three herbs inside, but you don't have enough|inventory space to take them.", 200, 0, divide(^objbox_height, 2));
     return;
-} else if (testbit(%morttonmulti, ^mortton_checked_table) = ^false) {
-    %morttonmulti = setbit(%morttonmulti, ^mortton_checked_table);
+} else if (testbit(%morttonmulti, ^shades_table_searched) = ^false) {
+    %morttonmulti = setbit(%morttonmulti, ^shades_table_searched);
     inv_add(inv, unidentified_tarromin, 1);
     inv_add(inv, unidentified_rogues_purse, 1);
     inv_add(inv, unidentified_tarromin, 1);

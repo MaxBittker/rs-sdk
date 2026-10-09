@@ -17,12 +17,12 @@ if (inv_freespace(inv) < 1) {
 
 p_arrivedelay;
 anim(human_smallnet, 0);
-sound_synth(fishing_cast, 0, 15);
+sound_synth(fishing_cast, 1, 15);
 ~tutorial_please_wait_fishing;
 p_delay(2);
-sound_synth(fishing_cast, 0, 15);
+sound_synth(fishing_cast, 1, 15);
 p_delay(2);
-sound_synth(fishing_cast, 0, 15);
+sound_synth(fishing_cast, 1, 15);
 p_delay(1);
 anim(null, 0);
 inv_add(inv, newbieraw_shrimp, 1);

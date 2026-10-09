@@ -84,6 +84,17 @@ class OnDemand {
         }
     }
 
+    onClientClosed(client: ClientSocket) {
+        if (!this.clients.delete(client.uuid)) {
+            return;
+        }
+
+        this.worker?.postMessage({
+            type: 'client_closed',
+            clientId: client.uuid
+        });
+    }
+
     private queue(client: ClientSocket, archive: number, file: number, priority: number) {
         const worker = this.startWorker();
         if (!worker) {
@@ -114,6 +125,7 @@ class OnDemand {
         });
         worker.on('exit', code => {
             this.worker = null;
+            this.clients.clear();
 
             if (code === 0 || this.restarting) {
                 return;

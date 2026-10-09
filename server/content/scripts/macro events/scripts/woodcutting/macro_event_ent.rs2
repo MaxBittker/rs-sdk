@@ -16,7 +16,7 @@ if ($size = 1) {
     loc_add($coord, inviswall_no_blockrange, 0, centrepiece_straight, 60);
 }
 npc_add($coord, $ent, 60);
-sound_synth(anothercry, 0, 0); // complete guess, this is near the toher wc sounds so it might be this one?
+sound_synth(anothercry, 1, 0); // complete guess, this is near the toher wc sounds so it might be this one?
 p_opnpc(1); // not sure if p_opnpc is used (delays an extra tick)
 %macro_event = ^no_macro_event;
 
@@ -78,7 +78,7 @@ if ($axe = null) {
 }
 
 anim(oc_param($axe, woodcutting_anim), 0);
-sound_synth(woodchop, 0, 0);
+sound_synth(woodchop, 1, 0);
 mes("You swing your axe at the tree.");
 if (%action_delay = map_clock) {
     @macro_event_damage_axe($axe);
@@ -142,7 +142,7 @@ if (%macro_ent_counter = 6) {
     npc_anim(seq_335, 0); // todo: need a video of this
     npc_facesquare(coord);
     anim(null, 0);
-    sound_synth(staff_stab, 0, 0); // osrs used spear sound
+    sound_synth(staff_stab, 1, 0); // osrs used spear sound
     session_log(^log_adventure, "Broke their <oc_name($axe)>");
     return;
 }

@@ -54,6 +54,14 @@ if (~in_duel_arena(coord) = true) {
     }
     return(true);
 }
+if (~in_castlewars_game(coord) = true) {
+    if (%castlewars_team = .%castlewars_team) {
+        if (%castlewars_team = ^castlewars_team_saradomin) mes("Saradomin won't let you attack your allies!");
+        else mes("Zamorak wants you to kill your enemies!");
+        return(false);
+    }
+    return(true);
+}
 if (~pvp_level_check = false) {
     return(false);
 }
@@ -75,6 +83,14 @@ if (~in_duel_arena(coord) = true) {
         return(false);
     }
     return(true); // important!! Duel arena doesnt have normal pvp rules
+}
+if (~in_castlewars_game(coord) = true) {
+    if (%castlewars_team = .%castlewars_team) {
+        if (%castlewars_team = ^castlewars_team_saradomin) mes("Saradomin won't let you attack your allies!");
+        else mes("Zamorak wants you to kill your enemies!");
+        return(false);
+    }
+    return(true);
 }
 if (~pvp_level_check = false) {
     return(false);

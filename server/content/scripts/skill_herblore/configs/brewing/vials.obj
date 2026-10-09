@@ -1,9 +1,7 @@
-// jagex name
-
 [vial_water]
 name=Vial of water
 desc=A glass vial containing water.
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=16956
 2dyof=-1
@@ -15,18 +13,17 @@ cost=2
 iop4=Empty
 param=next_obj_stage,vial_empty
 category=potion
-// jagex name
 
 [vial_empty]
 name=Vial
 desc=An empty glass vial.
-model=model_2747_obj
+model=inv_vial_empty
 2dyof=-1
 2dzoom=550
 2dyan=1996
 2dxan=84
-manwear=model_561_obj_wear,0
-womanwear=model_561_obj_wear,6
+manwear=human_weapons_vial_grey,0
+womanwear=human_weapons_vial_grey,6
 weight=15g
 cost=2
 param=crafting_glass_struct,vial_empty

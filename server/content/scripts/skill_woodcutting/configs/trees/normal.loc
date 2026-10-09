@@ -1,7 +1,7 @@
 [tree]
 name=Tree
 desc=One of the most common trees in RuneScape.
-model=model_loc_1276
+model=plants_tree
 width=2
 length=2
 mapscene=0
@@ -14,7 +14,7 @@ param=ent,macro_ent_tree1
 [lighttree]
 name=Tree
 desc=A healthy young tree.
-model=model_loc_1276
+model=plants_tree
 width=2
 length=2
 mapscene=0
@@ -29,7 +29,7 @@ param=ent,macro_ent_tree1
 [tree2]
 name=Tree
 desc=A commonly found tree.
-model=model_loc_1278
+model=plants_tree2
 width=2
 length=2
 mapscene=1
@@ -42,7 +42,7 @@ param=ent,macro_ent_tree1
 [tree3]
 name=Tree
 desc=A commonly found tree.
-model=model_loc_1278
+model=plants_tree2
 width=2
 length=2
 mapscene=1
@@ -58,7 +58,7 @@ param=ent,macro_ent_tree1
 [lighttree2]
 name=Tree
 desc=A healthy young tree.
-model=model_loc_1278
+model=plants_tree2
 width=2
 length=2
 mapscene=1
@@ -73,7 +73,7 @@ param=ent,macro_ent_tree1
 [deadtree1]
 name=Dead tree
 desc=This tree has long been dead.
-model=model_loc_154
+model=plants_deadtree1
 width=2
 length=2
 mapscene=6
@@ -86,7 +86,7 @@ param=ent,macro_ent_dead_tree1
 [deadtree1_large]
 name=Dead tree
 desc=This tree has long been dead.
-model=model_loc_1283
+model=plants_deadtree1_large
 width=2
 length=2
 mapscene=6
@@ -96,11 +96,10 @@ category=tree
 param=next_loc_stage,deadtree1_large_stump
 param=ent,macro_ent_dead_tree1
 
-// unused?
 [deadtree4]
 name=Dead tree
 desc=This tree has long been dead.
-model=model_loc_154
+model=plants_deadtree1
 width=2
 length=2
 mapscene=6
@@ -116,7 +115,7 @@ param=ent,macro_ent_dead_tree1
 [lightdeadtree1]
 name=Dead tree
 desc=An old weather beaten tree.
-model=model_loc_154
+model=plants_deadtree1
 width=2
 length=2
 mapscene=6
@@ -128,11 +127,10 @@ category=tree
 param=next_loc_stage,deadtree1_light_stump
 param=ent,macro_ent_dead_tree1
 
-// not sure about this one
 [deadtree2]
 name=Dead tree
 desc=It's only useful for firewood now.
-model=model_loc_1286
+model=plants_deadtree2
 mapscene=27
 op1=Chop down
 op3=hidden
@@ -140,11 +138,10 @@ category=tree
 param=next_loc_stage,deadtree2_stump
 param=ent,macro_ent_dead_tree2
 
-// just a normal 1x1 dead tree?
 [deadtree2_dark]
 name=Dead tree
 desc=It's only useful for firewood now.
-model=model_loc_1286
+model=plants_deadtree2
 mapscene=27
 op1=Chop down
 op3=hidden
@@ -156,11 +153,10 @@ category=tree
 param=next_loc_stage,deadtree2_stump_dark
 param=ent,macro_ent_dead_tree2
 
-//unused giant dead tree
 [deadtree3]
 name=Dead tree
 desc=It's only useful for firewood now.
-model=model_loc_1290
+model=plants_loc_1290
 width=2
 length=2
 mapscene=6
@@ -170,11 +166,10 @@ category=tree
 param=next_loc_stage,deadtree3_stump
 param=ent,macro_ent_dead_tree1
 
-//snowy dead tree
 [deadtree2_snowy]
 name=Dead tree
 desc=It's only useful for firewood now.
-model=model_loc_1286
+model=plants_deadtree2
 mapscene=6
 op1=Chop down
 op3=hidden
@@ -184,10 +179,10 @@ category=tree
 param=next_loc_stage,deadtree2_stump_dark
 param=ent,macro_ent_dead_tree2
 
-[loc_1315]
+[evergreen]
 name=Evergreen
 desc=A hardy evergreen tree.
-model=model_loc_1315
+model=plants_evergreen
 width=2
 length=2
 op1=Chop down
@@ -197,10 +192,10 @@ category=tree
 param=next_loc_stage,treestump2
 param=ent,macro_ent_tree1
 
-[loc_1316]
+[evergreen_large]
 name=Evergreen
 desc=A hardy evergreen tree.
-model=model_loc_1316
+model=plants_evergreen_large
 width=3
 length=3
 op1=Chop down
@@ -213,7 +208,7 @@ param=ent,macro_ent_tree2
 [evergreen_vsnowy_large]
 name=Evergreen
 desc=This would make good firewood.
-model=model_loc_1318
+model=plants_evergreen_vsnowy_large
 width=3
 length=3
 op1=Chop down
@@ -226,7 +221,7 @@ param=ent,macro_ent_tree2
 [evergreen_snowy_large]
 name=Evergreen
 desc=This would make good firewood.
-model=model_loc_1319
+model=plants_evergreen_snowy_large
 width=3
 length=3
 op1=Chop down
@@ -239,7 +234,7 @@ param=ent,macro_ent_tree2
 [snowtree1]
 name=Tree
 desc=It's thick with snow.
-model=model_loc_1330
+model=plants_snowtree1
 width=3
 length=3
 mapscene=0
@@ -252,7 +247,7 @@ param=ent,macro_ent_tree2
 [snowtree2]
 name=Tree
 desc=It's thick with snow.
-model=model_loc_1331
+model=plants_snowtree2
 width=3
 length=3
 mapscene=0
@@ -265,7 +260,7 @@ param=ent,macro_ent_tree2
 [snowtree3]
 name=Tree
 desc=It's thick with snow.
-model=model_loc_1332
+model=plants_snowtree3
 width=3
 length=3
 mapscene=0
@@ -278,7 +273,7 @@ param=ent,macro_ent_tree2
 [deadtree2_swamp]
 name=Dead tree
 desc=It's only useful for firewood now.
-model=model_loc_1286
+model=plants_deadtree2
 mapscene=6
 op1=Chop down
 op3=hidden
@@ -293,7 +288,7 @@ param=ent,macro_ent_dead_tree2
 [deadtree6]
 name=Dead tree
 desc=This tree has long been dead.
-model=model_loc_1383
+model=plants_deadtree4
 mapscene=6
 op1=Chop down
 op3=hidden
@@ -304,7 +299,7 @@ param=ent,macro_ent_dead_tree2
 [regicide_tree_large]
 name=Tree
 desc=A tree.
-model=loc_3879
+model=quest_regicide_tree_large
 width=3
 length=3
 mapscene=10
@@ -316,7 +311,7 @@ param=next_loc_stage,regicide_tree_stump
 [regicide_tree_large2]
 name=Tree
 desc=A tree.
-model=loc_3879
+model=quest_regicide_tree_large
 width=3
 length=3
 resizex=128
@@ -331,7 +326,7 @@ param=next_loc_stage,regicide_tree_stump
 [regicide_tree_large3]
 name=Tree
 desc=A tree.
-model=loc_3879
+model=quest_regicide_tree_large
 width=3
 length=3
 resizex=128
@@ -346,7 +341,7 @@ param=next_loc_stage,regicide_tree_stump
 [regicide_tree_small]
 name=Tree
 desc=A tree.
-model=loc_3879
+model=quest_regicide_tree_large
 width=2
 length=2
 resizex=64

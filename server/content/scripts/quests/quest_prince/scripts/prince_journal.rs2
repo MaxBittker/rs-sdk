@@ -94,4 +94,4 @@ if(%princequest = ^prince_not_started) {
     $text = append($text, "@red@QUEST COMPLETE!");
 }
 
-~quest_journal("The Rescue of Prince Ali", $text);
+~quest_journal("The Rescue Of Prince Ali", $text); // https://i.imgur.com/VOYbjB6.png

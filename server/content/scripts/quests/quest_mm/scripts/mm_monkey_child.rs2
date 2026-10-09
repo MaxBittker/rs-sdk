@@ -1,0 +1,179 @@
+[opnpc1,mm_monkey_child]
+def_int $op;
+if(%mm_monkey_child = ^mm_not_started) {
+    ~chatplayer("<p,neutral>Hello there little monkey.");
+} else if(%mm_monkey_child = ^monkey_child_spoke) {
+    ~chatplayer("<p,neutral>Hello again little monkey.");
+}
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    @mm_no_amulet_monkey;
+}
+
+if(%mm_monkey_child = ^mm_not_started) {
+    ~chatnpc("<p,neutral>Hello big-big. Aunty told me not to talk to strangers.");
+    ~chatplayer("<p,shifty>Oh I'm not a stranger...");
+    %mm_monkey_child = ^monkey_child_spoke; // todo: confirm where this is set
+    ~chatnpc("<p,neutral>You look strange to me!");
+} else if(%mm_monkey_child = ^monkey_child_spoke) {
+    ~chatnpc("<p,neutral>You're strange! Go away!");
+    ~chatplayer("<p,neutral>I'm not a stranger...!");
+    ~chatnpc("<p,quiz>Then what are you?");
+    %mm_monkey_child = ^monkey_child_asked_who;
+    @multi4("I'm a monkey's brother!", mm_monkeybro, "I knew your sister's mother!", mm_sismother, "I'm just a monkey lover!", mm_monkeylover, "Well I'll be a monkey's uncle!", mm_monkeyuncle);
+} else if(%mm_monkey_child = ^monkey_child_asked_who) {
+    ~chatnpc("<p,quiz>You never said what you were!");
+    @multi4("I'm a monkey's brother!", mm_monkeybro, "I knew your sister's mother!", mm_sismother, "I'm just a monkey lover!", mm_monkeylover, "Well I'll be a monkey's uncle!", mm_monkeyuncle);
+} else if(%mm_monkey_child = ^monkey_child_told_uncle) {
+    ~chatnpc("<p,neutral>You look a lot bigger than last time, Uncle!");
+    ~chatplayer("<p,shifty>I've been ... eating more bananas... just like you should be!");
+    ~chatnpc("<p,neutral>I'm bored.");
+    ~chatplayer("<p,quiz>Why are you bored?");
+    %mm_monkey_child = ^monkey_child_learned_toy;
+    ~chatnpc("<p,neutral>Aunty told me to pick loads of bananas. She said if, I got bananas, she'd give me a new toy!");
+    @multi2("What kind of toy did Aunty say she'd give you?", monkey_child_whattoy, "How many bananas did Aunty want?", monkey_child_howmany);
+} else if(%mm_monkey_child = ^monkey_child_learned_toy) {
+    @multi2("What kind of toy did Aunty say she'd give you?", monkey_child_whattoy, "How many bananas did Aunty want?", monkey_child_howmany);
+} else if(%mm_monkey_child = ^monkey_child_finding_bananas) {
+    ~chatnpc("<p,quiz>Did you get any bananas, Uncle?");
+    if(inv_total(inv, banana) = 0) {
+        ~chatplayer("<p,neutral>No, not yet. I'm still trying to get them.");
+        return;
+    }
+    ~chatplayer("<p,neutral>Yes, I have some here.");
+    @mm_child_give_bananas;
+} else if(%mm_monkey_child = ^monkey_child_given_bananas) {
+    ~chatplayer("<p,quiz>Has Aunty given you the toy yet?");
+    if(gettimer(mm_give_child_toy) < 1) {
+        ~chatnpc("<p,happy>Yeah - it's really neat!");
+        ~chatplayer("<p,quiz>Can I borrow it now then?");
+        ~chatnpc("<p,neutral>But I only just got it!");
+        ~chatplayer("<p,quiz>Please?");
+        ~chatnpc("<p,neutral>Ok then...");
+        %mm_monkey_child = ^monkey_child_received_talisman;
+        %mm_monkey_child_waiting_for_talisman = ^true;
+        inv_add(inv, mm_monkey_talisman, 1);
+        ~objbox(mm_monkey_talisman, "The monkey child gives you some kind of talisman.", 250, 0, 0);
+        return;
+    }
+    ~chatnpc("<p,sad>No, not yet... she said she's too busy dealing with something called humans.");
+} else if(%mm_monkey_child = ^monkey_child_received_talisman) {
+    switch_int(~p_choice2("How are you today?", 1, "I've lost that toy you gave me...", 2)) {
+        case 1 :
+            ~chatplayer("<p,quiz>How are you today?");
+            if(%mm_monkey_child_waiting_for_talisman = ^false) {
+                ~chatnpc("<p,happy>I'm good, uncle!");
+                return;
+            }
+            ~chatnpc("<p,neutral>I'm good, uncle! I'd quite like my toy back now...");
+        case 2 :
+            ~chatplayer("<p,shifty>I've lost that toy you gave me...");
+            ~chatnpc("<p,sad>You lost it!? What am I going to play with now?");
+            %mm_monkey_child = ^monkey_child_lost_toy;
+            settimer(mm_child_crying, 100);
+            mes("The monkey child begins to cry...");
+    }
+} else if(%mm_monkey_child = ^monkey_child_lost_toy) {
+    if(gettimer(mm_child_crying) > 0) {
+        mes("The monkey child is too busy crying...");
+        return;
+    }
+    ~chatnpc("<p,neutral>I'm feeling a bit better now...");
+    ~chatplayer("<p,quiz>It's good to see you've cheered up then.");
+    ~chatnpc("<p,happy>Yes - Aunty gave me a new toy!");
+    $op = ~p_choice2("That's really sweet of her!", 1, "Wow - can I borrow it?", 2);
+    if($op = 1) {
+        ~chatplayer("<p,shifty>That's really sweet of her!");
+        return;
+    }
+    ~chatplayer("<p,quiz>Wow - can I borrow it?");
+    ~chatnpc("<p,neutral>Only if you promise to give it back...");
+    $op = ~p_choice2("Ok, I promise!", 1, "Actually, I don't really need it.", 2);
+    if($op = 2) {
+        ~chatplayer("<p,neutral>Actually, I don't really need it.");
+        return;
+    }
+    ~chatplayer("<p,neutral>Ok, I promise!");
+    %mm_monkey_child = ^monkey_child_received_talisman;
+    %mm_monkey_child_waiting_for_talisman = ^true;
+    inv_add(inv, mm_monkey_talisman, 1);
+    ~objbox(mm_monkey_talisman, "The monkey child gives you some kind of talisman.", 250, 0, 0);
+}
+
+[opnpcu,mm_monkey_child]
+if(gettimer(mm_child_crying) > 0) {
+    mes("The monkey child is far too busy crying...");
+    return;
+}
+def_obj $last_useitem = last_useitem;
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    @mm_no_amulet_monkey;
+}
+if(%mm_monkey_child > ^monkey_child_asked_who) {
+    ~chatnpc("<p,happy>Hello there, uncle!");
+    if($last_useitem = banana & %mm_monkey_child = ^monkey_child_finding_bananas) {
+        @mm_child_give_bananas;
+    } else if($last_useitem = mm_monkey_talisman) {
+        inv_del(inv, mm_monkey_talisman, 1);
+        %mm_monkey_child_waiting_for_talisman = ^false;
+        ~chatnpc("<p,happy>Thank you uncle - I love you!");
+        ~objbox(mm_monkey_in_backpack, "The monkey child gives you a hug!", 250, 0, 0);
+        return;
+    }
+    ~chatnpc("<p,neutral>I have no use for that.");
+    return;
+}
+~chatnpc("<p,neutral>I don't know you - go away!");
+
+[timer,mm_give_child_toy]
+%mm_monkey_child_waiting_for_talisman = ^false;
+cleartimer(mm_give_child_toy);
+
+// not setting anything here its just for the check (seems like only the one varb exists for this)
+[timer,mm_child_crying]
+cleartimer(mm_child_crying);
+
+[label,mm_child_give_bananas]
+if(inv_total(inv, banana) > 4) {
+    ~chatnpc("<p,happy>Wow that's a lot of bananas! Are there twenty?");
+    ~chatplayer("<p,shifty>Yes, of course there are.");
+    inv_del(inv, banana, ^max_32bit_int);
+    %mm_monkey_child = ^monkey_child_given_bananas;
+    %mm_monkey_child_waiting_for_talisman = ^true;
+    settimer(mm_give_child_toy, 100);
+    ~objbox(banana, "You give the monkey child your bananas.", 250, 0, 0);
+    ~chatnpc("<p,happy>Aunty will be so happy!");
+    return;
+}
+~chatnpc("<p,sad>That doesn't look like 20 bananas Uncle! Aunty will be so angry with me!");
+~chatplayer("<p,neutral>Don't worry, I'll get some more.");
+
+[label,monkey_child_whattoy]
+~chatplayer("<p,quiz>What kind of toy did Aunty say she'd give you?");
+~chatnpc("<p,happy>She said it would be something from the magic shop!");
+
+[label,monkey_child_howmany]
+~chatplayer("<p,quiz>How many bananas did Aunty want?");
+~chatnpc("<p,happy>Twenty! But I can't count! It's very mean of her, isn't it Uncle?");
+~chatplayer("<p,shifty>Yes, very mean ... do you want me to get the bananas for you?");
+~chatnpc("<p,happy>Ok! Ook Ook!");
+~chatplayer("<p,shifty>But only if you promise to let me borrow your toy...");
+%mm_monkey_child = ^monkey_child_finding_bananas;
+~chatnpc("<p,happy>Ok Uncle!");
+
+[label,mm_monkeybro]
+~chatplayer("<p,happy>I'm a monkey's brother!");
+~chatnpc("<p,neutral>Ook! But I don't have any brothers!");
+
+[label,mm_sismother]
+~chatplayer("<p,happy>I knew your sister's mother!");
+~chatnpc("<p,neutral>But I don't have any sisters! Ook Ook!");
+
+[label,mm_monkeylover]
+~chatplayer("<p,happy>I'm just a monkey lover!");
+~chatnpc("<p,neutral>Aunty told me not to talk to monkey lovers! Ook!");
+
+[label,mm_monkeyuncle]
+~chatplayer("<p,happy>Well I'll be a monkey's uncle!");
+anim(emote_laugh, 0);
+%mm_monkey_child = ^monkey_child_told_uncle;
+~chatnpc("<p,neutral>Uh ah! You do look like my uncle!");

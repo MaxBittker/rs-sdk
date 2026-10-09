@@ -46,6 +46,7 @@ if ((inv_totalcat(inv, armour_hands) > 0 | inv_totalcat(worn, armour_hands) > 0)
     | (inv_totalcat(inv, weapon_scythe) > 0 | inv_totalcat(worn, weapon_scythe) > 0) 
     | (inv_totalcat(inv, weapon_bow) > 0 | inv_totalcat(worn, weapon_bow) > 0)
     | (inv_totalcat(inv, weapon_claws) > 0 | inv_totalcat(worn, weapon_claws) > 0)
+    | (inv_totalcat(inv, weapon_polearm) > 0 | inv_totalcat(worn, weapon_polearm) > 0)
     | (inv_totalcat(inv, cannon_parts) > 0)) {
     return(true);
 }

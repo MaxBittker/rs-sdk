@@ -4,7 +4,7 @@ npc_say("Which non-kin dares enter my tomb?");
 npc_delay(2);
 npc_say("Let me squeeze the life from your mortal frame.");
 if(finduid(%npc_attacking_uid) = true) {
-    sound_synth(ghost_attack, 0, 0);
+    sound_synth(ghost_attack, 1, 0);
 }
 npc_anim(ghost_attack, 0);
 npc_delay(2);
@@ -17,12 +17,12 @@ npc_delay(1);
 npc_say("My minions will finish thee!");
 npc_delay(1);
 if(finduid(%npc_attacking_uid) = true) { // distance check?
-    sound_synth(ghost_attack, 0, 0);
+    sound_synth(ghost_attack, 1, 0);
 }
 npc_anim(ghost_attack, 0);
 npc_delay(1);
 if(finduid(%npc_attacking_uid) = true) { // distance check?
-    sound_synth(smokepuff, 0, 0);
+    sound_synth(smokepuff, 1, 0);
 }
 spotanim_map(shilomist, npc_coord, 5, 0);
 npc_del;
@@ -37,7 +37,7 @@ if(p_finduid($uid) = true & inzone(0_45_148_0_0, 0_45_148_63_63, coord) = true) 
     while($i < $count) {
         def_coord $npc_coord = map_findsquare(coord, 1, 4, ^map_findsquare_lineofwalk);
         npc_add($npc_coord, ~random_undead_one(), 500);
-        sound_synth(smokepuff, 0, 0);
+        sound_synth(smokepuff, 1, 0);
         spotanim_map(smokepuff, $npc_coord, 5, 0);
         npc_setmode(opplayer2);
         def_int $rand = random(5);

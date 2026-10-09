@@ -30,7 +30,7 @@ if ($weapon ! null & (map_members ! ^false | oc_members($weapon) ! true)) {
 }
 npc_anim(npc_param(attack_anim), 0);
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 if(~nezikchened_dagger_attack = true) {
     return;
@@ -194,7 +194,7 @@ if(npc_finduid(%aggressive_npc) = true & npc_type = nezikchened) {
         p_delay(2);
         mes("As he finishes the incantation a powerful bolt of energy strikes you.");
         spotanim_npc(firebolt_casting, 92, 0);
-        sound_synth(fire_bolt_all, 0, 0);
+        sound_synth(fire_bolt_all, 1, 0);
         ~player_projectile(npc_coord, coord, uid, firebolt_travel, 43, 31, 51, 16, -5, 64, 10);
         p_delay(2);
         mes("Nezikchened: Haha hah ha ha ha ha....");

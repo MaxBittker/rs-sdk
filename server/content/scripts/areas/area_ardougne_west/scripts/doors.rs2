@@ -42,7 +42,7 @@ if(%biohazard = ^biohazard_complete) {
         // Temp note: dur updated
         loc_add(loc_coord, ardougnewalldoor_left, 0, loc_shape, 5);
     }
-    sound_synth(coffin_open, 0, 0);
+    sound_synth(coffin_open, 1, 0);
     if(coordx(coord) < coordx(loc_coord)) {
         ~forcemove(movecoord($loc_coord, 2, 0, 0));
     } else {

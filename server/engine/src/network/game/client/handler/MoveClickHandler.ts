@@ -1,7 +1,6 @@
 import { CoordGrid } from '#/engine/CoordGrid.js';
 import { NetworkPlayer } from '#/engine/entity/NetworkPlayer.js';
 import ClientGameMessageHandler from '#/network/game/client/ClientGameMessageHandler.js';
-import { AllowRepath } from '#/engine/entity/AllowRepath.js';
 import MoveClick from '#/network/game/client/model/MoveClick.js';
 import UnsetMapFlag from '#/network/game/server/model/UnsetMapFlag.js';
 import Environment from '#/util/Environment.js';
@@ -24,8 +23,13 @@ export default class MoveClickHandler extends ClientGameMessageHandler<MoveClick
             return false;
         }
 
-        // Clear previous interaction
-        player.clearPendingAction();
+        // Clear previous interaction — but not for op-click moves.
+        // A MOVE_OPCLICK is always paired with a following op packet that clears+sets
+        // the interaction itself. Clearing here would drop the target in the gap when
+        // the per-tick user packet limit splits the pair across ticks.
+        if (!message.opClick) {
+            player.clearPendingAction();
+        }
 
         // Handle ctrl run
         if (player.runenergy < 100 && message.ctrlHeld === 1) {
@@ -37,16 +41,12 @@ export default class MoveClickHandler extends ClientGameMessageHandler<MoveClick
         // Set new path
         if (Environment.node.clientRoutefinder) {
             player.userPath = [];
-            // this check ignores setting the path when the player is clicking on their current tile
-            if (message.path.length === 1 && start.x === player.x && start.z === player.z) {
-                player.queueWaypoints(player.userPath);
-                player.setAllowRepath(AllowRepath.NONE);
-            } else {
-                for (let i = 0; i < message.path.length; i++) {
-                    player.userPath[i] = CoordGrid.packCoord(player.level, message.path[i].x, message.path[i].z);
-                }
-                player.queueWaypoints(player.userPath);
+
+            for (let i = 0; i < message.path.length; i++) {
+                player.userPath[i] = CoordGrid.packCoord(player.level, message.path[i].x, message.path[i].z);
             }
+            player.queueWaypoints(player.userPath);
+
             player.processWalktrigger();
         } else {
             const dest = message.path[message.path.length - 1];

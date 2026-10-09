@@ -76,7 +76,7 @@ if_close;
 if(loc_find(movecoord(coord, 1, 0, 0), grandtree_prisondoor) = true) {
     // Temp note: dur updated
     loc_add(loc_coord, prisondoor, 1, loc_shape, 7);
-    sound_synth(locked, 0, 0);
+    sound_synth(locked, 1, 0);
 } 
 p_teleport(movecoord(coord, 1, 0, 0));
 p_delay(2); // 3t

@@ -78,7 +78,7 @@ def_int $delay = calc(distance($projectile_start, $dest_coord) / 2);
 if(loc_find(0_39_50_30_4, treegnomecatapult) = true) {
     loc_anim(catapult_release_reset);
     ~coord_projectile($projectile_start, $dest_coord, catapultload, 50, 2, 15, 25, 21, 64, 10);
-    world_delay($delay);
+    world_delay($delay); // todo: check delay length
     spotanim_map(catapultimpact, $dest_coord, 0, 0); // yes, this does appear far after the projectile lands
     huntall($dest_coord, 1, 0);
     if(huntnext = true) {

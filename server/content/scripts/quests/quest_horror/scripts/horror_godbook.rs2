@@ -241,7 +241,7 @@ if(last_useitem = zamorakbook_complete) {
     return;
 }
 if(last_useitem = saradominbook_complete | last_useitem = guthixbook_complete) {
-    @bless_stringsnake(last_useitem);
+    @bless_stringstar(last_useitem);
 }
 if(last_useitem = unfinished_saradominbook | last_useitem = unfinished_guthixbook) {
     mes("You cannot bless symbols with an incomplete book.");

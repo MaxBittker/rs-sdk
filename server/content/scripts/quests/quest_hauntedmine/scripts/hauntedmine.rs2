@@ -1,0 +1,11 @@
+[debugproc,hm]
+if (p_finduid(uid) = false) {
+    return;
+}
+p_teleport(0_53_50_50_60);
+
+[debugproc,hmboss]
+if (p_finduid(uid) = false) {
+    return;
+}
+p_teleport(0_43_69_36_38);

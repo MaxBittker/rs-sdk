@@ -16,37 +16,37 @@ if (npc_find(^trawler_start_center_under, murphy_normal, 5, 0) = true) {
 // only leaks get changed back, repaired leaks stay repaired and naturally fix them selves after 10 min
 def_int $i = 0;
 while ($i < enum_getoutputcount(trawler_hulls)) {
-    if (loc_find(enum(int, coord, trawler_hulls, $i), game_trawler_leak) = true) {
+    if (loc_find(enum(int, coord, trawler_hulls, $i), shipleak) = true) {
         // Temp note: dur updated
-        loc_change(game_trawler_hull, 2);
+        loc_change(shiphull_trawler, 2);
     }
     $i = add($i, 1);
 }
 
 $i = 0;
 while ($i < enum_getoutputcount(trawler_hulls_flooded)) {
-    if (loc_find(enum(int, coord, trawler_hulls_flooded, $i), game_trawler_leak) = true) {
+    if (loc_find(enum(int, coord, trawler_hulls_flooded, $i), shipleak) = true) {
         // Temp note: dur updated
-        loc_change(game_trawler_hull, 2);
+        loc_change(shiphull_trawler, 2);
     }
     $i = add($i, 1);
 }
 // nets
-if (loc_find(^trawler_start_net1, game_trawler_fish_net_broken1) = true) {
+if (loc_find(^trawler_start_net1, trawlernet_top_l) = true) {
     // Temp note: dur updated
-    loc_change(game_trawler_fish_net1, 2);
+    loc_change(trawlernet_l, 2);
 }
-if (loc_find(^trawler_start_net2, game_trawler_fish_net_broken2) = true) {
+if (loc_find(^trawler_start_net2, trawlernet_top_r) = true) {
     // Temp note: dur updated
-    loc_change(game_trawler_fish_net2, 2); 
+    loc_change(trawlernet_r, 2); 
 }
-if (loc_find(^trawler_flood_net1, game_trawler_fish_net_broken1) = true) {
+if (loc_find(^trawler_flood_net1, trawlernet_top_l) = true) {
     // Temp note: dur updated
-    loc_change(game_trawler_fish_net1, 2);
+    loc_change(trawlernet_l, 2);
 }
-if (loc_find(^trawler_flood_net2, game_trawler_fish_net_broken2) = true) {
+if (loc_find(^trawler_flood_net2, trawlernet_top_r) = true) {
     // Temp note: dur updated
-    loc_change(game_trawler_fish_net2, 2); 
+    loc_change(trawlernet_r, 2); 
 }
 
 [proc,trawler_login]

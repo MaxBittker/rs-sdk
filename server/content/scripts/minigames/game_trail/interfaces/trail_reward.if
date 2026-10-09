@@ -17,7 +17,7 @@ x=232
 y=158
 width=32
 height=32
-model=model_3395
+model=if_trail_scroll
 zoom=639
 xan=511
 yan=2047
@@ -27,7 +27,7 @@ type=inv
 x=239
 y=89
 width=3
-height=2
+height=3
 
 [com_3]
 type=model
@@ -35,7 +35,7 @@ x=174
 y=212
 width=32
 height=32
-model=model_loc_76_8
+model=furniture_chestopen
 zoom=914
 xan=104
 yan=761

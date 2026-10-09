@@ -1,7 +1,7 @@
-[oploc1,loc_2977]
+[oploc1,sand1]
 mes("This looks like a large pile of sand.");
 
-[oplocu,loc_2977]
+[oplocu,sand1]
 if (last_useitem = bucket_empty) {
     if (map_members = ^false) {
         mes(^mes_members_feature);
@@ -9,15 +9,15 @@ if (last_useitem = bucket_empty) {
     }
     ~shilo_sandscoop;
     // Temp note: dur does not need updated
-    loc_change(loc_2978, 100);
+    loc_change(sand2, 100);
     return;
 }
 ~displaymessage(^dm_default);
 
-[oploc1,loc_2978]
+[oploc1,sand2]
 mes("This looks like a medium pile of sand.");
 
-[oplocu,loc_2978]
+[oplocu,sand2]
 if (last_useitem = bucket_empty) {
     if (map_members = ^false) {
         mes(^mes_members_feature);
@@ -25,15 +25,15 @@ if (last_useitem = bucket_empty) {
     }
     ~shilo_sandscoop;
     // Temp note: dur does not need updated
-    loc_change(loc_2979, 100);
+    loc_change(sand3, 100);
     return;
 }
 ~displaymessage(^dm_default);
 
-[oploc1,loc_2979]
+[oploc1,sand3]
 mes("This looks like a small pile of sand.");
 
-[oplocu,loc_2979]
+[oplocu,sand3]
 if (last_useitem = bucket_empty) {
     if (map_members = ^false) {
         mes(^mes_members_feature);

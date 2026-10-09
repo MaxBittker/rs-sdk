@@ -160,7 +160,7 @@ if($uncooked_item ! eadgar_troll_thistle) { // no cookmessage for this
     mes($cookmessage);
 }
 anim($anim, 0);
-sound_synth(fry, 0, 0);
+sound_synth(fry, 1, 0);
 switch_obj($uncooked_item) {
     case half_baked_batta : $cooked_item = ~gnome_batta;
     case half_baked_bowl : $cooked_item = ~gnome_bowl;

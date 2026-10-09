@@ -83,9 +83,9 @@ if (db_getfieldcount($effect_data, consume_table:healenergy) > 0) {
 
 [proc,consume_effect_sound](synth $sound)
 if ($sound = null) {
-    sound_synth(liquid, 0, 0);
+    sound_synth(liquid, 1, 0);
 } else {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 
 [proc,consume_effect_messages](obj $consumable, int $hitpoints, boolean $say)

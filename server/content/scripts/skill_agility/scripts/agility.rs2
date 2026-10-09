@@ -108,9 +108,9 @@ p_delay(1);
 p_telejump($fail_coord);
 damage(uid, 1, $damage);
 if (gender() = 0) {
-    sound_synth(human_hit2, 0, 20);
+    sound_synth(human_hit2, 1, 20);
 } else {
-    sound_synth(female_hit2, 0, 20);
+    sound_synth(female_hit2, 1, 20);
 }
 mes($message);
 p_delay(0);

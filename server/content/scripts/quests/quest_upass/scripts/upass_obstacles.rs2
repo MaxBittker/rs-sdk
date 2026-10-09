@@ -69,16 +69,16 @@ mes("You open the grating.");
 // Temp note: dur updated!!! nice even number :)
 loc_change(upass_pipe5, 10);
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, 0, 0, 3), 30, 126, ^exact_north, true);
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 mes("You crawl through the pipe.");
 ~change_merged_loc(movecoord(coord, 0, 0, 1));
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, 0, 0, 3), 30, 126, ^exact_north, true);
 mes("You hear the grating slam shut behind you.");
 stat_advance(agility, 30);
-sound_synth(squeeze_in, 0, 0);
-sound_synth(grate_close, 0, 0);
+sound_synth(squeeze_in, 1, 0);
+sound_synth(grate_close, 1, 0);
 
-[oplocu,loc_2275]
+[oplocu,obstical_rockswing_middle]
 if(last_useitem = rope & loc_find(0_38_151_28_35, loc_2276) = true) {
     @upass_rock_ropeswing;
 }
@@ -121,7 +121,7 @@ if(stat_random(agility, 100, 410) = false) {
 }
 loc_anim(ropeswing_long);
 ~agility_exactmove(human_ropeswing_long, 20, 0, $start_pos, movecoord($start_pos, 4, 0, 0), 45, 70, ^exact_east, false);
-sound_synth(swing_across, 0, 0);
+sound_synth(swing_across, 1, 0);
 mes("You skillfully swing across.");
 mes("The rope gets tangled in some stalagmites.");
 p_delay(1);
@@ -144,7 +144,7 @@ if(%upass_swampswing_used >= map_clock) {
 if($delay > 0) p_delay($delay);
 loc_anim(ropeswing_long);
 ~agility_exactmove(human_ropeswing_long, 20, 0, $start_pos, movecoord($start_pos, -5, 0, 0), 45, 70, ^exact_west, false);
-sound_synth(swing_across, 0, 0);
+sound_synth(swing_across, 1, 0);
 mes("You skillfully swing across.");
 
 [oploc1,upass_speartrap]
@@ -157,7 +157,7 @@ if($choice = 2) {
 if_close;
 mes("You try to disarm the trap...");
 anim(human_pickpocket, 0);
-sound_synth(lockeddoor, 0, 0);
+sound_synth(lockeddoor, 1, 0);
 p_delay(1); // 2 ticks
 if(stat_random(thieving, 160, 300) = false) {
     mes("...and fail, activating the trap!");
@@ -184,7 +184,7 @@ if (loc_find(coord, upass_speartrap) = true | loc_find(movecoord(coord, 0, 0, -1
     if(loc_find(movecoord(loc_coord, -1, 0, 0), upass_double_springtrap) = true | loc_find(movecoord(loc_coord, 0, 0, -1), upass_double_springtrap) = true) loc_anim(double_springtrap_release);
     say("Ouch!");
     queue(damage_player, 0, calc(((stat_base(hitpoints) * 8) / 100) + 1));
-    world_delay(1);
+    world_delay(1); // todo: check delay length
     loc_anim(double_springtrap_reset);
 }
 
@@ -195,7 +195,7 @@ if (loc_find(coord, upass_speartrap) = true | loc_find(movecoord(coord, 0, 0, -1
 if(last_useitem = woodplank) {
     mes("You place the plank across the flat rock...");
     anim(human_pickupfloor, 0);
-    sound_synth(put_down, 0, 0);
+    sound_synth(put_down, 1, 0);
     p_delay(1);
     mes("...and quickly walk over.");
     // Temp note: dur updated
@@ -228,7 +228,7 @@ if($choice = 2) {
 if_close;
 mes("You try to disarm the trap...");
 anim(human_pickpocket, 0);
-sound_synth(lockeddoor, 0, 0);
+sound_synth(lockeddoor, 1, 0);
 p_delay(1); // 2 ticks
 if(stat_random(thieving, 160, 300) = false) {
     mes("...and fail, activating the trap!");
@@ -345,7 +345,7 @@ if(%upass_area2_pipe_used >= map_clock) {
 }
 %upass_area2_pipe_used = calc(map_clock + 15);
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, calc(3 * $mod), 0, 0), 30, 126, $dir, true);
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 p_delay(4);
 mes("You crawl through the pipe.");
 if(%upass >= ^upass_killed_unicorn) {
@@ -353,7 +353,7 @@ if(%upass >= ^upass_killed_unicorn) {
 } else {
     p_telejump(movecoord(coord, $mod, 0, 0));
 }
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 p_delay(0);
 if($dir = ^exact_west) {
     ~change_merged_loc(movecoord(coord, sub($mod,1), 0, 0));
@@ -361,7 +361,7 @@ if($dir = ^exact_west) {
     ~change_merged_loc(movecoord(coord, $mod, 0, 0));
 }
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, calc(3 * $mod), 0, 0), 30, 126, $dir, true);
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 p_delay(0);
 stat_advance(agility, 30);
 
@@ -374,7 +374,7 @@ p_delay(1);
 if(stat_random(agility, 160, 300) = false) {
     if(random(2) = 0) p_teleport(0_36_153_31_29);
     else p_teleport(0_36_154_29_10);
-    sound_synth(fall_land, 0, 0);
+    sound_synth(fall_land, 1, 0);
     mes("... but you slip and tumble into the darkness.");
     say("Ouch!");
     ~damage_self(calc(((stat(hitpoints) * 25) / 100) + 4));
@@ -402,6 +402,6 @@ if(coordz(coord) > coordz(loc_coord)) {
     $end = movecoord(loc_coord, 3, 0, 0);
 }
 // https://youtu.be/n_ip_vEDbCA?si=OKvgFalYoPKlW2AU&t=1308 delay = 35 in current osrs, this seems like 0...
-sound_synth(jump_no_land, 0, 0);
+sound_synth(jump_no_land, 1, 0);
 ~agility_exactmove(human_longjump, 20, 2, coord, $end, 38, 67, $dir, true);
 mes("... you manage to cross safely.");

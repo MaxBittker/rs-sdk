@@ -32,7 +32,7 @@ switch_int(%treequest) {
 [oploc1,khazard_stronghold_door]
 if(coordz(coord) > coordz(loc_coord)) {
     // bigdoor_open (sound)
-    ~open_and_close_door(desertdoor_inactive, ~check_axis(coord, loc_coord, loc_angle), false);
+    ~open_and_close_door(loc_1532, ~check_axis(coord, loc_coord, loc_angle), false);
     return;
 }
 if(%treequest >= ^tree_finding_trackers) {

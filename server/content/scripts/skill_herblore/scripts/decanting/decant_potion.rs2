@@ -48,7 +48,7 @@ if($remainder_doses > 0) {
 inv_setslot(inv, last_useslot, $decanted_potion, 1);
 inv_setslot(inv, last_slot, $remainder_potion, 1);
 
-sound_synth(liquid, 0, 0); // osrs
+sound_synth(liquid, 1, 0); // osrs
 // https://youtu.be/qGcENRGIcoI?si=qGubXr8z_G3aDeaI&t=12
 mes("You have combined the liquid into <tostring($total_doses)> doses.");
 

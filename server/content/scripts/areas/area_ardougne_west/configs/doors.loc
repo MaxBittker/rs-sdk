@@ -1,7 +1,7 @@
 [mournerstewdoorup]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -12,7 +12,7 @@ recol2d=11458
 [mournerstewdoorupopen]
 name=Door
 desc=It's open.
-model=model_loc_3
+model=basic_wall
 active=yes
 retex1s=wall
 retex1d=door
@@ -22,7 +22,7 @@ recol2d=11458
 [mournerstewdoor]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -33,7 +33,7 @@ recol2d=11458
 [mournerstewdooropen]
 name=Door
 desc=It's open.
-model=model_loc_3
+model=basic_wall
 active=yes
 retex1s=wall
 retex1d=door
@@ -43,7 +43,7 @@ recol2d=11458
 [bravekdoorshut]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -54,7 +54,7 @@ param=next_loc_stage,bravekdooropen
 
 [bravekdooropen]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 retex1s=wall
 retex1d=door

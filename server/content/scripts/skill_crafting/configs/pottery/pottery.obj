@@ -1,7 +1,7 @@
 [softclay]
 name=Soft clay
 desc=Clay soft enough to mould.
-model=model_2610_obj
+model=inv_softclay
 2dxof=2
 2dyof=-19
 2dzoom=890
@@ -14,7 +14,7 @@ param=crafting_pottery_struct,soft_clay
 [pot_unfired]
 name=Unfired pot
 desc=I need to put this in a pottery oven.
-model=model_2345_obj
+model=inv_pot-empty
 recol1s=16643
 recol1d=11488
 2dxof=-1
@@ -30,7 +30,7 @@ param=crafting_pottery_struct,unfired_pot
 name=Unfired pie dish
 desc=I need to put this in a pottery oven.
 cost=3
-model=model_2567_obj
+model=inv_piedish
 recol1s=7399
 recol1d=11488
 recol2s=10570
@@ -48,7 +48,7 @@ param=crafting_pottery_struct,unfired_piedish
 name=Unfired bowl
 desc=I need to put this in a pottery oven.
 cost=2
-model=model_2807_obj
+model=inv_bowl-empty
 recol1s=16705
 recol1d=11488
 recol2s=19841

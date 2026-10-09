@@ -1,0 +1,204 @@
+[oploc1,castlewars_zamorak_banner+stand]
+if (%castlewars_team = ^castlewars_team_zamorak) {
+    if (inv_total(worn, castlewars_saradomin_banner) < 1) {
+        mes("Zamorak wants the other team's standard!"); // osrs
+        return;
+    }
+    inv_del(worn, castlewars_saradomin_banner, 1);
+    ~castlewars_flag_reset(castlewars_saradomin_banner);
+    ~castlewars_zamorak_cap;
+    ~update_all(castlewars_saradomin_banner);
+    return;
+}
+@castlewars_flag_pickup(^castlewars_team_zamorak);
+
+[oploc1,castlewars_saradomin_banner+stand]
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    if (inv_total(worn, castlewars_zamorak_banner) < 1) {
+        mes("Saradomin won't let you take his standard!"); // osrs
+        return;
+    }
+    inv_del(worn, castlewars_zamorak_banner, 1);
+    ~castlewars_flag_reset(castlewars_zamorak_banner);
+    ~castlewars_saradomin_cap;
+    ~update_all(castlewars_zamorak_banner);
+    return;
+}
+@castlewars_flag_pickup(^castlewars_team_saradomin);
+
+[proc,castlewars_flag](int $team_flag)(namedobj)
+if ($team_flag = ^castlewars_team_saradomin) return (castlewars_saradomin_banner);
+else if ($team_flag = ^castlewars_team_zamorak) return (castlewars_zamorak_banner);
+else return (null);
+
+[proc,.castlewars_has_flag]()(boolean)
+if (.inv_total(worn, castlewars_saradomin_banner) > 0 | .inv_total(worn, castlewars_zamorak_banner) > 0) {
+    return (true);
+}
+return(false);
+
+[proc,castlewars_has_flag]()(boolean)
+if (inv_total(worn, castlewars_saradomin_banner) > 0 | inv_total(worn, castlewars_zamorak_banner) > 0) {
+    return (true);
+}
+return(false);
+
+[proc,castlewars_flag_reset](obj $flag)
+if ($flag = castlewars_saradomin_banner) {
+    if (loc_find(^castlewars_saradomin_flag_coord, castlewars_saradomin_stand) = true) {
+        loc_change(castlewars_saradomin_banner+stand, 1);
+    }
+    if (%castlewars_saradomin_flag_coord ! null & loc_find(%castlewars_saradomin_flag_coord, castlewars_saradomin_banner) = true) {
+        loc_del(1);
+    }
+    %castlewars_saradomin_flag_coord = ^castlewars_saradomin_flag_coord;
+    %castlewars_saradomin_flag_uid = null;
+} else if ($flag = castlewars_zamorak_banner) {
+    if (loc_find(^castlewars_zamorak_flag_coord, castlewars_zamorak_stand) = true) {
+        loc_change(castlewars_zamorak_banner+stand, 1);
+    }
+    if (%castlewars_zamorak_flag_coord ! null & loc_find(%castlewars_zamorak_flag_coord, castlewars_zamorak_banner) = true) {
+        loc_del(1);
+    }
+    %castlewars_zamorak_flag_coord = ^castlewars_zamorak_flag_coord;
+    %castlewars_zamorak_flag_uid = null;
+}
+
+[label,castlewars_flag_pickup](int $team_flag)
+// checks coord not loc coord, and doesnt check for space
+if ($team_flag = %castlewars_team & ~castlewars_in_base = true) {
+    ~castlewars_flag_reset(~castlewars_flag($team_flag));
+    return;
+}
+if (inv_freespace(inv) = 0) {
+    mes("You don't have enough free inventory space to do that.");
+    return;
+}
+// add banner to inv
+def_namedobj $obj = ~castlewars_flag($team_flag);
+inv_add(inv, $obj, 1);
+
+if (loc_type = castlewars_zamorak_banner | loc_type = castlewars_saradomin_banner) loc_del(1);
+else if (loc_type = castlewars_zamorak_banner+stand) loc_change(castlewars_zamorak_stand, 20000);
+else if (loc_type = castlewars_saradomin_banner+stand) loc_change(castlewars_saradomin_stand, 20000);
+
+if (~unequip_conflicts_space($obj) = false) {
+    mes("You don't have enough free inventory space to do that.");
+    ~castlewars_flag_drop(inv, $obj); // osrs
+    return;
+}
+
+if ($team_flag = ^castlewars_team_saradomin) {
+    if (%castlewars_saradomin_flag_uid ! uid) %castlewars_flag_clock = add(map_clock, 300);
+    %castlewars_saradomin_flag_coord = null;
+    %castlewars_saradomin_flag_uid = uid;
+} else if ($team_flag = ^castlewars_team_zamorak) {
+    if (%castlewars_zamorak_flag_uid ! uid) %castlewars_flag_clock = add(map_clock, 300);
+    %castlewars_zamorak_flag_coord = null;
+    %castlewars_zamorak_flag_uid = uid;
+}
+
+~equip(~inv_getslot(inv, $obj));
+
+[proc,castlewars_flag_drop](inv $inv, obj $obj)
+if (inv_total($inv, $obj) < 1) {
+    return;
+}
+inv_del($inv, $obj, 1);
+
+def_coord $coord = ~loc_addsafe_coord(coord);
+if ($coord = null) {
+    ~castlewars_flag_reset($obj);
+    return;
+}
+
+if ($obj = castlewars_saradomin_banner) {
+    loc_add($coord, castlewars_saradomin_banner, 0, centrepiece_straight, 20000);
+    %castlewars_saradomin_flag_coord = $coord;
+} else if ($obj = castlewars_zamorak_banner) {
+    loc_add($coord, castlewars_zamorak_banner, 0, centrepiece_straight, 20000);
+    %castlewars_zamorak_flag_coord = $coord;
+}
+
+
+[opheld5,castlewars_saradomin_banner] ~castlewars_flag_drop(inv, last_item);
+[opheld5,castlewars_zamorak_banner] ~castlewars_flag_drop(inv, last_item);
+
+[oploc1,castlewars_zamorak_banner] @castlewars_flag_pickup(^castlewars_team_zamorak);
+[oploc1,castlewars_saradomin_banner] @castlewars_flag_pickup(^castlewars_team_saradomin);
+
+[oploc1,castlewars_saradomin_stand]
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    if (inv_total(worn, castlewars_saradomin_banner) > 0) {
+        inv_del(worn, castlewars_saradomin_banner, 1);
+        ~castlewars_flag_reset(castlewars_saradomin_banner);
+        ~update_all(castlewars_saradomin_banner);
+        return;
+    }
+    if (inv_total(worn, castlewars_zamorak_banner) < 1) {
+        mes("You need to bring a standard back here!"); // osrs
+        return;
+    }
+    inv_del(worn, castlewars_zamorak_banner, 1);
+    ~castlewars_flag_reset(castlewars_zamorak_banner);
+    ~castlewars_saradomin_cap;
+    ~update_all(castlewars_zamorak_banner);
+    return;
+}
+
+mes("Their standard has already been taken!"); // osrs
+
+[oploc1,castlewars_zamorak_stand]
+if (%castlewars_team = ^castlewars_team_zamorak) {
+    if (inv_total(worn, castlewars_zamorak_banner) > 0) {
+        inv_del(worn, castlewars_zamorak_banner, 1);
+        ~castlewars_flag_reset(castlewars_zamorak_banner);
+        ~update_all(castlewars_zamorak_banner);
+        return;
+    }
+    if (inv_total(worn, castlewars_saradomin_banner) < 1) {
+        mes("You need to bring a standard back here!"); // osrs
+        return;
+    }
+    inv_del(worn, castlewars_saradomin_banner, 1);
+    ~castlewars_flag_reset(castlewars_saradomin_banner);
+    ~castlewars_zamorak_cap;
+    ~update_all(castlewars_saradomin_banner);
+    return;
+}
+mes("Their standard has already been taken!"); // osrs
+
+[proc,castlewars_set_hint]
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    if (%castlewars_zamorak_flag_uid ! null & .finduid(%castlewars_zamorak_flag_uid) = true & ~.castlewars_has_flag = true) {
+        hint_stop; // called before setting hint every time (rsprox)
+        hint_pl;
+        return;
+    }
+    if (%castlewars_zamorak_flag_coord = ^castlewars_zamorak_flag_coord) { // at spawn
+        %castlewars_zamorak_flag_coord = null;
+        hint_stop;
+        return;
+    }
+    if (%castlewars_zamorak_flag_coord ! null) {
+        hint_stop;
+        hint_coord(^hint_center, %castlewars_zamorak_flag_coord, 160);
+        return;
+    }
+} else if (%castlewars_team = ^castlewars_team_zamorak) {
+    if (%castlewars_saradomin_flag_uid ! null & .finduid(%castlewars_saradomin_flag_uid) = true & ~.castlewars_has_flag = true) {
+        hint_stop;
+        hint_pl;
+        return;
+    }
+    if (%castlewars_saradomin_flag_coord = ^castlewars_saradomin_flag_coord) { // at spawn
+        %castlewars_saradomin_flag_coord = null;
+        hint_stop;
+        return;
+    }
+    if (%castlewars_saradomin_flag_coord ! null) {
+        hint_stop;
+        hint_coord(^hint_center, %castlewars_saradomin_flag_coord, 160);
+        return;
+    }
+}

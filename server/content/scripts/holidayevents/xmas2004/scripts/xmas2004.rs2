@@ -1,0 +1,72 @@
+[opnpc1,santa_claus]
+if(%xmas_yoyo_unlocked = ^true) {
+    ~chatplayer("<p,sad>I lost my Yo-yo Santa...");
+    if(~obj_gettotal(xmas_yoyo) = 0) {
+        if(inv_freespace(inv) = 0) {
+            ~mesbox("You need to free up some inventory space before getting another yo-yo from Santa!");
+            return;
+        }
+        inv_add(inv, xmas_yoyo, 1);
+        ~chatnpc("<p,laugh>Ho Ho Ho|Then you may have another!|Don't forget you can get your Yo-yo returned from Diango in Draynor!");
+        return;
+    }
+    ~chatnpc("<p,laugh>Ho Ho Ho|You've already had your Xmas present this year!");
+    return;
+}
+~chatplayer("<p,happy>Hello there.");
+~chatnpc("<p,laugh>Ho Ho Ho|Merry Xmas, <displayname>!");
+~chatnpc("<p,happy>Have you been a good <text_gender(boy,girl)> this year?");
+~chatplayer("<p,happy>Yes I have, Santa!");
+~chatnpc("<p,laugh>Ho Ho Ho|Then take this present, and have a merry Xmas!");
+if(inv_freespace(inv) = 0) {
+    mes("You need to free up some inventory space before getting a present from Santa!");
+    return;
+}
+%xmas_yoyo_unlocked = ^true;
+inv_add(inv, xmas_yoyo, 1);
+~chatnpc("<p,laugh>Ho Ho Ho|If you lose your yo-yo, don't forget you can get a replacement from Diango in Draynor!");
+npc_say("Merry Xmas!");
+
+[ai_timer,santa_claus]
+def_int $rand = random(4);
+if($rand = 0) {
+    npc_say("Merry Xmas!");
+    npc_anim(emote_cheer, 0);
+} else if($rand = 1) {
+    npc_say("Come talk to Santa");
+    npc_anim(emote_beckon, 0);
+} else if($rand = 2) {
+    npc_say("I love Xmas");
+    npc_anim(emote_clap, 0);
+} else {
+    npc_say("Ho Ho Ho");
+    npc_anim(emote_laugh, 0);
+}
+
+[opheld1,xmas_yoyo]
+anim(yoyo_updown, 2);
+sound_synth(yoyo1, 7, 15);
+
+[opheld2,xmas_yoyo]
+anim(yoyo_roundworld, 0);
+sound_synth(yoyo2, 0, 15);
+
+[opheld3,xmas_yoyo]
+anim(yoyo_walkdog, 0);
+sound_synth(yoyo3, 0, 15);
+
+[opheld4,xmas_yoyo]
+anim(yoyo_advanced, 0);
+sound_synth(yoyo4, 0, 15);
+
+[label,aprilfoolshorsesalesman_reclaim_yoyo]
+if(~obj_gettotal(xmas_yoyo) > 0) {
+    mes("You don't need another yo-yo; you already have one!");
+    return;
+}
+if(inv_freespace(inv) = 0) {
+    ~chatnpc("<p,neutral>Sorry partner, ya need to free up some|inventory space.");
+    return;
+}
+inv_add(inv, xmas_yoyo, 1);
+~chatnpc("<p,neutral>There ya go, partner!|Shoot fer the moon!");

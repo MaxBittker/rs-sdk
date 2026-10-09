@@ -1,0 +1,51 @@
+^hauntedmine_not_started = 0
+^hauntedmine_started = 1
+// unused?
+^hauntedmine_heardaboutkey = 2
+^hauntedmine_secondary_entrance = 3
+^hauntedmine_liftfound = 4
+^hauntedmine_liftused = 5
+^hauntedmine_darkstairsfound = 6 
+^hauntedmine_lightstairsfound = 7
+^hauntedmine_boss_found = 8
+^hauntedmine_boss_defeated = 9
+^hauntedmine_rewarddoor_found = 10
+
+^hauntedmine_bits_lever_a = 2
+^hauntedmine_bits_lever_b = 1
+^hauntedmine_bits_lever_c = 3
+^hauntedmine_bits_lever_d = 4
+^hauntedmine_bits_lever_e = 5
+^hauntedmine_bits_lever_i = 6
+^hauntedmine_bits_lever_j = 7
+^hauntedmine_bits_lever_k = 8
+
+^hauntedmine_bits_heardaboutkey = 10
+
+^hauntedmine_bits_animate_start = 13
+^hauntedmine_bits_animate_success = 14
+^hauntedmine_bits_animate_38_42 = 15
+^hauntedmine_bits_animate_38_44 = 16
+^hauntedmine_bits_animate_37_47 = 17
+^hauntedmine_bits_animate_39_50 = 18
+^hauntedmine_bits_animate_35_59 = 19
+^hauntedmine_bits_animate_returned = 20
+
+^hauntedmine_bits_begincart_fungus = 0
+^hauntedmine_bits_endcart_fungus = 9
+^hauntedmine_endcart_coord = 0_43_70_22_57
+
+^hauntedmine_bits_pointspuzzlestarted = 21
+^hauntedmine_bits_liftpoweredonce = 22
+^hauntedmine_bits_liftpowerednow = 23
+^hauntedmine_track_points_offset = 4914
+^hauntedmine_track_points_offset_mirrored = 4915
+
+
+^hauntedmine_crane_posessed1 = 0_43_69_35_35
+^hauntedmine_crane_posessed2 = 0_43_69_35_30
+^hauntedmine_crane_posessed3 = 0_43_69_30_42
+^hauntedmine_crane_posessed4 = 0_43_69_41_42
+
+^hauntedmine_boss_movechance = 2
+^hauntedmine_boss_movecount = 6

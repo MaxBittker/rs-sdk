@@ -1,0 +1,396 @@
+[proc,open_freedomfighter_entrance](coord $loc_coord, boolean $mirrored)
+if(%routequest < ^routequest_answered_questions) {
+    // RS3
+    ~mesbox("There seems to be a strange combination on the door. It would take ages to work it out.");
+    return;
+}
+p_arrivedelay;
+anim(human_pickuptable, 0);
+sound_synth(locked, 0, 0);
+p_delay(0);
+if($mirrored = true) {
+    loc_change(freedomfighterdooropenr, 3);
+    loc_add(movecoord($loc_coord, 1, 0, 0), freedomfighterdooropenl, loc_angle, loc_shape, 3);
+} else {
+    loc_change(freedomfighterdooropenl, 3);
+    loc_add(movecoord($loc_coord, -1, 0, 0), freedomfighterdooropenr, loc_angle, loc_shape, 3);
+}
+sound_synth(iron_door_open, 0, 0);
+p_delay(1);
+p_teleport(0_54_153_44_19);
+if(%routequest < ^routequest_entered_underground) {
+    %routequest = ^routequest_entered_underground;
+}
+
+[oploc1,freedomfighterentrancer]
+~open_freedomfighter_entrance(loc_coord, true);
+
+[oploc1,freedomfighterentrancel]
+~open_freedomfighter_entrance(loc_coord, false);
+
+[label,route_rowboat_hollows]
+if(%routequest < ^routequest_entered_hollowed) {
+    // RS3
+    mes("You don't think it's a good idea to use a boat without permission.");
+    return;
+}
+minimap_toggle(2);
+// modal closing if you get attacked (by a ghast) is authentic
+// theres no fade here either
+if_openmain(swamp_boatjourney); // [7924]
+if_setanim(swamp_boatjourney:shipmodel, swamp_boatjourney_back);
+p_delay(13);
+p_teleport(0_55_51_2_20);
+if_close;
+minimap_toggle(0);
+// [7938]
+
+[oploc1,harmless_dead_palm_mid]
+if(loc_angle = ^loc_north) { 
+    if(coordz(loc_coord) > coordz(coord)) {
+        mes("You're already on the bridge.");
+        return;
+    }
+    p_arrivedelay;
+    mes("You climb the tree.");
+    anim(human_reachforladder, 0);
+    p_delay(0);
+    p_telejump(movecoord(loc_coord, 0, 0, -1));
+} else if(loc_angle = ^loc_south) {
+    if(coordz(loc_coord) < coordz(coord)) {
+        // Source: mid-2007 and 2009 youtube walkthrough videos.
+        mes("You're already on the bridge.");
+        return;
+    }
+    p_arrivedelay;
+    mes("You climb the tree.");
+    anim(human_reachforladder, 0);
+    p_delay(0);
+    p_telejump(movecoord(loc_coord, 0, 0, 1));
+}
+
+[oploc2,harmless_dead_palm_mid]
+if(loc_angle = ^loc_north) {
+    if(coordz(loc_coord) < coordz(coord)) {
+        // Guess.
+        mes("You're already down the tree.");
+        return;
+    }
+    p_arrivedelay;
+    mes("You climb down the tree.");
+    anim(human_reachforladder, 0);
+    p_delay(0);
+    p_telejump(movecoord(loc_coord, 1, 0, 1));
+    if(%routequest = ^routequest_entered_hollowed) {
+        %routequest = ^routequest_found_guard;
+    }
+} else if(loc_angle = ^loc_south) {
+    if(coordz(loc_coord) > coordz(coord)) {
+        mes("You're already down the tree.");
+        return;
+    }
+    p_arrivedelay;
+    mes("You climb down the tree.");
+    anim(human_reachforladder, 0);
+    p_delay(0);
+    p_telejump(movecoord(loc_coord, 0, 0, -1));
+}
+
+[oploc1,swamp_bridge1]
+switch_coord (loc_coord) {
+    case 0_54_53_46_35 : ~forcemove(loc_coord);
+    case 0_54_53_46_36 :
+        if(%bridgerung1 = 0) {
+            loc_change(spooky_tree_base_forbridge, 200);
+            ~mesbox("The bridge looks pretty old. The wooden boards break apart beneath your feet.");
+            return;
+        }
+        ~forcemove(loc_coord);
+    case 0_54_53_46_37 :
+        if(%bridgerung2 = 0) {
+            loc_change(spooky_tree_base_forbridge, 200);
+            ~mesbox("The bridge looks pretty old. The wooden boards break apart beneath your feet.");
+            return;
+        }
+        ~forcemove(loc_coord);
+    case 0_54_53_46_38 :
+        if(%bridgerung3 = 0) {
+            loc_change(spooky_tree_base_forbridge, 200);
+            ~mesbox("The bridge looks pretty old. The wooden boards break apart beneath your feet.");
+            return;
+        }
+        ~forcemove(loc_coord);
+    case default : ~displaymessage(^dm_default);
+}
+
+[oploc5,swamp_bridge1]
+switch_coord (loc_coord) {
+    case 0_54_53_46_35 : mes("This bridge rung already looks fixed; that's why you're able to stand on it.");
+    case 0_54_53_46_36 :
+        if(%bridgerung1 = ^true) {
+            mes("You have already fixed this part of the bridge.");
+            return;
+        }
+        if(~routequest_try_fix_rung = true) {
+            %bridgerung1 = 1;
+            anim(human_smithing, 0);
+            p_delay(2);
+            ~forcemove(movecoord(coord, 0, 0, 1));
+        }
+        mes("This bridge rung already looks fixed; that's why you're able to stand on it.");
+    case 0_54_53_46_37 :
+        if(%bridgerung2 = ^true) {
+            mes("You have already fixed this part of the bridge.");
+            return;
+        }
+        if(~routequest_try_fix_rung = true) {
+            %bridgerung2 = 1;
+            anim(human_smithing, 0);
+            p_delay(2);
+            ~forcemove(movecoord(coord, 0, 0, 1));
+        }
+    case 0_54_53_46_38 :
+        if(%bridgerung3 = ^true) {
+            mes("You have already fixed this part of the bridge.");
+            return;
+        }
+        if(~routequest_try_fix_rung = true) {
+            %bridgerung3 = 1;
+            anim(human_smithing, 0);
+            p_delay(2);
+            ~forcemove(movecoord(coord, 0, 0, 1));
+        }
+    case default : ~displaymessage(^dm_default);
+}
+
+[proc,routequest_try_fix_rung]()(boolean)
+if(inv_total(inv, woodplank) = 0) {
+    // RS3
+    ~objbox(woodplank, "You'll need a wooden plank in order to repair this.", 200, 0, 0);
+    return (false);
+}
+if(inv_total(inv, nails) < 10) {
+    // RS3
+    mes("You need at least 10 steel nails to repair this.");
+    return (false);
+}
+if(inv_total(inv, hammer) = 0) {
+    // guessed, rs3 has toolbelt. osrs changed the dialogues.
+    mes("You need a hammer to repair this.");
+    return (false);
+}
+inv_del(inv, woodplank, 1);
+inv_del(inv, nails, 10);
+return (true);
+
+
+[oploc1,spooky_tree_base_forbridge]
+switch_coord (loc_coord) {
+    case 0_54_53_46_35 :
+        mes("This bridge rung already looks fixed; that's why you're able to stand on it.");
+    case 0_54_53_46_36 :
+        if(%bridgerung1 = 1) {
+            ~forcemove(loc_coord);
+            return;
+        }
+        if(~routequest_try_fix_rung = true) {
+            %bridgerung1 = 1;
+            anim(human_smithing, 0);
+            p_delay(1);
+            loc_change(swamp_bridge1, 200);
+            p_delay(0);
+            ~forcemove(movecoord(coord, 0, 0, 1));
+        }
+    case 0_54_53_46_37 :
+        if(%bridgerung2 = 1) {
+            ~forcemove(loc_coord);
+            return;
+        }
+        if(~routequest_try_fix_rung = true) {
+            %bridgerung2 = 1;
+            anim(human_smithing, 0);
+            p_delay(1);
+            loc_change(swamp_bridge1, 200);
+            p_delay(0);
+            ~forcemove(movecoord(coord, 0, 0, 1));
+        }
+    case 0_54_53_46_38 :
+        if(%bridgerung3 = 1) {
+            ~forcemove(loc_coord);
+            return;
+        }
+        if(~routequest_try_fix_rung = true) {
+            %bridgerung3 = 1;
+            anim(human_smithing, 0);
+            p_delay(1);
+            loc_change(swamp_bridge1, 200);
+            p_delay(0);
+            ~forcemove(movecoord(coord, 0, 0, 1));
+        }
+    case default :
+        mes("Unhandled <lc_debugname(loc_type)> at");
+        mes(~coord_tostring(loc_coord));
+}
+
+
+[opnpc1,route_curpile_fyod]
+if(%routequest < ^routequest_entered_hollowed) {
+    // OSRS/RS3
+    ~chatnpc("<p,angry>Hey... you's trespassin'! Be off wiv ya.");
+    return;
+}
+if(%routequest < ^routequest_answered_questions) {
+    ~chatnpc("<p,quiz>Hey, what're you doin' here?");
+    @route_curpile_multi;
+} else {
+    ~chatnpc("<p,neutral>Hey, leave me be. I'm guardin' this place.");
+}
+
+[label,route_curpile_multi]
+@multi5("I've come to help the Myreque, I've brought weapons.", route_curpile_help, "I don't have to answer you!", router_curpile_dont_answer, "No reason.", route_curpile_no_reason, "I'm lost, can you show me the way out?", route_curpile_lost, "I have to go.", route_curpile_gottago);
+
+[label,router_curpile_dont_answer]
+~chatplayer("<p,neutral>I don't have to answer to you!");
+~chatnpc("<p,neutral>You do if you know what's good for you!");
+mes("Curpile punches you.");
+npc_anim(human_unarmedpunch, 0);
+~damage_self(3);
+
+[label,route_curpile_no_reason]
+~chatplayer("<p,neutral>No reason.");
+~chatnpc("<p,neutral> Come on...speak up! I may be able to help you. However, you's gotta know that you's trespassing and that, by rights, I should slap you around a bit. You know: just like as a warning.");
+@route_curpile_multi;
+
+[label,route_curpile_lost]
+~chatplayer("<p,neutral>I'm lost, can you show me the way out?");
+~chatnpc("<p,neutral>You got yourself in here, now get yourself out. And quickly, if I were you.");
+@route_curpile_multi;
+
+[label,route_curpile_gottago]
+~chatplayer("<p,neutral>I have to go.");
+~chatnpc("<p,neutral>Sure...be on your way, stranger.");
+
+[label,route_curpile_help]
+~chatplayer("<p,neutral>I've come to help the Myreque. I've brought weapons.");
+if(~routequest_has_weapons = false) {
+    ~chatnpc("<p,neutral>It doesn't look as if you have the right weapons to me.|Get out of here, you fake.");
+    return;
+}
+~chatnpc("<p,neutral>Okay, I see ya got da weapons, but how'd I know you're not gonna use 'em against my friends?");
+~chatplayer("<p,neutral>But I just want to help deliver these weapons.");
+~chatnpc("<p,neutral>Well, dat's as maybe, and I'm not doubting your sincerity here, you seems all sincered up to me...it's choking me up right here, you're making me cry...but hey, I's godda do my job or da kids don't get fed! Ok,");
+~chatnpc("<p,neutral>so say I asks you a few questions and you were to answer them correct and so on, well that'd make me believe you's...I'd get to feeling that you was the real deal an all. How's dat sound?");
+~chatplayer("<p,neutral>Sounds fine to me...go ahead, shoot!");
+~chatnpc("<p,neutral>Hey...don't tempt me! You's dicing wiv death here my friend!");
+@route_curpile_question;
+
+[proc,route_get_question](int $q)(string)
+// RuneHQ mentions a 7th question existing, but I haven't found evidence of it.
+switch_int($q) {
+    case 0 : return ("Who is the youngest member of the Myreque?");
+    case 1 : return ("Name the only female member of the Myreque.");
+    case 2 : return ("Who is the leader of the Myreque?");
+    case 3 : return ("Which member of the Myreque was originally a scholar?");
+    case 4 : return ("What is the boatman's name?");
+    case default : return ("What family is rumoured to rule Morytania.");
+}
+
+[proc,route_ask_question](int $q)
+if($q = 0) {
+    def_int $op = ~p_choice5_header("Sani Piliu", 1, "Ivan Strom", 2, "Veliaf Hurtz", 3, "Radigad Ponfit", 4, "Don't know!", 5, ~route_get_question($q));
+    if($op = 2) {
+        %routequestionscorrect = calc(%routequestionscorrect + 1);
+    }
+    %routequestionsanswered = calc(%routequestionsanswered + 1);
+} else if($q = 1) {
+    def_int $op = ~p_choice5_header("Sani Piliu", 1, "Santi Peliou", 2, "Sani Peridou", 3, "Sandi Pherimou", 4, "Don't know!", 5, ~route_get_question($q));
+    if($op = 1) {
+        %routequestionscorrect = calc(%routequestionscorrect + 1);
+    }
+    %routequestionsanswered = calc(%routequestionsanswered + 1);
+} else if($q = 2) {
+    def_int $op = ~p_choice5_header("Sani Piliu", 1, "Harold Evans", 2, "Veliaf Hurtz", 3, "Radigad Ponfit", 4, "Don't know!", 5, ~route_get_question($q));
+    if($op = 3) {
+        %routequestionscorrect = calc(%routequestionscorrect + 1);
+    }
+    %routequestionsanswered = calc(%routequestionsanswered + 1);
+} else if($q = 3) {
+    def_int $op = ~p_choice5_header("Sani Piliu", 1, "Harold Evans", 2, "Radigad Ponfit", 3, "Polmafi Ferdygris", 4, "Don't know!", 5, "Who was previously a scholar?");
+    if($op = 4) {
+        %routequestionscorrect = calc(%routequestionscorrect + 1);
+    }
+    %routequestionsanswered = calc(%routequestionsanswered + 1);
+} else if($q = 4) {
+    def_int $op = ~p_choice5_header("Geof Paddleman", 1, "Cyreg Paddlebone", 2, "Gyrec Paddlehorn", 3, "Cyreg Paddlehorn", 4, "I don't know!", 5, ~route_get_question($q));
+    if($op = 4) {
+        %routequestionscorrect = calc(%routequestionscorrect + 1);
+    }
+    %routequestionsanswered = calc(%routequestionsanswered + 1);
+} else if($q = 5) {
+    def_int $op = ~p_choice5_header("Drunken", 1, "Drakan", 2, "Draynor", 3, "Praymore", 4, "I don't know!", 5, ~route_get_question($q));
+    if($op = 2) {
+        %routequestionscorrect = calc(%routequestionscorrect + 1);
+    }
+    %routequestionsanswered = calc(%routequestionsanswered + 1);
+}
+
+[queue,route_curpile_knockout]
+if (npc_find(coord, route_curpile_fyod, 10, 0) = true) {
+    npc_setmode(playerface);
+    npc_anim(human_sword_slash, 0);
+    sound_synth(hacksword_slash, 0, 0);
+    p_delay(0);
+    ~damage_self(1);
+    spotanim_pl(stunned_thieving, 124, 0);
+    anim(%com_defendanim, 0); // osrs
+    sound_synth(stunned, 0, 0);
+    p_delay(0);
+    ~fade_out;
+    p_delay(4);
+    p_teleport(0_55_51_2_21);
+    ~fade_in;
+    queue(fade_clear, 2, 0);
+    p_delay(0);
+    ~mesbox("Curpile knocks you out...You wake back up in Mort'ton...");
+}
+
+[label,route_curpile_question]
+%routequestionsanswered = 0;
+%routequestionscorrect = 0;
+// setup random non-repeating questions
+def_int $question1 = random(6);
+def_int $question2 = random(6);
+def_int $question3 = random(6);
+while($question2 = $question1) {
+    $question2 = random(6);
+}
+while($question3 = $question2 | $question3 = $question1) {
+    $question3 = random(6);
+}
+~chatnpc("<p,neutral>Ok, first question. <~route_get_question($question1)>");
+~route_ask_question($question1);
+~chatnpc("<p,neutral>Ok, interesting answer. First question answered.");
+~chatnpc("<p,neutral>Ok, second question. <~route_get_question($question2)>");
+~route_ask_question($question2);
+~chatnpc("<p,neutral>An interesting response. Second question answered.");
+~chatnpc("<p,neutral>Ok, third and final question. <~route_get_question($question3)>");
+~route_ask_question($question3);
+~chatnpc("<p,neutral>Hmm, a calculated retort. Third question answered.");
+if(%routequestionscorrect = 3) {
+    %routequest = ^routequest_answered_questions;
+    ~chatnpc("<p,neutral>Ok, I believes ya...you can go on.");
+    ~chatplayer("<p,neutral>What's the combination to the door?");
+    ~chatnpc("<p,neutral>Oh, there isn't one. I'll unlock it for you.");
+} else {
+    queue(route_curpile_knockout, 0, 0);
+    if(%routequestionscorrect = 0) {
+        ~chatnpc("<p,angry>I'm sorry but you got them all wrong! Go on get outa here...");
+        mes("<npc_name> : I'm sorry but you got them all wrong! Go on get outa here...");
+    } else if (%routequestionscorrect = 1) {
+        ~chatnpc("<p,angry>I'm sorry but you only got one question correct! Go on get outa here...");
+        mes("<npc_name> : I'm sorry but you only got one question correct! Go on get outa here...");
+    } else if (%routequestionscorrect = 2) {
+        ~chatnpc("<p,angry>I'm sorry but you only got 2 questions correct! Go on get outa here...");
+        mes("<npc_name> : I'm sorry but you only got 2 questions correct! Go on get outa here...");
+    }
+}

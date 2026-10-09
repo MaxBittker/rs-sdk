@@ -79,7 +79,7 @@ if (stat(fletching) < $level) {
 
 [label,process_fletch_logs](obj $log, int $process_count, string $message, int $fletching_experience, namedobj $product, int $count)
 anim(human_fletching, 0);
-sound_synth(fletch, 0, 0);
+sound_synth(fletch, 1, 0);
 if (%action_delay < map_clock) {
     %action_delay = add(map_clock, 2);
 }

@@ -1,7 +1,7 @@
-[loc_2043]
+[mournercauldron]
 name=Cauldron
 desc=Something's bubbling away in it.
-model=model_loc_692
+model=furniture_cauldron
 anim=cauldron
 recol1s=544
 recol1d=23181
@@ -11,7 +11,7 @@ recol2d=15716
 [w_ardougnefoodtrough]
 name=Trough
 desc=Like an animal dinner table.
-model=model_loc_40
+model=outdoorfurniture_foodtrough_wooden
 width=2
 recol1s=15520
 recol1d=7299
@@ -19,21 +19,21 @@ recol2s=15855
 recol2d=8456
 
 [kandarin_rugcorner]
-model=model_loc_107
+model=floor_rugcorner
 recol1s=15360
 recol1d=24675
 recol2s=28321
 recol2d=26
 
 [kandarin_rugside]
-model=model_loc_108
+model=floor_rugside
 recol1s=15360
 recol1d=24675
 recol2s=28321
 recol2d=26
 
 [kandarin_rugmiddle]
-model=model_loc_109
+model=floor_rugmiddle
 recol1s=15360
 recol1d=24675
 recol2s=0
@@ -42,7 +42,7 @@ recol2d=26
 [guidorgatelclosed]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 op1=Open
 op2=hidden
 category=varrock_gate
@@ -50,22 +50,22 @@ category=varrock_gate
 [guidorgaterclosed]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 op1=Open
 mirror=yes
 category=varrock_gate
 
 [guidorgatelopen]
-model=model_loc_47
+model=fence_gateclosedl
 
 [guidorgateropen]
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 
 [jericoscupboardshut]
 name=Cupboard
 desc=It's closed.
-model=model_loc_367
+model=furniture_cupboard
 length=2
 op1=Open
 forceapproach=east
@@ -75,7 +75,7 @@ param=cupboard_other,jericoscupboardopen
 [jericoscupboardopen]
 name=Cupboard
 desc=It's open.
-model=model_loc_370
+model=furniture_cupboard_open
 length=2
 op1=Search
 op2=Close
@@ -86,32 +86,32 @@ param=cupboard_other,jericoscupboardshut
 [mournerquaters_gatel]
 name=Gate
 desc=It's closed.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 category=double_door_open_and_close_left
 param=next_loc_stage,mournerquaters_gatelopen
 
 [mournerquaters_gatelopen]
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 
 [mournerquaters_gater]
 name=Gate
 desc=It's closed.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 category=double_door_open_and_close_right
 param=next_loc_stage,mournerquaters_gateropen
 
 [mournerquaters_gateropen]
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 mirror=yes
 
 [bionursescupboardshut]
 name=Cupboard
 desc=It's closed.
-model=model_loc_367
+model=furniture_cupboard
 length=2
 op1=Open
 forceapproach=east
@@ -121,7 +121,7 @@ param=cupboard_other,bionursescupboardopen
 [bionursescupboardopen]
 name=Cupboard
 desc=It's open.
-model=model_loc_370
+model=furniture_cupboard_open
 length=2
 op1=Search
 op2=Close
@@ -132,5 +132,5 @@ param=cupboard_other,bionursescupboardshut
 [mournercrateup]
 name=Crate
 desc=For storage.
-model=model_loc_63
+model=warehouse_shop_crate
 op1=Search

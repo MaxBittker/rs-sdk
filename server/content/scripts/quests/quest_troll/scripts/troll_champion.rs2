@@ -40,7 +40,7 @@ def_int $dir;
 if(random(3) = 0) {
     anim(%com_defendanim, 0);
     npc_anim(troll_treetrunk_attack, 0);
-    sound_synth(troll_champion_swing, 0, 0);
+    sound_synth(troll_champion_swing, 1, 0);
     ~npc_meleeattack;
     // doesnt queue, nothing will happen if no prot access
     if(p_finduid(%npc_attacking_uid) = true) {
@@ -91,7 +91,7 @@ if(random(3) = 0) {
 anim(%com_defendanim, 0);
 npc_anim(npc_param(attack_anim), 0);
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 ~npc_meleeattack;
 

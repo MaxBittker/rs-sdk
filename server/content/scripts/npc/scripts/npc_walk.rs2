@@ -28,3 +28,15 @@ $change_z = calc($change_z - $move_z);
 npc_delay(0);
 // recursive call
 ~npc_telewalk($change_x, $change_z);
+
+[proc,npc_forcerun](coord $dest)
+npc_tele(~movedir_coord(npc_coord, $dest));
+
+if (npc_coord = $dest | npc_range($dest) > 50) {
+    world_delay(0);
+    return;
+}
+npc_tele(~movedir_coord(npc_coord, $dest));
+world_delay(0);
+if (npc_coord = $dest | npc_range($dest) > 50) return;
+~npc_forcerun($dest);

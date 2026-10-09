@@ -1,6 +1,13 @@
 [proc,ring_of_life_check]
 if (p_finduid(uid) = true) {
-    if (inv_getobj(worn, ^wearpos_ring) ! ring_of_life | map_members = ^false | ~wilderness_level(coord) > 30 | stat(hitpoints) > scale(10, 100, stat_base(hitpoints)) | ~pre_tele_checks(coord) = false) {
+    if (inv_getobj(worn, ^wearpos_ring) ! ring_of_life | map_members = ^false | ~wilderness_level(coord) > 30 | stat(hitpoints) > scale(10, 100, stat_base(hitpoints))) {
+        return;
+    }
+    if (~in_castlewars_waitingroom(coord) = true | ~in_castlewars_game(coord) = true) {
+        mes("Your ring of life does not work here.");
+        return;
+    }
+    if (~pre_tele_checks(coord) = false) {
         return;
     }
     mes("Your Ring of Life saves you and is destroyed in the process.");

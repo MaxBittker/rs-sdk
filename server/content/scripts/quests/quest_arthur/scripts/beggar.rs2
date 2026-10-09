@@ -49,4 +49,4 @@ npc_del;
 ~chatnpc("<p,neutral>Well, if you get some, you know where to come.");
 if_close;
 %excalibur_components_progress = setbit(%excalibur_components_progress, ^excalibur_spoken_beggar);
-~open_and_close_door(poordoor, ~check_axis(coord, loc_coord, loc_angle), false);
+~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);

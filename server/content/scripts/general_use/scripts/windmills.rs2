@@ -103,7 +103,7 @@ if(%hopper_full = ^false) {
 p_arrivedelay;
 anim(human_pickuptable, 0);
 loc_change(hoppercontrol_inuse, 3);
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 if(%hopper_full = ^true) {
     if (%flour > 29) {
         mes("The flour bin downstairs is full, I should empty it first.");
@@ -111,8 +111,8 @@ if(%hopper_full = ^true) {
     }
 
     mes("You operate the hopper. The grain slides down the chute.");
-    sound_synth(millstones, 0, 0);
-    sound_synth(lever, 0, 0); // this sound plays twice
+    sound_synth(millstones, 1, 0);
+    sound_synth(lever, 1, 0); // this sound plays twice
 
     %hopper_full = ^false;
     %flour = add(%flour, 1);

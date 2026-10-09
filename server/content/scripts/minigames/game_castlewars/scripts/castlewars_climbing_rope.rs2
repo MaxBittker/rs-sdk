@@ -1,0 +1,26 @@
+[oplocu,castlewars_battlements_saradomin_climbable] @castlewars_rope_wall;
+[oplocu,castlewars_battlements_zamorak_climbable] @castlewars_rope_wall;
+
+[label,castlewars_rope_wall]
+if (last_useitem ! rope) {
+    return; // no NIH
+}
+if ((loc_type = castlewars_battlements_saradomin_climbable & %castlewars_team = ^castlewars_team_saradomin) |
+    (loc_type = castlewars_battlements_zamorak_climbable & %castlewars_team = ^castlewars_team_zamorak)) {
+    // todo: message
+    return;
+}
+if (~check_axis_locactive(coord) = true) {
+    mes("You cant use the rope from here."); // osrs
+    return;
+}
+if (loc_find(coord, castlewars_battlements_rope_3) = true) {
+    mes("There's already a climbing rope here."); // osrs
+    return;
+}
+inv_delslot(inv, last_useslot);
+loc_add(coord, castlewars_battlements_rope_3, modulo(add(loc_angle, 2), 4), walldecor_straight_nooffset, 500);
+
+
+[oploc1,castlewars_battlements_rope_3]
+p_telejump(~movecoord_indirection(coord, modulo(add(loc_angle, 3), 4), 1));

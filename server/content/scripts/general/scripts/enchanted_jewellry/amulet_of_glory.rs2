@@ -1,7 +1,7 @@
 [opheld4,amulet_of_glory_4] @amulet_of_glory_interface("Your amulet has three charges left.");
 [opheld4,amulet_of_glory_3] @amulet_of_glory_interface("Your amulet has two charges left.");
 [opheld4,amulet_of_glory_2] @amulet_of_glory_interface("Your amulet has one charge left.");
-[opheld4,amulet_of_glory_1] @amulet_of_glory_interface("You use your amulet's last charge.");
+[opheld4,amulet_of_glory_1] @amulet_of_glory_interface("You use your amulets last charge."); // https://i.imgur.com/9MA90ER.png (2004), gets changed later in 05/06 (https://i.imgur.com/gIERLac.png)
 [opheld4,amulet_of_glory] mes("The amulet has lost its charge.");
 
 [label,amulet_of_glory_interface](string $message)

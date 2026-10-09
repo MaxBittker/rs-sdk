@@ -1,0 +1,47 @@
+[opnpc1,mm_hafuba]
+if(~mm_wearing_greegree = false) {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+        return;
+    }
+    ~chatnpc("<p,neutral>I don't know what you think you are doing here human, but I do know that you will not live long enough to leave this place.");
+} else {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        @mm_no_amulet_monkey;
+    }
+    ~chatnpc("<p,neutral>Welcome to the temple of Marimbo, child. In less busy times I would bless you, but I have not the luxury of free time at the moment.");
+    ~chatnpc("<p,neutral>However, feel free to stay here as long as you need.");
+    ~chatplayer("<p,neutral>Thank you.");
+}
+
+[opnpc1,mm_lofu]
+if(~mm_wearing_greegree = false) {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+        return;
+    }
+    ~chatnpc("<p,neutral>You're one of those humans that everybody has been talking about! The Marimbo Guard will kill you on the spot!");
+} else {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        @mm_no_amulet_monkey;
+    }
+    ~chatnpc("<p,neutral>Get out of my way, you fool! Can't you see I'm busy?");
+    ~chatplayer("<p,neutral>I'm sorry...");
+    ~chatnpc("<p,neutral>Monkeys these days... you'll be acting like one of those awful Gnomes next...");
+}
+
+[opnpc1,mm_denadu]
+if(~mm_wearing_greegree = false) {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+        return;
+    }
+    ~chatnpc("<p,neutral>The Marimbo Guard will kill you on the spot, foolish human!");
+} else {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        @mm_no_amulet_monkey;
+    }
+    ~chatnpc("<p,neutral>Get out of my way, you fool! Never again interrupt Denadu!");
+    ~chatplayer("<p,neutral>I'm sorry...");
+    ~chatnpc("<p,neutral>Monkeys these days... you'll be acting like one of those awful Gnomes next...");
+}

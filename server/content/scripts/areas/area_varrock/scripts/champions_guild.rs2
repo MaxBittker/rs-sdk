@@ -22,13 +22,13 @@ if ($entering = true) {
         // initially thought p_delay(0); was the right speed.
         // but it seems to have buggy clipping; you move through too early
         p_delay(1);
-        sound_synth(door_open, 0, 0);
+        sound_synth(door_open, 1, 0);
     } else {
-        sound_synth(door_open, 0, 0);
+        sound_synth(door_open, 1, 0);
     }
     $dest = movecoord($loc_coord, $x, 0, $z);
 } else {
-    sound_synth(door_open, 0, 0);
+    sound_synth(door_open, 1, 0);
 }
 
 p_teleport($dest);

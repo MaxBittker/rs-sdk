@@ -1,11 +1,11 @@
 [merlin_beehive]
 name=Beehive
 desc=Where bees live.
-model=model_beehive
+model=outdoorfurniture_beehive
 active=yes
 op1=Take-from
 
 [beehive]
 name=Beehive
 desc=Where bees live.
-model=model_beehive
+model=outdoorfurniture_beehive

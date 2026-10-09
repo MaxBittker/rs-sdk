@@ -6,4 +6,4 @@
 %sheepherderquest = ^sheepherder_complete;
 inv_add(inv, coins, 3100);
 session_log(^log_adventure, "Quest complete: Sheep Herder");
-~send_quest_complete(questlist:sheepherder, coins_100, 200, ^sheepherder_questpoints, "You have completed the Sheep Herder Quest!");
+~send_quest_complete(questlist:sheepherder, coins_25, 260, ^sheepherder_questpoints, "You have completed the Sheep Herder Quest!");

@@ -1,0 +1,4 @@
+[oploc1,castlewars_scoreboard]
+if_settext(castlewars_score:com_1, "Saradomin: <tostring(~castlewars_saradomin_wins)>");
+if_settext(castlewars_score:com_2, "Zamorak: <tostring(~castlewars_zamorak_wins)>");
+if_openchat(castlewars_score);

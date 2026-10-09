@@ -2,7 +2,7 @@
 [proc,macro_event_bigfish_spawn](namedobj $fishing_equipment)
 %macro_event = ^no_macro_event;
 // todo: figure out sounds
-sound_synth(watersplash, 0, 0); // complete guess
+sound_synth(watersplash, 1, 0); // complete guess
 npc_changetype(macro_bigfish, 5);
 p_delay(0);
 npc_anim(fish_seq_3, 0);
@@ -22,7 +22,7 @@ p_delay(0);
 // https://www.youtube.com/watch?v=c_LXJDSTKPA
 
 def_coord $random_coord = map_findsquare(coord, 1, 7, ^map_findsquare_lineofwalk);
-sound_synth(water_strike_all, 0, 0); // complete guess
+sound_synth(water_strike_all, 1, 0); // complete guess
 def_int $duration = ~coord_projectile(coord, $random_coord, waterstrike_travel, 0, 0, 20, 16, -5, 64, 10);
 p_delay(calc($duration/30));
 obj_add($random_coord, $fishing_equipment, 1, calc(^lootdrop_duration / 2));

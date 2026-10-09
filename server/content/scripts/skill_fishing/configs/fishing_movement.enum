@@ -306,6 +306,25 @@ val=4,0_51_49_14_2
 //3277,3139,0   0_51_49_13_3 (osrs 24 March 2021-2025)
 //3278,3138,0   0_51_49_14_2 original  (removed 2021)
 
+[fishing_movement_miscellania_enum]
+inputtype=int
+outputtype=coord
+// guesses
+val=0,0_40_60_12_20
+val=1,0_40_60_13_20
+val=2,0_40_60_14_15
+val=3,0_40_60_14_16
+val=4,0_40_60_16_14
+val=5,0_40_60_17_14
+val=6,0_40_60_20_11
+val=7,0_40_60_20_14
+val=8,0_40_60_21_11
+val=9,0_40_60_21_14
+val=10,0_40_60_22_11
+val=11,0_40_60_22_14
+val=12,0_40_60_23_12
+val=13,0_40_60_23_13
+
 [fishing_movement_taverley_dungeon_enum]
 inputtype=int
 outputtype=coord
@@ -398,16 +417,26 @@ val=10,0_41_57_15_47
 [fishing_movement_0_41_57_memberfish_enum]
 inputtype=int
 outputtype=coord
-val=0,0_41_57_24_60
-val=1,0_41_57_20_60
-val=2,0_41_57_19_60
-val=3,0_41_57_16_61
-val=4,0_41_57_17_60
-val=5,0_41_57_21_63
-val=6,0_41_57_24_63
-val=7,0_41_57_22_60
-val=8,0_41_57_16_62
-val=9,0_41_57_23_63
+val=0,0_41_57_20_61
+val=1,0_41_57_20_62
+val=2,0_41_57_21_60
+val=3,0_41_57_21_63
+val=4,0_41_57_22_60
+val=5,0_41_57_23_63
+val=6,0_41_57_24_60
+val=7,0_41_57_24_63
+// Guesses
+
+// with fremmenik isles quest release.
+// val=0,0_41_57_16_61
+// val=1,0_41_57_16_62
+// val=2,0_41_57_17_60
+// val=3,0_41_57_19_60
+// val=4,0_41_57_20_60
+// val=5,0_41_57_22_60
+// val=6,0_41_57_23_63
+// val=7,0_41_57_24_60
+// val=8,0_41_57_24_63
 
 [fishing_movement_slimey_eel_east_enum]
 inputtype=int
@@ -452,3 +481,15 @@ val=11,0_53_51_52_16
 val=12,0_53_51_51_18
 val=13,0_53_51_49_20
 val=14,0_53_51_47_20
+
+[fishing_movement_0_43_42_memberfish_enum]
+inputtype=int
+outputtype=coord
+val=0,0_43_42_19_45
+val=1,0_43_42_28_53
+
+[fishing_movement_0_42_42_memberfish_enum]
+inputtype=int
+outputtype=coord
+val=0,0_42_42_6_18
+val=1,0_42_42_19_10

@@ -10,15 +10,15 @@ if(~inzone_coord_pair_table(desert_zones, coord) = false | %desert = ^true) { //
 [proc,calculate_desertheat_timer]
 cleartimer(desert_heat);
 def_int $time = 150;
-def_obj $head = inv_getobj(worn, ^wearpos_head);
+def_obj $hat = inv_getobj(worn, ^wearpos_hat);
 def_obj $body = inv_getobj(worn, ^wearpos_torso);
 def_obj $legs = inv_getobj(worn, ^wearpos_legs);
 def_obj $feet = inv_getobj(worn, ^wearpos_feet);
 def_obj $lhand = inv_getobj(worn, ^wearpos_lhand);
 def_obj $hands = inv_getobj(worn, ^wearpos_hands);
 
-if ($head ! null) {
-    if(oc_category($head) = armour_helmet) $time = calc($time - 10);
+if ($hat ! null) {
+    if(oc_category($hat) = armour_helmet) $time = calc($time - 10);
 }
 
 if ($body ! null) {
@@ -105,7 +105,7 @@ if(inv_total(inv, water_skin1) > 0) {
 if($drank = true) {
     mes("You take a drink of water.");
     anim(human_eat, 0);
-    sound_synth(liquid, 0, 0);
+    sound_synth(liquid, 1, 0);
     ~calculate_desertheat_timer;
     return;
 }

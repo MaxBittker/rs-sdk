@@ -1,6 +1,6 @@
 [label,consume_effect_keg_of_beer]
-sound_synth(liquid, 0, 0);
-sound_synth(liquid, 0, 0);
+sound_synth(liquid, 1, 0);
+sound_synth(liquid, 1, 0);
 anim(viking_keg_drink_full, 0);
 inv_delslot(inv, last_slot);
 mes("You chug the keg. You feel reinvigorated...");

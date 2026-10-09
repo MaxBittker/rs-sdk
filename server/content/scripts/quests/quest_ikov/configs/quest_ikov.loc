@@ -1,24 +1,24 @@
 [ikov_leverbracket]
 name=Lever bracket
 desc=Seems very old...
-model=model_loc_86
+model=walldecor_leverbracket
 active=yes
 
 [ikov_mendedlever]
 name=Lever
 desc=I guess you pull it...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 
 [ikov_leverdown]
-model=model_loc_33
+model=walldecor_leverdown
 active=no
 
 [ikov_mendedleverdoorl]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -28,7 +28,7 @@ param=next_loc_stage,loc_1562
 [ikov_mendedleverdoorr]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 active=yes
@@ -39,7 +39,7 @@ param=next_loc_stage,loc_1563
 [ikov_traplever]
 name=Lever
 desc=I don't like the look of this!
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 op2=Search for traps
@@ -47,7 +47,7 @@ op2=Search for traps
 [ikov_trapleverdoor]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 active=yes
@@ -59,7 +59,7 @@ recol2d=11458
 [ikov_firewarriordoor]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 active=yes
@@ -71,7 +71,7 @@ recol2d=11458
 [ikov_dooroffearl]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -81,7 +81,7 @@ param=next_loc_stage,loc_1562
 [ikov_dooroffearr]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 active=yes
@@ -92,7 +92,7 @@ param=next_loc_stage,loc_1563
 [ikov_darkstairs]
 name=Stairs
 desc=A dark flight of stairs.
-model=model_loc_54
+model=furniture_stairs
 width=2
 length=3
 op1=Climb-up
@@ -105,7 +105,7 @@ recol3s=12512
 recol3d=5216
 
 [ikov_darkstairstop]
-model=model_loc_55
+model=furniture_stairstop
 width=2
 length=2
 active=no
@@ -118,7 +118,7 @@ recol3d=5216
 
 [ikov_darkstairsdown]
 name=Stairs
-model=model_loc_98
+model=furniture_stairsdown
 width=2
 length=3
 op1=Climb-down
@@ -133,7 +133,7 @@ recol3d=5216
 [ikov_shinykeydoor]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 active=yes
@@ -143,12 +143,12 @@ recol2s=6342
 recol2d=11458
 
 [ikov_trapdoor]
-model=model_loc_100
+model=furniture_trapdoor
 
 [ikov_trapladder]
 name=Ladder
 desc=I can climb this.
-model=model_loc_11
+model=furniture_ladder
 active=yes
 op1=Climb-up
 mapscene=7
@@ -156,7 +156,7 @@ mapscene=7
 [ikov_luciendoor]
 name=Door
 desc=A sturdy door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -167,14 +167,14 @@ recol2d=11458
 [ikov_chestclosed]
 name=Closed chest
 desc=I wonder what's inside.
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 
 [ikov_chestopen]
 name=Open chest
 desc=Perhaps I should search it.
-model=model_loc_76
+model=furniture_chestopen
 op1=Search
 op2=Shut
 forceapproach=north
@@ -182,11 +182,11 @@ forceapproach=north
 [hiddentrapdoor_closed]
 name=Trapdoor
 desc=I wonder what that's there for...
-model=model_loc_105
+model=furniture_hiddentrapdoor_closed
 blockwalk=no
 blockrange=no
 
 [hiddentrapdoor_open]
-model=model_loc_106
+model=furniture_hiddentrapdoor_open
 blockwalk=no
 blockrange=no

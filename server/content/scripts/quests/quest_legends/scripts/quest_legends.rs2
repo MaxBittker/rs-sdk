@@ -530,7 +530,7 @@ if (stat(mining) < 52) {
 }
 mes("You swing your pick at the rock.");
 anim(oc_param($pickaxe, mining_animation), 0);
-sound_synth(mine_quick, 0, 10);
+sound_synth(mine_quick, 1, 10);
 // todo: real rate?
 if (stat_random(mining, 90, 255) = true) {
     // no delays on any of this
@@ -545,7 +545,7 @@ if (stat_random(mining, 90, 255) = true) {
     if(coordz(coord) < coordz(loc_coord)) {
         $move = 2;
     }
-    loc_change(loc_446, 6);
+    loc_change(boulder3, 6);
     p_teleport(loc_coord);
     p_delay(2);
     p_teleport(movecoord(coord, 0, 0, $move));
@@ -911,7 +911,7 @@ while ($i < $gem_count) {
     if(obj_find($rock_coord, $gem) = false) obj_add($rock_coord, $gem, 1, 30);
     $i = calc($i + 1);
 }
-world_delay(1);
+world_delay(1); // todo: check delay length
 $i = 0;
 while($i < 13) {
     switch_int($i) {
@@ -1076,7 +1076,7 @@ else {
 
 [oplocu,tall_reeds]
 if (last_useitem = knife) {
-    anim(human_knife_slash, 0);
+    anim(human_knife_chop, 0);
     p_delay(0);
     mes("You use your knife to cut down a reed.");
     inv_add(inv, reed_hollow, 1);
@@ -1156,7 +1156,7 @@ if(last_useitem = yommiseeds_germ) {
     mes("It looks as if this Yommi tree needs to be watered.");
     loc_change(yommitree_sapling, 100);
     p_delay(1);
-    world_delay(49); // 51t (something is wrong with world delay lol)
+    world_delay(50); // 51t
     if(loc_find(loc_coord, yommitree_sapling) = true) {
         loc_change(yommitree_saplingdead, 50);
     }
@@ -1178,7 +1178,7 @@ if(last_useitem = goldbowlbless_pure) {
     loc_change(yommitree_adult, 100);
     p_delay(1);
     mes("It looks tall enough now to make a good-sized totem pole.");
-    world_delay(49); // 51t
+    world_delay(50); // 51t
     if(loc_find(loc_coord, yommitree_adult) = true) {
         loc_change(yommitree_adult_dead, 50);
     }
@@ -1201,7 +1201,7 @@ if(oc_category(last_useitem) = weapon_axe) {
     loc_change(yommitree_felled, 100);
     p_delay(1);
     anim(null, 0);
-    world_delay(49); // 51t (something is wrong with world delay lol)
+    world_delay(50); // 51t
     if(loc_find(loc_coord, yommitree_felled) = true) {
         loc_change(yommitree_felled_rotten, 50);
     }
@@ -1223,7 +1223,7 @@ if(oc_category(last_useitem) = weapon_axe) {
     mes("and trim the branches from the Yommi Tree.");
     loc_change(yommitree_trimmed, 100);
     anim(null, 0);
-    world_delay(49); // 51t (something is wrong with world delay lol)
+    world_delay(50); // 51t
     if(loc_find(loc_coord, yommitree_trimmed) = true) {
         loc_change(yommitree_trimmed_rotten, 50);
     }
@@ -1245,7 +1245,7 @@ if(oc_category(last_useitem) = weapon_axe) {
     mes("as you carve a wonderful totem pole from the Yommi tree trunk.");
     loc_change(yommitree_totem, 100);
     anim(null, 0);
-    world_delay(49); // 51t (something is wrong with world delay lol)
+    world_delay(50); // 51t
     if(loc_find(loc_coord, yommitree_totem) = true) {
         loc_change(yommitree_totem_rotten, 50);
     }
@@ -1479,7 +1479,7 @@ if (inv_total(inv, gold_bar) < 2) {
 }
 // play anim and sound
 anim(human_smithing, 0);
-sound_synth(anvil_4, 0, 0);
+sound_synth(anvil_4, 1, 0);
 p_delay(4);
 // https://youtu.be/uF1a9xsV7zo?t=931
 // fail rate doesn't appear to be impacted by having vs not having the sketch, despite OSRS wiki saying otherwise
@@ -1541,7 +1541,7 @@ inv_del(inv, stafforb, 1);
 ~give_spell_xp($spell_data);
 anim($anim, 0);
 spotanim_pl($spotanim, 92, 0);
-sound_synth($sound, 0, 0);
+sound_synth($sound, 1, 0);
 loc_change(lgmagictrialgateopen, 10);
 p_delay(1);
 mes("The gate changes!");
@@ -2091,7 +2091,7 @@ if(%legendsquest < ^legends_replaced_totem) {
 
 // no script for pole_3
 
-[oploc1,legends_totem_pole_4]
+[oploc1,lg_totem_pole_legends]
 ~mesbox("This totem pole is truly awe inspiring. It depicts powerful Karamja jungle animals. It is very well carved and brings a sense of power and spiritual fulfillment to anyone who looks at it.");
 
 [queue,legends_quest_complete]
@@ -2099,4 +2099,4 @@ session_log(^log_adventure, "Quest complete: Legends Quest");
 %legendsquest = ^legends_complete;
 // todo: older ref image?
 // https://storage.googleapis.com/tannerdino/images/legendscomplt.png
-~send_quest_complete(questlist:legends, thtotempolegift, 250, ^legends_questpoints, "You have completed the\\nLegends Guild Quest!");
+~send_quest_complete(questlist:legends, thtotempolegift, 200, ^legends_questpoints, "You have completed the\\nLegends Guild Quest!");

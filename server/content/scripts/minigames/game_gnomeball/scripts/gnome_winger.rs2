@@ -26,7 +26,7 @@ if (add(%npc_lastcombat, 8) > map_clock) {
 
 mes("You throw the ball.");
 anim(human_throw_gnomeball, 0);
-sound_synth(throw, 0, 0);
+sound_synth(throw, 1, 0);
 inv_delslot(worn, ^wearpos_rhand);
 ~update_all(ball_gnomeball_game);
 
@@ -73,10 +73,10 @@ if (p_finduid(%npc_attacking_uid) = true) {
     def_int $duration = ~player_projectile($npc_coord, $coord, uid, gnomeball_travel, 36, 40, 34, 15, 6, 11, 5);
     $duration = add(sub($duration, 34), 1);
     npc_anim(midget_throw, 0);
-    sound_synth(throw, 0, $duration);
+    sound_synth(throw, 1, $duration);
 
     anim(human_catch, $duration);
-    sound_synth(catch, 0, $duration);
+    sound_synth(catch, 1, $duration);
     facesquare(npc_coord);
     p_delay(0);
     npc_facesquare(coord);

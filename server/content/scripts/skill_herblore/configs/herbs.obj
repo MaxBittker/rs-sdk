@@ -1,11 +1,9 @@
-// jagex name
-
 [guam_leaf]
 cost=3
 members=yes
 name=Guam leaf
 desc=A bitter green herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=448
 recol2s=448
@@ -17,16 +15,16 @@ recol2d=288
 weight=7g
 category=category_774
 param=identified_herb_exp,25
+// https://i.imgur.com/CXtIZ8C.png (2004)
 param=identified_herb_message,This herb is a Guam Leaf.
 param=brew_potion_struct,unf_guam_potion
-// jagex name (yes they spelled it wrong)
 
 [marentill]
 cost=5
 members=yes
 name=Marrentill
 desc=A herb used in poison cures.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=512
 recol2s=448
@@ -39,16 +37,16 @@ weight=7g
 category=category_774
 param=identified_herb_level,5
 param=identified_herb_exp,38
-param=identified_herb_message,This herb is a Marrentill.
+// https://i.imgur.com/rH89RY5.png (2005) 
+param=identified_herb_message,This herb is Marrentill. 
 param=brew_potion_struct,unf_marrentill_potion
-// jagex name
 
 [tarromin]
 cost=11
 members=yes
 name=Tarromin
 desc=A useful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=516
 recol2s=448
@@ -61,17 +59,17 @@ weight=7g
 category=category_774
 param=identified_herb_level,11
 param=identified_herb_exp,50
-param=identified_herb_message,This herb is a Tarromin.
+// https://i.imgur.com/CXtIZ8C.png (2004)
+param=identified_herb_message,This herb is Tarromin.
 param=brew_potion_struct,unf_tarromin_potion
 param=brew_potion_struct_secondary,mort_serum3_ashesvial
-// jagex name
 
 [harralander]
 cost=20
 members=yes
 name=Harralander
 desc=A useful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=9697
 recol2s=448
@@ -84,16 +82,16 @@ weight=7g
 category=category_774
 param=identified_herb_level,20
 param=identified_herb_exp,63
-param=identified_herb_message,This herb is a Harralander.
+// https://i.imgur.com/CXtIZ8C.png (2004)
+param=identified_herb_message,This herb is Harralander.
 param=brew_potion_struct,unf_harralander_potion
-// jagex name
 
 [ranarr_weed]
 cost=25
 members=yes
 name=Ranarr weed
 desc=A useful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=5504
 recol2s=448
@@ -106,16 +104,16 @@ weight=7g
 category=category_774
 param=identified_herb_level,25
 param=identified_herb_exp,75
-param=identified_herb_message,This herb is a Ranarr Weed.
+// https://i.imgur.com/CXtIZ8C.png (2004)
+param=identified_herb_message,This herb is Ranarr Weed.
 param=brew_potion_struct,unf_ranarr_potion
-// jagex name
 
 [irit_leaf]
 cost=40
 members=yes
 name=Irit leaf
 desc=A useful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=8708
 recol2s=448
@@ -128,16 +126,16 @@ weight=7g
 category=category_774
 param=identified_herb_level,40
 param=identified_herb_exp,88
+// https://i.imgur.com/5GNmnKQ.png (2005)
 param=identified_herb_message,This herb is an Irit Leaf.
 param=brew_potion_struct,unf_irit_potion
-// jagex name
 
 [avantoe]
 cost=48
 members=yes
 name=Avantoe
 desc=A useful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=1347
 recol2s=448
@@ -150,16 +148,16 @@ weight=7g
 category=category_774
 param=identified_herb_level,48
 param=identified_herb_exp,100
-param=identified_herb_message,This herb is an Avantoe.
+// https://i.imgur.com/muGBEPK.png (2005)
+param=identified_herb_message,This herb is Avantoe.
 param=brew_potion_struct,unf_avantoe_potion
-// jagex name
 
 [kwuarm]
 cost=54
 members=yes
 name=Kwuarm
 desc=A powerful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=8512
 recol2s=448
@@ -172,16 +170,16 @@ weight=7g
 category=category_774
 param=identified_herb_level,54
 param=identified_herb_exp,113
-param=identified_herb_message,This herb is a Kwuarm.
+// https://i.imgur.com/yAu4MPC.png (2005)
+param=identified_herb_message,This herb is Kwuarm.
 param=brew_potion_struct,unf_kwuarm_potion
-// jagex name
 
 [cadantine]
 cost=65
 members=yes
 name=Cadantine
 desc=A powerful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=7458
 recol2s=448
@@ -194,16 +192,15 @@ weight=7g
 category=category_774
 param=identified_herb_level,65
 param=identified_herb_exp,125
-param=identified_herb_message,This herb is a Cadantine.
+param=identified_herb_message,This herb is Cadantine.
 param=brew_potion_struct,unf_cadantine_potion
-// jagex name
 
 [dwarf_weed]
 cost=70
 members=yes
 name=Dwarf weed
 desc=A powerful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=256
 recol2s=448
@@ -216,16 +213,15 @@ weight=7g
 category=category_774
 param=identified_herb_level,70
 param=identified_herb_exp,138
-param=identified_herb_message,This herb is a Dwarf Weed.
+param=identified_herb_message,This herb is Dwarf Weed.
 param=brew_potion_struct,unf_dwarf_weed_potion
-// jagex name
 
 [torstol]
 cost=75
 members=yes
 name=Torstol
 desc=A powerful herb.
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=352
 recol2s=448
@@ -238,16 +234,15 @@ weight=7g
 category=category_774
 param=identified_herb_level,75
 param=identified_herb_exp,150
-param=identified_herb_message,This herb is a Torstol.
+param=identified_herb_message,This herb is Torstol.
 param=brew_potion_struct,unf_torstol_potion
-// guessed name
 
 [snake_weed]
 name=Snake weed
 desc=This herb is Snake Weed.
 category=category_90
 cost=5
-model=model_2440_obj
+model=inv_snapegrass
 recol1s=615
 recol1d=21347
 recol2s=455
@@ -265,14 +260,13 @@ param=identified_herb_message,You identify the herb. It is Snake Weed.
 param=brew_potion_struct,snakeweed_mixture
 // https://youtu.be/maeY2TnTNVY?t=530
 tradeable=no
-// guessed name
 
 [ardrigal]
 name=Ardrigal
 desc=This herb is Ardrigal.
 category=category_90
 cost=5
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=13600
 recol2s=448
@@ -289,14 +283,13 @@ param=identified_herb_message,You identify the herb. It is Ardrigal.
 param=brew_potion_struct,ardrigal_mixture
 // https://youtu.be/maeY2TnTNVY?t=898
 tradeable=no
-// guessed name
 
 [sito_foil]
 name=Sito foil
 desc=This herb is Sito Foil.
 category=category_90
 cost=5
-model=model_2364_obj
+model=inv_herb
 members=yes
 2dxof=4
 2dzoom=700
@@ -308,14 +301,13 @@ param=identified_herb_exp,25
 param=identified_herb_message,You identify the herb. It is Sito Foil.
 // https://youtu.be/maeY2TnTNVY?t=1126
 tradeable=no
-// guessed name
 
 [volencia_moss]
 name=Volencia moss
 desc=This herb is Volencia Moss.
 category=category_90
 cost=5
-model=model_2364_obj
+model=inv_herb
 members=yes
 2dxof=4
 2dzoom=700
@@ -327,14 +319,13 @@ param=identified_herb_exp,25
 param=identified_herb_message,You identify the herb. It is Volencia Moss.
 // https://youtu.be/maeY2TnTNVY?t=1205
 tradeable=no
-// guessed name
 
 [rogues_purse]
 name=Rogues purse
 desc=This herb is Rogues Purse.
 category=category_90
 cost=5
-model=model_2364_obj
+model=inv_herb
 members=yes
 2dxof=4
 2dzoom=700
@@ -346,14 +337,13 @@ param=identified_herb_exp,25
 param=identified_herb_message,You identify the herb. It is Rogues Purse.
 // https://youtu.be/maeY2TnTNVY?t=1493
 tradeable=no
-// jagex name
 
 [lantadyme]
 cost=68
 members=yes
 name=Lantadyme
 desc=A powerful herb.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
@@ -362,7 +352,7 @@ weight=7g
 category=category_774
 param=identified_herb_level,67
 param=identified_herb_exp,131
-param=identified_herb_message,This herb is a Lantadyme.
+param=identified_herb_message,This herb is Lantadyme.
 param=brew_potion_struct,unf_lantadyme_potion
 
 [toadflax]
@@ -374,7 +364,7 @@ recol2d=224
 cost=48
 members=yes
 desc=A useful herb.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
@@ -383,7 +373,7 @@ weight=7g
 category=category_774
 param=identified_herb_level,30
 param=identified_herb_exp,80
-param=identified_herb_message,This herb is a Toadflax.
+param=identified_herb_message,This herb is Toadflax.
 param=brew_potion_struct,unf_toadflax_potion
 
 [snapdragon]
@@ -395,7 +385,7 @@ recol2d=11712
 cost=59
 members=yes
 desc=A powerful herb.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
@@ -404,5 +394,5 @@ weight=7g
 category=category_774
 param=identified_herb_level,59
 param=identified_herb_exp,118
-param=identified_herb_message,This herb is a Snapdragon.
+param=identified_herb_message,This herb is Snapdragon.
 param=brew_potion_struct,unf_snapdragon_potion

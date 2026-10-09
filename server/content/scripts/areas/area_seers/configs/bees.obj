@@ -2,7 +2,7 @@
 name=Insect repellent
 desc=Drives away all known 6 legged creatures.
 cost=3
-model=model_2684_obj
+model=inv_insectiside
 members=yes
 2dyof=-6
 2dzoom=1430
@@ -14,7 +14,7 @@ weight=1oz
 name=Bucket of wax
 desc=It's a bucket of wax.
 cost=6
-model=model_2504_obj
+model=inv_bucket-full
 recol1s=173
 recol1d=27376
 members=yes

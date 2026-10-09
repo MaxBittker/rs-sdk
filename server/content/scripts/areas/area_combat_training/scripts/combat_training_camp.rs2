@@ -43,21 +43,20 @@ if(%biohazard < ^biohazard_complete) {
 ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), $side, grate_open);
 
 [oploc1,biohazarddummy] // Combat training camp dummy
-if (%damagestyle = ^style_ranged_accurate | %damagestyle = ^style_ranged_longrange | %damagestyle = ^style_ranged_rapid) {
+if (%damagetype = ^ranged_style | ~player_autocast_enabled = true) {
     mes("You can't use ranged attacks on the dummy.");
     return;
 }
-if (%biodummy < 6) {
-    %biodummy = add(%biodummy, 1);
-    stat_advance(attack, 500);
-} else {
+if(%biodummy > 5) {
     mes("There's no more to learn from hitting this dummy.");
     return;
 }
+%biodummy = add(%biodummy, 1);
+stat_advance(attack, 500);
 anim(%com_attackanim, 0);
-sound_synth(%com_attacksound, 0, 0);
+sound_synth(%com_attacksound, 1, 0);
 mes("You hit the dummy.");
-p_delay(3);
+p_delay(2);
 
 [opnpc2,lathastrainingogre]
 if (~player_in_combat_check = false) {

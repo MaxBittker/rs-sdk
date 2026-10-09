@@ -1,6 +1,6 @@
 [grubordoor]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -10,7 +10,7 @@ recol2d=11458
 
 [garvdoor]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -20,7 +20,7 @@ recol2d=11458
 
 [herokitchendoor]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -30,7 +30,7 @@ recol2d=11458
 
 [pete_sidedoor]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -41,13 +41,13 @@ recol2d=11458
 [herokitchenpanel]
 name=Wall
 desc=There is something unusual about this wall...
-model=model_loc_1512
+model=castle_wall
 op1=Push
 
 [gripcbshut]
 name=Cupboard
 desc=I wonder what's inside?
-model=model_loc_368
+model=furniture_cupboard-high
 length=2
 op1=Open
 forceapproach=east
@@ -55,7 +55,7 @@ forceapproach=east
 [gripcbopen]
 name=Cupboard
 desc=It's open.
-model=model_loc_371
+model=furniture_cupboard_open-high
 length=2
 op1=Search
 op2=Shut
@@ -63,7 +63,7 @@ forceapproach=east
 
 [pete_treasuredoor]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -74,14 +74,14 @@ recol2d=11458
 [shutcandlechest]
 name=Chest
 desc=I wonder what's inside?
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 
 [opencandlechest]
 name=Chest
 desc=It's open.
-model=model_loc_76
+model=furniture_chestopen
 op1=Search
 op2=Close
 forceapproach=north

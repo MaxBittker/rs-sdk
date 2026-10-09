@@ -3,6 +3,9 @@
 if (~in_duel_arena(coord) = true) {
     return(false);
 }
+if (~in_castlewars_game(coord) = true) {
+    return(false);
+}
 if (.%pk_prey1 = uid | .%pk_prey2 = uid | %pk_predator1 = .uid | %pk_predator2 = .uid | %pk_predator3 = .uid) {
     return(false);
 }

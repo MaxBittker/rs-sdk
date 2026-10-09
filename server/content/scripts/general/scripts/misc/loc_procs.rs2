@@ -37,3 +37,15 @@ while ($maxX >= $minX) {
     $maxX = sub($maxX, 1);
 }
 return(null);
+
+[proc,loc_addsafe_coord](coord $coord)(coord)
+if (map_blocked($coord) = false & map_locaddunsafe($coord) = false) return ($coord);
+$coord = movecoord(coord, 1, 0, 0);
+if (map_blocked($coord) = false & map_locaddunsafe($coord) = false) return ($coord);
+$coord = movecoord(coord, 0, 0, 1);
+if (map_blocked($coord) = false & map_locaddunsafe($coord) = false) return ($coord);
+$coord = movecoord(coord, -1, 0, 0);
+if (map_blocked($coord) = false & map_locaddunsafe($coord) = false) return ($coord);
+$coord = movecoord(coord, 0, 0, -1);
+if (map_blocked($coord) = false & map_locaddunsafe($coord) = false) return ($coord);
+return(null);

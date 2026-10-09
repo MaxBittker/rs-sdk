@@ -53,20 +53,48 @@ if ($space_needed > inv_freespace($to_inv)) {
 }
 return(true);
 
-// returns space taken up
-[proc,moveallinv_itemspace2](inv $from_inv, inv $to_inv)(int)
+// returns space taken up when moving items from a secondary inventory AND a primary inventory into another primary inventory
+[proc,both_moveallinv_itemspace](inv $from_inv1, inv $from_inv2, inv $to_inv)(int)
 def_int $space_needed = 0;
+
+def_obj $obj = null;
+def_int $obj_num = 0;
+def_int $stack_sum = 0;
 def_int $i = 0;
-def_int $size = inv_size($from_inv);
-while ($i < $size) {
-    def_obj $obj = inv_getobj($from_inv, $i);
-    def_int $obj_num = inv_getnum($from_inv, $i);
+while ($i < inv_size($from_inv1)) {
+    $obj = inv_getobj($from_inv1, $i);
+    $obj_num = inv_getnum($from_inv1, $i);
     if ($obj ! null) {
         if (oc_stackable($obj) = true) {
-            if (inv_total($to_inv, $obj) < 1) {
-                $space_needed = add($space_needed, 1);
-            } else if (inv_itemspace($to_inv, $obj, $obj_num, $size) = false) {
+            $stack_sum = add($obj_num, .inv_total($from_inv2, $obj));
+            if ($stack_sum < 0) {
                 return(add(inv_size($to_inv), 1)); // fail
+            } else if (inv_itemspace($to_inv, $obj, $stack_sum, inv_size($to_inv)) = false) {
+                return(add(inv_size($to_inv), 1)); // fail
+            } else if (inv_total($to_inv, $obj) < 1) {
+                $space_needed = add($space_needed, 1);
+            }
+        } else {
+            $space_needed = add($space_needed, 1);
+        }
+    }
+    $i = add($i, 1);
+}
+
+$obj = null;
+$obj_num = 0;
+$i = 0;
+while ($i < .inv_size($from_inv2)) {
+    $obj = .inv_getobj($from_inv2, $i);
+    $obj_num = .inv_getnum($from_inv2, $i);
+    if ($obj ! null) {
+        if (oc_stackable($obj) = true) {
+            if (inv_total($from_inv1, $obj) < 1) { // if item checked in $from_inv1 already, skip
+                if (inv_itemspace($to_inv, $obj, $obj_num, inv_size($to_inv)) = false) {
+                    return(add(inv_size($to_inv), 1)); // fail
+                } else if (inv_total($to_inv, $obj) < 1) {
+                    $space_needed = add($space_needed, 1);
+                }
             }
         } else {
             $space_needed = add($space_needed, 1);
@@ -76,28 +104,6 @@ while ($i < $size) {
 }
 return($space_needed);
 
-// returns space taken up when moving items from a secondary inventory to a primary inventory
-[proc,both_moveallinv_itemspace2](inv $secondary_from_inv, inv $primary_to_inv)(int)
-def_int $space_needed = 0;
-def_int $i = 0;
-def_int $size = inv_size($secondary_from_inv);
-while ($i < $size) {
-    def_obj $obj = .inv_getobj($secondary_from_inv, $i);
-    def_int $obj_num = .inv_getnum($secondary_from_inv, $i);
-    if ($obj ! null) {
-        if (oc_stackable($obj) = true) {
-            if (inv_total($primary_to_inv, $obj) < 1) {
-                $space_needed = add($space_needed, 1);
-            } else if (inv_itemspace($primary_to_inv, $obj, $obj_num, $size) = false) {
-                return(add(inv_size($primary_to_inv), 1)); // fail
-            }
-        } else {
-            $space_needed = add($space_needed, 1);
-        }
-    }
-    $i = add($i, 1);
-}
-return($space_needed);
 
 // returns space taken up
 [proc,enum_inv_itemspace](inv $from_inv, inv $to_inv, enum $enum)(int)
@@ -149,51 +155,6 @@ if ($space_needed > .inv_freespace($to_inv)) {
 }
 return(true);
 
-// returns space taken up
-[proc,.moveallinv_itemspace2](inv $from_inv, inv $to_inv)(int)
-def_int $space_needed = 0;
-def_int $i = 0;
-def_int $size = inv_size($from_inv);
-while ($i < $size) {
-    def_obj $obj = .inv_getobj($from_inv, $i);
-    def_int $obj_num = .inv_getnum($from_inv, $i);
-    if ($obj ! null) {
-        if (oc_stackable($obj) = true) {
-            if (.inv_total($to_inv, $obj) < 1) {
-                $space_needed = add($space_needed, 1);
-            } else if (.inv_itemspace($to_inv, $obj, $obj_num, $size) = false) {
-                return(add(inv_size($to_inv), 1)); // fail
-            }
-        } else {
-            $space_needed = add($space_needed, 1);
-        }
-    }
-    $i = add($i, 1);
-}
-return($space_needed);
-
-// returns space taken up when moving items from a secondary inventory to a primary inventory
-[proc,.both_moveallinv_itemspace2](inv $secondary_from_inv, inv $primary_to_inv)(int)
-def_int $space_needed = 0;
-def_int $i = 0;
-def_int $size = inv_size($secondary_from_inv);
-while ($i < $size) {
-    def_obj $obj = inv_getobj($secondary_from_inv, $i);
-    def_int $obj_num = inv_getnum($secondary_from_inv, $i);
-    if ($obj ! null) {
-        if (oc_stackable($obj) = true) {
-            if (.inv_total($primary_to_inv, $obj) < 1) {
-                $space_needed = add($space_needed, 1);
-            } else if (.inv_itemspace($primary_to_inv, $obj, $obj_num, $size) = false) {
-                return(add(inv_size($primary_to_inv), 1)); // fail
-            }
-        } else {
-            $space_needed = add($space_needed, 1);
-        }
-    }
-    $i = add($i, 1);
-}
-return($space_needed);
 
 // returns space taken up
 [proc,.enum_inv_itemspace](inv $from_inv, inv $to_inv, enum $enum)(int)
@@ -209,6 +170,57 @@ while ($i < enum_getoutputcount($enum)) {
                 $space_needed = add($space_needed, 1);
             } else if (.inv_itemspace($to_inv, $obj, $obj_num, $size) = false) {
                 return(add(inv_size($to_inv), 1)); // fail
+            }
+        } else {
+            $space_needed = add($space_needed, 1);
+        }
+    }
+    $i = add($i, 1);
+}
+return($space_needed);
+
+// returns space taken up when moving items from a secondary inventory AND a primary inventory into another primary inventory
+[proc,.both_moveallinv_itemspace](inv $from_inv1, inv $from_inv2, inv $to_inv)(int)
+def_int $space_needed = 0;
+
+def_obj $obj = null;
+def_int $obj_num = 0;
+def_int $stack_sum = 0;
+def_int $i = 0;
+while ($i < .inv_size($from_inv1)) {
+    $obj = .inv_getobj($from_inv1, $i);
+    $obj_num = .inv_getnum($from_inv1, $i);
+    if ($obj ! null) {
+        if (oc_stackable($obj) = true) {
+            $stack_sum = add($obj_num, inv_total($from_inv2, $obj));
+            if ($stack_sum < 0) {
+                return(add(inv_size($to_inv), 1)); // fail
+            } else if (.inv_itemspace($to_inv, $obj, $stack_sum, .inv_size($to_inv)) = false) {
+                return(add(.inv_size($to_inv), 1)); // fail
+            } else if (.inv_total($to_inv, $obj) < 1) {
+                $space_needed = add($space_needed, 1);
+            }
+        } else {
+            $space_needed = add($space_needed, 1);
+        }
+    }
+    $i = add($i, 1);
+}
+
+$obj = null;
+$obj_num = 0;
+$i = 0;
+while ($i < inv_size($from_inv2)) {
+    $obj = inv_getobj($from_inv2, $i);
+    $obj_num = inv_getnum($from_inv2, $i);
+    if ($obj ! null) {
+        if (oc_stackable($obj) = true) {
+            if (.inv_total($from_inv1, $obj) < 1) {
+                if (.inv_itemspace($to_inv, $obj, $obj_num, .inv_size($to_inv)) = false) {
+                    return(add(.inv_size($to_inv), 1)); // fail
+                } else if (.inv_total($to_inv, $obj) < 1) {
+                    $space_needed = add($space_needed, 1);
+                }
             }
         } else {
             $space_needed = add($space_needed, 1);
@@ -295,4 +307,45 @@ return($slot);
 def_int $total = inv_total($inv, $obj);
 if ($total > 0) {
     inv_del($inv, $obj, $total);
+}
+
+// Deletes a list of items from an inventory
+[proc,inv_delenum](inv $inv, enum $enum)
+def_int $i = 0;
+while ($i < enum_getoutputcount($enum)) {
+    inv_del($inv, enum(int, obj, $enum, $i), ^max_32bit_int);
+    $i = add($i, 1);
+}
+
+[proc,inv_getslot](inv $inv, obj $obj)(int)
+def_int $i = 0;
+while ($i < inv_size($inv)) {
+    if (inv_getobj($inv, $i) = $obj) return($i);
+    $i = add($i, 1);
+}
+return(null);
+
+
+// Replace an object in the inventory, for a certain amount of slots
+[proc,inv_changeitem](inv $inv, obj $old, namedobj $new, int $slots)
+def_int $i = 0;
+while ($i < inv_size($inv)) {
+    if ($slots < 1) return;
+    if (inv_getobj($inv, $i) = $old) {
+        inv_setslot($inv, $i, $new, inv_getnum($inv, $i));
+        $slots = sub($slots, 1);
+    }
+    $i = add($i, 1);
+}
+
+// Replace a certain amount of an object in the inventory
+[proc,inv_changeitem2](inv $inv, obj $old, namedobj $new, int $count)
+def_int $i = 0;
+while ($i < inv_size($inv)) {
+    if ($count < 1) return;
+    if (inv_getobj($inv, $i) = $old) {
+        inv_setslot($inv, $i, $new, inv_getnum($inv, $i));
+        $count = sub($count, inv_getnum($inv, $i));
+    }
+    $i = add($i, 1);
 }

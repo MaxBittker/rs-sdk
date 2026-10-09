@@ -1,14 +1,14 @@
-[potters_wheel]
+[potterywheel]
 name=Potter's Wheel
 desc=Used for fashioning clay items.
-model=model_loc_2642
+model=furniture_potterywheel
 forceapproach=east
 category=potters_wheel
 
-[pottery_oven]
+[potteryoven]
 name=Pottery Oven
 desc=Bake your clay pots in here.
-model=model_loc_2643
+model=furniture_potteryoven
 length=2
 forceapproach=east
 op1=Fire
@@ -17,7 +17,7 @@ category=pottery_oven
 [viking_potteryoven]
 name=Pottery Oven
 desc=Bake your clay pots in here.
-model=model_loc_2643
+model=furniture_potteryoven
 retex1s=wall
 retex1d=pebblefloor
 recol2s=7399
@@ -30,6 +30,6 @@ category=pottery_oven
 [viking_potterywheel]
 name=Potter's Wheel
 desc=Used for fashioning clay items.
-model=model_loc_2642
+model=furniture_potterywheel
 forceapproach=east
 category=potters_wheel

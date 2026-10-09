@@ -1,9 +1,8 @@
-//guess
 [uncooked_stew]
 name=Uncooked stew
 desc=I need to cook this.
 cost=10
-model=model_2367_obj
+model=inv_bowl-full
 recol1s=21119
 recol1d=19974
 2dzoom=910
@@ -12,12 +11,11 @@ recol1d=19974
 weight=1500g
 category=cooking_generic
 
-//guess
 [uncooked_curry]
 name=Uncooked curry
 desc=I need to cook this.
 cost=10
-model=model_2367_obj
+model=inv_bowl-full
 recol1s=21119
 recol1d=31201
 2dzoom=910

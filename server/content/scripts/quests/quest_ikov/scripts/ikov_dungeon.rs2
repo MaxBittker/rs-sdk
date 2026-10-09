@@ -96,15 +96,15 @@ if(last_useitem = ikov_lever) {
 [oploc1,ikov_mendedlever]
 p_arrivedelay;
 anim(human_leverdown, 0); 
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 // Temp note: dur does not need updated ? @indio
 loc_change(ikov_leverdown, 20);
 p_delay(0);
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 p_delay(0);
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 p_delay(0);
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 p_delay(0);
 %ikov_dungeon = setbit(%ikov_dungeon, ^ikov_lever);
 ~mesbox("You hear the clunking of some hidden machinery.");
@@ -119,7 +119,7 @@ if(%ikov_icearrowchest_coord = null) {
 if(%ikov_icearrowchest_coord = loc_coord) {
     def_int $count = calc(random(5) + 1);
     inv_add(inv, ice_arrow, $count); // 1 - 5 arrows
-    sound_synth(found_ice_arrows, 0, 0);
+    sound_synth(found_ice_arrows, 1, 0);
     ~randomize_ice_arrow_chest;
     def_string $arrow_mes = "You found an ice arrow!";
     if($count > 1) {
@@ -137,7 +137,7 @@ anim(human_leverdown, 0);
 p_delay(0);
 // Temp note: dur updated ? does it need ??
 loc_change(ikov_leverdown, 6);
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 if(%ikov >= ^ikov_disabled_trap) {
     return;
 }
@@ -169,14 +169,14 @@ p_teleport(0_41_153_41_57);
 
 [oploc1,ikov_trapleverdoor]
 if(%ikov >= ^ikov_pulled_lever) {
-    ~open_and_close_door2(desertdoor_inactive, ~check_axis_locactive(coord), door_open);
+    ~open_and_close_door2(loc_1532, ~check_axis_locactive(coord), door_open);
     return;
 }
 mes("The door won't open.");
 
 [oploc1,ikov_firewarriordoor]
 if(%ikov >= ^ikov_defeated_fire_warrior) {
-    ~open_and_close_door2(desertdoor_inactive, ~check_axis_locactive(coord), door_open);
+    ~open_and_close_door2(loc_1532, ~check_axis_locactive(coord), door_open);
     return;
 }
 p_arrivedelay; // https://youtu.be/cePHhIOqsqg?si=-8QJd7t7ZIBz4K7y&t=667
@@ -185,9 +185,9 @@ cam_lookat(0_41_154_22_14, 50, 100, 232);
 cam_lookat(0_41_154_22_10, 50, 3, 10);
 if(npc_find(coord, ikov_firewarrior, 5, 0) = false) { // will spawn another if 6 or more away
     spotanim_map(smokepuff, 0_41_154_22_10, 0, 0);
-    sound_synth(smokepuff, 0, 0);
+    sound_synth(smokepuff, 1, 0);
     p_delay(0);
-    sound_synth(fire_teleport, 0, 0);
+    sound_synth(fire_teleport, 1, 0);
     npc_add(0_41_154_22_10, ikov_firewarrior, 1000); // On the OSRS side, the despawn time is 10 minutes. 
     npc_setmode(none);
     npc_walk(npc_coord);
@@ -204,7 +204,7 @@ npc_setmode(none);
 npc_walk(npc_coord);
 npc_anim(human_caststrike, 0);
 spotanim_npc(fireblast_casting, 92, 0);
-sound_synth(fire_blast_all, 0, 0); // area sound in osrs, uses fireblast_cast_and_fire
+sound_synth(fire_blast_all, 1, 0); // area sound in osrs, uses fireblast_cast_and_fire
 ~coord_projectile(npc_coord, 0_41_154_22_14, fireblast_travel, 31, 31, 76, 32, 54, 128, 0);
 spotanim_map(fireblast_impact, 0_41_154_22_14, 124, 130);
 p_delay(0);
@@ -221,14 +221,14 @@ npc_setmode(null);
 [oploc1,ikov_shinykeydoor]
 if(inv_total(inv, ikov_shinykey) = 0) {
     mes("The door is locked.");
-    sound_synth(locked, 0, 0);
+    sound_synth(locked, 1, 0);
     return;
 }
-~open_and_close_door2(desertdoor_inactive, ~check_axis_locactive(coord), door_open);
+~open_and_close_door2(loc_1532, ~check_axis_locactive(coord), door_open);
 
 [oplocu,ikov_shinykeydoor]
 if(last_useitem = ikov_shinykey) {
-    ~open_and_close_door2(desertdoor_inactive, ~check_axis_locactive(coord), door_open);
+    ~open_and_close_door2(loc_1532, ~check_axis_locactive(coord), door_open);
     return;
 }
 ~displaymessage(^dm_default);

@@ -5,6 +5,9 @@ if(coordy(npc_coord) > 0 & (%grandtree < ^grandtree_found_journal | %grandtree >
 }
 switch_int(%grandtree) {
     case ^grandtree_complete :
+        if(%treequest = ^tree_complete) {
+            @mm_narnode;
+        }
         ~chatplayer("<p,happy>Hello your highness!");
         ~chatnpc("<p,happy>Well, hello again Traveller! How are you?");
         ~chatplayer("<p,happy>I'm good thanks, how's the tree?");

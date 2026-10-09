@@ -1,6 +1,6 @@
 // https://www.youtube.com/watch?v=Um6gmCg91Do&t=163s
 [oploc1,crystal_chestclosed]
-sound_synth(locked, 0, 0); // no arrivedelay
+sound_synth(locked, 1, 0); // no arrivedelay
 mes("This chest is securely locked shut.");
 
 [oplocu,crystal_chestclosed]
@@ -13,7 +13,7 @@ if(last_useitem = crystal_key) {
 p_arrivedelay;
 mes("You unlock the chest with your key.");
 anim(human_openchest, 0);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(0);
 loc_change(crystal_chestopen, 2);
 inv_del(inv, crystal_key, 1);

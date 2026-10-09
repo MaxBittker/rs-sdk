@@ -1,7 +1,7 @@
 [loc_2307]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -11,7 +11,7 @@ param=next_loc_stage,loc_1562
 [loc_2308]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 active=yes
@@ -22,24 +22,24 @@ param=next_loc_stage,loc_1563
 [loc_2309]
 name=Door
 desc=Solid bars of iron.
-model=model_loc_37
+model=basic_prisondoor
 op1=Open
 active=yes
 blockrange=no
 
-[wilderness_obstacle_pipe]
+[obstical_pipe2]
 name=Obstacle pipe
 desc=A pipe I can squeeze through.
-model=model_loc_2288
+model=cavern_cavewall_face1_withpipe
 op1=Squeeze-through
 width=2
 recol1s=12580
 recol1d=10570
 
-[wilderness_rope_swing]
+[obstical_ropeswing2]
 name=Ropeswing
 desc=Use this to swing over crevices.
-model=model_loc_2282
+model=outdoorfurniture_ropeswing_long
 op1=Swing-on
 length=6
 blockwalk=no
@@ -47,15 +47,15 @@ blockwalk=no
 [wilderness_stepping_stone]
 name=Stepping stone
 desc=I can jump from this stepping stone.
-model=model_loc_2311
+model=floor_steppingstone
 op1=Jump-from
 active=yes
 forcedecor=yes
 
-[wilderness_log_balance]
+[wilderness_log_balance1]
 name=Log balance
 desc=A slippery log I can walk across.
-model=model_loc_2291
+model=floor_log_balance1
 op1=Walk-across
 active=yes
 sharelight=yes
@@ -63,7 +63,7 @@ sharelight=yes
 [wilderness_rocks]
 name=Rocks
 desc=A rocky outcrop.
-model=model_loc_2231
+model=quest_climbingrocks
 hillskew=yes
 op1=Climb
 ambient=25

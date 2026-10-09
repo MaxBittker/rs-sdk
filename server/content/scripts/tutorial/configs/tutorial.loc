@@ -1,19 +1,19 @@
 [newbie_door1]
 name=Door
 desc=A nicely fitted door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
 retex1d=door2
 recol2s=6342
 recol2d=11458
-param=next_loc_stage,poordoor
+param=next_loc_stage,loc_1535
 
 [newbiegateclosedl2]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 active=yes
 op1=Open
 category=tutorial_gate
@@ -21,7 +21,7 @@ category=tutorial_gate
 [newbiegateclosedr2]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 active=yes
 mirror=yes
 op1=Open
@@ -30,43 +30,43 @@ category=tutorial_gate
 [newbie_door2]
 name=Door
 desc=A nicely fitted door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
 retex1d=door2
 recol2s=6342
 recol2d=11458
-param=next_loc_stage,poordoor
+param=next_loc_stage,loc_1535
 
 [newbie_door3]
 name=Door
 desc=A nicely fitted door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
 retex1d=door2
 recol2s=6342
 recol2d=11458
-param=next_loc_stage,poordoor
+param=next_loc_stage,loc_1535
 
 [newbie_door4]
 name=Door
 desc=A nicely fitted door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
 retex1d=door2
 recol2s=6342
 recol2d=11458
-param=next_loc_stage,poordoor
+param=next_loc_stage,loc_1535
 
 [newbiedoor4l]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -75,7 +75,7 @@ category=tut_mining_exit
 [newbiedoor4r]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 active=yes
@@ -85,7 +85,7 @@ category=tut_mining_exit
 [newbiedoor5_l]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -94,7 +94,7 @@ category=rat_pit_cage
 [newbiedoor5_r]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 active=yes
@@ -104,43 +104,43 @@ category=rat_pit_cage
 [newbie_door6]
 name=Door
 desc=A closed door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
 retex1d=door2
 recol2s=6342
 recol2d=11458
-param=next_loc_stage,poordoor
+param=next_loc_stage,loc_1535
 
 [newbie_door7]
 name=Door
 desc=A closed door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
 retex1d=door2
 recol2s=6342
 recol2d=11458
-param=next_loc_stage,poordoor
+param=next_loc_stage,loc_1535
 
 [newbie_door8]
 name=Door
 desc=A closed door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
 retex1d=door2
 recol2s=6342
 recol2d=11458
-param=next_loc_stage,poordoor
+param=next_loc_stage,loc_1535
 
 [newbietree]
 name=Tree
 desc=One of the most common trees in RuneScape.
-model=model_loc_1276
+model=plants_tree
 width=2
 length=2
 mapscene=0
@@ -151,7 +151,7 @@ param=next_loc_stage,treestump2
 [newbietree2]
 name=Tree
 desc=One of the most common trees in RuneScape.
-model=model_loc_1278
+model=plants_tree2
 width=2
 length=2
 mapscene=0
@@ -162,7 +162,7 @@ param=next_loc_stage,treestump2
 [newbiedeadtree2]
 name=Tree
 desc=One of the most common trees in RuneScape.
-model=model_loc_1286
+model=plants_deadtree2
 width=2
 length=2
 mapscene=6
@@ -173,7 +173,7 @@ param=next_loc_stage,deadtree1_stump
 [newbieoaktree]
 name=Oak
 desc=A beautiful old oak.
-model=model_loc_1281
+model=plants_oaktree
 width=3
 length=3
 op1=Chop down

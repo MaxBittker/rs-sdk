@@ -1,0 +1,46 @@
+[opnpc1,misc_smithy]
+@derrik_normal;
+
+[label,derrik_normal]
+~manage_misc_daily_update;
+if (%misc_quest = ^misc_complete) {
+    ~chatnpc("<~man_misc_mesanim>Good day, Your Royal Highness. Can I help you with anything?");
+} else {
+    ~chatnpc("<~man_misc_mesanim>Good day, Sir. Can I help you with anything?");
+}
+if (%misc_quest = 80) {
+    @multi3(
+        "Can I use your anvil?", derrik_useanvil,
+        "I have a slightly strange request...", derrik_strangerequest,
+        "Nothing, thanks.", derrik_nothing
+    );
+} else {
+    @multi2(
+        "Can I use your anvil?", derrik_useanvil,
+        "Nothing, thanks.", derrik_nothing
+    );
+}
+
+[label,derrik_useanvil]
+~chatplayer("<p,quiz>Can I use your anvil?");
+~chatnpc("<~man_misc_mesanim>You may.");
+
+[label,derrik_nothing]
+~chatplayer("<p,happy>Nothing, thanks.");
+
+[label,derrik_strangerequest]
+~chatplayer("<p,quiz>I have a slightly strange request...");
+~chatplayer("<p,neutral>The King needs to sign a treaty, but is unable to because he lacks a pen large enough for him to hold. Could you make me a nib of the right size?");
+~chatnpc("<p,quiz>Hm...I may be able to manage that. What sort of size?");
+~chatplayer("<p,neutral>About the size of a helm should do it.");
+~chatnpc("<p,neutral>All right, but I'll need an iron bar to make it from.");
+if (inv_total(inv, iron_bar) >= 1) {
+    ~chatplayer("<p,happy>I have one here.");
+    ~chatnpc("<p,neutral>Good. Just a minute...");
+    inv_del(inv, iron_bar, 1);
+    inv_add(inv, misc_giant_nib, 1);
+    ~chatnpc("<p,happy>Here you go! One giant pen nib!");
+} else {
+    ~chatplayer("<p,neutral>I don't have one with me.");
+    ~chatnpc("<p,neutral>Well, come back when you have one.");
+}

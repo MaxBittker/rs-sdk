@@ -1,7 +1,7 @@
 [alrenascupboardshut]
 name=Cupboard
 desc=I wonder what's inside?
-model=model_loc_367
+model=furniture_cupboard
 length=2
 op1=Open
 forceapproach=east
@@ -11,7 +11,7 @@ param=cupboard_other,alrenascupboardopen
 [alrenascupboardopen]
 name=Cupboard
 desc=It's open.
-model=model_loc_370
+model=furniture_cupboard_open
 length=2
 op1=Search
 op2=Close

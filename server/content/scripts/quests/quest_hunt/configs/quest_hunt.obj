@@ -1,5 +1,5 @@
 [karamja_rum]
-model=model_2660_obj
+model=inv_bottleofrum
 2dyof=-1
 2dzoom=970
 2dyan=1888
@@ -11,7 +11,7 @@ desc=A very strong spirit brewed in Karamja.
 tradeable=no
 
 [chest_key]
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -24,7 +24,7 @@ desc=A key to One eyed Hector's chest.
 tradeable=no
 
 [piratemessage]
-model=model_2600_obj
+model=inv_scroll
 2dxof=1
 2dyof=7
 2dzoom=1040

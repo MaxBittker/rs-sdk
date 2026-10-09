@@ -30,6 +30,27 @@ if (~check_fish_equipment(lobster_pot) = false) {
     return;
 }
 
+// miscellania
+if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+    ~manage_misc_daily_update;
+    if(%misc_quest = ^misc_not_started) {
+        if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) {
+            ~.chatnpc("<p,angry>Hey! This is the King's fishing spot. You'll need his approval to make use of it.");
+        }
+        return;
+    }
+    if(%misc_approval >= ^MISC_APPROVAL_100_PERCENT) {
+        if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) {
+            if(%misc_quest = ^misc_complete) {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, Your Highness, you've already done so much!");
+            } else {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, <text_gender("Sir", "Madam")>, you've already done so much!");
+            }
+        }
+        return;
+    }
+}
+
 // check if inv is full
 if (inv_freespace(inv) < 1) {
     anim(null, 0);
@@ -42,7 +63,7 @@ if (%action_delay < map_clock) {
     return;
 } else if (%action_delay = calc(map_clock + 3)) {
     anim(human_lobster, 0);
-    sound_synth(fishing_cast, 0, 20);
+    sound_synth(fishing_cast, 1, 20);
     // https://youtu.be/WGq6FZpnH7Y?t=70
     mes("You attempt to catch a Lobster.");
     p_opnpc(4);
@@ -66,6 +87,27 @@ if (stat(fishing) < 40) {
 if (~check_fish_equipment(lobster_pot) = false) {
     return;
 }
+
+// miscellania
+if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+    if(%misc_quest = ^misc_not_started) {
+        if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) {
+            ~.chatnpc("<p,angry>Hey! This is the King's fishing spot. You'll need his approval to make use of it.");
+        }
+        return;
+    }
+    if(%misc_approval >= ^MISC_APPROVAL_100_PERCENT) {
+        if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) {
+            if(%misc_quest = ^misc_complete) {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, Your Highness, you've already done so much!");
+            } else {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, <text_gender("Sir", "Madam")>, you've already done so much!");
+            }
+        }
+        return;
+    }
+}
+
 // check if inv is full again
 if (inv_freespace(inv) < 1) {
     anim(null, 0);
@@ -85,12 +127,33 @@ p_opnpc(4);
 // check level for tuna
 if (stat(fishing) < 35) {
     anim(null, 0);
-    ~mesbox("You need at least 35 Fishing to harpoon these fish.");
+    // https://web.archive.org/web/*/http://runescape.salmoneus.net/cities/images/atollfish2.png
+    ~mesbox("You need at least 35 Fishing to Harpoon these fish.");
     return;
 }
 // check if they have fishing equipment
 if (~check_fish_equipment(harpoon) = false) {
     return;
+}
+// miscellania
+if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+    ~manage_misc_daily_update;
+    if(%misc_quest = ^misc_not_started) {
+        if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) {
+            ~.chatnpc("<p,angry>Hey! This is the King's fishing spot. You'll need his approval to make use of it.");
+        }
+        return;
+    }
+    if(%misc_approval >= ^MISC_APPROVAL_100_PERCENT) {
+        if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) {
+            if(%misc_quest = ^misc_complete) {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, Your Highness, you've already done so much!");
+            } else {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, <text_gender("Sir", "Madam")>, you've already done so much!");
+            }
+        }
+        return;
+    }
 }
 // check if inv is full
 if (inv_freespace(inv) < 1) {
@@ -105,7 +168,7 @@ if (%action_delay < map_clock) {
 } else if (%action_delay = calc(map_clock + 4)) {
     mes("You start Harpooning fish.");
     anim(human_harpoon, 0);
-    sound_synth(fishing_cast, 0, 0);
+    sound_synth(fishing_cast, 1, 0);
     p_opnpc(5);
 } else if (%action_delay = map_clock) { 
     anim(human_harpoon, 0);
@@ -123,12 +186,32 @@ if (afk_event = ^true & npc_param(is_whirlpool) = ^false) {
 // check level for tuna
 if (stat(fishing) < 35) {
     anim(null, 0);
-    ~mesbox("You need at least 35 Fishing to harpoon these fish.");
+    // https://web.archive.org/web/*/http://runescape.salmoneus.net/cities/images/atollfish2.png
+    ~mesbox("You need at least 35 Fishing to Harpoon these fish.");
     return;
 }
 // check if they have fishing equipment
 if (~check_fish_equipment(harpoon) = false) {
     return;
+}
+// miscellania
+if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+    if(%misc_quest = ^misc_not_started) {
+        if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) {
+            ~.chatnpc("<p,angry>Hey! This is the King's fishing spot. You'll need his approval to make use of it.");
+        }
+        return;
+    }
+    if(%misc_approval >= ^MISC_APPROVAL_100_PERCENT) {
+        if (.npc_find(0_40_60_16_12, misc_fisherman, 2, 0) = true) {
+            if(%misc_quest = ^misc_complete) {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, Your Highness, you've already done so much!");
+            } else {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, <text_gender("Sir", "Madam")>, you've already done so much!");
+            }
+        }
+        return;
+    }
 }
 // check if inv is full again
 if (inv_freespace(inv) < 1) {

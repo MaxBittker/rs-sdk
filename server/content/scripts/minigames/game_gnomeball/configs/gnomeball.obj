@@ -1,13 +1,13 @@
 [ball_gnomeball_game]
 name=Gnomeball
 desc=A ball from the game Gnomeball
-model=model_2644_obj
+model=inv_gnomeball
 2dzoom=790
 2dyan=2020
 2dxan=108
 weight=500g
 iop2=Hold
 wearpos=righthand
-manwear=model_528_obj_wear,0
-womanwear=model_528_obj_wear,6
+manwear=human_weapons_gnomeball,0
+womanwear=human_weapons_gnomeball,6
 members=yes

@@ -10,7 +10,7 @@ if(inv_total(inv, trail_clue_hard_riddle026) > 0) {
         if(~trail_puzzle_complete(trail_clue_hard_riddle026_puzzlebox) = true) {
             ~chatnpc("<p,happy>Excellent work!");
             inv_del(inv, trail_clue_hard_riddle026_puzzlebox, 1);
-            ~progress_clue_hard(trail_clue_hard_riddle026, "Heckel Funch has given you another clue scroll!");
+            ~progress_clue_hard(trail_clue_hard_riddle026, "The gnome trainer has given you another clue scroll!");
             return;
         }
         // TODO: check mesanim

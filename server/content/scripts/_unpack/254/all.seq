@@ -54,7 +54,7 @@ frame52=anim_8272
 frame53=anim_8271
 frame54=anim_8267
 
-[screaming_banshee_walk]
+[agilityarena_plank_break]
 frame1=anim_8223
 frame2=anim_8224
 frame3=anim_8225
@@ -222,7 +222,7 @@ frame22=anim_8378
 frame23=anim_8379
 
 [agilityarena_dive_player]
-stretches=yes
+reachforward=yes
 frame1=anim_8357
 frame2=anim_8363
 frame3=anim_8364
@@ -283,7 +283,7 @@ frame17=anim_8306
 delay17=20000
 
 [agilityarena_handholds_middle]
-duplicatebehavior=reset
+duplicatebehaviour=reset
 replaceheldleft=hide
 replaceheldright=hide
 frame1=anim_8311
@@ -367,7 +367,7 @@ frame17=anim_8325
 delay17=20000
 
 [agilityarena_handholds_middlereverse]
-duplicatebehavior=reset
+duplicatebehaviour=reset
 replaceheldleft=hide
 replaceheldright=hide
 frame1=anim_8330
@@ -809,7 +809,7 @@ frame7=anim_8710
 frame8=anim_8711
 
 [troll_rock_throw]
-stretches=yes
+reachforward=yes
 replaceheldright=hide
 frame1=anim_8660
 frame2=anim_8662
@@ -850,7 +850,7 @@ frame8=anim_4910
 frame9=anim_4914
 
 [walk_walkingstick]
-stretches=yes
+reachforward=yes
 frame1=anim_4768
 frame2=anim_4771
 frame3=anim_4773
@@ -1163,7 +1163,7 @@ frame25=anim_1421
 frame26=anim_1713
 
 [troll_treetrunk_attack]
-stretches=yes
+reachforward=yes
 priority=6
 frame1=anim_8673
 frame2=anim_8680

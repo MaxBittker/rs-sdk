@@ -1,26 +1,43 @@
 [opnpc1,aprilfoolshorsesalesman]
-~chatnpc("<p,happy>Howdy there partner!|Want to see my toy horseys?");
-@multi2(
-    "Toy horseys?", aprilfoolshorsesalesman_option1,
-    "I'm fine, thanks.", exit
-);
+if(%xmas_yoyo_unlocked = ^true) {
+    ~chatnpc("<p,happy>Howdy there partner!|Are ya here to buy a horse?|Or did ya want yer yo-yo back?");
+    @multi3(
+        "A horse please!", aprilfoolshorsesalesman_horse,
+        "Can I have my yo-yo back?", aprilfoolshorsesalesman_yoyo,
+        "No thanks.", aprilfoolshorsesalesman_option2
+    );
+} else {
+    ~chatnpc("<p,happy>Howdy there partner!|Are ya here to buy a horse?");
+    @multi2(
+        "Yes please!", aprilfoolshorsesalesman_option1,
+        "No thanks.", aprilfoolshorsesalesman_option2
+    );
+}
+
+[label,aprilfoolshorsesalesman_option1]
+~chatplayer("<p,happy>Yes please!");
+~openshop_activenpc;
+
+[label,aprilfoolshorsesalesman_option2]
+~chatplayer("<p,happy>No thanks.");
+
+[label,aprilfoolshorsesalesman_horse]
+~chatplayer("<p,happy>A horse please!");
+~openshop_activenpc;
+
+[label,aprilfoolshorsesalesman_yoyo]
+~chatplayer("<p,quiz>Can I have my yo-yo back?");
+@aprilfoolshorsesalesman_reclaim_yoyo;
 
 // may move these to another script later
-[opheld1,horsey_brown] @toy_horsey_say(human_playhorsey_brown); // the anim delay lets the client finish running visually
+[opheld1,horsey_brown] @toy_horsey_say(human_playhorsey_brown);
 [opheld1,horsey_white] @toy_horsey_say(human_playhorsey_white);
 [opheld1,horsey_black] @toy_horsey_say(human_playhorsey_black);
 [opheld1,horsey_grey] @toy_horsey_say(human_playhorsey_grey);
 
-[label,aprilfoolshorsesalesman_option1]
-// todo: this should probably branch into a little conversation before opening the shop
-// spinning plates -> that's right. there's a funny story behind them, their shipment was held up by thieves.
-// this type of anecdote but for toy horseys ^
-~chatplayer("<p,quiz>Toy horseys?");
-~openshop_activenpc;
-
 [label,toy_horsey_say](seq $anim)
 p_stopaction;
-anim($anim, 20); // the anim delay lets the client finish running visually
+anim($anim, 0);
 // was mes super early rs2? not sure when it was changed. https://storage.googleapis.com/tannerdino/images/Old%20Runescape%202004%20screenshots%20(%20From%20June%20to%20August%202004%20)%20(13).jpeg
 switch_int (random(3)) {
     case 0 : mes("Come-on Dobbin, we can win the race!"); // extra hyphen here

@@ -2,7 +2,7 @@
 name=Research package
 desc=This contains some vital research results.
 cost=2
-model=model_2426_obj
+model=inv_present
 recol1s=26817
 recol1d=10580
 recol2s=160
@@ -19,7 +19,7 @@ tradeable=no
 name=Notes
 desc=It seems to be written in some kind of code.
 cost=5
-model=model_2600_obj
+model=inv_scroll
 2dxof=1
 2dyof=7
 2dzoom=1040

@@ -1,20 +1,20 @@
 // PROC
 
 [proc,get_tbwt_timfraku_title]()(int)
-return (getbit_range(%tbwt_bits, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end));
+return (getbit_range(%tbwt_flags, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end));
 
 [proc,set_tbwt_timfraku_title](int $title)
-%tbwt_bits = setbit_range_toint(%tbwt_bits, $title, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end);
+%tbwt_flags = setbit_range_toint(%tbwt_flags, $title, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end);
 
 [proc,get_tbwt_tamayu_agility_count]()(int)
-return (getbit_range(%tbwt_bits, ^tbwt_tamayu_agility_count_start, ^tbwt_tamayu_agility_count_end));
+return (getbit_range(%tbwt_flags, ^tbwt_tamayu_agility_count_start, ^tbwt_tamayu_agility_count_end));
 
 [proc,set_tbwt_tamayu_agility_count](int $prog)
-%tbwt_bits = setbit_range_toint(%tbwt_bits, $prog, ^tbwt_tamayu_agility_count_start, ^tbwt_tamayu_agility_count_end);
+%tbwt_flags = setbit_range_toint(%tbwt_flags, $prog, ^tbwt_tamayu_agility_count_start, ^tbwt_tamayu_agility_count_end);
 
 [proc,tbwt_get_timfraku_title]()(string)
 def_string $title = "adventurer";
-switch_int(getbit_range(%tbwt_bits, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end)) {
+switch_int(getbit_range(%tbwt_flags, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end)) {
     case 0 : $title = "adventurer";
     case 1 : $title = "explorer";
     case 2 : $title = "wayfarer";
@@ -24,7 +24,7 @@ return ($title);
 
 [proc,tbwt_get_completed_timfraku_title]()(string)
 def_string $title = "Roving adventurer";
-switch_int(getbit_range(%tbwt_bits, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end)) {
+switch_int(getbit_range(%tbwt_flags, ^tbwt_timfraku_title_start, ^tbwt_timfraku_title_end)) {
     case 0 : $title = "Roving adventurer";
     case 1 : $title = "Travelling explorer";
     case 2 : $title = "Wandering wayfarer";

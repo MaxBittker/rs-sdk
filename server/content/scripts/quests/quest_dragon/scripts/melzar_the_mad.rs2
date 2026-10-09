@@ -81,7 +81,7 @@ if_close;
 
 npc_anim(human_castzap, 0);
 spotanim_npc(zap, 92, 0);
-sound_synth(zap, 0, 0);
+sound_synth(zap, 1, 0);
 
 def_int $damage = 0;
 if (~npc_player_hit_roll(^magic_style) = true & ~check_protect_prayer(^magic_style) = false) {

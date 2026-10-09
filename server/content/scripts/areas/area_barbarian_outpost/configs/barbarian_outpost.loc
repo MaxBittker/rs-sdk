@@ -1,13 +1,13 @@
 [barbariangatel]
 name=Gate
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 active=yes
 category=outpost_gate
 
 [barbariangater]
 name=Gate
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 active=yes

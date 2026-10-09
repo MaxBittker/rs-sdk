@@ -1,7 +1,7 @@
-[openbankdoor_r]
+[loc_1512]
 name=Large door
 desc=A sturdy wooden door.
-model=model_loc_1512
+model=castle_wall
 op1=Open
 raiseobject=no
 retex1s=wall
@@ -9,30 +9,30 @@ retex1d=door2
 recol2s=6342
 recol2d=11458
 category=door_closed
-param=next_loc_stage,bankdoor_l_inactive
+param=next_loc_stage,loc_1515
 
-[bankdoor_l]
+[loc_1513]
 name=Large door
 desc=A sturdy wooden door.
-model=model_loc_1513
+model=basic_thickpoordoor
 op1=Open
 raiseobject=no
 category=door_closed
-param=next_loc_stage,bankdoor_r_inactive
+param=next_loc_stage,loc_1514
 
-[bankdoor_r_inactive]
+[loc_1514]
 name=Large door
 desc=A sturdy wooden door.
-model=model_loc_1513
+model=basic_thickpoordoor
 op1=Close
 raiseobject=no
 category=door_opened
-param=next_loc_stage,bankdoor_l
+param=next_loc_stage,loc_1513
 
-[bankdoor_l_inactive]
+[loc_1515]
 name=Large door
 desc=A sturdy wooden door.
-model=model_loc_1512
+model=castle_wall
 op1=Close
 raiseobject=no
 retex1s=wall
@@ -40,12 +40,12 @@ retex1d=door2
 recol2s=6342
 recol2d=11458
 category=door_opened
-param=next_loc_stage,openbankdoor_r
+param=next_loc_stage,loc_1512
 
-[inaccastledoubledoorropen]
+[loc_1530]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 raiseobject=no
@@ -54,12 +54,12 @@ retex1d=door
 recol2s=6342
 recol2d=11458
 category=door_closed
-param=next_loc_stage,desertdoor_animate
+param=next_loc_stage,loc_1531
 
-[desertdoor_animate]
+[loc_1531]
 name=Door
 desc=The door is open.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Close
 raiseobject=no
@@ -68,12 +68,12 @@ retex1d=door
 recol2s=6342
 recol2d=11458
 category=door_opened
-param=next_loc_stage,inaccastledoubledoorropen
+param=next_loc_stage,loc_1530
 
-[desertdoorclosed]
+[loc_1533]
 name=Door
 desc=A nicely fitted door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 raiseobject=no
@@ -82,12 +82,12 @@ retex1d=door2
 recol2s=6342
 recol2d=11458
 category=door_closed
-param=next_loc_stage,desertdooropen
+param=next_loc_stage,loc_1534
 
-[desertdooropen]
+[loc_1534]
 name=Door
 desc=A nicely fitted door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Close
 raiseobject=no
@@ -96,12 +96,12 @@ retex1d=door2
 recol2s=6342
 recol2d=11458
 category=door_opened
-param=next_loc_stage,desertdoorclosed
+param=next_loc_stage,loc_1533
 
-[poordooropen]
+[loc_1536]
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 raiseobject=no
@@ -110,12 +110,12 @@ retex1d=elfdoor
 recol2s=6342
 recol2d=11458
 category=door_closed
-param=next_loc_stage,poordoor_cross
+param=next_loc_stage,loc_1537
 
-[poordoor_cross]
+[loc_1537]
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Close
 raiseobject=no
@@ -124,27 +124,27 @@ retex1d=elfdoor
 recol2s=6342
 recol2d=11458
 category=door_opened
-param=next_loc_stage,poordooropen
+param=next_loc_stage,loc_1536
 
-[inactivepoordoor]
+[loc_1539]
 name=Door
 desc=Solid bars of iron.
-model=model_loc_37
+model=basic_prisondoor
 op1=Open
 active=yes
 blockrange=no
 raiseobject=no
 category=door_closed
-param=next_loc_stage,poshdoor
+param=next_loc_stage,loc_1540
 param=open_sound,grate_open
 
-[poshdoor]
+[loc_1540]
 name=Door
 desc=Solid bars of iron.
-model=model_loc_37
+model=basic_prisondoor
 op1=Close
 active=yes
 raiseobject=no
 category=door_opened
-param=next_loc_stage,inactivepoordoor
+param=next_loc_stage,loc_1539
 param=close_sound,grate_close

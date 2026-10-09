@@ -2,7 +2,7 @@
 cost=450
 name=Gold necklace
 desc=I wonder if this is valuable.
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=10570
 recol1d=31457
 2dxof=1
@@ -12,8 +12,8 @@ recol1d=31457
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_281_obj_wear,0
-womanwear=model_445_obj_wear,0
+manwear=man_necklaces_goldnecklace,0
+womanwear=woman_necklaces_goldnecklace,0
 weight=7g
 param=crafting_jewelry_struct,gold_necklace
 
@@ -21,7 +21,7 @@ param=crafting_jewelry_struct,gold_necklace
 cost=1050
 name=Sapphire necklace
 desc=I wonder if this is valuable.
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=10570
 recol1d=23
 2dxof=1
@@ -31,8 +31,8 @@ recol1d=23
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_281_obj_wear,0
-womanwear=model_445_obj_wear,0
+manwear=man_necklaces_goldnecklace,0
+womanwear=woman_necklaces_goldnecklace,0
 weight=10g
 respawnrate=500
 
@@ -40,7 +40,7 @@ respawnrate=500
 cost=1425
 name=Emerald necklace
 desc=I wonder if this is valuable.
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=10570
 recol1d=672
 2dxof=1
@@ -50,15 +50,15 @@ recol1d=672
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_281_obj_wear,0
-womanwear=model_445_obj_wear,0
+manwear=man_necklaces_goldnecklace,0
+womanwear=woman_necklaces_goldnecklace,0
 weight=10g
 
 [ruby_necklace]
 cost=2175
 name=Ruby necklace
 desc=I wonder if this is valuable.
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=10570
 recol1d=30753
 2dxof=1
@@ -68,15 +68,15 @@ recol1d=30753
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_281_obj_wear,0
-womanwear=model_445_obj_wear,0
+manwear=man_necklaces_goldnecklace,0
+womanwear=woman_necklaces_goldnecklace,0
 weight=10g
 
 [diamond_necklace]
 cost=3675
 name=Diamond necklace
 desc=I wonder if this is valuable.
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=10570
 recol1d=32767
 2dxof=1
@@ -86,15 +86,15 @@ recol1d=32767
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_281_obj_wear,0
-womanwear=model_445_obj_wear,0
+manwear=man_necklaces_goldnecklace,0
+womanwear=woman_necklaces_goldnecklace,0
 weight=10g
 
 [dragonstone_necklace]
 cost=18375
 name=Dragon necklace
 desc=I wonder if this is valuable.
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=10570
 recol1d=12307
 2dxof=1
@@ -105,12 +105,12 @@ recol1d=12307
 members=yes
 iop2=Wear
 wearpos=front
-manwear=model_281_obj_wear,0
-womanwear=model_445_obj_wear,0
+manwear=man_necklaces_goldnecklace,0
+womanwear=woman_necklaces_goldnecklace,0
 weight=10g
 
 [black_necklace]
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=10570
 recol1d=4228
 recol2s=31457
@@ -124,30 +124,31 @@ dummyitem=inv_only
 
 [invis_necklace1]
 name=Sapphire necklace
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,sapphire_necklace
 dummyitem=inv_only
 
 [invis_necklace2]
 name=Emerald necklace
-model=model_loc_2733_0
+desc=It's an Emerald necklace
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,emerald_necklace
 dummyitem=inv_only
 
 [invis_necklace3]
 name=Ruby necklace
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,ruby_necklace
 dummyitem=inv_only
 
 [invis_necklace4]
 name=Diamond necklace
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,diamond_necklace
 dummyitem=inv_only
 
 [invis_necklace5]
 name=Dragon necklace
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,dragonstone_necklace
 dummyitem=inv_only

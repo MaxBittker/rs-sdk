@@ -368,7 +368,7 @@ else {
     // then a random 0-1 range around that tile
     def_coord $start_coord = coord;
     def_coord $closest_coord = ~closest_enum_coord(coord, legends_ungadulu_throw_coords);
-    def_coord $throw_coord = map_findsquare($closest_coord, 0, 1, ^vis_lineofwalk);
+    def_coord $throw_coord = map_findsquare($closest_coord, 0, 1, ^map_findsquare_lineofwalk);
     // not sure if the outcome is period authentic - no references
     anim(human_blown_middle, 0);
     p_exactmove($start_coord, $throw_coord, 31, calc(31 + (14 * distance($start_coord, $throw_coord))), ~coord_direction($throw_coord, $start_coord));

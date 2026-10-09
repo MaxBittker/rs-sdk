@@ -47,7 +47,8 @@ if(inv_total(inv, silk) > 0) {
         ~chatnpc("<p,angry>Don't be ridiculous! That is far too much. You insult me with that price.");
     }
 } else {
-    ~chatnpc("<p,happy>I buy silk. If you ever want to|sell any silk, bring it here.");
+    // https://web.archive.org/web/20071012103142im_/http://runescape.salmoneus.net/cities/images/ardysilkseller.gif
+    ~chatnpc("<p,happy>I buy silk. If you get any silk to sell bring it here.");
 }
 
 [proc,silk_merchant_sell_silk](int $price)

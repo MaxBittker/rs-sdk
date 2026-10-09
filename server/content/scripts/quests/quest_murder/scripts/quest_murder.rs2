@@ -428,4 +428,4 @@ inv_del(bank, murderfingerprint1, ^max_32bit_int);
 stat_advance(crafting, 14060);
 inv_add(inv, coins, 2000);
 session_log(^log_adventure, "Quest complete: Murder Mystery");
-~send_quest_complete(questlist:murder, coins, 250, ^murder_questpoints, "You have completed the\\nMurder Mystery Quest!");
+~send_quest_complete(questlist:murder, coins, 260, ^murder_questpoints, "You have completed the\\nMurder Mystery Quest!");

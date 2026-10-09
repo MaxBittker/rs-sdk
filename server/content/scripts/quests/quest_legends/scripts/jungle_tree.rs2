@@ -108,7 +108,7 @@ if (%skill_anim <= map_clock) {
 }
 // sounds plays every tick for jungle bush, not at all for the tree
 if(loc_category = jungle_bush) {
-    sound_synth(woodchop_4, 0, 10);
+    sound_synth(woodchop_4, 1, 10);
 }
 // this is here because theres always a tick where no mes("You swing your axe at the tree.") when spam clicking on tree
 // this tick is when you get you get a roll. so that means that skill clock is set next tick after roll is given
@@ -117,7 +117,7 @@ if (%action_delay < map_clock) {
 }
 if (%action_delay = map_clock) {
     // get lows and highs
-    if(loc_category = jungle_bush) sound_synth(woodchop_4, 0, 10); // double sound
+    if(loc_category = jungle_bush) sound_synth(woodchop_4, 1, 10); // double sound
     def_int $respawnrate = db_getfield($data, woodcutting_trees:respawnrate, 0);
     def_int $deplete_chance = 4; // 3/4 chance to deplete - this is a guess
     // axe does not seem to have any effect, wc level does? (need more data)
@@ -125,7 +125,8 @@ if (%action_delay = map_clock) {
         // Jungle trees/bushes just silently fail to give logs/xp if no space
         // There's also a chance to receive no logs. This seems to be about a 50% chance (tested w/100 rolls on OSRS)
         if (inv_freespace(inv) > 0 & random(2) = 0) {
-            mes("You get some <lowercase(oc_name($product))>.");
+            // https://youtu.be/TwihE8LB6FE?si=MKwpKhDDja39ZgXR&t=127
+            mes("You get some wood.");
             stat_advance(woodcutting, db_getfield($data, woodcutting_trees:productexp, 0));
             inv_add(inv, $product, 1);
         }

@@ -1,7 +1,7 @@
 [gnome_caveentrance]
 name=Hollowed rock
 desc=The entrance to the cave.
-model=model_loc_194
+model=cave_entrance4
 width=4
 length=4
 active=yes
@@ -11,7 +11,7 @@ forceapproach=west
 [gnome_caveladder]
 name=Ladder
 desc=I can climb this.
-model=model_loc_11
+model=furniture_ladder
 active=yes
 op1=Climb-up
 mapscene=7

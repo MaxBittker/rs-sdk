@@ -1,7 +1,7 @@
 [phoenixdoor]
 name=Door
 desc=A solid looking door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -12,7 +12,7 @@ recol2d=11458
 [phoenixdoor2]
 name=Door
 desc=A solid looking door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -23,7 +23,7 @@ recol2d=11458
 [blackarmdoor]
 name=Door
 desc=A solid looking door.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -34,7 +34,7 @@ recol2d=11458
 [blackarmcupboardshut]
 name=Cupboard
 desc=Might be worth searching.
-model=model_loc_367
+model=furniture_cupboard
 width=2
 length=3
 active=yes
@@ -45,7 +45,7 @@ param=cupboard_other,blackarmcupboardopen
 [blackarmcupboardopen]
 name=Cupboard
 desc=Might be worth searching.
-model=model_loc_370
+model=furniture_cupboard_open
 width=2
 length=3
 active=yes
@@ -57,7 +57,7 @@ param=cupboard_other,blackarmcupboardshut
 [questbookcase]
 name=Bookcase
 desc=A good source of books!
-model=model_loc_380
+model=furniture_bookcase
 length=2
 active=yes
 op2=Check
@@ -65,7 +65,7 @@ op2=Check
 [phoenixshutchest]
 name=Chest
 desc=Might be worth searching.
-model=wooden_chest
+model=furniture_chestclosed
 active=yes
 op1=Open
 forceapproach=north
@@ -75,7 +75,7 @@ recol1d=17921
 [phoenixopenchest]
 name=Chest
 desc=Might be worth searching.
-model=model_loc_76
+model=furniture_chestopen
 active=yes
 op1=Search
 op2=Close

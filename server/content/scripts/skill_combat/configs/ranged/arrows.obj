@@ -3,7 +3,7 @@ name=Bronze arrow
 desc=Arrows with bronze heads.
 cost=1
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -35,7 +35,7 @@ desc=Venomous looking arrows.
 members=yes
 cost=1
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -64,7 +64,7 @@ name=Iron arrow
 desc=Arrows with iron heads.
 cost=3
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -96,7 +96,7 @@ desc=Venomous looking arrows.
 members=yes
 cost=3
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -125,7 +125,7 @@ name=Steel arrow
 desc=Arrows with steel heads.
 cost=12
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 2dxof=6
 2dyof=-29
 2dzoom=1220
@@ -153,7 +153,7 @@ desc=Venomous looking arrows.
 members=yes
 cost=12
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=14798
 recol1d=14881
 2dxof=6
@@ -181,7 +181,7 @@ desc=Arrows with mithril heads.
 members=yes
 cost=32
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -213,7 +213,7 @@ desc=Venomous looking arrows.
 members=yes
 cost=32
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -243,7 +243,7 @@ desc=Arrows with Adamantite heads.
 members=yes
 cost=80
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -275,7 +275,7 @@ desc=Venomous looking arrows.
 members=yes
 cost=80
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -305,7 +305,7 @@ desc=Arrows with Rune heads.
 members=yes
 cost=400
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -337,7 +337,7 @@ desc=Venomous looking arrows.
 members=yes
 cost=400
 stackable=yes
-model=model_2711_obj
+model=inv_arrows
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -363,7 +363,7 @@ param=poison_severity,20
 
 [bronze_arrow_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -377,7 +377,7 @@ dummyitem=inv_only
 
 [bronze_arrow_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -391,7 +391,7 @@ dummyitem=inv_only
 
 [bronze_arrow_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -405,7 +405,7 @@ dummyitem=inv_only
 
 [bronze_arrow_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -419,7 +419,7 @@ dummyitem=inv_only
 
 [bronze_arrow_p_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -433,7 +433,7 @@ dummyitem=inv_only
 
 [bronze_arrow_p_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -447,7 +447,7 @@ dummyitem=inv_only
 
 [bronze_arrow_p_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -461,7 +461,7 @@ dummyitem=inv_only
 
 [bronze_arrow_p_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=8354
 recol2s=14798
@@ -475,7 +475,7 @@ dummyitem=inv_only
 
 [iron_arrow_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -489,7 +489,7 @@ dummyitem=inv_only
 
 [iron_arrow_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -503,7 +503,7 @@ dummyitem=inv_only
 
 [iron_arrow_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -517,7 +517,7 @@ dummyitem=inv_only
 
 [iron_arrow_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -531,7 +531,7 @@ dummyitem=inv_only
 
 [iron_arrow_p_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -545,7 +545,7 @@ dummyitem=inv_only
 
 [iron_arrow_p_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -559,7 +559,7 @@ dummyitem=inv_only
 
 [iron_arrow_p_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -573,7 +573,7 @@ dummyitem=inv_only
 
 [iron_arrow_p_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=8456
 recol2s=14798
@@ -587,7 +587,7 @@ dummyitem=inv_only
 
 [steel_arrow_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 2dxof=6
 2dyof=-29
 2dzoom=1220
@@ -597,7 +597,7 @@ dummyitem=inv_only
 
 [steel_arrow_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 2dxof=6
 2dyof=-29
 2dzoom=1220
@@ -607,7 +607,7 @@ dummyitem=inv_only
 
 [steel_arrow_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 2dxof=6
 2dyof=-29
 2dzoom=1220
@@ -617,7 +617,7 @@ dummyitem=inv_only
 
 [steel_arrow_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 2dxof=6
 2dyof=-29
 2dzoom=1220
@@ -627,7 +627,7 @@ dummyitem=inv_only
 
 [steel_arrow_p_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=14798
 recol1d=14881
 2dxof=6
@@ -639,7 +639,7 @@ dummyitem=inv_only
 
 [steel_arrow_p_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=14798
 recol1d=14881
 2dxof=6
@@ -651,7 +651,7 @@ dummyitem=inv_only
 
 [steel_arrow_p_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=14798
 recol1d=14881
 2dxof=6
@@ -663,7 +663,7 @@ dummyitem=inv_only
 
 [steel_arrow_p_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=14798
 recol1d=14881
 2dxof=6
@@ -675,7 +675,7 @@ dummyitem=inv_only
 
 [mithril_arrow_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -689,7 +689,7 @@ dummyitem=inv_only
 
 [mithril_arrow_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -703,7 +703,7 @@ dummyitem=inv_only
 
 [mithril_arrow_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -717,7 +717,7 @@ dummyitem=inv_only
 
 [mithril_arrow_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -731,7 +731,7 @@ dummyitem=inv_only
 
 [mithril_arrow_p_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -745,7 +745,7 @@ dummyitem=inv_only
 
 [mithril_arrow_p_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -759,7 +759,7 @@ dummyitem=inv_only
 
 [mithril_arrow_p_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -773,7 +773,7 @@ dummyitem=inv_only
 
 [mithril_arrow_p_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=6346
 recol2s=14798
@@ -787,7 +787,7 @@ dummyitem=inv_only
 
 [adamant_arrow_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -801,7 +801,7 @@ dummyitem=inv_only
 
 [adamant_arrow_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -815,7 +815,7 @@ dummyitem=inv_only
 
 [adamant_arrow_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -829,7 +829,7 @@ dummyitem=inv_only
 
 [adamant_arrow_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -843,7 +843,7 @@ dummyitem=inv_only
 
 [adamant_arrow_p_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -857,7 +857,7 @@ dummyitem=inv_only
 
 [adamant_arrow_p_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -871,7 +871,7 @@ dummyitem=inv_only
 
 [adamant_arrow_p_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -885,7 +885,7 @@ dummyitem=inv_only
 
 [adamant_arrow_p_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=6438
 recol2s=14798
@@ -899,7 +899,7 @@ dummyitem=inv_only
 
 [rune_arrow_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -913,7 +913,7 @@ dummyitem=inv_only
 
 [rune_arrow_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -927,7 +927,7 @@ dummyitem=inv_only
 
 [rune_arrow_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -941,7 +941,7 @@ dummyitem=inv_only
 
 [rune_arrow_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -955,7 +955,7 @@ dummyitem=inv_only
 
 [rune_arrow_p_4]
 stackable=yes
-model=model_2421_obj
+model=inv_arrows_4
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -969,7 +969,7 @@ dummyitem=inv_only
 
 [rune_arrow_p_3]
 stackable=yes
-model=model_2420_obj
+model=inv_arrows_3
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -983,7 +983,7 @@ dummyitem=inv_only
 
 [rune_arrow_p_2]
 stackable=yes
-model=model_2419_obj
+model=inv_arrows_2
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -997,7 +997,7 @@ dummyitem=inv_only
 
 [rune_arrow_p_5]
 stackable=yes
-model=model_2422_obj
+model=inv_arrows_5
 recol1s=15855
 recol1d=6476
 recol2s=14798
@@ -1010,12 +1010,12 @@ recol2d=14881
 dummyitem=inv_only
 
 [litarrow]
-name=Lit arrows
-desc=These arrows are ablaze with fire.
+name=Bronze fire arrows
+desc=These bronze headed arrows are ablaze with fire.
 members=yes
 cost=10
 stackable=yes
-model=model_3178_obj
+model=inv_fire_arrow
 2dzoom=1330
 2dyan=240
 2dxan=192
@@ -1040,7 +1040,7 @@ desc=Arrows with iron heads and oil soaked cloth.
 members=yes
 cost=3
 stackable=yes
-model=model_2702_obj
+model=inv_arrow-wrapped
 2dzoom=1580
 2dyan=1832
 2dxan=336
@@ -1065,7 +1065,7 @@ desc=These iron headed arrows are ablaze with fire.
 members=yes
 cost=10
 stackable=yes
-model=model_3178_obj
+model=inv_fire_arrow
 2dzoom=1330
 2dyan=240
 2dxan=192
@@ -1090,7 +1090,7 @@ desc=Arrows with steel heads and oil soaked cloth.
 members=yes
 cost=3
 stackable=yes
-model=model_2702_obj
+model=inv_arrow-wrapped
 2dzoom=1580
 2dyan=1832
 2dxan=336
@@ -1115,7 +1115,7 @@ desc=These steel headed arrows are ablaze with fire.
 members=yes
 cost=10
 stackable=yes
-model=model_3178_obj
+model=inv_fire_arrow
 2dzoom=1330
 2dyan=240
 2dxan=192
@@ -1140,7 +1140,7 @@ desc=Arrows with mithril heads and oil soaked cloth.
 members=yes
 cost=3
 stackable=yes
-model=model_2702_obj
+model=inv_arrow-wrapped
 2dzoom=1580
 2dyan=1832
 2dxan=336
@@ -1165,7 +1165,7 @@ desc=These mithril headed arrows are ablaze with fire.
 members=yes
 cost=10
 stackable=yes
-model=model_3178_obj
+model=inv_fire_arrow
 2dzoom=1330
 2dyan=240
 2dxan=192
@@ -1190,7 +1190,7 @@ desc=Arrows with adamant heads and oil soaked cloth.
 members=yes
 cost=3
 stackable=yes
-model=model_2702_obj
+model=inv_arrow-wrapped
 2dzoom=1580
 2dyan=1832
 2dxan=336
@@ -1215,7 +1215,7 @@ desc=These adamant headed arrows are ablaze with fire.
 members=yes
 cost=10
 stackable=yes
-model=model_3178_obj
+model=inv_fire_arrow
 2dzoom=1330
 2dyan=240
 2dxan=192
@@ -1240,7 +1240,7 @@ desc=Arrows with rune heads and oil soaked cloth.
 members=yes
 cost=3
 stackable=yes
-model=model_2702_obj
+model=inv_arrow-wrapped
 2dzoom=1580
 2dyan=1832
 2dxan=336
@@ -1265,7 +1265,7 @@ desc=These rune headed arrows are ablaze with fire.
 members=yes
 cost=10
 stackable=yes
-model=model_3178_obj
+model=inv_fire_arrow
 2dzoom=1330
 2dyan=240
 2dxan=192
@@ -1286,7 +1286,7 @@ param=lit_arrow,^true
 
 [unlitarrow_2]
 stackable=yes
-model=model_397_obj
+model=inv_arrow-wrapped2
 2dxof=3
 2dyof=-39
 2dzoom=1420
@@ -1296,7 +1296,7 @@ dummyitem=inv_only
 
 [unlitarrow_3]
 stackable=yes
-model=model_568_obj
+model=inv_arrow-wrapped3
 2dxof=12
 2dyof=9
 2dzoom=1360
@@ -1306,7 +1306,7 @@ dummyitem=inv_only
 
 [unlitarrow_4]
 stackable=yes
-model=model_2882_obj
+model=inv_arrow-wrapped4
 2dxof=1
 2dyof=-25
 2dzoom=1820
@@ -1316,7 +1316,7 @@ dummyitem=inv_only
 
 [unlitarrow_5]
 stackable=yes
-model=model_3361_obj
+model=inv_arrow-wrapped5
 2dxof=4
 2dyan=1884
 2dxan=384
@@ -1324,7 +1324,7 @@ dummyitem=inv_only
 
 [litarrow_2]
 stackable=yes
-model=model_3362_obj
+model=inv_fire_arrow2
 2dzoom=1590
 2dyan=1812
 2dxan=324
@@ -1332,7 +1332,7 @@ dummyitem=inv_only
 
 [litarrow_3]
 stackable=yes
-model=model_3363_obj
+model=inv_fire_arrow3
 2dxof=11
 2dzoom=1950
 2dyan=1804
@@ -1341,7 +1341,7 @@ dummyitem=inv_only
 
 [litarrow_4]
 stackable=yes
-model=model_3364_obj
+model=inv_fire_arrow4
 2dyof=-6
 2dzoom=1980
 2dyan=1896
@@ -1350,7 +1350,7 @@ dummyitem=inv_only
 
 [litarrow_5]
 stackable=yes
-model=model_3365_obj
+model=inv_fire_arrow5
 2dxof=3
 2dyof=2
 2dyan=1860

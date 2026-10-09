@@ -2,7 +2,12 @@
 if(%death_equiproom = ^death_complete) {
     ~chatplayer("<p,happy>Hello Tenzing!");
     ~chatnpc("<p,happy>Hello again traveller. What can I do for you?");
-    def_int $op = ~p_choice5("Can I buy some Climbing boots?", 1, "What does a Sherpa do?", 2, "How did you find out about the secret way?", 3, "Nice place you have here.", 4, "Nothing, thanks!", 5);
+    def_int $op;
+    if (%troll_love > ^troll_love_started & %troll_love < ^troll_love_picked_trollweiss) {
+        $op = ~p_choice5("Can I buy some Climbing boots?", 1, "What does a Sherpa do?", 2, "How did you find out about the secret way?", 3, "Do you know where I can find Trollweiss?", 6, "Nothing, thanks!", 5);
+    } else {
+        $op = ~p_choice5("Can I buy some Climbing boots?", 1, "What does a Sherpa do?", 2, "How did you find out about the secret way?", 3, "Nice place you have here.", 4, "Nothing, thanks!", 5);
+    }
     while($op ! null) {
         if($op = 1) {
             ~chatplayer("<p,neutral>Can I buy some Climbing boots?");
@@ -35,9 +40,43 @@ if(%death_equiproom = ^death_complete) {
         } else if($op = 5) {
             ~chatplayer("<p,happy>Nothing, thanks!");
             return;
+        } else if($op = 6) {
+            ~chatplayer("<p,neutral>Do you know where I can find Trollweiss?");
+            ~chatnpc("<p,confused>It has been a long time since someone has asked me about Trollweiss.");
+            ~chatnpc("<p,sad>In the old days Trollweiss could be found all over the mountains, but recently it has been disappearing!");
+            ~chatnpc("<p,neutral>There is one place, where I am sure it still grows, but it is impossible to get to.");
+            ~chatplayer("<p,neutral>Nothing's impossible, if you put your mind to it!");
+            ~chatnpc("<p,neutral>Ahhh, the youth of today. So sure of their prowess.|But who am I to stop you from walking into your doom, if that is what you wish to do!");
+            ~chatplayer("<p,neutral>Spare me with the lectures and tell me where to find this flower!");
+            ~chatnpc("<p,neutral>Well, you will need to enter the domain of the ice trolls! This is an area full of wicked beasts and biting cold. From there you will find a way down a slope to a plateau where the Trollweiss grows.");
+            ~chatnpc("<p,neutral>It used to be easy to get to this plateau, but it is now snowed over and virtually inaccessible.|That's global warming for you!");
+            ~chatplayer("<p,neutral>There must be a way to get there.");
+            ~chatnpc("<p,neutral>There is maybe one thing...");
+            ~chatplayer("<p,neutral>Go on.");
+            ~chatnpc("<p,neutral>If you could make some sort of sled, you could|probably get down there|but I don't know where that would lead you, as you will not be able to go up the mountain again.");
+            def_int $choice = ~p_choice3("That doesn't sound like a very good idea to me!", 1, "What would I need to make such a sled?", 2, "I've got to go.", 3);
+            if ($choice = 1) {
+                ~chatplayer("<p,neutral>That doesn't sound like a very good idea to me!");
+                ~chatnpc("<p,angry>Pah, who are you to talk? Without me you would never have found the secret path to the plateau!!");
+            } else if ($choice = 2) {
+                ~chatplayer("<p,neutral>What would I need to make such a sled?");
+                ~chatnpc("<p,neutral>Well, I'm no expert. Maybe you should speak to someone who knows more about such technical stuff.");
+                ~chatplayer("<p,neutral>Like who?");
+                if (%troll_love = ^troll_love_aga_wants_trollweiss) %troll_love = ^troll_love_learnt_about_trollweiss;
+                ~chatnpc("<p,neutral>Why don't you ask Dunstan. He's always helped me with my spiked boots.");
+                ~chatplayer("<p,neutral>Thank you very much for the information.");
+            } else if ($choice = 3) {
+                ~chatplayer("<p,neutral>I've got to go.");
+                ~chatnpc("<p,neutral>See you later");
+            }
+            return;
         }
         ~chatnpc("<p,neutral>Was there anything else?");
-        $op = ~p_choice5("Can I buy some Climbing boots?", 1, "What does a Sherpa do?", 2, "How did you find out about the secret way?", 3, "Nice place you have here.", 4, "Nothing, thanks!", 5);
+        if (%troll_love > ^troll_love_started & %troll_love < ^troll_love_picked_trollweiss) {
+            $op = ~p_choice5("Can I buy some Climbing boots?", 1, "What does a Sherpa do?", 2, "How did you find out about the secret way?", 3, "Do you know where I can find Trollweiss?", 6, "Nothing, thanks!", 5);
+        } else {
+            $op = ~p_choice5("Can I buy some Climbing boots?", 1, "What does a Sherpa do?", 2, "How did you find out about the secret way?", 3, "Nice place you have here.", 4, "Nothing, thanks!", 5);
+        }
     }
     return;
 }

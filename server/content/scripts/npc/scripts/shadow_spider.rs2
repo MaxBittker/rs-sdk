@@ -21,7 +21,7 @@ if (~npc_retal_ready = true) {
 
 [proc,shadow_spider_drain]
 mes("The spider drains your prayer...");
-sound_synth(prayer_drain, 0, 0);
+sound_synth(prayer_drain, 1, 0);
 stat_sub(prayer, divide(stat(prayer), 2), 0); // division by 2 round up, thats why percent isn't being used 
 
 [ai_queue1,shadow_spider]

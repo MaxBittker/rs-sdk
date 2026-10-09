@@ -7,7 +7,7 @@
 p_arrivedelay;
 mes("You open the coffin.");
 anim(human_openchest, 0);
-sound_synth(coffin_open, 0, 0);
+sound_synth(coffin_open, 1, 0);
 ~check_restlessghost_spawn; // probably before delay like closing
 p_delay(0);
 // Temp note: dur does not need updated
@@ -19,7 +19,7 @@ loc_change(restless_ghost_altar, 300);
 [oploc1,restless_ghost_altar]
 mes("You close the coffin.");
 anim(human_closechest, 0);
-sound_synth(coffin_close, 0, 0);
+sound_synth(coffin_close, 1, 0);
 ~check_restlessghost_spawn; // https://youtu.be/QX-ieoyDXh4?si=mJjuZG052xLGiVWq&t=950
 p_delay(0);
 // Temp note: dur does not need updated

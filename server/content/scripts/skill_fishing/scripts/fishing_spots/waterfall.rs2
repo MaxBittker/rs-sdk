@@ -23,7 +23,7 @@ if (%action_delay = calc(map_clock + 3)) {
     return;
 }
 if (%action_delay = calc(map_clock + 2)) {
-    sound_synth(fishing_cast, 0, 0);
+    sound_synth(fishing_cast, 1, 0);
     mes("You attempt to catch a fish.");
 }
 p_oploc(3);
@@ -81,7 +81,7 @@ if (%action_delay = calc(map_clock + 3)) {
     return;
 }
 if (%action_delay = calc(map_clock + 2)) {
-    sound_synth(fishing_cast, 0, 0);
+    sound_synth(fishing_cast, 1, 0);
     mes("You attempt to catch a fish.");
 }
 p_oploc(4);

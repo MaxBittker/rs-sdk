@@ -31,7 +31,7 @@ inv_add(inv, khazard_helmet, 1);
 
 [oploc1,fightarena_door1]
 if(~check_axis(coord, loc_coord, loc_angle) = true) {
-    ~open_and_close_door(desertdoor_inactive, true, false);
+    ~open_and_close_door(loc_1532, true, false);
     return;
 }
 // no "locked" sound... (osrs has it): https://youtu.be/Oltfw1gvWjQ?si=pAK0N9CJmLUyWOBk&t=106
@@ -51,7 +51,7 @@ switch_int(%arenaquest) {
         }
         ~chatnpc("<p,bored>Nice observation guard. You could have just asked to be let in like a normal person.");
 }
-~open_and_close_door(desertdoor_inactive, false, false);
+~open_and_close_door(loc_1532, false, false);
 
 [proc,wearing_khazard_armour]()(boolean)
 if(inv_total(worn, khazard_helmet) > 0 & inv_total(worn, khazard_platemail) > 0) {
@@ -122,7 +122,7 @@ if(coordx(coord) > coordx(loc_coord) | coordz(coord) < coordz(loc_coord)) {
             ~chatnpc_specific(nc_name(jeremy_servil), jeremy_servil, "<p,sad>Quick, help him! That beast will kill him. He's too old to fight.");
             @ogre_attack_justin;
         case default :
-            sound_synth(door_open, 0, 0);
+            sound_synth(door_open, 1, 0);
             ~forcemove(0_40_49_45_17);
             def_int $x;
             def_int $z;
@@ -132,7 +132,7 @@ if(coordx(coord) > coordx(loc_coord) | coordz(coord) < coordz(loc_coord)) {
             $x, $z = ~door_open($angle, loc_shape);
             // Temp note: dur updated
             loc_change(inviswall, 3);
-            loc_add(movecoord($loc_coord, $x, 0, $z), desertdoor_inactive, modulo(add($angle, 1), 4), $shape, 3);
+            loc_add(movecoord($loc_coord, $x, 0, $z), loc_1532, modulo(add($angle, 1), 4), $shape, 3);
             ~forcemove(movecoord(coord, 2, 0, -2));
     }
 }
@@ -152,8 +152,8 @@ if(loc_find(0_40_49_46_16, fightarena_door2) = true) {
     $x, $z = ~door_open($angle, loc_shape);
     // Temp note: dur updated
     loc_change(inviswall, 3);
-    loc_add(movecoord($loc_coord, $x, 0, $z), desertdoor_inactive, modulo(add($angle, 1), 4), $shape, 3);
-    sound_synth(door_open, 0, 0);
+    loc_add(movecoord($loc_coord, $x, 0, $z), loc_1532, modulo(add($angle, 1), 4), $shape, 3);
+    sound_synth(door_open, 1, 0);
 }
 cam_moveto(0_40_49_43_26, 270, 1, 1);
 cam_lookat(0_40_49_43_15, 270, 1, 1);
@@ -174,7 +174,7 @@ if (%arenaquest = ^arena_entered_ogre_fight & npc_find(coord, jeremy_servil_aren
 }
 
 [label,open_arena_door]
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 ~forcemove(0_40_49_47_15);
 def_int $x;
 def_int $z;
@@ -184,7 +184,7 @@ def_locshape $shape = loc_shape;
 $x, $z = ~door_open($angle, loc_shape);
 // Temp note: dur updated
 loc_change(inviswall, 3);
-loc_add(movecoord($loc_coord, $x, 0, $z), desertdoor_inactive, modulo(add($angle, 1), 4), $shape, 3);
+loc_add(movecoord($loc_coord, $x, 0, $z), loc_1532, modulo(add($angle, 1), 4), $shape, 3);
 ~forcemove(movecoord(coord, -2, 0, 2));
 if (%arenaquest = ^arena_defeated_ogre & npc_find(coord, general_khazard, 8, 0) = true) {
     @general_khazard_welldone;
@@ -271,4 +271,4 @@ stat_advance(attack, 121750);
 stat_advance(thieving, 21750);
 session_log(^log_adventure, "Quest complete: Fight Arena");
 // todo: can't find an image of this so might need to confirm obj zoom + text breaking
-~send_quest_complete(questlist:arena, coins, 250, ^arena_questpoints, "You have completed the\\nFight Arena Quest!");
+~send_quest_complete(questlist:arena, coins, 260, ^arena_questpoints, "You have completed the\\nFight Arena Quest!");

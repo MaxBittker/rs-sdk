@@ -1,0 +1,127 @@
+[opnpc1,mm_waydar]
+if(inzone(0_45_42_0_0, 0_45_42_63_63, npc_coord) = true) {
+    @waydar_crash_island_dialogue;
+}
+if(%mm_daero = ^daero_complete) {
+    if(%mm_main < ^mm_arrived_atoll) {
+        ~chatnpc("<p,shifty>You should stock up well on food before our journey. I can carry only enough provisions for myself.");
+        ~chatnpc("<p,shifty>I'd be careful of the local fauna too - I've heard the bite is far worse than any noise they make.");
+        ~chatnpc("<p,quiz>Do you wish to fly right now?");
+    } else {
+        ~chatnpc("<p,quiz>Shall we return to Crash Island?");
+    }
+    switch_int(~p_choice2("Yes", 1, "No", 2)) {
+        case 1 :
+            ~chatplayer("<p,neutral>Yes, let's go.");
+            ~chatnpc("<p,neutral>As you wish.");
+            @waydar_fly_crash_island;
+        case 2 :
+            ~chatplayer("<p,neutral>Not yet. I'll be back later.");
+    }
+} else if(%mm_daero = ^daero_reinit_complete) {
+    ~chatnpc("<p,angry>Well done on breaking the code. You should speak to the High Tree Guardian.");
+} else if(%mm_daero = ^daero_started_reinit) {
+    switch_int(~p_choice4("What are military gliders?", 1, "Why are the gliders folded against the wall?", 2, "When will reinitialisation be completed?", 3, "Where is the reinitialisation code?", 4)) {
+        case 1 :
+            ~chatplayer("<p,quiz>What are military gliders?");
+            ~chatnpc("<p,neutral>As Daero said, they are a prototype for a new version of glider. They are reinforced yet are built out of lighter materials. They can fly much faster and for longer.");
+        case 2 :
+            ~chatplayer("<p,quiz>Why are the gliders folded against the wall?");
+            ~chatnpc("<p,neutral>It is the most compact way to store them. Unfortunately, they will remain like that until they are powered. We can only fully power the hangar when reinitialisation has been completed.");
+        case 3 :
+            ~chatplayer("<p,quiz>When will reinitialisation be completed?");
+            ~chatnpc("<p,neutral>I cannot be sure. It is a difficult code; it may happen the next instant - then again it may not.");
+            ~chatnpc("<p,neutral>You could even have a go at solving the code yourself.");
+        case 4 :
+            ~chatplayer("<p,quiz>Where is the reinitialisation code?");
+            ~chatnpc("<p,neutral>The code must be entered at the red control panel just by the wall over there.");
+    }
+} else {
+    ~chatnpc("<p,neutral>Sorry, I am not authorised to talk to you.");
+}
+
+[label,waydar_crash_island_dialogue]
+switch_int(%mm_waydar) {
+    case ^waydar_arrived_island :
+        if(%mm_main > ^mm_shown_seal) {
+            switch_int(~p_choice2("Are you sure you cannot come to the island?", 1, "I need to return to your kingdom.", 2)) {
+                case 1 :
+                    ~chatplayer("<p,quiz>Are you sure you cannot come to the island?");
+                    ~chatnpc("<p,neutral>I am sure.");
+                case 2 :
+                    ~chatplayer("<p,neutral>I need to return to your kingdom.");
+                    if(%mm_main > ^mm_arrived_atoll) {
+                        ~chatnpc("<p,shifty>Hmmm... as you wish... Why are you looking at me like that?");
+                        ~chatplayer("<p,neutral>Oh, no reason...");
+                    } else {
+                        ~chatnpc("<p,neutral>As you wish...");
+                    }
+                    @waydar_return;
+            }
+            return;
+        }
+        if(%mm_lumdo > ^lumdo_proof) @multi4("What shall we do now?", waydar_what, "Do you recognize the gnome on the beach?", waydar_beach, "Can you take me back to your kingdom?", waydar_back, "I cannot convince Lumdo to take us to the island...", waydar_lumdo);
+        @multi3("What shall we do now?", waydar_what, "Do you recognize the gnome on the beach?", waydar_beach, "Can you take me back to your kingdom?", waydar_back);
+    case ^mm_not_started :
+        ~chatplayer("<p,quiz>Where are we?");
+        ~chatnpc("<p,neutral>I am not sure. We appear to have landed where the 10th squad crashed. The number of gnome gliders is correct. Unfortunately for them, it appears that none of their gliders survived the collision.");
+        %mm_waydar = ^waydar_arrived_island;
+        ~chatplayer("<p,quiz>Did our glider survive?");
+        ~chatnpc("<p,neutral>Of course.");
+}
+
+[label,waydar_lumdo]
+~chatplayer("<p,neutral>I cannot convince Lumdo to take us to the island...");
+~chatnpc("<p,quiz>What is the problem?");
+~chatplayer("<p,neutral>He claims to be under direct orders from Garkor to guard their gliders until the rest return.");
+~chatnpc("<p,neutral>His zeal in this matter is to be expected. The Royal Guard - in particular the 10th squad - are renowned for their fierce loyalty.");
+~chatplayer("<p,quiz>Can you do anything?");
+~chatnpc("<p,neutral>I would rather not get involved. My mission is to protect you.");
+~chatplayer("<p,angry>You must do something!");
+~chatnpc("<p,neutral>You are becoming tiresome, human. As you wish.");
+if(.npc_find(coord, mm_lumdo, 10, 0) = true) {
+    ~chatnpc("<p,neutral>Foot soldier Lumdo of the 10th squad.");
+    ~.chatnpc("<p,angry>Yes?");
+    ~chatnpc("<p,neutral>I am Flight Commander Waydar. I believe you are under direct orders from your Sergeant to guard these gliders?");
+    ~.chatnpc("<p,angry>That is correct, Commander.");
+    ~chatnpc("<p,neutral>I need not remind you that I outrank Garkor. As of this instant, your orders are to convey the human to the atoll and remain there until he needs to return.");
+    ~.chatnpc("<p,angry>Garkor will not be pleased!");
+    ~chatnpc("<p,neutral>Then he can take up his issues with me personally.");
+    ~chatplayer("<p,neutral>Waydar! Will you not accompany me to the island?");
+    ~chatnpc("<p,neutral>No. After all, somebody has to look after the gliders.");
+    ~chatplayer("<p,angry>But it is your mission to protect me!");
+    ~chatnpc("<p,neutral>Enough. Return here when you are done.");
+    @mm_ch2_cutscene;
+}
+
+[label,waydar_what]
+~chatplayer("<p,quiz>What shall we do now?");
+~chatnpc("<p,neutral>During our descent I noticed a large populated island far to the west. I suggest we try and make our way there.");
+
+[label,waydar_beach]
+~chatplayer("<p,quiz>Do you recognise the gnome on the beach?");
+~chatnpc("<p,neutral>If I recall correctly, which I probably do, he is Lumdo of the 10th squad. I imagine he has been left to guard their gliders.");
+
+[label,waydar_back]
+~chatplayer("<p,quiz>Can you take me back to your kingdom?");
+~chatnpc("<p,neutral>Let me remind you that we are on a mission for King Narnode. We must attend to this mission.");
+~chatplayer("<p,angry>My mission involves leaving this island!");
+~chatnpc("<p,neutral>This is highly irregular.");
+@waydar_return;
+
+[label,waydar_fly_crash_island]
+if_openmain(glidermap);
+%pilot_journey = 8; 
+p_delay(3);
+p_teleport(0_45_42_13_37);
+%pilot_journey = -1;
+if_close;
+
+[label,waydar_return]
+if_openmain(glidermap);
+%pilot_journey = 9; 
+p_delay(3);
+mes("You are dropped off from the glider near the Gnomeball pitch.");
+p_teleport(0_37_54_25_10);
+%pilot_journey = -1;
+if_close;

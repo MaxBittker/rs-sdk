@@ -1,0 +1,32 @@
+// quest_routequest
+// Sources:
+// RS3 Wiki
+// OSRS Wiki
+// OSRS with rsprox
+// Some unrecorded RS3 walkthroughs
+// RS3 walkthrough https://www.youtube.com/watch?v=dYlo5fpLg-A
+// Mid-2007 - https://www.youtube.com/watch?v=9FWqA3_PG0c
+// Jan 2009 - https://www.youtube.com/watch?v=pNz0_8VjqPc
+// Oct 2011 - https://www.youtube.com/watch?v=hX65UDk-Vy8
+// Aug 2011 - https://www.youtube.com/watch?v=15R6DbtnwAc
+// RuneHQ 2005/03 - https://web.archive.org/web/20050318044237/http://runehq.com:80/cacheguides/viewquestguide00441.htm
+// Global-RS 2008/03 - https://web.archive.org/web/20080329021725/http://www.global-rs.com/quests/insearchofthemyreque/ 
+// OSRS 2016 - https://www.youtube.com/watch?v=5nmYFHdAXAQ
+// OSRS 2016[2] - https://www.youtube.com/watch?v=Xfej2XE12As
+// OSRS 2016[3] - https://www.youtube.com/watch?v=sB-GSLW5crI
+[proc,routequest_has_weapons]()(boolean)
+if(inv_total(inv, steel_longsword) < 1 | inv_total(inv, steel_sword) < 2 | inv_total(inv, steel_dagger) < 1
+    | inv_total(inv, steel_mace) < 1 | inv_total(inv, steel_warhammer) < 1) {
+    return (false);
+}
+return (true);
+
+[queue,routequest_complete]
+%routequest = ^routequest_complete;
+stat_advance(attack, 6000);
+stat_advance(defence, 6000);
+stat_advance(strength, 6000);
+stat_advance(hitpoints, 6000);
+stat_advance(crafting, 6000);
+session_log(^log_adventure, "Quest complete: In Search of the Myreque");
+~send_quest_complete2(questlist:routequest, steel_sword, 200, ^routequest_questpoints, "'In Search of the Myreque' completed.", "Attack & Defence XP|Strength & Hitpoint XP|Crafting XP|Quick Route to Mort'ton");

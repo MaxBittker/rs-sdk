@@ -22,13 +22,13 @@ if(stat(mining) < 50) {
   return;
 }
 anim(oc_param($pickaxe, mining_animation), 0);
-sound_synth(mine_quick, 0, 0);
+sound_synth(mine_quick, 1, 0);
 def_coord $loc_coord = loc_coord;
 // Temp note: dur updated
-loc_change(loc_472, 3);
+loc_change(rockslide2, 3);
 p_delay(1);
 // Temp note: dur updated
-loc_change(loc_474, 3);
+loc_change(rockslide4, 3);
 p_delay(1);
 // Temp note: dur updated
 loc_change(inviswall_no_blockrange, 4);

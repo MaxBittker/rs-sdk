@@ -1,0 +1,206 @@
+[proc,castlewars_operate_catapult](int $team)
+if (%castlewars_team ! $team) {
+    mes("You can't use the other team's catapult!");
+    return;
+}
+if (inv_total(inv, castlewars_catapult_rock) < 1) {
+    mes("You need a rock to launch from the catapult!");
+    return;
+}
+%castlewars_catapultx = 0;
+%castlewars_catapultz = 0;
+~castlewars_catapult_set_marker;
+    if_setobject(castlewars_catapult:com_147, castlewars_no0, 100);
+    if_setobject(castlewars_catapult:com_148, castlewars_no0, 100);
+    if_setobject(castlewars_catapult:com_149, castlewars_no0, 100);
+    if_setobject(castlewars_catapult:com_150, castlewars_no0, 100);
+    if_openmain(castlewars_catapult);
+
+[proc,castlewars_repair_catapult](int $team)
+if (inv_total(inv, castlewars_toolkit) < 1) {
+    mes("You need a toolkit to repair the catapult.");
+    return;
+}
+if (%castlewars_team ! $team) {
+    mes("You don't want to repair your opponents' catapult.");
+    return;
+}
+if (loc_type = castlewars_catapult_saradomin_broken) {
+    loc_change(castlewars_catapult_saradomin, 1);
+    %castlewars_saradomin_bits = clearbit(%castlewars_saradomin_bits, ^castlewars_catapult_bit);
+} else if (loc_type = castlewars_catapult_zamorak_broken) {
+    loc_change(castlewars_catapult_zamorak, 1);
+    %castlewars_zamorak_bits = clearbit(%castlewars_zamorak_bits, ^castlewars_catapult_bit);
+}
+sound_synth(castlewars_catapult_repaired, 0, 0);
+mes("You fix the catapult!");
+
+[proc,castlewars_damage_catapult](int $team)
+if (inv_total(inv, castlewars_explosives_potion) < 1) {
+    mes("You have nothing to damage the catapult with."); // guess, this should never happen
+    return;
+}
+if (%castlewars_team = $team) {
+    mes("You don't want to damage your own catapult!");
+    return;
+}
+if (loc_type = castlewars_catapult_saradomin) {
+    loc_change(castlewars_catapult_saradomin_broken, ^max_32bit_int);
+    %castlewars_saradomin_bits = setbit(%castlewars_saradomin_bits, ^castlewars_catapult_bit);
+} else if (loc_type = castlewars_catapult_zamorak) {
+    loc_change(castlewars_catapult_zamorak_broken, ^max_32bit_int);
+    %castlewars_zamorak_bits = setbit(%castlewars_zamorak_bits, ^castlewars_catapult_bit);
+}
+inv_delslot(inv, last_useslot);
+spotanim_map(firewave_impact, movecoord(loc_coord, 1, 0, 1), 92, 0);
+sound_synth(castlewars_exploding_vial, 0, 0);
+
+[proc,castlewars_ignite_catapult](int $team)
+if (%castlewars_team = $team) {
+    mes("You don't want to damage your own catapult!");
+    return;
+}
+sound_synth(castlewars_onfire, 0, 0);
+if ($team = ^castlewars_team_saradomin) {
+    loc_change(castlewars_catapult_saradomin_burning, ^max_32bit_int);
+    world_delay(10); // 11t
+    if (loc_type = castlewars_catapult_saradomin_burning) {
+        loc_change(castlewars_catapult_saradomin_broken, ^max_32bit_int);
+        %castlewars_saradomin_bits = setbit(%castlewars_saradomin_bits, ^castlewars_catapult_bit);
+    }
+} else if ($team = ^castlewars_team_zamorak) {
+    loc_change(castlewars_catapult_zamorak_burning, ^max_32bit_int);
+    world_delay(10); // 11t
+    if (loc_type = castlewars_catapult_zamorak_burning) {
+        loc_change(castlewars_catapult_zamorak_broken, ^max_32bit_int);
+        %castlewars_zamorak_bits = setbit(%castlewars_zamorak_bits, ^castlewars_catapult_bit);
+    }
+}
+
+// doesnt check team
+[proc,castlewars_extinguish_catapult]
+if (last_useitem ! bucket_water) {
+    ~displaymessage(^dm_default);
+    return;
+}
+inv_setslot(inv, last_useslot, bucket_empty, 1);
+sound_synth(castlewars_putout, 0, 0);
+if (loc_type = castlewars_catapult_saradomin_burning) loc_change(castlewars_catapult_saradomin, 1);
+else if (loc_type = castlewars_catapult_zamorak_burning) loc_change(castlewars_catapult_zamorak, 1);
+mes("You put out the fire!");
+
+
+[oploc1,castlewars_catapult_saradomin] ~castlewars_operate_catapult(^castlewars_team_saradomin);
+[oploc1,castlewars_catapult_zamorak] ~castlewars_operate_catapult(^castlewars_team_zamorak);
+
+[oplocu,castlewars_catapult_saradomin]
+switch_obj(last_useitem) {
+    case castlewars_catapult_rock : ~castlewars_operate_catapult(^castlewars_team_saradomin);
+    case castlewars_explosives_potion : ~castlewars_damage_catapult(^castlewars_team_saradomin);
+    case tinderbox : ~castlewars_ignite_catapult(^castlewars_team_saradomin);
+    case default : ~displaymessage(^dm_default);
+}
+[oplocu,castlewars_catapult_zamorak]
+switch_obj(last_useitem) {
+    case castlewars_catapult_rock : ~castlewars_operate_catapult(^castlewars_team_zamorak);
+    case castlewars_explosives_potion : ~castlewars_damage_catapult(^castlewars_team_zamorak);
+    case tinderbox : ~castlewars_ignite_catapult(^castlewars_team_zamorak);
+    case default : ~displaymessage(^dm_default);
+}
+
+[oplocu,castlewars_catapult_zamorak_burning] ~castlewars_extinguish_catapult;
+[oplocu,castlewars_catapult_saradomin_burning] ~castlewars_extinguish_catapult;
+
+[oploc1,castlewars_catapult_saradomin_broken] ~castlewars_repair_catapult(^castlewars_team_saradomin);
+[oploc1,castlewars_catapult_zamorak_broken] ~castlewars_repair_catapult(^castlewars_team_zamorak);
+
+[oplocu,castlewars_catapult_saradomin_broken]
+if (last_useitem ! castlewars_toolkit) {
+    ~displaymessage(^dm_default);
+    return;
+}
+~castlewars_repair_catapult(^castlewars_team_saradomin);
+
+[oplocu,castlewars_catapult_zamorak_broken]
+if (last_useitem ! castlewars_toolkit) {
+    ~displaymessage(^dm_default);
+    return;
+}
+~castlewars_repair_catapult(^castlewars_team_zamorak);
+
+
+
+[if_button,castlewars_catapult:com_151] // z north
+if (%castlewars_team = ^castlewars_team_saradomin) ~castlewars_catapult_add_z(1);
+else ~castlewars_catapult_add_z(-1);
+
+[if_button,castlewars_catapult:com_152] // z south
+if (%castlewars_team = ^castlewars_team_saradomin) ~castlewars_catapult_add_z(-1);
+else ~castlewars_catapult_add_z(1);
+
+[if_button,castlewars_catapult:com_153] // x east
+if (%castlewars_team = ^castlewars_team_saradomin) ~castlewars_catapult_add_x(-1);
+else ~castlewars_catapult_add_x(1);
+
+[if_button,castlewars_catapult:com_154] // x west
+if (%castlewars_team = ^castlewars_team_saradomin) ~castlewars_catapult_add_x(1);
+else ~castlewars_catapult_add_x(-1);
+
+[proc,castlewars_catapult_add_z](int $int)
+%castlewars_catapultz = min(max(add(%castlewars_catapultz, $int), -30), 30);
+    if_setobject(castlewars_catapult:com_147, enum(int, obj, castlewars_catapult_obj, divide(abs(%castlewars_catapultz), 10)), 100);
+    if_setobject(castlewars_catapult:com_148, enum(int, obj, castlewars_catapult_obj, modulo(abs(%castlewars_catapultz), 10)), 100);
+~castlewars_catapult_set_marker;
+
+[proc,castlewars_catapult_add_x](int $int)
+%castlewars_catapultx = min(max(add(%castlewars_catapultx, $int), -30), 30);
+    if_setobject(castlewars_catapult:com_149, enum(int, obj, castlewars_catapult_obj, divide(abs(%castlewars_catapultx), 10)), 100);
+    if_setobject(castlewars_catapult:com_150, enum(int, obj, castlewars_catapult_obj, modulo(abs(%castlewars_catapultx), 10)), 100);
+~castlewars_catapult_set_marker;
+
+[proc,castlewars_catapult_set_marker]
+def_int $x = multiply(%castlewars_catapultx, 2);
+def_int $z = multiply(%castlewars_catapultz, 2);
+    if (%castlewars_team = ^castlewars_team_saradomin) if_setposition(castlewars_catapult:com_162, sub(^castlewars_saradomin_catapult_default_x, $x), sub(^castlewars_saradomin_catapult_default_z, $z));
+    else if_setposition(castlewars_catapult:com_162, add(^castlewars_zamorak_catapult_default_x, $x), add(^castlewars_zamorak_catapult_default_z, $z));
+
+[proc,castlewars_catapult_fire_coord]()(coord)
+if (%castlewars_team = ^castlewars_team_saradomin) return(movecoord(^castlewars_saradomin_catapult_fire_coord, %castlewars_catapultx, 0, %castlewars_catapultz));
+else return(movecoord(^castlewars_zamorak_catapult_fire_coord, %castlewars_catapultx, 0, %castlewars_catapultz));
+
+[if_button,castlewars_catapult:com_159] // fire !
+if_close;
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    if (loc_find(^castlewars_saradomin_catapult_coord, castlewars_catapult_saradomin) = false) {
+        mes("Your catapult is no longer functioning!"); // osrs
+        return;
+    }
+} else if (%castlewars_team = ^castlewars_team_zamorak) {
+    if (loc_find(^castlewars_zamorak_catapult_coord, castlewars_catapult_zamorak) = false) {
+        mes("Your catapult is no longer functioning!"); // osrs
+        return;
+    }
+} else return;
+
+if (inv_total(inv, castlewars_catapult_rock) < 1) {
+    mes("You need a rock to launch from the catapult!");
+    return;
+}
+
+inv_del(inv, castlewars_catapult_rock, 1);
+loc_anim(catapult_release_reset);
+sound_synth(castlewars_catapult_fire, 0, 0);
+// dist of 17 map_projanim_v2	id=castlewars_catapult_travel (304), starttime=15, endtime=206, angle=25, progress=64, startheight=200, endheight=255
+// dist of 4 map_projanim_v2	id=castlewars_catapult_travel (304), starttime=15, endtime=76, angle=25, progress=64, startheight=200, endheight=255
+def_coord $target_coord = map_findsquare(~castlewars_catapult_fire_coord, 0, 2, ^map_findsquare_none);
+def_int $duration = ~coord_projectile(movecoord(loc_coord, 1, 0, 1), $target_coord, castlewars_catapult_travel, 200, 255, 15, 25, 21, 64, 10);
+spotanim_map(castlewars_catapult_impact, $target_coord, 0, $duration);
+spotanim_map(castlewars_catapult_splash, $target_coord, 0, add($duration, 10));
+
+world_delay(divide($duration, 30)); // todo: check delay length
+
+huntall($target_coord, 2, ^vis_lineofsight);
+while (huntnext = true) {
+    if_close;
+    strongqueue(damage_player, 0, ~random_range(15, 30));
+}

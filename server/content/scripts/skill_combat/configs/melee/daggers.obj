@@ -1,5 +1,5 @@
 [iron_dagger]
-model=model_2672_obj
+model=inv_dagger
 recol1s=15855
 recol1d=8456
 recol2s=9513
@@ -17,8 +17,8 @@ cost=35
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_533_obj_wear,0
-womanwear=model_533_obj_wear,6
+manwear=human_weapons_dagger,0
+womanwear=human_weapons_dagger,6
 category=weapon_stab
 weight=1lb
 respawnrate=500
@@ -37,7 +37,7 @@ param=weapon_poisoned,iron_dagger_p
 param=weapon_poisoned_message,You poison the dagger.
 
 [bronze_dagger]
-model=model_2672_obj
+model=inv_dagger
 recol1s=15855
 recol1d=8354
 recol2s=9513
@@ -55,8 +55,8 @@ cost=10
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_533_obj_wear,0
-womanwear=model_533_obj_wear,6
+manwear=human_weapons_dagger,0
+womanwear=human_weapons_dagger,6
 category=weapon_stab
 weight=1lb
 param=stabattack,4
@@ -74,7 +74,7 @@ param=weapon_poisoned,bronze_dagger_p
 param=weapon_poisoned_message,You poison the dagger.
 
 [steel_dagger]
-model=model_2672_obj
+model=inv_dagger
 name=Steel dagger
 desc=Short but pointy.
 cost=125
@@ -84,8 +84,8 @@ cost=125
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_533_obj_wear,0
-womanwear=model_533_obj_wear,6
+manwear=human_weapons_dagger,0
+womanwear=human_weapons_dagger,6
 category=weapon_stab
 weight=1lb
 respawnrate=1000
@@ -104,7 +104,7 @@ param=weapon_poisoned,steel_dagger_p
 param=weapon_poisoned_message,You poison the dagger.
 
 [mithril_dagger]
-model=model_2672_obj
+model=inv_dagger
 recol1s=15855
 recol1d=6346
 recol2s=9513
@@ -122,8 +122,8 @@ cost=325
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_533_obj_wear,0
-womanwear=model_533_obj_wear,6
+manwear=human_weapons_dagger,0
+womanwear=human_weapons_dagger,6
 category=weapon_stab
 weight=14oz
 param=stabattack,11
@@ -141,7 +141,7 @@ param=weapon_poisoned,mithril_dagger_p
 param=weapon_poisoned_message,You poison the dagger.
 
 [adamant_dagger]
-model=model_2672_obj
+model=inv_dagger
 recol1s=15855
 recol1d=6438
 recol2s=9513
@@ -159,8 +159,8 @@ cost=800
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_533_obj_wear,0
-womanwear=model_533_obj_wear,6
+manwear=human_weapons_dagger,0
+womanwear=human_weapons_dagger,6
 category=weapon_stab
 weight=18oz
 param=stabattack,15
@@ -178,7 +178,7 @@ param=weapon_poisoned,adamant_dagger_p
 param=weapon_poisoned_message,You poison the dagger.
 
 [rune_dagger]
-model=model_2672_obj
+model=inv_dagger
 recol1s=15855
 recol1d=6476
 recol2s=9513
@@ -196,8 +196,8 @@ cost=8000
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_533_obj_wear,0
-womanwear=model_533_obj_wear,6
+manwear=human_weapons_dagger,0
+womanwear=human_weapons_dagger,6
 category=weapon_stab
 weight=1lb
 param=stabattack,25
@@ -216,7 +216,7 @@ param=weapon_poisoned_message,You poison the dagger.
 
 [dragon_dagger]
 members=yes
-model=model_2718_obj
+model=inv_dragon_dagger
 recol1s=928
 recol1d=14336
 name=Dragon dagger
@@ -228,8 +228,8 @@ cost=30000
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_539_obj_wear,0
-womanwear=model_539_obj_wear,6
+manwear=human_weapons_dragon_dagger,0
+womanwear=human_weapons_dragon_dagger,6
 category=weapon_stab
 weight=1lb
 param=stabattack,40
@@ -240,18 +240,16 @@ param=magicdefence,1
 param=strengthbonus,40
 param=stabattack_anim,human_ddagger_lunge
 param=slashattack_anim,human_ddagger_hack
-// param=defend_anim,human_ddagger_def
 param=defend_anim,human_ddagger_block
 param=stab_sound,stabsword_stab
 param=slash_sound,stabsword_slash
 param=weapon_poisoned,dragon_dagger_p
 param=weapon_poisoned_message,You poison the dagger.
-// osrs defend anim seq_378
 param=specwep,^true
 param=sa_energy,250
 
 [black_dagger]
-model=model_2672_obj
+model=inv_dagger
 recol1s=15855
 recol1d=2114
 recol2s=9513
@@ -269,8 +267,8 @@ cost=240
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_533_obj_wear,0
-womanwear=model_533_obj_wear,6
+manwear=human_weapons_dagger,0
+womanwear=human_weapons_dagger,6
 category=weapon_stab
 weight=1lb
 respawnrate=1200
@@ -290,7 +288,7 @@ param=weapon_poisoned_message,You poison the dagger.
 
 [iron_dagger_p]
 members=yes
-model=model_2478_obj
+model=inv_dagger_poisoned
 recol1s=15855
 recol1d=8456
 recol2s=9513
@@ -310,8 +308,8 @@ cost=35
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_504_obj_wear,0
-womanwear=model_504_obj_wear,6
+manwear=human_weapons_dagger_poisoned,0
+womanwear=human_weapons_dagger_poisoned,6
 category=weapon_stab
 weight=1lb
 param=stabattack,5
@@ -331,7 +329,7 @@ param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the dagger
 
 [bronze_dagger_p]
 members=yes
-model=model_2478_obj
+model=inv_dagger_poisoned
 recol1s=15855
 recol1d=8354
 recol2s=9513
@@ -351,8 +349,8 @@ cost=10
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_504_obj_wear,0
-womanwear=model_504_obj_wear,6
+manwear=human_weapons_dagger_poisoned,0
+womanwear=human_weapons_dagger_poisoned,6
 category=weapon_stab
 weight=1lb
 param=stabattack,4
@@ -372,7 +370,7 @@ param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the dagger
 
 [steel_dagger_p]
 members=yes
-model=model_2478_obj
+model=inv_dagger_poisoned
 recol1s=928
 recol1d=14881
 name=Steel dagger(p)
@@ -384,8 +382,8 @@ cost=125
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_504_obj_wear,0
-womanwear=model_504_obj_wear,6
+manwear=human_weapons_dagger_poisoned,0
+womanwear=human_weapons_dagger_poisoned,6
 category=weapon_stab
 weight=1lb
 param=stabattack,8
@@ -405,7 +403,7 @@ param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the dagger
 
 [mithril_dagger_p]
 members=yes
-model=model_2478_obj
+model=inv_dagger_poisoned
 recol1s=15855
 recol1d=6346
 recol2s=9513
@@ -425,8 +423,8 @@ cost=325
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_504_obj_wear,0
-womanwear=model_504_obj_wear,6
+manwear=human_weapons_dagger_poisoned,0
+womanwear=human_weapons_dagger_poisoned,6
 category=weapon_stab
 weight=14oz
 param=stabattack,11
@@ -446,7 +444,7 @@ param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the dagger
 
 [adamant_dagger_p]
 members=yes
-model=model_2478_obj
+model=inv_dagger_poisoned
 recol1s=15855
 recol1d=6438
 recol2s=9513
@@ -466,8 +464,8 @@ cost=800
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_504_obj_wear,0
-womanwear=model_504_obj_wear,6
+manwear=human_weapons_dagger_poisoned,0
+womanwear=human_weapons_dagger_poisoned,6
 category=weapon_stab
 weight=18oz
 param=stabattack,15
@@ -487,7 +485,7 @@ param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the dagger
 
 [rune_dagger_p]
 members=yes
-model=model_2478_obj
+model=inv_dagger_poisoned
 recol1s=15855
 recol1d=6476
 recol2s=9513
@@ -507,8 +505,8 @@ cost=8000
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_504_obj_wear,0
-womanwear=model_504_obj_wear,6
+manwear=human_weapons_dagger_poisoned,0
+womanwear=human_weapons_dagger_poisoned,6
 category=weapon_stab
 weight=1lb
 param=stabattack,25
@@ -528,7 +526,7 @@ param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the dagger
 
 [dragon_dagger_p]
 members=yes
-model=model_2718_obj
+model=inv_dragon_dagger
 name=Dragon dagger(p)
 desc=A powerful dagger.
 cost=24000
@@ -538,8 +536,8 @@ cost=24000
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_539_obj_wear,0
-womanwear=model_539_obj_wear,6
+manwear=human_weapons_dragon_dagger,0
+womanwear=human_weapons_dragon_dagger,6
 category=weapon_stab
 weight=1lb
 param=stabattack,40
@@ -550,11 +548,9 @@ param=magicdefence,1
 param=strengthbonus,40
 param=stabattack_anim,human_ddagger_lunge
 param=slashattack_anim,human_ddagger_hack
-// param=defend_anim,human_ddagger_def
 param=defend_anim,human_ddagger_block
 param=stab_sound,stabsword_stab
 param=slash_sound,stabsword_slash
-// osrs defend anim seq_378
 param=poison_severity,20
 param=specwep,^true
 param=sa_energy,250
@@ -563,7 +559,7 @@ param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the dagger
 
 [black_dagger_p]
 members=yes
-model=model_2478_obj
+model=inv_dagger_poisoned
 recol1s=15855
 recol1d=2114
 recol2s=9513
@@ -583,8 +579,8 @@ cost=240
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_504_obj_wear,0
-womanwear=model_504_obj_wear,6
+manwear=human_weapons_dagger_poisoned,0
+womanwear=human_weapons_dagger_poisoned,6
 category=weapon_stab
 weight=1lb
 param=stabattack,10
@@ -604,7 +600,7 @@ param=tbwt_weapon_poison_clear,You gingerly wipe the poison off the dagger
 
 [poisoned_dagger_p]
 members=yes
-model=model_2478_obj
+model=inv_dagger_poisoned
 name=Poisoned dagger(p)
 desc=The blade is covered with poison.
 cost=565
@@ -614,8 +610,8 @@ cost=565
 2dxan=472
 iop2=Wield
 wearpos=righthand
-manwear=model_504_obj_wear,0
-womanwear=model_504_obj_wear,6
+manwear=human_weapons_dagger_poisoned,0
+womanwear=human_weapons_dagger_poisoned,6
 category=weapon_stab
 weight=1lb
 param=stabattack,255

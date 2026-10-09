@@ -22,7 +22,7 @@ if ($entering = true) {
     // mes(~coord_tostring($loc_coord));
     // mes(~coord_tostring(coord));
     if ($play_locked_synth =  true) {
-        sound_synth(locked, 0, 0);
+        sound_synth(locked, 1, 0);
     }
     if (coord ! $loc_coord) {
         p_teleport($loc_coord);
@@ -37,7 +37,7 @@ p_teleport($dest);
 loc_change(inviswall, 3);
 loc_add(movecoord($loc_coord, $x, 0, $z), $replacement, modulo(add($angle, 1), 4), $shape, 3);
 
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 
 // same as the other proc but plays the sound instantly
 [proc,open_and_close_door2](loc $replacement, boolean $entering, synth $sound)
@@ -48,7 +48,7 @@ def_locshape $shape = loc_shape;
 def_coord $loc_coord = loc_coord;
 $x, $z = ~door_open($angle, loc_shape);
 def_coord $dest = $loc_coord;
-sound_synth($sound, 0, 0);
+sound_synth($sound, 1, 0);
 if ($entering = true) {
     if (coord ! $loc_coord) {
         p_teleport($loc_coord);
@@ -70,7 +70,7 @@ def_locshape $shape = loc_shape;
 def_coord $loc_coord = loc_coord;
 $x, $z = ~door_open($angle, loc_shape);
 def_coord $dest = $loc_coord;
-sound_synth($sound, 0, 0);
+sound_synth($sound, 1, 0);
 if ($entering = true) {
     if (coord ! $loc_coord) {
         p_teleport($loc_coord);
@@ -92,7 +92,7 @@ def_locshape $shape = loc_shape;
 def_coord $loc_coord = loc_coord;
 $x, $z = ~door_open($angle, loc_shape);
 def_coord $dest = $loc_coord;
-sound_synth($sound, 0, 0);
+sound_synth($sound, 1, 0);
 if ($entering = true) {
     if (coord ! $loc_coord) {
         p_teleport($loc_coord);
@@ -113,7 +113,7 @@ def_locshape $shape = loc_shape;
 def_coord $loc_coord = loc_coord;
 $x, $z = ~door_open($angle, loc_shape);
 def_coord $dest = $loc_coord;
-sound_synth($sound, 0, 0);
+sound_synth($sound, 1, 0);
 if ($entering = true) {
     if (coord ! $loc_coord) {
         p_teleport($loc_coord);
@@ -163,7 +163,7 @@ p_teleport($dest);
 loc_change(inviswall, 3);
 loc_add(movecoord($loc_coord, $x, 0, $z), $replacement, modulo(add($angle, 1), 4), $shape, 3);
 
-sound_synth(grate_open, 0, 0);
+sound_synth(grate_open, 1, 0);
 
 [proc,open_and_close_metal_gate2](loc $replacement, boolean $entering, boolean $mirrored)
 // ~loc_shape_debug(loc_shape);
@@ -179,7 +179,7 @@ $x, $z = ~door_open($angle, loc_shape);
 def_locshape $shape = loc_shape;
 
 $telex, $telez = ~door_open($angle, loc_shape);
-sound_synth(grate_open, 0, 0);
+sound_synth(grate_open, 1, 0);
 // walk through door, but if entering, walk next to door and then through
 def_coord $dest = $loc_coord;
 if ($entering = true) {
@@ -200,3 +200,15 @@ loc_change(inviswall, 3);
 def_int $rotation = modulo(add($angle, 1), 4);
 if($mirrored = true) $rotation = modulo(add($angle, 3), 4);
 loc_add(movecoord($loc_coord, $x, 0, $z), $replacement, $rotation, $shape, 3);
+
+[proc,walk_through_door]
+if (~check_axis_locactive(coord) = false) {
+    p_teleport(loc_coord);
+    p_delay(0);
+    return;
+}
+if (loc_coord ! coord) {
+    p_teleport(loc_coord);
+    p_delay(0);
+}
+p_teleport(~movecoord_indirection(coord, modulo(add(loc_angle, 3), 4), 1));

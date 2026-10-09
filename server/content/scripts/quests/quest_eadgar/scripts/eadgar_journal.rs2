@@ -1,6 +1,3 @@
-// Sources
-// 2014 OSRS: https://youtu.be/945tUgBj3SM?t=14
-
 [if_button,questlist:eadgar]
 def_int $quest_progress = %eadgar_quest;
 def_string $prev_text;
@@ -65,8 +62,7 @@ if ($quest_progress = ^eadgar_needs_items) {
     def_int $grain_needed = calc(10 - %eadgar_grain);
     def_string $items_remaining = "@dre@";
     if(testbit(%eadgar_bits, ^eadgar_given_logs) ! 1) {
-        // TODO the string for logs needs verified as far as formatting, the rest match OSRS including plural vs singular for >1 vs 1
-        $items_remaining = append($items_remaining, "|Some Logs");
+        $items_remaining = append($items_remaining, "|Logs");
     }
     if($chickens_needed > 0) {
         if($chickens_needed > 1) {
@@ -120,7 +116,7 @@ if($quest_progress >= ^eadgar_got_parrot_back) {
 
 if($quest_progress >= ^eadgar_got_fake_man) {
     // https://youtu.be/945tUgBj3SM?t=896 - once again, no period at the end of the new text. 2007 linebreaks work fine here
-    // todo does this journal entry change at all if losing the fake man
+    // this entry does NOT change if the fake man is lost
     $prev_text = append($prev_text, " and|@str@gave it to Eadgar.||@str@I got Eadgar's fake man");
     if($quest_progress = ^eadgar_got_fake_man) {
         $new_text = append($prev_text, ".|@dbl@I should give the fake man to the @dre@Troll cook");

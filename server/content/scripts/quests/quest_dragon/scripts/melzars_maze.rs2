@@ -1,10 +1,10 @@
 // entrance
 [oploc1,melzardoor] 
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 mes("The door is securely locked.");
 // def_boolean $entering = ~check_axis_locactive(coord);
 // if ($entering = true) {
-//     sound_synth(locked, 0, 0);
+//     sound_synth(locked, 1, 0);
 //     mes("The door is securely locked.");
 //     return;
 // }
@@ -12,7 +12,7 @@ mes("The door is securely locked.");
 
 [oplocu,melzardoor] // https://youtu.be/tmPf68hogzw?t=54
  if (last_useitem = melzarkey) {
-    ~open_and_close_door(poordoor, ~check_axis_locactive(coord), false);
+    ~open_and_close_door(loc_1535, ~check_axis_locactive(coord), false);
 } else {
     ~displaymessage(^dm_default);
 }
@@ -22,11 +22,11 @@ if (~check_axis_locactive(coord) = false) {
     mes("The door is locked."); // osrs
     return;
 }
-~open_and_close_door(poordoor, true, false);
+~open_and_close_door(loc_1535, true, false);
 
 
 // broken ladder
-[oploc1,broken_ladder] 
+[oploc1,ladder_broken] 
 mes("The ladder is broken, I can't climb it."); // osrs
 
 // ladder
@@ -59,7 +59,7 @@ mes("The ladder is broken, I can't climb it."); // osrs
     // mes("The key disintegrates as it unlocks the door."); // osrs
     mes("The key disintegrates as it unlocks the door..."); // screenshot
     inv_del(inv, $key, 1);
-    ~open_and_close_door(poordoor, ~check_axis_locactive(coord), false);
+    ~open_and_close_door(loc_1535, ~check_axis_locactive(coord), false);
 } else {
     ~displaymessage(^dm_default); // osrs
 }
@@ -141,7 +141,7 @@ obj_add(npc_coord, greenkey, 1, ^lootdrop_duration);
 p_arrivedelay;
 mes("You open the chest.");
 anim(human_openchest, 0);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change(funchestopen, 300);
@@ -151,7 +151,7 @@ loc_change(funchestopen, 300);
 p_arrivedelay;
 mes("You close the chest.");
 anim(human_closechest, 0);
-sound_synth(chest_close, 0, 0);
+sound_synth(chest_close, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change(funchestshut, 300);

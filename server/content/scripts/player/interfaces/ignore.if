@@ -1229,7 +1229,7 @@ clientcode=501
 width=72
 height=36
 graphic=combatboxes,0
-option=Add friend
+option=Add name
 
 [com_3]
 type=graphic
@@ -1240,7 +1240,7 @@ clientcode=502
 width=72
 height=36
 graphic=combatboxes,0
-option=Delete friend
+option=Delete name
 
 [com_4]
 type=text

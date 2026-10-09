@@ -1,0 +1,54 @@
+[ai_timer,mm_dugopul]
+if(inzone(0_43_43_48_6, 0_43_43_52_12, npc_destination) = true) {
+    npc_setmode(null);
+    npc_sethuntmode(null);
+} else {
+    npc_sethuntmode(mm_guard);
+}
+
+[ai_applayer2,mm_dugopul]
+// will always try to hunt -> ap you whether ur wearing a greegree or not
+// sets to none when ap runs, you'll notice if you're in monkey form and in aprange, dugopul will stop moving
+// and if you walk underneath, he will step out to try and interact;
+if(~mm_wearing_greegree = true) {
+    npc_setmode(null);
+    return;
+}
+if_close;
+if(%mm_guards_cooldown > map_clock) {
+    npc_setmode(null);
+    return;
+}
+if(getqueue(dugopul_caught) > 0) return;
+queue(aa_guards_queue, 6, 0);
+queue(dugopul_caught, 0, 0);
+
+[ai_opplayer2,mm_dugopul] npc_setmode(applayer2);
+
+[queue,dugopul_caught]
+%mm_guards_cooldown = add(map_clock, 50);
+if(inv_total(inv, mm_amulet_of_monkey_speak) > 0) {
+    ~chatnpc_specific(nc_name(mm_dugopul), mm_dugopul, "<p,neutral>Guards! I've found a human!");
+} else {
+    ~chatnpc_specific(nc_name(mm_dugopul), mm_dugopul, "<p,neutral><~monkeyspeak_text>");
+}
+
+[opnpc1,mm_dugopul]
+if(~mm_wearing_greegree = false) {
+    queue(aa_guards_queue, 6, 0);
+    if(inv_total(inv, mm_amulet_of_monkey_speak) > 0) {
+        ~chatnpcnoturn("<p,neutral>Guards! I've found a human!");
+    } else {
+        ~chatnpcnoturn("<p,neutral><~monkeyspeak_text>");
+    }
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~chatnpcnoturn("<p,neutral><~monkeyspeak_text>");
+    ~mesbox("You cannot understand what he is saying.");
+    return;
+}
+~chatnpcnoturn("<p,neutral>Not many monkeys come down here...");
+~chatplayer("<p,neutral>That's quite understandable really.");
+~chatnpcnoturn("<p,neutral>I don't really understand it at all. I've spent my life here.");

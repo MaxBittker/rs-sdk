@@ -3,6 +3,7 @@ if (~in_duel_arena(coord) = true & %duelstatus < ^duelstatus_lost) {
     %duelstatus = ^duelstatus_lost;
     ~player_death;
 
+    ~combat_clearqueue;
     clearqueue(duel_finish);
     queue(duel_finish, 0, 0);
 

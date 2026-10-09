@@ -11,7 +11,7 @@ if(last_useitem = bucket_empty) {
     anim(human_pickuptable, 0);
     inv_del(inv, bucket_empty, 1);
     inv_add(inv, bucket_murkywater, 1);
-    sound_synth(well_fill, 0, 0);
+    sound_synth(well_fill, 1, 0);
     return;
 }
 ~displaymessage(^dm_default);

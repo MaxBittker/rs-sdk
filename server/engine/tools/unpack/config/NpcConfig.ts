@@ -92,8 +92,6 @@ export function unpackNpcConfig(config: ConfigIdx, id: number, compare?: ConfigI
 
             const walkanim = SeqPack.getById(walkanimId) || 'seq_ ' + walkanimId;
             def.push(`walkanim=${walkanim}`);
-        } else if (code === 16) {
-            def.push('hasalpha=yes');
         } else if (code === 17) {
             const walkanimId = dat.g2();
             const walkanim_bId = dat.g2();

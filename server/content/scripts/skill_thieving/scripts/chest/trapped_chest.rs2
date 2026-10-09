@@ -72,7 +72,7 @@ if ($current_level < $thieving_level) {
 
 [label,activate_locked_chest]
 mes("This chest is locked");
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 
 [proc,attempt_locked_chest]
 //todo: is gas random event possible?
@@ -88,7 +88,7 @@ if ($current_level < $thieving_level) {
     return;
 }
 
-sound_synth(locked, 0, 0); // after first check, but before 2nd
+sound_synth(locked, 1, 0); // after first check, but before 2nd
 if (inv_total(inv, lockpick) < 1) {
     mes("You need a lockpick for this lock.");
     return;
@@ -97,7 +97,7 @@ if (inv_total(inv, lockpick) < 1) {
 mes("You manage to pick the lock.");
 p_delay(1);
 mes("You open the chest.");
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(1);
 mes("You find treasure inside!");
 anim(human_openchest, 0);

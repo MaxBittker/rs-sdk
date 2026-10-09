@@ -15,7 +15,7 @@ if (~is_alchable($item, $spell_data) = false) {
 }
 
 // play sound and anim
-sound_synth(high_alchemy, 0, 0);
+sound_synth(high_alchemy, 1, 0);
 anim(human_casthighlvlalchemy, 0);
 spotanim_pl(highlvlalchemy_casting, 92, 0);
 // delete runes and give xp
@@ -51,7 +51,7 @@ if (~is_alchable($item, $spell_data) = false) {
 }
 
 // play sound and anim
-sound_synth(low_alchemy, 0, 0);
+sound_synth(low_alchemy, 1, 0);
 anim(human_castlowlvlalchemy, 0);
 spotanim_pl(lowlvlalchemy_casting, 92, 0);
 // delete runes and give xp
@@ -87,6 +87,9 @@ switch_obj($item) {
             mes("You do not have enough Fire Runes to cast this spell.");
             return(false);
         }
+    case seasluginv :
+        mes("Ugly parasites have feelings too!");
+        return(false);
     case thanainabarrel :
         mes("You can't do that to the poor girl!");
         return(false);
@@ -107,6 +110,10 @@ switch_obj($item) {
         }
         if (oc_param($item, no_alchemy) = ^true) {
             mes("You cannot use alchemy on that item.");
+            return(false);
+        }
+        if(oc_category($item) = mm_greegree) {
+            mes("The magic of the monkeys defies alchemy.");
             return(false);
         }
 }

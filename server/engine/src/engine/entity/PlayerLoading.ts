@@ -1,5 +1,6 @@
 import { playerSaveStore } from '#/engine/market/MarketStore.js';
 import InvType from '#/cache/config/InvType.js';
+import VarPlayerType from '#/cache/config/VarPlayerType.js';
 import { NetworkPlayer } from '#/engine/entity/NetworkPlayer.js';
 import Player, { getExpByLevel, getLevelByExp } from '#/engine/entity/Player.js';
 import { PlayerStat } from '#/engine/entity/PlayerStat.js';
@@ -107,6 +108,15 @@ export class PlayerLoading {
             for (let i = 0; i < varpCount; i++) {
                 player.vars[i] = sav.g4s();
             }
+        }
+
+        // rs-sdk: pvp_death_mark was varp 358 until the 289 upgrade gave that id to
+        // boardgames_varbit4. That varp is temp-scoped, so 289-era saves never write 358:
+        // a value there is a pre-289 death mark. Move it to the varp's new id.
+        const pvpDeathMark = VarPlayerType.getId('pvp_death_mark');
+        if (pvpDeathMark !== -1 && pvpDeathMark !== 358 && player.vars[358] !== 0 && VarPlayerType.get(358).scope !== VarPlayerType.SCOPE_PERM) {
+            player.vars[pvpDeathMark] = player.vars[358];
+            player.vars[358] = 0;
         }
 
         const invCount = sav.g1();

@@ -92,7 +92,7 @@ if (random(2) = 0) {
     }
 }
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 ~npc_meleeattack;
 
@@ -100,7 +100,7 @@ if (npc_param(attack_sound) ! null) {
 if_close;
 spotanim_npc(firebreath_attack, 92, 0);
 npc_anim(dragon_firebreath_middle_attack, 0);
-sound_synth(dragonbreath, 0, 30);
+sound_synth(dragonbreath, 1, 30);
 %npc_action_delay = add(map_clock, 4);
 
 def_int $attack_roll = ~npc_magic_attack_roll;
@@ -122,12 +122,12 @@ if (inv_total(worn, antidragonbreathshield) > 0) {
 }
 
 if (map_clock < %dragonresist) {
-    //mes("<tostring(map_clock)>, <tostring(%antifire)>");
     $maxhit = sub($maxhit, 15);
+    // https://www.youtube.com/watch?v=mwUtqgzqgpk&t=131s
+    mes("Your potion protects you from the heat of the dragon's breath!");
 }
 
 def_int $damage = randominc(max($maxhit, 0));
 queue(combat_damage_player, 0, $damage);
 queue*(playerhit_n_retaliate, 0)(npc_uid);
-%npc_action_delay = add(map_clock, 4);
 ~npc_set_attack_vars;

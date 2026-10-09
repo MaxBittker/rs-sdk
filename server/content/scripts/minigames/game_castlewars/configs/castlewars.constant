@@ -1,0 +1,77 @@
+^castlewars_lobby_coord = 0_38_48_9_18
+
+^zamorak_starting_coord = 0_37_148_54_52
+^saradomin_starting_coord = 0_37_148_13_17
+
+^zamorak_starting_count_coord1 = 0_37_148_2_10
+^zamorak_starting_count_coord2 = 0_37_148_24_25
+
+^saradomin_starting_count_coord1 = 0_37_148_43_42
+^saradomin_starting_count_coord2 = 0_37_148_61_61
+
+^castlewars_saradomin_starting_room_coord = 1_37_48_59_4
+^castlewars_zamorak_starting_room_coord = 1_37_48_4_59
+
+^castlewars_centre_coord1 = 0_37_48_31_31
+^castlewars_centre_coord2 = 1_37_48_31_31
+^castlewars_centre_coord3 = 0_37_148_31_31
+^castlewars_centre_coord4 = 2_37_48_31_31
+^castlewars_centre_coord5 = 3_37_48_31_31
+
+^castlewars_zamorak_count_start_bit = 0
+^castlewars_zamorak_count_end_bit = 7
+^castlewars_saradomin_count_start_bit = 8
+^castlewars_saradomin_count_end_bit = 15
+^castlewars_zamorak_score_start_bit = 16
+^castlewars_zamorak_score_end_bit = 23
+^castlewars_saradomin_score_start_bit = 24
+^castlewars_saradomin_score_end_bit = 31
+
+^castlewars_saradomin_wins_start_bit = 0
+^castlewars_saradomin_wins_end_bit = 15
+^castlewars_zamorak_wins_start_bit = 16
+^castlewars_zamorak_wins_end_bit = 31
+
+^castlewars_team_saradomin = 0
+^castlewars_team_zamorak = 1
+^castlewars_team_guthix = 2
+
+^castlewars_zamorak_flag_coord = 3_37_48_2_61
+^castlewars_saradomin_flag_coord = 3_37_48_61_2
+
+^castlewars_saradomin_catapult_fire_coord = 0_37_48_43_20
+^castlewars_zamorak_catapult_fire_coord = 0_37_48_20_43
+^castlewars_saradomin_catapult_default_x = 100
+^castlewars_saradomin_catapult_default_z = 100
+^castlewars_zamorak_catapult_default_x = 0
+^castlewars_zamorak_catapult_default_z = 0
+^castlewars_saradomin_catapult_coord = 0_37_48_45_16
+^castlewars_zamorak_catapult_coord = 0_37_48_16_45
+
+^castlewars_max_barricades = 10
+
+^castlewars_underground_centre = 0_37_148_32_32
+
+// castlewars_saradomin_bits & castlewars_zamorak_bits
+^castlewars_maindoor_startbit = 0
+^castlewars_maindoor_endbit = 7
+
+^castlewars_sidedoor_bit = 8
+
+^castlewars_catapult_bit = 9
+
+^castlewars_barricades_startbit = 10
+^castlewars_barricades_endbit = 14
+
+^castlewars_score_startbit = 15
+^castlewars_score_endbit = 23
+
+^castlewars_tunnel1_bit = 24
+^castlewars_tunnel2_bit = 25
+
+// castlewars_saradomin_bits2 & castlewars_zamorak_bits2
+^castlewars_counts_startbit = 0
+^castlewars_counts_endbit = 10
+
+^castlewars_wins_startbit = 11
+^castlewars_wins_endbit = 31

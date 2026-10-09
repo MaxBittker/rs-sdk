@@ -1,9 +1,8 @@
-//guess
 [burnt_chicken]
 name=Burnt chicken
 desc=Oh dear, it's totally burnt!
 cost=1
-model=model_2498_obj
+model=inv_chicken_carcass
 recol1s=15619
 recol1d=5285
 2dxof=-3
@@ -12,11 +11,10 @@ recol1d=5285
 2dxan=88
 weight=4oz
 
-//guess
 [burnt_meat]
 name=Burnt meat
 desc=Oh dear, it's totally burnt!
-model=model_2760_obj
+model=inv_meat
 recol1s=24609
 recol1d=2114
 recol2s=32767

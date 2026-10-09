@@ -89,7 +89,7 @@ if(%upass = ^upass_spoken_koftik) %upass = ^upass_passed_bridge;
 [oploc1,upass_lever_up]
 mes("You pull the old lever...");
 anim(human_boxlever, 0);
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 // Temp note: dur updated
 loc_change(upass_lever_down, 4);
 ~forcemove(0_38_151_7_51);

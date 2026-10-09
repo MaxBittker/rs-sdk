@@ -10,24 +10,24 @@
 %macro_event_target_coord = coord;
 p_teleport(0_31_74_24_28);
 ~macro_events_set_tabs; //Was not originally in mapzone trigger I think. https://www.youtube.com/watch?v=ROQJPpb7Qrc
-~chatnpc("<p,neutral>You need to copy the mime's performance, then you'll be returned to where you were.");
+~chatnpc("<p,neutral>You need to copy the mime's performance,|then you'll be returned to where you were."); // https://i.imgur.com/wkPd7aY.png
 
 // Enter map trigger: 
 [mapzone,0_31_74]
 %macro_event = ^macro_mime;
 def_int $count = divide(modulo(map_clock, multiply(16,2)), 2);
 if ($count < 4) {
-    if (loc_find(0_31_74_23_25, loc_3644) = true) {
+    if (loc_find(0_31_74_23_25, macro_spotlight) = true) {
         loc_anim(macro_spotlight_off);
     }
-    if (loc_find(0_31_74_26_25, loc_3644) = true) {
+    if (loc_find(0_31_74_26_25, macro_spotlight) = true) {
         loc_anim(macro_spotlight_on);
     }
 } else {
-    if (loc_find(0_31_74_23_25, loc_3644) = true) {
+    if (loc_find(0_31_74_23_25, macro_spotlight) = true) {
         loc_anim(macro_spotlight_on);
     }
-    if (loc_find(0_31_74_26_25, loc_3644) = true) {
+    if (loc_find(0_31_74_26_25, macro_spotlight) = true) {
         loc_anim(macro_spotlight_off);
     }
 }
@@ -44,10 +44,10 @@ mes("You need to copy the mime's performance, then you'll return to where you we
 def_int $count = divide(modulo(map_clock, multiply(16,2)), 2);
 if($count = 0) {
     npc_facesquare(movecoord(npc_coord, 0, 0, -1));
-    if (loc_find(0_31_74_23_25, loc_3644) = true) {
+    if (loc_find(0_31_74_23_25, macro_spotlight) = true) {
         loc_anim(macro_spotlight_off);
     }
-    if (loc_find(0_31_74_26_25, loc_3644) = true) {
+    if (loc_find(0_31_74_26_25, macro_spotlight) = true) {
         loc_anim(macro_spotlight_on);
     }
     huntall(0_31_74_24_28, 1, 0);
@@ -76,10 +76,10 @@ if($count = 1) {
 if($count = 4) {
     npc_anim(emote_bow, 0);
     npc_facesquare(movecoord(npc_coord, -1, 0, 0));
-    if (loc_find(0_31_74_23_25, loc_3644) = true) {
+    if (loc_find(0_31_74_23_25, macro_spotlight) = true) {
         loc_anim(macro_spotlight_on);
     }
-    if (loc_find(0_31_74_26_25, loc_3644) = true) {
+    if (loc_find(0_31_74_26_25, macro_spotlight) = true) {
         loc_anim(macro_spotlight_off);
     }
     huntall(0_31_74_24_26, 1, 0);

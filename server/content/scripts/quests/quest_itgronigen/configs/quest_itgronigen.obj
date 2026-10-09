@@ -1,7 +1,7 @@
 [book_of_astrology]
 name=Astrology book
 desc=A book on the history of Astrology in RuneScape.
-model=model_2794_obj
+model=inv_book
 weight=3g
 iop1=Read
 members=yes
@@ -13,7 +13,7 @@ tradeable=no
 [keep_key]
 name=Keep key
 desc=A small key for a jail door.
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -26,7 +26,7 @@ tradeable=no
 [lens_mould]
 name=Lens mould
 desc=An unusual clay mould in the shape of a disc.
-model=model_2773_obj
+model=inv_lensmould
 2dyof=-17
 2dzoom=2610
 2dyan=1912
@@ -38,7 +38,7 @@ tradeable=no
 [lens]
 name=Lens
 desc=A perfectly circular disc of glass.
-model=model_2545_obj
+model=inv_lens
 weight=3g
 2dxof=6
 2dyof=28

@@ -11,14 +11,14 @@ model=model_loc_3388
 length=2
 op1=Search
 forceapproach=east
-model=model_loc_380
+model=furniture_bookcase
 name=Bookcase
 desc=A good source of books!
 
 [elemental_workshop_oddwall_r]
 active=yes
 op1=Push
-model=model_loc_3209
+model=basic_oddwall_closedr
 name=Odd looking wall
 desc=A strange crack cuts into the wall.
 category=double_door_open_and_close_right
@@ -27,7 +27,7 @@ param=next_loc_stage,elemental_workshop_oddwall_r_open
 [elemental_workshop_oddwall_l]
 active=yes
 op1=Push
-model=model_loc_3211
+model=basic_oddwall_closedl
 name=Odd looking wall
 desc=A strange crack cuts into the wall.
 category=double_door_open_and_close_left
@@ -35,13 +35,13 @@ param=next_loc_stage,elemental_workshop_oddwall_l_open
 
 [elemental_workshop_oddwall_r_open]
 active=yes
-model=model_loc_3209
+model=basic_oddwall_closedr
 name=Odd looking wall
 desc=A strange crack cuts into the wall.
 
 [elemental_workshop_oddwall_l_open]
 active=yes
-model=model_loc_3211
+model=basic_oddwall_closedl
 name=Odd looking wall
 desc=A strange crack cuts into the wall.
 
@@ -49,7 +49,7 @@ desc=A strange crack cuts into the wall.
 op1=Search
 recol1s=6309
 recol1d=4228
-model=model_loc_0
+model=warehouse_shop_crate2
 name=Crate
 desc=A wooden crate for storage.
 
@@ -57,19 +57,19 @@ desc=A wooden crate for storage.
 op1=Search
 recol1s=6309
 recol1d=4228
-model=model_loc_355
+model=warehouse_shop_crate3
 name=Crate
 desc=A wooden crate for storage.
 
 [elemental_workshop_box_3]
 op1=Search
-model=model_loc_359
+model=warehouse_shop_boxes
 name=Boxes
 desc=A pile of boxes for storage.
 
 [elemental_workshop_box_4]
 op1=Search
-model=model_loc_359
+model=warehouse_shop_boxes
 name=Boxes
 desc=A pile of boxes for storage.
 
@@ -77,13 +77,13 @@ desc=A pile of boxes for storage.
 op1=Search
 recol1s=6309
 recol1d=4228
-model=model_loc_355
+model=warehouse_shop_crate3
 name=Crate
 desc=A wooden crate for storage.
 
 [elemental_workshop_box_6]
 op1=Search
-model=model_loc_359
+model=warehouse_shop_boxes
 name=Crate
 desc=A wooden crate for storage.
 
@@ -91,7 +91,7 @@ desc=A wooden crate for storage.
 op1=Search
 recol1s=6309
 recol1d=4228
-model=model_loc_355
+model=warehouse_shop_crate3
 name=Crate
 desc=A wooden crate for storage.
 
@@ -99,7 +99,7 @@ desc=A wooden crate for storage.
 op1=Search
 recol1s=6309
 recol1d=4228
-model=model_loc_0
+model=warehouse_shop_crate2
 name=Crate
 desc=A wooden crate for storage.
 
@@ -125,7 +125,7 @@ desc=A pile of Elemental rock.
 op1=Turn
 recol1s=9545
 recol1d=5250
-model=model_loc_2844
+model=quest_sewervalve
 name=Water Valve
 desc=A valve to start and stop the flow of water.
 
@@ -133,13 +133,13 @@ desc=A valve to start and stop the flow of water.
 op1=Turn
 recol1s=9545
 recol1d=5250
-model=model_loc_2844
+model=quest_sewervalve
 name=Water Valve
 desc=A valve to start and stop the flow of water.
 
 [elemental_workshop_water_lever]
 op1=Pull
-model=model_loc_670
+model=quest_floorlever_off
 name=Lever
 desc=This lever can be operated.
 
@@ -149,7 +149,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3407
+model=quest_elementalworkshop_wheel_emental
 name=Water wheel
 desc=It spins
 
@@ -158,13 +158,13 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3408
+model=quest_elementalworkshop_wheel_base
 name=Water wheel
 desc=It spins
 
 [elemental_workshop_air_lever]
 op1=Pull
-model=model_loc_670
+model=quest_floorlever_off
 name=Lever
 desc=This lever can be operated.
 
@@ -176,7 +176,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3410
+model=quest_elementalworkshop_bellow
 name=Bellows
 desc=Big bellows
 
@@ -189,7 +189,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3410
+model=quest_elementalworkshop_bellow
 name=Bellows
 desc=Big bellows
 
@@ -200,7 +200,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3412
+model=quest_elementalworkshop_floorpipe
 
 [elemental_workshop_furnace]
 width=3
@@ -213,7 +213,7 @@ recol3s=7399
 recol3d=5250
 recol4s=4228
 recol4d=5250
-model=model_loc_165
+model=furniture_loc_165
 name=Furnace
 desc=A furnace with an air blast pipe.
 
@@ -233,7 +233,7 @@ forceapproach=east
 mapscene=7
 width=2
 length=2
-model=model_loc_1741
+model=furniture_loc_1741
 name=Staircase
 desc=I can climb down these stairs.
 
@@ -242,12 +242,12 @@ width=2
 length=2
 op1=Climb-up
 mapscene=7
-model=model_loc_1738
+model=furniture_spiralstairs
 name=Staircase
 desc=I can climb up these stairs.
 
 [elemental_workshop_lever_pulled]
-model=model_loc_669
+model=quest_floorlever_on
 name=Lever
 desc=This lever can be operated.
 
@@ -258,7 +258,7 @@ recol1s=5248
 recol1d=10467
 recol2s=4228
 recol2d=5250
-model=model_loc_1872
+model=walldecor_wallsupport
 
 [elemental_piping]
 ambient=20
@@ -267,7 +267,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3412
+model=quest_elementalworkshop_floorpipe
 
 [elemental_piping_corner]
 ambient=20
@@ -276,7 +276,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_350
+model=quest_elementalworkshop_floorpipe_corner
 
 [elemental_floorpipe_float]
 ambient=20
@@ -285,7 +285,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_338
+model=quest_elementalworkshop_floorpipe_float
 
 [elemental_boiler]
 active=no
@@ -294,7 +294,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3422
+model=quest_elementalworkshop_boiler
 
 [elemental_boiler_left]
 active=no
@@ -304,28 +304,28 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3422
+model=quest_elementalworkshop_boiler
 
 [elemental_wallpipes1]
 active=no
 ambient=20
 recol1s=15855
 recol1d=5250
-model=model_loc_3424
+model=quest_elementalworkshop_wallpipes1
 
 [elemental_wallpipes2]
 active=no
 ambient=20
 recol1s=15855
 recol1d=5250
-model=model_loc_3425
+model=quest_elementalworkshop_wallpipes2
 
 [elemental_wallpipes3]
 active=no
 ambient=20
 recol1s=15855
 recol1d=5250
-model=model_loc_3426
+model=quest_elementalworkshop_wallpipes3
 
 [elemental_wallpipes1_left]
 active=no
@@ -333,13 +333,13 @@ mirror=yes
 ambient=20
 recol1s=15855
 recol1d=5250
-model=model_loc_3424
+model=quest_elementalworkshop_wallpipes1
 
 [elemental_border]
 sharelight=yes
 recol1s=15855
 recol1d=5250
-model=model_loc_3428
+model=quest_elementalworkshop_border
 
 [loc_3429]
 ambient=20
@@ -349,7 +349,7 @@ recol1s=17833
 recol1d=10467
 recol2s=15855
 recol2d=5250
-model=model_loc_3429
+model=quest_elementalworkshop_pipe_end
 name=Machinery
 desc=Water powered machinery.
 
@@ -360,13 +360,13 @@ active=no
 wallwidth=32
 model=model_loc_3430
 
-[loc_3431]
+[newbierocks1]
 op1=Mine
 op2=Prospect
 op3=hidden
 mapscene=12
 blockrange=no
-model=plainrock1
+model=mine_rocks1
 name=Rocks
 desc=Stoney!
 

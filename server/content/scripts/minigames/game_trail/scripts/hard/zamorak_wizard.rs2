@@ -3,14 +3,14 @@ if (%npc_aggressive_player ! uid) {
     mes("It's not after you...");
     return;
 }
-@player_combat_start_nomulti;
+@player_combat_start;
 
 [apnpc2,trail_hard] 
 if (%npc_aggressive_player ! uid) {
     mes("It's not after you...");
     return;
 }
-@player_combat_start_ap_nomulti;
+@player_combat_start_ap;
 
 [ai_queue1,trail_hard]
 if(finduid(%npc_aggressive_player) = true & (npc_getmode ! opplayer2 | lineofwalk(npc_coord, coord) = false)) {

@@ -37,7 +37,7 @@ inv_add(inv, $final_obj, 1);
 ~give_spell_xp($spell_data);
 anim($anim, 0);
 spotanim_pl($spotanim, 92, 0);
-sound_synth($sound, 0, 0);
+sound_synth($sound, 1, 0);
 // delay for 3-4 ticks
 // https://youtu.be/M7foXShcyBY&t=113
 // this could be 4 but not sure. osrs is 3 ticks

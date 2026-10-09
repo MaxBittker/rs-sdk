@@ -21,29 +21,33 @@ export async function packClientTitle(cache: FileStream) {
 
     if (rebuild) {
         const index = Packet.alloc(3);
-        const logo = await convertImage(index, `${Environment.build.srcDir}/title`, 'logo');
-        const runes = await convertImage(index, `${Environment.build.srcDir}/title`, 'runes');
-        const titlebox = await convertImage(index, `${Environment.build.srcDir}/title`, 'titlebox');
-        const titlebutton = await convertImage(index, `${Environment.build.srcDir}/title`, 'titlebutton');
-
-        const b12 = await convertImage(index, `${Environment.build.srcDir}/fonts`, 'b12_full');
         const p11 = await convertImage(index, `${Environment.build.srcDir}/fonts`, 'p11_full');
         const p12 = await convertImage(index, `${Environment.build.srcDir}/fonts`, 'p12_full');
+        const b12 = await convertImage(index, `${Environment.build.srcDir}/fonts`, 'b12_full');
         const q8 = await convertImage(index, `${Environment.build.srcDir}/fonts`, 'q8_full');
+        const logo = await convertImage(index, `${Environment.build.srcDir}/title`, 'logo');
+        const titlebox = await convertImage(index, `${Environment.build.srcDir}/title`, 'titlebox');
+        const titlebutton = await convertImage(index, `${Environment.build.srcDir}/title`, 'titlebutton');
+        const runes = await convertImage(index, `${Environment.build.srcDir}/title`, 'runes');
 
         const title = Jagfile.new();
-        title.write('title.dat', Packet.load(`${Environment.build.srcDir}/binary/title.jpg`, true));
-        title.write('index.dat', index);
-        title.write('logo.dat', logo);
-        title.write('runes.dat', runes);
-        title.write('titlebox.dat', titlebox);
-        title.write('titlebutton.dat', titlebutton);
-        title.write('b12_full.dat', b12);
         title.write('p11_full.dat', p11);
         title.write('p12_full.dat', p12);
+        title.write('b12_full.dat', b12);
         title.write('q8_full.dat', q8);
+        title.write('logo.dat', logo);
+        title.write('title.dat', Packet.load(`${Environment.build.srcDir}/binary/title.jpg`, true));
+        title.write('titlebox.dat', titlebox);
+        title.write('titlebutton.dat', titlebutton);
+        title.write('runes.dat', runes);
+        title.write('index.dat', index);
         title.save('data/pack/client/title');
     }
 
-    cache.write(0, 1, fs.readFileSync('data/pack/client/title'));
+    const packed = fs.readFileSync('data/pack/client/title');
+    if (Environment.build.verify && !Packet.checkcrc(packed, 0, packed.length, -564448443)) {
+        throw new Error('title checksum mismatch!\nYou can disable this safety check by setting BUILD_VERIFY=false');
+    }
+
+    cache.write(0, 1, packed);
 }

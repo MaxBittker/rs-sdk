@@ -2,7 +2,7 @@
 name='perfect' ring
 desc=A perfect ruby ring.
 cost=2025
-model=model_2677_obj
+model=inv_ring
 recol1s=32767
 recol1d=30753
 2dxof=3
@@ -21,7 +21,7 @@ tradeable=no
 cost=2175
 name='perfect' necklace
 desc=A perfect ruby necklace.
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=10570
 recol1d=30753
 2dxof=5
@@ -31,18 +31,18 @@ recol1d=30753
 2dxan=304
 iop2=Wear
 wearpos=front
-manwear=model_281_obj_wear,0
-womanwear=model_445_obj_wear,0
+manwear=man_necklaces_goldnecklace,0
+womanwear=woman_necklaces_goldnecklace,0
 weight=10g
 members=yes
 tradeable=no
 
 [gauntlets_of_cooking]
-category=category_16
+category=armour_hands
 name=Cooking gauntlets
 desc=These gauntlets empower with a greater ability to cook fish.
 members=yes
-model=model_2649_obj
+model=inv_gloves
 recol1s=9473
 recol1d=31710
 recol2s=10468
@@ -54,8 +54,8 @@ recol2d=15854
 2dxan=420
 iop2=Wear
 wearpos=hands
-manwear=model_179_obj_wear,0
-womanwear=model_356_obj_wear,0
+manwear=man_hands_gloves,0
+womanwear=woman_hands_gloves,0
 weight=8oz
 param=stabattack,2
 param=slashattack,2
@@ -68,11 +68,11 @@ tradeable=no
 param=destroy_drop,^true
 
 [gauntlets_of_goldsmithing]
-category=category_16
+category=armour_hands
 name=Goldsmith gauntlet
 desc=These gauntlets empower the bearer whilst making gold.
 members=yes
-model=model_2649_obj
+model=inv_gloves
 recol1s=9473
 recol1d=30543
 2dxof=8
@@ -82,8 +82,8 @@ recol1d=30543
 2dxan=420
 iop2=Wear
 wearpos=hands
-manwear=model_179_obj_wear,0
-womanwear=model_356_obj_wear,0
+manwear=man_hands_gloves,0
+womanwear=woman_hands_gloves,0
 weight=8oz
 param=stabattack,2
 param=slashattack,2
@@ -96,11 +96,11 @@ tradeable=no
 param=destroy_drop,^true
 
 [gauntlets_of_chaos]
-category=category_16
+category=armour_hands
 name=Chaos gauntlets
 desc=These gauntlets empower spell casters.
 members=yes
-model=model_2649_obj
+model=inv_gloves
 recol1s=9473
 recol1d=14466
 2dxof=8
@@ -110,8 +110,8 @@ recol1d=14466
 2dxan=420
 iop2=Wear
 wearpos=hands
-manwear=model_179_obj_wear,0
-womanwear=model_356_obj_wear,0
+manwear=man_hands_gloves,0
+womanwear=woman_hands_gloves,0
 weight=8oz
 param=stabattack,2
 param=slashattack,2
@@ -124,11 +124,11 @@ tradeable=no
 param=destroy_drop,^true
 
 [steel_gauntlets]
-category=category_16
+category=armour_hands
 name=Steel gauntlets
 desc=My reward for assisting the Fitzharmon family.
 members=yes
-model=model_2649_obj
+model=inv_gloves
 recol1s=9473
 recol1d=14801
 2dxof=8
@@ -138,8 +138,8 @@ recol1d=14801
 2dxan=420
 iop2=Wear
 wearpos=hands
-manwear=model_179_obj_wear,0
-womanwear=model_356_obj_wear,0
+manwear=man_hands_gloves,0
+womanwear=woman_hands_gloves,0
 weight=8oz
 param=stabattack,2
 param=slashattack,2
@@ -152,7 +152,7 @@ tradeable=no
 param=destroy_drop,^true
 
 [avan_crest]
-model=model_2688_obj
+model=inv_crest-bird1
 name=Crest part
 desc=A fragment of the Fitzharmon family crest.
 members=yes
@@ -163,7 +163,7 @@ weight=4lb
 tradeable=no
 
 [caleb_crest]
-model=model_2691_obj
+model=inv_crest-bird2
 name=Crest part
 desc=A fragment of the Fitzharmon family crest.
 members=yes
@@ -177,7 +177,7 @@ tradeable=no
 // 20 July 2004 - The model for Johnathon's part was corrected; previously it used the same model as Caleb's part.
 // https://oldschool.runescape.wiki/w/Crest_part#Changes
 [johnathon_crest]
-model=model_2693
+model=inv_crest-bird3
 name=Crest part
 desc=A fragment of the Fitzharmon family crest.
 members=yes
@@ -188,7 +188,7 @@ weight=3lb
 tradeable=no
 
 [family_crest]
-model=model_2369_obj
+model=inv_crest-bird
 name=Family crest
 desc=The Fitzharmon family crest.
 members=yes

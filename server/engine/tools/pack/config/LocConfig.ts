@@ -1,7 +1,7 @@
 import ParamType from '#/cache/config/ParamType.js';
 import ScriptVarType from '#/cache/config/ScriptVarType.js';
 import ColorConversion from '#/util/ColorConversion.js';
-import { CategoryPack, LocPack, ModelPack, SeqPack, TexturePack } from '#tools/pack/PackFile.js';
+import { CategoryPack, LocPack, ModelPack, SeqPack, TexturePack, VarbitPack } from '#tools/pack/PackFile.js';
 import { LocModelShape, ConfigValue, ConfigLine, ParamValue, PackedData, isConfigBoolean, getConfigBoolean, packStepError } from '#tools/pack/config/PackShared.js';
 import { lookupParamValue } from '#tools/pack/config/ParamConfig.js';
 
@@ -39,6 +39,7 @@ export function parseLocConfig(key: string, value: string): ConfigValue | null |
         'op1', 'op2', 'op3', 'op4', 'op5',
         // defer parsing to packing stage:
         'model', 'model2', 'model3', 'model4', 'model5',
+        'multivar', 'multiloc',
     ];
     // prettier-ignore
     const numberKeys = [
@@ -54,7 +55,6 @@ export function parseLocConfig(key: string, value: string): ConfigValue | null |
     const booleanKeys = [
         'blockwalk', 'blockrange',
         'active', 'hillskew', 'sharelight', 'occlude',
-        'hasalpha',
         'mirror', 'shadow',
         'forcedecor',
         'breakroutefinding', 'raiseobject'
@@ -185,6 +185,8 @@ export function packLocConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
             let active: number = -1; // not written last, but affects name output
             let desc: string | null = null;
             const params: ParamValue[] = [];
+            let multivarbit = -1;
+            const multiloc: number[] = [];
 
             for (let j = 0; j < config.length; j++) {
                 const { key, value } = config[j];
@@ -245,10 +247,6 @@ export function packLocConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
                 } else if (key === 'anim') {
                     client.p1(24);
                     client.p2(value as number);
-                } else if (key === 'hasalpha') {
-                    if (value === true) {
-                        client.p1(25);
-                    }
                 } else if (key === 'wallwidth') {
                     client.p1(28);
                     client.p1(value as number);
@@ -311,6 +309,21 @@ export function packLocConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
                 } else if (key === 'raiseobject') {
                     client.p1(75);
                     client.pbool(value as boolean);
+                } else if (key === 'multivar') {
+                    const varbitId = VarbitPack.getByName(value as string);
+                    if (varbitId === -1) {
+                        throw packStepError(debugname, `Unknown multivar: ${value}`);
+                    }
+
+                    multivarbit = varbitId;
+                } else if (key === 'multiloc') {
+                    const [index, loc] = (value as string).split(',');
+                    const locId = LocPack.getByName(loc);
+                    if (locId === -1) {
+                        throw packStepError(debugname, `Unknown multiloc: ${loc}`);
+                    }
+
+                    multiloc[parseInt(index)] = locId;
                 }
             }
 
@@ -326,30 +339,8 @@ export function packLocConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
 
             const models: LocModelShape[] = [];
             for (let i = 0; i < srcModels.length; i++) {
-                let directReference = ModelPack.getByName(srcModels[i]) !== -1;
-                for (let shape = 0; shape <= 22; shape++) {
-                    if (shape === 10) {
-                        continue;
-                    }
-
-                    if (ModelPack.getByName(`${srcModels[i]}${LocShapeSuffix[shape]}`) !== -1) {
-                        directReference = false;
-                        break;
-                    }
-                }
-
-                if (directReference) {
-                    // if a model directly points to a shape, we are forcing that shape to appear as centrepiece_straight
-                    const forceModelId = ModelPack.getByName(srcModels[i]);
-                    if (forceModelId !== -1) {
-                        modelFlags[forceModelId] |= 0x4;
-                        models.push({ model: forceModelId, shape: LocShapeSuffix._8 });
-                        continue;
-                    }
-                }
-
                 // centrepiece_straight comes first in their data, so we check it first
-                const modelId = ModelPack.getByName(`${srcModels[i]}_8`);
+                const modelId = ModelPack.getByName(srcModels[i]);
 
                 if (modelId !== -1) {
                     modelFlags[modelId] |= 0x4;
@@ -373,6 +364,14 @@ export function packLocConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
             if (srcModels.length > 0 && models.length === 0) {
                 throw packStepError(debugname, 'Failed to find suitable loc models');
             }
+
+            models.sort((a, b) => {
+                if (a.shape === b.shape) {
+                    return 0;
+                }
+
+                return a.shape === LocShapeSuffix._8 ? -1 : b.shape === LocShapeSuffix._8 ? 1 : a.shape - b.shape;
+            });
 
             if (models.length > 0) {
                 let centrepieceOnly = true;
@@ -401,7 +400,7 @@ export function packLocConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
                 }
             }
 
-            if (name === null && active !== 0) {
+            if (name === null && active !== 0 && multivarbit === -1) {
                 // edge case: a loc has no name= property but contains a centrepiece_straight shape or active=yes
                 //   we have to transmit a name - so we fall back to the debugname
                 let shouldTransmit: boolean = active === 1;
@@ -429,6 +428,20 @@ export function packLocConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
             if (desc !== null) {
                 client.p1(3);
                 client.pjstr(desc);
+            }
+
+            if (multivarbit !== -1) {
+                client.p1(77);
+                client.p2(multivarbit);
+
+                client.p1(multiloc.length - 1);
+                for (let k = 0; k < multiloc.length; k++) {
+                    if (typeof multiloc[k] !== 'undefined') {
+                        client.p2(multiloc[k]);
+                    } else {
+                        client.p2(65535);
+                    }
+                }
             }
 
             if (params.length > 0) {

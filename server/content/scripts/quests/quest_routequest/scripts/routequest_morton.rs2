@@ -1,0 +1,259 @@
+[oploc1,route_rowboat]
+if(inzone(0_54_52_0_0, 0_54_52_63_63, loc_coord) = true) {
+    @route_rowboat_hollows; // 2 seperate locs after april 2005
+}
+if(%routequest < ^routequest_boatman_repaired) {
+    if (npc_find(coord, route_cyreg_paddlehorn, 10, 1) = true) ~chatnpc("<p,angry>Hey, hands off my boat!");
+    return;
+}
+~chatnpc_specific("Cyreg Paddlehorn", route_cyreg_paddlehorn, "<p,neutral>It costs 10 gold to cover the loan of the boat. Will you pay?");
+// todo: ring of charos (295)
+switch_int(~p_choice2("Yes, I'll pay ten gold.", 1, "No, I won't use the boat.", 2)) {
+    case 1 :
+        ~chatplayer("<p,neutral>Yes, I'll pay ten gold.");
+        if(inv_total(inv, coins) >= 10) {
+            @travel_to_hollow;
+        } else {
+            ~chatnpc_specific("Cyreg Paddlehorn", route_cyreg_paddlehorn, "<p,neutral>Sorry, but you don't have that much. No money, no boat!");
+        }
+    case 2 :
+        ~chatplayer("<p,neutral>No, I won't use the boat.");
+}
+
+// [oploc2,route_rowboat_mortton] later 2005
+// if(%routequest < ^routequest_boatman_repaired) {
+//     ~chatnpc_specific("Cyreg Paddlehorn", route_cyreg_paddlehorn, "<p,angry>Hey, hands off my boat!");
+//     return;
+// }
+// if(inv_total(inv, coins) < 10) {
+//     ~chatnpc_specific("Cyreg Paddlehorn", route_cyreg_paddlehorn, "<p,neutral>Sorry my friend. You don't seem to have the funds for the trip. It will cost you 10 gold.");
+//     return;
+// }
+// @travel_to_hollow;
+
+[label,travel_to_hollow]
+if_settab(null, 0);
+if_settab(null, 1);
+if_settab(null, 2);
+if_settab(null, 3);
+if_settab(null, 4);
+if_settab(null, 5);
+if_settab(null, 6);
+if_settab(null, 10);
+if_settab(null, 11);
+if_settab(null, 12);
+if_settab(null, 13);
+minimap_toggle(2);
+if_openmain(swamp_boatjourney); // [7924]
+if_setanim(swamp_boatjourney:shipmodel, swamp_boatjourney);
+p_delay(13);
+p_teleport(0_54_52_42_52);
+if_close;
+~initalltabs;
+minimap_toggle(0);
+%routequest = ^routequest_entered_hollowed;
+~mesbox("You arrive at the hollows."); // not a typo
+
+[opnpc1,route_cyreg_paddlehorn]
+if(%routequest = ^routequest_not_started) {
+    ~chatnpc("<p,neutral>Hello there friend. I'm afraid all boat rides are out of service due to the high ghast activity in Mort Myre.");
+} else if(%routequest = ^routequest_started) {
+    ~chatnpc("<p,neutral>Hello there, friend.");
+    ~chatplayer("<p,neutral>Hello there, I have some weapons for you to give to the 'Myreque'.");
+    if(~routequest_has_weapons = false) {
+        ~chatnpc("<p,neutral>Hmm, well, it doesn't look as if you've got the right sort of weapons to me!");
+        return;
+    } else {
+        ~chatnpc("<p,neutral>Hmm, I'm sure I don't know what you're talking about.");
+        ~chatplayer("<p,neutral>Come on, I know you're in cahoots with them; just take these weapons to them.");
+        %routequest = ^routequest_spoke_to_boatman;
+        ~chatnpc("<p,neutral>Ok, seriously, I did some work for them before,  but now it's just too dangerous. I won't take the weapons to them, I'm sorry, it's just too dangerous.");
+        @cyreg_interrogate_prologue;
+    }
+} else if(%routequest = ^routequest_spoke_to_boatman) {
+    @cyreg_interrogate_prologue;
+} else if(%routequest = ^routequest_boatman_agreed) {
+    ~chatplayer("<p,neutral>Will you still take me to the Myreque?");
+    @cyreg_take_to_myreque;
+} else if(%routequest < ^routequest_complete) {
+    ~chatplayer("<p,neutral>Can I ask some more questions?");
+    ~chatnpc("<p,neutral>Sure you can.");
+    @cyreg_post_repair_questions;
+} else {
+    // OSRS
+    ~chatplayer("<p,neutral>Thanks for your help in finding the Myreque.");
+    ~chatnpc("<p,neutral>Well, I'd like to say that you're welcome. But I heard that you led Vanstrom straight to their hideout. I feel so guilty.");
+    ~chatplayer("<p,neutral>Hmm, yeah, I know how you feel.");
+}
+
+// FIRST MULTI-PAGE
+[label,cyreg_interrogate_prologue]
+~chatplayer("<p,quiz>Can you tell me how to find the Myreque?");
+~chatnpc("<p,neutral>Their base is well hidden and I'm sorry but I can't reveal the directions. Sorry but I guess you're all out of luck.");
+@cyreg_interrogate_multi_firstpage;
+
+[label,cyreg_interrogate_multi_firstpage]
+@multi5("Oh come on, you can tell me!", cyreg_you_can_tell_me, "Well, I guess they'll just die without weapons.", cyreg_persuade, "I'll give you some cash if you tell me.", cyreg_bribe, "I just want to help them, I think they need help", cyreg_just_want_help, "Ok, thanks.", cyreg_exit);
+
+[label,cyreg_exit]
+~chatplayer("Ok, thanks.");
+
+[label,cyreg_you_can_tell_me]
+~chatplayer("<p,neutral>Oh come on, you can tell me!");
+~chatnpc("<p,neutral>I'm sorry, I can't, I just can't... people are watching... eyes everywhere!");
+@cyreg_interrogate_multi_firstpage;
+
+[label,cyreg_persuade]
+~chatplayer("<p,neutral>Well, I guess they'll just die without weapons.");
+~chatnpc("<p,neutral>Hmm, you don't seem too concerned about their welfare... I'm glad I didn't tell you where they were. In any case, they're resourceful. They can look after themselves.");
+~chatplayer("<p,neutral>What's that supposed to mean?");
+~chatnpc("<p,neutral>They're resourceful folks, that's all I'm saying. Their leader, Veliaf, looks after them well.");
+@cyreg_interrogate_multi_secondpage;
+
+[label,cyreg_bribe]
+~chatplayer("<p,neutral>I'll give you some cash if you tell me.");
+~chatnpc("<p,angry>You think you can buy me!");
+~chatplayer("<p,neutral>Er, no, I just want to compensate you for your trouble!");
+~chatnpc("<p,neutral>You keep your money and I'll keep my secrets.");
+@cyreg_interrogate_multi_firstpage;
+
+[label,cyreg_just_want_help]
+~chatplayer("<p,neutral>I just want to help them, I think they need help.");
+~chatnpc("<p,neutral>Aye, well, they may do...but it's just not safe and it's not likely to get safer any time soon. Though I do feel sorry for Ivan; the baby of the group. He's seen too few winters to be involved in such toil.");
+@cyreg_interrogate_multi_firstpage;
+
+// SECOND MULTI-PAGE
+[label,cyreg_interrogate_multi_secondpage]
+@multi5("Oh come on, you can tell me!", cyreg_you_can_tell_me, "Resourceful enough to get their own steel weapons?", cyreg_persuade2, "I'll give you some cash if you tell me.", cyreg_bribe, "I just want to help them, I think they need help", cyreg_just_want_help, "Ok, thanks.", cyreg_exit);
+
+[label,cyreg_persuade2]
+~chatplayer("<p,neutral>Resourceful enough to get their own steel weapons?");
+~chatnpc("<p,neutral>Maybe they are...what do you care anyway? They've been up against it ever since they got started. All of 'em have suffered more loss and heartache than you'll ever know. Now, leave me be!");
+@cyreg_interrogate_multi_thirdpage;
+
+// THIRD MULTI-PAGE
+[label,cyreg_interrogate_multi_thirdpage]
+@multi5("What have they been up against?", cyreg_myreque_enemy, "What kind of loss and heartache?", cyreg_myreque_losses, "If you don't tell me, their deaths are on your head!", cyreg_persuade3, "I just want to help them, I think they need help", cyreg_just_want_help, "Ok, thanks.", cyreg_exit);
+
+[label,cyreg_myreque_enemy]
+~chatplayer("<p,neutral>What have they been up against?");
+~chatnpc("<p,neutral>You're not from around here or you wouldn't be asking such foolish questions. Morytania is ruled by a cruel dark overlord by the name of Drakan. His reign over Morytania means we all live in fear.");
+@cyreg_interrogate_multi_thirdpage;
+
+[label,cyreg_myreque_losses]
+~chatplayer("<p,neutral>What kind of loss and heartache?");
+~chatnpc("<p,neutral>The worst kind, most have lost members of their family. Little Sani Piliu, she was orphaned overnight when a vampire went on the rampage... Imagine that, losing your entire family in one night? Terrible!");
+~chatplayer("<p,neutral>It sounds awful...Who is Sani Piliu?");
+~chatnpc("<p,neutral>She's the only female member of the Myreque. She's alraedy proven herself with her agility and light fingers, if you know what I mean!");
+@cyreg_interrogate_multi_thirdpage;
+
+[label,cyreg_persuade3]
+~chatplayer("<p,neutral>If you don't tell me, their deaths are on your head!");
+~chatnpc("<p,neutral>There's death aplenty in this forsaken place...what do I care that some foolhardy vigilantes decided to go it alone against the Drakans! Stupidity of youth is to blame, I shan't carry it on my shoulders!");
+@cyreg_interrogate_multi_fourthpage;
+
+// FOURTH MULTI-PAGE
+[label,cyreg_interrogate_multi_fourthpage]
+@multi5("One mans vigilante is another mans freedom fighter!", cyreg_myreque_enemy, "Who are the Drakans?", cyreg_drakans, "What kind of a man are you to say that you don't care?", cyreg_persuade4, "Why do you say that this place is forsaken?", cyreg_forsaken, "Ok, thanks.", cyreg_exit);
+
+[label,cyreg_vigilante]
+// OSRS
+~chatplayer("<p,neutral>One man's vigilante is another man's freedom fighter!");
+~chatnpc("<p,neutral>Aye, you can see it from both sides I suppose. But many of us consider it fool hardy to fight for something we'll never get.");
+~chatnpc("<p,neutral>I remember a conversation I had with Polmafi, a scholar, such as he was. Even he agrees that the chances are slim.");
+~chatplayer("<p,neutral>Polmafi? Who's he?");
+~chatnpc("<p,neutral>Polmafi Ferdygris is one of the Myreque. He's a technical sort and advises on all sorts of things to Veliaf. He was a scholar before he became a renegade.");
+@cyreg_interrogate_multi_fourthpage;
+
+[label,cyreg_drakans]
+~chatplayer("<p,neutral>Who are the Drakans?");
+~chatnpc("<p,neutral>The Drakans are the family of overlords that rule Morytania. They're the ones to whom the blood tithes are paid. Too much I have told you already!");
+~chatnpc("<p,neutral>Ignorance is better than these truths, I tell you. I can pretend once more that I am a free man, and some relief from this gloom can I feel again. Be gone with you now and leave me with my dreams.");
+@cyreg_interrogate_multi_fourthpage;
+
+[label,cyreg_persuade4]
+~chatplayer("<p,neutral>What kind of a man are you to say that you don't care?");
+~chatnpc("<p,neutral>Don't dare to judge me, young fool...what do you know of the heartache I carry? Can you not see the anchor of woe that holds me fast?");
+~chatnpc("<p,neutral>Very well, if you would take your chance to help these strangers, who am I to stop you?");
+%routequest = ^routequest_boatman_agreed;
+~chatplayer("<p,neutral>But will you help me? Will you take me to them?");
+@cyreg_take_to_myreque;
+
+[label,cyreg_forsaken]
+~chatplayer("<p,neutral>Why do you say that this place is 'forsaken'?");
+~chatnpc("<p,neutral>All of these lands are forsaken of Saradomin's kindness, only cold death from the evil gods do we now feel. Those lucky ones to the west of the Salve little realise their fate if the river should one day become tainted.");
+@cyreg_interrogate_multi_fourthpage;
+
+
+// PRE BOAT REPAIR
+[label,cyreg_take_to_myreque]
+~chatnpc("<p,neutral>No, I won't take you, but you can use my boat. You'll be going through Mort Myre, though, so I won't be letting you go unless you've some defence against the Ghasts.");
+def_int $druid_pouches = inv_total(inv, druid_pouch);
+if($druid_pouches = 0) {
+    ~chatplayer("<p,neutral>I don't have anything which I can use against them at this time.");
+    return;
+}
+~objbox(druid_pouch, "You show the boatman your druid pouch.", 250, 0, divide(^objbox_height, 3));
+if($druid_pouches < 5) {
+    ~chatplayer("<p,neutral>I have this druid pouch!");
+    ~chatnpc("<p,neutral>There doesn't seem to be many charges in that; get it refilled, my friend. I won't go into Mort Myre without some protection.");
+    return;
+}
+~chatplayer("<p,neutral>I have this druid pouch! This turns the Ghasts visible and I can kill them once I can see them.");
+~chatnpc("<p,neutral>Very well, You can go! But you'll need to bring me some wood planks first, I need three and you need three.");
+// guessed, it's changed in rs3 and osrs both.
+// rs3 also cares if you actually have nails or hammer, osrs doesn't. rs3 changed the quest around 2013.
+if(inv_total(inv, woodplank) < 3) {
+    ~chatnpc("<p,neutral>The bridge you cross later is rotten and may need to be mended, so bring tools and steel metal fixers as well, you may find them useful.");
+    return;
+}
+// mid-2007
+~chatnpc("<p,neutral>The bridge you cross later is rotten and may need to be mended, so bring tools and steel metal fixers as well, you may find them useful. I see that you have some with you now, do you want to give them to me?");
+switch_int(~p_choice2_header("Give wooden planks to Cyreg.", 1, "Don't give any wooden planks to Cyreg.", 2, "Cyreg wants wooden planks!")) {
+    case 1 :
+        inv_del(inv, woodplank, 3);
+        %routequest = ^routequest_boatman_repaired;
+        ~objbox(woodplank, "The boatman takes 3 wooden planks from you.", 200, 0, 0);
+        ~chatnpc("<p,neutral>Very well, You can take the boat. Just jump in when you're ready to leave. When you get to the hollows, just keep going North and look for an unusual tree.");
+    case 2 :
+        // RS3
+        ~chatplayer("<p,neutral>Not just yet, sorry");
+}
+
+[label,cyreg_post_repair_questions]
+@multi5("Where do I go after I get to the hollows?", cyreg_where_to_go_hollows, "Tell me about the 'Myreque.'", cyreg_ask_about_myreque, "Tell me about the Drakans.", cyreg_tell_about_drakans, "Tell me about yourself.", cyreg_tell_about_self, "Ok thanks.", cyreg_exit);
+
+[label,cyreg_where_to_go_hollows]
+~chatplayer("<p,neutral>Where do I go after I get to the hollows?");
+~chatnpc("<p,neutral>You should head north and look for an unusual tree. You look like you know a thing or two about exploring so I guess I don't need to tell you to keep your eyes peeled!");
+@cyreg_post_repair_questions;
+
+[label,cyreg_ask_about_myreque]
+~chatplayer("<p,neutral>Tell me about the 'Myreque'.");
+~chatnpc("<p,neutral>What do you want to know?");
+@cyreg_ask_about_myreque_multi;
+
+[label,cyreg_ask_about_myreque_multi]
+@multi3("Why are they called 'the Myreque'?", cyreg_why_called_myreque, "Tell me about the members of the Myreque", cyreg_about_members_myreque, "--- Ask a different question. ---", cyreg_post_repair_questions);
+
+[label,cyreg_why_called_myreque]
+~chatplayer("<p,neutral>Why are they called 'the Myreque'?");
+~chatnpc("<p,neutral>The locals just called them after the place where they hide out, in Mort Myre. They are Myreque, 'hidden in the myre'.");
+@cyreg_ask_about_myreque_multi;
+
+[label,cyreg_about_members_myreque]
+~chatplayer("<p,neutral>Tell me about the members of the Myreque");
+~chatnpc("<p,neutral>Well, you have Radigad Ponfit...he's your average mercenary from Asgarnia, ready to slice anyone's head off for a price. He's got a personal score to settle with the Drakans, though no one knows what it is.");
+~chatnpc("<p,neutral>Then there's Veliaf, he's the leader, and then there's Ivan, he's the baby of the group. There's Sanii Piliu, she's a lovely girl, though a bit shady if you know what I mean.");
+~chatnpc("<p,neutral>You've also got Harold Evans, he's a bit hot-header, always straight into the fray. And the brains of the operation, reporting directly to Veliaf, is Polmafi Fredygris; he used to be quite a clever scholar!");
+@cyreg_ask_about_myreque_multi;
+
+[label,cyreg_tell_about_drakans]
+~chatplayer("<p,neutral>Tell me about the Drakans");
+~chatnpc("<p,neutral>Well it's rumoured that they're controlling the whole of Morytania. They live in the Sanguinesti region, but I've never been, like most villagers in Morytania, I'm afraid to leave the village and dread what lies beyond.");
+@cyreg_post_repair_questions;
+
+[label,cyreg_tell_about_self]
+~chatplayer("<p,neutral>Tell me about the yourself.");
+~chatnpc("<p,neutral>I'm just a humble boatman, Cyreg Paddlehorn is my name. Like most of the Paddlehorns before me, I make my living by tacking the swamps of Mort Myre.");
+@cyreg_post_repair_questions;

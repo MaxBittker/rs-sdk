@@ -32,13 +32,17 @@ if((oc_category(obj_type) = trail_clue_easy | oc_category(obj_type) = trail_clue
 }
 // These use a different mes compared to obj's with the telegrab_disabled param (maybe make a 2nd param)
 if(obj_type = holy_grail | obj_type = ghostskull | obj_type = ice_arrow | obj_type = ball | (oc_category(obj_type) = cog)
-    | obj_type = caveorb1 | obj_type = caveorb2 | obj_type = caveorb3 | obj_type = caveorb4 | obj_type = hot_feather | obj_type = grip_keys | obj_type = bunnyears | obj_type = scythe | obj_type = viyeldihat | obj_type = viking_beerkeg
-    | obj_type = horror_casket | obj_type = unfinished_saradominbook | obj_type = unfinished_zamorakbook | obj_type = unfinished_guthixbook | obj_type = saradominbook_complete | obj_type = unfinished_zamorakbook | obj_type = unfinished_guthixbook) {
+    | obj_type = caveorb1 | obj_type = caveorb2 | obj_type = caveorb3 | obj_type = caveorb4 | obj_type = hot_feather | obj_type = grip_keys | obj_type = bunnyears | obj_type = scythe | obj_type = viyeldihat | obj_type = ikov_staffofarmardyl
+    | obj_type = viking_beerkeg | obj_type = horror_casket | obj_type = unfinished_saradominbook | obj_type = unfinished_zamorakbook | obj_type = unfinished_guthixbook | obj_type = saradominbook_complete | obj_type = zamorakbook_complete | obj_type = guthixbook_complete) {
     mes("I can't use Telekinetic Grab on this object.");
     return;
 }
 if(oc_param(obj_type, telegrab_disabled) = true) {
     mes("You can't cast this spell on that object.");
+    return;
+}
+if(obj_type = zqcorpse) {
+    mes("The arcane aura in this area stops the spell from working.");
     return;
 }
 if(obj_coord = ^legends_opal_coord | obj_coord = ^legends_jade_coord | obj_coord = ^legends_topaz_coord | obj_coord = ^legends_sapphire_coord |
@@ -52,7 +56,7 @@ if (~pickup_obj_check_for_space(obj_type, obj_count) = false) {
 }
 // start anim, sound, and spotanim
 anim(human_casttelegrab, 0);
-sound_synth(telegrab_all, 0, 0);
+sound_synth(telegrab_all, 1, 0);
 spotanim_pl(telegrab_casting, 92, 0);
 
 // delete runes

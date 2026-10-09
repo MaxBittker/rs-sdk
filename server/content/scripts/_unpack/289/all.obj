@@ -1,0 +1,754 @@
+[misc_awful_anthem]
+name=Awful anthem
+recol1s=28434
+recol1d=14762
+desc=It's not very good.
+cost=1
+members=yes
+cost=1
+weight=5g
+model=inv_certificate
+2dyof=2
+2dzoom=760
+2dyan=28
+2dxan=552
+tradeable=no
+
+[misc_good_anthem]
+name=Good anthem
+recol1s=28434
+recol1d=25128
+desc=Much better.
+cost=1
+members=yes
+cost=1
+weight=5g
+model=inv_certificate
+2dyof=2
+2dzoom=760
+2dyan=28
+2dxan=552
+tradeable=no
+
+[misc_treaty]
+name=Treaty
+recol1s=15648
+recol1d=14762
+recol2s=29594
+recol2d=25128
+desc=Just needs the King's signature.
+cost=1
+members=yes
+cost=1
+weight=5g
+model=inv_scrollwithseal
+2dxof=1
+2dyof=7
+2dzoom=1040
+2dyan=120
+2dxan=380
+tradeable=no
+
+[misc_giant_nib]
+name=Giant nib
+desc=For making a giant pen.
+cost=1
+members=yes
+cost=1
+weight=35g
+model=quest_misc_inv_giantpen_nib
+2dxof=2
+2dyof=5
+2dzoom=460
+2dyan=2044
+2dxan=424
+tradeable=no
+
+[misc_giant_pen]
+name=Giant pen
+desc=The King should be able to use this.
+cost=1
+members=yes
+cost=1
+weight=35g
+model=quest_misc_inv_giantpen
+2dxof=1
+2dyof=27
+2dzoom=1830
+2dyan=1500
+2dxan=300
+tradeable=no
+
+[iron_sickle]
+name=Iron sickle
+recol1s=6342
+recol1d=15649
+desc=Not as good as a pet frog.
+cost=15
+model=quest_naturespirit_inv_silver_sickle
+2dxof=-4
+2dyof=2
+2dzoom=980
+2dyan=948
+2dxan=604
+iop2=Wield
+wearpos=righthand
+manwear=human_weapons_silver_sickle,0
+womanwear=human_weapons_silver_sickle,6
+members=yes
+category=weapon_slash
+weight=56oz
+param=slashdefence,1
+param=crushdefence,1
+param=magicdefence,1
+param=rangedefence,1
+param=strengthbonus,1
+param=attackrate,5
+param=slashattack_anim,human_sword_slash
+param=stabattack_anim,human_sword_stab
+param=defend_anim,human_sword_def
+param=slash_sound,sickle_slash
+param=stab_sound,sickle_stab
+
+[misc_ghrimbook]
+name=Ghrim's book
+recol1s=13472
+recol1d=448
+recol2s=15855
+recol2d=20033
+recol3s=29594
+recol3d=15855
+desc=''Managing Thine Kingdom for Noobes'' by A. Ghrim.
+model=inv_book_fancy
+weight=1kg
+iop1=Read
+members=yes
+2dxof=1
+2dyof=-21
+2dzoom=830
+2dyan=116
+2dxan=244
+tradeable=no
+
+[castlewars_saradomin_banner]
+category=weapon_spear
+param=ready_baseanim,human_bannerready
+param=turnonspot_baseanim,human_bannerturnonspot
+param=walk_f_baseanim,human_bannerwalk_f
+param=walk_b_baseanim,human_bannerwalk_b
+param=walk_l_baseanim,human_bannerwalk_l
+param=walk_r_baseanim,human_bannerwalk_r
+param=running_baseanim,human_bannerrunning
+param=defend_anim,human_banner_block
+param=stabattack_anim,human_banner_spike
+param=slashattack_anim,human_banner_spike
+param=crushattack_anim,human_banner_spike
+// todo: sounds
+param=stab_sound,staff_stab
+param=slash_sound,staff_crush
+param=crush_sound,staff_hit
+name=Saradomin banner
+desc=The Saradomin Team Standard.
+model=game_castlewars_banners_saradomin
+2dxof=2
+2dyof=144
+2dzoom=1900
+2dyan=44
+2dxan=112
+iop2=Wield
+wearpos=righthand
+wearpos2=lefthand
+manwear=obj_4037_manwear,0
+womanwear=obj_4037_manwear,6
+members=yes
+weight=5lb
+// category=category_42
+// param=param_59,1
+tradeable=no
+
+[castlewars_zamorak_banner]
+wearpos=righthand
+wearpos2=lefthand
+category=weapon_spear
+param=ready_baseanim,human_bannerready
+param=turnonspot_baseanim,human_bannerturnonspot
+param=walk_f_baseanim,human_bannerwalk_f
+param=walk_b_baseanim,human_bannerwalk_b
+param=walk_l_baseanim,human_bannerwalk_l
+param=walk_r_baseanim,human_bannerwalk_r
+param=running_baseanim,human_bannerrunning
+param=defend_anim,human_banner_block
+param=stabattack_anim,human_banner_spike
+param=slashattack_anim,human_banner_spike
+param=crushattack_anim,human_banner_spike
+// todo: sounds
+param=stab_sound,staff_stab
+param=slash_sound,staff_crush
+param=crush_sound,staff_hit
+name=Zamorak banner
+desc=The Zamorak Team Standard.
+model=game_castlewars_banners_zamorak
+iop2=Wield
+manwear=obj_4039_manwear,0
+womanwear=obj_4039_manwear,6
+weight=5lb
+// category=category_42
+2dxof=2
+2dyof=144
+2dzoom=1900
+2dyan=44
+2dxan=112
+members=yes
+// param=param_59,1
+tradeable=no
+
+[castlewars_cloak_saradomin]
+wearpos=back
+wearpos2=hat
+wearpos3=head
+name=Hooded cloak
+recol1s=14724
+recol1d=11736
+recol2s=8386
+recol2d=14873
+recol3s=6272
+recol3d=2251
+recol4s=31649
+recol4d=30646
+desc=The colours of Saradomin.
+model=inv_cloak
+2dxof=3
+2dyof=6
+2dzoom=2140
+2dyan=948
+2dxan=400
+iop2=Wear
+manwear=man_torsoextra_cloak_for_hood2,0
+womanwear=woman_torsoextra_cloak_for_hood2,0
+manhead=chat_male_head_hood2
+womanhead=chat_female_head_hood2
+members=yes
+weight=1g
+team=1
+// category=category_43
+// param=param_59,1
+// param=param_451,Surrender
+
+[castlewars_cloak_zamorak]
+wearpos=back
+wearpos2=hat
+wearpos3=head
+name=Hooded cloak
+recol1s=14724
+recol1d=19684
+recol2s=8386
+recol2d=19750
+recol3s=6272
+recol3d=13441
+recol4s=31649
+recol4d=7266
+desc=The colours of Zamorak.
+model=inv_cloak
+2dxof=3
+2dyof=6
+2dzoom=2140
+2dyan=948
+2dxan=400
+iop2=Wear
+manwear=man_torsoextra_cloak_for_hood2,0
+womanwear=woman_torsoextra_cloak_for_hood2,0
+manhead=chat_male_head_hood2
+womanhead=chat_female_head_hood2
+weight=1g
+members=yes
+team=2
+// category=category_43
+// param=param_59,1
+// param=param_451,Surrender
+
+[castlewars_catapult_rock]
+name=Rock
+desc=I can use this with the catapult.
+model=castlewars_catapult_boulder
+2dxof=-1
+2dyof=-2
+2dzoom=1220
+2dyan=1788
+2dxan=52
+weight=5kg
+// category=category_43
+members=yes
+// param=param_59,1
+
+[castlewars_explosives_potion]
+name=Explosive potion
+recol1s=15855
+recol1d=29217
+desc=I could use this to destroy things...
+model=inv_vial
+2dyof=-1
+2dzoom=550
+2dyan=1996
+2dxan=84
+weight=35g
+// category=category_43
+members=yes
+// param=param_59,1
+
+[castlewars_climbing_rope]
+name=Climbing rope
+recol1s=11524
+recol1d=7296
+desc=Should be long enough to scale castle walls.
+model=ship_pileofrope2
+2dxof=-2
+2dyof=-30
+2dzoom=1240
+2dyan=1976
+2dxan=188
+weight=3lb
+// category=category_43
+members=yes
+// param=param_59,1
+
+[castlewars_bandages]
+name=Bandages
+desc=A box of bandages for healing.
+model=game_castlewars_inv_bandages
+2dxof=-1
+2dzoom=1200
+2dyan=1884
+2dxan=436
+weight=1g
+iop1=Heal
+// category=category_43
+members=yes
+// param=param_59,1
+
+[castlewars_toolkit]
+name=Toolbox
+desc=I can use this to repair things.
+model=game_castlewars_inv_toolbox
+2dxof=5
+2dyof=-5
+2dzoom=1310
+2dyan=1704
+2dxan=136
+weight=1g
+// category=category_43
+members=yes
+// param=param_59,1
+
+[castlewars_barricade]
+name=Barricade
+desc=Use these to block enemy team movement.
+model=game_castlewars_barricade
+2dyof=-27
+2dzoom=2760
+2dyan=1816
+2dxan=104
+weight=5kg
+iop1=Set-up
+members=yes
+// category=category_43
+// param=param_59,1
+
+[castlewars_manual]
+name=Castlewars manual
+recol1s=13472
+recol1d=11558
+recol2s=29594
+recol2d=29557
+recol3s=20033
+recol3d=6340
+recol4s=15855
+recol4d=6340
+desc=It's a manual for castlewars.
+model=inv_book_fancy
+2dxof=1
+2dyof=-21
+2dzoom=830
+2dyan=116
+2dxan=244
+members=yes
+iop1=Read
+weight=18oz
+tradeable=no
+
+[castlewars_no0]
+name=Castlewars no0
+model=obj_4056
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no1]
+name=Castlewars no1
+model=obj_4057
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no2]
+name=Castlewars no2
+model=obj_4058
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no3]
+name=Castlewars no3
+model=obj_4059
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no4]
+name=Castlewars no4
+model=obj_4060
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no5]
+name=Castlewars no5
+model=obj_4061
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no6]
+name=Castlewars no6
+model=obj_4062
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no7]
+name=Castlewars no7
+model=obj_4063
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no8]
+name=Castlewars no8
+model=obj_4064
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_no9]
+name=Castlewars no9
+model=obj_4065
+2dxof=-1
+2dyof=1
+2dzoom=2180
+2dxan=520
+members=yes
+
+[castlewars_catapult]
+name=Catapult
+model=outdoorfurniture_catapult
+members=yes
+2dxof=11
+2dyof=-72
+2dzoom=5270
+2dyan=1848
+2dzan=2028
+2dxan=188
+
+[castlewars_ticket]
+name=Castle wars ticket
+recol1s=19150
+recol1d=18888
+desc=I can exchange these for further items.
+model=inv_agility_ticket
+cost=1
+2dzoom=1160
+2dyan=1888
+2dzan=8
+2dxan=308
+members=yes
+stackable=yes
+weight=5g
+tradeable=no
+
+[castlewars_sword]
+param=attackrate,5
+param=stabattack,13
+param=slashattack,18
+param=crushattack,-2
+param=slashdefence,3
+param=crushdefence,2
+param=strengthbonus,16
+param=slashattack_anim,human_sword_slash
+param=stabattack_anim,human_sword_stab
+param=defend_anim,human_sword_def
+param=slash_sound,hacksword_slash
+param=stab_sound,hacksword_stab
+name=Decorative sword
+recol1s=9523
+recol1d=19489
+recol2s=12703
+recol2d=20
+recol3s=17983
+recol3d=20
+recol4s=24351
+recol4d=20
+recol5s=15871
+recol5d=20
+desc=A very decorative sword.
+cost=960
+members=yes
+model=inv_bluritesword
+2dxof=6
+2dyof=-49
+2dzoom=1530
+2dyan=408
+2dxan=224
+category=weapon_slash
+wearpos=righthand
+manwear=human_weapons_blueritesword,0
+womanwear=human_weapons_blueritesword,6
+iop2=Wield
+weight=56oz
+tradeable=no
+
+[castlewars_armour_body]
+param=magicattack,-30
+param=rangeattack,-10
+param=stabdefence,32
+param=slashdefence,31
+param=crushdefence,24
+param=magicdefence,-6
+param=rangedefence,31
+name=Decorative armour
+recol1s=15855
+recol1d=19489
+recol2s=10570
+recol2d=20
+desc=Very decorative armour.
+cost=2000
+model=inv_platemail
+members=yes
+2dxof=1
+2dyof=12
+2dzoom=1320
+2dzan=52
+2dxan=464
+iop2=Wear
+wearpos=torso
+wearpos2=arms
+manwear=man_torso_platemail,0
+manwear2=man_arms_platemail
+womanwear=woman_torso_platemail,0
+womanwear2=woman_arms_platemail
+weight=19lb
+category=category_7
+tradeable=no
+
+[castlewars_armour_legs]
+param=magicattack,-21
+param=rangeattack,-7
+param=stabdefence,17
+param=slashdefence,16
+param=crushdefence,15
+param=magicdefence,-4
+param=rangedefence,16
+name=Decorative armour
+recol1s=15855
+recol1d=20
+recol2s=10570
+recol2d=19489
+recol3s=14798
+recol3d=20
+desc=Very decorative armour.
+cost=1000
+members=yes
+model=inv_platelegs
+2dyof=-8
+2dzoom=1740
+2dxan=444
+iop2=Wear
+wearpos=legs
+manwear=man_legs_platemail,0
+womanwear=woman_legs_platemail,0
+weight=20lb
+category=category_7
+tradeable=no
+
+[castlewars_med_helm]
+param=magicattack,-3
+param=rangeattack,-1
+param=stabdefence,7
+param=slashdefence,8
+param=crushdefence,6
+param=magicdefence,-1
+param=rangedefence,7
+name=Decorative helm
+recol1s=15360
+recol1d=20
+recol2s=15855
+recol2d=19489
+desc=A very decorative helm.
+cost=300
+model=inv_mediumhelmet
+members=yes
+2dxof=1
+2dyof=-4
+2dzoom=640
+2dyan=156
+2dxan=108
+iop2=Wear
+wearpos=hat
+wearpos2=head
+manwear=man_head_mediumhelmet,0
+womanwear=woman_head_mediumhelmet,0
+manhead=chat_male_head_mediumhelmet
+womanhead=chat_female_head_mediumhelmet
+category=category_2
+weight=3lb
+tradeable=no
+
+[castlewars_shield]
+param=magicattack,-8
+param=rangeattack,-2
+param=stabdefence,13
+param=slashdefence,15
+param=crushdefence,14
+param=magicdefence,-1
+param=rangedefence,14
+name=Decorative shield
+recol1s=15855
+recol1d=19489
+recol2s=7296
+recol2d=20
+recol3s=14798
+recol3d=20
+desc=A very decorative shield.
+model=inv_kiteshield
+members=yes
+2dxof=-6
+2dyof=-14
+2dzoom=1560
+2dyan=1104
+2dxan=344
+iop2=Wear
+cost=850
+wearpos=lefthand
+manwear=human_weapons_kiteshield,0
+womanwear=human_weapons_kiteshield,6
+category=category_18
+weight=10lb
+// TODO
+tradeable=no
+
+[trollromance_toboggon]
+name=Sled
+desc=It needs waxing before I can use it.
+model=quest_trollromance_toboggan
+2dzoom=1960
+2dyan=160
+2dxan=136
+wearpos=righthand
+manwear=human_weapons_toboggan,0
+womanwear=human_weapons_toboggan,0
+weight=18g
+members=yes
+cost=150
+tradeable=no
+
+[trollromance_toboggon_waxed]
+name=Sled
+recol1s=23082
+recol1d=24107
+recol2s=19912
+recol2d=22951
+recol3s=16707
+recol3d=18723
+desc=A waxed sled.
+model=quest_trollromance_toboggan
+2dzoom=1960
+2dyan=160
+2dxan=136
+iop2=Ride
+wearpos=righthand
+wearpos2=lefthand
+manwear=human_weapons_toboggan,0
+womanwear=human_weapons_toboggan,0
+weight=18g
+members=yes
+cost=175
+param=defend_anim,trollromance_toboggan_defend
+tradeable=no
+
+[trollromance_wax]
+name=Wax
+desc=I can use this to wax my sled.
+model=quest_trollromance_inv_wax
+manwear=human_weapons_sledwax,0
+womanwear=human_weapons_sledwax,0
+2dxof=1
+2dyof=-8
+2dzoom=520
+2dyan=1936
+2dxan=176
+wearpos=lefthand
+weight=25g
+members=yes
+cost=15
+tradeable=no
+
+[trollromance_rare_flower]
+name=Trollweiss
+recol1s=9702
+recol1d=13932
+recol2s=21017
+recol2d=18136
+recol3s=18455
+recol3d=14999
+recol4s=14967
+recol4d=20250
+recol5s=27363
+recol5d=19327
+desc=These are very rare flowers with a pungent odor.
+model=inv_flowerbunch
+2dyof=-2
+2dzoom=840
+2dyan=816
+2dxan=612
+iop2=Wield
+wearpos=righthand
+manwear=human_weapons_flowerbunch,0
+womanwear=human_weapons_flowerbunch,6
+members=yes
+cost=5
+category=flowers
+weight=1oz
+param=stabattack,-100
+param=slashattack,-100
+param=crushattack,-50
+param=strengthbonus,-10
+param=attackrate,4
+param=crushattack_anim,human_blunt_spike
+param=crush_sound,flower_attack
+tradeable=no

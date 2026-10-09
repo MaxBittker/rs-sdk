@@ -46,7 +46,7 @@ if (%action_delay < map_clock) {
 if (%action_delay = calc(map_clock + 3)) {
     mes("You cast out your net...");
     anim(human_smallnet, 0);
-    sound_synth(net, 0, 0);
+    sound_synth(net, 1, 0);
     p_opnpc(4);
 } else if (%action_delay = map_clock) {
     if (stat_random(fishing, 100, 250) = true) {
@@ -119,7 +119,7 @@ if (inv_freespace(inv) < 1) {
 // https://youtu.be/vVAfKCvmrz4?si=t3jLmmVAP_Jp1ht-&t=105 6t here, prob no interaction loop
 anim(human_octopus_pot, 0);
 mes("You lower the Karambwan vessel.");
-sound_synth(fishing_cast, 0, 0);
+sound_synth(fishing_cast, 1, 0);
 p_delay(5);
 if (stat_random(fishing, 5, 160) = true) {
     inv_del(inv, tbwt_karambwan_vessel_loaded_with_karambwanji, 1);

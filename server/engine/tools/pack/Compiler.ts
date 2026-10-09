@@ -141,7 +141,7 @@ export function runServerCompiler() {
             commandInfo.corrupt[opcode] = pointers.corrupt.join(',');
 
             if (pointers.corrupt2) {
-                commandInfo.corrupt[opcode] = pointers.corrupt2.join(',');
+                commandInfo.corrupt2[opcode] = pointers.corrupt2.join(',');
             }
         }
     }

@@ -1,6 +1,6 @@
 [elemental_workshop_shield_book]
-desc=A very thickley bound book.
-model=model_2794_obj
+desc=A very thickly bound book.
+model=inv_book
 cost=10
 tradeable=no
 members=true
@@ -14,7 +14,7 @@ weight=4oz
 
 [elemental_workshop_key]
 desc=An old battered key.
-model=model_2372_obj
+model=inv_key
 cost=1
 tradeable=no
 members=true
@@ -28,7 +28,7 @@ weight=10g
 
 [elemental_workshop_lava_bowl]
 desc=This is an empty stone bowl.
-model=model_2728_obj
+model=inv_gnomebowl
 2dxof=1
 2dzoom=850
 2dyan=1888
@@ -45,7 +45,7 @@ weight=5oz
 
 [elemental_workshop_lava_bowl_full]
 desc=This is a stone bowl full of lava.
-model=model_2728_obj
+model=inv_gnomebowl
 2dxof=1
 2dzoom=850
 2dyan=1888
@@ -62,14 +62,14 @@ weight=8oz
 
 [elemental_shield]
 desc=A magic shield.
-model=model_155
+model=quest_elementalworkshop_inv_shield
 iop2=Wield
 2dxof=65534
 2dyof=22
 2dyan=216
 2dxan=300
-manwear=model_obj_2890,0
-womanwear=model_obj_2890,6
+manwear=human_weapons_elemental_shield,0
+womanwear=human_weapons_elemental_shield,6
 members=true
 cost=20
 name=Elemental shield
@@ -78,10 +78,11 @@ category=armour_shield
 weight=8oz
 param=magicdefence,6
 param=defend_anim,human_shield_defence
+param=defend_sound,blade4
 
 [elemental_workshop_ore]
 desc=This needs refining.
-model=model_2748_obj
+model=inv_ore
 2dxof=1
 2dyof=15
 2dzoom=1400
@@ -97,7 +98,7 @@ weight=5lb
 
 [elemental_workshop_bar]
 desc=It's a bar of refined elemental ore.
-model=model_2408_obj
+model=inv_orebar
 2dxof=1
 2dyof=65528
 2dzoom=820

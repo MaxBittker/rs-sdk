@@ -29,7 +29,7 @@ export function parseNpcConfig(key: string, value: string): ConfigValue | null |
     ];
     // prettier-ignore
     const booleanKeys = [
-        'hasalpha', 'minimap', 'members', 'givechase', 'alwaysontop'
+        'minimap', 'members', 'givechase', 'alwaysontop'
     ];
 
     if (stringKeys.includes(key)) {
@@ -328,12 +328,14 @@ export function packNpcConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
                         client.p1(14);
                         client.p2(value as number);
                     }
-                } else if (key === 'hasalpha') {
-                    if (value === true) {
-                        client.p1(16);
-                    }
                 } else if (key === 'category') {
                     server.p1(18);
+                    server.p2(value as number);
+                } else if (key === 'wanderrange') {
+                    server.p1(26);
+                    server.p2(value as number);
+                } else if (key === 'maxrange') {
+                    server.p1(27);
                     server.p2(value as number);
                 } else if (key.startsWith('op')) {
                     const index = parseInt(key.substring('op'.length)) - 1;
@@ -394,12 +396,6 @@ export function packNpcConfigs(configs: Map<string, ConfigLine[]>, modelFlags: n
                 } else if (key === 'turnspeed') {
                     client.p1(103);
                     client.p2(value as number);
-                } else if (key === 'wanderrange') {
-                    server.p1(200);
-                    server.p2(value as number);
-                } else if (key === 'maxrange') {
-                    server.p1(201);
-                    server.p2(value as number);
                 } else if (key === 'huntrange') {
                     server.p1(202);
                     server.p1(value as number);

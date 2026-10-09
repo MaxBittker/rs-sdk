@@ -730,7 +730,7 @@ x=336
 y=253
 width=32
 height=32
-model=model_4608
+model=if_connectfour
 zoom=134
 
 [boardinv]
@@ -867,7 +867,7 @@ x=20
 y=57
 width=20
 height=20
-model=model_2399_obj
+model=inv_firerune
 zoom=1024
 xan=512
 
@@ -877,7 +877,7 @@ x=20
 y=87
 width=20
 height=20
-model=model_2652_obj
+model=inv_waterrune
 zoom=1024
 xan=512
 

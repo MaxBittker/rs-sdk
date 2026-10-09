@@ -21,4 +21,4 @@ if (~in_games_room(coord) = true & %boardgames_drop_warning = ^false) {
 
 inv_dropslot(inv, coord, $last, calc(calc(^lootdrop_duration * 3) / 2));
 anim(null, 0); // https://youtu.be/QvDYolBZNjY?t=164, https://youtu.be/DVHCP2JhQE0?t=142
-sound_synth(put_down, 0, 0);
+sound_synth(put_down, 1, 0);

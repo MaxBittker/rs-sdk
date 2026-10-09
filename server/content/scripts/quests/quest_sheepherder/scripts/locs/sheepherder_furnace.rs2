@@ -15,7 +15,7 @@ if (last_useitem = sheepbonesa) {
 
 [label,incinerate_bones](int $starting_bit) {
     anim(human_furnace, 0);
-    sound_synth(furnace, 0, 0);
+    sound_synth(furnace, 1, 0);
     mes("You put the remains into the furnace.");
     inv_del(inv, last_useitem, 1);
     p_delay(3);

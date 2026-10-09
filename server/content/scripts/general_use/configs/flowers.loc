@@ -1,14 +1,14 @@
 [flower_waterfall_quest]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 
 [flower_waterfall_quest_red]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 recol1s=21017
@@ -21,7 +21,7 @@ recol3d=24609
 [flower_waterfall_quest_blue]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 recol1s=21017
@@ -34,7 +34,7 @@ recol3d=25
 [flower_waterfall_quest_yellow]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 recol1s=21017
@@ -47,7 +47,7 @@ recol3d=31649
 [flower_waterfall_quest_purple]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 recol1s=21017
@@ -60,7 +60,7 @@ recol3d=19487
 [flower_waterfall_quest_orange]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 recol1s=21017
@@ -73,7 +73,7 @@ recol3d=28161
 [flower_waterfall_quest_mixed]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 recol1s=21017
@@ -86,7 +86,7 @@ recol3d=31649
 [flower_waterfall_quest_white]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 recol1s=21017
@@ -99,7 +99,7 @@ recol3d=32767
 [flower_waterfall_quest_black]
 name=Flowers
 desc=Some beautiful flowers.
-model=model_loc_2980
+model=quest_flower_growing
 blockwalk=no
 anim=flower_growing
 recol1s=21017

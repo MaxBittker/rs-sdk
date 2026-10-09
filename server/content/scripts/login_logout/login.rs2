@@ -75,17 +75,19 @@ queue(macro_event_login, 0, 0);
 if(inzone(0_41_157_0_0, 3_41_157_63_63, coord) = true) { // thorvalds house login (viking quest)
     p_teleport(0_41_57_42_46);
 }
+~mm_login;
 
 if(inzone(movecoord(^grandtree_jail_coord, 0, 0, -2), movecoord(^grandtree_jail_coord, 3, 0, 2), coord) = true) {
     ~grandtree_spawn_charlie;
 }
 
+~initalltabs;
+~castlewars_login;
 ~update_all(inv_getobj(worn, ^wearpos_rhand));
 cam_reset;
 if (%tutorial < ^tutorial_complete & ~in_tutorial_island(coord) = true) {
     @start_tutorial;
 }
-~initalltabs;
 queue(follower_login, 0, 0);
 if (map_live = true) {
     last_login_info;

@@ -97,5 +97,5 @@ inv_del(inv, $solvent, 1);
 inv_add(inv, vial_empty, 1);
 anim(human_explodingvial, 0);
 spotanim_pl(explodingvial, 92, 0);
-sound_synth(explosion, 0, 0);
+sound_synth(explosion, 1, 0);
 ~damage_self(5);

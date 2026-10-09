@@ -174,6 +174,11 @@ table=musicregion
 data=mapsquare,0_36_154_0_0
 data=musicdata,music_Intrepid
 
+[musicregion_37_48]
+table=musicregion
+data=mapsquare,0_37_48_0_0
+data=musicdata,music_Castlewars
+
 [musicregion_37_49]
 table=musicregion
 data=mapsquare,0_37_49_0_0
@@ -219,6 +224,11 @@ table=musicregion
 data=mapsquare,0_37_147_0_0
 data=musicdata,music_Expedition
 
+[musicregion_37_148]
+table=musicregion
+data=mapsquare,0_37_148_0_0
+data=musicdata,music_Ready_for_Battle
+
 [musicregion_37_149]
 table=musicregion
 data=mapsquare,0_37_149_0_0
@@ -234,10 +244,20 @@ table=musicregion
 data=mapsquare,0_37_151_0_0
 data=musicdata,music_Cursed
 
+[musicregion_37_154]
+table=musicregion
+data=mapsquare,0_37_154_0_0
+data=musicdata,music_Technology
+
 [musicregion_38_47]
 table=musicregion
 data=mapsquare,0_38_47_0_0
 data=musicdata,music_Gaol
+
+[musicregion_38_48]
+table=musicregion
+data=mapsquare,0_38_48_0_0
+data=musicdata,music_Melodrama
 
 [musicregion_38_49]
 table=musicregion
@@ -288,6 +308,11 @@ data=musicdata,music_Expecting
 table=musicregion
 data=mapsquare,0_38_151_0_0
 data=musicdata,music_Cursed
+
+[musicregion_38_154]
+table=musicregion
+data=mapsquare,0_38_154_0_0
+data=musicdata,music_Narnodes_Theme
 
 [musicregion_39_46]
 table=musicregion
@@ -343,6 +368,11 @@ data=musicdata,music_Legion
 table=musicregion
 data=mapsquare,0_39_56_0_0
 data=musicdata,music_Lighthouse
+
+[musicregion_39_60]
+table=musicregion
+data=mapsquare,0_39_60_0_0
+data=musicdata,music_Miscellania
 
 [musicregion_39_72]
 table=musicregion
@@ -434,6 +464,16 @@ table=musicregion
 data=mapsquare,0_40_57_0_0
 data=musicdata,music_Rellekka
 
+[musicregion_40_60]
+table=musicregion
+data=mapsquare,0_40_60_0_0
+data=musicdata,music_Etceteria
+
+[musicregion_40_70]
+table=musicregion
+data=mapsquare,0_40_70_0_0
+data=musicdata,music_Technology
+
 [musicregion_40_75]
 table=musicregion
 data=mapsquare,0_40_75_0_0
@@ -463,6 +503,11 @@ data=musicdata,music_Alone
 table=musicregion
 data=mapsquare,0_40_151_0_0
 data=musicdata,music_Scape_Sad
+
+[musicregion_40_153]
+table=musicregion
+data=mapsquare,0_40_153_0_0
+data=musicdata,music_Goblin_Game
 
 [musicregion_40_154]
 table=musicregion
@@ -529,6 +574,11 @@ table=musicregion
 data=mapsquare,0_41_58_0_0
 data=musicdata,music_Rellekka
 
+[musicregion_41_70]
+table=musicregion
+data=mapsquare,0_41_70_0_0
+data=musicdata,music_Technology
+
 [musicregion_41_73]
 table=musicregion
 data=mapsquare,0_41_73_0_0
@@ -543,6 +593,21 @@ data=musicdata,music_Down_To_Earth
 table=musicregion
 data=mapsquare,0_41_146_0_0
 data=musicdata,music_Chompy_Hunt
+
+[musicregion_41_148]
+table=musicregion
+data=mapsquare,0_41_148_0_0
+data=musicdata,music_7th_Realm
+
+[musicregion_41_149]
+table=musicregion
+data=mapsquare,0_41_149_0_0
+data=musicdata,music_7th_Realm
+
+[musicregion_41_151]
+table=musicregion
+data=mapsquare,0_41_149_0_0
+data=musicdata,music_Crystal_Sword
 
 [musicregion_41_152]
 table=musicregion
@@ -568,6 +633,16 @@ data=musicdata,music_The_Navigator
 table=musicregion
 data=mapsquare,0_41_157_0_0
 data=musicdata,music_Warrior
+
+[musicregion_42_42]
+table=musicregion
+data=mapsquare,0_42_42_0_0
+data=musicdata,music_Island_Life
+
+[musicregion_42_43]
+table=musicregion
+data=mapsquare,0_42_43_0_0
+data=musicdata,music_Anywhere
 
 [musicregion_42_49]
 table=musicregion
@@ -619,10 +694,45 @@ table=musicregion
 data=mapsquare,0_42_58_0_0
 data=musicdata,music_Borderland
 
+[musicregion_42_69]
+table=musicregion
+data=mapsquare,0_42_69_0_0
+data=musicdata,music_Chamber
+
+[musicregion_42_70]
+table=musicregion
+data=mapsquare,0_42_70_0_0
+data=musicdata,music_Deep_Down
+
+[musicregion_42_71]
+table=musicregion
+data=mapsquare,0_42_71_0_0
+data=musicdata,music_Deep_Down
+
 [musicregion_42_75]
 table=musicregion
 data=mapsquare,0_42_75_0_0
 data=musicdata,music_Zealot
+
+[musicregion_42_142]
+table=musicregion
+data=mapsquare,0_42_142_0_0
+data=musicdata,music_Find_My_Way
+
+[musicregion_42_147]
+table=musicregion
+data=mapsquare,0_42_147_0_0
+data=musicdata,music_Karamja_Jam
+
+[musicregion_42_148]
+table=musicregion
+data=mapsquare,0_42_148_0_0
+data=musicdata,music_Karamja_Jam
+
+[musicregion_42_149]
+table=musicregion
+data=mapsquare,0_42_149_0_0
+data=musicdata,music_Pathways
 
 [musicregion_42_151]
 table=musicregion
@@ -643,6 +753,16 @@ data=musicdata,music_Attack5
 table=musicregion
 data=mapsquare,0_42_154_0_0
 data=musicdata,music_Twilight
+
+[musicregion_43_42]
+table=musicregion
+data=mapsquare,0_43_42_0_0
+data=musicdata,music_Island_Life
+
+[musicregion_43_43]
+table=musicregion
+data=mapsquare,0_43_43_0_0
+data=musicdata,music_Monkey_Madness
 
 [musicregion_43_45]
 table=musicregion
@@ -677,7 +797,7 @@ data=musicdata,music_Jolly-R
 [musicregion_43_51]
 table=musicregion
 data=mapsquare,0_43_51_0_0
-data=musicdata,music_Fishing
+data=musicdata,music_Fruits_de_Mer
 
 [musicregion_43_52]
 table=musicregion
@@ -704,6 +824,36 @@ table=musicregion
 data=mapsquare,0_43_56_0_0
 data=musicdata,music_Legend
 
+[musicregion_43_58]
+table=musicregion
+data=mapsquare,0_43_58_0_0
+data=musicdata,music_Hells_Bells
+
+[musicregion_43_59]
+table=musicregion
+data=mapsquare,0_43_59_0_0
+data=musicdata,music_Hells_Bells
+
+[musicregion_43_60]
+table=musicregion
+data=mapsquare,0_43_60_0_0
+data=musicdata,music_Romancing_the_Crone
+
+[musicregion_43_69]
+table=musicregion
+data=mapsquare,0_43_69_0_0
+data=musicdata,music_Haunted_Mine
+
+[musicregion_43_70]
+table=musicregion
+data=mapsquare,0_43_70_0_0
+data=musicdata,music_Chamber
+
+[musicregion_43_71]
+table=musicregion
+data=mapsquare,0_43_71_0_0
+data=musicdata,music_Deep_Down
+
 [musicregion_43_73]
 table=musicregion
 data=mapsquare,0_43_73_0_0
@@ -713,6 +863,11 @@ data=musicdata,music_Emotion
 table=musicregion
 data=mapsquare,0_43_75_0_0
 data=musicdata,music_Miracle_Dance
+
+[musicregion_43_143]
+table=musicregion
+data=mapsquare,0_43_143_0_0
+data=musicdata,music_Temple
 
 [musicregion_43_145]
 table=musicregion
@@ -733,6 +888,11 @@ data=musicdata,music_Aztec
 table=musicregion
 data=mapsquare,0_43_153_0_0
 data=musicdata,music_Arabique
+
+[musicregion_43_142]
+table=musicregion
+data=mapsquare,0_43_142_0_0
+data=musicdata,music_Find_My_Way
 
 [musicregion_44_45]
 table=musicregion
@@ -799,6 +959,11 @@ table=musicregion
 data=mapsquare,0_44_57_0_0
 data=musicdata,music_Sojourn
 
+[musicregion_44_58]
+table=musicregion
+data=mapsquare,0_44_58_0_0
+data=musicdata,music_Stranded
+
 [musicregion_44_75]
 table=musicregion
 data=mapsquare,0_44_75_0_0
@@ -843,6 +1008,11 @@ data=musicdata,music_Beyond
 table=musicregion
 data=mapsquare,0_44_157_0_0
 data=musicdata,music_Marzipan
+
+[musicregion_45_42]
+table=musicregion
+data=mapsquare,0_45_42_0_0
+data=musicdata,music_Marooned
 
 [musicregion_45_45]
 table=musicregion
@@ -908,6 +1078,11 @@ data=musicdata,music_Contest
 table=musicregion
 data=mapsquare,0_45_57_0_0
 data=musicdata,music_Sojourn
+
+[musicregion_45_58]
+table=musicregion
+data=mapsquare,0_45_58_0_0
+data=musicdata,music_Stranded
 
 [musicregion_45_71]
 table=musicregion
@@ -1263,7 +1438,7 @@ data=musicdata,music_Tiptoe
 [musicregion_48_153]
 table=musicregion
 data=mapsquare,0_48_153_0_0
-data=musicdata,music_Dark
+data=musicdata,music_Barbarianism
 
 [musicregion_48_154]
 table=musicregion
@@ -1695,6 +1870,11 @@ table=musicregion
 data=mapsquare,0_53_54_0_0
 data=musicdata,music_Morytania
 
+[musicregion_53_150]
+table=musicregion
+data=mapsquare,0_53_150_0_0
+data=musicdata,music_Spooky2
+
 [musicregion_53_152]
 table=musicregion
 data=mapsquare,0_53_152_0_0
@@ -1734,6 +1914,11 @@ data=musicdata,music_Insect_Queen
 table=musicregion
 data=mapsquare,0_54_151_0_0
 data=musicdata,music_Lair
+
+[musicregion_54_153]
+table=musicregion
+data=mapsquare,0_54_153_0_0
+data=musicdata,music_Stillness
 
 [musicregion_55_54]
 table=musicregion

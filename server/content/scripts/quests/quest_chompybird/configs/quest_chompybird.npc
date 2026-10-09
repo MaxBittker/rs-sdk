@@ -13,7 +13,6 @@ wanderrange=2
 param=damagetype,^crush_style
 param=death_anim,ogre_death
 param=death_sound,giant_death
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1470
 
 [fycie]
 vislevel=hide
@@ -24,18 +23,17 @@ readyanim=ogre_ready
 op1=Talk
 resizeh=128
 resizev=90
+model1=model_2878_npc
+model2=model_3441_npc
+head1=model_3444_npc_head
 recol1s=7362
 recol1d=15718
 recol2s=27448
 recol2d=16897
-model1=model_2878_npc
-model2=model_3441_npc
-head1=model_3444_npc_head
 wanderrange=3
 param=damagetype,^crush_style
 param=death_anim,ogre_death
 param=death_sound,giant_death
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1471
 
 [bugs]
 vislevel=hide
@@ -46,18 +44,17 @@ readyanim=ogre_ready
 op1=Talk
 resizeh=128
 resizev=90
+model1=model_2878_npc
+model2=model_3441_npc
+head1=model_3444_npc_head
 recol1s=7362
 recol1d=15718
 recol2s=27448
 recol2d=9376
-model1=model_2878_npc
-model2=model_3441_npc
-head1=model_3444_npc_head
 wanderrange=3
 param=damagetype,^crush_style
 param=death_anim,ogre_death
 param=death_sound,giant_death
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1472
 
 [toad]
 vislevel=hide
@@ -65,7 +62,8 @@ name=Swamp toad
 desc=A green skinned croaker, loves the swamp.
 readyanim=chompy_toad_ready
 walkanim=chompy_toad_walk
-model1=model_3447_obj
+model1=ogre_area_npc_chompy_toad
+wanderrange=5
 timer=30
 
 [bloated_toad]
@@ -74,7 +72,7 @@ name=Bloated Toad
 desc=A green skinned croaker.
 readyanim=bloated_toad_stay
 walkanim=bloated_toad_stay
-model1=model_3447_obj
+model1=ogre_area_npc_chompy_toad
 wanderrange=0
 moverestrict=nomove
 
@@ -87,24 +85,20 @@ resizeh=180
 resizev=180
 op5=Attack
 vislevel=6
-model1=model_3445_obj
+model1=chompy_bird
 wanderrange=3
-hitpoints=10
 attack=5
-strength=5
 defence=3
+strength=5
+hitpoints=10
+huntrange=7
+timer=3
 param=attack_anim,chompy_attack
 param=defend_anim,pog_terror_bird_defend
 param=death_anim,pog_terror_bird_ready_extra
 param=attack_sound,chompy_bird_attack
 param=defend_sound,chompy_bird_hit
 param=death_sound,chompy_bird_death
-// Hunt range is a guess
-// If removed, chompy won't hunt for toads during quest
-huntrange=7
-timer=3
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1475
 
 [chompybird_dead]
 vislevel=hide
@@ -115,7 +109,8 @@ readyanim=pog_terror_bird_attack
 op4=Pluck
 resizeh=180
 resizev=180
-model1=model_3445_obj
-defaultmode=none
+model1=chompy_bird
 wanderrange=0
+maxrange=0
 moverestrict=nomove
+defaultmode=none

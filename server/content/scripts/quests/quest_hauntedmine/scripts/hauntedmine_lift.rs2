@@ -1,0 +1,149 @@
+[oploc1,lift_side_l] @hauntedmine_lift_enter;
+[oploc1,lift_side_r] @hauntedmine_lift_enter;
+[oploc1,lift_back] @hauntedmine_lift_enter;
+
+[aploc1,lift_flooded] @hauntedmine_lift_exit;
+
+
+[label,hauntedmine_lift_enter]
+// message_game	type=gamemessage, message="You get in the lift. Now powered, the lift descends further into the mines..."
+// varp_small	id=hauntedmine (382), old=4, new=5
+if (%hauntedmine = ^hauntedmine_liftfound) {
+    if (testbit(%hauntedmine_bits, ^hauntedmine_bits_liftpowerednow) = ^false) {
+        ~mesbox("The lift doesn't respond, it needs to be powered in some way."); // osrs
+        return;
+    }
+    mes("You get in the lift. Now powered, the lift descends further into the mines...");
+    %hauntedmine = ^hauntedmine_liftused;
+} else {
+    mes("The lift descends further into the mines...");
+}
+p_teleport(0_42_69_37_40);
+sound_synth(lift_fall, 0, 0);
+~set_readywalk_bas(human_wading_ready, human_wading);
+p_delay(1);
+
+mes("...plunging you straight into the middle of a chamber flooded with water.");
+~forcemove(0_42_69_37_36);
+
+~update_bas;
+
+// always does light sources first
+if (inv_totalcat(inv, light_source_lit) > 0) {
+    sound_synth(sizzle, 0, 0);
+    ~extinguish_light_sources;
+}
+
+def_int $tinderbox_count = inv_total(inv, tinderbox);
+if ($tinderbox_count > 0) {
+    inv_del(inv, tinderbox, $tinderbox_count);
+    inv_add(inv, damp_tinderbox, $tinderbox_count);
+    mes("The water soaks your tinderbox!"); // no sound
+}
+
+
+[label,hauntedmine_lift_exit]
+if (distance(loc_coord, coord) > 4) {
+    return; // osrs just does nothing lol
+}
+~forcemove(0_42_69_37_36);
+p_delay(0);
+
+~forcemove(0_42_69_37_37);
+
+spotanim_map(watersplash, coord, 0, 0);
+sound_synth(lift_fall, 0, 0);
+~set_readywalk_bas(human_wading_ready, human_wading);
+~forcemove(0_42_69_37_40);
+
+p_teleport(0_43_70_55_13);
+~update_bas;
+
+
+[oploc1,hauntedmine_lift_valve]
+if (%hauntedmine = ^hauntedmine_secondary_entrance) %hauntedmine = ^hauntedmine_liftfound; // sets varp even if no key
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_liftpoweredonce) = ^false) {
+    mes("The valve seems to be locked in position. There is a small keyhole in the side.");    
+    return;
+}
+@hauntedmine_turn_valve;
+
+
+[oplocu,hauntedmine_lift_valve]
+if (last_useitem ! hauntedmine_lift_key) {
+    ~displaymessage(^dm_default);
+    return;
+}
+if (%hauntedmine = ^hauntedmine_secondary_entrance) %hauntedmine = ^hauntedmine_liftfound;
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_liftpoweredonce) = ^false) mes("The key unlocks the valve.");
+@hauntedmine_turn_valve;
+
+
+[label,hauntedmine_turn_valve]
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_liftpowerednow) = ^true) {
+    mes("The valve is already open.");
+    return;
+}
+
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_liftpoweredonce) = ^false) %hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_liftpoweredonce);
+%hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_liftpowerednow);
+mes("You open the valve. Water begins to flow through the lift mechanism.");
+sound_synth(squeaky_valve, 0, 0);
+
+
+[zone,0_43_70_48_32]
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_liftpowerednow) = ^false) {
+    return;
+}
+softtimer(hauntedmine_cheeky_ghost_timer, 1);
+
+
+[softtimer,hauntedmine_cheeky_ghost_timer]
+if (inzone(0_43_70_48_32, 0_43_70_55_39, coord) = false) {
+    clearsofttimer(hauntedmine_cheeky_ghost_timer);
+    return;
+}
+if (inzone(0_43_70_48_32, 0_43_70_51_36, coord) = false) {
+    return;
+}
+
+clearsofttimer(hauntedmine_cheeky_ghost_timer);
+longqueue(hauntedmine_clearvalve, 25, 0, ^accelerate);
+npc_add(0_43_70_50_36, hauntedmine_cheeky_ghost, 25);
+// ghost_summon2 in osrs
+// say	npc=hauntedmine_cheeky_ghost (3627), text="Ooooo Wooooo Woo"
+npc_anim(bossghost_summon, 0);
+npc_say("Ooooo Wooooo Woo");
+npc_delay(0);
+
+// 0_43_70_50_21
+// 0_43_70_55_16
+// not sure what seqs are used here, osrs are `ghost_update_fade_out_normal` and `ghost_update_fade_in_normal`
+~npc_forcewalk(0_43_70_50_34);
+npc_anim(bossghost_fade_out, 0);
+~npc_forcewalk(0_43_70_50_28);
+npc_anim(bossghost_fade_in, 0);
+~npc_forcewalk(0_43_70_50_26);
+npc_anim(bossghost_fade_out, 0);
+~npc_forcewalk(0_43_70_50_24);
+npc_anim(bossghost_fade_in, 0);
+~npc_forcewalk(0_43_70_50_21);
+npc_anim(bossghost_fade_out, 0);
+~npc_forcewalk(0_43_70_52_19);
+npc_anim(bossghost_fade_in, 0);
+~npc_forcewalk(0_43_70_55_16);
+npc_facesquare(0_43_70_56_16);
+npc_delay(3);
+// relogging and making it to the valve before the ghost does:
+// - This mes still doesnt appear, i think it checks getqueue instead of varbit
+if (getqueue(hauntedmine_clearvalve) > 0) {
+    mes("You hear the sound of a valve being turned."); // doesnt display when relogging
+    sound_synth(squeaky_valve, 0, 0);
+}
+npc_delay(1);
+npc_anim(bossghost_fade_out, 0);
+npc_delay(1);
+npc_del;
+
+
+[queue,hauntedmine_clearvalve] %hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_liftpowerednow);

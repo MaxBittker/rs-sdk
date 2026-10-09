@@ -1,7 +1,7 @@
-[plainrock1]
+[rocks1]
 name=Rocks
 desc=Stoney!
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -10,10 +10,10 @@ blockrange=no
 category=mining_rock_normal
 param=mining_rock_empty,1
 
-[plainrock2]
+[rocks2]
 name=Rocks
 desc=Stoney!
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -26,7 +26,7 @@ param=mining_rock_empty,1
 [plainrock1_alt]
 name=Rocks
 desc=Stoney!
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -36,10 +36,10 @@ category=mining_rock_normal
 param=mining_rock_empty,1
 
 // maybe an unused variant? it has a macro option...
-[plainrock3]
+[rocks3]
 name=Rocks
 desc=Stoney!
-model=model_loc_453
+model=mine_rock3
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -52,7 +52,7 @@ param=mining_rock_empty,1
 [blankrunestone]
 name=Rune Essence
 desc=The source of all Rune Stones.
-model=model_loc_493
+model=crumbly_loc_493
 active=yes
 width=5
 length=5
@@ -64,7 +64,7 @@ sharelight=yes
 [copperrock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -73,13 +73,13 @@ blockrange=no
 recol1s=6342
 recol1d=14596
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_copperrock1
 
 [copperrock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -88,13 +88,13 @@ blockrange=no
 recol1s=6342
 recol1d=14596
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_copperrock2
 
 [ironrock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -103,13 +103,13 @@ blockrange=no
 recol1s=6342
 recol1d=6242
 category=mining_rock_fast
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_ironrock1
 
 [ironrock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -118,13 +118,13 @@ blockrange=no
 recol1s=6342
 recol1d=6242
 category=mining_rock_fast
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_ironrock2
 
 [tinrock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -133,13 +133,13 @@ blockrange=no
 recol1s=6342
 recol1d=13741
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_tinrock1
 
 [tinrock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -148,13 +148,13 @@ blockrange=no
 recol1s=6342
 recol1d=13741
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_tinrock2
 
 [coalrock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -163,13 +163,13 @@ blockrange=no
 recol1s=6342
 recol1d=4226
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_coalrock1
 
 [coalrock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -178,13 +178,13 @@ blockrange=no
 recol1s=6342
 recol1d=4226
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_coalrock2
 
 [goldrock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -193,13 +193,13 @@ blockrange=no
 recol1s=6342
 recol1d=23108
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_goldrock1
 
 [goldrock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -208,13 +208,13 @@ blockrange=no
 recol1s=6342
 recol1d=23108
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_goldrock2
 
 [silverrock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -223,13 +223,13 @@ blockrange=no
 recol1s=6342
 recol1d=19026
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_silverrock1
 
 [silverrock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -238,13 +238,13 @@ blockrange=no
 recol1s=6342
 recol1d=19026
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_silverrock2
 
 [mithrilrock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -253,13 +253,13 @@ blockrange=no
 recol1s=6342
 recol1d=6346
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_mithrilrock1
 
 [mithrilrock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -268,13 +268,13 @@ blockrange=no
 recol1s=6342
 recol1d=6346
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_mithrilrock2
 
 [adamantiterock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -283,13 +283,13 @@ blockrange=no
 recol1s=6342
 recol1d=6438
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_adamantiterock1
 
 [adamantiterock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -298,13 +298,13 @@ blockrange=no
 recol1s=6342
 recol1d=6438
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_adamantiterock2
 
 [runiterock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -313,13 +313,13 @@ blockrange=no
 recol1s=6342
 recol1d=8721
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_runiterock1
 
 [runiterock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -328,13 +328,13 @@ blockrange=no
 recol1s=6342
 recol1d=8721
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_runiterock2
 
 [clayrock1]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -343,13 +343,13 @@ blockrange=no
 recol1s=6342
 recol1d=18854
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock1
+param=next_loc_stage_mining,rocks1
 param=macro_gas,macro_clayrock1
 
 [clayrock2]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -358,13 +358,13 @@ blockrange=no
 recol1s=6342
 recol1d=18854
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_clayrock2
 
 [bluriterock]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -373,13 +373,13 @@ blockrange=no
 recol1s=6342
 recol1d=382
 category=mining_rock_normal
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_bluriterock
 
 [gemrock]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock2
+model=mine_rocks2
 op1=Mine
 op2=Prospect
 op3=hidden
@@ -387,7 +387,7 @@ mapscene=12
 blockrange=no
 recol1s=6342
 recol1d=15407
-param=next_loc_stage_mining,plainrock2
+param=next_loc_stage_mining,rocks2
 param=macro_gas,macro_gemrock
 
 

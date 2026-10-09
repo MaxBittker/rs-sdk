@@ -1,0 +1,98 @@
+[apnpc1,mm_monkey_minder]
+if (npc_range(coord) > 5) {
+    p_aprange(5); // range 5 on osrs
+    return;
+}
+// in the monkey cage
+if(inzone(0_40_51_38_10, 0_40_51_40_13, coord) = true | inzone(0_40_51_38_12, 0_40_51_40_14, coord) = true | inzone(0_40_51_40_12, 0_40_51_44_18, coord) = true | inzone(0_40_51_45_12, 0_40_51_46_17, coord) = true) {
+    if(~mm_wearing_greegree = true) {
+        if(random(2) = 0) ~chatnpc("<p,angry>Stop hassling me!");
+        else ~chatnpc("<p,angry>Be quiet, you monkey!");
+        return;
+    }
+    ~chatnpc("<p,neutral>My word - what are you doing in there?");
+    ~chatplayer("<p,neutral>I ... er ... I don't know! One minute I was asleep, and the next minute I was here surrounded by monkeys!");
+    ~chatnpc("<p,neutral>Well, don't worry. We'll have you out of there shortly.");
+    if_close;
+    ~fade_out;
+    p_delay(3);
+    p_telejump(map_findsquare(npc_coord, 1, 5, ^map_findsquare_lineofwalk));
+    ~fade_in;
+    p_delay(4);
+    if_openoverlay(null);
+    ~chatplayer("<p,neutral>Thank you.");
+    ~chatnpc("<p,neutral>No problem.");
+    return;
+}
+
+if(~mm_wearing_greegree = true) {
+    ~chatplayer("<p,neutral>Ook Ook!");
+    if(inv_total(worn, mm_monkey_greegree_for_normal_monkey) = 0) {
+        ~chatnpc("<p,neutral>I don't know what kind of monkey you think you are, but you're not getting anywhere near my monkeys!");
+        anim(human_spear_spike, 0);
+        return;
+    }
+    ~chatnpc("<p,neutral>Why do you monkeys keep trying to escape? Good thing I've caught you before you got away, you little scoundrel.");
+    ~chatplayer("<p,neutral>Ook!");
+    ~chatnpc("<p,neutral>Let's put you back in your cage where you belong...");
+    ~chatplayer("<p,neutral>Ok!");
+    ~chatnpc("<p,neutral>What??");
+    ~chatplayer("<p,shifty>Err ... Ook?");
+    ~chatnpc("<p,neutral>I must be imagining things ... monkeys can't talk.");
+    if_close;
+    p_delay(0);
+    ~fade_out;
+    p_delay(3);
+    p_telejump(0_40_51_44_17);
+    ~fade_in;
+    p_delay(4);
+    if_openoverlay(null);
+    return;
+}
+
+
+if(%mm_monkey_minder = 0) {
+    ~chatplayer("<p,neutral>Hello there.");
+    ~chatnpc("<p,neutral>Hello, <text_gender("sir", "madam")>.");
+    ~chatplayer("<p,neutral>I haven't seen Monkey Minders here before...");
+    ~chatnpc("<p,neutral>Yes, you wouldn't have. We have newly been posted here.");
+    ~chatplayer("<p,quiz>But why do we need Monkey Minders?");
+    ~chatnpc("<p,neutral>It's entirely necessary: just take a look at the monkeys. They've been multiplying out of control!");
+    ~chatnpc("<p,neutral>Every time we turn our backs another one of them tries to break free. It's almost as if they're plotting to escape!");
+    %mm_monkey_minder = 1;
+}
+
+def_int $op;
+if(%mm_awowogei = ^awowogei_sent_mission) {
+    $op = ~p_choice4("Why have the monkeys been multiplying?", 1, "What are you going to do about the monkeys?", 2, "Try to convince the minder to let the monkeys escape...", 3, "Ask the minder for a monkey...", 4);
+} else {
+    $op = ~p_choice2("Why have the monkeys been multiplying?", 1, "What are you going to do about the monkeys?", 2);
+}
+switch_int($op) {
+    case 1 :
+        ~chatplayer("<p,quiz>Why have the monkeys been multiplying?");
+        ~chatnpc("<p,neutral>We just don't know. Perhaps it's the weather. Perhaps it's something in the food. Perhaps it's just that time of year.");
+        ~chatnpc("<p,neutral>Your guess is as good as ours.");
+    case 2 :
+        ~chatplayer("<p,quiz>What are you going to do about the monkeys?");
+        ~chatnpc("<p,neutral>We're going to post enough men here to be able to contain the monkeys in case they manage to escape.");
+        ~chatplayer("<p,quiz>Is that very likely?");
+        ~chatnpc("<p,quiz>Stranger things have happened in Ardougne.");
+    case 3 :
+        ~chatplayer("<p,quiz>Don't you think this is all a bit cruel?");
+        ~chatnpc("<p,quiz>What do you mean?");
+        ~chatplayer("<p,neutral>Keeping so many monkeys locked up in that crowded pen. I bet they dream of being back in the jungle...");
+        ~chatplayer("<p,quiz>Don't you ever dream?");
+        ~chatnpc("<p,neutral>I ... er ... used to dream to be a Monkey Minder when I was young boy...");
+        ~chatplayer("<p,neutral>And look at you now ... all grown up having achieved your dreams! Would you deny me my dreams? Would you deny a monkey its dreams?");
+        ~chatnpc("<p,neutral>Er, look, stop wasting my time.");
+        ~chatplayer("<p,neutral>I - ");
+        ~chatnpc("<p,neutral>Leave me alone now. Some of us have work to do.");
+    case 4 :
+        ~chatplayer("<p,neutral>I've just thought of a way to solve your little monkey problem...");
+        ~chatnpc("<p,neutral>Oh, what's that then?");
+        ~chatplayer("<p,neutral>Well, you have too many monkeys, don't you?");
+        ~chatnpc("<p,neutral>Yes...");
+        ~chatplayer("<p,neutral>Well, you could give away your monkeys to people who would look after them. You could even start with me!");
+        ~chatnpc("<p,neutral>I'm sorry, I don't think I'm allowed to do that. I've just been ordered to not let any monkeys escape.");
+}

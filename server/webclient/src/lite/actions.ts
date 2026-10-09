@@ -32,7 +32,7 @@ const INVENTORY_INTERFACE_ID = 3214;
 const EQUIPMENT_INTERFACE_ID = 1688;
 const BANK_MAIN_ID = 5292;
 const BANK_INV_ID = 5382;
-const BANK_SIDE_INV_ID = 2006; // bank_side:inv on this 274 build
+const BANK_SIDE_INV_ID = 2006; // bank_side:inv on this 289 build
 const SHOP_MAIN_ID = 3824;
 
 const READBIT = (() => {

@@ -22,7 +22,7 @@ if(~check_axis_locactive(coord) = false) {
     ~open_and_close_double_door2(~check_axis_locactive(coord), $side, coffin_open);
     return;
 }
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 mes("You see a small hole in the wall but no way to open it.");
 
 [label,use_elemental_workshop_wall](int $side)
@@ -30,7 +30,7 @@ if(last_useitem = elemental_workshop_key) {
     ~open_and_close_double_door2(~check_axis_locactive(coord), $side, coffin_open);
     return;
 }
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 mes("You can't unlock the door with that.");
 
 [oploc1,elemental_workshop_spiralstairstop]
@@ -57,7 +57,7 @@ if(inv_total(inv, needle) > 0 | testbit(%elemental_workshop_bits, ^elemental_wor
 }
 inv_add(inv, needle, 1);
 mes("You find a needle.");
-%elemental_workshop_bits = setbit(%elemental_workshop_bits, ^elemental_workshop_leather_found);
+%elemental_workshop_bits = setbit(%elemental_workshop_bits, ^elemental_workshop_needle_found);
 
 [oploc1,elemental_workshop_box_4]
 if(inv_total(inv, leather) > 0 | testbit(%elemental_workshop_bits, ^elemental_workshop_leather_found) = ^true) {
@@ -86,9 +86,9 @@ if(testbit(%elemental_workshop_bits, ^elemental_workshop_water_controls_left) = 
     %elemental_workshop_bits = togglebit(%elemental_workshop_bits, ^elemental_workshop_water_controls_right);
 }
 if(testbit(%elemental_workshop_bits, ^elemental_workshop_water_flowing) = ^true) {
-    sound_synth(squeaky_valve_gush, 0, 0);
+    sound_synth(squeaky_valve_gush, 1, 0);
 } else {
-    sound_synth(squeaky_valve, 0, 0);
+    sound_synth(squeaky_valve, 1, 0);
 }
 
 [oploc1,elemental_workshop_valve_2]
@@ -99,9 +99,9 @@ if(testbit(%elemental_workshop_bits, ^elemental_workshop_water_flowing) = ^true)
 mes("You turn the handle.");
 %elemental_workshop_bits = togglebit(%elemental_workshop_bits, ^elemental_workshop_water_controls_left);
 if(testbit(%elemental_workshop_bits, ^elemental_workshop_water_flowing) = ^true) {
-    sound_synth(squeaky_valve_gush, 0, 0);
+    sound_synth(squeaky_valve_gush, 1, 0);
 } else {
-    sound_synth(squeaky_valve, 0, 0);
+    sound_synth(squeaky_valve, 1, 0);
 }
 
 [oploc1,elemental_workshop_water_lever]
@@ -111,7 +111,7 @@ if(testbit(%elemental_workshop_bits, ^elemental_workshop_water_flowing) = ^true)
     %elemental_workshop_bits = clearbit(%elemental_workshop_bits, ^elemental_workshop_water_flowing);
     if(testbit(%elemental_workshop_bits, ^elemental_workshop_air_blowing) = ^true) %elemental_workshop_bits = clearbit(%elemental_workshop_bits, ^elemental_workshop_air_blowing);
     mes("You hear the sound of a water wheel coming to a standstill.");
-    sound_synth(water_wheel_stop, 0, 0);
+    sound_synth(water_wheel_stop, 1, 0);
     return;
 }
 if(getbit_range(%elemental_workshop_bits, ^elemental_workshop_water_controls_left, ^elemental_workshop_water_controls_right) = 3) {
@@ -122,17 +122,17 @@ if(getbit_range(%elemental_workshop_bits, ^elemental_workshop_water_controls_lef
         loc_add(0_42_154_34_51, waterfall_foam, 2, centrepiece_straight, 4);
         loc_add(0_42_154_30_51, waterfall_foam_small, 0, centrepiece_straight, 4);
     }
-    sound_synth(water_wheel_start, 0, 0);
+    sound_synth(water_wheel_start, 1, 0);
     return;
 }
-sound_synth(sluice_gate, 0, 0);
+sound_synth(sluice_gate, 1, 0);
 %elemental_workshop_bits = clearbit_range(%elemental_workshop_bits, ^elemental_workshop_water_controls_left, ^elemental_workshop_water_controls_right);
 mes("You hear the sound of the flow gates resetting.");
 
 [oploc1,elemental_workshop_air_lever]
 mes("You pull the lever.");
 loc_change(elemental_workshop_lever_pulled, 3);
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 if(testbit(%elemental_workshop_bits, ^elemental_workshop_air_blowing) = ^true) {
     %elemental_workshop_bits = clearbit(%elemental_workshop_bits, ^elemental_workshop_air_blowing);
     mes("The bellows stop pumping air.");
@@ -152,7 +152,7 @@ if(last_useitem = elemental_workshop_lava_bowl) {
     inv_del(inv, elemental_workshop_lava_bowl, 1);
     inv_add(inv, elemental_workshop_lava_bowl_full, 1);
     mes("You fill the bowl with hot lava.");
-    sound_synth(lava_bowl_fill, 0, 0);
+    sound_synth(lava_bowl_fill, 1, 0);
     return;
 }
 if(last_useitem = elemental_workshop_lava_bowl_full) {

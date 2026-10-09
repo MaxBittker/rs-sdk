@@ -1,7 +1,7 @@
 [scorpiusgrave]
 name=Grave of Scorpius
 desc=A weathered old gravestone.
-model=model_loc_406
+model=graveyard_largegrave
 width=2
 length=2
 op1=Read

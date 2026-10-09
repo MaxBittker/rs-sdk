@@ -125,6 +125,9 @@ export default class SeqType {
                 this.postanim_move = dat.g1();
             } else if (code === 11) {
                 this.duplicatebehaviour = dat.g1();
+            } else if (code === 12) {
+                // todo
+                dat.pos += 4;
             } else {
                 console.log('Error unrecognised seq config code: ', code);
             }

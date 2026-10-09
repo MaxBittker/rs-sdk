@@ -1,7 +1,7 @@
 [mcgruborlooserailing]
 name=Loose Railing
 desc=Hmmm... I wonder if it's loose enough to get through.
-model=model_loc_14
+model=fence_railing
 sharelight=yes
 hillskew=yes
 op1=Squeeze-through
@@ -9,14 +9,14 @@ op1=Squeeze-through
 [mcgruborgatel]
 name=Gate
 desc=It's locked.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 category=mcgrubor_gate
 
 [mcgruborgater]
 name=Gate
 desc=It's locked.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 category=mcgrubor_gate
@@ -24,7 +24,7 @@ category=mcgrubor_gate
 [red_worm_vine]
 name=Vine
 desc=Known commonly as Red worm vine.
-model=model_loc_58
+model=plants_vine_clear
 op1=Check
 hillskew=yes
 sharelight=yes
@@ -39,7 +39,7 @@ category=red_vine
 [red_worm_end]
 name=Vine
 desc=Known commonly as Red worm vine.
-model=model_loc_1220
+model=plants_vine-end_clear
 op1=Check
 hillskew=yes
 sharelight=yes
@@ -52,7 +52,7 @@ category=red_vine
 [red_worm_junction]
 name=Vine
 desc=Known commonly as Red worm vine.
-model=model_loc_1215
+model=plants_vinejunction_clear
 op1=Check
 hillskew=yes
 sharelight=yes
@@ -65,7 +65,7 @@ category=red_vine
 [red_worm_diag1]
 name=Vine
 desc=Known commonly as Red worm vine.
-model=model_loc_1216
+model=plants_vinediag1_clear
 op1=Check
 hillskew=yes
 sharelight=yes
@@ -78,7 +78,7 @@ category=red_vine
 [red_worm_diag3]
 name=Vine
 desc=Known commonly as Red worm vine.
-model=model_loc_1218
+model=plants_vinediag3_clear
 op1=Check
 hillskew=yes
 sharelight=yes
@@ -91,7 +91,7 @@ category=red_vine
 [red_worm_diagfiller]
 name=Vine
 desc=Known commonly as Red worm vine.
-model=model_loc_1219
+model=plants_vinediagfiller_clear
 op1=Check
 hillskew=yes
 sharelight=yes
@@ -104,7 +104,7 @@ category=red_vine
 [red_worm_end_diag]
 name=Vine
 desc=Known commonly as Red worm vine.
-model=model_loc_1221
+model=plants_vinediag-end_clear
 op1=Check
 hillskew=yes
 sharelight=yes

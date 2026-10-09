@@ -1,0 +1,36 @@
+[opnpc1,misc_flowergirl]
+~manage_misc_daily_update;
+if(%misc_quest = ^misc_complete) ~chatnpc("<~man_misc_mesanim>Good day, Your Royal Highness.");
+else ~chatnpc("<~man_misc_mesanim>Hello.");
+~chatplayer("<p,happy>Good day. What are you doing?");
+if(%misc_quest = ^misc_complete) ~chatnpc("<~man_misc_mesanim>I'm selling flowers, 15gp for three.|Would you like some, Your Royal Highness?");
+else ~chatnpc("<~man_misc_mesanim>I'm selling flowers, 15gp for three.|Would you like some?"); // https://i.imgur.com/4gGln9z.png
+if (inv_total(inv, coins) >= 15) {
+    @flower_girl_enough_coins;
+} else {
+    @flower_girl_not_enough_coins;
+}
+
+
+[label,flower_girl_enough_coins]
+@multi2(
+    "Yes, please.", flower_girl_yes_please,
+    "No, thank you.", flower_girl_no_thanks
+);
+
+[label,flower_girl_yes_please]
+~chatplayer("<p,neutral>Yes, please.");
+~chatnpc("<p,happy>Thank you! Here you go.");
+if (inv_total(inv, coins) >= 15) {
+    inv_del(inv, coins, 15);
+    inv_add(inv, flowers_waterfall_quest_mixed, 1);
+    if(random(2) = 0) {
+        if (%misc_approval < 127) %misc_approval = add(%misc_approval, 1);
+    }
+}
+
+[label,flower_girl_no_thanks]
+~chatplayer("<p,neutral>No, thank you.");
+
+[label,flower_girl_not_enough_coins]
+~chatplayer("<p,sad>I don't have enough money.");

@@ -177,6 +177,7 @@ export const websocketHandlers = {
         const { client } = ws.data;
         client.state = -1;
         client.discard();
+        OnDemand.onClientClosed(client);
 
         if (client.player && client.player.client === client) {
             client.player.addSessionLog(LoggerEventType.ENGINE, 'WS socket closed');

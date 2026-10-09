@@ -101,7 +101,8 @@ param=brew_potion_ingredient,red_spiders_eggs
 param=brew_potion_solvent,harralandervial
 param=brew_potion_level,22
 param=brew_potion_exp,625
-param=brew_potion_message,You mix the red spiders' eggs into your potion.
+// https://www.youtube.com/watch?v=mJiNVCot3dQ
+param=brew_potion_message,You mix the eggs into your potion.
 param=brew_potion_mixture,3dosestatrestore
 
 [3dose1strength]
@@ -141,7 +142,8 @@ param=brew_potion_ingredient,unicorn_horn_dust
 param=brew_potion_solvent,marrentillvial
 param=brew_potion_level,5
 param=brew_potion_exp,375
-param=brew_potion_message,You mix the unicorn horn dust into your potion.
+// https://www.youtube.com/watch?v=_Q4g187iU5I&t=1394s
+param=brew_potion_message,You mix the unicorn horn into your potion.
 param=brew_potion_mixture,3doseantipoison
 
 [3dose2antipoison]
@@ -149,7 +151,8 @@ param=brew_potion_ingredient,unicorn_horn_dust
 param=brew_potion_solvent,iritvial
 param=brew_potion_level,48
 param=brew_potion_exp,1063
-param=brew_potion_message,You mix the unicorn horn dust into your potion.
+// https://www.youtube.com/watch?v=_Q4g187iU5I&t=1394s
+param=brew_potion_message,You mix the unicorn horn into your potion.
 param=brew_potion_mixture,3dose2antipoison
 
 [3dose1defense]
@@ -172,7 +175,7 @@ param=brew_potion_mixture,3dose2defense
 param=brew_potion_ingredient,dragon_scale_dust
 param=brew_potion_solvent,kwuarmvial
 param=brew_potion_level,60
-param=brew_potion_exp,1275
+param=brew_potion_exp,1375
 param=brew_potion_message,You mix the dragon scale dust into your potion.
 param=brew_potion_mixture,weapon_poison
 
@@ -189,7 +192,8 @@ param=brew_potion_ingredient,wine_of_zamorak
 param=brew_potion_solvent,dwarfweedvial
 param=brew_potion_level,72
 param=brew_potion_exp,1625
-param=brew_potion_message,You mix the wine of zamorak into your potion.
+// https://i.imgur.com/fmSVVIw.png
+param=brew_potion_message,You mix the wine into your potion.
 param=brew_potion_mixture,3doserangerspotion
 
 [3dosepotionofzamorak]
@@ -249,7 +253,7 @@ param=brew_potion_ingredient,red_spiders_eggs
 param=brew_potion_solvent,snapdragonvial
 param=brew_potion_exp,1425
 param=brew_potion_level,63
-// https://www.youtube.com/watch?v=mJiNVCot3dQ
+// https://i.imgur.com/tKXYMFa.png
 param=brew_potion_message,You mix the eggs into your potion.
 param=brew_potion_mixture,3dose2restore
 

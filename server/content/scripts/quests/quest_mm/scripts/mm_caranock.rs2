@@ -1,0 +1,75 @@
+[opnpc1,mm_caranock]
+if(%mm_main = ^mm_not_started) {
+    ~mesbox("Caranock seems too busy to talk.");
+    return;
+}
+if(%mm_narnode >= ^mm_defeated_demon) {
+    ~chatnpc("<p,angry>Get out of my office! We WILL have our revenge, human!");
+    return;
+}
+if(%mm_narnode >= ^narnode_returned_shipyard) {
+    ~chatnpc("<p,angry>Get out of my office, human. You do not belong here.");
+    return;
+}
+if(%mm_caranock = ^mm_caranock_p3) {
+    ~chatnpc("<p,neutral>Why are you still here? You should report immediately to the King!");
+    return;
+}
+else if(%mm_caranock = ^mm_caranock_p2) @mm_caranock_p3;
+else if(%mm_caranock = ^mm_asked_caranock)  {
+    ~chatplayer("<p,quiz>Do you know anything about the 10th squad?");
+    @mm_caranock_p2;
+}
+~chatplayer("<p,neutral>Hello!");
+~chatnpc("<p,quiz>Who are you? Did Glough send you?");
+~chatplayer("<p,neutral>Glough? No. He has been forced to resign by the King.");
+~chatnpc("<p,shock>Forced to resign??");
+~chatplayer("<p,neutral>He was plotting to start a war between the Gnomes and humankind.");
+%mm_caranock = ^mm_asked_caranock;
+~chatplayer("<p,neutral>Anyway, I am here on a separate mission. I am investigating the mysterious disappearance of the 10th squad of King Narnode's Royal Guard. They were to carry out some work in the area.");
+@mm_caranock_p2;
+
+[label,mm_caranock_p2]
+~chatnpc("<p,shifty>Royal Guard? I know nothing about them. Absolutely nothing.");
+~chatplayer("<p,neutral>You have no idea why they mysteriously disappeared?");
+~chatnpc("<p,neutral>None whatsoever. What were they here to do?");
+~chatplayer("<p,neutral>They were to oversee the decommission of the shipyard.");
+%mm_caranock = ^mm_caranock_p2;
+~chatnpc("<p,shifty>Decommission the shipyard ... I see. Well, we have had some seriously strong southerly winds of late. They may have been blown off course during flight.");
+@mm_caranock_p3;
+
+[label,mm_caranock_p3]
+%mm_caranock = ^mm_caranock_p3;
+~chatnpc("<p,shifty>I shall see personally to the decommission. You should report to the King immediately.");
+
+[label,mm_shipyardworker_dialogue]
+~chatplayer("<p,angry>I am on a special mission for King Narnode of the Gnomes.");
+~chatnpc("<p,quiz>Narnode? I don't believe you. He wouldn't send a human!");
+~chatplayer("<p,confused>Well, he did...");
+~chatnpc("<p,angry>Tough.");
+if(inv_total(inv, mm_gnome_royal_seal) > 0) {
+    %mm_main = ^mm_shown_seal;
+    ~chatplayer("<p,angry>Look, I have the Gnome Royal Seal.");
+    ~objbox(mm_gnome_royal_seal, "You show the shipyard worker the Royal Seal.", 250, 0, 0);
+    ~chatnpc("<p,shifty>Wow. I haven't seen one of these since...");
+    ~chatplayer("<p,neutral>Since when?");
+    ~chatnpc("<p,shifty>... since Glough used to visit.");
+    ~chatnpc("<p,neutral>Anyway. Please step inside, <text_gender("Sir", "madam")>.");
+    if_close;
+    p_delay(5); // 6t
+    @open_shipyard_gate;
+}
+
+[label,mm_foreman_dialogue]
+if(%mm_foreman = ^true) @mm_foreman_p2;
+~chatnpc("<p,quiz>Hello. Do I know you? You seem remarkably familiar...");
+~chatplayer("<p,neutral>Erm, no you don't know me.");
+~chatnpc("<p,quiz>If you say so. Anyway, what do you want?");
+%mm_foreman = ^true;
+@mm_foreman_p2;
+
+[label,mm_foreman_p2]
+~chatplayer("<p,quiz>Have you seen any of King Narnode's Royal Guard recently? They were meant to be doing ... some work in the area.");
+~chatnpc("<p,neutral>I wouldn't know anything about that. You should see Caranock.");
+~chatplayer("<p,quiz>Who is Caranock?");
+~chatnpc("<p,neutral>Our Gnome Liaison Officer.");

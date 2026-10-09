@@ -1,8 +1,7 @@
-//might be wrong
 [willowtree]
 name=Willow
 desc=These trees are found near water.
-model=model_loc_1308
+model=plants_willowtree
 width=2
 length=2
 mapscene=3

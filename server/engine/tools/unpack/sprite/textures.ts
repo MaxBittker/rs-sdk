@@ -10,10 +10,16 @@ import { TexturePack } from '#tools/pack/PackFile.js';
 const cache = new FileStream('data/unpack');
 const textures = new Jagfile(new Packet(cache.read(0, 6)!));
 
-if (!fs.existsSync(`${Environment.build.srcDir}/textures`)) {
-    fs.mkdirSync(`${Environment.build.srcDir}/textures`, { recursive: true });
-}
+fs.mkdirSync(`${Environment.build.srcDir}/textures`, { recursive: true });
+
+TexturePack.clear();
+TexturePack.load(`${Environment.build.srcDir}/pack/texture.pack`);
 
 for (let id = 0; id < 50; id++) {
-    Pix.unpackFull(textures, id.toString(), `${Environment.build.srcDir}/textures`, TexturePack.getById(id) || id.toString());
+    const name = TexturePack.getById(id) || id.toString();
+    TexturePack.register(id, name);
+
+    await Pix.unpackFull(textures, id.toString(), `${Environment.build.srcDir}/textures`, name);
 }
+
+TexturePack.save();

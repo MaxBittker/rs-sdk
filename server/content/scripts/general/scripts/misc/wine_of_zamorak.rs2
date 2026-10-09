@@ -7,7 +7,7 @@
 if (obj_coord = 0_45_54_50_59) {
     mes("STOP STEALING MY WINE! GAH!");
     spotanim_pl(zamorak_flame, 0, 0);
-    sound_synth(flames_of_zamorak, 0, 0);
+    sound_synth(flames_of_zamorak, 1, 0);
     ~damage_self(calc((stat(hitpoints) / 20) + 1));
     stat_drain(attack, 1, 5);
     stat_drain(strength, 1, 5);

@@ -1,0 +1,313 @@
+[debugproc,cw]
+if (p_finduid(uid) = true) {
+    p_teleport(0_38_48_9_18);
+}
+
+[oploc1,castlewars_zamorak_tele]
+if (npc_find(^castlewars_lobby_coord, castlewars_judge, 10, 0) = false) {
+    error("Unable to find castlewars_judge npc.");
+    return;
+}
+if (~castlewars_can_enter = false) {
+    return;
+}
+def_int $saradomin_count = ~castlewars_waitingroom_saradomin_count;
+def_int $zamorak_count = ~castlewars_waitingroom_zamorak_count;
+if ($saradomin_count < $zamorak_count) {
+    mes("There isn't enough space on this team!");
+    return;
+}
+~castlewars_waitingroom_tele(^castlewars_team_zamorak);
+if (~castlewars_conflicting_god(^castlewars_team_zamorak) = true) {
+    ~castlewars_transmog(castlewars_imp);
+    ~mesbox("You're wearing objects of my ignorant brothers and you come to me? Such treachery must be rewarded! Enjoy some time in the most mischievous of forms."); // osrs
+}
+
+[oploc1,castlewars_saradomin_tele]
+if (npc_find(^castlewars_lobby_coord, castlewars_judge, 10, 0) = false) {
+    error("Unable to find castlewars_judge npc.");
+    return;
+}
+if (~castlewars_can_enter = false) {
+    return;
+}
+def_int $saradomin_count = ~castlewars_waitingroom_saradomin_count;
+def_int $zamorak_count = ~castlewars_waitingroom_zamorak_count;
+if ($zamorak_count < $saradomin_count) {
+    mes("There isn't enough space on this team!");
+    return;
+}
+~castlewars_waitingroom_tele(^castlewars_team_saradomin);
+if (~castlewars_conflicting_god(^castlewars_team_saradomin) = true) {
+    ~castlewars_transmog(castlewars_rabbit);
+    ~mesbox("You wear objects of my foolish brothers? Perhaps some time spent as the lowliest of formss will help you appreciate the gifts that I can bestow upon my followers.");
+}
+
+[oploc1,castlewars_random_tele]
+if (npc_find(^castlewars_lobby_coord, castlewars_judge, 10, 0) = false) {
+    error("Unable to find castlewars_judge npc.");
+    return;
+}
+if (~castlewars_can_enter = false) {
+    return;
+}
+def_int $saradomin_count = ~castlewars_waitingroom_saradomin_count;
+def_int $zamorak_count = ~castlewars_waitingroom_zamorak_count;
+if ($zamorak_count < $saradomin_count | ($zamorak_count = $saradomin_count & random(2) = ^castlewars_team_zamorak)) {
+    ~castlewars_waitingroom_tele(^castlewars_team_zamorak);
+} else {
+    ~castlewars_waitingroom_tele(^castlewars_team_saradomin);
+}
+if (~castlewars_conflicting_god(^castlewars_team_guthix) = true) {
+    ~castlewars_transmog(castlewars_sheep);
+    ~mesbox("I pity your faith in my brothers. I shall bless you with some time in the most holy of forms; maybe its wisdom will rub off on you and you'll see the error of your ways."); // osrs
+}
+
+[oploc1,castlewars_zamorak_exit]
+~castlewars_transmog_reset;
+~castlewars_exit_tele;
+
+[oploc1,castlewars_saradomin_exit]
+~castlewars_transmog_reset;
+~castlewars_exit_tele;
+
+[proc,castlewars_exit_tele]
+if (inv_total(worn, castlewars_saradomin_banner) > 0) {
+    inv_del(worn, castlewars_saradomin_banner, 1);
+    ~update_all(castlewars_saradomin_banner);
+    ~castlewars_flag_reset(castlewars_saradomin_banner);
+} else if (inv_total(worn, castlewars_zamorak_banner) > 0) {
+    inv_del(worn, castlewars_zamorak_banner, 1);
+    ~update_all(castlewars_zamorak_banner);
+    ~castlewars_flag_reset(castlewars_zamorak_banner);
+}
+
+~castlewars_del_items;
+p_teleport(map_findsquare(^castlewars_lobby_coord, 0, 2, 0));
+if_openoverlay(null);
+%castlewars_team = null;
+%castlewars_caps = 0;
+%castlewars_kills = 0;
+hint_stop;
+
+[proc,castlewars_start_tele](int $team)
+if ($team = ^castlewars_team_saradomin) {
+    ~castlewars_increment_saradomin_count;
+    p_teleport(map_findsquare(^castlewars_saradomin_starting_room_coord, 0, 4, 0));
+} else {
+    ~castlewars_increment_zamorak_count;
+    p_teleport(map_findsquare(^castlewars_zamorak_starting_room_coord, 0, 4, 0));
+}
+~castlewars_transmog_reset;
+
+[proc,castlewars_respawn](int $team)
+if ($team = ^castlewars_team_saradomin) {
+    p_teleport(map_findsquare(^castlewars_saradomin_starting_room_coord, 0, 4, 0));
+} else {
+    p_teleport(map_findsquare(^castlewars_zamorak_starting_room_coord, 0, 4, 0));
+}
+
+[proc,castlewars_zamorak_count]()(int)
+return(max(getbit_range(%castlewars_zamorak_bits2, ^castlewars_counts_startbit, ^castlewars_counts_endbit), 0));
+
+[proc,castlewars_saradomin_count]()(int)
+return(max(getbit_range(%castlewars_saradomin_bits2, ^castlewars_counts_startbit, ^castlewars_counts_endbit), 0));
+
+// these procs probably only decrement & increment on the locs & game start/join in progress
+// I was thinking maybe it was put into the mapzone trigger but i rly doubt this esp because of
+// this blog post (https://oldschool.runescape.wiki/w/Update:New_Animations_%26_Barbarian_Assault_Changes)
+// that mentions:
+// - "The issue with Castle Wars tracking the players on each team going out of sync has been resolved."
+[proc,castlewars_decrement_zamorak_count]
+def_int $count = ~castlewars_zamorak_count;
+if ($count = 0) {
+    return;
+}
+%castlewars_zamorak_bits2 = setbit_range_toint(%castlewars_zamorak_bits2, sub($count, 1), ^castlewars_counts_startbit, ^castlewars_counts_endbit);
+
+[proc,castlewars_decrement_saradomin_count]
+def_int $count = ~castlewars_saradomin_count;
+if ($count = 0) {
+    return;
+}
+%castlewars_saradomin_bits2 = setbit_range_toint(%castlewars_saradomin_bits2, sub($count, 1), ^castlewars_counts_startbit, ^castlewars_counts_endbit);
+
+[proc,castlewars_increment_zamorak_count]
+def_int $count = ~castlewars_zamorak_count;
+%castlewars_zamorak_bits2 = setbit_range_toint(%castlewars_zamorak_bits2, add($count, 1), ^castlewars_counts_startbit, ^castlewars_counts_endbit);
+
+[proc,castlewars_increment_saradomin_count]
+def_int $count = ~castlewars_saradomin_count;
+%castlewars_saradomin_bits2 = setbit_range_toint(%castlewars_saradomin_bits2, add($count, 1), ^castlewars_counts_startbit, ^castlewars_counts_endbit);
+
+// no mes
+
+[proc,castlewars_saradomin_cap]
+%castlewars_caps = add(%castlewars_caps, 1);
+def_int $sara = max(getbit_range(%castlewars_saradomin_bits, ^castlewars_score_startbit, ^castlewars_score_endbit), 0);
+%castlewars_saradomin_bits = setbit_range_toint(%castlewars_saradomin_bits, add($sara, 1), ^castlewars_score_startbit, ^castlewars_score_endbit);
+
+[proc,castlewars_zamorak_cap]
+%castlewars_caps = add(%castlewars_caps, 1);
+def_int $zammy = max(getbit_range(%castlewars_zamorak_bits, ^castlewars_score_startbit, ^castlewars_score_endbit), 0);
+%castlewars_zamorak_bits = setbit_range_toint(%castlewars_zamorak_bits, add($zammy, 1), ^castlewars_score_startbit, ^castlewars_score_endbit);
+
+[proc,castlewars_winning_team]()(int)
+def_int $sara = max(getbit_range(%castlewars_saradomin_bits, ^castlewars_score_startbit, ^castlewars_score_endbit), 0);
+def_int $zammy = max(getbit_range(%castlewars_zamorak_bits, ^castlewars_score_startbit, ^castlewars_score_endbit), 0);
+if ($sara > $zammy) {
+    return (^castlewars_team_saradomin);
+} else if ($zammy > $sara) {
+    return(^castlewars_team_zamorak);
+}
+return(^castlewars_team_guthix); // tie
+
+[proc,castlewars_increment_wins]
+def_int $team = ~castlewars_winning_team;
+if ($team = ^castlewars_team_saradomin) {
+    %castlewars_saradomin_bits2 = setbit_range_toint(%castlewars_saradomin_bits2, add(~castlewars_saradomin_wins, 1), ^castlewars_wins_startbit, ^castlewars_wins_endbit);
+} else if ($team = ^castlewars_team_zamorak) {
+    %castlewars_zamorak_bits2 = setbit_range_toint(%castlewars_zamorak_bits2, add(~castlewars_zamorak_wins, 1), ^castlewars_wins_startbit, ^castlewars_wins_endbit);
+}
+
+[proc,castlewars_saradomin_wins]()(int)
+return(max(getbit_range(%castlewars_saradomin_bits2, ^castlewars_wins_startbit, ^castlewars_wins_endbit), 0));
+
+[proc,castlewars_zamorak_wins]()(int)
+return(max(getbit_range(%castlewars_zamorak_bits2, ^castlewars_wins_startbit, ^castlewars_wins_endbit), 0));
+
+[proc,castlewars_can_enter]()(boolean)
+if (inv_getobj(worn, ^wearpos_back) ! null | inv_getobj(worn, ^wearpos_hat) ! null) {
+    mes("You can't wear hats, capes, or helms in the arena."); // https://youtu.be/c0HABEQe41s?t=38
+    return(false);
+}
+// pets are disallowed in osrs but this old vid has it https://youtu.be/8VLhU9OnEwQ?t=8
+// if (npc_finduid(%follower_uid) = true) {
+//     return(false);
+// }
+return(true);
+
+[proc,castlewars_mapzone]
+if (~in_castlewars_waitingroom(coord) = true) {
+    if_openoverlay(castlewars_waitingroom);
+    settimer(castlewars_timer, 5);
+    return;
+}
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    if_openoverlay(castlewars_status_overlay_saradomin);
+} else if (%castlewars_team = ^castlewars_team_zamorak) {
+    if_openoverlay(castlewars_status_overlay_zamorak);
+}
+set_player_op("Attack", 2, ^true);
+set_player_op("Take-from", 5, ^false);
+
+[proc,castlewars_mapzoneexit]
+cleartimer(castlewars_timer);
+if_openoverlay(null);
+set_player_op(null, 2, ^false);
+set_player_op(null, 5, ^false);
+
+// if (~in_castlewars_game(coord) = false & ~in_castlewars_waitingroom(coord) = false) {
+//     ~castlewars_del_items;
+// }
+
+[mapzone,0_37_148]
+~castlewars_mapzone;
+@music_playbyregion(coord);
+
+[mapzoneexit,0_37_48] ~castlewars_mapzoneexit;
+[mapzoneexit,0_37_148] ~castlewars_mapzoneexit;
+
+[proc,castlewars_logout]
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    ~castlewars_decrement_saradomin_count;
+} else {
+    ~castlewars_decrement_zamorak_count;
+}
+if (~castlewars_has_flag = true) {
+    ~castlewars_flag_drop(worn, castlewars_saradomin_banner);
+    ~castlewars_flag_drop(worn, castlewars_zamorak_banner);
+}
+%castlewars_clock = ~castlewars_end_clock;
+
+[proc,castlewars_end_clock]()(int)
+if (npc_find(^castlewars_lobby_coord, castlewars_judge, 10, 0) = true) return (%npc_int2);
+return (null);
+
+[proc,castlewars_login]
+if (~in_castlewars_waitingroom(coord) = true) {
+    // ~castlewars_exit_tele; // added around aug 2006 ?
+    return;
+}
+if (~in_castlewars_game(coord) = false) {
+    return;
+}
+if (~castlewars_end_clock ! %castlewars_clock) {
+    ~castlewars_exit_tele;
+    return;
+}
+// https://youtu.be/uQX-0rU7Lkc
+if (add(%last_logout, 100) < map_clock | %last_logout > map_clock) {
+    ~castlewars_waitingroom_tele(%castlewars_team);
+    return;
+}
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    ~castlewars_increment_saradomin_count;
+} else {
+    ~castlewars_increment_zamorak_count;
+}
+
+[proc,in_castlewars_game](coord $coord)(boolean)
+if (inzone(0_37_48_0_0, 3_37_48_63_63, $coord) = true) {
+    return(true);
+}
+if (~in_castlewars_waitingroom(coord) = true) {
+    return(false);
+}
+if (inzone(0_37_148_0_0, 0_37_148_63_63, $coord) = true) {
+    return(true);
+}
+return(false);
+
+[proc,in_castlewars_waitingroom](coord $coord)(boolean)
+if (inzone(0_37_148_0_0, 0_37_148_25_25, $coord) = true | inzone(0_37_148_40_40, 0_37_148_63_63, $coord) = true) {
+    return(true);
+}
+return(false);
+
+[proc,castlewars_waitingroom_saradomin_count]()(int) return (map_playercount(0_37_148_0_0, 0_37_148_25_25));
+[proc,castlewars_waitingroom_zamorak_count]()(int) return (map_playercount(0_37_148_40_40, 0_37_148_63_63));
+
+[proc,in_castlewars_spawnroom](coord $coord)(boolean)
+if (%castlewars_team = ^castlewars_team_saradomin) return(inzone(1_37_48_55_0, 1_37_48_63_8, $coord));
+if (%castlewars_team = ^castlewars_team_zamorak) return(inzone(1_37_48_0_55, 1_37_48_8_63, $coord));
+return(false);
+
+[proc,castlewars_del_items]
+~inv_delenum(inv, castlewars_tools);
+~inv_delenum(worn, castlewars_tools);
+buildappearance(worn);
+
+[proc,castlewars_waitingroom_tele](int $team)
+~castlewars_del_items;
+if ($team = ^castlewars_team_zamorak) {
+    %castlewars_team = ^castlewars_team_zamorak;
+    p_teleport(map_findsquare(^zamorak_starting_coord, 0, 7, 0)); // guess for now
+    inv_setslot(worn, ^wearpos_back, castlewars_cloak_zamorak, 1);
+} else if ($team = ^castlewars_team_saradomin) {
+    %castlewars_team = ^castlewars_team_saradomin;
+    p_teleport(map_findsquare(^saradomin_starting_coord, 0, 7, 0)); // guess for now
+    inv_setslot(worn, ^wearpos_back, castlewars_cloak_saradomin, 1);
+}
+settimer(castlewars_timer, 5);
+buildappearance(worn);
+
+[proc,castlewars_in_base]()(boolean)
+return(false);
+if (%castlewars_team = ^castlewars_team_saradomin & inzone(0_37_48_49_0, 3_37_48_63_14, coord) = true) {
+    return(true);
+}
+if (%castlewars_team = ^castlewars_team_zamorak & inzone(0_37_48_0_49, 3_37_48_14_63, coord) = true) {
+    return(true);
+}
+return(false);

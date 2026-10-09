@@ -78,7 +78,7 @@ switch_int($shape_value) {
     case 1 : return("Square");
     case 2 : return("Circle");
     case 3 : return("Star");
-    case 4 : return("Half Moon");
+    case 4 : return("Halfmoon"); // https://i.imgur.com/TtJk9YW.png
     case default : return("Oops");
 }
 

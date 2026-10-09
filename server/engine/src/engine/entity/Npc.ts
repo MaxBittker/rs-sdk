@@ -179,6 +179,12 @@ export default class Npc extends PathingEntity {
         this.processQueue();
         // Movement-Interactions
         this.processMovementInteraction();
+        // Reorient during the npc's own turn (not the post-movement processInfo sweep), so an npc that didn't
+        // take a turn this tick keeps its spawn orientation. An npc's target is set during its turn, so both
+        // run here after movement: reorientEntity() (faceAngle toward a player/npc) and reorient() (face a
+        // loc/obj once stopped), then the FACE_ENTITY mask.
+        this.reorientEntity();
+        this.reorient();
         // Update target facing
         this.setFaceEntity();
         // Dev note: Is this necessary?
@@ -189,6 +195,8 @@ export default class Npc extends PathingEntity {
         this.nid = -1;
         this.uid = -1;
         this.activeScript = null;
+        this.delayed = false;
+        this.delayedUntil = -1;
         this.huntTarget = null;
         this.queue.clear();
     }
@@ -292,6 +300,9 @@ export default class Npc extends PathingEntity {
             }
             this.heroPoints.clear();
             this.queue.clear();
+            this.activeScript = null;
+            this.delayed = false;
+            this.delayedUntil = -1;
             this.clearWaypoints();
 
             for (let i = 0; i < this.vars.length; i++) {
@@ -383,22 +394,27 @@ export default class Npc extends PathingEntity {
 
     blockWalkFlag(): CollisionFlag {
         const type: NpcType = NpcType.get(this.type);
-        if (type.moverestrict === MoveRestrict.NORMAL) {
-            return CollisionFlag.NPC;
-        } else if (type.moverestrict === MoveRestrict.BLOCKED) {
-            return CollisionFlag.OPEN;
-        } else if (type.moverestrict === MoveRestrict.BLOCKED_NORMAL) {
-            return CollisionFlag.NPC;
-        } else if (type.moverestrict === MoveRestrict.INDOORS) {
-            return CollisionFlag.NPC;
-        } else if (type.moverestrict === MoveRestrict.OUTDOORS) {
-            return CollisionFlag.NPC;
-        } else if (type.moverestrict === MoveRestrict.NOMOVE) {
-            return CollisionFlag.NULL;
-        } else if (type.moverestrict === MoveRestrict.PASSTHRU) {
-            return CollisionFlag.OPEN;
+        switch (type.moverestrict) {
+            case MoveRestrict.BLOCKED:
+                return CollisionFlag.OPEN;
+            case MoveRestrict.NOMOVE:
+                return CollisionFlag.NULL;
+            case MoveRestrict.NORMAL:
+            case MoveRestrict.BLOCKED_NORMAL:
+            case MoveRestrict.INDOORS:
+            case MoveRestrict.OUTDOORS:
+            case MoveRestrict.PASSTHRU: {
+                // Hard blocks (locs/walls, blockwalk=all npcs) always apply. Two orthogonal opt-outs:
+                //  - an npc that sets no collision of its own (blockwalk=none) doesn't respect
+                //    npc-occupancy, so it's free to walk through other npcs;
+                //  - a passthru npc doesn't respect player-occupancy, so it walks through players.
+                const npcOcc = this.blockWalk === BlockWalk.NONE ? CollisionFlag.OPEN : CollisionFlag.NPC_OCC;
+                const playerOcc = type.moverestrict === MoveRestrict.PASSTHRU ? CollisionFlag.OPEN : CollisionFlag.PLAYER_OCC;
+                return (CollisionFlag.BLOCK_NPC_AND_PLAYERS | npcOcc | playerOcc) as CollisionFlag;
+            }
+            default:
+                return CollisionFlag.NULL;
         }
-        return CollisionFlag.NULL;
     }
 
     defaultMoveSpeed(): MoveSpeed {
@@ -635,9 +651,6 @@ export default class Npc extends PathingEntity {
 
     public targetWithinMaxRange(): boolean {
         if (!this.target) {
-            return true;
-        }
-        if (this.targetOp === NpcMode.PLAYERFOLLOW) {
             return true;
         }
         const type = NpcType.get(this.type);
@@ -1021,6 +1034,8 @@ export default class Npc extends PathingEntity {
                     quantity = player.invTotal(hunt.checkInv, hunt.checkObj);
                 } else if (hunt.checkObjParam !== -1) {
                     quantity = player.invTotalParam(hunt.checkInv, hunt.checkObjParam);
+                } else if (hunt.checkObjCat !== -1) {
+                    quantity = player.invTotalCat(hunt.checkInv, hunt.checkObjCat);
                 }
                 if (!hunt.checkHuntCondition(quantity, hunt.checkInvCondition, hunt.checkInvVal)) {
                     continue;

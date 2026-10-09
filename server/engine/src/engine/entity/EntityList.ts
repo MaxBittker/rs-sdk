@@ -51,14 +51,23 @@ abstract class EntityList<T extends Entity> extends Array<T | undefined> {
     }
 
     get(id: number): T | undefined {
+        if (id < 0 || id >= this.ids.length) {
+            return;
+        }
+
         const index: number = this.ids[id];
         return index !== -1 ? this[index] : undefined;
     }
 
     set(id: number, entity: T): void {
+        if (id < 0 || id >= this.ids.length || this.ids[id] !== -1) {
+            throw new Error(`[EntityList] invalid or occupied id ${id}`);
+        }
+
         if (!this.free.size) {
             throw new Error('[EntityList] cannot find available entities slot.');
         }
+
         const index = this.free.values().next().value!;
         this.free.delete(index);
         this.ids[id] = index;
@@ -67,6 +76,10 @@ abstract class EntityList<T extends Entity> extends Array<T | undefined> {
     }
 
     remove(id: number): void {
+        if (id < 0 || id >= this.ids.length) {
+            return;
+        }
+
         const index: number = this.ids[id];
         if (index !== -1) {
             this.ids[id] = -1;

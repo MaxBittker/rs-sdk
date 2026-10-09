@@ -94,7 +94,7 @@ while(loc_findnext = true) {
             }
             // Temp note: dur updated
             loc_add($central_coord, inviswall, $orig_angle, loc_shape, 3);
-            sound_synth(grate_open, 0, 0);
+            sound_synth(grate_open, 1, 0);
     }
 }
 
@@ -116,7 +116,7 @@ if(%zombiequeen >= ^zombiequeen_complete) {
             }
         }
     }
-    sound_synth(door_open, 0, 0); // gate_open
+    sound_synth(door_open, 1, 0); // gate_open
     if(coordx(coord) <= coordx($loc_coord)) {
         mes("You make your way out of Shilo Village.");
         if (coordz(coord) ! coordz($loc_coord)) {
@@ -187,7 +187,7 @@ if(%zombiequeen < ^zombiequeen_unlocked_rashliyia_tomb) {
     return;
 }
 mes("You walk into the darkness of the cavern.");
-sound_synth(grate_close, 0, 0);
+sound_synth(grate_close, 1, 0);
 p_teleport(0_45_148_49_53);
 ~mesbox("The doors close behind you with the sound of crunching bone.|Before you stretches a winding tunnel blocked by an ancient gate.");
 
@@ -274,7 +274,7 @@ while(loc_findnext = true) {
             loc_add($central_coord, inviswall, $orig_angle, loc_shape, 3);
      }
 }
-sound_synth(grate_open, 0, 0);
+sound_synth(grate_open, 1, 0);
 if(coordz(coord) > coordz($loc_coord)) {
     p_teleport(0_45_148_49_43);
 } else {
@@ -304,7 +304,7 @@ def_coord $spawn_coord = map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk)
 spotanim_map(shilomist, $spawn_coord, 5, 0);
 facesquare($spawn_coord);
 npc_add($spawn_coord, zqzombiequeen, 100);
-//sound_synth(swamp_gas, 0, 0);
+//sound_synth(swamp_gas, 1, 0);
 npc_setmode(playerface);
 %zq_rash_timer = calc(map_clock + 200);
 %npc_attacking_uid = uid;
@@ -581,7 +581,7 @@ if(inzone(0_43_46_24_35, 0_43_46_29_35, coord) = true) {
 
         say("Choke!");
         spotanim_map(watersplash, coord, 0, 3);
-        sound_synth(pool_plop, 0, 0);
+        sound_synth(pool_plop, 1, 0);
         ~set_readywalkturn_bas(human_swim_ready, human_swim_ready, human_swim);
         p_delay(0);
 
@@ -744,7 +744,7 @@ switch_int(~p_choice3("A ladder", 1, "A crude raft", 2, "A pole vault", 3)) {
         ~agility_exactmove(human_walk_logbalance_stumble, 5, 0, coord, movecoord(coord, 0, 0, 1), 6, 30, ^exact_east, false);
         // Temp note: dur updated
         loc_del(2);
-        sound_synth(pool_plop, 0, 0);
+        sound_synth(pool_plop, 1, 0);
         spotanim_map(watersplash, coord, 0, 0);
         // Temp note: dur updated
         loc_add(movecoord(coord, 1, 0, 0), lograft_broken, 1, centrepiece_straight, 6);
@@ -994,7 +994,7 @@ switch_int(~p_choice2_header("Yes, I'll follow the path.", 1, "No, I'll look for
         if(stat_random(agility, 75, 250) = false) {
             mes("You fall!");
             ~set_walkbas(human_drowning);
-            sound_synth(pool_plop, 0, 0);
+            sound_synth(pool_plop, 1, 0);
             if(coordz(coord) < 9351) {
                 spotanim_map(watersplash, movecoord(coord, 0, 0, -1), 0, 3);
                 ~agility_exactmove(human_sidestep_fall, 30, 0, coord, movecoord(coord, 0, 0, -1), 31, 46, ^exact_east, false);
@@ -1333,16 +1333,20 @@ p_delay(1);
 
 [opobj3,fake_coins]
 // copied rsc's linebreaks cause OSRS ones don't fit
-mes("As soon as you touch the coins");
-mes("you hear the grinding sound of bones");
-mes("against stone as you see skeletons and");
-mes("zombies rising up out of the ground.");
-mes("The coins turn to dust in your hands.");
-npc_huntall(coord, 5, 0);
-while (npc_findnext = true) {
-    if(npc_category = undead_one) ~npc_retaliate(0);
+if(obj_coord = 0_45_148_35_31) {
+    mes("As soon as you touch the coins");
+    mes("you hear the grinding sound of bones");
+    mes("against stone as you see skeletons and");
+    mes("zombies rising up out of the ground.");
+    mes("The coins turn to dust in your hands.");
+    npc_huntall(coord, 5, 0);
+    while (npc_findnext = true) {
+        if(npc_category = undead_one) ~npc_retaliate(0);
+    }
+    if(add(%lastcombat, 8) < map_clock) @rash_summon_minions(uid);
+    return;
 }
-if(add(%lastcombat, 8) < map_clock) @rash_summon_minions(uid);
+@pickup_obj;
 
 [oploc1,_zqtombdoor]
 queue(rash_queue, 6, 0); // this is the only interaction that queues it besides entering the area
@@ -1366,7 +1370,7 @@ if((loc_find(0_45_148_12_8, thzq_tombrooml1) = true | loc_find(0_45_148_12_8, th
     .loc_change(inviswall, 3);
     loc_add(movecoord(loc_coord, 0, 0, 1), thzq_tombrooml_inac, 0, loc_shape, 3);
     .loc_add(movecoord(.loc_coord, 0, 0, 1), thzq_tombroomr_inac, 2, .loc_shape, 3);
-    sound_synth(coffin_open, 0, 0);
+    sound_synth(coffin_open, 1, 0);
 }
 
 [oploc2,_zqtombdoor]
@@ -1461,7 +1465,7 @@ if(coordz(coord) > 9512) {
         mes("You simply cannot concentrate enough to climb down the rocks.");
         return;
     }
-    mes("You carefully pick your way down the rocks.");
+    mes("You carefully try to pick your way down the rocks.");
     if($failed = true) mes("You fall!");
     // forces walk speed on OSRS, must be p_teleport though since if you're 3 tiles from the dest it will teleport you instead of walking
     p_teleport(0_45_148_48_41);
@@ -1585,11 +1589,11 @@ anim(null, 0);
 p_delay(0);
 anim(human_pickuptable, 0);
 obj_takeitem(inv);
-sound_synth(pick2, 0, 0);
+sound_synth(pick2, 1, 0);
 p_delay(1);
 if(%zombiequeen = ^zombiequeen_unlocked_tombdoor) %zombiequeen = ^zombiequeen_retrieved_corpse;
 %zq_map_mechanisms = clearbit_range(%zq_map_mechanisms, 9, 11);
-~objbox(zqcorpse, "You take the mummified remains of a human female.|You feel certain that these are Rashiliyia's remains.|You|carefully place the remains in your inventory.", 250, 0, 0);
+~objbox(zqcorpse, "You take the mummified remains of a human female.|You feel certain that these are Rashiliyia's remains.|You carefully place the remains in your inventory.", 250, 0, 0);
 
 [opheld5,zqcorpse]
 ~objbox(zqcorpse, "The remains of Rashiliyia look quite delicate. You sense|that a spirit needs to be put to rest.|Are you sure that you want to drop the remains?", 250, 0, 0);
@@ -1603,7 +1607,7 @@ switch_int(~p_choice2("Yes, I am sure.", 1, "No, I'll keep hold of the remains."
         obj_add($coord, zqcorpse, 1, 5);
         p_delay(1); // 2t
         spotanim_map(smokepuff, $coord, 5, 0);
-        sound_synth(smokepuff, 0, 0);
+        sound_synth(smokepuff, 1, 0);
         p_delay(1); // 2t
         obj_del;
         npc_add($coord, zqzombiequeen, 30);

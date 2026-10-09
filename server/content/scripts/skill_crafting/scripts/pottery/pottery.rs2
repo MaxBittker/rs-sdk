@@ -78,7 +78,7 @@ if (stat(crafting) < $level) {
 @process_craft_pottery($item, $struct, $name, $level, $count);
 
 [label,process_craft_pottery](namedobj $item, struct $struct, string $name, int $level, int $count)
-sound_synth(pottery, 0, 0);
+sound_synth(pottery, 1, 0);
 anim(human_potterywheel, 0);
 if (%action_delay < map_clock) {
     %action_delay = add(map_clock, 2);
@@ -127,7 +127,7 @@ if(inv_total(inv, $item) = 0) {
     mes("You don't have any more <$name_plural> which need firing.");
     return;
 }
-sound_synth(furnace, 0, 0);
+sound_synth(furnace, 1, 0);
 anim(potteryoven_quick, 0);
 %action_delay = add(map_clock, 5);
 // https://youtu.be/WGbO-Xwk8b8?si=XbTK8PmCThppp33m&t=226, seems like it defaults to using "item"
@@ -159,7 +159,7 @@ weakqueue*(process_fire_pottery, 0)($item, $struct, sub($count, 1));
 def_obj $last_obj = inv_getobj(inv, $last);
 def_struct $struct = oc_param($last_obj, crafting_pottery_struct);
 mes("You put the <oc_name(struct_param($struct, product))> in the oven.");
-sound_synth(furnace, 0, 0);
+sound_synth(furnace, 1, 0);
 anim(human_furnace, 0);
 
 p_delay(2);

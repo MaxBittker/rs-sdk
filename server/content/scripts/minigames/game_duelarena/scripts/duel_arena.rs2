@@ -47,6 +47,7 @@ if (~in_games_room(coord) = true & ~in_games_room(.coord) = true) {
             if_settext(boardgames_challenge:runelink_rank, "<tostring(%boardgames_runelink_rank)> vs <tostring(.%boardgames_runelink_rank)>");
             // if_settext(boardgames_challenge:runesquares_rank, "<tostring(%boardgames_runesquares_rank)> vs <tostring(.%boardgames_runesquares_rank)>");
             // if_settext(boardgames_challenge:runeversi_rank, "<tostring(%boardgames_runeversi_rank)> vs <tostring(.%boardgames_runeversi_rank)>");
+            %if1 = 0;
             if_openmain(boardgames_challenge);
         }
     } else {
@@ -214,8 +215,7 @@ if ($space_needed > inv_freespace(inv)) {
     if_settext(duel_select_type:status, "You do not have enough space for the items removed.");
     return(false);
 }
-$space_needed = add($space_needed, ~moveallinv_itemspace2(dueloffer, inv));
-$space_needed = add($space_needed, ~both_moveallinv_itemspace2(dueloffer, inv));
+$space_needed = add($space_needed, ~both_moveallinv_itemspace(dueloffer, dueloffer, inv));
 if ($space_needed > inv_freespace(inv)) {
     if_settext(duel_select_type:status, "You do not have enough space for the stake.");
     return(false);
@@ -237,8 +237,7 @@ if ($space_needed > .inv_freespace(inv)) {
     .if_settext(duel_select_type:status, "You do not have enough space for the items removed.");
     return(false);
 }
-$space_needed = add($space_needed, ~.moveallinv_itemspace2(dueloffer, inv));
-$space_needed = add($space_needed, ~.both_moveallinv_itemspace2(dueloffer, inv));
+$space_needed = add($space_needed, ~.both_moveallinv_itemspace(dueloffer, dueloffer, inv));
 if ($space_needed > .inv_freespace(inv)) {
     .if_settext(duel_select_type:status, "You do not have enough space for the stake.");
     return(false);

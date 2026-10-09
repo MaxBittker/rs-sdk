@@ -9,12 +9,12 @@ vislevel=24
 model1=model_2961_npc
 model2=model_2964_npc
 model3=model_2965_npc
-head1=model_10_npc_head
-respawnrate=100
-hitpoints=20
+head1=ghost_chat_model_10
 attack=23
-strength=20
 defence=23
+strength=20
+hitpoints=20
+respawnrate=100
 param=damagetype,^crush_style
 param=attack_anim,ghost_attack
 param=defend_anim,ghost_block
@@ -24,8 +24,6 @@ param=defend_sound,ghost_hit
 param=death_sound,ghost_death
 param=death_drop,null
 param=undead,^true
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5370
 
 [spirit_of_scorpius]
 vislevel=hide
@@ -37,8 +35,9 @@ op1=Talk-to
 model1=model_2961_npc
 model2=model_2964_npc
 model3=model_2965_npc
-head1=model_10_npc_head
+head1=ghost_chat_model_10
 wanderrange=2
+maxrange=5
 param=undead,^true
 param=death_anim,ghost_death
 param=death_sound,ghost_death
@@ -52,12 +51,11 @@ op2=Attack
 vislevel=12
 model1=model_2968_npc
 wanderrange=4
-maxrange=6
-respawnrate=100
-hitpoints=7
 attack=11
-strength=12
 defence=14
+strength=12
+hitpoints=7
+respawnrate=100
 param=slashdefence,3
 param=crushdefence,3
 param=damagetype,^crush_style
@@ -68,6 +66,3 @@ param=attack_sound,insect_attack
 param=defend_sound,insect_hit
 param=death_sound,insect_death
 param=death_drop,null
-// osrs stats and Vislvl match 1:1
-// osrs sounds scorpion_attack, scorpion_hit, scorpion_death
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_5372

@@ -1,7 +1,7 @@
 [oploc1,cavewitch_door]
 if(testbit(%ibanmulti, ^upass_dropped_cat) = ^true) {
     mes("You open the door...");
-    ~open_and_close_door3(desertdoor_inactive, ~check_axis(coord, loc_coord, loc_angle), door_open);
+    ~open_and_close_door3(loc_1532, ~check_axis(coord, loc_coord, loc_angle), door_open);
     p_delay(3);
     mes("The Witch is busy talking to the cat.");
     return;
@@ -54,7 +54,7 @@ if(inv_freespace(inv) = 0) {
     mes("You don't have enough inventory space to hold that item."); // rs3
     return;
 }
-sound_synth(pick2, 0, 0);
+sound_synth(pick2, 1, 0);
 npc_del;
 inv_add(inv, cavewitchcat, 1);
 p_delay(0);
@@ -80,7 +80,7 @@ mes("The witch takes the cat inside.");
 [oploc1,cavewitchchest]
 p_arrivedelay;
 anim(human_openchest, 0);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated ?? @indio I assume
 loc_change(cavewitchchestopen, 20);

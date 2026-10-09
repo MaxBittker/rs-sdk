@@ -204,6 +204,7 @@ export default class ClientPlayer extends ClientEntity {
     appearance: Uint16Array = new Uint16Array(12);
     colour: Uint16Array = new Uint16Array(5);
     combatLevel: number = 0;
+    team: number = 0;
     baseId: bigint = 0n;
     lowMemory: boolean = false;
     modelCacheKey: bigint = -1n;
@@ -228,6 +229,7 @@ export default class ClientPlayer extends ClientEntity {
         this.gender = buf.g1();
         this.headicons = buf.g1();
         this.transmog = null;
+        this.team = 0;
 
         for (let part: number = 0; part < 12; part++) {
             const msb: number = buf.g1();
@@ -238,6 +240,13 @@ export default class ClientPlayer extends ClientEntity {
                 if (part === 0 && this.appearance[0] === 65535) {
                     this.transmog = NpcType.list(buf.g2());
                     break;
+                }
+
+                if (this.appearance[part] >= 512 && this.appearance[part] - 512 < ObjType.numDefinitions) {
+                    const team = ObjType.list(this.appearance[part] - 512).team;
+                    if (team !== 0) {
+                        this.team = team;
+                    }
                 }
             }
         }
@@ -560,60 +569,62 @@ export default class ClientPlayer extends ClientEntity {
     getHeadModel(): Model | null {
         if (!this.ready) {
             return null;
-        }
+        } else if (!this.transmog) {
+            let needsModel = false;
 
-        let needsModel = false;
+            for (let i = 0; i < 12; i++) {
+                const part = this.appearance[i];
 
-        for (let i = 0; i < 12; i++) {
-            const part = this.appearance[i];
+                if (part >= 0x100 && part < 0x200 && !IdkType.list[part - 0x100].checkHead()) {
+                    needsModel = true;
+                }
 
-            if (part >= 0x100 && part < 0x200 && !IdkType.list[part - 0x100].checkHead()) {
-                needsModel = true;
-            }
-
-            if (part >= 0x200 && !ObjType.list(part - 0x200).checkHeadModel(this.gender)) {
-                needsModel = true;
-            }
-        }
-
-        if (needsModel) {
-            return null;
-        }
-
-        const models: (Model | null)[] = new TypedArray1d(12, null);
-        let modelCount: number = 0;
-        for (let part: number = 0; part < 12; part++) {
-            const value: number = this.appearance[part];
-
-            if (value >= 256 && value < 512) {
-                const idkModel = IdkType.list[value - 256].getHeadNoCheck();
-                if (idkModel) {
-                    models[modelCount++] = idkModel;
+                if (part >= 0x200 && !ObjType.list(part - 0x200).checkHeadModel(this.gender)) {
+                    needsModel = true;
                 }
             }
 
-            if (value >= 512) {
-                const headModel: Model | null = ObjType.list(value - 512).getHeadModelNoCheck(this.gender);
-                if (headModel) {
-                    models[modelCount++] = headModel;
+            if (needsModel) {
+                return null;
+            }
+
+            const models: (Model | null)[] = new TypedArray1d(12, null);
+            let modelCount: number = 0;
+            for (let part: number = 0; part < 12; part++) {
+                const value: number = this.appearance[part];
+
+                if (value >= 256 && value < 512) {
+                    const idkModel = IdkType.list[value - 256].getHeadNoCheck();
+                    if (idkModel) {
+                        models[modelCount++] = idkModel;
+                    }
+                }
+
+                if (value >= 512) {
+                    const headModel: Model | null = ObjType.list(value - 512).getHeadModelNoCheck(this.gender);
+                    if (headModel) {
+                        models[modelCount++] = headModel;
+                    }
                 }
             }
-        }
 
-        const tmp: Model = Model.combineForAnim(models, modelCount);
-        for (let part: number = 0; part < 5; part++) {
-            if (this.colour[part] === 0) {
-                continue;
+            const tmp: Model = Model.combineForAnim(models, modelCount);
+            for (let part: number = 0; part < 5; part++) {
+                if (this.colour[part] === 0) {
+                    continue;
+                }
+
+                tmp.recolour(ClientPlayer.recol1d[part][0], ClientPlayer.recol1d[part][this.colour[part]]);
+
+                if (part === 1) {
+                    tmp.recolour(ClientPlayer.recol2d[0], ClientPlayer.recol2d[this.colour[part]]);
+                }
             }
 
-            tmp.recolour(ClientPlayer.recol1d[part][0], ClientPlayer.recol1d[part][this.colour[part]]);
-
-            if (part === 1) {
-                tmp.recolour(ClientPlayer.recol2d[0], ClientPlayer.recol2d[this.colour[part]]);
-            }
+            return tmp;
+        } else {
+            return this.transmog.getHead();
         }
-
-        return tmp;
     }
 
     isReady(): boolean {

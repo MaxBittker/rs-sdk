@@ -1,14 +1,14 @@
 [regicide_grass1]
-model=loc_3547
+model=quest_regicide_grass1
 hillskew=yes
 active=no
 
 [regicide_grass2]
-model=loc_3548
+model=quest_regicide_grass2
 hillskew=yes
 active=no
 
 [regicide_grass3]
-model=loc_3549
+model=quest_regicide_grass3
 hillskew=yes
 active=no

@@ -1,6 +1,6 @@
 [oploc1,tribaltotemdoor]
 if(coordz(coord) > coordz(loc_coord)) {
-    ~open_and_close_door(poordoor, ~check_axis(coord, loc_coord, loc_angle), false);
+    ~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);
     return;
 }
 mes("This door is securely locked.");
@@ -93,7 +93,7 @@ if(testbit(%handelmort_traps_disabled, 0) = ^false) {
     if_openmain(tribal_door2);
     return;
 }
-~open_and_close_door(poordoor, ~check_axis(coord, loc_coord, loc_angle), false);
+~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);
 
 [oploc1,totemtrapstairs]
 // OSRS seems to only allow interaction from the top side of the ladder, so just going to assume
@@ -108,7 +108,7 @@ if(testbit(%handelmort_traps_disabled, 21) = ^true) {
     return;
 }
 mes("As you climb the stairs you hear a click...");
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 // todo: screen fade to blackout
 p_delay(2);
 mes("You have fallen through a trap!");

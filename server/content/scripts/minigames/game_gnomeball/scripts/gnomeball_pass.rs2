@@ -46,14 +46,14 @@ mes("You throw the ball in play."); // was always this mes https://youtu.be/0lga
 
 anim(human_throw_gnomeball, 0);
 def_int $duration = ~player_projectile(coord, .coord, .uid, gnomeball_travel, 40, 40, 41, 15, 5, 11, 5);
-sound_synth(throw, 0, 0);
-.sound_synth(throw, 0, 0);
+sound_synth(throw, 1, 0);
+.sound_synth(throw, 1, 0);
 
 //.p_delay(0); todo: engine change for protected player 2 pointer
 .facesquare(coord);
 .anim(human_catch, 0);
 .inv_setslot(worn, ^wearpos_rhand, ball_gnomeball_game, 1);
 ~.update_all(ball_gnomeball_game);
-sound_synth(catch, 0, 0);
-.sound_synth(catch, 0, 0);
+sound_synth(catch, 1, 0);
+.sound_synth(catch, 1, 0);
 .p_delay(1);

@@ -2,7 +2,7 @@
 name=Logs
 desc=A number of wooden logs.
 cost=4
-model=model_2800_obj
+model=inv_woodlogs
 weight=3lb
 2dxof=3
 2dyof=66
@@ -16,7 +16,7 @@ tradeable=no
 [newbieraw_shrimp]
 name=Raw shrimps
 desc=I should try cooking this.
-model=model_2590_obj
+model=inv_shrimp
 recol1s=31201
 recol1d=30419
 recol2s=31041
@@ -30,7 +30,7 @@ weight=120g
 [newbie_pot_flour]
 name=Pot of flour
 desc=There is flour in this pot.
-model=model_2406_obj
+model=inv_pot-full
 2dxof=-1
 2dyof=2
 2dzoom=990
@@ -42,7 +42,7 @@ weight=3lb
 [newbiebones]
 name=Bones
 desc=Bones are for burying!
-model=model_2674_obj
+model=inv_bones
 2dxof=2
 2dzoom=1410
 2dyan=368

@@ -66,6 +66,9 @@ switch_int(random(15)) {
 ~chatnpc("<p,angry>Hey you! What are you up to?");
 ~chatplayer("<p,confused>I'm trying to open the gate!");
 ~chatnpc("<p,neutral>I can see that! Why?");
+if(%mm_main = ^mm_started) { // does just check stage and not mm_narnode
+    @mm_shipyardworker_dialogue;
+}
 switch_int(~p_choice3("I'm from the Ministry of Health and Safety.", 1, "Glough sent me.", 2, "I'm just looking around.", 3)) {
     case 1 :
         ~chatplayer("<p,neutral>I'm from the Ministry of Health and Safety.");

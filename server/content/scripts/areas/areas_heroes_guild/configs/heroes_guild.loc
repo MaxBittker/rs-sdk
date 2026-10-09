@@ -1,7 +1,7 @@
 [fountain_of_heroes]
 name=Fountain of Heroes
 desc=A source of pure water.
-model=model_loc_153
+model=outdoorfurniture_fountain
 width=2
 length=2
 mapscene=8
@@ -13,7 +13,7 @@ recol2d=19937
 [herodoor_l]
 name=Door
 desc=The entrance to the Hero's Guild.
-model=model_loc_71
+model=castle_doubledoorl
 active=yes
 op1=Open
 retex1s=wall
@@ -26,7 +26,7 @@ param=next_loc_stage,loc_1522
 [herodoor_r]
 name=Door
 desc=The entrance to the Hero's Guild.
-model=model_loc_71
+model=castle_doubledoorl
 active=yes
 op1=Open
 mirror=yes

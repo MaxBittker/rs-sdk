@@ -507,10 +507,14 @@
 [command,wealth_event](int $eventType, string $name, int $count, int $value)
 // info: Toggle the player's run-mode
 [command,p_run](int $state)
+// info: Temporarily set player to run for 1 tick
+[command,p_temprun]
 // info: Check player's membership status
 [command,playermember]()(int)
 // info: set an option for a player
 [command,set_player_op](string $text, int $index, int $primary)
+// info: transform a player into an npc
+[command,p_transmogrify](npc $npc)
 
 // Npc ops (2500-2999)
 // info: Get access to the npc if they are in the world
@@ -1014,6 +1018,10 @@
 [command,atan2_deg](int $x, int $y)(int)
 // info: Get the absolute value of a number
 [command,abs](int $num)(int)
+// info: Get number of minutes elapsed since Unix epoch (Jan 1, 1970)
+[command,date_minutes]()(int)
+// info: Get 'runeday': number of days since membership started (Feb 27, 2002)
+[command,date_runeday]()(int)
 
 // DB ops (7500-7599)
 [command,db_find_with_count](dbrow $row, type $key)(int)
@@ -1050,7 +1058,6 @@
 // [command,controller_findexact](regioncoord $coord, int $type)(boolean)
 // [command,region_getcoord](int $int1, int $int2, int $int3)(regioncoord)
 // [command,sound_area](coord $coord, int $int1, synth $sound, int $int2, int $int3)
-// [command,p_transmogrify](npc $npc)
 // [command,if_setevents](component $component, int $int1, int $int2, boolean $boolean1, int $int3, int $int4, int $int5, boolean $boolean2, boolean $boolean3)
 // [command,runclientscript](string $string)
 // [command,obj_getvar]

@@ -22,7 +22,7 @@ switch_int(%horrorquest) {
 [opnpc1,horror_lighthousekeeeper_well]
 if(%horror_claimed_holybook = ^true | %horror_claimed_unholybook = ^true | %horror_claimed_guthixbook = ^true) {
     ~chatnpc("<p,happy>Hello again, adventurer.|What brings you this way?");
-    switch_int(~p_choice2("Can I see your wares?", 1, "Have you found any more prayerbooks?", 2)) {
+    switch_int(~p_choice2("Can I see your wares?", 1, "Have you found any new prayerbooks?", 2)) {
         case 1 :
             ~chatplayer("<p,quiz>Can I see your wares?");
             ~chatnpc("<p,happy>Sure thing|I think you'll find my prices are remarkable!");
@@ -57,7 +57,7 @@ if(inv_total(inv, horror_casket) > 0) {
 }
 
 [label,horror_morebooks]
-~chatplayer("<p,quiz>Have you found any more prayerbooks?");
+~chatplayer("<p,quiz>Have you found any new prayerbooks?");
 def_int $reclaim_count = 0;
 def_int $reclaim_z = 0;
 def_int $reclaim_s = 0;
@@ -66,22 +66,22 @@ def_int $reclaim_g = 0;
 if(%horror_claimed_guthixbook = ^true) {
     if(%reclaim_guthixbook = ^false & ~obj_gettotal(guthixbook_complete) = 0 & ~obj_gettotal(unfinished_guthixbook) = 0) {
         %reclaim_guthixbook = ^true;
-        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 22, 23), 1), 22, 23);
+        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 30, 31), 1), 30, 31);
     }
 }
 if(%horror_claimed_unholybook = ^true) {
     if(%reclaim_unholybook = ^false & ~obj_gettotal(zamorakbook_complete) = 0 & ~obj_gettotal(unfinished_zamorakbook) = 0) {
         %reclaim_unholybook = ^true;
-        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 22, 23), 1), 22, 23);
+        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 30, 31), 1), 30, 31);
     }
 }
 if(%horror_claimed_holybook = ^true) {
     if(%reclaim_holybook = ^false & ~obj_gettotal(saradominbook_complete) = 0 & ~obj_gettotal(unfinished_saradominbook) = 0) {
         %reclaim_holybook = ^true;
-        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 22, 23), 1), 22, 23);
+        %godbook_multi = setbit_range_toint(%godbook_multi, add(getbit_range(%godbook_multi, 30, 31), 1), 30, 31);
     }
 }
-def_int $reclaim_total = getbit_range(%godbook_multi, 22, 23);
+def_int $reclaim_total = getbit_range(%godbook_multi, 30, 31);
 if($reclaim_total > 0) {
     if(inv_freespace(inv) < $reclaim_total) {
         if($reclaim_total > 1) {
@@ -108,7 +108,7 @@ if($reclaim_total > 0) {
         $reclaim_s = %reclaim_holybook;
         $reclaim_z = %reclaim_unholybook;
         $reclaim_g = %reclaim_guthixbook;
-        %godbook_multi = setbit_range_toint(%godbook_multi, 0, 22, 23);
+        %godbook_multi = setbit_range_toint(%godbook_multi, 0, 30, 31);
         %reclaim_holybook = ^false;
         %reclaim_unholybook = ^false;
         %reclaim_guthixbook = ^false;
@@ -124,9 +124,37 @@ if($reclaim_total > 0) {
     return;
 }
 def_int $books_to_buy = 0;
+def_int $eligible_to_buy = ^true;
 if(%horror_claimed_guthixbook = ^false) $books_to_buy = add($books_to_buy, 1);
 if(%horror_claimed_unholybook = ^false) $books_to_buy = add($books_to_buy, 1);
 if(%horror_claimed_holybook = ^false) $books_to_buy = add($books_to_buy, 1);
+
+// if the player is working on a book, they can not buy another
+// https://youtu.be/IIFXZI4x-aI?si=wA20NBZnLBBdfKWu&t=386
+if(%horror_claimed_guthixbook = ^true) {
+    if(%horror_balancepage1 = ^false | %horror_balancepage2 = ^false | %horror_balancepage3 = ^false | %horror_balancepage4 = ^false) {
+        $eligible_to_buy = ^false;
+    }
+}
+
+if(%horror_claimed_unholybook = ^true) {
+    if(%horror_unholypage1 = ^false | %horror_unholypage2 = ^false | %horror_unholypage3 = ^false | %horror_unholypage4 = ^false) {
+        $eligible_to_buy = ^false;
+    }
+}
+
+if(%horror_claimed_holybook = ^true) {
+    if(%horror_holypage1 = ^false | %horror_holypage2 = ^false | %horror_holypage3 = ^false | %horror_holypage4 = ^false) {
+        $eligible_to_buy = ^false;
+    }
+}
+
+if($eligible_to_buy = ^false) {
+    ~chatnpc("<p,happy>Well....");
+    ~chatnpc("<p,happy>No...|Sorry adventurer, I haven't.");
+    return;
+}
+
 
 if($books_to_buy = 0) {
     ~chatnpc("<p,happy>Nope, sorry adventurer, I guess you've found them all! I'll let you know if any new ones show up though!");
@@ -244,7 +272,7 @@ if(random(3) < 0) {
     $start = movecoord(0_39_72_10_32, random(3), 0, random(8));
 }
 npc_add($start, horror_dagannoth_jr1, 1000);
-sound_synth(dagganoth_chitters, 0, 0);
+sound_synth(dagganoth_chitters, 1, 0);
 %npc_aggressive_player = uid;
 %aggressive_npc = npc_uid;
 hint_stop;

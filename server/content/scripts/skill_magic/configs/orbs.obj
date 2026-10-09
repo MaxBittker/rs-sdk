@@ -1,5 +1,5 @@
 [stafforb]
-model=model_2428_obj
+model=inv_stafforb
 recol1s=23263
 recol1d=32767
 2dxof=3
@@ -16,7 +16,7 @@ cost=100
 param=crafting_glass_struct,stafforb
 
 [fire_orb]
-model=model_2428_obj
+model=inv_stafforb
 recol1s=23263
 recol1d=30753
 2dxof=3
@@ -33,7 +33,7 @@ category=craft_orb
 param=crafting_staff_struct,fire_orb
 
 [water_orb]
-model=model_2428_obj
+model=inv_stafforb
 recol1s=23263
 recol1d=31
 2dxof=3
@@ -50,7 +50,7 @@ category=craft_orb
 param=crafting_staff_struct,water_orb
 
 [air_orb]
-model=model_2428_obj
+model=inv_stafforb
 2dxof=3
 2dyof=3
 2dzoom=790
@@ -65,7 +65,7 @@ category=craft_orb
 param=crafting_staff_struct,air_orb
 
 [earth_orb]
-model=model_2428_obj
+model=inv_stafforb
 recol1s=23263
 recol1d=16678
 2dxof=3

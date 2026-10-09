@@ -1,4 +1,9 @@
 [opnpc2,monkey]
+if (~mm_wearing_greegree = true) {
+    // seperate code for this opnpc2, would be interesting to prove if other npcs with overriden opnpc2 have seperate behaviour
+    mes("You cannot attack as a monkey!");
+    return;
+}
 if (~player_in_combat_check = false) {
     return;
 }
@@ -19,9 +24,9 @@ if (~player_in_combat_check = false) {
 mes("The monkey deftly avoids your melee attack! You aren't going to score a hit in");
 mes("hand-to-hand combat.");
 anim(%com_attackanim, 0);
-sound_synth(%com_attacksound, 0, 0);
+sound_synth(%com_attacksound, 1, 0);
 npc_setmode(playerescape);
-world_delay(2);
+world_delay(2); // todo: check delay length
 npc_setmode(null);
 ~.sound_area(monkey_death, 2, npc_coord, 8);
 switch_int(random(10)) {

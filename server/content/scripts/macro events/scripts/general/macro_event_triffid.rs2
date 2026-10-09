@@ -4,7 +4,7 @@ npc_walk(npc_coord);
 npc_anim(triffid_grow, 0);
 %npc_int = ^triffid_growing;
 %npc_macro_event_target = uid;
-sound_synth(triffid_appear, 0, 0);
+sound_synth(triffid_appear, 1, 0);
 
 [opnpc1,macro_triffidseed]
 if (%npc_macro_event_target ! uid) {
@@ -17,7 +17,7 @@ if (%npc_int = ^triffid_growing) {
     return;
 }
 inv_add(inv, macro_triffidfruit, 1);
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 // https://youtu.be/ghfKpXe7N5s?t=24
 mes("You pick the fruit from the plant."); // osrs
 %macro_event = ^no_macro_event;

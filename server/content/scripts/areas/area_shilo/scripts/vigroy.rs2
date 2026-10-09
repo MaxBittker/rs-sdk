@@ -1,7 +1,8 @@
 [oploc1,shilocart] ~mesbox("A sturdy travelling cart built for long trips through jungle areas."); // rsc
 
 [oploc2,shilocart]
-~mesbox("This looks like a sturdy travelling cart.|A nearby man walks over to you."); // rsc
+mes("This looks like a sturdy travelling cart.");
+mes("A nearby man walks over to you."); // https://youtu.be/TwihE8LB6FE?si=tFWFagNWphHMABG1&t=37
 if(npc_find(coord, shilocartdriver, 7, 0) = true) {
     @shilocartdriver_dialogue;
 }

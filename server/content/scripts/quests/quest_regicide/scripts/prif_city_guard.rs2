@@ -1,11 +1,11 @@
-[opnpc1,prif_city_guard]
+[opnpc1,elf_city_guard]
 ~chatplayer("<p,quiz>Hello, please can you open the gate?");
 ~chatnpc("<p,neutral>I'm sorry but no humans may enter Prifddinas while those criminals are at large.");
 ~chatplayer("<p,neutral>I'm no criminal.");
 ~chatnpc("<p,neutral>Rules are rules. No one enters until the brigands are gone.");
 
 [label,prif_guard_halt]
-if(npc_find(coord, prif_city_guard, 7, 0) = true) {
+if(npc_find(coord, elf_city_guard, 7, 0) = true) {
     ~chatnpc("<p,neutral>Halt!|No humans may enter the city of Prifddinas.");
 }
 

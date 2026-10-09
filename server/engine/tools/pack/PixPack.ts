@@ -1,117 +1,80 @@
 import fs from 'fs';
 
 import { Jimp } from 'jimp';
-import type { Bitmap } from 'jimp';
+import type { Bitmap, JimpInstance } from 'jimp';
 
 import Packet from '#/io/Packet.js';
 
-export function generatePixelOrder(img: { bitmap: Bitmap }) {
-    let rowMajorScore = 0;
-    let columnMajorScore = 0;
+function generatePixelOrder(img: { bitmap: Bitmap }, left: number, top: number, width: number, height: number) {
+    let rowTransitions = 0;
+    let columnTransitions = 0;
+    let previousRow = -1;
+    let previousColumn = -1;
 
-    // calculate row-major score
-    let prev = 0;
-    for (let j = 0; j < img.bitmap.width * img.bitmap.height; j += 4) {
-        const pos = j * 4;
-        const current = (img.bitmap.data[pos + 0] << 16) | (img.bitmap.data[pos + 1] << 8) | img.bitmap.data[pos + 2];
-        rowMajorScore += current - prev;
-        prev = current;
-    }
+    for (let i = 0; i < width * height; i++) {
+        const rowPos = (left + (i % width) + (top + Math.floor(i / width)) * img.bitmap.width) * 4;
+        const columnPos = (left + Math.floor(i / height) + (top + (i % height)) * img.bitmap.width) * 4;
+        const row = (img.bitmap.data[rowPos] << 16) | (img.bitmap.data[rowPos + 1] << 8) | img.bitmap.data[rowPos + 2];
+        const column = (img.bitmap.data[columnPos] << 16) | (img.bitmap.data[columnPos + 1] << 8) | img.bitmap.data[columnPos + 2];
 
-    // calculate column-major score
-    prev = 0;
-    for (let x = 0; x < img.bitmap.width; x++) {
-        for (let y = 0; y < img.bitmap.height; y++) {
-            const pos = (x + y * img.bitmap.width) * 4;
-            const current = (img.bitmap.data[pos + 0] << 16) | (img.bitmap.data[pos + 1] << 8) | img.bitmap.data[pos + 2];
-            columnMajorScore += current - prev;
-            prev = current;
+        if (i > 0) {
+            rowTransitions += row !== previousRow ? 1 : 0;
+            columnTransitions += column !== previousColumn ? 1 : 0;
         }
+        previousRow = row;
+        previousColumn = column;
     }
 
-    return columnMajorScore < rowMajorScore ? 0 : 1;
+    return columnTransitions < rowTransitions ? 1 : 0;
 }
 
-export function writeImage(img: { bitmap: Bitmap }, data: Packet, index: Packet, colors: number[], meta: Sprite | null = null) {
-    let left = 0;
-    let top = 0;
-    let right = img.bitmap.width;
-    let bottom = img.bitmap.height;
+function getPixelBounds(img: { bitmap: Bitmap }) {
+    let left = img.bitmap.width;
+    let top = img.bitmap.height;
+    let right = -1;
+    let bottom = -1;
 
-    if (meta && meta.w && meta.h) {
-        left = meta.x;
-        top = meta.y;
-        right = meta.w;
-        bottom = meta.h;
-    }
-
-    index.p1(left); // crop x offset
-    index.p1(top); // crop y offset
-    index.p2(right); // actual width
-    index.p2(bottom); // actual height
-
-    let pixelOrder = generatePixelOrder(img);
-    if (meta) {
-        pixelOrder = meta.pixelOrder;
-    }
-    index.p1(pixelOrder);
-
-    if (pixelOrder === 0) {
-        for (let j = 0; j < img.bitmap.width * img.bitmap.height; j++) {
-            const x = j % img.bitmap.width;
-            const y = Math.floor(j / img.bitmap.width);
-            if (x >= right || y >= bottom) {
+    for (let y = 0; y < img.bitmap.height; y++) {
+        for (let x = 0; x < img.bitmap.width; x++) {
+            const pos = (x + y * img.bitmap.width) * 4;
+            if (img.bitmap.data[pos] === 0xff && img.bitmap.data[pos + 1] === 0 && img.bitmap.data[pos + 2] === 0xff) {
                 continue;
             }
 
-            const pos = j * 4 + left * 4 + top * img.bitmap.width * 4;
-
-            const red = img.bitmap.data[pos + 0];
-            const green = img.bitmap.data[pos + 1];
-            const blue = img.bitmap.data[pos + 2];
-            const rgb = ((red << 16) | (green << 8) | blue) >>> 0;
-
-            const index = colors.indexOf(rgb);
-            if (index === -1) {
-                break;
-            }
-
-            data.p1(index);
+            left = Math.min(left, x);
+            top = Math.min(top, y);
+            right = Math.max(right, x);
+            bottom = Math.max(bottom, y);
         }
-    } else if (pixelOrder === 1) {
-        for (let x = 0; x < img.bitmap.width; x++) {
-            for (let y = 0; y < img.bitmap.height; y++) {
-                if (x >= right || y >= bottom) {
-                    continue;
-                }
+    }
 
-                const pos = (x + y * img.bitmap.width) * 4 + left * 4 + top * img.bitmap.width * 4;
+    return right === -1 ? { left: 0, top: 0, width: img.bitmap.width, height: img.bitmap.height } : { left, top, width: right - left + 1, height: bottom - top + 1 };
+}
 
-                const red = img.bitmap.data[pos + 0];
-                const green = img.bitmap.data[pos + 1];
-                const blue = img.bitmap.data[pos + 2];
-                const rgb = ((red << 16) | (green << 8) | blue) >>> 0;
+export function writeImage(img: { bitmap: Bitmap }, data: Packet, index: Packet, colors: number[]) {
+    const { left, top, width, height } = getPixelBounds(img);
+    const pixelOrder = generatePixelOrder(img, left, top, width, height);
 
-                const index = colors.indexOf(rgb);
-                if (index === -1) {
-                    break;
-                }
+    index.p1(left); // crop x offset
+    index.p1(top); // crop y offset
+    index.p2(width); // actual width
+    index.p2(height); // actual height
+    index.p1(pixelOrder);
 
-                data.p1(index);
-            }
+    const outer = pixelOrder === 1 ? width : height;
+    const inner = pixelOrder === 1 ? height : width;
+    for (let a = 0; a < outer; a++) {
+        for (let b = 0; b < inner; b++) {
+            const x = pixelOrder === 1 ? a : b;
+            const y = pixelOrder === 1 ? b : a;
+            const pos = (x + left + (y + top) * img.bitmap.width) * 4;
+            const rgb = ((img.bitmap.data[pos] << 16) | (img.bitmap.data[pos + 1] << 8) | img.bitmap.data[pos + 2]) >>> 0;
+            data.p1(colors.indexOf(rgb));
         }
     }
 }
 
-type Sprite = {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-    pixelOrder: 0 | 1;
-};
-
-function generatePalette(img: { bitmap: Bitmap }) {
+export function generatePalette(img: { bitmap: Bitmap }) {
     const colors = [0xff00ff];
 
     for (let j = 0; j < img.bitmap.width * img.bitmap.height; j++) {
@@ -133,59 +96,29 @@ function generatePalette(img: { bitmap: Bitmap }) {
     return colors;
 }
 
-export async function convertImage(index: Packet, srcPath: string, safeName: string) {
+export async function convertImage(index: Packet, srcPath: string, safeName: string, source?: { bitmap: Bitmap }, palette?: number[]) {
     const data = Packet.alloc(4);
     data.p2(index.pos);
 
-    const img = await Jimp.read(`${srcPath}/${safeName}.png`);
+    const img = source ?? (await Jimp.read(`${srcPath}/${safeName}.png`));
     let tileX = img.bitmap.width;
     let tileY = img.bitmap.height;
 
-    const sprites: Sprite[] = [];
-    const hasMeta = fs.existsSync(`${srcPath}/meta/${safeName}.opt`);
-    if (hasMeta) {
-        const metadata = fs
-            .readFileSync(`${srcPath}/meta/${safeName}.opt`, 'ascii')
-            .split(/\r?\n/)
-            .filter(x => x.length);
+    const metadataPath = `${srcPath}/meta/${safeName}.opt`;
+    if (fs.existsSync(metadataPath)) {
+        [tileX, tileY] = fs.readFileSync(metadataPath, 'ascii').split(/\r?\n/, 1)[0].trim().split('x').map(Number);
+    }
 
-        if (metadata[0].indexOf('x') === -1) {
-            const sprite = metadata[0].split(',');
-
-            sprites.push({
-                x: parseInt(sprite[0]),
-                y: parseInt(sprite[1]),
-                w: parseInt(sprite[2]),
-                h: parseInt(sprite[3]),
-                pixelOrder: sprite[4] === 'row' ? 1 : 0
-            });
-        } else {
-            const tiling = metadata[0].split('x');
-            tileX = parseInt(tiling[0]);
-            tileY = parseInt(tiling[1]);
-
-            for (let j = 1; j < metadata.length; j++) {
-                const sprite = metadata[j].split(',');
-
-                sprites.push({
-                    x: parseInt(sprite[0]),
-                    y: parseInt(sprite[1]),
-                    w: parseInt(sprite[2]),
-                    h: parseInt(sprite[3]),
-                    pixelOrder: sprite[4] === 'row' ? 1 : 0
-                });
-            }
-        }
+    if (!Number.isInteger(tileX) || !Number.isInteger(tileY) || img.bitmap.width % tileX !== 0 || img.bitmap.height % tileY !== 0) {
+        throw new Error(`Invalid image metadata: ${metadataPath}`);
     }
 
     index.p2(tileX);
     index.p2(tileY);
 
-    // todo: we're not producing the color palette in the same way, so this breaks CRC checks.
-    //   however, the end result after decoding is the same
-    let colors: number[] = generatePalette(img);
-    if (colors.length > 255) {
-        img.quantize({ colors: 255 });
+    let colors: number[] = palette ?? generatePalette(img);
+    if (!palette && colors.length > 255) {
+        (img as JimpInstance).quantize({ colors: 255 });
         colors = generatePalette(img);
     }
 
@@ -194,20 +127,20 @@ export async function convertImage(index: Packet, srcPath: string, safeName: str
         index.p3(colors[j]);
     }
 
-    if (sprites.length > 1) {
+    if (tileX !== img.bitmap.width || tileY !== img.bitmap.height) {
         for (let y = 0; y < img.bitmap.height / tileY; y++) {
             for (let x = 0; x < img.bitmap.width / tileX; x++) {
-                const tile = img.clone().crop({
+                const tile = (img as JimpInstance).clone().crop({
                     x: x * tileX,
                     y: y * tileY,
                     w: tileX,
                     h: tileY
                 });
-                writeImage(tile, data, index, colors, sprites[x + y * (img.bitmap.width / tileX)]);
+                writeImage(tile, data, index, colors);
             }
         }
     } else {
-        writeImage(img, data, index, colors, sprites[0]);
+        writeImage(img, data, index, colors);
     }
 
     return data;

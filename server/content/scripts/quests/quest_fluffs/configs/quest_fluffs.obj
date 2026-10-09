@@ -2,7 +2,7 @@
 name=Doogle leaves
 desc=A tasty herb good for seasoning.
 cost=2
-model=model_2364_obj
+model=inv_herb
 recol1s=15855
 recol1d=13068
 recol2s=26425
@@ -18,7 +18,7 @@ weight=7g
 name=Seasoned sardine
 desc=Sardine flavoured with doogle leaves.
 cost=10
-model=model_2357_obj
+model=inv_fish4
 recol1s=15855
 recol1d=13068
 recol2s=26425
@@ -36,7 +36,7 @@ weight=120g
 cost=350
 name=Cat training medal
 desc=For feline training expertise.
-model=model_2400_obj
+model=inv_fish_amulet
 members=yes
 2dyof=9
 2dzoom=500
@@ -44,14 +44,14 @@ members=yes
 2dxan=296
 iop2=Wear
 wearpos=front
-manwear=model_289_obj_wear,0
-womanwear=model_453_obj_wear,0
+manwear=man_necklaces_fishamulet,0
+womanwear=woman_necklaces_fishamulet,0
 weight=10g
 
 [gertrudekittens]
 name=Fluffs' kitten
 desc=It looks like it's lost.
-model=model_3006_obj
+model=npc_cat_head
 2dxof=13
 2dyof=21
 2dzoom=880
@@ -68,7 +68,7 @@ param=destroy_drop,^true
 [kittenobject]
 name=Pet kitten
 desc=This kitten seems to like you.
-model=model_3009_obj
+model=inv_kitten
 2dxof=13
 2dyof=21
 2dzoom=880
@@ -80,12 +80,11 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet1
 tradeable=no
-param=destroy_drop,^true
 
 [kittenobject_light]
 name=Pet kitten
 desc=This kitten seems to like you.
-model=model_3009_obj
+model=inv_kitten
 recol1s=32767
 recol1d=4228
 recol2s=4228
@@ -105,12 +104,11 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_light
 tradeable=no
-param=destroy_drop,^true
 
 [kittenobject_brown]
 name=Pet kitten
 desc=This kitten seems to like you.
-model=model_3009_obj
+model=inv_kitten
 recol1s=15855
 recol1d=19873
 recol2s=4228
@@ -128,12 +126,11 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_brown
 tradeable=no
-param=destroy_drop,^true
 
 [kittenobject_black]
 name=Pet kitten
 desc=This kitten seems to like you.
-model=model_3009_obj
+model=inv_kitten
 recol1s=15855
 recol1d=3171
 recol2s=4228
@@ -151,12 +148,11 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_black
 tradeable=no
-param=destroy_drop,^true
 
 [kittenobject_browngrey]
 name=Pet kitten
 desc=This kitten seems to like you.
-model=model_3009_obj
+model=inv_kitten
 recol1s=15855
 recol1d=10432
 recol2s=4228
@@ -174,12 +170,11 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_browngrey
 tradeable=no
-param=destroy_drop,^true
 
 [kittenobject_bluegrey]
 name=Pet kitten
 desc=This kitten seems to like you.
-model=model_3009_obj
+model=inv_kitten
 recol1s=15855
 recol1d=8459
 recol2s=4228
@@ -197,12 +192,11 @@ weight=750g
 category=kitten
 param=follower_id,kittenpet_bluegrey
 tradeable=no
-param=destroy_drop,^true
 
 [growncatobject]
 name=Pet cat
 desc=This cat definitely likes you.
-model=model_3006_obj
+model=npc_cat_head
 2dxof=13
 2dyof=21
 2dzoom=880
@@ -214,12 +208,11 @@ weight=1500g
 category=cat
 param=follower_id,growncat
 tradeable=no
-param=destroy_drop,^true
 
 [growncatobject_light]
 name=Pet cat
 desc=This cat definitely likes you.
-model=model_3006_obj
+model=npc_cat_head
 recol1s=32767
 recol1d=4228
 recol2s=4228
@@ -239,12 +232,11 @@ weight=1500g
 category=cat
 param=follower_id,growncat_light
 tradeable=no
-param=destroy_drop,^true
 
 [growncatobject_brown]
 name=Pet cat
 desc=This cat definitely likes you.
-model=model_3006_obj
+model=npc_cat_head
 recol1s=15855
 recol1d=19873
 recol2s=4228
@@ -262,12 +254,11 @@ weight=1500g
 category=cat
 param=follower_id,growncat_brown
 tradeable=no
-param=destroy_drop,^true
 
 [growncatobject_black]
 name=Pet cat
 desc=This cat definitely likes you.
-model=model_3006_obj
+model=npc_cat_head
 recol1s=15855
 recol1d=3171
 recol2s=4228
@@ -285,12 +276,11 @@ weight=1500g
 category=cat
 param=follower_id,growncat_black
 tradeable=no
-param=destroy_drop,^true
 
 [growncatobject_browngrey]
 name=Pet cat
 desc=This cat definitely likes you.
-model=model_3006_obj
+model=npc_cat_head
 recol1s=15855
 recol1d=10432
 recol2s=4228
@@ -308,12 +298,11 @@ weight=1500g
 category=cat
 param=follower_id,growncat_browngrey
 tradeable=no
-param=destroy_drop,^true
 
 [growncatobject_bluegrey]
 name=Pet cat
 desc=This cat definitely likes you.
-model=model_3006_obj
+model=npc_cat_head
 recol1s=15855
 recol1d=8459
 recol2s=4228
@@ -331,12 +320,11 @@ weight=1500g
 category=cat
 param=follower_id,growncat_bluegrey
 tradeable=no
-param=destroy_drop,^true
 
 [overgrowncatobject]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
-model=model_3007_obj
+model=inv_overgrowncat
 2dxof=13
 2dyof=21
 2dzoom=880
@@ -348,12 +336,11 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat
 tradeable=no
-param=destroy_drop,^true
 
 [overgrowncatobject_light]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
-model=model_3007_obj
+model=inv_overgrowncat
 recol1s=32767
 recol1d=4228
 recol2s=4228
@@ -373,12 +360,11 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_light
 tradeable=no
-param=destroy_drop,^true
 
 [overgrowncatobject_brown]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
-model=model_3007_obj
+model=inv_overgrowncat
 recol1s=15855
 recol1d=19873
 recol2s=4228
@@ -396,12 +382,11 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_brown
 tradeable=no
-param=destroy_drop,^true
 
 [overgrowncatobject_black]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
-model=model_3007_obj
+model=inv_overgrowncat
 recol1s=15855
 recol1d=3171
 recol2s=4228
@@ -419,12 +404,11 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_black
 tradeable=no
-param=destroy_drop,^true
 
 [overgrowncatobject_browngrey]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
-model=model_3007_obj
+model=inv_overgrowncat
 recol1s=15855
 recol1d=10432
 recol2s=4228
@@ -442,12 +426,11 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_browngrey
 tradeable=no
-param=destroy_drop,^true
 
 [overgrowncatobject_bluegrey]
 name=Pet cat
 desc=This cat is so well fed it can hardly move.
-model=model_3007_obj
+model=inv_overgrowncat
 recol1s=15855
 recol1d=8459
 recol2s=4228
@@ -465,4 +448,3 @@ weight=2500g
 category=overgrown
 param=follower_id,overgrowncat_bluegrey
 tradeable=no
-param=destroy_drop,^true

@@ -84,7 +84,7 @@ const ENABLE_BOT_SDK = process.env.ENABLE_BOT_SDK === 'true';
 import * as BotSDKModule from '#/bot/index.js';
 const BotOverlay = ENABLE_BOT_SDK ? BotSDKModule.BotOverlay : null;
 
-const CLIENT_VERSION = 274;
+const CLIENT_VERSION = 289;
 
 const MAX_PLAYER_COUNT = 2048;
 const LOCAL_PLAYER_INDEX = 2047;
@@ -542,7 +542,7 @@ export class Client extends GameShell {
     private runenergy: number = 0;
     private runweight: number = 0;
     private staffmodlevel: number = 0;
-    private var: number[] = [];
+    public var: number[] = [];
     private varServ: number[] = [];
 
     private chatInterface: IfType = new IfType();
@@ -3668,6 +3668,7 @@ export class Client extends GameShell {
 
             World.resetVisCalc(distance, 500, 800, 512, 334);
             WordFilter.unpack(wordenc);
+            ClientLocAnim.app = this;
 
             if (!this.mouseTrackingInterval) {
                 this.mouseTrackingInterval = setInterval(() => {
@@ -5589,64 +5590,63 @@ export class Client extends GameShell {
                                 this.out.p1(this.chatInput.length - 2 + 1);
                                 this.out.pjstr(this.chatInput.substring(2));
                             } else {
+                                const colourText: string = this.chatInput.toLowerCase();
                                 let colour: number = 0;
-                                if (this.chatInput.startsWith('yellow:')) {
+                                if (colourText.startsWith('yellow:')) {
                                     colour = 0;
                                     this.chatInput = this.chatInput.substring(7);
-                                }
-                                if (this.chatInput.startsWith('red:')) {
+                                } else if (colourText.startsWith('red:')) {
                                     colour = 1;
                                     this.chatInput = this.chatInput.substring(4);
-                                }
-                                if (this.chatInput.startsWith('green:')) {
+                                } else if (colourText.startsWith('green:')) {
                                     colour = 2;
                                     this.chatInput = this.chatInput.substring(6);
-                                }
-                                if (this.chatInput.startsWith('cyan:')) {
+                                } else if (colourText.startsWith('cyan:')) {
                                     colour = 3;
                                     this.chatInput = this.chatInput.substring(5);
-                                }
-                                if (this.chatInput.startsWith('purple:')) {
+                                } else if (colourText.startsWith('purple:')) {
                                     colour = 4;
                                     this.chatInput = this.chatInput.substring(7);
-                                }
-                                if (this.chatInput.startsWith('white:')) {
+                                } else if (colourText.startsWith('white:')) {
                                     colour = 5;
                                     this.chatInput = this.chatInput.substring(6);
-                                }
-                                if (this.chatInput.startsWith('flash1:')) {
+                                } else if (colourText.startsWith('flash1:')) {
                                     colour = 6;
                                     this.chatInput = this.chatInput.substring(7);
-                                }
-                                if (this.chatInput.startsWith('flash2:')) {
+                                } else if (colourText.startsWith('flash2:')) {
                                     colour = 7;
                                     this.chatInput = this.chatInput.substring(7);
-                                }
-                                if (this.chatInput.startsWith('flash3:')) {
+                                } else if (colourText.startsWith('flash3:')) {
                                     colour = 8;
                                     this.chatInput = this.chatInput.substring(7);
-                                }
-                                if (this.chatInput.startsWith('glow1:')) {
+                                } else if (colourText.startsWith('glow1:')) {
                                     colour = 9;
                                     this.chatInput = this.chatInput.substring(6);
-                                }
-                                if (this.chatInput.startsWith('glow2:')) {
+                                } else if (colourText.startsWith('glow2:')) {
                                     colour = 10;
                                     this.chatInput = this.chatInput.substring(6);
-                                }
-                                if (this.chatInput.startsWith('glow3:')) {
+                                } else if (colourText.startsWith('glow3:')) {
                                     colour = 11;
                                     this.chatInput = this.chatInput.substring(6);
                                 }
 
+                                const effectText: string = this.chatInput.toLowerCase();
                                 let effect: number = 0;
-                                if (this.chatInput.startsWith('wave:')) {
+                                if (effectText.startsWith('wave:')) {
                                     effect = 1;
                                     this.chatInput = this.chatInput.substring(5);
-                                }
-                                if (this.chatInput.startsWith('scroll:')) {
+                                } else if (effectText.startsWith('wave2:')) {
                                     effect = 2;
+                                    this.chatInput = this.chatInput.substring(6);
+                                } else if (effectText.startsWith('shake:')) {
+                                    effect = 3;
+                                    this.chatInput = this.chatInput.substring(6);
+                                } else if (effectText.startsWith('scroll:')) {
+                                    effect = 4;
                                     this.chatInput = this.chatInput.substring(7);
+                                } else if (effectText.startsWith('slide:')) {
+                                    effect = 5;
+                                    this.chatInput = this.chatInput.substring(6);
                                 }
 
                                 this.out.p1Enc(ClientProt.MESSAGE_PUBLIC);
@@ -6652,7 +6652,7 @@ export class Client extends GameShell {
                 this.p12?.centreStringTag('Off', 184, 41, Colour.RED, true);
             }
 
-            this.p12?.centreStringTag('Trade/duel', 324, 28, Colour.WHITE, true);
+            this.p12?.centreStringTag('Trade/compete', 324, 28, Colour.WHITE, true);
             if (this.chatTradeMode === 0) {
                 this.p12?.centreStringTag('On', 324, 41, Colour.GREEN, true);
             }
@@ -7155,13 +7155,17 @@ export class Client extends GameShell {
                     this.chatTimer[this.chatCount] = entity.chatTimer;
                     this.chats[this.chatCount++] = entity.chatMessage as string;
 
-                    if (this.chatEffects === 0 && entity.chatEffect === 1) {
+                    if (this.chatEffects === 0 && entity.chatEffect >= 1 && entity.chatEffect <= 3) {
                         this.chatHeight[this.chatCount] += 10;
                         this.chatY[this.chatCount] += 5;
                     }
 
-                    if (this.chatEffects === 0 && entity.chatEffect === 2) {
+                    if (this.chatEffects === 0 && entity.chatEffect === 4) {
                         this.chatWidth[this.chatCount] = 60;
+                    }
+
+                    if (this.chatEffects === 0 && entity.chatEffect === 5) {
+                        this.chatHeight[this.chatCount] += 5;
                     }
                 }
             }
@@ -7277,11 +7281,30 @@ export class Client extends GameShell {
                     this.b12?.centreStringWave(message, this.projectX, this.projectY + 1, Colour.BLACK, this.sceneCycle);
                     this.b12?.centreStringWave(message, this.projectX, this.projectY, colour, this.sceneCycle);
                 } else if (this.chatEffect[i] === 2) {
+                    this.b12?.centreStringWave2(message, this.projectX, this.projectY + 1, Colour.BLACK, this.sceneCycle);
+                    this.b12?.centreStringWave2(message, this.projectX, this.projectY, colour, this.sceneCycle);
+                } else if (this.chatEffect[i] === 3) {
+                    this.b12?.centreStringWave3(message, this.projectX, this.projectY + 1, Colour.BLACK, this.sceneCycle, 150 - this.chatTimer[i]);
+                    this.b12?.centreStringWave3(message, this.projectX, this.projectY, colour, this.sceneCycle, 150 - this.chatTimer[i]);
+                } else if (this.chatEffect[i] === 4) {
                     const w: number = this.b12?.stringWid(message) ?? 0;
                     const offsetX: number = ((150 - this.chatTimer[i]) * (w + 100)) / 150;
                     Pix2D.setClipping(this.projectX - 50, 0, this.projectX + 50, 334);
                     this.b12?.drawString(message, this.projectX + 50 - offsetX, this.projectY + 1, Colour.BLACK);
                     this.b12?.drawString(message, this.projectX + 50 - offsetX, this.projectY, colour);
+                    Pix2D.resetClipping();
+                } else if (this.chatEffect[i] === 5) {
+                    const delta: number = 150 - this.chatTimer[i];
+                    let offsetY: number = 0;
+                    if (delta < 25) {
+                        offsetY = delta - 25;
+                    } else if (delta > 125) {
+                        offsetY = delta - 125;
+                    }
+
+                    Pix2D.setClipping(0, this.projectY - (this.b12?.height ?? 0) - 1, 512, this.projectY + 5);
+                    this.b12?.centreString(message, this.projectX, this.projectY + offsetY + 1, Colour.BLACK);
+                    this.b12?.centreString(message, this.projectX, this.projectY + offsetY, colour);
                     Pix2D.resetClipping();
                 }
             }
@@ -8674,7 +8697,11 @@ export class Client extends GameShell {
 
                 if (this.localPlayer) {
                     IfType.list[comId].model1Type = 3;
-                    IfType.list[comId].model1Id = (this.localPlayer.appearance[8] << 6) + (this.localPlayer.appearance[0] << 12) + (this.localPlayer.colour[0] << 24) + (this.localPlayer.colour[4] << 18) + this.localPlayer.appearance[11];
+                    if (!this.localPlayer.transmog) {
+                        IfType.list[comId].model1Id = (this.localPlayer.colour[0] << 24) + (this.localPlayer.colour[4] << 18) + (this.localPlayer.appearance[0] << 12) + (this.localPlayer.appearance[8] << 6) + this.localPlayer.appearance[11];
+                    } else {
+                        IfType.list[comId].model1Id = (this.localPlayer.transmog.id + 305419896) | 0;
+                    }
                 }
 
                 this.ptype = -1;
@@ -8793,7 +8820,7 @@ export class Client extends GameShell {
                     throw new Error();
                 }
 
-                const size: number = this.in.g1();
+                const size: number = this.in.g2();
                 for (let i: number = 0; i < size; i++) {
                     inv.linkObjType[i] = this.in.g2();
 
@@ -8825,7 +8852,7 @@ export class Client extends GameShell {
                 }
 
                 while (this.in.pos < this.psize) {
-                    const slot: number = this.in.g1();
+                    const slot: number = this.in.gsmart();
                     const id: number = this.in.g2();
 
                     let count: number = this.in.g1();
@@ -11868,7 +11895,21 @@ export class Client extends GameShell {
             lastTypecode = typecode;
 
             if (entityType === 2 && this.world && this.world.typeCode2(this.minusedlevel, x, z, typecode) >= 0) {
-                const loc: LocType = LocType.list(typeId);
+                let loc: LocType = LocType.list(typeId);
+                if (loc.multiloc !== null) {
+                    const varbit = VarBitType.list[loc.multivarbit];
+                    const basevar = varbit.basevar;
+                    const startbit = varbit.startbit;
+                    const endbit = varbit.endbit;
+                    const mask = Client.readbit[endbit - startbit];
+                    const index = (this.var[basevar] >> startbit) & mask;
+
+                    if (index < 0 || index >= loc.multiloc.length || loc.multiloc[index] === -1) {
+                        continue;
+                    }
+
+                    loc = LocType.list(loc.multiloc[index]);
+                }
 
                 if (this.useMode === 1) {
                     this.menuOption[this.menuNumEntries] = 'Use ' + this.objSelectedName + ' with @cya@' + loc.name;
@@ -12164,6 +12205,14 @@ export class Client extends GameShell {
                 if (op.toLowerCase() === 'attack') {
                     if (player.combatLevel > this.localPlayer.combatLevel) {
                         priority = MiniMenuAction._PRIORITY;
+                    }
+
+                    if (this.localPlayer.team !== 0 && player.team !== 0) {
+                        if (this.localPlayer.team === player.team) {
+                            priority = MiniMenuAction._PRIORITY;
+                        } else {
+                            priority = 0;
+                        }
                     }
                 } else if (this.playerOpPriority[i]) {
                     priority = MiniMenuAction._PRIORITY;
@@ -13920,6 +13969,14 @@ export class Client extends GameShell {
                     if (userhash === this.friendUserhash[j] && this.friendNodeId[j] !== 0) {
                         friend = true;
                         break;
+                    }
+                }
+
+                if (this.localPlayer.team !== 0 && player.team !== 0) {
+                    if (this.localPlayer.team === player.team) {
+                        friend = true;
+                    } else {
+                        friend = false;
                     }
                 }
 

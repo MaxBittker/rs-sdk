@@ -1,5 +1,5 @@
 [label,consume_effect_antipoison]
-sound_synth(liquid, 0, 0);
+sound_synth(liquid, 1, 0);
 anim(human_eat, 0);
 def_obj $consumable = last_item;
 %poison = min(%poison,-5);
@@ -9,7 +9,7 @@ inv_setslot(inv, last_slot, oc_param($consumable, next_obj_stage), 1);
 ~consume_effect_messages($consumable, stat(hitpoints), false);
 
 [label,consume_effect_super_antipoison]
-sound_synth(liquid, 0, 0);
+sound_synth(liquid, 1, 0);
 anim(human_eat, 0);
 def_obj $consumable = last_item;
 %poison = min(%poison,-20);

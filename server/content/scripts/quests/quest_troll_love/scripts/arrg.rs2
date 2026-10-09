@@ -1,0 +1,129 @@
+[opnpc1,trollromance_arrg]
+if (%troll_love < ^troll_love_aga_wants_trollweiss) {
+    @trollromance_arrg_cheese_off;
+
+} else if (%troll_love > ^troll_love_started & %troll_love < ^troll_love_picked_trollweiss) {
+    @trollromance_arrg_talk;
+
+} else if (%troll_love > ^troll_love_waxed_sled & %troll_love < ^troll_love_dispose_of_arrg) {
+    @trollromance_arrg_cheese_off;
+
+} else if (%troll_love > ^troll_love_picked_trollweiss & %troll_love < ^troll_love_defeated_arrg) {
+    @trollromance_arrg_talk;
+
+} else if (%troll_love >= ^troll_love_defeated_arrg) {
+    ~chatnpc("<p,scared>Oh mighty man-warrior, please no hurt Arrg.");
+}
+
+[label,trollromance_arrg_cheese_off]
+~chatnpc("<p,angry>Aaaarrrrrghhh!");
+~chatplayer("<p,scared>O-oh, he seems cheesed off...");
+
+[label,trollromance_arrg_talk]
+def_int $choice;
+~chatnpc("<p,angry>Whaaaaaaaat?");
+~chatplayer("<p,neutral>Ehh, Excuse me... Mr. Troll, sir,");
+
+if (%troll_love < ^troll_love_picked_trollweiss) {
+    $choice = ~p_choice3("How did you grow so big and strong?", 1, "Your girlfriend said you know where to find Trollweiss?", 2, "I've got to go.", 3);
+} else {
+    $choice = ~p_choice3("I am here to kill you!", 4, "Aga deserves better than you.", 5, "I've got to go.", 6);
+}
+
+if ($choice = 1) {
+    ~chatplayer("<p,neutral>How did you grow so big and strong?");
+    ~chatnpc("<p,angry>Get away from Arrg, puny man-maggot. Or you lunch!");
+} else if ($choice = 2) {
+    ~chatplayer("<p,neutral>Your girlfriend said you know where to find Trollweiss?");
+    ~chatnpc("<p,neutral>Girlfriend? Which one?");
+    ~chatplayer("<p,neutral>Errr... Aga.");
+    ~chatnpc("<p,happy>Yes, she good cook and wash but talk too many. Arrg strong troll, Arrg mighty troll, Arrg have many girlfriends!");
+    ~chatplayer("<p,neutral>(What a jerk!)");
+    ~chatplayer("<p,neutral>Yes, yes, you're great, but what about the Trollweiss?");
+    ~chatnpc("<p,neutral>I no know, I just say to make Aga shut up!");
+    ~chatplayer("<p,neutral>So you don't actually know where to find the Trollweiss?");
+    ~chatplayer("<p,neutral>Great...");
+} else if ($choice = 3) {
+    ~chatplayer("<p,neutral>I've got to go.");
+} else if ($choice = 4) {
+    ~chatplayer("<p,neutral>I am here to kill you!");
+    ~chatnpc("<p,happy>Very good, Arrg was getting hungry.");
+    ~chatplayer("<p,neutral>But not in front of the lady, let's take it outside.");
+    @trollromance_arrg_combat;
+} else if ($choice = 5) {
+    ~chatplayer("<p,neutral>Aga deserves better than you.");
+    ~chatnpc("<p,neutral>What you mean? Arrg strong troll, Arrg mighty troll. Every troll woman want Arrg.");
+    ~chatplayer("<p,neutral>But you don't love her!");
+    ~chatnpc("<p,angry>This concept of 'love' confuses and infuriates Arrg.");
+    ~chatplayer("<p,neutral>Looks like I'm going to have to teach you a lesson in 'love'.");
+    ~chatplayer("<p,neutral>But not in front of the lady, let's take it outside.");
+    @trollromance_arrg_combat;
+} else if ($choice = 6) {
+    ~chatplayer("<p,neutral>I've got to go.");
+}
+
+[label,trollromance_arrg_combat]
+p_teleport(map_findsquare(0_45_56_34_27, 1, 2, ^map_findsquare_lineofwalk));
+npc_add(movecoord(coord, -4, 0, 0), trollromance_arrg_attackable, 500);
+npc_facesquare(coord);
+npc_setmode(opplayer2);
+hint_stop;
+hint_npc;
+if_close;
+
+[opnpc2,trollromance_arrg_attackable]
+npc_setmode(opplayer2);
+@player_combat_start;
+
+[apnpc2,trollromance_arrg_attackable]
+npc_setmode(opplayer2);
+@player_combat_start_ap;
+
+[ai_opplayer2,trollromance_arrg_attackable]
+def_int $style = random(2);
+
+if ($style = 0) {
+    ~trollromance_arrg_ranged_attack;
+} else {
+    ~npc_default_attack;
+}
+
+[ai_queue3,trollromance_arrg_attackable]
+npc_say("Arrg!");
+~troll_drop_table;
+if (npc_findhero = ^true & %npc_aggressive_player = uid)  {
+    queue(trollromance_arrg_death, 0, 0);
+}
+
+[proc,trollromance_arrg_ranged_attack]
+if (%npc_action_delay > map_clock) {
+    npc_setmode(opplayer2);
+    return;
+}
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+def_int $attack_roll = ~npc_ranged_attack_roll;
+def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
+def_int $maxhit = ~npc_ranged_maxhit;
+
+npc_anim(troll_rock_throw_lefthand, 0);
+sound_synth(npc_param(rangeattack_sound), 1, 0);
+
+%npc_action_delay = add(map_clock, npc_param(attackrate));
+def_int $duration = 64;
+$duration = ~player_projectile(npc_coord, coord, uid, npc_param(proj_travel), 36, 36, 31, 8, 15, 128, 1);
+
+if (randominc($attack_roll) > randominc($defence_roll)) {
+    ~playerhit_n_ranged(true, randominc($maxhit), $duration, npc_param(attackrate));
+    ~npc_poison_player;
+    return;
+}
+~playerhit_n_ranged(true, 0, $duration, npc_param(attackrate));
+
+[queue,trollromance_arrg_death]
+if (%troll_love = ^troll_love_dispose_of_arrg) %troll_love = ^troll_love_defeated_arrg;

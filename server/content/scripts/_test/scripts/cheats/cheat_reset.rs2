@@ -15,7 +15,7 @@ if (p_finduid(uid) = true) {
     p_teleport(0_48_48_22_35);
 
     ~reset_all_quests;
-    %thieving_stall_timer = 0;
+    %marketthief = 0;
     %cat_growth = 0;
     %follower_obj = null;
     %follower_uid = null;

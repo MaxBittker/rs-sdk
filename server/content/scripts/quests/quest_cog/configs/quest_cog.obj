@@ -1,7 +1,7 @@
 [whitecog]
 name=Cog
 desc=A cog from some machinery.
-model=model_2351_obj
+model=inv_cog
 members=yes
 2dyan=2040
 2dxan=292
@@ -12,7 +12,7 @@ tradeable=no
 [blackcog]
 name=Cog
 desc=A cog from some machinery.
-model=model_2351_obj
+model=inv_cog
 recol1s=32767
 recol1d=0
 members=yes
@@ -25,7 +25,7 @@ tradeable=no
 [bluecog]
 name=Cog
 desc=A cog from some machinery.
-model=model_2351_obj
+model=inv_cog
 recol1s=32767
 recol1d=31
 members=yes
@@ -38,7 +38,7 @@ tradeable=no
 [redcog]
 name=Cog
 desc=A cog from some machinery.
-model=model_2351_obj
+model=inv_cog
 recol1s=32767
 recol1d=30753
 members=yes
@@ -51,7 +51,7 @@ tradeable=no
 [rat_poison]
 name=Rat poison
 desc=Doesn't look very tasty.
-model=model_2714_obj
+model=inv_poison
 members=yes
 2dzoom=900
 2dyan=1828

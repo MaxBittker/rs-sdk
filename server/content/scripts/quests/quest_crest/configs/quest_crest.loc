@@ -2,49 +2,49 @@
 [leverg]
 name=Lever
 desc=This lever is down.
-model=model_loc_33
+model=walldecor_leverdown
 active=yes
 op1=Pull
 
 [leverg2]
 name=Lever
 desc=This lever is up.
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 
 [leverh]
 name=Lever
 desc=This lever is down.
-model=model_loc_33
+model=walldecor_leverdown
 active=yes
 op1=Pull
 
 [leverh2]
 name=Lever
 desc=This lever is up.
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 
 [leveri]
 name=Lever
 desc=This lever is down.
-model=model_loc_33
+model=walldecor_leverdown
 active=yes
 op1=Pull
 
 [leveri2]
 name=Lever
 desc=This lever is up.
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 
 [famcrest_doorh2]
 name=Door
 desc=This door is closed by an unknown mechanism.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -55,7 +55,7 @@ recol2d=11458
 [famcrest_doorh2i2]
 name=Door
 desc=This door is closed by an unknown mechanism.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -66,7 +66,7 @@ recol2d=11458
 [famcrest_doorg2h1]
 name=Door
 desc=This door is closed by an unknown mechanism.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -77,7 +77,7 @@ recol2d=11458
 [famcrest_doori2h1]
 name=Door
 desc=This door is closed by an unknown mechanism.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -88,7 +88,7 @@ recol2d=11458
 [famcrest_doorh2g1]
 name=Door
 desc=This door is closed by an unknown mechanism.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -102,7 +102,7 @@ recol2d=11458
 [chronodoorl]
 name=Gate
 desc=This gate is closed shut.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 active=yes
 op1=Open
 retex1s=wall
@@ -116,7 +116,7 @@ param=open_sound,grate_open
 [chronodoorr]
 name=Gate
 desc=This gate is closed shut.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 active=yes
 op1=Open
 mirror=yes

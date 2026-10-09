@@ -117,7 +117,7 @@ if(loc_find(coord, agilityarena_floorspikes) = true) {
     if(stat_random(agility, 60, 250) = false | stat(agility) < 20) {
         if(stat(agility) < 20) mes("You need an agility level of at least 20 to get past this trap!");
         mes("You were hit by some floor spikes!");
-        sound_synth(floor_spikes, 0, 0);
+        sound_synth(floor_spikes, 1, 0);
         loc_anim(agilityarena_floorspikes_activate);
         if(.loc_find(movecoord(coord, 1, 0, 0), agilityarena_floorspikes) = true) {
             ~agility_exactmove(agilityarena_player_spikedback, 11, 1, coord, movecoord(coord, -1, 0, 0), 30, 60, ^exact_east, false);
@@ -141,7 +141,7 @@ if(loc_find(coord, agilityarena_floorspikes) = true) {
         ~agility_exactmove(agilityarena_dive_player, 20, 0, coord, movecoord(coord, 0, 0, -2), 30, 49, ^exact_south, false);
     }
     loc_anim(agilityarena_floorspikes_activate);
-    sound_synth(floor_spikes_avoid, 0, 0);
+    sound_synth(floor_spikes_avoid, 1, 0);
     p_delay(0);
     stat_advance(agility, 240);
 }
@@ -154,7 +154,7 @@ if(loc_find(coord, agilityarena_pressurepad) = true) {
     if(stat_random(agility, 40, 230) = false | stat(agility) < 20) {
         if(stat(agility) < 20) mes("You need an agility level of at least 20 to get past this trap!");
         mes("You were hit by some falling rocks!");
-        sound_synth(roof_collapse, 0, 0);
+        sound_synth(roof_collapse, 1, 0);
         spotanim_map(agilityarena_roofcollapse, loc_coord, 0, 0);
         if(.loc_find(movecoord(coord, 1, 0, 0), agilityarena_pressurepad) = true) {
             ~agility_exactmove(agilityarena_roofcollapse_hitandstumble, 0, 0, coord, movecoord(coord, -1, 0, 0), 34, 60, ^exact_east, false);
@@ -165,7 +165,7 @@ if(loc_find(coord, agilityarena_pressurepad) = true) {
         } else  {
             ~agility_exactmove(agilityarena_roofcollapse_hitandstumble, 0, 0, coord, movecoord(coord, 0, 0, 1), 34, 60, ^exact_south, false);
         }
-        sound_synth(roof_collapse2, 0, 0);
+        sound_synth(roof_collapse2, 1, 0);
         spotanim_map(agilityarena_roofcollapse, loc_coord, 0, 0);
         p_delay(0);
         ~damage_self(calc((stat(hitpoints) * 5 / 100) + 2));
@@ -181,7 +181,7 @@ if(loc_find(coord, agilityarena_pressurepad) = true) {
         ~agility_exactmove(agilityarena_dive_player, 20, 0, coord, movecoord(coord, 0, 0, -2), 30, 49, ^exact_south, false);
     }
     spotanim_map(agilityarena_roofcollapse, loc_coord, 0, 20);
-    sound_synth(collapse_avoid, 0, 0);
+    sound_synth(collapse_avoid, 1, 0);
     p_delay(0);
     stat_advance(agility, 260);
 }
@@ -216,7 +216,7 @@ if((inzone(3_43_149_25_43, 3_43_149_27_43, coord) = true | inzone(3_43_149_31_37
         }
         mes("You were hit by the spinning blades!");
         loc_anim(agilityarena_sawblades_twist);
-        sound_synth(blade_hit, 0, 0);
+        sound_synth(blade_hit, 1, 0);
         p_delay(0);
         ~damage_self(calc((stat(hitpoints) * 5 / 100) + 2));
         return;
@@ -231,7 +231,7 @@ if((inzone(3_43_149_25_43, 3_43_149_27_43, coord) = true | inzone(3_43_149_31_37
         else ~agility_exactmove(agilityarena_dive_player, 20, 0, coord, movecoord(loc_coord, 3, 0, -1), 30, 49, ^exact_east, false);
     }
     loc_anim(agilityarena_sawblades_twist);
-    sound_synth(land_flat, 0, 30);
+    sound_synth(land_flat, 1, 30);
     p_delay(0);
     stat_advance(agility, 280);
 }
@@ -264,7 +264,7 @@ if(coord = 3_43_149_42_38 | coord = 3_43_149_42_37 | coord = 3_43_149_37_21 | co
     $pillar_coord, $cam2, $cam3, $dart_target, $dest, $fail, $dir = ~get_poisondart_vals(coord);
     if(stat_random(agility, 20, 190) = false | stat(agility) < 40) {
         if(stat(agility) < 40) mes("You need an agility level of at least 40 to get past this trap!");
-        sound_synth(dart_fire_hit, 0, 0);
+        sound_synth(dart_fire_hit, 1, 0);
         ~coord_projectile($pillar_coord, coord, bullettime_dart, 0, 10, 0, 2, 25, 40, 0);
         ~agility_exactmove(agilityarena_player_spikedback, 25, 0, coord, $fail, 44, 74, $dir, false);
         mes("You were hit by some darts, something on them makes you feel dizzy!");
@@ -272,7 +272,7 @@ if(coord = 3_43_149_42_38 | coord = 3_43_149_42_37 | coord = 3_43_149_37_21 | co
         ~damage_self(calc((stat(hitpoints) * 5 / 100) + 2));
         return;
     }
-    sound_synth(dart_fire_avoid, 0, 0);
+    sound_synth(dart_fire_avoid, 1, 0);
     cam_lookat(coord, 100, 100, 100);
     cam_moveto($cam2, 400, 232, 232);
     p_delay(0);

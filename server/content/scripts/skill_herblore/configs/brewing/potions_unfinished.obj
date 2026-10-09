@@ -1,10 +1,8 @@
-// guessed name
-
 [guamvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Guam potion.
 cost=3
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=19191
 2dyof=-1
@@ -15,13 +13,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [marrentillvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Marrentill potion.
 cost=5
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=23158
 2dyof=-1
@@ -32,13 +29,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [tarrominvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Tarromin potion.
 cost=11
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=23251
 2dyof=-1
@@ -49,13 +45,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [harralandervial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Harralander potion.
 cost=20
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=23155
 2dyof=-1
@@ -66,13 +61,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [ranarrvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Ranarr potion.
 cost=25
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=19186
 2dyof=-1
@@ -83,13 +77,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [iritvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Irit potion.
 cost=40
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=21147
 2dyof=-1
@@ -100,13 +93,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [avantoevial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Avantoe potion.
 cost=48
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=20083
 2dyof=-1
@@ -117,13 +109,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [kwuarmvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Kwuarm potion.
 cost=54
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=23254
 2dyof=-1
@@ -134,13 +125,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [cadantinevial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Cadantine potion.
 cost=65
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=26324
 2dyof=-1
@@ -151,13 +141,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [dwarfweedvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Dwarf Weed potion.
 cost=70
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=20186
 2dyof=-1
@@ -168,13 +157,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [torstolvial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Torstol potion.
 cost=25
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=29427
 2dyof=-1
@@ -185,13 +173,12 @@ weight=2oz
 category=potion
 members=yes
 iop4=Empty
-// guessed name
 
 [lantadymevial]
 name=Unfinished potion
 desc=I need another ingredient to finish this Lantadyme potion.
 cost=68
-model=model_2697_obj
+model=inv_vial3dose
 recol1s=15855
 recol1d=26324
 2dyof=-1
@@ -209,7 +196,7 @@ recol1s=15855
 recol1d=12681
 desc=I need another ingredient to finish this Toadflax potion.
 cost=48
-model=model_2697_obj
+model=inv_vial3dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -225,7 +212,7 @@ recol1s=15855
 recol1d=21956
 desc=I need another ingredient to finish this Snapdragon potion.
 cost=59
-model=model_2697_obj
+model=inv_vial3dose
 2dyof=-1
 2dzoom=550
 2dyan=1996

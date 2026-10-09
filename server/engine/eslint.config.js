@@ -32,6 +32,9 @@ export default [
             quotes: ['error', 'single', { avoidEscape: true }],
             semi: ['error', 'always'],
 
+            // todo: re-enable later (cleaner code)
+            'no-useless-assignment': 'off',
+
             /**
              * https://eslint.org/docs/latest/rules/no-constant-condition#checkloops
              *

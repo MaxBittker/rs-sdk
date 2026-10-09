@@ -1,6 +1,6 @@
 [proc,macro_mysterious_old_man_spawn](int $random_old_man_event)
 spotanim_map(smokepuff, npc_coord, 124, 0);
-sound_synth(smokepuff, 0, 0);
+sound_synth(smokepuff, 1, 0);
 // to match genie in this video: https://www.youtube.com/watch?v=el-h9hbSH80&t=293s
 npc_setmode(playerfollow);
 
@@ -46,7 +46,7 @@ switch_int ($random_old_man_event) {
 
 // warnings https://youtu.be/Ai89wqupYqA
 // https://youtu.be/HpmsgVshwxg?t=267
-[ai_timer,macro_mysterious_old_man]
+[ai_timer,macro_mage]
 if (~macro_event_lost = true) {
     // only confirmed for mysterious old man https://youtu.be/HwGAzcmvF9k?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
     npc_queue(5, 0, 0);
@@ -76,18 +76,18 @@ if (finduid(%npc_macro_event_target) = true) {
     %npc_int = add(%npc_int, 1);
 }
 
-[ai_queue5,macro_mysterious_old_man] // despawn
+[ai_queue5,macro_mage] // despawn
 npc_anim(emote_cry, 20);
 npc_say("I lose more friends that way.");
 npc_delay(2);
 ~macro_event_disappear;
 
-[ai_queue6,macro_mysterious_old_man] // say goodbye to player
+[ai_queue6,macro_mage] // say goodbye to player
 npc_anim(emote_wave, 20);
 npc_delay(2);
 ~macro_event_disappear;
 
-[opnpc1,macro_mysterious_old_man]
+[opnpc1,macro_mage]
 if (uid ! %npc_macro_event_target) {
     // https://youtu.be/U_TRFGTfIY0?t=276
     // no comma and 'ignorning' is authentic

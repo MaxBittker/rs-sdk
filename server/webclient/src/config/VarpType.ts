@@ -53,6 +53,10 @@ export default class VarpType {
                 dat.gjstr();
             } else if (code === 11) {
                 // server-side
+            } else if (code === 12) {
+                dat.pos += 4;
+            } else if (code === 13) {
+                // server-side
             } else {
                 console.log('Error unrecognised config code: ', code);
             }

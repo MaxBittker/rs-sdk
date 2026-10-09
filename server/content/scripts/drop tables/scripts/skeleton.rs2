@@ -1,5 +1,5 @@
-[ai_queue3,skeleton_unagressive] @skeleton_unarmed;
 [ai_queue3,skeleton_unarmed] @skeleton_unarmed;
+[ai_queue3,skeleton_unagressive] @skeleton_unarmed;
 
 [label,skeleton_unarmed]
 gosub(npc_death);

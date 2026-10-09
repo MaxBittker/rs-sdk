@@ -21,7 +21,7 @@ if(npc_find(coord, guidors_wife, 5, 0) = true) {
     ~chatplayer("<p,neutral>A priest? Hmmm...");
 }
 
-[oploc1,loc_2067]
+[oploc1,biowatchtower]
 if(npc_find(coord, mournerwatchtower, 5, 0) = true) {
     // https://youtu.be/_ZNalEQB70o?si=0Dlqc2ZXalgpWD7H&t=270
     ~chatnpc("<p,neutral>Keep away civilian.");
@@ -29,7 +29,7 @@ if(npc_find(coord, mournerwatchtower, 5, 0) = true) {
     ~chatnpc("<p,neutral>This tower's here for your protection.");
 }
 
-[oplocu,loc_2067]
+[oplocu,biowatchtower]
 if(%biohazard = ^biohazard_spoken_jerico & last_useitem = birdfeed) {
     // https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard8.PNG
     inv_del(inv, birdfeed, 1);
@@ -92,7 +92,7 @@ p_delay(3); // 4t
 p_teleport($dest);
 mes("and drop down on the other side.");
 
-[oplocu,loc_2043]
+[oplocu,mournercauldron]
 if(last_useitem = rottenapples) {
     mes("You place the rotten apple in the pot...");
     inv_del(inv, rottenapples, 1);

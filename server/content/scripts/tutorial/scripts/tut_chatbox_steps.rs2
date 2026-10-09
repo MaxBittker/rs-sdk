@@ -120,7 +120,8 @@ if (p_finduid(uid) = true) {
 
 [proc,tutorial_step_enter_newbie_quest_instructor_house]
 hint_coord(^hint_south, 0_48_48_14_54, 150);
-~tutorialstep("Run to the next guide.", "Now that you have run turned on follow the path, until you|come to the end. You may notice that your energy left goes|down. If this reaches zero you'll stop running. Click on the door|to pass through it.");
+// https://i.imgur.com/N6U6KGj.png
+~tutorialstep("Run to the next guide.", "Now that you have run turned on follow the path,|until you come to the end. You may notice that your|energy left goes down. If this reaches zero you'll stop running.|Click on the door to pass through it.");
 
 [proc,tutorial_step_talk_to_newbie_quest_instructor]
 ~set_hint_icon_newbie_quest_instructor;
@@ -143,7 +144,8 @@ hint_coord(^hint_center, 0_48_48_16_47, 0);
 
 [proc,tutorial_step_talk_to_newbie_mining_instructor]
 ~set_hint_icon_newbie_mining_instructor;
-~tutorialstep("Mining and smithing.", "Next let's get you a weapon, or more to the point, you can|make your first weapon yourself. Don't panic, the mining|instructor will help you. Talk to him and he'll tell you all about it.");
+// https://i.imgur.com/eiUVQyy.png
+~tutorialstep("Mining and smithing.", "Next let's get you a weapon, or more to the point,|you can make your first weapon yourself.|Don't panic, the mining instructor will help you.|Talk to him and he'll tell you all about it.");
 
 [proc,tutorial_please_wait_prospecting]
 ~tutorialstep("Please wait...", "|Your character is now attempting to prospect the rock. This should take only a few seconds.");
@@ -231,7 +233,8 @@ if_settab(wornitems, ^tab_wornitems);
 tut_flash(^tab_wornitems);
 
 [proc,tutorial_step_worn_inventory]
-~tutorialstep("This is your worn inventory.", "From here you can see what items you have equipped. Let's|get one of those slots filled, go back to your inventory and |right click your dagger, select wield from the menu.");
+// https://i.imgur.com/jXg2Nz1.png
+~tutorialstep("This is your worn inventory.", "From here you can see what items you have equipped.|Let's get one of those slots filled, go back to your inventory|and right click your dagger, select wield from the menu.");
 
 [proc,tutorial_step_dagger_equipped]
 ~set_hint_icon_newbie_combat_instructor;
@@ -256,7 +259,8 @@ hint_stop();
 ~tutorialstep("Attacking.", "|To attack the rat right click it and select the attack option. You will then walk over to it and start hitting it.");
 
 [proc,tutorial_step_sit_back_and_watch_melee]
-~tutorialstep("Sit back and watch.", "While you are fighting you will see a bar over your head. The|bar shows how much health you have left. Your opponent will have one too. You will continue to attack the rat unti it's dead|or you do something else.");
+// https://i.imgur.com/BjjyjQK.png
+~tutorialstep("Sit back and watch.", "While you are fighting you will see a bar over your head.|The bar shows how much health you have left. Your opponent|will have one too. You will continue to|attack the rat until it's dead or you do something else.");
 
 [proc,tutorial_step_first_kill_melee]
 ~set_hint_icon_newbie_combat_instructor;
@@ -288,7 +292,8 @@ hint_coord(^hint_east, 0_48_48_57_52, 150);
 
 [proc,tutorial_to_the_chapel]
 ~set_hint_icon_brother_noob;
-~tutorialstep("", "Follow the path to the chapel and enter it.|Once inside talk to the monk. He'll tell you all about prayer.");
+// https://i.imgur.com/jWAjH0f.png
+~tutorialstep("", "Follow the path to the chapel and enter it.|Once inside talk to the monk.|He'll tell you all about prayer.");
 
 [proc,tutorial_your_prayer_menu]
 hint_stop();
@@ -321,7 +326,8 @@ hint_coord(^hint_north, 0_48_48_50_30, 125);
 
 [proc,tutorial_your_final_instructor_2]
 ~set_hint_icon_newbie_magic_instructor;
-~tutorialstep("Your final instructor!", "Just follow the path to the wizards house, where you will be shown how to cast spells. Just talk with the mage indicated to find out more.");
+// https://i.imgur.com/e6iOtDj.png
+~tutorialstep("Your final instructor!", "Just follow the path to the wizards house,|where you will be shown how to cast spells.|Just talk with the mage indicated to find out more.");
 
 [proc,tutorial_open_your_final_menu]
 tut_flash(^tab_magic);

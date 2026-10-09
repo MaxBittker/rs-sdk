@@ -28,6 +28,10 @@ if (p_finduid(uid) = true) {
         mes("gnomeball pitch");
         return;
     }
+    if (~wearpos_conflicts($obj, castlewars_cloak_saradomin) = true & (~in_castlewars_game(coord) = true | ~in_castlewars_waitingroom(coord) = true)) {
+        mes("You can't remove your team's colours.");
+        return;
+    }
     def_obj $previous = inv_getobj(worn, ^wearpos_rhand);
     if (~try_equip($slot) = false) {
         mes("You don't have enough free space to do that.");
@@ -47,12 +51,16 @@ if (p_finduid(uid) = true) {
         inv_delslot(worn, ^wearpos_lhand);
         buildappearance(worn);
         spotanim_pl(elemental_shield_equip, 92, 0);
-        sound_synth(shield_appear, 0, 0);
+        sound_synth(shield_appear, 1, 0);
         p_delay(0);
         inv_setslot(worn, ^wearpos_lhand, elemental_shield, 1);
     } else if($obj = ibanstaff) {
         // https://youtu.be/n_ip_vEDbCA?si=0uESoOC98Fvl7HqS&t=2333
         mes("You equip the staff of Iban.");
+    } else if(oc_category($obj) = mm_greegree) {
+        spotanim_pl(windwave_impact, 124, 0);
+        anim(null, 0);
+        sound_synth(oc_param($obj, transform_sound), 0, 0);
     }
 
     ~update_all($previous);
@@ -68,20 +76,44 @@ if (p_finduid(uid) = true) {
         mes("You feel it would be cheating to put the ball in your pack whilst on the pitch.");
         return;
     }
+    if (($obj = castlewars_cloak_zamorak | $obj = castlewars_cloak_saradomin) & (~in_castlewars_game(coord) = true | ~in_castlewars_waitingroom(coord) = true)) {
+        mes("You can't remove your team's colours.");
+        return;
+    }
     def_int $count = inv_getnum(worn, $slot);
     def_int $overflow = inv_itemspace2(inv, $obj, $count, inv_size(inv));
     if ($overflow >= $count) {
         mes("You don't have enough free space to do that.");
         return;
     }
-    if($obj = elemental_shield) {
-        sound_synth(shield_appear, 0, 0);
-    }
-    if (oc_param($obj, specwep) = ^true) {
-        %sa_attack = ^false;
-    }
     inv_moveitem(worn, inv, $obj, sub($count, $overflow));
-    ~update_all($obj);
+    ~unequip_effect($obj, ^true);
+}
+
+[proc,unequip_effect](obj $obj, int $update_all)
+if($obj = elemental_shield & inv_getobj(worn, ^wearpos_lhand) = null) {
+    sound_synth(shield_appear, 1, 0);
+}
+if (oc_param($obj, specwep) = ^true) {
+    %sa_attack = ^false;
+}
+if(oc_category($obj) = mm_greegree) {
+    p_transmogrify(null);
+    cleartimer(mm_greegree_timer);
+    p_animprotect(^false);
+    spotanim_pl(windwave_impact, 124, 0);
+    sound_synth(oc_param($obj, revert_sound), 0, 0);
+    if_settab(magic, ^tab_magic);
+}
+if($obj = trollromance_toboggon_waxed) {
+    %wearing_sled = ^false;
+}
+if($obj = mm_sigil) {
+    cleartimer(teleport_mm_sigil);
+}
+if($update_all = ^true) ~update_all($obj);
+if ($obj = castlewars_saradomin_banner | $obj = castlewars_zamorak_banner) {
+    ~castlewars_flag_drop(inv, $obj);
 }
 
 // used for duel arena, no weapon/no armour
@@ -361,13 +393,16 @@ if (~unequip_conflicts_space($equip_obj) = false) { // check if enough space
     return(false);
 }
 
+def_obj $previous_equip = inv_getobj(worn, $worn_slot);
 inv_movetoslot(inv, worn, $inv_slot, $worn_slot); // equip item! this performs a swap
+
 if (inv_getobj(inv, $inv_slot) ! null) {
     // presumably, they added this as an easy way for stackable objs to stack in the inv (instead of directly swapping)
     // seems like in late 2006 they removed this line of code and it produced this bug: https://youtu.be/EYXp7GMFWEw, https://youtu.be/DwzDt3yw6k4
     inv_movefromslot(inv, inv, $inv_slot); // moves item to the first available slot in the inv...
 }
 ~unequip_conflicts($equip_obj);
+if($previous_equip ! null) ~unequip_effect($previous_equip, ^false);
 
 return(true);
 
@@ -405,11 +440,10 @@ while ($i < inv_size(worn)) {
     def_obj $worn_obj = inv_getobj(worn, $i);
     def_int $worn_num = inv_getnum(worn, $i);
     if ($worn_obj ! null & ~wearpos_conflicts($equip_obj, $worn_obj) = true) {
-        if (oc_param($worn_obj, specwep) = ^true) {
-            %sa_attack = ^false;
-        }
         if ($worn_obj ! $equip_obj) { // skip the obj we just equipped
             inv_moveitem(worn, inv, $worn_obj, $worn_num);
+            // run unequip effects on the conflicted obj
+            ~unequip_effect($worn_obj, ^false);
         }
     }
     $i = add($i, 1);
@@ -424,10 +458,17 @@ if(inv_total(worn, ikov_bootsoflightness) > 0 & map_members = ^true) { // conver
     inv_setslot(worn, ^wearpos_feet, ikov_bootsoflightness, 1);
 }
 
+def_int $count;
 if(inv_total(inv, ikov_bootsoflightnessworn) > 0) {
-    def_int $count = inv_total(inv, ikov_bootsoflightnessworn); // shouldnt ever be above 1?
+    $count = inv_total(inv, ikov_bootsoflightnessworn); // shouldnt ever be above 1?
     inv_del(inv, ikov_bootsoflightnessworn, $count); // should use inv_changeslot probably
     inv_add(inv, ikov_bootsoflightness, $count);
+}
+
+if(inv_total(bank, ikov_bootsoflightnessworn) > 0) {
+    $count = inv_total(bank, ikov_bootsoflightnessworn);
+    inv_del(bank, ikov_bootsoflightnessworn, $count);
+    inv_add(bank, ikov_bootsoflightness, $count);
 }
 
 // checks if two weapons have the same wearpos

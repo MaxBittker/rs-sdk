@@ -1,6 +1,6 @@
 [proc,macro_dwarf_spawn] // greet player
 // no smoke puff: https://youtu.be/R9eKmC7oLy0?t=122
-sound_synth(dwarf_whistle, 0, 0);
+sound_synth(dwarf_whistle, 1, 0);
 npc_anim(dwarf_drunkwave, 20);
 npc_say("'Ello der <displayname>! *hic*");
 %npc_macro_event_target = uid;
@@ -24,18 +24,18 @@ if (~macro_event_lost = true) {
 if (finduid(%npc_macro_event_target) = true) {
     if (%npc_int = 0) {
         npc_anim(dwarf_drunkangry, 20);
-        sound_synth(dwarf_whistle, 0, 0);
+        sound_synth(dwarf_whistle, 1, 0);
         npc_say("Aww comeon, talk to ikle me <displayname>!");
     } else if (%npc_int = 1) {
         npc_anim(dwarf_drunkwave, 20);
-        sound_synth(dwarf_whistle, 0, 0);
+        sound_synth(dwarf_whistle, 1, 0);
         npc_say("Oi, are you der <displayname>!");
     } else if (%npc_int = 2) {
-        sound_synth(dwarf_whistle, 0, 0);
+        sound_synth(dwarf_whistle, 1, 0);
         npc_say("Dunt ignore your mate, <displayname>!");
     } else if (%npc_int = 3) {
         npc_anim(dwarf_drunkangry, 20);
-        sound_synth(dwarf_whistle, 0, 0);
+        sound_synth(dwarf_whistle, 1, 0);
         npc_say("I hates yoo <displayname>!");
     } else if (%npc_int = 4) { // fail
         // todo: figure out the message that goes here
@@ -91,7 +91,7 @@ if (~npc_check_notcombat_self = false) {
 npc_anim(npc_param(attack_anim), 20);
 %npc_action_delay = add(map_clock, npc_param(attackrate));
 ~player_projectile(npc_coord, coord, uid, dwarf_stone_throw_launch, 45, 40, 51, 25, 5, 11, 5);
-sound_synth(npc_param(attack_sound), 0, 0);
+sound_synth(npc_param(attack_sound), 1, 0);
 
 ~npc_set_attack_vars;
 

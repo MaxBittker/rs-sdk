@@ -28,12 +28,12 @@ if ($item = null) {
 
 [label,cut_kharidian_cactus](obj $item)
 if ($item = knife) {
-    anim(human_knife_slash, 0);
+    anim(human_knife_chop, 0);
 } else {
     anim(oc_param($item, slashattack_anim), 0);
 }
-sound_synth(hacksword_slash, 0, 15);
-sound_synth(liquid, 0, 0);
+sound_synth(hacksword_slash, 1, 15);
+sound_synth(liquid, 1, 0);
 
 if (stat_random(woodcutting, 30, 253) = true) {
     if (inv_total(inv, water_skin0) > 0 | inv_total(inv, water_skin1) > 0 | inv_total(inv, water_skin2) > 0 | inv_total(inv, water_skin3) > 0) {

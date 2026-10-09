@@ -9,7 +9,7 @@ import { EntityLifeCycle } from '#/engine/entity/EntityLifeCycle.js';
 import Loc from '#/engine/entity/Loc.js';
 import { LocIterator } from '#/engine/script/ScriptIterators.js';
 import { ScriptOpcode } from '#/engine/script/ScriptOpcode.js';
-import { ActiveLoc, checkedHandler } from '#/engine/script/ScriptPointer.js';
+import { ActiveLoc } from '#/engine/script/ScriptPointer.js';
 import { CommandHandlers } from '#/engine/script/ScriptRunner.js';
 import { check, CoordValid, DurationValid, LocAngleValid, LocShapeValid, LocTypeValid, ParamTypeValid, SeqTypeValid } from '#/engine/script/ScriptValidators.js';
 import World from '#/engine/World.js';
@@ -42,39 +42,39 @@ const LocOps: CommandHandlers = {
         state.pointerAdd(ActiveLoc[state.intOperand]);
     },
 
-    [ScriptOpcode.LOC_ANGLE]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_ANGLE]: state => {
         state.pushInt(check(state.activeLoc.angle, LocAngleValid));
-    }),
+    },
 
     // https://x.com/JagexAsh/status/1773801749175812307
-    [ScriptOpcode.LOC_ANIM]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_ANIM]: state => {
         const seqType: SeqType = check(state.popInt(), SeqTypeValid);
 
         World.animLoc(state.activeLoc, seqType.id);
-    }),
+    },
 
-    [ScriptOpcode.LOC_CATEGORY]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_CATEGORY]: state => {
         state.pushInt(check(state.activeLoc.type, LocTypeValid).category);
-    }),
+    },
 
-    [ScriptOpcode.LOC_CHANGE]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_CHANGE]: state => {
         const [id, duration] = state.popInts(2);
 
         check(duration, DurationValid);
         check(id, LocTypeValid);
 
         World.changeLoc(state.activeLoc, id, state.activeLoc.shape, state.activeLoc.angle, duration);
-    }),
+    },
 
-    [ScriptOpcode.LOC_COORD]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_COORD]: state => {
         const coord: CoordGrid = state.activeLoc;
         state.pushInt(CoordGrid.packCoord(coord.level, coord.x, coord.z));
-    }),
+    },
 
-    [ScriptOpcode.LOC_DEL]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_DEL]: state => {
         const duration: number = check(state.popInt(), DurationValid);
         World.removeLoc(state.activeLoc, duration);
-    }),
+    },
 
     [ScriptOpcode.LOC_FIND]: state => {
         const [coord, locId] = state.popInts(2);
@@ -111,7 +111,7 @@ const LocOps: CommandHandlers = {
         state.pushInt(1);
     },
 
-    [ScriptOpcode.LOC_PARAM]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_PARAM]: state => {
         const paramType: ParamType = check(state.popInt(), ParamTypeValid);
 
         const locType: LocType = check(state.activeLoc.type, LocTypeValid);
@@ -120,19 +120,19 @@ const LocOps: CommandHandlers = {
         } else {
             state.pushInt(ParamHelper.getIntParam(paramType.id, locType, paramType.defaultInt));
         }
-    }),
+    },
 
-    [ScriptOpcode.LOC_TYPE]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_TYPE]: state => {
         state.pushInt(check(state.activeLoc.type, LocTypeValid).id);
-    }),
+    },
 
-    [ScriptOpcode.LOC_NAME]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_NAME]: state => {
         state.pushString(check(state.activeLoc.type, LocTypeValid).name ?? 'null');
-    }),
+    },
 
-    [ScriptOpcode.LOC_SHAPE]: checkedHandler(ActiveLoc, state => {
+    [ScriptOpcode.LOC_SHAPE]: state => {
         state.pushInt(check(state.activeLoc.shape, LocShapeValid));
-    })
+    }
 };
 
 export default LocOps;

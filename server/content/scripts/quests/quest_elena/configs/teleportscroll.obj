@@ -1,7 +1,7 @@
 [ardougnescroll]
 members=yes
 cost=1
-model=model_2600_obj
+model=inv_scroll
 2dxof=1
 2dyof=7
 2dzoom=1040

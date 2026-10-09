@@ -4,7 +4,7 @@ if (stat(prayer) < 1) {
     if (stat_base(prayer) >= db_getfield($data, prayers:level, 0)) {
         mes("You need to recharge your prayer at an altar."); // p in prayer isnt capitalized until late 2005?
     }
-    sound_synth(prayer_off, 0, 0);
+    sound_synth(prayer_off, 1, 0);
     return(false);
 }
 if (db_getfield($data, prayers:members, 0) = ^true & map_members = ^false) {
@@ -37,7 +37,7 @@ if (gettimer(prayer_drain) < 1) {
 ~player_combat_stat; // THIS IS VERY IMPORTANT
 
 [proc,prayer_deactivate](int $prayer)
-sound_synth(cancel_prayer, 0, 0);
+sound_synth(cancel_prayer, 1, 0);
 %prayer_drain_effect = sub(%prayer_drain_effect, enum(int, int, prayer_drain_effects, $prayer));
 if (~prayers_are_active = false) {
     cleartimer(prayer_drain);
@@ -173,7 +173,7 @@ if (%prayer_drain_counter >= max(%prayer_drain_resistance, 60)) {
     %prayer_drain_counter = sub(%prayer_drain_counter, multiply(%prayer_drain_resistance, $reduce_points));
     stat_sub(prayer, $reduce_points, 0);
     if (stat(prayer) = 0) {
-        sound_synth(prayer_drain, 0, 0);
+        sound_synth(prayer_drain, 1, 0);
         mes("You have run out of prayer points, you must recharge at an altar.");
         ~prayer_deactivate_all;
         return;

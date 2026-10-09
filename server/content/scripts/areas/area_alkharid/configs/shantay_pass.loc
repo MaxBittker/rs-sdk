@@ -1,12 +1,12 @@
 [thbankchest]
 name=Shantay chest
 desc=This is used by Shantay and his men to take items to the bank on your behalf.
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 
 [shantay_prisondoor]
 name=Prison door
 desc=It looks fairly sturdy.
-model=model_loc_37
+model=basic_prisondoor
 op1=Open

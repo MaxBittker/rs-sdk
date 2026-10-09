@@ -184,7 +184,7 @@ if(testbit(%viking_bits, ^viking_keg_lowalc) = ^true) {
 }
 mes("You drink from your keg. You feel extremely drunk...");
 anim(viking_keg_drink_full, 0);
-sound_synth(liquid, 0, 0);
+sound_synth(liquid, 1, 0);
 p_delay(1);
 inv_del(inv, viking_beerkeg, 1);
 cam_shake(3, 0, 20, 2);
@@ -247,13 +247,13 @@ mes("You light the string of the strange object. It starts to hiss slightly.");
 inv_del(inv, viking_firecracker, 1);
 inv_add(inv, viking_firecracker_lit, 1);
 ~.sound_area(exploding_vial, 0, coord, 5);
-settimer(firecracker_explode, ~random_range(140, 200));
+longqueue(firecracker_explode, ~random_range(140, 200), 0, ^discard);
 // fuse_light
 
-[timer,firecracker_explode]
+[queue,firecracker_explode]
+clearqueue(firecracker_explode);
 def_int $count = inv_total(inv, viking_firecracker_lit);
 if($count = 0) {
-    cleartimer(firecracker_explode);
     return;
 }
 mes("The strange object you lit earlier explodes in your inventory!");

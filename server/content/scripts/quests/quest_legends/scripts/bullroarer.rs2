@@ -8,7 +8,7 @@ if(add(%action_delay, 8) > map_clock) {
 %action_delay = map_clock;
 mes("You start to swing the bullroarer above your head.");
 anim(human_bullroarer, 0);
-sound_synth(bullroarer, 0, 0);
+sound_synth(bullroarer, 1, 0);
 spotanim_pl(bullroarer, 92, 0);
 queue(bullroarer_use, 1, 0);
 

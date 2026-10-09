@@ -37,7 +37,7 @@ if (p_finduid(uid) = true) {
     p_delay(0);
     loc_del(100);
     p_delay(0);
-    loc_change(loc_2732, 10);
+    loc_change(fire, 10);
 }
 
 [debugproc,drop_feathers]
@@ -54,7 +54,7 @@ if (p_finduid(uid) = true) {
 if (p_finduid(uid) = true) {
     p_telejump(0_37_55_32_9);
     p_delay(0);
-    loc_add(0_37_55_30_9, loc_2732, 1, centrepiece_straight, 10);
+    loc_add(0_37_55_30_9, fire, 1, centrepiece_straight, 10);
 }
 
 [debugproc,loc_add_dynamic]
@@ -63,7 +63,7 @@ if (p_finduid(uid) = true) {
     p_delay(0);
     loc_add(0_37_55_32_9, tree, 0, centrepiece_straight, 10);
     p_delay(1);
-    loc_add(0_37_55_32_9, loc_2732, 1, centrepiece_straight, 10);
+    loc_add(0_37_55_32_9, fire, 1, centrepiece_straight, 10);
 }
 
 [debugproc,loc_change_dynamic]
@@ -72,7 +72,7 @@ if (p_finduid(uid) = true) {
     p_delay(0);
     loc_add(0_37_55_32_9, tree, 0, centrepiece_straight, 10);
     p_delay(1);
-    loc_change(loc_2732, 10);
+    loc_change(fire, 10);
 }
 
 
@@ -81,12 +81,12 @@ if (p_finduid(uid) = true) {
     p_telejump(0_37_55_32_9);
     p_delay(0);
     // Change static loc and delete it
-    loc_add(0_37_55_30_9, loc_2732, 1, centrepiece_straight, 10);
+    loc_add(0_37_55_30_9, fire, 1, centrepiece_straight, 10);
     loc_del(100);
     p_delay(5);
 
     // Change it again. This should set it active, and then after 10 ticks it will reappear
-    loc_add(0_37_55_30_9, loc_2732, 1, centrepiece_straight, 10);
+    loc_add(0_37_55_30_9, fire, 1, centrepiece_straight, 10);
 }
 
 
@@ -95,7 +95,7 @@ if (p_finduid(uid) = true) {
     p_telejump(0_37_55_32_9);
     p_delay(0);
     // Change static loc and delete it
-    loc_add(0_37_55_30_9, loc_2732, 1, centrepiece_straight, 10);
+    loc_add(0_37_55_30_9, fire, 1, centrepiece_straight, 10);
     p_delay(3);
     loc_change(loc_param(next_loc_stage), 10);
 }
@@ -104,12 +104,12 @@ if (p_finduid(uid) = true) {
 [debugproc,loc_change_back]
 if (p_finduid(uid) = true) {
     p_telejump(0_37_55_32_9);
-    loc_add(0_37_55_30_9, loc_2732, 1, centrepiece_straight, 1);
+    loc_add(0_37_55_30_9, fire, 1, centrepiece_straight, 1);
     p_delay(1);
     // Get tree loc_type
     def_loc $loc_type = loc_type;
 
-    loc_change(loc_2732, 3);
+    loc_change(fire, 3);
     p_delay(0);
     loc_change($loc_type, 3);
 }

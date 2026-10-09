@@ -1,6 +1,6 @@
 [elenagateshut]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -12,7 +12,7 @@ param=next_loc_stage,elenagateopen
 
 [elenagateopen]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 retex1s=wall
 retex1d=door
@@ -24,7 +24,7 @@ param=next_loc_stage,elenagateshut
 [rehnisondoorshut]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -36,7 +36,7 @@ param=next_loc_stage,rehnisondooropen
 
 [rehnisondooropen]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 retex1s=wall
 retex1d=door

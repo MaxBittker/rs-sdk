@@ -156,7 +156,7 @@ return(true);
 [proc,levelrequire_zanaris_quest]()(boolean)
 if (%zanaris < ^zanaris_complete) {
     mes("You have not earned the right to wear this yet.");
-    mes("You need to complete the Lost City of Zanaris Quest."); // todo confirm for 2004
+    mes("You need to complete the Lost City Of Zanaris Quest."); // todo confirm for 2004
     return(false);
 }
 return(true);

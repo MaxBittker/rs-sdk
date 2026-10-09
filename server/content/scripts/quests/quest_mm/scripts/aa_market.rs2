@@ -1,0 +1,79 @@
+[oploc2,mm_stall_crafting]
+@attempt_steal_aa_stall(5, 128, 512, 160, 32);
+
+[oploc2,mm_stall_food]
+@attempt_steal_aa_stall(5, 200, 480, 160, 32);
+
+[oploc2,mm_stall_general]
+@attempt_steal_aa_stall(5, 128, 512, 160, 32);
+
+[oploc2,mm_stall_magic]
+@attempt_steal_aa_stall(65, 128, 512, 1000, 65);
+
+[oploc2,mm_stall_scimitar]
+@attempt_steal_aa_stall(65, 128, 512, 2100, 65);
+
+[label,attempt_steal_aa_stall](int $thieving_level, int $low, int $high, int $experience, int $respawn_ticks)
+def_loc $loc = loc_type;
+if (afk_event = ^true) {
+    @macro_randomthieving;
+}
+
+// if player is in combat, prevent stealing
+if (add(%lastcombat, 10) > map_clock) {
+    mes("You can't steal from the stall during combat!");
+    return;
+}
+
+if(~mm_wearing_greegree = true) {
+    mes("You wouldn't like to blow your cover by getting caught stealing.");
+    return;
+}
+
+if (stat(thieving) < $thieving_level) {
+    ~mesbox("You need to be at least level <tostring($thieving_level)> Thieving to steal from here.");
+    return;
+}
+
+def_int $free_space = inv_freespace(inv);
+if ($free_space = 0) {
+    ~mesbox("Your inventory is too full to hold any more.");
+    return;
+}
+
+if(npc_find(coord, mm_padulah, 11, ^vis_lineofsight) = true) {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) ~mm_monkeyspeak;
+    else ~chatnpc("<p,angry>Don't you dare touch that without buying it!");
+    return;
+}
+
+def_namedobj $reward;
+def_int $rand = random(3);
+switch_loc(loc_type) {
+    case mm_stall_crafting :
+        if($rand = 2) $reward = chisel;
+        else if($rand = 1) $reward = necklace_mould;
+        else $reward = ring_mould;
+    case mm_stall_general :
+        if($rand = 2) $reward = hammer;
+        else if($rand = 1) $reward = pot_empty;
+        else $reward = tinderbox;
+    case mm_stall_magic :
+        if($rand = 2) $reward = airrune;
+        else if($rand = 1) $reward = earthrune;
+        else $reward = firerune;
+    case mm_stall_scimitar :
+        if($rand = 0) $reward = steel_scimitar;
+        else $reward = iron_scimitar;
+    case default : $reward = banana;
+}
+
+anim(human_pickuptable, 0);
+sound_synth(pick, 1, 0);
+p_delay(0); 
+stat_advance(thieving, $experience);
+loc_change(mm_desk, $respawn_ticks);
+inv_add(inv, $reward, 1);
+
+if($loc = mm_stall_magic | $loc = mm_stall_crafting) mes("You steal <~add_article(lowercase(oc_name($reward)))>.");
+else ~objbox($reward, "You steal <~add_article(lowercase(oc_name($reward)))>.", 250, 0, 0);

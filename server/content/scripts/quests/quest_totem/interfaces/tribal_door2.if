@@ -353,7 +353,7 @@ x=54
 y=116
 width=32
 height=32
-model=model_3041
+model=if_combinationlock
 zoom=550
 xan=400
 
@@ -363,7 +363,7 @@ x=178
 y=116
 width=32
 height=32
-model=model_3041
+model=if_combinationlock
 zoom=550
 xan=400
 
@@ -373,7 +373,7 @@ x=302
 y=116
 width=32
 height=32
-model=model_3041
+model=if_combinationlock
 zoom=550
 xan=400
 
@@ -383,7 +383,7 @@ x=426
 y=116
 width=32
 height=32
-model=model_3041
+model=if_combinationlock
 zoom=550
 xan=400
 

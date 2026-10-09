@@ -27,6 +27,7 @@
 ^grail_complete = 10
 ^grandtree_complete = 160
 ^haunted_complete = 3
+^hauntedmine_complete = 11
 ^hazeelcult_complete = 9
 ^hero_complete = 15
 ^hetty_complete = 3
@@ -40,6 +41,7 @@
 ^junglepotion_complete = 12
 ^legends_complete = 75
 ^mcannon_complete = 11
+^misc_complete = 100
 ^murder_complete = 2
 ^priest_complete = 5
 ^priestperil_complete = 60
@@ -65,6 +67,7 @@
 ^mortton_quest_complete = 85
 ^viking_complete = 10
 ^horror_complete = 10
+^routequest_complete = 105
 
 ^arena_questpoints = 2
 ^arthur_questpoints = 6
@@ -92,6 +95,7 @@
 ^grail_questpoints = 2
 ^grandtree_questpoints = 5
 ^haunted_questpoints = 4
+^hauntedmine_questpoints = 2
 ^hazeelcult_questpoints = 1
 ^hero_questpoints = 1
 ^hetty_questpoints = 1
@@ -104,6 +108,7 @@
 ^junglepotion_questpoints = 1
 ^legends_questpoints = 4
 ^mcannon_questpoints = 1
+^misc_questpoints = 1
 ^murder_questpoints = 3
 ^priest_questpoints = 1
 ^priestperil_questpoints = 1
@@ -123,9 +128,12 @@
 ^zanaris_questpoints = 3
 ^zombiequeen_questpoints = 2
 ^troll_questpoints = 1
+^troll_love_questpoints = 2
 ^tbwt_questpoints = 2
 ^regicide_questpoints = 3
 ^eadgar_questpoints = 1
 ^mortton_questpoints = 3
 ^viking_questpoints = 3
 ^horror_questpoints = 2
+^mm_questpoints = 3
+^routequest_questpoints = 2

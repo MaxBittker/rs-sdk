@@ -46,7 +46,7 @@ return(enum(int, namedobj, trail_easy_enum, random(enum_getoutputcount(trail_eas
 // example - https://youtu.be/alL8jv1DkRM?t=66
 p_arrivedelay;
 anim(human_openchest, 0);
-sound_synth(cupboard_open, 0, 0);
+sound_synth(cupboard_open, 1, 0);
 p_delay(0);
 // Temp note: dur updated
 loc_change(drawers1open_inactive, 5);

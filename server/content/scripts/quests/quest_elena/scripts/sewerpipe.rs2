@@ -11,7 +11,7 @@ switch_int(%elenaquest) {
         if (inv_getobj(worn, ^wearpos_hat) = gasmask) {
             @elena_climb_through_sewerpipe;
         } else {
-            ~mesbox("You should wear your gas mask before entering West Ardougne.");
+            mes("You should wear your gasmask before entering West Ardougne."); // https://i.imgur.com/UvbExAf.png
         }
     case default : ~displaymessage(^dm_default);
 }
@@ -37,7 +37,7 @@ if(%elena_pipe_used >= map_clock) {
     return;
 }
 %elena_pipe_used = calc(map_clock + 6);
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 mes("You climb through the sewer pipe.");
 ~agility_exactmove(human_doublepipesqueeze, 30, 5, coord, movecoord(coord, 0, 0, -3), 30, 126, ^exact_south, true);
 p_telejump(^quest_elena_west_ardy_manhole_tele_coord);

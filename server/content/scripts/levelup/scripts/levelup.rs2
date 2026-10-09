@@ -31,7 +31,7 @@ def_string $message = db_getfield($unlock_row, levelup:message, 0);
 mes($message);
 // play the fireworks
 spotanim_pl(levelup_anim, 124, 0);
-// sound_synth(firework, 0, 0); Was an osrs addition apparently
+// sound_synth(firework, 1, 0); Was an osrs addition apparently
 // https://secure.runescape.com/m=news/shades-of-mortton-rework?oldschool=1
 // https://www.reddit.com/r/2007scape/comments/l7yh5p/the_new_level_up_fireworks_noise_is_extremely/
 // https://www.reddit.com/r/2007scape/comments/l9bp4q/when_did_they_implement_insanely_annoying/ 

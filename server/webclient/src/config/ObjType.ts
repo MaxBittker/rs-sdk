@@ -60,6 +60,7 @@ export default class ObjType {
     resizez: number = 0;
     ambient: number = 0;
     contrast: number = 0;
+    team: number = 0;
 
     static init(config: JagFile, members: boolean): void {
         this.memServer = members;
@@ -154,6 +155,7 @@ export default class ObjType {
         this.resizez = 128;
         this.ambient = 0;
         this.contrast = 0;
+        this.team = 0;
     }
 
     decode(dat: Packet): void {
@@ -262,6 +264,8 @@ export default class ObjType {
                 this.ambient = dat.g1b();
             } else if (code === 114) {
                 this.contrast = dat.g1b() * 5;
+            } else if (code === 115) {
+                this.team = dat.g1();
             }
         }
     }

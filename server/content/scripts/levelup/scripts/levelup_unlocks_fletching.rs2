@@ -5,19 +5,24 @@ switch_int(stat_base(fletching)) {
     case 10 : ~objbox(longbow,"You can now make @dbl@Longbows.", 250, 0, 0);
     case 15 : ~objbox(iron_arrow_5,"You can now make @dbl@Iron Arrows.", 250, 0, 0);
     case 20 : ~objbox(oak_shortbow,"You can now make @dbl@Oak Shortbows.", 250, 0, 0);
+    case 22 : ~objbox(iron_dart,"You can now make @dbl@Iron Darts.", 250, 0, 0);
     case 25 : 
         ~objbox(oak_longbow,"You can now make @dbl@Oak Longbows.", 250, 0, 0);
         ~mesbox("@dbl@~ This is one of the requirements of the @dre@FREMENNIK TRIALS@dbl@. @dbl@~");
     case 30 : ~objbox(steel_arrow_5,"You can now make @dbl@Steel Arrows.", 250, 0, 0);
     case 35 : ~objbox(willow_shortbow,"You can now make @dbl@Willow Shortbows.", 250, 0, 0);
+    case 37 : ~objbox(steel_dart,"You can now make @dbl@Steel Darts.", 250, 0, 0);
     case 40 : ~objbox(willow_longbow,"You can now make @dbl@Willow Longbows.", 250, 0, 0);
     case 45 : ~objbox(mithril_arrow_5,"You can now make @dbl@Mithril Arrows.", 250, 0, 0);
     case 50 : ~objbox(maple_shortbow,"You can now make @dbl@Maple Shortbows.", 250, 0, 0);
+    case 52 : ~objbox(mithril_dart,"You can now make @dbl@Mithril Darts.", 250, 0, 0);
     case 55 : ~objbox(maple_longbow,"You can now make @dbl@Maple Longbows.", 250, 0, 0);
     case 60 : ~objbox(adamant_arrow_5,"You can now make @dbl@Adamant Arrows.", 250, 0, 0);
     case 65 : ~objbox(yew_shortbow,"You can now make @dbl@Yew Shortbows.", 250, 0, 0);
+    case 67 : ~objbox(adamant_dart,"You can now make @dbl@Adamant Darts.", 250, 0, 0);
     case 70 : ~objbox(yew_longbow,"You can now make @dbl@Yew Longbows.", 250, 0, 0); //imgur.com/3Er8U3m
     case 75 : ~objbox(rune_arrow_5,"You can now make @dbl@Rune Arrows.", 250, 0, 0);
     case 80 : ~objbox(magic_shortbow,"You can now make @dbl@Magic Shortbows.", 250, 0, 0);
+    case 81 : ~objbox(rune_dart,"You can now make @dbl@Rune Darts.", 250, 0, 0);
     case 85 : ~objbox(magic_longbow,"You can now make @dbl@Magic Longbows.", 250, 0, 0);
 }

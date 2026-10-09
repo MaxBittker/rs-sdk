@@ -18,5 +18,5 @@ mes("I don't think I can get free beer here."); // any obj, think it might only 
 [label,fill_beer_glass]
 anim(human_pickupfloor, 0);
 mes("You fill the glass with beer.");
-sound_synth(tap_fill, 0, 0);
+sound_synth(tap_fill, 1, 0);
 inv_setslot(inv, last_useslot, beer, 1);

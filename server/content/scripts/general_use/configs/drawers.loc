@@ -1,7 +1,7 @@
 [drawers1]
 name=Drawers
 desc=These open and close!
-model=model_loc_348
+model=furniture_drawers1
 op1=Open
 forceapproach=east
 category=drawer
@@ -10,7 +10,7 @@ param=drawer_other,drawers1open
 [drawers1open]
 name=Drawers
 desc=This may be worth searching.
-model=model_loc_349
+model=furniture_drawers1open
 op2=Search
 op3=Shut
 forceapproach=east
@@ -20,7 +20,7 @@ param=drawer_other,drawers1
 [drawers2]
 name=Drawers
 desc=These open and close!
-model=model_loc_350
+model=furniture_drawers2
 op1=Open
 forceapproach=east
 category=drawer
@@ -29,7 +29,7 @@ param=drawer_other,drawers2open
 [drawers2open]
 name=Drawers
 desc=This may be worth searching.
-model=model_loc_351
+model=furniture_drawers2open
 op2=Search
 op3=Shut
 forceapproach=east
@@ -39,7 +39,7 @@ param=drawer_other,drawers2
 [drawers3]
 name=Drawers
 desc=These open and close!
-model=model_loc_352
+model=furniture_drawers3
 op1=Open
 forceapproach=east
 category=drawer
@@ -48,7 +48,7 @@ param=drawer_other,drawers3open
 [drawers3open]
 name=Drawers
 desc=This may be worth searching.
-model=model_loc_353
+model=furniture_drawers3open
 op2=Search
 op3=Shut
 forceapproach=east
@@ -58,7 +58,7 @@ param=drawer_other,drawers3
 [arena_hospital_drawers2]
 name=Drawers
 desc=These open and close!
-model=model_loc_350
+model=furniture_drawers2
 op1=Open
 forceapproach=east
 ambient=15
@@ -79,7 +79,7 @@ param=drawer_other,arena_hospital_drawers2open
 [arena_hospital_drawers2open]
 name=Drawers
 desc=This may be worth searching.
-model=model_loc_351
+model=furniture_drawers2open
 op2=Search
 op3=Shut
 forceapproach=east

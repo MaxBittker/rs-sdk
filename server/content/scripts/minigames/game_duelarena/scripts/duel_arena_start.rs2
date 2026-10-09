@@ -3,7 +3,7 @@ if (.finduid(%duel2accept) = true) {
     def_coord $random_coord1 = ~duel_arena_coord;
     def_coord $random_coord2 = $random_coord1;
 
-    if ($random_coord1 = null) {
+    if ($random_coord1 = null | .%duel2accept = null) {
         %duelstatus = ^duelstatus_reset;
         %duel2accept = null;
         ~mesbox("All arenas of this type are full! Select another type of arena, try|again in a few minutes or try a different server."); // https://youtu.be/TcrIr9O92sw?t=89
@@ -59,22 +59,22 @@ if (.finduid(%duel2accept) = true) {
 }
 
 [proc,duel_arena_countdown]
-world_delay(1);
+world_delay(1); // 2t
 if (~in_duel_arena(coord) = false) {
     return;
 }
 say("3");
-world_delay(1);
+world_delay(1); // 2t
 if (~in_duel_arena(coord) = false) {
     return;
 }
 say("2");
-world_delay(1);
+world_delay(1); // 2t
 if (~in_duel_arena(coord) = false) {
     return;
 }
 say("1");
-world_delay(1);
+world_delay(1); // 2t
 if (~in_duel_arena(coord) = false) {
     return;
 }

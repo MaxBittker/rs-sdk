@@ -1,6 +1,6 @@
 [jewellersdoor]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -10,7 +10,7 @@ recol2d=11458
 
 [jewellersladder]
 name=Ladder
-model=model_loc_11
+model=furniture_ladder
 active=yes
 op1=Climb-up
 mapscene=7
@@ -18,7 +18,7 @@ mapscene=7
 [merlins_crystal]
 name=Giant crystal
 desc=Can I see something inside...?
-model=model_loc_62
+model=quest_giantcrystal
 active=yes
 width=2
 length=2
@@ -26,21 +26,21 @@ length=2
 [merlincrate_empty]
 name=Crate
 desc=Used for storage.
-model=model_loc_63
+model=warehouse_shop_crate
 active=yes
 op2=Hide-in
 
 [merlincrate_empty2]
 name=Crate
 desc=Used for storage.
-model=model_loc_63
+model=warehouse_shop_crate
 active=yes
 op2=Hide-in
 
 [merlincrate_wall]
 name=Crate wall
 desc=Surprisingly sturdy looking.
-model=model_loc_3
+model=basic_wall
 sharelight=yes
 occlude=yes
 op1=Climb-out
@@ -52,7 +52,7 @@ recol2d=23020
 [arhein_ship_on]
 name=Gangplank
 desc=Handy for boarding boats.
-model=model_loc_69
+model=ship_gangplank
 op1=Cross
 active=yes
 sharelight=yes

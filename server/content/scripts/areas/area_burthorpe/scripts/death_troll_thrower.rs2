@@ -31,4 +31,4 @@ $duration = ~player_projectile(npc_coord, coord, uid, npc_param(proj_travel), 36
 // bypasses defence, but checks prayer
 ~playerhit_n_ranged(true, randominc($maxhit), $duration, npc_param(attackrate));
 
-[ai_queue3,_troll_thrower] @troll_drop_table;
+[ai_queue3,_troll_thrower] ~troll_drop_table;

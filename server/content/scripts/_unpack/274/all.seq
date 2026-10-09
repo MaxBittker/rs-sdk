@@ -50,12 +50,12 @@ frame31=anim_958
 [human_octopus_pot]
 replaceheldleft=hide
 replaceheldright=tbwt_karambwan_vessel
-stretches=yes
+reachforward=yes
 loops=11
 maxloops=3
 preanim_move=delayanim
 postanim_move=abortanim
-duplicatebehavior=reset_loop
+duplicatebehaviour=reset_loop
 frame1=anim_1594
 frame2=anim_1887
 frame3=anim_2185
@@ -214,7 +214,7 @@ frame9=anim_8961
 
 [dragon_halberd_special_attack]
 priority=6
-stretches=yes
+reachforward=yes
 walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 frame1=anim_9272
 frame2=anim_9280
@@ -234,7 +234,7 @@ frame15=anim_9278
 frame16=anim_9279
 
 [sp_d_halberd_glow]
-stretches=yes
+reachforward=yes
 frame1=anim_9228
 frame2=anim_9236
 frame3=anim_9237
@@ -253,7 +253,7 @@ frame15=anim_9234
 frame16=anim_9235
 
 [human_halberdwalk_f]
-stretches=yes
+reachforward=yes
 frame1=anim_9256
 frame2=anim_9257
 frame3=anim_9258
@@ -264,7 +264,7 @@ frame7=anim_9262
 frame8=anim_9263
 
 [human_halberdwalk_b]
-stretches=yes
+reachforward=yes
 frame1=anim_9263
 frame2=anim_9262
 frame3=anim_9261
@@ -275,28 +275,28 @@ frame7=anim_9257
 frame8=anim_9256
 
 [human_halberdwalk_l]
-stretches=yes
+reachforward=yes
 frame1=anim_9264
 frame2=anim_9265
 frame3=anim_9266
 frame4=anim_9267
 
 [human_halberdwalk_r]
-stretches=yes
+reachforward=yes
 frame1=anim_9268
 frame2=anim_9269
 frame3=anim_9270
 frame4=anim_9271
 
 [human_halberdturnonspot]
-stretches=yes
+reachforward=yes
 frame1=anim_9252
 frame2=anim_9253
 frame3=anim_9254
 frame4=anim_9255
 
 [human_halberdrunning]
-stretches=yes
+reachforward=yes
 frame1=anim_9244
 frame2=anim_9245
 frame3=anim_9246
@@ -904,7 +904,7 @@ frame15=anim_9378
 frame16=anim_9379
 frame17=anim_9380
 
-[seq_1255]
+[eadgar_fade_to_black]
 loops=1
 frame1=anim_9380
 frame2=anim_9379
@@ -1008,7 +1008,7 @@ frame20=anim_1421
 frame21=anim_1713
 
 [eadgar_troll_axethrow]
-stretches=yes
+reachforward=yes
 priority=6
 frame1=anim_8632
 frame2=anim_8633
@@ -1079,7 +1079,7 @@ frame9=anim_9544
 [vamp_bite]
 walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 priority=6
-stretches=yes
+reachforward=yes
 frame1=anim_9401
 frame2=anim_9403
 frame3=anim_9404
@@ -1107,7 +1107,7 @@ frame23=anim_9401
 [vamp_claw]
 walkmerge=label_1,label_2,label_9,label_11,label_13,label_15,label_17,label_19,label_37,label_39,label_41,label_43,label_45
 priority=6
-stretches=yes
+reachforward=yes
 frame1=anim_9411
 frame2=anim_9414
 frame3=anim_9415
@@ -1242,7 +1242,7 @@ frame17=anim_9492
 delay17=20000
 
 [leechattack]
-stretches=yes
+reachforward=yes
 priority=6
 frame1=anim_9466
 frame2=anim_9471
@@ -1675,7 +1675,7 @@ frame7=anim_9836
 [potteryoven_quick]
 replaceheldleft=hide
 replaceheldright=hide
-duplicatebehavior=reset_loop
+duplicatebehaviour=reset_loop
 postanim_move=abortanim
 frame1=anim_1295
 frame2=anim_1576
@@ -1893,7 +1893,7 @@ replaceheldleft=hide
 replaceheldright=readbook_dummy
 priority=0
 postanim_move=abortanim
-duplicatebehavior=reset
+duplicatebehaviour=reset
 frame1=anim_4892
 frame2=anim_4766
 frame3=anim_4769

@@ -1,20 +1,20 @@
 [gnome_areagate]
 name=Gate
 desc=A large gate in the gnome style.
-model=model_loc_190
+model=gnome_areagate
 width=5
 length=2
 active=yes
 op1=Open
 
 [gnome_areagate_open_left]
-model=model_loc_191
+model=gnome_areagate_open
 width=2
 length=2
 active=no
 
 [gnome_areagate_open_right]
-model=model_loc_191
+model=gnome_areagate_open
 width=2
 length=2
 active=no

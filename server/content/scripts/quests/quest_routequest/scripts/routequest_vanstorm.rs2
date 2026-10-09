@@ -1,0 +1,159 @@
+[opnpc1,route_vanstrom_klause_sitting]
+if(%routequest >= ^routequest_ambush) {
+    npc_changetype(canafis_stranger, 50);
+    @canafis_stranger_dialogue;
+}
+@vanstrom_sitting_dialogue;
+
+[opnpc1,canafis_stranger]
+if(%routequest < ^routequest_ambush) {
+    npc_changetype(route_vanstrom_klause_sitting, 50);
+    @vanstrom_sitting_dialogue;
+}
+@canafis_stranger_dialogue;
+
+[label,canafis_stranger_dialogue]
+if(%routequest = ^routequest_complete) {
+    ~chatnpc_specific("Stranger", canafis_stranger, "<p,quiz>I think we've been through this before, haven't we?");
+    return;
+}
+if(%routequest >= ^routequest_ambush) {
+    if(%routequest = ^routequest_spoke_to_stranger) {
+        // Sourced from RS3. OSRS either removed this (directly queues) or it never existed in RS2. Considering OSRS has changed the quest a lot, inclined to believe it's osrs-change.
+        ~chatnpc_specific("Stranger", canafis_stranger, "<p,shock>Whoa! You still look like you've got a score to settle.");
+        ~chatplayer("<p,angry>I definitely do!");
+        queue(routequest_complete, 0, 0);
+    } else {
+        // Sourced from a mid-2007 video
+        ~chatnpc_specific("Stranger", canafis_stranger, "<p,quiz>Hello friend? What can I do for you?");
+        ~chatplayer("<p,shock>Oh, sorry. I thought you were someone else.");
+        if(%routequest >= ^routequest_found_exit) {
+            ~chatnpc_specific("Stranger", canafis_stranger, "<p,quiz>Who did you think I was?");
+            ~chatplayer("<p,angry>I thought you were that dirty murderer Vanstrom.");
+            %routequest = ^routequest_spoke_to_stranger;
+            ~chatnpc_specific("Stranger", canafis_stranger, "<p,shock>Woah, it sounds like you've got a score to settle!");
+            ~chatplayer("<p,angry>I definitely do!");
+            queue(routequest_complete, 0, 0);
+        }
+    }
+    return;
+}
+
+[label,vanstrom_sitting_dialogue]
+if(%routequest = ^routequest_not_started) {
+    ~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Hello there, how goes it stranger?");
+    ~chatplayer("<p,quiz>Quite well, thanks for asking. How about you?");
+    if(%druidspirit < ^druid_complete) {
+        ~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Hmm, well, I am a little concerned about some friends of mine. Nothing for you to worry about though.");
+        ~mesbox("You do not meet all of the requirements to start the In Search of the Myreque quest.");
+        return;
+    }
+    ~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Hmm, well, I am a little concerned about some friends of mine. They're in dire need of some assistance, but I'm at a loss as to how I can help them.");
+    @vanstrom_intro_multi;
+} else {
+    ~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Hello again, how's the quest going?");
+    @multi3("Not very well, I need some help", vanstrom_player_needs_help, "Ok, thanks", vanstrom_exit_dialogue2, "What am I supposed to do again?", vanstorm_remind_what_to_do);
+}
+
+[label,vanstrom_intro_multi]
+@multi4("What friends are these?", vanstrom_ask_about_friends, "Why do they need help? Are they in trouble?", vanstrom_enquiry_about_help, "I wish I could help, but I'm busy at the moment.", vanstrom_refuse_help, "Ok, thanks.", vanstrom_exit_dialogue);
+
+[label,vanstrom_intro_multi_asked_help]
+@multi5("What friends are these?", vanstrom_ask_about_friends, "Why do they need help? Are they in trouble?", vanstrom_enquiry_about_help, "I wish I could help, but I'm busy at the moment.", vanstrom_refuse_help, "Perhaps I could help you out here.", vanstrom_offer_help, "Ok, thanks.", vanstrom_exit_dialogue);
+
+[label,vanstrom_intro_multi_offered_help]
+@multi5("What would I have to do?", vanstrom_ask_what_to_do, "What weapons do I need to get?", vanstrom_ask_what_weapons, "Where do I need to take the weapons?",vanstrom_ask_weapon_location, "Yes, I'll do it!", vanstrom_routequest_start, "Sorry, I can't do it!", vanstrom_cant_help);
+
+[label,vanstrom_ask_about_friends]
+~chatplayer("<p,neutral>What friends are these?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,happy>It's a personal tragedy that I have yet to meet them in the flesh. But their exploits make mouth watering stories... The real meat and drink of high adventure and daring... So they say");
+~chatplayer("<p,confused>What does that mean exactly? I mean, I have some stories. I'm quite a hero myself, you may actually be talking about me?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>They're a group of rebels fighting against the vampires that rule over Morytania. They're known as the Myreque. Some people call them terrorists while others call them freedom fighters");
+@vanstrom_intro_multi;
+
+[label,vanstrom_enquiry_about_help]
+~chatplayer("<p,quiz>Why do they need help? Are they in trouble?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,happy>I should imagine that heroes of such high calibre are almost always in some sort of trouble, wouldn't you?|There's always some evil heel ready to grind the face of humanity into the dirt?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>However, the Myreque are almost certainly able to handle themselves...given the tools! I hear they're short of weapons, I was hoping to do it myself but I find that I'm rather short of time and ability!");
+~chatplayer("<p,quiz>What help do you hope to give them?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>I'd have taken some weapons to them!");
+~chatplayer("<p,quiz>What kind of weapons do they need?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Steel I believe. All six of them require steel weapons. I would have suggested a longsword, two shortswords,  a dagger, a mace and a warhammer.");
+@vanstrom_intro_multi_asked_help;
+
+[label,vanstrom_refuse_help]
+~chatplayer("<p,quiz>I wish I could help, but I'm busy at the moment.");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Hmm, the same as me I fear! Oh well, I'm sure they'll get on well by themseles, the little dears. Thanks for even considering it though.");
+
+[label,vanstrom_exit_dialogue]
+~chatplayer("<p,quiz>Ok, thanks.");
+
+[label,vanstrom_offer_help]
+~chatplayer("<p,neutral>Perhaps I could help you out here. Maybe I could take those weapons to the Myreque.");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Oh yes? Well, that would be very nice of you! Are you sure you want to help out?");
+@vanstrom_intro_multi_offered_help;
+
+[label,vanstrom_ask_what_to_do]
+~chatplayer("<p,quiz>What would I have to do?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Well, some freedom fighters, called the Myreque, require some weapons. You'd need to get the weapons they require and give them to the freedom fighters.");
+@vanstrom_intro_multi_offered_help;
+
+[label,vanstrom_ask_what_weapons]
+~chatplayer("<p,neutral>What weapons do I need to get?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Well, I'm sure the following will be fine: a longsword, two swords, a dagger, a mace and a warhammer. All the items should be made of steel.");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>You would also have to fund the costs of this yourself and once you've found them, I'll be sure to give you a nice surprise in return for your help.");
+@vanstrom_intro_multi_offered_help;
+
+[label,vanstrom_ask_weapon_location]
+~chatplayer("<p,quiz>Where do I need to take the weapons?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>I believe there's a boatman in Mort'ton who can show you the way. I'm sure if you use your powers of persuasion you can get some information out of him!  The Myreque have a lot of sympathisers.");
+@vanstrom_intro_multi_offered_help;
+
+[label,vanstrom_cant_help]
+~chatplayer("<p,neutral>Sorry, I can't do it!");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,sad>Oh. Well, that is a shame. I'm sorry to hear it. But if you change your mind, please visit me again.");
+
+[label,vanstrom_routequest_start]
+~chatplayer("<p,quiz>Yes, I'll do it!");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,happy>That's great news, my friend, really great news! Perhaps the many peoples of Morytania now have an additional hero that they can come to rely upon!");
+%routequest = ^routequest_started;
+~send_quest_progress(questlist:routequest, %routequest, ^routequest_complete);
+
+///// VANSTROM POST-INTRO
+
+[label,vanstorm_remind_what_to_do]
+~chatplayer("<p,quiz>What am I supposed to do again?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>You've forgotten already? Ha! That's funny! But I do understand, my memory isn't what it was!");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>It would be great if you could get some steel weapons and take them to the Myreque, the boatman in Mort'ton should be able to help you find them. But you may need to be a bit persuasive!");
+
+[label,vanstrom_player_needs_help]
+~chatplayer("<p,neutral>Not very well, I need some help.");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Oh dear... what do you need help with?");
+@vanstrom_player_needs_help_choice;
+
+[label,vanstrom_player_needs_help_choice]
+@multi5("Where are the Myreque?", vanstrom_where_is_myreque, "What weapons am I supposed to get again?", vanstrom_remind_weapons, "How do you know the Myreque?", vanstrom_how_know_myreque, "Is there anyone else who can help me?", vanstrom_anyone_else_help, "Ok, thanks.", vanstrom_exit_dialogue);
+
+[label,vanstrom_where_is_myreque]
+~chatplayer("<p,quiz>Where are the Myreque?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>You know what? I'm not exactly sure. The only thing I've heard, and it is a rumour, but the boatman in Mort'ton might be able to help. But again, it is only a rumour.");
+@vanstrom_player_needs_help_choice;
+
+[label,vanstrom_remind_weapons]
+~chatplayer("<p,quiz>What weapons am I supposed to get again?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Well, I'm sure the following will be fine: a longsword, two swords, a dagger, a mace and a warhammer. All the items should be made of steel.");
+@vanstrom_player_needs_help_choice;
+
+[label,vanstrom_how_know_myreque]
+~chatplayer("<p,quiz>How do you know the 'Myreque'?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Actually you know, I don't know them at all! I've never actually met them, but would love to at some point!|However, I'm sure that you'll be much more able than I am at tracking them down.");
+@vanstrom_player_needs_help_choice;
+
+[label,vanstrom_anyone_else_help]
+~chatplayer("<p,quiz>Is there anyone else who can help me?");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Hmm. Apart from the boatman at Mort'ton, I have no clue, my friend!");
+@vanstrom_player_needs_help_choice;
+
+[label,vanstrom_exit_dialogue2]
+~chatplayer("<p,quiz>Ok, thanks.");
+~chatnpc_specific("Vanstrom Klause", route_vanstrom_klause_sitting, "<p,neutral>Well, if you have any problems please feel free to come and chat with me.");

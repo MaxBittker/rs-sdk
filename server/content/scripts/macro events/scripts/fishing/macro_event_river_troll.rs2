@@ -11,7 +11,7 @@ npc_add($event_coord, $event, 1000); // guess
 npc_say("Fishies be mine, leave dem fishies!"); // https://youtu.be/X1KjOMAmJ_g?list=PLn23LiLYLb1am4weMQzkWn5m9b3m9fXv9&t=122
 %npc_macro_event_target = uid;
 %macro_event = ^no_macro_event;
-sound_synth(watersplash, 0, 0); // osrs
+sound_synth(watersplash, 1, 0); // osrs
 npc_delay(2);
 %aggressive_npc = npc_uid; // interupt the player if they're in combat https://youtu.be/tw66JWQzpD0?t=32
 npc_setmode(opplayer2);

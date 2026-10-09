@@ -14,7 +14,7 @@ while(loc_findnext = true) {
         }
     }
 }
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 p_delay(0);
 
 // Survival Tutor Gate
@@ -145,7 +145,7 @@ while(loc_findnext = true) {
             loc_add($central_coord, inviswall, $orig_angle, loc_shape, 3);
      }
 }
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 
 // Gate into Rat Pen
 [oploc1,_rat_pit_cage]
@@ -195,7 +195,7 @@ while(loc_findnext = true) {
         loc_add($central_coord, inviswall, $orig_angle, loc_shape, 3);
     }
 }
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 
 
 [oploc1,newbieladder2]

@@ -1,7 +1,7 @@
 [banktable]
 name=Bank table
 desc=Banking transactions are processed here.
-model=model_loc_590
+model=furniture_banktable
 width=2
 blockrange=no
 category=unusable_table
@@ -9,7 +9,7 @@ category=unusable_table
 [banktable2]
 name=Bank table
 desc=Banking transactions are recorded here.
-model=model_loc_591
+model=furniture_banktable2
 width=2
 blockrange=no
 category=unusable_table
@@ -17,14 +17,14 @@ category=unusable_table
 [bathtable]
 name=Bathroom table
 desc=Contains washing items.
-model=model_loc_592
+model=furniture_bathtable
 blockrange=no
 category=unusable_table
 
 [bigroundtable]
 name=Table
 desc=A nice sturdy looking table.
-model=model_loc_593
+model=furniture_bigroundtable
 width=2
 length=2
 blockrange=no
@@ -33,7 +33,7 @@ category=usable_table
 [bigtable]
 name=Table
 desc=A nice sturdy looking table.
-model=model_loc_594
+model=furniture_bigtable
 width=2
 blockrange=no
 category=usable_table
@@ -41,7 +41,7 @@ category=usable_table
 [bigtable2]
 name=Table
 desc=A nice sturdy looking table.
-model=model_loc_594
+model=furniture_bigtable
 width=2
 blockrange=no
 retex1s=darkwood
@@ -53,7 +53,7 @@ category=usable_table
 [longtable]
 name=Table
 desc=A banquet could be eaten from this.
-model=model_loc_596
+model=furniture_longtable
 width=4
 blockrange=no
 category=unusable_table
@@ -61,7 +61,7 @@ category=unusable_table
 [longtable_wide]
 name=Table
 desc=A banquet could be eaten from this.
-model=model_loc_597
+model=furniture_longtable_wide
 width=4
 length=2
 blockrange=no
@@ -70,28 +70,28 @@ category=unusable_table
 [roundtable]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_598
+model=furniture_roundtable
 blockrange=no
 category=usable_table
 
 [smashedtable]
 name=Table
 desc=At one time it was for putting things on.
-model=model_loc_599
+model=furniture_smashedtable
 blockrange=no
 category=unusable_table
 
 [gnometable]
 name=Table
 desc=The napkins are made from real silk.
-model=model_loc_600
+model=gnome_table
 blockrange=no
 category=unusable_table
 
 [table2]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_601
+model=furniture_table2
 length=2
 width=2
 blockrange=no
@@ -100,14 +100,14 @@ category=usable_table
 [table]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_602
+model=furniture_table
 blockrange=no
 category=usable_table
 
 [table3]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_603
+model=furniture_table3
 width=3
 blockrange=no
 category=unusable_table
@@ -115,28 +115,28 @@ category=unusable_table
 [table4]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_604
+model=furniture_table4
 blockrange=no
 category=unusable_table
 
 [table5]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_605
+model=furniture_table5
 blockrange=no
 category=usable_table
 
 [table_diagonal]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_606
+model=furniture_table-diagonal
 blockrange=no
 category=usable_table
 
 [clothesequip_table]
 name=Table
 desc=Items for making clothes are kept on here.
-model=model_loc_607
+model=furniture_clothesequip-table
 length=2
 blockrange=no
 category=unusable_table
@@ -144,7 +144,7 @@ category=unusable_table
 [studydesk]
 name=Study desk
 desc=The ideal place to study.
-model=model_loc_608
+model=furniture_studydesk
 width=2
 blockrange=no
 category=unusable_table
@@ -152,7 +152,7 @@ category=unusable_table
 [workbench]
 name=Workbench
 desc=A handy workbench for a handy person.
-model=model_loc_609
+model=warehouse_shop_workbench
 width=2
 blockrange=no
 category=unusable_table
@@ -160,7 +160,7 @@ category=unusable_table
 [workbench2]
 name=Workbench
 desc=A handy workbench for a handy person.
-model=model_loc_609
+model=warehouse_shop_workbench
 width=2
 blockrange=no
 retex1s=elfwood
@@ -172,7 +172,7 @@ category=unusable_table
 [picnicbench]
 name=Picnic bench
 desc=Sit back and enjoy the view.
-model=model_loc_611
+model=outdoorfurniture_picnicbench
 width=2
 length=2
 blockrange=no
@@ -181,7 +181,7 @@ category=unusable_table
 [counter]
 name=Counter
 desc=Items are for sale here.
-model=model_loc_612
+model=furniture_counter
 width=2
 blockrange=no
 category=usable_table
@@ -189,7 +189,7 @@ category=usable_table
 [egypt_table]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_613
+model=egypt_table
 width=2
 length=2
 blockrange=no
@@ -198,7 +198,7 @@ category=usable_table
 [egypt_table_2]
 name=Table
 desc=Useful for putting things on.
-model=model_loc_614
+model=egypt_table2
 length=2
 blockrange=no
 category=usable_table
@@ -206,21 +206,21 @@ category=usable_table
 [egypt_small_table]
 name=Small table
 desc=Useful for putting things on.
-model=model_loc_615
+model=egypt_small_table
 blockrange=no
 category=usable_table
 
 [spookytable]
 name=Table
 desc=A creepy looking table.
-model=model_loc_616
+model=spooky_table
 blockrange=no
 category=usable_table
 
 [glass_fronted_counter]
 name=Counter
 desc=Items are for sale here.
-model=model_loc_617
+model=furniture_loc_617
 width=2
 blockrange=no
 category=usable_table
@@ -228,7 +228,7 @@ category=usable_table
 [chemistry_table1]
 name=Chemistry Table
 desc=There are some strange chemicals here.
-model=model_loc_618
+model=furniture_chemistry_table1
 width=2
 blockrange=no
 category=unusable_table
@@ -236,7 +236,7 @@ category=unusable_table
 [chemistry_table2]
 name=Chemistry Table
 desc=There are some strange chemicals here.
-model=model_loc_619
+model=furniture_chemistry_table2
 width=2
 blockrange=no
 category=unusable_table
@@ -244,14 +244,14 @@ category=unusable_table
 [table_bamboo]
 name=Table
 desc=Bamboo's a versatile material.
-model=model_loc_620
+model=furniture_table_bamboo
 blockrange=no
 category=usable_table
 
 [v_bigroundtable]
 name=Table
 desc=It's a banquet table.
-model=model_loc_621
+model=furniture_loc_621
 width=5
 length=5
 blockrange=no
@@ -261,7 +261,7 @@ category=unusable_table
 [v_bigroundtable_brown]
 name=Table
 desc=It's a banquet table.
-model=model_loc_621
+model=furniture_loc_621
 width=5
 length=5
 blockrange=no
@@ -275,7 +275,7 @@ category=unusable_table
 [bigroundtable_dark]
 name=Table
 desc=A nice sturdy looking table.
-model=model_loc_593
+model=furniture_bigroundtable
 width=2
 length=2
 blockrange=no
@@ -286,7 +286,7 @@ category=usable_table
 [bedsidetable]
 name=Table
 desc=A nice sturdy looking table.
-model=model_loc_594
+model=furniture_bigtable
 blockrange=no
 resizex=40
 resizey=100
@@ -300,7 +300,7 @@ category=usable_table
 [rockcounter]
 name=Counter
 desc=A counter made from a stone block.
-model=model_loc_2791
+model=cave_loc_2791
 width=2
 active=yes
 category=usable_table

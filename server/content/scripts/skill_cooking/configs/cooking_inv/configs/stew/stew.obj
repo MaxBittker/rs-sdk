@@ -1,9 +1,8 @@
-//guess
 [stew1]
 name=Incomplete stew
 desc=I need to add some meat too.
 cost=4
-model=model_2367_obj
+model=inv_bowl-full
 recol1s=21119
 recol1d=14800
 2dzoom=910
@@ -11,12 +10,11 @@ recol1d=14800
 2dxan=204
 weight=1kg
 
-//guess
 [stew2]
 name=Incomplete stew
 desc=I need to add some potato too.
 cost=4
-model=model_2367_obj
+model=inv_bowl-full
 recol1s=21119
 recol1d=14800
 2dzoom=910
@@ -24,12 +22,11 @@ recol1d=14800
 2dxan=204
 weight=1200g
 
-//guess
 [burnt_stew]
 name=Burnt stew
 desc=Eew, it's horribly burnt.
 cost=1
-model=model_2367_obj
+model=inv_bowl-full
 recol1s=21119
 recol1d=4228
 2dzoom=910
@@ -38,12 +35,11 @@ recol1d=4228
 iop1=Empty Bowl
 weight=1300g
 
-//guess
 [burnt_curry]
 name=Burnt curry
 desc=Eew, it's horribly burnt.
 cost=1
-model=model_2367_obj
+model=inv_bowl-full
 recol1s=21119
 recol1d=4228
 2dzoom=910
@@ -57,7 +53,7 @@ weight=1300g
 name=Potato
 desc=This could be used to make a good stew.
 cost=1
-model=model_2766_obj
+model=inv_potato
 2dxof=2
 2dyof=1
 2dzoom=940
@@ -67,13 +63,12 @@ weight=500g
 category=category_131
 param=gnome_cooking_ingredient,^true
 
-//guess
 [stew]
 iop1=Eat
 name=Stew
 desc=It's a meat and potato stew.
 cost=20
-model=model_2367_obj
+model=inv_bowl-full
 recol1s=21119
 recol1d=11488
 2dzoom=910
@@ -83,13 +78,12 @@ weight=1500g
 category=category_59
 param=next_obj_stage,bowl_empty
 
-//guess
 [curry]
 iop1=Eat
 name=Curry
 desc=It's a spicy hot curry.
 cost=20
-model=model_2367_obj
+model=inv_bowl-full
 recol1s=21119
 recol1d=22881
 2dzoom=910

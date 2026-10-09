@@ -1,0 +1,50 @@
+[oploc1,mm_temple_trapdoor]
+// https://youtu.be/Qr9nNWqN6Y8?si=94u28umKlrFmDdB3&t=1971
+anim(human_pickupfloor, 0);
+p_delay(0);
+sound_synth(door_open, 0, 0);
+loc_change(mm_temple_trapdoor_open, 500);
+mes("The trapdoor opens...");
+
+[oploc1,mm_temple_trapdoor_open]
+mes("You climb down the trapdoor.");
+~fade_out;
+p_delay(3);
+p_teleport(0_43_143_55_49);
+p_delay(0);
+~fade_in;
+p_delay(3);
+if_openoverlay(null);
+
+[oploc2,mm_temple_trapdoor_open]
+sound_synth(door_close, 0, 0);
+loc_change(mm_temple_trapdoor, 500);
+
+[oploc1,mm_climbing_rope_bottom_temple]
+p_delay(0);
+anim(human_reachforladder, 0);
+p_delay(1);
+mes("You climb up the rope.");
+p_teleport(map_findsquare(0_43_43_55_33, 1, 2, ^map_findsquare_lineofsight));
+
+[mapzone,0_43_143]
+if(gettimer(mm_dungeon_spikes) = -1) {
+    settimer(mm_dungeon_spikes, 1);
+}
+@music_playbyregion(coord);
+
+[mapzoneexit,0_43_143]
+if(inzone(0_42_142_0_0, 0_43_143_63_63, coord) = false) {
+    cleartimer(mm_dungeon_spikes);
+}
+
+[mapzone,0_42_143]
+if(gettimer(mm_dungeon_spikes) = -1) {
+    settimer(mm_dungeon_spikes, 1);
+}
+@music_playbyregion(coord);
+
+[mapzoneexit,0_42_143]
+if(inzone(0_42_142_0_0, 0_43_143_63_63, coord) = false) {
+    cleartimer(mm_dungeon_spikes);
+}

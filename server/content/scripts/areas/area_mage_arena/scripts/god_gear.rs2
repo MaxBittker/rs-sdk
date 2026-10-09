@@ -29,7 +29,7 @@ return(true);
 
 [label,drop_god_cape]
 inv_delslot(inv, last_slot);
-sound_synth(put_down, 0, 0);
+sound_synth(put_down, 1, 0);
 mes(oc_param(last_item, lose_cape_message)); // https://youtu.be/tOUAeowTkCM?list=PLn23LiLYLb1Y4vxMPWXM-CVEvOUfuAP_o&t=140
 
 [opobj3,_armour_godcape]

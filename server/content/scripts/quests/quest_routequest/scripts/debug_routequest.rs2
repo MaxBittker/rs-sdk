@@ -1,0 +1,58 @@
+[debugproc,setroute](int $var)
+if (p_finduid(uid) = true)
+%routequest = $var;
+mes("Set routequest to: <tostring($var)>.");
+~send_quest_progress(questlist:routequest, %routequest, ^routequest_complete);
+
+[debugproc,fliproutebit](int $var)
+if (p_finduid(uid) = true)
+%routequest_myreque_bits = togglebit(%routequest_myreque_bits, $var);
+def_int $bitval = testbit(%routequest_myreque_bits, $var);
+mes("Set bit <tostring($var)> to <tostring($bitval)>.");
+
+[debugproc,resetrungs]
+if (p_finduid(uid) = true) {
+    %bridgerung1 = 0;
+    %bridgerung2 = 0;
+    %bridgerung3 = 0;
+}
+
+[debugproc,testroom](int $var)
+if (p_finduid(uid) = true) {
+    p_teleport(3_54_153_50_45);
+    if(npc_find(3_54_153_43_57, route_veliaf_hurtz, 30, 0) = true) {
+        @route_attempt_enter_cutscene($var);
+    }
+}
+
+[debugproc,cutcam]
+if (p_finduid(uid) = true) {
+    def_coord $roomcoords = 3_54_153_50_45;
+    cam_moveto(movecoord($roomcoords, 0, 0, 6), 500, 232, 100);
+    cam_lookat(movecoord($roomcoords, -1, 0, -5), 100, 232, 100);
+    p_delay(4);
+    cam_moveto(movecoord($roomcoords, 0, 0, 6), 500, 2, 2);
+    cam_lookat(movecoord($roomcoords, 0, 0, 0), 125, 2, 2);
+    p_delay(4);
+    cam_reset;
+}
+
+[debugproc,camtest](int $x, int $y, int $h)
+if (p_finduid(uid) = true) {
+    def_coord $roomcoords = 3_54_153_50_45;
+    mes("camtest <tostring($x)>;0;<tostring($y)> - <tostring($h)>");
+    cam_moveto(movecoord($roomcoords, $x, 0, $y), $h, 232, 100);
+}
+[debugproc,camlook](int $x, int $y, int $h)
+if (p_finduid(uid) = true) {
+    def_coord $roomcoords = 3_54_153_50_45;
+    mes("camlook <tostring($x)>;0;<tostring($y)> - <tostring($h)>");
+    cam_lookat(movecoord($roomcoords, $x, 0, $y), $h, 232, 100);
+}
+[debugproc,camreset]
+if (p_finduid(uid) = true) {
+    cam_reset;
+}
+
+[debugproc,tcm]
+queue(routequest_complete, 0, 0);

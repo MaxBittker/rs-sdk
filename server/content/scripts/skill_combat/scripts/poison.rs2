@@ -54,7 +54,7 @@ if (gender() = 0) {
         case default : $sound = female_hit;
     }
 }
-sound_synth($sound, 0, 20);
+sound_synth($sound, 1, 20);
 
 if (stat(hitpoints) = 0) {
     queue(player_death, 0, 0);

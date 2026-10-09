@@ -23,7 +23,8 @@ def_int $op = ~p_choice4("What is this castle?", 1, "Where is the prince?", 2, "
 while($op ! null) {
     if($op = 1) {
         ~chatplayer("<p,neutral>What is this castle?");
-        ~chatnpc("<p,neutral>Welcome to Burthorpe Castle! Home to his Royal Highness the Prince of Burthorpe, Heir to the Throne of Asgarnia!");
+        // https://rsrclan.com/media/quests/P2P/deathplt/9940.png
+        ~chatnpc("<p,neutral>Welcome to Burthorpe Castle!|Home to his Royal Highness the Prince of Burthorpe,|Heir to the Throne of Asgarnia!");
         ~chatplayer("<p,shock>Wow!");
     } else if($op = 2) {
         ~chatplayer("<p,neutral>Where is the prince?");

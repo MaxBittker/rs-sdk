@@ -12,7 +12,7 @@ if ($tele_back_coord ! ^essence_mine_to_brimstail) { // brimstall anim buggy, ne
     npc_anim(human_castcurse, 0); // No anim in osrs
 }
 spotanim_npc(curse_casting, 92, 0);
-sound_synth(curse_all, 0, 0);
+sound_synth(curse_all, 1, 0);
 def_int $duration = ~player_projectile(npc_coord, coord, uid, curse_travel, 31, 31, 61, 16, 0, 128, 5);
 // osrs is 100 but 70 lines up better with our different sound synth
 spotanim_pl(curse_impact, 124, 70);
@@ -25,12 +25,12 @@ $coord = map_findsquare($coord, 0, 1, ^map_findsquare_lineofsight);
 p_telejump($coord);
 
 // portal
-[oploc1,essencemine_portal]
+[oploc1,blankrunestone_exit_portal]
 // IncompleteProjectile(id = 109, startHeight = 15, endHeight = 31, delay = 0, angle = 16, distOffset = 128)	| distance = 1, flightDuration = 30, visualStart = Location(x = 9557, y = 3778, z = 0)
 mes("You step through the portal...");
 def_int $duration = ~player_projectile(loc_coord, coord, uid, curse_travel, 15, 31, 0, 16, 0, 128, 5);
 spotanim_pl(curse_impact, 124, 30);
-sound_synth(teleport_all, 0, 0);
+sound_synth(teleport_all, 1, 0);
 p_delay(1);
 if (%exit_essence_mine_coord = null) {
     %exit_essence_mine_coord = ^essence_mine_to_sedridor;

@@ -1,7 +1,7 @@
 [raw_oomlie]
 name=Raw oomlie
 desc=Raw meat from the oomlie bird.
-model=model_2498_obj
+model=inv_chicken_carcass
 recol1s=15619
 recol1d=22098
 2dxof=-3
@@ -17,7 +17,7 @@ category=cooking_generic
 name=Palm leaf
 desc=A thick green palm leaf used by natives to cook meat in.
 cost=5
-model=model_2651_obj
+model=inv_palmleaf
 2dxof=2
 2dyof=11
 2dzoom=1290
@@ -26,11 +26,10 @@ model=model_2651_obj
 weight=100g
 members=yes
 
-//guess
 [burnt_oomlie]
 name=Burnt oomlie wrap
 desc=Burnt oomlie meat in a palm leaf pouch.
-model=model_2687_obj
+model=inv_palmleafwithmeat
 recol1s=15364
 recol1d=3171
 recol2s=30320
@@ -53,7 +52,7 @@ name=Burnt oomlie
 desc=Oh dear, it's totally burnt!
 cost=1
 members=yes
-model=model_2498_obj
+model=inv_chicken_carcass
 recol1s=15619
 recol1d=5285
 2dxof=-3
@@ -62,12 +61,11 @@ recol1d=5285
 2dxan=88
 weight=4oz
 
-//guess
 [cooked_oomlie]
 name=Cooked oomlie wrap
 desc=Deliciously cooked oomlie meat in a palm leaf pouch.
 iop1=Eat
-model=model_2687_obj
+model=inv_palmleafwithmeat
 recol1s=15364
 recol1d=16609
 recol2s=30320
@@ -86,11 +84,10 @@ cost=35
 weight=300g
 category=category_59
 
-//guess
 [wrapped_oomlie]
 name=Wrapped oomlie
 desc=Oomlie meat in a palm leaf pouch.  It just needs to be cooked.
-model=model_2687_obj
+model=inv_palmleafwithmeat
 2dxof=2
 2dyof=-103
 2dzoom=1110

@@ -22,7 +22,7 @@ switch_int(%waterfall_quest) {
         $text = append($text, "@str@with Baxtorian withdrawing to his home under the waterfall|@str@after his wife dies. It is told that only Glarial could enter|");
         $text = append($text, "@str@their home.||");
         $text = append($text, "@dbl@The book also mentions @dre@Glarial's tomb@dbl@ and a pebble, it appears that the pebble is used to enter the tomb.|");
-        if (testbit(%waterfall_golrie_and_puzzle, 0) = ^true) { // https://www.youtube.com/watch?v=vwM9jclC4W4
+        if (inv_total(inv, glarials_pebble_waterfall_quest) > 0) { // https://www.youtube.com/watch?v=vwM9jclC4W4
             $text = append($text, "@str@From what I understand Glarial's pebble was hidden in a|@str@cave under the Tree Gnome Village by Golrie's ancestors.");
         } else {
             $text = append($text, "@dbl@From what I understand @dre@Glarial's pebble@dbl@ was hidden in a cave under the @dre@Tree Gnome Village@dbl@ by @dre@Golrie's@dbl@ ancestors.");

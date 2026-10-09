@@ -157,7 +157,7 @@ if (afk_event = ^true) {
 if (%action_delay < map_clock) {
     %action_delay = calc(map_clock + 3);
     anim(human_furnace, 0);
-    sound_synth(furnace, 0, 0);
+    sound_synth(furnace, 1, 0);
     mes(struct_param($struct, processmessage));
     weakqueue*(smelting_ore, $delay)($struct, $count);
 } else {
@@ -183,7 +183,7 @@ if ($secondary_total < struct_param($struct, ingredient_secondary_count)) {
 }
 %action_delay = calc(map_clock + 3);
 anim(human_furnace, 0); // plays here for somereason
-sound_synth(furnace, 0, 0);
+sound_synth(furnace, 1, 0);
 mes(struct_param($struct, processmessage));
 weakqueue*(smelting_ore, 3)($struct, $count);
 

@@ -1,0 +1,133 @@
+// Tick 682	
+// varbit	id=date_milliseconds_past_minute (12391), old=575, new=174
+// varbit	id=date_seconds_past_minute (12392), old=46, new=47
+// varp_large	id=map_clock (3079), old=180026, new=180027
+// varp_small	id=hauntedmine (382), old=5, new=6
+// player_info	
+// teleport	player=(index=757, name=tander dino, coord=(0_42_69_62_20)), newcoord=(0_42_71_42_19)
+// npc_info_small_v5	
+// del	npc=(index=18028, id=possessed_pickaxe_stationary (3613), coord=(0_42_69_55_21))
+// del	npc=(index=18027, id=possessed_pickaxe_stationary (3613), coord=(0_42_69_57_19))
+// Tick 683	
+// varbit	id=chatmodal_unclamp (10670), old=0, new=1
+// message_game	type=dialogue, message="tander dino|It's kind of dark down here. I should probably find some form of light before going further."
+// varbit	id=date_milliseconds_past_minute (12391), old=174, new=770
+// varp_large	id=map_clock (3079), old=180027, new=180028
+// varbit	id=busy (12393), old=0, new=1
+// runclientscript	id=2379
+// if_opensub	com=chatbox:chatmodal (162:567), id=chat_right (217), type=modal
+// if_setplayerhead	com=chat_right:head (217:2)
+// if_setanim	com=chat_right:head (217:2), id=chatneu2 (589)
+// if_settext	com=chat_right:name (217:4), text="tander dino"
+// if_settext	com=chat_right:text (217:6), text="It's kind of dark down here. I should probably find<br>some form of light before going further."
+// runclientscript	id=600, types=[int, int, int, int], values=[1, 1, 28, 14221318]
+// if_setevents_v2	com=chat_right:continue (217:5), start=-1, end=-1, events=[PAUSEBUTTON]
+// if_settext	com=chat_right:continue (217:5), text="Click here to continue"
+// Tick 684	
+
+// Test: smuggle fire into mine with barbarian firemaking
+// - No fm checks at all
+// - can light torches
+// - light sources dont light these up at all, only glowing mushrooms
+// - going up lift doesnt extinguish torch
+
+[oploc1,hauntedmine_dark_stairs_top]
+// check what stage you can go down here without fungus.
+if (inv_total(inv, glowing_fungus) < 1 & %hauntedmine <= ^hauntedmine_lightstairsfound) {
+    if (%hauntedmine = ^hauntedmine_liftused) %hauntedmine = ^hauntedmine_darkstairsfound;
+
+    if (loc_coord = 0_42_69_4_20) p_teleport(0_42_71_24_49);
+    else if (loc_coord = 0_42_69_58_20) p_teleport(0_42_71_42_19);
+
+    ~chatplayer("<p,neutral>It's kind of dark down here. I should probably find|some form of light before going further.");
+    return;
+}
+if (%hauntedmine = ^hauntedmine_liftused | %hauntedmine = ^hauntedmine_darkstairsfound) %hauntedmine = ^hauntedmine_lightstairsfound;
+if (loc_coord = 0_42_69_4_20) p_teleport(0_43_69_6_38);
+else if (loc_coord = 0_42_69_58_20) p_teleport(0_43_69_59_38);
+
+[oploc1,hauntedmine_dark_stairs_bottom]
+if (loc_coord = 0_42_71_43_17) p_teleport(0_42_69_62_21);
+else if (loc_coord = 0_42_71_21_47) p_teleport(0_42_69_3_21);
+
+[oploc1,hauntedmine_light_stairs_bottom]
+if (loc_coord = 0_43_69_3_36) p_teleport(0_42_69_3_21);
+else if (loc_coord = 0_43_69_60_36) p_teleport(0_42_69_62_21);
+
+
+// Tick 41	
+// varbit	id=date_milliseconds_past_minute (12391), old=105, new=705
+// varp_large	id=map_clock (3079), old=182854, new=182855
+// player_info	
+// teleport	player=(index=787, name=tander dino, coord=(0_42_69_3_22)), newcoord=(0_42_71_24_49)
+// Tick 42	
+// varbit	id=chatmodal_unclamp (10670), old=0, new=1
+// message_game	type=dialogue, message="tander dino|It's kind of dark down here. I should probably find some form of light before going further."
+// varbit	id=date_milliseconds_past_minute (12391), old=705, new=306
+// varbit	id=date_seconds_past_minute (12392), old=9, new=10
+// varp_large	id=map_clock (3079), old=182855, new=182856
+// varbit	id=busy (12393), old=0, new=1
+// runclientscript	id=2379
+// if_opensub	com=chatbox:chatmodal (162:567), id=chat_right (217), type=modal
+// if_setplayerhead	com=chat_right:head (217:2)
+// if_setanim	com=chat_right:head (217:2), id=chatneu2 (589)
+// if_settext	com=chat_right:name (217:4), text="tander dino"
+// if_settext	com=chat_right:text (217:6), text="It's kind of dark down here. I should probably find<br>some form of light before going further."
+// runclientscript	id=600, types=[int, int, int, int], values=[1, 1, 28, 14221318]
+// if_setevents_v2	com=chat_right:continue (217:5), start=-1, end=-1, events=[PAUSEBUTTON]
+// if_settext	com=chat_right:continue (217:5), text="Click here to continue"
+
+
+
+
+// Tick 8070	
+// oploc1_v2	id=hauntedmine_dark_stairs_top (4971), coord=(0_42_69_4_20)
+// varbit	id=date_milliseconds_past_minute (12391), old=763, new=363
+// varbit	id=date_seconds_past_minute (12392), old=54, new=55
+// varp_large	id=map_clock (3079), old=784559, new=784560
+// player_info	
+// teleport	player=(index=17, name=Realstorm971, coord=(0_42_69_3_21)), newcoord=(0_43_69_6_38)
+// Tick 8071	
+// oploc1_v2	id=hauntedmine_light_stairs_bottom (4973), coord=(0_43_69_3_36)
+// varbit	id=date_milliseconds_past_minute (12391), old=363, new=960
+// varp_large	id=map_clock (3079), old=784560, new=784561
+// varbit	id=multiway_indicator (4605), old=0, new=1
+// runclientscript	id=3932
+// Tick 8072	
+// varbit	id=date_milliseconds_past_minute (12391), old=960, new=564
+// varbit	id=date_seconds_past_minute (12392), old=55, new=56
+// varp_large	id=map_clock (3079), old=784561, new=784562
+// player_info	
+// teleport	player=(index=17, name=Realstorm971, coord=(0_43_69_6_38)), newcoord=(0_42_69_3_21)
+
+// Tick 10377	
+// oploc1_v2	id=hauntedmine_dark_stairs_top (4971), coord=(0_42_69_58_20)
+// varbit	id=date_milliseconds_past_minute (12391), old=108, new=706
+// varp_large	id=map_clock (3079), old=786866, new=786867
+// Tick 10378	
+// varp_large	id=date_minutes (3078), old=29743059, new=29743060
+// varbit	id=date_milliseconds_past_minute (12391), old=706, new=307
+// varbit	id=date_seconds_past_minute (12392), old=59, new=0
+// varp_large	id=map_clock (3079), old=786867, new=786868
+// player_info	
+// teleport	player=(index=17, name=Realstorm971, coord=(0_42_69_62_21)), newcoord=(0_43_69_59_38)
+// npc_info_small_v5	
+// del	npc=(index=18028, id=possessed_pickaxe_stationary (3613), coord=(0_42_69_51_23))
+// del	npc=(index=18026, id=possessed_pickaxe_stationary (3613), coord=(0_42_69_50_23))
+// del	npc=(index=18027, id=possessed_pickaxe_stationary (3613), coord=(0_42_69_53_21))
+// Tick 10379	
+// varbit	id=date_milliseconds_past_minute (12391), old=307, new=909
+// varp_large	id=map_clock (3079), old=786868, new=786869
+// varbit	id=multiway_indicator (4605), old=0, new=1
+// runclientscript	id=3932
+// Tick 10380	
+// oploc1_v2	id=hauntedmine_light_stairs_bottom (4973), coord=(0_43_69_60_36)
+// varbit	id=date_milliseconds_past_minute (12391), old=909, new=511
+// varbit	id=date_seconds_past_minute (12392), old=0, new=1
+// varp_large	id=map_clock (3079), old=786869, new=786870
+// player_info	
+// teleport	player=(index=17, name=Realstorm971, coord=(0_43_69_59_38)), newcoord=(0_42_69_62_21)
+// npc_info_small_v5	
+// add	npc=(index=18028, id=possessed_pickaxe_stationary (3613), coord=(0_42_69_51_23)), spawnangle=north-east
+// add	npc=(index=18026, id=possessed_pickaxe_stationary (3613), coord=(0_42_69_50_23)), spawnangle=west
+// add	npc=(index=18027, id=possessed_pickaxe_stationary (3613), coord=(0_42_69_53_21)), spawnangle=west

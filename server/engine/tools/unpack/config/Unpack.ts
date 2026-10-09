@@ -4,7 +4,7 @@ import FileStream from '#/io/FileStream.js';
 import Jagfile from '#/io/Jagfile.js';
 import Packet from '#/io/Packet.js';
 import { printFatalError, printInfo } from '#/util/Logger.js';
-import { FloPack, IdkPack, LocPack, ModelPack, NpcPack, ObjPack, SeqPack, SpotAnimPack, VarbitPack, VarpPack } from '#tools/pack/PackFile.js';
+import { AnimPack, FloPack, IdkPack, LocPack, ModelPack, NpcPack, ObjPack, SeqPack, SpotAnimPack, TexturePack, VarbitPack, VarpPack } from '#tools/pack/PackFile.js';
 
 import { ConfigIdx } from './Common.js';
 import { unpackSeqConfig } from './SeqConfig.js';
@@ -19,6 +19,13 @@ import { unpackSpotAnimConfig } from './SpotAnimConfig.js';
 import Model from '#/cache/graphics/Model.js';
 import { listFilesExt } from '#tools/pack/Parse.js';
 import { unpackVarbitConfig } from '#tools/unpack/config/VarbitConfig.js';
+
+function loadPackFiles() {
+    for (const pack of [AnimPack, FloPack, IdkPack, LocPack, ModelPack, NpcPack, ObjPack, SeqPack, SpotAnimPack, TexturePack, VarpPack, VarbitPack]) {
+        pack.clear();
+        pack.load(`${Environment.build.srcDir}/pack/${pack.type}.pack`);
+    }
+}
 
 function readConfigIdx(idx: Packet | null, dat: Packet | null): ConfigIdx {
     if (!idx || !dat) {
@@ -103,8 +110,6 @@ function reorderUnpacked(config: string[], settings: { moveName: boolean; moveDe
             model.push(line);
         } else if (settings.moveRecol && (line.startsWith('recol') || line.startsWith('retex'))) {
             recol.push(line);
-        } else if (!line.startsWith('hasalpha=') && !line.startsWith('code9=')) {
-            others.push(line);
         }
     }
     return [...debugname, ...name, ...desc, ...model, ...recol, ...others];
@@ -256,10 +261,11 @@ function unpackModelNames(type: string, unpack: UnpackModelImpl, config: Jagfile
                 continue;
             }
 
-            let name = `${debugname}${LocShapeSuffix[shape]}`;
+            const suffix = shape === LocShapeSuffix._8 ? '' : LocShapeSuffix[shape];
+            let name = `${debugname}${suffix}`;
             let i = 2;
             while (ModelPack.getByName(name) !== -1) {
-                name = `${debugname}i${i}${LocShapeSuffix[shape]}`;
+                name = `${debugname}i${i}${suffix}`;
                 i++;
             }
 
@@ -279,6 +285,8 @@ function unpackConfigs(revision: string) {
     if (!fs.existsSync('data/unpack/main_file_cache.dat')) {
         printFatalError('Place a functional cache inside data/unpack to continue.');
     }
+
+    loadPackFiles();
 
     const cache = new FileStream('data/unpack');
     const temp = cache.read(0, 2);
@@ -353,4 +361,4 @@ function unpackConfigs(revision: string) {
     printInfo('Done! Manual post processing may be required.');
 }
 
-unpackConfigs('274');
+unpackConfigs('289');

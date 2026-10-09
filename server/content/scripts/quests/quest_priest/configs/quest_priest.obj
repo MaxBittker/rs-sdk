@@ -2,7 +2,7 @@
 name=Ghostspeak amulet
 desc=It lets me talk to ghosts.
 cost=35
-model=model_2576_obj
+model=inv_amulet_ghostspeak
 recol1s=7399
 recol1d=31041
 2dxof=1
@@ -12,15 +12,15 @@ recol1d=31041
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_280_obj_wear,0
-womanwear=model_444_obj_wear,0
+manwear=man_necklaces_basic,0
+womanwear=woman_necklaces_basic,0
 weight=10g
 tradeable=no
 
 [ghostskull]
 name=Skull
 desc=Ooooh spooky!
-model=model_2388_obj
+model=inv_skull
 2dxof=-1
 2dyof=-10
 2dzoom=530

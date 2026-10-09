@@ -1,14 +1,14 @@
 [pipeastsidetrapdoor]
 name=Trapdoor
 desc=I wonder what's under it?
-model=model_loc_100
+model=furniture_trapdoor
 active=yes
 op1=Open
 
 [pipeastsidetrapdoor_open]
 name=Trapdoor
 desc=I can see a holy barrier at the bottom.
-model=model_loc_1570
+model=furniture_trapdoor_open
 active=yes
 op1=Climb-down
 op2=Close
@@ -19,7 +19,7 @@ anim=hanginglantern
 active=no
 
 [ornatewall]
-model=loc_3435
+model=transilvania_area_priestperil_walls_ornatewall
 retex1s=wood2
 retex1d=darkwood
 recol2s=8353
@@ -54,7 +54,7 @@ occlude=yes
 active=no
 
 [ornatewall_swampy]
-model=loc_3435
+model=transilvania_area_priestperil_walls_ornatewall
 retex1s=wall
 retex1d=mossybricks
 recol2s=26423
@@ -69,7 +69,7 @@ ambient=100
 active=no
 
 [wall_stand]
-model=loc_3439
+model=transilvania_area_priestperil_walls_stand
 retex1s=wood2
 retex1d=darkwood
 recol2s=8353
@@ -80,7 +80,7 @@ active=no
 [building_steps_up]
 name=Stairs
 desc=They let you walk up them!
-model=loc_3440
+model=transilvania_area_priestperil_building_steps
 retex1s=wood2
 retex1d=darkwood
 op1=Use
@@ -88,7 +88,7 @@ op1=Use
 [building_steps_down]
 name=Stairs
 desc=They let you walk down them!
-model=loc_3441
+model=transilvania_area_priestperil_building_steps_down
 op1=Use
 
 [underground_wall_side]
@@ -116,19 +116,19 @@ op1=Pass-through
 [pip_underground_door1]
 name=Gate
 desc=A sturdy metal gate.
-model=model_loc_37
+model=basic_prisondoor
 op1=Open
 param=next_loc_stage,inacpip_underground_door
 
 [pip_underground_door2]
 name=Gate
 desc=A sturdy metal gate.
-model=model_loc_37
+model=basic_prisondoor
 op1=Open
 param=next_loc_stage,inacpip_underground_door
 
 [inacpip_underground_door]
-model=model_loc_37
+model=basic_prisondoor
 active=no
 
 [underground_wall_toplvl2]
@@ -211,19 +211,19 @@ occlude=yes
 active=no
 
 [ornaterailing]
-model=loc_3457
+model=transilvania_area_priestperil_walls_ornaterailing
 sharelight=yes
 hillskew=yes
 active=no
 
 [ornaterailing_terminator_l]
-model=loc_3458
+model=transilvania_area_priestperil_walls_ornaterailing_terminator
 sharelight=yes
 hillskew=yes
 active=no
 
 [ornaterailing_terminator_r]
-model=loc_3458
+model=transilvania_area_priestperil_walls_ornaterailing_terminator
 sharelight=yes
 hillskew=yes
 mirror=yes
@@ -248,14 +248,14 @@ active=no
 [pip_prisondoor]
 name=Cell door
 desc=A hastily constructed yet sturdy prison door.
-model=model_loc_37
+model=basic_prisondoor
 op1=Open
 op2=Talk-through
 category=door_open_and_close
 param=next_loc_stage,inactive_pipprisondoor
 
 [inactive_pipprisondoor]
-model=model_loc_37
+model=basic_prisondoor
 active=no
 
 [prisonwall_spare]
@@ -263,11 +263,11 @@ model=loc_3465
 active=no
 
 [hangingmeat1]
-model=loc_3466
+model=transilvania_area_priestperil_walldecor_hangingmeat1
 ambient=10
 
 [hangingmeat2]
-model=loc_3467
+model=transilvania_area_priestperil_walldecor_hangingmeat2
 ambient=10
 
 [temple_window]
@@ -282,25 +282,25 @@ ambient=50
 active=no
 
 [window_shutter]
-model=loc_3470
+model=transilvania_area_priestperil_walldecor_window_shutter
 ambient=100
 active=no
 
 [straw]
-model=loc_3471
+model=transilvania_area_priestperil_floordecors_straw
 active=no
 
 [straw2]
-model=loc_3472
+model=transilvania_area_priestperil_floordecors_straw2
 active=no
 
 [candle_wall]
-model=loc_3473
+model=transilvania_area_priestperil_walldecor_candle
 ambient=50
 active=no
 
 [hanginglantern]
-model=loc_3474
+model=transilvania_area_priestperil_walldecor_hanginglantern
 anim=hanginglantern
 active=no
 
@@ -330,7 +330,7 @@ recol2d=5250
 active=no
 
 [candle_stand]
-model=loc_3478
+model=transilvania_area_priestperil_candle_stand
 active=no
 
 [priestperil_statue]
@@ -347,8 +347,8 @@ model=loc_3480
 length=2
 op1=Open
 
-[loc_3481]
-model=loc_3481
+[cracks_black1]
+model=floor_cracks_black1
 recol1s=0
 recol1d=6342
 
@@ -381,12 +381,12 @@ model=loc_3486
 active=no
 
 [priestperil_table]
-model=loc_3487
+model=transilvania_area_priestperil_table
 active=no
 width=2
 
 [priestperil_chair]
-model=loc_3488
+model=transilvania_area_priestperil_chair
 active=no
 
 [priestperiltempledoorl]
@@ -516,7 +516,7 @@ category=priestperil_monument
 [smallchurchorgan]
 name=Church organ
 desc=With skill I can play this.
-model=model_loc_416
+model=quest_churchorgan
 width=2
 resizex=64
 resizez=64

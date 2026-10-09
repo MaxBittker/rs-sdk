@@ -87,7 +87,7 @@ $x, $z = ~door_open($angle, loc_shape);
 // Temp note: dur updated
 loc_change(inviswall, 3);
 loc_add(movecoord($loc_coord, $x, 0, $z), ctratgatea, modulo(add($angle, 1), 4), $shape, 3);
-sound_synth(grate_open, 0, 0);
+sound_synth(grate_open, 1, 0);
 p_delay(6);
 npc_del;
 @arena_enter;

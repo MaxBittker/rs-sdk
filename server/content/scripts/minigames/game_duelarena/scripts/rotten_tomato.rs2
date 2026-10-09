@@ -8,7 +8,7 @@ if (%rotten_tomato_delay > map_clock) {
 inv_delslot(inv, last_useslot);
 
 anim(human_throw, 0);
-sound_synth(thrown, 0, 0);
+sound_synth(thrown, 1, 0);
 spotanim_pl(rotten_tomato_launch, 96, 0);
 %rotten_tomato_delay = calc(map_clock + 5);
 

@@ -1,7 +1,7 @@
 [brokeclockpole_red]
 name=Clock spindle
 desc=Seems to be some kind of clock part.
-model=model_loc_25
+model=quest_loc_25
 active=yes
 recol1s=152
 recol1d=30753
@@ -9,7 +9,7 @@ recol1d=30753
 [brokeclockpole_black]
 name=Clock spindle
 desc=Seems to be some kind of clock part.
-model=model_loc_25
+model=quest_loc_25
 active=yes
 recol1s=152
 recol1d=0
@@ -17,7 +17,7 @@ recol1d=0
 [brokeclockpole_white]
 name=Clock spindle
 desc=Seems to be some kind of clock part.
-model=model_loc_25
+model=quest_loc_25
 active=yes
 recol1s=152
 recol1d=32767
@@ -25,13 +25,13 @@ recol1d=32767
 [brokeclockpole_blue]
 name=Clock spindle
 desc=Seems to be some kind of clock part.
-model=model_loc_25
+model=quest_loc_25
 active=yes
 
 [clockpole_red]
 name=Clock spindle
 desc=Seems to be some kind of clock part.
-model=model_loc_25
+model=quest_loc_25
 active=yes
 recol1s=152
 recol1d=30753
@@ -40,7 +40,7 @@ category=incorrect_clock_spindle
 [clockpole_black]
 name=Clock spindle
 desc=Seems to be some kind of clock part.
-model=model_loc_25
+model=quest_loc_25
 active=yes
 recol1s=152
 recol1d=0
@@ -49,7 +49,7 @@ category=incorrect_clock_spindle
 [clockpole_white]
 name=Clock spindle
 desc=Seems to be some kind of clock part.
-model=model_loc_25
+model=quest_loc_25
 active=yes
 recol1s=152
 recol1d=32767
@@ -58,48 +58,48 @@ category=incorrect_clock_spindle
 [clockpole_blue]
 name=Clock spindle
 desc=Seems to be some kind of clock part.
-model=model_loc_25
+model=quest_loc_25
 active=yes
 category=incorrect_clock_spindle
 
 [ctlevera]
 name=Lever
 desc=Yup, definitely a lever.
-model=model_loc_33
+model=walldecor_leverdown
 active=yes
 op1=Pull
 
 [ctleverb]
 name=Lever
 desc=Yup, definitely a lever.
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 
 [ctlevera2]
 name=Lever
 desc=Yup, definitely a lever.
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 
 [ctleverb2]
 name=Lever
 desc=Yup, definitely a lever.
-model=model_loc_33
+model=walldecor_leverdown
 active=yes
 op1=Pull
 
 [ctratgatec]
 name=Gate
 desc=Stops people walking past.
-model=model_loc_37
+model=basic_prisondoor
 active=yes
 op1=Go-through
 
 [ctfoodtrough]
 name=Food trough
 desc=Animals have no table manners.
-model=model_loc_40
+model=outdoorfurniture_foodtrough_wooden
 width=2
 active=yes

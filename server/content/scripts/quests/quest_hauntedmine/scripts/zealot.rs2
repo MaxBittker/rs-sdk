@@ -1,0 +1,304 @@
+[opnpc1,saradominist_zealot]
+// No starting dialogue if quest complete
+if (%hauntedmine = ^hauntedmine_complete) @multi2("I've done it, I've managed to recreate the salve amulet!", zealot_recreated_amulet, "What powers does the salve amulet have?", zealot_amulet_powers);
+~chatplayer("<p,neutral>Hello there.");
+if (%hauntedmine < ^hauntedmine_started) {
+    ~chatnpc("<p,angry>State thy allegiance stranger.");
+    @multi4("I follow the path of Saradomin.", zealot_sara, "I serve only Zamorak.", zealot_zammy, "My beliefs are in accord with the teachings of Guthix.", zealot_guthix, "I have no particular allegiance.", zealot_athiest);
+}
+~chatnpc("<p,quiz>Hello again. I'm afraid I'm rather preoccupied. What|was it you wanted?");
+if (%hauntedmine = ^hauntedmine_started) @multi4("Can you explain the history of these mines again?", zealot_hauntedmine_explain_history, "Is there any other way into the mines?", zealot_hauntedmine_another_way, "How does a lost artefact that was only legendary help?", zealot_hauntedmine_only_legend, "Why was everyone in the mines slaughtered?", zealot_hauntedmine_slaughtered);
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_heardaboutkey) = ^true) @multi5("Can you explain the history of these mines again?", zealot_hauntedmine_explain_history, "Where is the second entrance to the mines?", zealot_hauntedmine_second_entrance, "Can I borrow your key?", zealot_hauntedmine_key, "How does a lost artefact that was only legendary help?", zealot_hauntedmine_only_legend, "Why was everyone in the mines slaughtered?", zealot_hauntedmine_slaughtered);
+if (%hauntedmine = ^hauntedmine_secondary_entrance | %hauntedmine = ^hauntedmine_liftused | %hauntedmine = ^hauntedmine_lightstairsfound) @multi2("Can you explain the history of these mines again?", zealot_hauntedmine_explain_history, "I've found the second entrance to the mine.", zealot_found_second_entrance);
+if (%hauntedmine = ^hauntedmine_liftfound) @multi2("Can you explain the history of these mines again?", zealot_hauntedmine_explain_history, "I've found the second entrance to the mine.", zealot_found_second_entrance_and_lift);
+if (%hauntedmine = ^hauntedmine_darkstairsfound) @multi2("Can you explain the history of these mines again?", zealot_hauntedmine_explain_history, "I've made it in to the mines.", zealot_made_into_mines);
+if (%hauntedmine = ^hauntedmine_boss_found) @zealot_found_ghost;
+if (%hauntedmine = ^hauntedmine_boss_defeated | %hauntedmine = ^hauntedmine_rewarddoor_found) @zealot_defeated_ghost;
+
+[label,zealot_sara]
+~chatplayer("<p,happy>I follow the path of Saradomin. Strength through|wisdom.");
+~chatnpc("<p,happy>Ah, a wise choice my friend. But if you truly follow|Saradomin, what brings you to these evil lands?");
+@multi3("I come seeking challenges and quests.", zealot_sara_quest, "Ok I lied.", zealot_sara_lied, "I could ask the same of you.", zealot_sara_no_u);
+
+[label,zealot_sara_quest]
+~chatplayer("<p,neutral>I come seeking challenges and quests.");
+~chatnpc("<p,happy>A noble cause indeed. One that I can sympathise with,|for I myself am upon a quest.  One that will allow|Saradomin to be glorified even in these dark lands.");
+@zealot_hauntedmine;
+
+[label,zealot_sara_lied]
+~chatplayer("<p,neutral>Ok I lied, I don't support Saradomin. I'm only here for|dastardly evil purposes.");
+~chatnpc("<p,angry>Then leave me, I have no time to listen to your|poisonous tongue.");
+
+[label,zealot_sara_no_u]
+~chatplayer("<p,quiz>I could ask the same of you.");
+~chatnpc("<p,neutral>Saradomin has granted you wisdom. The evil creatures|of this land are cunning and you are right to question|anyone's purpose here.");
+~chatnpc("<p,neutral>I am upon a quest. One that will allow Saradomin to be|glorified even in these dark lands.");
+@zealot_hauntedmine;
+
+
+[label,zealot_zammy]
+~chatplayer("<p,angry>I serve only Zamorak. Strength through chaos.");
+~chatnpc("<p,angry>Then begone.  Normally I would strike you down in|an instant, but for now I have no time. I am on a|quest of the utmost importance.");
+@multi2("What is this quest of which you speak?", zealot_zammy_quest, "Fine, I didn't want to talk to you either.", zealot_zammy_cope);
+
+[label,zealot_zammy_quest]
+~chatplayer("<p,neutral>What is this quest of which you speak?");
+~chatnpc("<p,quiz>It is no concern of yours, but rest assured it will help|in crushing you and those others who serve your vile|master.");
+~chatplayer("<p,laugh>I doubt that.");
+~chatnpc("<p,angry>I would expect nothing less of you, misguided as you|already are.");
+
+[label,zealot_zammy_cope]
+~chatplayer("<p,angry>Fine, I didn't want to talk to you either.");
+~chatnpc("<p,angry>Fear not fiend, even though I may leave you be, you|shall not escape justice at the hands of the righteous.");
+
+
+[label,zealot_guthix]
+~chatplayer("<p,neutral>My beliefs are in accord with the teachings of Guthix.|Balance is power.");
+~chatnpc("<p,neutral>A wishy washy set of beliefs. You should follow|Saradomin and find a real purpose in your life.");
+@multi2("And what sort of purpose would that be?", zealot_guthix_quest, "I can make my own choices.", zealot_guthix_own_choices);
+
+[label,zealot_guthix_quest]
+~chatplayer("<p,neutral>And what sort of purpose would that be?");
+~chatnpc("<p,happy>To further the glory of Saradomin of course.");
+~chatnpc("<p,neutral>Take myself, I am upon a quest that will allow|Saradomin to be glorified even in these dark lands.");
+@zealot_hauntedmine;
+
+[label,zealot_guthix_own_choices]
+~chatplayer("<p,angry>I can make my own choices, who are you to dispute|them?");
+~chatnpc("<p,neutral>I look only to help those who are misguided.");
+
+
+[label,zealot_athiest]
+~chatplayer("<p,neutral>I have no particular allegiance.");
+~chatnpc("<p,neutral>Then your life is without reason or direction. I would|talk to you further on the matter, but for now my|attentions must be elsewhere.");
+@multi2("Then I shall leave you to your business.", zealot_athiest_leave, "Why, what are you doing?", zealot_athiest_quest);
+
+[label,zealot_athiest_quest]
+~chatplayer("<p,neutral>Why, what are you doing?");
+~chatnpc("<p,neutral>I am upon a quest. One that will allow Saradomin to be|glorified even in these dark lands.");
+@zealot_hauntedmine;
+
+[label,zealot_athiest_leave]
+~chatplayer("<p,neutral>Then I shall leave you to your business.");
+~chatnpc("<p,neutral>I shall pray that Saradomin grants you the wisdom to|see through your folly.");
+
+
+[label,zealot_hauntedmine] @multi2("What quest is that then?", zealot_hauntedmine_start, "I hope it goes well.  Goodbye.", zealot_hauntedmine_leave);
+
+[label,zealot_hauntedmine_start]
+~chatplayer("<p,quiz>What quest is that then?");
+@zealot_hauntedmine_history;
+
+[label,zealot_hauntedmine_leave]
+~chatplayer("<p,neutral>I hope it goes well.  Goodbye.");
+~chatnpc("<p,happy>Goodbye, and may Saradomin give you strength|through wisdom.");
+
+
+[label,zealot_hauntedmine_another_way]
+~chatplayer("<p,quiz>Is there any other way into the mines?");
+~chatnpc("<p,happy>Indeed I have found hope that this may be so. By|making discreet inquiries I have been led to believe that|a second entrance may exist into the mines.");
+~chatnpc("<p,neutral>Further, I have come into possession of a key that will|apparently afford entrance to the lower levels of the|mines once inside.");
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_heardaboutkey) = ^false) %hauntedmine_bits = setbit(%hauntedmine_bits, ^hauntedmine_bits_heardaboutkey);
+@multi5("Where is the second entrance to the mines?", zealot_hauntedmine_second_entrance, "How can you be discreet with THAT star emblazoned on your robes?", zealot_hauntedmine_descreet, "Can I borrow your key?", zealot_hauntedmine_key, "How does a lost artefact that was only legendary help?", zealot_hauntedmine_only_legend, "Why was everyone in the mines slaughtered?", zealot_hauntedmine_slaughtered);
+
+[label,zealot_hauntedmine_second_entrance]
+~chatplayer("<p,quiz>Where is the second entrance to the mines?");
+~chatnpc("<p,confused>Of this I am not yet sure. From what I have been able|to gather, it was not originally built for humans to enter|by. Where it may be, I am still endeavoring to find|out.");
+@multi4("Can I borrow your key?", zealot_hauntedmine_key, "How does a lost artefact that was only legendary help?", zealot_hauntedmine_only_legend, "Why was everyone in the mines slaughtered?", zealot_hauntedmine_slaughtered, "I must be going now.", zealot_hauntedmine_going_now);
+
+[label,zealot_hauntedmine_key]
+~chatplayer("<p,quiz>Can I borrow your key?");
+~chatnpc("<p,neutral>I am afraid my task can be entrusted to nobody else.|Saradomin has asked me alone to do this. I cannot take|the slightest risk of losing this key. The stakes are too|high.");
+@multi2("Please? I'll be very careful with it.", zealot_hauntedmine_key_careful, "I didn't want that key anyway.", zealot_hauntedmine_key_cope);
+
+[label,zealot_hauntedmine_key_careful]
+~chatplayer("<p,quiz>Please? I'll be very careful with it.");
+~chatnpc("<p,sad>You know not what you deal with. There is evil in that|mine and, whatever your assurances, I cannot risk you|falling to the creatures within.");
+@multi4("And you think you'll be safer in the mine than me?", zealot_hauntedmine_key_safer,"I'll trade for it.", zealot_hauntedmine_key_trade, "Pretty pretty please?", zealot_hauntedmine_key_pretty_please, "I didn't want that key anyway.", zealot_hauntedmine_key_cope);
+
+[label,zealot_hauntedmine_key_safer]
+~chatplayer("<p,quiz>And you think you'll be safer in the mine than me?");
+~chatnpc("<p,happy>Of course I'll be safe, my faith in Saradomin protects|me.");
+
+[label,zealot_hauntedmine_key_trade]
+~chatplayer("<p,quiz>I'll trade for it.");
+~chatnpc("<p,neutral>Saradomin provides for my every need. There is|nothing you could offer me.");
+
+[label,zealot_hauntedmine_key_pretty_please]
+~chatplayer("<p,quiz>Pretty pretty please?");
+~chatnpc("<p,angry>Saradomin grant me patience. The answer is no.");
+
+[label,zealot_hauntedmine_key_cope]
+~chatplayer("<p,neutral>I didn't want that key anyway.");
+~chatnpc("<p,happy>Witness the goodness of Saradomin, that he has granted|you the wisdom to see our positions in perspective.");
+
+
+[label,zealot_hauntedmine_only_legend]
+~chatplayer("<p,quiz>How does a lost artefact that was only legendary help?");
+~chatnpc("<p,shifty>Although the amulet was lost, it is my hope that if I can|make it into the mines I can craft another.");
+@multi3("Is there any other way into the mines?", zealot_hauntedmine_another_way, "Why was everyone in the mines slaughtered?", zealot_hauntedmine_slaughtered, "I must be going now.", zealot_hauntedmine_going_now);
+
+[label,zealot_hauntedmine_slaughtered]
+~chatplayer("<p,quiz>Why was everyone in the mines slaughtered? Surely it|wasn't their fault that the crystals formed?");
+~chatnpc("<p,happy>It is said that some of the workers in the mines, merely|from being in the presence of these crystals, found|themselves bestowed with the love of Saradomin.");
+~chatnpc("<p,sad>The advantage to our cause was considered too great|by some within Morytania. They set about mercilessly|and brutally killing everyone in the mines rather than|risk losing them to us.");
+~chatnpc("<p,sad>Such is the treachery of the servants of evil, that they|even destroy their own kind without a moments thought.");
+~chatnpc("<p,sad>The mines are now rumoured to be haunted by the|souls of all those brutally and needlessly killed.");
+@multi3("Is there any other way into the mines?", zealot_hauntedmine_another_way, "How does a lost artefact that was only legendary help?", zealot_hauntedmine_only_legend, "I must be going now.", zealot_hauntedmine_going_now);
+
+[label,zealot_hauntedmine_going_now]
+~chatplayer("<p,neutral>I must be going now, good luck on your quest.");
+~chatnpc("<p,neutral>You should believe not in luck, but in the protection of|Saradomin. Farewell.");
+
+
+[label,zealot_hauntedmine_descreet]
+~chatplayer("<p,laugh>How can you be discreet with THAT star emblazoned|on your robes?");
+~chatnpc("<p,angry>Saradomin watches over me, I am not troubled by those|who are not meant to notice.");
+~chatplayer("<p,quiz>Even so, you're not exactly keeping quiet about your|allegiance are you?");
+~chatnpc("<p,angry>Saradomin will protect me. Even if I should fall there|are many behind me who would stand in my place.");
+@multi5("Is that much consolation?", zealot_hauntedmine_consoltation, "I can't see anyone behind you.", zealot_hauntedmine_cant_see, "And I would be one of them. So, can I borrow that key?", zealot_hauntedmine_im_one, "You're right, I was wrong to doubt Saradomin.", zealot_hauntedmine_uright, "You're nuts, goodbye.", zealot_hauntedmine_nuts);
+
+[label,zealot_hauntedmine_consoltation]
+~chatplayer("<p,confused>Is that much consolation when you get chopped up into|little pieces?");
+~chatnpc("<p,neutral>I would rather be cut into little pieces whilst proclaiming|the goodness of Saradomin than hiding my faith.");
+
+[label,zealot_hauntedmine_cant_see]
+~chatplayer("<p,confused>I can't see anyone behind you.");
+~chatnpc("<p,happy>Although you may not realise it, Saradomin works|quietly in many people, such is the folly of looking with|your eyes and not with your heart.");
+
+[label,zealot_hauntedmine_im_one]
+~chatplayer("<p,quiz>And I would be one of them. So, can I borrow that|key?");
+~chatnpc("<p,neutral>I am afraid my task can be entrusted to nobody else.|Saradomin has asked me alone to do this. I cannot take|the slightest risk of losing this key. The stakes are too|high.");
+
+[label,zealot_hauntedmine_uright]
+~chatplayer("<p,neutral>You're right, I was wrong to doubt Saradomin.");
+~chatnpc("<p,neutral>Let not your faith in Saradomin falter, for all else is|insignificant.");
+
+[label,zealot_hauntedmine_nuts]
+~chatplayer("<p,confused>You're nuts, goodbye.");
+
+
+[label,zealot_hauntedmine_explain_history]
+~chatplayer("<p,quiz>Can you explain the history of these mines again?");
+@zealot_hauntedmine_history;
+
+[label,zealot_hauntedmine_history]
+~chatnpc("<p,shifty>Well, below the very ground you stand upon lies an|intricate network of tunnels that make up the|abandoned Mort Ridge mines. These mines used to be|a valuable resource to the inhabitants of Morytania.");
+~chatnpc("<p,neutral>As with many things, this changed when Misthalin was|finally able to push the minions of Morytania back, and|Saradomin himself blessed the river Salve.");
+~chatnpc("<p,happy>The mines are also the site where the legendary|artefact, the salve amulet, was thought to have been|carved from the crystals that grow in the lower levels of|the mine.");
+~chatnpc("<p,happy>These crystals are thought to be formed by the blessed|water of the river Salve as it percolates through the|rocks to the lower levels of the mine.");
+~chatnpc("<p,neutral>It is not known what happened to the salve amulet, but|it is generally believed that by encapsulating within it|some of the goodness of Saradomin himself, it afforded|the bearer power over evil.");
+~chatnpc("<p,angry>Saradomin has entrusted me alone with the task of|regaining access to the mines, whatever the dangers.");
+~chatplayer("<p,quiz>How can an abandoned mine be dangerous?");
+~chatnpc("<p,neutral>Because the mines are said to be haunted. The crystals|and the ridge used to be protected by Zamorak's mage,|Treus Dayth.");
+~chatnpc("<p,neutral>Dayth failed and fell during an incursion by|Saradominists, who then made it into the mines and|were able to remove a shard of crystal.");
+~chatnpc("<p,neutral>Zamorak, furious at his mage, condemned Dayth's soul|indefinitely to an existence of turmoil in the mines.|Dayth's soul is bound to prevent the crystals from ever|being reached again.");
+~chatnpc("<p,sad>Further, Zamorak's then ruler upon the land ordered|the slaughter of anyone within the mines and that the|mines be sealed.");
+if (%hauntedmine = ^hauntedmine_not_started) {
+    %hauntedmine = ^hauntedmine_started;
+    ~send_quest_progress(questlist:hauntedmine, %hauntedmine, ^hauntedmine_complete);
+} 
+@multi4("Is there any other way into the mines?", zealot_hauntedmine_another_way, "How does a lost artefact that was only legendary help?", zealot_hauntedmine_only_legend, "Why was everyone in the mines slaughtered?", zealot_hauntedmine_slaughtered, "I must be going now.", zealot_hauntedmine_going_now);
+
+[label,zealot_found_second_entrance]
+~chatplayer("<p,happy>I've found the second entrance to the mine, I've|managed to make it inside.");
+~chatnpc("<p,sad>You are foolhardy indeed should you venture inside.|The presence of evil is strong within the mines. If you|take the risk I shall pray for your safety, although I|hold little hope for your safe return.");
+
+[label,zealot_found_second_entrance_and_lift]
+~chatplayer("<p,happy>I've found the second entrance to the mine, I've|managed to make it inside.");
+~chatplayer("<p,confused>Unfortunately I need a key to use the lift that goes to|the lower levels.  Can you help?");
+~chatnpc("<p,quiz>Indeed? My own inquiries have led me into possession|of a key. I was informed that this key would apparently|afford entrance to the lower levels. It therefore seems|likely that this is the key which you seek.");
+~chatplayer("<p,happy>Yes, that sounds like the one. May I borrow it?");
+~chatnpc("<p,neutral>I am afraid my task can be entrusted to nobody else.|Saradomin has asked me alone to do this. I cannot take|the slightest risk of losing this key. The stakes are too|high.");
+@multi2("Please? I'll be very careful with it.", zealot_hauntedmine_key_careful, "I didn't want that key anyway.", zealot_hauntedmine_key_cope);
+
+[label,zealot_made_into_mines]
+~chatplayer("<p,neutral>I've made it in to the mines. Unfortunately some parts|are too dark to navigate.");
+~chatnpc("<p,happy>Ah ye of little faith. Let Saradomin guide you even in|the darkest places. By his light you may reach your|goal.");
+~chatplayer("<p,angry>As much as I respect your fanaticism, that was|spectacularly unhelpful.");
+
+[label,zealot_found_ghost]
+~chatplayer("<p,shock>G... g... g... ghost!  Scary ghost! Machinery flying|everywhere.");
+~chatnpc("<p,angry>I warned you not to enter those mines. It sounds like|you've met Dayth.  You must not go back down there.");
+@multi2("Who did you say Dayth was again?", zealot_who_was_dayth, "Nonsense, he'll be no match for me.", zealot_dayth_no_match);
+
+[label,zealot_who_was_dayth]
+~chatplayer("<p,confused>Who did you say Dayth was again?");
+~chatnpc("<p,neutral>Treus Dayth was Zamorak's mage in charge of|defending the ridge during the time of the original|amulet.");
+~chatnpc("<p,neutral>Dayth failed and fell during an incursion by|Saradominists, who then made it into the mines and|were able to remove a shard of crystal.");
+~chatnpc("<p,neutral>Zamorak, furious at his mage, condemned Dayth's soul|indefinitely to an existence of turmoil in the mines.|Dayth's soul is bound to prevent the crystals from ever|being reached again.");
+
+[label,zealot_dayth_no_match]
+~chatplayer("<p,neutral>Nonsense, he'll be no match for me.");
+~chatnpc("<p,neutral>I don't know if you think your persistence makes you heroic, but you must realise it's just going to get you killed.");
+
+[label,zealot_defeated_ghost]
+~chatplayer("<p,happy>I met that Dayth character you talked about. He wasn't|as tough as all that.");
+~chatnpc("<p,sad>I was afraid this would happen. The fear you must have|experienced within those mines has left you delusional.|There's no way you could have survived had you|actually fought Dayth.");
+
+[label,zealot_amulet_powers]
+~chatplayer("<p,happy>What powers does the salve amulet have?");
+~chatnpc("<p,neutral>From what I have heard they would be put to best use|in the slaying of the evil undead, the zombies and|skeletons that walk this land.");
+~chatplayer("<p,happy>Thanks for the tip.");
+
+[label,zealot_recreated_amulet]
+~chatplayer("<p,happy>I've done it, I've managed to recreate the salve amulet|that you spoke of.");
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_heardaboutkey) = ^false) { // returned key
+    ~chatnpc("<p,angry>Then it is fortunate for us that Saradomin has guided|you. Success certainly doesn't seem likely to have|stemmed from rational behaviour on your part.");
+    ~chatplayer("<p,neutral>You still haven't forgiven me for borrowing your key|have you?");
+    ~chatnpc("<p,angry>Borrowed!? You stole it!");
+    ~chatplayer("<p,confused>Er, maybe I'd better be going now.");
+    return;
+}
+
+~chatnpc("<p,confused>That hardly seems likely. There is no way you could|have made it to the bottom of the mines without the key|which is in my possession.");
+@multi3("I found another way down.", zealot_another_way_down, "Correction, the key that was in your possession.", zealot_key_in_possession, "Fine, don't believe me.", zealot_dont_believe_me);
+
+[label,zealot_another_way_down]
+~chatplayer("<p,neutral>I, er... found another way down.");
+~chatnpc("<p,angry>Mock me not, this is a serious task I am undertaking. I don't have the time for your halfwitted attempt at humour.");
+
+[label,zealot_dont_believe_me]
+~chatplayer("<p,angry>Fine, don't believe me.");
+
+[label,zealot_key_in_possession]
+~chatplayer("<p,happy>Correction, the key that was in your possession.");
+~chatnpc("<p,shock>My key, where is it? You stole it?");
+~chatnpc("<p,angry>Return that key to me now!");
+if (inv_total(inv, hauntedmine_lift_key) < 1) {
+    ~chatplayer("<p,neutral>I seem to have misplaced it, sorry.");
+    ~chatnpc("<p,angry>Arrrrrrrgh, you're unbelievable. Get out of my sight.");
+    return;
+}
+@multi2("Actually, maybe I'll just keep hold of it for now.", zealot_keep_key_for_now, "Ok, I've finished with it now anyway.", zealot_return_key_now);
+
+[label,zealot_keep_key_for_now]
+~chatplayer("<p,happy>Actually, maybe I'll just keep hold of it for now.");
+~chatnpc("<p,angry>Meddling fool, there are bigger things at stake here|than you and your petty thieving intellect can|understand.");
+
+[label,zealot_return_key_now]
+~chatplayer("<p,neutral>Ok, I've finished with it now anyway.");
+inv_del(inv, hauntedmine_lift_key, 28);
+%hauntedmine_bits = clearbit(%hauntedmine_bits, ^hauntedmine_bits_heardaboutkey); // for some reason he only malds if u give it back
+~chatnpc("<p,angry>Good, maybe all is not lost, despite your apparent lack|of common sense.");
+~chatplayer("<p,confused>Er... you're welcome?");
+
+
+[opnpc3,saradominist_zealot]
+if (testbit(%hauntedmine_bits, ^hauntedmine_bits_heardaboutkey) = ^false) {
+    if (%hauntedmine = ^hauntedmine_complete) {
+        mes("I don't want to annoy him any further.");
+        return;
+    }
+    mes("I doubt he's got much of value on him.");
+    return;
+}
+// - no inv_freespace check
+// - doesnt check bank
+if (inv_total(inv, hauntedmine_lift_key) > 0) {
+    mes("I've already picked his pockets.");
+    return;
+}
+inv_add(inv, hauntedmine_lift_key, 1);
+mes("You pick the zealot's pocket and retrieve a small silvery key.");
+sound_synth(pick, 0, 0);

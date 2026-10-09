@@ -96,7 +96,7 @@ npc_anim(horror_dagannoth_rangeattack, 0);
 
 %npc_action_delay = add(map_clock, npc_param(attackrate));
 // map_projanim_v2	id=horror_spines_travel (294), starttime=10, endtime=66, angle=25, progress=50, startheight=210, endheight=110
-def_int $duration = ~player_projectile(npc_coord, coord, uid, spotanim_294, 52, 28, 10, 25, 36, 50, 5);
+def_int $duration = ~player_projectile(npc_coord, coord, uid, horror_spines_travel, 52, 28, 10, 25, 36, 50, 5);
 def_int $damage = randominc($maxhit);
 def_int $damage2 = randominc($maxhit);
 if_close; // close the player interface when taking a hit.
@@ -119,7 +119,7 @@ if(finduid(%npc_aggressive_player) = true) {
     npc_changetype(horror_dagganoth_water, 1000);
     %aggressive_npc = npc_uid;
     npc_say("Krrrrrrk");
-    //mes("The Dagannoth changes to blue..."); https://oldschool.runescape.wiki/w/Update:More_Small_Changes, TODO: enable for 289
+    mes("The Dagannoth changes to blue...");
     // can switch mode between phase changes
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
@@ -137,7 +137,7 @@ if(finduid(%npc_aggressive_player) = true) {
     npc_changetype(horror_dagganoth_melee, 1000);
     %aggressive_npc = npc_uid;
     npc_say("Chkhkhkhkhk");
-    //mes("The Dagannoth changes to orange...");
+    mes("The Dagannoth changes to orange...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
     ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
@@ -154,7 +154,7 @@ if(finduid(%npc_aggressive_player) = true) {
     npc_changetype(horror_dagganoth_earth, 1000);
     %aggressive_npc = npc_uid;
     npc_say("Krrrrrrssssssss");
-    //mes("The Dagannoth changes to brown...");
+    mes("The Dagannoth changes to brown...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
     ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
@@ -171,7 +171,7 @@ if(finduid(%npc_aggressive_player) = true) {
     npc_changetype(horror_dagganoth_fire, 1000);
     %aggressive_npc = npc_uid;
     npc_say("Sssssrrrkkkkk");
-    //mes("The Dagannoth changes to red...");
+    mes("The Dagannoth changes to red...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
     ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
@@ -188,7 +188,7 @@ if(finduid(%npc_aggressive_player) = true) {
     npc_changetype(horror_dagganoth_ranged, 1000);
     %aggressive_npc = npc_uid;
     npc_say("Krkrkrkrkrkrkrkr");
-    //mes("The Dagannoth changes to green...");
+    mes("The Dagannoth changes to green...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
     ~.sound_area(dagganoth_changes, 0, npc_coord, 10);
@@ -205,7 +205,7 @@ if(finduid(%npc_aggressive_player) = true) {
     npc_changetype(horror_dagganoth_air, 1000);
     %aggressive_npc = npc_uid;
     npc_say("Tktktktktktkt");
-    //mes("The Dagannoth changes to white...");
+    mes("The Dagannoth changes to white...");
     if(random(2) = 0) npc_setmode(opplayer2);
     else npc_setmode(applayer2);
     ~.sound_area(dagganoth_changes, 0, npc_coord, 10);

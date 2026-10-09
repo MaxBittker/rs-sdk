@@ -1,0 +1,23 @@
+[ai_timer,mm_sleeping_monkey_guard]
+huntall(0_43_43_12_17, 3, 0);
+def_int $hunted = ^false;
+while(huntnext = true) {
+    if(inzone(0_43_43_10_15, 0_43_43_15_20, coord) = true & ~mm_wearing_greegree = false) {
+        if_close;
+        $hunted = ^true;
+        if(%npc_int = ^false) {
+            npc_anim(m_monkey_jailofficer_getup, 0);
+            %npc_int = ^true;
+        }
+        if(p_finduid(uid) = true) ~aa_summon_guards(^true);
+    }
+}
+
+if($hunted = ^false & %npc_int = ^true) {
+    npc_anim(m_monkey_jailofficer_liedown, 0);
+    ~.sound_area(snore, 0, npc_coord, 7); // still uses this instead of area sounds in current osrs
+    %npc_int = ^false;
+}
+
+[opnpc1,mm_sleeping_monkey_guard]
+~mesbox("The monkey looks a little too sleepy to talk to.");

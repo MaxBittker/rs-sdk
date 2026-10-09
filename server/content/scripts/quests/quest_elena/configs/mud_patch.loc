@@ -1,11 +1,11 @@
 [plaguemudpatch1]
 name=Mud patch
 desc=Looks like someone's tried digging here.
-model=model_loc_185
+model=floor_dugupsoil2
 active=yes
 
 [plaguemudpatch2]
 name=Mud patch
 desc=Looks like someone's tried digging here.
-model=model_loc_186
+model=floor_dugupsoil3
 active=yes

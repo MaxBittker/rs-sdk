@@ -1,6 +1,6 @@
 [wydindoor]
 name=Door
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -11,18 +11,18 @@ recol2d=11458
 [grocerycrate]
 name=Crate
 desc=Used for storage.
-model=model_loc_63
+model=warehouse_shop_crate
 op1=Search
 
 [piratechest]
 name=Chest
 desc=I wonder what's inside?
-model=wooden_chest
+model=furniture_chestclosed
 active=yes
 op1=Open
 forceapproach=north
 
 [piratechestopen]
-model=model_loc_76
+model=furniture_chestopen
 active=no
 forceapproach=north

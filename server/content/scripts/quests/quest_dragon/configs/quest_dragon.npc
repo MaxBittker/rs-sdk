@@ -6,18 +6,21 @@ walkanim=dragon_walk
 readyanim=dragon_ready
 op2=Attack
 vislevel=83
-recol1s=15855
-recol1d=4484
 model1=model_2853_npc
 model2=model_2854_npc
-respawnrate=100
-// https://web.archive.org/web/20051201225926/http://runehq.com/RHQMonsterView.php?id=100
-// https://web.archive.org/web/20060828154137/http://www.trillionareguild.com/runescape/beastiary1.php
-hitpoints=120
+recol1s=15855
+recol1d=4484
+wanderrange=32
+maxrange=32
 attack=70
-strength=70
 defence=70
+strength=70
+hitpoints=120
 magic=70
+huntrange=7
+respawnrate=15
+attackrange=8
+huntmode=elvarg_hunt
 param=stabdefence,20
 param=slashdefence,40
 param=crushdefence,40
@@ -30,15 +33,6 @@ param=death_anim,dragon_death
 param=attack_sound,dragon_attack
 param=defend_sound,dragon_hit
 param=death_sound,dragon_death
-huntmode=elvarg_hunt
-// https://youtu.be/uETjjZFKWus?list=PLn23LiLYLb1aqrojPTi1_Np81LJku2Nd0&t=134
-// https://youtu.be/2TJp-tnFyxc?list=PLn23LiLYLb1aqrojPTi1_Np81LJku2Nd0&t=45
-attackrange=8
-maxrange=7
-huntrange=7
-// all the stats information matches otherwise osrs but we only have 120hp
-// instead of 80 hp. and osrs Vislvl is also 83 while we have 86 again.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_817
 
 [dragonslayer_ned]
 vislevel=hide
@@ -47,6 +41,17 @@ desc=An old sailor.
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op1=Talk-to
+model1=man_head_shorthair
+model2=man_jaw_short2
+model3=man_torso_fat
+model4=man_arms_basic
+model5=man_hands_basic
+model6=man_legs_basic
+model7=man_feet_basic
+model8=man_hat_birdseye
+head1=chat_male_head_shorthair
+head2=chat_male_jaw_short2
+head3=chat_male_model_37
 recol1s=2340
 recol1d=4234
 recol2s=14724
@@ -55,17 +60,6 @@ recol3s=14801
 recol3d=24075
 recol4s=6273
 recol4d=32767
-model1=model_215_idk
-model2=model_253_idk
-model3=model_299_npc
-model4=model_151_idk
-model5=model_176_idk
-model6=model_254_idk
-model7=model_181_idk
-model8=model_194_npc
-head1=model_53_idk_head
-head2=model_85_idk_head
-head3=model_37_npc_head
 wanderrange=0
 moverestrict=nomove
 
@@ -78,13 +72,16 @@ desc=Overgrown vermin.
 op2=Attack
 vislevel=6
 model1=model_2959_npc
+category=giantrat
 wanderrange=6
 maxrange=8
-respawnrate=60
-hitpoints=10
 attack=6
-strength=5
 defence=2
+strength=5
+hitpoints=10
+huntrange=1
+respawnrate=60
+huntmode=cowardly
 param=damagetype,^stab_style
 param=attack_anim,giantrat_attack
 param=defend_anim,giantrat_block
@@ -92,11 +89,6 @@ param=death_anim,giantrat_death
 param=attack_sound,rat_attack
 param=defend_sound,rat_hit
 param=death_sound,rat_death
-huntmode=cowardly
-huntrange=1
-category=giantrat
-// stats and information taken from normal 6lv Giant rat  // Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3969 (3lv)
 
 [dragonslayer_ghost]
 name=Ghost
@@ -110,11 +102,13 @@ model2=model_2964_npc
 model3=model_2965_npc
 wanderrange=8
 maxrange=10
-respawnrate=80
-hitpoints=25
 attack=13
-strength=13
 defence=18
+strength=13
+hitpoints=25
+huntrange=1
+respawnrate=80
+huntmode=cowardly
 param=stabdefence,5
 param=slashdefence,5
 param=crushdefence,5
@@ -129,10 +123,6 @@ param=defend_sound,ghost_hit
 param=death_sound,ghost_death
 param=death_drop,null
 param=undead,^true
-huntmode=cowardly
-huntrange=1
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3975
 
 [dragonslayer_skeleton]
 name=Skeleton
@@ -145,11 +135,13 @@ model1=model_2944_npc
 model2=model_2946_npc
 wanderrange=9
 maxrange=11
-respawnrate=70
-hitpoints=29
 attack=15
-strength=18
 defence=17
+strength=18
+hitpoints=29
+huntrange=1
+respawnrate=70
+huntmode=cowardly
 param=attackbonus,15
 param=strengthbonus,14
 param=stabdefence,9
@@ -165,10 +157,6 @@ param=attack_sound,stabsword_slash
 param=defend_sound,skelly_hit
 param=death_sound,skeleton_death
 param=undead,^true
-huntmode=cowardly
-huntrange=1
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3972 (22lv)
 
 [dragonslayer_zombie]
 name=Zombie
@@ -181,11 +169,12 @@ model1=model_2931_npc
 model2=model_2932_npc
 wanderrange=9
 maxrange=11
-// TODO respawntime
-hitpoints=30
 attack=19
-strength=21
 defence=21
+strength=21
+hitpoints=30
+huntrange=1
+huntmode=cowardly
 param=attackbonus,5
 param=strengthbonus,7
 param=stabdefence,10
@@ -201,11 +190,6 @@ param=attack_sound,zombie_attack
 param=defend_sound,zombie_hit
 param=death_sound,zombie_death
 param=undead,^true
-huntmode=cowardly
-huntrange=1
-// https://web.archive.org/web/20051105211000/http://www.tip.it/runescape/index.php?rs2monster_id=151
-// stats taken zombie_entranan (25lv) // Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3980 (24lv)
 
 [dragonslayer_demon]
 size=2
@@ -218,11 +202,13 @@ vislevel=82
 model1=model_2943_npc
 wanderrange=6
 maxrange=8
-respawnrate=60
-hitpoints=79
 attack=68
-strength=70
 defence=71
+strength=70
+hitpoints=79
+huntrange=2
+respawnrate=60
+huntmode=cowardly
 param=magicdefence,-10
 param=damagetype,^slash_style
 param=attack_anim,demon_attack
@@ -233,10 +219,6 @@ param=defend_sound,demon_hit
 param=death_sound,demon_death
 param=demonbane_vulnerable,yes
 param=death_drop,ashes
-huntmode=cowardly
-huntrange=2
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_3982
 
 [melzar_the_mad]
 name=Melzar the mad
@@ -245,34 +227,31 @@ walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op2=Attack
 vislevel=43
+model1=man_head_hood2
+model2=man_feet_basic
+model3=man_jaw_medium
+model4=man_torso_basic
+model5=man_arms_longsleeves
+model6=man_hands_basic
+model7=man_legs_robe
 recol1s=2340
 recol1d=4226
 recol2s=14724
 recol2d=4226
 recol3s=6273
 recol3d=4226
-model1=model_208_npc
-model2=model_181_idk
-model3=model_251_idk
-model4=model_292_idk
-model5=model_170_idk
-model6=model_176_idk
-model7=model_265_obj_wear
-wanderrange=2
-attackrange=8
-respawnrate=60
-hitpoints=44
 attack=37
-strength=37
 defence=34
+strength=37
+hitpoints=44
 magic=40
+huntrange=1
+respawnrate=60
+attackrange=8
+huntmode=aggressive_melee
 param=damagetype,^crush_style
 param=attack_anim,human_unarmedkick
 param=attack_sound,unarmed_kick
-huntmode=aggressive_melee
-huntrange=1
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_823
 
 [cabin_boy_jenkins]
 vislevel=hide
@@ -281,6 +260,15 @@ desc=His job is to keep the ship in tip-top condition!
 walkanim=human_walk_f,human_walk_b,human_walk_l,human_walk_r
 readyanim=human_ready
 op1=Talk-to
+model1=man_head_pirate
+model2=man_jaw_goaty
+model3=man_torso_tatty
+model4=man_arms_buff
+model5=man_hands_gloves
+model6=man_legs_basic2
+model7=man_feet_basic
+head1=chat_male_head_pirate
+head2=chat_male_jaw_goaty
 recol1s=14724
 recol1d=17983
 recol2s=3491
@@ -289,12 +277,4 @@ recol3s=2340
 recol3d=30886
 recol4s=24075
 recol4d=20934
-model1=model_211_npc
-model2=model_249_idk
-model3=model_310_idk
-model4=model_167_idk
-model5=model_179_obj_wear
-model6=model_271_idk
-model7=model_181_idk
-head1=model_50_npc_head
-head2=model_81_idk_head
+wanderrange=0

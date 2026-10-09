@@ -1,6 +1,6 @@
-[oploc1,loc_2514]
+[oploc1,ranging_guild_door]
 if(coordx(coord) > coordx(loc_coord) | coordz(coord) < coordz(loc_coord)) {
-    sound_synth(door_open, 0, 0); // gate_open 
+    sound_synth(door_open, 1, 0); // gate_open 
     ~forcemove(movecoord(loc_coord, 1, 0, -1));
     def_int $x;
     def_int $z;
@@ -10,7 +10,7 @@ if(coordx(coord) > coordx(loc_coord) | coordz(coord) < coordz(loc_coord)) {
     $x, $z = ~door_open($angle, loc_shape);
     // Temp note: dur updated
     loc_change(inviswall, 3);
-    loc_add(movecoord($loc_coord, $x, 0, $z), desertdoor_inactive, modulo(add($angle, 1), 4), $shape, 3);
+    loc_add(movecoord($loc_coord, $x, 0, $z), loc_1532, modulo(add($angle, 1), 4), $shape, 3);
     p_teleport(movecoord(coord, -2, 0, 2));
     return;
 }
@@ -20,7 +20,7 @@ if(stat(ranged) < 40) { // todo: check if requirement is enforced from inside as
     }
     return;
 }
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 ~forcemove(movecoord(loc_coord, -1, 0, 1));
 def_int $x;
 def_int $z;
@@ -30,7 +30,7 @@ def_locshape $shape = loc_shape;
 $x, $z = ~door_open($angle, loc_shape);
 // Temp note: dur updated
 loc_change(inviswall, 3);
-loc_add(movecoord($loc_coord, $x, 0, $z), desertdoor_inactive, modulo(add($angle, 1), 4), $shape, 3);
+loc_add(movecoord($loc_coord, $x, 0, $z), loc_1532, modulo(add($angle, 1), 4), $shape, 3);
 p_teleport(movecoord(coord, 2, 0, -2));
 
 [opnpc1,ranging_guild_doorman]

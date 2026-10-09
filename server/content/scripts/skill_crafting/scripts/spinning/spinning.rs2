@@ -21,7 +21,7 @@ switch_obj (last_useitem)
         }
         anim(human_spinningwheel, 0);
         loc_anim(spinningwheel);
-        sound_synth(spinning, 0, 0);
+        sound_synth(spinning, 1, 0);
         inv_del(inv, viking_golden_fleece, 1);
         inv_add(inv, viking_golden_wool, 1);
         mes("You spin the fleece into some golden string.");
@@ -83,7 +83,7 @@ if (afk_event = ^true) {
 // play human animation
 anim(human_spinningwheel, 0);
 loc_anim(spinningwheel);
-sound_synth(spinning, 0, 0);
+sound_synth(spinning, 1, 0);
 weakqueue*(crafting_spinning, 3)($obj, $struct, $amt, loc_type, loc_coord);
 
 [label,process_spin](obj $spinning_obj, struct $struct, int $amt, loc $loc, coord $coord)
@@ -94,7 +94,7 @@ if (inv_total(inv, $spinning_obj) = 0) {
 if(loc_find($coord, $loc) = true) {
     anim(human_spinningwheel, 0);
     loc_anim(spinningwheel);
-    sound_synth(spinning, 0, 0);
+    sound_synth(spinning, 1, 0);
     weakqueue*(crafting_spinning, 2)($spinning_obj, $struct, $amt, $loc, $coord);
 }
 
@@ -126,7 +126,7 @@ if (afk_event = ^true) {
 // play human animation
 anim(human_spinningwheel, 0);
 loc_anim(spinningwheel);
-sound_synth(spinning, 0, 0);
+sound_synth(spinning, 1, 0);
 inv_del(inv, struct_param($struct, ingredient), 1);
 inv_add(inv, struct_param($struct, product), 1);
 mes(struct_param($struct, productmessage));

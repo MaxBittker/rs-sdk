@@ -4,7 +4,7 @@ desc=A navigator's chart of RuneScape.
 cost=2
 weight=10g
 members=yes
-model=model_2774_obj
+model=inv_map_scroll
 recol1s=24174
 recol1d=18823
 recol2s=21003
@@ -24,7 +24,7 @@ desc=A fine looking time piece.
 cost=100
 weight=100g
 members=yes
-model=model_2525_obj
+model=inv_trail_watch
 2dyof=-1
 2dzoom=690
 2dyan=2032
@@ -37,7 +37,7 @@ desc=Used by navigators to find their position in RuneScape.
 cost=50
 weight=200g
 members=yes
-model=model_2628_obj
+model=inv_trail_sextant
 2dxof=3
 2dyof=10
 2dzoom=690
@@ -50,7 +50,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -67,7 +67,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -83,7 +83,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -100,7 +100,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -116,7 +116,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -133,7 +133,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -149,7 +149,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -165,7 +165,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -181,7 +181,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -197,7 +197,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -213,7 +213,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -229,7 +229,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -245,7 +245,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -261,7 +261,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -277,7 +277,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -293,7 +293,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -307,7 +307,7 @@ tradeable=no
 
 [trail_slidingpuzzleb01]
 name=Sliding piece
-model=model_3413_obj
+model=if_slidingpuzzle_trail_b01
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -320,7 +320,7 @@ param=puzzle_piece_id,0
 
 [trail_slidingpuzzleb02]
 name=Sliding piece
-model=model_3414_obj
+model=if_slidingpuzzle_trail_b02
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -333,7 +333,7 @@ param=puzzle_piece_id,1
 
 [trail_slidingpuzzleb03]
 name=Sliding piece
-model=model_3415_obj
+model=if_slidingpuzzle_trail_b03
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -346,7 +346,7 @@ param=puzzle_piece_id,2
 
 [trail_slidingpuzzleb04]
 name=Sliding piece
-model=model_3416_obj
+model=if_slidingpuzzle_trail_b04
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -359,7 +359,7 @@ param=puzzle_piece_id,3
 
 [trail_slidingpuzzleb05]
 name=Sliding piece
-model=model_3417_obj
+model=if_slidingpuzzle_trail_b05
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -372,7 +372,7 @@ param=puzzle_piece_id,4
 
 [trail_slidingpuzzleb06]
 name=Sliding piece
-model=model_3418_obj
+model=if_slidingpuzzle_trail_b06
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -385,7 +385,7 @@ param=puzzle_piece_id,5
 
 [trail_slidingpuzzleb07]
 name=Sliding piece
-model=model_3419_obj
+model=if_slidingpuzzle_trail_b07
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -398,7 +398,7 @@ param=puzzle_piece_id,6
 
 [trail_slidingpuzzleb08]
 name=Sliding piece
-model=model_3420_obj
+model=if_slidingpuzzle_trail_b08
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -411,7 +411,7 @@ param=puzzle_piece_id,7
 
 [trail_slidingpuzzleb09]
 name=Sliding piece
-model=model_3421_obj
+model=if_slidingpuzzle_trail_b09
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -424,7 +424,7 @@ param=puzzle_piece_id,8
 
 [trail_slidingpuzzleb10]
 name=Sliding piece
-model=model_3422_obj
+model=if_slidingpuzzle_trail_b10
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -437,7 +437,7 @@ param=puzzle_piece_id,9
 
 [trail_slidingpuzzleb11]
 name=Sliding piece
-model=model_3423_obj
+model=if_slidingpuzzle_trail_b11
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -450,7 +450,7 @@ param=puzzle_piece_id,10
 
 [trail_slidingpuzzleb12]
 name=Sliding piece
-model=model_3424_obj
+model=if_slidingpuzzle_trail_b12
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -463,7 +463,7 @@ param=puzzle_piece_id,11
 
 [trail_slidingpuzzleb13]
 name=Sliding piece
-model=model_3425_obj
+model=if_slidingpuzzle_trail_b13
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -476,7 +476,7 @@ param=puzzle_piece_id,12
 
 [trail_slidingpuzzleb14]
 name=Sliding piece
-model=model_3426_obj
+model=if_slidingpuzzle_trail_b14
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -489,7 +489,7 @@ param=puzzle_piece_id,13
 
 [trail_slidingpuzzleb15]
 name=Sliding piece
-model=model_3427_obj
+model=if_slidingpuzzle_trail_b15
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -502,7 +502,7 @@ param=puzzle_piece_id,14
 
 [trail_slidingpuzzleb16]
 name=Sliding piece
-model=model_3428_obj
+model=if_slidingpuzzle_trail_b16
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -515,7 +515,7 @@ param=puzzle_piece_id,15
 
 [trail_slidingpuzzleb17]
 name=Sliding piece
-model=model_3429_obj
+model=if_slidingpuzzle_trail_b17
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -528,7 +528,7 @@ param=puzzle_piece_id,16
 
 [trail_slidingpuzzleb18]
 name=Sliding piece
-model=model_3430_obj
+model=if_slidingpuzzle_trail_b18
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -541,7 +541,7 @@ param=puzzle_piece_id,17
 
 [trail_slidingpuzzleb19]
 name=Sliding piece
-model=model_3431_obj
+model=if_slidingpuzzle_trail_b19
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -554,7 +554,7 @@ param=puzzle_piece_id,18
 
 [trail_slidingpuzzleb20]
 name=Sliding piece
-model=model_3432_obj
+model=if_slidingpuzzle_trail_b20
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -567,7 +567,7 @@ param=puzzle_piece_id,19
 
 [trail_slidingpuzzleb21]
 name=Sliding piece
-model=model_3433_obj
+model=if_slidingpuzzle_trail_b21
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -580,7 +580,7 @@ param=puzzle_piece_id,20
 
 [trail_slidingpuzzleb22]
 name=Sliding piece
-model=model_3434_obj
+model=if_slidingpuzzle_trail_b22
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -593,7 +593,7 @@ param=puzzle_piece_id,21
 
 [trail_slidingpuzzleb23]
 name=Sliding piece
-model=model_3435_obj
+model=if_slidingpuzzle_trail_b23
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -606,7 +606,7 @@ param=puzzle_piece_id,22
 
 [trail_slidingpuzzleb24]
 name=Sliding piece
-model=model_3436_obj
+model=if_slidingpuzzle_trail_b24
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -621,7 +621,7 @@ param=puzzle_piece_id,23
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -637,7 +637,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -653,7 +653,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -669,7 +669,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -685,7 +685,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -701,7 +701,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -717,7 +717,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -733,7 +733,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -750,7 +750,8 @@ name=Puzzle box
 desc=I need to solve this!
 cost=100
 members=yes
-model=model_3372_obj
+weight=100g
+model=inv_trail_puzzle
 2dyof=4
 2dzoom=900
 2dyan=80
@@ -765,7 +766,8 @@ name=Puzzle box
 desc=I need to solve this!
 cost=100
 members=yes
-model=model_3372_obj
+weight=100g
+model=inv_trail_puzzle
 2dyof=4
 2dzoom=900
 2dyan=80
@@ -780,7 +782,8 @@ name=Puzzle box
 desc=I need to solve this!
 cost=100
 members=yes
-model=model_3372_obj
+weight=100g
+model=inv_trail_puzzle
 2dyof=4
 2dzoom=900
 2dyan=80
@@ -794,7 +797,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -810,7 +813,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -826,7 +829,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -842,7 +845,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -858,7 +861,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -874,7 +877,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -890,7 +893,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -906,7 +909,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -922,7 +925,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -938,7 +941,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -954,7 +957,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -970,7 +973,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -986,7 +989,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -1002,7 +1005,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -1018,7 +1021,7 @@ tradeable=no
 name=Casket
 desc=I hope there's treasure in it.
 weight=5kg
-model=model_2450_obj
+model=inv_casket
 2dxof=3
 2dyof=-6
 2dzoom=1410
@@ -1034,8 +1037,9 @@ tradeable=no
 name=Key
 desc=A key to unlock a treasure chest.
 members=yes
+weight=10g
 cost=1
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -1047,8 +1051,9 @@ tradeable=no
 name=Key
 desc=A key to some drawers.
 members=yes
+weight=10g
 cost=1
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -1060,8 +1065,9 @@ tradeable=no
 name=Key
 desc=A key to some drawers.
 members=yes
+weight=10g
 cost=1
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -1073,8 +1079,9 @@ tradeable=no
 name=Key
 desc=A key to some drawers.
 members=yes
+weight=10g
 cost=1
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -1086,8 +1093,9 @@ tradeable=no
 name=Key
 desc=A key to some drawers.
 members=yes
+weight=10g
 cost=1
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -1097,7 +1105,7 @@ tradeable=no
 
 [trail_slidingpuzzlec01]
 name=Sliding piece
-model=obj_3619
+model=if_slidingpuzzle_trail_c01
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1110,7 +1118,7 @@ param=puzzle_piece_id,0
 
 [trail_slidingpuzzlec02]
 name=Sliding piece
-model=obj_3620
+model=if_slidingpuzzle_trail_c02
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1123,7 +1131,7 @@ param=puzzle_piece_id,1
 
 [trail_slidingpuzzlec03]
 name=Sliding piece
-model=obj_3621
+model=if_slidingpuzzle_trail_c03
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1136,7 +1144,7 @@ param=puzzle_piece_id,2
 
 [trail_slidingpuzzlec04]
 name=Sliding piece
-model=obj_3622
+model=if_slidingpuzzle_trail_c04
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1149,7 +1157,7 @@ param=puzzle_piece_id,3
 
 [trail_slidingpuzzlec05]
 name=Sliding piece
-model=obj_3623
+model=if_slidingpuzzle_trail_c05
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1162,7 +1170,7 @@ param=puzzle_piece_id,4
 
 [trail_slidingpuzzlec06]
 name=Sliding piece
-model=obj_3624
+model=if_slidingpuzzle_trail_c06
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1175,7 +1183,7 @@ param=puzzle_piece_id,5
 
 [trail_slidingpuzzlec07]
 name=Sliding piece
-model=obj_3625
+model=if_slidingpuzzle_trail_c07
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1188,7 +1196,7 @@ param=puzzle_piece_id,6
 
 [trail_slidingpuzzlec08]
 name=Sliding piece
-model=obj_3626
+model=if_slidingpuzzle_trail_c08
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1201,7 +1209,7 @@ param=puzzle_piece_id,7
 
 [trail_slidingpuzzlec09]
 name=Sliding piece
-model=obj_3627
+model=if_slidingpuzzle_trail_c09
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1214,7 +1222,7 @@ param=puzzle_piece_id,8
 
 [trail_slidingpuzzlec10]
 name=Sliding piece
-model=obj_3628
+model=if_slidingpuzzle_trail_c10
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1227,7 +1235,7 @@ param=puzzle_piece_id,9
 
 [trail_slidingpuzzlec11]
 name=Sliding piece
-model=obj_3629
+model=if_slidingpuzzle_trail_c11
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1240,7 +1248,7 @@ param=puzzle_piece_id,10
 
 [trail_slidingpuzzlec12]
 name=Sliding piece
-model=obj_3630
+model=if_slidingpuzzle_trail_c12
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1253,7 +1261,7 @@ param=puzzle_piece_id,11
 
 [trail_slidingpuzzlec13]
 name=Sliding piece
-model=obj_3631
+model=if_slidingpuzzle_trail_c13
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1266,7 +1274,7 @@ param=puzzle_piece_id,12
 
 [trail_slidingpuzzlec14]
 name=Sliding piece
-model=obj_3632
+model=if_slidingpuzzle_trail_c14
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1279,7 +1287,7 @@ param=puzzle_piece_id,13
 
 [trail_slidingpuzzlec15]
 name=Sliding piece
-model=obj_3633
+model=if_slidingpuzzle_trail_c15
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1292,7 +1300,7 @@ param=puzzle_piece_id,14
 
 [trail_slidingpuzzlec16]
 name=Sliding piece
-model=obj_3634
+model=if_slidingpuzzle_trail_c16
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1305,7 +1313,7 @@ param=puzzle_piece_id,15
 
 [trail_slidingpuzzlec17]
 name=Sliding piece
-model=obj_3635
+model=if_slidingpuzzle_trail_c17
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1318,7 +1326,7 @@ param=puzzle_piece_id,16
 
 [trail_slidingpuzzlec18]
 name=Sliding piece
-model=obj_3636
+model=if_slidingpuzzle_trail_c18
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1331,7 +1339,7 @@ param=puzzle_piece_id,17
 
 [trail_slidingpuzzlec19]
 name=Sliding piece
-model=obj_3637
+model=if_slidingpuzzle_trail_c19
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1344,7 +1352,7 @@ param=puzzle_piece_id,18
 
 [trail_slidingpuzzlec20]
 name=Sliding piece
-model=obj_3638
+model=if_slidingpuzzle_trail_c20
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1357,7 +1365,7 @@ param=puzzle_piece_id,19
 
 [trail_slidingpuzzlec21]
 name=Sliding piece
-model=obj_3639
+model=if_slidingpuzzle_trail_c21
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1370,7 +1378,7 @@ param=puzzle_piece_id,20
 
 [trail_slidingpuzzlec22]
 name=Sliding piece
-model=obj_3640
+model=if_slidingpuzzle_trail_c22
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1383,7 +1391,7 @@ param=puzzle_piece_id,21
 
 [trail_slidingpuzzlec23]
 name=Sliding piece
-model=obj_3641
+model=if_slidingpuzzle_trail_c23
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1396,7 +1404,7 @@ param=puzzle_piece_id,22
 
 [trail_slidingpuzzlec24]
 name=Sliding piece
-model=obj_3642
+model=if_slidingpuzzle_trail_c24
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1409,7 +1417,7 @@ param=puzzle_piece_id,23
 
 [trail_slidingpuzzled01]
 name=Sliding piece
-model=obj_3643
+model=if_slidingpuzzle_trail_d01
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1422,7 +1430,7 @@ param=puzzle_piece_id,0
 
 [trail_slidingpuzzled02]
 name=Sliding piece
-model=obj_3644
+model=if_slidingpuzzle_trail_d02
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1435,7 +1443,7 @@ param=puzzle_piece_id,1
 
 [trail_slidingpuzzled03]
 name=Sliding piece
-model=obj_3645
+model=if_slidingpuzzle_trail_d03
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1448,7 +1456,7 @@ param=puzzle_piece_id,2
 
 [trail_slidingpuzzled04]
 name=Sliding piece
-model=obj_3646
+model=if_slidingpuzzle_trail_d04
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1461,7 +1469,7 @@ param=puzzle_piece_id,3
 
 [trail_slidingpuzzled05]
 name=Sliding piece
-model=obj_3647
+model=if_slidingpuzzle_trail_d05
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1474,7 +1482,7 @@ param=puzzle_piece_id,4
 
 [trail_slidingpuzzled06]
 name=Sliding piece
-model=obj_3648
+model=if_slidingpuzzle_trail_d06
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1487,7 +1495,7 @@ param=puzzle_piece_id,5
 
 [trail_slidingpuzzled07]
 name=Sliding piece
-model=obj_3649
+model=if_slidingpuzzle_trail_d07
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1500,7 +1508,7 @@ param=puzzle_piece_id,6
 
 [trail_slidingpuzzled08]
 name=Sliding piece
-model=obj_3650
+model=if_slidingpuzzle_trail_d08
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1513,7 +1521,7 @@ param=puzzle_piece_id,7
 
 [trail_slidingpuzzled09]
 name=Sliding piece
-model=obj_3651
+model=if_slidingpuzzle_trail_d09
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1526,7 +1534,7 @@ param=puzzle_piece_id,8
 
 [trail_slidingpuzzled10]
 name=Sliding piece
-model=obj_3652
+model=if_slidingpuzzle_trail_d10
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1539,7 +1547,7 @@ param=puzzle_piece_id,9
 
 [trail_slidingpuzzled11]
 name=Sliding piece
-model=obj_3653
+model=if_slidingpuzzle_trail_d11
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1552,7 +1560,7 @@ param=puzzle_piece_id,10
 
 [trail_slidingpuzzled12]
 name=Sliding piece
-model=obj_3654
+model=if_slidingpuzzle_trail_d12
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1565,7 +1573,7 @@ param=puzzle_piece_id,11
 
 [trail_slidingpuzzled13]
 name=Sliding piece
-model=obj_3655
+model=if_slidingpuzzle_trail_d13
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1578,7 +1586,7 @@ param=puzzle_piece_id,12
 
 [trail_slidingpuzzled14]
 name=Sliding piece
-model=obj_3656
+model=if_slidingpuzzle_trail_d14
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1591,7 +1599,7 @@ param=puzzle_piece_id,13
 
 [trail_slidingpuzzled15]
 name=Sliding piece
-model=obj_3657
+model=if_slidingpuzzle_trail_d15
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1604,7 +1612,7 @@ param=puzzle_piece_id,14
 
 [trail_slidingpuzzled16]
 name=Sliding piece
-model=obj_3658
+model=if_slidingpuzzle_trail_d16
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1617,7 +1625,7 @@ param=puzzle_piece_id,15
 
 [trail_slidingpuzzled17]
 name=Sliding piece
-model=obj_3659
+model=if_slidingpuzzle_trail_d17
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1630,7 +1638,7 @@ param=puzzle_piece_id,16
 
 [trail_slidingpuzzled18]
 name=Sliding piece
-model=obj_3660
+model=if_slidingpuzzle_trail_d18
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1643,7 +1651,7 @@ param=puzzle_piece_id,17
 
 [trail_slidingpuzzled19]
 name=Sliding piece
-model=obj_3661
+model=if_slidingpuzzle_trail_d19
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1656,7 +1664,7 @@ param=puzzle_piece_id,18
 
 [trail_slidingpuzzled20]
 name=Sliding piece
-model=obj_3662
+model=if_slidingpuzzle_trail_d20
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1669,7 +1677,7 @@ param=puzzle_piece_id,19
 
 [trail_slidingpuzzled21]
 name=Sliding piece
-model=obj_3663
+model=if_slidingpuzzle_trail_d21
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1682,7 +1690,7 @@ param=puzzle_piece_id,20
 
 [trail_slidingpuzzled22]
 name=Sliding piece
-model=obj_3664
+model=if_slidingpuzzle_trail_d22
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1695,7 +1703,7 @@ param=puzzle_piece_id,21
 
 [trail_slidingpuzzled23]
 name=Sliding piece
-model=obj_3665
+model=if_slidingpuzzle_trail_d23
 2dxof=-1
 2dyof=1
 2dzoom=2180
@@ -1708,7 +1716,7 @@ param=puzzle_piece_id,22
 
 [trail_slidingpuzzled24]
 name=Sliding piece
-model=obj_3666
+model=if_slidingpuzzle_trail_d24
 2dxof=-1
 2dyof=1
 2dzoom=2180

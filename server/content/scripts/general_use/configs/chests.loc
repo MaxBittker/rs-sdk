@@ -1,7 +1,7 @@
 [chestclosed]
 name=Closed chest
 desc=I wonder what's inside.
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 category=chest_closed
@@ -10,7 +10,7 @@ param=chest_other,chestopen
 [chestclosedgold]
 name=Closed chest
 desc=I wonder what's inside.
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 recol1s=10570
@@ -21,7 +21,7 @@ param=chest_other,chestopengold
 [chestopen]
 name=Open chest
 desc=Perhaps I should search it.
-model=model_loc_76
+model=furniture_chestopen
 op2=Search
 op3=Shut
 forceapproach=north
@@ -31,7 +31,7 @@ param=chest_other,chestclosed
 [chestopengold]
 name=Open chest
 desc=Perhaps I should search it.
-model=model_loc_76
+model=furniture_chestopen
 op2=Search
 op3=Shut
 forceapproach=north

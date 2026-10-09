@@ -1,7 +1,7 @@
 [shilo_brokencart]
 name=Broken cart
 desc=This looks like it's being used to block entrance to the village.
-model=model_loc_306
+model=outdoorfurniture_brokencart
 width=3
 length=3
 op1=Look-at
@@ -10,7 +10,7 @@ op2=Search
 [ahzarhoon_entrance]
 name=Mound of earth
 desc=Something seems to be buried under this.
-model=model_loc_2217
+model=outdoorfurniture_boulder1_recol
 width=3
 length=3
 resizex=256
@@ -22,7 +22,7 @@ op2=Search
 [ahzarhoon_entrance_fissure]
 name=Fissure
 desc=A narrow fissure in the ground.
-model=model_loc_2218
+model=cavern_pothole
 width=3
 length=3
 resizex=192
@@ -47,7 +47,7 @@ recol6d=6273
 [ahzarhoon_entrance_fissure_withrope]
 name=Fissure
 desc=A narrow fissure in the ground.
-model=model_loc_492
+model=cavern_potholewithrope
 hillskew=yes
 width=3
 length=3
@@ -72,14 +72,14 @@ recol6d=6273
 [secretrubble]
 name=Cave in
 desc=A pile of rubble.
-model=model_loc_13
+model=outdoorfurniture_mudpile
 length=2
 op2=Search
 
 [zqsecretstone]
 name=Strange looking stone
 desc=A stone with some carvings on it.
-model=model_loc_756
+model=quest_onedisc
 active=yes
 op1=Look-at
 op2=Investigate
@@ -87,20 +87,20 @@ op2=Investigate
 [secretrubblebook]
 name=Loose rocks
 desc=A pile of loose rocks.
-model=model_loc_13
+model=outdoorfurniture_mudpile
 length=2
 op2=Search
 
 [zqsacks]
 name=Old sacks
 desc=Probably nothing useful in these.
-model=model_loc_23
+model=outdoorfurniture_sacks
 op2=Search
 
 [zqgallows]
 name=Ancient gallows
 desc=A rotten and barely standing set of gallows.
-model=model_loc_2224
+model=outdoorfurniture_loc_2224
 width=2
 length=2
 op1=Look-at
@@ -109,7 +109,7 @@ op2=Search
 [zqwaterfallrocks]
 name=Waterfall rocks
 desc=Wet rocks, it looks like you might be able to climb them.
-model=model_loc_436
+model=cavern_rockslide_small
 hillskew=yes
 op1=Look-at
 op2=Search
@@ -117,24 +117,24 @@ op2=Search
 [zqtableraft]
 name=Smashed table
 desc=This table has seen better days.
-model=model_loc_599
+model=furniture_smashedtable
 op1=Look-at
 op2=Craft
 
 [zqlograft]
 name=Crude raft
 desc=A crudely constructed raft.
-model=model_loc_1987
+model=outdoorfurniture_lograft
 length=2
 op2=Disembark
 
 [zq_waterfall]
-model=model_loc_2228
+model=basic_force_barrier
 
 [zq_tribal_statue]
 name=Tribal Statue
 desc=A statue to mark Taie Bwo Wannai sacred grounds.
-model=model_loc_567
+model=outdoorfurniture_tribalstatue
 width=2
 length=2
 op1=Investigate
@@ -142,7 +142,7 @@ op1=Investigate
 [brimhavencart]
 name=Travel cart
 desc=A sturdy cart for travelling in.
-model=model_loc_307
+model=outdoorfurniture_cart
 width=2
 length=3
 op1=Look-at
@@ -151,21 +151,21 @@ op2=Board
 [zqclimbingrocks]
 name=Rocks
 desc=A rocky outcrop.
-model=model_loc_2231
+model=quest_climbingrocks
 hillskew=yes
 op1=Climb
 ambient=25
 contrast=25
 
 [zqclimbingrocks_inactive]
-model=model_loc_2232
+model=quest_climbingrocks2
 hillskew=yes
 ambient=25
 contrast=25
 forcedecor=yes
 
 [zqclimbingrocks_falloff]
-model=model_loc_2233
+model=quest_climbingrocks3
 hillskew=yes
 ambient=25
 contrast=25
@@ -174,7 +174,7 @@ forcedecor=yes
 [zqrocks]
 name=Well stacked rocks
 desc=Rocks that have been stacked at regular intervals.
-model=plainrock1
+model=mine_rocks1
 op1=Investigate
 op2=Search
 hillskew=yes
@@ -182,7 +182,7 @@ hillskew=yes
 [zqdolmen]
 name=Tomb dolmen
 desc=An ancient construct for supporting the bones of the deceased.
-model=model_loc_410
+model=outdoorfurniture_dolmen
 width=2
 length=2
 op1=Inspect
@@ -191,7 +191,7 @@ op2=Search
 [zqhandholds]
 name=Climbing rocks
 desc=I can climb the rocky outcrop.
-model=model_loc_535
+model=outdoorfurniture_boulder3_gdecor
 forcedecor=yes
 active=yes
 hillskew=yes
@@ -200,7 +200,7 @@ op1=Climb
 [zqquest_hidytree]
 name=Palm tree
 desc=An exotic looking tree.
-model=model_loc_1313
+model=plants_medplant
 width=3
 length=2
 op2=Search
@@ -209,7 +209,7 @@ mapscene=5
 [loc_2238]
 name=Hillside entrance
 desc=Large doors set into the hillside.
-model=model_loc_2238
+model=basic_loc_2238
 width=2
 op1=Enter
 category=rashiliyia_tomb_door_opened
@@ -217,7 +217,7 @@ category=rashiliyia_tomb_door_opened
 [loc_2239]
 name=Hillside entrance
 desc=Large doors set into the hillside.
-model=model_loc_2238
+model=basic_loc_2238
 width=2
 mirror=yes
 op1=Enter
@@ -226,7 +226,7 @@ category=rashiliyia_tomb_door_opened
 [hillsideclosedl]
 name=Carved doors
 desc=These doors must have been hidden here for years.
-model=model_loc_2240
+model=basic_loc_2240
 width=2
 op1=Open
 op2=Search
@@ -235,7 +235,7 @@ category=rashiliyia_tomb_door_closed
 [hillsideclosedr]
 name=Carved doors
 desc=These doors must have been hidden here for years.
-model=model_loc_2240
+model=basic_loc_2240
 width=2
 mirror=yes
 op1=Open
@@ -245,7 +245,7 @@ category=rashiliyia_tomb_door_closed
 [hillsideexitclosedl]
 name=Tomb exit
 desc=Perhaps you should give them a push.
-model=model_loc_2240_2
+model=basic_loc_2240_2
 width=2
 op1=Open
 op2=Search
@@ -253,7 +253,7 @@ op2=Search
 [hillsideexitclosedr]
 name=Tomb exit
 desc=Perhaps you should give them a push.
-model=model_loc_2240_2
+model=basic_loc_2240_2
 width=2
 mirror=yes
 op1=Open
@@ -262,14 +262,14 @@ op2=Search
 [zq_doorblock_jungle1]
 name=Jungle plant
 desc=Commonly found in these parts.
-model=model_loc_1390
+model=plants_jungle2
 width=2
 blockwalk=no
 
 [zq_doorblock_jungle2]
 name=Jungle plant
 desc=A leafy fern.
-model=model_loc_1390
+model=plants_jungle2
 width=2
 recol1s=5504
 recol1d=736
@@ -277,7 +277,7 @@ recol1d=736
 [thzq_tombrooml1]
 name=Tomb doors
 desc=Large carved tomb doors, they look terrifying.
-model=model_loc_2246
+model=quest_loc_2246
 op1=Open
 op2=Search
 recol1s=2048
@@ -287,7 +287,7 @@ category=zqtombdoor
 [thzq_tombroomr1]
 name=Tomb doors
 desc=Large carved tomb doors, they look terrifying.
-model=model_loc_2246
+model=quest_loc_2246
 mirror=yes
 op1=Open
 op2=Search
@@ -300,7 +300,7 @@ category=zqtombdoor
 [thzq_tombrooml2]
 name=Tomb doors
 desc=Large carved tomb doors, they look terrifying.
-model=model_loc_2246
+model=quest_loc_2246
 op1=Open
 op2=Search
 recol1s=2048
@@ -312,7 +312,7 @@ category=zqtombdoor
 [thzq_tombrooml3]
 name=Tomb doors
 desc=Large carved tomb doors, they look terrifying.
-model=model_loc_2246
+model=quest_loc_2246
 op1=Open
 op2=Search
 recol1s=2048
@@ -326,7 +326,7 @@ category=zqtombdoor
 [thzq_tombroomr2]
 name=Tomb doors
 desc=Large carved tomb doors, they look terrifying.
-model=model_loc_2246
+model=quest_loc_2246
 mirror=yes
 op1=Open
 op2=Search
@@ -339,7 +339,7 @@ recol3d=29562
 category=zqtombdoor
 
 [thzq_tombrooml_inac]
-model=model_loc_2246
+model=quest_loc_2246
 recol1s=2048
 recol1d=29562
 recol2s=1024
@@ -348,7 +348,7 @@ recol3s=3072
 recol3d=29562
 
 [thzq_tombroomr_inac]
-model=model_loc_2246
+model=quest_loc_2246
 mirror=yes
 recol1s=3072
 recol1d=29562
@@ -360,7 +360,7 @@ recol3d=29562
 [hillsideexitl]
 name=Tomb exit
 desc=Perhaps you should give them a push.
-model=model_loc_2240
+model=basic_loc_2240
 length=2
 op1=Open
 op2=Search
@@ -368,7 +368,7 @@ op2=Search
 [hillsideexitr]
 name=Tomb exit
 desc=Perhaps you should give them a push.
-model=model_loc_2240
+model=basic_loc_2240
 length=2
 mirror=yes
 op1=Open
@@ -376,13 +376,13 @@ op2=Search
 
 [zombiequeengateclosedl]
 name=Ancient metal gate
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 op2=Search
 
 [zombiequeengateclosedr]
 name=Ancient metal gate
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 mirror=yes
 op1=Open
 op2=Search
@@ -390,14 +390,14 @@ op2=Search
 [zq_rashrocks]
 name=Rocks
 desc=A rocky outcrop.
-model=plainrock1
+model=mine_rocks1
 hillskew=yes
 op1=Climb
 
 [zqrashdolmen]
 name=Tomb dolmen
 desc=An ancient construct for supporting the bones of the deceased.
-model=model_loc_410
+model=outdoorfurniture_dolmen
 width=2
 length=2
 op1=Look-at
@@ -406,7 +406,7 @@ op2=Search
 [zqshilogateclosedl]
 name=Metal gate
 desc=The gate is closed.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 blockrange=no
 category=shilo_metalgate
@@ -414,7 +414,7 @@ category=shilo_metalgate
 [zqshilogateclosedr]
 name=Metal gate
 desc=The gate is closed.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 blockrange=no
@@ -423,7 +423,7 @@ category=shilo_metalgate
 [zqwoodengateclosed_l]
 name=Wooden gate
 desc=The gate is closed.
-model=model_loc_47
+model=fence_gateclosedl
 active=yes
 op1=Open
 blockrange=no
@@ -432,7 +432,7 @@ category=shilo_woodengate
 [zqwoodengateclosed_r]
 name=Wooden gate
 desc=The gate is closed.
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 active=yes
 op1=Open
@@ -440,10 +440,10 @@ blockrange=no
 category=shilo_woodengate
 
 [zqwoodengateclosed_l_inactive]
-model=model_loc_47
+model=fence_gateclosedl
 blockrange=no
 
 [zqwoodengateclosed_r_inactive]
-model=model_loc_47
+model=fence_gateclosedl
 mirror=yes
 blockrange=no

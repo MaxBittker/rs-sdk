@@ -1,0 +1,102 @@
+// add	npc=(index=48696, id=castlewars_barricade_saradomin_render_under (15582), coord=(0_37_48_60_5)), creationcycle=226299, spawnangle=south
+[opheld1,castlewars_barricade]
+if (~in_castlewars_spawnroom(coord) = true) {
+    mes("You can't set up a barricade here - there's no need."); // osrs
+    return;
+}
+if (~area_allow_loc_add(coord) = false | npc_findcat(coord, castlewars_barricade, 0, 0) = true) {
+    mes("You can't set up a barricade here");
+    return;
+}
+def_int $barricade_count = 0;
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    $barricade_count = getbit_range(%castlewars_saradomin_bits, ^castlewars_barricades_startbit, ^castlewars_barricades_endbit);
+    if ($barricade_count >= ^castlewars_max_barricades) {
+        mes("Your team has already set up 10 barricades.");
+        return;
+    }
+    %castlewars_saradomin_bits = setbit_range_toint(%castlewars_saradomin_bits, add($barricade_count, 1), ^castlewars_barricades_startbit, ^castlewars_barricades_endbit);
+    npc_add(coord, castlewars_barricade_saradomin, ^max_32bit_int);
+} else {
+    $barricade_count = getbit_range(%castlewars_zamorak_bits, ^castlewars_barricades_startbit, ^castlewars_barricades_endbit);
+    if ($barricade_count >= ^castlewars_max_barricades) {
+        mes("Your team has already set up 10 barricades.");
+        return;
+    }
+    %castlewars_zamorak_bits = setbit_range_toint(%castlewars_zamorak_bits, add($barricade_count, 1),  ^castlewars_barricades_startbit, ^castlewars_barricades_endbit);
+    npc_add(coord, castlewars_barricade_zamorak, ^max_32bit_int);
+}
+inv_del(inv, castlewars_barricade, 1);
+sound_synth(castlewars_setupbarricade, 0, 0);
+
+[opnpcu,_castlewars_barricade]
+switch_obj (last_useitem) {
+    case tinderbox : @castlewars_barricade_ignite;
+    case castlewars_explosives_potion : @castlewars_barricade_explode;
+    case default : ~displaymessage(^dm_default);
+}
+[opnpcu,castlewars_barricade_saradomin]
+switch_obj (last_useitem) {
+    case tinderbox : @castlewars_barricade_ignite;
+    case castlewars_explosives_potion : @castlewars_barricade_explode;
+    case default : ~displaymessage(^dm_default);
+}
+[opnpcu,castlewars_barricade_zamorak]
+switch_obj (last_useitem) {
+    case tinderbox : @castlewars_barricade_ignite;
+    case castlewars_explosives_potion : @castlewars_barricade_explode;
+    case default : ~displaymessage(^dm_default);
+}
+[opnpcu,castlewars_barricade_burning_saradomin]
+switch_obj (last_useitem) {
+    case bucket_water : @castlewars_barricade_extinguish;
+    case default : ~displaymessage(^dm_default);
+}
+[opnpcu,castlewars_barricade_burning_zamorak]
+switch_obj (last_useitem) {
+    case bucket_water : @castlewars_barricade_extinguish;
+    case default : ~displaymessage(^dm_default);
+}
+
+[label,castlewars_barricade_ignite]
+sound_synth(castlewars_onfire, 0, 0);
+npc_changetype_keepall(npc_param(next_npc_type), ^max_32bit_int);
+npc_queue(3, 0, 10);
+
+[label,castlewars_barricade_explode]
+inv_delslot(inv, last_useslot);
+spotanim_map(firewave_impact, npc_coord, 92, 0);
+sound_synth(castlewars_exploding_vial, 0, 0);
+~castlewars_barricade_delete;
+
+[label,castlewars_barricade_extinguish]
+inv_setslot(inv, last_useslot, bucket_empty, 1);
+mes("You put out the fire!");
+sound_synth(castlewars_putout, 0, 0);
+npc_changetype_keepall(npc_param(next_npc_type), ^max_32bit_int);
+
+[proc,castlewars_barricade_delete]
+def_int $barricade_count = 0;
+if (npc_type = castlewars_barricade_saradomin | npc_type = castlewars_barricade_burning_saradomin) {
+    $barricade_count = getbit_range(%castlewars_saradomin_bits, ^castlewars_barricades_startbit, ^castlewars_barricades_endbit);
+    if ($barricade_count > 0) %castlewars_saradomin_bits = setbit_range_toint(%castlewars_saradomin_bits, sub($barricade_count, 1), ^castlewars_barricades_startbit, ^castlewars_barricades_endbit);
+} else {
+    $barricade_count = getbit_range(%castlewars_zamorak_bits, ^castlewars_barricades_startbit, ^castlewars_barricades_endbit);
+    if ($barricade_count > 0) %castlewars_zamorak_bits = setbit_range_toint(%castlewars_zamorak_bits, sub($barricade_count, 1), ^castlewars_barricades_startbit, ^castlewars_barricades_endbit);
+}
+npc_del;
+
+[ai_timer,_castlewars_barricade]
+if (.npc_find(^castlewars_lobby_coord, castlewars_judge, 10, 0) = false) {
+    return;
+}
+if (sub(.%npc_int2, 500) < map_clock) {
+    ~castlewars_barricade_delete;
+}
+
+[ai_queue1,_castlewars_barricade] // nothing
+[ai_queue3,_castlewars_barricade]
+// todo: could ai_clearqueue exist? until then explicitly check state when the queue would run
+if (npc_type = castlewars_barricade_burning_saradomin | npc_type = castlewars_barricade_burning_zamorak) {
+    ~castlewars_barricade_delete;
+}

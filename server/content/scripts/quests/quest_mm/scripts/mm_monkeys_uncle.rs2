@@ -1,0 +1,17 @@
+[opnpc1,mm_monkeys_uncle]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! A human!");
+    }
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    @mm_no_amulet_monkey;
+}
+~chatnpc("<p,neutral>What are you doing in my house?");
+~chatplayer("<p,neutral>I'm just passing through!");
+~chatnpc("<p,neutral>Well I don't give a monkey's uncle!");

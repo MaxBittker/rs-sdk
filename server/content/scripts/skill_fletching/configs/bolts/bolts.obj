@@ -1,7 +1,7 @@
 [opal_bolttips]
 name=Opal bolttips
 desc=I can make bolts with these.
-model=model_2780_obj
+model=inv_bolttips
 recol1s=20159
 recol1d=29587
 2dxof=-1
@@ -18,7 +18,7 @@ category=category_530
 [pearl_bolttips]
 name=Pearl bolttips
 desc=I can make bolts with these.
-model=model_2780_obj
+model=inv_bolttips
 2dxof=-1
 2dyof=7
 2dzoom=490
@@ -33,7 +33,7 @@ category=category_530
 [barbed_bolttips]
 name=Barb bolttips
 desc=I can make bolts with these.
-model=model_2445_obj
+model=inv_bolttips_barbed
 members=yes
 stackable=yes
 cost=95

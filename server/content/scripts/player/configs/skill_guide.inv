@@ -502,14 +502,19 @@ stock21=rune_platebody,1
 
 [skill_guide_thieving_stalls]
 size=30
-stock1=cake,1
-stock2=cup_of_tea,1
-stock3=silk,1
-stock4=fur,1
-stock5=raw_salmon,1
-stock6=silver_ore,1
-stock7=gnome_spice,1
-stock8=sapphire,1
+stock1=cabbage,1
+stock2=cake,1
+stock3=cup_of_tea,1
+stock4=chisel,1
+stock5=banana,1
+stock6=silk,1
+stock7=fur,1
+stock8=raw_salmon,1
+stock9=silver_ore,1
+stock10=airrune,1
+stock11=iron_scimitar,1
+stock12=gnome_spice,1
+stock13=sapphire,1
 
 [skill_guide_thieving_pickpocket]
 size=30

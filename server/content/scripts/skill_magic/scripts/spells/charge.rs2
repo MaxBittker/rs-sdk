@@ -21,7 +21,7 @@ if (p_finduid(uid) = true) {
     mes("You feel charged with magic power.");
     anim(human_casting, 0);
     spotanim_pl(teleport_casting, 128, 32);
-    sound_synth(charge, 0, 0);
+    sound_synth(charge, 1, 0);
     ~delete_spell_runes($spell_data);
     ~give_spell_xp($spell_data);
 }
@@ -30,7 +30,7 @@ if (p_finduid(uid) = true) {
 %magearena_charge = sub(%magearena_charge, 1);
 if (%magearena_charge < 1) {
     mes("Your magical charge fades away."); // https://youtu.be/nRiXrgWEJ40?t=12
-    sound_synth(charge_gone, 0, 0);
+    sound_synth(charge_gone, 1, 0);
     cleartimer(charge);
     return;
 }

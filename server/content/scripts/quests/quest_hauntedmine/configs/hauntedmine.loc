@@ -1,0 +1,859 @@
+[hauntedmine_secondary_entrance]
+name=Cart tunnel
+desc=It looks cramped and dark.
+model=quest_hauntedmine_cavewall_tunnel_track
+recol1s=12580
+recol1d=11627
+sharelight=yes
+op1=Crawl down
+
+[hauntedmine_back_entrance1]
+name=Cart tunnel
+desc=It looks cramped and dark.
+model=quest_hauntedmine_cavewall_tunnel_track
+recol1s=12580
+recol1d=11627
+sharelight=yes
+op1=Crawl down
+
+[hauntedmine_back_entrance2]
+name=Cart tunnel
+desc=It looks cramped and dark.
+model=quest_hauntedmine_cavewall_tunnel_track
+recol1s=12580
+recol1d=11627
+sharelight=yes
+op1=Crawl down
+
+[cavewall_face1_end_grey_left]
+model=quest_hauntedmine_cavewall_face1_end
+recol1s=12580
+recol1d=11627
+hillskew=yes
+sharelight=yes
+
+[cavewall_face1_end_grey_right]
+model=quest_hauntedmine_cavewall_face1_end
+recol1s=12580
+recol1d=11627
+hillskew=yes
+sharelight=yes
+mirror=yes
+
+[hauntedmine_obstacle_cart]
+name=Mine cart
+desc=This cart is blocking the way up the ridge.
+model=mine_cart
+op1=Climb over
+
+[hauntedmine_main_entrance]
+name=Stairs
+desc=These stairs seem to have been hewn out of the rock itself.
+model=quest_hauntedmine_cave_stairs_down
+recol1s=12580
+recol1d=7399
+recol2s=10467
+recol2d=6342
+recol3s=9409
+recol3d=5285
+recol4s=8353
+recol4d=4228
+recol5s=6240
+recol5d=3171
+recol6s=4128
+recol6d=2114
+sharelight=yes
+width=3
+length=4
+op1=Walk-down
+forceapproach=north
+
+[hauntedmine_secondary_entrance_inside]
+name=Cart tunnel
+desc=It looks cramped and dark.
+model=quest_hauntedmine_cavewall_tunnel_track
+recol1s=12580
+recol1d=18851
+sharelight=yes
+op1=Crawl through
+
+[hauntedmine_back_entrance1_inside]
+name=Cart tunnel
+desc=It looks cramped and dark.
+model=quest_hauntedmine_cavewall_tunnel_track
+recol1s=12580
+recol1d=18851
+sharelight=yes
+op1=Crawl through
+
+[hauntedmine_back_entrance2_inside]
+name=Cart tunnel
+desc=It looks cramped and dark.
+model=quest_hauntedmine_cavewall_tunnel_track
+recol1s=12580
+recol1d=18851
+sharelight=yes
+op1=Crawl through
+
+[hauntedmine_main_entrance_inside]
+name=Stairs
+desc=These stairs seem to have been hewn out of the rock itself.
+model=quest_hauntedmine_cave_stairs
+recol1s=12580
+recol1d=18851
+recol2s=9409
+recol2d=12580
+sharelight=yes
+width=4
+length=3
+op1=Walk-up
+
+[hauntedmine_lift_valve]
+name=Water Valve
+desc=A valve to start and stop the flow of water.
+model=quest_sewervalve
+recol1s=9545
+recol1d=5250
+op1=Turn
+
+[trackcross]
+model=loc_4925
+hillskew=yes
+sharelight=yes
+forcedecor=yes
+
+[crystalcorner]
+name=Crystal outcrop
+desc=Shiny!
+model=quest_hauntedmine_crystalcorner
+hillskew=yes
+op1=Cut
+
+[crystaledging]
+name=Crystal outcrop
+desc=Shiny!
+model=quest_hauntedmine_crystaledging
+hillskew=yes
+op1=Cut
+
+[largecrystals]
+name=Crystal outcrop
+desc=Shiny!
+model=quest_hauntedmine_largecrystals
+hillskew=yes
+op1=Cut
+
+[cavewall_tunnel_track]
+name=Dark tunnel
+desc=It looks cramped and dark.
+model=quest_hauntedmine_cavewall_tunnel_track
+recol1s=12580
+recol1d=18851
+sharelight=yes
+
+[cavewall_tunnel_cart]
+name=Mine cart
+desc=It's blocking the tunnel, but it looks dark down there anyway.
+model=loc_4930
+recol1s=12580
+recol1d=18851
+sharelight=yes
+
+[track_up]
+model=loc_4931
+recol1s=12580
+recol1d=18851
+active=no
+sharelight=yes
+width=4
+
+[glowing_mushroom]
+name=Glowing fungus
+desc=A bizarre fungus.  It emits a pale blue light.
+model=quest_hauntedmine_glowing_mushroom
+op1=Pick
+
+[glowing_mushroom2]
+name=Glowing fungus
+desc=A bizarre fungus.  It emits a pale blue light.
+model=quest_hauntedmine_glowing_mushroom2
+op1=Pick
+
+[cavewall_face_forsupport]
+model=loc_4934
+recol1s=12580
+recol1d=18851
+hillskew=yes
+sharelight=yes
+
+[mine_support_ceiling]
+name=Ceiling support
+desc=If that wasn't there I'd probably be a lot flatter now.
+model=loc_4935
+hillskew=yes
+sharelight=yes
+
+[mine_support_wall]
+name=Wall support
+desc=It prevents the wall unceremoniously squashing people.
+model=loc_4936
+hillskew=yes
+sharelight=yes
+
+[lift_side_l]
+name=Lift
+desc=It looks like it's water powered.
+model=loc_4937
+sharelight=yes
+op1=Go down in
+
+[lift_side_r]
+name=Lift
+desc=It looks like it's water powered.
+model=loc_4937
+sharelight=yes
+mirror=yes
+op1=Go down in
+
+[lift_back_l]
+model=loc_4939
+recol1s=12580
+recol1d=18851
+length=2
+sharelight=yes
+mirror=yes
+active=no
+
+[lift_back]
+name=Lift
+desc=It looks like it's water powered.
+model=loc_4940
+recol1s=12580
+recol1d=18851
+length=2
+sharelight=yes
+op1=Go down in
+
+[lift_back_r]
+model=loc_4939
+recol1s=12580
+recol1d=18851
+length=2
+sharelight=yes
+active=no
+
+[lift_flooded]
+name=Lift
+desc=It's a little waterlogged.  I hope it still works.
+model=quest_hauntedmine_lift_flooded
+op1=Wade to
+op1=Go up in
+
+[track_flooded]
+model=quest_hauntedmine_track_flooded
+forcedecor=yes
+hillskew=yes
+
+[crate_flooded]
+name=Crate
+desc=It doesn't look very watertight.  Any contents will be ruined.
+model=quest_hauntedmine_crate_flooded
+blockrange=no
+
+[mine_cart_flooded]
+name=Mine cart
+desc=A sunken mine cart, how useful.
+model=loc_4945
+
+[cavewall_hole]
+model=quest_hauntedmine_cavewall_hole
+hillskew=yes
+sharelight=yes
+forcedecor=yes
+
+[cavewall_hole_bridge]
+model=loc_4947
+hillskew=yes
+sharelight=yes
+forcedecor=yes
+
+[cavewall_hole_corner]
+model=quest_hauntedmine_cavewall_hole_corner
+hillskew=yes
+sharelight=yes
+forcedecor=yes
+
+[hauntedmine_points_info]
+name=Points settings
+desc=This displays information on how the points on this level are set.
+model=loc_4949
+recol1s=12580
+recol1d=18851
+sharelight=yes
+length=2
+op1=Check
+
+[hauntedmine_point_lever1]
+name=Lever
+desc=It has the letter 'B' inscribed on the end.
+model=quest_floorlever_off
+op1=Pull
+
+[hauntedmine_point_lever2]
+name=Lever
+desc=It has the letter 'A' inscribed on the end.
+model=quest_floorlever_off
+op1=Pull
+
+[hauntedmine_point_lever3]
+name=Lever
+desc=It has the letter 'C' inscribed on the end.
+model=quest_floorlever_off
+op1=Pull
+
+[hauntedmine_point_lever4]
+name=Lever
+desc=It has the letter 'D' inscribed on the end.
+model=quest_floorlever_off
+op1=Pull
+
+[hauntedmine_point_lever5]
+name=Lever
+desc=It has the letter 'E' inscribed on the end.
+model=quest_floorlever_off
+op1=Pull
+
+[hauntedmine_point_lever6]
+name=Lever
+desc=It has the letter 'I' inscribed on the end.
+model=quest_floorlever_off
+op1=Pull
+
+[hauntedmine_point_lever7]
+name=Lever
+desc=It has the letter 'J' inscribed on the end.
+model=quest_floorlever_off
+op1=Pull
+
+[hauntedmine_point_lever8]
+name=Lever
+desc=It has the letter 'K' inscribed on the end.
+model=quest_floorlever_off
+op1=Pull
+
+[hauntedmine_point_lever_inactive]
+name=Lever
+desc=I think this changes one of the sets of points.
+model=quest_floorlever_on
+
+[hauntedmine_point_lever_flooded9]
+name=Lever
+desc=It has the letter 'F' inscribed on the end.
+model=quest_floorlever_off
+
+[hauntedmine_point_lever_flooded10]
+name=Lever
+desc=It has the letter 'G' inscribed on the end.
+model=quest_floorlever_off
+
+[hauntedmine_point_lever_flooded11]
+name=Lever
+desc=It has the letter 'H' inscribed on the end.
+model=quest_floorlever_off
+
+[hauntedmine_boss_door]
+name=Door
+desc=The door is closed.
+model=basic_wall
+retex1s=wall
+retex1d=door
+recol2s=6342
+recol2d=11458
+active=yes
+op1=Open
+param=next_loc_stage,loc_1532
+
+[hauntedmine_rewarddoor_l]
+name=Large door
+desc=A large double door.
+model=castle_doubledoorl
+op1=Open
+raiseobject=no
+category=double_door_open_and_close_left
+param=next_loc_stage,loc_1522
+
+[hauntedmine_rewarddoor_r]
+name=Large door
+desc=A large double door.
+model=castle_doubledoorl
+op1=Open
+mirror=yes
+raiseobject=no
+category=double_door_open_and_close_right
+param=next_loc_stage,loc_1523
+
+[hauntedmine_laddertop]
+name=Ladder
+desc=I can climb down this.
+model=furniture_ladderdown
+active=yes
+op1=Climb-down
+mapscene=7
+
+[hauntedmine_ladder]
+name=Ladder
+desc=I can climb this.
+model=furniture_ladder
+active=yes
+op1=Climb-up
+mapscene=7
+
+[hauntedmine_laddertop_1e]
+name=Ladder
+desc=I can climb down this.
+model=furniture_ladderdown
+active=yes
+op1=Climb-down
+mapscene=7
+
+[hauntedmine_ladder_1w]
+name=Ladder
+desc=I can climb this.
+model=furniture_ladder
+active=yes
+op1=Climb-up
+mapscene=7
+
+[hauntedmine_laddertop_1sw]
+name=Ladder
+desc=I can climb down this.
+model=furniture_ladderdown
+active=yes
+op1=Climb-down
+mapscene=7
+
+[hauntedmine_ladder_1ne]
+name=Ladder
+desc=I can climb this.
+model=furniture_ladder
+active=yes
+op1=Climb-up
+mapscene=7
+
+[hauntedmine_dark_stairs_top]
+name=Stairs
+desc=These stairs seem to have been hewn out of the rock itself.
+model=quest_hauntedmine_cave_stairs_down
+recol1s=10465
+recol1d=32767
+recol2s=12580
+recol2d=10465
+sharelight=yes
+width=3
+length=4
+op1=Walk-down
+forceapproach=north
+
+[hauntedmine_dark_stairs_bottom]
+name=Stairs
+desc=These stairs seem to have been hewn out of the rock itself.
+model=quest_hauntedmine_cave_stairs
+recol1s=12580
+recol1d=2114
+recol2s=9409
+recol2d=0
+sharelight=yes
+width=4
+length=3
+op1=Walk-up
+
+[hauntedmine_light_stairs_bottom]
+name=Stairs
+desc=These stairs seem to have been hewn out of the rock itself.
+model=quest_hauntedmine_cave_stairs
+recol1s=12580
+recol1d=18851
+sharelight=yes
+width=4
+length=3
+op1=Walk-up
+
+[hauntedmine_puzzle_cart]
+name=Mine cart
+desc=Useful for moving items around the mine.
+model=mine_cart
+op1=Search
+
+[hauntedmine_chisel_crate]
+name=Crate
+desc=An old crate for storage.
+model=warehouse_shop_crate2
+retex1s=darkwood
+retex1d=wood2
+retex2s=elfwood
+retex2d=wood2
+op1=Search
+
+[loc_4976]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4976
+recol1s=992
+recol1d=14596
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4977]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4977
+recol1s=992
+recol1d=14596
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4978]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4978
+recol1s=992
+recol1d=14596
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4979]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4976
+recol1s=992
+recol1d=13741
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4980]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4977
+recol1s=992
+recol1d=13741
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4981]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4978
+recol1s=992
+recol1d=13741
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4982]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4976
+recol1s=992
+recol1d=6242
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4983]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4977
+recol1s=992
+recol1d=6242
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4984]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4978
+recol1s=992
+recol1d=6242
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4985]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4976
+recol1s=992
+recol1d=0
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4986]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4977
+recol1s=992
+recol1d=0
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4987]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4978
+recol1s=992
+recol1d=0
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4988]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4976
+recol1s=992
+recol1d=6346
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4989]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4977
+recol1s=992
+recol1d=6346
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4990]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4978
+recol1s=992
+recol1d=6346
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4991]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4976
+recol1s=992
+recol1d=6438
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4992]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4977
+recol1s=992
+recol1d=6438
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4993]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4978
+recol1s=992
+recol1d=6438
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4994]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4976
+recol1s=992
+recol1d=18851
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4995]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4977
+recol1s=992
+recol1d=18851
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[loc_4996]
+name=Mineral vein
+desc=A distinctive layer in the rock strata.
+model=loc_4978
+recol1s=992
+recol1d=18851
+active=yes
+contrast=100
+ambient=25
+hillskew=yes
+op1=Mine
+op2=Prospect
+op3=Hidden
+category=mining_rock_normal
+param=next_loc_stage,cavewall_face1_desert
+
+[track_points_a_mirrored]
+model=mine_trackpoints_a
+hillskew=yes
+sharelight=yes
+forcedecor=yes
+mirror=yes
+
+[track_points_b_mirrored]
+model=mine_trackpoints_b
+hillskew=yes
+sharelight=yes
+forcedecor=yes
+mirror=yes
+
+[track_points_c_mirrored]
+model=mine_trackpoints_c
+hillskew=yes
+sharelight=yes
+forcedecor=yes
+mirror=yes
+
+[track_points_d_mirrored]
+model=mine_trackpoints_d
+hillskew=yes
+sharelight=yes
+forcedecor=yes
+mirror=yes

@@ -1,6 +1,6 @@
 [label,consume_effect_poisonbwan]
-sound_synth(eat, 0, 0);
-sound_synth(throwup1, 0, 30);
+sound_synth(eat, 1, 0);
+sound_synth(throwup1, 1, 30);
 anim(human_eat, 0);
 inv_delslot(inv, last_slot);
 if(stat(hitpoints) > 5) damage(uid, ^hitmark_poison, 5);

@@ -5,7 +5,7 @@ if(%horrorquest = ^horror_complete) {
     else p_teleport(loc_coord);
     loc_change(inviswall, 3);
     loc_add(0_39_56_13_52, horror_lighthouse_inactive, 3, wall_straight, 3);
-    sound_synth(door_open, 0, 0);
+    sound_synth(door_open, 1, 0);
     return;
 }
 if(coordz(coord) = coordz(loc_coord)) {
@@ -15,7 +15,7 @@ if(coordz(coord) = coordz(loc_coord)) {
         p_teleport(movecoord(coord, 0, 0, -1));
         loc_change(inviswall, 3);
         loc_add(0_39_56_13_52, horror_lighthouse_inactive, 3, wall_straight, 3);
-        sound_synth(door_open, 0, 0);
+        sound_synth(door_open, 1, 0);
     }
     return;
 }
@@ -26,7 +26,7 @@ if(%horrorquest > ^horror_started | (%horrorlighthouseentrance = ^true & %horror
     p_teleport(movecoord(coord, 0, 0, 1));
     loc_change(inviswall, 3);
     loc_add(0_38_71_13_52, horror_lighthouse_inactive, 3, wall_straight, 3);
-    sound_synth(door_open, 0, 0);
+    sound_synth(door_open, 1, 0);
     npc_huntall(0_39_72_24_36, 25, 0);
     while (npc_findnext = true) {
         if(%npc_aggressive_player = uid) {
@@ -129,7 +129,7 @@ if(inv_total(inv, hammer) = 0) {
     return;
 }
 anim(human_smithing, 0);
-sound_synth(anvil_4, 0, 0);
+sound_synth(anvil_4, 1, 0);
 inv_del(inv, woodplank, 1);
 inv_del(inv, nails, 4);
 %horrorbridgeleft = ^true;
@@ -158,7 +158,7 @@ if(inv_total(inv, hammer) = 0) {
     return;
 }
 anim(human_smithing, 0);
-sound_synth(anvil_4, 0, 0);
+sound_synth(anvil_4, 1, 0);
 inv_del(inv, woodplank, 1);
 inv_del(inv, nails, 4);
 %horrorbridgeright = ^true;
@@ -302,7 +302,7 @@ if(coordz(coord) < coordz(loc_coord)) {
 loc_change(inviswall, 3);
 p_teleport(movecoord(loc_coord, 0, 0, -1));
 loc_add(movecoord(loc_coord, 0, 0, -1), horror_far_left_door_inactive, 0, wall_straight, 3);
-sound_synth(strangedoor_open, 0, 0);
+sound_synth(strangedoor_open, 1, 0);
 longqueue(strangedoorsound, 1, 0, ^discard);
 
 [oploc1,horror_far_right_door]
@@ -317,11 +317,11 @@ if(coordz(coord) >= coordz(loc_coord)) {
 loc_change(inviswall, 3);
 p_teleport(loc_coord);
 loc_add(movecoord(loc_coord, 0, 0, -1), horror_far_right_door_inactive, 0, wall_straight, 3);
-sound_synth(strangedoor_open, 0, 0);
+sound_synth(strangedoor_open, 1, 0);
 longqueue(strangedoorsound, 1, 0, ^discard);
 
 [queue,strangedoorsound]
-sound_synth(strangedoor_close, 0, 0);
+sound_synth(strangedoor_close, 1, 0);
 
 [oploc1,horror_mid_left_door] @study_horror_door;
 [oploc1,horror_mid_right_door] @study_horror_door;
@@ -428,7 +428,7 @@ if(oc_category($obj) = arrows) {
 [proc,horror_door_check_complete]
 if(%horrorfire = ^true & %horrorwater = ^true & %horrorearth = ^true & %horrorair = ^true & %horrorsword = ^true & %horrorarrow = ^true) {
     mes("You hear the sound of something moving within the wall.");
-    sound_synth(strangedoor_sound, 0, 0);
+    sound_synth(strangedoor_sound, 1, 0);
 }
  
 [label,study_horror_door]
@@ -437,36 +437,36 @@ if(coordz(coord) >= coordz(loc_coord)) {
     return;
 }
 if(%horrorfire = ^false) {
-    if_setmodel(inter_188:horror_fire, 4513);
+    if_setmodel(horror_metaldoor:horror_fire, 4513);
 } else {
-    if_setmodel(inter_188:horror_fire, 4514);
+    if_setmodel(horror_metaldoor:horror_fire, 4514);
 }
 if(%horrorwater = ^false) {
-    if_setmodel(inter_188:horror_water, 4520);
+    if_setmodel(horror_metaldoor:horror_water, 4520);
 } else {
-    if_setmodel(inter_188:horror_water, 4521);
+    if_setmodel(horror_metaldoor:horror_water, 4521);
 }
 if(%horrorearth = ^false) {
-    if_setmodel(inter_188:horror_earth, 4511);
+    if_setmodel(horror_metaldoor:horror_earth, 4511);
 } else {
-    if_setmodel(inter_188:horror_earth, 4512);
+    if_setmodel(horror_metaldoor:horror_earth, 4512);
 }
 if(%horrorair = ^false) {
-    if_setmodel(inter_188:horror_air, 4509);
+    if_setmodel(horror_metaldoor:horror_air, 4509);
 } else {
-    if_setmodel(inter_188:horror_air, 4510);
+    if_setmodel(horror_metaldoor:horror_air, 4510);
 }
 if(%horrorsword = ^false) {
-    if_setmodel(inter_188:horror_melee, 4516);
+    if_setmodel(horror_metaldoor:horror_melee, 4516);
 } else {
-    if_setmodel(inter_188:horror_melee, 4517);
+    if_setmodel(horror_metaldoor:horror_melee, 4517);
 }
 if(%horrorarrow = ^false) {
-    if_setmodel(inter_188:horror_ranging, 4518);
+    if_setmodel(horror_metaldoor:horror_ranging, 4518);
 } else {
-    if_setmodel(inter_188:horror_ranging, 4519);
+    if_setmodel(horror_metaldoor:horror_ranging, 4519);
 }
-if_openmain(inter_188);
+if_openmain(horror_metaldoor);
 
 [oploc1,horror_ladder_top2]
 p_arrivedelay;

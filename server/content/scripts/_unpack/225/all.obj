@@ -2,20 +2,20 @@
 name=Knife
 desc=A dangerous looking knife.
 cost=6
-model=model_2559_obj
+model=inv_knife
 2dxof=-11
 2dyof=-4
 2dzoom=580
 2dyan=1260
 2dxan=444
 weight=1lb
-manwear=model_4045,0
-womanwear=model_4045,0
+manwear=human_weapons_knife,0
+womanwear=human_weapons_knife,0
 
 [fur]
 name=Fur
 desc=This would make warm clothing.
-model=model_2631_obj
+model=inv_fur
 2dxof=-2
 2dyof=5
 2dzoom=1290
@@ -28,7 +28,7 @@ weight=3kg
 name=Silk
 desc=It's a sheet of silk.
 cost=30
-model=model_2725_obj
+model=inv_cloth
 recol1s=32767
 recol1d=22870
 2dyof=-15
@@ -40,9 +40,9 @@ weight=1kg
 name=Spade
 desc=A slightly muddy spade.
 cost=3
-model=model_2418_obj
-manwear=model_496_obj_wear,0
-womanwear=model_496_obj_wear,0
+model=inv_spade
+manwear=human_weapons_spade,0
+womanwear=human_weapons_spade,0
 2dxof=4
 2dyof=4
 2dzoom=2030
@@ -55,7 +55,7 @@ iop1=Dig
 name=Rope
 desc=A coil of rope.
 cost=18
-model=model_loc_227_8
+model=ship_pileofrope2
 recol1s=11524
 recol1d=7296
 2dxof=-2
@@ -69,7 +69,7 @@ weight=3lb
 name=Flier
 desc=Get your axes from Bob's Axes.
 cost=1
-model=model_2600_obj
+model=inv_scroll
 2dxof=1
 2dyof=7
 2dzoom=1040
@@ -78,7 +78,7 @@ model=model_2600_obj
 weight=15g
 
 [grey_wolf_fur]
-model=model_2631_obj
+model=inv_fur
 recol1s=18849
 recol1d=15855
 2dxof=2
@@ -92,7 +92,7 @@ weight=3kg
 members=yes
 
 [woodplank]
-model=model_2694_obj
+model=inv_woodplank
 name=Plank
 desc=A plank of wood!
 2dyof=18
@@ -104,18 +104,19 @@ category=category_475
 [christmas_cracker]
 name=Christmas cracker
 desc=I need to pull this
-model=model_2637_obj
+model=inv_cracker
 2dxof=-3
 2dyof=40
 2dzoom=630
 2dyan=1728
 2dxan=272
 weight=200g
+param=party_clean_exempt,^true
 
 [skull]
 name=Skull
 desc=Ooooh spooky!
-model=model_2388_obj
+model=inv_skull
 recol1s=29562
 recol1d=28433
 2dxof=-1
@@ -129,7 +130,7 @@ weight=80g
 [rooftile]
 name=Tile
 desc=A fraction of a roof.
-model=model_2617_obj
+model=inv_rooftile
 2dxof=-2
 2dyof=7
 2dzoom=870
@@ -140,21 +141,22 @@ weight=70g
 [rock]
 name=Rock
 desc=A rock
-model=model_2571_obj
+model=inv_rocks1
 2dxof=-5
 2dyof=-16
 2dzoom=820
 2dyan=20
 2dxan=204
+members=yes
 weight=1kg
 
 [papyrus]
 name=Papyrus
 desc=Used for making notes.
 cost=10
-model=model_2746_obj
-manwear=model_532_obj_wear,0
-womanwear=model_532_obj_wear,6
+model=inv_papyrus
+manwear=human_weapons_paper,0
+womanwear=human_weapons_paper,6
 2dzoom=940
 2dyan=112
 2dxan=248
@@ -163,9 +165,9 @@ members=yes
 
 [papyrus_used]
 name=Papyrus
-model=model_2838_obj
-manwear=model_532_obj_wear,0
-womanwear=model_532_obj_wear,6
+model=inv_papyrus_ed
+manwear=human_weapons_paper,0
+womanwear=human_weapons_paper,6
 2dzoom=940
 2dyan=112
 2dxan=248
@@ -177,9 +179,9 @@ tradeable=no
 name=Charcoal
 desc=A lump of charcoal.
 cost=45
-model=model_2395_obj
-manwear=model_494_obj_wear,0
-womanwear=model_494_obj_wear,6
+model=inv_charcoal
+manwear=human_weapons_charcoal,0
+womanwear=human_weapons_charcoal,6
 2dyof=26
 2dzoom=650
 2dyan=220
@@ -190,7 +192,7 @@ weight=5g
 name=Machete
 desc=A jungle specific slashing device.
 cost=40
-model=model_2841_obj
+model=inv_machette
 recol1s=15855
 recol1d=8456
 members=yes
@@ -201,8 +203,8 @@ members=yes
 2dxan=200
 iop2=Wield
 wearpos=righthand
-manwear=model_566_obj_wear,0
-womanwear=model_566_obj_wear,6
+manwear=human_weapons_machette,0
+womanwear=human_weapons_machette,6
 category=weapon_slash
 weight=3lb
 param=slashattack,6
@@ -217,7 +219,7 @@ param=stab_sound,hacksword_stab
 
 [cooking_pot]
 name=Cooking pot
-model=model_loc_692_8
+model=furniture_cauldron
 recol1s=10570
 recol1d=12615
 recol2s=544
@@ -228,20 +230,21 @@ recol3d=12448
 2dyan=36
 2dxan=116
 weight=1g
+dummyitem=inv_only
 
-// jagex name
 [highwayman_mask]
-model=model_2500_obj
+model=inv_highwayman_mask
 2dxof=3
 2dzoom=290
 2dyan=224
 2dxan=488
+dummyitem=inv_only
 
 [discofreturning]
 name=Disk of returning
 desc=Used to get out of Thordur's blackhole
 cost=12
-model=model_2724_obj
+model=inv_discofreturning
 2dyof=2
 2dzoom=880
 2dyan=232
@@ -253,7 +256,7 @@ param=party_clean_exempt,^true
 [edgevilledungeonkey]
 name=Brass key
 desc=A mysterious key made of brass.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=22945
 2dxof=-3
@@ -267,7 +270,7 @@ weight=10g
 name=Half of a key
 desc=A very shiny key.
 members=yes
-model=model_2414_obj
+model=inv_keypart1
 2dxof=-7
 2dyof=1
 2dzoom=740
@@ -279,7 +282,7 @@ weight=5g
 name=Half of a key
 desc=A very shiny key.
 members=yes
-model=model_2415_obj
+model=inv_keypart2
 2dxof=2
 2dyof=66
 2dzoom=750
@@ -291,7 +294,7 @@ weight=5g
 name=Crystal key
 desc=A very rare and mysterious key.
 members=yes
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=14800
 2dxof=-3
@@ -304,7 +307,7 @@ weight=10g
 [muddy_key]
 name=Muddy key
 desc=It looks like a key to a chest.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=15621
 2dxof=-3
@@ -318,7 +321,7 @@ weight=10g
 name=Sinister key
 desc=You get a sense of dread from this key.
 members=yes
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=4226
 2dxof=-3
@@ -331,7 +334,7 @@ weight=10g
 [coins]
 name=Coins
 desc=Lovely money!
-model=model_2484_obj
+model=inv_goldpeices_1
 stackable=yes
 2dxof=3
 2dzoom=710
@@ -349,7 +352,7 @@ count8=coins_1000,1000
 count9=coins_10000,10000
 
 [coins_2]
-model=model_2485_obj
+model=inv_goldpeices_2
 stackable=yes
 2dxof=3
 2dzoom=710
@@ -358,7 +361,7 @@ stackable=yes
 dummyitem=inv_only
 
 [coins_3]
-model=model_2486_obj
+model=inv_goldpeices_3
 stackable=yes
 2dxof=3
 2dzoom=710
@@ -367,7 +370,7 @@ stackable=yes
 dummyitem=inv_only
 
 [coins_4]
-model=model_2487_obj
+model=inv_goldpeices_4
 stackable=yes
 2dxof=3
 2dzoom=710
@@ -376,7 +379,7 @@ stackable=yes
 dummyitem=inv_only
 
 [coins_5]
-model=model_2488_obj
+model=inv_goldpeices_5
 stackable=yes
 2dxof=3
 2dzoom=710
@@ -385,7 +388,7 @@ stackable=yes
 dummyitem=inv_only
 
 [coins_25]
-model=model_2667_obj
+model=inv_goldpeices
 2dxof=3
 2dzoom=710
 2dyan=2012
@@ -394,7 +397,7 @@ stackable=yes
 dummyitem=inv_only
 
 [coins_100]
-model=model_2825_obj
+model=inv_goldpeices_100
 2dxof=3
 2dzoom=710
 2dyan=2012
@@ -403,7 +406,7 @@ stackable=yes
 dummyitem=inv_only
 
 [coins_250]
-model=model_2423_obj
+model=inv_goldpeices_250
 2dxof=2
 2dyof=-2
 2dzoom=650
@@ -413,7 +416,7 @@ stackable=yes
 dummyitem=inv_only
 
 [coins_1000]
-model=model_2710_obj
+model=inv_goldpeices_1000
 2dxof=11
 2dyof=13
 2dzoom=980
@@ -423,7 +426,7 @@ stackable=yes
 dummyitem=inv_only
 
 [coins_10000]
-model=model_2775_obj
+model=inv_goldpeices_10000
 2dxof=11
 2dzoom=1000
 2dyan=80
@@ -435,7 +438,7 @@ dummyitem=inv_only
 name=White apron
 desc=A mostly clean apron.
 cost=2
-model=model_2592_obj
+model=inv_apron
 2dxof=-4
 2dyof=-4
 2dzoom=1580
@@ -443,15 +446,15 @@ model=model_2592_obj
 2dxan=544
 iop2=Wear
 wearpos=torso
-manwear=model_305_obj_wear,0
-womanwear=model_467_obj_wear,0
+manwear=man_torso_apron,0
+womanwear=woman_torso_apron,0
 weight=1lb
 
 [brass_necklace]
 cost=30
 name=Brass necklace
 desc=I'd prefer a gold one.
-model=model_2506_obj
+model=inv_goldnecklace
 recol1s=31457
 recol1d=21921
 2dxof=5
@@ -461,15 +464,15 @@ recol1d=21921
 2dxan=304
 iop2=Wear
 wearpos=front
-manwear=model_281_obj_wear,0
-womanwear=model_445_obj_wear,0
+manwear=man_necklaces_goldnecklace,0
+womanwear=woman_necklaces_goldnecklace,0
 weight=10g
 
 [blue_skirt]
 cost=2
 name=Blue skirt
 desc=Leg covering favoured by women and wizards.
-model=model_2521_obj
+model=inv_robebottoms
 recol1s=2340
 recol1d=239
 2dyof=1
@@ -477,15 +480,15 @@ recol1d=239
 2dxan=572
 iop2=Wear
 wearpos=legs
-manwear=model_265_obj_wear,0
-womanwear=model_428_idk,0
+manwear=man_legs_robe,0
+womanwear=woman_legs_longskirt,0
 weight=2lb
 
 [pink_skirt]
 cost=2
 name=Pink skirt
 desc=A ladies skirt.
-model=model_2521_obj
+model=inv_robebottoms
 recol1s=2340
 recol1d=25073
 2dyof=1
@@ -493,15 +496,15 @@ recol1d=25073
 2dxan=572
 iop2=Wear
 wearpos=legs
-manwear=model_265_obj_wear,0
-womanwear=model_428_idk,0
+manwear=man_legs_robe,0
+womanwear=woman_legs_longskirt,0
 weight=2lb
 
 [black_skirt]
 cost=2
 name=Black skirt
 desc=Clothing favoured by women and dark wizards.
-model=model_2521_obj
+model=inv_robebottoms
 recol1s=2340
 recol1d=4226
 2dyof=1
@@ -509,24 +512,24 @@ recol1d=4226
 2dxan=572
 iop2=Wear
 wearpos=legs
-manwear=model_265_obj_wear,0
-womanwear=model_428_idk,0
+manwear=man_legs_robe,0
+womanwear=woman_legs_longskirt,0
 weight=2lb
 
 [eye_patch]
 name=Eye patch
 desc=A black piece of cloth on a string.
-model=model_2417_obj
+model=inv_eyepatch
 2dzoom=800
 2dyan=1952
 2dxan=296
 iop2=Wear
 cost=2
 wearpos=hat
-manwear=model_236_obj_wear,0
-womanwear=model_410_obj_wear,0
-manhead=model_68_obj_wear
-womanhead=model_126_obj_wear
+manwear=man_headextra_eyepatch,0
+womanwear=woman_headextra_eyepatch,0
+manhead=chat_male_headextra_eyepatch
+womanhead=chat_female_headextra_eyepatch
 weight=6g
 members=yes
 
@@ -534,7 +537,7 @@ members=yes
 name=Robe of zamorak
 desc=A robe worn by worshippers of Zamorak.
 cost=30
-model=model_2521_obj
+model=inv_robebottoms
 recol1s=2340
 recol1d=19489
 2dyof=1
@@ -542,11 +545,11 @@ recol1d=19489
 2dxan=572
 iop2=Wear
 wearpos=legs
-manwear=model_265_obj_wear,0
-womanwear=model_428_idk,0
+manwear=man_legs_robe,0
+womanwear=woman_legs_longskirt,0
 weight=2lb
 members=yes
-param=zamorakitem,1
+param=zamorakitem,^true
 param=magicattack,2
 param=magicdefence,3
 param=prayerbonus,3
@@ -554,7 +557,7 @@ param=prayerbonus,3
 [zamrobetop]
 name=Robe of zamorak
 desc=A robe worn by worshippers of Zamorak.
-model=model_2786_obj
+model=inv_robetop
 recol1s=14724
 recol1d=19489
 cost=40
@@ -564,13 +567,13 @@ cost=40
 iop2=Wear
 wearpos=torso
 wearpos2=arms
-manwear=model_170_idk,0
-womanwear=model_348_idk,0
-manwear2=model_292_idk
-womanwear2=model_456_idk
+manwear=man_arms_longsleeves,0
+womanwear=woman_arms_longsleeves,0
+manwear2=man_torso_basic
+womanwear2=woman_torso_basic
 weight=2lb
 members=yes
-param=zamorakitem,1
+param=zamorakitem,^true
 param=magicattack,2
 param=magicdefence,3
 param=prayerbonus,3
@@ -581,14 +584,14 @@ desc=The cape worn by members of the Legends Guild.
 category=armour_cape
 cost=450
 members=yes
-model=model_3196_obj
+model=inv_cloak2
 2dzoom=1370
 2dyan=804
 2dxan=204
 iop2=Wear
 wearpos=back
-manwear=model_3189_obj_wear,0
-womanwear=model_3194_obj_wear,0
+manwear=man_torsoextra_cloak2,0
+womanwear=woman_torsoextra_cloak2,0
 weight=4lb
 param=stabdefence,7
 param=slashdefence,7
@@ -599,7 +602,7 @@ tradeable=no
 
 [ibanstaff]
 members=yes
-model=model_2569_obj
+model=inv_ibanstaff
 2dyof=-15
 2dzoom=1640
 2dyan=1464
@@ -611,8 +614,8 @@ cost=42500
 iop2=Wield
 wearpos=righthand
 category=weapon_staff
-manwear=model_514_obj_wear,0
-womanwear=model_514_obj_wear,6
+manwear=human_weapons_ibanstaff,0
+womanwear=human_weapons_ibanstaff,6
 weight=5lb
 param=stabattack,10
 param=slashattack,-1
@@ -635,13 +638,12 @@ param=crushattack_anim,human_blunt_pound
 param=defend_anim,human_blunt_block
 param=crush_sound,staff_hit
 tradeable=no
-// param=crushattack_anim,human_axe_chop
 // osrs crush attack sound newstaff / crush attack sound is a guess.
 
 [brokenibanstaff]
 name=Broken iban staff
 desc=The staff is unusable in this state.
-model=model_2835_obj
+model=inv_ibanstaff_broken
 2dxof=8
 2dzoom=1410
 2dyan=1896
@@ -653,48 +655,56 @@ tradeable=no
 
 [farmers_fork]
 name=Farmers fork
-model=model_2411_obj
+model=inv_farmersfork
 2dxof=-2
 2dyof=3
 2dzoom=1600
 2dyan=904
 2dxan=812
 weight=5lb
+param=stabdefence,3
+param=slashdefence,4
+param=crushdefence,4
+param=strengthbonus,3
+dummyitem=inv_only
 
 [halberd]
 name=Halberd
-model=model_2791_obj
+model=inv_halberd
 2dxof=-7
 2dyof=-6
 2dzoom=1580
 2dyan=400
 2dxan=224
 weight=10lb
+dummyitem=inv_only
 
 [warhammer]
 name=Warhammer
-model=model_2731_obj
+model=inv_warhammer
 2dxof=3
 2dyof=3
 2dzoom=1050
 2dyan=456
 2dxan=344
 weight=4lb
+dummyitem=inv_only
 
 [javelin]
 name=Javelin
-model=model_2763_obj
+model=inv_javelin
 2dxof=-2
 2dyof=63
 2dzoom=1470
 2dyan=1964
 2dxan=268
 weight=3lb
+dummyitem=inv_only
 
 [scythe]
 name=Scythe
 category=weapon_scythe
-model=model_2511_obj
+model=inv_scythe
 2dxof=1
 2dyof=17
 2dzoom=1930
@@ -703,8 +713,8 @@ model=model_2511_obj
 iop2=Wield
 wearpos=righthand
 wearpos2=lefthand
-manwear=model_507_obj_wear,0
-womanwear=model_507_obj_wear,0
+manwear=human_weapons_scythe,0
+womanwear=human_weapons_scythe,0
 weight=7lb
 param=stabattack,3
 param=slashattack,8
@@ -726,7 +736,7 @@ tradeable=no
 [archery_ticket]
 name=Archery ticket
 desc=I can exchange this for equipment.
-model=model_2560_obj
+model=inv_ticket
 cost=25
 2dxof=6
 2dyof=-2
@@ -741,7 +751,7 @@ weight=5g
 name=Weapon poison
 desc=For use on daggers and projectiles.
 cost=11
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=15871
 2dyof=-1
@@ -750,14 +760,14 @@ recol1d=15871
 2dxan=84
 weight=20g
 members=yes
-tradeable=no
+dummyitem=inv_only
 
 [seasluginv]
 cost=4
 members=yes
 name=Sea slug
 desc=A rather nasty looking crustacean.
-model=model_2658_obj
+model=inv_seaslug
 2dxof=6
 2dyof=128
 2dzoom=690
@@ -770,7 +780,7 @@ tradeable=no
 name=Damp sticks
 desc=Some damp wooden sticks.
 members=yes
-model=model_2402_obj
+model=inv_twigs
 recol1s=9344
 recol1d=5251
 2dxof=4
@@ -786,7 +796,7 @@ tradeable=no
 name=Dry sticks
 desc=Some dry wooden sticks.
 members=yes
-model=model_2402_obj
+model=inv_twigs
 recol1s=9344
 recol1d=5251
 2dxof=4
@@ -802,7 +812,7 @@ tradeable=no
 members=yes
 name=Broken glass
 desc=Smashed glass.
-model=model_2676_obj
+model=inv_brokenglass
 2dxof=-1
 2dyof=1
 2dzoom=960
@@ -816,7 +826,7 @@ tradeable=no
 name=Amulet of accuracy
 desc=It increases my aim.
 cost=100
-model=model_2796_obj
+model=inv_amulet
 recol1s=13537
 recol1d=15855
 recol2s=31649
@@ -828,8 +838,8 @@ recol2d=31175
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_280_obj_wear,0
-womanwear=model_444_obj_wear,0
+manwear=man_necklaces_basic,0
+womanwear=woman_necklaces_basic,0
 weight=10g
 param=stabattack,4
 param=slashattack,4
@@ -839,7 +849,7 @@ param=rangeattack,4
 
 [lockpick]
 name=Lockpick
-model=model_2727_obj
+model=inv_lockpick
 2dxof=-9
 2dyof=4
 2dzoom=760
@@ -854,7 +864,7 @@ category=category_715
 name=Garlic
 desc=A clove of garlic.
 cost=3
-model=model_loc_3366_8
+model=inv_garlic
 2dzoom=670
 2dyan=116
 2dxan=116
@@ -864,7 +874,7 @@ weight=1oz
 name=Ice gloves
 desc=These will keep my hands cold!
 cost=6
-model=model_2649_obj
+model=inv_gloves
 recol1s=9473
 recol1d=14175
 recol2s=10468
@@ -876,8 +886,8 @@ recol2d=14175
 2dxan=420
 iop2=Wear
 wearpos=hands
-manwear=model_179_obj_wear,0
-womanwear=model_356_obj_wear,0
+manwear=man_hands_gloves,0
+womanwear=woman_hands_gloves,0
 weight=8oz
 members=yes
 param=slashdefence,3
@@ -889,7 +899,7 @@ tradeable=no
 name=Oily fishing rod
 desc=Useful for catching lava eels.
 cost=15
-model=model_2828_obj
+model=inv_fishingrod
 2dxof=-3
 2dyof=8
 2dzoom=1080
@@ -907,7 +917,7 @@ tradeable=no
 name=Dusty key
 desc=I wonder what this unlocks?
 members=yes
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=22945
 2dxof=-3
@@ -922,7 +932,7 @@ tradeable=no
 name=Jail key
 desc=Key to a cell.
 members=yes
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=22945
 2dxof=-3
@@ -937,7 +947,7 @@ tradeable=no
 name=Desert shirt
 desc=A cool, light desert shirt.
 cost=40
-model=model_2786_obj
+model=inv_robetop
 recol1s=14724
 recol1d=32767
 members=yes
@@ -946,10 +956,10 @@ members=yes
 2dxan=536
 wearpos=torso
 wearpos2=arms
-manwear=model_292_idk,0
-manwear2=model_170_idk
-womanwear=model_456_idk,0
-womanwear2=model_348_idk
+manwear=man_torso_basic,0
+manwear2=man_arms_longsleeves
+womanwear=woman_torso_basic,0
+womanwear2=woman_arms_longsleeves
 iop2=Wear
 weight=2lb
 
@@ -957,7 +967,7 @@ weight=2lb
 name=Desert robe
 desc=A cool, light desert robe.
 cost=40
-model=model_2521_obj
+model=inv_robebottoms
 recol1s=2340
 recol1d=32767
 members=yes
@@ -967,14 +977,14 @@ members=yes
 wearpos=legs
 iop2=Wear
 weight=2lb
-manwear=model_265_obj_wear,0
-womanwear=model_428_idk,0
+manwear=man_legs_robe,0
+womanwear=woman_legs_longskirt,0
 
 [desert_boots]
 name=Desert boots
 desc=Comfortable desert shoes.
 cost=20
-model=model_2837_obj
+model=inv_boots
 recol1s=7298
 recol1d=32767
 recol2s=8416
@@ -986,18 +996,18 @@ recol2d=32767
 2dxan=152
 wearpos=feet
 iop2=Wear
-category=category_118
+category=armour_misc
 weight=8oz
 members=yes
-manwear=model_185_obj_wear,0
-womanwear=model_361_obj_wear,0
+manwear=man_feet_boots,0
+womanwear=woman_feet_boots,0
 
 [shantay_pass]
 name=Shantay pass
 desc=Allows you to pass through the Shantay pass into the Kharid Desert.
 cost=5
 weight=10g
-model=model_2560_obj
+model=inv_ticket
 recol1s=19150
 recol1d=13840
 2dxof=6
@@ -1012,7 +1022,7 @@ stackable=yes
 name=Rock
 desc=Looks like a plain rock, must have some ore in it?
 weight=500g
-model=model_2393_obj
+model=inv_rocksample1
 recol1s=13570
 recol1d=7400
 2dxof=8
@@ -1025,29 +1035,29 @@ tradeable=no
 
 // rename: cert_blondwig
 [obj_2420]
-tradeable=no
+dummyitem=inv_only
 
 // rename: cert_plainwig
 [obj_2422]
-tradeable=no
+dummyitem=inv_only
 
 // rename: cert_skinpaste
 [obj_2425]
-tradeable=no
+dummyitem=inv_only
 
 // rename: cert_ground_charcoal
 [obj_2480]
-tradeable=no
+dummyitem=inv_only
 
 [newbieshrimp]
-tradeable=no
+dummyitem=inv_only
 
 // rename: cert_newbieshrimp
 [obj_2513]
-tradeable=no
+dummyitem=inv_only
 
 [rotten_tomato]
-model=model_2632_obj
+model=inv_tomato
 recol1s=15393
 recol1d=13506
 recol2s=480
@@ -1066,9 +1076,9 @@ members=yes
 cost=100
 name=Toy horsey
 desc=A brown toy horse.
-model=model_3339_obj
-manwear=model_3333_obj_wear,0
-womanwear=model_3333_obj_wear,6
+model=inv_horsey
+manwear=human_weapons_horsey,0
+womanwear=human_weapons_horsey,6
 2dxof=1
 2dyof=-2
 2dzoom=920
@@ -1081,13 +1091,13 @@ iop1=Play-with
 cost=100
 name=Toy horsey
 desc=A white toy horse.
-model=model_3339_obj
+model=inv_horsey
 recol1s=12547
 recol1d=22200
 recol2s=8385
 recol2d=17972
-manwear=model_3333_obj_wear,0
-womanwear=model_3333_obj_wear,6
+manwear=human_weapons_horsey,0
+womanwear=human_weapons_horsey,6
 2dxof=1
 2dyof=-2
 2dzoom=920
@@ -1100,13 +1110,13 @@ iop1=Play-with
 cost=100
 name=Toy horsey
 desc=A black toy horse.
-model=model_3339_obj
+model=inv_horsey
 recol1s=12547
 recol1d=4195
 recol2s=8385
 recol2d=4195
-manwear=model_3333_obj_wear,0
-womanwear=model_3333_obj_wear,6
+manwear=human_weapons_horsey,0
+womanwear=human_weapons_horsey,6
 2dxof=1
 2dyof=-2
 2dzoom=920
@@ -1119,13 +1129,13 @@ iop1=Play-with
 cost=100
 name=Toy horsey
 desc=A grey toy horse.
-model=model_3339_obj
+model=inv_horsey
 recol1s=12547
 recol1d=11593
 recol2s=8385
 recol2d=8422
-manwear=model_3333_obj_wear,0
-womanwear=model_3333_obj_wear,6
+manwear=human_weapons_horsey,0
+womanwear=human_weapons_horsey,6
 2dxof=1
 2dyof=-2
 2dzoom=920

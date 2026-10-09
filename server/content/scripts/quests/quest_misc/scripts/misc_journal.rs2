@@ -1,0 +1,146 @@
+[if_button,questlist:misc]
+def_string $x;
+def_string $n = "Throne of Miscellania";
+// ::tele 0,39,60
+
+if(%misc_quest = 0) {
+    $x = append($x, "@dbl@I can start this quest by talking to @dre@King Vargas@dbl@ in|");
+    $x = append($x, "@dre@Miscellania@dbl@. To start this quest I need to have completed:|");
+    if(%heroquest < ^hero_complete) {
+        $x = append($x, "@dre@Hero's Quest|");
+    } else {
+        $x = append($x, "@str@Hero's Quest|");
+    }
+    if (%viking < ^viking_complete) {
+        $x = append($x, "@dre@The Fremennik Trials|");
+    } else {
+        $x = append($x, "@str@The Fremennik Trials|");
+    }
+    $x = append($x, "|");
+    $x = append($x, "@dbl@It would be an advantage to have at least one of the|");
+    $x = append($x, "@dbl@following skills:|");
+    $x = append($x, "@dre@Level 35 Herblore|");
+    $x = append($x, "@dre@Level 45 Woodcutting|");
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 10
+$x = append($x, "@str@I offered to become the new ruler of Miscellania.|");
+if (%misc_quest = ^misc_talked_to_king) {
+    $x = append($x, "|@dbl@I need to negotiate peace with @dre@Etceteria@dbl@.|");
+    // $x = append($x, "@dbl@I should go talk to @dre@Queen Sigrid@dbl@.|"); // Seems to be later.
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 20
+$x = append($x, "@str@I talked to Queen Sigrid.|");
+if (%misc_quest = ^misc_talked_to_queen) {
+    $x = append($x, "|@dbl@She wants @dre@King Vargas@dbl@ to recognise Etceteria as a|");
+    $x = append($x, "@dbl@sovereign nation.|");
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 30
+$x = append($x, "@str@She wants King Vargas to recognise Etceteria as a|");
+$x = append($x, "@str@sovereign nation. I talked to King Vargas.|");
+if (%misc_quest = 30) {
+    $x = append($x, "|@dbl@King Vargas will recognise Etceteria if it changes its|");
+    $x = append($x, "@dre@national anthem@dbl@.|");
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 40
+$x = append($x, "@str@King Vargas will recognise Etceteria if it changes its|");
+$x = append($x, "@str@national anthem. I talked to Queen Sigrid.|");
+if (%misc_quest = 40) {
+    $x = append($x, "|@dbl@I need to find a @dre@bard@dbl@ to compose the anthem.|");
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 50
+$x = append($x, "@str@Prince Brand composed an anthem, but it's not very good.|");
+if (%misc_quest = 50) {
+    $x = append($x, "|@dbl@Maybe I should find someone to correct it.|");
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 60
+$x = append($x, "@str@Advisor Ghrim made a better version.|");
+if (%misc_quest = 60) {
+    $x = append($x, "|@dbl@I should show the anthem to @dre@Queen Sigrid@dbl@.|");
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 70
+$x = append($x, "@str@Queen Sigrid gave me the treaty for the King to sign.|");
+if (%misc_quest = 70) {
+    $x = append($x, "|@dbl@I should show this to @dre@King Vargas@dbl@.|");
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stupid line break that is authentic...
+$x = append($x, "|");
+
+// Stage 80
+$x = append($x, "@str@I gave the King the treaty.|");
+if (%misc_quest = 80) {
+    $x = append($x, "|@dbl@The King needs a @dre@large pen@dbl@ to sign the treaty.|");
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 90
+$x = append($x, "@str@I gave the King the giant pen, and he signed the treaty.|");
+if (%misc_quest = 90) {
+    // Authentic: Logic shows this line only if approval is below ~75% (96/127)
+    if (%misc_approval < ^MISC_APPROVAL_75_PERCENT) {
+        $x = append($x, "|@dbl@I need to get the @dre@support@dbl@ of the population.|");
+    } else {
+    // The line authentically disappears, leaving the quest log with nothing to guide the player.
+    }
+    $x = ~marriage_sub_quest($x);
+    ~quest_journal($n, $x);
+    return;
+}
+
+// Stage 100
+$x = ~marriage_sub_quest($x);
+$x = append($x, "@str@I got the support of the population.|");
+$x = append($x, "@red@QUEST COMPLETE!");
+~quest_journal($n, $x);
+
+// Standalone Marriage Sub-Quest Logic
+[proc,marriage_sub_quest](string $x)(string)
+if (%misc_quest < ^misc_complete) {
+    $x = append($x, "|");
+}
+if (%misc_affection >= ^misc_affection_complete) {
+    if (gender = ^gender_male) {
+        $x = append($x, "@str@The Princess agreed to marry me.|");
+    } else {
+        $x = append($x, "@str@The Prince agreed to marry me.|");
+    }
+} else {
+    if (gender = ^gender_male) {
+        $x = append($x, "@dbl@I need to get the @dre@Princess@dbl@ to agree to marry me.|");
+    } else {
+        $x = append($x, "@dbl@I need to get the @dre@Prince@dbl@ to agree to marry me.|");
+    }
+}
+return ($x);

@@ -1,0 +1,4 @@
+[chill_zones]
+table=coord_pair_table
+// Trollweiss Mountain
+data=coord_pair,0_44_58_6_31,0_44_58_10_33

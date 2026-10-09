@@ -79,20 +79,21 @@ export default class CollisionEngine {
     }
 
     changeNpc(x: number, z: number, y: number, size: number, add: boolean): void {
-        this.changeSquare(x, z, y, size, CollisionFlag.NPC, add);
+        this.changeSquare(x, z, y, size, CollisionFlag.NPC_OCC, add);
     }
 
-    changePlayer(x: number, z: number, y: number, size: number, add: boolean): void {
-        this.changeSquare(x, z, y, size, CollisionFlag.PLAYER, add);
+    changeBlock(x: number, z: number, y: number, size: number, add: boolean): void {
+        this.changeSquare(x, z, y, size, CollisionFlag.BLOCK_NPC_AND_PLAYERS, add);
     }
 
-    changeLoc(x: number, z: number, y: number, width: number, length: number, blockrange: boolean, breakroutefinding: boolean, add: boolean): void {
+    changePlayerOcc(x: number, z: number, y: number, size: number, add: boolean): void {
+        this.changeSquare(x, z, y, size, CollisionFlag.PLAYER_OCC, add);
+    }
+
+    changeLoc(x: number, z: number, y: number, width: number, length: number, blockrange: boolean, add: boolean): void {
         let mask = CollisionFlag.LOC;
         if (blockrange) {
             mask |= CollisionFlag.LOC_PROJ_BLOCKER;
-        }
-        if (breakroutefinding) {
-            mask |= CollisionFlag.LOC_ROUTE_BLOCKER;
         }
 
         const area = width * length;
@@ -107,13 +108,13 @@ export default class CollisionEngine {
         }
     }
 
-    changeWall(x: number, z: number, y: number, angle: number, shape: number, blockrange: boolean, breakroutefinding: boolean, add: boolean): void {
+    changeWall(x: number, z: number, y: number, angle: number, shape: number, blockrange: boolean, add: boolean): void {
         if (shape === LocShape.WALL_STRAIGHT) {
-            this.changeWallStraight(x, z, y, angle, blockrange, breakroutefinding, add);
+            this.changeWallStraight(x, z, y, angle, blockrange, add);
         } else if (shape === LocShape.WALL_DIAGONAL_CORNER || shape === LocShape.WALL_SQUARE_CORNER) {
-            this.changeWallCorner(x, z, y, angle, blockrange, breakroutefinding, add);
+            this.changeWallCorner(x, z, y, angle, blockrange, add);
         } else if (shape === LocShape.WALL_L) {
-            this.changeWallL(x, z, y, angle, blockrange, breakroutefinding, add);
+            this.changeWallL(x, z, y, angle, blockrange, add);
         }
     }
 
@@ -134,11 +135,11 @@ export default class CollisionEngine {
         }
     }
 
-    private changeWallStraight(x: number, z: number, y: number, angle: number, blockrange: boolean, breakroutefinding: boolean, add: boolean): void {
-        const west = this.wallMask(CollisionFlag.WALL_WEST, CollisionFlag.WALL_WEST_PROJ_BLOCKER, CollisionFlag.WALL_WEST_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const east = this.wallMask(CollisionFlag.WALL_EAST, CollisionFlag.WALL_EAST_PROJ_BLOCKER, CollisionFlag.WALL_EAST_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const north = this.wallMask(CollisionFlag.WALL_NORTH, CollisionFlag.WALL_NORTH_PROJ_BLOCKER, CollisionFlag.WALL_NORTH_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const south = this.wallMask(CollisionFlag.WALL_SOUTH, CollisionFlag.WALL_SOUTH_PROJ_BLOCKER, CollisionFlag.WALL_SOUTH_ROUTE_BLOCKER, blockrange, breakroutefinding);
+    private changeWallStraight(x: number, z: number, y: number, angle: number, blockrange: boolean, add: boolean): void {
+        const west = this.wallMask(CollisionFlag.WALL_WEST, CollisionFlag.WALL_WEST_PROJ_BLOCKER, blockrange);
+        const east = this.wallMask(CollisionFlag.WALL_EAST, CollisionFlag.WALL_EAST_PROJ_BLOCKER, blockrange);
+        const north = this.wallMask(CollisionFlag.WALL_NORTH, CollisionFlag.WALL_NORTH_PROJ_BLOCKER, blockrange);
+        const south = this.wallMask(CollisionFlag.WALL_SOUTH, CollisionFlag.WALL_SOUTH_PROJ_BLOCKER, blockrange);
 
         if (angle === LocAngle.WEST) {
             this.applyWallPair(x, z, y, west, x - 1, z, y, east, add);
@@ -150,18 +151,16 @@ export default class CollisionEngine {
             this.applyWallPair(x, z, y, south, x, z - 1, y, north, add);
         }
 
-        if (breakroutefinding) {
-            this.changeWallStraight(x, z, y, angle, blockrange, false, add);
-        } else if (blockrange) {
-            this.changeWallStraight(x, z, y, angle, false, false, add);
+        if (blockrange) {
+            this.changeWallStraight(x, z, y, angle, false, add);
         }
     }
 
-    private changeWallCorner(x: number, z: number, y: number, angle: number, blockrange: boolean, breakroutefinding: boolean, add: boolean): void {
-        const northWest = this.wallMask(CollisionFlag.WALL_NORTH_WEST, CollisionFlag.WALL_NORTH_WEST_PROJ_BLOCKER, CollisionFlag.WALL_NORTH_WEST_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const southEast = this.wallMask(CollisionFlag.WALL_SOUTH_EAST, CollisionFlag.WALL_SOUTH_EAST_PROJ_BLOCKER, CollisionFlag.WALL_SOUTH_EAST_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const northEast = this.wallMask(CollisionFlag.WALL_NORTH_EAST, CollisionFlag.WALL_NORTH_EAST_PROJ_BLOCKER, CollisionFlag.WALL_NORTH_EAST_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const southWest = this.wallMask(CollisionFlag.WALL_SOUTH_WEST, CollisionFlag.WALL_SOUTH_WEST_PROJ_BLOCKER, CollisionFlag.WALL_SOUTH_WEST_ROUTE_BLOCKER, blockrange, breakroutefinding);
+    private changeWallCorner(x: number, z: number, y: number, angle: number, blockrange: boolean, add: boolean): void {
+        const northWest = this.wallMask(CollisionFlag.WALL_NORTH_WEST, CollisionFlag.WALL_NORTH_WEST_PROJ_BLOCKER, blockrange);
+        const southEast = this.wallMask(CollisionFlag.WALL_SOUTH_EAST, CollisionFlag.WALL_SOUTH_EAST_PROJ_BLOCKER, blockrange);
+        const northEast = this.wallMask(CollisionFlag.WALL_NORTH_EAST, CollisionFlag.WALL_NORTH_EAST_PROJ_BLOCKER, blockrange);
+        const southWest = this.wallMask(CollisionFlag.WALL_SOUTH_WEST, CollisionFlag.WALL_SOUTH_WEST_PROJ_BLOCKER, blockrange);
 
         if (angle === LocAngle.WEST) {
             this.applyWallPair(x, z, y, northWest, x - 1, z + 1, y, southEast, add);
@@ -173,18 +172,16 @@ export default class CollisionEngine {
             this.applyWallPair(x, z, y, southWest, x - 1, z - 1, y, northEast, add);
         }
 
-        if (breakroutefinding) {
-            this.changeWallCorner(x, z, y, angle, blockrange, false, add);
-        } else if (blockrange) {
-            this.changeWallCorner(x, z, y, angle, false, false, add);
+        if (blockrange) {
+            this.changeWallCorner(x, z, y, angle, false, add);
         }
     }
 
-    private changeWallL(x: number, z: number, y: number, angle: number, blockrange: boolean, breakroutefinding: boolean, add: boolean): void {
-        const west = this.wallMask(CollisionFlag.WALL_WEST, CollisionFlag.WALL_WEST_PROJ_BLOCKER, CollisionFlag.WALL_WEST_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const east = this.wallMask(CollisionFlag.WALL_EAST, CollisionFlag.WALL_EAST_PROJ_BLOCKER, CollisionFlag.WALL_EAST_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const north = this.wallMask(CollisionFlag.WALL_NORTH, CollisionFlag.WALL_NORTH_PROJ_BLOCKER, CollisionFlag.WALL_NORTH_ROUTE_BLOCKER, blockrange, breakroutefinding);
-        const south = this.wallMask(CollisionFlag.WALL_SOUTH, CollisionFlag.WALL_SOUTH_PROJ_BLOCKER, CollisionFlag.WALL_SOUTH_ROUTE_BLOCKER, blockrange, breakroutefinding);
+    private changeWallL(x: number, z: number, y: number, angle: number, blockrange: boolean, add: boolean): void {
+        const west = this.wallMask(CollisionFlag.WALL_WEST, CollisionFlag.WALL_WEST_PROJ_BLOCKER, blockrange);
+        const east = this.wallMask(CollisionFlag.WALL_EAST, CollisionFlag.WALL_EAST_PROJ_BLOCKER, blockrange);
+        const north = this.wallMask(CollisionFlag.WALL_NORTH, CollisionFlag.WALL_NORTH_PROJ_BLOCKER, blockrange);
+        const south = this.wallMask(CollisionFlag.WALL_SOUTH, CollisionFlag.WALL_SOUTH_PROJ_BLOCKER, blockrange);
 
         if (angle === LocAngle.WEST) {
             this.applyWallSingle(x, z, y, north | west, add);
@@ -204,17 +201,12 @@ export default class CollisionEngine {
             this.applyWallSingle(x - 1, z, y, east, add);
         }
 
-        if (breakroutefinding) {
-            this.changeWallL(x, z, y, angle, blockrange, false, add);
-        } else if (blockrange) {
-            this.changeWallL(x, z, y, angle, false, false, add);
+        if (blockrange) {
+            this.changeWallL(x, z, y, angle, false, add);
         }
     }
 
-    private wallMask(normal: number, projectile: number, route: number, blockrange: boolean, breakroutefinding: boolean): number {
-        if (breakroutefinding) {
-            return route;
-        }
+    private wallMask(normal: number, projectile: number, blockrange: boolean): number {
         if (blockrange) {
             return projectile;
         }

@@ -25,10 +25,10 @@ if(inv_total(inv, tinderbox) < 0) {
 }
 p_delay(0);
 anim(human_createfire, 0);
-sound_synth(tinderbox_strike, 0, 0);
+sound_synth(tinderbox_strike, 1, 0);
 ~tutorial_please_wait_firemaking;
 p_delay(3);
-sound_synth(tinderbox_strike, 0, 0);
+sound_synth(tinderbox_strike, 1, 0);
 p_delay(2);
 anim(null, 0);
 ~push_player(obj_coord);
@@ -59,11 +59,11 @@ if(inv_total(inv, tinderbox) < 0) {
 
 p_delay(0);
 anim(human_createfire, 0);
-sound_synth(tinderbox_strike, 0, 0);
+sound_synth(tinderbox_strike, 1, 0);
 inv_dropslot(inv, coord, $slot, ^lootdrop_duration);
 ~tutorial_please_wait_firemaking;
 p_delay(3);
-sound_synth(tinderbox_strike, 0, 0);
+sound_synth(tinderbox_strike, 1, 0);
 p_delay(2);
 anim(null, 0);
 ~push_player(obj_coord);
@@ -72,7 +72,7 @@ anim(null, 0);
 [proc,tut_firemaking_success](coord $fire_coord, obj $log)
 obj_del();
 ~tutorial_give_xp(firemaking, 400);
-sound_synth(fire_lit, 0, 0);
+sound_synth(fire_lit, 1, 0);
 facesquare($fire_coord);
 if (%tutorial = ^newbie_survival_instructor_build_fire) {
     %tutorial = ^newbie_survival_instructor_open_skill_menu;
@@ -82,6 +82,6 @@ if (%tutorial = ^newbie_survival_instructor_build_fire) {
 }
 def_int $delay = 150;
 // Temp note: dur does not need updated
-loc_add($fire_coord, loc_2732, 1, centrepiece_straight, $delay);
+loc_add($fire_coord, fire, 1, centrepiece_straight, $delay);
 world_delay($delay);
 obj_add($fire_coord, ashes, 1, calc(^lootdrop_duration / 2));

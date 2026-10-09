@@ -1,4 +1,4 @@
-[oploc1,loc_2290]
+[oploc1,obstical_pipe4]
 if(stat(agility) < 49) {
     ~mesbox("You need 49 agility to squeeze through the pipe.");
     return;
@@ -20,14 +20,14 @@ if(%yanille_obstacle_pipe_used >= map_clock) {
 }
 %yanille_obstacle_pipe_used = calc(map_clock + 9);
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, coord, movecoord(coord, calc(3 * $mod), 0, 0), 30, 126, $dir, true);
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 p_delay(0);
 ~change_merged_loc($end_pipe_coord);
 ~agility_exactmove(human_doublepipesqueeze, 30, 3, 0_40_148_15_34, movecoord(0_40_148_15_34, calc(3 * $mod), 0, 0), 30, 126, $dir, true);
-sound_synth(squeeze_in, 0, 0);
+sound_synth(squeeze_in, 1, 0);
 stat_advance(agility, 75);
 
-[oploc1,loc_2303]
+[oploc1,balancing_ledge3]
 if(stat(agility) < 40) {
     ~mesbox("You need an Agility level of 40 to cross the ledge.");
     return;
@@ -82,7 +82,7 @@ anim($end_seq, 0);
 stat_advance(agility, 225);
 mes("You skillfully edge across the gap.");
 
-[oploc1,loc_2317]
+[oploc1,climbingcaverocks1]
 if(stat(agility) < 67) {
     ~mesbox("You need an Agility level of 67 to climb this pile of rubble.");
     return;
@@ -90,12 +90,12 @@ if(stat(agility) < 67) {
 ~agility_climb_up(55, 0_40_148_55_34);
 mes("You climb up the pile of rubble...");
 
-[oploc1,loc_2318]
+[oploc1,climbingcaverocks2]
 mes("You climb down the pile of rubble...");
 p_telejump(0_40_149_56_35);
 
 [oploc1,shuttwistedchest]
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 mes("The chest is locked.");
 
 [oplocu,shuttwistedchest]
@@ -104,7 +104,7 @@ if(last_useitem = sinister_key) {
     mes("you unlock the chest with your key...");
     p_delay(3);
     mes("A foul gas seeps from the chest");
-    sound_synth(gas_hiss, 0, 0);
+    sound_synth(gas_hiss, 1, 0);
     if(%poison < 0) {
         mes("Luckily your poison antidote saves you from harm.");
     } else {
@@ -130,12 +130,12 @@ if (stat(prayer) >= stat_base(prayer)) {
 } else {
     // no seq
     mes("You recharge your prayer points.");
-    sound_synth(prayer_recharge, 0, 0);
+    sound_synth(prayer_recharge, 1, 0);
     stat_add(prayer, calc(stat_base(prayer) - stat(prayer)), 0);
 }
 p_delay(3);
 mes("Suddenly a trap door opens beneath you...");
 p_teleport(0_40_149_28_37);
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 ~damage_self(calc(((stat_base(hitpoints) * 15) / 100) + 1));
 

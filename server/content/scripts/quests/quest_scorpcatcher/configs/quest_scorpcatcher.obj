@@ -1,6 +1,6 @@
 [scorpioncageempty]
 members=yes
-model=model_2341_obj
+model=inv_scorpionbox
 2dxof=-5
 2dzoom=1730
 2dyan=1904
@@ -14,7 +14,7 @@ tradeable=no
 
 [scorpioncagea]
 members=yes
-model=model_2703_obj
+model=inv_scorpioninbox
 2dxof=-5
 2dzoom=1730
 2dyan=1904
@@ -28,7 +28,7 @@ tradeable=no
 
 [scorpioncageab]
 members=yes
-model=model_2703_obj
+model=inv_scorpioninbox
 2dxof=-5
 2dzoom=1730
 2dyan=1904
@@ -43,7 +43,7 @@ tradeable=no
 [scorpioncageac]
 cost=10
 members=yes
-model=model_2703_obj
+model=inv_scorpioninbox
 2dxof=-5
 2dzoom=1730
 2dyan=1904
@@ -57,7 +57,7 @@ tradeable=no
 [scorpioncageb]
 cost=10
 members=yes
-model=model_2703_obj
+model=inv_scorpioninbox
 2dxof=-5
 2dzoom=1730
 2dyan=1904
@@ -73,7 +73,7 @@ name=Scorpion cage
 desc=There are 2 scorpions inside.
 cost=10
 members=yes
-model=model_2703_obj
+model=inv_scorpioninbox
 2dxof=-5
 2dzoom=1730
 2dyan=1904
@@ -85,7 +85,7 @@ tradeable=no
 [scorpioncagec]
 cost=10
 members=yes
-model=model_2703_obj
+model=inv_scorpioninbox
 2dxof=-5
 2dzoom=1730
 2dyan=1904
@@ -98,7 +98,7 @@ tradeable=no
 
 [scorpioncagefull]
 members=yes
-model=model_2703_obj
+model=inv_scorpioninbox
 2dxof=-5
 2dzoom=1730
 2dyan=1904

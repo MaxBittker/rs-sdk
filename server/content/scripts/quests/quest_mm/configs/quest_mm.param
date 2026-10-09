@@ -1,0 +1,10 @@
+[mm_bones_type]
+type=int
+
+[transform_sound]
+type=synth
+default=human_into_monkey
+
+[revert_sound]
+type=synth
+default=monkey_into_human

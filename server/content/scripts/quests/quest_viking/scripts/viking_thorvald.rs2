@@ -352,7 +352,7 @@ if (~npc_check_notcombat_self = false) { // Doesnt change mode! Keeps trying!
 anim(%com_defendanim, 0);
 npc_anim(npc_param(attack_anim), 0);
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 def_int $damage;
 def_int $attack_roll = ~npc_melee_attack_roll;
@@ -454,6 +454,8 @@ if ((inv_totalcat(inv, armour_hands) > 0 | inv_totalcat(worn, armour_hands) > 0)
     | (inv_totalcat(inv, weapon_thrown) > 0 | inv_totalcat(worn, weapon_thrown) > 0) 
     | (inv_totalcat(inv, weapon_scythe) > 0 | inv_totalcat(worn, weapon_scythe) > 0) 
     | (inv_totalcat(inv, weapon_bow) > 0 | inv_totalcat(worn, weapon_bow) > 0) 
+    | (inv_totalcat(inv, weapon_claws) > 0 | inv_totalcat(worn, weapon_claws) > 0) 
+    | (inv_totalcat(inv, weapon_polearm) > 0 | inv_totalcat(worn, weapon_polearm) > 0)
     | (inv_totalcat(inv, arrows) > 0 | inv_totalcat(worn, arrows) > 0)
     | (inv_totalcat(worn, flowers) > 0) // doesn't check worn
     | (inv_totalcat(inv, category_149) > 0) // runes

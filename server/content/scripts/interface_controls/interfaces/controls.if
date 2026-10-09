@@ -194,7 +194,7 @@ x=4
 y=168
 width=168
 height=91
-scroll=123
+scroll=150
 
 [com_13]
 layer=com_40
@@ -505,6 +505,16 @@ graphic=miscgraphics2,0
 
 [com_45]
 layer=com_40
+type=graphic
+x=4
+y=122
+buttontype=normal
+width=36
+height=25
+graphic=miscgraphics2,0
+
+[com_46]
+layer=com_40
 type=text
 x=8
 y=95
@@ -515,7 +525,7 @@ shadowed=yes
 text=Glass
 colour=0xFFFF00
 
-[com_46]
+[com_47]
 layer=com_40
 type=text
 x=11
@@ -527,7 +537,7 @@ shadowed=yes
 text=Wall
 colour=0xFFFF00
 
-[com_47]
+[com_48]
 layer=com_40
 type=text
 x=53
@@ -539,7 +549,7 @@ shadowed=yes
 text=Box
 colour=0xFFFF00
 
-[com_48]
+[com_49]
 layer=com_40
 type=text
 x=49
@@ -551,7 +561,7 @@ shadowed=yes
 text=Glass
 colour=0xFFFF00
 
-[com_49]
+[com_50]
 layer=com_40
 type=text
 x=91
@@ -563,7 +573,7 @@ shadowed=yes
 text=Climb
 colour=0xFFFF00
 
-[com_50]
+[com_51]
 layer=com_40
 type=text
 x=92
@@ -575,7 +585,7 @@ shadowed=yes
 text=Rope
 colour=0xFFFF00
 
-[com_51]
+[com_52]
 layer=com_40
 type=text
 x=133
@@ -585,4 +595,28 @@ height=11
 font=p11_full
 shadowed=yes
 text=Lean
+colour=0xFFFF00
+
+[com_53]
+layer=com_40
+type=text
+x=10
+y=124
+width=23
+height=11
+font=p11_full
+shadowed=yes
+text=Blow
+colour=0xFFFF00
+
+[com_54]
+layer=com_40
+type=text
+x=11
+y=135
+width=21
+height=11
+font=p11_full
+shadowed=yes
+text=Kiss
 colour=0xFFFF00

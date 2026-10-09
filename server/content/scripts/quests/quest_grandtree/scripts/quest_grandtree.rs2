@@ -1,7 +1,7 @@
 [oploc1,grandtree_trapdoorunder]
 if(%grandtree = ^grandtree_complete) {
     anim(human_pickupfloor, 0);
-    sound_synth(door_open, 0, 0);
+    sound_synth(door_open, 1, 0);
     // Temp note: dur updated
     loc_change(grandtree_trapdooropen, 6); 
     p_delay(1);
@@ -35,7 +35,7 @@ p_arrivedelay;
 [oplocu,_grandtree_pillar]
 if (oc_tradeable(last_useitem) = true | last_useitem = grandtree_twigt | last_useitem = grandtree_twigu | last_useitem = grandtree_twigz | last_useitem = grandtree_twigo) {
     anim(human_pickuptable, 0);
-    sound_synth(put_down, 0, 0);
+    sound_synth(put_down, 1, 0);
     inv_dropslot(inv, loc_coord, last_useslot, calc(calc(^lootdrop_duration * 5) / 2)); // 500t osrs
     if(%grandtree = ^grandtree_given_twigs & 
         obj_find(2_38_54_53_11, grandtree_twigt) = true & 
@@ -43,7 +43,7 @@ if (oc_tradeable(last_useitem) = true | last_useitem = grandtree_twigt | last_us
         obj_find(2_38_54_55_11, grandtree_twigz) = true & 
         obj_find(2_38_54_56_11, grandtree_twigo) = true) {
         %grandtree = ^grandtree_unlocked_trapdoor;
-        sound_synth(machinery, 0, 0); 
+        sound_synth(machinery, 1, 0); 
         ~mesbox("You hear the grinding of an ancient pulley system.");
     }
     return;
@@ -53,7 +53,7 @@ mes("You cannot put that on a pillar.");
 [oploc1,grandtree_trapdoorclosed]
 if(%grandtree >= ^grandtree_unlocked_trapdoor) {
     anim(human_pickupfloor, 0);
-    sound_synth(door_open, 0, 0);
+    sound_synth(door_open, 1, 0);
     // Temp note: dur updated
     loc_change(grandtree_trapdooropen, 5); // idk cause this is varbit now, will assume same as the other trapdoor
     p_delay(1);
@@ -72,7 +72,7 @@ if(%grandtree >= ^grandtree_unlocked_trapdoor) {
 if(last_useitem = grandtree_gloughskey) {
     p_arrivedelay;
     anim(human_openchest, 0);
-    sound_synth(chest_open, 0, 0);
+    sound_synth(chest_open, 1, 0);
     p_delay(0);
     // Temp note: dur updated
     loc_change(chestopen_inactive, 5);
@@ -112,6 +112,14 @@ mes("You search the cupboard but you find nothing.");
 [oploc1,_shipyard_gate]
 if(%grandtree >= ^grandtree_released_prison) {
     if(coordx(coord) < coordx(loc_coord) & npc_find(coord, grandtree_shipyardguard, 5, 0) = true) {
+        if(%mm_main > ^mm_started) {
+            if_close;
+            p_delay(2);
+            npc_facesquare(0_46_47_1_33);
+            p_delay(0);
+            @open_shipyard_gate;
+            return;
+        }
         @shipyardworker_gate;
     } else {
         @open_shipyard_gate;
@@ -149,7 +157,7 @@ if(%grandtree ! ^grandtree_complete) {
     ~mesbox("You push against the roots but they push back at you!");
     return;
 }
-sound_synth(tanglevine_appear, 0, 0);
+sound_synth(tanglevine_appear, 1, 0);
 loc_anim(rootdoor_open);
 p_delay(2);
 if(coordz(coord) < coordz(loc_coord)) {

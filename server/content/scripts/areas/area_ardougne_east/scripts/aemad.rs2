@@ -2,7 +2,8 @@
 [opnpc1,kortan] @aemad_talk;
 
 [label,aemad_talk]
-~chatnpc("<p,happy>Hello there. You've come to the right place if you're looking for adventurer's equipment.");
+// https://web.archive.org/web/20071012102441im_/http://runescape.salmoneus.net/cities/images/aemadshop.gif
+~chatnpc("<p,happy>Hello you look like a bold adventurer. You've come to|the right place for adventurer's equipment.");
 def_int $option = ~p_choice2("Oh that sounds interesting.", 1, "No, I've come to the wrong place.", 2);
 if($option = 1) {
     ~chatplayer("<p,neutral>Oh that sounds interesting.");

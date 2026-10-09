@@ -739,7 +739,7 @@ x=37
 y=55
 width=427
 height=229
-scroll=1145
+scroll=1367
 
 [inv]
 layer=com_92
@@ -748,7 +748,7 @@ x=38
 y=3
 clientcode=206
 width=8
-height=30
+height=36
 draggable=yes
 margin=15,6
 option1=Withdraw 1

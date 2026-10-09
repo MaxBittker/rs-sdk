@@ -3,7 +3,7 @@
 
 // https://youtu.be/ji4qvtcLKpI?list=PLn23LiLYLb1am4weMQzkWn5m9b3m9fXv9&t=223
 // moves instantly back to respawn, then moves back again
-sound_synth(whirlpool, 0, 0);
+sound_synth(whirlpool, 1, 0);
 npc_changetype(npc_param(whirlpool), 60);
 // doesnt continue to fish https://youtu.be/ji4qvtcLKpI?list=PLn23LiLYLb1am4weMQzkWn5m9b3m9fXv9&t=112
 // anim plays out... people dont seem to lose their equipment at the whirlpool unless they *reclick* on it
@@ -14,7 +14,7 @@ if (p_finduid(uid) = true) {
         return;
     }
     %macro_whirlpool_counter = 0;
-    sound_synth(watersplash, 0, 0);
+    sound_synth(watersplash, 1, 0);
     inv_del(inv, $fishing_equipment, 1);
     session_log(^log_adventure, "Lost their <oc_name($fishing_equipment)> in a whirlpool");
 }

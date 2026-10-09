@@ -28,7 +28,7 @@ if($leaving ! true & (%ballquest < ^ball_started | %ballquest = ^ball_complete))
 }
 // angles on these doors don't visually match osrs, but they actually do have the same loc_angle
 // prob just something weird with the new models?
-~open_and_close_door2(poordoor, $leaving, door_open);
+~open_and_close_door2(loc_1535, $leaving, door_open);
 
 [oploc1,_ball_irongate]
 if(inv_total(worn, leather_gloves) = 0) {
@@ -44,7 +44,7 @@ def_coord $loc_coord = loc_coord;
 def_int $next_angle = calc(loc_angle - 1);
 def_loc $next_loc = loc_param(next_loc_stage);
 $x, $z = ~door_open(loc_angle, loc_shape);
-sound_synth(iron_door_open, 0, 0);
+sound_synth(iron_door_open, 1, 0);
 def_coord $dest = $loc_coord;
 if ($entering = true) {
     $dest = movecoord($loc_coord, $x, 0, $z);
@@ -97,7 +97,7 @@ if(inzone(0_45_54_21_10, 0_45_54_23_11, coord) = true) {
     @ball_cheese("a");
 }
 inv_dropslot(inv, coord, last_slot, ^lootdrop_duration);
-sound_synth(put_down, 0, 0);
+sound_synth(put_down, 1, 0);
 
 [opnpcu,witchrat]
 if(last_useitem = magnet) {
@@ -122,11 +122,11 @@ if(%ballquest < ^ball_unlocked_mousedoor) {
     ~chatplayer("<p,confused>Strange... I can't see any kind of lock or handle to open this door...");
     return;
 }
-~open_and_close_door2(poordoor, ~check_axis(coord, loc_coord, loc_angle), door_open);
+~open_and_close_door2(loc_1535, ~check_axis(coord, loc_coord, loc_angle), door_open);
 
 [oploc1,witchsheddoor]
 if(%ballquest >= ^ball_defeated_experiment) {
-    ~open_and_close_door2(desertdoor_inactive, ~check_axis(coord, loc_coord, loc_angle), door_open);
+    ~open_and_close_door2(loc_1532, ~check_axis(coord, loc_coord, loc_angle), door_open);
     return;
 }
 mes("The shed door is locked.");
@@ -154,7 +154,7 @@ if(last_useitem = witches_shedkey) {
         }
         npc_add(^ball_experiment_spawn_coord, shapeshifterglob, 500);
     }
-    ~open_and_close_door2(desertdoor_inactive, $entering, door_open);
+    ~open_and_close_door2(loc_1532, $entering, door_open);
     return;
 }
 mes("The shed door is locked.");

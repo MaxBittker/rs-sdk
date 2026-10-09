@@ -42,6 +42,20 @@ $y, $cx, $cz, $lx, $lz = ~coord_unpack($coord);
 
 return("x: <tostring($x)> z: <tostring($z)> level: <tostring($y)> jcoord: <tostring($y)>_<tostring($cx)>_<tostring($cz)>_<tostring($lx)>_<tostring($lz)>");
 
+[proc,coord_tostring2](coord $coord)(string)
+def_int $x = coordx($coord);
+def_int $z = coordz($coord);
+
+def_int $y;
+def_int $cx;
+def_int $cz;
+def_int $lx;
+def_int $lz;
+$y, $cx, $cz, $lx, $lz = ~coord_unpack($coord);
+
+return("<tostring($y)>_<tostring($cx)>_<tostring($cz)>_<tostring($lx)>_<tostring($lz)>");
+
+
 // this is a helper proc that uses coord_pair_table in skill_firemaking\configs
 // example usage:
 // if (~inzone_coord_pair_table(bank_zones, coord) = true)
@@ -235,3 +249,65 @@ while (map_blocked($random_coord) = true) {
     }
 }
 return($random_coord);
+
+[proc,setcoord_mapsquare](coord $coord, int $mapx, int $mapy, int $mapz)(coord)
+def_int $relx = modulo(coordx($coord), 64);
+def_int $relz = modulo(coordz($coord), 64);
+return(movecoord(0_0_0_0_0, add(multiply($mapx, 64), $relx), $mapy, add(multiply($mapz, 64), $relz)));
+
+// euclidean
+[proc,closest_coord](coord $coord, coord $distanceto1, coord $distanceto2)(coord)
+def_int $dx1 = abs(sub(coordx($coord), coordx($distanceto1)));
+def_int $dz1 = abs(sub(coordz($coord), coordz($distanceto1)));
+
+def_int $dx2 = abs(sub(coordx($coord), coordx($distanceto2)));
+def_int $dz2 = abs(sub(coordz($coord), coordz($distanceto2)));
+
+if (invpow(add(pow($dx1, 2), pow($dz1, 2)), 2) < invpow(add(pow($dx2, 2), pow($dz2, 2)), 2)) {
+    return($distanceto1);
+}
+return($distanceto2);
+
+[proc,centre_coord](coord $coord1, coord $coord2)(coord)
+def_int $x = divide(add(coordx($coord1), coordx($coord2)), 2);
+def_int $z = divide(add(coordz($coord1), coordz($coord2)), 2);
+def_int $y = divide(add(coordy($coord1), coordy($coord2)), 2);
+return(movecoord(0_0_0_0_0, $x, $y, $z));
+
+
+// chooses the coord that the origin is facing
+[proc,facing_coord](coord $origin, coord $end1, coord $end2, int $direction)(coord)
+if (~coord_direction($origin, $end1) = $direction) return($end1);
+if (~coord_direction($origin, $end2) = $direction) return($end2);
+
+// used for movement based procs
+[proc,movedir_coord](coord $origin, coord $dest)(coord)
+def_int $x = sub(coordx($dest), coordx($origin));
+def_int $z = sub(coordz($dest), coordz($origin));
+
+def_int $dirx = 0;
+def_int $dirz = 0;
+
+if ($x >= 1) $dirx = 1;
+else if ($x <= -1) $dirx = -1;
+
+if ($z >= 1) $dirz = 1;
+else if ($z <= -1) $dirz = -1;
+
+return(movecoord($origin, $dirx, 0, $dirz));
+
+// doesnt include diagonals
+[proc,movedir_coord2](coord $origin, coord $dest)(coord)
+def_int $x = sub(coordx($dest), coordx($origin));
+def_int $z = sub(coordz($dest), coordz($origin));
+
+def_int $dirx = 0;
+def_int $dirz = 0;
+
+if ($x >= 1) $dirx = 1;
+else if ($x <= -1) $dirx = -1;
+else if ($z >= 1) $dirz = 1;
+else if ($z <= -1) $dirz = -1;
+
+return(movecoord($origin, $dirx, 0, $dirz));
+

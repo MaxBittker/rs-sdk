@@ -1,7 +1,4 @@
 [ai_queue1,kalphite_queen]
-if (random(^kalphite_worker_spawn_rate) = 0 & npc_stat(hitpoints) < 175) { // doesnt spawn until boss is under 175 ish hp https://youtu.be/ZHaxxMq3nVI?list=PLn23LiLYLb1YiomJ3wnXokdbgjE7-Lgt5&t=87
-    ~kalphite_worker_spawn;
-}
 ~npc_default_retaliate_ap;
 
 [ai_opplayer2,kalphite_queen] npc_setmode(applayer2);
@@ -27,6 +24,12 @@ switch_int($random) {
     case 2 : ~kalphite_melee_attack;
 }
 
+[ai_queue2,kalphite_queen]
+if (random(^kalphite_worker_spawn_rate) = 0) {
+    ~kalphite_worker_spawn;
+}
+~npc_default_damage(last_int);
+
 // #1 https://youtu.be/KTVznh5-S44?t=222
 // #2 https://youtu.be/AeMRG94A5KY?t=290
 // #3 https://youtu.be/MZsxEs05_TI?t=118 (2:01 dead, 2:04 attack, 2:05 remove corpse)
@@ -40,7 +43,7 @@ npc_facesquare(movecoord(npc_coord, 2, 0, -1));
 npc_delay(0);
 // npc_arrivedelay; // might replace this when the client can add+face on same tick
 
-.npc_add(npc_coord, kalphite_queen_form_swap, 3);
+.npc_add(npc_coord, kalphite_queen_dead, 3);
 .npc_anim(kalphite_crackopen, 0);
 ~sound_area(kalphite_crack_open, 0, movecoord(npc_coord, 2, 0, 2), 12);
 
@@ -55,7 +58,7 @@ npc_delay(0);
 [proc,kalphite_queen_mage_attack]
 spotanim_npc(kalphite_glow, 0, 0);
 npc_anim(kalphite_lightning, 0);
-sound_synth(kalthite_lightning, 0, 30);
+sound_synth(kalthite_lightning, 1, 30);
 if_close;
 %npc_action_delay = add(map_clock, npc_param(attackrate));
 
@@ -101,12 +104,12 @@ def_int $queue_delay = 0;
 if ($duration = 0) { // first target
     $duration = ~player_projectile($prev_coord, coord, uid, kalphite_glow_travel, 40, 36, $duration, 15, 0, 11, 5);
     spotanim_pl(kalphite_glow_impact, 124, $duration);
-    sound_synth(kalthite_lightning_impact, 0, $duration);
+    sound_synth(kalthite_lightning_impact, 1, $duration);
     $total_distance = add(add($total_distance, distance(coord, $prev_coord)), 1);
     $queue_delay = divide($total_distance, 5);
 } else {
     spotanim_pl(kalphite_glow_impact, 124, $duration);
-    sound_synth(kalthite_lightning_impact, 0, $duration);
+    sound_synth(kalthite_lightning_impact, 1, $duration);
     $duration = ~player_projectile($prev_coord, coord, uid, kalphite_glow_travel, 36, 36, $duration, 0, 0, 11, 5);
     $queue_delay = divide($total_distance, 5);
     $total_distance = add(add($total_distance, distance(coord, $prev_coord)), 1);
@@ -144,14 +147,11 @@ while (huntnext = true & $i < 5) { // up to 5? https://youtu.be/ZHaxxMq3nVI?list
     $duration = ~player_projectile(movecoord(npc_coord, 2, 0, 2), coord, uid, kalphite_spine, 30, 31, 0, 20, 0, 11, 5);
     queue(combat_damage_player, divide($duration, 30), $damage);
     queue*(playerhit_n_retaliate, divide($duration, 30))(npc_uid);
-    sound_synth(kalphite_queen_spines, 0, 0);
+    sound_synth(kalphite_queen_spines, 1, 0);
     $i = add($i, 1);
 }
 
 [ai_queue1,kalphite_flyingqueen]
-if (random(^kalphite_worker_spawn_rate) = 0) {
-    ~kalphite_worker_spawn;
-}
 ~npc_default_retaliate_ap;
 
 [ai_applayer2,kalphite_flyingqueen]
@@ -177,6 +177,12 @@ switch_int($random) {
 
 [ai_opplayer2,kalphite_flyingqueen] npc_setmode(applayer2);
 
+[ai_queue2,kalphite_flyingqueen]
+if (random(^kalphite_worker_spawn_rate) = 0) {
+    ~kalphite_worker_spawn;
+}
+~npc_default_damage(last_int);
+
 [proc,kalphite_flyingqueen_melee_attack]
 anim(%com_defendanim, 0);
 if (random(2) = 0) {
@@ -185,14 +191,14 @@ if (random(2) = 0) {
     npc_anim(kalphite_queen_attack_claws, 0);
 }
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 ~npc_meleeattack;
 
 [proc,kalphite_flyingqueen_mage_attack]
 spotanim_npc(kalphite_queen_glow, 0, 0);
 npc_anim(kalphite_queen_lightning, 0);
-sound_synth(kalthite_lightning, 0, 30);
+sound_synth(kalthite_lightning, 1, 30);
 
 if_close;
 %npc_action_delay = add(map_clock, npc_param(attackrate));
@@ -223,6 +229,6 @@ while (huntnext = true & $i < 5) { // up to 5? https://youtu.be/ZHaxxMq3nVI?list
     $duration = ~player_projectile(movecoord(npc_coord, 2, 0, 2), coord, uid, kalphite_queen_spine, 30, 31, 0, 20, 0, 11, 5);
     queue(combat_damage_player, divide($duration, 30), $damage);
     queue*(playerhit_n_retaliate, divide($duration, 30))(npc_uid);
-    sound_synth(kalphite_queen_spines, 0, 0);
+    sound_synth(kalphite_queen_spines, 1, 0);
     $i = add($i, 1);
 }

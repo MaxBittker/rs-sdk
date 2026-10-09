@@ -33,10 +33,6 @@ export function packClientInterface(cache: FileStream, modelFlags: number[]) {
         const jag = Jagfile.new(true);
         const { client, server } = packInterface(modelFlags);
 
-        if (Environment.build.verify && !Packet.checkcrc(client.data, 0, client.pos, 2041671134)) {
-            throw new Error('.if checksum mismatch!\nYou can disable this safety check by setting BUILD_VERIFY=false');
-        }
-
         jag.write('data', client);
         jag.save('data/pack/client/interface');
         client.release();
@@ -45,6 +41,11 @@ export function packClientInterface(cache: FileStream, modelFlags: number[]) {
         server.release();
     }
 
-    cache.write(0, 3, fs.readFileSync('data/pack/client/interface'));
+    const packed = fs.readFileSync('data/pack/client/interface');
+    if (Environment.build.verify && !Packet.checkcrc(packed, 0, packed.length, 123011849)) {
+        throw new Error('interface checksum mismatch!\nYou can disable this safety check by setting BUILD_VERIFY=false');
+    }
+
+    cache.write(0, 3, packed);
     return rebuild;
 }

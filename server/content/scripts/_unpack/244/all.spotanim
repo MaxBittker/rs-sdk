@@ -1,15 +1,15 @@
 [elemental_shield_equip]
-model=model_166
+model=quest_elementalworkshop_inv_shield_equip
 anim=elemental_shield_appear
 
 [stunned_thieving]
-model=model_3070_spotanim
+model=spells_stunned
 anim=stunned_thieving
 ambient=40
 contrast=40
 
 [sp_attackglow_red]
-model=model_loc_740_8
+model=floor_glowingcircle
 anim=sp_attackglow
 ambient=60
 contrast=60
@@ -17,7 +17,7 @@ recol1s=31658
 recol1d=30819
 
 [sp_attackglow_blue]
-model=model_loc_740_8
+model=floor_glowingcircle
 anim=sp_attackglow
 ambient=60
 contrast=60
@@ -25,62 +25,62 @@ recol1s=31658
 recol1d=11674
 
 [sp_attack_cleave_spotanim]
-model=model_spotanim_248
+model=spells_specialattack_cleave
 anim=sp_attack_cleave_spotanim
 ambient=50
 contrast=50
 
 [sp_attack_glow_arrow_travel]
-model=model_spotanim_249
+model=proj_arrowlaunch_glow
 ambient=60
 contrast=60
 
 [sp_attack_glow_arrow_launch]
-model=model_spotanim_249
+model=proj_arrowlaunch_glow
 anim=arrow_launch
 ambient=60
 contrast=60
 
 [sp_attack_shatter_spotanim]
-model=model_spotanim_251
+model=spells_specialattack_shatter
 anim=sp_attack_shatter_spotanim
 ambient=50
 contrast=50
 
 [sp_attack_puncture_spotanim]
-model=model_spotanim_252
+model=spells_specialattack_puncture
 anim=sp_attack_puncture_spotanim
 ambient=50
 contrast=50
 
 [sp_attack_shove_spotanim]
-model=model_spotanim_253
+model=spells_specialattack_shove
 anim=sp_attack_shove_spotanim
 ambient=50
 contrast=50
 
 [stunned_shove]
-model=model_3070_spotanim
+model=spells_stunned
 anim=stunned_shove
 ambient=40
 contrast=40
 
 [druidicspirit_druidsshield]
-model=druidicspirit_druidsshield
+model=quest_naturespirit_spells_druidsshield
 anim=druidicspirit_druidsshield_spotanim
 
 [sp_attack_snapshot_spotanim]
-model=model_spotanim_249
+model=proj_arrowlaunch_glow
 anim=sp_attack_snapshot_spotanim
 ambient=60
 contrast=60
 
 [sp_attack_chainhit_launch_spotanim]
-model=model_spotanim_257
+model=proj_taxelaunch_side
 anim=sp_attack_chainhit_launch_spotanim
 
 [sp_attack_chainhit_travel_spotanim]
-model=model_spotanim_258
+model=proj_taxetravel_streak
 anim=sp_attack_chainhit_travel_spotanim
 ambient=60
 contrast=60
@@ -88,7 +88,7 @@ recol1s=15855
 recol1d=6476
 
 [druidicspirit_priest_bless]
-model=druidicspirit_druidsshield
+model=quest_naturespirit_spells_druidsshield
 anim=druidicspirit_druidsshield_spotanim
 recol1s=31649
 recol1d=32767

@@ -13,17 +13,17 @@ if(stat(agility) < 5) {
 }
 @climb_barbarian_crumblingwall;
 
-[oploc1,loc_2298]
+[oploc1,watchshortcut]
 if(stat(agility) < 5) {
     ~mesbox("You need an Agility level of 5 to climb the wall.");
     return;
 }
 p_telejump(movecoord(loc_coord, 0, 0, 3));
 stat_advance(agility, 250);
-sound_synth(climb_wall, 0, 0);
+sound_synth(climb_wall, 1, 0);
 mes("You climb over the wall.");
 
-[oploc1,loc_2296]
+[oploc1,mine_log_balance1]
 if(stat(agility) < 20) {
     ~mesbox("You need an Agility level of 20 to balance on this log.");
     return;
@@ -46,7 +46,7 @@ stat_advance(agility, 85);
 // https://youtu.be/Fr0ZhqD6KKM?si=NUQInNCAp1j_PJhp&t=164
 mes("...You make it safely to the other side.");
 
-[oploc1,loc_2332]
+[oploc1,zq_logbalance]
 p_arrivedelay;
 def_int $x_dist = -2;
 def_coord $turn_coord = 0_45_47_27_47;
@@ -69,7 +69,7 @@ if(stat_random(agility, 90, 250) = false) {
     anim(human_walk_logbalance_stumble, 5);
     facesquare(movecoord(coord, 0, 0, 2));
     p_delay(0);
-    sound_synth(pool_plop, 0, 0);
+    sound_synth(pool_plop, 1, 0);
     p_exactmove(0_45_47_28_41, 0_45_47_28_42, 6, 9, ^exact_north);
     spotanim_map(watersplash, 0_45_47_28_42, 0, 3);
     ~set_readywalkturn_bas(human_swim_ready, human_swim_ready, human_swim);
@@ -118,7 +118,7 @@ if($dist > 3) {
     mes("You cannot do that from here.");
     return;
 }
-if(loc_type ! loc_2323 & stat(agility) < 10) { 
+if(loc_type ! tree_ropeswing2 & stat(agility) < 10) { 
     // dont check the inner brimhaven or ogre island swing to prevent getting softlocked
     mes("You need an agility level of 10 to attempt to swing on this vine.");
     return;
@@ -133,7 +133,7 @@ if(~get_island_rope_var >= map_clock) {
 }
 ~set_island_rope_var(calc(map_clock + 4));
 if($dist > 0) {
-    if(loc_type = loc_2323) {
+    if(loc_type = tree_ropeswing2) {
         if (%option_run = ^player_run_off) {
             p_delay(sub($dist, 1));
         } else {
@@ -146,7 +146,7 @@ if($dist > 0) {
 loc_anim(ropeswing_long);
 ~agility_exactmove(human_ropeswing_long, 20, 0, coord, loc_param(end_coord), 45, 70, loc_param(dir), false);
 mes("You skillfully swing across.");
-sound_synth(swing_across, 0, 0);
+sound_synth(swing_across, 1, 0);
 stat_advance(agility, 30);
 
 [oploc1,_monkeybars]
@@ -167,7 +167,7 @@ facesquare(movecoord(coord, 0, 0, calc($dist_mod)));
 ~bas_set(human_monkeybars_ready, human_monkeybars_ready, human_monkeybars_walk, 
          human_monkeybars_ready, human_monkeybars_ready, human_monkeybars_ready, null);
 anim(human_monkeybars_on, 0);
-sound_synth(monkeybars_on, 0, 0);
+sound_synth(monkeybars_on, 1, 0);
 p_delay(0);
 sound_synth(monkeybars_loop, 4, 40);
 ~forcemove(movecoord(coord, 0, 0, calc($dist_mod * 1)));
@@ -192,7 +192,7 @@ sound_synth(monkeybars_loop, 3, 0);
 ~update_bas;
 stat_advance(agility, 200);
 anim(human_monkeybars_off, 0);
-sound_synth(monkeybars_off, 0, 0);
+sound_synth(monkeybars_off, 1, 0);
 p_delay(0);
 
 [oploc1,fullstyle]
@@ -239,7 +239,7 @@ if(coordz(coord) < coordz(loc_coord)) {
     $fall_seq = human_wobbleandfall_r;
 }
 mes("You attempt to balance on the stepping stone.");
-sound_synth(jump_no_land, 0, 20);
+sound_synth(jump_no_land, 1, 20);
 // 1t longer delay than osrs for now, otherwise the fall seq won't play on fails 
 ~agility_exactmove(human_steppingstonejump, 20, 2, coord, movecoord(coord, 0, 0, $dz), 48, 60, $dir, false);
 if(stat_random(agility, 50, 253) = false) {
@@ -249,7 +249,7 @@ if(stat_random(agility, 50, 253) = false) {
     mes("You slip and fall...");
     ~set_walkbas(human_drowning);
     ~agility_exactmove($fall_seq, 30, 1, coord, $fail_coord, 52, 100, $dir, false);
-    sound_synth(pool_plop, 0, 0);
+    sound_synth(pool_plop, 1, 0);
     p_teleport(movecoord(coord, 2, 0, 0));
     p_delay(0);
     spotanim_map(watersplash, $fail_coord, 0, 1);

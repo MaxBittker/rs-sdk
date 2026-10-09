@@ -63,7 +63,7 @@ return (false);
 [proc,open_chest](loc $other_chest)
 p_arrivedelay;
 anim(human_openchest, 0);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change($other_chest, 300);
@@ -71,7 +71,16 @@ loc_change($other_chest, 300);
 [proc,close_chest](loc $other_chest)
 p_arrivedelay;
 anim(human_closechest, 0);
-sound_synth(chest_close, 0, 0);
+sound_synth(chest_close, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change($other_chest, 300);
+
+// https://youtu.be/TlsGPU8-BDo?si=Zxzd_cgUI76xplMp&t=337 (none of these seem to be placed in osrs anymore)
+[oploc1,chestlocked]
+mes("The chest is locked.");
+sound_synth(locked, 1, 0);
+
+[oploc1,chestlockedgold]
+mes("The chest is locked.");
+sound_synth(locked, 1, 0);

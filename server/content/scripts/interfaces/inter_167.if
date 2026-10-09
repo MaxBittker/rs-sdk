@@ -4,7 +4,7 @@ x=239
 y=145
 width=35
 height=35
-model=model_3035
+model=if_interfacebook
 zoom=525
 xan=395
 
@@ -57,7 +57,7 @@ x=127
 y=117
 width=32
 height=32
-model=model_3389
+model=if_trail_xmark
 zoom=500
 xan=200
 
@@ -67,7 +67,7 @@ x=355
 y=117
 width=32
 height=32
-model=model_3389
+model=if_trail_xmark
 zoom=500
 xan=200
 

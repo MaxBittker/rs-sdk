@@ -73,8 +73,6 @@ export function unpackSpotAnimConfig(config: ConfigIdx, id: number, compare?: Co
 
             const seqName = SeqPack.getById(seqId) || `seq_${seqId}`;
             def.push(`anim=${seqName}`);
-        } else if (code === 3) {
-            def.push('hasalpha=yes');
         } else if (code === 4) {
             const resizeh = dat.g2();
 

@@ -6,7 +6,7 @@ if (map_clock < %npc_action_delay) {
 }
 // 1/10 chance and a 5 imp cap (completely guessed)
 // .npc_count_within_distance so it doesnt mess up activenpc pointer.
-if (random(10) = 0 & ~.npc_findcount(npc_coord, imp_grayzag, 10, 0) < 5) {
+if (random(10) = 0 & ~.npc_findcount(npc_coord, summonedimp, 10, 0) < 5) {
     ~npc_spawn_imp_attack;
     return;
 }
@@ -22,9 +22,9 @@ spotanim_npc(curse_casting, 92, 0);
 %npc_action_delay = calc(map_clock + 5);
 npc_delay(1); // this also stops the player from attacking
 // new active npc
-sound_synth(smokepuff, 0, 0);
+sound_synth(smokepuff, 1, 0);
 spotanim_map(smokepuff, $imp_coord, 124, 0);
-npc_add($imp_coord, imp_grayzag, 200); // complete guess!
+npc_add($imp_coord, summonedimp, 200); // complete guess!
 npc_delay(1);
 npc_setmode(opplayer2);
 // Used animations similar to what can be seen in this love story quest cutscene.

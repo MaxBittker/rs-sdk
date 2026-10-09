@@ -83,7 +83,7 @@ if (%tbwt_tiadeche = ^tbwt_tiadeche_return_when_caught_karambwan) { // Only appl
         def_int $choice = ~p_choice2_header("Yes", 1, "No", 2, "Accept Tiadeche's offer?");
         if ($choice = 1) { // Yes
             inv_add(inv, tbwt_raw_karambwan, 1);
-            %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tiadeche_received_karambwan);
+            %tbwt_flags = setbit(%tbwt_flags, ^tbwt_tiadeche_received_karambwan);
             ~objbox(tbwt_raw_karambwan, "Tiadeche hands you his first catch!", 250, 0, 0);
             ~chatplayer("<p,neutral>Your father would be proud.");
             ~chatnpc("<p,neutral>Hmph ... my father would not care.");
@@ -164,11 +164,11 @@ npc_anim(human_octopus_pot, 0);
 ~chatplayer("<p,neutral>I ... never mind.");
 
 [label,tbwt_tiadeche_have_you_retrieved_manual]
-if (testbit(%tbwt_bits, ^tbwt_tiadeche_received_karambwan) = ^false) {
+if (testbit(%tbwt_flags, ^tbwt_tiadeche_received_karambwan) = ^false) {
     if (inv_total(inv, tbwt_raw_karambwan) < 1) { 
         ~chatnpc("<p,happy>I have caught another Karambwan! I think I ought to give it to you.");
         inv_add(inv, tbwt_raw_karambwan, 1);
-        %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tiadeche_received_karambwan);
+        %tbwt_flags = setbit(%tbwt_flags, ^tbwt_tiadeche_received_karambwan);
     }
 }
 ~chatnpc("<p,quiz>Have you taken the Karambwan vessel to Tinsay?");

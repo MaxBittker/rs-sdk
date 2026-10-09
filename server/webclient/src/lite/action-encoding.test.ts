@@ -35,7 +35,7 @@ const ORIGIN = process.env.LITE_TEST_ORIGIN ?? 'https://rs-sdk-demo.fly.dev';
 const CACHE_DIR = process.env.LITE_TEST_CACHE ?? '/tmp/rs-sdk-lite-test-cache';
 
 const INV_COMPONENT = 3214; // inventory:inv
-const BANK_SIDE_INV = 2006; // bank_side:inv on this 274 build (5064 is the 317-era id)
+const BANK_SIDE_INV = 2006; // bank_side:inv on this 289 build (5064 is the 317-era id)
 
 let available = false;
 
@@ -67,7 +67,7 @@ function invPacket(componentId: number, items: Record<number, number>): Packet {
     const size = Math.max(...slots) + 1;
     const buf = Packet.alloc(1);
     buf.p2(componentId);
-    buf.p1(size);
+    buf.p2(size); // p2 since 289
     for (let slot = 0; slot < size; slot++) {
         const objId = items[slot];
         buf.p2(objId !== undefined ? objId + 1 : 0);

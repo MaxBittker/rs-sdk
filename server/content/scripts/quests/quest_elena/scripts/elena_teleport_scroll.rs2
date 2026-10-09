@@ -2,7 +2,7 @@
 if(%elenaquest ! ^elena_complete) {
     inv_del(inv, ardougnescroll, 1);
     spotanim_pl(firewave_impact, 124, 0);
-    sound_synth(fire_lit, 0, 0);
+    sound_synth(fire_lit, 1, 0);
     ~damage_self(0);
     ~mesbox("The scroll bursts into flame.");
     return;

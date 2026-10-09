@@ -1,0 +1,35 @@
+[label,glough_reinit_dialogue]
+def_int $op;
+// you can pay multiple times!
+~chatplayer("<p,quiz>Hello?");
+~chatnpc("<p,neutral>You look frustrated, human.");
+~chatplayer("<p,neutral>I've been told to wait for reinitialisation of the hangar. They mentioned your name.");
+~chatnpc("<p,neutral>Of course they would. I'm the only one who knows how to do it.");
+~chatplayer("<p,shifty>This is really quite embarrassing, but...");
+~chatnpc("<p,neutral>Let me guess, you need my help...");
+switch_int(~p_choice2("Yes, I suppose I do.", 1, "No, I'd rather skin a monkey than take your help!", 2)) {
+    case 1 :
+        ~chatplayer("<p,shifty>Yes, I suppose I do.");
+        ~chatnpc("<p,shifty>I am able to remotely reinitialise...");
+        ~chatplayer("<p,neutral>But... ?");
+        ~chatnpc("<p,shifty>It will cost you...");
+        ~chatplayer("<p,angry>How much?");
+        ~chatnpc("<p,shifty>Oh... just a measly 200,000 coins.|Yes, I think that will do me nicely.");
+        if(inv_total(inv, coins) < 200000) {
+            ~chatplayer("<p,neutral>I don't have that kind of money on me right now.");
+            return;
+        }
+        $op = ~p_choice2("Ok then. You win again, Glough.", 1, "That's outrageous!", 2);
+        if($op = 2) {
+            ~chatplayer("<p,angry>That's outrageous!");
+            return;
+        }
+        ~chatplayer("<p,neutral>Ok then. You win again, Glough.");
+        inv_del(inv, coins, 200000);
+        %mm_hangar_puzzle_complete = ^true;
+        ~chatnpc("<p,neutral>It's been a pleasure doing business with you.");
+        ~chatplayer("<p,neutral>Indeed. I wish I could say the same for you.");
+    case 2 :
+        ~chatplayer("<p,shifty>No, I'd rather skin a monkey than take your help!");
+        ~chatnpc("<p,neutral>You don't know how to do that yet!");
+}

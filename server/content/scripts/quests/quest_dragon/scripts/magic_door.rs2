@@ -32,7 +32,7 @@ if ($entering = false & %dragon_oracle < ^quest_dragon_gone_through_oracle_door)
 p_arrivedelay;
 mes("You open the chest.");
 anim(human_openchest, 0);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change(oraclechestopen, 300);
@@ -41,7 +41,7 @@ loc_change(oraclechestopen, 300);
 p_arrivedelay;
 mes("You close the chest.");
 anim(human_closechest, 0);
-sound_synth(chest_close, 0, 0);
+sound_synth(chest_close, 1, 0);
 p_delay(0);
 // Temp note: dur does not need updated
 loc_change(oraclechestshut, 300);

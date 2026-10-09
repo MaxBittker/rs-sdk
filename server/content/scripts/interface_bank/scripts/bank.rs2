@@ -88,30 +88,64 @@ if ($withdraw > 0) {
 def_int $overflow = inv_itemspace2(bank, oc_uncert($obj), $amount, ^max_32bit_int);
 if (sub(^max_32bit_int, $amount) < inv_total(bank, oc_uncert($obj))) {
     if($mes = ^true) mes("You already have a full stack of that item in the bank."); // 2024 osrs
-    return (false);
+    return(false);
 }
 if ($overflow >= $amount) {
     // https://youtu.be/2BgXLZD-xgo?t=28
     // https://youtu.be/Ep4gaI5ic1s?t=197
     if($mes = ^true) mes("You don't have enough space in your bank account."); // osrs
-    return (false);
+    return(false);
 }
 def_int $deposit = sub($amount, $overflow);
 if ($deposit > 0) {
     session_log(^log_moderator, "Deposited <oc_debugname($obj)> x<tostring($deposit)> into bank");
     inv_moveitem_uncert($inv, bank, $obj, $deposit);
+    if($inv = worn) {
+        ~unequip_effect($obj, ^true);
+    }
 }
+return(true);
 
-[proc,bank_check_nobreak](obj $obj, int $send_mes)(boolean)
+// Do not add cert items using this proc.
+[proc,bank_add](namedobj $namedobj, int $amount, int $mes)(boolean)
+def_int $overflow = inv_itemspace2(bank, $namedobj, $amount, ^max_32bit_int);
+if (sub(^max_32bit_int, $amount) < inv_total(bank, $namedobj)) {
+    if($mes = ^true) mes("You already have a full stack of that item in the bank."); // 2024 osrs
+    return(false);
+}
+if ($overflow >= $amount) {
+    // https://youtu.be/2BgXLZD-xgo?t=28
+    // https://youtu.be/Ep4gaI5ic1s?t=197
+    if($mes = ^true) mes("You don't have enough space in your bank account."); // osrs
+    return(false);
+}
+def_int $deposit = sub($amount, $overflow);
+if ($deposit > 0) {
+    session_log(^log_moderator, "Added <oc_debugname($namedobj)> x<tostring($deposit)> into bank");
+    inv_add(bank, $namedobj, $deposit);
+}
+return(true);
+
+[proc,bank_check_allowed](obj $obj, int $send_mes)(boolean)
 if (oc_param($obj, unbankable) = ^true) {
     if($send_mes = ^true) mes("A magical force prevents you from banking this item!"); // osrs
-    return(true);
+    return(false);
 }
 
 // https://www.youtube.com/watch?v=W5iZgykts2A // No mes when creating boxes via actions
 if ($obj = macro_cube) {
     ~try_add_macro_cube;
-    return(true);
+    return(false);
+}
+
+if($obj = misc_awful_anthem | $obj = misc_good_anthem) {
+    mes("You have more urgent things to do with this anthem!");
+    return(false);
+}
+
+if ($obj = mm_monkey_in_backpack) {
+    mes("Sorry, you can't bank the monkey!");
+    return(false);
 }
 
 if (playermember = ^false) {
@@ -121,10 +155,10 @@ if (playermember = ^false) {
         // https://web.archive.org/web/20041126073829/http://img39.imageshack.us/img39/3412/firemaking.jpg (2004)
         mes("You need to subscribe for a members account if you want to");
         mes("store any more items in the bank.");
-        return(true);
+        return(false);
     }
 }
-return(false);
+return(true);
 
 [label,insert_bank](int $start_slot, int $target_slot)
 def_int $src = $start_slot;

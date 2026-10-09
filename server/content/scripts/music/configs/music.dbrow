@@ -1,3 +1,10 @@
+[music_7th_Realm]
+table=music
+data=name,7th Realm
+data=playbutton,music:7th_realm
+data=unlock,9,29
+data=track,7th realm
+
 [music_Adventure]
 table=music
 data=name,Adventure
@@ -25,6 +32,13 @@ data=name,Ambient Jungle
 data=playbutton,music:ambient_jungle
 data=unlock,1,3
 data=track,ambient jungle
+
+[music_Anywhere]
+table=music
+data=name,Anywhere
+data=playbutton,music:anywhere
+data=unlock,8,16
+data=track,anywhere
 
 [music_Arabian]
 table=music
@@ -222,6 +236,13 @@ data=playbutton,music:camelot
 data=unlock,1,24
 data=track,camelot
 
+[music_Castlewars]
+table=music
+data=name,Castlewars
+data=playbutton,music:castlewars
+data=unlock,8,23
+data=track,castlewars
+
 [music_Cave_Background]
 table=music
 data=name,Cave Background
@@ -249,6 +270,13 @@ data=name,Chain Of Command
 data=playbutton,music:chain_of_command
 data=unlock,1,27
 data=track,chain of command
+
+[music_Chamber]
+table=music
+data=name,Chamber
+data=playbutton,music:chamber
+data=unlock,8,1
+data=track,chamber
 
 [music_Chompy_Hunt]
 table=music
@@ -355,6 +383,13 @@ data=playbutton,music:deadlands
 data=unlock,8,6
 data=track,deadlands
 
+[music_Deep_Down]
+table=music
+data=name,Deep Down
+data=playbutton,music:deep_down
+data=unlock,8,0
+data=track,deep down
+
 [music_Deep_Wildy]
 table=music
 data=name,Deep Wildy
@@ -439,6 +474,13 @@ data=playbutton,music:escape
 data=unlock,6,16
 data=track,escape
 
+[music_Etceteria]
+table=music
+data=name,Etceteria
+data=playbutton,music:etceteria
+data=unlock,8,3
+data=track,etcetera
+
 [music_Everywhere]
 table=music
 data=name,Everywhere
@@ -509,6 +551,13 @@ data=playbutton,music:fanfare3
 data=unlock,2,13
 data=track,fanfare3
 
+[music_Find_My_Way]
+table=music
+data=name,Find My Way
+data=playbutton,music:find_my_way
+data=unlock,8,22
+data=track,find my way
+
 [music_Fishing]
 table=music
 data=name,Fishing
@@ -543,6 +592,13 @@ data=name,Forever
 data=playbutton,music:forever
 data=unlock,2,16
 data=track,forever
+
+[music_Fruits_de_Mer]
+table=music
+data=name,Fruits de Mer
+data=playbutton,music:fruits_de_mer
+data=unlock,9,17
+data=track,fruits de mer
 
 [music_Gaol]
 table=music
@@ -600,6 +656,13 @@ data=playbutton,music:gnomeball
 data=unlock,2,24
 data=track,gnomeball
 
+[music_Goblin_Game]
+table=music
+data=name,Goblin Game
+data=playbutton,music:goblin_game
+data=unlock,8,28
+data=track,goblin game
+
 [music_Greatness]
 table=music
 data=name,Greatness
@@ -635,12 +698,26 @@ data=playbutton,music:harmony2
 data=unlock,6,7
 data=track,harmony2
 
+[music_Haunted_Mine]
+table=music
+data=name,Haunted Mine
+data=playbutton,music:haunted_mine
+data=unlock,7,30
+data=track,haunted mine
+
 [music_Heart_and_Mind]
 table=music
 data=name,Heart and Mind
 data=playbutton,music:heart_and_mind
 data=unlock,6,14
 data=track,heart and mind
+
+[music_Hells_Bells]
+table=music
+data=name,Hells Bells
+data=playbutton,music:hells_bells
+data=unlock,8,30
+data=track,hells bells
 
 [music_Hermit]
 table=music
@@ -705,6 +782,13 @@ data=playbutton,music:intrepid
 data=unlock,3,0
 data=track,intrepid
 
+[music_Island_Life]
+table=music
+data=name,Island Life
+data=playbutton,music:island_life
+data=unlock,8,18
+data=track,island life
+
 [music_Jolly-R]
 table=music
 data=name,Jolly-R
@@ -739,6 +823,13 @@ data=name,Jungly3
 data=playbutton,music:jungly3
 data=unlock,3,5
 data=track,jungly3
+
+[music_Karamja_Jam]
+table=music
+data=name,Karamja Jam
+data=playbutton,music:karamja_jam
+data=unlock,9,30
+data=track,karamja jam
 
 [music_Kingdom]
 table=music
@@ -880,6 +971,13 @@ data=playbutton,music:march
 data=unlock,3,17
 data=track,march
 
+[music_Marooned]
+table=music
+data=name,Marooned
+data=playbutton,music:marooned
+data=unlock,8,17
+data=track,marooned
+
 [music_Marzipan]
 table=music
 data=name,Marzipan
@@ -908,6 +1006,13 @@ data=playbutton,music:mellow
 data=unlock,3,19
 data=track,mellow
 
+[music_Melodrama]
+table=music
+data=name,Melodrama
+data=playbutton,music:melodrama
+data=unlock,8,24
+data=track,melodrama
+
 [music_Meridian]
 table=music
 data=name,Meridian
@@ -929,12 +1034,26 @@ data=playbutton,music:miracle_dance
 data=unlock,3,21
 data=track,miracle dance
 
+[music_Miscellania]
+table=music
+data=name,Miscellania
+data=playbutton,music:miscellania
+data=unlock,8,2
+data=track,miscellania
+
 [music_Monarch_Waltz]
 table=music
 data=name,Monarch Waltz
 data=playbutton,music:monarch_waltz
 data=unlock,3,22
 data=track,monarch waltz
+
+[music_Monkey_Madness]
+table=music
+data=name,Monkey Madness
+data=playbutton,music:monkey_madness
+data=unlock,8,15
+data=track,monkey madness
 
 [music_Moody]
 table=music
@@ -949,6 +1068,13 @@ data=name,Morytania
 data=playbutton,music:morytania
 data=unlock,6,20
 data=track,morytania
+
+[music_Narnodes_Theme]
+table=music
+data=name,Narnode's Theme
+data=playbutton,music:narnodes_theme
+data=unlock,9,18
+data=track,narnode's theme
 
 [music_Natural]
 table=music
@@ -1026,6 +1152,13 @@ data=playbutton,music:parade
 data=unlock,3,29
 data=track,parade
 
+[music_Pathways]
+table=music
+data=name,Pathways
+data=playbutton,music:pathways
+data=unlock,9,31
+data=track,pathways
+
 [music_Pirates_of_Peril]
 table=music
 data=name,Pirates of Peril
@@ -1046,6 +1179,13 @@ data=name,Quest
 data=playbutton,music:quest
 data=unlock,3,30
 data=track,quest
+
+[music_Ready_for_Battle]
+table=music
+data=name,Ready for Battle
+data=playbutton,music:ready_for_battle
+data=unlock,8,25
+data=track,ready for battle
 
 [music_Regal]
 table=music
@@ -1088,6 +1228,13 @@ data=name,Riverside
 data=playbutton,music:riverside
 data=unlock,4,2
 data=track,riverside
+
+[music_Romancing_the_Crone]
+table=music
+data=name,Romancing the Crone
+data=playbutton,music:romancing_the_crone
+data=unlock,9,8
+data=track,romancing the crone
 
 [music_Royale]
 table=music
@@ -1136,6 +1283,12 @@ data=name,Scape Sad
 data=playbutton,music:scape_sad
 data=unlock,4,8
 data=track,scape sad
+
+[music_Scape_Santa]
+table=music
+data=name,Scape Santa
+data=playbutton,music:scape_santa
+data=track,scape santa
 
 [music_Scape_Scared]
 table=music
@@ -1206,6 +1359,13 @@ data=playbutton,music:shining
 data=unlock,6,0
 data=track,shining
 
+[music_Showdown]
+table=music
+data=name,Showdown
+data=playbutton,music:showdown
+data=unlock,8,21
+data=track,showdown
+
 [music_Sojourn]
 table=music
 data=name,Sojourn
@@ -1240,6 +1400,13 @@ data=name,Spooky
 data=playbutton,music:spooky
 data=unlock,4,18
 data=track,spooky
+
+[music_Spooky2]
+table=music
+data=name,Spooky 2
+data=playbutton,music:spooky2
+data=unlock,7,26
+data=track,spooky2
 
 [music_Spooky_Jungle]
 table=music
@@ -1276,6 +1443,20 @@ data=playbutton,music:still_night
 data=unlock,4,22
 data=track,still night
 
+[music_Stillness]
+table=music
+data=name,Stillness
+data=playbutton,music:stillness
+data=unlock,8,26
+data=track,stillness
+
+[music_Stranded]
+table=music
+data=name,Stranded
+data=playbutton,music:stranded
+data=unlock,8,10
+data=track,stranded
+
 [music_Sunburn]
 table=music
 data=name,Sunburn
@@ -1290,12 +1471,33 @@ data=playbutton,music:superstition
 data=unlock,9,5
 data=track,superstition
 
+[music_Suspicious]
+table=music
+data=name,Suspicious
+data=playbutton,music:suspicious
+data=unlock,8,20
+data=track,suspicious
+
 [music_Talking_Forest]
 table=music
 data=name,Talking Forest
 data=playbutton,music:talking_forest
 data=unlock,4,23
 data=track,talking forest
+
+[music_Technology]
+table=music
+data=name,Technology
+data=playbutton,music:technology
+data=unlock,8,14
+data=track,technology
+
+[music_Temple]
+table=music
+data=name,Temple
+data=playbutton,music:temple
+data=unlock,8,19
+data=track,temple
 
 [music_The_Desert]
 table=music

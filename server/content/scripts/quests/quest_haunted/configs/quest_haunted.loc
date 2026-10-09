@@ -1,7 +1,7 @@
 [haunteddoorl]
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 category=double_door_open_and_close_left
 param=next_loc_stage,loc_1522
@@ -9,7 +9,7 @@ param=next_loc_stage,loc_1522
 [haunteddoorr]
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 mirror=yes
 category=double_door_open_and_close_right
@@ -18,7 +18,7 @@ param=next_loc_stage,loc_1523
 [hauntedcompostheap]
 name=Compost heap
 desc=Smelly.
-model=model_loc_152
+model=outdoorfurniture_compost
 width=2
 length=2
 op1=Search
@@ -26,7 +26,7 @@ op1=Search
 [hauntedfountain]
 name=Fountain
 desc=Ornamental!
-model=model_loc_153
+model=outdoorfurniture_fountain
 width=2
 length=2
 op1=Search
@@ -34,7 +34,7 @@ op1=Search
 [hauntedbookcasel]
 name=Bookcase
 desc=Lots of books.
-model=model_loc_155
+model=quest_loc_155
 op1=Search
 retex1s=wall
 retex1d=mossybricks
@@ -46,7 +46,7 @@ param=end_coord,0_48_52_24_30
 [hauntedbookcaser]
 name=Bookcase
 desc=Lots of books.
-model=model_loc_155
+model=quest_loc_155
 op1=Search
 retex1s=wall
 retex1d=mossybricks
@@ -58,7 +58,7 @@ param=end_coord,0_48_52_24_31
 [1to2]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -70,7 +70,7 @@ category=haunted_door
 [2to3]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -82,7 +82,7 @@ category=haunted_door
 [4to5]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -94,7 +94,7 @@ category=haunted_door
 [5to6]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -106,7 +106,7 @@ category=haunted_door
 [8to9]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -118,7 +118,7 @@ category=haunted_door
 [2to5]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -130,7 +130,7 @@ category=haunted_door
 [3to6]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -142,7 +142,7 @@ category=haunted_door
 [4to7]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -154,7 +154,7 @@ category=haunted_door
 [5to8]
 name=Door
 desc=It's closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -166,7 +166,7 @@ category=haunted_door
 [levera]
 name=Lever A
 desc=I wonder what this does...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 op2=Inspect
@@ -176,7 +176,7 @@ param=lever_index,0
 [leverb]
 name=Lever B
 desc=I wonder what this does...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 op2=Inspect
@@ -186,7 +186,7 @@ param=lever_index,1
 [leverc]
 name=Lever C
 desc=I wonder what this does...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 op2=Inspect
@@ -196,7 +196,7 @@ param=lever_index,2
 [leverd]
 name=Lever D
 desc=I wonder what this does...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 op2=Inspect
@@ -206,7 +206,7 @@ param=lever_index,3
 [levere]
 name=Lever E
 desc=I wonder what this does...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 op2=Inspect
@@ -216,7 +216,7 @@ param=lever_index,4
 [leverf]
 name=Lever F
 desc=I wonder what this does...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 op2=Inspect

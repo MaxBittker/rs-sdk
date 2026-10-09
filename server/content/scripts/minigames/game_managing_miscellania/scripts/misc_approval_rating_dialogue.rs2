@@ -1,0 +1,18 @@
+[proc,misc_approval_percentage]()(string)
+return (tostring(divide(multiply(%misc_approval, 100), 127)));
+
+// man_misc = Managing Miscellania
+[proc,man_misc_mesanim]()(string)
+if (%misc_approval >= ^MISC_APPROVAL_75_PERCENT) {
+    return ("<p,happy>");
+} else if (%misc_approval >= ^MISC_APPROVAL_50_PERCENT) {
+    return ("<p,confused>");
+} else if (%misc_approval >= ^MISC_APPROVAL_35_PERCENT) {
+    return ("<p,neutral>");
+} else if (%misc_approval > 30) { // not 25% exactly
+    return ("<p,shifty>");
+} else if (%misc_approval >= ^MISC_APPROVAL_10_PERCENT) {
+    return ("<p,sad>");
+} else {
+    return ("<p,angry>");
+}

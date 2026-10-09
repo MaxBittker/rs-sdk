@@ -84,6 +84,7 @@ else {
 // confirm this was the original behaviour (it's not the case on RSC)
 inv_del(inv, family_crest, ^max_32bit_int);
 inv_del(bank, family_crest, ^max_32bit_int);
+mes("You hand the crest over to Diminthesis.");
 queue(crest_complete, 0, 0);
 ~chatnpc("<p,happy>Adventurer... I can only thank you for your kindness, although the words are insufficient to express the gratitude I feel!");
 ~chatnpc("<p,happy>You are truly a hero in every sense, and perhaps your efforts can begin to patch the wounds that have torn this family apart...");

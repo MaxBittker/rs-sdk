@@ -1,7 +1,7 @@
 [gasmask]
 members=yes
 cost=2
-model=model_2442_obj
+model=inv_gasmask
 2dxof=-9
 2dyof=-7
 2dzoom=720
@@ -13,9 +13,9 @@ iop2=Wear
 wearpos=hat
 wearpos2=head
 wearpos3=jaw
-manwear=model_212_obj_wear,0
-womanwear=model_389_obj_wear,0
-manhead=model_51_obj_wear
-womanhead=model_112_obj_wear
+manwear=man_head_gasmask,0
+womanwear=woman_head_gasmask,0
+manhead=chat_male_head_gasmask
+womanhead=chat_female_head_gasmask
 weight=9oz
 tradeable=no

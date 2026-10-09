@@ -1,7 +1,7 @@
 [oaktree]
 name=Oak
 desc=A beautiful old oak.
-model=model_loc_1281
+model=plants_oaktree
 width=3
 length=3
 op1=Chop down

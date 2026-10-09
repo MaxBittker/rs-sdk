@@ -7,7 +7,8 @@ switch_int(%tutorial) {
 }
 
 [label,newbie_quest_instructor_start]
-~chatnpc("<p,neutral>Ah... welcome adventurer. I'm here to tell you all about|quests. Let's start by opening the quest side panel.");
+// https://i.imgur.com/TY5cffC.png
+~chatnpc("<p,neutral>Ah... welcome adventurer. I'm here to tell|you all about quests. Let's start by opening|the quest side panel.");
 %tutorial = ^newbie_quest_instructor_open_menu;
 ~set_tutorial_progress;
 

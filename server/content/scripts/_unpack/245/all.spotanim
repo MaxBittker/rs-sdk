@@ -1,29 +1,29 @@
 [mushroom_growing]
-model=mushroom_growing
+model=model_3593
 anim=mushroom_growing
 
 [pears_growing]
-model=pears_growing
+model=model_3600
 anim=pears_growing
 
 [leaves_growing]
-model=leaves_growing
+model=model_3591
 anim=leaves_growing
 
 [druidicspirit_bloom_spotanim]
-model=druidicspirit_bloom
+model=quest_naturespirit_spells_bloom
 anim=druidicspirit_bloom_spotanim
 ambient=30
 contrast=30
 
 [druidicspirit_bloom_player_spotanim]
-model=druidicspirit_bloom_player
+model=quest_naturespirit_spells_bloom_player
 anim=druidicspirit_bloom_player_spotanim
 ambient=30
 contrast=30
 
 [ghast_spotdeath]
-model=ghast
+model=quest_naturespirit_npc_ghast
 anim=ghast_spotdeath
 recol1s=15784
 recol1d=30655
@@ -39,7 +39,7 @@ recol6s=30651
 recol6d=30651
 
 [druidicspirit_effect]
-model=model_3116_spotanim
+model=spells_wave_impact
 anim=wave_impact
 recol1s=31297
 recol1d=14273
@@ -49,7 +49,7 @@ recol3s=30753
 recol3d=992
 
 [mortmyre_swampstench]
-model=model_3076_spotanim
+model=smokepuff
 anim=smokepuff
 resizeh=168
 resizev=168
@@ -57,7 +57,7 @@ recol1s=15855
 recol1d=14273
 
 [druid_shooting_star]
-model=model_3087_spotanim
+model=spells_blast_travel_missile
 anim=blast_travel
 recol1s=30753
 recol1d=320
@@ -67,7 +67,7 @@ recol3s=31297
 recol3d=14273
 
 [druidpouch_impact]
-model=model_3082_spotanim
+model=spells_strike_impact
 anim=strike_impact
 ambient=50
 contrast=50

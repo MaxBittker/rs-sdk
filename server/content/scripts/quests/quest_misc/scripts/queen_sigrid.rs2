@@ -1,0 +1,159 @@
+[opnpc1,misc_queen_sigrid]
+switch_int (%misc_quest) {
+    case 0 :
+        @queen_sigrid_quest_stage_0;
+    case 10 :
+        @queen_sigrid_quest_stage_10;
+    case 20 :
+        @queen_sigrid_quest_stage_20;
+    case 30 :
+        @queen_sigrid_quest_stage_30;
+    case 40 :
+        @queen_sigrid_quest_stage_40;
+    case 50 :
+        @queen_sigrid_quest_stage_50;
+    case 60 :
+        @queen_sigrid_quest_stage_60;
+    case 70, 80, 90 :
+        @queen_sigrid_quest_stage_70;
+    case 100 :
+        @queen_sigrid_quest_stage_100;
+}
+
+[opnpcu,misc_queen_sigrid]
+if(last_useitem = misc_awful_anthem | last_useitem = misc_good_anthem) {
+    p_opnpc(1);
+    return;
+}
+~displaymessage(^dm_default);
+
+[queue,sigrid_give_treaty]
+inv_del(inv, misc_good_anthem, ^max_32bit_int);
+inv_add(inv, misc_treaty, 1);
+
+[label,queen_sigrid_quest_stage_0]
+~chatnpc("<p,bored>Hello.");
+~chatplayer("<p,confused>Er...Hello, Your Majesty.");
+~chatnpc("<p,bored>Have you come for a particular reason? I am a busy Queen, you know. I had to attend the opening of a new orphanage this morning.");
+~chatplayer("<p,happy>Yes, I...");
+~chatnpc("<p,neutral>And this afternoon I shall be receiving the Embassador of Karamja and accompanying him on his week-long tour of Etceteria.");
+~chatplayer("<p,confused>Er, I...");
+~chatnpc("<p,happy>Then this evening we shall be putting on a grand ball! All of the kingdom's nobility will be present!");
+~chatplayer("<p,neutral>If I m...");
+~chatnpc("<p,sad>Oh, who am I kidding...nothing ever happens here. I always wanted to be a princess when I was a girl. If I'd been told it would be like this, I wouldn't have bothered.");
+~chatplayer("<p,angry>Your Majesty!");
+~chatnpc("<p,quiz>Yes? Did you want something?");
+~chatplayer("<p,neutral>...actually, no.");
+
+[label,queen_sigrid_quest_stage_10]
+~chatnpc("<p,bored>Hello.");
+~chatplayer("<p,confused>Er...Hello, Your Majesty.");
+~chatnpc("<p,bored>Have you come for a particular reason? I am a busy Queen, you know. I had to attend the opening of a new orphanage this morning.");
+~chatplayer("<p,happy>Yes, I...");
+~chatnpc("<p,neutral>And this afternoon I shall be receiving the Embassador of Karamja and accompanying him on his week-long tour of Etceteria.");
+~chatplayer("<p,confused>Er, I...");
+~chatnpc("<p,happy>Then this evening we shall be putting on a grand ball! All of the kingdom's nobility will be present!");
+~chatplayer("<p,neutral>If I m...");
+~chatnpc("<p,sad>Oh, who am I kidding...nothing ever happens here. I always wanted to be a princess when I was a girl. If I'd been told it would be like this, I wouldn't have bothered.");
+~chatplayer("<p,angry>Your Majesty!");
+~chatnpc("<p,quiz>Yes? Did you want something?");
+~chatplayer("<p,neutral>I have been sent by King Vargas to negotiate a treaty of peace between your two great nations.");
+~chatnpc("<p,quiz>Great nations? Don't make me laugh. Still, peace sounds like a nice idea. He will, of course, have to recognise Etceteria officially as a sovereign nation.");
+~chatplayer("<p,quiz>This isn't already the case?");
+~chatnpc("<p,neutral>I'm afraid not. Last time we met I called him a pompous old fool for thinking he was still worth anything as an adventurer.");
+~chatnpc("<p,sad>He promptly declared war, claiming the land of Etceteria belonged to Miscellania.");
+~chatnpc("<p,laugh>When he realised neither of us had an army, he was ever so angry!");
+~chatplayer("<p,quiz>What happened then?");
+~chatnpc("<p,neutral>He set off for the icelands to prove me wrong and, well, I expect you saw what happened to him.");
+if (%misc_quest = ^misc_talked_to_king) {
+    %misc_quest = ^misc_talked_to_queen;
+}
+~chatplayer("<p,neutral>I shall go ask him to officially recognise Etceteria.");
+
+[label,queen_sigrid_quest_stage_20]
+~chatnpc("<p,bored>Hello. Have you talked to Vargas yet?");
+~chatplayer("<p,neutral>Not yet, Your Majesty.");
+
+[label,queen_sigrid_quest_stage_30]
+~chatnpc("<p,bored>Hello. Have you talked to Vargas yet?");
+~chatplayer("<p,neutral>I have, Your Majesty. He says he will recognise the country when you change your anthem.");
+~chatnpc("<p,confused>What? But it's a great anthem, I composed it myself! Listen!");
+~chatnpc("<p,laugh>\"You're stupid, we're the best,|Etceteria beats the rest!|and Queen Sigrid is very pretty,|King Vargas is a fool, hey, nonny-nonny!\"");
+~chatplayer("<p,neutral>I'm afraid he insisted, Your Majesty.");
+~chatnpc("<p,sad>Well, it can't be helped I suppose...");
+~chatnpc("<p,confused>You'll have to find a bard to write a new one though. And there isn't a bard to be had for love nor money in Etceteria.");
+if (%misc_quest = 30) {
+    %misc_quest = 40;
+}
+~chatplayer("<p,neutral>I'll see what I can do, Your Majesty.");
+
+[label,queen_sigrid_quest_stage_40]
+~chatnpc("<p,bored>Hello. Have you found a new anthem yet?");
+@queen_sigrid_not_yet;
+
+[label,queen_sigrid_quest_stage_50]
+~chatnpc("<p,bored>Hello. Have you found a new anthem yet?");
+if (inv_total(inv, misc_awful_anthem) >= 1) {
+    @hasawfulanthem;
+} else {
+    @queen_sigrid_not_yet;
+}
+
+[label,hasawfulanthem]
+~chatplayer("<p,neutral>Yes, Your Majesty, but I'm afraid it isn't very good.");
+~chatnpc("<p,neutral>Let's see now...");
+~chatnpc("<p,laugh>'Etceteria, Etceteria,|Oh what a great country it is,|Etceteria, Etceteria,|So I wrote a song about it.'");
+~chatnpc("<p,laugh>'It's somewhere in the sea, And it looks very nice, If it weren't for your ancestors, It wouldn't be there at all,'");
+~chatnpc("<p,laugh>'And when things aren't going too well, We sing this lovely song, And then we'll all feel so much better, It won't take very long.'");
+~chatnpc("<p,angry>Oh dear, no, this simply won't do. Find a better one.");
+
+[label,queen_sigrid_quest_stage_60]
+~chatnpc("<p,bored>Hello. Have you found a new anthem yet?");
+if (inv_total(inv, misc_good_anthem) >= 1) {
+    @hasgoodanthem;
+} else if (inv_total(inv, misc_awful_anthem) >= 1) {
+    @hasawfulanthem;
+} else {
+    @queen_sigrid_not_yet;
+}
+
+[label,hasgoodanthem]
+~chatplayer("<p,neutral>Yes, Your Majesty.");
+~chatnpc("<p,neutral>Let's see now...");
+~chatnpc("<p,laugh>'Etceteria, Etceteria,|Of our country we are proud!|Etceteria, Etceteria,|Let all sing its name out loud!'");
+~chatnpc("<p,laugh>'Rising high above the water,|The jewel of the North!|Our mothers and our fathers,|To build this land came forth!'");
+~chatnpc("<p,laugh>'And in the times of darkness,|Sing praises of our land!|And in our hearts we can be sure,|Our victory is at hand!'");
+~chatnpc("<p,happy>Why, this is quite good! I'm surprised!");
+~chatnpc("<p,happy>Here is a treaty declaring what we've mutually agreed to. I've already signed, so all it needs is King Vargas' signature and it'll be official.");
+if (%misc_quest = 60) {
+    %misc_quest = 70;
+}
+queue(sigrid_give_treaty, 0, 0);
+
+[label,queen_sigrid_not_yet]
+~chatplayer("<p,sad>Not yet, Your Majesty.");
+
+[label,queen_sigrid_quest_stage_70]
+~chatnpc("<p,bored>Hello. Has Vargas signed the treaty yet?");
+if(%misc_quest = 90) {
+    ~chatplayer("<p,neutral>Yes he has, Your Majesty.");
+    ~chatnpc("<p,happy>Good, good.");
+} else if (%misc_quest = 80 | ~obj_gettotal(misc_treaty) > 0) {
+    @queen_sigrid_not_yet;
+} else {
+    ~chatplayer("<p,happy>I'm afraid I lost it, Your Majesty.");
+    queue(sigrid_give_treaty, 0, 0);
+    ~chatnpc("<p,neutral>How silly of you. I'll make you another.");
+}
+
+[label,queen_sigrid_quest_stage_100]
+// This is derived, and probably lost to time.
+~chatplayer("<p,neutral>Your Majesty.");
+// This is to continue onto Royal Trouble, but it seems out of place when Royal Trouble is not released yet.
+// ~chatplayer("<p,neutral>Your Majesty...");
+// ~chatnpc("<p,neutral>Vargas, you irritating fool. 'Warmongering harpy', indeed!");
+// ~chatplayer("<p,neutral>Sorry?");
+// ~chatnpc("<p,neutral>Oh, I apologise. I was merely thinking out loud.");
+~chatplayer("<p,neutral>How is your kingdom faring?");
+~chatnpc("<p,neutral>It could be better. Now, if you don't mind, I'm rather busy.");
+~chatplayer("<p,neutral>Very well, your Majesty.");

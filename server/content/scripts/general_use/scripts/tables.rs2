@@ -5,7 +5,7 @@ if (oc_tradeable(last_useitem) = false) {
 }
 
 anim(human_pickuptable, 0);
-sound_synth(put_down, 0, 0);
+sound_synth(put_down, 1, 0);
 
 def_coord $obj_coord = loc_coord;
 

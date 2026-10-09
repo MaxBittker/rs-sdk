@@ -1,7 +1,7 @@
 [bowl_tomato]
 name=Chopped tomato
 desc=A mixture of tomatoes in a bowl.
-model=model_2556_obj
+model=inv_bowl_chunks
 2dyof=4
 2dzoom=890
 2dyan=36
@@ -15,7 +15,7 @@ param=ugthanki_kebab_struct,chopped_tomato_kebab
 [bowl_onion]
 name=Chopped onion
 desc=A mixture of onions in a bowl.
-model=model_2556_obj
+model=inv_bowl_chunks
 2dyof=4
 2dzoom=890
 2dyan=36
@@ -29,7 +29,7 @@ param=ugthanki_kebab_struct,chopped_onion_kebab
 [bowl_ugthanki]
 name=Chopped ugthanki
 desc=Strips of ugthanki meat in a bowl.
-model=model_2556_obj
+model=inv_bowl_chunks
 2dyof=4
 2dzoom=890
 2dyan=36
@@ -42,7 +42,7 @@ param=ugthanki_kebab_struct,chopped_ugthanki_kebab
 [bowl_oniontomato]
 name=Onion & tomato
 desc=A mixture of chopped onions and tomatoes in a bowl.
-model=model_2556_obj
+model=inv_bowl_chunks
 2dyof=4
 2dzoom=890
 2dyan=36
@@ -56,7 +56,7 @@ param=ugthanki_kebab_struct,chopped_onion_tomato_kebab
 [bowl_ugthankionion]
 name=Ugthanki & onion
 desc=A mixture of chopped onions and ugthanki meat in a bowl.
-model=model_2556_obj
+model=inv_bowl_chunks
 2dyof=4
 2dzoom=890
 2dyan=36
@@ -69,7 +69,7 @@ param=ugthanki_kebab_struct,chopped_ugthanki_onion_kebab
 [bowl_ugthankitomato]
 name=Ugthanki & tomato
 desc=A mixture of chopped tomatoes and ugthanki meat in a bowl.
-model=model_2556_obj
+model=inv_bowl_chunks
 2dyof=4
 2dzoom=890
 2dyan=36
@@ -82,7 +82,7 @@ param=ugthanki_kebab_struct,chopped_ugthanki_tomato_kebab
 [bowl_oniontomugthanki]
 name=Kebab mix
 desc=A mixture of chopped tomatoes, onions and ugthanki meat in a bowl.
-model=model_2556_obj
+model=inv_bowl_chunks
 2dyof=4
 2dzoom=890
 2dyan=36
@@ -94,7 +94,7 @@ members=yes
 [ugthanki_kebab_bad]
 name=Ugthanki kebab
 desc=A strange smelling kebab made from ugthanki meat.
-model=model_2822_obj
+model=inv_kebab
 2dxof=4
 2dyof=1
 2dzoom=700
@@ -110,7 +110,7 @@ category=category_59
 [ugthanki_kebab]
 name=Ugthanki kebab
 desc=A fresh kebab made from ugthanki meat.
-model=model_2822_obj
+model=inv_kebab
 2dxof=4
 2dyof=1
 2dzoom=700

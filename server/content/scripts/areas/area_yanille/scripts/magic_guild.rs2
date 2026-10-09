@@ -3,8 +3,8 @@ if(npc_find(coord, wizard_frumscone, 12, 0) = true) {
     ~chatnpc("<p,neutral>You can't attack the Zombies in the room, my Zombies are for magic target practice only and should be attacked from the other side of the fence.");
 } 
 
-[oploc1,loc_1600] @open_mageguild_door(^left);
-[oploc1,loc_1601] @open_mageguild_door(^right);
+[oploc1,magicguild_door_l] @open_mageguild_door(^left);
+[oploc1,magicguild_door_r] @open_mageguild_door(^right);
 
 [label,open_mageguild_door](int $side)
 def_boolean $entering = ~check_axis_locactive(coord);

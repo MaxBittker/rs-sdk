@@ -1,13 +1,13 @@
 [wildinlever]
 name=Lever
 desc=I wonder what this does...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull
 
 [wildoutlever]
 name=Lever
 desc=I wonder what this does...
-model=model_loc_34
+model=walldecor_leverup
 active=yes
 op1=Pull

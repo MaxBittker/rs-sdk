@@ -1,0 +1,36 @@
+[proc,random_nonsense]()(string)
+switch_int (random(14)) {
+    case 0 : return ("Beards? Dangerous, flammable and make you look mad!");
+    case 1 : return ("Care to sign my petition for pet frogs?");
+    case 2 : return ("Cattle prod? Weapon of choice I reckon.");
+    case 3 : return ("Don't threaten me with a dead fish!");
+    case 4 : return ("He is clearly 1 cup short of a full service.");
+    case 5 : return ("I'm a little teapot, short and stout...");
+    case 6 : return ("I'm rubber you're glue.........!");
+    case 7 : return ("Lies!!! It's all lies!!!");
+    case 8 : return ("Look over there! A King Black Dragon!");
+    case 9 : return ("Lumbridge? No, I wouldn't be seen dead there.");
+    case 10 : return ("Nah, that Kalphite was weedier than your garden.");
+    case 11 : return ("Selling ring of poverty 30 mil!");
+    case 12 : return ("Sneaky sneaky stick da chompy.");
+    case 13 : return ("What level do you need to cook cats?");
+}
+
+// Miscellania dating does a randomized multi4, the first 3 are in random order, and the 4th is always nonsense.
+// This is a direction modification of @multi4
+[label,multi4miscrand](string $string1, label $label1, string $string2, label $label2, string $string3, label $label3)
+def_string $nonsense = ~random_nonsense();
+def_int $choice = 0;
+switch_int (random(6)) { // permutate the first 3 choices.
+    case 0 : $choice = ~p_choice4($string1, 1, $string2, 2, $string3, 3, $nonsense, 4);
+    case 1 : $choice = ~p_choice4($string1, 1, $string3, 3, $string2, 2, $nonsense, 4);
+    case 2 : $choice = ~p_choice4($string2, 2, $string1, 1, $string3, 3, $nonsense, 4);
+    case 3 : $choice = ~p_choice4($string2, 2, $string3, 3, $string1, 1, $nonsense, 4);
+    case 4 : $choice = ~p_choice4($string3, 3, $string1, 1, $string2, 2, $nonsense, 4);
+    case 5 : $choice = ~p_choice4($string3, 3, $string2, 2, $string1, 1, $nonsense, 4);
+}
+if ($choice = 1) jump($label1);
+if ($choice = 2) jump($label2);
+if ($choice = 3) jump($label3);
+~chatplayer("<p,happy><$nonsense>"); // Unless otherwise, I'm setting all nonsense strings to happy.
+~chatnpc("<p,confused>...What?");

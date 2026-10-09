@@ -47,21 +47,21 @@ if(inv_total(inv, coins) >= 21 & inv_total(inv, coins) < 101) {
     inv_del(inv, coins, 5);
     ~chatnpc("<p,angry>Oh, you like to call a witch names do you?");
     npc_anim(human_pickpocket, 0);
-    sound_synth(pick, 0, 0);
+    sound_synth(pick, 1, 0);
     ~objbox(coins_250, "Aggie waves her hands about, and you seem to be 5 coins poorer.", 250, 0, divide(^objbox_height, 2));
     ~chatnpc("<p,neutral>That's a fine for insulting a witch. You should learn some respect.");
 } else if(inv_total(inv, coins) >= 101) {
     inv_del(inv, coins, 20);
     ~chatnpc("<p,angry>Oh, you like to call a witch names do you?");
     npc_anim(human_pickpocket, 0);
-    sound_synth(pick, 0, 0);
+    sound_synth(pick, 1, 0);
     ~objbox(coins_250, "Aggie waves her hands about, and you seem to be 20 coins poorer.", 250, 0, divide(^objbox_height, 2));
     ~chatnpc("<p,neutral>That's a fine for insulting a witch. You should learn some respect.");
 } else if(inv_total(inv, pot_flour) >= 1) {
     inv_del(inv, pot_flour, 1);
     ~chatnpc("<p,angry>Oh, you like to call a witch names do you?");
     npc_anim(human_pickpocket, 0);
-    sound_synth(pick, 0, 0);
+    sound_synth(pick, 1, 0);
     ~objbox(pot_flour, "Aggie waves her hands near you, and you seem to have lost some flour.", 250, 0, divide(^objbox_height, 2));
     ~chatnpc("<p,neutral>Thank you for your kind present of flour.|I am sure you never meant to insult me.");
 } else {

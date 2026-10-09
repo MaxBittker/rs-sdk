@@ -52,7 +52,7 @@ if_close;
 cam_reset;
 p_teleport(map_findsquare(^trawler_lobby_murphy_spawn, 0, 4, ^map_findsquare_lineofwalk));
 
-[oploc1,game_trawler_reward_net]
+[oploc1,trawlernetland]
 if (%trawler < 3 | %trawler_catch = 0) {
     ~chatplayer("<p,neutral>I'd better not steal other people's fish!"); // osrs and rs3
     return;

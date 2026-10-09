@@ -1,165 +1,165 @@
-[woman_hair_bald]
+[woman_head_bald]
 type=woman_hair
-head1=model_120_idk_head
-model1=model_403_idk
+head1=chat_female_head_bald
+model1=woman_head_bald
 
-[woman_hair_bun]
+[woman_head_bun]
 type=woman_hair
-head1=model_103_idk_head
-model1=model_378_idk
+head1=chat_female_head_bun
+model1=woman_head_bun
 
-[woman_hair_dreadlocks]
+[woman_head_dredlocks]
 type=woman_hair
-head1=model_110_idk_head
-model1=model_387_idk
+head1=chat_female_head_dredlocks
+model1=woman_head_dredlocks
 
-[woman_hair_long]
+[woman_head_longhair]
 type=woman_hair
-head1=model_113_idk_head
-model1=model_390_idk
+head1=chat_female_head_longhair
+model1=woman_head_longhair
 
-[woman_hair_medium]
+[woman_head_mediumhair]
 type=woman_hair
-head1=model_115_idk_head
-model1=model_393_idk
+head1=chat_female_head_mediumhair
+model1=woman_head_mediumhair
 
-[woman_hair_pigtails]
+[woman_head_pigtails]
 type=woman_hair
-head1=model_118_idk_head
-model1=model_399_idk
+head1=chat_female_head_pigtails
+model1=woman_head_pigtails
 
-[woman_hair_short]
+[woman_head_shorthair]
 type=woman_hair
-head1=model_114_idk_head
-model1=model_391_idk
+head1=chat_female_head_shorthair
+model1=woman_head_shorthair
 
-[woman_hair_cropped]
+[woman_head_shorthair2]
 type=woman_hair
-head1=model_125_idk_head
-model1=model_408_idk
+head1=chat_female_head_shorthair2
+model1=woman_head_shorthair2
 
-[woman_hair_wildspikes]
+[woman_head_spikeyhair]
 type=woman_hair
-head1=model_105_idk_head
-model1=model_382_idk
+head1=chat_female_head_spikeyhair
+model1=woman_head_spikeyhair
 
-[woman_hair_spikes]
+[woman_head_spikeyhair2]
 type=woman_hair
-head1=model_104_idk_head
-model1=model_379_idk
+head1=chat_female_head_spikeyhair2
+model1=woman_head_spikeyhair2
 
-[idk_55]
+[woman_head_demon]
 disable=yes
 type=woman_hair
-head1=model_104_idk_head
-model1=model_379_idk
+head1=chat_female_head_spikeyhair2
+model1=woman_head_spikeyhair2
 
-[woman_torso_plain]
+[woman_torso_basic]
 type=woman_torso
-model1=model_456_idk
+model1=woman_torso_basic
 
-[woman_torso_crop_top]
+[woman_torso_basic2]
 type=woman_torso
-model1=model_469_idk
+model1=woman_torso_basic2
 
-[woman_torso_polo_neck]
+[woman_torso_basic3]
 type=woman_torso
-model1=model_470_idk
+model1=woman_torso_basic3
 
-[woman_torso_simple]
+[woman_torso_basic4]
 type=woman_torso
-model1=model_471_idk
+model1=woman_torso_basic4
 
-[woman_torso_torn]
+[woman_torso_tatty]
 type=woman_torso
-model1=model_474_idk
+model1=woman_torso_tatty
 
-[woman_arms_short_sleeves]
+[woman_arms_basic]
 type=woman_arms
-model1=model_332_idk
+model1=woman_arms_basic
 
-[woman_arms_bare_arms]
+[woman_arms_bare_braceless]
 type=woman_arms
-model1=model_351_idk
+model1=woman_arms_bare
 
-[woman_arms_muscley]
+[woman_arms_buff]
 type=woman_arms
-model1=model_346_idk
+model1=woman_arms_buff
 
-[woman_arms_long_sleeved]
+[woman_arms_longsleeves]
 type=woman_arms
-model1=model_348_idk
+model1=woman_arms_longsleeves
 
-[woman_arms_large_cuffs]
+[woman_arms_longsleeves2]
 type=woman_arms
-model1=model_343_idk
+model1=woman_arms_longsleeves2
 
-[idk_66]
+[woman_arms_demon]
 disable=yes
 type=woman_arms
-model1=model_343_idk
+model1=woman_arms_longsleeves2
 
-[idk_67]
+[woman_hands_cuffed]
 type=woman_hands
-model1=model_353_idk
+model1=woman_hands_basic
 
-[idk_68]
+[woman_hands_basic]
 type=woman_hands
 recol1s=14801
 recol1d=24075
-model1=model_353_idk
+model1=woman_hands_basic
 
-[idk_69]
+[woman_hands_demon]
 disable=yes
 type=woman_hands
-model1=model_353_idk
+model1=woman_hands_basic
 
-[woman_legs_plain]
+[woman_legs_basic]
 type=woman_legs
-model1=model_419_idk
+model1=woman_legs_basic
 
-[woman_legs_shorts]
+[woman_legs_basic2]
 type=woman_legs
-model1=model_433_idk
+model1=woman_legs_basic2
 
 [woman_legs_flares]
 type=woman_legs
-model1=model_431_idk
+model1=woman_legs_flares
 
-[woman_legs_turn_ups]
+[woman_legs_longskirt]
 type=woman_legs
-model1=model_428_idk
+model1=woman_legs_longskirt
 
-[woman_legs_turn_ups_2]
+[woman_legs_longskirt_narrow]
 type=woman_legs
-model1=model_421_idk
+model1=woman_legs_longskirt_narrow
 
-[woman_legs_turn_ups_3]
+[woman_legs_tatty]
 type=woman_legs
-model1=model_438_idk
+model1=woman_legs_tatty
 
-[woman_legs_turn_ups_4]
+[woman_legs_turnups]
 type=woman_legs
-model1=model_437_idk
+model1=woman_legs_turnups
 
-[woman_legs_turn_ups_5]
+[woman_legs_shortskirt]
 type=woman_legs
-model1=model_429_idk
+model1=woman_legs_shortskirt
 
-[idk_78]
+[woman_legs_demon]
 disable=yes
 type=woman_legs
-model1=model_429_idk
+model1=woman_legs_shortskirt
 
-[idk_79]
+[woman_feet_basic]
 type=woman_feet
-model1=model_358_idk
+model1=woman_feet_basic
 
-[idk_80]
+[woman_feet_elfboots]
 type=woman_feet
-model1=model_360_idk
+model1=woman_feet_elfboots
 
-[idk_81]
+[woman_feet_demon]
 disable=yes
 type=woman_feet
-model1=model_360_idk
+model1=woman_feet_elfboots

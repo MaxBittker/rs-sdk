@@ -1,26 +1,26 @@
 [death_camp_roof_inner]
-model=loc_3653
+model=quest_death_trollcamp_roof_inner
 recol1s=22126
 recol1d=21071
 sharelight=yes
 active=no
 
 [death_camproof_support]
-model=loc_3654
+model=quest_death_trollcamp_roof_support
 recol1s=22126
 recol1d=21071
 sharelight=yes
 active=no
 
 [death_camproof_ripped]
-model=loc_3655
+model=quest_death_trollcamp_roof_ripped
 recol1s=22126
 recol1d=21071
 sharelight=yes
 active=no
 
 [death_camproof_ripped_left]
-model=loc_3655
+model=quest_death_trollcamp_roof_ripped
 recol1s=22126
 recol1d=21071
 sharelight=yes
@@ -28,35 +28,35 @@ active=no
 mirror=yes
 
 [death_campwall1]
-model=loc_3657
+model=quest_death_trollcamp_wall1
 recol1s=12684
 recol1d=8422
 active=no
 blockrange=no
 
 [death_campwall2]
-model=loc_3658
+model=quest_death_trollcamp_wall2
 recol1s=12684
 recol1d=8422
 active=no
 blockrange=no
 
 [death_campwall3]
-model=loc_3659
+model=quest_death_trollcamp_wall3
 recol1s=12684
 recol1d=8422
 active=no
 blockrange=no
 
 [death_campwall1_support]
-model=loc_3660
+model=quest_death_trollcamp_wall1_support
 recol1s=12684
 recol1d=8422
 active=no
 blockrange=no
 
 [death_campwall1_corner]
-model=loc_3661
+model=quest_death_trollcamp_wall1_corner
 recol1s=12684
 recol1d=8422
 active=no
@@ -65,7 +65,7 @@ blockrange=no
 [death_troll_cauldron]
 name=Troll Stew
 desc=Smells more like "innocent villager" stew to me...
-model=model_loc_692
+model=furniture_cauldron
 recol1s=544
 recol1d=23181
 recol2s=320
@@ -78,7 +78,7 @@ resizey=192
 resizez=192
 
 [death_troll_spearwall]
-model=model_loc_848
+model=quest_spearwall
 recol1s=15649
 recol1d=14729
 recol2s=12513
@@ -94,7 +94,7 @@ blockrange=no
 active=no
 
 [death_troll_spearwall_straight]
-model=model_loc_2067
+model=castle_spearwall_row
 recol1s=15649
 recol1d=14729
 recol2s=12513
@@ -111,7 +111,7 @@ active=no
 [death_trollleftovers]
 name=Bones
 desc=Troll leftovers...
-model=model_loc_659
+model=wilderness_charredbones
 recol1s=21140
 recol1d=23217
 recol2s=19026
@@ -129,39 +129,39 @@ blockwalk=no
 blockrange=no
 
 [death_trollbloodsplat1]
-model=model_loc_652
+model=floor_bloodsplatter1
 recol1s=10240
 recol1d=8290
 
 [death_trollbloodsplat2]
-model=model_loc_653
+model=floor_bloodsplatter2
 recol1s=10240
 recol1d=8290
 
 [death_trollbloodsplat3]
-model=model_loc_654
+model=floor_bloodsplatter3
 recol1s=10240
 recol1d=8290
 
 [death_trollrocksupply]
-model=loc_3669
+model=quest_death_troll_rocksupply
 active=no
 blockrange=no
 
 [death_tentroof]
-model=model_loc_1670
+model=tent_roof2
 recol1s=26425
 recol1d=3171
 sharelight=yes
 
 [death_tentroof_corner]
-model=loc_3671
+model=tent_roof4
 recol1s=26425
 recol1d=3171
 sharelight=yes
 
 [death_tentwall]
-model=model_loc_1673
+model=tent_wall2
 recol1s=26425
 recol1d=3171
 recol2s=9216
@@ -170,20 +170,20 @@ sharelight=yes
 occlude=yes
 
 [death_tentdoor]
-model=model_loc_1678
+model=tent_door4
 recol1s=26425
 recol1d=3171
 sharelight=yes
 blockwalk=no
 
 [death_tentroofcentre]
-model=model_loc_1683
+model=tent_roofcentre2
 recol1s=26425
 recol1d=3171
 sharelight=yes
 
 [death_guideropes]
-model=model_loc_1680
+model=tent_guideropes1
 recol1s=15855
 recol1d=2114
 active=no
@@ -191,26 +191,26 @@ active=no
 [death_stone_mechanism_corner]
 name=Stone Mechanism
 desc=A stone mechanism that unlocks the equipment room.
-model=loc_3676
+model=quest_death_stone_mechanism_corner
 blockrange=no
 active=yes
 
 [death_stone_mechanism_side]
 name=Stone Mechanism
 desc=A stone mechanism that unlocks the equipment room.
-model=loc_3677
+model=quest_death_stone_mechanism_side
 blockrange=no
 active=yes
 
 [death_toadandchickensign]
-model=loc_3678
+model=quest_death_toadandchickensign
 ambient=70
 contrast=70
 
 [death_burthorpe_standard]
 name=Standard
 desc=A standard of Asgarnia.
-model=model_loc_863
+model=outdoorfurniture_standard1_asgarnia
 recol1s=26
 recol1d=10580
 recol2s=29596
@@ -219,7 +219,7 @@ recol2d=22197
 [death_burthorpe_flag]
 name=Flagpole
 desc=The flag of Asgarnia.
-model=model_loc_860
+model=outdoorfurniture_flagpole_asgarnia
 recol1s=25
 recol1d=10580
 recol2s=29596
@@ -231,21 +231,21 @@ anim=flagpole
 [death_burthoropesignpost]
 name=Signpost
 desc=Town of Burthorpe
-model=model_loc_1034
+model=outdoorfurniture_signpost2
 ambient=40
 contrast=40
 blockrange=no
 
 [death_castlestep_sides1]
-model=loc_3682
+model=quest_death_castlestep_sides1
 active=no
 
 [death_castlestep_sides2]
-model=loc_3683
+model=quest_death_castlestep_sides2
 active=no
 
 [death_skewsteps]
-model=model_loc_1862
+model=furniture_skewsteps2
 recol1s=15855
 recol1d=8456
 hillskew=yes
@@ -256,7 +256,7 @@ ambient=15
 [death_boxes_1]
 name=Boxes
 desc=A pile of boxes for storage.
-model=model_loc_359
+model=warehouse_shop_boxes
 retex1s=wood2
 retex1d=elfwood
 blockrange=no
@@ -266,7 +266,7 @@ category=empty_boxes
 [death_boxes_2]
 name=Boxes
 desc=A pile of boxes for storage.
-model=model_2139
+model=warehouse_shop_boxes2
 retex1s=wood2
 retex1d=elfwood
 blockrange=no
@@ -276,7 +276,7 @@ category=empty_boxes
 [death_boxes_3]
 name=Boxes
 desc=A pile of boxes for storage.
-model=model_2140
+model=warehouse_shop_boxes3
 retex1s=wood2
 retex1d=elfwood
 blockrange=no
@@ -292,24 +292,24 @@ model=loc_3689
 sharelight=yes
 
 [death_stonehutroof]
-model=loc_3690
+model=quest_death_stonehut_roof
 sharelight=yes
 
 [death_stonehutroofb]
-model=loc_3691
+model=quest_death_stonehut_roofb
 sharelight=yes
 
 [death_pileofrope]
 name=Climbing Rope
 desc=Some of the Sherpa's climbing rope.
-model=model_loc_227
+model=ship_pileofrope2
 blockwalk=no
 blockrange=no
 ambient=30
 contrast=30
 
 [death_ig_clothesrack]
-model=loc_3693
+model=quest_death_clothesrack
 recol1s=13600
 recol1d=0
 active=no
@@ -317,11 +317,11 @@ active=no
 [death_crate_dualclaws]
 name=Crate
 desc=Looks like the Imperial Guard's supply of Dual Claws.
-model=loc_3694
+model=quest_death_crate_dualclaws
 blockrange=no
 
 [death_helmet_rack]
-model=loc_3695
+model=quest_death_helmet_rack2
 recol1s=15855
 recol1d=0
 active=no
@@ -329,7 +329,7 @@ active=no
 [death_suitofarmour]
 name=Suit of armour
 desc=The Imperial Guard's cerimonial armour.
-model=model_loc_817
+model=furniture_suitofarmour
 recol1s=15360
 recol1d=8456
 recol2s=15855
@@ -346,7 +346,7 @@ recol6d=0
 [death_barrel_swords]
 name=Barrel
 desc=A barrel full of swords...
-model=model_loc_718
+model=furniture_barrel_swords
 recol1s=31649
 recol1d=6342
 recol2s=15855
@@ -355,31 +355,31 @@ recol3s=31457
 recol3d=6342
 
 [death_grass_1]
-model=model_loc_1253
+model=floor_grounddetail-1
 recol1s=352
 recol1d=7493
 hillskew=yes
 
 [death_grass_2]
-model=model_loc_1254
+model=floor_grounddetail-2
 recol1s=352
 recol1d=7493
 hillskew=yes
 
 [death_grass_3]
-model=model_loc_1255
+model=floor_grounddetail-3
 recol1s=352
 recol1d=7493
 hillskew=yes
 
 [death_grass_4]
-model=model_loc_1256
+model=floor_grounddetail-4
 recol1s=352
 recol1d=7493
 hillskew=yes
 
 [death_dugupsoil_1]
-model=model_loc_184
+model=floor_dugupsoil1
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -390,7 +390,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_2]
-model=model_loc_185
+model=floor_dugupsoil2
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -401,7 +401,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_3]
-model=model_loc_186
+model=floor_dugupsoil3
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -412,7 +412,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_dark_1]
-model=model_loc_184
+model=floor_dugupsoil1
 recol1s=13505
 recol1d=8454
 recol2s=15586
@@ -423,7 +423,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_dark_2]
-model=model_loc_185
+model=floor_dugupsoil2
 recol1s=13505
 recol1d=8454
 recol2s=15586
@@ -434,7 +434,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_dark_3]
-model=model_loc_186
+model=floor_dugupsoil3
 recol1s=13505
 recol1d=8454
 recol2s=15586
@@ -445,7 +445,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_light_1]
-model=model_loc_184
+model=floor_dugupsoil1
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -456,7 +456,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_light_2]
-model=model_loc_185
+model=floor_dugupsoil2
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -467,7 +467,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_light_3]
-model=model_loc_186
+model=floor_dugupsoil3
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -478,7 +478,7 @@ hillskew=yes
 active=no
 
 [death_dugupsoil_squished_1]
-model=model_loc_1798
+model=floor_dugupsoil1_squished
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -488,7 +488,7 @@ recol3d=10535
 hillskew=yes
 
 [death_dugupsoil_squished_2]
-model=model_loc_1799
+model=floor_dugupsoil2_squished
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -498,7 +498,7 @@ recol3d=10535
 hillskew=yes
 
 [death_dugupsoil_squished_3]
-model=model_loc_1800
+model=floor_dugupsoil3_squished
 recol1s=13505
 recol1d=11592
 recol2s=15586
@@ -508,13 +508,13 @@ recol3d=10535
 hillskew=yes
 
 [death_mountainrocks_1]
-model=loc_3714
+model=quest_death_mountain_rocks1
 active=no
 hillskew=yes
 blockrange=no
 
 [death_mountainrocks_1_large]
-model=loc_3714
+model=quest_death_mountain_rocks1
 active=no
 width=2
 length=2
@@ -525,7 +525,7 @@ resizez=256
 blockrange=no
 
 [death_rockslide1]
-model=model_loc_471
+model=cavern_rockslide1
 recol1s=12580
 recol1d=8454
 width=2
@@ -536,7 +536,7 @@ hillskew=yes
 mapscene=11
 
 [death_rockslide2]
-model=model_loc_472
+model=cavern_rockslide2
 recol1s=12580
 recol1d=8454
 width=2
@@ -547,7 +547,7 @@ blockrange=no
 mapscene=11
 
 [death_rockslide3]
-model=model_loc_473
+model=cavern_rockslide3
 recol1s=12580
 recol1d=8454
 width=2
@@ -559,7 +559,7 @@ hillskew=yes
 mapscene=12
 
 [death_rockslide4]
-model=model_loc_474
+model=cavern_rockslide4
 recol1s=12580
 recol1d=8454
 width=2
@@ -571,13 +571,13 @@ hillskew=yes
 mapscene=12
 
 [death_rockslide5]
-model=model_loc_475
+model=cavern_rockslide5
 recol1s=12580
 recol1d=8454
 hillskew=yes
 
 [death_rockslide6]
-model=model_loc_476
+model=cavern_rockslide6
 recol1s=12580
 recol1d=8454
 hillskew=yes
@@ -585,7 +585,7 @@ hillskew=yes
 [death_climbingrocks_top]
 name=Rocks
 desc=A rocky outcrop.
-model=model_loc_2231
+model=quest_climbingrocks
 recol1s=12580
 recol1d=8454
 hillskew=yes
@@ -594,7 +594,7 @@ op1=Climb
 [death_climbingrocks_bottom]
 name=Rocks
 desc=A rocky outcrop.
-model=model_loc_2232
+model=quest_climbingrocks2
 recol1s=12580
 recol1d=8454
 hillskew=yes
@@ -602,7 +602,7 @@ forcedecor=yes
 op1=Climb
 
 [death_climbingrocks_falloff]
-model=model_loc_2233
+model=quest_climbingrocks3
 recol1s=12580
 recol1d=8454
 hillskew=yes
@@ -611,7 +611,7 @@ forcedecor=yes
 [death_fencegate_l]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=10502
 op1=Open
@@ -623,7 +623,7 @@ param=next_loc_stage,death_openfencegate_l
 [death_fencegate_r]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=10502
 mirror=yes
@@ -636,7 +636,7 @@ param=next_loc_stage,death_openfencegate_r
 [death_openfencegate_l]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=10502
 op1=Close
@@ -648,7 +648,7 @@ param=next_loc_stage,death_fencegate_l
 [death_openfencegate_r]
 name=Gate
 desc=A wooden gate.
-model=model_loc_47
+model=fence_gateclosedl
 recol1s=12480
 recol1d=10502
 mirror=yes
@@ -659,7 +659,7 @@ category=gate_outer_open
 param=next_loc_stage,death_fencegate_r
 
 [death_fencing]
-model=model_loc_980
+model=fence
 recol1s=10400
 recol1d=10502
 recol2s=10401
@@ -671,7 +671,7 @@ blockrange=no
 [death_fullstyle]
 name=Stile
 desc=I can climb over the fence with this.
-model=model_loc_993
+model=fence_fullstyle
 recol1s=10400
 recol1d=10502
 recol2s=10401
@@ -682,13 +682,13 @@ op1=Climb-over
 blockrange=no
 
 [death_wall_support]
-model=model_loc_3181
+model=arena_wall_support
 recol1s=12580
 recol1d=10502
 active=no
 
 [death_wood_wall_barricadel]
-model=model_loc_1771
+model=wooden_wall_barricadel
 recol1s=15718
 recol1d=10502
 recol2s=14661
@@ -701,13 +701,13 @@ sharelight=yes
 hillskew=yes
 
 [death_bucket]
-model=model_loc_513
+model=floor_mining_bucket
 recol1s=15855
 recol1d=11592
 blockrange=no
 
 [death_spade]
-model=model_loc_514
+model=outdoorfurniture_mining_spade
 recol1s=14798
 recol1d=11592
 blockrange=no
@@ -715,7 +715,7 @@ blockrange=no
 [death_hermitcave_entrance]
 name=Cave Entrance
 desc=Looks like small cave.
-model=model_loc_2
+model=cave_entrance3
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -734,7 +734,7 @@ op1=Enter
 [death_hermitcave_exit]
 name=Cave Exit
 desc=The exit to the outside.
-model=loc_3736
+model=quest_death_caveexit
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -755,14 +755,14 @@ sharelight=yes
 op1=Exit
 
 [death_mountain_cavewall_face1]
-model=model_loc_1417
+model=cavern_cavewall_face1
 recol1s=12580
 recol1d=11592
 sharelight=yes
 hillskew=yes
 
 [death_mountain_cavewall_top]
-model=model_loc_1434
+model=cavern_cavewall_top_dark
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -770,7 +770,7 @@ hillskew=yes
 active=no
 
 [death_mountain_cavewall_top5]
-model=model_loc_1435
+model=cavern_cavewall_top5
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -778,7 +778,7 @@ hillskew=yes
 active=no
 
 [death_mountaincavewall_top_higher]
-model=model_loc_1436
+model=cavern_cavewall_top5_high
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -788,7 +788,7 @@ active=no
 [death_dangersign]
 name=Danger sign
 desc=No solicitors!
-model=model_loc_1032
+model=outdoorfurniture_dangersign
 recol1s=10400
 recol1d=8421
 recol2s=32767
@@ -806,7 +806,7 @@ blockrange=no
 [death_castledoor]
 name=Large door
 desc=A sturdy wooden door.
-model=model_loc_1512
+model=castle_wall
 retex1s=wall
 retex1d=door2
 recol2s=6342
@@ -814,7 +814,7 @@ recol2d=11458
 op1=Open
 
 [castledoor_inactive]
-model=model_loc_1512
+model=castle_wall
 retex1s=wall
 retex1d=door2
 recol2s=6342
@@ -824,7 +824,7 @@ active=no
 [death_sherpa_door]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=door
 recol2s=6342
@@ -835,7 +835,7 @@ op1=Open
 [death_sherpa_backdoor]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=door
 recol2s=6342
@@ -846,7 +846,7 @@ op1=Open
 [death_harold_door]
 name=Door
 desc=A nicely fitted door.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=door2
 recol2s=6342

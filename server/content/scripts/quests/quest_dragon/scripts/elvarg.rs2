@@ -68,7 +68,7 @@ if (random(4) = 0) {
 if_close;
 spotanim_npc(firebreath_attack, 92, 0);
 npc_anim(dragon_firebreath_middle_attack, 0);
-sound_synth(dragonbreath, 0, 30);
+sound_synth(dragonbreath, 1, 30);
 %npc_action_delay = add(map_clock, 4);
 
 // damage player
@@ -86,7 +86,7 @@ queue*(playerhit_n_retaliate, 0)(npc_uid);
 [proc,elvarg_dragon_fire_ap] // https://youtu.be/2TJp-tnFyxc?list=PLn23LiLYLb1aqrojPTi1_Np81LJku2Nd0&t=44
 if_close;
 npc_anim(dragon_firebreath_middle_attack, 0);
-sound_synth(fire_wave_all, 0, 0);
+sound_synth(fire_wave_all, 1, 0);
 %npc_action_delay = add(map_clock, 4);
 
 // yes its south west tile, as shorn in https://youtu.be/2TJp-tnFyxc?list=PLn23LiLYLb1aqrojPTi1_Np81LJku2Nd0&t=44

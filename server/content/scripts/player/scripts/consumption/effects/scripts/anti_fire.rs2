@@ -1,5 +1,5 @@
 [label,consume_effect_antidragon]
-sound_synth(liquid, 0, 0);
+sound_synth(liquid, 1, 0);
 anim(human_eat, 0);
 def_obj $consumable = last_item;
 %dragonresist = calc(map_clock + 600);

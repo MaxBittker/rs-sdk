@@ -21,7 +21,7 @@ cam_lookat(coord, 250, 100, 100);
 p_delay(1);
 facesquare(loc_coord);
 anim(human_throw_gnomeball, 0);
-sound_synth(throw, 0, 10);
+sound_synth(throw, 1, 10);
 def_coord $land_coord = ~gnomeball_shoot_random(loc_coord);
 def_int $duration = ~coord_projectile(coord, $land_coord, gnomeball_travel, 40, 2, 41, 15, 0, 11, 5);
 

@@ -12,7 +12,7 @@ npc_add($event_coord, $event, 1000); // guess
 npc_say("Rrrraaarrrrggghhhh, flee human!"); // https://youtu.be/vL0-EwN076w?list=PLn23LiLYLb1bQ7Hwp77KoNBjKvpZQTfJT&t=135
 %npc_macro_event_target = uid;
 %macro_event = ^no_macro_event;
-sound_synth(rock_spirit_appear, 0, 0);
+sound_synth(rock_spirit_appear, 1, 0);
 npc_delay(2);
 %aggressive_npc = npc_uid; // interupt the player if they're in combat https://youtu.be/tw66JWQzpD0?t=32
 npc_setmode(opplayer2);
@@ -46,7 +46,7 @@ if_close;
 npc_anim(golem_attack, 0);
 // todo: find projectile id
 def_int $delay = ~player_projectile(npc_coord, coord, uid, dwarf_stone_throw_launch, 30, 15, 120, 0, 5, 30, 0);
-sound_synth(golem_attack, 0, 120);
+sound_synth(golem_attack, 1, 120);
 
 def_int $attack_roll = ~npc_ranged_attack_roll;
 def_int $defence_roll = ~player_defence_roll_specific(^ranged_style);

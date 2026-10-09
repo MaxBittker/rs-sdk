@@ -9,19 +9,19 @@ p_teleport(0_44_55_42_57);
 [oploc1,death_harold_door]
 def_boolean $leaving = ~check_axis(coord, loc_coord, loc_angle);
 if($leaving = false) {
-    ~open_and_close_door2(poordoor, $leaving, door_open); // nicedoor_open
+    ~open_and_close_door2(loc_1535, $leaving, door_open); // nicedoor_open
     return;
 }
 if(%death_equiproom < ^death_spoken_headservant) { 
     ~chatplayer("<p,neutral>I'd better not go into someone's bedroom without a reason!");
     return;
 }
-sound_synth(knock_knock, 0, 0);
+sound_synth(knock_knock, 1, 0);
 ~mesbox("You knock on the door.");
 if(npc_find(coord, death_guard_equiproom, 7, 0) = true) {
     ~chatnpc("<p,neutral>Come in!");
     if_close;
-    ~open_and_close_door2(poordoor, $leaving, door_open); // nicedoor_open
+    ~open_and_close_door2(loc_1535, $leaving, door_open); // nicedoor_open
 }
 
 [opheld1,death_iou]
@@ -46,24 +46,24 @@ if_openmain(messagescroll_handwriting);
 [oploc1,death_sherpa_door]
 def_boolean $leaving = ~check_axis(coord, loc_coord, loc_angle);
 if($leaving = true | ~death_get_map >= ^death_spoken_tenzing) {
-    ~open_and_close_door2(desertdoor_inactive, $leaving, door_open); // open door loc isnt in this version?
+    ~open_and_close_door2(loc_1532, $leaving, door_open); // open door loc isnt in this version?
     return;
 }
-sound_synth(knock_knock, 0, 0);
+sound_synth(knock_knock, 1, 0);
 ~mesbox("You knock on the door.");
 if(npc_find(coord, death_sherpa, 5, 0) = true) {
     ~chatnpc("<p,angry>No milk today! Thank you!");
     if(~death_get_map >= ^death_spoken_saba) {
         ~chatplayer("<p,neutral>I'm not the milkman, I need your help!");
         ~chatnpc("<p,neutral>Oh...OK. You'd better come in then.");
-        ~open_and_close_door2(desertdoor_inactive, $leaving, door_open); // open door loc isnt in this version?
+        ~open_and_close_door2(loc_1532, $leaving, door_open); // open door loc isnt in this version?
     }
 }
 
 [oploc1,death_sherpa_backdoor]
 def_boolean $leaving = ~check_axis(coord, loc_coord, loc_angle);
 if($leaving = false | ~death_get_map >= ^death_got_map) {
-    ~open_and_close_door2(desertdoor_inactive, $leaving, door_open); // open door loc isnt in this version?
+    ~open_and_close_door2(loc_1532, $leaving, door_open); // open door loc isnt in this version?
     return;
 }
 if(npc_find(coord, death_sherpa, 5, 0) = true) {
@@ -93,7 +93,7 @@ if(oc_category(last_useitem) = death_cannonball) {
             & obj_find(0_45_55_14_43, death_cannonball_red) = true & obj_find(0_45_55_15_43, death_cannonball_purple) = true & obj_find(0_45_55_15_44, death_cannonball_green) = true) {
                 mes("The equipment room door has unlocked.");
                 %death_equiproom = ^death_unlocked_door;
-                sound_synth(unlock_and_move, 0, 0);
+                sound_synth(unlock_and_move, 1, 0);
             }
     }
     return;
@@ -146,8 +146,8 @@ if(npc_findexact(0_44_56_35_14, death_troll_thrower5) = true) {
     npc_anim(troll_rock_throw, 0);
     spotanim_npc(troll_rock_launch, 0, 0);
     ~coord_projectile(0_44_56_35_14, 0_44_56_26_11, troll_rock_travel, 36, 437, 31, 51, 0, 128, 2);
-    sound_synth(troll_with_rock_attack, 0, 0);
-    sound_synth(rock_impact, 0, 52);
+    sound_synth(troll_with_rock_attack, 1, 0);
+    sound_synth(rock_impact, 1, 52);
     p_delay(1);
     cam_shake(0, 5, 0, 0);
     p_delay(0);

@@ -1,95 +1,95 @@
 [spotanim_282]
-model=spot_spotanim_282
+model=spells_specialattackdhalberd_glow_south
 anim=sp_d_halberd_glow
 ambient=60
 contrast=60
 
 [spotanim_283]
-model=spot_spotanim_283
+model=spells_specialattackdhalberd_glow_north
 anim=sp_d_halberd_glow
 ambient=60
 contrast=60
 
 [spotanim_284]
-model=spot_spotanim_284
+model=spells_specialattackdhalberd_glow_east
 anim=sp_d_halberd_glow
 ambient=60
 contrast=60
 
 [spotanim_285]
-model=spot_spotanim_285
+model=spells_specialattackdhalberd_glow_west
 anim=sp_d_halberd_glow
 ambient=60
 contrast=60
 
-[spotanim_286]
-model=spot_spotanim_286
+[regicide_barrelflight]
+model=quest_regicide_catapult_barrel
 anim=inair_barrel
 
-[spotanim_287]
-model=spot_spotanim_287
+[regicide_barrelflight_exploding]
+model=quest_regicide_barrel_explode
 anim=barrel_explode
 
 [kalphite_spine]
-model=spot_spotanim_288
+model=proj_barbed_hair_travel
 resizeh=64
 resizev=64
 
 [kalphite_queen_spine]
-model=spot_spotanim_288
+model=proj_barbed_hair_travel
 resizeh=64
 resizev=64
 recol1s=64
 recol1d=12288
 
-[spotanim_290]
-model=spot_spotanim_290
+[eadgar_thrown_club]
+model=proj_taxetravel_troll_club
 anim=taxe_launch
 
-[spotanim_291]
-model=model_3070_spotanim
+[eadgar_stunned]
+model=spells_stunned
 anim=eadgar_stunned
 ambient=40
 contrast=40
 
 [temple_pyre_fire]
-model=spot_spotanim_292
+model=quest_shades_temple_pyre_fire
 anim=temple_pyre_fire
 
 [shade_attack]
-model=spot_spotanim_293
+model=quest_shades_npc_attack
 anim=shade_attack2
 
-[spotanim_294]
-model=spot_spotanim_294
+[horror_spines_travel]
+model=quest_horror_proj_spines
 
-[spotanim_295]
-model=spot_spotanim_294
+[horror_spines_travel_air]
+model=quest_horror_proj_spines
 recol3s=11626
 recol3d=19026
 
-[spotanim_296]
-model=spot_spotanim_294
+[horror_spines_travel_water]
+model=quest_horror_proj_spines
 recol3s=11626
 recol3d=13743
 
-[spotanim_297]
-model=spot_spotanim_294
+[horror_spines_travel_fire]
+model=quest_horror_proj_spines
 recol3s=11626
 recol3d=14600
 
-[spotanim_298]
-model=spot_spotanim_294
+[horror_spines_travel_earth]
+model=quest_horror_proj_spines
 recol3s=11626
 recol3d=18856
 
-[spotanim_299]
-model=spot_spotanim_294
+[horror_spines_travel_ranged]
+model=quest_horror_proj_spines
 recol3s=11626
 recol3d=8680
 
-[spotanim_300]
-model=spot_spotanim_294
+[horror_spines_travel_melee]
+model=quest_horror_proj_spines
 recol3s=11626
 recol3d=17961
 

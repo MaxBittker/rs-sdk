@@ -32,7 +32,7 @@ mes("The old monk has had too much to drink.");
 if(inv_total(inv, jug_water) >= 1) {
     ~chatplayer("<p,neutral>Cedric! Here, drink! I have some water.");
     ~chatnpc("<p,drunk>Good stuff, my head's spinning!");
-    sound_synth(liquid, 0, 0);
+    sound_synth(liquid, 1, 0);
     npc_say("Gulp...gulp!");
     ~objbox(jug_water, "You hand the monk a jug of water.", 250, 0, ^objbox_height);
     ~chatnpc("<p,neutral>Aah! That's better!");

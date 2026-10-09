@@ -15,8 +15,8 @@
 [if_button,leather_crafting:com_120] @craft_leather(leather_vambraces, 10);
 
 [if_button,leather_crafting:com_125] @craft_leather(leather_chaps, 1);
-[if_button,leather_crafting:com_124] @craft_leather(leather_chaps, 1);
-[if_button,leather_crafting:com_123] @craft_leather(leather_chaps, 1);
+[if_button,leather_crafting:com_124] @craft_leather(leather_chaps, 5);
+[if_button,leather_crafting:com_123] @craft_leather(leather_chaps, 10);
 
 [if_button,leather_crafting:com_128] @craft_leather(coif, 1);
 [if_button,leather_crafting:com_127] @craft_leather(coif, 5);

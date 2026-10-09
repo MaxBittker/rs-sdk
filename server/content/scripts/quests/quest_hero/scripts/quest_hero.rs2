@@ -39,4 +39,4 @@ stat_advance(smithing, 22750);
 stat_advance(mining, 25750);
 stat_advance(herblore, 13250);
 session_log(^log_adventure, "Quest complete: Hero's Quest");
-~send_quest_complete(questlist:hero, dragon_battleaxe, 250, ^hero_questpoints, "You have completed the Hero's Quest!");
+~send_quest_complete(questlist:hero, dragon_battleaxe, 180, ^hero_questpoints, "You have completed the Heroes Quest!"); // https://i.imgur.com/H4bp0SQ.png (august 2004)

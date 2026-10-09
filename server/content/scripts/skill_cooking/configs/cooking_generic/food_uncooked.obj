@@ -1,9 +1,8 @@
-//guess
 [raw_ugthanki_meat]
 name=Raw ugthanki meat
 desc=I need to cook this first.
 cost=2
-model=model_2760_obj
+model=inv_meat
 2dxof=1
 2dyof=3
 2dzoom=560
@@ -16,7 +15,7 @@ category=cooking_generic
 [raw_beef]
 name=Raw beef
 desc=I need to cook this first.
-model=model_2760_obj
+model=inv_meat
 2dxof=1
 2dyof=3
 2dzoom=560
@@ -26,11 +25,10 @@ cost=1
 weight=12oz
 category=cooking_generic
 
-//guess
 [raw_rat_meat]
 name=Raw rat meat
 desc=I need to cook this first.
-model=model_2760_obj
+model=inv_meat
 2dxof=1
 2dyof=3
 2dzoom=560
@@ -40,11 +38,10 @@ cost=1
 weight=5oz
 category=cooking_generic
 
-//guess
 [raw_bear_meat]
 name=Raw bear meat
 desc=I need to cook this first.
-model=model_2760_obj
+model=inv_meat
 2dxof=1
 2dyof=3
 2dzoom=560
@@ -57,7 +54,7 @@ category=cooking_generic
 [raw_chicken]
 name=Raw chicken
 desc=I need to cook this first.
-model=model_2498_obj
+model=inv_chicken_carcass
 recol1s=15619
 recol1d=22098
 2dxof=-3
@@ -68,13 +65,12 @@ cost=1
 weight=6oz
 category=cooking_generic
 
-//guess
 [raw_lava_eel]
 name=Raw lava eel
 desc=A very strange eel.
 cost=150
 members=yes
-model=model_2427_obj
+model=inv_eel
 recol1s=15855
 recol1d=31393
 recol2s=11628

@@ -4,11 +4,11 @@ outputtype=npc
 val=1,macro_swarm
 val=2,macro_geni
 val=3,macro_dwarf
-val=4,macro_mysterious_old_man
+val=4,macro_mage
 val=5,macro_triffidseed
-val=6,macro_mysterious_old_man
-val=7,macro_mysterious_old_man
-val=8,macro_mysterious_old_man
+val=6,macro_mage
+val=7,macro_mage
+val=8,macro_mage
 
 [macro_event_zombie_levels]
 inputtype=int

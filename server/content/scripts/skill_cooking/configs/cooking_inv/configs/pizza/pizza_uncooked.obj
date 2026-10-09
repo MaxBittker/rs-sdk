@@ -1,9 +1,8 @@
-//guess
 [uncooked_pizza]
 name=Uncooked pizza
 desc=This needs cooking.
 cost=25
-model=model_2564_obj
+model=inv_pizzabase+tom+cheese
 recol1s=14790
 recol1d=29492
 recol2s=15360

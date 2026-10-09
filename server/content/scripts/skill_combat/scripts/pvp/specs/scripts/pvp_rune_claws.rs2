@@ -12,10 +12,10 @@ if (~pvp_hit_roll(%damagetype) = true) {
     both_heropoints($damage);
 }
 anim(impale, 0);
-sound_synth(impale, 0, 0);
+sound_synth(impale, 1, 0);
 %action_delay = add(%action_delay, 1);
 spotanim_pl(sp_attack_impale_spotanim, 96, 0);
 .anim(.%com_defendanim, 20);
-.sound_synth(impale, 0, 0);
+.sound_synth(impale, 1, 0);
 .queue*(pvp_retaliate, 0)(uid);
 ~.pvp_damage(0, $damage);

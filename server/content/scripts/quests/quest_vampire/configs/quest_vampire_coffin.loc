@@ -1,7 +1,7 @@
 [loc_2614]
 name=Coffin
 desc=Spooky!
-model=model_loc_398
+model=graveyard_coffin
 width=2
 length=2
 op1=Open
@@ -9,7 +9,7 @@ op1=Open
 [vampcoffinopen]
 name=Coffin
 desc=Looks comfortable...
-model=model_loc_399
+model=graveyard_coffin2
 width=2
 length=2
 op1=Search

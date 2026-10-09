@@ -1,0 +1,109 @@
+[oploc1,hauntedmine_rewarddoor_l] @hauntedmine_rewarddoor_left;
+[oplocu,hauntedmine_rewarddoor_l]
+if (last_useitem = hauntedmine_reward_key) @hauntedmine_rewarddoor_left;
+else ~displaymessage(^dm_default);
+
+[label,hauntedmine_rewarddoor_left]
+def_boolean $entering = ~check_axis_locactive(coord);
+if (inv_total(inv, hauntedmine_reward_key) < 1 & $entering = true) {
+    mes("This door appears to be locked.");
+    sound_synth(lockeddoor, 0, 0);
+    return;
+}
+if (inzone(0_43_69_20_33, 0_43_69_21_34, coord) = true & %hauntedmine = ^hauntedmine_boss_defeated) %hauntedmine = ^hauntedmine_rewarddoor_found;
+~open_and_close_double_door($entering, ^left);
+
+[oploc1,hauntedmine_rewarddoor_r] @hauntedmine_rewarddoor_right;
+[oplocu,hauntedmine_rewarddoor_r]
+if (last_useitem = hauntedmine_reward_key) @hauntedmine_rewarddoor_right;
+else ~displaymessage(^dm_default);
+
+[label,hauntedmine_rewarddoor_right]
+def_boolean $entering = ~check_axis_locactive(coord);
+if (inv_total(inv, hauntedmine_reward_key) < 1 & $entering = true) {
+    mes("This door appears to be locked.");
+    sound_synth(lockeddoor, 0, 0);
+    return;
+}
+if (inzone(0_43_69_20_33, 0_43_69_21_34, coord) = true & %hauntedmine = ^hauntedmine_boss_defeated) %hauntedmine = ^hauntedmine_rewarddoor_found;
+~open_and_close_double_door($entering, ^right);
+
+[oploc1,crystalcorner] @hauntedmine_crystal_cut;
+[oploc1,crystaledging] @hauntedmine_crystal_cut;
+[oploc1,largecrystals] @hauntedmine_crystal_cut;
+
+[oplocu,crystalcorner] @hauntedmine_crystal_u;
+[oplocu,crystaledging] @hauntedmine_crystal_u;
+[oplocu,largecrystals] @hauntedmine_crystal_u;
+
+[label,hauntedmine_crystal_cut]
+if (inv_total(inv, chisel) < 1) {
+    mes("You don't have anything suitable for cutting the crystals");
+    return;
+}
+if (inv_freespace(inv) = 0) {
+    mes("You don't have enough inventory space to hold the crystal.");
+    return;
+}
+mes("You cut a shard from the crystal.");
+anim(human_pickuptable, 0);
+inv_add(inv, crystalshard_necklace_unstrung, 1);
+// not queued
+if (%hauntedmine = ^hauntedmine_rewarddoor_found) {
+    %hauntedmine = ^hauntedmine_complete;
+    stat_advance(strength, 220000);
+    ~send_quest_complete(questlist:hauntedmine, crystalshard_necklace, 250, 2, "You have completed the\\nHaunted Mine Quest!");
+}
+
+[label,hauntedmine_crystal_u]
+if (last_useitem = chisel) @hauntedmine_crystal_cut;
+mes("A chisel might be more suitable for cutting these fine crystals.");
+
+
+// message_game	type=spam, message='You carefully string the shard of crystal.'
+
+[opheldu,crystalshard_necklace_unstrung]
+if (last_useitem = ball_of_wool) {
+    inv_del(inv, ball_of_wool, 1);
+    inv_del(inv, crystalshard_necklace_unstrung, 1);
+    inv_add(inv, crystalshard_necklace, 1);
+    mes("You carefully string the shard of crystal.");
+    return;
+}
+~displaymessage(^dm_default);
+
+// Tick 17325	
+// oploc1_v2	id=largecrystals (4928), coord=(0_43_69_36_12)
+// varbit	id=date_milliseconds_past_minute (12391), old=303, new=895
+// varp_large	id=map_clock (3079), old=775896, new=775897
+// message_game	type=gamemessage, message='You cut a shard from the crystal.'
+// varp_small	id=hauntedmine (382), old=10, new=11
+// varp_small	id=qp (101), old=38, new=40
+// varbit	id=quests_completed_count (6347), old=18, new=19
+// message_game	type=gamemessage, message='Congratulations, you've completed a quest: @q_mes@Haunted Mine</col>'
+// varp_small	id=disease (456), old=0, new=-50
+// varp_small	id=disease (456), old=-50, new=0
+// player_info	
+// idle	player=(index=957, name=tander dino, coord=(0_43_69_36_13))
+// sequence	id=human_pickuptable_walkmerge (9401), delay=5
+// update_inv_partial	com=-1:64209, id=inv (93)
+// objs	
+// 	slot=26, id=crystalshard_necklace_unstrung (4082), count=1
+// runclientscript	id=script4517 (4517), types=[int, int, int], values=[0, 100, 25]
+// runclientscript	id=script4518 (4518), types=[int, int], values=[100, 100]
+// synth_sound	id=3220, delay=5
+// if_settext	com=questscroll:quest_title (153:4), text='You have completed Haunted Mine!'
+// if_setobject	com=questscroll:quest_model (153:5), id=crystalshard_necklace (4081), zoomorcount=400
+// if_setposition	com=questscroll:quest_model (153:5), x=78, y=128
+// if_settext	com=questscroll:quest_reward1 (153:9), text=''
+// if_settext	com=questscroll:quest_reward2 (153:10), text=''
+// if_settext	com=questscroll:quest_reward3 (153:11), text=''
+// if_settext	com=questscroll:quest_reward4 (153:12), text=''
+// if_settext	com=questscroll:quest_reward5 (153:13), text=''
+// if_settext	com=questscroll:quest_reward6 (153:14), text=''
+// if_settext	com=questscroll:quest_reward7 (153:15), text=''
+// if_settext	com=questscroll:quest_reward1 (153:9), text='2 Quest Points'
+// if_settext	com=questscroll:quest_reward2 (153:10), text='22,000 Strength XP'
+// if_settext	com=questscroll:quest_reward3 (153:11), text='Access to Tarn's Lair'
+// runclientscript	id=toplevel_mainmodal_open (2524), types=[int, int], values=[-1, -1]
+// if_opensub	com=toplevel_pre_eoc:mainmodal (164:16), id=questscroll (153), type=modal

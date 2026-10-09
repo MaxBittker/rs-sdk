@@ -176,6 +176,16 @@ const NumberOps: CommandHandlers = {
 
     [ScriptOpcode.ABS]: state => {
         state.pushInt(Math.abs(state.popInt()));
+    },
+
+    [ScriptOpcode.DATE_MINUTES]: state => {
+        const currentMs = performance.timeOrigin + performance.now();
+        state.pushInt(Math.floor(currentMs / 60000));
+    },
+
+    [ScriptOpcode.DATE_RUNEDAY]: state => {
+        const currentMs = performance.timeOrigin + performance.now();
+        state.pushInt(Math.floor(currentMs / 86400000) - 11745);
     }
 };
 

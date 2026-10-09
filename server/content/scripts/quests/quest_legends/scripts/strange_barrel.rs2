@@ -37,7 +37,7 @@ if($rand < 32) {
 } else {
     ~legends_barrel_explode;
 }
-world_delay(~random_range(30, 35));
+world_delay(~random_range(30, 35)); // todo: check delay length
 loc_add(map_findsquare($loc_coord, 0, 7, ^map_findsquare_lineofwalk), skullcavebarrel, 0, centrepiece_straight, 10000);
 
 [proc,legends_barrel_explode]
@@ -142,7 +142,7 @@ switch_int(random(16)) {
     case 11 : npc_add(loc_coord, mossgiant, 500);
     case 12 : npc_add(loc_coord, mugger, 500);
     case 13 : npc_add(loc_coord, scorpion, 500);
-    case 14 : npc_add(loc_coord, skeleton_unarmed, 500);
+    case 14 : npc_add(loc_coord, skeleton_unagressive, 500);
     case default : npc_add(loc_coord, zombie_unarmed, 500);
 }
 ~npc_retaliate(0);

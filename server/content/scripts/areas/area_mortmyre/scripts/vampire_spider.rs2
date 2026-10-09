@@ -1,12 +1,12 @@
-[ai_opplayer2,spider_that_spawns_vampyres]
+[ai_opplayer2,vampire_spider]
 npc_setmode(applayer2);
 
-[ai_applayer2,spider_that_spawns_vampyres]
+[ai_applayer2,vampire_spider]
 if(%npc_int = 0) {
     ~spawn_vampire;
 }
 
-[ai_timer,spider_that_spawns_vampyres]
+[ai_timer,vampire_spider]
 if(%npc_int > 0) {
     %npc_int = sub(%npc_int, 1);
 }

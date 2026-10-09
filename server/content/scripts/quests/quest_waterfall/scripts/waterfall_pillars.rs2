@@ -8,7 +8,7 @@ if($pillar_index = 0 | $rune_index = 0) {
     ~displaymessage(^dm_default);
     return;
 }
-if(testbit(%waterfall_golrie_and_puzzle, $bit) = ^true) {
+if(testbit(%pillar_waterfall_quest, $bit) = ^true) {
     mes("You remember putting that type of rune there."); // osrs: You've already put that type of rune on this pillar.
     return;
 }
@@ -17,7 +17,7 @@ mes("You place the rune on the stand.");
 p_delay(0);
 mes("The rune stone disappears in a puff of smoke.");
 spotanim_map(smokepuff, $pillar_coord, 160, 0); // no sound: https://youtu.be/uwoCjPXgzYY?si=WN0PVUJ6NRXnfYPl&t=1672
-%waterfall_golrie_and_puzzle = setbit(%waterfall_golrie_and_puzzle, $bit);
+%pillar_waterfall_quest = setbit(%pillar_waterfall_quest, $bit);
 
 [proc,get_pillar_index](coord $pillar_coord)(int)
 switch_coord($pillar_coord) {

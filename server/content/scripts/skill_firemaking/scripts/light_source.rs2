@@ -9,3 +9,17 @@ inv_add(inv, $product, 1);
 if($product ! lit_black_candle & $product ! lit_candle) {
     mes("You light the <lowercase(oc_name($product))>.");
 }
+
+[proc,extinguish_light_sources]
+def_int $i = 0;
+def_obj $obj = null;
+def_int $num = 0;
+while ($i < inv_size(inv)) {
+    $obj = inv_getobj(inv, $i);
+    $num = inv_getnum(inv, $i);
+    if ($obj ! null & oc_category($obj) = light_source_lit) {
+        inv_delslot(inv, $i);
+        if (oc_param($obj, next_obj_stage) ! null) inv_add(inv, oc_param($obj, next_obj_stage), $num);
+    }
+    $i = add($i, 1);
+}

@@ -19,6 +19,18 @@
 [oploc2,silver_stall_stealing] // Silver stall
 @attempt_steal_from_stall(loc_type, loc_coord, loc_angle, loc_shape);
 
+[oploc2,misc_fish_market] // Fish stall
+@attempt_steal_from_stall(loc_type, loc_coord, loc_angle, loc_shape);
+
+[oploc2,misc_veg_market] // Veg stall
+@attempt_steal_from_stall(loc_type, loc_coord, loc_angle, loc_shape);
+
+[oploc2,etc_fish_market] // Fish stall
+@attempt_steal_from_stall(loc_type, loc_coord, loc_angle, loc_shape);
+
+[oploc2,etc_veg_market] // Veg stall
+@attempt_steal_from_stall(loc_type, loc_coord, loc_angle, loc_shape);
+
 [oploc2,viking_fish_market]
 if(%viking < ^viking_complete) {
     ~mesbox("The fishmonger is staring at you suspiciously. You cannot steal from his stall while he distrusts you.");
@@ -115,67 +127,90 @@ npc_say("Guards guards!");
 
 npc_huntall(npc_coord, 5, 0);
 while (npc_findnext = true) {
-    if ((npc_type = ardougne_guard | npc_type = knight_of_ardougne | npc_type = knight_of_ardougne2 | npc_type = paladin | npc_type = hero)
+    if (npc_param(market_guard) = ^true
         & npc_getmode ! opplayer2 & lineofsight(npc_coord, coord) = true) {
         ~npc_retaliate(0);
     }
 }
 
 [proc,thieving_stall_timers_login]
-if (testbit(%thieving_stall_timer, ^baker_stall_index) = ^true) {
+if (%marketthief_cake = 1) {
     longqueue(stolen_from_stall_baker, ^baker_stall_timer, 0, ^discard);
 }
-if (testbit(%thieving_stall_timer, ^tea_stall_index) = ^true) {
+if (%marketthief_tea = 1) {
     longqueue(stolen_from_stall_tea, ^tea_stall_timer, 0, ^discard);
 }
-if (testbit(%thieving_stall_timer, ^silk_stall_index) = ^true) {
+if (%marketthief_silk = 1) {
     longqueue(stolen_from_stall_silk, ^silk_stall_timer, 0, ^discard);
 }
-if (testbit(%thieving_stall_timer, ^fur_stall_index) = ^true) {
+if (%marketthief_fur = 1) {
     longqueue(stolen_from_stall_fur, ^fur_stall_timer, 0, ^discard); 
 }
-if (testbit(%thieving_stall_timer, ^silver_stall_index) = ^true) {
+if (%marketthief_silver = 1) {
     longqueue(stolen_from_stall_silver, ^silver_stall_timer, 0, ^discard);
 }
-if (testbit(%thieving_stall_timer, ^spice_stall_index) = ^true) {
+if (%marketthief_spice = 1) {
     longqueue(stolen_from_stall_spice, ^spice_stall_timer, 0, ^discard);
 }
-if (testbit(%thieving_stall_timer, ^gem_stall_index) = ^true) {
+if (%marketthief_gem = 1) {
     longqueue(stolen_from_stall_gem, ^gem_stall_timer, 0, ^discard);
 }
-if (testbit(%thieving_stall_timer, ^vikingfur_stall_index) = ^true) {
+if (%marketthief_vikingfur = 1) {
     longqueue(stolen_from_stall_vikingfur, ^vikingfur_stall_timer, 0, ^discard);
 }
-if (testbit(%thieving_stall_timer, ^vikingfish_stall_index) = ^true) {
+if (%marketthief_vikingfish = 1) {
     longqueue(stolen_from_stall_vikingfish, ^vikingfish_stall_timer, 0, ^discard);
 }
-
+if (%marketthief_miscfish = 1) {
+    longqueue(stolen_from_stall_miscfish, ^miscfish_stall_timer, 0, ^discard);
+}
+if (%marketthief_miscveg = 1) {
+    longqueue(stolen_from_stall_miscveg, ^miscveg_stall_timer, 0, ^discard);
+}
+if (%marketthief_etcfish = 1) {
+    longqueue(stolen_from_stall_etcfish, ^etcfish_stall_timer, 0, ^discard);
+}
+if (%marketthief_etcveg = 1) {
+    longqueue(stolen_from_stall_etcveg, ^etcveg_stall_timer, 0, ^discard);
+}
 
 // these are longqueues in osrs - they affect movement when p_delay'd
 
 [queue,stolen_from_stall_baker]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^baker_stall_index);
+%marketthief_cake = 0;
 
 [queue,stolen_from_stall_tea]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^tea_stall_index);
+%marketthief_tea = 0;
 
 [queue,stolen_from_stall_silk]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^silk_stall_index);
+%marketthief_silk = 0;
 
 [queue,stolen_from_stall_fur]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^fur_stall_index);
+%marketthief_fur = 0;
 
 [queue,stolen_from_stall_silver]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^silver_stall_index);
+%marketthief_silver = 0;
 
 [queue,stolen_from_stall_spice]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^spice_stall_index);
+%marketthief_spice = 0;
 
 [queue,stolen_from_stall_gem]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^gem_stall_index);
+%marketthief_gem = 0;
 
 [queue,stolen_from_stall_vikingfur]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^vikingfur_stall_index);
+%marketthief_vikingfur = 0;
 
 [queue,stolen_from_stall_vikingfish]
-%thieving_stall_timer = clearbit(%thieving_stall_timer, ^vikingfish_stall_index);
+%marketthief_vikingfish = 0;
+
+[queue,stolen_from_stall_miscfish]
+%marketthief_miscfish = 0;
+
+[queue,stolen_from_stall_miscveg]
+%marketthief_miscveg = 0;
+
+[queue,stolen_from_stall_etcfish]
+%marketthief_etcfish = 0;
+
+[queue,stolen_from_stall_etcveg]
+%marketthief_etcveg = 0;

@@ -3,7 +3,7 @@ name=Loar remains
 recol1s=24309
 recol1d=256
 desc=The remains of a deadly shade.
-model=model_2595_obj
+model=inv_corpse
 2dxof=-4
 2dyof=12
 2dzoom=1780
@@ -13,13 +13,14 @@ members=yes
 category=category_2049
 param=pyre_shade_exp,250
 param=shades_struct,loar_shades
+weight=1360g
 
 [shade_bones2]
 name=Phrin remains
 recol1s=24309
 recol1d=3137
 desc=The remains of a deadly shade.
-model=model_2595_obj
+model=inv_corpse
 2dxof=-4
 2dyof=12
 2dzoom=1780
@@ -29,13 +30,14 @@ members=yes
 category=category_2049
 param=pyre_shade_exp,375
 param=shades_struct,phrin_shades
+weight=1360g
 
 [shade_bones3]
 name=Riyl remains
 recol1s=24309
 recol1d=5120
 desc=The remains of a deadly shade.
-model=model_2595_obj
+model=inv_corpse
 2dxof=-4
 2dyof=12
 2dzoom=1780
@@ -45,13 +47,14 @@ members=yes
 category=category_2049
 param=pyre_shade_exp,525
 param=shades_struct,riyl_shades
+weight=1360g
 
 [shade_bones4]
 name=Asyn remains
 recol1s=24309
 recol1d=1068
 desc=The remains of a deadly shade.
-model=model_2595_obj
+model=inv_corpse
 2dxof=-4
 2dyof=12
 2dzoom=1780
@@ -61,13 +64,14 @@ members=yes
 category=category_2049
 param=pyre_shade_exp,700
 param=shades_struct,asyn_shades
+weight=1360g
 
 [shade_bones5]
 name=Fiyr remains
 recol1s=24309
 recol1d=6342
 desc=The remains of a deadly shade.
-model=model_2595_obj
+model=inv_corpse
 2dxof=-4
 2dyof=12
 2dzoom=1780
@@ -77,6 +81,7 @@ members=yes
 category=category_2049
 param=pyre_shade_exp,900
 param=shades_struct,fiyr_shades
+weight=1360g
 
 [sacred_oil4]
 name=Sacred oil(4)
@@ -84,7 +89,7 @@ recol1s=15855
 recol1d=11809
 desc=4 doses of sacred Oil
 cost=100
-model=model_2789_obj
+model=inv_vial
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -94,6 +99,7 @@ param=next_obj_stage,sacred_oil3
 param=dose_count,4
 param=decant_potion_enum,potion_sacredoil
 category=category_111
+weight=35g
 
 [sacred_oil3]
 name=Sacred oil(3)
@@ -101,7 +107,7 @@ recol1s=15855
 recol1d=11809
 desc=3 doses of sacred Oil
 cost=90
-model=model_2697_obj
+model=inv_vial3dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -111,6 +117,7 @@ param=next_obj_stage,sacred_oil2
 param=dose_count,3
 param=decant_potion_enum,potion_sacredoil
 category=category_111
+weight=30g
 
 [sacred_oil2]
 name=Sacred oil(2)
@@ -118,7 +125,7 @@ recol1s=15855
 recol1d=11809
 desc=2 doses of sacred Oil
 cost=75
-model=model_2384_obj
+model=inv_vial2dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -128,6 +135,7 @@ param=next_obj_stage,sacred_oil1
 param=dose_count,2
 param=decant_potion_enum,potion_sacredoil
 category=category_111
+weight=25g
 
 [sacred_oil1]
 name=Sacred oil(1)
@@ -135,7 +143,7 @@ recol1s=15855
 recol1d=11809
 desc=1 dose of sacred Oil
 cost=60
-model=model_2621_obj
+model=inv_vial1dose
 2dyof=-1
 2dzoom=550
 2dyan=1996
@@ -145,6 +153,7 @@ param=next_obj_stage,vial_empty
 param=dose_count,1
 param=decant_potion_enum,potion_sacredoil
 category=category_111
+weight=20g
 
 [logs_pyre]
 name=Pyre logs
@@ -152,7 +161,7 @@ recol1s=15617
 recol1d=10400
 desc=Logs prepared with sacred oil for a funeral pyre.
 cost=8
-model=model_2800_obj
+model=inv_woodlogs
 2dxof=3
 2dyof=66
 2dzoom=670
@@ -161,6 +170,7 @@ model=model_2800_obj
 members=yes
 category=category_2050
 param=funeral_pyre_struct,pyre_logs
+weight=1360g
 
 [oak_logs_pyre]
 name=Oak pyre logs
@@ -168,7 +178,7 @@ recol1s=15617
 recol1d=11490
 desc=Oak logs prepared with sacred oil for a funeral pyre.
 cost=40
-model=model_2800_obj
+model=inv_woodlogs
 2dxof=3
 2dyof=66
 2dzoom=670
@@ -177,6 +187,7 @@ model=model_2800_obj
 members=yes
 category=category_2050
 param=funeral_pyre_struct,pyre_oak_logs
+weight=1360g
 
 [willow_logs_pyre]
 name=Willow pyre logs
@@ -184,7 +195,7 @@ recol1s=15617
 recol1d=9378
 desc=Willow logs prepared with sacred oil for a funeral pyre.
 cost=80
-model=model_2800_obj
+model=inv_woodlogs
 2dxof=3
 2dyof=66
 2dzoom=670
@@ -193,6 +204,7 @@ model=model_2800_obj
 members=yes
 category=category_2050
 param=funeral_pyre_struct,pyre_willow_logs
+weight=1360g
 
 [maple_logs_pyre]
 name=Maple pyre logs
@@ -200,7 +212,7 @@ recol1s=15617
 recol1d=9344
 desc=Maple logs prepared with sacred oil for a funeral pyre.
 cost=160
-model=model_2800_obj
+model=inv_woodlogs
 2dxof=3
 2dyof=66
 2dzoom=670
@@ -209,6 +221,7 @@ model=model_2800_obj
 members=yes
 category=category_2050
 param=funeral_pyre_struct,pyre_maple_logs
+weight=1360g
 
 [yew_logs_pyre]
 name=Yew pyre logs
@@ -216,7 +229,7 @@ recol1s=15617
 recol1d=10467
 desc=Yew logs prepared with sacred oil for a funeral pyre.
 cost=320
-model=model_2800_obj
+model=inv_woodlogs
 2dxof=3
 2dyof=66
 2dzoom=670
@@ -225,6 +238,7 @@ model=model_2800_obj
 members=yes
 category=category_2050
 param=funeral_pyre_struct,pyre_yew_logs
+weight=1360g
 
 [magic_logs_pyre]
 name=Magic pyre logs
@@ -233,7 +247,7 @@ recol1d=10434
 desc=Magic logs prepared with sacred oil for a funeral pyre.
 members=yes
 cost=640
-model=model_2800_obj
+model=inv_woodlogs
 2dxof=3
 2dyof=66
 2dzoom=670
@@ -242,6 +256,7 @@ model=model_2800_obj
 members=yes
 category=category_2050
 param=funeral_pyre_struct,pyre_magic_logs
+weight=1360g
 
 [shadekey_bronze_bloodred]
 name=Bronze key red
@@ -256,7 +271,7 @@ recol4d=8354
 recol5s=31
 recol5d=8354
 desc=A bronze key with a blood-red painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -265,6 +280,7 @@ cost=81
 members=yes
 category=category_112
 tradeable=no
+weight=10g
 
 [shadekey_bronze_brown]
 name=Bronze key brown
@@ -279,7 +295,7 @@ recol4d=8354
 recol5s=31
 recol5d=8354
 desc=A bronze key with a brown painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -288,6 +304,7 @@ cost=82
 members=yes
 category=category_112
 tradeable=no
+weight=10g
 
 [shadekey_bronze_crimson]
 name=Bronze key crimson
@@ -302,7 +319,7 @@ recol4d=8354
 recol5s=31
 recol5d=8354
 desc=A bronze key with a crimson painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -311,6 +328,7 @@ cost=83
 members=yes
 category=category_112
 tradeable=no
+weight=10g
 
 [shadekey_bronze_black]
 name=Bronze key black
@@ -325,7 +343,7 @@ recol4d=8354
 recol5s=31
 recol5d=8354
 desc=A bronze key with a black painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -334,6 +352,7 @@ cost=84
 members=yes
 category=category_112
 tradeable=no
+weight=10g
 
 [shadekey_bronze_purple]
 name=Bronze key purple
@@ -348,7 +367,7 @@ recol4d=8354
 recol5s=31
 recol5d=8354
 desc=A bronze key with a purple painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -357,6 +376,7 @@ cost=85
 members=yes
 category=category_112
 tradeable=no
+weight=10g
 
 [shadekey_steel_bloodred]
 name=Steel key red
@@ -371,7 +391,7 @@ recol4d=10570
 recol5s=31
 recol5d=10570
 desc=A steel key with a blood-red painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -380,6 +400,7 @@ cost=86
 members=yes
 category=category_113
 tradeable=no
+weight=10g
 
 [shadekey_steel_brown]
 name=Steel key brown
@@ -394,7 +415,7 @@ recol4d=10570
 recol5s=31
 recol5d=10570
 desc=A steel key with a brown painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -403,6 +424,7 @@ cost=87
 members=yes
 category=category_113
 tradeable=no
+weight=10g
 
 [shadekey_steel_crimson]
 name=Steel key crimson
@@ -417,7 +439,7 @@ recol4d=10570
 recol5s=31
 recol5d=10570
 desc=A steel key with a crimson painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -426,6 +448,7 @@ cost=88
 members=yes
 category=category_113
 tradeable=no
+weight=10g
 
 [shadekey_steel_black]
 name=Steel key black
@@ -440,7 +463,7 @@ recol4d=10570
 recol5s=31
 recol5d=10570
 desc=A steel key with a black painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -449,6 +472,7 @@ cost=89
 members=yes
 category=category_113
 tradeable=no
+weight=10g
 
 [shadekey_steel_purple]
 name=Steel key purple
@@ -463,7 +487,7 @@ recol4d=10570
 recol5s=31
 recol5d=10570
 desc=A steel key with a purple painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -472,6 +496,7 @@ cost=90
 members=yes
 category=category_113
 tradeable=no
+weight=10g
 
 [shadekey_black_bloodred]
 name=Black key red
@@ -486,7 +511,7 @@ recol4d=0
 recol5s=31
 recol5d=1057
 desc=A black key with a blood-red painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -495,6 +520,7 @@ cost=91
 members=yes
 category=category_114
 tradeable=no
+weight=10g
 
 [shadekey_black_brown]
 name=Black key brown
@@ -509,7 +535,7 @@ recol4d=0
 recol5s=31
 recol5d=1057
 desc=A black key with a brown painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -518,6 +544,7 @@ cost=92
 members=yes
 category=category_114
 tradeable=no
+weight=10g
 
 [shadekey_black_crimson]
 name=Black key crimson
@@ -532,7 +559,7 @@ recol4d=0
 recol5s=31
 recol5d=1057
 desc=A black key with a crimson painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -541,6 +568,7 @@ cost=93
 members=yes
 category=category_114
 tradeable=no
+weight=10g
 
 [shadekey_black_black]
 name=Black key black
@@ -555,7 +583,7 @@ recol4d=0
 recol5s=31
 recol5d=1057
 desc=A black key with a black painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -564,6 +592,7 @@ cost=94
 members=yes
 category=category_114
 tradeable=no
+weight=10g
 
 [shadekey_black_purple]
 name=Black key purple
@@ -578,7 +607,7 @@ recol4d=0
 recol5s=31
 recol5d=1057
 desc=A black key with a purple painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -587,6 +616,7 @@ cost=95
 members=yes
 category=category_114
 tradeable=no
+weight=10g
 
 [shadekey_silver_bloodred]
 name=Silver key red
@@ -601,7 +631,7 @@ recol4d=19028
 recol5s=31
 recol5d=19028
 desc=A silver key with a blood-red painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -610,6 +640,7 @@ cost=96
 members=yes
 category=category_115
 tradeable=no
+weight=10g
 
 [shadekey_silver_brown]
 name=Silver key brown
@@ -624,7 +655,7 @@ recol4d=19028
 recol5s=31
 recol5d=19028
 desc=A silver key with a brown painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -633,6 +664,7 @@ cost=97
 members=yes
 category=category_115
 tradeable=no
+weight=10g
 
 [shadekey_silver_crimson]
 name=Silver key crimson
@@ -647,7 +679,7 @@ recol4d=19028
 recol5s=31
 recol5d=19028
 desc=A silver key with a crimson painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -656,6 +688,7 @@ cost=98
 members=yes
 category=category_115
 tradeable=no
+weight=10g
 
 [shadekey_silver_black]
 name=Silver key black
@@ -670,7 +703,7 @@ recol4d=19028
 recol5s=31
 recol5d=19028
 desc=A silver key with a black painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -679,6 +712,7 @@ cost=99
 members=yes
 category=category_115
 tradeable=no
+weight=10g
 
 [shadekey_silver_purple]
 name=Silver key purple
@@ -693,7 +727,7 @@ recol4d=19028
 recol5s=31
 recol5d=19028
 desc=A silver key with a purple painted eyelet.
-model=obj_3450
+model=quest_shades_inv_key_recol
 2dyof=2
 2dzoom=1050
 2dyan=2040
@@ -702,3 +736,4 @@ cost=100
 members=yes
 category=category_115
 tradeable=no
+weight=10g

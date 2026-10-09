@@ -31,7 +31,7 @@ switch_obj(last_useitem) {
 
 [proc,ogre_bellows_suck](obj $bellows)
 anim(human_chompybird_ogrebellows, 0);
-sound_synth(ogre_bellows_suck, 0, 0);
+sound_synth(ogre_bellows_suck, 1, 0);
 p_delay(1);
 
 mes("You collect some gas from the swamp.");

@@ -47,7 +47,7 @@ cam_lookat(coord, 50, 100, 232);
 p_delay(0);
 anim(human_smokepuff_tele_disappear, 0);
 spotanim_map(smokepuff, coord, 0, 0);
-sound_synth(teleport_all, 0, 0);
+sound_synth(teleport_all, 1, 0);
 p_delay(2);
 cam_lookat(0_41_154_40_20, 50, 3, 10);
 p_delay(3);

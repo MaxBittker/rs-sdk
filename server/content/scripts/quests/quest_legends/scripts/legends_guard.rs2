@@ -103,7 +103,7 @@ if (loc_find(^legends_guild_gate_west_coord, legendsguildgatel) = true) {
         // If you are right next to it, you just go in straight away and don't cross sides.
         $inside_dest = movecoord(coord, 0, 0, 1);
     }
-    sound_synth(grate_open, 0, 0);
+    sound_synth(grate_open, 1, 0);
     ~open_double_doors_left(2, double_door_open_and_close_right, null);
     // 2 tile p_teleport (OSRS)
     p_teleport($inside_dest);

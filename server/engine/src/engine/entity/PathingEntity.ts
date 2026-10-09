@@ -7,7 +7,6 @@ import Entity from '#/engine/entity/Entity.js';
 import { EntityLifeCycle } from '#/engine/entity/EntityLifeCycle.js';
 import { Interaction } from '#/engine/entity/Interaction.js';
 import Loc from '#/engine/entity/Loc.js';
-import { AllowRepath } from './AllowRepath.js';
 import { MoveRestrict } from '#/engine/entity/MoveRestrict.js';
 import { MoveSpeed } from '#/engine/entity/MoveSpeed.js';
 import { MoveStrategy } from '#/engine/entity/MoveStrategy.js';
@@ -16,7 +15,7 @@ import Npc from '#/engine/entity/Npc.js';
 import { NpcMode } from '#/engine/entity/NpcMode.js';
 import Obj from '#/engine/entity/Obj.js';
 import Player from '#/engine/entity/Player.js';
-import { canTravel, changeNpcCollision, changePlayerCollision, findPath, findPathToEntity, findPathToLoc, isApproached, isZoneAllocated, reachedEntity, reachedLoc, reachedObj, findNaivePath } from '#/engine/GameMap.js';
+import { canTravel, changeNpcCollision, changeBlockCollision, changePlayerOccCollision, findPath, findPathToEntity, findPathToLoc, isApproached, isZoneAllocated, reachedEntity, reachedLoc, reachedObj, findNaivePath } from '#/engine/GameMap.js';
 import ServerTriggerType from '#/engine/script/ServerTriggerType.js';
 import World from '#/engine/World.js';
 import NpcType from '#/cache/config/NpcType.js';
@@ -54,7 +53,6 @@ export default abstract class PathingEntity extends Entity {
     lastInt: number = -1; // resume_p_countdialog, ai_queue
     lastCrawl: boolean = false;
     lastMovement: number = 0;
-    allowRepath: AllowRepath = AllowRepath.BEFOREDEST;
 
     walktrigger: number = -1;
     walktriggerArg: number = 0; // used for npcs
@@ -171,8 +169,14 @@ export default abstract class PathingEntity extends Entity {
             case BlockWalk.ALL:
                 changeNpcCollision(this.width, previousX, previousZ, previousLevel, false);
                 changeNpcCollision(this.width, this.x, this.z, this.level, true);
-                changePlayerCollision(this.width, previousX, previousZ, previousLevel, false);
-                changePlayerCollision(this.width, this.x, this.z, this.level, true);
+                changeBlockCollision(this.width, previousX, previousZ, previousLevel, false);
+                changeBlockCollision(this.width, this.x, this.z, this.level, true);
+                break;
+            case BlockWalk.PLAYER:
+                // player owns PLAYER_OCC; clear both markers on the old tile, set only PLAYER_OCC on the new
+                changeNpcCollision(this.width, previousX, previousZ, previousLevel, false);
+                changePlayerOccCollision(this.width, previousX, previousZ, previousLevel, false);
+                changePlayerOccCollision(this.width, this.x, this.z, this.level, true);
                 break;
         }
         this.lastStepX = previousX;
@@ -255,7 +259,6 @@ export default abstract class PathingEntity extends Entity {
     queueWaypoint(x: number, z: number): void {
         this.waypoints[0] = CoordGrid.packCoord(0, x, z); // level doesn't matter here
         this.waypointIndex = 0;
-        this.setAllowRepath(AllowRepath.BEFOREDEST);
     }
 
     /**
@@ -269,11 +272,6 @@ export default abstract class PathingEntity extends Entity {
             index++;
         }
         this.waypointIndex = index;
-        this.setAllowRepath(AllowRepath.BEFOREDEST);
-    }
-
-    setAllowRepath(value: AllowRepath) {
-        this.allowRepath = value;
     }
 
     clearWaypoints(): void {
@@ -363,21 +361,31 @@ export default abstract class PathingEntity extends Entity {
     }
 
     /**
-     * Try to focus back on a possible target.
-     * This is needed because the target can move.
-     * This should be done after all pathing entities have moved.
-     * If the entity targeted then moved off, then we try to refocus after running out of steps.
+     * Serverside orientation toward a pathing (player/npc) target. Refreshed every turn BEFORE movement,
+     * paired with setFaceEntity() -- the two halves of "face the entity I'm interacting with." client=false:
+     * not pushed to existing watchers (FACE_ENTITY tracks the target for them), it only feeds the orientation
+     * a NEW observer gets in the add packet. No movement dependency, so it runs before processInteraction and
+     * captures the target before processInteraction can clear it.
      */
-    reorient(): void {
+    reorientEntity(): void {
         const target: Entity | null = this.target;
         if (target instanceof PathingEntity) {
-            // Try to focus back on a possible target because they move.
             this.focus(CoordGrid.fine(target.x, target.width), CoordGrid.fine(target.z, target.length), false);
-        } else if (this.targetX !== -1 && this.stepsTaken === 0) {
-            // If the entity targeted then moved off, then we try to refocus after running out of steps.
-            // this is only set when clicking non pathing entities.
-            // we do not update the client, the client was already notified of the update.
-            this.focus(this.targetX, this.targetZ, false);
+        }
+    }
+
+    /**
+     * Reorient toward a non-pathing (loc/obj) target once we've stopped moving -- the entity targeted it,
+     * walked over, and ran out of steps (stepsTaken === 0). MUST run AFTER movement so stepsTaken reflects
+     * this tick. client=true: this is the only path that ships the face-coord for loc/obj facing. A pathing
+     * target is handled by reorientEntity() before the move, so it's skipped here.
+     */
+    reorient(): void {
+        if (this.target instanceof PathingEntity) {
+            return;
+        }
+        if (this.targetX !== -1 && this.stepsTaken === 0) {
+            this.focus(this.targetX, this.targetZ, true);
             this.targetX = -1;
             this.targetZ = -1;
         }
@@ -523,7 +531,7 @@ export default abstract class PathingEntity extends Entity {
         }
     }
 
-    setInteraction(interaction: Interaction, target: Entity, op: TargetOp, com?: number): boolean {
+    setInteraction(_interaction: Interaction, target: Entity, op: TargetOp, com?: number): boolean {
         if (!target.isValid(this instanceof Player ? this.hash64 : undefined)) {
             return false;
         }
@@ -541,13 +549,9 @@ export default abstract class PathingEntity extends Entity {
             this.targetSubject.type = -1;
         }
 
-        if (interaction === Interaction.SCRIPT) {
-            // Allow repath
-            this.allowRepath = AllowRepath.BEFOREDEST;
-        }
-
-        this.focus(CoordGrid.fine(target.x, target.width), CoordGrid.fine(target.z, target.length), target instanceof NonPathingEntity && interaction === Interaction.ENGINE);
-
+        // Setting an interaction no longer focus()es here -- facing only changes during the entity's own
+        // turn (reorientEntity() for a pathing target, reorient() for loc/obj; both from Npc.turn /
+        // processPlayers). For non-pathing targets we still record targetX/Z for reorient() to consume.
         if (target instanceof NonPathingEntity) {
             this.targetX = CoordGrid.fine(target.x, target.width);
             this.targetZ = CoordGrid.fine(target.z, target.length);

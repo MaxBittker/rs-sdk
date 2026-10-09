@@ -2,7 +2,7 @@
 cost=350
 name=Gold amulet
 desc=It needs a string so I can wear it.
-model=model_2550_obj
+model=inv_amuletunstrung
 recol1s=32767
 recol1d=22241
 2dxof=8
@@ -17,7 +17,7 @@ param=crafting_jewelry_struct,unstrung_gold_amulet
 cost=900
 name=Sapphire amulet
 desc=It needs a string so I can wear it.
-model=model_2550_obj
+model=inv_amuletunstrung
 recol1s=32767
 recol1d=23
 2dxof=8
@@ -32,7 +32,7 @@ param=crafting_jewelry_struct,unstrung_sapphire_amulet
 cost=1275
 name=Emerald amulet
 desc=It needs a string so I can wear it.
-model=model_2550_obj
+model=inv_amuletunstrung
 recol1s=32767
 recol1d=672
 2dxof=8
@@ -47,7 +47,7 @@ param=crafting_jewelry_struct,unstrung_emerald_amulet
 cost=2025
 name=Ruby amulet
 desc=It needs a string so I can wear it.
-model=model_2550_obj
+model=inv_amuletunstrung
 recol1s=32767
 recol1d=30753
 2dxof=8
@@ -62,7 +62,7 @@ param=crafting_jewelry_struct,unstrung_ruby_amulet
 cost=3525
 name=Diamond amulet
 desc=It needs a string so I can wear it.
-model=model_2550_obj
+model=inv_amuletunstrung
 2dxof=8
 2dyof=106
 2dzoom=370
@@ -75,7 +75,7 @@ param=crafting_jewelry_struct,unstrung_diamond_amulet
 cost=17625
 name=Dragonstoneamulet
 desc=It needs a string so I can wear it.
-model=model_2550_obj
+model=inv_amuletunstrung
 recol1s=32767
 recol1d=12307
 2dxof=8
@@ -88,7 +88,7 @@ members=yes
 param=crafting_jewelry_struct,unstrung_dragonstone_amulet
 
 [black_amulet]
-model=model_2550_obj
+model=inv_amuletunstrung
 recol1s=32767
 recol1d=4228
 recol2s=31649
@@ -102,31 +102,32 @@ dummyitem=inv_only
 
 [invis_amulet1]
 name=Sapphire amulet
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,unstrung_sapphire_amulet
 dummyitem=inv_only
 
 [invis_amulet2]
 name=Emerald amulet
-model=model_loc_2733_0
+desc=It's an Emerald amulet
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,unstrung_emerald_amulet
 dummyitem=inv_only
 
 [invis_amulet3]
 name=Ruby amulet
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,unstrung_ruby_amulet
 dummyitem=inv_only
 
 [invis_amulet4]
 name=Diamond amulet
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,unstrung_diamond_amulet
 dummyitem=inv_only
 
 [invis_amulet5]
 name=Dragonstoneamulet
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,unstrung_dragonstone_amulet
 dummyitem=inv_only
 
@@ -134,7 +135,7 @@ dummyitem=inv_only
 cost=350
 name=Gold amulet
 desc=I wonder if I can get this enchanted.
-model=model_2796_obj
+model=inv_amulet
 recol1s=32767
 recol1d=22241
 recol2s=13537
@@ -148,15 +149,15 @@ recol3d=32767
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_290_obj_wear,0
-womanwear=model_454_obj_wear,0
+manwear=man_necklaces_amulet,0
+womanwear=woman_necklaces_amulet,0
 weight=7g
 
 [strung_sapphire_amulet]
 cost=900
 name=Sapphire amulet
 desc=I wonder if I can get this enchanted.
-model=model_2796_obj
+model=inv_amulet
 recol1s=32767
 recol1d=23
 recol2s=13537
@@ -170,8 +171,8 @@ recol3d=32767
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_290_obj_wear,0
-womanwear=model_454_obj_wear,0
+manwear=man_necklaces_amulet,0
+womanwear=woman_necklaces_amulet,0
 weight=7g
 category=category_621
 
@@ -179,7 +180,7 @@ category=category_621
 cost=1275
 name=Emerald amulet
 desc=I wonder if I can get this enchanted.
-model=model_2796_obj
+model=inv_amulet
 recol1s=32767
 recol1d=672
 recol2s=13537
@@ -193,15 +194,15 @@ recol3d=32767
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_290_obj_wear,0
-womanwear=model_454_obj_wear,0
+manwear=man_necklaces_amulet,0
+womanwear=woman_necklaces_amulet,0
 weight=7g
 
 [strung_ruby_amulet]
 cost=2025
 name=Ruby amulet
 desc=I wonder if I can get this enchanted.
-model=model_2796_obj
+model=inv_amulet
 recol1s=32767
 recol1d=30753
 recol2s=13537
@@ -215,15 +216,15 @@ recol3d=32767
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_290_obj_wear,0
-womanwear=model_454_obj_wear,0
+manwear=man_necklaces_amulet,0
+womanwear=woman_necklaces_amulet,0
 weight=7g
 
 [strung_diamond_amulet]
 cost=3525
 name=Diamond amulet
 desc=I wonder if I can get this enchanted.
-model=model_2796_obj
+model=inv_amulet
 recol1s=13537
 recol1d=32767
 recol2s=8321
@@ -235,15 +236,15 @@ recol2d=32767
 2dxan=424
 iop2=Wear
 wearpos=front
-manwear=model_290_obj_wear,0
-womanwear=model_454_obj_wear,0
+manwear=man_necklaces_amulet,0
+womanwear=woman_necklaces_amulet,0
 weight=7g
 
 [strung_dragonstone_amulet]
 cost=17625
 name=Dragonstoneamulet
 desc=I wonder if I can get this enchanted.
-model=model_2796_obj
+model=inv_amulet
 recol1s=32767
 recol1d=12307
 recol2s=13537
@@ -258,6 +259,6 @@ recol3d=32767
 members=yes
 iop2=Wear
 wearpos=front
-manwear=model_290_obj_wear,0
-womanwear=model_454_obj_wear,0
+manwear=man_necklaces_amulet,0
+womanwear=woman_necklaces_amulet,0
 weight=7g

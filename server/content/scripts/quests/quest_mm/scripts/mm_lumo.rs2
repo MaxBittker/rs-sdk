@@ -1,0 +1,225 @@
+[queue,lumo_jailed_dialogue]
+@lumo_jailed_dialogue;
+
+[label,lumo_jailed_dialogue]
+// can confirm this is set here, if you summon guards through dugopul to queue ninja guards and get knocked out
+// by an elder guard, then use a player to block your character from the ninja guards until this queue
+// runs without running the walktrigger, you can still get knocked out again
+%mm_player_is_unconscious = ^false;
+if(inzone(0_43_43_14_41, 0_43_43_24_50, coord) = false) {
+    return;
+}
+if(%mm_jail_count = 1) {
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Look - a newcomer. I'd say let me be the first to welcome you to Ape Atoll, but I see you've already met the welcoming party...");
+} else if(%mm_jail_count = 5) {
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Wow. I swear we've seen <text_gender("him", "her")> five times already.");
+} else if(%mm_jail_count = 10) {
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Oh my god - <text_gender("he's", "she's")> been through here ten times now.");
+    ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>And which god would that be, eh?");
+    ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>You know what I mean...");
+} else if(%mm_jail_count = 15) {
+    ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Fifteen times ... wait: is it fifteen?");
+    ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>Yup, it sure is.");
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>I'm beginning to lose count now.");
+} else if(%mm_jail_count = 20) {
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Twenty times! Give this kid an applause!");
+    ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Lumo, you're beginning to irritate me. Imagine what it's like for them.");
+} else if(%mm_jail_count = 50) {
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Fifty times a loser! I don't believe it!");
+    ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Wahey - party hats all round!");
+    ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>I was only kidding...");
+} else if(%mm_jail_count = 100) {
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>One hundred times... It's just not real anymore.");
+    ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>I think we should give <text_gender("him", "her")> a prize.");
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>You're right. I know just the thing.");
+    ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>No... not the..");
+    ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>Monkey corpse stuffed with seaweed!?");
+    inv_add(inv, tbwt_seaweed_in_monkey_corpse, 1);
+    ~objbox(tbwt_seaweed_in_monkey_corpse, "Lumo throws you a seaweed stuffed monkey corpse.", 250, 0, 0);
+} else {
+    switch_int(random(22)) {
+        case 0 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Bunkdo?");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Yeah?");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Don't you ever get tired of, you know, wandering around?");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>No. I for one happen to like standing bolt upright all of the time.");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>*sigh*");
+        case 1 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>We are indefatigable Gnomes...");
+            ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>And we really likes our homes...");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>If you pick with us a fight...");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>You may well just might...");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Find yourself without no bones!");
+        case 2 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Hey guys, look who's here.");
+        case 3 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Carado - are you thinking what I'm thinking?");
+            ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>Only if it involves 3 tonnes of ice-cream, a helium balloon and an inflatable pink gorilla...");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>... a 'no' would have sufficed.");
+        case 4 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>... and that completes our tour of the Jail of the Future. Please remember to use your conveniently located and totally pickable cell-door to exit.");
+        case 5 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>... and please remain prone until the room has come to a complete stop.");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Hey look, he's come round!");
+        case 6 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>and B - I - N - G - O. I win!");
+        case 7 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>You know, we could try and break out ourselves.");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>No... don't be silly. We're here to be rescued, after all.");
+        case 8 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>And another one ... eats the dirt.");
+            ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>The phrase is 'bites the dust' Lumo...");
+        case 9 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Ouch. That must have hurt.");
+        case 10 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>... and then the chicken said to the farmer: 'It was an aspirin!'");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>That has to be the worst joke I've ever heard...");
+        case 11 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Darn you, Carado - you always get the large jail cells.");
+            ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,quiz>That is so not true. What about the time in Draynor?");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>The Prince Ali thing? We all shared a cell that time.");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>And that time in Varrock?");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Yeah yeah, OK.");
+        case 12 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>You know, you should really try to avoid being captured.");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>I think <text_gender("he", "she")> knows that Lumo...");
+        case 13 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>... and that's how I saved Narnode from the fire-breathing gnome-eating lizard-dragon-king of Jool.");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>You know - everytime I hear that story it seems less and less convincing...");
+        case 14 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Bunkdo?");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Yeah?");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Do you ever look up at the stars at night and think about just how insignificant all of this is?");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Stars? You can look UP??");
+            ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>And I thought 'night' was just a rumour...");
+        case 15 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Those cheerleaders down the Gnomeball pitch...");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Yeah I know the ones you mean...");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Mmmmm hmmmm.");
+            ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>They're a bit short, ain't they?");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Carado, they're gnomes!");
+        case 16 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Have we seen this one before?");
+            ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>I'm not sure - I'm beginning to lose track.");
+        case 17 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Bunkdo?");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Yeah?");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>You know - I've noticed something.");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>What's that?");
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>No matter how many monkeys these people seem to kill, there are never any fewer of them...");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>That's just the Way of the World, Lumo.");
+        case 18 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Have you noticed how they all look the same?");
+            ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>And they all seem to have the same clothes...");
+            ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Spooky.");
+        case 19 :
+            if(inv_total(worn, dragon_sq_shield) > 0) {
+                ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Wow. Somebody with a Dragon Square Shield. I win this game too!");
+                ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Bah. I hate bingo.");
+            }
+        case 20 :
+            if(gender = ^gender_female) {
+                ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral><displayname>, <displayname>, he's our man! If he can't do it, nobody can!");
+                ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Er Lumo, it's a she.");
+            }
+        case 21 :
+            ~chatnpc_specific(nc_name(mm_lumo), mm_lumo, "<p,neutral>Look at that Bunkdo, <text_gender("he", "she")> almost looks like <text_gender("he's", "she's")> praying.");
+    }
+}
+
+[apnpc1,mm_lumo]
+if (npc_range(coord) > 5) {
+    p_aprange(5);
+    return;
+}
+jump(mm_lumo_talk);
+
+[opnpc1,mm_lumo] jump(mm_lumo_talk);
+
+[label,mm_lumo_talk]
+if(%mm_main = 0) {
+    ~mesbox("Lumo seems too busy to talk.");
+    return;
+}
+if(%mm_main >= ^mm_defeated_demon) {
+    ~chatplayer("<p,quiz>How did you get back in there?");
+    ~chatnpc("<p,neutral>Simple: we got caught again.");
+    ~chatplayer("<p,quiz>Deliberately?");
+    ~chatnpc("<p,quiz>Yes. We are working undercover here. Isn't that right, guys?");
+    ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>Whatever you say, boss.");
+    ~chatnpc("<p,neutral>See.");
+    return;
+}
+switch_int(%mm_lumo) {
+    case ^lumo_spoken :
+        ~chatnpc("<p,quiz>What can I do for you, human?");
+    case ^mm_not_started :
+        ~chatplayer("<p,quiz>Hello?");
+        ~chatnpc("<p,neutral>Hello - Who are you?");
+        ~chatplayer("<p,neutral>I am in the service of King Narnode Shareen.|I have been sent here to locate the missing|10th squad of the Royal Guard.");
+        ~chatnpc("<p,laugh>Well we're certainly missing home, I'll give you that.");
+        ~chatplayer("<p,neutral>How long have you been here?");
+        ~chatnpc("<p,neutral>Oh, not for too long ... The jail guards keep us entertained every now and then too.");
+        ~chatnpc("<p,quiz>Isn't that right Bunkdo?");
+        ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>That's right Lumo. Remember the time when they got all confused when changing shifts?");
+        ~chatnpc("<p,neutral>Oh yeah. Trefaji and Aberab - they're as dense as bricks. They do give mighty punches though.");
+        ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>Indeed. My backside is still a little sore...");
+        ~chatnpc("<p,neutral>Your backside??");
+        ~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>I turned around at the wrong time...");
+        ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>Serves you bloody right too.");
+        ~chatnpc("<p,neutral>Now, now lads, watch your language. You'll have to excuse them, human, they're only soldiers!");
+        ~chatnpc_specific(nc_name(mm_carado), mm_carado, "<p,neutral>Excuse me - ");
+        ~chatplayer("<p,laugh>Oh that's quite alright...");
+        %mm_lumo = ^lumo_spoken;
+        ~chatnpc("<p,neutral>So human, what can we do for you?");
+}
+~chatplayer("<p,neutral>Well I suppose I ought to help you escape.");
+// https://youtu.be/qMJyd1UJjlI?si=g9Vx4lN3fKCuIckN&t=1119
+~chatnpc_specific(nc_name(mm_bunkdo), mm_bunkdo, "<p,neutral>No it's alright <text_gender("laddy", "lass")>, we quite like it in here.");
+~chatnpc("<p,neutral>Do your best to ignore him...");
+if(inzone(0_43_43_18_41, 0_43_43_24_43, coord) = false) {
+    ~chatnpc("<p,neutral>Not all of us were captured. If you have not done so, you should make contact with those of us who escaped.");
+    ~chatnpc("<p,neutral>I am sure Sergeant Garkor is working on a way to get us out of here.");
+    return;
+}
+~chatnpc("<p,neutral>To be fair human, you're not much help stuck in there.");
+~chatplayer("<p,quiz>Well how do I get out?");
+~chatnpc("<p,neutral>Well, you can try picking the lock on your door. Watch out for the guards though.");
+~chatnpc("<p,neutral>We've been trying to pick ours but we haven't been able to do so yet.");
+
+
+[apnpc1,mm_bunkdo]
+if (npc_range(coord) > 5) {
+    p_aprange(5);
+    return;
+}
+jump(mm_bunkdo_talk);
+
+[opnpc1,mm_bunkdo] jump(mm_bunkdo_talk);
+
+[label,mm_bunkdo_talk]
+if(%mm_main = 0) {
+    ~mesbox("Bunkdo seems too busy to talk.");
+    return;
+}
+~chatnpc("<p,neutral>What are you looking at then? Never seen a Gnome in a Monkey jail before?");
+~chatplayer("<p,neutral>Not before I came here, no...");
+
+[apnpc1,mm_carado]
+if (npc_range(coord) > 5) {
+    p_aprange(5);
+    return;
+}
+jump(mm_carado_talk);
+
+[opnpc1,mm_carado] jump(mm_carado_talk);
+
+[label,mm_carado_talk]
+if(%mm_main = 0) {
+    ~mesbox("Carado seems too busy to talk.");
+    return;
+}
+~chatnpc("<p,neutral>Well I'm not complaining - this jail cell is larger than my room in the Grand Tree! It is a little sparse however...");
+~chatplayer("<p,neutral>We'll get you out of there soon enough.");
+if(%mm_main >= ^mm_defeated_demon) ~chatnpc("<p,neutral>I'm meant to be here now. We're working undercover.");
+else ~chatnpc("<p,neutral>No hurries...");

@@ -2,7 +2,7 @@
 ~set_sa_vars(oc_param(inv_getobj(worn, ^wearpos_rhand), sa_energy));
 spotanim_pl(sp_attack_puncture_spotanim, 96, 0);
 anim(puncture, 0);
-sound_synth(puncture, 0, 0);
+sound_synth(puncture, 1, 0);
 npc_anim(npc_param(defend_anim), 20); 
 
 ~pvm_dragon_dagger_spec_hit;

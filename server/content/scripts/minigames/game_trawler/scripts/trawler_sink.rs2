@@ -53,8 +53,8 @@ cam_reset;
 
 // in osrs only 1 barrel out of 3 work, but since theres only 2 types and no guides
 // mentions only 1 barrel working im guessing this was an osrs change of some sort
-[oploc1,game_trawler_barrel1] @trawler_escape;
-[oploc1,game_trawler_barrel2] @trawler_escape;
+[oploc1,sinkingbarrel1] @trawler_escape;
+[oploc1,sinkingbarrel2] @trawler_escape;
 
 [label,trawler_escape]
 ~mesbox("You climb onto the floating barrel and begin to kick your way to the|shore.");

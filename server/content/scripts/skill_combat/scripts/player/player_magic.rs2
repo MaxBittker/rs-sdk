@@ -114,6 +114,14 @@ return(true);
 [proc,pvm_freeze_allowed](dbrow $spell_data)(boolean)
 // check if npc is already frozen
 if (db_getfield($spell_data, magic_spell_table:freeze_time, 0) > 0) {
+    if (npc_category = castlewars_barricade) {
+        switch_int (db_getfield($spell_data, magic_spell_table:spell, 0)) {
+            case ^snare : mes("You can't snare that.");
+            case ^bind : mes("You can't bind that.");
+            case ^entangle : mes("You can't entangle that.");
+        }
+        return(false);
+    }
     if (%npc_stunned > map_clock) {
         mes("Your target is already held by a magical force.");
         return(false);
@@ -136,6 +144,10 @@ def_int $percent;
 def_npc_stat $npc_stat;
 def_int $i = 0;
 def_int $spell = db_getfield($spell_data, magic_spell_table:spell, 0);
+if (npc_category = castlewars_barricade) {
+    mes("You can't weaken that.");
+    return(false);
+}
 while ($i < db_getfieldcount($spell_data, magic_spell_table:stat_change) & $spell ! ^flames_of_zamorak & $spell ! ^claws_of_guthix & $spell ! ^saradomin_strike) {
     $stat, $constant, $percent = db_getfield($spell_data, magic_spell_table:stat_change, $i);
     $npc_stat = ~convert_stat_to_npc_stat($stat);
@@ -222,7 +234,7 @@ if ($maxhit ! null) {
     // npc_anim(npc_param(defend_anim), $duration); // delay npc this tick
     // npc sound
     if (npc_param(defend_sound) ! null) {
-        sound_synth(npc_param(defend_sound), 0, $duration); // delay 1 client tick for the hit queue
+        sound_synth(npc_param(defend_sound), 1, $duration); // delay 1 client tick for the hit queue
     }
     def_int $damage_capped = min($damage, npc_stat(hitpoints));
     ~give_combat_experience($damagestyle, $damage_capped, %npc_combat_xp_multiplier);

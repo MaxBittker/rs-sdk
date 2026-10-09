@@ -76,14 +76,14 @@ export default class SeqType extends ConfigType {
     delay: Int32Array | null = null;
     loops: number = -1;
     walkmerge: Int32Array | null = null;
-    stretches: boolean = false;
+    reachforward: boolean = false;
     priority: number = 5;
     replaceheldleft: number = -1;
     replaceheldright: number = -1;
     maxloops: number = 99;
     preanim_move: number = -1;
     postanim_move: number = -1;
-    duplicatebehavior: number = 0;
+    duplicatebehaviour: number = 0;
 
     // precalculated for seqlength
     duration: number = 0;
@@ -126,7 +126,7 @@ export default class SeqType extends ConfigType {
 
             this.walkmerge[count] = 9999999;
         } else if (code === 4) {
-            this.stretches = true;
+            this.reachforward = true;
         } else if (code === 5) {
             this.priority = dat.g1();
         } else if (code === 6) {
@@ -140,7 +140,7 @@ export default class SeqType extends ConfigType {
         } else if (code === 10) {
             this.postanim_move = dat.g1();
         } else if (code === 11) {
-            this.duplicatebehavior = dat.g1();
+            this.duplicatebehaviour = dat.g1();
         } else if (code === 250) {
             this.debugname = dat.gjstr();
         } else {

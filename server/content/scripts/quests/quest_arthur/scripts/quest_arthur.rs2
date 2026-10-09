@@ -113,7 +113,7 @@ while(loc_findnext = true) {
      }
 }
 p_teleport(movecoord(coord, -1, 0, 0));
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 
 [oploc2,_keep_lefaye_door]
 if(~check_axis(coord, loc_coord, loc_angle) = false) { 
@@ -156,7 +156,7 @@ if(inzone(movecoord(^camelot_magic_symbol, -1, 0, -1), movecoord(^camelot_magic_
         }
         ~forcewalk(movecoord(^camelot_magic_symbol, -2, 0, 0));
         // 3t delay
-        sound_synth(smokepuff, 0, 0);
+        sound_synth(smokepuff, 1, 0);
         npc_add(^camelot_magic_symbol, thrantax, 100);
         spotanim_map(smokepuff, npc_coord, 124, 0);
         ~mesbox("Suddenly a mighty spirit appears!");
@@ -205,7 +205,7 @@ if(inzone(movecoord(^camelot_magic_symbol, -1, 0, -1), movecoord(^camelot_magic_
     return;
 }
 inv_dropslot(inv, coord, last_slot, ^lootdrop_duration);
-sound_synth(put_down, 0, 0);
+sound_synth(put_down, 1, 0);
 
 [oploc1,jewellersdoor]
 if(testbit(%excalibur_components_progress, ^excalibur_rewarded) = ^false) {
@@ -220,7 +220,7 @@ if(testbit(%excalibur_components_progress, ^excalibur_rewarded) = ^false) {
         @lake_beggar_dialogue;
     } 
 }
-~open_and_close_door2(poordoor, ~check_axis(coord, loc_coord, loc_angle), door_open);
+~open_and_close_door2(loc_1535, ~check_axis(coord, loc_coord, loc_angle), door_open);
 
 [oploc1,jewellersladder]
 p_arrivedelay;
@@ -259,7 +259,7 @@ switch_obj(last_useitem) {
         // excalibur stuff is also cleared if you restarted it
         %excalibur_components_progress = 0;
         %arthur = ^arthur_freed_merlin;
-        sound_synth(mine_quick, 0, 0);
+        sound_synth(mine_quick, 1, 0);
         ~chatnpc("<p,happy>Thank you! Thank you! Thank you!");
         ~chatnpc("<p,shock>It's not fun being trapped in a giant crystal!");
         ~chatnpc("<p,happy>Go speak to King Arthur, I'm sure he'll reward you!");

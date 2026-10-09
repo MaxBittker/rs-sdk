@@ -11,7 +11,7 @@ loc_add(0_41_57_57_49, inviswall, 1, loc_shape, 3);
 loc_add(0_41_57_57_50, inacviking_fencegate_l, 0, loc_shape, 3);
 loc_add(0_41_57_58_49, inviswall, 1, loc_shape, 3);
 loc_add(0_41_57_57_51, inacviking_fencegate_r, 0, loc_shape, 3);
-sound_synth(door_open, 0, 0); // gate_open
+sound_synth(door_open, 1, 0); // gate_open
 if(coordx(coord) < coordx($loc_coord)) {
     p_teleport($loc_coord);
     p_delay(0);
@@ -145,7 +145,7 @@ stat_advance(thieving, 28124);
 %viking = ^viking_complete;
 session_log(^log_adventure, "Quest complete: The Fremennik Trials");
 queue(fremennik_name, 0, 0);
-~send_quest_complete(questlist:viking, viking_helmet, 150, ^viking_questpoints, "You have completed the\\nTrials of the Fremmenik Quest!");
+~send_quest_complete(questlist:viking, viking_helmet, 150, ^viking_questpoints, "You have completed the\\nTrials Of The Fremennik Quest!");
 
 [queue,fremennik_name]
 ~generate_viking_name;

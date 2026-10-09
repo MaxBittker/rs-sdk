@@ -1,7 +1,7 @@
 [pineapple_plant]
 name=Pineapple Plant
 desc=Looks spikey.
-model=model_loc_1408
+model=plants_loc_1408
 width=2
 length=2
 op1=Pick
@@ -12,7 +12,7 @@ param=next_loc_stage,pineapple_plant_four
 [pineapple_plant_four]
 name=Pineapple Plant
 desc=Looks spikey.
-model=model_loc_1408
+model=plants_loc_1408
 width=2
 length=2
 op1=Pick
@@ -23,7 +23,7 @@ param=next_loc_stage,pineapple_plant_three
 [pineapple_plant_three]
 name=Pineapple Plant
 desc=Looks spikey.
-model=model_loc_1408
+model=plants_loc_1408
 width=2
 length=2
 op1=Pick
@@ -34,7 +34,7 @@ param=next_loc_stage,pineapple_plant_two
 [pineapple_plant_two]
 name=Pineapple Plant
 desc=Looks spikey.
-model=model_loc_1408
+model=plants_loc_1408
 width=2
 length=2
 op1=Pick
@@ -45,7 +45,7 @@ param=next_loc_stage,pineapple_plant_one
 [pineapple_plant_one]
 name=Pineapple Plant
 desc=Looks spikey.
-model=model_loc_1408
+model=plants_loc_1408
 width=2
 length=2
 op1=Pick
@@ -56,7 +56,7 @@ param=next_loc_stage,pineapple_plant_no_pineapples
 [pineapple_plant_no_pineapples]
 name=Pineapple Plant
 desc=Looks spikey.
-model=model_loc_1413
+model=plants_loc_1413
 width=2
 length=2
 op1=Pick

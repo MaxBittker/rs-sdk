@@ -25,6 +25,9 @@ if (~player_npc_hit_roll(%damagetype) = true) {
     if (npc_param(demonbane_vulnerable) = true & inv_total(worn, silverlight) > 0) {
         $maxhit = scale(160, 100, %com_maxhit);
     }
+    if (npc_param(undead) = ^true & inv_total(worn, crystalshard_necklace) > 0) {
+        $maxhit = scale($maxhit, 7, 6); // seems like damage bonus... todo: figure this out
+    }
     $damage = randominc(~npc_max_dealt($maxhit, 0));
     def_int $damage_capped = min($damage, npc_stat(hitpoints));
     ~give_combat_experience(%damagestyle, $damage_capped, %npc_combat_xp_multiplier);
@@ -42,12 +45,12 @@ if ($weapon ! null) {
 
 //mes("attackstyle: <tostring(%attackstyle)>, damagestyle: <tostring(%damagestyle)>, damage: <tostring($damage)>, damagetype: <tostring(%damagetype)>");
 anim(%com_attackanim, 0);
-sound_synth(%com_attacksound, 0, 0);
+sound_synth(%com_attacksound, 1, 0);
 ~npc_retaliate(0);
 npc_queue(2, $damage, 0);
 npc_anim(npc_param(defend_anim), 20); 
 if (npc_param(defend_sound) ! null) {
-    sound_synth(npc_param(defend_sound), 0, 20); // delay npc this tick
+    sound_synth(npc_param(defend_sound), 1, 20); // delay npc this tick
 }
 // set the skill clock depending on the weapon attack rate
 if ($weapon = null) {

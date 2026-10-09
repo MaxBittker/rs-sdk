@@ -55,10 +55,14 @@ if (p_finduid(uid) = true) {
 if_close;
 p_stopaction;
 ~tele_checks;
-sound_synth(teleport_all, 0, 0);
+sound_synth(teleport_all, 1, 0);
 anim(human_castteleport, 0);
 spotanim_pl(teleport_casting, 92, 0);
-p_delay(2);
+p_delay(1);
+if (inv_getobj(worn, ^wearpos_rhand) = trollromance_toboggon_waxed & inv_freespace(inv) <= 0) { // Matches OSRS behaviour
+    obj_add(coord, trollromance_toboggon_waxed, 1, 1000);
+}
+p_delay(0);
 ~p_telejump_safe($coord);
 
 [proc,p_telejump_safe](coord $coord)
@@ -71,20 +75,43 @@ if(~inzone_coord_pair_table(mortton_temple_zones, coord) = true) {
     if_openoverlay(null);
 }
 
+if (~in_castlewars_game(coord) = true | ~in_castlewars_waitingroom(coord) = true) {
+    return;
+}
 p_telejump($coord);
 cam_reset;
 anim(null, 0);
 // todo: ensure this proc is used for other teleports too
+~post_tele_checks;
+
+[proc,post_tele_checks]
+~reset_haunted_levers;
 def_int $rum = inv_total(inv, karamja_rum);
 if ($rum > 0) {
     inv_del(inv, karamja_rum, $rum);
     mes("Your Karamjan rum gets broken and spilled.");
 }
-if(inv_total(inv, plaguesample) > 0) {
+if(inv_total(inv, plaguesample) > 0) { // Biohazard plague sample
     inv_del(inv, plaguesample, ^max_32bit_int);
     mes("The plague sample is too delicate...it disintegrates in the crossing.");
 }
+if (inv_getobj(worn, ^wearpos_rhand) = trollromance_toboggon_waxed) {
+    if(inv_freespace(inv) > 0) {
+        mes("You remove the sled.");
+        ~unequip_trollromance_sled;
+    } else {
+        mes("You remove the sled. It drops to the ground as you have no space for it.");
+        inv_del(worn, trollromance_toboggon_waxed, 1);
+        ~unequip_trollromance_sled;
+    }
+}
 ~clear_peer_trial_items;
+if(inv_total(inv, mm_monkey_in_backpack) > 0) {
+    // this does delete all if you have multiple (confirmed on OSRS)
+    inv_del(inv, mm_monkey_in_backpack, ^max_32bit_int);
+    mes("The monkey in your backpack disappears in a puff of smoke!");
+}
+~hauntedmine_fungus_crumble;
 
 [proc,tele_checks]()
 if(inv_total(inv, thanainabarrel) > 0) {
@@ -116,6 +143,10 @@ if (~inzone_coord_pair_table(random_event_maze_zones, $coord) = true) {
 if (~in_duel_arena($coord) = true) {
     mes("Coward! You can't teleport from a duel."); //RS3 message: https://archive.org/details/runelibris
     //Colored in #AB0908 in RS3, but was likely not colored in 2004
+    return(false);
+}
+if (~in_castlewars_game(coord) = true | ~in_castlewars_waitingroom(coord) = true) {
+    ~mesbox("You can't leave just like that!");
     return(false);
 }
 

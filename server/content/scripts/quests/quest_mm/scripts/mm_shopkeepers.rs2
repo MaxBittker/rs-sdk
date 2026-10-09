@@ -1,0 +1,177 @@
+[opnpc1,mm_hamab]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! I've found a human!");
+    }
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~mm_monkeyspeak;
+    ~mesbox("You cannot understand what she is saying.");
+    return;
+}
+~chatnpc("<p,neutral>Would you like to buy or sell some crafting equipment?");
+switch_int(~p_choice2("Yes, please.", 1, "No, thanks.", 2)) {
+    case 1 :
+        ~chatplayer("<p,neutral>Yes, please.");
+        ~openshop_activenpc;
+    case 2 :
+        ~chatplayer("<p,neutral>No, thanks.");
+}
+
+[opnpc3,mm_hamab]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! I've found a human!");
+    }
+    return;
+}
+~openshop_activenpc;
+
+[opnpc1,mm_ifaba]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! I've spotted a human!");
+    }
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    @mm_no_amulet_monkey;
+}
+~chatnpc("<p,neutral>Would you like to buy or sell anything?");
+switch_int(~p_choice2("Yes, please.", 1, "No, thanks.", 2)) {
+    case 1 :
+        ~chatplayer("<p,neutral>Yes, please.");
+        ~openshop_activenpc;
+    case 2 :
+        ~chatplayer("<p,neutral>No, thanks.");
+}
+
+[opnpc3,mm_ifaba]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! I've spotted a human!");
+    }
+    return;
+}
+~openshop_activenpc;
+
+
+[opnpc1,mm_tutab]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! Remove this human!");
+    }
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    @mm_no_amulet_monkey;
+}
+~chatnpc("<p,neutral>Would you like to buy or sell some magical items?");
+switch_int(~p_choice2("Yes, please.", 1, "No, thanks.", 2)) {
+    case 1 :
+        ~chatplayer("<p,neutral>Yes, please.");
+        ~openshop_activenpc;
+    case 2 :
+        ~chatplayer("<p,neutral>No, thanks.");
+}
+
+[opnpc3,mm_tutab]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! Remove this human!");
+    }
+    return;
+}
+~openshop_activenpc;
+
+[opnpc1,mm_daga]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! Guards! Remove this human!");
+    }
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    @mm_no_amulet_monkey;
+}
+~chatnpc("<p,neutral>Would you like to buy or sell some scimitars?");
+switch_int(~p_choice2("Yes, please.", 1, "No, thanks.", 2)) {
+    case 1 :
+        ~chatplayer("<p,neutral>Yes, please.");
+        ~openshop_activenpc;
+    case 2 :
+        ~chatplayer("<p,neutral>No, thanks.");
+}
+
+[opnpc3,mm_daga]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! Guards! Remove this human!");
+    }
+    return;
+}
+~openshop_activenpc;
+
+[opnpc1,mm_solihib]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! Guards! A human!");
+    }
+    return;
+}
+
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    @mm_no_amulet_monkey;
+}
+~chatnpc("<p,neutral>Would you like to buy or sell some food?");
+switch_int(~p_choice2("Yes, please.", 1, "No, thanks.", 2)) {
+    case 1 :
+        ~chatplayer("<p,neutral>Yes, please.");
+        ~openshop_activenpc;
+    case 2 :
+        ~chatplayer("<p,neutral>No, thanks.");
+}
+
+[opnpc3,mm_solihib]
+if(~mm_wearing_greegree = false) {
+    ~aa_summon_guards(^true);
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+    } else {
+        ~chatnpc("<p,neutral>Guards! Guards! A human!");
+    }
+    return;
+}
+~openshop_activenpc;

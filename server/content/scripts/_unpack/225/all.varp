@@ -88,7 +88,7 @@ scope=perm
 [waterfall_quest]
 scope=perm
 
-[waterfall_golrie_and_puzzle]
+[pillar_waterfall_quest]
 scope=perm
 
 [journey_number]
@@ -158,7 +158,8 @@ type=player_uid
 
 [skill_sound]
 
-[varp_134]
+[last_logout]
+scope=perm
 
 [varp_135]
 
@@ -166,8 +167,8 @@ type=player_uid
 
 [varp_137]
 
-[thieving_stall_timer]
-scope=perm
+// PR#682 removed old thieving_stall_timer varp, added varp_138 placeholder
+[varp_138]
 
 [gnome_bar_progress]
 scope=perm
@@ -195,7 +196,8 @@ scope=perm
 [elenaquest]
 scope=perm
 
-[varp_174]
+[marketthief]
+scope=perm
 
 [varp_189]
 

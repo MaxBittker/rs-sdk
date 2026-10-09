@@ -2,7 +2,7 @@
 name=Worm
 desc=Ugh! It's wriggling!
 cost=0
-model=model_2362_obj
+model=inv_worms2
 2dzoom=1010
 2dyan=32
 2dxan=288

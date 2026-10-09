@@ -1,6 +1,6 @@
 [ai_queue3,dwarf_normal] @dwarf_drop_table;
 [ai_queue3,dwarf_mountain] @dwarf_drop_table;
-[ai_queue3,dwarf_mountain2] @dwarf_drop_table;
+[ai_queue3,dwarf_tunnel] @dwarf_drop_table;
 
 [label,dwarf_drop_table]
 gosub(npc_death);

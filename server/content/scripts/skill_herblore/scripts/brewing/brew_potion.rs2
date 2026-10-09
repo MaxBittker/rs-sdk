@@ -37,6 +37,7 @@ if(last_useitem = ground_bat_bones) {
 switch_obj(last_useitem) {
     case eadgar_troll_thistle : mes("I need to dry it over a fire first."); // different mes than opheldu the other way around
     case eadgar_dried_troll_thistle : @eadgar_dried_troll_thistle_mes;
+    case eadgar_ground_troll_thistle : @eadgar_mix_troll_truth_potion;
     case default : ~attempt_brew_potion(last_useslot, last_slot);        
 }
 

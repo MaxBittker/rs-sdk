@@ -775,6 +775,7 @@ p_teleport(0_52_152_40_39);
 
 [oploc1,digchestclosed]
 mes("The chest is locked.");
+sound_synth(locked, 1, 0);
 
 [oplocu,digchestclosed]
 if (last_useitem = digchestkey) {
@@ -829,9 +830,9 @@ if ($item = trowel) {
 [opheld5,unidentified_liquid]
 anim(human_pickupfloor, 0);
 inv_delslot(inv, last_slot);
-sound_synth(exploding_vial, 0, 0); // osrs sound=1486
+sound_synth(exploding_vial, 1, 0); // osrs sound=1486
 p_delay(0);
-sound_synth(explosion, 0, 0);
+sound_synth(explosion, 1, 0);
 cam_shake(0, 5, 0, 0);
 p_delay(3);
 cam_reset;
@@ -842,9 +843,9 @@ say("Ow! The liquid exploded!");
 [opheld5,nitroglycerin]
 anim(human_pickupfloor, 0);
 inv_delslot(inv, last_slot);
-sound_synth(exploding_vial, 0, 0);
+sound_synth(exploding_vial, 1, 0);
 p_delay(0);
-sound_synth(explosion, 0, 0);
+sound_synth(explosion, 1, 0);
 cam_shake(0, 5, 0, 0);
 p_delay(3);
 cam_reset;
@@ -855,9 +856,9 @@ say("Ow! The nitroglycerin exploded!");
 [opheld5,precharcoalmixture]
 anim(human_pickupfloor, 0);
 inv_delslot(inv, last_slot);
-sound_synth(exploding_vial, 0, 0);
+sound_synth(exploding_vial, 1, 0);
 p_delay(0);
-sound_synth(explosion, 0, 0);
+sound_synth(explosion, 1, 0);
 cam_shake(0, 5, 0, 0);
 p_delay(3);
 cam_reset;
@@ -868,9 +869,9 @@ say("Ow! The chemicals exploded!");
 [opheld5,postcharcoalmixture]
 anim(human_pickupfloor, 0);
 inv_delslot(inv, last_slot);
-sound_synth(exploding_vial, 0, 0);
+sound_synth(exploding_vial, 1, 0);
 p_delay(0);
-sound_synth(explosion, 0, 0);
+sound_synth(explosion, 1, 0);
 cam_shake(0, 5, 0, 0);
 p_delay(3);
 cam_reset;
@@ -881,9 +882,9 @@ say("Ow! The mixture exploded!");
 [opheld5,digcompound]
 anim(human_pickupfloor, 0);
 inv_delslot(inv, last_slot);
-sound_synth(exploding_vial, 0, 0);
+sound_synth(exploding_vial, 1, 0);
 p_delay(0);
-sound_synth(explosion, 0, 0);
+sound_synth(explosion, 1, 0);
 cam_shake(0, 5, 0, 0);
 p_delay(3);
 cam_reset;

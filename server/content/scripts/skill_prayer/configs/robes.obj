@@ -1,5 +1,5 @@
 [druidrobebottom]
-model=model_2521_obj
+model=inv_robebottoms
 recol1s=2340
 recol1d=32767
 2dyof=1
@@ -8,16 +8,16 @@ recol1d=32767
 members=yes
 cost=30
 name=Druid's robe
-desc=Keeps a druids's knees nice and warm.
+desc=Keeps a druid's knees nice and warm.
 iop2=Wear
 wearpos=legs
-manwear=model_265_obj_wear,0
-womanwear=model_428_idk,0
+manwear=man_legs_robe,0
+womanwear=woman_legs_longskirt,0
 weight=2lb
 param=prayerbonus,4
 
 [druidrobetop]
-model=model_2786_obj
+model=inv_robetop
 recol1s=14724
 recol1d=32767
 2dyof=7
@@ -30,15 +30,15 @@ desc=I feel closer to the Gods when I am wearing this.
 iop2=Wear
 wearpos=torso
 wearpos2=arms
-manwear=model_170_idk,0
-womanwear=model_348_idk,0
-manwear2=model_292_idk
-womanwear2=model_456_idk
+manwear=man_arms_longsleeves,0
+womanwear=woman_arms_longsleeves,0
+manwear2=man_torso_basic
+womanwear2=woman_torso_basic
 weight=2lb
 param=prayerbonus,4
 
 [monkrobebottom]
-model=model_2521_obj
+model=inv_robebottoms
 recol1s=2340
 recol1d=13539
 2dyof=1
@@ -49,13 +49,14 @@ name=Monk's robe
 desc=Keeps a monk's knees nice and warm.
 iop2=Wear
 wearpos=legs
-manwear=model_265_obj_wear,0
-womanwear=model_428_idk,0
+manwear=man_legs_robe,0
+womanwear=woman_legs_longskirt,0
 weight=2lb
 param=prayerbonus,5
+param=saradominitem,^true
 
 [monkrobetop]
-model=model_2786_obj
+model=inv_robetop
 recol1s=14724
 recol1d=13539
 2dyof=7
@@ -67,15 +68,16 @@ desc=I feel closer to the Gods when I am wearing this.
 iop2=Wear
 wearpos=torso
 wearpos2=arms
-manwear=model_170_idk,0
-womanwear=model_348_idk,0
-manwear2=model_292_idk
-womanwear2=model_456_idk
+manwear=man_arms_longsleeves,0
+womanwear=woman_arms_longsleeves,0
+manwear2=man_torso_basic
+womanwear2=woman_torso_basic
 weight=2lb
 param=prayerbonus,6
+param=saradominitem,^true
 
 [blackrobetop]
-model=model_2786_obj
+model=inv_robetop
 recol1s=14724
 recol1d=0
 2dyof=7
@@ -87,15 +89,15 @@ desc=I feel closer to the Gods when I am wearing this.
 iop2=Wear
 wearpos=torso
 wearpos2=arms
-manwear=model_170_idk,0
-womanwear=model_348_idk,0
-manwear2=model_292_idk
-womanwear2=model_456_idk
+manwear=man_arms_longsleeves,0
+womanwear=woman_arms_longsleeves,0
+manwear2=man_torso_basic
+womanwear2=woman_torso_basic
 weight=2lb
 param=prayerbonus,5
 
 [blackrobebottom]
-model=model_2521_obj
+model=inv_robebottoms
 recol1s=2340
 recol1d=0
 2dyof=1
@@ -106,7 +108,7 @@ name=Shade robe
 desc=If a shade had knees, this would keep them nice and warm.
 iop2=Wear
 wearpos=legs
-manwear=model_265_obj_wear,0
-womanwear=model_428_idk,0
+manwear=man_legs_robe,0
+womanwear=woman_legs_longskirt,0
 weight=2lb
 param=prayerbonus,4

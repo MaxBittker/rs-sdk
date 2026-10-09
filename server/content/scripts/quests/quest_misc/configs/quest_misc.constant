@@ -1,0 +1,37 @@
+^misc_not_started = 0
+^misc_talked_to_king = 10
+^misc_talked_to_queen = 20
+^misc_queen_requests_recognition = 30
+^misc_need_bard_for_anthem = 40
+^misc_prince_composed_anthem = 50
+^misc_advisor_corrected_anthem = 60
+^misc_queen_gave_treaty = 70
+^misc_gave_king_treaty = 80
+^misc_king_signed_treaty = 90
+// ^misc_complete
+
+// Reflected off actual varbit value maps.
+^misc_affection_not_started = 0
+^misc_affection_s1_step0 = 10
+^misc_affection_s1_step1 = 11
+^misc_affection_s1_step2 = 12
+^misc_affection_s1_step3 = 13
+^misc_affection_s1_step4 = 14
+^misc_affection_s1_step5 = 15
+^misc_affection_s2_step0 = 20
+^misc_affection_s2_step1 = 21
+^misc_affection_s2_step2 = 22
+^misc_affection_s2_step3 = 23
+^misc_affection_s2_step4 = 24
+^misc_affection_s3_step0 = 30
+^misc_affection_s3_step1 = 31
+^misc_affection_s3_step2 = 32
+^misc_affection_s3_step3 = 33
+^misc_affection_s3_step4 = 34
+^misc_affection_complete = 40
+
+// Bases are by taking the modulo of %misc_affection by 10
+^misc_affection_s1_base = 1 // 10,11,12,13,14,15
+^misc_affection_s2_base = 2 // 20,21,22,23,24
+^misc_affection_s3_base = 3 // 30,31,32,33,34
+^misc_affection_complete_base = 4

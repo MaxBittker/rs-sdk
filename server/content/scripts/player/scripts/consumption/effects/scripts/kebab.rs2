@@ -1,6 +1,6 @@
 [label,consume_effect_kebab]
 mes("You eat the kebab.");
-sound_synth(eat, 0, 0);
+sound_synth(eat, 1, 0);
 anim(human_eat, 0);
 inv_delslot(inv, last_slot);
 // wiki data from 17229 kebabs

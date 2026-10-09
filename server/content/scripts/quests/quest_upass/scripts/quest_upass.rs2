@@ -190,7 +190,7 @@ if(loc_find(0_37_151_12_3, upass_logtrap) = true) loc_anim(swinginglogtrap_relea
 ~agility_exactmove(human_blown_start, 20, 2, coord, movecoord(coord, 5, 0, 0), 20, 80, ^exact_west, false);
 anim(human_stunned, 0);
 spotanim_pl(stunned, 124, 0);
-sound_synth(stunned, 0, 0);
+sound_synth(stunned, 1, 0);
 p_delay(0);
 ~damage_self(min(5, calc(((stat(hitpoints) * 20) / 100))));
 p_delay(0);
@@ -230,14 +230,14 @@ if (stat_random(thieving, 128, 400) = false) {
     mes("You fail to pick the lock.");
     return;
 }
-sound_synth(lockeddoor, 0, 0);
+sound_synth(lockeddoor, 1, 0);
 mes("You manage to pick the lock.");
 p_delay(2);
 stat_advance(thieving, 30);
 mes("You walk through.");
 ~open_and_close_door2(inact_cave_railings, ~check_axis_locactive(coord), door_open);
 mes("The cage slams shut behind you.");
-sound_synth(grate_close, 0, 50);
+sound_synth(grate_close, 1, 50);
 
 [oploc2,cave_railings2]
 mes("You search the bars...");
@@ -256,14 +256,14 @@ if (stat_random(thieving, 128, 400) = false) {
     return;
 }
 // for some reason they made this work slightly different than the jail cell doors: https://youtu.be/n_ip_vEDbCA?si=c51xpPJ36Nx8ABoL&t=633
-sound_synth(lockeddoor, 0, 0);
+sound_synth(lockeddoor, 1, 0);
 mes("You manage to pick the lock.");
 ~open_and_close_door2(inact_cave_railings, ~check_axis_locactive(coord), door_open);
 p_delay(1);
 stat_advance(thieving, 30);
 mes("You walk through...");
 mes("The cage slams shut behind you.");
-sound_synth(grate_close, 0, 50);
+sound_synth(grate_close, 1, 50);
 
 [oploc2,cave_railings5]
 mes("You search the bars...");
@@ -382,7 +382,7 @@ switch_obj(last_useitem) {
         return;
 }
 if(~upass_unicorn_door_unlocked = true) {
-    sound_synth(lockeddoor, 0, 0);
+    sound_synth(lockeddoor, 1, 0);
     mes("You hear a click from nearby...");
     mes("It sounded like it came from the skull above the door"); // no period
 }
@@ -447,7 +447,7 @@ say("Aaarrgghhh");
 if(last_useitem = upassdwarfbrew) {
     if(%upass = ^upass_found_doll) {
         mes("You pour the strong alcohol over the tomb.");
-        sound_synth(tap_fill, 0, 0);
+        sound_synth(tap_fill, 1, 0);
         inv_del(inv, upassdwarfbrew, 1);
         inv_add(inv, bucket_empty, 1);
         %ibanmulti = setbit(%ibanmulti, ^upass_poured_brew);
@@ -462,7 +462,7 @@ if(last_useitem = upassdwarfbrew) {
         mes("But it will not light.");
         return;
     }
-    sound_synth(fire_lit, 0, 0);
+    sound_synth(fire_lit, 1, 0);
     mes("It bursts into flames.");
     // Temp note: dur does not need updated
     loc_add(0_36_153_52_8, iban_firewall_straight, 3, wall_l, 10);
@@ -530,7 +530,7 @@ if(inv_total(inv, doomion_amulet) > 0 & inv_total(inv, othainian_amulet) > 0 & i
     inv_del(inv, holthion_amulet, 1);
     p_delay(1);
     mes("...You place them on the chest and it opens.");
-    sound_synth(chest_open, 0, 0);
+    sound_synth(chest_open, 1, 0);
     // Temp note: dur does not need updated
     loc_change(chestopen, 10); // osrs uses 378, you can kind of break this chest for a few minutes but idk if that was original behaviour
     p_delay(1);
@@ -577,7 +577,7 @@ if(coordx(loc_coord) < coordx(coord)) {
         mes("You pull open the large doors...");
         // Temp note: dur updated
         loc_change(loc_param(next_loc_stage), 5);
-        sound_synth(door_open, 0, 0);
+        sound_synth(door_open, 1, 0);
         p_teleport(movecoord(loc_coord, 1, 0, 0));
         p_delay(0);
         p_teleport(movecoord(coord, -130, 0, 64));
@@ -598,7 +598,7 @@ if(coordx(loc_coord) < coordx(coord)) {
     mes("You pull open the large doors...");
     // Temp note: dur updated
     loc_change(loc_param(next_loc_stage), 5);
-    sound_synth(door_open, 0, 0);
+    sound_synth(door_open, 1, 0);
     ~forcemove(movecoord(loc_coord, -1, 0, 0));
     if(getbit_range(%ibanmulti, ^upass_blood_on_doll, ^upass_shadow_on_doll) = calc(pow(2,4) - 1) & inv_total(inv, ibandoll) > 0 
         & %upass < ^upass_defeated_iban) {
@@ -624,7 +624,7 @@ if(coordx(loc_coord) < coordx(coord)) {
     p_teleport(loc_coord);
     p_delay(0);
     mes("...And walk out of the temple.");
-    sound_synth(door_open, 0, 0);
+    sound_synth(door_open, 1, 0);
     ~forcemove(movecoord(loc_coord, 2, 0, 0));
     if(%regicide_quest >= ^regicide_spoken_lathas) {
         p_teleport(movecoord(coord, 128, 0, -64));

@@ -39,33 +39,33 @@ if ($coord = 0_48_49_32_26) {
     mes("unhandled ladder <~coord_tostring($coord)>");
 }
 
-[oploc1,loc_1746]
+[oploc1,laddertop]
 p_arrivedelay;
 switch_coord (loc_coord) {
     case 2_47_54_17_57 : ~climb_ladder(1_47_54_17_58, false); // black knights fortress ladder
     case default : ~climb_ladder(movecoord(coord(), 0, -1, 0), false);   
 }
 
-[oploc1,loc_1747]
+[oploc1,ladder]
 p_arrivedelay;
 switch_coord (loc_coord) {
     case 0_40_53_10_49 : @ladder_to_dwarf_remains; // Ladder to Dwarf Guard Tower
     case default : ~climb_ladder(movecoord(coord(), 0, 1, 0), true);
 }
 
-[oploc1,loc_1748]
+[oploc1,laddermiddle]
 p_arrivedelay;
 @ladder_options(movecoord(coord(), 0, 1, 0), movecoord(coord(), 0, -1, 0));
 
-[oploc2,loc_1748]
+[oploc2,laddermiddle]
 p_arrivedelay;
 ~climb_ladder(movecoord(coord(), 0, 1, 0), true);
 
-[oploc3,loc_1748]
+[oploc3,laddermiddle]
 p_arrivedelay;
 ~climb_ladder(movecoord(coord(), 0, -1, 0), true);
 
-[oploc1,loc_1749]
+[oploc1,laddertop_directional]
 p_arrivedelay;
 switch_coord (loc_coord) {
     case 1_47_54_14_62 : 
@@ -76,15 +76,15 @@ switch_coord (loc_coord) {
 }
 ~climb_ladder(movecoord(coord(), 0, -1, 0), false);
 
-[oploc1,loc_1750]
+[oploc1,ladder_directional]
 p_arrivedelay;
 ~climb_ladder(movecoord(coord(), 0, 1, 0), true);
 
-[oploc1,loc_1754]
+[oploc1,ladder_cellar]
 p_arrivedelay;
 ~climb_ladder(movecoord(coord(), 0, 0, 6400), false);
 
-[oploc1,loc_1755] // mining guild ladder
+[oploc1,ladder_from_cellar] // mining guild ladder
 def_coord $coord = loc_coord;
 p_arrivedelay;
 if(loc_coord = 0_50_149_22_52) { // Zanaris ladder (entrance room)
@@ -93,15 +93,15 @@ if(loc_coord = 0_50_149_22_52) { // Zanaris ladder (entrance room)
 }
 ~climb_ladder(movecoord(coord(), 0, 0, -6400), true);
 
-[oploc1,loc_1757] 
+[oploc1,ladder_from_cellar_directional] 
 p_arrivedelay;
 ~climb_ladder(movecoord(coord(), 0, 0, -6400), true);
 
-[oploc1,loc_1759]
+[oploc1,ladder_cellar_inside_down]
 p_arrivedelay;
 ~climb_ladder(movecoord(coord(), 0, 0, 6400), false);
 
-[oploc1,loc_1765]
+[oploc1,wildymirrorladdertop1]
 def_coord $coord = loc_coord();
 p_arrivedelay;
 switch_coord ($coord) {
@@ -125,7 +125,7 @@ if ($coord = 0_48_149_31_40) {
 p_arrivedelay;
 ~climb_ladder(0_50_52_44_54, true);
 
-[oploc1,loc_2884]
+[oploc1,grandtree_laddermiddle]
 p_arrivedelay;
 def_int $option = ~p_choice2_header("Climb Up.", 1, "Climb Down.", 2, "Climb up or down the ladder?");
 if_close;
@@ -138,12 +138,12 @@ if ($option = 1) {
     p_telejump(movecoord(coord(), 0, -1, 0));
 }
 
-[oploc2,loc_2884]
+[oploc2,grandtree_laddermiddle]
 ~grandtree_spawn_charlie; // before the arrivedelay
 p_arrivedelay;
 ~climb_ladder(movecoord(coord(), 0, 1, 0), true);
 
-[oploc3,loc_2884]
+[oploc3,grandtree_laddermiddle]
 p_arrivedelay;
 ~climb_ladder(movecoord(coord(), 0, -1, 0), true);
 
@@ -173,3 +173,11 @@ if ($option = 1) {
 
 [label,unhandled_ladder](coord $loccoord)
 mes("Unhandled ladder: <~coord_tostring($loccoord)>");
+
+[oploc1,castlewars_laddertop]
+p_arrivedelay;
+~climb_ladder(movecoord(coord, 0, -1, 0), true);
+
+[oploc1,castlewars_ladder_cellar_directional]
+p_arrivedelay;
+~climb_ladder(movecoord(coord, 0, 0, 6400), true);

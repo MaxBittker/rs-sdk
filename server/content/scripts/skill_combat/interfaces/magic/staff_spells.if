@@ -501,7 +501,7 @@ x=38
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -512,7 +512,7 @@ x=114
 y=35
 width=28
 height=28
-model=model_2481_obj
+model=inv_mindrune
 zoom=900
 xan=512
 
@@ -601,7 +601,7 @@ x=25
 y=35
 width=28
 height=28
-model=model_2652_obj
+model=inv_waterrune
 zoom=900
 xan=512
 
@@ -612,7 +612,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -623,7 +623,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2481_obj
+model=inv_mindrune
 zoom=900
 xan=512
 
@@ -731,7 +731,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2737_obj
+model=inv_earthrune
 zoom=900
 xan=512
 
@@ -742,7 +742,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -753,7 +753,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2481_obj
+model=inv_mindrune
 zoom=900
 xan=512
 
@@ -863,7 +863,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2399_obj
+model=inv_firerune
 zoom=900
 xan=512
 
@@ -874,7 +874,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -885,7 +885,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2481_obj
+model=inv_mindrune
 zoom=900
 xan=512
 
@@ -995,7 +995,7 @@ x=38
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1006,7 +1006,7 @@ x=114
 y=35
 width=28
 height=28
-model=model_2707_obj
+model=inv_chaosrune
 zoom=900
 xan=512
 
@@ -1095,7 +1095,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2652_obj
+model=inv_waterrune
 zoom=900
 xan=512
 
@@ -1106,7 +1106,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1117,7 +1117,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2707_obj
+model=inv_chaosrune
 zoom=900
 xan=512
 
@@ -1225,7 +1225,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2737_obj
+model=inv_earthrune
 zoom=900
 xan=512
 
@@ -1236,7 +1236,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1247,7 +1247,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2707_obj
+model=inv_chaosrune
 zoom=900
 xan=512
 
@@ -1357,7 +1357,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2399_obj
+model=inv_firerune
 zoom=900
 xan=512
 
@@ -1368,7 +1368,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1379,7 +1379,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2707_obj
+model=inv_chaosrune
 zoom=900
 xan=512
 
@@ -1489,7 +1489,7 @@ x=38
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1500,7 +1500,7 @@ x=114
 y=35
 width=28
 height=28
-model=model_2645_obj
+model=inv_deathrune
 zoom=900
 xan=512
 
@@ -1589,7 +1589,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2652_obj
+model=inv_waterrune
 zoom=900
 xan=512
 
@@ -1600,7 +1600,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1611,7 +1611,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2645_obj
+model=inv_deathrune
 zoom=900
 xan=512
 
@@ -1719,7 +1719,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2737_obj
+model=inv_earthrune
 zoom=900
 xan=512
 
@@ -1730,7 +1730,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1741,7 +1741,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2645_obj
+model=inv_deathrune
 zoom=900
 xan=512
 
@@ -1851,7 +1851,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2399_obj
+model=inv_firerune
 zoom=900
 xan=512
 
@@ -1862,7 +1862,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1873,7 +1873,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2645_obj
+model=inv_deathrune
 zoom=900
 xan=512
 
@@ -1983,7 +1983,7 @@ x=38
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -1994,7 +1994,7 @@ x=114
 y=35
 width=28
 height=28
-model=model_2665_obj
+model=inv_bloodrune
 zoom=900
 xan=512
 
@@ -2083,7 +2083,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2652_obj
+model=inv_waterrune
 zoom=900
 xan=512
 
@@ -2094,7 +2094,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -2105,7 +2105,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2665_obj
+model=inv_bloodrune
 zoom=900
 xan=512
 
@@ -2213,7 +2213,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2737_obj
+model=inv_earthrune
 zoom=900
 xan=512
 
@@ -2224,7 +2224,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -2235,7 +2235,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2665_obj
+model=inv_bloodrune
 zoom=900
 xan=512
 
@@ -2345,7 +2345,7 @@ x=26
 y=35
 width=28
 height=28
-model=model_2399_obj
+model=inv_firerune
 zoom=900
 xan=512
 
@@ -2356,7 +2356,7 @@ x=78
 y=35
 width=28
 height=28
-model=model_2405_obj
+model=inv_airrune
 zoom=900
 xan=512
 
@@ -2367,7 +2367,7 @@ x=130
 y=35
 width=28
 height=28
-model=model_2665_obj
+model=inv_bloodrune
 zoom=900
 xan=512
 

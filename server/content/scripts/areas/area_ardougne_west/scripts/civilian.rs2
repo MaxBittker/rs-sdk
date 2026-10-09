@@ -29,7 +29,7 @@
 
 [label,civilian_talk_about_cats]
 if (~civilian_player_has_cat = true) {
-    @multi2("I have a cat that I could sell.", civilian_i_have_a_cat_i_could_sell, "Nope, they're not easy to get hold of.", civilian_ok_then_youve_got_a_deal);
+    @multi2("I have a cat that I could sell.", civilian_i_have_a_cat_i_could_sell, "Nope, they're not easy to get hold of.", civilian_nope_theyre_not_easy_to_get_hold_of);
 }
 if(inv_total(inv, cavewitchcat) > 0) {
     ~chatplayer("<p,happy>I have a cat...look!");

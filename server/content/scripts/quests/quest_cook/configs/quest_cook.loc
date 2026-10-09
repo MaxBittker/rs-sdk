@@ -1,7 +1,7 @@
 [cooksquestrange]
 name=Cooking range
 desc=An appliance for cooking with.
-model=model_loc_114
+model=furniture_range
 length=2
 forceapproach=east
 category=cooking_oven

@@ -1,7 +1,7 @@
 [pestle_and_mortar]
 cost=4
 members=yes
-model=model_2682_obj
+model=inv_pestel_mortar
 2dxof=-3
 2dyof=-8
 2dzoom=680
@@ -12,22 +12,22 @@ name=Pestle and mortar
 desc=I can grind things for potions in this.
 
 [herbbowl]
-model=model_506_obj
-manwear=model_506_obj,0
-womanwear=model_506_obj,6
+model=human_weapons_herbbowl
+manwear=human_weapons_herbbowl,0
+womanwear=human_weapons_herbbowl,6
 weight=1lb
 dummyitem=graphic_only
 
 [grinder]
-model=model_2657_obj
+model=inv_grinder
 2dxof=8
 2dyof=-5
 2dzoom=610
 2dyan=532
 2dzan=1844
 2dxan=440
-model=model_529_obj
-manwear=model_529_obj,0
-womanwear=model_529_obj,6
+model=human_weapons_grinder
+manwear=human_weapons_grinder,0
+womanwear=human_weapons_grinder,6
 weight=1lb
 dummyitem=graphic_only

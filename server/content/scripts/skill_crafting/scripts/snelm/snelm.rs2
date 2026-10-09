@@ -1,19 +1,19 @@
 [opheldu,_category_3]
-if(last_useitem = chisel) @craft_snelm;
+if(last_useitem = chisel) @craft_snelm(last_item);
 ~displaymessage(^dm_default);
 
 // weakqueued in osrs
-[label,craft_snelm]
+[label,craft_snelm](obj $shell)
 if(stat(crafting) < 15) {
     mes("You need a Crafting level of 15 to craft the shell into a helmet."); // osrs
     return;
 }
-inv_del(inv, last_useitem, 1);
-inv_add(inv, oc_param(last_useitem, next_obj_stage), 1);
+inv_del(inv, $shell, 1);
+inv_add(inv, oc_param($shell, next_obj_stage), 1);
 mes("You chisel the shell into a helmet.");
 anim(human_snailshellcutting, 0);
 stat_advance(crafting, 325);
-sound_synth(chisel, 0, 0);
+sound_synth(chisel, 1, 0);
 
 [proc,snelm_reduction](int $damage)(int)
 def_obj $head = inv_getobj(worn, ^wearpos_hat);

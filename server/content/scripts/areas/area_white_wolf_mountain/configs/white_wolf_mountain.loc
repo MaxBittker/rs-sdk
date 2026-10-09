@@ -1,7 +1,7 @@
 [herorockslide]
 name=Rock slide
 desc=Rocks that contain nothing interesting, but block the way.
-model=model_loc_471
+model=cavern_rockslide1
 width=2
 length=2
 op1=Examine

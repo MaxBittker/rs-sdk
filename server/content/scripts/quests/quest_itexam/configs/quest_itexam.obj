@@ -1,7 +1,7 @@
 [specimen_jar]
 name=Specimen jar
 desc=A receptacle for specimens!
-model=model_2371_obj
+model=inv_specimenjar
 2dzoom=1030
 2dyan=1772
 2dxan=96
@@ -12,7 +12,7 @@ tradeable=no
 [specimen_brush]
 name=Specimen brush
 desc=A small brush used to clean rock samples.
-model=model_2385_obj
+model=inv_specimenbrush
 2dxof=2
 2dyof=-12
 2dzoom=790
@@ -23,7 +23,7 @@ members=yes
 tradeable=no
 
 [rock_sample1]
-model=model_2393_obj
+model=inv_rocksample1
 2dxof=8
 2dyof=-15
 2dzoom=1170
@@ -36,7 +36,7 @@ members=yes
 tradeable=no
 
 [rock_sample2]
-model=model_2394_obj
+model=inv_rocksample2
 name=Rock sample 2
 desc=A carefully kept safe rock sample.
 2dyof=-12
@@ -48,7 +48,7 @@ members=yes
 tradeable=no
 
 [rock_sample3]
-model=model_2396_obj
+model=inv_rocksample3
 name=Rock sample 3
 desc=A carefully kept safe rock sample.
 2dxof=-2
@@ -61,7 +61,7 @@ members=yes
 tradeable=no
 
 [cracked_sample]
-model=model_2393_obj
+model=inv_rocksample1
 2dxof=8
 2dyof=-37
 2dzoom=1130
@@ -76,7 +76,7 @@ tradeable=no
 [rockpick]
 name=Rock pick
 desc=A small pick for cracking rock samples.
-model=model_2792_obj
+model=inv_rockpick
 2dxof=-6
 2dyof=-10
 2dzoom=700
@@ -89,7 +89,7 @@ tradeable=no
 [trowel]
 name=Trowel
 desc=Used for digging!
-model=model_2630_obj
+model=inv_trowel
 2dxof=1
 2dyof=-5
 2dzoom=1030
@@ -102,7 +102,7 @@ tradeable=no
 [tray_empty]
 name=Panning tray
 desc=An empty tray for panning.
-model=model_2577_obj
+model=inv_panningtray_empty
 2dyof=17
 2dzoom=1340
 2dyan=1920
@@ -115,7 +115,7 @@ tradeable=no
 [tray_gold]
 name=Panning tray
 desc=This tray contains gold.
-model=model_2513_obj
+model=inv_panningtray_gold
 2dyof=17
 2dzoom=1340
 2dyan=1920
@@ -128,7 +128,7 @@ tradeable=no
 [tray_mud]
 name=Panning tray
 desc=This tray contains mud.
-model=model_2452_obj
+model=inv_panningtray_mud
 2dyof=17
 2dzoom=1340
 2dyan=1920
@@ -141,7 +141,7 @@ tradeable=no
 [nuggets]
 name=Nuggets
 desc=Pure, lovely gold!
-model=model_2812_obj
+model=inv_goldnuggets
 2dxof=7
 2dyof=12
 2dzoom=1550
@@ -154,7 +154,7 @@ tradeable=no
 [digtalisman]
 name=Talisman of zaros
 desc=An unusual symbol of a lesser-known god.
-model=model_2449_obj
+model=inv_talisman
 2dxof=-1
 2dyof=9
 2dzoom=1150
@@ -165,7 +165,7 @@ members=yes
 tradeable=no
 
 [digplainletter]
-model=model_2600_obj
+model=inv_scroll
 name=Unstamped letter
 desc=A scroll waiting to be stamped.
 2dxof=1
@@ -178,7 +178,7 @@ members=yes
 tradeable=no
 
 [recommendedletter]
-model=model_2675_obj
+model=inv_scrollwithseal
 name=Stamped letter
 desc=A stamped scroll of recommendation.
 2dxof=1
@@ -191,7 +191,7 @@ members=yes
 tradeable=no
 
 [digsitebuckle]
-model=model_2516_obj
+model=inv_beltbuckle
 name=Belt buckle
 desc=Used to hold up trousers!
 2dxof=10
@@ -207,7 +207,7 @@ tradeable=no
 [old_boot]
 name=Old boot
 desc=Phew!
-model=model_2683_obj
+model=inv_oldboot
 2dxof=6
 2dyof=-4
 2dzoom=1000
@@ -220,7 +220,7 @@ tradeable=no
 [digsitesword]
 name=Rusty sword
 desc=A decent enough weapon gone rusty.
-model=model_2608_obj
+model=inv_rustysword
 2dyof=-1
 2dzoom=590
 2dyan=1136
@@ -232,7 +232,7 @@ tradeable=no
 [digsitearrow]
 name=Broken arrow
 desc=This must have been shot at high speed.
-model=model_2512_obj
+model=inv_brokenarrow
 2dxof=17
 2dyof=-16
 2dzoom=800
@@ -245,7 +245,7 @@ tradeable=no
 [digsitebuttons]
 name=Buttons
 desc=Not Dick Whittingtons' helper at all!
-model=model_2549_obj
+model=inv_buttons
 2dxof=-3
 2dyof=2
 2dzoom=600
@@ -256,7 +256,7 @@ members=yes
 tradeable=no
 
 [digsitestaff]
-model=model_2459_obj
+model=inv_brokenstaff
 name=Broken staff
 desc=I pity the poor person beaten with this!
 2dxof=4
@@ -271,7 +271,7 @@ tradeable=no
 [digsiteglass]
 name=Broken glass
 desc=Watch those feet!
-model=model_2676_obj
+model=inv_brokenglass
 2dxof=-1
 2dyof=1
 2dzoom=960
@@ -282,7 +282,7 @@ members=yes
 tradeable=no
 
 [level1certificate]
-model=model_2600_obj
+model=inv_scroll
 name=Level 1 certificate
 desc=The owner has passed earth sciences level 1 exam.
 2dxof=1
@@ -295,7 +295,7 @@ members=yes
 tradeable=no
 
 [level2certificate]
-model=model_2600_obj
+model=inv_scroll
 name=Level 2 certificate
 desc=The owner has passed earth sciences level 2 exam.
 2dxof=1
@@ -308,7 +308,7 @@ members=yes
 tradeable=no
 
 [level3certificate]
-model=model_2600_obj
+model=inv_scroll
 name=Level 3 certificate
 desc=The owner has passed earth sciences level 3 exam.
 2dxof=1
@@ -323,7 +323,7 @@ tradeable=no
 [digsitepottery]
 name=Ceramic remains
 desc=Smashing!
-model=model_2493_obj
+model=inv_broken_pot
 recol1s=19841
 recol1d=8384
 recol2s=12480
@@ -338,7 +338,7 @@ tradeable=no
 [old_tooth]
 name=Old tooth
 desc=Now if I can just find a tooth fairy to sell this to...
-model=model_2522_obj
+model=inv_ogretooth
 2dxof=1
 2dyof=17
 2dzoom=510
@@ -349,7 +349,7 @@ members=yes
 tradeable=no
 
 [digexpertscroll]
-model=model_2600_obj
+model=inv_scroll
 name=Invitation letter
 desc=A letter inviting me to use the private digshafts.
 2dxof=1
@@ -365,7 +365,7 @@ tradeable=no
 [digsitearmour1]
 name=Damaged armour
 desc=Beyond repair.
-model=model_loc_825_0
+model=gnome_damagedarmour1_0
 recol1s=11627
 recol1d=8420
 2dxof=-8
@@ -380,7 +380,7 @@ tradeable=no
 [digsitearmour2]
 name=Broken armour
 desc=No use to me...
-model=model_loc_826_0
+model=gnome_damagedarmour2_0
 recol1s=11627
 recol1d=8420
 2dxof=5
@@ -395,7 +395,7 @@ tradeable=no
 [zarosstonetablet]
 name=Stone tablet
 desc=An old stone slab with writing on it.
-model=model_2627_obj
+model=inv_stonetablet
 2dyof=-16
 2dzoom=1370
 2dyan=1888
@@ -408,7 +408,7 @@ tradeable=no
 [unidentified_powder]
 name=Chemical powder
 desc=An acrid chemical.
-model=model_2742_obj
+model=inv_ash
 recol1s=21140
 recol1d=29596
 members=yes
@@ -422,7 +422,7 @@ tradeable=no
 [ammonium_nitrate]
 name=Ammonium nitrate
 desc=An acrid chemical.
-model=model_2742_obj
+model=inv_ash
 recol1s=21140
 recol1d=29596
 members=yes
@@ -436,7 +436,7 @@ tradeable=no
 [unidentified_liquid]
 name=Unidentified liquid
 desc=A strong chemical.
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=31201
 2dyof=-1
@@ -451,7 +451,7 @@ param=destroy_drop,^true
 [nitroglycerin]
 name=Nitroglycerin
 desc=A strong chemical.
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=31201
 2dyof=-1
@@ -466,7 +466,7 @@ param=destroy_drop,^true
 [ground_charcoal]
 name=Ground charcoal
 desc=Charcoal, crushed to small pieces!
-model=model_2742_obj
+model=inv_ash
 recol1s=21140
 recol1d=3171
 members=yes
@@ -480,7 +480,7 @@ tradeable=no
 [precharcoalmixture]
 name=Mixed chemicals
 desc=A mixture of strong chemicals.
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=20929
 2dyof=-1
@@ -495,7 +495,7 @@ param=destroy_drop,^true
 [postcharcoalmixture]
 name=Mixed chemicals
 desc=A mixture of strong chemicals.
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=16577
 2dyof=-1
@@ -510,7 +510,7 @@ param=destroy_drop,^true
 [digcompound]
 name=Chemical compound
 desc=A mixture of strong chemicals.
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=3171
 2dyof=-1
@@ -525,7 +525,7 @@ param=destroy_drop,^true
 [arcenia_root]
 name=Arcenia root
 desc=The root of an Arcenia plant.
-model=model_2629_obj
+model=inv_root
 2dxof=3
 2dyof=4
 2dzoom=1130
@@ -538,7 +538,7 @@ tradeable=no
 [digchestkey]
 name=Chest key
 desc=This fits a chest.
-model=model_2372_obj
+model=inv_key
 2dxof=-3
 2dyof=5
 2dzoom=700
@@ -551,7 +551,7 @@ tradeable=no
 [digsitevase]
 name=Vase
 desc=A vessel for holding plants.
-model=model_2704_obj
+model=inv_urn
 recol1s=19263
 recol1d=13605
 2dyof=-3
@@ -565,7 +565,7 @@ tradeable=no
 [digsitebook]
 name=Book on chemicals
 desc=It's about chemicals, judging from its' cover.
-model=model_2543_obj
+model=inv_book_fancy
 recol1s=13472
 recol1d=8553
 recol2s=15855
@@ -586,7 +586,7 @@ tradeable=no
 name=Cup of tea
 desc=A refreshing cuppa.
 iop1=Drink
-model=model_2468_obj
+model=inv_teacup_full
 2dxof=-1
 2dyof=-2
 2dzoom=500

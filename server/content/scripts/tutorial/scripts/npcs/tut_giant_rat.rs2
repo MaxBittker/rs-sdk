@@ -30,7 +30,7 @@ anim(%com_defendanim, 0);
 npc_anim(npc_param(attack_anim), 0);
 %npc_action_delay = add(map_clock, npc_param(attackrate));
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 
 def_int $attack_roll = ~npc_melee_attack_roll;

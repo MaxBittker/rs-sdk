@@ -1,7 +1,7 @@
 [snake_vine_full]
 name=Marshy jungle vine
 desc=A marshy jungle vine.
-model=model_loc_1205
+model=plants_vine+sep_leaves
 hillskew=yes
 op2=Search
 recol1s=640
@@ -12,7 +12,7 @@ recol2d=30497
 [snake_vine_empty]
 name=Marshy jungle vine
 desc=A marshy jungle vine.
-model=model_loc_1205
+model=plants_vine+sep_leaves
 hillskew=yes
 recol1s=24449
 recol1d=640
@@ -20,7 +20,7 @@ recol1d=640
 [ardrigal_palm_full]
 name=Palm tree
 desc=A tall palm tree with some plants growing at it's stem.
-model=model_loc_1311
+model=plants_palm
 width=2
 length=2
 mapscene=5
@@ -29,7 +29,7 @@ op2=Search
 [ardrigal_palm_empty]
 name=Palm tree
 desc=A tall palm tree.
-model=model_loc_1311
+model=plants_palm
 width=2
 length=2
 mapscene=5
@@ -37,7 +37,7 @@ mapscene=5
 [sito_soil_full]
 name=Scorched earth
 desc=The burnt ground has a plant growing on it.
-model=model_loc_2579
+model=floor_burntearth
 mapscene=5
 hillskew=yes
 op2=Search
@@ -49,7 +49,7 @@ recol2d=8352
 [sito_soil_empty]
 name=Scorched earth
 desc=The ground has been burnt here by a fire.
-model=model_loc_2579
+model=floor_burntearth
 mapscene=5
 hillskew=yes
 recol1s=13505
@@ -60,20 +60,20 @@ recol2d=8352
 [volencia_moss_rock_full]
 name=Rock
 desc=A rock with green moss growing on it.
-model=model_loc_453
+model=mine_rock3
 mapscene=12
 op2=Search
 
 [volencia_moss_rock_empty]
 name=Rock
 desc=A rock, it looks like something was growing here.
-model=model_loc_453
+model=mine_rock3
 mapscene=12
 
 [rogues_purse_cave_full]
 name=Fungus covered Cavern wall
 desc=It looks as if it is covered in some fungus.
-model=model_loc_1446
+model=walldecor_cave_detail2
 contrast=100
 ambient=50
 active=yes
@@ -84,7 +84,7 @@ recol1d=448
 [pothole_cave_entrance]
 name=Rocks
 desc=A collection of rocks over what looks like a depression.
-model=model_loc_2218
+model=cavern_pothole
 width=2
 length=2
 hillskew=yes
@@ -94,7 +94,7 @@ op2=Search
 [jp_caverocksout]
 name=Hand holds
 desc=Rocky walls, you may be able to climb it.
-model=model_loc_1456
+model=walldecor_loc_1456
 contrast=100
 ambient=50
 active=yes

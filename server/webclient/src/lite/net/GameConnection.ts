@@ -1,6 +1,6 @@
 // Game socket + login handshake for the lite client.
 //
-// This is a direct port of Client.ts `login()` (rev 274). The handshake is
+// This is a direct port of Client.ts `login()` (rev 289). The handshake is
 // deliberately not "cleaned up" - the byte order, the two ISAAC streams seeded
 // 50 apart, and the 9 CRCs are all load-bearing, and the engine rejects with an
 // opaque "out of date" (response 6) for any of them.
@@ -10,7 +10,7 @@ import Isaac from '#/io/Isaac.js';
 import JString from '#/datastruct/JString.js';
 import Packet from '#/io/Packet.js';
 
-const CLIENT_VERSION = 274;
+const CLIENT_VERSION = 289;
 
 /** Defaults match webclient/bundle.ts, which bakes these in at build time. */
 const DEFAULT_RSA_MODULUS =

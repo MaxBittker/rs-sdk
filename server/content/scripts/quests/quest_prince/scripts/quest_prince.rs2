@@ -41,18 +41,18 @@ if(%princequest <= ^prince_guard_drunk | npc_find(coord, lady_keli, 10, 0) = tru
     return;
 }
 mes("You unlock the door.");
-~open_and_close_metal_gate2(poshdooropen, false, false);
+~open_and_close_metal_gate2(loc_1541, false, false);
 
 [oploc1,alidoor]
 if(coordz(coord) > coordz(loc_coord)) {
     mes("The door is locked.");
-    sound_synth(locked, 0, 0);
+    sound_synth(locked, 1, 0);
     return;
 }
-~open_and_close_metal_gate2(poshdooropen, true, false);
+~open_and_close_metal_gate2(loc_1541, true, false);
 
 [queue,prince_complete]
 %princequest = ^prince_complete;
 session_log(^log_adventure, "Quest complete: Prince Ali Rescue");
-~send_quest_complete(questlist:prince, coins, 250, ^prince_questpoints, "You have completed the\\nPrince Ali Rescue Quest!");
+~send_quest_complete(questlist:prince, coins, 260, ^prince_questpoints, "You have completed the\\nPrince Ali Rescue Quest!");
 inv_add(inv, coins, 700);

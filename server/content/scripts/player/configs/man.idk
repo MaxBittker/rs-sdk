@@ -1,208 +1,208 @@
-[man_hair_bald]
+[man_head_bald]
 type=man_hair
-head1=model_63_idk_head
-model1=model_230_idk
+head1=chat_male_head_bald
+model1=man_head_bald
 
-[man_hair_dreadlocks]
+[man_head_dredlocks]
 type=man_hair
-head1=model_49_idk_head
-model1=model_210_idk
+head1=chat_male_head_dredlocks
+model1=man_head_dredlocks
 
-[man_hair_long]
+[man_head_longhair]
 type=man_hair
-head1=model_52_idk_head
-model1=model_214_idk
+head1=chat_male_head_longhair
+model1=man_head_longhair
 
-[man_hair_medium]
+[man_head_mediumhair]
 type=man_hair
-head1=model_55_idk_head
-model1=model_217_idk
+head1=chat_male_head_mediumhair
+model1=man_head_mediumhair
 
-[man_hair_tonsure]
+[man_head_priest]
 type=man_hair
-head1=model_59_idk_head
-model1=model_223_idk
+head1=chat_male_head_priest
+model1=man_head_priest
 
-[man_hair_short]
+[man_head_shorthair]
 type=man_hair
-head1=model_53_idk_head
-model1=model_215_idk
+head1=chat_male_head_shorthair
+model1=man_head_shorthair
 
-[man_hair_cropped]
+[man_head_shorthair2]
 type=man_hair
-head1=model_67_idk_head
-model1=model_235_idk
+head1=chat_male_head_shorthair2
+model1=man_head_shorthair2
 
-[man_hair_wildspikes]
+[man_head_spikeyhair]
 type=man_hair
-head1=model_46_idk_head
-model1=model_206_idk
+head1=chat_male_head_spikeyhair
+model1=man_head_spikeyhair
 
-[man_hair_spikes]
+[man_head_spikeyhair2]
 type=man_hair
-head1=model_45_idk_head
-model1=model_203_idk
+head1=chat_male_head_spikeyhair2
+model1=man_head_spikeyhair2
 
-[man_hair_demon]
+[man_head_demon]
 disable=yes
 type=man_hair
-head1=model_45_idk_head
-model1=model_203_idk
+head1=chat_male_head_spikeyhair2
+model1=man_head_spikeyhair2
 
-[man_jaw_goatee]
+[man_jaw_goaty]
 type=man_jaw
-head1=model_81_idk_head
-model1=model_249_idk
+head1=chat_male_jaw_goaty
+model1=man_jaw_goaty
 
 [man_jaw_long]
 type=man_jaw
-head1=model_82_idk_head
-model1=model_250_idk
+head1=chat_male_jaw_long
+model1=man_jaw_long
 
 [man_jaw_medium]
 type=man_jaw
-head1=model_83_idk_head
-model1=model_251_idk
+head1=chat_male_jaw_medium
+model1=man_jaw_medium
 
 [man_jaw_moustache]
 type=man_jaw
-head1=model_79_idk_head
-model1=model_247_idk
+head1=chat_male_jaw_moustache
+model1=man_jaw_moustache
 
 [man_jaw_none]
 type=man_jaw
-model1=model_246_idk
+model1=man_jaw_none
 
 [man_jaw_short]
 type=man_jaw
-head1=model_80_idk_head
-model1=model_248_idk
+head1=chat_male_jaw_short
+model1=man_jaw_short
 
-[man_jaw_pointy]
+[man_jaw_short2]
 type=man_jaw
-head1=model_85_idk_head
-model1=model_253_idk
+head1=chat_male_jaw_short2
+model1=man_jaw_short2
 
 [man_jaw_split]
 type=man_jaw
-head1=model_84_idk_head
-model1=model_252_idk
+head1=chat_male_jaw_split
+model1=man_jaw_split
 
-[man_torso_plain]
+[man_torso_basic]
 type=man_torso
-model1=model_292_idk
+model1=man_torso_basic
 
-[man_torso_light_buttons]
+[man_torso_buttons]
 type=man_torso
-model1=model_292_idk
-model2=model_322_idk
+model1=man_torso_basic
+model2=man_torsoextra_buttons
 
-[man_torso_dark_buttons]
+[man_torso_buttons2]
 type=man_torso
-model1=model_292_idk
-model2=model_326_idk
+model1=man_torso_basic
+model2=man_torsoextra_buttons2
 
 [man_torso_jacket]
 type=man_torso
-model1=model_292_idk
-model2=model_320_idk
+model1=man_torso_basic
+model2=man_torsoextra_jacket
 
 [man_torso_shirt]
 type=man_torso
-model1=model_292_idk
-model2=model_327_idk
+model1=man_torso_basic
+model2=man_torsoextra_shirt
 
-[man_torso_stitching]
+[man_torso_pattern1]
 type=man_torso
-model1=model_292_idk
-model2=model_324_idk
+model1=man_torso_basic
+model2=man_torsoextra_pattern1
 
-[man_torso_torn]
+[man_torso_tatty]
 type=man_torso
-model1=model_310_idk
+model1=man_torso_tatty
 
-[man_torso_two_toned]
+[man_torso_elf]
 type=man_torso
-model1=model_297_idk
+model1=man_torso_elf
 
-[man_arms_regular]
+[man_arms_basic]
 type=man_arms
-model1=model_151_idk
+model1=man_arms_basic
 
-[man_arms_musclebound]
+[man_arms_buff]
 type=man_arms
-model1=model_167_idk
+model1=man_arms_buff
 
-[man_arms_loose_sleeved]
+[man_arms_longsleeves]
 type=man_arms
-model1=model_170_idk
+model1=man_arms_longsleeves
 
-[man_arms_large_cuffed]
+[man_arms_longsleeves2]
 type=man_arms
-model1=model_162_idk
+model1=man_arms_longsleeves2
 
-[man_arms_thin_sleeved]
+[man_arms_longsleeves3]
 type=man_arms
-model1=model_163_idk
+model1=man_arms_longsleeves3
 
-[man_arms_shoulder_pads]
+[man_arms_elf]
 type=man_arms
-model1=model_158_idk
+model1=man_arms_elf
 
 [man_arms_demon]
 disable=yes
 type=man_arms
-model1=model_158_idk
+model1=man_arms_elf
 
-[idk_33]
+[man_hands_cuffed]
 type=man_hands
-model1=model_176_idk
+model1=man_hands_basic
 
-[idk_34]
+[man_hands_basic]
 type=man_hands
 recol1s=14801
 recol1d=24075
-model1=model_176_idk
+model1=man_hands_basic
 
 [man_hands_demon]
 disable=yes
 type=man_hands
-model1=model_176_idk
+model1=man_hands_basic
 
-[man_legs_plain]
+[man_legs_basic]
 type=man_legs
-model1=model_254_idk
+model1=man_legs_basic
 
-[man_legs_shorts]
+[man_legs_basic2]
 type=man_legs
-model1=model_271_idk
+model1=man_legs_basic2
 
 [man_legs_flares]
 type=man_legs
-model1=model_267_idk
+model1=man_legs_flares
 
-[man_legs_turn_ups]
+[man_legs_turnups]
 type=man_legs
-model1=model_274_idk
+model1=man_legs_turnups
 
 [man_legs_tatty]
 type=man_legs
-model1=model_275_idk
+model1=man_legs_tatty
 
 [man_legs_demon]
 disable=yes
 type=man_legs
-model1=model_275_idk
+model1=man_legs_tatty
 
-[idk_42]
+[man_feet_basic]
 type=man_feet
-model1=model_181_idk
+model1=man_feet_basic
 
-[idk_43]
+[man_feet_elfboots]
 type=man_feet
-model1=model_183_idk
+model1=man_feet_elfboots
 
 [man_feet_demon]
 disable=yes
 type=man_feet
-model1=model_183_idk
+model1=man_feet_elfboots

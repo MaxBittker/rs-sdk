@@ -2,5 +2,6 @@
 export const enum BlockWalk {
     NONE,
     NPC,
-    ALL
+    ALL,
+    PLAYER
 }

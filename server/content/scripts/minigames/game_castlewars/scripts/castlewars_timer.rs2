@@ -1,0 +1,17 @@
+[timer,castlewars_timer]
+if (~in_castlewars_waitingroom(coord) = false) {
+    cleartimer(castlewars_timer);
+    return;
+}
+if (npc_find(^castlewars_lobby_coord, castlewars_judge, 10, 0) = false) {
+    return;
+}
+if (%npc_int < 1) { // waiting for players
+    %castlewars_timer = 0;
+    return;
+}
+if (%npc_int < 100) { // 5 min warmup
+    %castlewars_timer = sub(5, divide(%npc_int, 20));
+    return;
+}
+%castlewars_timer = sub(30, divide(%npc_int, 20)); // min until next game (+5 min)

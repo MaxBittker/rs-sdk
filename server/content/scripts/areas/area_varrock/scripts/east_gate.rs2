@@ -61,5 +61,5 @@ while(loc_findnext = true) {
             }
      }
 }
-sound_synth(door_open, 0, 0); // gate_open
+sound_synth(door_open, 1, 0); // gate_open
 p_delay(0);

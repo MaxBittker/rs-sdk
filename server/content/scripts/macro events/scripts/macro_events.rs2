@@ -69,8 +69,15 @@ if (map_random_events = false) {
 if (~macro_event_area(coord) = false) {
     return(false);
 }
+if (~in_castlewars_game(coord) = true | ~in_castlewars_waitingroom(coord) = true) {
+    return(false);
+}
 // if this var isnt reset on npc delete, then youll never get a random event: https://youtu.be/vRlOfkCCGkw
 if (%macro_event > 0) {
+    return(false);
+}
+// can not get macro events as a monkey
+if(~mm_wearing_greegree = true) {
     return(false);
 }
 return(true);
@@ -131,7 +138,7 @@ if (map_members = ^true) {
 p_delay(1);
 // https://youtu.be/g5k3XuXxyYQ?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT&t=37
 spotanim_map(smokepuff, coord, 124, 0);
-sound_synth(smokepuff2, 0, 0);
+sound_synth(smokepuff2, 1, 0);
 ~tele_checks;
 //--
 ~p_telejump_safe($teleport_coord); // todo: Confirm this
@@ -139,7 +146,7 @@ sound_synth(smokepuff2, 0, 0);
 // called when the npc needs to be poofed away
 [proc,macro_event_disappear]
 if (npc_findhero = ^true) {
-    sound_synth(smokepuff2, 0, 0);
+    sound_synth(smokepuff2, 1, 0);
 }
 spotanim_map(smokepuff, npc_coord, 124, 0);
 npc_del;
@@ -156,7 +163,7 @@ if (finduid(%npc_macro_event_target) = true) {
     if (coordy(coord) ! coordy(npc_coord) | npc_range(coord) > 15) {
         npc_tele(map_findsquare(coord, 1, 1, ^map_findsquare_lineofwalk));
         spotanim_map(smokepuff, npc_coord, 124, 0);
-        sound_synth(smokepuff, 0, 0);
+        sound_synth(smokepuff, 1, 0);
     }
     npc_setmode(playerfollow);
     return(false);

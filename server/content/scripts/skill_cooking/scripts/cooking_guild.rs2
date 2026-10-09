@@ -1,4 +1,4 @@
-[oploc1,loc_2712]
+[oploc1,chefdoor]
 def_boolean $is_inside = ~check_axis(coord, loc_coord, loc_angle);
 if ($is_inside = false) {
     if (stat(cooking) < 32) {

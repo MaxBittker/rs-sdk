@@ -38,33 +38,35 @@
   },
   "dependencies": {
     "@isaacs/ttlcache": "2.1.5",
-    "@lostcityrs/runescript": "0.9.6",
-    "bcrypt-ts": "8.0.1",
-    "ejs": "5.0.2",
+    "@jimp/js-png": "1.6.1",
+    "@jimp/plugin-quantize": "1.6.1",
+    "@lostcityrs/runescript": "0.9.7",
+    "bcrypt-ts": "9.0.2",
+    "ejs": "6.0.1",
     "fflate": "0.8.3",
     "jimp": "1.6.1",
     "kleur": "4.1.5",
-    "kysely": "0.29.2",
-    "mysql2": "3.22.3",
+    "kysely": "0.29.5",
+    "mysql2": "3.23.3",
     "node-forge": "1.4.0",
     "prom-client": "15.1.3",
-    "ws": "8.21.0"
+    "ws": "8.21.3"
   },
   "devDependencies": {
-    "@eslint/js": "9.39.4",
+    "@eslint/js": "10.0.1",
     "@types/bun": "latest",
     "@types/ejs": "3.1.5",
     "@types/node": "^24",
     "@types/node-forge": "1.3.14",
     "@types/ws": "8.18.1",
-    "eslint": "10.4.0",
-    "globals": "17.6.0",
+    "eslint": "10.8.1",
+    "globals": "17.10.0",
     "husky": "9.1.7",
-    "lint-staged": "17.0.5",
-    "prettier": "3.8.3",
+    "lint-staged": "17.3.0",
+    "prettier": "3.9.6",
     "prisma": "6.19.3",
     "prisma-kysely": "2.3.0",
-    "typescript-eslint": "8.60.0"
+    "typescript-eslint": "8.67.0"
   },
   "peerDependencies": {
     "typescript": "^5"

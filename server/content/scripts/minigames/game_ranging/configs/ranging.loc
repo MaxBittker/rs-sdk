@@ -1,15 +1,15 @@
-[loc_2511]
+[ranging_ladder_up]
 name=Tower ladder
 desc=This leads to the practice tower.
-model=model_loc_11
+model=furniture_ladder
 active=yes
 op1=Climb-up
 mapscene=7
 
-[loc_2512]
+[ranging_ladder_down]
 name=Tower ladder
 desc=This leads back down to the guild.
-model=model_loc_10
+model=furniture_laddertop
 active=yes
 op1=Climb-down
 mapscene=7
@@ -17,13 +17,13 @@ mapscene=7
 [loc_2513]
 name=Target
 desc=I wonder if I can hit a bullseye?
-model=model_loc_829
+model=outdoorfurniture_target
 op1=Fire-at
 
-[loc_2514]
+[ranging_guild_door]
 name=Guild door
 desc=The door to the Ranging Guild.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall

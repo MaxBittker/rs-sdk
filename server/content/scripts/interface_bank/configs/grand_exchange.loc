@@ -1,7 +1,7 @@
 [grand_exchange_booth]
 name=Grand Exchange table
 desc=Banking transactions and exchange offers are processed here.
-model=model_loc_590
+model=furniture_banktable
 width=2
 length=1
 op1=Exchange

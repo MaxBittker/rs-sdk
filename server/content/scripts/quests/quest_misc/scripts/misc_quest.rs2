@@ -1,0 +1,42 @@
+[queue,misc_quest_complete]
+%misc_quest = ^misc_complete;
+%misc_coffers = 10000; // Start with 10k in coffers.
+%misc_last_update = date_minutes; // supposedly set here as well? (https://oldschool.runescape.wiki/w/Update:DMM_Tweaks,_Upcoming_Launcher_Changes_%26_more!)
+session_log(^log_adventure, "Quest complete: Throne of Miscellania");
+~send_quest_complete(questlist:misc, misc_giant_pen, 250, ^misc_questpoints, "You have completed the\\nThrone of Miscellania Quest!");
+
+[opheldu,misc_giant_nib]
+switch_obj (last_useitem) {
+    // teak and mahogany should work later, also redwood in osrs, but its not category since bark doesnt work
+    case logs, oak_logs, willow_logs, maple_logs, yew_logs, magic_logs, achey_tree_logs :
+        mes("You place the nib on the end of the log to make a crude pen.");
+        inv_del(inv, last_useitem, 1);
+        inv_del(inv, misc_giant_nib, 1);
+        inv_setslot(inv, last_useslot, misc_giant_pen, 1); // osrs behaviour, it changes the target slot
+    case default : ~displaymessage(^dm_default);
+};
+
+// This distributes the emotes to the area and relevant prince/princess detection.
+[proc,misc_quest_handle_emote](seq $anim)
+// Prince Brand Emote Area
+if (inzone(1_39_60_2_9, 1_39_60_6_14, coord) = true | inzone(1_39_60_7_11, 1_39_60_8_14, coord) = true) {
+    if (npc_find(coord, misc_prince_brand, 10, 0) = true) {
+        ~prince_brand_handle_emote($anim);
+    }
+}
+// Princess Astrid Emote Area
+if (inzone(1_39_60_2_26, 1_39_60_6_31, coord) = true | inzone(1_39_60_7_26, 1_39_60_8_29, coord) = true) {
+    if (npc_find(coord, misc_princess_astrid, 10, 0) = true) {
+        ~princess_astrid_handle_emote($anim);
+    }
+}
+
+[opheld5,misc_awful_anthem]
+inv_del(inv, misc_awful_anthem, 1); // deletes first rather than slot
+sound_synth(put_down, 1, 0);
+mes("The anthem is caught by a gust of wind and flies out of sight.");
+
+[opheld5,misc_good_anthem]
+inv_del(inv, misc_good_anthem, 1); // deletes first rather than slot
+sound_synth(put_down, 1, 0);
+mes("The anthem is caught by a gust of wind and flies out of sight.");

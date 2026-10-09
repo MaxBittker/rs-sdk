@@ -3,7 +3,7 @@ name=Flax
 desc=I should use this with a spinning wheel.
 cost=5
 members=yes
-model=model_2690_obj
+model=inv_flax
 2dxof=4
 2dzoom=770
 2dyan=1076
@@ -15,7 +15,7 @@ param=crafting_spinning_struct,flax
 [wool]
 name=Wool
 desc=I think this came from a sheep.
-model=model_2779_obj
+model=inv_fleece
 2dyof=-7
 2dzoom=1070
 2dyan=160

@@ -33,4 +33,4 @@ if (inzone(0_44_150_31_28, 0_44_150_47_46, coord) = true) { // only tele if in t
 stat_advance(strength, 186500);
 stat_advance(defence, 186500);
 session_log(^log_adventure, "Quest complete: Dragon Slayer");
-~send_quest_complete(questlist:dragon, rune_platebody, 250, ^dragon_questpoints, "You have completed the\\nDragon Slayer Quest!");
+~send_quest_complete(questlist:dragon, rune_platebody, 220, ^dragon_questpoints, "You have completed the\\nDragon Slayer Quest!");

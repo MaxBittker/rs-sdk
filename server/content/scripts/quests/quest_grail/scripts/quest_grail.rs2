@@ -8,7 +8,7 @@ if(%grail > ^grail_not_started) {
         }
         npc_add(1_43_54_15_44, merlin2, 500);
     }
-    ~open_and_close_door(poordoor, $entering, false);
+    ~open_and_close_door(loc_1535, $entering, false);
     return;
 }
 mes("The door won't open.");
@@ -32,7 +32,7 @@ if(map_members = ^true & inv_total(inv, holy_table_napkin) > 0 & inv_total(inv, 
     obj_add(2_48_52_35_31, magic_whistle, 1, calc(^lootdrop_duration / 2)); // this is intended to keep spawning 2 more each time you enter/leave
     obj_add(2_48_52_35_31, magic_whistle, 1, calc(^lootdrop_duration / 2));
 }
-~open_and_close_door(poordoor, ~check_axis(coord, loc_coord, loc_angle), false);
+~open_and_close_door(loc_1535, ~check_axis(coord, loc_coord, loc_angle), false);
 
 [opheld1,magic_whistle]
 if(inzone(0_42_50_52_34, 0_42_50_55_37, coord) = true) { // Karamja -> fisher's realm

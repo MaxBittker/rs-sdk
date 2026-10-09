@@ -1,16 +1,21 @@
 [label,pvm_dragon_spear_sa]
+if (npc_category = castlewars_barricade) {
+    mes("You can't use this special attack on the barricades.");
+    %sa_attack = ^false;
+    return;
+}
 p_stopaction;
 ~set_sa_vars(oc_param(inv_getobj(worn, ^wearpos_rhand), sa_energy));
 spotanim_pl(sp_attack_shove_spotanim, 96, 0);
 anim(shove, 0);
-sound_synth(shove, 0, 0);
+sound_synth(shove, 1, 0);
 
 spotanim_npc(stunned_shove, 96, 0);
 npc_anim(npc_param(defend_anim), 0);
 ~npc_retaliate(0);
 npc_facesquare(coord);
 if (npc_param(defend_sound) ! null) {
-    sound_synth(npc_param(defend_sound), 0, 20);
+    sound_synth(npc_param(defend_sound), 1, 20);
 }
 def_coord $end_coord = ~dragon_spear_push(~coord_direction(coord, npc_coord), npc_coord);
 if (nc_size(npc_type) = 1) { // only 1x1 npcs can be pushed
@@ -52,4 +57,3 @@ if (lineofwalk($target_coord, $end_coord) = true) {
     return ($end_coord);
 }
 return ($target_coord);
-

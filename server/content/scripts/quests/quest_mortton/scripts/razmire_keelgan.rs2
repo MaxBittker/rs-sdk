@@ -1,5 +1,5 @@
 [opnpc3,razmire_keelgan]
-if (testbit(%morttonmulti, ^mortton_cured_razmire) = ^false & testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^false) {
+if (testbit(%morttonmulti, ^razmire_visible) = ^false & testbit(%morttonmulti, ^razmire_perm_serum_used) = ^false) {
     npc_changetype(razmire_keelgan_afflicted,200);
     @afflicted_talk;
 }
@@ -12,7 +12,7 @@ if(%morttonquest >= ^mortton_shades_to_razmire) {
 }
 
 [opnpc4,razmire_keelgan]
-if (testbit(%morttonmulti, ^mortton_cured_razmire) = ^false & testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^false) {
+if (testbit(%morttonmulti, ^razmire_visible) = ^false & testbit(%morttonmulti, ^razmire_perm_serum_used) = ^false) {
     npc_changetype(razmire_keelgan_afflicted,200);
     @afflicted_talk;
 }
@@ -41,18 +41,18 @@ if(oc_category(last_useitem) = category_108) {
     npc_changetype(razmire_keelgan,200);
     inv_setslot(inv, last_useslot, oc_param(last_useitem, next_obj_stage), 1);
     longqueue(razmire_reset, 200, 0, ^accelerate);
-    %morttonmulti = setbit(%morttonmulti, ^mortton_cured_razmire);
-    if (testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^true) {
+    %morttonmulti = setbit(%morttonmulti, ^razmire_visible);
+    if (testbit(%morttonmulti, ^razmire_perm_serum_used) = ^true) {
         ~chatnpc("<p,happy>You've already used the permanent serum on me, you|don't need to use that any more.");
     }
     @razmire_talk;
 } else if(oc_category(last_useitem) = category_109) {
     npc_changetype(razmire_keelgan,200);
-    if (testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^false) {
+    if (testbit(%morttonmulti, ^razmire_perm_serum_used) = ^false) {
         def_int $last_useslot = last_useslot;
         def_obj $last_useitem = last_useitem;
         ~chatnpc("<p,happy>Well done - I feel this serum is really working on me.|I think you've cracked it, my friend! I'd like to give|you something for your trouble!");
-        %morttonmulti = setbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire);
+        %morttonmulti = setbit(%morttonmulti, ^razmire_perm_serum_used);
         inv_setslot(inv, $last_useslot, oc_param($last_useitem, next_obj_stage), 1);
         def_int $count = ~random_range(180,220);
         inv_add(inv, coins, $count);
@@ -66,17 +66,17 @@ if(oc_category(last_useitem) = category_108) {
 }
 
 [queue,razmire_reset]
-%morttonmulti = clearbit(%morttonmulti, ^mortton_cured_razmire);
+%morttonmulti = clearbit(%morttonmulti, ^razmire_visible);
 
 [opnpc1,razmire_keelgan]
-if (testbit(%morttonmulti, ^mortton_cured_razmire) = ^false & testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^false) {
+if (testbit(%morttonmulti, ^razmire_visible) = ^false & testbit(%morttonmulti, ^razmire_perm_serum_used) = ^false) {
     npc_changetype(razmire_keelgan_afflicted,200);
     @afflicted_talk;
 }
 @razmire_talk;
 
 [opnpc1,razmire_keelgan_afflicted]
-if (testbit(%morttonmulti, ^mortton_cured_razmire) = ^true | testbit(%morttonmulti, ^mortton_used_perm_serum_on_razmire) = ^true) {
+if (testbit(%morttonmulti, ^razmire_visible) = ^true | testbit(%morttonmulti, ^razmire_perm_serum_used) = ^true) {
     npc_changetype(razmire_keelgan,200);
     @razmire_talk;
 }
@@ -237,10 +237,10 @@ if(%morttonquest < ^mortton_kill_shades) {
 @razmire_store_selection_post_oil;
 
 [label,razmire_general_open]
-~openshop(razmiregeneralstore, 400, 1300, 300, "Razmire General Store.");
+~openshop(razmiregeneralstore, 400, 1300, 30, "Razmire General Store.");
 
 [label,razmire_building_open]
-~openshop(razmirebuildingstore, 650, 1050, 400, "Razmire Builders Merchants.");
+~openshop(razmirebuildingstore, 650, 1050, 40, "Razmire Builders Merchants.");
 
 [label,razmire_thanks]
 ~chatplayer("<p,neutral>Ok, thanks");

@@ -4,8 +4,8 @@ p_stopaction;
 ~set_pk_vars;
 spotanim_pl(sp_attack_shove_spotanim, 96, 0);
 anim(shove, 0);
-sound_synth(shove, 0, 0);
-.sound_synth(shove, 0, 0);
+sound_synth(shove, 1, 0);
+.sound_synth(shove, 1, 0);
 
 def_int $dir = ~coord_direction(coord, .coord);
 .if_close;

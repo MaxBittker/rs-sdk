@@ -1,7 +1,7 @@
 [catabow]
 name=Ballista
 desc=It's a war machine.
-model=model_loc_2181
+model=quest_catabow
 width=3
 length=3
 op2=Fire
@@ -9,7 +9,7 @@ op2=Fire
 [chestopen_khazard]
 name=Open chest
 desc=It can't hurt to just have a look, can it?.
-model=model_loc_76
+model=furniture_chestopen
 op1=Search
 op2=Close
 forceapproach=north
@@ -17,14 +17,14 @@ forceapproach=north
 [chestclosed_khazard]
 name=Closed chest
 desc=I wonder what is inside...
-model=wooden_chest
+model=furniture_chestclosed
 op1=Open
 forceapproach=north
 
 [khazard_stronghold_door]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -35,7 +35,7 @@ recol2d=11458
 [khazzacklowwall]
 name=Crumbled wall
 desc=This wall has seen better days.
-model=model_loc_2185
+model=crumbly_loc_2185
 op1=Climb-over
 active=yes
 retex1s=wall

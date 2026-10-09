@@ -1,6 +1,6 @@
 [proc,macro_geni_spawn]
 spotanim_map(smokepuff, npc_coord, 124, 0);
-sound_synth(genie_appear, 0, 0);
+sound_synth(genie_appear, 1, 0);
 npc_say("Greetings <text_gender("master", "mistress")> <displayname>!");
 %npc_macro_event_target = uid;
 // this matches this video: https://www.youtube.com/watch?v=el-h9hbSH80&t=293s
@@ -19,7 +19,7 @@ if (finduid(%npc_macro_event_target) = true) {
     // 3 warning messages: https://youtu.be/g5k3XuXxyYQ?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
     if (%npc_int = 0) {
         npc_anim(emote_wave, 20);
-        npc_say("Ehem... <text_gender("master", "mistress")> <displayname>?");
+        npc_say("ehem... <text_gender("master", "mistress")> <displayname>?"); // https://i.imgur.com/Dti2Tm7.png
     } else if (%npc_int = 1) {
         npc_anim(emote_think, 20);
         npc_say("Are you there, <text_gender("master", "mistress")> <displayname>?");

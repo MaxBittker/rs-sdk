@@ -149,14 +149,14 @@ if (%npc_aggressive_player ! uid) {
     mes("That is someone else's prey...");
     return;
 }
-@player_combat_start_nomulti; // will ignore multi, tested on osrs
+@player_combat_start; // will ignore multi, tested on osrs
 
 [apnpc2,viking_draugen] 
 if (%npc_aggressive_player ! uid) {
     mes("That is someone else's prey...");
     return;
 }
-@player_combat_start_ap_nomulti;
+@player_combat_start;
 
 [ai_queue3,viking_draugen]
 if(finduid(%npc_aggressive_player) = true) {
@@ -171,7 +171,7 @@ if(finduid(%npc_aggressive_player) = true) {
         inv_add(inv, viking_draugen_talisman, 1);
         spotanim_map(smokepuff, npc_coord, 0, 0);
         npc_del;
-        sound_synth(ghost_death, 0, 0);
+        sound_synth(ghost_death, 1, 0);
     }
 }
 

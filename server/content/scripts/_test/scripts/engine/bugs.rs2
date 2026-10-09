@@ -1,7 +1,7 @@
 // exposes a flaw in the original client scene building code - the door in front of the player disappears
 [debugproc,door_test]
 if (p_finduid(uid) = true) {
-    if (loc_find(0_49_53_24_48, desertdoorclosed) = true) {
+    if (loc_find(0_49_53_24_48, loc_1533) = true) {
         def_coord $new_loc_coord = ~movecoord_loc_return(~door_close(0, loc_shape));
         loc_del(1);
         loc_add($new_loc_coord, loc_param(next_loc_stage), 0, loc_shape, 1);

@@ -1,143 +1,143 @@
 [boardgames_runelink_firerune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2399_obj
+model=inv_firerune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_waterrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2652_obj
+model=inv_waterrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_earthrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2737_obj
+model=inv_earthrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_airrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2405_obj
+model=inv_airrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_mindrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2481_obj
+model=inv_mindrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_bodyrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2340_obj
+model=inv_bodyrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_naturerune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2734_obj
+model=inv_naturerune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_chaosrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2707_obj
+model=inv_chaosrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_lawrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2382_obj
+model=inv_lawrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_cosmicrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2735_obj
+model=inv_cosmicrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_bloodrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2665_obj
+model=inv_bloodrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only
 
 [boardgames_runelink_soulrune]
 name=Board game piece
 desc=A piece used in board games.
-model=model_2434_obj
+model=inv_soulrune
 2dyof=1
 2dzoom=740
 2dxan=516
+weight=2g
 members=yes
 category=boardgames_piece
-tradeable=no
 dummyitem=inv_only

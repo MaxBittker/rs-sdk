@@ -1,9 +1,8 @@
-//guess
 [dragonshield_a]
 cost=110000
 name=Shield left half
 desc=The left half of a dragon square shield.
-model=model_2359_obj
+model=inv_sqdragonshield-a
 2dxof=-5
 2dyof=-12
 2dzoom=1740
@@ -16,7 +15,7 @@ members=yes
 cost=500000
 name=Shield right half
 desc=The right half of a dragon square shield.
-model=model_2360_obj
+model=inv_sqdragonshield-b
 2dxof=-13
 2dzoom=1800
 2dyan=140
@@ -27,9 +26,9 @@ members=yes
 [hammer]
 name=Hammer
 desc=Good for hitting things!
-model=model_2376_obj
-manwear=model_491_obj_wear,0
-womanwear=model_491_obj_wear,6
+model=inv_hammer
+manwear=human_weapons_hammer,0
+womanwear=human_weapons_hammer,6
 2dxof=-3
 2dyof=-1
 2dzoom=900

@@ -42,6 +42,12 @@ export default class VarBitType {
                 this.endbit = dat.g1();
             } else if (code === 10) {
                 this.debugname = dat.gjstr();
+            } else if (code === 2) {
+                // server-side
+            } else if (code === 3) {
+                dat.pos += 4;
+            } else if (code === 4) {
+                dat.pos += 4;
             } else {
                 console.log('Error unrecognised config code: ', code);
             }

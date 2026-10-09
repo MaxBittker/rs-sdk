@@ -1,19 +1,16 @@
-// guessed name
-
 [unidentified_guam]
 category=category_773
 iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
 respawnrate=200
-// guessed name
 
 [unidentified_marentill]
 category=category_773
@@ -21,13 +18,12 @@ iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_tarromin]
 category=category_773
@@ -35,13 +31,12 @@ iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_harralander]
 category=category_773
@@ -49,110 +44,102 @@ iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_ranarr]
 iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_irit]
 iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_avantoe]
 iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_kwuarm]
 iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_cadantine]
 iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_dwarf_weed]
 iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_torstol]
 iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
 2dxan=376
 weight=7g
-// guessed name
 
 [unidentified_snake_weed]
 name=Unidentified herb
 desc=An unidentified herb.
 category=category_90
-model=model_2440_obj
+model=inv_snapegrass
 recol1s=615
 recol1d=21347
 recol2s=455
@@ -166,14 +153,13 @@ members=yes
 iop1=Identify
 weight=7g
 tradeable=no
-// guessed name
 
 [unidentified_ardrigal]
 name=Unidentified herb
 desc=An unidentified herb.
 category=category_90
 cost=1
-model=model_2364_obj
+model=inv_herb
 recol1s=288
 recol1d=13600
 recol2s=448
@@ -186,13 +172,12 @@ members=yes
 weight=7g
 iop1=Identify
 tradeable=no
-// guessed name
 
 [unidentified_sito_foil]
 name=Unidentified herb
 desc=An unidentified herb.
 category=category_90
-model=model_2364_obj
+model=inv_herb
 members=yes
 2dxof=4
 2dzoom=700
@@ -201,13 +186,12 @@ members=yes
 iop1=Identify
 weight=7g
 tradeable=no
-// guessed name
 
 [unidentified_volencia_moss]
 name=Unidentified herb
 desc=An unidentified herb.
 category=category_90
-model=model_2364_obj
+model=inv_herb
 members=yes
 2dxof=4
 2dzoom=700
@@ -216,13 +200,12 @@ members=yes
 iop1=Identify
 weight=7g
 tradeable=no
-// guessed name
 
 [unidentified_rogues_purse]
 name=Unidentified herb
 desc=An unidentified herb.
 category=category_90
-model=model_2364_obj
+model=inv_herb
 members=yes
 2dxof=4
 2dzoom=700
@@ -231,7 +214,6 @@ members=yes
 iop1=Identify
 weight=7g
 tradeable=no
-// guessed name
 
 [unidentified_lantadyme]
 category=category_773
@@ -239,7 +221,7 @@ iop1=Identify
 members=yes
 name=Herb
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
@@ -251,7 +233,7 @@ name=Herb
 iop1=Identify
 members=yes
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588
@@ -263,7 +245,7 @@ name=Herb
 iop1=Identify
 members=yes
 desc=I need a closer look to identify this.
-model=model_2364_obj
+model=inv_herb
 2dxof=4
 2dzoom=700
 2dyan=1588

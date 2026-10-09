@@ -304,7 +304,7 @@ export function dispatch(c: LiteClient, opcode: number, buf: Packet, psize: numb
             if (!inv?.linkObjType || !inv.linkObjNumber) {
                 return;
             }
-            const size = buf.g1();
+            const size = buf.g2(); // 289: g1 -> g2 (members bank > 255 slots)
             for (let i = 0; i < size; i++) {
                 inv.linkObjType[i] = buf.g2();
                 let count = buf.g1();
@@ -325,7 +325,7 @@ export function dispatch(c: LiteClient, opcode: number, buf: Packet, psize: numb
                 return;
             }
             while (buf.pos < psize) {
-                const slot = buf.g1();
+                const slot = buf.gsmart(); // 289: g1 -> gsmart
                 const id = buf.g2();
                 let count = buf.g1();
                 if (count === 255) {

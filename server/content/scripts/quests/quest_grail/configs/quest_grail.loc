@@ -1,7 +1,7 @@
 [whistledoor]
 name=Door
 desc=The door is shut.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -12,14 +12,14 @@ recol2d=11458
 [percy_sacks]
 name=Sacks
 desc=Unusually lumpy looking.
-model=model_loc_23
+model=outdoorfurniture_sacks
 op1=Prod
 op2=Open
 
 [merlinworkshop]
 name=Door
 desc=The door is shut.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall

@@ -1,4 +1,4 @@
-[opnpc1,harlow]
+[opnpc1,dr_harlow]
 ~chatnpc("<p,confused>Buy me a drrink pleassh...");
 switch_int (%vampire) {
     case ^quest_vampire_started : @harlow_during_vampire_slayer;

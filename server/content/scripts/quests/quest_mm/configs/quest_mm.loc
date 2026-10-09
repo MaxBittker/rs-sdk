@@ -1,0 +1,1747 @@
+[mm_bamboo_door_secure]
+name=Doorway
+desc=A doorway made from bamboo.
+model=quest_mm_bamboo_door
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+op1=Open
+blockrange=no
+
+[mm_bamboo_door_secure_inactive]
+model=quest_mm_bamboo_door
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+active=no
+blockrange=no
+
+[mm_eastern_warehouse_trapdoor]
+name=Trapdoor
+desc=It's a trapdoor.
+model=furniture_trapdoor
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[mm_eastern_warehouse_trapdoor_open]
+name=Trapdoor
+desc=It's an open trapdoor.
+model=loc_4713
+active=yes
+forceapproach=west
+op1=Climb-down
+op2=Close
+raiseobject=no
+blockrange=no
+
+[mm_crate_over_hole]
+name=Crate
+desc=A wooden crate for storage.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_denture_crate]
+name=Crate
+desc=This crate is making chattering sounds.
+model=warehouse_shop_crate3
+op1=Search
+
+[mm_eye_of_gnome_crate]
+name=Crate
+desc=This crate smells slightly nauseous.
+model=warehouse_shop_crate3
+op1=Search
+
+[mm_needle_crate]
+name=Crate
+desc=This crate says 'Property of Hamab' on its side.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_thread_crate]
+name=Crate
+desc=This crate says 'Property of Hamab' on its side.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_tinderbox_crate]
+name=Crate
+desc=This crate says 'Property of Ifaba' on its side.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_bronze_scimitar_crate]
+name=Crate
+desc=This crate says 'Property of Daga' on its side.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_iron_scimitar_crate]
+name=Crate
+desc=This crate says 'Property of Daga' on its side.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_banana_crate]
+name=Crate
+desc=This crate smells slightly of banana.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_banana_crates_stacked]
+name=Crate
+desc=This crate smells slightly of banana.
+model=warehouse_shop_crate3
+op1=Search
+
+[mm_monkey_amulet_mould_crate]
+name=Crate
+desc=This crate says 'Property of Hamab' on its side.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_chisel_crate]
+name=Crate
+desc=This crate says 'Property of Ifaba' on its side.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_hammer_crate]
+name=Crate
+desc=This crate says 'Property of Ifaba' on its side.
+model=warehouse_shop_crate3
+op1=Search
+
+[mm_monkey_wrench_crate]
+name=Crate
+desc=This crate says 'Property of Ifaba' on its side.
+model=warehouse_shop_crate
+op1=Search
+
+[mm_climbing_rope_bottom_eastern_warehouse]
+name=Climbing rope
+desc=I can climb up this.
+model=game_agilityarena_rope_bottom
+active=yes
+op1=Climb
+
+[loc_4729]
+name=Crack
+desc=It's a large crack in the wall.
+model=cavern_loc_1418
+active=yes
+sharelight=yes
+hillskew=yes
+op1=Enter
+
+[loc_4730]
+name=Crack
+desc=It's a large crack in the wall.
+model=cavern_loc_1418
+active=yes
+hillskew=yes
+sharelight=yes
+op1=Enter
+
+[loc_4731]
+name=Crack
+desc=It's a large crack in the wall.
+model=cavern_loc_1418
+active=yes
+hillskew=yes
+sharelight=yes
+op1=Enter
+
+[loc_4732]
+name=Crack
+desc=It's a large crack in the wall.
+model=cavern_loc_1418
+active=yes
+hillskew=yes
+sharelight=yes
+op1=Enter
+
+[loc_4733]
+name=Crack
+desc=It's a large crack in the wall.
+model=cavern_loc_1418
+active=yes
+hillskew=yes
+sharelight=yes
+op1=Enter
+
+[loc_4734]
+name=Crack
+desc=It's a large crack in the wall.
+model=cavern_loc_1418
+hillskew=yes
+sharelight=yes
+op1=Enter
+
+[loc_4735]
+name=Trapdoor
+desc=It's a trapdoor.
+model=furniture_trapdoor
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[loc_4736]
+name=Trapdoor
+desc=It's a trapdoor.
+model=furniture_trapdoor
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[loc_4737]
+name=Trapdoor
+desc=It's a trapdoor.
+model=furniture_trapdoor
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[loc_4738]
+name=Trapdoor
+desc=It's a trapdoor.
+model=furniture_trapdoor
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[loc_4739]
+name=Trapdoor
+desc=It's an open trapdoor.
+model=furniture_trapdoor_open
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[loc_4740]
+name=Trapdoor
+desc=It's an open trapdoor.
+model=furniture_trapdoor_open
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[loc_4741]
+name=Trapdoor
+desc=It's an open trapdoor.
+model=furniture_trapdoor_open
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[loc_4742]
+name=Trapdoor
+desc=It's an open trapdoor.
+model=furniture_trapdoor_open
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[mm_bridge_ladder]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_base
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+raiseobject=no
+forceapproach=east
+op1=Climb-up
+
+[mm_bridge_ladder_top]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_top
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+raiseobject=no
+forceapproach=west
+op1=Climb-down
+
+[mm_jumping_square]
+name=End of bridge
+desc=Looks good for jumping off.
+model=quest_mm_blankmodel
+active=yes
+blockwalk=no
+blockrange=no
+op1=Jump off
+
+[mm_reinitialisation_crate]
+name=Crate
+desc=This crate is marked 'Deliver to Glough'...
+model=warehouse_shop_crate
+op1=Search
+
+[mm_bamboo_monkeyfloor]
+model=quest_mm_bamboo_bridge_monkeyfloor
+sharelight=yes
+hillskew=yes
+active=no
+mapscene=46
+forcedecor=yes
+
+[mm_bamboo_monkeyfloor_ff]
+model=quest_mm_bamboo_bridge_monkeyfloor_ff
+sharelight=yes
+hillskew=yes
+active=no
+mapscene=46
+forcedecor=yes
+
+[mm_bananatreefull]
+name=Banana Tree
+desc=It's a banana tree, full of bananas.
+model=plants_loc_2073
+recol1s=19944
+recol1d=18853
+recol2s=14952
+recol2d=10721
+recol3s=27593
+recol3d=21096
+width=2
+length=2
+op1=Search
+mapscene=5
+category=banana_tree
+param=next_loc_stage,mm_bananatreefour
+
+[mm_bananatreefour]
+name=Banana Tree
+desc=It's a banana tree, with lots of bananas.
+model=plants_loc_2073
+recol1s=19944
+recol1d=18853
+recol2s=14952
+recol2d=10721
+recol3s=27593
+recol3d=21096
+width=2
+length=2
+op1=Search
+mapscene=5
+category=banana_tree
+param=next_loc_stage,mm_bananatreethree
+
+[mm_bananatreethree]
+name=Banana Tree
+desc=It's a banana tree, with many bananas.
+model=plants_loc_2073
+recol1s=19944
+recol1d=18853
+recol2s=14952
+recol2d=10721
+recol3s=27593
+recol3d=21096
+width=2
+length=2
+op1=Search
+mapscene=5
+category=banana_tree
+param=next_loc_stage,mm_bananatreetwo
+
+[mm_bananatreetwo]
+name=Banana Tree
+desc=It's a banana tree, with a few bananas.
+model=plants_loc_2073
+recol1s=19944
+recol1d=18853
+recol2s=14952
+recol2d=10721
+recol3s=27593
+recol3d=21096
+width=2
+length=2
+op1=Search
+mapscene=5
+category=banana_tree
+param=next_loc_stage,mm_bananatreeone
+
+[mm_bananatreeone]
+name=Banana Tree
+desc=It's a banana tree, with but one banana.
+model=plants_loc_2073
+recol1s=19944
+recol1d=18853
+recol2s=14952
+recol2d=10721
+recol3s=27593
+recol3d=21096
+width=2
+length=2
+op1=Search
+mapscene=5
+category=banana_tree
+param=next_loc_stage,mm_bananatreeempty
+
+[mm_bananatreeempty]
+name=Banana Tree
+desc=It's a banana tree, with no more bananas left.
+model=plants_loc_2078
+recol1s=19944
+recol1d=18853
+recol2s=14952
+recol2d=10721
+width=2
+length=2
+op1=Search
+mapscene=5
+
+[mm_stairs_top]
+name=Stairs
+desc=They go down.
+model=quest_mm_doornwalls_stairs_temple_top
+width=2
+length=2
+op1=Climb-down
+forceapproach=north
+sharelight=yes
+mapscene=7
+
+[mm_stairs_base]
+name=Stairs
+desc=They go up.
+model=quest_mm_doornwalls_stairs_temple_base
+width=2
+length=3
+op1=Climb-up
+forceapproach=south
+sharelight=yes
+mapscene=7
+
+[mm_pipe_end]
+model=quest_elementalworkshop_pipe_end
+recol1s=17833
+recol1d=10467
+recol2s=15855
+recol2d=5250
+ambient=20
+length=2
+active=no
+
+[mm_gnome_cave_door_mid_r]
+model=loc_4758
+recol1s=10883
+recol1d=5250
+sharelight=yes
+
+[mm_gnome_cave_door_mid_l]
+model=loc_4759
+recol1s=10883
+recol1d=5250
+sharelight=yes
+
+[mm_gnome_cave_door_left]
+model=loc_4760
+recol1s=10883
+recol1d=5250
+sharelight=yes
+
+[mm_gnome_cave_door_right]
+model=loc_4761
+recol1s=10883
+recol1d=5250
+sharelight=yes
+
+[mm_agility_wall_top]
+model=quest_mm_agility_wall_top
+blockrange=no
+blockwalk=no
+sharelight=yes
+
+[mm_agility_wall_top_diag]
+model=quest_mm_agility_wall_top_diag
+blockrange=no
+blockwalk=no
+sharelight=yes
+
+[mm_stool_bamboo]
+name=Bamboo Stool
+desc=It's a bamboo stool.
+model=furniture_stool_bamboo
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+blockrange=no
+
+[mm_iban_firewall_straight]
+name=Wall of flame
+desc=It's a sheer wall of fire, rising as high as you can see.
+model=loc_4765
+anim=firewall
+ambient=100
+contrast=100
+resizey=512
+mapscene=22
+active=yes
+
+[mm_iban_firewall_diagonal]
+name=Wall of flame
+desc=It's a sheer wall of fire, rising as high as you can see.
+model=loc_4766
+anim=firewall
+ambient=100
+contrast=100
+resizey=512
+mapscene=22
+active=yes
+
+[mm_pyre]
+name=Sacrificial Pyre
+desc=The contents of this pyre are rapidly bubbling and burning.
+model=quest_mm_stone_pyre
+width=4
+length=4
+raiseobject=no
+anim=seq_1416
+
+[mm_temple_debris]
+name=Wall of bricks
+desc=It's a wall of bricks.
+model=quest_mm_debris_temple
+raiseobject=no
+
+[mm_temple_debris2]
+name=Pile of bricks
+desc=It's a pile of bricks.
+model=quest_mm_debris_temple2
+raiseobject=no
+
+[mm_temple_debris3]
+name=Pile of bricks
+desc=It's a pile of bricks.
+model=quest_mm_debris_temple3
+raiseobject=no
+
+[mm_throne]
+name=Awowogei
+desc=A rather dapper little monkey sitting on a throne.
+model=quest_mm_ape_ruler_set
+width=2
+anim=m_monkey_ape_ruler_nod
+op1=Talk-to
+
+[mm_bamboo_ladder]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_base
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+raiseobject=no
+forceapproach=east
+op1=Climb-up
+
+[mm_bamboo_ladder_reverse]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_base
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+raiseobject=no
+forceapproach=east
+op1=Climb-up
+
+[mm_bamboo_ladder_watchtower_east]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_base
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+raiseobject=no
+forceapproach=east
+op1=Climb-up
+
+[mm_bamboo_ladder_watchtower_west]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_base
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+raiseobject=no
+forceapproach=east
+op1=Climb-up
+
+[mm_bamboo_ladder_top_watchtower_east]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_top
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+forceapproach=east
+op1=Climb-down
+
+[mm_bamboo_ladder_top_watchtower_west]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_top
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+forceapproach=east
+op1=Climb-down
+
+[mm_bamboo_ladder_top]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_top
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+forceapproach=east
+op1=Climb-down
+
+[mm_bamboo_ladder_top_reverse]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_top
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+forceapproach=west
+op1=Climb-down
+
+[mm_bamboo_ladder_dungeon_entrance]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_top
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+forceapproach=east
+op1=Climb-down
+
+[mm_bamboo_ladder_dungeon_exit]
+name=Bamboo Ladder
+desc=It's a bamboo ladder.
+model=quest_mm_bamboo_ladder_base
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+raiseobject=no
+forceapproach=east
+op1=Climb-up
+
+[mm_monkeyfloor]
+model=quest_mm_monkeyfloor
+sharelight=yes
+forcedecor=yes
+
+[mm_monkeyfloor2]
+model=quest_mm_monkeyfloor2
+sharelight=yes
+forcedecor=yes
+
+[mm_post]
+model=quest_mm_posts
+hillskew=yes
+blockrange=no
+sharelight=yes
+
+[mm_post_lower]
+model=quest_mm_lower_posts
+hillskew=yes
+blockwalk=no
+sharelight=yes
+
+[mm_pottedplant_bamboo]
+name=Potted plant
+desc=A plant in a bamboo pot.
+model=plants_pottedplant_bamboo
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+width=2
+length=2
+
+[mm_bamboo_largedoor]
+name=Bamboo Gate
+desc=It's an absolutely huge bamboo gate.
+model=quest_mm_bamboo_largedoor
+recol1s=6342
+recol1d=15685
+recol2s=10570
+recol2d=20968
+width=2
+op1=Open
+
+[mm_bamboo_largedoor_left]
+name=Bamboo Gate
+desc=It's an absolutely huge bamboo gate.
+model=quest_mm_bamboo_largedoor
+recol1s=6342
+recol1d=15685
+recol2s=10570
+recol2d=20968
+width=2
+op1=Open
+mirror=yes
+
+[mm_bamboo_largedoor_open]
+model=quest_mm_bamboo_largedoor_open
+recol1s=6342
+recol1d=15685
+recol2s=10570
+recol2d=20968
+length=2
+active=no
+
+[mm_bamboo_largedoor_open_left]
+model=quest_mm_bamboo_largedoor_open
+recol1s=6342
+recol1d=15685
+recol2s=10570
+recol2d=20968
+length=2
+active=no
+mirror=yes
+
+[mm_bigbed_bamboo]
+name=Bamboo Bed
+desc=It's a big comfy bed, made of strips of bamboo.
+model=furniture_bigbed_bamboo
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+width=2
+length=3
+
+[mm_bed_bamboo]
+name=Bamboo Bed
+desc=It's a big comfy bed, made of strips of bamboo.
+model=furniture_bed_bamboo
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+length=2
+
+[mm_bed_bamboo_mirror]
+name=Bamboo Bed
+desc=It's a big comfy bed, made of strips of bamboo.
+model=furniture_bed_bamboo
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+length=2
+mirror=yes
+
+[mm_pot_bamboo]
+name=Pot
+desc=It's a pot made out of bamboo.
+model=wooden_pot_bamboo
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+
+[mm_pots_bamboo]
+name=Pots
+desc=They are pots made out of bamboo.
+model=wooden_pots_bamboo
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+
+[mm_bamboo_picture]
+model=walldecor_bamboo_picture
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+sharelight=yes
+occlude=yes
+
+[mm_desk]
+name=Bamboo Desk
+desc=Bamboo strips have been lashed together to make this rickety desk.
+model=furniture_table_bamboo
+
+[mm_bookcase]
+name=Bamboo Bookcase
+desc=It's a bookcase made out of bamboo.
+model=furniture_shelves_bamboo
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+length=2
+op2=Search
+
+[mm_jail_door]
+name=Jail Door
+desc=It's a bamboo door with a large iron padlock.
+model=quest_mm_bamboo_jail_door
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+contrast=20
+ambient=10
+op1=Pick-lock
+blockrange=no
+
+[mm_jail_door_unpickable]
+name=Jail Door
+desc=It's a bamboo door with a large iron padlock.
+model=quest_mm_bamboo_jail_door
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+contrast=20
+ambient=10
+op1=Pick-lock
+blockrange=no
+
+[mm_jail_door_inactive]
+model=quest_mm_bamboo_jail_door
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+contrast=20
+ambient=10
+active=no
+blockrange=no
+
+[mm_jail_posts]
+model=quest_mm_bamboo_jail_posts
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+sharelight=yes
+contrast=80
+ambient=10
+active=no
+blockrange=no
+
+[mm_post_four_post]
+model=quest_mm_bamboo_four_posts
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+sharelight=yes
+contrast=80
+ambient=10
+active=no
+
+[mm_bamboo_wall]
+model=quest_mm_doornwalls_bamboo_wall
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+sharelight=yes
+occlude=yes
+contrast=100
+ambient=10
+active=no
+
+[bamboo_depth]
+model=quest_mm_bamboo_depth
+
+[mm_bamboo_window]
+model=quest_mm_doornwalls_bamboo_window
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+sharelight=yes
+blockrange=no
+
+[mm_bamboo_door]
+name=Bamboo Door
+desc=It's a door made from bamboo.
+model=quest_mm_bamboo_door
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+op1=Open
+blockrange=no
+raiseobject=no
+
+[mm_bamboo_doorway]
+model=quest_mm_doornwalls_bamboo_doorway
+recol1s=20968
+recol1d=18853
+recol2s=15685
+recol2d=15685
+blockwalk=no
+blockrange=no
+raiseobject=no
+
+[mm_jungle_grass1]
+model=quest_regicide_grass1
+hillskew=yes
+active=no
+resizex=128
+resizey=220
+resizez=128
+
+[mm_jungle_grass2]
+model=quest_regicide_grass2
+hillskew=yes
+active=no
+resizex=128
+resizey=220
+resizez=128
+
+[mm_jungle_grass3]
+model=quest_regicide_grass3
+hillskew=yes
+active=no
+resizex=128
+resizey=220
+resizez=128
+
+[mm_long_jungle_grass1]
+name=Jungle Grass
+desc=Looks good for hiding in...
+model=loc_4812
+hillskew=yes
+active=yes
+resizex=128
+resizey=270
+resizez=128
+forcedecor=yes
+blockwalk=no
+blockrange=no
+
+[mm_long_jungle_grass2]
+name=Jungle Grass
+desc=Looks good for hiding in...
+model=loc_4813
+hillskew=yes
+active=yes
+resizex=128
+resizey=270
+resizez=128
+forcedecor=yes
+blockwalk=no
+blockrange=no
+
+[mm_long_jungle_grass3]
+name=Jungle Grass
+desc=Looks good for hiding in...
+model=loc_4814
+hillskew=yes
+active=yes
+resizex=128
+resizey=270
+resizez=128
+forcedecor=yes
+blockwalk=no
+blockrange=no
+
+[mm_hiding_square]
+name=Long grass
+desc=Looks good for hiding in.
+model=quest_mm_blankmodel
+active=yes
+blockwalk=no
+blockrange=no
+
+[mm_bush_big_kharazi_jungle_tree_logs]
+name=Jungle Tree
+desc=This is a fairly tall tree with sparse foliage.
+model=plants_jungletree1
+recol1s=15855
+recol1d=5378
+recol2s=12684
+recol2d=5314
+recol3s=10570
+recol3d=7298
+resizex=164
+resizey=164
+resizez=164
+ambient=40
+width=2
+length=2
+mapscene=5
+blockwalk=no
+
+[mm_bush_jungle_palm]
+name=Jungle Palm
+desc=A jungle palm with dense foliage.
+model=plants_medplant
+width=3
+length=2
+mapscene=5
+
+[mm_bush_kharazi_jungle_tree1]
+name=Jungle Tree
+desc=This is a fairly tall tree with sparse foliage.
+model=plants_jungletree1
+recol1s=15855
+recol1d=5378
+recol2s=12684
+recol2d=5314
+recol3s=10570
+recol3d=7298
+ambient=40
+op1=Chop-down
+op3=hidden
+mapscene=5
+category=tree
+param=next_loc_stage,mm_bush_kharazi_jungle_tree1_stump
+
+[mm_bush_kharazi_jungle_tree1_stump]
+name=Jungle Tree Stump
+desc=This was a fairly tall tree with sparse foliage.
+model=loc_4819
+mapscene=5
+
+[mm_bush_kharazi_jungle_tree2]
+name=Jungle Tree
+desc=A leafy tree.
+model=plants_jungletree2
+op1=Chop-down
+op3=hidden
+width=2
+length=2
+mapscene=5
+category=tree
+param=next_loc_stage,mm_bush_kharazi_jungle_tree2_stump
+
+[mm_bush_kharazi_jungle_tree2_stump]
+name=Jungle Tree Stump
+desc=This was a fairly tall tree with sparse foliage.
+model=loc_4819
+width=2
+length=2
+mapscene=5
+
+[mm_bush_kharazi_junglestump]
+name=Tree stump
+desc=This tree has been cut down.
+model=plants_treestump
+recol1s=4194
+recol1d=5218
+mapscene=5
+
+[mm_jungle_plant_flower]
+name=Jungle Flower
+desc=This flower is found only in jungle areas.
+model=plants_jungleflower
+blockrange=no
+blockwalk=no
+
+[mm_jungle_plant_orchid]
+name=Orchid
+desc=A very rare and exotic flower.
+model=plants_jungleorchid
+blockrange=no
+
+[mm_jungle_plant_fern]
+name=Jungle Plant
+desc=A small fernlike plant.
+model=plants_jungleplant4
+blockrange=no
+
+[mm_whippingplant]
+name=Whipping Plant
+desc=Leaves a nasty mark.
+model=plants_whippingplant
+width=2
+length=2
+blockwalk=no
+blockrange=no
+
+[mm_pineapple_plant_one]
+name=Pineapple Plant
+desc=Looks spikey.
+model=plants_loc_1408
+width=2
+length=2
+op1=Pick
+blockrange=no
+
+[mm_jungleplant1]
+name=Jungle Plant
+desc=This has broad leaves.
+model=plants_jungleplant1
+width=2
+length=2
+blockrange=no
+
+[mm_jungleplant2]
+name=Jungle Plant
+desc=A type of jungle fern.
+model=plants_jungleplant2
+width=2
+length=2
+blockrange=no
+
+[mm_jungleplant3]
+name=Jungle Plant
+desc=A large waxy jungle plant.
+model=plants_jungleplant1
+recol1s=608
+recol1d=14054
+width=2
+length=2
+blockrange=no
+
+[mm_jungle_plant_misc2]
+name=Jungle Plant
+desc=Commonly found in these parts.
+model=plants_jungle2
+width=2
+blockwalk=no
+blockrange=no
+
+[mm_jungle_plant_misc1]
+name=Creeping Plant
+desc=The tendrils of a creeping plant.
+model=plants_jungle1
+blockwalk=no
+blockrange=no
+
+[mm_plant_kharazi_jungle_plant1]
+name=Jungle Bush
+desc=A jungle bush, quite common to these areas.
+model=plants_jungle2
+mapscene=5
+blockwalk=no
+
+[mm_plant_kharazi_jungle_plant2]
+name=Jungle Bush
+desc=A jungle bush, quite common to these areas.
+model=plants_jungle2
+recol1s=5504
+recol1d=736
+mapscene=5
+blockwalk=no
+
+[mm_plant_kharazi_jungle_plant1_slashed]
+name=Slashed Bush
+desc=A jungle bush that has been chopped down.
+model=plants_jungle2_chopped
+recol1s=5504
+recol1d=736
+mapscene=5
+blockwalk=no
+
+[mm_greenvine_straight]
+model=loc_4836
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_greenvine_corner]
+model=loc_4837
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_greenvine_junction]
+model=loc_4838
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_greenvine_diag1]
+model=loc_4839
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_greenvine_diag2]
+model=loc_4840
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_greenvine_diag3]
+model=loc_4841
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_greenvine_diagfiller]
+model=loc_4842
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_greenvine_end]
+model=loc_4843
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_greenvine_end_diag]
+model=loc_4844
+recol1s=15393
+recol1d=9606
+recol2s=11744
+recol2d=9540
+recol3s=16417
+recol3d=9606
+hillskew=yes
+sharelight=yes
+
+[mm_bamboo_tree_base]
+name=Tropical tree
+desc=A terribly tall tropical tree.
+model=plants_bamboo_tree_base
+recol1s=19910
+recol1d=18853
+recol2s=20968
+recol2d=15685
+recol3s=12869
+recol3d=8547
+mapscene=0
+
+[mm_bamboo_tree_mid]
+name=Tropical tree
+desc=A terribly tall tropical tree.
+model=plants_bamboo_tree_mid
+recol1s=19910
+recol1d=18853
+recol2s=20968
+recol2d=15685
+recol3s=12869
+recol3d=8547
+
+[mm_bamboo_tree_uppermid]
+name=Tropical tree
+desc=A terribly tall tropical tree.
+model=plants_bamboo_tree_uppermid
+recol1s=19910
+recol1d=18853
+recol2s=20968
+recol2d=15685
+recol3s=12869
+recol3d=8547
+
+[mm_bamboo_tree_top]
+name=Tropical Leaves
+desc=Leaves of a tropical tree.
+model=plants_bamboo_tree_top
+recol1s=19910
+recol1d=18853
+recol2s=20968
+recol2d=15685
+recol3s=12869
+recol3d=8547
+width=3
+length=3
+
+[mm_leaning_bamboo_tree_base]
+name=Tropical tree
+desc=This tree no doubt contains dangerous insects.
+model=plants_leaningbambootree_a
+recol1s=19910
+recol1d=18853
+recol2s=20968
+recol2d=15685
+recol3s=12869
+recol3d=8547
+mapscene=23
+
+[mm_leaning_bamboo_tree_mid]
+name=Tropical tree
+desc=This tree no doubt contains dangerous insects.
+model=plants_leaningbambootree_b
+recol1s=19910
+recol1d=18853
+recol2s=20968
+recol2d=15685
+recol3s=12869
+recol3d=8547
+width=7
+length=7
+
+[mm_leaning_bamboo_tree_top]
+name=Tropical tree
+desc=This tree no doubt contains dangerous insects.
+model=plants_leaningbambootree_c
+recol1s=19910
+recol1d=18853
+recol2s=20968
+recol2d=15685
+recol3s=12869
+recol3d=8547
+width=4
+length=3
+
+[mm_hollowlog]
+name=Hollow Log
+desc=This old tree is rotting away.
+model=plants_hollowlog
+width=3
+mapscene=6
+
+[mm_body_roots_1]
+name=Roots
+desc=A gnarly old tree root.
+model=wilderness_roots1
+recol1s=6240
+recol1d=6304
+mapscene=6
+
+[mm_body_roots_2]
+name=Roots
+desc=The roots of this tree are exposed.
+model=wilderness_roots2
+recol1s=6240
+recol1d=6304
+mapscene=6
+
+[mm_body_roots_3]
+name=Roots
+desc=I hope I don't trip over any of these.
+model=wilderness_roots3
+recol1s=6240
+recol1d=6304
+mapscene=6
+
+[mm_glowfungus_small]
+name=Glowing Fungus
+desc=It's a small patch of glowing fungus.
+model=quest_mm_glowfungus_small
+blockwalk=no
+blockrange=no
+
+[mm_glowfungus_med]
+name=Glowing Fungus
+desc=It's a medium patch of glowing fungus.
+model=quest_mm_glowfungus_med
+blockwalk=no
+blockrange=no
+
+[mm_gorillastatue_large]
+name=Gorilla Statue
+desc=It's an absolutely collosal statue of some kind of gorilla.
+model=quest_mm_gorillastatue_large
+width=4
+length=4
+
+[mm_gorillastatue1]
+name=Gorilla Statue
+desc=It's a huge statue of some kind of gorilla.
+model=quest_mm_gorillastatue1
+recol1s=21068
+recol1d=30513
+width=2
+length=2
+op1=Pray-at
+category=prayer_altar
+
+[mm_gorillastatue2]
+name=Gorilla Statue
+desc=It's a huge statue of some kind of gorilla.
+model=quest_mm_gorillastatue1
+recol1s=21068
+recol1d=30513
+width=2
+length=2
+
+[mm_monkeystatue1]
+name=Monkey Statue
+desc=It's a huge statue of some kind of monkey.
+model=quest_mm_monkeystatue1
+recol1s=21068
+recol1d=30513
+
+[mm_glowfungus_big]
+name=Glowing Fungus
+desc=It's a large patch of glowing fungus.
+model=quest_mm_glowfungus_big
+blockwalk=no
+blockrange=no
+
+[mm_watchtower_leg1]
+name=Watchtower Legs
+desc=Legs of this watchtower.
+model=quest_mm_watchtower_leg1
+
+[mm_watchtower_leg2]
+name=Watchtower Legs
+desc=Legs of this watchtower.
+model=quest_mm_watchtower_leg2
+
+[mm_watchtower_middle]
+name=Watchtower Middle
+desc=It's the middle of this watchtower.
+model=quest_mm_watchtower_middle
+
+[mm_glider]
+name=Gnome Glider
+desc=It's a deactivated military Gnome glider.
+model=quest_mm_glider_camo
+width=4
+length=4
+anim=m_glider_ready
+
+[mm_glider_open]
+name=Gnome Glider
+desc=It's an activated military Gnome glider.
+model=quest_mm_glider_camo
+width=4
+length=4
+
+[bunker_teleport]
+name=Teleportation Device
+desc=It's some kind of Gnome teleportation device.
+model=loc_4868
+recol1s=15855
+recol1d=5250
+width=3
+length=3
+op1=Operate
+blockwalk=no
+
+[bunker_teleport_floor]
+name=Teleportation Device
+desc=It's some kind of Gnome teleportation device.
+model=loc_4869
+recol1s=15855
+recol1d=5250
+active=yes
+op1=Operate
+blockwalk=no
+
+[bunker_teleport_corner]
+name=Teleportation Device
+desc=It's some kind of Gnome teleportation device.
+model=loc_4870
+recol1s=15855
+recol1d=5250
+active=yes
+op1=Operate
+blockwalk=no
+
+[bunker_controlpanal]
+name=Reinitialisation Panel
+desc=This is the panel controlling the hangar reinitialisation.
+model=quest_mm_bunker_controlpanal
+recol1s=15855
+recol1d=5250
+op1=Operate
+
+[bunker_exitsign]
+name=Exit Sign
+desc=There must be an exit nearby.
+model=loc_4872
+recol1s=15855
+recol1d=5250
+
+[mm_bunker_lever]
+name=Lever
+desc=It's probably too risky to try pulling this.
+model=quest_floorlever_off
+
+[mm_stall_crafting]
+name=Crafting Stall
+desc=This table has crafting paraphernalia on it.
+model=quest_mm_stall_crafting
+op2=Steal from
+
+[mm_stall_food]
+name=Food Stall
+desc=This table has ripe bananas on show.
+model=quest_mm_stall_food
+op2=Steal from
+
+[mm_stall_general]
+name=General Stall
+desc=This table has items of a general nature on it.
+model=quest_mm_stall_generalstore
+op2=Steal from
+
+[mm_stall_magic]
+name=Magic Stall
+desc=This table has runes on display.
+model=quest_mm_stall_magic
+op2=Steal from
+
+[mm_stall_scimitar]
+name=Scimitar Stall
+desc=This table has a scimitar on it.
+model=quest_mm_stall_scimitar
+op2=Steal from
+
+[mm_temple_trapdoor]
+name=Trapdoor
+desc=It's a trapdoor.
+model=furniture_trapdoor
+active=yes
+forceapproach=east
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[mm_temple_trapdoor_open]
+name=Trapdoor
+desc=It's an open trapdoor.
+model=loc_4713
+active=yes
+forceapproach=east
+op1=Climb-down
+op2=Close
+raiseobject=no
+blockrange=no
+
+[mm_climbing_rope_bottom_temple]
+name=Climbing rope
+desc=I can climb up this.
+model=game_agilityarena_rope_bottom
+active=yes
+op1=Climb
+
+[mm_speartrap]
+name=Slight indentations
+desc=Looks suspicious.
+model=model_loc_3234
+recol1s=7329
+recol1d=12580
+width=2
+hillskew=yes
+blockwalk=no
+blockrange=no
+
+[mm_double_springtrap_trigger]
+name=A rock
+desc=Looks suspicious.
+model=quest_singlestone_0
+recol1s=13741
+recol1d=6273
+hillskew=yes
+blockwalk=no
+blockrange=no
+op1=Search
+
+[mm_crossing_plank]
+name=Plank
+model=floor_obstacle_plank
+sharelight=yes
+hillskew=yes
+blockwalk=no
+blockrange=no
+active=yes
+
+[mm_double_springtrap]
+name=Stalagmites
+desc=Formed over many years.
+model=model_loc_3232
+width=3
+hillskew=yes
+blockwalk=no
+blockrange=no
+
+[mm_floorspikes]
+name=Floor spikes
+desc=Human sieve creation.
+model=loc_4886
+anim=agilityarena_floorspikes_normal
+blockwalk=no
+blockrange=no
+forcedecor=yes
+active=yes
+shadow=no
+hillskew=yes
+
+[mm_rocktrap]
+name=A rock
+desc=Looks suspicious.
+model=quest_singlestone_0
+recol1s=13741
+recol1d=6273
+hillskew=yes
+blockwalk=no
+blockrange=no
+op1=Search
+
+[mm_western_warehouse_trapdoor]
+name=Trapdoor
+desc=It's a trapdoor.
+model=furniture_trapdoor
+active=yes
+forceapproach=west
+op1=Open
+raiseobject=no
+blockwalk=no
+blockrange=no
+
+[mm_climbing_rope_bottom_western_warehouse]
+name=Climbing rope
+desc=I can climb up this.
+model=game_agilityarena_rope_bottom
+active=yes
+op1=Climb
+
+[cavewall_face1_desert]
+model=cavern_cavewall_face1
+recol1s=12580
+recol1d=18851
+sharelight=yes
+hillskew=yes
+
+[cavewall_face1withcrack_desert]
+model=cavern_loc_1418
+recol1s=12580
+recol1d=18851
+sharelight=yes
+hillskew=yes
+
+[cavewall_top_desert]
+model=cavern_cavewall_top_dark
+recol1s=12580
+recol1d=18851
+sharelight=yes
+hillskew=yes
+active=no
+
+[cavewall_top5_desert]
+model=cavern_cavewall_top5
+recol1s=12580
+recol1d=18851
+sharelight=yes
+hillskew=yes
+active=no
+
+[cavewall_door1r_desert]
+model=cavern_loc_1423
+recol1s=12580
+recol1d=18851
+sharelight=yes
+hillskew=yes
+
+[cavewall_door1l_desert]
+model=cavern_loc_1423
+recol1s=12580
+recol1d=18851
+sharelight=yes
+hillskew=yes
+mirror=yes
+
+[cavewall_door1m_desert]
+model=loc_4896
+recol1s=12580
+recol1d=18851
+sharelight=yes
+hillskew=yes
+
+[cavewall_top_higher_desert]
+model=cavern_cavewall_top5_high
+recol1s=12580
+recol1d=18851
+sharelight=yes
+hillskew=yes
+active=no
+
+[cavewall_face1_not_low_detail]
+model=loc_4898
+sharelight=yes
+hillskew=yes
+active=no
+
+[cavewall_face1_not_low_detail_lev2]
+model=cavern_cavewall_face1_lev2
+sharelight=yes
+hillskew=yes
+active=no

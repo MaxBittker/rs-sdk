@@ -53,6 +53,14 @@ if(~death_get_map = ^death_spoken_smithy) {
     ~chatplayer("<p,neutral>Not yet! I just need to speak to Denulth!");
     return;
 }
+ if (%troll_love >= ^troll_love_waxed_sled) {
+    ~chatnpc("<p,happy>Well, if it isn't our very own sledder!|What can I do for you today?");
+    if (~obj_gettotal(law_talisman) = 0) {
+        @multi5("Can I have another law talisman?", dunstan_lawtali, "Can you put some spikes on my Climbing boots?", dunstan_spikeboots, "Can you make me another sled?", trollromance_dunstan_another_sled, "What do I need for the sled wax again?", trollromance_dunstan_sled_wax, "Nothing, thanks.", dunstan_nothing);
+    } else {
+        @multi4("Can you put some spikes on my Climbing boots?", dunstan_spikeboots, "Can you make me another sled?", trollromance_dunstan_another_sled, "What do I need for the sled wax again?", trollromance_dunstan_sled_wax, "Nothing, thanks.", dunstan_nothing);
+    }
+}
 ~chatnpc("<p,happy>Hi! Did you want something?");
 @dunstan_ops;
 
@@ -80,6 +88,17 @@ mes("Dunstan hands you a law talisman.");
 ~chatplayer("<p,neutral>Thanks.");
 
 [label,dunstan_ops]
+if (%troll_love = ^troll_love_learnt_about_trollweiss) {
+    @multi4("Can you put some spikes on my Climbing boots?", dunstan_spikeboots, "I need a sled!!", trollromance_dunstan_sled, "Is it OK if I use your anvil?", dunstan_anvil, "Nothing, thanks.", dunstan_nothing);
+} else if (%troll_love = ^troll_love_bring_dunstan_materials) {
+    @trollromance_dunstan_materials_for_sled;
+} else if (%troll_love = ^troll_love_dunstan_made_sled) { // Checks bank too, on OSRS
+    if (~obj_gettotal(trollromance_toboggon) > 0) {
+        @multi2("Where can I get wax from?", trollromance_dunstan_wax, "Where can I get swamp tar from?", trollromance_dunstan_swamp_tar);
+    } else {
+        @multi3("Where can I get wax from?", trollromance_dunstan_wax, "Where can I get swamp tar from?", trollromance_dunstan_swamp_tar, "I've lost my sled.", trollromance_dunstan_lost_sled);
+    }
+}
 if(%troll_quest < ^troll_complete & %troll_quest >= ^troll_started) {
     @multi3("Can you put some spikes on my Climbing boots?", dunstan_spikeboots, "Is it OK if I use your anvil?", dunstan_anvil, "Nothing, thanks.", dunstan_nothing);
 }
@@ -190,3 +209,98 @@ if(inv_total(inv, iron_bar) = 0 & inv_total(inv, death_climbingboots) = 0) {
     ~chatplayer("<p,happy>Thank you!");
     ~chatnpc("<p,happy>No problem.");
 }
+
+[label,trollromance_dunstan_sled]
+~chatnpc("<p,happy>Haha, very funny!|Aren't you a bit old for rolling around in the snow?");
+def_int $op = ~p_choice2("Yes.", 1, "No.", 2);
+if ($op = 1) {
+    ~chatplayer("<p,neutral>Yes.");
+    ~chatnpc("<p,happy>So why do you need a sled then?");
+    @trollromance_dunstan_why_sled;
+} else if ($op = 2) {
+    ~chatplayer("<p,neutral>No.");
+    ~chatnpc("<p,happy>Hahahaha.");
+    ~chatplayer("<p,neutral>No, I actually still like rolling around in the snow.");
+    ~chatnpc("<p,happy>Well, I guess some of us never grow up!");
+    @trollromance_dunstan_why_sled;
+}
+
+[label,trollromance_dunstan_why_sled]
+~chatplayer("<p,neutral>I need the sled to get to a certain location in the mountains.");
+~chatnpc("<p,happy>Well, since you've helped my family out a couple of times, I'd be glad to build a sled for you.");
+~chatnpc("<p,quiz>Let me think...");
+~chatnpc("<p,quiz>...");
+~chatnpc("<p,happy>Yeah, that should do it. I will need some yew or maple logs, a bar of iron and some rope.");
+~chatnpc("<p,neutral>I should have my designs ready by the time you have brought me all the materials.");
+%troll_love = ^troll_love_bring_dunstan_materials;
+
+[label,trollromance_dunstan_materials_for_sled]
+~chatnpc("<p,neutral>Have you got all the materials for the sled yet?");
+if (~trollromance_dunstan_has_materials() = true) {
+    ~chatplayer("<p,happy>Yes, I have all the materials for the sled.");
+    @trollromance_dunstan_make_sled;
+} else {
+    ~chatplayer("<p,neutral>No, I haven't got everything yet.");
+    ~chatnpc("<p,neutral>Well, unfortunately I can't make the sled without all the materials.");
+    @multi4("Can you put some spikes on my Climbing boots?", dunstan_spikeboots, "How is your son getting on?", dunstan_son, "Is it OK if I use your anvil?", dunstan_anvil, "Nothing, thanks.", dunstan_nothing);
+}
+
+[label,trollromance_dunstan_make_sled]
+~objbox(trollromance_toboggon, "Dunstan takes the materials and some of his tools and starts making a sled.|After a while Dunstan hands you a finished sled.", 250, 0, 16);
+~chatnpc("<p,happy>Well, here's the sled but it will need to be waxed. The wax will need to both protect the sled as well as smoothen it.");
+~chatnpc("<p,neutral>Maybe if you mix some wax with a bit of swamp tar it will achieve the desired effect. You'll also need something to store the wax in... like a cake tin.");
+if (%troll_love < ^troll_love_dunstan_made_sled) %troll_love = ^troll_love_dunstan_made_sled;
+if (inv_total(inv, yew_logs) > 0) inv_del(inv, yew_logs, 1);
+else if (inv_total(inv, maple_logs) > 0) inv_del(inv, maple_logs, 1);
+inv_del(inv, iron_bar, 1);
+inv_del(inv, rope, 1);
+inv_add(inv, trollromance_toboggon, 1);
+@multi3("Where can I get wax from?", trollromance_dunstan_wax, "Where can I get swamp tar from?", trollromance_dunstan_swamp_tar, "What else do I need?", trollromance_dunstan_what_else);
+
+[label,trollromance_dunstan_wax]
+~chatplayer("<p,neutral>Where can I get wax from?");
+~chatnpc("<p,happy>I don't know. I'm a smith! But maybe you should look for some bees.");
+@multi3("Where can I get swamp tar from?", trollromance_dunstan_swamp_tar, "What else do I need?", trollromance_dunstan_what_else, "See you!", trollromance_dunstan_see_you);
+
+[label,trollromance_dunstan_swamp_tar]
+~chatplayer("<p,neutral>Where can I get swamp tar from?");
+~chatnpc("<p,happy>The swamp of course! It's south of Lumbridge.");
+@multi3("Where can I get wax from?", trollromance_dunstan_wax, "What else do I need?", trollromance_dunstan_what_else, "See you!", trollromance_dunstan_see_you);
+
+[label,trollromance_dunstan_what_else]
+~chatplayer("<p,neutral>What else do I need?");
+~chatnpc("<p,happy>You will also need a cake tin to store the wax in.");
+@multi3("Where can I get wax from?", trollromance_dunstan_wax, "Where can I get swamp tar from?", trollromance_dunstan_swamp_tar, "See you!", trollromance_dunstan_see_you);
+
+[label,trollromance_dunstan_see_you]
+~chatplayer("<p,neutral>See you!");
+~chatnpc("<p,neutral>Thank you, come again.");
+
+[label,trollromance_dunstan_lost_sled]
+~chatplayer("<p,neutral>I've lost my sled.");
+~chatnpc("<p,shock>How did you manage that? That sled's nearly as big as you!");
+~chatnpc("<p,neutral>It can't have just fallen through a hole in your pocket, now can it?");
+~chatplayer("<p,neutral>Just make me a new one!");
+if (~trollromance_dunstan_has_materials() = true) {
+    ~chatnpc("<p,happy>Well, at least you have all the necessary materials with you.");
+    @trollromance_dunstan_make_sled;
+} else {
+    ~chatnpc("<p,neutral>How do you expect me to do that? You haven't got any of the materials I need, or did you lose those as well? Remember I need maple or yew logs, an iron bar and some rope.");
+    ~chatplayer("<p,neutral>Okay, okay, I will get the materials!");
+}
+
+[label,trollromance_dunstan_another_sled]
+~chatplayer("<p,neutral>Can you make me another sled?");
+~chatnpc("<p,happy>Yeah sure, have you got the maple or yew logs, an iron bar and some rope?");
+if (~trollromance_dunstan_has_materials() = true) {
+    ~chatplayer("<p,neutral>Yes, I have all the materials for the sled.");
+    @trollromance_dunstan_make_sled;
+} else {
+    ~chatplayer("<p,neutral>No, I haven't got everything yet.");
+    ~chatnpc("<p,neutral>Well, unfortunately I can't make the sled without all the materials.");
+}
+
+[label,trollromance_dunstan_sled_wax]
+~chatplayer("<p,neutral>What do I need for the sled wax again?");
+~chatnpc("<p,neutral>You will need some wax and some swamp tar.");
+@multi3("Where can I get wax from?", trollromance_dunstan_wax, "Where can I get swamp tar from?", trollromance_dunstan_swamp_tar, "What else do I need?", trollromance_dunstan_what_else);

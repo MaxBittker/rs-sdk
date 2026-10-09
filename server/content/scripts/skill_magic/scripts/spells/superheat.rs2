@@ -17,7 +17,7 @@ if($ore1 = tbwt_jogre_bones) {
 def_namedobj $bar = oc_param($ore1, smeltsto);
 // if player doesnt even superheat an ore
 if ($bar = null) {
-    sound_synth(superheat_fail, 0, 0);
+    sound_synth(superheat_fail, 1, 0);
     spotanim_pl(failedspell_impact, 92, 0);
     mes("You need to cast superheat item on ore.");
     return;
@@ -47,7 +47,7 @@ if ($ore_count1 < 1 | $ore_count2 < struct_param($bar_struct, ingredient_seconda
     return;
 }
 // play sound and anim
-sound_synth(superheat_all, 0, 0);
+sound_synth(superheat_all, 1, 0);
 spotanim_pl(superheatitem_casting, 92, 0);
 anim(human_castsuperheatitem, 0);
 // delete runes and give xp

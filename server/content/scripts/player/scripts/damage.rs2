@@ -8,6 +8,7 @@ if ($amount > 0) {
     ~human_hit_sound;
 } else {
     damage(uid, 0, 0);
+    sound_synth(%armourhitsound, 0, 20);
 }
 
 if (stat(hitpoints) = 0){
@@ -39,5 +40,5 @@ if (gender() = 0) {
             case default : $sound = female_hit;
         }
     }
-sound_synth($sound, 0, 20);
+sound_synth($sound, 1, 20);
 

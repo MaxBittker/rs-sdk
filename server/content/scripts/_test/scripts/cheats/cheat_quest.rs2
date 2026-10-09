@@ -178,6 +178,8 @@ if (p_finduid(uid) = true) {
                     %horrorquest = ^horror_complete;
                     session_log(^log_adventure, "Quest complete: Horror from the Deep");
                     ~send_quest_complete(questlist:horror, horror_casket, 225, ^horror_questpoints, "You have survived the\\nHorror From The Deep!");
+                case 63 : queue(trollromance_quest_complete, 0, 0);
+                case 64 : queue(misc_quest_complete, 0, 0);
                 case default : mes("Quest not found.");
             }
         } else if ($choice3 = 1) {
@@ -283,7 +285,7 @@ if (p_finduid(uid) = true) {
                     %itwatchtower = 0;
                     %itwatchtower_bits = 0;
                 case 50 :
-                    %waterfall_golrie_and_puzzle = 0;
+                    %pillar_waterfall_quest = 0;
                     %waterfall_quest = 0;
                 case 51 : %ballquest = 0;
                 case 52 : %elemental_workshop_bits = 0;
@@ -292,7 +294,7 @@ if (p_finduid(uid) = true) {
                     %druidspirit_bits = null;
                 case 54 :
                     %priestperil = 0;
-                    %priestperil_mausoleum = null;
+                    %priestperilvar = null;
                 case 55 :
                     %death_equiproom = 0;
                     %death_map = 0;
@@ -306,7 +308,7 @@ if (p_finduid(uid) = true) {
                     %tbwt_tinsay = 0;
                     %tbwt_tamayu = 0;
                     %tbwt_lubufu = 0;
-                    %tbwt_bits = null;
+                    %tbwt_flags = null;
                 case 58 :
                     %regicide_quest = 0;
                     %regicide_bits = null;
@@ -322,6 +324,12 @@ if (p_finduid(uid) = true) {
                     %viking = 0;
                     %viking_bits = 0;
                 case 62 : %deephorror = 0;
+                case 63 : %troll_love = 0;
+                case 64 : 
+                    %misc_quest = 0;
+                    %misc_varbit_1 = null;
+                    %misc_varbit_2 = null;
+                    %misc_varbit_3 = null;
                 case default : mes("Quest not found.");
             }
             ~update_questlist;
@@ -442,6 +450,8 @@ queue(viking_quest_complete, 0, 0);
     %horrorquest = ^horror_complete;
     session_log(^log_adventure, "Quest complete: Horror from the Deep");
     ~send_quest_complete(questlist:horror, horror_casket, 225, ^horror_questpoints, "You have survived the\\nHorror From The Deep!");
+queue(trollromance_quest_complete, 0, 0);
+queue(misc_quest_complete, 0, 0);
 
 ~update_questlist;
 mes("All quests have been completed.");
@@ -532,12 +542,12 @@ return;
 %ibanmulti = 0;
 %itwatchtower = 0;
 %itwatchtower_bits = 0;
-%waterfall_golrie_and_puzzle = 0;
+%pillar_waterfall_quest = 0;
 %waterfall_quest = 0;
 %ballquest = 0;
 %elemental_workshop_bits = 0;
 %priestperil = 0;
-%priestperil_mausoleum = null;
+%priestperilvar = null;
 %druidspirit = 0; 
 %druidspirit_bits = null;
 %priestperil = 0;
@@ -551,7 +561,7 @@ return;
 %tbwt_tinsay = 0;
 %tbwt_tamayu = 0;
 %tbwt_lubufu = 0;
-%tbwt_bits = null;
+%tbwt_flags = null;
 %regicide_quest = 0;
 %regicide_bits = null;
 %eadgar_quest = 0;
@@ -563,6 +573,11 @@ return;
 %viking = 0;
 %viking_bits = 0;
 %deephorror = 0;
+%troll_love = 0;
+%misc_quest = 0;
+%misc_varbit_1 = null;
+%misc_varbit_2 = null;
+%misc_varbit_3 = null;
 ~update_questlist;
 mes("All quests have been reset.");
 return;

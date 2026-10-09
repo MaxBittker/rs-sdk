@@ -55,7 +55,7 @@ if (%shantay_jail_progress = ^put_in_shantay_jail & npc_find(coord, shantay, 12,
     @multi2("Yes, okay.", shantay_yes_okay_ill_pay_the_fine, "No thanks, you're not having my money.", shantay_no_thanks_youre_not_having_my_money);
 }
 
-~open_and_close_metal_gate(poshdooropen, $is_inside, false);
+~open_and_close_metal_gate(loc_1541, $is_inside, false);
 
 [oploc1,shantay_pass_henge_doorway]
 if (map_members = ^false) {

@@ -1,7 +1,7 @@
 [mappart1]
 name=Map part
 desc=An incomplete map piece.
-model=model_2686_obj
+model=inv_treasuremap-1
 2dxof=44
 2dyof=-21
 2dzoom=1110
@@ -14,7 +14,7 @@ tradeable=no
 [mappart2]
 name=Map part
 desc=An incomplete map piece.
-model=model_2689_obj
+model=inv_treasuremap-2
 2dxof=6
 2dyof=2
 2dzoom=1400
@@ -27,7 +27,7 @@ tradeable=no
 [mappart3]
 name=Map part
 desc=An incomplete map piece.
-model=model_2692_obj
+model=inv_treasuremap-3
 2dxof=-41
 2dyof=37
 2dzoom=1340
@@ -40,7 +40,7 @@ tradeable=no
 [dragonmap]
 name=Crandor map
 desc=A map to Crandor.
-model=model_2497_obj
+model=inv_treasuremap
 2dyof=-1
 2dzoom=2090
 2dyan=1688
@@ -53,7 +53,7 @@ tradeable=no
 name=Nails
 desc=Keeps things in place fairly permanently.
 cost=3
-model=model_2580_obj
+model=inv_nails
 stackable=yes
 2dxof=3
 2dyof=4
@@ -67,7 +67,7 @@ category=category_74
 name=Maze key
 desc=A key to Melzars' Maze.
 cost=1
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=15855
 2dxof=-3
@@ -81,7 +81,7 @@ tradeable=no
 [redkey]
 name=Key
 desc=A red key.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=30753
 2dxof=-3
@@ -95,7 +95,7 @@ tradeable=no
 [orangekey]
 name=Key
 desc=An orange key.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=31201
 2dxof=-3
@@ -109,7 +109,7 @@ tradeable=no
 [yellowkey]
 name=Key
 desc=A yellow key.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=31649
 2dxof=-3
@@ -123,7 +123,7 @@ tradeable=no
 [bluekey]
 name=Key
 desc=A blue key.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=31
 2dxof=-3
@@ -137,7 +137,7 @@ tradeable=no
 [magentakey]
 name=Key
 desc=A magenta key.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=30781
 2dxof=-3
@@ -151,7 +151,7 @@ tradeable=no
 [greenkey]
 name=Key
 desc=A green key.
-model=model_2372_obj
+model=inv_key
 recol1s=31393
 recol1d=2626
 2dxof=-3

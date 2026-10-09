@@ -1,0 +1,42 @@
+[opheld2,_mm_greegree] 
+if(~mm_greegree_zone(coord) = ^false) {
+    mes("You attempt to use the Monkey Greegree but nothing happens.");
+    return;
+}
+if (add(%lastcombat, 10) > map_clock) {
+    mes("You cannot use this whilst in combat.");
+    return;
+}
+~equip(last_slot);
+
+[timer,mm_greegree_timer]
+if(~mm_greegree_zone(coord) = ^false) {
+    ~force_unequip_greegree;
+    cleartimer(mm_greegree_timer);
+}
+
+[queue,force_unequip_greegree]
+def_obj $obj = inv_getobj(worn, ^wearpos_rhand);
+def_int $count = inv_getnum(worn, ^wearpos_rhand);
+if($obj = null | oc_category($obj) ! mm_greegree) return;
+def_int $overflow = inv_itemspace2(inv, $obj, $count, inv_size(inv));
+if(inv_freespace(inv) = 0) {
+    inv_dropslot(worn, coord, ^wearpos_rhand, 300);
+} else {
+    inv_moveitem(worn, inv, $obj, sub($count, $overflow));
+}
+~unequip_effect($obj, ^true);
+
+[proc,force_unequip_greegree]
+def_obj $obj = inv_getobj(worn, ^wearpos_rhand);
+def_int $count = inv_getnum(worn, ^wearpos_rhand);
+if($obj = null | oc_category($obj) ! mm_greegree) return;
+def_int $overflow = inv_itemspace2(inv, $obj, $count, inv_size(inv));
+if(inv_freespace(inv) = 0) {
+    inv_dropslot(worn, coord, ^wearpos_rhand, 300);
+} else {
+    inv_moveitem(worn, inv, $obj, sub($count, $overflow));
+}
+~unequip_effect($obj, ^true);
+p_stopaction;
+~mesbox("The Monkey Greegree wrenches itself from your hand as its power begins to fade...");

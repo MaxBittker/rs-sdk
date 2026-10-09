@@ -17,7 +17,7 @@ if (%warning_wilderness_teleport_lever = ^false) {
 
 // teleport to wilderness
 anim(human_leverdown, 0); // OSRS uses seq's not in 225, going to assume here
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 // Temp note: dur updated
 loc_change(hauntedleverdown, 7);
 if_close;
@@ -33,7 +33,7 @@ mes("...And teleport into the wilderness.");
 p_arrivedelay;
 // teleport to wilderness
 anim(human_leverdown, 0); // OSRS uses seq's not in 225, going to assume here
-sound_synth(lever, 0, 0);
+sound_synth(lever, 1, 0);
 // Temp note: dur updated
 loc_change(hauntedleverdown, 7);
 if_close;

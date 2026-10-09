@@ -49,7 +49,42 @@ switch_component ($component) {
 // Update Quest Tab color
 if_setcolour($component, ^green_rgb);
 if_settab(questlist, ^tab_quest_journal);
-mes("Congratulations! Quest complete!");
+switch_component ($component) {
+    case questlist:troll_love :
+        mes("Congratulations! You've helped a lonely troll find love. Quest complete!");
+    case default :
+        mes("Congratulations! Quest complete!");
+}
+
+[proc,send_quest_complete2](component $component, namedobj $obj, int $objscale, int $questpoints, string $questmessage, string $rewardtext)
+// Random quest complete jingle.
+def_int $random = random(128);
+if ($random < 32) {       // The least common music that plays when completing a quest.
+    ~music_jingle("quest complete 3");
+} else if ($random < 64) {// A less common music that plays when completing a quest.
+    ~music_jingle("quest complete 2");
+} else {                 // The most common music that plays when completing a quest.
+    ~music_jingle("quest complete 1");
+}
+~update_questpoints;
+split_init($rewardtext, 200, 5, q8_full);
+if_settext(questscroll_death:com_3, $questmessage);
+if_settext(questscroll_death:com_9, tostring($questpoints));
+if_settext(questscroll_death:com_11, split_get(0, 0));
+if_settext(questscroll_death:com_12, split_get(0, 1));
+if_settext(questscroll_death:com_13, split_get(0, 2));
+if_settext(questscroll_death:com_14, split_get(0, 3));
+if_setobject(questscroll_death:com_4, $obj, $objscale);
+if_openmain(questscroll_death);
+// Update Quest Tab color
+if_setcolour($component, ^green_rgb);
+if_settab(questlist, ^tab_quest_journal);
+switch_component ($component) {
+    case questlist:troll_love : 
+        mes("Congratulations! You've helped a lonely troll find love. Quest complete!");
+    case default : 
+        mes("Congratulations! Quest complete!");
+}
 
 [proc,update_questpoints]
 def_int $questpointrecount = ~count_questpoints;
@@ -213,6 +248,9 @@ if (%desertrescue = ^desertrescue_complete) {
 if (%itwatchtower >= ^itwatchtower_complete) {
     $questpoints = add($questpoints, ^itwatchtower_questpoints); 
 }
+if (%misc_quest >= ^misc_complete) {
+    $questpoints = add($questpoints, ^misc_questpoints); 
+}
 if (%legendsquest = ^legends_complete) {
     $questpoints = add($questpoints, ^legends_questpoints); 
 }
@@ -231,6 +269,9 @@ if (%death_equiproom = ^death_complete) {
 if (%troll_quest = ^troll_complete) {
     $questpoints = add($questpoints, ^troll_questpoints); 
 }
+if (%troll_love = ^troll_love_complete) {
+    $questpoints = add($questpoints, ^troll_love_questpoints); 
+}
 if (%tbwt_main = ^tbwt_complete) {
     $questpoints = add($questpoints, ^tbwt_questpoints); 
 }
@@ -248,6 +289,15 @@ if (%horrorquest = ^horror_complete) {
 }
 if (%eadgar_quest = ^eadgar_complete) {
     $questpoints = add($questpoints, ^eadgar_questpoints); 
+}
+if (%mm_main >= ^mm_complete) {
+    $questpoints = add($questpoints, ^mm_questpoints); 
+}
+if (%routequest >= ^routequest_complete) {
+    $questpoints = add($questpoints, ^routequest_questpoints); 
+}
+if (%hauntedmine = ^hauntedmine_complete) { 
+    $questpoints = add($questpoints, ^hauntedmine_questpoints);
 }
 return ($questpoints);
 
@@ -292,6 +342,7 @@ if (%phoenixgang > ^phoenixgang_not_started & %blackarmgang ! ^blackarmgang_comp
 ~send_quest_progress_colour(questlist:ball, %ballquest, ^ball_complete);
 ~send_quest_progress_colour(questlist:murder, %murderquest, ^murder_complete);
 ~send_quest_progress_colour(questlist:itexam, ~itexam_progress, ^itexam_complete);
+~send_quest_progress_colour(questlist:misc, %misc_quest, ^misc_complete);
 ~send_quest_progress_colour(questlist:hazeelcult, %hazeelcultquest, ^hazeelcult_complete);
 ~send_quest_progress_colour(questlist:hero, %heroquest, ^hero_complete);
 ~send_quest_progress_colour(questlist:itgronigen, %itgronigen, ^itgronigen_complete);
@@ -318,12 +369,16 @@ if (testbit(%ibanmulti, ^upass_started_bit) = ^true & %upass ! ^upass_complete) 
 ~send_quest_progress_colour(questlist:druidspirit, %druidspirit, ^druidspirit_complete);
 ~send_quest_progress_colour(questlist:death, %death_equiproom, ^death_complete);
 ~send_quest_progress_colour(questlist:troll, %troll_quest, ^troll_complete);
+~send_quest_progress_colour(questlist:troll_love, %troll_love, ^troll_love_complete);
 ~send_quest_progress_colour(questlist:tbwt, %tbwt_main, ^tbwt_complete);
 ~send_quest_progress_colour(questlist:mortton, %morttonquest, ^mortton_quest_complete);
 ~send_quest_progress_colour(questlist:regicide, %regicide_quest, ^regicide_complete);
 ~send_quest_progress_colour(questlist:viking, %viking, ^viking_complete);
 ~send_quest_progress_colour(questlist:horror, %horrorquest, ^horror_complete);
 ~send_quest_progress_colour(questlist:eadgar, %eadgar_quest, ^eadgar_complete);
+~send_quest_progress_colour(questlist:mm, %mm_main, ^mm_complete);
+~send_quest_progress_colour(questlist:routequest, %routequest, ^routequest_complete);
+~send_quest_progress_colour(questlist:hauntedmine, %hauntedmine, ^hauntedmine_complete);
 if_settab(questlist, ^tab_quest_journal);
 
 if (%drunkmonkquest >= ^drunkmonk_spoken_to_omad) {

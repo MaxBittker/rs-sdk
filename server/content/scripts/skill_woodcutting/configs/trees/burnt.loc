@@ -1,7 +1,7 @@
 [deadtree_burnt]
 name=Dead tree
 desc=It's only useful for firewood now.
-model=model_loc_1384
+model=plants_deadtree_burnt
 mapscene=6
 op1=Chop down
 op3=hidden

@@ -45,7 +45,7 @@ if (%crate_bananas = 10) {
 inv_del(inv, banana, 1);
 %crate_bananas = calc(%crate_bananas + 1);
 
-sound_synth(put_down, 0, 0);
+sound_synth(put_down, 1, 0);
 anim(human_pickuptable, 0);
 
 ~mesbox("You pack a banana into the crate.");
@@ -61,7 +61,7 @@ if (%hunt ! 1) {
     inv_del(inv, karamja_rum, 1);
     %crate_rum = 1;
 
-    sound_synth(put_down, 0, 0);
+    sound_synth(put_down, 1, 0);
     anim(human_pickuptable, 0);
 
     ~mesbox("You stash the rum in the crate.");

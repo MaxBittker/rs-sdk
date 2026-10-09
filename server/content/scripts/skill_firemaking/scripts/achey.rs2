@@ -35,7 +35,7 @@ if(inv_total(inv, tinderbox) < 1) {
 if (%action_delay < map_clock) {
     p_stopaction;
     anim(human_createfire, 0);
-    sound_synth(tinderbox_strike, 0, 0);
+    sound_synth(tinderbox_strike, 1, 0);
     mes("You attempt to light the logs.");
     %action_delay = calc(map_clock + 3);
 } else if (%action_delay = map_clock) {
@@ -47,7 +47,7 @@ if (%action_delay < map_clock) {
     } else {
         // if fails, then reattempt to light
         anim(human_createfire, 0);
-        sound_synth(tinderbox_strike, 0, 0);
+        sound_synth(tinderbox_strike, 1, 0);
         %action_delay = calc(map_clock + 4);
     }
 }

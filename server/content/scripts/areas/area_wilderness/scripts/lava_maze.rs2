@@ -1,6 +1,6 @@
 [oploc1,muddy_chestclosed]
 mes("The chest is locked.");
-sound_synth(locked, 0, 0);
+sound_synth(locked, 1, 0);
 
 [oplocu,muddy_chestclosed]
 if (last_useitem ! muddy_key) {
@@ -8,7 +8,7 @@ if (last_useitem ! muddy_key) {
     return;
 }
 anim(human_openchest, 0);
-sound_synth(chest_open, 0, 0);
+sound_synth(chest_open, 1, 0);
 mes("You unlock the chest with your key.");
 p_delay(0);
 // Temp note: dur updated
@@ -28,7 +28,7 @@ p_delay(0);
 [oploc1,loc_1766]
 p_teleport(0_47_60_8_9);
 
-[oploc1,loc_1767]
+[oploc1,wildymirrorladdertop2]
 p_teleport(0_47_160_8_9);
 
 [oploc1,loc_1768]

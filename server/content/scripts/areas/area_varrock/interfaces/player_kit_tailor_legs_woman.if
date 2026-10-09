@@ -1133,7 +1133,7 @@ x=90
 y=180
 width=32
 height=32
-model=model_419_idk
+model=woman_legs_basic
 zoom=600
 
 [com_126]
@@ -1142,7 +1142,7 @@ x=142
 y=180
 width=32
 height=32
-model=model_433_idk
+model=woman_legs_basic2
 zoom=600
 
 [com_127]
@@ -1151,7 +1151,7 @@ x=195
 y=180
 width=32
 height=32
-model=model_431_idk
+model=woman_legs_flares
 zoom=600
 
 [com_128]
@@ -1160,7 +1160,7 @@ x=248
 y=180
 width=32
 height=32
-model=model_421_idk
+model=woman_legs_longskirt_narrow
 zoom=600
 
 [com_129]
@@ -1169,7 +1169,7 @@ x=300
 y=180
 width=32
 height=32
-model=model_428_idk
+model=woman_legs_longskirt
 zoom=600
 
 [com_130]
@@ -1178,7 +1178,7 @@ x=350
 y=180
 width=32
 height=32
-model=model_437_idk
+model=woman_legs_turnups
 zoom=600
 
 [com_131]
@@ -1187,7 +1187,7 @@ x=400
 y=180
 width=32
 height=32
-model=model_429_idk
+model=woman_legs_shortskirt
 zoom=600
 
 [com_132]
@@ -1232,7 +1232,7 @@ width=30
 height=100
 script1op1=pushvar,if1
 script1=eq,4
-option=Turn-ups
+option=Long Narrow Skirt
 
 [com_136]
 type=graphic
@@ -1243,7 +1243,7 @@ width=30
 height=100
 script1op1=pushvar,if1
 script1=eq,5
-option=Turn-ups
+option=Long Skirt
 
 [com_137]
 type=graphic
@@ -1265,7 +1265,7 @@ width=30
 height=100
 script1op1=pushvar,if1
 script1=eq,8
-option=Turn-ups
+option=Short Skirt
 
 [com_139]
 type=graphic

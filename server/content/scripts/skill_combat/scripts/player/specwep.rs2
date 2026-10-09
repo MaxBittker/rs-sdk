@@ -69,7 +69,7 @@ if($weapon = dragon_battleaxe) {
         def_int $drained_ranged = calc(stat(ranged) / 10);
         def_int $drained_magic = calc(stat(magic) / 10);
         def_int $sum = calc($drained_attack + $drained_defence + $drained_ranged + $drained_magic);
-        sound_synth(rampage, 0, 0);
+        sound_synth(rampage, 1, 0);
         stat_drain(attack, $drained_attack, 0);
         stat_drain(defence, $drained_defence, 0);
         stat_drain(ranged, $drained_ranged, 0);
@@ -98,7 +98,7 @@ if($weapon = excalibur) {
         say("For Camelot!");
         anim(sanctuary, 0);
         spotanim_pl(sp_attackglow_blue, 0, 0);
-        sound_synth(sanctuary, 0, 0);
+        sound_synth(sanctuary, 1, 0);
         stat_boost(defence, 8, 0);
     }
     return;

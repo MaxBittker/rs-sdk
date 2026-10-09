@@ -1,5 +1,5 @@
 [label,consume_effect_strange_fruit]
-sound_synth(eat, 0, 0);
+sound_synth(eat, 1, 0);
 anim(human_eat, 0);
 def_obj $consumable = last_item;
 // change item to its next stage. default is null

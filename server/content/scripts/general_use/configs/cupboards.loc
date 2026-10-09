@@ -1,7 +1,7 @@
 [cupboard]
 name=Cupboard
 desc=This may be worth opening.
-model=model_loc_367
+model=furniture_cupboard
 length=2
 forceapproach=east
 op1=Open
@@ -11,7 +11,7 @@ param=cupboard_other,cupboardopen
 [cupboardhigh]
 name=Cupboard
 desc=This may be worth opening.
-model=model_loc_368
+model=furniture_cupboard-high
 length=2
 forceapproach=east
 op1=Open
@@ -21,7 +21,7 @@ param=cupboard_other,cupboardopen_high
 [cupboard_big]
 name=Large cupboard
 desc=This may be worth opening.
-model=model_loc_369
+model=furniture_cupboard-big
 width=2
 length=3
 forceapproach=east
@@ -32,7 +32,7 @@ param=cupboard_other,cupboardopen_big
 [cupboardopen]
 name=Open Cupboard
 desc=This may be worth searching.
-model=model_loc_370
+model=furniture_cupboard_open
 length=2
 op2=Search
 op3=Shut
@@ -43,7 +43,7 @@ param=cupboard_other,cupboard
 [cupboardopen_high]
 name=Cupboard
 desc=This may be worth searching.
-model=model_loc_371
+model=furniture_cupboard_open-high
 length=2
 op2=Search
 op3=Shut
@@ -54,7 +54,7 @@ param=cupboard_other,cupboardhigh
 [cupboardopen_big]
 name=Large open cupboard
 desc=This may be worth searching.
-model=model_loc_372
+model=furniture_cupboard_open-big
 width=2
 length=3
 op2=Search
@@ -66,7 +66,7 @@ param=cupboard_other,cupboard_big
 [vyvincupboardshut]
 name=Cupboard
 desc=I wonder what's inside?
-model=model_loc_368
+model=furniture_cupboard-high
 length=2
 op1=Open
 forceapproach=east
@@ -76,7 +76,7 @@ param=cupboard_other,vyvincupboardopen
 [vyvincupboardopen]
 name=Cupboard
 desc=It's open.
-model=model_loc_371
+model=furniture_cupboard_open-high
 length=2
 op1=Search
 op2=Shut
@@ -87,7 +87,7 @@ param=cupboard_other,vyvincupboardshut
 [garliccupboardshut]
 name=Cupboard
 desc=Wonder what's in here...
-model=model_loc_368
+model=furniture_cupboard-high
 length=2
 op1=Open
 forceapproach=east
@@ -97,7 +97,7 @@ param=cupboard_other,garliccupboardopen
 [garliccupboardopen]
 name=Cupboard
 desc=Smells kind of funny...
-model=model_loc_371
+model=furniture_cupboard_open-high
 length=2
 op1=Search
 op2=Close

@@ -103,7 +103,7 @@ if(npc_param(next_npc_type) = null) {
     %morttonmulti = setbit(%morttonmulti, ^shadeattack);
     clearqueue(shadeattack_reset);
     longqueue(shadeattack_reset, 100, 0, ^accelerate);
-    sound_synth(shade_appear, 0, 0); //This is area sound in osrs. Should it exist in 04?
+    sound_synth(shade_appear, 1, 0); //This is area sound in osrs. Should it exist in 04?
     npc_changetype(npc_param(next_npc_type), 500);
     %npc_attacking_uid = uid;
     npc_queue(14, 0, 95);
@@ -132,7 +132,7 @@ if (~npc_check_notcombat_self = false) {
 anim(%com_defendanim, 0);
 npc_anim(npc_param(attack_anim), 0);
 if (npc_param(attack_sound) ! null) {
-    sound_synth(npc_param(attack_sound), 0, 0);
+    sound_synth(npc_param(attack_sound), 1, 0);
 }
 ~shade_meleeattack;
 

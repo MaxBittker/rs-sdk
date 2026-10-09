@@ -1,0 +1,76 @@
+[ai_opplayer2,mm_duke] @mm_guard_attack;
+[ai_opplayer2,mm_oipuis] @mm_guard_attack;
+[ai_opplayer2,mm_uyoro] @mm_guard_attack;
+[ai_opplayer2,mm_ouhai] @mm_guard_attack;
+[ai_opplayer2,mm_uodai] @mm_guard_attack;
+[ai_opplayer2,mm_monkey_guard] @mm_guard_attack;
+
+[ai_queue4,mm_duke] @mm_guard_karam_death;
+[ai_queue4,mm_oipuis] @mm_guard_karam_death;
+[ai_queue4,mm_uyoro] @mm_guard_karam_death;
+[ai_queue4,mm_ouhai] @mm_guard_karam_death;
+[ai_queue4,mm_uodai] @mm_guard_karam_death;
+[ai_queue4,mm_monkey_guard] @mm_guard_karam_death;
+
+// killed by karam -> drops bones globally
+[label,mm_guard_karam_death]
+npc_walk(npc_coord);
+npc_setmode(none);
+npc_arrivedelay; // arrivedelay for up to two ticks (current osrs too) https://youtu.be/Vsnkdq8OOMg?t=209
+~.sound_area(monkey_death, 0, npc_coord, 12);
+npc_anim(npc_param(death_anim), 0);
+npc_delay(1); // osrs has an extra tick of delay here. I think this delay can vary from npc to npc
+npc_del;
+
+obj_addall(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+
+[label,mm_guard_attack]
+if(~mm_wearing_greegree = true | %mm_player_is_unconscious = ^true) {
+    npc_del;
+    spotanim_map(smokepuff, npc_coord, 50, 0);
+    sound_synth(smokepuff, 0, 0);
+    return;
+}
+// regular guards dont always knockout, named guards will always knockout
+if(npc_type ! mm_monkey_guard) {
+    strongqueue(aa_guard_knockout, 0, 0);
+} else {
+    if(random(10) = 0) strongqueue(aa_guard_knockout, 0, 0);
+    else gosub(npc_default_attack);
+}
+
+[ai_opplayer2,mm_religious_guard] @mm_religious_guard_attack;
+[ai_opplayer2,mm_religious_trapdoor_guard] @mm_religious_guard_attack;
+
+[label,mm_religious_guard_attack]
+if(~mm_wearing_greegree = true) { // this does come before the healing check
+    return;
+}
+if(npc_stat(hitpoints) <= 30 & random(12) = 0) {
+    npc_anim(m_gorilla_poundchest, 0);
+    npc_statheal(hitpoints, 24, 0); // looks to be always 24 rather than 25 like the wiki says (checked w/monster examine)
+    sound_synth(gorilla_beatchest, 0, 0);
+    // will not attack on the same tick as healing, will delay the next attack by 1t if it was supposed to attack this tick
+    return;
+}
+gosub(npc_default_attack);
+
+[queue,aa_guard_knockout]
+p_stopaction;
+%mm_player_is_unconscious = ^true;
+~update_bas;
+anim(human_death, 0);
+p_delay(2);
+~fade_out;
+p_delay(2);
+~fade_in;
+p_telejump(movecoord(0_43_43_18_41, randominc(6), 0, randominc(1)));
+walktrigger(wake_up);
+~combat_clearqueue;
+clearqueue(aa_archer_knockout);
+clearqueue(aa_guard_knockout);
+clearqueue(aa_jail_knockout);
+queue(lumo_jailed_dialogue, 10, 0);
+queue(fade_clear, 0, 0);
+if(%mm_jail_count < 255) %mm_jail_count = add(%mm_jail_count, 1);
+~objbox(steel_scimitar, "You are knocked unconscious by a blow to the head!", 250, 0, 0);

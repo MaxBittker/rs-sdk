@@ -92,7 +92,7 @@ export function createDefaultWorldConfig(): WorldConfig {
             managementPort: 8898
         },
         engine: {
-            revision: 274
+            revision: 289
         },
         node: {
             id: 10,

@@ -5,18 +5,17 @@ walkanim=ghost_walk
 readyanim=ghost_ready
 op2=Attack
 vislevel=101
+model1=model_2961_npc
+model2=model_2965_npc
+model3=model_2964_npc
 recol1s=25471
 recol1d=10368
 recol2s=15855
 recol2d=11947
-model1=model_2961_npc
-model2=model_2965_npc
-model3=model_2964_npc
-// TODO respawnrate
-hitpoints=85
 attack=90
-strength=95
 defence=80
+strength=95
+hitpoints=85
 param=damagetype,^crush_style
 param=attack_anim,ghost_attack
 param=defend_anim,ghost_block
@@ -25,6 +24,3 @@ param=attack_sound,ghost_attack
 param=defend_sound,ghost_hit
 param=death_sound,ghost_death
 param=death_drop,null
-// not undead https://youtu.be/HbxQzmA33hc?t=28
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_1163

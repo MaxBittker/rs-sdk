@@ -37,6 +37,7 @@ export default class NpcType extends ConfigType {
             const config = new NpcType(id);
             config.decodeType(server);
             config.decodeType(client);
+            config.postDecode();
 
             NpcType.configs[id] = config;
 
@@ -73,13 +74,11 @@ export default class NpcType extends ConfigType {
     size = 1;
     models: Uint16Array | null = null;
     heads: Uint16Array | null = null;
-    hasanim = false;
     readyanim = -1;
     walkanim = -1;
     walkanim_b = -1;
     walkanim_r = -1;
     walkanim_l = -1;
-    hasalpha = false;
     recol_s: Uint16Array | null = null;
     recol_d: Uint16Array | null = null;
     op: (string | null)[] | null = null;
@@ -100,7 +99,7 @@ export default class NpcType extends ConfigType {
     regenrate = 100;
     category = -1;
     wanderrange = 5;
-    maxrange = 7;
+    maxrange = -1; // default to wanderrange + 2 if not set
     huntrange = 0;
     timer = -1;
     respawnrate = 100; // default to 1-minute
@@ -115,6 +114,16 @@ export default class NpcType extends ConfigType {
     patrolCoord: number[] = [];
     patrolDelay: number[] = [];
     givechase = true;
+
+    postDecode() {
+        if (this.maxrange === -1) {
+            this.maxrange = this.wanderrange + 2;
+        }
+
+        if (this.maxrange < this.wanderrange) {
+            this.maxrange = this.wanderrange;
+        }
+    }
 
     decode(code: number, dat: Packet): void {
         if (code === 1) {
@@ -134,8 +143,6 @@ export default class NpcType extends ConfigType {
             this.readyanim = dat.g2();
         } else if (code === 14) {
             this.walkanim = dat.g2();
-        } else if (code === 16) {
-            this.hasanim = true;
         } else if (code === 17) {
             this.walkanim = dat.g2();
             this.walkanim_b = dat.g2();
@@ -143,6 +150,10 @@ export default class NpcType extends ConfigType {
             this.walkanim_l = dat.g2();
         } else if (code === 18) {
             this.category = dat.g2();
+        } else if (code === 26) {
+            this.wanderrange = dat.g2();
+        } else if (code === 27) {
+            this.maxrange = dat.g2();
         } else if (code >= 30 && code < 40) {
             if (!this.op) {
                 this.op = new Array(5).fill(null);
@@ -201,10 +212,6 @@ export default class NpcType extends ConfigType {
             this.headicon = dat.g2();
         } else if (code === 103) {
             this.turnspeed = dat.g2();
-        } else if (code === 200) {
-            this.wanderrange = dat.g2();
-        } else if (code === 201) {
-            this.maxrange = dat.g2();
         } else if (code === 202) {
             this.huntrange = dat.g1();
         } else if (code === 203) {

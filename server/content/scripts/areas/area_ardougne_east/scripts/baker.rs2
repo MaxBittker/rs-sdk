@@ -2,7 +2,8 @@
 if (getqueue(stolen_from_stall_baker) > 0) {
     @stall_owner_alert_guards;
 }
-def_string $line = text_gender("<p,happy>Good day Sir. Would you like some nice freshly baked bread?", "<p,happy>Good day Madame. Would you like some nice freshly baked bread?");
+// https://web.archive.org/web/20070328202303im_/http://runescape.salmoneus.net/cities/images/ardybakershop.gif
+def_string $line = text_gender("<p,happy>Good day Monsieur. Would you like ze nice freshly|baked bread? Or perhaps a nice piece of cake?", "<p,happy>Good day Madame. Would you like ze nice freshly|baked bread? Or perhaps a nice piece of cake?");
 ~chatnpc($line);
 def_int $option = ~p_choice2("Let's see what you have.", 1, "No thank you.", 2);
 

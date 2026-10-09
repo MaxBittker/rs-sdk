@@ -1,0 +1,170 @@
+// Miscellania also includes Etceteria
+
+// Miscellania Death
+[ai_queue3,misc_man_1] @misc_people_on_death;
+[ai_queue3,misc_man_2] @misc_people_on_death;
+[ai_queue3,misc_man_3] @misc_people_on_death;
+[ai_queue3,misc_man_4] @misc_people_on_death;
+[ai_queue3,misc_man_5] @misc_people_on_death;
+[ai_queue3,misc_man_6] @misc_people_on_death;
+[ai_queue3,misc_man_7] @misc_people_on_death;
+[ai_queue3,misc_woman_1] @misc_people_on_death;
+[ai_queue3,misc_woman_2] @misc_people_on_death;
+[ai_queue3,misc_woman_3] @misc_people_on_death;
+[ai_queue3,misc_woman_4] @misc_people_on_death;
+[ai_queue3,misc_woman_5] @misc_people_on_death;
+[ai_queue3,misc_woman_6] @misc_people_on_death;
+
+// Miscellania People
+[opnpc1,misc_man_1] // Ragnar
+@misc_people_default_talk;
+[opnpc1,misc_man_2] // Einar (2nd Floor Throne Room.)
+@misc_people_default_talk;
+[opnpc1,misc_man_3] // Alrik
+@misc_people_default_talk;
+[opnpc1,misc_man_4] // Skraeling (Guard)
+@misc_people_default_talk;
+[opnpc1,misc_man_5] // Broddi
+@misc_people_default_talk;
+[opnpc1,misc_man_6] // Skraeling (Guard)
+@misc_people_default_talk;
+[opnpc1,misc_man_7] // Ragnvald
+@misc_people_default_talk;
+[opnpc1,misc_woman_1] // Thorhild
+@misc_people_default_talk;
+[opnpc1,misc_woman_2] // Halla
+@misc_people_default_talk;
+[opnpc1,misc_woman_3] // Yrsa
+@misc_people_default_talk;
+[opnpc1,misc_woman_4] // Rannveig
+@misc_people_default_talk;
+[opnpc1,misc_woman_5] // Thora
+@misc_people_default_talk;
+[opnpc1,misc_woman_6] // Valgerd
+@misc_people_default_talk;
+
+// Etceteria People
+[opnpc1,misc_etc_man_1] // Arnor
+@etc_people_default_talk;
+[opnpc1,misc_etc_man_2] // Haming
+@etc_people_default_talk;
+[opnpc1,misc_etc_man_3] // Moldof
+@etc_people_default_talk;
+[opnpc1,misc_etc_woman_1] // Helga
+@etc_people_default_talk;
+[opnpc1,misc_etc_woman_2] // Matilda
+@etc_people_default_talk;
+[opnpc1,misc_etc_woman_3] // Ashild
+@etc_people_default_talk;
+[opnpc1,etc_guard1]
+@etc_guard_default_talk;
+[opnpc1,etc_guard2]
+@etc_guard_default_talk;
+
+// Miscellania Attack
+[ai_opplayer2,misc_man_1]
+@misc_people_on_attack;
+[ai_opplayer2,misc_man_2]
+@misc_people_on_attack;
+[ai_opplayer2,misc_man_3]
+@misc_people_on_attack;
+[ai_opplayer2,misc_man_4]
+@misc_people_on_attack;
+[ai_opplayer2,misc_man_5]
+@misc_people_on_attack;
+[ai_opplayer2,misc_man_6]
+@misc_people_on_attack;
+[ai_opplayer2,misc_man_7]
+@misc_people_on_attack;
+[ai_opplayer2,misc_woman_1]
+@misc_people_on_attack;
+[ai_opplayer2,misc_woman_2]
+@misc_people_on_attack;
+[ai_opplayer2,misc_woman_3]
+@misc_people_on_attack;
+[ai_opplayer2,misc_woman_4]
+@misc_people_on_attack;
+[ai_opplayer2,misc_woman_5]
+@misc_people_on_attack;
+[ai_opplayer2,misc_woman_6]
+@misc_people_on_attack;
+
+[label,misc_people_default_talk]
+~manage_misc_daily_update;
+~chatplayer("<p,neutral>Hello.");
+if (%misc_quest = ^misc_complete) {
+    ~chatnpc("<~man_misc_mesanim>Good day, Your Royal Highness.");
+} else {
+    ~chatnpc("<~man_misc_mesanim>Good day.");
+}
+
+// Etc people are not affected by misc royalty
+[label,etc_people_default_talk]
+~chatplayer("<p,neutral>Excuse me...");
+~chatnpc("<p,neutral>Yes?");
+switch_int(random(5)) {
+    case 0 :
+        ~chatplayer("<p,neutral>Can you tell me anything about the castle?");
+        ~chatnpc("<p,neutral>There aren't many guards in it.");
+        ~chatnpc("<p,neutral>We don't have an army, you see.");
+    case 1 :
+        ~chatplayer("<p,neutral>How's the weather doing?");
+        ~chatnpc("<p,neutral>Could be better.");
+    case 3 :
+        ~chatplayer("<p,neutral>How's life in Etceteria?");
+        ~chatnpc("<p,neutral>*sigh* Times are tough.");
+        ~chatnpc("<p,happy>Though they're getting better.");
+    case 4 :
+        ~chatplayer("<p,neutral>What's it like being an Etceterian?");
+        ~chatnpc("<p,neutral>Fairly pleasant, though it gets cold in the winter.");
+    case default :
+        ~chatplayer("<p,neutral>Nice town you have here.");
+        ~chatnpc("<p,neutral>Thank you.");
+}
+
+[label,etc_guard_default_talk]
+~chatplayer("<p,neutral>Hello.");
+~chatnpc("<p,neutral>Good day.");
+
+[label,misc_people_on_attack]
+if (%death = ^true) {
+    npc_setmode(null);
+    return;
+}
+if (%npc_action_delay > map_clock) return;
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) { // Doesnt change mode! Keeps trying!
+    return;
+}
+anim(%com_defendanim, 0);
+npc_anim(npc_param(attack_anim), 0);
+if (npc_param(attack_sound) ! null) {
+    sound_synth(npc_param(attack_sound), 1, 0);
+}
+switch_int(random(300)) { // seems incredibly rare
+    case 0 : npc_say("Oi!");
+    case 1 : npc_say("Rahr!");
+    case 2 : npc_say("No!");
+    case 3 : npc_say("Grr!");
+}
+~npc_meleeattack;
+
+[label,misc_people_on_death]
+if(finduid(%npc_aggressive_player) = true) {
+    if_close;
+    if(p_finduid(%npc_aggressive_player) = true) { // prot access, no queue
+        ~manage_misc_daily_update;
+        %misc_approval = max(0, sub(%misc_approval, 6));
+        %misc_killed = 1;
+        switch_int(random(4)) {
+            case 0 : npc_say("Aargh!");
+            case 1 : npc_say("I'm a gonner!");
+            case 2 : npc_say("It's no use, I'm done for!!");
+            case 3 : npc_say("Uggh!");
+        }
+    }
+}
+gosub(npc_death);

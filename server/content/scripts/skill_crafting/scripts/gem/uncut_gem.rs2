@@ -7,7 +7,7 @@ switch_obj (last_useitem)
     case wolf_bones : @make_wolf_bone_tips;
     case zqbonebeads : @craft_ivorybeads;
     case default :
-        if(oc_category(last_useitem) = category_3) @craft_snelm;
+        if(oc_category(last_useitem) = category_3) @craft_snelm(last_useitem);
         ~displaymessage(^dm_default);
 }
 
@@ -37,7 +37,7 @@ if (stat(crafting) < $level) {
     return;
 }
 anim(db_getfield($data, gem_cutting_table:skill_anim, 0), 0);
-sound_synth(chisel, 0, 0);
+sound_synth(chisel, 1, 0);
 
 inv_del(inv, $uncut_gem, 1);
 

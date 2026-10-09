@@ -1,0 +1,34 @@
+[opnpc4,castlewars_judge] @castlewars_ticket_exchange;
+
+[opnpc1,castlewars_judge]
+~chatnpc("<p,quiz>Good day, how may I help you?");
+@multi2("What is this place?", lathus_whats_this, "What do you have for trade?", castlewars_ticket_exchange); // https://youtu.be/w0rcFd12kSs
+
+[label,lathus_whats_this]
+~chatplayer("<p,quiz>What is this place?");
+~chatnpc("<p,happy>This is the great Castle Wars arena! Here you can|fight for the glory of Saradomin or Zamorak.");
+@multi3("Really, how do I do that?", lathus_how_do, "What can I win?", lathus_how_win, "What do you have for trade?", castlewars_ticket_exchange);
+
+[label,lathus_how_do]
+~chatplayer("<p,quiz>Really, how do I do that?");
+~chatnpc("<p,happy>Easy, you just step through one of the three portals.|To join Zamorak, pass through the red portal. To join|Saradomin, pass through the blue portal. If you don't|mind then pass through the green portal.");
+@multi3("Are there any rules?", lathus_any_rules, "What can I win?", lathus_how_win, "What do you have for trade?", castlewars_ticket_exchange);
+
+[label,lathus_how_win]
+~chatplayer("<p,quiz>What can I win?");
+~chatnpc("<p,happy>Players on the winning team will receive 2 Castle Wars|Tickets which you can trade back to me for other|items. In the event of a draw every player will get 1|ticket.");
+@multi2("Are there any rules?", lathus_any_rules, "What do you have for trade?", castlewars_ticket_exchange);
+
+[label,lathus_any_rules]
+~chatplayer("<p,quiz>Are there any rules?");
+~chatnpc("<p,happy>Of course, there are always rules. Firstly you can't|wear a cape as you enter the portal, you'll be given|your team colours to wear while in the arena. You're|also prohibited from taking non-combat related items in");
+// if_settext	com=chat_left:text (231:6), text="with you. So you should only have equipment, potions,|and runes on you.|Secondly, attacking your own team or your team's|defences isn't allowed. You don't want to be angering"
+~chatnpc("<p,happy>with you. So you should only have equipment, potions,|and runes on you.|Secondly, attacking your own team or your team's|defences isn't allowed. You don't want to be angering");
+// if_settext	com=chat_left:text (231:6), text="your patron god, do you? Other than that, just have|fun and enjoy it!"
+~chatnpc("<p,happy>your patron god, do you? Other than that, just have|fun and enjoy it!");
+// if_settext	com=chat_right:text (217:6), text="Great! Oh, how do I win the game?"
+~chatplayer("<p,quiz>Great! Oh, how do I win the game?");
+// if_settext	com=chat_left:text (231:6), text="The aim is to get into your opponents' castle and take|their team standard. Then bring that back and capture|it on your team's standard."
+~chatnpc("<p,happy>The aim is to get into your opponents' castle and take|their team standard. Then bring that back and capture|it on your team's standard.");
+@multi2("What can I win?", lathus_how_win, "What do you have for trade?", castlewars_ticket_exchange);
+

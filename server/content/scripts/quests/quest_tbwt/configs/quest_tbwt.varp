@@ -15,5 +15,5 @@ scope=perm
 [tbwt_lubufu]
 scope=perm
 
-[tbwt_bits]
+[tbwt_flags]
 scope=perm

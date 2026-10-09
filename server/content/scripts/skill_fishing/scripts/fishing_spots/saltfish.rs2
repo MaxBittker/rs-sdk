@@ -42,7 +42,7 @@ if (%action_delay < map_clock) {
 if (%action_delay = calc(map_clock + 3)) {
     mes("You cast out your net...");
     anim(human_smallnet, 0);
-    sound_synth(net, 0, 0);
+    sound_synth(net, 1, 0);
     p_opnpc(4);
 } else if (%action_delay = map_clock) {
     // doesnt play anim here
@@ -110,7 +110,7 @@ if (%action_delay = calc(map_clock + 4)) {
     return;
 } else if (%action_delay = calc(map_clock + 3)) {
     mes("You attempt to catch a fish.");
-    sound_synth(fishing_cast, 0, 0);
+    sound_synth(fishing_cast, 1, 0);
     p_opnpc(5);
 } else if (%action_delay = map_clock) {
     anim(human_fish_onspot, 0);

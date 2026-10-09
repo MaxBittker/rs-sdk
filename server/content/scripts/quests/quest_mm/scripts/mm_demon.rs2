@@ -1,0 +1,555 @@
+[opheld2,mm_sigil]
+// https://youtu.be/ZKOuCipODy4?si=Vcb3N2kwH6bf2IdM&t=4
+// seems to match how ash describes it working, is updated in 2007 to teleport on opheld2 without equiping
+settimer(teleport_mm_sigil, 10);
+~equip(last_slot);
+
+[proc,mm_sigil_valid_teleport]()(boolean)
+if (~wilderness_level(coord) > 0) {
+    mes("You cannot teleport out of the wilderness using the sigil."); // anywhere in wilderness
+    return (false);
+}
+if (~pre_tele_checks(coord) = false) {
+    return (false);
+}
+
+[timer,teleport_mm_sigil]
+cleartimer(teleport_mm_sigil);
+if(%mm_main >= ^mm_defeated_demon)  {
+    mes("The sigil doesn't activate as you have already helped the");
+    mes("10th squad defeat the demon.");
+    return;
+}
+if(inzone(0_42_143_0_0, 2_42_143_63_63, coord) = true) {
+    mes("You are already helping the 10th squad defeat the demon!");
+    return;
+}
+if (~mm_sigil_valid_teleport = false) {
+    settimer(teleport_mm_sigil, 10);
+    return;
+}
+mes("The 10th squad sigil begins to shake violently!");
+%mm_waiting_for_final_battle = ^true;
+~.sound_area(rumbling, 0, coord, 5);
+cam_shake(0, 10, 0, 0);
+// determine coord to spawn on, this happens before the teleport
+// todo: im not 100% sure on this since i dont have 5 accs to test
+// but it will always use SW and then NE if someone is already 9 tiles within the SW corner
+def_int $player_count_sw = 0;
+def_int $player_count_ne = 0;
+def_int $player_count_se = 0;
+def_int $player_count_nw = 0;
+huntall(1_42_143_14_21, 9, 0);
+while(huntnext = true) {
+    $player_count_sw = add($player_count_sw, 1);
+}
+
+huntall(1_42_143_41_48, 9, 0);
+while(huntnext = true) {
+    $player_count_ne = add($player_count_ne, 1);
+}
+
+huntall(1_42_143_12_50, 9, 0);
+while(huntnext = true) {
+    $player_count_se = add($player_count_se, 1);
+}
+
+huntall(1_42_143_41_21, 9, 0);
+while(huntnext = true) {
+    $player_count_nw = add($player_count_nw, 1);
+}
+
+def_int $lowest_count = $player_count_sw;
+%mm_cutscene_coord = 1_42_143_14_21;
+
+if ($player_count_ne < $lowest_count) {
+    $lowest_count = $player_count_ne;
+    %mm_cutscene_coord = 1_42_143_41_48;
+}
+
+if ($player_count_se < $lowest_count) {
+    $lowest_count = $player_count_se;
+    %mm_cutscene_coord = 1_42_143_12_50;
+}
+
+if ($player_count_nw < $lowest_count) {
+    $lowest_count = $player_count_nw;
+    %mm_cutscene_coord = 1_42_143_41_21;
+}
+
+p_delay(5); // 6t
+~fade_out;
+~tele_checks;
+~music_setvar(8, 21);
+if_settext(music:com_177, "Showdown");
+midi_song("showdown");
+cam_reset;
+sound_synth(teleport_all, 1, 0);
+anim(human_castteleport, 0);
+spotanim_pl(teleport_casting, 92, 0);
+p_delay(3);
+~p_telejump_safe(%mm_cutscene_coord);
+p_delay(0);
+~fade_in;
+sound_synth(rumbling_loop, 4, 0);
+cam_shake(0, 10, 0, 0);
+cam_moveto(1_42_143_27_31, 300, 232, 232);
+cam_lookat(1_42_143_27_34, 150, 232, 232);
+cam_lookat(1_42_143_27_34, 150, 10, 10);
+cam_moveto(1_42_143_27_25, 1000, 2, 0);
+p_delay(15);
+
+// duration of gnomes seems to have some randomess?
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_garkor_final_battle, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_lumo_final_battle, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_bunkdo_final_battle, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_carado_final_battle, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+// todo: lumdo, bunkwicket, waymottin don't have a final battle npc until 295ish
+// zooknock's has no ops or walk/ready seq, so he likely uses his regular version as well
+// need to convert these to use their final_battle versions instead once we get there
+// (interestingly these all use ap range/magic attacks, and carado is also changed to use range later)
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_lumdo, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_karam_final_battle, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_bunkwicket, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_waymottin, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_zooknock_final_battle, add(2000, random(200)));
+spotanim_npc(smokepuff_large, 50, 0);
+%npc_aggressive_player = uid;
+
+queue(garkor_final_battle, 0, 0);
+cam_reset;
+
+[queue,garkor_final_battle]
+queue(spawn_jungle_demon, 0, 0);
+def_int $value = %mm_been_to_final_battle;
+if(%mm_been_to_final_battle = ^false) %mm_been_to_final_battle = ^true;
+
+if($value = ^false) ~chatnpc_specific(nc_name(mm_garkor_final_battle), mm_garkor_final_battle, "<p,neutral>Ready yourself, human: the final battle begins!");
+else ~chatnpc_specific(nc_name(mm_garkor_final_battle), mm_garkor_final_battle, "<p,neutral>Ready yourself, human: the final battle begins... again!");
+
+[queue,spawn_jungle_demon]
+%mm_waiting_for_final_battle = ^false;
+if(inzone(1_42_143_0_0, 1_42_143_63_63, coord) = false) {
+    return;
+}
+// no size checks by the way, it can spawn in a location where its unable to walk
+npc_add(map_findsquare(coord, 5, 10, ^map_findsquare_lineofwalk), mm_demon, 2000);
+%npc_lastcombat = sub(^max_32bit_int, 8);
+%npc_aggressive_player = uid;
+npc_anim(demon_appear, 0);
+npc_setmode(applayer2);
+hint_npc;
+
+[ai_timer,mm_garkor_final_battle] ~gnome_finalbattle_ophunt;
+[ai_opnpc2,mm_garkor_final_battle] ~gnome_finalbattle_melee;
+
+[ai_timer,mm_bunkdo_final_battle] ~gnome_finalbattle_ophunt;
+[ai_opnpc2,mm_bunkdo_final_battle] ~gnome_finalbattle_melee;
+
+[ai_timer,mm_lumo_final_battle] ~gnome_finalbattle_ophunt;
+[ai_opnpc2,mm_lumo_final_battle] ~gnome_finalbattle_melee;
+
+[ai_timer,mm_karam_final_battle] ~gnome_finalbattle_ophunt;
+[ai_opnpc2,mm_karam_final_battle] ~gnome_finalbattle_melee;
+
+// uses bow later (when the others are added)
+[ai_timer,mm_carado_final_battle] ~gnome_finalbattle_ophunt;
+[ai_opnpc2,mm_carado_final_battle] ~gnome_finalbattle_melee;
+
+// the final_battle version uses a bow, the standard uses a sword (change to ap when moving to final_battle variant)
+[ai_timer,mm_lumdo]
+if(inzone(0_42_143_0_0, 2_42_143_63_63, npc_coord) = false) {
+    return;
+}
+~gnome_finalbattle_ophunt;
+
+[ai_opnpc2,mm_lumdo] ~gnome_finalbattle_melee;
+
+[ai_apnpc2,mm_waymottin] ~gnome_finalbattle_vial;
+[ai_apnpc2,mm_bunkwicket] ~gnome_finalbattle_vial;
+
+[ai_timer,mm_zooknock_final_battle]  ~gnome_finalbattle_aphunt;
+[ai_apnpc2,mm_zooknock_final_battle]
+npc_anim(m_mage_attack, 0);
+def_int $duration = 64;
+def_spotanim $spell = fireblast_travel;
+def_spotanim $spell_impact = fireblast_impact;
+if(random(2) = 0) {
+    $spell = waterblast_travel;
+    $spell_impact = waterblast_impact;
+}
+$duration = ~npc_to_npc_projectile(.npc_uid, $spell, 25, 50, 25, 16, 21, 64, 5);
+npc_setmode(null);
+.spotanim_npc($spell_impact, 200, $duration);
+.npc_queue(4, random(2), calc($duration / 30));
+.npc_anim(demon_block, calc($duration / 30));
+~.sound_area(black_demon_hit, calc($duration / 30), .npc_coord, 15);
+
+[proc,gnome_finalbattle_ophunt]
+if(finduid(%npc_aggressive_player) = false) {
+    npc_del;
+    return;
+}
+if(inzone(1_42_143_0_0, 1_42_143_63_63, coord) = false) {
+    npc_del;
+    return;
+}
+npc_huntall(npc_coord, 5, 0);
+while(.npc_findnext = true) {
+    if(.npc_type = mm_demon & .%npc_aggressive_player = %npc_aggressive_player) {
+        npc_setmode(opnpc2);
+    }
+}
+
+[proc,gnome_finalbattle_aphunt]
+if(finduid(%npc_aggressive_player) = false) {
+    npc_del;
+    return;
+}
+if(inzone(1_42_143_0_0, 1_42_143_63_63, coord) = false) {
+    npc_del;
+    return;
+}
+npc_huntall(npc_coord, 5, 0);
+while(.npc_findnext = true) {
+    if(.npc_type = mm_demon & .%npc_aggressive_player = %npc_aggressive_player) {
+        npc_setmode(apnpc2);
+    }
+}
+
+[proc,gnome_finalbattle_melee]
+if(npc_type = mm_karam_final_battle) npc_anim(m_assassin_attack, 0);
+else npc_anim(midget_attacksword, 0);
+npc_setmode(null);
+.npc_queue(4, random(2), 0); // always 1 damage on osrs, not originally: https://youtu.be/9bwZbgPNaOc?si=gmpIpGkKsQdVfXhJ&t=158
+.npc_anim(demon_block, 20);
+~.sound_area(black_demon_hit, 20, .npc_coord, 15);
+
+// [proc,gnome_finalbattle_range]
+// npc_anim(midget_attackbow, 0);
+// spotanim_npc(iron_arrow_launch, 48, 0);
+// def_int $duration = 64;
+// $duration = ~npc_to_npc_projectile(.npc_uid, iron_arrow_travel, 40, 36, 32, 15, 0, 11, 5);
+// npc_setmode(null);
+// .npc_queue(4, calc($duration / 30), 1);
+// .npc_anim(demon_block, calc($duration / 30));
+// ~.sound_area(black_demon_hit, 20, .npc_coord, 15);
+
+[proc,gnome_finalbattle_vial]
+npc_anim(m_mage_attack, 0);
+def_int $duration = 64;
+$duration = ~npc_to_npc_projectile(.npc_uid, vial_travel, 25, 50, 25, 16, 21, 64, 5);
+npc_setmode(null);
+.spotanim_npc(explodingvial, 200, calc($duration / 30));
+.npc_queue(4, random(2), calc($duration / 30));
+.npc_anim(demon_block, calc($duration / 30));
+~.sound_area(black_demon_hit, calc($duration / 30), .npc_coord, 15);
+
+[ai_timer,mm_demon]
+if(finduid(%npc_aggressive_player) = false) {
+    npc_del;
+    return;
+}
+if(inzone(1_42_143_0_0, 1_42_143_63_63, coord) = false) {
+    npc_del;
+}
+
+[opnpc2,mm_demon]
+if (%npc_aggressive_player ! uid) {
+    mes("That is not your enemy!");
+    return;
+}
+@player_combat_start;
+
+[apnpc2,mm_demon] 
+if (%npc_aggressive_player ! uid) {
+    mes("That is not your enemy!");
+    return;
+}
+@player_combat_start_ap;
+
+[ai_queue1,mm_demon] ~npc_default_retaliate_ap;
+[ai_opplayer2,mm_demon] npc_setmode(applayer2);
+[ai_applayer2,mm_demon] @mm_demon_attack;
+
+[label,mm_demon_attack]
+if (%npc_action_delay > map_clock) {
+    return;
+}
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+
+def_int $spell;
+def_synth $success;
+def_synth $fail;
+switch_int(random(4)) {
+    case 0 :
+        $spell = ^wind_wave;
+        $success = wind_wave_all;
+        $fail = wind_wave_fail;
+    case 1 :
+        $spell = ^water_wave;
+        $success = water_wave_all;
+        $fail = water_wave_fail;
+    case 2 :
+        $spell = ^earth_wave;
+        $success = earth_wave_all;
+        $fail = earth_wave_fail;
+    case default : 
+        $spell = ^fire_wave;
+        $success = fire_wave_all;
+        $fail = fire_wave_fail;
+}
+if(npc_range(coord) < 3) { // melee range of 2 :)
+    if (random(2) = 0) {
+        ~mm_demon_spellcast($spell, $success, $fail);
+    } else {
+        ~npc_default_attack;
+    }
+} else {
+    ~mm_demon_spellcast($spell, $success, $fail);
+}
+
+[proc,mm_demon_spellcast](int $spell, synth $success, synth $fail)
+if (~npc_combat_spell_checks = false) {
+    return;
+}
+
+def_dbrow $spell_data = ~get_spell_data($spell);
+def_int $duration = ~npc_spell_cast($spell_data, 4);
+def_int $maxhit = 31;
+
+// it will still splash with prot prayer on, seems to just be based on hit roll
+if(~check_protect_prayer(^magic_style) = true) {
+    $maxhit = 0;
+}
+
+// uses the original synths for wave spells, even today
+if (~npc_player_hit_roll(^magic_style) = true) {
+    if_close;
+    sound_synth($success, 0, $duration);
+    def_int $damage = randominc($maxhit);
+    if ($maxhit ! null) {
+        // npc vs player spells have no 1t extra damage delay. Whereas player vs npc spells do (osrs)
+        queue(combat_damage_player, calc($duration / 30), $damage);
+    }
+    spotanim_pl(db_getfield($spell_data, magic_spell_table:spotanim_target, 0), $duration);
+    queue*(playerhit_n_retaliate, calc($duration / 30))(npc_uid);
+} else {
+    if_close;
+    sound_synth($fail, 0, $duration);
+    // splash sound would play here (still plays here even though the spells use old sounds)
+    spotanim_pl(failedspell_impact, 92, $duration);
+    // splashing in osrs causes insta auto retal
+    queue*(playerhit_n_retaliate, 0)(npc_uid);
+}
+~npc_set_attack_vars;
+
+[ai_queue3,mm_demon]
+gosub(npc_death);
+if(npc_findhero = ^true) {
+    obj_add(npc_coord, ashes, 1, ^lootdrop_duration);
+    // osrs seems to have changed this to happen before death, but the arrow is still set to garkor after death
+    if(%mm_main = ^mm_completed_ch3) {
+        queue(queue_defeat_jungledemon, 0, 0);
+    }
+}
+
+[queue,queue_defeat_jungledemon]
+~music_jingle("mission over");
+%mm_main = ^mm_defeated_demon;
+// if you are far enough away it wont set the arrow on osrs
+// https://www.youtube.com/watch?v=YJtoktu_3qk, seems to spawn the npc if this fails?
+npc_findallany(coord, 15, 0);
+while(npc_findnext = true) {
+    if(npc_type = mm_garkor_final_battle & %npc_aggressive_player = uid) {
+        hint_npc;
+        return;
+    }
+}
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_garkor_final_battle, add(2000, random(200)));
+hint_npc;
+%npc_aggressive_player = uid;
+
+[ai_queue4,mm_demon]
+// for npc damage from the gnomes, if its killing damage it heals instead
+def_int $damage = last_int;
+if (npc_stat(hitpoints) = 0) {
+    return;
+}
+if ($damage = 0) {
+    npc_damage(^hitmark_block, 0);
+} else {
+    npc_damage(^hitmark_damage, $damage);
+}
+if (npc_stat(hitpoints) > 0) {
+    return;
+}
+npc_statheal(hitpoints, 0, 15);
+
+[oploc1,loc_4729]
+mes("You enter the crack in the wall.");
+@enter_mm_demon_trapdoor(0_42_143_27_32);
+
+[oploc1,loc_4730]
+mes("You enter the crack in the wall.");
+@enter_mm_demon_trapdoor(1_42_143_8_60);
+
+[oploc1,loc_4731]
+mes("You enter the crack in the wall.");
+@enter_mm_demon_trapdoor(1_42_143_53_53);
+
+[oploc1,loc_4732]
+mes("You enter the crack in the wall.");
+@enter_mm_demon_trapdoor(1_42_143_2_11);
+
+[oploc1,loc_4733]
+mes("You enter the crack in the wall.");
+@enter_mm_demon_trapdoor(1_42_143_48_7);
+
+[oploc1,loc_4734]
+mes("You enter the crack in the wall.");
+@enter_mm_demon_trapdoor(0_37_154_47_52);
+
+[oploc1,loc_4735] @open_mm_demon_trapdoor(loc_4739);
+[oploc1,loc_4736] @open_mm_demon_trapdoor(loc_4740);
+[oploc1,loc_4737] @open_mm_demon_trapdoor(loc_4741);
+[oploc1,loc_4738] @open_mm_demon_trapdoor(loc_4742);
+
+[oploc1,loc_4739]
+mes("You climb down the trapdoor.");
+@enter_mm_demon_trapdoor(0_42_143_8_58);
+
+[oploc1,loc_4740]
+mes("You climb down the trapdoor.");
+@enter_mm_demon_trapdoor(0_42_143_51_53);
+
+[oploc1,loc_4741]
+mes("You climb down the trapdoor.");
+@enter_mm_demon_trapdoor(0_42_143_4_11);
+
+[oploc1,loc_4742]
+mes("You climb down the trapdoor.");
+@enter_mm_demon_trapdoor(0_42_143_48_9);
+
+[label,open_mm_demon_trapdoor](loc $type)
+anim(human_pickupfloor, 0);
+p_delay(0);
+mes("The trapdoor opens...");
+sound_synth(door_open, 1, 0);
+loc_change($type, 500);
+
+[label,enter_mm_demon_trapdoor](coord $coord)
+~fade_out;
+p_delay(3);
+p_teleport($coord);
+p_delay(0);
+~fade_in;
+p_delay(3);
+if_openoverlay(null);
+
+[opnpc1,mm_garkor_final_battle]
+if(%mm_main < ^mm_defeated_demon) {
+    ~chatnpcnoturn("<p,angry>Stop talking and start fighting!");
+    return;
+}
+if(%mm_garkor < ^garkor_finished_mission) {
+    ~chatnpc("<p,happy>Well done, human! That was a most impressive display of skill.");
+    ~chatplayer("<p,neutral>Thank you.");
+}
+~chatnpc("<p,neutral>You should report to King Narnode immediately. Tell him that the 10th squad still survives and has suffered no casualties.");
+// https://youtu.be/Qr9nNWqN6Y8?si=07TYRisnQ7ak9jmU&t=4256
+~chatplayer("<p,neutral>Rest assured, I will do so.");
+~chatplayer("<p,quiz>How do I leave this place?");
+if(%mm_garkor < ^garkor_finished_mission) %mm_garkor = ^garkor_finished_mission;
+~chatnpc("<p,neutral>Speak to Zooknock. He will arrange for you to leave.");
+npc_findallany(coord, 15, 0);
+while(npc_findnext = true) {
+    if(npc_type = mm_zooknock_final_battle & %npc_aggressive_player = uid) {
+        hint_npc;
+        return;
+    }
+}
+npc_add(map_findsquare(coord, 1, 5, ^map_findsquare_lineofwalk), mm_zooknock_final_battle, add(2000, random(200)));
+%npc_aggressive_player = uid;
+hint_npc;
+
+[opnpc1,mm_zooknock_final_battle]
+if(%mm_main < ^mm_defeated_demon) {
+    ~chatnpcnoturn("<p,angry>Stop talking and start fighting!");
+    return;
+}
+if(%mm_garkor < ^garkor_finished_mission) {
+    ~chatnpc("<p,neutral>You should speak to the Sergeant.");
+    return;
+}
+~chatnpc("<p,neutral>Well done, human. Bear with me now.");
+if_close;
+p_delay(0);
+~fade_out;
+sound_synth(teleport_all, 1, 0);
+anim(human_castteleport, 0);
+spotanim_pl(teleport_casting, 92, 0);
+p_delay(3);
+p_teleport(map_findsquare(0_42_43_24_32, 0, 7, ^map_findsquare_lineofwalk));
+p_delay(0);
+anim(null, 0);
+~fade_in;
+p_delay(1);
+if_openoverlay(null);
+
+[opnpc1,mm_bonzara]
+~chatnpc("<p,quiz>It looks like you're trying to escape. Would you like some help?");
+switch_int(~p_choice2("Yes", 1, "No", 2)) { 
+    case 1 :
+        ~chatplayer("<p,confused>I ... uh ... yes.");
+        ~chatnpc("<p,neutral>Right you are.");
+        if_close;
+        p_delay(0);
+        ~fade_out;
+        sound_synth(teleport_all, 1, 0);
+        anim(human_castteleport, 0);
+        spotanim_pl(teleport_casting, 92, 0);
+        p_delay(3);
+        p_teleport(map_findsquare(0_42_43_24_32, 0, 7, ^map_findsquare_lineofwalk));
+        p_delay(0);
+        anim(null, 0);
+        ~fade_in;
+        p_delay(1);
+        if_openoverlay(null);
+    case 2 :
+        ~chatplayer("<p,confused>No thank you. Who are you by the way?");
+        ~chatnpc("<p,neutral>Never mind that child. You should worry more about who you are and the nature of the forces that have driven you here.");
+        ~chatplayer("<p,confused>I'll ... keep that in mind, thanks.");
+        ~chatnpc("<p,neutral>We WILL meet again, <displayname()>.");
+        ~chatplayer("<p,confused>Ok...");
+}

@@ -1,0 +1,136 @@
+[ai_queue3,iron_dragon]
+def_int $dropint = random(128);
+gosub(npc_death);
+if (npc_findhero = ^true) {
+
+    obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);
+    obj_add(npc_coord, iron_bar, 5, ^lootdrop_duration);
+
+    if (random(512) = 0) {
+        obj_add(npc_coord, dragon_platelegs, 1, ^lootdrop_duration);
+        return ();
+    }
+
+    // Normal drops
+    // Treasure trail
+    ~trail_hardcluedrop(128, npc_coord);
+    // Normal drops
+    if ($dropint < 7)
+    {
+        obj_add(npc_coord, rune_dart_p, 9, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 11)
+    {
+        obj_add(npc_coord, adamant_2h_sword, 1, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 14)
+    {
+        obj_add(npc_coord, adamant_axe, 1, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 17)
+    {
+        obj_add(npc_coord, adamant_battleaxe, 1, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 20)
+    {
+        obj_add(npc_coord, rune_knife, 5, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 21)
+    {
+        obj_add(npc_coord, adamant_sq_shield, 1, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 22)
+    {
+        obj_add(npc_coord, rune_med_helm, 1, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 23)
+    {
+        obj_add(npc_coord, rune_battleaxe, 1, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 43)
+    {
+        obj_add(npc_coord, rune_javelin, 4, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 62)
+    {
+        obj_add(npc_coord, bloodrune, 15, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 68)
+    {
+        obj_add(npc_coord, bolts, calc(random(11) + 2), ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 73)
+    {
+        obj_add(npc_coord, soulrune, 3, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 93)
+    {
+        obj_add(npc_coord, coins, 270, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 103)
+    {
+        obj_add(npc_coord, coins, 550, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 104)
+    {
+        obj_add(npc_coord, coins, 990, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 112)
+    {
+        obj_add(npc_coord, 1dose2strength, 1, ^lootdrop_duration);
+        return();
+    }
+    if ($dropint < 115)
+    {
+        obj_add(npc_coord, adamantite_bar, 2, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 118)
+    {
+        obj_add(npc_coord, curry, 1, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 120)
+    {
+        obj_add(npc_coord, ~ultrarare_getitem, ^lootdrop_duration);
+        return();
+    }
+
+    if ($dropint < 123)
+    {
+        obj_add(npc_coord, ~randomjewel, ^lootdrop_duration);
+        return();
+    }
+}

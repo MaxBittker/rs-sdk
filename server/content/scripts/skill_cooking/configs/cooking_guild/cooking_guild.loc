@@ -1,11 +1,11 @@
-[loc_2712]
+[chefdoor]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
 retex1d=door2
 recol2s=6342
 recol2d=11458
-param=next_loc_stage,poordoor
+param=next_loc_stage,loc_1535

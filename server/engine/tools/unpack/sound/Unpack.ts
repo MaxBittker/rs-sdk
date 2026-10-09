@@ -289,6 +289,9 @@ if (!fs.existsSync(`${Environment.build.srcDir}/synth`)) {
     fs.mkdirSync(`${Environment.build.srcDir}/synth`);
 }
 
+SynthPack.clear();
+SynthPack.load(`${Environment.build.srcDir}/pack/synth.pack`);
+
 Wave.unpack(soundsData);
 
 // fs.writeFileSync(`${Environment.build.srcDir}/pack/synth.pack`, pack);

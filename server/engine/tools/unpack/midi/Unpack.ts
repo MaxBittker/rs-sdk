@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 
 import FileStream from '#/io/FileStream.js';
 import Environment from '#/util/Environment.js';
@@ -6,6 +7,7 @@ import { printWarning } from '#/util/Logger.js';
 import { MidiPack } from '#tools/pack/PackFile.js';
 import Packet from '#/io/Packet.js';
 import Jagfile from '#/io/Jagfile.js';
+import { listFilesExt } from '#tools/pack/Parse.js';
 
 if (!fs.existsSync(`${Environment.build.srcDir}/songs`)) {
     fs.mkdirSync(`${Environment.build.srcDir}/songs`, { recursive: true });
@@ -14,6 +16,11 @@ if (!fs.existsSync(`${Environment.build.srcDir}/songs`)) {
 if (!fs.existsSync(`${Environment.build.srcDir}/jingles`)) {
     fs.mkdirSync(`${Environment.build.srcDir}/jingles`, { recursive: true });
 }
+
+MidiPack.clear();
+MidiPack.load(`${Environment.build.srcDir}/pack/midi.pack`);
+
+const existingFiles = [...listFilesExt(`${Environment.build.srcDir}/jingles`, '.mid'), ...listFilesExt(`${Environment.build.srcDir}/songs`, '.mid')];
 
 const cache = new FileStream('data/unpack', false, true);
 const versionlist = new Jagfile(new Packet(cache.read(0, 5)!));
@@ -33,7 +40,8 @@ for (let i = 0; i < midiCount; i++) {
     const jingle = index.g1();
 
     if (data) {
-        fs.writeFileSync(`${Environment.build.srcDir}/${jingle ? 'jingles' : 'songs'}/${name}.mid`, data);
+        const filePath = existingFiles.find(file => path.basename(file, '.mid') === name) ?? `${Environment.build.srcDir}/${jingle ? 'jingles' : 'songs'}/${name}.mid`;
+        fs.writeFileSync(filePath, data);
     } else {
         printWarning(`Missing midi id=${i}`);
     }

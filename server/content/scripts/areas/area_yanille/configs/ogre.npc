@@ -10,11 +10,13 @@ model1=model_2878_npc
 model2=model_2874_npc
 wanderrange=3
 maxrange=5
-respawnrate=60
-hitpoints=60
 attack=43
-strength=43
 defence=43
+strength=43
+hitpoints=60
+huntrange=2
+respawnrate=60
+huntmode=cowardly
 param=attackrate,6
 param=attackbonus,22
 param=strengthbonus,20
@@ -26,10 +28,6 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-huntmode=cowardly
-huntrange=2
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2095
 
 [ogre2]
 size=2
@@ -42,12 +40,13 @@ vislevel=53
 model1=model_2878_npc
 model2=model_2876_npc
 wanderrange=3
-maxrange=5
-respawnrate=60
-hitpoints=60
 attack=43
-strength=43
 defence=43
+strength=43
+hitpoints=60
+huntrange=2
+respawnrate=60
+huntmode=cowardly
 param=attackrate,6
 param=attackbonus,22
 param=strengthbonus,20
@@ -59,10 +58,6 @@ param=attack_sound,giant_attack
 param=defend_sound,mace_crush
 param=death_sound,giant_death
 param=death_drop,big_bones
-huntmode=cowardly
-huntrange=2
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2096
 
 [skavid]
 walkanim=skavid_walk
@@ -80,7 +75,6 @@ param=death_anim,skavid_death
 param=attack_sound,imp_attack
 param=defend_sound,imp_hit
 param=death_sound,imp_death
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_2846
 
 [ogre_chieftan]
 name=Ogre chieftain
@@ -95,12 +89,13 @@ model1=model_2880_npc
 model2=model_2876_npc
 head1=model_141_npc_head
 wanderrange=3
-maxrange=5
-respawnrate=600
-hitpoints=60
 attack=75
-strength=71
 defence=75
+strength=71
+hitpoints=60
+huntrange=2
+respawnrate=600
+huntmode=cowardly
 param=attackbonus,5
 param=strengthbonus,7
 param=stabdefence,10
@@ -115,10 +110,6 @@ param=defend_sound,giant_hit
 param=defend_sound,blade3_mail
 param=death_sound,giant_death
 param=death_drop,big_bones
-huntmode=cowardly
-huntrange=2
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4363
 
 [og]
 vislevel=hide
@@ -175,12 +166,11 @@ model1=model_2880_npc
 model2=model_2876_npc
 head1=model_141_npc_head
 wanderrange=3
-maxrange=5
-respawnrate=60
-hitpoints=80
 attack=54
-strength=54
 defence=54
+strength=54
+hitpoints=80
+respawnrate=60
 param=attackbonus,8
 param=strengthbonus,6
 param=stabdefence,15
@@ -194,8 +184,6 @@ param=attack_sound,mace_crush
 param=defend_sound,blade3_mail
 param=death_sound,giant_death
 param=death_drop,big_bones
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4367
 
 [ogre_guard]
 name=Ogre guard
@@ -208,11 +196,11 @@ vislevel=83
 model1=model_2880_npc
 model2=model_2874_npc
 head1=model_141_npc_head
-respawnrate=100
-hitpoints=80
 attack=70
-strength=70
 defence=70
+strength=70
+hitpoints=80
+respawnrate=100
 param=attackbonus,9
 param=strengthbonus,13
 param=stabdefence,13
@@ -226,9 +214,6 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-//This npc probably shares the same stats as the city guard according to the osrs cache.
-//but the animations and sounds are quess.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4368
 
 [ogre_guard1]
 name=Ogre guard
@@ -241,11 +226,13 @@ vislevel=83
 model1=model_2880_npc
 model2=model_2874_npc
 head1=model_141_npc_head
-respawnrate=100
-hitpoints=80
+wanderrange=2
+maxrange=3
 attack=70
-strength=70
 defence=70
+strength=70
+hitpoints=80
+respawnrate=100
 param=attackbonus,9
 param=strengthbonus,13
 param=stabdefence,13
@@ -259,9 +246,6 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-//This npc probably shares the same stats as the city guard according to the osrs cache.
-//but the animations and sounds are quess.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4369
 
 [ogre_guard2]
 name=Ogre guard
@@ -274,11 +258,11 @@ vislevel=83
 model1=model_2880_npc
 model2=model_2874_npc
 head1=model_141_npc_head
-respawnrate=100
-hitpoints=80
 attack=70
-strength=70
 defence=70
+strength=70
+hitpoints=80
+respawnrate=100
 param=attackbonus,9
 param=strengthbonus,13
 param=stabdefence,13
@@ -292,9 +276,6 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-//This npc probably shares the same stats as the city guard according to the osrs cache.
-//but the animations and sounds are quess.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4370
 
 [ogre_guard3]
 name=Ogre guard
@@ -307,11 +288,11 @@ vislevel=83
 model1=model_2880_npc
 model2=model_2874_npc
 head1=model_141_npc_head
-respawnrate=100
-hitpoints=80
 attack=70
-strength=70
 defence=70
+strength=70
+hitpoints=80
+respawnrate=100
 param=attackbonus,9
 param=strengthbonus,13
 param=stabdefence,13
@@ -325,9 +306,6 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-//This npc probably shares the same stats as the city guard according to the osrs cache.
-//but the animations and sounds are quess.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4371
 
 [ogre_guard4]
 name=Ogre guard
@@ -340,11 +318,11 @@ vislevel=83
 model1=model_2880_npc
 model2=model_2874_npc
 head1=model_141_npc_head
-respawnrate=100
-hitpoints=80
 attack=70
-strength=70
 defence=70
+strength=70
+hitpoints=80
+respawnrate=100
 param=attackbonus,9
 param=strengthbonus,13
 param=stabdefence,13
@@ -358,9 +336,6 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-//This npc probably shares the same stats as the city guard according to the osrs cache.
-//but the animations and sounds are quess.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4372
 
 [city_guard]
 name=City guard
@@ -374,11 +349,11 @@ vislevel=83
 model1=model_2878_npc
 model2=model_2876_npc
 head1=model_141_npc_head
-respawnrate=100
-hitpoints=80
 attack=70
-strength=70
 defence=70
+strength=70
+hitpoints=80
+respawnrate=100
 param=attackbonus,9
 param=strengthbonus,13
 param=stabdefence,13
@@ -392,8 +367,6 @@ param=attack_sound,mace_crush
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4373
 
 [scared_skavid]
 vislevel=hide
@@ -416,10 +389,10 @@ size=2
 walkanim=skavid_walk
 readyanim=skavid_ready
 op1=Talk-to
-recol1s=16871
-recol1d=9504
 model1=model_2999_npc
 head1=model_146_npc_head
+recol1s=16871
+recol1d=9504
 param=death_anim,skavid_death
 param=death_sound,imp_death
 
@@ -501,12 +474,11 @@ model1=model_2880_npc
 model2=model_2876_npc
 head1=model_141_npc_head
 wanderrange=1
-maxrange=3
-respawnrate=24
-hitpoints=80
 attack=70
-strength=70
 defence=70
+strength=70
+hitpoints=80
+respawnrate=24
 param=attackbonus,9
 param=strengthbonus,13
 param=stabdefence,13
@@ -520,8 +492,6 @@ param=attack_sound,mace_stab
 param=defend_sound,blade3_mail
 param=death_sound,giant_death
 param=death_drop,big_bones
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4381
 
 [ogre_shaman]
 name=Ogre shaman
@@ -535,11 +505,11 @@ vislevel=113
 model1=model_2879_npc
 model2=model_2877_npc
 head1=model_141_npc_head
-respawnrate=102
-hitpoints=99
 attack=99
-strength=99
 defence=99
+strength=99
+hitpoints=99
+respawnrate=102
 param=damagetype,^crush_style
 param=attack_anim,ogre_attack
 param=defend_anim,ogre_block
@@ -547,8 +517,6 @@ param=death_anim,ogre_death
 param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
-// osrs stats and Vislvl match 1:1
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4382
 
 [ogre_trader1]
 name=Ogre trader
@@ -564,12 +532,13 @@ vislevel=70
 model1=model_2878_npc
 model2=model_2874_npc
 head1=model_141_npc_head
+category=shop_keeper
 wanderrange=2
 maxrange=4
-hitpoints=60
 attack=62
-strength=60
 defence=63
+strength=60
+hitpoints=60
 param=damagetype,^crush_style
 param=attack_anim,ogre_attack
 param=defend_anim,ogre_block
@@ -578,13 +547,11 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-category=shop_keeper
 param=owned_shop,generalshopogre
 param=shop_sell_multiplier,1300
 param=shop_buy_multiplier,400
 param=shop_delta,30
 param=shop_title,Dal's General Ogre Supplies
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4401
 
 [ogre_merchant]
 name=Ogre merchant
@@ -600,12 +567,13 @@ vislevel=70
 model1=model_2878_npc
 model2=model_2874_npc
 head1=model_141_npc_head
+category=shop_keeper
 wanderrange=2
 maxrange=4
-hitpoints=60
 attack=62
-strength=60
 defence=63
+strength=60
+hitpoints=60
 param=damagetype,^crush_style
 param=attack_anim,ogre_attack
 param=defend_anim,ogre_block
@@ -614,13 +582,11 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-category=shop_keeper
 param=owned_shop,herbloreshopogre
 param=shop_sell_multiplier,1300
 param=shop_buy_multiplier,400
 param=shop_delta,30
 param=shop_title,Grud's Herblore Stall.
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4402
 
 [ogre_trader2]
 name=Ogre trader
@@ -638,10 +604,10 @@ model2=model_2874_npc
 head1=model_141_npc_head
 wanderrange=2
 maxrange=4
-hitpoints=60
 attack=62
-strength=60
 defence=63
+strength=60
+hitpoints=60
 param=damagetype,^crush_style
 param=attack_anim,ogre_attack
 param=defend_anim,ogre_block
@@ -650,7 +616,6 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4403
 
 [falseogretrader]
 name=Ogre trader
@@ -668,10 +633,10 @@ model2=model_2874_npc
 head1=model_141_npc_head
 wanderrange=3
 maxrange=5
-hitpoints=60
 attack=62
-strength=60
 defence=63
+strength=60
+hitpoints=60
 param=damagetype,^crush_style
 param=attack_anim,ogre_attack
 param=defend_anim,ogre_block
@@ -680,4 +645,3 @@ param=attack_sound,giant_attack
 param=defend_sound,giant_hit
 param=death_sound,giant_death
 param=death_drop,big_bones
-// https://raw.githubusercontent.com/Joshua-F/osrs-dumps/refs/heads/master/config/dump.npc npc_4404

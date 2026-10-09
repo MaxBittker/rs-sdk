@@ -23,14 +23,14 @@
 ~close_reverse_double_doors_right(500, reverse_door_left_opened, loc_param(close_sound));
 
 // for members
-[oploc1,loc_1596]
+[oploc1,membergatel]
 if (map_members = ^false) {
     mes(^mes_members_gate);
     return;
 }
 ~open_double_doors_left(500, door_right_closed, loc_param(open_sound));
 
-[oploc1,loc_1597]
+[oploc1,membergater]
 if (map_members = ^false) {
     mes(^mes_members_gate);
     return;
@@ -40,7 +40,7 @@ if (map_members = ^false) {
 [proc,open_double_doors_left](int $duration, category $category, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~door_close(loc_angle, loc_shape));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(~movecoord_loc_return(~door_open(loc_angle, loc_shape)), loc_param(next_loc_stage), calc((loc_angle + 3) % 4), wall_straight, $duration);
@@ -53,10 +53,66 @@ while (loc_findnext = true) {
     }
 }
 
+[proc,change_open_double_doors_left](loc $opposite_loc, loc $new_loc, loc $new_opposite_loc, int $duration, synth $sound)
+def_coord $opposite = ~movecoord_loc_return(~door_close(loc_angle, loc_shape));
+
+if ($sound ! null) {
+    sound_synth($sound, 0, 0);
+}
+
+loc_del($duration);
+loc_add(~movecoord_loc_return(~door_open(loc_angle, loc_shape)), $new_loc, calc((loc_angle + 3) % 4), wall_straight, $duration);
+if (loc_find($opposite, $opposite_loc) = true) {
+    loc_del($duration);
+    loc_add(~movecoord_loc_return(~door_open(loc_angle, loc_shape)), $new_opposite_loc, calc((loc_angle + 1) % 4), wall_straight, $duration);
+}
+
+[proc,change_open_double_doors_right](loc $opposite_loc, loc $new_loc, loc $new_opposite_loc, int $duration, synth $sound)
+def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_close(loc_angle, loc_shape), -1));
+
+if ($sound ! null) {
+    sound_synth($sound, 0, 0);
+}
+
+loc_del($duration);
+loc_add(~movecoord_loc_return(~door_open(loc_angle, loc_shape)), $new_loc, calc((loc_angle + 1) % 4), wall_straight, $duration);
+if (loc_find($opposite, $opposite_loc) = true) {
+    loc_del($duration);
+    loc_add(~movecoord_loc_return(~door_open(loc_angle, loc_shape)), $new_opposite_loc, calc((loc_angle + 3) % 4), wall_straight, $duration);
+}
+
+[proc,change_close_double_doors_left](loc $opposite_loc, loc $new_loc, loc $new_opposite_loc, int $duration, synth $sound)
+def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_open(loc_angle, loc_shape), -1));
+
+if ($sound ! null) {
+    sound_synth($sound, 0, 0);
+}
+
+loc_del($duration);
+loc_add(~movecoord_loc_return(~multiply2(~door_close(loc_angle, loc_shape), -1)), $new_loc, calc((loc_angle + 1) % 4), wall_straight, $duration);
+if (loc_find($opposite, $opposite_loc) = true) {
+    loc_del($duration);
+    loc_add(~movecoord_loc_return(~door_close(loc_angle, loc_shape)), $new_opposite_loc, calc((loc_angle + 3) % 4), wall_straight, $duration);
+}
+
+[proc,change_close_double_doors_right](loc $opposite_loc, loc $new_loc, loc $new_opposite_loc, int $duration, synth $sound)
+def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_open(loc_angle, loc_shape), -1));
+
+if ($sound ! null) {
+    sound_synth($sound, 0, 0);
+}
+
+loc_del($duration);
+loc_add(~movecoord_loc_return(~door_close(loc_angle, loc_shape)), $new_loc, calc((loc_angle + 3) % 4), wall_straight, $duration);
+if (loc_find($opposite, $opposite_loc) = true) {
+    loc_del($duration);
+    loc_add(~movecoord_loc_return(~multiply2(~door_close(loc_angle, loc_shape), -1)), $new_opposite_loc, calc((loc_angle + 1) % 4), wall_straight, $duration);
+}
+
 [proc,open_double_doors_right](int $duration, category $category, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_close(loc_angle, loc_shape), -1));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(~movecoord_loc_return(~door_open(loc_angle, loc_shape)), loc_param(next_loc_stage), calc((loc_angle + 1) % 4), wall_straight, $duration);
@@ -72,7 +128,7 @@ while (loc_findnext = true) {
 [proc,open_double_doors_left2](int $duration, category $category, loc $next_loc, loc $opposite_next_loc, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~door_close(loc_angle, loc_shape));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(loc_coord, inviswall, loc_angle, loc_shape, 3);
@@ -90,7 +146,7 @@ while (loc_findnext = true) {
 [proc,open_double_doors_right2](int $duration, category $category, loc $next_loc, loc $opposite_next_loc, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_close(loc_angle, loc_shape), -1));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(loc_coord, inviswall, loc_angle, loc_shape, 3);
@@ -108,7 +164,7 @@ while (loc_findnext = true) {
 [proc,close_double_doors_left](int $duration, category $category, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_open(loc_angle, loc_shape), -1));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(~movecoord_loc_return(~multiply2(~door_close(loc_angle, loc_shape), -1)), loc_param(next_loc_stage), calc((loc_angle + 1) % 4), wall_straight, $duration);
@@ -124,7 +180,7 @@ while (loc_findnext = true) {
 [proc,close_double_doors_right](int $duration, category $category, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_open(loc_angle, loc_shape), -1));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(~movecoord_loc_return(~door_close(loc_angle, loc_shape)), loc_param(next_loc_stage), calc((loc_angle + 3) % 4), wall_straight, $duration);
@@ -140,7 +196,7 @@ while (loc_findnext = true) {
 [proc,open_reverse_double_doors_left](int $duration, category $category, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~door_close(loc_angle, loc_shape));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(~movecoord_loc_return(0, 0), loc_param(next_loc_stage), calc((loc_angle + 3) % 4), wall_straight, $duration);
@@ -156,7 +212,7 @@ while (loc_findnext = true) {
 [proc,open_reverse_double_doors_right](int $duration, category $category, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_close(loc_angle, loc_shape), -1));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(~movecoord_loc_return(0, 0), loc_param(next_loc_stage), calc((loc_angle + 1) % 4), wall_straight, $duration);
@@ -172,7 +228,7 @@ while (loc_findnext = true) {
 [proc,close_reverse_double_doors_left](int $duration, category $category, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_open(loc_angle, loc_shape), -1));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(~movecoord_loc_return(~multiply2(0, 0, -1)), loc_param(next_loc_stage), calc((loc_angle + 1) % 4), wall_straight, $duration);
@@ -188,7 +244,7 @@ while (loc_findnext = true) {
 [proc,close_reverse_double_doors_right](int $duration, category $category, synth $sound)
 def_coord $opposite = ~movecoord_loc_return(~multiply2(~door_open(loc_angle, loc_shape), -1));
 if ($sound ! null) {
-    sound_synth($sound, 0, 0);
+    sound_synth($sound, 1, 0);
 }
 loc_del($duration);
 loc_add(~movecoord_loc_return(0, 0), loc_param(next_loc_stage), calc((loc_angle + 3) % 4), wall_straight, $duration);

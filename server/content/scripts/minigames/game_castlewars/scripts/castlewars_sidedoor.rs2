@@ -1,0 +1,35 @@
+[oploc1,castlewars_zamorak_sidedoor]
+if (%castlewars_team = ^castlewars_team_zamorak) {
+    ~open_door(2000);
+    %castlewars_zamorak_bits = setbit(%castlewars_zamorak_bits, ^castlewars_sidedoor_bit);
+    return;
+}
+if (stat_random(thieving, 15, 255) = true) { // osrs
+    mes("You manage to pick the lock!");
+    ~open_door(2000);
+    %castlewars_zamorak_bits = setbit(%castlewars_zamorak_bits, ^castlewars_sidedoor_bit);
+    return;
+}
+mes("You fail to pick the lock!");
+
+[oploc1,castlewars_saradomin_sidedoor]
+if (%castlewars_team = ^castlewars_team_saradomin) {
+    ~open_door(2000);
+    %castlewars_saradomin_bits = setbit(%castlewars_saradomin_bits, ^castlewars_sidedoor_bit);
+    return;
+}
+if (stat_random(thieving, 15, 255) = true) { // osrs
+    mes("You manage to pick the lock!");
+    ~open_door(2000);
+    %castlewars_saradomin_bits = setbit(%castlewars_saradomin_bits, ^castlewars_sidedoor_bit);
+    return;
+}
+mes("You fail to pick the lock!");
+
+[oploc1,castlewars_zamorak_sidedoor_open]
+~close_door(2000);
+%castlewars_zamorak_bits = clearbit(%castlewars_zamorak_bits, ^castlewars_sidedoor_bit);
+
+[oploc1,castlewars_saradomin_sidedoor_open]
+~close_door(2000);
+%castlewars_saradomin_bits = clearbit(%castlewars_saradomin_bits, ^castlewars_sidedoor_bit);

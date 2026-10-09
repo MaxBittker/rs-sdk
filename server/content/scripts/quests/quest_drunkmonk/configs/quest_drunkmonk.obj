@@ -1,7 +1,7 @@
 [childs_blanket]
 name=Child's blanket
 desc=It's very soft!
-model=model_2725_obj
+model=inv_cloth
 2dyof=-15
 2dzoom=1360
 2dxan=368

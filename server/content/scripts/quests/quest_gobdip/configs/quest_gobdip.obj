@@ -1,7 +1,7 @@
 [goblin_armour_orange]
 name=Orange goblin mail
 desc=Armour designed to fit goblins.
-model=model_2574_obj
+model=inv_goblinarmour
 recol1s=10240
 recol1d=28097
 cost=40
@@ -15,7 +15,7 @@ tradeable=no
 [goblin_armour_darkblue]
 name=Blue goblin mail
 desc=Armour designed to fit goblins.
-model=model_2574_obj
+model=inv_goblinarmour
 recol1s=10240
 recol1d=14
 cost=40
@@ -29,7 +29,7 @@ tradeable=no
 [goblin_armour]
 name=Goblin mail
 desc=Armour designed to fit goblins.
-model=model_2574_obj
+model=inv_goblinarmour
 cost=40
 2dyof=3
 2dzoom=1500

@@ -265,16 +265,15 @@ switch_int(%tutorial) {
 }
 
 [label,tutorial_island_equip](int $slot)
-if (%tutorial < ^newbie_combat_instructor_worn_inventory) {
-    ~mesbox("You'll be told how to equip items later.");
-    return;
-}
-
-def_obj $weapon = inv_getobj(inv, $slot);
-
-if (%tutorial = ^newbie_combat_instructor_worn_inventory & $weapon = bronze_dagger) {
-    %tutorial = ^newbie_combat_instructor_dagger_equipped;
-    ~set_tutorial_progress;
+if (~in_tutorial_island(coord) = true) {
+    if (%tutorial < ^newbie_combat_instructor_worn_inventory) {
+        ~mesbox("You'll be told how to equip items later.");
+        return;
+    }
+    if (%tutorial = ^newbie_combat_instructor_worn_inventory & inv_getobj(inv, $slot) = bronze_dagger) {
+        %tutorial = ^newbie_combat_instructor_dagger_equipped;
+        ~set_tutorial_progress;
+    }
 }
 
 @levelrequire_attack(1, $slot);

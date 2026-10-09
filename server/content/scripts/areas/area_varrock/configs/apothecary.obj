@@ -1,7 +1,7 @@
 [acne_potion]
 name=Potion
 desc=This is meant to be good for spots.
-model=model_2789_obj
+model=inv_vial
 recol1s=15855
 recol1d=9965
 2dyof=-1

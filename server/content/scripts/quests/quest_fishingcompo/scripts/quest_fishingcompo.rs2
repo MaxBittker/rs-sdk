@@ -66,7 +66,7 @@ while(loc_findnext = true) {
             }
      }
 }
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 p_delay(0);
 
 // The pipe has some odd interactions in OSRS, but I think this probably related

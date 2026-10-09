@@ -1,0 +1,180 @@
+[if_button,questlist:hauntedmine]
+def_string $text;
+
+switch_int(%hauntedmine) {
+    case ^hauntedmine_not_started : // https://youtu.be/MgnF8O_Djts?t=43
+        $text = append($text, "@dbl@I can start this quest by speaking to the @dre@Saradominist|");
+        $text = append($text, "@dre@Zealot @dbl@outside the @dre@mines of Morytania.|");
+        $text = append($text, "@dbl@To complete this quest I need:|");
+        
+        if (stat_base(agility) < 15) $text = append($text, "@dre@Level 15 Agility.|");
+        else $text = append($text, "@str@Level 15 Agility|");
+
+        if (stat_base(crafting) < 35) $text = append($text, "@dre@Level 35 Crafting.|");
+        else $text = append($text, "@str@Level 35 Crafting|");
+
+        if (%priestperil < ^priestperil_complete) $text = append($text, "@dre@Access to Morytania.|");
+        else $text = append($text, "@str@Access to Morytania.|");
+
+        $text = append($text, "@dbl@I must be able to @dre@defeat a level 95 enemy.|");
+    case ^hauntedmine_started : // osrs
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@dbl@I need to find @dre@some way@dbl@, other than the sealed main entrance,|");
+        $text = append($text, "@dre@to get into the mines.");
+    case ^hauntedmine_secondary_entrance : // osrs
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@str@I managed to get into the mines via a thin tunnel high|");
+        $text = append($text, "@str@mountains.|");
+
+        $text = append($text, "@dbl@Now I must reach the @dre@lower levels @dbl@where apparently the|");
+        $text = append($text, "@dre@crystals @dbl@can be found.|");
+    case ^hauntedmine_liftfound : // osrs
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@str@I managed to get into the mines via a thin tunnel high|");
+        $text = append($text, "@str@mountains.|");
+
+        $text = append($text, "@str@Now I must reach the lower levels where apparently the|");
+        $text = append($text, "@str@crystals can be found.|");
+
+        $text = append($text, "@dbl@I have found a @dre@lift @dbl@that looks promising, but the @dre@mechanism|");
+        $text = append($text, "@dbl@requires a @dre@key @dbl@to be started.|");
+
+    case ^hauntedmine_liftused : // osrs
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@str@I managed to get into the mines via a thin tunnel high|");
+        $text = append($text, "@str@mountains.|");
+
+        $text = append($text, "@str@Now I must reach the lower levels where apparently the|");
+        $text = append($text, "@str@crystals can be found.|");
+
+        $text = append($text, "@str@I managed to start the lift which allowed me to get to the lower|");
+        $text = append($text, "@str@levels.|");
+
+        $text = append($text, "@dbl@Now I can continue my search for the @dre@crystals@dbl@.|");
+    case ^hauntedmine_darkstairsfound : // osrs
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@str@I managed to get into the mines via a thin tunnel high|");
+        $text = append($text, "@str@mountains.|");
+
+        $text = append($text, "@str@Now I must reach the lower levels where apparently the|");
+        $text = append($text, "@str@crystals can be found.|");
+
+        $text = append($text, "@str@I managed to start the lift which allowed me to get to the lower|");
+        $text = append($text, "@str@levels.|");
+
+        $text = append($text, "@str@Now I can continue my search for the crystals.|");
+
+        $text = append($text, "@dbl@The mines are @dre@too dark @dbl@to @dre@navigate@dbl@ at this @dre@level@dbl@.|");
+        $text = append($text, "@dbl@Unfortunately the area is @dre@flooded@dbl@, so it won't be possible to|");
+        $text = append($text, "@dre@light@dbl@ a @dre@fire@dbl@ down here. I need to find some other @dre@source of|");
+        $text = append($text, "@dre@light@dbl@.");
+    case ^hauntedmine_lightstairsfound, ^hauntedmine_boss_found : // osrs
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@str@I managed to get into the mines via a thin tunnel high|");
+        $text = append($text, "@str@mountains.|");
+
+        $text = append($text, "@str@Now I must reach the lower levels where apparently the|");
+        $text = append($text, "@str@crystals can be found.|");
+
+        $text = append($text, "@str@I managed to start the lift which allowed me to get to the lower|");
+        $text = append($text, "@str@levels.|");
+
+        $text = append($text, "@str@Now I can continue my search for the crystals.|");
+
+        $text = append($text, "@str@The lower levels of the mine were too dark to navigate.|");
+        $text = append($text, "@str@I had to use a glowing fungus from the upper levels to light|");
+        $text = append($text, "@str@the way.|");
+
+        $text = append($text, "@dbl@Now I can continue my @dre@search@dbl@ for the @dre@crystals@dbl@.|");
+    case ^hauntedmine_boss_defeated : // osrs
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@str@I managed to get into the mines via a thin tunnel high|");
+        $text = append($text, "@str@mountains.|");
+
+        $text = append($text, "@str@Now I must reach the lower levels where apparently the|");
+        $text = append($text, "@str@crystals can be found.|");
+
+        $text = append($text, "@str@I managed to start the lift which allowed me to get to the lower|");
+        $text = append($text, "@str@levels.|");
+
+        $text = append($text, "@str@Now I can continue my search for the crystals.|");
+
+        $text = append($text, "@str@The lower levels of the mine were too dark to navigate.|");
+        $text = append($text, "@str@I had to use a glowing fungus from the upper levels to light|");
+        $text = append($text, "@str@the way.|");
+
+        $text = append($text, "@str@I found a key in the lower levels. I had to fight a powerful|");
+        $text = append($text, "@str@ghost who tried to prevent me from taking it.|");
+
+        $text = append($text, "@dbl@I should now find where to use this @dre@key@dbl@.|");
+    case ^hauntedmine_rewarddoor_found :
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@str@I managed to get into the mines via a thin tunnel high|");
+        $text = append($text, "@str@mountains.|");
+
+        $text = append($text, "@str@Now I must reach the lower levels where apparently the|");
+        $text = append($text, "@str@crystals can be found.|");
+
+        $text = append($text, "@str@I managed to start the lift which allowed me to get to the lower|");
+        $text = append($text, "@str@levels.|");
+
+        $text = append($text, "@str@Now I can continue my search for the crystals.|");
+
+        $text = append($text, "@str@The lower levels of the mine were too dark to navigate.|");
+        $text = append($text, "@str@I had to use a glowing fungus from the upper levels to light|");
+        $text = append($text, "@str@the way.|");
+
+        $text = append($text, "@str@I found a key in the lower levels. I had to fight a powerful|");
+        $text = append($text, "@str@ghost who tried to prevent me from taking it.|");
+
+        $text = append($text, "@dbl@I used this @dre@key@dbl@ to reach the @dre@legendary crystals@dbl@, now I just|");
+        $text = append($text, "@dbl@need to find some way to @dre@make use of them@dbl@.|");
+    case ^hauntedmine_complete : // osrs but it doesnt align right... todo: find this
+        $text = append($text, "@str@I met a fanatic Saradominst just outside the Morytanian|");
+        $text = append($text, "@str@mines. He told me that the mines had been sealed, but|");
+        $text = append($text, "@str@contained within them crystals of a great power over evil.|");
+        $text = append($text, "@str@I managed to get into the mines via a thin tunnel high|");
+        $text = append($text, "@str@mountains.|");
+
+        $text = append($text, "@str@Now I must reach the lower levels where apparently the|");
+        $text = append($text, "@str@crystals can be found.|");
+
+        $text = append($text, "@str@I managed to start the lift which allowed me to get to the lower|");
+        $text = append($text, "@str@levels.|");
+
+        $text = append($text, "@str@Now I can continue my search for the crystals.|");
+
+        $text = append($text, "@str@The lower levels of the mine were too dark to navigate.|");
+        $text = append($text, "@str@I had to use a glowing fungus from the upper levels to light|");
+        $text = append($text, "@str@the way.|");
+
+        $text = append($text, "@str@I found a key in the lower levels. I had to fight a powerful|");
+        $text = append($text, "@str@ghost who tried to prevent me from taking it.|");
+
+        $text = append($text, "@str@I used this key to reach the legendary crystals, from which I|");
+        $text = append($text, "@str@cut a salve shard to aid in fighting the undead.");
+
+        $text = append($text, "||@red@QUEST COMPLETE!||");
+
+        // line breaks are guessed
+        $text = append($text, "@dbl@I've created a Salve Amulet, which greatly enhances my|");
+        $text = append($text, "@dbl@ability to fight undead, gained 2 Quest Points and will|");
+        $text = append($text, "@dbl@now be able to enter Tarn's Lair!|");
+}
+~quest_journal("Haunted Mine", $text);

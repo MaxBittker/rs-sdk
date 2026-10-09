@@ -1,0 +1,221 @@
+[oploc1,castlewars_zamorak_maindoorl]
+if (%castlewars_team = ^castlewars_team_saradomin & ~check_axis_locactive(coord) = true) {
+    mes("It's shut, you'll have to break it down.");
+    return;
+}
+~open_double_doors_left(500, door_right_closed, loc_param(open_sound));
+
+[oploc1,castlewars_zamorak_maindoorr]
+if (%castlewars_team = ^castlewars_team_saradomin & ~check_axis_locactive(coord) = true) {
+    mes("It's shut, you'll have to break it down.");
+    return;
+}
+~open_double_doors_right(500, door_left_closed, loc_param(open_sound));
+
+[oploc1,castlewars_saradomin_maindoorl]
+if (%castlewars_team = ^castlewars_team_zamorak & ~check_axis_locactive(coord) = true) {
+    mes("It's shut, you'll have to break it down.");
+    return;
+}
+~open_double_doors_left(500, door_right_closed, loc_param(open_sound));
+
+[oploc1,castlewars_saradomin_maindoorr]
+if (%castlewars_team = ^castlewars_team_zamorak & ~check_axis_locactive(coord) = true) {
+    mes("It's shut, you'll have to break it down.");
+    return;
+}
+~open_double_doors_right(500, door_left_closed, loc_param(open_sound));
+
+[oploc2,castlewars_saradomin_maindoorl]
+if (~castlewars_attack_door(^castlewars_team_saradomin) = false) {
+    return;
+}
+if (~castlewars_saradomin_door_health < 1) {
+    ~change_open_double_doors_left(castlewars_saradomin_maindoorr, castlewars_saradomin_brokendoorl, castlewars_saradomin_brokendoorr, 2000, loc_param(open_sound));
+}
+
+[oploc2,castlewars_saradomin_maindoorr]
+if (~castlewars_attack_door(^castlewars_team_saradomin) = false) {
+    return;
+}
+if (~castlewars_saradomin_door_health < 1) {
+    ~change_open_double_doors_right(castlewars_saradomin_maindoorl, castlewars_saradomin_brokendoorr, castlewars_saradomin_brokendoorl, 2000, loc_param(open_sound));
+}
+
+[oploc2,castlewars_zamorak_maindoorl]
+if (~castlewars_attack_door(^castlewars_team_zamorak) = false) {
+    return;
+}
+if (~castlewars_zamorak_door_health < 1) {
+    ~change_open_double_doors_left(castlewars_zamorak_maindoorr, castlewars_zamorak_brokendoorl, castlewars_zamorak_brokendoorr, 2000, loc_param(open_sound));
+}
+
+[oploc2,castlewars_zamorak_maindoorr]
+if (~castlewars_attack_door(^castlewars_team_zamorak) = false) {
+    return;
+}
+if (~castlewars_zamorak_door_health < 1) {
+    ~change_open_double_doors_right(castlewars_zamorak_maindoorl, castlewars_zamorak_brokendoorr, castlewars_zamorak_brokendoorl, 2000, loc_param(open_sound));
+}
+
+[proc,castlewars_saradomin_door_health]()(int)
+return(sub(100, getbit_range(%castlewars_saradomin_bits, ^castlewars_maindoor_startbit, ^castlewars_maindoor_endbit)));
+
+[proc,castlewars_zamorak_door_health]()(int)
+return(sub(100, getbit_range(%castlewars_zamorak_bits, ^castlewars_maindoor_startbit, ^castlewars_maindoor_endbit)));
+
+[proc,castlewars_door_damage](int $team, int $damage)
+def_int $total_damage;
+if ($team = ^castlewars_team_saradomin) {
+    $total_damage = max(min(add(getbit_range(%castlewars_saradomin_bits, ^castlewars_maindoor_startbit, ^castlewars_maindoor_endbit), $damage), 100), 0);
+    %castlewars_saradomin_bits = setbit_range_toint(%castlewars_saradomin_bits, $total_damage, ^castlewars_maindoor_startbit, ^castlewars_maindoor_endbit);
+} else if ($team = ^castlewars_team_zamorak) {
+    $total_damage = max(min(add(getbit_range(%castlewars_zamorak_bits, ^castlewars_maindoor_startbit, ^castlewars_maindoor_endbit), $damage), 100), 0);
+    %castlewars_zamorak_bits = setbit_range_toint(%castlewars_zamorak_bits, $total_damage, ^castlewars_maindoor_startbit, ^castlewars_maindoor_endbit);
+}
+// mes(tostring($damage));
+// say("<tostring($damage)>, <tostring($before)>, <tostring($after)>... <tostring($health)>");
+
+[proc,castlewars_attack_door](int $team)(boolean)
+if (%castlewars_team = $team) {
+    mes("You don't want to damage your own doors."); // 2007
+    return(false);
+}
+if (~check_axis_locactive(coord) = false) {
+    mes("You could just open it..."); // 2007
+    return(false);
+}
+p_oploc(2);
+facesquare(~movecoord_indirection(coord, modulo(add(loc_angle, 3), 4), 1));
+if (%action_delay > map_clock) {
+    return(false);
+}
+def_obj $rhand = inv_getobj(worn, ^wearpos_rhand);
+if ($rhand = null) {
+    %action_delay = add(map_clock, 4);
+} else {
+    %action_delay = add(map_clock, oc_param($rhand, attackrate));
+}
+if (%damagestyle = ^style_ranged_rapid) {
+    %action_delay = sub(%action_delay, 1);
+}
+// doesnt use spotanim/proj for range! player_combat_stat should handle max hit logic
+// Also means it doesnt check for ammo, so you can literally be at 0 ammo and you can still range the door!
+if (%com_attackanim ! null) anim(%com_attackanim, 0);
+if (%com_attacksound ! null) sound_synth(%com_attacksound, 0, 0);
+def_int $damage = 0;
+if (~castlewars_door_roll = true) {
+    // 0 crush at (6 max hit):
+    // - 0%: 164
+    // - 1%: 156
+    // - 2%: 54
+    // The above suggests that $damage is rolled *first*, and then the scaling is applied.
+    // 2%'s should only happen 1/7 of the time when you land a 6 within 0-6
+    $damage = randominc(%com_maxhit);
+    switch_int (%damagetype) {
+        case ^stab_style : $damage = scale($damage, 100, 25); // osrs: 12 -> 3, 11 -> 2
+        case ^crush_style : $damage = scale($damage, 100, 35); // osrs: 17 -> 5, 18 -> 6
+        case ^slash_style : $damage = scale($damage, 100, 50); // osrs: 24 -> 12, 23 -> 11
+        case ^ranged_style : $damage = scale($damage, 100, 35); // osrs: 17 -> 5, 18 -> 6
+    }
+}
+~castlewars_door_damage($team, $damage);
+return(true);
+
+[proc,castlewars_door_roll]()(boolean)
+def_int $effective_defence = ~combat_effective_stat(1, 100); // guess
+$effective_defence = add($effective_defence, 9); // guess
+def_int $defence_roll = ~combat_stat($effective_defence, 0); // guess
+
+def_int $attack_roll = ~player_attack_roll_specific(%damagetype);
+if (randominc($attack_roll) > randominc($defence_roll)) {
+    return(true);
+}
+return(false);
+
+[oploc1,castlewars_saradomin_brokendoorr]
+if (~castle_wars_door_try_repair(^castlewars_team_saradomin) = false) {
+    return;
+}
+~change_close_double_doors_right(castlewars_saradomin_brokendoorl, castlewars_saradomin_maindoorr, castlewars_saradomin_maindoorl, 2000, loc_param(close_sound));
+
+[oploc1,castlewars_saradomin_brokendoorl]
+if (~castle_wars_door_try_repair(^castlewars_team_saradomin) = false) {
+    return;
+}
+~change_close_double_doors_left(castlewars_saradomin_brokendoorr, castlewars_saradomin_maindoorl, castlewars_saradomin_maindoorr, 2000, loc_param(close_sound));
+
+[oploc1,castlewars_zamorak_brokendoorr]
+if (~castle_wars_door_try_repair(^castlewars_team_zamorak) = false) {
+    return;
+}
+~change_close_double_doors_right(castlewars_zamorak_brokendoorl, castlewars_zamorak_maindoorr, castlewars_zamorak_maindoorl, 2000, loc_param(close_sound));
+
+[oploc1,castlewars_zamorak_brokendoorl]
+if (~castle_wars_door_try_repair(^castlewars_team_zamorak) = false) {
+    return;
+}
+~change_close_double_doors_left(castlewars_zamorak_brokendoorr, castlewars_zamorak_maindoorl, castlewars_zamorak_maindoorr, 2000, loc_param(close_sound));
+
+
+[oplocu,castlewars_saradomin_brokendoorr]
+if (last_useitem ! castlewars_toolkit) {
+    ~displaymessage(^dm_default);
+    return;
+}
+if (~castle_wars_door_try_repair(^castlewars_team_saradomin) = false) {
+    return;
+}
+~change_close_double_doors_right(castlewars_saradomin_brokendoorl, castlewars_saradomin_maindoorr, castlewars_saradomin_maindoorl, 2000, loc_param(close_sound));
+
+[oplocu,castlewars_saradomin_brokendoorl]
+if (last_useitem ! castlewars_toolkit) {
+    ~displaymessage(^dm_default);
+    return;
+}
+if (~castle_wars_door_try_repair(^castlewars_team_saradomin) = false) {
+    return;
+}
+~change_close_double_doors_left(castlewars_saradomin_brokendoorr, castlewars_saradomin_maindoorl, castlewars_saradomin_maindoorr, 2000, loc_param(close_sound));
+
+[oplocu,castlewars_zamorak_brokendoorr]
+if (last_useitem ! castlewars_toolkit) {
+    ~displaymessage(^dm_default);
+    return;
+}
+if (~castle_wars_door_try_repair(^castlewars_team_zamorak) = false) {
+    return;
+}
+~change_close_double_doors_right(castlewars_zamorak_brokendoorl, castlewars_zamorak_maindoorr, castlewars_zamorak_maindoorl, 2000, loc_param(close_sound));
+
+[oplocu,castlewars_zamorak_brokendoorl]
+if (last_useitem ! castlewars_toolkit) {
+    ~displaymessage(^dm_default);
+    return;
+}
+if (~castle_wars_door_try_repair(^castlewars_team_zamorak) = false) {
+    return;
+}
+~change_close_double_doors_left(castlewars_zamorak_brokendoorr, castlewars_zamorak_maindoorl, castlewars_zamorak_maindoorr, 2000, loc_param(close_sound));
+
+
+
+[proc,castle_wars_door_try_repair](int $team)(boolean)
+if ($team ! %castlewars_team) {
+    mes("You don't want to repair your opponents door.");
+    return(false);
+}
+if (inv_total(inv, castlewars_toolkit) < 1) {
+    mes("You need a toolkit to repair the doors.");
+    return(false);
+}
+~castlewars_door_damage(%castlewars_team, -100);
+return(true);
+
+// You need a toolkit to repair the doors.
+// You don't want to repair your opponents door.
+
+[oploc1,castlewars_saradomin_maindoorr_open] ~close_double_doors_right(500, door_left_opened, loc_param(close_sound));
+[oploc1,castlewars_saradomin_maindoorl_open] ~close_double_doors_left(500, door_right_opened, loc_param(close_sound));
+[oploc1,castlewars_zamorak_maindoorr_open] ~close_double_doors_right(500, door_left_opened, loc_param(close_sound));
+[oploc1,castlewars_zamorak_maindoorl_open] ~close_double_doors_left(500, door_right_opened, loc_param(close_sound));

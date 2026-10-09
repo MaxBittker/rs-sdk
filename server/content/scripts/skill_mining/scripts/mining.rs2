@@ -20,7 +20,7 @@ if ($is_empty = ^true) {
     anim(null, 0);
     if(loc_type = loc_4030) mes("There are no minerals currently available in this rock.");
     else mes("There is no ore currently available in this rock.");
-    sound_synth(prospect, 0, 0);
+    sound_synth(prospect, 1, 0);
     return;
 }
 db_find(mining_table:rock, loc_type);
@@ -29,6 +29,26 @@ if ($data = null) {
     ~displaymessage(^dm_default);
     return;
 }
+if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+    ~manage_misc_daily_update;
+    if(%misc_quest = ^misc_not_started) {
+        if (npc_find(0_39_60_30_53, misc_miner, 2, 0) = true) { 
+            ~chatnpc("<p,angry>Hey! These are the King's coal rocks. You'll need his approval to make use of them.");
+        }
+        return;
+    }
+    if(%misc_approval >= ^MISC_APPROVAL_100_PERCENT) {
+        if (npc_find(0_39_60_30_53, misc_miner, 2, 0) = true) {
+            if(%misc_quest = ^misc_complete) {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, Your Highness, you've already done so much!");
+            } else {
+                ~chatnpcnoturn("<p,happy>Don't trouble yourself further, <text_gender("Sir", "Madam")>, you've already done so much!");
+            }
+        }
+        return;
+    }
+}
+
 if (inv_freespace(inv) < 1) {
     anim(null, 0);
     ~mesbox("Your inventory is too full to hold any more <db_getfield($data, mining_table:ore_name, 0)>.");
@@ -92,7 +112,7 @@ if ($pickaxe = null) {
 def_int $mining_rate = oc_param($pickaxe, mining_rate);
 
 // sounds and skill anim is based off https://youtu.be/ix4_VVi9Xm4
-sound_synth(mine_quick, 0, 0);
+sound_synth(mine_quick, 1, 0);
 
 // if roll is due
 if (%action_delay < map_clock) {
@@ -119,10 +139,18 @@ if ($neck ! null & oc_category($neck) = category_557 & map_members = ^true) {
 if (random($chance) = ^true) {
     def_namedobj $gem = ~mining_gem_table;
     if ($gem ! null) {
-        inv_add(inv, $gem, 1);
         db_find(gem_cutting_table:uncut_gem, $gem);
         $data = db_findnext;
-        mes("You just found <~add_article(oc_name(db_getfield($data, gem_cutting_table:cut_gem, 0)))>!");
+        // miscellania intercept
+        if (inzone(^miscellania_lower_bound, ^miscellania_upper_bound, coord) = true) {
+            if (%misc_approval < 127) %misc_approval = min(127, add(%misc_approval, 2));
+            if (npc_find(0_39_60_30_53, misc_miner, 2, 0) = true) npc_say("Thanks!");
+            // https://youtu.be/q0znbNkOg84?si=eLmFFqjccU95qp6o&t=1169
+            mes("You just found <~add_article(oc_name(db_getfield($data, gem_cutting_table:cut_gem, 0)))>! You give it to Miner Magnus.");
+        } else {
+            inv_add(inv, $gem, 1);
+            mes("You just found <~add_article(oc_name(db_getfield($data, gem_cutting_table:cut_gem, 0)))>!");
+        }
     }
 } else if (stat_random(mining, db_getfield($data, mining_table:rock_successchance, 0)) = true) {
     // They added a 1t p_delay in this update: https://oldschool.runescape.wiki/w/Update:Special_Attacks
@@ -131,7 +159,7 @@ if (random($chance) = ^true) {
     def_int $respawn = ~scale_by_playercount(db_getfield($data, mining_table:rock_respawnrate, 0));
     // Temp note: dur does not need updated
     loc_change(loc_param(next_loc_stage_mining), $respawn);
-    sound_synth(mine, 0, 0); // Sudden says its mine
+    sound_synth(mine, 1, 0); // Sudden says its mine
     anim(null, 0);
     // The 'perfect' gold rocks in Family Crest are the same ID as regular gold rocks, so check to 
     // give out the right ore if we're in that location. Only gold rocks are in this room.
@@ -139,6 +167,7 @@ if (random($chance) = ^true) {
     if(inzone(^crest_perfect_mine_lower_bound, ^crest_perfect_mine_upper_bound, coord) = true) {
         $output = perfect_gold_ore;
     }
+    if (~magnus_intercept_ore(db_getfield($data, mining_table:ore_name, 0), db_getfield($data, mining_table:rock_exp, 0)) = true) { return; } // Intercept for Miscellania, you don't get the ore.
     inv_add(inv, $output, 1);
     if ($output = runite_ore) runite_mined(loc_coord); // rs-sdk: Lava Maze runite hiscores
     stat_advance(mining, db_getfield($data, mining_table:rock_exp, 0));
@@ -175,7 +204,7 @@ if (random($chance) = ^true) {
     def_int $respawn = ~scale_by_playercount(db_getfield($data, mining_table:rock_respawnrate, 0));
     // Temp note: dur does not need updated
     loc_change(loc_param(next_loc_stage_mining), $respawn);
-    sound_synth(mine, 0, 0); // Sudden says its mine
+    sound_synth(mine, 1, 0); // Sudden says its mine
     anim(null, 0);
     inv_add(inv, db_getfield($data, mining_table:rock_output, 0), 1);
     stat_advance(mining, db_getfield($data, mining_table:rock_exp, 0));
@@ -221,7 +250,7 @@ if (stat_random(mining, $low, $high) = true) {
     // Temp note: dur does not need updated
     loc_change(loc_param(next_loc_stage_mining), $respawn);
     // stop mining, give ore and xp.
-    sound_synth(found_gem, 0, 0);
+    sound_synth(found_gem, 1, 0);
     anim(null, 0);
     def_namedobj $gem;
     def_int $count;

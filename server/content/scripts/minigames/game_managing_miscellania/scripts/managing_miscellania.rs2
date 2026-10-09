@@ -1,0 +1,369 @@
+/**
+ * Managing Miscellania is a daily minigame that lets you control Miscellania and Etceteria
+ *
+ * There seems to be 3 updates:
+ * - Throne of Miscellania (Without flax) early 2005
+ * - Throne of Miscellania (With flax) late 2005
+ * - Royal Trouble (With Etceteria) 2006
+ REMEMBER ADDING STEALING FROM STALLS!
+ https://www.youtube.com/watch?v=oO_nbXNN-8o
+ *
+ * === WARNING VERY SENSITIVE CALCULATIONS WITH COINS AND RESOURCES HERE ===
+ */
+[proc,open_manage_miscellania_interface]
+if_openmain(misc_both_manage);
+%if1 = calc(10 - %misc_points_mine - %misc_points_wood - %misc_points_herb - %misc_points_fish);
+%if2 = 0;
+if_settext(misc_both_manage:com_87, tostring(%misc_coffers));
+
+// Mining Up
+[if_button,misc_both_manage:com_11]
+if (%if1 > 0) {
+    %if1 = max(sub(%if1, 1), 0);
+    %misc_points_mine = min(add(%misc_points_mine, 1), 10);
+}
+// Mining Down
+[if_button,misc_both_manage:com_12]
+if (%misc_points_mine > 0) {
+    %misc_points_mine = max(sub(%misc_points_mine, 1), 0);
+    %if1 = min(add(%if1, 1), 10);
+}
+
+// Wood Up
+[if_button,misc_both_manage:com_46]
+if (%if1 > 0) {
+    %if1 = max(sub(%if1, 1), 0);
+    %misc_points_wood = min(add(%misc_points_wood, 1), 10);
+}
+// Wood Down
+[if_button,misc_both_manage:com_47]
+if (%misc_points_wood > 0) {
+    %misc_points_wood = max(sub(%misc_points_wood, 1), 0);
+    %if1 = min(add(%if1, 1), 10);
+}
+
+// Herb Up
+[if_button,misc_both_manage:com_27]
+if (%if1 > 0) {
+    %if1 = max(sub(%if1, 1), 0);
+    %misc_points_herb = min(add(%misc_points_herb, 1), 10);
+}
+// Herb Down
+[if_button,misc_both_manage:com_28]
+if (%misc_points_herb > 0) {
+    %misc_points_herb = max(sub(%misc_points_herb, 1), 0);
+    %if1 = min(add(%if1, 1), 10);
+}
+
+// Fishing Up
+[if_button,misc_both_manage:com_62]
+if (%if1 > 0) {
+    %if1 = max(sub(%if1, 1), 0);
+    %misc_points_fish = min(add(%misc_points_fish, 1), 10);
+}
+// Fishing Down
+[if_button,misc_both_manage:com_63]
+if (%misc_points_fish > 0) {
+    %misc_points_fish = max(sub(%misc_points_fish, 1), 0);
+    %if1 = min(add(%if1, 1), 10);
+}
+// Fishing Cooked
+[if_button,misc_both_manage:com_108]
+%misc_cooked = togglebit(%misc_cooked, 0);
+[if_button,misc_both_manage:com_107]
+%misc_cooked = togglebit(%misc_cooked, 0);
+
+// Help Button
+[if_button,misc_both_manage:com_95]
+%if2 = togglebit(%if2, 0);
+
+// // Deposit
+[if_button,misc_both_manage:com_88]
+def_int $inv_coins = inv_total(inv, coins);
+if ($inv_coins = 0) {
+    ~mesbox("You aren't carrying any coins.");
+    ~open_manage_miscellania_interface;
+    return;
+} 
+if (%misc_coffers = 5000000) {
+    ~mesbox("The coffers can only hold 5000000 coins.");
+    ~open_manage_miscellania_interface;
+    return;
+}
+~mesbox("You are carrying <tostring($inv_coins)> coins.|Enter an amount to deposit in the coffers.");
+if_close;
+p_delay(0);
+p_countdialog;
+def_int $requested_deposit = last_int;
+if_close;
+p_delay(0);
+def_int $coffer_space = sub(5000000, %misc_coffers);
+def_int $deposit_amt = $requested_deposit;
+
+if ($deposit_amt > $coffer_space) {
+    $deposit_amt = $coffer_space;
+} else if($deposit_amt > $inv_coins) {
+    $deposit_amt = $inv_coins;
+}
+
+if ($deposit_amt > 0) {
+    inv_del(inv, coins, $deposit_amt);
+    %misc_coffers = add(%misc_coffers, $deposit_amt);
+    ~mesbox("Added <tostring($deposit_amt)> coins to the coffers."); // http://youtu.be/AHygmc-5hwI
+}
+~open_manage_miscellania_interface;
+
+// Withdraw
+[if_button,misc_both_manage:com_89]
+if (%misc_coffers = 0) {
+    ~mesbox("There are no coins to withdraw.");
+    ~open_manage_miscellania_interface;
+    return;
+}
+if(inv_itemspace(inv, coins, %misc_coffers, inv_size(inv)) = false) {
+    ~mesbox("You do not have enough space to hold any coins.");
+    ~open_manage_miscellania_interface;
+    return;
+}
+~mesbox("The coffers contain <tostring(%misc_coffers)> coins.|Enter an amount to withdraw from the coffers.");
+if_close;
+p_delay(0);
+p_countdialog;
+def_int $withdraw_amt = last_int;
+if_close;
+p_delay(0);
+if ($withdraw_amt > %misc_coffers) {
+    $withdraw_amt = %misc_coffers;
+}
+%misc_coffers = sub(%misc_coffers, $withdraw_amt);
+inv_add(inv, coins, $withdraw_amt);
+~mesbox("Withdrew <tostring($withdraw_amt)> coins."); // http://youtu.be/AHygmc-5hwI
+~open_manage_miscellania_interface;
+
+
+// Most of these comments are direct from the OSRS Managing Miscellania calculation image.
+// "Daily" Update
+[proc,manage_misc_daily_update]
+if(%misc_quest < ^misc_complete) { // do not tick before the quest is complete
+    return;
+}
+
+def_int $currenttime = date_minutes;
+def_int $misc_last_update = %misc_last_update;
+def_int $reduction;
+def_int $worker_effectiveness;
+
+
+// We compare it to the current time, but if it has been more than 30 days, we pretend you last updated 30 days ago.
+if (calc($currenttime - $misc_last_update) > calc(^MISCELLANIA_INTERVAL * 30)) {
+    $misc_last_update = calc($currenttime - ^MISCELLANIA_INTERVAL * 30);
+}
+
+// Then for every 1440 minutes in currenttime - $misc_last_update
+while (calc($currenttime - $misc_last_update) >= ^MISCELLANIA_INTERVAL) {
+    // Money in coffer?
+    if (%misc_coffers > 0) {
+        // The amount withdrawn from the coffers is equivalent to 10% of the balance in the coffer up to a maximum of 50,000 coins, or 75,000 coins after Royal Trouble.
+        // If the max amount of coins is able to be subtracted, a clean 10% will be taken out of the coffers. Otherwise, 10% will be taken out, and then an additional 5 coins.
+        $reduction = calc(5 + (%misc_coffers / 10));
+        if ($reduction > 50000) { $reduction = 50000; }
+        if ($reduction > %misc_coffers) { $reduction = %misc_coffers; }
+        %misc_coffers = calc(%misc_coffers - $reduction);
+        // Worker effectiveness = reduction * 100 / 8333, then scaled by approval (already 0-127), capped at 262,143
+        $worker_effectiveness = calc($reduction * 100 / 8333);
+        %misc_restotal = min(262143, calc(%misc_restotal + ($worker_effectiveness * %misc_approval / 100)));
+    }
+
+    // Update Approval rating, abs minimum of 25% (32 points)
+    // wiki seems to be wrong, based off the data I have for favour dropping pre royal trouble
+    // this lin formula seems to work fine, obtained as drops inc by 1 for each 14.5 favour, min of 3 at max favour
+    // 3 + (2/29)(127 - cur_approval) represents fine
+    %misc_approval = max(32, sub(%misc_approval, calc(3 + ((2 * (127 - %misc_approval)) / 29))));
+    $misc_last_update = calc($misc_last_update + ^MISCELLANIA_INTERVAL);
+}
+
+// set last update to time of collection: https://x.com/JagexAsh/status/1017386808563335170
+if(%misc_last_update ! $misc_last_update) %misc_last_update = date_minutes;
+
+// Most of these comments are direct from the OSRS Managing Miscellania calculation image.
+// Resource Generation
+// Currently we are creating noted versions and dumping in the user's inventory.
+[proc,manage_misc_resource_generation]()(string)
+// Fetch varps and varbits
+def_int $ResourcePts = %misc_restotal;
+def_int $CurrentSlot = 0;
+
+// Wood[Maple Logs] (InverseCost = 160)
+def_int $wood_qty = calc(102 * $ResourcePts * %misc_points_wood / 2048);
+if ($wood_qty > 0) {
+    inv_add(inv, cert_maple_logs, $wood_qty);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, maple_logs, $wood_qty);
+    // $CurrentSlot = add($CurrentSlot, 1);
+    // For 2005, add nest drops. 1 nest per 100.
+}
+
+// Coal (InverseCost = 98)
+def_int $coal_qty = calc(60 * $ResourcePts * %misc_points_mine / 2048);
+if ($coal_qty > 0) {
+    inv_add(inv, cert_coal, $coal_qty);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, coal, $coal_qty);
+    // $CurrentSlot = add($CurrentSlot, 1);
+    // For 2005, add gems drops. 1 gem for 100 coal, 1 per 200 thereafter
+}
+
+// Fish (InverseCost = 158)
+def_int $fish_qty =  calc(100 * $ResourcePts * %misc_points_fish / 2048);
+if ($fish_qty > 0) {
+    if (%misc_cooked = 1) {
+        inv_add(inv, cert_tuna, calc($fish_qty / 2));
+        inv_add(inv, cert_swordfish, calc($fish_qty * 3 / 20));
+        // inv_setslot(misc_resources_collected, $CurrentSlot, tuna, calc($fish_qty / 2)); // 50% Quantity
+        // $CurrentSlot = add($CurrentSlot, 1);
+        // inv_setslot(misc_resources_collected, $CurrentSlot, swordfish, calc($fish_qty * 3 / 20)); // 15% Quantity
+        // $CurrentSlot = add($CurrentSlot, 1);
+    } else {
+        inv_add(inv, cert_raw_tuna, calc($fish_qty / 2));
+        inv_add(inv, cert_raw_swordfish, calc($fish_qty * 3 / 20));
+        // inv_setslot(misc_resources_collected, $CurrentSlot, raw_tuna, calc($fish_qty / 2)); // 50% Quantity
+        // $CurrentSlot = add($CurrentSlot, 1);
+        // inv_setslot(misc_resources_collected, $CurrentSlot, raw_swordfish, calc($fish_qty * 3 / 20)); // 15% Quantity
+        // $CurrentSlot = add($CurrentSlot, 1);
+    }
+    // For 2005, 1 loot per 100 tuna
+}
+
+// Herb inits (im not sorry)
+def_obj $rolled_herb = null;
+def_int $rolled_qty = 0;
+def_int $guam_count = 0;
+def_int $marentill_count = 0;
+def_int $tarromin_count = 0;
+def_int $harralander_count = 0;
+def_int $ranarr_count = 0;
+def_int $irit_count = 0;
+def_int $avantoe_count = 0;
+def_int $kwuarm_count = 0;
+def_int $cadantine_count = 0;
+def_int $lantadyme_count = 0;
+def_int $dwarf_weed_count = 0;
+// Herbs (InverseCost = 11) / Flax later at (InverseCost = 224)
+def_int $herb_qty =  calc(5 * $ResourcePts * %misc_points_herb / 2048);
+def_int $herb_count = $herb_qty;
+while ($herb_count > 0) {
+    $rolled_herb, $rolled_qty = ~misc_randomherb();
+    switch_obj ($rolled_herb) {
+        case unidentified_tarromin : $tarromin_count = calc($tarromin_count + $rolled_qty);
+        case unidentified_harralander : $harralander_count = calc($harralander_count + $rolled_qty);
+        case unidentified_ranarr : $ranarr_count = calc($ranarr_count + $rolled_qty);
+        case unidentified_irit : $irit_count = calc($irit_count + $rolled_qty);
+        case unidentified_avantoe : $avantoe_count = calc($avantoe_count + $rolled_qty);
+        case unidentified_kwuarm : $kwuarm_count = calc($kwuarm_count + $rolled_qty);
+        case unidentified_cadantine : $cadantine_count = calc($cadantine_count + $rolled_qty);
+        case unidentified_lantadyme : $lantadyme_count = calc($lantadyme_count + $rolled_qty);
+        case unidentified_dwarf_weed : $dwarf_weed_count = calc($dwarf_weed_count + $rolled_qty);
+    }
+    $herb_count = sub($herb_count, 1);
+}
+
+if ($tarromin_count > 0) {
+    inv_add(inv, cert_tarromin, $tarromin_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_tarromin, $tarromin_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+if ($harralander_count > 0) {
+    inv_add(inv, cert_harralander, $harralander_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_harralander, $harralander_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+if ($ranarr_count > 0) {
+    inv_add(inv, cert_ranarr_weed, $ranarr_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_ranarr, $ranarr_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+if ($irit_count > 0) {
+    inv_add(inv, cert_irit_leaf, $irit_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_irit, $irit_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+if ($avantoe_count > 0) {
+    inv_add(inv, cert_avantoe, $avantoe_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_avantoe, $avantoe_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+if ($kwuarm_count > 0) {
+    inv_add(inv, cert_kwuarm, $kwuarm_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_kwuarm, $kwuarm_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+if ($cadantine_count > 0) {
+    inv_add(inv, cert_cadantine, $cadantine_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_cadantine, $cadantine_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+if ($lantadyme_count > 0) {
+    inv_add(inv, cert_lantadyme, $lantadyme_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_lantadyme, $lantadyme_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+if ($dwarf_weed_count > 0) {
+    inv_add(inv, cert_dwarf_weed, $dwarf_weed_count);
+    // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_dwarf_weed, $dwarf_weed_count);
+    // $CurrentSlot = calc($CurrentSlot + 1);
+}
+
+// Reset ResourcePts after finished calculating.
+%misc_restotal = 0;
+
+// This will be not needed when the UI for showing resources exists after a certain release(beyond #377 for sure).
+def_string $resourceStr = "";
+if ($wood_qty > 0) {
+    $resourceStr = "<$resourceStr> <tostring($wood_qty)> Maple Logs|";
+}
+if ($coal_qty > 0) {
+    $resourceStr = "<$resourceStr> <tostring($coal_qty)> Coal|";
+}
+if (calc($fish_qty / 2) > 0) {
+    if (%misc_cooked = 1) {
+        $resourceStr = "<$resourceStr> <tostring(calc($fish_qty / 2))> Tuna|";
+    } else {
+        $resourceStr = "<$resourceStr> <tostring(calc($fish_qty / 2))> Raw Tuna|";
+    }
+}
+if (calc($fish_qty * 3 / 20) > 0) {
+    if (%misc_cooked = 1) {
+        $resourceStr = "<$resourceStr> <tostring(calc($fish_qty * 3 / 20))> Swordfish|";
+    } else {
+        $resourceStr = "<$resourceStr> <tostring(calc($fish_qty * 3 / 20))> Raw Swordfish|";
+    }
+}
+if ($herb_qty > 0) {
+    $resourceStr = "<$resourceStr> <tostring($herb_qty)> Herbs|";
+}
+// To offset the empty string
+if (string_length($resourceStr) = 0) {
+    $resourceStr = "No Resources|";
+}
+return (substring($resourceStr, 0, calc(string_length($resourceStr) - 1)));
+
+[proc,misc_randomherb]()(namedobj, int)
+def_int $random = random(46);
+
+if ($random < 10) {
+    return (unidentified_tarromin, 1);
+} else if ($random < 19) {
+    return (unidentified_harralander, 1);
+} else if ($random < 22) {
+    return (unidentified_ranarr, 1);
+} else if ($random < 28) {
+    return (unidentified_irit, 1);
+} else if ($random < 34) {
+    return (unidentified_avantoe, 1);
+} else if ($random < 37) {
+    return (unidentified_kwuarm, 1);
+} else if ($random < 40) {
+    return (unidentified_cadantine, 1);
+} else if ($random < 43) {
+    return (unidentified_lantadyme, 1);
+} else if ($random < 46) {
+    return (unidentified_dwarf_weed, 1);
+}

@@ -18,7 +18,7 @@ p_delay(2);
 // always obj_add's https://youtu.be/fJVqiCdunZw?list=PLn23LiLYLb1Y4vxMPWXM-CVEvOUfuAP_o
 obj_add(movecoord(loc_coord, 0, 0, -1), $cape, 1, 200); // 50 ticks in osrs but i think its a late 2006 patch to prevent multiple capes?
 spotanim_map(smokepuff_large, movecoord(loc_coord, 0, 0, -1), 60, 0);
-sound_synth(smokepuff, 0, 0);
+sound_synth(smokepuff, 1, 0);
 ~mesbox("You feel a rush of energy charge through your veins. Suddenly a|cape appears before you.");
 
 [proc,check_ground_godcapes]()(boolean)

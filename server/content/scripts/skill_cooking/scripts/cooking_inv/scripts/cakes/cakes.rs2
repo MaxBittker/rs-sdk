@@ -42,7 +42,6 @@ switch_int(oc_param(last_useitem, gnome_cooking_type)) {
     case ^gnome_bowl, ^gnome_batta, ^gnome_crunchies : @finish_gnome_food(last_useitem, last_item);
 }
 switch_obj (last_useitem) {
-    case cake : @make_chocolate_cake(last_slot);
     case bucket_milk : @make_chocolate_milk(last_slot);
     case harralandervial : ~attempt_brew_potion(last_useslot, last_slot);
     case default : ~displaymessage(^dm_default);
@@ -54,9 +53,10 @@ switch_obj (last_useitem) {
     case default : ~attempt_brew_potion(last_useslot, last_slot);
 }
 
+// using chocolate dust to make cakes seem to be added with this update (18 Apr 2005): https://oldschool.runescape.wiki/w/Update:Desert_Treasure
 [opheldu,cake]
 switch_obj (last_useitem) {
-    case chocolate_bar, chocolate_dust : @make_chocolate_cake(last_useslot);
+    case chocolate_bar : @make_chocolate_cake(last_useslot);
     case default : ~displaymessage(^dm_default);
 }
 

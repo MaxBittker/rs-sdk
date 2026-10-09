@@ -1,6 +1,6 @@
-[loc_2114]
+[coal_truck]
 name=Coal Truck
 desc=This transports coal!
-model=model_loc_637
+model=mine_cart
 active=yes
 op1=Remove-coal

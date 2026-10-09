@@ -5,7 +5,6 @@ if (finduid(%npc_attacking_uid) = true) {
     }
     return;
 }
-npc_del;
 
 [timer,petcat_growth]
 if (%follower_uid = null) {
@@ -148,7 +147,7 @@ p_delay(0);
 %follower_obj = null;
 %follower_uid = null;
 inv_add(inv, npc_param(pet_item_id), 1);
-sound_synth(pick, 0, 0);
+sound_synth(pick, 1, 0);
 npc_del;
 
 [opnpc3,_petcat]
@@ -203,7 +202,7 @@ if (.npc_find(coord, rat, 10, 1) = true) {
     npc_say("Meeeeeoooowww!");
     p_delay(0);
     .npc_say("Eek!");
-    sound_synth(rat_hit, 0, 0);
+    sound_synth(rat_hit, 1, 0);
     if(lineofwalk(coord, .npc_coord) = false) {
         mes("Your cat cannot get to its prey."); //osrs
         return;
@@ -239,7 +238,7 @@ if (npc_finduid(%follower_uid) = true) {
     return;
 }
 inv_delslot(inv, last_slot);
-sound_synth(put_down, 0, 0);
+sound_synth(put_down, 1, 0);
 ~cat_spawn(oc_param(last_item, follower_id));
 
 [proc,cat_spawn](npc $type)
@@ -253,11 +252,18 @@ settimer(petcat_growth, 150);
 
 [proc,follower_death]
 if (npc_finduid(%follower_uid) = true) {
-    %follower_uid = null;
-    %follower_obj = null;
-    %cat_growth = 0;
-    npc_del;
+    ~remove_follower;
 }
+
+[proc,remove_follower]
+%follower_uid = null;
+%follower_obj = null;
+if(npc_category = petcat) %cat_growth = 0; // cat specific
+npc_del;
+
+[proc,remove_follower_inv](obj $obj, int $slot)
+if(oc_category($obj) = kitten | oc_category($obj) = cat | oc_category($obj) = overgrown) %cat_growth = 0; // cat specific
+inv_delslot(inv, $slot);
 
 [proc,follower_logout]
 if (npc_finduid(%follower_uid) = true) {

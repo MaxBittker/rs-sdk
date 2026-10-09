@@ -345,7 +345,7 @@ npc_tele(movecoord(npc_coord, -5, 0, -10));
 [proc,not_repathing_to_an_npc_not_on_your_last_waypoint]
 mes("Test 30: Not repathing to an Npc not on your last waypoint");
 p_telejump(0_50_50_39_7);
-if (loc_find(0_50_50_38_10, desertdoorclosed) = true) {
+if (loc_find(0_50_50_38_10, loc_1533) = true) {
     def_coord $new_loc_coord = ~movecoord_loc_return(~door_open(loc_angle, loc_shape));
     loc_del(500);
     loc_add($new_loc_coord, loc_param(next_loc_stage), modulo(add(loc_angle, 1), 4), loc_shape, 500);
@@ -362,7 +362,7 @@ p_opnpc(2);
 
 world_delay(2);
 
-if (loc_find(0_50_50_37_10, desertdooropen) = true) {
+if (loc_find(0_50_50_37_10, loc_1534) = true) {
     def_coord $new_loc_coord = ~movecoord_loc_return(~door_close(loc_angle, loc_shape));
     loc_del(500);
     loc_add($new_loc_coord, loc_param(next_loc_stage), modulo(add(loc_angle, 3), 4), loc_shape, 500);
@@ -370,7 +370,7 @@ if (loc_find(0_50_50_37_10, desertdooropen) = true) {
 
 world_delay(2);
 
-if (loc_find(0_50_50_38_10, desertdoorclosed) = true) {
+if (loc_find(0_50_50_38_10, loc_1533) = true) {
     def_coord $new_loc_coord = ~movecoord_loc_return(~door_open(loc_angle, loc_shape));
     loc_del(500);
     loc_add($new_loc_coord, loc_param(next_loc_stage), modulo(add(loc_angle, 1), 4), loc_shape, 500);

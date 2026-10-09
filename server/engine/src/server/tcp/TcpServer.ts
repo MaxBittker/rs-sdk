@@ -42,6 +42,7 @@ export default class TcpServer {
 
             s.on('close', () => {
                 client.state = -1;
+                OnDemand.onClientClosed(client);
 
                 if (client.player && client.player.client === client) {
                     client.player.addSessionLog(LoggerEventType.ENGINE, 'TCP socket closed');

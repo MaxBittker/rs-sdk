@@ -1,0 +1,30 @@
+[opnpc1,mm_padulah]
+if(~mm_wearing_greegree = false) {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mm_monkeyspeak;
+        return;
+    }
+    ~chatnpc("<p,neutral>Come no closer to the sacred statue, human!");
+} else {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        @mm_no_amulet_monkey;
+    }
+    ~chatnpc("<p,quiz>What do you want?");
+    ~chatplayer("<p,neutral>Oh, nothing in particular really.");
+    ~chatnpc("<p,neutral>Well stop distracting me then. I'm meant to be guarding this sacred statue from the temple of Marimbo.");
+    switch_int(~p_choice3("Where is the temple of Marimbo?", 1, "What is the statue of?", 2, "I'll be back later.", 3)) {
+        case 1 :
+            ~chatplayer("<p,neutral>Where is the temple of Marimbo?");
+            ~chatnpc("<p,neutral>You're not from around here are you?");
+            ~chatplayer("<p,neutral>Actually, I'm not. I'm a visitor from foreign lands.");
+            ~chatnpc("<p,neutral>Very well. The temple is to the east of the village.");
+        case 2 :
+            ~chatplayer("<p,quiz>What is the statue of?");
+            ~chatnpc("<p,neutral>It's of Marimbo, you cretin!");
+        case 3 :
+            ~chatplayer("<p,neutral>I'll be back later.");
+            ~chatnpc("<p,neutral>I wouldn't count on it.");
+            ~chatplayer("<p,quiz>What!?");
+            ~chatnpc("<p,neutral>Oh, nothing.");
+    }
+}

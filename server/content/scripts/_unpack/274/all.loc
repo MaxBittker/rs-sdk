@@ -1,45 +1,45 @@
 [bamboo_picture2]
-model=loc_3855
+model=quest_tbwt_bamboo_picture2
 sharelight=yes
 occlude=yes
 
 [crate_halfburied]
 name=Crate
 desc=It's a half buried crate.
-model=loc_3856
+model=quest_tbwt_crate_halfburied
 
 [crate_halfburied2]
 name=Crate
 desc=It's a half buried crate.
-model=loc_3857
+model=quest_tbwt_crate_halfburied2
 
 [fishingrod_static]
 name=Fishing rod
 desc=It's stuck in the sand.
-model=loc_3858
+model=quest_tbwt_fishingrod_static
 length=2
 
 [fishingrod_static_diag]
 name=Fishing rod
 desc=It's stuck in the sand.
-model=loc_3859
+model=quest_tbwt_fishingrod_static_diag
 length=2
 width=2
 
 [barrel_tropicalfish]
 name=Barrel
 desc=It's full of brightly coloured fish.
-model=loc_3860
+model=quest_tbwt_barrel_tropicalfish
 
 [crate_tropicalfish]
 name=Crate
 desc=It's full of brightly coloured fish.
-model=loc_3861
+model=quest_tbwt_crate_tropicalfish
 
 [bones_in_paste_fire]
 name=Burning bones_
 desc=It's a pile of burning bones.
-model=loc_3862
+model=outdoorfurniture_fire_bones_in_paste
 anim=fire
 blockwalk=no
 blockrange=no
@@ -47,47 +47,47 @@ blockrange=no
 [tbwt_tribal_statue]
 name=Tribal Statue
 desc=The tribal statue of Tai Bwo Wannai Village.
-model=model_loc_567
+model=outdoorfurniture_tribalstatue
 width=2
 length=2
 op1=Pray-at
 
 [floor_depth4]
-model=loc_3864
+model=floor_depth4
 hillskew=yes
 sharelight=yes
 
 [grandwall1]
-model=loc_3865
+model=quest_regicide_wall_grandwall1
 active=no
 
 [grandwall3]
-model=loc_3866
+model=quest_regicide_wall_grandwall3
 active=no
 
 [grandwall3left]
-model=loc_3866
+model=quest_regicide_wall_grandwall3
 mirror=yes
 active=no
 
 [grandwall1_plain]
-model=loc_3868
+model=quest_regicide_wall_grandwall1_plain
 active=no
 
 [grandwall1_upper]
-model=loc_3869
+model=quest_regicide_wall_grandwall1_upper
 active=no
 
 [grandwall1_upper_plain]
-model=loc_3870
+model=quest_regicide_wall_grandwall1_upper_plain
 active=no
 
 [grandwall1_rail]
-model=loc_3871
+model=quest_regicide_wall_grandwall1_rail
 active=no
 
 [grandwall_tower]
-model=loc_3872
+model=quest_regicide_wall_grandwall_tower
 width=3
 length=3
 anim=crystal_float
@@ -100,12 +100,12 @@ length=3
 active=no
 
 [grandwall_door]
-model=loc_3874
+model=quest_regicide_wall_grand_door
 width=2
 active=no
 
 [grandwall_door_left]
-model=loc_3874
+model=quest_regicide_wall_grand_door
 width=2
 mirror=yes
 active=no
@@ -115,11 +115,11 @@ model=loc_3876
 active=no
 
 [grandwall_door_post_left]
-model=loc_3877
+model=quest_regicide_crystal_lamp_grandwall_door_post_left
 active=no
 
 [grandwall1_upper_lamp]
-model=loc_3878
+model=quest_regicide_crystal_lamp_grandwall1_upper
 anim=crystallamp_float
 ambient=20
 
@@ -175,14 +175,14 @@ ambient=35
 contrast=35
 
 [eadgar_puddle]
-model=model_loc_745
+model=floor_puddle
 hillskew=yes
 resizex=64
 resizey=64
 resizez=64
 
 [eadgar_puddle2]
-model=model_loc_746
+model=floor_puddle2
 hillskew=yes
 resizex=112
 resizey=112
@@ -195,7 +195,7 @@ model=loc_4039
 blockrange=no
 
 [eadgar_aviary_wall]
-model=loc_4040
+model=quest_eadgar_aviary_wall
 hillskew=yes
 active=no
 
@@ -210,30 +210,28 @@ active=no
 [eadgar_aviary_wall_hatch]
 name=Aviary Hatch
 desc=Presumably the hatch the zookeeper feeds the parrots through.
-model=loc_4043
+model=quest_eadgar_aviary_wall_feeding_hatch
 hillskew=yes
 active=yes
 
 [standard_red_scorpian_catcher]
 name=Standard
 desc=A red standard.
-model=loc_4044
+model=outdoorfurniture_standard_red_scorpian_catcher
 
 [bridge_corner_viz]
-model=model_loc_1707
+model=gnome_bridge_corner
 active=no
 forcedecor=yes
 
 [mist]
-name=mist
-model=loc_4046
+model=mist
 length=2
 width=2
 anim=mist
 
 [misty]
-name=misty
-model=loc_4047
+model=misty
 length=2
 width=2
 anim=misty
@@ -243,21 +241,21 @@ ambient=30
 [spooky_tree_base]
 name=Tree
 desc=Spooky!
-model=loc_4048
+model=quest_vampires_spooky_tree_base
 sharelight=yes
 mapscene=6
 
 [spooky_tree_mid]
 name=Tree
 desc=Spooky!
-model=loc_4049
+model=quest_vampires_spooky_tree_mid
 forcedecor=yes
 sharelight=yes
 
 [spooky_tree_top]
 name=Tree
 desc=Spooky!
-model=loc_4050
+model=quest_vampires_spooky_tree_top
 length=3
 width=3
 forcedecor=yes
@@ -266,7 +264,7 @@ sharelight=yes
 [deadtree4swamp]
 name=Tree
 desc=It doesn't look healthy...
-model=model_loc_1383
+model=plants_deadtree4
 recol1s=4193
 recol1d=7428
 mapscene=6
@@ -274,7 +272,7 @@ mapscene=6
 [coppicetree_swamp]
 name=Tree
 desc=It's covered in slime.
-model=loc_4052
+model=quest_vampires_coppicetree_swamp
 width=2
 length=2
 mapscene=6
@@ -282,7 +280,7 @@ mapscene=6
 [regicide_tree_dead1swamp]
 name=Tree
 desc=It doesn't look healthy...
-model=loc_3886
+model=quest_regicide_tree_dead1
 recol1s=15784
 recol1d=7428
 mapscene=6
@@ -290,7 +288,7 @@ mapscene=6
 [regicide_tree_dead2swamp]
 name=Tree
 desc=It doesn't look healthy...
-model=loc_3887
+model=quest_regicide_tree_dead2
 recol1s=15784
 recol1d=7428
 width=3
@@ -300,39 +298,41 @@ mapscene=6
 [mushroom_massive1]
 name=Huge Mushroom
 desc=These fat fungi take up so much room.
-model=loc_4055
+model=quest_shades_swamp_plants_mushroom_massive1
 
 [mushroom_massive2]
 name=Huge Mushroom
 desc=These fat fungi take up so much room.
-model=loc_4056
+model=quest_shades_swamp_plants_mushroom_massive2
 
 [mushroom_massive3]
 name=Huge Mushroom
 desc=These fat fungi take up so much room.
-model=loc_4057
+model=quest_shades_swamp_plants_mushroom_massive3
 
 [gnome_obstacle_pipe]
 name=Obstacle pipe
 desc=A pipe I can squeeze through.
-model=model_loc_2287
+model=outdoorfurniture_obstical_doublepipe_foranim
 retex1s=wall
 retex1d=planks
 op1=Squeeze-through
 width=2
 
-[loc_4059]
+[balancing_rope_mid]
 name=Balancing rope
 desc=I can balance on this rope.
-model=model_loc_269
+model=ship_rope
 hillskew=yes
 sharelight=yes
 active=yes
+blockwalk=no
+op1=Cross
 
 [shades_experimentshelf]
 name=Shelf
 desc=Strange items are stored here.
-model=model_loc_1020
+model=walldecor_witchshelf2
 recol1s=13472
 recol1d=6272
 recol2s=28538
@@ -349,13 +349,13 @@ op1=Search
 [shades_experimenttable]
 name=Smashed table
 desc=This table has seen better days.
-model=model_loc_599
+model=furniture_smashedtable
 op5=Search
 
 [pyre_stand]
 name=Stone stand
 desc=It looks very ornamental in a practical 'solid rock' way.
-model=model_loc_1813
+model=outdoorfurniture_stonestand
 recol1s=15855
 recol1d=6342
 blockrange=no
@@ -365,7 +365,7 @@ occlude=yes
 [mortton_signpost]
 name=Signpost
 desc=Welcome to Mort'ton
-model=model_loc_1034
+model=outdoorfurniture_signpost2
 recol1s=28400
 recol1d=13634
 recol2s=8913
@@ -375,7 +375,7 @@ op1=Search
 [mortton_dangersign]
 name=Warning sign
 desc=Danger! Sickness and affliction...stay away!
-model=model_loc_1032
+model=outdoorfurniture_dangersign
 recol1s=10400
 recol1d=4160
 recol2s=32767
@@ -439,7 +439,7 @@ recol3d=8354
 [shadechest_bronze_bloodred]
 name=Bronze Chest
 desc=A strangely decorated bronze chest, the lock is painted blood red.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -452,7 +452,7 @@ forceapproach=north
 [shadechest_bronze_brown]
 name=Bronze Chest
 desc=A strangely decorated chest, the lock is painted brown.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -465,7 +465,7 @@ forceapproach=north
 [shadechest_bronze_crimson]
 name=Bronze Chest
 desc=A strangely decorated chest, the lock is painted crimson.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -478,7 +478,7 @@ forceapproach=north
 [shadechest_bronze_black]
 name=Bronze Chest
 desc=A strangely decorated chest, the lock is painted black.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -491,7 +491,7 @@ forceapproach=north
 [shadechest_bronze_purple]
 name=Bronze Chest
 desc=A strangely decorated chest, the lock is painted purple.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -504,7 +504,7 @@ forceapproach=north
 [shadechest_steel_bloodred]
 name=Steel Chest
 desc=A strangely decorated steel chest, the lock is painted blood red.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=16897
@@ -515,7 +515,7 @@ forceapproach=north
 [shadechest_steel_brown]
 name=Steel Chest
 desc=A strangely decorated steel chest, the lock is painted brown.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=16897
@@ -526,7 +526,7 @@ forceapproach=north
 [shadechest_steel_crimson]
 name=Steel Chest
 desc=A strangely decorated steel chest, the lock is painted crimson.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=16897
@@ -537,7 +537,7 @@ forceapproach=north
 [shadechest_steel_black]
 name=Steel Chest
 desc=A strangely decorated steel chest, the lock is painted black.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=16897
@@ -548,7 +548,7 @@ forceapproach=north
 [shadechest_steel_purple]
 name=Steel Chest
 desc=A strangely decorated steel chest, the lock is painted purple.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=16897
@@ -559,7 +559,7 @@ forceapproach=north
 [shadechest_black_bloodred]
 name=Black Chest
 desc=A strangely decorated black chest, the lock is painted blood red.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -572,7 +572,7 @@ forceapproach=north
 [shadechest_black_brown]
 name=Black Chest
 desc=A strangely decorated black chest, the lock is painted brown.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -585,7 +585,7 @@ forceapproach=north
 [shadechest_black_crimson]
 name=Black Chest
 desc=A strangely decorated black chest, the lock is painted crimson.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -598,7 +598,7 @@ forceapproach=north
 [shadechest_black_black]
 name=Black Chest
 desc=A strangely decorated black chest, the lock is painted black.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -611,7 +611,7 @@ forceapproach=north
 [shadechest_black_purple]
 name=Black Chest
 desc=A strangely decorated black chest, the lock is painted purple.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -624,7 +624,7 @@ forceapproach=north
 [shadechest_silver_bloodred]
 name=Silver Chest
 desc=A strangely decorated silver chest, the lock is painted blood red.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -637,7 +637,7 @@ forceapproach=north
 [shadechest_silver_brown]
 name=Silver Chest
 desc=A strangely decorated silver chest, the lock is painted brown.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -650,7 +650,7 @@ forceapproach=north
 [shadechest_silver_crimson]
 name=Silver Chest
 desc=A strangely decorated silver chest, the lock is painted crimson.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -663,7 +663,7 @@ forceapproach=north
 [shadechest_silver_black]
 name=Silver Chest
 desc=A strangely decorated silver chest, the lock is painted black.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -676,7 +676,7 @@ forceapproach=north
 [shadechest_silver_purple]
 name=Silver Chest
 desc=A strangely decorated silver chest, the lock is painted purple.
-model=wooden_chest
+model=furniture_chestclosed
 retex1s=elfwood
 retex1d=wood2
 recol2s=10570
@@ -689,20 +689,20 @@ forceapproach=north
 [shadelairchestopen]
 name=Open Chest
 desc=It's open.
-model=model_loc_76
+model=furniture_chestopen
 forceapproach=north
 
 [shadelairentrancel]
 name=Wooden doors
 desc=These doors look very ominous..a sign says...'to the tombs'.
-model=model_loc_2240
+model=basic_loc_2240
 width=2
 op1=Open
 
 [shadelairentrancer]
 name=Wooden doors
 desc=These doors look very ominous..a sign says...'to the tombs'.
-model=model_loc_2240
+model=basic_loc_2240
 width=2
 mirror=yes
 op1=Open
@@ -710,30 +710,30 @@ op1=Open
 [shadelairdooropenl]
 name=Hillside entrance
 desc=Large doors set into the hillside.
-model=model_loc_2238
+model=basic_loc_2238
 width=2
 
 [shadelairdooropenr]
 name=Hillside entrance
 desc=Large doors set into the hillside.
-model=model_loc_2238
+model=basic_loc_2238
 width=2
 mirror=yes
 
 [gravemound_top]
-model=loc_4136
+model=graveyard_gravemound_top
 hillskew=yes
 sharelight=yes
 
 [gravemound_bot]
-model=loc_4137
+model=graveyard_gravemound_bot
 hillskew=yes
 sharelight=yes
 
 [death_pub_counter]
 name=Counter
 desc=Items are for sale here.
-model=model_loc_612
+model=furniture_counter
 width=2
 blockrange=no
 resizex=128
@@ -744,7 +744,7 @@ offsety=0
 offsetz=20
 
 [death_cavewall_face1_nominimap]
-model=model_loc_1417
+model=cavern_cavewall_face1
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -770,7 +770,7 @@ retex1s=mossybricks
 retex1d=elfbrick
 recol2s=6340
 recol2d=17932
-op1=Return
+op1=Capture
 blockrange=no
 
 [castlewars_zamorak_stand]
@@ -778,12 +778,12 @@ name=Standard Stand
 desc=There should be a standard here!
 model=loc_4377
 blockrange=no
-op1=Return
+op1=Capture
 
 [castlewars_catapult_zamorak]
 name=Catapult
 desc=It's a war machine.
-model=model_loc_671
+model=outdoorfurniture_catapult
 recol1s=8386
 recol1d=6273
 recol2s=6272
@@ -800,7 +800,7 @@ mapscene=30
 [castlewars_catapult_saradomin]
 name=Catapult
 desc=It's a war machine.
-model=model_loc_671
+model=outdoorfurniture_catapult
 recol1s=13741
 recol1d=11560
 width=3
@@ -849,7 +849,7 @@ mapscene=30
 [castlewars_saradomin_tele]
 name=Saradomin Portal
 desc=A portal to join the saradomin team.
-model=model_loc_740
+model=floor_glowingcircle
 recol1s=31658
 recol1d=349
 anim=glowingcircle
@@ -866,7 +866,7 @@ op1=Enter
 [castlewars_zamorak_tele]
 name=Zamorak Portal
 desc=A portal to join the zamorak team.
-model=model_loc_740
+model=floor_glowingcircle
 recol1s=31658
 recol1d=30753
 anim=glowingcircle
@@ -883,7 +883,7 @@ op1=Enter
 [castlewars_saradomin_exit]
 name=Portal
 desc=A portal to leave the saradomin team.
-model=model_loc_740
+model=floor_glowingcircle
 recol1s=31658
 recol1d=349
 anim=glowingcircle
@@ -900,7 +900,7 @@ op1=Exit
 [castlewars_zamorak_exit]
 name=Portal
 desc=A portal to leave the zamorak team.
-model=model_loc_740
+model=floor_glowingcircle
 recol1s=31658
 recol1d=30753
 anim=glowingcircle
@@ -915,7 +915,7 @@ blockrange=no
 op1=Exit
 
 [misc_viking_ship_front_lv0]
-model=loc_4391
+model=quest_misc_vikingship_front_lv0
 recol1s=20936
 recol1d=7331
 width=3
@@ -924,7 +924,7 @@ active=no
 sharelight=yes
 
 [misc_viking_ship_front_lv1]
-model=loc_4392
+model=quest_misc_vikingship_front_lv1
 recol1s=20936
 recol1d=7331
 width=3
@@ -933,68 +933,68 @@ active=no
 sharelight=yes
 
 [misc_viking_shipmain]
-model=loc_4393
+model=quest_misc_vikingship_main
 active=no
 sharelight=yes
 mapscene=44
 forcedecor=yes
 
 [misc_viking_shipedge]
-model=loc_4394
+model=quest_misc_vikingship_edge
 active=no
 sharelight=yes
 shadow=no
 forcedecor=yes
 
 [misc_viking_shipedgeshield]
-model=loc_4395
+model=quest_misc_vikingship_edgeshield
 active=no
 sharelight=yes
 shadow=no
 mapscene=44
 
 [misc_viking_shipside]
-model=loc_4396
+model=quest_misc_vikingship_side
 active=no
 sharelight=yes
 
 [misc_viking_shipedgepier]
-model=loc_4397
+model=quest_misc_vikingship_edgepier
 active=no
 sharelight=yes
 mapscene=44
 forcedecor=yes
 
 [misc_viking_ship_mast]
-model=loc_4398
+model=quest_misc_vikingship_mast
 active=no
 sharelight=yes
 
 [misc_viking_ship_mast_lv2]
-model=loc_4399
+model=quest_misc_vikingship_mast_lv2
 active=no
 sharelight=yes
 
 [misc_viking_ship_mast_lv3]
-model=loc_4400
+model=quest_misc_vikingship_mast_lv3
 active=no
 sharelight=yes
 
 [misc_viking_ship_mast_lv3_sail]
-model=loc_4401
+model=quest_misc_vikingship_mast_lv3_sail
 active=no
 sharelight=yes
 width=2
 
 [misc_viking_ship_mast_lv3_sail_mirror]
-model=loc_4401
+model=quest_misc_vikingship_mast_lv3_sail
 active=no
 sharelight=yes
 mirror=yes
 width=2
 
 [misc_pier_support]
-model=loc_4403
+model=quest_misc_viking_pier_support
 recol1s=19912
 recol1d=9445
 resizez=128
@@ -1004,7 +1004,7 @@ active=no
 shadow=no
 
 [misc_bridge_support]
-model=loc_4403
+model=quest_misc_viking_pier_support
 recol1s=19912
 recol1d=9445
 resizez=128
@@ -1014,7 +1014,7 @@ active=no
 shadow=no
 
 [misc_ship_gangplank]
-model=model_loc_270
+model=ship_gangplank_g_decor
 recol1s=15685
 recol1d=10501
 recol2s=19912
@@ -1029,7 +1029,7 @@ hillskew=yes
 [castlewars_saradomin_quit]
 name=Portal
 desc=A portal to leave the saradomin team.
-model=model_loc_740
+model=floor_glowingcircle
 recol1s=31658
 recol1d=349
 anim=glowingcircle
@@ -1046,7 +1046,7 @@ op1=Leave
 [castlewars_zamorak_quit]
 name=Portal
 desc=A portal to leave the zamorak team.
-model=model_loc_740
+model=floor_glowingcircle
 recol1s=31658
 recol1d=30753
 anim=glowingcircle
@@ -1063,7 +1063,7 @@ op1=Leave
 [castlewars_random_tele]
 name=Guthix Portal
 desc=A portal to join a random team.
-model=model_loc_740
+model=floor_glowingcircle
 recol1s=31658
 recol1d=1006
 anim=glowingcircle
@@ -1078,7 +1078,7 @@ op1=Enter
 blockrange=no
 
 [castlewars_wall_saradomin]
-model=model_loc_1512
+model=castle_wall
 retex1s=wall
 retex1d=elfbrick
 recol2s=6342
@@ -1086,10 +1086,9 @@ recol2d=5248
 wallwidth=32
 sharelight=yes
 occlude=yes
-blockrange=no
 
 [castlewars_castlebattlements_saradomin]
-model=model_loc_1622
+model=castle_edge
 retex1s=wall
 retex1d=elfbrick
 sharelight=yes
@@ -1097,8 +1096,8 @@ blockrange=no
 
 [castlewars_steping_stone]
 name=Stepping stone
-desc=a very slipery stepping stone
-model=loc_4411
+desc=A very slippery stepping stone
+model=game_castlewars_steping_stone
 op1=Jump-to
 active=yes
 blockrange=no
@@ -1112,18 +1111,19 @@ recol1d=12684
 length=3
 mapscene=7
 sharelight=yes
+forceapproach=north
 
 [castlewars_topstair]
 name=Staircase
 desc=A solid stone staircase.
-model=loc_4415
+model=game_castlewars_topstair
 op1=Climb
 sharelight=yes
 
 [castlewars_topstair_linked]
 name=Staircase
 desc=A solid stone staircase.
-model=loc_4415
+model=game_castlewars_topstair
 op1=Climb
 sharelight=yes
 
@@ -1139,6 +1139,7 @@ length=3
 mapscene=7
 op1=Climb
 sharelight=yes
+forceapproach=north
 
 [castlewars_outsidestairs_zamorak]
 name=Staircase
@@ -1148,6 +1149,7 @@ length=3
 mapscene=7
 op1=Climb
 sharelight=yes
+forceapproach=north
 
 [castlewars_outsidestairs_saradomin_linked]
 name=Staircase
@@ -1174,13 +1176,13 @@ sharelight=yes
 [castlewars_barricade]
 name=Barricade
 desc=A spiky barricade.
-model=loc_4421
+model=game_castlewars_barricade
 blockrange=no
 
 [castlewars_barricade_burning]
 name=Barricade
 desc=A spiky barricade.
-model=loc_4421
+model=game_castlewars_barricade
 model2=loc_4422
 recol1s=14628
 recol1d=11458
@@ -1192,66 +1194,82 @@ ambient=40
 contrast=40
 
 [castlewars_saradomin_maindoorr]
+category=door_right_closed
+param=next_loc_stage,castlewars_saradomin_maindoorr_open
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 op2=Attack
 mirror=yes
 raiseobject=no
 
 [castlewars_saradomin_maindoorl]
+category=door_left_closed
+param=next_loc_stage,castlewars_saradomin_maindoorl_open
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 op2=Attack
 raiseobject=no
 
 [castlewars_saradomin_maindoorr_open]
+category=door_right_opened
+param=next_loc_stage,castlewars_saradomin_maindoorr
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Close
 mirror=yes
 raiseobject=no
 
 [castlewars_saradomin_maindoorl_open]
+category=door_left_opened
+param=next_loc_stage,castlewars_saradomin_maindoorl
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Close
 raiseobject=no
 
 [castlewars_zamorak_maindoorr]
+category=door_right_closed
+param=next_loc_stage,castlewars_zamorak_maindoorr_open
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 op2=Attack
 mirror=yes
 raiseobject=no
 
 [castlewars_zamorak_maindoorl]
+category=door_left_closed
+param=next_loc_stage,castlewars_zamorak_maindoorl_open
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Open
 op2=Attack
 raiseobject=no
 
 [castlewars_zamorak_maindoorr_open]
+category=door_right_opened
+param=next_loc_stage,castlewars_zamorak_maindoorr
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Close
 mirror=yes
 raiseobject=no
 
 [castlewars_zamorak_maindoorl_open]
+category=door_left_opened
+param=next_loc_stage,castlewars_zamorak_maindoorl
 name=Large door
 desc=A large double door.
-model=model_loc_71
+model=castle_doubledoorl
 op1=Close
 raiseobject=no
 
@@ -1318,7 +1336,7 @@ op1=Mine
 op3=hidden
 
 [castlewars_blocked_tunnel_3]
-model=loc_4439
+model=game_castlewars_blocked_tunnel3
 blockrange=no
 blockwalk=no
 length=2
@@ -1350,7 +1368,7 @@ active=yes
 op1=Climb
 
 [castlewars_battlements_saradomin_blockrange]
-model=model_loc_1622
+model=castle_edge
 retex1s=wall
 retex1d=elfbrick
 sharelight=yes
@@ -1358,7 +1376,7 @@ sharelight=yes
 [castlewars_battlements_saradomin_climbable]
 name=Battlements
 desc=Maybe I could tie a rope to this..
-model=model_loc_1622
+model=castle_edge
 retex1s=wall
 retex1d=elfbrick
 active=yes
@@ -1368,7 +1386,7 @@ blockrange=no
 [castlewars_battlements_zamorak_climbable]
 name=Battlements
 desc=Maybe I could tie a rope to this..
-model=model_loc_1622
+model=castle_edge
 retex1s=wall
 retex1d=mossybricks
 active=yes
@@ -1378,7 +1396,7 @@ blockrange=no
 [castlewars_cavewall_rockslide]
 name=Cave wall
 desc=It doesn't look very stable...
-model=model_loc_1417
+model=cavern_cavewall_face1
 sharelight=yes
 occlude=yes
 hillskew=yes
@@ -1412,12 +1430,13 @@ sharelight=yes
 mirror=yes
 
 [hs_inviswall]
-model=model_loc_83
+model=blank
+model2=loc_4909
 shadow=no
 mapscene=22
 
 [castlewars_stair_zero_a]
-model=loc_4452
+model=game_castlewars_oldzero_a_mirr
 retex1s=mossybricks
 retex1d=elfbrick
 recol2s=15855
@@ -1425,7 +1444,7 @@ recol2d=16872
 active=no
 
 [castlewars_stair_zero_b]
-model=loc_4453
+model=game_castlewars_oldzero_b_mirr
 retex1s=mossybricks
 retex1d=elfbrick
 recol2s=15855
@@ -1433,7 +1452,7 @@ recol2d=16872
 active=no
 
 [castlewars_stair_zero_c]
-model=loc_4454
+model=game_castlewars_stair_oldzero_c_mirr
 retex1s=mossybricks
 retex1d=elfbrick
 recol2s=15855
@@ -1441,7 +1460,7 @@ recol2d=16872
 active=no
 
 [castlewars_stair_zero_a_mirr]
-model=loc_4452
+model=game_castlewars_oldzero_a_mirr
 retex1s=mossybricks
 retex1d=elfbrick
 recol2s=15855
@@ -1450,7 +1469,7 @@ mirror=yes
 active=no
 
 [castlewars_stair_zero_b_mirr]
-model=loc_4453
+model=game_castlewars_oldzero_b_mirr
 retex1s=mossybricks
 retex1d=elfbrick
 recol2s=15855
@@ -1459,7 +1478,7 @@ mirror=yes
 active=no
 
 [castlewars_stair_zero_c_mirr]
-model=loc_4454
+model=game_castlewars_stair_oldzero_c_mirr
 retex1s=mossybricks
 retex1d=elfbrick
 recol2s=15855
@@ -1470,8 +1489,8 @@ active=no
 [castlewars_table_bandages]
 name=Table
 desc=There are some bandages on this table.
-model=model_loc_594
-model2=loc_4458
+model=furniture_bigtable
+model2=game_castlewars_table_bandages
 width=2
 blockrange=no
 op1=Take-from
@@ -1479,17 +1498,17 @@ op1=Take-from
 [castlewars_table_toolbox]
 name=Table
 desc=There are some toolboxes on this table.
-model=model_loc_594
-model2=loc_4459
+model=furniture_bigtable
+model2=game_castlewars_table_toolbox
 width=2
 blockrange=no
 op1=Take-from
 
 [castlewars_table_rocks]
 name=Table
-desc=There's some rock I can use with the catupult here.
-model=model_loc_594
-model2=loc_4460
+desc=There's some rock I can use with the catapult here.
+model=furniture_bigtable
+model2=game_castlewars_table_rocks
 width=2
 blockrange=no
 op1=Take-from
@@ -1497,16 +1516,16 @@ op1=Take-from
 [castlewars_table_barricades]
 name=Table
 desc=There are some barricades here.
-model=model_loc_594
-model2=loc_4461
+model=furniture_bigtable
+model2=game_castlewars_table_barricades
 width=2
 op1=Take-from
 
 [castlewars_table_rope]
 name=Table
 desc=There is some rope here.
-model=model_loc_594
-model2=loc_4462
+model=furniture_bigtable
+model2=game_castlewars_table_rope
 recol1s=11524
 recol1d=7296
 width=2
@@ -1516,8 +1535,8 @@ op1=Take-from
 [castlewars_table_potion]
 name=Table
 desc=There are some explosive potions here.
-model=model_loc_594
-model2=loc_4463
+model=furniture_bigtable
+model2=game_castlewars_table_potion
 recol1s=15855
 recol1d=29217
 width=2
@@ -1526,9 +1545,9 @@ op1=Take-from
 
 [castlewars_table_pickaxes]
 name=Table
-desc=There are some toolboxes on this table.
-model=model_loc_594
-model2=loc_4464
+desc=There are some pickaxes on this table.
+model=furniture_bigtable
+model2=game_castlewars_table_pickaxes
 recol1s=15855
 recol1d=8354
 width=2
@@ -1536,9 +1555,10 @@ blockrange=no
 op1=Take-from
 
 [castlewars_saradomin_sidedoor]
+param=next_loc_stage,castlewars_saradomin_sidedoor_open
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=elfdoor
 recol2s=6342
@@ -1548,9 +1568,10 @@ op1=Unlock
 raiseobject=no
 
 [castlewars_saradomin_sidedoor_open]
+param=next_loc_stage,castlewars_saradomin_sidedoor
 name=Door
 desc=An elf-fashioned door.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=elfdoor
 recol2s=6342
@@ -1560,9 +1581,10 @@ op1=Lock
 raiseobject=no
 
 [castlewars_zamorak_sidedoor]
+param=next_loc_stage,castlewars_zamorak_sidedoor_open
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=door
 recol2s=6342
@@ -1572,9 +1594,10 @@ op1=Unlock
 raiseobject=no
 
 [castlewars_zamorak_sidedoor_open]
+param=next_loc_stage,castlewars_zamorak_sidedoor
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 retex1s=wall
 retex1d=door
 recol2s=6342
@@ -1584,33 +1607,35 @@ op1=Lock
 raiseobject=no
 
 [castlewars_saradomin_spawndoor]
-name=Door
-desc=An elf-fashioned door.
-model=model_loc_3
-retex1s=wall
-retex1d=elfdoor
-recol2s=6342
-recol2d=11458
+name=Energy Barrier
+desc=Only the Saradomin team may pass.
+model=model_4874
+recol1s=15855
+recol1d=349
 active=yes
-op1=Open
+op1=Pass
+anim=castlewars_portalglow
 raiseobject=no
+ambient=100
+contrast=100
 
 [castlewars_zamorak_spawndoor]
-name=Door
-desc=The door is closed.
-model=model_loc_3
-retex1s=wall
-retex1d=door
-recol2s=6342
-recol2d=11458
+name=Energy Barrier
+desc=Only the Zamorak team may pass.
+model=model_4874
+recol1s=15855
+recol1d=30753
 active=yes
-op1=Open
+op1=Pass
 raiseobject=no
+anim=castlewars_portalglow
+ambient=100
+contrast=100
 
 [castlewars_saradomin_spawntrapdoor]
 name=Trapdoor
 desc=I wonder what's under it?
-model=model_loc_100
+model=furniture_trapdoor
 active=yes
 op1=Open
 raiseobject=no
@@ -1618,64 +1643,64 @@ raiseobject=no
 [castlewars_zamorak_spawntrapdoor]
 name=Trapdoor
 desc=I wonder what's under it?
-model=model_loc_100
+model=furniture_trapdoor
 active=yes
 op1=Open
 raiseobject=no
 
 [castlewars_stair_oldzero_a]
-model=loc_4452
+model=game_castlewars_oldzero_a_mirr
 recol1s=15855
 recol1d=6272
 active=no
 
 [castlewars_stair_oldzero_b]
-model=loc_4453
+model=game_castlewars_oldzero_b_mirr
 recol1s=15855
 recol1d=6272
 active=no
 
 [castlewars_stair_oldzero_c]
-model=loc_4454
+model=game_castlewars_stair_oldzero_c_mirr
 recol1s=15855
 recol1d=6272
 active=no
 
 [castlewars_stair_oldzero_a_mirr]
-model=loc_4452
+model=game_castlewars_oldzero_a_mirr
 recol1s=15855
 recol1d=6272
 mirror=yes
 active=no
 
 [castlewars_stair_oldzero_b_mirr]
-model=loc_4453
+model=game_castlewars_oldzero_b_mirr
 recol1s=15855
 recol1d=6272
 mirror=yes
 active=no
 
 [castlewars_stair_oldzero_c_mirr]
-model=loc_4454
+model=game_castlewars_stair_oldzero_c_mirr
 recol1s=15855
 recol1d=6272
 mirror=yes
 active=no
 
 [castlewars_stair_thin_a]
-model=loc_4479
+model=game_castlewars_stair_thin_a
 recol1s=15855
 recol1d=6272
 active=no
 
 [castlewars_stair_thin_b]
-model=loc_4480
+model=game_castlewars_stair_thin_b
 recol1s=15855
 recol1d=6272
 active=no
 
 [castlewars_stair_thin_c]
-model=loc_4481
+model=game_castlewars_stair_thin_c
 recol1s=15855
 recol1d=6272
 active=no
@@ -1683,27 +1708,28 @@ active=no
 [castlewars_tap]
 name=Tap
 desc=Water comes out of this.
-model=loc_4176
+model=quest_viking_tap
 active=yes
+category=watersource
 
 [castlewars_bankchest]
 name=Bank chest
 desc=It's open.
-model=model_loc_76
+model=furniture_chestopen
 op1=Use
 forceapproach=north
 
 [castlewars_scoreboard]
 name=Scoreboard
 desc=Keep track of which team has the most victories.
-model=loc_4484
+model=game_castlewars_scoreboard
 active=yes
 ambient=50
 op1=View
 
-[loc_4487]
+[slayertower_door]
 name=slayertower_door
-model=loc_4487
+model=skill_slayer_wall_tower_door
 hillskew=yes
 ambient=20
 resizez=128
@@ -1711,9 +1737,9 @@ resizex=128
 resizey=192
 op1=Open
 
-[loc_4488]
+[slayertower_door_arch]
 name=slayertower_door_arch
-model=loc_4488
+model=skill_slayer_wall_tower_door_arch
 hillskew=yes
 ambient=20
 resizez=128
@@ -1722,9 +1748,9 @@ resizey=192
 op1=Open
 blockwalk=no
 
-[loc_4489]
+[slayertower_door_arch_mirror]
 name=slayertower_door_arch_mirror
-model=loc_4488
+model=skill_slayer_wall_tower_door_arch
 hillskew=yes
 ambient=20
 resizez=128
@@ -1734,9 +1760,9 @@ op1=Open
 blockwalk=no
 mirror=yes
 
-[loc_4490]
+[slayertower_door_mirror]
 name=slayertower_door_mirror
-model=loc_4487
+model=skill_slayer_wall_tower_door
 hillskew=yes
 ambient=20
 resizez=128
@@ -1745,9 +1771,9 @@ resizey=192
 mirror=yes
 op1=Open
 
-[loc_4491]
+[slayertower_door_open]
 name=slayertower_door_open
-model=loc_4487
+model=skill_slayer_wall_tower_door
 hillskew=yes
 ambient=20
 resizez=128
@@ -1755,9 +1781,9 @@ resizex=128
 resizey=192
 op1=Close
 
-[loc_4492]
+[slayertower_door_open_mirror]
 name=slayertower_door_open_mirror
-model=loc_4487
+model=skill_slayer_wall_tower_door
 hillskew=yes
 ambient=20
 resizez=128
@@ -1780,7 +1806,7 @@ mapscene=7
 [loc_4494]
 name=Staircase
 desc=They go down.
-model=loc_4494
+model=skill_slayer_stairs_tall_top_new
 width=2
 length=2
 op1=Climb-down
@@ -1802,7 +1828,7 @@ mapscene=7
 [loc_4496]
 name=Staircase
 desc=They go down.
-model=loc_4494
+model=skill_slayer_stairs_tall_top_new
 width=2
 length=2
 op1=Climb-down
@@ -1824,7 +1850,7 @@ mapscene=7
 [loc_4498]
 name=Staircase
 desc=They go down.
-model=loc_4494
+model=skill_slayer_stairs_tall_top_new
 width=2
 length=2
 op1=Climb-down
@@ -1832,10 +1858,10 @@ forceapproach=north
 sharelight=yes
 mapscene=7
 
-[loc_4499]
+[slayer_dungeon_entrance]
 name=Cave Entrance
 desc=An entrance to a cave.
-model=model_loc_2
+model=cave_entrance3
 recol1s=10400
 recol1d=11592
 recol2s=8288
@@ -1851,10 +1877,10 @@ length=2
 shadow=no
 op1=Enter
 
-[loc_4500]
+[slayer_dungeon_exit]
 name=Tunnel
 desc=This leads back to the surface.
-model=loc_4500
+model=skill_slayer_wall_caveexit
 width=3
 length=2
 ambient=60
@@ -1863,7 +1889,7 @@ sharelight=yes
 op1=Enter
 
 [loc_4501]
-model=model_loc_1862
+model=furniture_skewsteps2
 recol1s=15855
 recol1d=6340
 hillskew=yes
@@ -1872,7 +1898,7 @@ forcedecor=yes
 ambient=10
 
 [loc_4502]
-model=loc_4502
+model=skill_slayer_wall_tower
 retex1s=wall
 retex1d=mossybricks
 recol2s=6342
@@ -1885,7 +1911,7 @@ resizex=128
 resizey=192
 
 [loc_4503]
-model=loc_4503
+model=skill_slayer_wall_towerwalllvl2
 retex1s=wall
 retex1d=mossybricks
 recol2s=6342
@@ -1898,7 +1924,7 @@ resizex=128
 resizey=192
 
 [loc_4504]
-model=loc_4502
+model=skill_slayer_wall_tower
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1907,7 +1933,7 @@ resizex=128
 resizey=192
 
 [loc_4505]
-model=loc_4505
+model=skill_slayer_wall_tower_vari
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1916,7 +1942,7 @@ resizex=128
 resizey=192
 
 [loc_4506]
-model=loc_4506
+model=skill_slayer_wall_tower_crumbly
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1925,7 +1951,7 @@ resizex=128
 resizey=192
 
 [loc_4507]
-model=loc_4506
+model=skill_slayer_wall_tower_crumbly
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1936,7 +1962,7 @@ hillskew=yes
 mirror=yes
 
 [loc_4508]
-model=loc_4508
+model=skill_slayer_wall_tower_crumbled
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1944,8 +1970,8 @@ resizez=128
 resizex=128
 resizey=192
 
-[loc_4509]
-model=loc_4509
+[slayertower_crumblywalllow]
+model=skill_slayer_wall_tower_crumbly_low1
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1954,7 +1980,7 @@ resizex=130
 resizey=140
 
 [loc_4510]
-model=loc_4510
+model=skill_slayer_wall_tower_crumbly_low2
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1963,7 +1989,7 @@ resizex=130
 resizey=140
 
 [loc_4511]
-model=loc_4511
+model=skill_slayer_wall_tower_window
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1972,7 +1998,7 @@ resizex=128
 resizey=192
 
 [loc_4512]
-model=loc_4512
+model=skill_slayer_wall_towerwalllvl2_window
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1982,7 +2008,7 @@ resizey=192
 
 [loc_4513]
 name=slayertower_pile_bicks
-model=loc_4513
+model=skill_slayer_wall_tower_pile_bricks
 sharelight=yes
 hillskew=yes
 ambient=20
@@ -1990,8 +2016,8 @@ resizez=135
 resizex=130
 resizey=140
 
-[loc_4514]
-model=model_loc_184
+[dugupsoil_slayer_1]
+model=floor_dugupsoil1
 recol1s=13505
 recol1d=4260
 recol2s=15586
@@ -2001,8 +2027,8 @@ recol3d=4260
 hillskew=yes
 active=no
 
-[loc_4515]
-model=model_loc_185
+[dugupsoil_slayer_2]
+model=floor_dugupsoil2
 recol1s=13505
 recol1d=4260
 recol2s=15586
@@ -2012,8 +2038,8 @@ recol3d=4260
 hillskew=yes
 active=no
 
-[loc_4516]
-model=model_loc_186
+[dugupsoil_slayer_3]
+model=floor_dugupsoil3
 recol1s=13505
 recol1d=4260
 recol2s=15586
@@ -2023,8 +2049,8 @@ recol3d=4260
 hillskew=yes
 active=no
 
-[loc_4517]
-model=model_loc_196
+[slayer_torch]
+model=walldecor_torch
 recol1s=7399
 recol1d=7431
 recol2s=8456
@@ -2039,33 +2065,33 @@ offsetx=0
 offsety=20
 offsetz=0
 
-[loc_4518]
+[slayer_corpse1]
 name=Corpse
 desc=Now that's what I call slimline!
-model=model_loc_660
+model=floor_corpse1
 recol1s=27413
 recol1d=12747
 blockrange=no
 
-[loc_4519]
+[slayer_corpse2]
 name=Corpse
 desc=He looks very relaxed.
-model=model_loc_661
+model=floor_corpse2
 recol1s=27413
 recol1d=12747
 blockrange=no
 
-[loc_4520]
+[slayer_corpse3]
 name=Corpse
 desc=Now he's just too thin.
-model=model_loc_662
+model=floor_corpse3
 recol1s=27413
 recol1d=12747
 width=2
 blockrange=no
 
-[loc_4521]
-model=loc_4333
+[slayer_short_grass_1]
+model=floor_new_grass1
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2076,8 +2102,8 @@ hillskew=yes
 active=no
 ambient=20
 
-[loc_4522]
-model=loc_4334
+[slayer_short_grass_2]
+model=floor_new_grass2
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2088,8 +2114,8 @@ hillskew=yes
 active=no
 ambient=20
 
-[loc_4523]
-model=loc_4335
+[slayer_short_grass_3]
+model=floor_new_grass3
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2100,8 +2126,8 @@ hillskew=yes
 active=no
 ambient=20
 
-[loc_4524]
-model=loc_4336
+[slayer_short_grass_4]
+model=floor_new_grass4
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2112,8 +2138,8 @@ hillskew=yes
 active=no
 ambient=20
 
-[loc_4525]
-model=loc_4525
+[slayer_short_grass_3_castle_edge]
+model=floor_new_grass3_castle_edge
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2124,8 +2150,8 @@ hillskew=yes
 active=no
 ambient=20
 
-[loc_4526]
-model=loc_4526
+[slayer_short_grass_4_castle_edge]
+model=floor_new_grass4_castle_edge
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2137,7 +2163,7 @@ active=no
 ambient=20
 
 [loc_4527]
-model=loc_4527
+model=floor_new_grass4_castle_edge2
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2149,7 +2175,7 @@ active=no
 ambient=20
 
 [loc_4528]
-model=loc_4528
+model=floor_new_grass4_castle_corner
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2161,7 +2187,7 @@ active=no
 ambient=20
 
 [loc_4529]
-model=loc_4529
+model=floor_new_grass3_wall_edge
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2172,8 +2198,8 @@ hillskew=yes
 active=no
 ambient=20
 
-[loc_4530]
-model=loc_4530
+[cave_generic_hole_bk]
+model=floor_new_grass4_wall_edge
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2184,8 +2210,8 @@ hillskew=yes
 active=no
 ambient=20
 
-[loc_4531]
-model=loc_4531
+[cave_generic_hole_bkl]
+model=floor_new_grass4_wall_corner
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2196,8 +2222,8 @@ hillskew=yes
 active=no
 ambient=20
 
-[loc_4532]
-model=loc_4532
+[cave_generic_hole_bkr]
+model=floor_new_grass2_wall_edge
 recol1s=21140
 recol1d=4554
 recol2s=15855
@@ -2209,20 +2235,20 @@ active=no
 ambient=20
 
 [loc_4533]
-model=loc_4533
+model=skill_slayer_wall_cave
 sharelight=yes
 hillskew=yes
 
 [loc_4534]
-model=model_loc_1434
+model=cavern_cavewall_top_dark
 recol1s=12580
 recol1d=11592
 sharelight=yes
 hillskew=yes
 active=no
 
-[loc_4535]
-model=model_loc_1435
+[cave_generic_hole_l]
+model=cavern_cavewall_top5
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -2230,7 +2256,7 @@ hillskew=yes
 active=no
 
 [loc_4536]
-model=model_loc_1436
+model=cavern_cavewall_top5_high
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -2238,7 +2264,7 @@ hillskew=yes
 active=no
 
 [loc_4537]
-model=loc_4533
+model=skill_slayer_wall_cave
 recol1s=10535
 recol1d=11592
 recol2s=9478
@@ -2256,7 +2282,7 @@ resizex=128
 resizey=64
 
 [loc_4538]
-model=model_loc_1434
+model=cavern_cavewall_top_dark
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -2267,7 +2293,7 @@ resizex=128
 resizey=64
 
 [loc_4539]
-model=model_loc_1435
+model=cavern_cavewall_top5
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -2277,8 +2303,8 @@ resizez=128
 resizex=128
 resizey=64
 
-[loc_4540]
-model=model_loc_1436
+[cave_generic_hole_r]
+model=cavern_cavewall_top5_high
 recol1s=12580
 recol1d=11592
 sharelight=yes
@@ -2288,11 +2314,11 @@ resizez=128
 resizex=128
 resizey=64
 
-[loc_4541]
+[slayer_kursk_statue]
 name=statue
 desc=a statue of a big monster
-model=loc_4541
-model2=loc_4541i2
+model=outdoorfurniture_statue_kursk
+model2=outdoorfurniture_statue_rock1
 recol1s=15855
 recol1d=8454
 recol2s=13741
@@ -2304,10 +2330,9 @@ mapscene=11
 [statue_herosguild]
 name=Arrav
 desc=A statue of Arrav (the Fountain of Heroes has moved downstairs.)
-model=model_loc_566
+model=outdoorfurniture_statue_malewarrior
 
 [statue_herosguild2]
 name=Camorra
 desc=A statue of Camorra (the Fountain of Heroes has moved downstairs.)
-model=model_loc_562
-
+model=outdoorfurniture_statue_femalewarrior

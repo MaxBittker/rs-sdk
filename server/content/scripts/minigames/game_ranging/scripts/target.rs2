@@ -27,7 +27,7 @@ if (%targetcount = 0) {
     }
     mes("You carefully aim at the target...");
     anim(human_bow, 0);
-    sound_synth(arrowlaunch2, 0, 0);
+    sound_synth(arrowlaunch2, 1, 0);
     spotanim_pl(oc_param(bronze_arrow, proj_launch), 96, 0);
     inv_del(worn, bronze_arrow, 1);
     ~coord_projectile(coord, loc_coord, bronze_arrow_travel, 40, 36, 41, 15, 5, 11, 5);

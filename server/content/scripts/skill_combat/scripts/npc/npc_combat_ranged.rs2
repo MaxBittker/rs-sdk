@@ -30,7 +30,7 @@ def_int $defence_roll = ~player_defence_roll_specific(npc_param(damagetype));
 def_int $maxhit = ~npc_ranged_maxhit;
 
 npc_anim(npc_param(attack_anim), 0);
-sound_synth(npc_param(rangeattack_sound), 0, 0);
+sound_synth(npc_param(rangeattack_sound), 1, 0);
 spotanim_npc(npc_param(proj_launch), npc_param(proj_height), 0);
 
 %npc_action_delay = add(map_clock, npc_param(attackrate));
@@ -67,7 +67,7 @@ switch_namedobj ($ammo) {
     case adamant_arrow : $roll = 8;
 }
 if (random(100) < $roll) {
-    world_delay(calc($delay / 30 - 2));
+    world_delay(calc($delay / 30)); // todo: check delay length
     if (map_blocked(coord) = true) {
         return;
     }

@@ -63,6 +63,8 @@ if ((inv_totalcat(inv, armour_hands) > 0 | inv_totalcat(worn, armour_hands) > 0)
     | (inv_totalcat(inv, weapon_thrown) > 0 | inv_totalcat(worn, weapon_thrown) > 0) 
     | (inv_totalcat(inv, weapon_scythe) > 0 | inv_totalcat(worn, weapon_scythe) > 0) 
     | (inv_totalcat(inv, weapon_bow) > 0 | inv_totalcat(worn, weapon_bow) > 0) 
+    | (inv_totalcat(inv, weapon_claws) > 0 | inv_totalcat(worn, weapon_claws) > 0) 
+    | (inv_totalcat(inv, weapon_polearm) > 0 | inv_totalcat(worn, weapon_polearm) > 0)
     | (inv_totalcat(inv, arrows) > 0 | inv_totalcat(worn, arrows) > 0)
     | (inv_totalcat(worn, flowers) > 0) // doesn't check worn
     | (inv_totalcat(inv, category_149) > 0) // runes
@@ -151,7 +153,7 @@ if (inv_total(inv, glarials_amulet_waterfall_quest) > 0) { // no bank or worn ch
 // waterfall_raft
 [oploc1,lograft_waterfall_quest]
 switch_int (%waterfall_quest) {
-    case ^waterfall_not_started : ~mesbox("You're not sure if the raft is safe to use.|Best to leave it alone.");
+    case ^waterfall_not_started : mes("The raft is not yet sea worthy."); // rs3
     case default :
         // https://youtu.be/HQEpeWAUMbI?t=113
         mes("You board the small raft");
@@ -243,7 +245,7 @@ while($i < 8) {
 p_arrivedelay; // arrive delay on osrs
 mes("You slip and tumble over the water fall.");
 say("Ouch!");
-sound_synth(watersplash, 0, 0); // not sure if this sound plays here originally but it does in osrs
+sound_synth(watersplash, 1, 0); // not sure if this sound plays here originally but it does in osrs
 p_teleport(^waterfall_fail_coord);
 p_delay(2);
 mes("You are washed up by the river side.");
@@ -274,7 +276,7 @@ mes("Suddenly the corridor floods...");
 p_delay(2);
 mes("flushing you back into the river.");
 mes("You tumble over the waterfall...");
-sound_synth(watersplash, 0, 0); // not sure if this sound plays here originally but it does in osrs
+sound_synth(watersplash, 1, 0); // not sure if this sound plays here originally but it does in osrs
 p_teleport(^waterfall_fail_coord);
 p_delay(0);
 say("Ouch!");
@@ -335,16 +337,15 @@ if($is_outside = false) {
     // https://web.archive.org/web/20050421234850/http://www.trillionareguild.com/runescape/waterfall.php mentions golrie gives you a hint for the key (same as OSRS)
     // OSRS auto uses the key w/op1, on RSC theres a seperate dialogue for the key but not sure if it exists/existed in RS2
     // could be possible that the dialogue used a distance check and only sends when closer than in the video but no proof 
-    if(testbit(%waterfall_golrie_and_puzzle, 0) = ^true) {
+    if(inv_total(inv, glarials_pebble_waterfall_quest) > 0) {
         mes("Golrie has locked himself in.");
         return;
     }
-    if(%waterfall_quest <= ^waterfall_opened_book_on_baxtorian & inv_total(inv, golrie_key_waterfall_quest) = 0) {
-        if (npc_find(movecoord(coord, 0, 0, 2), golrie_waterfall_quest, 5, 0) = true) {
-            @waterfall_golrie_door_dialogue;
-        }
-    }
     mes("The gate is locked.");
+    p_delay(3);
+    if (npc_find(movecoord(coord, 0, 0, 4), golrie_waterfall_quest, 5, 0) = true) {
+        @waterfall_golrie_door_dialogue;
+    }
 }
 
 [oplocu,golrie_gate_waterfall_quest]
@@ -358,11 +359,11 @@ def_boolean $is_outside = ~check_axis(coord, loc_coord, loc_angle);
 if ($is_outside = true) {
     // https://youtu.be/D80JSlBEC6I?si=Q0kEbZAo-jI7mieo&t=271, both door and the key crate has punc fixed by release OSRS (aug 2007)
     mes("The key fits the gate");
-    p_delay(2);
-    ~open_and_close_door(poshdooropen, $is_outside, false);
+    p_delay(3);
+    ~open_and_close_door(loc_1541, $is_outside, false);
     mes("You open the gate and walk through");
 } else {
-    ~open_and_close_door(poshdooropen, $is_outside, false);
+    ~open_and_close_door(loc_1541, $is_outside, false);
 }
 
 [oploc1,baxtorian_crate_waterfall_quest]
@@ -405,7 +406,7 @@ if(last_useitem = baxtorian_key_waterfall_quest) {
     }
     return;
 }
-~displaymessage(^dm_default);
+mes("You can't unlock the door with that.");
 
 [oplocu,statue_queen_waterfall_quest]
 def_obj $useitem = last_useitem;
@@ -413,7 +414,7 @@ p_delay(0); // always 1t delay before this interaction (NOT ARRIVEDELAY)
 if($useitem = glarials_amulet_waterfall_quest & %waterfall_quest = ^waterfall_entered_puzzle_room) { 
     //https://www.youtube.com/watch?v=uFkwFEKgNRc
     mes("You place the amulet around the neck of the statue.");
-    if(getbit_range(%waterfall_golrie_and_puzzle, 1, 18) = calc(pow(2, 18) - 1)) {
+    if(getbit_range(%pillar_waterfall_quest, 1, 18) = calc(pow(2, 18) - 1)) {
         p_delay(2);
         mes("You hear a loud rumble from beneath...");
         p_delay(2);

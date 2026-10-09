@@ -50,22 +50,28 @@ export default class Pix {
             name = overrideName;
         }
         if (png) {
-            await png.write(`${path}/${name}.png`);
+            const file: `${string}.${string}` = `${path}/${name}.png`;
+            let write = true;
+
+            if (fs.existsSync(file)) {
+                const existing = await Jimp.read(fs.readFileSync(file));
+                write = existing.bitmap.width !== png.bitmap.width || existing.bitmap.height !== png.bitmap.height || Buffer.compare(Buffer.from(existing.bitmap.data), Buffer.from(png.bitmap.data)) !== 0;
+            }
+
+            if (write) {
+                await png.write(file);
+            }
         }
 
         if (!fs.existsSync(`${path}/meta/`)) {
             fs.mkdirSync(`${path}/meta`, { recursive: true });
         }
 
+        const metadataPath = `${path}/meta/${name}.opt`;
         if (all.length > 1) {
-            let opt = `${all[0].width}x${all[0].height}\n`;
-            for (let i = 0; i < all.length; i++) {
-                opt += `${all[i].cropLeft},${all[i].cropTop},${all[i].cropRight},${all[i].cropBottom}\n`;
-            }
-
-            fs.writeFileSync(`${path}/meta/${name}.opt`, opt);
-        } else if (all[0].cropLeft !== 0 || all[0].cropTop !== 0 || all[0].cropRight !== all[0].width || all[0].cropBottom !== all[0].height) {
-            fs.writeFileSync(`${path}/meta/${name}.opt`, `${all[0].cropLeft},${all[0].cropTop},${all[0].cropRight},${all[0].cropBottom}\n`);
+            fs.writeFileSync(metadataPath, `${all[0].width}x${all[0].height}\n`);
+        } else if (fs.existsSync(metadataPath)) {
+            fs.unlinkSync(metadataPath);
         }
     }
 

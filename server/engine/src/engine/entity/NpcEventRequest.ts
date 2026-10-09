@@ -19,7 +19,7 @@ export class NpcEventRequest extends Linkable {
     script: ScriptFile;
 
     /**
-     * The script to execute.
+     * The npc entity.
      */
     npc: Npc;
 

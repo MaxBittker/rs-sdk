@@ -21,7 +21,7 @@ switch_int ($choice) {
         npc_anim(human_pickpocket, 0);
         p_delay(0);
         mes("You feel a little better.");
-        sound_synth(heal, 0, 0);
+        sound_synth(heal, 1, 0);
         stat_heal(hitpoints, 12, 0);
     }
 

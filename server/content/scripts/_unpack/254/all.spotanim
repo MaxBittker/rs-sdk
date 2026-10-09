@@ -1,38 +1,38 @@
 [bullettime_dart]
-model=spot_bullettime_dart
+model=game_agilityarena_trap_darts
 anim=agilityarena_dart_flight
 
 [agilityarena_roofcollapse]
-model=model_2321_spotanim
+model=traps_rockfall
 anim=rockfall
 recol1s=15855
 recol1d=30513
 
 [priestperil_coffin_spell]
-model=spot_spotanim_272
+model=transilvania_area_priestperil_coffin_spell
 anim=priestperil_coffin_neutralised
 
 [black_dart_launch]
-model=model_3146_spotanim
+model=proj_dartlaunch
 anim=dart_launch
 recol1s=21140
 recol1d=0
 
 [sp_attack_impale_spotanim]
-model=spot_spotanim_274
-anim=seq_924
+model=spells_specialattack_impale
+anim=sp_attack_impale_spotanim
 ambient=50
 contrast=50
 
 [troll_rock_launch]
-model=spot_spotanim_275
+model=quest_death_proj_troll_throw_rock
 anim=troll_rock_launch
 
 [troll_rock_travel]
-model=spot_spotanim_276
+model=quest_death_proj_troll_rock_travel
 
 [troll_zeds]
-model=spot_spotanim_277
+model=quest_troll_spotanims_zeds_3d
 anim=troll_zeds
 ambient=50
 contrast=50

@@ -1,0 +1,15 @@
+^troll_love_not_started = 0
+^troll_love_started = 5
+^troll_love_aga_wants_trollweiss = 10
+^troll_love_learnt_about_trollweiss = 15
+^troll_love_bring_dunstan_materials = 20
+^troll_love_dunstan_made_sled = 22
+^troll_love_waxed_sled = 25
+^troll_love_picked_trollweiss = 30
+^troll_love_dispose_of_arrg = 35
+^troll_love_defeated_arrg = 40
+^troll_love_complete = 45
+
+
+^sled_lower_coord = 0_43_58_0_0
+^sled_upper_coord = 0_43_60_63_63

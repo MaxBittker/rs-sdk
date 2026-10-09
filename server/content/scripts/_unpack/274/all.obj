@@ -5,7 +5,7 @@ recol1d=28500
 desc=Cooked octopus. It looks very nutritious.
 cost=250
 members=yes
-model=obj_3142
+model=quest_tbwt_inv_octopus
 2dyof=7
 2dzoom=1800
 2dyan=56
@@ -15,7 +15,6 @@ weight=650g
 category=58
 param=grindable_ingredient_refined,tbwt_cooked_karambwan_paste
 param=grindable_ingredient_message,You grind the cooked Karambwan to form a sticky paste.
-// param=param_1564,1001
 
 [tbwt_poorly_cooked_karambwan]
 name=Cooked karambwan
@@ -24,7 +23,7 @@ recol1d=18260
 desc=Cooked octopus. It looks a little suspect.
 cost=250
 members=yes
-model=obj_3142
+model=quest_tbwt_inv_octopus
 2dyof=7
 2dzoom=1800
 2dyan=56
@@ -43,7 +42,7 @@ recol1d=10570
 desc=Burnt octopus.
 cost=1
 members=yes
-model=obj_3142
+model=quest_tbwt_inv_octopus
 2dyof=7
 2dzoom=1800
 2dyan=56
@@ -63,14 +62,14 @@ recol3d=23419
 desc=Small brightly coloured tropical fish. Looks tasty.
 cost=10
 members=yes
-model=obj_3150
+model=quest_tbwt_inv_fish_tropical
 2dxof=6
 2dyof=6
 2dzoom=1000
 2dxan=464
 iop1=Eat
 weight=120g
-category=category_15
+category=fruit
 param=grindable_ingredient_refined,tbwt_cooked_karambwanji_paste
 param=grindable_ingredient_message,You grind the cooked Karambwanji to form a sticky paste.
 // param=param_59,1
@@ -82,7 +81,7 @@ recol1d=6436
 desc=Freshly made octopus paste.
 cost=15
 members=yes
-model=obj_3152
+model=quest_tbwt_inv_paste
 2dxof=4
 2dyof=20
 2dzoom=2250
@@ -98,7 +97,7 @@ recol1d=18260
 desc=Freshly made octopus paste. This smells quite nauseating.
 cost=15
 members=yes
-model=obj_3152
+model=quest_tbwt_inv_paste
 2dxof=4
 2dyof=20
 2dzoom=2250
@@ -114,7 +113,7 @@ recol1d=28500
 desc=Freshly made octopus paste.
 cost=15
 members=yes
-model=obj_3152
+model=quest_tbwt_inv_paste
 2dxof=4
 2dyof=20
 2dzoom=2250
@@ -130,7 +129,7 @@ recol1d=10857
 desc=This paste smells of raw fish.
 cost=15
 members=yes
-model=obj_3152
+model=quest_tbwt_inv_paste
 2dxof=4
 2dyof=20
 2dzoom=2250
@@ -146,7 +145,7 @@ recol1d=20082
 desc=This paste smells of cooked fish.
 cost=15
 members=yes
-model=obj_3152
+model=quest_tbwt_inv_paste
 2dxof=4
 2dyof=20
 2dzoom=2250
@@ -160,11 +159,11 @@ name=Karambwan vessel
 desc=A wide bodied and thin necked vessel, encrusted with sea salt.
 cost=5
 members=yes
-model=obj_3157
+model=quest_tbwt_inv_octopus_pot
 2dzoom=940
 2dxan=72
-manwear=obj_3157_manwear,0
-womanwear=obj_3157_manwear,6
+manwear=human_weapons_octopus_pot,0
+womanwear=human_weapons_octopus_pot,6
 wearpos=righthand
 weight=3kg
 
@@ -173,7 +172,7 @@ name=Crafting manual
 desc=A set of instructions explaining how to construct a Karambwan vessel.
 cost=5
 members=yes
-model=model_2600_obj
+model=inv_scroll
 2dxof=1
 2dyof=7
 2dzoom=1040
@@ -186,7 +185,7 @@ tradeable=no
 name=Sliced banana
 desc=You swear you had more than three slices before.
 cost=2
-model=model_2772_obj
+model=inv_fruitslices
 2dzoom=920
 2dxan=232
 iop1=Eat
@@ -196,13 +195,13 @@ weight=1oz
 name=Karamjan rum
 desc=The Karamjan rum has slices of banana floating in it.
 cost=30
-model=model_2660_obj
+model=inv_bottleofrum
 2dyof=-1
 2dzoom=970
 2dyan=1888
 2dxan=104
-manwear=obj_3164_manwear,0
-womanwear=obj_3164_manwear,6
+manwear=human_weapons_bottleofrum_left,0
+womanwear=human_weapons_bottleofrum_left,6
 weight=2lb
 tradeable=no
 
@@ -210,7 +209,7 @@ tradeable=no
 name=Karamjan rum
 desc=A banana has been stuffed into the neck of this bottle.
 cost=30
-model=obj_3165
+model=quest_tbwt_inv_bottleofrum_withbannana
 2dzoom=1560
 weight=2lb
 tradeable=no
@@ -219,13 +218,14 @@ tradeable=no
 name=Monkey corpse
 desc=It's the body of a dead monkey.
 members=yes
-model=obj_3166
+model=quest_tbwt_inv_monkeycorpse
 2dxof=9
 2dzoom=1380
 2dyan=188
 2dxan=112
 weight=1kg
 tradeable=no
+param=mm_bones_type,5
 
 [tbwt_monkey_skin]
 name=Monkey skin
@@ -234,7 +234,7 @@ recol1d=9409
 desc=It's the skin of a (hopefully) dead monkey.
 cost=10
 members=yes
-model=model_2338_obj
+model=inv_cowhide
 2dzoom=1510
 2dyan=2028
 2dxan=468
@@ -245,7 +245,7 @@ tradeable=no
 name=Seaweed sandwich
 desc=A 'Seaweed in Monkey Skin' sandwich. Perfect for statue repair.
 members=yes
-model=obj_3168
+model=quest_tbwt_inv_sandwich_monkeyseaweed
 2dyof=10
 2dzoom=790
 2dyan=1816
@@ -258,13 +258,14 @@ tradeable=no
 name=Stuffed monkey
 desc=A body of a dead monkey, tastefully stuffed with seaweed.
 members=yes
-model=obj_3169
+model=quest_tbwt_inv_monkeycorpse_withseaweed
 2dxof=9
 2dzoom=1380
 2dyan=188
 2dxan=112
 weight=1200g
 tradeable=no
+param=mm_bones_type,5
 
 [banana_left]
 name=Banana left
@@ -277,122 +278,13 @@ model=inv_bannana
 2dzoom=930
 2dyan=1944
 2dxan=280
-manwear=obj_3177_manwear,0
-womanwear=obj_3177_manwear,6
-category=category_15
+manwear=human_weapons_bannana_left,0
+womanwear=human_weapons_bannana_left,6
+category=fruit
 wearpos=lefthand
 weight=1oz
 tradeable=no
 // param=param_148,-1
-
-[mm_small_ninja_monkey_bones]
-name=Monkey bones
-desc=These are smallish monkey bones.
-members=yes
-model=model_2674_obj
-2dxof=2
-2dzoom=1410
-2dyan=368
-2dxan=400
-iop1=Bury
-weight=500g
-category=6
-tradeable=no
-
-[mm_medium_ninja_monkey_bones]
-name=Monkey bones
-desc=These are medium sized monkey bones.
-members=yes
-model=model_2674_obj
-2dxof=2
-2dzoom=1410
-2dyan=368
-2dxan=400
-iop1=Bury
-weight=500g
-category=6
-tradeable=no
-
-[mm_normal_gorilla_monkey_bones]
-name=Monkey bones
-desc=These are quite large monkey bones.
-members=yes
-model=model_222_obj
-2dzoom=1830
-2dyan=648
-2dxan=216
-iop1=Bury
-weight=800g
-category=6
-tradeable=no
-
-[mm_bearded_gorilla_monkey_bones]
-name=Monkey bones
-desc=These are quite large monkey bones.
-members=yes
-model=model_222_obj
-2dzoom=1830
-2dyan=648
-2dxan=216
-iop1=Bury
-weight=800g
-category=6
-tradeable=no
-
-[mm_normal_monkey_bones]
-name=Monkey bones
-desc=These are small monkey bones.
-model=model_2674_obj
-2dxof=2
-2dzoom=1410
-2dyan=368
-2dxan=400
-iop1=Bury
-weight=500g
-category=bones
-param=bone_exp,50
-
-[mm_small_zombie_monkey_bones]
-name=Monkey bones
-desc=These are smallish monkey bones. They smell extremely nauseating.
-members=yes
-model=model_2674_obj
-2dxof=2
-2dzoom=1410
-2dyan=368
-2dxan=400
-iop1=Bury
-weight=500g
-category=6
-tradeable=no
-
-[mm_large_zombie_monkey_bones]
-name=Monkey bones
-desc=These are smallish monkey bones. They smell extremely nauseating.
-members=yes
-model=model_2674_obj
-2dzoom=1830
-2dyan=648
-2dxan=216
-iop1=Bury
-weight=500g
-category=6
-tradeable=no
-
-[mm_skeleton_bones]
-name=Bones
-desc=They seem to shake slightly... It might be a good idea to bury them.
-members=yes
-cost=0
-model=model_2674_obj
-2dxof=2
-2dzoom=1410
-2dyan=368
-2dxan=400
-iop1=Bury
-weight=500g
-category=6
-tradeable=no
 
 [tbwt_cleaning_cloth]
 name=Cleaning cloth
@@ -400,7 +292,7 @@ recol1s=27412
 recol1d=26266
 desc=A spirit soaked piece of silk which can be used to remove poison.
 cost=60
-model=model_2725_obj
+model=inv_cloth
 2dyof=-15
 2dzoom=1360
 2dxan=368
@@ -411,7 +303,7 @@ weight=1kg
 name=Bark
 members=yes
 desc=Bark from a hollow tree.
-model=obj_3239
+model=inv_hollow_tree_bark
 2dyan=1708
 2dzan=284
 2dxan=176
@@ -421,644 +313,592 @@ weight=1kg
 [pickpocket_guide_man]
 name=Man
 desc=One of RuneScape's many citizens.
-model=model_53_idk_head
+model=chat_male_head_shorthair
 2dxof=6
 2dyof=-32
 2dzoom=2660
 2dyan=1876
 2dxan=28
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_farmer]
 name=Farmer
 desc=He grows the crops.
-model=model_55_idk_head
+model=chat_male_head_mediumhair
 2dxof=6
 2dyof=-32
 2dzoom=2660
 2dyan=1876
 2dxan=28
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_warrior]
 name=Warrior woman
 recol1s=6273
 recol1d=27240
 desc=Not very fashion conscious.
-model=model_113_idk_head
+model=chat_female_head_longhair
 2dxof=1
 2dyof=-44
 2dzoom=2600
 2dyan=1856
 2dxan=32
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_rogue]
 name=Rogue
 desc=Rogueish.
-model=model_63_idk_head
+model=chat_male_head_bald
 2dxof=6
 2dyof=-32
 2dzoom=2660
 2dyan=1876
 2dxan=28
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_guard]
 name=Guard
 recol1s=15855
 recol1d=8354
 desc=He tries to keep order.
-model=model_66_npc_head
+model=chat_male_head_mediumhelmet2
 2dyof=-30
 2dzoom=2530
 2dyan=1888
 2dxan=16
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_knight]
 name=Knight of ardougne
 desc=A member of Ardougne's militia.
-model=model_56_obj_wear
+model=chat_male_head_fullhelmet
 2dxof=-1
 2dyof=-28
 2dzoom=2920
 2dyan=1884
 2dxan=2032
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_watchman]
 name=Watchman
 desc=Watches stuff. But who watches him?
-model=model_57_obj_wear
+model=chat_male_head_mediumhelmet
 2dyof=-30
 2dzoom=2370
 2dyan=1912
 2dxan=28
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_paladin]
 name=Paladin
 recol1s=6273
 recol1d=27240
 desc=A holy warrior!
-model=model_55_idk_head
+model=chat_male_head_mediumhair
 2dyof=-25
 2dzoom=2510
 2dyan=1816
 2dxan=2032
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_gnome]
 name=Gnome
 recol1s=15855
 recol1d=8354
 desc=Looks like a gnome to me.
-model=model_21_npc_head
+model=gnome_chat_head
 2dyof=-592
 2dzoom=4430
 2dyan=1848
 2dxan=236
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_hero]
 name=Hero
 recol1s=15855
 recol1d=8354
 desc=Heroic!
-model=model_55_idk_head
+model=chat_male_head_mediumhair
 2dyof=-25
 2dzoom=2510
 2dyan=1816
 2dxan=2032
-tradeable=no
+dummyitem=inv_only
 
 [eadgar_fade_to_black_inv]
 name=Dummy
-model=obj_3271
+model=if_eadgar_fadetoblack
 2dzoom=130
 2dxan=512
-code10=seq_1255
-tradeable=no
+code10=eadgar_fade_to_black
+dummyitem=inv_only
 
 [01_wind_strike]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [03_confuse]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [05_water_strike]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [07_enchant_amulet_lvl1]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [09_earth_strike]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [11_weaken]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [13_fire_strike]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [15_bones_bananas]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [17_wind_bolt]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [19_curse]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [20_bind]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [21_low_alchemy]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [23_water_bolt]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [25_varrock_teleport]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [27_enchant_amulet_lvl2]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [29_earth_bolt]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [31_lumbridge_teleport]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [33_tele_grab]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [35_fire_bolt]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [37_falador_teleport]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [39_crumble_undead]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [41_wind_blast]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [43_superheat_item]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [45_camelot_teleport]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [47_water_blast]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [49_enchant_amulet_lvl3]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [50_iban_blast]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [50_snare]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [51_ardougne_teleport]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [53_earth_blast]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [55_high_alchemy]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [56_charge_water_orb]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [57_enchant_amulet_lvl4]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [58_watchtower_teleport]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [59_fire_blast]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [60_charge_earth_orb]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [60_claws_of_guthix]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [60_flames_of_zamorak]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [60_saradomin_strike]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [61_trollheim_teleport]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [62_wind_wave]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [63_charge_fire_orb]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [65_water_wave]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [66_charge_air_orb]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [66_vulnerability]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [68_enchant_amulet_lvl5]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [70_earth_wave]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [73_enfeeble]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [75_fire_wave]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [79_entangle]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [80_charge]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [80_stun]
 name=Spell
-model=model_3374_obj
+model=inv_trail_scroll
 2dxof=1
 2dzoom=1010
 2dyan=672
 2dxan=360
-tradeable=no
 dummyitem=inv_only
 
 [vampire_dust]
@@ -1067,7 +907,7 @@ recol1s=21140
 recol1d=7333
 desc=That used to be a vampire!
 cost=2
-model=model_2742_obj
+model=inv_ash
 2dxof=-6
 2dzoom=1210
 2dyan=1892
@@ -1080,13 +920,13 @@ name=Thin snail
 desc=The thin, slimey corpse of a deceased giant snail.
 cost=5
 members=yes
-model=obj_3363
+model=quest_routethrough_inv_snail_corpse
 2dyof=-70
 2dzoom=1640
 2dyan=1732
 2dxan=220
 weight=2kg
-// category=category_4
+category=snailcorpse
 param=grindable_ingredient_refined,blamish_snail_slime
 param=grindable_ingredient_message,You grind the blamish snail up into a slimy pulp.
 
@@ -1105,13 +945,13 @@ recol5d=15780
 desc=The lean, slimey corpse of a deceased giant snail.
 cost=10
 members=yes
-model=obj_3363
+model=quest_routethrough_inv_snail_corpse
 2dyof=-70
 2dzoom=1640
 2dyan=1732
 2dxan=220
 weight=2kg
-// category=category_4
+category=snailcorpse
 param=grindable_ingredient_refined,blamish_snail_slime
 param=grindable_ingredient_message,You grind the blamish snail up into a slimy pulp.
 
@@ -1130,13 +970,13 @@ recol5d=11716
 desc=The fat, slimey corpse of a deceased giant snail.
 cost=15
 members=yes
-model=obj_3363
+model=quest_routethrough_inv_snail_corpse
 2dyof=-70
 2dzoom=1640
 2dyan=1732
 2dxan=220
 weight=2kg
-// category=category_4
+category=snailcorpse
 param=grindable_ingredient_refined,blamish_snail_slime
 param=grindable_ingredient_message,You grind the blamish snail up into a slimy pulp.
 
@@ -1155,14 +995,14 @@ recol5d=9472
 desc=A succulently slimey slice of sumptuous snail.
 cost=10
 members=yes
-model=obj_3363
+model=quest_routethrough_inv_snail_corpse
 2dyof=-70
 2dzoom=1640
 2dyan=1732
 2dxan=220
 iop1=Eat
 weight=3kg
-category=category_5
+category=meat
 
 [snail_corpse_cooked2]
 name=Lean snail meat
@@ -1179,14 +1019,14 @@ recol5d=14432
 desc=A succulently slimey slice of sumptuous snail.
 cost=20
 members=yes
-model=obj_3363
+model=quest_routethrough_inv_snail_corpse
 2dyof=-70
 2dzoom=1640
 2dyan=1732
 2dxan=220
 iop1=Eat
 weight=4kg
-category=category_5
+category=meat
 
 [snail_corpse_cooked3]
 name=Fat snail meat
@@ -1203,14 +1043,14 @@ recol5d=20801
 desc=A succulently slimey slice of sumptuous snail.
 cost=30
 members=yes
-model=obj_3363
+model=quest_routethrough_inv_snail_corpse
 2dyof=-70
 2dzoom=1640
 2dyan=1732
 2dxan=220
 iop1=Eat
 weight=5kg
-category=category_5
+category=meat
 
 [burnt_snail]
 name=Burnt snail
@@ -1227,7 +1067,7 @@ recol5d=10400
 desc=A slightly super-saute'ed snail.
 cost=10
 members=yes
-model=obj_3363
+model=quest_routethrough_inv_snail_corpse
 2dyof=-70
 2dzoom=1640
 2dyan=1732
@@ -1238,7 +1078,7 @@ weight=1kg
 name=Sample bottle
 desc=An empty sample bottle.
 cost=5
-model=obj_3377
+model=quest_routethrough_inv_empty_dyebottle
 2dyof=-2
 2dzoom=760
 2dyan=1920
@@ -1250,12 +1090,12 @@ weight=20g
 name=Splitbark helm
 cost=10000
 desc=A wooden helmet.
-model=obj_3385
+model=inv_split_bark_helm
 iop2=Wear
-manwear=obj_3385_manwear,0
-womanwear=obj_3385_womanwear,0
-manhead=obj_3385_manhead
-womanhead=obj_3385_womanhead
+manwear=man_hat_split_bark_helm,0
+womanwear=woman_hat_split_bark_helm,0
+manhead=chat_male_hat_split_bark_helm
+womanhead=chat_female_hat_split_bark_helm
 members=yes
 2dxof=-2
 2dyof=-59
@@ -1276,12 +1116,12 @@ param=magicdefence,3
 name=Splitbark body
 cost=45000
 desc=Provides good protection.
-model=obj_3387
+model=inv_split_bark_body
 iop2=Wear
-manwear=obj_3387_manwear,0
-manwear2=obj_3387_manwear2
-womanwear=obj_3387_womanwear,0
-womanwear2=obj_3387_womanwear2
+manwear=man_torso_split_bark_armour,0
+manwear2=man_arms_split_bark_armour
+womanwear=woman_torso_split_bark_armour,0
+womanwear2=woman_arms_split_bark_armour
 members=yes
 2dyof=16
 2dzoom=1050
@@ -1290,12 +1130,13 @@ wearpos=torso
 wearpos2=arms
 weight=10lb
 category=armour_body
-param=magicattack,8
+param=magicattack,9
 param=rangeattack,-10
 param=stabdefence,36
 param=slashdefence,26
 param=crushdefence,42
 param=magicdefence,15
+param=defend_sound,wood_armour3_1
 // Used tip.it guide attack stats and 2006 guide defence stats
 // 2004 stats https://web.archive.org/web/20050303033424/http://koti.mbnet.fi/~timpat/index2.htm
 // 2004 stats https://web.archive.org/web/20050411232314/http://www.tip.it/runescape/index.php?page=splitbark_armour.htm
@@ -1305,10 +1146,10 @@ param=magicdefence,15
 name=Splitbark legs
 cost=40000
 desc=These should protect my legs.
-model=obj_3389
+model=inv_split_bark_legs
 iop2=Wear
-manwear=obj_3389_manwear,0
-womanwear=obj_3389_womanwear,0
+manwear=man_legs_split_bark_armour,0
+womanwear=woman_legs_split_bark_armour,0
 members=yes
 2dxof=4
 2dyof=-1
@@ -1317,8 +1158,8 @@ members=yes
 wearpos=legs
 weight=8lb
 category=armour_legs
-param=magicattack,7
-param=rangeattack,-6
+param=magicattack,6
+param=rangeattack,-7
 param=stabdefence,22
 param=slashdefence,20
 param=crushdefence,25
@@ -1327,11 +1168,11 @@ param=magicdefence,10
 [splitbark_gauntlets]
 name=Splitbark gauntlets
 cost=5000
-model=obj_3391
+model=inv_split_bark_gauntlets
 desc=These should keep my hands safe.
 iop2=Wear
-manwear=obj_3391_manwear,0
-womanwear=obj_3391_womanwear,0
+manwear=man_hands_split_bark_armour,0
+womanwear=woman_hands_split_bark_armour,0
 members=yes
 2dxof=7
 2dzoom=750
@@ -1339,7 +1180,7 @@ members=yes
 2dxan=308
 wearpos=hands
 weight=2lb
-category=category_16
+category=armour_hands
 param=magicattack,1
 param=rangeattack,-1
 param=stabdefence,3
@@ -1350,11 +1191,11 @@ param=magicdefence,2
 [splitbark_greaves]
 name=Splitbark greaves
 cost=5000
-model=obj_3393
+model=inv_split_bark_greaves
 desc=Wooden foot protection.
 iop2=Wear
-manwear=obj_3393_manwear,0
-womanwear=obj_3393_womanwear,0
+manwear=man_feet_split_bark_armour,0
+womanwear=woman_feet_split_bark_armour,0
 members=yes
 2dxof=6
 2dzoom=810
@@ -1362,7 +1203,7 @@ members=yes
 2dxan=168
 wearpos=feet
 weight=2lb
-category=category_17
+category=armour_feet
 param=magicattack,1
 param=rangeattack,-1
 param=stabdefence,3
@@ -1373,7 +1214,7 @@ param=magicdefence,2
 [fine_cloth]
 name=Fine cloth
 desc=Amazingly untouched by time.
-model=obj_3470
+model=inv_cloth_bolt
 2dyan=360
 2dzan=168
 2dxan=580
@@ -1382,12 +1223,13 @@ members=yes
 weight=1kg
 
 [viking_toyship]
+dummyitem=inv_only
 
 [flamtaer_hammer]
 name=Flamtaer hammer
 cost=10000
 desc=An exquisitely shaped tool specially designed for fixing temples.
-model=obj_3678
+model=quest_shades_inv_mallet
 2dxof=8
 2dyof=-6
 2dzoom=1710
@@ -1400,7 +1242,7 @@ weight=3lb
 name=Dummy shoe1
 recol1s=7298
 recol1d=11525
-model=model_2837_obj
+model=inv_boots
 2dxof=1
 2dyof=-6
 2dzoom=770
@@ -1408,13 +1250,13 @@ model=model_2837_obj
 2dxan=152
 members=yes
 weight=0g
-tradeable=no
+dummyitem=inv_only
 
 [dummy_shoe2]
 name=Dummy shoe2
 recol1s=7298
 recol1d=8448
-model=model_2837_obj
+model=inv_boots
 2dxof=1
 2dyof=-6
 2dzoom=770
@@ -1422,13 +1264,13 @@ model=model_2837_obj
 2dxan=152
 members=yes
 weight=0g
-tradeable=no
+dummyitem=inv_only
 
 [dummy_shoe3]
 name=Dummy shoe3
 recol1s=7298
 recol1d=13705
-model=model_2837_obj
+model=inv_boots
 2dxof=1
 2dyof=-6
 2dzoom=770
@@ -1436,13 +1278,13 @@ model=model_2837_obj
 2dxan=152
 members=yes
 weight=0g
-tradeable=no
+dummyitem=inv_only
 
 [dummy_shoe4]
 name=Dummy shoe4
 recol1s=7298
 recol1d=6309
-model=model_2837_obj
+model=inv_boots
 2dxof=1
 2dyof=-6
 2dzoom=770
@@ -1450,13 +1292,13 @@ model=model_2837_obj
 2dxan=152
 members=yes
 weight=0g
-tradeable=no
+dummyitem=inv_only
 
 [dummy_shoe5]
 name=Dummy shoe5
 recol1s=7298
 recol1d=13604
-model=model_2837_obj
+model=inv_boots
 2dxof=1
 2dyof=-6
 2dzoom=770
@@ -1464,13 +1306,13 @@ model=model_2837_obj
 2dxan=152
 members=yes
 weight=0g
-tradeable=no
+dummyitem=inv_only
 
 [dummy_shoe6]
 name=Dummy shoe6
 recol1s=7298
 recol1d=11626
-model=model_2837_obj
+model=inv_boots
 2dxof=1
 2dyof=-6
 2dzoom=770
@@ -1478,7 +1320,7 @@ model=model_2837_obj
 2dxan=152
 members=yes
 weight=0g
-tradeable=no
+dummyitem=inv_only
 
 [pickpocket_guide_fremennik_citizen]
 name=Fremennik
@@ -1493,57 +1335,57 @@ recol4d=14696
 recol5s=5120
 recol5d=16710
 desc=One of Rellekka's many citizens.
-model=obj_3686
+model=chat_male_head_viking_helmet_basic
 2dxof=6
 2dyof=-32
 2dzoom=2660
 2dyan=1876
 2dxan=28
-tradeable=no
+dummyitem=inv_only
 
 [bolt2]
 name=Bolt2
 stackable=yes
-model=obj_3807
+model=inv_crossbowbolts2
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [bolt3]
 name=Bolt3
 stackable=yes
-model=obj_3808
+model=inv_crossbowbolts3
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [bolt4]
 name=Bolt4
 stackable=yes
-model=obj_3809
+model=inv_crossbowbolts4
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [bolts]
 name=Bolts
 stackable=yes
-model=model_2664_obj
+model=inv_crossbowbolts
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [poison_bolt2]
 name=Poison bolt2
@@ -1552,13 +1394,13 @@ recol1d=8682
 recol2s=5285
 recol2d=8682
 stackable=yes
-model=obj_3807
+model=inv_crossbowbolts2
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [poison_bolt3]
 name=Poison bolt3
@@ -1567,13 +1409,13 @@ recol1d=8682
 recol2s=5285
 recol2d=8682
 stackable=yes
-model=obj_3808
+model=inv_crossbowbolts3
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [poison_bolt4]
 name=Poison bolt4
@@ -1582,13 +1424,13 @@ recol1d=8682
 recol2s=5285
 recol2d=8682
 stackable=yes
-model=obj_3809
+model=inv_crossbowbolts4
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [poison_bolts]
 name=Poison bolts
@@ -1597,13 +1439,13 @@ recol1d=8682
 recol2s=5285
 recol2d=8682
 stackable=yes
-model=model_2664_obj
+model=inv_crossbowbolts
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [opal_bolt2]
 name=Opal bolt2
@@ -1618,13 +1460,13 @@ recol4d=3206
 recol5s=5285
 recol5d=21140
 stackable=yes
-model=obj_3807
+model=inv_crossbowbolts2
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [opal_bolt3]
 name=Opal bolt3
@@ -1639,13 +1481,13 @@ recol4d=3206
 recol5s=5285
 recol5d=21140
 stackable=yes
-model=obj_3808
+model=inv_crossbowbolts3
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [opal_bolt4]
 name=Opal bolt4
@@ -1660,13 +1502,13 @@ recol4d=3206
 recol5s=5285
 recol5d=21140
 stackable=yes
-model=obj_3809
+model=inv_crossbowbolts4
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [opal_bolts]
 name=Opal bolts
@@ -1681,13 +1523,13 @@ recol4d=3206
 recol5s=5285
 recol5d=21140
 stackable=yes
-model=model_2664_obj
+model=inv_crossbowbolts
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [pearl_bolt2]
 name=Pearl bolt2
@@ -1700,13 +1542,13 @@ recol3d=22161
 recol4s=10570
 recol4d=22161
 stackable=yes
-model=obj_3807
+model=inv_crossbowbolts2
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [pearl_bolt3]
 name=Pearl bolt3
@@ -1719,13 +1561,13 @@ recol3d=22161
 recol4s=10570
 recol4d=22161
 stackable=yes
-model=obj_3808
+model=inv_crossbowbolts3
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [pearl_bolt4]
 name=Pearl bolt4
@@ -1738,13 +1580,13 @@ recol3d=22161
 recol4s=10570
 recol4d=22161
 stackable=yes
-model=obj_3809
+model=inv_crossbowbolts4
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [pearl_bolts]
 name=Pearl bolts
@@ -1757,65 +1599,65 @@ recol3d=22161
 recol4s=10570
 recol4d=22161
 stackable=yes
-model=model_2664_obj
+model=inv_crossbowbolts
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [barbed_bolt2]
 name=Barbed bolt2
 recol1s=5285
 recol1d=13472
 stackable=yes
-model=obj_3807
+model=inv_crossbowbolts2
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [barbed_bolt3]
 name=Barbed bolt3
 recol1s=5285
 recol1d=13472
 stackable=yes
-model=obj_3808
+model=inv_crossbowbolts3
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [barbed_bolt4]
 name=Barbed bolt4
 recol1s=5285
 recol1d=13472
 stackable=yes
-model=obj_3809
+model=inv_crossbowbolts4
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [barbed_bolts]
 name=Barbed bolts
 recol1s=5285
 recol1d=13472
 stackable=yes
-model=model_2664_obj
+model=inv_crossbowbolts
 2dxof=-1
 2dyof=-42
 2dzoom=640
 2dyan=4
 2dxan=244
-tradeable=no
+dummyitem=inv_only
 
 [readbook_dummy]
 name=Readbook dummy
@@ -1825,13 +1667,13 @@ recol2s=15855
 recol2d=7329
 recol3s=20033
 recol3d=7329
-model=model_2543_obj
+model=inv_book_fancy
 2dxof=1
 2dyof=-21
 2dzoom=830
 2dyan=116
 2dxan=244
-manwear=obj_3850_manwear,0
-womanwear=obj_3850_manwear,6
+manwear=human_weapons_readingbook,0
+womanwear=human_weapons_readingbook,6
 wearpos=righthand
 tradeable=no

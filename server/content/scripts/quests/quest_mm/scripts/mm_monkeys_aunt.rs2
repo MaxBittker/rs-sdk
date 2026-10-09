@@ -1,0 +1,69 @@
+[opnpc1,mm_monkeys_aunt]
+// as human, this is (reg) queued
+queue*(mm_aunt_dialogue, 0)(npc_uid);
+
+[ai_timer,mm_monkeys_aunt]
+huntall(npc_coord, 5, 0);
+while(huntnext = true) {
+    if(~mm_wearing_greegree = true) {
+        return;
+    }
+    // you have to be in the same area as her sort of, otherwise she wont target you, she does not check los
+    // if she is in the garden, you have to be in the garden, if she is in the house, you have to be in the house
+    // but if you are in the house, she can target you from anywhere but the garden, also, the aunt being in the house
+    // is different than the player being in the house (in terms of inzone)...
+    if((inzone(0_42_43_52_40, 0_42_43_58_46, npc_coord) = true & inzone(0_42_43_52_40, 0_42_43_58_46, coord) = false) 
+        | (inzone(0_42_43_52_40, 0_42_43_58_46, npc_coord) = false & inzone(0_42_43_52_40, 0_42_43_58_46, coord) = true)) {
+        return;
+    }
+    if(inzone(0_42_43_45_40, 0_42_43_51_42, npc_coord) = true & inzone(0_42_43_44_37, 0_42_43_51_44, coord) = false) {
+        return;
+    }
+    if_close; // the aunt will continiously if_close from this timer, this confirms it's 2t as well
+    if(%mm_guards_cooldown > map_clock) {
+        return;
+    }
+    if(p_finduid(uid) = true) { // checks prot access, but its still queued
+        queue(mm_aunt_caught, 0, 0);
+        queue(aa_guards_queue, 6, 0);
+    }
+}
+
+[queue,mm_aunt_caught]
+clearqueue(mm_aunt_caught);
+%mm_guards_cooldown = add(map_clock, 50);
+if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+    ~chatnpc_specific(nc_name(mm_monkeys_aunt), mm_monkeys_aunt, "<~monkeyspeak_text><~monkeyspeak_text><~monkeyspeak_text>");
+} else {
+    ~chatnpc_specific(nc_name(mm_monkeys_aunt), mm_monkeys_aunt, "<p,neutral>How dare you come near my farmhouse! Guards! Guards! Remove this human!");
+}
+
+[queue,mm_aunt_dialogue](npc_uid $uid)
+// strongqueue osrs
+if(npc_finduid($uid) = true) {
+    if(~mm_wearing_greegree = true) {
+        if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+            ~chatnpcnoturn("<~monkeyspeak_text><~monkeyspeak_text><~monkeyspeak_text>");
+        } else {
+            ~chatnpcnoturn("<p,neutral>Hello! What's a monkey like you doing here?");
+        }
+        queue(mm_aunt_dialogue2, 0, 0); // this is also queued for some reason...
+        return;
+    }
+    if(getqueue(aa_guards_queue) = 0) queue(aa_guards_queue, 6, 0); // 6t
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~chatnpcnoturn("<~monkeyspeak_text><~monkeyspeak_text><~monkeyspeak_text>");
+    } else {
+        ~chatnpcnoturn("<p,neutral>Guards! Here's a human!");
+    }
+}
+
+[queue,mm_aunt_dialogue2]
+if(npc_find(coord, mm_monkeys_aunt, 10, 0) = true) {
+    if(inv_total(worn, mm_amulet_of_monkey_speak) = 0) {
+        ~mesbox("You cannot understand what she is saying.");
+    } else {
+        ~chatplayer("<p,neutral>I'm just passing through actually.");
+        ~chatnpcnoturn("<p,neutral>Fair enough then.");
+    }
+}

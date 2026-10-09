@@ -1,0 +1,60 @@
+[proc,trawler_overlay_huntall]
+def_int $catch = %npc_trawler_fish_caught;
+def_int $water = %npc_trawler_flood_status;
+def_int $time_left = divide(sub(1000, %npc_int), 100);
+def_int $net_ripped = ~trawler_net_ripped;
+
+def_int $bits = 0;
+$bits = setbit_range_toint($bits, $catch, 0, 17);
+$bits = setbit_range_toint($bits, $water, 18, 25);
+$bits = setbit_range_toint($bits, $time_left, 26, 30);
+$bits = setbit_range_toint($bits, $net_ripped, 31, 31);
+
+huntall(^trawler_start_center_under, 8, 0);
+while (huntnext = true) queue(trawler_overlay_hunt, 0, $bits);
+huntall(^trawler_start_center, 8, 0);
+while (huntnext = true) queue(trawler_overlay_hunt, 0, $bits);
+huntall(^trawler_flood_center_under, 8, 0);
+while (huntnext = true) queue(trawler_overlay_hunt, 0, $bits);
+huntall(^trawler_flood_center, 8, 0);
+while (huntnext = true) queue(trawler_overlay_hunt, 0, $bits);
+
+
+[queue,trawler_overlay_hunt](int $bits)
+def_int $catch = getbit_range($bits, 0, 17);
+def_int $water = getbit_range($bits, 18, 25);
+def_int $time_left = getbit_range($bits, 26, 30);
+def_int $net_ripped = testbit($bits, 31);
+
+if ($catch = 0) if_settext(trawler_overlay:com_28, "Nothing");
+else if_settext(trawler_overlay:com_28, "<tostring($catch)> fish");
+
+%trawler_water_overlay = $water;
+
+if ($time_left = 0) if_settext(trawler_overlay:com_29, "Under 1 min");
+else if_settext(trawler_overlay:com_29, ~pluralise($time_left, "min"));
+
+if ($net_ripped = ^true) {
+    if_settext(trawler_overlay:com_27, "Ripped!");
+    if_settext(trawler_overlay:com_26, "");
+} else {
+    if_settext(trawler_overlay:com_26, "Okay");
+    if_settext(trawler_overlay:com_27, "");
+}
+
+
+[proc,trawler_overlay_reset]
+%trawler_water_overlay = 0;
+
+if_settext(trawler_overlay:com_26, "Okay");
+if_settext(trawler_overlay:com_27, "");
+
+if_settext(trawler_overlay:com_28, "Nothing");
+
+if_settext(trawler_overlay:com_29, "10 mins");
+
+[proc,trawler_mapzone]
+if_openoverlay(trawler_overlay);
+
+[label,trawler_mapzoneexit]
+if_openoverlay(null);

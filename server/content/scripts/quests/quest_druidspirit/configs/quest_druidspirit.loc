@@ -1,29 +1,29 @@
 [swamp_plant1]
-model=loc_3501
+model=transilvania_area_priestperil_vegatation_swamp_plant1
 active=no
 hillskew=yes
 mapscene=26
 
 [swamp_plant2]
-model=loc_3502
+model=transilvania_area_priestperil_vegatation_swamp_plant2
 active=no
 hillskew=yes
 mapscene=26
 
 [swamp_plant3]
-model=loc_3503
+model=transilvania_area_priestperil_vegatation_swamp_plant3
 active=no
 hillskew=yes
 mapscene=26
 
 [swamp_plant4]
-model=loc_3504
+model=transilvania_area_priestperil_vegatation_swamp_plant4
 active=no
 hillskew=yes
 blockwalk=no
 
 [swamp_plant5]
-model=loc_3505
+model=transilvania_area_priestperil_vegatation_swamp_plant5
 active=no
 hillskew=yes
 mapscene=26
@@ -31,7 +31,7 @@ mapscene=26
 [mortmyre_metalgateclosed_l]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 active=yes
 blockrange=no
@@ -41,7 +41,7 @@ param=next_loc_stage,loc_1562
 [mortmyre_metalgateclosed_r]
 name=Gate
 desc=A wrought iron gate.
-model=model_loc_52
+model=outdoorfurniture_metalgateclosedl
 op1=Open
 mirror=yes
 active=yes
@@ -110,10 +110,10 @@ anim=pears_growing
 [peartree_druidicspirit_trunk]
 name=Rotting tree
 desc=Not sure if i should stand under that..
-model=loc_3514
+model=quest_naturespirit_peartree_druidicspirit_trunk
 
 [peartree_druidicspirit_crown]
-model=loc_3515
+model=quest_naturespirit_peartree_druidicspirit_crown
 active=no
 length=3
 width=3
@@ -121,7 +121,7 @@ width=3
 [grotto_door_druidicspirit]
 name=Grotto
 desc=A dark dank entrance to below..
-model=loc_3516
+model=quest_naturespirit_grotto_door
 op1=Enter
 
 [grotto_druidicspirit]
@@ -135,14 +135,14 @@ op1=Look-at
 op2=Search
 
 [grotto_roof1_druidicspirit]
-model=loc_3518
+model=quest_naturespirit_grotto_roof1
 active=no
 length=3
 width=3
 sharelight=yes
 
 [grotto_roof2_druidicspirit]
-model=loc_3519
+model=quest_naturespirit_grotto_roof2
 active=no
 length=3
 width=3
@@ -169,7 +169,7 @@ op1=Pray-at
 [druidjump_loc]
 name=Bridge
 desc=It's a bridge.
-model=model_loc_796
+model=floor_pier
 sharelight=yes
 forcedecor=yes
 hillskew=yes
@@ -181,11 +181,11 @@ op1=Jump
 [druid_bench]
 name=Bench
 desc=An old bench, probably made from wood in this swamp.
-model=loc_3523
+model=quest_naturespirit_druids_bench
 blockrange=no
 
 [oldfencing]
-model=loc_3524
+model=quest_naturespirit_walls_oldfencing
 sharelight=yes
 hillskew=yes
 active=no
@@ -213,7 +213,7 @@ op1=Exit
 [stonedisc_ds_nature]
 name=Stone
 desc=A roughly hewn stone with some sort of symbol on it.
-model=model_loc_756
+model=quest_onedisc
 recol1s=13741
 recol1d=16773
 forcedecor=yes
@@ -224,7 +224,7 @@ op5=Search
 [stonedisc_ds_faith]
 name=Stone
 desc=A roughly hewn stone with some sort of symbol on it.
-model=model_loc_756
+model=quest_onedisc
 recol1s=13741
 recol1d=22817
 forcedecor=yes
@@ -235,7 +235,7 @@ op5=Search
 [stonedisc_ds_spirit]
 name=Stone
 desc=A roughly hewn stone with some sort of symbol on it.
-model=model_loc_756
+model=quest_onedisc
 recol1s=13741
 recol1d=10570
 forcedecor=yes
@@ -374,7 +374,7 @@ hillskew=yes
 [druidicspirit_well]
 name=Old well
 desc=There is a rope leading to the bottom of this well.
-model=model_loc_403
+model=graveyard_loc_403
 retex1s=wall
 retex1d=door
 recol2s=6342

@@ -100,9 +100,9 @@ if ((last_useitem = tbwt_monkey_corpse) | (last_useitem = tbwt_seaweed_in_monkey
     } else {
         def_obj $spear = last_useitem;
 
-        %tbwt_bits = clearbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear);
-        %tbwt_bits = clearbit(%tbwt_bits, ^tbwt_tamayu_received_poisoned_spear);
-        %tbwt_bits = clearbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear);
+        %tbwt_flags = clearbit(%tbwt_flags, ^tbwt_tamayu_received_acceptable_spear);
+        %tbwt_flags = clearbit(%tbwt_flags, ^tbwt_tamayu_received_poisoned_spear);
+        %tbwt_flags = clearbit(%tbwt_flags, ^tbwt_tamayu_received_kp_spear);
 
         // Interestingly, in OSRS as of Apr 2026, Bronze Spear (p+) & (p++) sets '^tbwt_tiadeche_tamayu_received_acceptable_spear' too
         // We don't have (p+, or p++) variants yet in 274 though, so no action taken.
@@ -110,18 +110,18 @@ if ((last_useitem = tbwt_monkey_corpse) | (last_useitem = tbwt_seaweed_in_monkey
         if ($spear = bronze_spear) {
             // Bronze spear does nothing
         } else if ($spear = bronze_spear_p) {
-            %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_poisoned_spear);
+            %tbwt_flags = setbit(%tbwt_flags, ^tbwt_tamayu_received_poisoned_spear);
         } else if ($spear = tbwt_bronze_spear_kp) {
-            %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear);
+            %tbwt_flags = setbit(%tbwt_flags, ^tbwt_tamayu_received_kp_spear);
         } else {
-            %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear);
+            %tbwt_flags = setbit(%tbwt_flags, ^tbwt_tamayu_received_acceptable_spear);
 
             if (oc_param($spear, poison_severity) > 0) {
-                %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_poisoned_spear);
+                %tbwt_flags = setbit(%tbwt_flags, ^tbwt_tamayu_received_poisoned_spear);
             }
 
             if (oc_param($spear, tbwt_karambwan_poison) = ^true) {
-                %tbwt_bits = setbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear);
+                %tbwt_flags = setbit(%tbwt_flags, ^tbwt_tamayu_received_kp_spear);
             }
         }
 
@@ -202,7 +202,7 @@ if_close;
 [label,tbwt_tamayu_cutscene]
 def_boolean $killing_hunt = false;
 def_int $delay = 3;
-if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true & testbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear) = ^true & ~get_tbwt_tamayu_agility_count >= 4) {
+if (testbit(%tbwt_flags, ^tbwt_tamayu_received_acceptable_spear) = ^true & testbit(%tbwt_flags, ^tbwt_tamayu_received_kp_spear) = ^true & ~get_tbwt_tamayu_agility_count >= 4) {
     $killing_hunt = true;
 }
 %tbwt_tamayu = ^tbwt_tamayu_watched_cutscene;
@@ -346,11 +346,11 @@ switch_int(random(2)) {
         .npc_anim(lion_attack, 0);
         huntall(npc_coord, 3, 0);
         while (huntnext = true) {
-            sound_synth(beast_attack, 0, 0);
+            sound_synth(beast_attack, 1, 0);
             switch_int(random(3)){
-                case 0 : sound_synth(human_hit2, 0, 0);
-                case 1 : sound_synth(human_hit4, 0, 0);
-                case 2 : sound_synth(human_hit_7, 0, 0);
+                case 0 : sound_synth(human_hit2, 1, 0);
+                case 1 : sound_synth(human_hit4, 1, 0);
+                case 2 : sound_synth(human_hit_7, 1, 0);
             }
         }
     case 1 : 
@@ -358,8 +358,8 @@ switch_int(random(2)) {
         .npc_anim(lion_block, 0);
         huntall(npc_coord, 3, 0);
         while (huntnext = true) {
-            sound_synth(beast_hit, 0, 0);
-            sound_synth(staff_stab, 0, 0);
+            sound_synth(beast_hit, 1, 0);
+            sound_synth(staff_stab, 1, 0);
         }
 }
 %npc_lastcombat = map_clock;
@@ -375,7 +375,7 @@ if (~get_tbwt_tamayu_agility_count < 1) {
 @tbwt_tamayu_assess_damage;
 
 [label,tbwt_tamayu_assess_damage]
-if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
+if (testbit(%tbwt_flags, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
     ~chatnpc("<p,angry>I can do enough damage...");
 } else {
     ~chatnpc("<p,angry>I cannot do enough damage with this spear...");
@@ -383,20 +383,20 @@ if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
 @tbwt_tamayu_assess_health;
 
 [label,tbwt_tamayu_assess_health]
-if (testbit(%tbwt_bits, ^tbwt_tamayu_received_kp_spear) = ^true) {
-    if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
+if (testbit(%tbwt_flags, ^tbwt_tamayu_received_kp_spear) = ^true) {
+    if (testbit(%tbwt_flags, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
         ~chatnpc("<p,angry>... and it does seem extremely sick!");
     } else {
         ~chatnpc("<p,angry>... but it does seem extremely sick!");
     }
-} else if (testbit(%tbwt_bits, ^tbwt_tamayu_received_poisoned_spear) = ^true) {
-    if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
+} else if (testbit(%tbwt_flags, ^tbwt_tamayu_received_poisoned_spear) = ^true) {
+    if (testbit(%tbwt_flags, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
         ~chatnpc("<p,angry>... and  it does seem quite sick! Perhaps another poison would be more effective?");
     } else {
         ~chatnpc("<p,angry>... but  it does seem quite sick! Perhaps another poison would be more effective?");
     }
 } else {
-    if (testbit(%tbwt_bits, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
+    if (testbit(%tbwt_flags, ^tbwt_tamayu_received_acceptable_spear) = ^true) {
         ~chatnpc("<p,angry>... but  it seems to be healing too quickly!");
     } else {
         ~chatnpc("<p,angry>... and  it seems to be healing too quickly!");

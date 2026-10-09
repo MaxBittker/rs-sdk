@@ -40,24 +40,28 @@ export class RouteFinder {
         this.collisionFlags.changeFloor(x, z, y, add);
     }
 
-    changeLoc(x: number, z: number, y: number, width: number, length: number, blockrange: boolean, breakroutefinding: boolean, add: boolean): void {
-        this.collisionFlags.changeLoc(x, z, y, width, length, blockrange, breakroutefinding, add);
+    changeLoc(x: number, z: number, y: number, width: number, length: number, blockrange: boolean, add: boolean): void {
+        this.collisionFlags.changeLoc(x, z, y, width, length, blockrange, add);
     }
 
     changeNpc(x: number, z: number, y: number, size: number, add: boolean): void {
         this.collisionFlags.changeNpc(x, z, y, size, add);
     }
 
-    changePlayer(x: number, z: number, y: number, size: number, add: boolean): void {
-        this.collisionFlags.changePlayer(x, z, y, size, add);
+    changeBlock(x: number, z: number, y: number, size: number, add: boolean): void {
+        this.collisionFlags.changeBlock(x, z, y, size, add);
+    }
+
+    changePlayerOcc(x: number, z: number, y: number, size: number, add: boolean): void {
+        this.collisionFlags.changePlayerOcc(x, z, y, size, add);
     }
 
     changeRoof(x: number, z: number, y: number, add: boolean): void {
         this.collisionFlags.changeRoof(x, z, y, add);
     }
 
-    changeWall(x: number, z: number, y: number, angle: number, shape: number, blockrange: boolean, breakroutefinding: boolean, add: boolean): void {
-        this.collisionFlags.changeWall(x, z, y, angle, shape, blockrange, breakroutefinding, add);
+    changeWall(x: number, z: number, y: number, angle: number, shape: number, blockrange: boolean, add: boolean): void {
+        this.collisionFlags.changeWall(x, z, y, angle, shape, blockrange, add);
     }
 
     allocateIfAbsent(x: number, z: number, y: number): void {
@@ -118,7 +122,8 @@ export const findNaivePath = routefinder.findNaivePath.bind(routefinder);
 export const changeFloor = routefinder.changeFloor.bind(routefinder);
 export const changeLoc = routefinder.changeLoc.bind(routefinder);
 export const changeNpc = routefinder.changeNpc.bind(routefinder);
-export const changePlayer = routefinder.changePlayer.bind(routefinder);
+export const changeBlock = routefinder.changeBlock.bind(routefinder);
+export const changePlayerOcc = routefinder.changePlayerOcc.bind(routefinder);
 export const changeRoof = routefinder.changeRoof.bind(routefinder);
 export const changeWall = routefinder.changeWall.bind(routefinder);
 export const allocateIfAbsent = routefinder.allocateIfAbsent.bind(routefinder);

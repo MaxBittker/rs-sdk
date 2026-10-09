@@ -10,7 +10,7 @@ if (%priestperil = ^priestperil_access_holy_barrier) {
 
 [oploc1,pipeastsidetrapdoor]
 mes("The trapdoor opens...");
-sound_synth(door_open, 0, 0);
+sound_synth(door_open, 1, 0);
 loc_change(pipeastsidetrapdoor_open, 500);
 
 [oploc1,pipeastsidetrapdoor_open]
@@ -21,5 +21,5 @@ p_telejump(0_53_154_48_31);
 
 [oploc2,pipeastsidetrapdoor_open]
 mes("You close the trapdoor.");
-sound_synth(door_close, 0,0 );
+sound_synth(door_close, 1, 0 );
 loc_change(pipeastsidetrapdoor, 500);

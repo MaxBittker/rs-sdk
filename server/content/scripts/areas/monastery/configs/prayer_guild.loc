@@ -1,7 +1,7 @@
 [monasteryladder]
 name=Ladder
 desc=I can climb this.
-model=model_loc_11
+model=furniture_ladder
 active=yes
 op1=Climb-up
 mapscene=7
@@ -9,7 +9,7 @@ mapscene=7
 [monks_altar]
 name=Altar
 desc=A shrine for the faithful to worship at.
-model=model_loc_409
+model=furniture_altar
 width=2
 op1=Pray-at
 category=prayer_altar

@@ -459,16 +459,13 @@ data=stat_change,attack,-1,-10
 data=continue_by_autocast,false
 
 [magic_spell_crumble_undead]
-// damage was increased, xp was decreased in dec 2004 https://oldschool.runescape.wiki/w/Update:Various_Small_Changes.
-// fansites say it had a base xp of 49
-// only one fansite has the maxhit (8), it seems credible: https://web.archive.org/web/20050416144009/http://www.trillionareguild.com/runescape/magic.php
 table=magic_spell_table
 data=spell,^crumble_undead
 data=spellcom,magic:crumble_undead
 data=members,false
 data=levelrequired,39
 data=runesrequired,chaosrune,1,airrune,2,earthrune,2
-data=experience,490
+data=experience,245
 data=anim,human_castcrumbleundead
 data=staffanim,human_castcrumbleundead_staff
 data=spotanim_origin,crumbleundead_casting
@@ -476,7 +473,7 @@ data=spotanim_proj,crumbleundead_travel,31,31,46,16,0,64,5
 data=spotanim_target,crumbleundead_impact,124
 data=sound_success,crumble_all
 data=continue_by_autocast,true
-data=maxhit,8
+data=maxhit,15
 
 [magic_spell_saradomin_strike]
 table=magic_spell_table
@@ -580,3 +577,36 @@ data=spotanim_target,nezik_flamestrike,0
 data=sound_success,earth_strike_all
 data=sound_fail,earth_strike_fail
 data=continue_by_autocast,false
+
+[magic_spell_saradomin_strike_npc]
+table=magic_spell_table
+data=spell,^saradomin_strike_npc
+data=levelrequired,0
+data=anim,human_casting
+data=spotanim_target,saradomin_lightning,128
+data=sound_success,saradomin_strike
+data=sound_fail,saradomin_strike_fail
+data=continue_by_autocast,true
+data=maxhit,20
+
+[magic_spell_claws_of_guthix_npc]
+table=magic_spell_table
+data=spell,^claws_of_guthix_npc
+data=levelrequired,0
+data=anim,human_casting
+data=spotanim_target,gunthix_claw,96
+data=sound_success,claws_of_guthix
+data=sound_fail,claws_of_guthix_fail
+data=continue_by_autocast,true
+data=maxhit,20
+
+[magic_spell_flames_of_zamorak_npc]
+table=magic_spell_table
+data=spell,^flames_of_zamorak_npc
+data=levelrequired,0
+data=anim,human_casting
+data=spotanim_target,zamorak_flame,0
+data=sound_success,flames_of_zamorak
+data=sound_fail,flames_of_zamorak_fail
+data=continue_by_autocast,true
+data=maxhit,20

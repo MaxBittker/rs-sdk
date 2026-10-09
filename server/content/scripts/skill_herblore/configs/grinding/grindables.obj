@@ -1,7 +1,5 @@
-// jagex name
-
 [unicorn_horn]
-model=model_2495_obj
+model=inv_unicornhorn
 2dxof=4
 2dyof=-8
 2dzoom=840
@@ -14,14 +12,13 @@ name=Unicorn horn
 desc=This horn has restorative properties.
 param=grindable_ingredient_refined,unicorn_horn_dust
 param=grindable_ingredient_message,You grind the unicorn horn to dust.
-// jagex name
 
 [blue_dragon_scale]
 cost=50
 members=yes
 name=Blue dragon scale
 desc=A large shiny scale.
-model=model_2761_obj
+model=inv_dragonscale
 2dxof=7
 2dzoom=1370
 2dyan=148

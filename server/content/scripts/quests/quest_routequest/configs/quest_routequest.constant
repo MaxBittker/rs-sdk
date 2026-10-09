@@ -1,0 +1,27 @@
+^routequest_not_started = 0
+^routequest_started = 5
+^routequest_spoke_to_boatman = 10
+^routequest_boatman_agreed = 15
+^routequest_boatman_repaired = 20
+^routequest_entered_hollowed = 25
+^routequest_found_guard = 52
+^routequest_answered_questions = 55
+^routequest_entered_underground = 60
+^routequest_introduced_veliaf = 65
+// vvv - possibly osrs-only state?
+//^routequest_gave_weapons = 67
+^routequest_enter_cutscene = 70
+// osrs also uses 71-79 that get all pushed in same tick as 80 after cutscene.
+^routequest_ambush = 80
+^routequest_saved_myreque = 85
+^routequest_told_exit_route = 90
+^routequest_discovered_wall = 95
+^routequest_found_exit = 97
+^routequest_spoke_to_stranger = 100
+// osrs also uses 110, then skips 105->110 in same tick.
+
+^route_myreque_sani = 0
+^route_myreque_harold = 1
+^route_myreque_radigrad = 2
+^route_myreque_polmafi = 3
+^route_myreque_ivan = 4

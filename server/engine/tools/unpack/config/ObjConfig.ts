@@ -89,8 +89,6 @@ export function unpackObjConfig(config: ConfigIdx, id: number, compare?: ConfigI
         } else if (code === 8) {
             const yof2d = dat.g2s();
             def.push(`2dyof=${yof2d}`);
-        } else if (code === 9) {
-            def.push('code9=yes');
         } else if (code === 10) {
             const seqId = dat.g2();
 
@@ -275,6 +273,9 @@ export function unpackObjConfig(config: ConfigIdx, id: number, compare?: ConfigI
         } else if (code === 114) {
             const contrast = dat.g1b();
             def.push(`contrast=${contrast}`);
+        } else if (code === 115) {
+            const team = dat.g1();
+            def.push(`team=${team}`);
         } else {
             printWarning(`unknown obj code ${code}`);
         }

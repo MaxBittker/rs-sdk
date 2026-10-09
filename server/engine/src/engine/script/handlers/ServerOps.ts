@@ -269,126 +269,69 @@ const ServerOps: CommandHandlers = {
         state.pushInt(0);
     },
 
+    // Picks a random walkable tile in the square ring [minRadius, maxRadius] (Chebyshev distance)
+    // around `coord`. `type` controls reachability: NONE = any open tile, LINEOFWALK / LINEOFSIGHT =
+    // the tile must also have a clear walk/sight path back to the origin. Returns the input coord
+    // unchanged when no tile qualifies (caller treats "result === coord" as "no square found").
     [ScriptOpcode.MAP_FINDSQUARE]: state => {
         const [coord, minRadius, maxRadius, type] = state.popInts(4);
         check(minRadius, NumberPositive);
         check(maxRadius, NumberPositive);
         check(type, FindSquareValid);
         const origin: CoordGrid = check(coord, CoordValid);
+        // On F2P nodes, members-only tiles are rejected as candidates further down.
         const freeWorld = !Environment.node.members;
-        if (maxRadius < 10) {
-            if (type === MapFindSquareType.NONE) {
-                for (let i = 0; i < 50; i++) {
-                    const distX = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distZ = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distance = Math.max(Math.abs(distX), Math.abs(distZ));
-                    if (distance < minRadius || distance > maxRadius) {
-                        continue;
-                    }
-                    const randomX = origin.x + distX;
-                    const randomZ = origin.z + distZ;
-                    if (freeWorld && !World.gameMap.isFreeToPlay(randomX, randomZ)) {
-                        continue;
-                    }
-                    if (!isMapBlocked(randomX, randomZ, origin.level)) {
-                        state.pushInt(CoordGrid.packCoord(origin.level, randomX, randomZ));
-                        return;
-                    }
-                }
-            } else if (type === MapFindSquareType.LINEOFWALK) {
-                for (let i = 0; i < 50; i++) {
-                    const distX = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distZ = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distance = Math.max(Math.abs(distX), Math.abs(distZ));
-                    if (distance < minRadius || distance > maxRadius) {
-                        continue;
-                    }
-                    const randomX = origin.x + distX;
-                    const randomZ = origin.z + distZ;
-                    if (freeWorld && !World.gameMap.isFreeToPlay(randomX, randomZ)) {
-                        continue;
-                    }
-                    if (isLineOfWalk(origin.level, randomX, randomZ, origin.x, origin.z) && !isMapBlocked(randomX, randomZ, origin.level)) {
-                        state.pushInt(CoordGrid.packCoord(origin.level, randomX, randomZ));
-                        return;
-                    }
-                }
-            } else if (type === MapFindSquareType.LINEOFSIGHT) {
-                for (let i = 0; i < 50; i++) {
-                    const distX = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distZ = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distance = Math.max(Math.abs(distX), Math.abs(distZ));
-                    if (distance < minRadius || distance > maxRadius) {
-                        continue;
-                    }
-                    const randomX = origin.x + distX;
-                    const randomZ = origin.z + distZ;
-                    if (freeWorld && !World.gameMap.isFreeToPlay(randomX, randomZ)) {
-                        continue;
-                    }
-                    if (isLineOfSight(origin.level, randomX, randomZ, origin.x, origin.z) && !isMapBlocked(randomX, randomZ, origin.level)) {
-                        state.pushInt(CoordGrid.packCoord(origin.level, randomX, randomZ));
-                        return;
-                    }
-                }
+
+        // The reachability gate for a candidate tile back to the origin. Checked last in the loop
+        // because line-of-walk/sight tracing is far more expensive than the other filters, so we
+        // only pay for it on tiles that already passed the cheap checks.
+        const passesType = (x: number, z: number): boolean => {
+            if (type === MapFindSquareType.LINEOFWALK) {
+                return isLineOfWalk(origin.level, x, z, origin.x, origin.z);
             }
-        } else {
-            // west bias (imps)
-            if (type === MapFindSquareType.NONE) {
-                for (let x = origin.x - maxRadius; x <= origin.x + maxRadius; x++) {
-                    const distX = x - origin.x;
-                    const distZ = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distance = Math.max(Math.abs(distX), Math.abs(distZ));
-                    if (distance < minRadius || distance > maxRadius) {
-                        continue;
-                    }
-                    const randomZ = origin.z + distZ;
-                    if (freeWorld && !World.gameMap.isFreeToPlay(x, randomZ)) {
-                        continue;
-                    }
-                    if (!isMapBlocked(x, randomZ, origin.level) && !CoordGrid.isWithinDistanceSW({ x: x, z: randomZ }, origin, minRadius)) {
-                        state.pushInt(CoordGrid.packCoord(origin.level, x, randomZ));
-                        return;
-                    }
+            if (type === MapFindSquareType.LINEOFSIGHT) {
+                return isLineOfSight(origin.level, x, z, origin.x, origin.z);
+            }
+            return true; // NONE: no reachability requirement
+        };
+
+        const MAX_TILES = 100;
+        const eligible: number[] = [];
+
+        // Loop every tile, break at MAX_TILES
+        outer: for (let x = origin.x - maxRadius; x <= origin.x + maxRadius; x++) {
+            for (let z = origin.z - maxRadius; z <= origin.z + maxRadius; z++) {
+                // Restrict the bounding box to the ring: skip the inner hole and anything past maxRadius.
+                const distance = Math.max(Math.abs(x - origin.x), Math.abs(z - origin.z));
+                if (distance < minRadius || distance > maxRadius) {
+                    continue;
                 }
-            } else if (type === MapFindSquareType.LINEOFWALK) {
-                for (let x = origin.x - maxRadius; x <= origin.x + maxRadius; x++) {
-                    const distX = x - origin.x;
-                    const distZ = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distance = Math.max(Math.abs(distX), Math.abs(distZ));
-                    if (distance < minRadius || distance > maxRadius) {
-                        continue;
-                    }
-                    const randomZ = origin.z + distZ;
-                    if (freeWorld && !World.gameMap.isFreeToPlay(x, randomZ)) {
-                        continue;
-                    }
-                    if (isLineOfWalk(origin.level, x, randomZ, origin.x, origin.z) && !isMapBlocked(x, randomZ, origin.level) && !CoordGrid.isWithinDistanceSW({ x: x, z: randomZ }, origin, minRadius)) {
-                        state.pushInt(CoordGrid.packCoord(origin.level, x, randomZ));
-                        return;
-                    }
+                // F2P node: discard members-only tiles.
+                if (freeWorld && !World.gameMap.isFreeToPlay(x, z)) {
+                    continue;
                 }
-            } else if (type === MapFindSquareType.LINEOFSIGHT) {
-                for (let x = origin.x - maxRadius; x <= origin.x + maxRadius; x++) {
-                    const distX = x - origin.x;
-                    const distZ = Math.floor(Math.random() * (2 * maxRadius + 1)) - maxRadius;
-                    const distance = Math.max(Math.abs(distX), Math.abs(distZ));
-                    if (distance < minRadius || distance > maxRadius) {
-                        continue;
-                    }
-                    const randomZ = origin.z + distZ;
-                    if (freeWorld && !World.gameMap.isFreeToPlay(x, randomZ)) {
-                        continue;
-                    }
-                    if (isLineOfSight(origin.level, x, randomZ, origin.x, origin.z) && !isMapBlocked(x, randomZ, origin.level) && !CoordGrid.isWithinDistanceSW({ x: x, z: randomZ }, origin, minRadius)) {
-                        state.pushInt(CoordGrid.packCoord(origin.level, x, randomZ));
-                        return;
-                    }
+                // Must be a standable tile (no collision).
+                if (isMapBlocked(x, z, origin.level)) {
+                    continue;
+                }
+                // Finally the (costly) reachability requirement for this `type`.
+                if (!passesType(x, z)) {
+                    continue;
+                }
+                eligible.push(CoordGrid.packCoord(origin.level, x, z));
+                if (eligible.length >= MAX_TILES) {
+                    break outer;
                 }
             }
         }
 
-        state.pushInt(coord);
+        // No qualifying tile: hand back the original coord so the caller can detect the failure.
+        if (eligible.length === 0) {
+            state.pushInt(coord);
+            return;
+        }
+        // Uniform roll among the collected candidates.
+        state.pushInt(eligible[Math.floor(Math.random() * eligible.length)]);
     },
 
     [ScriptOpcode.MAP_MULTIWAY]: state => {

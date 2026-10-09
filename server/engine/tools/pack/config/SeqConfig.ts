@@ -9,7 +9,7 @@ export function parseSeqConfig(key: string, value: string): ConfigValue | null |
     ];
     // prettier-ignore
     const booleanKeys = [
-        'stretches'
+        'reachforward'
     ];
 
     if (stringKeys.includes(key)) {
@@ -133,7 +133,7 @@ export function parseSeqConfig(key: string, value: string): ConfigValue | null |
         } else {
             return null;
         }
-    } else if (key === 'duplicatebehavior') {
+    } else if (key === 'duplicatebehaviour') {
         if (value === '0') {
             return 0;
         } else if (value === 'reset') {
@@ -184,7 +184,7 @@ export function packSeqConfigs(configs: Map<string, ConfigLine[]>): { client: Pa
                     for (let i = 0; i < labels.length; i++) {
                         client.p1(labels[i]);
                     }
-                } else if (key === 'stretches') {
+                } else if (key === 'reachforward') {
                     if (value === true) {
                         client.p1(4);
                     }
@@ -206,7 +206,7 @@ export function packSeqConfigs(configs: Map<string, ConfigLine[]>): { client: Pa
                 } else if (key === 'postanim_move') {
                     client.p1(10);
                     client.p1(value as number);
-                } else if (key === 'duplicatebehavior') {
+                } else if (key === 'duplicatebehaviour') {
                     client.p1(11);
                     client.p1(value as number);
                 }

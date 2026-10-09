@@ -2,7 +2,7 @@
 name=Gold ring
 desc=A valuable ring.
 cost=350
-model=model_2784_obj
+model=inv_ring_no_gem
 recol1s=32767
 recol1d=22241
 2dxof=3
@@ -22,7 +22,7 @@ param=crafting_jewelry_struct,gold_ring
 name=Sapphire ring
 desc=A valuable ring.
 cost=900
-model=model_2677_obj
+model=inv_ring
 recol1s=32767
 recol1d=23
 2dxof=3
@@ -40,7 +40,7 @@ category=category_656
 name=Emerald ring
 desc=A valuable ring.
 cost=1275
-model=model_2677_obj
+model=inv_ring
 recol1s=32767
 recol1d=672
 2dxof=3
@@ -58,7 +58,7 @@ category=category_656
 name=Ruby ring
 desc=A valuable ring.
 cost=2025
-model=model_2677_obj
+model=inv_ring
 recol1s=32767
 recol1d=30753
 2dxof=3
@@ -77,7 +77,7 @@ respawnrate=500
 name=Diamond ring
 desc=A valuable ring.
 cost=3525
-model=model_2677_obj
+model=inv_ring
 2dxof=3
 2dyof=-35
 2dzoom=830
@@ -93,7 +93,7 @@ category=category_656
 name=Dragonstone ring
 desc=A valuable ring.
 cost=17625
-model=model_2677_obj
+model=inv_ring
 recol1s=32767
 recol1d=12307
 2dxof=3
@@ -109,7 +109,7 @@ weight=6g
 category=category_656
 
 [black_ring]
-model=model_2677_obj
+model=inv_ring
 recol1s=32767
 recol1d=4228
 recol2s=31457
@@ -124,30 +124,31 @@ dummyitem=inv_only
 
 [invis_ring1]
 name=Sapphire ring
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,sapphire_ring
 dummyitem=inv_only
 
 [invis_ring2]
 name=Emerald ring
-model=model_loc_2733_0
+desc=It's an Emerald ring
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,emerald_ring
 dummyitem=inv_only
 
 [invis_ring3]
 name=Ruby ring
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,ruby_ring
 dummyitem=inv_only
 
 [invis_ring4]
 name=Diamond ring
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,diamond_ring
 dummyitem=inv_only
 
 [invis_ring5]
 name=Dragonstone ring
-model=model_loc_2733_0
+model=floor_invisableicon_0
 param=crafting_jewelry_struct,dragonstone_ring
 dummyitem=inv_only

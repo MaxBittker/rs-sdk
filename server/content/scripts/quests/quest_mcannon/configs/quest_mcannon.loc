@@ -20,7 +20,7 @@ blockwalk=no
 [multicannon_base]
 name=Cannon base
 desc=The cannon is built on here.
-model=model_loc_7
+model=quest_loc_7
 length=3
 width=3
 op1=Pick-up
@@ -29,7 +29,7 @@ blockwalk=no
 [multicannon_stand]
 name=Cannon stand
 desc=The mounting for the muticannon.
-model=model_loc_8
+model=quest_loc_8
 length=3
 width=3
 op1=Pick-up
@@ -38,7 +38,7 @@ blockwalk=no
 [multicannon_barrels]
 name=Cannon base
 desc=The barrels of the multicannon.
-model=model_loc_9
+model=quest_loc_9
 length=3
 width=3
 op1=Pick-up
@@ -47,7 +47,7 @@ blockwalk=no
 [mcannondoor]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -59,7 +59,7 @@ param=next_loc_stage,elenagateopen
 [mcannondoor1]
 name=Door
 desc=The door is closed.
-model=model_loc_3
+model=basic_wall
 active=yes
 op1=Open
 retex1s=wall
@@ -71,7 +71,7 @@ param=next_loc_stage,elenagateopen
 [mcannonplain]
 name=Railing
 desc=Solid bars of iron.
-model=model_loc_14
+model=fence_railing
 sharelight=yes
 hillskew=yes
 blockrange=no
@@ -80,7 +80,7 @@ op1=Inspect
 [mcannonrailing1]
 name=Railing
 desc=There is a hole in this section of the railing.
-model=model_loc_14
+model=fence_railing
 sharelight=yes
 hillskew=yes
 blockrange=no
@@ -89,7 +89,7 @@ op1=Inspect
 [mcannonrailing2]
 name=Railing
 desc=There is a hole in this section of the railing.
-model=model_loc_14
+model=fence_railing
 sharelight=yes
 hillskew=yes
 blockrange=no
@@ -98,7 +98,7 @@ op1=Inspect
 [mcannonrailing3]
 name=Railing
 desc=There is a hole in this section of the railing.
-model=model_loc_14
+model=fence_railing
 sharelight=yes
 hillskew=yes
 blockrange=no
@@ -107,7 +107,7 @@ op1=Inspect
 [mcannonrailing4]
 name=Railing
 desc=There is a hole in this section of the railing.
-model=model_loc_14
+model=fence_railing
 sharelight=yes
 hillskew=yes
 blockrange=no
@@ -116,7 +116,7 @@ op1=Inspect
 [mcannonrailing5]
 name=Railing
 desc=There is a hole in this section of the railing.
-model=model_loc_14
+model=fence_railing
 sharelight=yes
 hillskew=yes
 blockrange=no
@@ -125,7 +125,7 @@ op1=Inspect
 [mcannonrailing6]
 name=Railing
 desc=There is a hole in this section of the railing.
-model=model_loc_14
+model=fence_railing
 sharelight=yes
 hillskew=yes
 blockrange=no
@@ -134,7 +134,7 @@ op1=Inspect
 [mcannoncave]
 name=Cave Entrance
 desc=The entrance to the Goblin's cave.
-model=model_loc_2
+model=cave_entrance3
 width=4
 length=2
 op1=Enter
@@ -143,7 +143,7 @@ op1=Enter
 [mcanmudpile]
 name=Mud pile
 desc=Mud caved in from above.
-model=model_loc_13
+model=outdoorfurniture_mudpile
 length=2
 shadow=no
 blockrange=no

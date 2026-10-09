@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 
 import FileStream from '#/io/FileStream.js';
 import Jagfile from '#/io/Jagfile.js';
@@ -6,6 +7,7 @@ import Packet from '#/io/Packet.js';
 import { AnimPack, AnimSetPack, MapPack, MidiPack, ModelPack } from '#tools/pack/PackFile.js';
 import Environment from '#/util/Environment.js';
 import { fileExists } from '#tools/pack/FsCache.js';
+import { listFilesExt } from '#tools/pack/Parse.js';
 import { shouldBuild, shouldBuildFile, shouldBuildFileAny } from '#tools/pack/PackFile.js';
 
 export function shouldRebuildVersionListPack() {
@@ -96,19 +98,28 @@ export function packClientVersionList(cache: FileStream, modelFlags: number[]) {
     const animVersion = Packet.alloc(3);
     const animCrc = Packet.alloc(4);
     const animIndex = Packet.alloc(3);
+    const frameBase = new Uint16Array(AnimPack.max);
+    const animFiles = new Map(listFilesExt(`${Environment.build.srcDir}/models`, '.anim').map(file => [path.basename(file, '.anim'), file]));
     for (let id = 0; id < AnimSetPack.max; id++) {
         const data = cache.read(2, id);
         if (data) {
             animVersion.p2(1);
             animCrc.p4(Packet.getcrc(data, 0, data.length - 2));
+
+            const name = AnimSetPack.getById(id);
+            const anim = new Packet(fs.readFileSync(animFiles.get(name)!));
+            const frameCount = anim.g2();
+            for (let frame = 0; frame < frameCount; frame++) {
+                frameBase[anim.g2()] = id + 1;
+                anim.pos++; // group count
+            }
         } else {
             animVersion.p2(0);
             animCrc.p4(0);
         }
     }
     for (let id = 0; id < AnimPack.max; id++) {
-        // todo: i think this is each frame's animset file
-        animIndex.p2(0);
+        animIndex.p2(frameBase[id]);
     }
     versionlist.write('anim_version', animVersion);
     versionlist.write('anim_crc', animCrc);

@@ -59,7 +59,7 @@ if(inv_freespace(inv) = 0) {
 }
 // https://youtu.be/ycZSArj7FPE?si=1xWhMae0wYMdxJxx&t=440, osrs changed it to delay -> give branch, used to be the opposite
 anim(oc_param($axe, woodcutting_anim), 0);
-sound_synth(woodchop_4,0,10);
+sound_synth(woodchop_4, 1, 10);
 mes("You cut a branch from the Dramen tree.");
 if(%zanaris = ^zanaris_spirit_defeated) { // probably for quest journal
     %zanaris = ^zanaris_tree_chopped;
@@ -88,7 +88,7 @@ inv_add(inv, dramen_staff, 1);
 
 [oploc1,zanarisdoor]
 def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
-~open_and_close_door2(desertdoor_inactive, $entering, door_open);
+~open_and_close_door2(loc_1532, $entering, door_open);
 if($entering = false) {
     if(inv_total(worn, dramen_staff) > 0 & map_members = ^true) {
         mes("The world starts to shimmer..."); // not sure what seq/spotanim would've been played here, just going to assume it was like a normal tele
@@ -103,4 +103,4 @@ if($entering = false) {
 [queue,zanaris_quest_complete]
 %zanaris = ^zanaris_complete;
 session_log(^log_adventure, "Quest complete: Lost City");
-~send_quest_complete(questlist:zanaris, coins, 250, ^zanaris_questpoints, "You have completed the\\nLost City of Zanaris Quest!");
+~send_quest_complete(questlist:zanaris, coins, 260, ^zanaris_questpoints, "You have completed the\\nLost City Of Zanaris Quest!");
