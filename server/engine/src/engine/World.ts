@@ -931,6 +931,7 @@ class World {
 
                     if (other instanceof NetworkPlayer && player instanceof NetworkPlayer) {
                         other.client = player.client;
+                        other.client.player = other;
                         other.session = other.client.uuid;
                         other.client.send(Uint8Array.from([15]));
                     }

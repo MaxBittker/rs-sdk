@@ -178,7 +178,7 @@ export const websocketHandlers = {
         client.state = -1;
         client.discard();
 
-        if (client.player) {
+        if (client.player && client.player.client === client) {
             client.player.addSessionLog(LoggerEventType.ENGINE, 'WS socket closed');
             client.player.client = new NullClientSocket();
         }
