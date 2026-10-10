@@ -163,3 +163,24 @@ function isInAlKharid() {
     return player.worldX >= 3267 && player.worldZ < 3220;
 }
 ```
+
+## Al Kharid Toll Gate: a hazard for pathing, not just a fee
+
+Three failure modes observed around the gate at (3268, 3227)-(3268, 3228):
+
+1. **Do not let walkTo route through it.** The pathfinder auto-opens doors on
+   the path; "opening" this gate pops the 10gp payment dialog with no handler
+   in scope and the walk stalls there indefinitely.
+2. **The payment dialog's options are 1-based** ("No thank you" = 1,
+   "Who does my money go to?" = 2, "Yes, ok." = 3). A naive
+   `sendClickDialog(0)` does nothing, forever. Use
+   `bot.navigateDialog([/yes, ok/i])` or click `option.index` from
+   `dialog.options`.
+3. **A bot can get wedged into the fence column** (seen at (3268, 3226)) with
+   a ghost dialog the server no longer accepts clicks for; movement is
+   rejected too. Only known recovery: disconnect the client, wait for the
+   character to fully log out (inGame: false), and log back in.
+
+Cross deliberately: walk to (3266, 3227) / (3270, 3227), interact the gate,
+answer the dialog by text, then verify worldX actually changed sides before
+continuing. Budget 10gp each way.
