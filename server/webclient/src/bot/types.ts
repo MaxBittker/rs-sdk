@@ -42,6 +42,9 @@ export const TRADE_CONFIRM_OTHER_INV2_ID = 3539; // tradeconfirm:otherinv2 - par
 export const TRADE_CONFIRM_STATUS_TEXT_ID = 3535; // tradeconfirm:com_91 - "Are you sure..."/"Waiting for other player."/"Other player has accepted."
 export const TRADE_CONFIRM_ACCEPT_ID = 3546; // tradeconfirm:accept - IF_BUTTON
 
+// Quest journal tab: questlist (638) holds layer com_0 (639), one text line per quest
+export const QUEST_LIST_ID = 638;
+
 // Interfaces for state data
 export interface SkillState {
     name: string;
@@ -387,6 +390,15 @@ export interface PrayerState {
     prayerLevel: number;
 }
 
+/** A quest's progress as the quest journal tab colours it: red, yellow or green. */
+export type QuestStatus = 'not_started' | 'in_progress' | 'complete';
+
+export interface QuestState {
+    /** The quest's name as the quest journal tab lists it, e.g. "Cook's Assistant". */
+    name: string;
+    status: QuestStatus;
+}
+
 /**
  * Evidence that the server discarded an op instead of running it, which it
  * otherwise does completely silently. A strong hint, not a proof: the server
@@ -445,6 +457,10 @@ export interface BotState {
     isSkulled: boolean;
     /** Authoritative client varp 172: server auto-retaliation is enabled. */
     autoRetaliateEnabled: boolean;
+    /** Every quest in the quest journal tab, in tab order, with its progress colour. */
+    quests: QuestState[];
+    /** Authoritative client varp 101: quest points. */
+    questPoints: number;
     /** Whether the server accepted or silently discarded recent ops */
     opFeedback: OpFeedbackState;
 }

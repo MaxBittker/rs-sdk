@@ -524,6 +524,15 @@ export interface PrayerState {
     prayerLevel: number;
 }
 
+/** A quest's progress as the quest journal tab colours it: red, yellow or green. */
+export type QuestStatus = 'not_started' | 'in_progress' | 'complete';
+
+export interface QuestState {
+    /** The quest's name as the quest journal tab lists it, e.g. "Cook's Assistant". */
+    name: string;
+    status: QuestStatus;
+}
+
 export interface PrayerResult {
     success: boolean;
     message: string;
@@ -588,6 +597,13 @@ export interface BotWorldState {
     isSkulled?: boolean;
     /** Absent when the connected client predates authoritative auto-retaliate telemetry. */
     autoRetaliateEnabled?: boolean;
+    /**
+     * Every quest in the quest journal tab, in tab order, with its progress
+     * colour. Absent when the connected client predates quest telemetry.
+     */
+    quests?: QuestState[];
+    /** Quest points (varp 101). Absent when the connected client predates quest telemetry. */
+    questPoints?: number;
     /** Absent when the connected client predates the signal. */
     opFeedback?: OpFeedbackState;
 }
