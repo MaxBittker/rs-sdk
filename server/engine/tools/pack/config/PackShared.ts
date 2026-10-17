@@ -311,7 +311,8 @@ export async function readConfigs(
     const { client, server } = pack(configs, modelFlags);
 
     if (Environment.build.verify && validate && !validate(client.dat, server.dat)) {
-        throw new Error(`${extension} checksum mismatch!\nYou can disable this safety check by setting BUILD_VERIFY=false`);
+        // rs-sdk: print the packed CRC, so updating a validator after a content change is a copy-paste.
+        throw new Error(`${extension} checksum mismatch (packed ${Packet.getcrc(client.dat.data, 0, client.dat.pos)})!\nYou can disable this safety check by setting BUILD_VERIFY=false`);
     }
 
     saveClient(client.dat, client.idx);
@@ -633,7 +634,8 @@ export async function packConfigs(cache: FileStream, modelFlags: number[]) {
                 idx.release();
             },
             (client: Packet, _server: Packet): boolean => {
-                return Packet.checkcrc(client.data, 0, client.pos, -795412965);
+                // rs-sdk: includes grand_exchange_booth (upstream 289: -795412965). See PATCHES.md.
+                return Packet.checkcrc(client.data, 0, client.pos, 1515714638);
             }
         );
     }
@@ -708,7 +710,8 @@ export async function packConfigs(cache: FileStream, modelFlags: number[]) {
                 idx.release();
             },
             (client: Packet, _server: Packet): boolean => {
-                return Packet.checkcrc(client.data, 0, client.pos, 424938091);
+                // rs-sdk: includes grand_exchange_teller (upstream 289: 424938091). See PATCHES.md.
+                return Packet.checkcrc(client.data, 0, client.pos, 2103202885);
             }
         );
     }
@@ -783,7 +786,8 @@ export async function packConfigs(cache: FileStream, modelFlags: number[]) {
                 idx.release();
             },
             (client: Packet, _server: Packet): boolean => {
-                return Packet.checkcrc(client.data, 0, client.pos, 266133304);
+                // rs-sdk: includes pvp_death_mark (upstream 289: 266133304). See PATCHES.md.
+                return Packet.checkcrc(client.data, 0, client.pos, 1317612926);
             }
         );
     }
