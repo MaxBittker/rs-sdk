@@ -174,7 +174,7 @@ survival) is described in the project memory; this file is the human-readable ch
       original bank table. Ordinary bank booths remain banking-only.
       `World.processPlayers` calls `tickExchange` to push changed offers; preserve this
       with the visual offer form (there is no visible refresh button).
-      Repack with `BUILD_VERIFY=false` after custom content changes.
+      After custom content changes, update the pack checksums (see "Pack checksums" below).
 - [ ] **Thumbnail search** — shared `ItemSearch.ts` aliases/fuzzy ranking; native search
       components with client codes 30400–30402, 30410–30421 and 30440–30451.
       `MARKET_SEARCH` client opcode **243**, length -1, must match engine
@@ -234,6 +234,11 @@ Upgrade hazards:
       on a missing name.
 - [ ] `Player.save()` also checkpoints into `data/market.sqlite` `accounts`, and `load()` prefers that
       row — a save-format experiment on a throwaway name leaves a row there; delete it after.
+- [ ] **Pack checksums** — the custom configs above change four client packs, so their
+      `BUILD_VERIFY` CRCs differ from upstream: `tools/pack/config/PackShared.ts` (loc, npc, varp)
+      and `tools/pack/interface/PackClient.ts` (interface). Each has an `rs-sdk:` comment with the
+      upstream value. After a sync, or after any change to these packs, set the new CRC: the
+      mismatch error prints it ("packed N"). CI builds with verify on, so a stale CRC fails CI.
 - [ ] `quest_mortton/.../razmire_keelgan.rs2` building store: our anti-buyback sell price **650**
       combined with upstream 289's 4% haggle fix → `~openshop(razmirebuildingstore, 650, 1050, 40, ...)`.
 

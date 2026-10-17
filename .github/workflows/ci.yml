@@ -29,10 +29,10 @@ jobs:
         working-directory: server/engine
         run: bun install --frozen-lockfile
 
+      # Checksum verify stays on, so content that drifts from the pack CRCs
+      # (see "Pack checksums" in server/PATCHES.md) fails here, not on a fresh install.
       - name: Build game content for compiled-script regression tests
         working-directory: server/engine
-        env:
-          BUILD_VERIFY: "false"
         run: bun run build
 
       - name: Type-check, test, and verify generated docs
