@@ -51,6 +51,10 @@ export default {
     // config channel and reads PROFANITY_FILTER from bot.env instead.
     NODE_PROFANITY_FILTER: tryParseBoolean(process.env.NODE_PROFANITY_FILTER, true),
     NODE_RANDOM_EVENTS: tryParseBoolean(process.env.NODE_RANDOM_EVENTS, false),
+    // When false, levelling up keeps its message, fireworks and jingle but skips the
+    // level-up interface, its click-to-continue pause and the skill-unlock pages, like
+    // OSRS's "Disable level-up interface" setting. Read by content levelup.rs2.
+    NODE_LEVELUP_INTERFACE: tryParseBoolean(process.env.NODE_LEVELUP_INTERFACE, true),
     NODE_TICKRATE: tryParseInt(process.env.NODE_TICKRATE, 400),
     HISCORES_WEB_PORT: tryParseInt(process.env.HISCORES_WEB_PORT, 8889),
     // Read-only spectator feed of live players/npcs on ws /worldfeed (web/worldfeed.ts).
