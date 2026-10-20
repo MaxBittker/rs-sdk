@@ -130,6 +130,16 @@ function loadEnvFromArgs(): void {
     loadEnvFile(envPath);
 }
 
+// The game's web origin (client page, market API) for a SERVER value, which may
+// be a bare host or a ws(s):// gateway URL. Derived from SERVER, not the gateway
+// URL, so it stays right when GATEWAY_URL points at a local relay gateway.
+function gameOrigin(server: string | undefined): string {
+    if (!server || server.startsWith('localhost') || server.startsWith('127.')) return 'http://localhost:8888';
+    return /^wss?:\/\//.test(server)
+        ? server.replace(/^ws/, 'http').replace(/\/gateway$/, '')
+        : `https://${server}`;
+}
+
 async function getOrCreateConnection(): Promise<BotConnection> {
     // Try to load from command line args first
     loadEnvFromArgs();
@@ -176,6 +186,9 @@ async function getOrCreateConnection(): Promise<BotConnection> {
         // particular, Lite fleets should never fall back to opening a browser
         // when a headless session is temporarily unavailable.
         autoLaunchBrowser: false,
+        // Market and client URLs come from the game origin; without this BotSDK
+        // derives them from gatewayUrl, which is wrong behind a local GATEWAY_URL.
+        browserLaunchUrl: `${gameOrigin(server)}/bot`,
         showChat
     });
 
@@ -238,14 +251,7 @@ async function requireLiveClient(sdk: BotSDK, username: string, server: string |
     const why = cached
         ? `its last state is ${Math.round(sdk.getStateAge() / 1000)}s old and no new tick arrived in ${LIVE_CLIENT_WAIT_MS / 1000}s`
         : 'no game state was received';
-    // Same derivation as BotSDK's browser launch URL: SERVER may be a bare
-    // host or a ws(s):// gateway URL.
-    let origin = 'http://localhost:8888';
-    if (server && !server.startsWith('localhost') && !server.startsWith('127.')) {
-        origin = /^wss?:\/\//.test(server)
-            ? server.replace(/^ws/, 'http').replace(/\/gateway$/, '')
-            : `https://${server}`;
-    }
+    const origin = gameOrigin(server);
     throw new Error(
         `No game client is attached to "${username}" (${why}).\n` +
         `Scripts drive a running client; they don't start one. Start one, leave it running, then rerun:\n` +
