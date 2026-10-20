@@ -93,6 +93,7 @@ const NEVER_AUTO_CLOSE = new Set([
     40000, // grand_exchange - deliberate offer/draft session (reserved block, see server/PATCHES.md)
     3323, // trademain - auto-close would silently decline a player trade
     3443, // tradeconfirm - second trade screen, same risk
+    6575, // duel_select_type - first duel screen; auto-close would silently decline a duel
     6412, // duel_confirm - same risk for duels
     6554, // macro_cube - anti-macro random event, must be solved
     3559, // player_kit - character design, must be accepted (see skipTutorial)
