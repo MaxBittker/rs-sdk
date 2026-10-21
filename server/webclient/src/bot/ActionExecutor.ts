@@ -2,6 +2,7 @@
 // Maps BotAction types to actual game client operations
 
 import type { Client, ClientActionResult } from '#/client/Client.js';
+import { CharacterDesignError } from '#/client/CharacterDesign.js';
 import type { BotAction, NearbyLoc, GroundItem } from './types.js';
 import { getDialogPageId } from './dialog-page.js';
 
@@ -309,21 +310,22 @@ export class ActionExecutor {
                 case 'submitCountDialog':
                     return this.waitForCountDialogAndSubmit(action.value, `Submitted ${action.value} to count dialog`);
 
+                case 'setCharacterDesign':
                 case 'acceptCharacterDesign':
-                    // TODO: Should be parameterized as (gender, kits[7], colours[5])
-                    // Currently uses hidden client state
-                    return this.wrapBool(
-                        this.client.acceptCharacterDesign(),
-                        'Character design accepted',
-                        'Failed to accept character design'
-                    );
-
-                case 'randomizeCharacterDesign':
-                    return this.wrapBool(
-                        this.client.randomizeCharacterDesign(),
-                        'Character design randomized',
-                        'Failed to randomize character design'
-                    );
+                case 'randomizeCharacterDesign': {
+                    const success = action.type === 'setCharacterDesign'
+                        ? this.client.setCharacterDesign(action.patch)
+                        : action.type === 'randomizeCharacterDesign'
+                            ? this.client.randomizeCharacterDesign(action.gender)
+                            : this.client.acceptCharacterDesign();
+                    if (!success) return this.wrapBool(false, '', 'Failed to update character design');
+                    return {
+                        success: true,
+                        message: action.type === 'acceptCharacterDesign' ? 'Character design dispatched' : 'Character design draft updated',
+                        phase: 'dispatch',
+                        data: { design: this.client.getCharacterDesign()!.current }
+                    };
+                }
 
                 case 'interactGroundItem': {
                     const result = this.wrapClientAction(
@@ -417,6 +419,9 @@ export class ActionExecutor {
                     return { success: false, message: `Unknown action type: ${(action as any).type}` };
             }
         } catch (e) {
+            if (e instanceof CharacterDesignError) {
+                return { success: false, message: e.message, phase: 'validation', reason: e.reason };
+            }
             return { success: false, message: `Error: ${e}` };
         }
     }
@@ -537,6 +542,7 @@ export function formatAction(action: BotAction): string {
         case 'shopSell': return `Sell slot ${action.slot} x${action.amount}`;
         case 'wait': return `Wait ${action.ticks || 1} ticks`;
         case 'acceptCharacterDesign': return 'Accept character design';
+        case 'setCharacterDesign': return 'Edit character design';
         case 'randomizeCharacterDesign': return 'Randomize character design';
         case 'say': return `Say: ${action.message}`;
         case 'privateMessage': return `PM ${action.targetName}: ${action.message}`;

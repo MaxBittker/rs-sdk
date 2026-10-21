@@ -12,6 +12,7 @@
 // Failure `reason` strings match Client.ts's ClientActionFailureReason exactly,
 // because BotActions in the SDK branches on them.
 
+import { assertCharacterDesignOpen, characterDesignAcceptButton, randomCharacterDesign, writeCharacterDesign } from '#/client/CharacterDesign.js';
 import IfType, { ButtonType, ComponentType } from '#/config/IfType.js';
 import LocType from '#/config/LocType.js';
 import ObjType from '#/config/ObjType.js';
@@ -900,54 +901,16 @@ export function getCombatStyle(c: LiteClient): number {
 // ========================================================= character design
 
 export function acceptCharacterDesign(c: LiteClient): boolean {
-    if (!c.isInGame()) {
-        return false;
-    }
-
-    // Must send BOTH the design and the accept button - see PATCHES.md.
-    c.writeOpcode(ClientProt.IDK_SAVEDESIGN);
-    c.out.p1(c.designGender ? 0 : 1);
-    for (let i = 0; i < 7; i++) {
-        c.out.p1(c.designKits[i]);
-    }
-    for (let i = 0; i < 5; i++) {
-        c.out.p1(c.designColours[i]);
-    }
-
-    // Several interfaces carry a CC_ACCEPT_DESIGN button (tutorial player_kit,
-    // the Falador hairdresser and Varrock tailor kits). Only the one inside the
-    // open modal has a live [if_button] trigger; a first-match scan over the
-    // whole list can hit another interface's button and the server answers
-    // 'No trigger for ...' while the design screen stays open.
-    const modal = c.mainModalId;
-    let fallback = -1;
-    for (let i = 0; i < IfType.list.length; i++) {
-        const com = IfType.list[i];
-        if (!com || com.clientCode !== ClientCode.CC_ACCEPT_DESIGN) continue;
-        if (modal !== -1 && (com.layerId === modal || i === modal)) {
-            c.writeOpcode(ClientProt.IF_BUTTON);
-            c.out.p2(i);
-            return true;
-        }
-        if (fallback === -1) fallback = i;
-    }
-    if (fallback !== -1) {
-        c.writeOpcode(ClientProt.IF_BUTTON);
-        c.out.p2(fallback);
-        return true;
-    }
-    return false;
+    assertCharacterDesignOpen(c.isInGame(), c.mainModalId);
+    const design = c.getCharacterDesign()!.current;
+    const accept = characterDesignAcceptButton(c.isInGame(), c.mainModalId, design);
+    writeCharacterDesign(c.out, opcode => c.writeOpcode(opcode), design, accept);
+    return true;
 }
 
 export function randomizeCharacterDesign(c: LiteClient, gender?: boolean): boolean {
-    c.designGender = gender ?? Math.random() < 0.5;
-    for (let part = 0; part < 7; part++) {
-        c.designKits[part] = 0;
-    }
-    for (let i = 0; i < 5; i++) {
-        c.designColours[i] = (Math.random() * 10) | 0;
-    }
-    return true;
+    assertCharacterDesignOpen(c.isInGame(), c.mainModalId);
+    return c.setCharacterDesign(randomCharacterDesign(gender));
 }
 
 // ================================================================ if-vars

@@ -1,4 +1,6 @@
-import { describe, expect, mock, test } from 'bun:test';
+import { afterEach, beforeEach, describe, expect, mock, spyOn, test } from 'bun:test';
+import { CHARACTER_BODY_PARTS, CHARACTER_COLOR_PARTS, CHARACTER_DESIGN_INTERFACE } from '../../../../sdk/character-design.js';
+import { ClientCode } from '#/client/ClientCode.js';
 
 import { ClientProt } from '#/io/ClientProt.js';
 import { ServerProt } from '#/io/ServerProt.js';
@@ -74,6 +76,7 @@ mock.module('#/client/MobileKeyboard.js', () => ({
 };
 
 const { Client } = await import('../client/Client.js');
+const { default: IdkType } = await import('#/config/IdkType.js');
 const { default: LocType } = await import('#/config/LocType.js');
 const { default: ObjType } = await import('#/config/ObjType.js');
 const { default: IfType } = await import('#/config/IfType.js');
@@ -727,3 +730,203 @@ describe('loc routing', () => {
         expect(payload).toEqual([2512, 3468, 1996, 954, 0, 3214]);
     });
 });
+
+
+// Exercise the SDK, executor, actual client methods, and appearance decoder.
+// No browser process, game connection, or downloaded archives are needed.
+for (const kind of ['browser', 'lite'] as const) {
+    describe(kind + ' character design', () => {
+        const ACCEPT = 3651;
+        let savedKits: typeof IdkType.list;
+        let savedCount: number;
+        let savedInterfaces: typeof IfType.list;
+        beforeEach(() => {
+            savedKits = IdkType.list;
+            savedCount = IdkType.numDefinitions;
+            savedInterfaces = IfType.list;
+            IdkType.list = [];
+            for (let part = 0; part < 14; part++) {
+                if (part === 8) continue; // female jaw is -1
+                IdkType.list.push(
+                    Object.assign(new IdkType(), { part }),
+                    Object.assign(new IdkType(), { part }),
+                    Object.assign(new IdkType(), { part, disable: true })
+                );
+            }
+            IdkType.numDefinitions = IdkType.list.length;
+            IfType.list = [];
+            // An unrelated accept button comes first: the active modal owns selection.
+            defineComponent(12, { layerId: 10, clientCode: ClientCode.CC_ACCEPT_DESIGN });
+            defineComponent(CHARACTER_DESIGN_INTERFACE, { layerId: -1 });
+            defineComponent(ACCEPT, { layerId: CHARACTER_DESIGN_INTERFACE, clientCode: ClientCode.CC_ACCEPT_DESIGN });
+            resetBaseInterfaces();
+            captureBaseInterfaces();
+        });
+        afterEach(() => {
+            IdkType.list = savedKits;
+            IdkType.numDefinitions = savedCount;
+            IfType.list = savedInterfaces;
+            resetBaseInterfaces();
+        });
+
+        function fixture() {
+            const out = new Packet(new Uint8Array(128));
+            let client: any;
+            if (kind === 'lite') {
+                client = new LiteClient({ connection: { out, isClosed: false } as never, locIndex: {} as never, username: 'design-test', password: 'x' });
+                client.mainModalId = CHARACTER_DESIGN_INTERFACE;
+            } else {
+                client = Object.assign(Object.create(Client.prototype), {
+                    out, ingame: true, mainModalId: CHARACTER_DESIGN_INTERFACE,
+                    idkDesignGender: true, idkDesignPart: new Int32Array(7), idkDesignColour: new Int32Array(5),
+                    statEffectiveLevel: [1, 1, 1, 10], statBaseLevel: [1, 1, 1, 10],
+                    localPlayer: new ClientPlayer(), npc: [], mapBuildBaseX: 0, mapBuildBaseZ: 0
+                });
+                client.validateIdkDesign();
+            }
+            const executor = new ActionExecutor(client);
+            const sdk = new BotSDK({ botUsername: 'design-test' });
+            (sdk as any).state = { characterDesign: client.getCharacterDesign() };
+            (sdk as any).sendAction = async (action: any) => {
+                if (kind === 'lite') client.activate();
+                const result = await executor.execute(action);
+                (sdk as any).state = { characterDesign: client.getCharacterDesign() };
+                return result;
+            };
+            return { client, executor, sdk, out };
+        }
+
+        test('discovers valid choices and preserves previous styles across separate edits', async () => {
+            const { sdk, out } = fixture();
+            const initial = sdk.getCharacterDesign()!;
+            expect(initial.options.body.female.jaw).toEqual([-1]);
+            expect(initial.options.body.male.hair).toHaveLength(2);
+            expect(initial.options.colors.feet).toHaveLength(6);
+            const hair = initial.options.body.male.hair[1];
+            expect((await sdk.sendSetCharacterDesign({ body: { hair } })).success).toBe(true);
+            expect((await sdk.sendSetCharacterDesign({ colors: { hair: 11, feet: 5, skin: 7 } })).success).toBe(true);
+            const current = sdk.getCharacterDesign()!.current;
+            expect(current.body.hair).toBe(hair);
+            expect(current.body.torso).toBe(initial.current.body.torso);
+            expect(current.colors).toMatchObject({ hair: 11, feet: 5, skin: 7 });
+            expect(out.pos).toBe(0);
+        });
+
+        test('changing gender resets omitted body styles and preserves colours', async () => {
+            const { sdk } = fixture();
+            await sdk.sendSetCharacterDesign({ colors: { hair: 11 } });
+            const options = sdk.getCharacterDesign()!.options;
+            const hair = options.body.female.hair[1];
+            expect((await sdk.sendSetCharacterDesign({ gender: false, body: { hair } })).success).toBe(true);
+            const current = sdk.getCharacterDesign()!.current;
+            expect(current.gender).toBe(false);
+            expect(current.body.hair).toBe(hair);
+            expect(current.body.jaw).toBe(-1);
+            expect(current.colors.hair).toBe(11);
+            for (const part of CHARACTER_BODY_PARTS) expect(options.body.female[part]).toContain(current.body[part]);
+        });
+
+        test('invalid patches do not partially change the draft or write packets', async () => {
+            const { sdk, out } = fixture();
+            const initial = sdk.getCharacterDesign()!.current;
+            const invalid = [
+                { gender: false, body: { hair: initial.body.hair } }, // male kit on a female
+                { body: { hair: initial.body.hair + 2 } }, // disabled kit
+                { body: { hair: initial.body.torso } }, // wrong body part
+                { body: { hair: 1.5 } },
+                { colors: { feet: 6 } }, { colors: { skin: 8 } }, { colors: { hair: -1 } },
+                { gender: 1 }, { body: { unknown: 0 } }, { colors: [] }, { body: null }, null
+            ];
+            for (const patch of invalid) {
+                const result = await sdk.sendSetCharacterDesign(patch as any);
+                expect(result).toMatchObject({ success: false, phase: 'validation', reason: 'invalid_design' });
+                expect(sdk.getCharacterDesign()!.current).toEqual(initial);
+                expect(out.pos).toBe(0);
+            }
+        });
+
+        test('randomization chooses legal gender-specific kits and actual palette bounds', async () => {
+            const { sdk } = fixture();
+            const random = spyOn(Math, 'random').mockReturnValue(0.999999);
+            try {
+                for (const gender of [true, false]) {
+                    const result = await sdk.sendRandomizeCharacterDesign(gender);
+                    expect(result.success).toBe(true);
+                    const { current, options } = sdk.getCharacterDesign()!;
+                    expect(current.gender).toBe(gender);
+                    for (const part of CHARACTER_BODY_PARTS) expect(current.body[part]).toBe(options.body[gender ? 'male' : 'female'][part].at(-1)!);
+                    for (const part of CHARACTER_COLOR_PARTS) expect(current.colors[part]).toBe(options.colors[part].at(-1)!);
+                }
+            } finally { random.mockRestore(); }
+        });
+
+        test('accept writes the chosen design and the active accept button in order', async () => {
+            const { sdk, out, client } = fixture();
+            await sdk.sendSetCharacterDesign({ gender: false, colors: { hair: 11, torso: 15, legs: 15, feet: 5, skin: 7 } });
+            const expected = sdk.getCharacterDesign()!.current;
+            const result = await sdk.sendAcceptCharacterDesign();
+            expect(result).toMatchObject({ success: true, phase: 'dispatch', data: { design: expected } });
+            expect(Array.from(out.data.subarray(0, out.pos))).toEqual([
+                ClientProt.IDK_SAVEDESIGN, 1,
+                ...CHARACTER_BODY_PARTS.map(part => expected.body[part] & 255),
+                ...CHARACTER_COLOR_PARTS.map(part => expected.colors[part]),
+                ClientProt.IF_BUTTON, ACCEPT >> 8, ACCEPT & 255
+            ]);
+            expect(client.mainModalId).toBe(CHARACTER_DESIGN_INTERFACE); // dispatch does not fake server closure
+        });
+
+        test('an untouched fresh default is valid even without randomization', async () => {
+            const { sdk } = fixture();
+            expect((await sdk.sendAcceptCharacterDesign()).success).toBe(true);
+        });
+
+        test('wrong screens, missing buttons, and invalid drafts fail before either packet', async () => {
+            const { client, executor, out } = fixture();
+            client.mainModalId = 10;
+            expect(await executor.execute({ type: 'setCharacterDesign', patch: { colors: { hair: 1 } }, reason: 'test' })).toMatchObject({ success: false, reason: 'design_not_open' });
+            expect(await executor.execute({ type: 'acceptCharacterDesign', reason: 'test' })).toMatchObject({ success: false, reason: 'design_not_open' });
+            client.mainModalId = CHARACTER_DESIGN_INTERFACE;
+            client.getCharacterDesign();
+            const kits = kind === 'lite' ? client.designKits : client.idkDesignPart;
+            const valid = kits[0];
+            kits[0] = 999;
+            expect(await executor.execute({ type: 'acceptCharacterDesign', reason: 'test' })).toMatchObject({ success: false, reason: 'invalid_design' });
+            kits[0] = valid;
+            if (kind === 'lite') client.activate();
+            delete IfType.list[ACCEPT];
+            expect(await executor.execute({ type: 'acceptCharacterDesign', reason: 'test' })).toMatchObject({ success: false, reason: 'accept_button_not_found' });
+            expect(out.pos).toBe(0);
+        });
+
+        test('server-decoded appearance is separate from the editable draft', async () => {
+            const { client, sdk } = fixture();
+            await sdk.sendSetCharacterDesign({ gender: false, colors: { hair: 11 } });
+            const expected = sdk.getCharacterDesign()!.current;
+            const packet = new Packet(new Uint8Array(128));
+            const visible = new Array(12).fill(0);
+            const bodySlots = [8, 11, 4, 6, 9, 7, 10];
+            CHARACTER_BODY_PARTS.forEach((part, i) => { visible[bodySlots[i]] = expected.body[part] === -1 ? 0 : 256 + expected.body[part]; });
+            packet.p1(1); packet.p1(0);
+            for (const slot of visible) { if (slot === 0) packet.p1(0); else packet.p2(slot); }
+            for (const part of CHARACTER_COLOR_PARTS) packet.p1(expected.colors[part]);
+            for (let i = 0; i < 7; i++) packet.p2(-1);
+            packet.p8(1n); packet.p1(3); packet.p2(0);
+            client.localPlayer.setAppearance(packet);
+            const collector = new BotStateCollector(client);
+            const observed = (collector as any).collectPlayerState(2, 2).appearance;
+            expect(observed).toEqual({ gender: false, slots: visible, colors: expected.colors });
+            await sdk.sendSetCharacterDesign({ colors: { hair: 0 } });
+            expect((collector as any).collectPlayerState(3, 3).appearance).toEqual(observed);
+            expect(sdk.getCharacterDesign()!.current.colors.hair).toBe(0);
+        });
+
+        test('two clients retain separate pending designs', async () => {
+            const a = fixture();
+            const b = fixture();
+            const original = b.sdk.getCharacterDesign()!.current;
+            await a.sdk.sendSetCharacterDesign({ gender: false, colors: { skin: 7 } });
+            expect(b.client.getCharacterDesign().current).toEqual(original);
+            expect(a.client.getCharacterDesign().current.gender).toBe(false);
+        });
+    });
+}

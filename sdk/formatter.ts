@@ -2,6 +2,7 @@
 // Adapted from webclient/src/bot/formatters.ts for SDK use
 
 import type { BotWorldState, PrayerName } from './types';
+import { CHARACTER_DESIGN_INTERFACE } from './character-design';
 import { PRAYER_NAMES, isPlayerChat } from './types';
 
 /**
@@ -205,8 +206,8 @@ export function formatWorldState(
     if (state.modalOpen && !state.trade?.isOpen) {
         lines.push('');
         lines.push(`## Modal Open (interface: ${state.modalInterface})`);
-        if (state.modalInterface === 3559) {
-            lines.push('(Character design screen - use acceptCharacterDesign to continue)');
+        if (state.modalInterface === CHARACTER_DESIGN_INTERFACE) {
+            lines.push('(Character design: inspect sdk.getCharacterDesign(), edit with sdk.sendSetCharacterDesign(), then confirm with bot.acceptCharacterDesign())');
         }
     }
 

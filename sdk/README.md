@@ -58,6 +58,67 @@ Defence: 1 (0 xp)
 ...
 ```
 
+## Character design
+
+Fresh characters start with the tutorial appearance screen. Inspect its pending
+look and valid choices with `sdk.getCharacterDesign()`. It returns `null` outside
+that screen. Kit IDs and colour indices come from the connected client's cache;
+use the published options rather than guessing IDs.
+
+```typescript
+await sdk.waitForCondition(s => !!s.characterDesign);
+const { options } = sdk.getCharacterDesign()!;
+const hair = options.body.female.hair[1] ?? options.body.female.hair[0]!;
+
+// A single SDK action edits the pending design; it does not save or accept it.
+const edit = await sdk.sendSetCharacterDesign({
+  gender: false,
+  body: { hair },
+  colors: { hair: 1, torso: 7 }
+});
+if (!edit.success) throw new Error(edit.message);
+
+const accepted = await bot.acceptCharacterDesign();
+if (!accepted.success) throw new Error(accepted.message);
+await bot.skipTutorial();
+```
+
+`bot.acceptCharacterDesign(patch?)` can also apply these choices and confirm them
+in one call. It waits for a late-opening tutorial screen and verifies both screen
+closure and the server-observed appearance. Its default five-second timeout
+covers editing, submission, and confirmation. A timeout after submission means
+confirmation is unknown; the helper never retries acceptance automatically.
+
+Body fields are `hair`, `jaw`, `torso`, `arms`, `hands`, `legs`, and `feet`.
+Colour fields are `hair`, `torso`, `legs`, `feet`, and `skin`. Gender follows the
+existing SDK convention: `true` is male, `false` is female. The female jaw uses
+kit `-1`. Omitted fields retain their current values; changing gender resets body
+styles to valid defaults for the new gender and preserves colours. Invalid edits
+fail without changing the pending look.
+
+For automatic character creation, `await bot.skipTutorial()` still randomizes
+appearance. `{ gender: false }` selects a female random look;
+`{ randomizeAppearance: false }` accepts the current/default look. A design
+already confirmed before skipping is preserved.
+
+The new helpers and verified tutorial skipping require the updated browser or
+lite client. An `unsupported_client` result means refresh the browser or restart
+the lite runner. Raw `sdk.sendAcceptCharacterDesign()` remains available and
+reports dispatch, not verified completion. Successful raw design actions include
+the complete draft in `result.data.design`; published state may arrive afterward.
+Server-decoded visible appearance is available as `state.player.appearance`,
+separately from the editable draft.
+
+With a local game engine, rebuilt browser client, and gateway running, verify
+selection, tutorial skipping, and reconnect persistence on disposable characters:
+
+```bash
+CLIENT=both bun sdk/test/character-design.ts
+```
+
+Use `CLIENT=browser` or `CLIENT=lite` to exercise one client. The integration
+script removes the temporary bot folders it creates.
+
 ## Reporting SDK Bugs
 
 When the SDK has a bug or rough edge, first find a workaround, then file a report. One command, no auth needed:

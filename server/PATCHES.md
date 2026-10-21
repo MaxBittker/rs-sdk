@@ -387,6 +387,16 @@ Upgrade hazards:
 
 ---
 
+### Character design SDK support
+- [ ] **Pending design edits and confirmation** — shared cache-derived rules and two-packet
+      acceptance in `webclient/src/client/CharacterDesign.ts`; browser and lite expose matching
+      getters/setters. Keep per-client drafts isolated and initialize lite's default kits from
+      the identity-kit cache. `StateCollector` publishes the pending draft separately from
+      server-decoded player appearance; `bot.acceptCharacterDesign()` verifies both the final
+      look and screen closure. `skipTutorial()` retains automatic randomization and checks
+      confirmation failures. Never send an accept button from an unrelated interface.
+      Verify: `bun test sdk/test/character-design.test.ts sdk/test/skip-tutorial.test.ts server/webclient/src/bot/ClientInteraction.test.ts`.
+
 ## Cross-boundary invariants (how things actually break)
 
 These are the rules derived from every severed-wire bug found so far:

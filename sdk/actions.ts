@@ -4,6 +4,7 @@
 
 import { BotSDK } from './index';
 import { throwIfExecutionAborted, withExecutionDeadline } from './execution-context';
+import { appearanceMatchesDesign, CHARACTER_DESIGN_INTERFACE, type CharacterDesignPatch } from './character-design';
 import { GEActions } from './ge-actions';
 import type { GEOfferRequest, GEActionResult } from './ge-types';
 import { ActionHelpers, ALREADY_FIGHTING_REFUSALS, NO_RUNES_REFUSALS } from './actions-helpers';
@@ -95,7 +96,7 @@ const NEVER_AUTO_CLOSE = new Set([
     3443, // tradeconfirm - second trade screen, same risk
     6412, // duel_confirm - same risk for duels
     6554, // macro_cube - anti-macro random event, must be solved
-    3559, // player_kit - character design, must be accepted (see skipTutorial)
+    CHARACTER_DESIGN_INTERFACE, // player_kit - must be accepted (see skipTutorial)
 ]);
 
 /**
@@ -136,11 +137,60 @@ export class BotActions {
     // ============ Porcelain: UI Helpers ============
 
     /**
+     * Optionally edit tutorial appearance, accept once, and verify the server's
+     * resulting look and closed design screen. Waits for a late login modal.
+     * Requires an updated browser/lite client. The timeout bounds the whole operation.
+     */
+    async acceptCharacterDesign(patch?: CharacterDesignPatch, timeout: number = 5000): Promise<ActionResult> {
+        if (!Number.isFinite(timeout) || timeout <= 0) {
+            return { success: false, message: 'Character design timeout must be positive and finite', phase: 'validation', reason: 'invalid_timeout' };
+        }
+        let acceptAttempted = false;
+        return withExecutionDeadline(timeout, async (): Promise<ActionResult> => {
+            const state = this.sdk.getState();
+            if (!state?.inGame) return { success: false, message: 'Not in game', phase: 'validation', reason: 'not_in_game' };
+            if (state.characterDesign === undefined || (state.player && state.player.appearance === undefined)) {
+                return { success: false, message: 'Character design requires an updated client; refresh the browser or restart the lite runner', phase: 'validation', reason: 'unsupported_client' };
+            }
+            const ready = await this.sdk.waitForCondition(s => s.inGame && s.modalOpen && s.modalInterface === CHARACTER_DESIGN_INTERFACE && !!s.characterDesign && !!s.player, timeout);
+            if (ready.player!.appearance === undefined) {
+                return { success: false, message: 'Character design requires server appearance telemetry; refresh the browser or restart the lite runner', phase: 'validation', reason: 'unsupported_client' };
+            }
+            if (patch !== undefined) {
+                const edited = await this.sdk.sendSetCharacterDesign(patch);
+                if (!edited.success) return edited;
+            }
+            throwIfExecutionAborted();
+            const before = this.sdk.getState();
+            // A deadline can expire after the request left the SDK but before
+            // its dispatch response arrives. Treat that outcome as uncertain.
+            acceptAttempted = true;
+            const accepted = await this.sdk.sendAcceptCharacterDesign();
+            if (!accepted.success) return accepted;
+            const expected = accepted.data?.design;
+            if (!expected) {
+                return { success: false, message: 'Client did not report the dispatched character design; refresh or restart the client', phase: 'observation', reason: 'unsupported_client' };
+            }
+            await this.sdk.waitForCondition(s =>
+                s.inGame && (s.revision ?? s.tick) > (before?.revision ?? before?.tick ?? -1) &&
+                s.modalInterface !== CHARACTER_DESIGN_INTERFACE &&
+                appearanceMatchesDesign(s.player?.appearance, expected), timeout);
+            return { success: true, message: 'Character design confirmed by the server', phase: 'completion', data: { design: expected } };
+        }, () => ({
+            success: false,
+            message: acceptAttempted ? 'Character design acceptance was attempted but the server appearance and screen closure were not confirmed' : 'Timed out waiting to submit tutorial character design',
+            phase: acceptAttempted ? 'observation' : 'validation',
+            reason: 'timeout'
+        }));
+    }
+
+    /**
      * Skip tutorial by navigating dialogs and talking to tutorial NPCs.
      * This is a porcelain method - domain logic that was moved from bot client.
      * @param options.randomizeAppearance - If true, randomizes character appearance when the design screen appears. Default: true.
+     * @param options.gender - true for male, false for female; random when omitted.
      */
-    async skipTutorial(options: { randomizeAppearance?: boolean } = {}): Promise<ActionResult> {
+    async skipTutorial(options: { randomizeAppearance?: boolean; gender?: boolean } = {}): Promise<ActionResult> {
         const { randomizeAppearance = true } = options;
         const state = this.sdk.getState();
         if (!state?.inGame) {
@@ -148,22 +198,22 @@ export class BotActions {
         }
 
         // Helper to check and handle character design modal
-        const checkAndHandleDesignModal = async (): Promise<boolean> => {
+        const checkAndHandleDesignModal = async (): Promise<ActionResult | null> => {
             const s = this.sdk.getState();
-            if (s?.modalOpen && s?.modalInterface === 3559) {
+            if (s?.modalOpen && s?.modalInterface === CHARACTER_DESIGN_INTERFACE) {
                 if (randomizeAppearance) {
-                    await this.sdk.sendRandomizeCharacterDesign();
-                    await this.sdk.waitForTicks(1);
+                    const randomized = await this.sdk.sendRandomizeCharacterDesign(options.gender);
+                    if (!randomized.success) return randomized;
                 }
-                await this.sdk.sendAcceptCharacterDesign();
-                await this.sdk.waitForTicks(1);
-                return true;
+                const accepted = await this.acceptCharacterDesign();
+                if (!accepted.success) return accepted;
             }
-            return false;
+            return null;
         };
 
         // Check for character design modal (interface 3559) and handle it
-        await checkAndHandleDesignModal();
+        const designFailure = await checkAndHandleDesignModal();
+        if (designFailure) return designFailure;
 
         // If dialog open, navigate through it (may take multiple clicks)
         if (state.dialog.isOpen) {
@@ -172,7 +222,8 @@ export class BotActions {
 
             while (clickCount < MAX_CLICKS) {
                 // Check for design modal each iteration
-                await checkAndHandleDesignModal();
+                const designFailure = await checkAndHandleDesignModal();
+                if (designFailure) return designFailure;
 
                 const currentState = this.sdk.getState();
                 if (!currentState?.dialog.isOpen) {
@@ -217,7 +268,8 @@ export class BotActions {
             // moment so it's accepted before talking to the guide.
             if (!state.modalOpen) {
                 await this.sdk.waitForCondition(s => s.modalOpen || s.dialog.isOpen, 3000).catch(() => {});
-                await checkAndHandleDesignModal();
+                const designFailure = await checkAndHandleDesignModal();
+                if (designFailure) return designFailure;
             }
 
             // Talking straight after login can come back "I can't reach that!" while the
@@ -239,7 +291,8 @@ export class BotActions {
                     await this.sdk.waitForCondition(s => s.dialog.isOpen, 5000);
                     dialogOpened = true;
                 } catch {
-                    await checkAndHandleDesignModal();
+                    const designFailure = await checkAndHandleDesignModal();
+                    if (designFailure) return designFailure;
                     await this.sdk.waitForTicks(2);
                 }
             }
@@ -257,7 +310,8 @@ export class BotActions {
 
             while (clickCount < MAX_CLICKS) {
                 // Check for design modal each iteration
-                await checkAndHandleDesignModal();
+                const designFailure = await checkAndHandleDesignModal();
+                if (designFailure) return designFailure;
 
                 const currentState = this.sdk.getState();
                 if (!currentState?.dialog.isOpen) {

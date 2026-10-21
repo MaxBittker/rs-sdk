@@ -1,4 +1,6 @@
 import type { GEState } from './ge-types';
+import type { CharacterDesignPatch, CharacterDesignState, CharacterDesignActionResult } from './character-design';
+export type { CharacterDesign, CharacterDesignPatch, CharacterDesignState, CharacterDesignActionResult, CharacterBodyPart, CharacterColorPart, PlayerAppearance } from './character-design';
 export type { GEState, GEOffer, GEOfferRequest, GEActionResult } from './ge-types';
 import { MarketClient, type GEAvailability, type MarketItems, type MarketQuote, type MarketHistory, type MarketItemsOptions, type MarketItemOptions, type MarketHistoryOptions } from './market';
 export { MarketClient, GEUnavailableError } from './market';
@@ -1356,14 +1358,24 @@ export class BotSDK {
         return this.sendClickComponent(option.componentId);
     }
 
-    /** Accept character design in tutorial. */
-    async sendAcceptCharacterDesign(): Promise<ActionResult> {
+    /** Inspect the pending tutorial design and valid kit IDs/colour indices. Null outside creation. */
+    getCharacterDesign(): CharacterDesignState | null {
+        return this.state?.characterDesign ?? null;
+    }
+
+    /** Edit pending tutorial appearance fields without accepting. Returns the resolved draft in data.design. */
+    async sendSetCharacterDesign(patch: CharacterDesignPatch): Promise<CharacterDesignActionResult> {
+        return this.sendAction({ type: 'setCharacterDesign', patch, reason: 'SDK' });
+    }
+
+    /** Dispatch the pending tutorial design and accept button. Use bot.acceptCharacterDesign() for verified completion. */
+    async sendAcceptCharacterDesign(): Promise<CharacterDesignActionResult> {
         return this.sendAction({ type: 'acceptCharacterDesign', reason: 'SDK' });
     }
 
-    /** Randomize character appearance in tutorial. */
-    async sendRandomizeCharacterDesign(): Promise<ActionResult> {
-        return this.sendAction({ type: 'randomizeCharacterDesign', reason: 'SDK' });
+    /** Randomize the tutorial draft; true for male, false for female, random when omitted. Does not accept. */
+    async sendRandomizeCharacterDesign(gender?: boolean): Promise<CharacterDesignActionResult> {
+        return this.sendAction({ type: 'randomizeCharacterDesign', gender, reason: 'SDK' });
     }
 
     /** Buy from shop by slot and amount. */
