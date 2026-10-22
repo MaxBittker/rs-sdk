@@ -1,0 +1,9 @@
+# Git for Windows checks text files out with CRLF (core.autocrlf=true). These must stay LF.
+
+# Files that run inside the Linux image: a CRLF Dockerfile turns the heredoc entrypoint's
+# shebang into "#!/bin/bash\r", and the machine crash-loops on "entrypoint.sh: not found".
+server/Dockerfile text eol=lf
+*.sh text eol=lf
+
+# Generated from sdk/*.ts with LF endings; api-docs.test.ts compares it byte for byte.
+sdk/API.md text eol=lf
