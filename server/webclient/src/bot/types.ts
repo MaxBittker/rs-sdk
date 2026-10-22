@@ -443,7 +443,7 @@ export interface BotState {
     modalInterface: number;
     /** Prayer state (active prayers, prayer points) */
     prayers: PrayerState;
-    /** Authoritative client varp 78: a PK skull is currently active. */
+    /** A PK skull is currently active: the skull head icon (bit 0 of our own head icons). */
     isSkulled: boolean;
     /** Authoritative client varp 172: server auto-retaliation is enabled. */
     autoRetaliateEnabled: boolean;
