@@ -214,6 +214,24 @@ describe('BotStateCollector combat state', () => {
         expect(dead).toMatchObject({ isDead: true, lifeId: 1, lastDeathTick: 2 });
         expect(respawned).toMatchObject({ isDead: false, lifeId: 2, respawnCount: 1 });
     });
+
+    test('reads the skull from the head icons, not the untransmitted pk_skull varp', () => {
+        const client = createClient();
+        client.var = [];
+        const collector = new BotStateCollector(client);
+
+        client.localPlayer.headicons = 0;
+        expect(collector.collectState(1, true).isSkulled).toBeFalse();
+
+        // Skull (bit 0) plus Protect from Melee (bit 3).
+        client.localPlayer.headicons = 0x1 | 0x8;
+        expect(collector.collectState(2, true).isSkulled).toBeTrue();
+
+        // A prayer icon alone is not a skull, and varp 78 is never sent.
+        client.localPlayer.headicons = 0x8;
+        client.var[78] = 12_345;
+        expect(collector.collectState(3, true).isSkulled).toBeFalse();
+    });
 });
 
 describe('BotStateCollector op feedback', () => {
