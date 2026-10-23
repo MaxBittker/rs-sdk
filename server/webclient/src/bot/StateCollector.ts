@@ -8,6 +8,7 @@ import type ClientObj from '#/dash3d/ClientObj.js';
 import IfType from '#/config/IfType.js';
 import { collectGEState } from './ge-state.js';
 import { getDialogPageId } from './dialog-page.js';
+import { collectInterfaceSnapshot } from './interface-snapshot.js';
 import ObjType from '#/config/ObjType.js';
 import NpcType from '#/config/NpcType.js';
 import LocType from '#/config/LocType.js';
@@ -386,7 +387,9 @@ export class BotStateCollector implements ScanProvider {
             options = rawOptions.map((opt: any) => ({ index: opt.index, text: opt.text, componentId: opt.componentId }));
         }
 
-        return { isOpen, interfaceId, options };
+        // Lite owns a per-bot copy-on-write table; never inspect another client's active global.
+        const table = c.interfaces?.list ?? IfType.list;
+        return { isOpen, interfaceId, options, snapshot: collectInterfaceSnapshot(interfaceId, table) };
     }
 
     /**

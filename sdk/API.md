@@ -204,6 +204,7 @@
 | `findGroundItem(pattern: string \| RegExp, options?: FindOptions): GroundItem \| null` | Find ground item by name pattern (shortest matching name wins, then nearest; reachable preferred). |
 | `getGroundItems(): GroundItem[]` | Get all ground items. |
 | `getDialog(): DialogState \| null` | Get current dialog state. |
+| `getInterfaceSnapshot(): InterfaceSnapshotState \| null` | Read bounded viewport-interface text/model metadata. Null means no state or an older client; rootId -1 means supported but closed. Inspect truncated/contentResolved before using it. This is observation only, not a guarded-click token. |
 | `getTradeState(): TradeState` | Current player-to-player trade session state. Returns a closed-trade default when no state has arrived or the connected client predates trade support. |
 | `getPrayerState(): PrayerState \| null` | Get current prayer state from world state. |
 | `isPrayerActive(prayer: PrayerName \| number): boolean` | Check if a specific prayer is currently active. |
@@ -399,6 +400,64 @@ interface InterfaceState {
   isOpen: boolean;
   interfaceId: number;
   options: InterfaceOption[];
+  /** Bounded open-interface telemetry; absent on clients predating snapshot version 1. Not a guarded-click token. */
+  snapshot?: InterfaceSnapshotState;
+}
+```
+
+### InterfaceSnapshotState
+
+Visible viewport-interface metadata collected without rendering or downloading meshes.
+
+```typescript
+interface InterfaceSnapshotState {
+  version: 1;
+  /** -1 when no viewport modal is open. */
+  rootId: number;
+  components: InterfaceComponentState[];
+  /** Traversal/text/metadata was bounded, a component was missing, or the tree was malformed. Never treat a truncated snapshot as complete. */
+  truncated: boolean;
+}
+```
+
+### InterfaceComponentState
+
+```typescript
+interface InterfaceComponentState {
+  id: number;
+  parentId: number | null;
+  type: number;
+  buttonType: number;
+  /** Pixel bounds relative to the viewport interface root, accounting for layer scroll and component offsets. */
+  bounds: { x: number; y: number; width: number; height: number };
+  /** Static displayed text, including client formatting codes; null for non-text or unresolved content. */
+  text: string | null;
+  /** Button tooltip, not an inferred label from neighbouring components. */
+  tooltip: string;
+  model: InterfaceModelState | null;
+  /** False for conditional/client-generated/substituted content or unavailable model definitions. No hidden alternate content is exposed. */
+  contentResolved: boolean;
+  unresolvedReason?: 'conditional' | 'client_generated' | 'dynamic_text' | 'missing_object_definition' | 'unsupported_model_type';
+}
+```
+
+### InterfaceModelState
+
+```typescript
+interface InterfaceModelState {
+  kind: 'raw' | 'object' | 'npc_head' | 'player_head';
+  /** Identifier in the namespace named by kind, not necessarily a mesh ID. */
+  sourceId: number;
+  objectId: number | null;
+  /** Object definition chosen for the renderer's count-50 variant, or null for non-object models. */
+  definitionObjectId: number | null;
+  /** Underlying mesh ID for raw/object models; null for heads. Geometry is not fetched. */
+  meshId: number | null;
+  recolours: { source: number; destination: number }[] | null;
+  zoom: number;
+  rotationX: number;
+  rotationY: number;
+  animationId: number;
 }
 ```
 

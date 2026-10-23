@@ -308,6 +308,14 @@ Upgrade hazards:
       Verify: `grep -n "MAX_CHARS = 512" src/wordfilter/WordPack.ts && grep -n "?? 400" src/lite/LiteClient.ts`
 
 ### Bot bridge (wholly added — `src/bot/`, 8 files + `src/client/BotClient.ts`, `src/viewer/ItemViewer.ts`)
+- [ ] **Bounded viewport-interface snapshots** — `src/bot/interface-snapshot.ts`
+      collects static text/layout and displayed model/object/recolour metadata
+      without rendering. `StateCollector.collectInterfaceState()` uses the correct
+      per-client table. Both `LiteClient.collectBotState()` and
+      `BotOverlay.collectWorldState()` must spread `baseState.interface` before
+      adding their legacy options/debug fields or the typed snapshot disappears.
+      SDK and client `InterfaceState.snapshot` types must stay aligned.
+      Verify: `bun test sdk/test/interface-snapshot.test.ts server/webclient/src/bot/interface-snapshot.test.ts server/webclient/src/lite/interface-snapshot.test.ts`.
 - [ ] `StateCollector.ts`, `BotOverlay.ts`, `ActionExecutor.ts`, `GatewayConnection.ts`,
       `OverlayUI.ts`, `formatters.ts`, `types.ts`, `index.ts`.
       Note: **gateway state messages come from `BotOverlay.sendState()`** (includes

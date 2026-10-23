@@ -376,6 +376,51 @@ export interface InterfaceState {
     isOpen: boolean;
     interfaceId: number;
     options: Array<{ index: number; text: string }>;
+    /** Bounded open-interface telemetry; absent on clients predating snapshot version 1. Not a guarded-click token. */
+    snapshot?: InterfaceSnapshotState;
+}
+
+/** Visible viewport-interface metadata collected without rendering or downloading meshes. */
+export interface InterfaceSnapshotState {
+    version: 1;
+    /** -1 when no viewport modal is open. */
+    rootId: number;
+    components: InterfaceComponentState[];
+    /** Traversal/text/metadata was bounded, a component was missing, or the tree was malformed. Never treat a truncated snapshot as complete. */
+    truncated: boolean;
+}
+
+export interface InterfaceComponentState {
+    id: number;
+    parentId: number | null;
+    type: number;
+    buttonType: number;
+    /** Pixel bounds relative to the viewport interface root, accounting for layer scroll and component offsets. */
+    bounds: { x: number; y: number; width: number; height: number };
+    /** Static displayed text, including client formatting codes; null for non-text or unresolved content. */
+    text: string | null;
+    /** Button tooltip, not an inferred label from neighbouring components. */
+    tooltip: string;
+    model: InterfaceModelState | null;
+    /** False for conditional/client-generated/substituted content or unavailable model definitions. No hidden alternate content is exposed. */
+    contentResolved: boolean;
+    unresolvedReason?: 'conditional' | 'client_generated' | 'dynamic_text' | 'missing_object_definition' | 'unsupported_model_type';
+}
+
+export interface InterfaceModelState {
+    kind: 'raw' | 'object' | 'npc_head' | 'player_head';
+    /** Identifier in the namespace named by kind, not necessarily a mesh ID. */
+    sourceId: number;
+    objectId: number | null;
+    /** Object definition chosen for the renderer's count-50 variant, or null for non-object models. */
+    definitionObjectId: number | null;
+    /** Underlying mesh ID for raw/object models; null for heads. Geometry is not fetched. */
+    meshId: number | null;
+    recolours: { source: number; destination: number }[] | null;
+    zoom: number;
+    rotationX: number;
+    rotationY: number;
+    animationId: number;
 }
 
 export interface PrayerState {

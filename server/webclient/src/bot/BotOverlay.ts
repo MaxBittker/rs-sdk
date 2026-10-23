@@ -290,6 +290,7 @@ export class BotOverlay implements GatewayMessageHandler {
                 allComponents: allDialogComponents
             },
             interface: {
+                ...baseState.interface,
                 isOpen: this.client.isViewportInterfaceOpen(),
                 interfaceId: this.client.getViewportInterface(),
                 options: interfaceOptions,

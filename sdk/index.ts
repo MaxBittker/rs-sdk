@@ -19,6 +19,7 @@ import type {
     NearbyLoc,
     GroundItem,
     DialogState,
+    InterfaceSnapshotState,
     BankItem,
     SDKConfig,
     ConnectionState,
@@ -997,6 +998,11 @@ export class BotSDK {
     /** Get current dialog state. */
     getDialog(): DialogState | null {
         return this.state?.dialog || null;
+    }
+
+    /** Read bounded viewport-interface text/model metadata. Null means no state or an older client; rootId -1 means supported but closed. Inspect truncated/contentResolved before using it. This is observation only, not a guarded-click token. */
+    getInterfaceSnapshot(): InterfaceSnapshotState | null {
+        return this.state?.interface?.snapshot ?? null;
     }
 
     // ============ On-Demand Scanning ============

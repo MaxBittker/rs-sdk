@@ -941,6 +941,7 @@ export class LiteClient {
                 allComponents: allDialogComponents
             },
             interface: {
+                ...baseState.interface,
                 isOpen: this.isViewportInterfaceOpen(),
                 interfaceId: this.getViewportInterface(),
                 options: interfaceOptions,

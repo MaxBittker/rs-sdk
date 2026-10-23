@@ -58,6 +58,15 @@ Defence: 1 (0 xp)
 ...
 ```
 
+## Interface observations
+
+`sdk.getInterfaceSnapshot()` exposes bounded viewport-interface text, layout and
+displayed model metadata in both lite and browser clients. It distinguishes
+object IDs from underlying mesh IDs and includes cached object recolours without
+loading model geometry. Older clients return `null`; unresolved/truncated content
+is explicit. See [INTERFACES.md](INTERFACES.md) for limits, compatibility and safe
+use. This is read-only telemetry, not a snapshot-guarded click API.
+
 ## Reporting SDK Bugs
 
 When the SDK has a bug or rough edge, first find a workaround, then file a report. One command, no auth needed:
