@@ -1,4 +1,6 @@
 import type { GEState } from './ge-types';
+import type { CharacterDesignPatch, CharacterDesignState, PlayerAppearance } from './character-design';
+export type { CharacterDesign, CharacterDesignPatch, CharacterDesignState, CharacterDesignActionResult, CharacterBodyPart, CharacterColorPart, PlayerAppearance } from './character-design';
 // Re-export all types from the agent types module
 // This file provides the full type definitions for remote SDK users
 
@@ -21,6 +23,8 @@ export interface PlayerCombatState {
 }
 
 export interface PlayerState {
+    /** Server-decoded appearance; absent on older clients, null before player-info arrives. */
+    appearance?: PlayerAppearance | null;
     name: string;
     combatLevel: number;
     /** Current hitpoints level (boosted/drained) */
@@ -588,6 +592,8 @@ export interface BotWorldState {
     ge?: GEState | null;
     modalOpen: boolean;
     modalInterface: number;
+    /** Pending tutorial design; null outside creation, absent on older clients. */
+    characterDesign?: CharacterDesignState | null;
     combatStyle?: CombatStyleState;
     combatEvents: CombatEvent[];
     prayers: PrayerState;
@@ -612,12 +618,10 @@ export type BotAction =
     | { type: 'clickComponent'; componentId: number; reason: string }
     // clickComponentWithOption: INV_BUTTON packet - for components with inventory operations (smithing, crafting, etc.)
     | { type: 'clickComponentWithOption'; componentId: number; optionIndex: number; slot?: number; reason: string }
-    // TODO: acceptCharacterDesign should be parameterized as (gender, kits[7], colours[5])
-    // Currently uses hidden client state - the SDK cannot set design values before accepting.
-    // For now, bot client uses whatever design state exists (usually defaults or randomized).
+    | { type: 'setCharacterDesign'; patch: CharacterDesignPatch; reason: string }
     | { type: 'acceptCharacterDesign'; reason: string }
     // Randomize character appearance (gender, body parts, colors) with valid random values
-    | { type: 'randomizeCharacterDesign'; reason: string }
+    | { type: 'randomizeCharacterDesign'; gender?: boolean; reason: string }
     | { type: 'walkTo'; x: number; z: number; running?: boolean; reason: string }
     | { type: 'useInventoryItem'; slot: number; optionIndex: number; interfaceId?: number; reason: string }
     | { type: 'useEquipmentItem'; slot: number; optionIndex: number; reason: string }

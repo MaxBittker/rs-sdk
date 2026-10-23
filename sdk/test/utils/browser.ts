@@ -257,20 +257,6 @@ export async function launchBotBrowser(
 
     console.log(`[Browser] Bot '${name}' logged in and in-game`);
 
-    // Randomize character appearance and send to server
-    const randomized = await page.evaluate(() => {
-        const client = (window as any).gameClient;
-        if (client?.randomizeCharacterDesign && client?.acceptCharacterDesign) {
-            client.randomizeCharacterDesign();
-            client.acceptCharacterDesign();
-            return true;
-        }
-        return false;
-    });
-    if (randomized) {
-        console.log(`[Browser] Randomized character appearance`);
-    }
-
     return {
         browser,
         page,
@@ -310,7 +296,7 @@ export function isOnTutorialIsland(x: number, z: number): boolean {
 /**
  * Skip tutorial using SDK.
  * Returns true if tutorial was skipped successfully.
- * Note: Character appearance is now randomized in launchBotBrowser, not here.
+ * Fresh characters are designed by bot.skipTutorial(), entirely through the SDK.
  */
 export async function skipTutorial(sdk: BotSDK, maxAttempts: number = 30): Promise<boolean> {
     // Check if we're in tutorial (on Tutorial Island specifically)

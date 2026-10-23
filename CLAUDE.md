@@ -113,7 +113,7 @@ This shows: position, inventory, skills, nearby NPCs/objects, and more.
 
 **Exception**: Skip this if you just created the character and know it's at spawn.
 
-**Tutorial Check**: If the character is in the tutorial area, call `await bot.skipTutorial()` before running any other scripts. The tutorial blocks normal gameplay.
+**Tutorial Check**: If the character is in the tutorial area, call `await bot.skipTutorial()` before normal gameplay. It randomizes and confirms appearance automatically. To choose a custom look, first inspect `sdk.getCharacterDesign()` and call `await bot.acceptCharacterDesign({ ... })`, then skip tutorial. See [character design](sdk/README.md#character-design) for valid choices and individual edits.
 
 ### 2. Write Your Script
 
@@ -215,7 +215,8 @@ For the complete method reference, see **[sdk/API.md](sdk/API.md)** (auto-genera
 | `smithAtAnvil(product)`         | Smith bars at anvil                                              |
 | `dismissBlockingUI()`           | Dismiss level-up dialogs (called automatically by all actions)   |
 | `navigateDialog(choices)`       | Auto-click through dialog options                                |
-| `skipTutorial()`                | Skip the tutorial island                                         |
+| `acceptCharacterDesign(patch?)` | Apply optional appearance choices, accept, and verify the server look |
+| `skipTutorial()`                | Randomize/confirm appearance and skip the tutorial island          |
 
 ### sdk.\* Commonly Used Directly
 
@@ -227,6 +228,8 @@ For the complete method reference, see **[sdk/API.md](sdk/API.md)** (auto-genera
 | `findNearbyNpc(pattern)` / `findNearbyLoc(pattern)` | Find nearby entities                                |
 | `findNearbyPlayer(pattern)` / `getNearbyPlayers()`  | Find other players                                  |
 | `findGroundItem(pattern)`                           | Find ground items                                   |
+| `getCharacterDesign()`                              | Pending appearance and valid kit IDs/colour indices  |
+| `sendSetCharacterDesign(patch)`                       | Edit pending appearance without accepting            |
 | `getDialog()`                                       | Current dialog state                                |
 | `sendClickDialog(option)`                           | Click dialog option by its published `index`        |
 | `clickDialogByText(pattern)`                        | Click dialog option by label — prefer this          |

@@ -1,6 +1,7 @@
 // formatters.ts - State formatting functions for display and agent consumption
 
 import type { BotState, BotWorldState } from './types.js';
+import { CHARACTER_DESIGN_INTERFACE } from '../../../../sdk/character-design.js';
 
 // Format state as text for display (fixed-width columns for alignment)
 export function formatBotState(state: BotState): string {
@@ -248,8 +249,8 @@ export function formatWorldStateForAgent(state: BotWorldState, goal: string): st
     if (state.modalOpen) {
         lines.push('');
         lines.push(`### Modal Interface Open: ${state.modalInterface}`);
-        if (state.modalInterface === 269) {
-            lines.push('(This is the character design screen - use acceptCharacterDesign to continue)');
+        if (state.modalInterface === CHARACTER_DESIGN_INTERFACE) {
+            lines.push('(Character design: inspect sdk.getCharacterDesign(), edit with sdk.sendSetCharacterDesign(), then confirm with bot.acceptCharacterDesign())');
         }
     }
 

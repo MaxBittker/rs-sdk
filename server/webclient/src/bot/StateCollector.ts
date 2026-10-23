@@ -2,6 +2,7 @@
 // Extracts all relevant game data for bot decision-making
 
 import type { Client } from '#/client/Client.js';
+import { observedPlayerAppearance } from '#/client/CharacterDesign.js';
 import type ClientNpc from '#/dash3d/ClientNpc.js';
 import type ClientPlayer from '#/dash3d/ClientPlayer.js';
 import type ClientObj from '#/dash3d/ClientObj.js';
@@ -188,6 +189,7 @@ export class BotStateCollector implements ScanProvider {
             interface: this.collectInterfaceState(),
             modalOpen: (c.mainModalId ?? -1) !== -1,
             modalInterface: c.mainModalId ?? -1,
+            characterDesign: this.client.getCharacterDesign?.() ?? null,
             prayers: this.collectPrayerState(),
             // These policy-critical settings are ordinary server varps. Keep
             // them explicit rather than making controllers infer state from a
@@ -609,6 +611,7 @@ export class BotStateCollector implements ScanProvider {
 
         return {
             name: player.name || 'Unknown',
+            appearance: observedPlayerAppearance(player),
             combatLevel: player.combatLevel || 0,
             hp,
             maxHp,
