@@ -28,6 +28,13 @@ export function getBotPassword(): string | null {
     return params?.get('password') || null;
 }
 
+/** Optional ?gateway=host[:port] (or a full ws(s):// URL) for when the page is
+ * not served from the gateway's origin. Absent, the page's own origin is used. */
+export function getGatewayOverride(): string | null {
+    const params = getUrlParams();
+    return params?.get('gateway') || null;
+}
+
 export class GatewayConnection {
     private ws: WebSocket | null = null;
     private reconnectTimer: number | null = null;
@@ -68,9 +75,15 @@ export class GatewayConnection {
     connect(): void {
         if (this.ws) return;
 
-        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const host = window.location.host;
-        const url = `${protocol}//${host}/gateway`;
+        const override = getGatewayOverride();
+        let url: string;
+        if (override?.startsWith('ws://') || override?.startsWith('wss://')) {
+            url = override;
+        } else {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const host = override || window.location.host;
+            url = `${protocol}//${host}/gateway`;
+        }
 
         try {
             this.ws = new WebSocket(url);

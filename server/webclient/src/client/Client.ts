@@ -62,6 +62,7 @@ import PixFont from '#/graphics/PixFont.js';
 import PixMap from '#/graphics/PixMap.js';
 
 import ClientStream from '#/io/ClientStream.js';
+import { engineTarget } from '#/io/EngineTarget.js';
 import { ClientProt } from '#/io/ClientProt.js';
 import Database from '#/io/Database.js';
 import Isaac from '#/io/Isaac.js';
@@ -4187,7 +4188,8 @@ export class Client extends GameShell {
                 await this.titleScreenDraw();
             }
 
-            this.stream = new ClientStream(await ClientStream.openSocket(window.location.host, window.location.protocol === 'https:'));
+            const engine = engineTarget();
+            this.stream = new ClientStream(await ClientStream.openSocket(engine.host, engine.secured));
 
             const userhash = JString.toUserhash(username);
             const loginServer = Number(userhash >> 16n) & 0x1f;
