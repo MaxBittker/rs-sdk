@@ -922,6 +922,8 @@ const gatewayHandlers = {
                 inGame: isConnected ? (botSession?.lastState?.inGame || false) : false,
                 stateAge,
                 maxMessageLength: botSession?.maxMessageLength ?? null,
+                // The headless lite runner registers as '{username}-lite-{ts}', the browser as '{username}-{ts}'.
+                kind: isConnected ? (botSession!.clientId.includes('-lite-') ? 'lite' : 'web') : null,
                 controllers,
                 observers,
                 player: isConnected && botSession?.lastState?.player ? {
