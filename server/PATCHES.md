@@ -127,6 +127,10 @@ survival) is described in the project memory; this file is the human-readable ch
       automated 2-day bans REMOVED (bots trip them).
 - [ ] **Random events toggle** — `ScriptOpcode.ts` + `DebugOps.ts`: `MAP_RANDOM_EVENTS` opcode
       backed by `NODE_RANDOM_EVENTS` env (paired with content `engine.rs2`, see content section).
+- [ ] **Level-up interface toggle** — `ScriptOpcode.ts` + `DebugOps.ts`: `MAP_LEVELUP_INTERFACE`
+      opcode (10012) backed by `NODE_LEVELUP_INTERFACE` env, default true (paired with content
+      `engine.rs2` + `levelup.rs2`, see content section).
+      Verify: `grep -n "MAP_LEVELUP_INTERFACE" src/engine/script/handlers/DebugOps.ts`
 - [ ] **`[LOGOUT DEBUG]` instrumentation** — console.warn breadcrumbs in
       `NetworkPlayer.ts`, `IdleTimerHandler.ts`, `ClientCheatHandler.ts`, `PlayerOps.ts`,
       `World.ts` (and webclient `Client.ts`). Low-stakes but useful; fine to re-add lazily.
@@ -379,6 +383,12 @@ Upgrade hazards:
       `MAP_RANDOM_EVENTS` opcode — both sides or scripts fail to compile).
 - [ ] **`scripts/login_logout/login.rs2`** — random-event timer gated on `map_random_events`.
 - [ ] **`scripts/macro events/scripts/macro_events.rs2`** — macro events disabled when off.
+- [ ] **`scripts/engine.rs2`** — `[command,map_levelup_interface]` declaration (pairs with engine
+      `MAP_LEVELUP_INTERFACE` opcode).
+- [ ] **`scripts/levelup/scripts/levelup.rs2`** — `[label,levelup]` returns after the jingle when
+      `map_levelup_interface` is false: the message, fireworks and jingle stay; the dialogue box,
+      its `p_pausebutton` and the unlock pages are skipped.
+      Verify: `grep -n "map_levelup_interface" scripts/levelup/scripts/levelup.rs2`
 - [ ] **`scripts/shop/configs/shop.varp`** — `transmit=yes` on shop varps (bot shop state).
 - [ ] **`scripts/minigames/game_managing_miscellania/scripts/managing_miscellania.rs2`** — coffers
       deposit clamps to `min(requested, coffer space, current coins held)` after the count dialog;
