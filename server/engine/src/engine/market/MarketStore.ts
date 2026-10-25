@@ -4,7 +4,7 @@ import Environment from '#/util/Environment.js';
 import { dirname } from 'node:path';
 
 export const MAX_GP = 2_147_483_647;
-export const OFFER_SLOTS = 6;
+export const OFFER_SLOTS = 12;
 export type Side = 'buy' | 'sell';
 export type MarketOverview = {
     item: number;
@@ -133,7 +133,7 @@ export class MarketStore {
                 throw new Error('That offer slot is no longer empty.');
             }
             const slot = preferredSlot ?? Array.from({ length: OFFER_SLOTS }, (_, i) => i).find(i => !slots.has(i));
-            if (slot === undefined) throw new Error('All six slots are occupied. Collect a finished offer first.');
+            if (slot === undefined) throw new Error('All offer slots are occupied. Collect a finished offer first.');
             account.take(side === 'buy' ? coinsId : item, side === 'buy' ? quantity * price : quantity);
             const inserted = this.db.query('INSERT INTO offers(owner,slot,item,side,quantity,price,remaining,created) VALUES(?,?,?,?,?,?,?,?)').run(account.owner, slot, item, side, quantity, price, quantity, Date.now());
             const incoming = this.owned(account.owner, Number(inserted.lastInsertRowid));

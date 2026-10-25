@@ -2,7 +2,7 @@ import { afterEach, describe, expect, test } from 'bun:test';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { MarketStore, MAX_GP, type MarketAccount } from '../src/engine/market/MarketStore.js';
+import { MarketStore, MAX_GP, OFFER_SLOTS, type MarketAccount } from '../src/engine/market/MarketStore.js';
 const COINS = 995,
     ITEM = 1511;
 let stores: MarketStore[] = [];
@@ -154,14 +154,14 @@ describe('Grand Exchange conservation and matching', () => {
         expect(a.inv[ITEM]).toBe(10);
         expect(s.offers(a.owner)).toEqual([]);
     });
-    test('six occupied slots include uncollected completed and cancelled offers', () => {
+    test('all occupied slots include uncollected completed and cancelled offers', () => {
         const s = store(),
             a = new Wallet('a', 1000);
-        for (let i = 0; i < 6; i++) s.place(a.account(), ITEM, 'buy', 1, 1, COINS);
-        expect(() => s.place(a.account(), ITEM, 'buy', 1, 1, COINS)).toThrow('six');
+        for (let i = 0; i < OFFER_SLOTS; i++) s.place(a.account(), ITEM, 'buy', 1, 1, COINS);
+        expect(() => s.place(a.account(), ITEM, 'buy', 1, 1, COINS)).toThrow('occupied');
         const first = s.offers(a.owner)[0]!;
         s.cancel(a.owner, first.id);
-        expect(() => s.place(a.account(), ITEM, 'buy', 1, 1, COINS)).toThrow('six');
+        expect(() => s.place(a.account(), ITEM, 'buy', 1, 1, COINS)).toThrow('occupied');
         s.collect(a.account(), first.id, COINS);
         expect(s.place(a.account(), ITEM, 'buy', 1, 1, COINS).slot).toBe(0);
     });
@@ -306,7 +306,7 @@ describe('Grand Exchange conservation and matching', () => {
                     s.collect(w.account(), o.id, COINS);
                 }
             }
-            if (s.offers(w.owner).length < 6) s.place(w.account(), ITEM, random(2) ? 'buy' : 'sell', 1 + random(4), 10 + random(15), COINS);
+            if (s.offers(w.owner).length < OFFER_SLOTS) s.place(w.account(), ITEM, random(2) ? 'buy' : 'sell', 1 + random(4), 10 + random(15), COINS);
         }
         for (const w of wallets)
             for (const o of s.offers(w.owner)) {

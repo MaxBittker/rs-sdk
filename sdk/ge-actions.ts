@@ -3,6 +3,9 @@ import type { BotActions } from './actions';
 import type { GEState, GEOfferRequest, GEActionResult } from './ge-types';
 import type { ActionResult } from './types';
 
+/** Offer slots per account; must match the engine's MarketStore OFFER_SLOTS. */
+export const GE_OFFER_SLOTS = 12;
+
 const activeSDKs = new WeakSet<BotSDK>();
 const MAX_GP = 2_147_483_647;
 /** Ground floor tile beside the Varrock west bank exchange table; the teller stands two tiles north. */
@@ -209,8 +212,8 @@ export class GEActions {
                 throw new GEFailure('Invalid GE side or search query (maximum 48 ASCII characters).', 'invalid_argument');
             const deadline = Date.now() + timeout;
             await this.home(deadline);
-            const slot = Array.from({ length: 6 }, (_, i) => i).find((i) => !this.state().offers.some((o) => o.slot === i));
-            if (slot === undefined) throw new GEFailure('All six slots are occupied. Collect finished offers to free a slot.', 'no_slot');
+            const slot = Array.from({ length: GE_OFFER_SLOTS }, (_, i) => i).find((i) => !this.state().offers.some((o) => o.slot === i));
+            if (slot === undefined) throw new GEFailure('All offer slots are occupied. Collect finished offers to free a slot.', 'no_slot');
             await this.click(`${side}${slot}`, (s) => s.screen === 'catalog' && s.search?.side === side, deadline);
             const state = await this.step(
                 () => this.sdk.sendGESearch(query),
@@ -234,17 +237,17 @@ export class GEActions {
                 !this.validNumber(price) ||
                 quantity * price > MAX_GP ||
                 !['buy', 'sell'].includes(side) ||
-                (request.slot !== undefined && (!Number.isInteger(request.slot) || request.slot < 0 || request.slot > 5))
+                (request.slot !== undefined && (!Number.isInteger(request.slot) || request.slot < 0 || request.slot >= GE_OFFER_SLOTS))
             )
                 throw new GEFailure(
-                    'Use a canonical item ID, buy/sell, positive integer quantity/price, total at most 2,147,483,647 gp and slot 0–5.',
+                    `Use a canonical item ID, buy/sell, positive integer quantity/price, total at most 2,147,483,647 gp and slot 0–${GE_OFFER_SLOTS - 1}.`,
                     'invalid_argument',
                 );
             const deadline = Date.now() + timeout;
             await this.home(deadline);
-            const slot = request.slot ?? Array.from({ length: 6 }, (_, i) => i).find((i) => !this.state().offers.some((o) => o.slot === i));
+            const slot = request.slot ?? Array.from({ length: GE_OFFER_SLOTS }, (_, i) => i).find((i) => !this.state().offers.some((o) => o.slot === i));
             if (slot === undefined || this.state().offers.some((o) => o.slot === slot))
-                throw new GEFailure('Requested slot is occupied, or all six slots are full. Collect finished offers first.', 'no_slot');
+                throw new GEFailure('Requested slot is occupied, or all offer slots are full. Collect finished offers first.', 'no_slot');
             await this.click(`${side}${slot}`, (s) => s.screen === 'catalog' && s.search?.side === side, deadline);
             // Retained numeric selector: server validates canonical eligibility, and placement validates carried assets.
             await this.click('find', (s) => s.input === 'item', deadline);
@@ -317,7 +320,8 @@ export class GEActions {
                 await this.select(offerId, deadline);
             }
             const state = await this.click(
-                offerId === undefined ? 'collectAll' : notes ? 'collectNotes' : 'collect',
+                // collectNotes is only offered when the claim holds a notable item; plain collect is equivalent otherwise.
+                offerId === undefined ? 'collectAll' : notes && this.state().controls.collectNotes ? 'collectNotes' : 'collect',
                 (s) => s.receipt?.kind === 'collect' && s.receipt.offerId === offerId,
                 deadline,
             );

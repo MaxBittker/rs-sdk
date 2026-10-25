@@ -213,10 +213,12 @@ sit in a **reserved range above any upstream revision** (never renumber) or at t
 (renumber on every revision bump). The packers write gaps as empty entries.
 
 Reserved (fixed since 289; upstream `377-wip` tops out at interface 18785 / varp 724):
-- [ ] **Interfaces 40000+** — GE `grand_exchange` root **40000** … `grand_exchange_side:inv` **40495**
-      (`interface.pack` + same ids appended to `interface.order`). Free: the interface format lists
+- [ ] **Interfaces 40000+** — GE `grand_exchange` root **40000** … `grand_exchange_side:inv` **40495**,
+      plus offer slots 6–11 (`grand_exchange:slot6` … `slot11_sell`) at **40496–40753**, listed in
+      `interface.order` before `grand_exchange_side` so each root stays contiguous
+      (`interface.pack` + same ids in `interface.order`). Free: the interface format lists
       component ids explicitly, so the gap costs no bytes. Ids must stay below 65535 (the format's
-      root marker). Add new custom interfaces after 40495.
+      root marker). Add new custom interfaces after 40753.
 - [ ] **Varps 1000+** — `pvp_death_mark` **1000**. Saves store varps by id, so a fixed id means no
       more save migrations. Cost: per-player `vars`/`varsString` arrays are sized to the max id.
       `PlayerLoading.load` still moves a value found at **358** (its 274 id) to `pvp_death_mark`;

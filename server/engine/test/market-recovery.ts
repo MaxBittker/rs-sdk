@@ -16,6 +16,7 @@ const { PlayerLoading } = await import('../src/engine/entity/PlayerLoading.js');
 const { default: IfButtonHandler } = await import('../src/network/game/client/handler/IfButtonHandler.js');
 const { default: IfButton } = await import('../src/network/game/client/model/IfButton.js');
 const { openExchange, exchangeSearch, exchangeCount } = await import('../src/engine/market/GrandExchange.js');
+const { OFFER_SLOTS } = await import('../src/engine/market/MarketStore.js');
 const { marketStore, MAX_GP } = await import('../src/engine/market/MarketStore.js');
 const { noteFor } = await import('../src/engine/market/MarketCatalog.js');
 try {
@@ -121,7 +122,7 @@ try {
     assert.equal(reload(noted).getInventory(bank)!.getItemCount(note), 0);
     console.log('PASS: stack overflow remains durable and bank recovery handles notes.');
 
-    for (let slot = 1; slot < 6; slot++) place(actor, slot);
+    for (let slot = 1; slot < OFFER_SLOTS; slot++) place(actor, slot);
     const observer = make('saveobserver');
     let saves = 0;
     const originalSave = observer.save.bind(observer);

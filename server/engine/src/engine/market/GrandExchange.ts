@@ -15,7 +15,7 @@ import IfOpenMainSide from '#/network/game/server/model/IfOpenMainSide.js';
 import IfSetText from '#/network/game/server/model/IfSetText.js';
 import IfSetObject from '#/network/game/server/model/IfSetObject.js';
 import PCountDialog from '#/network/game/server/model/PCountDialog.js';
-import { marketStore, MAX_GP, positive, type MarketAccount, type Side } from './MarketStore.js';
+import { marketStore, MAX_GP, OFFER_SLOTS, positive, type MarketAccount, type Side } from './MarketStore.js';
 import { canonicalItem, catalog, marketItem, noteFor } from './MarketCatalog.js';
 
 let nextSession = 0;
@@ -181,11 +181,15 @@ function wrapItemName(name: string): string {
         .map(line => line.slice(0, 19))
         .join('\\n');
 }
+/** Coins and unnotable items (runes, arrows, ...) have no noted form, so the notes button would only duplicate Collect. */
+function collectsAsNotes(o: { item: number; items: number }): boolean {
+    return o.items > 0 && noteFor(o.item) !== o.item;
+}
 function renderGrid(p: Player) {
     const offers = marketStore().offers(p.username);
     const s = sessions.get(p)!;
     s.rows = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < OFFER_SLOTS; i++) {
         const o = offers.find(offer => offer.slot === i);
         const name = `slot${i}`;
         s.rows[i] = o?.id ?? 0;
@@ -215,7 +219,7 @@ function publishExchange(p: Player, notice = '') {
         .map(({ owner, created, ...o }) => ({ ...o, name: ObjType.get(o.item).name ?? 'Item' }));
     const controls: Record<string, number> = { home: com('home'), close: com('close'), collectAll: com('collect') };
     if (s.screen === 'home') {
-        for (let slot = 0; slot < 6; slot++) {
+        for (let slot = 0; slot < OFFER_SLOTS; slot++) {
             if (offers.some(o => o.slot === slot)) controls[`view${slot}`] = com(`slot${slot}_view`);
             else {
                 controls[`buy${slot}`] = com(`slot${slot}_buy`);
@@ -237,9 +241,10 @@ function publishExchange(p: Player, notice = '') {
         controls.change = com('offer_change');
     }
     if (s.screen === 'offer') {
+        const offer = offers.find(o => o.id === s.offer);
         controls.collect = com('row3');
-        controls.collectNotes = com('row4');
-        if (offers.find(o => o.id === s.offer)?.state === 'open') controls.cancel = com('row5');
+        if (offer && collectsAsNotes(offer)) controls.collectNotes = com('row4');
+        if (offer?.state === 'open') controls.cancel = com('row5');
     }
     const state: GEState = {
         isOpen: true,
@@ -357,6 +362,7 @@ function render(p: Player, notice = '') {
         text(p, 'view_coins', amount(o.coins));
         const ready = o.items > 0 || o.coins > 0;
         hide(p, 'view_claim_controls', !ready);
+        for (const name of ['view_notes', 'view_notes_edge', 'view_notes_face']) hide(p, name, !collectsAsNotes(o));
         hide(p, 'view_cancel_controls', o.state !== 'open');
         text(p, 'view_waiting', ready ? '' : 'Nothing ready to collect yet.');
     }
@@ -385,7 +391,7 @@ export function exchangeInventoryButton(p: Player, component: number, slot: numb
         const id = canonicalItem(item);
         const offers = marketStore().offers(p.username);
         const selectedSlot = s.screen === 'catalog' || s.screen === 'draft' ? s.slot : undefined;
-        const freeSlot = selectedSlot !== undefined && !offers.some(o => o.slot === selectedSlot) ? selectedSlot : Array.from({ length: 6 }, (_, i) => i).find(i => !offers.some(o => o.slot === i));
+        const freeSlot = selectedSlot !== undefined && !offers.some(o => o.slot === selectedSlot) ? selectedSlot : Array.from({ length: OFFER_SLOTS }, (_, i) => i).find(i => !offers.some(o => o.slot === i));
         if (freeSlot === undefined) throw new Error('All offer slots are full. Collect a completed offer to free a slot.');
         s.side = 'sell';
         s.slot = freeSlot;
@@ -438,7 +444,7 @@ export function exchangeButton(p: Player, id: number): boolean {
             for (const [button, row] of Object.entries(aliases)) if (id === com(button)) id = com(row);
         }
         if (s.screen === 'home') {
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < OFFER_SLOTS; i++) {
                 const offer = marketStore()
                     .offers(p.username)
                     .find(o => o.slot === i);

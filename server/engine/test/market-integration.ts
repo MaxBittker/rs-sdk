@@ -27,7 +27,7 @@ const { default: ScriptProvider } = await import('../src/engine/script/ScriptPro
 const { default: ScriptRunner } = await import('../src/engine/script/ScriptRunner.js');
 const { default: ServerTriggerType } = await import('../src/engine/script/ServerTriggerType.js');
 const { default: Loc } = await import('../src/engine/entity/Loc.js');
-const { marketStore } = await import('../src/engine/market/MarketStore.js');
+const { marketStore, OFFER_SLOTS } = await import('../src/engine/market/MarketStore.js');
 const { noteFor, canonicalItem } = await import('../src/engine/market/MarketCatalog.js');
 const { openExchange, atExchange, tickExchange } = await import('../src/engine/market/GrandExchange.js');
 const { handleMarket } = await import('../src/web/pages/market.js');
@@ -391,7 +391,7 @@ try {
     const beforeInvalid = a.sent.length;
     assert.equal((await a.bot.placeGEOffer({ item: logs, side: 'buy', quantity: 0, price: 1 })).success, false);
     assert.equal(a.sent.length, beforeInvalid, 'Invalid values do not dispatch');
-    for (let slot = 0; slot < 6; slot++) {
+    for (let slot = 0; slot < OFFER_SLOTS; slot++) {
         const result = await a.bot.placeGEOffer({ item: logs, side: 'buy', quantity: 1, price: 1, slot });
         assert(result.success, result.message);
     }
@@ -407,7 +407,7 @@ try {
     invalid.p.x = 3200;
     assert(inventoryClick(invalid.p, note));
     assert.equal(invalid.p.modalMain, -1, 'Inventory clicks recheck exchange distance');
-    assert(largestStatePacket < 4997, 'Six-offer snapshots fit the native socket packet buffer including framing');
+    assert(largestStatePacket < 4997, 'Full-grid snapshots fit the native socket packet buffer including framing');
     // Raw forged/stale UI packets still cannot mutate remotely, regardless of SDK preflight.
     for (const operation of ['confirm', 'cancel', 'collect', 'count', 'search']) {
         const c = agent('remote' + operation);
@@ -439,7 +439,7 @@ try {
     click(upstairs.p, 'collect');
     assert.equal(upstairs.p.modalMain, -1);
     assert.equal(upstairs.p.getInventory(inv)!.getItemCount(coins), upstairsCoins);
-    console.log('PASS: SDK search/place/cancel/collect receipts, rejection, six slots, native state encoding and remote/floor guards.');
+    console.log('PASS: SDK search/place/cancel/collect receipts, rejection, full slots, native state encoding and remote/floor guards.');
     console.log('PASS: compiled booth → native fuzzy search/selection/click/count handlers → noted escrow → matching → 5% burn → local collection → save recovery → HTTP market data.');
 } finally {
     marketStore().db.close();

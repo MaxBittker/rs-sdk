@@ -225,7 +225,7 @@ ineligible item, `405` unsupported method, `503` temporary market failure.
    Price shortcuts offer ±5% and **Guide**
    (last trade price, or the item-definition value before the first trade).
 4. Review the total and **Confirm offer**. Funds/items enter escrow immediately.
-5. Use **Offers** to inspect the six-slot grid. Open offers update automatically
+5. Use **Offers** to inspect the twelve-slot grid (scroll for the bottom rows). Open offers update automatically
    when trades fill or collection balances change; no refresh is required. Item
    icons, quantities, unit prices and progress bars summarize each offer. Click a slot to collect
    items from the visual collection panels using **Collect** or **Collect as notes**,

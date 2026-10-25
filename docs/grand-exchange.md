@@ -74,7 +74,7 @@ crafting inventories are excluded. Version 7 saves remain readable; an older
 server cannot read version 8 saves, so rollback requires a compatible build.
 Transient NPC, ground-item and shop state is not persisted by the exchange.
 
-Collect-all transfers all six slots in one transaction and checkpoints the world
+Collect-all transfers all twelve slots in one transaction and checkpoints the world
 once. Empty collections and collections blocked entirely by inventory capacity
 do not serialize or checkpoint players. A failed batch restores all its claims
 and inventory additions.
@@ -156,7 +156,7 @@ consumes 100 gp, returns 100 gp to the buyer, and yields 95 gp to the seller.
 A resting buy at 20 gp instead executes at 20 gp when a seller offers 10 gp.
 
 Intentional departures: the user-requested 5% tax; collection only at this
-physical location; six slots for every account; no historical guide-price
+physical location; twelve slots for every account; no historical guide-price
 bands, membership slot tiers, four-hour buy limits, inactivity expiry or set
 exchange. Public bid/ask depth totals are more transparent than the original
 GE. The native interface is deliberately simpler than the 2007/2009 artwork.
