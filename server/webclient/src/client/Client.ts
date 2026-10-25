@@ -12532,7 +12532,16 @@ export class Client extends GameShell {
         const right: number = Pix2D.clipMaxX;
         const bottom: number = Pix2D.clipMaxY;
 
-        Pix2D.setClipping(x, y, x + com.width, y + com.height);
+        // intersect with the parent's clip so nested layers inside a scrolled layer stay clipped
+        const clipX1: number = Math.max(x, left);
+        const clipY1: number = Math.max(y, top);
+        const clipX2: number = Math.min(x + com.width, right);
+        const clipY2: number = Math.min(y + com.height, bottom);
+        if (clipX2 <= clipX1 || clipY2 <= clipY1) {
+            return;
+        }
+
+        Pix2D.setClipping(clipX1, clipY1, clipX2, clipY2);
 
         const children: number = com.children.length;
         for (let i: number = 0; i < children; i++) {
