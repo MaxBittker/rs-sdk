@@ -28,6 +28,10 @@ const DebugOps: CommandHandlers = {
         state.pushInt(Environment.NODE_RANDOM_EVENTS ? 1 : 0);
     },
 
+    [ScriptOpcode.MAP_LEVELUP_INTERFACE]: state => {
+        state.pushInt(Environment.NODE_LEVELUP_INTERFACE ? 1 : 0);
+    },
+
     [ScriptOpcode.TIMESPENT]: state => {
         state.timespent = performance.now();
     },
