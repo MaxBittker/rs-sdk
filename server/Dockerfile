@@ -106,8 +106,14 @@ echo "Starting gateway service on port 7780..."
 (
     cd /opt/server/gateway
     while true; do
-        bun run gateway.ts
-        echo "[entrypoint] Gateway exited (code $?), restarting in 2s..." >&2
+        # The entrypoint uses set -e: capture failure in a conditional so the
+        # supervisor survives a gateway crash and reaches the retry.
+        if bun run gateway.ts; then
+            gateway_exit=0
+        else
+            gateway_exit=$?
+        fi
+        echo "[entrypoint] Gateway exited (code $gateway_exit), restarting in 2s..." >&2
         sleep 2
     done
 ) &
