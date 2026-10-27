@@ -15,7 +15,8 @@ at `/market`.
 | Native UI and inventory adapter | `server/engine/src/engine/market/GrandExchange.ts` |
 | Interface, reused bank table/teller and placements | `server/content/scripts/interface_bank/`, interface/loc/npc manifests, `maps/m49_53.jm2` |
 | Engine hooks | `GE_OPEN(coord)` script opcode, native button/count handlers, World tick for offer updates, Player save/load |
-| Read-only web/API | `server/engine/src/web/pages/market.ts`, `public/market.html`, web route and navigation |
+| Read-only public web/API | `server/engine/src/web/pages/market.ts`, `public/market.html`, web route and navigation |
+| Private fleet ledger feed | `server/engine/src/web/pages/fleet-market.ts`, `MarketProjection.ts` |
 | SDK | `sdk/market.ts`, `sdk/ge-actions.ts`, `sdk/ge-types.d.ts` and methods in `sdk/index.ts` / `sdk/actions.ts` |
 
 Reuses `IF_OPENMAIN_SIDE`, `UPDATE_INV_FULL`, `INV_BUTTON1`, `IF_SETTEXT`,
@@ -86,6 +87,31 @@ old player saves. Offline tools that patch only `.sav` files will not override
 a ledger checkpoint. Account deletion/renaming and rollback procedures must
 include the ledger. Do not delete `market.sqlite` to disable the feature: that
 would strand escrow and discard authoritative checkpoints.
+
+## Fleet ledger feed
+
+`POST /api/market/fleet/offers` is a private service-to-service companion to the
+public API. It reads the same occupied offers and collectible balances as the
+native interface, including while the interface is closed or the owner is
+offline. It never infers owners from the public book and does not alter trading,
+claims or checkpoints. `MarketProjection.ts` supplies the shared `GEOffer`
+mapping used by both consumers.
+
+Configure `FLEET_MARKET_TOKEN` with a dedicated high-entropy secret on both the
+engine and fleet dashboard. Configure `FLEET_MARKET_OWNERS` on the engine as a
+comma-separated account allowlist (canonical usernames, maximum 64 requested
+per call). The dashboard sends its roster's `BOT_USERNAME` values in one JSON
+`owners` batch and the token only in `Authorization: Bearer`. Do not put the
+token in `fly.toml`, URLs, logs, browser code or public market responses. Update
+the engine allowlist when fleet accounts are added, removed or renamed; an
+unauthorized account is an error, not an empty result.
+
+Responses are `no-store`, have no CORS grant, and return every requested account
+with explicit empty offer arrays. Deploy the engine route and its allowlist
+before configuring the dashboard token. To rotate, generate a new service
+secret, update the engine and dashboard environments, and restart both; then
+revoke/remove the old value. A failed private feed leaves public market reads
+available and the dashboard renders fleet values as unknown rather than zero.
 
 ## Build and validation
 

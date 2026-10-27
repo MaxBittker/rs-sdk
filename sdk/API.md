@@ -928,7 +928,7 @@ interface StringAmuletResult {
 
 ### GEOffer
 
-Private exchange observations delivered only through an open in-game session.
+Private offer data from an open in-game session or the authenticated fleet ledger feed.
 
 ```typescript
 interface GEOffer {
@@ -1100,5 +1100,14 @@ interface MarketHistory {
 interface GEAvailability {
   enabled: boolean;
   message?: string;
+}
+```
+
+### MarketClientOptions
+
+```typescript
+interface MarketClientOptions {
+  /** Service token used only by fleetOffers(), never by public market reads. */
+  fleetToken?: string;
 }
 ```

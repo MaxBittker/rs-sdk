@@ -36,6 +36,9 @@ export default {
 
     // Restart the engine after changing this flag; no cache rebuild is required.
     GE_ENABLED: tryParseBoolean(process.env.GE_ENABLED, true),
+    // Private service-to-service account offer reads; absent configuration fails closed.
+    FLEET_MARKET_TOKEN: process.env.FLEET_MARKET_TOKEN || '',
+    FLEET_MARKET_OWNERS: (process.env.FLEET_MARKET_OWNERS || '').split(',').map(s => s.trim()).filter(Boolean),
 
     // rs-sdk-only keys (not part of upstream WorldConfig)
     WEB_SOCKET_TOKEN_PROTECTION: tryParseBoolean(process.env.WEB_SOCKET_TOKEN_PROTECTION, false),

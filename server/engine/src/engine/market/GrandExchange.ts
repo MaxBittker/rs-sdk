@@ -17,6 +17,7 @@ import IfSetObject from '#/network/game/server/model/IfSetObject.js';
 import PCountDialog from '#/network/game/server/model/PCountDialog.js';
 import { marketStore, MAX_GP, positive, type MarketAccount, type Side } from './MarketStore.js';
 import { canonicalItem, catalog, marketItem, noteFor } from './MarketCatalog.js';
+import { projectMarketOffers } from './MarketProjection.js';
 
 let nextSession = 0;
 let nextReceipt = 0;
@@ -210,9 +211,7 @@ function renderGrid(p: Player) {
 /** One complete snapshot is sent after all visual updates, avoiding partially decoded UI state. */
 function publishExchange(p: Player, notice = '') {
     const s = sessions.get(p)!;
-    const offers = marketStore()
-        .offers(p.username)
-        .map(({ owner, created, ...o }) => ({ ...o, name: ObjType.get(o.item).name ?? 'Item' }));
+    const offers = projectMarketOffers(marketStore(), p.username);
     const controls: Record<string, number> = { home: com('home'), close: com('close'), collectAll: com('collect') };
     if (s.screen === 'home') {
         for (let slot = 0; slot < 6; slot++) {

@@ -1,4 +1,5 @@
 import { handleMarket } from './pages/market.js';
+import { handleFleetMarket } from './pages/fleet-market.js';
 import { register } from 'prom-client';
 import Environment from '#/util/Environment.js';
 import World from '#/engine/World.js';
@@ -97,6 +98,9 @@ async function handleRequest(req: Request, server: Bun.Server, url: URL): Promis
             // SDK bug report index (GET) / submission (POST), no auth
             const bugReportResponse = await handleBugReport(req, url);
             if (bugReportResponse) return bugReportResponse;
+
+            const fleetMarketResponse = await handleFleetMarket(req, url);
+            if (fleetMarketResponse) return fleetMarketResponse;
 
             const marketResponse = handleMarket(req, url);
             if (marketResponse) return marketResponse;

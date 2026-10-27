@@ -5,16 +5,24 @@ import { join } from 'node:path';
 import ObjType from '../src/cache/config/ObjType.js';
 import { marketStore } from '../src/engine/market/MarketStore.js';
 import { handleMarket } from '../src/web/pages/market.js';
+import { handleFleetMarket } from '../src/web/pages/fleet-market.js';
+import Environment from '../src/util/Environment.js';
 
 const dir = mkdtempSync(join(tmpdir(), 'market-web-'));
 const previousDatabase = process.env.GE_DATABASE;
+const previousFleetToken = Environment.FLEET_MARKET_TOKEN;
+const previousFleetOwners = Environment.FLEET_MARKET_OWNERS;
 process.env.GE_DATABASE = join(dir, 'market.sqlite');
+Environment.FLEET_MARKET_TOKEN = 'fleet-test-secret';
+Environment.FLEET_MARKET_OWNERS = ['Fleet_Owner', 'Fleet_Empty'];
 ObjType.load(join(import.meta.dir, '../data/pack'));
 afterAll(() => {
     marketStore().db.close();
     rmSync(dir, { recursive: true, force: true });
     if (previousDatabase === undefined) delete process.env.GE_DATABASE;
     else process.env.GE_DATABASE = previousDatabase;
+    Environment.FLEET_MARKET_TOKEN = previousFleetToken;
+    Environment.FLEET_MARKET_OWNERS = previousFleetOwners;
 });
 const request = (path: string) => {
     const url = new URL('http://localhost' + path);
@@ -98,4 +106,69 @@ test('HTTP rankings, search, pagination and item details use the same period met
     expect(request('/api/market/items?limit=101').status).toBe(400);
     expect(request('/api/market/items/999999').status).toBe(404);
     expect((await request('/api/market/items?q=logs').json()).items.length).toBeGreaterThan(1);
+});
+
+const fleetPath = '/api/market/fleet/offers';
+async function fleetRequest(init: RequestInit = {}) {
+    const url = new URL('http://localhost' + fleetPath);
+    return (await handleFleetMarket(new Request(url, init), url))!;
+}
+const fleetPost = (owners: unknown = ['Fleet_Owner'], token = 'fleet-test-secret') =>
+    fleetRequest({ method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ owners }) });
+
+test('fleet ledger returns occupied offers and claims without an interface or online player', async () => {
+    const logs = ObjType.getId('logs');
+    const insert = marketStore().db.query(`INSERT INTO offers
+        (owner,slot,item,side,quantity,price,remaining,filled,state,items,coins,gross,tax,created)
+        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+    insert.run('fleet_owner', 0, logs, 'buy', 100, 10, 40, 60, 'open', 60, 25, 600, 0, 1000);
+    insert.run('fleet_owner', 1, logs, 'sell', 10, 20, 0, 10, 'completed', 0, 190, 200, 10, 1001);
+    insert.run('fleet_owner', 2, logs, 'sell', 5, 30, 0, 2, 'cancelled', 3, 57, 60, 3, 1002);
+    insert.run('fleet_owner', -1, logs, 'sell', 1, 20, 0, 1, 'completed', 0, 0, 20, 1, 1003);
+    insert.run('other_owner', 0, logs, 'sell', 9, 20, 9, 0, 'open', 0, 0, 0, 0, 1004);
+
+    const response = await fleetPost(['Fleet_Owner', 'Fleet_Empty']);
+    expect(response.status).toBe(200);
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(response.headers.get('x-content-type-options')).toBe('nosniff');
+    expect(response.headers.get('access-control-allow-origin')).toBeNull();
+    const data = await response.json();
+    expect(data.accounts.map((account: { owner: string }) => account.owner)).toEqual(['Fleet_Owner', 'Fleet_Empty']);
+    expect(data.accounts[1].offers).toEqual([]);
+    expect(data.accounts[0].offers).toHaveLength(3);
+    expect(data.accounts[0].offers[0]).toMatchObject({ slot: 0, name: 'Logs', state: 'open', remaining: 40, filled: 60, items: 60, coins: 25 });
+    expect(data.accounts[0].offers[1]).toMatchObject({ state: 'completed', coins: 190 });
+    expect(data.accounts[0].offers[2]).toMatchObject({ state: 'cancelled', items: 3, coins: 57 });
+    expect(JSON.stringify(data)).not.toContain('other_owner');
+    expect(JSON.stringify(data)).not.toContain('"created"');
+    expect(Number.isFinite(Date.parse(data.at))).toBe(true);
+});
+
+test('fleet route fails closed and validates all work before ledger reads', async () => {
+    expect((await fleetPost(['Fleet_Owner'], 'wrong')).status).toBe(401);
+    expect((await fleetRequest({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"owners":["Fleet_Owner"]}' })).status).toBe(401);
+    expect((await fleetRequest({ method: 'GET' })).status).toBe(405);
+    expect((await fleetPost(['Other_Owner'])).status).toBe(403);
+    expect((await fleetPost(['Fleet Owner', 'fleet_owner'])).status).toBe(400);
+    expect((await fleetPost(['bad-name'])).status).toBe(400);
+    expect((await fleetPost([])).status).toBe(400);
+    expect((await fleetPost(Array.from({ length: 65 }, (_, i) => `Bot${i}`))).status).toBe(400);
+    expect((await fleetRequest({ method: 'POST', headers: { Authorization: 'Bearer fleet-test-secret', 'Content-Type': 'text/plain' }, body: '{}' })).status).toBe(415);
+    expect((await fleetRequest({ method: 'POST', headers: { Authorization: 'Bearer fleet-test-secret', 'Content-Type': 'application/json' }, body: '{bad' })).status).toBe(400);
+    expect((await fleetRequest({ method: 'POST', headers: { Authorization: 'Bearer fleet-test-secret', 'Content-Type': 'application/json' }, body: JSON.stringify({ owners: ['Fleet_Owner'], padding: 'x'.repeat(16_384) }) })).status).toBe(413);
+});
+
+test('missing fleet service configuration is unavailable rather than an empty fleet', async () => {
+    const token = Environment.FLEET_MARKET_TOKEN;
+    const owners = Environment.FLEET_MARKET_OWNERS;
+    try {
+        Environment.FLEET_MARKET_TOKEN = '';
+        expect((await fleetPost()).status).toBe(503);
+        Environment.FLEET_MARKET_TOKEN = token;
+        Environment.FLEET_MARKET_OWNERS = [];
+        expect((await fleetPost()).status).toBe(503);
+    } finally {
+        Environment.FLEET_MARKET_TOKEN = token;
+        Environment.FLEET_MARKET_OWNERS = owners;
+    }
 });

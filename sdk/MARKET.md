@@ -66,6 +66,25 @@ configured `browserLaunchUrl` origin when present, otherwise its usual game URL
 local game port use `MarketClient` or set `browserLaunchUrl` explicitly.
 Credentials and URL query strings are stripped before market requests.
 
+For a server-side fleet dashboard with an explicitly allowlisted set of accounts,
+the same client can read occupied offers directly from the durable ledger. GE may
+be closed and owners may be offline. This is separate from public market data:
+
+```ts
+const fleet = new MarketClient(origin, { fleetToken: process.env.FLEET_MARKET_TOKEN });
+const snapshot = await fleet.fleetOffers(['Xonzer', 'XonMuleFour']);
+// snapshot.accounts includes an explicit offers: [] for each empty account.
+```
+
+Keep the service token in the backend environment, never in browser code or a
+URL. Public client methods never send it. The engine also requires
+`FLEET_MARKET_OWNERS` (a comma-separated account allowlist); a requested account
+outside that allowlist is rejected rather than reported as empty. The feed uses
+`POST /api/market/fleet/offers`, returns one `at` timestamp and every requested
+account, and is limited to 64 accounts and six occupied offers per account.
+Missing configuration or a failed request is unavailable data, not an empty
+ledger. The private route has `no-store` responses and no cross-origin access.
+
 ## Agent trading API
 
 Public market reads are separate from your private exchange session. Only
@@ -144,8 +163,10 @@ with the `bot.*` methods above. `bot.trade()` is player-to-player trade, not GE.
 
 ## HTTP API
 
-All endpoints accept **GET only**, return JSON, and allow cross-origin reads.
-No authentication is required. Responses may be cached for five seconds.
+All **public** endpoints below accept **GET only**, return JSON, and allow
+cross-origin reads. No authentication is required. Responses may be cached for
+five seconds. The authenticated fleet endpoint described above is separate and
+uses POST without CORS.
 
 | Endpoint | Parameters | Result |
 |---|---|---|

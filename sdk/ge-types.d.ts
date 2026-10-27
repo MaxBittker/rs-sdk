@@ -1,4 +1,4 @@
-/** Private exchange observations delivered only through an open in-game session. */
+/** Private offer data from an open in-game session or the authenticated fleet ledger feed. */
 export interface GEOffer {
     id: number;
     slot: number;

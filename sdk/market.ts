@@ -1,4 +1,6 @@
-/** Public, read-only Grand Exchange market data. Trading stays in the game. */
+import type { GEOffer } from './ge-types.js';
+
+/** Public market reads plus an explicitly authenticated fleet ledger feed. Trading stays in the game. */
 export const MARKET_SORTS = ['relevance', 'name', 'name-desc', 'recent', 'rises', 'falls', 'marketCap', 'price', 'volume', 'value', 'buyValue', 'sellRecent'] as const;
 export type MarketSort = (typeof MARKET_SORTS)[number];
 export type MarketDays = 1 | 7 | 30 | 90;
@@ -81,6 +83,18 @@ export interface GEAvailability {
     enabled: boolean;
     message?: string;
 }
+export interface FleetMarketAccount {
+    owner: string;
+    offers: GEOffer[];
+}
+export interface FleetMarketOffers {
+    at: string;
+    accounts: FleetMarketAccount[];
+}
+export interface MarketClientOptions {
+    /** Service token used only by fleetOffers(), never by public market reads. */
+    fleetToken?: string;
+}
 /** The server explicitly disabled GE (distinct from a transient HTTP failure). */
 export class GEUnavailableError extends Error {
     readonly reason = 'ge_unavailable';
@@ -92,15 +106,16 @@ export class GEUnavailableError extends Error {
 /** Use the game's HTTP origin, e.g. http://localhost:8888, not the gateway port. */
 export class MarketClient {
     private readonly base: URL;
-    constructor(origin: string) {
+    private readonly fleetToken: string;
+    constructor(origin: string, options: MarketClientOptions = {}) {
         this.base = new URL(origin);
         if (!['http:', 'https:'].includes(this.base.protocol)) throw new Error('Market origin must use HTTP or HTTPS.');
         this.base = new URL('/api/market/', this.base.origin);
+        this.fleetToken = options.fleetToken ?? '';
     }
-    private async get<T>(suffix: string, params: Record<string, string | number | undefined> = {}): Promise<T> {
+    private async request<T>(suffix: string, init: RequestInit = {}): Promise<T> {
         const url = new URL(suffix, this.base);
-        for (const [key, value] of Object.entries(params)) if (value !== undefined) url.searchParams.set(key, String(value));
-        const response = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+        const response = await fetch(url, { ...init, signal: AbortSignal.timeout(10_000) });
         let data;
         try {
             data = await response.json();
@@ -110,6 +125,11 @@ export class MarketClient {
         if (!response.ok && data?.reason === 'ge_unavailable') throw new GEUnavailableError(data.error);
         if (!response.ok) throw new Error(`Market API ${response.status}: ${data?.error ?? response.statusText}`);
         return data as T;
+    }
+    private get<T>(suffix: string, params: Record<string, string | number | undefined> = {}): Promise<T> {
+        const url = new URL(suffix, this.base);
+        for (const [key, value] of Object.entries(params)) if (value !== undefined) url.searchParams.set(key, String(value));
+        return this.request(url.pathname.slice(this.base.pathname.length) + url.search);
     }
     /** Discover server GE availability without connecting a bot or opening the exchange. */
     async status(): Promise<GEAvailability> {
@@ -130,6 +150,37 @@ export class MarketClient {
     history(id: number, options: MarketHistoryOptions = {}): Promise<MarketHistory> {
         this.validateId(id);
         return this.get('items/' + id + '/history', { ...options });
+    }
+    /** Authoritative occupied offers for allowlisted fleet accounts, including offline owners. */
+    async fleetOffers(owners: readonly string[]): Promise<FleetMarketOffers> {
+        if (!this.fleetToken) throw new Error('Fleet market token is not configured.');
+        const data = await this.request<FleetMarketOffers>('fleet/offers', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${this.fleetToken}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ owners })
+        });
+        const numeric = ['id', 'slot', 'item', 'quantity', 'price', 'remaining', 'filled', 'items', 'coins', 'gross', 'tax'] as const;
+        const validOffer = (offer: GEOffer) =>
+            offer &&
+            typeof offer.name === 'string' &&
+            ['buy', 'sell'].includes(offer.side) &&
+            ['open', 'completed', 'cancelled'].includes(offer.state) &&
+            numeric.every(key => Number.isSafeInteger(offer[key]) && offer[key] >= 0) &&
+            offer.id > 0 &&
+            offer.slot < 6 &&
+            offer.item > 0 &&
+            offer.quantity > 0 &&
+            offer.price > 0;
+        if (
+            typeof data?.at !== 'string' ||
+            !Number.isFinite(Date.parse(data.at)) ||
+            !Array.isArray(data.accounts) ||
+            data.accounts.length > 64 ||
+            data.accounts.some(account => typeof account?.owner !== 'string' || !account.owner || !Array.isArray(account.offers) || account.offers.length > 6 || !account.offers.every(validOffer))
+        ) {
+            throw new Error('Market API: invalid fleet offers response.');
+        }
+        return data;
     }
     private validateId(id: number) {
         if (!Number.isInteger(id) || id < 1) throw new Error('Item ID must be a positive integer.');
