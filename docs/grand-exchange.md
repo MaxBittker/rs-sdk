@@ -106,6 +106,12 @@ token in `fly.toml`, URLs, logs, browser code or public market responses. Update
 the engine allowlist when fleet accounts are added, removed or renamed; an
 unauthorized account is an error, not an empty result.
 
+For the Xon fleet, the hosted world at `https://rs-sdk-demo.fly.dev` is operated
+by someone else and is not administratively accessible to the fleet operators.
+The hosted world's maintainer must deploy and configure the engine feed; Oracle
+can receive only the dashboard portion. A local `fly.toml`, the public hostname
+or access to the unrelated `pvp-sdk` Fly app does not grant access to this world.
+
 Responses are `no-store`, have no CORS grant, and return every requested account
 with explicit empty offer arrays. Deploy the engine route and its allowlist
 before configuring the dashboard token. To rotate, generate a new service
