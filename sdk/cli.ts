@@ -16,9 +16,15 @@ import type { BotWorldState } from './types';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
-/** ws://host -> http://host, wss://host/path -> https://host/path (the gateway serves both on one port). */
+/** ws://host -> http://host. A relayed wss://host/gateway is WS-upgrade-only on the
+ * engine's web server (HTTP GETs under that path 404); its own HTTP admin routes
+ * (/status, /state, /chat, /say) live at the bare origin, so that suffix is
+ * stripped too - a bare ws://host:port with no path has nothing to strip. */
 function gatewayHttpBase(gatewayUrl: string): string {
-    return gatewayUrl.replace(/^ws(s?):\/\//, 'http$1://').replace(/\/$/, '');
+    return gatewayUrl
+        .replace(/^ws(s?):\/\//, 'http$1://')
+        .replace(/\/gateway\/?$/, '')
+        .replace(/\/$/, '');
 }
 
 /**
