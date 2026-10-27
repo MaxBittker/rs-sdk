@@ -540,6 +540,10 @@ const SyncModule = {
             let outdated: OutdatedClient | null = null;
             try {
                 authResult = await authenticateSDK(targetUsername, message.password || '');
+                // The client can time out while auth is in flight. Its close
+                // callback has already run, so registering it now would leak a
+                // session forever and could pre-empt a live controller.
+                if (ws.readyState !== 1 /* OPEN */) return;
                 // A bot with no client attached may be stuck on an old client revision
                 const bot = botSessions.get(targetUsername);
                 if (authResult.success && (!bot || getSessionStatus(bot) === 'dead')) {
@@ -548,6 +552,8 @@ const SyncModule = {
             } finally {
                 sdkConnecting.delete(ws);
             }
+            // The outdated-client lookup above is asynchronous too.
+            if (ws.readyState !== 1 /* OPEN */) return;
             if (!authResult.success) {
                 console.log(`[Gateway] SDK auth failed: ${sdkClientId} -> ${targetUsername} (${authResult.error})`);
                 ws.send(JSON.stringify({
