@@ -214,9 +214,15 @@ test('a slow session takeover finishes admission before yielding, even at the IP
         p.unlink();
     });
     const zone = spyOn(World.gameMap, 'getZone').mockReturnValue({ enter() {} } as any);
+    const trigger = spyOn(ScriptProvider, 'getByTriggerSpecific').mockReturnValue({} as any);
+    const init = spyOn(ScriptRunner, 'init').mockImplementation((_script, self) => {
+        expect(self).toBe(entries[0].active);
+        return { pointerAdd() {} } as any;
+    });
+    const execute = spyOn(ScriptRunner, 'execute').mockImplementation(() => { events.push('logout trigger'); return 0 as any; });
     try {
         world.processLogins();
-        expect(events).toEqual(['close modal', 'save', 'remove', 'login']);
+        expect(events).toEqual(['close modal', 'logout trigger', 'save', 'remove', 'login']);
         expect([...World.playerLoop.all()]).toContain(loaded);
         expect(world.players[loaded.slot]).toBe(loaded);
         expect(loaded.staffModLevel).toBe(1);
@@ -227,6 +233,90 @@ test('a slow session takeover finishes admission before yielding, even at the IP
         expect(entries[1].next.sent).toEqual([[15]]);
     } finally {
         clock.mockRestore(); load.mockRestore(); remove.mockRestore(); zone.mockRestore();
+        trigger.mockRestore(); init.mockRestore(); execute.mockRestore();
+    }
+});
+
+test('a takeover waits for the old session to finish dying, and gives up at the combat-lock cap', () => {
+    const entries = queuedReconnects(2);
+    const [dying, fighting] = entries;
+    for (const [index, entry] of entries.entries()) {
+        entry.pending.reconnecting = false;
+        entry.active.slot = index + 1;
+        world.players[index + 1] = entry.active;
+        entry.active.closeModal = () => {};
+    }
+    // mid ~player_death: suspended on p_delay with item loss still to run
+    dying.active.delayed = true;
+    world.currentTick = 1000;
+    fighting.active.preventLogoutUntil = 1000 + 500;
+    const loaded = new NetworkPlayer(dying.active.username, dying.active.username37, 1n, dying.next.client);
+    loaded.onLogin = () => {};
+    loaded.addSessionLog = () => {};
+    const load = spyOn(PlayerLoading, 'load').mockReturnValue(loaded);
+    const removed: string[] = [];
+    const remove = spyOn(World, 'removePlayerWithoutSave').mockImplementation(p => {
+        removed.push(p.username);
+        delete world.players[p.slot];
+        p.unlink();
+    });
+    const zone = spyOn(World.gameMap, 'getZone').mockReturnValue({ enter() {} } as any);
+    try {
+        world.processLogins();
+        expect(removed).toEqual([]);
+        expect(World.newPlayers.size).toBe(2);
+        expect(dying.next.sent).toEqual([]);
+
+        dying.active.delayed = false;
+        world.currentTick++;
+        world.processLogins();
+        expect(removed).toEqual([dying.active.username]);
+        expect(dying.next.sent).toEqual([[2, 0, 1]]);
+        expect([...World.newPlayers]).toEqual([fighting.pending]);
+
+        world.currentTick += 49;
+        world.processLogins();
+        expect(fighting.next.sent).toEqual([[5]]);
+        expect(World.newPlayers.size).toBe(0);
+        expect(removed).toEqual([dying.active.username]);
+    } finally {
+        load.mockRestore(); remove.mockRestore(); zone.mockRestore();
+        world.currentTick = 0;
+    }
+});
+
+test('a takeover waits out a duel instead of cancelling it through [logout,_]', () => {
+    const [entry] = queuedReconnects(1);
+    entry.pending.reconnecting = false;
+    entry.active.slot = 1;
+    world.players[1] = entry.active;
+    entry.active.closeModal = () => {};
+    entry.active.vars = new Int32Array([6]); // ^duelstatus_start
+    const varp = spyOn(VarPlayerType, 'getId').mockImplementation(name => (name === 'duelstatus' ? 0 : -1));
+    const remove = spyOn(World, 'removePlayerWithoutSave');
+    try {
+        world.processLogins();
+        expect(remove).not.toHaveBeenCalled();
+        expect([...World.newPlayers]).toEqual([entry.pending]);
+        expect(entry.next.sent).toEqual([]);
+    } finally {
+        varp.mockRestore(); remove.mockRestore();
+    }
+});
+
+test('a normal logout refuses queued logins loaded before its save', () => {
+    const [entry, bystander] = queuedReconnects(2);
+    entry.pending.reconnecting = false;
+    entry.active.slot = 1;
+    world.players[1] = entry.active;
+    const flush = spyOn(World, 'flushPlayer').mockImplementation(() => {});
+    const zone = spyOn(World.gameMap, 'getZone').mockReturnValue({ leave() {} } as any);
+    try {
+        World.removePlayer(entry.active);
+        expect([...World.newPlayers]).toEqual([bystander.pending]);
+        expect(entry.next.sent).toEqual([[5]]);
+    } finally {
+        flush.mockRestore(); zone.mockRestore();
     }
 });
 

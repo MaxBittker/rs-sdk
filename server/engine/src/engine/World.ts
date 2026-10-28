@@ -161,6 +161,11 @@ class World {
     readonly logoutRequests: Map<string, LogoutRequest> = new Map(); // waiting for confirmation from login server
     readonly newPlayers: Set<Player> = new Set(); // players joining at the end of this tick
 
+    // A takeover waits until the existing session could log out normally, so a
+    // second login can't skip death, the combat lock, or any other in-flight script.
+    private static readonly TAKEOVER_MAX_WAIT: number = 50; // ~3x the 16-tick combat lock
+    private readonly takeoverWaitingSince: WeakMap<Player, number> = new WeakMap();
+
     // the server processes players in the underlying bucket-order (key fragment + insertion order)
     readonly playerLoop: HashTable<Player> = new HashTable(8);
     // the client and server communicate via player "slots," separate from processing
@@ -866,29 +871,7 @@ class World {
                 if (!this.shutdown && (removed >= 10 || (removed > 0 && performance.now() - started >= budgetMs))) continue;
                 player.closeModal();
 
-                let queueDiscardable = true;
-                for (const request of player.queue.all()) {
-                    if (request.type === PlayerQueueType.LONG) {
-                        const logoutAction = request.args[0];
-                        if (logoutAction === 1) {
-                            // ^discard
-                            continue;
-                        }
-                    }
-                    queueDiscardable = false;
-                    break;
-                }
-                if (player.canAccess() && player.engineQueue.head() === null && queueDiscardable) {
-                    const script = ScriptProvider.getByTriggerSpecific(ServerTriggerType.LOGOUT, -1, -1);
-                    if (!script) {
-                        printError('LOGOUT TRIGGER IS BROKEN!');
-                        continue;
-                    }
-
-                    const state = ScriptRunner.init(script, player);
-                    state.pointerAdd(ScriptPointer.ProtectedActivePlayer);
-                    ScriptRunner.execute(state);
-
+                if (this.canRemoveNow(player) && this.runLogoutTrigger(player)) {
                     this.removePlayer(player);
                     removed++;
                 }
@@ -907,6 +890,50 @@ class World {
         }
 
         this.cycleStats[WorldStat.LOGOUT] = Date.now() - start;
+    }
+
+    // True when removing the player would not discard a suspended or queued
+    // script (death, teleports, ...). Only ^discard logout-action queues may be dropped.
+    // ignoreModal: an open modal is the one blocker the caller can clear itself.
+    private canRemoveNow(player: Player, ignoreModal = false): boolean {
+        // canAccess() waives everything once shutdown starts, but a player
+        // suspended mid-death would be saved before item loss. Delays are a few
+        // ticks; processShutdown force-removes stragglers after 1024.
+        if (player.delayed || player.engineQueue.head() !== null) {
+            return false;
+        }
+        if (ignoreModal ? player.protect && !this.shutdown : !player.canAccess()) {
+            return false;
+        }
+        for (const request of player.queue.all()) {
+            if (request.type !== PlayerQueueType.LONG || request.args[0] !== 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // logout:try_logout refuses "You can't log out during a duel."; takeover must
+    // too, or its [logout,_] run cancels the fight with no winner on demand.
+    private static isDueling(player: Player): boolean {
+        const duelstatus = VarPlayerType.getId('duelstatus');
+        return duelstatus !== -1 && player.vars[duelstatus] >= 6; // ^duelstatus_start
+    }
+
+    // [logout,_] banks clock-based varps (antifire, skull, pvp death mark) as
+    // remaining durations for [login,_] to rebase, and tears down duel, castle
+    // wars and follower state. Every path that ends a session must run it.
+    private runLogoutTrigger(player: Player): boolean {
+        const script = ScriptProvider.getByTriggerSpecific(ServerTriggerType.LOGOUT, -1, -1);
+        if (!script) {
+            printError('LOGOUT TRIGGER IS BROKEN!');
+            return false;
+        }
+
+        const state = ScriptRunner.init(script, player);
+        state.pointerAdd(ScriptPointer.ProtectedActivePlayer);
+        ScriptRunner.execute(state);
+        return true;
     }
 
     private processLogins(): void {
@@ -930,6 +957,7 @@ class World {
             }
         }
 
+        const deferred: Player[] = [];
         player: for (const queuedPlayer of this.newPlayers) {
             if (processed >= 10 || (processed > 0 && performance.now() - started >= budgetMs)) break;
             this.newPlayers.delete(queuedPlayer);
@@ -997,19 +1025,49 @@ class World {
                     continue;
                 }
 
+                // removePlayerWithoutSave() drops the old session's delays and
+                // queues. Taking over mid-death (between ~player_death's p_delays
+                // and item loss) used to keep every item and skip the respawn, and
+                // any takeover skipped the combat lock. Hold the new login until
+                // the old session could log out normally, then refuse it. Checked
+                // before closing the modal so a waiting login doesn't keep closing
+                // the old session's interfaces, and again after, since [if_close]
+                // runs scripts.
+                let blocked = this.currentTick < other.preventLogoutUntil || World.isDueling(other) || !this.canRemoveNow(other, true);
+                if (!blocked) {
+                    // Close any open modal BEFORE snapshotting. save() only serializes
+                    // scope=perm invs, so anything parked in a temp inv behind an open
+                    // interface (tradeoffer, dueloffer, duelwinnings, partyroom_tempinv,
+                    // trawler_rewardinv) is deleted unless the interface's [if_close]
+                    // return-to-inventory script runs first. The logout and reconnect
+                    // paths both already do this; the takeover path did not, so logging
+                    // in from a second client mid-trade silently destroyed the offer.
+                    other.closeModal();
+                    blocked = !this.canRemoveNow(other);
+                }
+                if (blocked) {
+                    const since = this.takeoverWaitingSince.get(player) ?? this.currentTick;
+                    if (this.currentTick - since < World.TAKEOVER_MAX_WAIT) {
+                        this.takeoverWaitingSince.set(player, since);
+                        deferred.push(player);
+                        processed--; // a deferral is a cheap check, not an admission
+                    } else if (isClientConnected(player)) {
+                        player.addSessionLog(LoggerEventType.ENGINE, 'Tried to log in - existing session cannot log out yet');
+                        player.client.send(Uint8Array.from([5]));
+                        player.client.close();
+                    }
+                    continue player;
+                }
+
                 if (player instanceof NetworkPlayer) {
                     player.addSessionLog(LoggerEventType.ENGINE, 'Kicking existing session to allow new login');
                 }
                 other.addSessionLog(LoggerEventType.ENGINE, 'Kicked due to login from another session');
 
-                // Close any open modal BEFORE snapshotting. save() only serializes
-                // scope=perm invs, so anything parked in a temp inv behind an open
-                // interface (tradeoffer, dueloffer, duelwinnings, partyroom_tempinv,
-                // trawler_rewardinv) is deleted unless the interface's [if_close]
-                // return-to-inventory script runs first. The logout and reconnect
-                // paths both already do this; the takeover path did not, so logging
-                // in from a second client mid-trade silently destroyed the offer.
-                other.closeModal();
+                // The transferred player runs [login,_], so the old one must run
+                // [logout,_] first. Skipping it doubled antifire into a days-long
+                // effect and left duel stakes and castle wars teams dangling.
+                this.runLogoutTrigger(other);
 
                 // Save the existing player's in-memory state before removing them
                 // This prevents losing progress when the new login was loaded from stale disk save
@@ -1148,6 +1206,10 @@ class World {
                 chatModePrivate: player.privateChat,
                 staffLvl: player.staffModLevel
             });
+        }
+        // re-queued after the loop so the Set iterator doesn't revisit them this tick
+        for (const player of deferred) {
+            this.newPlayers.add(player);
         }
         this.cycleStats[WorldStat.LOGIN] = Date.now() - start;
     }
@@ -1855,6 +1917,22 @@ class World {
 
         player.addSessionLog(LoggerEventType.MODERATOR, 'Logged out');
         this.flushPlayer(player);
+
+        // A queued login for this name (a takeover still waiting, or one behind
+        // the per-tick login budget) was loaded from a save older than the one
+        // just flushed. Admitting it now would restore that older state - items
+        // given away since would exist twice - so make the client log in again.
+        for (const pending of this.newPlayers) {
+            if (pending.username !== player.username) {
+                continue;
+            }
+            this.newPlayers.delete(pending);
+            if (isClientConnected(pending)) {
+                pending.addSessionLog(LoggerEventType.ENGINE, 'Tried to log in - loaded before the previous session logged out');
+                pending.client.send(Uint8Array.from([5]));
+                pending.client.close();
+            }
+        }
 
         this.friendThread.postMessage({
             type: 'player_logout',

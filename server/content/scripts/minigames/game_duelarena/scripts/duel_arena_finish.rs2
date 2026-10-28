@@ -77,7 +77,7 @@ p_telejump(~map_findsquare_inzone(0_52_51_27_3, 0_52_51_51_15)); // https://yout
 anim(null, 0);
 p_stopaction;
 
-~stat_reset_all;
+~stat_reset_all_keep_death_mark;
 healenergy(10000);
 ~combat_clearqueue;
 clearqueue(player_death);

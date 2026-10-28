@@ -28,3 +28,13 @@ if (%pvp_death_mark > ^pvp_death_mark_duration) {
     %pvp_death_mark = ^pvp_death_mark_duration;
 }
 %pvp_death_mark = add(map_clock, %pvp_death_mark);
+
+// ~stat_reset_all heals to full. Minigame resets (duel finish, castle wars
+// deaths) use this instead, so a duel or castle wars death can't undo the mark
+// either: while marked, hitpoints stay where they were (at least 1).
+[proc,stat_reset_all_keep_death_mark]
+def_int $hp = max(stat(hitpoints), 1);
+~stat_reset_all;
+if (~has_pvp_death_mark = true & stat(hitpoints) > $hp) {
+    stat_sub(hitpoints, sub(stat(hitpoints), $hp), 0);
+}

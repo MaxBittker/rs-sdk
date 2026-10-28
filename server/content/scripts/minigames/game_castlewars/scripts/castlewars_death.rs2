@@ -14,7 +14,7 @@ buildappearance(worn);
 anim(null, 0);
 p_stopaction;
 
-~stat_reset_all;
+~stat_reset_all_keep_death_mark;
 healenergy(10000);
 ~clear_pk_skull;
 ~clear_poison;
@@ -38,7 +38,7 @@ buildappearance(worn);
 anim(null, 0);
 p_stopaction;
 
-~stat_reset_all;
+~stat_reset_all_keep_death_mark;
 healenergy(10000);
 ~clear_pk_skull;
 ~clear_poison;
