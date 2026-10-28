@@ -161,11 +161,6 @@ class World {
     readonly logoutRequests: Map<string, LogoutRequest> = new Map(); // waiting for confirmation from login server
     readonly newPlayers: Set<Player> = new Set(); // players joining at the end of this tick
 
-    // A takeover waits until the existing session could log out normally, so a
-    // second login can't skip death, the combat lock, or any other in-flight script.
-    private static readonly TAKEOVER_MAX_WAIT: number = 50; // ~3x the 16-tick combat lock
-    private readonly takeoverWaitingSince: WeakMap<Player, number> = new WeakMap();
-
     // the server processes players in the underlying bucket-order (key fragment + insertion order)
     readonly playerLoop: HashTable<Player> = new HashTable(8);
     // the client and server communicate via player "slots," separate from processing
@@ -894,15 +889,11 @@ class World {
 
     // True when removing the player would not discard a suspended or queued
     // script (death, teleports, ...). Only ^discard logout-action queues may be dropped.
-    // ignoreModal: an open modal is the one blocker the caller can clear itself.
-    private canRemoveNow(player: Player, ignoreModal = false): boolean {
+    private canRemoveNow(player: Player): boolean {
         // canAccess() waives everything once shutdown starts, but a player
         // suspended mid-death would be saved before item loss. Delays are a few
         // ticks; processShutdown force-removes stragglers after 1024.
-        if (player.delayed || player.engineQueue.head() !== null) {
-            return false;
-        }
-        if (ignoreModal ? player.protect && !this.shutdown : !player.canAccess()) {
+        if (player.delayed || !player.canAccess() || player.engineQueue.head() !== null) {
             return false;
         }
         for (const request of player.queue.all()) {
@@ -911,13 +902,6 @@ class World {
             }
         }
         return true;
-    }
-
-    // logout:try_logout refuses "You can't log out during a duel."; takeover must
-    // too, or its [logout,_] run cancels the fight with no winner on demand.
-    private static isDueling(player: Player): boolean {
-        const duelstatus = VarPlayerType.getId('duelstatus');
-        return duelstatus !== -1 && player.vars[duelstatus] >= 6; // ^duelstatus_start
     }
 
     // [logout,_] banks clock-based varps (antifire, skull, pvp death mark) as
@@ -957,14 +941,12 @@ class World {
             }
         }
 
-        const deferred: Player[] = [];
         player: for (const queuedPlayer of this.newPlayers) {
             if (processed >= 10 || (processed > 0 && performance.now() - started >= budgetMs)) break;
             this.newPlayers.delete(queuedPlayer);
             processed++;
-            let player = queuedPlayer;
+            const player = queuedPlayer;
             if (player instanceof NetworkPlayer && (!isClientConnected(player) || player.client.state < 0)) continue;
-            let transferred = false;
             // prevent logging in if a player save is being flushed
             if (this.logoutRequests.has(player.username)) {
                 player.addSessionLog(LoggerEventType.ENGINE, 'Tried to log in - old session is mid-logout');
@@ -1019,86 +1001,80 @@ class World {
                 }
             }
 
-            // player already logged in - kick the existing session and transfer their state to the new login
+            // player already logged in - hand the new client to the player already in
+            // the world. The session never ends, so nothing is saved, reloaded or
+            // discarded: a death, duel, delay or combat lock in progress carries on
+            // under the new client, and [logout,_]/[login,_] don't run. (This used to
+            // snapshot, remove and reload the player, which dropped the death script
+            // mid-death, skipped the combat lock, and rebased logout timers twice.)
             for (const other of this.playerLoop.all()) {
                 if (player.username !== other.username) {
                     continue;
                 }
 
-                // removePlayerWithoutSave() drops the old session's delays and
-                // queues. Taking over mid-death (between ~player_death's p_delays
-                // and item loss) used to keep every item and skip the respawn, and
-                // any takeover skipped the combat lock. Hold the new login until
-                // the old session could log out normally, then refuse it. Checked
-                // before closing the modal so a waiting login doesn't keep closing
-                // the old session's interfaces, and again after, since [if_close]
-                // runs scripts.
-                let blocked = this.currentTick < other.preventLogoutUntil || World.isDueling(other) || !this.canRemoveNow(other, true);
-                if (!blocked) {
-                    // Close any open modal BEFORE snapshotting. save() only serializes
-                    // scope=perm invs, so anything parked in a temp inv behind an open
-                    // interface (tradeoffer, dueloffer, duelwinnings, partyroom_tempinv,
-                    // trawler_rewardinv) is deleted unless the interface's [if_close]
-                    // return-to-inventory script runs first. The logout and reconnect
-                    // paths both already do this; the takeover path did not, so logging
-                    // in from a second client mid-trade silently destroyed the offer.
-                    other.closeModal();
-                    blocked = !this.canRemoveNow(other);
-                }
-                if (blocked) {
-                    const since = this.takeoverWaitingSince.get(player) ?? this.currentTick;
-                    if (this.currentTick - since < World.TAKEOVER_MAX_WAIT) {
-                        this.takeoverWaitingSince.set(player, since);
-                        deferred.push(player);
-                        processed--; // a deferral is a cheap check, not an admission
-                    } else if (isClientConnected(player)) {
-                        player.addSessionLog(LoggerEventType.ENGINE, 'Tried to log in - existing session cannot log out yet');
+                if (!(other instanceof NetworkPlayer) || !(player instanceof NetworkPlayer)) {
+                    if (isClientConnected(player)) {
+                        player.addSessionLog(LoggerEventType.ENGINE, 'Tried to log in - already logged in');
                         player.client.send(Uint8Array.from([5]));
                         player.client.close();
                     }
                     continue player;
                 }
 
-                if (player instanceof NetworkPlayer) {
-                    player.addSessionLog(LoggerEventType.ENGINE, 'Kicking existing session to allow new login');
-                }
-                other.addSessionLog(LoggerEventType.ENGINE, 'Kicked due to login from another session');
+                player.addSessionLog(LoggerEventType.ENGINE, 'Taking over existing session');
+                other.addSessionLog(LoggerEventType.ENGINE, 'Session taken over by a new login', player.client.uuid);
 
-                // The transferred player runs [login,_], so the old one must run
-                // [logout,_] first. Skipping it doubled antifire into a days-long
-                // effect and left duel stakes and castle wars teams dangling.
-                this.runLogoutTrigger(other);
+                // same progress save the reconnect path makes
+                this.loginThread.postMessage({
+                    type: 'player_autosave',
+                    username: other.username,
+                    save: other.save()
+                });
 
-                // Save the existing player's in-memory state before removing them
-                // This prevents losing progress when the new login was loaded from stale disk save
-                const existingSave = other.save();
-                const client = isClientConnected(player) ? player.client : null;
-
-                // Re-create the new player from the existing player's current state
-                const transferredPlayer = PlayerLoading.load(player.username, new Packet(existingSave), client);
-
-                // Preserve login metadata from the original login response
-                transferredPlayer.reconnecting = player.reconnecting;
-                transferredPlayer.staffModLevel = player.staffModLevel;
-                transferredPlayer.lowMemory = player.lowMemory;
-                transferredPlayer.muted_until = player.muted_until;
-                transferredPlayer.members = player.members;
-                transferredPlayer.messageCount = player.messageCount;
-
-                // Remove the old player WITHOUT flushing to disk
-                // State is already transferred to the new player, so no need to save
-                // This avoids a race condition where the old logout could interfere with the new player's save
-                if (other instanceof NetworkPlayer && ipCounts) {
+                if (ipCounts) {
                     const oldIp = other.client.remoteAddress;
+                    const newIp = player.client.remoteAddress;
                     ipCounts.set(oldIp, Math.max(0, (ipCounts.get(oldIp) ?? 0) - 1));
+                    ipCounts.set(newIp, (ipCounts.get(newIp) ?? 0) + 1);
                 }
-                this.removePlayerWithoutSave(other);
 
-                // Finish admission in this iteration. Deferring the transferred
-                // player behind the backlog would leave the account out of the world.
-                player = transferredPlayer;
-                transferred = true;
-                break;
+                if (isClientConnected(other)) {
+                    other.client.close();
+                }
+                other.client = player.client;
+                other.client.player = other;
+                other.session = other.client.uuid;
+
+                // login metadata comes from this login's response
+                other.staffModLevel = player.staffModLevel;
+                other.lowMemory = player.lowMemory;
+                other.muted_until = player.muted_until;
+                other.members = player.members;
+                other.messageCount = player.messageCount;
+
+                // the new client means to play: drop a pending logout from the old
+                // one, and don't let an idle/no-response timer from it fire
+                other.requestLogout = false;
+                other.requestIdleLogout = false;
+                other.loggingOut = false;
+                other.lastConnected = this.currentTick;
+                other.lastResponse = this.currentTick;
+
+                // a fresh login response (not reconnect's 15): the client resets fully
+                other.client.state = 1;
+                other.client.send(Uint8Array.from([2, Math.min(other.staffModLevel, 2), 1]));
+
+                rsbuf.cleanupPlayerBuildArea(other.slot);
+                other.onTakeover();
+
+                this.friendThread.postMessage({
+                    type: 'player_login',
+                    username: other.username,
+                    chatModePrivate: other.privateChat,
+                    staffLvl: other.staffModLevel
+                });
+
+                continue player;
             }
 
             // prevent logging in when the server is shutting down
@@ -1111,12 +1087,12 @@ class World {
                 continue;
             }
 
-            // Session transfers replace an existing slot; only net-new sessions
-            // are subject to the per-IP connection cap.
+            // Takeovers and reconnects reuse an existing slot and never get here;
+            // only net-new sessions are subject to the per-IP connection cap.
             if (player instanceof NetworkPlayer && ipCounts) {
                 const ip = player.client.remoteAddress;
                 const count = ipCounts.get(ip) ?? 0;
-                if (!transferred && count >= World.PLAYER_MAX_PER_IP) {
+                if (count >= World.PLAYER_MAX_PER_IP) {
                     player.addSessionLog(LoggerEventType.ENGINE, `Tried to log in - too many connections from ${ip}`);
                     this.forceLogout(player, 7);
                     continue;
@@ -1206,10 +1182,6 @@ class World {
                 chatModePrivate: player.privateChat,
                 staffLvl: player.staffModLevel
             });
-        }
-        // re-queued after the loop so the Set iterator doesn't revisit them this tick
-        for (const player of deferred) {
-            this.newPlayers.add(player);
         }
         this.cycleStats[WorldStat.LOGIN] = Date.now() - start;
     }
@@ -1933,36 +1905,6 @@ class World {
                 pending.client.close();
             }
         }
-
-        this.friendThread.postMessage({
-            type: 'player_logout',
-            username: player.username
-        });
-    }
-
-    // Remove player during session takeover - don't flush to disk since state is transferred to new session
-    removePlayerWithoutSave(player: Player): void {
-        if (player.slot === -1) {
-            return;
-        }
-
-        console.warn(`[LOGOUT DEBUG] Server removePlayerWithoutSave() called for ${player.username} (session takeover)`);
-        if (isClientConnected(player)) {
-            player.logout();
-            player.client.close();
-        }
-
-        rsbuf.removePlayer(player.slot);
-        this.gameMap.getZone(player.x, player.z, player.level).leave(player);
-        delete this.players[player.slot];
-        player.unlink();
-        changeNpcCollision(player.width, player.x, player.z, player.level, false);
-        player.cleanup();
-
-        player.isActive = false;
-
-        player.addSessionLog(LoggerEventType.MODERATOR, 'Logged out (session takeover)');
-        // Don't call flushPlayer - state is already transferred to the new session
 
         this.friendThread.postMessage({
             type: 'player_logout',

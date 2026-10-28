@@ -93,6 +93,20 @@ if (map_live = true) {
     last_login_info;
 }
 
+// Run by the engine (Player.onTakeover) when a new login takes over a player
+// already in the world: the fresh client has none of the interface state the
+// [login,_] above set up, but [login,_] itself must not run again (timer
+// rebases, minigame teleports, queues). The engine resends varps, invs, tabs,
+// stats, overlay, player ops and minimap; this covers what only scripts know.
+// It must not change game state, and runs without protected access.
+[proc,login_client_sync]
+cam_reset;
+~initalltabs;
+~update_bonuses;
+if (%currentsong ! null) {
+    midi_song(%currentsong);
+}
+
 [proc,initalltabs]
 ~update_weapon_category(inv_getobj(worn, ^wearpos_rhand));
 if_settab(stats, ^tab_skills);

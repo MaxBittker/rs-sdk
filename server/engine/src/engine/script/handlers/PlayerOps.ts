@@ -869,6 +869,7 @@ const PlayerOps: CommandHandlers = {
 
     [ScriptOpcode.MINIMAP_TOGGLE]: state => {
         const type = check(state.popInt(), NumberNotNull);
+        state.activePlayer.minimapState = type;
         state.activePlayer.write(new MinimapToggle(type));
     },
 
@@ -1289,6 +1290,7 @@ const PlayerOps: CommandHandlers = {
         check(index, PlayerOpIndexValid);
         check(primary, PlayerOpStateValid);
 
+        state.activePlayer.playerOps[index] = { value: text, primary };
         state.activePlayer.write(new SetPlayerOp(index, text, primary));
     },
 

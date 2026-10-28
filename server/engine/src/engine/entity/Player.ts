@@ -58,6 +58,9 @@ import TutOpen from '#/network/game/server/model/TutOpen.js';
 import UnsetMapFlag from '#/network/game/server/model/UnsetMapFlag.js';
 import UpdateInvStopTransmit from '#/network/game/server/model/UpdateInvStopTransmit.js';
 import UpdatePid from '#/network/game/server/model/UpdatePid.js';
+import SetPlayerOp from '#/network/game/server/model/SetPlayerOp.js';
+import MinimapToggle from '#/network/game/server/model/MinimapToggle.js';
+import SetMultiway from '#/network/game/server/model/SetMultiway.js';
 import UpdateRebootTimer from '#/network/game/server/model/UpdateRebootTimer.js';
 import UpdateRunEnergy from '#/network/game/server/model/UpdateRunEnergy.js';
 import UpdateStat from '#/network/game/server/model/UpdateStat.js';
@@ -427,6 +430,9 @@ export default class Player extends PathingEntity {
     modalTutorial = -1;
     overlay = -1;
     lastOverlay = -1;
+    // client state only the engine knows; replayed when a fresh client takes over
+    playerOps: ({ value: string; primary: number } | undefined)[] = [];
+    minimapState = 0;
     refreshModal = false;
     refreshModalClose = false;
     requestModalClose = false;
@@ -644,6 +650,41 @@ export default class Player extends PathingEntity {
         this.moveSpeed = MoveSpeed.INSTANT;
         this.tele = true;
         this.jump = true;
+    }
+
+    // A fresh client (a new login, not a reconnect) attached to a player that is
+    // already in the world. Unlike a reconnecting client it has no state at all,
+    // but [login,_] must not run again: it rebases timers, teleports out of
+    // minigames and queues scripts. So send what onLogin() sends, then the
+    // reconnect resync, then the client-only remainder of [login,_].
+    onTakeover() {
+        this.write(new ChatFilterSettings(this.publicChat, this.privateChat, this.tradeDuel));
+        if (Environment.friend.enabled) {
+            this.write(new FriendlistLoaded(1));
+        } else {
+            this.write(new FriendlistLoaded(2));
+            this.write(new UpdateIgnoreList([]));
+        }
+        this.write(new UpdatePid(this.slot, this.members));
+
+        this.onReconnect();
+
+        for (let op = 0; op < this.playerOps.length; op++) {
+            const entry = this.playerOps[op];
+            if (entry) {
+                this.write(new SetPlayerOp(op, entry.value, entry.primary));
+            }
+        }
+        this.write(new MinimapToggle(this.minimapState));
+        if (World.gameMap.isMulti(CoordGrid.packCoord(this.level, (this.x >> 3) << 3, (this.z >> 3) << 3))) {
+            this.write(new SetMultiway(true));
+        }
+        this.lastOverlay = -1; // encodeOut() resends it if one is open
+
+        const sync = ScriptProvider.getByName('[proc,login_client_sync]');
+        if (sync) {
+            ScriptRunner.execute(ScriptRunner.init(sync, this));
+        }
     }
 
     triggerMapzone(x: number, z: number) {

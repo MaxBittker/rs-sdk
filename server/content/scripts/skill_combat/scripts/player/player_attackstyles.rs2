@@ -105,7 +105,9 @@ if ($previous ! null & oc_wearpos($previous) ! ^wearpos_rhand) {
     return;
 }
 def_obj $obj = inv_getobj(worn, ^wearpos_rhand);
-if ($previous = null | $obj = null | oc_category($previous) ! oc_category($obj)) {
+// same weapon (a tab refresh, e.g. ~login_client_sync while unarmed): nothing to
+// reset, and the reset writes protected varps that a refresh may not have access to
+if ($previous ! $obj & ($previous = null | $obj = null | oc_category($previous) ! oc_category($obj))) {
     // todo somehow confirm this
     // osrs keeps track of selected per category
     ~player_autocast_reset;
@@ -174,7 +176,9 @@ if ($previous ! null & oc_wearpos($previous) ! ^wearpos_rhand) {
     return;
 }
 def_obj $obj = .inv_getobj(worn, ^wearpos_rhand);
-if ($previous = null | $obj = null | oc_category($previous) ! oc_category($obj)) {
+// same weapon (a tab refresh, e.g. ~login_client_sync while unarmed): nothing to
+// reset, and the reset writes protected varps that a refresh may not have access to
+if ($previous ! $obj & ($previous = null | $obj = null | oc_category($previous) ! oc_category($obj))) {
     // todo somehow confirm this
     // osrs keeps track of selected per category
     ~.player_autocast_reset;
