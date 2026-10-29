@@ -2289,16 +2289,15 @@ export class Client extends GameShell {
         this.keyHeld[5] = prevKeyHeld;
 
         if (success) {
+            // Only mark a destination that is on screen: a fallback marker at the view centre reads as a
+            // click on whatever stands there.
             const screenPos = this.projectTileToScreen(worldX, worldZ);
             if (screenPos) {
                 this.crossX = screenPos.x;
                 this.crossY = screenPos.y;
-            } else {
-                this.crossX = 256;
-                this.crossY = 166;
+                this.crossMode = 1;
+                this.crossCycle = 0;
             }
-            this.crossMode = 1;
-            this.crossCycle = 0;
         }
 
         return { moved: success, outOfRange: wasClamped };
