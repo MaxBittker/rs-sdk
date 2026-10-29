@@ -348,3 +348,52 @@ describe('BotStateCollector combat styles', () => {
         ]);
     });
 });
+
+describe('BotStateCollector quests', () => {
+    /** A quest tab shaped like questlist: the tab, its scroll layer, a heading, then one line per quest. */
+    function defineQuestTab(lines: Array<[string, number]>): void {
+        const layerId = 639;
+        const headingId = 7300;
+        const lineIds = lines.map((_, i) => 7332 + i);
+
+        (IfType.list as any)[638] = { id: 638, children: [layerId] };
+        (IfType.list as any)[layerId] = { id: layerId, children: [headingId, ...lineIds] };
+        (IfType.list as any)[headingId] = { id: headingId, buttonType: 0, text: 'FREE QUESTS:', colour: 0xf99b15 };
+        lines.forEach(([text, colour], i) => {
+            (IfType.list as any)[lineIds[i]!] = { id: lineIds[i], buttonType: 1, text, colour };
+        });
+    }
+
+    test('reads each quest line colour as its status and skips headings', () => {
+        defineQuestTab([
+            ["Black Knight's Fortress", 0xff0000], // the cache default: never recoloured
+            ["Cook's Assistant", 0x00f800], // server green after the 5-bit round trip
+            ['Demon Slayer', 0xf8f800], // server yellow
+            ['Doric\'s Quest', 0xf80000] // server red
+        ]);
+        const quests = (new BotStateCollector(createClient()) as any).collectQuests();
+
+        expect(quests).toEqual([
+            { name: "Black Knight's Fortress", status: 'not_started' },
+            { name: "Cook's Assistant", status: 'complete' },
+            { name: 'Demon Slayer', status: 'in_progress' },
+            { name: "Doric's Quest", status: 'not_started' }
+        ]);
+    });
+
+    test('publishes quests and quest points (varp 101) in the state', () => {
+        defineQuestTab([["Cook's Assistant", 0x00f800]]);
+        const client = createClient();
+        client.var = [];
+        client.var[101] = 1;
+        const state = new BotStateCollector(client).collectState(1);
+
+        expect(state.questPoints).toBe(1);
+        expect(state.quests).toEqual([{ name: "Cook's Assistant", status: 'complete' }]);
+    });
+
+    test('reports zero quest points before the varp arrives', () => {
+        const client = createClient();
+        expect(new BotStateCollector(client).collectState(1).questPoints).toBe(0);
+    });
+});

@@ -32,6 +32,7 @@ import {
     TRADE_CONFIRM_OTHER_INV1_ID,
     TRADE_CONFIRM_OTHER_INV2_ID,
     TRADE_CONFIRM_STATUS_TEXT_ID,
+    QUEST_LIST_ID,
     type BotState,
     type SkillState,
     type InventoryItem,
@@ -58,9 +59,24 @@ import {
     type DialogState,
     type InterfaceState,
     type PrayerState,
+    type QuestState,
+    type QuestStatus,
     type OpFeedbackState
 } from './types.js';
 import type { ScanProvider } from './ActionExecutor.js';
+
+/**
+ * A quest journal line's colour as a progress status. IF_SETCOLOUR carries 5
+ * bits per channel, so the server's red/yellow/green (0xFF0000, 0xFFFF00,
+ * 0x00FF00) arrive as 0xF80000, 0xF8F800 and 0x00F800, while a line the server
+ * never recoloured keeps the cache's 0xFF0000. Classify by channel, not value.
+ */
+export function questStatusFromColour(colour: number): QuestStatus {
+    const red = (colour >> 16) & 0xff;
+    const green = (colour >> 8) & 0xff;
+    if (green > 0) return red > 0 ? 'in_progress' : 'complete';
+    return 'not_started';
+}
 
 /** Cached prayer component discovery result */
 interface PrayerComponentMap {
@@ -194,6 +210,8 @@ export class BotStateCollector implements ScanProvider {
             // head icon or blindly click a control that might already be set.
             isSkulled: (c.var?.[78] ?? 0) > 0,
             autoRetaliateEnabled: (c.var?.[172] ?? 1) === 0,
+            quests: this.collectQuests(),
+            questPoints: c.var?.[BotStateCollector.VARP_QUEST_POINTS] ?? 0,
             opFeedback: this.collectOpFeedback(currentTick)
         };
     }
@@ -324,6 +342,34 @@ export class BotStateCollector implements ScanProvider {
         } catch { /* ignore errors */ }
 
         return defaultState;
+    }
+
+    /** Server varp `qp`: the player's quest points, transmitted to the client. */
+    private static readonly VARP_QUEST_POINTS = 101;
+
+    /**
+     * Each quest's progress, read the way a player reads it: from the colour of
+     * its line in the quest journal tab. The server sets every line red (not
+     * started), yellow (started) or green (complete) at login and again on each
+     * quest stage change (~send_quest_progress_colour), whether or not the tab
+     * is open. Most quest varps never reach the client, so the colour is the
+     * only per-quest progress it has.
+     */
+    private collectQuests(): QuestState[] {
+        const quests: QuestState[] = [];
+        const visit = (comId: number, depth: number): void => {
+            const com = IfType.list[comId] as any;
+            if (!com || depth > 3) return;
+            // Quest lines are clickable (BUTTON_OK) text; the section headings aren't.
+            if (com.buttonType === 1 && typeof com.text === 'string' && com.text.length > 0) {
+                quests.push({ name: com.text, status: questStatusFromColour(com.colour) });
+            }
+            if (com.children) {
+                for (const childId of com.children) visit(childId, depth + 1);
+            }
+        };
+        visit(QUEST_LIST_ID, 0);
+        return quests;
     }
 
     private collectDialogState(): DialogState {
