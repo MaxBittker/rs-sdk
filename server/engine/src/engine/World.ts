@@ -976,6 +976,8 @@ class World {
 
                     if (isClientConnected(other)) {
                         player.addSessionLog(LoggerEventType.MODERATOR, 'Logged to world ' + Environment.node.id + ' replacing session', other.client.uuid);
+                        // logout, not just close, or a still-live old client reconnects back
+                        other.logout();
                         other.client.close();
                     }
 
@@ -1039,6 +1041,10 @@ class World {
                 }
 
                 if (isClientConnected(other)) {
+                    // a plain close reads as "connection lost" and the old client
+                    // reconnects, taking the player back: the two clients then
+                    // bounce it between them. A logout sends it to the title screen.
+                    other.logout();
                     other.client.close();
                 }
                 other.client = player.client;

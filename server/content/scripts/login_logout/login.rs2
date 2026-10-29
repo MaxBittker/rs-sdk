@@ -98,10 +98,15 @@ if (map_live = true) {
 // [login,_] above set up, but [login,_] itself must not run again (timer
 // rebases, minigame teleports, queues). The engine resends varps, invs, tabs,
 // stats, overlay, player ops and minimap; this covers what only scripts know.
-// It must not change game state, and runs without protected access.
-[proc,login_client_sync]
+// It must not change game state, and runs without protected access. Not
+// ~initalltabs: that hands out every tab, e.g. to a player on tutorial island.
+[proc,login_client_sync](boolean $combat_tab)
 cam_reset;
-~initalltabs;
+// also sets the combat tab, so only when the player has one
+if ($combat_tab = true) {
+    ~update_weapon_category(inv_getobj(worn, ^wearpos_rhand));
+}
+~update_questlist;
 ~update_bonuses;
 if (%currentsong ! null) {
     midi_song(%currentsong);

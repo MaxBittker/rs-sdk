@@ -683,7 +683,8 @@ export default class Player extends PathingEntity {
 
         const sync = ScriptProvider.getByName('[proc,login_client_sync]');
         if (sync) {
-            ScriptRunner.execute(ScriptRunner.init(sync, this));
+            // arg: whether the player has a combat options tab (tab 0)
+            ScriptRunner.execute(ScriptRunner.init(sync, this, null, [this.tabs[0] !== -1 ? 1 : 0]));
         }
     }
 

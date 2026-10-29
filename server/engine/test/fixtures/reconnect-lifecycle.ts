@@ -203,11 +203,14 @@ test('a takeover hands the new client to the player already in the world, even m
     const events: string[] = [];
     taken.active.save = () => { events.push('save'); return Uint8Array.of(42); };
     taken.active.onTakeover = () => { events.push('takeover'); };
+    // a bare close makes the old client reconnect and take the player back
+    const oldClient = taken.active.client;
+    taken.active.logout = () => { events.push(taken.active.client === oldClient ? 'logout old client' : 'logout new client'); };
     const remove = spyOn(World, 'removePlayer');
     const execute = spyOn(ScriptRunner, 'execute');
     try {
         world.processLogins();
-        expect(events).toEqual(['save', 'takeover']);
+        expect(events).toEqual(['save', 'logout old client', 'takeover']);
         expect(remove).not.toHaveBeenCalled();
         expect(execute).not.toHaveBeenCalled(); // no [logout,_] or [login,_]
         expect([...World.playerLoop.all()]).toContain(taken.active);
@@ -234,13 +237,15 @@ test('a takeover replays the client state [login,_] would have set', () => {
     p.minimapState = 2;
     p.overlay = 123;
     p.lastOverlay = 123;
+    p.tabs[0] = -1; // no combat tab yet (tutorial island): the sync must not hand one out
     const written: string[] = [];
     p.write = message => { written.push(message.constructor.name); };
     p.onReconnect = () => { written.push('reconnect'); };
     const multi = spyOn(World.gameMap, 'isMulti').mockReturnValue(true);
     const sync = spyOn(ScriptProvider, 'getByName').mockImplementation(name => (name === '[proc,login_client_sync]' ? ({} as any) : undefined));
-    const init = spyOn(ScriptRunner, 'init').mockImplementation((_script, self) => {
+    const init = spyOn(ScriptRunner, 'init').mockImplementation((_script, self, _target, args) => {
         expect(self).toBe(p);
+        expect(args).toEqual([0]);
         return {} as any;
     });
     const execute = spyOn(ScriptRunner, 'execute').mockImplementation(() => { written.push('login_client_sync'); return 0 as any; });
