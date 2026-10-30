@@ -5,6 +5,8 @@ import { stopMidi, setMidiVolume, playMidi } from '#3rdparty/tinymidipcm.js';
 import type { WalkResult } from '#/bot/types.js';
 import { getDialogPageId, invalidateDialogPage } from '#/bot/dialog-page.js';
 
+import { assertCharacterDesignOpen, characterDesignAcceptButton, characterDesignFromArrays, characterDesignOptions, patchCharacterDesign, randomCharacterDesign, writeCharacterDesign } from '#/client/CharacterDesign.js';
+import { CHARACTER_BODY_PARTS, CHARACTER_COLOR_PARTS, CHARACTER_DESIGN_INTERFACE, type CharacterDesignPatch, type CharacterDesignState } from '../../../../sdk/character-design.js';
 import ClientBuild from '#/client/ClientBuild.js';
 import { ClientCode } from '#/client/ClientCode.js';
 import GameShell from '#/client/GameShell.js';
@@ -919,109 +921,39 @@ export class Client extends GameShell {
         }
     }
 
-    /**
-     * Accept character design with current settings
-     * Sends the IDK_SAVEDESIGN packet to finalize the character
-     */
+    /** Inspect the tutorial design draft and cache-derived valid choices. */
+    getCharacterDesign(): CharacterDesignState | null {
+        if (!this.ingame || this.mainModalId !== CHARACTER_DESIGN_INTERFACE) return null;
+        return {
+            current: characterDesignFromArrays(this.idkDesignGender, this.idkDesignPart, this.idkDesignColour),
+            options: characterDesignOptions()
+        };
+    }
+
+    /** Accept the pending design using the same two packets as the on-screen button. */
     acceptCharacterDesign(): boolean {
-        if (!this.ingame || !this.out) {
-            return false;
-        }
-
-        this.writePacketOpcode(ClientProt.IDK_SAVEDESIGN);
-        this.out.p1(this.idkDesignGender ? 0 : 1);
-
-        for (let i = 0; i < 7; i++) {
-            this.out.p1(this.idkDesignPart[i]);
-        }
-
-        for (let i = 0; i < 5; i++) {
-            this.out.p1(this.idkDesignColour[i]);
-        }
-
-        // IDK_SAVEDESIGN only sets the appearance. The on-screen "Accept" button is a
-        // normal button (clientcode CC_ACCEPT_DESIGN) whose IF_BUTTON trigger
-        // ([if_button,player_kit:accept]) is what closes the design interface and
-        // advances the tutorial. A real click sends both; replicate the IF_BUTTON here.
-        // Prefer the accept button inside the open modal: other interfaces
-        // (hairdresser, tailor kits) carry the same clientcode with no live
-        // trigger for this screen.
-        let accept: IfType | null = null;
-        for (let i = 0; i < IfType.list.length; i++) {
-            const com = IfType.list[i];
-            if (!com || com.clientCode !== ClientCode.CC_ACCEPT_DESIGN) continue;
-            if (this.mainModalId !== -1 && (com.layerId === this.mainModalId || com.id === this.mainModalId)) {
-                accept = com;
-                break;
-            }
-            if (!accept) accept = com;
-        }
-        if (accept) {
-            this.writePacketOpcode(ClientProt.IF_BUTTON);
-            this.out.p2(accept.id);
-        }
-
+        assertCharacterDesignOpen(this.ingame, this.mainModalId);
+        const design = this.getCharacterDesign()!.current;
+        const accept = characterDesignAcceptButton(this.ingame, this.mainModalId, design);
+        writeCharacterDesign(this.out, opcode => this.writePacketOpcode(opcode), design, accept);
         return true;
     }
 
-    /**
-     * Set character design parameters
-     * @param gender true for male, false for female
-     * @param body array of 7 body kit indices (or null to keep current)
-     * @param colors array of 5 color indices (or null to keep current)
-     */
-    setCharacterDesign(gender: boolean, body: number[] | null, colors: number[] | null): boolean {
-        this.idkDesignGender = gender;
-        this.validateIdkDesign();
-
-        if (body && body.length === 7) {
-            for (let i = 0; i < 7; i++) {
-                this.idkDesignPart[i] = body[i];
-            }
-        }
-
-        if (colors && colors.length === 5) {
-            for (let i = 0; i < 5; i++) {
-                this.idkDesignColour[i] = colors[i];
-            }
-        }
-
+    /** Edit selected draft fields atomically, preserving omitted styles and colours. */
+    setCharacterDesign(patch: CharacterDesignPatch): boolean {
+        assertCharacterDesignOpen(this.ingame, this.mainModalId);
+        const design = patchCharacterDesign(this.getCharacterDesign()!.current, patch);
+        this.idkDesignGender = design.gender;
+        this.idkDesignPart.set(CHARACTER_BODY_PARTS.map(part => design.body[part]));
+        this.idkDesignColour.set(CHARACTER_COLOR_PARTS.map(part => design.colors[part]));
         this.idkDesignRedraw = true;
         return true;
     }
 
-    /**
-     * Randomize character design with valid random values
-     * @param gender optional gender (true=male, false=female), random if not provided
-     */
+    /** Randomize a valid draft, optionally retaining a specified gender. */
     randomizeCharacterDesign(gender?: boolean): boolean {
-        // Randomize gender if not specified
-        this.idkDesignGender = gender ?? Math.random() < 0.5;
-
-        // First validate to get default kits for this gender
-        this.validateIdkDesign();
-
-        // Now randomize each body part from valid options
-        for (let part = 0; part < 7; part++) {
-            const validKits: number[] = [];
-            for (let j = 0; j < IdkType.list.length; j++) {
-                if (!IdkType.list[j].disable && IdkType.list[j].part === part + (this.idkDesignGender ? 0 : 7)) {
-                    validKits.push(j);
-                }
-            }
-            if (validKits.length > 0) {
-                this.idkDesignPart[part] = validKits[Math.floor(Math.random() * validKits.length)];
-            }
-        }
-
-        // Randomize colors (using known color counts: 12, 16, 16, 6, 8)
-        const colorCounts = [12, 16, 16, 6, 8];
-        for (let i = 0; i < 5; i++) {
-            this.idkDesignColour[i] = Math.floor(Math.random() * colorCounts[i]);
-        }
-
-        this.idkDesignRedraw = true;
-        return true;
+        assertCharacterDesignOpen(this.ingame, this.mainModalId);
+        return this.setCharacterDesign(randomCharacterDesign(gender));
     }
 
     /**

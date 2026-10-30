@@ -1,4 +1,6 @@
 import type { GEState } from '../../../../sdk/ge-types.js';
+import type { CharacterDesignPatch, CharacterDesignState, PlayerAppearance } from '../../../../sdk/character-design.js';
+export type { CharacterDesign, CharacterDesignPatch, CharacterDesignState, PlayerAppearance } from '../../../../sdk/character-design.js';
 // types.ts - Bot SDK Type Definitions
 // All interfaces, constants, and type definitions for the Bot SDK
 
@@ -294,6 +296,7 @@ export interface PlayerCombatState {
 }
 
 export interface PlayerState {
+    appearance?: PlayerAppearance | null;
     name: string;
     combatLevel: number;
     /** Current hitpoints level (boosted/drained) */
@@ -441,6 +444,7 @@ export interface BotState {
     modalOpen: boolean;
     /** The ID of the modal interface (-1 if none) */
     modalInterface: number;
+    characterDesign?: CharacterDesignState | null;
     /** Prayer state (active prayers, prayer points) */
     prayers: PrayerState;
     /** Authoritative client varp 78: a PK skull is currently active. */
@@ -489,8 +493,9 @@ export type BotAction =
     | { type: 'clickComponent'; componentId: number; reason: string }
     // clickComponentWithOption: INV_BUTTON packet - for components with inventory operations (smithing, crafting, etc.)
     | { type: 'clickComponentWithOption'; componentId: number; optionIndex: number; slot?: number; reason: string }
+    | { type: 'setCharacterDesign'; patch: CharacterDesignPatch; reason: string }
     | { type: 'acceptCharacterDesign'; reason: string }
-    | { type: 'randomizeCharacterDesign'; reason: string }
+    | { type: 'randomizeCharacterDesign'; gender?: boolean; reason: string }
     | { type: 'walkTo'; x: number; z: number; running?: boolean; reason: string }
     | { type: 'useInventoryItem'; slot: number; optionIndex: number; interfaceId?: number; reason: string }
     | { type: 'dropItem'; slot: number; reason: string }

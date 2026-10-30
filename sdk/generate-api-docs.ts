@@ -101,14 +101,14 @@ function extractPublicClassMethods(
         }));
 }
 
-function extractResultTypes(path: string, source: string): TypeDoc[] {
+function extractResultTypes(path: string, source: string, includeAllInterfaces = false): TypeDoc[] {
     const file = sourceFile(path, source);
 
     return file.statements
         .filter((statement): statement is ts.InterfaceDeclaration =>
             ts.isInterfaceDeclaration(statement) &&
             hasModifier(statement, ts.SyntaxKind.ExportKeyword) &&
-            (statement.name.text.endsWith('Result') || statement.name.text.endsWith('State') || statement.name.text.startsWith('GE') || statement.name.text.startsWith('Market'))
+            (includeAllInterfaces || statement.name.text.endsWith('Result') || statement.name.text.endsWith('State') || statement.name.text.startsWith('GE') || statement.name.text.startsWith('Market'))
         )
         .map(statement => ({
             name: statement.name.text,
@@ -136,7 +136,7 @@ function methodCategory(name: string, surface: 'actions' | 'sdk'): string {
     if (name.includes('GE') || name.startsWith('getMarket')) return 'Grand Exchange';
 
     if (surface === 'actions') {
-        if (lower.includes('dialog') || lower.includes('blocking') || lower.includes('tutorial')) return 'UI & Dialog';
+        if (lower.includes('dialog') || lower.includes('blocking') || lower.includes('tutorial') || lower.includes('characterdesign')) return 'UI & Dialog';
         if (lower.includes('walk')) return 'Movement';
         if (lower.includes('mine')) return 'Mining';
         if (lower.includes('fletch') || lower.includes('craft') || lower.includes('smith') || lower.includes('enchant') || lower.includes('string')) {
@@ -237,18 +237,20 @@ export async function buildApiModel(sdkDir = import.meta.dir): Promise<ApiModel>
     const typesPath = join(sdkDir, 'types.ts');
     const gePath = join(sdkDir, 'ge-types.d.ts');
     const marketPath = join(sdkDir, 'market.ts');
-    const [actionsSource, indexSource, typesSource, geSource, marketSource] = await Promise.all([
+    const characterDesignPath = join(sdkDir, 'character-design.ts');
+    const [actionsSource, indexSource, typesSource, geSource, marketSource, characterDesignSource] = await Promise.all([
         readFile(actionsPath, 'utf8'),
         readFile(indexPath, 'utf8'),
         readFile(typesPath, 'utf8'),
         readFile(gePath, 'utf8'),
         readFile(marketPath, 'utf8'),
+        readFile(characterDesignPath, 'utf8'),
     ]);
 
     return {
         botActionsMethods: extractPublicClassMethods(actionsPath, actionsSource, 'BotActions'),
         sdkMethods: extractPublicClassMethods(indexPath, indexSource, 'BotSDK'),
-        resultTypes: [...extractResultTypes(typesPath, typesSource), ...extractResultTypes(gePath, geSource), ...extractResultTypes(marketPath, marketSource)],
+        resultTypes: [...extractResultTypes(typesPath, typesSource), ...extractResultTypes(gePath, geSource), ...extractResultTypes(marketPath, marketSource), ...extractResultTypes(characterDesignPath, characterDesignSource, true)],
     };
 }
 

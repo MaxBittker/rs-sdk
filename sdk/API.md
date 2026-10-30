@@ -27,7 +27,8 @@
 
 | Signature | Description |
 |---|---|
-| `async skipTutorial(options: { randomizeAppearance?: boolean } = {}): Promise<ActionResult>` | Skip tutorial by navigating dialogs and talking to tutorial NPCs. This is a porcelain method - domain logic that was moved from bot client. |
+| `async acceptCharacterDesign(patch?: CharacterDesignPatch, timeout: number = 5000): Promise<ActionResult>` | Optionally edit tutorial appearance, accept once, and verify the server's resulting look and closed design screen. Waits for a late login modal. Requires an updated browser/lite client. The timeout bounds the whole operation. |
+| `async skipTutorial(options: { randomizeAppearance?: boolean; gender?: boolean } = {}): Promise<ActionResult>` | Skip tutorial by navigating dialogs and talking to tutorial NPCs. This is a porcelain method - domain logic that was moved from bot client. |
 | `async dismissBlockingUI(): Promise<void>` | Dismiss any blocking UI like level-up dialogs. |
 | `async waitForDialogClose(timeout: number = 30000): Promise<void>` | Wait for dialog to close. |
 | `async navigateDialog(choices: (number \| string \| RegExp)[]): Promise<void>` | _No description provided._ |
@@ -204,6 +205,7 @@
 | `findGroundItem(pattern: string \| RegExp, options?: FindOptions): GroundItem \| null` | Find ground item by name pattern (shortest matching name wins, then nearest; reachable preferred). |
 | `getGroundItems(): GroundItem[]` | Get all ground items. |
 | `getDialog(): DialogState \| null` | Get current dialog state. |
+| `getCharacterDesign(): CharacterDesignState \| null` | Inspect the pending tutorial design and valid kit IDs/colour indices. Null outside creation. |
 | `getTradeState(): TradeState` | Current player-to-player trade session state. Returns a closed-trade default when no state has arrived or the connected client predates trade support. |
 | `getPrayerState(): PrayerState \| null` | Get current prayer state from world state. |
 | `isPrayerActive(prayer: PrayerName \| number): boolean` | Check if a specific prayer is currently active. |
@@ -276,8 +278,9 @@
 | `async sendClickComponent(componentId: number): Promise<ActionResult>` | Click a component using IF_BUTTON packet - for simple buttons, spellcasting, etc. |
 | `async sendClickComponentWithOption(componentId: number, optionIndex: number = 1, slot: number = 0): Promise<ActionResult>` | Click a component using INV_BUTTON packet - for components with inventory operations (smithing, crafting, etc.) |
 | `async sendClickInterfaceOption(arrayPosition: number): Promise<ActionResult>` | Click an interface option by **0-based array position**. Note the mismatch: `InterfaceOption.index` is a 1-based display label, so passing one straight through clicks the option after the one you matched. Prefer `clickInterfaceOption()` when selecting from published state. |
-| `async sendAcceptCharacterDesign(): Promise<ActionResult>` | Accept character design in tutorial. |
-| `async sendRandomizeCharacterDesign(): Promise<ActionResult>` | Randomize character appearance in tutorial. |
+| `async sendSetCharacterDesign(patch: CharacterDesignPatch): Promise<CharacterDesignActionResult>` | Edit pending tutorial appearance fields without accepting. Returns the resolved draft in data.design. |
+| `async sendAcceptCharacterDesign(): Promise<CharacterDesignActionResult>` | Dispatch the pending tutorial design and accept button. Use bot.acceptCharacterDesign() for verified completion. |
+| `async sendRandomizeCharacterDesign(gender?: boolean): Promise<CharacterDesignActionResult>` | Randomize the tutorial draft; true for male, false for female, random when omitted. Does not accept. |
 | `async sendShopBuy(slot: number, amount: number = 1): Promise<ActionResult>` | Buy from shop by slot and amount. |
 | `async sendShopSell(slot: number, amount: number = 1): Promise<ActionResult>` | Sell to shop by slot and amount. |
 | `async sendCloseShop(): Promise<ActionResult>` | Close shop interface. |
@@ -336,6 +339,8 @@ interface PlayerCombatState {
 
 ```typescript
 interface PlayerState {
+  /** Server-decoded appearance; absent on older clients, null before player-info arrives. */
+  appearance?: PlayerAppearance | null;
   name: string;
   combatLevel: number;
   /** Current hitpoints level (boosted/drained) */
@@ -565,6 +570,8 @@ interface BotWorldState {
   ge?: GEState | null;
   modalOpen: boolean;
   modalInterface: number;
+  /** Pending tutorial design; null outside creation, absent on older clients. */
+  characterDesign?: CharacterDesignState | null;
   combatStyle?: CombatStyleState;
   combatEvents: CombatEvent[];
   prayers: PrayerState;
@@ -1102,5 +1109,59 @@ interface MarketHistory {
 interface GEAvailability {
   enabled: boolean;
   message?: string;
+}
+```
+
+### CharacterDesign
+
+```typescript
+interface CharacterDesign {
+  /** Matches the existing client convention: true for male, false for female. */
+  gender: boolean;
+  /** Identity-kit IDs, with -1 for the female jaw. */
+  body: Record<CharacterBodyPart, number>;
+  /** Palette indices, not colour values. */
+  colors: Record<CharacterColorPart, number>;
+}
+```
+
+### CharacterDesignPatch
+
+```typescript
+interface CharacterDesignPatch {
+  gender?: boolean;
+  body?: Partial<CharacterDesign['body']>;
+  colors?: Partial<CharacterDesign['colors']>;
+}
+```
+
+### CharacterDesignState
+
+```typescript
+interface CharacterDesignState {
+  current: CharacterDesign;
+  options: { body: Record<'male' | 'female', Record<CharacterBodyPart, number[]>>; colors: Record<CharacterColorPart, number[]>; };
+}
+```
+
+### PlayerAppearance
+
+Server-decoded visible appearance. Equipment and hidden slots remain encoded.
+
+```typescript
+interface PlayerAppearance {
+  gender: boolean;
+  /** Twelve player-info slots: 0 absent/hidden, 256 + kit, or 512 + equipment ID. Slot 0 is 65535 for an NPC transformation; remaining slots are not current. */
+  slots: number[];
+  colors: CharacterDesign['colors'];
+}
+```
+
+### CharacterDesignActionResult
+
+```typescript
+interface CharacterDesignActionResult {
+  /** Snapshot of the complete draft edited or dispatched by this action. */
+  data?: { design: CharacterDesign };
 }
 ```

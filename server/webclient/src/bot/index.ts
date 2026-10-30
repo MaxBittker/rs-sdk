@@ -37,6 +37,8 @@ export {
     type BotAction
 } from './types.js';
 
+export type { CharacterDesign, CharacterDesignPatch, CharacterDesignState, CharacterDesignActionResult, CharacterBodyPart, CharacterColorPart, PlayerAppearance } from '../../../../sdk/character-design.js';
+
 // State collection
 export { BotStateCollector } from './StateCollector.js';
 

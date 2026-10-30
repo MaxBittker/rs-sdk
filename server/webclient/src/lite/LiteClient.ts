@@ -11,6 +11,8 @@
 // the three screen-projection methods return null (the bridge only uses them to
 // draw a click marker - see ActionExecutor.test.ts, which stubs them the same way).
 
+import { assertCharacterDesignOpen, characterDesignFromArrays, characterDesignOptions, defaultCharacterDesign, patchCharacterDesign } from '#/client/CharacterDesign.js';
+import { CHARACTER_BODY_PARTS, CHARACTER_COLOR_PARTS, CHARACTER_DESIGN_INTERFACE, type CharacterDesignPatch, type CharacterDesignState } from '../../../../sdk/character-design.js';
 import IfType from '#/config/IfType.js';
 import LocType from '#/config/LocType.js';
 import NpcType from '#/config/NpcType.js';
@@ -140,7 +142,8 @@ export class LiteClient {
     dialogHistory: Array<{ text: string[]; tick: number; interfaceId: number }> = [];
     lastCapturedDialogId = -1;
     designGender = true;
-    designKits: number[] = [0, 0, 0, 0, 0, 0, 0];
+    designKits: number[] = new Array(7).fill(-1);
+    private designInitialized = false;
     designColours: number[] = [0, 0, 0, 0, 0];
     minimapFlagX = 0;
     minimapFlagZ = 0;
@@ -872,6 +875,28 @@ export class LiteClient {
     }
     getCombatStyle(): number {
         return A.getCombatStyle(this);
+    }
+    getCharacterDesign(): CharacterDesignState | null {
+        if (!this.ingame || this.mainModalId !== CHARACTER_DESIGN_INTERFACE) return null;
+        // Cache loading precedes login; initialize on first access to the design
+        // screen so socketless clients used by other tests need no identity kits.
+        if (!this.designInitialized) {
+            const design = defaultCharacterDesign(this.designGender);
+            this.designKits = CHARACTER_BODY_PARTS.map(part => design.body[part]);
+            this.designInitialized = true;
+        }
+        return {
+            current: characterDesignFromArrays(this.designGender, this.designKits, this.designColours),
+            options: characterDesignOptions()
+        };
+    }
+    setCharacterDesign(patch: CharacterDesignPatch): boolean {
+        assertCharacterDesignOpen(this.ingame, this.mainModalId);
+        const design = patchCharacterDesign(this.getCharacterDesign()!.current, patch);
+        this.designGender = design.gender;
+        this.designKits = CHARACTER_BODY_PARTS.map(part => design.body[part]);
+        this.designColours = CHARACTER_COLOR_PARTS.map(part => design.colors[part]);
+        return true;
     }
     acceptCharacterDesign(): boolean {
         return A.acceptCharacterDesign(this);
