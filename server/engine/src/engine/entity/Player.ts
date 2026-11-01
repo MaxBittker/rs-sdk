@@ -1280,6 +1280,14 @@ export default class Player extends PathingEntity {
         const opTrigger = this.getOpTrigger();
         const apTrigger = this.getApTrigger();
 
+        if (
+            (this.targetOp === ServerTriggerType.APPLAYERU || this.targetOp === ServerTriggerType.APNPCU || this.targetOp === ServerTriggerType.APLOCU || this.targetOp === ServerTriggerType.APOBJU) &&
+            !this.getInventory(InvType.INV)?.hasAt(this.lastUseSlot, this.lastUseItem)
+        ) {
+            this.clearInteraction();
+            return false;
+        }
+
         // Run the opTrigger if it exists and Player is within range
         // allowOpScenery controls if Locs and Objs can be op'd
         if (opTrigger && (this.target instanceof PathingEntity || allowOpScenery) && this.inOperableDistance(this.target)) {

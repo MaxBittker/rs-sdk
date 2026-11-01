@@ -9,6 +9,6 @@ export default class ResumePCountDialogDecoder extends ClientGameMessageDecoder<
     decode(buf: Packet) {
         const input = buf.g4s();
 
-        return new ResumePCountDialog(input);
+        return new ResumePCountDialog(Math.max(0, input));
     }
 }
