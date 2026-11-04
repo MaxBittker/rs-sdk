@@ -164,7 +164,7 @@ export class BotStateCollector implements ScanProvider {
 
         return {
             tick: currentTick,
-            combatTargetTelemetryVersion: 1,
+            combatTargetTelemetryVersion: 2,
             revision: this.publicationRevision,
             player: this.collectPlayerState(currentTick, clientCycle),
             skills: this.collectSkills(),
@@ -1040,6 +1040,13 @@ export class BotStateCollector implements ScanProvider {
                 combatTargetType: target.type,
                 combatTargetIndex: target.index,
                 inCombat: corroborated,
+                animId: player.primaryAnim ?? -1,
+                spotanimId: player.spotanimId ?? -1,
+                weaponId: (player.appearance?.[3] ?? 0) >= 512 ? player.appearance[3]! - 512 : null,
+                weaponName: (player.appearance?.[3] ?? 0) >= 512 ? ObjType.list(player.appearance[3]! - 512).name ?? 'Unknown' : 'Unarmed',
+                headicons: player.headicons ?? 0,
+                hp: corroborated && player.totalHealth > 0 ? player.health : null,
+                maxHp: corroborated && player.totalHealth > 0 ? player.totalHealth : null,
                 reachable: this.reachProbeReady()
                     ? this.reachProbe.canReachEntity(player.routeX?.[0] ?? (player.x || 0) >> 7, player.routeZ?.[0] ?? (player.z || 0) >> 7, 1)
                     : undefined

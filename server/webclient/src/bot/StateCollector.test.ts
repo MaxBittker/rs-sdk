@@ -27,6 +27,7 @@ import { describe, expect, test } from 'bun:test';
 
 const { BotStateCollector } = await import('./StateCollector.js');
 const { default: IfType } = await import('#/config/IfType.js');
+const { default: ObjType } = await import('#/config/ObjType.js');
 
 function createClient() {
     const skills = new Array(21).fill(1);
@@ -77,6 +78,23 @@ function createClient() {
 }
 
 describe('BotStateCollector combat state', () => {
+    test('publishes observed player equipment and cast animations without treating unknown health as death', () => {
+        const client = createClient();
+        client.playerCount = 1;
+        client.playerIds = [13];
+        client.players = [];
+        client.players[13] = {name:'BowBinder',combatLevel:126,x:384,z:128,faceEntity:32775,combatCycle:120,
+            primaryAnim:710,spotanimId:177,appearance:new Uint16Array([0,0,0,512+861]),headicons:16,health:0,totalHealth:0};
+        const original = ObjType.list;
+        (ObjType as any).list = () => ({name:'Magic shortbow'});
+        try {
+            const collector = new BotStateCollector(client);
+            collector.setReachabilityEnabled(false);
+            const observed = (collector as any).collectNearbyPlayers(100)[0];
+            expect(observed).toMatchObject({name:'BowBinder',weaponId:861,weaponName:'Magic shortbow',animId:710,
+                spotanimId:177,headicons:16,hp:null,combatTargetType:'player',combatTargetIndex:7});
+        } finally {(ObjType as any).list = original;}
+    });
     test('uses the public tick for damage events and faceEntity for targeting', () => {
         const client = createClient();
         const collector = new BotStateCollector(client);

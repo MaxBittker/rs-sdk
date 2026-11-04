@@ -1160,7 +1160,7 @@ export class Client extends GameShell {
      * Interact with a player using a specific option (1-5)
      * Option 2 is Attack (wilderness only), Option 3 is Follow, Option 4 is Trade
      */
-    interactPlayer(playerIndex: number, optionIndex: number): ClientActionResult {
+    interactPlayer(playerIndex: number, optionIndex: number, approach = true): ClientActionResult {
         if (!this.ingame || !this.out || !this.localPlayer) {
             return { success: false, reason: 'not_in_game' };
         }
@@ -1181,7 +1181,8 @@ export class Client extends GameShell {
         // moves and the server replies "I can't reach that!". Mirrors spellOnNpc/useItemOnNpc.
         // Attempt the route, but always dispatch (see talkToNpc): applayer ops
         // trigger at range and the server owns the reach check.
-        const routed = this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], p.routeX[0], p.routeZ[0], false, 1, 1, 0, 0, 0, 2);
+        // Already-in-range attacks can dispatch without replacing the movement queue.
+        const routed = approach ? this.tryMove(this.localPlayer.routeX[0], this.localPlayer.routeZ[0], p.routeX[0], p.routeZ[0], false, 1, 1, 0, 0, 0, 2) : false;
 
         const opcodes = [
             ClientProt.OPPLAYER1,

@@ -89,7 +89,7 @@ export class ActionExecutor {
 
                 case 'interactPlayer': {
                     const result = this.wrapClientAction(
-                        this.client.interactPlayer(action.playerIndex, action.optionIndex),
+                        this.client.interactPlayer(action.playerIndex, action.optionIndex, action.approach !== false),
                         `Interacting with player #${action.playerIndex}`,
                         'Failed to interact with player'
                     );

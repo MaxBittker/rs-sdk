@@ -131,6 +131,16 @@ export interface NearbyPlayer {
     distance: number;
     /** See NearbyNpc.reachable. */
     reachable?: boolean;
+    combatTargetType?: 'npc'|'player'|'none';
+    combatTargetIndex?: number;
+    inCombat?: boolean;
+    animId?: number;
+    spotanimId?: number;
+    weaponId?: number|null;
+    weaponName?: string;
+    headicons?: number;
+    hp?: number|null;
+    maxHp?: number|null;
 }
 
 export interface GroundItem {
@@ -483,7 +493,7 @@ export type BotAction =
     | { type: 'wait'; reason: string; ticks?: number }
     | { type: 'talkToNpc'; npcIndex: number; reason: string }
     | { type: 'interactNpc'; npcIndex: number; optionIndex: number; reason: string }
-    | { type: 'interactPlayer'; playerIndex: number; optionIndex: number; reason: string }
+    | { type: 'interactPlayer'; playerIndex: number; optionIndex: number; approach?: boolean; reason: string }
     | { type: 'clickDialogOption'; optionIndex: number; reason: string; guard?: { pageId: string; componentId: number } }
     // clickComponent: IF_BUTTON packet - for simple buttons, spellcasting, etc.
     | { type: 'clickComponent'; componentId: number; reason: string }

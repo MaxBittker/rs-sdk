@@ -1136,8 +1136,8 @@ export class BotSDK {
     }
 
     /** Interact with a player by index and option (1-5). Option 2 = Attack (wilderness), 3 = Follow, 4 = Trade. */
-    async sendInteractPlayer(playerIndex: number, option: number = 2): Promise<ActionResult> {
-        return this.sendAction({ type: 'interactPlayer', playerIndex, optionIndex: option, reason: 'SDK' });
+    async sendInteractPlayer(playerIndex: number, option: number = 2, options: { approach?: boolean } = {}): Promise<ActionResult> {
+        return this.sendAction({ type: 'interactPlayer', playerIndex, optionIndex: option, approach: options.approach, reason: 'SDK' });
     }
 
     /** Talk to an NPC by index. */

@@ -74,6 +74,7 @@ mock.module('#/client/MobileKeyboard.js', () => ({
 };
 
 const { Client } = await import('../client/Client.js');
+const { interactPlayer: liteInteractPlayer } = await import('../lite/actions.js');
 const { default: LocType } = await import('#/config/LocType.js');
 const { default: ObjType } = await import('#/config/ObjType.js');
 const { default: IfType } = await import('#/config/IfType.js');
@@ -440,6 +441,16 @@ describe('interactPlayer', () => {
         expect(payload).toEqual([5]);
     });
 
+    test('stationary attacks emit OPPLAYER2 without installing a melee route', () => {
+        const opcodes: number[] = [], payload: number[] = [];
+        const client = playerClient(opcodes, payload);
+        client.tryMove = () => { throw new Error('stationary attack attempted a route'); };
+        expect(Client.prototype.interactPlayer.call(client, 5, 2, false))
+            .toEqual({ success: true, routed: false });
+        expect(opcodes).toEqual([ClientProt.OPPLAYER2]);
+        expect(payload).toEqual([5]);
+    });
+
     test('sends OPPLAYER5, which the engine binds but the client used to reject', () => {
         const opcodes: number[] = [];
         const payload: number[] = [];
@@ -726,4 +737,20 @@ describe('loc routing', () => {
         expect(opcodes).toEqual([ClientProt.OPLOCU]);
         expect(payload).toEqual([2512, 3468, 1996, 954, 0, 3214]);
     });
+});
+
+test('Lite stationary ranged attack does not invoke movement or collision rebuilding',()=>{
+ const opcodes:number[]=[],payload:number[]=[];
+ const client:any={isInGame:()=>true,localPlayer:{routeX:[1],routeZ:[1]},players:{5:{routeX:[8],routeZ:[1]}},writeOpcode:(op:number)=>opcodes.push(op),out:{p2:(v:number)=>payload.push(v)},ensureCollision:()=>{throw Error('unexpected route');}};
+ expect(liteInteractPlayer(client,5,2,false)).toEqual({success:true,routed:false});
+ expect(opcodes).toEqual([ClientProt.OPPLAYER2]);expect(payload).toEqual([5]);
+});
+
+test('action bridge preserves stationary attack routing and reports that no route was sent',()=>{
+ const opcodes:number[]=[],payload:number[]=[];
+ const client:any={isInGame:()=>true,localPlayer:{routeX:[1],routeZ:[1]},players:{5:{routeX:[8],routeZ:[1]}},writeOpcode:(op:number)=>opcodes.push(op),out:{p2:(v:number)=>payload.push(v)},ensureCollision:()=>{throw Error('unexpected approach route');},projectPlayerToScreen:()=>null};
+ client.interactPlayer=(i:number,o:number,approach:boolean)=>liteInteractPlayer(client,i,o,approach);
+ const result=new ActionExecutor(client).execute({type:'interactPlayer',playerIndex:5,optionIndex:2,approach:false,reason:'stationary ranged attack'});
+ expect(result).toMatchObject({success:true,phase:'dispatch',data:{routed:false}});
+ expect(opcodes).toEqual([ClientProt.OPPLAYER2]);expect(payload).toEqual([5]);
 });

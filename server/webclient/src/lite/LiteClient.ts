@@ -742,8 +742,8 @@ export class LiteClient {
         }
         return undefined;
     }
-    interactPlayer(playerIndex: number, optionIndex: number): ClientActionResult {
-        return A.interactPlayer(this, playerIndex, optionIndex);
+    interactPlayer(playerIndex: number, optionIndex: number, approach = true): ClientActionResult {
+        return A.interactPlayer(this, playerIndex, optionIndex, approach);
     }
     pickupGroundItem(worldX: number, worldZ: number, itemId: number): ClientActionResult {
         return A.pickupGroundItem(this, worldX, worldZ, itemId);

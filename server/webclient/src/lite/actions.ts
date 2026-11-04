@@ -129,7 +129,7 @@ function opNpc(c: LiteClient, npcIndex: number, optionIndex: number): ClientActi
     return { success: true, routed };
 }
 
-export function interactPlayer(c: LiteClient, playerIndex: number, optionIndex: number): ClientActionResult {
+export function interactPlayer(c: LiteClient, playerIndex: number, optionIndex: number, approach = true): ClientActionResult {
     if (!c.isInGame() || !c.localPlayer) {
         return { success: false, reason: 'not_in_game' };
     }
@@ -147,7 +147,8 @@ export function interactPlayer(c: LiteClient, playerIndex: number, optionIndex: 
 
     // Attempt the route, but always dispatch (see opNpc): applayer ops trigger
     // at range and the server owns the reach check.
-    const routed = tryMoveTo(c, p.routeX[0], p.routeZ[0], 1, 1, 0, 0, 0);
+    // Already-in-range attacks can dispatch without replacing the movement queue.
+    const routed = approach ? tryMoveTo(c, p.routeX[0], p.routeZ[0], 1, 1, 0, 0, 0) : false;
 
     c.writeOpcode([ClientProt.OPPLAYER1, ClientProt.OPPLAYER2, ClientProt.OPPLAYER3, ClientProt.OPPLAYER4, ClientProt.OPPLAYER5][optionIndex - 1]);
     c.out.p2(playerIndex);
