@@ -30,7 +30,7 @@ tradeable=no
 [poisoned_feed]
 name=Feed
 desc=This looks nasty.
-cost=3
+cost=1
 model=inv_sheeppoison
 members=yes
 2dyof=-3

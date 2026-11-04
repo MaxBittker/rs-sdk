@@ -1,6 +1,6 @@
 [warrant]
 members=yes
-cost=5
+cost=1
 model=inv_scrollwithseal
 2dxof=1
 2dyof=7

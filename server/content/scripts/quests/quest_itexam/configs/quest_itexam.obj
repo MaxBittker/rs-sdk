@@ -10,6 +10,7 @@ members=yes
 tradeable=no
 
 [specimen_brush]
+cost=1
 name=Specimen brush
 desc=A small brush used to clean rock samples.
 model=inv_specimenbrush
@@ -23,6 +24,7 @@ members=yes
 tradeable=no
 
 [rock_sample1]
+cost=1
 model=inv_rocksample1
 2dxof=8
 2dyof=-15
@@ -87,6 +89,7 @@ members=yes
 tradeable=no
 
 [trowel]
+cost=1
 name=Trowel
 desc=Used for digging!
 model=inv_trowel
@@ -165,6 +168,7 @@ members=yes
 tradeable=no
 
 [digplainletter]
+cost=1
 model=inv_scroll
 name=Unstamped letter
 desc=A scroll waiting to be stamped.
@@ -178,6 +182,7 @@ members=yes
 tradeable=no
 
 [recommendedletter]
+cost=1
 model=inv_scrollwithseal
 name=Stamped letter
 desc=A stamped scroll of recommendation.
@@ -349,6 +354,7 @@ members=yes
 tradeable=no
 
 [digexpertscroll]
+cost=1
 model=inv_scroll
 name=Invitation letter
 desc=A letter inviting me to use the private digshafts.
@@ -420,6 +426,7 @@ weight=1oz
 tradeable=no
 
 [ammonium_nitrate]
+cost=1
 name=Ammonium nitrate
 desc=An acrid chemical.
 model=inv_ash
@@ -536,6 +543,7 @@ members=yes
 tradeable=no
 
 [digchestkey]
+cost=1
 name=Chest key
 desc=This fits a chest.
 model=inv_key

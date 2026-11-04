@@ -13,6 +13,7 @@ weight=1kg
 tradeable=no
 
 [silverlight_key_2]
+cost=1
 name=Key
 desc=A key given to me by Captain Rovin.
 model=inv_key
@@ -43,7 +44,7 @@ tradeable=no
 [silverlight]
 name=Silverlight
 desc=The magical sword 'Silverlight'.
-cost=50
+cost=1
 model=inv_silverlight
 recol1s=15855
 recol1d=8456

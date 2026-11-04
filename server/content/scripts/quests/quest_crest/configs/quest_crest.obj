@@ -38,6 +38,7 @@ members=yes
 tradeable=no
 
 [gauntlets_of_cooking]
+cost=1
 category=armour_hands
 name=Cooking gauntlets
 desc=These gauntlets empower with a greater ability to cook fish.
@@ -68,6 +69,7 @@ tradeable=no
 param=destroy_drop,^true
 
 [gauntlets_of_goldsmithing]
+cost=1
 category=armour_hands
 name=Goldsmith gauntlet
 desc=These gauntlets empower the bearer whilst making gold.
@@ -96,6 +98,7 @@ tradeable=no
 param=destroy_drop,^true
 
 [gauntlets_of_chaos]
+cost=1
 category=armour_hands
 name=Chaos gauntlets
 desc=These gauntlets empower spell casters.
@@ -124,6 +127,7 @@ tradeable=no
 param=destroy_drop,^true
 
 [steel_gauntlets]
+cost=1
 category=armour_hands
 name=Steel gauntlets
 desc=My reward for assisting the Fitzharmon family.
@@ -152,6 +156,7 @@ tradeable=no
 param=destroy_drop,^true
 
 [avan_crest]
+cost=1
 model=inv_crest-bird1
 name=Crest part
 desc=A fragment of the Fitzharmon family crest.
@@ -163,6 +168,7 @@ weight=4lb
 tradeable=no
 
 [caleb_crest]
+cost=1
 model=inv_crest-bird2
 name=Crest part
 desc=A fragment of the Fitzharmon family crest.

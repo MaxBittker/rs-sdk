@@ -31,6 +31,7 @@ tradeable=no
 dummyitem=inv_only
 
 [hauntedmine_reward_key]
+cost=1
 name=Crystal-mine key
 desc=A key I found in the lower levels of the Morytanian mines.
 model=inv_key
@@ -44,6 +45,7 @@ members=yes
 tradeable=no
 
 [hauntedmine_lift_key]
+cost=1
 name=Zealot's key
 recol1s=31393
 recol1d=22197

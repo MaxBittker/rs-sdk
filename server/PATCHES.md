@@ -388,6 +388,13 @@ Upgrade hazards:
       capacity before transferring money. Report and initial fix by kadeski ([PR #73](https://github.com/MaxBittker/rs-sdk/pull/73)).
       Reported upstream to LostCity; drop this patch once their 289 branch carries a fix.
       Verify: from the repo root, `bun test server/engine/test/miscellania-coffers.test.ts` (requires built engine content).
+- [ ] **Quest-item alch cap** — `cost=1` (so high/low alch pays 1gp) on the 134 quest objs an NPC
+      re-gives for free (talisman, Wolfbane, HftD god books, cat medal, ghostspeak, …) across
+      `quests/*/configs/*.obj`: 57 existing `cost=` lines lowered, 77 added (`liquid_honey` stays
+      `cost=0`, which already alchs for 1). Shop/sell values for these drop too. Changes client
+      obj.dat, so the pack build needs `BUILD_VERIFY=false` (already set for the GE). A vendor sync
+      that re-takes an upstream `.obj` block silently restores its cost.
+      Verify: `bun test server/engine/test/alch-value.test.ts` (requires built engine content).
 - [x] **README art** — moved out of the vendored tree to `docs/media/` (promo.gif, discord.svg,
       hiscores.svg, task_length.svg); nothing in `content/title/` is locally modified anymore.
 - [ ] Smithing arrowheads + telegrab + nails fixes live in content history; they're additive

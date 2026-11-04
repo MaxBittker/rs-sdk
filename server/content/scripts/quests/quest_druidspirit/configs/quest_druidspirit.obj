@@ -131,6 +131,7 @@ tradeable=no
 weight=18oz
 
 [bloom_spell]
+cost=1
 name=Druidic spell
 desc=A druidic spell given to you freely by the spirit of Filliman Tarlock.
 recol1s=0
@@ -157,6 +158,7 @@ tradeable=no
 weight=20g
 
 [used_bloom_spell]
+cost=1
 name=A used spell
 desc=A used druidic spell given to you freely by the spirit of Filliman Tarlock.
 recol1s=0

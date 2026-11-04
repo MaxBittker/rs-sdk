@@ -27,6 +27,7 @@ members=yes
 tradeable=no
 
 [glarials_pebble_waterfall_quest]
+cost=1
 name=Glarial's pebble
 desc=A small pebble with elven inscription.
 model=inv_ornatepebble

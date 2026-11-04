@@ -33,7 +33,7 @@ members=yes
 weight=120g
 
 [felinemedal]
-cost=350
+cost=1
 name=Cat training medal
 desc=For feline training expertise.
 model=inv_fish_amulet

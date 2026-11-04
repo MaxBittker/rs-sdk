@@ -1,6 +1,6 @@
 // official name, item uses in quest don't have the misspelling either: https://web.archive.org/web/20060111205550im_/http://www.runeweb.net/fireball/Biohazard%20Images/biohazard12.PNG
 [ethenea]
-cost=10
+cost=1
 model=inv_vial_empty
 members=yes
 name=Ethanea

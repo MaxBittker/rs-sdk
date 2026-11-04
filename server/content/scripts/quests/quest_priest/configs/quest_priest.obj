@@ -1,7 +1,7 @@
 [amulet_of_ghostspeak]
 name=Ghostspeak amulet
 desc=It lets me talk to ghosts.
-cost=35
+cost=1
 model=inv_amulet_ghostspeak
 recol1s=7399
 recol1d=31041

@@ -14,7 +14,7 @@ weight=7g
 [julietmessage]
 name=Message
 desc=A message from Juliet to Romeo.
-cost=5
+cost=1
 model=inv_scroll
 2dxof=1
 2dyof=7
@@ -25,6 +25,7 @@ weight=20g
 tradeable=no
 
 [cadava]
+cost=1
 name=Cadava potion
 desc=I'm meant to give this to Juliet.
 model=inv_vial

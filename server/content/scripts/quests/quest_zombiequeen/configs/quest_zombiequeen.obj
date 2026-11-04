@@ -282,7 +282,7 @@ param=destroy_drop,^true
 [mosol_wampum_belt]
 name=Wampum belt
 desc=A decorated belt used to trade information between distant villages.
-cost=5
+cost=1
 model=inv_wampum
 2dzoom=2190
 2dyan=2040

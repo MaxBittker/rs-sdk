@@ -22,6 +22,7 @@ weight=10g
 tradeable=no
 
 [phoenixkey2]
+cost=1
 name=Key
 desc=The key to the Phoenix Gang's weapons store.
 model=inv_key

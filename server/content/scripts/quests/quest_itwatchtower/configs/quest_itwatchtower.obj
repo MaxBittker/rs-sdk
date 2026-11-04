@@ -6,6 +6,7 @@ weight=25g
 dummyitem=graphic_only
 
 [ogrerelic]
+cost=1
 name=Ogre relic
 desc=An old statue of an ogre warrior.
 members=yes
@@ -17,6 +18,7 @@ weight=3kg
 tradeable=no
 
 [relicpart1]
+cost=1
 name=Relic part 1
 desc=Part of an ogre relic.
 model=inv_ogrerelic1
@@ -30,6 +32,7 @@ category=category_1399
 tradeable=no
 
 [relicpart2]
+cost=1
 name=Relic part 2
 desc=Part of an ogre relic.
 model=inv_ogrerelic2
@@ -41,6 +44,7 @@ category=category_1399
 tradeable=no
 
 [relicpart3]
+cost=1
 name=Relic part 3
 desc=Part of an ogre relic.
 model=inv_ogrerelic3
@@ -52,6 +56,7 @@ category=category_1399
 tradeable=no
 
 [skavidmap]
+cost=1
 name=Skavid map
 desc=It's a map.
 model=inv_skanidmap
@@ -65,6 +70,7 @@ members=yes
 tradeable=no
 
 [ogretooth]
+cost=1
 name=Ogre tooth
 desc=Very tooth like.
 model=inv_ogretooth
@@ -78,6 +84,7 @@ members=yes
 tradeable=no
 
 [toban_key]
+cost=1
 name=Toban key
 model=inv_key
 2dxof=-3
@@ -103,6 +110,7 @@ category=category_734
 tradeable=no
 
 [powering_crystal1]
+cost=1
 name=Crystal
 model=inv_poweringcrystal
 recol1s=22292
@@ -117,6 +125,7 @@ members=yes
 tradeable=no
 
 [powering_crystal2]
+cost=1
 name=Crystal
 model=inv_poweringcrystal
 recol1s=22292
@@ -292,7 +301,7 @@ tradeable=no
 [watchtowerspell]
 name=Spell scroll
 desc=A spell is written on this parchment.
-cost=5
+cost=1
 model=inv_scroll
 2dxof=1
 2dyof=7

@@ -24,6 +24,7 @@ weight=2kg
 tradeable=no
 
 [gnome_amulet]
+cost=1
 name=Gnome amulet
 desc=It's an emerald protection amulet given to me by the gnomes.
 members=yes

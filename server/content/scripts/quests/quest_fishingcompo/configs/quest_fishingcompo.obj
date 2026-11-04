@@ -16,6 +16,7 @@ weight=10g
 tradeable=no
 
 [hemenster_fishing_trophy]
+cost=1
 name=Fishing trophy
 desc=Hemenster fishing contest trophy.
 model=inv_hemenster_fishing_trophy
@@ -28,6 +29,7 @@ weight=3oz
 tradeable=no
 
 [fishing_competition_pass]
+cost=1
 name=Fishing pass
 desc=Pass to the Hemenster fishing contest.
 model=inv_scroll

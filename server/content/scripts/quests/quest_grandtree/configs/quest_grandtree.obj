@@ -2,7 +2,7 @@
 name=Bark sample
 desc=A sample of the bark from the Grand Tree.
 members=yes
-cost=2
+cost=1
 model=inv_barksample
 recol1s=4160
 recol1d=6240
@@ -18,7 +18,7 @@ tradeable=no
 name=Translation book
 desc=A book to translate the ancient gnome language into English.
 members=yes
-cost=2
+cost=1
 model=inv_book_fancy
 recol1s=13472
 recol1d=7494
@@ -58,7 +58,7 @@ tradeable=no
 name=Hazelmere's scroll
 desc=Hazelmere wrote something down on this scroll.
 members=yes
-cost=2
+cost=1
 model=inv_scroll
 2dxof=1
 2dyof=7
@@ -73,7 +73,7 @@ tradeable=no
 name=Lumber order
 desc=An order from the Karamja shipyard.
 members=yes
-cost=2
+cost=1
 model=inv_scroll
 2dxof=1
 2dyof=7
@@ -85,6 +85,7 @@ weight=20g
 tradeable=no
 
 [grandtree_gloughskey]
+cost=1
 name=Glough's key
 desc=The key to Glough's chest.
 members=yes
@@ -98,6 +99,7 @@ weight=10g
 tradeable=no
 
 [grandtree_twigt]
+cost=1
 name=Twigs
 desc=Twigs bound together in the shape of a T.
 model=inv_twig_rune_t
@@ -111,6 +113,7 @@ weight=20g
 tradeable=no
 
 [grandtree_twigu]
+cost=1
 name=Twigs
 desc=Twigs bound together in the shape of a U.
 model=inv_twig_rune_u
@@ -124,6 +127,7 @@ weight=20g
 tradeable=no
 
 [grandtree_twigz]
+cost=1
 name=Twigs
 desc=Twigs bound together in the shape of a Z.
 model=inv_twig_rune_z
@@ -135,6 +139,7 @@ weight=20g
 tradeable=no
 
 [grandtree_twigo]
+cost=1
 name=Twigs
 desc=Twigs bound together in the shape of a O.
 model=inv_twig_rune_o

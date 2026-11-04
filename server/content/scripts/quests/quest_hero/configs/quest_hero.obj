@@ -14,6 +14,7 @@ weight=25g
 tradeable=no
 
 [id_papers]
+cost=1
 name=Id papers
 desc=Apparently my name is Hartigen.
 model=inv_scroll
@@ -27,6 +28,7 @@ weight=10g
 tradeable=no
 
 [misc_key]
+cost=1
 name=Miscellaneous key
 desc=I wonder what this unlocks?
 model=inv_key
@@ -43,7 +45,7 @@ members=yes
 [master_thief_armband]
 name=Thieves' armband
 desc=This denotes a Master Thief.
-cost=2
+cost=1
 model=inv_armband
 2dxof=1
 2dyof=17

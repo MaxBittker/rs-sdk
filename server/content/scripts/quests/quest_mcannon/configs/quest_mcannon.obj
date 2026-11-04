@@ -12,6 +12,7 @@ members=yes
 tradeable=no
 
 [mcannontoolkit]
+cost=1
 name=Tool kit
 desc=These could be handy.
 model=inv_tool_belt
@@ -39,6 +40,7 @@ members=yes
 cost=5
 
 [nulodions_notes]
+cost=1
 name=Nulodion's notes.
 desc=Construction notes for Dwarf cannon ammo.
 model=inv_scroll
@@ -59,7 +61,7 @@ model=inv_cannon_mould
 2dzoom=2160
 2dyan=88
 2dxan=308
-cost=5
+cost=1
 weight=10lb
 members=yes
 tradeable=no
@@ -132,6 +134,7 @@ category=cannon_parts
 members=yes
 
 [mcannonrailing1_obj]
+cost=1
 name=Railing
 desc=A metal railing replacement.
 model=inv_single_railing

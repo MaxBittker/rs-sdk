@@ -128,7 +128,7 @@ tradeable=no
 [goldbowlpic]
 name=Sketch
 desc=A rough sketch of a bowl shaped vessel given to you by Gujuo.
-cost=10
+cost=1
 members=yes
 model=inv_scroll
 recol1s=29594
@@ -353,6 +353,7 @@ model=inv_brokenglass
 weight=2g
 
 [yommiseeds]
+cost=1
 name=Yommi tree seeds
 desc=These need to be germinated before they can be used.
 model=inv_seeds
@@ -452,6 +453,7 @@ param=magicdefence,2
 tradeable=no
 
 [heartcrystal_sectiona]
+cost=1
 name=Chunk of crystal
 desc=It looks like it's been snapped off of something.
 model=inv_heartcrystal_sectiona
@@ -464,6 +466,7 @@ tradeable=no
 param=crystal_bit,^legends_smelting_chunk
 
 [heartcrystal_sectionb]
+cost=1
 name=Hunk of crystal
 desc=It looks like it's been snapped off of something.
 model=inv_heartcrystal_sectionb
@@ -476,6 +479,7 @@ tradeable=no
 param=crystal_bit,^legends_smelting_hunk
 
 [heartcrystal_sectionc]
+cost=1
 name=Lump of crystal
 desc=It looks like it's been snapped off of something.
 model=inv_heartcrystal_sectionc
@@ -513,6 +517,7 @@ iop1=Look-at
 tradeable=no
 
 [deathdagger]
+cost=1
 model=inv_deathdagger
 members=yes
 2dxof=1
@@ -593,6 +598,7 @@ weight=3kg
 tradeable=no
 
 [thtotempolegift]
+cost=1
 name=Gilded totem
 desc=A gilded totem pole from the Kharazi tribe.
 model=quest_totempole

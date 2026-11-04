@@ -2,7 +2,7 @@
 members=yes
 name=Barcrawl card
 desc=The official Alfred Grimhand bar crawl card.
-cost=10
+cost=1
 model=inv_passcard
 2dxof=5
 2dyof=8

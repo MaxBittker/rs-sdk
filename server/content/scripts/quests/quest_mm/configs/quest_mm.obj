@@ -681,6 +681,7 @@ iop1=View
 tradeable=no
 
 [mm_gnome_royal_seal]
+cost=1
 name=Gnome royal seal
 desc=It's the official Royal Gnome Seal, signed by King Narnode Shareem.
 members=yes
@@ -694,6 +695,7 @@ model=inv_scrollwithseal
 tradeable=no
 
 [mm_narnode_orders]
+cost=1
 name=Narnode's orders
 recol1s=29594
 recol1d=29398
@@ -870,7 +872,7 @@ tradeable=no
 name=Monkey talisman
 desc=A magical talisman in the shape of a monkey head.
 members=yes
-cost=1000
+cost=1
 weight=3oz
 model=quest_mm_inv_monkey_talisman
 2dyof=13
@@ -1148,6 +1150,7 @@ wearpos=righthand
 dummyitem=inv_only
 
 [mm_monkey_in_backpack]
+cost=1
 name=Monkey
 desc=It's a monkey in your backpack. As you look it pokes you.
 members=yes
@@ -1176,6 +1179,7 @@ tradeable=no
 param=mm_bones_type,8
 
 [mm_sigil]
+cost=1
 name=10th squad sigil
 desc=It's the official sigil of the 10th squad of the Royal Guard.
 members=yes

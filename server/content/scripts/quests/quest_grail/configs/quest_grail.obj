@@ -1,7 +1,7 @@
 [holy_table_napkin]
 name=Holy table napkin
 desc=A cloth given to me by Sir Galahad.
-cost=10
+cost=1
 members=yes
 model=inv_napkin
 2dxof=-3
@@ -29,7 +29,7 @@ tradeable=no
 [grail_bell]
 name=Grail bell
 desc=I wonder what happens when I ring it?
-cost=10
+cost=1
 members=yes
 model=inv_bell
 recol1s=21089
@@ -45,7 +45,7 @@ tradeable=no
 [magic_golden_feather]
 name=Magic gold feather
 desc=It will point the way for me.
-cost=2
+cost=1
 members=yes
 model=inv_feather
 recol1s=32767

@@ -139,7 +139,7 @@ tradeable=no
 [thkebabinstructs]
 name=Scrumpled paper
 desc=A piece of paper with barely legible writing - looks like a recipe!
-cost=10
+cost=1
 model=inv_papyrus
 recol1s=29494
 recol1d=24319

@@ -69,7 +69,7 @@ tradeable=no
 [damp_cloth]
 name=Damp cloth
 desc=A damp, wet cloth.
-cost=10
+cost=1
 model=inv_cloth
 recol1s=27412
 recol1d=8388
@@ -155,6 +155,7 @@ members=yes
 tradeable=no
 
 [cavewitchcat]
+cost=1
 name=Witches cat
 desc=A cat.
 model=npc_cat_head
@@ -174,7 +175,7 @@ param=destroy_drop,^true
 [ibandoll]
 name=Doll of iban
 desc=A simple doll with Iban's likeness.
-cost=2
+cost=1
 model=inv_ibandoll
 members=yes
 iop1=Search
@@ -221,7 +222,7 @@ tradeable=no
 [klanks_gauntlets]
 name=Klank's gauntlets
 desc=Strong dwarvish gloves.
-cost=6
+cost=1
 model=inv_gloves
 recol1s=9473
 recol1d=131
