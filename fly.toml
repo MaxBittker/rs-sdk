@@ -66,5 +66,5 @@ protocol = "tcp"
   handlers = ["tls", "http"]
 
 [[vm]]
-memory = "4gb"
-size = "performance-2x"
+memory = "8gb"
+size = "performance-4x"
