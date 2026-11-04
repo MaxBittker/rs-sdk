@@ -1,7 +1,10 @@
 // Grant an item into an OFFLINE player's bank by patching their .sav on disk.
 //
 // Usage (run on the box, from /opt/server/engine or anywhere):
-//   bun grant-bank-item.ts <username> <objId> [count] [--wait] [--inspect] [--players-dir=data/players/main] [--web=http://localhost:8080]
+//   bun grant-bank-item.ts <username> <objId> [count] [--wait] [--inspect] [--players-dir=data/players/main] [--db=data/market.sqlite] [--web=http://localhost:8080]
+//
+// PlayerLoading.load prefers the GE ledger checkpoint (market.sqlite `accounts`)
+// over the .sav, so both copies are patched.
 //
 // A save only takes effect on a fresh login - while the world holds the
 // character the in-memory state wins and the next autosave/logout overwrites
@@ -10,16 +13,19 @@
 // save to land (file quiet for QUIET_MS), patches, then keeps re-verifying for
 // a while in case a late save overwrites the patch.
 //
-// Byte layout mirrors Player.save() / PlayerLoading.load() at SAV_VERSION 7.
+// Byte layout mirrors Player.save() / PlayerLoading.load() for SAV_VERSION 7-10
+// (everything up to the end of the inv section is unchanged across those).
+import { Database } from 'bun:sqlite';
 import { existsSync, readFileSync, renameSync, statSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 const SAV_MAGIC = 0x2004;
-const SAV_VERSION = 7;
+const MIN_SAV_VERSION = 7;
+const MAX_SAV_VERSION = 10;
 const INV_BANK = 95;
-const BANK_CAPACITY = 240; // ^bank_total_slots
-const QUIET_MS = 15_000;
-const VERIFY_MS = 90_000;
+const BANK_CAPACITY = 576; // ^bank_total_slots
+const QUIET_MS = +(process.env.QUIET_MS ?? 15_000);
+const VERIFY_MS = +(process.env.VERIFY_MS ?? 90_000);
 
 const argv = process.argv.slice(2);
 const flags = new Map<string, string>();
@@ -43,6 +49,7 @@ const count = Math.max(1, parseInt(countArg ?? '1', 10) || 1);
 const wait = flags.get('wait') === 'true';
 const playersDir = flags.get('players-dir') ?? 'data/players/main';
 const web = flags.get('web') ?? 'http://localhost:8080';
+const dbPath = flags.get('db') ?? process.env.GE_DATABASE ?? 'data/market.sqlite';
 const savPath = join(playersDir, `${username}.sav`);
 
 const log = (...args: unknown[]) => console.log(new Date().toISOString(), ...args);
@@ -95,7 +102,7 @@ function parse(buf: Uint8Array): Parsed {
     const r = new Reader(buf);
     if (r.g2() !== SAV_MAGIC) throw new Error('not a save file');
     const version = r.g2();
-    if (version !== SAV_VERSION) throw new Error(`save version ${version} != ${SAV_VERSION}; refusing to patch`);
+    if (version < MIN_SAV_VERSION || version > MAX_SAV_VERSION) throw new Error(`save version ${version} outside ${MIN_SAV_VERSION}-${MAX_SAV_VERSION}; refusing to patch`);
     const stored = ((buf[buf.length - 4] << 24) | (buf[buf.length - 3] << 16) | (buf[buf.length - 2] << 8) | buf[buf.length - 1]) | 0;
     if (stored !== crc32(buf, buf.length - 4)) throw new Error('CRC mismatch on existing save');
 
@@ -192,6 +199,26 @@ function writeAtomic(bytes: Uint8Array): void {
     renameSync(tmp, savPath);
 }
 
+const db = existsSync(dbPath) ? new Database(dbPath, { strict: true }) : null;
+db?.exec('PRAGMA busy_timeout=5000');
+const readLedger = () => db?.query<{ save: Uint8Array }, [string]>('SELECT save FROM accounts WHERE owner=?').get(username)?.save;
+const readSav = () => new Uint8Array(readFileSync(savPath));
+
+/** Patch whichever copies don't hold the item yet. */
+function apply(): void {
+    const sav = readSav();
+    if (bankSlotOf(sav) === -1) {
+        writeAtomic(patch(sav));
+        log(`patched ${savPath}`);
+    }
+    const ledger = readLedger();
+    if (ledger && bankSlotOf(ledger) === -1) {
+        db!.query('UPDATE accounts SET save=? WHERE owner=?').run(patch(ledger), username);
+        log(`patched ${dbPath} accounts row`);
+    }
+}
+const done = () => bankSlotOf(readSav()) !== -1 && (() => { const l = readLedger(); return !l || bankSlotOf(l) !== -1; })();
+
 async function isOnline(): Promise<boolean | null> {
     try {
         const res = await fetch(`${web}/playerpositions`);
@@ -209,11 +236,15 @@ async function main() {
     if (!existsSync(savPath)) throw new Error(`${savPath} does not exist`);
     log(`target ${savPath}, obj ${objId} x${count}`);
 
-    const initial = parse(new Uint8Array(readFileSync(savPath)));
-    log(`save ok: ${initial.invCount} invs, bank ${initial.bank ? `${initial.bank.slots.filter(Boolean).length}/${initial.bank.size} used` : 'absent'}, online=${await isOnline()}`);
+    const describe = (buf: Uint8Array) => {
+        const p = parse(buf);
+        return `${p.invCount} invs, bank ${p.bank ? `${p.bank.slots.filter(Boolean).length}/${p.bank.size} used` : 'absent'}, obj slot ${bankSlotOf(buf)}`;
+    };
+    const ledger = readLedger();
+    log(`sav: ${describe(readSav())}; ledger: ${ledger ? describe(ledger) : 'absent'}; online=${await isOnline()}`);
     if (flags.get('inspect') === 'true') return;
 
-    if (bankSlotOf(new Uint8Array(readFileSync(savPath))) !== -1) {
+    if (done()) {
         log('already present in bank; nothing to do');
         return;
     }
@@ -238,22 +269,19 @@ async function main() {
 
     // 3. patch; if they came back online between the check and now, go around again
     if (await isOnline()) { log('came back online before patch; restarting wait'); return main(); }
-    const before = new Uint8Array(readFileSync(savPath));
-    const after = patch(before);
-    writeAtomic(after);
-    log(`wrote ${after.length} bytes (was ${before.length})`);
+    apply();
 
     // 4. keep verifying for a bit - a late engine save can overwrite us
     const until = Date.now() + VERIFY_MS;
     while (Date.now() < until) {
         await sleep(3000);
-        const cur = new Uint8Array(readFileSync(savPath));
-        if (bankSlotOf(cur) !== -1) continue;
-        if (await isOnline()) { log('player logged in and save was rewritten without the item; restarting wait'); return main(); }
+        if (done()) continue;
+        if (await isOnline()) { log('player logged in before the patch stuck; restarting wait'); return main(); }
         log('save was overwritten without the item; re-patching');
-        writeAtomic(patch(cur));
+        apply();
     }
-    log(`done: obj ${objId} is in ${username}'s bank slot ${bankSlotOf(new Uint8Array(readFileSync(savPath)))}`);
+    const final = readLedger();
+    log(`done: obj ${objId} is in ${username}'s bank slot ${bankSlotOf(readSav())} (sav)${final ? `, ${bankSlotOf(final)} (ledger)` : ''}`);
 }
 
 main().catch(e => { log('FAILED:', e.message); process.exit(1); });
