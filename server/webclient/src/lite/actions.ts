@@ -513,15 +513,20 @@ export function getDialogOptions(c: LiteClient): Array<{ index: number; text: st
         const com = IfType.list[comId];
         if (!com) return;
 
-        if ((com.buttonType === ButtonType.BUTTON_OK || com.buttonType === ButtonType.BUTTON_CONTINUE) && com.buttonText) {
-            // com.text is the product label on skill dialogs but layout padding
-            // on the Make X/10/5 siblings - fall back to buttonText.
-            options.push({
-                index: options.length + 1,
-                text: normaliseComponentText(com.text) || normaliseComponentText(com.buttonText),
-                componentId: comId,
-                buttonType: com.buttonType
-            });
+        // `p_choice2` / `p_choice3` build their options as BUTTON_OK with the label
+        // in `com.text` and no `buttonText`. Requiring `buttonText` skipped every one
+        // of them, so a two-way choice surfaced as a single "Continue" and the answer
+        // could not be given — no quest that asks a question could be started.
+        if (com.buttonType === ButtonType.BUTTON_OK || com.buttonType === ButtonType.BUTTON_CONTINUE) {
+            const label = normaliseComponentText(com.text) || normaliseComponentText(com.buttonText);
+            if (label) {
+                options.push({
+                    index: options.length + 1,
+                    text: label,
+                    componentId: comId,
+                    buttonType: com.buttonType
+                });
+            }
         }
 
         if (com.children) {
