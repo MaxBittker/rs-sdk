@@ -10,25 +10,55 @@ import LocType from '#/cache/config/LocType.js';
 import Packet from '#/io/Packet.js';
 import Environment from '#/util/Environment.js';
 
+const SCREENSHOT_DIR = 'screenshots';
+// A game canvas PNG as a data URL is well under 1 MB.
+const MAX_SCREENSHOT_BODY_BYTES = 8 * 1024 * 1024;
+// The endpoint has no auth, so stop accepting uploads before they fill the disk.
+const MAX_SCREENSHOT_DIR_BYTES = 256 * 1024 * 1024;
+const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+
+function screenshotResponse(status: number, body: object): Response {
+    return new Response(JSON.stringify(body), {
+        status,
+        headers: { 'Content-Type': 'application/json' }
+    });
+}
+
 export async function handleScreenshotUpload(req: Request, url: URL): Promise<Response | null> {
     if (url.pathname !== '/api/screenshot' || req.method !== 'POST') {
         return null;
     }
 
     try {
+        const tooLarge = { success: false, error: `Screenshot too large (max ${MAX_SCREENSHOT_BODY_BYTES} bytes)` };
+        if (Number(req.headers.get('content-length') ?? 0) > MAX_SCREENSHOT_BODY_BYTES) {
+            return screenshotResponse(413, tooLarge);
+        }
         const data = await req.text();
-        const base64Data = data.replace(/^data:image\/png;base64,/, '');
+        if (data.length > MAX_SCREENSHOT_BODY_BYTES) {
+            return screenshotResponse(413, tooLarge);
+        }
+
+        const png = Buffer.from(data.replace(/^data:image\/png;base64,/, ''), 'base64');
+        if (!png.subarray(0, PNG_SIGNATURE.length).equals(PNG_SIGNATURE)) {
+            return screenshotResponse(400, { success: false, error: 'Body is not a PNG data URL' });
+        }
+
+        // The folder is gitignored and only the /screenshots page created it before.
+        fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
+        let dirBytes = 0;
+        for (const file of fs.readdirSync(SCREENSHOT_DIR)) {
+            dirBytes += fs.statSync(`${SCREENSHOT_DIR}/${file}`).size;
+        }
+        if (dirBytes + png.length > MAX_SCREENSHOT_DIR_BYTES) {
+            return screenshotResponse(507, { success: false, error: 'Screenshot folder is full' });
+        }
+
         const filename = `screenshot-${Date.now()}.png`;
-        const filepath = `screenshots/${filename}`;
-        fs.writeFileSync(filepath, Buffer.from(base64Data, 'base64'));
-        return new Response(JSON.stringify({ success: true, filename }), {
-            headers: { 'Content-Type': 'application/json' }
-        });
+        await Bun.write(`${SCREENSHOT_DIR}/${filename}`, png);
+        return screenshotResponse(200, { success: true, filename });
     } catch (e: any) {
-        return new Response(JSON.stringify({ success: false, error: e.message }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return screenshotResponse(500, { success: false, error: e.message });
     }
 }
 

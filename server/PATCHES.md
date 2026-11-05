@@ -100,7 +100,7 @@ survival) is described in the project memory; this file is the human-readable ch
 - [ ] **`src/web/`** modular split: `websocket.ts` (`/gateway` WS proxy → gateway on :7780,
       `isAgentProxy`), `pages/api.ts` (`/api/exportCollision` — must read the in-engine TS
       routefinder, NOT the removed WASM; discovers mapsquares from maps **zip ∪ dir**;
-      `/api/screenshot`), `pages/client.ts` (serves `view/bot.ejs` at `/` and `/bot`),
+      `/api/screenshot` — PNG only, 8 MB body cap, 256 MB folder cap), `pages/client.ts` (serves `view/bot.ejs` at `/` and `/bot`),
       `pages/hiscores.ts` + `src/web/hiscoresServer.ts` + `src/hiscores.ts` (custom hiscores;
       **profile query param XSS-sanitized**), `pages/screenshots.ts`, `pages/static.ts`.
 - [ ] **World feed** (`src/web/worldfeed.ts`, rs-sdk-only): read-only `/worldfeed` WebSocket
