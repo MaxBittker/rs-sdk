@@ -99,7 +99,9 @@ function redactValue(value: unknown): unknown {
 
 /** Load a script module: `export default async ({ bot, sdk, args }) => ...`. Reloaded when the file changes. */
 async function loadScript(path: string): Promise<(ctx: { bot: unknown; sdk: unknown; args: unknown }) => unknown> {
-  const absolute = resolve(REPO_ROOT, path);
+  // Relative paths resolve against the working directory first, so a project that runs this server from elsewhere can pass its own paths.
+  const fromCwd = resolve(process.cwd(), path);
+  const absolute = (await Bun.file(fromCwd).exists()) ? fromCwd : resolve(REPO_ROOT, path);
   const file = Bun.file(absolute);
   if (!(await file.exists())) throw new ExecutionStopped('invalid_input', `Script not found: ${absolute}`);
   const source = await file.text();

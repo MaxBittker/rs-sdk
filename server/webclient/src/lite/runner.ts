@@ -386,7 +386,9 @@ if (!botName) {
 }
 
 const repoRoot = fileURLToPath(new URL('../../../../', import.meta.url));
-const envPath = `${repoRoot}bots/${botName}/bot.env`;
+// Prefer bots/ in the working directory (a project running this from outside the repo), then the repo's own.
+const cwdEnvPath = `${process.cwd()}/bots/${botName}/bot.env`;
+const envPath = (await Bun.file(cwdEnvPath).exists()) ? cwdEnvPath : `${repoRoot}bots/${botName}/bot.env`;
 const env = Object.fromEntries(
     (await Bun.file(envPath).text())
         .split('\n')
