@@ -1356,6 +1356,39 @@ export class Client extends GameShell {
     }
 
     /**
+     * Cast a spell on a location (e.g. Legends' Quest's Charge Orb on the
+     * Ancient Gate). Sends OPLOCT, the packet the TGT_LOC menu option sends.
+     */
+    spellOnLoc(worldX: number, worldZ: number, locId: number, spellComponent: number): ClientActionResult {
+        if (!this.ingame || !this.out || !this.localPlayer) {
+            return { success: false, reason: 'not_in_game' };
+        }
+        // LocType.list() has no bounds check: an unknown id decodes from an
+        // undefined offset and never returns.
+        if (!Number.isInteger(locId) || locId < 0 || locId >= LocType.numDefinitions) {
+            return { success: false, reason: 'invalid_target' };
+        }
+
+        const destSceneX = worldX - this.mapBuildBaseX;
+        const destSceneZ = worldZ - this.mapBuildBaseZ;
+        if (destSceneX < 0 || destSceneX > 103 || destSceneZ < 0 || destSceneZ > 103) {
+            return { success: false, reason: 'out_of_scene' };
+        }
+        // Attempt a route, but always dispatch (see interactLoc): the server owns
+        // the reach check, and spells reach from range anyway.
+        const routed = this.routeToLoc(destSceneX, destSceneZ, locId);
+
+        // OpLocTDecoder reads: x, z, loc, spellCom.
+        this.writePacketOpcode(ClientProt.OPLOCT);
+        this.out.p2(worldX);
+        this.out.p2(worldZ);
+        this.out.p2(locId);
+        this.out.p2(spellComponent);
+
+        return { success: true, routed };
+    }
+
+    /**
      * Pick up a ground item at the specified world coordinates
      * Use the groundItems from BotState to get item locations
      */

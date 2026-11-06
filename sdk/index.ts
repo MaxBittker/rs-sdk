@@ -1573,6 +1573,21 @@ export class BotSDK {
         return this.sendAction({ type: 'spellOnGroundItem', x, z, itemId, spellComponent, reason: 'SDK' });
     }
 
+    /**
+     * Cast spell on a location (scenery) - OPLOCT. e.g. Legends' Quest's Charge
+     * Orb on the Ancient Gate: `sdk.sendSpellOnLoc(loc.x, loc.z, loc.id, component)`
+     * with a loc from `findNearbyLoc` and `Spells.CHARGE_WATER_ORB` (or earth, fire, air).
+     */
+    async sendSpellOnLoc(x: number, z: number, locId: number, spellComponent: number): Promise<ActionResult> {
+        const fields = { x, z, locId, spellComponent };
+        for (const [name, value] of Object.entries(fields)) {
+            if (!Number.isInteger(value) || value < 0 || value > 0xffff) {
+                return { success: false, message: `Invalid ${name}: ${value} (expected an integer 0-65535)`, reason: 'invalid_argument', phase: 'validation' };
+            }
+        }
+        return this.sendAction({ type: 'spellOnLoc', x, z, locId, spellComponent, reason: 'SDK' });
+    }
+
     /** Switch to a UI tab by index. */
     async sendSetTab(tabIndex: number): Promise<ActionResult> {
         return this.sendAction({ type: 'setTab', tabIndex, reason: 'SDK' });

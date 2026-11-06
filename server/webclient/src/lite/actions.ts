@@ -360,6 +360,30 @@ export function spellOnPlayer(c: LiteClient, playerIndex: number, spellComponent
     return { success: true };
 }
 
+export function spellOnLoc(c: LiteClient, worldX: number, worldZ: number, locId: number, spellComponent: number): ClientActionResult {
+    if (!c.isInGame() || !c.localPlayer) {
+        return { success: false, reason: 'not_in_game' };
+    }
+    // LocType.list() has no bounds check: an unknown id never returns.
+    if (!Number.isInteger(locId) || locId < 0 || locId >= LocType.numDefinitions) {
+        return { success: false, reason: 'invalid_target' };
+    }
+    const dest = c.toSceneTile(worldX, worldZ);
+    if (!dest) {
+        return { success: false, reason: 'out_of_scene' };
+    }
+    // Attempt the route, but always dispatch (see interactLoc).
+    const routed = c.routeToLoc(dest.x, dest.z, locId);
+
+    // OpLocTDecoder reads: x, z, loc, spellCom.
+    c.writeOpcode(ClientProt.OPLOCT);
+    c.out.p2(worldX);
+    c.out.p2(worldZ);
+    c.out.p2(locId);
+    c.out.p2(spellComponent);
+    return { success: true, routed };
+}
+
 export function spellOnItem(c: LiteClient, slot: number, spellComponent: number, interfaceId: number = INVENTORY_INTERFACE_ID): boolean {
     if (!c.isInGame()) {
         return false;

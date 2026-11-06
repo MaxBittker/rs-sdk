@@ -1,5 +1,5 @@
 // Spell component ids (from server/content/pack/interface.pack).
-// These are what sdk.sendSpellOnTarget / sendSpellOnItem and bot.castSpell
+// These are what sdk.sendSpellOnTarget / sendSpellOnItem / sendSpellOnLoc and bot.castSpell
 // take as the spell argument, e.g.:
 //   await sdk.sendSpellOnItem(item.slot, Spells.HIGH_ALCHEMY);
 //   await bot.castSpell('goblin', Spells.WIND_STRIKE);
@@ -29,10 +29,14 @@ export const Spells = {
     ENCHANT_LVL3: 1176, // Ruby
     EARTH_BLAST: 1177,
     HIGH_ALCHEMY: 1178,
+    CHARGE_WATER_ORB: 1179, // Cast on a loc: sendSpellOnLoc
     ENCHANT_LVL4: 1180, // Diamond
     FIRE_BLAST: 1181,
+    CHARGE_EARTH_ORB: 1182,
     WIND_WAVE: 1183,
+    CHARGE_FIRE_ORB: 1184,
     WATER_WAVE: 1185,
+    CHARGE_AIR_ORB: 1186,
     ENCHANT_LVL5: 1187, // Dragonstone
     EARTH_WAVE: 1188,
     FIRE_WAVE: 1189,
