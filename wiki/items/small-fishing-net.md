@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m46_57 | Ground | 1 |
+| Ruins | Ground | 1 |
 
 ## Sources
 

@@ -26,12 +26,14 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Catherby | m42_50 | (2691, 3215) |
-| m39_153 | m39_153 | (2528, 9843) |
-| m39_53 | m39_53 | (2549, 3408) |
-| m49_154 | m49_154 | (3157, 9905) |
-| m49_59 | m49_59 | (3139, 3818) |
-| Rimmington | m44_50 | (2827, 3246) |
+| Baxtorian Falls | m39_53 | (2549, 3408) |
+| Baxtorian Falls (underground) | m39_153 | (2528, 9843) |
+| Crandor | m44_50 | (2827, 3246) |
+| Feldip Hills (underground) | m41_148 | (2636, 9528) |
+| Necromancer | m42_50 | (2691, 3215) |
+| Palace (underground) | m49_154 | (3157, 9905) |
+| Port Khazard (underground) | m41_149 | (2636, 9544) |
+| Red Dragon Isle | m49_59 | (3139, 3818) |
 
 ## Drops
 

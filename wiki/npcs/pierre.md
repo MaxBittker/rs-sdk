@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_55 | m42_55 | (2750, 3576) |
+| Sinclair Mansion | m42_55 | (2750, 3576) |
 
 ## Interactions
 

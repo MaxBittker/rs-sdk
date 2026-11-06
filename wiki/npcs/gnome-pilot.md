@@ -12,12 +12,11 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Lumbridge (east) | m51_50 | (3284, 3212) |
-| m38_54 | m38_54 | (2464, 3501) L3 |
-| m44_54 | m44_54 | (2847, 3499) |
-| m45_47 | m45_47 | (2918, 3057) |
-| m46_46 | m46_46 | (2970, 2973) |
-| Wilderness | m51_53 | (3321, 3431) |
+| Karamja | m45_47, m46_46 | (2918, 3057), (2970, 2973) |
+| Kingdom Of Misthalin | m51_53 | (3321, 3431) |
+| Toll Gate | m51_50 | (3284, 3212) |
+| Tree Gnome Stronghold | m38_54 | (2464, 3501) L3 |
+| White Wolf Mountain | m44_54 | (2847, 3499) |
 
 ## Interactions
 

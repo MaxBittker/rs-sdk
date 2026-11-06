@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m41_154 | m41_154 | (2656, 9875) |
+| Seers' Village (underground) | m41_154 | (2656, 9875) |
 
 ## Interactions
 

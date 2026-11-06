@@ -26,11 +26,11 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m47_161 | m47_161 | (3042, 10317) |
-| m48_153 | m48_153 | (3099, 9832) |
-| m48_60 | m48_60 | (3094, 3849) |
-| m51_57 | m51_57 | (3300, 3649) |
-| West Ardougne | m39_49 | (2507, 3149) |
+| Barbarian Village (underground) | m48_153 | (3099, 9832) |
+| Lava Maze | m48_60 | (3094, 3849) |
+| Pirates' Hideout (underground) | m47_161 | (3042, 10317) |
+| Tree Gnome Village | m39_49 | (2507, 3149) |
+| Wilderness | m51_57 | (3300, 3649) |
 
 ## Drops
 

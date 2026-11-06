@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m45_55 | Ground | 1 |
+| Burthorpe | Ground | 1 |
 
 ## Sources
 

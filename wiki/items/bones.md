@@ -13,41 +13,40 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m37_147 | Ground | 1 |
-| m38_49 | Ground | 1 |
-| m38_50 | Ground | 1 |
-| m39_147 | Ground | 1 |
-| m39_46 | Ground | 1 |
-| m39_47 | Ground | 1 |
-| m39_48 | Ground | 1 |
-| m40_147 | Ground | 1 |
-| m40_152 | Ground | 1 |
-| m40_46 | Ground | 1 |
-| m40_47 | Ground | 1 |
-| m41_153 | Ground | 1 |
+| Agility Arena (underground) | Ground | 1 |
+| Barbarian Village (underground) | Ground | 1 |
+| Battlefield | Ground | 1 |
+| Bone Yard | Ground | 2 |
+| Chaos Temple | Ground | 1 |
+| Dig Site | Ground | 1 |
+| Dig Site (underground) | Ground | 1 |
+| Edgeville (underground) | Ground | 1 |
+| Entrana (underground) | Ground | 1 |
+| Exam Centre (underground) | Ground | 1 |
+| Falador (underground) | Ground | 1 |
+| Feldip Hills | Ground | 2 |
+| Feldip Hills (underground) | Ground | 1 |
+| Fishing Guild (underground) | Ground | 1 |
+| Frozen Waste Plateau | Ground | 1 |
+| Frozen Waste Plateau (underground) | Ground | 1 |
+| Graveyard of Shadows | Ground | 1 |
+| Gu'Tanoth | Ground | 1 |
+| Gu'Tanoth (underground) | Ground | 1 |
+| Hemenster (underground) | Ground | 1 |
+| Kingdom of Asgarnia (underground) | Ground | 1 |
 | m41_58 | Ground | 1 |
-| m44_149 | Ground | 1 |
-| m44_152 | Ground | 1 |
-| m45_153 | Ground | 1 |
-| m46_152 | Ground | 1 |
-| m46_161 | Ground | 1 |
-| m46_57 | Ground | 1 |
-| m46_58 | Ground | 1 |
-| m46_61 | Ground | 1 |
-| m48_153 | Ground | 1 |
-| m48_154 | Ground | 1 |
-| m48_155 | Ground | 1 |
-| m48_57 | Ground | 1 |
-| m49_154 | Ground | 1 |
-| m49_58 | Ground | 1 |
-| m50_56 | Ground | 1 |
-| m50_58 | Ground | 1 |
-| m50_61 | Ground | 1 |
-| m51_57 | Ground | 1 |
-| m51_58 | Ground | 1 |
-| m52_152 | Ground | 1 |
-| m52_153 | Ground | 1 |
-| m52_53 | Ground | 1 |
+| m42_142 | Ground | 1 |
+| m43_59 | Ground | 1 |
+| Observatory | Ground | 1 |
+| Palace (underground) | Ground | 1 |
+| Ruins | Ground | 2 |
+| Scorpion Pit | Ground | 1 |
+| Taverley (underground) | Ground | 1 |
+| The Forgotten Cemetery | Ground | 1 |
+| Wilderness | Ground | 1 |
+| Wizards' Guild | Ground | 1 |
+| Wizards' Guild (underground) | Ground | 1 |
+| Yanille | Ground | 1 |
 
 ## Sources
 

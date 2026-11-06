@@ -13,19 +13,19 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| Catherby | Ground | 1 |
+| East Ardougne (underground) | Ground | 1 |
+| Gu'Tanoth | Ground | 1 |
 | Karamja | Ground | 1 |
+| Kingdom of Kandarin (underground) | Ground | 1 |
 | Lumbridge | Ground | 1 |
-| m39_47 | Ground | 1 |
-| m39_51 | Ground | 1 |
-| m40_148 | Ground | 1 |
-| m40_151 | Ground | 1 |
-| m41_152 | Ground | 1 |
+| Lumbridge (underground) | Ground | 1 |
 | m41_58 | Ground | 1 |
-| m42_53 | Ground | 1 |
-| m42_54 | Ground | 1 |
-| m44_53 | Ground | 1 |
-| m50_150 | Ground | 1 |
-| Varrock (north) | Floor 1 | 1 |
+| Seers' Village | Ground | 1 |
+| Sorcerers' Tower | Ground | 1 |
+| Varrock | Floor 1 | 1 |
+| West Ardougne | Ground | 1 |
+| Yanille (underground) | Ground | 1 |
 
 ## Sources
 

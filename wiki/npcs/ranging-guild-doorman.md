@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m41_53 | m41_53 | (2658, 3439) |
+| Hemenster | m41_53 | (2658, 3439) |
 
 ## Interactions
 

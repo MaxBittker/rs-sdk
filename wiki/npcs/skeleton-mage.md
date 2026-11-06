@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_154 | m40_154 | (2585, 9878) |
+| Coal Trucks (underground) | m40_154 | (2585, 9878) |
 
 ## Drops
 

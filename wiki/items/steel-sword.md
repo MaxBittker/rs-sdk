@@ -25,7 +25,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m51_57 | Ground | 1 |
+| Wilderness | Ground | 1 |
 
 ## Sources
 

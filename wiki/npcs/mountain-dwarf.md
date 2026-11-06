@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_54 | m44_54 | (2820, 3487) |
+| White Wolf Mountain | m44_54 | (2820, 3487) |
 
 ## Interactions
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m51_48 | m51_48 | (3304, 3123) |
+| Al Kharid | m51_48 | (3304, 3123) |
 
 ## Interactions
 

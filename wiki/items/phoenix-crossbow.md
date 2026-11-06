@@ -22,4 +22,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Varrock | Floor 1 | 1 |
+| Champions' Guild | Floor 1 | 1 |

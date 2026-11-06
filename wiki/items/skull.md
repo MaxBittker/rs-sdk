@@ -13,6 +13,6 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m46_55 | Ground | 1 |
-| m48_149 | Ground | 1 |
-| m50_58 | Ground | 1 |
+| Bone Yard | Ground | 1 |
+| Chaos Temple | Ground | 1 |
+| Wizards' Tower (underground) | Ground | 1 |

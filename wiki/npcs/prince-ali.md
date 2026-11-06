@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Edgeville area | m48_50 | (3123, 3242) |
+| Draynor Village | m48_50 | (3123, 3242) |
 
 ## Drops
 

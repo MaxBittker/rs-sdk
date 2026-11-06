@@ -24,7 +24,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Wilderness | Ground | 1 |
+| Varrock | Ground | 1 |
 
 ## Sources
 

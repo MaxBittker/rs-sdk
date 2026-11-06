@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m47_57 | m47_57 | (3036, 3707) |
+| Bandit Camp | m47_57 | (3036, 3707) |
 
 ## Interactions
 

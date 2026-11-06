@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_154 | Ground | 1 |
+| Coal Trucks (underground) | Ground | 1 |

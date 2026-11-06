@@ -24,7 +24,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Falador | Floor 1 | 1 |
+| Rimmington | Floor 1 | 1 |
 
 ## Sources
 

@@ -13,8 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m49_149 | Ground | 1 |
-| Wilderness | Ground | 1 |
+| Cooks' Guild | Ground | 1 |
+| Lumbridge Swamp (underground) | Ground | 1 |
 
 ## Sources
 

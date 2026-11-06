@@ -13,9 +13,10 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Falador (west) | Ground | 1 |
-| m39_51 | Ground | 1 |
-| m41_51 | Ground | 1 |
+| Crafting Guild | Ground | 1 |
+| m43_70 | Ground | 1 |
+| West Ardougne | Ground | 1 |
+| Zoo | Ground | 1 |
 
 ## Sources
 

@@ -13,8 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m45_53 | Ground | 1 |
-| Wilderness | Ground | 1 |
+| Kingdom Of Misthalin | Ground | 1 |
+| Taverley | Ground | 1 |
 
 ## Sources
 

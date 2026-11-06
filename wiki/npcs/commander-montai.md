@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne (west) | m39_50 | (2523, 3211) |
+| Battlefield | m39_50 | (2523, 3211) |
 
 ## Interactions
 

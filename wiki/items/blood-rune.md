@@ -14,8 +14,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m51_59 | Ground | 1 |
-| m51_60 | Ground | 1 |
+| Demonic Ruins | Ground | 1 |
+| Wilderness | Ground | 1 |
 
 ## Sources
 

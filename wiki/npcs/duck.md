@@ -26,12 +26,12 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Barbarian Village | m49_52 | (3140, 3387) |
+| Kingdom of Kandarin | m40_53 | (2594, 3446) |
+| Kingdom Of Misthalin | m50_51 | (3211, 3322) |
 | Lumbridge | m50_50 | (3235, 3259) |
-| m37_53 | m37_53 | (2391, 3413) |
-| m40_53 | m40_53 | (2594, 3446) |
 | m41_73 | m41_73 | (2662, 4686) |
-| Varrock (south) | m50_51 | (3211, 3322) |
+| River Lum | m49_52 | (3140, 3387) |
+| Tree Gnome Stronghold | m37_53 | (2391, 3413) |
 
 ## Drops
 

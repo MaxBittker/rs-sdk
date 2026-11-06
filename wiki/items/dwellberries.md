@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m41_54 | Ground | 1 |
+| Seers' Village | Ground | 1 |
 
 ## Sources
 

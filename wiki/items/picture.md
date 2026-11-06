@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_52 | Ground | 1 |
+| Fishing Guild | Ground | 1 |

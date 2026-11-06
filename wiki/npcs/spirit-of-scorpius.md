@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m38_50 | m38_50 | (2465, 3227) |
+| Battlefield | m38_50 | (2465, 3227) |
 
 ## Interactions
 

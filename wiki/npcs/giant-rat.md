@@ -13,20 +13,21 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Al Kharid | m50_49 | (3200, 3174) |
-| Falador (south) | m45_50 | (2925, 3256) |
-| Lumbridge (west) | m49_50 | (3192, 3207) |
-| m38_154 | m38_154 | (2450, 9903) |
-| m41_151 | m41_151 | (2631, 9695) |
-| m46_49 | m46_49 | (2995, 3191) |
-| m46_57 | m46_57 | (2967, 3694) |
-| m47_57 | m47_57 | (3049, 3691) |
-| m48_154 | m48_154 | (3091, 9897) |
-| m50_154 | m50_154 | (3220, 9863) |
-| m51_154 | m51_154 | (3279, 9894) |
-| Varrock (east) | m51_52 | (3264, 3383) |
-| West Ardougne | m39_49 | (2517, 3184) |
-| Wilderness (deep) | m50_55 | (3227, 3533) |
+| Bandit Camp | m47_57 | (3049, 3691) |
+| Chaos Temple | m50_55 | (3227, 3533) |
+| Edgeville (underground) | m48_154 | (3091, 9897) |
+| Jail | m49_50 | (3192, 3207) |
+| Kingdom Of Misthalin | m51_52 | (3264, 3383) |
+| Lumber Yard (underground) | m51_154 | (3279, 9894) |
+| Lumbridge Swamp | m50_49 | (3200, 3174) |
+| Melzar's Maze | m45_50 | (2925, 3256) |
+| Morytania (underground) | m54_153 | (3480, 9830) |
+| Rimmington | m46_49 | (2995, 3191) |
+| Ruins | m46_57 | (2967, 3694) |
+| Tree Gnome Stronghold (underground) | m38_154 | (2450, 9903) |
+| Tree Gnome Village | m39_49 | (2517, 3184) |
+| Varrock (underground) | m50_154 | (3220, 9863) |
+| Zoo (underground) | m41_151 | (2631, 9695) |
 
 ## Drops
 

@@ -25,7 +25,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_157 | m44_157 | (2831, 10086) L2 |
+| Troll Stronghold (underground) | m44_157 | (2831, 10086) L2 |
 
 ## Drops
 

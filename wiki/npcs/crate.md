@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Wilderness | m51_54 | (3298, 3514) |
+| Lumber Yard | m51_54 | (3298, 3514) |
 
 ## Interactions
 

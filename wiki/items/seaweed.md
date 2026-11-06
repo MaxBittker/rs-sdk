@@ -13,14 +13,13 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Feldip Hills | Ground | 1 |
-| Karamja | Ground | 1 |
+| Agility Arena | Ground | 1 |
+| Cairn Isle | Ground | 1 |
+| Karamja | Ground | 2 |
+| Keep Le Faye | Ground | 1 |
 | m39_71 | Ground | 1 |
+| m40_71 | Ground | 1 |
 | m42_58 | Ground | 1 |
-| m43_46 | Ground | 1 |
-| m43_47 | Ground | 1 |
-| m43_52 | Ground | 1 |
-| m44_46 | Ground | 1 |
-| m46_46 | Ground | 1 |
-| m46_47 | Ground | 1 |
-| Shilo Village area | Ground | 1 |
+| Shilo Village | Ground | 1 |
+| Ship Yard | Ground | 1 |
+| Tai Bwo Wannai | Ground | 2 |

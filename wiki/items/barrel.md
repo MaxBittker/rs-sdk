@@ -14,5 +14,5 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m34_49 | Ground | 1 |
-| m34_50 | Ground | 1 |
+| Elf Camp | Ground | 1 |
+| Isafdar | Ground | 1 |

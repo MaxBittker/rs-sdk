@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m46_53 | m46_53 | (2952, 3451) |
+| Kingdom of Asgarnia | m46_53 | (2952, 3451) |
 
 ## Interactions
 

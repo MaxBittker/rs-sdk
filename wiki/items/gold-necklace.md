@@ -14,8 +14,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m47_60 | Ground | 1 |
-| m49_153 | Ground | 1 |
+| Cooks' Guild (underground) | Ground | 1 |
+| Lava Maze | Ground | 1 |
 
 ## Sources
 

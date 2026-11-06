@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m38_49 | m38_49 | (2442, 3189) |
+| Observatory | m38_49 | (2442, 3189) |
 
 ## Interactions
 

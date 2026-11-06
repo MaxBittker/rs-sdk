@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_52 | m44_52 | (2822, 3374) |
+| Entrana | m44_52 | (2822, 3374) |
 
 ## Interactions
 

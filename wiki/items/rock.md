@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m38_150 | Ground | 1 |
+| Battlefield (underground) | Ground | 1 |
 
 ## Sources
 

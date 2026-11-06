@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| West Ardougne | m39_49 | (2504, 3191) |
+| Tree Gnome Village | m39_49 | (2504, 3191) |
 
 ## Interactions
 

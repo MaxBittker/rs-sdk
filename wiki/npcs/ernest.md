@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Wilderness (low) | m48_52 | (3110, 3366) L2 |
+| Draynor Manor | m48_52 | (3110, 3366) L2 |
 
 ## Drops
 

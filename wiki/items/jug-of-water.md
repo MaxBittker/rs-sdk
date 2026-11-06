@@ -14,7 +14,7 @@
 | Area | Floor | Quantity |
 |------|-------|----------|
 | Al Kharid | Ground | 1 |
-| Ardougne area | Ground | 1 |
+| Yanille | Ground | 1 |
 
 ## Sources
 

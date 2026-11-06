@@ -13,6 +13,6 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Ardougne | Ground | 1 |
-| m39_48 | Ground | 1 |
-| Varrock (north) | Floor 1 | 1 |
+| Varrock | Floor 1 | 1 |
+| Yanille | Ground | 1 |
+| Zoo | Ground | 1 |

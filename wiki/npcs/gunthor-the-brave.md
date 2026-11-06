@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Wilderness | m48_53 | (3081, 3444) |
+| Barbarian Village | m48_53 | (3081, 3444) |
 
 ## Drops
 

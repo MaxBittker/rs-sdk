@@ -13,8 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m46_57 | Ground | 1 |
-| Wilderness | Floor 1 | 1 |
+| Cooks' Guild | Floor 1 | 1 |
+| Ruins | Ground | 1 |
 
 ## Sources
 

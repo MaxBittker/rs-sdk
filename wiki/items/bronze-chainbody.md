@@ -25,7 +25,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m46_153 | Ground | 1 |
+| Kingdom of Asgarnia (underground) | Ground | 1 |
 
 ## Sources
 

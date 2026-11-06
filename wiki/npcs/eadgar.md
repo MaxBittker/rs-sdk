@@ -12,8 +12,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_157 | m44_157 | (2829, 10083) |
-| m45_157 | m45_157 | (2890, 10086) L2 |
+| Troll Stronghold (underground) | m44_157 | (2829, 10083) |
+| Trollheim (underground) | m45_157 | (2890, 10086) L2 |
 
 ## Interactions
 

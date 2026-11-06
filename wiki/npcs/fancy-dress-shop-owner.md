@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Wilderness | m51_53 | (3281, 3398) |
+| Kingdom Of Misthalin | m51_53 | (3281, 3398) |
 
 ## Interactions
 

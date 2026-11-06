@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_46 | m44_46 | (2835, 2985) |
+| Shilo Village | m44_46 | (2835, 2985) |
 
 ## Interactions
 

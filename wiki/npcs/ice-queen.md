@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_155 | m44_155 | (2866, 9956) |
+| Burthorpe (underground) | m44_155 | (2866, 9956) |
 
 ## Drops
 

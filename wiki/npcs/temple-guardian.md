@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m53_154 | m53_154 | (3405, 9902) |
+| Temple (underground) | m53_154 | (3405, 9902) |
 
 ## Drops
 

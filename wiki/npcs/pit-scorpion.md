@@ -26,8 +26,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_51 | m40_51 | (2601, 3269) |
-| m42_152 | m42_152 | (2710, 9753) |
+| East Ardougne | m40_51 | (2601, 3269) |
+| Legends' Guild (underground) | m42_152 | (2710, 9753) |
 
 ## Drops
 

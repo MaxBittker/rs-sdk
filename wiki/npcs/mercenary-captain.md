@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m51_47 | m51_47 | (3270, 3029) |
+| Desert Mining Camp | m51_47 | (3270, 3029) |
 
 ## Drops
 

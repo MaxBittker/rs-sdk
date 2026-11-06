@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m51_47 | Ground | 1 |
+| Desert Mining Camp | Ground | 1 |
 
 ## Sources
 

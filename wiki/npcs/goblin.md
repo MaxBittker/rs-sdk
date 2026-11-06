@@ -26,25 +26,25 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Barbarian Village | m49_51 | (3142, 3297) |
-| Edgeville area | m48_51 | (3110, 3281) |
-| Falador | m46_50 | (2995, 3209) |
+| Barbarian Village | m48_53 | (3118, 3432) |
+| Champions' Guild | m50_52 | (3259, 3338) |
+| Draynor Village | m48_51 | (3110, 3281) |
+| Feldip Hills (underground) | m37_147 | (2380, 9456) |
+| Ice Mountain | m46_54 | (2951, 3497) |
+| Jail | m49_50 | (3141, 3258) |
+| Kingdom of Kandarin | m40_53 | (2563, 3398) |
+| Kingdom of Kandarin (underground) | m40_153 | (2564, 9836) |
+| Kingdom Of Misthalin | m50_51, m51_52 | (3215, 3276), (3311, 3375) |
 | Lumbridge | m50_50 | (3202, 3253) |
-| Lumbridge (west) | m49_50 | (3141, 3258) |
-| m37_147 | m37_147 | (2380, 9456) |
-| m37_150 | m37_150 | (2377, 9657) |
-| m37_52 | m37_52 | (2373, 3333) |
-| m38_151 | m38_151 | (2438, 9695) |
-| m38_49 | m38_49 | (2460, 3177) |
-| m40_150 | m40_150 | (2564, 9653) |
-| m40_153 | m40_153 | (2564, 9836) |
-| m40_53 | m40_53 | (2563, 3398) |
-| m46_54 | m46_54 | (2951, 3497) |
-| Varrock | m50_52 | (3259, 3338) |
-| Varrock (east) | m51_52 | (3311, 3375) |
-| Varrock (south) | m50_51 | (3215, 3276) |
-| West Ardougne | m39_49 | (2550, 3197) |
-| Wilderness | m48_53 | (3118, 3432) |
+| Morytania (underground) | m54_153 | (3466, 9798) |
+| Observatory | m38_49 | (2460, 3177) |
+| Rimmington | m46_50 | (2995, 3209) |
+| River Lum | m49_51 | (3142, 3297) |
+| Tirannwn (underground) | m37_150 | (2377, 9657) |
+| Tree Gnome Village | m39_49 | (2550, 3197) |
+| Underground Pass | m37_52 | (2373, 3333) |
+| Underground Pass (underground) | m38_151 | (2438, 9695) |
+| Zoo (underground) | m40_150 | (2564, 9653) |
 
 ## Drops
 

@@ -13,11 +13,12 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Camelot area | Floor 1 | 1 |
-| Falador (west) | Ground | 1 |
-| m37_147 | Ground | 1 |
-| m41_51 | Ground | 1 |
-| m46_47 | Ground | 1 |
+| Crafting Guild | Ground | 1 |
+| Falador | Floor 1 | 1 |
+| Feldip Hills (underground) | Ground | 1 |
+| m40_71 | Ground | 1 |
+| Ship Yard | Ground | 1 |
+| Zoo | Ground | 1 |
 
 ## Sources
 

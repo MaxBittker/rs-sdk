@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne (south) | m40_49 | (2566, 3140) |
+| Fight Arena | m40_49 | (2566, 3140) |
 
 ## Interactions
 

@@ -26,8 +26,9 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_152 | m44_152 | (2854, 9776) |
-| m48_155 | m48_155 | (3084, 9957) |
+| Entrana (underground) | m44_152 | (2854, 9776) |
+| Karamja (underground) | m42_148 | (2700, 9489) |
+| Kingdom of Asgarnia (underground) | m48_155 | (3084, 9957) |
 
 ## Drops
 

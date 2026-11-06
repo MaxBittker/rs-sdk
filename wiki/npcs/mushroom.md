@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_57 | m44_57 | (2854, 3689) |
+| Troll Stronghold | m44_57 | (2854, 3689) |
 
 ## Drops
 

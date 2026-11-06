@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m51_47 | m51_47 | (3287, 3022) |
+| Desert Mining Camp | m51_47 | (3287, 3022) |
 
 ## Interactions
 

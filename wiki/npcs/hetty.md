@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Falador | m46_50 | (2968, 3206) |
+| Rimmington | m46_50 | (2968, 3206) |
 
 ## Interactions
 

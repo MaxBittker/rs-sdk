@@ -13,6 +13,5 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m37_53 | Ground | 1 |
-| m37_54 | Ground | 1 |
-| m45_53 | Ground | 1 |
+| Taverley | Ground | 1 |
+| Tree Gnome Stronghold | Ground | 2 |

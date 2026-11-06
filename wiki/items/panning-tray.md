@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m52_52 | Ground | 1 |
+| Exam Centre | Ground | 1 |

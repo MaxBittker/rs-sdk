@@ -26,18 +26,18 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_54 | m39_54 | (2554, 3465) |
-| m40_47 | m40_47 | (2596, 3056) |
-| m40_54 | m40_54 | (2564, 3456) |
-| m44_154 | m44_154 | (2860, 9874) |
-| m45_151 | m45_151 | (2930, 9699) |
-| m46_153 | m46_153 | (2984, 9807) |
-| m46_53 | m46_53 | (2998, 3445) |
-| m47_152 | m47_152 | (3045, 9758) |
-| m47_153 | m47_153 | (3010, 9813) |
-| m47_53 | m47_53 | (3008, 3436) |
-| m47_54 | m47_54 | (3009, 3458) |
-| Taverley (north) | m47_52 | (3012, 3337) |
+| Barbarian Village | m47_53 | (3008, 3436) |
+| Barbarian Village (underground) | m47_153 | (3010, 9813) |
+| Baxtorian Falls | m39_54 | (2554, 3465) |
+| Coal Trucks | m40_54 | (2564, 3456) |
+| Crafting Guild (underground) | m45_151 | (2930, 9699) |
+| Ice Mountain | m47_54 | (3009, 3458) |
+| Kingdom of Asgarnia | m46_53 | (2998, 3445) |
+| Kingdom of Asgarnia (underground) | m46_153 | (2984, 9807) |
+| Park | m47_52 | (3012, 3337) |
+| Park (underground) | m47_152 | (3045, 9758) |
+| White Wolf Mountain (underground) | m44_154 | (2860, 9874) |
+| Wizards' Guild | m40_47 | (2596, 3056) |
 
 ## Drops
 

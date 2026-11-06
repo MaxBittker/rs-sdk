@@ -25,11 +25,13 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Falador | Ground | 1 |
+| Barbarian Village | Ground | 1 |
+| Desert Mining Camp (underground) | Ground | 1 |
 | Lumbridge | Floor 2 | 1 |
-| m51_147 | Ground | 1 |
-| Taverley (north) | Ground | 1 |
-| Wilderness | Ground | 1 |
+| m43_70 | Ground | 1 |
+| m43_71 | Ground | 1 |
+| Park | Ground | 1 |
+| Rimmington | Ground | 1 |
 
 ## Sources
 

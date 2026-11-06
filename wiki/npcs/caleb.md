@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_53 | m44_53 | (2819, 3451) |
+| Catherby | m44_53 | (2819, 3451) |
 
 ## Interactions
 

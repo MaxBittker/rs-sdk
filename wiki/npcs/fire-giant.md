@@ -26,8 +26,10 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_154 | m40_154 | (2562, 9886) |
-| m47_161 | m47_161 | (3046, 10341) |
+| Coal Trucks (underground) | m40_154 | (2562, 9886) |
+| Feldip Hills (underground) | m41_148 | (2655, 9480) |
+| Pirates' Hideout (underground) | m47_161 | (3046, 10341) |
+| Port Khazard (underground) | m41_149 | (2628, 9543) L2 |
 
 ## Drops
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_54 | m42_54 | (2733, 3472) |
+| Seers' Village | m42_54 | (2733, 3472) |
 
 ## Interactions
 

@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_147 | m40_147 | (2577, 9451) |
+| Wizards' Guild (underground) | m40_147 | (2577, 9451) |
 
 ## Drops
 

@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Catherby | Ground | 1 |
+| Necromancer | Ground | 1 |

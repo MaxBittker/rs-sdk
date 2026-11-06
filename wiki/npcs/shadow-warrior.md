@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_152 | m42_152 | (2693, 9776) |
+| Legends' Guild (underground) | m42_152 | (2693, 9776) |
 
 ## Drops
 

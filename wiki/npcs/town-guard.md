@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m41_56 | m41_56 | (2660, 3646) |
+| Fremennik Province | m41_56 | (2660, 3646) |
 
 ## Drops
 

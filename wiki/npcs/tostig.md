@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m45_55 | m45_55 | (2906, 3537) |
+| Burthorpe | m45_55 | (2906, 3537) |
 
 ## Interactions
 

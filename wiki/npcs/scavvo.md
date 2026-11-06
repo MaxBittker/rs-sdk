@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Barbarian Village | m49_52 | (3191, 3351) L1 |
+| River Lum | m49_52 | (3191, 3351) L1 |
 
 ## Interactions
 

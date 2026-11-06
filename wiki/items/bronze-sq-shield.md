@@ -25,7 +25,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m51_61 | Floor 1 | 1 |
+| Rogues' Castle | Floor 1 | 1 |
 
 ## Sources
 

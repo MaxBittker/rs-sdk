@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_148 | m40_148 | (2613, 9523) |
+| Yanille (underground) | m40_148 | (2613, 9523) |
 
 ## Drops
 

@@ -25,7 +25,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_55 | m39_55 | (2544, 3567) |
+| Agility Training Area | m39_55 | (2544, 3567) |
 
 ## Drops
 

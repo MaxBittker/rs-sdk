@@ -13,7 +13,7 @@
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
 | Al Kharid | m51_49 | (3276, 3193) |
-| Falador (west) | m45_51 | (2934, 3284) L1 |
+| Crafting Guild | m45_51 | (2934, 3284) L1 |
 
 ## Interactions
 

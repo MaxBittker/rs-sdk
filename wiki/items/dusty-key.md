@@ -14,7 +14,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m45_152 | Ground | 1 |
+| Dark Wizards' Tower (underground) | Ground | 1 |
 
 ## Sources
 

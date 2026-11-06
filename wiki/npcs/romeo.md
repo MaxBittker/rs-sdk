@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Varrock (north) | m50_53 | (3211, 3425) |
+| Varrock | m50_53 | (3211, 3425) |
 
 ## Interactions
 

@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Varrock (east) | Ground | 1 |
+| Kingdom Of Misthalin | Ground | 1 |
 
 ## Sources
 

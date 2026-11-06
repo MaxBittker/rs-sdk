@@ -22,12 +22,12 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Camelot area | Ground | 2 |
-| Falador | Ground | 1 |
+| Edgeville (underground) | Ground | 3 |
+| Falador | Ground | 2 |
+| Hemenster | Ground | 1 |
 | Lumbridge | Ground | 1 |
-| m41_53 | Ground | 1 |
-| m48_154 | Ground | 3 |
-| m48_56 | Ground | 1 |
+| Rimmington | Ground | 1 |
+| Wilderness | Ground | 1 |
 
 ## Sources
 

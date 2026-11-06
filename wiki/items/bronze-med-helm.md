@@ -26,8 +26,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m48_152 | Ground | 1 |
-| Wilderness (low) | Ground | 1 |
+| Draynor Manor | Ground | 1 |
+| Draynor Manor (underground) | Ground | 1 |
 
 ## Sources
 

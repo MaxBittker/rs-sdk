@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Wilderness | m48_53 | (3076, 3429) |
+| Barbarian Village | m48_53 | (3076, 3429) |
 
 ## Interactions
 

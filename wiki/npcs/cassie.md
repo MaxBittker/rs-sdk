@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Camelot area | m46_52 | (2979, 3383) |
+| Falador | m46_52 | (2979, 3383) |
 
 ## Interactions
 

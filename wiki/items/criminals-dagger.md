@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m42_55 | Ground | 1 |
+| Sinclair Mansion | Ground | 1 |

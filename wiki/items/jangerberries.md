@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m39_48 | Ground | 1 |
+| Yanille | Ground | 1 |

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m37_153 | m37_153 | (2390, 9810) |
+| Tree Gnome Stronghold (underground) | m37_153 | (2390, 9810) |
 
 ## Interactions
 

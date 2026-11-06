@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m54_151 | m54_151 | (3459, 9666) |
+| Mort'ton (underground) | m54_151 | (3459, 9666) |
 
 ## Drops
 

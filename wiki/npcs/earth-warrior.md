@@ -26,8 +26,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m48_155 | m48_155 | (3118, 9974) |
-| m48_156 | m48_156 | (3116, 9992) |
+| Kingdom of Asgarnia (underground) | m48_155 | (3118, 9974) |
+| Wilderness (underground) | m48_156 | (3116, 9992) |
 
 ## Drops
 

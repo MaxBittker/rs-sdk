@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m45_54 | m45_54 | (2903, 3510) |
+| Druids' Circle | m45_54 | (2903, 3510) |
 
 ## Interactions
 

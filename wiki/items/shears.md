@@ -13,9 +13,9 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Barbarian Village | Ground | 1 |
-| Falador (west) | Floor 1 | 1 |
-| Wilderness (low) | Ground | 1 |
+| Crafting Guild | Floor 1 | 1 |
+| Draynor Manor | Ground | 1 |
+| River Lum | Ground | 1 |
 
 ## Sources
 

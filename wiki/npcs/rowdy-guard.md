@@ -25,8 +25,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m51_147 | m51_147 | (3268, 9417) |
-| m51_47 | m51_47 | (3280, 3026) |
+| Desert Mining Camp | m51_47 | (3280, 3026) |
+| Desert Mining Camp (underground) | m51_147 | (3268, 9417) |
 
 ## Drops
 

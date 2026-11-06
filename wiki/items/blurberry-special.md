@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m46_46 | Ground | 1 |
+| Karamja | Ground | 1 |
 
 ## Sources
 

@@ -13,8 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m42_52 | Ground | 1 |
-| m51_47 | Floor 1 | 1 |
+| Desert Mining Camp | Floor 1 | 1 |
+| Legends' Guild | Ground | 1 |
 
 ## Sources
 

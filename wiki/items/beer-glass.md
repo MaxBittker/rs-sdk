@@ -13,5 +13,5 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Karamja (west) | Ground | 1 |
-| m45_55 | Ground | 1 |
+| Brimhaven | Ground | 1 |
+| Burthorpe | Ground | 1 |

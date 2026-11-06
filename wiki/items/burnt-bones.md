@@ -13,6 +13,5 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m49_60 | Ground | 1 |
-| m50_59 | Ground | 1 |
-| m51_60 | Ground | 1 |
+| Demonic Ruins | Ground | 1 |
+| Red Dragon Isle | Ground | 2 |

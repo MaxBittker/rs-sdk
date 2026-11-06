@@ -24,4 +24,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_51 | Floor 1 | 1 |
+| East Ardougne | Floor 1 | 1 |

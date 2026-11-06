@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_52 | m42_52 | (2725, 3378) L1 |
+| Legends' Guild | m42_52 | (2725, 3378) L1 |
 
 ## Interactions
 

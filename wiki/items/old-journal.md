@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m37_151 | Ground | 1 |
+| Underground Pass (underground) | Ground | 1 |

@@ -13,8 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Edgeville area | Ground | 1 |
-| m47_57 | Ground | 1 |
+| Bandit Camp | Ground | 1 |
+| Draynor Village | Ground | 1 |
 
 ## Sources
 

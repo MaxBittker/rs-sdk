@@ -13,7 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m50_58 | Ground | 1 |
+| Bone Yard | Ground | 1 |
+| m43_60 | Ground | 1 |
 
 ## Sources
 

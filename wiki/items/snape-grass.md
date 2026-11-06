@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Falador (west) | Ground | 1 |
+| Crafting Guild | Ground | 1 |
 
 ## Sources
 

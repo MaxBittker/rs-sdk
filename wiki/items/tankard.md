@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m41_57 | Ground | 1 |
+| Rellekka | Ground | 1 |

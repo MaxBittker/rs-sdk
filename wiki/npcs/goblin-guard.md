@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m37_147 | m37_147 | (2391, 9458) |
+| Feldip Hills (underground) | m37_147 | (2391, 9458) |
 
 ## Drops
 

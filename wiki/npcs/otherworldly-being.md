@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m49_149 | m49_149 | (3149, 9545) |
+| Lumbridge Swamp (underground) | m49_149 | (3149, 9545) |
 
 ## Drops
 

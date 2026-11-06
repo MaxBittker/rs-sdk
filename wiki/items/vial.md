@@ -13,11 +13,10 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Ardougne area | Floor 2 | 1 |
-| m43_52 | Ground | 1 |
-| m49_59 | Ground | 1 |
-| m49_60 | Ground | 1 |
-| m54_51 | Ground | 1 |
+| Keep Le Faye | Ground | 1 |
+| Mort'ton | Ground | 1 |
+| Red Dragon Isle | Ground | 2 |
+| Yanille | Floor 2 | 1 |
 
 ## Sources
 

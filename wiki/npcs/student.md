@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m52_53 | m52_53 | (3356, 3406) |
+| Dig Site | m52_53 | (3356, 3406) |
 
 ## Interactions
 

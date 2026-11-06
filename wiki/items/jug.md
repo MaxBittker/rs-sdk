@@ -13,13 +13,13 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Falador (west) | Ground | 1 |
+| Catherby | Ground | 1 |
+| Cooks' Guild | Floor 2 | 1 |
+| Crafting Guild | Ground | 1 |
 | Karamja | Ground | 1 |
+| Kingdom Of Misthalin | Ground | 1 |
 | Lumbridge | Ground | 1 |
-| m44_53 | Ground | 1 |
-| m50_150 | Ground | 1 |
-| Wilderness | Ground | 1 |
-| Wilderness | Floor 2 | 1 |
+| Lumbridge (underground) | Ground | 1 |
 
 ## Sources
 

@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_154 | m42_154 | (2711, 9877) |
+| Seers' Village (underground) | m42_154 | (2711, 9877) |
 
 ## Drops
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_52 | m40_52 | (2560, 3389) |
+| Fishing Guild | m40_52 | (2560, 3389) |
 
 ## Interactions
 

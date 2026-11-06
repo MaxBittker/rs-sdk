@@ -25,10 +25,10 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| Champions' Guild | Floor 1 | 1 |
+| Graveyard of Shadows | Ground | 1 |
 | Lumbridge | Ground | 1 |
-| m49_57 | Ground | 1 |
-| m51_61 | Floor 3 | 1 |
-| Varrock | Floor 1 | 1 |
+| Rogues' Castle | Floor 3 | 1 |
 
 ## Sources
 

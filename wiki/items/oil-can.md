@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m48_152 | Ground | 1 |
+| Draynor Manor (underground) | Ground | 1 |

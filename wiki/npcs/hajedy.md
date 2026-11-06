@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Gnome Stronghold | m43_50 | (2779, 3211) |
+| Agility Arena | m43_50 | (2779, 3211) |
 
 ## Interactions
 

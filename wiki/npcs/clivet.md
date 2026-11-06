@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_151 | m40_151 | (2566, 9683) |
+| East Ardougne (underground) | m40_151 | (2566, 9683) |
 
 ## Drops
 

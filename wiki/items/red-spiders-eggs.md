@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m36_51 | Ground | 1 |
-| m44_149 | Ground | 1 |
-| m48_155 | Ground | 1 |
-| m49_154 | Ground | 1 |
+| Agility Arena (underground) | Ground | 1 |
+| Arandar | Ground | 1 |
+| Kingdom of Asgarnia (underground) | Ground | 1 |
+| Palace (underground) | Ground | 1 |

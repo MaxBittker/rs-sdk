@@ -14,7 +14,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Wilderness | Ground | 1 |
+| Lumber Yard | Ground | 1 |
 
 ## Sources
 

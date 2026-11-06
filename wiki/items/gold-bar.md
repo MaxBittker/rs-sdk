@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m49_153 | Ground | 1 |
+| Cooks' Guild (underground) | Ground | 1 |
 
 ## Sources
 

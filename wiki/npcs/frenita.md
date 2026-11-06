@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne area | m40_48 | (2566, 3098) |
+| Yanille | m40_48 | (2566, 3098) |
 
 ## Interactions
 

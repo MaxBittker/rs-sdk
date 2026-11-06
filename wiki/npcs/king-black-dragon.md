@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_153 | m42_153 | (2716, 9817) |
+| Sorcerers' Tower (underground) | m42_153 | (2716, 9817) |
 
 ## Drops
 

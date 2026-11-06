@@ -26,15 +26,15 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne area | m40_48 | (2580, 3117) |
-| Barbarian Village | m49_51, m49_52 | (3154, 3325), (3156, 3342) |
-| Falador (west) | m45_51 | (2917, 3289) |
+| Crafting Guild | m45_51 | (2917, 3289) |
+| Kingdom of Asgarnia | m47_51 | (3027, 3307) |
+| Kingdom of Kandarin | m41_52 | (2657, 3341) |
+| Kingdom Of Misthalin | m50_51 | (3243, 3295) |
 | Lumbridge | m50_50 | (3254, 3258) |
-| m41_52 | m41_52 | (2657, 3341) |
-| m42_55 | m42_55 | (2733, 3561) |
-| m50_149 | m50_149 | (3203, 9562) |
-| Taverley | m47_51 | (3027, 3307) |
-| Varrock (south) | m50_51 | (3243, 3295) |
+| Lumbridge Swamp (underground) | m50_149 | (3203, 9562) |
+| River Lum | m49_51, m49_52 | (3154, 3325), (3156, 3342) |
+| Sinclair Mansion | m42_55 | (2733, 3561) |
+| Yanille | m40_48 | (2580, 3117) |
 
 ## Drops
 

@@ -14,20 +14,21 @@
 | Area | Floor | Quantity |
 |------|-------|----------|
 | Al Kharid | Ground | 1 |
-| Ardougne | Ground | 1 |
-| m36_153 | Ground | 1 |
-| m41_154 | Ground | 1 |
-| m43_53 | Ground | 1 |
-| m44_56 | Ground | 1 |
-| m46_54 | Ground | 1 |
-| m49_149 | Ground | 1 |
-| m50_150 | Ground | 1 |
-| m52_152 | Ground | 1 |
-| m52_153 | Ground | 1 |
-| Taverley | Ground | 1 |
-| Varrock (south) | Ground | 1 |
-| Wilderness | Floor 1 | 1 |
-| Wilderness (low) | Ground | 1 |
+| Beehives | Ground | 1 |
+| Castle Wars (due Dec-2004) | Ground | 1 |
+| Death Plateau | Ground | 1 |
+| Dig Site (underground) | Ground | 1 |
+| Draynor Manor | Ground | 1 |
+| Exam Centre (underground) | Ground | 1 |
+| Ice Mountain | Ground | 1 |
+| Kingdom of Asgarnia | Ground | 1 |
+| Kingdom Of Misthalin | Ground | 1 |
+| Lumbridge (underground) | Ground | 1 |
+| Lumbridge Swamp (underground) | Ground | 1 |
+| Seers' Village (underground) | Ground | 1 |
+| Tirannwn (underground) | Ground | 1 |
+| Varrock | Floor 1 | 1 |
+| Zoo | Ground | 1 |
 
 ## Sources
 

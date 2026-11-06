@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m48_154 | Ground | 1 |
+| Edgeville (underground) | Ground | 1 |

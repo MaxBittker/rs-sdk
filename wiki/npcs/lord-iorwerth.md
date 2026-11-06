@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m34_50 | m34_50 | (2205, 3252) |
+| Elf Camp | m34_50 | (2205, 3252) |
 
 ## Interactions
 

@@ -22,8 +22,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Falador (east) | Floor 1 | 1 |
-| m48_57 | Ground | 1 |
+| Graveyard of Shadows | Ground | 1 |
+| Port Sarim | Floor 1 | 1 |
 
 ## Sources
 

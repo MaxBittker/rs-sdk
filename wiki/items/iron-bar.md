@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m48_57 | Ground | 1 |
+| Graveyard of Shadows | Ground | 1 |
 
 ## Sources
 

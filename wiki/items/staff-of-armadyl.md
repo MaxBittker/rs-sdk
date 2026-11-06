@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m41_154 | Ground | 1 |
+| Seers' Village (underground) | Ground | 1 |

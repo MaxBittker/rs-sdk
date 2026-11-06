@@ -12,8 +12,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Falador (south) | m45_50 | (2933, 3219) |
-| Varrock (east) | m51_52 | (3274, 3390) |
+| Kingdom Of Misthalin | m51_52 | (3274, 3390) |
+| Melzar's Maze | m45_50 | (2933, 3219) |
 
 ## Interactions
 

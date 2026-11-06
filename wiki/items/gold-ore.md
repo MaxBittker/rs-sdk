@@ -13,12 +13,12 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Catherby | Ground | 1 |
-| m49_153 | Ground | 1 |
-| m49_58 | Ground | 1 |
-| m51_61 | Ground | 1 |
-| m51_61 | Floor 1 | 1 |
-| m51_61 | Floor 3 | 1 |
+| Cooks' Guild (underground) | Ground | 1 |
+| Necromancer | Ground | 1 |
+| Rogues' Castle | Ground | 1 |
+| Rogues' Castle | Floor 1 | 1 |
+| Rogues' Castle | Floor 3 | 1 |
+| Ruins | Ground | 1 |
 
 ## Sources
 

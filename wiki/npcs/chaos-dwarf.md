@@ -26,10 +26,10 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m45_152 | m45_152 | (2915, 9760) |
-| m47_161 | m47_161 | (3029, 10313) |
-| m47_58 | m47_58 | (3019, 3760) |
-| m50_59 | m50_59 | (3233, 3783) |
+| Bandit Camp | m47_58 | (3019, 3760) |
+| Dark Wizards' Tower (underground) | m45_152 | (2915, 9760) |
+| Pirates' Hideout (underground) | m47_161 | (3029, 10313) |
+| Red Dragon Isle | m50_59 | (3233, 3783) |
 
 ## Drops
 

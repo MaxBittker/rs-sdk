@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m50_152 | m50_152 | (3246, 9780) |
+| Champions' Guild (underground) | m50_152 | (3246, 9780) |
 
 ## Drops
 

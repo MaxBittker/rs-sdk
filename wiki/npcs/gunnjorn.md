@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_55 | m39_55 | (2540, 3548) |
+| Agility Training Area | m39_55 | (2540, 3548) |
 
 ## Interactions
 

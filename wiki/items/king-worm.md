@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m37_54 | Ground | 1 |
+| Tree Gnome Stronghold | Ground | 1 |

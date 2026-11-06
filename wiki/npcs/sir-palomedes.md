@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m43_54 | m43_54 | (2754, 3509) |
+| Camelot Castle | m43_54 | (2754, 3509) |
 
 ## Interactions
 

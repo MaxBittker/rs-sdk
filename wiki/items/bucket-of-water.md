@@ -13,8 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Karamja (west) | Ground | 1 |
-| m44_53 | Ground | 1 |
+| Brimhaven | Ground | 1 |
+| Catherby | Ground | 1 |
 
 ## Sources
 

@@ -13,9 +13,9 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m41_52 | Ground | 1 |
-| m44_52 | Floor 1 | 1 |
-| Wilderness | Floor 1 | 1 |
+| Cooks' Guild | Floor 1 | 1 |
+| Entrana | Floor 1 | 1 |
+| Kingdom of Kandarin | Ground | 1 |
 
 ## Sources
 

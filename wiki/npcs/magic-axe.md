@@ -26,9 +26,9 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m46_152 | m46_152 | (2955, 9775) |
-| m46_153 | m46_153 | (2955, 9795) |
-| m49_61 | m49_61 | (3187, 3959) |
+| Deserted Keep | m49_61 | (3187, 3959) |
+| Falador (underground) | m46_152 | (2955, 9775) |
+| Kingdom of Asgarnia (underground) | m46_153 | (2955, 9795) |
 
 ## Drops
 

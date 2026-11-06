@@ -11,4 +11,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_149 | Ground | 1 |
+| Fight Arena (underground) | Ground | 1 |

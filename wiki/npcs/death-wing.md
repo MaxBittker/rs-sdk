@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m43_145 | m43_145 | (2796, 9304) |
+| Kharazi Jungle (underground) | m43_145 | (2796, 9304) |
 
 ## Drops
 

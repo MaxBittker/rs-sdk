@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m50_48 | m50_48 | (3227, 3106) |
+| Kingdom Of Misthalin | m50_48 | (3227, 3106) |
 
 ## Interactions
 

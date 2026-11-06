@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_47 | m40_47 | (2576, 3027) |
+| Wizards' Guild | m40_47 | (2576, 3027) |
 
 ## Interactions
 

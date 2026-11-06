@@ -26,9 +26,9 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_55 | m39_55 | (2548, 3558) |
-| Varrock (north) | m50_53 | (3225, 3395) |
-| Wilderness | m48_53 | (3075, 3420) |
+| Agility Training Area | m39_55 | (2548, 3558) |
+| Barbarian Village | m48_53 | (3075, 3420) |
+| Varrock | m50_53 | (3225, 3395) |
 
 ## Drops
 

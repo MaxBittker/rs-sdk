@@ -12,9 +12,9 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_55 | m39_55 | (2552, 3570) |
-| m44_153 | m44_153 | (2877, 9796) |
-| m47_54 | m47_54 | (3058, 3488) L1 |
+| Agility Training Area | m39_55 | (2552, 3570) |
+| Catherby (underground) | m44_153 | (2877, 9796) |
+| Ice Mountain | m47_54 | (3058, 3488) L1 |
 
 ## Interactions
 

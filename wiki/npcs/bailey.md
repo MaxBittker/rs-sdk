@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Gnome Stronghold | m43_51 | (2763, 3276) |
+| Fishing Platform | m43_51 | (2763, 3276) |
 
 ## Interactions
 

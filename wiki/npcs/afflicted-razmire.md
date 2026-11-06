@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m54_51 | m54_51 | (3489, 3296) |
+| Mort'ton | m54_51 | (3489, 3296) |
 
 ## Interactions
 

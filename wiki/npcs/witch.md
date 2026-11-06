@@ -27,8 +27,8 @@
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
 | Al Kharid | m51_49 | (3321, 3139) |
-| m47_54 | m47_54 | (3027, 3506) |
-| Wilderness (low) | m48_52 | (3099, 3370) |
+| Draynor Manor | m48_52 | (3099, 3370) |
+| Ice Mountain | m47_54 | (3027, 3506) |
 
 ## Drops
 

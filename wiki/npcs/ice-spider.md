@@ -26,11 +26,10 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_153 | m42_153 | (2690, 9807) |
-| m44_154 | m44_154 | (2869, 9912) |
-| m44_155 | m44_155 | (2819, 9950) |
-| m45_155 | m45_155 | (2885, 9962) |
-| m46_61 | m46_61 | (2959, 3917) |
+| Burthorpe (underground) | m44_155, m45_155 | (2819, 9950), (2885, 9962) |
+| Frozen Waste Plateau | m46_61 | (2959, 3917) |
+| Sorcerers' Tower (underground) | m42_153 | (2690, 9807) |
+| White Wolf Mountain (underground) | m44_154 | (2869, 9912) |
 
 ## Drops
 

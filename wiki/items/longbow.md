@@ -22,7 +22,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m41_53 | Ground | 1 |
+| Hemenster | Ground | 1 |
 
 ## Sources
 

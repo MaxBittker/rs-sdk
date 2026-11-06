@@ -13,10 +13,10 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Desert | Ground | 1 |
-| Edgeville area | Ground | 1 |
-| Falador | Ground | 1 |
+| Draynor Village | Ground | 1 |
+| Lumber Yard | Ground | 1 |
 | Lumbridge | Floor 2 | 1 |
-| m38_49 | Ground | 1 |
-| Varrock (north) | Ground | 1 |
-| Wilderness | Ground | 1 |
+| Observatory | Ground | 1 |
+| Rimmington | Ground | 1 |
+| Varrock | Ground | 1 |
+| Wizards' Tower | Ground | 1 |

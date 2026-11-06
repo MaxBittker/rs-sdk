@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Falador (east) | m47_50 | (3013, 3225) |
+| Port Sarim | m47_50 | (3013, 3225) |
 
 ## Interactions
 

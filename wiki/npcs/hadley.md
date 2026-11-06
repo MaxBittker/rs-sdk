@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_53 | m39_53 | (2516, 3428) |
+| Baxtorian Falls | m39_53 | (2516, 3428) |
 
 ## Interactions
 
