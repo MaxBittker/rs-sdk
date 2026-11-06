@@ -1,0 +1,20 @@
+// Dairy cows: milking with an empty bucket fills it with milk.
+// The three cow variants share the same handler (see _unpack/225/all.npc).
+
+[opnpc1,cow]
+@give_milk;
+
+[opnpc1,cow2]
+@give_milk;
+
+[opnpc1,cow_beef]
+@give_milk;
+
+[label,give_milk]
+if (inv_total(inv, bucket_empty) > 0) {
+    inv_del(inv, bucket_empty, 1);
+    inv_add(inv, bucket_milk, 1);
+    mes("You milk the cow.");
+} else {
+    mes("You need an empty bucket to milk the cow.");
+}
