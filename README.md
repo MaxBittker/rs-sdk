@@ -86,6 +86,7 @@ This server has a few modifications from the original game to make development a
 - **Faster leveling** - The XP curve is accelerated and less steep.
 - **Infinite run energy** - Players never run out of energy 
 - **No random events** - Anti-botting random events are disabled 
+- **Optional level-up interface** - Set `NODE_LEVELUP_INTERFACE=false` to keep the level-up message, fireworks and jingle but skip the click-to-continue level-up dialog and skill-unlock pages, like OSRS's "Disable level-up interface" setting. On by default.
 
 
 ## Architecture:
