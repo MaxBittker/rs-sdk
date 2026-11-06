@@ -15,9 +15,10 @@ import {
   ListToolsRequestSchema
 } from '@modelcontextprotocol/sdk/types.js';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { dirname, join, resolve } from 'path';
 import { botManager } from './api/index.js';
 import { initPathfinding } from '../sdk/pathfinding.js';
+import { addActionObserver } from '../sdk/tracked.js';
 import { marketTool, readMarket } from './market-tools.js';
 import { installExecutionConsoleCapture } from './console-capture.js';
 import { executeCode, executionError, botExecutions, EXECUTE_CODE_OUTPUT_SCHEMA, type WorldOption } from './execute-code.js';
@@ -237,6 +238,10 @@ async function main() {
   // synchronous (tens of seconds on slow hosts), and paying it lazily inside
   // a walkTo blocks the event loop until the gateway drops the connection.
   initPathfinding();
+
+  // Optional module whose default export observes every execute_code bot/sdk call (e.g. an audit log).
+  const observerPath = process.env.RS_SDK_ACTION_OBSERVER;
+  if (observerPath) addActionObserver((await import(resolve(process.cwd(), observerPath))).default);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
