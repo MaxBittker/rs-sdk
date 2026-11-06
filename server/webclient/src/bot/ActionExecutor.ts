@@ -3,6 +3,7 @@
 
 import type { Client, ClientActionResult } from '#/client/Client.js';
 import type { BotAction, NearbyLoc, GroundItem } from './types.js';
+import { invalidActionFields } from './actionFields.js';
 import { getDialogPageId } from './dialog-page.js';
 
 export interface ActionResult {
@@ -40,6 +41,10 @@ export class ActionExecutor {
     }
 
     execute(action: BotAction): ActionResultOrPromise {
+        const invalid = invalidActionFields(action);
+        if (invalid) {
+            return { success: false, message: invalid, reason: 'invalid_action', phase: 'validation' };
+        }
         try {
             switch (action.type) {
                 case 'none':

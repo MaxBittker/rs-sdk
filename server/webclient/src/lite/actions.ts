@@ -70,7 +70,7 @@ export function interactLoc(c: LiteClient, worldX: number, worldZ: number, locId
     if (!dest) {
         return { success: false, reason: 'out_of_scene' };
     }
-    if (!LocType.list(locId)) {
+    if (!LocType.exists(locId)) {
         return { success: false, reason: 'target_not_found' };
     }
 
@@ -309,7 +309,7 @@ export function useItemOnLoc(c: LiteClient, itemSlot: number, worldX: number, wo
     if (!dest) {
         return { success: false, reason: 'out_of_scene' };
     }
-    if (!LocType.list(locId)) {
+    if (!LocType.exists(locId)) {
         return { success: false, reason: 'target_not_found' };
     }
     // Attempt the route, but always dispatch (see interactLoc): aplocu ops

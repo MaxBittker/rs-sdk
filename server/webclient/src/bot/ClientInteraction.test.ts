@@ -592,6 +592,7 @@ describe('loc routing', () => {
         LocType.recent = [loc];
         LocType.idx = new Int32Array(1) as never;
         LocType.dat = {} as never;
+        LocType.numDefinitions = id + 1;
     }
 
     /**
@@ -688,6 +689,7 @@ describe('loc routing', () => {
         ObjType.recent = [obj];
         ObjType.idx = new Int32Array(1) as never;
         ObjType.dat = {} as never;
+        ObjType.numDefinitions = id + 1;
     }
 
     test('interactLoc dispatches OPLOC even when routing fails', () => {
@@ -736,6 +738,59 @@ describe('loc routing', () => {
         expect(result).toEqual({ success: true, routed: false });
         expect(opcodes).toEqual([ClientProt.OPLOCU]);
         expect(payload).toEqual([2512, 3468, 1996, 954, 0, 3214]);
+    });
+
+    test('useItemOnLoc refuses an unknown loc id without sending', () => {
+        defineLoc(1996, {});
+        defineObj(954, 'Rope');
+        defineComponent(3214, { linkObjType: [955] });
+        const opcodes: number[] = [];
+        const client = {
+            ingame: true,
+            out: { p2: () => {} },
+            localPlayer: { routeX: [12], routeZ: [8] },
+            mapBuildBaseX: 2500,
+            mapBuildBaseZ: 3400,
+            routeToLoc: () => true,
+            writePacketOpcode: (opcode: number) => opcodes.push(opcode)
+        };
+
+        for (const locId of [1997, -1, undefined as unknown as number]) {
+            expect(Client.prototype.useItemOnLoc.call(client as never, 0, 2512, 3468, locId, 3214)).toEqual({ success: false, reason: 'target_not_found' });
+        }
+        expect(opcodes).toEqual([]);
+    });
+
+    test('config lists throw on an unknown id instead of decoding forever', () => {
+        defineLoc(1996, {});
+        expect(LocType.exists(1996)).toBe(true);
+        for (const id of [1997, -1, 1.5, Number.NaN, undefined as unknown as number]) {
+            expect(LocType.exists(id)).toBe(false);
+            expect(() => LocType.list(id)).toThrow(RangeError);
+        }
+        defineObj(954, 'Rope');
+        expect(() => ObjType.list(955)).toThrow(RangeError);
+    });
+});
+
+describe('ActionExecutor field validation', () => {
+    test('refuses an action with a missing or non-integer number before the client sees it', () => {
+        const calls: string[] = [];
+        const client = new Proxy({}, { get: (_t, p) => () => { calls.push(String(p)); return { success: true }; } });
+        const executor = new ActionExecutor(client as never);
+
+        // sdk.sendUseItemOnLoc(slot, x, z) with the locId left out.
+        expect(executor.execute({ type: 'useItemOnLoc', itemSlot: 0, x: 3200, z: 3200, reason: 'test' } as never))
+            .toMatchObject({ success: false, reason: 'invalid_action', phase: 'validation' });
+        expect(executor.execute({ type: 'interactLoc', x: 3200, z: '3200', locId: 1, optionIndex: 1, reason: 'test' } as never))
+            .toMatchObject({ success: false, reason: 'invalid_action' });
+        expect(executor.execute({ type: 'walkTo', x: 3200.5, z: 3200, reason: 'test' } as never))
+            .toMatchObject({ success: false, reason: 'invalid_action' });
+        expect(executor.execute({ type: 'wait', ticks: Number.NaN, reason: 'test' } as never))
+            .toMatchObject({ success: false, reason: 'invalid_action' });
+        expect(calls).toEqual([]);
+
+        expect(executor.execute({ type: 'wait', reason: 'test' })).toMatchObject({ success: true });
     });
 });
 
