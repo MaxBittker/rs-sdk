@@ -2596,17 +2596,20 @@ export class Client extends GameShell {
             const com = IfType.list[comId];
             if (!com) return;
 
-            if ((com.buttonType === ButtonType.BUTTON_OK || com.buttonType === ButtonType.BUTTON_CONTINUE) && com.buttonText) {
-                // com.text carries the product label on skill dialogs but is
-                // pure layout padding on the Make X/10/5 siblings, so fall back
-                // to buttonText once the whitespace is stripped.
+            if (com.buttonType === ButtonType.BUTTON_OK || com.buttonType === ButtonType.BUTTON_CONTINUE) {
+                // NPC choice pages (`p_choice2`/`p_choice3`) put the answer in
+                // `com.text` and leave `buttonText` unset, so requiring both hid
+                // the choices entirely. Skill dialogs still resolve to their
+                // product label because text wins when it is not pure padding.
                 const displayText = normaliseComponentText(com.text) || normaliseComponentText(com.buttonText);
-                options.push({
-                    index: options.length + 1,
-                    text: displayText,
-                    componentId: comId,
-                    buttonType: com.buttonType
-                });
+                if (displayText) {
+                    options.push({
+                        index: options.length + 1,
+                        text: displayText,
+                        componentId: comId,
+                        buttonType: com.buttonType
+                    });
+                }
             }
 
             if (com.children) {

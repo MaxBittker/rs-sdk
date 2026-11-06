@@ -561,6 +561,32 @@ describe('getDialogOptions', () => {
         expect(options[3].index).toBe(4);
     });
 
+    test('reads option buttons whose label lives only in text (p_choice2)', () => {
+        // NPC choice pages build BUTTON_OK options with the label in `text` and no
+        // buttonText at all. Requiring buttonText hid every quest dialog answer:
+        // a two-way choice surfaced as a single "Continue" and no quest could start.
+        defineComponent(9400, { children: [9401, 9402] });
+        defineComponent(9401, { buttonType: BUTTON_OK, text: "I'm afraid I'm in a rush." });
+        defineComponent(9402, { buttonType: BUTTON_OK, text: 'How can I help?' });
+
+        const options = Client.prototype.getDialogOptions.call({ chatModalId: 9400 });
+
+        expect(options.map(o => o.text)).toEqual(["I'm afraid I'm in a rush.", 'How can I help?']);
+        expect(options.map(o => o.index)).toEqual([1, 2]);
+    });
+
+    test('the lite client reports the same options (shared behaviour, two implementations)', async () => {
+        // The lite client has its own copy of this scan; a fix in one must not
+        // leave the other hiding choices.
+        const { getDialogOptions } = await import('../lite/actions.js');
+        defineComponent(9420, { children: [9421, 9422] });
+        defineComponent(9421, { buttonType: BUTTON_OK, text: "I'm afraid I'm in a rush." });
+        defineComponent(9422, { buttonType: BUTTON_OK, text: 'How can I help?' });
+        const two = getDialogOptions({ chatModalId: 9420 } as never);
+
+        expect(two.map(o => o.text)).toEqual(["I'm afraid I'm in a rush.", 'How can I help?']);
+    });
+
     test('falls back to the button text when the label is only padding', () => {
         defineComponent(9100, { children: [9101] });
         defineComponent(9101, { buttonType: BUTTON_OK, buttonText: 'Make 5', text: '\n\n\n\n' });
