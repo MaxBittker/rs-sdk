@@ -8,6 +8,25 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 import { withExecutionDeadline, throwIfExecutionAborted } from '../../sdk/execution-context';
 
+/**
+ * AUTO_LAUNCH_BROWSER, from bot.env or the MCP server's environment:
+ * - auto (default): open a browser client when the bot has none, or when its
+ *   client's state is stale. The new client takes the session over.
+ * - true: open one only when the bot has no client at all.
+ * - false: never open one; start the client yourself.
+ * A stale state isn't always a missing client. A client on another machine or
+ * in a background tab can fall behind for a moment, and then 'auto' starts a
+ * second client that competes with it for the login.
+ */
+export function parseAutoLaunchBrowser(value: string | undefined): boolean | 'auto' | undefined {
+  switch (value?.trim().toLowerCase()) {
+    case 'false': return false;
+    case 'true': return true;
+    case 'auto': return 'auto';
+    default: return undefined;
+  }
+}
+
 export interface BotConnection {
   /** Folder name as supplied at first connection; lookup is case-insensitive. */
   name?: string;
@@ -50,6 +69,7 @@ class BotManager {
     let pwd = password;
     let gateway = gatewayUrl || this.defaultGatewayUrl;
     let showChat = true;
+    let autoLaunchBrowser = parseAutoLaunchBrowser(process.env.AUTO_LAUNCH_BROWSER) ?? 'auto';
 
     // Load credentials from bot.env if no password provided
     if (!password) {
@@ -81,6 +101,7 @@ class BotManager {
       if (env.SHOW_CHAT?.toLowerCase() === 'false') {
         showChat = false;
       }
+      autoLaunchBrowser = parseAutoLaunchBrowser(env.AUTO_LAUNCH_BROWSER) ?? autoLaunchBrowser;
     }
 
     if (!pwd) {
@@ -98,7 +119,7 @@ class BotManager {
       gatewayUrl: gateway,
       connectionMode: 'control',
       autoReconnect: true,       // Enable auto-reconnect for connection stability
-      autoLaunchBrowser: 'auto', // Auto-launch browser if session is stale
+      autoLaunchBrowser,         // 'auto' unless AUTO_LAUNCH_BROWSER says otherwise
       showChat,                  // Show other players' chat (default: true; opt out with SHOW_CHAT=false)
     });
 

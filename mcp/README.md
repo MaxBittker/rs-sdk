@@ -54,6 +54,13 @@ Execute TypeScript on a bot. The first call auto-connects with the credentials
 in `bots/{name}/bot.env` and opens a browser game client; leave it running if
 you switch to a standalone script.
 
+It opens one when the bot has no client, and also when the bot's client has
+stale state, and then the new client takes over the login. If you run the
+client yourself (another browser, the lite runner, another machine), set
+`AUTO_LAUNCH_BROWSER` in `bot.env` or in the MCP server's `env`. Use `false`
+to never open a client, or `true` to open one only when the bot has no client.
+`auto` is the default.
+
 Each bot runs one execution at a time: a new call cancels the one still running.
 Timeout, MCP cancellation, or a newer call stops further SDK waits and action
 packets, including those inside `walkTo()`; packets already sent may still take
