@@ -60,9 +60,18 @@ export default class NpcType {
         }
     }
 
+    /** Whether `id` is a defined npc type, i.e. safe to pass to list(). */
+    static exists(id: number): boolean {
+        return Number.isInteger(id) && id >= 0 && id < this.numDefinitions;
+    }
+
     static list(id: number): NpcType {
         if (!this.recent || !this.idx || !this.dat) {
             throw new Error();
+        }
+        // An unknown id has no offset: decoding from position NaN never ends.
+        if (!NpcType.exists(id)) {
+            throw new RangeError(`NpcType ${id} does not exist`);
         }
 
         for (let i: number = 0; i < 20; i++) {

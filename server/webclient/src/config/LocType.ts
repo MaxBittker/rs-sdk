@@ -79,9 +79,18 @@ export default class LocType {
         }
     }
 
+    /** Whether `id` is a defined loc type, i.e. safe to pass to list(). */
+    static exists(id: number): boolean {
+        return Number.isInteger(id) && id >= 0 && id < this.numDefinitions;
+    }
+
     static list(id: number): LocType {
         if (!this.recent || !this.idx || !this.dat) {
             throw new Error();
+        }
+        // An unknown id has no offset: decoding from position NaN never ends.
+        if (!LocType.exists(id)) {
+            throw new RangeError(`LocType ${id} does not exist`);
         }
 
         for (let i: number = 0; i < 10; i++) {

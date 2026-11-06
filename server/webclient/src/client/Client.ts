@@ -2225,10 +2225,10 @@ export class Client extends GameShell {
             return { success: false, reason: 'out_of_scene' };
         }
 
-        const loc = LocType.list(locId);
-        if (!loc) {
+        if (!LocType.exists(locId)) {
             return { success: false, reason: 'target_not_found' };
         }
+        const loc = LocType.list(locId);
         // Attempt a route, but always dispatch. Approach ops (aplocu scripts like
         // Waterfall's rope-on-rock) trigger at tiles the routefinder can never
         // reach, and the server owns the reach check anyway — worst case it answers
@@ -2489,7 +2489,7 @@ export class Client extends GameShell {
         if (!this.ingame || !this.out || !this.localPlayer) {
             return { success: false, reason: 'not_in_game' };
         }
-        if (locId < 0) {
+        if (!LocType.exists(locId)) {
             return { success: false, reason: 'invalid_target' };
         }
         if (optionIndex < 1 || optionIndex > 5) {
@@ -2505,10 +2505,6 @@ export class Client extends GameShell {
         const destSceneZ = worldZ - this.mapBuildBaseZ;
         if (destSceneX < 0 || destSceneX > 103 || destSceneZ < 0 || destSceneZ > 103) {
             return { success: false, reason: 'out_of_scene' };
-        }
-        const loc = LocType.list(locId);
-        if (!loc) {
-            return { success: false, reason: 'target_not_found' };
         }
         // Attempt a route, but always dispatch. Approach ops (aploc scripts like
         // Waterfall's "Swim to" rock or the Wizard Tower stairs) trigger at tiles

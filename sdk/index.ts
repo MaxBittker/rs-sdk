@@ -35,6 +35,7 @@ import { ChatHistory } from './chat-history';
 import { executionContext, executionWait, throwIfExecutionAborted } from './execution-context';
 import { redactCredentials } from './redact';
 import * as pathfinding from './pathfinding';
+import { invalidActionFields } from './action-fields';
 import { matchesPlayerName, playerNameForms, resolveInterfaceOption, shortestNameMatch, type InterfaceOptionSelector } from './action-quantity';
 
 /**
@@ -1070,6 +1071,11 @@ export class BotSDK {
     // ============ Plumbing: Raw Actions ============
 
     private async sendAction(action: BotAction): Promise<ActionResult> {
+        const invalid = invalidActionFields(action);
+        if (invalid) {
+            return { success: false, message: invalid, reason: 'invalid_action', phase: 'validation' };
+        }
+
         if (this.connectionState === 'reconnecting') {
             console.log(`[BotSDK] Waiting for reconnection before sending action: ${action.type}`);
             await this.waitForConnection();
