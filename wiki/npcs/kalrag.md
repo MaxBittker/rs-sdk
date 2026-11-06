@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m36_154 | m36_154 | (2356, 9911) |
+| Tirannwn (underground) | m36_154 | (2356, 9911) |
 
 ## Drops
 

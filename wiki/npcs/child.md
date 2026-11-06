@@ -12,8 +12,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m38_51 | m38_51 | (2464, 3302) |
-| m39_51 | m39_51 | (2504, 3318) |
+| Underground Pass | m38_51 | (2464, 3302) |
+| West Ardougne | m39_51 | (2504, 3318) |
 
 ## Interactions
 

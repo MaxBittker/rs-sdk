@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_51 | m40_51 | (2615, 3292) |
+| East Ardougne | m40_51 | (2615, 3292) |
 
 ## Interactions
 

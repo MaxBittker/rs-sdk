@@ -15,11 +15,11 @@
 | Area | Floor | Quantity |
 |------|-------|----------|
 | Al Kharid | Floor 1 | 1 |
-| m47_56 | Ground | 5 |
-| m48_60 | Ground | 15 |
-| m50_154 | Ground | 1 |
-| Wilderness | Ground | 2 |
-| Wilderness (deep) | Ground | 2 |
+| Chaos Temple | Ground | 2 |
+| Dark Knight Fortress | Ground | 5 |
+| Lava Maze | Ground | 15 |
+| Palace | Ground | 2 |
+| Varrock (underground) | Ground | 1 |
 
 ## Sources
 

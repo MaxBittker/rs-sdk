@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Wilderness | m50_54 | (3222, 3476) |
+| Varrock | m50_54 | (3222, 3476) |
 
 ## Interactions
 

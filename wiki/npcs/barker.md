@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m54_54 | m54_54 | (3499, 3506) |
+| Canifis | m54_54 | (3499, 3506) |
 
 ## Interactions
 

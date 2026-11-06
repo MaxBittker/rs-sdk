@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Karamja (west) | m43_49 | (2791, 3182) |
+| Brimhaven | m43_49 | (2791, 3182) |
 
 ## Interactions
 

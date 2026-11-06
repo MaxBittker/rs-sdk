@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m53_52 | Ground | 1 |
+| Mort Myre Swamp | Ground | 1 |

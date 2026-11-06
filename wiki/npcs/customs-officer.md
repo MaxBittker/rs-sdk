@@ -12,8 +12,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Gnome Stronghold | m43_50 | (2772, 3225) |
-| m46_49 | m46_49 | (2953, 3147) |
+| Agility Arena | m43_50 | (2772, 3225) |
+| Rimmington | m46_49 | (2953, 3147) |
 
 ## Interactions
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m37_150 | m37_150 | (2392, 9653) |
+| Tirannwn (underground) | m37_150 | (2392, 9653) |
 
 ## Interactions
 

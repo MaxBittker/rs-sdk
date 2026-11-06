@@ -25,7 +25,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m37_151 | m37_151 | (2422, 9718) |
+| Underground Pass (underground) | m37_151 | (2422, 9718) |
 
 ## Drops
 

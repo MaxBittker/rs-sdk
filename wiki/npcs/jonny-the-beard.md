@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Varrock (north) | m50_53 | (3223, 3395) |
+| Varrock | m50_53 | (3223, 3395) |
 
 ## Drops
 

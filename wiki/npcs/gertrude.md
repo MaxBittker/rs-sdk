@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Wilderness | m49_53 | (3151, 3410) |
+| Cooks' Guild | m49_53 | (3151, 3410) |
 
 ## Interactions
 

@@ -13,8 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m43_53 | Floor 1 | 1 |
-| m51_47 | Floor 1 | 1 |
+| Beehives | Floor 1 | 1 |
+| Desert Mining Camp | Floor 1 | 1 |
 
 ## Sources
 

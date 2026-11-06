@@ -14,9 +14,9 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m46_60 | Ground | 5 |
-| m47_56 | Ground | 5 |
-| Varrock (east) | Ground | 4 |
+| Dark Knight Fortress | Ground | 5 |
+| Frozen Waste Plateau | Ground | 5 |
+| Kingdom Of Misthalin | Ground | 4 |
 
 ## Sources
 

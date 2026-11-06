@@ -13,5 +13,5 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m50_152 | Ground | 1 |
-| Wilderness | Floor 2 | 1 |
+| Champions' Guild (underground) | Ground | 1 |
+| Cooks' Guild | Floor 2 | 1 |

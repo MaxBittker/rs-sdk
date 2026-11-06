@@ -7,6 +7,7 @@
 
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, relative } from 'path';
+import { createMapSquareAreaLookup } from './map-areas';
 
 const CONTENT_DIR = join(import.meta.dir, '..', 'server', 'content');
 const WIKI_DIR = join(import.meta.dir);
@@ -370,66 +371,7 @@ function parseNpcDropData(): Map<string, NpcDropSource[]> {
 
 // ─── Map Spawn Parser ───────────────────────────────────────────────────────
 
-const MAP_SQUARE_AREAS: Record<string, string> = {
-    'm50_50': 'Lumbridge',
-    'm49_50': 'Lumbridge (west)',
-    'm51_50': 'Lumbridge (east)',
-    'm50_49': 'Al Kharid',
-    'm51_49': 'Al Kharid',
-    'm49_49': 'Al Kharid (south)',
-    'm48_50': 'Edgeville area',
-    'm48_51': 'Edgeville area',
-    'm49_51': 'Barbarian Village',
-    'm49_52': 'Barbarian Village',
-    'm50_51': 'Varrock (south)',
-    'm50_52': 'Varrock',
-    'm51_51': 'Varrock (east)',
-    'm51_52': 'Varrock (east)',
-    'm50_53': 'Varrock (north)',
-    'm45_50': 'Falador (south)',
-    'm46_50': 'Falador',
-    'm46_51': 'Falador (north)',
-    'm47_50': 'Falador (east)',
-    'm45_51': 'Falador (west)',
-    'm44_50': 'Rimmington',
-    'm44_49': 'Karamja',
-    'm45_49': 'Karamja',
-    'm43_49': 'Karamja (west)',
-    'm44_48': 'Brimhaven',
-    'm47_51': 'Taverley',
-    'm47_52': 'Taverley (north)',
-    'm41_50': "Seers' Village area",
-    'm42_50': 'Catherby',
-    'm40_50': 'Ardougne',
-    'm40_49': 'Ardougne (south)',
-    'm39_50': 'Ardougne (west)',
-    'm40_48': 'Ardougne area',
-    'm39_49': 'West Ardougne',
-    'm41_49': 'Yanille area',
-    'm41_48': 'Yanille',
-    'm48_52': 'Wilderness (low)',
-    'm48_53': 'Wilderness',
-    'm48_54': 'Wilderness',
-    'm49_53': 'Wilderness',
-    'm49_54': 'Wilderness',
-    'm50_54': 'Wilderness',
-    'm50_55': 'Wilderness (deep)',
-    'm51_53': 'Wilderness',
-    'm51_54': 'Wilderness',
-    'm46_52': 'Camelot area',
-    'm43_50': 'Gnome Stronghold',
-    'm43_51': 'Gnome Stronghold',
-    'm42_49': 'Fight Arena area',
-    'm52_50': 'Canifis area',
-    'm53_50': 'Canifis',
-    'm53_51': 'Morytania',
-    'm44_51': 'Entrana',
-    'm45_48': 'Shilo Village area',
-    'm46_48': 'Shilo Village area',
-    'm43_48': 'Feldip Hills',
-    'm48_49': 'Desert',
-    'm49_48': 'Desert',
-};
+const getAreaFromMapSquare = createMapSquareAreaLookup(CONTENT_DIR);
 
 function parseObjSpawns(
     mapsDir: string,
@@ -444,7 +386,7 @@ function parseObjSpawns(
         const mapX = parseInt(match[1]);
         const mapZ = parseInt(match[2]);
         const mapSquare = `m${mapX}_${mapZ}`;
-        const area = MAP_SQUARE_AREAS[mapSquare] || mapSquare;
+        const area = getAreaFromMapSquare(mapSquare);
 
         const content = readFileSync(join(mapsDir, file), 'utf-8');
         const objSectionStart = content.indexOf('==== OBJ ====');

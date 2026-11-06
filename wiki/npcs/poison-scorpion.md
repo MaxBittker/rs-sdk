@@ -26,8 +26,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Catherby | m42_50 | (2715, 3218) |
-| m45_152 | m45_152 | (2929, 9752) |
+| Dark Wizards' Tower (underground) | m45_152 | (2929, 9752) |
+| Necromancer | m42_50 | (2715, 3218) |
 
 ## Drops
 

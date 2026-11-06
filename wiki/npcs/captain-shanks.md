@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m43_46 | m43_46 | (2763, 2961) L1 |
+| Cairn Isle | m43_46 | (2763, 2961) L1 |
 
 ## Interactions
 

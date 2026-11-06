@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_149 | m39_149 | (2515, 9581) |
+| Tree Gnome Village (underground) | m39_149 | (2515, 9581) |
 
 ## Interactions
 

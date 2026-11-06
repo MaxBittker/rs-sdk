@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m45_54 | Floor 1 | 1 |
+| Druids' Circle | Floor 1 | 1 |

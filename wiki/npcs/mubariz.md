@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Lumbridge (east) | m51_50 | (3314, 3240) |
+| Toll Gate | m51_50 | (3314, 3240) |
 
 ## Interactions
 

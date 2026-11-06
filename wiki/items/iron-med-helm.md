@@ -26,8 +26,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Ardougne (west) | Ground | 1 |
-| m49_57 | Ground | 1 |
+| Battlefield | Ground | 1 |
+| Graveyard of Shadows | Ground | 1 |
 
 ## Sources
 

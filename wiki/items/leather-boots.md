@@ -22,10 +22,10 @@
 | Area | Floor | Quantity |
 |------|-------|----------|
 | Al Kharid | Ground | 1 |
-| Desert | Ground | 1 |
-| Desert | Floor 1 | 1 |
-| m50_150 | Ground | 1 |
-| Varrock | Floor 1 | 1 |
+| Champions' Guild | Floor 1 | 1 |
+| Lumbridge (underground) | Ground | 1 |
+| Wizards' Tower | Ground | 1 |
+| Wizards' Tower | Floor 1 | 1 |
 
 ## Sources
 

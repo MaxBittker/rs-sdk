@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m38_52 | m38_52 | (2459, 3382) |
+| Underground Pass | m38_52 | (2459, 3382) |
 
 ## Interactions
 

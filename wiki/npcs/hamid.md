@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m52_51 | m52_51 | (3375, 3285) |
+| Exam Centre | m52_51 | (3375, 3285) |
 
 ## Interactions
 

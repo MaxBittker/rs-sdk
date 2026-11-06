@@ -25,7 +25,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m46_153 | m46_153 | (2965, 9811) |
+| Kingdom of Asgarnia (underground) | m46_153 | (2965, 9811) |
 
 ## Interactions
 

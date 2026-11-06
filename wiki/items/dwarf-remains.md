@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_53 | Floor 2 | 1 |
+| Kingdom of Kandarin | Floor 2 | 1 |

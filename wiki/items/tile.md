@@ -13,6 +13,6 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m46_57 | Ground | 1 |
-| m49_57 | Ground | 1 |
-| m51_57 | Ground | 1 |
+| Graveyard of Shadows | Ground | 1 |
+| Ruins | Ground | 1 |
+| Wilderness | Ground | 1 |

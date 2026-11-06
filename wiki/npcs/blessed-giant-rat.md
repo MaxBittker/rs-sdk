@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m37_150 | m37_150 | (2370, 9642) |
+| Tirannwn (underground) | m37_150 | (2370, 9642) |
 
 ## Drops
 

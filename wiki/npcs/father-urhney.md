@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Al Kharid | m50_49 | (3235, 3153) |
+| Lumbridge Swamp | m50_49 | (3235, 3153) |
 
 ## Interactions
 

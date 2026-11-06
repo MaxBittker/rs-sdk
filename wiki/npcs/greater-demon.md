@@ -26,10 +26,11 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_147 | m40_147 | (2586, 9458) |
-| m44_152 | m44_152 | (2861, 9747) |
-| m47_160 | m47_160 | (3028, 10250) |
-| m51_60 | m51_60 | (3282, 3880) |
+| Demonic Ruins | m51_60 | (3282, 3880) |
+| Entrana (underground) | m44_152 | (2861, 9747) |
+| Feldip Hills (underground) | m41_148 | (2630, 9482) L2 |
+| Lava Maze (underground) | m47_160 | (3028, 10250) |
+| Wizards' Guild (underground) | m40_147 | (2586, 9458) |
 
 ## Drops
 

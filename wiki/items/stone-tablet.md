@@ -14,5 +14,5 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m52_152 | Ground | 1 |
-| m52_153 | Ground | 1 |
+| Dig Site (underground) | Ground | 1 |
+| Exam Centre (underground) | Ground | 1 |

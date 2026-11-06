@@ -25,8 +25,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m49_57 | Ground | 1 |
-| m51_58 | Ground | 1 |
+| Bone Yard | Ground | 1 |
+| Graveyard of Shadows | Ground | 1 |
 
 ## Sources
 

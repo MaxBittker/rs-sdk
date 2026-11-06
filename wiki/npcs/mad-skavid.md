@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_147 | m39_147 | (2523, 9411) |
+| Gu'Tanoth (underground) | m39_147 | (2523, 9411) |
 
 ## Interactions
 

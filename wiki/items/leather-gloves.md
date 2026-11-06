@@ -21,9 +21,9 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Al Kharid | Ground | 1 |
-| Varrock | Floor 1 | 1 |
-| Wilderness | Ground | 1 |
+| Champions' Guild | Floor 1 | 1 |
+| Edgeville | Ground | 1 |
+| Lumbridge Swamp | Ground | 1 |
 
 ## Sources
 

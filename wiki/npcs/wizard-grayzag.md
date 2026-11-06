@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Desert | m48_49 | (3110, 3161) L2 |
+| Wizards' Tower | m48_49 | (3110, 3161) L2 |
 
 ## Drops
 

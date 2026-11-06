@@ -13,6 +13,6 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_46 | Ground | 1 |
-| m42_56 | Ground | 1 |
-| Wilderness | Ground | 1 |
+| Cooks' Guild | Ground | 1 |
+| Feldip Hills | Ground | 1 |
+| Fremennik Province | Ground | 1 |

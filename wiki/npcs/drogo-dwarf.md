@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m47_153 | m47_153 | (3036, 9846) |
+| Barbarian Village (underground) | m47_153 | (3036, 9846) |
 
 ## Interactions
 

@@ -20,4 +20,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m47_54 | Floor 1 | 1 |
+| Ice Mountain | Floor 1 | 1 |

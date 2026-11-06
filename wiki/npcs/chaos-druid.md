@@ -13,10 +13,10 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_148 | m40_148 | (2611, 9483) |
-| m40_52 | m40_52 | (2561, 3355) |
-| m45_153 | m45_153 | (2929, 9848) |
-| m48_155 | m48_155 | (3104, 9942) |
+| Fishing Guild | m40_52 | (2561, 3355) |
+| Kingdom of Asgarnia (underground) | m48_155 | (3104, 9942) |
+| Taverley (underground) | m45_153 | (2929, 9848) |
+| Yanille (underground) | m40_148 | (2611, 9483) |
 
 ## Drops
 

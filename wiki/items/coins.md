@@ -14,24 +14,25 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Karamja (west) | Ground | 2 |
-| m39_147 | Ground | 1 |
-| m42_153 | Ground | 1 |
-| m44_150 | Ground | 1 |
-| m45_148 | Ground | 1 |
-| m45_153 | Ground | 5 |
-| m46_149 | Ground | 1 |
-| m46_153 | Ground | 1 |
-| m46_57 | Ground | 5 |
-| m48_154 | Ground | 4 |
-| m48_55 | Ground | 4 |
-| m48_60 | Ground | 21 |
-| m49_153 | Ground | 26 |
-| m49_154 | Ground | 8 |
-| m50_59 | Ground | 6 |
-| m51_154 | Ground | 1 |
-| Wilderness | Ground | 3 |
-| Wilderness (deep) | Ground | 2 |
+| Brimhaven | Ground | 2 |
+| Chaos Temple | Ground | 2 |
+| Cooks' Guild (underground) | Ground | 26 |
+| Crandor (underground) | Ground | 1 |
+| Edgeville (underground) | Ground | 4 |
+| Gu'Tanoth (underground) | Ground | 1 |
+| Karamja (underground) | Ground | 1 |
+| Kingdom of Asgarnia | Ground | 4 |
+| Kingdom of Asgarnia (underground) | Ground | 1 |
+| Lava Maze | Ground | 21 |
+| Lumber Yard (underground) | Ground | 1 |
+| m43_70 | Ground | 3 |
+| Palace (underground) | Ground | 8 |
+| Red Dragon Isle | Ground | 6 |
+| Rimmington (underground) | Ground | 1 |
+| Ruins | Ground | 5 |
+| Sorcerers' Tower (underground) | Ground | 1 |
+| Taverley (underground) | Ground | 5 |
+| Varrock | Ground | 3 |
 
 ## Sources
 

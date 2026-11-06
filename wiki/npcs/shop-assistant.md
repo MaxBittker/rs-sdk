@@ -13,12 +13,12 @@
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
 | Al Kharid | m51_49 | (3316, 3182) |
-| Camelot area | m46_52 | (2955, 3389) |
-| Falador | m46_50 | (2948, 3216) |
+| Edgeville | m48_54 | (3081, 3511) |
+| Falador | m46_52 | (2955, 3389) |
 | Karamja | m45_49 | (2902, 3150) |
 | Lumbridge | m50_50 | (3212, 3247) |
-| Varrock (north) | m50_53 | (3217, 3411) |
-| Wilderness | m48_54 | (3081, 3511) |
+| Rimmington | m46_50 | (2948, 3216) |
+| Varrock | m50_53 | (3217, 3411) |
 
 ## Interactions
 

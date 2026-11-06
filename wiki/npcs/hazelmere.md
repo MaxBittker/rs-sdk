@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Yanille | m41_48 | (2678, 3086) L1 |
+| Feldip Hills | m41_48 | (2678, 3086) L1 |
 
 ## Interactions
 

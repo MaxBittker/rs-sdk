@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m47_161 | Ground | 1 |
+| Pirates' Hideout (underground) | Ground | 1 |

@@ -26,8 +26,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
+| Karamja | m45_48 | (2906, 3095) |
 | m39_71 | m39_71 | (2524, 4567) |
-| Shilo Village area | m45_48 | (2906, 3095) |
 
 ## Drops
 

@@ -25,8 +25,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Camelot area | Floor 1 | 1 |
-| Karamja (west) | Ground | 1 |
+| Brimhaven | Ground | 1 |
+| Falador | Floor 1 | 1 |
 | m41_58 | Ground | 1 |
 
 ## Sources

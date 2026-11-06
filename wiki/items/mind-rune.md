@@ -14,10 +14,10 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| Bone Yard | Ground | 6 |
+| Dark Knight Fortress | Ground | 5 |
 | Lumbridge | Ground | 1 |
-| m47_56 | Ground | 5 |
-| m50_154 | Ground | 1 |
-| m51_58 | Ground | 6 |
+| Varrock (underground) | Ground | 1 |
 
 ## Sources
 

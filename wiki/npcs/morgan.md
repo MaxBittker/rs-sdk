@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Edgeville area | m48_51 | (3098, 3268) |
+| Draynor Village | m48_51 | (3098, 3268) |
 
 ## Interactions
 

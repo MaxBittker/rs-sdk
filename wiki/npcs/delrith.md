@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Varrock | m50_52 | (3229, 3369) |
+| Champions' Guild | m50_52 | (3229, 3369) |
 
 ## Drops
 

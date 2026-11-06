@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Desert | m48_49 | (3103, 3163) L2 |
+| Wizards' Tower | m48_49 | (3103, 3163) L2 |
 
 ## Interactions
 

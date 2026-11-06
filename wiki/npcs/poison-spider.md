@@ -26,11 +26,12 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_149 | m40_149 | (2570, 9567) |
-| m44_153 | m44_153 | (2850, 9808) |
-| m47_160 | m47_160 | (3037, 10263) |
-| m48_155 | m48_155 | (3088, 9945) |
-| m51_59 | m51_59 | (3268, 3823) |
+| Catherby (underground) | m44_153 | (2850, 9808) |
+| Fight Arena (underground) | m40_149 | (2570, 9567) |
+| Kingdom of Asgarnia (underground) | m48_155 | (3088, 9945) |
+| Lava Maze (underground) | m47_160 | (3037, 10263) |
+| Morytania (underground) | m54_153 | (3467, 9797) |
+| Wilderness | m51_59 | (3268, 3823) |
 
 ## Drops
 

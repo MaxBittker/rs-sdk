@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne (west) | m39_50 | (2503, 3255) L1, (2509, 3254) |
+| Battlefield | m39_50 | (2503, 3255) L1, (2509, 3254) |
 
 ## Drops
 

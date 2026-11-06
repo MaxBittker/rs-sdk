@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Canifis area | m52_50 | (3359, 3222) |
+| Duel Arena | m52_50 | (3359, 3222) |
 
 ## Interactions
 

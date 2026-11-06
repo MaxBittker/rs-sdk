@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m35_49 | m35_49 | (2257, 3149) |
+| Isafdar | m35_49 | (2257, 3149) |
 
 ## Interactions
 

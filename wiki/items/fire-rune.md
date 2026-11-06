@@ -14,10 +14,10 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m43_54 | Floor 1 | 2 |
-| m44_149 | Ground | 1 |
-| m47_56 | Ground | 5 |
-| Varrock (east) | Ground | 3 |
+| Agility Arena (underground) | Ground | 1 |
+| Camelot Castle | Floor 1 | 2 |
+| Dark Knight Fortress | Ground | 5 |
+| Kingdom Of Misthalin | Ground | 3 |
 
 ## Sources
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m43_56 | m43_56 | (2763, 3610) |
+| Golden Apple Tree | m43_56 | (2763, 3610) |
 
 ## Drops
 

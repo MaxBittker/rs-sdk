@@ -14,7 +14,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Falador (east) | Ground | 1 |
+| Port Sarim | Ground | 1 |
 
 ## Sources
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Falador (south) | m45_50 | (2934, 3210) |
+| Melzar's Maze | m45_50 | (2934, 3210) |
 
 ## Interactions
 

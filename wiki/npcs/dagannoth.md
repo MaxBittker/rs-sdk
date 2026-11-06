@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_156 | m39_156 | (2513, 10018) |
+| Lighthouse (underground) | m39_156 | (2513, 10018) |
 
 ## Drops
 

@@ -14,9 +14,9 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| Dark Knight Fortress | Ground | 5 |
+| Jail | Ground | 1 |
 | Karamja | Ground | 1 |
-| Lumbridge (west) | Ground | 1 |
-| m47_56 | Ground | 5 |
 
 ## Sources
 

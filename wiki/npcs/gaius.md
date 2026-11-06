@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m45_53 | m45_53 | (2885, 3449) |
+| Taverley | m45_53 | (2885, 3449) |
 
 ## Interactions
 

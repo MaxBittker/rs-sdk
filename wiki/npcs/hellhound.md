@@ -13,8 +13,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_151 | m42_151 | (2734, 9688) |
-| m44_153 | m44_153 | (2856, 9847) |
+| Catherby (underground) | m44_153 | (2856, 9847) |
+| Fishing Platform (underground) | m42_151 | (2734, 9688) |
 
 ## Drops
 

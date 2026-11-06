@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m45_150 | m45_150 | (2929, 9649) |
+| Melzar's Maze (underground) | m45_150 | (2929, 9649) |
 
 ## Drops
 

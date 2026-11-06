@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Varrock (east) | m51_52 | (3285, 3381) |
+| Kingdom Of Misthalin | m51_52 | (3285, 3381) |
 
 ## Interactions
 

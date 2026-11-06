@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m45_151 | m45_151 | (2933, 9693) |
+| Crafting Guild (underground) | m45_151 | (2933, 9693) |
 
 ## Drops
 

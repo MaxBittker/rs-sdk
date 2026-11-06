@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Wilderness | Ground | 1 |
+| Barbarian Village | Ground | 1 |
 
 ## Sources
 

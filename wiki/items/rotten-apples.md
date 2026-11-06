@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m39_52 | Ground | 1 |
+| Combat Training Camp | Ground | 1 |

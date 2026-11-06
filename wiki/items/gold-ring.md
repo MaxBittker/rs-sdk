@@ -14,7 +14,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m42_153 | Ground | 1 |
+| Sorcerers' Tower (underground) | Ground | 1 |
 
 ## Sources
 

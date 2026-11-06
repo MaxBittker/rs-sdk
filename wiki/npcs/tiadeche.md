@@ -12,9 +12,9 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
+| Karamja | m45_48 | (2912, 3118) |
 | m39_71 | m39_71 | (2528, 4589) |
-| m43_47 | m43_47 | (2781, 3057) |
-| Shilo Village area | m45_48 | (2912, 3118) |
+| Tai Bwo Wannai | m43_47 | (2781, 3057) |
 
 ## Interactions
 

@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Ardougne | Ground | 1 |
+| Zoo | Ground | 1 |

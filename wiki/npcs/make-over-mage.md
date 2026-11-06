@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Falador (west) | m45_51 | (2916, 3323) |
+| Crafting Guild | m45_51 | (2916, 3323) |
 
 ## Interactions
 

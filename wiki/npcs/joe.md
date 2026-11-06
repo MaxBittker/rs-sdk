@@ -12,8 +12,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne (south) | m40_49 | (2587, 3142) |
-| Edgeville area | m48_50 | (3123, 3245) |
+| Draynor Village | m48_50 | (3123, 3245) |
+| Fight Arena | m40_49 | (2587, 3142) |
 
 ## Interactions
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m48_149 | m48_149 | (3103, 9571) |
+| Wizards' Tower (underground) | m48_149 | (3103, 9571) |
 
 ## Interactions
 

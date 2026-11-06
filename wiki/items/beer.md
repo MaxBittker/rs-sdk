@@ -13,11 +13,11 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Karamja (west) | Ground | 1 |
-| m39_52 | Ground | 1 |
-| m41_57 | Ground | 1 |
-| m51_47 | Floor 1 | 1 |
-| Wilderness | Ground | 1 |
+| Barbarian Village | Ground | 1 |
+| Brimhaven | Ground | 1 |
+| Combat Training Camp | Ground | 1 |
+| Desert Mining Camp | Floor 1 | 1 |
+| Rellekka | Ground | 1 |
 
 ## Sources
 

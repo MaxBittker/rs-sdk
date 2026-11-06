@@ -21,7 +21,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m45_53 | Floor 1 | 1 |
+| Taverley | Floor 1 | 1 |
 
 ## Sources
 

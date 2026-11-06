@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_52 | m39_52 | (2531, 3333) |
+| Combat Training Camp | m39_52 | (2531, 3333) |
 
 ## Interactions
 

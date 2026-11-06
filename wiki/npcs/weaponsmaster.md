@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Varrock | m50_52 | (3246, 3384) L1 |
+| Champions' Guild | m50_52 | (3246, 3384) L1 |
 
 ## Drops
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_51 | m39_51 | (2540, 3305) |
+| West Ardougne | m39_51 | (2540, 3305) |
 
 ## Interactions
 

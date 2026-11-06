@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Falador (north) | m46_51 | (2973, 3312) |
+| White Knights' Castle | m46_51 | (2973, 3312) |
 
 ## Interactions
 

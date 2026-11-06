@@ -29,7 +29,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m48_60 | Ground | 1 |
+| Lava Maze | Ground | 1 |
 
 ## Sources
 

@@ -13,10 +13,10 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Camelot area | Ground | 1 |
-| m40_52 | Ground | 1 |
-| Varrock (north) | Floor 1 | 1 |
-| Wilderness (low) | Ground | 1 |
+| Draynor Manor | Ground | 1 |
+| Falador | Ground | 1 |
+| Fishing Guild | Ground | 1 |
+| Varrock | Floor 1 | 1 |
 
 ## Sources
 

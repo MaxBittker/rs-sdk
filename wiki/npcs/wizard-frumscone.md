@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_148 | m40_148 | (2588, 9489) |
+| Yanille (underground) | m40_148 | (2588, 9489) |
 
 ## Interactions
 

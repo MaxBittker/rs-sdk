@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m49_149 | m49_149 | (3146, 9567) |
+| Lumbridge Swamp (underground) | m49_149 | (3146, 9567) |
 
 ## Interactions
 

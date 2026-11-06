@@ -25,8 +25,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne (west) | m39_50 | (2502, 3242) |
-| m38_51 | m38_51 | (2454, 3301) |
+| Battlefield | m39_50 | (2502, 3242) |
+| Underground Pass | m38_51 | (2454, 3301) |
 
 ## Drops
 

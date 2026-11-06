@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m34_49 | m34_49 | (2194, 3140) |
+| Isafdar | m34_49 | (2194, 3140) |
 
 ## Interactions
 

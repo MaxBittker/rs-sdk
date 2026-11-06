@@ -14,8 +14,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| Demonic Ruins | Ground | 4 |
 | m41_58 | Ground | 2 |
-| m51_60 | Ground | 4 |
 
 ## Sources
 

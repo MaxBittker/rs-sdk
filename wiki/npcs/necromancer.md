@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Seers' Village area | m41_50 | (2671, 3240) |
+| Port Khazard | m41_50 | (2671, 3240) |
 
 ## Drops
 

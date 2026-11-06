@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m45_46 | m45_46 | (2883, 2951) |
+| Shilo Village | m45_46 | (2883, 2951) |
 
 ## Interactions
 

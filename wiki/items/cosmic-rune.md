@@ -14,7 +14,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m46_60 | Ground | 3 |
+| Frozen Waste Plateau | Ground | 3 |
 
 ## Sources
 

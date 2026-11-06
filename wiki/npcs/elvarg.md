@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_150 | m44_150 | (2852, 9637) |
+| Crandor (underground) | m44_150 | (2852, 9637) |
 
 ## Drops
 

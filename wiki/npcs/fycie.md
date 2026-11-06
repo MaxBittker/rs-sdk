@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m41_146 | m41_146 | (2650, 9393) |
+| Feldip Hills (underground) | m41_146 | (2650, 9393) |
 
 ## Interactions
 

@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m41_56 | m41_56 | (2655, 3592) |
+| Fremennik Province | m41_56 | (2655, 3592) |
 
 ## Interactions
 

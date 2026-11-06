@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_54 | m44_54 | (2840, 3497) |
+| White Wolf Mountain | m44_54 | (2840, 3497) |
 
 ## Drops
 

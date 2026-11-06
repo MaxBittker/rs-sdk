@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Gnome Stronghold | Ground | 1 |
+| Fishing Platform | Ground | 1 |

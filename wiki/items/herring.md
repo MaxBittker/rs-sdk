@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_148 | Ground | 1 |
+| Yanille (underground) | Ground | 1 |
 
 ## Sources
 

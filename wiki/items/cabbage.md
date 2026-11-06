@@ -14,8 +14,8 @@
 | Area | Floor | Quantity |
 |------|-------|----------|
 | Al Kharid | Ground | 1 |
-| m50_150 | Ground | 1 |
-| Wilderness (low) | Ground | 1 |
+| Draynor Manor | Ground | 1 |
+| Lumbridge (underground) | Ground | 1 |
 
 ## Sources
 

@@ -14,7 +14,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m48_156 | Ground | 1 |
+| Wilderness (underground) | Ground | 1 |
 
 ## Sources
 

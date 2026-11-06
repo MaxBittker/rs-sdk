@@ -26,8 +26,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_154 | m40_154 | (2572, 9875) |
-| m47_161 | m47_161 | (3015, 10318) |
+| Coal Trucks (underground) | m40_154 | (2572, 9875) |
+| Pirates' Hideout (underground) | m47_161 | (3015, 10318) |
 
 ## Drops
 

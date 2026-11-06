@@ -25,7 +25,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m49_154 | Ground | 1 |
+| Palace (underground) | Ground | 1 |
 
 ## Sources
 

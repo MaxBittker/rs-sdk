@@ -26,9 +26,9 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_147 | m40_147 | (2568, 9437) |
-| m45_153 | m45_153 | (2897, 9797) |
-| m45_154 | m45_154 | (2908, 9905) |
+| Druids' Circle (underground) | m45_154 | (2908, 9905) |
+| Taverley (underground) | m45_153 | (2897, 9797) |
+| Wizards' Guild (underground) | m40_147 | (2568, 9437) |
 
 ## Drops
 

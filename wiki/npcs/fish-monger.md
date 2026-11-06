@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m41_57 | m41_57 | (2646, 3675) |
+| Rellekka | m41_57 | (2646, 3675) |
 
 ## Interactions
 

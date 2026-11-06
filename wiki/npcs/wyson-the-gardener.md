@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Taverley (north) | m47_52 | (3027, 3379) |
+| Park | m47_52 | (3027, 3379) |
 
 ## Interactions
 

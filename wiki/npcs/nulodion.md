@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m47_53 | m47_53 | (3011, 3453) |
+| Barbarian Village | m47_53 | (3011, 3453) |
 
 ## Interactions
 

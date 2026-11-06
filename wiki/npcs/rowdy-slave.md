@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m51_147 | m51_147 | (3273, 9420) |
+| Desert Mining Camp (underground) | m51_147 | (3273, 9420) |
 
 ## Drops
 

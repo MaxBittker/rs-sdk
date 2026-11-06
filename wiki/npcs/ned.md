@@ -12,9 +12,9 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Edgeville area | m48_50 | (3100, 3258) |
-| m47_150 | m47_150 | (3046, 9640) L3 |
-| Rimmington | m44_50 | (2854, 3235) |
+| Crandor | m44_50 | (2854, 3235) |
+| Draynor Village | m48_50 | (3100, 3258) |
+| Port Sarim (underground) | m47_150 | (3046, 9640) L3 |
 
 ## Interactions
 

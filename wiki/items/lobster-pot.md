@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_53 | Ground | 1 |
+| Kingdom of Kandarin | Ground | 1 |
 
 ## Sources
 

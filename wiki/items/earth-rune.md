@@ -14,9 +14,9 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m47_56 | Ground | 5 |
-| m49_154 | Ground | 6 |
-| Wilderness | Ground | 1 |
+| Dark Knight Fortress | Ground | 5 |
+| Palace | Ground | 1 |
+| Palace (underground) | Ground | 6 |
 
 ## Sources
 

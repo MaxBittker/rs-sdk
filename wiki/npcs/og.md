@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_48 | m39_48 | (2506, 3116) |
+| Yanille | m39_48 | (2506, 3116) |
 
 ## Interactions
 

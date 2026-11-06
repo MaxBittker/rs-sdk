@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_147 | Ground | 1 |
+| Wizards' Guild (underground) | Ground | 1 |

@@ -13,9 +13,9 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_150 | m40_150 | (2573, 9630) |
-| m40_151 | m40_151 | (2577, 9692) |
-| m40_153 | m40_153 | (2580, 9804) |
+| East Ardougne (underground) | m40_151 | (2577, 9692) |
+| Kingdom of Kandarin (underground) | m40_153 | (2580, 9804) |
+| Zoo (underground) | m40_150 | (2573, 9630) |
 
 ## Drops
 

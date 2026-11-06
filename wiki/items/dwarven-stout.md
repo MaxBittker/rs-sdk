@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m44_154 | Ground | 1 |
+| White Wolf Mountain (underground) | Ground | 1 |
 
 ## Sources
 

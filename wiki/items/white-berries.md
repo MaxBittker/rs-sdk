@@ -13,8 +13,8 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m35_49 | Ground | 1 |
-| m50_59 | Ground | 1 |
+| Isafdar | Ground | 1 |
+| Red Dragon Isle | Ground | 1 |
 
 ## Sources
 

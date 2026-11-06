@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m39_147 | Ground | 1 |
+| Gu'Tanoth (underground) | Ground | 1 |

@@ -26,7 +26,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne (south) | m40_49 | (2584, 3141), (2594, 3162) L3 |
+| Fight Arena | m40_49 | (2584, 3141), (2594, 3162) L3 |
 
 ## Drops
 

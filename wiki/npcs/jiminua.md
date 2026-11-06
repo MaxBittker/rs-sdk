@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Feldip Hills | m43_48 | (2767, 3122) |
+| Tai Bwo Wannai | m43_48 | (2767, 3122) |
 
 ## Interactions
 

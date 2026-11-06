@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m44_52 | Ground | 1 |
+| Entrana | Ground | 1 |
 
 ## Sources
 

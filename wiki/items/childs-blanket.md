@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_150 | Ground | 1 |
+| Zoo (underground) | Ground | 1 |

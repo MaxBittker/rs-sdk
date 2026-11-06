@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m43_53 | Ground | 1 |
+| Beehives | Ground | 1 |

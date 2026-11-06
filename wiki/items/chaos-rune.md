@@ -14,8 +14,11 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m47_56 | Ground | 5 |
-| m49_59 | Ground | 1 |
+| Dark Knight Fortress | Ground | 5 |
+| m43_58 | Ground | 1 |
+| m43_59 | Ground | 1 |
+| m43_60 | Ground | 1 |
+| Red Dragon Isle | Ground | 1 |
 
 ## Sources
 

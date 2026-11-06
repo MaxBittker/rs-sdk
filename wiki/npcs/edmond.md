@@ -12,8 +12,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m39_151 | m39_151 | (2535, 9719) |
-| m40_52 | m40_52 | (2568, 3334) |
+| Fishing Guild | m40_52 | (2568, 3334) |
+| West Ardougne (underground) | m39_151 | (2535, 9719) |
 
 ## Interactions
 

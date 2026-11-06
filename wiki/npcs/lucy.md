@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_54 | m42_54 | (2737, 3461) L1 |
+| Seers' Village | m42_54 | (2737, 3461) L1 |
 
 ## Interactions
 

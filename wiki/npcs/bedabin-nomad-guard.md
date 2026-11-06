@@ -25,7 +25,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m49_47 | m49_47 | (3170, 3045) |
+| Bedabin Camp | m49_47 | (3170, 3045) |
 
 ## Interactions
 

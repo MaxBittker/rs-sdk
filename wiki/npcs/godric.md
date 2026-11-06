@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_157 | m44_157 | (2827, 10077) |
+| Troll Stronghold (underground) | m44_157 | (2827, 10077) |
 
 ## Interactions
 

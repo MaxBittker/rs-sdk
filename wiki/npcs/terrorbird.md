@@ -13,9 +13,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m37_53 | m37_53 | (2375, 3432) |
-| m38_53 | m38_53 | (2436, 3434) |
-| West Ardougne | m39_49 | (2498, 3141) |
+| Tree Gnome Stronghold | m37_53, m38_53 | (2375, 3432), (2436, 3434) |
+| Tree Gnome Village | m39_49 | (2498, 3141) |
 
 ## Drops
 

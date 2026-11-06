@@ -12,8 +12,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Falador (east) | m47_50 | (3045, 3236) |
-| m44_52 | m44_52 | (2830, 3335) |
+| Entrana | m44_52 | (2830, 3335) |
+| Port Sarim | m47_50 | (3045, 3236) |
 
 ## Interactions
 

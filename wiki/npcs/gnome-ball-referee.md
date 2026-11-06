@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m37_54 | m37_54 | (2384, 3488) |
+| Tree Gnome Stronghold | m37_54 | (2384, 3488) |
 
 ## Interactions
 

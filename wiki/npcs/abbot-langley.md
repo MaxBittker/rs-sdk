@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m47_54 | m47_54 | (3058, 3484) |
+| Ice Mountain | m47_54 | (3058, 3484) |
 
 ## Interactions
 

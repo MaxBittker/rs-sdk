@@ -13,14 +13,13 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Barbarian Village | m49_52 | (3184, 3385) |
-| Falador (east) | m47_50 | (3014, 3232) |
-| Karamja (west) | m43_49 | (2785, 3179) |
-| m40_150 | m40_150 | (2564, 9609) |
-| m47_49 | m47_49 | (3014, 3195) |
-| m50_152 | m50_152 | (3237, 9769) |
-| Varrock | m50_52 | (3230, 3391) |
-| Wilderness | m51_54 | (3285, 3501) |
+| Brimhaven | m43_49 | (2785, 3179) |
+| Champions' Guild | m50_52 | (3230, 3391) |
+| Champions' Guild (underground) | m50_152 | (3237, 9769) |
+| Lumber Yard | m51_54 | (3285, 3501) |
+| Port Sarim | m47_49, m47_50 | (3014, 3195), (3014, 3232) |
+| River Lum | m49_52 | (3184, 3385) |
+| Zoo (underground) | m40_150 | (2564, 9609) |
 
 ## Drops
 

@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m50_61 | Ground | 3 |
+| Scorpion Pit | Ground | 3 |

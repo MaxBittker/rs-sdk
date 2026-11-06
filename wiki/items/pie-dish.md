@@ -13,11 +13,11 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m43_53 | Floor 1 | 1 |
-| m44_53 | Ground | 1 |
-| m46_153 | Ground | 1 |
-| Wilderness | Floor 1 | 1 |
-| Wilderness | Ground | 1 |
+| Beehives | Floor 1 | 1 |
+| Catherby | Ground | 1 |
+| Cooks' Guild | Floor 1 | 1 |
+| Kingdom of Asgarnia (underground) | Ground | 1 |
+| Varrock | Ground | 1 |
 
 ## Sources
 

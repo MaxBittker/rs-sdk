@@ -13,10 +13,10 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m44_52 | Ground | 1 |
-| m50_149 | Ground | 1 |
-| Taverley | Ground | 1 |
-| Varrock (south) | Ground | 1 |
+| Entrana | Ground | 1 |
+| Kingdom of Asgarnia | Ground | 1 |
+| Kingdom Of Misthalin | Ground | 1 |
+| Lumbridge Swamp (underground) | Ground | 1 |
 
 ## Sources
 

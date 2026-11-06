@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Camelot area | Floor 1 | 1 |
+| Falador | Floor 1 | 1 |

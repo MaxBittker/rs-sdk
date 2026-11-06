@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m37_153 | Ground | 1 |
+| Tree Gnome Stronghold (underground) | Ground | 1 |
 
 ## Sources
 

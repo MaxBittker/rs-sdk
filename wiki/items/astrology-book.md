@@ -14,4 +14,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m38_49 | Ground | 1 |
+| Observatory | Ground | 1 |

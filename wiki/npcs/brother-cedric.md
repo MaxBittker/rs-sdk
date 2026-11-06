@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Ardougne | m40_50 | (2614, 3259) |
+| Zoo | m40_50 | (2614, 3259) |
 
 ## Interactions
 

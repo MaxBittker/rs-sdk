@@ -13,7 +13,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m48_155 | m48_155 | (3087, 9937) |
+| Kingdom of Asgarnia (underground) | m48_155 | (3087, 9937) |
 
 ## Drops
 

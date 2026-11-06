@@ -23,4 +23,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m41_152 | Ground | 1 |
+| Kingdom of Kandarin (underground) | Ground | 1 |

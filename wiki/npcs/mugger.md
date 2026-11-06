@@ -26,10 +26,10 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Barbarian Village | m49_52 | (3175, 3361) |
-| m46_149 | m46_149 | (2993, 9545) |
-| m47_49 | m47_49 | (3018, 3185) |
-| Varrock | m50_52 | (3249, 3391) |
+| Champions' Guild | m50_52 | (3249, 3391) |
+| Port Sarim | m47_49 | (3018, 3185) |
+| Rimmington (underground) | m46_149 | (2993, 9545) |
+| River Lum | m49_52 | (3175, 3361) |
 
 ## Drops
 

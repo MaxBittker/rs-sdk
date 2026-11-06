@@ -25,7 +25,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m49_59 | Ground | 1 |
+| Red Dragon Isle | Ground | 1 |
 
 ## Sources
 

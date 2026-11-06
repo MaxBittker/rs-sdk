@@ -13,7 +13,9 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Wilderness (low) | Floor 2 | 1 |
+| Castle Wars (due Dec-2004) | Ground | 1 |
+| Castle Wars (due Dec-2004) | Floor 1 | 1 |
+| Draynor Manor | Floor 2 | 1 |
 
 ## Sources
 

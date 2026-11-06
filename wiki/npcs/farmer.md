@@ -26,11 +26,12 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| Barbarian Village | m49_51 | (3154, 3293) |
-| m41_52 | m41_52 | (2645, 3367) |
-| Taverley | m47_51 | (3035, 3296) |
-| Varrock | m50_52 | (3240, 3345) |
-| Varrock (south) | m50_51 | (3227, 3290) |
+| Champions' Guild | m50_52 | (3240, 3345) |
+| Kingdom of Asgarnia | m47_51 | (3035, 3296) |
+| Kingdom of Kandarin | m41_52 | (2645, 3367) |
+| Kingdom Of Misthalin | m50_51 | (3227, 3290) |
+| m39_60 | m39_60 | (2538, 3852) |
+| River Lum | m49_51 | (3154, 3293) |
 
 ## Drops
 

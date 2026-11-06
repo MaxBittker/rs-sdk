@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_54 | m40_54 | (2571, 3463) |
+| Coal Trucks | m40_54 | (2571, 3463) |
 
 ## Interactions
 

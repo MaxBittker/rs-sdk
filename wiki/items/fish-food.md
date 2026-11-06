@@ -13,4 +13,4 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Wilderness (low) | Floor 1 | 1 |
+| Draynor Manor | Floor 1 | 1 |

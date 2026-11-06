@@ -26,8 +26,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m45_152 | m45_152 | (2895, 9765) |
-| m45_153 | m45_153 | (2892, 9799) |
+| Dark Wizards' Tower (underground) | m45_152 | (2895, 9765) |
+| Taverley (underground) | m45_153 | (2892, 9799) |
 
 ## Drops
 

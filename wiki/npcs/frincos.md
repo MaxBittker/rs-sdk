@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m43_52 | m43_52 | (2808, 3342) |
+| Keep Le Faye | m43_52 | (2808, 3342) |
 
 ## Interactions
 

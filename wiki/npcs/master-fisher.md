@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m40_53 | m40_53 | (2611, 3393) |
+| Kingdom of Kandarin | m40_53 | (2611, 3393) |
 
 ## Interactions
 

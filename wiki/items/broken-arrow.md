@@ -14,7 +14,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_47 | Ground | 1 |
-| m41_153 | Ground | 1 |
-| m41_53 | Ground | 1 |
-| m41_53 | Floor 2 | 1 |
+| Hemenster | Ground | 1 |
+| Hemenster | Floor 2 | 1 |
+| Hemenster (underground) | Ground | 1 |
+| Wizards' Guild | Ground | 1 |

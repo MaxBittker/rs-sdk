@@ -25,7 +25,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| Varrock (north) | Ground | 1 |
+| Varrock | Ground | 1 |
 
 ## Sources
 

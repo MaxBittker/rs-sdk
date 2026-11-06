@@ -12,8 +12,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m37_149 | m37_149 | (2396, 9595) |
 | m37_73 | m37_73 | (2373, 4692) |
+| Observatory (underground) | m37_149 | (2396, 9595) |
 
 ## Interactions
 

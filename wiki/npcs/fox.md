@@ -25,7 +25,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_56 | m42_56 | (2725, 3602) |
+| Fremennik Province | m42_56 | (2725, 3602) |
 
 ## Drops
 

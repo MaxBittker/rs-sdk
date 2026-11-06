@@ -26,8 +26,8 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m44_153 | m44_153 | (2829, 9826) |
-| m47_160 | m47_160 | (3048, 10266) |
+| Catherby (underground) | m44_153 | (2829, 9826) |
+| Lava Maze (underground) | m47_160 | (3048, 10266) |
 
 ## Drops
 

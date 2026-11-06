@@ -12,7 +12,7 @@
 
 | Area | Map | Coordinate samples |
 |------|-----|--------------------|
-| m42_51 | m42_51 | (2716, 3302) |
+| Fishing Platform | m42_51 | (2716, 3302) |
 
 ## Interactions
 

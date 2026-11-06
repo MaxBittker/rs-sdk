@@ -13,12 +13,12 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
+| Barbarian Village | Ground | 1 |
+| Cooks' Guild | Floor 2 | 1 |
+| Elf Camp | Ground | 1 |
+| Jail | Ground | 1 |
 | Lumbridge | Ground | 1 |
-| Lumbridge (west) | Ground | 1 |
-| m34_50 | Ground | 1 |
-| Varrock (north) | Ground | 1 |
-| Wilderness | Floor 2 | 1 |
-| Wilderness | Ground | 1 |
+| Varrock | Ground | 1 |
 
 ## Sources
 

@@ -13,7 +13,7 @@
 
 | Area | Floor | Quantity |
 |------|-------|----------|
-| m40_151 | Ground | 1 |
+| East Ardougne (underground) | Ground | 1 |
 
 ## Sources
 
