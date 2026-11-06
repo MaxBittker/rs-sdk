@@ -51,12 +51,14 @@ Speak to **Achetties** at the Hero's Guild north of Taverley. She requires you t
 
 ### Item 2: Master Thieves Armband
 
-This item requires cooperation between members of the **Black Arm Gang** and **Phoenix Gang** (from Shield of Arrav). You need a partner from the opposite gang.
+This item needs two players who have both completed Shield of Arrav, one from each gang: a **Phoenix Gang** member and a **Black Arm Gang** member. Each gets their own armband from their own gang leader, in exchange for one of Scarface Pete's candlesticks. The **Phoenix** member kills **Grip**, the head guard of **ScarFace Pete's mansion** in **Brimhaven**. The **Black Arm** member gets the key and loots the candlesticks.
 
-7. Travel to **Brimhaven** and locate **ScarFace Pete's mansion**.
-8. **Black Arm member**: Enter through the back entrance and deal with guards inside. Obtain the candlesticks.
-9. **Phoenix Gang member**: Obtain the key to the chest containing the armband.
-10. Through cooperation, obtain the **Master Thieves Armband**.
+7. **Phoenix Gang member**: Talk to **Straven** in Varrock, then to **Alfonse** the waiter at the Shrimp and Parrot in Brimhaven ("Do you sell Gherkins?"), then to **Charlie the cook** ("I'm looking for a gherkin..."). After that you can use the kitchen's secret way into the mansion grounds, and you can attack Grip. Black Arm members can't attack him.
+8. **Black Arm Gang member**: Talk to **Katrine** in Varrock, then to **Grubor** at the Black Arm hideout in Brimhaven ("Four leaved clover"), get the **ID papers** from **Trobert**, and talk to **Garv**, who lets you into the mansion. Only Black Arm members can enter Grip's hall. Give Grip the ID papers. Then ask him "Anything I can do now?", and he gives you the **Miscellaneous key**.
+9. The Black Arm member gives the **Miscellaneous key** to the Phoenix member. It opens the side door into the small storeroom with the **arrow slit**, next to Grip's drinks cabinet.
+10. The Black Arm member opens Grip's drinks cabinet and tells the nearby guard "He won't notice me having a quick look." Grip walks over to the cabinet for a few seconds. The **Phoenix member kills Grip** from the storeroom, with ranged or magic through the arrow slit. The kill only counts for the Phoenix member who lands it.
+11. Grip drops **Grip's keyring** in his hall. The **Black Arm member** picks it up, uses it on the treasure room door, and searches the chest, which holds **two candlesticks**, one for each player. The Black Arm member gives one to the Phoenix member.
+12. Each player gives a candlestick to their gang leader and gets a **Master Thieves Armband**: **Straven** for Phoenix, **Katrine** for Black Arm.
 
 ### Item 3: Cooked Lava Eel
 
@@ -77,6 +79,8 @@ This item requires cooperation between members of the **Black Arm Gang** and **P
 | Ice Queen | Drops Ice Gloves | White Wolf Mountain ice cavern |
 | Firebird | Drops Firebird Feather | Entrana |
 | Gerrant | Creates Oily Fishing Rod | Port Sarim fishing shop |
-| ScarFace Pete's Mansion | Master Thieves Armband location | Brimhaven |
+| ScarFace Pete's Mansion | Grip and the candlestick chest | Brimhaven |
+| Grip | Killed by the Phoenix member; gives the Black Arm member the Miscellaneous key | ScarFace Pete's mansion |
+| Straven / Katrine | Trade a candlestick for a Master Thieves Armband (Phoenix / Black Arm) | Varrock |
 | Blue Dragons | Guard path to lava stream | Taverley Dungeon |
 | Lava stream | Fishing spot for Lava Eel | Taverley Dungeon |
