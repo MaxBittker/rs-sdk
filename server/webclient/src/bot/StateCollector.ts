@@ -189,10 +189,13 @@ export class BotStateCollector implements ScanProvider {
             modalOpen: (c.mainModalId ?? -1) !== -1,
             modalInterface: c.mainModalId ?? -1,
             prayers: this.collectPrayerState(),
-            // These policy-critical settings are ordinary server varps. Keep
-            // them explicit rather than making controllers infer state from a
-            // head icon or blindly click a control that might already be set.
-            isSkulled: (c.var?.[78] ?? 0) > 0,
+            // The skull comes from our own head icon (bit 0, ^headicon_skull).
+            // Varp 78 (pk_skull) is never transmitted, so it always read 0; the
+            // icon is set and cleared with the skull.
+            isSkulled: BotStateCollector.hasSkullIcon(c.localPlayer),
+            // A policy-critical setting is an ordinary server varp. Keep it
+            // explicit rather than blindly clicking a control that might
+            // already be set.
             autoRetaliateEnabled: (c.var?.[172] ?? 1) === 0,
             opFeedback: this.collectOpFeedback(currentTick)
         };
@@ -401,6 +404,15 @@ export class BotStateCollector implements ScanProvider {
             return { type: 'player', index: faceEntity - 32768 };
         }
         return { type: 'npc', index: faceEntity };
+    }
+
+    /**
+     * Whether a player shows the PK skull. The appearance block's head-icon
+     * byte has one bit per icon, and the skull is bit 0 (^headicon_skull in
+     * content/scripts/player/configs/headicon.constant).
+     */
+    private static hasSkullIcon(player: ClientPlayer | null | undefined): boolean {
+        return ((player?.headicons ?? 0) & 0x1) !== 0;
     }
 
     private collectCombatEvents(currentTick: number): void {
