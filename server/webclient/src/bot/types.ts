@@ -457,6 +457,10 @@ export interface BotState {
     isSkulled: boolean;
     /** Authoritative client varp 172: server auto-retaliation is enabled. */
     autoRetaliateEnabled: boolean;
+    /** Special attack energy in percent (0-100), from varp 300 (%sa_energy, 0-1000). */
+    specialEnergy: number;
+    /** Authoritative client varp 301: the special attack is switched on for the next hit. */
+    specialActive: boolean;
     /** Whether the server accepted or silently discarded recent ops */
     opFeedback: OpFeedbackState;
 }
@@ -516,6 +520,7 @@ export type BotAction =
     | { type: 'closeShop'; reason: string }
     | { type: 'closeModal'; reason: string }
     | { type: 'setCombatStyle'; style: number; reason: string }
+    | { type: 'setSpecialAttack'; on: boolean; reason: string }
     | { type: 'spellOnNpc'; npcIndex: number; spellComponent: number; reason: string }
     | { type: 'spellOnPlayer'; playerIndex: number; spellComponent: number; reason: string }
     | { type: 'spellOnItem'; slot: number; spellComponent: number; reason: string }

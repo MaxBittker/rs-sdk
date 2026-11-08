@@ -245,6 +245,9 @@ export class ActionExecutor {
                         'Failed to set combat style'
                     );
 
+                case 'setSpecialAttack':
+                    return this.client.setSpecialAttack(action.on);
+
                 case 'spellOnNpc': {
                     const result = this.wrapClientAction(
                         this.client.spellOnNpc(action.npcIndex, action.spellComponent),
@@ -528,6 +531,7 @@ export function formatAction(action: BotAction): string {
         case 'interactGroundItem': return `Interact ground item ${action.itemId} at (${action.x}, ${action.z})`;
         case 'clickDialogOption': return `Dialog option ${action.optionIndex}`;
         case 'clickComponent': return `Click component ${action.componentId}`;
+        case 'setSpecialAttack': return `Special attack ${action.on ? 'on' : 'off'}`;
         case 'clickComponentWithOption': return `Click component ${action.componentId} option ${action.optionIndex}`;
         case 'useItemOnItem': return `Use slot ${action.sourceSlot} on ${action.targetSlot}`;
         case 'useItemOnNpc': return `Use slot ${action.itemSlot} on NPC #${action.npcIndex}`;

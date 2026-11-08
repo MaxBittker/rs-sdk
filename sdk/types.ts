@@ -603,6 +603,10 @@ export interface BotWorldState {
     isSkulled?: boolean;
     /** Absent when the connected client predates authoritative auto-retaliate telemetry. */
     autoRetaliateEnabled?: boolean;
+    /** Special attack energy in percent (0-100). Absent when the connected client predates it. */
+    specialEnergy?: number;
+    /** The special attack is switched on for the next hit. Absent when the connected client predates it. */
+    specialActive?: boolean;
     /** Absent when the connected client predates the signal. */
     opFeedback?: OpFeedbackState;
 }
@@ -638,6 +642,7 @@ export type BotAction =
     | { type: 'closeShop'; reason: string }
     | { type: 'closeModal'; reason: string }
     | { type: 'setCombatStyle'; style: number; reason: string }
+    | { type: 'setSpecialAttack'; on: boolean; reason: string }
     | { type: 'useItemOnItem'; sourceSlot: number; targetSlot: number; reason: string }
     | { type: 'useItemOnLoc'; itemSlot: number; x: number; z: number; locId: number; reason: string }
     | { type: 'useItemOnNpc'; itemSlot: number; npcIndex: number; reason: string }

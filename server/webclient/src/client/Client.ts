@@ -25,6 +25,8 @@ import VarpType from '#/config/VarpType.js';
 import VarBitType from '#/config/VarBitType.js';
 import IfType from '#/config/IfType.js';
 import { ComponentType, ButtonType } from '#/config/IfType.js';
+import { setSpecialAttack } from '#/bot/SpecialAttack.js';
+import type { ActionResult } from '#/bot/ActionExecutor.js';
 
 import ClientEntity from '#/dash3d/ClientEntity.js';
 import ClientLocAnim from '#/dash3d/ClientLocAnim.js';
@@ -2891,6 +2893,11 @@ export class Client extends GameShell {
         this.writePacketOpcode(ClientProt.IF_BUTTON);
         this.out.p2(componentId);
         return true;
+    }
+
+    /** Turn the special attack on or off; only clicks the bar when that changes something. */
+    setSpecialAttack(on: boolean): ActionResult {
+        return setSpecialAttack(this.var, this.sideIcon[0], componentId => this.clickComponent(componentId), on);
     }
 
     /**

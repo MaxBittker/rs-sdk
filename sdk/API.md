@@ -289,6 +289,7 @@
 | `async sendAcceptTrade(): Promise<ActionResult>` | Accept the currently open trade screen (first or confirm). The trade only advances when both players accept; an offer change resets accepts. |
 | `async sendDeclineTrade(): Promise<ActionResult>` | Decline the open trade (closes the screen; both sides get their items back and the partner sees "Other player declined trade."). |
 | `async sendSetCombatStyle(style: number): Promise<ActionResult>` | Set combat style (0-3). |
+| `async sendSpecialAttack(on: boolean = true): Promise<ActionResult>` | Turn the special attack on (default) or off. Idempotent: it reads the current state and only clicks the bar when that changes something, so it never toggles an already-on special off. The equipped weapon must have a special; fails with `no_special_attack` or `insufficient_energy` (`data.specialEnergy` and `data.needed` are percent). Waits for the server to apply the click. Dragon battleaxe and Excalibur fire at once and never stay on. |
 | `async sendTogglePrayer(prayer: PrayerName \| number): Promise<ActionResult>` | Toggle a prayer on or off by name or index (0-14). |
 | `async sendSpellOnNpc(npcIndex: number, spellComponent: number): Promise<ActionResult>` | Cast spell on NPC using spell component ID (OPNPCT). |
 | `async sendSpellOnPlayer(playerIndex: number, spellComponent: number): Promise<ActionResult>` | Cast spell on another player using spell component ID (OPPLAYERT). `playerIndex` is a world slot from `nearbyPlayers`, a different space from npc indices - use {@link sendSpellOnTarget} to avoid mixing them up. |
@@ -572,6 +573,10 @@ interface BotWorldState {
   isSkulled?: boolean;
   /** Absent when the connected client predates authoritative auto-retaliate telemetry. */
   autoRetaliateEnabled?: boolean;
+  /** Special attack energy in percent (0-100). Absent when the connected client predates it. */
+  specialEnergy?: number;
+  /** The special attack is switched on for the next hit. Absent when the connected client predates it. */
+  specialActive?: boolean;
   /** Absent when the connected client predates the signal. */
   opFeedback?: OpFeedbackState;
 }

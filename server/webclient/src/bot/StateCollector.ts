@@ -8,6 +8,7 @@ import type ClientObj from '#/dash3d/ClientObj.js';
 import IfType from '#/config/IfType.js';
 import { collectGEState } from './ge-state.js';
 import { getDialogPageId } from './dialog-page.js';
+import { specialAttackActive, specialEnergyPercent } from './SpecialAttack.js';
 import ObjType from '#/config/ObjType.js';
 import NpcType from '#/config/NpcType.js';
 import LocType from '#/config/LocType.js';
@@ -194,6 +195,8 @@ export class BotStateCollector implements ScanProvider {
             // head icon or blindly click a control that might already be set.
             isSkulled: (c.var?.[78] ?? 0) > 0,
             autoRetaliateEnabled: (c.var?.[172] ?? 1) === 0,
+            specialEnergy: specialEnergyPercent(c.var),
+            specialActive: specialAttackActive(c.var),
             opFeedback: this.collectOpFeedback(currentTick)
         };
     }

@@ -545,6 +545,30 @@ describe('clickComponent', () => {
     });
 });
 
+describe('setSpecialAttack', () => {
+    test('sends IF_BUTTON for the bar on the current combat tab', () => {
+        defineComponent(7560, { children: [7561] });
+        defineComponent(7561, { hide: false, children: [7562] });
+        defineComponent(7562, { buttonType: BUTTON_OK, buttonText: 'Use @gre@Special Attack' });
+
+        const opcodes: number[] = [];
+        const payload: number[] = [];
+        const client: any = {
+            ingame: true,
+            out: { p2: (value: number) => payload.push(value) },
+            writePacketOpcode: (opcode: number) => opcodes.push(opcode),
+            clickComponent: Client.prototype.clickComponent,
+            sideIcon: [7560],
+            var: []
+        };
+        client.var[300] = 1000;
+
+        expect(Client.prototype.setSpecialAttack.call(client, true).success).toBe(true);
+        expect(opcodes).toEqual([ClientProt.IF_BUTTON]);
+        expect(payload).toEqual([7562]);
+    });
+});
+
 describe('getDialogOptions', () => {
     test('flattens the layout newlines skill dialogs pad product labels with', () => {
         // skill_multi3, as fletching opens it: Make X / Make 10 / Make 5 /
