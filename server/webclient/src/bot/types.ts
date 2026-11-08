@@ -1,4 +1,5 @@
 import type { GEState } from '../../../../sdk/ge-types.js';
+import type { InterfaceInventory } from './InterfaceItems.js';
 // types.ts - Bot SDK Type Definitions
 // All interfaces, constants, and type definitions for the Bot SDK
 
@@ -451,6 +452,8 @@ export interface BotState {
     modalOpen: boolean;
     /** The ID of the modal interface (-1 if none) */
     modalInterface: number;
+    /** Item grids in the open main modal (e.g. a puzzle's pieces); grids over 64 slots are left out. */
+    interfaceInventories: InterfaceInventory[];
     /** Prayer state (active prayers, prayer points) */
     prayers: PrayerState;
     /** Authoritative client varp 78: a PK skull is currently active. */
@@ -503,6 +506,7 @@ export type BotAction =
     | { type: 'randomizeCharacterDesign'; reason: string }
     | { type: 'walkTo'; x: number; z: number; running?: boolean; reason: string }
     | { type: 'useInventoryItem'; slot: number; optionIndex: number; interfaceId?: number; reason: string }
+    | { type: 'useInterfaceItem'; componentId: number; slot: number; optionIndex: number; reason: string }
     | { type: 'dropItem'; slot: number; reason: string }
     | { type: 'pickupItem'; x: number; z: number; itemId: number; reason: string }
     | { type: 'interactGroundItem'; x: number; z: number; itemId: number; optionIndex: number; reason: string }

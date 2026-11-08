@@ -8,6 +8,7 @@ import type ClientObj from '#/dash3d/ClientObj.js';
 import IfType from '#/config/IfType.js';
 import { collectGEState } from './ge-state.js';
 import { getDialogPageId } from './dialog-page.js';
+import { collectInterfaceInventories } from './InterfaceItems.js';
 import ObjType from '#/config/ObjType.js';
 import NpcType from '#/config/NpcType.js';
 import LocType from '#/config/LocType.js';
@@ -188,6 +189,7 @@ export class BotStateCollector implements ScanProvider {
             interface: this.collectInterfaceState(),
             modalOpen: (c.mainModalId ?? -1) !== -1,
             modalInterface: c.mainModalId ?? -1,
+            interfaceInventories: collectInterfaceInventories(IfType.list, c.mainModalId ?? -1, id => ObjType.list(id)),
             prayers: this.collectPrayerState(),
             // These policy-critical settings are ordinary server varps. Keep
             // them explicit rather than making controllers infer state from a

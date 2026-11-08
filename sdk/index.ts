@@ -1163,6 +1163,29 @@ export class BotSDK {
         return this.sendAction({ type: 'useInventoryItem', slot, optionIndex: option, interfaceId, reason: 'SDK' });
     }
 
+    /**
+     * Use an item's own option on any inventory component (OPHELD), the way the
+     * right-click menu does. For grids whose items answer to their own options,
+     * e.g. Monkey Madness's sliding puzzle: read the slots from
+     * `state.interfaceInventories`, then
+     * `sdk.sendUseInterfaceItem(grid.componentId, slot, 5)`.
+     *
+     * `sendUseItem(slot, option, interfaceId)` and `sendClickComponentWithOption`
+     * send INV_BUTTON instead, the component's option: bank, shop and trade grids.
+     * Success means the packet went out; the server may still ignore it.
+     */
+    async sendUseInterfaceItem(componentId: number, slot: number, option: number = 1): Promise<ActionResult> {
+        for (const [name, value] of Object.entries({ componentId, slot })) {
+            if (!Number.isInteger(value) || value < 0 || value > 0xffff) {
+                return { success: false, message: `Invalid ${name}: ${value} (expected an integer 0-65535)`, reason: 'invalid_argument', phase: 'validation' };
+            }
+        }
+        if (!Number.isInteger(option) || option < 1 || option > 5) {
+            return { success: false, message: `Invalid option: ${option} (expected an integer 1-5)`, reason: 'invalid_argument', phase: 'validation' };
+        }
+        return this.sendAction({ type: 'useInterfaceItem', componentId, slot, optionIndex: option, reason: 'SDK' });
+    }
+
     /** Use an equipped item (remove, operate, etc). */
     async sendUseEquipmentItem(slot: number, option: number = 1): Promise<ActionResult> {
         return this.sendAction({ type: 'useEquipmentItem', slot, optionIndex: option, reason: 'SDK' });

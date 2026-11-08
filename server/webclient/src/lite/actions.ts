@@ -25,6 +25,7 @@ import { ClientProt } from '#/io/ClientProt.js';
 import WordFilter from '#/wordfilter/WordFilter.js';
 import WordPack from '#/wordfilter/WordPack.js';
 
+import { OPHELD_OPCODES, resolveInterfaceItem } from '#/bot/InterfaceItems.js';
 import type { ClientActionResult, LiteClient } from './LiteClient.js';
 import { tryMoveTo } from './movement.js';
 
@@ -230,6 +231,23 @@ export function useInventoryItem(c: LiteClient, slot: number, optionIndex: numbe
     c.out.p2(slot);
     c.out.p2(interfaceId);
     return true;
+}
+
+/** Lite twin of Client.useInterfaceItem: OPHELD1-5 on any inventory component. */
+export function useInterfaceItem(c: LiteClient, componentId: number, slot: number, optionIndex: number): ClientActionResult {
+    if (!c.isInGame()) {
+        return { success: false, reason: 'not_in_game' };
+    }
+    const openRoots = [c.mainModalId, c.chatModalId, c.sideModalId, c.tutComId, ...c.sideIcon];
+    const resolved = resolveInterfaceItem(IfType.list[componentId], slot, optionIndex, openRoots, id => ObjType.list(id));
+    if ('reason' in resolved) {
+        return { success: false, reason: resolved.reason };
+    }
+    c.writeOpcode(OPHELD_OPCODES[optionIndex - 1]);
+    c.out.p2(resolved.itemId);
+    c.out.p2(slot);
+    c.out.p2(componentId);
+    return { success: true };
 }
 
 export function dropInventoryItem(c: LiteClient, slot: number): boolean {
