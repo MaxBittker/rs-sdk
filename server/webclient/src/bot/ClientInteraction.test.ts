@@ -1,4 +1,4 @@
-import { describe, expect, mock, test } from 'bun:test';
+import { afterAll, beforeAll, describe, expect, mock, test } from 'bun:test';
 
 import { ClientProt } from '#/io/ClientProt.js';
 import { ServerProt } from '#/io/ServerProt.js';
@@ -74,7 +74,7 @@ mock.module('#/client/MobileKeyboard.js', () => ({
 };
 
 const { Client } = await import('../client/Client.js');
-const { interactPlayer: liteInteractPlayer } = await import('../lite/actions.js');
+const { interactPlayer: liteInteractPlayer, useInterfaceItem: liteUseInterfaceItem } = await import('../lite/actions.js');
 const { default: LocType } = await import('#/config/LocType.js');
 const { default: ObjType } = await import('#/config/ObjType.js');
 const { default: IfType } = await import('#/config/IfType.js');
@@ -543,6 +543,74 @@ describe('clickComponent', () => {
         expect(opcodes).toEqual([ClientProt.IF_BUTTON]);
         expect(payload).toEqual([3903]);
     });
+});
+
+describe('useInterfaceItem (OPHELD on any inventory component)', () => {
+    const PUZZLE = 11130;
+    const ROOT = 11126;
+    const PIECE = 3904; // reinitialisation_01
+
+    function invComponent(id: number, layerId: number, slots: number[]): void {
+        defineComponent(id, { type: 2, layerId, objOps: true, linkObjType: Int32Array.from(slots), linkObjNumber: Int32Array.from(slots.map(s => (s > 0 ? 1 : 0))), children: null });
+    }
+
+    const realList = ObjType.list;
+    beforeAll(() => {
+        ObjType.list = ((id: number) => ({ id, name: 'Sliding button', iop: [null, null, null, null, 'Move'] })) as never;
+    });
+    afterAll(() => {
+        ObjType.list = realList;
+    });
+
+    for (const kind of ['browser', 'lite'] as const) {
+        function run(componentId: number, slot: number, option: number, overrides: Record<string, unknown> = {}) {
+            const opcodes: number[] = [];
+            const payload: number[] = [];
+            const client: any = {
+                ingame: true,
+                out: { p2: (value: number) => payload.push(value) },
+                mainModalId: ROOT,
+                chatModalId: -1,
+                sideModalId: -1,
+                tutComId: -1,
+                sideIcon: [],
+                isInGame() { return this.ingame; },
+                writePacketOpcode: (opcode: number) => opcodes.push(opcode),
+                writeOpcode: (opcode: number) => opcodes.push(opcode),
+                ...overrides
+            };
+            const result = kind === 'browser'
+                ? Client.prototype.useInterfaceItem.call(client, componentId, slot, option)
+                : liteUseInterfaceItem(client, componentId, slot, option);
+            return { result, opcodes, payload };
+        }
+
+        test(`${kind}: sends OPHELD5 with obj, slot, com, what [opheld5,_mm_reinit] needs`, () => {
+            invComponent(PUZZLE, ROOT, [0, PIECE + 1]);
+            const { result, opcodes, payload } = run(PUZZLE, 1, 5);
+            expect(result).toEqual({ success: true });
+            expect(opcodes).toEqual([ClientProt.OPHELD5]);
+            expect(payload).toEqual([PIECE, 1, PUZZLE]);
+        });
+
+        test(`${kind}: refuses what the server would drop, sending nothing`, () => {
+            invComponent(PUZZLE, ROOT, [0, PIECE + 1]);
+            const refused: Array<[number, number, number, Record<string, unknown>, string]> = [
+                [PUZZLE, 0, 5, {}, 'item_not_found'],
+                [PUZZLE, 1, 1, {}, 'invalid_option'],
+                [PUZZLE, 1, 6, {}, 'invalid_option'],
+                [PUZZLE, 9, 5, {}, 'invalid_target'],
+                [99999, 1, 5, {}, 'invalid_target'],
+                [PUZZLE, 1, 5, { mainModalId: -1 }, 'interface_not_open']
+            ];
+            for (const [com, slot, option, overrides, reason] of refused) {
+                const { result, opcodes } = run(com, slot, option, overrides);
+                expect(result).toEqual({ success: false, reason } as never);
+                expect(opcodes).toEqual([]);
+            }
+            expect(run(PUZZLE, 1, 5, { ingame: false }).result).toEqual({ success: false, reason: 'not_in_game' });
+        });
+    }
 });
 
 describe('getDialogOptions', () => {

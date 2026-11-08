@@ -754,6 +754,9 @@ export class LiteClient {
     useInventoryItem(slot: number, optionIndex: number, interfaceId?: number): boolean {
         return A.useInventoryItem(this, slot, optionIndex, interfaceId);
     }
+    useInterfaceItem(componentId: number, slot: number, optionIndex: number): ClientActionResult {
+        return A.useInterfaceItem(this, componentId, slot, optionIndex);
+    }
     dropInventoryItem(slot: number): boolean {
         return A.dropInventoryItem(this, slot);
     }

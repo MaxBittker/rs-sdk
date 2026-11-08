@@ -4,6 +4,7 @@ import { stopMidi, setMidiVolume, playMidi } from '#3rdparty/tinymidipcm.js';
 
 import type { WalkResult } from '#/bot/types.js';
 import { getDialogPageId, invalidateDialogPage } from '#/bot/dialog-page.js';
+import { OPHELD_OPCODES, resolveInterfaceItem } from '#/bot/InterfaceItems.js';
 
 import ClientBuild from '#/client/ClientBuild.js';
 import { ClientCode } from '#/client/ClientCode.js';
@@ -129,7 +130,8 @@ export type ClientActionFailureReason =
     | 'item_not_found'
     | 'target_not_found'
     | 'out_of_scene'
-    | 'cant_reach';
+    | 'cant_reach'
+    | 'interface_not_open';
 
 /**
  * Result of validating and routing a client-side interaction.
@@ -1545,6 +1547,30 @@ export class Client extends GameShell {
     dropInventoryItem(slot: number): boolean {
         console.log(`[Client] dropInventoryItem called - slot: ${slot}`);
         return this.useInventoryItem(slot, 5);
+    }
+
+    /**
+     * Use an item's own option on any inventory component (OPHELD1-5, with that
+     * component's id), which is what the right-click menu sends for an obj's
+     * iop. `useInventoryItem` turns non-main components into INV_BUTTON, the
+     * component's iop; content like Monkey Madness's sliding puzzle
+     * ([opheld5,_mm_reinit]) only answers to the obj's.
+     */
+    useInterfaceItem(componentId: number, slot: number, optionIndex: number): ClientActionResult {
+        if (!this.ingame || !this.out) {
+            return { success: false, reason: 'not_in_game' };
+        }
+        const openRoots = [this.mainModalId, this.chatModalId, this.sideModalId, this.tutComId, ...this.sideIcon];
+        const resolved = resolveInterfaceItem(IfType.list[componentId], slot, optionIndex, openRoots, id => ObjType.list(id));
+        if ('reason' in resolved) {
+            return { success: false, reason: resolved.reason };
+        }
+        // OpHeldDecoder reads: obj, slot, com.
+        this.writePacketOpcode(OPHELD_OPCODES[optionIndex - 1]);
+        this.out.p2(resolved.itemId);
+        this.out.p2(slot);
+        this.out.p2(componentId);
+        return { success: true };
     }
 
     /**

@@ -116,6 +116,13 @@ export class ActionExecutor {
                         'Failed to use inventory item'
                     );
 
+                case 'useInterfaceItem':
+                    return this.wrapClientAction(
+                        this.client.useInterfaceItem(action.componentId, action.slot, action.optionIndex),
+                        `Using option ${action.optionIndex} on slot ${action.slot} of component ${action.componentId}`,
+                        'Failed to use interface item'
+                    );
+
                 case 'dropItem':
                     return this.wrapBool(
                         this.client.dropInventoryItem(action.slot),
@@ -523,6 +530,7 @@ export function formatAction(action: BotAction): string {
         case 'talkToNpc': return `Talk to NPC #${action.npcIndex}`;
         case 'interactLoc': return `Interact loc ${action.locId} at (${action.x}, ${action.z})`;
         case 'useInventoryItem': return `Use inv slot ${action.slot} opt ${action.optionIndex}`;
+        case 'useInterfaceItem': return `Use component ${action.componentId} slot ${action.slot} opt ${action.optionIndex}`;
         case 'dropItem': return `Drop slot ${action.slot}`;
         case 'pickupItem': return `Pickup item ${action.itemId} at (${action.x}, ${action.z})`;
         case 'interactGroundItem': return `Interact ground item ${action.itemId} at (${action.x}, ${action.z})`;

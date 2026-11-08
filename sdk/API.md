@@ -266,6 +266,7 @@
 | `async sendTalkToNpc(npcIndex: number): Promise<ActionResult>` | Talk to an NPC by index. |
 | `async sendPickup(x: number, z: number, itemId: number): Promise<ActionResult>` | Pick up a ground item. |
 | `async sendUseItem(slot: number, option: number = 1, interfaceId?: number): Promise<ActionResult>` | Use an inventory item (eat, equip, etc). `interfaceId` selects which inventory component holds the item. The main inventory (3214, the default) dispatches OPHELD1-5; any other component (trade offer, bank side inventory, ...) dispatches INV_BUTTON1-5, which is the packet family the engine actually handles for interface-defined item options - OPHELD with a foreign component id is silently dropped. |
+| `async sendUseInterfaceItem(componentId: number, slot: number, option: number = 1): Promise<ActionResult>` | Use an item's own option on any inventory component (OPHELD), the way the right-click menu does. For grids whose items answer to their own options, e.g. Monkey Madness's sliding puzzle: read the slots from `state.interfaceInventories`, then `sdk.sendUseInterfaceItem(grid.componentId, slot, 5)`. `sendUseItem(slot, option, interfaceId)` and `sendClickComponentWithOption` send INV_BUTTON instead, the component's option: bank, shop and trade grids. Success means the packet went out; the server may still ignore it. |
 | `async sendUseEquipmentItem(slot: number, option: number = 1): Promise<ActionResult>` | Use an equipped item (remove, operate, etc). |
 | `async sendDropItem(slot: number): Promise<ActionResult>` | Drop an inventory item. |
 | `async sendUseItemOnItem(sourceSlot: number, targetSlot: number): Promise<ActionResult>` | Use one inventory item on another. Rejected up front while a shop or bank modal is open: those replace the inventory tab, so the server drops the packet as "component not visible" and sends no message at all. Close the modal first — `bot.closeShop()`, `bot.closeInterface()`, or `sendCloseModal()`. |
@@ -565,6 +566,8 @@ interface BotWorldState {
   ge?: GEState | null;
   modalOpen: boolean;
   modalInterface: number;
+  /** Item grids in the open main modal (e.g. a puzzle's pieces); grids over 64 slots are left out. */
+  interfaceInventories?: InterfaceInventory[];
   combatStyle?: CombatStyleState;
   combatEvents: CombatEvent[];
   prayers: PrayerState;

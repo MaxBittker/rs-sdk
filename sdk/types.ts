@@ -279,6 +279,14 @@ export interface InterfaceState {
     options: InterfaceOption[];
 }
 
+/** An item grid inside the open interface. `items` lists only the non-empty slots. */
+export interface InterfaceInventory {
+    /** Pass to `sendUseInterfaceItem`. */
+    componentId: number;
+    size: number;
+    items: Array<{ slot: number; id: number; name: string; count: number }>;
+}
+
 /** A clickable viewport-interface option as published in world state. */
 export interface InterfaceOption {
     /**
@@ -596,6 +604,8 @@ export interface BotWorldState {
     ge?: GEState | null;
     modalOpen: boolean;
     modalInterface: number;
+    /** Item grids in the open main modal (e.g. a puzzle's pieces); grids over 64 slots are left out. */
+    interfaceInventories?: InterfaceInventory[];
     combatStyle?: CombatStyleState;
     combatEvents: CombatEvent[];
     prayers: PrayerState;
@@ -628,6 +638,7 @@ export type BotAction =
     | { type: 'randomizeCharacterDesign'; reason: string }
     | { type: 'walkTo'; x: number; z: number; running?: boolean; reason: string }
     | { type: 'useInventoryItem'; slot: number; optionIndex: number; interfaceId?: number; reason: string }
+    | { type: 'useInterfaceItem'; componentId: number; slot: number; optionIndex: number; reason: string }
     | { type: 'useEquipmentItem'; slot: number; optionIndex: number; reason: string }
     | { type: 'dropItem'; slot: number; reason: string }
     | { type: 'pickupItem'; x: number; z: number; itemId: number; reason: string }
