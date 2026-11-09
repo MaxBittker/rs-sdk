@@ -78,6 +78,29 @@ const ONE_WAY_DOORS = new Set<string>([
     '0,2931,9640', // Melzar's Maze basement 'funexit' door — only opens from the maze side
 ]);
 
+// LocShape.WALL_DIAGONAL: a diagonal door blocks its whole tile like a 1x1
+// loc rather than setting wall flags, so it is masked with changeLoc.
+const WALL_DIAGONAL = 9;
+
+// Where an opened diagonal door ends up, by its closed angle (west, north,
+// east, south): ~door_open in door_procs.rs2. The open door is a 1x1 loc on
+// that neighbour, so the doorway is free but that tile is not.
+const DIAGONAL_DOOR_OPEN_OFFSET: ReadonlyArray<readonly [number, number]> = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+
+/**
+ * Switch a door between closed (add=true) and open (add=false) collision.
+ * The SDK's default model is every door open.
+ */
+function setDoorCollision(door: DoorInfo, add: boolean): void {
+    if (door.shape === WALL_DIAGONAL) {
+        const [dx, dz] = DIAGONAL_DOOR_OPEN_OFFSET[door.angle & 3]!;
+        rsmod.changeLoc(door.x, door.z, door.level, 1, 1, door.blockrange, false, add);
+        rsmod.changeLoc(door.x + dx, door.z + dz, door.level, 1, 1, door.blockrange, false, !add);
+    } else {
+        rsmod.changeWall(door.x, door.z, door.level, door.angle, door.shape, door.blockrange, false, add);
+    }
+}
+
 function doorKey(level: number, x: number, z: number): string {
     return `${level},${x},${z}`;
 }
@@ -117,8 +140,8 @@ export function initPathfinding(): void {
 
     // Remove wall collision at door/gate positions so the pathfinder
     // routes through doorways while still respecting permanent walls.
-    // Uses rsmod.changeWall(add=false) — the same method the server uses
-    // when doors are opened at runtime.
+    // Uses rsmod.changeWall/changeLoc(add=false) — the same methods the server
+    // uses when doors are opened at runtime.
     let doorCount = 0;
     let skippedOneWay = 0;
     if (data.doors) {
@@ -132,10 +155,9 @@ export function initPathfinding(): void {
                 continue;
             }
 
-            rsmod.changeWall(x, z, level, angle, shape, !!blockrange, false, false);
-            doorIndex.set(key, {
-                level, x, z, shape, angle, blockrange: !!blockrange
-            });
+            const door: DoorInfo = { level, x, z, shape, angle, blockrange: !!blockrange };
+            setDoorCollision(door, false);
+            doorIndex.set(key, door);
             doorCount++;
         }
     }
@@ -172,11 +194,7 @@ export function findLongPath(
     const applied: DoorInfo[] = [];
     try {
         for (const door of blockedDoors) {
-            rsmod.changeWall(
-                door.x, door.z, door.level,
-                door.angle, door.shape, door.blockrange,
-                false, true
-            );
+            setDoorCollision(door, true);
             applied.push(door);
         }
 
@@ -188,11 +206,7 @@ export function findLongPath(
         return unpackWaypoints(waypointsRaw);
     } finally {
         for (const door of applied) {
-            rsmod.changeWall(
-                door.x, door.z, door.level,
-                door.angle, door.shape, door.blockrange,
-                false, false
-            );
+            setDoorCollision(door, false);
         }
     }
 }

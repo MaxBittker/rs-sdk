@@ -33,6 +33,13 @@ async function fetchCollisionData(server: string, force: boolean) {
         throw new Error(`${url} returned an empty body`);
     }
 
+    // A server older than the diagonal-door export (shape 9) silently omits
+    // those doors, which would put walls back across e.g. the Wizards' Tower.
+    const doors: number[][] = JSON.parse(new TextDecoder().decode(body)).doors ?? [];
+    if (!doors.some(d => d[3] === 9)) {
+        throw new Error(`${url} exported no diagonal doors - that server predates the diagonal-door export; refresh from one running current main`);
+    }
+
     await writeFile(OUTPUT_PATH, new Uint8Array(body));
     const mb = (body.byteLength / 1_000_000).toFixed(1);
     console.log(`Wrote ${OUTPUT_PATH} (${mb}MB)`);

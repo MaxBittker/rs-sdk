@@ -5,10 +5,11 @@ import { unzipSync } from 'fflate';
 // routefinder. Read collision from that module so the export reflects the actual
 // collision state the engine populates at startup (the WASM is no longer fed).
 import * as rsmod from '#/engine/routefinder/index.js';
-import { CollisionFlag, LocLayer } from '#/engine/routefinder/index.js';
+import { CollisionFlag } from '#/engine/routefinder/index.js';
 import LocType from '#/cache/config/LocType.js';
 import Packet from '#/io/Packet.js';
 import Environment from '#/util/Environment.js';
+import { type DoorEntry, scanMapsquareDoors } from '#/web/pages/collision-doors.js';
 
 export async function handleScreenshotUpload(req: Request, url: URL): Promise<Response | null> {
     if (url.pathname !== '/api/screenshot' || req.method !== 'POST') {
@@ -168,87 +169,17 @@ export function handleExportCollisionApi(req: Request, url: URL): Response | nul
 
         console.log(`Exported ${tiles.length} tiles with collision, ${zones.length} zones allocated`);
 
-        // Scan loc map files for doors/gates (wall-shaped locs with "Open" option).
-        // The SDK uses this list to remove wall collision at door positions,
-        // so the pathfinder routes through doorways but respects permanent walls.
-        const doors: Array<[number, number, number, number, number, number]> = [];
-        const MAPSQUARE_SIZE = 64;
-        const LINK_BELOW = 0x2;
-
+        // Scan loc map files for doors/gates (wall-shaped locs with "Open" option,
+        // including diagonal ones - see isRoutableDoor). The SDK uses this list to
+        // remove the door's collision, so the pathfinder routes through doorways but
+        // respects permanent walls.
+        const doors: DoorEntry[] = [];
         for (const [mx, mz] of mapsquares) {
-            const mapsquareX = mx << 6;
-            const mapsquareZ = mz << 6;
-
-            // Parse loc file (same format as GameMap.loadLocations). Skip squares with
-            // no loc data in either source — nothing to scan for doors.
+            // Skip squares with no loc data in either source — nothing to scan for doors.
             const locPacket = loadMapPacket('l', mx, mz);
             if (!locPacket) continue;
-
-            // Load ground data for bridge level adjustments (same as GameMap.loadGround)
-            const lands = new Int8Array(4 * MAPSQUARE_SIZE * MAPSQUARE_SIZE);
             const groundPacket = loadMapPacket('m', mx, mz) ?? new Packet(new Uint8Array());
-            for (let level = 0; level < LEVELS; level++) {
-                for (let x = 0; x < MAPSQUARE_SIZE; x++) {
-                    for (let z = 0; z < MAPSQUARE_SIZE; z++) {
-                        while (true) {
-                            const opcode = groundPacket.g1();
-                            if (opcode === 0) break;
-                            if (opcode === 1) { groundPacket.pos++; break; }
-                            if (opcode <= 49) { groundPacket.pos++; }
-                            else if (opcode <= 81) {
-                                lands[(z & 0x3f) | ((x & 0x3f) << 6) | ((level & 0x3) << 12)] = opcode - 49;
-                            }
-                        }
-                    }
-                }
-            }
-
-            let locId = -1;
-            let locIdOffset = locPacket.gsmarts();
-            while (locIdOffset !== 0) {
-                locId += locIdOffset;
-
-                let coord = 0;
-                let coordOffset = locPacket.gsmarts();
-
-                while (coordOffset !== 0) {
-                    coord += coordOffset - 1;
-                    const localZ = coord & 0x3f;
-                    const localX = (coord >> 6) & 0x3f;
-                    const level = (coord >> 12) & 0x3;
-
-                    const info = locPacket.g1();
-                    coordOffset = locPacket.gsmarts();
-
-                    const absoluteX = localX + mapsquareX;
-                    const absoluteZ = localZ + mapsquareZ;
-
-                    // Bridge level adjustment (same as GameMap.loadLocations)
-                    const bridged = (level === 1
-                        ? lands[coord] & LINK_BELOW
-                        : lands[(localZ & 0x3f) | ((localX & 0x3f) << 6) | ((1 & 0x3) << 12)] & LINK_BELOW
-                    ) === LINK_BELOW;
-                    const actualLevel = bridged ? level - 1 : level;
-                    if (actualLevel < 0) continue;
-
-                    const shape = info >> 2;
-                    const angle = info & 0x3;
-                    const locLayer = rsmod.locShapeLayer(shape);
-
-                    // Only interested in wall-shaped locs that are doors/gates
-                    if (locLayer !== LocLayer.WALL) continue;
-
-                    const type = LocType.get(locId);
-                    if (!type || !type.blockwalk) continue;
-
-                    // Check if this loc has an "Open" interaction option
-                    const hasOpen = type.op?.some((o: string | null) => o && /^open$/i.test(o));
-                    if (!hasOpen) continue;
-
-                    doors.push([actualLevel, absoluteX, absoluteZ, shape, angle, type.blockrange ? 1 : 0]);
-                }
-                locIdOffset = locPacket.gsmarts();
-            }
+            doors.push(...scanMapsquareDoors(mx, mz, locPacket, groundPacket, id => LocType.get(id)));
         }
 
         console.log(`Found ${doors.length} openable doors/gates`);
