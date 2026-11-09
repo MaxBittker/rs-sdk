@@ -116,6 +116,16 @@ export default class GameMap {
         return this.zonemap.zoneByIndex(zoneIndex);
     }
 
+    // rs-sdk: look up a zone without creating it (world feed snapshots).
+    findZoneIndex(zoneIndex: number): Zone | undefined {
+        return this.zonemap.findByIndex(zoneIndex);
+    }
+
+    // rs-sdk: every zone created so far (world feed index of zones that can have state).
+    allZones(): IterableIterator<Zone> {
+        return this.zonemap.all();
+    }
+
     getZoneGrid(level: number): ZoneGrid {
         return this.zonemap.grid(level);
     }

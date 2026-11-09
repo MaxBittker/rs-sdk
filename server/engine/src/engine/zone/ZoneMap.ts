@@ -41,6 +41,16 @@ export default class ZoneMap {
         return zone;
     }
 
+    // rs-sdk: look up a zone without creating it (world feed snapshots).
+    findByIndex(index: number): Zone | undefined {
+        return this.zones.get(index);
+    }
+
+    // rs-sdk: every zone created so far (world feed index of zones that can have state).
+    all(): IterableIterator<Zone> {
+        return this.zones.values();
+    }
+
     grid(level: number): ZoneGrid {
         let grid: ZoneGrid | undefined = this.grids.get(level);
         if (typeof grid == 'undefined') {

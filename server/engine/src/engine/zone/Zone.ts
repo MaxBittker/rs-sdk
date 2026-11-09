@@ -75,6 +75,15 @@ export default class Zone {
         return this.objsCount;
     }
 
+    // rs-sdk: read-only views of this tick's zone events for the world feed (web/worldfeed.ts).
+    get queuedEvents(): ReadonlySet<ZoneEvent> {
+        return this.events;
+    }
+
+    queuedEventsOf(entity: NonPathingEntity): readonly ZoneEvent[] | undefined {
+        return this.entityEvents.get(entity);
+    }
+
     enter(entity: PathingEntity): void {
         if (entity instanceof Player) {
             this.players.addTail(entity);
