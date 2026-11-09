@@ -74,7 +74,7 @@ mock.module('#/client/MobileKeyboard.js', () => ({
 };
 
 const { Client } = await import('../client/Client.js');
-const { interactPlayer: liteInteractPlayer } = await import('../lite/actions.js');
+const { interactPlayer: liteInteractPlayer, spellOnLoc: liteSpellOnLoc } = await import('../lite/actions.js');
 const { default: LocType } = await import('#/config/LocType.js');
 const { default: ObjType } = await import('#/config/ObjType.js');
 const { default: IfType } = await import('#/config/IfType.js');
@@ -737,6 +737,66 @@ describe('loc routing', () => {
         expect(opcodes).toEqual([ClientProt.OPLOCU]);
         expect(payload).toEqual([2512, 3468, 1996, 954, 0, 3214]);
     });
+
+    function spellOnLocClient(opcodes: number[], payload: number[]) {
+        return {
+            ingame: true,
+            out: { p2: (value: number) => payload.push(value) },
+            localPlayer: { routeX: [12], routeZ: [8] },
+            mapBuildBaseX: 2720,
+            mapBuildBaseZ: 9280,
+            routeToLoc: () => false,
+            writePacketOpcode: (opcode: number) => opcodes.push(opcode)
+        };
+    }
+
+    test('spellOnLoc dispatches OPLOCT (x, z, loc, spellCom) even when routing fails', () => {
+        // Legends' Quest: Charge Water Orb (magic:water_orb) on the Ancient Gate (lgmagictrialgateclosed).
+        defineLoc(2930, {});
+        LocType.numDefinitions = 5000;
+        const opcodes: number[] = [];
+        const payload: number[] = [];
+
+        const result = Client.prototype.spellOnLoc.call(spellOnLocClient(opcodes, payload) as never, 2762, 9313, 2930, 1179);
+
+        expect(result).toEqual({ success: true, routed: false });
+        expect(opcodes).toEqual([ClientProt.OPLOCT]);
+        expect(payload).toEqual([2762, 9313, 2930, 1179]);
+    });
+
+    test('spellOnLoc refuses unknown loc ids and out-of-scene tiles without sending', () => {
+        defineLoc(2930, {});
+        LocType.numDefinitions = 5000;
+        const opcodes: number[] = [];
+        const payload: number[] = [];
+        const client = spellOnLocClient(opcodes, payload) as never;
+
+        expect(Client.prototype.spellOnLoc.call(client, 2762, 9313, 5000, 1179)).toEqual({ success: false, reason: 'invalid_target' });
+        expect(Client.prototype.spellOnLoc.call(client, 2762, 9313, -1, 1179)).toEqual({ success: false, reason: 'invalid_target' });
+        expect(Client.prototype.spellOnLoc.call(client, 2762, 9313, 1.5, 1179)).toEqual({ success: false, reason: 'invalid_target' });
+        expect(Client.prototype.spellOnLoc.call(client, 3200, 3200, 2930, 1179)).toEqual({ success: false, reason: 'out_of_scene' });
+        expect(opcodes).toEqual([]);
+        expect(payload).toEqual([]);
+    });
+});
+
+test('action bridge dispatches spellOnLoc through the lite client', () => {
+    const opcodes: number[] = [], payload: number[] = [];
+    LocType.numDefinitions = 5000;
+    const client: any = {
+        isInGame: () => true,
+        localPlayer: { routeX: [12], routeZ: [8] },
+        toSceneTile: (x: number, z: number) => ({ x: x - 2720, z: z - 9280 }),
+        routeToLoc: () => true,
+        writeOpcode: (op: number) => opcodes.push(op),
+        out: { p2: (v: number) => payload.push(v) }
+    };
+    client.spellOnLoc = (x: number, z: number, loc: number, spell: number) => liteSpellOnLoc(client, x, z, loc, spell);
+    client.projectTileToScreen = () => null;
+    const result = new ActionExecutor(client).execute({ type: 'spellOnLoc', x: 2762, z: 9313, locId: 2930, spellComponent: 1179, reason: 'test' });
+    expect(result).toMatchObject({ success: true, phase: 'dispatch' });
+    expect(opcodes).toEqual([ClientProt.OPLOCT]);
+    expect(payload).toEqual([2762, 9313, 2930, 1179]);
 });
 
 test('Lite stationary ranged attack does not invoke movement or collision rebuilding',()=>{

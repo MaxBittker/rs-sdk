@@ -778,6 +778,9 @@ export class LiteClient {
     spellOnItem(slot: number, spellComponent: number, interfaceId?: number): boolean {
         return A.spellOnItem(this, slot, spellComponent, interfaceId);
     }
+    spellOnLoc(worldX: number, worldZ: number, locId: number, spellComponent: number): ClientActionResult {
+        return A.spellOnLoc(this, worldX, worldZ, locId, spellComponent);
+    }
     spellOnGroundItem(worldX: number, worldZ: number, itemId: number, spellComponent: number): ClientActionResult {
         // OPOBJT: same shape as the ground-item ops but with a spell component.
         const dest = this.toSceneTile(worldX, worldZ);
