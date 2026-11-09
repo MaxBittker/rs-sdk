@@ -1,11 +1,27 @@
 import type { ServerWebSocket } from 'bun';
 
+import { EntityLifeCycle } from '#/engine/entity/EntityLifeCycle.js';
 import Npc from '#/engine/entity/Npc.js';
+import Obj from '#/engine/entity/Obj.js';
 import Player from '#/engine/entity/Player.js';
 import { NpcStat } from '#/engine/entity/NpcStat.js';
 import { PlayerStat } from '#/engine/entity/PlayerStat.js';
 import World from '#/engine/World.js';
+import Zone from '#/engine/zone/Zone.js';
+import ZoneEvent from '#/engine/zone/ZoneEvent.js';
+import { ZoneEventType } from '#/engine/zone/ZoneEventType.js';
+import ZoneMap from '#/engine/zone/ZoneMap.js';
 import Packet from '#/io/Packet.js';
+import LocAddChange from '#/network/game/server/model/LocAddChange.js';
+import LocAnim from '#/network/game/server/model/LocAnim.js';
+import LocDel from '#/network/game/server/model/LocDel.js';
+import LocMerge from '#/network/game/server/model/LocMerge.js';
+import MapAnim from '#/network/game/server/model/MapAnim.js';
+import MapProjAnim from '#/network/game/server/model/MapProjAnim.js';
+import ObjAdd from '#/network/game/server/model/ObjAdd.js';
+import ObjCount from '#/network/game/server/model/ObjCount.js';
+import ObjDel from '#/network/game/server/model/ObjDel.js';
+import ObjReveal from '#/network/game/server/model/ObjReveal.js';
 import { NpcInfoProt, PlayerInfoProt } from '#/network/rsbuf/prot.js';
 import { Visibility } from '#/network/rsbuf/visibility.js';
 import Environment from '#/util/Environment.js';
@@ -30,7 +46,7 @@ import type { WebSocketData } from './websocket.js';
 //   client -> {t:'sub', x, z, w, h}     subscribe to tiles [x, x+w) x [z, z+h), all levels
 //             {t:'roster', on}          toggle the all-player roster
 //   server -> {t:'hello', v, rev, tick, tickMs, players}
-//             {t:'tick', k, ms, p?, n?, rp?, rn?, reset?}  once per tick while subscribed
+//             {t:'tick', k, ms, p?, n?, rp?, rn?, reset?, w?}  once per tick while subscribed
 //             {t:'roster', k, p: [[slot, name, x, z, level, combat], ...], npcs}
 //
 // Entity records (keys only present when relevant):
@@ -46,8 +62,22 @@ import type { WebSocketData } from './websocket.js';
 //   hm    [[damage, type], ...] with hp [current, max]
 //   sy    forced overhead text   ch  public chat text (players), cc [colour, effect]
 //   em    exact move [startX, startZ, endX, endZ, startCycle, endCycle, facing]
+//
+// Zone records (w, v2): what every player sees of the engine's 8x8 zones that is not a player
+// or npc. Absolute tiles x, z and level l; apply in order. Per subscriber the server holds an
+// area: every zone the rect touches, on all levels. Spec: WORLD-FEED-ZONES.md.
+//   za    {x, z, w, h, r?} held area (zone-aligned tiles, all levels), first in w when it changes:
+//         zones newly held start at the cache default, zones outside are dropped (r = reset:
+//         every zone in it starts again). The state of the newly held zones that have any follows
+//         (la/ld/oa), then their events of this tick.
+//   la    {x, z, l, id, s, r} loc add/change    ld  {x, z, l, s, r} loc del
+//   an    {x, z, l, s, r, q} loc anim           lm  {x, z, l, id, s, r, sc, ec, p, bx} loc merge
+//   oa    {x, z, l, id, n} public obj add/reveal  od  {x, z, l, id}  oc  {x, z, l, id, n0, n}
+//   ma    {x, z, l, id, h, d} map anim
+//   pj    {x, z, l, dx, dz, tg, id, sh, dh, sd, ed, pk, ar} projectile (dx, dz absolute destination)
+// Private objs (receiver is one player) are never sent; a reveal is an add.
 
-const WORLD_FEED_VERSION = 1;
+const WORLD_FEED_VERSION = 2;
 const MAX_RECT_SIZE = 384;
 const MAX_BUFFERED_BYTES = 1 << 20;
 const ROSTER_INTERVAL_TICKS = 10;
@@ -83,7 +113,12 @@ type Subscriber = {
     resync: boolean;
     players: Map<number, KnownEntity>;
     npcs: Map<number, KnownEntity>;
+    // The held area (zone units) and whether 'sub' may have changed it.
+    area: ZoneArea | null;
+    areaDirty: boolean;
 };
+
+type ZoneArea = { x0: number; z0: number; x1: number; z1: number };
 
 const subscribers: Map<ServerWebSocket<WebSocketData>, Subscriber> = new Map();
 const appearanceBase64: Map<number, { buf: Uint8Array; b64: string }> = new Map();
@@ -95,6 +130,17 @@ const playerBuckets: Map<number, Player[]> = new Map();
 const npcBuckets: Map<number, Npc[]> = new Map();
 const recordJson: Map<Player | Npc, RecordJson> = new Map();
 let activeNpcs = 0;
+
+// Per tick, shared by all subscribers: a zone's event records and a zone's snapshot records
+// (comma-joined JSON; '' = nothing to send).
+const zoneEventsJson: Map<Zone, string> = new Map();
+const zoneSnapshotJson: Map<Zone, string> = new Map();
+
+// Zones that can differ from the cache default: those with static objs, plus every zone that had
+// an event (kept while the feed is on, pruned when a snapshot finds it back at default). A gained
+// area only snapshots these, so empty zones cost nothing and are never created.
+const stateZones: Set<Zone> = new Set();
+let stateZonesBuilt = false;
 
 function isEnabled(): boolean {
     return Environment.WORLD_FEED;
@@ -135,7 +181,9 @@ export function onWorldFeedOpen(ws: ServerWebSocket<WebSocketData>): void {
         roster: false,
         resync: false,
         players: new Map(),
-        npcs: new Map()
+        npcs: new Map(),
+        area: null,
+        areaDirty: false
     });
 
     send(ws, {
@@ -176,6 +224,7 @@ export function onWorldFeedMessage(ws: ServerWebSocket<WebSocketData>, message: 
         sub.x1 = x + w;
         sub.z1 = z + h;
         sub.subscribed = w > 0 && h > 0;
+        sub.areaDirty = true;
     } else if (msg.t === 'roster') {
         sub.roster = msg.on === true;
     }
@@ -187,6 +236,9 @@ export function onWorldFeedClose(ws: ServerWebSocket<WebSocketData>): void {
 }
 
 export function cycleWorldFeed(): void {
+    if (isEnabled()) {
+        indexStateZones();
+    }
     expireIdleSubscribers(Date.now());
     if (subscribers.size === 0) {
         return;
@@ -212,6 +264,8 @@ export function cycleWorldFeed(): void {
     try {
         buildBuckets();
         recordJson.clear();
+        zoneEventsJson.clear();
+        zoneSnapshotJson.clear();
 
         let roster: string | null = null;
         if (rosterDue) {
@@ -232,6 +286,8 @@ export function cycleWorldFeed(): void {
         printError(err as Error);
     } finally {
         recordJson.clear();
+        zoneEventsJson.clear();
+        zoneSnapshotJson.clear();
     }
 
     const elapsed = Date.now() - start;
@@ -342,13 +398,254 @@ function cycleSubscriber(sub: Subscriber, tick: number, tickMs: number): void {
     const removedPlayers = removeUnseen(sub.players, tick);
     const removedNpcs = removeUnseen(sub.npcs, tick);
 
+    const zoneRecords: string[] = [];
+    cycleZones(sub, reset, zoneRecords);
+
     let msg = `{"t":"tick","k":${tick},"ms":${tickMs}`;
     if (reset) msg += ',"reset":1';
     if (players.length > 0) msg += `,"p":[${players.join(',')}]`;
     if (npcs.length > 0) msg += `,"n":[${npcs.join(',')}]`;
     if (removedPlayers.length > 0) msg += `,"rp":[${removedPlayers.join(',')}]`;
     if (removedNpcs.length > 0) msg += `,"rn":[${removedNpcs.join(',')}]`;
+    if (zoneRecords.length > 0) msg += `,"w":[${zoneRecords.join(',')}]`;
     send(sub.ws, msg + '}');
+}
+
+// The held area changes only on 'sub' (or a reset). Every tick only the zones the engine
+// tracked a change in are visited, and a gained area only snapshots the zones in stateZones.
+function cycleZones(sub: Subscriber, reset: boolean, out: string[]): void {
+    let gained = false;
+    let before: ZoneArea | null = sub.area;
+    if (sub.areaDirty || reset) {
+        sub.areaDirty = false;
+        const next = rectArea(sub);
+        const prev = sub.area;
+        if (reset || !prev || prev.x0 !== next.x0 || prev.z0 !== next.z0 || prev.x1 !== next.x1 || prev.z1 !== next.z1) {
+            const r = reset ? ',"r":1' : '';
+            out.push(`{"e":"za","x":${next.x0 << 3},"z":${next.z0 << 3},"w":${(next.x1 - next.x0) << 3},"h":${(next.z1 - next.z0) << 3}${r}}`);
+            gained = true;
+            before = reset ? null : prev;
+            sub.area = next;
+        }
+    }
+
+    const area = sub.area;
+    if (!area || area.x1 <= area.x0 || area.z1 <= area.z0) {
+        return;
+    }
+
+    for (const zone of World.zonesTracking) {
+        if (!inArea(area, zone) || (gained && !inArea(before, zone))) {
+            continue;
+        }
+        const json = getZoneEventsJson(zone);
+        if (json) {
+            out.push(json);
+        }
+    }
+
+    if (gained) {
+        // Zones new to the viewer: their state, then their events of this tick.
+        const areaZones = (area.x1 - area.x0) * (area.z1 - area.z0) * 4;
+        if (stateZones.size <= areaZones) {
+            for (const zone of stateZones) {
+                if (inArea(area, zone) && !inArea(before, zone)) {
+                    pushGainedZone(zone, out);
+                }
+            }
+        } else {
+            for (let level = 0; level < 4; level++) {
+                for (let zx = area.x0; zx < area.x1; zx++) {
+                    for (let zz = area.z0; zz < area.z1; zz++) {
+                        const zone = World.gameMap.findZoneIndex(ZoneMap.zoneIndex(zx << 3, zz << 3, level));
+                        if (zone && stateZones.has(zone) && !inArea(before, zone)) {
+                            pushGainedZone(zone, out);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+function pushGainedZone(zone: Zone, out: string[]): void {
+    const snapshot = getZoneSnapshotJson(zone);
+    if (snapshot) {
+        out.push(snapshot);
+    }
+    if (World.zonesTracking.has(zone)) {
+        const json = getZoneEventsJson(zone);
+        if (json) {
+            out.push(json);
+        }
+    }
+}
+
+// Every zone (all levels) that overlaps the rect, in zone units [x0, x1) x [z0, z1).
+function rectArea(sub: Subscriber): ZoneArea {
+    const x0 = Math.max(sub.x0, 0) >> 3;
+    const z0 = Math.max(sub.z0, 0) >> 3;
+    const x1 = (Math.min(sub.x1 - 1, 0x3fff) >> 3) + 1;
+    const z1 = (Math.min(sub.z1 - 1, 0x3fff) >> 3) + 1;
+    return { x0, z0, x1: Math.max(x1, x0), z1: Math.max(z1, z0) };
+}
+
+function inArea(area: ZoneArea | null, zone: Zone): boolean {
+    return area !== null && zone.x >= area.x0 && zone.x < area.x1 && zone.z >= area.z0 && zone.z < area.z1;
+}
+
+// Keeps stateZones up to date: zones with static objs once, then every zone with an event.
+function indexStateZones(): void {
+    if (!stateZonesBuilt) {
+        stateZonesBuilt = true;
+        for (const zone of World.gameMap.allZones()) {
+            if (zone.totalObjs > 0) {
+                stateZones.add(zone);
+            }
+        }
+    }
+    for (const zone of World.zonesTracking) {
+        stateZones.add(zone);
+    }
+}
+
+// Same rules as Zone.writeFullFollows for a player who owns no objs: public objs only, and
+// skipping anything updated this tick (this tick's events follow the snapshot).
+function getZoneSnapshotJson(zone: Zone): string {
+    let json = zoneSnapshotJson.get(zone);
+    if (json !== undefined) {
+        return json;
+    }
+    json = '';
+    const l = zone.level;
+    for (const obj of zone.getAllObjsUnsafe()) {
+        if (!obj.isActive || obj.receiver64 !== Obj.NO_RECEIVER || objUpdatedThisTick(zone, obj)) {
+            continue;
+        }
+        if (obj.lifecycle === EntityLifeCycle.DESPAWN || obj.lifecycle === EntityLifeCycle.RESPAWN) {
+            json += `${json ? ',' : ''}{"e":"oa","x":${obj.x},"z":${obj.z},"l":${l},"id":${obj.type},"n":${obj.count}}`;
+        }
+    }
+    const currentTick = World.currentTick;
+    for (const loc of zone.getAllLocsUnsafe()) {
+        if (loc.lastLifecycleTick === currentTick) {
+            continue;
+        }
+        if (loc.lifecycle === EntityLifeCycle.RESPAWN && !loc.isActive) {
+            json += `${json ? ',' : ''}{"e":"ld","x":${loc.x},"z":${loc.z},"l":${l},"s":${loc.shape},"r":${loc.angle}}`;
+        } else if ((loc.lifecycle === EntityLifeCycle.DESPAWN && loc.isActive) || (loc.lifecycle === EntityLifeCycle.RESPAWN && loc.isChanged())) {
+            json += `${json ? ',' : ''}{"e":"la","x":${loc.x},"z":${loc.z},"l":${l},"id":${loc.type},"s":${loc.shape},"r":${loc.angle}}`;
+        }
+    }
+    if (!json && zone.totalObjs === 0 && !World.zonesTracking.has(zone)) {
+        // Back to the cache default; an event puts it back in the index.
+        stateZones.delete(zone);
+    }
+    zoneSnapshotJson.set(zone, json);
+    return json;
+}
+
+// Zone.updatedThisTick as seen by a spectator, who is never the receiver of a private obj.
+function objUpdatedThisTick(zone: Zone, obj: Obj): boolean {
+    const events = zone.queuedEventsOf(obj);
+    if (!events) {
+        return false;
+    }
+    for (const event of events) {
+        const message = event.message;
+        if (message instanceof ObjDel || message instanceof ObjReveal || (message instanceof ObjAdd && (event.type === ZoneEventType.ENCLOSED || event.receiver64 === Obj.NO_RECEIVER))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// This tick's public events in the order a client applies them: enclosed, then follows.
+function getZoneEventsJson(zone: Zone): string {
+    let json = zoneEventsJson.get(zone);
+    if (json !== undefined) {
+        return json;
+    }
+    const records: string[] = [];
+    for (const type of [ZoneEventType.ENCLOSED, ZoneEventType.FOLLOWS]) {
+        for (const event of zone.queuedEvents) {
+            if (event.type !== type) {
+                continue;
+            }
+            const record = zoneEventRecord(zone, event);
+            if (record) {
+                records.push(JSON.stringify(record));
+            }
+        }
+    }
+    json = records.join(',');
+    zoneEventsJson.set(zone, json);
+    return json;
+}
+
+function zoneEventRecord(zone: Zone, event: ZoneEvent): FeedRecord | null {
+    // Enclosed events are shared with every player in view; follows only when public.
+    if (event.type === ZoneEventType.FOLLOWS && event.receiver64 !== Obj.NO_RECEIVER) {
+        return null;
+    }
+    const message = event.message;
+    const l = zone.level;
+    if (message instanceof LocAddChange) {
+        return { e: 'la', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.loc, s: message.shape, r: message.angle };
+    } else if (message instanceof LocDel) {
+        return { e: 'ld', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, s: message.shape, r: message.angle };
+    } else if (message instanceof LocAnim) {
+        return { e: 'an', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, s: message.shape, r: message.angle, q: message.seq };
+    } else if (message instanceof LocMerge) {
+        return {
+            e: 'lm',
+            x: message.srcX,
+            z: message.srcZ,
+            l,
+            id: message.locId,
+            s: message.shape,
+            r: message.angle,
+            sc: message.startCycle,
+            ec: message.endCycle,
+            p: message.playerSlot,
+            bx: [message.east, message.south, message.west, message.north]
+        };
+    } else if (message instanceof ObjAdd || message instanceof ObjReveal) {
+        // for everyone but the owner (and so for a spectator) a reveal is an add
+        return { e: 'oa', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.obj, n: message.count };
+    } else if (message instanceof ObjDel) {
+        return { e: 'od', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.obj };
+    } else if (message instanceof ObjCount) {
+        return { e: 'oc', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.obj, n0: message.oldCount, n: message.newCount };
+    } else if (message instanceof MapAnim) {
+        return { e: 'ma', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.spotanim, h: message.height, d: message.delay };
+    } else if (message instanceof MapProjAnim) {
+        return {
+            e: 'pj',
+            x: message.srcX,
+            z: message.srcZ,
+            l,
+            dx: message.dstX,
+            dz: message.dstZ,
+            tg: message.target,
+            id: message.spotanim,
+            sh: message.srcHeight,
+            dh: message.dstHeight,
+            sd: message.startDelay,
+            ed: message.endDelay,
+            pk: message.peak,
+            ar: message.arc
+        };
+    }
+    return null;
+}
+
+function zoneTileX(zone: Zone, coord: number): number {
+    return (zone.x << 3) | ((coord >> 4) & 0x7);
+}
+
+function zoneTileZ(zone: Zone, coord: number): number {
+    return (zone.z << 3) | (coord & 0x7);
 }
 
 // Updates what the subscriber knows about an entity and returns its record for this tick.
