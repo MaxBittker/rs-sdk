@@ -71,11 +71,14 @@ import type { WebSocketData } from './websocket.js';
 //         every zone in it starts again). The state of the newly held zones that have any follows
 //         (la/ld/oa), then their events of this tick.
 //   la    {x, z, l, id, s, r} loc add/change    ld  {x, z, l, s, r} loc del
-//   an    {x, z, l, s, r, q} loc anim           lm  {x, z, l, id, s, r, sc, ec, p, bx} loc merge
+//   an    {x, z, l, s, r, q, sp?} loc anim      lm  {x, z, l, id, s, r, sc, ec, p, bx} loc merge
+//         sp = 1: a spin (cannon): the loc steps to the next seq of its cycle every tick by itself
+//         until an `an` with q = -1 (stop) or the loc changes; the steps are not sent.
 //   oa    {x, z, l, id, n} public obj add/reveal  od  {x, z, l, id}  oc  {x, z, l, id, n0, n}
 //   ma    {x, z, l, id, h, d} map anim
 //   pj    {x, z, l, dx, dz, tg, id, sh, dh, sd, ed, pk, ar} projectile (dx, dz absolute destination)
 // Private objs (receiver is one player) are never sent; a reveal is an add.
+// Zone records are opt-in: only a 'sub' with zones: true gets w.
 
 const WORLD_FEED_VERSION = 2;
 const MAX_RECT_SIZE = 384;
@@ -113,6 +116,8 @@ type Subscriber = {
     resync: boolean;
     players: Map<number, KnownEntity>;
     npcs: Map<number, KnownEntity>;
+    // Zone records are opt-in ('sub' with zones: true); without them no zone work is done.
+    zones: boolean;
     // The held area (zone units) and whether 'sub' may have changed it.
     area: ZoneArea | null;
     areaDirty: boolean;
@@ -141,6 +146,15 @@ const zoneSnapshotJson: Map<Zone, string> = new Map();
 // area only snapshots these, so empty zones cost nothing and are never created.
 const stateZones: Set<Zone> = new Set();
 let stateZonesBuilt = false;
+// Cannon spins: cannon_rotate plays mcannon_n_turn..mcannon_nw_turn, one step per tick. Only the
+// start (an with sp) and the stop (q = -1) are sent; the viewer plays the steps in between.
+const SPIN_FIRST_SEQ = 514;
+const SPIN_LAST_SEQ = 521;
+type Spin = { zone: Zone; x: number; z: number; l: number; s: number; r: number; seq: number; tick: number; startTick: number };
+const spins: Map<number, Spin> = new Map();
+// Per tick: the anims that continue a spin (not sent), and each zone's stop records.
+const spinSteps: Set<LocAnim> = new Set();
+const spinStopsJson: Map<Zone, string> = new Map();
 
 function isEnabled(): boolean {
     return Environment.WORLD_FEED;
@@ -182,6 +196,7 @@ export function onWorldFeedOpen(ws: ServerWebSocket<WebSocketData>): void {
         resync: false,
         players: new Map(),
         npcs: new Map(),
+        zones: false,
         area: null,
         areaDirty: false
     });
@@ -202,7 +217,7 @@ export function onWorldFeedMessage(ws: ServerWebSocket<WebSocketData>, message: 
         return;
     }
 
-    let msg: { t?: unknown; x?: unknown; z?: unknown; w?: unknown; h?: unknown; on?: unknown };
+    let msg: { t?: unknown; x?: unknown; z?: unknown; w?: unknown; h?: unknown; on?: unknown; zones?: unknown };
     try {
         msg = JSON.parse(message.toString());
     } catch {
@@ -225,6 +240,12 @@ export function onWorldFeedMessage(ws: ServerWebSocket<WebSocketData>, message: 
         sub.z1 = z + h;
         sub.subscribed = w > 0 && h > 0;
         sub.areaDirty = true;
+        const zones = msg.zones === true;
+        if (zones !== sub.zones) {
+            // Turned on: the whole area is new. Turned off: nothing more is sent.
+            sub.zones = zones;
+            sub.area = null;
+        }
     } else if (msg.t === 'roster') {
         sub.roster = msg.on === true;
     }
@@ -266,6 +287,7 @@ export function cycleWorldFeed(): void {
         recordJson.clear();
         zoneEventsJson.clear();
         zoneSnapshotJson.clear();
+        cycleSpins(tick);
 
         let roster: string | null = null;
         if (rosterDue) {
@@ -399,7 +421,9 @@ function cycleSubscriber(sub: Subscriber, tick: number, tickMs: number): void {
     const removedNpcs = removeUnseen(sub.npcs, tick);
 
     const zoneRecords: string[] = [];
-    cycleZones(sub, reset, zoneRecords);
+    if (sub.zones) {
+        cycleZones(sub, reset, zoneRecords);
+    }
 
     let msg = `{"t":"tick","k":${tick},"ms":${tickMs}`;
     if (reset) msg += ',"reset":1';
@@ -432,6 +456,12 @@ function cycleZones(sub: Subscriber, reset: boolean, out: string[]): void {
     const area = sub.area;
     if (!area || area.x1 <= area.x0 || area.z1 <= area.z0) {
         return;
+    }
+
+    for (const [zone, json] of spinStopsJson) {
+        if (inArea(area, zone) && !(gained && !inArea(before, zone))) {
+            out.push(json);
+        }
     }
 
     for (const zone of World.zonesTracking) {
@@ -494,6 +524,40 @@ function inArea(area: ZoneArea | null, zone: Zone): boolean {
     return area !== null && zone.x >= area.x0 && zone.x < area.x1 && zone.z >= area.z0 && zone.z < area.z1;
 }
 
+function spinKey(x: number, z: number, l: number, shape: number): number {
+    return ((l * 16384 + x) * 16384 + z) * 32 + shape;
+}
+
+// Advances the known spins by this tick's anims, before any zone's events are built. A spin that
+// did not take its next step this tick has stopped (out of ammo, picked up) and gets a stop record.
+function cycleSpins(tick: number): void {
+    spinSteps.clear();
+    spinStopsJson.clear();
+    for (const [key, spin] of spins) {
+        const next = spin.seq === SPIN_LAST_SEQ ? SPIN_FIRST_SEQ : spin.seq + 1;
+        let step: LocAnim | null = null;
+        if (spin.tick === tick - 1 && World.zonesTracking.has(spin.zone)) {
+            for (const event of spin.zone.queuedEvents) {
+                const message = event.message;
+                if (message instanceof LocAnim && message.seq === next && message.shape === spin.s && zoneTileX(spin.zone, message.coord) === spin.x && zoneTileZ(spin.zone, message.coord) === spin.z) {
+                    step = message;
+                    break;
+                }
+            }
+        }
+        if (step) {
+            spin.seq = next;
+            spin.tick = tick;
+            spinSteps.add(step);
+            continue;
+        }
+        spins.delete(key);
+        const stop = `{"e":"an","x":${spin.x},"z":${spin.z},"l":${spin.l},"s":${spin.s},"r":${spin.r},"q":-1}`;
+        const json = spinStopsJson.get(spin.zone);
+        spinStopsJson.set(spin.zone, json ? `${json},${stop}` : stop);
+    }
+}
+
 // Keeps stateZones up to date: zones with static objs once, then every zone with an event.
 function indexStateZones(): void {
     if (!stateZonesBuilt) {
@@ -535,6 +599,11 @@ function getZoneSnapshotJson(zone: Zone): string {
             json += `${json ? ',' : ''}{"e":"ld","x":${loc.x},"z":${loc.z},"l":${l},"s":${loc.shape},"r":${loc.angle}}`;
         } else if ((loc.lifecycle === EntityLifeCycle.DESPAWN && loc.isActive) || (loc.lifecycle === EntityLifeCycle.RESPAWN && loc.isChanged())) {
             json += `${json ? ',' : ''}{"e":"la","x":${loc.x},"z":${loc.z},"l":${l},"id":${loc.type},"s":${loc.shape},"r":${loc.angle}}`;
+        }
+    }
+    for (const spin of spins.values()) {
+        if (spin.zone === zone && spin.startTick !== currentTick) {
+            json += `${json ? ',' : ''}{"e":"an","x":${spin.x},"z":${spin.z},"l":${l},"s":${spin.s},"r":${spin.r},"q":${spin.seq},"sp":1}`;
         }
     }
     if (!json && zone.totalObjs === 0 && !World.zonesTracking.has(zone)) {
@@ -595,7 +664,17 @@ function zoneEventRecord(zone: Zone, event: ZoneEvent): FeedRecord | null {
     } else if (message instanceof LocDel) {
         return { e: 'ld', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, s: message.shape, r: message.angle };
     } else if (message instanceof LocAnim) {
-        return { e: 'an', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, s: message.shape, r: message.angle, q: message.seq };
+        const x = zoneTileX(zone, message.coord);
+        const z = zoneTileZ(zone, message.coord);
+        if (message.seq >= SPIN_FIRST_SEQ && message.seq <= SPIN_LAST_SEQ) {
+            if (spinSteps.has(message)) {
+                return null;
+            }
+            const tick = World.currentTick;
+            spins.set(spinKey(x, z, l, message.shape), { zone, x, z, l, s: message.shape, r: message.angle, seq: message.seq, tick, startTick: tick });
+            return { e: 'an', x, z, l, s: message.shape, r: message.angle, q: message.seq, sp: 1 };
+        }
+        return { e: 'an', x, z, l, s: message.shape, r: message.angle, q: message.seq };
     } else if (message instanceof LocMerge) {
         return {
             e: 'lm',
