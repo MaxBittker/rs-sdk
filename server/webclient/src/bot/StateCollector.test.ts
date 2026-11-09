@@ -308,6 +308,16 @@ describe('BotStateCollector combat styles', () => {
         return (new BotStateCollector(client) as any).collectCombatStyle();
     }
 
+    test('specialEnergy is percent and specialActive follows the toggle', () => {
+        const client = createClient();
+        client.var = [];
+        client.var[300] = 750; // sa_energy
+        client.var[301] = 1; // sa_attack
+        const state = new BotStateCollector(client).collectState(1);
+        expect(state.specialEnergy).toBe(75);
+        expect(state.specialActive).toBe(true);
+    });
+
     test('reads the style table from the combat tab, not the weapon name', () => {
         // combat_stabsword (weapon_stab): a bronze sword's index 2 is aggressive,
         // trains Strength and hits with Slash. Guessing from the name "sword"

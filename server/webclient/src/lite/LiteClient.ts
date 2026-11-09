@@ -12,6 +12,8 @@
 // draw a click marker - see ActionExecutor.test.ts, which stubs them the same way).
 
 import IfType from '#/config/IfType.js';
+import { setSpecialAttack } from '#/bot/SpecialAttack.js';
+import type { ActionResult } from '#/bot/ActionExecutor.js';
 import LocType from '#/config/LocType.js';
 import NpcType from '#/config/NpcType.js';
 import ObjType from '#/config/ObjType.js';
@@ -872,6 +874,10 @@ export class LiteClient {
     }
     setCombatStyle(style: number): boolean {
         return A.setCombatStyle(this, style);
+    }
+    /** Turn the special attack on or off; only clicks the bar when that changes something. */
+    setSpecialAttack(on: boolean): ActionResult {
+        return setSpecialAttack(this.var, this.sideIcon[0], componentId => this.clickComponent(componentId), on);
     }
     getCombatStyle(): number {
         return A.getCombatStyle(this);

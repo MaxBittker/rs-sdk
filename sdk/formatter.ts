@@ -368,6 +368,11 @@ export function formatWorldState(
         }
     }
 
+    // Special attack
+    if (state.specialEnergy !== undefined) {
+        lines.push(`Special attack: ${state.specialEnergy}%${state.specialActive ? ' (on)' : ''}`);
+    }
+
     // Prayers
     if (state.prayers) {
         const activePrayers = state.prayers.activePrayers

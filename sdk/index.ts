@@ -1503,6 +1503,34 @@ export class BotSDK {
         return this.sendAction({ type: 'setCombatStyle', style, reason: 'SDK' });
     }
 
+    /**
+     * Turn the special attack on (default) or off. Idempotent: it reads the current state and only
+     * clicks the bar when that changes something, so it never toggles an already-on special off.
+     * The equipped weapon must have a special; fails with `no_special_attack` or `insufficient_energy`
+     * (`data.specialEnergy` and `data.needed` are percent). Waits for the server to apply the click.
+     * Dragon battleaxe and Excalibur fire at once and never stay on.
+     */
+    async sendSpecialAttack(on: boolean = true): Promise<ActionResult> {
+        if (typeof on !== 'boolean') {
+            return { success: false, message: `Invalid on: ${on} (expected a boolean)`, reason: 'invalid_argument', phase: 'validation' };
+        }
+        const energyBefore = this.state?.specialEnergy ?? 0;
+        const result = await this.sendAction({ type: 'setSpecialAttack', on, reason: 'SDK' });
+        if (!result.success || !result.data?.clicked) return result;
+
+        // The click reaches the server a tick or so later; a second call before that
+        // would still read the old state and toggle the special back off.
+        const applied = result.data.instant
+            ? (s: BotWorldState) => (s.specialEnergy ?? energyBefore) < energyBefore
+            : (s: BotWorldState) => s.specialActive === on;
+        try {
+            await this.waitForCondition(applied, 3000);
+            return result;
+        } catch {
+            return { success: false, message: 'Clicked the special attack bar but the state did not change within 3s', reason: 'not_confirmed', phase: 'dispatch', data: result.data };
+        }
+    }
+
     // ============ Prayer ============
 
     /** Toggle a prayer on or off by name or index (0-14). */

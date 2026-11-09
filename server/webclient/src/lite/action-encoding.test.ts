@@ -25,6 +25,7 @@ import { ClientProt } from '#/io/ClientProt.js';
 import Packet from '#/io/Packet.js';
 import { ServerProt } from '#/io/ServerProt.js';
 import WordPack from '#/wordfilter/WordPack.js';
+import IfType from '#/config/IfType.js';
 
 import { loadCache } from './cache.js';
 import { LiteClient } from './LiteClient.js';
@@ -271,6 +272,26 @@ describe('outgoing action encoding', () => {
         const before = c.out.pos;
         expect(c.sendPrivateMessage('', 'hi').ok).toBe(false);
         expect(c.out.pos).toBe(before); // nothing written for an invalid target
+    });
+
+    test('the special attack bar sends IF_BUTTON for the combat tab it is on', () => {
+        if (!available) {
+            return;
+        }
+
+        const c = makeClient('bota');
+        c.sideIcon[0] = 2276; // combat_stabsword
+        IfType.list[7574].hide = false; // combat_stabsword:specbar_layer, shown by the server for a special weapon
+        c.var[300] = 1000; // %sa_energy
+        giveItems(c, 1688, { 3: 1215 }); // worn: dragon_dagger
+
+        const start = c.out.pos;
+        expect(c.setSpecialAttack(true).success).toBe(true);
+
+        const r = new Capture(c.out, start);
+        expect(r.g1()).toBe(ClientProt.IF_BUTTON);
+        expect(r.g2()).toBe(7562); // combat_stabsword:specbar
+        expect(r.at).toBe(c.out.pos);
     });
 
     test('INV_BUTTON carries the real obj id from linkObjType, not 0', () => {
