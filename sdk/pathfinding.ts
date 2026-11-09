@@ -82,10 +82,20 @@ const ONE_WAY_DOORS = new Set<string>([
 // loc rather than setting wall flags, so it is masked with changeLoc.
 const WALL_DIAGONAL = 9;
 
-/** Add or remove a door's collision, the way the server does when it opens. */
+// Where an opened diagonal door ends up, by its closed angle (west, north,
+// east, south): ~door_open in door_procs.rs2. The open door is a 1x1 loc on
+// that neighbour, so the doorway is free but that tile is not.
+const DIAGONAL_DOOR_OPEN_OFFSET: ReadonlyArray<readonly [number, number]> = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+
+/**
+ * Switch a door between closed (add=true) and open (add=false) collision.
+ * The SDK's default model is every door open.
+ */
 function setDoorCollision(door: DoorInfo, add: boolean): void {
     if (door.shape === WALL_DIAGONAL) {
+        const [dx, dz] = DIAGONAL_DOOR_OPEN_OFFSET[door.angle & 3]!;
         rsmod.changeLoc(door.x, door.z, door.level, 1, 1, door.blockrange, false, add);
+        rsmod.changeLoc(door.x + dx, door.z + dz, door.level, 1, 1, door.blockrange, false, !add);
     } else {
         rsmod.changeWall(door.x, door.z, door.level, door.angle, door.shape, door.blockrange, false, add);
     }
