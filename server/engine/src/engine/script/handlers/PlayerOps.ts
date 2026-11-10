@@ -1114,7 +1114,8 @@ const PlayerOps: CommandHandlers = {
     },
 
     [ScriptOpcode.AFK_EVENT]: state => {
-        state.pushInt((Environment.node.debug || state.activePlayer.staffModLevel < 2) && state.activePlayer.afkEventReady ? 1 : 0);
+        // With random events off no event can spawn, so a skill script must not end its action for one.
+        state.pushInt(Environment.NODE_RANDOM_EVENTS && (Environment.node.debug || state.activePlayer.staffModLevel < 2) && state.activePlayer.afkEventReady ? 1 : 0);
         state.activePlayer.afkEventReady = false;
     },
 
