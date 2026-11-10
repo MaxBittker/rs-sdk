@@ -14,9 +14,7 @@ function generateRandomString(length: number): string {
 
 async function replaceInFile(filePath: string, replacements: Record<string, string>) {
     // A checkout with CRLF line endings (the Windows default) must match the same keys as one with LF.
-    let content = (await readFile(filePath, 'utf-8')).replaceAll('
-', '
-');
+    let content = (await readFile(filePath, 'utf-8')).replaceAll('\r\n', '\n');
     for (const [key, value] of Object.entries(replacements)) {
         content = content.replaceAll(key, value);
     }
