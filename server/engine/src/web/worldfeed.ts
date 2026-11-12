@@ -3,6 +3,7 @@ import type { ServerWebSocket } from 'bun';
 import { CoordGrid } from '#/engine/CoordGrid.js';
 import { EntityLifeCycle } from '#/engine/entity/EntityLifeCycle.js';
 import Npc from '#/engine/entity/Npc.js';
+import Obj from '#/engine/entity/Obj.js';
 import Player from '#/engine/entity/Player.js';
 import { NpcStat } from '#/engine/entity/NpcStat.js';
 import { PlayerStat } from '#/engine/entity/PlayerStat.js';
@@ -10,6 +11,7 @@ import World from '#/engine/World.js';
 import Zone from '#/engine/zone/Zone.js';
 import ZoneEvent from '#/engine/zone/ZoneEvent.js';
 import { ZoneEventType } from '#/engine/zone/ZoneEventType.js';
+import ZoneMap from '#/engine/zone/ZoneMap.js';
 import Packet from '#/io/Packet.js';
 import LocAddChange from '#/network/game/server/model/LocAddChange.js';
 import LocAnim from '#/network/game/server/model/LocAnim.js';
@@ -17,6 +19,10 @@ import LocDel from '#/network/game/server/model/LocDel.js';
 import LocMerge from '#/network/game/server/model/LocMerge.js';
 import MapAnim from '#/network/game/server/model/MapAnim.js';
 import MapProjAnim from '#/network/game/server/model/MapProjAnim.js';
+import ObjAdd from '#/network/game/server/model/ObjAdd.js';
+import ObjCount from '#/network/game/server/model/ObjCount.js';
+import ObjDel from '#/network/game/server/model/ObjDel.js';
+import ObjReveal from '#/network/game/server/model/ObjReveal.js';
 import { NpcInfoProt, PlayerInfoProt } from '#/network/rsbuf/prot.js';
 import { Visibility } from '#/network/rsbuf/visibility.js';
 import Environment from '#/util/Environment.js';
@@ -63,13 +69,18 @@ import type { WebSocketData } from './websocket.js';
 //   sy    forced overhead text   ch  public chat text (players), cc [colour, effect]
 //   em    exact move [startX, startZ, endX, endZ, startCycle, endCycle, facing]
 //
-// Zone records (w): what every player sees of the engine's 8x8 zones besides players and npcs,
-// minus ground objs. Absolute tiles x, z and level l; apply in order.
+// Zone records (w): what every player sees of the engine's 8x8 zones besides players and npcs.
+// Absolute tiles x, z and level l; apply in order.
 //   za    {x, z, w, h, r?} held area (zone-aligned tiles, all levels), first in w when it changes:
-//         zones newly held start at the cache default, zones outside are dropped (r = reset:
-//         every zone in it starts again). The current loc state of newly held zones follows.
+//         zones newly held start at the cache default with no objs, zones outside are dropped
+//         (r = reset: every zone in it starts again). The current loc state and public ground
+//         objs of newly held zones follow, then their events of this tick.
 //   la    {x, z, l, id, s, r} loc add/change    ld  {x, z, l, s, r} loc del
 //   an    {x, z, l, s, r, q} loc anim           lm  {x, z, l, id, s, r, sc, ec, p, bx} loc merge
+//   oa    {x, z, l, id, n} public ground obj add, or a private obj revealed (id = obj type, n = count)
+//   od    {x, z, l, id} one obj of that type leaves the tile
+//   oc    {x, z, l, id, n0, n} obj stack count change
+//   Private objs (visible to one player only) are never sent; for a viewer a reveal is an add.
 //   ma    {x, z, l, id, h, d} map anim
 //   pj    {x, z, l, dx, dz, tg, id, sh, dh, sd, ed, pk, ar} projectile (dx, dz absolute destination)
 //   Locs (la, ld, an, lm) are never sent for the wilderness: remote rock and door state.
@@ -122,8 +133,9 @@ type Subscriber = {
 
 type RosterEntry = [slot: number, name: string, x: number, z: number, level: number, combat: number];
 
-// This tick's zone records, built once and shared: all of them, and only the transient ones
-// (for a zone a viewer just gained, whose loc state comes from the snapshot instead).
+// This tick's zone records, built once and shared: all of them, and only the ones that follow a
+// snapshot (for a zone a viewer just gained, whose loc state comes from the snapshot instead).
+// Obj records follow a snapshot too: it leaves out the objs that changed this tick.
 type ZoneTick = { zone: Zone; all: string; transient: string };
 
 const subscribers: Map<ServerWebSocket<WebSocketData>, Subscriber> = new Map();
@@ -147,6 +159,8 @@ let rosterPrevTick = -1;
 const locState: Map<Zone, string> = new Map();
 const zoneTicks: ZoneTick[] = [];
 const zoneTickByZone: Map<Zone, ZoneTick> = new Map();
+// Per tick: the public ground objs of a zone, built once for every viewer that gains it.
+const objSnapshots: Map<Zone, string> = new Map();
 
 function isEnabled(): boolean {
     return Environment.WORLD_FEED;
@@ -287,6 +301,7 @@ export function cycleWorldFeed(): void {
     } finally {
         zoneTicks.length = 0;
         zoneTickByZone.clear();
+        objSnapshots.clear();
     }
 
     const elapsed = Date.now() - start;
@@ -827,7 +842,7 @@ function buildZoneTicks(): void {
                 }
                 const json = JSON.stringify(record);
                 all += all ? ',' + json : json;
-                if (record.e === 'an' || record.e === 'ma' || record.e === 'pj') {
+                if (record.e === 'an' || record.e === 'ma' || record.e === 'pj' || record.e === 'oa' || record.e === 'od' || record.e === 'oc') {
                     transient += transient ? ',' + json : json;
                 }
             }
@@ -840,8 +855,43 @@ function buildZoneTicks(): void {
     }
 }
 
+// The public ground objs of a zone, as Zone.writeFullFollows sends them to a player who owns
+// none: skipping the objs that changed this tick, whose events follow the snapshot.
+function objSnapshot(zone: Zone): string {
+    let json = objSnapshots.get(zone);
+    if (json !== undefined) {
+        return json;
+    }
+    json = '';
+    const l = zone.level;
+    for (const obj of zone.getAllObjsUnsafe()) {
+        if (!obj.isActive || obj.receiver64 !== Obj.NO_RECEIVER || obj.lifecycle === EntityLifeCycle.FOREVER || objChangedThisTick(zone, obj)) {
+            continue;
+        }
+        json += `${json ? ',' : ''}{"e":"oa","x":${obj.x},"z":${obj.z},"l":${l},"id":${obj.type},"n":${obj.count}}`;
+    }
+    objSnapshots.set(zone, json);
+    return json;
+}
+
+// Zone.updatedThisTick for a player who owns no objs.
+function objChangedThisTick(zone: Zone, obj: Obj): boolean {
+    const events = zone.queuedEventsOf(obj);
+    if (!events) {
+        return false;
+    }
+    for (const event of events) {
+        const message = event.message;
+        if (message instanceof ObjDel || message instanceof ObjReveal || (message instanceof ObjAdd && event.receiver64 === Obj.NO_RECEIVER)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // The held area changes only when the applied rect does (or on a reset). Every tick only the
-// zones with events are visited, and a gained area only looks at the zones in locState.
+// zones with events are visited. A gained area looks up each newly held zone that exists,
+// without creating any: its loc state, public objs and this tick's events.
 function cycleZones(sub: Subscriber, reset: boolean, out: string[]): void {
     let gained = false;
     let before: ZoneArea | null = sub.area;
@@ -870,20 +920,32 @@ function cycleZones(sub: Subscriber, reset: boolean, out: string[]): void {
         }
         if (!gained || inArea(before, zone)) {
             out.push(entry.all);
-        } else if (!locState.has(zone) && entry.transient) {
-            // Newly held, at the cache default: only this tick's effects.
-            out.push(entry.transient);
         }
     }
 
     if (gained) {
-        // Newly held zones that differ from the cache: their current locs, then this tick's effects.
-        for (const [zone, snapshot] of locState) {
-            if (inArea(area, zone) && !inArea(before, zone)) {
-                out.push(snapshot);
-                const transient = zoneTickByZone.get(zone)?.transient;
-                if (transient) {
-                    out.push(transient);
+        // Newly held zones: their current locs and public objs, then this tick's effects.
+        for (let level = 0; level < 4; level++) {
+            for (let zx = area.x0; zx < area.x1; zx++) {
+                for (let zz = area.z0; zz < area.z1; zz++) {
+                    const zone = World.gameMap.findZone(ZoneMap.zoneIndex(zx << 3, zz << 3, level));
+                    if (!zone || inArea(before, zone)) {
+                        continue;
+                    }
+                    const locs = locState.get(zone);
+                    if (locs) {
+                        out.push(locs);
+                    }
+                    if (zone.totalObjs > 0) {
+                        const objs = objSnapshot(zone);
+                        if (objs) {
+                            out.push(objs);
+                        }
+                    }
+                    const transient = zoneTickByZone.get(zone)?.transient;
+                    if (transient) {
+                        out.push(transient);
+                    }
                 }
             }
         }
@@ -903,7 +965,7 @@ function inArea(area: ZoneArea | null, zone: Zone): boolean {
     return area !== null && zone.x >= area.x0 && zone.x < area.x1 && zone.z >= area.z0 && zone.z < area.z1;
 }
 
-// Public loc and map effects only: never objs, and no locs where they are hidden.
+// Public locs, objs and map effects only: no private objs, and no locs where they are hidden.
 function zoneEventRecord(zone: Zone, event: ZoneEvent, hideLocs: boolean): FeedRecord | null {
     if (event.type === ZoneEventType.FOLLOWS && event.receiver64 !== -1n) {
         return null;
@@ -933,6 +995,13 @@ function zoneEventRecord(zone: Zone, event: ZoneEvent, hideLocs: boolean): FeedR
         };
     } else if (message instanceof LocAnim) {
         return hideLocs ? null : { e: 'an', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, s: message.shape, r: message.angle, q: message.seq };
+    } else if (message instanceof ObjAdd || message instanceof ObjReveal) {
+        // For everyone but its owner a reveal is an add.
+        return { e: 'oa', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.obj, n: message.count };
+    } else if (message instanceof ObjDel) {
+        return { e: 'od', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.obj };
+    } else if (message instanceof ObjCount) {
+        return { e: 'oc', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.obj, n0: message.oldCount, n: message.newCount };
     } else if (message instanceof MapAnim) {
         return { e: 'ma', x: zoneTileX(zone, message.coord), z: zoneTileZ(zone, message.coord), l, id: message.spotanim, h: message.height, d: message.delay };
     } else if (message instanceof MapProjAnim) {

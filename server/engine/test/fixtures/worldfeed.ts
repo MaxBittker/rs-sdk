@@ -13,6 +13,8 @@ const { default: NullClientSocket } = await import('../../src/server/NullClientS
 const { Visibility } = await import('../../src/network/rsbuf/visibility.js');
 const { default: Loc } = await import('../../src/engine/entity/Loc.js');
 const { EntityLifeCycle } = await import('../../src/engine/entity/EntityLifeCycle.js');
+const { default: Obj } = await import('../../src/engine/entity/Obj.js');
+const { default: ObjType } = await import('../../src/cache/config/ObjType.js');
 const { checkWorldFeedUpgrade, cycleWorldFeed, onWorldFeedClose, onWorldFeedMessage, onWorldFeedOpen, getPlayerPositionsJson } = await import('../../src/web/worldfeed.js');
 
 type Message = { t: string; [key: string]: any };
@@ -409,4 +411,65 @@ test('area changes apply at most every other tick, and resubscribing starts clea
     onWorldFeedMessage(v.ws, JSON.stringify({ t: 'sub', x: 3280, z: 3280, w: 64, h: 64 }));
     cycleWorldFeed();
     expect(v.last()).toMatchObject({ reset: 1, p: [{ i: 51, f: 1 }] });
+});
+
+test('public ground objs stream as events, private drops wait for the reveal, and a newly held area gets the pile', () => {
+    World.currentTick = 501;
+    const OBJ_AREA = { x: 3328, z: 3328, w: 64, h: 64 };
+    const zone = World.gameMap.getZone(3330, 3332, 0);
+    const v = viewer(OBJ_AREA);
+    cycleWorldFeed();
+    endTick();
+
+    // A public drop: every viewer holding the zone gets oa.
+    const coins = new Obj(0, 3330, 3332, EntityLifeCycle.DESPAWN, 995, 100);
+    zone.addObj(coins, Obj.NO_RECEIVER);
+    World.trackZone(zone);
+    cycleWorldFeed();
+    expect(v.last().w).toEqual([{ e: 'oa', x: 3330, z: 3332, l: 0, id: 995, n: 100 }]);
+    endTick();
+
+    // A private drop is visible to one player only: not sent.
+    const sword = new Obj(0, 3331, 3332, EntityLifeCycle.DESPAWN, 1277, 1);
+    sword.receiver64 = 77n;
+    sword.reveal = Obj.REVEAL;
+    zone.addObj(sword, 77n);
+    World.trackZone(zone);
+    cycleWorldFeed();
+    expect(v.last().w).toBeUndefined();
+    endTick();
+
+    // A viewer arriving now gets the public pile, but not the private drop.
+    const early = viewer({ x: 3328, z: 3328, w: 16, h: 16 });
+    cycleWorldFeed();
+    expect(early.last().w).toEqual([{ e: 'za', x: 3328, z: 3328, w: 16, h: 16, r: 1 }, { e: 'oa', x: 3330, z: 3332, l: 0, id: 995, n: 100 }]);
+    endTick();
+
+    // The private drop is revealed: for a viewer that is an add.
+    const get = ObjType.get;
+    ObjType.get = (() => ({ tradeable: true, members: false })) as any;
+    try {
+        zone.revealObj(sword);
+    } finally {
+        ObjType.get = get;
+    }
+    World.trackZone(zone);
+    cycleWorldFeed();
+    expect(v.last().w).toEqual([{ e: 'oa', x: 3331, z: 3332, l: 0, id: 1277, n: 1 }]);
+    endTick();
+
+    // The coins are picked up and the stack of the revealed obj grows.
+    zone.removeObj(coins);
+    zone.changeObj(sword, 1, 3);
+    World.trackZone(zone);
+    cycleWorldFeed();
+    expect(v.last().w).toEqual([{ e: 'od', x: 3330, z: 3332, l: 0, id: 995 }, { e: 'oc', x: 3331, z: 3332, l: 0, id: 1277, n0: 1, n: 3 }]);
+    endTick();
+
+    // A later arrival gets what is on the ground now.
+    const late = viewer({ x: 3328, z: 3328, w: 16, h: 16 });
+    cycleWorldFeed();
+    expect(late.last().w).toEqual([{ e: 'za', x: 3328, z: 3328, w: 16, h: 16, r: 1 }, { e: 'oa', x: 3331, z: 3332, l: 0, id: 1277, n: 3 }]);
+    zone.removeObj(sword);
+    zone.reset();
 });

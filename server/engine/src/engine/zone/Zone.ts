@@ -80,6 +80,10 @@ export default class Zone {
         return this.events;
     }
 
+    queuedEventsOf(entity: NonPathingEntity): readonly ZoneEvent[] | undefined {
+        return this.entityEvents.get(entity);
+    }
+
     enter(entity: PathingEntity): void {
         if (entity instanceof Player) {
             this.players.addTail(entity);
