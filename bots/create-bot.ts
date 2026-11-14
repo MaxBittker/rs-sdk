@@ -3,11 +3,22 @@ import { cp, readFile, writeFile, readdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 
+// Credentials must come from a CSPRNG, never Math.random().
 function generateRandomString(length: number): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    // Rejection sampling: drop bytes >= 248 (largest multiple of 62 <= 256) so
+    // every character is equally likely.
+    const limit = 256 - (256 % chars.length);
     let result = '';
-    for (let i = 0; i < length; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    const buf = new Uint8Array(length * 2);
+    while (result.length < length) {
+        crypto.getRandomValues(buf);
+        for (const b of buf) {
+            if (b < limit) {
+                result += chars[b % chars.length];
+                if (result.length === length) break;
+            }
+        }
     }
     return result;
 }
