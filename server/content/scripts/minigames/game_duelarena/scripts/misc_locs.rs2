@@ -1,7 +1,10 @@
 [oploc1,rotten_tomato_crate]
 p_arrivedelay;
 // could buy rotten tomatoes on f2p worlds? https://oldschool.runescape.wiki/w/Update:Christmas_2014
-~openshop(duel_rottenfruitshop, 550, 1000, 1, "Shop of Distaste");
+// Pricing MUST match duel_fadli's params (duelarena.npc): both open the same shared inv, and a
+// different delta here (it was 1 vs Fadli's 10) let bots buy at 1gp from the crate and sell
+// back to Fadli at 5gp, minting ~11B gp/week.
+~openshop(duel_rottenfruitshop, 550, 1000, 10, "Shop of Distaste");
 
 // Closed bank chest
 [oploc1,loc_3193]
