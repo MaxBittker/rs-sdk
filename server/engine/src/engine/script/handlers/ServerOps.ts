@@ -12,7 +12,15 @@ import World from '#/engine/World.js';
 import Environment from '#/util/Environment.js';
 import Midi from '#/cache/midi/Midi.js';
 
+// rs-sdk: identifies this server process. map_clock restarts from 0 on every boot, so content
+// that stores a tick in a saved varp pairs it with this to tell which boot the tick belongs to.
+const BOOT_ID: number = Math.floor((performance.timeOrigin + performance.now()) / 1000) & 0x7fffffff;
+
 const ServerOps: CommandHandlers = {
+    [ScriptOpcode.MAP_BOOT]: state => {
+        state.pushInt(BOOT_ID);
+    },
+
     [ScriptOpcode.MAP_CLOCK]: state => {
         state.pushInt(World.currentTick);
     },

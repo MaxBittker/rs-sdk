@@ -13,3 +13,12 @@ scope=perm
 [ownedmcannon]
 scope=perm
 type=coord
+
+// rs-sdk: which set-up cannon %ownedmcannon refers to. The coord alone is not enough: once the
+// cannon is gone the coord stays (it is the receipt Nulodion replaces a lost cannon against), and
+// another player can set up on the same tile. See cannon_claim_valid.
+[cannon_boot]
+scope=perm
+
+[cannon_expiry]
+scope=perm

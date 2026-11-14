@@ -4,7 +4,7 @@
 // but at https://youtu.be/WWyNTsMXjTE?t=219 the cannon does
 
 // i think this is because picking up the cannon doesnt reset the timer.
-if (%ownedmcannon = null | loc_find(%ownedmcannon, dwarf_multicannon1) = false) {
+if (~cannon_claim_valid = false | loc_find(%ownedmcannon, dwarf_multicannon1) = false) {
     return;
 }
 def_coord $center = movecoord(loc_coord, 1, 0, 1);
@@ -141,10 +141,11 @@ if (npc_type = king_dragon | npc_type = kalphite_queen | npc_type = kalphite_fly
 }
 
 [proc,destroy_cannon]
-if (%ownedmcannon ! null & loc_find(%ownedmcannon, dwarf_multicannon1) = true) {
+if (~cannon_claim_valid = true & loc_find(%ownedmcannon, dwarf_multicannon1) = true) {
     spotanim_map(smokepuff_huge, movecoord(%ownedmcannon, 1, 0, 1), 200, 0);
 
     mes("Your cannon has been destroyed!");
     loc_del(1);
+    ~cannon_claim_end; // %ownedmcannon stays for Nulodion, but nothing on that tile is ours now
     cleartimer(cannon_rotate);
 }

@@ -1074,3 +1074,7 @@
 
 // rs-sdk: runite ore mined from a rock; the engine counts the Lava Maze rocks toward the hiscores
 [command,runite_mined](coord $rock)
+
+// rs-sdk: id of the running server process (never 0, changes on every restart). Dynamic locs and
+// map_clock do not survive a restart; saved varps do. Store this next to a saved tick to detect it.
+[command,map_boot]()(int)

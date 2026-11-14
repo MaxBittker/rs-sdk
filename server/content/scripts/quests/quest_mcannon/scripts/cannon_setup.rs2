@@ -3,7 +3,7 @@ if (%ownedmcannon = null) {
     cleartimer(cannon_decay);
     return;
 }
-if (loc_find(%ownedmcannon, dwarf_multicannon1) = false) {
+if (~cannon_claim_valid = false | loc_find(%ownedmcannon, dwarf_multicannon1) = false) {
     mes("Your cannon has decayed!"); // https://i.imgur.com/Sw6twUP.png (2006) https://runescape.wiki/w/Update:Patch_Notes_(6_May_2009)
     cleartimer(cannon_decay);
 }
@@ -12,10 +12,32 @@ if (loc_find(%ownedmcannon, dwarf_multicannon1) = false) {
 settimer(cannon_decay, 5); // OSRS: Checks every 5 ticks if the cannon still exists. THIS DOESNT SET AGAIN ON LOGIN!
 
 [proc,cannon_belongs_to_player]()(boolean)
-if (loc_coord = %ownedmcannon) {
+if (loc_coord = %ownedmcannon & ~cannon_claim_valid = true) {
     return(true);
 }
 return(false);
+
+// rs-sdk: true while the cannon this player set up at %ownedmcannon can still be standing.
+// %ownedmcannon outlives the cannon (decayed, destroyed, server restarted) until Nulodion replaces
+// it, and anyone can set up on that tile in the meantime. Matching on the coord alone let the old
+// owner build on and pick up the newcomer's cannon while both were refunded by Nulodion (dupe).
+// A cannon loc lives exactly ^cannon_decay_length ticks from its last loc_add/loc_change, so a
+// cannon found there after %cannon_expiry, or in another boot, is somebody else's.
+[proc,cannon_claim_valid]()(boolean)
+if (%ownedmcannon = null | %cannon_boot ! map_boot | map_clock >= %cannon_expiry) {
+    return(false);
+}
+return(true);
+
+// call after every loc_add/loc_change of the player's cannon (each one restarts the loc's decay)
+[proc,cannon_claim_start]
+%cannon_boot = map_boot;
+%cannon_expiry = add(map_clock, ^cannon_claim_length);
+
+// the cannon is gone (or no longer the player's) before its decay time
+[proc,cannon_claim_end]
+%cannon_boot = 0;
+%cannon_expiry = 0;
 
 [proc,cannon_setup_random_coord]()(coord)
 def_int $i = 0;
@@ -127,6 +149,7 @@ if (map_locaddunsafe($origin) = true) { // check again after player movement
 anim(human_pickupfloor, 0);
 inv_del(inv, twpart1, 1);
 loc_add($origin, multicannon_base, 0, centrepiece_straight, ^cannon_decay_length);
+~cannon_claim_start;
 mes("You place the cannon base on the ground."); // https://youtu.be/TeQXQDaawO0?t=227
 
 // ------- cannon base -------
@@ -150,6 +173,7 @@ if (last_useitem = twpart2) {
     anim(human_pickupfloor, 0);
     inv_del(inv, twpart2, 1);
     loc_change(multicannon_stand, ^cannon_decay_length);
+    ~cannon_claim_start;
     mes("You add the stand.");
     %dropcannon = ^cannon_stage_stand;
     return;
@@ -183,6 +207,7 @@ if (last_useitem = twpart3) {
     anim(human_pickupfloor, 0);
     inv_del(inv, twpart3, 1);
     loc_change(multicannon_barrels, ^cannon_decay_length);
+    ~cannon_claim_start;
     mes("You add the barrels.");
     %dropcannon = ^cannon_stage_barrels;
     return;
@@ -216,6 +241,7 @@ if (last_useitem = twpart4) {
     inv_del(inv, twpart4, 1);
     mes("You add the furnace.");
     loc_change(dwarf_multicannon1, ^cannon_decay_length);
+    ~cannon_claim_start;
     %dropcannon = ^cannon_stage_full;
     @cannon_ready_start;
 }
@@ -299,6 +325,7 @@ if (%dropcannon = ^cannon_stage_base) {
 }
 %ownedmcannon = null;
 %dropcannon = ^cannon_stage_none;
+~cannon_claim_end;
 mes("You pick up the cannon,"); // https://youtu.be/TeQXQDaawO0?t=518
 mes("It's really heavy.");
 sound_synth(pick, 1, 0);

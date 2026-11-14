@@ -1,4 +1,6 @@
 ^cannon_decay_length = 2500
+// the loc is removed at the end of tick (placed + decay - 1); the claim ends just before that
+^cannon_claim_length = 2498
 
 ^cannon_stage_none = 0
 ^cannon_stage_base = 1

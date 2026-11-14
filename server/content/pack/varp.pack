@@ -393,3 +393,5 @@
 392=castlewars_flag_clock
 393=karam_dungeon_varbit
 1000=pvp_death_mark
+1001=cannon_boot
+1002=cannon_expiry

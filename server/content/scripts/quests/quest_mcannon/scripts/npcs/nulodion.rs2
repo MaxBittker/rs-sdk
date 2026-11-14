@@ -91,11 +91,13 @@ inv_add(inv, ammo_mould, 1);
 [label,lost_my_cannon]
 ~chatplayer("<p,sad>I've lost my cannon...");
 ~chatnpc("<p,neutral>That's unfortunate... but don't worry, I can sort you out.");
-if (%ownedmcannon = null | loc_find(%ownedmcannon, dwarf_multicannon1) = true) {
+// rs-sdk: only a cannon the player still has a live claim on counts as "still there". Whatever
+// stands on that tile after the claim ended is another player's cannon (see cannon_claim_valid).
+if (%ownedmcannon = null | (~cannon_claim_valid = true & loc_find(%ownedmcannon, dwarf_multicannon1) = true)) {
     ~chatnpc("<p,sad>Oh dear, I'm only allowed to replace cannons|that were stolen in action.|I'm sorry but you'll have to buy a new set.");
     return;
 }
-if (%ownedmcannon ! null) {
+if (~cannon_claim_valid = true) {
     if (loc_find(%ownedmcannon, multicannon_base) = true) {
         ~chatnpc("<p,confused>Hmmm. I think you'll find the base still happily parked on the spot where you put it."); // osrs
         ~chatplayer("<p,confused>Oh, is it still there? I thought I'd lost it.");
@@ -141,6 +143,7 @@ if (%dropcannon = ^cannon_stage_base) {
 }
 %ownedmcannon = null;
 %dropcannon = ^cannon_stage_none;
+~cannon_claim_end;
 
 [label,ill_take_a_cannon]
 ~chatplayer("<p,neutral>Ok, I'll take a cannon please.");

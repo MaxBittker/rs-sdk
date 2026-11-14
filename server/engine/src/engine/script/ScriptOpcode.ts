@@ -453,7 +453,8 @@ export const enum ScriptOpcode {
     GETTIMESPENT, // custom: used to profile script execution (current duration)
     TIMESPENT, // custom: used to profile script execution (record start time)
     GE_OPEN = 10010, // rs-sdk: native physical Grand Exchange
-    RUNITE_MINED = 10011 // rs-sdk: lava maze runite leaderboard
+    RUNITE_MINED = 10011, // rs-sdk: lava maze runite leaderboard
+    MAP_BOOT = 10012 // rs-sdk: id of this server process, differs after every restart
 }
 
 export const ScriptOpcodeMap: Map<string, number> = new Map([
@@ -880,6 +881,7 @@ export const ScriptOpcodeMap: Map<string, number> = new Map([
     ['MAP_RANDOM_EVENTS', ScriptOpcode.MAP_RANDOM_EVENTS],
     ['GE_OPEN', ScriptOpcode.GE_OPEN],
     ['RUNITE_MINED', ScriptOpcode.RUNITE_MINED],
+    ['MAP_BOOT', ScriptOpcode.MAP_BOOT],
     ['GETTIMESPENT', ScriptOpcode.GETTIMESPENT],
     ['TIMESPENT', ScriptOpcode.TIMESPENT]
 ]);
