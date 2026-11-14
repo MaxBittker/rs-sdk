@@ -4,5 +4,9 @@ Responsible security pen-testing is welcome on the rs-sdk demo server.
 Please don't break things, delete data, or disrupt the service.
 Report anything you find: https://github.com/maxbittker/rs-sdk/issues
 
+There is a bug bounty program for ingame rares for any exploit large
+enough that it could earn you a rare otherwise. Please don't spam reports / github issues
+for stuff we can safely ignore with no economic impacts.
+
 Out of scope: 
 Underlying fly.io infrastructure, phishing/social engineering attacks. 
