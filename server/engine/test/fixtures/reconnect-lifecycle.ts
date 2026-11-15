@@ -24,6 +24,26 @@ const { default: ScriptRunner } = await import('../../src/engine/script/ScriptRu
 const { default: VarPlayerType } = await import('../../src/cache/config/VarPlayerType.js');
 const world = World as any;
 
+test('fatal cycle exits even when player cleanup also fails', () => {
+    const { p } = player(new NullClientSocket());
+    const second = player(new NullClientSocket()).p;
+    World.playerLoop.add(1n, p);
+    World.playerLoop.add(2n, second);
+    const cycle = spyOn(world, 'processWorld').mockImplementation(() => { throw new Error('disk full'); });
+    const cleanup = spyOn(World, 'removePlayer').mockImplementation(() => { throw new Error('save also failed'); });
+    const exit = spyOn(process, 'exit').mockImplementation((() => { throw new Error('exit requested'); }) as never);
+    const errors = spyOn(console, 'error').mockImplementation(() => {});
+    try {
+        expect(() => World.cycle()).toThrow('exit requested');
+        expect(cleanup).toHaveBeenCalledWith(p);
+        expect(cleanup).toHaveBeenCalledWith(second);
+        expect(cleanup).toHaveBeenCalledTimes(2);
+        expect(exit).toHaveBeenCalledWith(1);
+    } finally {
+        cycle.mockRestore(); cleanup.mockRestore(); exit.mockRestore(); errors.mockRestore();
+    }
+});
+
 test('single-pass varp serialization matches the existing save layout byte for byte', () => {
     const get = spyOn(VarPlayerType, 'get').mockImplementation(id => ({
         scope: id % 3 === 0 ? VarPlayerType.SCOPE_TEMP : VarPlayerType.SCOPE_PERM

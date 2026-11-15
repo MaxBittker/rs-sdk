@@ -600,7 +600,14 @@ class World {
             printError('Removing all players...');
 
             for (const player of this.playerLoop.all()) {
-                this.removePlayer(player);
+                try {
+                    this.removePlayer(player);
+                } catch (cleanupError) {
+                    // A failed save (for example SQLITE_FULL) can also fail here.
+                    // Keep trying the remaining players, then exit so the host can
+                    // restart us instead of serving HTTP with a dead game loop.
+                    console.error(`Failed to remove ${player.username} during fatal shutdown`, cleanupError);
+                }
             }
 
             // TODO inform Friends server that the world has gone offline
