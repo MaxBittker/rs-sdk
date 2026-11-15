@@ -98,7 +98,7 @@ import { BotActions } from "./sdk/actions";
 const sdk = new BotSDK({
   botUsername: "mybot",
   password: "secret",
-  gatewayUrl: "wss://rs-sdk-demo.fly.dev/gateway",
+  gatewayUrl: "wss://rs-sdk.maxbittker.com/gateway",
 });
 
 await sdk.connect();
@@ -135,7 +135,7 @@ bun my-bot.ts
 To actually see your bot in-game, open a browser to the bot client URL:
 
 ```
-https://rs-sdk-demo.fly.dev/bot?bot=mybot123&password=test
+https://rs-sdk.maxbittker.com/bot?bot=mybot123&password=test
 ```
 
 Or launch programmatically with Puppeteer:
@@ -145,7 +145,7 @@ import puppeteer from "puppeteer";
 
 const browser = await puppeteer.launch({ headless: false });
 const page = await browser.newPage();
-await page.goto("https://rs-sdk-demo.fly.dev/bot?bot=mybot123&password=test");
+await page.goto("https://rs-sdk.maxbittker.com/bot?bot=mybot123&password=test");
 ```
 
 ## Connection Configuration
@@ -162,11 +162,11 @@ await page.goto("https://rs-sdk-demo.fly.dev/bot?bot=mybot123&password=test");
 
 ### Direct gateway
 
-For `rs-sdk-demo.fly.dev`, `connect()` and the lite runner first try the
-gateway's own port, `wss://rs-sdk-demo.fly.dev:7443`. State frames arrive
+For `rs-sdk.maxbittker.com`, `connect()` and the lite runner first try the
+gateway's own port, `wss://rs-sdk.maxbittker.com:7443`. State frames arrive
 compressed (about 6x smaller), and nothing is relayed through the game server.
 If that port doesn't answer within 3 seconds they use
-`wss://rs-sdk-demo.fly.dev/gateway` as before. Set `GATEWAY_DIRECT=false` to
+`wss://rs-sdk.maxbittker.com/gateway` as before. Set `GATEWAY_DIRECT=false` to
 skip the check.
 
 ### Private gateway for a fleet

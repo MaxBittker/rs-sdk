@@ -12,7 +12,7 @@ import puppeteer, { type Browser } from 'puppeteer';
 
 const N = Number(process.argv[2] ?? 6);
 const FPS = Number(process.argv[3] ?? 15);
-const HOST = 'rs-sdk-demo.fly.dev';
+const HOST = 'rs-sdk.maxbittker.com';
 
 const readEnv = async (n: string) => Object.fromEntries(
   (await Bun.file(`/Users/max/workplace/rs-sdk/bots/${n}/bot.env`).text())

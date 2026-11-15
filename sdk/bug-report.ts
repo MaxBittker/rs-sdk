@@ -19,7 +19,7 @@ import { execFileSync } from 'node:child_process';
  * to be pointed at - a bug found while testing against localhost is still a bug in
  * the SDK, and a report that lands on a throwaway local server helps nobody.
  */
-const ENDPOINT = 'https://rs-sdk-demo.fly.dev/bug-report';
+const ENDPOINT = 'https://rs-sdk.maxbittker.com/bug-report';
 
 /** The git commit this SDK is running from, or 'unknown' outside a git checkout. */
 function sdkCommit(): string {

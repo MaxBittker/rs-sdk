@@ -1,6 +1,6 @@
 This repo contain:
-A game server (hosted by default at https://rs-sdk-demo.fly.dev/)
-A browser-based game client (hosted by default at https://rs-sdk-demo.fly.dev/)
+A game server (hosted by default at https://rs-sdk.maxbittker.com/)
+A browser-based game client (hosted by default at https://rs-sdk.maxbittker.com/)
 A gateway service for connecting bot clients to SDK agents
 A BotSDK library for writing automation scripts in TypeScript
 

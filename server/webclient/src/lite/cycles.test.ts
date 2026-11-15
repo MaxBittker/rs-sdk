@@ -23,7 +23,7 @@ import { loadCache } from './cache.js';
 import { LiteClient } from './LiteClient.js';
 import { dispatch } from './protocol/incoming.js';
 
-const ORIGIN = process.env.LITE_TEST_ORIGIN ?? 'https://rs-sdk-demo.fly.dev';
+const ORIGIN = process.env.LITE_TEST_ORIGIN ?? 'https://rs-sdk.maxbittker.com';
 const CACHE_DIR = process.env.LITE_TEST_CACHE ?? '/tmp/rs-sdk-lite-test-cache';
 
 let available = false;

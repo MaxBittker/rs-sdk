@@ -128,7 +128,7 @@ Usage:
   bun sdk/cli.ts <botname> state --json       # Raw JSON state
 
 Options:
-  --server <host>   Server hostname (default: from bot.env or rs-sdk-demo.fly.dev)
+  --server <host>   Server hostname (default: from bot.env or rs-sdk.maxbittker.com)
   --timeout <ms>    Budget for connecting, and for the first state to arrive (default: 5000)
   --json            Output raw JSON (for state subcommand)
   --help            Show this help
@@ -197,7 +197,7 @@ async function fetchState(botName: string, flags: { server: string; timeout: num
     // reports "connected fine, no game state", indistinguishable from a dead
     // client.
     const serverExplicitlyLocal = botEnv?.server !== undefined && botEnv.server === '' && !server;
-    if (!server && !serverExplicitlyLocal) server = 'rs-sdk-demo.fly.dev';
+    if (!server && !serverExplicitlyLocal) server = 'rs-sdk.maxbittker.com';
 
     const isLocal = !server || server === 'localhost' || server.startsWith('localhost:') || server.startsWith('127.');
 
@@ -321,7 +321,7 @@ async function main() {
         const username = botName;
         const password = second;
 
-        if (!server) server = 'rs-sdk-demo.fly.dev';
+        if (!server) server = 'rs-sdk.maxbittker.com';
         const gatewayUrl = deriveGatewayUrl(server);
 
         // Read-only, so 'observe' — see the note in fetchState() above.

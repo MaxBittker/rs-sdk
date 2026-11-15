@@ -366,7 +366,7 @@ function deriveGatewayUrl(server: string): string {
 // gateway's own TLS port when it answers (compressed frames, no relay through
 // the game server's tick thread), else keep the relayed /gateway URL.
 const DIRECT_GATEWAYS: Record<string, string> = {
-    'wss://rs-sdk-demo.fly.dev/gateway': 'wss://rs-sdk-demo.fly.dev:7443',
+    'wss://rs-sdk.maxbittker.com/gateway': 'wss://rs-sdk.maxbittker.com:7443',
 };
 async function preferDirectGateway(url: string): Promise<string> {
     const direct = DIRECT_GATEWAYS[url];
@@ -394,7 +394,9 @@ const env = Object.fromEntries(
         .map(l => [l.slice(0, l.indexOf('=')).trim(), l.slice(l.indexOf('=') + 1).trim()])
 );
 
-const host = env.SERVER || 'localhost';
+// The demo server moved off rs-sdk-demo.fly.dev; older bot.env files keep the old name.
+const LEGACY_SERVER_HOSTS: Record<string, string> = { 'rs-sdk-demo.fly.dev': 'rs-sdk.maxbittker.com' };
+const host = LEGACY_SERVER_HOSTS[env.SERVER ?? ''] ?? (env.SERVER || 'localhost');
 // No config channel from the server (see LiteClient's maxMessageLength note), so
 // mirror the server's NODE_PROFANITY_FILTER by hand: PROFANITY_FILTER=false in
 // bot.env or the process env disables local chat censoring.

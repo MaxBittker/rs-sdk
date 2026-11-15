@@ -173,7 +173,7 @@ structure over patching it, so it cannot drift.
 import { startSession } from '#/lite/session.js';
 
 const s = await startSession({
-    host: 'rs-sdk-demo.fly.dev',
+    host: 'rs-sdk.maxbittker.com',
     username,
     password,
     // Anything other than 'stopped' means the bot left the game on its own.

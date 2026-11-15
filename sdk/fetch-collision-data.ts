@@ -8,7 +8,7 @@ import { existsSync, statSync } from 'fs';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
 
-const DEFAULT_SERVER = 'https://rs-sdk-demo.fly.dev';
+const DEFAULT_SERVER = 'https://rs-sdk.maxbittker.com';
 const OUTPUT_PATH = join(import.meta.dir, 'collision-data.json');
 
 async function fetchCollisionData(server: string, force: boolean) {

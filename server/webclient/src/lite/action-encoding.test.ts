@@ -32,7 +32,7 @@ import { LiteClient } from './LiteClient.js';
 import { tryMoveTo } from './movement.js';
 import { dispatch } from './protocol/incoming.js';
 
-const ORIGIN = process.env.LITE_TEST_ORIGIN ?? 'https://rs-sdk-demo.fly.dev';
+const ORIGIN = process.env.LITE_TEST_ORIGIN ?? 'https://rs-sdk.maxbittker.com';
 const CACHE_DIR = process.env.LITE_TEST_CACHE ?? '/tmp/rs-sdk-lite-test-cache';
 
 const INV_COMPONENT = 3214; // inventory:inv

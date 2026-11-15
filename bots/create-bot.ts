@@ -85,7 +85,7 @@ async function createBot(username?: string, serverOverride?: string, hideChat?: 
 
     // Override server if --local or --server= was passed
     if (serverOverride) {
-        await replaceInFile(envPath, { 'rs-sdk-demo.fly.dev': serverOverride });
+        await replaceInFile(envPath, { 'rs-sdk.maxbittker.com': serverOverride });
         console.log(`Server set to: ${serverOverride}`);
     }
     if (serverOverride === 'localhost') {

@@ -33,7 +33,7 @@ import { loadCache } from '../cache.js';
 import { buildCollision } from './CollisionBuilder.js';
 import { LocIndex } from './LocIndex.js';
 
-const ORIGIN = process.env.LITE_TEST_ORIGIN ?? 'https://rs-sdk-demo.fly.dev';
+const ORIGIN = process.env.LITE_TEST_ORIGIN ?? 'https://rs-sdk.maxbittker.com';
 const CACHE_DIR = process.env.LITE_TEST_CACHE ?? '/tmp/rs-sdk-lite-test-cache';
 
 // Both default to TRUE, but the engine serves the bot client with lowmem=0

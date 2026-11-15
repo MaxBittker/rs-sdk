@@ -37,7 +37,7 @@ Options:
   --to <player>     Send as a private message to this player instead of public chat
   --limit <n>       Messages of history to show (default: 20)
   --system          Include system/game messages, not just player chat
-  --server <host>   Server hostname (default: from bot.env or rs-sdk-demo.fly.dev)
+  --server <host>   Server hostname (default: from bot.env or rs-sdk.maxbittker.com)
   --timeout <ms>    Budget per network request (default: 5000)
   --help            Show this help
 
@@ -372,7 +372,7 @@ async function main() {
         // Same as sdk/cli.ts: a bot.env GATEWAY_URL (e.g. a private fleet gateway) wins.
         if (botEnv.gatewayUrl && !process.env.GATEWAY_URL) process.env.GATEWAY_URL = botEnv.gatewayUrl;
     }
-    if (!server) server = process.env.SERVER || 'rs-sdk-demo.fly.dev';
+    if (!server) server = process.env.SERVER || 'rs-sdk.maxbittker.com';
 
     const isLocal = server === 'localhost' || server.startsWith('localhost:');
     if (!password && !isLocal) {

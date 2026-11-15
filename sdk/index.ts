@@ -68,6 +68,17 @@ function selectorLabel(selector: InterfaceOptionSelector): string {
  * - "localhost" or "localhost:PORT" → ws://localhost:PORT (plain WS)
  * - anything else → wss://HOST/gateway (TLS, remote gateway path)
  */
+// The demo server moved from rs-sdk-demo.fly.dev to rs-sdk.maxbittker.com.
+// Older bot.env files keep the old name; route them to the new one.
+const LEGACY_SERVER_HOSTS: Record<string, string> = {
+    'rs-sdk-demo.fly.dev': 'rs-sdk.maxbittker.com',
+};
+
+/** The current hostname for a server name, mapping retired demo hostnames forward. */
+export function canonicalServerHost(server: string): string {
+    return LEGACY_SERVER_HOSTS[server] ?? server;
+}
+
 export function deriveGatewayUrl(server?: string): string {
     // GATEWAY_URL overrides derivation for hosts where SERVER doubles as the
     // web origin but not the gateway (e.g. SERVER=localhost:8888 is the engine
@@ -75,6 +86,7 @@ export function deriveGatewayUrl(server?: string): string {
     // the same variable.
     if (typeof process !== 'undefined' && process.env?.GATEWAY_URL) return process.env.GATEWAY_URL;
     if (!server) return 'ws://localhost:7780';
+    server = canonicalServerHost(server);
     if (server.startsWith('ws://') || server.startsWith('wss://')) return server;
     const isLocal = server === 'localhost' || server.startsWith('localhost:');
     if (isLocal) {
@@ -89,7 +101,7 @@ export function deriveGatewayUrl(server?: string): string {
 // smaller. Keyed by the relayed URL deriveGatewayUrl produces; HTTP endpoints
 // keep using the relayed origin.
 const DIRECT_GATEWAYS: Record<string, string> = {
-    'wss://rs-sdk-demo.fly.dev/gateway': 'wss://rs-sdk-demo.fly.dev:7443',
+    'wss://rs-sdk.maxbittker.com/gateway': 'wss://rs-sdk.maxbittker.com:7443',
 };
 const directGatewayChecks = new Map<string, Promise<string>>();
 

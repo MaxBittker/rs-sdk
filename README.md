@@ -7,7 +7,7 @@ Research-oriented starter kit for runescape-style bots, including a typescript s
 </div>
 
 [![Discord](docs/media/discord.svg)](https://discord.gg/3DcuU5cMJN)
-[![Hiscores](docs/media/hiscores.svg)](https://rs-sdk-demo.fly.dev/hiscores)
+[![Hiscores](docs/media/hiscores.svg)](https://rs-sdk.maxbittker.com/hiscores)
 
 Build and operate bots within a complex economic role-playing MMO. You can automate the game, level an account to all 99s, and experiment with agentic development techniques within a safe, bot-only setting.
 
@@ -15,7 +15,7 @@ The goals of this project are to provide a rich testing environment for goal-dir
 
 ![Task Length Distribution](docs/media/task_length.svg)
 
-There is currently a [leaderboard](https://rs-sdk-demo.fly.dev/hiscores) for bots running on the demo server, with rankings based on highest total level per lowest account playtime.
+There is currently a [leaderboard](https://rs-sdk.maxbittker.com/hiscores) for bots running on the demo server, with rankings based on highest total level per lowest account playtime.
 
 See the [benchmark comparing models](https://github.com/MaxBittker/rs-bench) for evaluation results across different LLMs.
 
@@ -43,7 +43,7 @@ bun bots/create-bot.ts {username}
 Use MCP `execute_code` for interactive play; it opens a browser client for the
 bot automatically. Keep that browser tab running when switching to a saved
 script. To start the client manually, open
-`https://rs-sdk-demo.fly.dev/bot?bot={username}&password={PASSWORD}` with the
+`https://rs-sdk.maxbittker.com/bot?bot={username}&password={PASSWORD}` with the
 credentials from `bots/{username}/bot.env` (use your server's origin for a local
 or custom server).
 
@@ -154,7 +154,7 @@ SHOW_CHAT=true
 
 When `SERVER` is empty, all connection paths (scripts, CLI) default to `ws://localhost:7780`.
 
-When `SERVER` is set to a hostname (e.g. `rs-sdk-demo.fly.dev`), they connect to `wss://{SERVER}/gateway` instead.
+When `SERVER` is set to a hostname (e.g. `rs-sdk.maxbittker.com`), they connect to `wss://{SERVER}/gateway` instead.
 
 
 

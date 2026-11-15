@@ -1,5 +1,5 @@
 // Render the JSON from item-census.ts as a standalone HTML viewer with item sprites.
-//   bun tools/server/item-census-html.ts <census.json> <out.html> [--sprites=https://rs-sdk-demo.fly.dev/sprite/item/] [--title=...]
+//   bun tools/server/item-census-html.ts <census.json> <out.html> [--sprites=https://rs-sdk.maxbittker.com/sprite/item/] [--title=...]
 // Item names come from the engine's obj config (data/pack), so run from server/engine.
 import { readFileSync, writeFileSync } from 'fs';
 import ObjType from '#/cache/config/ObjType.js';
@@ -13,7 +13,7 @@ for (const a of argv) {
 }
 const [inPath, outPath] = positional;
 if (!inPath || !outPath) { console.error('usage: item-census-html.ts <census.json> <out.html> [--sprites=URL] [--title=...]'); process.exit(1); }
-const sprites = flags.get('sprites') ?? 'https://rs-sdk-demo.fly.dev/sprite/item/';
+const sprites = flags.get('sprites') ?? 'https://rs-sdk.maxbittker.com/sprite/item/';
 const title = flags.get('title') ?? 'Item census';
 const date = flags.get('date') ?? new Date().toISOString().slice(0, 10);
 
