@@ -3,10 +3,11 @@ import { gzipSync } from 'zlib';
 
 import { WebSocket, WebSocketServer } from 'ws';
 
-import { sql } from 'kysely';
+import { Kysely, sql } from 'kysely';
 
 import { db, toDbDate } from '#/db/query.js';
 import { PlayerTelemetryEvent } from '#/engine/entity/tracking/PlayerTelemetry.js';
+import { currentLogDb, LogDB, logDbsSince, recentLogDbs } from '#/server/logger/LogStore.js';
 import { encodeSegment, decodeSegment } from '#/server/logger/TelemetryCodec.js';
 import { SessionLog } from '#/engine/entity/tracking/SessionLog.js';
 import { WealthTransactionEvent } from '#/engine/entity/tracking/WealthEvent.js';
@@ -35,6 +36,13 @@ function dbDateToEpoch(ts: string): number {
 }
 
 async function compactTelemetry() {
+    for (const logDb of await recentLogDbs()) {
+        await compactTelemetryIn(logDb);
+    }
+}
+
+// segments land in the same file as their raw rows, so each group's write stays atomic
+async function compactTelemetryIn(db: Kysely<LogDB>) {
     let segments = 0;
     let rowsCompacted = 0;
 
@@ -263,22 +271,35 @@ async function buildTraces(hours: number): Promise<Buffer> {
     const lines: number[][] = [];
     let points = 0;
 
-    const { count } = await db
-        .selectFrom('player_telemetry_segment')
-        .select(eb => eb.fn.countAll<number>().as('count'))
-        .where('start_time', '>=', startBound)
-        .executeTakeFirstOrThrow();
-    const stride = Math.max(1, Math.ceil(Number(count) / TRACES_MAX_SEGMENTS));
+    // the window can span two monthly log files
+    const logDbs = await logDbsSince(new Date(sinceMs - TRACES_SEGMENT_MAX_SPAN_MS));
+    let count = 0;
+    for (const db of logDbs) {
+        const row = await db
+            .selectFrom('player_telemetry_segment')
+            .select(eb => eb.fn.countAll<number>().as('count'))
+            .where('start_time', '>=', startBound)
+            .executeTakeFirstOrThrow();
+        count += Number(row.count);
+    }
+    const stride = Math.max(1, Math.ceil(count / TRACES_MAX_SEGMENTS));
 
-    const segments = await db
-        .selectFrom('player_telemetry_segment')
-        .select(['data'])
-        .where('start_time', '>=', startBound)
-        .where('end_time', '>=', since)
-        .$if(stride > 1, qb => qb.where(sql<boolean>`(id % ${stride}) = 0`))
-        .orderBy('start_time', 'desc')
-        .limit(TRACES_MAX_SEGMENTS)
-        .execute();
+    const segments: { data: Uint8Array; start_time: string }[] = [];
+    for (const db of logDbs) {
+        const rows = await db
+            .selectFrom('player_telemetry_segment')
+            .select(['data', 'start_time'])
+            .where('start_time', '>=', startBound)
+            .where('end_time', '>=', since)
+            .$if(stride > 1, qb => qb.where(sql<boolean>`(id % ${stride}) = 0`))
+            .orderBy('start_time', 'desc')
+            .limit(TRACES_MAX_SEGMENTS)
+            .execute();
+        segments.push(...(rows as typeof segments));
+    }
+    // newest first across files, then the same cap a single file had
+    segments.sort((a, b) => (String(a.start_time) < String(b.start_time) ? 1 : -1));
+    segments.length = Math.min(segments.length, TRACES_MAX_SEGMENTS);
 
     let truncated = segments.length === TRACES_MAX_SEGMENTS;
     for (const seg of segments) {
@@ -296,13 +317,22 @@ async function buildTraces(hours: number): Promise<Buffer> {
     // recent rows not compacted yet - group per session so lines never span players.
     // Skipped when segments were sampled: raw rows are only the last ~hour, and drawing
     // them at full density next to sampled segments would just over-weight that hour
-    const raw = stride > 1 ? [] : await db
-        .selectFrom('player_telemetry')
-        .select(['username', 'session_uuid', 'timestamp', 'x', 'z'])
-        .where('timestamp', '>=', since)
-        .orderBy('id')
-        .limit(TRACES_MAX_RAW_ROWS)
-        .execute();
+    const raw: { username: string; session_uuid: string | null; timestamp: string; x: number; z: number }[] = [];
+    if (stride === 1) {
+        for (const db of logDbs) {
+            const rows = await db
+                .selectFrom('player_telemetry')
+                .select(['username', 'session_uuid', 'timestamp', 'x', 'z'])
+                .where('timestamp', '>=', since)
+                .orderBy('id')
+                .limit(TRACES_MAX_RAW_ROWS - raw.length)
+                .execute();
+            raw.push(...(rows as typeof raw));
+            if (raw.length >= TRACES_MAX_RAW_ROWS) {
+                break;
+            }
+        }
+    }
     if (raw.length === TRACES_MAX_RAW_ROWS) {
         truncated = true;
     }
@@ -455,7 +485,7 @@ export default class LoggerServer {
                                 event_type: x.event_type
                             }));
 
-                            await db.insertInto('session_log').values(schemaLogs).execute();
+                            await (await currentLogDb()).insertInto('session_log').values(schemaLogs).execute();
                             break;
                         }
                         case 'wealth_event': {
@@ -475,7 +505,7 @@ export default class LoggerServer {
                                 recipient_value: x.recipient_value
                             }));
 
-                            await db.insertInto('session_wealth').values(schemaEvents).execute();
+                            await (await currentLogDb()).insertInto('session_wealth').values(schemaEvents).execute();
                             break;
                         }
                         case 'player_telemetry': {
@@ -493,7 +523,7 @@ export default class LoggerServer {
                                 skills: x.skills
                             }));
 
-                            await db.insertInto('player_telemetry').values(rows).execute();
+                            await (await currentLogDb()).insertInto('player_telemetry').values(rows).execute();
                             break;
                         }
                         case 'runite_mine': {
