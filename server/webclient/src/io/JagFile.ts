@@ -65,19 +65,21 @@ export default class JagFile {
         }
 
         if (this.fileUnpacked[index]) {
-            return this.fileUnpacked[index];
+            return this.fileUnpacked[index].slice();
         }
 
         const offset: number = this.fileOffset[index];
-        const length: number = this.filePackedSize[index];
-        const src: Uint8Array = this.data.subarray(offset, offset + length);
+        const size: number = this.fileUnpackedSize[index];
+        let data: Uint8Array;
         if (this.unpacked) {
-            this.fileUnpacked[index] = src;
-            return src;
+            data = this.data.subarray(offset, offset + size);
         } else {
-            const data: Uint8Array = bunzip2(src);
-            this.fileUnpacked[index] = data;
-            return data;
+            data = bunzip2(this.data.subarray(offset, offset + this.filePackedSize[index]));
         }
+
+        const out: Uint8Array = new Uint8Array(size);
+        out.set(data.subarray(0, size));
+        this.fileUnpacked[index] = out;
+        return out.slice();
     }
 }

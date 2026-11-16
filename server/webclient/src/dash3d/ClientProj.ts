@@ -75,7 +75,7 @@ export default class ClientProj extends ModelSource {
         this.z += this.velocityZ * delta;
         this.y += this.velocityY * delta + this.accelerationY * 0.5 * delta * delta;
         this.velocityY += this.accelerationY * delta;
-        this.yaw = ((Math.atan2(this.velocityX, this.velocityZ) * 325.949 + 1024) | 0) & 0x7ff;
+        this.yaw = (((Math.atan2(this.velocityX, this.velocityZ) * 325.949) | 0) + 1024) & 0x7ff;
         this.pitch = ((Math.atan2(this.velocityY, this.velocity) * 325.949) | 0) & 0x7ff;
 
         if (this.spotanim.seq) {

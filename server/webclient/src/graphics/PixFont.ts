@@ -110,10 +110,24 @@ export default class PixFont extends Linkable2 {
         x |= 0;
         y |= 0;
 
-        this.drawStringTag(str, x - ((this.stringWid(str) / 2) | 0), y, rgb, shadowed);
+        this.drawStringTag(str, x - ((this.stringWidTag(str) / 2) | 0), y, rgb, shadowed);
     }
 
     stringWid(str: string | null): number {
+        if (str === null) {
+            return 0;
+        }
+
+        const length: number = str.length;
+        let w: number = 0;
+        for (let c: number = 0; c < length; c++) {
+            w += this.charAdvance[str.charCodeAt(c)];
+        }
+
+        return w;
+    }
+
+    stringWidTag(str: string | null): number {
         if (str === null) {
             return 0;
         }
@@ -329,6 +343,10 @@ export default class PixFont extends Linkable2 {
         } else {
             if (tag === 'str') {
                 this.strikeout = true;
+            }
+
+            if (tag === 'end') {
+                this.strikeout = false;
             }
 
             return -1;

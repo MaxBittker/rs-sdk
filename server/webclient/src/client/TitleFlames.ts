@@ -25,12 +25,12 @@ export default class TitleFlames {
     private flameGradient0: Int32Array | null = null;
     private flameGradient1: Int32Array | null = null;
     private flameGradient2: Int32Array | null = null;
-    private flameLineOffset: Int32Array = new Int32Array(FLAME_HEIGHT);
-    cycle: number = 0;
-    coolingCycle: number = 0;
-    private flameGradientCycle0: number = 0;
-    private flameGradientCycle1: number = 0;
-    private flamesInterval: ReturnType<typeof setInterval> | null = null;
+    private static flameLineOffset: Int32Array = new Int32Array(FLAME_HEIGHT);
+    static cycle: number = 0;
+    static coolingCycle: number = 0;
+    private static flameGradientCycle0: number = 0;
+    private static flameGradientCycle1: number = 0;
+    private flamesTimer: ReturnType<typeof setTimeout> | null = null;
 
     constructor(runes: Pix8[]) {
         this.runes = runes;
@@ -101,17 +101,41 @@ export default class TitleFlames {
         }
 
         this.active = true;
-        this.flamesInterval = setInterval((): void => {
+
+        let last: number = performance.now();
+        let count: number = 0;
+        let delay: number = 20;
+
+        const run = (): void => {
+            if (!this.active) {
+                return;
+            }
+
             this.renderFlames();
-        }, 35);
+
+            count++;
+            if (count > 10) {
+                const now: number = performance.now();
+                const elapsed: number = (((now - last) | 0) / 10) | 0;
+                delay = 40 - (elapsed - delay);
+                if (delay < 5) {
+                    delay = 5;
+                }
+                count = 0;
+                last = now;
+            }
+
+            this.flamesTimer = setTimeout(run, delay);
+        };
+        run();
     }
 
     close(): void {
         this.active = false;
 
-        if (this.flamesInterval) {
-            clearInterval(this.flamesInterval);
-            this.flamesInterval = null;
+        if (this.flamesTimer) {
+            clearTimeout(this.flamesTimer);
+            this.flamesTimer = null;
         }
 
         this.titleLeft = null;
@@ -133,7 +157,7 @@ export default class TitleFlames {
             return;
         }
 
-        this.cycle++;
+        TitleFlames.cycle++;
         this.updateFlames();
         this.updateFlames();
         this.drawFlames();
@@ -163,16 +187,16 @@ export default class TitleFlames {
             }
         }
 
-        this.coolingCycle += 128;
-        if (this.coolingCycle > this.flameBuffer0.length) {
-            this.coolingCycle -= this.flameBuffer0.length;
+        TitleFlames.coolingCycle += 128;
+        if (TitleFlames.coolingCycle > this.flameBuffer0.length) {
+            TitleFlames.coolingCycle -= this.flameBuffer0.length;
             this.generateFlameCoolingMap(this.runes[(Math.random() * 12.0) | 0]);
         }
 
         for (let y: number = 1; y < FLAME_HEIGHT - 1; y++) {
             for (let x: number = 1; x < 127; x++) {
                 const index: number = x + (y << 7);
-                let intensity: number = this.flameBuffer2[index + 128] - ((this.flameBuffer0[(index + this.coolingCycle) & (this.flameBuffer0.length - 1)] / 5) | 0);
+                let intensity: number = this.flameBuffer2[index + 128] - ((this.flameBuffer0[(index + TitleFlames.coolingCycle) & (this.flameBuffer0.length - 1)] / 5) | 0);
                 if (intensity < 0) {
                     intensity = 0;
                 }
@@ -180,24 +204,24 @@ export default class TitleFlames {
             }
         }
 
-        this.flameLineOffset.copyWithin(0, 1, FLAME_HEIGHT);
-        this.flameLineOffset[FLAME_HEIGHT - 1] = (Math.sin(Client.loopCycle / 14.0) * 16.0 + Math.sin(Client.loopCycle / 15.0) * 14.0 + Math.sin(Client.loopCycle / 16.0) * 12.0) | 0;
+        TitleFlames.flameLineOffset.copyWithin(0, 1, FLAME_HEIGHT);
+        TitleFlames.flameLineOffset[FLAME_HEIGHT - 1] = (Math.sin(Client.loopCycle / 14.0) * 16.0 + Math.sin(Client.loopCycle / 15.0) * 14.0 + Math.sin(Client.loopCycle / 16.0) * 12.0) | 0;
 
-        if (this.flameGradientCycle0 > 0) {
-            this.flameGradientCycle0 -= 4;
+        if (TitleFlames.flameGradientCycle0 > 0) {
+            TitleFlames.flameGradientCycle0 -= 4;
         }
 
-        if (this.flameGradientCycle1 > 0) {
-            this.flameGradientCycle1 -= 4;
+        if (TitleFlames.flameGradientCycle1 > 0) {
+            TitleFlames.flameGradientCycle1 -= 4;
         }
 
-        if (this.flameGradientCycle0 === 0 && this.flameGradientCycle1 === 0) {
+        if (TitleFlames.flameGradientCycle0 === 0 && TitleFlames.flameGradientCycle1 === 0) {
             const rand: number = (Math.random() * 2000.0) | 0;
 
             if (rand === 0) {
-                this.flameGradientCycle0 = 1024;
+                TitleFlames.flameGradientCycle0 = 1024;
             } else if (rand === 1) {
-                this.flameGradientCycle1 = 1024;
+                TitleFlames.flameGradientCycle1 = 1024;
             }
         }
     }
@@ -248,10 +272,10 @@ export default class TitleFlames {
             return;
         }
 
-        if (this.flameGradientCycle0 > 0) {
-            this.doBlend(this.flameGradientCycle0, this.flameGradient1);
-        } else if (this.flameGradientCycle1 > 0) {
-            this.doBlend(this.flameGradientCycle1, this.flameGradient2);
+        if (TitleFlames.flameGradientCycle0 > 0) {
+            this.doBlend(TitleFlames.flameGradientCycle0, this.flameGradient1);
+        } else if (TitleFlames.flameGradientCycle1 > 0) {
+            this.doBlend(TitleFlames.flameGradientCycle1, this.flameGradient2);
         } else {
             this.flameGradient.set(this.flameGradient0);
         }
@@ -274,7 +298,7 @@ export default class TitleFlames {
         let dstOffset: number = side === 0 ? 1152 : 1176;
 
         for (let y: number = 1; y < FLAME_HEIGHT - 1; y++) {
-            const offset: number = ((this.flameLineOffset[y] * (FLAME_HEIGHT - y)) / FLAME_HEIGHT) | 0;
+            const offset: number = ((TitleFlames.flameLineOffset[y] * (FLAME_HEIGHT - y)) / FLAME_HEIGHT) | 0;
 
             if (side === 0) {
                 let step: number = offset + 22;

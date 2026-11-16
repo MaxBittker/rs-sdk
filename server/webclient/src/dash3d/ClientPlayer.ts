@@ -208,7 +208,7 @@ export default class ClientPlayer extends ClientEntity {
     baseId: bigint = 0n;
     lowMemory: boolean = false;
     modelCacheKey: bigint = -1n;
-    static modelCache: LruCache<Model> = new LruCache(200);
+    static modelCache: LruCache<Model> = new LruCache(260);
     y: number = 0;
     locStartCycle: number = 0;
     locStopCycle: number = 0;
@@ -301,23 +301,23 @@ export default class ClientPlayer extends ClientEntity {
 
         this.baseId = 0n;
         for (let part: number = 0; part < 12; part++) {
-            this.baseId <<= 0x4n;
+            this.baseId = BigInt.asIntN(64, this.baseId << 0x4n);
             if (this.appearance[part] >= 256) {
-                this.baseId += BigInt(this.appearance[part]) - 256n;
+                this.baseId = BigInt.asIntN(64, this.baseId + BigInt(this.appearance[part]) - 256n);
             }
         }
         if (this.appearance[0] >= 256) {
-            this.baseId += (BigInt(this.appearance[0]) - 256n) >> 4n;
+            this.baseId = BigInt.asIntN(64, this.baseId + ((BigInt(this.appearance[0]) - 256n) >> 4n));
         }
         if (this.appearance[1] >= 256) {
-            this.baseId += (BigInt(this.appearance[1]) - 256n) >> 8n;
+            this.baseId = BigInt.asIntN(64, this.baseId + ((BigInt(this.appearance[1]) - 256n) >> 8n));
         }
         for (let part: number = 0; part < 5; part++) {
-            this.baseId <<= 0x3n;
-            this.baseId += BigInt(this.colour[part]);
+            this.baseId = BigInt.asIntN(64, this.baseId << 0x3n);
+            this.baseId = BigInt.asIntN(64, this.baseId + BigInt(this.colour[part]));
         }
-        this.baseId <<= 0x1n;
-        this.baseId += BigInt(this.gender);
+        this.baseId = BigInt.asIntN(64, this.baseId << 0x1n);
+        this.baseId = BigInt.asIntN(64, this.baseId + BigInt(this.gender));
     }
 
     override getTempModel(): Model | null {
@@ -355,7 +355,7 @@ export default class ClientPlayer extends ClientEntity {
                 temp.labelVertices = null;
 
                 if (spot.resizeh != 128 || spot.resizev != 128) {
-                    temp.resize(spot.resizev, spot.resizeh, spot.resizeh);
+                    temp.resize(spot.resizeh, spot.resizev, spot.resizeh);
                 }
 
                 temp.calculateNormals(spot.ambient + 64, spot.contrast + 850, -30, -50, -30, true);
@@ -448,12 +448,12 @@ export default class ClientPlayer extends ClientEntity {
 
             if (seq.replaceheldleft >= 0) {
                 leftHandValue = seq.replaceheldleft;
-                hash += BigInt(leftHandValue - this.appearance[5]) << 40n;
+                hash = BigInt.asIntN(64, hash + BigInt(((leftHandValue - this.appearance[5]) << 8) | 0));
             }
 
             if (seq.replaceheldright >= 0) {
                 rightHandValue = seq.replaceheldright;
-                hash += BigInt(rightHandValue - this.appearance[3]) << 48n;
+                hash = BigInt.asIntN(64, hash + BigInt(((rightHandValue - this.appearance[3]) << 16) | 0));
             }
         } else if (this.secondaryAnim >= 0) {
             const secondFrames: Int16Array | null = SeqType.list[this.secondaryAnim].frames;

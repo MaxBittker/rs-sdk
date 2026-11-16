@@ -244,7 +244,7 @@ export default class World {
         heightSW: number, heightSE: number, heightNE: number, heightNW: number,
         colourSW: number, colourSE: number, colourNE: number, colourNW: number,
         colour2SW: number, colour2SE: number, colour2NE: number, colour2NW: number,
-        overlay: number, underlay: number
+        underlay: number, overlay: number
     ): void {
         if (shape === TerrainOverlayShape.PLAIN) {
             for (let l: number = level; l >= 0; l--) {
@@ -258,7 +258,7 @@ export default class World {
                 tile.quickGround = new QuickGround(
                     colourSW, colourSE, colourNE, colourNW,
                     -1,
-                    overlay,
+                    underlay,
                     false
                 );
             }
@@ -274,7 +274,7 @@ export default class World {
                 tile.quickGround = new QuickGround(
                     colour2SW, colour2SE, colour2NE, colour2NW,
                     texture,
-                    underlay,
+                    overlay,
                     heightSW === heightSE && heightSW === heightNE && heightSW === heightNW
                 );
             }
@@ -294,7 +294,7 @@ export default class World {
                     heightSW, heightSE, heightNE, heightNW,
                     colourSW, colourSE, colourNE, colourNW,
                     colour2SW, colour2SE, colour2NE, colour2NW,
-                    overlay, underlay
+                    underlay, overlay
                 );
             }
         }
@@ -820,18 +820,18 @@ export default class World {
         if (ground) {
             const shape: number = ground.overlayShape;
             const rotation: number = ground.overlayRotation;
-            const overlay: number = ground.minimapOverlay;
             const underlay: number = ground.minimapUnderlay;
+            const overlay: number = ground.minimapOverlay;
             const minimapShape = MINIMAP_SHAPE[shape];
             const minimapRotation = MINIMAP_ROTATE[rotation];
 
             let off: number = 0;
-            if (overlay !== 0) {
+            if (underlay !== 0) {
                 for (let i: number = 0; i < 4; i++) {
-                    dst[offset] = minimapShape[minimapRotation[off++]] === 0 ? overlay : underlay;
-                    dst[offset + 1] = minimapShape[minimapRotation[off++]] === 0 ? overlay : underlay;
-                    dst[offset + 2] = minimapShape[minimapRotation[off++]] === 0 ? overlay : underlay;
-                    dst[offset + 3] = minimapShape[minimapRotation[off++]] === 0 ? overlay : underlay;
+                    dst[offset] = minimapShape[minimapRotation[off++]] === 0 ? underlay : overlay;
+                    dst[offset + 1] = minimapShape[minimapRotation[off++]] === 0 ? underlay : overlay;
+                    dst[offset + 2] = minimapShape[minimapRotation[off++]] === 0 ? underlay : overlay;
+                    dst[offset + 3] = minimapShape[minimapRotation[off++]] === 0 ? underlay : overlay;
                     offset += step;
                 }
                 return;
@@ -839,16 +839,16 @@ export default class World {
 
             for (let i: number = 0; i < 4; i++) {
                 if (minimapShape[minimapRotation[off++]] !== 0) {
-                    dst[offset] = underlay;
+                    dst[offset] = overlay;
                 }
                 if (minimapShape[minimapRotation[off++]] !== 0) {
-                    dst[offset + 1] = underlay;
+                    dst[offset + 1] = overlay;
                 }
                 if (minimapShape[minimapRotation[off++]] !== 0) {
-                    dst[offset + 2] = underlay;
+                    dst[offset + 2] = overlay;
                 }
                 if (minimapShape[minimapRotation[off++]] !== 0) {
-                    dst[offset + 3] = underlay;
+                    dst[offset + 3] = overlay;
                 }
                 offset += step;
             }
@@ -1134,6 +1134,8 @@ export default class World {
                 }
             }
         }
+
+        World.click = false;
     }
 
     private setSprite(
@@ -1660,120 +1662,131 @@ export default class World {
             }
 
             if (tile.drawSprites) {
-                const spriteCount: number = tile.spriteCount;
-                tile.drawSprites = false;
-                let spriteBufferSize: number = 0;
+                try {
+                    const spriteCount: number = tile.spriteCount;
+                    tile.drawSprites = false;
+                    let spriteBufferSize: number = 0;
 
-                iterate_sprites: for (let i: number = 0; i < spriteCount; i++) {
-                    const sprite: Sprite | null = tile.sprites[i];
+                    iterate_sprites: for (let i: number = 0; i < spriteCount; i++) {
+                        const sprite: Sprite | null = tile.sprites[i];
 
-                    if (!sprite || sprite.cycle === World.cycleNo) {
-                        continue;
-                    }
-
-                    for (let x: number = sprite.minTileX; x <= sprite.maxTileX; x++) {
-                        for (let z: number = sprite.minTileZ; z <= sprite.maxTileZ; z++) {
-                            const other: Square | null = tiles[x][z];
-
-                            if (!other) {
-                                continue;
-                            }
-
-                            if (other.drawFront) {
-                                tile.drawSprites = true;
-                                continue iterate_sprites;
-                            }
-
-                            if (other.cornerSides === 0) {
-                                continue;
-                            }
-
-                            let spans: number = 0;
-
-                            if (x > sprite.minTileX) {
-                                spans += 1;
-                            }
-
-                            if (x < sprite.maxTileX) {
-                                spans += 4;
-                            }
-
-                            if (z > sprite.minTileZ) {
-                                spans += 8;
-                            }
-
-                            if (z < sprite.maxTileZ) {
-                                spans += 2;
-                            }
-
-                            if ((spans & other.cornerSides) !== tile.sidesAfterCorner) {
-                                continue;
-                            }
-                        }
-                    }
-
-                    World.spriteBuffer[spriteBufferSize++] = sprite;
-
-                    let minTileDistanceX: number = World.gx - sprite.minTileX;
-                    const maxTileDistanceX: number = sprite.maxTileX - World.gx;
-
-                    if (maxTileDistanceX > minTileDistanceX) {
-                        minTileDistanceX = maxTileDistanceX;
-                    }
-
-                    const minTileDistanceZ: number = World.gz - sprite.minTileZ;
-                    const maxTileDistanceZ: number = sprite.maxTileZ - World.gz;
-
-                    if (maxTileDistanceZ > minTileDistanceZ) {
-                        sprite.distance = minTileDistanceX + maxTileDistanceZ;
-                    } else {
-                        sprite.distance = minTileDistanceX + minTileDistanceZ;
-                    }
-                }
-
-                while (spriteBufferSize > 0) {
-                    let farthestDistance: number = -50;
-                    let farthestIndex: number = -1;
-
-                    for (let index: number = 0; index < spriteBufferSize; index++) {
-                        const sprite: Sprite | null = World.spriteBuffer[index];
-                        if (!sprite) {
+                        if (!sprite || sprite.cycle === World.cycleNo) {
                             continue;
                         }
 
-                        if (sprite.distance > farthestDistance && sprite.cycle !== World.cycleNo) {
-                            farthestDistance = sprite.distance;
-                            farthestIndex = index;
-                        }
-                    }
+                        for (let x: number = sprite.minTileX; x <= sprite.maxTileX; x++) {
+                            for (let z: number = sprite.minTileZ; z <= sprite.maxTileZ; z++) {
+                                const other: Square = tiles[x][z]!;
 
-                    if (farthestIndex === -1) {
-                        break;
-                    }
+                                if (other.drawFront) {
+                                    tile.drawSprites = true;
+                                    continue iterate_sprites;
+                                }
 
-                    const farthest: Sprite | null = World.spriteBuffer[farthestIndex];
-                    if (farthest) {
-                        farthest.cycle = World.cycleNo;
-
-                        if (!this.spriteOccluded2(originalLevel, farthest.minTileX, farthest.maxTileX, farthest.minTileZ, farthest.maxTileZ, farthest.model?.minY ?? 0)) {
-                            farthest.model?.worldRender(farthest.yaw, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, farthest.x - World.cx, farthest.y - World.cy, farthest.z - World.cz, farthest.typecode);
-                        }
-
-                        for (let x: number = farthest.minTileX; x <= farthest.maxTileX; x++) {
-                            for (let z: number = farthest.minTileZ; z <= farthest.maxTileZ; z++) {
-                                const occupied: Square | null = tiles[x][z];
-                                if (!occupied) {
+                                if (other.cornerSides === 0) {
                                     continue;
                                 }
 
-                                if (occupied.cornerSides !== 0) {
-                                    World.fillQueue.push(occupied);
-                                } else if ((x !== tileX || z !== tileZ) && occupied.drawBack) {
-                                    World.fillQueue.push(occupied);
+                                let spans: number = 0;
+
+                                if (x > sprite.minTileX) {
+                                    spans += 1;
+                                }
+
+                                if (x < sprite.maxTileX) {
+                                    spans += 4;
+                                }
+
+                                if (z > sprite.minTileZ) {
+                                    spans += 8;
+                                }
+
+                                if (z < sprite.maxTileZ) {
+                                    spans += 2;
+                                }
+
+                                if ((spans & other.cornerSides) === tile.sidesAfterCorner) {
+                                    tile.drawSprites = true;
+                                    continue iterate_sprites;
+                                }
+                            }
+                        }
+
+                        World.spriteBuffer[spriteBufferSize++] = sprite;
+
+                        let minTileDistanceX: number = World.gx - sprite.minTileX;
+                        const maxTileDistanceX: number = sprite.maxTileX - World.gx;
+
+                        if (maxTileDistanceX > minTileDistanceX) {
+                            minTileDistanceX = maxTileDistanceX;
+                        }
+
+                        const minTileDistanceZ: number = World.gz - sprite.minTileZ;
+                        const maxTileDistanceZ: number = sprite.maxTileZ - World.gz;
+
+                        if (maxTileDistanceZ > minTileDistanceZ) {
+                            sprite.distance = minTileDistanceX + maxTileDistanceZ;
+                        } else {
+                            sprite.distance = minTileDistanceX + minTileDistanceZ;
+                        }
+                    }
+
+                    while (spriteBufferSize > 0) {
+                        let farthestDistance: number = -50;
+                        let farthestIndex: number = -1;
+
+                        for (let index: number = 0; index < spriteBufferSize; index++) {
+                            const sprite: Sprite | null = World.spriteBuffer[index];
+                            if (!sprite) {
+                                continue;
+                            }
+
+                            if (sprite.cycle !== World.cycleNo) {
+                                if (sprite.distance > farthestDistance) {
+                                    farthestDistance = sprite.distance;
+                                    farthestIndex = index;
+                                } else if (sprite.distance === farthestDistance) {
+                                    const farthest: Sprite | null = World.spriteBuffer[farthestIndex];
+                                    if (farthest) {
+                                        const dx: number = sprite.x - World.cx;
+                                        const dz: number = sprite.z - World.cz;
+                                        const fdx: number = farthest.x - World.cx;
+                                        const fdz: number = farthest.z - World.cz;
+                                        if (dx * dx + dz * dz > fdx * fdx + fdz * fdz) {
+                                            farthestIndex = index;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (farthestIndex === -1) {
+                            break;
+                        }
+
+                        const farthest: Sprite | null = World.spriteBuffer[farthestIndex];
+                        if (farthest) {
+                            farthest.cycle = World.cycleNo;
+
+                            if (!this.spriteOccluded2(originalLevel, farthest.minTileX, farthest.maxTileX, farthest.minTileZ, farthest.maxTileZ, farthest.model?.minY ?? 0)) {
+                                farthest.model?.worldRender(farthest.yaw, World.cameraSinX, World.cameraCosX, World.cameraSinY, World.cameraCosY, farthest.x - World.cx, farthest.y - World.cy, farthest.z - World.cz, farthest.typecode);
+                            }
+
+                            for (let x: number = farthest.minTileX; x <= farthest.maxTileX; x++) {
+                                for (let z: number = farthest.minTileZ; z <= farthest.maxTileZ; z++) {
+                                    const occupied: Square = tiles[x][z]!;
+
+                                    if (occupied.cornerSides !== 0) {
+                                        World.fillQueue.push(occupied);
+                                    } else if ((x !== tileX || z !== tileZ) && occupied.drawBack) {
+                                        World.fillQueue.push(occupied);
+                                    }
                                 }
                             }
                         }
                     }
+                } catch {
+                    tile.drawSprites = false;
                 }
 
                 if (tile.drawSprites) {
@@ -1994,7 +2007,7 @@ export default class World {
 
         Pix3D.trans = 0;
 
-        if ((py1 - px3) * (px1 - py3) - (pz1 - py3) * (pz0 - px3) > 0) {
+        if (((Math.imul((py1 - px3) | 0, (px1 - py3) | 0) - Math.imul((pz1 - py3) | 0, (pz0 - px3) | 0)) | 0) > 0) {
             Pix3D.hclip = py1 < 0 || px3 < 0 || pz0 < 0 || py1 > Pix2D.sizeX || px3 > Pix2D.sizeX || pz0 > Pix2D.sizeX;
 
             if (World.click && this.insideTriangle(World.clickX, World.clickY, pz1, py3, px1, py1, px3, pz0)) {
@@ -2046,7 +2059,7 @@ export default class World {
             }
         }
 
-        if ((px0 - pz0) * (py3 - px1) - (py0 - px1) * (px3 - pz0) > 0) {
+        if (((Math.imul((px0 - pz0) | 0, (py3 - px1) | 0) - Math.imul((py0 - px1) | 0, (px3 - pz0) | 0)) | 0) > 0) {
             Pix3D.hclip = px0 < 0 || pz0 < 0 || px3 < 0 || px0 > Pix2D.sizeX || pz0 > Pix2D.sizeX || px3 > Pix2D.sizeX;
 
             if (World.click && this.insideTriangle(World.clickX, World.clickY, py0, px1, py3, px0, pz0, px3)) {
@@ -2132,7 +2145,7 @@ export default class World {
             const y1: number = Ground.drawVertexY[b];
             const y2: number = Ground.drawVertexY[c];
 
-            if ((x0 - x1) * (y2 - y1) - (y0 - y1) * (x2 - x1) > 0) {
+            if (((Math.imul((x0 - x1) | 0, (y2 - y1) | 0) - Math.imul((y0 - y1) | 0, (x2 - x1) | 0)) | 0) > 0) {
                 Pix3D.hclip = x0 < 0 || x1 < 0 || x2 < 0 || x0 > Pix2D.sizeX || x1 > Pix2D.sizeX || x2 > Pix2D.sizeX;
 
                 if (World.click && this.insideTriangle(World.clickX, World.clickY, y0, y1, y2, x0, x1, x2)) {
@@ -2465,10 +2478,10 @@ export default class World {
             return false;
         }
 
-        const crossProduct_01: number = (y - y0) * (x1 - x0) - (x - x0) * (y1 - y0);
-        const crossProduct_20: number = (y - y2) * (x0 - x2) - (x - x2) * (y0 - y2);
-        const crossProduct_12: number = (y - y1) * (x2 - x1) - (x - x1) * (y2 - y1);
-        return crossProduct_01 * crossProduct_12 > 0 && crossProduct_12 * crossProduct_20 > 0;
+        const crossProduct_01: number = (Math.imul((y - y0) | 0, (x1 - x0) | 0) - Math.imul((x - x0) | 0, (y1 - y0) | 0)) | 0;
+        const crossProduct_20: number = (Math.imul((y - y2) | 0, (x0 - x2) | 0) - Math.imul((x - x2) | 0, (y0 - y2) | 0)) | 0;
+        const crossProduct_12: number = (Math.imul((y - y1) | 0, (x2 - x1) | 0) - Math.imul((x - x1) | 0, (y2 - y1) | 0)) | 0;
+        return Math.imul(crossProduct_01, crossProduct_12) > 0 && Math.imul(crossProduct_12, crossProduct_20) > 0;
     }
 
     private getTable(hsl: number, lightness: number): number {

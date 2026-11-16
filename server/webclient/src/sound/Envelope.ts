@@ -55,7 +55,7 @@ export default class Envelope {
             }
         }
 
-        this.amplitude += this.delta;
+        this.amplitude = (this.amplitude + this.delta) | 0;
         this.ticks++;
         return (this.amplitude - this.delta) >> 15;
     }

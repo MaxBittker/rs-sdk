@@ -38,7 +38,7 @@ export default class ClientNpc extends ClientEntity {
             const spotModel = spot.getTempModel2();
 
             if (spotModel != null) {
-                const temp: Model = Model.copyForAnim(spotModel, true, AnimFrame.animateTransparencies(this.spotanimFrame), false);
+                const temp: Model = Model.copyForAnim(spotModel, true, AnimFrame.animateTransparencies(spot.seq?.frames?.[this.spotanimFrame] ?? -1), false);
                 temp.translate(-this.spotanimHeight, 0, 0);
                 temp.prepareAnim();
                 if (spot.seq && spot.seq.frames) {
@@ -49,7 +49,7 @@ export default class ClientNpc extends ClientEntity {
                 temp.labelVertices = null;
 
                 if (spot.resizeh != 128 || spot.resizev != 128) {
-                    temp.resize(spot.resizev, spot.resizeh, spot.resizeh);
+                    temp.resize(spot.resizeh, spot.resizev, spot.resizeh);
                 }
 
                 temp.calculateNormals(spot.ambient + 64, spot.contrast + 850, -30, -50, -30, true);

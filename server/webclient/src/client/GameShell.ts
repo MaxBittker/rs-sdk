@@ -1,4 +1,4 @@
-import { CanvasEnabledKeys, KeyCodes } from '#/client/KeyCodes.js';
+import { CanvasEnabledKeys, getKeyCode } from '#/client/KeyCodes.js';
 
 import { canvas, canvas2d } from '#/graphics/Canvas.js';
 import Pix3D from '#/dash3d/Pix3D.js';
@@ -19,14 +19,14 @@ export default abstract class GameShell {
 
     public idleTimer: number = performance.now();
     public mouseButton: number = 0;
-    public mouseX: number = -1;
-    public mouseY: number = -1;
+    public mouseX: number = 0;
+    public mouseY: number = 0;
     protected nextMouseClickButton: number = 0;
-    protected nextMouseClickX: number = -1;
-    protected nextMouseClickY: number = -1;
+    protected nextMouseClickX: number = 0;
+    protected nextMouseClickY: number = 0;
     public mouseClickButton: number = 0;
-    public mouseClickX: number = -1;
-    public mouseClickY: number = -1;
+    public mouseClickX: number = 0;
+    public mouseClickY: number = 0;
     protected nextMouseClickTime: number = 0;
     public mouseClickTime: number = 0;
 
@@ -162,7 +162,11 @@ export default abstract class GameShell {
                 ratio = 25;
             } else if (ratio > 256) {
                 ratio = 256;
-                delta = (this.deltime - (ntime - otim) / 10) | 0;
+                delta = (this.deltime - (((ntime - otim) / 10) | 0)) | 0;
+            }
+
+            if (delta > this.deltime) {
+                delta = this.deltime;
             }
 
             this.otim[opos] = ntime;
@@ -281,11 +285,12 @@ export default abstract class GameShell {
             this.fullredraw = false;
         }
 
-        const y: number = height / 2 - 18;
+        const y: number = ((height / 2) | 0) - 18;
 
         // draw full progress bar
+        canvas2d.lineWidth = 1;
         canvas2d.strokeStyle = 'rgb(140, 17, 17)';
-        canvas2d.strokeRect(((width / 2) | 0) - 152, y, 304, 34);
+        canvas2d.strokeRect(((width / 2) | 0) - 152 + 0.5, y + 0.5, 304, 34);
         canvas2d.fillStyle = 'rgb(140, 17, 17)';
         canvas2d.fillRect(((width / 2) | 0) - 150, y + 2, progress * 3, 30);
 
@@ -295,9 +300,9 @@ export default abstract class GameShell {
 
         // draw text
         canvas2d.font = 'bold 13px helvetica, sans-serif';
-        canvas2d.textAlign = 'center';
+        canvas2d.textAlign = 'left';
         canvas2d.fillStyle = 'white';
-        canvas2d.fillText(message, (width / 2) | 0, y + 22);
+        canvas2d.fillText(message, ((width - Math.round(canvas2d.measureText(message).width)) / 2) | 0, y + 22);
 
         await sleep(5); // return a slice of time to the main loop so it can update the progress bar
     }
@@ -318,7 +323,7 @@ export default abstract class GameShell {
         this.idleTimer = performance.now();
         this.nextMouseClickX = x;
         this.nextMouseClickY = y;
-        this.nextMouseClickTime = performance.now();
+        this.nextMouseClickTime = Date.now();
 
         // custom: down event comes before and potentially without move event
         this.mouseX = x;
@@ -426,8 +431,8 @@ export default abstract class GameShell {
     private onkeydown(e: KeyboardEvent) {
         this.idleTimer = performance.now();
 
-        const keyCode = KeyCodes.get(e.key);
-        if (!keyCode || (e.code.length === 0 && !e.isTrusted)) {
+        const keyCode = getKeyCode(e.key);
+        if (e.code.length === 0 && !e.isTrusted) {
             return;
         }
 
@@ -486,8 +491,8 @@ export default abstract class GameShell {
 
         this.idleTimer = performance.now();
 
-        const keyCode = KeyCodes.get(e.key);
-        if (!keyCode || (e.code.length === 0 && !e.isTrusted)) {
+        const keyCode = getKeyCode(e.key);
+        if (e.code.length === 0 && !e.isTrusted) {
             return;
         }
 
@@ -570,12 +575,14 @@ export default abstract class GameShell {
         );
     }
 
+    private mobile: boolean | null = null;
+
     protected get isMobile(): boolean {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone|Mobile/i.test(navigator.userAgent)) {
-            return true;
+        if (this.mobile === null) {
+            this.mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone|Mobile/i.test(navigator.userAgent) || this.isTouchDevice;
         }
 
-        return this.isTouchDevice;
+        return this.mobile;
     }
 
     private isFullScreen() {

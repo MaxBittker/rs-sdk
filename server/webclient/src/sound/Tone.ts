@@ -109,7 +109,7 @@ export default class Tone {
                 const range = this.frequencyModRange.genNext(sampleCount);
 
                 frequency += this.waveFunc(range, frequencyPhase, this.frequencyModRate.form) >> 1;
-                frequencyPhase += ((rate * frequencyStart) >> 16) + frequencyDuration;
+                frequencyPhase = (frequencyPhase + (Math.imul(rate, frequencyStart) >> 16) + frequencyDuration) | 0;
             }
 
             if (this.amplitudeModRate !== null && this.amplitudeModRange !== null) {
@@ -117,7 +117,7 @@ export default class Tone {
                 const range = this.amplitudeModRange.genNext(sampleCount);
 
                 amplitude = (amplitude * ((this.waveFunc(range, amplitudePhase, this.amplitudeModRate.form) >> 1) + 32768)) >> 15;
-                amplitudePhase += ((rate * amplitudeStart) >> 16) + amplitudeDuration;
+                amplitudePhase = (amplitudePhase + (Math.imul(rate, amplitudeStart) >> 16) + amplitudeDuration) | 0;
             }
 
             for (let harmonic = 0; harmonic < 5; harmonic++) {
@@ -166,7 +166,7 @@ export default class Tone {
             const start = (this.reverbDelay * samplesPerStep) | 0;
 
             for (let sample = start; sample < sampleCount; sample++) {
-                Tone.buf[sample] += ((Tone.buf[sample - start] * this.reverbVolume) / 100) | 0;
+                Tone.buf[sample] += (Math.imul(Tone.buf[sample - start], this.reverbVolume) / 100) | 0;
             }
         }
 
@@ -174,8 +174,8 @@ export default class Tone {
             this.filterRange.genInit();
 
             let range: number = this.filterRange.genNext(sampleCount + 1);
-            let coeff0: number = this.filter.calculateCoeffs(0, range / 65536.0);
-            let coeff1: number = this.filter.calculateCoeffs(1, range / 65536.0);
+            let coeff0: number = this.filter.calculateCoeffs(0, Math.fround(range) / 65536.0);
+            let coeff1: number = this.filter.calculateCoeffs(1, Math.fround(range) / 65536.0);
 
             if (sampleCount >= coeff0 + coeff1) {
                 let sample = 0;
@@ -244,8 +244,8 @@ export default class Tone {
                         break;
                     }
 
-                    coeff0 = this.filter.calculateCoeffs(0, range / 65536.0);
-                    coeff1 = this.filter.calculateCoeffs(1, range / 65536.0);
+                    coeff0 = this.filter.calculateCoeffs(0, Math.fround(range) / 65536.0);
+                    coeff1 = this.filter.calculateCoeffs(1, Math.fround(range) / 65536.0);
                     next += step;
                 }
             }

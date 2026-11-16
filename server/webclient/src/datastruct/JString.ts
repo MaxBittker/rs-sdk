@@ -7,7 +7,6 @@ export default class JString {
     ];
 
     static toUserhash(string: string): bigint {
-        string = string.trim();
         let l: bigint = 0n;
 
         for (let i: number = 0; i < string.length && i < 12; i++) {

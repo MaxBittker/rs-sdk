@@ -5,11 +5,6 @@ const jpeg2d: CanvasRenderingContext2D = jpegCanvas.getContext('2d', {
 })!;
 
 export async function decodeJpeg(data: Uint8Array): Promise<ImageData> {
-    if (data[0] !== 0xff) {
-        // fix invalid JPEG header
-        data[0] = 0xff;
-    }
-
     URL.revokeObjectURL(jpegImg.src); // Remove previous decoded jpeg.
     jpegImg.src = URL.createObjectURL(new Blob([data as BlobPart], { type: 'image/jpeg' }));
 

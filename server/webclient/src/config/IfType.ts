@@ -90,14 +90,14 @@ export default class IfType {
     model1Id: number = 0;
     model2Id: number = 0;
     model2Type: number = 0;
-    modelAnim: number = -1;
-    modelAnim2: number = -1;
+    modelAnim: number = 0;
+    modelAnim2: number = 0;
     modelZoom: number = 0;
     modelXAn: number = 0;
     modelYAn: number = 0;
     targetVerb: string | null = null;
     targetBase: string | null = null;
-    targetMask: number = -1;
+    targetMask: number = 0;
     buttonText: string | null = null;
 
     static init(interfaces: JagFile, media: JagFile | null, fonts: PixFont[]): void {
@@ -125,7 +125,7 @@ export default class IfType {
             com.clientCode = data.g2();
             com.width = data.g2();
             com.height = data.g2();
-            com.trans = data.g1();
+            com.trans = data.g1b();
 
             com.overLayerId = data.g1();
             if (com.overLayerId === 0) {

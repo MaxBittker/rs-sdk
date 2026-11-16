@@ -93,7 +93,8 @@ export const enum ServerProt {
     LOC_DEL = 194,
     OBJ_COUNT = 117,
     MAP_ANIM = 233,
-    OBJ_ADD = 60
+    OBJ_ADD = 60,
+    SOUND_AREA = 91
 };
 
 // prettier-ignore

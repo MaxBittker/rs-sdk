@@ -31,7 +31,7 @@ export default class WordFilter {
             .map((char): number => char.charCodeAt(0))
     );
 
-    private static whitelist: string[] = ['cook', "cook's", 'cooks', 'seeks', 'sheet', 'woop', 'woops', 'faq'];
+    private static whitelist: string[] = ['cook', "cook's", 'cooks', 'seeks', 'sheet', 'woop', 'woops', 'faq', 'noob', 'noobs'];
 
     private static readonly tlds: Uint16Array[] = [];
     private static readonly tldTypes: number[] = [];
@@ -143,7 +143,10 @@ export default class WordFilter {
     }
 
     private static filterFragments(chars: string[]): void {
-        for (let currentIndex: number = 0; currentIndex < chars.length; ) {
+        let currentIndex: number = 0;
+        let count: number = 0;
+        let startIndex: number = 0;
+        while (true) {
             const numberIndex: number = this.indexOfNumber(chars, currentIndex);
             if (numberIndex === -1) {
                 return;
@@ -156,33 +159,31 @@ export default class WordFilter {
                 }
             }
 
-            let startIndex: number = 0;
-
             if (isSymbolOrNotLowercaseAlpha) {
-                startIndex = 0;
+                count = 0;
             }
 
-            if (startIndex === 0) {
-                startIndex = 1;
-                currentIndex = numberIndex;
+            if (count === 0) {
+                startIndex = numberIndex;
             }
+
+            currentIndex = this.indexOfNonNumber(numberIndex, chars);
 
             let value: number = 0;
-            for (let index: number = numberIndex; index < chars.length && index < currentIndex; index++) {
+            for (let index: number = numberIndex; index < currentIndex; index++) {
                 value = value * 10 + chars[index].charCodeAt(0) - 48;
             }
 
             if (value <= 255 && currentIndex - numberIndex <= 8) {
-                startIndex++;
+                count++;
             } else {
-                startIndex = 0;
+                count = 0;
             }
 
-            if (startIndex === 4) {
-                this.maskChars(numberIndex, currentIndex, chars);
-                startIndex = 0;
+            if (count === 4) {
+                this.maskChars(startIndex, currentIndex, chars);
+                count = 0;
             }
-            currentIndex = this.indexOfNonNumber(currentIndex, chars);
         }
     }
 
@@ -275,8 +276,10 @@ export default class WordFilter {
     private static filterDomain(period: string[], ampersat: string[], domain: Uint16Array, chars: string[]): void {
         const domainLength: number = domain.length;
         const charsLength: number = chars.length;
-        for (let index: number = 0; index <= charsLength - domainLength; index++) {
-            const { matched, currentIndex } = this.findMatchingDomain(index, domain, chars);
+        let step: number;
+        for (let index: number = 0; index <= charsLength - domainLength; index += step) {
+            const { matched, currentIndex, step: matchStep } = this.findMatchingDomain(index, domain, chars);
+            step = matchStep;
             if (!matched) {
                 continue;
             }
@@ -297,17 +300,19 @@ export default class WordFilter {
     ): {
         matched: boolean;
         currentIndex: number;
+        step: number;
     } {
         const domainLength: number = domain.length;
         let currentIndex: number = startIndex;
         let domainIndex: number = 0;
+        let step: number = 1;
 
-        while (currentIndex < chars.length && domainIndex < domainLength) {
+        while (currentIndex < chars.length) {
             const currentChar: string = chars[currentIndex];
             const nextChar: string = currentIndex + 1 < chars.length ? chars[currentIndex + 1] : '\u0000';
-            const currentLength: number = this.getEmulatedDomainCharLen(nextChar, String.fromCharCode(domain[domainIndex]), currentChar);
+            let currentLength: number;
 
-            if (currentLength > 0) {
+            if (domainIndex < domainLength && (currentLength = this.getEmulatedDomainCharLen(nextChar, String.fromCharCode(domain[domainIndex]), currentChar)) > 0) {
                 currentIndex += currentLength;
                 domainIndex++;
             } else {
@@ -316,7 +321,7 @@ export default class WordFilter {
 
                 if (previousLength > 0) {
                     currentIndex += previousLength;
-                    if (domainIndex === 1) startIndex++;
+                    if (domainIndex === 1) step++;
                 } else {
                     if (domainIndex >= domainLength || !this.isSymbol(currentChar)) break;
                     currentIndex++;
@@ -324,17 +329,19 @@ export default class WordFilter {
             }
         }
 
-        return { matched: domainIndex >= domainLength, currentIndex };
+        return { matched: domainIndex >= domainLength, currentIndex, step };
     }
 
     private static filterBadCombinations(combos: number[][] | null, chars: string[], bads: Uint16Array): void {
         if (bads.length > chars.length) {
             return;
         }
-        for (let startIndex: number = 0; startIndex <= chars.length - bads.length; startIndex++) {
+        let step: number;
+        for (let startIndex: number = 0; startIndex <= chars.length - bads.length; startIndex += step) {
             let currentIndex: number = startIndex;
-            const { currentIndex: updatedCurrentIndex, badIndex, hasSymbol, hasNumber, hasDigit } = this.processBadCharacters(chars, bads, currentIndex);
+            const { currentIndex: updatedCurrentIndex, badIndex, hasSymbol, hasNumber, hasDigit, step: matchStep } = this.processBadCharacters(chars, bads, currentIndex);
             currentIndex = updatedCurrentIndex;
+            step = matchStep;
             let currentChar: string = chars[currentIndex];
             let nextChar: string = currentIndex + 1 < chars.length ? chars[currentIndex + 1] : '\u0000';
             if (!(badIndex >= bads.length && (!hasNumber || !hasDigit))) {
@@ -405,15 +412,22 @@ export default class WordFilter {
             }
             let numeralCount: number = 0;
             let alphaCount: number = 0;
+            let lastAlphaIndex: number = -1;
             for (let index: number = startIndex; index < currentIndex; index++) {
                 if (this.isNumerical(chars[index])) {
                     numeralCount++;
                 } else if (this.isAlpha(chars[index])) {
                     alphaCount++;
+                    lastAlphaIndex = index;
                 }
+            }
+            if (lastAlphaIndex > -1) {
+                numeralCount -= currentIndex - lastAlphaIndex - 1;
             }
             if (numeralCount <= alphaCount) {
                 this.maskChars(startIndex, currentIndex, chars);
+            } else {
+                step = 1;
             }
         }
     }
@@ -428,8 +442,10 @@ export default class WordFilter {
         hasSymbol: boolean;
         hasNumber: boolean;
         hasDigit: boolean;
+        step: number;
     } {
         let index: number = startIndex;
+        let step: number = 1;
         let badIndex: number = 0;
         let count: number = 0;
         let hasSymbol: boolean = false;
@@ -460,6 +476,9 @@ export default class WordFilter {
                 let previousLength: number;
                 if ((previousLength = this.getEmulatedBadCharLen(nextChar, String.fromCharCode(bads[badIndex - 1]), currentChar)) > 0) {
                     index += previousLength;
+                    if (badIndex === 1) {
+                        step++;
+                    }
                 } else {
                     if (badIndex >= bads.length || !this.isNotLowercaseAlpha(currentChar)) {
                         break;
@@ -478,7 +497,7 @@ export default class WordFilter {
                 }
             }
         }
-        return { currentIndex: index, badIndex, hasSymbol, hasNumber, hasDigit };
+        return { currentIndex: index, badIndex, hasSymbol, hasNumber, hasDigit, step };
     }
 
     private static getEmulatedBadCharLen(nextChar: string, badChar: string, currentChar: string): number {
@@ -497,7 +516,7 @@ export default class WordFilter {
             }
             if (badChar === 'b') {
                 if (currentChar !== '6' && currentChar !== '8') {
-                    if (currentChar === '1' && nextChar === '3') {
+                    if ((currentChar === '1' && nextChar === '3') || (currentChar === 'i' && nextChar === '3')) {
                         return 2;
                     }
                     return 0;
@@ -511,7 +530,7 @@ export default class WordFilter {
                 return 1;
             }
             if (badChar === 'd') {
-                if (currentChar === '[' && nextChar === ')') {
+                if ((currentChar === '[' && nextChar === ')') || (currentChar === 'i' && nextChar === ')')) {
                     return 2;
                 }
                 return 0;
@@ -532,7 +551,7 @@ export default class WordFilter {
                 return 0;
             }
             if (badChar === 'g') {
-                if (currentChar !== '9' && currentChar !== '6') {
+                if (currentChar !== '9' && currentChar !== '6' && currentChar !== 'q') {
                     return 0;
                 }
                 return 1;
@@ -689,8 +708,10 @@ export default class WordFilter {
         if (tld.length > chars.length) {
             return;
         }
-        for (let index: number = 0; index <= chars.length - tld.length; index++) {
-            const { currentIndex, tldIndex } = this.processTlds(chars, tld, index);
+        let step: number;
+        for (let index: number = 0; index <= chars.length - tld.length; index += step) {
+            const { currentIndex, tldIndex, step: matchStep } = this.processTlds(chars, tld, index);
+            step = matchStep;
             if (tldIndex < tld.length) {
                 continue;
             }
@@ -780,14 +801,16 @@ export default class WordFilter {
     ): {
         currentIndex: number;
         tldIndex: number;
+        step: number;
     } {
         let tldIndex: number = 0;
-        while (currentIndex < chars.length && tldIndex < tld.length) {
+        let step: number = 1;
+        while (currentIndex < chars.length) {
             const currentChar: string = chars[currentIndex];
             const nextChar: string = currentIndex + 1 < chars.length ? chars[currentIndex + 1] : '\u0000';
             let currentLength: number;
 
-            if ((currentLength = this.getEmulatedDomainCharLen(nextChar, String.fromCharCode(tld[tldIndex]), currentChar)) > 0) {
+            if (tldIndex < tld.length && (currentLength = this.getEmulatedDomainCharLen(nextChar, String.fromCharCode(tld[tldIndex]), currentChar)) > 0) {
                 currentIndex += currentLength;
                 tldIndex++;
             } else {
@@ -797,15 +820,18 @@ export default class WordFilter {
                 let previousLength: number;
                 if ((previousLength = this.getEmulatedDomainCharLen(nextChar, String.fromCharCode(tld[tldIndex - 1]), currentChar)) > 0) {
                     currentIndex += previousLength;
+                    if (tldIndex === 1) {
+                        step++;
+                    }
                 } else {
-                    if (!this.isSymbol(currentChar)) {
+                    if (tldIndex >= tld.length || !this.isSymbol(currentChar)) {
                         break;
                     }
                     currentIndex++;
                 }
             }
         }
-        return { currentIndex, tldIndex };
+        return { currentIndex, tldIndex, step };
     }
 
     private static isSymbol(char: string): boolean {

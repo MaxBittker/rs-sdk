@@ -12,8 +12,8 @@ KeyCodes.set('ArrowRight', { code: 39, ch: 2 });
 KeyCodes.set('ArrowUp', { code: 38, ch: 3 });
 KeyCodes.set('ArrowDown', { code: 40, ch: 4 });
 KeyCodes.set('Control', { code: 17, ch: 5 });
-KeyCodes.set('Shift', { code: 16, ch: 6 });
-KeyCodes.set('Alt', { code: 18, ch: 7 });
+KeyCodes.set('Shift', { code: 16, ch: 65535 });
+KeyCodes.set('Alt', { code: 18, ch: 65535 });
 KeyCodes.set('Backspace', { code: 8, ch: 8 });
 KeyCodes.set('Tab', { code: 9, ch: 9 });
 KeyCodes.set('Enter', { code: 10, ch: 10 });
@@ -143,3 +143,7 @@ KeyCodes.set('W', { code: 87, ch: 87 });
 KeyCodes.set('X', { code: 88, ch: 88 });
 KeyCodes.set('Y', { code: 89, ch: 89 });
 KeyCodes.set('Z', { code: 90, ch: 90 });
+
+export function getKeyCode(key: string): JavaKeyCode {
+    return KeyCodes.get(key) ?? { code: 0, ch: key.length === 1 ? key.charCodeAt(0) : 65535 };
+}

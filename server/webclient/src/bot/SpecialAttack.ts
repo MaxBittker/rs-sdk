@@ -44,11 +44,11 @@ export const SPECIAL_WEAPONS: Readonly<Record<number, SpecialWeapon>> = {
 };
 
 /** Special attack energy in percent (0-100): %sa_energy / 10. */
-export function specialEnergyPercent(varps: number[] | undefined): number {
+export function specialEnergyPercent(varps: ArrayLike<number> | undefined): number {
     return Math.floor((varps?.[VARP_SA_ENERGY] ?? 0) / 10);
 }
 
-export function specialAttackActive(varps: number[] | undefined): boolean {
+export function specialAttackActive(varps: ArrayLike<number> | undefined): boolean {
     return (varps?.[VARP_SA_ATTACK] ?? 0) === 1;
 }
 
@@ -82,7 +82,7 @@ function equippedWeapon(): number {
  * Bring the special attack to `on`. Idempotent: reads %sa_attack and only clicks when
  * that changes something, because the bar is a toggle. `data.clicked` says whether it did.
  */
-export function setSpecialAttack(varps: number[], combatTabId: number, click: (componentId: number) => boolean, on: boolean): ActionResult {
+export function setSpecialAttack(varps: ArrayLike<number>, combatTabId: number, click: (componentId: number) => boolean, on: boolean): ActionResult {
     const specialEnergy = specialEnergyPercent(varps);
     const specialActive = specialAttackActive(varps);
     const data = { specialEnergy, specialActive, clicked: false };

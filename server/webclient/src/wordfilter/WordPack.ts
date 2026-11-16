@@ -10,6 +10,8 @@ export default class WordPack {
     ];
 
     private static builder: string[] = [];
+    // rs-sdk: upstream sizes this 100 bytes; our chat packs up to ~241 bytes (MAX_PACKED_BYTES + carry).
+    private static temp: Packet = new Packet(new Uint8Array(256));
 
     // Safety bound only, NOT the chat cap. The real per-message limit is the
     // server-configured maxMessageLength, enforced at the call sites (Client.say,
@@ -50,11 +52,19 @@ export default class WordPack {
                 this.builder[index] = char.toUpperCase();
                 uppercase = false;
             }
-            if (char === '.' || char === '!') {
+            if (char === '.' || char === '!' || char === '?') {
                 uppercase = true;
             }
         }
         return this.builder.slice(0, pos).join('');
+    }
+
+    static sanitize(str: string): string {
+        this.temp.pos = 0;
+        this.pack(this.temp, str);
+        const length: number = this.temp.pos;
+        this.temp.pos = 0;
+        return this.unpack(this.temp, length);
     }
 
     /**

@@ -51,7 +51,7 @@ export default abstract class ClientEntity extends ModelSource {
     exactMoveStart: number = 0;
     exactMoveFacing: number = 0;
     cycle: number = 0;
-    height: number = 0;
+    height: number = 200;
     dstYaw: number = 0;
     routeLength: number = 0;
     routeX: Int32Array = new Int32Array(10);

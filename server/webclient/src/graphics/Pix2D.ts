@@ -143,8 +143,8 @@ export default class Pix2D extends Linkable2 {
         this.hlineTrans(x, y, w, rgb, alpha);
         this.hlineTrans(x, y + h - 1, w, rgb, alpha);
         if (h >= 3) {
-            this.vlineTrans(x, y, h, rgb, alpha);
-            this.vlineTrans(x + w - 1, y, h, rgb, alpha);
+            this.vlineTrans(x, y + 1, h - 2, rgb, alpha);
+            this.vlineTrans(x + w - 1, y + 1, h - 2, rgb, alpha);
         }
     }
 

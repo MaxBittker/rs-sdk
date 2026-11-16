@@ -8,7 +8,7 @@ export default class VarBitType {
     basevar: number = -1;
     startbit: number = 0;
     endbit: number = 0;
-    debugname: string = '';
+    debugname: string | null = null;
 
     static init(config: JagFile): void {
         const dat: Packet = new Packet(config.read('varbit.dat'));

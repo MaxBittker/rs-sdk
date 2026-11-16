@@ -51,8 +51,10 @@ export async function playWave(data) {
         bufferSource.buffer = audioBuffer;
         bufferSource.connect(waveGain);
         bufferSource.start();
+        return true;
     } catch (e) {
         console.error(e);
+        return false;
     }
 }
 

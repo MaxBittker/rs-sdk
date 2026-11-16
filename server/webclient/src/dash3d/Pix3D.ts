@@ -42,10 +42,10 @@ export default class Pix3D extends Pix2D {
         }
 
         for (let i: number = 0; i < 2048; i++) {
-            // angular frequency: 2 * pi / 2048 = 0.0030679615757712823
+            // angular frequency: 2 * pi / 2048 ~= 0.0030679615
             // * 65536 = maximum amplitude
-            this.sinTable[i] = (Math.sin(i * 0.0030679615757712823) * 65536.0) | 0;
-            this.cosTable[i] = (Math.cos(i * 0.0030679615757712823) * 65536.0) | 0;
+            this.sinTable[i] = (Math.sin(i * 0.0030679615) * 65536.0) | 0;
+            this.cosTable[i] = (Math.cos(i * 0.0030679615) * 65536.0) | 0;
         }
     }
 
@@ -145,7 +145,8 @@ export default class Pix3D extends Pix2D {
     }
 
     private static getTexels(id: number): Int32Array | null {
-        this.texCycle[id] = this.cycle++;
+        this.texCycle[id] = this.cycle;
+        this.cycle = (this.cycle + 1) | 0;
         if (this.activeTexels[id]) {
             return this.activeTexels[id];
         }
@@ -302,6 +303,9 @@ export default class Pix3D extends Pix2D {
                 }
 
                 texturePalette[i] = this.gammaCorrect(palette[i], randomBrightness);
+                if ((texturePalette[i] & 0xf8f8ff) === 0 && i !== 0) {
+                    texturePalette[i] = 1;
+                }
             }
         }
 

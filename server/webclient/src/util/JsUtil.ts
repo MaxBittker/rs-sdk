@@ -17,7 +17,7 @@ export function bytesToBigInt(bytes: Uint8Array): bigint {
     for (let index: number = 0; index < bytes.length; index++) {
         result = (result << 8n) | BigInt(bytes[index]);
     }
-    return result;
+    return bytes.length > 0 ? BigInt.asIntN(bytes.length * 8, result) : 0n;
 }
 
 export function bigIntToBytes(bigInt: bigint): Uint8Array {
@@ -27,7 +27,7 @@ export function bigIntToBytes(bigInt: bigint): Uint8Array {
         bigInt >>= 8n;
     }
 
-    if (bytes[0] & 0x80) {
+    if (bytes.length === 0 || bytes[0] & 0x80) {
         bytes.unshift(0);
     }
 
@@ -35,7 +35,8 @@ export function bigIntToBytes(bigInt: bigint): Uint8Array {
 }
 
 export function bigIntModPow(base: bigint, exponent: bigint, modulus: bigint): bigint {
-    let result: bigint = 1n;
+    base = ((base % modulus) + modulus) % modulus;
+    let result: bigint = 1n % modulus;
     while (exponent > 0n) {
         if (exponent % 2n === 1n) {
             result = (result * base) % modulus;

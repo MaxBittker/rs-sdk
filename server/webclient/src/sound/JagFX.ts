@@ -120,7 +120,7 @@ export default class JagFX {
         let loopStart = ((this.loopBegin * 22050) / 1000) | 0;
         let loopStop = ((this.loopEnd * 22050) / 1000) | 0;
 
-        if (loopStart < 0 || loopStop < 0 || loopStop > sampleCount || loopStart >= loopStop) {
+        if (loopStart < 0 || loopStart > sampleCount || loopStop < 0 || loopStop > sampleCount || loopStart >= loopStop) {
             loopCount = 0;
         }
 

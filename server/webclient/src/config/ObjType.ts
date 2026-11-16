@@ -19,7 +19,7 @@ export default class ObjType {
     static recentPos: number = 0;
     static memServer: boolean = true;
     static modelCache: LruCache<Model> = new LruCache(50);
-    static spriteCache: LruCache<Pix32> = new LruCache(200);
+    static spriteCache: LruCache<Pix32> = new LruCache(100);
 
     id: number = -1;
 
@@ -288,8 +288,8 @@ export default class ObjType {
         this.cost = link.cost;
 
         let article: string = 'a';
-        const c: string = (link.name || '').toLowerCase().charAt(0);
-        if (c === 'a' || c === 'e' || c === 'i' || c === 'o' || c === 'u') {
+        const c: string = (link.name || '').charAt(0);
+        if (c === 'A' || c === 'E' || c === 'I' || c === 'O' || c === 'U') {
             article = 'an';
         }
         this.desc = `Swap this note at any bank for ${article} ${link.name}.`;

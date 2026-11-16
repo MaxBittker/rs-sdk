@@ -164,6 +164,8 @@ export default class Pix8 extends Pix2D {
                 pixels[off2] = tmp;
             }
         }
+
+        this.xof = this.owi - this.wi - this.xof;
     }
 
     vflip(): void {
@@ -181,6 +183,8 @@ export default class Pix8 extends Pix2D {
                 pixels[off2] = tmp;
             }
         }
+
+        this.yof = this.ohi - this.hi - this.yof;
     }
 
     plotSprite(x: number, y: number): void {

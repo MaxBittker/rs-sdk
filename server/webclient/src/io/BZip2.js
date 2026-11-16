@@ -207,7 +207,7 @@ export function bunzip2(bytes, checkMagic = false, checkCRC = false) {
                 tables.push(createOrderedHuffmanTable(lengths));
             }
             const favourites = [];
-            for (let i = 0; i < used.length - 1; i += 1) {
+            for (let i = 0; i < used.length; i += 1) {
                 if (used[i]) {
                     favourites.push(i);
                 }
@@ -282,7 +282,7 @@ export function bunzip2(bytes, checkMagic = false, checkCRC = false) {
                 }
                 if (outIndex + count >= out.length) {
                     const old = out;
-                    out = new Uint8Array(old.length * 2);
+                    out = new Uint8Array(Math.max(old.length * 2, outIndex + count + 1));
                     out.set(old);
                 }
                 for (let j = 0; j < count; j += 1) {

@@ -73,8 +73,8 @@ export default class LocType {
             offset += idx.g2();
         }
 
-        this.recent = new TypedArray1d(10, null);
-        for (let id: number = 0; id < 10; id++) {
+        this.recent = new TypedArray1d(20, null);
+        for (let id: number = 0; id < 20; id++) {
             this.recent[id] = new LocType();
         }
     }
@@ -84,14 +84,14 @@ export default class LocType {
             throw new Error();
         }
 
-        for (let i: number = 0; i < 10; i++) {
+        for (let i: number = 0; i < 20; i++) {
             const type: LocType | null = this.recent[i];
             if (type && type.id === id) {
                 return type;
             }
         }
 
-        this.recentPos = (this.recentPos + 1) % 10;
+        this.recentPos = (this.recentPos + 1) % 20;
 
         const loc: LocType = this.recent[this.recentPos]!;
         this.dat.pos = this.idx[id];
@@ -503,7 +503,7 @@ export default class LocType {
             modified.translate(this.offsety, this.offsetx, this.offsetz);
         }
 
-        modified.calculateNormals((this.ambient & 0xff) + 64, (this.contrast & 0xff) * 5 + 768, -50, -10, -50, !this.sharelight);
+        modified.calculateNormals(this.ambient + 64, this.contrast * 5 + 768, -50, -10, -50, !this.sharelight);
 
         if (this.raiseobject === 1) {
             modified.objRaise = modified.minY;

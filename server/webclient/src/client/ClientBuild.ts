@@ -795,7 +795,7 @@ export default class ClientBuild {
                 if (loc.anim === -1 && loc.multiloc === null) {
                     model = loc.getModel(22, angle, heightSW, heightSE, heightNE, heightNW, -1);
                 } else {
-                    model = new ClientLocAnim(locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                    model = new ClientLocAnim(locId, 22, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
                 }
 
                 world?.setGroundDecor(model, level, x, z, y, typecode, typecode2);
@@ -1171,9 +1171,9 @@ export default class ClientBuild {
     static changeLocUnchecked(level: number, x: number, z: number, locId: number, shape: number, angle: number, trueLevel: number, levelHeightmap: Int32Array[][], world: World | null, cmap: CollisionMap | null): void {
         let heightSW: number = levelHeightmap[trueLevel][x][z];
         let heightSE: number = levelHeightmap[trueLevel][x + 1][z];
-        let heightNW: number = levelHeightmap[trueLevel][x + 1][z + 1];
-        let heightNE: number = levelHeightmap[trueLevel][x][z + 1];
-        const y: number = (heightSW + heightSE + heightNW + heightNE) >> 2;
+        let heightNE: number = levelHeightmap[trueLevel][x + 1][z + 1];
+        let heightNW: number = levelHeightmap[trueLevel][x][z + 1];
+        const y: number = (heightSW + heightSE + heightNE + heightNW) >> 2;
 
         const loc: LocType = LocType.list(locId);
 
@@ -1190,7 +1190,7 @@ export default class ClientBuild {
             if (loc.anim === -1 && loc.multiloc === null) {
                 model = loc.getModel(22, angle, heightSW, heightSE, heightNE, heightNW, -1);
             } else {
-                model = new ClientLocAnim(locId, 22, shape, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
+                model = new ClientLocAnim(locId, 22, angle, heightSW, heightSE, heightNE, heightNW, loc.anim, true);
             }
 
             world?.setGroundDecor(model, level, x, z, y, typecode, typecode2);

@@ -275,6 +275,10 @@ Upgrade hazards:
       enums, but **layout changes don't**: diff upstream's `Client.ts` read paths every upgrade.
       289 changed `UPDATE_INV_FULL` size `g1`→`g2` and `UPDATE_INV_PARTIAL` slot `g1`→`gsmart`
       (ported). A mismatch desyncs the stream silently or kicks the bot.
+      Behavior ports too: upstream 1e8d2b8 made `PlayerUpdate.SAY` add to the chat log only
+      for the local player or a `~`-prefixed line (stripped); mirrored in
+      `lite/protocol/entities.ts`. Its new zone packet `SOUND_AREA` (91) is NOT decoded by
+      lite — our engine never sends it; port it if the engine ever does.
 - [ ] **`src/io/ClientStream.ts` `isClosed` getter** — 3 added lines exposing
       `dummy || remoteClosed`. The browser client learns a socket is dead by reading from
       it and taking the throw; the lite session loop only reads when `available > 0`,
@@ -307,7 +311,11 @@ Upgrade hazards:
       the engine `WorldConfig` default). `lite/runner.ts` honors a `GATEWAY_URL` override
       (bot.env or process env) because SERVER doubles as game origin + gateway address and
       that breaks for `localhost:8888`.
-      Verify: `grep -n "MAX_CHARS = 512" src/wordfilter/WordPack.ts && grep -n "?? 400" src/lite/LiteClient.ts`
+      Upstream 1e8d2b8 (2026-10-22) added `WordPack.sanitize()` (pack→unpack round-trip of typed
+      chat) with a 100-byte scratch `temp` Packet; ours is **256 bytes** so it holds a full
+      240-byte budget (+carry) — at 100 a long message would silently truncate. Keep our
+      `pos < this.MAX_CHARS` guard in `unpack()` (upstream dropped its `pos < 100`).
+      Verify: `grep -n "MAX_CHARS = 512" src/wordfilter/WordPack.ts && grep -n "?? 400" src/lite/LiteClient.ts && grep -n "Uint8Array(256)" src/wordfilter/WordPack.ts`
 
 ### Bot bridge (wholly added — `src/bot/`, 8 files + `src/client/BotClient.ts`, `src/viewer/ItemViewer.ts`)
 - [ ] `StateCollector.ts`, `BotOverlay.ts`, `ActionExecutor.ts`, `GatewayConnection.ts`,
@@ -315,6 +323,9 @@ Upgrade hazards:
       Note: **gateway state messages come from `BotOverlay.sendState()`** (includes
       `allComponents`/`componentId`), not `StateCollector.collectDialogState` (basic fallback).
       `GatewayConnection` reads `?bot=`/`?password=` **at page load** for gateway registration.
+      `Client.var` is an `Int32Array(2000)` since upstream 1e8d2b8 (lite keeps `number[]`), so
+      bot helpers take `ArrayLike<number>` (`SpecialAttack.ts`) and unset varps read 0, not
+      undefined. Never `JSON.stringify` it raw (serializes as an object).
 
 - [ ] **`src/dash3d/LoopCycle.ts`** (rs-sdk-only) — the frame counter split out of Client;
       `Client.loopCycle` is now a static getter/setter over it and

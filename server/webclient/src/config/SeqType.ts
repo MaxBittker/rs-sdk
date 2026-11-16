@@ -37,7 +37,7 @@ export default class SeqType {
     maxloops: number = 99;
     preanim_move: number = -1;
     postanim_move: number = -1;
-    duplicatebehaviour: number = -1;
+    duplicatebehaviour: number = 0;
 
     static init(config: JagFile): void {
         const dat: Packet = new Packet(config.read('seq.dat'));

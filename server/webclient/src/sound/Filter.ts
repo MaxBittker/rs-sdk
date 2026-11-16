@@ -68,29 +68,29 @@ export default class Filter {
     private radius(pair: number, direction: number, t: number): number {
         const base: number = this.ranges[direction][0][pair];
         const range: number = this.ranges[direction][1][pair];
-        const value: number = base + t * (range - base);
-        const scaled: number = value * 0.0015258789; // 1 / 655.36
-        return 1.0 - Math.pow(10.0, -scaled / 20.0);
+        const value: number = Math.fround(base + Math.fround(t * (range - base)));
+        const scaled: number = Math.fround(value * Math.fround(0.0015258789)); // 1 / 655.36
+        return Math.fround(1.0 - Math.fround(Math.pow(10.0, Math.fround(-scaled / 20.0))));
     }
 
     private frequency(value: number): number {
-        const hz: number = Math.pow(2.0, value) * 32.703197;
-        return (hz * Math.PI) / 11025.0;
+        const hz: number = Math.fround(Math.fround(Math.pow(2.0, value)) * Math.fround(32.703197));
+        return Math.fround(Math.fround(hz * Math.fround(3.1415927)) / 11025.0);
     }
 
     private frequencyFor(direction: number, pair: number, t: number): number {
         const base: number = this.frequencies[direction][0][pair];
         const range: number = this.frequencies[direction][1][pair];
-        const value: number = base + t * (range - base);
-        const scaled: number = value * 1.2207031e-4;
+        const value: number = Math.fround(base + Math.fround(t * (range - base)));
+        const scaled: number = Math.fround(value * Math.fround(1.2207031e-4));
         return this.frequency(scaled);
     }
 
     calculateCoeffs(direction: number, t: number): number {
         if (direction === 0) {
-            const unity: number = this.unities[0] + (this.unities[1] - this.unities[0]) * t;
-            const scaled: number = unity * 0.0030517578;
-            Filter.reduceCoeff = Math.pow(0.1, scaled / 20.0);
+            const unity: number = Math.fround(this.unities[0] + Math.fround((this.unities[1] - this.unities[0]) * t));
+            const scaled: number = Math.fround(unity * Math.fround(0.0030517578));
+            Filter.reduceCoeff = Math.fround(Math.pow(0.1, Math.fround(scaled / 20.0)));
             Filter.reduceCoeffInt = (Filter.reduceCoeff * 65536.0) | 0;
         }
 
@@ -98,24 +98,26 @@ export default class Filter {
             return 0;
         }
 
+        const c: Float32Array = Filter.coeff[direction];
+
         let r = this.radius(0, direction, t);
-        Filter.coeff[direction][0] = -2.0 * r * Math.cos(this.frequencyFor(direction, 0, t));
-        Filter.coeff[direction][1] = r * r;
+        c[0] = Math.fround(-2.0 * r) * Math.fround(Math.cos(this.frequencyFor(direction, 0, t)));
+        c[1] = r * r;
 
         for (let pair = 1; pair < this.pairs[direction]; pair++) {
             r = this.radius(pair, direction, t);
-            const coeff = -2.0 * r * Math.cos(this.frequencyFor(direction, pair, t));
-            const coeff2 = r * r;
+            const coeff = Math.fround(Math.fround(-2.0 * r) * Math.fround(Math.cos(this.frequencyFor(direction, pair, t))));
+            const coeff2 = Math.fround(r * r);
 
-            Filter.coeff[direction][pair * 2 + 1] = Filter.coeff[direction][pair * 2 - 1] * coeff2;
-            Filter.coeff[direction][pair * 2] = Filter.coeff[direction][pair * 2 - 1] * coeff + Filter.coeff[direction][pair * 2 - 2] * coeff2;
+            c[pair * 2 + 1] = c[pair * 2 - 1] * coeff2;
+            c[pair * 2] = Math.fround(c[pair * 2 - 1] * coeff) + Math.fround(c[pair * 2 - 2] * coeff2);
 
             for (let i = pair * 2 - 1; i >= 2; i--) {
-                Filter.coeff[direction][i] += Filter.coeff[direction][i - 1] * coeff + Filter.coeff[direction][i - 2] * coeff2;
+                c[i] += Math.fround(Math.fround(c[i - 1] * coeff) + Math.fround(c[i - 2] * coeff2));
             }
 
-            Filter.coeff[direction][1] += Filter.coeff[direction][0] * coeff + coeff2;
-            Filter.coeff[direction][0] += coeff;
+            c[1] += Math.fround(Math.fround(c[0] * coeff) + coeff2);
+            c[0] += coeff;
         }
 
         if (direction === 0) {

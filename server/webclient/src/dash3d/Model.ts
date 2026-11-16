@@ -17,21 +17,21 @@ class Metadata {
     numFaces: number = 0;
     numT: number = 0;
 
-    vertexOrderOffset: number = -1;
-    vertexXOffset: number = -1;
-    vertexYOffset: number = -1;
-    vertexZOffset: number = -1;
-    vertexLabelOffset: number = -1;
+    vertexOrderOffset: number = 0;
+    vertexXOffset: number = 0;
+    vertexYOffset: number = 0;
+    vertexZOffset: number = 0;
+    vertexLabelOffset: number = 0;
 
-    faceIndexOffset: number = -1;
-    faceIndexOrderOffset: number = -1;
-    faceColourOffset: number = -1;
-    faceRenderTypeOffset: number = -1;
+    faceIndexOffset: number = 0;
+    faceIndexOrderOffset: number = 0;
+    faceColourOffset: number = 0;
+    faceRenderTypeOffset: number = 0;
     facePriorityOffset: number = 0;
-    faceAlphaOffset: number = -1;
-    faceLabelOffset: number = -1;
+    faceAlphaOffset: number = 0;
+    faceLabelOffset: number = 0;
 
-    faceTextureAxisOffset: number = -1;
+    faceTextureAxisOffset: number = 0;
 }
 
 export default class Model extends ModelSource {
@@ -280,19 +280,20 @@ export default class Model extends ModelSource {
 
         model.faceColour = new Int32Array(model.numFaces);
 
-        const point1 = new Packet(meta.src);
+        const src: Uint8Array = meta.src ?? new Uint8Array(0);
+        const point1 = new Packet(src);
         point1.pos = meta.vertexOrderOffset;
 
-        const point2 = new Packet(meta.src);
+        const point2 = new Packet(src);
         point2.pos = meta.vertexXOffset;
 
-        const point3 = new Packet(meta.src);
+        const point3 = new Packet(src);
         point3.pos = meta.vertexYOffset;
 
-        const point4 = new Packet(meta.src);
+        const point4 = new Packet(src);
         point4.pos = meta.vertexZOffset;
 
-        const point5 = new Packet(meta.src);
+        const point5 = new Packet(src);
         point5.pos = meta.vertexLabelOffset;
 
         let dx = 0;
@@ -329,19 +330,19 @@ export default class Model extends ModelSource {
             }
         }
 
-        const face1 = new Packet(meta.src);
+        const face1 = new Packet(src);
         face1.pos = meta.faceColourOffset;
 
-        const face2 = new Packet(meta.src);
+        const face2 = new Packet(src);
         face2.pos = meta.faceRenderTypeOffset;
 
-        const face3 = new Packet(meta.src);
+        const face3 = new Packet(src);
         face3.pos = meta.facePriorityOffset;
 
-        const face4 = new Packet(meta.src);
+        const face4 = new Packet(src);
         face4.pos = meta.faceAlphaOffset;
 
-        const face5 = new Packet(meta.src);
+        const face5 = new Packet(src);
         face5.pos = meta.faceLabelOffset;
 
         for (let f = 0; f < model.numFaces; f++) {
@@ -364,10 +365,10 @@ export default class Model extends ModelSource {
             }
         }
 
-        const vertex1 = new Packet(meta.src);
+        const vertex1 = new Packet(src);
         vertex1.pos = meta.faceIndexOffset;
 
-        const vertex2 = new Packet(meta.src);
+        const vertex2 = new Packet(src);
         vertex2.pos = meta.faceIndexOrderOffset;
 
         let a = 0;
@@ -405,7 +406,7 @@ export default class Model extends ModelSource {
             model.faceVertexC[f] = c;
         }
 
-        const axis = new Packet(meta.src);
+        const axis = new Packet(src);
         axis.pos = meta.faceTextureAxisOffset;
 
         for (let f = 0; f < model.numT; f++) {
@@ -514,6 +515,8 @@ export default class Model extends ModelSource {
             const model: Model | null = models[i];
 
             if (model !== null) {
+                const numT: number = combined.numT;
+
                 for (let f: number = 0; f < model.numFaces; f++) {
                     if (copyRenderType) {
                         if (model.faceRenderType === null) {
@@ -522,7 +525,11 @@ export default class Model extends ModelSource {
                             }
                         } else {
                             if (combined.faceRenderType) {
-                                combined.faceRenderType[combined.numFaces] = model.faceRenderType[f];
+                                let type: number = model.faceRenderType[f];
+                                if ((type & 0x2) === 0x2) {
+                                    type += numT << 2;
+                                }
+                                combined.faceRenderType[combined.numFaces] = type;
                             }
                         }
                     }
@@ -662,7 +669,8 @@ export default class Model extends ModelSource {
             const model: Model = models[i];
 
             if (model !== null) {
-                const vertexCount: number = combined.numPoints;
+                const numPoints: number = combined.numPoints;
+                const numT: number = combined.numT;
 
                 for (let v: number = 0; v < model.numPoints; v++) {
                     combined.pointX[combined.numPoints] = model.pointX![v];
@@ -672,9 +680,9 @@ export default class Model extends ModelSource {
                 }
 
                 for (let f: number = 0; f < model.numFaces; f++) {
-                    combined.faceVertexA[combined.numFaces] = model.faceVertexA![f] + vertexCount;
-                    combined.faceVertexB[combined.numFaces] = model.faceVertexB![f] + vertexCount;
-                    combined.faceVertexC[combined.numFaces] = model.faceVertexC![f] + vertexCount;
+                    combined.faceVertexA[combined.numFaces] = model.faceVertexA![f] + numPoints;
+                    combined.faceVertexB[combined.numFaces] = model.faceVertexB![f] + numPoints;
+                    combined.faceVertexC[combined.numFaces] = model.faceVertexC![f] + numPoints;
 
                     combined.faceColourA[combined.numFaces] = model.faceColourA![f];
                     combined.faceColourB[combined.numFaces] = model.faceColourB![f];
@@ -687,7 +695,11 @@ export default class Model extends ModelSource {
                             }
                         } else {
                             if (combined.faceRenderType) {
-                                combined.faceRenderType[combined.numFaces] = model.faceRenderType[f];
+                                let type: number = model.faceRenderType[f];
+                                if ((type & 0x2) === 0x2) {
+                                    type += numT << 2;
+                                }
+                                combined.faceRenderType[combined.numFaces] = type;
                             }
                         }
                     }
@@ -722,9 +734,9 @@ export default class Model extends ModelSource {
                 }
 
                 for (let f: number = 0; f < model.numT; f++) {
-                    combined.faceTextureP[combined.numT] = model.faceTextureP![f] + vertexCount;
-                    combined.faceTextureM[combined.numT] = model.faceTextureM![f] + vertexCount;
-                    combined.faceTextureN[combined.numT] = model.faceTextureN![f] + vertexCount;
+                    combined.faceTextureP[combined.numT] = model.faceTextureP![f] + numPoints;
+                    combined.faceTextureM[combined.numT] = model.faceTextureM![f] + numPoints;
+                    combined.faceTextureN[combined.numT] = model.faceTextureN![f] + numPoints;
                     combined.numT++;
                 }
             }
@@ -999,15 +1011,15 @@ export default class Model extends ModelSource {
                 this.maxY = y;
             }
 
-            const radiusSqr: number = x * x + z * z;
+            const radiusSqr: number = (Math.imul(x, x) + Math.imul(z, z)) | 0;
             if (radiusSqr > this.radius) {
                 this.radius = radiusSqr;
             }
         }
 
         this.radius = (Math.sqrt(this.radius) + 0.99) | 0;
-        this.minDepth = (Math.sqrt(this.radius * this.radius + this.minY * this.minY) + 0.99) | 0;
-        this.maxDepth = this.minDepth + ((Math.sqrt(this.radius * this.radius + this.maxY * this.maxY) + 0.99) | 0);
+        this.minDepth = (Math.sqrt((Math.imul(this.radius, this.radius) + Math.imul(this.minY, this.minY)) | 0) + 0.99) | 0;
+        this.maxDepth = (this.minDepth + ((Math.sqrt((Math.imul(this.radius, this.radius) + Math.imul(this.maxY, this.maxY)) | 0) + 0.99) | 0)) | 0;
     }
 
     recalcBoundingCylinder(): void {
@@ -1026,8 +1038,8 @@ export default class Model extends ModelSource {
             }
         }
 
-        this.minDepth = (Math.sqrt(this.radius * this.radius + this.minY * this.minY) + 0.99) | 0;
-        this.maxDepth = this.minDepth + ((Math.sqrt(this.radius * this.radius + this.maxY * this.maxY) + 0.99) | 0);
+        this.minDepth = (Math.sqrt((Math.imul(this.radius, this.radius) + Math.imul(this.minY, this.minY)) | 0) + 0.99) | 0;
+        this.maxDepth = (this.minDepth + ((Math.sqrt((Math.imul(this.radius, this.radius) + Math.imul(this.maxY, this.maxY)) | 0) + 0.99) | 0)) | 0;
     }
 
     private calcBoundingCube(): void {
@@ -1068,25 +1080,25 @@ export default class Model extends ModelSource {
                 this.maxY = y;
             }
 
-            const radiusSqr: number = x * x + z * z;
+            const radiusSqr: number = (Math.imul(x, x) + Math.imul(z, z)) | 0;
             if (radiusSqr > this.radius) {
                 this.radius = radiusSqr;
             }
         }
 
         this.radius = Math.sqrt(this.radius) | 0;
-        this.minDepth = Math.sqrt(this.radius * this.radius + this.minY * this.minY) | 0;
-        this.maxDepth = this.minDepth + (Math.sqrt(this.radius * this.radius + this.maxY * this.maxY) | 0);
+        this.minDepth = Math.sqrt((Math.imul(this.radius, this.radius) + Math.imul(this.minY, this.minY)) | 0) | 0;
+        this.maxDepth = (this.minDepth + (Math.sqrt((Math.imul(this.radius, this.radius) + Math.imul(this.maxY, this.maxY)) | 0) | 0)) | 0;
     }
 
     prepareAnim(): void {
         if (this.vertexLabel) {
-            const labelVertexCount: Int32Array = new Int32Array(256);
+            const vertexLabelCount: Int32Array = new Int32Array(256);
             let count: number = 0;
 
             for (let v: number = 0; v < this.numPoints; v++) {
                 const label: number = this.vertexLabel[v];
-                labelVertexCount[label]++;
+                vertexLabelCount[label]++;
                 if (label > count) {
                     count = label;
                 }
@@ -1094,8 +1106,8 @@ export default class Model extends ModelSource {
 
             this.labelVertices = new TypedArray1d(count + 1, null);
             for (let label: number = 0; label <= count; label++) {
-                this.labelVertices[label] = new Int32Array(labelVertexCount[label]);
-                labelVertexCount[label] = 0;
+                this.labelVertices[label] = new Int32Array(vertexLabelCount[label]);
+                vertexLabelCount[label] = 0;
             }
 
             let v: number = 0;
@@ -1106,7 +1118,7 @@ export default class Model extends ModelSource {
                     continue;
                 }
 
-                verts[labelVertexCount[label]++] = v++;
+                verts[vertexLabelCount[label]++] = v++;
             }
 
             this.vertexLabel = null;
@@ -1713,7 +1725,7 @@ export default class Model extends ModelSource {
         try {
             // try catch for example a model being drawn from 3d can crash like at baxtorian falls
             this.render2(false, false, 0);
-        } catch (_e) {
+        } catch {
             // empty
         }
     }
@@ -1845,7 +1857,7 @@ export default class Model extends ModelSource {
         try {
             // try catch for example a model being drawn from 3d can crash like at baxtorian falls
             this.render2(clipped, picking, typecode);
-        } catch (_e) {
+        } catch {
             // empty
         }
     }
@@ -1887,12 +1899,12 @@ export default class Model extends ModelSource {
                     picking = false;
                 }
 
-                const dxAB: number = xA - xB;
-                const dyAB: number = yA - yB;
-                const dxCB: number = xC - xB;
-                const dyCB: number = yC - yB;
+                const dxAB: number = (xA - xB) | 0;
+                const dyAB: number = (yA - yB) | 0;
+                const dxCB: number = (xC - xB) | 0;
+                const dyCB: number = (yC - yB) | 0;
 
-                if (dxAB * dyCB - dyAB * dxCB <= 0) {
+                if (((Math.imul(dxAB, dyCB) - Math.imul(dyAB, dxCB)) | 0) <= 0) {
                     continue;
                 }
 
@@ -1915,8 +1927,9 @@ export default class Model extends ModelSource {
                 for (let f: number = 0; f < count; f++) {
                     try {
                         this.render3(faces[f]);
-                    } catch (_e) {
+                    } catch {
                         // chrome's V8 optimizer hates us
+                        return;
                     }
                 }
             }
@@ -2004,8 +2017,9 @@ export default class Model extends ModelSource {
                     } else {
                         priorityDepth = -1000;
                     }
-                } catch (_e) {
+                } catch {
                     // chrome's V8 optimizer hates us
+                    return;
                 }
             }
 
@@ -2025,8 +2039,9 @@ export default class Model extends ModelSource {
                     } else {
                         priorityDepth = -1000;
                     }
-                } catch (_e) {
+                } catch {
                     // chrome's V8 optimizer hates us
+                    return;
                 }
             }
 
@@ -2046,8 +2061,9 @@ export default class Model extends ModelSource {
                     } else {
                         priorityDepth = -1000;
                     }
-                } catch (_e) {
+                } catch {
                     // chrome's V8 optimizer hates us
+                    return;
                 }
             }
 
@@ -2057,8 +2073,9 @@ export default class Model extends ModelSource {
             for (let i: number = 0; i < count; i++) {
                 try {
                     this.render3(faces[i]);
-                } catch (_e) {
+                } catch {
                     // chrome's V8 optimizer hates us
+                    return;
                 }
             }
         }
@@ -2079,8 +2096,9 @@ export default class Model extends ModelSource {
                 } else {
                     priorityDepth = -1000;
                 }
-            } catch (_e) {
+            } catch {
                 // chrome's V8 optimizer hates us
+                return;
             }
         }
     }
@@ -2252,7 +2270,7 @@ export default class Model extends ModelSource {
         const y1: number = Model.clippedY[1];
         const y2: number = Model.clippedY[2];
 
-        if ((x0 - x1) * (y2 - y1) - (y0 - y1) * (x2 - x1) <= 0) {
+        if (((Math.imul((x0 - x1) | 0, (y2 - y1) | 0) - Math.imul((y0 - y1) | 0, (x2 - x1) | 0)) | 0) <= 0) {
             return;
         }
 

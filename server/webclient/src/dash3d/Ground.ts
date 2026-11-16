@@ -57,8 +57,8 @@ export default class Ground {
     readonly faceVertexC: Int32Array;
     readonly faceTexture: Int32Array | null;
     readonly flat: boolean;
-    readonly minimapUnderlay: number;
     readonly minimapOverlay: number;
+    readonly minimapUnderlay: number;
     readonly overlayShape: number;
     readonly overlayRotation: number;
 
@@ -69,13 +69,13 @@ export default class Ground {
         heightSW: number, heightSE: number, heightNE: number, heightNW: number,
         colourSW: number, colourSE: number, colourNE: number, colourNW: number,
         colour2SW: number, colour2SE: number, colour2NE: number, colour2NW: number,
-        overlay: number, underlay: number
+        underlay: number, overlay: number
     ) {
         this.flat = !(heightSW !== heightSE || heightSW !== heightNE || heightSW !== heightNW);
         this.overlayShape = shape;
         this.overlayRotation = rotation;
-        this.minimapOverlay = overlay;
         this.minimapUnderlay = underlay;
+        this.minimapOverlay = overlay;
 
         const points: Int8Array = defShapeP[shape];
         const vertexCount: number = points.length;

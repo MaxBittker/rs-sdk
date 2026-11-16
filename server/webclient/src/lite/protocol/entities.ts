@@ -258,12 +258,17 @@ function decodePlayerExtended(c: LiteClient, player: ClientPlayer, index: number
 
     if ((mask & PlayerUpdate.SAY) !== 0) {
         player.chatMessage = buf.gjstr();
+        // Upstream 289 (Client-TS 1e8d2b8): other players' scripted say stays overhead only,
+        // unless the script forces it into the chat log with a leading '~'.
+        if (player.chatMessage.charAt(0) === '~') {
+            player.chatMessage = player.chatMessage.substring(1);
+            c.addChat(2, player.chatMessage, player.name ?? '');
+        } else if (player === c.localPlayer) {
+            c.addChat(2, player.chatMessage, player.name ?? '');
+        }
         player.chatColour = 0;
         player.chatEffect = 0;
         player.chatTimer = 150;
-        if (player.name) {
-            c.addChat(2, player.chatMessage, player.name);
-        }
     }
 
     if ((mask & PlayerUpdate.HITMARK) !== 0) {
