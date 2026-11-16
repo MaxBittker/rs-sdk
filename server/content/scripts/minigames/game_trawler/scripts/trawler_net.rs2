@@ -25,18 +25,22 @@ if (loc_find(^trawler_flood_net2, trawlernet_r) = true) {
 }
 huntall(^trawler_start_center_under, 8, 0);
 while (huntnext = true) {
+    if_close;
     queue(trawler_player_rip_net, 0, 0);
 }
 huntall(^trawler_start_center, 8, 0);
 while (huntnext = true) {
+    if_close;
     queue(trawler_player_rip_net, 0, 0);
 }
 huntall(^trawler_flood_center_under, 8, 0);
 while (huntnext = true) {
+    if_close;
     queue(trawler_player_rip_net, 0, 0);
 }
 huntall(^trawler_flood_center, 8, 0);
 while (huntnext = true) {
+    if_close;
     queue(trawler_player_rip_net, 0, 0);
 }
 

@@ -3,7 +3,9 @@
 
 [opnpc1,radimus_erkle]
 if(inzone(0_42_52_34_45, 0_42_52_45_56, npc_coord) = true) {
-    if(%legendsquest = ^legends_returned_to_radimus) {
+    if(%legendsquest < ^legends_returned_to_radimus) {
+        ~chatnpc("<p,neutral>Hello there. Meet me in the outside building to the right and I'll have a chat with you about the Legends Guild.");
+    } else if(%legendsquest = ^legends_returned_to_radimus) {
         ~chatnpc("<p,neutral>Welcome to the Legends Guild Main Hall. We've placed your Totem Pole as pride of place. All members of the Legends Guild will see it as they walk in. They will know that it was you who brought it back.");
         ~chatnpc("<p,neutral>Congratulations, you're now a fully fledged member. I would like to offer you some training which will increase your experience and abilities in four areas. Would you like to train now?");
         @multi2("Yes, I'll train now.", radimus_training, "No, I've got something else to do at the moment.", radimus_somethingelse);
@@ -14,6 +16,12 @@ if(inzone(0_42_52_34_45, 0_42_52_45_56, npc_coord) = true) {
         queue(legends_quest_complete, 0, 0);
     }
     @radimus_postquest;
+    return;
+}
+if (%crestquest < ^crest_complete | %heroquest < ^hero_complete |
+    %zombiequeen < ^zombiequeen_complete | %upass < ^upass_complete |
+    %waterfall_quest < ^waterfall_complete | %qp < ^legends_required_questpoints) {
+    ~chatnpc("<p,neutral>I'm very sorry <text_gender("Sir", "Ma'am")>, but you're not eligible for the Legends Guild Quest. Please talk to the Guards outside the Legends Guild grounds. They'll give you details of what you need to qualify for the quest.");
     return;
 }
 if (%legendsquest >= ^legends_returned_to_radimus & %legendsquest < ^legends_complete) {

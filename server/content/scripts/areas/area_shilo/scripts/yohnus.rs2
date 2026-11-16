@@ -1,5 +1,6 @@
 // doesn't exist on either game anymore, mesanims guessed
 [opnpc1,shilofurnaceowner]
+if(%zombiequeen < ^zombiequeen_complete) @zq_prequest_dialogue;
 ~chatplayer("<p,neutral>Hello.");
 @shilofurnaceowner_blacksmiths;
 

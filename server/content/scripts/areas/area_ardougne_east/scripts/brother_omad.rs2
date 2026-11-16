@@ -33,7 +33,6 @@ switch_int (~p_choice2("Can I help at all?", 1, "I'm sorry to hear that! I hope 
 ~chatnpc("<p,neutral>Please do. We won't be able to help you as we are peaceful men but we would be grateful for your help!");
 ~chatplayer("<p,neutral>Where are they?");
 %drunkmonkquest = ^drunkmonk_spoken_to_omad;
-settimer(blanket_ladder, 1);
 ~send_quest_progress(questlist:drunkmonk, %drunkmonkquest, ^drunkmonk_complete);
 ~chatnpc("<p,neutral>They hide in a secret cave in the forest. It's hidden under a ring of stones. Please, bring back the blanket!");
 

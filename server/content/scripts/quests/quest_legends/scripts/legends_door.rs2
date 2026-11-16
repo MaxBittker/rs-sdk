@@ -2,11 +2,12 @@
 [oploc1,legendsguilddoorr] @open_legends_door(^right);
 
 [label,open_legends_door](int $side)
-if (%legendsquest >= ^legends_returned_to_radimus) {
+def_boolean $entering = ~check_axis(coord, loc_coord, loc_angle);
+if (%legendsquest >= ^legends_returned_to_radimus | $entering = ^false) {
     mes("You approach the Legends Guild main doors.");
     mes("You push the huge Legends Guild doors open.");
-    ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), $side, door_open);
+    ~open_and_close_double_door2($entering, $side, door_open);
 } else {
     // RSC / RS3
-    ~mesbox("You need to complete the Legends Guild Quest before you can enter the Legends Guild.");
+    ~mesbox("You need to complete the 'Legends Guild Quest' before you can enter the Legends Guild.");
 }

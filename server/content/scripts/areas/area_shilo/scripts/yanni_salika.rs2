@@ -1,4 +1,8 @@
 [opnpc1,shiloantiques]
+if(%zombiequeen < ^zombiequeen_complete) {
+    ~chatnpc("<p,neutral>Sorry, the shop isn't open yet. We're still getting it ready.");
+    return;
+}
 ~chatplayer("<p,neutral>Hello there!");
 // https://web.archive.org/web/20050204071450im_/http://www.runehq.com//images/cityguides/shilo9.jpg
 ~chatnpc("<p,neutral>Greetings Bwana!|My name is Yanni and I buy and sell antiques|and other interesting items.|If you have any interesting items that you might");

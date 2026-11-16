@@ -1,3 +1,18 @@
+[zone,0_39_50_56_16] @drunkmonk_setup_timer;
+[zone,0_39_50_56_24] @drunkmonk_setup_timer;
+[zone,0_40_50_0_16] @drunkmonk_setup_timer;
+[zone,0_40_50_0_24] @drunkmonk_setup_timer;
+
+[zoneexit,0_39_50_56_16] cleartimer(blanket_ladder);
+[zoneexit,0_39_50_56_24] cleartimer(blanket_ladder);
+[zoneexit,0_40_50_0_16] cleartimer(blanket_ladder);
+[zoneexit,0_40_50_0_24] cleartimer(blanket_ladder);
+
+[label,drunkmonk_setup_timer]
+if (%drunkmonkquest >= ^drunkmonk_spoken_to_omad) {
+    settimer(blanket_ladder, 1);
+}
+
 [timer,blanket_ladder]
 if(distance(^blanket_ladder_coord, coord) <= 2 & ~drunkmonk_ladder_active = false) {
     mes("A ladder mysteriously appears.");

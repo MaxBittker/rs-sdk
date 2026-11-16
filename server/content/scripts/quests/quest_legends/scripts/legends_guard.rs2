@@ -26,7 +26,7 @@ if (%legendsquest = ^legends_complete) {
     ~chatnpc("<p,neutral>Welcome <text_gender("Sir", "Madam")>! I hope you enjoy your time in the Legends' Guild.");
 }
 else if (%legendsquest = ^legends_not_started) {
-    ~chatnpc("<p,neutral>Yes <text_gender("sir", "ma'am")>, how can I help you?");
+    ~chatnpc("<p,neutral>Yes <text_gender("Sir", "Ma'am")>, how can I help you?");
     @multi4("What is this place?", legends_guard_what,
             "How do I get in here?", legends_guard_how,
             "Can I speak to someone in charge?", legends_guard_charge,
@@ -79,35 +79,32 @@ else {
 
 [label,legends_guard_open_gate]
 if_close;
-if(%temp > 0) { // if you had started the dialogue by clicking on the gate, it will open as a standard gate
-    // https://youtu.be/3Dty7jbf4yI?si=smAYfLxIMWudyLTK&t=172, uses opposite side...?
-    if(loc_find(movecoord(coord, 1, 0, 0), legendsguildgater) = true) {
-        ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), ^right, grate_open);
-    } else if(loc_find(movecoord(coord, -1, 0, 0), legendsguildgatel) = true) {
-        ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), ^left, grate_open);
-    }
+// if you had started the dialogue by clicking on the gate, it will open as a standard gate
+if(%temp = 2 & loc_find(^legends_guild_gate_east_coord, legendsguildgater) = true) {
+    ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), ^right, grate_open);
     return;
 }
-if (loc_find(^legends_guild_gate_west_coord, legendsguildgatel) = true) {
-    def_coord $inside_dest = ^legends_guild_gate_dest_in_coord;
-    if (coord ! loc_coord) {
-        // If you're not right next to the gate: sends you two steps away, then opens gate
-        // and triggers walk to left inside tile on same tick. Always starts on right outside
-        // tile and finishes on left inside tile.
-        def_coord $player_coord = coord;
-        // https://youtu.be/Lid8enDEF_U?si=_WsthPuYw2_-MSwZ&t=256, will always walk, use forcemove
-        ~forcemove(^legends_guild_gate_dest_out_coord);
-        p_delay(0);
-    }
-    else {
-        // If you are right next to it, you just go in straight away and don't cross sides.
-        $inside_dest = movecoord(coord, 0, 0, 1);
-    }
-    sound_synth(grate_open, 1, 0);
-    ~open_double_doors_left(2, double_door_open_and_close_right, null);
-    // 2 tile p_teleport (OSRS)
-    p_teleport($inside_dest);
+if(%temp = 1 & loc_find(^legends_guild_gate_west_coord, legendsguildgatel) = true) {
+    ~open_and_close_double_door2(~check_axis(coord, loc_coord, loc_angle), ^left, grate_open);
+    return;
 }
+
+def_coord $inside_dest = ^legends_guild_gate_dest_in_coord;
+if (coord ! ^legends_guild_gate_west_coord) {
+    // If you're not right next to the gate: sends you two steps away, then opens gate
+    // and triggers walk to left inside tile on same tick. Always starts on right outside
+    // tile and finishes on left inside tile.
+    // https://youtu.be/Lid8enDEF_U?si=_WsthPuYw2_-MSwZ&t=256, will always walk, use forcemove
+    ~forcemove(^legends_guild_gate_dest_out_coord);
+    p_delay(0);
+} else {
+    // If you are right next to it, you just go in straight away and don't cross sides.
+    $inside_dest = movecoord(coord, 0, 0, 1);
+}
+sound_synth(grate_open, 1, 0);
+if (loc_find(^legends_guild_gate_west_coord, legendsguildgatel) = true) ~open_double_doors_left(3, double_door_open_and_close_right, null);
+// 2 tile p_teleport (OSRS)
+p_teleport($inside_dest);
 
 [label,legends_guard_enter]
 ~chatplayer("<p,neutral>Yes, I'd like to talk to Grand Vizier Erkle.");

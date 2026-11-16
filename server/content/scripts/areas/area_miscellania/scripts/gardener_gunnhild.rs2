@@ -30,8 +30,8 @@ if (%misc_quest = ^misc_complete) {
 [label,gunnhild_buy_stuff]
 ~chatplayer("<p,quiz>What do you have for sale?");
 // ~chatnpcnoturn("<p,neutral>At the moment I'm selling garden rakes and iron sickles. They're 15gp each, if you'd like one?");
-if(%misc_quest = ^misc_complete) ~chatnpcnoturn("<~man_misc_mesanim>At the moment I'm selling iron sickles. They're 15gp each, if you'd like one?");
-else ~chatnpcnoturn("<~man_misc_mesanim>At the moment I'm selling iron sickles. If you'd like one, Your Royal Highness, they're 15gp each.");
+if(%misc_quest = ^misc_complete) ~chatnpcnoturn("<~man_misc_mesanim>At the moment I'm selling iron sickles. If you'd like one, Your Royal Highness, they're 15gp each.");
+else ~chatnpcnoturn("<~man_misc_mesanim>At the moment I'm selling iron sickles. They're 15gp each, if you'd like one?");
 @multi3(
     // "I'd like a rake, please.", gunnhild_buy_rake,
     "I'd like an iron sickle, please.", gunnhild_buy_sickle,

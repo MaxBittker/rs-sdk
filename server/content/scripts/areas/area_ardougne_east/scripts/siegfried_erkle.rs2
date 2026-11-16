@@ -1,4 +1,9 @@
 [opnpc1,siegfried_erkle]
+if(%legendsquest < ^legends_returned_to_radimus) {
+    // this isn't checked when opening the shop I guess
+    ~chatnpc("<p,sad>I'm sorry but the services of this shop are only for the pleasure of those who are rightful members of the Legends Guild. I would get into serious trouble if I sold a non-member an item from this store.");
+    return;
+}
 ~chatnpc("<p,sad>Hello there and welcome to the shop of useful items. Can I help you at all?");
 def_int $option = ~p_choice2("Yes please. What are you selling?", 1, "No thanks." , 2);
 if ($option = 1){

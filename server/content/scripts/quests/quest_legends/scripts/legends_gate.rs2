@@ -21,9 +21,7 @@ while (npc_findnext = true) {
             }
             mes("A nearby guard approaches you...");
             %temp = add($side, 1);
-            p_delay(1);
             @legends_guard_start;
-            return;
         }
         else {
             if (%legendsquest = ^legends_complete) {

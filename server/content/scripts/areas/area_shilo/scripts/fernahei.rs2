@@ -1,4 +1,5 @@
 [opnpc1,shilofishowner]
+if(%zombiequeen < ^zombiequeen_complete) @zq_prequest_dialogue;
 ~chatnpc("<p,neutral>Welcome to Fernahei's Fishing Shop Bwana!|Would you like to see my items?");
 def_int $option = ~p_choice2("Yes please!", 1, "No, but thanks for the offer.", 2);
 
@@ -10,3 +11,7 @@ switch_int ($option) {
     ~chatplayer("<p,neutral>No, but thanks for the offer.");
     ~chatnpc("<p,neutral>That's fine and thanks for your interest.");
 }
+
+[opnpc3,shilofishowner]
+if(%zombiequeen < ^zombiequeen_complete) @zq_prequest_dialogue;
+~openshop_activenpc;

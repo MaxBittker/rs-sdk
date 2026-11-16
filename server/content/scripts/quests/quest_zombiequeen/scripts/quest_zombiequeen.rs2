@@ -132,6 +132,9 @@ if(%zombiequeen >= ^zombiequeen_complete) {
 }
 mes("The gate won't open.");
 
+[label,zq_prequest_dialogue]
+~chatnpc("<p,scared>I'm getting out of here Bwana, the place is infested with zombies.");
+
 [oploc2,zqquest_hidytree]
 if(loc_find(0_45_48_37_18, hillsideclosedl) = true) {
     mes("The trees are already pulled apart revealing some doors.");

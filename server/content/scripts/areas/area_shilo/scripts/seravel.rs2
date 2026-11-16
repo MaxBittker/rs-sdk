@@ -1,4 +1,5 @@
 [opnpc1,shiloshiptickets]
+if(%zombiequeen < ^zombiequeen_complete) @zq_prequest_dialogue;
 ~chatplayer("<p,neutral>Hello"); // typo from OSRS
 ~chatnpc("<p,neutral>Hello Bwana. Are you interested in buying a ticket for the 'Lady of the Waves'?");
 // https://web.archive.org/web/20050204071450im_/http://www.runehq.com//images/cityguides/shilo8.jpg
