@@ -190,6 +190,10 @@ if(%misc_last_update ! $misc_last_update) %misc_last_update = date_minutes;
 [proc,manage_misc_resource_generation]()(string)
 // Fetch varps and varbits
 def_int $ResourcePts = %misc_restotal;
+// Spend the points before handing anything out. inv_add with a zero count throws and aborts the
+// script, so a reset at the end could be skipped after some resources were already paid, letting
+// the same points be collected again and again.
+%misc_restotal = 0;
 def_int $CurrentSlot = 0;
 
 // Wood[Maple Logs] (InverseCost = 160)
@@ -214,15 +218,15 @@ if ($coal_qty > 0) {
 def_int $fish_qty =  calc(100 * $ResourcePts * %misc_points_fish / 2048);
 if ($fish_qty > 0) {
     if (%misc_cooked = 1) {
-        inv_add(inv, cert_tuna, calc($fish_qty / 2));
-        inv_add(inv, cert_swordfish, calc($fish_qty * 3 / 20));
+        if (calc($fish_qty / 2) > 0) inv_add(inv, cert_tuna, calc($fish_qty / 2));
+        if (calc($fish_qty * 3 / 20) > 0) inv_add(inv, cert_swordfish, calc($fish_qty * 3 / 20));
         // inv_setslot(misc_resources_collected, $CurrentSlot, tuna, calc($fish_qty / 2)); // 50% Quantity
         // $CurrentSlot = add($CurrentSlot, 1);
         // inv_setslot(misc_resources_collected, $CurrentSlot, swordfish, calc($fish_qty * 3 / 20)); // 15% Quantity
         // $CurrentSlot = add($CurrentSlot, 1);
     } else {
-        inv_add(inv, cert_raw_tuna, calc($fish_qty / 2));
-        inv_add(inv, cert_raw_swordfish, calc($fish_qty * 3 / 20));
+        if (calc($fish_qty / 2) > 0) inv_add(inv, cert_raw_tuna, calc($fish_qty / 2));
+        if (calc($fish_qty * 3 / 20) > 0) inv_add(inv, cert_raw_swordfish, calc($fish_qty * 3 / 20));
         // inv_setslot(misc_resources_collected, $CurrentSlot, raw_tuna, calc($fish_qty / 2)); // 50% Quantity
         // $CurrentSlot = add($CurrentSlot, 1);
         // inv_setslot(misc_resources_collected, $CurrentSlot, raw_swordfish, calc($fish_qty * 3 / 20)); // 15% Quantity
@@ -309,9 +313,6 @@ if ($dwarf_weed_count > 0) {
     // inv_setslot(misc_resources_collected, $CurrentSlot, unidentified_dwarf_weed, $dwarf_weed_count);
     // $CurrentSlot = calc($CurrentSlot + 1);
 }
-
-// Reset ResourcePts after finished calculating.
-%misc_restotal = 0;
 
 // This will be not needed when the UI for showing resources exists after a certain release(beyond #377 for sure).
 def_string $resourceStr = "";

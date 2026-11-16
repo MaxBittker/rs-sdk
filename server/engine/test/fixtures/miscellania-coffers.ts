@@ -153,3 +153,28 @@ test('deposits and withdrawals preserve money and reject invalid or stale amount
     }
     console.log('Miscellania coffer checks passed');
 });
+
+test('resource collection spends the points even when a fish share rounds to zero', () => {
+    const restotal = VarBitType.getId('misc_restotal');
+    const generate = ScriptProvider.getByName('[proc,manage_misc_resource_generation]')!;
+    expect(generate).toBeDefined();
+    const collect = (p: InstanceType<typeof NetworkPlayer>) => {
+        const state = ScriptRunner.init(generate, p);
+        state.pointerAdd(ScriptPointer.ProtectedActivePlayer);
+        expect(ScriptRunner.execute(state)).toBe(ScriptState.FINISHED);
+    };
+    const totals = (p: InstanceType<typeof NetworkPlayer>) => ['cert_maple_logs', 'cert_raw_tuna', 'cert_raw_swordfish'].map(name => p.invTotal(inv, ObjType.getId(name)));
+
+    // 41 points split 1 wood / 1 fish: 2 logs, 2 fish -> 1 tuna and 0 swordfish. inv_add(0) used to throw
+    // after the logs and tuna were paid but before the points were cleared, so this repeated forever.
+    const p = player(0, 0);
+    p.setVarBit(restotal, 41);
+    p.setVarBit(VarBitType.getId('misc_points_wood'), 1);
+    p.setVarBit(VarBitType.getId('misc_points_fish'), 1);
+    collect(p);
+    expect(p.getVarBit(restotal)).toBe(0);
+    expect(totals(p)).toEqual([2, 1, 0]);
+    collect(p);
+    expect(totals(p)).toEqual([2, 1, 0]);
+    console.log('Miscellania collection checks passed');
+});

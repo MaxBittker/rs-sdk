@@ -15,6 +15,7 @@ test('compiled Miscellania money handlers conserve coins across dialog inputs', 
         });
         if (result.exitCode !== 0) throw new Error(result.stdout.toString() + result.stderr.toString());
         expect(result.stdout.toString()).toContain('Miscellania coffer checks passed');
+        expect(result.stdout.toString()).toContain('Miscellania collection checks passed');
     } finally {
         rmSync(dir, { recursive: true, force: true });
     }
