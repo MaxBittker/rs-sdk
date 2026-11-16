@@ -34,3 +34,10 @@ if (%magearena_charge < 1) {
     cleartimer(charge);
     return;
 }
+
+// %magearena_charge is saved but timers aren't, so a player who logged out
+// mid-charge kept a charge that never faded. Resume the countdown on login.
+[proc,charge_login]
+if (%magearena_charge > 0) {
+    settimer(charge, 2);
+}

@@ -56,6 +56,8 @@ queue(macro_event_login, 0, 0);
 ~set_pvp_death_mark_login;
 // so antifire persists after logging back in
 ~set_antifire_login;
+// so a mage arena charge keeps fading after logging back in
+~charge_login;
 // if player is in a duel, they are removed from the duel
 ~duel_arena_login;
 // if player is in a gnomeball game, they login outside of the arena
