@@ -37,6 +37,11 @@ inv_add(inv, $puzzle, 1);
 ~objbox($puzzle, $text, 250, 0, 0);
 
 [proc,progress_clue_hard](obj $current_clue, string $text)
+// the clue can leave the inventory while a dialog is paused (e.g. dropped during p_countdialog);
+// never advance or pay out for a clue the player no longer holds.
+if(inv_total(inv, $current_clue) < 1) {
+    return;
+}
 ~trail_clue_progress;
 inv_del(inv, $current_clue, 1);
 if(~trail_clue_hard_complete = true) {

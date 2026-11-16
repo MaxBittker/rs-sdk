@@ -27,6 +27,11 @@
 ~full_trail_readclue(oc_param(last_item, trail_desc));
 
 [proc,progress_clue_medium](obj $current_clue, string $text)
+// the clue can leave the inventory while a dialog is paused (e.g. dropped during p_countdialog);
+// never advance or pay out for a clue the player no longer holds.
+if(inv_total(inv, $current_clue) < 1) {
+    return;
+}
 ~trail_clue_progress;
 inv_del(inv, $current_clue, 1);
 if(~trail_clue_medium_complete = true) {
@@ -193,6 +198,10 @@ p_delay(0); // old videos have this it seems, I think it's a workaround otherwis
 p_countdialog;
 def_int $entered_value = last_int;
 p_delay(0); // there seems to be a small delay after the countdialog as well
+// re-check: the scrolls can be dropped while the count dialog is open
+if(inv_total(inv, $clue) < 1 | inv_total(inv, $challenge) < 1) {
+    return;
+}
 if($entered_value = oc_param($challenge, trail_challenge_answer)) {
     ~chatnpc($correct_chat);
     inv_del(inv, $challenge, 1);
