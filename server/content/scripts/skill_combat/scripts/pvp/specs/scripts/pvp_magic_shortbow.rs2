@@ -36,7 +36,7 @@ def_int $damage = 0;
 def_int $combat_stat = ~combat_stat(add(stat(ranged), 10), oc_param($ammo, rangebonus)); // + 10 ranged levels
 def_int $maxhit = ~combat_maxhit($combat_stat);
 def_int $attackroll = scale(10, 7, ~player_attack_roll_specific(%damagetype)); // 43% bonus accuracy
-def_int $defenceroll = ~player_defence_roll_specific(%damagetype);
+def_int $defenceroll = ~.player_defence_roll_specific(%damagetype);
 if (randominc($attackroll) > randominc($defenceroll)) {
     if (~.check_protect_prayer(^ranged_style) = true) {
         $maxhit = scale(6, 10, $maxhit); // reduction of 40%
