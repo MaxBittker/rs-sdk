@@ -151,6 +151,17 @@ def_int $team = %castlewars_team;
 def_int $caps = %castlewars_caps;
 def_int $kills = %castlewars_kills;
 def_int $winner = ~castlewars_winning_team;
+// hits still in flight from the game must not land after the exit teleport below
+~combat_clearqueue;
+clearqueue(poison_player);
+// [queue,player_death] picks the death type from coord. A player whose lethal hit landed
+// this tick still has it queued (behind this strong queue, or blocked by the result box
+// below), so once ~castlewars_exit_tele moves them to the lobby it would run the normal
+// death: Lumbridge respawn and every item but three lost. Take the Castle Wars death here.
+if (stat(hitpoints) = 0) {
+    ~castlewars_death_start;
+    ~castlewars_death_finish;
+}
 if ($team = ^castlewars_team_saradomin) {
     ~castlewars_decrement_saradomin_count;
 } else {

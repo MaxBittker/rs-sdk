@@ -1,4 +1,13 @@
 [label,player_death_castlewars]
+~castlewars_death_start;
+~castlewars_flag_drop(worn, castlewars_saradomin_banner);
+~castlewars_flag_drop(worn, castlewars_zamorak_banner);
+~castlewars_respawn(%castlewars_team);
+~castlewars_death_finish;
+
+// shared by the in-game death above and [queue,castlewars_end], which takes this death
+// for a player who hit 0 hp on the tick the game ended (see the comment there)
+[proc,castlewars_death_start]
 ~player_death;
 mes("Oh dear you are dead!");
 ~music_jingle(death2);
@@ -6,9 +15,7 @@ mes("Oh dear you are dead!");
 ~combat_clearqueue;
 clearqueue(player_death);
 
-~castlewars_flag_drop(worn, castlewars_saradomin_banner);
-~castlewars_flag_drop(worn, castlewars_zamorak_banner);
-~castlewars_respawn(%castlewars_team);
+[proc,castlewars_death_finish]
 buildappearance(worn);
 ~prayer_deactivate_all;
 anim(null, 0);
