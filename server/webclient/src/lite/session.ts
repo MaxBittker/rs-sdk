@@ -33,6 +33,27 @@ const KEEPALIVE_CYCLES = 50;
  */
 const IDLE_CYCLES = 3000; // ~60s, i.e. ~200 missed server ticks
 
+/** The part of the client that decides if a session ended. */
+type SessionClient = Pick<LiteClient, 'isLoggedOut' | 'isInGame' | 'pumpPackets'>;
+
+/**
+ * One step of the session loop: pump the packets, then say if the session ended.
+ *
+ * A remote close keeps the bytes that were already queued. So the final LOGOUT
+ * is read before the close counts as a disconnect; a close alone cannot prove
+ * a logout.
+ */
+export async function pumpSessionEnd(client: SessionClient): Promise<'logged-out' | 'disconnected' | null> {
+    if (client.isLoggedOut()) {
+        return 'logged-out';
+    }
+    await client.pumpPackets();
+    if (client.isLoggedOut()) {
+        return 'logged-out';
+    }
+    return client.isInGame() ? null : 'disconnected';
+}
+
 export interface SessionOptions {
     /** Spread remote fleet starts over 5s by default; 0 disables the delay. */
     loginJitterMs?: number;
@@ -174,17 +195,12 @@ export async function startSession(opts: SessionOptions): Promise<LiteSession> {
         let end: SessionEnd = { reason: 'stopped' };
 
         while (running) {
-            if (client.isLoggedOut()) {
-                end = { reason: 'logged-out' };
-                break;
-            }
-            if (!client.isInGame()) {
-                end = { reason: 'disconnected' };
-                break;
-            }
-
             try {
-                await client.pumpPackets();
+                const reason = await pumpSessionEnd(client);
+                if (reason) {
+                    end = { reason };
+                    break;
+                }
 
                 if (++cycles % KEEPALIVE_CYCLES === 0) {
                     client.writeOpcode(ClientProt.NO_TIMEOUT);
