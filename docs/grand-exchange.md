@@ -92,8 +92,9 @@ would strand escrow and discard authoritative checkpoints.
 From the repository root:
 
 ```sh
-# Required after changing custom content (upstream checksums describe vanilla data).
-(cd server/engine && BUILD_VERIFY=false bun run build)
+# If you changed custom content, update the pack checksums first
+# (server/PATCHES.md, "Pack checksums").
+(cd server/engine && bun run build)
 (cd server/webclient && bun run build)
 bun run test:market:integration
 bun run check
