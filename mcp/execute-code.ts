@@ -5,6 +5,7 @@ import { executionContext, abortable, throwIfExecutionAborted } from '../sdk/exe
 import { formatWorldState, summarizeWorldState, type WorldDetail, type WorldSummary } from '../sdk/formatter';
 import { Spells } from '../sdk/spells';
 import { redactCredentials } from '../sdk/redact';
+import { tracked } from '../sdk/tracked';
 
 export type ExecutionErrorKind = 'exception' | 'timeout' | 'superseded' | 'cancelled' | 'not_connected' | 'invalid_input' | 'unserializable_result';
 export const EXECUTION_ERROR_KINDS: ExecutionErrorKind[] = ['exception', 'timeout', 'superseded', 'cancelled', 'not_connected', 'invalid_input', 'unserializable_result'];
@@ -64,28 +65,6 @@ export class BotExecutions {
 
 export const botExecutions = new BotExecutions();
 type Manager = { get(name: string): BotConnection | undefined; connect(name: string): Promise<BotConnection> };
-
-/** Records which bot/sdk calls are in flight for diagnostics; once cancelled, calls park instead of throwing. */
-function tracked<T extends object>(object: T, label: string, active: Map<symbol, string>, signal: AbortSignal): T {
-  return new Proxy(object, {
-    get(target, prop) {
-      const value = Reflect.get(target, prop, target);
-      if (typeof value !== 'function') return value;
-      return (...args: unknown[]) => {
-        // A throw here would let a catch-all loop in cancelled code spin and starve the server.
-        if (signal.aborted) return new Promise(() => {});
-        const token = Symbol();
-        active.set(token, `${label}.${String(prop)}`);
-        try {
-          const result = value.apply(target, args);
-          if (result && typeof result.then === 'function') return Promise.resolve(result).finally(() => active.delete(token));
-          active.delete(token);
-          return result;
-        } catch (error) { active.delete(token); throw error; }
-      };
-    },
-  });
-}
 
 function redactValue(value: unknown): unknown {
   if (typeof value === 'string') return redactCredentials(value);
@@ -162,8 +141,9 @@ export async function executeCode(
         } finally { active.delete(connecting); }
         throwIfExecutionAborted();
 
-        const bot = tracked(connection.bot, 'bot', active, controller.signal);
-        const sdk = tracked(connection.sdk, 'sdk', active, controller.signal);
+        const context = { botName, source: 'execute_code' };
+        const bot = tracked(connection.bot, 'bot', active, controller.signal, context);
+        const sdk = tracked(connection.sdk, 'sdk', active, controller.signal, context);
         if (typeof source !== 'string') return (await loadScript(source.script))({ bot, sdk, args: options.args });
         // The inner block lets code redeclare `args` (or bot/sdk) without a parameter clash.
         const compiled = new Bun.Transpiler({ loader: 'ts' }).transformSync(
