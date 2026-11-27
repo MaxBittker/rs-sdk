@@ -3155,6 +3155,37 @@ export class BotActions {
     }
 
     /**
+     * Switch spellbooks using the caller's selection action and wait for the server to assign the requested Magic tab interface.
+     * Pass the interface ID for the connected game revision. If it is already active, the selection action is skipped.
+     */
+    async switchSpellbook(tabInterfaceId: number, select: () => Promise<ActionResult>, timeout: number = 5000): Promise<ActionResult> {
+        throwIfExecutionAborted();
+        if (!Number.isInteger(tabInterfaceId) || tabInterfaceId < 0 || tabInterfaceId >= 0xffff) {
+            return { success: false, phase: 'validation', reason: 'invalid_interface', message: 'Expected a valid Magic tab interface ID' };
+        }
+        const state = this.sdk.getState();
+        if (!state?.inGame) {
+            return { success: false, phase: 'validation', reason: 'not_in_game', message: 'Log in before switching spellbooks' };
+        }
+        if (state.magicTabInterfaceId === undefined) {
+            return { success: false, phase: 'validation', reason: 'unknown_spellbook', message: 'The client has no Magic tab interface in its world state' };
+        }
+
+        const isActive = (state: BotWorldState) => state.inGame && state.magicTabInterfaceId === tabInterfaceId;
+        if (!isActive(state)) {
+            const result = await select();
+            if (!result.success) return result;
+            try {
+                await this.sdk.waitForCondition(isActive, timeout);
+            } catch {
+                throwIfExecutionAborted();
+                return { success: false, phase: 'observation', reason: 'timeout', message: `Magic tab interface ${tabInterfaceId} did not become active` };
+            }
+        }
+        return { success: true, phase: 'completion', message: `Magic tab interface ${tabInterfaceId} is active` };
+    }
+
+    /**
      * Cast a combat spell on an NPC or another player.
      *
      * The two are the same action to the server (OPNPCT vs OPPLAYERT), so this

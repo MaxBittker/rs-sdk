@@ -13,6 +13,7 @@ export const SKILL_NAMES: string[] = [
 // Interface IDs for common inventories
 export const INVENTORY_INTERFACE_ID = 3214; // Main backpack inventory
 export const EQUIPMENT_INTERFACE_ID = 1688; // Equipped items
+export const MAGIC_TAB_INDEX = 6;
 
 // Shop interface IDs
 export const SHOP_TEMPLATE_SIDE_ID = 3822; // Side panel with player inventory for selling
@@ -447,6 +448,8 @@ export interface BotState {
     dialog: DialogState;
     /** Interface state (crafting menus, etc.) */
     interface: InterfaceState;
+    /** Server-assigned Magic-tab interface, when the client has observed one. */
+    magicTabInterfaceId?: number;
     /** Whether a modal interface is open */
     modalOpen: boolean;
     /** The ID of the modal interface (-1 if none) */

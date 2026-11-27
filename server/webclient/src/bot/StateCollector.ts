@@ -20,6 +20,7 @@ import {
     SKILL_NAMES,
     INVENTORY_INTERFACE_ID,
     EQUIPMENT_INTERFACE_ID,
+    MAGIC_TAB_INDEX,
     SHOP_TEMPLATE_INV_ID,
     SHOP_TEMPLATE_SIDE_INV_ID,
     TRADE_MAIN_ID,
@@ -149,6 +150,8 @@ export class BotStateCollector implements ScanProvider {
     collectState(currentTick: number, publish: boolean = false): BotState {
         const c = this.client as any; // Access private members
         const clientCycle = this.client.getClientCycle();
+        const inGame: boolean = c.ingame || false;
+        const magicTabInterfaceId: number = c.sideIcon?.[MAGIC_TAB_INDEX] ?? -1;
         if (publish) this.publicationRevision++;
 
         // The player moves and doors open between snapshots; never serve
@@ -183,10 +186,11 @@ export class BotStateCollector implements ScanProvider {
             bank: this.collectBankState(),
             trade: this.collectTradeState(),
             ge: collectGEState(IfType.list, c.mainModalId ?? -1),
-            inGame: c.ingame || false,
+            inGame,
             combatEvents: [...this.combatEvents], // Return copy of events
             dialog: this.collectDialogState(),
             interface: this.collectInterfaceState(),
+            magicTabInterfaceId: inGame && magicTabInterfaceId >= 0 ? magicTabInterfaceId : undefined,
             modalOpen: (c.mainModalId ?? -1) !== -1,
             modalInterface: c.mainModalId ?? -1,
             prayers: this.collectPrayerState(),
