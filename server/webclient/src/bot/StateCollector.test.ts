@@ -77,6 +77,30 @@ function createClient() {
     return client;
 }
 
+test('publishes the server-assigned Magic-tab interface independently of selected tab', () => {
+    const client = createClient();
+    client.ingame = true;
+    client.sideIcon = Array(14).fill(-1);
+    client.activeIcon = 3;
+    client.sideIcon[3] = 3213;
+    const collector = new BotStateCollector(client);
+
+    expect(collector.collectState(1, true).magicTabInterfaceId).toBeUndefined();
+
+    client.sideIcon[6] = 1151;
+    expect(collector.collectState(2, true).magicTabInterfaceId).toBe(1151);
+
+    client.sideIcon[6] = 9000;
+    expect(collector.collectState(3, true).magicTabInterfaceId).toBe(9000);
+
+    client.sideIcon[6] = -1;
+    expect(collector.collectState(4, true).magicTabInterfaceId).toBeUndefined();
+
+    client.sideIcon[6] = 9000;
+    client.ingame = false;
+    expect(collector.collectState(5, true).magicTabInterfaceId).toBeUndefined();
+});
+
 describe('BotStateCollector combat state', () => {
     test('publishes observed player equipment and cast animations without treating unknown health as death', () => {
         const client = createClient();

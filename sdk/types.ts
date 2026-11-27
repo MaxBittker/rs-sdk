@@ -588,6 +588,8 @@ export interface BotWorldState {
     recentDialogs: DialogEntry[];
     dialog: DialogState;
     interface: InterfaceState;
+    /** Server-assigned Magic-tab interface, when the client has observed one. */
+    magicTabInterfaceId?: number;
     shop: ShopState;
     bank: BankState;
     /** Absent when the connected client predates trade support. */

@@ -2,7 +2,7 @@ import { MarketSearchInput, RESULT_ICON, visibleSearchComponent, SEARCH_FIELD } 
 import { playWave, setWaveVolume } from '#3rdparty/audio.js';
 import { stopMidi, setMidiVolume, playMidi } from '#3rdparty/tinymidipcm.js';
 
-import type { WalkResult } from '#/bot/types.js';
+import { MAGIC_TAB_INDEX, type WalkResult } from '#/bot/types.js';
 import { getDialogPageId, invalidateDialogPage } from '#/bot/dialog-page.js';
 
 import ClientBuild from '#/client/ClientBuild.js';
@@ -4402,6 +4402,7 @@ export class Client extends GameShell {
                 this.mainOverlayId = -1;
                 this.resumedPauseButton = false;
                 this.activeIcon = 3;
+                this.sideIcon[MAGIC_TAB_INDEX] = -1;
                 this.dialogInputOpen = false;
                 this.isMenuOpen = false;
                 this.socialInputOpen = false;

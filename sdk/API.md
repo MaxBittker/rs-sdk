@@ -115,6 +115,7 @@
 | `async eatFood(target?: InventoryItem \| string \| RegExp): Promise<EatResult>` | Eat food to restore hitpoints. With no target, eats the first inventory item that offers Eat. |
 | `async attack(target: CombatTarget, timeout: number = 5000): Promise<AttackResult>` | Attack an NPC or another player, walking to the target if needed. Takes either an entity (from `sdk.findNearbyNpc`/`sdk.findNearbyPlayer`) or a name/pattern, matched against NPCs first and players second - so pass the entity when a player shares a name with a monster. ```ts await bot.attack(/^chicken$/i); await bot.attack(sdk.findNearbyPlayer('Zezima')!); ``` PvP attacks are refused outside the wilderness and across too big a level gap; those come back as `reason: 'not_attackable'` with the server's own wording in `message`. |
 | `async attackPlayer(target: NearbyPlayer \| string \| RegExp, timeout: number = 5000): Promise<AttackResult>` | Attack another player (OPPLAYER2). Prefer {@link attack}, which also takes NPCs. |
+| `async switchSpellbook(tabInterfaceId: number, select: () => Promise<ActionResult>, timeout: number = 5000): Promise<ActionResult>` | Switch spellbooks using the caller's selection action and wait for the server to assign the requested Magic tab interface. Pass the interface ID for the connected game revision. If it is already active, the selection action is skipped. |
 | `async castSpell(target: CombatTarget, spellComponent: number \| string, timeout: number = 3000): Promise<CastSpellResult>` | Cast a combat spell on an NPC or another player. The two are the same action to the server (OPNPCT vs OPPLAYERT), so this takes either: an entity from `sdk.findNearbyNpc`/`sdk.findNearbyPlayer`, or a name/pattern matched against NPCs first and players second. ```ts await bot.castSpell('goblin', Spells.WIND_STRIKE); await bot.castSpell(sdk.findNearbyPlayer('Zezima')!, Spells.FIRE_STRIKE); ``` Magic XP is the evidence of a cast landing, so a splash still counts as success with `hit: false`. |
 | `async castSpellOnPlayer(target: NearbyPlayer \| string \| RegExp, spellComponent: number \| string, timeout: number = 3000): Promise<CastSpellResult>` | Cast a combat spell on another player (OPPLAYERT). Prefer {@link castSpell}. |
 
@@ -559,6 +560,8 @@ interface BotWorldState {
   recentDialogs: DialogEntry[];
   dialog: DialogState;
   interface: InterfaceState;
+  /** Server-assigned Magic-tab interface, when the client has observed one. */
+  magicTabInterfaceId?: number;
   shop: ShopState;
   bank: BankState;
   /** Absent when the connected client predates trade support. */

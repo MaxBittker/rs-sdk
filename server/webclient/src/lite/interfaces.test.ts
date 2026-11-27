@@ -43,7 +43,7 @@ beforeAll(async () => {
 function makeClient(name: string): LiteClient {
     return new LiteClient({
         connection: { out: Packet.alloc(1), isClosed: false } as never,
-        locIndex: {} as never,
+        locIndex: { lookup: () => 0 } as never,
         username: name,
         password: 'x'
     });
@@ -62,6 +62,18 @@ function invPacket(componentId: number, items: Array<[number, number]>): Packet 
     buf.pos = 0;
     return Object.assign(buf, { psize: size });
 }
+
+test('publishes Magic tab assignments and removal from IF_SETICON', () => {
+    const client = makeClient('spellbooks');
+    for (const id of [1151, 9000, 65535]) {
+        const packet = Packet.alloc(1);
+        packet.p2(id);
+        packet.p1(6);
+        packet.pos = 0;
+        dispatch(client, ServerProt.IF_SETICON, packet, 3);
+        expect(client.collectBotState(1).magicTabInterfaceId).toBe(id === 65535 ? undefined : id);
+    }
+});
 
 describe('per-client interface tables', () => {
     test('two clients keep separate inventories', () => {

@@ -142,7 +142,7 @@ function methodCategory(name: string, surface: 'actions' | 'sdk'): string {
         if (lower.includes('fletch') || lower.includes('craft') || lower.includes('smith') || lower.includes('enchant') || lower.includes('string')) {
             return 'Crafting & Smithing';
         }
-        if (lower.includes('attack') || lower.includes('equip') || lower.includes('eat') || lower.includes('cast')) {
+        if (lower.includes('attack') || lower.includes('equip') || lower.includes('eat') || lower.includes('cast') || name === 'switchSpellbook') {
             return 'Combat & Equipment';
         }
         if (lower.includes('chop') || lower.includes('burn')) return 'Woodcutting & Firemaking';
